@@ -22,6 +22,7 @@
 | [抽象代数](subjects/abstract-algebra/) | 群、环、模、域与Galois理论；14个理论章，另收录69个公开作业／模拟卷题号、116个明确小问及题解。81条仅给教材定位的题号仍缺原题面。 | 47 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/abstract-algebra/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/abstract-algebra/dist/source.zip) · [内容与核验](subjects/abstract-algebra/README.md) |
 | [偏微分方程](subjects/partial-differential-equations/) | 热、Laplace/Poisson、Green、波、Fourier、Schrödinger及输运方程；13个理论章，含公开作业、Bonus、期中期末52道大题、114个细分要求及题解。11条教材题面缺项另列。 | 49 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/partial-differential-equations/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/partial-differential-equations/dist/source.zip) · [内容与核验](subjects/partial-differential-equations/README.md) |
 | [图论](subjects/graph-theory/) | 树、连通、匹配、染色、平面图、图多项式、网络算法、矩阵树、电网络、谱图、极值与Ramsey；17章，34道配套练习及解答。全课程考核覆盖未作承诺。 | 56 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/graph-theory/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/graph-theory/dist/source.zip) · [内容与核验](subjects/graph-theory/README.md) |
+| [群表示](subjects/group-representation/) | 有限群复表示、Schur与Maschke、特征标、群代数、张量与对偶、诱导与限制、Frobenius互反及Mackey分解；9章核心，含11次作业52题及期末4题的中文题面与编者解答。 | 97 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/group-representation/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/group-representation/dist/group-representation-source.zip) · [内容与核验](subjects/group-representation/README.md) |
 
 ## 讲义交付与课程考核范围
 
@@ -29,6 +30,7 @@
 
 - 抽象代数：已覆盖11份官方作业及3份模拟卷中的69个公开题号、116个明确小问；81条只给教材定位的题号（80个不同定位）未公开原题面，仅登记缺项。[题号与覆盖清单](subjects/abstract-algebra/assessment-map.json)保留这些边界，所选课程页面也未提供正式期中、期末卷或其答案。
 - 偏微分方程：已纳入11份作业、Bonus、期中和期末中的公开完整题面，共52道大题、114个细分要求。另有11条商业教材题号引用和1条阅读任务，原题面未公开；详见[来源与考核审查](subjects/partial-differential-equations/review/source-assessment-review.md)。
+- 群表示：已收录18.712（Fall 2010）11次作业的52道原题（51必做、1选做）及4道期末题，均有中文题面与编者解答；[题目定位清单](subjects/group-representation/assignments-manifest.json)逐项登记。9章核心与题解所需局部专题不等于旧讲义全部理论或所有未指派练习的完整覆盖，2016年AMS出版书未下载、归档或改编。
 - 图论及其他学科：以各册声明的学习主线、习题和已完成增补为范围；基础讲义交付不等同于全部官方考核覆盖。新增补充继续在原路径修订并保留版本历史。
 
 ## 第一阶段
@@ -77,6 +79,7 @@
 | 抽象代数 | [18.703及RES.18-011／RES.18-012原件与来源清单](sources/abstract-algebra/)：41份官方PDF、545源页；包括讲义及公开作业／模拟卷，不含未公开教材题面 |
 | 偏微分方程 | [18.152 Fall 2011原件与来源清单](sources/partial-differential-equations/)：18份讲义136页，15份考核及期中解答78页，共33份、214源页 |
 | 图论 | [18.315及选读原件与来源清单](sources/graph-theory/)：34份PDF、1,062源页；18.225 Fall 2023的344页作者书稿仅保留链接 |
+| 群表示 | [18.712 Fall 2010旧讲义与期末来源档案](sources/group-representation/)：归档完整旧讲义109页及期末2页，共2份、111源页；8份重复分章文件仅作核对，2016年AMS出版书未收录 |
 
 原件的逐文件官方链接、页数和SHA-256见[数值分析来源清单](manifests/numerical-analysis-sources.json)及各科来源登记。
 
@@ -90,7 +93,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-截至2026-10-08，已核验并交付 **14册中文整书，共869个PDF物理页**：数值分析59页、数值代数67页、最优化66页、数理统计66页、拓扑105页、概率论108页、实变72页、复变50页、泛函40页、微分几何46页、常微分方程与动力系统38页、抽象代数47页、偏微分方程49页、图论56页。上方中文阅读表提供PDF下载、源码包及各科学习范围；册数只统计已有实际成品并完成交付核验的学科，原件下载不计作中文讲义完成。
+截至2026-10-08，已核验并交付 **15册中文整书，共966个PDF物理页**：数值分析59页、数值代数67页、最优化66页、数理统计66页、拓扑105页、概率论108页、实变72页、复变50页、泛函40页、微分几何46页、常微分方程与动力系统38页、抽象代数47页、偏微分方程49页、图论56页、群表示97页。上方中文阅读表提供PDF下载、源码包及各科学习范围；册数只统计已有实际成品并完成交付核验的学科，原件下载不计作中文讲义完成。
 
 首批数值分析、数值代数、最优化三科共192页，对应41份可归档原PDF已提交，6份有第三方权利例外的原文件保留来源链接。全站归档仍在分批进行，课程目录总量不能用作已交付讲义分母。
 
