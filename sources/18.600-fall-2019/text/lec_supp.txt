@@ -1,0 +1,595 @@
+        Martingales, risk neutral probability, and Black-Scholes option pricing
+                                     Supplementary notes for 18.600
+
+These notes are adapted from the lecture slides used for Course 18.600 at MIT. We will cover
+the same material as the slides but with a few more words of explanation and illustration.
+
+
+1       Deﬁning martingales
+Let S be a sample space. Let X0 , X1 , X2 , . . . be a sequence of random variables. Informally, we
+will imagine that we are acquiring information about S in a sequence of stages, and the random
+variable Xn is a quantity that is known to us at the nth stage. If Z is any random variable, let
+
+                                                       E[Z|Fn ]
+
+denote the conditional expectation of Z given all the information that is available to us on the
+nth stage.1 In other words, if you saw all the information you could obtain by stage n, and you
+made a Bayesian update to your probability distribution on S in light of this information, then
+E[Z|Fn ] would represent the expected value of Z with respect to this revised probability. This
+deﬁnition may seem confusing in the abstract, but it should become clearer as we work through
+some examples. In practice it is often pretty straightforward to say, “Okay, if I were in the shoes
+of somebody who had all of the information available at stage n, what would I expect Z to be?”
+and to come up with an answer. This answer is E[Z|Fn ].
+If we don’t specify otherwise, we assume that the information available at stage n consists
+precisely of the values X0 , X1 , . . . , Xn , so that
+
+                                        E[Z|Fn ] = E[Z|X0 , X1 , . . . , Xn ].
+
+However in some applications, one could imagine there are other things known as well at stage
+n. For example, maybe Xn represents the price of an asset X on the nth day and Yn represents
+    1
+     For the purposes of this course, it is enough for the reader to understand that E[Z|Fn ] denotes the conditional
+expectation of Z given all the information that is available to us on the nth stage. However, in this footnote we
+brieﬂy describe where this notation comes from and how it would be presented in more advanced treatments of this
+topic. The symbol Fn refers to a collection of subsets of S, which we interpret as the collection of all events A (recall
+that a subset of S is called an event) such that we can determine whether A occurs using only the information
+available at stage n. This Fn is a σ-algebra, which means that any ﬁnite or countable union of elements of Fn is
+again in Fn , and that the complement of a set in Fn is again in Fn . We assume F0 , F1 , . . . is increasing, i.e., that
+F0 ⊂ F1 ⊂ F2 . . . because any yes-or-no question that can be answered at one stage can also be answered at any
+later stage (when one has even more information). An increasing sequence of σ-algebras is called a ﬁltration. The
+Xn are assumed to be adapted with respect to the ﬁltration, which essentially means that for any yes-no question
+one can ask about Xn , the event that the answer is yes is an element of Fn . Less formally, Xn is adapted if the
+value Xn can be determined using the information available at stage n. For the purpose of this course, we will try
+not to get too bogged down in thinking about ﬁltrations and σ-algebras. But these are things you are likely to see
+if you ever take a graduate probability course or read an academic paper about probability.
+
+
+                                                           1
+the price of asset Y on the nth day, and on day n one has access to the sequence X0 , X1 , . . . , Xn
+and the sequence Y0 , Y1 , . . . , Yn . Then E[Z|Fn ] would be our revised expectation of Z after we
+have incorporated what we know about both sequences (up to stage n).
+We say the Xn sequence is a martingale if E[|Xn |] < ∞ for all n and E[Xn+1 |Fn ] = Xn for all
+n. Informally X0 , X1 , . . . is a martingale if the following is true: taking into account all the
+information I have at stage n, the conditional expected value of Xn+1 is just Xn .
+To motivate this deﬁnition, imagine that Xn represents the price of a stock on day n. In this
+context, the martingale condition states informally that “The expected value of the stock
+tomorrow, given all I know today, is the value of the stock today.” It is not too unreasonable to
+argue that stock prices should approximately have this property (on the scale of a single day)
+assuming we have no inside information and no dividends are being paid today or tomorrow.
+After all, if the stock price today were 50 and I expected it to be 60 tomorrow, then I would
+have an easy way to make money in expectation (buy today, sell tomorrow). But if the public
+had the same information I had, then other investors would also try to cash in on this by buying
+the stock today at 50, and people holding the stock would be reluctant to sell for 50. Indeed,
+we’d expect the price to be quickly bid up to about 60 today. A slightly more nuanced
+discussion of the applicability of martingales to ﬁnance (incorporating a few caveats) appears in
+the section on risk neutral probability below.
+Let us now consider some simple examples. Suppose that A0 , A1 , A2 , . . . are i.i.d. random
+      P each equal to −1 with probability .5 and 1 with probability .5. Let X0 = 0 and
+variables
+Xn = ni=1 Ai for n > 0. Is the Xn sequence a martingale?
+The answer is yes. To see this, note that
+
+                   E[Xn+1 |Fn ] = E[Xn + An+1 |Fn ] = E[Xn |Fn ] + E[An+1 |Fn ]
+
+by additivity of (conditional) expectation. Since Xn is known at stage n, we have
+E[Xn |Fn ] = Xn . Since we know nothing more about An+1 at stage n than we originally knew,
+we have E[An+1 |Fn ] = 0. Thus E[Xn+1 |Fn ] = Xn for all n ≥ 0, so the sequence X0 , X1 , . . . is
+indeed a martingale.
+More informally, I’m just tossing a new fair coin at each stage to see if Xn goes up or down one
+step. If I know the information available up to stage n, and I know Xn = 10, then given
+everything I know, I see Xn+1 = 11 and Xn+1 = 9 as each having probability 1/2, so of course
+E[Xn+1 |Fn ] = 10 = Xn .
+To give another example, suppose
+                              Qneach Ai is 1.01 with probability .5 and .99 with probability .5
+and we write X0 = 1 and Xn = i=1 Ai for n > 0? Then is Xn a martingale?
+Again, the answer is yes. Note that E[Xn+1 |Fn ] = E[An+1 Xn |Fn ]. At stage n, the value Xn is
+known, and hence can be treated as a known constant, which can be factored out of the
+expectation, i.e., E[An+1 Xn |Fn ] = Xn E[An+1 |Fn ]. Since I know nothing new about An+1 at
+
+                                                 2
+stage n, we have E[An+1 |Fn ] = E[An+1 ] = 1. Hence E[An+1 Xn |Fn ] = Xn for all n ≥ 0, so the
+sequence X0 , X1 , . . . is indeed a martingale.
+Stated informally, in this example I’m just tossing a new fair coin at each stage to see if Xn goes
+up or down by a percentage point of its current value. If I know all the information available up
+to stage n, and I know Xn = c, then I see Xn+1 = 1.01c and Xn+1 = .99c as equally likely, so
+E[Xn+1 |Fn ] = c = Xn .
+The above examples illustrate two important kinds of martingales: those obtained as sums of
+independent random variables (each with mean zero) and those obtained products of
+independent random variables (each with mean one). Note that in the two examples above, the
+precise probability distributions of the An do not matter as long as the An are independent of
+each other and all have mean zero (in the ﬁrst case, involving sums) or mean one (in the second
+case, involving products).
+Let’s think about a few more examples of sequences of the form X0 , X1 , . . . and decide whether
+they are martingales.
+
+  1. The sequence Xn = n is not a martingale: in this case E[Xn+1 |Fn ] = n + 1 =
+                                                                                6 n when n ≥ 0
+
+  2. The constant, deterministic sequence Xn = 7 is a martingale: in this case
+     E[Xn+1 |Fn ] = 7 = Xn for all n ≥ 0.
+
+  3. Suppose A1 , A2 , . . . are independent random variables with mean zero and variance one
+     and write S0 = 0 and Sn = ni=1 An for n ≥ 1. Then the sequence Sn is a martingale.
+                                     P
+
+  4. More surprisingly, if Sn is as in the previous example then the sequence Xn = Sn2 − n is a
+                                                       2
+     martingale. Why? First note that   PE[X  n ] = E[Sn − n] = 0 = X0 . To see this, recall that
+                      2                   n
+     E[Sn ] = 0 so E[Sn ] = Var[Sn ] = j=1 Var[Aj ] = n by the additivity of variance for sums
+     of independent random variables.
+
+     But let us be careful to state that the fact that E[Xn ] = X0 for all n > 0 is not by itself
+     enough to imply that Xn is a martingale. In order to see whether the sequence is a
+     martingale, we need to show that E[Xn+1 |Fn ] = Xn . This requires us to put ourselves in
+     the shoes of somebody who has all the information available up until stage n and to then
+     work out what that somebody would consider the expectation of Xn+1 to be. To this end,
+     note that at time n, we know Xn and Sn , so a person with the information available at
+     time n can treat Xn and Sn as known constants. The only new information that we get as
+     time goes from n to n + 1 is that we see the value An+1 . Since we know nothing about
+     An+1 , its conditional mean and variance (given what we know up to stage n) are the same
+
+
+
+
+                                                3
+          as its original mean and variance. So
+
+                                E[Xn+1 |Fn ] = E[Sn2+1 − (n + 1)|Fn ]
+                                                 = E[(Sn + An+1 )2 |Fn ] − (n + 1)
+                                                 = E[Sn2 + 2An+1 Sn + A2n+1 ] − (n + 1)
+                                                 = Sn2 + 0 + 1 − (n + 1) = Sn2 − n = Xn
+
+
+A stopping time is a non-negative integer-valued random variable T such that for all n the
+event that T = n depends only on the information available to us at time n.2 We can think of T
+as giving the time the asset will be sold if the price sequence is X0 , X1 , X2 , . . .. Informally, the
+statement that T is a stopping time means that the decision to sell at time n depends only the
+information we have up to time n, not on (as yet unknown) future prices. Specifying a stopping
+time can be interpreted as specifying a strategy for deciding when to sell the asset.
+
+                                               P variables equal to −1 with probability .5 and 1 with
+For example, let A1 , A2 , . . . be i.i.d. random
+probability .5 and let X0 = 0 and Xn = ni=1 Ai for n ≥ 0. Which of the following is a stopping
+time?
+
+    1. The smallest T for which |XT | = 50
+
+    2. The smallest T for which XT ∈ {−30, 100}
+
+    3. The smallest T for which XT = 17.
+
+    4. The T at which the Xn sequence achieves the value 17 for the 9th time.
+
+    5. The value of T ∈ {0, 1, 2, . . . , 100} for which XT is largest.
+
+    6. The largest T ∈ {0, 1, 2, . . . , 100} for which XT = 0.
+
+Answer: ﬁrst four, not last two.
+
+
+2        Optional stopping theorem
+2.1        Theorem statements
+Doob’s optional stopping time theorem is contained in many basic texts on probability
+and martingales. (See, for example, Theorem 10.10 of Probability with Martingales, by David
+Williams, 1991 — or just google Doob’s optional stopping theorem and peruse the online
+sources.) It essentially says that you can’t make money (in expectation) by buying and selling
+an asset whose price is a martingale. Precisely, if you buy the asset at some time and adopt any
+    2
+        More formally, T is a stopping time if for each n ≥ 0 the event that T = n is an element of Fn .
+
+
+                                                            4
+strategy at all for deciding when to sell it, then the expected price at the time you sell is the
+price you originally paid. In other words, if the market price is a martingale, you cannot make
+money in expectation by “timing the market.”
+In the theorem statements below, note that when we say a random sequence X0 , X1 , . . . is
+bounded, we mean that for some C > 0, we have that with probability one |Xn | ≤ C for all
+n ≥ 0. When we say the stopping time T is bounded, we mean that for some C > 0 we have
+T ≤ C with probability one.
+Doob’s Optional Stopping Theorem (ﬁrst version): Suppose that X0 is a known
+constant, that X0 , X1 , X2 , . . . is a bounded martingale, and that T is a stopping time. Then
+E[XT ] = X0 .
+Doob’s Optional Stopping Theorem (second version): Suppose that X0 is a known
+constant, that X0 , X1 , X2 , . . . is a martingale, and that T is a bounded stopping time. Then
+E[XT ] = X0 .
+Without at least one of these boundedness assumptions, the theorem would not be true. For a
+counterexample, recall that if X0 = 0 and Xn goes up or down by 1 at each time step (each with
+probability .5) then X0 , X1 , . . . is a martingale. If we let T be the ﬁrst n for which Xn = 100,
+then it is not too hard to show that T is a ﬁnite number with probability one. (That is, with
+probability one Xn reaches T eventually.) But then XT is always 100, which means that
+E[XT ] = 100 6= X0 .
+Note however that Xn might reach some extremely negative values before it ever comes up to
+100. So if you are a person making repeated one dollar bets up until the stopping time, and Xn
+represents your wealth at time n, you may ﬁnd that there is a practical limit to how far
+negative your wealth can go (since at some point the casino is no longer willing to lend you
+money) and you cannot actually just “keep playing until you get to 100” in practice. The same
+would hold if you adopted the classical “double or nothing” strategy in which, each time you
+lose, you double the size of your bet and bet again, repeating this until eventually (with
+probability one) you win a bet and recover what you lost. In practice, it’s pretty reasonable to
+assume that there are upper and lower bounds to your wealth, so that the optional stopping
+theorem would indeed hold.
+
+2.2   Optional stopping theorem proof sketches
+Let us sketch a quick proof by induction of the second version of the optional stopping theorem.
+Our inductive hypothesis will be the statement that “E[XT ] = X0 if T is any stopping time
+which is at most K with probability one.” Then clearly this statement is true if K is zero. So
+for the induction to work, we need to show that if this statement is true for any ﬁxed
+non-negative positive integer K, then it is also true for K + 1. To establish the latter (while
+assuming the former) suppose that T is at most K + 1 with probability one. Let S be the
+
+
+                                                5
+minimum of T and K. By our inductive hypothesis, we know that E[XS ] = X0 . So to show that
+E[XT ] = X0 it suﬃces to show that E[XT − XS ] = 0. Note that the only way XT − XS can be
+non-zero is if S = K and T = K + 1, in which case XT − XS represents the amount of money
+we make on the (K + 1)th step. So we just need to show that the expected amount of money we
+make on the (K + 1)th step (if we haven’t sold the stock by time K) is zero. To see this, recall
+that X0 , X1 , . . . is a martingale, which means that E[XK+1 − XK |FK ] = 0. This means that
+given everything we know up to time K (including our knowledge of whether or not we have
+already sold the stock at time K) we will always still expect XK+1 − XK to be zero. Since this
+is true for any possible scenario (of what the information looks like at time K) we may conclude
+by averaging over the possible scenarios that overall we have E[XT − XS ] = 0. Hence
+E[XT ] = E[XS ] = X0 , which implies that our inductive hypothesis holds for K + 1 (and by
+induction for all positive integers).
+The ﬁrst version of the optional stopping theorem can be derived from the second version using
+a limiting procedure. The idea of the proof is that one lets TK be the minimum of T and K and
+attempts to show that
+                                      lim E[XTK ] = E[XT ].
+                                            K→∞
+
+The limit on the left hand side is obviously X0 (since each term in the sequence is X0 , by the
+second version of the optional stopping theorem) so this would imply the desired conclusion:
+that E[XT ] = X0 .
+To implement this strategy, recall that we are assuming that the |XTK | are with probability one
+all bounded by a ﬁxed constant C > 0. Since TK is almost surely ﬁnite, it follows that for any
+ > 0 we may choose K large enough so that
+
+                                       P (TK 6= T ) = P (TK > K) < .
+
+Since XT and XTK only diﬀer with probability at most  (and the magnitude of that diﬀerence
+is always at most 2C) it follows that
+
+                            E[XTK ] − E[XT ] = E[XTK − XT ] ∈ [2C, −2C].
+
+Taking  small enough, we can make this interval as small as we want. Since we know that
+E[XTK ] = X0 for all K, this can only be true if E[XT ] = X0 .3
+
+
+3       More problems and perspectives
+Here are a couple of martingale questions that can be solved with the optional stopping theorem.
+    3
+     We remark that there are other variants of the optional stopping theorem (i.e., other suﬃcient conditions on
+the martingale and the stopping time that together ensure that E[XT ] = X0 ) that we will not discuss here. For
+people inclined to look up these other versions, “uniform integrability” is one of the key phrases that comes up, as
+is “convergence in Lp .”
+
+
+                                                         6
+  1. Suppose that an asset price is a martingale X0 , X1 , . . . that starts at X0 = 50 and changes
+     by increments of ±1 at each time step. What is the probability that the price goes down
+     to 40 before it goes up to 70? To answer this, let T be the ﬁrst time n for which Xn is 40
+     or 70. Write p40 = P (XT = 40) and p70 = P (XT = 70). Then E[XT ] = 40p40 + 70p70 is
+     equal to X0 = 50 by the optional stopping theorem. Since we also know p40 + p70 = 1 we
+     can solve the two linear equations in two unknowns to get p40 = 2/3 and p70 = 1/3.
+
+     Another way to solve this problem is to rescale so that the endpoints are zero or one.
+     Write Yn = (Xn − 40)/30. One can use linearity of expectation to show that an aﬃne
+     function of a martingale is also a martingale, so Yn is also a martingale. But Y0 starts at
+     1/3 and we have YT equal to either 0 or 1. Since E[YT ] = 1/3 we must have
+     P (YT = 1) = 1/3 and P (YT = 0) = 2/3.
+
+     Generally, this argument shows that if we have a bounded martingale starting at a point c
+     between a and b and stopping when it hits a or b (assuming it reaches one or the other
+     eventually with probability one), the probability it hits b ﬁrst is (c − a)/(b − a). In other
+     words, if the martingale starts a p fraction of the way from a to b, then it will get to b
+     (before getting back to a) with probability p.
+  2. What is the probability that the martingale from the previous example goes down to 45
+     then up to 55 then down to 45 then up to 55 again — all before reaching either 0 or 100?
+     To answer this we just use the analysis from the last problem and multiply. First, we have
+     a 10/11 chance to get down to 45 (before hitting 100). Then, given that that succeeds, we
+     have a 9/11 chance to get to 55 (before hitting 0). Then a 9/11 chance to get down to 45
+     again (before hitting 100) and a 9/11 chance to get back to 55 again (before hitting 0).
+     We end up with (10/11)(9/11)3 ≈ .4979.
+
+Next, let us make a couple more observations. First, observe that the two-element sequence
+E[X], X is clearly martingale. Second, recall that we have interpreted the conditional
+expectation E[X|Y ] as a random variable, which happens to depend only on the value of Y . It
+describes the expectation of X given observed Y value. Then observe the following.
+  1. E[E[X|Y ]] = E[X], which means that the three-element sequence E[X], E[X|Y ], X is a
+     martingale.
+
+  2. More generally if Yi are any random variables, the sequence
+
+                            E[X], E[X|Y1 ], E[X|Y1 , Y2 ], E[X|Y1 , Y2 , Y3 ], . . .
+
+     is a martingale.
+  3. Stlll more generally, the sequence
+
+                                     E[X|F0 ], E[X|F1 ], E[X|F2 ], . . .
+
+                                                   7
+       is a martingale if X is any ﬁxed random variable, and we have a sample space that we are
+       learning information about in stages.
+
+For a story example, let C be the amount of oil available for drilling under a particular piece of
+land. Suppose that ten geological tests are done that will ultimately determine the value of C.
+Let Cn be the conditional expectation of C given the outcome of the ﬁrst n of these tests.
+Then the sequence C0 , C1 , C2 , . . . , C10 = C is a martingale. As another example, let Ai be my
+best guess at the probability that a basketball team will win the game, given the outcome of the
+ﬁrst i minutes of the game. Then (assuming some “rationality” of my personal probabilities) Ai
+is a martingale.
+
+
+4     Risk neutral probability and martingales
+
+According to the fundamental theorem of asset pricing, the discounted price X(n)    A(n) , where
+A is a risk-free asset, is a martingale with respected to risk neutral probability. 4
+
+
+To explain, what this means, we recall that “Risk neutral probability” is a fancy term for
+“market probability”. (The term “market probability” is arguably more descriptive.) That is, it
+is a probability measure that you can deduce by looking at prices on a market. For example,
+suppose somebody is about to shoot a free throw in basketball. What is the price in the sports
+betting world of a contract that pays one dollar if the shot is made? If the answer is .75 dollars,
+then we say that the risk neutral probability that the shot will be made is .75. Risk neutral
+probability is the probability determined by the market betting odds. More precisely:
+Risk neutral probability5 of event A: PRN (A) denotes
+
+                        Price{Contract paying 1 dollar at time T if A occurs }
+                                                                                .
+                      Price{Contract paying 1 dollar at time T no matter what }
+
+If the risk-free interest rate is constant and equal to r (compounded continuously), then the
+denominator is e−rT . Assuming no arbitrage (i.e., no risk free proﬁt with zero upfront
+investment), PRN satisﬁes the axioms of probability. That is, 0 ≤ PRN (A) ≤ 1, and
+PRN (S) = 1, and if events Aj are disjoint then PRN (A1 ∪ A2 ∪ . . .) = PRN (A1 ) + PRN (A2 ) + . . .
+Arbitrage example: here is an example of an arbitrage one can implement when one of the
+axioms of probability is violated. If A and B are disjoint and PRN (A ∪ B) < P (A) + P (B) then
+   4
+     The reader who is interested in the ﬁnancial issues raised in this section (and who wants a more precise statement
+of this theorem) can read many more details about the subject in Mathematics for Finance: An Introduction to
+Financial Engineering by Zastawniak and Capiński. Google it.
+   5
+     In these notes, we are assuming that there is a liquid market for the contracts we discuss and that the bid-ask
+spread is very small — so that contracts like this have a price such that it is possible to both buy and sell at (very
+close to) that price.
+
+
+                                                          8
+we sell contracts paying 1 if A occurs and 1 if B occurs, buy a contract paying 1 if A ∪ B
+occurs, and pocket the diﬀerence. No matter what the outcome is, the amount we end up owing
+will equal the amount that is owed to us, so (assuming we trust that all contracts will be
+honored and enforced6 ) we are taking on no risk.
+Similar things can be done if the other axioms are violated. This is how one shows that the
+absence of arbitrage opportunities implies that the axioms apply.
+At ﬁrst sight, one might think that PRN (A) describes the market’s best guess at the probability
+that A will occur. But suppose A is the event that the government is dissolved and all dollars
+become worthless. What is PRN (A)? It should be 0. Even if people think A is likely, a contract
+paying a dollar when A occurs is worthless. Now, suppose there are only 2 outcomes: A is the
+event that the economy booms and everyone prospers and B is the event that economy sags and
+everyone is needy. Suppose the purchasing power of dollar is the same in both scenarios. If
+people think A has a .5 chance to occur, do we expect PRN (A) > .5 or PRN (A) < .5?
+The answer is that we should expect PRN (A) < .5. People are risk averse. In the second
+scenario they need the money more.
+Suppose that A is the event that the Boston Red Sox win the World Series. Would we expect
+PRN (A) to represent (the market’s best assessment of) the probability that the Red Sox will
+win?
+In this case the answer is arguably yes. The amount that people in general need or value dollars
+does not depend much on whether A occurs (even though the ﬁnancial needs of speciﬁc
+individuals may depend heavily on A). Even if some people bet based on loyalty, emotion,
+insurance against personal ﬁnancial exposure to the team’s prospects, etc., there will arguably
+be enough in-it-for-the-money statistical arbitrageurs to keep price near a reasonable guess of
+   6
+     Of course, this assumption is not always justiﬁed in practice. In the runup to the 2012 presidential election,
+two large and liquid betting sites, Intrade and Betfair, oﬀered very diﬀerent odds for the same election: Intrade
+giving Romney a relatively higher chance of winning, Betfair giving Obama a relatively higher chance. It appeared
+that, for much less than $100, one could buy two contracts: one on Intrade paying $100 if Obama won, and one on
+Betfair paying $100 if Obama didn’t win. This was a classical arbitrage opportunity. Ordinarily, one would expect
+traders to try to take advantage of this opportunity, and one would expect the actions of these traders to cause
+the discepancy to go away quickly. In this case a major gap persisted for weeks. Speculation about the reasons
+for the persistent discrepancy appears for example here http://www.overcomingbias.com/2012/11/was-intrade-
+being-manipulated-over-the-last-month.html. Shortly following the election and Obama’s victory, the US
+government announced that it was cracking down on Intrade, various ﬁnancial problems within Intrade became
+apparent, and it became unclear whether Intrade would be able to redeem the money it owed its customers as
+the company collapsed. http://business.time.com/2013/03/11/online-predictions-market-intrade-shuts-
+down-months-after-federal-lawsuit. Given this history, one might be tempted to say, “Okay, maybe that’s why
+the professional traders didn’t take advantange of the arbitrage and close the gap. They knew that Intrade might
+be on the verge of collapse.” But it’s hard to know if this is actually what traders were thinking. The chance that
+the company managing and enforcing the contracts might collapse is sometimes called “third party risk.” Collapses
+of this kind (involving institutions much larger and fundamental to our ﬁnancial system than Intrade and Betfair)
+played a role in the 2008 ﬁnancial crisis.
+
+
+                                                        9
+what well-informed informed experts would consider the true probability.
+The deﬁnition of risk neutral probability depends on choice of currency (the so-called
+numéraire). In the 2016 US presidential election, investors predicted (correctly) that the value
+of the Mexican peso (in US dollars) just after the election would be substantially lower if Trump
+won. Although this example was not as extreme as the one mentioned above (where one
+candidate would declare one of the currencies to be worthless), it was still signiﬁcant enough for
+the risk neutral probability of a Trump victory to be quite diﬀerent depending on whether one
+used dollars or pesos as the numéraire
+We remark that risk neutral probability can also be deﬁned for variable times and variable
+interest rates — e.g., one can take the numéraire to be the amount one dollar in a
+variable-interest-rate money market account has grown to when the outcome is known. We can
+deﬁne PRN (A) to be the price of a contract paying this amount if and when A occurs. For
+simplicity, we focus on a ﬁxed future time T and a ﬁxed interest rate r in these notes.
+
+By assumption, the price of a contract that pays one dollar at time T if A occurs is
+PRN (A)e−rT . If A and B are disjoint, what is the price of a contract that pays 2 dollars if A
+occurs, 3 if B occurs, 0 otherwise?
+The answer: (2PRN (A) + 3PRN (B))e−rT . More generally, in the absence of arbitrage, the price
+of a contract that pays X at time T should be ERN (X)e−rT where ERN denotes expectation
+with respect to the risk neutral probability. For example, if a non-divided paying stock will be
+worth X at time T , then its price today should be ERN (X)e−rT . As mentioned above, the
+so-called fundamental theorem of asset pricing states that (assuming no arbitrage)
+interest-discounted asset prices are martingales with respect to risk neutral probability. The
+current price of the stock being ERN (X)e−rT follows from this.
+
+
+5    Black-Scholes
+Famous professors who worked at MIT at some point (Black, Scholes, and Merton) won the
+1997 Nobel Prize for their work on an option pricing model now known as the Black-Scholes
+model. The mathematics of our Black-Scholes discussion will not go far beyond things we know.
+The main mathematical tasks will be to compute expectations of functions of log-normal
+random variables (to get the Black-Scholes formula) and diﬀerentiate under an integral (to
+compute risk neutral density functions from option prices). We can interpret our analysis in this
+section as a sophisticated story problem, illustrating an important application of the probability
+we have learned in this course (involving probability axioms, expectations, cumulative
+distribution functions, etc.) Much has been written about the Black-Scholes formula (start with
+the Wikipedia articles if you want to learn more). These notes will give a very quick overview
+and will explain how the formula can be derived directly from a few simple assumptions about
+risk neutral probability.
+
+                                               10
+Brownian motion (as mathematically constructed by MIT professor Norbert Wiener) is a
+continuous time martingale. The important thing to know about it for now is that the value of
+the Brownian motion at time T is a normal random variable with mean zero and variance T σ 2
+where σ 2 is a volatility parameter. The Black-Scholes theory assumes that the log of an asset
+price is a process called Brownian motion with drift with respect to risk neutral probability.
+Since we will focus on a ﬁxed future time T in these notes, the important thing about this
+assumption is that it implies that the log of the asset price at time T is a normal random
+variable with variance T σ 2 and some ﬁxed mean value.
+
+   1. Assumption: the log of an asset price X at a ﬁxed future time T is a normal random
+      variable (call it N ) with some known variance (call it T σ 2 ) and some mean (call it µ) with
+      respect to risk neutral probability.
+                                                                             2
+   2. Observation: N normal (µ, T σ 2 ) implies E[eN ] = eµ+T σ /2 .
+
+   3. Observation: If X0 is the current price then
+                                                                                    2
+                               X0 = ERN [X]e−rT = ERN [eN ]e−rT = eµ+(σ /2−r)T .
+
+   4. Observation: This implies µ = log X0 + (r − σ 2 /2)T .7
+
+   5. Conclusion: If g is any function then the price of a contract that pays g(X) at time T is
+
+                                        ERN [g(X)]e−rT = ERN [g(eN )]e−rT
+
+       where N is normal with mean µ and variance T σ 2 .
+
+A European call option on a stock at maturity date T , strike price K, gives the holder
+the right (but not obligation) to purchase a share of stock for K dollars at time T .
+
+                                          The document gives the
+                                          bearer the right to pur-
+                                          chase one share of MSFT
+                                          from me on May 31 for
+                                          35 dollars. SS
+   7
+     This is a very important point. Previous works on options pricing had assumed that one somehow had to know
+µ in advance to price options — one needed a guess about the direction the stock was drifting. The Black-Scholes
+work notes that the relevant notion of probability for determining prices is risk neutral probability, not some notion
+of “true probability,” and that with respect to risk neutral probability the value of µ is determined by the values
+of r and σ, and hence is not needed as an input.
+
+
+
+
+                                                         11
+If X is the value of the stock at T , then the value of the option at time T is given by
+g(X) = max{0, X − K}. The Black-Scholes formula states that the price of a contract paying
+g(X) at time T is
+                                ERN [g(X)]e−rT = ERN [g(eN )]e−rT
+where N is normal with variance T σ 2 , mean µ = log X0 + (r − σ 2 /2)T .
+We could just end the discussion here, but let’s try to put this expression into a more explicit
+form. Write this as
+
+                      e−rT ERN [max{0, eN − K}] = e−rT ERN [(eN − K)1N ≥log K ]
+                                     Z ∞
+                                              1     (x−µ)2
+                              =e −rT
+                                             √    e− 2T σ2 (ex − K)dx.
+                                      log K σ 2πT
+
+Recall that we let T be the time to maturity, the X0 current price of underlying asset, K the
+strike price, r the risk free interest rate, and σ 2 the volatility. We need to compute
+      R∞              (x−µ)2
+e−rT log K σ√12πT e− 2T σ2 (ex − K)dx where µ = rT + log X0 − T σ 2 /2. We can write this as
+                        Z ∞                                      Z ∞
+                                 1     (x−µ)2                                1     (x−µ)2
+                 e−rT
+                                √    e− 2T σ2 ex dx − e−rT                  √    e− 2T σ2 Kdx.
+                         log K σ 2πT                                 log K σ 2πT
+
+We can use a complete-the-square trick to deal with the extra ex in the ﬁrst term. We can also
+us generally the fact that the probability a normal random variable is more than a standard
+deviations above its mean is given by 1 − Φ(a) (which implies a statement about the integral of
+the density function from some point to inﬁnity). These ideas allow us to compute the two
+terms explicitly in terms of the standard normal cumulative distribution function Φ. We leave
+the details as an exercise to the reader. In the end we ﬁnd that the price of European call is
+
+                                           Φ(d1 )X0 − Φ(d2 )Ke−rT
+                 X         2                     X           2
+           ln( K0 )+(r+ σ2 )(T )           ln( K0 )+(r− σ2 )(T )
+where d1 =          √
+                   σ T
+                                 and d 2 =          √
+                                                   σ T
+                                                                 .
+
+
+6     Call quotes and risk neutral probability
+If C(K) is the price of a European call with strike price K and fR= fX is the risk neutral
+                                                                  ∞
+probability density function for X at time T , then C(K) = e−rT −∞ f (x) max{0, x − K}dx.
+Diﬀerentiating under the integral, we ﬁnd that
+                             Z
+                 rT 0
+                e C (K) = f (x)(−1x>K )dx = −PRN {X > K} = FX (K) − 1,
+
+                                              erT C 00 (K) = f (K).
+
+                                                        12
+We can look up C(K) for a given stock symbol (say GOOG) and expiration time T at cboe.com
+and work out approximately what FX and hence fX must be.
+Try doing this an option with a date in the near future, so that one can assume that erT is
+essentially one. You’ll ﬁnd when you look up the option chain that one is not given C(K) for all
+values of K (it is only listed for a discrete set of K values) so one has to estimate what would be
+its ﬁrst and second derivatives of C from this. Still it is satisfying to know that you can use this
+technique to assess the risk neutral probability that a stock price will lie in a speciﬁed range on
+a speciﬁed date. If you are ever oﬀered a job at a company that promises to pay you in stock or
+in options, you might want to take a look at the option prices for the company and try to work
+out a probability distribution for the value of your pay.
+The risk neutral probability densities derived from call quotes are not quite lognormal in
+practice. The tails are too fat. In other words, the risk neutral probability that the stock will
+rise or fall by very large factors tends to be higher than the Black-Scholes model would predict.
+Although Black-Scholes is not a perfect predictor of option prices, traders still think about the
+model when they think about pricing. When looking at a speciﬁc option, the “implied
+volatility” is deﬁned to be the value of σ 2 that (when plugged into Black-Scholes formula along
+with the other known parameters) predicts the current market price. If Black-Scholes were
+completely correct, then given a stock and an expiration date, the implied volatility would be
+the same for all strike prices. In practice, when the implied volatility is viewed as a function of
+strike price (sometimes called the “volatility smile”), it is not constant. Nonetheless, comparing
+“implied volatilities” gives traders an intuitive way to understand option prices.
+The main Black-Scholes assumption is that risk neutral probability densities are lognormal. The
+heuristic support for this assumption is basically this: if the price goes up 1 percent or down 1
+percent each day (with no interest) then the risk neutral probability must be .5 for each
+(independently of previous days). Then the central limit theorem gives log normality for large
+T . However, in reality, the amount that a stock varies up and down can diﬀer a lot from one
+day to another.
+It is also the case in principle that prices can have big jumps. Although we will not discuss
+them here, we remark that there are variants of the Black-Scholes model that allow for variable
+volatility, random interest rates, processes with random jump discontinuities (called Lévy
+processes) and so forth.
+
+
+
+
+                                                13
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+18.600 Probability and Random Variables
+Fall 2019
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

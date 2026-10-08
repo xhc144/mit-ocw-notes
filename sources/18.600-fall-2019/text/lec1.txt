@@ -1,0 +1,1336 @@
+          18.600: Lecture 1
+Permutations and combinations, Pascal’s
+      triangle, learning to count
+
+              Scott Sheﬃeld
+
+                  MIT
+
+
+
+
+                    1
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          2
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          3
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+
+
+
+
+                                    4
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+     I Market seems to say that your candidate will probably win, if
+       “probably” means with probability greater than .5.
+
+
+
+
+                                   5
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+     I Market seems to say that your candidate will probably win, if
+       “probably” means with probability greater than .5.
+     I The price of such a contract may ﬂuctuate in time.
+
+
+
+
+                                   6
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+     I Market seems to say that your candidate will probably win, if
+       “probably” means with probability greater than .5.
+     I The price of such a contract may ﬂuctuate in time.
+     I Let X (t) denote the price at time t.
+
+
+
+
+                                   7
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+     I Market seems to say that your candidate will probably win, if
+       “probably” means with probability greater than .5.
+     I The price of such a contract may ﬂuctuate in time.
+     I Let X (t) denote the price at time t.
+     I Suppose X (t) is known to vary continuously in time. What is
+       probability p it reaches 59 before 57?
+
+
+
+
+                                   8
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+     I Market seems to say that your candidate will probably win, if
+       “probably” means with probability greater than .5.
+     I The price of such a contract may ﬂuctuate in time.
+     I Let X (t) denote the price at time t.
+     I Suppose X (t) is known to vary continuously in time. What is
+       probability p it reaches 59 before 57?
+     I If p > .5, we can make money in expecation by buying at 58
+       and selling when price hits 57 or 59.
+
+
+
+                                   9
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+     I Market seems to say that your candidate will probably win, if
+       “probably” means with probability greater than .5.
+     I The price of such a contract may ﬂuctuate in time.
+     I Let X (t) denote the price at time t.
+     I Suppose X (t) is known to vary continuously in time. What is
+       probability p it reaches 59 before 57?
+     I If p > .5, we can make money in expecation by buying at 58
+       and selling when price hits 57 or 59.
+     I If p < .5, we can sell at 58 and buy when price hits 57 or 59.
+
+
+
+                                   10
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+     I Market seems to say that your candidate will probably win, if
+       “probably” means with probability greater than .5.
+     I The price of such a contract may ﬂuctuate in time.
+     I Let X (t) denote the price at time t.
+     I Suppose X (t) is known to vary continuously in time. What is
+       probability p it reaches 59 before 57?
+     I If p > .5, we can make money in expecation by buying at 58
+       and selling when price hits 57 or 59.
+     I If p < .5, we can sell at 58 and buy when price hits 57 or 59.
+     I Eﬃcient market hypothesis (a.k.a. “no free money just lying
+       around” hypothesis) suggests p = .5 (with some caveats...)
+                                   11
+Politics
+     I Suppose that, in some election, betting markets place the
+       probability that your favorite candidate will be elected at 58
+       percent. Price of a contact that pays 100 dollars if your
+       candidate wins is 58 dollars.
+     I Market seems to say that your candidate will probably win, if
+       “probably” means with probability greater than .5.
+     I The price of such a contract may ﬂuctuate in time.
+     I Let X (t) denote the price at time t.
+     I Suppose X (t) is known to vary continuously in time. What is
+       probability p it reaches 59 before 57?
+     I If p > .5, we can make money in expecation by buying at 58
+       and selling when price hits 57 or 59.
+     I If p < .5, we can sell at 58 and buy when price hits 57 or 59.
+     I Eﬃcient market hypothesis (a.k.a. “no free money just lying
+       around” hypothesis) suggests p = .5 (with some caveats...)
+                                    12
+     I Natural model for prices: repeatedly toss coin, adding 1 for
+       heads and −1 for tails, until price hits 0 or 100.
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+
+
+
+                                  13
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+
+
+
+                                  14
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+    I 3. X (t) will reach both 70 and 30, at diﬀerent future times.
+
+
+
+
+                                  15
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+    I 3. X (t) will reach both 70 and 30, at diﬀerent future times.
+
+    I 4. X (t) will reach both 65 and 35 at diﬀerent future times.
+
+
+
+
+                                  16
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+    I 3. X (t) will reach both 70 and 30, at diﬀerent future times.
+
+    I 4. X (t) will reach both 65 and 35 at diﬀerent future times.
+
+    I 5. X (t) will hit 65, then 50, then 60, then 55.
+
+
+
+
+                                   17
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+    I 3. X (t) will reach both 70 and 30, at diﬀerent future times.
+
+    I 4. X (t) will reach both 65 and 35 at diﬀerent future times.
+
+    I 5. X (t) will hit 65, then 50, then 60, then 55.
+
+    I Answers: 1, 2, 4.
+
+
+
+
+                                   18
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+    I 3. X (t) will reach both 70 and 30, at diﬀerent future times.
+
+    I 4. X (t) will reach both 65 and 35 at diﬀerent future times.
+
+    I 5. X (t) will hit 65, then 50, then 60, then 55.
+
+    I Answers: 1, 2, 4.
+
+    I Full explanations coming toward the end of the course.
+
+
+
+
+                                   19
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+    I 3. X (t) will reach both 70 and 30, at diﬀerent future times.
+
+    I 4. X (t) will reach both 65 and 35 at diﬀerent future times.
+
+    I 5. X (t) will hit 65, then 50, then 60, then 55.
+
+    I Answers: 1, 2, 4.
+
+    I Full explanations coming toward the end of the course.
+
+    I Problem sets in this course explore applications of probability
+      to politics, medicine, ﬁnance, economics, science, engineering,
+      philosophy, dating, etc. Stories motivate the math and make
+      it easier to remember.
+
+
+                                   20
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+    I 3. X (t) will reach both 70 and 30, at diﬀerent future times.
+
+    I 4. X (t) will reach both 65 and 35 at diﬀerent future times.
+
+    I 5. X (t) will hit 65, then 50, then 60, then 55.
+
+    I Answers: 1, 2, 4.
+
+    I Full explanations coming toward the end of the course.
+
+    I Problem sets in this course explore applications of probability
+      to politics, medicine, ﬁnance, economics, science, engineering,
+      philosophy, dating, etc. Stories motivate the math and make
+      it easier to remember.
+    I Provocative question: what simple advice, that would greatly
+      beneﬁt humanity, are we unaware of? Foods to avoid?
+                                  21
+      Exercises to do? Books to read?   How would we know?
+Which of these statements is “probably” true?
+    I 1. X (t) will go below 50 at some future point.
+
+    I 2. X (t) will get all the way below 20 at some point
+
+    I 3. X (t) will reach both 70 and 30, at diﬀerent future times.
+
+    I 4. X (t) will reach both 65 and 35 at diﬀerent future times.
+
+    I 5. X (t) will hit 65, then 50, then 60, then 55.
+
+    I Answers: 1, 2, 4.
+
+    I Full explanations coming toward the end of the course.
+
+    I Problem sets in this course explore applications of probability
+      to politics, medicine, ﬁnance, economics, science, engineering,
+      philosophy, dating, etc. Stories motivate the math and make
+      it easier to remember.
+    I Provocative question: what simple advice, that would greatly
+      beneﬁt humanity, are we unaware of? Foods to avoid?
+                                   22
+      Exercises to do? Books to read?    How would we know?
+    I Let’s start with easier questions.
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          23
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          24
+Permutations
+
+
+
+    I How many ways to order 52 cards?
+
+
+
+
+                               25
+Permutations
+
+
+
+    I How many ways to order 52 cards?
+
+    I Answer: 52 · 51 · 50 · . . . · 1 = 52! =
+      80658175170943878571660636856403766975289505600883277824×
+      1012
+
+
+
+
+                                     26
+Permutations
+
+
+
+    I How many ways to order 52 cards?
+
+    I Answer: 52 · 51 · 50 · . . . · 1 = 52! =
+      80658175170943878571660636856403766975289505600883277824×
+      1012
+    I n hats, n people, how many ways to assign each person a hat?
+
+
+
+
+                                     27
+Permutations
+
+
+
+    I How many ways to order 52 cards?
+
+    I Answer: 52 · 51 · 50 · . . . · 1 = 52! =
+      80658175170943878571660636856403766975289505600883277824×
+      1012
+    I n hats, n people, how many ways to assign each person a hat?
+
+    I Answer: n!
+
+
+
+
+                                     28
+Permutations
+
+
+
+    I How many ways to order 52 cards?
+
+    I Answer: 52 · 51 · 50 · . . . · 1 = 52! =
+      80658175170943878571660636856403766975289505600883277824×
+      1012
+    I n hats, n people, how many ways to assign each person a hat?
+
+    I Answer: n!
+
+    I n hats, k < n people, how many ways to assign each person a
+      hat?
+
+
+
+                                     29
+Permutations
+
+
+
+    I How many ways to order 52 cards?
+
+    I Answer: 52 · 51 · 50 · . . . · 1 = 52! =
+      80658175170943878571660636856403766975289505600883277824×
+      1012
+    I n hats, n people, how many ways to assign each person a hat?
+
+    I Answer: n!
+
+    I n hats, k < n people, how many ways to assign each person a
+      hat?
+    I n · (n − 1) · (n − 2) . . . (n − k + 1) = n!/(n − k)!
+
+
+
+                                     30
+Permutation notation
+
+    I A permutation is a function from {1, 2, . . . , n} to
+      {1, 2, . . . , n} whose range is the whole set {1, 2, . . . , n}. If σ
+      is a permutation then for each j between 1 and n, the the
+      value σ(j) is the number that j gets mapped to.
+
+
+
+
+                                      31
+Permutation notation
+
+    I A permutation is a function from {1, 2, . . . , n} to
+      {1, 2, . . . , n} whose range is the whole set {1, 2, . . . , n}. If σ
+      is a permutation then for each j between 1 and n, the the
+      value σ(j) is the number that j gets mapped to.
+    I For example, if n = 3, then σ could be a function such that
+      σ(1) = 3, σ(2) = 2, and σ(3) = 1.
+
+
+
+
+                                      32
+Permutation notation
+
+    I A permutation is a function from {1, 2, . . . , n} to
+      {1, 2, . . . , n} whose range is the whole set {1, 2, . . . , n}. If σ
+      is a permutation then for each j between 1 and n, the the
+      value σ(j) is the number that j gets mapped to.
+    I For example, if n = 3, then σ could be a function such that
+      σ(1) = 3, σ(2) = 2, and σ(3) = 1.
+    I If you have n cards with labels 1 through n and you shuﬄe
+      them, then you can let σ(j) denote the label of the card in the
+      jth position. Thus orderings of n cards are in one-to-one
+      correspondence with permutations of n elements.
+
+
+
+
+                                      33
+Permutation notation
+
+    I A permutation is a function from {1, 2, . . . , n} to
+      {1, 2, . . . , n} whose range is the whole set {1, 2, . . . , n}. If σ
+      is a permutation then for each j between 1 and n, the the
+      value σ(j) is the number that j gets mapped to.
+    I For example, if n = 3, then σ could be a function such that
+      σ(1) = 3, σ(2) = 2, and σ(3) = 1.
+    I If you have n cards with labels 1 through n and you shuﬄe
+      them, then you can let σ(j) denote the label of the card in the
+      jth position. Thus orderings of n cards are in one-to-one
+      correspondence with permutations of n elements.
+    I One way to represent σ is to list the values
+      σ(1), σ(2), . . . , σ(n) in order. The σ above is represented as
+      {3, 2, 1}.
+                                      34
+Permutation notation
+
+    I A permutation is a function from {1, 2, . . . , n} to
+      {1, 2, . . . , n} whose range is the whole set {1, 2, . . . , n}. If σ
+      is a permutation then for each j between 1 and n, the the
+      value σ(j) is the number that j gets mapped to.
+    I For example, if n = 3, then σ could be a function such that
+      σ(1) = 3, σ(2) = 2, and σ(3) = 1.
+    I If you have n cards with labels 1 through n and you shuﬄe
+      them, then you can let σ(j) denote the label of the card in the
+      jth position. Thus orderings of n cards are in one-to-one
+      correspondence with permutations of n elements.
+    I One way to represent σ is to list the values
+      σ(1), σ(2), . . . , σ(n) in order. The σ above is represented as
+      {3, 2, 1}.
+    I If σ and ρ are both permutations,
+                                35      write σ ◦ ρ for their
+      composition. That is, σ ◦ ρ(j) = σ(ρ(j)).
+Cycle decomposition
+
+    I Another way to write a permutation is to describe its cycles:
+
+
+
+
+                                  36
+Cycle decomposition
+
+    I Another way to write a permutation is to describe its cycles:
+
+    I For example, taking n = 7, we write (2, 3, 5), (1, 7), (4, 6) for
+      the permutation σ such that σ(2) = 3, σ(3) = 5, σ(5) = 2 and
+      σ(1) = 7, σ(7) = 1, and σ(4) = 6, σ(6) = 4.
+
+
+
+
+                                    37
+Cycle decomposition
+
+    I Another way to write a permutation is to describe its cycles:
+
+    I For example, taking n = 7, we write (2, 3, 5), (1, 7), (4, 6) for
+      the permutation σ such that σ(2) = 3, σ(3) = 5, σ(5) = 2 and
+      σ(1) = 7, σ(7) = 1, and σ(4) = 6, σ(6) = 4.
+    I If you pick some j and repeatedly apply σ to it, it will “cycle
+      through” the numbers in its cycle.
+
+
+
+
+                                    38
+Cycle decomposition
+
+    I Another way to write a permutation is to describe its cycles:
+
+    I For example, taking n = 7, we write (2, 3, 5), (1, 7), (4, 6) for
+      the permutation σ such that σ(2) = 3, σ(3) = 5, σ(5) = 2 and
+      σ(1) = 7, σ(7) = 1, and σ(4) = 6, σ(6) = 4.
+    I If you pick some j and repeatedly apply σ to it, it will “cycle
+      through” the numbers in its cycle.
+    I Visualize this by writing down numbers 1 to n and drawing
+      arrow from each k to σ(k). Trace through a cycle by
+      following arrows.
+
+
+
+
+                                    39
+Cycle decomposition
+
+    I Another way to write a permutation is to describe its cycles:
+
+    I For example, taking n = 7, we write (2, 3, 5), (1, 7), (4, 6) for
+      the permutation σ such that σ(2) = 3, σ(3) = 5, σ(5) = 2 and
+      σ(1) = 7, σ(7) = 1, and σ(4) = 6, σ(6) = 4.
+    I If you pick some j and repeatedly apply σ to it, it will “cycle
+      through” the numbers in its cycle.
+    I Visualize this by writing down numbers 1 to n and drawing
+      arrow from each k to σ(k). Trace through a cycle by
+      following arrows.
+    I Generally, a function f   is called an involution if f (f (x)) = x
+      for all x.
+
+
+
+                                    40
+Cycle decomposition
+
+    I Another way to write a permutation is to describe its cycles:
+
+    I For example, taking n = 7, we write (2, 3, 5), (1, 7), (4, 6) for
+      the permutation σ such that σ(2) = 3, σ(3) = 5, σ(5) = 2 and
+      σ(1) = 7, σ(7) = 1, and σ(4) = 6, σ(6) = 4.
+    I If you pick some j and repeatedly apply σ to it, it will “cycle
+      through” the numbers in its cycle.
+    I Visualize this by writing down numbers 1 to n and drawing
+      arrow from each k to σ(k). Trace through a cycle by
+      following arrows.
+    I Generally, a function f   is called an involution if f (f (x)) = x
+      for all x.
+    I A permutation is an involution if all cycles have length one or
+      two.
+                                    41
+Cycle decomposition
+
+    I Another way to write a permutation is to describe its cycles:
+
+    I For example, taking n = 7, we write (2, 3, 5), (1, 7), (4, 6) for
+      the permutation σ such that σ(2) = 3, σ(3) = 5, σ(5) = 2 and
+      σ(1) = 7, σ(7) = 1, and σ(4) = 6, σ(6) = 4.
+    I If you pick some j and repeatedly apply σ to it, it will “cycle
+      through” the numbers in its cycle.
+    I Visualize this by writing down numbers 1 to n and drawing
+      arrow from each k to σ(k). Trace through a cycle by
+      following arrows.
+    I Generally, a function f   is called an involution if f (f (x)) = x
+      for all x.
+    I A permutation is an involution if all cycles have length one or
+      two.
+                                42 free” if there are no cycles of
+    I A permutation is “ﬁxed point
+      length one.
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          43
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          44
+Fundamental counting trick
+
+
+    I n ways to assign hat for the ﬁrst person. No matter what
+      choice I make, there will remain n − 1 ways to assign hat to
+      the second person. No matter what choice I make there, there
+      will remain n − 2 ways to assign a hat to the third person, etc.
+
+
+
+
+                                  45
+Fundamental counting trick
+
+
+    I n ways to assign hat for the ﬁrst person. No matter what
+      choice I make, there will remain n − 1 ways to assign hat to
+      the second person. No matter what choice I make there, there
+      will remain n − 2 ways to assign a hat to the third person, etc.
+    I This is a useful trick: break counting problem into a sequence
+      of stages so that one always has the same number of choices
+      to make at each stage. Then the total count becomes a
+      product of number of choices available at each stage.
+
+
+
+
+                                  46
+Fundamental counting trick
+
+
+    I n ways to assign hat for the ﬁrst person. No matter what
+      choice I make, there will remain n − 1 ways to assign hat to
+      the second person. No matter what choice I make there, there
+      will remain n − 2 ways to assign a hat to the third person, etc.
+    I This is a useful trick: break counting problem into a sequence
+      of stages so that one always has the same number of choices
+      to make at each stage. Then the total count becomes a
+      product of number of choices available at each stage.
+    I Easy to make mistakes. For example, maybe in your problem,
+      the number of choices at one stage actually does depend on
+      choices made during earlier stages.
+
+                                  47
+Another trick: overcount by a ﬁxed factor
+
+
+
+
+     I If you have 5 indistinguishable black cards, 2 indistinguishable
+       red cards, and three indistinguishable green cards, how many
+       distinct shuﬄe patterns of the ten cards are there?
+
+
+
+
+                                    48
+Another trick: overcount by a ﬁxed factor
+
+
+
+
+     I If you have 5 indistinguishable black cards, 2 indistinguishable
+       red cards, and three indistinguishable green cards, how many
+       distinct shuﬄe patterns of the ten cards are there?
+     I Answer: if the cards were distinguishable, we’d have 10!. But
+       we’re overcounting by a factor of 5!2!3!, so the answer is
+       10!/(5!2!3!).
+
+
+
+
+                                    49
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          50
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          51
+�n 
+ k     notation
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats allowed?
+
+
+
+
+                                     52
+�n 
+ k     notation
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats allowed?
+       I Answer: nk
+
+
+
+
+                                     53
+�n 
+ k     notation
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats allowed?
+       I Answer: nk
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats forbidden?
+
+
+
+
+                                     54
+�n 
+ k     notation
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats allowed?
+       I Answer: nk
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats forbidden?
+       I Answer: n!/(n − k)!
+
+
+
+
+                                     55
+�n 
+ k     notation
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats allowed?
+       I Answer: nk
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats forbidden?
+       I Answer: n!/(n − k)!
+
+       I How many way to choose (unordered) k elements from a list
+         of n without repeats?
+
+
+
+
+                                     56
+�n 
+ k     notation
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats allowed?
+       I Answer: nk
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats forbidden?
+       I Answer: n!/(n − k)!
+
+       I How many way to choose (unordered) k elements from a list
+         of n without repeats?
+       I Answer: n :=       n!
+                  � 
+                   k     k!(n−k)!
+
+
+
+
+                                     57
+�n 
+ k     notation
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats allowed?
+       I Answer: nk
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats forbidden?
+       I Answer: n!/(n − k)!
+
+       I How many way to choose (unordered) k elements from a list
+         of n without repeats?
+       I Answer: n :=       n!
+                  � 
+                   k     k!(n−k)!
+       I What is the coeﬃcient in front of x k in the expansion of
+         (x + 1)n ?
+
+                                     58
+�n 
+ k     notation
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats allowed?
+       I Answer: nk
+
+       I How many ways to choose an ordered sequence of k elements
+         from a list of n elements, with repeats forbidden?
+       I Answer: n!/(n − k)!
+
+       I How many way to choose (unordered) k elements from a list
+         of n without repeats?
+       I Answer: n :=       n!
+                  � 
+                   k     k!(n−k)!
+       I What is the coeﬃcient in front of x k in the expansion of
+         (x + 1)n ?
+                   �n 
+       I Answer:
+                    k .              59
+Pascal’s triangle
+
+
+
+     I Arnold principle.
+
+
+
+
+                           60
+Pascal’s triangle
+
+
+
+     I Arnold principle.
+                             �n        �n−1
+                                                + n−1
+                                                 � 
+     I A simple recursion:          =
+                              k         k−1        k .
+
+
+
+
+                                         61
+Pascal’s triangle
+
+
+
+     I Arnold principle.
+                             �n        �n−1
+                                                + n−1
+                                                 � 
+     I A simple recursion:          =
+                              k         k−1        k .
+     I What is the coeﬃcient in front of x k in the expansion of
+       (x + 1)n ?
+
+
+
+
+                                         62
+Pascal’s triangle
+
+
+
+     I Arnold principle.
+                             �n        �n−1
+                                                + n−1
+                                                 � 
+     I A simple recursion:          =
+                              k         k−1        k .
+     I What is the coeﬃcient in front of x k in the expansion of
+       (x + 1)n ?
+                 �n 
+     I Answer:
+                  k .
+
+
+
+
+                                         63
+Pascal’s triangle
+
+
+
+     I Arnold principle.
+                             �n        �n−1
+                                                + n−1
+                                                 � 
+     I A simple recursion:          =
+                              k         k−1        k .
+     I What is the coeﬃcient in front of x k in the expansion of
+       (x + 1)n ?
+                �n 
+     I Answer:
+                 k �. 
+     I (x + 1)n = n · 1 + n x 1 + n x 2 + . . . +
+                         �      �               � n  n−1 �n n
+                     0    1       2                n−1 x   + n x .
+
+
+
+
+                                         64
+Pascal’s triangle
+
+
+
+     I Arnold principle.
+                             �n        �n−1
+                                                + n−1
+                                                 � 
+     I A simple recursion:          =
+                              k         k−1        k .
+     I What is the coeﬃcient in front of x k in the expansion of
+       (x + 1)n ?
+                �n 
+     I Answer:
+                 k �. 
+     I (x + 1)n = n · 1 + n x 1 + n x 2 + . . . +
+                          �       �             � n  n−1 �n n
+                     0      1       2              n−1 x   + n x .
+                         Pn �n
+     I Question: what is
+                           k =0 k ?
+
+
+
+
+                                         65
+Pascal’s triangle
+
+
+
+     I Arnold principle.
+                             �n        �n−1
+                                                + n−1
+                                                 � 
+     I A simple recursion:          =
+                              k         k−1        k .
+     I What is the coeﬃcient in front of x k in the expansion of
+       (x + 1)n ?
+                �n 
+     I Answer:
+                 k �. 
+     I (x + 1)n = n · 1 + n x 1 + n x 2 + . . . +
+                          �       �             � n  n−1 �n n
+                     0      1       2              n−1 x   + n x .
+                         Pn �n
+     I Question: what is
+                           k =0 k ?
+     I Answer: (1 + 1)n = 2n .
+
+
+
+
+                                         66
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          67
+Outline
+
+
+
+   Remark, just for fun
+
+
+   Permutations
+
+
+   Counting tricks
+
+
+   Binomial coeﬃcients
+
+
+   Problems
+
+                          68
+More problems
+
+
+
+
+    I How many full house hands in poker?
+
+
+
+
+                               69
+More problems
+
+
+
+
+    I How many full house hands in poker?
+
+    I 13 4   · 12 42
+        �       �
+         3
+
+
+
+
+                               70
+More problems
+
+
+
+
+    I How many full house hands in poker?
+
+    I 13 4 · 12 4
+        �     �
+         3      2
+    I How many “2 pair” hands?
+
+
+
+
+                                 71
+More problems
+
+
+
+
+    I How many full house hands in poker?
+
+    I 13 4 · 12 4
+        �      �
+         3      2
+    I How many “2 pair” hands?
+
+    I 13 4   · 12 42 · 11 41 /2
+        �       �      �
+         2
+
+
+
+
+                                  72
+More problems
+
+
+
+
+    I How many full house hands in poker?
+
+    I 13 4 · 12 4
+        �     �
+         3      2
+    I How many “2 pair” hands?
+
+    I 13 4 · 12 4 · 11 4 /2
+        �     �    �
+         2      2      1
+    I How many royal ﬂush hands?
+
+
+
+
+                                 73
+More problems
+
+
+
+
+    I How many full house hands in poker?
+
+    I 13 4 · 12 4
+          �   �
+         3      2
+    I How many “2 pair” hands?
+
+    I 13 4 · 12 4 · 11 4 /2
+          �   �    �
+         2      2      1
+    I How many royal ﬂush hands?
+
+    I 4
+
+
+
+
+                                 74
+More problems
+
+
+
+    I How many hands that have four cards of the same suit, one
+      card of another suit?
+
+
+
+
+                                75
+More problems
+
+
+
+    I How many hands that have four cards of the same suit, one
+      card of another suit?
+    I 4 13
+       �  �13
+        4   ·3 1
+
+
+
+
+                                76
+More problems
+
+
+
+    I How many hands that have four cards of the same suit, one
+      card of another suit?
+    I 4 13 · 3 13
+       �  � 
+        4       1
+    I How many 10 digit numbers with no consecutive digits that
+      agree?
+
+
+
+
+                                77
+More problems
+
+
+
+    I How many hands that have four cards of the same suit, one
+      card of another suit?
+    I 4 13 · 3 13
+       �  � 
+        4       1
+    I How many 10 digit numbers with no consecutive digits that
+      agree?
+    I If initial digit can be zero, have 10 · 99 ten-digit sequences. If
+      initial digit required to be non-zero, have 910 .
+
+
+
+
+                                    78
+More problems
+
+
+
+    I How many hands that have four cards of the same suit, one
+      card of another suit?
+    I 4 13 · 3 13
+       �  � 
+        4       1
+    I How many 10 digit numbers with no consecutive digits that
+      agree?
+    I If initial digit can be zero, have 10 · 99 ten-digit sequences. If
+      initial digit required to be non-zero, have 910 .
+    I How many ways to assign a birthday to each of 23 distinct
+      people? What if no birthday can be repeated?
+
+
+
+                                    79
+More problems
+
+
+
+    I How many hands that have four cards of the same suit, one
+      card of another suit?
+    I 4 13 · 3 13
+       �  � 
+        4       1
+    I How many 10 digit numbers with no consecutive digits that
+      agree?
+    I If initial digit can be zero, have 10 · 99 ten-digit sequences. If
+      initial digit required to be non-zero, have 910 .
+    I How many ways to assign a birthday to each of 23 distinct
+      people? What if no birthday can be repeated?
+    I 36623 if repeats allowed. 366!/343! if repeats not allowed.
+
+
+                                    80
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.600 Probability and Random Variables
+Fall 2019
+
+
+
+
+For information about citing these materials or our Terms of Use, visit:
+https://ocw.mit.edu/terms.
+
+
+
+
+                                     81
+

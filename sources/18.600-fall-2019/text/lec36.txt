@@ -1,0 +1,952 @@
+      18.600: Lecture 36
+Call functions and Black-Scholes
+
+           Scott Sheﬃeld
+
+               MIT
+
+
+
+
+                 1
+Outline
+
+
+
+
+   Call function
+
+
+
+   Black-Scholes
+
+
+
+
+                   2
+Outline
+
+
+
+
+   Call function
+
+
+
+   Black-Scholes
+
+
+
+
+                   3
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�        
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+
+
+
+
+                                  4
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�         
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+     I So E [X ] is area between y = F (x) and y = 1 and x = 0.
+
+
+
+
+                                  5
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�         
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+     I So E [X ] is area between y = F (x) and y = 1 and x = 0.
+                                         R ∞�           
+     I What is the meaning of C (K ) :=
+                                          K   1 − F (x)  dx?
+
+
+
+
+                                  6
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�         
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+     I So E [X ] is area between y = F (x) and y = 1 and x = 0.
+                                         R ∞�           
+     I What is the meaning of C (K ) :=
+                                          K   1 − F (x)  dx?
+     I It is area bounded between y = F (x) and y = 1 and x = K .
+
+
+
+
+                                  7
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�         
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+     I So E [X ] is area between y = F (x) and y = 1 and x = 0.
+                                         R ∞�           
+     I What is the meaning of C (K ) :=
+                                          K   1 − F (x)  dx?
+     I It is area bounded between y = F (x) and y = 1 and x = K .
+     I By translation argument, it is also E [max(X − K , 0)].
+
+
+
+
+                                    8
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�         
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+     I So E [X ] is area between y = F (x) and y = 1 and x = 0.
+                                         R ∞�           
+     I What is the meaning of C (K ) :=
+                                          K   1 − F (x)  dx?
+     I It is area bounded between y = F (x) and y = 1 and x = K .
+     I By translation argument, it is also E [max(X − K , 0)].
+     I Note: C 0 (x) = − 1 − F (x) = F (x) − 1 and C 00 (x) = f (x).
+                        �         
+
+
+
+
+                                   9
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�         
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+     I So E [X ] is area between y = F (x) and y = 1 and x = 0.
+                                         R ∞�           
+     I What is the meaning of C (K ) :=
+                                          K   1 − F (x)  dx?
+     I It is area bounded between y = F (x) and y = 1 and x = K .
+     I By translation argument, it is also E [max(X − K , 0)].
+     I Note: C 0 (x) = − 1 − F (x) = F (x) − 1 and C 00 (x) = f (x).
+                        �         
+     I Let’s give C a name: we’ll call it the call function of X .
+         1. C (K ) is an expectation: E [max(X − K , 0)].
+         2. C (K ) is area between y = F (x) and y = 1 and x = K .
+         3. C (K ) is an anti-anti-derivative of the density function f .
+       Note that C (0) = E [X ] and limK →∞ C (K ) = 0. C is convex
+       with slope increasing from −1 to 0.
+
+
+                                       10
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�         
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+     I So E [X ] is area between y = F (x) and y = 1 and x = 0.
+                                         R ∞�           
+     I What is the meaning of C (K ) :=
+                                          K   1 − F (x)  dx?
+     I It is area bounded between y = F (x) and y = 1 and x = K .
+     I By translation argument, it is also E [max(X − K , 0)].
+     I Note: C 0 (x) = − 1 − F (x) = F (x) − 1 and C 00 (x) = f (x).
+                        �         
+     I Let’s give C a name: we’ll call it the call function of X .
+         1. C (K ) is an expectation: E [max(X − K , 0)].
+         2. C (K ) is area between y = F (x) and y = 1 and x = K .
+         3. C (K ) is an anti-anti-derivative of the density function f .
+       Note that C (0) = E [X ] and limK →∞ C (K ) = 0. C is convex
+       with slope increasing from −1 to 0.
+     I So now any random variable X comes with a pdf f = fX , a
+       cdf F = FX (an anti-derivative of fX ) and this call function
+                                   11
+       C = CX (an anti-anti-derivative of f ).
+Call function: pretty cool whether you love ﬁnance or not
+     I Recall: if X is non-negative random variable with cumulative
+                                     R ∞�         
+       distribution function F , then 0 1 − F (x) dx = E [X ].
+     I So E [X ] is area between y = F (x) and y = 1 and x = 0.
+                                         R ∞�           
+     I What is the meaning of C (K ) :=
+                                          K   1 − F (x)  dx?
+     I It is area bounded between y = F (x) and y = 1 and x = K .
+     I By translation argument, it is also E [max(X − K , 0)].
+     I Note: C 0 (x) = − 1 − F (x) = F (x) − 1 and C 00 (x) = f (x).
+                        �         
+     I Let’s give C a name: we’ll call it the call function of X .
+         1. C (K ) is an expectation: E [max(X − K , 0)].
+         2. C (K ) is area between y = F (x) and y = 1 and x = K .
+         3. C (K ) is an anti-anti-derivative of the density function f .
+       Note that C (0) = E [X ] and limK →∞ C (K ) = 0. C is convex
+       with slope increasing from −1 to 0.
+     I So now any random variable X comes with a pdf f = fX , a
+       cdf F = FX (an anti-derivative of fX ) and this call function
+                                   12
+       C = CX (an anti-anti-derivative of f ).
+     I Wonder if C is good for anything....
+Goals for today
+                          R∞
+                          K (1 − F (x))dx = E [max(X − K , 0)]
+     I Deﬁne: C (K ) :=
+
+
+
+
+                                 13
+Goals for today
+                          R∞
+                           K (1 − F (x))dx = E [max(X − K , 0)]
+     I Deﬁne: C (K ) :=
+     I Math goal: understand C and how to compute it the special
+       case that X = e N , where N is a normal random variable.
+
+
+
+
+                                14
+Goals for today
+                          R∞
+                           K (1 − F (x))dx = E [max(X − K , 0)]
+     I Deﬁne: C (K ) :=
+     I Math goal: understand C and how to compute it the special
+       case that X = e N , where N is a normal random variable.
+     I Story goal: give some ﬁnancial motivation for all of this.
+       Explain what C has to do with option pricing and what the
+       special case X = e N has to do with the Black-Scholes formula.
+
+
+
+
+                                   15
+Goals for today
+                          R∞
+                           K (1 − F (x))dx = E [max(X − K , 0)]
+     I Deﬁne: C (K ) :=
+     I Math goal: understand C and how to compute it the special
+       case that X = e N , where N is a normal random variable.
+     I Story goal: give some ﬁnancial motivation for all of this.
+       Explain what C has to do with option pricing and what the
+       special case X = e N has to do with the Black-Scholes formula.
+     I Weird fact: If X is a real world random quantity (such as the
+       price of gold or euros or stock shares at a future date) and we
+       use risk neutral probability, then sometimes the call function
+       C (or a related “put function”) is what we can look up online.
+       One then uses the quoted C values to work out FX and fX .
+
+
+
+
+                                   16
+Goals for today
+                          R∞
+                           K (1 − F (x))dx = E [max(X − K , 0)]
+     I Deﬁne: C (K ) :=
+     I Math goal: understand C and how to compute it the special
+       case that X = e N , where N is a normal random variable.
+     I Story goal: give some ﬁnancial motivation for all of this.
+       Explain what C has to do with option pricing and what the
+       special case X = e N has to do with the Black-Scholes formula.
+     I Weird fact: If X is a real world random quantity (such as the
+       price of gold or euros or stock shares at a future date) and we
+       use risk neutral probability, then sometimes the call function
+       C (or a related “put function”) is what we can look up online.
+       One then uses the quoted C values to work out FX and fX .
+     I Grand story goal: Say something about the link between
+       probability and the real world. What is the probability that
+       price of Microsoft stock will rise by more than ten dollars over
+       the next month? What is the probability that price of oil will
+                                     17
+       drop more than ten percent next year? How can I (using
+       internet and math) come up with a reasonable answer?
+Asset price as discounted expectation: X0 = ERN (XT )e −rT
+     I If r is risk free interest rate, then by deﬁnition, price of a
+       contract paying dollar at time T if A occurs is PRN (A)e −rT .
+
+
+
+
+                                   18
+Asset price as discounted expectation: X0 = ERN (XT )e −rT
+     I If r is risk free interest rate, then by deﬁnition, price of a
+       contract paying dollar at time T if A occurs is PRN (A)e −rT .
+     I If A and B are disjoint, what is the price of a contract that
+       pays 2 dollars if A occurs, 3 if B occurs, 0 otherwise?
+
+
+
+
+                                   19
+Asset price as discounted expectation: X0 = ERN (XT )e −rT
+     I If r is risk free interest rate, then by deﬁnition, price of a
+       contract paying dollar at time T if A occurs is PRN (A)e −rT .
+     I If A and B are disjoint, what is the price of a contract that
+       pays 2 dollars if A occurs, 3 if B occurs, 0 otherwise?
+     I Answer: (2PRN (A) + 3PRN (B))e −rT .
+
+
+
+
+                                   20
+Asset price as discounted expectation: X0 = ERN (XT )e −rT
+     I If r is risk free interest rate, then by deﬁnition, price of a
+       contract paying dollar at time T if A occurs is PRN (A)e −rT .
+     I If A and B are disjoint, what is the price of a contract that
+       pays 2 dollars if A occurs, 3 if B occurs, 0 otherwise?
+     I Answer: (2PRN (A) + 3PRN (B))e −rT .
+     I Generally, in absence of arbitrage, price of contract that pays
+       X at time T should be ERN (X )e −rT where ERN denotes
+       expectation with respect to the risk neutral probability.
+
+
+
+
+                                    21
+Asset price as discounted expectation: X0 = ERN (XT )e −rT
+     I If r is risk free interest rate, then by deﬁnition, price of a
+       contract paying dollar at time T if A occurs is PRN (A)e −rT .
+     I If A and B are disjoint, what is the price of a contract that
+       pays 2 dollars if A occurs, 3 if B occurs, 0 otherwise?
+     I Answer: (2PRN (A) + 3PRN (B))e −rT .
+     I Generally, in absence of arbitrage, price of contract that pays
+       X at time T should be ERN (X )e −rT where ERN denotes
+       expectation with respect to the risk neutral probability.
+     I Example: if a non-dividend-paying stock will be worth X at
+       time T , then its price today should be ERN (X )e −rT .
+
+
+
+
+                                    22
+Asset price as discounted expectation: X0 = ERN (XT )e −rT
+     I If r is risk free interest rate, then by deﬁnition, price of a
+       contract paying dollar at time T if A occurs is PRN (A)e −rT .
+     I If A and B are disjoint, what is the price of a contract that
+       pays 2 dollars if A occurs, 3 if B occurs, 0 otherwise?
+     I Answer: (2PRN (A) + 3PRN (B))e −rT .
+     I Generally, in absence of arbitrage, price of contract that pays
+       X at time T should be ERN (X )e −rT where ERN denotes
+       expectation with respect to the risk neutral probability.
+     I Example: if a non-dividend-paying stock will be worth X at
+       time T , then its price today should be ERN (X )e −rT .
+     I Risk neutral probability basically deﬁned so price of asset
+       today is e −rT times risk neutral expectation of time T price.
+
+
+
+                                    23
+Asset price as discounted expectation: X0 = ERN (XT )e −rT
+     I If r is risk free interest rate, then by deﬁnition, price of a
+       contract paying dollar at time T if A occurs is PRN (A)e −rT .
+     I If A and B are disjoint, what is the price of a contract that
+       pays 2 dollars if A occurs, 3 if B occurs, 0 otherwise?
+     I Answer: (2PRN (A) + 3PRN (B))e −rT .
+     I Generally, in absence of arbitrage, price of contract that pays
+       X at time T should be ERN (X )e −rT where ERN denotes
+       expectation with respect to the risk neutral probability.
+     I Example: if a non-dividend-paying stock will be worth X at
+       time T , then its price today should be ERN (X )e −rT .
+     I Risk neutral probability basically deﬁned so price of asset
+       today is e −rT times risk neutral expectation of time T price.
+     I In particular, the risk neutral expectation of tomorrow’s
+       (interest discounted) stock price is today’s stock price.
+                                    24
+Asset price as discounted expectation: X0 = ERN (XT )e −rT
+     I If r is risk free interest rate, then by deﬁnition, price of a
+       contract paying dollar at time T if A occurs is PRN (A)e −rT .
+     I If A and B are disjoint, what is the price of a contract that
+       pays 2 dollars if A occurs, 3 if B occurs, 0 otherwise?
+     I Answer: (2PRN (A) + 3PRN (B))e −rT .
+     I Generally, in absence of arbitrage, price of contract that pays
+       X at time T should be ERN (X )e −rT where ERN denotes
+       expectation with respect to the risk neutral probability.
+     I Example: if a non-dividend-paying stock will be worth X at
+       time T , then its price today should be ERN (X )e −rT .
+     I Risk neutral probability basically deﬁned so price of asset
+       today is e −rT times risk neutral expectation of time T price.
+     I In particular, the risk neutral expectation of tomorrow’s
+       (interest discounted) stock price is today’s stock price.
+     I Implies fundamental theorem of asset pricing, which says
+                                   25
+       discounted price XA(n)
+                          (n)
+                              (where A is a risk-free asset) is a
+       martingale with respected to risk neutral probability.
+European call options
+    I A European call option on a stock at maturity date T ,
+      strike price K , gives the holder the right (but not obligation)
+      to purchase a share of stock for K dollars at time T .
+                              The document gives the
+                              bearer the right to pur-
+                              chase one share of MSFT
+                              from me on May 31 for
+                              35 dollars. SS
+
+
+
+
+                                    26
+European call options
+    I A European call option on a stock at maturity date T ,
+      strike price K , gives the holder the right (but not obligation)
+      to purchase a share of stock for K dollars at time T .
+                              The document gives the
+                              bearer the right to pur-
+                              chase one share of MSFT
+                              from me on May 31 for
+                              35 dollars. SS
+
+    I If X is time T stock price, then value of option at time T is
+      g (X ) = max{0, X − K }. If we use the risk neutral probability
+      measure, then the price now should be
+                       e −rT E [g (X ]) = e −rT C (K ),
+      where C is the call function corresponding to X .
+
+
+
+                                    27
+European call options
+    I A European call option on a stock at maturity date T ,
+      strike price K , gives the holder the right (but not obligation)
+      to purchase a share of stock for K dollars at time T .
+                               The document gives the
+                               bearer the right to pur-
+                               chase one share of MSFT
+                               from me on May 31 for
+                               35 dollars. SS
+
+    I If X is time T stock price, then value of option at time T is
+      g (X ) = max{0, X − K }. If we use the risk neutral probability
+      measure, then the price now should be
+                        e −rT E [g (X ]) = e −rT C (K ),
+      where C is the call function corresponding to X .
+    I Recall ﬁrst-slide observation:
+
+                C 0 (K ) = FX (K ) − 1      ,     C 00 (K ) = fX (K ).
+                                     28
+European call options
+    I A European call option on a stock at maturity date T ,
+      strike price K , gives the holder the right (but not obligation)
+      to purchase a share of stock for K dollars at time T .
+                               The document gives the
+                               bearer the right to pur-
+                               chase one share of MSFT
+                               from me on May 31 for
+                               35 dollars. SS
+
+    I If X is time T stock price, then value of option at time T is
+      g (X ) = max{0, X − K }. If we use the risk neutral probability
+      measure, then the price now should be
+                        e −rT E [g (X ]) = e −rT C (K ),
+      where C is the call function corresponding to X .
+    I Recall ﬁrst-slide observation:
+
+                C 0 (K ) = FX (K ) − 1      ,     C 00 (K ) = fX (K ).
+                                  29
+    I Can look up C (K ) values for stock (say GOOG) at cboe.com,
+      apply smoothing, take derivatives, approximate FX and fX .
+European put options
+    I European put option gives holder write to sell stock for K
+      dollars at time T .
+
+
+
+
+                                 30
+European put options
+    I European put option gives holder write to sell stock for K
+      dollars at time T .
+    I Analysis is basically the same as for call options except that
+      one replaces the “call function” C (K ) = E [max(X − K , 0)]
+      with the “put function” deﬁned by
+                        P(K ) = E [max(K − X , 0)].
+
+
+
+
+                                   31
+European put options
+    I European put option gives holder write to sell stock for K
+      dollars at time T .
+    I Analysis is basically the same as for call options except that
+      one replaces the “call function” C (K ) = E [max(X − K , 0)]
+      with the “put function” deﬁned by
+                        P(K ) = E [max(K − X , 0)].
+    I max(a, 0) − max(−a, 0) = a. So C (K ) − P(K ) = E [X − K ].
+                                                Z K
+                P(K ) = C (K ) − E [X ] + K =         F (x)dx.
+                                                 0
+
+
+
+
+                                   32
+European put options
+    I European put option gives holder write to sell stock for K
+      dollars at time T .
+    I Analysis is basically the same as for call options except that
+      one replaces the “call function” C (K ) = E [max(X − K , 0)]
+      with the “put function” deﬁned by
+                        P(K ) = E [max(K − X , 0)].
+    I max(a, 0) − max(−a, 0) = a. So C (K ) − P(K ) = E [X − K ].
+                                                Z K
+                P(K ) = C (K ) − E [X ] + K =         F (x)dx.
+                                                 0
+
+    I The put function is an anti-anti-derivative of f (like the call
+      function) but it has a slope that increases from 0 to 1 (instead
+      of from −1 to 0) and it satisﬁes P(0) = 0.
+                                   33
+European put options
+    I European put option gives holder write to sell stock for K
+      dollars at time T .
+    I Analysis is basically the same as for call options except that
+      one replaces the “call function” C (K ) = E [max(X − K , 0)]
+      with the “put function” deﬁned by
+                        P(K ) = E [max(K − X , 0)].
+    I max(a, 0) − max(−a, 0) = a. So C (K ) − P(K ) = E [X − K ].
+                                                Z K
+                P(K ) = C (K ) − E [X ] + K =         F (x)dx.
+                                                 0
+
+    I The put function is an anti-anti-derivative of f (like the call
+      function) but it has a slope that increases from 0 to 1 (instead
+      of from −1 to 0) and it satisﬁes P(0) = 0.
+    I Many trading platforms sell 34
+                                   call and put options side by side.
+European put options
+    I European put option gives holder write to sell stock for K
+      dollars at time T .
+    I Analysis is basically the same as for call options except that
+      one replaces the “call function” C (K ) = E [max(X − K , 0)]
+      with the “put function” deﬁned by
+                        P(K ) = E [max(K − X , 0)].
+    I max(a, 0) − max(−a, 0) = a. So C (K ) − P(K ) = E [X − K ].
+                                                Z K
+                P(K ) = C (K ) − E [X ] + K =         F (x)dx.
+                                                 0
+
+    I The put function is an anti-anti-derivative of f  (like the call
+      function) but it has a slope that increases from 0 to 1 (instead
+      of from −1 to 0) and it satisﬁes P(0) = 0.
+    I Many trading platforms sell 35
+                                   call and put options side by side.
+    I For simplicity we focus on call functions in this lecture.
+Outline
+
+
+
+
+   Call function
+
+
+
+   Black-Scholes
+
+
+
+
+                   36
+Outline
+
+
+
+
+   Call function
+
+
+
+   Black-Scholes
+
+
+
+
+                   37
+Black-Scholes: main assumption and conclusion
+    I More famous MIT professors: Black, Scholes, Merton.
+
+
+
+
+                                38
+Black-Scholes: main assumption and conclusion
+    I More famous MIT professors: Black, Scholes, Merton.
+    I 1997 Nobel Prize.
+
+
+
+
+                                39
+Black-Scholes: main assumption and conclusion
+    I More famous MIT professors: Black, Scholes, Merton.
+    I 1997 Nobel Prize.
+    I Assumption: the log of an asset price X at ﬁxed future time
+      T is a normal random variable (call it N) with some known
+      variance (call it T σ 2 ) and some mean (call it µ) with respect
+      to risk neutral probability.
+
+
+
+
+                                  40
+Black-Scholes: main assumption and conclusion
+    I More famous MIT professors: Black, Scholes, Merton.
+    I 1997 Nobel Prize.
+    I Assumption: the log of an asset price X at ﬁxed future time
+      T is a normal random variable (call it N) with some known
+      variance (call it T σ 2 ) and some mean (call it µ) with respect
+      to risk neutral probability.
+                                                                   2
+    I Observation: N normal (µ, T σ 2 ) implies E [e N ] = e µ+T σ /2 .
+
+
+
+
+                                   41
+Black-Scholes: main assumption and conclusion
+    I More famous MIT professors: Black, Scholes, Merton.
+    I 1997 Nobel Prize.
+    I Assumption: the log of an asset price X at ﬁxed future time
+      T is a normal random variable (call it N) with some known
+      variance (call it T σ 2 ) and some mean (call it µ) with respect
+      to risk neutral probability.
+                                                                   2
+    I Observation: N normal (µ, T σ 2 ) implies E [e N ] = e µ+T σ /2 .
+    I Observation: If X0 is the current price then
+                                                    2
+      X0 = ERN [X ]e −rT = ERN [e N ]e −rT = e µ+(σ /2−r )T .
+
+
+
+
+                                   42
+Black-Scholes: main assumption and conclusion
+    I More famous MIT professors: Black, Scholes, Merton.
+    I 1997 Nobel Prize.
+    I Assumption: the log of an asset price X at ﬁxed future time
+      T is a normal random variable (call it N) with some known
+      variance (call it T σ 2 ) and some mean (call it µ) with respect
+      to risk neutral probability.
+                                                                   2
+    I Observation: N normal (µ, T σ 2 ) implies E [e N ] = e µ+T σ /2 .
+    I Observation: If X0 is the current price then
+                                                    2
+      X0 = ERN [X ]e −rT = ERN [e N ]e −rT = e µ+(σ /2−r )T .
+    I Observation: This implies µ = log X0 + (r − σ 2 /2)T .
+
+
+
+
+                                   43
+Black-Scholes: main assumption and conclusion
+    I More famous MIT professors: Black, Scholes, Merton.
+    I 1997 Nobel Prize.
+    I Assumption: the log of an asset price X at ﬁxed future time
+      T is a normal random variable (call it N) with some known
+      variance (call it T σ 2 ) and some mean (call it µ) with respect
+      to risk neutral probability.
+                                                                   2
+    I Observation: N normal (µ, T σ 2 ) implies E [e N ] = e µ+T σ /2 .
+    I Observation: If X0 is the current price then
+                                                    2
+      X0 = ERN [X ]e −rT = ERN [e N ]e −rT = e µ+(σ /2−r )T .
+    I Observation: This implies µ = log X0 + (r − σ 2 /2)T .
+    I General Black-Scholes conclusion: If g is any function then
+      the price of a contract that pays g (X ) at time T is
+                               E [g (e N )]e −rT
+                               44 µ and variance T σ 2 .
+      where N is normal with mean
+Black-Scholes: main assumption and conclusion
+    I More famous MIT professors: Black, Scholes, Merton.
+    I 1997 Nobel Prize.
+    I Assumption: the log of an asset price X at ﬁxed future time
+      T is a normal random variable (call it N) with some known
+      variance (call it T σ 2 ) and some mean (call it µ) with respect
+      to risk neutral probability.
+                                                                   2
+    I Observation: N normal (µ, T σ 2 ) implies E [e N ] = e µ+T σ /2 .
+    I Observation: If X0 is the current price then
+                                                    2
+      X0 = ERN [X ]e −rT = ERN [e N ]e −rT = e µ+(σ /2−r )T .
+    I Observation: This implies µ = log X0 + (r − σ 2 /2)T .
+    I General Black-Scholes conclusion: If g is any function then
+      the price of a contract that pays g (X ) at time T is
+                               E [g (e N )]e −rT
+                                45 µ and variance T σ 2 .
+      where N is normal with mean
+    I Surprise: No need to guess µ. It is ﬁxed by X0 , r , σ, T .
+Black-Scholes for European call option
+     I A European call option on a stock at maturity date T ,
+       strike price K , gives the holder the right (but not obligation)
+       to purchase a share of stock for K dollars at time T .
+                               The document gives the
+                               bearer the right to pur-
+                               chase one share of MSFT
+                               from me on May 31 for
+                               35 dollars. SS
+
+
+
+
+                                     46
+Black-Scholes for European call option
+     I A European call option on a stock at maturity date T ,
+       strike price K , gives the holder the right (but not obligation)
+       to purchase a share of stock for K dollars at time T .
+                                The document gives the
+                                bearer the right to pur-
+                                chase one share of MSFT
+                                from me on May 31 for
+                                35 dollars. SS
+
+     I Recall: If X is time T stock price, then value of option at
+       time T is g (X ) = max{0, X − K }. Price now should be
+                        e −rT ERN g (X ) = e −rT C (K ).
+
+
+
+
+                                      47
+Black-Scholes for European call option
+     I A European call option on a stock at maturity date T ,
+       strike price K , gives the holder the right (but not obligation)
+       to purchase a share of stock for K dollars at time T .
+                                The document gives the
+                                bearer the right to pur-
+                                chase one share of MSFT
+                                from me on May 31 for
+                                35 dollars. SS
+
+     I Recall: If X is time T stock price, then value of option at
+       time T is g (X ) = max{0, X − K }. Price now should be
+                        e −rT ERN g (X ) = e −rT C (K ).
+     I Black-Scholes: this is e −rT E [g (e N )] where N is normal with
+       variance T σ 2 and mean µ = log X0 + (r − σ 2 /2)T .
+
+
+
+                                      48
+Black-Scholes for European call option
+     I A European call option on a stock at maturity date T ,
+       strike price K , gives the holder the right (but not obligation)
+       to purchase a share of stock for K dollars at time T .
+                                 The document gives the
+                                 bearer the right to pur-
+                                 chase one share of MSFT
+                                 from me on May 31 for
+                                 35 dollars. SS
+
+     I Recall: If X is time T stock price, then value of option at
+       time T is g (X ) = max{0, X − K }. Price now should be
+                         e −rT ERN g (X ) = e −rT C (K ).
+     I Black-Scholes: this is e −rT E [g (e N )] where N is normal with
+       variance T σ 2 and mean µ = log X0 + (r − σ 2 /2)T .
+     I Write this as
+
+            e −rT E [max{0, e N − K }] = e −rT E [(e N − K )1N≥log K ]
+                                 Z ∞49
+                         e −rT            (x−µ)2
+                     = √               e − 2T σ2 (e x − K )dx.
+                       σ 2πT log K
+The famous formula
+
+
+
+    I Let T be time to maturity, X0 current price of underlying
+      asset, K strike price, r risk free interest rate, σ the volatility.
+
+
+
+
+                                    50
+The famous formula
+
+
+
+    I Let T be time to maturity, X0 current price of underlying
+      asset, K strike price, r risk free interest rate, σ the volatility.
+                               e −rT
+                                      R ∞ − (x−µ)2 x
+    I We need to compute √
+                              σ 2πT log K
+                                            e 2T σ2 (e − K )dx where
+      µ = rT + log X0 − T σ 2 /2.
+
+
+
+
+                                    51
+The famous formula
+
+
+
+    I Let T be time to maturity, X0 current price of underlying
+      asset, K strike price, r risk free interest rate, σ the volatility.
+                               e −rT
+                                      R ∞ − (x−µ)2 x
+    I We need to compute √
+                              σ 2πT log K
+                                            e 2T σ2 (e − K )dx where
+      µ = rT + log X0 − T σ 2 /2.
+    I Can use complete-the-square tricks to compute the two terms
+      explicitly in terms of standard normal cumulative distribution
+      function Φ.
+
+
+
+
+                                    52
+The famous formula
+
+
+
+    I Let T be time to maturity, X0 current price of underlying
+      asset, K strike price, r risk free interest rate, σ the volatility.
+                               e −rT
+                                      R ∞ − (x−µ)2 x
+    I We need to compute √
+                              σ 2πT log K
+                                            e 2T σ2 (e − K )dx where
+      µ = rT + log X0 − T σ 2 /2.
+    I Can use complete-the-square tricks to compute the two terms
+      explicitly in terms of standard normal cumulative distribution
+      function Φ.
+    I Price of European call is Φ(d1 )X0 − Φ(d2 )Ke −rT where
+                X          2                       X          2
+             ln( K0 )+(r + σ2 )(T )           ln( K0 )+(r − σ2 )(T )
+      d1 =            √
+                     σ T
+                                    and d 2 =          √
+                                                      σ T
+                                                                     .
+
+                                          53
+Perspective: implied volatility
+     I Risk neutral probability densities derived from call quotes are
+       not quite lognormal in practice. Tails are too fat. Main
+       Black-Scholes assumption is only approximately correct.
+
+
+
+
+                                    54
+Perspective: implied volatility
+     I Risk neutral probability densities derived from call quotes are
+       not quite lognormal in practice. Tails are too fat. Main
+       Black-Scholes assumption is only approximately correct.
+     I “Implied volatility” is the value of σ that (when plugged into
+       Black-Scholes formula along with known parameters) predicts
+       the current market price.
+
+
+
+
+                                    55
+Perspective: implied volatility
+     I Risk neutral probability densities derived from call quotes are
+       not quite lognormal in practice. Tails are too fat. Main
+       Black-Scholes assumption is only approximately correct.
+     I “Implied volatility” is the value of σ that (when plugged into
+       Black-Scholes formula along with known parameters) predicts
+       the current market price.
+     I If Black-Scholes were completely correct, then given a stock
+       and an expiration date, the implied volatility would be the
+       same for all strike prices K . In practice, when the implied
+       volatility is viewed as a function of K (sometimes called the
+       “volatility smile”), it is not constant.
+
+
+
+                                    56
+Perspective: implied volatility
+     I Risk neutral probability densities derived from call quotes are
+       not quite lognormal in practice. Tails are too fat. Main
+       Black-Scholes assumption is only approximately correct.
+     I “Implied volatility” is the value of σ that (when plugged into
+       Black-Scholes formula along with known parameters) predicts
+       the current market price.
+     I If Black-Scholes were completely correct, then given a stock
+       and an expiration date, the implied volatility would be the
+       same for all strike prices K . In practice, when the implied
+       volatility is viewed as a function of K (sometimes called the
+       “volatility smile”), it is not constant.
+     I Nonetheless, “implied volatility” has become a standard part
+       of the ﬁnance lexicon. When traders want to get a rough
+       sense of how a ﬁnancial derivative is priced, they often ask for
+                                      57
+       the implied volatility (a number   automatically computed in
+       many ﬁnancial software packages).
+Perspective: why is Black-Scholes not exactly right?
+     I Main Black-Scholes assumption: risk neutral probability
+       densities are lognormal.
+
+
+
+
+                                  58
+Perspective: why is Black-Scholes not exactly right?
+     I Main Black-Scholes assumption: risk neutral probability
+       densities are lognormal.
+     I Heuristic support for this assumption: If price goes up 1
+       percent or down 1 percent each day (with no interest) then
+       the risk neutral probability must be .5 for each (independently
+       of previous days). Central limit theorem gives log normality
+       for large T .
+
+
+
+
+                                   59
+Perspective: why is Black-Scholes not exactly right?
+     I Main Black-Scholes assumption: risk neutral probability
+       densities are lognormal.
+     I Heuristic support for this assumption: If price goes up 1
+       percent or down 1 percent each day (with no interest) then
+       the risk neutral probability must be .5 for each (independently
+       of previous days). Central limit theorem gives log normality
+       for large T .
+     I Replicating portfolio point of view: in simple models (e.g.,
+       where wealth always goes up or down by ﬁxed factor each
+       day) can transfer money between the stock and the risk free
+       asset to ensure our wealth at time T equals option payout.
+       Option price is required initial investment, which is risk
+       neutral expectation of payout.
+
+
+                                   60
+Perspective: why is Black-Scholes not exactly right?
+     I Main Black-Scholes assumption: risk neutral probability
+       densities are lognormal.
+     I Heuristic support for this assumption: If price goes up 1
+       percent or down 1 percent each day (with no interest) then
+       the risk neutral probability must be .5 for each (independently
+       of previous days). Central limit theorem gives log normality
+       for large T .
+     I Replicating portfolio point of view: in simple models (e.g.,
+       where wealth always goes up or down by ﬁxed factor each
+       day) can transfer money between the stock and the risk free
+       asset to ensure our wealth at time T equals option payout.
+       Option price is required initial investment, which is risk
+       neutral expectation of payout.
+     I Where arguments for assumption break down:
+       Fluctuation sizes vary from day to day. Prices can have big
+                                     61
+       jumps. Past volatility does not determine future volatility.
+     I Fixes: variable volatility, random interest rates, Lévy jumps....
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.600 Probability and Random Variables
+Fall 2019
+
+
+
+
+For information about citing these materials or our Terms of Use, visit:
+https://ocw.mit.edu/terms.
+
+
+
+
+                                     62
+

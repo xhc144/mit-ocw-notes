@@ -1,0 +1,948 @@
+18.600: Lecture 32
+  Markov Chains
+
+    Scott Sheﬃeld
+
+        MIT
+
+
+
+
+          1
+Outline
+
+
+
+
+   Markov chains
+
+
+
+   Examples
+
+
+
+   Ergodicity and stationarity
+
+
+
+                                 2
+Outline
+
+
+
+
+   Markov chains
+
+
+
+   Examples
+
+
+
+   Ergodicity and stationarity
+
+
+
+                                 3
+Markov chains
+
+    I Consider a sequence of random variables X0 , X1 , X2 , . . . each
+      taking values in the same state space, which for now we take
+      to be a ﬁnite set that we label by {0, 1, . . . , M}.
+
+
+
+
+                                    4
+Markov chains
+
+    I Consider a sequence of random variables X0 , X1 , X2 , . . . each
+      taking values in the same state space, which for now we take
+      to be a ﬁnite set that we label by {0, 1, . . . , M}.
+    I Interpret Xn as state of the system at time n.
+
+
+
+
+                                    5
+Markov chains
+
+    I Consider a sequence of random variables X0 , X1 , X2 , . . . each
+      taking values in the same state space, which for now we take
+      to be a ﬁnite set that we label by {0, 1, . . . , M}.
+    I Interpret Xn as state of the system at time n.
+
+    I Sequence is called a Markov chain if we have a ﬁxed
+      collection of numbers Pij (one for each pair
+      i, j ∈ {0, 1, . . . , M}) such that whenever the system is in state
+      i, there is probability Pij that system will next be in state j.
+
+
+
+
+                                    6
+Markov chains
+
+    I Consider a sequence of random variables X0 , X1 , X2 , . . . each
+      taking values in the same state space, which for now we take
+      to be a ﬁnite set that we label by {0, 1, . . . , M}.
+    I Interpret Xn as state of the system at time n.
+
+    I Sequence is called a Markov chain if we have a ﬁxed
+      collection of numbers Pij (one for each pair
+      i, j ∈ {0, 1, . . . , M}) such that whenever the system is in state
+      i, there is probability Pij that system will next be in state j.
+    I Precisely,
+      P{Xn+1 = j|Xn = i, Xn−1 = in−1 , . . . , X1 = i1 , X0 = i0 } = Pij .
+
+
+
+                                     7
+Markov chains
+
+    I Consider a sequence of random variables X0 , X1 , X2 , . . . each
+      taking values in the same state space, which for now we take
+      to be a ﬁnite set that we label by {0, 1, . . . , M}.
+    I Interpret Xn as state of the system at time n.
+
+    I Sequence is called a Markov chain if we have a ﬁxed
+      collection of numbers Pij (one for each pair
+      i, j ∈ {0, 1, . . . , M}) such that whenever the system is in state
+      i, there is probability Pij that system will next be in state j.
+    I Precisely,
+      P{Xn+1 = j|Xn = i, Xn−1 = in−1 , . . . , X1 = i1 , X0 = i0 } = Pij .
+    I Kind of an “almost memoryless” property. Probability
+      distribution for next state depends only on the current state
+      (and not on the rest of the state
+                                    8
+                                        history).
+Simple example
+
+
+    I For example, imagine a simple weather model with two states:
+      rainy and sunny.
+
+
+
+
+                                 9
+Simple example
+
+
+    I For example, imagine a simple weather model with two states:
+      rainy and sunny.
+    I If it’s rainy one day, there’s a .5 chance it will be rainy the
+      next day, a .5 chance it will be sunny.
+
+
+
+
+                                    10
+Simple example
+
+
+    I For example, imagine a simple weather model with two states:
+      rainy and sunny.
+    I If it’s rainy one day, there’s a .5 chance it will be rainy the
+      next day, a .5 chance it will be sunny.
+    I If it’s sunny one day, there’s a .8 chance it will be sunny the
+      next day, a .2 chance it will be rainy.
+
+
+
+
+                                    11
+Simple example
+
+
+    I For example, imagine a simple weather model with two states:
+      rainy and sunny.
+    I If it’s rainy one day, there’s a .5 chance it will be rainy the
+      next day, a .5 chance it will be sunny.
+    I If it’s sunny one day, there’s a .8 chance it will be sunny the
+      next day, a .2 chance it will be rainy.
+    I In this climate, sun tends to last longer than rain.
+
+
+
+
+                                    12
+Simple example
+
+
+    I For example, imagine a simple weather model with two states:
+      rainy and sunny.
+    I If it’s rainy one day, there’s a .5 chance it will be rainy the
+      next day, a .5 chance it will be sunny.
+    I If it’s sunny one day, there’s a .8 chance it will be sunny the
+      next day, a .2 chance it will be rainy.
+    I In this climate, sun tends to last longer than rain.
+
+    I Given that it is rainy today, how many days to I expect to
+      have to wait to see a sunny day?
+
+
+
+
+                                    13
+Simple example
+
+
+    I For example, imagine a simple weather model with two states:
+      rainy and sunny.
+    I If it’s rainy one day, there’s a .5 chance it will be rainy the
+      next day, a .5 chance it will be sunny.
+    I If it’s sunny one day, there’s a .8 chance it will be sunny the
+      next day, a .2 chance it will be rainy.
+    I In this climate, sun tends to last longer than rain.
+
+    I Given that it is rainy today, how many days to I expect to
+      have to wait to see a sunny day?
+    I Given that it is sunny today, how many days to I expect to
+      have to wait to see a rainy day?
+
+                                    14
+Simple example
+
+
+    I For example, imagine a simple weather model with two states:
+      rainy and sunny.
+    I If it’s rainy one day, there’s a .5 chance it will be rainy the
+      next day, a .5 chance it will be sunny.
+    I If it’s sunny one day, there’s a .8 chance it will be sunny the
+      next day, a .2 chance it will be rainy.
+    I In this climate, sun tends to last longer than rain.
+
+    I Given that it is rainy today, how many days to I expect to
+      have to wait to see a sunny day?
+    I Given that it is sunny today, how many days to I expect to
+      have to wait to see a rainy day?
+    I Over the long haul, what fraction of days are sunny?
+                                 15
+Matrix representation
+
+     I To describe a Markov chain, we need to deﬁne Pij for any
+       i, j ∈ {0, 1, . . . , M}.
+
+
+
+
+                                   16
+Matrix representation
+
+     I To describe a Markov chain, we need to deﬁne Pij for any
+       i, j ∈ {0, 1, . . . , M}.
+     I It is convenient to represent the collection of transition
+       probabilities Pij as a matrix:
+                              ⎛               ⎞
+                            P00 P01 . . . P0M
+                          ⎜ P10 P11 . . . P1M ⎟
+                          ⎜                   ⎟
+                          ⎜ ·                 ⎟
+                        A=⎜
+                          ⎜                   ⎟
+                          ⎜ ·
+                                              ⎟
+                                              ⎟
+                          ⎝ ·                 ⎠
+                            PM0 PM1 . . . PMM
+
+
+
+                                    17
+Matrix representation
+
+     I To describe a Markov chain, we need to deﬁne Pij for any
+       i, j ∈ {0, 1, . . . , M}.
+     I It is convenient to represent the collection of transition
+       probabilities Pij as a matrix:
+                              ⎛               ⎞
+                            P00 P01 . . . P0M
+                          ⎜ P10 P11 . . . P1M ⎟
+                          ⎜                   ⎟
+                          ⎜ ·                 ⎟
+                        A=⎜
+                          ⎜                   ⎟
+                          ⎜ ·
+                                              ⎟
+                                              ⎟
+                          ⎝ ·                 ⎠
+                            PM0 PM1 . . . PMM
+
+     I For this to make sense, we require Pij ≥ 0 for all i, j and
+       PM
+         j=0 Pij = 1 for each i. That
+                                   18
+                                      is, the rows sum to one.
+Transitions via matrices
+     I Suppose that pi is the probability that system is in state i at
+       time zero.
+
+
+
+
+                                    19
+Transitions via matrices
+     I Suppose that pi is the probability that system is in state i at
+       time zero.
+     I What does the following product represent?
+
+                                   ⎛                  ⎞
+                                    P00 P01 . . . P0M
+                                  ⎜ P10 P11 . . . P1M ⎟
+                                  ⎜                   ⎟
+             �                   ⎜ ·                 ⎟
+                 p0 p1   . . . pM ⎜
+                                  ⎜                   ⎟
+                                  ⎜ ·
+                                                      ⎟
+                                                      ⎟
+                                  ⎝ ·                 ⎠
+                                    PM0 PM1 . . . PMM
+
+
+
+
+                                    20
+Transitions via matrices
+     I Suppose that pi is the probability that system is in state i at
+       time zero.
+     I What does the following product represent?
+
+                                   ⎛                  ⎞
+                                    P00 P01 . . . P0M
+                                  ⎜ P10 P11 . . . P1M ⎟
+                                  ⎜                   ⎟
+             �                   ⎜ ·                 ⎟
+                 p0 p1   . . . pM ⎜
+                                  ⎜                   ⎟
+                                  ⎜ ·
+                                                      ⎟
+                                                      ⎟
+                                  ⎝ ·                 ⎠
+                                    PM0 PM1 . . . PMM
+
+     I Answer: the probability distribution at time one.
+
+
+
+
+                                    21
+Transitions via matrices
+     I Suppose that pi is the probability that system is in state i at
+       time zero.
+     I What does the following product represent?
+
+                                    ⎛                 ⎞
+                                    P00 P01 . . . P0M
+                                  ⎜ P10 P11 . . . P1M ⎟
+                                  ⎜                   ⎟
+             �                   ⎜ ·                 ⎟
+                 p0 p1   . . . pM ⎜
+                                  ⎜                   ⎟
+                                  ⎜ ·
+                                                      ⎟
+                                                      ⎟
+                                  ⎝ ·                 ⎠
+                                    PM0 PM1 . . . PMM
+
+     I Answer: the probability distribution at time one.
+
+     I How about the following product?
+
+
+                                                    An
+                           �                    
+                               p0 p1 . . . pM
+                                    22
+Transitions via matrices
+     I Suppose that pi is the probability that system is in state i at
+       time zero.
+     I What does the following product represent?
+
+                                    ⎛                 ⎞
+                                    P00 P01 . . . P0M
+                                  ⎜ P10 P11 . . . P1M ⎟
+                                  ⎜                   ⎟
+             �                   ⎜ ·                 ⎟
+                 p0 p1   . . . pM ⎜
+                                  ⎜                   ⎟
+                                  ⎜ ·
+                                                      ⎟
+                                                      ⎟
+                                  ⎝ ·                 ⎠
+                                    PM0 PM1 . . . PMM
+
+     I Answer: the probability distribution at time one.
+
+     I How about the following product?
+
+
+                                                    An
+                           �                    
+                               p0 p1 . . . pM
+                                    23
+     I Answer: the probability distribution at time n.
+Powers of transition matrix
+
+                    (n)
+     I We write P
+                    ij for the probability to go from state i to state j
+       over n steps.
+
+
+
+
+                                     24
+Powers of transition matrix
+
+                    (n)
+     I We write P
+                    ij for the probability to go from state i to state j
+       over n steps.
+     I From the matrix point of view
+
+          (n) (n)       (n)                       ⎞n
+       ⎛                    ⎞ ⎛
+         P00 P01 . . . P0M      P00 P01 . . . P0M
+       ⎜ (n)  (n)       (n) ⎟
+                                P10 P11 . . . P1M ⎟
+       ⎜ P10 P11 . . . P1M ⎟ ⎜
+                            ⎟ ⎜                   ⎟
+       ⎜ ·                  ⎟ ⎜ ·
+       ⎜                      ⎜                   ⎟
+                            ⎟=⎜                   ⎟
+       ⎜ ·                  ⎟ ⎜ ·
+       ⎜                                          ⎟
+                                                  ⎟
+                                 ·
+       ⎜                    ⎟ ⎝
+       ⎝ ·                  ⎠                     ⎠
+          (n) (n)       (n)     PM0 PM1 . . . PMM
+         PM0 PM1 . . . PMM
+
+
+
+                                     25
+Powers of transition matrix
+
+                    (n)
+     I We write P
+                    ij for the probability to go from state i to state j
+       over n steps.
+     I From the matrix point of view
+
+          (n) (n)       (n)                       ⎞n
+       ⎛                    ⎞ ⎛
+         P00 P01 . . . P0M      P00 P01 . . . P0M
+       ⎜ (n)  (n)       (n) ⎟
+                                P10 P11 . . . P1M ⎟
+       ⎜ P10 P11 . . . P1M ⎟ ⎜
+                            ⎟ ⎜                   ⎟
+       ⎜ ·                  ⎟ ⎜ ·
+       ⎜                      ⎜                   ⎟
+                            ⎟=⎜                   ⎟
+       ⎜ ·                  ⎟ ⎜ ·
+       ⎜                                          ⎟
+                                                  ⎟
+                                 ·
+       ⎜                    ⎟ ⎝
+       ⎝ ·                  ⎠                     ⎠
+          (n) (n)       (n)     PM0 PM1 . . . PMM
+         PM0 PM1 . . . PMM
+
+     I If A is the one-step transition matrix, then An is the n-step
+       transition matrix.
+                                     26
+Questions
+
+
+
+
+    I What does it mean if all of the rows are identical?
+
+
+
+
+                                  27
+Questions
+
+
+
+
+    I What does it mean if all of the rows are identical?
+
+    I Answer: state sequence Xi consists of i.i.d. random variables.
+
+
+
+
+                                  28
+Questions
+
+
+
+
+    I What does it mean if all of the rows are identical?
+
+    I Answer: state sequence Xi consists of i.i.d. random variables.
+
+    I What if matrix is the identity?
+
+
+
+
+                                  29
+Questions
+
+
+
+
+    I What does it mean if all of the rows are identical?
+
+    I Answer: state sequence Xi consists of i.i.d. random variables.
+
+    I What if matrix is the identity?
+
+    I Answer: states never change.
+
+
+
+
+                                  30
+Questions
+
+
+
+
+    I What does it mean if all of the rows are identical?
+
+    I Answer: state sequence Xi consists of i.i.d. random variables.
+
+    I What if matrix is the identity?
+
+    I Answer: states never change.
+
+    I What if each Pij is either one or zero?
+
+
+
+
+                                  31
+Questions
+
+
+
+
+    I What does it mean if all of the rows are identical?
+
+    I Answer: state sequence Xi consists of i.i.d. random variables.
+
+    I What if matrix is the identity?
+
+    I Answer: states never change.
+
+    I What if each Pij is either one or zero?
+
+    I Answer: state evolution is deterministic.
+
+
+
+
+                                  32
+Outline
+
+
+
+
+   Markov chains
+
+
+
+   Examples
+
+
+
+   Ergodicity and stationarity
+
+
+
+                                 33
+Outline
+
+
+
+
+   Markov chains
+
+
+
+   Examples
+
+
+
+   Ergodicity and stationarity
+
+
+
+                                 34
+Simple example
+
+    I Consider the simple weather example: If it’s rainy one day,
+      there’s a .5 chance it will be rainy the next day, a .5 chance it
+      will be sunny. If it’s sunny one day, there’s a .8 chance it will
+      be sunny the next day, a .2 chance it will be rainy.
+
+
+
+
+                                   35
+Simple example
+
+    I Consider the simple weather example: If it’s rainy one day,
+      there’s a .5 chance it will be rainy the next day, a .5 chance it
+      will be sunny. If it’s sunny one day, there’s a .8 chance it will
+      be sunny the next day, a .2 chance it will be rainy.
+    I Let rainy be state zero, sunny state one, and write the
+      transition matrix by
+                                               
+                                        .5 .5
+                              A=
+                                        .2 .8
+
+
+
+
+                                   36
+Simple example
+
+    I Consider the simple weather example: If it’s rainy one day,
+      there’s a .5 chance it will be rainy the next day, a .5 chance it
+      will be sunny. If it’s sunny one day, there’s a .8 chance it will
+      be sunny the next day, a .2 chance it will be rainy.
+    I Let rainy be state zero, sunny state one, and write the
+      transition matrix by
+                                               
+                                        .5 .5
+                              A=
+                                        .2 .8
+
+    I Note that                                  
+                             2          .64 .35
+                             A =
+                                        .26 .74
+
+                                   37
+Simple example
+
+    I Consider the simple weather example: If it’s rainy one day,
+      there’s a .5 chance it will be rainy the next day, a .5 chance it
+      will be sunny. If it’s sunny one day, there’s a .8 chance it will
+      be sunny the next day, a .2 chance it will be rainy.
+    I Let rainy be state zero, sunny state one, and write the
+      transition matrix by
+                                                 
+                                          .5 .5
+                                 A=
+                                          .2 .8
+
+    I Note that                                    
+                                 2        .64 .35
+                             A =
+                                          .26 .74
+                                                       
+                                 .285719 .714281
+    I Can compute A10 =
+                                     38
+                                 .285713 .714287
+Does relationship status have the Markov property?
+
+                   In a relationship
+
+
+
+       Single                             It’s complicated
+
+
+
+
+                Married                Engaged
+
+
+
+
+                               39
+Does relationship status have the Markov property?
+
+                     In a relationship
+
+
+
+       Single                               It’s complicated
+
+
+
+
+                  Married                Engaged
+
+    I Can we assign a probability to each arrow?
+
+
+
+                                 40
+Does relationship status have the Markov property?
+
+                     In a relationship
+
+
+
+       Single                               It’s complicated
+
+
+
+
+                  Married                Engaged
+
+    I Can we assign a probability to each arrow?
+
+    I Markov model implies time spent in any state (e.g., a
+      marriage) before leaving is a geometric random variable.
+                                 41
+Does relationship status have the Markov property?
+
+                     In a relationship
+
+
+
+       Single                               It’s complicated
+
+
+
+
+                  Married                Engaged
+
+    I Can we assign a probability to each arrow?
+
+    I Markov model implies time spent in any state (e.g., a
+      marriage) before leaving is a geometric random variable.
+                                42
+    I Not true... Can we make a better model with more states?
+Outline
+
+
+
+
+   Markov chains
+
+
+
+   Examples
+
+
+
+   Ergodicity and stationarity
+
+
+
+                                 43
+Outline
+
+
+
+
+   Markov chains
+
+
+
+   Examples
+
+
+
+   Ergodicity and stationarity
+
+
+
+                                 44
+Ergodic Markov chains
+    I Say Markov chain is ergodic if some power of the transition
+      matrix has all non-zero entries.
+
+
+
+
+                                  45
+Ergodic Markov chains
+    I Say Markov chain is ergodic if some power of the transition
+      matrix has all non-zero entries.
+    I Turns out that if chain has this property, then
+                      (n)
+      πj := limn→∞ Pij exists and the πj are the unique
+      non-negative solutions of πj = M
+                                       P
+                                        k=0 πk Pkj that sum to one.
+
+
+
+
+                                  46
+Ergodic Markov chains
+    I Say Markov chain is ergodic if some power of the transition
+      matrix has all non-zero entries.
+    I Turns out that if chain has this property, then
+                      (n)
+      πj := limn→∞ Pij exists and the πj are the unique
+      non-negative solutions of πj = M
+                                       P
+                                        k=0 πk Pkj that sum to one.
+    I This means that the row vector
+                             �                     
+                        π = π0 π1 . . . πM
+
+      is a left eigenvector of A with eigenvalue 1, i.e., πA = π.
+
+
+
+
+                                  47
+Ergodic Markov chains
+    I Say Markov chain is ergodic if some power of the transition
+      matrix has all non-zero entries.
+    I Turns out that if chain has this property, then
+                      (n)
+      πj := limn→∞ Pij exists and the πj are the unique
+      non-negative solutions of πj = M
+                                       P
+                                        k=0 πk Pkj that sum to one.
+    I This means that the row vector
+                             �                     
+                        π = π0 π1 . . . πM
+
+      is a left eigenvector of A with eigenvalue 1, i.e., πA = π.
+    I We call π the stationary distribution of the Markov chain.
+
+
+
+
+                                  48
+Ergodic Markov chains
+    I Say Markov chain is ergodic if some power of the transition
+      matrix has all non-zero entries.
+    I Turns out that if chain has this property, then
+                      (n)
+      πj := limn→∞ Pij exists and the πj are the unique
+      non-negative solutions of πj = M
+                                       P
+                                        k=0 πk Pkj that sum to one.
+    I This means that the row vector
+                             �                     
+                        π = π0 π1 . . . πM
+
+      is a left eigenvector of A with eigenvalue 1, i.e., πA = π.
+    I We call π the stationary distribution of the Markov chain.
+
+    I One can solve the system of linear equations
+      πj = M
+            P
+               k=0 πk Pkj to compute the values πj . Equivalent to
+      considering A ﬁxed and solving πA = π. Or solving
+                                   49 π up to a multiplicative
+      (A − I )π = 0. This determines
+                                P
+      constant, and fact that     πj = 1 determines the constant.
+Simple example
+                          
+                   .5 .5
+    I If A =                   , then we know
+                   .2 .8
+                                                 
+                      �                  .5 .5           �           
+               πA =       π0 π1                       =       π0 π1       = π.
+                                          .2 .8
+
+
+
+
+                                          50
+Simple example
+                          
+                   .5 .5
+    I If A =                   , then we know
+                   .2 .8
+                                                 
+                      �                  .5 .5           �           
+               πA =       π0 π1                       =       π0 π1       = π.
+                                          .2 .8
+
+    I This means that .5π0 + .2π1 = π0 and .5π0 + .8π1 = π1 and
+      we also know that π0 + π1 = 1. �Solving these equations gives
+      π0 = 2/7 and π1 = 5/7, so π = 2/7 5/7 .
+
+
+
+
+                                          51
+Simple example
+                           
+                   .5 .5
+    I If A =                    , then we know
+                   .2 .8
+                                                  
+                       �                  .5 .5           �           
+               πA =        π0 π1                       =       π0 π1       = π.
+                                           .2 .8
+
+    I This means that .5π0 + .2π1 = π0 and .5π0 + .8π1 = π1 and
+      we also know that π0 + π1 = 1. �Solving these equations gives
+      π0 = 2/7 and π1 = 5/7, so π = 2/7 5/7 .
+    I Indeed,
+                                                  
+                   �                      .5 .5           �               
+          πA =         2/7 5/7                         =       2/7 5/7         = π.
+                                           .2 .8
+
+
+                                           52
+Simple example
+                           
+                   .5 .5
+    I If A =                    , then we know
+                   .2 .8
+                                                  
+                       �                  .5 .5           �           
+               πA =        π0 π1                       =       π0 π1       = π.
+                                           .2 .8
+
+    I This means that .5π0 + .2π1 = π0 and .5π0 + .8π1 = π1 and
+      we also know that π0 + π1 = 1. �Solving these equations gives
+      π0 = 2/7 and π1 = 5/7, so π = 2/7 5/7 .
+    I Indeed,
+                                                  
+                   �                      .5 .5           �               
+          πA =         2/7 5/7                         =       2/7 5/7         = π.
+                                           .2 .8
+
+    I Recall 
+             that                                 
+                   .285719 .714281 53   2/7 5/7     π
+      A10 =                           ≈          =
+                   .285713 .714287      2/7 5/7     π
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.600 Probability and Random Variables
+Fall 2019
+
+
+
+
+For information about citing these materials or our Terms of Use, visit:
+https://ocw.mit.edu/terms.
+
+
+
+
+                                     54
+

@@ -1,0 +1,935 @@
+18.600: Lecture 33
+     Entropy
+
+    Scott Sheﬃeld
+
+        MIT
+
+
+
+
+          1
+Outline
+
+
+
+
+   Entropy
+
+
+
+   Noiseless coding theory
+
+
+
+   Conditional entropy
+
+
+
+                             2
+Outline
+
+
+
+
+   Entropy
+
+
+
+   Noiseless coding theory
+
+
+
+   Conditional entropy
+
+
+
+                             3
+What is entropy?
+
+
+
+
+    I Entropy is an important notion in thermodynamics,
+      information theory, data compression, cryptography, etc.
+
+
+
+
+                                  4
+What is entropy?
+
+
+
+
+    I Entropy is an important notion in thermodynamics,
+      information theory, data compression, cryptography, etc.
+    I Familiar on some level to everyone who has studied chemistry
+      or statistical physics.
+
+
+
+
+                                  5
+What is entropy?
+
+
+
+
+    I Entropy is an important notion in thermodynamics,
+      information theory, data compression, cryptography, etc.
+    I Familiar on some level to everyone who has studied chemistry
+      or statistical physics.
+    I Kind of means amount of randomness or disorder.
+
+
+
+
+                                  6
+What is entropy?
+
+
+
+
+    I Entropy is an important notion in thermodynamics,
+      information theory, data compression, cryptography, etc.
+    I Familiar on some level to everyone who has studied chemistry
+      or statistical physics.
+    I Kind of means amount of randomness or disorder.
+
+    I But can we give a mathematical deﬁnition? In particular, how
+      do we deﬁne the entropy of a random variable?
+
+
+
+
+                                  7
+Information
+    I Suppose we toss a fair coin k times.
+
+
+
+
+                                  8
+Information
+    I Suppose we toss a fair coin k times.
+
+    I Then the state space S is the set of 2k possible heads-tails
+      sequences.
+
+
+
+
+                                   9
+Information
+    I Suppose we toss a fair coin k times.
+
+    I Then the state space S is the set of 2k possible heads-tails
+      sequences.
+    I If X is the random sequence (so X is a random variable), then
+      for each x ∈ S we have P{X = x} = 2−k .
+
+
+
+
+                                  10
+Information
+    I Suppose we toss a fair coin k times.
+
+    I Then the state space S is the set of 2k possible heads-tails
+      sequences.
+    I If X is the random sequence (so X is a random variable), then
+      for each x ∈ S we have P{X = x} = 2−k .
+    I In information theory it’s quite common to use log to mean
+      log2 instead of loge . We follow that convention in this lecture.
+      In particular, this means that
+
+                            log P{X = x} = −k
+
+      for each x ∈ S.
+
+
+                                   11
+Information
+    I Suppose we toss a fair coin k times.
+
+    I Then the state space S is the set of 2k possible heads-tails
+      sequences.
+    I If X is the random sequence (so X is a random variable), then
+      for each x ∈ S we have P{X = x} = 2−k .
+    I In information theory it’s quite common to use log to mean
+      log2 instead of loge . We follow that convention in this lecture.
+      In particular, this means that
+
+                            log P{X = x} = −k
+
+      for each x ∈ S.
+    I Since there are 2k values in S, it takes k “bits” to describe an
+      element x ∈ S.
+                                   12
+Information
+    I Suppose we toss a fair coin k times.
+
+    I Then the state space S is the set of 2k possible heads-tails
+      sequences.
+    I If X is the random sequence (so X is a random variable), then
+      for each x ∈ S we have P{X = x} = 2−k .
+    I In information theory it’s quite common to use log to mean
+      log2 instead of loge . We follow that convention in this lecture.
+      In particular, this means that
+
+                            log P{X = x} = −k
+
+      for each x ∈ S.
+    I Since there are 2k values in S, it takes k “bits” to describe an
+      element x ∈ S.
+                                   13 we learn that X = x, we have
+    I Intuitively, could say that when
+      learned k = − log P{X = x} “bits of information”.
+Shannon entropy
+
+    I Shannon: famous MIT student/faculty member, wrote The
+      Mathematical Theory of Communication in 1948.
+
+
+
+
+                               14
+Shannon entropy
+
+    I Shannon: famous MIT student/faculty member, wrote The
+      Mathematical Theory of Communication in 1948.
+    I Goal is to deﬁne a notion of how much we “expect to learn”
+      from a random variable or “how many bits of information a
+      random variable contains” that makes sense for general
+      experiments (which may not have anything to do with coins).
+
+
+
+
+                                15
+Shannon entropy
+
+    I Shannon: famous MIT student/faculty member, wrote The
+      Mathematical Theory of Communication in 1948.
+    I Goal is to deﬁne a notion of how much we “expect to learn”
+      from a random variable or “how many bits of information a
+      random variable contains” that makes sense for general
+      experiments (which may not have anything to do with coins).
+    I If a random variable X takes values x1 , x2 , . . . , xn with positive
+      probabilities p1 , p2 , . . . , pn then we deﬁne the entropy of X by
+                            n
+                            X                          n
+                                                       X
+                  H(X ) =         pi (− log pi ) = −         pi log pi .
+                            i=1                        i=1
+
+
+
+                                       16
+Shannon entropy
+
+    I Shannon: famous MIT student/faculty member, wrote The
+      Mathematical Theory of Communication in 1948.
+    I Goal is to deﬁne a notion of how much we “expect to learn”
+      from a random variable or “how many bits of information a
+      random variable contains” that makes sense for general
+      experiments (which may not have anything to do with coins).
+    I If a random variable X takes values x1 , x2 , . . . , xn with positive
+      probabilities p1 , p2 , . . . , pn then we deﬁne the entropy of X by
+                            n
+                            X                          n
+                                                       X
+                  H(X ) =         pi (− log pi ) = −         pi log pi .
+                            i=1                        i=1
+
+    I This can be interpreted as the expectation of (− log pi ). The
+      value (− log pi ) is the “amount
+                                   17 of surprise” when we see xi .
+Twenty questions with Harry
+    I Harry always thinks of one of the following animals:
+                    x       P{X = x}     − log P{X = x}
+                   Dog         1/4              2
+                   Cat         1/4              2
+                   Cow         1/8              3
+                   Pig        1/16              4
+                 Squirrel     1/16              4
+                 Mouse        1/16              4
+                   Owl        1/16              4
+                  Sloth       1/32              5
+                  Hippo       1/32              5
+                   Yak        1/32              5
+                  Zebra       1/64              6
+                  Rhino       1/64              6
+                                  18
+Twenty questions with Harry
+    I Harry always thinks of one of the following animals:
+                    x      P{X = x} − log P{X = x}
+                   Dog        1/4              2
+                   Cat        1/4              2
+                   Cow        1/8              3
+                   Pig       1/16              4
+                 Squirrel    1/16              4
+                 Mouse       1/16              4
+                   Owl       1/16              4
+                  Sloth      1/32              5
+                  Hippo      1/32              5
+                   Yak       1/32              5
+                  Zebra      1/64              6
+                  Rhino      1/64              6
+    I Can learn animal with H(X ) questions on average.
+                                  19
+Twenty questions with Harry
+    I Harry always thinks of one of the following animals:
+                    x      P{X = x} − log P{X = x}
+                   Dog        1/4              2
+                   Cat        1/4              2
+                   Cow        1/8              3
+                   Pig       1/16              4
+                 Squirrel    1/16              4
+                 Mouse       1/16              4
+                   Owl       1/16              4
+                  Sloth      1/32              5
+                  Hippo      1/32              5
+                   Yak       1/32              5
+                  Zebra      1/64              6
+                  Rhino      1/64              6
+    I Can learn animal with H(X ) questions on average.
+                                20
+    I General: expect H(X ) questions if probabilities powers of 2.
+      Otherwise H(X ) + 1 suﬃce. (Try rounding down to 2 powers.)
+Other examples
+
+
+    I Again, if a random variable X takes the values x1 , x2 , . . . , xn
+      with positive probabilities p1 , p2 , . . . , pn then we deﬁne the
+      entropy of X by
+                            n
+                            X                          n
+                                                       X
+                  H(X ) =         pi (− log pi ) = −         pi log pi .
+                            i=1                        i=1
+
+
+
+
+                                       21
+Other examples
+
+
+    I Again, if a random variable X takes the values x1 , x2 , . . . , xn
+      with positive probabilities p1 , p2 , . . . , pn then we deﬁne the
+      entropy of X by
+                            n
+                            X                          n
+                                                       X
+                  H(X ) =         pi (− log pi ) = −         pi log pi .
+                            i=1                        i=1
+
+    I If X takes one value with probability 1, what is H(X )?
+
+
+
+
+                                       22
+Other examples
+
+
+    I Again, if a random variable X takes the values x1 , x2 , . . . , xn
+      with positive probabilities p1 , p2 , . . . , pn then we deﬁne the
+      entropy of X by
+                            n
+                            X                          n
+                                                       X
+                  H(X ) =         pi (− log pi ) = −         pi log pi .
+                            i=1                        i=1
+
+    I If X takes one value with probability 1, what is H(X )?
+
+    I If X takes k values with equal probability, what is H(X )?
+
+
+
+
+                                       23
+Other examples
+
+
+    I Again, if a random variable X takes the values x1 , x2 , . . . , xn
+      with positive probabilities p1 , p2 , . . . , pn then we deﬁne the
+      entropy of X by
+                            n
+                            X                          n
+                                                       X
+                  H(X ) =         pi (− log pi ) = −         pi log pi .
+                            i=1                        i=1
+
+    I If X takes one value with probability 1, what is H(X )?
+
+    I If X takes k values with equal probability, what is H(X )?
+
+    I What is H(X ) if X is a geometric random variable with
+      parameter p = 1/2?
+
+                                       24
+Entropy for a pair of random variables
+
+
+     I Consider random variables X , Y with joint mass function
+       p(xi , yj ) = P{X = xi , Y = yj }.
+
+
+
+
+                                     25
+Entropy for a pair of random variables
+
+
+     I Consider random variables X , Y with joint mass function
+       p(xi , yj ) = P{X = xi , Y = yj }.
+     I Then we write
+                                  XX
+                  H(X , Y ) = −             p(xi , yj ) log p(xi , yi ).
+                                   i    j
+
+
+
+
+                                       26
+Entropy for a pair of random variables
+
+
+     I Consider random variables X , Y with joint mass function
+       p(xi , yj ) = P{X = xi , Y = yj }.
+     I Then we write
+                                  XX
+                  H(X , Y ) = −             p(xi , yj ) log p(xi , yi ).
+                                   i    j
+
+     I H(X , Y ) is just the entropy of the pair (X , Y ) (viewed as a
+       random variable itself).
+
+
+
+
+                                       27
+Entropy for a pair of random variables
+
+
+     I Consider random variables X , Y with joint mass function
+       p(xi , yj ) = P{X = xi , Y = yj }.
+     I Then we write
+                                  XX
+                  H(X , Y ) = −             p(xi , yj ) log p(xi , yi ).
+                                   i    j
+
+     I H(X , Y ) is just the entropy of the pair (X , Y ) (viewed as a
+       random variable itself).
+     I Claim: if X and Y are independent, then
+
+
+                          H(X , Y ) = H(X ) + H(Y ).
+
+       Why is that?
+                                       28
+Outline
+
+
+
+
+   Entropy
+
+
+
+   Noiseless coding theory
+
+
+
+   Conditional entropy
+
+
+
+                             29
+Outline
+
+
+
+
+   Entropy
+
+
+
+   Noiseless coding theory
+
+
+
+   Conditional entropy
+
+
+
+                             30
+Coding values by bit sequences
+    I David Huﬀman (as MIT student) published in “A Method for
+      the Construction of Minimum-Redundancy Code” in 1952.
+    I If X takes four values A, B, C , D we can code them by:
+
+                                 A ↔ 00
+                                 B ↔ 01
+                                 C ↔ 10
+                                 D ↔ 11
+
+
+
+
+                                 31
+Coding values by bit sequences
+    I David Huﬀman (as MIT student) published in “A Method for
+      the Construction of Minimum-Redundancy Code” in 1952.
+    I If X takes four values A, B, C , D we can code them by:
+
+                                 A ↔ 00
+                                 B ↔ 01
+                                 C ↔ 10
+                                 D ↔ 11
+    I Or by
+                                 A↔0
+                                 B ↔ 10
+                                C ↔ 110
+                                D ↔ 111
+
+                                 32
+Coding values by bit sequences
+    I David Huﬀman (as MIT student) published in “A Method for
+      the Construction of Minimum-Redundancy Code” in 1952.
+    I If X takes four values A, B, C , D we can code them by:
+
+                                 A ↔ 00
+                                 B ↔ 01
+                                 C ↔ 10
+                                 D ↔ 11
+    I Or by
+                                 A↔0
+                                 B ↔ 10
+                                C ↔ 110
+                                D ↔ 111
+    I No sequence in code is an extension of another.
+                                 33
+Coding values by bit sequences
+    I David Huﬀman (as MIT student) published in “A Method for
+      the Construction of Minimum-Redundancy Code” in 1952.
+    I If X takes four values A, B, C , D we can code them by:
+
+                                 A ↔ 00
+                                 B ↔ 01
+                                 C ↔ 10
+                                 D ↔ 11
+    I Or by
+                                 A↔0
+                                 B ↔ 10
+                                C ↔ 110
+                                D ↔ 111
+    I No sequence in code is an extension of another.
+                                 34
+    I What does 100111110010 spell?
+Coding values by bit sequences
+    I David Huﬀman (as MIT student) published in “A Method for
+      the Construction of Minimum-Redundancy Code” in 1952.
+    I If X takes four values A, B, C , D we can code them by:
+
+                                 A ↔ 00
+                                 B ↔ 01
+                                 C ↔ 10
+                                 D ↔ 11
+    I Or by
+                                 A↔0
+                                 B ↔ 10
+                                C ↔ 110
+                                D ↔ 111
+    I No sequence in code is an extension of another.
+                                 35
+    I What does 100111110010 spell?
+    I A coding scheme is equivalent to a twenty questions strategy.
+Twenty questions theorem
+    I Noiseless coding theorem: Expected number of questions
+      you need is always at least the entropy.
+
+
+
+
+                                  36
+Twenty questions theorem
+    I Noiseless coding theorem: Expected number of questions
+      you need is always at least the entropy.
+    I Note: The expected number of questions is the entropy if
+      each question divides the space of possibilities exactly in half
+      (measured by probability).
+
+
+
+
+                                   37
+Twenty questions theorem
+    I Noiseless coding theorem: Expected number of questions
+      you need is always at least the entropy.
+    I Note: The expected number of questions is the entropy if
+      each question divides the space of possibilities exactly in half
+      (measured by probability).
+    I In this case, let X take values x1 , . . . , xN with probabilities
+      p(x1 ), . . . , p(xN ). Then if a valid coding of X assigns ni bits
+      to xi , we have
+                 N
+                 X                             N
+                                               X
+                       ni p(xi ) ≥ H(X ) = −         p(xi ) log p(xi ).
+                 i=1                           i=1
+
+
+
+
+                                     38
+Twenty questions theorem
+    I Noiseless coding theorem: Expected number of questions
+      you need is always at least the entropy.
+    I Note: The expected number of questions is the entropy if
+      each question divides the space of possibilities exactly in half
+      (measured by probability).
+    I In this case, let X take values x1 , . . . , xN with probabilities
+      p(x1 ), . . . , p(xN ). Then if a valid coding of X assigns ni bits
+      to xi , we have
+                 N
+                 X                             N
+                                               X
+                       ni p(xi ) ≥ H(X ) = −         p(xi ) log p(xi ).
+                 i=1                           i=1
+    I Data compression: X1 , X2 , . . . , Xn be i.i.d. instances of X .
+      Do there exist encoding schemes such that the expected
+      number of bits required to encode the entire sequence is
+      about H(X )n (assuming n is suﬃciently large)?
+                                     39
+Twenty questions theorem
+    I Noiseless coding theorem: Expected number of questions
+      you need is always at least the entropy.
+    I Note: The expected number of questions is the entropy if
+      each question divides the space of possibilities exactly in half
+      (measured by probability).
+    I In this case, let X take values x1 , . . . , xN with probabilities
+      p(x1 ), . . . , p(xN ). Then if a valid coding of X assigns ni bits
+      to xi , we have
+                 N
+                 X                             N
+                                               X
+                       ni p(xi ) ≥ H(X ) = −         p(xi ) log p(xi ).
+                 i=1                           i=1
+    I Data compression: X1 , X2 , . . . , Xn be i.i.d. instances of X .
+      Do there exist encoding schemes such that the expected
+      number of bits required to encode the entire sequence is
+      about H(X )n (assuming n is suﬃciently large)?
+                                  40
+    I Yes. Consider space of N n possibilities. Use “rounding to 2
+      power” trick, Expect to need at most H(x)n + 1 bits.
+Outline
+
+
+
+
+   Entropy
+
+
+
+   Noiseless coding theory
+
+
+
+   Conditional entropy
+
+
+
+                             41
+Outline
+
+
+
+
+   Entropy
+
+
+
+   Noiseless coding theory
+
+
+
+   Conditional entropy
+
+
+
+                             42
+Conditional entropy
+
+    I Let’s again consider random variables X , Y with joint mass
+      function p(xi , yj ) = P{X = xi , Y = yj } and write
+                                XX
+                H(X , Y ) = −            p(xi , yj ) log p(xi , yi ).
+                                    i    j
+
+
+
+
+                                        43
+Conditional entropy
+
+    I Let’s again consider random variables X , Y with joint mass
+      function p(xi , yj ) = P{X = xi , Y = yj } and write
+                                XX
+                H(X , Y ) = −            p(xi , yj ) log p(xi , yi ).
+                                    i    j
+
+    I But now let’s not assume they are independent.
+
+
+
+
+                                        44
+Conditional entropy
+
+    I Let’s again consider random variables X , Y with joint mass
+      function p(xi , yj ) = P{X = xi , Y = yj } and write
+                                XX
+                H(X , Y ) = −            p(xi , yj ) log p(xi , yi ).
+                                    i       j
+
+    I But now let’s not assume they are independent.
+
+    I We can deﬁne a conditional entropy of X given Y = yj by
+
+                                        X
+                    HY =yj (X ) = −             p(xi |yj ) log p(xi |yj ).
+                                        i
+
+
+
+
+                                        45
+Conditional entropy
+
+    I Let’s again consider random variables X , Y with joint mass
+      function p(xi , yj ) = P{X = xi , Y = yj } and write
+                                XX
+                H(X , Y ) = −            p(xi , yj ) log p(xi , yi ).
+                                    i       j
+
+    I But now let’s not assume they are independent.
+
+    I We can deﬁne a conditional entropy of X given Y = yj by
+
+                                        X
+                    HY =yj (X ) = −             p(xi |yj ) log p(xi |yj ).
+                                        i
+
+    I This is just the entropy of the conditional distribution. Recall
+      that p(xi |yj ) = P{X = xi |Y = yj }.
+
+                                        46
+Conditional entropy
+
+    I Let’s again consider random variables X , Y with joint mass
+      function p(xi , yj ) = P{X = xi , Y = yj } and write
+                                XX
+                H(X , Y ) = −            p(xi , yj ) log p(xi , yi ).
+                                    i       j
+
+    I But now let’s not assume they are independent.
+
+    I We can deﬁne a conditional entropy of X given Y = yj by
+
+                                        X
+                    HY =yj (X ) = −             p(xi |yj ) log p(xi |yj ).
+                                        i
+
+    I This is just the entropy of the conditional distribution. Recall
+      that p(xi |yj ) = P{X = xi |Y = yj }.
+                                      P
+    I We similarly deﬁne HY (X ) =
+                                       j HY =yj (X )pY (yj ). This is
+                                   47
+      the expected amount of conditional    entropy that there will be
+      in Y after we have observed X .
+Properties of conditional entropy
+
+                                    P
+     I Deﬁnitions: HY =y (X ) = −
+                   P     j               i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =   j HY =yj (X )pY (yj ).
+
+
+
+
+                                    48
+Properties of conditional entropy
+
+                                    P
+     I Deﬁnitions: HY =y (X ) = −
+                   P     j               i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =   j HY =yj (X )pY (yj ).
+     I Important property one: H(X , Y ) = H(Y ) + HY (X ).
+
+
+
+
+                                    49
+Properties of conditional entropy
+
+                                    P
+     I Deﬁnitions: HY =y (X ) = −
+                   P     j               i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =   j HY =yj (X )pY (yj ).
+     I Important property one: H(X , Y ) = H(Y ) + HY (X ).
+
+     I In words, the expected amount of information we learn when
+       discovering (X , Y ) is equal to expected amount we learn when
+       discovering Y plus expected amount when we subsequently
+       discover X (given our knowledge of Y ).
+
+
+
+
+                                    50
+Properties of conditional entropy
+
+                                       P
+     I Deﬁnitions: HY =y (X ) = −
+                   P        j               i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =      j HY =yj (X )pY (yj ).
+     I Important property one: H(X , Y ) = H(Y ) + HY (X ).
+
+     I In words, the expected amount of information we learn when
+       discovering (X , Y ) is equal to expected amount we learn when
+       discovering Y plus expected amount when we subsequently
+       discover X (given our knowledge of Y ).
+     I To prove this property, recall that p(xi , yj ) = pY (yj )p(xi |yj ).
+
+
+
+
+                                       51
+Properties of conditional entropy
+
+                                          P
+     I Deﬁnitions: HY =y (X ) = −
+                    P        j                 i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =       j HY =yj (X )pY (yj ).
+     I Important property one: H(X , Y ) = H(Y ) + HY (X ).
+
+     I In words, the expected amount of information we learn when
+       discovering (X , Y ) is equal to expected amount we learn when
+       discovering Y plus expected amount when we subsequently
+       discover X (given our knowledge of Y ).
+     I To prove this property, recall that p(xi , yj ) = pY (yj )p(xi |yj ).
+                                  P P
+     I Thus, H(X , Y ) = −
+         P P                          i    j p(xi , yj ) log p(xi , yj ) =
+       − Pi j pY (yj )p(xi |yj )[log  P pY (yj ) + log p(xi |yj )] =
+       −     p
+       P j Y P  (y  j ) log p   (y
+                              Y j   )    i p(xi |yj ) −
+         j pY (yj )     i p(xi |yj ) log p(xi |yj ) = H(Y ) + HY (X ).
+                                          52
+Properties of conditional entropy
+
+                                    P
+     I Deﬁnitions: HY =y (X ) = −
+                   P     j               i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =   j HY =yj (X )pY (yj ).
+
+
+
+
+                                    53
+Properties of conditional entropy
+
+                                    P
+     I Deﬁnitions: HY =y (X ) = −
+                   P     j               i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =   j HY =yj (X )pY (yj ).
+     I Important property two: HY (X ) ≤ H(X ) with equality if
+       and only if X and Y are independent.
+
+
+
+
+                                    54
+Properties of conditional entropy
+
+                                    P
+     I Deﬁnitions: HY =y (X ) = −
+                   P     j               i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =   j HY =yj (X )pY (yj ).
+     I Important property two: HY (X ) ≤ H(X ) with equality if
+       and only if X and Y are independent.
+     I In words, the expected amount of information we learn when
+       discovering X after having discovered Y can’t be more than
+       the expected amount of information we would learn when
+       discovering X before knowing anything about Y .
+
+
+
+
+                                    55
+Properties of conditional entropy
+
+                                       P
+     I Deﬁnitions: HY =y (X ) = −
+                   P        j               i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =      j HY =yj (X )pY (yj ).
+     I Important property two: HY (X ) ≤ H(X ) with equality if
+       and only if X and Y are independent.
+     I In words, the expected amount of information we learn when
+       discovering X after having discovered Y can’t be more than
+       the expected amount of information we would learn when
+       discovering X before knowing anything about Y .
+                                                      P
+     I Proof: note that E(p1 , p2 , . . . , pn ) := −   pi log pi is concave.
+
+
+
+
+                                       56
+Properties of conditional entropy
+
+                                         P
+     I Deﬁnitions: HY =y (X ) = −
+                   P         j              i p(xi |yj ) log p(xi |yj ) and
+       HY (X ) =       j HY =yj (X )pY (yj ).
+     I Important property two: HY (X ) ≤ H(X ) with equality if
+       and only if X and Y are independent.
+     I In words, the expected amount of information we learn when
+       discovering X after having discovered Y can’t be more than
+       the expected amount of information we would learn when
+       discovering X before knowing anything about Y .
+                                                      P
+     I Proof: note that E(p1 , p2 , . . . , pn ) := −   pi log pi is concave.
+     I The vector v = {pX (x1 ), pX (x2 ), . . . , pX (xn )} is a weighted
+       average of vectors vj := {pX (x1 |yj ), pX (x2 |yj ), . . . , pX (xn |yj )}
+       as j ranges over possible values. By (vector version of)
+       Jensen’s inequality, P
+                                    57 ) ≥
+                                             P
+       H(X ) = E(v ) = E( pY (yj )v   j         pY (yj )E(vj ) = HY (X ).
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.600 Probability and Random Variables
+Fall 2019
+
+
+
+
+For information about citing these materials or our Terms of Use, visit:
+https://ocw.mit.edu/terms.
+
+
+
+
+                                     58
+

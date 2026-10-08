@@ -1,0 +1,899 @@
+18.600: Lecture 13
+Poisson processes
+
+    Scott Sheﬃeld
+
+        MIT
+
+
+
+
+          1
+Outline
+
+
+
+   Poisson random variables
+
+
+   What should a Poisson point process be?
+
+
+   Poisson point process axioms
+
+
+   Consequences of axioms
+
+
+                                  2
+Outline
+
+
+
+   Poisson random variables
+
+
+   What should a Poisson point process be?
+
+
+   Poisson point process axioms
+
+
+   Consequences of axioms
+
+
+                                  3
+Properties from last time...
+
+    I A Poisson random variable X with parameter λ satisﬁes
+                   k
+      P{X = k} = λk! e −λ for integer k ≥ 0.
+
+
+
+
+                                4
+Properties from last time...
+
+    I A Poisson random variable X with parameter λ satisﬁes
+                     k
+      P{X = k} = λk! e −λ for integer k ≥ 0.
+    I The probabilities are approximately those of a binomial with
+      parameters (n, λ/n) when n is very large.
+
+
+
+
+                                  5
+Properties from last time...
+
+    I A Poisson random variable X with parameter λ satisﬁes
+                     k
+      P{X = k} = λk! e −λ for integer k ≥ 0.
+    I The probabilities are approximately those of a binomial with
+      parameters (n, λ/n) when n is very large.
+    I Indeed,
+       
+        n k                n(n − 1)(n − 2) . . . (n − k + 1) k
+           p (1−p)n−k =                                     p (1−p)n−k ≈
+        k                                k!
+
+                         λk              λk −λ
+                            (1 − p)n−k ≈    e .
+                         k!              k!
+
+
+
+
+                                  6
+Properties from last time...
+
+    I A Poisson random variable X with parameter λ satisﬁes
+                     k
+      P{X = k} = λk! e −λ for integer k ≥ 0.
+    I The probabilities are approximately those of a binomial with
+      parameters (n, λ/n) when n is very large.
+    I Indeed,
+       
+        n k                n(n − 1)(n − 2) . . . (n − k + 1) k
+           p (1−p)n−k =                                     p (1−p)n−k ≈
+        k                                k!
+
+                          λk              λk −λ
+                             (1 − p)n−k ≈    e .
+                          k!              k!
+    I General idea: if you have a large number of unlikely events
+      that are (mostly) independent of each other, and the expected
+      number that occur is λ, then the total number that occur
+      should be (approximately) a 7Poisson random variable with
+      parameter λ.
+Properties from last time...
+
+    I Many phenomena (number of phone calls or customers
+      arriving in a given period, number of radioactive emissions in
+      a given time period, number of major hurricanes in a given
+      time period, etc.) can be modeled this way.
+
+
+
+
+                                   8
+Properties from last time...
+
+    I Many phenomena (number of phone calls or customers
+      arriving in a given period, number of radioactive emissions in
+      a given time period, number of major hurricanes in a given
+      time period, etc.) can be modeled this way.
+    I A Poisson random variable X with parameter λ has
+      expectation λ and variance λ.
+
+
+
+
+                                   9
+Properties from last time...
+
+    I Many phenomena (number of phone calls or customers
+      arriving in a given period, number of radioactive emissions in
+      a given time period, number of major hurricanes in a given
+      time period, etc.) can be modeled this way.
+    I A Poisson random variable X with parameter λ has
+      expectation λ and variance λ.
+    I Special case: if λ = 1, then P{X = k} = k!e 1
+                                                    .
+
+
+
+
+                                  10
+Properties from last time...
+
+    I Many phenomena (number of phone calls or customers
+      arriving in a given period, number of radioactive emissions in
+      a given time period, number of major hurricanes in a given
+      time period, etc.) can be modeled this way.
+    I A Poisson random variable X with parameter λ has
+      expectation λ and variance λ.
+    I Special case: if λ = 1, then P{X = k} = k!e 1
+                                                    .
+    I Note how quickly this goes to zero, as a function of k.
+
+
+
+
+                                  11
+Properties from last time...
+
+    I Many phenomena (number of phone calls or customers
+      arriving in a given period, number of radioactive emissions in
+      a given time period, number of major hurricanes in a given
+      time period, etc.) can be modeled this way.
+    I A Poisson random variable X with parameter λ has
+      expectation λ and variance λ.
+    I Special case: if λ = 1, then P{X = k} = k!e 1
+                                                    .
+    I Note how quickly this goes to zero, as a function of k.
+    I Example: number of royal ﬂushes in a million ﬁve-card poker
+      hands is approximately Poisson with parameter
+      106 /649739 ≈ 1.54.
+
+
+                                  12
+Properties from last time...
+
+    I Many phenomena (number of phone calls or customers
+      arriving in a given period, number of radioactive emissions in
+      a given time period, number of major hurricanes in a given
+      time period, etc.) can be modeled this way.
+    I A Poisson random variable X with parameter λ has
+      expectation λ and variance λ.
+    I Special case: if λ = 1, then P{X = k} = k!e 1
+                                                    .
+    I Note how quickly this goes to zero, as a function of k.
+    I Example: number of royal ﬂushes in a million ﬁve-card poker
+      hands is approximately Poisson with parameter
+      106 /649739 ≈ 1.54.
+    I Example: if a country expects 2 plane crashes in a year, then
+      the total number might be approximately Poisson with
+                                 13
+      parameter λ = 2.
+A cautionary tail
+
+    I Example: Joe works for a bank and notices that his town sees
+      an average of one mortgage foreclosure per month.
+
+
+
+
+                                 14
+A cautionary tail
+
+    I Example: Joe works for a bank and notices that his town sees
+      an average of one mortgage foreclosure per month.
+    I Moreover, looking over ﬁve years of data, it seems that the
+      number of foreclosures per month follows a rate 1 Poisson
+      distribution.
+
+
+
+
+                                 15
+A cautionary tail
+
+    I Example: Joe works for a bank and notices that his town sees
+      an average of one mortgage foreclosure per month.
+    I Moreover, looking over ﬁve years of data, it seems that the
+      number of foreclosures per month follows a rate 1 Poisson
+      distribution.
+    I That is, roughly a 1/e fraction of months has 0 foreclosures, a
+      1/e fraction has 1, a 1/(2e) fraction has 2, a 1/(6e) fraction
+      has 3, and a 1/(24e) fraction has 4.
+
+
+
+
+                                  16
+A cautionary tail
+
+    I Example: Joe works for a bank and notices that his town sees
+      an average of one mortgage foreclosure per month.
+    I Moreover, looking over ﬁve years of data, it seems that the
+      number of foreclosures per month follows a rate 1 Poisson
+      distribution.
+    I That is, roughly a 1/e fraction of months has 0 foreclosures, a
+      1/e fraction has 1, a 1/(2e) fraction has 2, a 1/(6e) fraction
+      has 3, and a 1/(24e) fraction has 4.
+    I Joe concludes that the probability of seeing 10 foreclosures
+      during a given month is only 1/(10!e). Probability to see 10
+      or
+      P∞ more (an extreme tail event that would destroy the bank) is
+         k=10 1/(k!e), less than one in million.
+
+
+                                  17
+A cautionary tail
+
+    I Example: Joe works for a bank and notices that his town sees
+      an average of one mortgage foreclosure per month.
+    I Moreover, looking over ﬁve years of data, it seems that the
+      number of foreclosures per month follows a rate 1 Poisson
+      distribution.
+    I That is, roughly a 1/e fraction of months has 0 foreclosures, a
+      1/e fraction has 1, a 1/(2e) fraction has 2, a 1/(6e) fraction
+      has 3, and a 1/(24e) fraction has 4.
+    I Joe concludes that the probability of seeing 10 foreclosures
+      during a given month is only 1/(10!e). Probability to see 10
+      or
+      P∞ more (an extreme tail event that would destroy the bank) is
+         k=10 1/(k!e), less than one in million.
+    I Investors are impressed. Joe receives large bonus.
+                                  18
+A cautionary tail
+
+    I Example: Joe works for a bank and notices that his town sees
+      an average of one mortgage foreclosure per month.
+    I Moreover, looking over ﬁve years of data, it seems that the
+      number of foreclosures per month follows a rate 1 Poisson
+      distribution.
+    I That is, roughly a 1/e fraction of months has 0 foreclosures, a
+      1/e fraction has 1, a 1/(2e) fraction has 2, a 1/(6e) fraction
+      has 3, and a 1/(24e) fraction has 4.
+    I Joe concludes that the probability of seeing 10 foreclosures
+      during a given month is only 1/(10!e). Probability to see 10
+      or
+      P∞ more (an extreme tail event that would destroy the bank) is
+         k=10 1/(k!e), less than one in million.
+    I Investors are impressed. Joe receives large bonus.
+                                   19
+    I But probably shouldn’t....
+Outline
+
+
+
+   Poisson random variables
+
+
+   What should a Poisson point process be?
+
+
+   Poisson point process axioms
+
+
+   Consequences of axioms
+
+
+                                  20
+Outline
+
+
+
+   Poisson random variables
+
+
+   What should a Poisson point process be?
+
+
+   Poisson point process axioms
+
+
+   Consequences of axioms
+
+
+                                  21
+How should we deﬁne the Poisson process?
+
+
+    I Whatever his faults, Joe was a good record keeper. He kept
+      track of the precise times at which the foreclosures occurred
+      over the whole ﬁve years (not just the total numbers of
+      foreclosures). We could try this for other problems as well.
+
+
+
+
+                                  22
+How should we deﬁne the Poisson process?
+
+
+    I Whatever his faults, Joe was a good record keeper. He kept
+      track of the precise times at which the foreclosures occurred
+      over the whole ﬁve years (not just the total numbers of
+      foreclosures). We could try this for other problems as well.
+    I Let’s encode this information with a function. We’d like a
+      random function N(t) that describe the number of events
+      that occur during the ﬁrst t units of time. (This could be a
+      model for the number of plane crashes in ﬁrst t years, or the
+      number of royal ﬂushes in ﬁrst 106 t poker hands.)
+
+
+
+
+                                  23
+How should we deﬁne the Poisson process?
+
+
+    I Whatever his faults, Joe was a good record keeper. He kept
+      track of the precise times at which the foreclosures occurred
+      over the whole ﬁve years (not just the total numbers of
+      foreclosures). We could try this for other problems as well.
+    I Let’s encode this information with a function. We’d like a
+      random function N(t) that describe the number of events
+      that occur during the ﬁrst t units of time. (This could be a
+      model for the number of plane crashes in ﬁrst t years, or the
+      number of royal ﬂushes in ﬁrst 106 t poker hands.)
+    I So N(t) is a random non-decreasing integer-valued
+      function of t with N(0) = 0.
+
+
+                                  24
+How should we deﬁne the Poisson process?
+
+
+    I Whatever his faults, Joe was a good record keeper. He kept
+      track of the precise times at which the foreclosures occurred
+      over the whole ﬁve years (not just the total numbers of
+      foreclosures). We could try this for other problems as well.
+    I Let’s encode this information with a function. We’d like a
+      random function N(t) that describe the number of events
+      that occur during the ﬁrst t units of time. (This could be a
+      model for the number of plane crashes in ﬁrst t years, or the
+      number of royal ﬂushes in ﬁrst 106 t poker hands.)
+    I So N(t) is a random non-decreasing integer-valued
+      function of t with N(0) = 0.
+    I For each t, N(t) is a random variable, and the N(t) are
+      functions on the same sample space.
+                                  25
+Outline
+
+
+
+   Poisson random variables
+
+
+   What should a Poisson point process be?
+
+
+   Poisson point process axioms
+
+
+   Consequences of axioms
+
+
+                                  26
+Outline
+
+
+
+   Poisson random variables
+
+
+   What should a Poisson point process be?
+
+
+   Poisson point process axioms
+
+
+   Consequences of axioms
+
+
+                                  27
+Poisson process axioms
+
+    I Let’s back up and give a precise and minimal list of properties
+      we want the random function N(t) to satisfy.
+
+
+
+
+                                  28
+Poisson process axioms
+
+    I Let’s back up and give a precise and minimal list of properties
+      we want the random function N(t) to satisfy.
+    I 1. N(0) = 0.
+
+
+
+
+                                  29
+Poisson process axioms
+
+    I Let’s back up and give a precise and minimal list of properties
+      we want the random function N(t) to satisfy.
+    I 1. N(0) = 0.
+    I 2. Independence: Number of events (jumps of N) in disjoint
+      time intervals are independent.
+
+
+
+
+                                  30
+Poisson process axioms
+
+    I Let’s back up and give a precise and minimal list of properties
+      we want the random function N(t) to satisfy.
+    I 1. N(0) = 0.
+    I 2. Independence: Number of events (jumps of N) in disjoint
+      time intervals are independent.
+    I 3. Homogeneity: Prob. distribution of # events in interval
+      depends only on length. (Deduce: E [N(h)] = λh for some λ.)
+
+
+
+
+                                  31
+Poisson process axioms
+
+    I Let’s back up and give a precise and minimal list of properties
+      we want the random function N(t) to satisfy.
+    I 1. N(0) = 0.
+    I 2. Independence: Number of events (jumps of N) in disjoint
+      time intervals are independent.
+    I 3. Homogeneity: Prob. distribution of # events in interval
+      depends only on length. (Deduce: E [N(h)] = λh for some λ.)
+    I 4. Non-concurrence: P{N(h) ≥ 2} << P{N(h) = 1} when
+      h is small. Precisely:
+
+
+
+
+                                  32
+Poisson process axioms
+
+    I Let’s back up and give a precise and minimal list of properties
+      we want the random function N(t) to satisfy.
+    I 1. N(0) = 0.
+    I 2. Independence: Number of events (jumps of N) in disjoint
+      time intervals are independent.
+    I 3. Homogeneity: Prob. distribution of # events in interval
+      depends only on length. (Deduce: E [N(h)] = λh for some λ.)
+    I 4. Non-concurrence: P{N(h) ≥ 2} << P{N(h) = 1} when
+      h is small. Precisely:
+        I P{N(h) = 1} = λh + o(h). (Here f (h) = o(h) means
+          limh→0 f (h)/h = 0.)
+
+
+
+                                  33
+Poisson process axioms
+
+    I Let’s back up and give a precise and minimal list of properties
+      we want the random function N(t) to satisfy.
+    I 1. N(0) = 0.
+    I 2. Independence: Number of events (jumps of N) in disjoint
+      time intervals are independent.
+    I 3. Homogeneity: Prob. distribution of # events in interval
+      depends only on length. (Deduce: E [N(h)] = λh for some λ.)
+    I 4. Non-concurrence: P{N(h) ≥ 2} << P{N(h) = 1} when
+      h is small. Precisely:
+        I P{N(h) = 1} = λh + o(h). (Here f (h) = o(h) means
+          limh→0 f (h)/h = 0.)
+        I P{N(h) ≥ 2} = o(h).
+
+                                  34
+Poisson process axioms
+
+    I Let’s back up and give a precise and minimal list of properties
+      we want the random function N(t) to satisfy.
+    I 1. N(0) = 0.
+    I 2. Independence: Number of events (jumps of N) in disjoint
+      time intervals are independent.
+    I 3. Homogeneity: Prob. distribution of # events in interval
+      depends only on length. (Deduce: E [N(h)] = λh for some λ.)
+    I 4. Non-concurrence: P{N(h) ≥ 2} << P{N(h) = 1} when
+      h is small. Precisely:
+        I P{N(h) = 1} = λh + o(h). (Here f (h) = o(h) means
+          limh→0 f (h)/h = 0.)
+        I P{N(h) ≥ 2} = o(h).
+    I A random function N(t) with these properties is a Poisson
+      process with rate λ.     35
+Outline
+
+
+
+   Poisson random variables
+
+
+   What should a Poisson point process be?
+
+
+   Poisson point process axioms
+
+
+   Consequences of axioms
+
+
+                                  36
+Outline
+
+
+
+   Poisson random variables
+
+
+   What should a Poisson point process be?
+
+
+   Poisson point process axioms
+
+
+   Consequences of axioms
+
+
+                                  37
+Consequences of axioms: time till ﬁrst event
+
+    I Can we work out the probability of no events before time t?
+
+
+
+
+                                 38
+Consequences of axioms: time till ﬁrst event
+
+    I Can we work out the probability of no events before time t?
+    I We assumed P{N(h) = 1} = λh + o(h) and
+      P{N(h) ≥ 2} = o(h). Taken together, these imply that
+      P{N(h) = 0} = 1 − λh + o(h).
+
+
+
+
+                                 39
+Consequences of axioms: time till ﬁrst event
+
+    I Can we work out the probability of no events before time t?
+    I We assumed P{N(h) = 1} = λh + o(h) and
+      P{N(h) ≥ 2} = o(h). Taken together, these imply that
+      P{N(h) = 0} = 1 − λh + o(h).
+    I Fix λ and t. Probability of no events in interval of length t/n
+      is (1 − λt/n) + o(1/n).
+
+
+
+
+                                  40
+Consequences of axioms: time till ﬁrst event
+
+    I Can we work out the probability of no events before time t?
+    I We assumed P{N(h) = 1} = λh + o(h) and
+      P{N(h) ≥ 2} = o(h). Taken together, these imply that
+      P{N(h) = 0} = 1 − λh + o(h).
+    I Fix λ and t. Probability of no events in interval of length t/n
+      is (1 − λt/n) + o(1/n).
+    I Probability of no events in ﬁrst n such intervals is about
+                          n
+        1 − λt/n + o(1/n) ≈ e −λt .
+      �
+
+
+
+
+                                  41
+Consequences of axioms: time till ﬁrst event
+
+    I Can we work out the probability of no events before time t?
+    I We assumed P{N(h) = 1} = λh + o(h) and
+      P{N(h) ≥ 2} = o(h). Taken together, these imply that
+      P{N(h) = 0} = 1 − λh + o(h).
+    I Fix λ and t. Probability of no events in interval of length t/n
+      is (1 − λt/n) + o(1/n).
+    I Probability of no events in ﬁrst n such intervals is about
+                           n
+        1 − λt/n + o(1/n) ≈ e −λt .
+      �
+
+    I Taking limit as n → ∞, can show that probability of no event
+      in interval of length t is e −λt .
+
+
+
+                                  42
+Consequences of axioms: time till ﬁrst event
+
+    I Can we work out the probability of no events before time t?
+    I We assumed P{N(h) = 1} = λh + o(h) and
+      P{N(h) ≥ 2} = o(h). Taken together, these imply that
+      P{N(h) = 0} = 1 − λh + o(h).
+    I Fix λ and t. Probability of no events in interval of length t/n
+      is (1 − λt/n) + o(1/n).
+    I Probability of no events in ﬁrst n such intervals is about
+                           n
+        1 − λt/n + o(1/n) ≈ e −λt .
+      �
+
+    I Taking limit as n → ∞, can show that probability of no event
+      in interval of length t is e −λt .
+    I P{N(t) = 0} = e −λt .
+
+
+                                  43
+Consequences of axioms: time till ﬁrst event
+
+    I Can we work out the probability of no events before time t?
+    I We assumed P{N(h) = 1} = λh + o(h) and
+      P{N(h) ≥ 2} = o(h). Taken together, these imply that
+      P{N(h) = 0} = 1 − λh + o(h).
+    I Fix λ and t. Probability of no events in interval of length t/n
+      is (1 − λt/n) + o(1/n).
+    I Probability of no events in ﬁrst n such intervals is about
+                           n
+        1 − λt/n + o(1/n) ≈ e −λt .
+      �
+
+    I Taking limit as n → ∞, can show that probability of no event
+      in interval of length t is e −λt .
+    I P{N(t) = 0} = e −λt .
+    I Let T1 be the time of the ﬁrst event. Then
+      P{T1 ≥ t} = e −λt . We say that T1 is an exponential
+                                 44
+      random variable with rate λ.
+Consequences of axioms: time till second, third events
+
+
+
+    I Let T2 be time between ﬁrst and second event. Generally, Tk
+      is time between (k − 1)th and kth event.
+
+
+
+
+                                 45
+Consequences of axioms: time till second, third events
+
+
+
+    I Let T2 be time between ﬁrst and second event. Generally, Tk
+      is time between (k − 1)th and kth event.
+    I Then the T1 , T2 , . . . are independent of each other (informally
+      this means that observing some of the random variables Tk
+      gives you no information about the others). Each is an
+      exponential random variable with rate λ.
+
+
+
+
+                                    46
+Consequences of axioms: time till second, third events
+
+
+
+    I Let T2 be time between ﬁrst and second event. Generally, Tk
+      is time between (k − 1)th and kth event.
+    I Then the T1 , T2 , . . . are independent of each other (informally
+      this means that observing some of the random variables Tk
+      gives you no information about the others). Each is an
+      exponential random variable with rate λ.
+    I This ﬁnally gives us a way to construct N(t). It is determined
+      by the sequence Tj of independent exponential random
+      variables.
+
+
+
+                                    47
+Consequences of axioms: time till second, third events
+
+
+
+    I Let T2 be time between ﬁrst and second event. Generally, Tk
+      is time between (k − 1)th and kth event.
+    I Then the T1 , T2 , . . . are independent of each other (informally
+      this means that observing some of the random variables Tk
+      gives you no information about the others). Each is an
+      exponential random variable with rate λ.
+    I This ﬁnally gives us a way to construct N(t). It is determined
+      by the sequence Tj of independent exponential random
+      variables.
+    I Axioms can be readily veriﬁed from this description.
+
+                                    48
+Back to Poisson distribution
+
+
+    I Axioms should imply that P{N(t) = k} = e −λt (λt)k /k!.
+
+
+
+
+                                 49
+Back to Poisson distribution
+
+
+    I Axioms should imply that P{N(t) = k} = e −λt (λt)k /k!.
+    I One way to prove this: divide time into n intervals of length
+      t/n. In each, probability to see an event is p = λt/n + o(1/n).
+
+
+
+
+                                  50
+Back to Poisson distribution
+
+
+    I Axioms should imply that P{N(t) = k} = e −λt (λt)k /k!.
+    I One way to prove this: divide time into n intervals of length
+      t/n. In each, probability to see an event is p = λt/n + o(1/n).
+    I Use binomial theorem to describe probability to see event in
+      exactly k intervals.
+
+
+
+
+                                  51
+Back to Poisson distribution
+
+
+    I Axioms should imply that P{N(t) = k} = e −λt (λt)k /k!.
+    I One way to prove this: divide time into n intervals of length
+      t/n. In each, probability to see an event is p = λt/n + o(1/n).
+    I Use binomial theorem to describe probability to see event in
+      exactly k intervals.
+    I Binomial formula:
+                   n−k = n(n−1)(n−2)...(n−k+1) p k (1 − p)n−k .
+      �n  k
+       k p (1 − p)                  k!
+
+
+
+
+                                  52
+Back to Poisson distribution
+
+
+    I Axioms should imply that P{N(t) = k} = e −λt (λt)k /k!.
+    I One way to prove this: divide time into n intervals of length
+      t/n. In each, probability to see an event is p = λt/n + o(1/n).
+    I Use binomial theorem to describe probability to see event in
+      exactly k intervals.
+    I Binomial formula:
+                   n−k = n(n−1)(n−2)...(n−k+1) p k (1 − p)n−k .
+      �n  k
+       k p (1 − p)                  k!
+                                k                  k
+    I This is approximately (λt)
+                              k! (1 − p)
+                                        n−k ≈ (λt) e −λt .
+                                                k!
+
+
+
+
+                                    53
+Back to Poisson distribution
+
+
+    I Axioms should imply that P{N(t) = k} = e −λt (λt)k /k!.
+    I One way to prove this: divide time into n intervals of length
+      t/n. In each, probability to see an event is p = λt/n + o(1/n).
+    I Use binomial theorem to describe probability to see event in
+      exactly k intervals.
+    I Binomial formula:
+                   n−k = n(n−1)(n−2)...(n−k+1) p k (1 − p)n−k .
+      �n  k
+       k p (1 − p)                  k!
+                                k                  k
+    I This is approximately (λt)
+                              k! (1 − p)
+                                        n−k ≈ (λt) e −λt .
+                                                k!
+    I Take n to inﬁnity, and use fact that expected number of
+      intervals with two or more points tends to zero (thus
+      probability to see any intervals with two more points tends to
+      zero).
+                                    54
+Summary
+
+
+
+   I We constructed a random function N(t) called a Poisson
+     process of rate λ.
+
+
+
+
+                               55
+Summary
+
+
+
+   I We constructed a random function N(t) called a Poisson
+     process of rate λ.
+   I For each t > s ≥ 0, the value N(t) − N(s) describes the
+     number of events occurring in the time interval (s, t) and is
+     Poisson with rate (t − s)λ.
+
+
+
+
+                                 56
+Summary
+
+
+
+   I We constructed a random function N(t) called a Poisson
+     process of rate λ.
+   I For each t > s ≥ 0, the value N(t) − N(s) describes the
+     number of events occurring in the time interval (s, t) and is
+     Poisson with rate (t − s)λ.
+   I The numbers of events occurring in disjoint intervals are
+     independent random variables.
+
+
+
+
+                                 57
+Summary
+
+
+
+   I We constructed a random function N(t) called a Poisson
+     process of rate λ.
+   I For each t > s ≥ 0, the value N(t) − N(s) describes the
+     number of events occurring in the time interval (s, t) and is
+     Poisson with rate (t − s)λ.
+   I The numbers of events occurring in disjoint intervals are
+     independent random variables.
+   I Let Tk be time elapsed, since the previous event, until the kth
+     event occurs. Then the Tk are independent random variables,
+     each of which is exponential with parameter λ.
+
+                                 58
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.600 Probability and Random Variables
+Fall 2019
+
+
+
+
+For information about citing these materials or our Terms of Use, visit:
+https://ocw.mit.edu/terms.
+
+
+
+
+                                     59
+

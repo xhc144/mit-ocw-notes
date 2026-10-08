@@ -1,0 +1,637 @@
+   18.600: Lecture 39
+Review: practice problems
+
+       Scott Sheﬃeld
+
+           MIT
+
+
+
+
+             1
+Markov chains
+    I Alice and Bob share a home with a bathroom, a walk-in
+      closet, and 2 towels.
+
+
+
+
+                                2
+Markov chains
+    I Alice and Bob share a home with a bathroom, a walk-in
+      closet, and 2 towels.
+    I Each morning a fair coin decide which of the two showers ﬁrst.
+
+
+
+
+                                  3
+Markov chains
+    I Alice and Bob share a home with a bathroom, a walk-in
+      closet, and 2 towels.
+    I Each morning a fair coin decide which of the two showers ﬁrst.
+    I After Bob showers, if there is at least one towel in the
+      bathroom, Bob uses the towel and leaves it draped over a
+      chair in the walk-in closet. If there is no towel in the
+      bathroom, Bob grumpily goes to the walk-in closet, dries oﬀ
+      there, and leaves the towel in the walk-in closet
+
+
+
+
+                                  4
+Markov chains
+    I Alice and Bob share a home with a bathroom, a walk-in
+      closet, and 2 towels.
+    I Each morning a fair coin decide which of the two showers ﬁrst.
+    I After Bob showers, if there is at least one towel in the
+      bathroom, Bob uses the towel and leaves it draped over a
+      chair in the walk-in closet. If there is no towel in the
+      bathroom, Bob grumpily goes to the walk-in closet, dries oﬀ
+      there, and leaves the towel in the walk-in closet
+    I When Alice showers, she ﬁrst checks to see if at least one
+      towel is present. If a towel is present, she dries oﬀ with that
+      towel and returns it to the bathroom towel rack. Otherwise,
+      she cheerfully retrieves both towels from the walk-in closet,
+      then showers, dries oﬀ and leaves both towels on the rack.
+
+                                  5
+Markov chains
+    I Alice and Bob share a home with a bathroom, a walk-in
+      closet, and 2 towels.
+    I Each morning a fair coin decide which of the two showers ﬁrst.
+    I After Bob showers, if there is at least one towel in the
+      bathroom, Bob uses the towel and leaves it draped over a
+      chair in the walk-in closet. If there is no towel in the
+      bathroom, Bob grumpily goes to the walk-in closet, dries oﬀ
+      there, and leaves the towel in the walk-in closet
+    I When Alice showers, she ﬁrst checks to see if at least one
+      towel is present. If a towel is present, she dries oﬀ with that
+      towel and returns it to the bathroom towel rack. Otherwise,
+      she cheerfully retrieves both towels from the walk-in closet,
+      then showers, dries oﬀ and leaves both towels on the rack.
+    I Problem: describe towel-distribution evolution as a Markov
+                                    6
+      chain and determine (over the    long term) on what fraction of
+      days Bob emerges from the shower to ﬁnd no towel.
+Markov chains — answers
+    I Let state 0, 1, 2 denote bathroom towel number.
+
+
+
+
+                                 7
+Markov chains — answers
+    I Let state 0, 1, 2 denote bathroom towel number.
+
+    I Shower state change Bob: 2 → 1, 1 → 0, 0 → 0.
+
+
+
+
+                                 8
+Markov chains — answers
+    I Let state 0, 1, 2 denote bathroom towel number.
+
+    I Shower state change Bob: 2 → 1, 1 → 0, 0 → 0.
+
+    I Shower state change Alice: 2 → 2, 1 → 1, 0 → 2.
+
+
+
+
+                                 9
+Markov chains — answers
+    I Let state 0, 1, 2 denote bathroom towel number.
+
+    I Shower state change Bob: 2 → 1, 1 → 0, 0 → 0.
+
+    I Shower state change Alice: 2 → 2, 1 → 1, 0 → 2.
+
+    I Morning state change AB: 2 → 1, 1 → 0, 0 → 1.
+
+
+
+
+                                 10
+Markov chains — answers
+    I Let state 0, 1, 2 denote bathroom towel number.
+
+    I Shower state change Bob: 2 → 1, 1 → 0, 0 → 0.
+
+    I Shower state change Alice: 2 → 2, 1 → 1, 0 → 2.
+
+    I Morning state change AB: 2 → 1, 1 → 0, 0 → 1.
+
+    I Morning state change BA: 2 → 1, 1 → 2, 0 → 2.
+
+
+
+
+                                 11
+Markov chains — answers
+    I Let state 0, 1, 2 denote bathroom towel number.
+
+    I Shower state change Bob: 2 → 1, 1 → 0, 0 → 0.
+
+    I Shower state change Alice: 2 → 2, 1 → 1, 0 → 2.
+
+    I Morning state change AB: 2 → 1, 1 → 0, 0 → 1.
+
+    I Morning state change BA: 2 → 1, 1 → 2, 0 → 2.
+
+    I Markov chain matrix:
+                                ⎛         ⎞
+                                  0 .5 .5
+                             M = ⎝.5 0 .5⎠
+                                   0 1 0
+
+
+
+
+                                 12
+Markov chains — answers
+    I Let state 0, 1, 2 denote bathroom towel number.
+
+    I Shower state change Bob: 2 → 1, 1 → 0, 0 → 0.
+
+    I Shower state change Alice: 2 → 2, 1 → 1, 0 → 2.
+
+    I Morning state change AB: 2 → 1, 1 → 0, 0 → 1.
+
+    I Morning state change BA: 2 → 1, 1 → 2, 0 → 2.
+
+    I Markov chain matrix:
+                                ⎛         ⎞
+                                  0 .5 .5
+                             M = ⎝.5 0 .5⎠
+                                   0 1 0
+
+    I Row vector π such that πM = π (with components of π
+      summing to one) is 29 49 13 .
+                         �       
+
+
+                                 13
+Markov chains — answers
+    I Let state 0, 1, 2 denote bathroom towel number.
+
+    I Shower state change Bob: 2 → 1, 1 → 0, 0 → 0.
+
+    I Shower state change Alice: 2 → 2, 1 → 1, 0 → 2.
+
+    I Morning state change AB: 2 → 1, 1 → 0, 0 → 1.
+
+    I Morning state change BA: 2 → 1, 1 → 2, 0 → 2.
+
+    I Markov chain matrix:
+                                 ⎛         ⎞
+                                   0 .5 .5
+                              M = ⎝.5 0 .5⎠
+                                    0 1 0
+
+    I Row vector π such that πM = π (with components of π
+      summing to one) is 29 49 13 .
+                         �          
+
+    I Bob ﬁnds no towel only if morning starts in state zero and
+                                 14
+      Bob goes ﬁrst. Over long term   Bob ﬁnds no towel 29 × 12 = 19
+      fraction of the time.
+Optional stopping, martingales, central limit theorem
+
+
+
+   Suppose that X1 , X2 , X3 , . . . is an inﬁnite sequence of independent
+   random variables which are each equal to      P1 with probability 1/2
+   and −1 with probability 1/2. Let Yn = ni=1 Xi . Answer the
+   following:
+     I What is the the probability that Yn reaches −25 before the
+        ﬁrst time that it reaches 5?
+
+
+
+
+                                       15
+Optional stopping, martingales, central limit theorem
+
+
+
+   Suppose that X1 , X2 , X3 , . . . is an inﬁnite sequence of independent
+   random variables which are each equal to      P1 with probability 1/2
+   and −1 with probability 1/2. Let Yn = ni=1 Xi . Answer the
+   following:
+     I What is the the probability that Yn reaches −25 before the
+        ﬁrst time that it reaches 5?
+     I Use the central limit theorem to approximate the probability
+        that Y9000000 is greater than 6000.
+
+
+
+                                       16
+Optional stopping, martingales, central limit theorem —
+answers
+
+
+
+
+     I p−25 25 + p5 5 = 0 and p−25 + p5 = 1. Solving, we obtain
+       p−25 = 1/6 and p5 = 5/6.
+
+
+
+
+                                  17
+Optional stopping, martingales, central limit theorem —
+answers
+
+
+
+
+     I p−25 25 + p5 5 = 0 and p−25 + p5 = 1. Solving, we obtain
+       p−25 = 1/6 and p5 = 5/6.
+                                   √
+     I One standard deviation is     9000000 = 3000. We want
+       probabilityR to be 2 standard deviations above mean. Should
+                    ∞         2
+       be about 2 √12π e −x /2 dx.
+
+
+
+
+                                  18
+Martingales
+
+
+
+
+    I Let Xi be independent random variables with mean zero. In
+      which of the cases below is the sequence Yi necessarily a
+      martingale?
+
+
+
+
+                                 19
+Martingales
+
+
+
+
+    I Let Xi be independent random variables with mean zero. In
+      which of the cases below is the sequence Yi necessarily a
+      martingale?
+                   Pn
+        I   Yn =    i=1 iXi
+
+
+
+
+                                 20
+Martingales
+
+
+
+
+    I Let Xi be independent random variables with mean zero. In
+      which of the cases below is the sequence Yi necessarily a
+      martingale?
+               Pn
+        I Yn = Pi=1 iXi
+                n     2
+                i=1 Xi − n
+        I Yn =
+
+
+
+
+                                 21
+Martingales
+
+
+
+
+    I Let Xi be independent random variables with mean zero. In
+      which of the cases below is the sequence Yi necessarily a
+      martingale?
+               Pn
+        I Yn = Pi=1 iXi
+                 n     2
+               Qni=1 Xi − n
+        I Yn =
+        I Yn =
+                i=1 (1 + Xi )
+
+
+
+
+                                 22
+Martingales
+
+
+
+
+    I Let Xi be independent random variables with mean zero. In
+      which of the cases below is the sequence Yi necessarily a
+      martingale?
+               Pn
+        I Yn = Pi=1 iXi
+                 n     2
+               Qni=1 Xi − n
+        I Yn =
+        I Yn =      (1 + Xi )
+               Qi=1
+                n
+                i=1 (Xi − 1)
+        I Yn =
+
+
+
+
+                                 23
+Martingales
+
+
+
+
+    I Yes, no, yes, no.
+
+
+
+
+                          24
+Calculations like those needed for Black-Scholes derivation
+
+
+
+
+     I Let X be a normal random variable with mean 0 and variance
+       1. Compute the following (you may use the function
+              Ra           2
+       Φ(a) := −∞ √12π e −x /2 dx in your answers):
+
+
+
+
+                                 25
+Calculations like those needed for Black-Scholes derivation
+
+
+
+
+     I Let X be a normal random variable with mean 0 and variance
+       1. Compute the following (you may use the function
+              Ra           2
+       Φ(a) := −∞ √12π e −x /2 dx in your answers):
+         I   E [e 3X −3 ].
+
+
+
+
+                                 26
+Calculations like those needed for Black-Scholes derivation
+
+
+
+
+     I Let X be a normal random variable with mean 0 and variance
+       1. Compute the following (you may use the function
+              Ra           2
+       Φ(a) := −∞ √12π e −x /2 dx in your answers):
+         I E [e 3X −3 ].
+         I E [e X 1
+                    X ∈(a,b) ] for ﬁxed constants a < b.
+
+
+
+
+                                       27
+Calculations like those needed for Black-Scholes derivation
+– answers
+
+
+                                  Z ∞
+                     3X −3                   1          2
+              E [e           ]=      e 3x−3 √ e −x /2 dx
+                                              2π
+                               Z−∞∞
+                                        1     x 2 −6x+6
+                             =        √ e − 2 dx
+                                        2π
+                               Z−∞∞
+                                        1 − x 2 −6x+9 3/2
+                             =        √ e          2    e dx
+                                 −∞     2π
+                                     Z ∞
+                                            1        (x−3)2
+                             = e 3/2      √ e − 2 dx
+                                      −∞    2π
+                             = e 3/2
+
+                                        28
+Calculations like those needed for Black-Scholes derivation
+– answers
+
+                                   Z b
+                                         1         2
+            E [e X 1X ∈(a,b) ] =    e x √ e −x /2 dx
+                                 a       2π
+                               Z b
+                                         1        x2
+                             =      e x √ e − 2 dx
+                                 a       2π
+                               Z b
+                                       1     x 2 −2x+1−1
+                             =       √ e−           2       dx
+                                 a     2π
+                                     Z b
+                                           1          (x−1)2
+                             =e  1/2
+                                          √ e − 2 dx
+                                       a   2π
+                                     Z b−1
+                                               1         x2
+                             = e 1/2        √ e − 2 dx
+                                       a−1     2π
+                             = e 1/229
+                                    (Φ(b − 1) − Φ(a − 1))
+If you want more probability and statistics...
+     I UNDERGRADUATE:
+        (a) 18.615 Introduction to Stochastic Processes
+        (b) 18.642 Topics in Math with Applications in Finance
+        (c) 18.650 Statistics for Applications
+
+
+
+
+                                    30
+If you want more probability and statistics...
+     I UNDERGRADUATE:
+        (a) 18.615 Introduction to Stochastic Processes
+        (b) 18.642 Topics in Math with Applications in Finance
+        (c) 18.650 Statistics for Applications
+     I GRADUATE LEVEL PROBABILITY
+        (a) 18.675 (formerly 18.175) Theory of Probability
+        (b) 18.676 (formerly 18.176) Stochastic calculus
+        (c) 18.677 (formerly 18.177) Topics in stochastic processes (topics
+            vary, can be pretty much anything in probability, repeatable)
+
+
+
+
+                                     31
+If you want more probability and statistics...
+     I UNDERGRADUATE:
+        (a) 18.615 Introduction to Stochastic Processes
+        (b) 18.642 Topics in Math with Applications in Finance
+        (c) 18.650 Statistics for Applications
+     I GRADUATE LEVEL PROBABILITY
+        (a) 18.675 (formerly 18.175) Theory of Probability
+        (b) 18.676 (formerly 18.176) Stochastic calculus
+        (c) 18.677 (formerly 18.177) Topics in stochastic processes (topics
+            vary, can be pretty much anything in probability, repeatable)
+     I GRADUATE LEVEL STATISTICS
+        (a) 18.655 Mathematical statistics
+        (b) 18.657 Topics in statistics (topics vary, repeatable)
+
+
+
+
+                                      32
+If you want more probability and statistics...
+     I UNDERGRADUATE:
+        (a) 18.615 Introduction to Stochastic Processes
+        (b) 18.642 Topics in Math with Applications in Finance
+        (c) 18.650 Statistics for Applications
+     I GRADUATE LEVEL PROBABILITY
+        (a) 18.675 (formerly 18.175) Theory of Probability
+        (b) 18.676 (formerly 18.176) Stochastic calculus
+        (c) 18.677 (formerly 18.177) Topics in stochastic processes (topics
+            vary, can be pretty much anything in probability, repeatable)
+     I GRADUATE LEVEL STATISTICS
+        (a) 18.655 Mathematical statistics
+        (b) 18.657 Topics in statistics (topics vary, repeatable)
+     I OUTSIDE OF MATH DEPARTMENT
+        (a) Look up new MIT minor in statistics and data sciences.
+        (b) Look up longer lists of probability/statistics courses at https:
+            //stat.mit.edu/academics/minor-in-statistics/ or
+            http://student.mit.edu/catalog/m18b.html
+                                      33
+        (c) Ask other MIT faculty how they use probability and statistics
+            in their research.
+Thanks for taking the course!
+
+
+
+
+     I Considering previous generations of mathematically inclined
+       MIT students, and adopting a frequentist point of view...
+
+
+
+
+                                  34
+Thanks for taking the course!
+
+
+
+
+     I Considering previous generations of mathematically inclined
+       MIT students, and adopting a frequentist point of view...
+     I You will probably do some important things with your lives.
+
+
+
+
+                                  35
+Thanks for taking the course!
+
+
+
+
+     I Considering previous generations of mathematically inclined
+       MIT students, and adopting a frequentist point of view...
+     I You will probably do some important things with your lives.
+
+     I I hope your probabilistic shrewdness serves you well.
+
+
+
+
+                                   36
+Thanks for taking the course!
+
+
+
+
+     I Considering previous generations of mathematically inclined
+       MIT students, and adopting a frequentist point of view...
+     I You will probably do some important things with your lives.
+
+     I I hope your probabilistic shrewdness serves you well.
+
+     I Thinking more short term...
+
+
+
+
+                                     37
+Thanks for taking the course!
+
+
+
+
+     I Considering previous generations of mathematically inclined
+       MIT students, and adopting a frequentist point of view...
+     I You will probably do some important things with your lives.
+
+     I I hope your probabilistic shrewdness serves you well.
+
+     I Thinking more short term...
+
+     I Happy exam day!
+
+
+
+
+                                     38
+Thanks for taking the course!
+
+
+
+
+     I Considering previous generations of mathematically inclined
+       MIT students, and adopting a frequentist point of view...
+     I You will probably do some important things with your lives.
+
+     I I hope your probabilistic shrewdness serves you well.
+
+     I Thinking more short term...
+
+     I Happy exam day!
+
+     I And may the odds be ever in your favor.
+
+
+
+
+                                     39
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.600 Probability and Random Variables
+Fall 2019
+
+
+
+
+For information about citing these materials or our Terms of Use, visit:
+https://ocw.mit.edu/terms.
+
+
+
+
+                                     40
+

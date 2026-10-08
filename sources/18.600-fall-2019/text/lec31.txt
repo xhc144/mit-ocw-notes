@@ -1,0 +1,995 @@
+          18.600: Lecture 31
+Strong law of large numbers and Jensen’s
+                inequality
+
+               Scott Sheﬃeld
+
+                   MIT
+
+
+
+
+                     1
+Outline
+
+
+
+
+   A story about Pedro
+
+
+
+   Strong law of large numbers
+
+
+
+   Jensen’s inequality
+
+
+
+                                 2
+Outline
+
+
+
+
+   A story about Pedro
+
+
+
+   Strong law of large numbers
+
+
+
+   Jensen’s inequality
+
+
+
+                                 3
+Pedro’s hopes and dreams
+
+
+    I Pedro is considering two ways to invest his life savings.
+
+
+
+
+                                   4
+Pedro’s hopes and dreams
+
+
+    I Pedro is considering two ways to invest his life savings.
+
+    I One possibility: put the entire sum in government insured
+      interest-bearing savings account. He considers this completely
+      risk free. The (post-tax) interest rate equals the inﬂation rate,
+      so the real value of his savings is guaranteed not to change.
+
+
+
+
+                                   5
+Pedro’s hopes and dreams
+
+
+    I Pedro is considering two ways to invest his life savings.
+
+    I One possibility: put the entire sum in government insured
+      interest-bearing savings account. He considers this completely
+      risk free. The (post-tax) interest rate equals the inﬂation rate,
+      so the real value of his savings is guaranteed not to change.
+    I Riskier possibility: put sum in investment where every month
+      real value goes up 15 percent with probability .53 and down
+      15 percent with probability .47 (independently of everything
+      else).
+
+
+
+                                   6
+Pedro’s hopes and dreams
+
+
+    I Pedro is considering two ways to invest his life savings.
+
+    I One possibility: put the entire sum in government insured
+      interest-bearing savings account. He considers this completely
+      risk free. The (post-tax) interest rate equals the inﬂation rate,
+      so the real value of his savings is guaranteed not to change.
+    I Riskier possibility: put sum in investment where every month
+      real value goes up 15 percent with probability .53 and down
+      15 percent with probability .47 (independently of everything
+      else).
+    I How much does Pedro make in expectation over 10 years with
+      risky approach? 100 years?
+
+                                   7
+Pedro’s hopes and dreams
+
+
+
+    I How much does Pedro make in expectation over 10 years with
+      risky approach? 100 years?
+
+
+
+
+                                   8
+Pedro’s hopes and dreams
+
+
+
+    I How much does Pedro make in expectation over 10 years with
+      risky approach? 100 years?
+    I Answer: let Ri be i.i.d. random variables each equal to 1.15
+      with probability .53 and .85 with probability .47. Total value
+      after n steps is initial investment times
+      Tn := R1 × R2 × . . . × Rn .
+
+
+
+
+                                   9
+Pedro’s hopes and dreams
+
+
+
+    I How much does Pedro make in expectation over 10 years with
+      risky approach? 100 years?
+    I Answer: let Ri be i.i.d. random variables each equal to 1.15
+      with probability .53 and .85 with probability .47. Total value
+      after n steps is initial investment times
+      Tn := R1 × R2 × . . . × Rn .
+    I Compute E [R1 ] = .53 × 1.15 + .47 × .85 = 1.009.
+
+
+
+
+                                   10
+Pedro’s hopes and dreams
+
+
+
+    I How much does Pedro make in expectation over 10 years with
+      risky approach? 100 years?
+    I Answer: let Ri be i.i.d. random variables each equal to 1.15
+      with probability .53 and .85 with probability .47. Total value
+      after n steps is initial investment times
+      Tn := R1 × R2 × . . . × Rn .
+    I Compute E [R1 ] = .53 × 1.15 + .47 × .85 = 1.009.
+
+    I Then E [T120 ] = 1.009120 ≈ 2.93. And
+      E [T1200 ] = 1.0091200 ≈ 46808.9
+
+
+                                   11
+Pedro’s ﬁnancial planning
+
+
+
+
+     I How would you advise Pedro to invest over the next 10 years
+       if Pedro wants to be completely sure that he doesn’t lose
+       money?
+
+
+
+
+                                  12
+Pedro’s ﬁnancial planning
+
+
+
+
+     I How would you advise Pedro to invest over the next 10 years
+       if Pedro wants to be completely sure that he doesn’t lose
+       money?
+     I What if Pedro is willing to accept substantial risk if it means
+       there is a good chance it will enable his grandchildren to retire
+       in comfort 100 years from now?
+
+
+
+
+                                    13
+Pedro’s ﬁnancial planning
+
+
+
+
+     I How would you advise Pedro to invest over the next 10 years
+       if Pedro wants to be completely sure that he doesn’t lose
+       money?
+     I What if Pedro is willing to accept substantial risk if it means
+       there is a good chance it will enable his grandchildren to retire
+       in comfort 100 years from now?
+     I What if Pedro wants the money for himself in ten years?
+
+
+
+
+                                    14
+Pedro’s ﬁnancial planning
+
+
+
+
+     I How would you advise Pedro to invest over the next 10 years
+       if Pedro wants to be completely sure that he doesn’t lose
+       money?
+     I What if Pedro is willing to accept substantial risk if it means
+       there is a good chance it will enable his grandchildren to retire
+       in comfort 100 years from now?
+     I What if Pedro wants the money for himself in ten years?
+
+     I Let’s do some simulations.
+
+
+
+
+                                    15
+Logarithmic point of view
+
+    I We wrote Tn = R1 × . . . × Rn . Taking logs, we can write
+                                     Pn
+      Xi = log Ri and Sn = log Tn = i=1    Xi .
+
+
+
+
+                                 16
+Logarithmic point of view
+
+    I We wrote Tn = R1 × . . . × Rn . Taking logs, we can write
+      Xi = log Ri and Sn = log Tn = ni=1 Xi .
+                                     P
+
+    I Now Sn is a sum of i.i.d. random variables.
+
+
+
+
+                                  17
+Logarithmic point of view
+
+    I We wrote Tn = R1 × . . . × Rn . Taking logs, we can write
+                                     Pn
+      Xi = log Ri and Sn = log Tn = i=1    Xi .
+    I Now Sn is a sum of i.i.d. random variables.
+
+    I E [X1 ] = E [log R1 ] = .53(log 1.15) + .47(log .85) ≈ −.0023.
+
+
+
+
+                                   18
+Logarithmic point of view
+
+    I We wrote Tn = R1 × . . . × Rn . Taking logs, we can write
+                                     Pn
+      Xi = log Ri and Sn = log Tn = i=1    Xi .
+    I Now Sn is a sum of i.i.d. random variables.
+
+    I E [X1 ] = E [log R1 ] = .53(log 1.15) + .47(log .85) ≈ −.0023.
+
+    I By the law of large numbers, if we take n extremely large,
+      then Sn /n ≈ −.0023 with high probability.
+
+
+
+
+                                   19
+Logarithmic point of view
+
+    I We wrote Tn = R1 × . . . × Rn . Taking logs, we can write
+      Xi = log Ri and Sn = log Tn = ni=1 Xi .
+                                     P
+
+    I Now Sn is a sum of i.i.d. random variables.
+
+    I E [X1 ] = E [log R1 ] = .53(log 1.15) + .47(log .85) ≈ −.0023.
+
+    I By the law of large numbers, if we take n extremely large,
+      then Sn /n ≈ −.0023 with high probability.
+    I This means that, when n is large, Sn is usually a very negative
+      value, which means Tn is usually very close to zero (even
+      though its expectation is very large).
+
+
+
+
+                                   20
+Logarithmic point of view
+
+    I We wrote Tn = R1 × . . . × Rn . Taking logs, we can write
+                                     Pn
+      Xi = log Ri and Sn = log Tn = i=1    Xi .
+    I Now Sn is a sum of i.i.d. random variables.
+
+    I E [X1 ] = E [log R1 ] = .53(log 1.15) + .47(log .85) ≈ −.0023.
+
+    I By the law of large numbers, if we take n extremely large,
+      then Sn /n ≈ −.0023 with high probability.
+    I This means that, when n is large, Sn is usually a very negative
+      value, which means Tn is usually very close to zero (even
+      though its expectation is very large).
+    I Bad news for Pedro’s grandchildren. After 100 years, the
+      portfolio is probably in bad shape. But what if Pedro takes an
+      even longer view? Will Tn converge to zero with probability
+      one as n gets large? Or will Tn perhaps always eventually
+                                   21
+      rebound?
+Outline
+
+
+
+
+   A story about Pedro
+
+
+
+   Strong law of large numbers
+
+
+
+   Jensen’s inequality
+
+
+
+                                 22
+Outline
+
+
+
+
+   A story about Pedro
+
+
+
+   Strong law of large numbers
+
+
+
+   Jensen’s inequality
+
+
+
+                                 23
+Strong law of large numbers
+
+
+    I Suppose Xi are i.i.d. random variables with mean µ.
+
+
+
+
+                                 24
+Strong law of large numbers
+
+
+    I Suppose Xi are i.i.d. random variables with mean µ.
+
+    I Then the value An := X1 +X2 +...+Xn is called the empirical
+                                  n
+      average of the ﬁrst n trials.
+
+
+
+
+                                      25
+Strong law of large numbers
+
+
+    I Suppose Xi are i.i.d. random variables with mean µ.
+
+    I Then the value An := X1 +X2 +...+Xn is called the empirical
+                                  n
+      average of the ﬁrst n trials.
+    I Intuition: when n is large, An is typically close to µ.
+
+
+
+
+                                      26
+Strong law of large numbers
+
+
+    I Suppose Xi are i.i.d. random variables with mean µ.
+
+    I Then the value An := X1 +X2 +...+Xn is called the empirical
+                                  n
+      average of the ﬁrst n trials.
+    I Intuition: when n is large, An is typically close to µ.
+
+    I Recall: weak law of large numbers states that for all  > 0
+      we have limn→∞ P{|An − µ| > } = 0.
+
+
+
+
+                                      27
+Strong law of large numbers
+
+
+    I Suppose Xi are i.i.d. random variables with mean µ.
+
+    I Then the value An := X1 +X2 +...+Xn is called the empirical
+                                  n
+      average of the ﬁrst n trials.
+    I Intuition: when n is large, An is typically close to µ.
+
+    I Recall: weak law of large numbers states that for all  > 0
+      we have limn→∞ P{|An − µ| > } = 0.
+    I The strong law of large numbers states that with
+      probability one limn→∞ An = µ.
+
+
+
+
+                                      28
+Strong law of large numbers
+
+
+    I Suppose Xi are i.i.d. random variables with mean µ.
+
+    I Then the value An := X1 +X2 +...+Xn is called the empirical
+                                  n
+      average of the ﬁrst n trials.
+    I Intuition: when n is large, An is typically close to µ.
+
+    I Recall: weak law of large numbers states that for all  > 0
+      we have limn→∞ P{|An − µ| > } = 0.
+    I The strong law of large numbers states that with
+      probability one limn→∞ An = µ.
+    I It is called “strong” because it implies the weak law of large
+      numbers. But it takes a bit of thought to see why this is the
+      case.
+                                      29
+Strong law implies weak law
+
+
+    I Suppose we know that the strong law holds, i.e., with
+      probability 1 we have limn→∞ An = µ.
+
+
+
+
+                                 30
+Strong law implies weak law
+
+
+    I Suppose we know that the strong law holds, i.e., with
+      probability 1 we have limn→∞ An = µ.
+    I Strong law implies that for every  the random variable
+      Y = max{n : |An − µ| > } is ﬁnite with probability one. It
+      has some probability mass function (though we don’t know
+      what it is).
+
+
+
+
+                                 31
+Strong law implies weak law
+
+
+    I Suppose we know that the strong law holds, i.e., with
+      probability 1 we have limn→∞ An = µ.
+    I Strong law implies that for every  the random variable
+      Y = max{n : |An − µ| > } is ﬁnite with probability one. It
+      has some probability mass function (though we don’t know
+      what it is).
+    I Note that if |An − µ| >  for some n value then Y ≥ n.
+
+
+
+
+                                 32
+Strong law implies weak law
+
+
+    I Suppose we know that the strong law holds, i.e., with
+      probability 1 we have limn→∞ An = µ.
+    I Strong law implies that for every  the random variable
+      Y = max{n : |An − µ| > } is ﬁnite with probability one. It
+      has some probability mass function (though we don’t know
+      what it is).
+    I Note that if |An − µ| >  for some n value then Y ≥ n.
+
+    I Thus for each n we have P{|An − µ| > } ≤ P{Y ≥ n}.
+
+
+
+
+                                 33
+Strong law implies weak law
+
+
+    I Suppose we know that the strong law holds, i.e., with
+      probability 1 we have limn→∞ An = µ.
+    I Strong law implies that for every  the random variable
+      Y = max{n : |An − µ| > } is ﬁnite with probability one. It
+      has some probability mass function (though we don’t know
+      what it is).
+    I Note that if |An − µ| >  for some n value then Y ≥ n.
+
+    I Thus for each n we have P{|An − µ| > } ≤ P{Y ≥ n}.
+
+    I So limn→∞ P{|An − µ| > } ≤ limn→∞ P{Y ≥ n} = 0.
+
+
+
+
+                                 34
+Strong law implies weak law
+
+
+    I Suppose we know that the strong law holds, i.e., with
+      probability 1 we have limn→∞ An = µ.
+    I Strong law implies that for every  the random variable
+      Y = max{n : |An − µ| > } is ﬁnite with probability one. It
+      has some probability mass function (though we don’t know
+      what it is).
+    I Note that if |An − µ| >  for some n value then Y ≥ n.
+
+    I Thus for each n we have P{|An − µ| > } ≤ P{Y ≥ n}.
+
+    I So limn→∞ P{|An − µ| > } ≤ limn→∞ P{Y ≥ n} = 0.
+
+    I If the right limit is zero for each  (strong law) then the left
+      limit is zero for each  (weak law).
+                                    35
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+
+
+
+                                  36
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+     I Note: Var[X 2 ] = E [X 4 ] − E [X 2 ]2 > 0, so E [X 2 ]2 ≤ K .
+
+
+
+
+                                      37
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+     I Note: Var[X 2 ] = E [X 4 ] − E [X 2 ]2 > 0, so E [X 2 ]2 ≤ K .
+
+     I The strong law holds for i.i.d. copies of X if and only if it
+       holds for i.i.d. copies of X − µ where µ is a constant.
+
+
+
+
+                                      38
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+     I Note: Var[X 2 ] = E [X 4 ] − E [X 2 ]2 > 0, so E [X 2 ]2 ≤ K .
+
+     I The strong law holds for i.i.d. copies of X if and only if it
+       holds for i.i.d. copies of X − µ where µ is a constant.
+     I So we may as well assume E [X ] = 0.
+
+
+
+
+                                      39
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+     I Note: Var[X 2 ] = E [X 4 ] − E [X 2 ]2 > 0, so E [X 2 ]2 ≤ K .
+
+     I The strong law holds for i.i.d. copies of X if and only if it
+       holds for i.i.d. copies of X − µ where µ is a constant.
+     I So we may as well assume E [X ] = 0.
+
+     I Key to proof is to bound fourth moments of An .
+
+
+
+
+                                      40
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+     I Note: Var[X 2 ] = E [X 4 ] − E [X 2 ]2 > 0, so E [X 2 ]2 ≤ K .
+
+     I The strong law holds for i.i.d. copies of X if and only if it
+       holds for i.i.d. copies of X − µ where µ is a constant.
+     I So we may as well assume E [X ] = 0.
+
+     I Key to proof is to bound fourth moments of An .
+
+     I E [A4      −4   4      −4                         4
+           n ] = n E [Sn ] = n E [(X1 + X2 + . . . + Xn ) ].
+
+
+
+
+                                      41
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+     I Note: Var[X 2 ] = E [X 4 ] − E [X 2 ]2 > 0, so E [X 2 ]2 ≤ K .
+
+     I The strong law holds for i.i.d. copies of X if and only if it
+       holds for i.i.d. copies of X − µ where µ is a constant.
+     I So we may as well assume E [X ] = 0.
+
+     I Key to proof is to bound fourth moments of An .
+
+     I E [A4      −4   4      −4                         4
+           n ] = n E [Sn ] = n E [(X1 + X2 + . . . + Xn ) ].
+     I Expand (X1 + . . . + Xn )4 . Five kinds of terms: Xi Xj Xk Xl and
+       Xi Xj Xk2 and Xi Xj3 and Xi2 Xj2 and Xi4 .
+
+
+
+
+                                      42
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+     I Note: Var[X 2 ] = E [X 4 ] − E [X 2 ]2 > 0, so E [X 2 ]2 ≤ K .
+
+     I The strong law holds for i.i.d. copies of X if and only if it
+       holds for i.i.d. copies of X − µ where µ is a constant.
+     I So we may as well assume E [X ] = 0.
+
+     I Key to proof is to bound fourth moments of An .
+
+     I E [A4      −4   4      −4                         4
+           n ] = n E [Sn ] = n E [(X1 + X2 + . . . + Xn ) ].
+     I Expand (X1 + . . . + Xn )4 . Five kinds of terms: Xi Xj Xk Xl and
+       Xi Xj Xk2 and Xi Xj3 and Xi2 Xj2 and Xi4 .
+     I The ﬁrst three terms all have expectation zero. There are n
+                                                                     � 
+                                                                      2
+       of the fourth type and n of the  last type, each equal to at
+                        4      −4
+                                    �n 
+       most K . So E [An ] ≤ n     6 2 + n K.
+                                      43
+Proof of strong law assuming E [X 4 ] < ∞
+
+     I Assume K := E [X 4 ] < ∞. Not necessary, but simpliﬁes proof.
+
+     I Note: Var[X 2 ] = E [X 4 ] − E [X 2 ]2 > 0, so E [X 2 ]2 ≤ K .
+
+     I The strong law holds for i.i.d. copies of X if and only if it
+       holds for i.i.d. copies of X − µ where µ is a constant.
+     I So we may as well assume E [X ] = 0.
+
+     I Key to proof is to bound fourth moments of An .
+
+     I E [A4      −4   4      −4                         4
+           n ] = n E [Sn ] = n E [(X1 + X2 + . . . + Xn ) ].
+     I Expand (X1 + . . . + Xn )4 . Five kinds of terms: Xi Xj Xk Xl and
+       Xi Xj Xk2 and Xi Xj3 and Xi2 Xj2 and Xi4 .
+     I The ﬁrst three terms all have expectation zero. There are n
+                                                                     � 
+                                                                      2
+       of the fourth type and n of the  last type, each equal to at
+                         4     −4
+                                    �n 
+       most K . So E [An ] ≤ n     6 2 + n K.
+                P∞      4       ∞                      P∞
+                                    44 4                      4
+                             P
+                                n=1 E [An ] < ∞. So      n=1 An < ∞
+     I Thus E [
+                  n=1 An ] =
+       (and hence An → 0) with probability 1.
+Outline
+
+
+
+
+   A story about Pedro
+
+
+
+   Strong law of large numbers
+
+
+
+   Jensen’s inequality
+
+
+
+                                 45
+Outline
+
+
+
+
+   A story about Pedro
+
+
+
+   Strong law of large numbers
+
+
+
+   Jensen’s inequality
+
+
+
+                                 46
+Jensen’s inequality statement
+     I Let X be random variable with ﬁnite mean E [X ] = µ.
+
+
+
+
+                                 47
+Jensen’s inequality statement
+     I Let X be random variable with ﬁnite mean E [X ] = µ.
+     I Let g be a convex function. This means that if you draw a
+       straight line connecting two points on the graph of g , then
+       the graph of g lies below that line. If g is twice diﬀerentiable,
+       then convexity is equivalent to the statement that g 00 (x) ≥ 0
+       for all x. For a concrete example, take g (x) = x 2 .
+
+
+
+
+                                    48
+Jensen’s inequality statement
+     I Let X be random variable with ﬁnite mean E [X ] = µ.
+     I Let g be a convex function. This means that if you draw a
+       straight line connecting two points on the graph of g , then
+       the graph of g lies below that line. If g is twice diﬀerentiable,
+       then convexity is equivalent to the statement that g 00 (x) ≥ 0
+       for all x. For a concrete example, take g (x) = x 2 .
+     I Jensen’s inequality: E [g (X )] ≥ g (E [X ]).
+
+
+
+
+                                    49
+Jensen’s inequality statement
+     I Let X be random variable with ﬁnite mean E [X ] = µ.
+     I Let g be a convex function. This means that if you draw a
+       straight line connecting two points on the graph of g , then
+       the graph of g lies below that line. If g is twice diﬀerentiable,
+       then convexity is equivalent to the statement that g 00 (x) ≥ 0
+       for all x. For a concrete example, take g (x) = x 2 .
+     I Jensen’s inequality: E [g (X )] ≥ g (E [X ]).
+     I Proof: Let L(x) = ax + b be tangent to graph of g at point
+       (E [X ], g (E [X ])). Then L lies below g . Observe
+
+                 E [g (X )] ≥ E [L(X )] = L(E [X ]) = g (E [X )]
+
+
+
+
+                                    50
+Jensen’s inequality statement
+     I Let X be random variable with ﬁnite mean E [X ] = µ.
+     I Let g be a convex function. This means that if you draw a
+       straight line connecting two points on the graph of g , then
+       the graph of g lies below that line. If g is twice diﬀerentiable,
+       then convexity is equivalent to the statement that g 00 (x) ≥ 0
+       for all x. For a concrete example, take g (x) = x 2 .
+     I Jensen’s inequality: E [g (X )] ≥ g (E [X ]).
+     I Proof: Let L(x) = ax + b be tangent to graph of g at point
+       (E [X ], g (E [X ])). Then L lies below g . Observe
+
+                  E [g (X )] ≥ E [L(X )] = L(E [X ]) = g (E [X )]
+     I Note: if g is concave (which means −g is convex), then
+       E [g (X )] ≤ g (E [X ]).
+
+                                     51
+Jensen’s inequality statement
+     I Let X be random variable with ﬁnite mean E [X ] = µ.
+     I Let g be a convex function. This means that if you draw a
+       straight line connecting two points on the graph of g , then
+       the graph of g lies below that line. If g is twice diﬀerentiable,
+       then convexity is equivalent to the statement that g 00 (x) ≥ 0
+       for all x. For a concrete example, take g (x) = x 2 .
+     I Jensen’s inequality: E [g (X )] ≥ g (E [X ]).
+     I Proof: Let L(x) = ax + b be tangent to graph of g at point
+       (E [X ], g (E [X ])). Then L lies below g . Observe
+
+                 E [g (X )] ≥ E [L(X )] = L(E [X ]) = g (E [X )]
+     I Note: if g is concave (which means −g is convex), then
+       E [g (X )] ≤ g (E [X ]).
+     I If your utility function is concave, then you always prefer a
+       safe investment over a risky52investment with the same
+       expected return.
+More about Pedro
+    I Disappointed by the strong law of large numbers, Pedro seeks
+      a better way to make money.
+
+
+
+
+                                 53
+More about Pedro
+    I Disappointed by the strong law of large numbers, Pedro seeks
+      a better way to make money.
+    I Signs up for job as “hedge fund manager”. Allows him to
+      manage C ≈ 109 dollars of somebody else’s money. At end of
+      each year, he and his staﬀ get two percent of principle plus
+      twenty percent of proﬁt.
+
+
+
+
+                                 54
+More about Pedro
+    I Disappointed by the strong law of large numbers, Pedro seeks
+      a better way to make money.
+    I Signs up for job as “hedge fund manager”. Allows him to
+      manage C ≈ 109 dollars of somebody else’s money. At end of
+      each year, he and his staﬀ get two percent of principle plus
+      twenty percent of proﬁt.
+    I Precisely: if X is end-of-year portfolio value, Pedro gets
+
+
+                   g (X ) = .02C + .2 max{X − C , 0}.
+
+
+
+
+                                 55
+More about Pedro
+    I Disappointed by the strong law of large numbers, Pedro seeks
+      a better way to make money.
+    I Signs up for job as “hedge fund manager”. Allows him to
+      manage C ≈ 109 dollars of somebody else’s money. At end of
+      each year, he and his staﬀ get two percent of principle plus
+      twenty percent of proﬁt.
+    I Precisely: if X is end-of-year portfolio value, Pedro gets
+
+
+                    g (X ) = .02C + .2 max{X − C , 0}.
+
+    I Pedro notices that g is a convex function. He can therefore
+      increase his expected return by adopting risky strategies.
+
+
+
+                                  56
+More about Pedro
+    I Disappointed by the strong law of large numbers, Pedro seeks
+      a better way to make money.
+    I Signs up for job as “hedge fund manager”. Allows him to
+      manage C ≈ 109 dollars of somebody else’s money. At end of
+      each year, he and his staﬀ get two percent of principle plus
+      twenty percent of proﬁt.
+    I Precisely: if X is end-of-year portfolio value, Pedro gets
+
+
+                    g (X ) = .02C + .2 max{X − C , 0}.
+
+    I Pedro notices that g is a convex function. He can therefore
+      increase his expected return by adopting risky strategies.
+    I Pedro has strategy that increases portfolio value 10 percent
+      with probability .9, loses everything with probability .1.
+                                  57
+More about Pedro
+    I Disappointed by the strong law of large numbers, Pedro seeks
+      a better way to make money.
+    I Signs up for job as “hedge fund manager”. Allows him to
+      manage C ≈ 109 dollars of somebody else’s money. At end of
+      each year, he and his staﬀ get two percent of principle plus
+      twenty percent of proﬁt.
+    I Precisely: if X is end-of-year portfolio value, Pedro gets
+
+
+                    g (X ) = .02C + .2 max{X − C , 0}.
+
+    I Pedro notices that g is a convex function. He can therefore
+      increase his expected return by adopting risky strategies.
+    I Pedro has strategy that increases portfolio value 10 percent
+      with probability .9, loses everything with probability .1.
+                                    58
+    I He repeats this yearly until fund  collapses.
+More about Pedro
+    I Disappointed by the strong law of large numbers, Pedro seeks
+      a better way to make money.
+    I Signs up for job as “hedge fund manager”. Allows him to
+      manage C ≈ 109 dollars of somebody else’s money. At end of
+      each year, he and his staﬀ get two percent of principle plus
+      twenty percent of proﬁt.
+    I Precisely: if X is end-of-year portfolio value, Pedro gets
+
+
+                    g (X ) = .02C + .2 max{X − C , 0}.
+
+    I Pedro notices that g is a convex function. He can therefore
+      increase his expected return by adopting risky strategies.
+    I Pedro has strategy that increases portfolio value 10 percent
+      with probability .9, loses everything with probability .1.
+                                    59
+    I He repeats this yearly until fund  collapses.
+    I With high probability Pedro is rich by then.
+Perspective
+
+
+    I The “two percent of principle plus twenty percent of proﬁt” is
+      common in the hedge fund industry.
+
+
+
+
+                                  60
+Perspective
+
+
+    I The “two percent of principle plus twenty percent of proﬁt” is
+      common in the hedge fund industry.
+    I The idea is that fund managers have both guaranteed revenue
+      for expenses (two percent of principle) and incentive to make
+      money (twenty percent of proﬁt).
+
+
+
+
+                                  61
+Perspective
+
+
+    I The “two percent of principle plus twenty percent of proﬁt” is
+      common in the hedge fund industry.
+    I The idea is that fund managers have both guaranteed revenue
+      for expenses (two percent of principle) and incentive to make
+      money (twenty percent of proﬁt).
+    I Because of Jensen’s inequality, the convexity of the payoﬀ
+      function is a genuine concern for hedge fund investors. People
+      worry that it encourages fund managers (like Pedro) to take
+      risks that are bad for the client.
+
+
+
+
+                                  62
+Perspective
+
+
+    I The “two percent of principle plus twenty percent of proﬁt” is
+      common in the hedge fund industry.
+    I The idea is that fund managers have both guaranteed revenue
+      for expenses (two percent of principle) and incentive to make
+      money (twenty percent of proﬁt).
+    I Because of Jensen’s inequality, the convexity of the payoﬀ
+      function is a genuine concern for hedge fund investors. People
+      worry that it encourages fund managers (like Pedro) to take
+      risks that are bad for the client.
+    I This is a special case of the “principal-agent” problem of
+      economics. How do you ensure that the people you hire
+      genuinely share your interests?
+                                  63
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.600 Probability and Random Variables
+Fall 2019
+
+
+
+
+For information about citing these materials or our Terms of Use, visit:
+https://ocw.mit.edu/terms.
+
+
+
+
+                                     64
+
