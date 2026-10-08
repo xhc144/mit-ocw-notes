@@ -3,7 +3,7 @@
 完整简体中文讲义，共 124 页、20 章，含课程说明及完整官方日历。原 14 章数学正文及 38 道自设习题保持已交付版本，按 MIT 18.04 Spring 2018 的 13 个专题重编，补入选定的 18.112 Fall 2008 材料；采用已交付概率论讲义相同的锁定王者模板。定义、定理条件、证明与例题完整。新增章节逐题收录 18.04 全部公开作业、习题课及模拟卷，并收录 18.112 页面提供的三份 2006 年历史试卷，中文题面与完整解答配对。
 
 - [完整 PDF](complex-analysis.pdf)
-- [可编辑源码 ZIP](complex-analysis-source.zip)：含 LaTeX、真实模板、构建工具、审查记录及 97 份原 PDF（578 页）及 9 份官方页面快照。
+- [可编辑源码 ZIP](complex-analysis-source.zip)：仅含49个实际TeX输入文件、原生TikZ图、真实模板、必要构建工具及简短许可/来源说明。97份英文原PDF（578页）、9份官方页面快照及审稿档案保留在仓库，不打入源码包，也不是编译依赖。
 - [原件归档](../../sources/complex-analysis/README.md)与[原讲义清单](source-manifest.json)、[新增题卷清单](assessment-manifest.json)
 - [数学审查总表](qa/mathematical-review.md)、[逐页视觉审查](qa/visual-review.json)、[链接与文本检查](qa/pdf-audit.json)、[源码重编证据](qa/zip-rebuild.json)
 
@@ -21,10 +21,11 @@
 python -m pip install -r vendor/math-latex-typesetting/requirements.txt
 python tools/bootstrap_tex.py --texmf-dir .runtime/texmf --cache-dir .runtime/downloads
 TEXMFHOME="$PWD/.runtime/texmf" bash tools/build.sh
-python tools/verify_sources.py
 ```
 
 若已有可用的中文 TeX/字体环境，设置对应 `TEXMFHOME` 后运行构建即可。脚本从 `main.tex` 生成适配类，再运行三轮或收敛后的 XeLaTeX、引用与溢出检查及逐页渲染；自动通过不代表人工审稿完成。构建输出在 `build/`，不进入干净源码 ZIP。
+
+源码包使用独立的[简短重编说明](SOURCE-PACKAGE.md)和[来源署名](SOURCES.md)。在完整仓库中可另行运行 `python tools/verify_sources.py` 校验英文档案；这项归档检查不属于源码包编译步骤。
 
 ## 署名与许可
 
