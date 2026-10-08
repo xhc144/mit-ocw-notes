@@ -1,0 +1,425 @@
+\par\addvspace{7pt}\Needspace{4\baselineskip}\noindent\textbf{公开在线问答：游走、树与最小生成树}\par
+这里沿用各原页面的 Q 编号。来源为官方整课包中的公开 HTML，而非未公开的 PDF 解答。每题的来源说明区分“官方答案标记”与页面实际存在的“公开解释”；以下推导和补充反例由编者负责。在线图像都已取得，以下用等价边集重构，不嵌入英文截图。
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“游走与路径”（Walks and Paths），Q1--Q2。}
+有向图顶点 $a,b,c,d$，弧为 $ab,ac,ad,bc,bd,cb,cd$。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-walks-and-paths-q1} 最长路径有几条弧？
+\item\label{mit:6042-online-walks-and-paths-q2} 有向图邻接矩阵所有元素和为 $6$，必能推出什么：边数为 $6$、顶点数为 $6$、边数与顶点数和为 $6$、以上都不是？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Walks and Paths，Q1--Q2；官方答案标记及两段公开解释。}
+\begin{solution}
+Q1 为 $3$：$a,b,c,d$ 是一条长 $3$ 路径，路径无重复顶点，四个顶点最多用三条弧。Q2 选边数为 $6$；每条有向弧在矩阵相应格贡献 $1$，全部元素和就是弧数，不能据此确定顶点数。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“路径计数”（Counting Paths），Q1--Q3。}
+五个顶点的无自环完全有向图，每对不同顶点的两个方向都有弧。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-counting-paths-q1} 有几条弧？
+\item\label{mit:6042-online-counting-paths-q2} 最长无重复顶点路径的长度是多少？
+\item\label{mit:6042-online-counting-paths-q3} 上问这样长的路径共有几条？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Counting Paths，Q1--Q3；官方答案标记及公开解释。}
+\begin{solution}
+Q1 为 $5\cdot4=20$；每点到另外四点各有一条弧。Q2 为 $4$，因为五点最多连续用四条弧，而且任何五点排列都可行。Q3 为 $5!=120$；依次选第一至第五顶点有 $5,4,3,2,1$ 种选择。方向不同的反向排列是不同有向路径。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-adjacency-matrix-q1}
+\textbf{6.042J，Spring 2015，在线“邻接矩阵”（Adjacency Matrix），Q1。}
+有向图邻接矩阵为 $A$。哪些结论总成立：1 $A=A^T$；2 $(A^2)_{ij}\ne0$ 当且仅当 $i$ 到 $j$ 有长 $2$ 的“路径”；3 $A$ 的各行互不相同？原页面把第 2 项标为正确，但其 path 一词应修订为\textbf{游走}。
+\end{exercise}
+\sourceof{在线 Adjacency Matrix，Q1；官方答案标记与公开解释，walk/path 误用由编者纠正。}
+\begin{solution}
+修订后仅 2 成立：$(A^2)_{ij}=\sum_k A_{ik}A_{kj}$ 数中间顶点为 $k$ 的两步游走。所有项非负，非零恰表示有一个这样的 $k$。若 $i=j$，$i\to k\to i$ 是两步闭合游走，却不是本册约定的简单路径，故原措辞不能直接保留。1 对只有 $1\to2$ 的图失败；3 对两个孤立点失败，因为两行都为零。另一个同出邻点集的例子也会产生相同行。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“最长路径”（Longest Path），Q1--Q2。}
+此题处在有向图单元：一个有向简单图有 $16$ 顶点、$10$ 条弧。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-longest-path-q1} 其最长路径长度的最大可能值是多少？
+\item\label{mit:6042-online-longest-path-q2} 其最长路径长度的最小可能值是多少？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Longest Path，Q1--Q2；官方答案标记及公开解释。题中 graph 依所在有向图单元理解。}
+\begin{solution}
+Q1 为 $10$：路径至多使用全部十条弧，取十一顶点的定向路径加五个孤立点即可达到。Q2 为 $1$：有弧就至少有长 $1$ 路径；取十个不同顶点各向第十一点连一条弧，再加五个孤立点，任何弧到达汇点就不能继续，所以最长为 $1$。这后一构造依赖方向，不能把原题默默改成无向图。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“生成树填空”（Span all the Graphs!），Q1--Q4。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-span-all-the-graphs-q1} 图具有何种性质一定存在生成树：简单、无圈、可二染色、连通？
+\item\label{mit:6042-online-span-all-the-graphs-q2} 哪些对象包含 $G$ 的全部顶点：相同顶点上的原图副本、生成树、生成子图、以上全部、以上皆非？
+\item\label{mit:6042-online-span-all-the-graphs-q3} “任何边数最少的连通生成\underline{\hspace{1em}}都是生成\underline{\hspace{1em}}”应填图、树还是相反？为什么这里不能随便用“权最小”替代“边数最少”？
+\item\label{mit:6042-online-span-all-the-graphs-q4} 灰边法把哪些对象分到黑白两侧，再选最小权灰边：当前分支、原边还是边的长度？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Span all the Graphs!，Q1--Q4；官方答案标记，没有公开证明块；证明为编者补充。}
+\begin{solution}
+Q1 选连通（图须有限非空）：不断删圈边保持连通，直到无圈，得到生成树；其余性质都允许两个分支。Q2 选全部，生成二字就是保留全部顶点，原图副本也保留。Q3 填“图、树”；若边数最少的连通生成图仍有圈，删圈上一边还连通，违反最少性。权最小在允许负权时可能保留整个负权圈，不能同样推断。Q4 为“当前分支、最小权”；将每个已选森林分支整体放在割的一侧，跨黑白的灰边中选最轻者。割不拆已有分支，故不拆已选边，安全性由定理~\ref{thm:safeedge} 保证。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“叶”（Leaves），Q1--Q4。叶指度 $1$ 顶点。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-leaves-q1} 所有顶点都是叶的树，最多几个顶点？
+\item\label{mit:6042-online-leaves-q2} $99$ 顶点树最少有几个叶？
+\item\label{mit:6042-online-leaves-q3} $99$ 顶点树最多有几个叶？
+\item\label{mit:6042-online-leaves-q4} $1000$ 顶点森林最多有几个叶？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Leaves，Q1--Q4；官方答案标记，无公开解释；论证为编者补充。}
+\begin{solution}
+Q1 为 $2$。握手引理与树边数给 $n=2(n-1)$，故 $n=2$，单边实现。Q2 为 $2$，由两叶引理且路径图实现。Q3 为 $98$：若 $99$ 个都为叶与 Q1 矛盾；星图 $K_{1,98}$ 实现。Q4 为 $1000$，显然不能超过顶点总数；取 $500$ 条不交边，每个顶点度 $1$，达到上界。孤立顶点度 $0$，这里不是叶。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-2-colorable-trees-q1}
+\textbf{6.042J，Spring 2015，在线“树的二染色”（2-Colorable Trees），Q1。}
+“\underline{\hspace{1em}}树都可二染色”，最强正确填空是二叉树、全部树、偶长树、奇长树还是没有树？
+\end{exercise}
+\sourceof{在线 2-Colorable Trees，Q1；官方答案标记；证明为编者补充。}
+\begin{solution}
+选全部树。在任意根处出发，按根到顶点唯一路径长度的奇偶赋两色。树中每条边连接相邻层：否则加上它与两端到根的路径就形成圈。因此每边异色。单点树仅用一种颜色也当然可在两色集合中染色。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“标边算法”（Graph Algorithm），Q1--Q6。}
+有限简单无向图至少有一条边，初始没有标记边。每步选择一条尚未标记、且两端目前没有标记边路径相连的边，将它标记，直到无可选边。固定全部顶点构成的标记子图记为 $G'=(V,M)$。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-graph-algorithm-q1} 哪些既初始成立又保持：1 尚有未标边；2 标边图无圈；3 标边图是树；4 尚有顶点不碰任何标边？
+\item\label{mit:6042-online-graph-algorithm-q2} 未标边数的最强单调性质？
+\item\label{mit:6042-online-graph-algorithm-q3} 标边数的最强单调性质？
+\item\label{mit:6042-online-graph-algorithm-q4} 未标边数加标边数的最强性质？
+\item\label{mit:6042-online-graph-algorithm-q5} 标边数减未标边数的最强性质？
+\item\label{mit:6042-online-graph-algorithm-q6} $G'$ 的连通分支数的最强单调性质？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Graph Algorithm，Q1--Q6；官方答案标记及公开解释。初始“树为空真”的解释错误，已修订。}
+\begin{solution}
+Q1 仅选 2。若新增边产生圈，圈上其余边先已给两端之间的路径，与选边条件冲突；初始无边所以无圈。1 在原图单边时终局失败；4 在选完这条边时失败；3 初始固定 $V$ 上的无边图有至少两个顶点，不连通，实际是森林而非树，不能称为空真。
+Q2 严格递减，每步减 $1$；Q3 严格递增，每步加 $1$；Q4 恒定为 $|E|$；Q5 严格递增，每步加 $2$；Q6 严格递减，每步把原本不同的两个标边分支合为一个，恰减 $1$。这些结论均按实际发生的迭代比较。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-tree-or-not-tree-q1}
+\textbf{6.042J，Spring 2015，在线“是不是树”（Tree or Not Tree?），Q1。}
+原四图用边集重构：图 1、3 的顶点为 $1,\ldots,6$，分别有边 $14,24,35$ 和 $14,24,25,45,35$；图 2 是六点路径 $1,4,6,2,3,5$；图 4 是中心 $0$ 与六个叶 $1,\ldots,6$ 相连的星图。哪些是树？
+\end{exercise}
+\sourceof{在线 Tree or Not Tree?，Q1；官方答案标记及公开解释；四幅原图已核对。}
+\begin{solution}
+图 2、4 是树：路径和星图均连通无圈。图 1 有分支 $\{1,2,4\}$、$\{3,5\}$ 及孤立点 $6$；图 3 有三圈 $2,4,5,2$ 且 $6$ 孤立。因此后二者不满足树定义。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“最小生成树判断”（Multiple Choice），Q1--Q2。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-multiple-choice-q1} “图的 MST 总是唯一”是真是假？
+\item\label{mit:6042-online-multiple-choice-q2} 连通图的边权互异，哪些必真：1 MST 唯一；2 全局最轻边必入 MST；3 全局最重边必不入 MST；4 以上都不是？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Multiple Choice（minimum-spanning-trees），Q1--Q2；官方答案标记，Q1 有公开解释；其必要条件误述已修订。}
+\begin{solution}
+Q1 假，三角形三边权均为 $1$，任删一边得到权为 $2$ 的 MST，共有三棵。原解释称只有边权互异才唯一，过强：任何本身是树的图都只有一棵生成树，即使全边等权也唯一。Q2 选 1、2；唯一性证明见习题~\ref{mit:6042-ps8-q1}，最轻边交换证明见习题~\ref{mit:6042-cp21-q3}。3 不必真，例如三点路径，两边权 $1,2$，唯一生成树必须含最重边 $2$。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-trees-many-definitions-q1}
+\textbf{6.042J，Spring 2015，在线“树的等价定义”（Trees: Many Definitions），Q1。}
+有限非空简单图，固定顶点集。哪些可定义树：1 连通无圈；2 连通且每边为桥；3 连通且按删顶点极小；4 连通且按删边极小；5 无圈且按加边极大；6 $n$ 顶点连通且 $n-1$ 边；7 每对不同顶点间恰一条路径？
+\end{exercise}
+\sourceof{在线 Trees: Many Definitions，Q1；官方答案标记，无公开证明；论证为编者补充。}
+\begin{solution}
+除 3 外全部成立。1 为树定义；2 若有圈则圈边不是桥，而树删任一边都断开；4 等价于每边都是桥；5 若无圈图不连通，可跨分支加边而仍无圈，所以极大者连通，树加边则沿唯一路径产生圈。6 是定理~\ref{thm:tree-equivalent} 中已完整证明的边数刻画；7 的双向证明在习题~\ref{mit:6042-cp21-q2}。3 不成立，因为三点路径是树，删一个叶后仍连通，故不是按删顶点极小的连通图。这里所有加删边定义都固定顶点集，空图另按正文约定处理。
+\end{solution}
+
+\par\addvspace{7pt}\Needspace{4\baselineskip}\noindent\textbf{公开在线问答：度数、同构与调度}\par
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“度数与边数”（Counting Degrees \& Edges），Q1--Q2。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-counting-degrees-and-edges-q1} 度数为 $4,3,3,2,2$ 的图有多少边？
+\item\label{mit:6042-online-counting-degrees-and-edges-q2} 哪些必真：1 度数和偶；2 奇度顶点数偶；3 偶度顶点数偶？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Counting Degrees \& Edges，Q1--Q2；官方答案标记及公开解释。}
+\begin{solution}
+Q1 为 $(4+3+3+2+2)/2=7$。Q2 选 1、2，理由是每条边贡献两次以及度数和模 $2$ 的计算，已在习题~\ref{mit:6042-cp19-q2}(a) 完整证明。3 由 $K_5$ 反驳：五个顶点均为偶度 $4$，偶度点数为奇数 $5$。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“极端图”（Extreme Graphs），Q1--Q2。}
+连通简单图总度数为 $44$，求顶点数的（Q1）最小可能值及（Q2）最大可能值。
+\label{mit:6042-online-extreme-graphs-q1}\label{mit:6042-online-extreme-graphs-q2}
+\end{exercise}
+\sourceof{在线 Extreme Graphs，Q1--Q2；官方答案标记及公开解释；$K_7$ 添边数量的笔误已修订。}
+\begin{solution}
+边数为 $22$。Q1：简单图满足 $22\le\binom n2$，七点最多 $21$ 边，所以 $n\ge8$；给 $K_7$ 加一个新顶点和\textbf{一条}连接到旧点的边，得八点连通图，恰 $22$ 边，故最小为 $8$。原解释说加两条边，总度会由 $42$ 变成 $46$，应为一条边。
+Q2：连通图至少有 $n-1$ 边，所以 $n\le23$；路径 $P_{23}$ 有 $22$ 边，实现最大 $23$。原文把路径称 line graph，这里按其实际对象译为路径。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“同构判别”（Isomorphism），Q1--Q2。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-isomorphism-q1} 原图三对对象如下，哪些同构？第 1 对左图边为 $12,23,34,45,51,16,26,36$，右图边为 $ab,ac,bc,bd,cd,ce,df,ef$。第 2 对是五圈 $a,b,c,d,e,a$ 与五圈 $a,c,e,b,d,a$。第 3 对两图的标号边集均为 $AB,AC,AD,BD,CD$，只是画法不同。
+\item\label{mit:6042-online-isomorphism-q2} 哪个不是同构不变量：顶点数、总度数、顶点的数字标签全部为奇数？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Isomorphism，Q1--Q2；官方答案标记；三幅原图已核对，证明为编者补充。}
+\begin{solution}
+Q1 选第 2、3 对。第 1 对右图 $c$ 度 $4$，左图各点度至多 $3$，不可能同构。第 2 对按 $a,b,c,d,e\mapsto a,c,e,b,d$ 得五圈同构；第 3 对恒等映射就保持全部边。Q2 选数字标签奇偶，因为可重命名而不改变边；前两项由顶点双射和握手引理保持。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-isomorphic-graphs-q1}
+\textbf{6.042J，Spring 2015，在线“五圈同构个数”（Isomorphic Graphs），Q1。}
+左图是圈 $u_1,u_2,u_3,u_4,u_5,u_1$；右图是圈 $v_1,v_3,v_5,v_2,v_4,v_1$。共有多少保持边的双射？
+\end{exercise}
+\sourceof{在线 Isomorphic Graphs，Q1；官方答案标记与公开解释，原图已核对。}
+\begin{solution}
+共有 $10$ 个。$u_1$ 的像有五种；$u_2$ 的像必须是该点的两个邻点之一。确定这一条有向沿圈顺序后，$u_3$ 必映到 $u_2$ 的像除已占点外的另一邻点，后面逐步唯一，最后也正确闭合。每个初点及方向都确实给出同构，所以恰 $5\cdot2=10$，没有其他可能。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-non-isomorphic-graphs-q1}
+\textbf{6.042J，Spring 2015，在线“不同构的证据”（Non-Isomorphic Graphs），Q1。}
+左图 $G$ 的边为 $u_1u_2,u_2u_3,u_3u_4,u_4u_1,u_1u_5,u_3u_5,u_4u_5$；右图 $H$ 为五圈 $v_1v_2v_3v_4v_5v_1$ 加边 $v_2v_4,v_2v_5$。下列哪些事实能证明不同构：1 $H$ 有度 $4$ 点而 $G$ 没有；2 $u_1$ 度 $3$、$v_1$ 度 $2$；3 $G$ 有四个度 $3$ 点、$H$ 仅两个；4 $G$ 有名为 $u_1$ 的点；5 画图中的直角三角形不同；6 $G$ 有边连接两个度 $3$ 点而 $H$ 没有？
+\end{exercise}
+\sourceof{在线 Non-Isomorphic Graphs，Q1；官方答案标记及公开解释，原图已核对。}
+\begin{solution}
+选 1、3。$G$ 度序列为 $(2,3,3,3,3)$，$H$ 为 $(2,2,3,3,4)$，两个事实均可核对。2 只比较两个特定名字，同构不必将它们对应；4 名字可改；5 角度属于画法。6 的形式若为真确可区分，但事实不真：$H$ 中 $v_4v_5$ 两端度均为 $3$。不能把一个虚假的陈述当成不同构证据。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“先修调度”（Scheduling Prerequisites），Q1--Q5。}
+此页采用另一份历史示例，与 CP17 的课程集合不同。弧为
+$18.01\to6.042,18.02,18.03$；$8.01\to8.02,6.01$；$6.042\to6.046,6.006$；$18.02,18.03,8.02,6.01\to6.02$；$6.01\to6.006,6.034$；$6.02\to6.004$。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-scheduling-prerequisites-q1} $\{6.042,6.046,6.01\}$ 是链、反链还是都不是？
+\item\label{mit:6042-online-scheduling-prerequisites-q2} $\{18.01,6.02,6.004\}$ 呢？
+\item\label{mit:6042-online-scheduling-prerequisites-q3} $\{6.042,6.02,6.034\}$ 呢？
+\item\label{mit:6042-online-scheduling-prerequisites-q4} 最大反链大小是多少？
+\item\label{mit:6042-online-scheduling-prerequisites-q5} 沿拓扑序每学期只修一门课，毕业需几学期？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Scheduling Prerequisites，Q1--Q5；官方答案标记，Q2、Q5 有公开解释。}
+\begin{solution}
+Q1 都不是：前两门可比，$6.01$ 与它们不可比。Q2 是链：$18.01$ 先于 $6.02$，后者先于 $6.004$；链不必包含中间所有顶点。Q3 是反链，三者互不可达。
+Q4 的公开答案标记是 $5$，但与该页给出的先修表冲突；正确值为 $6$。反链 $\{18.02,18.03,8.02,6.046,6.006,6.034\}$ 达到六个，逐对检查弧的传递闭包，没有可比对。以下六条链覆盖全部十二门课，给上界六：
+$\{18.01,18.02,6.02,6.004\}$、$\{18.03\}$、$\{8.01,8.02\}$、$\{6.042,6.046\}$、$\{6.01,6.034\}$、$\{6.006\}$。每条反链在每条链至多取一点，因此不超过六。本册保留官方答案冲突记录，不能把另一个课程先修表的宽度 $5$ 搬到这里。
+Q5 为 $12$：该页共十二门课，每学期一门，任意拓扑序保证先修满足，恰需十二学期。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“DAG 与覆盖弧”（DAGs），Q1--Q3。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-dags-q1} 哪些不能出现在普通有向图中：自环、孤立点、一对点间反向两弧、同方向两条平行弧、无弧、无顶点？此问说 digraph，并未限定无圈。
+\item\label{mit:6042-online-dags-q2} 有限 DAG $V$ 删去非覆盖弧得 $U$，同一可达端点对的最短路径长度变短、变长还是不变？选最强必然结论。
+\item\label{mit:6042-online-dags-q3} 同一端点对的最长路径长度呢？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 DAGs，Q1--Q3；官方答案标记，无公开证明。Q1 的非空约定与本册空图约定分别注明。}
+\begin{solution}
+Q1 原课程把有向图视为非空顶点集上的二元关系，故标“同向平行弧”和“无顶点”；二元关系一个有序对最多出现一次。自环、孤立点、反向两弧和无弧都可以。本册允许空图，故按本册约定“无顶点”也可出现，只有同向平行弧超出这里的简单有向图定义。这是约定差别。
+Q2 不会变短，因为 $U$ 的路径都是 $V$ 的路径；且覆盖子图仍保持可达性，见习题~\ref{mit:6042-cp17-q4}(b)。可能变长：弧 $a\to b,a\to c,c\to b$ 中删去 $a\to b$，最短长度由 $1$ 变 $2$。Q3 完全相同：最长路径每条弧必为覆盖弧，否则以替代路径扩充会更长，DAG 保证拼接不产生重复。故原最长路径仍在 $U$，加上子图的反向不等式得到相等。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-the-divisibility-dag-q1}
+\textbf{6.042J，Spring 2015，在线“整除 DAG”（The Divisibility DAG），Q1。}
+在 $\{1,\ldots,12\}$ 上按整除关系的覆盖弧画向上 DAG。添加 $24$ 后，最少添加几条弧才仍表示所有整除可达关系？
+\end{exercise}
+\sourceof{在线 The Divisibility DAG，Q1；官方答案标记及公开解释，原整除图已核对。}
+\begin{solution}
+添 $8\to24$、$12\to24$，共两条。原集合中 $24$ 的真因子为 $1,2,3,4,6,8,12$，其极大者是 $8,12$；其他因子都整除二者之一，所以两弧足够。两弧都必要，因为 $8$ 和 $12$ 之间不可达，也不存在介于它们和 $24$ 之间的其他原顶点，故缺任何一弧就无法表示对应整除关系。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“处理器与工期界”（Processor Time Bounds），Q1--Q4。}
+单位任务共 $n\ge1$ 项，最长链大小 $h$，最大反链大小 $w$。以最短可能工期 $h$ 完成为目标，所需每时段最大并行人数记为 $r$。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-processor-time-bounds-q1} 不限并行人数时最短工期是什么？
+\item\label{mit:6042-online-processor-time-bounds-q2} 给 $r$ 的上界。
+\item\label{mit:6042-online-processor-time-bounds-q3} 给 $r$ 的总工时下界。
+\item\label{mit:6042-online-processor-time-bounds-q4} 用 $n,w$ 给 $h$ 下界。
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Processor Time Bounds，Q1--Q4；官方答案标记；证明为编者补充。}
+\begin{solution}
+Q1 为 $h$：链上任务须先后执行给下界；按最长前驱链长度分层可在 $h$ 时段完成。Q2 为 $r\le w$，因为这 $h$ 个层都为反链，每层至多 $w$ 项。Q3 为 $r\ge\lceil n/h\rceil$，因为 $r$ 人在 $h$ 时段至多完成 $rh$ 项。Q4 为 $h\ge n/w$，上述 $h$ 个反链层各至多 $w$ 点，总计 $n\le hw$。各式都是必要界，不意味着任意 DAG 的最优 $r$ 总等于某一个下界。
+\end{solution}
+
+\par\addvspace{7pt}\Needspace{4\baselineskip}\noindent\textbf{公开在线问答：二分图与稳定匹配}\par
+\begin{exercise}\label{mit:6042-online-bipartite-graphs-q1}
+\textbf{6.042J，Spring 2015，在线“二分图”（Bipartite Graphs），Q1。}
+原图 a 为两块相邻方格：顶排 $1,2,3$、底排 $4,5,6$，边 $12,23,14,25,36,45,56$；图 b 由两个共用中心 $0$ 的四圈 $1,2,3,0,1$ 与 $0,4,5,6,0$ 加边 $14$；图 c 为 $K_5$。哪些是二分图？
+\end{exercise}
+\sourceof{在线 Bipartite Graphs，Q1；官方答案标记及公开解释，三幅图已核对。}
+\begin{solution}
+只有 a。图 a 的两侧可取 $\{1,3,5\}$ 与 $\{2,4,6\}$，每条边均跨侧。图 b 有三圈 $1,0,4,1$，图 c 任意三点都是三圈。二分图沿圈交替两侧，奇数步不可能返回原侧，故二者不是二分图。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“派生变量”（Derived Variables），Q1--Q2。}
+延迟接受算法中，（Q1）女方当前最佳可得伴侣的喜好质量如何变化？（Q2）男方当前最佳可申请对象的喜好质量如何变化？选最强性质：严格增加、弱增加、严格减少、弱减少。这里“质量”越大表示越合意；若改用第 $1$ 名最好这种数字名次，方向须相反。
+\label{mit:6042-online-derived-variables-q1}\label{mit:6042-online-derived-variables-q2}
+\end{exercise}
+\sourceof{在线 Derived Variables，Q1--Q2；官方答案标记，无公开解释；rank 的方向按原答案作质量解释。}
+\begin{solution}
+Q1 弱增加：女方始终保留新旧申请者中最喜欢者，可以不换，也只能换得更好。Q2 弱减少：男方名单只会删去此前申请且被拒的人，当前第一位可以不变，也只能向较差对象推进。某日无新的拒绝时二者都可保持不变，故不能说严格。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-bipartite-equivalence-relation-q1}
+\textbf{6.042J，Spring 2015，在线“二分匹配的映射”（原标题 Bipartite equivalence relation），Q1。}
+男方人数多于女方，要把每位女方配到不同男方，应寻找从女方集到男方集的全定义满射、全定义单射还是全定义双射？原题标题的 equivalence relation 用词不准确，这里实际讨论配对函数，不是等价关系。
+\end{exercise}
+\sourceof{在线 Bipartite equivalence relation，Q1；官方答案标记及公开解释，术语按实际对象修订。}
+\begin{solution}
+全定义单射。每位女方都有像，故全定义；不同女方不能配同一男方，故单射。男方人数更多，不可能满射到全部男方，所以也不能为双射。若仅允许图上的边，还必须验证存在这样的匹配，即满足 Hall 条件，而不只是集合大小。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-boy-optimal-q1}
+\textbf{6.042J，Spring 2015，在线“男方最优”（Boy Optimal），Q1。}
+定义应选哪项：1 每个男方得到自己最喜欢的稳定可行伴侣；2 每个男方都得名单首选；3 每个女方得到最差的稳定可行伴侣；4 虽有阻塞但男方满意？
+\end{exercise}
+\sourceof{在线 Boy Optimal，Q1；官方答案标记及公开解释。}
+\begin{solution}
+定义选 1。“可行”限定该配对能出现在某个稳定匹配中，不保证个人绝对首选可实现。3 在严格完整等人数模型中与男方最优匹配等价，但它是需要证明的定理而不是此定义；证明见引理~\ref{lem:6042-stable} 对比两个稳定匹配的阻塞对论证。4 与稳定性冲突。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-bottleneck-q1}
+\textbf{6.042J，Spring 2015，在线“匹配瓶颈”（Bottleneck），Q1。}
+二分图中欲匹配的一侧顶点子集为 $S$，其邻点集原记 $E(S)$，本册记 $N(S)$。瓶颈应满足 $|S|<|N(S)|$、$>$、$=$、$\ge$ 还是 $\le$？
+\end{exercise}
+\sourceof{在线 Bottleneck，Q1；官方答案标记；论证为编者补充。}
+\begin{solution}
+选择严格大于。若 $|S|>|N(S)|$，所有 $S$ 的顶点只能配给这些邻点，鸽巢原理使至少两个须共用邻点，不可能有饱和 $S$ 的匹配。等号恰可用各不同邻点，不必阻塞；例如单条边的两侧各一顶点。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“延迟接受算法”（Mating Ritual），Q1--Q2。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-mating-ritual-q1} 在严格完整等人数偏好下，算法是否稳定、输出是否随合法申请处理顺序而变化？原选项称“总产生同一个 unique stable matching”。解释其中 unique 的合理含义。
+\item\label{mit:6042-online-mating-ritual-q2} 每位男方名单剩余名字总数的最强单调性质是什么？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Mating Ritual，Q1--Q2；官方答案标记，无公开解释；unique 的歧义由编者说明。}
+\begin{solution}
+Q1 算法稳定且男方申请的最终输出由偏好唯一决定，不随合法处理顺序变化，这是引理~\ref{lem:6042-stable} 的男方最优性。它\textbf{不表示}该实例仅有一个稳定匹配；CP22 第 1 题已有两个不同稳定结果。unique 在这里应理解为“这个固定申请侧的输出确定”，若理解为“所有稳定匹配唯一”，原选项就错误。Q2 弱递减，名字从不加回，若某日没有拒绝则不减，所以不是严格递减。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“有无完美匹配”（Match or No Match），Q1--Q2。}
+两侧为 $\{a,b,c,d\}$ 与 $\{1,2,3,4\}$。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-match-or-no-match-q1} 边为 $a1,a3,b2,c3,c4,d1,d2$，求完美匹配。
+\item\label{mit:6042-online-match-or-no-match-q2} 边改为 $a3,a4,b1,b2,c1,c2,d1,d2$。原七项说明为：1 $\{1,3,4\}$ 仅两个邻点；2 左侧全度 $2$、右侧没有度 $2$；3 $\{b,c,d\}$ 仅两个邻点；4 全图八条边；5 $\{3,4\}$ 仅一个邻点；6 点 $1$ 度 $3$ 而其邻点度 $2$；7 $\{a,b\}$ 有四个邻点。哪些真实说明构成匹配不可能的瓶颈证据？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Match or No Match，Q1--Q2；官方答案标记及公开解释。}
+\begin{solution}
+Q1 唯一匹配是 $a3,b2,c4,d1$。$4$ 只有邻点 $c$，迫使 $c4$；$b$ 只有邻点 $2$，迫使 $b2$；于是 $d$ 只能取 $1$，$a$ 只能取 $3$，且四条边全部存在。
+Q2 选 3、5：$N(\{b,c,d\})=\{1,2\}$，三个顶点争两个邻点；$N(\{3,4\})=\{a\}$，两个顶点争一个邻点。任一个已违反 Hall 必要条件。1 不真实，它的邻点实际是全部 $a,b,c,d$；2、4、6 的度数或边数事实本身不是禁止匹配的理由；7 的四邻点也不是瓶颈。例如另一个图边为 $a1,a3,b2,b4,c1,c2,d1,d2$，同样左侧全度 $2$、右侧度 $3,3,1,1$，却有匹配 $a3,b4,c1,d2$，足以说明第 2 项的模式不是障碍。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-stable-matching-invariants-q1}
+\textbf{6.042J，Spring 2015，在线“稳定匹配不变量”（Stable Matching Invariants），Q1。}
+等人数模型，女方 Angelina、Jen，男方 Keith、Tom。哪些为保持不变量：
+1 Angelina 已从 Tom 名单划去且有比 Tom 更合意的申请者；2 Tom 正向 Jen 申请；3 Tom 没向 Jen 申请；4 Tom 名单为空；5 所有男方剩余名单一样长；6 Jen 已从 Keith 名单划去且 Keith 比当前申请对象更喜欢 Jen；7 Jen 是 Keith 名单唯一女方；8 Jen 已从 Keith 名单划去且不存在任何稳定匹配把二者配对？
+\end{exercise}
+\sourceof{在线 Stable Matching Invariants，Q1；官方答案标记及八项公开解释。}
+\begin{solution}
+选 $1,4,6,7,8$。1 用女方保留质量只提高的不变量；6 用男方申请只向后推进；7 在等人数完整模型中名单不耗尽，因此唯一名字永久留下。4 虽在该模型可达状态始终为假，仍满足“真后仍真”的蕴含；即使人数不等时可能为空，空后也不再增加。8 由引理~\ref{lem:6042-stable} 中“首次拒绝稳定可行配对”的反证证明，划去事件永久且不可能成为稳定配对，故保持。
+2 被拒后可停止；3 在其他女方拒绝后可转而申请 Jen。5 可从真变假：所有男方首选 Angelina 时，她只留一人，其他人各删一个名字，留下者名单比其余人长。这样也给出每个错误选项的实际失效机制。
+\end{solution}
+
+\par\addvspace{7pt}\Needspace{4\baselineskip}\noindent\textbf{公开在线问答：连通、染色与图随机游走}\par
+\begin{exercise}\label{mit:6042-online-connected-components-among-the-integers-q1}
+\textbf{6.042J，Spring 2015，在线“整数图的分支”（Connected Components Among the Integers），Q1。}
+顶点集为 $\Z$，$i,j$ 相邻当且仅当 $|i-j|=6$。有多少个连通分支？
+\end{exercise}
+\sourceof{在线 Connected Components Among the Integers，Q1；官方答案标记；证明为编者补充。}
+\begin{solution}
+恰六个，分别为模 $6$ 的六个剩余类。沿边保持余数，不同类不连通；同一类的任意二点差为 $6k$，反复加或减 $6$ 共 $|k|$ 步便连接，所以每个类确为一个分支。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-graph-coloring-ii-q1}
+\textbf{6.042J，Spring 2015，在线“无圈图色数”（Graph Coloring II），Q1。}
+无圈简单图的色数是多少？原问题默认至少一条边，另说明没有边的情况。
+\end{exercise}
+\sourceof{在线 Graph Coloring II，Q1；官方答案标记与公开解释。}
+\begin{solution}
+至少有一条边时恰为 $2$。森林逐个树分支按根距离奇偶二染色，故至多两色；某条边两端不能同色，故至少两色。非空无边图色数为 $1$，空图按本册约定为 $0$。不能把“可二染色”与“色数恰为二”混为一谈。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-graph-coloring-i-q1}
+\textbf{6.042J，Spring 2015，在线“轮图染色”（Graph Coloring I），Q1。}
+原图的边为六圈 $ab,bc,cd,de,ef,fa$，中心 $g$ 邻接全部六个圈顶点。求色数。
+\end{exercise}
+\sourceof{在线 Graph Coloring I，Q1；官方答案标记及公开解释，原图已核对。}
+\begin{solution}
+六圈交替用两色，中心用第三色，故至多 $3$。$a,b,g$ 为三角形，需要三色，所以色数为 $3$。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“$k$ 连通”（k-Connected [optional]），Q1--Q2。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-k-connected-q1} 哪个普遍有效：$k$ 边连通推出 $k$ 点连通；$k$ 点连通推出 $k$ 边连通；二者等价；$k$ 边连通推出 $(k+1)$ 边连通？
+\item\label{mit:6042-online-k-connected-q2} 完全图 $K_n$（$n\ge2$）的点连通度是多少？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 k-Connected [optional]，Q1--Q2；官方答案标记；证明与反例为编者补充。}
+\begin{solution}
+Q1 选第二项，因第~\ref{ch:connectivity} 章已完整证明 $\kappa(G)\le\lambda(G)$，所以 $\kappa\ge k$ 时 $\lambda\ge k$。反向由两个三角形仅共用一个顶点反驳：无桥所以 $\lambda=2$，共用点为割点所以 $\kappa=1$。最后一项由三角形反驳，它 $2$ 边连通却不是 $3$ 边连通。Q2 为 $n-1$，这是完全图的点连通度约定；删少于 $n-1$ 点时至少两点剩下且全部相邻，无法断开，且任一点只有 $n-1$ 个邻点。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“色数”（Chromatic Number），Q1--Q3。}
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-chromatic-number-q1} 最大度为 $k$ 的图必有 $\chi\ge k$，是真是假？
+\item\label{mit:6042-online-chromatic-number-q2} 轮图有总计 $n$ 个顶点，$n\ge4$ 为偶数，色数是多少？原页面答案标记为 $3$，需核查此总顶点数约定。
+\item\label{mit:6042-online-chromatic-number-q3} 完全图 $K_n$ 需要几色？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Chromatic Number，Q1--Q3；官方答案标记，Q1 有公开反例；Q2 的奇偶冲突已修订。}
+\begin{solution}
+Q1 假，星图 $K_{1,k}$ 的最大度为 $k$，但 $k\ge3$ 时色数只有 $2<k$。
+Q2 按“总计 $n$ 点”应为 $4$：外圈有奇数 $n-1$ 点，必须用三色，中心邻接外圈全部点，须第四色。三色外圈加新色中心也确能实现。若另把 $n$ 定义为\textbf{外圈}点数且 $n$ 偶，则外圈二染色、中心第三色，才得官方的 $3$；本册不能同时保留原总点数措辞与答案 $3$。
+Q3 为 $n$，任意两点相邻所以全部异色，而每点给独有颜色即可达到。$n=0$ 的空图也有 $\chi=0$。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“随机游走”（Random Walks），Q1--Q4。}
+三图的转移矩阵与习题~\ref{mit:6042-cp35-q1} 完全相同：图 1 为 $x,y$ 必交替；图 2 为 $w\to z$ 概率 $1$，$z\to w$ 概率 $0.9$，$z\to z$ 概率 $0.1$。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-random-walks-q1} 求图 1 平稳分布的 $x$ 质量。
+\item\label{mit:6042-online-random-walks-q2} 求图 1 平稳分布的 $y$ 质量。
+\item\label{mit:6042-online-random-walks-q3} 求图 2 平稳分布的 $z$ 质量。
+\item\label{mit:6042-online-random-walks-q4} 从图 1 的 $x$ 出发是否趋于平稳分布？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Random Walks，Q1--Q4；官方答案标记，Q4 有公开解释；同源图已核对。}
+\begin{solution}
+Q1、Q2 均为 $1/2$，平稳方程给 $\pi_x=\pi_y$，加上总和 $1$ 唯一确定。Q3 为 $10/19$，因 $\pi_w=0.9\pi_z$ 和总和 $1$。Q4 否，初始 $(1,0)$，后续在 $(0,1)$、$(1,0)$ 间交替，故无极限。这些推导也对应 CP35 第 1 题 (a)--(c)。
+\end{solution}
+
+\begin{exercise}
+\textbf{6.042J，Spring 2015，在线“随机游走续题”（Random Walks (cont.)），Q1--Q3。}
+图 2、3 仍为习题~\ref{mit:6042-cp35-q1} 的同源转移矩阵：图 3 中 $a,d$ 吸收，$b\to a,c$ 各半，$c\to b,d$ 各半。
+\begin{enumerate}[label=Q\arabic*.]
+\item\label{mit:6042-online-random-walks-cont-q1} 从图 2 的 $w$ 出发是否长期接近平稳分布？
+\item\label{mit:6042-online-random-walks-cont-q2} 图 3 有多少个平稳分布？
+\item\label{mit:6042-online-random-walks-cont-q3} 从图 3 的 $b$ 出发，长期在 $d$ 的概率趋近什么数？
+\end{enumerate}
+\end{exercise}
+\sourceof{在线 Random Walks (cont.)，Q1--Q3；官方答案标记，无公开解释；完整推导与 CP35 同题核对。}
+\begin{solution}
+Q1 是，$w$ 的概率满足 $q_{t+1}=0.9(1-q_t)$，所以 $q_t-9/19=(-0.9)^t(q_0-9/19)\to0$。Q2 不可数无限多个：全部平稳分布为 $(s,0,0,1-s)$，$0\le s\le1$，求解过程见 CP35 第 1 题 (e)。Q3 为 $1/3$：吸收概率满足 $h_b=h_c/2,h_c=(h_b+1)/2$，解得 $h_b=1/3$；未吸收概率 $2^{-t}\to0$，所以这确是时刻分布的极限质量，而不只是一个形式方程解。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-online-friends-and-strangers-q1}
+\textbf{6.042J，Spring 2015，在线“朋友与陌生人”（Friends and Strangers [optional]），Q1。}
+原课幻灯片证明“六个人中有三个互相认识或三个互相不认识”，它证明了 $R(3,3)$ 与 $6$ 的哪种关系：小于、不大于、等于、不小于、大于？
+\end{exercise}
+\sourceof{在线 Friends and Strangers [optional]，Q1；官方答案标记；证明及下界区别为编者补充。}
+\begin{solution}
+仅该论证证明 $R(3,3)\le6$。取一个人，其余五人至少三个与他关系同类；若三人中任意一对也为该类，与原人组成同类三角形；否则这三人之间全为另一类，仍有单色三角形。这证明六点足够，但还没有证明五点不够。要得到等号，另取五圈的五条边染红、其余五条染蓝；红图和蓝图都为五圈，均无三角形。因此五点可失败，补上这个下界才得 $R(3,3)=6$。原选择题问的是前一个证明实际建立的关系，故官方选“不大于”正确。
+\end{solution}

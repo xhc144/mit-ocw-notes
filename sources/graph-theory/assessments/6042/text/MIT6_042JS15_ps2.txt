@@ -1,0 +1,151 @@
+=== PAGE 1 ===
+Massachusetts Institute of Technology 
+6.042J/18.062J, Spring ’15: Mathematics for Computer Science 
+February 11 
+Prof. Albert R Meyer & Prof. Adam Chlipala 
+revised Wednesday 25th February, 2015, 17:17 
+Problem Set 2 
+Due: February 20 
+Reading: 
+ Chapter 3.6. Predicate Formulas, 
+ Chapter 4. Mathematical Data Types through 4.2. Sequences in the course textbook.
+Problem 1. 
+A formula of set theory is a predicate formula that only uses the predicate “x 2 y.” The domain of discourse 
+is the collection of sets, and “x 2 y” is interpreted to mean that the set x is one of the elements in the set y. 
+For example, since x and y are the same set iff they have the same members, here’s how we can express 
+equality of x and y with a formula of set theory: 
+.x D y/ WWD 8z: .z 2 x IFF z 2 y/: 
+(1) 
+(a) Explain how to write a formula Members.p; a; b/ of set theory that means p D fa; bg. 
+Hint: Say that everything in p is either a or b. It’s OK to use subformulas of the form “x D y,” since we 
+can regard “x D y” as an abbreviation for a genuine set theory formula. 
+A pair .a; b/ is simply a sequence of length two whose ﬁrst item is a and whose second is b. Sequences 
+are a basic mathematical data type we take for granted, but when we’re trying to show how all of mathematics 
+can be reduced to set theory, we need a way to represent the ordered pair .a; b/ as a set. One way that will 
+work1 is to represent .a; b/ as 
+pair.a; b/ WWD fa; fa; bgg: 
+(b) Explain how to write a formula Pair.p; a; b/, of set theory that means p D pair.a; b/. 
+Hint: Now it’s OK to use subformulas of the form “Members.p; a; b/.” 
+(c) Explain how to write a formula Second.p; b/, of set theory that means p is a pair whose second item 
+is b. 
+Problem 2. 
+Prove De Morgan’s Law for set equality 
+A \ B D A [ B: 
+(2) 
+by showing with a chain of IFF’s that x 2 the left hand side of (2) iff x 2 the right hand side. You may 
+assume the propositional version of De Morgan’s Law: 
+NOT.P AND Q/ is equivalent to P OR Q: 
+2015, Eric Lehman, F Tom Leighton, Albert R Meyer. This work is available under the terms of the Creative Commons
+Attribution-NonCommercial-ShareAlike 3.0 license. 
+1Some similar ways that don’t work are described in problem 7.25 in the course textbook.
+
+=== PAGE 2 ===
+2 
+Problem Set 2 
+Problem 3. 
+A binary word is a ﬁnite sequence of 0’s and 1’s. For example, .1; 1; 0/ and .1/ are words of length three 
+and one, respectively. We usually omit the parentheses and commas in the descriptions of words, so the 
+preceding binary words would just be written as 110 and 1. 
+The basic operation of placing one word immediately after another is called concatentation. For example, 
+the concatentation of 110 and 1 is 1101, and the concatentation of 110 with itself is 110110. 
+We can extend this basic operation on words to an operation on sets of words. To emphasize the distinction 
+between a word and a set of words, from now on we’ll refer to a set of words as a language. Now if R and 
+S are languages, then R . S is the language consisting of all the words you can get by concatenating a word 
+from R with a word from S. That is, 
+R . S WWD frs j r 2 R AND s 2 Sg: 
+For example, 
+f0; 00g . f00; 000g D f000; 0000; 00000g  
+Another example is D . D, abbreviated as D2, where D WWD f1; 0g is just the two binary digits.  
+2
+D D f00; 01; 10; 11g: 
+In other words, D2 is the language consisting of all the length two words. More generally, Dn will be the 
+language of length n words. 
+If S is a language, the language you can get by concatenating any number of copies of words in S is 
+called S—pronounced “S star.” (By convention, the empty word, , always included in S.) For example, 
+f0; 11g is the language consisting of all the words you can make by stringing together 0’s and 11’s. This 
+language could also be described as consisting of the words whose blocks of 1’s are always of even length. 
+Another example is .D2/, which consists of all the even length words. Finally, the language, B, of all 
+binary words is just 
+ 
+D . 
+A language is called concatenation-deﬁnable (c-d) if it can be constructed by starting with ﬁnite languages 
+and then applying the operations of concatenation, union, and complement (relative to B) to these languages 
+a ﬁnite number of times.2 Note that the -operation is not allowed. For this reason, the c-d languages are 
+also called the “star-free languages,” [32
+2 We can assign to each c-d language a count which bounds the number of the allowed operations (Union, Concatenation, and 
+Complement) it takes to make it. 
+Since ﬁnite languages are given to be c-d, they are the 0-count languages. For example, 
+ f00; 111g, 
+ the words of length  
+10
+10
+, and 
+ the empty language, ;, 
+are all 0-count. 
+We get a 1-count language by applying one of the operations to a 0-count language. So applying the complement operation to 
+each of the above 0-count languages gives the following 1-count languages: 
+ f00; 111g, the language of all binary words except 00 and 111, 
+ the words of length > 
+10
+10
+, and 
+ the language B of all words. 
+These languages are all inﬁnite, so none of them are 0-count. 
+Notice that you don’t get anything new by using the Union operation to combine two 0-count languages, since the union of ﬁnite 
+sets is ﬁnite. Likewise, you don’t get anything new by concatenating two 0-count languages because the Concatenation of two ﬁnite 
+languages is ﬁnite—if R and S are ﬁnite languages respectively containing n and m words, then R . S contains at most mn words. 
+(Exercise, give an example where R . S contains fewer than mn words.) 
+So the 1-count languages that are not 0-count are precisely those that come from complementing a ﬁnite language. That is, they 
+are the languages that include all but a ﬁnite number of words. 
+We can apply Concatenation to a 0-count and a 1-count language to get a 2-count language. For example, 
+f00; 111g . B 
+] in the course textbook.
+
+=== PAGE 3 ===
+Problem Set 2 
+3 
+Lots of interesting languages turn out to be concatenation-deﬁnable, but some very simple languages are 
+not. This problem ends with the conclusion that the language f00g of even length words whose bits are all 
+0’s is not a c-d language. 
+(a)  Show that if R and S are c-d, then so is R \ S. 
+Now we can show that the set B of all binary words is c-d as follows. Let u and v be any two different 
+binary words. Then fug \ fvg equals the empty set. But fug and fvg are c-d by deﬁnition, so by part (a), the 
+empty set is c-d and therefore so is ; D B. 
+Now a more interesting example of a c-d set is language of all binary words that include three consecutive 
+1’s: 
+B111B: 
+Notice that the proper expression here is “B . f111g . B.” But it causes no confusion and helps readability 
+to omit the dots in concatenations and the curly braces for sets with one element. 
+(b) Show that the language consisting of the binary words that start with 0 and end with 1 is c-d. 
+(c) Show that 0 is c-d. 
+(d) Show that f01g is c-d. 
+Let’s say a language S is 0-ﬁnite when it includes only a ﬁnite number of words whose bits are all 0’s, 
+that is, when S \ 0 is a ﬁnite set of words. A langauge S is 0-boring—boring, for short—when either S 
+or S is 0-ﬁnite. 
+(e) Explain why f
+ 
+00g is not boring. 
+(f) Verify that if R and S are boring, then so is R [ S. 
+(g) Verify that if R and S are boring, then so is R . S. 
+Hint: By cases: whether R and S are both 0-ﬁnite, whether R or S contains no all-0 words at all (including 
+the empty word ), and whether neither of these cases hold. 
+(h) Explain why all c-d languages are boring. 
+So we have proved that the set .00/ of even length all-0 words is not a c-d language. 
+is a 2-count language consisting of all the words that start with either 00 or 111. Notice that this language is not 0-count or 1-count, 
+since both it and its complement are inﬁnite. 
+Doing a concatenation of the 1-count language B with this 2-count language, gives a 1 C 1 C 2 D 4-count language 
+B . f00; 111g . B 
+which consists of all the words that have either two consecutive 0’s or three consecutive 1’s. We don’t know at this point whether 
+this language is also 3-count, or even 2-count, because we haven’t ruled out the possibility that it could be built using fewer than 4 
+operations (though we don’t think it can). 
+Now doing a complement of this 4-count language give a 5-count language consisting of all the words in which 
+  every occurrence of 0 is followed by a 1, except for a possible 0 at the end of the word, and also 
+  every occurrence of11 is followed by a 0, except for a possible 11 at the end of the word. 
+The c-d languages are precisely the languages that are n-count for some nonnegative integer n. 
+
+=== PAGE 4 ===
+MIT OpenCourseWare
+https://ocw.mit.edu
+6.042J / 18.062J Mathematics for Computer Science
+Spring 2015
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.

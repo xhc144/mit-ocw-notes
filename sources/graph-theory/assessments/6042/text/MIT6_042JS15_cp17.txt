@@ -1,0 +1,258 @@
+=== PAGE 1 ===
+Massachusetts Institute of Technology
+6.042J/18.062J, Spring ’15: Mathematics for Computer Science
+March 20
+Prof. Albert R Meyer & Prof. Adam Chlipala
+revised Thursday 19th March, 2015, 10:15
+In-Class Problems Week 7, Fri.
+Problem 1.
+The table below lists some prerequisite information for some subjects in the MIT Computer Science program
+(in 2006). This deﬁnes an indirect prerequisite relation that is a DAG with these subjects as vertices.
+18:01 ! 6:042
+18:01 ! 18:02
+18:01 ! 18:03
+6:046 ! 6:840
+8:01 ! 8:02
+6:001 ! 6:034
+6:042 ! 6:046
+18:03; 8:02 ! 6:002
+6:001; 6:002 ! 6:003
+6:001; 6:002 ! 6:004
+6:004 ! 6:033
+6:033 ! 6:857
+(a) Explain why exactly six terms are required to ﬁnish all these subjects, if you can take as many subjects
+as you want per term. Using a greedy subject selection strategy, you should take as many subjects as possible
+each term. Exhibit your complete class schedule each term using a greedy strategy.
+(b) In the second term of the greedy schedule, you took ﬁve subjects including 18.03. Identify a set of
+ﬁve subjects not including 18.03 such that it would be possible to take them in any one term (using some
+nongreedy schedule). Can you ﬁgure out how many such sets there are?
+(c) Exhibit a schedule for taking all the courses—but only one per term.
+(d) Suppose that you want to take all of the subjects, but can handle only two per term. Exactly how many
+terms are required to graduate? Explain why.
+(e) What if you could take three subjects per term?
+Problem 2.
+A pair of Math for Computer Science Teaching Assistants, Lisa and Annie, have decided to devote some of
+their spare time this term to establishing dominion over the entire galaxy. Recognizing this as an ambitious
+project, they worked out the following table of tasks on the back of Annie’s copy of the lecture notes.
+1. Devise a logo and cool imperial theme music - 8 days.
+2. Build a ﬂeet of Hyperwarp Stardestroyers out of eating paraphernalia swiped from Lobdell - 18 days.
+3. Seize control of the United Nations - 9 days, after task #1.
+4. Get shots for Lisa’s cat, Tailspin - 11 days, after task #1.
+5. Open a Starbucks chain for the army to get their caffeine - 10 days, after task #3.
+2015, Eric Lehman, F Tom Leighton, Albert R Meyer. This work is available under the terms of the Creative Commons
+Attribution-NonCommercial-ShareAlike 3.0 license.
+
+=== PAGE 2 ===
+2
+In-Class Problems Week 7, Fri.
+6. Train an army of elite interstellar warriors by dragging people to see The Phantom Menace dozens
+of times - 4 days, after tasks #3, #4, and #5.
+7. Launch the ﬂeet of Stardestroyers, crush all sentient alien species, and establish a Galactic Empire -
+6 days, after tasks #2 and #6.
+8. Defeat Microsoft - 8 days, after tasks #2 and #6.
+We picture this information in Figure 1 below by drawing a point for each task, and labelling it with the
+name and weight of the task. An edge between two points indicates that the task for the higher point must
+be completed before beginning the task for the lower one.
+devise
+u
+logo
+build
+uﬂeet
+8
+18
+
+E
+A
+
+ E
+A
+
+ E
+A
+u
+
+u
+
+E
+A
+seize control 9
+
+E
+
+AA get shots
+
+E
+
+B
+ 11
+
+E
+
+B
+
+
+E
+u
+
+B
+
+
+E
+
+B
+
+open chain 
+
+E
+B
+Q
+
+10
+
+E
+Q
+B
+
+Q
+
+E
+B
+Q
+Qu
+
+
+E
+Q B
+
+Q
+
+B
+4
+E
+B 
+train army P
+
+E
+QPP
+Q
+P
+
+E
+P
+Q
+PP 
+E
+Q
+PP
+Q
+
+PP
+Q
+u
+E
+P
+
+PPuE
+6Q
+E defeat Microsoft
+launch ﬂeet
+8
+Figure 1
+Graph representing the task precedence constraints.
+(a) Give some valid order in which the tasks might be completed.
+Lisa and Annie want to complete all these tasks in the shortest possible time. However, they have agreed
+on some constraining work rules.
+ Only one person can be assigned to a particular task; they cannot work together on a single task.
+ Once a person is assigned to a task, that person must work exclusively on the assignment until it is
+completed. So, for example, Lisa cannot work on building a ﬂeet for a few days, run to get shots for
+Tailspin, and then return to building the ﬂeet.
+(b) Lisa and Annie want to know how long conquering the galaxy will take. Annie suggests dividing the
+total number of days of work by the number of workers, which is two. What lower bound on the time to
+conquer the galaxy does this give, and why might the actual time required be greater?
+(c) Lisa proposes a different method for determining the duration of their project. She suggests looking at
+the duration of the critical path, the most time-consuming sequence of tasks such that each depends on the
+one before. What lower bound does this give, and why might it also be too low?
+(d) What is the minimum number of days that Lisa and Annie need to conquer the galaxy? No proof is
+required.
+
+=== PAGE 3 ===
+In-Class Problems Week 7, Fri.
+3
+Problem 3.
+Sauron ﬁnds that conquering Middle Earth breaks down into a bunch of tasks. Each task can be completed
+by a horrible creature called a Ringwraith in exactly one week. Sauron realizes the prerequisite structure
+among the tasks deﬁnes a DAG. He has n tasks in his DAG, with a maximum length chain of t tasks.
+(a) Sauron is trying to describe various features of his scheduling problem using standard terminology. For
+each feature below, indicate the number of the corresponding term.
+Standard Terminology
+1.
+Indirect prerequisite
+2.
+Topological sort
+3.
+Chain
+4.
+Antichain
+5.
+Size of the largest antichain
+6.
+Size of the smallest antichain
+7.
+Length of the longest chain
+8.
+Length of the shortest chain
+1.
+A set of tasks that can be worked on simultaneously.
+2.
+A possible order in which all the tasks could be completed, if only one Ringwraith
+were available.
+3.
+The minimum number of weeks required to complete all tasks, if an unlimited
+number of Ringwraiths were available.
+(b) If Sauron is lucky, he will be able to get away with a small crew of Ringwraiths. Write a simple formula
+involving n and t for the smallest number of Ringwraiths that could possibly be able to complete all n tasks
+in t weeks. (Do not make any additional assumptions about the relative sizes of n and t besides t  n.)
+Given any n and t, describe a DAG that can be completed in t weeks using this number of Ringwraiths.
+(c) On the other hand, if Sauron is unlucky, he may need a large crew of Ringwraiths in order to conquer
+Middle Earth in t weeks. Write a simple formula involving n and t for the largest number of Ringwraiths
+that Sauron would ever need in order to be sure of completing all n tasks in t weeks—no matter how unlucky
+he was. Given any n and t, describe a DAG that can be completed in t weeks and requires this number of
+Ringwraiths.
+Problem 4.
+If a and b are distinct nodes of a digraph, then a is said to cover b if there is an edge from a to b and every
+path from a to b includes this edge. If a covers b, the edge from a to b is called a covering edge.
+(a) What are the covering edges in the DAG in Figure 2?
+(b) Let covering .D/ be the subgraph of D consisting of only the covering edges. Suppose D is a ﬁnite
+DAG. Explain why covering .D/ has the same positive walk relation as D.
+Hint: Consider longest paths between a pair of vertices.
+(c) Show that if two DAG’s have the same positive walk relation, then they have the same set of covering
+edges.
+(d) Conclude that covering .D/ is the unique DAG with the smallest number of edges among all digraphs
+with the same positive walk relation as D.
+The following examples show that the above results don’t work in general for digraphs with cycles.
+(e) Describe two graphs with vertices f1; 2g which have the same set of covering edges, but not the same
+positive walk relation (Hint: Self-loops.)
+(f)
+(i) The complete digraph without self-loops on vertices 1; 2; 3 has edges between every two distinct
+vertices. What are its covering edges?
+(ii) What are the covering edges of the graph with vertices 1; 2; 3 and edges h1!2i ; h2!3i ; h3!1i?
+
+=== PAGE 4 ===
+4
+In-Class Problems Week 7, Fri.
+2
+4
+6
+1
+3
+5
+Figure 2
+DAG with edges not needed in paths
+(iii) What about their positive walk relations?
+
+=== PAGE 5 ===
+MIT OpenCourseWare
+https://ocw.mit.edu
+6.042J / 18.062J Mathematics for Computer Science
+Spring 2015
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.

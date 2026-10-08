@@ -1,6 +1,6 @@
 # 图论逐文件来源冻结清单
 
-34 份原件，共 1062 个 PDF 物理页；仅声明下表指定内容采用。下载/核查日期：2026-10-08。
+初始讲义原件 34 份，共 1062 个 PDF 物理页；下表冻结的是前 17 章采用范围。新增评测另有 77 份 PDF、278 页，详见 [assessment-source-manifest.json](assessment-source-manifest.json) 和 [assessment-selection.json](assessment-selection.json)。两部分共 111 份 PDF、1340 页。新增题解包括稳定婚姻、完全图 Tutte 值、平面书嵌入及高级谱工具等，不能用下表的原始讲义省略项反向推断题解缺失。下载/核查日期：2026-10-08。
 
 |文件|页数|作者与授课年|采用范围|许可|SHA-256|
 |---|---:|---|---|---|---|

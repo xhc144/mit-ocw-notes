@@ -1,0 +1,97 @@
+\par\addvspace{7pt}\Needspace{4\baselineskip}\noindent\textbf{第三次期中与期末考试题}\par
+\begin{exercise}\label{mit:6042-mt3-q1}
+\textbf{6.042J，Spring 2015，Midterm 3 第 1 题，15 分。}
+任务 $A,\ldots,H$ 的直接先修弧为 $A\to D,D\to E,B\to E,B\to F,C\to F,E\to G,F\to H$。
+（a）求两个最大反链；（b）各任务需单位时间，无人数上限，最短工期是多少？（c）每时段至多完成两项，最短工期是多少？
+\end{exercise}
+\sourceof{Midterm 3，物理第 2 页；编者独立解答，原图边集重构。}
+\begin{solution}
+(a) 两个最大反链为 $\{A,B,C\}$ 和 $\{D,B,C\}$，大小 $3$。完整性如下：把图划分为链 $A,D,E,G$，链 $C,F,H$，以及单点链 $B$；反链至多三个，若达三个必须含 $B$。于是不能含 $E,G,F,H$，只能在第一链选 $A$ 或 $D$，在第二链选 $C$，恰有两种。
+(b) 链 $A,D,E,G$ 给下界 $4$。按时段取 $\{A,B,C\},\{D,F\},\{E,H\},\{G\}$ 达到四时段。
+(c) 总共八项给下界 $4$。四时段课表可取 $\{A,B\},\{C,D\},\{E,F\},\{G,H\}$，每项先修均已完成，所以最短也是 $4$。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-mt3-q3}
+\textbf{6.042J，Spring 2015，Midterm 3 第 3 题，20 分。}
+（a）构造简单图和 $u\ne v$，二者之间有两条不同路径，却没有圈包含 $u$ 或 $v$（提示五个顶点）；（b）证明两个顶点间若有两条不同路径，全图必有圈。
+\end{exercise}
+\sourceof{Midterm 3，物理第 4 页；编者独立解答。}
+\begin{solution}
+(a) 取三角形 $abc$，再加边 $ua,bv$。两条 $u$ 到 $v$ 路径为 $u,a,b,v$ 和 $u,a,c,b,v$，但 $u,v$ 度 $1$，不可能在任何圈上。
+(b) 两条路径从起点出发，取首次分离处 $a$；沿第一条走到分离后首次重新碰到第二条路径的顶点 $b$。两段 $a$ 到 $b$ 路径内部不交，它们的并组成圈。这个圈不必含原端点，(a) 正说明不能强化为端点也在圈上。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-mt3-q4}
+\textbf{6.042J，Spring 2015，Midterm 3 第 4 题，20 分。}
+固定 $n>1$ 种颜色，证明每棵 $m\ge1$ 顶点树恰有 $n(n-1)^{m-1}$ 种正确顶点染色。
+\end{exercise}
+\sourceof{Midterm 3，物理第 5 页；编者独立解答。}
+\begin{solution}
+对 $m$ 归纳。$m=1$ 时唯一顶点任选 $n$ 色。$m\ge2$ 时取叶 $x$ 及唯一邻点 $y$，删叶后的树有 $m-1$ 顶点，由归纳有 $n(n-1)^{m-2}$ 种染色。每一种恰有 $n-1$ 种扩张给 $x$：除去 $y$ 的颜色后任选其余颜色，且没有其他邻接限制。不同旧染色或不同叶色产生不同新染色，每个新染色删叶又对应其中一种，故总数为 $n(n-1)^{m-1}$。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-mt3-q5}
+\textbf{6.042J，Spring 2015，Midterm 3 第 5 题，15 分。}
+现在男方人数至少为女方人数，允许男方未匹配；原题允许直接使用算法最终使全部女方匹配且没有阻塞对的结论。Alice 为女方、Bob 为男方。选择保持不变量：
+（a）Alice 有一个比 Bob 更喜欢的申请者；（b）Alice 是 Bob 名单上的唯一女方；（c）Alice 无申请者；（d）Bob 比起当前申请的女方更喜欢 Alice；（e）Bob 正向 Alice 申请；（f）Bob 没向 Alice 申请；（g）Bob 的名单为空。
+\end{exercise}
+\sourceof{Midterm 3，物理第 6 页；编者独立解答，注意与等人数 CP22 的区别。}
+\begin{solution}
+选 $(a),(d),(g)$。
+(a) 女方有了申请者以后只换成更喜欢者，比较保持。(d) 男方申请次序只向偏好较低的人移动；若名单空，按“对所有当前申请对象”的量词解释，该比较为空真，仍不会由真变假。(g) 名单只删不增，空了就永久为空。
+(b) 在人数不等时最后一个名字也可能被拒，名单变空。例如两男一女，女方拒较不喜欢的男方。(c) 无申请者的女方可能随后接到申请。(e) Bob 被 Alice 拒绝后会停止申请她。(f) Bob 可以先申请别人，受拒后下一次向 Alice 申请。因此四者都可能从真变假。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-final-q2}
+\textbf{6.042J，Spring 2015，Final 第 2 题，10 分。}
+图有宽度 $1$ 指可排序使每点至多邻接一个更早顶点。用归纳证明每棵有限树有宽度 $1$。
+\end{exercise}
+\sourceof{Final，物理第 3 页；编者独立解答，与 CP21 第 4 题 (b) 相同。}
+\begin{solution}
+单点树任意排序成立。假设所有 $m-1$ 点树成立，对 $m\ge2$ 点树取一个叶 $x$，删它仍为树；把剩余树按归纳排序，再把 $x$ 接在最后。此前各点的更早邻点数未改变，$x$ 只有一个邻点且它在前面，故条件成立。这就是习题~\ref{mit:6042-cp21-q4}(b) 的归纳构造。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-final-q4}
+\textbf{6.042J，Spring 2015，Final 第 4 题，8 分。}
+$n$ 项单位时间任务构成偏序，最长链有 $t$ 项，$1\le t\le n$。要在 $t$ 周完成：（a）最少可能需要几人？（b）构造需要 $n-t+1$ 人的偏序。
+\end{exercise}
+\sourceof{Final，物理第 5 页；编者独立解答，与 CP17 第 3 题相关。}
+\begin{solution}
+(a) 至少 $q=\lceil n/t\rceil$ 人，因为 $q'$ 人在 $t$ 周只能完成 $q't$ 项。取 $q$ 条不交链，长度至多 $t$ 且一条恰长 $t$，即可一人执行一链达到下界；分配长度的存在性已在习题~\ref{mit:6042-cp17-q3}(b) 完整说明。
+(b) 先放一条长 $t-1$ 的链，把它的最后一项设为其余 $n-t+1$ 项的先修。后面这些任务只能在第 $t$ 周同时进行，所以需要这么多人；这些人也足以完成。$t=1$ 时取全部 $n$ 项独立。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-final-q5}
+\textbf{6.042J，Spring 2015，Final 第 5 题，8 分。}
+解释以下序列为什么不能是连通简单图的递增度序列：
+（a）$(1,2,3,4,5,6,7)$；（b）$(1,3,3,4,4,4)$；（c）$(1,1,1,1)$；（d）$(1,2,3,4,4)$。
+\end{exercise}
+\sourceof{Final，物理第 6 页；编者独立解答。}
+\begin{solution}
+(a) 七顶点简单图度至多 $6$，不可能有度 $7$。
+(b) 度数和为 $19$，但握手引理要求为偶数。
+(c) 总度 $4$，故只有两条边；四顶点连通图至少需三条边，或直接说它必为两条不交边。
+(d) 两个度 $4$ 顶点均邻接其他所有顶点，因此那个度 $1$ 顶点至少邻接这二者，矛盾。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-final-q9}
+\textbf{6.042J，Spring 2015，Final 第 9 题，6 分。}
+$n$ 点简单图的每对不同顶点独立以概率 $p$ 连边。（a）给定顶点的度恰为 $2$ 的概率是多少？（b）度恰为 $2$ 的顶点数的期望是多少？
+\end{exercise}
+\sourceof{Final，物理第 10 页；编者独立解答。}
+\begin{solution}
+(a) $n\ge3$ 时，选出两个邻点有 $\binom{n-1}2$ 种，选中边均出现、其余 $n-3$ 条边不出现的概率为 $p^2(1-p)^{n-3}$。这些不同邻点集事件互斥，所以
+$q=\binom{n-1}2p^2(1-p)^{n-3}$。$n=1,2$ 时概率为 $0$，不能用负次幂表达端点情形；$n=0$ 没有可指定顶点。
+(b) 给各顶点设置度 $2$ 的指示量，总数是其和。期望线性性不要求各点度数独立，故期望为 $nq$；$n\le2$ 时为 $0$。
+\end{solution}
+
+\begin{exercise}\label{mit:6042-final-q12}
+\textbf{6.042J，Spring 2015，Final 第 12 题，6 分。}
+分别构造随机游走图：（a）有不可数多个平稳分布；（b）不强连通却仅一个平稳分布；（c）强连通，但有初始分布不趋于平稳分布。
+\end{exercise}
+\sourceof{Final，物理第 13 页；编者独立解答。}
+\begin{solution}
+(a) 两点各自有概率 $1$ 的自环。任意 $(s,1-s)$，$s\in[0,1]$，都平稳，故不可数。
+(b) $u\to v$ 与 $v\to v$ 概率均为 $1$。平稳方程强制 $u$ 质量为 $0$，故唯一 $(0,1)$，但 $v$ 不可达 $u$。
+(c) $x\to y,y\to x$ 概率均为 $1$，是强连通图；唯一平稳分布 $(1/2,1/2)$，从 $(1,0)$ 出发每步在 $(1,0)$、$(0,1)$ 间交替，不收敛。
+\end{solution}

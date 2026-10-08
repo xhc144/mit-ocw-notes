@@ -5,14 +5,31 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 FILES=['main.tex','build.sh','README.md','LICENSE.md','source-manifest.json',
+       'assessment-source-manifest.json','assessment-selection.json','assessment-completion.json',
+       'frontmatter/course-info.tex','frontmatter/supplementary-courses.tex',
        *[f'chapters/ch{n:02}.tex' for n in range(1,18)],'chapters/source-map.tex',
+       'chapters/assessments.tex',
+       *[f'assessments/18315/hw{n}.tex' for n in range(1,9)],
+       *[f'assessments/{c}/main.tex' for c in ['18433','18212','18217','6042']],
+       *[f'assessments/6042/{name}.tex' for name in ['lemmas','ps','cp-a','cp-b','cp-c','exams','online']],
        'tools/bootstrap_tex.py','tools/verify_sources.py','tools/audit_pdf.py',
+       'tools/freeze_assessments.py','tools/audit_assessments.py','tools/clean_rebuild.py',
+       *[f'tools/assessment-{name}-check.py' for name in ['primary-advanced','whitney','tree-parking','extremal-spectral']],
+       'qa/assessment-computation-provenance.json',
+       'qa/18315-advanced-finite-check.json','qa/whitney-fan-strip-finite-check.json',
+       'qa/check-18212-bijections.json','qa/assessment18217_checks.json',
        'tools/matrix-electric-check.py','tools/spectral-extremal-check.py','tools/ramsey-poset-check.py',
        'qa/style-baseline.tex','qa/classical-review.md','qa/polynomial-algorithm-review.md',
        'qa/matrix-electric-review.md','qa/spectral-extremal-review.md','qa/ramsey-poset-review.md',
        'qa/spectral-extremal-computations.json','qa/ramsey-poset-computations.json',
        'qa/visual-pages-01-20.json','qa/visual-pages-21-40.json','qa/visual-pages-41-56.json',
-       'qa/QUALITY.json','qa/final-checks.json','qa/typesetting/main.build.json',
+       *[f'qa/assessments-inventory-{c}.json' for c in ['18315','18433','18212','18217','6042']],
+       'qa/assessments-selection-18315.json',
+       *[f'qa/assessments-draft-{c}.md' for c in ['18315-advanced','18433','18212','18217','6042']],
+       *[f'qa/assessments-review-{c}.md' for c in ['18315-foundations','18315-advanced','18433','18212','18217','6042']],
+       'qa/course-metadata-review.md','qa/source-archive-verification.json',
+       *[f'qa/visual-expanded-{n}.json' for n in range(1,6)],
+       'qa/HISTORY.md','qa/QUALITY.json','qa/final-checks.json','qa/typesetting/main.build.json',
        'qa/typesetting/main.render.json','qa/typesetting/validation_report.json']
 for p in sorted((ROOT/'vendor/math-latex-typesetting').rglob('*')):
     if p.is_file() and '__pycache__' not in p.parts:

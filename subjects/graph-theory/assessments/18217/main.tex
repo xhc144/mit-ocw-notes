@@ -1,0 +1,544 @@
+\originalsection{18.217 Fall 2019：官方题库选编与解答}\label{ch:assessment18217}
+\sourceof{Yufei Zhao, 18.217 Graph Theory and Additive Combinatorics, Fall 2019; 官方综合题库物理第1--5页指定题目. 公开题库共11页, 此处编入23个编号题、29个任务单元; 未发布独立官方解答, 下列证明为编者重建}
+本题组采用有限无向简单图, 子图不要求诱导. 原课将同一题库中的部分题号指定为六次作业, 星号表示挑战题. 本册保留题号与实际提交次数; A3(d) 原课明确不提交, 此处标为选读. A3(c) 是未选的星号挑战题, 不将星号误解释为开放问题. 未采用的正则性、图极限、高级代数构造与相关随机选择仍属于图论专题; 加法组合题另列范围边界.
+
+\par\medskip\noindent\textbf{Ramsey 与单色计数}\par
+\begin{exercise}\label{mit:18217-a1}
+\textbf{18.217 Fall 2019 / A1(a),(b) / Problem set 1.}
+(a) 给定正整数 $s,r$, 证明存在整数 $N(s,r)$, 使任意将 $K_{N(s,r)}$ 的边染成 $r$ 色的方案都含单色 $K_s$.
+(b) 对 $s\ge3$, 证明将 $K_{\binom{2s-2}{s-1}}$ 的边染成两色, 总能找到单色 $K_s$.
+\end{exercise}
+\sourceof{官方题库物理第1页; 无独立官方解答, 编者独立证明}
+\begin{solution}
+(a) 用允许不同颜色目标大小的归纳来保证存在性. 记 $R(s_1,\ldots,s_r)$ 为保证某种颜色 $i$ 出现 $K_{s_i}$ 的最小顶点数. 若某个 $s_i=1$, 任一点已经满足要求, 取 $R=1$. 其余情形令 $N_i=R(s_1,\ldots,s_i-1,\ldots,s_r)$, 已由目标大小总和较小的归纳得到有限值. 取 $N=2-r+\sum_iN_i$, 固定顶点 $v$. 因 $N-1=1+\sum_i(N_i-1)$, 至少一种颜色 $i$ 在 $v$ 的邻边中出现不少于 $N_i$ 次. 对相应邻点集用归纳: 若产生其他颜色 $j$ 的目标团, 已完成; 若产生颜色 $i$ 的 $K_{s_i-1}$, 加上 $v$ 便成 $K_{s_i}$. 于是递推始终给有限上界, 取全部 $s_i=s$ 即得结论.
+
+(b) 两色时递推化为 $R(s,t)\le R(s-1,t)+R(s,t-1)$, 边界 $R(1,t)=R(s,1)=1$. Pascal 恒等式给归纳上界 $R(s,t)\le\binom{s+t-2}{s-1}$. 令 $t=s$ 得所需顶点数. 这里给的是保证值的上界, 并未声称它总等于最小 Ramsey 数.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-a3}
+\textbf{18.217 Fall 2019 / A3(a),(b): Problem set 1; A3(d): 原课不提交, 本册选读.}
+(a) 判断: 两色边染色的 $K_n$ 中, 至少 $1/4-o(1)$ 比例的三角形单色.
+(b) 判断: 三色边染色的 $K_n$ 中, 至少 $1/9-o(1)$ 比例的三角形单色.
+(d) 证明对固定正整数 $s,r$, 存在 $c>0$, 使充分大的 $n$ 的任意 $r$ 色边染色中, 至少 $c$ 比例的 $s$ 点团单色.
+\end{exercise}
+\sourceof{官方题库物理第1页; A3(c) 未选, A3(d) 的 do not submit 标记保留; 无官方解答, 编者独立证明}
+\begin{solution}
+(a) 正确. 顶点 $v$ 的红度记 $a_v$, 蓝度为 $n-1-a_v$. 以 $v$ 为中心、两边异色的角有 $a_v(n-1-a_v)$ 个. 非单色三角形恰有两个异色角, 单色三角形没有, 故单色三角形数为
+\[
+M=\binom n3-\frac12\sum_va_v(n-1-a_v)
+\ge\binom n3-\frac{n(n-1)^2}{8}.
+\]
+对 $n\ge3$ 除以总数, 得 $M/\binom n3\ge1/4-3/[4(n-2)]$, 满足要求.
+
+(b) 错误. 取五个各含 $t$ 点的组, 将组编号为五圈的顶点. 相邻两组之间染红, 其他两组之间染蓝, 每组内部全染绿. 红色组间关系与蓝色组间关系都是五圈, 均无三角形. 三个点若分属三组, 不会单色; 若来自两组, 组内边为绿而组间边非绿, 也不会单色. 所以单色三角形恰为各组内部的 $5\binom t3$ 个, 比例趋于 $1/25<1/9$. 这个无穷序列已经否定所声称的渐近下界.
+
+(d) 取 A1 保证的 $R=N(s,r)\ge s$. 每个 $R$ 元顶点集含至少一个单色 $s$ 元团. 若单色 $s$ 元顶点集共有 $M$, 每一个被 $\binom{n-s}{R-s}$ 个 $R$ 元集包含. 双计数得
+\[
+M\binom{n-s}{R-s}\ge\binom nR,
+\qquad M\ge\frac{\binom ns}{\binom Rs}.
+\]
+因此可取 $c=1/\binom Rs$, 对一切 $n\ge R$ 成立. 计数按顶点集进行, 不把一个团的颜色重复计入.
+\end{solution}
+
+\par\medskip\noindent\textbf{极值、稳定性与双计数}\par
+\begin{exercise}\label{mit:18217-b1}
+\textbf{18.217 Fall 2019 / B1 / Problem set 1.}
+证明 $n\ge1$ 点、$m$ 边图的三角形数至少为 $\frac{4m}{3n}(m-n^2/4)$.
+\end{exercise}
+\sourceof{官方题库物理第1页; 无官方解答, 编者独立证明}
+\begin{solution}
+记边 $uv$ 的公共邻点数为 $c_{uv}$. 由邻点集并集不超过 $n$, 有 $c_{uv}\ge d(u)+d(v)-n$. 每个三角形在三条边上各计一次, 所以
+\[
+3T=\sum_{uv\in E}c_{uv}\ge\sum_vd(v)^2-nm
+\ge4m^2/n-nm.
+\]
+整理即得. 当右端为负时仍是正确但无信息的下界, 不能把它当成负数个三角形.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b2}
+\textbf{18.217 Fall 2019 / B2\,$\star$ / Problem set 1.}
+证明 $n$ 点图若至少有 $\lfloor n^2/4\rfloor+1$ 条边, 则至少有 $\lfloor n/2\rfloor$ 个三角形.
+\end{exercise}
+\sourceof{官方题库物理第1页; 无官方解答, 编者重建 Rademacher 的二点删除归纳}
+\begin{solution}
+按 $n$ 归纳, $n\le2$ 时假设不可能, $n=3$ 时只能是三角形. 对 $n\ge4$, Mantel 定理保证存在三角形 $abc$. 令 $r_a,r_b,r_c$ 为三个点通向其余 $n-3$ 点的边数.
+
+若某对, 例如 $r_a+r_b\le n-4$, 删去 $a,b$ 总共删除 $r_a+r_b+3\le n-1$ 条边. 因
+\[
+\lfloor n^2/4\rfloor-\lfloor(n-2)^2/4\rfloor=n-1,
+\]
+剩余图仍比 $(n-2)$ 点 Mantel 界多至少一边. 归纳给至少 $\lfloor(n-2)/2\rfloor$ 个三角形, 再加已删去的 $abc$, 得所需数目.
+
+否则三个两两和均至少 $n-3$, 从而 $r_a+r_b+r_c\ge\lceil3(n-3)/2\rceil$. 对外部顶点 $x$, 记它连向 $\{a,b,c\}$ 的边数为 $k_x$. 除 $abc$ 外, 使用其中一条边及 $x$ 的三角形有 $\binom{k_x}{2}$ 个, 而 $\binom k2\ge k-1$ 对 $k=0,1,2,3$ 均成立. 因此这些不同三角形共至少
+\[
+1+\sum_x\binom{k_x}{2}
+\ge1+\lceil3(n-3)/2\rceil-(n-3)
+=\lfloor n/2\rfloor.
+\]
+归纳闭合. 平衡完全二部图在较大的那一侧增加一条边, 恰产生另一侧的 $\lfloor n/2\rfloor$ 个三角形, 所以界锐.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b3}
+\textbf{18.217 Fall 2019 / B3\,$\star$ / Problem set 1.}
+证明至少有 $\lfloor n^2/4\rfloor+1$ 条边的 $n$ 点图中, 某边属于至少 $(1/6-o(1))n$ 个三角形; 并证明常数 $1/6$ 不可提高.
+\end{exercise}
+\sourceof{官方题库物理第1页; 无官方解答. 编者展开四顶点计数, 背景参照 Bollobás--Nikiforov, \href{https://arxiv.org/abs/math/0405080}{Books in graphs}; 只留研究链接, 不打包第三方正文}
+\begin{solution}
+把最大公共邻点数记为 $\beta=\max_{uv\in E}c_{uv}$, 即最大书数. 我们证明更强的 $\beta>n/6$.
+
+记三角形数为 $T$, 四团数为 $Q$, 并令 $I_j$ 表示四点诱导图由一个三角形加一个与三角形恰有 $j$ 条邻边的点构成的个数, $j=0,1,2$. 这三种图分别有1、1、2个三角形. 按三角形和外点计数, 得
+\[
+(n-3)T=4Q+2I_2+I_1+I_0.
+\]
+再按一条边及两个公共邻点计数: 四团有6种脊边, 去一边的四团只有1种脊边, 故
+\[
+\sum_e\binom{c_e}{2}=6Q+I_2,
+\qquad \sum_ec_e^2=12Q+2I_2+3T.
+\]
+令 $a_{uv}$ 为与 $u,v$ 均不邻接的顶点数. 由于 $uv$ 是边, 其端点不在该集合中. 计数脊边、公共邻点和共同非邻点的组合, 得
+\[
+\sum_ec_ea_e=I_1+3I_0.
+\]
+这里有一条悬挂边的三角形只有与悬挂点不相接的脊边贡献一次; 三角形加孤立点在三条脊边各贡献一次. 合并以上三式, 得准确恒等式
+\[
+nT+8Q+2I_0=\sum_ec_e(c_e+a_e).
+\]
+因为 $a_{uv}=n-d(u)-d(v)+c_{uv}$, 有
+\[
+\sum_e(c_e+a_e)=6T+nm-\sum_vd(v)^2.
+\]
+所有 $c_e+a_e\ge0$, 且 $c_e\le\beta$, 故
+\[
+(6\beta-n)T\ge\beta\left(\sum_vd(v)^2-nm\right)+8Q+2I_0.
+\]
+假设使 $m>n^2/4$, Cauchy--Schwarz 给 $\sum d^2\ge4m^2/n>nm$. Mantel 保证 $T>0$, 所以 $\beta>0$ 且右端严格为正, 得 $\beta>n/6$.
+
+为证明常数锐, 取六个独立组 $A_1,A_2,A_3,B_1,B_2,B_3$, 前三组各 $t$ 点, 后三组各 $t-1$ 点. 在所有不同 $A$ 组间、所有不同 $B$ 组间、每对 $A_i,B_i$ 间连全边, 其他位置无边. 此时
+\[
+n=6t-3,\qquad m=3t^2+3(t-1)^2+3t(t-1)
+=\lfloor n^2/4\rfloor+1.
+\]
+$A_iA_j$ 型边的公共邻点恰为剩余 $A$ 组的 $t$ 点, $B_iB_j$ 型边为 $t-1$ 点, $A_iB_i$ 型边没有公共邻点. 因而最大书数为 $t$, 且 $t/(6t-3)\to1/6$. 任何更大固定常数都不能统一成立.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b4}
+\textbf{18.217 Fall 2019 / B4(a),(b)\,$\star$ / Problem set 1; 星号仅标(b).}
+(a) 无三角形 $n$ 点图若有至少 $\lfloor n^2/4\rfloor-k$ 边, 证明删去至多 $k$ 边可使它二部.
+(b) 无 $K_{r+1}$ 图若有至少 $t_r(n)-k$ 边, 证明删去至多 $k$ 边可使它 $r$ 部. 这里 $r\ge1,k\ge0$ 为整数.
+\end{exercise}
+\sourceof{官方题库物理第1页; 无官方解答, 编者独立证明}
+\begin{solution}
+同时证明更精确的命题: 无 $K_{r+1}$ 的 $m$ 边图, 删去至多 $t_r(n)-m$ 边可成为 $r$ 部. 按 $r$ 归纳; $r=1$ 时图无边, $n=0$ 时亦直接成立. 取最大度点 $v$, 令 $X=N(v)$, $|X|=\Delta$, $Y=V\setminus X$. $G[X]$ 不含 $K_r$, 归纳使它 $(r-1)$ 部只需删除至多 $t_{r-1}(\Delta)-e(X)$ 边; 再删除 $Y$ 内全部 $e(Y)$ 边, 即得 $r$ 部图.
+
+为估计总删除量, 用最大度给
+\[
+e(X,Y)+2e(Y)=\sum_{y\in Y}d(y)\le\Delta(n-\Delta).
+\]
+把 $\Delta$ 个点分成 $r-1$ 个平衡部分, 再以 $Y$ 作第 $r$ 部, 可形成边数 $t_{r-1}(\Delta)+\Delta(n-\Delta)$ 的 $r$ 部图, 其边数至多 $t_r(n)$. 于是
+\[
+t_{r-1}(\Delta)-e(X)+e(Y)
+\le t_r(n)-e(X)-e(X,Y)-e(Y)=t_r(n)-m.
+\]
+这证明(b), 令 $r=2$ 就是(a); 若 $m\ge t_r(n)-k$, 删除量自然至多 $k$.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b5}
+\textbf{18.217 Fall 2019 / B5 / 题库练习, 网页未指定提交.}
+对无 $K_{r+1}$ 图 $G$, 构造同顶点集上的图 $H$, 满足 $\chi(H)\le r$, 且每点 $d_H(x)\ge d_G(x)$. 据此另证 Turán 定理.
+\end{exercise}
+\sourceof{官方题库物理第1页; 无官方解答, 编者独立证明}
+\begin{solution}
+按 $r$ 归纳. $r=1$ 时 $G$ 无边, 取 $H=G$; 空顶点集同样平凡. 取最大度点 $v$, $X=N_G(v)$, $Y=V\setminus X$, $|X|=\Delta$. 由 $G[X]$ 无 $K_r$, 归纳得到 $(r-1)$ 色图 $H_X$, 对 $x\in X$ 有 $d_{H_X}(x)\ge d_{G[X]}(x)$. 令 $H$ 为 $H_X$ 与独立集 $Y$ 的完全连接. 给 $Y$ 新的一色, 故 $\chi(H)\le r$. 对 $x\in X$,
+$d_H(x)\ge d_{G[X]}(x)+|Y|\ge d_G(x)$;
+对 $y\in Y$, $d_H(y)=\Delta\ge d_G(y)$. 所有点的度支配均成立.
+
+握手得 $e(G)\le e(H)$. $r$ 个颜色类大小为 $a_i$ 时, $e(H)\le(n^2-\sum_i a_i^2)/2\le t_r(n)$, 最后一界来自把相差至少2的两类调平会减少平方和. 平衡完全 $r$ 部图达到该数, 从而不用调用禁团极值结论就完成另一证明.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b6}
+\textbf{18.217 Fall 2019 / B6 / 题库练习, 网页未指定提交.}
+设 $H$ 为固定 $r$ 一致超图, $r\ge1$. 证明 $\operatorname{ex}^{(r)}(n,H)/\binom nr$ 在有定义的 $n\ge r$ 范围单调不增, 并有极限 $\pi(H)$.
+\end{exercise}
+\sourceof{官方题库物理第1页; 无官方解答, 编者独立证明}
+\begin{solution}
+$r$ 一致超图的边是 $r$ 元顶点子集. 从一个 $(n+1)$ 点、最多边的 $H$ 自由超图中均匀删一点; 任意一条 $r$ 元边保留的概率为 $(n+1-r)/(n+1)$. 删点后仍不含 $H$, 因而
+\[
+\operatorname{ex}^{(r)}(n,H)\ge
+\frac{n+1-r}{n+1}\operatorname{ex}^{(r)}(n+1,H).
+\]
+同时 $\binom nr/\binom{n+1}r=(n+1-r)/(n+1)$, 除去它便得单调性. 密度在 $[0,1]$ 中; 以其下确界为 $\pi(H)$, 单调性保证对任意 $\varepsilon>0$ 最终落在 $[\pi(H),\pi(H)+\varepsilon)$, 所以收敛. 若 $H$ 本身没有超边, 对足够大的 $n$ 已不可避免, 按空极值类的边数界0处理, 极限也是0.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b7}
+\textbf{18.217 Fall 2019 / B7 / Problem set 1.}
+设固定图 $H$ 有 $h$ 点, 且 $\limsup_{n\to\infty}\operatorname{ex}(n,H)/\binom n2\le\rho$. 证明对每个 $\varepsilon>0$, 存在 $c>0$, 使充分大的 $n$ 中任意至少有 $(\rho+\varepsilon)\binom n2$ 边的图含至少 $cn^h$ 个 $H$ 副本.
+\end{exercise}
+\sourceof{官方题库物理第2页; 无官方解答, 编者独立证明}
+\begin{solution}
+若 $\rho+\varepsilon>1$, 边数假设不可达到. 对其余情形, 由上极限取固定 $k\ge h$ 足够大, 使 $\operatorname{ex}(k,H)\le(\rho+\varepsilon/2)\binom k2$. 均匀取 $k$ 元顶点集 $S$, 有 $\E e(G[S])\ge(\rho+\varepsilon)\binom k2$. 记 $q=\Prob(G[S]\text{含}H)$. 不含 $H$ 时边数不超过所取极值界, 含 $H$ 时至多 $\binom k2$, 所以
+\[
+\E e(G[S])\le(\rho+\varepsilon/2)\binom k2+q\binom k2,
+\qquad q\ge\varepsilon/2.
+\]
+每个 $H$ 副本的顶点集含于 $\binom{n-h}{k-h}$ 个 $k$ 元集. 这些副本覆盖所有含 $H$ 的 $k$ 元集, 故副本数至少
+\[
+\frac{(\varepsilon/2)\binom nk}{\binom{n-h}{k-h}}
+=\frac{\varepsilon}{2}\frac{(n)_h}{(k)_h}\ge
+\frac{\varepsilon}{2^{h+1}k^h}n^h
+\]
+对 $n\ge\max(k,2h)$ 成立, 其中 $(x)_h=x(x-1)\cdots(x-h+1)$. 若 $H$ 无边, 每个 $h$ 元集都含它, 可直接得到相同数量级.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b8}
+\textbf{18.217 Fall 2019 / B8 / Problem set 1.}
+平面中 $n$ 个不同点的任意两点距离至多1. 证明距离大于 $1/\sqrt2$ 的点对不超过 $\lfloor n^2/3\rfloor$, 并证明此界可达到.
+\end{exercise}
+\sourceof{官方题库物理第2页; 无官方解答, 编者独立证明与构造}
+\begin{solution}
+先证任意四点中有一对距离至多 $1/\sqrt2$. 四点若构成凸四边形, 某内角至少 $90^\circ$; 该角的两邻边长度为 $a,b$, 所对对角线长度平方至少 $a^2+b^2$. 若所有两点距离均大于 $1/\sqrt2$, 就使对角线大于1, 矛盾. 若一点落在其余三点的凸包内, 从该点向三点的方向中有夹角至少 $120^\circ$ 且不超过 $180^\circ$, 同样得到矛盾; 边界情形允许 $180^\circ$. 四点共线时, 极端两点距离至多1, 三个相邻间隔至少一个至多 $1/3$.
+
+把远点对作为边, 上述性质排除 $K_4$. Turán 给边数至多 $t_3(n)=\lfloor n^2/3\rfloor$. 为达到它, 将点分成尽量平衡的三组, 分别放在边长 $1-2\eta$ 的等边三角形三个顶点周围半径 $\eta$ 的小圆盘内. 取 $\eta>0$ 充分小, 使 $2\eta<1/\sqrt2<1-4\eta$. 同组距离小于阈值, 不同组距离至少 $1-4\eta$ 而至多1; 每组可放任意指定数量的不同点. 远点图恰为平衡完全三部图.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b9}
+\textbf{18.217 Fall 2019 / B9 / Problem set 1.}
+给定 $S\subset\Z^2$, 令
+\[
+d_k(S)=\max_{A,B\subset\Z,\ |A|=|B|=k}
+\frac{|S\cap(A\times B)|}{k^2}.
+\]
+证明 $d_k(S)$ 的极限存在且只能为0或1.
+\end{exercise}
+\sourceof{官方题库物理第2页; 无官方解答. 这是二部关系密度的图论应用, 不使用加法组合结构}
+\begin{solution}
+所有可能密度属于有限集 $\{0,1/k^2,\ldots,1\}$, 因而最大值确实取得. 从两个 $(k+1)$ 元集各均匀选 $k$ 点, 矩形内边密度的期望等于原密度, 所以 $d_k\ge d_{k+1}$. 密度非负, 因此有极限 $\ell$.
+
+若 $\ell>0$, 固定任意 $t\ge2$. 对每个足够大的 $k$, 取达到 $d_k$ 的矩形, 视为 $k$ 对 $k$ 的二部图. 它有至少 $\ell k^2$ 边. 若不含 $K_{t,t}$, KST 给边数至多 $O(k^{2-1/t})$, 与固定正密度矛盾. 所以存在完整 $t$ 对 $t$ 矩形, 得 $d_t=1$. 这对任意 $t$ 成立, 又 $d_1\ge d_2=1$, 故所有密度均为1, 极限为1. 若 $\ell$ 不为正则只能是0. 因此这个最大矩形密度的定义不能描述一般介于0与1的渐近密度.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b10}
+\textbf{18.217 Fall 2019 / B10 / 题库练习, 网页未指定提交.}
+给定 $\varepsilon>0$, 证明存在 $\delta>0$, 使\textbf{充分大的} $n$ 中, 每个至少有 $\varepsilon n^2$ 边的图含 $K_{s,t}$, 其中 $s\ge\delta\log n$, $t\ge n^{0.99}$. 原题未写充分大; 此处为使结论成立而透明补充该条件.
+\end{exercise}
+\sourceof{官方题库物理第2页; 无官方解答, 编者修订并证明}
+\begin{solution}
+原题对所有小 $n$ 不成立: $K_2$ 取 $\varepsilon=1/4$ 已满足边数假设, 但 $s\ge\delta\log2>0$ 迫使 $s\ge1$, $t\ge2^{0.99}$ 迫使 $t\ge2$, 两部至少三点.
+
+以下证修订后的渐近结论. 令 $q=\min(\varepsilon,1/4)\in(0,1)$, $\delta=0.005/\log(1/q)$, $s=\lceil\delta\log n\rceil$. 独立均匀取 $s$ 个顶点, 允许重复, 记其共同邻点集为 $X$. 由凸性,
+\[
+\E|X|=\sum_v(d(v)/n)^s\ge n(2m/n^2)^s
+\ge nq^s\ge qn^{0.995}.
+\]
+所取顶点出现重复的概率至多 $\binom s2/n$, 在该事件上 $|X|\le n$, 因而
+$\E[|X|\mathbf1_{\text{无重复}}]\ge qn^{0.995}-\binom s2$.
+充分大时它大于 $n^{0.99}$, 所以存在一次无重复选择, 具有至少 $n^{0.99}$ 个共同邻点. 因无自环, 共同邻点不在已选点中. 取 $t=\lceil n^{0.99}\rceil$ 个共同邻点, 即得到所需完全二部图.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b11}
+\textbf{18.217 Fall 2019 / B11 / Problem set 2.}
+给定正整数 $s\le t$, 证明存在 $C,c>0$, 使 $n$ 点、$p\binom n2$ 边图只要 $p\ge Cn^{-1/s}$, 就含至少 $cp^{st}n^{s+t}$ 个 $K_{s,t}$ 副本.
+\end{exercise}
+\sourceof{官方题库物理第2页; 无官方解答, 编者独立证明}
+\begin{solution}
+取 $C$ 足够大, 使 $C\ge4s$, $C^s\ge2s$ 且 $C^s/4^s\ge2t$. 条件 $p\le1$ 迫使 $n\ge C^s$, 因而 $n\ge2s$ 且平均度 $\bar d=p(n-1)\ge pn/2$. 对全部有序不重复 $s$ 元组 $\mathbf x$, 记公共邻点数为 $a_{\mathbf x}$. 计数元组及一个公共邻点, 并利用 $(d)_s\ge(d-s+1)_+^s$ 和凸性, 得
+\[
+\sum_{\mathbf x}a_{\mathbf x}=\sum_v(d(v))_s
+\ge n(\bar d-s+1)_+^s\ge n(pn/4)^s.
+\]
+元组数 $M=(n)_s\le n^s$, 所以平均公共邻点数 $w\ge p^sn/4^s\ge2t$. 再次用同一凸性,
+\[
+\sum_{\mathbf x}(a_{\mathbf x})_t
+\ge M(w-t+1)^t\ge(n/2)^s(p^sn/(2\cdot4^s))^t.
+\]
+左端恰数完全二部图的有标号嵌入; 两部自动不交, 因一个已选点不能邻接自身. 对无标号副本至多损失因子 $(s+t)!$, 故可取
+$c=2^{-s}(2\cdot4^s)^{-t}/(s+t)!$.
+此证明也覆盖 $s=1$: 大常数条件保证平均度充足, 不需使用渐近近似二项式.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b12}
+\textbf{18.217 Fall 2019 / B12(a),(b),(c)\,$\star$ / Problem set 2.}
+(a) 对每个正整数 $t$, 证明存在 $C>0$, 使 $n$ 点、至少 $Cn^{3-1/t^2}$ 条边的三一致超图含 $K^{(3)}_{t,t,t}$: 三个不交的 $t$ 元部之间, 每种各取一点的三元组都是超边.
+(b) 推出每个 $\chi(H)\le3$ 的固定图满足 $\operatorname{ex}(n,H)\le(1+o(1))n^2/4$.
+(c) 说明如何将这个策略推广到全部图 $H$, 证明 Erdős--Stone--Simonovits 定理. 原题只要求略述, 本册给出完整推导.
+\end{exercise}
+\sourceof{官方题库物理第2页; 无官方解答, 编者独立完整证明}
+\begin{solution}
+(a) 证明更一般的定量超图命题: 对固定整数 $r,t\ge1$, 存在 $C_{r,t}$, 使 $n$ 点 $r$ 一致超图只要有至少
+$C_{r,t}n^{r-1/t^{r-1}}$ 条边, 就含每部 $t$ 点的完整 $r$ 部 $r$ 一致超图. 当 $t=1$ 时有一条边就足够, 可取 $C_{r,1}=1$; 当 $r=1$ 时超边就是单点, 可取 $C_{1,t}=t$.
+
+对 $r\ge2,t\ge2$ 按 $r$ 归纳. 将全部点独立均匀分到 $r$ 部, 每条超边横跨各部的概率为 $\kappa_r=r!/r^r$. 因此某个划分保留至少 $\kappa_r m$ 条横跨超边; 令 $E$ 为实际保留的整数边数, 故 $E\ge\kappa_r m$. 对其余 $r-1$ 部的每个顶点组 $y$, 令 $d_y$ 为它在第一部的共同邻点数, 不存在的顶点组补零, 共补成 $N=n^{r-1}$ 项. 则 $\sum_y d_y=E$. 取 $C_{r,t}$ 足够大以保证 $E/N\ge2t$. 用
+$\binom dt\ge(d-t+1)_+^t/t!$ 及凸性, 得
+\[
+\sum_y\binom{d_y}{t}
+\ge\frac{N}{t!}(E/N-t+1)^t
+\ge\frac{E^t}{2^t t!n^{(r-1)(t-1)}}.
+\]
+左端计数第一部 $t$ 元集 $S$ 与它在其余各部的共同链超边. 第一部的 $S$ 至多 $n^t$ 个, 故某个 $S$ 的共同链有至少
+\[
+\frac{E^t}{2^t t!n^{(r-1)(t-1)+t}}
+\ge\frac{(\kappa_r C_{r,t})^t}{2^t t!}\,
+ n^{r-1-1/t^{r-2}}
+\]
+条边. 令 $(\kappa_r C_{r,t})^t/(2^t t!)\ge C_{r-1,t}$, 并兼顾 $\kappa_r C_{r,t}\ge2t$, 就能对这个 $(r-1)$ 一致链超图用归纳. 其完整 $(r-1)$ 部结构加上 $S$, 即得到目标超图. 归纳证明全部成立; 令 $r=3$ 就是(a). 大常数使小 $n$ 的边数前提可能不可达到, 不影响全称命题.
+
+(b),(c) 设 $H$ 有 $h$ 点, 色数 $q\ge2$, 并记 $\rho=1-1/(q-1)$. Turán 定理给
+$\operatorname{ex}(n,K_q)/\binom n2\to\rho$.
+任给 $\varepsilon>0$, B7 说明密度至少 $\rho+\varepsilon$ 的充分大图含至少 $cn^q$ 个 $K_q$, 其中 $c>0$ 固定. 把这些 $q$ 团的顶点集看作 $q$ 一致超边. 因为
+\[
+cn^q>C_{q,h}n^{q-1/h^{q-1}}
+\]
+对充分大的 $n$ 成立, 已证的定量超图命题给出每部 $h$ 点的完整 $q$ 部超图. 任意不同部的两点, 可以从其余各部各添一点成为一个超边, 所以它们在原图中相邻. 原图因此含完整 $q$ 部图, 每部 $h$ 点; 把 $H$ 的一个 $q$ 色着色的颜色类分别嵌入各部, 即得到 $H$.
+
+于是对每个固定 $\varepsilon>0$, 足够大的 $n$ 满足
+$\operatorname{ex}(n,H)<(\rho+\varepsilon)\binom n2$.
+另一方面, 平衡完全 $(q-1)$ 部图的色数至多 $q-1$, 不含 $H$, 给出相反的渐近下界. 综上
+\[
+\operatorname{ex}(n,H)=
+\left(1-\frac1{q-1}+o(1)\right)\frac{n^2}{2},
+\qquad q=\chi(H)\ge2.
+\]
+$q=2$ 时主项为0, 结论是 $o(n^2)$; $q=3$ 时主项为 $n^2/4$, 从而得到(b). 色数1的无边图在 $n\ge h$ 时不可避免, 按极值类为空时边数界取0的约定, (b)也成立; 不能把含 $q-1$ 分母的公式直接代入 $q=1$. 这里证明了(c)要求的全部关键步骤, 无须把稠密团直接当成已经具有完整多部结构.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b17}
+\textbf{18.217 Fall 2019 / B17 / Problem set 2.}
+若树 $T$ 有 $k$ 条边, 证明 $\operatorname{ex}(n,T)\le kn$.
+\end{exercise}
+\sourceof{官方题库物理第3页; 无官方解答, 编者独立证明}
+\begin{solution}
+先设 $k\ge1$. 任意最小度至少 $k$ 的图都含 $T$: 将 $T$ 任选一点为根, 按父亲先于孩子的次序嵌入. 嵌入一个新点时, 它父亲的像至少有 $k$ 个邻点, 已嵌入的其他点至多占去 $k-1$ 个邻点, 所以总有一个未用邻点可选. 每次保持点互异, 所有树边都保留.
+
+若图不含 $T$, 它的每个非空诱导子图也不含 $T$, 因而其中必有度至多 $k-1$ 的点. 反复删除这样的点, 每条边在其第一个端点删除时计一次, 给出更强的 $m\le(k-1)n\le kn$. 若 $k=0$, $T$ 是单个点, $n\ge1$ 时不存在 $T$ 自由图, 按空极值类取边数界0, 所声称的上界仍成立; $n=0$ 则图无边.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-b18}
+\textbf{18.217 Fall 2019 / B18\,$\star$ / Problem set 2.}
+证明无三角形 $n$ 点图若最小度大于 $2n/5$, 则为二部图.
+\end{exercise}
+\sourceof{官方题库物理第3页; 无官方解答, 编者独立证明}
+\begin{solution}
+若不是二部图, 取最短奇圈 $C$, 长度记为 $\ell$. 无三角形使 $\ell\ge5$. 此圈没有弦: 任意弦分出两条较短圈, 其中一条为奇圈, 违反最短性.
+
+圈外点 $x$ 至多邻接 $C$ 的两点. 否则按圈上顺序列出它的至少三个邻点. 相邻邻点的圈上间隔至少为2, 否则产生三角形; 这些间隔和为奇数 $\ell$, 至少一个间隔为奇数. 其余至少两个间隔各至少2, 所取奇间隔至多 $\ell-4$. 沿此间隔的路径再加经过 $x$ 的两边, 构成长度至多 $\ell-2$ 的奇圈, 矛盾.
+
+圈内每点也恰有两个圈内邻点. 因此按所有点连向 $C$ 的边计数,
+\[
+\sum_{u\in C}d(u)=\sum_{v\in V}|N(v)\cap C|\le2n.
+\]
+但左端至少 $\ell\delta(G)>\ell(2n/5)\ge2n$, 矛盾. 故图没有奇圈. 对每个连通分支以距根的奇偶性分两组; 若同组内有边, 两条到根路径加此边会导出奇圈, 所以这种分组是二部着色.
+\end{solution}
+
+\par\medskip\noindent\textbf{谱工具、伪随机性与局部树}\par
+\begin{exercise}\label{mit:18217-d1}
+\textbf{18.217 Fall 2019 / D1 / Problem set 4.}
+设图 $G$ 有 $n\ge2$ 点, 普通 Laplace 矩阵为 $L=D-A$, 特征值按 $0=\lambda_1\le\lambda_2\le\cdots\le\lambda_n$ 排列. 证明任意 $S\subseteq V$, $|S|\le n/2$, 满足 $e(S,V\setminus S)\ge\lambda_2|S|/2$.
+\end{exercise}
+\sourceof{官方题库物理第5页; $n\ge2$ 是让 $\lambda_2$ 有定义的必要条件; 无官方解答, 编者独立证明}
+\begin{solution}
+令 $s=|S|$, $f=\mathbf1_S-(s/n)\mathbf1$. 有 $f\perp\mathbf1$, $\|f\|^2=s(1-s/n)$, 而
+$f^TLf=\sum_{uv\in E}(f(u)-f(v))^2=e(S,V\setminus S)$.
+在普通 Laplace 的正交特征基展开 $f$, 去掉已选的全一向量后, 各特征值都不小于 $\lambda_2$, 即使图不连通、有额外零特征值亦成立. 所以
+\[
+e(S,V\setminus S)\ge\lambda_2s(1-s/n)\ge\lambda_2s/2.
+\]
+$s=0$ 时两端为0. 此处矩阵未归一化, 不能与第15章的归一化 Laplace 特征值混用.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-d2}
+\textbf{18.217 Fall 2019 / D2\,$\star$ / Problem set 4.}
+设 $p$ 为奇素数, $A,B\subseteq\mathbb F_p$. Legendre 符号 $\chi(a)=(a/p)$ 在 $a=0$ 时为0, 在非零平方剩余时为1, 在非平方剩余时为 $-1$. 证明
+$\sum_{a\in A,b\in B}\chi(a+b)\le p\sqrt p$.
+\end{exercise}
+\sourceof{官方题库物理第5页; 原题是单侧上界, 下面的绝对值界为编者加强; 无官方解答, 编者独立证明}
+\begin{solution}
+先建立字符相关恒等式, 避免未解释地调用 Gauss 和. 非零平方组成 $\mathbb F_p^\times$ 的指数2子群: 平方映射每个像恰有两个原像 $x,-x$, 所以子群大小 $(p-1)/2$. 两个陪集相乘的规则给 $\chi(ab)=\chi(a)\chi(b)$, 含零的情形亦成立.
+
+对 $a=b$, 有 $\sum_x\chi(x+a)\chi(x+b)=p-1$. 对 $a\ne b$, 平移后再以 $b-a$ 缩放, 利用其平方的字符为1, 化为 $\sum_t\chi(t)\chi(t+1)$. 记方程 $y^2=t(t+1)$ 的解数为 $N$, 则
+$N=p+\sum_t\chi(t(t+1))$.
+令 $u=2t+1$, $v=2y$, 原方程等价于 $u^2-v^2=1$. 每个 $z=u-v\ne0$ 唯一确定 $u+v=z^{-1}$, 从而唯一确定 $u,v$ 及 $t,y$. 因 $p$ 为奇数可以除以2, 故 $N=p-1$. 得
+\[
+\sum_x\chi(x+a)\chi(x+b)=
+\begin{cases}p-1,&a=b,\\-1,&a\ne b.\end{cases}
+\]
+令 $M_{ab}=\chi(a+b)$, 则 $MM^T=pI-J$, 其最大特征值为 $p$, 所以 $\|M\|_{2\to2}=\sqrt p$. 对两个指示向量应用 Cauchy--Schwarz,
+\[
+\left|\sum_{a\in A,b\in B}\chi(a+b)\right|
+=|\mathbf1_A^TM\mathbf1_B|
+\le\sqrt{p|A||B|}\le p\sqrt p.
+\]
+这给原题的单侧上界, 同时明确证明更强的绝对值估计. 空集时左端为0, 亦已覆盖.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-d3}
+\textbf{18.217 Fall 2019 / D3 / 题库练习, 网页未指定提交.}
+设 $G$ 为 $n$ 点、$d$ 正则的顶点传递图: 任意两点之间有图自同构将其互相映到. 对点集 $X,Y$, 令 $e(X,Y)=\mathbf1_X^TA\mathbf1_Y$, 重叠集合按有序邻接对计数. 设 $\varepsilon\ge0$, 若对所有 $X,Y\subseteq V$ 有
+\[
+e(X,Y)-\frac d n|X||Y|\le\varepsilon dn,
+\]
+证明邻接矩阵除去一次最大特征值 $d$ 后, 其余特征值的绝对值均至多 $8\varepsilon d$.
+\end{exercise}
+\sourceof{官方题库物理第5页; 原题为单侧差异界, 正则性使之等价于绝对值界; 无官方解答, 编者独立证明并完整展开所需 Grothendieck 型引理}
+\begin{solution}
+取 $M=A-(d/n)J$, 则 $M\mathbf1=0$. 因
+$\mathbf1_X^TM\mathbf1_{V\setminus Y}=-\mathbf1_X^TM\mathbf1_Y$, 原假设自动给
+$|\mathbf1_X^TM\mathbf1_Y|\le\varepsilon dn$.
+任意符号向量 $\alpha,\beta\in\{-1,1\}^n$ 各可写成正、负点集的指示向量之差, 展成四项即得
+\[
+L:=\max_{\alpha,\beta}|\alpha^TM\beta|\le4\varepsilon dn.
+\]
+将标量差异转换成向量差异需要一个引理, 不能只凭普通算子范数推断.
+
+\textbf{向量差异引理及完整证明.}
+对任意有限实矩阵 $C=(c_{ij})$ 与任意实单位向量 $u_i,v_j$, 有
+\[
+\left|\sum_{i,j}c_{ij}\langle u_i,v_j\rangle\right|
+\le K\max_{\alpha_i,\beta_j\in\{-1,1\}}
+\left|\sum_{i,j}c_{ij}\alpha_i\beta_j\right|,
+\qquad K=\frac{\pi}{2\log(1+\sqrt2)}<2.
+\]
+令 $a=\log(1+\sqrt2)$, 则 $\sinh a=1$ 且 $a<\pi/2$. 对整数 $m\ge0$ 构造有限维向量
+\[
+U_i=\bigoplus_{k=0}^m\sqrt{\frac{a^{2k+1}}{(2k+1)!}}\,u_i^{\otimes(2k+1)},
+\qquad
+V_j=\bigoplus_{k=0}^m(-1)^k\sqrt{\frac{a^{2k+1}}{(2k+1)!}}\,v_j^{\otimes(2k+1)}.
+\]
+这里张量坐标为原坐标的所有乘积, 故张量内积等于原内积的相应次幂. 两族向量的平方范数都等于
+$S_m=\sum_{k=0}^m a^{2k+1}/(2k+1)!<1$.
+给 $U$ 族添加长度 $\sqrt{1-S_m}$ 的额外坐标, 给 $V$ 族添加与它正交的另一额外坐标, 将它们补成单位向量; 交叉内积仍为
+\[
+P_m(\langle u_i,v_j\rangle)
+=\sum_{k=0}^m\frac{(-1)^ka^{2k+1}}{(2k+1)!}
+ \langle u_i,v_j\rangle^{2k+1}.
+\]
+在有限维空间取标准正态向量 $g$, 将内积 $\langle g,U_i\rangle$、$\langle g,V_j\rangle$ 的符号作为 $\alpha_i,\beta_j$. 对夹角为 $\theta\in[0,\pi]$ 的两个单位向量, 标准正态向量在它们张成的平面中方向均匀; 两个内积异号的方向扇区总角度为 $2\theta$, 所以异号概率为 $\theta/\pi$. 因此
+\[
+\E(\alpha_i\beta_j)=1-2\theta/\pi
+=\frac2\pi\arcsin\langle U_i,V_j\rangle.
+\]
+共线的两种情形由同一公式直接成立; 零内积事件概率为0. 对每次符号选择, 双线性和的绝对值不超过右端的符号最大值, 故取期望后仍不超过它. 令 $m\to\infty$, 有 $P_m(x)\to\sin(ax)$; 对 $|x|\le1$, 因 $a<\pi/2$, $\arcsin(\sin(ax))=ax$. 有限项求和可以逐项取极限, 得到所称引理. 常数确小于2: $a=\int_0^1(1+x^2)^{-1/2}\,dx>\int_0^1(1-x^2/2)\,dx=5/6$, 配合 $\pi<22/7$ 给 $K<66/35<2$.
+
+\textbf{利用顶点传递性.}
+取 $M$ 的任一非零特征值 $\lambda$, 令 $P$ 为它的全部特征空间的正交投影, 秩为 $r\ge1$. 每个图自同构的置换矩阵都与 $M$ 对易, 从而保持该特征空间, 也与 $P$ 对易. 顶点传递使 $P$ 的全部对角元相同, 由迹为 $r$ 得 $P_{vv}=r/n$. 令
+$u_v=\sqrt{n/r}\,Pe_v$, 则 $\|u_v\|=1$ 且 $\langle u_v,u_w\rangle=(n/r)P_{vw}$. 引理给
+\[
+n|\lambda|
+=\left|\frac nr\operatorname{tr}(MP)\right|
+=\left|\sum_{v,w}M_{vw}\langle u_v,u_w\rangle\right|
+\le KL<8\varepsilon dn
+\]
+（若 $\varepsilon dn=0$, 应保留 $\le KL=0$, 结论同样成立）. 故每个非零特征值满足所需界, 零特征值当然亦满足. 在 $\mathbf1^\perp$ 上 $M$ 与 $A$ 一致, 而全一方向对应 $A$ 的一次特征值 $d$, 正好得到题意. $d=0$ 时图无边, 所有特征值为0; $n=1$ 时也没有需要估计的其余特征值.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-d4}
+\textbf{18.217 Fall 2019 / D4 / Problem set 4.}
+对 $n\ge2$ 的 $(n,d,\lambda)$ 图, 即 $d$ 正则且除全一方向外邻接特征值绝对值不超过 $\lambda$ 的图, 在 $0<\lambda<d$ 时证明
+$\operatorname{diam}(G)\le\lceil\log n/\log(d/\lambda)\rceil$.
+\end{exercise}
+\sourceof{官方题库物理第5页; 明确写出使对数与分母有定义的谱隙条件; 无官方解答, 编者独立证明}
+\begin{solution}
+记右端整数为 $k$. 在全一方向 $A^k$ 为 $d^k$, 在正交补上算子范数至多 $\lambda^k$. 对任意 $u,v$, 使用中心化坐标向量的范数 $\sqrt{1-1/n}$, 得
+\[
+(A^k)_{uv}\ge\frac{d^k}{n}-\lambda^k(1-1/n).
+\]
+定义 $k$ 保证 $(d/\lambda)^k\ge n$, 所以右端至少 $\lambda^k/n>0$. 而 $(A^k)_{uv}$ 数从 $u$ 到 $v$ 的 $k$ 步游走, 正数意味着存在这样的游走; 删去重复段即可得到长度至多 $k$ 的路径. 所以所有点连通且距离至多 $k$.
+
+若没有 $\lambda<d$, 原表达式可能分母为0或为负, 不给有限直径保证; 例如两个不交的同度正则分支有第二特征值 $d$ 且不连通. 正度简单图在 $n\ge2$ 时也不能有全部其余特征值为0, 因迹为0而最大特征值 $d>0$, 故严格谱隙的非平凡情形取 $\lambda>0$ 是自然且必要的写法.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-d5}
+\textbf{18.217 Fall 2019 / D5 / 题库练习, 网页未指定提交.}
+设 $G$ 是 $n\ge1$ 点的 $d$ 正则图, $k\ge1$ 整除 $n$, 将顶点染成 $k$ 色且每色恰有 $n/k$ 个点. 若除去一次最大特征值外, 所有邻接特征值绝对值都不超过 $d/k$, 证明有一个点的邻点包含全部 $k$ 色. \textbf{必要修订: 本册增加 $d>0$.}
+\end{exercise}
+\sourceof{官方题库物理第5页; 原题未排除零度图, 下面先给反例再证修订结论; 无官方解答, 编者独立证明}
+\begin{solution}
+若 $d=0$, 取两个孤立点、$k=2$, 各染一色. 全部特征值均为0, 满足谱条件, 但没有点有任何邻点, 原结论不成立. 以下设 $d>0$. $k=1$ 时每个点均有邻点, 已得结论; 设 $k\ge2$.
+
+令颜色类为 $C_i$, $x_i=\mathbf1_{C_i}-(1/k)\mathbf1$, 则 $x_i\perp\mathbf1$ 且
+$\sum_i\|x_i\|^2=n(1-1/k)$. 记 $a_i(v)=|N(v)\cap C_i|$, 于是 $(Ax_i)(v)=a_i(v)-d/k$. 谱条件给
+\[
+\sum_{v,i}(a_i(v)-d/k)^2
+=\sum_i\|Ax_i\|^2
+\le\frac{d^2}{k^2}n(1-1/k)
+=\frac{nd^2(k-1)}{k^3}.
+\]
+若每个点都缺少某色邻点, 对每个 $v$ 可选一个 $a_i(v)=0$, 其余 $k-1$ 个非负数之和为 $d$. Cauchy--Schwarz 给
+\[
+\sum_i(a_i(v)-d/k)^2
+=\sum_i a_i(v)^2-d^2/k
+\ge d^2/(k-1)-d^2/k
+=\frac{d^2}{k(k-1)}.
+\]
+对 $v$ 求和, 与上界矛盾, 因
+$1/[k(k-1)]>(k-1)/k^3$. 因此至少一个点的 $a_i(v)$ 全部为正, 即邻点包含全部颜色.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-d6}
+\textbf{18.217 Fall 2019 / D6 / Problem set 4.}
+证明对每个正整数 $d$ 和每个 $\varepsilon>0$, 存在 $c=c(d,\varepsilon)>0$, 使任意 $n$ 点 $d$ 正则图的邻接矩阵中, 至少 $cn$ 个特征值严格大于 $2\sqrt{d-1}-\varepsilon$. 特征值计重数.
+\end{exercise}
+\sourceof{官方题库物理第5页; 无官方解答, 编者以局部树测试向量和球打包完整证明加强 Alon--Boppana 结论}
+\begin{solution}
+$d=1$ 时图是互不相交的边, 特征值 $1,-1$ 各有 $n/2$ 个, 可取 $c=1/2$, 因所需阈值为 $-\varepsilon$. 以下设 $d\ge2$, $q=d-1\ge1$.
+
+\textbf{局部树的正测试向量.}
+取高度 $R\ge1$ 的有限根树: 每个未到末层的点恰有 $q$ 个孩子, 第 $i$ 层有 $q^i$ 个点. 令 $\theta=\pi/(R+2)$, 第 $i$ 层各点赋正值
+$f(x)=q^{-i/2}\sin((i+1)\theta)$.
+在内部层用
+$\sin(i\theta)+\sin((i+2)\theta)=2\cos\theta\sin((i+1)\theta)$;
+在根层与末层分别用 $\sin0=0$ 和 $\sin((R+2)\theta)=0$. 直接得到该树的邻接矩阵满足
+\[
+A_Tf=\Lambda_R f,\qquad \Lambda_R=2\sqrt q\cos\theta.
+\]
+所以 $f^TA_Tf=\Lambda_R\|f\|^2$. 取 $R$ 足够大, 可使 $\Lambda_R>2\sqrt q-\varepsilon$.
+
+\textbf{把树折到任意正则图的球中.}
+给定图中根点 $v$, 将树根映到 $v$, 在根选择 $q$ 个不同邻点作为孩子的像. 其余非末层点已有父亲的像, 用图中除父亲像之外的 $q=d-1$ 个邻点作为孩子的像. 因图简单, 每个树点的所有相邻树点映到不同的图邻点. 映射可以折叠远处点与圈, 但所有像均落在半径 $R$ 的球内. 令
+\[
+g(w)=\left(\sum_{x:\,x\mapsto w}f(x)^2\right)^{1/2},
+\]
+球外赋0. 显然 $\|g\|^2=\|f\|^2$. 对任意图边 $uw$, 映到它的树边构成两个原像纤维之间的匹配: 一个树点不可能有两个邻点映到同一个图邻点. Cauchy--Schwarz 因此给
+\[
+\sum_{xy\in E(T):\,x\mapsto u,\,y\mapsto w}f(x)f(y)
+\le g(u)g(w).
+\]
+对全部图边求和再乘2, 得
+$g^TA_Gg\ge f^TA_Tf=\Lambda_R\|g\|^2$.
+这一步明确允许图有短圈, 不假定它的球真是一棵树.
+
+\textbf{打包与特征值计数.}
+贪心选根点, 每选一个就从候选点中删去距它至多 $2R+1$ 的全部点. 度为 $d$ 的图中这种球的大小至多
+\[
+B=1+d\sum_{i=0}^{2R}q^i.
+\]
+所以至少选出 $a\ge n/B$ 个根, 任意两根距至少 $2R+2$. 对各根构造上述 $g_j$. 它们的支持不交, 且不同支持间没有图边, 否则两根之间距离至多 $2R+1$. 因而 $g_j$ 线性无关, 对其张成空间的任意 $x=\sum_jb_jg_j$, 有
+\[
+x^TA_Gx=\sum_jb_j^2g_j^TA_Gg_j
+\ge\Lambda_R\sum_jb_j^2\|g_j\|^2
+=\Lambda_R\|x\|^2.
+\]
+若大于等于 $\Lambda_R$ 的特征值少于 $a$ 个, 该 $a$ 维空间会与其余特征向量张成的空间有非零交点, 交点向量的 Rayleigh 商既至少 $\Lambda_R$ 又小于 $\Lambda_R$, 矛盾. 故至少 $a\ge n/B$ 个特征值不小于 $\Lambda_R$, 而 $\Lambda_R$ 严格大于题定阈值. 取 $c=1/B$ 完成证明, 对小 $n$ 也适用.
+\end{solution}
+
+\begin{exercise}\label{mit:18217-d7}
+\textbf{18.217 Fall 2019 / D7\,$\star$ / Problem set 4.}
+给定正整数 $d$ 和非负整数 $r$, 证明存在 $\varepsilon=\varepsilon(d,r)>0$, 使任意 $d$ 正则图 $G$ 及点集 $S$, 只要每点到 $S$ 的距离至多 $r$, 删去 $S$ 后图的邻接最大特征值至多 $d-\varepsilon$. 剩余空图的最大特征值约定为0.
+\end{exercise}
+\sourceof{官方题库物理第5页; 明确 $d>0$ 与距离半径的整数条件, 空图采用上述约定; 无官方解答, 编者独立证明}
+\begin{solution}
+原题未排除 $d=0$. 在本册的空图特征值约定下, 取非空零度图并令 $S=V$, 剩余最大特征值0不能小于等于 $-\varepsilon$, 所以需要 $d>0$; 若对空矩阵不定义最大特征值, 原题在此也须先补约定. 以下证所写修订.
+
+$r=0$ 时必有 $S=V$, 可取 $\varepsilon=d/2$. 设 $r\ge1$. 对每点 $v\notin S$ 固定一条到 $S$ 的长度至多 $r$ 的最短路径. 取任意在 $S$ 上为0的实向量 $x$, 沿路径作差并用 Cauchy--Schwarz,
+\[
+x(v)^2\le r\sum_{uw\text{在该路径上}}(x(u)-x(w))^2.
+\]
+一条固定边若被某条路径使用, 该路径起点距此边的某个端点至多 $r$. 从任一端点出发, 长度 $i$ 的游走至多 $d^i$ 条, 所以能使用此边的起点数至多
+$B=2\sum_{i=0}^rd^i$.
+对全部起点求和, 得
+\[
+\|x\|^2\le rB\sum_{uw\in E(G)}(x(u)-x(w))^2
+=rB\,x^T(dI-A_G)x.
+\]
+若剩余图非空, 将其最大特征值 $\lambda$ 的非零特征向量延拓为在 $S$ 上为0的向量, 则 $x^TA_Gx=\lambda\|x\|^2$. 上式给
+$d-\lambda\ge1/(rB)$.
+取 $\varepsilon=\min\{d/2,1/(rB)\}>0$, 即得要求. 剩余图为空时最大特征值约定为0, 也满足该选择的界. 常数只依赖 $d,r$, 没有使用图的顶点数或隐含连通性.
+\end{solution}
