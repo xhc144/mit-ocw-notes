@@ -1,0 +1,78 @@
+\originalchapter{自治方程与一维相线}
+\originalsection{平衡点与单调运动}
+对于 $x'=f(x)$, 时间不显含于右端. 一条解的时间平移仍为解; 唯一性给出流的复合规律 $\phi_{t+s}(x)=\phi_t(\phi_s(x))$, 只要各段都有定义. 平衡点 $a$ 满足 $f(a)=0$, 对应恒定轨道. 一维非平衡轨道在 $f$ 符号不变的区间内严格单调.
+\begin{proposition}
+设 $f$ 局部 Lipschitz. 若相邻零点为 $a<b$, 且 $(a,b)$ 内 $f>0$, 则从其中出发的解正向趋向 $b$, 反向趋向 $a$, 并且全时存在. 若 $f<0$, 方向相反.
+\end{proposition}
+\begin{proof}
+唯一性使轨道不能在有限时刻穿越平衡点: 若到达 $b$, 从到达时刻反向唯一解是恒 $b$, 与初值矛盾. 轨道被限制在 $[a,b]$, 延续定理给出全时存在. 单调有界性给正向极限 $\ell$. 若 $\ell<b$, 连续性使 $f$ 在 $\ell$ 附近有正下界 $c$, 最终 $x'\ge c$ 与收敛矛盾. 反向同理.
+\end{proof}
+\begin{definition}
+自治系统的平衡点 $a$ 若满足: 对任意 $\eps>0$, 存在 $\delta>0$, 使 $\|x(0)-a\|<\delta$ 的解对所有 $t\ge0$ 存在并满足 $\|x(t)-a\|<\eps$, 则称 Lyapunov 稳定. 若另有一个邻域内的解均趋于 $a$, 称渐近稳定. 吸引只要求趋于 $a$, 不应代替稳定的量词.
+\end{definition}
+\begin{theorem}[一维判别]
+设 $f\in C^1$, $f(a)=0$. 若 $f'(a)<0$, 则 $a$ 渐近稳定; 若 $f'(a)>0$, 则不稳定. 当 $f'(a)=0$ 时必须考察两侧符号.
+\end{theorem}
+\begin{proof}
+$f'(a)<0$ 时, 足够小邻域内有 $(x-a)f(x)<0$. 两侧轨道都向 $a$ 运动, 因而不会离开任意足够小的初始区间. 单调极限论证说明其极限为 $a$, 这同时证明稳定与吸引. 若导数为正, 选固定小边界 $a+\eps$; 任意从 $(a,a+\eps)$ 出发的解都远离 $a$, 且必到达边界, 否则极限会是内部零点. 任意小扰动可逃出固定邻域, 所以不稳定.
+\end{proof}
+$x'=-x^3$ 中原点渐近稳定, $x'=x^3$ 中原点不稳定; $x'=x^2$ 中左侧吸引而右侧排斥, 仍不稳定. 三者线性化都为 $x'=0$. 把零特征值当作“稳定”会混淆这些行为.
+\begin{center}
+\begin{tikzpicture}[>=Stealth,x=1.4cm]
+\draw[->] (-2.4,0)--(2.4,0) node[right]{$x$};
+\fill (-1,0) circle(2pt) node[below=5pt]{$0$}; \fill (1,0) circle(2pt) node[below=5pt]{$1$};
+\draw[->,thick](-1.5,0)--(-2,0);\draw[->,thick](-.5,0)--(.3,0);\draw[->,thick](2,0)--(1.5,0);
+\node[above=8pt] at (-1,0){排斥};\node[above=8pt] at (1,0){吸引};
+\end{tikzpicture}
+
+$ x'=x(1-x)$ 的相线. 箭头表示时间增加方向.
+\end{center}
+在负半轴上右端为负, 因而轨道向左; 相线的每支箭头都由对应区间的符号确定.
+\originalsection{参数、阈值与分岔}
+参数改变时, 平衡点的数目或稳定性发生变化称为分岔. 三个基本模型分别是
+\[
+ x'=\mu-x^2,\qquad x'=\mu x-x^2,\qquad x'=\mu x-x^3.
+\]
+第一式在 $\mu<0$ 时无平衡点, $\mu>0$ 时有 $\pm\sqrt\mu$; 正根吸引、负根排斥, 是鞍结分岔. $\mu=0$ 时半稳定. 第二式有 $0,\mu$ 两条平衡分支, 导数分别为 $\mu,-\mu$, 穿越零时交换稳定性, 是跨临界分岔. 第三式在 $\mu\le0$ 时只有零点, $\mu>0$ 时又生出 $\pm\sqrt\mu$, 两个新点吸引而原点排斥, 是超临界叉形分岔. 对称性 $f(-x)=-f(x)$ 解释两条新分支成对出现; 一般扰动破坏对称性后不能期望同一分岔图.
+\begin{example}
+分析带恒定捕获的种群模型 $x'=rx(1-x/K)-h$, 其中 $r,K>0$, $h\ge0$, 生物状态取 $x\ge0$.
+\end{example}
+\begin{solution}
+令 $u=x/K$, $\tau=rt$, $H=h/(rK)$, 得 $\dd u/\dd\tau=u(1-u)-H$. 平衡点为 $u_\pm=(1\pm\sqrt{1-4H})/2$, 存在条件为 $H\le1/4$. $H<1/4$ 时小根不稳定, 大根渐近稳定. 当 $H=1/4$ 时, 方程成为 $u'=-(u-1/2)^2$. 从上方出发的解渐近趋于 $1/2$, 从下方出发则向零下降, 所以临界点半稳定而非 Lyapunov 稳定. 对 $H<1/4$, 超过小根的初值趋向大根, 低于小根的初值向零减少. $H>1/4$ 时所有非负状态都下降, 因为右端至多为 $1/4-H<0$. 此模型在零处仍给负导数, 不能自动把负种群当作真实状态; 生物解释应在首次到达零时停止, 或另行设定捕获关闭机制. 数学方程的延续与物理模型的适用区间必须区分.
+\end{solution}
+\originalsection{比较与标量不等式}
+\begin{proposition}[比较原理]
+设 $f$ 在 $\R^2$ 上连续, 并对状态在每个紧柱体上有一致的 Lipschitz 常数, $u$ 为 $C^1$ 函数, $u'\le f(t,u)$, 而 $v'=f(t,v)$, $u(t_0)\le v(t_0)$. 在共同存在的正向区间内有 $u\le v$.
+\end{proposition}
+\begin{proof}
+在任意共同紧时间段上取覆盖两图像的有限 Lipschitz 常数 $L$. 令 $w=(u-v)_+$, 则它绝对连续, 几乎处处满足 $w'\le Lw$, 初值为零. 在 $u-v>0$ 处由 Lipschitz 得该不等式, 在 $u-v<0$ 处 $w'=0$, 在零点几乎处处正部导数亦满足它. 乘 $\ee^{-L(t-t_0)}$ 或应用 Gronwall 得 $w=0$. 紧时间段任意, 故结论成立.
+\end{proof}
+这个结果可用来夹住不能显式积分的方程. 例如 $x'=-x+\sin t$, $|\sin t|\le1$, 与 $z'=-z\pm1$ 比较得到最终有界区间; 无须知道特殊解的相位.
+
+\originalsection{流行病模型的阈值}
+将总人口归一化为1, 用 $S,I,R$ 表示易感、感染和移出人群的比例. 假设接触感染率为 $\beta SI$, 感染者以速率 $\gamma I$ 移出, $\beta,\gamma>0$, 得 SIR 系统
+\[
+S'=-\beta SI,\qquad I'=\beta SI-\gamma I,\qquad R'=\gamma I.
+\]
+总和 $S+I+R$ 守恒, 各边界的向量场不向负区域, 因而非负单纯形正向不变. 对 $S_0>0,I_0>0$, 指数积分式使 $S,I$ 在有限时间严格正, 且轨道在紧集内全正向存在. $S$ 单调下降, $R$ 单调上升; $I$ 可以先升后降, 判据是 $S$ 是否大于 $\gamma/\beta$.
+\begin{proposition}
+若 $S_0>0,I_0>0$, 则 $I(t)\to0$, $S(t)\to S_\infty>0$, 且
+\begin{equation}\label{eq:sirfinal}
+\log\frac{S_\infty}{S_0}=-\frac\beta\gamma(S_0+I_0-S_\infty).
+\end{equation}
+若 $S_0>\gamma/\beta$, 感染比例先上升, 在 $S=\gamma/\beta$ 时取得唯一峰值, 再趋零.
+\end{proposition}
+\begin{proof}
+$R'=\gamma I$ 给 $\int_0^\infty I\dd t=(R_\infty-R_0)/\gamma<\infty$. 因右端在单纯形有界, $I'$ 有界, 故 $I$ 一致连续. 非负一致连续可积函数趋零: 否则有无限次取值至少为 $\eps$, 一致连续性给每次周围固定长度区间上至少为 $\eps/2$, 可选不相交子列, 与积分有限矛盾. 从 $(\log S)'=-\beta I$ 得 $S_\infty=S_0\exp[-\beta\int_0^\infty I\dd t]>0$. 将 $R_\infty=1-S_\infty$ 和 $R_0=1-S_0-I_0$ 代入得到 \eqref{eq:sirfinal}.
+
+若 $S_0>\gamma/\beta$ 而永不降到阈值, 则 $I$ 一直不减且至少为 $I_0>0$, 与积分有限矛盾. $S$ 严格下降, 所以只穿过阈值一次. 穿过前 $I'>0$, 穿过后 $I'<0$, 得唯一峰值.
+\end{proof}
+消去时间也能得到不变量 $I+S-(\gamma/\beta)\log S$. 若初值超过阈值, 记 $s_c=\gamma/\beta$, 峰值为
+$I_{\max}=I_0+S_0-s_c-s_c\log(S_0/s_c)$.
+阈值量 $\beta S_0/\gamma$ 比较初始感染增长与移出. 模型不包含出生、死亡、再次易感或时变接触率, 因而这些变化不能仅靠替换一个数字解释. 这里把 Miller 附录A中的流行病主题补成一个闭合的动力学例子.
+
+\originalsection{习题与解答}
+\begin{exercise}判定 $x'=x(x-1)(2-x)$ 的全部平衡点稳定性及区间 $(0,1)$ 的轨道极限.\end{exercise}
+\begin{solution}符号从左至右依次为正、负、正、负, 所以 $0,2$ 渐近稳定, $1$ 不稳定. $(0,1)$ 内解正向趋于0, 反向趋于1.\end{solution}
+\begin{exercise}分析 $x'=\mu x+x^3$ 的平衡点, 说明与超临界叉形模型的区别.\end{exercise}
+\begin{solution}$\mu<0$ 时零点吸引, 两个非零点 $\pm\sqrt{-\mu}$ 的导数为 $-2\mu>0$, 均排斥. $\mu>0$ 时只剩不稳定的零点; $\mu=0$ 时 $x'=x^3$ 仍不稳定. 非零不稳定分支位于参数负侧, 是亚临界叉形的基本模型.\end{solution}

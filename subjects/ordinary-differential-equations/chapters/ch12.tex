@@ -1,0 +1,62 @@
+\originalchapter{幂级数解与边值问题}
+\originalsection{普通点的级数构造}
+解析方法不限于初等函数. 若方程系数解析, 在普通点附近可把未知解展开为幂级数, 用方程递推系数, 但还需证明所得级数确实收敛.
+\begin{theorem}
+若矩阵 $A(t)$ 与向量 $b(t)$ 在 $|t|<R$ 有收敛幂级数, 则系统 $X'=A(t)X+b(t)$ 的初值解在零附近解析. 递推公式为
+\[
+(n+1)X_{n+1}=\sum_{k=0}^n A_kX_{n-k}+b_n,\qquad X_0=X(0).
+\]
+\end{theorem}
+\begin{proof}
+形式代入后比较 $t^n$ 系数得到递推, 因而系数唯一. 任取 $0<\rho<R$, 收敛性给出某个 $M>0$ 使 $\|A_k\|,\|b_k\|\le M\rho^{-k}$. 用正系数标量级数 $v$ 支配, 令
+$v'=M(v+1)/(1-t/\rho)$, $v(0)=v_0\ge\|X_0\|$. 其解为 $v+1=(v_0+1)(1-t/\rho)^{-M\rho}$, 在 $|t|<\rho$ 解析且 Taylor 系数非负. 比较递推并归纳得 $\|X_n\|\le v_n$. 因此 $X$ 的级数在此圆盘绝对收敛, 内部紧子圆盘可逐项微分并乘系数级数, 故所得函数解原方程. 初值唯一性把它与真实解识别. $\rho<R$ 任意, 可覆盖系数共同收敛圆盘.
+\end{proof}
+\begin{example}求 $y''+ty=0$, $y(0)=a$, $y'(0)=b$ 的级数解.\end{example}
+\begin{solution}
+写 $y=\sum c_nt^n$, 则 $c_0=a,c_1=b,c_2=0$, 对 $n\ge1$,
+$c_{n+2}=-c_{n-1}/[(n+2)(n+1)]$. 因而
+\[
+y=a\left(1-\frac{t^3}{6}+\frac{t^6}{180}-\cdots\right)
++b\left(t-\frac{t^4}{12}+\frac{t^7}{504}-\cdots\right).
+\]
+把它改为一阶系统后系数为多项式, 可在任意有限 $R$ 应用定理, 所以两级数处处收敛. 前几个项不是完整解的替代, 递推与收敛证明才确定全部解.
+\end{solution}
+\originalsection{正则奇点与 Frobenius 代入}
+若 $y''+p(t)y'+q(t)y=0$ 的 $p,q$ 在零有奇点, 而 $tp(t)$ 和 $t^2q(t)$ 在零解析, 称零为正则奇点. 尝试 $y=t^r\sum_{n\ge0}c_nt^n$, $c_0\ne0$, 其中 $t>0$ 时 $t^r=\ee^{r\log t}$ 取实幂或复幂. 最低次项给指标方程 $r(r-1)+p_0r+q_0=0$, $p_0=(tp)(0)$, $q_0=(t^2q)(0)$.
+
+此方程给候选指数, 不自动给两个独立纯幂级数解. 根差为整数或重根时可能出现对数项; 本册不使用未证明的一般 Frobenius 完备性定理, 而在下例把递推、收敛和第二解直接做完.
+\begin{example}分析 $t^2y''+ty'+t^2y=0$ 在 $t>0$ 靠近零处的解.\end{example}
+\begin{solution}
+指标方程为 $r^2=0$, 重根 $r=0$. 取 $c_0=1$, 比较系数得 $c_1=0$, $n^2c_n+c_{n-2}=0$ ($n\ge2$), 所以
+\[
+y_1(t)=\sum_{k=0}^\infty\frac{(-1)^kt^{2k}}{4^k(k!)^2}.
+\]
+相邻绝对项之比为 $t^2/[4(k+1)^2]\to0$, 级数处处收敛, 可微分代回验证. 在零附近 $y_1=1+O(t^2)$, 不为零. 用第4章降阶公式, 因 $p=1/t$, 可取
+$y_2=y_1\int\dd t/(t y_1^2)$. 被积函数为 $1/t+O(t)$, 因此 $y_2=y_1\log t+O(t^2)y_1$ (适当取积分常数). Wronskian 为 $1/t\ne0$, 两解构成局部基本解组. 第二解在零有对数奇性, 正规初值理论不能以 $t=0$ 为普通初始时刻应用. 这里 $y_1$ 是零阶 Bessel 函数的一个标准规范化解, 名称不承担证明作用.
+\end{solution}
+\originalsection{初值与边值的区别}
+以下取 $a<b$, 实连续 $f$ 与 $q$. 边值问题把条件放在不同位置, 如 $-y''+q(t)y=f(t)$, $y(a)=y(b)=0$. 初值唯一性不能保证此问题有唯一解, 因为起始导数未知, 要调节它使末端条件成立.
+\begin{proposition}
+若实连续 $q\ge0$ 于 $[a,b]$, 则上述 Dirichlet 边值问题至多有一个 $C^2$ 解.
+\end{proposition}
+\begin{proof}
+两个解之差 $z$ 满足 $-z''+qz=0$, 零端点. 乘 $z$ 并积分分部, 得 $\int_a^b[(z')^2+qz^2]\dd t=0$. 两项非负, $z'\equiv0$, 再由端点得 $z=0$.
+\end{proof}
+对 $-y''=f$ 可直接构造 Green 核
+\[
+G(t,s)=\begin{cases}(t-a)(b-s)/(b-a),&t\le s,\\(s-a)(b-t)/(b-a),&s\le t.\end{cases}
+\]
+它两端为零, 在 $t=s$ 连续, 一阶导数跳跃为 $-1$, 所以 $-\partial_t^2G=\delta_s$. 因此 $y(t)=\int_a^bG(t,s)f(s)\dd s$ 解边值问题. 也可分成两段普通积分求导验证; Green 核与脉冲响应的共同点是单位集中输入, 区别在于所满足的边界条件.
+\begin{example}求 $y''+\lambda y=0$, $y(0)=y(\pi)=0$ 的非零解存在条件.\end{example}
+\begin{solution}
+$\lambda<0$ 时双曲函数解代端点只能为零; $\lambda=0$ 时线性解也只能为零. $\lambda>0$ 时 $y=A\sin\sqrt\lambda t$, 末端要求 $\sin\sqrt\lambda\pi=0$. 所以特征值为 $\lambda=n^2$, $n=1,2,\ldots$, 每个对应 $A\sin nt$. $n$ 个半波来自边界约束, 而不是初值方程突然失去唯一性.
+\end{solution}
+\originalsection{共振时的相容条件}
+取正整数 $n$ 和连续 $f$. 对 $y''+n^2y=f(t)$, $y(0)=y(\pi)=0$, 必要条件为 $\int_0^\pi f(t)\sin nt\dd t=0$, 由乘 $\sin nt$ 并积分分部两次得到. 条件也充分: 取初始导数零的特解
+$y_p(t)=\int_0^t\sin(n(t-s))f(s)\dd s/n$.
+它满足 $y_p(0)=0$, 而 $y_p(\pi)=(-1)^{n+1}\int_0^\pi f(s)\sin ns\dd s/n=0$. 所有解为 $y_p+C\sin nt$, 故存在但不唯一. 若条件不满足则无解. 这是边值共振与强迫振动共振的对应: 右端在核方向上的成分阻碍解存在.
+\originalsection{习题与解答}
+\begin{exercise}求 $y''-ty'=0$, $y(0)=0$, $y'(0)=1$ 的积分与级数形式.\end{exercise}
+\begin{solution}令 $v=y'$, 得 $v=\ee^{t^2/2}$, 所以 $y=\int_0^t\ee^{s^2/2}\dd s=\sum_{k\ge0}t^{2k+1}/[(2k+1)2^kk!]$. 处处收敛, 且符合初值.\end{solution}
+\begin{exercise}判定 $y''+y=1$, $y(0)=y(\pi)=0$ 是否有解.\end{exercise}
+\begin{solution}相容积分 $\int_0^\pi\sin t\dd t=2\ne0$, 因而无解. 直接通解 $y=1+A\cos t+B\sin t$ 也显示 $A=-1$ 后 $y(\pi)=2$.\end{solution}

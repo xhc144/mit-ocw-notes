@@ -1,0 +1,61 @@
+\originalchapter{初值问题与解的基本理论}
+\originalsection{方程、状态与积分形式}
+质量为 $m$ 的物体受力 $F(t,x,x')$ 时满足 $mx''=F(t,x,x')$. 若只记录位置 $x$, 此刻的位置不足以决定下一刻运动; 再记录速度 $v=x'$, 状态 $(x,v)$ 才满足一阶系统 $x'=v$, $v'=F(t,x,v)/m$. 因而高阶方程与一阶系统使用同一套初值理论, 初值包含各阶导数而非一个任意常数.
+\begin{definition}
+设 $D\subset\R\times\R^n$ 为开集, $f:D\to\R^n$ 连续. 初值问题是
+\begin{equation}\label{eq:ivp}
+x'=f(t,x),\qquad x(t_0)=x_0,\qquad (t_0,x_0)\in D.
+\end{equation}
+其解为包含 $t_0$ 的区间 $I$ 上的 $C^1$ 函数 $x:I\to\R^n$, 满足 $(t,x(t))\in D$ 和上述等式. 解的定义域是答案的一部分. 若任何同初值的解都与它在交集上相等, 称其唯一.
+\end{definition}
+由微积分基本定理, \eqref{eq:ivp} 等价于 $x(t)=x_0+\int_{t_0}^t f(s,x(s))\dd s$. 积分形式消除了未知导数, 适合构造解和估计两条解之间的距离. 方向场则在平面 $(t,x)$ 的每一点画斜率 $f(t,x)$; 等斜线由 $f(t,x)=c$ 给出, 它通常不是解曲线.
+\begin{example}
+求 $x'=x^2$, $x(0)=a$ 的最大解区间.
+\end{example}
+\begin{solution}
+$a=0$ 时有恒零解. $a\ne0$ 时分离变量得 $-1/x=t-1/a$, 因而 $x(t)=a/(1-at)$. 对 $a>0$, 包含零的最大区间为 $(-\infty,1/a)$; 对 $a<0$, 为 $(1/a,\infty)$. 分母为零处不可能用一个有限的连续值延续, 尽管右端 $x^2$ 处处光滑. 局部存在与全时存在是两个不同结论.
+\end{solution}
+\originalsection{存在唯一性与延续}
+\begin{theorem}[局部存在唯一性]\label{thm:picard}
+若 $f$ 连续, 且在 $(t_0,x_0)$ 的某个闭柱体 $K=[t_0-a,t_0+a]\times\overline B(x_0,b)\subset D$ 上对状态满足一致 Lipschitz 条件 $\|f(t,x)-f(t,y)\|\le L\|x-y\|$, 则初值问题在某个 $[t_0-h,t_0+h]$ 上有唯一解. $f$ 对状态为 $C^1$ 是足够条件.
+\end{theorem}
+\begin{proof}
+取 $M=\max_K\|f\|$ 和 $h>0$ 使 $h\le a$, $Mh\le b$, $q=Lh<1$. 若 $M=0$ 或 $L=0$, 对应限制可以省去. 在闭集 $X=\{u\in C([t_0-h,t_0+h],\R^n):\|u-x_0\|_\infty\le b\}$ 上定义
+$Tu(t)=x_0+\int_{t_0}^t f(s,u(s))\dd s$. 有 $T(X)\subset X$ 及 $\|Tu-Tv\|_\infty\le q\|u-v\|_\infty$. 从 $u_0=x_0$ 开始迭代 $u_{k+1}=Tu_k$, 则
+$\|u_{k+1}-u_k\|_\infty\le q^k\|u_1-u_0\|_\infty$. 几何级数使 $u_k$ 一致 Cauchy, 完备性给出极限 $u\in X$. $T$ 连续, 所以 $Tu=u$; 积分形式说明 $u$ 是解. 两个不动点之差至多为自身距离的 $q$ 倍, 故相等.
+
+任一同初值解在足够小邻域中落在柱体内, 因而局部重合. 在所选小区间内若要离开柱体, 由积分式有 $\|x(t)-x_0\|\le M|t-t_0|\le b$, 并可在需要时把 $h$ 再缩小使 $Mh<b$, 排除首次离开. 因而此小区间上的解唯一. 仅在初值附近的条件不保证未来沿整条轨道仍唯一; 全域的唯一粘合在下述定理的全域局部 Lipschitz 假设下成立. 当 $D_xf$ 连续时, 缩小柱体后其范数有界, 对线段积分就给出所需 Lipschitz 常数.
+\end{proof}
+连续性本身不能保证唯一性. 方程 $x'=2\sqrt{|x|}$, $x(0)=0$ 既有零解, 也有对任意 $c\ge0$ 定义的 $x(t)=0$ ($t\le c$), $x(t)=(t-c)^2$ ($t\ge c$). 在连接处两侧导数均为零. 唯一性失效正发生在状态方向不满足局部 Lipschitz 的点.
+\begin{theorem}[最大解与延续]\label{thm:continuation}
+若 $f$ 在 $D$ 上连续且对状态局部 Lipschitz, 则每个初值有唯一最大解, 定义在某个开区间 $(\alpha,\beta)$. 若 $\beta<\infty$ 且终段图像包含在一个紧集 $K\subset D$ 中, 解可延续越过 $\beta$, 与最大性矛盾.
+\end{theorem}
+\begin{proof}
+把全部同初值的局部解按唯一性粘合, 其区间并集是包含 $t_0$ 的区间, 端点若属于定义域就还能局部延续, 故最大区间是开区间. 在紧集 $K$ 上 $\|f\|\le M$, 因而 $\|x(t)-x(s)\|\le M|t-s|$; 当 $t\uparrow\beta$ 时有有限极限 $x_\beta$. 图像的极限点 $(\beta,x_\beta)$ 属于 $K\subset D$, 从此点构造局部解并粘合. 两段在连接处导数都趋向 $f(\beta,x_\beta)$, 所以得到 $C^1$ 延续.
+\end{proof}
+特别地, 对定义在全空间的自治方程, 有界轨道不会在有限时间爆破. 若解接近 $D$ 的边界, 即使状态有界也可能不能继续, 所以不能删去紧集包含在 $D$ 内的条件.
+\originalsection{连续依赖与误差衔接}
+\begin{lemma}[Gronwall 不等式]\label{lem:gronwall}
+若连续函数 $u\ge0$ 在 $[0,T]$ 上满足 $u(t)\le A+L\int_0^t u(s)\dd s$, 其中 $A,L\ge0$, 则 $u(t)\le A\ee^{Lt}$.
+\end{lemma}
+\begin{proof}
+令 $v(t)=A+L\int_0^t u(s)\dd s$. 当 $A>0$ 时, $v'\le Lv$, 从而 $(\ee^{-Lt}v)'\le0$, 得 $u\le v\le A\ee^{Lt}$. $A=0$ 时先用任意 $A=\eps>0$ 作上界, 再令 $\eps\downarrow0$.
+\end{proof}
+若两个解在同一 Lipschitz 区域中, 初值差为 $d$, 右端之差的上界为 $\eta$, 则对 $t\ge t_0$ 有
+\begin{equation}\label{eq:dependence}
+\|x(t)-\widetilde x(t)\|\le d\ee^{L(t-t_0)}+\frac{\eta}{L}(\ee^{L(t-t_0)}-1).
+\end{equation}
+$L=0$ 时后一项解释为 $\eta(t-t_0)$. 证明方法是对差的积分式取范数, 再对辅助积分函数乘积分因子. 具体令 $u(t)=\|x(t)-\widetilde x(t)\|$, $v(t)=d+\eta(t-t_0)+L\int_{t_0}^t u(s)\dd s$, 则 $u\le v$, $v'\le\eta+Lv$, 积分后得到所写上界. 这说明固定有限时间内的扰动控制, 没有声称时间趋于无穷时误差仍小.
+
+对于 $C^1$ 自治向量场 $f$, 解映射写为 $\phi_t(x_0)$. 先在一条轨道周围取紧邻域并利用有限次局部存在与连续依赖, 可使充分邻近的初值在同一紧时间段内存在. 在该共同时间段内, 对初值的导数 $Y(t)=D\phi_t(x_0)$ 满足
+\begin{equation}\label{eq:variational}
+Y'=Df(\phi_t(x_0))Y,\qquad Y(0)=I.
+\end{equation}
+为说明此处微分不是形式运算, 令初值增量为 $h$, 用 \eqref{eq:dependence} 得轨道增量为 $O(\|h\|)$. 连续导数的积分 Taylor 公式将向量场增量写成 $Df(\phi_t)\Delta x+r$, 其中紧时间段上 $\sup\|r\|/\|h\|\to0$. 从轨道增量的积分式减去线性系统 $Yh$ 的积分式, 再用引理 \ref{lem:gronwall}, 得余项一致为 $o(\|h\|)$. 这就证明了导数及变分方程.
+
+Euler 等数值方法用离散点近似积分轨道. 若一条可微近似轨道满足 $\widetilde x'=f(t,\widetilde x)+r(t)$, 则 \eqref{eq:dependence} 直接给出残差到全局误差的转换. 阶数、刚性和步长稳定域的完整讨论属于数值分析册; 在此不由图像吻合替代误差证明.
+\originalsection{习题与解答}
+\begin{exercise}求 $x'=-x^3$, $x(0)=a$ 的最大解, 并比较正向和反向延续.\end{exercise}
+\begin{solution}若 $a=0$ 则解恒零. 否则 $x=a/\sqrt{1+2a^2t}$, 最大区间为 $(-1/(2a^2),\infty)$. 正向趋于零而反向有限时间爆破.\end{solution}
+\begin{exercise}设 $|f(t,x)|\le A+B|x|$ 在 $\R^2$ 上成立, 且满足局部存在唯一性条件. 证明每个解全时存在.\end{exercise}
+\begin{solution}对任意有限 $T$, 从积分形式和 Gronwall 得 $|x(t)|\le(|x_0|+AT)\ee^{BT}$ ($|t-t_0|\le T$), 反向时间作相同估计. 有限端点前图像位于全空间的紧柱体内, 定理 \ref{thm:continuation} 排除有限最大端点.\end{solution}

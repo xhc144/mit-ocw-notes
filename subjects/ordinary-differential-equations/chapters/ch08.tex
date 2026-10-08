@@ -1,0 +1,57 @@
+\originalchapter{线性方程组与矩阵指数}
+\originalsection{基本矩阵与常数变易}
+\begin{definition}
+对 $X'=A(t)X$, 若矩阵 $\Phi(t)$ 的各列组成一组线性独立解, 称其为基本矩阵. 一般非齐次系统是 $X'=A(t)X+g(t)$.
+\end{definition}
+在某点独立的列, 不可能在另一点突然相关: 若有常数向量 $c\ne0$ 使 $\Phi(t_1)c=0$, 则解 $\Phi(t)c$ 的零初值唯一性迫使它处处为零, 与初始独立矛盾. 所以基本矩阵整个区间可逆.
+\begin{theorem}
+连续系数系统的解为
+\begin{equation}\label{eq:matrixvariation}
+X(t)=\Phi(t)\Phi(t_0)^{-1}X_0+\Phi(t)\int_{t_0}^t\Phi(s)^{-1}g(s)\dd s.
+\end{equation}
+\end{theorem}
+\begin{proof}
+设 $X=\Phi c(t)$, 代入得 $\Phi'c+\Phi c'=A\Phi c+g$, 消去齐次部分后 $c'=\Phi^{-1}g$. 积分并使用初值即得公式. 矩阵乘法不交换, 因此顺序不可任意调换.
+\end{proof}
+\begin{proposition}[Liouville 公式]\label{prop:liouville}
+基本矩阵满足 $\det\Phi(t)=\det\Phi(t_0)\exp(\int_{t_0}^t\tr A(s)\dd s)$.
+\end{proposition}
+\begin{proof}
+按列展开行列式导数, 各列导数为 $A$ 乘该列. 在线性代数中该和等于 $\tr A\det\Phi$: 可先对标准基计算 $A$ 的作用, 非对角项导致两列重复, 只有对角项保留, 再换到当前列基. 因而行列式满足一阶线性方程, 解得公式.
+\end{proof}
+\originalsection{矩阵指数与谱}
+\begin{definition}
+对常矩阵 $A$, 定义 $\ee^{At}=\sum_{k=0}^\infty A^kt^k/k!$.
+\end{definition}
+取任一相容矩阵范数, 各项范数由 $\|A\|^k|t|^k/k!$ 控制, 所以紧时间区间上一致绝对收敛. 导数级数也同样收敛, 得 $(\ee^{At})'=A\ee^{At}$, $\ee^{A0}=I$. 初值唯一性给 $\ee^{A(t+s)}=\ee^{At}\ee^{As}$, 以及逆矩阵 $\ee^{-At}$. 因而 $\Phi=\ee^{At}$ 是基本矩阵.
+
+若 $Av=\lambda v$, 则 $\ee^{At}v=\ee^{\lambda t}v$. 若 $A=SJS^{-1}$, 则 $\ee^{At}=S\ee^{Jt}S^{-1}$. 对 Jordan 块 $J=\lambda I+N$, $N^m=0$, 有 $\ee^{Jt}=\ee^{\lambda t}(I+tN+\cdots+t^{m-1}N^{m-1}/(m-1)!)$. 本册把有限维矩阵的特征分解与 Jordan 标准形作为线性代数先修, 此处完整给出它们对方程的作用. 对不交换的 $A,B$, 一般 $\ee^{A+B}\ne\ee^A\ee^B$, 不能把变系数系统直接写成 $\exp(\int A)$.
+\begin{example}求 $X'=\begin{pmatrix}2&1\\0&2\end{pmatrix}X$, $X(0)=(a,b)^{\mathsf T}$.\end{example}
+\begin{solution}
+$A=2I+N$, $N^2=0$, 所以 $\ee^{At}=\ee^{2t}\begin{pmatrix}1&t\\0&1\end{pmatrix}$, $X=\ee^{2t}(a+bt,b)^{\mathsf T}$. 只有一条特征向量方向, 但仍需两个独立模式. 缺陷矩阵的第二模式是广义特征向量产生的 $t$ 项.
+\end{solution}
+\begin{example}对 $A=\begin{pmatrix}\alpha&-\beta\\\beta&\alpha\end{pmatrix}$, 求流并判定旋转方向.\end{example}
+\begin{solution}
+写 $A=\alpha I+\beta J$, $J^2=-I$, 得 $\ee^{At}=\ee^{\alpha t}\begin{pmatrix}\cos\beta t&-\sin\beta t\\\sin\beta t&\cos\beta t\end{pmatrix}$. $\beta>0$ 时从正 $x$ 轴向正 $y$ 轴逆时针旋转; $\alpha$ 控制半径增长或衰减.
+\end{solution}
+\originalsection{模态与耦合振动}
+两个质量相同为 $m$ 的物体各接外侧刚度 $k$ 的弹簧, 中间用刚度 $\kappa$ 的弹簧连接. 位移满足
+\[
+m\begin{pmatrix}x_1''\\x_2''\end{pmatrix}
+=-\begin{pmatrix}k+\kappa&-\kappa\\-\kappa&k+\kappa\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\end{pmatrix}.
+\]
+同相方向 $(1,1)$ 的特征刚度为 $k$, 反相方向 $(1,-1)$ 的特征刚度为 $k+2\kappa$. 令 $u=(x_1+x_2)/2$, $v=(x_1-x_2)/2$, 得 $mu''+ku=0$, $mv''+(k+2\kappa)v=0$. 这两个正常模态将耦合运动分解为独立振子. 改变坐标不是忽略耦合, 而是选取力矩阵的特征方向.
+\originalsection{稳定性与输入}
+\begin{theorem}\label{thm:linearstable}
+常系数系统 $X'=AX$ 的原点渐近稳定当且仅当全部特征值实部严格负. 它 Lyapunov 稳定当且仅当全部实部非正, 且实部为零的特征值的 Jordan 块均为一阶.
+\end{theorem}
+\begin{proof}
+Jordan 公式显示: 严格负的指数压过任意固定次数多项式, 故存在 $M,\gamma>0$ 使 $\|\ee^{At}\|\le M\ee^{-\gamma t}$, 同时得到稳定与收敛. 零实部的一阶块有界, 与负实部块合在一起使半群有界, 所以小初值始终保持小. 若有正实部, 在相应实不变子空间内取特征运动, 任意小非零初值最终逃出固定球. 若零实部块有非零幂零部分, 取最高广义特征方向得多项式增长, 也不稳定. 若存在零实部的一阶块, 则其非零运动不趋于零, 因而不能渐近稳定. 相似变换只改变固定范数常数, 不改变这些量词结论.
+\end{proof}
+稳定矩阵的非齐次解满足 $\|X(t)\|\le M\ee^{-\gamma t}\|X_0\|+M\int_0^t\ee^{-\gamma(t-s)}\|g(s)\|\dd s$. 有界输入给有界状态; 输入趋零时, 将积分拆成固定旧时段和最终小输入时段可证明状态趋零. 相同结论不适用于只有 Lyapunov 稳定、没有衰减的系统, 如无阻尼振子会对共振输入积累能量.
+\originalsection{习题与解答}
+\begin{exercise}求 $X'=\begin{pmatrix}1&2\\2&1\end{pmatrix}X$ 的通解.\end{exercise}
+\begin{solution}特征值3、$-1$, 对应 $(1,1)$、$(1,-1)$. 因而 $X=c_1\ee^{3t}(1,1)^{\mathsf T}+c_2\ee^{-t}(1,-1)^{\mathsf T}$; 只有初值在第二条直线上才正向趋零.\end{solution}
+\begin{exercise}给出全部特征值为零而原点不稳定的二维系统, 并解释机制.\end{exercise}
+\begin{solution}取 $A=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, 有 $x=x_0+y_0t$, $y=y_0$. 任意小 $y_0\ne0$ 都使 $x$ 最终无界; 非平凡 Jordan 块产生线性增长.\end{solution}

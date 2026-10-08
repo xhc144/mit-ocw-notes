@@ -1,0 +1,69 @@
+\originalchapter{平面系统的相图}
+\originalsection{轨道与零流线}
+自治平面系统 $x'=f(x,y)$, $y'=g(x,y)$ 的轨道是状态平面内的定向曲线. 在 $f\ne0$ 的局部可写 $\dd y/\dd x=g/f$, 但这个商在竖直运动处失效, 且丢掉了速度大小. 零流线 $f=0$ 和 $g=0$ 分别是水平或竖直分量为零的点集, 不是一般的不变轨道; 两者交点才是平衡点.
+
+唯一性说明不同轨道不能在非平衡点相交, 但同一轨道可以周期重复. 穿过某点再次到达同一点, 由自治性与唯一性得到周期运动. 平衡点旁箭头很短也不意味着轨道能在有限时间到达它.
+\originalsection{迹、行列式与线性分类}
+对 $X'=AX$, $A$ 为实 $2\times2$ 矩阵, 设 $\tau=\tr A$, $\Delta=\det A$. 特征方程为 $\lambda^2-\tau\lambda+\Delta=0$. 因而:
+\begin{itemize}
+\item $\Delta<0$: 两个实根异号, 原点为鞍点. 负根特征线是稳定方向, 正根特征线是不稳定方向.
+\item $\Delta>0$, $\tau^2>4\Delta$: 实根同号, $\tau<0$ 为稳定结点, $\tau>0$ 为不稳定结点.
+\item $\Delta>0$, $\tau^2<4\Delta$: 共轭复根实部 $\tau/2$, 为稳定或不稳定焦点; $\tau=0$ 时为中心.
+\item $\tau^2=4\Delta>0$: 重实根, 标量矩阵给星形结点, 非标量情形可能给 Jordan 模式, 都按根的符号判断吸引或排斥.
+\end{itemize}
+$\Delta=0$ 时至少有零特征值, 可能有一条平衡点直线, 不在上述孤立类型中. 稳定区域 $\tau<0$, $\Delta>0$ 同时包含结点与焦点.
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=.8]
+\begin{scope}
+\draw[->](-2,0)--(2,0)node[right]{$x$};\draw[->](0,-1.8)--(0,1.8)node[above]{$y$};
+\draw[->,thick](.3,0)--(1.5,0);\draw[->,thick](-.3,0)--(-1.5,0);
+\draw[->,thick](0,1.5)--(0,.3);\draw[->,thick](0,-1.5)--(0,-.3);
+\draw[domain=.38:1.6,smooth,variable=\u]plot({\u},{.55/\u});
+\draw[->,thick](.85,.65)--(1.12,.49);
+\node at (0,-2.4){$x'=x,\ y'=-y$};
+\end{scope}
+\begin{scope}[xshift=6cm]
+\draw[->](-2,0)--(2,0)node[right]{$x$};\draw[->](0,-1.8)--(0,1.8)node[above]{$y$};
+\draw[domain=0:13,samples=180,smooth,variable=\u]plot({1.6*exp(-.15*\u)*cos(\u r)},{1.6*exp(-.15*\u)*sin(\u r)});
+\draw[->,thick](.93,.78)--(.64,.99);
+\node at (0,-2.4){$x'=-.15x-y,\ y'=x-.15y$};
+\end{scope}
+\end{tikzpicture}
+
+左: 鞍点. 右: 向内的逆时针螺旋, 为稳定焦点.
+\end{center}
+图只展示所给系统的定性方向, 相似变换后的相图可能被拉伸倾斜, 不应把图中直角当作所有特征向量都正交.
+\originalsection{非线性系统与线性化}
+若 $F\in C^1$, $F(a)=0$, 令 $u=X-a$, Taylor 公式给 $u'=Au+R(u)$, $A=DF(a)$, $\|R(u)\|/\|u\|\to0$. 在小邻域中线性部分是首阶近似, 但随时间累积的误差不能仅凭一次 Taylor 展开判定. 第10章将证明 $A$ 全部特征值实部负时非线性平衡点渐近稳定.
+
+一般双曲平衡点指没有零实部特征值的平衡点. 局部拓扑分类还可调用 Hartman--Grobman 定理: $C^1$ 向量场在双曲平衡点附近的轨道结构与其线性化局部拓扑等价, 保持时间方向. 本册不证明这一一般拓扑共轭定理, 不靠它替代后文稳定性的直接证明; 鞍点附近稳定与不稳定方向在非线性系统中通常弯成曲线, 不能把它们等同于整条特征直线. 非双曲情形不在该定理条件内.
+\begin{example}分析单摆 $\theta'=v$, $v'=-\sin\theta-\gamma v$, $\gamma\ge0$ 的平衡点.\end{example}
+\begin{solution}
+平衡点为 $(k\pi,0)$. Jacobian 为 $\begin{pmatrix}0&1\\-\cos k\pi&-\gamma\end{pmatrix}$. $k$ 奇数时行列式为 $-1$, 线性化为鞍点. $k$ 偶数且 $\gamma>0$ 时迹负、行列式1, 原点型平衡渐近稳定; $0<\gamma<2$ 为焦点, $\gamma>2$ 为结点, $\gamma=2$ 为重根. $\gamma=0$ 时线性化为中心, 不能只由此断言非线性稳定; 能量 $v^2/2+1-\cos\theta$ 的局部正定性在下一章给出证明.
+\end{solution}
+\originalsection{守恒量与捕食模型}
+Lotka--Volterra 模型为 $x'=x(a-by)$, $y'=y(-c+dx)$, $a,b,c,d>0$. 坐标轴是不可穿越的不变边界; 正初值保持正, 因为 $x=x_0\exp\int(a-by)\dd t$, $y=y_0\exp\int(-c+dx)\dd t$. 正平衡点为 $(c/d,a/b)$.
+\begin{proposition}
+在正象限内 $V(x,y)=dx-c\log x+by-a\log y$ 沿轨道恒定. 非平衡的正象限轨道为周期曲线.
+\end{proposition}
+\begin{proof}
+微分得
+$V'=(d-c/x)x(a-by)+(b-a/y)y(-c+dx)=0$.
+$V$ 的 Hessian 为 $\diag(c/x^2,a/y^2)$, 严格正定, 在正平衡点取得唯一最小值; 接近轴或趋于无穷时 $V\to\infty$. 每个高于最小值的等值线是围住平衡点的光滑闭曲线: 梯度只在最小点为零, 严格凸性使每条从该点出发的射线与等值线恰交一次. 等值线上向量场不为零, 相切且速度有正下界. 用弧长参数 $s$ 写 $\dd s/\dd t=v(s)>0$, 绕行时间 $\int\dd s/v(s)$ 有限, 所以轨道周期. 守恒量也将轨道限制在正象限紧集, 保证全时存在.
+\end{proof}
+这里的闭轨道形成整族, 不属于孤立极限环. 线性化中心与非线性闭轨道相容, 真正支持周期性的是守恒量及其等值线几何.
+
+\originalsection{单摆的周期与分离轨道}
+无阻尼单摆的守恒量为 $E=v^2/2+1-\cos\theta$. 在展开的 $(\theta,v)$ 平面中, 每个能量 $0<h<2$ 围绕下垂点形成闭曲线; 转角最大值 $\theta_m$ 满足 $1-\cos\theta_m=h$. 运动从 $\theta=0$ 到 $\theta_m$ 的时间可由 $v=\sqrt{2(h-1+\cos\theta)}$ 积分. 设 $k=\sin(\theta_m/2)=\sqrt{h/2}$, 用 $\sin(\theta/2)=k\sin\varphi$ 消去端点平方根, 得周期
+\[
+T(h)=4\int_0^{\pi/2}\frac{\dd\varphi}{\sqrt{1-k^2\sin^2\varphi}}.
+\]
+当 $h\downarrow0$, 分母一致趋于1, 所以 $T\to2\pi$, 与小振幅线性化一致. 当 $h\uparrow2$, 被积函数单调趋于 $1/\cos\varphi$, 其积分发散, 单调收敛给 $T\to\infty$. 非线性摆的周期随振幅增大, 不能把线性近似周期用于接近翻转的运动.
+
+能量 $h=2$ 时, 在 $-\pi<\theta<\pi$ 的上支有 $v=2\cos(\theta/2)$. 对应显式轨道为 $\theta(t)=4\arctan\ee^{t-t_*}-\pi$, $v(t)=2\operatorname{sech}(t-t_*)$. 直接求导验证 $\theta'=v$, $v'=-\sin\theta$. 当 $t\to\pm\infty$, 它分别趋于相邻的两个上竖平衡点; 达到平衡需要无限时间. 这一分离轨道把往复摆动与完整旋转的能量区域分开. $h>2$ 时速度不为零, 转角在展开平面不断增加或减少; 若把角度模 $2\pi$ 识别, 状态空间是圆柱, 与展开平面内“闭曲线”的说法应区分.
+
+\originalsection{习题与解答}
+\begin{exercise}分类 $A=\begin{pmatrix}0&1\\-2&-3\end{pmatrix}$ 的原点并求特征方向.\end{exercise}
+\begin{solution}迹 $-3$, 行列式2, 根为 $-1,-2$, 是稳定结点. 方向分别为 $(1,-1)$、$(1,-2)$; 一般轨道正向以较慢的 $-1$ 方向趋向原点, 在纯 $-2$ 特征线上则保持快方向.\end{solution}
+\begin{exercise}系统 $x'=-y-x(x^2+y^2)$, $y'=x-y(x^2+y^2)$ 的线性化是中心. 判断原点实际稳定性.\end{exercise}
+\begin{solution}对 $r>0$, $r'=-r^3$, $\theta'=1$, 因而 $r(t)=r_0/\sqrt{1+2r_0^2t}$ 正向趋零且不增. 原点渐近稳定, 非线性三次项改变了中心的长期行为.\end{solution}

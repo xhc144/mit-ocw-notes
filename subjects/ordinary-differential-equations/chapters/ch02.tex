@@ -1,0 +1,67 @@
+\originalchapter{一阶方程的解析方法}
+\originalsection{分离变量与变量代换}
+对 $y'=a(t)b(y)$, 在 $b(y)\ne0$ 的区间上, 选择原函数 $B'(y)=1/b(y)$, 则 $B(y(t))=\int a(t)\dd t+C$. 隐函数能否在初值附近解为 $y(t)$, 由 $B'(y_0)\ne0$ 保证. 先除以 $b(y)$ 会删掉它的零点所对应的常值解; 必须先登记这些解.
+\begin{example}求 $y'=y(1-y)$ 的所有初值解 $y(0)=y_0$.\end{example}
+\begin{solution}
+$y_0=0,1$ 时分别为常值解. 其他情形由 $1/[y(1-y)]=1/y+1/(1-y)$ 得 $\log|y/(1-y)|=t+C$, 从而
+\[
+y(t)=\frac{y_0\ee^t}{1-y_0+y_0\ee^t}.
+\]
+取包含零且分母非零的最大区间. $0<y_0<1$ 时全时存在, 正向趋于1; $y_0>1$ 时反向有限时间爆破; $y_0<0$ 时正向有限时间趋于负无穷. 有理式形式也覆盖两个常值解, 但这是代回原方程后确认的, 不是除法步骤自动保留的.
+\end{solution}
+对于齐次型 $y'=F(y/t)$, $t\ne0$ 时令 $v=y/t$, 得 $t v'=F(v)-v$. 这里“齐次”指右端的比值结构, 不等于线性齐次方程. Bernoulli 方程 $y'+p(t)y=q(t)y^\gamma$, $\gamma\ne1$, 在幂函数有定义且 $y\ne0$ 的区间上令 $z=y^{1-\gamma}$, 变为 $z'+(1-\gamma)pz=(1-\gamma)q$. 每次变换都应记下逆变换的符号与定义域.
+\begin{example}解 $y'+y=t y^2$, $y(0)=1$.\end{example}
+\begin{solution}
+令 $z=1/y$, 得 $z'-z=-t$. 一个特解为 $t+1$, 故 $z=t+1+C\ee^t$. 初值得 $C=0$, 所以 $y=1/(t+1)$, 最大区间为 $(-1,\infty)$. 原方程另有零解, 此初值不选它. 当 $z$ 穿过零时不能使用 $y=1/z$ 延续.
+\end{solution}
+\originalsection{一阶线性方程}
+\begin{theorem}[积分因子]\label{thm:firstlinear}
+设 $p,q$ 在区间 $I$ 上连续, $t_0\in I$. 问题 $y'+p(t)y=q(t)$, $y(t_0)=y_0$ 的唯一解为
+\begin{equation}\label{eq:firstlinear}
+y(t)=\ee^{-P(t)}\left[y_0+\int_{t_0}^t\ee^{P(s)}q(s)\dd s\right],\qquad P(t)=\int_{t_0}^t p(s)\dd s.
+\end{equation}
+\end{theorem}
+\begin{proof}
+选取 $\mu$ 的目的在于把左端变成 $(\mu y)'$. 比较系数须满足 $\mu'=p\mu$, 可以取 $\mu=\ee^P$, 它处处非零. 乘以 $\mu$ 后积分, 使用 $P(t_0)=0$, 得公式. 微分公式核验方程及初值. 两个解之差满足 $(\mu z)'=0$, 零初值迫使 $z=0$.
+\end{proof}
+公式中的齐次项描述初值的遗留, 积分项累积外部输入. 若 $p=k>0$, 记输入为 $q(t)$, 则 $y(t)=\ee^{-k(t-t_0)}y_0+\int_{t_0}^t\ee^{-k(t-s)}q(s)\dd s$. 较早输入乘的权重较小, 这是后面脉冲响应的第一种实例.
+\begin{example}
+容器中有 $V$ 升充分混合的溶液. 每分钟流入并流出 $r$ 升, 输入浓度为 $c(t)$. 写出并求解盐量 $M(t)$ 的方程.
+\end{example}
+\begin{solution}
+盐流入率为 $rc(t)$, 流出浓度为 $M/V$, 故 $M'+(r/V)M=rc(t)$. 当 $c(t)=c_0$ 为常数时, $M(t)=Vc_0+(M(0)-Vc_0)\ee^{-rt/V}$. 体积不变和瞬时充分混合是这个模型的条件; 若流入流出量不同, 应先算 $V(t)$, 不能照抄常系数模型.
+\end{solution}
+\originalsection{恰当方程与隐式解}
+方程 $M(t,y)\dd t+N(t,y)\dd y=0$ 沿曲线表示 $M+Ny'=0$. 若存在势函数 $\Psi$ 使 $\Psi_t=M$, $\Psi_y=N$, 则解落在等值线 $\Psi=C$ 上. 反过来只有在 $N\ne0$ 的点附近才能从等值线得到图像形式的解.
+\begin{proposition}
+若 $M,N\in C^1$ 定义在开矩形上, 则存在上述势函数当且仅当 $M_y=N_t$.
+\end{proposition}
+\begin{proof}
+必要性来自二阶混合偏导相等. 充分性可直接构造
+$\Psi(t,y)=\int_{t_*}^{t}M(s,y_*)\dd s+\int_{y_*}^{y}N(t,v)\dd v$.
+对 $y$ 求导得 $N$. 对 $t$ 求导, 用 $N_t=M_y$, 得 $M(t,y_*)+\int_{y_*}^{y}M_y(t,v)\dd v=M(t,y)$. 矩形条件保证积分路径始终在定义域中.
+\end{proof}
+一般区域中局部相容不自动给全局势函数. 本册只使用矩形或直接构造的势函数, 不把拓扑条件隐藏在符号计算里.
+\begin{example}解 $(2ty+1)\dd t+(t^2+2y)\dd y=0$, 过点 $(0,1)$.\end{example}
+\begin{solution}
+$M_y=2t=N_t$. 对 $t$ 积分得 $\Psi=t^2y+t+g(y)$, 与 $\Psi_y=t^2+g'(y)=t^2+2y$ 比较得 $g=y^2$. 初值给 $C=1$. 初值附近选根
+$y=(-t^2+\sqrt{t^4-4t+4})/2$; 这条支满足 $y(0)=1$. 被开方数 $t^4-4t+4=1+(t-1)^2(t^2+2t+3)>0$, 且所选支上 $N=t^2+2y=\sqrt{t^4-4t+4}>0$. 因而该支实际在整个 $\R$ 上光滑, 是最大解; 另一个代数根不满足此初值.
+\end{solution}
+若恰当性失败, 可以尝试积分因子. 只依赖 $t$ 的因子 $\mu$ 必须满足 $(\mu M)_y=(\mu N)_t$, 即 $\mu'/\mu=(M_y-N_t)/N$. 右端若只依赖 $t$ 且 $N\ne0$, 积分即可构造 $\mu$. 只依赖 $y$ 的情形相应为 $\mu_y/\mu=(N_t-M_y)/M$.
+
+\originalsection{Riccati 方程与已知特解}
+Riccati 方程 $y'=a(t)y^2+b(t)y+c(t)$ 的二次项阻止线性叠加, 但若已知特解 $y_1$, 可把这一特解作为变量代换的基点. 在 $y\ne y_1$ 的区间令 $y=y_1+1/v$. 消去特解方程得 $v'+(2ay_1+b)v=-a$, 是线性方程. $y=y_1$ 这一分支必须另记; $v$ 的零点对应原变量爆破.
+\begin{example}求 $y'=y^2-2/t^2$, $t>0$, $y(1)=0$ 的解.\end{example}
+\begin{solution}
+试幂函数 $y_1=k/t$, 得 $-k=k^2-2$, 可取 $k=1$. 令 $y=1/t+1/v$, 得 $v'+2v/t=-1$, 积分因子为 $t^2$. 因此 $v=-t/3+C/t^2$. 初值要求 $v(1)=-1$, 得 $C=-2/3$, 所以
+\[
+y(t)=\frac1t-\frac{3t^2}{t^3+2}=\frac{2(1-t^3)}{t(t^3+2)}.
+\]
+在 $(0,\infty)$ 分母不为零, 这是指定定义域内的最大解. 第一次代换的构造方向来自二次差 $y^2-y_1^2=2y_1(y-y_1)+(y-y_1)^2$: 倒数恰能把剩下的平方项化为常数输入.
+\end{solution}
+
+\originalsection{习题与解答}
+\begin{exercise}求 $ty'=y+t\ee^{-y/t}$, $t>0$, $y(1)=0$ 的解.\end{exercise}
+\begin{solution}令 $v=y/t$, 得 $tv'=\ee^{-v}$, 所以 $(\ee^v)'=1/t$. 初值给 $\ee^v=1+\log t$, 故 $y=t\log(1+\log t)$, 最大区间为 $(\ee^{-1},\infty)$.\end{solution}
+\begin{exercise}解 $y'+2ty=2t$, $y(0)=a$, 并说明不同初值解的差.\end{exercise}
+\begin{solution}积分因子为 $\ee^{t^2}$, 得 $y=1+(a-1)\ee^{-t^2}$. 两个解之差为 $(a-b)\ee^{-t^2}$, 正反两方向均趋于零, 因为此方程并非自治方程, 不能从此推出自治流的平衡点同时正反向吸引.\end{solution}

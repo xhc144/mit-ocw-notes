@@ -1,0 +1,67 @@
+\originalchapter{极限环、返回映射与分岔}
+\originalsection{孤立周期轨道}
+\begin{definition}
+自治系统的周期轨道若在某邻域中没有其他周期轨道, 称极限环. 若附近轨道到它的距离正向趋零且对轨道集合稳定, 称稳定极限环. 稳定性比较的是到整条轨道的距离, 不是每条邻近解与某一固定相位点的距离.
+\end{definition}
+极坐标在 $r>0$ 上满足 $r'=(xx'+yy')/r$, $\theta'=(xy'-yx')/r^2$. 它把径向吸引和绕行角速度分开, 适用于有旋转结构的系统.
+\begin{example}分析 $x'=\mu x-y-x(x^2+y^2)$, $y'=x+\mu y-y(x^2+y^2)$.\end{example}
+\begin{solution}
+对 $r>0$ 有 $r'=\mu r-r^3$, $\theta'=1$. $\mu<0$ 时所有半径正向趋零; $\mu=0$ 时 $r'=-r^3$, 原点仍渐近稳定, 但衰减是代数速度. $\mu>0$ 时原点排斥, 圆 $r=\sqrt\mu$ 为周期 $2\pi$ 的极限环. $0<r<\sqrt\mu$ 向外, $r>\sqrt\mu$ 向内, 所有非零轨道到该圆趋零. 径向线性化导数 $\mu-3r^2=-2\mu<0$ 验证吸引. 圆内外的半径单调性排除其他周期轨道, 所以该圆确实孤立. 这是超临界 Hopf 分岔的正规模型.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=1.05]
+\draw[->](-2,0)--(2,0)node[right]{$x$};\draw[->](0,-2)--(0,2)node[above]{$y$};
+\draw[thick,color=structurecolor](0,0)circle(1.2);
+\draw[->,thick](1.2,0)arc(0:45:1.2);
+\draw[->](.5,.45)--(.8,.72);\draw[->](1.65,1.0)--(1.25,.76);
+\node[anchor=west]at(1.25,-1.1){$r=\sqrt\mu$};\fill(0,0)circle(1.8pt);
+\end{tikzpicture}
+
+$\mu>0$ 的径向吸引与逆时针绕行示意. 内外箭头只表示径向趋势.
+\end{center}
+一般 Hopf 定理还需光滑性、特征值横穿虚轴及非退化非线性系数等条件. 仅在某参数处出现纯虚根不能保证生出极限环; 本册证明的是此正规模型, 不把它当作一般 Hopf 定理的完整证明.
+\originalsection{Poincar\'e 返回映射}
+选周期轨道上的非平衡点 $p$, 取一条横截线 $\Sigma$ 与向量场横交. 附近初值在接近一周期的时间再次穿过 $\Sigma$, 定义返回映射 $P$. 横交性使穿越时刻由隐函数定理局部确定; 对 $C^1$ 向量场, 初值可微依赖使 $P$ 为 $C^1$. 周期轨道对应返回映射的固定点.
+\begin{proposition}
+一维返回映射的固定点 $z_*$ 若 $|P'(z_*)|<1$, 则局部吸引且稳定; 若 $|P'(z_*)|>1$, 则不稳定. 导数模等于1时, 线性判据无结论.
+\end{proposition}
+\begin{proof}
+第一种情形在小区间内 $|P'|\le q<1$, 均值定理给 $|P(z)-z_*|\le q|z-z_*|$, 迭代得几何衰减且区间不变. 第二种情形取 $|P'|\ge q>1$ 的小区间, 在轨道留于其中时每次偏离至少放大 $q$ 倍, 任意非零小扰动最终离开. 从截面到相邻一次绕行的时间与位置连续依赖, 因而离散稳定性转为周期轨道集合的稳定性.
+\end{proof}
+\begin{proposition}[平面周期轨道的乘子]\label{prop:multiplier}
+设 $\gamma(t)$ 为 $C^1$ 平面向量场的周期 $T$ 轨道. 返回映射在固定点的导数为
+$P'(z_*)=\exp\int_0^T\operatorname{div}F(\gamma(t))\dd t$.
+\end{proposition}
+\begin{proof}
+变分矩阵 $Y(T)$ 的一个特征值为1, 因为切向量 $F(\gamma(0))$ 经一周期回到自身: 对流的时间平移关系求导即可. 另一个特征值等于 $\det Y(T)$, Liouville 公式给出所写指数. 返回映射导数是在横向商空间上的诱导作用, 穿越时刻变化只添一个切向分量, 不改变横向商. 因此另一特征值即为 $P'(z_*)$.
+\end{proof}
+在上例 $\operatorname{div}F=2\mu-4r^2=-2\mu$ 于圆上, 故乘子为 $\ee^{-4\pi\mu}<1$, 与径向线性化一致.
+\originalsection{排除周期轨道}
+\begin{theorem}[Bendixson 判据]
+若 $F=(f,g)\in C^1$ 在单连通平面区域 $U$ 上, $\operatorname{div}F$ 处处严格同号, 则 $U$ 内没有非恒定周期轨道.
+\end{theorem}
+\begin{proof}
+若有周期轨道, 唯一性和最小周期使它是一条简单闭曲线, 且速度不为零. 单连通性使所围内部也位于 $U$. 向量场沿边界切向, 通量为零. Green 公式给 $0=\oint F\cdot n\dd s=\iint\operatorname{div}F\dd A$, 与散度严格同号矛盾. 此处使用平面 Jordan 曲线与 Green 公式作为微积分和拓扑先修.
+\end{proof}
+Dulac 扩展是选 $C^1$ 标量 $B$ 使 $\operatorname{div}(BF)$ 严格同号. 沿原轨道 $BF$ 仍切向, 同一通量证明适用. 区域若有孔, 曲线围成的内部可能不在区域内, 此论证就不能使用.
+\begin{example}证明 $x'=x(1-x-ay)$, $y'=y(1-y-bx)$ ($a,b>0$) 在正象限内没有周期轨道.\end{example}
+\begin{solution}
+取 $B=1/(xy)$, 它在正象限 $C^1$. 有 $BF=((1-x-ay)/y,(1-y-bx)/x)$, 散度为 $-1/y-1/x<0$. 正象限单连通, Dulac 判据排除其内部周期轨道. 边界行为另需相线分析, 不包含在此结论中.
+\end{solution}
+\originalsection{平面极限与高维限制}
+Poincar\'e--Bendixson 定理的常用版本为: $C^1$ 平面流的一条正向轨道若留在紧集内, 且其 $\omega$ 极限集不含平衡点, 则该极限集是一条周期轨道. 这是本册引用而不展开完整横截面拓扑证明的定理; 条件中的紧性与排除平衡点均不可省. 它可以在有不变环域且环域内无平衡点时保证至少一条周期轨道, 不能自动保证唯一性或稳定性.
+
+平面自治流的横截面是一维, 唯一性限制轨道的交错. 三维流的截面可为二维, 时间周期强迫的二维系统也可通过增加相位变成三维自治系统. 因此不能把平面定理用于三维 Lorenz 模型或二维非自治振子来排除混沌. 周期受迫振子可按每个强迫周期采样, 得到二维离散返回映射.
+
+\originalsection{Van der Pol 振子}
+Van der Pol 方程 $x''-\mu(1-x^2)x'+x=0$, $\mu>0$, 将小振幅下的负阻尼与大振幅下的正阻尼结合. 令 $v=x'$, 则 $x'=v$, $v'=\mu(1-x^2)v-x$. 能量 $E=(x^2+v^2)/2$ 满足 $E'=\mu(1-x^2)v^2$. 在 $|x|<1$ 的运动片段中它增长, 在 $|x|>1$ 的片段中它下降; 一次片段的符号并不证明整个周期的总能量变化.
+
+因 $E'\le\mu v^2\le2\mu E$, 有 $E(t)\le E(0)\ee^{2\mu t}$, 所以每个解全正向存在. 原点 Jacobian 为 $\begin{pmatrix}0&1\\-1&\mu\end{pmatrix}$, 线性特征根实部正或两正根, 表明小扰动具有增长模式. 为研究闭轨道, 令 $F(x)=\mu(x^3/3-x)$, $z=v+F(x)$, 得 Liénard 平面形式 $x'=z-F(x)$, $z'=-x$.
+
+这里阻尼函数 $u(x)=\mu(x^2-1)$ 为偶连续函数, 恢复力 $g(x)=x$ 为奇函数且在 $x>0$ 时为正, 积分 $\int_0^xg(s)\dd s=x^2/2\to\infty$; $F=\int_0^xu(s)\dd s$. 在此模型中, $F$ 为奇函数, 在 $0<x<\sqrt3$ 为负, 在 $x>\sqrt3$ 为正且严格递增并趋于无穷. 标准 Liénard 定理据这些条件给出唯一吸引极限环. 原 MIT 笔记 LC 在 PDF 第5页引用的 Levinson--Smith 版本以偶阻尼、奇恢复力、积分符号及增长条件表达该结论. 本册不证明这一全局唯一性定理, 也不从 $E'$ 的局部符号替代它; 这里只核验本模型满足条件, 说明极限环的自持振动机制. 对 $\mu\to0$ 的幅值近似或 $\mu$ 很大的松弛振荡, 还需平均法或奇异摄动的误差理论, 不作为已证明的定量结论.
+
+\originalsection{习题与解答}
+\begin{exercise}对 $r'=r(1-r^2)$, $\theta'=2$, 求极限环周期与横向乘子.\end{exercise}
+\begin{solution}环为 $r=1$, 周期 $T=\pi$. 径向扰动满足 $\rho'=-2\rho$, 所以乘子 $\ee^{-2\pi}$. 原点不稳定, 所有非零正向轨道半径趋于1.\end{solution}
+\begin{exercise}说明负散度为什么不能排除三维流中的周期轨道.\end{exercise}
+\begin{solution}取平面稳定环正规模型 $x'=x-y-xr^2$, $y'=x+y-yr^2$, 并附加 $z'=-3z$, $r^2=x^2+y^2$. 三维散度为 $-1-4r^2<0$, 但 $r=1,z=0$ 是周期轨道. 平面 Green 公式用围域通量的证明不适用于空间闭曲线.\end{solution}

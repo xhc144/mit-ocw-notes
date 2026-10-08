@@ -1,0 +1,67 @@
+\originalchapter{Laplace 变换、卷积与脉冲}
+\originalsection{变换与导数公式}
+\begin{definition}
+若 $f:[0,\infty)\to\C$ 局部分段连续且满足 $|f(t)|\le M\ee^{at}$ (足够大 $t$), 则其单边 Laplace 变换为 $F(s)=\Lap f(s)=\int_0^\infty\ee^{-st}f(t)\dd t$, 在 $\operatorname{Re}s>a$ 绝对收敛. 收敛半平面与公式共同描述变换.
+\end{definition}
+有限段积分因局部可积而存在, 尾部可用 $M\ee^{-(\operatorname{Re}s-a)t}$ 控制. 相同估计加一个 $t^k$ 因子仍可积, 所以在严格内部的闭子半平面上可对 $s$ 求导, $F^{(k)}(s)=\Lap((-t)^kf)(s)$. 因而变换在其收敛半平面内解析.
+\begin{proposition}
+若 $f$ 局部绝对连续, $f'$ 局部分段连续, 且 $f,f'$ 为指数阶, 则在共同收敛半平面中 $\Lap f'=sF-f(0+)$. 对满足相应条件的 $n$ 阶导数,
+\[
+\Lap f^{(n)}=s^nF-s^{n-1}f(0+)-\cdots-f^{(n-1)}(0+).
+\]
+\end{proposition}
+\begin{proof}
+在 $[0,R]$ 上分部积分: $\int_0^R\ee^{-st}f' =\ee^{-sR}f(R)-f(0+)+s\int_0^R\ee^{-st}f$. 当实部超过指数阶, 边界尾项趋于零. 对更高阶反复使用该公式即可. 跳跃函数不能直接应用这个普通导数公式, 必须另计跳跃产生的脉冲.
+\end{proof}
+基本表可从积分得到 $\Lap1=1/s$, $\Lap\ee^{at}=1/(s-a)$, $\Lap\cos\omega t=s/(s^2+\omega^2)$, $\Lap\sin\omega t=\omega/(s^2+\omega^2)$. $\Lap t^n=n!/s^{n+1}$ 来自反复分部积分. 线性性和指数移位 $\Lap(\ee^{at}f)=F(s-a)$ 使表的适用范围扩大.
+
+这里使用的逆变换在局部分段连续指数阶函数中唯一, 相等是除跳跃点取值外的几乎处处相等. 一个证明途径如下. 若变换差 $g$ 为零, 选实数 $b$ 严格大于其指数阶并使 $b>0$. $F(b+n)=0$ 对所有 $n\ge0$ 成立. 代换 $u=\ee^{-t}$ 得 $\int_0^1u^n h(u)\dd u=0$, $h(u)=u^{b-1}g(-\log u)\in L^1(0,1)$. 多项式在连续函数中一致稠密, 故 $h$ 对全部连续测试函数积分为零. 用连续函数逼近区间示性函数, 得每个区间积分为零, 再由不定积分的绝对连续性得 $h=0$ 几乎处处. 此处使用的一致多项式逼近和积分基本性质是分析先修; 具体有理式逆变换仍逐项代回核验.
+\originalsection{初值问题与部分分式}
+\begin{example}解 $y''+3y'+2y=1$, $y(0)=0$, $y'(0)=1$.\end{example}
+\begin{solution}
+记 $Y=\Lap y$, 导数公式给 $(s^2+3s+2)Y=1+1/s$. 因此 $Y=(s+1)/[s(s+1)(s+2)]=1/[s(s+2)]$, 得 $y=(1-\ee^{-2t})/2$. 初值项不可遗漏; 分子中的消去由此特定初速度与输入共同决定.
+\end{solution}
+对二次不可约分母应先配平方, 例如 $s^2+2as+b=(s+a)^2+\omega^2$ ($\omega^2=b-a^2>0$). 重复极点的逆变换含 $t$ 的幂; 这与特征方程的重根完全一致.
+\originalsection{延迟、阶跃与卷积}
+设 $H(t)$ 为 $t>0$ 时1、$t<0$ 时0的阶跃, 单点值不影响普通积分. 对 $a>0$,
+\[
+\Lap\{H(t-a)f(t-a)\}=\ee^{-as}F(s).
+\]
+这由 $u=t-a$ 代换得出. $H(t-a)f(t)$ 的变换一般不是 $\ee^{-as}F(s)$, 必须先把有效输入改写为延迟变量的函数.
+\begin{definition}
+两个因果函数的卷积为 $(f*g)(t)=\int_0^t f(t-u)g(u)\dd u$, $t\ge0$. 因果指 $t<0$ 时延拓为零.
+\end{definition}
+\begin{theorem}[卷积公式]
+若 $f,g$ 局部分段连续且为指数阶, 则在足够右侧半平面 $\Lap(f*g)=FG$.
+\end{theorem}
+\begin{proof}
+足够大的 $\sigma=\operatorname{Re}s$ 使 $\int_0^\infty\ee^{-\sigma t}|f(t)|\dd t$ 与 $g$ 的对应积分有限. 因而三角区域上的二重积分绝对可积, 可交换积分. 令 $v=t-u$, 得
+\[
+\int_0^\infty\int_0^t\ee^{-st}f(t-u)g(u)\dd u\dd t
+=\int_0^\infty\int_0^\infty\ee^{-s(v+u)}f(v)g(u)\dd v\dd u=FG.
+\]
+所用交换依靠绝对可积, 不是把发散的两个表达式形式相乘.
+\end{proof}
+\begin{example}求 $y''+y=H(t-\pi)$, 零初值的解.\end{example}
+\begin{solution}
+$Y=\ee^{-\pi s}/[s(s^2+1)]$. 因 $1/[s(s^2+1)]=1/s-s/(s^2+1)$, 得 $y=H(t-\pi)[1-\cos(t-\pi)]$. 在开关点位置及速度连续, 加速度发生有限跳跃. 也可用脉冲响应 $k(t)=\sin t$ 卷积输入, 直接积分得到同一结果.
+\end{solution}
+\originalsection{脉冲与 Green 函数}
+Dirac 脉冲 $\delta_a$ 不是取无穷值的普通函数. 它对光滑紧支撑测试函数 $\varphi$ 的作用为 $\langle\delta_a,\varphi\rangle=\varphi(a)$; 分布导数定义为 $\langle T',\varphi\rangle=-\langle T,\varphi'\rangle$. 从定义分部积分得 $H'=\delta_0$. 在因果约定下取 $\Lap\delta_0=1$, $\Lap\delta_a=\ee^{-as}$ ($a>0$), 零时刻质量全部计入, 不采用半质量约定.
+
+若 $y$ 在 $a$ 左右光滑, 有跳跃 $[y]_a$, 则分布导数为常规分段导数加 $[y]_a\delta_a$. 再求导可得二阶导数中的 $[y']_a\delta_a+[y]_a\delta_a'$. 对 $my''+cy'+ky=J\delta_a$, 比较 $\delta_a'$ 系数先得 $[y]_a=0$, 再比较 $\delta_a$ 得 $m[y']_a=J$. 若先保留位置跳跃, 脉冲系数为 $m[y']_a+c[y]_a$, 在 $[y]_a=0$ 后才化为所写结论. 瞬时冲量改变速度, 不使位置跳跃.
+
+对 $y''+py'+qy=f$ 的常系数版本, 因果脉冲响应为 $k(t)=H(t)k_+(t)$, 其中 $k_+$ 解齐次方程并满足 $k_+(0)=0$, $k_+'(0)=1$. 上述跳跃计算给 $(D^2+pD+q)k=\delta_0$. 零初值响应 $y=k*f$, 其 Laplace 变换为 $F/P(s)$. 这也可直接在卷积积分中微分两次证明, 所以卷积的意义不依赖先记住变换表.
+\begin{example}求 $y''+2y'+2y=3\delta_2$, 零初值的解.\end{example}
+\begin{solution}
+$k_+(t)=\ee^{-t}\sin t$, 所以 $y=3H(t-2)\ee^{-(t-2)}\sin(t-2)$. 位置连续, 速度跳跃为3, 与单位质量的冲量条件一致. 普通微分方程只在 $t\ne2$ 处成立, 在全区间应按分布意义理解.
+\end{solution}
+\originalsection{极点与初终值}
+对严格真有理的 $F(s)$, 部分分式给时间项 $t^{m-1}\ee^{\lambda t}$, 极点 $\lambda$ 的实部控制衰减, 虚部控制振荡. 零点消去后的实际极点才决定该输出; 不能根据未约分分母断言输入输出中必有某个模式.
+
+若 $f$ 在零右连续且为指数阶, 由 $u=st$ 和控制收敛得 $\lim_{s\to+\infty}sF(s)=f(0+)$: 远尾用指数阶控制, 近零用连续性. 对有理变换, 取由部分分式得到的连续时间函数作为逆变换代表. 若约分后的 $sF(s)$ 的全部极点都在严格左半平面, 则 $f$ 为常数加衰减模式, 所以 $\lim_{t\to\infty}f(t)=\lim_{s\to0}sF(s)$. 这是终值定理在本册所需的充分版本. $F=1/(s^2+1)$ 时右侧为零而 $f=\sin t$ 无终值; 缺少极点条件不能使用公式.
+\originalsection{习题与解答}
+\begin{exercise}解 $y'+y=H(t-1)(t-1)$, $y(0)=0$.\end{exercise}
+\begin{solution}$Y=\ee^{-s}/[s^2(s+1)]$, 其中 $1/[s^2(s+1)]=1/s^2-1/s+1/(s+1)$. 因而 $y=H(t-1)[t-2+\ee^{-(t-1)}]$.\end{solution}
+\begin{exercise}求 $(\ee^{-t}*\ee^{-2t})(t)$, 并验证卷积变换.\end{exercise}
+\begin{solution}积分为 $\ee^{-t}\int_0^t\ee^{-u}\dd u=\ee^{-t}-\ee^{-2t}$. 变换为 $1/(s+1)-1/(s+2)=1/[(s+1)(s+2)]$.\end{solution}

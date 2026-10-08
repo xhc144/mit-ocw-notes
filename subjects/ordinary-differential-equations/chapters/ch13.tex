@@ -1,0 +1,69 @@
+\originalchapter{Lorenz 模型与离散动力学}
+\originalsection{三维耗散模型}
+Lorenz 方程为
+\begin{equation}\label{eq:lorenz}
+x'=\sigma(y-x),\quad y'=rx-y-xz,\quad z'=xy-bz,
+\qquad \sigma,r,b>0.
+\end{equation}
+它可由对流的低维截断得到, 本册将它作为已经给定的三维常微分方程研究, 不复制流体方程的完整推导. 参数 $r$ 控制驱动, $\sigma,b$ 控制相应时间尺度. 右端为多项式, 局部存在唯一性立即成立, 全正向存在则仍需界.
+\begin{proposition}
+Lorenz 系统的所有解全正向存在, 并最终进入一个有界椭球. 相空间体积按因子 $\ee^{-(\sigma+1+b)t}$ 收缩.
+\end{proposition}
+\begin{proof}
+取 $V=rx^2+\sigma y^2+\sigma(z-2r)^2$, 展开导数时三次项与 $xy$ 项相消, 得
+\[
+V'=-2\sigma\{rx^2+y^2+b(z-r)^2-br^2\}.
+\]
+记 $Q=rx^2+y^2+b(z-r)^2$, $C=\max(1,\sigma,2\sigma/b)$. 因 $(z-2r)^2\le2(z-r)^2+2r^2$, 有 $V\le CQ+2\sigma r^2$. 故
+$V'\le-(2\sigma/C)V+D$, $D=4\sigma^2r^2/C+2\sigma br^2$.
+积分因子得 $V(t)\le V(0)\ee^{-at}+(D/a)(1-\ee^{-at})$, $a=2\sigma/C$. 有限时段内状态有界, 延续定理给全正向存在. 任何 $V\le R$ 且 $R>D/a$ 的椭球在边界上导数负, 正向不变, 所有轨道最终进入其中. 散度为 $-(\sigma+1+b)$, Liouville 公式给体积因子.
+\end{proof}
+这个界与体积收缩不证明每个轨道混沌. 平衡点、周期轨道或其他长期状态仍需按参数研究.
+\originalsection{平衡点与失稳阈值}
+平衡点总有 $O=(0,0,0)$. 当 $r>1$ 时另有
+$C_\pm=(\pm\sqrt{b(r-1)},\pm\sqrt{b(r-1)},r-1)$.
+原点线性化含根 $-b$ 及二次方程 $\lambda^2+(\sigma+1)\lambda+\sigma(1-r)=0$. 对 $0<r<1$ 两根实部负, 原点局部渐近稳定; $r>1$ 时一根正一根负, 原点具有增长方向. $r=1$ 出现零根, 线性稳定判据不决定临界点的非线性结论.
+
+在 $C_\pm$ 处直接计算 Jacobian 的特征多项式得
+\[
+\lambda^3+(\sigma+b+1)\lambda^2+b(\sigma+r)\lambda+2\sigma b(r-1).
+\]
+\begin{lemma}[三次多项式判据]
+若 $A,B,C>0$, 则 $z^3+Az^2+Bz+C$ 的全部根实部严格负, 当且仅当 $AB>C$.
+\end{lemma}
+\begin{proof}
+当 $C=AB$, 多项式为 $(z+A)(z^2+B)$, 含虚根. 固定 $A,B>0$, 从 $C=0$ 开始增加 $C$. $C=0$ 时零根的导数 $\dd z/\dd C=-1/B<0$, 另外两根由 $z^2+Az+B=0$ 给出且实部负, 所以足够小正 $C$ 时稳定. 根连续依赖系数, 要离开左半平面必须穿越虚轴. 代 $z=\ii\omega$ 得 $C=A\omega^2$, $\omega(B-\omega^2)=0$. 对 $C>0$ 不可能 $\omega=0$, 唯一穿越值是 $C=AB$. 在该值 $z=\ii\sqrt B$ 处,
+$\operatorname{Re}(\dd z/\dd C)=\operatorname{Re}[-1/(-2B+2A\ii\sqrt B)]>0$, 所以穿越后两根进入右半平面. 无其他穿越值, 故对全部 $C>AB$ 不稳定. 根的连续性可由有限维多项式根连续性这一代数先修保证; 穿越处根简单, 隐函数求导合法.
+\end{proof}
+对 $r>1$, 判据化为
+$(\sigma+b+1)(\sigma+r)>2\sigma(r-1)$.
+若 $\sigma\le b+1$, 此条件对所有 $r>1$ 成立. 若 $\sigma>b+1$, 稳定范围是
+\[
+1<r<r_H=\frac{\sigma(\sigma+b+3)}{\sigma-b-1}.
+\]
+经典参数 $\sigma=10,b=8/3$ 给 $r_H=470/19\approx24.74$. 超过此值两个非零平衡点失去线性稳定性, 这不是已经证明系统出现混沌. 一般 Hopf 分岔的方向还需非线性系数分析, 本册不从一个特征根计算越级推断.
+\originalsection{离散迭代与固定点}
+采样或返回映射产生 $u_{n+1}=F(u_n)$. 它的线性稳定性由导数的模决定, 对应连续时间中的指数增长因子. 差分方程是一种数学对象, 不是将 ODE 数值步长随意变大后得到的同一精确动力系统.
+\begin{proposition}
+$C^1$ 一维迭代中, 固定点 $u_*$ 若 $|F'(u_*)|<1$, 则局部渐近稳定; 若 $|F'(u_*)|>1$, 则不稳定.
+\end{proposition}
+\begin{proof}在小邻域中将导数模夹在1以下或以上, 应用均值定理和迭代估计, 与第11章返回映射证明完全相同.\end{proof}
+\begin{example}分析 logistic 迭代 $u_{n+1}=a u_n(1-u_n)$, $0<a\le4$, 状态在 $[0,1]$.\end{example}
+\begin{solution}
+$F([0,1])\subset[0,a/4]\subset[0,1]$. 固定点为0及 $u_*=1-1/a$ (后者在 $a\ge1$ 时属于状态区间). 在零处导数为 $a$, $0<a<1$ 吸引, $a>1$ 排斥. 非零点导数为 $2-a$, 在 $1<a<3$ 吸引. $a=1$ 时 $0<u<1$ 的迭代严格下降, 极限只能是零, 所以零点在状态区间内仍渐近稳定. $a=3$ 时令 $q=u-2/3$, 一次映射为 $q\mapsto-q-3q^2$, 二次映射为 $q\mapsto q-18q^3-27q^4$. 足够小非零 $q$ 经二次映射保持符号且模变小, 极限由固定点方程只能为零; 中间奇数次也连续趋零, 所以该临界固定点仍局部渐近稳定, 尽管线性判据不再够用. 解 $F(F(u))=u$ 并去掉两个固定点因子, 得二周期候选
+\[
+u_\pm=\frac{a+1\pm\sqrt{(a-3)(a+1)}}{2a},\qquad a>3.
+\]
+它们互相映射, 二周期乘子 $F'(u_+)F'(u_-)=-a^2+2a+4$. 因而 $3<a<1+\sqrt6$ 时该二周期吸引. 这证明第一次倍周期后的明确区间, 没有凭图像证明整个无限倍周期级联.
+\end{solution}
+线性常系数差分方程 $u_{n+1}-a u_n=g_n$ 的解为 $u_n=a^nu_0+\sum_{k=0}^{n-1}a^{n-1-k}g_k$. 直接归纳即可核验, 它对应连续卷积响应. 单边 $Z$ 变换定义为 $U(z)=\sum_{n\ge0}u_nz^{-n}$, 在收敛区域有 $\mathcal Z(u_{n+1})=z(U-u_0)$. 离散稳定极点在单位圆内, 连续稳定极点在左半平面. 对精确采样 $X(nh)$, $z=\ee^{sh}$ 将后者映到前者; 不同 $s$ 的虚部相差 $2\pi/h$ 会给相同采样因子, 这是采样不能识别所有连续频率的原因.
+\originalsection{伸长、折叠与 Lyapunov 指数}
+沿离散轨道的线性扰动为 $\delta u_n\approx\prod_{j=0}^{n-1}F'(u_j)\delta u_0$. 若极限存在, 定义最大一维 Lyapunov 指数
+$\lambda=\lim_{n\to\infty}n^{-1}\sum_{j=0}^{n-1}\log|F'(u_j)|$; 遇导数零应按扩展实值解释. 连续流则对变分矩阵定义 $\limsup_{t\to\infty}t^{-1}\log\|D\phi_t v\|$ 的方向增长率. 正指数表示线性扰动的长期指数增长, 不能单独当作每条轨道“混沌”的完整定义.
+
+在 $a=4$ 时代 $u=\sin^2\pi\theta$ 得 $F(u)=\sin^2(2\pi\theta)$, 与倍角映射 $\theta\mapsto2\theta\pmod1$ 半共轭. 它是半共轭而非一一共轭, 因为 $\theta$ 与 $1-\theta$ 给同一 $u$. 对二进制符号展开, 倍角将小数点后的首位移去, 除去二进制双表示的点后, 初始第 $k$ 位的差异在 $k-1$ 次迭代后进入首位; 再迭代一次该位被移去. 这种位移说明小差异可能随迭代放大, 不能推出任意两点在固定步数内必定分离; 半共轭还可能将对称点映到同一状态. 这解释伸长和折叠的机制, 同时这个系统仍有固定点及周期轨道, 不能声称所有初值均呈同样随机行为.
+\originalsection{习题与解答}
+\begin{exercise}求 $u_{n+1}=u_n/2+1$, $u_0=c$ 的解与单边 $Z$ 变换.\end{exercise}
+\begin{solution}$u_n=2+(c-2)2^{-n}$, 所以 $U(z)=2z/(z-1)+(c-2)z/(z-1/2)$, 在 $|z|>1$ 收敛. 极点1对应常量输入带来的终值2, 当 $c\ne2$ 时自由扰动极点 $1/2$ 对应稳定模式; $c=2$ 时此项约去, 输出恒为2.\end{solution}
+\begin{exercise}在 Lorenz 原点取 $r<1$, 为什么严格负散度并不是稳定性的完整证明?\end{exercise}
+\begin{solution}负散度仅给三个增长率之和为负, 仍可能有一个正根. 稳定须核验二次特征多项式常数项 $\sigma(1-r)>0$ 及正一次系数, 再加根 $-b<0$. $r>1$ 时散度相同但有一个正根, 直接给出反例.\end{solution}

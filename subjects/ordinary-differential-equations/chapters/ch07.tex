@@ -1,0 +1,57 @@
+\originalchapter{周期输入与 Fourier 方法}
+\originalsection{正交展开与系数}
+周期输入通常由多个频率组成. 对 $2\pi$ 周期函数, 使用 $\sin nt,\cos nt$ 的目的是让常系数算子逐频率作用. 在实内积 $\langle f,g\rangle=\int_{-\pi}^{\pi}fg\dd t$ 下, 不同频率正交, $\|1\|^2=2\pi$, $\|\cos nt\|^2=\|\sin nt\|^2=\pi$ ($n\ge1$). 用积化和差并积分即可核验这些值.
+\begin{definition}
+局部可积的 $2\pi$ 周期函数的 Fourier 系数是
+\[
+a_0=\frac1\pi\int_{-\pi}^{\pi}f(t)\dd t,\quad
+ a_n=\frac1\pi\int_{-\pi}^{\pi}f(t)\cos nt\dd t,\quad
+ b_n=\frac1\pi\int_{-\pi}^{\pi}f(t)\sin nt\dd t.
+\]
+其形式级数为 $a_0/2+\sum_{n\ge1}(a_n\cos nt+b_n\sin nt)$. 周期 $T$ 时把 $nt$ 替换为 $2\pi nt/T$, 系数归一化相应为 $2/T$.
+\end{definition}
+形式展开不自动保证收敛. 本章所用的收敛条件为每周期内可分为有限个区间, 且在每个闭子区间上有单侧 $C^1$ 延拓, 即函数和一阶导数都具有有限单侧极限. 这比只要求开区间内 $C^1$ 更强, 保证断点附近的单侧导数有界.
+\begin{theorem}[分段光滑函数的 Fourier 收敛]
+在上述条件下, Fourier 部分和在任一点 $t$ 收敛到 $[f(t+)+f(t-)]/2$; 连续点即为函数值.
+\end{theorem}
+\begin{proof}
+由三角恒等式, 部分和可写成 $S_N(t)=(2\pi)^{-1}\int_{-\pi}^{\pi}f(t-u)D_N(u)\dd u$, 其中 $D_N(u)=\sin((N+1/2)u)/\sin(u/2)$, 且积分为 $2\pi$. 将正负 $u$ 配对并减去 $m=(f(t+)+f(t-))/2$, 得
+\[
+S_N(t)-m=\frac1{2\pi}\int_0^\pi
+\frac{f(t-u)+f(t+u)-2m}{\sin(u/2)}\sin((N+1/2)u)\dd u.
+\]
+分段 $C^1$ 使分子在 $u\downarrow0$ 时为 $O(u)$, 所以前面分式是可积的分段连续函数 $g(u)$. 任意这样的可积函数可以用有限区间阶梯函数作 $L^1$ 逼近: 在各连续段内部用一致连续性分割, 断点附近则用总长度控制积分. 阶梯函数与 $\sin(ku)$ 的积分为有限个 $O(1/k)$ 项; $L^1$ 误差对振荡积分的贡献至多为该误差. 先令 $k=N+1/2\to\infty$, 再令逼近误差趋零, 得结论.
+\end{proof}
+跳跃点的平均值解释了为什么不能直接在方波的跳跃处要求级数等于选定单点值. 部分和在跳跃附近有 Gibbs 超调, 点态收敛不代表整段一致收敛. 本册不把示意波形的超调数值当作严格估计.
+\begin{example}展开 $f(t)=1$ ($0<t<\pi$), $f(t)=-1$ ($-\pi<t<0$), 周期为 $2\pi$.\end{example}
+\begin{solution}
+$f$ 为奇函数, 故 $a_n=0$. 计算得 $b_n=(2/\pi)\int_0^\pi\sin nt\dd t=2(1-(-1)^n)/(\pi n)$. 因此
+$f(t)=\frac4\pi\sum_{j\ge0}\sin((2j+1)t)/(2j+1)$ 在连续点成立, 跳跃点和为零.
+\end{solution}
+\originalsection{逐频率响应的合法性}
+对 $x''+cx'+kx=f(t)$, $c,k>0$, 采用标准复 Fourier 系数 $\widehat f_n=(2\pi)^{-1}\int_{-\pi}^{\pi}f(t)\ee^{-\ii nt}\dd t$ 时, 第 $n$ 频率的复系数乘 $1/(k-n^2+\ii cn)$. 形式叠加容易, 核查它是否确为解更重要. 对有跳跃的输入, 可以先从周期初值问题构造解, 再从解的系数验证频率关系, 这样无需未经证明地逐项二次求导.
+\begin{proposition}\label{prop:periodic}
+常系数系统 $X'=AX+g(t)$ 中, 若 $g$ 是周期 $T$ 的分段连续函数且 $A$ 的全部特征值实部负, 则有唯一连续、分段 $C^1$ 的 $T$ 周期解, 所有其他解趋向它.
+\end{proposition}
+\begin{proof}
+常数变易给 $X(T)=\ee^{AT}X(0)+b$, $b=\int_0^T\ee^{A(T-s)}g(s)\dd s$. 矩阵 $\ee^{AT}$ 的特征值模都小于1, 故 $I-\ee^{AT}$ 可逆, 唯一选择 $X(0)=(I-\ee^{AT})^{-1}b$. 由周期输入和唯一性, 该解重复每周期. 任一其他解之差为 $\ee^{At}v$, Jordan 形式中每项为多项式乘实部为负的指数, 故趋于零. 矩阵指数的构造和谱性质在第8章证明; 本命题也可在二阶情形直接用第4章特征根证明.
+\end{proof}
+对上述二阶方程, $x,x'$ 连续且周期, $x''$ 分段连续. 分部积分时周期边界项消失, 第 $n$ 个 Fourier 系数满足 $(k-n^2+\ii cn)\widehat x_n=\widehat f_n$. 若输入分段 $C^1$, 则 $\widehat f_n=O(1/n)$, 这是各光滑段分部积分并保留有限跳跃项的结果. 因而 $\widehat x_n=O(1/n^3)$, $x$ 和 $x'$ 的 Fourier 级数绝对一致收敛. 不需要断言二阶导数级数也绝对收敛; 方程在输入的连续段按普通意义成立, 在跳跃点按分段或分布意义解释.
+\begin{example}求方波输入下 $x''+2x'+2x=f(t)$ 的周期响应级数.\end{example}
+\begin{solution}
+对奇数 $n$, 输入项为 $4\sin nt/(\pi n)$, 它写成 $\operatorname{Re}(A_n\ee^{\ii nt})$ 时的复振幅是 $A_n=-4\ii/(\pi n)$; 标准 Fourier 系数则为 $\widehat f_n=A_n/2=-2\ii/(\pi n)$. 记 $a=2-n^2$, $b=2n$, 则输出为
+\[
+x(t)=\sum_{\substack{n\ge1\\ n\text{为奇数}}}\frac4{\pi n}
+\frac{a\sin nt-b\cos nt}{a^2+b^2}.
+\]
+根 $-1\pm\ii$ 使周期解唯一且吸引. 每项幅度为 $O(n^{-3})$, 因而高频输入被显著平滑. 在 $t=0$ 的输出一般不为零, 周期响应不同于从静止开始的响应.
+\end{solution}
+\originalsection{周期解与无阻尼共振}
+对 $x''+\omega_0^2x=f(t)$, 若某频率 $n\Omega$ 与 $\omega_0$ 相等, 那一 Fourier 系数非零时产生随 $t$ 增大的共振项, 不存在相同周期的解. 这可不靠无穷级数证明: 若 $x$ 和 $x'$ 都周期, 将方程乘 $\cos\omega_0t$ 或 $\sin\omega_0t$ 并在完整周期积分两次分部积分, 左边为零, 因而右边对应系数必须为零.
+
+即使没有受迫共振, 无阻尼齐次运动不会消失, 所以周期特解通常不是所有初值的长期极限. 若 $\omega_0T$ 不是 $2\pi$ 的整数倍, $I-\ee^{AT}$ 仍可逆, 有唯一 $T$ 周期特解; 若恰为整数倍而共振系数为零, 周期齐次解使周期解不唯一.
+\originalsection{习题与解答}
+\begin{exercise}求 $f(t)=t$, $-\pi<t<\pi$, 周期延拓的 Fourier 系数.\end{exercise}
+\begin{solution}奇性给 $a_n=0$, 分部积分给 $b_n=2(-1)^{n+1}/n$. 级数在区间内部收敛到 $t$, 在 $\pm\pi$ 的跳跃处收敛到零.\end{solution}
+\begin{exercise}对 $y'+ay=f(t)$, $a>0$, 周期 $T$, 给出周期解的初值, 不使用 Fourier 展开.\end{exercise}
+\begin{solution}令 $b=\int_0^T\ee^{-a(T-s)}f(s)\dd s$, 周期条件为 $y(0)=\ee^{-aT}y(0)+b$, 故 $y(0)=b/(1-\ee^{-aT})$. 任意解与它之差为 $C\ee^{-at}$.\end{solution}

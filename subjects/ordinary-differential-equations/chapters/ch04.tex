@@ -1,0 +1,67 @@
+\originalchapter{高阶线性方程与解空间}
+\originalsection{线性结构与基本解}
+正规 $n$ 阶线性方程为
+\begin{equation}\label{eq:nlinear}
+y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_0(t)y=g(t).
+\end{equation}
+假设各系数和 $g$ 在区间 $I$ 上连续. 令状态 $X=(y,y',\ldots,y^{(n-1)})^{\mathsf T}$, 可把方程改成连续系数的一阶线性系统. 此右端在状态上为线性, 在每个紧时间段上满足线性增长界; 第1章理论给出整个 $I$ 上的唯一初值解. 若最高阶系数原来不是1, 须先除以它, 其零点处正规化失效, 本节定理不能直接用于跨越该点; 个别原方程的解仍可能光滑跨过, 如 $ty'=y$ 的解 $y=Ct$.
+\begin{theorem}\label{thm:space}
+\eqref{eq:nlinear} 的齐次解组成 $n$ 维实向量空间. 在 $t_0$ 处规定 $n$ 个初值的映射是此空间到 $\R^n$ 的线性同构. 任一非齐次解等于一个特解加一个齐次解.
+\end{theorem}
+\begin{proof}
+线性算子使齐次解空间对线性组合封闭. 初值映射线性; 唯一性给单射, 存在性给满射. 规定初值为各标准基向量所得的 $n$ 个解构成基. 若 $y_p$ 是特解, 两解之差满足齐次方程; 反之 $y_p+y_h$ 满足同一非齐次方程.
+\end{proof}
+“通解有 $n$ 个常数”在此来自初值同构, 不是数积分次数的口号. 若给出的 $n$ 个函数初值向量不独立, 即使带了 $n$ 个常数, 也不能覆盖所有解.
+\originalsection{Wronskian 与降阶}
+\begin{definition}
+函数 $y_1,\ldots,y_n$ 的 Wronskian 是 $W(t)=\det(y_j^{(i-1)}(t))_{1\le i,j\le n}$.
+\end{definition}
+\begin{theorem}[Abel 公式]
+若这些函数解同一齐次方程 \eqref{eq:nlinear}, 则
+\[
+W(t)=W(t_0)\exp\left(-\int_{t_0}^t a_{n-1}(s)\dd s\right).
+\]
+因此它们为基本解组当且仅当某一个点的 Wronskian 非零.
+\end{theorem}
+\begin{proof}
+对行列式按行微分. 前 $n-1$ 行的导数等于下一行, 对应行列式含两条相同的行, 贡献为零. 最后一行导数按方程展开, 除 $-a_{n-1}$ 乘原末行外, 其他项都与已有行重复, 因而 $W'=-a_{n-1}W$. 应用一阶线性公式. 非零 Wronskian 等价于初值向量独立, 再用定理 \ref{thm:space} 即得基本解组结论.
+\end{proof}
+对任意可微函数, “Wronskian 恒为零”不能不加条件地当作线性相关判据. 在这里有效的原因是它们解同一个正规线性方程.
+
+对二阶方程 $y''+p y'+q y=0$, 若已知在某区间上非零的解 $y_1$, 令 $y=v y_1$. 消去 $v$ 项得 $v''y_1+v'(2y_1'+py_1)=0$, 即
+\[
+v'=C\frac{\ee^{-\int p\dd t}}{y_1^2},\qquad
+ y_2=y_1\int\frac{\ee^{-\int p\dd t}}{y_1^2}\dd t.
+\]
+因为 $W(y_1,y_2)=\ee^{-\int p\dd t}\ne0$, 新解与原解独立. 有零点的 $y_1$ 可分区间使用公式, 再用正规方程初值理论延续, 不能直接除以零.
+\originalsection{常系数方程}
+令 $D=\dd/\dd t$, $P(z)=z^n+a_{n-1}z^{n-1}+\cdots+a_0$. 因 $D\ee^{\lambda t}=\lambda\ee^{\lambda t}$, 有 $P(D)\ee^{\lambda t}=P(\lambda)\ee^{\lambda t}$. 这使特征根给出指数解.
+\begin{theorem}
+若 $\lambda$ 是 $P$ 的 $m$ 重根, 则 $\ee^{\lambda t},t\ee^{\lambda t},\ldots,t^{m-1}\ee^{\lambda t}$ 是复齐次解. 对所有不同根集合这些函数得到复基本解组. 实系数时, 共轭根 $\alpha\pm\ii\beta$ ($\beta>0$) 对应实解 $t^k\ee^{\alpha t}\cos\beta t$, $t^k\ee^{\alpha t}\sin\beta t$.
+\end{theorem}
+\begin{proof}
+指数移位恒等式为 $P(D)(\ee^{\lambda t}v)=\ee^{\lambda t}P(D+\lambda)v$, 先对 $D$ 用乘积法则, 再对多项式逐项展开. 写 $P(z)=(z-\lambda)^m Q(z)$, 则 $P(D+\lambda)=D^mQ(D+\lambda)$, 所以次数小于 $m$ 的多项式被消去.
+
+证明全部解独立: 若 $\sum_j\ee^{\lambda_j t}p_j(t)=0$, 其中 $\deg p_j<m_j$, 固定 $j$ 并施加 $\prod_{k\ne j}(D-\lambda_k)^{m_k}$. 其余项消失, 剩下 $\ee^{\lambda_jt}\prod_{k\ne j}(D+\lambda_j-\lambda_k)^{m_k}p_j=0$. 每个 $D+c$, $c\ne0$, 在有限维多项式空间上可逆, 因其矩阵三角且对角为 $c$. 因而 $p_j=0$. 总数是 $n$, 由解空间维数得到基本解组. 共轭解取实虚部完成实形式.
+\end{proof}
+\begin{example}求 $y'''-3y''+3y'-y=0$, $y(0)=1$, $y'(0)=0$, $y''(0)=0$.\end{example}
+\begin{solution}
+$P(z)=(z-1)^3$, 所以 $y=\ee^t(A+Bt+Ct^2)$. 初值依次给 $A=1$, $A+B=0$, $A+2B+2C=0$, 得 $y=\ee^t(1-t+t^2/2)$. 重根产生的多项式因子不能漏掉.
+\end{solution}
+Euler 型方程 $t^2y''+at y'+by=0$, $t>0$, 令 $s=\log t$, $u(s)=y(\ee^s)$, 则 $ty'=u'$, $t^2y''=u''-u'$, 得 $u''+(a-1)u'+bu=0$. 因而可用常系数理论处理, 但 $t=0$ 是变换及正规性同时失效的位置.
+\originalsection{常数变易与非齐次方程}
+对 $y''+py'+qy=g$, 取基本解组 $y_1,y_2$, 设 $y=u_1y_1+u_2y_2$. 为避免冗余选择规定 $u_1'y_1+u_2'y_2=0$. 代回方程得到 $u_1'y_1'+u_2'y_2'=g$, 所以
+\[
+u_1'=-\frac{y_2g}{W},\qquad u_2'=\frac{y_1g}{W},\qquad
+ y_p=-y_1\int_{t_0}^t\frac{y_2g}{W}\dd s+y_2\int_{t_0}^t\frac{y_1g}{W}\dd s.
+\]
+积分中的 $y_j,g,W$ 均在 $s$ 处取值. 这给零位置、零速度初值的特解; 可直接微分核查. 方法依赖 $W\ne0$, 正是基本解组所保证的条件.
+\begin{example}求 $y''+y=\sec t$, $y(0)=y'(0)=0$, 在 $(-\pi/2,\pi/2)$ 上的解.\end{example}
+\begin{solution}
+取 $y_1=\cos t$, $y_2=\sin t$, $W=1$. 有 $u_1'=-\tan t$, $u_2'=1$, 并取零积分常数. 故 $u_1=\log\cos t$, $u_2=t$, 解为 $y=\cos t\log\cos t+t\sin t$. 正规右端只在指定区间连续, 不用这个表达式声称跨越奇点的解.
+\end{solution}
+\originalsection{习题与解答}
+\begin{exercise}求 $y''+2y'+5y=0$ 的通解并说明长期行为.\end{exercise}
+\begin{solution}根为 $-1\pm2\ii$, 故 $y=\ee^{-t}(A\cos2t+B\sin2t)$. 每个解及其导数正向趋于零, 振荡角频率是2, 衰减指数是1.\end{solution}
+\begin{exercise}求 $t^2y''-ty'+y=0$, $t>0$, 并计算基本解组的 Wronskian.\end{exercise}
+\begin{solution}变换后为 $u''-2u'+u=0$, 得 $y_1=t$, $y_2=t\log t$, $W=t$. 正规方程中 $p=-1/t$, Abel 公式也给 $W=Ct$.\end{solution}

@@ -1,0 +1,60 @@
+\originalchapter{Lyapunov 方法与耗散}
+\originalsection{正定函数与稳定性}
+相图能看二维运动, 但在更高维或无法显式求解时, 一个沿轨道单调的标量函数更有用. 对 $X'=F(X)$, 平衡点移到0, 沿 $C^1$ 函数 $V$ 的导数为 $\dot V(X)=\nabla V(X)\cdot F(X)$.
+\begin{definition}
+在原点邻域中, 若 $V(0)=0$, 且所有 $X\ne0$ 都有 $V(X)>0$, 称 $V$ 正定. 若 $V(X)\to\infty$ 当 $\|X\|\to\infty$, 称其径向无界.
+\end{definition}
+\begin{theorem}[Lyapunov 稳定性定理]\label{thm:lyapunov}
+设 $F$ 局部 Lipschitz, $F(0)=0$. 若存在邻域内 $C^1$ 正定函数 $V$ 且 $\dot V\le0$, 则原点稳定. 若 $\dot V(X)<0$ 对非零点成立, 则原点渐近稳定. 若正定性与导数负定条件在全空间成立且 $V$ 径向无界, 则结论为全局渐近稳定.
+\end{theorem}
+\begin{proof}
+取闭球 $\overline B_\eps$ 完全位于该邻域. 球面上 $V$ 的最小值 $m>0$. 由 $V$ 在零处连续, 取 $\delta<\eps$ 使 $\|X_0\|<\delta$ 时 $V(X_0)<m$. 沿轨道 $V$ 不增, 所以无法首次到达球面. 更精确地, 它被限制在 $\overline B_\eps$ 内的闭子水平集 $V\le V(X_0)$, 与球面分离, 延续定理保证全正向存在, 得稳定.
+
+若导数负定, 取上述紧子水平集中的轨道. 对任意 $\eta>0$, 在紧环带 $\eta\le\|X\|\le\eps$ 上 $-\dot V$ 有正下界. 若轨道始终在这个环带内, $V$ 会最终变成负数, 矛盾, 因而它进入任意小球. 结合已证明的稳定性: 给定目标半径 $\rho$, 先选使进入后永不离开 $B_\rho$ 的稳定半径 $\eta$, 再证明轨道最终进入 $B_\eta$, 就得趋于零. 全空间径向无界时每个子水平集紧, 同一论证覆盖任意初值.
+\end{proof}
+\begin{example}证明 $x'=-x-y^3$, $y'=x^3-y$ 的原点全局渐近稳定.\end{example}
+\begin{solution}
+选 $V=(x^4+y^4)/4$, 因交叉项次数匹配,
+$\dot V=x^3(-x-y^3)+y^3(x^3-y)=-x^4-y^4=-4V$. $V$ 正定、径向无界且导数负定, 定理适用. 事实上 $V(t)=V(0)\ee^{-4t}$, 可直接得到状态的指数趋零上界.
+\end{solution}
+\originalsection{线性化稳定性的证明}
+\begin{theorem}\label{thm:nonlinearstable}
+设 $F\in C^1$ 且 $F(0)=0$. 若 $A=DF(0)$ 的全部特征值实部严格负, 则原点局部渐近稳定, 并且在足够小邻域有指数衰减估计.
+\end{theorem}
+\begin{proof}
+由定理 \ref{thm:linearstable}, $\|\ee^{At}\|\le M\ee^{-\gamma t}$. 定义对称矩阵
+$P=\int_0^\infty\ee^{A^{\mathsf T}t}\ee^{At}\dd t$. 积分绝对收敛; 对非零 $X$, $X^{\mathsf T}PX=\int_0^\infty\|\ee^{At}X\|^2\dd t>0$, 故 $P$ 正定. 微分被积矩阵并在零与无穷处取边界得 $A^{\mathsf T}P+PA=-I$.
+
+写 $F(X)=AX+R(X)$, $R=o(\|X\|)$, 取 $V=X^{\mathsf T}PX$. 有
+$\dot V=-\|X\|^2+2X^{\mathsf T}PR(X)$. 足够小球内 $\|R(X)\|\le\|X\|/(4\|P\|)$, 故 $\dot V\le-\|X\|^2/2\le-V/(2\lambda_{\max}(P))$. 前述子水平集保证轨道保持在此球中, 所以 $V$ 指数下降. 使用 $\lambda_{\min}\|X\|^2\le V\le\lambda_{\max}\|X\|^2$ 转成状态指数估计. 这个证明明确控制了非线性余项, 而不把局部 Taylor 近似直接延伸到无限时间.
+\end{proof}
+\originalsection{LaSalle 不变原理}
+能量导数常只有半负定, 如阻尼单摆的 $\dot E=-\gamma v^2$. 零导数集合含整条 $v=0$ 线, 但该线上除平衡点之外的点会立即离开, 所以不能把它都当作长期极限.
+\begin{definition}
+轨道的 $\omega$ 极限集是所有 $t_j\to\infty$ 时 $X(t_j)$ 的极限点组成的集合. 集合正向不变指从其中出发的轨道正向始终留在集合内; 完全不变指还可沿其整条轨道反向留在集合内.
+\end{definition}
+\begin{theorem}[LaSalle 的紧集版本]\label{thm:lasalle}
+设 $K$ 为紧的正向不变集, $F$ 在其邻域局部 Lipschitz, $V\in C^1$ 且 $\dot V\le0$ 于 $K$. 每条从 $K$ 出发的轨道到集合 $E=\{X\in K:\dot V(X)=0\}$ 中最大完全不变子集 $M$ 的距离趋于零.
+\end{theorem}
+\begin{proof}
+轨道在紧集内全正向存在. 单调有界的 $V(X(t))$ 有极限 $\ell$. 紧性使 $\omega$ 集非空紧. 对其任一点 $p=\lim X(t_j)$, 任意固定正时间 $s$ 的连续依赖给 $\phi_s(p)=\lim X(t_j+s)\in\omega$. 对负时间, 可在 $K$ 邻域取一致局部存在长度, 从 $X(t_j)$ 反向到 $X(t_j-s)$ 并用连续依赖取极限; 重复这个过程得到 $p$ 的全反向轨道也在 $\omega$. 因而 $\omega$ 完全不变. $V$ 在 $\omega$ 上恒为 $\ell$, 沿其中轨道求导得 $\dot V=0$, 故 $\omega\subset M$.
+
+若到 $M$ 的距离不趋零, 有 $t_j\to\infty$ 使距离至少为某个 $\eps>0$. 紧性给出收敛子列, 其极限属于 $\omega\subset M$, 与距离下界矛盾.
+\end{proof}
+\begin{example}证明有阻尼单摆在下垂平衡点附近渐近稳定, 同时解释无阻尼情形.\end{example}
+\begin{solution}
+取 $E=v^2/2+1-\cos\theta$, 在 $|\theta|<\pi$ 内以 $(0,0)$ 为唯一零点. 对 $0<h<2$, 选包含原点的子水平集 $E\le h$ 分支, 它紧且与 $\theta=\pm\pi$ 分离. $E'=-\gamma v^2$ 使其正向不变. 当 $\gamma>0$, $E'=0$ 要求 $v=0$; 要在此线一直停留又要求 $v'=-\sin\theta=0$, 在该集内只有原点. LaSalle 给趋于原点, 正定能量给稳定. 若 $\gamma=0$, 能量守恒, 原点稳定但非零小能量轨道不会趋于零.
+\end{solution}
+\originalsection{体积收缩与吸引范围}
+$C^1$ 流的变分矩阵满足 \eqref{eq:variational}, 用 Liouville 公式得
+\[
+\det D\phi_t(X_0)=\exp\int_0^t\operatorname{div}F(\phi_s(X_0))\dd s.
+\]
+变换变量公式因此把小体积的变化与散度联系. 散度恒负表示体积收缩, 不能单独推出所有轨道有界或都趋向一个点. 例如 $x'=x$, $y'=-2y$ 的散度为 $-1$, 但一般轨道的 $x$ 分量增长; 一个方向的扩张可与更大的另一方向收缩共存.
+
+平衡点的吸引域是所有正向趋向它的初值集合. 局部 Lyapunov 函数给其中一部分可验证子水平集, 不保证已算出整个吸引域. 多稳态系统中的边界可由鞍点的稳定轨道分隔, 仅画若干数值轨道不足以证明全域边界.
+\originalsection{习题与解答}
+\begin{exercise}证明 $x'=-x+x^3$ 中原点的吸引域恰为 $(-1,1)$.\end{exercise}
+\begin{solution}平衡点为 $-1,0,1$. 相线显示 $(-1,0)$ 上右端正, $(0,1)$ 上负, 内部轨道趋零. $\pm1$ 恒定, 外侧轨道向外, 不趋零. 因而边界是两个不稳定平衡点.\end{solution}
+\begin{exercise}对 $x'=y$, $y'=-x-y-y^3$, 证明原点全局渐近稳定.\end{exercise}
+\begin{solution}取 $V=(x^2+y^2)/2$, $\dot V=-y^2-y^4\le0$. 每个子水平集紧且不变. 导数为零时 $y=0$, 在该线保持又要求 $y'=-x=0$, 所以最大不变子集为原点. LaSalle 给全局吸引, 正定 $V$ 给稳定.\end{solution}

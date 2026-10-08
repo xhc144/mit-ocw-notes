@@ -1,0 +1,65 @@
+\originalchapter{强迫振动与线性响应}
+\originalsection{阻尼振子与能量}
+弹簧恢复力 $-kx$, 黏性阻力 $-cx'$, 外力 $F(t)$ 给出 $mx''+cx'+kx=F(t)$, 其中 $m,k>0$, $c\ge0$. 除以质量后写成
+\begin{equation}\label{eq:oscillator}
+x''+2\zeta\omega_0x'+\omega_0^2x=f(t),\quad
+ \omega_0=\sqrt{k/m},\quad \zeta=\frac{c}{2\sqrt{mk}}.
+\end{equation}
+$\omega_0$ 是无阻尼固有角频率, $\zeta$ 是无量纲阻尼比. 特征根为 $-\zeta\omega_0\pm\omega_0\sqrt{\zeta^2-1}$. $0\le\zeta<1$ 时欠阻尼, $\zeta=1$ 时临界阻尼, $\zeta>1$ 时过阻尼. 临界情形含 $t\ee^{-\omega_0t}$, 不是两个相同指数乘常数.
+
+无外力时取能量 $E=(m(x')^2+kx^2)/2$, 得 $E'=-c(x')^2\le0$. 这验证阻尼的耗散方向. $c=0$ 时能量守恒, 振动一般不衰减; $c>0$ 时特征根实部全负, 所有齐次运动趋于零. 能量单调本身不立即说明其极限为零, 后面将给出不变集论证.
+\originalsection{指数输入与共振}
+\begin{proposition}[指数响应]
+对常系数 $P(D)y=\ee^{\lambda t}$, 若 $P(\lambda)\ne0$, 有特解 $y_p=\ee^{\lambda t}/P(\lambda)$. 若 $\lambda$ 是 $m$ 重根, 则有特解 $y_p=t^m\ee^{\lambda t}/P^{(m)}(\lambda)$.
+\end{proposition}
+\begin{proof}
+第一式直接代入. 重根情形用指数移位恒等式, 令 $P(z)=(z-\lambda)^mQ(z)$. 因为 $D^mQ(D+\lambda)t^m=m!Q(\lambda)=P^{(m)}(\lambda)$, 第二式的左端正好为 $\ee^{\lambda t}$.
+\end{proof}
+待定系数法把指数、三角函数和多项式的有限维微分封闭空间作为候选. 与齐次解重合时乘足够次的 $t$, 本质就是上述移位公式. 它不适用于任意右端, 此时应使用常数变易或卷积.
+\begin{example}求 $y''+y=\cos t$, $y(0)=y'(0)=0$.\end{example}
+\begin{solution}
+复输入 $\ee^{\ii t}$ 中 $P(z)=z^2+1$, $\ii$ 为简单根, 得复特解 $t\ee^{\ii t}/(2\ii)$. 取实部为 $t\sin t/2$, 已满足两个零初值. 振幅线性增长来自外力频率与固有频率重合, 并非“所有周期输入都使振动变大”.
+\end{solution}
+\begin{example}设 $\omega\ge0$, $\omega\ne\omega_0$. 求 $x''+\omega_0^2x=F\cos\omega t$, 零初值的解, 并解释接近共振时的拍频.\end{example}
+\begin{solution}
+特解为 $F\cos\omega t/(\omega_0^2-\omega^2)$, 配合初值得
+\[
+x=\frac{F(\cos\omega t-\cos\omega_0t)}{\omega_0^2-\omega^2}
+=-\frac{2F\sin((\omega+\omega_0)t/2)\sin((\omega-\omega_0)t/2)}{\omega_0^2-\omega^2}.
+\]
+接近但不等于共振时, 慢因子调制快振动, 产生拍. 令 $\omega\to\omega_0$ 且固定 $t$ 可得共振解 $Ft\sin\omega_0t/(2\omega_0)$. 此极限对所有时间不一致, 不能把非共振有界解误当作共振也有界.
+\end{solution}
+\originalsection{复增益、相位与频率响应}
+设 $P$ 为实系数且 $P(\ii\omega)\ne0$. 输入 $\operatorname{Re}(F\ee^{\ii\omega t})$ 的正弦特解是 $\operatorname{Re}(H(\ii\omega)F\ee^{\ii\omega t})$, 其中 $H(s)=1/P(s)$ 为传递函数. $|H(\ii\omega)|$ 是增益, $\arg H(\ii\omega)$ 是相位变化. 取实部与常系数微分算子交换, 所以使用复数没有改变实方程.
+
+对 \eqref{eq:oscillator},
+\[
+|H(\ii\omega)|=\frac1{\sqrt{(\omega_0^2-\omega^2)^2+4\zeta^2\omega_0^2\omega^2}}.
+\]
+相位为 $-\arg(\omega_0^2-\omega^2+2\ii\zeta\omega_0\omega)$, 象限不能由一个不带象限的反正切决定. 阻尼正时瞬态趋于零, 这一特解才是长期稳态. 阻尼为零时, 初值携带的自由振动不消失.
+
+令 $u=\omega^2$, 对增益分母平方求导, 得 $2(u-\omega_0^2)+4\zeta^2\omega_0^2$. 当 $0<\zeta<1/\sqrt2$ 时峰值频率为 $\omega_r=\omega_0\sqrt{1-2\zeta^2}$; 阻尼更大时峰值在零频率处. 因而“最大振幅频率”通常不等于欠阻尼自由振动频率 $\omega_0\sqrt{1-\zeta^2}$.
+
+电路中的串联 RLC 模型以电荷 $q$ 为状态, 电流为 $q'$, 满足 $Lq''+Rq'+q/C=V(t)$. 与机械振子对应的是 $L,m$; $R,c$; $1/C,k$. 输入若通过移动支座或黏性连接产生, 右端可能含输入的导数, 传递函数的分子随之改变, 不能统一写为 $1/P$.
+\originalsection{输入输出与叠加}
+一个零初始状态的线性时不变系统对输入线性, 并与时间平移相容. “零初始状态”使叠加清楚: 非零初值产生的自由响应应单独加上. 对双输入分别求特解后相加, 是线性算子的性质; 对非线性方程一般不成立.
+\begin{example}分析一阶滤波器 $y'+ay=af(t)$, $a>0$ 的频率响应.\end{example}
+\begin{solution}
+$H(s)=a/(s+a)$, 增益为 $a/\sqrt{a^2+\omega^2}$, 相位为 $-\arctan(\omega/a)$. 慢变化输入几乎原样通过, 高频被压低, 因而是低通滤波器. 输入 $f=1$, 零初值时 $y=1-\ee^{-at}$; 阶跃最终增益 $H(0)=1$ 与频率零极限一致.
+\end{solution}
+
+\originalsection{多项式强迫与瞬态识别}
+对多项式 $q(t)$, 候选特解可选为相同或更高次数的多项式. 例如 $P(0)\ne0$ 时, $P(D)$ 在次数不超过 $m$ 的多项式空间上矩阵为三角形, 对角全为 $P(0)$, 因而可逆; 次数不超过 $m$ 的输入恰有一个此空间内的特解. $0$ 为特征根时应先乘相应次数的 $t$.
+\begin{example}求 $y''+2y'+y=t^2$, $y(0)=y'(0)=0$.\end{example}
+\begin{solution}
+令 $y_p=At^2+Bt+C$, 比较系数得 $A=1$, $4A+B=0$, $2A+2B+C=0$, 所以 $y_p=t^2-4t+6$. 加上齐次项 $(c_1+c_2t)\ee^{-t}$, 初值给 $c_1=-6$, $c_2=-2$. 故 $y=t^2-4t+6-(6+2t)\ee^{-t}$. 输入非周期, 长期输出也非有界常量, 但自由响应仍衰减.
+\end{solution}
+在 $0\le\zeta<1$, $A\ne0$ 的欠阻尼自由响应 $x=A\ee^{-\zeta\omega_0t}\cos(\omega_dt-\phi)$ 中, $\omega_d=\omega_0\sqrt{1-\zeta^2}$. 同号相邻峰值相隔 $T_d=2\pi/\omega_d$, 前一个同号峰的绝对值与后一个的比为 $\ee^{\zeta\omega_0T_d}$, 对数减量
+$\delta=2\pi\zeta/\sqrt{1-\zeta^2}$.
+极值条件含一个固定相位偏移, 不影响相邻同号峰的时间差与比值. 若测得自由衰减的 $T_d$ 与 $\delta$, 可反推 $\zeta=\delta/\sqrt{4\pi^2+\delta^2}$ 及 $\omega_0=2\pi/[T_d\sqrt{1-\zeta^2}]$. 这些关系以理想线性黏性阻尼为前提, 不应用于一般非线性耗散的任意波形.
+
+\originalsection{习题与解答}
+\begin{exercise}求 $y''-2y'+y=\ee^t$ 的通解.\end{exercise}
+\begin{solution}特征根1为二重根, $P''(1)=2$, 特解为 $t^2\ee^t/2$. 故 $y=\ee^t(A+Bt+t^2/2)$.\end{solution}
+\begin{exercise}对 $x''+2x'+2x=\cos t$, 求长期稳态及振幅.\end{exercise}
+\begin{solution}$P(\ii)=1+2\ii$, $H(\ii)=(1-2\ii)/5$. 稳态为 $(\cos t+2\sin t)/5$, 振幅为 $1/\sqrt5$. 齐次根为 $-1\pm\ii$, 因而任意初值的瞬态衰减.\end{solution}
