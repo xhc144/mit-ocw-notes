@@ -1,0 +1,270 @@
+\originalsection{第1次作业}
+\sourceinfo{题面 \texttt{mit18\_04\_s18\_pset01.pdf}, PDF第1--2页; 官方解答 \texttt{mit18\_04\_s18\_pset01\_sol.pdf}, PDF第1--6页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+本节保留原题编号与全部子问, 包括不计分题. 下列解答据官方解答翻译并补全; 条件补足、勘误和新增论证分别注明.
+
+\begin{exercise}\label{ass:ps1-1}
+\textbf{原题 PS1.1。} (30分; 各部分10, 5, 10, 5分.)
+\begin{enumerate}[label=(\alph*)]
+\item 设 $z_1=1+\ii$, $z_2=1+3\ii$. 计算 $z_1z_2$, $z_1/z_2$ 和 $z_1^{z_2}$, 最后一项使用对数主支. 乘积和商用标准直角形式表示, 幂用极形式表示.
+\item 求 $\ii^\ii$ 的所有值, 指出哪个来自对数主支; 答案均用标准形式表示. $\ii^\ii$ 是实数是否令你感到意外?
+\item 设 $z=1+\ii\sqrt3$.
+\begin{enumerate}[label=(\roman*)]
+\item 计算 $z^8$, 用标准形式表示.
+\item 求 $z$ 的全部四次根.
+\end{enumerate}
+\item 复制下图, 并在图中加上 $z$ 的全部五次根. 图中 $|z|=2.5$, 外圆是每 $10^\circ$ 标记一格的量角器.
+\end{enumerate}
+\begin{center}
+\begin{tikzpicture}[scale=.72,>=Stealth]
+\draw[gray!60] (0,0) circle (2.5);
+\foreach \a in {0,10,...,350} \draw[gray!60] (\a:2.42)--(\a:2.5);
+\draw[->] (-3,0)--(3.15,0) node[right] {$\Re z$};
+\draw[->] (0,-3)--(0,3.15) node[above] {$\Im z$};
+\foreach \x in {-2,-1,1,2} \draw (\x,.05)--(\x,-.05) node[below] {$\x$};
+\foreach \y in {-2,-1,1,2} \draw (.05,\y)--(-.05,\y) node[left] {$\y$};
+\draw[structurecolor] (0,0)--(70:2.5) node[midway,right] {$2.5$};
+\fill[structurecolor] (70:2.5) circle (2pt) node[right] {$z$};
+\end{tikzpicture}
+\end{center}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 直接相乘及有理化分母得到
+\[
+ z_1z_2=(1+\ii)(1+3\ii)=-2+4\ii,\qquad
+ \frac{z_1}{z_2}=\frac{(1+\ii)(1-3\ii)}{10}=\frac{2-\ii}{5}=\frac25-\frac15\ii.
+\]
+由于 $|z_1|=\sqrt2$ 且 $\Arg z_1=\pi/4$, 主支满足 $\Log z_1=\frac12\log2+\ii\pi/4$. 因而
+\[
+ z_1^{z_2}=\exp\bigl((1+3\ii)\Log z_1\bigr)
+ =\ee^{(\log2)/2-3\pi/4}
+   \ee^{\ii(3\log2/2+\pi/4)}.
+\]
+第一个因子是模, 第二个因子的指数角给出辐角.
+
+(b) $\ii$ 的全部对数为 $\ii(\pi/2+2k\pi)$, $k\in\Z$. 所以
+$\ii^\ii=\ee^{-\pi/2-2k\pi}$, $k\in\Z$, 全部为正实数; 主支对应 $k=0$, 值为 $\ee^{-\pi/2}$. 实性看似意外, 但原因明确: 纯虚的对数再乘以 $\ii$, 指数就变成了实数.
+
+(c)(i) $z=2\ee^{\ii\pi/3}$, 故
+$z^8=256\ee^{8\pi\ii/3}=128(-1+\ii\sqrt3)=-128+128\sqrt3\,\ii$.
+(ii) 四次根为
+\[
+ 2^{1/4}\ee^{\ii(\pi/12+k\pi/2)},\qquad k=0,1,2,3.
+\]
+这四个角依次为 $\pi/12,7\pi/12,13\pi/12,19\pi/12$. 将其四次方都得到 $z$, 且它们彼此不同, 因而已列全.
+
+(d) 原图的辐角为 $70^\circ=7\pi/18$. 五次根的模是 $r=2.5^{1/5}$, 辐角为
+$14^\circ+72^\circ k$, $k=0,1,2,3,4$. 它们在半径 $r$ 的圆上等距排列, 如下图; 外圆刻度与原图相同.
+\begin{center}
+\begin{tikzpicture}[scale=.72,>=Stealth]
+\draw[gray!60] (0,0) circle (2.5);
+\foreach \a in {0,10,...,350} \draw[gray!60] (\a:2.42)--(\a:2.5);
+\draw[->] (-3,0)--(3.15,0) node[right] {$\Re z$};
+\draw[->] (0,-3)--(0,3.15) node[above] {$\Im z$};
+\foreach \x in {-2,-1,1,2} \draw (\x,.05)--(\x,-.05) node[below] {$\x$};
+\draw[gray] (0,0)--(70:2.5);
+\fill[gray] (70:2.5) circle (2pt) node[right] {$z$};
+\pgfmathsetmacro{\rootradius}{pow(2.5,.2)}
+\draw[structurecolor] (0,0) circle (\rootradius);
+\foreach \k in {0,1,2,3,4}{
+ \pgfmathsetmacro{\rootangle}{14+72*\k}
+ \draw[structurecolor] (0,0)--(\rootangle:\rootradius);
+ \fill[structurecolor] (\rootangle:\rootradius) circle (2pt);
+ \node at (\rootangle:{\rootradius+.23}) {$\zeta_{\k}$};
+}
+\node at (1.7,-2) {$|\zeta_k|=2.5^{1/5}$};
+\end{tikzpicture}
+\end{center}
+\end{solution}
+\sourceinfo{题面 PS1, PDF第1页; 官方解答 PDF第1--2页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps1-2}
+\textbf{原题 PS1.2。} (15分; 每问5分.)
+\begin{enumerate}[label=(\alph*)]
+\item 证明 $\overline{\ee^z}=\ee^{\overline z}$.
+\item 证明若 $|z|=1$, 则 $z^{-1}=\overline z$.
+\item 设 $(x+\ii y)/(x-\ii y)=a+\ii b$. 证明 $a^2+b^2=1$.
+提示: 换一个角度看只需一行, 可考虑极形式.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 写 $z=x+\ii y$, 则
+$\overline{\ee^z}=\overline{\ee^x(\cos y+\ii\sin y)}
+=\ee^x(\cos y-\ii\sin y)=\ee^{x-\ii y}=\ee^{\overline z}$.
+
+(b) $z\overline z=|z|^2=1$, 故 $\overline z$ 正是 $z$ 的乘法逆元.
+也可写 $z=\ee^{\ii\theta}$, 于是 $\overline z=\ee^{-\ii\theta}=z^{-1}$.
+
+(c) 题中的商须有定义, 所以隐含 $(x,y)\ne(0,0)$; 这是编者补足的条件. 设 $x+\ii y=r\ee^{\ii\theta}$, $r>0$, 则
+\[
+ a^2+b^2=|a+\ii b|^2
+ =\left|\frac{r\ee^{\ii\theta}}{r\ee^{-\ii\theta}}\right|^2
+ =|\ee^{2\ii\theta}|^2=1.\qedhere
+\]
+\end{solution}
+\sourceinfo{题面 PS1, PDF第1--2页; 官方解答 PDF第2--3页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps1-3}
+\textbf{原题 PS1.3。} (15分; 各问5, 10分.)
+\begin{enumerate}[label=(\alph*)]
+\item 画出曲线 $z=\ee^{t(1+\ii)}$, $-\infty<t<\infty$.
+\item 考虑映射 $z\mapsto w=z^2$. 在 $w$ 平面画出 $z$ 平面中顶点为 $0,1,\ii$ 的三角形区域的像.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全; (b)的区域覆盖论证为编者补充（AI）.
+
+(a) $z=\ee^t\ee^{\ii t}$, 故模为 $\ee^t$, 连续辐角为 $t$. 随 $t$ 增大, 曲线逆时针旋转并向外扩张, 是对数螺线. 当 $t\to-\infty$ 时趋于原点, 但从不经过原点. 下图按原参数准确绘制有限一段, 内侧更小的旋转在此尺度下聚集于原点.
+\begin{center}
+\begin{tikzpicture}[scale=.65,>=Stealth]
+\draw[->] (-3.8,0)--(2.4,0) node[right] {$\Re z$};
+\draw[->] (0,-1.1)--(0,7.3) node[above] {$\Im z$};
+\draw[structurecolor,domain=-8:2,samples=350,variable=\t]
+ plot ({exp(\t)*cos(\t r)},{exp(\t)*sin(\t r)});
+\draw[structurecolor,->,domain=1.1:1.3,samples=15,variable=\t]
+ plot ({exp(\t)*cos(\t r)},{exp(\t)*sin(\t r)});
+\fill (1,0) circle (2pt) node[below] {$t=0$};
+\end{tikzpicture}
+\end{center}
+官方示意图为了显出多圈, 把径向增长改为 $\ee^{0.2t}$; 该图不按原曲线比例. 此处未沿用这一改动.
+
+(b) 两条坐标边分别映到 $[0,1]$ 和 $[-1,0]$. 斜边可参数化为
+$z=(1-t)+\ii t$, $0\le t\le1$. 写 $w=u+\ii v$, 得
+$u=1-2t$, $v=2t(1-t)$, 消去 $t$ 得 $v=(1-u^2)/2$, $-1\le u\le1$.
+
+还须说明三角形内部的像位于哪一侧, 不能只画边界. 对 $x,y\ge0$,
+$x+y\le1$, 有 $u=x^2-y^2$, $v=2xy\ge0$ 及
+$|w|+v=(x+y)^2\le1$.
+反过来, 若 $v\ge0$ 且 $|w|+v\le1$, 则 $w$ 在上半平面有一个第一象限平方根 $x+\ii y$; 它满足 $(x+y)^2=|w|+v\le1$, 因而属于原三角形. 将 $|w|+v\le1$ 化为
+$u^2+v^2\le(1-v)^2$, 就得到完整像域
+\[
+ \left\{u+\ii v:-1\le u\le1,\quad
+ 0\le v\le\frac{1-u^2}{2}\right\}.
+\]
+\begin{center}
+\begin{tikzpicture}[scale=2.05,>=Stealth]
+\begin{scope}
+\fill[structurecolor!10] (0,0)--(1,0)--(0,1)--cycle;
+\draw[structurecolor] (0,0)--(1,0)--(0,1)--cycle;
+\draw[->] (-.2,0)--(1.35,0) node[right] {$\Re z$};
+\draw[->] (0,-.15)--(0,1.3) node[above] {$\Im z$};
+\node[below] at (1,0) {$1$}; \node[left] at (0,1) {$\ii$};
+\node[below left] at (0,0) {$0$};
+\end{scope}
+\draw[->] (1.55,.55)--(2.15,.55) node[midway,above] {$z^2$};
+\begin{scope}[shift={(3.5,0)}]
+\fill[structurecolor!10] (-1,0)
+ plot[domain=-1:1,samples=60] (\x,{(1-\x*\x)/2})--cycle;
+\draw[structurecolor,domain=-1:1,samples=60]
+ plot (\x,{(1-\x*\x)/2});
+\draw[->] (-1.3,0)--(1.35,0) node[right] {$u$};
+\draw[->] (0,-.15)--(0,1) node[above] {$v$};
+\node[below] at (-1,0) {$-1$}; \node[below] at (1,0) {$1$};
+\node[above right] at (0,.5) {$\ii/2$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+勘误: 官方解答第3页写成 $v=-u^2+1/2$, 二次项系数有误; 正确式为 $v=(1-u^2)/2$. 例如 $u=1$ 时应为 $v=0$, 可直接检查此错误.
+\end{solution}
+\sourceinfo{题面 PS1, PDF第2页; 官方解答 PDF第3--4页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps1-4}
+\textbf{原题 PS1.4。} (10分.) 设 $z_k=\ee^{2\pi\ii/n}$. 证明
+$1+z_k+z_k^2+\cdots+z_k^{n-1}=0$.
+提示: 多项式 $z^n-1$ 有一个容易找到的根; 用它分解为一次因子与 $n-1$ 次因子.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 编者补足: 原题必须要求整数 $n\ge2$. 原题记号 $z_k$ 的定义并未含 $k$, 此处按原定义保留. 若 $n=1$, 左端只有 $1$, 结论不成立.
+
+恒等式 $z^n-1=(z-1)(1+z+\cdots+z^{n-1})$ 来自逐项相消. 代入 $z=z_k$ 后, $z_k^n=1$; 又因 $n\ge2$, $z_k\ne1$. 因而第二个因子只能为零. 若将记号一般化为 $z_k=\ee^{2k\pi\ii/n}$, 同一结论对 $k$ 不被 $n$ 整除时成立, 而 $n\mid k$ 时总和为 $n$.
+\end{solution}
+\sourceinfo{题面 PS1, PDF第2页; 官方解答 PDF第4页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps1-5}
+\textbf{原题 PS1.5。} (20分; 各问10分.) 原题主题为“正交直线的像仍然正交”.
+\begin{enumerate}[label=(\alph*)]
+\item 考虑映射 $w=\ee^z$.
+\begin{enumerate}[label=(\roman*)]
+\item 在 $w$ 平面画出 $z$ 平面中竖直直线的像.
+\item 在同一图中画出水平直线的像. 画足够多的直线, 使映射的效果清楚可见.
+\item 用几何或解析论证说明, 一条竖直直线与一条水平直线的像在交点处成直角.
+\end{enumerate}
+\item 对映射 $w=z^2$ 重做(a)中的(i), (ii), (iii).
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全; 原点例外与退化直线的处理为编者补充（AI）.
+
+(a)(i) 竖直线 $x=a$ 上 $z=a+\ii y$, $y\in\R$, 像为
+$w=\ee^a\ee^{\ii y}$, 即以原点为中心、半径 $\ee^a$ 的整圆.
+(ii) 水平线 $y=b$ 上 $z=x+\ii b$, $x\in\R$, 像为
+$w=\ee^x\ee^{\ii b}$, 即辐角 $b$ 的开射线, 不含原点. $b$ 相差 $2\pi$ 的水平线有同一像.
+\begin{center}
+\begin{tikzpicture}[scale=.85,>=Stealth]
+\draw[->] (-3,0)--(3.15,0) node[right] {$\Re w$};
+\draw[->] (0,-3)--(0,3.15) node[above] {$\Im w$};
+\foreach \r in {.5,1,1.65,2.7} \draw[structurecolor] (0,0) circle (\r);
+\foreach \a in {0,45,...,315} \draw[gray,->] (\a:.08)--(\a:2.9);
+\node[structurecolor,above right] at (45:2.7) {$x=a$ 的像};
+\node[gray,below right] at (315:2.7) {$y=b$ 的像};
+\end{tikzpicture}
+\end{center}
+(iii) 圆的切线垂直于过交点的半径, 而射线沿该半径, 所以相交处正交. 解析地, 在原交点 $z=a+\ii b$ 两像的切向量为 $\ii\ee^{a+\ii b}$ 与 $\ee^{a+\ii b}$; 二者相差乘以 $\ii$, 即旋转 $90^\circ$.
+
+(b)(i) 竖直线的像参数为
+$w=(a+\ii y)^2=a^2-y^2+2a y\,\ii$.
+当 $a\ne0$ 时消去 $y$, 得 $u=a^2-v^2/(4a^2)$, 为向左开口、顶点 $(a^2,0)$ 的抛物线. $a$ 和 $-a$ 给出同一抛物线. 当 $a=0$ 时像为非正实半轴 $w=-y^2$.
+
+(ii) 水平线像为 $w=(x+\ii b)^2=x^2-b^2+2bx\,\ii$. 当 $b\ne0$ 时, $u=v^2/(4b^2)-b^2$, 为向右开口、顶点 $(-b^2,0)$ 的抛物线. $b$ 和 $-b$ 给出同一像. 当 $b=0$ 时像为非负实半轴 $w=x^2$.
+\begin{center}
+\begin{tikzpicture}[scale=.8,>=Stealth]
+\draw[->] (-4.1,0)--(4.2,0) node[right] {$u$};
+\draw[->] (0,-3)--(0,3.15) node[above] {$v$};
+\begin{scope}
+\clip (-4,-2.8) rectangle (4,2.8);
+\foreach \a in {.5,1,1.5}{
+ \draw[structurecolor,domain=-2.8:2.8,samples=90]
+ plot ({\a*\a-\x*\x/(4*\a*\a)},\x);
+ \draw[gray,domain=-2.8:2.8,samples=90]
+ plot ({\x*\x/(4*\a*\a)-\a*\a},\x);
+}
+\draw[structurecolor,thick] (-4,0)--(0,0);
+\draw[gray,thick] (0,0)--(4,0);
+\end{scope}
+\node[structurecolor] at (-2.6,3.35) {$x=a$ 的像};
+\node[gray] at (2.5,3.35) {$y=b$ 的像};
+\end{tikzpicture}
+\end{center}
+(iii) 在原交点 $(a,b)$, 竖直线像的切向量为
+$-2b+2a\ii$, 水平线像的切向量为 $2a+2b\ii$. 前者等于后者乘以 $\ii$, 所以只要 $(a,b)\ne(0,0)$, 两个非零切向量正交. 这一论证也包含恰有一个参数为零的情形.
+
+勘误与条件补足: 原题的无条件正交表述在 $a=b=0$ 不成立. 此时两条坐标轴的像是同一直线上的相反实半轴, 并不成直角; 参数化的两个导向量在原点也都为零. 官方解答没有排除这一临界点. 官方第5页把“实轴”写作 $x=0$ 并把第6页的水平、竖直标签互换; 正确地, 实轴为 $y=0$, 虚轴为 $x=0$, 导向量应按上文对应.
+\end{solution}
+\sourceinfo{题面 PS1, PDF第2页; 官方解答 PDF第4--6页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps1-6}
+\textbf{原题 PS1.6。} (不计分.) 求所有满足
+$\Arg((z-1)/(z+2))=\pm\pi/2$ 的点.
+提示: 设 $w=(z-1)/(z+2)$. 条件对 $w$ 与 $\overline w$ 的关系有何要求? 注意 $\Arg w$ 没有定义的点.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 条件等价于 $w$ 为非零纯虚数. 首先 $z=-2$ 时商没有定义, $z=1$ 时商为零, 二者均须排除. 对其余点,
+\[
+ \frac{z-1}{z+2}=-\frac{\overline z-1}{\overline z+2}
+ \quad\Longleftrightarrow\quad
+ (z-1)(\overline z+2)+(\overline z-1)(z+2)=0
+ \quad\Longleftrightarrow\quad
+ 2|z|^2+z+\overline z=4.
+\]
+写 $z=x+\ii y$, 则 $x^2+y^2+x=2$, 即
+$(x+1/2)^2+y^2=9/4$. 每个满足此圆方程且不等于 $1,-2$ 的点, 反向代入都给出非零纯虚数 $w$, 所以答案是圆 $|z+1/2|=3/2$ 去掉这两个点.
+
+官方还给出参数法: 令 $w=\ii b$, $b\in\R\setminus\{0\}$, 则
+$z=(1+2\ii b)/(1-\ii b)=3/(1-\ii b)-2$. 对 $q=1/(1-\ii b)$,
+$|q-1/2|=|(1+\ii b)/(2(1-\ii b))|=1/2$, 得同一圆; $b=0$ 对应删去的 $z=1$, 而 $z=-2$ 是参数趋于无穷时的极限.
+勘误: 官方第6页第二种方法把 $x^2+y^2+x=2$ 误写为等于 $4$; 其最终圆方程是正确的.
+\end{solution}
+\sourceinfo{题面 PS1, PDF第2页; 官方解答 PDF第6页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}

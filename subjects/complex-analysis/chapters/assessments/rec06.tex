@@ -1,0 +1,35 @@
+\originalsection{第6次习题课}
+\sourceinfo{MIT 18.04, Spring 2018, Recitation 6; 题面 \nolinkurl{mit18_04s18_recit6-handout.pdf}, PDF第1页; 解答 \nolinkurl{mit18_04s18_recit6-solutions.pdf}, PDF第1--2页. 课程作者 Jeremy Orloff, 页内署名 Vishesh Jain, 2018, CC BY-NC-SA 4.0}
+\begin{exercise}
+\textbf{原题 Rec6.1。}\label{ass:rec6-1}
+设 $A=\{z:|z|\le2\}$, $u(x,y)$ 在 $A$ 上调和, $B=\{z:|z|=2\}$. 用 $u$ 在 $B$ 上的值表示: 1.1. $u$ 在 $A$ 上的最大值; 1.2. 最小值; 1.3. $u(0,0)$.
+\end{exercise}
+\begin{solution}
+据官方解答翻译补全 (解答PDF第1页). 编者补充 (AI): “闭圆盘上调和”理解为内部调和且在闭圆盘上连续, 或更强地在其邻域调和, 以保证边界值与极值有意义. 最大值、最小值分别为 $\max_{(x,y)\in B}u(x,y)$ 和 $\min_{(x,y)\in B}u(x,y)$; 均值性质给出 $u(0,0)=(2\pi)^{-1}\int_0^{2\pi}u(2\cos\theta,2\sin\theta)\dd\theta$. 在仅有闭盘连续的版本下, 可先对半径 $r<2$ 用均值性质, 再利用闭盘上一致连续性令 $r\uparrow2$.
+\end{solution}
+\begin{exercise}
+\textbf{原题 Rec6.2。}\label{ass:rec6-2}
+设 $\Phi(z)=\phi(x,y)+\ii\psi(x,y)$ 是将区域 $B$ 映入区域 $A$ 的解析函数, $u$ 在 $A$ 上调和. 2.1. 假设 $A$ 单连通, 证明 $u(\phi(x,y),\psi(x,y))$ 在 $B$ 上调和. 2.2. 能去掉单连通条件吗?
+\end{exercise}
+\begin{solution}
+据官方解答翻译补全 (解答PDF第1页). 2.1在单连通域中存在解析 $F$ 使 $u=\Re F$, 因而 $u\circ\Phi=\Re(F\circ\Phi)$ 调和. 2.2可以去掉: 调和性是局部性质, 每个 $\Phi(z_0)$ 附近可取小圆盘并构造局部调和共轭, 上述复合论证已经适用. 官方给出的直接计算如下. 令 $p=u(\phi,\psi)$, 用下标1、2表示 $u$ 对其两个变量的偏导, 则
+\begin{align*}
+\Delta p={}&u_{11}(\phi_x^2+\phi_y^2)+2u_{12}(\phi_x\psi_x+\phi_y\psi_y)
++u_{22}(\psi_x^2+\psi_y^2)\\
+&+u_1\Delta\phi+u_2\Delta\psi.
+\end{align*}
+由 $\phi_x=\psi_y$, $\phi_y=-\psi_x$, 中间混合项为0, 前后两个平方和都为 $\phi_x^2+\phi_y^2$. 又 $\Delta\phi=\Delta\psi=0$ 且 $u_{11}+u_{22}=0$, 得 $\Delta p=0$. 不需要 $\Phi$ 单射, 也不需要其导数非零.
+\end{solution}
+\begin{exercise}
+\textbf{原题 Rec6.3。}\label{ass:rec6-3}
+考虑双源流的复势 $\Phi(z)=\log(z-1)+\log(z+1)=\log(z^2-1)$. 3.1. 求流速 $\mathbf F$. 3.2. 证明在 $y$ 轴上流沿该轴. 3.3. 求停滞点. 3.4. 阅读 Topic 6 讲义, 查看该复势的流线和进一步讨论.
+\end{exercise}
+\begin{solution}
+据官方解答翻译补全 (解答PDF第2页); 分支说明、速度分量和阅读复现指引为编者补充 (AI). 原题对数等式须在不含 $\pm1$ 的局部域内选取相容分支; 任意预先指定的三个分支可能相差 $2k\pi\ii$. 实部与导数均不受该常数影响. 令 $D=(x^2-y^2-1)^2+4x^2y^2$, 则速度势为 $\phi=\log|z^2-1|=\frac12\log D$. 使用 $\Phi'=\phi_x-\ii\phi_y=2z/(z^2-1)$, 得
+\[
+\mathbf F=(\phi_x,\phi_y)=\left(\frac{2x(x^2+y^2-1)}D,\frac{2y(x^2+y^2+1)}D\right).
+\]
+等价地, $\mathbf F=( (x-1)/((x-1)^2+y^2)+(x+1)/((x+1)^2+y^2),\ y/((x-1)^2+y^2)+y/((x+1)^2+y^2))$, 显示两个点源的速度相加. 在 $x=0$ 上, $\mathbf F=(0,2y/(1+y^2))$, 所以速度沿 $y$ 轴, 在上下半轴分别向上、向下. 停滞条件是 $\Phi'=0$, 因而仅有 $z=0$. 点 $\pm1$ 是源奇点, 不是停滞点.
+
+3.4是阅读任务, 原件不另设待证结论. 复现流线时可以在避开源点的局部域内绘制 $\psi=\arg(z^2-1)=c$. 等价的实方程为 $(x^2-y^2-1)\sin c-2xy\cos c=0$, 并须加上 $(x^2-y^2-1)\cos c+2xy\sin c>0$ 以选定辐角为 $c$ 而非 $c+\pi$ 的支. 利用 $\nabla\phi\cdot\nabla\psi=0$ 可核对速度与这些等值线相切; $y$ 轴本身对应负实像的辐角, 原点处速度为0. 这给出阅读 Topic 6 图像时可手算核验的依据.
+\end{solution}

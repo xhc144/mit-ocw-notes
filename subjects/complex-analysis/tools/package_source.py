@@ -12,8 +12,8 @@ parser.add_argument('--originals', type=Path, default=root.parents[1] / 'sources
 parser.add_argument('--output', type=Path, default=root / 'complex-analysis-source.zip')
 args = parser.parse_args()
 excluded_dirs = {'build', '.runtime', '__pycache__', '.git'}
-excluded_suffixes = {'.pyc', '.zip', '.aux', '.log', '.toc', '.out', '.fls', '.fdb_latexmk', '.synctex.gz'}
-excluded_names = {'complex-analysis.pdf', 'elegantbook-original-adapter.cls', 'zip-rebuild.json', 'artifact-checksums.json'}
+excluded_suffixes = {'.pyc', '.zip', '.png', '.aux', '.log', '.toc', '.out', '.fls', '.fdb_latexmk', '.synctex.gz'}
+excluded_names = {'complex-analysis.pdf', 'elegantbook-original-adapter.cls', 'zip-rebuild.json', 'artifact-checksums.json', 'remote-verification.json', 'publication-manifest.json'}
 members = []
 for base, prefix in [(root, ''), (args.originals, 'originals/')]:
     for path in sorted(base.rglob('*')):

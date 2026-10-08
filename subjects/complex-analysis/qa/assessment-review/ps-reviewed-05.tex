@@ -1,0 +1,156 @@
+\originalsection{第5次作业}
+\sourceinfo{Jeremy Orloff, MIT 18.04, Spring 2018, Problem Set 5, 题面 PDF 第1--2页, 官方解答 PDF 第1--6页; MIT OpenCourseWare, CC BY-NC-SA 4.0. 本节为中文翻译, 推导补全与 TikZ 重绘}
+
+\begin{exercise}
+\textbf{原题 PS5.1。}\label{ass:ps5-1}
+设 $u(x,y)=x^3-3xy^2+2x$.
+(a) 验证 $u$ 是调和函数.
+(b) 用两种方法求 $u$ 的调和共轭 $v$: (i) 先用 Cauchy--Riemann 方程求 $v_x,v_y$, 再积分求 $v$; (ii) 令 $f=u+\ii v$, 则 $f'=u_x-\ii u_y$. 将它识别为 $z$ 的函数并积分.
+\sourceinfo{题面第1页; 官方解答第1页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) $u_x=3x^2-3y^2+2$, $u_y=-6xy$, 故 $u_{xx}=6x$, $u_{yy}=-6x$, 从而 $\Delta u=0$.
+
+(b)(i) Cauchy--Riemann 方程给出 $v_x=6xy$, $v_y=3x^2-3y^2+2$. 对第一式关于 $x$ 积分得 $v=3x^2y+g(y)$. 再对 $y$ 求导并与第二式比较, 得 $g'(y)=-3y^2+2$. 因而 $v=3x^2y-y^3+2y+c$, $c\in\R$.
+
+(ii) $f'=3x^2-3y^2+2+6\ii xy=3z^2+2$, 所以 $f=z^3+2z+C$. 为使实部恰好等于给定 $u$, 必须 $\operatorname{Re}C=0$; 取 $C=\ii c$ 便得到同一个 $v$. 编者校订: 官方中间式曾漏写 $y$ 或系数 $3$, 本解答按导数与立方展开补正; 最终调和共轭不变.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS5.2。}\label{ass:ps5-2}
+(a) 设 $u(x,y)=x/r^2$, 其中 $r$ 为通常的极坐标半径. 证明 $u$ 调和, 并求调和共轭 $v$, 使 $f=u+\ii v$ 解析.
+(b) 对 $u(x,y)=(x^2-y^2)/r^4$ 回答同样的问题.
+\sourceinfo{题面第1页; 官方解答第1--2页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 两问的定义域均为 $\C\setminus\{0\}$.
+(a) 利用 $r_x=x/r$, $r_y=y/r$, 得
+\[
+ u_x=r^{-2}-2x^2r^{-4},\quad u_{xx}=-6xr^{-4}+8x^3r^{-6},\quad
+ u_y=-2xyr^{-4},\quad u_{yy}=-2xr^{-4}+8xy^2r^{-6}.
+\]
+故 $u_{xx}+u_{yy}=-8xr^{-4}+8x(x^2+y^2)r^{-6}=0$.
+又 $f'=u_x-\ii u_y=-(x-\ii y)^2/r^4=-1/z^2$, 故可取 $f(z)=1/z$. 因为 $1/z=(x-\ii y)/r^2$, 得 $v=-y/r^2+c$, $c\in\R$.
+
+(b) 直接计算给出
+\[
+ u_x=\frac{-2(x^3-3xy^2)}{r^6},\qquad
+ u_y=\frac{-2(3x^2y-y^3)}{r^6}.
+\]
+所以 $f'=u_x-\ii u_y=-2(x-\ii y)^3/r^6=-2/z^3$, 可取 $f=1/z^2$. 展开 $1/z^2=(x^2-y^2-2\ii xy)/r^4$, 得 $v=-2xy/r^4+c$. $f$ 在去心平面解析, 因而其给定实部 $u$ 在该域调和. 编者校订: 官方第2页出现的 $f'=u_x=\ii u_y$ 是排印错误, 正确关系为 $f'=u_x-\ii u_y$.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS5.3。}\label{ass:ps5-3}
+设速度场 $\mathbf F=((x^2-y^2)/r^4,2xy/r^4)$. 证明它无散且无旋, 并求它的复势函数. 提示: 先求复势.
+\sourceinfo{题面第1页; 官方解答第2页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 在 $r>0$ 上, 若 $\mathbf F=(u,v)$, 则
+$u-\ii v=(x-\ii y)^2/r^4=1/z^2$. 积分得复势 $\Phi(z)=-1/z+C$.
+其导数 $u-\ii v$ 解析, 所以 Cauchy--Riemann 方程给出 $u_x=-v_y$, $u_y=v_x$. 这正是 $\operatorname{div}\mathbf F=u_x+v_y=0$ 与 $\operatorname{curl}\mathbf F=v_x-u_y=0$. 原点不属于速度场的定义域.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS5.4。}\label{ass:ps5-4}
+令 $A$ 为第一象限中由正 $x$ 轴和射线 $x=y$ 围成的区域.
+(a) 求一个在 $A$ 上调和、边界上为零的非零函数 $\psi$. 提示: 先对上半平面 $y>0$ 回答同样的问题.
+(b) 将 $\psi$ 的等值线解释为不可压缩、无旋流的流线, 求其速度场.
+\sourceinfo{题面第1页; 官方解答第2--3页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. (a) 上半平面上的函数 $\psi_H(w)=\operatorname{Im}w$ 调和且在实轴为零. 当 $z=r\ee^{\ii\theta}$, $0<\theta<\pi/4$ 时, $w=z^4=r^4\ee^{4\ii\theta}$ 把 $A$ 一一映到上半平面. 因而取 $\psi(z)=\operatorname{Im}(z^4)=4x^3y-4xy^3$. 它是整函数的虚部, 在 $A$ 调和, 且两条边界射线上 $\sin4\theta=0$, 所以 $\psi=0$.
+
+(b) 可取 $\Phi=z^4$, 于是 $\Phi'=4z^3=u-\ii v$, 得
+$\mathbf F=(4(x^3-3xy^2),-4(3x^2y-y^3))$.
+Cauchy--Riemann 方程保证其散度和旋度均为零, 且 $\mathbf F\cdot\nabla\psi=0$, 所以流线保持 $\psi$ 不变. 下图左侧画 $\psi=c>0$ 的若干流线, 右侧为相应的水平流线; 两条壁面对应 $\psi=0$.
+\begin{center}
+\begin{tikzpicture}[scale=1.25,>=Stealth]
+\begin{scope}
+\draw[->](-.15,0)--(2.3,0) node[right]{$x$};\draw[->](0,-.12)--(0,2.3) node[above]{$y$};
+\draw (0,0)--(2.1,2.1);\node at (.65,.25){$A$};
+\begin{scope}\clip (0,0)--(2.1,0)--(2.1,2.1)--cycle;
+\foreach \c in {.08,.3,.7,1.3,2.2}{\draw[main,samples=100,domain=1:44] plot ({pow(\c/sin(4*\x),.25)*cos(\x)},{pow(\c/sin(4*\x),.25)*sin(\x)});}
+\end{scope}
+\draw[->] (.9,.64)--(.844,.448);
+\end{scope}
+\draw[->](2.6,1.4)--(3.6,1.4) node[midway,above]{$z^4$};
+\begin{scope}[xshift=4.6cm]
+\draw[->](-1.0,0)--(1.3,0) node[right]{$\operatorname{Re}w$};\draw[->](0,-.12)--(0,2.3) node[above]{$\operatorname{Im}w$};
+\foreach \h in {.3,.7,1.1,1.5,1.9}{\draw[main,->](-.9,\h)--(1.1,\h);}\node at (.8,2.1){$H$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS5.5。}\label{ass:ps5-5}
+流体的复势为 $\Phi(z)=Az^3$, $A>0$.
+(a) 求势函数 $\phi$、流函数 $\psi$ 和速度场 $(u,v)$.
+(b) 在复平面画流线与速度场.
+(c) 能否用它构造某个角度的楔形区域内的不可压缩、无旋流? 该楔形角是多少?
+\sourceinfo{题面第1页; 官方解答第3--4页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全, 并作编者校订.
+(a) 展开得 $\Phi=A(x^3-3xy^2)+\ii A(3x^2y-y^3)$, 故 $\phi=A(x^3-3xy^2)$, $\psi=A(3x^2y-y^3)$, $(u,v)=\nabla\phi=A(3x^2-3y^2,-6xy)$. 官方第4页将 $\psi$ 误写成与 $\phi$ 相同的 $A(x^3-3xy^2)$; 本解答保留题设, 依据 $\psi=\operatorname{Im}\Phi$ 显式修正.
+
+(b) 流线满足 $Ar^3\sin3\theta=c$. 下图画 $A=1$ 的流线和速度方向; 为使箭头可读, 箭头长度已归一化, 不表示速度大小. 原点为停滞点. 解析复势保证无散、无旋.
+\begin{center}
+\begin{tikzpicture}[scale=1.1,>=Stealth]
+\draw[->](-2.4,0)--(2.5,0) node[right]{$x$};\draw[->](0,-2.4)--(0,2.5) node[above]{$y$};
+\begin{scope}\clip (-2.2,-2.2) rectangle (2.2,2.2);
+\foreach \k in {0,...,5}{\begin{scope}[rotate=\k*60]
+\draw[main] (0,0)--(3.2,0);
+\foreach \c in {.15,.5,1.1,2.0}{\draw[main,samples=90,domain=2:58] plot ({pow(\c/sin(3*\x),1/3)*cos(\x)},{pow(\c/sin(3*\x),1/3)*sin(\x)});}
+\end{scope}}
+\foreach \x in {-1.8,-1.2,-.6,0,.6,1.2,1.8}{\foreach \y in {-1.8,-1.2,-.6,0,.6,1.2,1.8}{
+\pgfmathsetmacro{\len}{3*(\x*\x+\y*\y)}
+\ifdim\len pt>0pt
+\pgfmathsetmacro{\vx}{.22*3*(\x*\x-\y*\y)/\len}\pgfmathsetmacro{\vy}{.22*(-6*\x*\y)/\len}
+\draw[gray,->] (\x,\y)--({\x+\vx},{\y+\vy});\fi}}
+\end{scope}\fill (0,0) circle (1.3pt);
+\end{tikzpicture}
+\end{center}
+(c) $\psi=0$ 的射线为 $\theta=k\pi/3$, $k=0,\ldots,5$. 相邻射线围成角为 $\pi/3$ 的六个楔形区域. 速度场沿壁面切向, 因此限制到任一区域便得到满足无穿透壁面条件的所需流动.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS5.6。}\label{ass:ps5-6}
+设向量场 $\mathbf F=(u,v)$ 无散且无旋. 证明 $u$ 是调和函数.
+\sourceinfo{题面第2页; 官方解答第4页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 按经典微分意义假设 $u,v$ 二阶连续可微. 无散、无旋分别给出 $u_x+v_y=0$, $v_x-u_y=0$. 第一式对 $x$ 求导, 第二式对 $y$ 求导后相减, 得 $u_{xx}+u_{yy}+v_{yx}-v_{xy}=0$. 混合偏导相等, 故 $\Delta u=0$.
+
+也可用 $u-\ii v$ 的 Cauchy--Riemann 方程直接说明它解析, 于是其实部调和. 编者补充（AI）: 官方另一证明先断言存在全局复势; 在非单连通域这不一定成立. 本题结论是局部的, 上述证明不需要全局势函数.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS5.7。}\label{ass:ps5-7}
+单位圆盘 $A$ 由导热材料制成, 在二维模型中热量仅通过边界散失. 稳态温度 $T(x,y)$ 在圆盘内调和, 边界温度固定为 $T(\ee^{\ii\theta})=T(\cos\theta,\sin\theta)=\sin^2\theta$.
+(a) 圆心温度是多少? (b) 圆盘上的最高温度是多少? (c) 最低温度是多少?
+挑战题: 求圆盘内各点的温度 $T(x,y)$.
+\sourceinfo{题面第2页; 官方解答第5页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 平均值性质给出 $T(0,0)=(2\pi)^{-1}\int_0^{2\pi}\sin^2\theta\dd\theta=1/2$, 因为 $\sin^2\theta=(1-\cos2\theta)/2$.
+(b)(c) 对含边界的闭圆盘, 最大值与最小值原理给出最高温度 $1$, 在 $(0,\pm1)$ 取得; 最低温度 $0$, 在 $(\pm1,0)$ 取得. 若仅指开圆盘, 则值域为 $(0,1)$, 上确界为 $1$、下确界为 $0$, 均不取得.
+
+挑战题: 在圆周上 $\sin^2\theta=\operatorname{Re}((1-\ee^{2\ii\theta})/2)$, 因而候选为 $T(z)=\operatorname{Re}((1-z^2)/2)=(1-x^2+y^2)/2$. 它在圆盘内调和且满足边界值; 两个解之差在边界为零, 最大值原理保证唯一. 编者说明: PDF 原件最后一式为 $1/2-(x^2-y^2)/2$, 文本提取易把分式合并误读, 此处按 PDF 核对.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS5.8。}\label{ass:ps5-8}
+考虑级数 $f(z)=\sum_{n=1}^{\infty}z^{-n}=z^{-1}+z^{-2}+z^{-3}+\cdots$.
+(a) 回忆微积分, 用比值判别法判断级数在哪些 $z$ 收敛.
+(b) 令 $C$ 是以原点为圆心的大圆, 求 $\int_C f(z)\dd z$.
+\sourceinfo{题面第2页; 官方解答第5--6页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 相邻项绝对值之比为 $1/|z|$, 因而 $|z|>1$ 时绝对收敛. 若 $0<|z|\le1$, 通项不趋于零, 所以发散; $z=0$ 无定义.
+(b) 按圆周正向且半径 $R>1$ 理解题设. 在 $C$ 上 $|z^{-n}|=R^{-n}$, 几何级数判别保证一致绝对收敛, 所以可逐项积分. 仅 $n=1$ 的项积分非零, 为 $2\pi\ii$; 所以积分是 $2\pi\ii$. 也可先求和 $f(z)=1/(z-1)$, 再用 Cauchy 积分公式; 反向圆周则取相反数.
+\end{solution}

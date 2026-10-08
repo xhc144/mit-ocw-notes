@@ -1,0 +1,280 @@
+\originalsection{第6次作业}
+\sourceinfo{Jeremy Orloff, MIT 18.04, Spring 2018, Problem Set 6, 题面 PDF 第1--3页, 官方解答 PDF 第1--12页; MIT OpenCourseWare, CC BY-NC-SA 4.0. 本节为中文翻译, 推导补全与 TikZ 重绘; 原有趣味题亦全部收录}
+
+\begin{exercise}
+\textbf{原题 PS6.1。}\label{ass:ps6-1}
+判断下列级数收敛还是发散:
+(a) $\sum_{n=0}^\infty((1+2\ii)/(1-\ii))^n$;
+(b) $\sum_{n=0}^\infty\ii^n$;
+(c) $\sum_{n=0}^\infty((1-\ii)/(1+2\ii))^n$;
+(d) $\sum_{n=0}^\infty n!/10^n$.
+\sourceinfo{题面第1页; 官方解答第1页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 公比模为 $\sqrt{5/2}>1$, 通项不趋零, 发散.
+(b) 通项模恒为 $1$, 发散.
+(c) 公比模为 $\sqrt{2/5}<1$, 几何级数绝对收敛.
+(d) 相邻项之比为 $(n+1)/10\to\infty$. 比值判别法给出发散; 事实上从某项起通项递增, 更不可能趋零.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.2。}\label{ass:ps6-2}
+求收敛半径:
+(a) $f_1(z)=\sum_{n=0}^\infty z^{3n}/2^n$;
+(b) $f_2(z)=1+3(z-1)+3(z-1)^2+(z-1)^3$.
+\sourceinfo{题面第1页; 官方解答第1页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 几何级数的公比为 $z^3/2$, 收敛当且仅当 $|z|^3<2$, 故以 $0$ 为中心的收敛半径是 $2^{1/3}$.
+(b) 有限多项式在所有 $z$ 上收敛, 以 $1$ 为中心的收敛半径是 $\infty$.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.3。}\label{ass:ps6-3}
+设 $\sum_{n=0}^\infty a_nz^n$ 的收敛半径为 $R$. 求下列级数的收敛半径:
+(a) $\sum_{n=0}^\infty a_nz^{2n}$;
+(b) $\sum_{n=1}^\infty n^{-n}a_nz^n$.
+\sourceinfo{题面第1页; 官方解答第1页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全, 并讨论原题未排除的退化情形.
+(a) 令 $w=z^2$. 原级数在 $|w|<R$ 收敛, 在 $|w|>R$ 发散, 因而新半径为 $\sqrt R$, 包括 $R=0$ 与 $R=\infty$ 的通常约定.
+
+(b) 若 $R>0$, 固定任意 $z$ 并取 $0<r<R$. 当 $n$ 足够大时 $|z|/n\le r$, 所以 $|n^{-n}a_nz^n|\le |a_n|r^n$. 右端的级数收敛, 因而新级数处处收敛, 半径为 $\infty$; $R=\infty$ 也适用.
+
+编者补充（AI）: 原题没有假设 $R>0$, 官方答案“半径无穷大”在 $R=0$ 时不能由题设推出. 由根判据, 新半径 $\rho$ 满足
+\[
+ \frac1\rho=\limsup_{n\to\infty}\frac{|a_n|^{1/n}}n,
+\]
+其中采用 $1/0=\infty$, $1/\infty=0$ 的约定. 例如 $a_n=n^n$ 时原半径为零而新系数恒为 $1$, 故 $\rho=1$; $a_n=(n!)^2$ 时, 利用 $n!\ge(n/2)^{n/2}$ 并不够判断上述商发散, 可进一步用 $n!\ge(n/4)^{3n/4}$ 对大 $n$ 成立, 得 $(n!)^{2/n}/n\ge n^{1/2}/4^{3/2}\to\infty$, 故 $\rho=0$. 因此必须保留 $R=0$ 时的上述一般公式, 不能默补正半径条件.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.4。}\label{ass:ps6-4}
+(a) 给出一个在 $\C\setminus\{1\}$ 上解析、在 $z=0$ 有简单零点、在 $z=1$ 有本性奇点的函数.
+(b) 设解析函数 $f$ 在 $z_0$ 有 $m$ 阶零点. 证明 $g=f'/f$ 在 $z_0$ 有简单极点, 且 $\Res(g,z_0)=m$.
+\sourceinfo{题面第1页; 官方解答第2页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 可取 $f(z)=z\ee^{1/(z-1)}$. 它在除 $1$ 外处处解析, $f'(0)=\ee^{-1}\ne0$, 所以 $0$ 是简单零点. $\ee^{1/(z-1)}$ 的 Laurent 展开有无限个负幂项; 在 $1$ 附近乘以非零解析因子 $z$ 不改变本性奇点类型.
+
+(b) 零点分解给出 $f(z)=(z-z_0)^mh(z)$, $h$ 在 $z_0$ 邻域解析且 $h(z_0)\ne0$. 在足够小的邻域内 $h$ 不为零, 故
+$f'/f=m/(z-z_0)+h'/h$. 第二项解析, 第一项给出简单极点和留数 $m$.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.5。}\label{ass:ps6-5}
+(a) $f_1(z)=1/(2\cos z-2+z^2)^2$ 在 $0$ 的极点阶数是多少? 提示: 考察 $1/f_1$.
+(b) 求 $f_2(z)=(z^2+1)/(2z\cos z)$ 在 $0$ 的留数.
+(c) 设 $f_3(z)=\ee^z/[z(z+1)^3]$, 求全部孤立奇点及各点留数.
+(d) 求 $f_4(z)=1/(1-z)$ 在无穷远处的留数.
+(e) 设 $f$ 解析且 $f(0)=1$, 求 $f_5(z)=\cos z/(\int_0^z f(w)\dd w)$ 在 $0$ 的留数.
+\sourceinfo{题面第1--2页; 官方解答第2--3页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) $2\cos z-2+z^2=z^4/12-z^6/360+\cdots$, 所以其平方为 $z^8/144+O(z^{10})$. 因而倒数在 $0$ 有 $8$ 阶极点. 编者校订: 官方展开的首项系数写成 $2/4!$ 而未正确平方; 首项应是 $(2/4!)^2=1/144$, 极点阶数结论不变.
+
+(b) $zf_2=(z^2+1)/(2\cos z)$ 在零点解析且值为 $1/2$, 因而留数为 $1/2$.
+
+(c) 全部有限孤立奇点为 $0$ 和 $-1$. $0$ 是简单极点, 留数 $\lim_{z\to0}zf_3(z)=1$.
+$-1$ 是三阶极点. 令 $h(z)=\ee^z/z$, 则
+$h''(z)=\ee^z(1/z-2/z^2+2/z^3)$, 从而 $\Res(f_3,-1)=h''(-1)/2!=-5/(2\ee)$.
+
+(d) 按无穷远留数的定义,
+$\Res(f_4,\infty)=-\Res(w^{-2}f_4(1/w),0)=-\Res(1/[w(w-1)],0)=1$.
+
+(e) 在零点小圆盘内令 $F(z)=\int_0^z f(w)\dd w$. 原函数性质给出 $F(0)=0$, $F'(0)=1$, 故 $F$ 有简单零点, 而 $\cos0=1$. 留数为 $\cos0/F'(0)=1$.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.6。}\label{ass:ps6-6}
+写出下列函数在孤立奇点处的主部, 并求对应留数:
+(a) $f_1(z)=z^3\ee^{1/z}$;
+(b) $f_2(z)=(1-\cosh z)/z^3$.
+\sourceinfo{题面第2页; 官方解答第3页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 两者唯一有限孤立奇点均为 $0$.
+(a) $f_1(z)=\sum_{k=0}^\infty z^{3-k}/k!=z^3+z^2+z/2+1/6+1/(24z)+\cdots$. 主部为 $\sum_{j=1}^\infty1/[(j+3)!z^j]$, 留数为 $1/24$; 主部无穷, 所以这是本性奇点.
+(b) $\cosh z=1+z^2/2+z^4/24+\cdots$, 故 $f_2=-1/(2z)-z/24-\cdots$. 主部为 $-1/(2z)$, 留数为 $-1/2$, 是简单极点.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.7。}\label{ass:ps6-7}
+(a) 令 $f(z)=(1+z)^a$, 用对数主支定义幂. 求它在 $0$ 周围的 Taylor 级数.
+(b) $\sqrt z$ 的主支在区域 $0<|z|$ 上有 Laurent 展开吗?
+\sourceinfo{题面第2页; 官方解答第4页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 以 $f=\ee^{a\Log(1+z)}$ 定义, 在 $|z|<1$ 内解析且 $f(0)=1$. 反复求导得到 $f^{(n)}(0)=a(a-1)\cdots(a-n+1)$, 因而
+\[
+ (1+z)^a=\sum_{n=0}^\infty\binom an z^n,
+ \qquad \binom a0=1,\quad \binom an=\frac{a(a-1)\cdots(a-n+1)}{n!}.
+\]
+若 $a$ 是非负整数, 级数截断为多项式, 半径为无穷大; 其他情形半径为 $1$. 编者校订: 官方说最近奇点在 $z=1$, 实应为 $z=-1$.
+
+(b) 没有. Laurent 级数在收敛环域内给出单值解析函数, 而平方根主支在负实轴处不能解析, 因此没有任何以 $0$ 为中心的完整环域包含于它的解析域. 更本质地, 若完整去心圆盘上存在解析平方根 $g$, 则 $g^2=z$ 推出 $2g'/g=1/z$. 沿绕零一周的圆积分, 左侧为 $4\pi\ii$ 的整数倍, 右侧为 $2\pi\ii$, 矛盾.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.8。}\label{ass:ps6-8}
+用几何级数的变形求 $f(z)=1/(4-z^2)$ 关于 $z_0=1$ 的下列展开:
+(a) Taylor 级数及收敛半径;
+(b) 环域 $1<|z-1|<R_1$ 上的 Laurent 级数, 并求 $R_1$;
+(c) $|z-1|>3$ 上的 Laurent 级数.
+\sourceinfo{题面第2页; 官方解答第4--6页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 令 $\zeta=z-1$. 分式分解给出
+$f(z)=\tfrac14[1/(1-\zeta)+1/(3+\zeta)]$.
+奇点 $2,-2$ 到展开中心 $1$ 的距离分别为 $1,3$, 所以有三个最大收敛区域.
+\begin{center}
+\begin{tikzpicture}[scale=.55,>=Stealth]
+\draw[->](-3.2,0)--(5,0) node[right]{$\operatorname{Re}z$};\draw[->](0,-3.3)--(0,3.6) node[above]{$\operatorname{Im}z$};
+\draw (1,0) circle (1);\draw (1,0) circle (3);
+\fill (1,0) circle (2pt) node[below]{$1$};
+\node at (2,0){$\times$};\node[below] at (2,-.1){$2$};\node at (-2,0){$\times$};\node[below] at (-2,-.1){$-2$};
+\node at (1,.5){$A_1$};\node at (2,1.6){$A_2$};\node at (3.4,2.8){$A_3$};
+\end{tikzpicture}
+\end{center}
+(a) 当 $|\zeta|<1$ 时, 两个分式均按正幂展开:
+\[
+ f(z)=\frac14\sum_{n=0}^\infty\zeta^n+
+ \frac1{12}\sum_{n=0}^\infty\frac{(-1)^n\zeta^n}{3^n}
+ =\sum_{n=0}^\infty\left(\frac14+\frac{(-1)^n}{12\cdot3^n}\right)(z-1)^n.
+\]
+最近极点距离是 $1$, 故半径为 $1$.
+
+(b) 在 $1<|\zeta|<3$ 上, $1/(1-\zeta)=-\sum_{n=1}^\infty\zeta^{-n}$, 而第二分式仍取正幂展开. 所以 $R_1=3$, 且
+\[
+ f(z)=-\frac14\sum_{n=1}^\infty\frac1{(z-1)^n}
+ +\frac1{12}\sum_{n=0}^\infty\frac{(-1)^n(z-1)^n}{3^n}.
+\]
+(c) 当 $|\zeta|>3$ 时, $1/(3+\zeta)=\sum_{n=1}^\infty(-3)^{n-1}\zeta^{-n}$, 故
+$f(z)=\tfrac14\sum_{n=1}^\infty[(-3)^{n-1}-1](z-1)^{-n}$.
+各处的几何级数条件正好给出上述环域; 特别要保留负幂, 不能把分母误读为正幂.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.9。}\label{ass:ps6-9}
+(a) 用留数定理计算 $\int_{|z|=3}\ee^{\ii z}/[z^2(z-2)(z+5\ii)]\dd z$.
+(b) 计算 $\int_{|z|=1}\ee^{1/z}\sin(1/z)\dd z$.
+(c) 解释为什么 Cauchy 积分公式可看作留数定理的特例.
+\sourceinfo{题面第2页; 官方解答第6--7页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 圆周均取正向.
+(a) 极点为 $0,2,-5\ii$, 圆内仅前两点. 令 $h(z)=\ee^{\ii z}/[(z-2)(z+5\ii)]$. 记分母为 $D(z)$, 则 $D(0)=-10\ii$, $D'(0)=-2+5\ii$, 故
+\[
+ \Res(f,0)=h'(0)=\frac{\ii D(0)-D'(0)}{D(0)^2}
+ =\frac{-12+5\ii}{100},\qquad
+ \Res(f,2)=\frac{\ee^{2\ii}}{4(2+5\ii)}.
+\]
+因此积分为 $2\pi\ii[(-12+5\ii)/100+\ee^{2\ii}/(4(2+5\ii))]$.
+
+(b) 两个级数相乘时, 要产生 $z^{-1}$, 只能取 $\ee^{1/z}$ 的常数项与 $\sin(1/z)$ 的首项. 故留数为 $1$, 积分为 $2\pi\ii$. 编者校订: 官方把 $0$ 称为极点, 实际是本性奇点; 例如 $\ee^w\sin w$ 不是多项式, 它在 $w=0$ 的 Taylor 级数含无限多个非零系数, 代入 $w=1/z$ 后主部无限. 留数定理同样适用于本性孤立奇点.
+
+(c) 设 $C$ 是正向简单闭曲线, $f$ 在其上及内部解析, $z_0$ 在内部. $f(z)/(z-z_0)$ 的唯一可能奇点在 $z_0$, 留数为 $f(z_0)$. 留数定理立即给出 $\int_C f(z)/(z-z_0)\dd z=2\pi\ii f(z_0)$. 若 $f(z_0)=0$, 该奇点可以可去; 留数仍为零, 公式不受影响.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.10。}\label{ass:ps6-10}
+本题用留数定理计算 $\sum_{n=-\infty}^{\infty}1/n^2$; 所用技巧具有一般性, 特别是 $\cot(\pi z)$ 的应用.
+(a) 令 $\phi(z)=\pi\cot(\pi z)=\pi\cos(\pi z)/\sin(\pi z)$, 求所有奇点处的极点阶数与留数.
+(b) 令 $C_N$ 为顶点 $\pm(N+1/2)\pm\ii(N+1/2)$ 的正向方形. 用留数定理写出 $\int_{C_N}\pi\cot(\pi z)/z^2\dd z$. 需特别计算 $0$ 的留数.
+(c) 已知 $C_N$ 上 $|\cot(\pi z)|<2$, 证明该积分当 $N\to\infty$ 趋零.
+(d) 用 (b)(c) 求 $\sum_{n=1}^\infty1/n^2$.
+\sourceinfo{题面第2--3页; 官方解答第7--9页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 编者校订: 引言原式包括无定义的 $n=0$ 项, 应解释为 $\sum_{n\in\Z\setminus\{0\}}1/n^2$; (d) 的正整数求和没有这一问题.
+
+(a) $\sin(\pi z)$ 的零点恰为整数 $n$, 且导数 $\pi\cos(\pi n)\ne0$. 因而均为简单极点, 留数 $\pi\cos(\pi n)/(\pi\cos(\pi n))=1$.
+
+(b) 令 $F=\phi/z^2$. 非零整数点的留数为 $1/n^2$. 在零点, 先除 Taylor 级数:
+\[
+ \cot t=\frac{1-t^2/2+O(t^4)}{t(1-t^2/6+O(t^4))}
+ =\frac1t\left(1-\frac{t^2}3+O(t^4)\right).
+\]
+代入 $t=\pi z$ 得 $F(z)=z^{-3}-\pi^2/(3z)+O(z)$, 所以 $\Res(F,0)=-\pi^2/3$.
+方形内整数为 $-N,\ldots,N$, 因而
+\[
+ \int_{C_N}F(z)\dd z
+ =2\pi\ii\left(2\sum_{n=1}^N\frac1{n^2}-\frac{\pi^2}3\right).
+\]
+编者校订: 官方第8页最后一个等号漏掉公共因子 $2\pi\ii$, 此处保留.
+\begin{center}
+\begin{tikzpicture}[scale=.6,>=Stealth]
+\draw[->](-3.2,0)--(3.6,0) node[right]{$\operatorname{Re}z$};\draw[->](0,-3)--(0,3.4) node[above]{$\operatorname{Im}z$};
+\draw[main](-2.5,-2.5) rectangle (2.5,2.5);
+\draw[main,->](.5,-2.5)--(1.3,-2.5);\draw[main,->](2.5,.5)--(2.5,1.3);\draw[main,->](-.5,2.5)--(-1.3,2.5);
+\foreach \k in {-2,-1,0,1,2}{\fill (\k,0) circle (2pt);}
+\node[below] at (-2,0){$-N$};\node[below] at (2,0){$N$};\node[right] at (2.5,2){$C_N$};
+\node[above left] at (0,2.5){$N+\tfrac12$};
+\end{tikzpicture}
+\end{center}
+(c) 在边界 $|z|\ge N+1/2$, 而周长为 $8(N+1/2)=4(2N+1)$. 因而
+\[
+ \left|\int_{C_N}F(z)\dd z\right|
+ \le \frac{2\pi}{(N+1/2)^2}\,8(N+1/2)
+ =\frac{16\pi}{N+1/2}\longrightarrow0.
+\]
+编者校订: 官方文字把周长写作 $2(2N+1)$, 后面的估计却用了正确周长, 此处统一修正.
+(d) 取极限得 $2\sum_{n=1}^\infty1/n^2=\pi^2/3$, 即 $\sum_{n=1}^\infty1/n^2=\pi^2/6$.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.Fun1。}\label{ass:ps6-fun1}
+以下趣味题不计分, 原作业不要求上交. 考察 $\sum_{n=1}^\infty z^n/n^2$, $\sum_{n=1}^\infty z^n/n$, $\sum_{n=1}^\infty z^n$, 说明幂级数在收敛圆盘边界上可能全部点收敛、部分点收敛或没有点收敛.
+\sourceinfo{题面第3页; 官方解答第9--10页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 三者的根判据均给出半径 $1$.
+第一者在 $|z|=1$ 上由 $\sum1/n^2<\infty$ 得绝对收敛.
+第二者在 $z=1$ 为调和级数, 发散; 在 $z=-1$ 为交错调和级数, 收敛. 更一般地, $|z|=1$, $z\ne1$ 时, 几何部分和 $\sum_{n=1}^Nz^n=z(1-z^N)/(1-z)$ 一致有界, $1/n$ 单调趋零, 分部求和或 Dirichlet 判别法给出收敛.
+第三者在边界上通项模为 $1$, 因而处处发散. 编者校订: 官方“除 $|z|=1$ 外”应为“除 $z=1$ 外”; 此处按实际结论明确区别.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.Fun2。}\label{ass:ps6-fun2}
+设 $f$ 在 $z=0$ 解析, 且满足 $(1+z)f'(z)=2f(z)$, $f(0)=1$.
+(a) 解方程, 求 $f$ 的闭式表达.
+(b) 直接从微分方程求幂级数系数.
+(c) 将 (b) 与 (a) 闭式的 Taylor 展开比较.
+\sourceinfo{题面第3页; 官方解答第10页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 在 $0$ 附近 $f\ne0$, 可分离变量 $f'/f=2/(1+z)$, 得 $f=C(1+z)^2$. 初值给出 $C=1$.
+(b) 设 $f=\sum_{n=0}^\infty a_nz^n$, 逐项求导并比较 $z^n$ 系数, 得 $(n+1)a_{n+1}+na_n=2a_n$, 即 $a_{n+1}=(2-n)a_n/(n+1)$. 初值 $a_0=1$ 给出 $a_1=2$, $a_2=1$, $a_n=0$ 对 $n\ge3$.
+(c) $(1+z)^2=1+2z+z^2$, 与上述系数逐项一致. 因为 Taylor 系数由递推唯一确定, 也确认解析初值解唯一.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.Fun3。}\label{ass:ps6-fun3}
+证明 PS6.10 的轮廓上 $|\cot(\pi z)|<2$. 提示: 竖直边上证明模小于 $1$, 水平边上证明模小于 $2$.
+\sourceinfo{题面第3页; 官方解答第10--11页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 利用 $\cot(\pi z)=\ii(\ee^{2\pi\ii z}+1)/(\ee^{2\pi\ii z}-1)$.
+在右边 $z=N+1/2+\ii y$ 上, 令 $t=\ee^{-2\pi y}>0$, 有 $\ee^{2\pi\ii z}=-t$, 故模为 $|1-t|/(1+t)<1$. 左边同理.
+在上边 $z=x+\ii(N+1/2)$ 上, 令 $q=\ee^{-(2N+1)\pi}\le\ee^{-\pi}<1/3$, 则
+$|\cot(\pi z)|\le(1+q)/(1-q)<2$. 下边由共轭对称得到相同估计. 这里 $N\ge0$ 为整数, $\ee^{\pi}>3$ 足以保证最后一步.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS6.Fun4。}\label{ass:ps6-fun4}
+设 $\sum_{n=0}^\infty a_nz^n$ 的收敛半径为 $R$. 证明 $\sum_{n=0}^\infty n^2a_nz^n$ 的收敛半径也为 $R$.
+\sourceinfo{题面第3页; 官方解答第11--12页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 令 $L=\limsup|a_n|^{1/n}$, 则 $R=1/L$. 因为 $n^{2/n}\to1$, 对任意 $\varepsilon>0$, 大 $n$ 满足 $1-\varepsilon\le n^{2/n}\le1+\varepsilon$. 因而
+$\limsup|n^2a_n|^{1/n}=\limsup n^{2/n}|a_n|^{1/n}=L$, 包括 $L=0,\infty$ 的情形. 根判据立即给出相同半径.
+
+编者补充（AI）: 官方比较法证明新级数在 $|z|<R$ 收敛, 仅得新半径至少为 $R$. 反向可观察若新级数在某点绝对收敛, 则 $|a_nz^n|\le|n^2a_nz^n|$ 对 $n\ge1$ 成立, 原级数也绝对收敛. 结合两向比较才能保证半径相等; 上面的根判据一次完成两向论证.
+\end{solution}

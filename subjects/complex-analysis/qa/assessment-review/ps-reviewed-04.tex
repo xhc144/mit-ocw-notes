@@ -1,0 +1,422 @@
+\originalsection{第4次作业}
+\sourceinfo{题面 \texttt{mit18\_04\_s18\_pset04.pdf}, PDF第1--3页; 官方解答 \texttt{mit18\_04\_s18\_pset04\_sol.pdf}, PDF第1--12页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+本节包括原题的七道计分题和四道不计分附加题. 未另外注明方向的闭曲线按官方解答取正向, 圆周即逆时针; 第1题(d)的参数角从 $0$ 增至 $\pi$.
+
+\begin{exercise}\label{ass:ps4-1}
+\textbf{原题 PS4.1。} (20分; 每问5分.)
+\begin{enumerate}[label=(\alph*)]
+\item 用 Cauchy 积分公式计算
+$\int_C(\sin(\pi z^2)+\cos(\pi z^2))/((z-1)(z-2))\dd z$,
+其中 $C$ 是圆 $|z|=4$.
+\item 计算 $\int_Cz^2/(z^2+1)\dd z$, 其中 $C$ 是以 $\ii$ 为中心、半径为 $1$ 的圆.
+\item 设 $C$ 为圆 $|z|=2$. 用 Cauchy 积分公式计算
+$\int_C\overline z/(z^2-1)\dd z$.
+注意: $\overline z$ 不是解析函数, 但有办法绕过这个困难.
+\item 令 $\theta=\arg z$. 取波形曲线 $C$ 为
+$0\le\theta\le\pi$, $|z|=1-0.1\cos(100\theta)$.
+计算 $\int_Cz^2\dd z$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 令整函数 $h(z)=\sin(\pi z^2)+\cos(\pi z^2)$. 用
+$1/((z-1)(z-2))=1/(z-2)-1/(z-1)$ 分开两个奇点后, 每项的分子都在圆内解析, 故
+\[
+ \int_C\frac{h(z)}{(z-1)(z-2)}\dd z
+ =2\pi\ii\bigl(h(2)-h(1)\bigr)
+ =2\pi\ii(1-(-1))=4\pi\ii.
+\]
+官方通过加上方向相反的内部连线, 将原圆切分为两个各包围一个奇点的闭轮廓; 对 $2$ 的局部解析分子是 $h(z)/(z-1)$, 其值为 $1$; 对 $1$ 的局部分子为 $h(z)/(z-2)$, 其值也为 $1$, 所以得到同一结果. 官方第1页第二个轮廓的文字中把分母因子误写成 $z-2$, 当处应为 $z-1$; 随后的实际积分式正确.
+
+(b) 唯一在圆内的奇点是 $z=\ii$; $-\ii$ 与圆心距离为 $2$, 在圆外.
+令 $g(z)=z^2/(z+\ii)$, 它在闭圆盘邻域解析, 故
+$\int_Cz^2/(z^2+1)\dd z=2\pi\ii g(\ii)
+=2\pi\ii\,(-1)/(2\ii)=-\pi$.
+
+(c) 只在本题的圆周上有 $z\overline z=4$, 即 $\overline z=4/z$. 因而本次曲线积分可以替换为解析有理函数的积分:
+\[
+ \int_C\frac{\overline z}{z^2-1}\dd z
+ =\int_C\frac4{z(z^2-1)}\dd z
+ =\int_C\left(-\frac4z+\frac2{z-1}+\frac2{z+1}\right)\dd z
+ =2\pi\ii(-4+2+2)=0.
+\]
+替换等式只要求沿曲线成立, 不能声称 $\overline z=4/z$ 在整个圆内成立. 这与官方分别包围 $0,1,-1$ 的三个小轮廓算法一致.
+
+(d) 参数为 $z(\theta)=(1-0.1\cos100\theta)\ee^{\ii\theta}$.
+起点 $z(0)=0.9$, 终点 $z(\pi)=-0.9$.
+由于 $z^2$ 有整原函数 $z^3/3$, 曲线的波动不影响积分:
+\[
+ \int_Cz^2\dd z
+ =\frac{(-0.9)^3-(0.9)^3}{3}
+ =-\frac{2(0.9)^3}{3}=-0.486.
+\]
+也可添加从 $-0.9$ 到 $0.9$ 的实轴线段 $C_1$, 将路径闭合.
+Cauchy 定理给出 $\int_Cz^2\dd z=-\int_{-0.9}^{0.9}x^2\dd x$, 得同值.
+勘误: 官方第3--4页两种方法的最后结果都漏掉分母 $3$, 写为 $-2(0.9)^3$; 官方另有一句把闭合线段端点写为 $-1,1$, 实际应为 $-0.9,0.9$.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第1页; 官方解答 PDF第1--4页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-2}
+\textbf{原题 PS4.2。} (15分; 各问10, 5分.)
+\begin{enumerate}[label=(\alph*)]
+\item 设 $f(z)=z^n$, $n$ 为正整数. 直接计算积分, 验证 $f(z_0)$ 的 Cauchy 积分公式以及 $f'(z_0)$ 的 Cauchy 导数公式.
+可能需要二项式公式展开 $(a+b)^n$. 提示: 先用 Cauchy 定理作简短论证, 把积分轮廓缩为以目标点为中心的圆.
+\item 设 $P(z)=c_0+c_1z+c_2z^2+c_3z^3$, $C$ 为圆 $|z|=a$, $a>0$. 对 $n=0,1,2,\ldots$, 计算 $\int_CP(z)z^{-n}\dd z$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 取正向简单闭曲线 $C$, 使 $z_0$ 在内部. 取半径足够小的正向圆
+$C_r:|z-z_0|=r$, 完全位于 $C$ 内. 两个被积函数 $z^n/(z-z_0)$ 与 $z^n/(z-z_0)^2$ 在两轮廓之间解析; 对删去小圆的区域用 Cauchy 定理, 得外轮廓积分等于小圆积分. 此处只调用定理, 没有先用待验证的积分公式.
+
+参数化 $z=z_0+r\ee^{\ii\theta}$, $0\le\theta\le2\pi$. 则
+\[
+ \frac1{2\pi\ii}\int_{C_r}\frac{z^n}{z-z_0}\dd z
+ =\frac1{2\pi}\int_0^{2\pi}
+       (z_0+r\ee^{\ii\theta})^n\dd\theta
+ =\frac1{2\pi}\sum_{k=0}^n\binom nk z_0^{n-k}r^k
+       \int_0^{2\pi}\ee^{\ii k\theta}\dd\theta
+ =z_0^n.
+\]
+最后一步使用整数 $k\ne0$ 时指数积分为
+$[\ee^{\ii k\theta}/(\ii k)]_0^{2\pi}=0$, $k=0$ 时为 $2\pi$.
+导数公式同样直接计算:
+\[
+ \frac1{2\pi\ii}\int_{C_r}\frac{z^n}{(z-z_0)^2}\dd z
+ =\frac1{2\pi r}\sum_{k=0}^n\binom nk z_0^{n-k}r^k
+       \int_0^{2\pi}\ee^{\ii(k-1)\theta}\dd\theta
+ =nz_0^{n-1}.
+\]
+这里只有 $k=1$ 留下, 恰是 $f'(z_0)$.
+若 $n=1$ 且 $z_0=0$, 这一保留项直接为 $1$, 不需把 $0^0$ 作为另一个定义.
+
+(b) 参数化 $z=a\ee^{\ii\theta}$ 给出, 对任意整数 $m$,
+$\int_Cz^m\dd z=0$ 当 $m\ne-1$, 而 $m=-1$ 时为 $2\pi\ii$.
+展开 $P(z)z^{-n}=\sum_{j=0}^3c_jz^{j-n}$, 只有 $j-n=-1$ 的项保留. 故
+\[
+ \int_CP(z)z^{-n}\dd z=
+ \begin{cases}
+ 2\pi\ii c_{n-1},&n=1,2,3,4,\\
+ 0,&n=0\text{ 或 }n\ge5.
+ \end{cases}
+\]
+结果与 $a>0$ 的大小无关.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第1页; 官方解答 PDF第4--5页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-3}
+\textbf{原题 PS4.3。} (15分; 每问5分.)
+\begin{enumerate}[label=(\alph*)]
+\item 计算 $\int_C|z|\ee^z/z^2\dd z$, 其中 $C$ 是圆 $|z|=2$.
+\item 计算 $\int_{-\infty}^{\infty}1/((x^2+1)(x^2+4))\dd x$.
+提示: 沿下图的闭路径积分, 并证明 $R\to\infty$ 时半圆弧 $C_R$ 上的积分趋于零.
+\begin{center}
+\begin{tikzpicture}[scale=1.1,>=Stealth]
+\draw[->] (-3,0)--(3.15,0) node[right] {$\Re z$};
+\draw[->] (0,-.3)--(0,2.85) node[above] {$\Im z$};
+\draw[structurecolor] (2.5,0) arc (0:180:2.5);
+\draw[structurecolor,->] (45:2.5) arc (45:75:2.5);
+\draw[structurecolor,->] (-2.5,0)--(.4,0);
+\draw[structurecolor] (.4,0)--(2.5,0);
+\node[below] at (-2.5,0) {$-R$}; \node[below] at (2.5,0) {$R$};
+\node[below,structurecolor] at (1,0) {$C_1$};
+\node[above left,structurecolor] at (130:2.5) {$C_R$};
+\fill (0,.8) circle (1.5pt) node[right] {$\ii$};
+\fill (0,1.6) circle (1.5pt) node[right] {$2\ii$};
+\end{tikzpicture}
+\end{center}
+\item 用两种方法证明 $\int_{|z|=2}1/(z^2(z-1)^3)\dd z=0$.
+\begin{enumerate}[label=(\roman*)]
+\item 使用 Cauchy 积分公式. 需要分割轮廓以分别包围被积函数的各个奇点.
+\item 先证明用 $|z|=R$, $R>2$, 替换轮廓时积分不变; 再证明此积分随 $R\to\infty$ 趋于零.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 在 $C$ 上 $|z|=2$, 所以积分等于
+$\int_C2\ee^z/z^2\dd z=2\pi\ii(2\ee^z)'|_{z=0}=4\pi\ii$,
+这里应用一次导数的 Cauchy 公式. 替换只在圆周上使用.
+
+(b) 令 $F(z)=1/((z^2+1)(z^2+4))$. 对 $R>2$, 上半圆闭轮廓内只有 $\ii,2\ii$ 两个奇点.
+取分别包围它们的小正向圆, 利用两轮廓之间的 Cauchy 定理将总积分化为两个小圆积分.
+在 $\ii$ 处的解析分子是
+$g_1(z)=1/((z+\ii)(z-2\ii)(z+2\ii))$, 值为 $g_1(\ii)=1/(6\ii)$.
+在 $2\ii$ 处是
+$g_2(z)=1/((z-\ii)(z+\ii)(z+2\ii))$, 值为 $g_2(2\ii)=-1/(12\ii)$.
+所以 Cauchy 公式给出
+\[
+ \int_{C_1+C_R}F(z)\dd z
+ =2\pi\ii\left(\frac1{6\ii}-\frac1{12\ii}\right)=\frac\pi6.
+\]
+在半圆弧上 $|z|=R$; 由反三角不等式,
+$|z^2+1|\ge R^2-1$, $|z^2+4|\ge R^2-4$, 故长度估计给出
+\[
+ \left|\int_{C_R}F(z)\dd z\right|
+ \le\frac{\pi R}{(R^2-1)(R^2-4)}\longrightarrow0.
+\]
+实轴部分是 $\int_{-R}^R1/((x^2+1)(x^2+4))\dd x$.
+该反常积分绝对收敛: 有限区间上连续, 而 $|x|\ge1$ 时绝对值不超过 $x^{-4}$.
+因此可以取极限, 得所求值为 $\pi/6$.
+
+(c)(i) 设 $C_0,C_1$ 分别为以 $0,1$ 为中心、半径 $\rho<1/2$ 的小正向圆.
+被积函数在大圆内部删去两个小圆盘后解析, 所以
+\[
+ \int_{|z|=2}\frac{\dd z}{z^2(z-1)^3}
+ =\int_{C_0}\frac{g_0(z)}{z^2}\dd z+
+  \int_{C_1}\frac{g_1(z)}{(z-1)^3}\dd z,
+ \qquad
+ g_0(z)=(z-1)^{-3},\quad g_1(z)=z^{-2}.
+\]
+这两个分子分别在对应的小圆盘内解析.
+$g_0'(0)=-3$, $g_1''(1)=6$. 因而两项分别为
+$2\pi\ii g_0'(0)=-6\pi\ii$ 和
+$(2\pi\ii/2!)g_1''(1)=6\pi\ii$, 相加为零.
+\begin{center}
+\begin{tikzpicture}[scale=1.05,>=Stealth]
+\draw[->] (-2.3,0)--(2.45,0) node[right] {$\Re z$};
+\draw[->] (0,-2.2)--(0,2.35) node[above] {$\Im z$};
+\draw (0,0) circle (2);
+\draw[structurecolor] (0,0) circle (.3);
+\draw[structurecolor] (1,0) circle (.3);
+\draw[structurecolor,->] (30:.3) arc (30:90:.3);
+\draw[structurecolor,->] ({1+.3*cos(30)},{.3*sin(30)}) arc (30:90:.3);
+\fill (0,0) circle (1.4pt); \fill (1,0) circle (1.4pt);
+\node at (-.18,-.48) {$0$}; \node at (1,-.48) {$1$};
+\node[structurecolor,above left] at (-.2,.3) {$C_0$};
+\node[structurecolor,above right] at (1.2,.3) {$C_1$};
+\node at (-1.5,1.5) {$|z|=2$};
+\end{tikzpicture}
+\end{center}
+勘误: 官方第7页局部计算仍把两条小轮廓标成整个 $|z|=2$, 此时分子不在整个大圆内解析, 不能如此直接应用公式. 官方在 $1$ 处的公式还漏了 $1/2!$, 虽然写出的数值 $6\pi\ii$ 是正确的.
+
+(ii) 对 $R>2$, 两同心圆之间没有奇点, 故 Cauchy 定理保证积分不变.
+在 $|z|=R$ 上 $|z-1|\ge R-1$, 从而
+\[
+ \left|\int_{|z|=R}\frac{\dd z}{z^2(z-1)^3}\right|
+ \le\frac{2\pi R}{R^2(R-1)^3}\longrightarrow0.
+\]
+一个与 $R$ 无关的数若有绝对值趋于零, 本身就必须为零, 完成第二种证明.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第1--2页; 官方解答 PDF第5--8页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-4}
+\textbf{原题 PS4.4。} (5分.) 假设 $f$ 在简单闭曲线 $C$ 上及其内部解析, 且 $f(z)=0$ 对所有 $z\in C$ 成立. 证明 $f$ 在 $C$ 内部也恒为零.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. “在曲线上及内部解析”解释为在闭区域的一个开邻域解析.
+任取内部点 $z_0$, Cauchy 公式给出
+$f(z_0)=(2\pi\ii)^{-1}\int_C f(z)/(z-z_0)\dd z=0$,
+因为分母在曲线上不为零, 而分子逐点为零. 任意性保证 $f$ 在内部恒为零.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第2页; 官方解答 PDF第8页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-5}
+\textbf{原题 PS4.5。} (10分.) 设 $\gamma$ 为经过 $1+\ii$ 的简单闭曲线,
+$f(z)=(2\pi\ii)^{-1}\int_\gamma\cos w/(w-z)\dd w$.
+求下列极限.
+\begin{enumerate}[label=(\roman*)]
+\item $z$ 从 $\gamma$ 外部趋于 $1+\ii$ 时的 $\lim f(z)$.
+\item $z$ 从 $\gamma$ 内部趋于 $1+\ii$ 时的 $\lim f(z)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全, 取 $\gamma$ 正向.
+
+(i) 若 $z$ 在外部, 关于积分变量 $w$ 的函数 $\cos w/(w-z)$ 在闭内部的邻域解析, 所以 Cauchy 定理给出 $f(z)=0$. 外侧极限就是 $0$.
+
+(ii) 若 $z$ 在内部, Cauchy 公式给出 $f(z)=\cos z$. 由余弦连续,
+内侧极限为 $\cos(1+\ii)=\cos1\cosh1-\ii\sin1\sinh1$.
+原积分在 $z\in\gamma$ 时有曲线上的奇点, 本题只取两侧极限, 不需要把此表达式在边界上另行定义.
+若曲线反向, 外侧极限仍为零, 内侧极限变为 $-\cos(1+\ii)$.
+
+勘误: 官方第9页在尚未取极限时就写成 $f(z)=\cos(1+\ii)$, 并称其为常数. 正确的内部函数是 $\cos z$; 只有边界极限才是 $\cos(1+\ii)$.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第2页; 官方解答 PDF第8--9页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-6}
+\textbf{原题 PS4.6。} (10分; 每问5分.)
+\begin{enumerate}[label=(\alph*)]
+\item 假设 $f$ 在包含闭圆盘 $|z-z_0|\le r$ 的区域 $A$ 内解析. 用 Cauchy 积分公式证明平均值性质
+$f(z_0)=(2\pi)^{-1}\int_0^{2\pi}f(z_0+r\ee^{\ii\theta})\dd\theta$.
+\item 证明更一般的公式
+$f^{(n)}(z_0)=\frac{n!}{2\pi r^n}\int_0^{2\pi}
+ f(z_0+r\ee^{\ii\theta})\ee^{-\ii n\theta}\dd\theta$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 取 $r>0$, $n$ 为非负整数.
+
+(a) 正向圆 $C_r$ 参数化为 $z=z_0+r\ee^{\ii\theta}$, 其微分为
+$\dd z=\ii r\ee^{\ii\theta}\dd\theta$. 代入 Cauchy 公式得
+\[
+ f(z_0)=\frac1{2\pi\ii}\int_{C_r}\frac{f(z)}{z-z_0}\dd z
+ =\frac1{2\pi\ii}\int_0^{2\pi}
+ \frac{f(z_0+r\ee^{\ii\theta})}{r\ee^{\ii\theta}}
+ \ii r\ee^{\ii\theta}\dd\theta
+ =\frac1{2\pi}\int_0^{2\pi}f(z_0+r\ee^{\ii\theta})\dd\theta.
+\]
+(b) 对同一圆用 $n$ 阶导数公式, 得
+\[
+ f^{(n)}(z_0)
+ =\frac{n!}{2\pi\ii}\int_{C_r}\frac{f(z)}{(z-z_0)^{n+1}}\dd z
+ =\frac{n!}{2\pi r^n}\int_0^{2\pi}
+ f(z_0+r\ee^{\ii\theta})\ee^{-\ii n\theta}\dd\theta.
+\]
+分母的 $r^{n+1}\ee^{\ii(n+1)\theta}$ 与微分中的
+$r\ee^{\ii\theta}$ 消去一阶, 正是所需的 $r^n$ 和指数 $-\ii n\theta$; $n=0$ 还原(a).
+\end{solution}
+\sourceinfo{题面 PS4, PDF第2页; 官方解答 PDF第9页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-7}
+\textbf{原题 PS4.7。} (20分; 每问4分.) 设 $C$ 为圆 $|z|=2$. 分别说明下列积分为什么为零.
+\begin{enumerate}[label=(\alph*)]
+\item $\int_Cz/(z^2+35)\dd z$.
+\item $\int_C\cos z/(z^2-6z+10)\dd z$.
+\item $\int_C\ee^{-z}(2z+1)\dd z$.
+\item $\int_C\log(z+3)\dd z$, 对数取主支.
+\item $\int_C\sec(z/2)\dd z$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 每问均检查被积函数在闭圆盘的邻域解析, 然后应用 Cauchy 定理.
+
+(a) 分母零点为 $\pm\ii\sqrt{35}$, 模均大于 $2$, 所以圆内无奇点.
+
+(b) 分母零点为 $3+\ii,3-\ii$, 模为 $\sqrt{10}>2$, 因而商在圆内及周边解析.
+
+(c) 指数与多项式的乘积为整函数, 满足条件.
+
+(d) 当 $|z|\le2$ 时 $\Re(z+3)\ge1>0$, 所以 $z+3$ 始终在对数主支的解析域中.
+其割线在 $z$ 平面是实轴段 $(-\infty,-3]$, 与闭圆盘不相交.
+
+(e) $\cos(z/2)=0$ 恰在 $z=(2k+1)\pi$, $k\in\Z$, 这些点的模至少为 $\pi>2$.
+因此倒数在闭圆盘的邻域解析. 五个积分均为零.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第2--3页; 官方解答 PDF第9--10页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-8}
+\textbf{原题 PS4.8。} (不计分.) 证明
+$\int_0^\pi\ee^{\cos\theta}\cos(\sin\theta)\dd\theta=\pi$.
+提示: 考虑 $\ee^z/z$ 沿单位圆的积分.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 正向单位圆上令 $z=\ee^{\ii\theta}$, $0\le\theta\le2\pi$.
+一方面, Cauchy 公式给出 $\int_C\ee^z/z\dd z=2\pi\ii\ee^0=2\pi\ii$.
+另一方面, 参数化给出
+\[
+ \int_C\frac{\ee^z}{z}\dd z
+ =\ii\int_0^{2\pi}\ee^{\ee^{\ii\theta}}\dd\theta
+ =\int_0^{2\pi}\ee^{\cos\theta}
+ \bigl(-\sin(\sin\theta)+\ii\cos(\sin\theta)\bigr)\dd\theta.
+\]
+取虚部得到从 $0$ 到 $2\pi$ 的目标被积函数积分为 $2\pi$.
+对于 $q(\theta)=\ee^{\cos\theta}\cos(\sin\theta)$,
+有 $q(2\pi-\theta)=q(\theta)$, 因为余弦为偶函数. 代换
+$\theta=2\pi-t$ 说明后半段与前半段积分相等, 所以所求前半段为 $\pi$.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第3页; 官方解答 PDF第10--11页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\Needspace{5\baselineskip}
+\begin{exercise}\label{ass:ps4-9}
+\textbf{原题 PS4.9。} (不计分.)
+\begin{enumerate}[label=(\alph*)]
+\item 假设 $f$ 在单连通区域 $A$ 解析, $\gamma$ 是 $A$ 中的简单闭曲线.
+固定 $z_0\in A\setminus\gamma$, 用 Cauchy 积分公式证明
+\[
+ \int_\gamma\frac{f'(z)}{z-z_0}\dd z
+ =\int_\gamma\frac{f(z)}{(z-z_0)^2}\dd z.
+\]
+\item 挑战: 去掉 $A$ 单连通的假设, 重做(a).
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 单连通性保证 $\gamma$ 所围内部仍位于 $A$, 所以 $f,f'$ 在其闭内部的邻域解析.
+若 $z_0$ 位于 $\gamma$ 内部, 对 $f'$ 用通常的 Cauchy 公式, 对 $f$ 用一次导数公式, 两边都等于 $2\pi\ii f'(z_0)$.
+若 $z_0$ 在外部, 两个被积函数都在整个内部解析, Cauchy 定理使两边都为零.
+反向曲线时两边同时变号, 等式仍成立.
+
+(b) 即使 $A$ 有洞, 函数 $g(z)=f(z)/(z-z_0)$ 在 $A\setminus\{z_0\}$ 中仍单值且解析; 特别地, 它在整条 $\gamma$ 的邻域定义.
+商法则给出
+$g'(z)=f'(z)/(z-z_0)-f(z)/(z-z_0)^2$.
+因此两积分之差是 $\int_\gamma g'(z)\dd z=0$.
+这里使用复曲线积分基本定理: $g$ 本身是 $g'$ 的原函数, 闭路径起终点相同; 不要求路径所围区域包含于定义域, 因而不再需要单连通性.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第3页; 官方解答 PDF第11页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-10}
+\textbf{原题 PS4.10。} (不计分.) 假设 $f$ 为整函数且
+$\lim_{z\to\infty}f(z)/z=0$. 证明 $f$ 为常数.
+原题提示称可使用“Morera 定理”: 如果 $g$ 在 $A\setminus\{z_0\}$ 解析且在 $A$ 连续, 则 $f$ 在 $A$ 解析（原文如此; 结论中的函数应为 $g$）.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 原题提示的 $g/f$ 混用是印刷错误; 提示所描述的是可由 Morera 定理推出的孤立点可去结论, 并非 Morera 定理的完整陈述.
+
+依官方路线, 定义
+\[
+ g(z)=
+ \begin{cases}
+ (f(z)-f(0))/z,&z\ne0,\\
+ f'(0),&z=0.
+ \end{cases}
+\]
+复导数的定义保证它在 $0$ 连续, 在别处解析; 可去奇点结论使 $g$ 成为整函数.
+当 $|z|\to\infty$ 时, $g(z)=f(z)/z-f(0)/z\to0$.
+若存在 $z_1$ 使 $|g(z_1)|>0$, 取 $R>|z_1|$ 足够大, 则圆周 $|z|=R$ 上每点都有
+$|g(z)|<|g(z_1)|/2$. 最大模原理在闭圆盘上给出
+$|g(z_1)|\le\max_{|z|=R}|g(z)|<|g(z_1)|/2$, 矛盾.
+所以 $g$ 恒为零, 从定义得 $f(z)=f(0)$ 对所有 $z$ 成立.
+
+也可直接用 Cauchy 估计, 不依赖原题提示（编者补充（AI））.
+给定任意 $\varepsilon>0$, 存在 $R_0$ 使 $|z|\ge R_0$ 时 $|f(z)|\le\varepsilon|z|$.
+固定任意 $a\in\C$, 取 $R>R_0+|a|$. 在 $|z-a|=R$ 上有
+$|z|\ge R-|a|>R_0$, 且 $|z|\le R+|a|$. 因而
+$|f'(a)|\le R^{-1}\max_{|z-a|=R}|f(z)|
+\le\varepsilon(1+|a|/R)$.
+令 $R\to\infty$ 再令 $\varepsilon\to0$, 得 $f'(a)=0$. 由 $a$ 任意且平面连通, $f$ 为常数.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第3页; 官方解答 PDF第11--12页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps4-11}
+\textbf{原题 PS4.11。} (不计分.) 计算以下积分.
+\begin{enumerate}[label=(\alph*)]
+\item $\int_C\cos z/z\dd z$, $C$ 为单位圆.
+\item $\int_C\sin z/z\dd z$, $C$ 为单位圆.
+\item $\int_Cz^2/(z-1)\dd z$, $C$ 为圆 $|z|=2$.
+\item $\int_C\ee^z/z^2\dd z$, $C$ 为单位圆.
+\item $\int_C(z^2-1)/(z^2+1)\dd z$, $C$ 为圆 $|z|=2$.
+\item $\int_C1/(z^2+z+1)\dd z$, $C$ 为圆 $|z|=2$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全, 全部圆周取逆时针.
+
+(a) 分子为整函数, Cauchy 公式给出 $2\pi\ii\cos0=2\pi\ii$.
+
+(b) 同理为 $2\pi\ii\sin0=0$. 事实上 $\sin z/z$ 在原点的奇点可去, 也可延拓后用 Cauchy 定理.
+
+(c) $1$ 在圆内, 分子 $z^2$ 为整函数, 所以积分为 $2\pi\ii\cdot1^2=2\pi\ii$.
+
+(d) 一次导数公式给出 $2\pi\ii(\ee^z)'|_{z=0}=2\pi\ii$.
+
+(e) 写 $(z^2-1)/(z^2+1)=1-2/((z-\ii)(z+\ii))$.
+常数项闭圆积分为零. 将两个奇点分别隔离后, 两个局部分子的值为
+$-2/(2\ii)=\ii$ 与 $-2/(-2\ii)=-\ii$, 故总积分为
+$2\pi\ii(\ii-\ii)=0$. 等价地, 可用部分分式
+$1+\ii/(z-\ii)-\ii/(z+\ii)$ 后逐项应用公式.
+
+(f) 两根为 $\alpha=(-1+\ii\sqrt3)/2$, $\beta=(-1-\ii\sqrt3)/2$, 模均为 $1$, 因而均在圆内.
+由
+\[
+ \frac1{z^2+z+1}
+ =\frac1{\alpha-\beta}\left(\frac1{z-\alpha}-\frac1{z-\beta}\right)
+\]
+及两次 Cauchy 公式, 积分为
+$(\alpha-\beta)^{-1}(2\pi\ii-2\pi\ii)=0$.
+\end{solution}
+\sourceinfo{题面 PS4, PDF第3页; 官方解答 PDF第12页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}

@@ -1,0 +1,240 @@
+\originalsection{第3次作业}
+\sourceinfo{题面 \texttt{mit18\_04\_s18\_pset03.pdf}, PDF第1--2页; 官方解答 \texttt{mit18\_04\_s18\_pset03\_sol.pdf}, PDF第1--5页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+曲线积分默认沿分段光滑曲线. 原题中未另外注明的闭圆方向, 按官方解答取逆时针; 若方向反转, 积分相应变号.
+
+\begin{exercise}\label{ass:ps3-1}
+\textbf{原题 PS3.1。} (30分; 每问10分.)
+\begin{enumerate}[label=(\alph*)]
+\item 计算 $\int_C z^{-1}\dd z$, 其中 $C$ 是以 $z=2$ 为中心、半径为 $1$ 的圆, 按逆时针方向行进.
+\item 用两种方法证明对任意简单闭曲线 $C$, $\int_Cz^2\dd z=0$.
+\begin{enumerate}[label=(\roman*)]
+\item 应用复曲线积分基本定理.
+\item 将积分的实部与虚部各写成多元微积分中 $\int_C M\dd x+N\dd y$ 的形式, 对两部分分别应用 Green 定理.
+\end{enumerate}
+\item 考虑 $\int_Cz^{-1}\dd z$, 其中 $C$ 是单位圆. 把实部与虚部各写成 $\int_C M(x,y)\dd x+N(x,y)\dd y$ 的形式.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 圆及其内部都位于右半平面 $\Re z>0$; $1/z$ 在此单连通域解析. Cauchy 定理因而给出 $\int_Cz^{-1}\dd z=0$. 重点是原点在圆外, 而不仅是函数在圆周上有定义.
+
+(b)(i) $F(z)=z^3/3$ 是整平面上的原函数. 若闭曲线的起终点为同一 $z_0$, 则积分为 $F(z_0)-F(z_0)=0$.
+
+(ii) 写 $z=x+\ii y$, 乘开 $(x^2-y^2+2xy\,\ii)(\dd x+\ii\dd y)$, 得
+\[
+ \int_Cz^2\dd z
+ =\int_C\bigl((x^2-y^2)\dd x-2xy\dd y\bigr)
+ +\ii\int_C\bigl(2xy\dd x+(x^2-y^2)\dd y\bigr).
+\]
+设 $R$ 为 $C$ 内部. 所有系数均在 $\R^2$ 上连续可微.
+实部的 $N_x-M_y=(-2xy)_x-(x^2-y^2)_y=-2y+2y=0$.
+虚部的 $N_x-M_y=(x^2-y^2)_x-(2xy)_y=2x-2x=0$.
+正向时两部分均为相应旋度在 $R$ 上的二重积分, 故都为零; 反向时仍为零.
+勘误: 官方第1页后面的虚部说明将 $N=x^2-y^2$ 误写成 $x^2+y^2$, 与其前一行正确展开式不一致; 上文使用正确的减号.
+
+(c) 在单位圆上 $z\ne0$, 并有 $1/z=(x-\ii y)/(x^2+y^2)$, 所以
+\[
+ \int_C\frac{\dd z}{z}
+ =\int_C\left(\frac{x}{x^2+y^2}\dd x+
+                 \frac{y}{x^2+y^2}\dd y\right)
+ +\ii\int_C\left(-\frac{y}{x^2+y^2}\dd x+
+                  \frac{x}{x^2+y^2}\dd y\right).
+\]
+实部对应径向场, 虚部对应切向场. 不可直接在整个单位圆盘上使用 Green 定理, 因为原点是这些系数的奇点. 对逆时针单位圆, 代入 $x=\cos t$, $y=\sin t$ 可分别得到实部 $0$、虚部 $2\pi$.
+\end{solution}
+\sourceinfo{题面 PS3, PDF第1页; 官方解答 PDF第1--2页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps3-2}
+\textbf{原题 PS3.2。} (20分; 每问10分.)
+\begin{enumerate}[label=(\alph*)]
+\item 设 $C$ 为逆时针单位圆. 直接由复曲线积分的定义计算
+$\int_C\overline z\dd z$. 它是否与 $\int_Cz\dd z$ 相同?
+\item 对下列两条从 $0$ 到 $1+\ii$ 的路径, 分别计算 $\int_C\overline z^{\,2}\dd z$.
+\begin{enumerate}[label=(\roman*)]
+\item 连接两点的直线段.
+\item 先从 $0$ 到 $1$, 再从 $1$ 到 $1+\ii$ 的折线.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 两问中的上划线来自原 PDF, 不能省略.
+
+(a) 参数化 $\gamma(t)=\ee^{\ii t}$, $0\le t\le2\pi$, 则
+$\overline{\gamma(t)}=\ee^{-\ii t}$, $\gamma'(t)=\ii\ee^{\ii t}$, 因而
+\[
+ \int_C\overline z\dd z
+ =\int_0^{2\pi}\ee^{-\ii t}\ii\ee^{\ii t}\dd t=2\pi\ii.
+\]
+而 $\int_Cz\dd z=\int_0^{2\pi}\ii\ee^{2\ii t}\dd t=0$, 所以不同.
+
+(b)(i) 取 $\gamma(t)=t(1+\ii)$, $0\le t\le1$. 此时
+$\overline{\gamma(t)}^{\,2}=t^2(1-\ii)^2=-2\ii t^2$, 故
+\[
+ \int_\gamma\overline z^{\,2}\dd z
+ =\int_0^1(-2\ii t^2)(1+\ii)\dd t=\frac23(1-\ii).
+\]
+(ii) 第一段 $\gamma_1(t)=t$, $0\le t\le1$, 给出 $\int_0^1t^2\dd t=1/3$.
+第二段 $\gamma_2(t)=1+\ii t$, $0\le t\le1$, 给出
+\[
+ \int_{\gamma_2}\overline z^{\,2}\dd z
+ =\int_0^1(1-\ii t)^2\ii\dd t
+ =\int_0^1\bigl(2t+\ii(1-t^2)\bigr)\dd t
+ =1+\frac23\ii.
+\]
+两段相加为 $4/3+2\ii/3$, 与(i)的值不同; 共轭平方没有整平面上的复原函数, 路径独立性不能套用.
+\begin{center}
+\begin{tikzpicture}[scale=2.4,>=Stealth]
+\draw[->] (-.15,0)--(1.45,0) node[right] {$\Re z$};
+\draw[->] (0,-.15)--(0,1.4) node[above] {$\Im z$};
+\draw[structurecolor,->] (0,0)--(.57,.57);
+\draw[structurecolor] (.57,.57)--(1,1) node[above right] {$1+\ii$};
+\draw[gray,->] (0,0)--(.65,0); \draw[gray] (.65,0)--(1,0);
+\draw[gray,->] (1,0)--(1,.65); \draw[gray] (1,.65)--(1,1);
+\node[structurecolor,above left] at (.45,.45) {$\gamma$};
+\node[gray,below] at (.5,0) {$\gamma_1$};
+\node[gray,right] at (1,.5) {$\gamma_2$};
+\node[below left] at (0,0) {$0$}; \node[below right] at (1,0) {$1$};
+\end{tikzpicture}
+\end{center}
+\end{solution}
+\sourceinfo{题面 PS3, PDF第1页; 官方解答 PDF第2--3页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps3-3}
+\textbf{原题 PS3.3。} (20分; 每问10分.)
+设 $C$ 为以 $z=-4$ 为中心、半径为 $1$ 的圆, $f(z)=1/(z+4)$, 并令 $I=\int_Cf(z)\dd z$.
+\begin{enumerate}[label=(\alph*)]
+\item Cauchy 定理是否蕴含 $I=0$? 为什么?
+\item 参数化 $C$ 并计算 $I$, 检查结果是否与你在(a)中的理由一致.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 不蕴含. $f$ 在圆心 $-4$ 有奇点, 因而不在整个闭圆盘的邻域解析. 缺少 Cauchy 定理需要的条件. 定理不能适用只说明不能据它断言积分为零, 本身还没有算出非零值.
+
+(b) 按逆时针取 $\gamma(t)=-4+\ee^{\ii t}$, $0\le t\le2\pi$. 此时 $\gamma'(t)=\ii\ee^{\ii t}$, 因而
+$I=\int_0^{2\pi}\ee^{-\ii t}\ii\ee^{\ii t}\dd t=2\pi\ii$.
+这确实非零, 与(a)的条件检查相符. 原题未明写方向, 此处采用官方解答的逆时针方向; 顺时针时为 $-2\pi\ii$.
+\end{solution}
+\sourceinfo{题面 PS3, PDF第1页; 官方解答 PDF第3页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps3-4}
+\textbf{原题 PS3.4。} (10分.) 设 $C$ 是从 $z_1=0$ 到 $z_2=1+\ii$ 的路径.
+求 $I=\int_C(z^9+\cos z-\ee^z)\dd z$, 用 $I=a+\ii b$ 的形式表示, 并说明各步依据.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全; 按题意化为直角形式的计算为编者补充（AI）.
+
+被积函数的整原函数是 $F(z)=z^{10}/10+\sin z-\ee^z$.
+所以基本定理给出
+$I=F(1+\ii)-F(0)=(1+\ii)^{10}/10+\sin(1+\ii)-\ee^{1+\ii}+1$.
+注意 $F(0)=-1$.
+又 $(1+\ii)^2=2\ii$, 因而 $(1+\ii)^{10}=32\ii$;
+$\sin(1+\ii)=\sin1\cosh1+\ii\cos1\sinh1$,
+$\ee^{1+\ii}=\ee\cos1+\ii\ee\sin1$. 故
+\[
+ I=\bigl(1+\sin1\cosh1-\ee\cos1\bigr)
+ +\ii\left(\frac{16}{5}+\cos1\sinh1-\ee\sin1\right).
+\]
+这给出了要求的实数 $a,b$, 与路径的具体形状无关.
+勘误: 官方第4页在 $F(1+\ii)-F(0)$ 的展开中漏掉 $+1$, 且未完成题目要求的 $a+\ii b$ 形式; 此处均补正.
+\end{solution}
+\sourceinfo{题面 PS3, PDF第2页; 官方解答 PDF第3--4页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps3-5}
+\textbf{原题 PS3.5。} (15分; 各问10, 5分.)
+\begin{enumerate}[label=(\alph*)]
+\item 计算 $\int_Cz^{1/3}\dd z$, 其中 $C$ 是图示从 $1$ 到 $-1$ 的上单位半圆. 使用辐角主支来定义立方根.
+\item 改用满足 $\pi\le\arg z<3\pi$ 的辐角分支, 重做(a).
+\end{enumerate}
+\begin{center}
+\begin{tikzpicture}[scale=1.7,>=Stealth]
+\draw[->] (-1.35,0)--(1.4,0) node[right] {$\Re z$};
+\draw[->] (0,-.2)--(0,1.35) node[above] {$\Im z$};
+\draw[structurecolor] (1,0) arc (0:180:1);
+\draw[structurecolor,->] (35:1) arc (35:65:1);
+\node[structurecolor,above left] at (120:1) {$C$};
+\node[below] at (1,0) {$1$}; \node[below] at (-1,0) {$-1$};
+\end{tikzpicture}
+\end{center}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 取 $z=\ee^{\ii t}$, $0\le t\le\pi$. 在半圆内部主辐角为 $t$, 因而 $z^{1/3}=\ee^{\ii t/3}$, 得
+\[
+ \int_Cz^{1/3}\dd z
+ =\ii\int_0^\pi\ee^{4\ii t/3}\dd t
+ =\frac34(\ee^{4\pi\ii/3}-1)
+ =-\frac98-\frac{3\sqrt3}{8}\ii.
+\]
+如果主支约定在 $-1$ 处取另一个边界辐角, 或解析主支不包含该端点, 上式按半圆内的单侧值作积分; 改变一个端点的取值不影响积分.
+
+(b) 同一几何点在半圆内部须取角 $t+2\pi$, $0<t<\pi$.
+因此立方根为 $\ee^{2\pi\ii/3}\ee^{\ii t/3}$, 积分是(a)的 $\ee^{2\pi\ii/3}$ 倍:
+\[
+ \int_Cz^{1/3}\dd z
+ =\frac34(1-\ee^{2\pi\ii/3})
+ =\frac98-\frac{3\sqrt3}{8}\ii.
+\]
+也可令参数角从 $2\pi$ 增至 $3\pi$, 得同一结果.
+在终点 $-1$ 处, 给定的半开区间要求辐角取 $\pi$, 而沿半圆趋近的角为 $3\pi$; 这个端点跳跃不改变曲线积分.
+勘误: 官方第4页最后将倍数误写为 $\ee^{2\pi/3}$, 漏掉 $\ii$; 正确倍数是 $\ee^{2\pi\ii/3}$. 其前面的积分表达式正确.
+\end{solution}
+\sourceinfo{题面 PS3, PDF第2页; 官方解答 PDF第4页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps3-6}
+\textbf{原题 PS3.6。} (10分.) 用复曲线积分基本定理证明, $f(z)=1/z$ 不可能在 $\C\setminus\{0\}$ 上拥有一个原函数.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 假设有单值原函数 $F$ 在整个去心平面满足 $F'=1/z$.
+沿逆时针单位圆 $C$, 基本定理给出 $\int_Cz^{-1}\dd z=0$, 因为路径的起点与终点相同.
+可是参数化 $z=\ee^{\ii t}$, $0\le t\le2\pi$, 直接得到
+$\int_Cz^{-1}\dd z=\int_0^{2\pi}\ii\dd t=2\pi\ii\ne0$, 矛盾.
+这里排除的是整个去心平面上的单值原函数; 在割平面上选定对数分支后仍可得到原函数.
+\end{solution}
+\sourceinfo{题面 PS3, PDF第2页; 官方解答 PDF第4页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps3-7}
+\textbf{原题 PS3.7。} (10分.) 是否总有
+$\Re(\int_Cf(z)\dd z)=\int_C\Re(f(z))\dd z$?
+若是, 给出证明; 若否, 给出反例.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 取 $f(z)=z$ 和直线段 $\gamma(t)=t(1+\ii)$, $0\le t\le1$.
+基本定理给出 $\int_\gamma z\dd z=(1+\ii)^2/2=\ii$, 所以左端为 $0$.
+另一方面, $\Re\gamma(t)=t$, 因而
+$\int_\gamma\Re z\dd z=\int_0^1t(1+\ii)\dd t=(1+\ii)/2\ne0$.
+故等式不成立; 甚至右端一般仍为复数.
+
+原因是 $\dd z=\dd x+\ii\dd y$ 本身带有虚部. 若 $f=u+\ii v$, 则正确的实部公式是
+$\Re(\int_C f\dd z)=\int_C(u\dd x-v\dd y)$, 并非只把 $f$ 换成 $u$ 后保留 $\dd z$.
+\end{solution}
+\sourceinfo{题面 PS3, PDF第2页; 官方解答 PDF第4--5页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps3-8}
+\textbf{原题 PS3.8。} (10分.) 判断下列集合是否单连通.
+\begin{enumerate}[label=(\roman*)]
+\item 去心平面.
+\item 割平面 $\C\setminus\{\text{非负实轴}\}$.
+\item 一个圆的内部.
+\item 一个圆的外部.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全; 用具体收缩和绕数说明理由为编者补充（AI）.
+
+(i) 不是. 单位圆在 $\C\setminus\{0\}$ 中绕原点一次, 绕数为 $1$. 绕数在避开原点的连续同伦中保持不变, 而常值闭路绕数为 $0$, 所以该圆不能在域内收缩成点.
+
+(ii) 是. 每个点唯一写成 $r\ee^{\ii\theta}$, 其中 $r>0$, $0<\theta<2\pi$.
+映射 $z\mapsto(\log r,\theta)$ 将割平面同胚到凸条带
+$\R\times(0,2\pi)$. 条带内任意闭路可以沿线段收缩到一固定点; 用逆映射 $\ee^{s+\ii\theta}$ 拉回此收缩, 得到割平面内的收缩.
+
+(iii) 是. 若圆心为 $c$、半径为 $r$, 则开圆盘凸. 任意闭路 $\gamma$ 可通过
+$H(t,s)=(1-s)\gamma(t)+sc$, $0\le s\le1$, 在圆盘内收缩到圆心.
+
+(iv) 不是. 对圆心 $c$、半径 $r>0$, 取闭路 $\gamma(t)=c+2r\ee^{\ii t}$.
+它位于外部且绕 $c$ 一次. 由于 $c$ 不在外域, 任何外域内的收缩都须避开 $c$, 与绕数不变性矛盾.
+\end{solution}
+\sourceinfo{题面 PS3, PDF第2页; 官方解答 PDF第5页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}

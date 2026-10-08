@@ -13,8 +13,9 @@ parser.add_argument('--out', type=Path)
 args = parser.parse_args()
 originals = args.originals or (root / 'originals' if (root / 'originals').is_dir() else root.parents[1] / 'sources/complex-analysis')
 manifest = json.loads((root / 'source-manifest.json').read_text())
+assessment_manifest = json.loads((root / 'assessment-manifest.json').read_text())
 entries = []
-for record in manifest['files']:
+for record in manifest['files'] + assessment_manifest['files']:
     path = originals / record['file']
     data = path.read_bytes()
     with fitz.open(path) as pdf:
@@ -23,7 +24,13 @@ for record in manifest['files']:
     if any(actual[k] != record[k] for k in actual):
         raise SystemExit(f'Source mismatch: {record["file"]}')
     entries.append({'file': record['file'], **actual})
-result = {'status': 'PASS', 'files': len(entries), 'pages': sum(x['pages'] for x in entries), 'verified': entries}
+webpages = []
+for record in assessment_manifest['webpages']:
+    data = (originals / record['file']).read_bytes()
+    if len(data) != record['bytes'] or hashlib.sha256(data).hexdigest() != record['sha256']:
+        raise SystemExit(f'Webpage snapshot mismatch: {record["file"]}')
+    webpages.append({'file': record['file'], 'bytes': len(data), 'sha256': record['sha256']})
+result = {'status': 'PASS', 'files': len(entries), 'pages': sum(x['pages'] for x in entries), 'verified': entries, 'webpages_verified': webpages}
 if args.out:
     args.out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps({'status': result['status'], 'files': result['files'], 'pages': result['pages']}))

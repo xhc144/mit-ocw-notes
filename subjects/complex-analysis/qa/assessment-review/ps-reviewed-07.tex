@@ -1,0 +1,235 @@
+\originalsection{第7次作业}
+\sourceinfo{Jeremy Orloff, MIT 18.04, Spring 2018, Problem Set 7, 题面 PDF 第1--3页, 官方解答 PDF 第1--15页; MIT OpenCourseWare, CC BY-NC-SA 4.0. 本节为中文翻译、推导补全与 TikZ 重绘, 包含全部趣味题}
+
+\begin{exercise}
+\textbf{原题 PS7.1。}\label{ass:ps7-1}
+计算下列积分:
+(a) $\int_0^{2\pi}8/(5+2\cos\theta)\dd\theta$;
+(b) $\int_0^{2\pi}1/(3+2\cos\theta)^2\dd\theta$;
+(c) $\int_0^{2\pi}\sin^2\theta/(a+b\cos\theta)\dd\theta$, 其中 $a>|b|>0$. 原题给定答案为 $2\pi(a-\sqrt{a^2-b^2})/b^2$.
+\sourceinfo{题面第1页; 官方解答第1--2页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 三问均令 $z=\ee^{\ii\theta}$, 则 $\dd\theta=\dd z/(\ii z)$, $\cos\theta=(z+z^{-1})/2$, 圆周正向.
+(a) 积分化为 $\int_{|z|=1}8/[\ii(z^2+5z+1)]\dd z$. 两根为 $r=(-5+\sqrt{21})/2$, $s=(-5-\sqrt{21})/2$, 仅 $r$ 在单位圆内. 留数为 $8/[\ii(2r+5)]=8/(\ii\sqrt{21})$, 故积分为 $16\pi/\sqrt{21}$.
+
+(b) 积分化为 $\int_{|z|=1}z/[\ii(z^2+3z+1)^2]\dd z$. 令 $r=(-3+\sqrt5)/2$, $s=(-3-\sqrt5)/2$, 则 $r-s=\sqrt5$, 圆内仅有二阶极点 $r$. 去掉二阶极点因子后求导:
+\[
+ \Res\left(\frac{z}{\ii(z-r)^2(z-s)^2},r\right)
+ =\left.\frac{\dd}{\dd z}\frac{z}{\ii(z-s)^2}\right|_{z=r}
+ =\frac{(r-s)-2r}{\ii(r-s)^3}
+ =\frac3{5\sqrt5\,\ii}.
+\]
+因此积分为 $6\pi/(5\sqrt5)=6\pi\sqrt5/25$.
+
+(c) 记 $\Delta=\sqrt{a^2-b^2}>0$. 有 $\sin^2\theta=-(z^2-1)^2/(4z^2)$, 因而积分为 $\int_{|z|=1}F(z)\dd z$, 其中
+$F(z)=-(z^2-1)^2/[2\ii z^2(bz^2+2az+b)]$.
+其非零极点为 $r=(-a+\Delta)/b$, $s=(-a-\Delta)/b$, 满足 $rs=1$, $r-s=2\Delta/b$. 又 $|r|=|b|/(a+\Delta)<1$, $|s|>1$, 圆内极点为 $0,r$.
+在 $0$ 处, 对 $z^2F$ 求导得 $\Res(F,0)=a/(\ii b^2)$.
+在 $r$ 处, 用 $r^2-1=r(r-s)$ 得
+\[
+ \Res(F,r)=-\frac{(r^2-1)^2}{2\ii b r^2(r-s)}
+ =-\frac{r-s}{2\ii b}=-\frac{\Delta}{\ii b^2}.
+\]
+留数定理给出积分为 $2\pi(a-\Delta)/b^2$, 与原题答案一致.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS7.2。}\label{ass:ps7-2}
+(a) 计算 $\int_{-\infty}^{\infty}1/(x^2+2x+2)\dd x$ (原题答案 $\pi$).
+(b) 计算 $\int_{-\infty}^{\infty}x^2/[(x^2+1)(x^2+4)]\dd x$ (原题答案 $\pi/3$).
+(c) 沿下图张角 $2\pi/3$ 的圆扇形边界积分, 并令 $R\to\infty$, 证明 $\int_0^\infty1/(x^3+1)\dd x=2\pi\sqrt3/9$.
+\begin{center}
+\begin{tikzpicture}[scale=.8,>=Stealth]
+\draw[->](-1.8,0)--(3.3,0) node[right]{$\operatorname{Re}z$};\draw[->](0,-.2)--(0,3.1) node[above]{$\operatorname{Im}z$};
+\draw[main,->](0,0)--(2.6,0) node[below]{$R$};\draw[main,->](2.6,0) arc (0:120:2.6);\draw[main,->](120:2.6)--(0,0);
+\draw (.65,0) arc (0:120:.65);\node at (1.05,.3){$2\pi/3$};\fill (60:1) circle (1.5pt) node[right]{$\ee^{\ii\pi/3}$};
+\end{tikzpicture}
+\end{center}
+\sourceinfo{题面第1页; 官方解答第3--5页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 对 $F(z)=1/(z^2+2z+2)$ 用上半圆闭合. 当 $|z|=R$ 时, $|F(z)|\le1/(R^2-2R-2)$, 弧长 $\pi R$, 所以弧积分趋零. 上半平面唯一极点 $-1+\ii$ 的留数为 $1/[2(-1+\ii)+2]=1/(2\ii)$, 故实积分为 $\pi$.
+
+(b) 对 $F(z)=z^2/[(z^2+1)(z^2+4)]$ 用同一轮廓. 弧上模至多 $R^2/[(R^2-1)(R^2-4)]$, 乘弧长后趋零. 上半平面极点为 $\ii,2\ii$, 留数分别为 $-1/(6\ii)$, $1/(3\ii)$, 因而积分为 $2\pi\ii[-1/(6\ii)+1/(3\ii)]=\pi/3$.
+
+(c) 记目标积分为 $I$, $\eta=\ee^{2\pi\ii/3}$. 正向轮廓沿正实轴外行、圆弧逆时针转至 $\eta R$、再沿斜边内行. 在斜边上令 $z=\eta t$, 由于 $\eta^3=1$, 该边积分为 $-\eta\int_0^R1/(t^3+1)\dd t$. 圆弧积分的模至多 $(2\pi R/3)/(R^3-1)\to0$. 扇形内唯一极点为 $\xi=\ee^{\ii\pi/3}$, 留数 $1/(3\xi^2)=1/(3\eta)$.
+所以 $(1-\eta)I=2\pi\ii/(3\eta)$, 即
+$I=2\pi\ii/[3(\eta-\eta^2)]=2\pi/(3\sqrt3)=2\pi\sqrt3/9$, 因为 $\eta-\eta^2=\ii\sqrt3$.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS7.3。}\label{ass:ps7-3}
+(a) 计算 $\int_{-\infty}^{\infty}\cos(2x)/(x^2+1)\dd x$.
+(b) 计算 $\int_{-\infty}^{\infty}\cos(2x)/(x^2+1)^2\dd x$ (原题答案 $3\pi/(2\ee^2)$).
+\sourceinfo{题面第1页; 官方解答第5--6页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 把 $\cos2x$ 换为 $\ee^{2\ii x}$, 最后取实部. 在上半平面 $|\ee^{2\ii z}|=\ee^{-2\operatorname{Im}z}\le1$, 所以上半圆弧积分分别由 $\pi R/(R^2-1)$ 和 $\pi R/(R^2-1)^2$ 控制, 均趋零.
+(a) $F(z)=\ee^{2\ii z}/(z^2+1)$ 在上半平面的唯一极点为 $\ii$, 留数 $\ee^{-2}/(2\ii)$. 故复积分及其实部均为 $\pi\ee^{-2}$.
+(b) $F(z)=\ee^{2\ii z}/(z^2+1)^2$ 在 $\ii$ 有二阶极点. 令 $h(z)=\ee^{2\ii z}/(z+\ii)^2$, 则
+\[
+ h'(\ii)=\ee^{-2}\left(\frac{2\ii}{(2\ii)^2}-\frac2{(2\ii)^3}\right)
+ =-\frac{3\ii}{4}\ee^{-2}.
+\]
+积分为 $2\pi\ii h'(\ii)=3\pi\ee^{-2}/2$, 已为实数.
+\end{solution}
+
+原题在此回顾主值的定义. 若 $f$ 在实轴除 $x_1<x_2$ 外连续, 则
+\[
+ \operatorname{p.v.}\int_{-\infty}^{\infty}f(x)\dd x
+ =\lim_{\substack{R\to\infty\\r_1,r_2\downarrow0}}
+ \left(\int_{-R}^{x_1-r_1}f(x)\dd x+
+ \int_{x_1+r_1}^{x_2-r_2}f(x)\dd x+
+ \int_{x_2+r_2}^{R}f(x)\dd x\right).
+\]
+每个有限奇点两侧删去相同半径, 无穷远处取对称区间; 更多奇点的定义同理.
+
+\begin{exercise}
+\textbf{原题 PS7.4。}\label{ass:ps7-4}
+(a) 计算 $\operatorname{p.v.}\int_{-\infty}^{\infty}\ee^{3\ii x}/(x-2\ii)\dd x$.
+(b) 推导公式
+\[
+ \operatorname{p.v.}\int_{-\infty}^{\infty}\frac{\cos x}{x-w}\dd x
+ =\begin{cases}\pi\ii\ee^{\ii w},&\operatorname{Im}w>0,\\
+ -\pi\ii\ee^{-\ii w},&\operatorname{Im}w<0.\end{cases}
+\]
+\sourceinfo{题面第2页; 官方解答第6--8页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 这里分母只按 $1/z$ 衰减, 可用上方矩形 $-R,R,R+2R\ii,-R+2R\ii$ 控制指数项. 对 $\ee^{\ii az}/(z-w)$, $a>0$, 当 $R>2|w|$ 时两竖边积分的模各至多 $2R^{-1}\int_0^{2R}\ee^{-ay}\dd y\le2/(aR)$; 顶边模至多 $4\ee^{-2aR}$, 均趋零. $a<0$ 时在下方矩形用同一估计, 闭合方向为顺时针.
+
+(a) 唯一极点 $2\ii$ 位于上方, 留数为 $\ee^{3\ii(2\ii)}=\ee^{-6}$, 故主值为 $2\pi\ii\ee^{-6}$. 编者校订: 官方第7页大轮廓极限误印成 $R\to0$, 应为 $R\to\infty$.
+
+(b) 因为 $w$ 可以非实, 不能只把一个复积分取实部. 应利用 $\cos x=(\ee^{\ii x}+\ee^{-\ii x})/2$, 将积分分成两项. 第一项向上闭合, 若 $\operatorname{Im}w>0$ 则为 $\pi\ii\ee^{\ii w}$, 若 $\operatorname{Im}w<0$ 则为零. 第二项向下闭合, 若 $\operatorname{Im}w<0$ 则为 $-\pi\ii\ee^{-\ii w}$, 若 $\operatorname{Im}w>0$ 则为零. 两项相加得到题中公式. 编者校订: 官方第8页一处把分母误换成 $x^2+1$, 此处始终保留原题的 $x-w$.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS7.5。}\label{ass:ps7-5}
+(a) 推导 $\operatorname{p.v.}\int_{-\infty}^{\infty}\ee^{\ii x}/[(x-1)(x-2)]\dd x=\pi\ii(\ee^{2\ii}-\ee^{\ii})$.
+(b) 推导 $\int_0^\infty\sin^2x/x^2\dd x=\pi/2$. 提示: $\sin^2x=(1-\cos2x)/2=\tfrac12\operatorname{Re}(1-\ee^{2\ii x})$.
+\sourceinfo{题面第2页; 官方解答第8--10页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 对 $F(z)=\ee^{\ii z}/[(z-1)(z-2)]$ 向上闭合, 并在实轴 $1,2$ 处各作向上绕开极点的小半圆. 路径由左向右经过凹口, 每个小半圆顺时针, 积分极限为 $-\pi\ii$ 乘相应留数. 这由 $F(z)=c/(z-a)+O(1)$, $z=a+r\ee^{\ii\theta}$, $\theta:\pi\to0$ 直接得出. 轮廓内部无极点; 大弧积分趋零, 因为模由 $O(R^{-2})$ 控制. 留数为 $-\ee^{\ii}$ 与 $\ee^{2\ii}$, 所以
+$0=\operatorname{p.v.}\int F(x)\dd x-\pi\ii(-\ee^{\ii}+\ee^{2\ii})$, 即所求公式.
+\begin{center}
+\begin{tikzpicture}[scale=.75,>=Stealth]
+\draw[->](-3.5,0)--(3.7,0) node[right]{$x$};\draw[->](0,-.3)--(0,3.5);
+\draw[main](-3,0)--(.65,0) arc (180:0:.35)--(1.65,0) arc (180:0:.35)--(3,0);
+\draw[main](3,0) arc (0:180:3);
+\draw[main,->](-2,0)--(-1.3,0);\draw[main,->](50:3) arc (50:70:3);
+\fill (1,0) circle (1.5pt) node[below]{$1$};\fill (2,0) circle (1.5pt) node[below]{$2$};
+\end{tikzpicture}
+\end{center}
+(b) 实函数 $\sin^2x/x^2$ 在 $0$ 连续补值为 $1$, 在无穷远由 $1/x^2$ 控制, 因而通常积分收敛. 令 $G(z)=(1-\ee^{2\ii z})/(2z^2)=-\ii/z+1+O(z)$, 零点有简单极点且留数 $-\ii$.
+同样向上闭合, 在 $0$ 处作顺时针小半圆. 大半圆上 $|G(z)|\le1/R^2$, 故大弧积分趋零; 小弧积分趋 $-\pi\ii(-\ii)=-\pi$. 无内极点, 得 $\operatorname{p.v.}\int_{-\infty}^{\infty}G(x)\dd x=\pi$. 取实部并用偶对称性, 得 $2\int_0^\infty\sin^2x/x^2\dd x=\pi$. 编者补充（AI）: 取实部这一步不可省略, 因为复化后的函数在 $0$ 有极点, 而原实函数在该点可去.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS7.6。}\label{ass:ps7-6}
+计算 $\int_0^\infty\sqrt x/(x^2+1)\dd x$ (原题答案 $\pi/\sqrt2$).
+\sourceinfo{题面第2页; 官方解答第10--11页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 令 $F(z)=z^{1/2}/(z^2+1)$, 分支取 $0<\arg z<2\pi$, 沿正实轴作割线, 用钥匙孔轮廓积分. 上岸由 $r$ 到 $R$ 的极限为目标 $I$, 下岸由 $R$ 返回 $r$ 时平方根值为 $-\sqrt x$, 加上反向积分, 极限也为 $I$.
+外圆积分的模至多 $2\pi R\sqrt R/(R^2-1)\to0$, 内圆至多 $2\pi r\sqrt r/(1-r^2)\to0$. 轮廓内两极点为 $\ii,-\ii$; 该分支给出
+\[
+ \Res(F,\ii)=\frac{\ee^{\ii\pi/4}}{2\ii}=\frac{1+\ii}{2\sqrt2\,\ii},\qquad
+ \Res(F,-\ii)=\frac{\ee^{3\ii\pi/4}}{-2\ii}=\frac{1-\ii}{2\sqrt2\,\ii}.
+\]
+所以 $2I=2\pi\ii/(\sqrt2\,\ii)=2\pi/\sqrt2$, 即 $I=\pi/\sqrt2$.
+\begin{center}
+\begin{tikzpicture}[scale=.75,>=Stealth]
+\draw[->](-2.8,0)--(3,0) node[right]{$\operatorname{Re}z$};\draw[->](0,-2.8)--(0,2.8) node[above]{$\operatorname{Im}z$};
+\draw[main](5:2.4) arc (5:355:2.4);\draw[main](355:.4) arc (355:5:.4);
+\draw[main,->](5:.4)--(5:2.4);\draw[main,->](355:2.4)--(355:.4);
+\draw[dashed](.4,0)--(2.4,0);\draw[main,->](75:2.4) arc (75:100:2.4);
+\fill (0,1) circle (1.5pt) node[right]{$\ii$};\fill (0,-1) circle (1.5pt) node[right]{$-\ii$};
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS7.7。}\label{ass:ps7-7}
+设 $f(x)=1$ 当 $-1<x<1$, 其他点 $f(x)=0$.
+(a) 求 Fourier 变换 $\widehat f(\omega)=\int_{-\infty}^{\infty}f(x)\ee^{-\ii\omega x}\dd x$.
+(b) 证明 Fourier 反演公式给出 $f(x)$, 即 $f(x)=(2\pi)^{-1}\int_{-\infty}^{\infty}\widehat f(\omega)\ee^{\ii\omega x}\dd\omega$. 提示: 需要绕开 $0$ 的凹口轮廓.
+\sourceinfo{题面第2页; 官方解答第11--12页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全, 并校订原题在跳跃点的结论.
+(a) 当 $\omega\ne0$, 直接积分得 $\widehat f(\omega)=\int_{-1}^1\ee^{-\ii\omega t}\dd t=2\sin\omega/\omega$. 在 $\omega=0$, 积分给出 $\widehat f(0)=2$, 是上述表达式的连续补值.
+
+(b) 定义 $J(a)=(2\pi)^{-1}\operatorname{p.v.}\int_{-\infty}^{\infty}\ee^{\ii a\omega}/(\ii\omega)\dd\omega$.
+若 $a>0$, 向上用凹口矩形闭合. 大边的指数估计与 PS7.4 相同; 小半圆顺时针, 留数为 $1/\ii=-\ii$, 小弧积分趋 $-\pi$. 因轮廓内部无极点, 主值积分为 $\pi$, 故 $J(a)=1/2$. 若 $a<0$, 向下闭合, 下方小弧由 $-r$ 到 $r$ 为逆时针, 小弧积分趋 $\pi$, 因而 $J(a)=-1/2$. 若 $a=0$, $1/(\ii\omega)$ 为奇函数, 对称主值为零. 所以 $J(a)=\tfrac12\operatorname{sgn}a$, 取 $\operatorname{sgn}0=0$.
+\begin{center}
+\begin{tikzpicture}[scale=.65,>=Stealth]
+\begin{scope}
+\draw[->](-2.6,0)--(2.7,0);\draw[main](-2,0)--(-.4,0) arc (180:0:.4)--(2,0)--(2,1.7)--(-2,1.7)--cycle;
+\draw[main,->](-1.5,0)--(-.8,0);\draw[main,->](.5,1.7)--(-.3,1.7);\node at (0,2.2){$a>0$};\node[below] at (0,0){$0$};
+\end{scope}
+\begin{scope}[xshift=6cm]
+\draw[->](-2.6,0)--(2.7,0);\draw[main](-2,0)--(-.4,0) arc (180:360:.4)--(2,0)--(2,-1.7)--(-2,-1.7)--cycle;
+\draw[main,->](-1.5,0)--(-.8,0);\draw[main,->](.5,-1.7)--(-.3,-1.7);\node at (0,2.2){$a<0$};\node[above] at (0,0){$0$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+将 $\widehat f$ 写成 $(\ee^{\ii\omega}-\ee^{-\ii\omega})/(\ii\omega)$, 得反演主值为
+\[
+ J(x+1)-J(x-1)=
+ \begin{cases}1,&|x|<1,\\0,&|x|>1,\\1/2,&x=\pm1.\end{cases}
+\]
+在 $x\ne\pm1$ 时, 两个指数相位均非零, 分部积分保证无穷远的振荡积分收敛; 零点在两项相减后可去. 在端点应使用对称主值, 结果为左右极限的平均 $1/2$.
+
+编者修订说明（AI）: 原题规定 $f(\pm1)=0$, 但 (b) 的逐点等式在这两点不成立. 保留原定义后, 正确陈述是在连续点反演得 $f$, 在跳跃点得 $(f(x-)+f(x+))/2$, 因而与给定 $f$ 几乎处处相等. 官方解答漏掉了这两个端点; 不能为使等式成立而默改原题端点值.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS7.Fun.1。}\label{ass:ps7-fun1}
+以下趣味题不计分, 原作业不要求上交.
+(a) 设 $f(x)=\ee^{-x^2}$, $\omega>0$, $I=\int_0^\infty f(x)\ee^{2\ii\omega x}\dd x$. 用顶点为 $0,R,R+\ii\omega,\ii\omega$ 的矩形, 以及已知积分 $\int_0^\infty\ee^{-x^2}\dd x=\sqrt\pi/2$, 证明 $I=\ee^{-\omega^2}\sqrt\pi/2+\ii B$. 这里 $B$ 是虚部, 不要求求值.
+(b) 利用 (a) 与对称性证明 $\widehat f(\omega)=\int_{-\infty}^{\infty}f(x)\ee^{-\ii\omega x}\dd x=\sqrt\pi\ee^{-\omega^2/4}$.
+\sourceinfo{题面第2--3页; 官方解答第13--14页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 令整函数 $g(z)=\ee^{-z^2+2\ii\omega z}$, 用矩形正向积分. 下边积分趋 $I$.
+右边 $z=R+\ii y$, $0\le y\le\omega$, 模为 $\ee^{-R^2+y^2-2\omega y}$, 故该边积分模至多 $\omega\ee^{-R^2}\to0$.
+上边按从左至右参数 $z=x+\ii\omega$ 时 $g(z)=\ee^{-x^2-\omega^2}$, 但轮廓实际向左, 因而上边极限是 $-\ee^{-\omega^2}\sqrt\pi/2$.
+左边若向上参数 $z=\ii y$, 则 $g(z)\dd z=\ii\ee^{y^2-2\omega y}\dd y$, 为纯虚数; 实际轮廓向下, 贡献为 $-\ii B$, 其中 $B=\int_0^\omega\ee^{y^2-2\omega y}\dd y$.
+Cauchy 定理给出 $I-\ee^{-\omega^2}\sqrt\pi/2-\ii B=0$, 即题设结论. 编者校订: 官方左边积分中的 $\ee^{-y^2}$ 应是 $\ee^{+y^2}$, 因为 $-(\ii y)^2=+y^2$; 纯虚性与所求实部不变.
+\begin{center}
+\begin{tikzpicture}[scale=.8,>=Stealth]
+\draw[->](-.4,0)--(3.6,0) node[right]{$\operatorname{Re}z$};\draw[->](0,-.3)--(0,2.4) node[above]{$\operatorname{Im}z$};
+\draw[main](0,0)--(3,0)--(3,1.7)--(0,1.7)--cycle;
+\draw[main,->](.8,0)--(1.5,0);\draw[main,->](3,.5)--(3,1.2);\draw[main,->](2.2,1.7)--(1.5,1.7);\draw[main,->](0,1.2)--(0,.5);
+\node[below] at (3,0){$R$};\node[left] at (0,1.7){$\ii\omega$};\node[above right] at (3,1.7){$R+\ii\omega$};
+\end{tikzpicture}
+\end{center}
+(b) 由偶性, $\widehat f(\omega)=2\operatorname{Re}\int_0^\infty\ee^{-x^2}\ee^{\ii\omega x}\dd x$. 对 $\omega>0$ 用 (a) 中参数 $\omega/2$, 得 $\widehat f(\omega)=\sqrt\pi\ee^{-\omega^2/4}$. 对负参数由偶性得到同一公式, 零参数由 Gaussian 积分或连续性得到.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS7.Fun.2。}\label{ass:ps7-fun2}
+对 $n=1,2,\ldots$, 计算 $\int_0^{2\pi}(\cos\theta)^{2n}\dd\theta$. 原题答案为 $2\pi(2n)!/[2^{2n}(n!)^2]$.
+\sourceinfo{题面第3页; 官方解答第14页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 令 $z=\ee^{\ii\theta}$, 则积分为
+$\int_{|z|=1}(z^2+1)^{2n}/(\ii2^{2n}z^{2n+1})\dd z$.
+唯一极点在零点. 二项式展开 $(z^2+1)^{2n}=\sum_{k=0}^{2n}\binom{2n}kz^{2k}$, 除以 $z^{2n+1}$ 后, $z^{-1}$ 项恰对应 $k=n$. 留数为 $\binom{2n}n/(\ii2^{2n})$, 所以积分为 $2\pi\binom{2n}n/2^{2n}$, 即原题给定答案. 编者校订: 官方中间式写 $2\pi\Res$ 时漏了 $\ii$, 此处按留数定理补上.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS7.Fun.3。}\label{ass:ps7-fun3}
+计算 $\operatorname{p.v.}\int_{-\infty}^{\infty}x^2/(x^2+1)^2\dd x$. 它与不取主值的通常反常积分 $\int_{-\infty}^{\infty}x^2/(x^2+1)^2\dd x$ 相同吗?
+\sourceinfo{题面第3页; 官方解答第14--15页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 被积函数在实轴连续, 当 $|x|\ge1$ 时不超过 $1/x^2$, 所以通常积分绝对收敛, 主值与它相等.
+对 $F(z)=z^2/(z^2+1)^2$ 用上半圆闭合; 大弧积分由 $\pi R\cdot R^2/(R^2-1)^2\to0$ 控制. 上半平面唯一极点 $\ii$ 为二阶. 令 $h(z)=z^2/(z+\ii)^2$, 得
+$h'(z)=2\ii z/(z+\ii)^3$, 从而 $h'(\ii)=-\ii/4$. 因此两种积分的值均为 $2\pi\ii(-\ii/4)=\pi/2$.
+\end{solution}

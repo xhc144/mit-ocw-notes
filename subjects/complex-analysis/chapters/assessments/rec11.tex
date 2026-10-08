@@ -1,0 +1,37 @@
+\originalsection{第11次习题课}
+\sourceinfo{MIT 18.04, Spring 2018, Recitation 11; 题面 \nolinkurl{mit18_04s18_recit11-handout.pdf}, PDF第1页; 解答 \nolinkurl{mit18_04s18_recit11-solutions.pdf}, PDF第1--2页. 课程作者 Jeremy Orloff, 页内署名 Vishesh Jain, 2018, CC BY-NC-SA 4.0}
+\begin{exercise}
+\textbf{原题 Rec11.1。}\label{ass:rec11-1}
+1.1. 求将半平面 $H_\alpha=\{x+\ii y:y>x\tan\alpha\}$ 映到以原点为中心的单位圆盘 $D_1$ 的线性分式变换. 1.2. 求将带状域 $I_\pi=\{x+\ii y:0<y<\pi\}$ 映到上半平面 $H$ 的保角映射. 1.3. 求将上半单位圆盘 $R_2=\{z\in D_1:\Im z>0\}$ 映到 $H$ 的保角映射. 1.4. 求将“无限井” $W_\pi=\{x+\ii y:0<y<\pi,x<0\}$ 映到 $H$ 的保角映射.
+\end{exercise}
+\begin{solution}
+据官方解答翻译补全 (解答PDF第1页); 1.1角度条件与各映射的单射、满射检验为编者补充 (AI). 1.1原解答先顺时针旋转 $\alpha$, 这在 $\cos\alpha>0$ 时成立; 若 $\cos\alpha<0$ 则会映到下半平面. 原题 $\tan\alpha$ 要求 $\cos\alpha\ne0$. 为统一处理, 取 $\beta=\arctan(\tan\alpha)\in(-\pi/2,\pi/2)$, 则 $\Im(\ee^{-\ii\beta}z)=\cos\beta(y-x\tan\alpha)>0$. 因而
+\[
+F_1(z)=\frac{\ee^{-\ii\beta}z-\ii}{\ee^{-\ii\beta}z+\ii}
+\]
+满足要求. Cayley 变换将 $H$ 一一映为 $D_1$, 因 $|w-\ii|<|w+\ii|$ 等价于 $\Im w>0$, 其逆为 $w=\ii(1+F_1)/(1-F_1)$ (再恢复旋转).
+
+1.2取 $F_2(z)=\ee^z$. 辐角 $y$ 在 $(0,\pi)$, 模 $\ee^x$ 遍历 $(0,\infty)$, 所以像恰为 $H$. 若两点的指数相同, 差为 $2k\pi\ii$, 而该带宽为 $\pi$, 只能 $k=0$. 导数处处非零, 故为保角双射.
+
+1.3按原解答先用 $T(z)=-\ii(z-1)/(z+1)$ 将边界点 $1,\ii,-1$ 分别送到 $0,1,\infty$. 对 $z=x+\ii y\in R_2$, 有
+\[
+\Re T(z)=\frac{2y}{|1+z|^2}>0,\qquad
+\Im T(z)=\frac{1-|z|^2}{|1+z|^2}>0.
+\]
+所以 $T$ 映入第一象限. 反过来用 $z=(\ii-w)/(\ii+w)$ 可检验第一象限每一点的原像满足 $|z|<1$, $\Im z>0$, 因而像恰为第一象限. 平方函数把该象限一一保角映到 $H$, 所以 $F_3(z)=T(z)^2=-((z-1)/(z+1))^2$. 两步导数在域内均非零.
+
+1.4指数将 $x<0$, $0<y<\pi$ 一一映为 $R_2$, 所以 $F_4(z)=F_3(\ee^z)=-((\ee^z-1)/(\ee^z+1))^2$. 官方解答的“使用2.3的映射”是回指笔误, 应为本题1.3.
+\end{solution}
+\begin{exercise}
+\textbf{原题 Rec11.2。}\label{ass:rec11-2}
+2.1. 求点 $z_1$ 关于 $x$ 轴的反射. 2.2. 定义圆 $C$ 中的反射如下: 取将 $C$ 映到直线 $L$ 的线性分式变换 $T_{CL}$, 令 $r_C(z_2)=T_{CL}^{-1}(r_L(T_{CL}(z_2)))$, 其中 $r_L$ 表示关于 $L$ 的反射. 用此定义求单位圆中的反射.
+\end{exercise}
+\begin{solution}
+据官方解答翻译补全 (解答PDF第1--2页); 球面上0与无穷远的情况为编者补充 (AI). 2.1关于实轴的反射是 $z_1\mapsto\bar z_1$. 2.2取 $T(z)=\ii(1+z)/(1-z)$, 它将单位圆送到扩充实轴, 逆变换为 $T^{-1}(w)=(w-\ii)/(w+\ii)$. 故
+\[
+r_C(z)=\frac{\overline{T(z)}-\ii}{\overline{T(z)}+\ii}
+=\frac{-\ii(1+\bar z)-\ii(1-\bar z)}{-\ii(1+\bar z)+\ii(1-\bar z)}
+=\frac1{\bar z}.
+\]
+这个计算先在分式有定义处进行, 再连续延伸到 Riemann 球面. 对 $z=0$, 反射为 $\infty$; 对 $z=\infty$, 反射为0; 单位圆上的点全部固定, 包括计算中暂时排除的 $z=1$. 对 $z\ne0$, 原点、$z$ 与反射点同在一条射线上, 两者的模乘积为1, 与圆反射的几何定义一致.
+\end{solution}

@@ -1,0 +1,209 @@
+\originalsection{第9次作业}
+\sourceinfo{Jeremy Orloff, MIT 18.04, Spring 2018, Problem Set 9, 题面 PDF 第1--2页, 官方解答 PDF 第1--8页; MIT OpenCourseWare, CC BY-NC-SA 4.0. 本节为中文翻译、推导补全与原生 TikZ 重绘}
+
+\begin{exercise}
+\textbf{原题 PS9.1。}\label{ass:ps9-1}
+(a) 从均匀流出发, 在点 $2\ii$ 加一个涡. 求复势, 由此计算流函数, 并画若干流线. 可手绘, 也可用 Matlab 或 Mathematica 等软件.
+(b) 从 (a) 的同一流场出发, 用 Milne--Thomson 定理使流体绕圆柱 $|z|=1$ 流动. 求复势、流函数并画若干流线.
+(c) 解释为何 (a)(b) 的流场在远离原点处都近似均匀流.
+\sourceinfo{题面第1页; 官方解答第1--3页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全, 并修正涡位置的排印错误.
+(a) 均匀流的复势为 $Uz$, 速度为 $(\operatorname{Re}U,-\operatorname{Im}U)$. 位于 $2\ii$ 的涡可取复势 $\ii Q\log(z-2\ii)$, $Q\in\R$ 表示强度. 为与官方图比较, 以下取 $U=1$, 图中再取 $Q=1$.
+\[
+ \Phi_a(z)=z+\ii Q\log(z-2\ii),\qquad
+ \psi_a(x,y)=y+Q\log|z-2\ii|
+ =y+\frac Q2\log\bigl(x^2+(y-2)^2\bigr).
+\]
+对数需在避开涡的适当割线域选支; 势的实部可以多值, 但上述流函数和速度是单值的. 求导得到
+\[
+ \Phi_a'(z)=1+\frac{\ii Q}{z-2\ii},\qquad
+ (u,v)=\left(1+\frac{Q(y-2)}{x^2+(y-2)^2},
+ -\frac{Qx}{x^2+(y-2)^2}\right).
+\]
+流线是 $\psi_a=c$. 当 $Q>0$, 在 $1+2\ii$ 处速度向下, 因而涡为顺时针. 停滞点满足 $\Phi_a'=0$, 得 $z=(2-Q)\ii$; $Q=1$ 时为 $\ii$.
+
+编者校订: 官方第1页复势框内写 $z+\ii Q\log z$, 图注也说涡在 $0$, 但原题、图中涡位置及其后流函数均为 $2\ii$. 此处保留原题的 $2\ii$, 统一改为 $\log(z-2\ii)$; 不把涡移至原点.
+
+(b) 圆定理对初始复势 $F$ 给出 $F(z)+\overline{F(1/\overline z)}$. 若保留一般复数 $U$, 镜像均匀流项为 $\overline U/z$. 取 $U=1$ 后得到
+\[
+ \Phi_b(z)=z+\frac1z+\ii Q\log(z-2\ii)
+ -\ii Q\log\left(\frac1z+2\ii\right),\qquad |z|>1,
+\]
+外部涡 $2\ii$ 仍须从流动域中删去. 其流函数为
+\[
+ \psi_b(x,y)=y-\frac{y}{x^2+y^2}
+ +Q\log|z-2\ii|-Q\log\left|\frac1z+2\ii\right|.
+\]
+在 $|z|=1$ 上有 $1/z=\overline z$, 从而 $|1/z+2\ii|=|z-2\ii|$, 并且 $y-y/|z|^2=0$. 所以圆柱边界上 $\psi_b=0$, 是流线, 流体不穿越壁面. 用于画方向箭头的导数是
+\[
+ \Phi_b'(z)=1-\frac1{z^2}+\frac{\ii Q}{z-2\ii}
+ +\frac{\ii Q}{z(1+2\ii z)}.
+\]
+下图取 $U=Q=1$; 曲线为上述流函数等值线的数值采样, 以 TikZ 折线绘制. 黑箭头表示归一化速度方向; 圆环标记涡位置, 实心点表示停滞点. 右图仅画圆柱外的流动.
+\input{chapters/assessments/ps05-09-ps9-flow.tex}
+(c) 当 $|z|\to\infty$, 有 $\Phi_a'=1+O(1/|z|)$, $\Phi_b'=1+O(1/|z|)$. 两种流场的速度都趋于 $(1,0)$. 流函数的对数项不必趋零, 远场均匀性应由速度导数判断, 这也说明为何两图的流线在远处逐渐接近水平.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS9.2。}\label{ass:ps9-2}
+考虑 $f(z)=z^5-2z$.
+(a) $f$ 把圆 $|z|=3$ 绕原点几次? 即若 $\gamma(\theta)$ 参数化该圆, 曲线 $f\circ\gamma$ 绕原点几次?
+(b) $f$ 把圆 $|z|=1$ 绕原点几次?
+(c) $f$ 把圆 $|z|=3$ 绕点 $-2$ 几次?
+\sourceinfo{题面第1页; 官方解答第3--4页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 圆均以逆时针方向参数化. 多项式没有极点, 辐角原理把像曲线的绕数化为相应原像圆内的零点数, 按重数计.
+(a) 在 $|z|=3$ 上, $|-2z|=6<243=|z^5|$. Rouché 定理说明 $f$ 与 $z^5$ 的圆内零点数相同, 为 $5$, 故绕数为 $5$.
+(b) 在 $|z|=1$ 上, $|z^5|=1<2=|-2z|$, 所以 $f$ 与 $-2z$ 都有一个圆内零点, 绕数为 $1$.
+(c) $\Ind(f\circ\gamma,-2)=\Ind((f+2)\circ\gamma,0)$. 在 $|z|=3$ 上, $|-2z+2|\le8<243=|z^5|$, 因而 $f+2$ 有 $5$ 个圆内零点, 所求绕数仍为 $5$.
+编者校订: 官方第4页将绕 $-2$ 错转为 $f-2$ 的绕零问题, 正确平移是 $f+2$. 两者在本例碰巧都有五个零点, 但正确的论证必须保留目标点的符号.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS9.3。}\label{ass:ps9-3}
+(a) 证明 $f(z)=z^3+9z+30$ 在 $|z|<2$ 内没有零点.
+(b) 证明 $f(z)=z^6+4z^2-1$ 在 $|z|<1$ 内恰有两个零点.
+\sourceinfo{题面第1页; 官方解答第4页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 在 $|z|=2$ 上, $|9z+30|\ge30-18=12>8=|z^3|$. 因此 Rouché 定理说明 $f$ 与 $9z+30$ 的圆内零点数相等. 后者唯一零点为 $-10/3$, 在圆外, 所以圆内没有零点.
+(b) 在 $|z|=1$ 上, $|4z^2-1|\ge4-1=3>1=|z^6|$. Rouché 定理给出 $f$ 与 $4z^2-1$ 的圆内零点数相同; 后者有两个简单零点 $\pm1/2$, 所以 $f$ 的圆内零点数为 $2$, 按重数计. 实际二者不同: 实函数在 $0$ 值为 $-1$, 在 $1$ 值为 $4$, 因而有一个正实根, 偶性又给出其负根; 这两根已用尽上述计数.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS9.4。}\label{ass:ps9-4}
+设 $f$ 在包含 $|z|\le1$ 的区域解析, 且 $|z|=1$ 上 $|f(z)|<1$. 证明 $f(z)-z$ 在 $|z|<1$ 内恰有一个零点.
+\sourceinfo{题面第1页; 官方解答第4页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 在单位圆上 $|f(z)|<|-z|=1$. 由 Rouché 定理, $f-z$ 与 $-z$ 在圆内的零点总重数相同, 都为 $1$. 所以 $f-z$ 恰有一个零点, 并且这个零点必为简单零点.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS9.5。}\label{ass:ps9-5}
+考虑负反馈线性系统, 反馈增益为 $k$. 若开环系统函数为 $G(s)$, 闭环系统函数为 $G_{\mathrm{CL}}(s)=G(s)/(1+kG(s))$.
+(a) 设 $G(s)=(s+1)/[(s-1)(s-2)]$, $k=4$. 解析判断闭环系统是否稳定.
+(b) 画 (a) 的 Nyquist 图, 即 $kG\circ\gamma$, 其中 $\gamma$ 是虚轴. 可以使用任何工具; 原题建议使用\href{https://web.mit.edu/jorloff/www/jmoapplets/nyquist/nyquistCrit.html}{课程 Nyquist 小程序}, 并要求用这一加入反馈增益的版本. 曲线绕 $-1$ 几次? 解释为何与 (a) 一致.
+\sourceinfo{题面第1--2页; 官方解答第4--5页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 化简得到
+$G_{\mathrm{CL}}(s)=(s+1)/[(s-1)(s-2)+4(s+1)]=(s+1)/(s^2+s+6)$.
+极点为 $(-1\pm\ii\sqrt{23})/2$, 实部均为 $-1/2<0$, 与分子无消去, 所以连续时间闭环系统稳定.
+
+(b) 编者补充（AI）: 原题未规定虚轴方向. 为与官方绕数 $2$ 的约定一致, 取 $s=\ii\omega$, $\omega$ 从 $-\infty$ 增至 $+\infty$; 反向参数化则绕数为 $-2$.
+直接有
+\[
+ 4G(\ii\omega)=
+ \frac{8(1-2\omega^2)}{(\omega^2+1)(\omega^2+4)}
+ +\ii\frac{4\omega(5-\omega^2)}{(\omega^2+1)(\omega^2+4)}.
+\]
+以下用 $\omega=\tan t$, $-\pi/2<t<\pi/2$ 绘制精确参数曲线, 两端都趋于原点; 箭头按 $\omega$ 增加的方向.
+\begin{center}
+\begin{tikzpicture}[x=1.45cm,y=1.45cm,>=Stealth]
+\draw[->](-1.8,0)--(2.4,0) node[right]{$\operatorname{Re}(4G)$};\draw[->](0,-2.15)--(0,2.15) node[above]{$\operatorname{Im}(4G)$};
+\draw[main,samples=400,domain=-90:90,smooth] plot
+({8*cos(\x)^2*(cos(\x)^2-2*sin(\x)^2)/(sin(\x)^2+4*cos(\x)^2)},
+{4*sin(\x)*cos(\x)*(5*cos(\x)^2-sin(\x)^2)/(sin(\x)^2+4*cos(\x)^2)});
+\foreach \lo/\hi in {-80/-72,12/20}{\draw[main,->,samples=20,domain=\lo:\hi] plot
+({8*cos(\x)^2*(cos(\x)^2-2*sin(\x)^2)/(sin(\x)^2+4*cos(\x)^2)},
+{4*sin(\x)*cos(\x)*(5*cos(\x)^2-sin(\x)^2)/(sin(\x)^2+4*cos(\x)^2)});}
+\fill (-1,0) circle (1.4pt) node[below]{$-1$};\node[below] at (2,0){$2$};\node[above left] at (-1.33333,0){$-4/3$};
+\end{tikzpicture}
+\end{center}
+绕数可由辐角原理严格确认. 用虚轴向上再沿右半平面大半圆返回的闭轮廓, 方向为顺时针. $H(s)=1+4G(s)$ 在右半平面有两个极点 $1,2$, 没有零点, 因为其零点正是 (a) 的两闭环极点. 故像曲线绕零的绕数为 $P-Z=2$. 大半圆上 $4G(s)\to0$ 一致成立, 因而 $H$ 的该段像缩到 $1$; 虚轴像的绕数已是 $2$. 等价地, $4G\circ\gamma$ 绕 $-1$ 为 $2$ 次, 与 Nyquist 稳定判据及 (a) 的结论相合.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS9.6。}\label{ass:ps9-6}
+令 $f(z)=(z+1/z)/2$. 用 Matlab 或 Mathematica 一类软件绘制下列曲线 $\gamma$ 的像 $f\circ\gamma$. 必须使两个坐标轴比例相同, 让圆显示为圆; Matlab 中可在绘图后使用 \texttt{axis equal}.
+(a) 圆 $|z|=3/2$;
+(b) 圆 $|z+1/2|=3/2$;
+(c) 圆 $|\ee^{\ii\pi/4}z+1/2|=3/2$;
+(d) 单位圆 $|z|=1$.
+\sourceinfo{题面第2页; 官方解答第5--8页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 各图横纵坐标使用同一长度单位. 写 $z=x+\ii y\ne0$, 则
+$\operatorname{Re}f(z)=\tfrac12x(1+1/(x^2+y^2))$,
+$\operatorname{Im}f(z)=\tfrac12y(1-1/(x^2+y^2))$.
+因此每问只需给出原圆参数, 再代入这两式; 下列图均以原生 TikZ 按这些参数生成, 左为原曲线, 右为像.
+
+(a) $z=(3/2)\ee^{\ii\theta}$. 像为 $u=(13/12)\cos\theta$, $v=(5/12)\sin\theta$, 即椭圆 $u^2/(13/12)^2+v^2/(5/12)^2=1$.
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth]
+\begin{scope}
+\draw[->](-1.9,0)--(2,0) node[right]{$x$};\draw[->](0,-1.8)--(0,1.9) node[above]{$y$};\draw[main](0,0) circle (1.5);\node at (0,-2.1){$(a)$ 原圆};
+\end{scope}
+\draw[->](2.4,.4)--(3.5,.4) node[midway,above]{$f$};
+\begin{scope}[xshift=5.6cm]
+\draw[->](-1.6,0)--(1.7,0) node[right]{$u$};\draw[->](0,-1.8)--(0,1.9) node[above]{$v$};\draw[main](0,0) ellipse (1.083333 and .416667);\node at (0,-2.1){像椭圆};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+(b) $z=(3/2)\ee^{\ii\theta}-1/2$. 在 $\theta=0$ 时 $z=1$, $f(1)=1$, 且 $f'(1)=0$, 所以像在右端形成尖点. 左端 $z=-2$ 的像为 $-5/4$.
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth]
+\begin{scope}
+\draw[->](-2.4,0)--(1.5,0) node[right]{$x$};\draw[->](0,-1.8)--(0,1.9) node[above]{$y$};\draw[main](-.5,0) circle (1.5);\node at (-.5,-2.1){$(b)$ 原圆};
+\end{scope}
+\draw[->](1.9,.4)--(3,.4) node[midway,above]{$f$};
+\begin{scope}[xshift=5.2cm]
+\draw[->](-1.6,0)--(1.5,0) node[right]{$u$};\draw[->](0,-1.8)--(0,1.9) node[above]{$v$};
+\def\xx{(1.5*cos(\x)-.5)}\def\yy{(1.5*sin(\x))}
+\draw[main,samples=300,domain=0:360] plot ({.5*\xx*(1+1/(\xx^2+\yy^2))},{.5*\yy*(1-1/(\xx^2+\yy^2))});
+\node at (0,-2.1){像曲线};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+(c) 令 $v=\ee^{\ii\pi/4}z+1/2$, 则 $v=(3/2)\ee^{\ii\theta}$, 故 $z=\ee^{-\ii\pi/4}((3/2)\ee^{\ii\theta}-1/2)$. 对应
+$x=[(3/2)\cos\theta-1/2+(3/2)\sin\theta]/\sqrt2$,
+$y=[(3/2)\sin\theta-(3/2)\cos\theta+1/2]/\sqrt2$.
+代入通式得到下图翼型状像曲线. 它可以用于把圆柱周围的流动映到新的边界形状; 本图显示形状, 不单独证明相应外部映射的全局单射性.
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth]
+\begin{scope}
+\draw[->](-2.3,0)--(1.6,0) node[right]{$x$};\draw[->](0,-1.5)--(0,2.3) node[above]{$y$};\draw[main](-.353553,.353553) circle (1.5);\node at (-.35,-1.95){$(c)$ 原圆};
+\end{scope}
+\draw[->](2,.4)--(3.1,.4) node[midway,above]{$f$};
+\begin{scope}[xshift=5.3cm]
+\draw[->](-1.6,0)--(1.5,0) node[right]{$u$};\draw[->](0,-1.5)--(0,2.3) node[above]{$v$};
+\def\xx{((1.5*cos(\x)-.5+1.5*sin(\x))/sqrt(2))}\def\yy{((1.5*sin(\x)-1.5*cos(\x)+.5)/sqrt(2))}
+\draw[main,samples=300,domain=0:360] plot ({.5*\xx*(1+1/(\xx^2+\yy^2))},{.5*\yy*(1-1/(\xx^2+\yy^2))});
+\node at (0,-1.95){像曲线};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+(d) $z=\ee^{\ii\theta}$ 时 $f(z)=(\ee^{\ii\theta}+\ee^{-\ii\theta})/2=\cos\theta$. 所以像为实轴闭线段 $[-1,1]$, 随原圆一周往返各一次.
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth]
+\begin{scope}
+\draw[->](-1.6,0)--(1.7,0) node[right]{$x$};\draw[->](0,-1.4)--(0,1.5) node[above]{$y$};\draw[main](0,0) circle (1);\node at (0,-1.75){$(d)$ 单位圆};
+\end{scope}
+\draw[->](2.1,.4)--(3.2,.4) node[midway,above]{$f$};
+\begin{scope}[xshift=5.2cm]
+\draw[->](-1.6,0)--(1.7,0) node[right]{$u$};\draw[->](0,-1.4)--(0,1.5) node[above]{$v$};\draw[main,thick](-1,0)--(1,0);\fill[main](-1,0) circle (1.5pt) node[below]{$-1$};\fill[main](1,0) circle (1.5pt) node[below]{$1$};\node at (0,-1.75){像线段};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+为完整保留原题的软件复现要求, 以下 Matlab/Octave 代码可依次绘制四问; 每个子图均设置 \texttt{axis equal}. 参数 $a,b$ 对应 $z=a\ee^{\ii\theta}+b$.
+\begin{verbatim}
+th = linspace(0, 2*pi, 1601);
+aa = [1.5, 1.5, 1.5*exp(-1i*pi/4), 1];
+bb = [0, -0.5, -0.5*exp(-1i*pi/4), 0];
+for j = 1:4
+    z = aa(j)*exp(1i*th) + bb(j);
+    w = 0.5*(z + 1./z);
+    figure;
+    subplot(1,2,1); plot(real(z), imag(z));
+    axis equal; grid on;
+    subplot(1,2,2); plot(real(w), imag(w));
+    axis equal; grid on;
+end
+\end{verbatim}
+\end{solution}

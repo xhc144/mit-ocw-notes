@@ -1,0 +1,194 @@
+\originalsection{第2次作业}
+\sourceinfo{题面 \texttt{mit18\_04\_s18\_pset02.pdf}, PDF第1页; 官方解答 \texttt{mit18\_04\_s18\_pset02\_sol.pdf}, PDF第1--5页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+本节保留原题的六大题与各子问. 解析性均指在一个开邻域内解析, 与单点复可微相区分.
+
+\begin{exercise}\label{ass:ps2-1}
+\textbf{原题 PS2.1。} (20分; 每问10分.)
+\begin{enumerate}[label=(\alph*)]
+\item 证明 $\cos z$ 在所有 $z$ 处解析, 即它是整函数. 计算其导数, 并证明结果是 $-\sin z$.
+\item 给出 $\cot z$ 的解析区域, 并计算其导数.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+
+(a) 由定义 $\cos z=(\ee^{\ii z}+\ee^{-\ii z})/2$, 这是两个整函数之和的一半, 因而是整函数. 链式法则给出
+\[
+ (\cos z)'=\frac{\ii\ee^{\ii z}-\ii\ee^{-\ii z}}2
+ =-\frac{\ee^{\ii z}-\ee^{-\ii z}}{2\ii}=-\sin z.
+\]
+官方另用 Cauchy--Riemann 方程验证. 写 $z=x+\ii y$, 展开指数得到
+$\cos z=\cos x\cosh y-\ii\sin x\sinh y$.
+于是 $u=\cos x\cosh y$, $v=-\sin x\sinh y$, 且
+\[
+ u_x=-\sin x\cosh y=v_y,\qquad
+ u_y=\cos x\sinh y=-v_x.
+\]
+这些偏导在整个平面连续, 所以 Cauchy--Riemann 方程在每点保证复可微. 导数为
+$u_x+\ii v_x=-\sin x\cosh y-\ii\cos x\sinh y=-\sin z$.
+勘误: 官方第1页把实偏导 $v_y$ 多写了一个 $\ii$, 又把 $u_y=-v_x$ 写成 $u_y=v_x$; 此处按实际偏导改正.
+
+(b) $\cot z=\cos z/\sin z$ 在 $\sin z\ne0$ 的点解析. 为列全零点, 用
+$\sin(x+\ii y)=\sin x\cosh y+\ii\cos x\sinh y$.
+因 $\cosh y>0$, 零点必须满足 $\sin x=0$, 即 $x=k\pi$. 此时 $\cos x\ne0$, 虚部为零又要求 $\sinh y=0$, 即 $y=0$. 故解析域为 $\C\setminus\{k\pi:k\in\Z\}$.
+商法则与 $\sin^2z+\cos^2z=1$ 给出
+\[
+ (\cot z)'=\frac{-\sin^2z-\cos^2z}{\sin^2z}
+ =-\frac1{\sin^2z}=-\csc^2z.\qedhere
+\]
+\end{solution}
+\sourceinfo{题面 PS2, PDF第1页; 官方解答 PDF第1页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps2-2}
+\textbf{原题 PS2.2。} (20分; 每问10分.)
+\begin{enumerate}[label=(\alph*)]
+\item 设 $P(z)=(z-r_1)(z-r_2)\cdots(z-r_n)$. 证明
+$P'(z)/P(z)=\sum_{j=1}^n1/(z-r_j)$.
+建议先试 $n=2$ 与 $n=3$.
+\item 计算并化简 $\frac{\dd}{\dd z}((az+b)/(cz+d))$.
+当 $ad-bc=0$ 时会发生什么? 说明原因.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全; (b)中可能为零的系数分情况处理为编者补充（AI）.
+
+(a) 等式只在 $P(z)\ne0$ 处有意义. $n=2$ 时, 乘积法则给出
+$P'=(z-r_2)+(z-r_1)$, 除以 $P$ 即得 $1/(z-r_1)+1/(z-r_2)$.
+$n=3$ 时, 导数是三项乘积, 每项恰少一个因子; 相除后依次留下三个倒数. 一般情形同理:
+\[
+ P'(z)=\sum_{j=1}^n\prod_{\substack{1\le k\le n\\k\ne j}}(z-r_k),
+ \qquad
+ \frac{P'(z)}{P(z)}=\sum_{j=1}^n\frac1{z-r_j}.
+\]
+根可以重复, 公式仍成立, 重根在和式中按重数重复出现.
+
+(b) 题中的商首先要求 $(c,d)\ne(0,0)$, 并且定义域是
+$D=\{z:cz+d\ne0\}$. 商法则给出
+\[
+ \left(\frac{az+b}{cz+d}\right)'
+ =\frac{a(cz+d)-c(az+b)}{(cz+d)^2}
+ =\frac{ad-bc}{(cz+d)^2}.
+\]
+若 $ad-bc=0$, 导数在 $D$ 上为零, 且商为常数. 直接验证时不能无条件写 $a/c=b/d$, 因为 $c$ 或 $d$ 可能为零.
+若 $c\ne0$, 令 $\lambda=a/c$, 则 $ad=bc$ 蕴含 $b=\lambda d$, 所以分子等于 $\lambda$ 倍分母, 商恒为 $\lambda$.
+若 $c=0$, 则 $d\ne0$ 且 $ad=0$ 蕴含 $a=0$, 商恒为 $b/d$.
+当 $c\ne0$ 时, 原商在 $z=-d/c$ 仍未定义; 约分所得常数可以延拓到该点, 但延拓与原表达式的定义域须区分.
+\end{solution}
+\sourceinfo{题面 PS2, PDF第1页; 官方解答 PDF第2页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps2-3}
+\textbf{原题 PS2.3。} (10分.) 为什么 $\log(\ee^z)$ 不总等于 $z$?
+提示: 对数的任何分支都有这个问题; 先考虑主支.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 指数满足 $\ee^{z+2k\pi\ii}=\ee^z$, 所以不是单射. 一个单值对数在同一输入上只能取一个值, 不能同时还原所有这些 $z$.
+例如主支有 $\Log1=0$, 因而 $\Log(\ee^{2\pi\ii})=0\ne2\pi\ii$.
+
+更具体地, 若 $z=x+\ii y$ 且 $\ee^z$ 在主对数的解析域内, 则
+$\Log(\ee^z)=x+\ii(y-2k\pi)$, 其中唯一整数 $k$ 使 $-\pi<y-2k\pi<\pi$. 在这个主支条带内结果等于 $z$, 在其他条带内相差 $2k\pi\ii$; 当 $\ee^z$ 在割线上时, 解析主支本身未定义. 更换分支只改变所选辐角区间, 不能消除指数的周期性.
+\end{solution}
+\sourceinfo{题面 PS2, PDF第1页; 官方解答 PDF第2--3页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps2-4}
+\textbf{原题 PS2.4。} (20分; 每问10分.)
+\begin{enumerate}[label=(\alph*)]
+\item 设 $f$ 在以原点为中心的圆盘 $D$ 内解析. 证明
+$F_1(z)=\overline{f(\overline z)}$ 在 $D$ 内解析.
+\item $f$ 同(a). 证明 $F_2(z)=f(\overline z)$ 在 $D$ 内不解析, 除非 $f$ 为常数.
+\end{enumerate}
+两问的提示: 使用 Cauchy--Riemann 方程.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 这里(b)的“不解析”指不可能在整个 $D$ 解析; 非常数 $f$ 并不排除 $F_2$ 在个别点复可微.
+
+写 $f(x+\ii y)=u(x,y)+\ii v(x,y)$. 因 $D$ 关于实轴对称, 若 $z\in D$, 则 $\overline z\in D$, 所以下列复合都有定义. $f$ 的偏导连续, 并满足 $u_x=v_y$, $u_y=-v_x$.
+
+(a) 令 $U_1(x,y)=u(x,-y)$, $V_1(x,y)=-v(x,-y)$.
+链式法则给出
+\[
+ U_{1x}=u_x(x,-y),\quad U_{1y}=-u_y(x,-y),\quad
+ V_{1x}=-v_x(x,-y),\quad V_{1y}=v_y(x,-y).
+\]
+在 $(x,-y)$ 应用 $f$ 的 Cauchy--Riemann 方程, 得
+$U_{1x}=V_{1y}$, $U_{1y}=-V_{1x}$. 偏导仍连续, 所以 $F_1$ 在 $D$ 解析.
+也可得到 $F_1'(z)=\overline{f'(\overline z)}$.
+
+(b) 此时 $U_2(x,y)=u(x,-y)$, $V_2(x,y)=v(x,-y)$, 故
+\[
+ U_{2x}=u_x(x,-y),\quad U_{2y}=-u_y(x,-y),\quad
+ V_{2x}=v_x(x,-y),\quad V_{2y}=-v_y(x,-y).
+\]
+若 $F_2$ 在 $D$ 解析, 它的方程要求 $u_x=-v_y$, $u_y=v_x$; 与 $f$ 的方程合用, 得 $u_x=u_y=v_x=v_y=0$ 于整个 $D$.
+圆盘是凸集, 沿任意线段积分这些零偏导可知 $u,v$ 都为常数, 因而 $f$ 为常数. 反过来常数 $f$ 显然使 $F_2$ 解析.
+\end{solution}
+\sourceinfo{题面 PS2, PDF第1页; 官方解答 PDF第3--4页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps2-5}
+\textbf{原题 PS2.5。} (10分.) 设 $f(z)=|z|^2$. 证明复导数在 $z=0$ 存在, 而在其他点均不存在.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 在原点,
+$f'(0)=\lim_{h\to0}|h|^2/h=\lim_{h\to0}\overline h=0$.
+这个极限对平面内所有方向成立.
+
+在 $z_0=x+\ii y$ 处, 沿实增量 $h=t\in\R$ 的差商是
+$(|z_0+t|^2-|z_0|^2)/t=2x+t$, 极限为 $2x$.
+沿纯虚增量 $h=\ii t$ 的差商是
+$(|z_0+\ii t|^2-|z_0|^2)/(\ii t)=-\ii(2y+t)$, 极限为 $-2y\ii$.
+两者相等要求实数 $x=y=0$; 故其他点导数不存在.
+
+勘误: 官方第4页从 $f'(0)$ 存在推出“$f$ 在 $0$ 解析”, 将单点复可微与邻域解析混淆. 本函数只在 $0$ 复可微, 在任何非空开集上都不解析, 特别是在 $0$ 也不解析.
+\end{solution}
+\sourceinfo{题面 PS2, PDF第1页; 官方解答 PDF第4页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}
+
+\begin{exercise}\label{ass:ps2-6}
+\textbf{原题 PS2.6。} (10分.) 使用对数主支, 给出 $\sqrt{z^2-1}$ 解析的一个区域.
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全; 区分不同平方根分支的说明为编者补充（AI）.
+
+先将题中的平方根明确为
+$S(z)=\exp(\tfrac12\Log(z^2-1))$, 其中 $\Log$ 在 $\C\setminus(-\infty,0]$ 解析.
+因此须删去使 $z^2-1\in(-\infty,0]$ 的 $z$.
+写 $z=x+\ii y$, 则 $z^2-1=x^2-y^2-1+2xy\,\ii$.
+它为非正实数的条件是 $xy=0$ 与 $x^2-y^2-1\le0$.
+当 $x=0$ 时所有 $y$ 都满足; 当 $y=0$ 时恰为 $-1\le x\le1$.
+所以自然解析域为
+$D=\C\setminus(\ii\R\cup[-1,1])$.
+$D$ 有左右两个连通分支; 如需给出一个连通的区域, 可取右侧分支
+$\{\Re z>0\}\setminus(0,1]$. 在此域内, 多项式与主对数的复合解析, 再取指数仍解析.
+
+官方还提供两个较大的或不同的定义方式:
+\[
+ \begin{aligned}
+ T(z)&=z\exp\!\left(\frac12\Log(1-z^{-2})\right),
+ & E&=\C\setminus[-1,1];\\
+ U(z)&=\exp\!\left(\frac12\Log(z+1)+\frac12\Log(z-1)\right),
+ & G&=\C\setminus(-\infty,1].
+ \end{aligned}
+\]
+对 $T$, $z=0$ 已被删去; $1-z^{-2}$ 为非正实数恰要求 $z$ 为实数且 $0<|z|\le1$, 故 $T$ 在 $E$ 解析.
+对 $U$, 两个主对数分别须避开 $(-\infty,-1]$ 与 $(-\infty,1]$, 并集就是后一割线, 故在 $G$ 解析.
+三者都满足平方等于 $z^2-1$, 但不能无条件当成同一个函数:
+例如实数 $z<-1$ 时 $S(z)>0$, 而 $T(z)<0$.
+在右侧分支三者取同一正向归一化的平方根.
+\begin{center}
+\begin{tikzpicture}[scale=.75,>=Stealth]
+\foreach \j/\name in {0/D,1/E,2/G}{
+ \begin{scope}[shift={({5*\j},0)}]
+ \draw[->] (-2.2,0)--(2.3,0) node[right] {$x$};
+ \draw[->] (0,-1.5)--(0,1.6) node[above] {$y$};
+ \node[below] at (-1,0) {$-1$}; \node[below] at (1,0) {$1$};
+ \node at (0,-2) {$\name$ 的割线};
+ \end{scope}
+}
+\draw[structurecolor,very thick] (-1,0)--(1,0);
+\draw[structurecolor,very thick] (0,-1.45)--(0,1.45);
+\draw[structurecolor,very thick] (4,0)--(6,0);
+\draw[structurecolor,very thick,<-] (7.85,0)--(11,0);
+\foreach \x in {-1,1,4,6,11} \fill[structurecolor] (\x,0) circle (2pt);
+\end{tikzpicture}
+\end{center}
+图中粗线为删去部分. 官方最后指出 $U$ 在 $(-\infty,-1)$ 上方和下方的两个因子同时变号, 因而乘积不变, 可跨该段解析延拓. 具体地, $U=T$ 于 $G$: 两者平方相同且在 $z>1$ 同为正值, 又 $G$ 连通, 所以同一分支. 由 $T$ 在 $E$ 的公式便得到这一延拓, 而不是直接把各个主平方根的割线删掉.
+\end{solution}
+\sourceinfo{题面 PS2, PDF第1页; 官方解答 PDF第4--5页; MIT OCW, Jeremy Orloff, 2018, CC BY-NC-SA 4.0}

@@ -1,0 +1,171 @@
+\originalsection{第8次作业}
+\sourceinfo{Jeremy Orloff, MIT 18.04, Spring 2018, Problem Set 8, 题面 PDF 第1--3页, 官方解答 PDF 第1--7页; MIT OpenCourseWare, CC BY-NC-SA 4.0. 本节为中文翻译, 推导补全、显式勘误与 TikZ 重绘}
+
+\begin{exercise}
+\textbf{原题 PS8.1。}\label{ass:ps8-1}
+令 $z=x+\ii y$. 描述映射 $w=\ee^z$ 下各区域的像:
+(a) 条带 $0<y<\pi$;
+(b) 直线 $y=x$ 与 $y=x+2\pi$ 之间的斜条带;
+(c) 半条带 $x>0$, $0<y<\pi$;
+(d) 矩形 $1<x<2$, $0<y<\pi$;
+(e) 右半平面 $x>0$.
+\sourceinfo{题面第1页; 官方解答第1--2页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 写 $w=r\ee^{\ii\theta}=\ee^x\ee^{\ii y}$, 可见 $r=\ee^x$, 辐角等于 $y$ 模 $2\pi$.
+(a) $r$ 取所有正值, $0<\theta<\pi$, 像为上半平面.
+(b) 固定 $x=\log r$, 条带内 $y$ 遍历开区间 $(x,x+2\pi)$, 在半径 $r$ 的圆上遍历除 $\ee^{x+\ii x}$ 外的全部点. 所以像为 $\C\setminus(\{0\}\cup\Gamma)$, 其中 $\Gamma=\{\ee^{t+\ii t}:t\in\R\}$ 为对数螺线. 两条边界都映到同一螺线. 每个不在螺线上的非零点有唯一的条带内原像.
+(c) $r>1$ 且 $0<\theta<\pi$, 即单位圆外的上半平面部分.
+(d) $\ee<r<\ee^2$ 且 $0<\theta<\pi$, 即上半圆环; 竖边映为两条半圆, 水平边映为实轴线段, 边界均不包含.
+(e) $r>1$, 辐角不受限制, 像为 $|w|>1$. 此问指数映射不是单射, 因为 $z$ 与 $z+2\pi\ii$ 有相同像. 编者校订: 官方第2页把 $r=\ee^x>1$ 的不等式写成 $>0$, 其“单位圆外”的最终结论正确.
+\begin{center}
+\begin{tikzpicture}[scale=.65,>=Stealth]
+\begin{scope}
+\draw[->](-1.5,0)--(2.2,0) node[right]{$x$};\draw[->](0,-1)--(0,3.7) node[above]{$y$};
+\draw[main](-1,-1)--(2,2);\draw[main](-1,1)--(2,4);\node at (1.2,1.1){$y=x$};\node at (.2,3.2){$y=x+2\pi$};
+\draw[->](1,1)--(1,3);
+\end{scope}
+\draw[->](2.6,1.7)--(4.0,1.7) node[midway,above]{$\ee^z$};
+\begin{scope}[xshift=6.4cm]
+\draw[->](-2.2,0)--(2.7,0) node[right]{$\operatorname{Re}w$};\draw[->](0,-1.7)--(0,2.8) node[above]{$\operatorname{Im}w$};
+\draw[main,samples=250,domain=-12:1.05] plot ({exp(\x)*cos(\x*180/pi)},{exp(\x)*sin(\x*180/pi)});
+\draw[dashed](0,0) circle (1);\node[below right] at (1,0){$\Gamma$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+此图仅示意斜条带与其被排除的螺线; 左侧两边间距不作为数值比例.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS8.2。}\label{ass:ps8-2}
+(a) 求把右半平面映到单位圆盘、并将原点映到 $-1$ 的分式线性变换.
+(b) 变换 $T$ 的不动点是满足 $T(z)=z$ 的点. 设分式线性变换 $T$ 不是恒等映射, 证明其不动点至多两个.
+(c) 设 $S$ 是圆, $z_1$ 不在圆上. 证明存在唯一的点 $z_2$, 使 $z_1,z_2$ 关于 $S$ 对称. 提示: 先证明 $S$ 为直线时的结论.
+\sourceinfo{题面第1页; 官方解答第2--3页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 可取 $T(z)=(z-1)/(z+1)$, 边界点 $0$ 的像为 $-1$. 对 $x=\operatorname{Re}z>0$, 有 $|z+1|^2-|z-1|^2=4x>0$, 因而 $|T(z)|<1$. 反之, $z=(1+w)/(1-w)$ 在 $|w|<1$ 时满足 $\operatorname{Re}z=(1-|w|^2)/|1-w|^2>0$, 证明像恰为整个单位圆盘.
+
+(b) 写 $T(z)=(az+b)/(cz+d)$, $ad-bc\ne0$. 有限不动点满足 $cz^2+(d-a)z-b=0$. 若 $c\ne0$, 至多两个根, 且 $\infty$ 不固定. 若 $c=0$, 则 $\infty$ 固定; 有限不动点满足非恒零的线性方程 $(d-a)z-b=0$, 至多一个. 若该多项式恒零, 必有 $c=b=0,d=a\ne0$, 变换为恒等, 已被排除. 所以在扩充平面上也至多两个.
+
+(c) 直线情形可先平移并旋转到实轴; 关于实轴的对称点唯一为 $\overline{z_1}$, 逆变换后仍唯一. 若圆 $S$ 的圆心为 $p$, 半径为 $\rho$, 关于圆的反演对称为
+\[
+ z_2=p+\frac{\rho^2}{\overline{z_1-p}}\quad(z_1\ne p),\qquad
+ p\longleftrightarrow\infty.
+\]
+该式使 $z_1,z_2,p$ 在同一射线上且 $|z_1-p|\,|z_2-p|=\rho^2$, 从而存在且唯一. 也可按提示选 Möbius 变换把圆变成直线: 变换保圆及相交角, 因而把关于圆的对称化为直线反射, 再用唯一的逆变换拉回.
+编者补充（AI）: 原题未排除圆心, 若 $z_1=p$, 对称点是 $\infty$, 必须在扩充复平面理解题意; 在普通复平面没有有限对称点.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS8.3。}\label{ass:ps8-3}
+要在右半平面求调和函数 $u$, 虚轴上的边界值为 $u(0,y)=y/(1+y^2)$. 自然猜测 $u(z)=\operatorname{Im}(z/(1-z^2))$ 失败, 因为它在 $z=1$ 有奇点. 放弃此猜测, 只依据调和性与边界值按下列步骤求有效的 $u$.
+(a) 证明旋转角 $\alpha$ 的变换是分式线性变换, 对应矩阵
+$\begin{pmatrix}\ee^{\ii\alpha/2}&0\\0&\ee^{-\ii\alpha/2}\end{pmatrix}$. 此问供 (b) 必要时使用.
+(b) 求把右半平面映到单位圆盘的分式线性变换, 使 $u$ 转换为满足 $\phi(\ee^{\ii\theta})=\sin\theta/2$ 的函数 $\phi$. 提示: 保证 $1$ 映到 $0$; 若边界值仍不正确, 再复合旋转.
+(c) 证明 $\phi(w)=\tfrac12\operatorname{Im}w$.
+(d) 用分式线性变换把 $\phi$ 拉回右半平面上的 $u$.
+\sourceinfo{题面第1--2页; 官方解答第3--4页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全.
+(a) 矩阵给出的分式为 $\ee^{\ii\alpha/2}z/\ee^{-\ii\alpha/2}=\ee^{\ii\alpha}z$, 正是绕原点的旋转; 矩阵行列式为 $1$.
+(b) 使用 $T(z)=(z-1)/(z+1)$, 有 $T(1)=0$, 不需额外旋转. 在边界 $z=\ii y$ 上,
+\[
+ T(\ii y)=\frac{y^2-1+2\ii y}{1+y^2},\qquad
+ \frac12\operatorname{Im}T(\ii y)=\frac{y}{1+y^2}.
+\]
+故若 $w=T(\ii y)=\ee^{\ii\theta}$, 变换后的边界值恰为 $\sin\theta/2$. 缺失的边界点 $w=1$ 对应无穷远, 此边界函数连续补值为零.
+(c) 取 $\phi(w)=\tfrac12\operatorname{Im}w$, 它是解析函数 $w/2$ 的虚部, 在圆盘调和, 在圆周等于 $\sin\theta/2$. 因而这是所需的有效解. 若要求 $\phi$ 连续于整个闭圆盘, 最大值原理还证明它唯一.
+(d) 拉回得
+\[
+ u(z)=\phi(T(z))=\frac12\operatorname{Im}\frac{z-1}{z+1}
+ =\frac{y}{(x+1)^2+y^2}.
+\]
+分母在 $x>0$ 不为零, 解析表达式的虚部保证调和, $x=0$ 时得到所需边界值.
+编者补充（AI）: (c) 按“构造一个解”理解即可完成原题目标. 原题没有规定无穷远的增长条件, 不能仅由虚轴边值断言右半平面解唯一; 例如向上述 $u$ 加任意 $cx$, $c\in\R$, 仍调和且边值不变. 唯一性只在补充的闭圆盘连续类等适当条件下成立.
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS8.4。}\label{ass:ps8-4}
+(a) 证明 $w=z+1/z$ 把圆 $|z|=a$ ($a\ne1$) 映到椭圆
+$u^2/(a+1/a)^2+v^2/(a-1/a)^2=1$.
+(b) 它把圆 $|z|=1$ 映到哪里? 本题将用于 Joukowsky 变换.
+\sourceinfo{题面第2页; 官方解答第5页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全. 圆半径按 $a>0$ 理解.
+(a) 令 $z=a\ee^{\ii\theta}$, 则
+$w=(a+a^{-1})\cos\theta+\ii(a-a^{-1})\sin\theta$.
+因此 $u=(a+a^{-1})\cos\theta$, $v=(a-a^{-1})\sin\theta$, 代入得到题中椭圆方程. 当 $\theta$ 遍历一周, 参数覆盖整个椭圆, 所以不仅每个像点落在椭圆上, 而且椭圆全被覆盖. $0<a<1$ 时虚半轴系数为负, 只改变走向.
+(b) $a=1$ 时 $w=2\cos\theta$ 为实数, 像是闭线段 $[-2,2]$; 一周内该线段往返各一次.
+\begin{center}
+\begin{tikzpicture}[scale=.9,>=Stealth]
+\draw[->](-2.9,0)--(3.1,0) node[right]{$u$};\draw[->](0,-1.9)--(0,2) node[above]{$v$};
+\draw[main](0,0) ellipse (2.16667 and .83333);\draw[main](0,0) ellipse (2.5 and 1.5);
+\draw[structurecolor,thick](-2,0)--(2,0);\node[below] at (-2,0){$-2$};\node[below] at (2,0){$2$};
+\node[fill=white,inner sep=1pt] at (1.1,1.45){$a=2$};\node[fill=white,inner sep=1pt] at (1.2,.75){$a=1.5$};\node at (.75,-.3){$a=1$};
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+\begin{exercise}
+\textbf{原题 PS8.5。}\label{ass:ps8-5}
+(a) 求上半平面的调和函数 $u$, 边界值为 $u(x,0)=1$ 当 $x<-1$ 或 $x>1$, 而 $u(x,0)=0$ 当 $-1<x<1$.
+(b) 求单位圆盘上调和函数 $u(x,y)$, 边界值如图. 原题文字为
+\[
+ u(\ee^{\ii\theta})=
+ \begin{cases}1,&-\pi<\theta<\pi/4,\\
+ 0,&-\pi/4<\theta<\pi/4,\\
+ 1,&\pi/4<\theta<\pi.\end{cases}
+\]
+此处保留原文, 其区间重叠将在解答中明确校订.
+\begin{center}
+\begin{tikzpicture}[scale=1.1,>=Stealth]
+\draw[->](-1.65,0)--(1.95,0) node[right]{$\operatorname{Re}z$};\draw[->](0,-1.55)--(0,1.65) node[above]{$\operatorname{Im}z$};
+\draw[main,thick](-45:1) arc (-45:45:1);
+\draw[structurecolor,thick](45:1) arc (45:315:1);
+\fill (45:1) circle (1.4pt) node[above right]{$\ee^{\ii\pi/4}$};\fill (-45:1) circle (1.4pt) node[below right]{$\ee^{-\ii\pi/4}$};
+\node at (1.55,.35){$u=0$};\node at (-1.4,.6){$u=1$};
+\end{tikzpicture}
+\end{center}
+(c) 求图示张角 $\pi/4$ 的无穷楔形内的调和函数 $u(x,y)$, 使边界值如图: 两条射线上 $0<r<1$ 时为 $0$, $r>1$ 时为 $1$.
+\begin{center}
+\begin{tikzpicture}[scale=1.3,>=Stealth]
+\draw[->](-.2,0)--(2.7,0) node[right]{$\operatorname{Re}z$};\draw[->](0,-.2)--(0,2.5) node[above]{$\operatorname{Im}z$};
+\draw[main,thick](0,0)--(1,0);\draw[structurecolor,thick,->](1,0)--(2.45,0);
+\draw[main,thick](0,0)--(45:1);\draw[structurecolor,thick,->](45:1)--(45:3.1);
+\fill (1,0) circle (1.3pt) node[below]{$1$};\fill (45:1) circle (1.3pt) node[above left]{$\ee^{\ii\pi/4}$};
+\node at (.45,-.25){$u=0$};\node at (1.7,-.25){$u=1$};\node at (.24,.55){$u=0$};\node at (1.2,1.55){$u=1$};
+\end{tikzpicture}
+\end{center}
+\sourceinfo{题面第2--3页; 官方解答第5--7页}
+\end{exercise}
+\begin{solution}
+据官方解答翻译并补全, 并作明确校订.
+(a) 对 $\operatorname{Im}z>0$, 两个数 $z\pm1$ 也在上半平面, 选 $0<\Arg(z\pm1)<\pi$. 取
+$u_H(z)=1-[\Arg(z-1)-\Arg(z+1)]/\pi$.
+辐角为解析对数的虚部, 所以 $u_H$ 调和. 沿实轴逼近时, $x<-1$ 的两个辐角都趋 $\pi$, $x>1$ 都趋 $0$, 中间区间的辐角分别趋 $\pi$ 与 $0$, 因而边值依次是 $1,0,1$. 跳跃点 $\pm1$ 未规定边值, 不影响该构造.
+
+(b) 编者修订说明（AI）: 原文第一行 $-\pi<\theta<\pi/4$ 与第二行冲突. 根据原图, 第一行的上端应为 $-\pi/4$, 即右侧短弧 $-\pi/4<\theta<\pi/4$ 上 $u=0$, 其余圆周上 $u=1$. 若坚持原文字全部条件, 不存在满足冲突边值的函数. 以下解答针对图示且已明确校订的条件.
+
+要把 (a) 的解拉回圆盘, 取上半平面到圆盘的变换 $T(w)=(-w+a)/(w+b)$, 使 $T(\infty)=-1$, $T(-1)=\ee^{-\ii\pi/4}$, $T(1)=\ee^{\ii\pi/4}$. 代入后解线性方程得到 $a=b=\ii k$, $k=1+\sqrt2$. 因而
+\[
+ T(w)=\frac{-w+\ii k}{w+\ii k},\qquad
+ S(z)=T^{-1}(z)=\frac{a-bz}{z+1}=\ii k\frac{1-z}{1+z}.
+\]
+直接验证 $\operatorname{Im}S(z)=k(1-|z|^2)/|1+z|^2>0$ 对 $|z|<1$ 成立, 且 $S(\ee^{-\ii\pi/4})=-1$, $S(\ee^{\ii\pi/4})=1$. 在零值短弧上, $z=1$ 映到 $w=0$, 所以这段弧恰对应区间 $(-1,1)$.
+于是所求函数为
+\[
+ u(z)=u_H(S(z))
+ =1-\frac1\pi\Arg\left(\ii k\frac{1-z}{1+z}-1\right)
+ +\frac1\pi\Arg\left(\ii k\frac{1-z}{1+z}+1\right),\qquad |z|<1,
+\]
+两个辐角均取 $(0,\pi)$ 中的值. $S$ 在圆盘解析并映入上半平面, 所以复合调和; 边值由映射对应得到. 例如 $u(0)=3/4$, 与零值弧占圆周四分之一相合.
+
+编者校订: 官方第7页给出的 $a=1/\sqrt2+\ii(1+\sqrt2)/\sqrt2$ 不满足上述三点条件, 逆变换 $(bz-a)/(1-z)$ 也不正确. 本解答保留原题映射目标, 显式改用 $a=b=\ii(1+\sqrt2)$ 与逆式 $(a-bz)/(z+1)$.
+
+(c) 令楔形变量为 $w$, $0<\arg w<\pi/4$. $z=w^4$ 把它一一映到上半平面, 并将 $1$ 映到 $1$, $\ee^{\ii\pi/4}$ 映到 $-1$. 两条射线上 $r<1$ 的段合为 $(-1,1)$, $r>1$ 的段合为两侧区间. 故所求为
+$u(w)=1-[\Arg(w^4-1)-\Arg(w^4+1)]/\pi$, 两个辐角取 $(0,\pi)$. 它在楔形调和, 且按上述边界对应满足所有指定边值.
+\end{solution}
