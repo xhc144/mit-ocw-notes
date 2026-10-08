@@ -1,0 +1,570 @@
+\originalchapter{联合分布、独立性与随机变量的变换}
+\label{chap:joint}
+\sourcelecture{21--22}
+
+一个随机变量的分布只描述它自身. 若要研究两个等待时间谁先结束、两次测量的和或成功率所占的比例, 就必须知道它们如何共同变化. 两个边缘分布相同, 并不意味着联合分布相同. 本章建立联合分布的语言, 由积分区域求事件概率, 再把变量变换与独立随机变量的卷积统一起来.
+
+\originalsection{一个变量的函数}
+
+求 $Y=g(X)$ 的分布, 最稳妥的起点是把事件 $\{Y\le y\}$ 改写成关于 $X$ 的事件. 若 $g$ 严格递增, 不等号方向保持; 若 $g$ 严格递减, 方向反转; 若 $g$ 不单调, 则可能有多个区间或多个逆像.
+
+\begin{proposition}[单调变换]
+设 $X$ 有密度 $f_X$, 取值在区间 $I$ 内, $g:I\to J$ 为严格单调的可微函数, 其导数不为零, 逆函数可微. 则 $Y=g(X)$ 在 $J$ 上的密度为
+\[
+ f_Y(y)=f_X(g^{-1}(y))\left|\frac{\dd}{\dd y}g^{-1}(y)\right|,
+\]
+在 $J$ 外为零.
+\end{proposition}
+\begin{proof}
+当 $g$ 递增, $F_Y(y)=F_X(g^{-1}(y))$, 链式法则得到公式. 当 $g$ 递减, 由于 $X$ 无点质量,
+\[
+ F_Y(y)=\Prob(X\ge g^{-1}(y))=1-F_X(g^{-1}(y)).
+\]
+求导得到负的逆函数导数, 即其绝对值. 密度必须非负, 这正是绝对值的必要性. 若 $y$ 不在像区间内, 概率为零或一, 相应密度为零.
+\end{proof}
+
+例如 $Y=X^3$ 时, $F_Y(y)=F_X(\sqrt[3]y)$ 对所有 $y$ 成立. 对 $y\ne0$, $f_Y(y)=f_X(\sqrt[3]y)/(3|y|^{2/3})$. 零点处逆函数导数可能发散, 但单点上的密度值无需规定成有限数. 公式的微分版本需要导数条件, 分布函数版本只需要单调性.
+
+\begin{example}
+若 $Z\sim\Normal(0,1)$, 求 $Q=Z^2$ 的分布函数与密度.
+\end{example}
+\begin{solution}
+对 $q<0$, $F_Q(q)=0$. 对 $q\ge0$,
+\[
+ \{Z^2\le q\}=\{-\sqrt q\le Z\le\sqrt q\},\qquad
+ F_Q(q)=\Phi(\sqrt q)-\Phi(-\sqrt q)=2\Phi(\sqrt q)-1.
+\]
+对 $q>0$ 求导得到
+\[
+ f_Q(q)=\frac{\phi(\sqrt q)+\phi(-\sqrt q)}{2\sqrt q}
+       =\frac{\ee^{-q/2}}{\sqrt{2\pi q}}.
+\]
+两个逆像 $\sqrt q$ 和 $-\sqrt q$ 都要计入. 由 $\Gamma(1/2)=\sqrt\pi$, 这是 $\operatorname{Gamma}(1/2,1/2)$ 密度. 虽然密度在 $0$ 附近无界, $\Prob(Q=0)=0$.
+\end{solution}
+
+更一般地, 如果 $g$ 在若干不交区间上分别严格单调, 对每个非临界值 $y$, 将各支的密度相加:
+\[
+ f_Y(y)=\sum_{x:g(x)=y}\frac{f_X(x)}{|g'(x)|}.
+\]
+这里要求各支换元合法, 且只计入位于 $X$ 支撑集内的逆像. 若 $g$ 在一个正概率区域上为常数, 则 $Y$ 可产生点质量, 不能只用这张密度公式.
+
+\originalsection{联合质量、联合分布与边缘分布}
+
+\begin{definition}[联合分布]
+离散变量的联合质量为 $p_{X,Y}(x,y)=\Prob(X=x,Y=y)$. 任意两个实值变量的联合分布函数为
+\[
+ F_{X,Y}(a,b)=\Prob(X\le a,Y\le b).
+\]
+它表示以 $(a,b)$ 为右上角的左下无界区域的概率.
+\end{definition}
+
+离散情形将联合质量列成矩阵时, 各行各列的和分别给出 $X,Y$ 的边缘质量:
+\[
+ p_X(x)=\sum_y p_{X,Y}(x,y),\qquad
+ p_Y(y)=\sum_x p_{X,Y}(x,y).
+\]
+两维分布函数同样包含边缘分布. 因事件 $\{X\le a,Y\le b\}$ 在 $b\to\infty$ 时递增到 $\{X\le a\}$,
+\[
+ F_X(a)=\lim_{b\to\infty}F_{X,Y}(a,b),\qquad
+ F_Y(b)=\lim_{a\to\infty}F_{X,Y}(a,b).
+\]
+这一步用概率对递增事件的连续性, 不需要密度存在.
+
+\begin{proposition}[矩形概率]
+对 $a_1<a_2$, $b_1<b_2$,
+\begin{align*}
+ &\Prob(a_1<X\le a_2,\ b_1<Y\le b_2)\\
+ &\quad=F_{X,Y}(a_2,b_2)-F_{X,Y}(a_1,b_2)
+       -F_{X,Y}(a_2,b_1)+F_{X,Y}(a_1,b_1).
+\end{align*}
+\end{proposition}
+\begin{proof}
+从右上角的大左下区域去掉左侧与下侧两条区域, 两者的重叠被减了两次, 需加回一次. 这是事件的容斥公式. 半开边界使式子对有原子的分布也准确.
+\end{proof}
+
+\begin{definition}[联合密度]
+若存在非负函数 $f_{X,Y}$, 积分为 $1$, 满足对可测区域 $A\subset\R^2$,
+\[
+ \Prob((X,Y)\in A)=\iint_A f_{X,Y}(x,y)\dd x\dd y,
+\]
+则称其为联合密度.
+\end{definition}
+
+此时
+\[
+ F_{X,Y}(a,b)=\int_{-\infty}^a\int_{-\infty}^b
+                 f_{X,Y}(x,y)\dd y\dd x.
+\]
+在密度连续的区域, 逐次求导给出
+$\partial^2F_{X,Y}/(\partial a\partial b)=f_{X,Y}(a,b)$.
+这句话的前提是联合分布确实由密度表示. 如果已知 $F$ 足够光滑, 混合导数非负且可积, 并能由逐次积分恢复整个 $F$, 则可以反过来取得密度. 仅仅找到一个混合导数并不足以排除被导数漏掉的奇异质量.
+
+例如令 $U$ 均匀于 $(0,1)$, 并取 $X=U,Y=U$. 两个边缘都有密度, 但所有联合概率落在对角线上. 对角线的平面面积为零, 任何普通二维密度在其上的积分都是零, 与此处概率为 $1$ 矛盾. 所以边缘连续不保证联合密度存在.
+
+\begin{proposition}[边缘密度与联合期望]
+若 $X,Y$ 有联合密度, 则
+\[
+ f_X(x)=\int_{\R}f_{X,Y}(x,y)\dd y,\qquad
+ f_Y(y)=\int_{\R}f_{X,Y}(x,y)\dd x.
+\]
+若 $g\ge0$, 或 $\iint |g(x,y)|f_{X,Y}(x,y)\dd x\dd y<\infty$, 则
+\[
+ \E[g(X,Y)]=\iint_{\R^2}g(x,y)f_{X,Y}(x,y)\dd x\dd y.
+\]
+\end{proposition}
+\begin{proof}
+事件 $\{X\in B\}$ 对应区域 $B\times\R$. 对非负密度先对 $y$ 积分,
+\[
+ \Prob(X\in B)=\int_B\left(\int_{\R}f_{X,Y}(x,y)\dd y\right)\dd x,
+\]
+括号内函数就是边缘密度. $Y$ 的情形相同. 期望公式先对区域的指示函数成立, 再对有限阶梯函数成立, 最后用非负逼近或正负部分相减得到, 与上一章一维公式的证明相同. 非负函数可交换积分次序; 有正负号的函数则以绝对可积性保证交换.
+\end{proof}
+
+\begin{example}
+在三角形 $0<y<x<1$ 上联合密度为常数 $c$, 其余为零. 求 $c$, 边缘密度、$\Prob(Y<1/2)$ 和 $\Prob(X+Y<1)$.
+\end{example}
+\begin{solution}
+三角形面积为 $1/2$, 所以 $c=2$. 对固定 $x$, 可取的 $y$ 从 $0$ 到 $x$, 因而
+$f_X(x)=2x$, $0<x<1$. 对固定 $y$, 可取的 $x$ 从 $y$ 到 $1$, 所以 $f_Y(y)=2(1-y)$, $0<y<1$. 它们各自积分为 $1$. 于是
+\[
+ \Prob(Y<1/2)=\int_0^{1/2}2(1-y)\dd y=\frac34.
+\]
+事件 $x+y<1$ 在原支撑集内还要求 $0<y<\min(x,1-x)$. 上界在 $x=1/2$ 改变, 所以必须分段:
+\[
+ \Prob(X+Y<1)=2\int_0^{1/2}x\dd x+
+              2\int_{1/2}^1(1-x)\dd x=\frac12.
+\]
+\end{solution}
+
+\originalsection{独立性及其判别}
+
+\begin{definition}[随机变量独立]
+若对任意可测 $A,B\subset\R$,
+\[
+ \Prob(X\in A,Y\in B)=\Prob(X\in A)\Prob(Y\in B),
+\]
+则称 $X,Y$ 独立. 多个变量相互独立要求任意有限多个这样的坐标事件的交概率均分解成各自概率的乘积. 独立同分布常缩写为 i.i.d.
+\end{definition}
+
+\begin{proposition}[质量与密度的分解]
+离散变量独立当且仅当 $p_{X,Y}(x,y)=p_X(x)p_Y(y)$ 对所有可能取值成立. 有联合密度的变量独立当且仅当
+\[
+ f_{X,Y}(x,y)=f_X(x)f_Y(y)
+\]
+在除去一个面积为零的集合后成立.
+\end{proposition}
+\begin{proof}
+离散情形, 必要性取单点事件即得, 充分性对 $x\in A,y\in B$ 的质量求和.
+
+对连续情形, 若密度分解, 在 $A\times B$ 上积分便有
+\[
+ \int_A\int_B f_X(x)f_Y(y)\dd y\dd x
+ =\left(\int_Af_X(x)\dd x\right)
+  \left(\int_Bf_Y(y)\dd y\right),
+\]
+从而独立. 反过来, 独立性要求每个矩形的概率等于乘积密度在该矩形上的积分. 矩形概率决定整个联合分布: 开集可用可数个网格矩形组成, 再由递增并和补集延伸到可测事件. 因而实际联合分布与乘积密度表示同一分布, 密度的唯一性给出两者几乎处处相等. 在本书的分段连续区域内部, 也可直接对
+$F_{X,Y}(a,b)=F_X(a)F_Y(b)$ 求混合导数得到所需等式.
+\end{proof}
+
+密度唯一性中的“几乎处处”不可省略: 单点或零面积边界上的密度可任意更改而不改变概率. 判断独立时还要核对整个支撑区域. 上一节三角形例子的边缘乘积 $4x(1-y)$ 在正方形中处处为正, 而真实联合密度在 $y>x$ 的一半正方形上为零, 所以不独立.
+
+若 $X,Y$ 独立且可积, 则 $\E[XY]=\E X\E Y$. 绝对可积性也由
+$\E|XY|=\E|X|\E|Y|<\infty$ 保证. 若二阶矩有限, 因而 $\Cov(X,Y)=0$. 反向通常不成立: 取 $U$ 在 $(-1,1)$ 上均匀, $X=U,Y=U^2$. 对称性给出 $\E U=\E U^3=0$, 所以协方差为零. 但 $Y$ 由 $X$ 完全决定, 例如
+\[
+ \Prob(|X|<1/2,Y<1/4)=1/2
+ \ne(1/2)(1/2),
+\]
+所以二者不独立.
+
+\begin{example}
+某装置每次试验独立、等概率输出 $1,\ldots,8$ 中的一个数. 直到首次出现 $\{2,5,8\}$ 中的数时停止. 设停止编号为 $J$, 停止时输出为 $K$. 求联合分布并判断独立性.
+\end{example}
+\begin{solution}
+对 $j\ge1$ 和 $k\in\{2,5,8\}$,
+\[
+ \Prob(J=j,K=k)=\left(\frac58\right)^{j-1}\frac18.
+\]
+求和得到 $\Prob(J=j)=(5/8)^{j-1}(3/8)$, 即几何分布, 而
+\[
+ \Prob(K=k)=\frac18\sum_{j=1}^\infty(5/8)^{j-1}=\frac13.
+\]
+联合质量等于两者乘积, 所以独立. 等待次数的随机性与最后出现哪一种合格输出无关.
+\end{solution}
+
+\originalsection{竞争指数钟与连续、离散混合的联合分布}
+
+\begin{proposition}[首个时刻与首个类型]
+设有限个变量 $X_i\sim\Exp(\lambda_i)$ ($1\leq i\leq n$, $\lambda_i>0$) 相互独立, $\Lambda=\sum_{i=1}^n\lambda_i$, $T=\min_iX_i$, $K$ 为首先达到最小值的编号. 则
+\[
+ T\sim\Exp(\Lambda),\qquad
+ \Prob(K=i)=\frac{\lambda_i}{\Lambda},
+\]
+且 $T,K$ 独立.
+\end{proposition}
+\begin{proof}
+平局概率为零, 因为联合密度在直线 $x_i=x_j$ 上的积分为零. 要使第 $i$ 个钟在时刻 $t$ 首先响, 它须在 $t$ 响, 其余所有钟均须大于 $t$. 因而时间与类型的联合密度质量为
+\[
+ \Prob(T\in\dd t,K=i)=\lambda_i\ee^{-\lambda_i t}
+                 \prod_{j\ne i}\ee^{-\lambda_jt}\dd t
+ =\lambda_i\ee^{-\Lambda t}\dd t.
+\]
+对类型求和得到 $T$ 的密度 $\Lambda\ee^{-\Lambda t}$; 对时间积分得到 $\lambda_i/\Lambda$. 原式恰等于两者乘积, 从而独立. 这里一个变量连续、一个离散, 应对时间积分、对类型求和, 不能寻找普通的二维面积密度.
+\end{proof}
+
+更严格地, 上面的联合密度可从 $X_i=t$, $X_j=t+r_j$ 的换元得到. 它等于
+\[
+ \lambda_i\ee^{-\Lambda t}\prod_{j\ne i}\lambda_j\ee^{-\lambda_jr_j},
+ \qquad r_j>0.
+\]
+因此给定首个类型 $K=i$ 后, 各未响钟按原标签的剩余时间相互独立, 分别为 $\Exp(\lambda_j)$ ($j\ne i$), 且与首个时刻 $T$ 独立. 不能无条件说这些剩余时间独立于类型, 因为留下哪些钟依赖于 $K$. 若响过的第 $i$ 个钟也启动一个新的独立 $\Exp(\lambda_i)$ 钟, 则重新凑齐所有原标签; 这整个新/剩余时间向量的条件分布不再依赖 $T,K$, 每轮重新具有同样的竞争模型. 这就证明叠加独立 Poisson 过程后, 连续的相邻间隔和各事件类型相互独立; 间隔为 $\Exp(\Lambda)$, 类型概率为 $\lambda_i/\Lambda$.
+
+\begin{example}
+三条独立通知流的速率为每小时 $2,3,5$. 求首次通知的平均等待时间, 首次通知来自第三条流的概率, 第四次通知的时间分布, 以及第三条流第两次通知在全部通知中的编号分布.
+\end{example}
+\begin{solution}
+总速率为 $10$, 首次等待均值为 $1/10$ 小时. 类型概率为 $2/10,3/10,5/10$, 所以首次来自第三条的概率为 $1/2$. 第四次通知时刻为四个独立 $\Exp(10)$ 间隔之和, 服从 $\operatorname{Gamma}(4,10)$.
+
+各通知的类型独立, 第三条相当于成功率为 $1/2$ 的试验. 它的第二次通知在总序列中的编号 $L$ 是负二项等待变量:
+\[
+ \Prob(L=k)=\binom{k-1}{1}(1/2)^2(1/2)^{k-2},\qquad k\ge2.
+\]
+即使此前很长时间没有任何通知, 接下来第一条通知的等待仍为 $\Exp(10)$, 类型概率仍为以上三个数. 这依赖恒定速率与独立过程的建模假设.
+\end{solution}
+
+\originalsection{平面区域积分与随机几何}
+
+\begin{example}
+若 $X,Y$ 为独立标准正态变量, 求 $\Prob(X^2+Y^2\le r^2)$ ($r\ge0$), 并求距离 $R=\sqrt{X^2+Y^2}$ 的密度.
+\end{example}
+\begin{solution}
+联合密度为 $(2\pi)^{-1}\ee^{-(x^2+y^2)/2}$. 事件是圆盘, 密度仅依赖距离, 所以极坐标最合适. 面积元中的径向因子不可省略:
+\[
+ \Prob(R\le r)=\int_0^{2\pi}\int_0^r
+            \frac1{2\pi}\ee^{-s^2/2}s\dd s\dd\theta
+ =1-\ee^{-r^2/2}.
+\]
+因此 $f_R(r)=r\ee^{-r^2/2}$ 对 $r>0$ 成立, 其余为零. 半径为 $1$ 时概率为 $1-\ee^{-1/2}\approx0.3935$, 比包含该圆盘的正方形 $[-1,1]^2$ 的概率约 $0.466$ 小.
+\end{solution}
+
+\begin{example}
+平面上水平平行线的间距为 $d$. 随机投下一段长度 $\ell\le d$ 的线段. 假设较低端点的高度模 $d$ 为均匀变量 $U\in[0,d)$, 线段向上的方向角 $\Theta$ 均匀于 $[0,\pi]$, 且二者独立. 求线段与某条平行线相交的概率.
+\end{example}
+\begin{solution}
+线段的竖直跨度为 $\ell\sin\Theta$. 因为 $\ell\le d$, 从较低端点到较高端点最多跨过一条线, 除去概率为零的端点情形. 穿越条件是
+$U+\ell\sin\Theta\ge d$. 联合密度为 $1/(d\pi)$, 所以
+\[
+ \Prob(\text{穿越})=\frac1{d\pi}\int_0^\pi
+            \int_{d-\ell\sin\theta}^d\dd u\dd\theta
+ =\frac{\ell}{d\pi}\int_0^\pi\sin\theta\dd\theta
+ =\frac{2\ell}{d\pi}.
+\]
+例如 $\ell=1,d=2$ 时概率为 $1/\pi$. 随机投掷的口头描述不足以指定模型; 这里的均匀位置、均匀角度与独立性是计算所需的明确假设.
+\end{solution}
+
+\originalsection{二维变量变换与 Jacobian}
+
+一维换元中, 逆函数导数把新坐标的长度变为旧坐标的长度. 二维换元需要相应的面积放大率. 若旧坐标 $(x,y)$ 表示成新坐标 $(u,v)$ 的可微函数, 在一个很小的矩形上, 两条边分别近似变为向量
+$(x_u,y_u)\dd u$ 与 $(x_v,y_v)\dd v$. 它们形成的平行四边形面积为
+\[
+ \left|\det\begin{pmatrix}x_u&x_v\\y_u&y_v\end{pmatrix}\right|
+      \dd u\dd v.
+\]
+行列式的符号表示方向, 绝对值才表示面积.
+
+\begin{theorem}[二维密度换元]
+设 $(X,Y)$ 有联合密度 $f_{X,Y}$, 几乎所有概率集中在开区域 $D$. 设 $T:D\to G$ 是一一对应的连续可微变换, 逆变换 $(x,y)=T^{-1}(u,v)$ 也连续可微, Jacobian 行列式处处非零. 则 $(U,V)=T(X,Y)$ 在 $G$ 上的密度为
+\[
+ f_{U,V}(u,v)=f_{X,Y}(x(u,v),y(u,v))
+       \left|\det\frac{\partial(x,y)}{\partial(u,v)}\right|.
+\]
+在 $G$ 外密度为零. 概率为零的边界可另外处理.
+\end{theorem}
+\begin{proof}
+对 $A\subset G$, 事件 $(U,V)\in A$ 等价于 $(X,Y)\in T^{-1}(A)$. 在逆像区域积分, 再使用微积分中的多元换元定理,
+\[
+ \Prob((U,V)\in A)=\iint_{T^{-1}(A)}f_{X,Y}(x,y)\dd x\dd y
+ =\iint_A f_{X,Y}(T^{-1}(u,v))|\det DT^{-1}(u,v)|\dd u\dd v.
+\]
+与密度定义比较即得公式. 所调用的多元换元定理是上述局部面积近似的积分版本; 它作为微积分工具使用, 本书不另建其分析学证明.
+\end{proof}
+
+计算必须同时写出逆变换、像区域和 Jacobian. 漏掉区域会给不可能的取值赋予密度. 若变换不是一一对应, 应拆成若干可逆分支并将各支贡献相加; 不能任选一个逆像. 极坐标在 $r>0$, $0<\theta<2\pi$ 上去掉一条射线后可逆, 而原点与射线是零面积集合, 这就是前面圆盘积分可合法使用极坐标的原因.
+
+\begin{example}
+若 $X,Y$ 独立且分别为 $\operatorname{Gamma}(a,\lambda)$、$\operatorname{Gamma}(b,\lambda)$, 求总量 $S=X+Y$ 和比例 $V=X/(X+Y)$ 的联合分布.
+\end{example}
+\begin{solution}
+旧区域为 $x>0,y>0$. 逆变换为 $x=sv$, $y=s(1-v)$, 新区域为 $s>0$, $0<v<1$, 逆 Jacobian 绝对值为 $s$. 因而
+\begin{align*}
+ f_{S,V}(s,v)
+ &=\frac{\lambda^{a+b}}{\Gamma(a)\Gamma(b)}
+     (sv)^{a-1}[s(1-v)]^{b-1}\ee^{-\lambda s}s\\
+ &=\left[\frac{\lambda^{a+b}s^{a+b-1}\ee^{-\lambda s}}{\Gamma(a+b)}\right]
+   \left[\frac{v^{a-1}(1-v)^{b-1}}{B(a,b)}\right].
+\end{align*}
+两个括号都是归一密度. 所以 $S\sim\operatorname{Gamma}(a+b,\lambda)$,
+$V\sim\operatorname{Beta}(a,b)$, 且总量与比例独立. 相同速率使指数项只依赖 $s$; 若速率不同, 一般会留下同时依赖 $s,v$ 的项, 不再得到上述独立性.
+\end{solution}
+
+\begin{example}
+若 $X,Y$ 为独立标准正态变量, 求比值 $Q=X/Y$ 的分布.
+\end{example}
+\begin{solution}
+$\Prob(Y=0)=0$, 所以比值几乎必然有定义. 取 $V=Y$, 逆变换为 $x=qv,y=v$, Jacobian 绝对值为 $|v|$. 分别在 $v>0$ 和 $v<0$ 上可逆, 求和得到
+\[
+ f_{Q,V}(q,v)=\frac{|v|}{2\pi}\ee^{-(1+q^2)v^2/2}.
+\]
+对 $v$ 积分,
+\[
+ f_Q(q)=\frac1\pi\int_0^\infty v\ee^{-(1+q^2)v^2/2}\dd v
+       =\frac1{\pi(1+q^2)}.
+\]
+所以独立正态变量的比值为标准 Cauchy. 分子、分母各自有全部有限矩, 但除法可因分母接近零而产生很重的尾部.
+\end{solution}
+
+\originalsection{独立和的卷积与积分上下界}
+
+\begin{theorem}[连续卷积]
+若 $X,Y$ 独立且具有密度, 则 $S=X+Y$ 的密度可取为
+\[
+ f_S(s)=\int_{\R} f_X(s-y)f_Y(y)\dd y
+       =\int_{\R} f_X(x)f_Y(s-x)\dd x.
+\]
+这个积分称为两个密度的卷积.
+\end{theorem}
+\begin{proof}
+事件 $X+Y\le s$ 对应半平面 $x+y\le s$, 因而
+\[
+ F_S(s)=\int_{\R}\int_{-\infty}^{s-y}f_X(x)f_Y(y)\dd x\dd y
+       =\int_{\R}F_X(s-y)f_Y(y)\dd y.
+\]
+在足够光滑且可交换求导与积分的情况下, 对 $s$ 求导即可得到卷积. 为避免无条件交换微分, 对任意 $a<b$ 直接作 $z=x+y$ 换元:
+\begin{align*}
+ \Prob(a<S\le b)
+ &=\int_{\R}\int_{a-y}^{b-y}f_X(x)f_Y(y)\dd x\dd y\\
+ &=\int_{\R}\int_a^b f_X(z-y)f_Y(y)\dd z\dd y\\
+ &=\int_a^b\left(\int_{\R}f_X(z-y)f_Y(y)\dd y\right)\dd z.
+\end{align*}
+非负积分允许交换次序, 所以括号内确实为密度. 对全实线积分的值也为 $1$.
+\end{proof}
+
+卷积不是在直线 $x+y=s$ 上对二维密度作未经说明的面积积分; 那条直线面积为零. 实际上, 固定总和坐标 $s$ 后对另一个坐标积分, 得到的是每单位 $s$ 的概率.
+
+若 $X$ 的支撑为 $[a,b]$, $Y$ 的支撑为 $[c,d]$, 卷积中非零项需满足 $c\le y\le d$ 及 $a\le s-y\le b$. 因而有效上下界为
+\[
+ \max(c,s-b)\le y\le\min(d,s-a).
+\]
+若下界大于上界, 密度为零. 当支撑是正半轴时, $s>0$ 的积分区间为 $0<y<s$; $s\le0$ 时为空.
+
+\begin{example}
+设 $X$ 在 $[0,2]$ 上均匀, $Y$ 在 $[0,1]$ 上均匀, 二者独立. 求 $S=X+Y$ 的密度.
+\end{example}
+\begin{solution}
+联合密度的乘积为 $1/2$ 在相应矩形上. 有效区间是
+$[0,1]\cap[s-2,s]$. 因此密度等于该区间长度的一半:
+\[
+ f_S(s)=\begin{cases}
+  s/2,&0<s<1,\\
+  1/2,&1\le s\le2,\\
+  (3-s)/2,&2<s<3,\\
+  0,&\text{其余}.
+ \end{cases}
+\]
+梯形面积为 $1/4+1/2+1/4=1$. 若两个变量都在 $[0,1]$ 上均匀, 同样计算得到 $s$ ($0<s<1$) 和 $2-s$ ($1<s<2$) 组成的三角密度.
+\end{solution}
+
+\begin{center}
+\begin{tikzpicture}[xscale=1.7,yscale=2.4,>=Stealth]
+ \draw[->] (-.2,0)--(3.4,0) node[right] {$s$};
+ \draw[->] (0,-.06)--(0,.75) node[above] {$f_S(s)$};
+ \draw[very thick] (0,0)--(1,.5)--(2,.5)--(3,0);
+ \draw[dashed] (1,0)--(1,.5) (2,0)--(2,.5);
+ \foreach \x in {1,2,3}\node[below] at (\x,0) {$\x$};
+ \node[left] at (0,.5) {$1/2$};
+\end{tikzpicture}
+\end{center}
+
+\begin{proposition}[同速率 Gamma 的可加性]
+若 $X\sim\operatorname{Gamma}(a,\lambda)$ 与
+$Y\sim\operatorname{Gamma}(b,\lambda)$ 独立, 则
+$X+Y\sim\operatorname{Gamma}(a+b,\lambda)$.
+\end{proposition}
+\begin{proof}
+前面的总量与比例变换已证明此结论. 卷积还给出一条直接计算链: 对 $s>0$,
+\begin{align*}
+ f_{X+Y}(s)
+ &=\frac{\lambda^{a+b}\ee^{-\lambda s}}{\Gamma(a)\Gamma(b)}
+    \int_0^s(s-y)^{a-1}y^{b-1}\dd y\\
+ &=\frac{\lambda^{a+b}\ee^{-\lambda s}s^{a+b-1}}{\Gamma(a)\Gamma(b)}
+    \int_0^1(1-v)^{a-1}v^{b-1}\dd v\\
+ &=\frac{\lambda^{a+b}s^{a+b-1}\ee^{-\lambda s}}{\Gamma(a+b)}.
+\end{align*}
+第二行使用 $y=sv$, 第三行使用 Beta--Gamma 恒等式. $s\le0$ 时密度为零. 常数和幂次均保留, 所以这是完整密度验证, 不仅是“正比于”的形状判断.
+\end{proof}
+
+取 $a=b=1$ 得两个独立指数变量的和为 $\operatorname{Gamma}(2,\lambda)$; 归纳得到 $n$ 个 i.i.d. 指数间隔的和为 $\operatorname{Gamma}(n,\lambda)$. 这完成了第4章独立指数间隔构造 Poisson 计数时所需的密度证明. 不同速率时通常不能简单相加形状参数. 例如 $X\sim\Exp(\lambda)$, $Y\sim\Exp(\mu)$, $\lambda\ne\mu$, 对 $s>0$,
+\[
+ f_{X+Y}(s)=\lambda\mu\ee^{-\lambda s}\int_0^s\ee^{(\lambda-\mu)y}\dd y
+ =\frac{\lambda\mu}{\mu-\lambda}(\ee^{-\lambda s}-\ee^{-\mu s}).
+\]
+符号自动保证密度非负; 当 $\mu\to\lambda$ 时极限为 $\lambda^2s\ee^{-\lambda s}$.
+
+\originalsection{正态和与旋转对称性}
+
+\begin{theorem}[独立正态的线性组合]
+若 $X_j\sim\Normal(\mu_j,\sigma_j^2)$ 相互独立, $a_j\in\R$, 且 $\sum_j a_j^2\sigma_j^2>0$, 则
+\[
+ \sum_{j=1}^n a_jX_j\sim
+ \Normal\left(\sum_{j=1}^n a_j\mu_j,\ \sum_{j=1}^n a_j^2\sigma_j^2\right).
+\]
+若方差和为零, 则线性组合为常数.
+\end{theorem}
+\begin{proof}
+先看独立标准正态 $Z_1,Z_2$. 对任意 $\theta$, 取旋转坐标
+\[
+ U=\cos\theta Z_1+\sin\theta Z_2,\qquad
+ V=-\sin\theta Z_1+\cos\theta Z_2.
+\]
+旋转的一一对应性、Jacobian 绝对值为 $1$, 以及
+$Z_1^2+Z_2^2=U^2+V^2$, 共同给出新密度
+\[
+ f_{U,V}(u,v)=\frac1{2\pi}\ee^{-(u^2+v^2)/2}=\phi(u)\phi(v).
+\]
+所以 $U,V$ 仍为独立标准正态. 给定 $b_1,b_2$ 不全为零, 写
+$b_1=r\cos\theta$, $b_2=r\sin\theta$, $r=\sqrt{b_1^2+b_2^2}$, 则
+$b_1Z_1+b_2Z_2=rU\sim\Normal(0,r^2)$.
+
+现在把 $X_1,X_2$ 分别写成均值加标准差乘以标准正态变量, 平移均值并取 $b_j=a_j\sigma_j$, 就证明两个变量的公式. 对更多变量归纳: 已相加的一组变量的函数与其余变量独立, 因为独立性对坐标事件成立, 对由这些坐标决定的事件也成立. 每次使用两个变量的结果, 均值相加、方差相加, 得到所述结论.
+\end{proof}
+
+也可由卷积配方核对常数. 对均值为零、方差分别为 $u,v>0$ 的两个独立正态变量,
+\[
+ \frac{(s-y)^2}{u}+\frac{y^2}{v}
+ =\frac{u+v}{uv}\left(y-\frac{vs}{u+v}\right)^2
+   +\frac{s^2}{u+v}.
+\]
+卷积中先提取 $\ee^{-s^2/(2(u+v))}$, 剩余高斯积分为
+$\sqrt{2\pi uv/(u+v)}$. 与原系数 $1/(2\pi\sqrt{uv})$ 相乘, 得
+\[
+ f_{X+Y}(s)=\frac1{\sqrt{2\pi(u+v)}}\ee^{-s^2/(2(u+v))}.
+\]
+旋转证明解释结构, 配方计算则直接检查密度. 二者都不需要用正态近似替代精确分布证明.
+
+\begin{example}
+独立测量 $X\sim\Normal(5,4)$, $Y\sim\Normal(1,9)$. 求 $D=2X-Y$ 的分布与 $\Prob(D>14)$.
+\end{example}
+\begin{solution}
+均值为 $2\cdot5-1=9$, 方差为 $2^2\cdot4+(-1)^2\cdot9=25$. 所以
+$D\sim\Normal(9,25)$, 右尾概率为 $1-\Phi((14-9)/5)=1-\Phi(1)\approx0.1587$.
+负系数改变均值方向, 方差中的系数仍须平方.
+\end{solution}
+
+\originalsection{离散卷积与 Cauchy 和}
+
+对独立离散变量,
+\[
+ \Prob(X+Y=k)=\sum_j\Prob(X=k-j)\Prob(Y=j).
+\]
+这是与连续卷积相同的分解: 固定总和, 枚举所有可能的组成方式. 例如同成功率的独立二项变量相加后为 $\Bin(m+n,p)$, 因为可以将两组独立 Bernoulli 试验连接成一组. 独立 $\Pois(\lambda)$ 与 $\Pois(\mu)$ 的和满足
+\begin{align*}
+ \Prob(X+Y=k)
+ &=\ee^{-(\lambda+\mu)}\sum_{j=0}^k
+      \frac{\lambda^{k-j}\mu^j}{(k-j)!j!}\\
+ &=\ee^{-(\lambda+\mu)}\frac{(\lambda+\mu)^k}{k!},
+\end{align*}
+所以为 $\Pois(\lambda+\mu)$. 这里的可加性既可由计数解释, 也可由二项式展开核对.
+
+$n$ 个独立几何等待变量的和 $G$ 记录第 $n$ 次成功的试验编号. 对 $k\ge n$, 第 $k$ 次须成功, 前 $k-1$ 次恰有 $n-1$ 次成功, 因而
+\[
+ \Prob(G=k)=\binom{k-1}{n-1}p^n(1-p)^{k-n}.
+\]
+这是负二项等待分布, 与 $n$ 个指数间隔之和的 gamma 分布相对应. 几何变量取值从 $1$ 开始是此公式的重要约定.
+
+\begin{proposition}[标准 Cauchy 的稳定性]
+若 $C_1,C_2$ 为独立标准 Cauchy 变量, 则 $C_1+C_2$ 与 $2C_1$ 同分布.
+\end{proposition}
+\begin{proof}
+卷积为
+\[
+ f_{C_1+C_2}(s)=\frac1{\pi^2}\int_{\R}
+     \frac{\dd y}{(1+y^2)(1+(s-y)^2)}.
+\]
+当 $s\ne0$, 记 $B=1/(s^2+4)$, $A=2/[s(s^2+4)]$. 直接通分得到
+\[
+ \frac1{(1+y^2)(1+(s-y)^2)}
+ =\frac{Ay+B}{1+y^2}+\frac{A(s-y)+B}{1+(s-y)^2}.
+\]
+先在 $[-R,R]$ 上积分. 两个常数项的积分在 $R\to\infty$ 时各趋 $B\pi$. 第一个奇函数项的对称积分为零; 第二个线性项积分为
+\[
+ \frac A2\log\frac{1+(s+R)^2}{1+(s-R)^2}\longrightarrow0.
+\]
+不能把两个分别非绝对可积的线性项未经截断就拆成无穷区间积分; 此处共同截断避免了这一问题. 所以原积分为 $2\pi/(s^2+4)$.
+
+当 $s=0$, 用 $y=\tan\theta$,
+\[
+ \int_{\R}\frac{\dd y}{(1+y^2)^2}
+ =\int_{-\pi/2}^{\pi/2}\cos^2\theta\dd\theta=\frac\pi2,
+\]
+同样符合公式. 最终密度为 $2/[\pi(s^2+4)]$, 这正是 $2C_1$ 的密度.
+\end{proof}
+
+稳定性体现 Cauchy 的重尾特点. 两个变量的平均值仍是标准 Cauchy, 不能期待它像有限方差变量的平均那样集中. 上一章关于 Brownian 命中点的解释与这个精确积分结论一致, 但此处没有使用未建立的随机过程理论.
+
+\originalsection{习题与解答}
+
+\begin{exercise}
+在区域 $0<x<y<2$ 上联合密度为 $c$, 其余为零. 求 $c$, 两个边缘密度和 $\Prob(X<1,Y>1)$. 判断 $X,Y$ 是否独立.
+\end{exercise}
+\begin{solution}
+三角形面积为 $2$, 所以 $c=1/2$. 固定 $x$ 时 $y\in(x,2)$, 固定 $y$ 时 $x\in(0,y)$, 因而
+\[
+ f_X(x)=\frac{2-x}{2}\quad(0<x<2),\qquad
+ f_Y(y)=\frac y2\quad(0<y<2).
+\]
+事件 $0<x<1<y<2$ 是面积为 $1$ 的矩形, 完全落在原区域内, 所以概率为 $1/2$. 两个边缘事件的概率分别为 $3/4,3/4$, 乘积 $9/16\ne1/2$, 所以不独立.
+\end{solution}
+
+\begin{exercise}
+独立 $X\sim\Exp(2)$、$Y\sim\Exp(3)$. 求 $T=\min(X,Y)$, 首先达到最小值的变量为 $X$ 的概率, 以及 $S=X+Y$ 的密度. $T$ 与首个身份是否独立?
+\end{exercise}
+\begin{solution}
+$T\sim\Exp(5)$, $X$ 首先结束的概率为 $2/5$. 联合时间与身份密度为 $2\ee^{-5t}$ 和 $3\ee^{-5t}$, 均分解为 $5\ee^{-5t}$ 乘以身份概率, 所以独立. 对总和, 支撑迫使 $0<y<s$, 因而
+\[
+ f_S(s)=\int_0^s2\ee^{-2(s-y)}3\ee^{-3y}\dd y
+ =6(\ee^{-2s}-\ee^{-3s})\quad(s>0),
+\]
+其余为零. 总和一般不为指数分布, 最小值与总和不能混淆.
+\end{solution}
+
+\begin{exercise}
+独立 $X\sim\operatorname{Gamma}(2,1)$、$Y\sim\operatorname{Gamma}(3,1)$. 求 $S=X+Y$, $V=X/(X+Y)$ 的分布、独立性, 以及 $\Prob(V<1/2)$.
+\end{exercise}
+\begin{solution}
+由总量与比例变换, $S\sim\operatorname{Gamma}(5,1)$,
+$V\sim\operatorname{Beta}(2,3)$, 且独立. 由于
+$B(2,3)=\Gamma(2)\Gamma(3)/\Gamma(5)=1/12$, 比例密度为 $12v(1-v)^2$. 因而
+\[
+ \Prob(V<1/2)=12\left[\frac{v^2}{2}-\frac{2v^3}{3}+\frac{v^4}{4}\right]_0^{1/2}
+ =\frac{11}{16}.
+\]
+这里不能先假设比例均匀; 仅当两个 shape 参数均为 $1$ 时比例才均匀.
+\end{solution}
+
+\begin{exercise}
+独立 $U,V$ 均匀于 $(0,1)$. 求乘积 $W=UV$ 的分布函数与密度, 再求比值 $Q=U/V$ 的密度.
+\end{exercise}
+\begin{solution}
+对 $0<w<1$, 固定 $v$. 当 $v\le w$, 所有 $u\in(0,1)$ 都满足 $uv\le w$; 当 $v>w$, 则需 $u\le w/v$. 所以
+\[
+ F_W(w)=\int_0^w1\dd v+\int_w^1\frac wv\dd v
+ =w-w\log w,
+\]
+密度为 $-\log w$, $0<w<1$. 区间外分布函数分别为 $0,1$. 密度在零附近无界, 但 $\int_0^1-\log w\dd w=1$.
+
+对比值, 取新变量 $(q,v)$, 逆变换为 $u=qv$, $v=v$, Jacobian 为 $v>0$. 旧支撑要求 $0<v<\min(1,1/q)$ 且 $q>0$, 因而
+\[
+ f_Q(q)=\int_0^{\min(1,1/q)}v\dd v
+ =\begin{cases}1/2,&0<q\le1,\\1/(2q^2),&q>1,\\0,&q\le0.\end{cases}
+\]
+两段积分各为 $1/2$, 总概率为 $1$. 支撑不再是原来的单位正方形, 必须随变换重新确定.
+\end{solution}
