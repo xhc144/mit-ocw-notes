@@ -1,0 +1,439 @@
+\originalchapter{一般度量空间的紧性}
+\label{ch:compact}
+
+本章以 Paige Bright 的 MIT OCW 18.S190 IAP 2023 第 4 讲为主线重编. 核心是把开覆盖、收敛子列和 Cauchy 点列三种语言联系起来, 并用紧性证明连续像、极值与非空交结论. 编者补写递归抽取的指标选择、空集约定及紧集间的距离, 修正原稿中同一半径球内两点的距离估计. 一致连续与完备化分别留待后续章节.
+\emph{来源定位: 第 4 讲正文第 1--2 页为 Lebesgue 数、全有界与紧性的等价, 第 3--4 页为连续像、极值、有限交性质及完备性; 本章补充一般度量空间版本与完整证明. 页码采用原讲义印刷页码.}
+
+\originalsection{紧、序列紧与全有界}
+\label{ch:compact:three-languages}
+
+上一章中, 闭性使有界点列的极限留在集合中, 而有界性配合有限维坐标保证能抽出收敛子列. 在一般度量空间中, 坐标方盒未必存在, 有界性也可能太弱. 我们需要一种更细的控制: 不仅把全部点装进一个大球, 而且能在每一个指定尺度上, 用有限多个小球覆盖全部点.
+
+本章把 $X$ 本身作为度量空间讨论. 对子集 $K\subseteq X$, 所有结论都可应用于限制度量后的空间 $K$; 其中的球就是 $B_K(x,r)=K\cap B_X(x,r)$.
+
+\begin{definition}[序列紧、全有界与完备]
+度量空间 $(X,d)$ 称为序列紧, 如果其中的每个点列都有收敛到 $X$ 中某点的子列. 称 $X$ 全有界, 如果对每个 $\varepsilon>0$, 存在有限多个点 $p_1,\ldots,p_m\in X$, 使
+\[
+ X=\bigcup_{j=1}^mB_X(p_j,\varepsilon).
+\]
+这样的有限点集称为一个有限 $\varepsilon$-网, 这里使用严格小于 $\varepsilon$ 的开球约定.
+
+点列 $(x_n)$ 称为 Cauchy 点列, 如果对每个 $\varepsilon>0$, 存在 $N$, 使 $m,n\geq N$ 时 $d(x_m,x_n)<\varepsilon$. 若 $X$ 中每个 Cauchy 点列都收敛到 $X$ 内的点, 则称 $X$ 完备.
+\end{definition}
+
+空空间按定义紧、序列紧、全有界且完备. 全有界性在空空间中用空的有限网即可. 下面在需要选取点时可直接排除这一平凡情况.
+
+\begin{example}
+在无限集合 $X$ 上定义离散度量
+\[
+ d(x,y)=\begin{cases}0,&x=y,\\1,&x\ne y.\end{cases}
+\]
+判断 $X$ 是否有界、全有界、完备以及紧.
+\end{example}
+\begin{solution}
+所有距离都不超过 $1$, 所以 $X$ 有界. 但当 $0<\varepsilon<1$ 时, 每个 $\varepsilon$-球都只是一个单点, 有限多个球不能覆盖无限集合. 因而 $X$ 不全有界, 也不紧: 全部单点组成开覆盖, 却没有有限子覆盖. 此空间完备, 因为 Cauchy 点列取 $\varepsilon=1/2$ 后必须最终恒定. 所以完备与有界合起来仍不足以得到紧性.
+\end{solution}
+
+\begin{proposition}[全有界的基本性质]
+\label{ch:compact:total-basic}
+全有界空间必有界, 它的任意子空间也全有界. 有限维欧氏空间中的每个有界子集全有界.
+\end{proposition}
+\begin{proof}
+若 $X$ 非空且全有界, 取有限 $1$-网 $p_1,\ldots,p_m$. 对任意 $x\in X$, 选 $j$ 使 $d(x,p_j)<1$. 则
+\[
+ d(x,p_1)<1+\max_{1\leq j\leq m}d(p_j,p_1),
+\]
+所以 $X$ 包含在某个以 $p_1$ 为中心的有限半径球中.
+
+设 $A\subseteq X$, 要在 $A$ 中选有限 $\varepsilon$-网. 先取 $X$ 的有限 $\varepsilon/2$-网. 对每个与 $A$ 相交的球 $B_X(p_j,\varepsilon/2)$, 从交集中选 $a_j\in A$. 若 $a\in A$ 落在这个球中, 则
+$d(a,a_j)\leq d(a,p_j)+d(p_j,a_j)<\varepsilon$.
+因此有限多个 $B_A(a_j,\varepsilon)$ 覆盖 $A$. 这一步需要移动球心, 因为原来网的球心未必属于 $A$.
+
+最后, 设 $A\subseteq\mathbb{R}^n$ 有界, 把它装进某个方盒. 对给定 $\varepsilon>0$, 把方盒分成有限个边长小于 $\varepsilon/\sqrt n$ 的小方盒. 从每个与 $A$ 相交的小方盒中选一个 $A$ 中的点. 同一小方盒内任意两点的欧氏距离小于 $\varepsilon$, 所选点便构成有限 $\varepsilon$-网. 空集的情形均用空网处理.
+\end{proof}
+
+\begin{lemma}[Cauchy 点列中的收敛子列]
+\label{ch:compact:cauchy-subsequence}
+收敛点列是 Cauchy 点列. 若一个 Cauchy 点列 $(x_n)$ 有子列 $x_{n_k}\to x\in X$, 则整个点列都收敛到 $x$.
+\end{lemma}
+\begin{proof}
+若 $x_n\to x$, 对给定 $\varepsilon>0$, 当 $m,n$ 足够大时 $d(x_m,x)<\varepsilon/2$ 且 $d(x_n,x)<\varepsilon/2$, 从而 $d(x_m,x_n)<\varepsilon$.
+
+再设 $(x_n)$ 为 Cauchy 点列且 $x_{n_k}\to x$. 取 $N$ 使 $m,n\geq N$ 时 $d(x_m,x_n)<\varepsilon/2$. 选一个固定的子列项 $x_{n_k}$, 使 $n_k\geq N$ 且 $d(x_{n_k},x)<\varepsilon/2$. 对每个 $n\geq N$, 都有
+\[
+ d(x_n,x)\leq d(x_n,x_{n_k})+d(x_{n_k},x)<\varepsilon.
+\]
+这对所有尾项成立, 因而 $x_n\to x$. 仅估计某一个 $x_N$ 到 $x$ 的距离不能代替这一步.
+\end{proof}
+
+\originalsection{紧性等价定理的证明}
+\label{ch:compact:equivalence-proofs}
+
+我们将先证明开覆盖紧性推出序列紧, 再证明序列紧推出全有界与完备. 反向的抽取依靠全有界, 让子列先成为 Cauchy 点列, 再由完备性得到极限. 最后使用 Lebesgue 数, 把序列紧重新转回有限子覆盖. 这样每一步只使用已经证明的结果.
+
+\begin{theorem}[紧性推出序列紧]
+\label{ch:compact:compact-to-sequential}
+每个紧度量空间都序列紧.
+\end{theorem}
+\begin{proof}
+设 $X$ 紧, 假设存在点列 $(x_n)$ 没有任何在 $X$ 中收敛的子列. 对每个 $x\in X$, 必存在 $r_x>0$, 使 $B_X(x,r_x)$ 只包含有限多个点列项的指标. 否则, 对每个 $k$ 球 $B_X(x,1/k)$ 都包含无穷多个指标, 我们便可逐次选取
+\[
+ n_1<n_2<\cdots,\qquad x_{n_k}\in B_X(x,1/k),
+\]
+于是 $x_{n_k}\to x$, 与假设矛盾.
+
+全部 $B_X(x,r_x)$ 构成 $X$ 的开覆盖. 由紧性, 有有限多个这样的球覆盖 $X$. 每个所选球只包含有限多个点列项的指标, 所以它们的有限并只包含有限多个指标. 但它们覆盖 $X$, 就必须包含每个 $x_n$, 即必须包含全部正整数指标, 矛盾. 因而每个点列必有收敛子列.
+\end{proof}
+
+这里数的是指标, 不是不同点的个数. 如果某个点在点列中反复出现无穷次, 本来就有恒定的收敛子列. 上述证明统一处理了重复出现与各项不同两种情形, 不需要预先把点列改成两两不同.
+
+\begin{proposition}[序列紧性推出全有界与完备]
+\label{ch:compact:sequential-to-complete-total}
+每个序列紧的度量空间都全有界且完备.
+\end{proposition}
+\begin{proof}
+先证全有界. 若不全有界, 存在 $\varepsilon_0>0$, 使任何有限多个半径为 $\varepsilon_0$ 的球都不能覆盖 $X$. 任选 $x_1\in X$, 再递归选择
+\[
+ x_{n+1}\in X\setminus\bigcup_{j=1}^nB_X(x_j,\varepsilon_0).
+\]
+每一步的补集非空, 所以选择可行. 于是当 $i\ne j$ 时 $d(x_i,x_j)\geq\varepsilon_0$. 这个点列的任何子列都不是 Cauchy 点列, 因为不同两项之间的距离始终至少为 $\varepsilon_0$. 由引理 \ref{ch:compact:cauchy-subsequence}, 它也没有收敛子列, 与序列紧性矛盾.
+
+再证完备. 任取 $X$ 中的 Cauchy 点列, 序列紧性保证它有收敛于 $X$ 中某点的子列. 同一引理说明原点列收敛到这个点. 因此每个 Cauchy 点列都在 $X$ 中收敛, 即 $X$ 完备.
+\end{proof}
+
+\begin{lemma}[全有界空间中的子列抽取]
+\label{ch:compact:total-to-cauchy-subsequence}
+全有界度量空间中的每个点列都有 Cauchy 子列.
+\end{lemma}
+\begin{proof}
+设 $(x_n)$ 是 $X$ 中的点列. 对每个整数 $k\geq1$, 取一个有限的半径 $1/k$ 的球覆盖. 第一层覆盖中, 至少有一个球 $B_X(p_1,1)$ 含有无穷多个点列项的指标. 记这些指标组成的集合为 $I_1$.
+
+已构造无限指标集合 $I_{k-1}$ 后, 用第 $k$ 层的有限球覆盖这些指标对应的点. 至少一个球 $B_X(p_k,1/k)$ 含有无穷多个来自 $I_{k-1}$ 的指标. 令
+\[
+ I_k=\{n\in I_{k-1}:x_n\in B_X(p_k,1/k)\}.
+\]
+因此 $I_1\supseteq I_2\supseteq\cdots$, 且每个 $I_k$ 都无限. 这里 $p_k$ 是第 $k$ 层有限覆盖中选出的球心, 不要求各层球彼此包含.
+
+从 $I_k$ 中依次选取 $n_k>n_{k-1}$, 得到真正的子列 $(x_{n_k})$. 对任意固定的 $N$, 若 $k,\ell\geq N$, 则 $n_k\in I_k\subseteq I_N$ 且 $n_\ell\in I_\ell\subseteq I_N$, 所以两点都在 $B_X(p_N,1/N)$ 内. 故
+\begin{equation}
+ d(x_{n_k},x_{n_\ell})
+ \leq d(x_{n_k},p_N)+d(p_N,x_{n_\ell})<\frac2N.
+ \label{ch:compact:two-over-n}
+\end{equation}
+给定 $\varepsilon>0$, 取 $N$ 使 $2/N<\varepsilon$, 就证明该子列为 Cauchy 点列. 无穷多个指标保证每次能选比前一次更大的指标; 单纯在各个球中随便取点, 不足以得到原点列的子列.
+\end{proof}
+
+\begin{corollary}[完备且全有界推出序列紧]
+\label{ch:compact:complete-total-to-sequential}
+若 $X$ 完备且全有界, 则 $X$ 序列紧.
+\end{corollary}
+\begin{proof}
+任取点列. 由上一引理, 它有 Cauchy 子列; 由完备性, 这个子列收敛到 $X$ 中的某点. 这正是序列紧的定义.
+\end{proof}
+
+剩下的问题是怎样从收敛子列推出有限子覆盖. 全有界性会给出有限个同半径的球, 但原来的覆盖成员可能大小不一. 我们需要证明: 对每个固定的开覆盖, 总能找到一个统一的正半径, 使以任意点为中心的这个半径的球都落进某个覆盖成员中. 统一的是半径, 而允许使用的覆盖成员随中心改变.
+
+\begin{lemma}[Lebesgue 数引理]
+\label{ch:compact:lebesgue}
+设 $X$ 是序列紧度量空间, $\mathcal U=\{U_i\}_{i\in I}$ 是 $X$ 的开覆盖. 则存在 $r>0$, 使对每个 $x\in X$, 都有某个 $i\in I$ 满足
+\[
+ B_X(x,r)\subseteq U_i.
+\]
+这样的 $r$ 称为这个覆盖的一个 Lebesgue 数, 这里采用球包含版本的定义.
+\end{lemma}
+\begin{proof}
+空空间中取任意 $r>0$ 即可. 设 $X\ne\varnothing$. 若结论不成立, 则对每个 $r>0$, 都能找到一个中心 $x\in X$, 使这个半径的球不包含于任何 $U_i$. 对 $r=1/n$, 选取这样的 $x_n$, 即
+\[
+ B_X(x_n,1/n)\not\subseteq U_i
+ \qquad\text{对每个 }i\in I.
+\]
+由序列紧性, 有子列 $x_{n_k}\to x\in X$. 取 $i_0$ 使 $x\in U_{i_0}$; 由开放性, 存在 $\rho>0$ 使 $B_X(x,\rho)\subseteq U_{i_0}$. 当 $k$ 足够大时, 同时有
+\[
+ d(x_{n_k},x)<\rho/2,\qquad 1/n_k<\rho/2.
+\]
+若 $y\in B_X(x_{n_k},1/n_k)$, 则
+\[
+ d(y,x)\leq d(y,x_{n_k})+d(x_{n_k},x)
+ <1/n_k+\rho/2<\rho.
+\]
+因此 $B_X(x_{n_k},1/n_k)\subseteq B_X(x,\rho)\subseteq U_{i_0}$, 矛盾. 故所需的 $r$ 存在.
+\end{proof}
+
+\begin{remark}[另一种 Lebesgue 数约定]
+有的书把 Lebesgue 数定义为正数 $\lambda$, 使每个直径小于 $\lambda$ 的非空子集都包含在某个覆盖成员中. 球包含版本给出这个版本: 若 $\operatorname{diam}A<r$ 且 $a\in A$, 则 $A\subseteq B_X(a,r)$. 反过来, 若使用直径版本的 $\lambda$, 则 $B_X(x,\lambda/3)$ 的直径至多 $2\lambda/3<\lambda$, 从而得到球包含版本. 两种版本表达相同的统一尺度思想, 使用时要注意半径与直径的因子.
+\end{remark}
+
+\begin{theorem}[序列紧性推出紧性]
+\label{ch:compact:sequential-to-compact}
+每个序列紧度量空间都紧.
+\end{theorem}
+\begin{proof}
+设 $\{U_i\}_{i\in I}$ 是 $X$ 的任意开覆盖. 由 Lebesgue 数引理取 $r>0$. 序列紧性已经推出全有界, 因而可取有限 $r$-网 $p_1,\ldots,p_m$. 对每个球 $B_X(p_j,r)$, 由 Lebesgue 数性质选 $i_j$ 使该球包含在 $U_{i_j}$ 中. 所以
+\[
+ X=\bigcup_{j=1}^mB_X(p_j,r)
+ \subseteq\bigcup_{j=1}^mU_{i_j}.
+\]
+这就是原覆盖的有限子覆盖. 空空间直接用空子覆盖.
+\end{proof}
+
+\begin{theorem}[度量紧性的三个等价条件]
+\label{ch:compact:equivalence}
+对任意度量空间 $X$, 下列条件等价:
+\begin{enumerate}
+ \item $X$ 紧, 即每个开覆盖都有有限子覆盖.
+ \item $X$ 序列紧, 即每个点列都有在 $X$ 中收敛的子列.
+ \item $X$ 完备且全有界.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+定理 \ref{ch:compact:compact-to-sequential} 给出第一项推出第二项. 命题 \ref{ch:compact:sequential-to-complete-total} 给出第二项推出第三项. 推论 \ref{ch:compact:complete-total-to-sequential} 给出第三项推出第二项. 定理 \ref{ch:compact:sequential-to-compact} 给出第二项推出第一项. 因此三者等价, 且这些方向的证明没有使用一般空间中不成立的 Heine--Borel 性质.
+\end{proof}
+
+\begin{example}
+比较区间 $(0,1)$ 与 $\mathbb{R}$ 的全有界性、完备性和紧性.
+\end{example}
+\begin{solution}
+区间 $(0,1)$ 全有界, 因为它是有界的欧氏子集, 但不完备: Cauchy 点列 $1/(n+1)$ 的唯一实数极限为 $0$, 不属于此空间. 它因而不紧. $\mathbb{R}$ 完备, 但不全有界: 有限多个半径为 $1$ 的球的并仍有界, 不能覆盖 $\mathbb{R}$. 前面的无限离散空间则表明, 把全有界放宽成有界, 即使保留完备也不能得到紧性.
+\end{solution}
+
+\originalsection{有限交性质与嵌套紧集}
+\label{ch:compact:finite-intersections}
+
+开覆盖使用并集来表达 ``所有点都被照顾到''. 取补集后, 同一个事实可以改写成闭集交为空. 因而有限子覆盖与有限交之间有一个对偶关系: 在紧空间中, 若每次有限地施加闭条件都还有解, 就不能在施加全部条件时突然失去所有解.
+
+\begin{definition}[有限交性质]
+空间 $X$ 的子集族 $\{F_i\}_{i\in I}$ 称为具有有限交性质, 如果对每个有限指标集 $J\subseteq I$, 都有
+\[
+ \bigcap_{j\in J}F_j\ne\varnothing.
+\]
+约定没有任何集合参与时的交集为 $X$, 即 $\bigcap_{j\in\varnothing}F_j=X$. 因此这个定义也包含空的有限子族; 在非空空间中, 它不额外增加条件.
+\end{definition}
+
+\begin{theorem}[紧性的有限交刻画]
+\label{ch:compact:fip}
+度量空间 $X$ 紧, 当且仅当每一族具有有限交性质的、在 $X$ 中闭的子集 $\{F_i\}_{i\in I}$ 都满足
+\[
+ \bigcap_{i\in I}F_i\ne\varnothing.
+\]
+\end{theorem}
+\begin{proof}
+先设 $X$ 紧. 如果闭集族的总交为空, 则其开补集 $U_i=X\setminus F_i$ 覆盖 $X$. 紧性给出有限子覆盖 $U_{i_1},\ldots,U_{i_m}$, 从而
+\[
+ \bigcap_{j=1}^mF_{i_j}
+ =X\setminus\bigcup_{j=1}^mU_{i_j}=\varnothing,
+\]
+与有限交性质矛盾.
+
+反过来, 假设每个这样的闭集族均有非空总交. 若有开覆盖 $\{U_i\}$ 没有有限子覆盖, 则对每个有限 $J\subseteq I$,
+\[
+ \bigcap_{j\in J}(X\setminus U_j)
+ =X\setminus\bigcup_{j\in J}U_j\ne\varnothing.
+\]
+所以闭集族 $F_i=X\setminus U_i$ 具有有限交性质, 按假设其总交非空. 但 $\{U_i\}$ 覆盖 $X$ 意味着这个总交为空, 矛盾. 故每个开覆盖都有有限子覆盖, 即 $X$ 紧.
+
+若 $X=\varnothing$, 它紧, 且没有任何子集族满足本定义的有限交性质, 因为空的有限子族的交已经是空集. 所以右侧的全称条件也成立. 上述约定保证空空间不会成为例外.
+\end{proof}
+
+有限交刻画与定理 \ref{ch:compact:equivalence} 的三项一起, 就得到原课程中紧性的四种等价描述. 有限交性质必须配合闭性. 例如在紧空间 $[0,1]$ 中, 集合 $F_n=(0,1/n)$ 具有有限交性质, 却有空的总交; 它们都不在 $[0,1]$ 中闭.
+
+\begin{theorem}[嵌套非空紧集的交]
+\label{ch:compact:nested}
+设 $X$ 是度量空间, 且
+\[
+ K_1\supseteq K_2\supseteq K_3\supseteq\cdots
+\]
+是一列非空紧子集. 则 $\bigcap_{n\geq1}K_n\ne\varnothing$.
+\end{theorem}
+\begin{proof}
+每个 $K_n$ 都在 $X$ 中闭, 因而也在 $K_1$ 中闭. 任意有限个 $K_n$ 的交就是其中指标最大的那个集合, 所以非空. 把它们看成紧空间 $K_1$ 的闭子集族, 应用有限交刻画, 就得到总交非空.
+
+也可以直接用序列紧性理解这个结论. 对每个 $n$ 取 $a_n\in K_n$. 因为 $a_n\in K_1$ 且 $K_1$ 紧, 存在同一个收敛子列 $a_{n_k}\to a\in K_1$. 对任意固定的 $m$, 当 $k$ 足够大时 $n_k\geq m$, 故 $a_{n_k}\in K_{n_k}\subseteq K_m$. $K_m$ 闭, 所以 $a\in K_m$. 这对每个 $m$ 都成立, 于是 $a$ 属于全部 $K_m$. 不需要为不同的 $m$ 另选不同的收敛子列, 也不能仅由另一个子列存在就断言它有同一个极限.
+\end{proof}
+
+\begin{remark}[直径条件与紧性条件]
+此定理不要求 $\operatorname{diam}K_n\to0$. 若另有这个条件, 交集至多含一个点, 因为交集中的任意 $x,y$ 都满足 $d(x,y)\leq\operatorname{diam}K_n$ 对所有 $n$ 成立. 结合非空性, 此时交集恰好是单点. 后面的完备性章节会讨论另一种 Cantor 交集定理: 用完备空间、非空闭集和直径趋于零来替代这里各集合的紧性.
+\end{remark}
+
+\begin{example}
+在 $\mathbb{R}$ 中取 $K_n=[n,\infty)$ 与 $H_n=(0,1/n)$, $n\geq1$. 分别求它们的总交, 并说明为什么不违背嵌套紧集的交定理.
+\end{example}
+\begin{solution}
+$K_n$ 非空、闭且嵌套, 但不紧. 任意实数 $x$ 都不属于某个 $n>x$ 对应的 $K_n$, 所以总交为空. $H_n$ 非空、有界且嵌套, 直径甚至趋于零, 但不闭. 若 $x$ 在全部 $H_n$ 中, 则 $0<x<1/n$ 对所有 $n$ 成立, 不可能. 所以总交也为空. 两者都没有满足紧性假设, 这两个例子分别说明不能任意删去控制逃逸或保留极限的条件.
+\end{solution}
+
+\originalsection{连续像、最值与最小距离}
+\label{ch:compact:continuous-images}
+
+连续性用开集的逆像来描述, 因而特别适合与开覆盖定义相接. 若目标空间中的开集覆盖了函数像, 把它们拉回原空间就会覆盖定义域. 定义域紧时, 选出的有限子覆盖又可以送回目标空间.
+
+\begin{theorem}[紧集的连续像]
+\label{ch:compact:image}
+设 $K$ 是紧度量空间, $Y$ 是度量空间, $f:K\to Y$ 连续. 则 $f(K)$ 是 $Y$ 的紧子集. 特别地, 若 $f:X\to Y$ 连续而 $K\subseteq X$ 紧, 则 $f(K)$ 紧.
+\end{theorem}
+\begin{proof}
+设 $\{U_i\}_{i\in I}$ 是 $f(K)$ 的开覆盖, 各 $U_i$ 在 $Y$ 中开. 连续性保证 $V_i=f^{-1}(U_i)$ 在 $K$ 中开. 因为每个 $x\in K$ 的像落在某个 $U_i$ 中, 所以 $\{V_i\}$ 覆盖 $K$. 由紧性, 可选 $V_{i_1},\ldots,V_{i_m}$ 覆盖 $K$.
+
+任取 $y\in f(K)$, 写为 $y=f(x)$, $x\in K$. 某个 $V_{i_j}$ 包含 $x$, 即 $f(x)\in U_{i_j}$. 因而 $U_{i_1},\ldots,U_{i_m}$ 覆盖 $f(K)$, 得到有限子覆盖. 注意证明只使用 $f(V_i)\subseteq U_i$, 并不需要、也一般没有 $f(V_i)=U_i$. 最后一项应用于限制映射 $f|_K$ 即可.
+\end{proof}
+
+\begin{theorem}[紧集上的极值定理]
+\label{ch:compact:extreme-values}
+设 $K$ 是非空紧度量空间, $f:K\to\mathbb{R}$ 连续. 则 $f$ 有界, 且存在 $x_{\min},x_{\max}\in K$ 使
+\[
+ f(x_{\min})\leq f(x)\leq f(x_{\max})
+ \qquad(x\in K).
+\]
+\end{theorem}
+\begin{proof}
+连续像定理说明 $C=f(K)$ 是 $\mathbb{R}$ 中的非空紧集, 因而闭且有界. 设 $M=\sup C$ 与 $m=\inf C$, 它们都是有限实数. 对每个正整数 $n$, 由上确界定义选 $c_n\in C$ 使 $M-1/n<c_n\leq M$. 所以 $c_n\to M$, 由 $C$ 的闭性得 $M\in C$. 同理, 可选 $b_n\in C$ 使 $m\leq b_n<m+1/n$, 得 $m\in C$. 由像集的定义, 有 $x_{\max},x_{\min}\in K$ 分别满足 $f(x_{\max})=M$, $f(x_{\min})=m$. 这就证明最值被实际取得, 而不仅是上确界与下确界存在.
+\end{proof}
+
+\begin{example}
+在 $(0,1)$ 上取连续函数 $f(x)=x$ 与 $g(x)=1/x$. 判断它们是否有界以及是否取得最值.
+\end{example}
+\begin{solution}
+$f$ 有界, 上确界为 $1$, 下确界为 $0$, 但两个端点值都不在函数像中, 所以最大值与最小值均不存在. $g$ 无界, 因为 $g(1/n)=n$ 对 $n\geq2$ 成立. 它的下确界为 $1$, 不取得, 也没有最大值. 非紧并不表示每个连续函数都会失败: 常值函数仍有最大值与最小值. 极值定理给出的是非空紧定义域上所有连续实值函数均可取得最值的保证.
+\end{solution}
+
+\begin{definition}[点到集合、集合到集合的距离]
+对非空子集 $A\subseteq X$, 定义
+\[
+ d(x,A)=\inf_{a\in A}d(x,a).
+\]
+若 $A,B$ 均非空, 定义
+\[
+ d(A,B)=\inf\{d(a,b):a\in A,\ b\in B\}.
+\]
+两者都是有限的非负实数. 这里不把空集的距离纳入定义, 以免在讨论最小值时混入扩展实数 $+\infty$.
+\end{definition}
+
+\begin{lemma}[距离函数的连续性]
+\label{ch:compact:distance-function}
+对非空 $A\subseteq X$, 有
+\[
+ |d(x,A)-d(y,A)|\leq d(x,y)
+ \qquad(x,y\in X).
+\]
+因此 $x\mapsto d(x,A)$ 连续. 此外, $d(x,A)=0$ 当且仅当 $x\in\overline A$.
+\end{lemma}
+\begin{proof}
+对任意 $a\in A$, 三角不等式给出 $d(x,A)\leq d(x,a)\leq d(x,y)+d(y,a)$. 对 $a$ 取下确界, 得 $d(x,A)\leq d(x,y)+d(y,A)$. 交换 $x,y$, 得到绝对值估计. 若 $d(x,A)=0$, 则对每个 $r>0$, 下确界定义保证某个 $a\in A$ 满足 $d(x,a)<r$, 所以每个球 $B_X(x,r)$ 都与 $A$ 相交, 即 $x\in\overline A$. 反过来, 若 $x\in\overline A$, 每个半径 $r$ 的球都包含 $A$ 中某点, 从而 $0\leq d(x,A)<r$ 对所有 $r>0$ 成立, 故距离为零.
+\end{proof}
+
+\begin{theorem}[紧集与闭集的正距离]
+\label{ch:compact:positive-distance}
+设 $A,B\subseteq X$ 非空且不相交. 若 $A$ 紧而 $B$ 在 $X$ 中闭, 则 $d(A,B)>0$. 特别地, 两个非空不相交紧集之间的距离为正. 若 $A,B$ 均紧, 还存在 $a_0\in A,b_0\in B$ 使
+\[
+ d(A,B)=d(a_0,b_0)>0.
+\]
+\end{theorem}
+\begin{proof}
+因为 $B$ 闭且 $A\cap B=\varnothing$, 对每个 $a\in A$ 都有 $a\notin\overline B$, 所以上一引理给出 $d(a,B)>0$. 连续函数 $a\mapsto d(a,B)$ 在非空紧集 $A$ 上取得最小值, 设取得点为 $a_0$. 因为函数在每个点都严格为正, 特别是在最小值取得点严格为正, 故
+\[
+ d(A,B)=\inf_{a\in A}d(a,B)=d(a_0,B)>0.
+\]
+第一处等号来自对全部配对 $(a,b)$ 取下确界与逐次取下确界的等价. 具体地, 任意全体配对距离的下界也是每个 $d(a,B)$ 的下界; 反过来, 任意全部 $d(a,B)$ 的下界又是每个配对距离 $d(a,b)$ 的下界. 因而两边有相同的下界集合, 下确界相同.
+
+若 $B$ 也紧, 连续函数 $b\mapsto d(a_0,b)$ 在 $B$ 上取得最小值, 设取得点为 $b_0$. 则 $d(a_0,b_0)=d(a_0,B)=d(A,B)$, 从而同时证明距离被一对点取得.
+\end{proof}
+
+这个证明揭示两个不同作用: $B$ 的闭性使每个固定点 $a\notin B$ 与 $B$ 有正距离; $A$ 的紧性把这些各自可能很小的正数变成一个统一的正下界. 若两者都只闭, 点对可以一起向无穷远移动, 让距离趋于零.
+
+\begin{example}
+在 $\mathbb{R}^2$ 中取
+\[
+ A=\{(x,0):x\geq1\},\qquad
+ B=\{(x,1/x):x\geq1\}.
+\]
+证明 $A,B$ 均闭且不相交, 但 $d(A,B)=0$. 再比较 $\mathbb{R}$ 中的 $\{0\}$ 与 $(0,1)$.
+\end{example}
+\begin{solution}
+两者不相交. $A$ 闭; $B$ 也闭, 因为若 $(x_n,1/x_n)\to(x,y)$, 则 $x_n\geq1$ 给出 $x\geq1$, 连续性给出 $y=1/x$, 所以极限仍在 $B$. 但
+\[
+ d((n,0),(n,1/n))=1/n\longrightarrow0,
+\]
+所以 $d(A,B)=0$. 两集合均不有界, 因而均不紧. 另一个反例是 $A=\{0\}$ 与 $B=(0,1)$: $A$ 紧, 但 $B$ 不闭, 仍有 $d(A,B)=0$. 因而在正距离定理中, 不能只保留 ``不相交'' 而删去相应的紧性或闭性条件.
+\end{solution}
+
+\originalsection{编者练习与解答}
+\label{ch:compact:exercises}
+
+以下练习由编者组织, 不标作 MIT 原习题或新领军真题. 它们分别训练有限网的运用、子列抽取、有限交与最值条件, 每题均附完整解答.
+
+\begin{exercise}
+\label{ch:compact:ex-separable}
+称空间 $X$ 可分, 如果存在至多可数的子集 $D\subseteq X$ 使 $\overline D=X$. 证明每个全有界度量空间可分, 从而每个紧度量空间可分. 可分是否推出全有界?
+\end{exercise}
+\begin{solution}
+对每个 $n\geq1$, 取一个有限 $1/n$-网 $D_n$, 并令 $D=\bigcup_{n\geq1}D_n$. 可数多个有限集合的并至多可数. 对任意 $x\in X$ 与 $r>0$, 取 $n$ 使 $1/n<r$. 有 $p\in D_n$ 满足 $d(x,p)<1/n<r$, 所以 $B_X(x,r)$ 与 $D$ 相交. 因而每个 $x$ 都在 $\overline D$ 中, 即 $D$ 稠密. 空空间取 $D=\varnothing$. 紧空间全有界, 所以也可分. 反方向不成立: $\mathbb{Q}$ 是 $\mathbb{R}$ 的可数稠密子集, 所以 $\mathbb{R}$ 可分, 但 $\mathbb{R}$ 不全有界.
+\end{solution}
+
+\begin{exercise}
+\label{ch:compact:ex-closure}
+设 $A$ 是度量空间 $X$ 的全有界子集. 证明其在 $X$ 中的闭包 $\overline A$ 也全有界. 若 $X$ 完备, 证明 $\overline A$ 紧.
+\end{exercise}
+\begin{solution}
+若 $A=\varnothing$, 闭包为空, 结论成立. 否则对给定 $\varepsilon>0$, 取 $A$ 中的有限 $\varepsilon/3$-网 $p_1,\ldots,p_m$. 对任意 $x\in\overline A$, 可选 $a\in A$ 使 $d(x,a)<\varepsilon/3$, 再选 $j$ 使 $d(a,p_j)<\varepsilon/3$. 则 $d(x,p_j)<2\varepsilon/3<\varepsilon$. 球心 $p_j$ 均属于 $\overline A$, 所以它们构成闭包的有限 $\varepsilon$-网.
+
+若 $X$ 完备, 则 $\overline A$ 也完备: 其中任意 Cauchy 点列在 $X$ 中收敛, 而闭性使其极限留在 $\overline A$. 闭包因此完备且全有界, 由紧性的等价条件得它紧. 这也说明在完备度量空间中, 全有界性恰好保证闭包紧; 单纯有界性没有这样的保证.
+\end{solution}
+
+\begin{exercise}
+\label{ch:compact:ex-product}
+设 $(X,d_X)$ 与 $(Y,d_Y)$ 是紧度量空间. 在 $X\times Y$ 上定义
+\[
+ d((x,y),(x',y'))=\max\{d_X(x,x'),d_Y(y,y')\}.
+\]
+证明这是度量, 且 $X\times Y$ 紧. 说明证明中为什么要再次抽取子列.
+\end{exercise}
+\begin{solution}
+非负性、对称性与正定性来自两个坐标的度量. 对三个点 $u,v,w$, 每个坐标距离都满足三角不等式, 且分别不超过 $d(u,v)+d(v,w)$, 所以取最大值后有 $d(u,w)\leq d(u,v)+d(v,w)$. 因而 $d$ 是度量. 若某个因子为空, 积也为空, 已知紧.
+
+对非空情形, 取任意点列 $((x_n,y_n))$. $X$ 紧, 所以有子列指标 $n_k$ 使 $x_{n_k}\to x\in X$. 再对 $Y$ 中的点列 $(y_{n_k})$ 使用序列紧性, 得到严格递增的 $k_\ell$ 使 $y_{n_{k_\ell}}\to y\in Y$. 因为收敛点列的子列仍收敛到同一极限, 仍有 $x_{n_{k_\ell}}\to x$. 因此
+\[
+ d((x_{n_{k_\ell}},y_{n_{k_\ell}}),(x,y))
+ =\max\{d_X(x_{n_{k_\ell}},x),d_Y(y_{n_{k_\ell}},y)\}
+ \longrightarrow0.
+\]
+所以积空间序列紧, 从而紧. 第二次抽取是在第一次子列内部进行的, 才能同时保留两个坐标的收敛性. 分别独立选两个子列, 未必得到共同的指标. 同一方法可逐次用于任意有限多个因子.
+\end{solution}
+
+\begin{exercise}
+\label{ch:compact:ex-finite-constraints}
+设 $K$ 为非空紧度量空间, $\{f_i\}_{i\in I}$ 是一族连续实值函数. 假设对每个有限指标集 $J\subseteq I$, 都存在 $x_J\in K$ 使 $f_j(x_J)\geq0$ 对所有 $j\in J$ 成立. 证明存在同一个 $x\in K$ 使 $f_i(x)\geq0$ 对所有 $i\in I$ 成立.
+\end{exercise}
+\begin{solution}
+令 $F_i=f_i^{-1}([0,\infty))$. 连续函数对闭集的逆像闭, 所以每个 $F_i$ 都在 $K$ 中闭. 题设恰好说明每个有限交 $\bigcap_{j\in J}F_j$ 非空. 因而这族闭集具有有限交性质. 由 $K$ 的紧性及有限交刻画, 总交非空. 取 $x\in\bigcap_{i\in I}F_i$, 就有所有 $f_i(x)\geq0$. 当 $I$ 为空时, 总交按约定为非空的 $K$, 结论也成立. 这里有限问题的解 $x_J$ 可以依赖 $J$, 而紧性保证最后能找到适合全部条件的同一个点.
+\end{solution}
+
+\begin{exercise}
+\label{ch:compact:ex-distance-attainment}
+构造度量空间中的一个非空紧集 $A$ 和一个非空闭集 $B$, 使 $A\cap B=\varnothing$, $d(A,B)>0$, 但没有任何 $a\in A,b\in B$ 满足 $d(a,b)=d(A,B)$.
+\end{exercise}
+\begin{solution}
+取 $X=\{p\}\cup\{b_n:n\geq1\}$, 这些点彼此不同. 令 $r_n=1+1/n$, 定义
+\[
+ d(p,b_n)=d(b_n,p)=r_n,\qquad
+ d(b_n,b_m)=r_n+r_m\quad(n\ne m),
+\]
+并令 $d(x,x)=0$. 这是度量: 正定性和对称性直接成立. 对三个不同点, 若中间点是 $p$, 两个 $b$ 点之间的三角不等式取等号; 若三个点均为 $b$ 点, 右端比左端多出中间点的 $2r_j>0$; 若一个端点是 $p$ 而中间点是某个 $b_j$, 右端比左端多出 $2r_j$. 含重复点的三角不等式则直接成立.
+
+令 $A=\{p\}$, $B=\{b_n:n\geq1\}$. 单点集 $A$ 紧. $B$ 在 $X$ 中闭, 因为它的补集 $\{p\}=B_X(p,1)$ 开. 两者不相交, 且
+\[
+ d(A,B)=\inf_{n\geq1}(1+1/n)=1.
+\]
+但每个 $d(p,b_n)>1$, 所以下确界不被任何点对取得. 此例与正距离定理相容: $B$ 只有闭性而无紧性. 若 $B$ 也紧, 才能保证这个最后的下确界也取得.
+\end{solution}
+
+\begin{exercise}
+\label{ch:compact:ex-positive-function}
+设 $K$ 是非空紧度量空间, $f,h:K\to\mathbb{R}$ 连续, 且 $f(x)>0$ 对每个 $x\in K$ 成立. 证明存在 $c>0$ 使 $f(x)\geq c$ 对所有 $x$ 成立, 并证明 $h/f$ 有界. 若删去紧性, 第一结论是否仍成立?
+\end{exercise}
+\begin{solution}
+极值定理保证 $f$ 在某个 $x_0\in K$ 取得最小值. 令 $c=f(x_0)$, 题设逐点严格为正, 所以这个已经取得的最小值满足 $c>0$. 同时 $h$ 有界, 可取 $M\geq0$ 使 $|h(x)|\leq M$. 因而
+\[
+ \left|\frac{h(x)}{f(x)}\right|\leq\frac Mc
+ \qquad(x\in K).
+\]
+删去紧性后不成立: 在 $(0,1)$ 上取 $f(x)=x$, 每个函数值严格为正, 但 $\inf f=0$. 要把逐点的正性变成统一正下界, 需要保证下确界实际取得, 而不能仅写出 ``所有值都正''.
+\end{solution}

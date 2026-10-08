@@ -1,0 +1,416 @@
+\originalchapter{一致连续与压缩映射}\label{ch:fixed}
+
+\emph{来源: 本章重编自 Paige Bright, MIT OCW 18.S190, IAP 2023, Lecture 5, pp.\ 1--4. 一致连续、参数积分、Banach 不动点定理和积分算子来自原课; 误差界、一致连续延拓、局部 Picard--Lindel\"of 定理及章末练习为编者补充. 原课积分式的积分变量已订正, 仅连续核不保证可微性的限制在正文说明. 来源与许可详见书末说明.}
+
+\originalsection{连续性与Lipschitz条件}
+
+连续性说, 在固定点附近足够小的输入变化造成足够小的输出变化. 但 ``足够小'' 可以随点的位置改变. 在用一整个函数作为未知量时, 我们往往需要对所有点同时有效的控制, 这就引出一致连续性和 Lipschitz 条件.
+
+\begin{definition}\label{def:uniform-continuity}
+设 $(X,d_X)$、$(Y,d_Y)$ 为度量空间. 函数 $f:X\to Y$ 称为\textbf{一致连续}, 如果
+\[
+\forall\varepsilon>0\ \exists\delta>0\ \forall x,y\in X,
+\qquad d_X(x,y)<\delta\ \Longrightarrow\ d_Y(f(x),f(y))<\varepsilon.
+\]
+同一个 $\delta$ 必须控制 $X$ 中所有点对.
+\end{definition}
+
+连续性的量词顺序是先固定 $x$, 再对给定 $\varepsilon$ 选择 $\delta$, 允许 $\delta$ 依赖 $x$. 一致连续性先选 $\delta$, 再检查所有 $x,y$. 把一个点的连续性证明逐点做完, 并不自动给出一个可同时使用的 $\delta$.
+
+\begin{definition}\label{def:lipschitz}
+若存在常数 $K\geq0$, 使对所有 $x,y\in X$ 都有
+\[
+d_Y(f(x),f(y))\leq Kd_X(x,y),
+\]
+则称 $f$ 为 \textbf{Lipschitz 映射}, 或 $K$-Lipschitz 映射.
+\end{definition}
+
+\begin{proposition}\label{prop:lipschitz-uniform}
+Lipschitz 映射一致连续, 一致连续映射连续.
+\end{proposition}
+\begin{proof}
+若 $K>0$, 对给定的 $\varepsilon>0$ 取 $\delta=\varepsilon/K$. 当 $d_X(x,y)<\delta$ 时,
+\[
+d_Y(f(x),f(y))\leq Kd_X(x,y)<K\delta=\varepsilon.
+\]
+这个 $\delta$ 不依赖 $x,y$, 所以 $f$ 一致连续. 若 $K=0$, 则任意两点的像的距离都为 $0$, 函数为常值, 可取任何 $\delta>0$. 最后, 一致连续的定义对每个固定 $x$ 都有效, 因而给出该点的连续性.
+\end{proof}
+
+\begin{example}
+证明 $f(x)=\sqrt{x}$ 在 $[0,1]$ 上一致连续但不满足 Lipschitz 条件, 而 $x\mapsto1/x$ 在 $(0,1)$ 上连续却不一致连续.
+\end{example}
+\begin{solution}
+对 $x\geq y\geq0$,
+\[
+(\sqrt{x}-\sqrt{y})^2
+\leq(\sqrt{x}-\sqrt{y})(\sqrt{x}+\sqrt{y})=x-y.
+\]
+所以 $|\sqrt{x}-\sqrt{y}|\leq\sqrt{|x-y|}$, 取 $\delta=\varepsilon^2$ 就得到一致连续. 若存在 Lipschitz 常数 $K$, 令 $y=0$ 将给出 $\sqrt{x}\leq Kx$, 即 $1/\sqrt{x}\leq K$ 对所有 $x>0$ 成立, 不可能.
+
+$f(x)=1/x$ 在 $(0,1)$ 上连续却不一致连续. 取 $x_n=1/(n+1)$, $y_n=1/(n+2)$. 则 $|x_n-y_n|\to0$, 但 $|f(x_n)-f(y_n)|=1$. 对 $\varepsilon=1/2$, 无论给出多小的 $\delta$, 最终这些点对都违反一致连续的要求.
+\end{solution}
+
+这些例子区分了三个层次. Lipschitz 条件给出线性的全局估计; 一致连续允许非线性的变化尺度; 普通连续只给出每一点附近的局部控制.
+
+\originalsection{紧空间上的一致连续性与参数积分}
+
+\begin{theorem}\label{thm:heine-cantor}
+若 $X$ 是紧度量空间, $f:X\to Y$ 连续, 则 $f$ 一致连续.
+\end{theorem}
+\begin{proof}
+给定 $\varepsilon>0$. 对每个 $c\in X$, 连续性允许选 $r_c>0$, 使
+\[
+d_X(z,c)<r_c\quad\Longrightarrow\quad
+d_Y(f(z),f(c))<\varepsilon/2.
+\]
+所有 $B(c,r_c)$ 构成 $X$ 的开覆盖. 引理~\ref{ch:compact:lebesgue} 给出 $\delta>0$, 使每个球 $B(x,\delta)$ 都包含在该覆盖的某一个成员中. 若 $d_X(x,y)<\delta$, 就可取 $c$ 使
+$B(x,\delta)\subset B(c,r_c)$. $x,y$ 都属于 $B(c,r_c)$, 所以
+\[
+d_Y(f(x),f(y))\leq d_Y(f(x),f(c))+d_Y(f(c),f(y))
+<\varepsilon.
+\]
+同一个 $\delta$ 对所有点对有效, 故为一致连续.
+\end{proof}
+
+证明中的紧性将各点的局部控制汇合成一个全局尺度. 不必要求值域 $Y$ 紧, 也不必要求 $Y$ 完备; 这里用的是定义域的紧性和 $f$ 的连续性.
+
+\begin{proposition}\label{prop:parameter-integral}
+设 $a<b$, $c<d$, 且 $F:[a,b]\times[c,d]\to\mathbb R$ 连续. 则
+\[
+G(y)=\int_a^bF(x,y)\,\mathrm dx
+\]
+是 $[c,d]$ 上的连续函数.
+\end{proposition}
+\begin{proof}
+赋予矩形上确界距离, 它是紧度量空间. 由定理~\ref{thm:heine-cantor}, $F$ 一致连续. 对给定的 $\varepsilon>0$, 取 $\delta>0$, 使矩形中两点距离小于 $\delta$ 时, 函数值的差小于 $\varepsilon/(2(b-a))$. 若 $|y-y'|<\delta$, 则对所有 $x\in[a,b]$,
+\[
+|F(x,y)-F(x,y')|<\frac{\varepsilon}{2(b-a)}.
+\]
+因此
+\begin{align*}
+|G(y)-G(y')|
+&\leq\int_a^b|F(x,y)-F(x,y')|\,\mathrm dx\\
+&\leq(b-a)\sup_{x\in[a,b]}|F(x,y)-F(x,y')|\\
+&\leq\varepsilon/2<\varepsilon.
+\end{align*}
+这个直接估计已证明一致连续, 因而也证明连续. 若 $a=b$, 积分恒为 $0$, 结论仍成立.
+\end{proof}
+
+此处关键在于对所有积分变量 $x$ 使用同一个控制. 单独知道每个 $x$ 上 $F(x,y')\to F(x,y)$, 并不足以直接交换积分和极限; 上式展示了本例交换的实际依据.
+
+\originalsection{一致连续映射的延拓}
+
+\emph{本节为编者补充, 说明上一章的完备化如何与一致连续性配合.}
+
+\begin{lemma}\label{lem:uniform-cauchy}
+一致连续映射把 Cauchy 序列送到 Cauchy 序列.
+\end{lemma}
+\begin{proof}
+设 $f:X\to Y$ 一致连续, $(x_n)$ 是 $X$ 中的 Cauchy 序列. 给定 $\varepsilon>0$, 先取一致连续性中的 $\delta>0$, 再取 $N$ 使 $m,n\geq N$ 时 $d_X(x_m,x_n)<\delta$. 于是 $d_Y(f(x_m),f(x_n))<\varepsilon$. 这就是像序列的 Cauchy 条件.
+\end{proof}
+
+\begin{theorem}\label{thm:uniform-extension}
+设 $A$ 在度量空间 $X$ 中稠密, $Y$ 完备. 每个一致连续映射 $f:A\to Y$ 都有唯一的一致连续延拓 $\widetilde f:X\to Y$. 若 $f$ 是 $K$-Lipschitz, 延拓也可取同一个 Lipschitz 常数 $K$.
+\end{theorem}
+\begin{proof}
+对 $x\in X$, 稠密性允许选择 $a_n\in A$ 使 $a_n\to x$. 它是 Cauchy 序列, 由引理~\ref{lem:uniform-cauchy}, $(f(a_n))$ 也是 Cauchy 序列. $Y$ 完备保证极限存在, 定义
+$\widetilde f(x)=\lim_nf(a_n)$.
+
+若另有 $b_n\in A$ 趋于 $x$, 则
+$d_X(a_n,b_n)\leq d_X(a_n,x)+d_X(x,b_n)\to0$. 一致连续性给出 $d_Y(f(a_n),f(b_n))\to0$, 所以两个极限相同. 定义不依赖所选序列. 对 $x\in A$ 取常值序列即可得到 $\widetilde f(x)=f(x)$.
+
+证明延拓的一致连续性时, 需要照顾取极限后的非严格不等式. 给定 $\varepsilon>0$, 对原映射用 $\varepsilon/2$ 选择 $\eta>0$: 当 $a,b\in A$ 且 $d_X(a,b)<\eta$ 时, $d_Y(f(a),f(b))<\varepsilon/2$. 取 $\delta=\eta/3$. 对 $d_X(x,y)<\delta$ 的任意 $x,y\in X$, 选 $a_n\to x$, $b_n\to y$. 对足够大的 $n$,
+\[
+d_X(a_n,b_n)\leq d_X(a_n,x)+d_X(x,y)+d_X(y,b_n)<\eta.
+\]
+故令 $n\to\infty$ 得
+$d_Y(\widetilde f(x),\widetilde f(y))\leq\varepsilon/2<\varepsilon$. $\delta$ 不依赖 $x,y$, 延拓一致连续.
+
+若 $H:X\to Y$ 是另一连续延拓, 对 $a_n\to x$ 有
+$H(x)=\lim_nH(a_n)=\lim_nf(a_n)=\widetilde f(x)$, 所以延拓唯一. 最后, 若原映射满足 Lipschitz 估计, 则
+\[
+d_Y(\widetilde f(x),\widetilde f(y))
+=\lim_nd_Y(f(a_n),f(b_n))
+\leq K\lim_nd_X(a_n,b_n)=Kd_X(x,y).
+\]
+因此常数 $K$ 被保留.
+\end{proof}
+
+连续性本身不能代替一致连续性. 例如 $1/x$ 在稠密子空间 $(0,1)$ 上连续, 却不能连续延拓到 $[0,1]$. 延拓构造需要把趋于边界的 Cauchy 序列送到仍有极限的序列.
+
+\originalsection{Banach 不动点定理}
+
+现在把 Lipschitz 常数降到 $1$ 以下. 每次应用映射后, 两个输入的距离都会按固定比例缩小. 若反复应用映射, 相邻迭代之间的距离形成几何级数, 完备性便能承接这个过程的极限.
+
+\begin{definition}\label{def:contraction}
+度量空间 $X$ 上的自映射 $T:X\to X$ 称为\textbf{压缩映射}, 如果存在 $q\in[0,1)$ 使
+\[
+d(Tx,Ty)\leq qd(x,y)\qquad(x,y\in X).
+\]
+满足 $Tx_*=x_*$ 的点 $x_*$ 称为 $T$ 的\textbf{不动点}.
+\end{definition}
+
+\begin{theorem}[Banach 不动点定理]\label{thm:banach-fixed}
+设 $X$ 是非空完备度量空间, $T:X\to X$ 是压缩映射, 压缩常数为 $q<1$. 则 $T$ 恰有一个不动点 $x_*$. 对任意 $x_0\in X$, 递归定义 $x_{n+1}=Tx_n$, 都有 $x_n\to x_*$.
+\end{theorem}
+\begin{proof}
+先设 $0<q<1$. 由压缩条件逐次得到
+\[
+d(x_{n+1},x_n)\leq qd(x_n,x_{n-1})
+\leq\cdots\leq q^nd(x_1,x_0).
+\]
+仅仅证明相邻距离趋于 $0$ 不够, 因为小步长仍可能累积出无穷路程. 这里几何级数的可求和性给出所有后段项之间的估计. 当 $m>n$ 时,
+\begin{align*}
+d(x_m,x_n)
+&\leq\sum_{j=n}^{m-1}d(x_{j+1},x_j)\\
+&\leq d(x_1,x_0)\sum_{j=n}^{m-1}q^j
+\leq\frac{q^n}{1-q}d(x_1,x_0).
+\end{align*}
+右端与 $m$ 无关并趋于 $0$, 因而 $(x_n)$ 是 Cauchy 序列. 完备性保证存在 $x_*\in X$ 使 $x_n\to x_*$. 压缩映射是 Lipschitz 映射, 因而连续. 所以
+\[
+Tx_*=\lim_{n\to\infty}Tx_n
+=\lim_{n\to\infty}x_{n+1}=x_*.
+\]
+这证明存在性. 若 $y_*$ 也为不动点, 则
+\[
+d(x_*,y_*)=d(Tx_*,Ty_*)\leq qd(x_*,y_*).
+\]
+因 $1-q>0$, 得 $d(x_*,y_*)=0$, 即 $x_*=y_*$.
+
+若 $q=0$, 则 $T$ 的所有像相同, 记为 $c\in X$. 因 $Tc=c$, 它是唯一不动点, 任意迭代从第一项起就恒为 $c$. 这一情况无需几何级数估计.
+\end{proof}
+
+证明同时给出了寻找解的算法. 完备性用于获得极限, 自映射条件用于保证每一步和极限都仍在空间内, $q<1$ 同时用于几何级数求和与唯一性. 在应用之前, 这三个条件都必须分别核对.
+
+\begin{proposition}[迭代误差界]\label{prop:banach-error}
+在定理~\ref{thm:banach-fixed} 的条件下, 当 $0<q<1$ 时, 对 $n\geq0$ 有先验误差界
+\[
+d(x_n,x_*)\leq\frac{q^n}{1-q}d(x_1,x_0).
+\]
+对 $n\geq1$ 有后验误差界
+\[
+d(x_n,x_*)\leq\frac{q}{1-q}d(x_n,x_{n-1}).
+\]
+此外任意 $x\in X$ 都满足残差估计
+\[
+d(x,x_*)\leq\frac{d(x,Tx)}{1-q}.
+\]
+\end{proposition}
+\begin{proof}
+在上一定理的 $d(x_m,x_n)$ 估计中令 $m\to\infty$, 得到先验界. 对后验界, 以当前一步距离为起点, 压缩条件给出
+\[
+d(x_{n+j+1},x_{n+j})\leq q^{j+1}d(x_n,x_{n-1})
+\qquad(j\geq0).
+\]
+把这些距离相加再令后端趋于极限, 得
+\[
+d(x_n,x_*)\leq\sum_{j=0}^{\infty}q^{j+1}d(x_n,x_{n-1})
+=\frac{q}{1-q}d(x_n,x_{n-1}).
+\]
+最后, 对任意 $x$ 使用三角不等式和压缩条件,
+\[
+d(x,x_*)\leq d(x,Tx)+d(Tx,Tx_*)
+\leq d(x,Tx)+qd(x,x_*),
+\]
+移项即得残差估计. 当 $q=0$ 时, 残差界仍成立, 且 $x_n=x_*$ 对 $n\geq1$ 成立.
+\end{proof}
+
+先验界只用初始一步和迭代次数, 能在计算前估计需要多少步. 后验界用已经算出的相邻两项, 能在计算中决定何时停止. 残差界则可以检验任何候选点, 无须它一定来自同一条迭代.
+
+\originalsection{积分方程的连续解}
+
+\begin{theorem}\label{thm:fredholm-contraction}
+设 $a<b$, $g\in C([a,b])$, $k\in C([a,b]\times[a,b])$, $\lambda\in\mathbb R$. 令
+\[
+M=\max_{(x,y)\in[a,b]^2}|k(x,y)|.
+\]
+若 $q=|\lambda|M(b-a)<1$, 则积分方程
+\[
+f(x)=g(x)+\lambda\int_a^b k(x,y)f(y)\,\mathrm dy
+\]
+在 $C([a,b])$ 中恰有一个解. 从任意 $f_0\in C([a,b])$ 出发的迭代
+\[
+f_{n+1}(x)=g(x)+\lambda\int_a^b k(x,y)f_n(y)\,\mathrm dy
+\]
+一致收敛于该解, 并满足命题~\ref{prop:banach-error} 的上确界误差估计.
+\end{theorem}
+\begin{proof}
+在 $C([a,b])$ 上定义
+\[
+(Tf)(x)=g(x)+\lambda\int_a^b k(x,y)f(y)\,\mathrm dy.
+\]
+先核对自映射条件. 对固定的连续 $f$, 二元函数 $k(x,y)f(y)$ 连续; 命题~\ref{prop:parameter-integral} 在交换两个坐标的角色后表明其关于 $y$ 的积分是 $x$ 的连续函数. 加上连续的 $g$, 得 $Tf\in C([a,b])$.
+
+再核对压缩性. 对 $f,h\in C([a,b])$, 每个 $x$ 都满足
+\begin{align*}
+|(Tf)(x)-(Th)(x)|
+&\leq|\lambda|\int_a^b|k(x,y)|\,|f(y)-h(y)|\,\mathrm dy\\
+&\leq|\lambda|M(b-a)\|f-h\|_\infty.
+\end{align*}
+取上确界得 $\|Tf-Th\|_\infty\leq q\|f-h\|_\infty$, 且 $q<1$. 最后, 推论~\ref{cor:c-interval-complete} 表明该函数空间完备, 并且零函数保证它非空. Banach 不动点定理给出唯一的不动点, 正是积分方程的唯一连续解; 同时给出迭代收敛及误差估计.
+\end{proof}
+
+\begin{remark}
+条件 $|\lambda|M(b-a)<1$ 是本次上确界估计得到的充分条件, 不是所有积分方程有解的必要条件. 有些核可以得到更小的算子估计, 有些方程即使不满足这个条件也有唯一解; 那些结论需要另行证明.
+
+仅连续的核不能保证解属于 $C^1$. 例如在 $[-1,1]$ 上取 $g=0$, $k(x,y)=|x|$, $\lambda=1$. 连续函数 $f(x)=|x|$ 满足
+$f(x)=\int_{-1}^1|x|f(y)\,\mathrm dy$, 却在 $0$ 不可微. 即使在压缩范围内也不能加强为 $C^1$: 取 $g(x)=1$, $k(x,y)=|x|$, $\lambda=1/4$, 则压缩常数为 $1/2$, 唯一解为 $f(x)=1+(2/3)|x|$, 仍不可微. 确实, 若 $I=\int_{-1}^1f(y)\,\mathrm dy$, 方程给出 $f(x)=1+(I/4)|x|$, 从而 $I=2+I/4$, 即 $I=8/3$.
+\end{remark}
+
+这一限制并不削弱不动点结论, 而是区分了两种不同的推理: 完备性和压缩性给出连续函数空间中的解, 可微性必须来自积分式的额外结构. 下一节的变上限积分恰好提供这种结构.
+
+\originalsection{初值问题与 Picard 迭代}
+
+考虑初值问题
+\[
+y'(t)=F(t,y(t)),\qquad y(t_0)=y_0.
+\]
+如果 $y$ 是 $C^1$ 解, 微积分基本定理给出
+\[
+y(t)=y_0+\int_{t_0}^{t}F(s,y(s))\,\mathrm ds.
+\]
+反过来, 若一个连续函数满足这个积分式, 且 $F$ 在函数图像上连续, 那么被积函数连续, 微积分基本定理使 $y$ 可微, 导数正是 $F(t,y(t))$. 因此我们可以先在连续函数空间中寻找积分算子的不动点, 再恢复微分方程.
+
+\begin{theorem}[局部 Picard--Lindel\"of 定理]\label{thm:picard-local}
+设 $\alpha,\beta>0$, 函数 $F$ 在闭矩形
+\[
+R=[t_0-\alpha,t_0+\alpha]\times[y_0-\beta,y_0+\beta]
+\]
+上连续, 并存在 $L\geq0$ 使同一 $t$ 下的所有 $u,v\in[y_0-\beta,y_0+\beta]$ 都满足
+\[
+|F(t,u)-F(t,v)|\leq L|u-v|.
+\]
+令 $M=\max_R|F|$. 选 $h>0$ 满足
+\[
+h\leq\alpha,\qquad hM\leq\beta,\qquad hL<1.
+\]
+则在 $I=[t_0-h,t_0+h]$ 上, 初值问题有唯一一个图像位于 $R$ 的 $C^1$ 解. 若另一解只在 $t_0$ 的某个邻域定义, 并具有相同初值, 则它在某个更小的共同邻域上与这个解相同.
+\end{theorem}
+\begin{proof}
+所需的 $h$ 总能取到: $M,L$ 是有限非负数, $\alpha,\beta$ 为正, 所以取充分小的正数即可. 若 $M=0$ 或 $L=0$, 对应条件不施加额外限制.
+
+在完备空间 $C(I)$ 中考虑闭球
+\[
+\mathcal B=\{u\in C(I):\|u-y_0\|_\infty\leq\beta\}.
+\]
+它非空, 因为含常值函数 $y_0$. 它是闭集: 若 $u_n\to u$ 一致且 $\|u_n-y_0\|_\infty\leq\beta$, 则逐点取极限得 $|u(t)-y_0|\leq\beta$ 对每个 $t$ 成立. 因而由定理~\ref{thm:closed-complete}, $\mathcal B$ 完备.
+
+定义 Picard 算子
+\[
+(Tu)(t)=y_0+\int_{t_0}^{t}F(s,u(s))\,\mathrm ds.
+\]
+若 $u\in\mathcal B$, 则 $(s,u(s))\in R$ 对所有 $s\in I$ 成立, 所以积分有定义, 被积函数连续, $Tu$ 也连续. 对 $t<t_0$ 将积分方向反转再估计, 对 $t\geq t_0$ 直接估计; 两种情形统一为
+\[
+|(Tu)(t)-y_0|\leq|t-t_0|M\leq hM\leq\beta.
+\]
+因此 $T$ 确实把 $\mathcal B$ 映入自身. 这一步解释了保球条件 $hM\leq\beta$ 的用途; 仅有压缩估计不足以保证不动点定理可用.
+
+对 $u,v\in\mathcal B$, Lipschitz 条件给出
+\begin{align*}
+|(Tu)(t)-(Tv)(t)|
+&\leq\left|\int_{t_0}^{t}|F(s,u(s))-F(s,v(s))|\,\mathrm ds\right|\\
+&\leq |t-t_0|L\|u-v\|_\infty
+\leq hL\|u-v\|_\infty.
+\end{align*}
+第一行右端表示在两个端点之间对非负函数积分的绝对值, 因而同时适用于正反两个方向. 取上确界后得到压缩常数 $q=hL<1$. Banach 不动点定理给出唯一 $y\in\mathcal B$ 满足 $Ty=y$. 它连续, 而 $F(t,y(t))$ 连续, 所以积分式给出
+$y'(t)=F(t,y(t))$ 和 $y(t_0)=y_0$. 端点的导数按单侧导数理解; 在 $I$ 的内部这是通常的 $C^1$ 解.
+
+若 $z$ 是另一个在 $I$ 上、图像位于 $R$ 的 $C^1$ 解, 将其微分方程积分便得 $Tz=z$, 且 $z\in\mathcal B$, 不动点唯一性给出 $z=y$.
+
+最后设 $z$ 只在包含 $t_0$ 的开区间上定义, 具有相同初值, 并解同一方程. 由 $z(t_0)=y_0$ 和连续性, 可取 $0<\eta\leq h$, 使 $J=[t_0-\eta,t_0+\eta]$ 包含在它的定义区间中, 且 $|z(t)-y_0|\leq\beta$ 对所有 $t\in J$ 成立. $y|_J$ 和 $z|_J$ 都属于 $C(J)$ 中同一半径为 $\beta$ 的闭球. 限制后的 Picard 算子仍是自映射, 压缩常数为 $\eta L\leq hL<1$. 两者都为其不动点, 因而在 $J$ 上相同. 这正是所陈述的局部唯一性.
+\end{proof}
+
+定理没有宣称解能在任意长的时间区间上存在. 矩形限定了可用的 $F$ 与 Lipschitz 条件, 保球估计限定了函数值的范围, 压缩估计限定了本次直接证明的时间长度. 若要继续延拓解, 必须在新的邻域重新核对条件.
+
+\begin{example}
+用 Picard 迭代求初值问题 $y'=y$, $y(0)=1$ 的局部解, 并核对迭代可用的区间.
+\end{example}
+\begin{solution}
+取 $R=[-1,1]\times[0,2]$. 此时 $M=2$, $L=1$. 选 $h=1/2$, 则 $hM=1\leq\beta=1$, $hL=1/2<1$. 在 $[-1/2,1/2]$ 上, 从 $y^{(0)}(t)=1$ 开始迭代,
+\[
+y^{(n+1)}(t)=1+\int_0^t y^{(n)}(s)\,\mathrm ds.
+\]
+前几项为 $1+t$, $1+t+t^2/2$, $1+t+t^2/2+t^3/6$. 归纳可得
+$y^{(n)}(t)=\sum_{j=0}^n t^j/j!$. 不动点定理证明这些多项式在上述区间上一致收敛于唯一解; 已知指数函数满足同一方程和初值, 所以极限为 $e^t$. 本次论证给出的是一个受控局部区间, 而不是从形式级数直接假定解存在.
+\end{solution}
+
+\originalsection{练习与解答}
+
+\emph{以下均为编者练习. 题目分别检查一致控制、压缩定理的假设、积分方程的求解与初值问题的唯一性.}
+
+\begin{exercise}\label{ex:uniform-x-square}
+证明 $x\mapsto x^2$ 在每个有界闭区间上 Lipschitz, 但在 $\mathbb R$ 上不一致连续.
+\end{exercise}
+\begin{solution}
+若 $x,y\in[-A,A]$, 则
+$|x^2-y^2|=|x-y||x+y|\leq2A|x-y|$, 所以常数 $2A$ 有效; 任意有界闭区间都包含在这样的区间中. 在整个 $\mathbb R$ 上, 取 $x_n=n$, $y_n=n+1/n$. 输入距离为 $1/n\to0$, 输出距离为
+\[
+y_n^2-x_n^2=2+1/n^2\geq2.
+\]
+对 $\varepsilon=1$ 不存在统一的 $\delta$, 故不一致连续.
+\end{solution}
+
+\begin{exercise}\label{ex:banach-assumptions}
+分别给出例子, 说明 Banach 不动点定理中 ``完备''、``自映射'' 和 ``$q<1$'' 三个条件在当前表述中不能直接删除.
+\end{exercise}
+\begin{solution}
+在不完备空间 $X=(0,1)$ 上取 $T(x)=x/2$. 它是常数 $q=1/2$ 的压缩自映射, 却无不动点, 因为唯一可能的解 $x=0$ 不在 $X$ 中.
+
+在完备空间 $X=[0,1]$ 上取 $T:X\to\mathbb R$, $T(x)=2+x/2$. 它满足同样的压缩距离估计, 但像不在 $X$ 中, 而不动点方程的解 $x=4$ 也不在 $X$. 因此只有距离估计、没有自映射条件并不够.
+
+在完备空间 $\mathbb R$ 上取 $T(x)=x+1$. 它是 $1$-Lipschitz 自映射, 却无不动点. 同一空间上的恒等映射也是 $1$-Lipschitz, 却有无穷多个不动点. 因而将 $q<1$ 放宽为 $q\leq1$ 后, 存在性和唯一性都不能保证.
+\end{solution}
+
+\begin{exercise}\label{ex:scalar-contraction-error}
+在 $\mathbb R$ 上解 $x=\cos x$. 证明恰有一个解, 并给出从 $x_0=0$ 开始迭代时保证误差小于 $\varepsilon$ 的先验条件.
+\end{exercise}
+\begin{solution}
+任意解必在 $[-1,1]$ 中. $T(x)=\cos x$ 把闭区间 $[-1,1]$ 映入自身. 对 $x,y\in[-1,1]$, 中值定理给出
+\[
+|\cos x-\cos y|\leq\sin(1)|x-y|,
+\]
+因为 $|\sin t|\leq\sin(1)<1$ 对 $|t|\leq1$ 成立. 区间完备, 所以 Banach 定理给出唯一不动点 $x_*$. 区间之外不可能有解, 因此这也是 $\mathbb R$ 中的唯一解.
+
+令 $q=\sin(1)$, $x_0=0$, 则 $x_1=1$, 先验误差界为
+$|x_n-x_*|\leq q^n/(1-q)$. 取足够大的整数 $n$ 使
+$q^n<\varepsilon(1-q)$, 即保证误差小于 $\varepsilon$. 无须预先知道 $x_*$ 的数值.
+\end{solution}
+
+\begin{exercise}\label{ex:constant-kernel}
+设 $g\in C([0,1])$, $|\lambda|<1$. 求积分方程
+\[
+f(x)=g(x)+\lambda\int_0^1 f(y)\,\mathrm dy
+\]
+的唯一连续解. 当 $\lambda=1$ 时, 完整讨论是否有解及是否唯一.
+\end{exercise}
+\begin{solution}
+记 $A=\int_0^1f(y)\,\mathrm dy$, $G=\int_0^1g(y)\,\mathrm dy$. 对方程两侧积分, 得 $A=G+\lambda A$. 当 $\lambda\ne1$ 时,
+$A=G/(1-\lambda)$, 从而
+\[
+f(x)=g(x)+\frac{\lambda G}{1-\lambda}.
+\]
+直接代回可验证这是解, 推导也证明它唯一. 在 $|\lambda|<1$ 的范围, 这一结论与压缩定理一致; 公式还说明压缩条件不是必要条件.
+
+若 $\lambda=1$, 关系 $A=G+A$ 要求 $G=0$. 若 $G\ne0$, 无解. 若 $G=0$, 对任意常数 $A\in\mathbb R$, 函数 $f=g+A$ 都满足积分为 $A$, 因而都是解. 所有解也必须是这种形式, 所以有无穷多个解.
+\end{solution}
+
+\begin{exercise}\label{ex:ode-nonunique}
+考察初值问题 $y'=\sqrt{|y|}$, $y(0)=0$. 证明它有不止一个局部 $C^1$ 解, 并指出为何不与局部 Picard--Lindel\"of 定理矛盾.
+\end{exercise}
+\begin{solution}
+零函数是一个解. 对任意 $c\geq0$, 定义
+\[
+y_c(t)=\begin{cases}
+0,&t\leq c,\\
+(t-c)^2/4,&t>c.
+\end{cases}
+\]
+函数在连接点两侧的导数都趋于 $0$, 所以是 $C^1$ 函数. 当 $t\leq c$ 时两侧都为 $0$; 当 $t>c$ 时,
+$y_c'(t)=(t-c)/2=\sqrt{|y_c(t)|}$. 因 $c\geq0$, 还满足 $y_c(0)=0$. 特别地 $y_0$ 与零函数在 $0$ 的任何邻域都不同, 因而局部唯一性失败.
+
+$F(t,y)=\sqrt{|y|}$ 连续, 但在 $y=0$ 的任何邻域都不能对 $y$ 满足统一 Lipschitz 条件. 对 $u>0$, $v=0$, 其差商为
+\[
+\frac{|F(t,u)-F(t,0)|}{|u-0|}=\frac1{\sqrt u}\longrightarrow\infty.
+\]
+定理要求的 Lipschitz 假设不成立, 所以没有矛盾.
+\end{solution}

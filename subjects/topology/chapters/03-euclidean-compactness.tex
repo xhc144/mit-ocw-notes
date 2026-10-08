@@ -1,0 +1,434 @@
+\originalchapter{欧氏空间的紧性}
+\label{ch:eucompact}
+
+本章以 Paige Bright 的 MIT OCW 18.S190 IAP 2023 第 3 讲为主线重编, 讨论范数、开覆盖与欧氏空间的紧集. 为使证明可以独立追踪, 补写原讲义中的区间端点论证, 并补充嵌套方盒、有限维范数等价与紧支撑的反例. 这些补充是编者组织的学习内容, 不作为原课程的逐字翻译或试题题源.
+\emph{来源定位: 第 3 讲正文第 1--3 页为范数与支撑, 第 4--7 页为紧性、Heine--Borel 与 Bolzano--Weierstrass. 页码采用原讲义印刷页码, 不含末尾 OCW 许可页.}
+
+\originalsection{范数与线性结构}
+\label{ch:eucompact:norms}
+
+度量比较两个点之间的距离. 向量空间还允许作差, 因而可以先衡量一个向量的长度, 再把两点之间的距离定义为它们之差的长度. 范数正是与加法和数乘相容的长度概念. 本节以实向量空间为例; 向量空间的代数公理与有限维线性代数作为先修知识.
+
+\begin{definition}[范数]
+设 $V$ 是实向量空间. 函数 $\|\cdot\|:V\to[0,\infty)$ 称为范数, 如果对任意 $u,v\in V$ 与 $\lambda\in\mathbb{R}$ 都有
+\[
+ \|v\|=0\Longleftrightarrow v=0,\qquad
+ \|\lambda v\|=|\lambda|\|v\|,\qquad
+ \|u+v\|\leq\|u\|+\|v\|.
+\]
+配备范数的向量空间称为赋范空间.
+\end{definition}
+
+\begin{proposition}[范数诱导的度量]
+若 $\|\cdot\|$ 是 $V$ 上的范数, 则 $d(u,v)=\|u-v\|$ 是度量. 此外,
+\[
+ \bigl|\|u\|-\|v\|\bigr|\leq\|u-v\|.
+\]
+\end{proposition}
+\begin{proof}
+范数的正定性给出 $d(u,v)\geq0$ 及 $d(u,v)=0$ 当且仅当 $u=v$. 由齐次性,
+$\|u-v\|=\|-(v-u)\|=\|v-u\|$, 所以 $d$ 对称. 把 $u-w$ 写成 $(u-v)+(v-w)$, 再使用范数的三角不等式, 得到
+\[
+ d(u,w)\leq d(u,v)+d(v,w).
+\]
+最后, $\|u\|\leq\|u-v\|+\|v\|$ 给出 $\|u\|-\|v\|\leq\|u-v\|$. 交换 $u,v$ 后得到反方向的估计, 合在一起即为所求.
+\end{proof}
+
+\begin{example}
+对 $x=(x_1,\ldots,x_n)$, 定义
+\[
+ \|x\|_1=\sum_{j=1}^n|x_j|,\qquad
+ \|x\|_2=\left(\sum_{j=1}^n x_j^2\right)^{1/2},\qquad
+ \|x\|_\infty=\max_{1\leq j\leq n}|x_j|.
+\]
+证明这三个函数都是范数.
+\end{example}
+\begin{solution}
+对 $\|\cdot\|_1$, 三角不等式由各坐标上的 $|x_j+y_j|\leq|x_j|+|y_j|$ 相加得到. 对 $\|\cdot\|_\infty$, 各坐标都有 $|x_j+y_j|\leq\|x\|_\infty+\|y\|_\infty$, 取最大值得到三角不等式. 欧氏范数的三角不等式则由有限维 Cauchy--Schwarz 不等式给出:
+\[
+ \|x+y\|_2^2
+ =\|x\|_2^2+2\sum_j x_jy_j+\|y\|_2^2
+ \leq(\|x\|_2+\|y\|_2)^2.
+\]
+其余两条范数公理均可直接由坐标定义核对.
+\end{solution}
+
+三种长度的数值不相同, 但有不依赖于向量 $x$ 的比较常数:
+\begin{equation}
+ \|x\|_\infty\leq\|x\|_2\leq\|x\|_1
+ \leq\sqrt n\,\|x\|_2\leq n\|x\|_\infty.
+ \label{ch:eucompact:coordinate-norms}
+\end{equation}
+其中 $\|x\|_1\leq\sqrt n\,\|x\|_2$ 来自对 $(|x_j|)$ 与 $(1)$ 使用 Cauchy--Schwarz; 其余估计来自最大项与求和的比较. 因此, 三种度量下的收敛完全相同: 一种长度趋于零, 另外两种也趋于零. 后面将证明这不是三个特殊公式之间的巧合, 而是所有有限维范数共有的性质. 为避免用尚未证明的紧性, 我们先建立欧氏空间的紧性理论, 再完成该结论.
+
+\originalsection{开覆盖与紧性}
+\label{ch:eucompact:open-covers}
+
+有限集合有一个简单性质: 不论怎样给每个点安排一个包含它的开集, 总能从这批开集中挑出有限多个, 仍然覆盖全部点. 紧性把这个性质保留下来, 却不要求集合本身只有有限个点.
+
+\begin{definition}[开覆盖与紧集]
+设 $A\subseteq X$, 其中 $(X,d)$ 是度量空间. 若每个 $U_i$ 都在 $X$ 中开, 且
+\[
+ A\subseteq\bigcup_{i\in I}U_i,
+\]
+则称 $\{U_i\}_{i\in I}$ 为 $A$ 的开覆盖. 从中选出的子族若仍覆盖 $A$, 称为子覆盖; 只有有限个成员的子覆盖称为有限子覆盖. 若 $A$ 的每个开覆盖都有有限子覆盖, 就称 $A$ 是紧集.
+\end{definition}
+
+覆盖要求的是包含关系, 而不要求开集的并恰好等于 $A$. 例如一个包含 $[0,1]$ 的开区间就构成 $[0,1]$ 的开覆盖. 当我们把 $A$ 本身作为度量空间时, 开集是相对于 $A$ 开的. 这两个说法与紧性相容, 但需要说明理由.
+
+\begin{proposition}[紧性与子空间]
+\label{ch:eucompact:subspace}
+设 $A\subseteq Y\subseteq X$, 均使用从 $X$ 限制而来的度量. 则 $A$ 作为 $X$ 的子集是紧集, 当且仅当 $A$ 作为 $Y$ 的子集是紧集, 也当且仅当度量空间 $A$ 是紧的.
+\end{proposition}
+\begin{proof}
+先比较 $X$ 与 $Y$. 若 $A$ 在 $X$ 中紧, 而 $\{V_i\}$ 是由 $Y$ 中开集组成的 $A$ 的覆盖, 则存在 $X$ 中的开集 $U_i$ 使 $V_i=Y\cap U_i$. 因为 $A\subseteq Y$, $\{U_i\}$ 也覆盖 $A$. 取其中有限子覆盖后, 相应的 $V_i$ 仍覆盖 $A$.
+
+反过来, 若 $A$ 在 $Y$ 中紧, 对任意 $X$ 中开集给出的覆盖 $\{U_i\}$, 子空间开集 $Y\cap U_i$ 覆盖 $A$. 取有限多个后, 原来的相应 $U_i$ 也覆盖 $A$. 再取 $Y=A$, 就得到最后一个等价关系.
+\end{proof}
+
+\begin{example}
+证明度量空间中的任意有限子集与空集都是紧集.
+\end{example}
+\begin{solution}
+对有限子集 $\{a_1,\ldots,a_m\}$ 的任意开覆盖, 对每个 $a_j$ 从覆盖中选一个包含它的成员, 最多选出 $m$ 个就足够. 空集也紧, 因为空子族已经覆盖空集.
+\end{solution}
+以后关于取得最大值、选定一个点等陈述则要另外要求集合非空.
+
+\begin{example}
+证明 $\mathbb{R}$ 与 $(0,1]$ 在通常实数度量下均不紧.
+\end{example}
+\begin{solution}
+$\mathbb{R}$ 上的开区间 $U_m=(-m,m)$, $m\geq1$, 覆盖整个 $\mathbb{R}$. 有限多个的并只等于 $(-M,M)$, 其中 $M$ 是所选指标的最大值, 因而不能覆盖 $\mathbb{R}$. 这说明 $\mathbb{R}$ 不紧.
+
+集合 $(0,1]$ 虽然有界, 却也不紧. 取 $U_m=(1/m,2)$, $m\geq1$. 对每个 $x\in(0,1]$, 可取 $m>1/x$ 使 $x\in U_m$, 所以这是一族开覆盖. 有限子族的并为 $(1/M,2)$, 未覆盖点 $1/(2M)$. 前一个例子中的点可以向无穷远逃逸, 后一个例子中的点可以向缺失的端点 $0$ 逃逸. 这正是接下来闭性与有界性分别要阻止的现象.
+\end{solution}
+
+\begin{theorem}[度量空间中的紧集闭且有界]
+\label{ch:eucompact:compact-closed-bounded}
+度量空间 $X$ 的每个紧子集 $K$ 都在 $X$ 中闭且有界.
+\end{theorem}
+\begin{proof}
+若 $K=\varnothing$, 两个结论均成立. 以下设 $K\ne\varnothing$, 并固定 $p\in K$. 正整数半径的球 $B_X(p,m)$ 覆盖 $X$, 当然也覆盖 $K$. 由紧性, 有有限多个球覆盖 $K$. 若所选半径的最大值为 $M$, 则 $K\subseteq B_X(p,M)$, 所以 $K$ 有界.
+
+为了证明闭性, 固定 $z\in X\setminus K$, 并对每个 $q\in K$ 令
+\[
+ r_q=\frac{d(z,q)}{3}>0,\qquad W_q=B_X(q,r_q).
+\]
+这些 $W_q$ 覆盖 $K$, 因而存在 $q_1,\ldots,q_s$ 使 $K\subseteq\bigcup_{j=1}^sW_{q_j}$. 令 $r=\min_jr_{q_j}>0$. 若 $x\in B_X(z,r)\cap K$, 则 $x$ 落在某个 $W_{q_j}$ 内, 于是
+\[
+ d(z,q_j)\leq d(z,x)+d(x,q_j)
+ <r+r_{q_j}\leq2r_{q_j}=\frac23d(z,q_j),
+\]
+矛盾. 因此 $B_X(z,r)$ 与 $K$ 不相交. 每个 $z\notin K$ 都有这样的邻域, 所以 $X\setminus K$ 开, 即 $K$ 在 $X$ 中闭.
+\end{proof}
+
+上述闭性是相对于指定的环境空间 $X$ 而言的. 每个空间在自身中都是闭集, 却未必紧. 例如 $(0,1]$ 作为自身的子空间是闭且有界的, 仍不紧. 因而不能把后面的欧氏空间定理误读为任意子空间中闭且有界都紧.
+
+\begin{proposition}[紧空间的闭子集]
+\label{ch:eucompact:closed-subset}
+若 $K$ 是紧度量空间, 且 $F\subseteq K$ 在 $K$ 中闭, 则 $F$ 紧. 特别地, 若 $K\subseteq X$ 紧而 $F\subseteq K$ 在 $X$ 中闭, 也有 $F$ 紧.
+\end{proposition}
+\begin{proof}
+设 $\{V_i\}_{i\in I}$ 是由 $K$ 中开集组成的 $F$ 的覆盖. 因为 $F$ 在 $K$ 中闭, $K\setminus F$ 在 $K$ 中开, 且
+\[
+ K=(K\setminus F)\cup\bigcup_{i\in I}V_i.
+\]
+由 $K$ 的紧性选出有限子覆盖. 从这有限子族中去掉 $K\setminus F$ 后, 所剩的 $V_i$ 仍覆盖 $F$, 因为 $K\setminus F$ 不含 $F$ 的任何点. 因此 $F$ 在 $K$ 中紧, 再由命题 \ref{ch:eucompact:subspace} 得到所需的子集紧性. 若 $F$ 在 $X$ 中闭, 它也在 $K$ 中闭, 故属于前一种情形.
+\end{proof}
+
+\originalsection{闭区间与闭方盒}
+\label{ch:eucompact:boxes}
+
+要证明 $\mathbb{R}^n$ 中的闭有界集紧, 不能只重复紧集闭且有界的论证. 我们需要从实数的完备性出发, 真正构造有限子覆盖. 一维情况下, 上确界能描述已经用有限多个开集覆盖到的最远位置.
+
+\begin{theorem}[闭区间的紧性]
+\label{ch:eucompact:interval}
+对实数 $a\leq b$, 闭区间 $[a,b]$ 在通常度量下紧.
+\end{theorem}
+\begin{proof}
+若 $a=b$, 这是单点集, 已知紧. 以下设 $a<b$. 设 $\{U_i\}_{i\in I}$ 是 $[a,b]$ 的开覆盖, 并令
+\[
+ S=\{t\in[a,b]:[a,t]\text{ 可由这族覆盖的有限多个成员覆盖}\}.
+\]
+$a\in S$, 因为某个 $U_i$ 包含 $a$. 集合 $S$ 非空且上界为 $b$, 故由实数的上确界性质存在 $c=\sup S\in[a,b]$.
+
+取覆盖中包含 $c$ 的成员 $U_{i_0}$. 由开放性, 存在 $\delta>0$ 使 $(c-\delta,c+\delta)\subseteq U_{i_0}$. 上确界的性质保证可以取 $s\in S$ 且 $s>c-\delta/2$: 当 $c=a$ 时取 $s=a$, 当 $c>a$ 时用上确界的逼近性质. 已有有限多个成员覆盖 $[a,s]$, 再加入 $U_{i_0}$, 就覆盖 $[a,c]$. 因此 $c\in S$. 这一步说明上确界本身也能被有限覆盖, 不能只由 $c=\sup S$ 直接断言这一点.
+
+若 $c<b$, 令 $t=\min\{b,c+\delta/2\}$, 则 $t>c$. 仍用覆盖 $[a,s]$ 的有限子族并加入 $U_{i_0}$, 就覆盖 $[a,t]$, 所以 $t\in S$, 与 $c$ 是上界矛盾. 因而 $c=b$. 前一段已证明 $c\in S$, 故 $b\in S$, 即整个 $[a,b]$ 有有限子覆盖.
+\end{proof}
+
+高维时, 不再有单一的最右端点可供推进. 但可以把方盒不断二分. 如果原覆盖没有有限子覆盖, 那么每一层总有一个小方盒也没有有限子覆盖. 小方盒不断缩小, 最后集中到一个点; 包含这个点的开集就会覆盖整个足够小的方盒, 产生矛盾. 为了让这个论证完整, 先证明其中的实数存在性.
+
+\begin{lemma}[嵌套方盒]
+\label{ch:eucompact:nested-boxes}
+设
+\[
+ Q_k=\prod_{j=1}^n[a_{k,j},b_{k,j}],\qquad k\geq1,
+\]
+都是非空闭方盒, 且 $Q_{k+1}\subseteq Q_k$. 则 $\bigcap_{k\geq1}Q_k\ne\varnothing$. 若还满足
+$\max_j(b_{k,j}-a_{k,j})\to0$, 则这个交集恰好只有一个点.
+\end{lemma}
+\begin{proof}
+对每个坐标 $j$, 嵌套关系给出 $a_{k,j}$ 单调不减、$b_{k,j}$ 单调不增, 且 $a_{k,j}\leq b_{1,j}$. 定义 $x_j=\sup_{k\geq1}a_{k,j}$. 对任意固定 $k$, 有 $a_{k,j}\leq x_j$. 又对所有 $\ell\geq k$ 都有 $a_{\ell,j}\leq b_{k,j}$; 对 $\ell<k$ 则有 $a_{\ell,j}\leq a_{k,j}\leq b_{k,j}$. 所以 $b_{k,j}$ 是所有 $a_{\ell,j}$ 的上界, 从而 $x_j\leq b_{k,j}$. 因此 $x=(x_1,\ldots,x_n)$ 属于每个 $Q_k$.
+
+若 $x,y$ 均属于交集, 对每个 $k,j$ 都有 $|x_j-y_j|\leq b_{k,j}-a_{k,j}$. 当各边长趋于零时, 令 $k\to\infty$ 得到 $x_j=y_j$ 对所有 $j$ 成立, 故 $x=y$.
+\end{proof}
+
+\begin{theorem}[闭方盒的紧性]
+\label{ch:eucompact:box-compact}
+每个非空闭方盒 $Q=\prod_{j=1}^n[a_j,b_j]$ 在 $\mathbb{R}^n$ 的欧氏度量下紧.
+\end{theorem}
+\begin{proof}
+设 $\{U_i\}_{i\in I}$ 是 $Q$ 的开覆盖, 却没有有限子覆盖. 把每个坐标区间从中点二分, 就把 $Q$ 表为至多 $2^n$ 个闭子方盒的并. 至少一个子方盒没有有限子覆盖; 否则把各子方盒的有限子覆盖合在一起, 就会得到 $Q$ 的有限子覆盖. 选定这样的子方盒为 $Q_1$, 再将 $Q_1$ 二分并重复此过程. 因此得到
+\[
+ Q\supseteq Q_1\supseteq Q_2\supseteq\cdots,
+\]
+其中每个 $Q_k$ 都没有有限子覆盖, 第 $j$ 个坐标的边长为 $(b_j-a_j)2^{-k}$. 允许原来某些边长为零, 这不影响二分和论证.
+
+由嵌套方盒引理, 存在唯一的 $x\in\bigcap_{k\geq1}Q_k$. 取覆盖中包含 $x$ 的 $U_{i_0}$, 并取 $r>0$ 使欧氏球 $B_2(x,r)\subseteq U_{i_0}$. 对每个 $y\in Q_k$, 因为 $x$ 也在 $Q_k$ 中,
+\[
+ \|y-x\|_2\leq
+ 2^{-k}\left(\sum_{j=1}^n(b_j-a_j)^2\right)^{1/2}.
+\]
+右端随 $k$ 趋于零. 因而当 $k$ 足够大时, 整个 $Q_k$ 都包含在 $B_2(x,r)\subseteq U_{i_0}$ 中. 此时单个 $U_{i_0}$ 就是 $Q_k$ 的有限子覆盖, 矛盾. 所以原开覆盖必有有限子覆盖.
+\end{proof}
+
+\begin{theorem}[Heine--Borel 定理]
+\label{ch:eucompact:heine-borel}
+设 $K\subseteq\mathbb{R}^n$, 其中使用通常欧氏度量. 则 $K$ 紧当且仅当 $K$ 在 $\mathbb{R}^n$ 中闭且有界.
+\end{theorem}
+\begin{proof}
+紧性推出闭且有界已由定理 \ref{ch:eucompact:compact-closed-bounded} 证明. 反过来, 空集紧. 对非空闭有界集 $K$, 可取 $R>0$ 使 $K\subseteq[-R,R]^n$. 该方盒由定理 \ref{ch:eucompact:box-compact} 紧, 而 $K$ 在方盒中闭. 命题 \ref{ch:eucompact:closed-subset} 遂给出 $K$ 紧.
+\end{proof}
+
+\begin{example}
+在 $\mathbb{R}^n$ 中, 判断单位闭球、单位球面, 以及从单位闭球中删去原点后的集合是否紧.
+\end{example}
+\begin{solution}
+闭球 $\{x:\|x\|_2\leq1\}$ 与单位球面 $\{x:\|x\|_2=1\}$ 都是闭有界集, 因而紧. 删去原点后的集合仍有界, 但不再闭: 点列 $(1/k,0,\ldots,0)$ 在该集合中而趋于原点. 由紧集必闭, 删点后的集合不紧. 集合名字中的 ``闭球'' 指原来的球, 不能自动把后来删点得到的集合也视为闭集.
+\end{solution}
+
+\originalsection{有界点列与有限维范数等价}
+\label{ch:eucompact:bolzano-weierstrass}
+
+开覆盖紧性处理的是任意多的开集, 而点列常常更容易直接构造. 二分方盒不仅能从开覆盖中导出有限子覆盖, 也能从有界点列中抽出收敛子列. 两个用途依赖相同的实数完备性, 不必让一个结论的证明预先假设另一个结论.
+
+\begin{theorem}[Bolzano--Weierstrass 定理]
+\label{ch:eucompact:bw}
+$\mathbb{R}^n$ 中的每个有界点列都有在 $\mathbb{R}^n$ 中收敛的子列.
+\end{theorem}
+\begin{proof}
+设 $(x_m)_{m\geq1}$ 有界, 选闭方盒 $Q_0=[-R,R]^n$ 包含全部点列项. 二分 $Q_0$ 后得到有限多个子方盒. 至少一个子方盒含有无穷多个点列项的指标, 否则有限个有限指标集合的并不可能包含全部正整数. 选这样的方盒为 $Q_1$. 再二分 $Q_1$, 并在仍有无穷多个指标的子方盒中选择 $Q_2$. 递归得到嵌套方盒 $Q_k$, 其各边长为 $2R\,2^{-k}$, 而每个指标集合
+\[
+ I_k=\{m\geq1:x_m\in Q_k\}
+\]
+都无限.
+
+由嵌套方盒引理, 交集恰好为一个点 $x$. 先取 $m_1\in I_1$, 再逐次取 $m_k\in I_k$ 且 $m_k>m_{k-1}$. 这是可行的, 因为无限的正整数集合不可能有上界. 严格递增保证所选的是原点列的子列. 因为 $x_{m_k}$ 与 $x$ 都在 $Q_k$ 中,
+\[
+ \|x_{m_k}-x\|_2\leq2R\sqrt n\,2^{-k}\longrightarrow0.
+\]
+所以 $x_{m_k}\to x$.
+\end{proof}
+
+\begin{definition}[序列紧]
+度量空间的子集 $A$ 称为序列紧, 如果每个点列 $(x_m)$, $x_m\in A$, 都有一个子列收敛到 $A$ 中的某个点. 这里极限属于 $A$ 是定义的一部分.
+\end{definition}
+
+\begin{theorem}[欧氏空间中的序列紧性]
+\label{ch:eucompact:sequential-hb}
+对 $A\subseteq\mathbb{R}^n$, 以下三项等价: $A$ 紧; $A$ 在 $\mathbb{R}^n$ 中闭且有界; $A$ 序列紧.
+\end{theorem}
+\begin{proof}
+前两项由 Heine--Borel 定理等价. 若 $A$ 闭且有界, 对 $A$ 中的任意点列使用 Bolzano--Weierstrass, 得到在 $\mathbb{R}^n$ 中收敛的子列. 闭性保证这个极限仍在 $A$ 中, 所以 $A$ 序列紧.
+
+反过来, 设 $A$ 序列紧. 若 $x\in\overline A$, 对每个 $m$ 选 $a_m\in A\cap B_2(x,1/m)$. 于是 $a_m\to x$. 序列紧性给出一个子列收敛到某个 $a\in A$. 这个子列也收敛到 $x$, 由度量空间中极限的唯一性得 $x=a\in A$. 因此 $A$ 包含所有闭包点, 所以闭. 若 $A$ 无界, 可以选 $a_m\in A$ 使 $\|a_m\|_2>m$. 对任意严格递增的子列指标 $m_k$, 都有 $\|a_{m_k}\|_2>m_k\to\infty$, 所以该子列不可能收敛: 收敛于 $a$ 会使尾项的长度不超过 $\|a\|_2+1$. 这与序列紧性矛盾. 因而 $A$ 也有界.
+\end{proof}
+
+本章的依赖关系至此已经清楚: 实数上确界性质给出嵌套方盒; 嵌套方盒分别给出闭方盒紧性与 Bolzano--Weierstrass; 前者结合闭子集命题给出 Heine--Borel, 后者结合闭性给出序列紧. 在一般度量空间中, ``闭且有界'' 无法替代紧性, 但紧与序列紧仍等价. 下一章将另作证明, 而不把 Heine--Borel 当成一般空间的工具.
+
+\begin{definition}[等价范数]
+同一向量空间上的范数 $\|\cdot\|_a$ 与 $\|\cdot\|_b$ 称为等价, 如果存在与 $v$ 无关的常数 $c,C>0$, 使
+\[
+ c\|v\|_a\leq\|v\|_b\leq C\|v\|_a
+ \qquad(v\in V).
+\]
+\end{definition}
+
+\begin{theorem}[有限维范数等价]
+\label{ch:eucompact:norm-equivalence}
+$\mathbb{R}^n$ 上的任意范数 $\|\cdot\|$ 都与欧氏范数等价. 因而同一有限维实向量空间上的任意两个范数等价.
+\end{theorem}
+\begin{proof}
+设 $n\geq1$, 并令 $e_1,\ldots,e_n$ 是标准基. 对任意 $x=\sum_jx_je_j$, 三角不等式、齐次性与 Cauchy--Schwarz 给出
+\[
+ \|x\|\leq\sum_{j=1}^n|x_j|\|e_j\|
+ \leq C\|x\|_2,\qquad
+ C=\left(\sum_{j=1}^n\|e_j\|^2\right)^{1/2}>0.
+\]
+因此
+\[
+ \bigl|\|x\|-\|y\|\bigr|\leq\|x-y\|\leq C\|x-y\|_2,
+\]
+即 $x\mapsto\|x\|$ 对欧氏度量连续. 上界容易取得, 困难在于不能让单位向量的范数任意接近零.
+
+若没有正数 $c$ 使所有欧氏单位向量 $u$ 满足 $\|u\|\geq c$, 则对每个 $m$ 可选 $u_m$ 使 $\|u_m\|_2=1$ 而 $\|u_m\|<1/m$. 单位球面是欧氏空间中的闭有界集, 由刚证明的序列紧性, 有子列 $u_{m_k}\to u$ 且 $\|u\|_2=1$. 上一段的连续性又给出 $\|u\|=\lim_k\|u_{m_k}\|=0$, 与范数的正定性矛盾. 故这样的 $c>0$ 必定存在.
+
+对 $x\ne0$, 向量 $u=x/\|x\|_2$ 在单位球面上. 齐次性给出
+$\|x\|=\|x\|_2\|u\|\geq c\|x\|_2$; 对 $x=0$ 也成立. 所以
+\[
+ c\|x\|_2\leq\|x\|\leq C\|x\|_2.
+\]
+若 $V$ 为 $n$ 维, 选定一组基把 $V$ 与 $\mathbb{R}^n$ 线性对应. $V$ 上的范数通过这一对应成为 $\mathbb{R}^n$ 上的范数. 两个范数各自与欧氏范数比较, 再合并常数, 就得到它们互相等价. 若维数为零, $V=\{0\}$, 任取 $c=C=1$ 即可.
+\end{proof}
+
+\begin{corollary}[有限维空间中的拓扑与紧性]
+\label{ch:eucompact:norm-topology}
+有限维向量空间上的等价范数诱导相同的开集、相同的收敛点列与 Cauchy 点列, 也给出相同的有界集与紧集. 对其中任一范数的度量, 闭有界集均紧.
+\end{corollary}
+\begin{proof}
+若 $c\|v\|_a\leq\|v\|_b\leq C\|v\|_a$, 则对每个 $x$ 与 $r>0$,
+\[
+ B_a(x,r/C)\subseteq B_b(x,r)\subseteq B_a(x,r/c).
+\]
+这些包含关系使任一度量的每个开邻域都包含另一度量的某个开球, 所以开集相同. 范数比较应用于 $x_m-x$、$x_m-x_\ell$ 以及 $x-p$, 分别给出收敛、Cauchy 性与有界性的等价. 紧性只由开集和有限子覆盖定义, 因而也相同. 最后选定基, 把闭有界集转为欧氏空间中的闭有界集, 再用 Heine--Borel 即得结论.
+\end{proof}
+
+\originalsection{函数范数与紧支撑}
+\label{ch:eucompact:support}
+
+范数不只衡量有限维向量. 连续函数也组成向量空间, 不同范数可以突出函数的不同特征. 这时首先要检查定义的数值是否有限, 而不能仅验证三角不等式.
+
+\begin{example}
+在 $C([0,1])$ 上, 定义
+\[
+ \|f\|_\infty=\sup_{x\in[0,1]}|f(x)|,
+ \qquad \|f\|_1=\int_0^1|f(x)|\,\mathrm{d}x.
+\]
+证明两者都是范数. 本例假设读者掌握闭区间上连续函数的 Riemann 积分.
+\end{example}
+\begin{solution}
+先说明数值有限. 连续函数 $f$ 的集合
+$U_m=\{x\in[0,1]:|f(x)|<m\}$ 在 $[0,1]$ 中开, 且随 $m\geq1$ 覆盖整个区间. 闭区间紧, 所以有限多个 $U_m$ 已覆盖它. 由于 $U_m$ 随 $m$ 增大, 其中指标最大的 $U_M$ 就包含整个区间, 即 $|f(x)|<M$ 对所有 $x$ 成立. 因此上确界范数有限. 连续函数 $|f|$ Riemann 可积, 且积分也有限.
+
+对上确界范数, 正定性来自 $\sup|f|=0$ 当且仅当各点上 $f=0$. 齐次性由 $\sup|\lambda f|=|\lambda|\sup|f|$ 得到. 点态不等式 $|f(x)+g(x)|\leq|f(x)|+|g(x)|$ 在取上确界后给出
+\[
+ \|f+g\|_\infty\leq\|f\|_\infty+\|g\|_\infty.
+\]
+
+对积分范数, 非负性、齐次性与三角不等式分别来自积分的非负性、常数因子法则与点态三角不等式. 唯一需要多解释的是正定性. 若 $f(x_0)\ne0$, 由连续性, 在某个正长度的子区间 $J\subseteq[0,1]$ 上有 $|f(x)|\geq|f(x_0)|/2$. 若 $x_0$ 是端点, 就取朝区间内部的单侧子区间. 因而
+\[
+ \int_0^1|f(x)|\,\mathrm{d}x
+ \geq\frac{|f(x_0)|}{2}\,|J|>0.
+\]
+所以积分等于零只能发生在 $f$ 恒为零时.
+\end{solution}
+
+在 $\mathbb{R}$ 上直接写 $\sup_{x\in\mathbb{R}}|f(x)|$ 或 $\int_{\mathbb{R}}|f(x)|\,\mathrm{d}x$, 不一定得到有限数. 例如 $f(x)=x$ 无界, 而常值函数 $1$ 的绝对值积分发散. 选择合适的函数空间因此属于定义的一部分. 对连续实值函数, 紧支撑是保证这两个数值有限的一种充分条件.
+
+\begin{definition}[支撑与紧支撑]
+设 $f:X\to\mathbb{R}$, 其中 $X$ 是度量空间. 它的支撑定义为
+\[
+ \operatorname{supp}f=
+ \overline{\{x\in X:f(x)\ne0\}}^{\,X}.
+\]
+若 $\operatorname{supp}f$ 紧, 则称 $f$ 有紧支撑. 全体有紧支撑的实值连续函数记作 $C_c(X)$.
+\end{definition}
+
+取闭包是必要的. 函数在某个点恰好为零, 该点仍可能被非零点逼近, 于是仍属于支撑. 对连续函数, 非零点集 $f^{-1}(\mathbb{R}\setminus\{0\})$ 是开集; 支撑则始终是闭集, 两者通常不同.
+
+\begin{proposition}[紧支撑的等价表述]
+\label{ch:eucompact:compact-support}
+函数 $f:X\to\mathbb{R}$ 有紧支撑, 当且仅当存在紧集 $K\subseteq X$ 使 $f$ 在 $X\setminus K$ 上恒为零. 特别地, 在 $\mathbb{R}^n$ 上, 这等价于存在 $R>0$ 使 $f$ 在 $[-R,R]^n$ 外恒为零.
+\end{proposition}
+\begin{proof}
+若支撑紧, 就取 $K=\operatorname{supp}f$. 不在支撑中的点当然不在非零点集中, 所以函数值为零. 反过来, 若非零点集包含在紧集 $K$ 中, 由紧集闭, 它的闭包仍包含在 $K$ 中. 支撑作为 $K$ 的闭子集紧.
+
+在 $\mathbb{R}^n$ 中, 紧集有界, 因而包含在某个 $[-R,R]^n$ 中. 反过来, 若函数在此方盒外为零, 该方盒紧, 再用前一结论即可.
+\end{proof}
+
+\begin{example}
+在 $\mathbb{R}$ 上定义 $f(x)=\max\{1-|x|,0\}$. 求它的支撑, 并判断它与零函数是否有紧支撑.
+\end{example}
+\begin{solution}
+$f$ 的非零点集是 $(-1,1)$, 支撑为 $[-1,1]$, 所以它有紧支撑. 尽管 $f(-1)=f(1)=0$, 这两个点仍在支撑中. 零函数的支撑是空集, 所以零函数也有紧支撑.
+\end{solution}
+
+\begin{example}
+判断函数 $g(x)=e^{-|x|}$ 是否有紧支撑, 并计算其绝对值在 $\mathbb{R}$ 上的积分.
+\end{example}
+\begin{solution}
+$g$ 在整个 $\mathbb{R}$ 上均非零, 因而支撑是 $\mathbb{R}$, 不紧. 但
+\[
+ \int_{-\infty}^{\infty}|g(x)|\,\mathrm{d}x
+ =2\int_0^\infty e^{-x}\,\mathrm{d}x=2.
+\]
+所以对连续实值函数, 紧支撑是绝对可积的充分条件, 不是必要条件. 对 $f\in C_c(\mathbb{R})$, 其支撑包含在某个闭区间中, 连续性保证区间上有界, 区间外又为零, 因而上确界与绝对值积分都有限. 任意函数的支撑仍可定义, 但若没有连续性或其他可积性条件, 单有紧支撑并不能保证函数有界或可积.
+\end{solution}
+
+\originalsection{编者练习与解答}
+\label{ch:eucompact:exercises}
+
+本节各题由编者为本章知识组织, 不声称来自 MIT 原习题或新领军真题. 做题时先确定环境空间, 再判断闭性、有界性与极限是否留在集合中.
+
+\begin{exercise}
+\label{ch:eucompact:ex-finite-union}
+证明度量空间中有限多个紧集的并紧. 再说明无限多个紧集的并未必紧.
+\end{exercise}
+\begin{solution}
+设 $K=K_1\cup\cdots\cup K_m$, 各 $K_j$ 紧. $K$ 的任意开覆盖也是每个 $K_j$ 的开覆盖, 所以对每个 $j$ 可取有限子族覆盖 $K_j$. 把这 $m$ 个有限子族合并, 仍只有有限多个成员, 并覆盖 $K$. 故 $K$ 紧. 对无限并, $\mathbb{R}=\bigcup_{m\geq1}[-m,m]$, 各闭区间紧, 但 $\mathbb{R}$ 不紧.
+\end{solution}
+
+\begin{exercise}
+\label{ch:eucompact:ex-rational}
+判断下列集合在 $\mathbb{R}$ 中是否紧, 并说明理由:
+\[
+ A=\{1/m:m\geq1\},\qquad
+ B=A\cup\{0\},\qquad
+ C=\mathbb{Q}\cap[0,1].
+\]
+\end{exercise}
+\begin{solution}
+$A$ 有界, 但点列 $1/m\to0$ 且 $0\notin A$, 所以 $A$ 在 $\mathbb{R}$ 中不闭, 因而不紧. $B$ 有界且闭. 为核对闭性, 若 $x\notin B$, 则 $x\ne0$. 在不含 $0$ 的一个小邻域中, 只有有限多个 $1/m$ 可能出现; 再缩小半径避开这有限个点, 就得到与 $B$ 不相交的邻域. 故补集开, 从而 $B$ 紧. $C$ 有界但不闭, 因为可取有理数列趋于 $[0,1]$ 内的无理数, 例如 $\sqrt2/2$. 极限不在 $C$ 中, 所以 $C$ 不紧.
+\end{solution}
+
+\begin{exercise}
+\label{ch:eucompact:ex-norms-infinite}
+在 $C([0,1])$ 上证明 $\|f\|_1\leq\|f\|_\infty$. 是否存在常数 $c>0$ 使所有连续函数都满足 $c\|f\|_\infty\leq\|f\|_1$?
+\end{exercise}
+\begin{solution}
+因为区间长度为 $1$, 积分估计给出
+$\int_0^1|f(x)|\,\mathrm{d}x\leq\int_0^1\|f\|_\infty\,\mathrm{d}x=\|f\|_\infty$.
+对 $m\geq1$, 令 $f_m(x)=\max\{1-mx,0\}$. 则 $f_m$ 连续, $\|f_m\|_\infty=1$, 而
+\[
+ \|f_m\|_1=\int_0^{1/m}(1-mx)\,\mathrm{d}x=\frac1{2m}.
+\]
+若存在这样的 $c$, 就有 $c\leq1/(2m)$ 对所有 $m$ 成立, 矛盾. 两个范数因此不等价. 有限维范数等价定理中的维数条件不能删去.
+\end{solution}
+
+\begin{exercise}
+\label{ch:eucompact:ex-subspace}
+在度量空间 $X=(0,1)$ 中, 判断 $A=[1/3,2/3]$ 与 $D=(0,1/2]$ 是否紧. 说明 ``在 $X$ 中闭且有界'' 为什么不能直接决定答案.
+\end{exercise}
+\begin{solution}
+$A$ 在 $\mathbb{R}$ 中闭且有界, 因而紧; 子空间命题说明它作为 $X$ 的子集仍紧. $D$ 在 $X$ 中闭, 因为 $X\setminus D=(1/2,1)$ 在 $X$ 中开; 它也有界. 但取 $x_m=1/(m+2)\in D$, 任何子列在 $\mathbb{R}$ 中都趋于 $0$, 因而不可能在 $X$ 中收敛. 或直接取 $X$ 中开集 $V_m=X\cap(1/m,1)$ 覆盖 $D$, 有限个的并漏掉充分小的正数. 所以 $D$ 不紧. Heine--Borel 的闭性要求是在整个欧氏空间中闭, 不是仅在任意子空间中闭.
+\end{solution}
+
+\begin{exercise}
+\label{ch:eucompact:ex-support}
+设 $f,g\in C_c(X)$, 其中 $X$ 是度量空间. 证明 $f+g$ 与 $fg$ 均有紧支撑, 并给出它们的支撑与原支撑之间的包含关系.
+\end{exercise}
+\begin{solution}
+若 $f(x)+g(x)\ne0$, 则至少一个函数在 $x$ 非零, 所以
+\[
+ \{f+g\ne0\}\subseteq\operatorname{supp}f\cup\operatorname{supp}g.
+\]
+右端是两个闭集的并, 因而闭. 取闭包后得
+$\operatorname{supp}(f+g)\subseteq\operatorname{supp}f\cup\operatorname{supp}g$.
+右端由有限并练习紧, 所以左端作为其闭子集紧. 同理, $fg\ne0$ 要求 $f\ne0$ 且 $g\ne0$, 故
+\[
+ \operatorname{supp}(fg)\subseteq
+ \operatorname{supp}f\cap\operatorname{supp}g.
+\]
+右端为 $\operatorname{supp}f$ 的闭子集, 因而紧, 左端亦紧. 加法时可能有抵消, 所以第一条通常只能写包含关系, 不能写等号.
+\end{solution}

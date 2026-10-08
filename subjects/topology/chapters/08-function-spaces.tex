@@ -1,0 +1,161 @@
+\originalchapter{函数空间与分析中的拓扑}\label{ch:function-spaces}
+\emph{本章补齐 18.S190 第6讲第3--5页关于 Banach 空间、线性泛函与 Dirichlet 问题的导论. Baire 定理和一致有界原理参考 MIT OCW 18.102 Spring 2021 第3讲 PDF 第3--4页(正文第16--17页); 函数族紧性与具体反例为编者补充, 不列为已核实的必考细项.}
+
+\originalsection{有界线性算子与对偶空间}
+范数空间既有度量又有线性运算. 距离 $d(u,v)=\lVert u-v\rVert$ 保证加法和数乘连续: 例如 $u_n\to u,v_n\to v$ 时,
+$\lVert(u_n+v_n)-(u+v)\rVert\le\lVert u_n-u\rVert+\lVert v_n-v\rVert\to0$.
+若 $\lambda_n\to\lambda$ 且 $u_n\to u$, 序列 $u_n$ 有界, 估计
+$\lVert\lambda_nu_n-\lambda u\rVert\le |\lambda_n-\lambda|\lVert u_n\rVert+|\lambda|\lVert u_n-u\rVert$ 给出数乘连续. 这些运算在纯度量空间中未必有定义.
+
+\begin{definition}
+实或复范数空间 $E,F$ 间的线性映射 $T:E\to F$ 称为有界线性算子, 如果存在 $C\ge0$ 使 $\lVert Tx\rVert_F\le C\lVert x\rVert_E$ 对所有 $x\in E$ 成立. 算子范数定义为
+\[
+ \lVert T\rVert=\sup_{\lVert x\rVert_E\le1}\lVert Tx\rVert_F.
+\]
+所有有界线性算子构成空间 $\mathcal L(E,F)$. 当 $F$ 是底域 $\mathbb R$ 或 $\mathbb C$ 时, 它们称为连续线性泛函, 其空间记为 $E^*$. “线性泛函”也常泛指任意线性标量映射, 故本书谈对偶范数时明确要求连续或有界.
+\end{definition}
+若 $E\ne\{0\}$, 上确界也可在单位球面上取, 因为线性性允许缩放; 若 $E=\{0\}$, 用单位闭球的定义仍给出零范数, 避免空单位球面的约定问题. $\lVert T\rVert$ 是不等式中最小可用常数, 上确界无需取到.
+
+\begin{proposition}
+线性算子 $T:E\to F$ 有界, 当且仅当它在 $0$ 连续, 也当且仅当它处处连续. 有界算子满足 $\lVert Tx-Ty\rVert\le\lVert T\rVert\lVert x-y\rVert$.
+\end{proposition}
+\begin{proof}
+有界性和线性性给出最后的不等式, 因而连续. 若在 $0$ 连续, 可取 $\delta>0$ 使 $\lVert z\rVert<\delta$ 时 $\lVert Tz\rVert<1$. 对 $x\ne0$, 令 $z=\delta x/(2\lVert x\rVert)$, 则 $\lVert Tx\rVert<2\lVert x\rVert/\delta$. 对 $x=0$ 不等式成立, 所以 $T$ 有界. 处处连续当然包含在 $0$ 连续.
+\end{proof}
+
+\begin{example}
+在非退化区间 $[a,b]$ 的连续函数空间中, 求点值泛函与积分泛函的范数, 并比较不同定义域范数下微分算子的连续性.
+\end{example}
+\begin{solution}
+在 $C([a,b])$ 中, 点值泛函 $f\mapsto f(t_0)$ 的范数是 $1$, 因为 $|f(t_0)|\le\lVert f\rVert_\infty$, 且常函数 $1$ 取等. 当 $a<b$ 时, 积分泛函 $I(f)=\int_a^b f(t)\,dt$ 的范数是 $b-a$, 由积分估计及常函数取等得到. 导数算子 $D:C^1([a,b])\to C([a,b])$ 若定义域使用 $\lVert f\rVert_{C^1}=\lVert f\rVert_\infty+\lVert f'\rVert_\infty$ 则有界, 但若只使用 $\lVert f\rVert_\infty$ 就不有界. 例如 $f_n(t)=\sin(n(t-a))/n$ 在上确界范数下趋于 $0$, 而 $\lVert f_n'\rVert_\infty=1$. 同一个代数算子的连续性取决于选用的范数.
+\end{solution}
+
+\begin{theorem}\label{thm:operator-banach}
+若 $F$ 是 Banach 空间, 则 $\mathcal L(E,F)$ 在算子范数下也是 Banach 空间. 特别地, 任意范数空间 $E$ 的连续对偶 $E^*$ 都是 Banach 空间, 即使 $E$ 本身不完备.
+\end{theorem}
+\begin{proof}
+算子范数的正定性、齐次性和三角不等式分别来自标量缩放及逐点估计, 所以它是范数. 设 $(T_n)$ 是算子范数下的柯西序列. 对每个 $x\in E$,
+$\lVert T_nx-T_mx\rVert\le\lVert T_n-T_m\rVert\lVert x\rVert$, 因而 $(T_nx)$ 在 $F$ 中有极限, 定义 $Tx=\lim_n T_nx$. 将极限通过有限线性组合, 得到 $T$ 线性. 柯西序列 $(T_n)$ 有统一范数上界 $M$, 于是 $\lVert Tx\rVert=\lim_n\lVert T_nx\rVert\le M\lVert x\rVert$, 所以 $T$ 有界. 给定 $\varepsilon>0$, 当 $n,m\ge N$ 时 $\lVert T_n-T_m\rVert<\varepsilon/2$. 固定 $n\ge N$, 令 $m\to\infty$ 得 $\lVert(T_n-T)x\rVert\le(\varepsilon/2)\lVert x\rVert$, 再对单位闭球取上确界, 得 $\lVert T_n-T\rVert\le\varepsilon/2<\varepsilon$. 因此收敛在算子范数中成立.
+\end{proof}
+这里两个层次都不可省: 先借助目标空间的完备性定义逐点极限, 再用对所有单位向量统一的柯西估计证明算子范数收敛. 仅有逐点收敛不足以给出算子范数收敛.
+
+\originalsection{Baire 定理与一致有界原理}
+全有界性与完备性一起产生紧致性. 但无限维 Banach 空间的单位闭球通常不紧; 完备性单独还能控制什么? Baire 定理给出的控制是: 不能用可数多个处处稀疏的闭集覆盖一个非空完备空间.
+
+\begin{definition}
+度量空间 $X$ 中的子集 $A$ 称为无处稠密, 如果 $\overline A$ 的内部为空. 可数个无处稠密集的并称为第一纲集.
+\end{definition}
+闭集无处稠密, 等价于不包含任何非空开球. 无处稠密集不必为空; 例如实数中的整数集闭且内部空. 第一纲集则仍可能稠密. 有理数是可数个单点的并, 因而在 $\mathbb R$ 中是第一纲集, 同时又稠密.
+
+\begin{theorem}[Baire 定理]\label{thm:baire}
+在完备度量空间 $X$ 中, 可数个稠密开集 $G_n$ 的交仍稠密. 特别地, 非空完备度量空间不能是可数个无处稠密集的并; 若非空 $X=\bigcup_n F_n$ 且各 $F_n$ 闭, 则至少一个 $F_n$ 有非空内部.
+\end{theorem}
+\begin{proof}
+若 $X$ 为空, 稠密交的结论按定义成立. 否则要证明稠密, 只须在每个非空开集 $U$ 中找到交集的点. 因 $G_1$ 稠密且开, $U\cap G_1$ 非空开. 取中心 $x_1$ 与 $0<r_1<1/2$, 使闭球 $\overline B_d(x_1,r_1)=\{x:d(x,x_1)\le r_1\}$ 包含在 $U\cap G_1$ 内. 这可做到: 从中心的一个已包含开球取更小半径. 这里闭球记号表示距离不大于半径的集合, 不假定它等于同半径开球的闭包.
+
+归纳地, $B(x_n,r_n)\cap G_{n+1}$ 非空开, 取 $x_{n+1}$ 与 $0<r_{n+1}<2^{-n-1}$, 使
+\[
+ \overline B_d(x_{n+1},r_{n+1})\subseteq B(x_n,r_n)\cap G_{n+1}.
+\]
+这些非空闭球嵌套且直径趋于 $0$. 第5章的完备空间嵌套闭集定理给出唯一公共点 $x$. 若不调用该定理, 也可直接看出: 对 $m>n$, 有 $x_m\in\overline B_d(x_n,r_n)$, 故中心序列柯西; 由完备性有极限, 各闭球包含相应尾部所以也包含极限. 于是 $x\in U$ 且 $x\in G_n$ 对所有 $n$ 成立, 证明稠密性.
+
+若 $A_n$ 无处稠密, 其闭包补集 $G_n=X\setminus\overline A_n$ 稠密且开. 非空 $X$ 中稠密交非空, 其中的点不在任何 $A_n$ 内, 故这些集合不能覆盖 $X$. 对闭集覆盖若每个 $F_n$ 内部均空, 就得到这样的不可能覆盖.
+\end{proof}
+反例的环境同样重要: $\mathbb Q$ 在通常度量下是可数个单点的并, 每个单点在 $\mathbb Q$ 内闭且内部空, 但 $\mathbb Q$ 不完备. 这不违反 Baire 定理.
+
+\begin{theorem}[一致有界原理]\label{thm:uniform-boundedness}
+设 $E$ 是 Banach 空间, $F$ 是范数空间, $T_n\in\mathcal L(E,F)$. 如果对每个 $x\in E$ 都有 $\sup_n\lVert T_nx\rVert<\infty$, 则 $\sup_n\lVert T_n\rVert<\infty$.
+\end{theorem}
+\begin{proof}
+令 $A_k=\{x\in E:\lVert T_nx\rVert\le k\text{ 对所有 }n\}$, $k\ge1$. 每个 $A_k$ 是闭集, 因为它是闭集 $T_n^{-1}(\overline B_F(0,k))$ 的交. 逐点有界保证 $E=\bigcup_k A_k$. 若 $E=\{0\}$, 所有算子范数为零; 否则 Baire 定理仍对整个非空完备空间 $E$ 适用, 给出 $B(x_0,r)\subseteq A_k$, $r>0$. 对 $\lVert h\rVert<r$, $x_0+h$ 与 $x_0$ 均属 $A_k$, 故
+$\lVert T_nh\rVert\le\lVert T_n(x_0+h)\rVert+\lVert T_nx_0\rVert\le2k$.
+取 $h=(r/2)x$ 且 $\lVert x\rVert\le1$, 得 $\lVert T_nx\rVert\le4k/r$. 这个界同时适用于所有 $n,x$, 因而 $\lVert T_n\rVert\le4k/r$.
+\end{proof}
+本证明在整个 $E$ 中使用 Baire 定理. 若只在单位闭球中得到相对开球, 不能直接假定它包含范数空间中的整球; 必须额外处理边界. 将闭集 $A_k$ 定义在全空间中可以避开这个不必要的障碍.
+
+\originalsection{连续函数族的紧性}
+函数序列逐点有界并不足以有一致收敛子列. 在 $[0,1]$ 上, $f_n(x)=x^n$ 全部满足 $\lVert f_n\rVert_\infty=1$, 但逐点极限在 $1$ 不连续; 所以任何子列也不可能一致收敛到连续函数. 缺失的是所有函数共同的局部变化控制.
+
+\begin{definition}
+设 $K$ 为非空紧度量空间. 函数族 $\mathcal F\subseteq C(K,\mathbb R)$ 称为一致等度连续, 若对每个 $\varepsilon>0$ 存在 $\delta>0$, 使所有 $f\in\mathcal F$ 和所有 $x,y\in K$ 都满足
+$d(x,y)<\delta\Rightarrow |f(x)-f(y)|<\varepsilon$.
+称它一致有界, 若存在 $M$ 使 $|f(x)|\le M$ 对所有 $f,x$ 成立.
+\end{definition}
+紧空间上常用的逐点等度连续定义与本定义等价. 若每个 $x$ 都有适用于全族的半径 $r_x$ 使 $d(x,y)<r_x$ 时 $|f(x)-f(y)|<\varepsilon/2$, 则球 $B(x,r_x/2)$ 覆盖 $K$. 取有限子覆盖 $B(x_i,r_i/2)$, 并令 $\delta<\min_i r_i/2$. 若 $y$ 在第 $i$ 个小球内且 $d(y,z)<\delta$, 则 $y,z$ 都在 $B(x_i,r_i)$ 内, 用三角不等式给出 $|f(y)-f(z)|<\varepsilon$. 这样将逐点半径变为全域统一半径.
+
+\begin{theorem}[Arzel\`a--Ascoli 判据]\label{thm:ascoli}
+设 $K$ 为非空紧度量空间. $\mathcal F\subseteq C(K,\mathbb R)$ 的闭包在上确界范数下紧, 当且仅当 $\mathcal F$ 一致有界且一致等度连续.
+\end{theorem}
+\begin{proof}
+若闭包 $H$ 紧, 则它在范数度量下有界, 即有统一上确界界. 给定 $\varepsilon>0$, 用有限个半径 $\varepsilon/4$ 的范数球覆盖 $H$, 中心为 $g_1,\ldots,g_m\in H$. 每个 $g_i$ 在紧 $K$ 上一致连续, 故存在统一的 $\delta>0$ 使 $d(x,y)<\delta$ 时 $|g_i(x)-g_i(y)|<\varepsilon/2$ 对所有中心成立. 任意 $f\in H$ 选相距小于 $\varepsilon/4$ 的中心, 得
+$|f(x)-f(y)|<\varepsilon/4+\varepsilon/2+\varepsilon/4=\varepsilon$. 因而 $\mathcal F$ 一致等度连续.
+
+反过来, 要利用第4章的“完备且全有界”等价判据. $C(K)$ 完备, 故 $\overline{\mathcal F}$ 完备. 只须证明 $\mathcal F$ 全有界, 因为全有界集的闭包仍全有界: 先用半径 $\eta/2$ 的有限球覆盖原集, 再用半径 $\eta$ 的同心球覆盖闭包.
+
+固定 $\varepsilon>0$, 取等度连续半径 $\delta$ 使近点函数差小于 $\varepsilon/4$. 用有限个半径 $\delta$ 的球覆盖 $K$, 中心为 $x_1,\ldots,x_N$. 在有界区间 $[-M,M]$ 中分出有限个长度小于 $\varepsilon/4$ 的小区间, 把每个 $f\in\mathcal F$ 按 $N$ 个值 $f(x_i)$ 各属哪一个小区间分类; 端点可以用半开分割避免多重归属. 类别仅有限个. 对每个非空类别选一个代表 $g$. 若 $f$ 与 $g$ 同类, 则对任意 $x\in K$ 选 $i$ 满足 $d(x,x_i)<\delta$, 有
+\[
+ |f(x)-g(x)|\le |f(x)-f(x_i)|+|f(x_i)-g(x_i)|+|g(x_i)-g(x)|<3\varepsilon/4.
+\]
+所以这些有限代表的半径 $\varepsilon$ 球覆盖 $\mathcal F$. 若函数族为空, 结论直接成立. 故闭包全有界且完备, 从而紧.
+\end{proof}
+
+在 $[0,1]$ 上, 族 $\{f:\lVert f\rVert_\infty\le M,\ |f(x)-f(y)|\le L|x-y|\}$ 一致有界且等度连续. 两个不等式在一致极限下仍成立, 所以这个族还闭, 因而紧. 相比之下, $C([0,1])$ 的整个单位闭球不紧. 这是有限维“闭且有界即紧”和无限维函数空间之间最常见的分界.
+
+\originalsection{流形与 Dirichlet 问题的动机}
+18.S190 的终点还包括流形和偏微分方程的学习方向. 这里保留其与拓扑的关系, 不把导论提升为已证明的流形理论或椭圆方程存在性理论.
+
+\begin{definition}
+一个 $n$ 维拓扑流形通常定义为 Hausdorff、第二可数且局部同胚于 $\mathbb R^n$ 的空间. 第二可数指存在可数的全局开集基. “局部同胚”指每点有开邻域 $U$, 以及从 $U$ 到 $\mathbb R^n$ 某开子集的同胚. 光滑流形进一步要求所选坐标图之间的转移映射光滑.
+\end{definition}
+本定义并不直接把流形定义为嵌在欧氏空间中的光滑曲面. 例如圆周在每点附近同胚于开区间, 但圆周整体不与开区间同胚, 因为前者紧而后者不紧. 开圆弧上可用角度作局部坐标. 度量不是这里写出的定义项; 在常用的 Hausdorff、第二可数约定下有可度量化定理, 该定理超出本书证明范围. 局部坐标、全局拓扑和所选度量是不同层次.
+
+平面区域 $\Omega$ 上的经典 Dirichlet 问题要求寻找 $u\in C^2(\Omega)\cap C(\overline\Omega)$, 使
+\[
+ \Delta u=\frac{\partial^2u}{\partial x^2}+\frac{\partial^2u}{\partial y^2}=0\quad\text{在 }\Omega,
+ \qquad u|_{\partial\Omega}=f.
+\]
+存在性还取决于区域边界和边界数据的条件, 不能只凭 $f$ 连续就对任意区域宣布存在. 一个自然的研究方向是 Dirichlet 能量
+$E(u)=\frac12\int_\Omega|\nabla u|^2\,dA$. 在积分有意义、且允许光滑紧支撑变分的函数类中, 若光滑 $u$ 满足 $E(u)<\infty$ 且已是能量极小元, 则对每个 $\phi\in C_c^\infty(\Omega)$,
+\[
+ 0=\left.\frac{d}{dt}E(u+t\phi)\right|_{t=0}
+   =\int_\Omega\nabla u\cdot\nabla\phi\,dA
+   =-\int_\Omega(\Delta u)\phi\,dA.
+\]
+最后一步用紧支撑消除边界项. 由于 $\Delta u$ 连续, 若它在某点为正或负, 可选择支撑在 $\Delta u$ 保持同号的小邻域内的非零非负测试函数, 使最后的积分非零. 因此 $\Delta u=0$. 这个论证证明的是“光滑极小元存在时满足方程”, 并未证明极小元存在.
+
+\begin{example}\label{ex:dirichlet-bumps}
+构造零边界条件的光滑函数序列, 使其Dirichlet能量趋于零, 而一阶导数上确界范数趋于无穷.
+\end{example}
+\begin{solution}
+小能量不能控制 $C^1$ 范数, 所以不能直接用 $C^1$ 紧性为上述极小元存在作保证. 取 $x_0\in\Omega$ 及一个非恒定的光滑函数 $\phi$, 其支撑紧含于单位圆盘内. 这样的函数可由 $\exp(-1/(1-|x|^2))$ 在 $|x|<1$ 定义、在外部置零并适当缩放构造; 所有阶导数在边界趋零是由指数衰减快于任意幂得到的. 选 $r_n\downarrow0$ 使 $B(x_0,r_n)\subseteq\Omega$, 并定义
+\[
+ u_n(x)=r_n^{1/2}\phi((x-x_0)/r_n).
+\]
+它们在边界附近为零. 对这些有紧支撑的函数, 本例使用 $\lVert u\rVert_{C^1}=\lVert u\rVert_\infty+\lVert\nabla u\rVert_\infty$, 各项均有限. 变量代换给出
+\[
+ E(u_n)=\frac{r_n}{2}\int_{\mathbb R^2}|\nabla\phi(y)|^2\,dy\longrightarrow0,
+ \qquad \lVert\nabla u_n\rVert_\infty=r_n^{-1/2}\lVert\nabla\phi\rVert_\infty\longrightarrow\infty.
+\]
+因此零边界问题的极小能量是 $0$, 这些 $u_n$ 是趋近该能量的序列, 却没有 $C^1$ 收敛子列. 能量趋近下确界与适当拓扑中的紧性是两件不同的事. 为解决一般存在性问题需要选择更合适的函数空间与收敛方式, 而不是把能量有界直接当成一致导数有界.
+\end{solution}
+
+\originalsection{练习与解答}
+以下练习由编者编写, 不作为官方试题.
+\begin{exercise}
+在 $C([0,1])$ 中, 令 $\mathcal F=\{f:f(0)=0,\ |f(x)-f(y)|\le|x-y|\}$. 证明 $\mathcal F$ 紧. 若去掉 Lipschitz 条件而只留下 $\lVert f\rVert_\infty\le1$ 与 $f(0)=0$, 结论是否仍成立?
+\end{exercise}
+\begin{solution}
+从 $f(0)=0$ 得 $|f(x)|\le x\le1$, 所以一致有界. Lipschitz 条件保证一致等度连续. 这些条件在一致极限下保持, 故族闭; Arzel\`a--Ascoli 判据给出紧性. 去掉 Lipschitz 条件后, $f_n(x)=x^n$ 都属于新族. 若有一致收敛子列, 其连续极限也应等于所有子列的逐点极限, 即在 $[0,1)$ 为 $0$ 而在 $1$ 为 $1$, 不连续, 矛盾. 因而新族不紧.
+\end{solution}
+\begin{exercise}
+设 $c_{00}$ 是只有有限个非零项的实数序列空间, 赋予上确界范数. 定义 $T_n(x)=nx_n$. 证明每个 $T_n$ 是有界线性泛函, 对每个固定 $x$ 有 $\sup_n|T_nx|<\infty$, 而 $\sup_n\lVert T_n\rVert=\infty$. 指出这为什么不反驳一致有界原理.
+\end{exercise}
+\begin{solution}
+$|T_nx|\le n\lVert x\rVert_\infty$, 取第 $n$ 项为 $1$ 其余为零的序列即可取等, 所以 $\lVert T_n\rVert=n$. 对固定有限支撑序列, $T_nx$ 只有有限多个非零值, 故逐点有界. 但 $c_{00}$ 不完备: 序列 $x^{(m)}=(1,1/2,\ldots,1/m,0,\ldots)$ 是上确界范数下的柯西序列, 其任何可能极限的第 $k$ 项必为 $1/k$, 这个无限支撑序列不在 $c_{00}$ 中. 一致有界原理所需定义域完备性失效.
+\end{solution}
+\begin{exercise}
+证明一个非零且完备的实或复范数空间, 若作为向量空间有一组可数无限 Hamel 基 $e_1,e_2,\ldots$, 将产生矛盾. 可调用第3章的有限维范数等价, 但不能把可数稠密集当成 Hamel 基.
+\end{exercise}
+\begin{solution}
+令 $E_n=\operatorname{span}(e_1,\ldots,e_n)$. 有限维范数等价保证 $E_n$ 完备, 因而在完备空间中闭. 它是一个真线性子空间, 所以内部空: 若包含某个球 $B(x,r)$, 则 $x\in E_n$, 减去 $x$ 得到 $B(0,r)\subseteq E_n$; 再用缩放使任意向量落入该球, 可得 $E_n=E$, 矛盾. Hamel 基的定义要求每个向量是有限线性组合, 故 $E=\bigcup_n E_n$. 这与 Baire 定理矛盾. 可分空间可以有可数稠密集, 但稠密集允许取极限, 而 Hamel 基只允许有限线性组合, 二者不能混淆.
+\end{solution}

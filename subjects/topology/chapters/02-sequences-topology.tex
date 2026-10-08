@@ -1,0 +1,560 @@
+\originalchapter{序列, 开闭集与连续映射}\label{ch:seq}
+\emph{本章以 Paige Bright 的 MIT OCW 18.S190 IAP 2023 第2讲正文第1--7页为主要来源, 并衔接第1讲第3--4页的定义; 子空间, 闭包与边界, 距离函数以及度量与拓扑的比较为编者补充.}
+
+有了距离, 就能把实数上的极限定义推广到函数, 向量或更一般的对象. 但度量不仅给出一个数值: 它还说明哪些集合可以作为某一点周围的活动范围. 本章先研究序列如何接近一点, 再把这种接近与开集联系起来, 最后得到连续性的三种等价表达. 这条联系也解释了为何基础拓扑能够从距离的具体公式中抽离出来.
+
+\originalsection{收敛与 Cauchy 条件}\label{ch:seq:convergence}
+\begin{definition}[序列收敛]\label{ch:seq:def-convergence}
+度量空间 $(X,d)$ 中的\textbf{序列}是一个映射 $\mathbb{N}\to X$, 通常记为 $(x_n)_{n\ge1}$. 对 $x\in X$, 若
+\[
+ \forall\varepsilon>0,\ \exists N\in\mathbb{N},\
+ \forall n\ge N,\quad d(x_n,x)<\varepsilon,
+\]
+则称 $x_n$ \textbf{收敛于} $x$, 写作 $x_n\to x$; $x$ 称为序列的极限.
+\end{definition}
+这里 $N$ 可以依赖于 $\varepsilon$, 但在 $N$ 之后必须控制所有项. 极限还必须属于所讨论的空间 $X$. 比如序列 $1/(n+1)$ 在 $\mathbb{R}$ 中趋于 $0$, 但在子空间 $(0,1)$ 中没有极限, 因为 $0$ 不是该空间的点. 定义中使用严格不等号只是统一记号; 如果把它改成 $d(x_n,x)\le\varepsilon$, 仍得到相同概念, 因为可以先对 $\varepsilon/2$ 应用该版本.
+
+\begin{theorem}[极限的基本性质]\label{ch:seq:basic-limits}
+在度量空间中, 一个收敛序列的极限唯一, 且该序列有界. 若 $x_n\to x$, 则任何子序列 $x_{n_k}$ 都收敛于同一个 $x$. 若另有 $y_n\to y$, 则
+\[
+ d(x_n,y_n)\longrightarrow d(x,y).
+\]
+\end{theorem}
+\begin{proof}
+若 $x_n$ 同时趋于 $x$ 和 $y$, 给定 $\varepsilon>0$, 可取足够大的 $n$, 使 $d(x,x_n)<\varepsilon/2$ 且 $d(x_n,y)<\varepsilon/2$. 三角不等式给出 $0\le d(x,y)<\varepsilon$. 由于这对每个正 $\varepsilon$ 成立, 必有 $d(x,y)=0$, 即 $x=y$.
+
+为了证明有界, 先对 $\varepsilon=1$ 取 $N$, 使 $n\ge N$ 时 $d(x_n,x)<1$. 余下只有有限多个项. 因而
+\[
+ R=\max\bigl(\{1\}\cup\{d(x_n,x):1\le n<N\}\bigr)
+\]
+是有限数, 且每一项都满足 $d(x_n,x)\le R$. 使用集合中额外的 $1$ 可以同时处理 $N=1$, 没有前面例外项的情况.
+
+子序列的下标 $n_1<n_2<\cdots$ 严格递增, 所以 $n_k\ge k$. 对给定 $\varepsilon$, 原序列在下标 $N$ 以后距 $x$ 小于 $\varepsilon$. 当 $k\ge N$ 时也有 $n_k\ge N$, 故 $d(x_{n_k},x)<\varepsilon$.
+
+最后, 引理\ref{ch:metric:reverse} 给出
+\[
+ |d(x_n,y_n)-d(x,y)|\le d(x_n,x)+d(y_n,y).
+\]
+右边趋于零, 从而得到距离的极限公式. 固定 $y_n=y$ 时, 特别得到 $d(x_n,y)\to d(x,y)$.
+\end{proof}
+有界性只能保证各项留在一个大球中, 不能保证它们向同一点靠近. 在实数中, $(-1)^n$ 有界但不收敛. 更强的尾部控制是 Cauchy 条件: 它直接比较后面的项彼此之间的距离, 而无需预先知道极限应在哪里.
+
+\begin{definition}[Cauchy 序列与完备性]\label{ch:seq:def-cauchy}
+若序列 $(x_n)$ 满足
+\[
+ \forall\varepsilon>0,\ \exists N\in\mathbb{N},\
+ \forall m,n\ge N,\quad d(x_m,x_n)<\varepsilon,
+\]
+则称其为\textbf{Cauchy 序列}. 若 $X$ 中每个 Cauchy 序列都收敛于 $X$ 中某一点, 则称 $(X,d)$ \textbf{完备}.
+\end{definition}
+
+\begin{proposition}[Cauchy 序列的基本性质]\label{ch:seq:cauchy-properties}
+每个收敛序列都是 Cauchy 序列. 每个 Cauchy 序列都有界. 若一个 Cauchy 序列有子序列收敛于 $x\in X$, 则原序列也收敛于 $x$.
+\end{proposition}
+\begin{proof}
+若 $x_n\to x$, 对给定 $\varepsilon>0$, 取 $N$ 使 $n\ge N$ 时 $d(x_n,x)<\varepsilon/2$. 对 $m,n\ge N$, 有
+\[
+ d(x_m,x_n)\le d(x_m,x)+d(x,x_n)<\varepsilon.
+\]
+
+若 $(x_n)$ 是 Cauchy 序列, 对精度 $1$ 取 $N$. 则对 $n\ge N$, 有 $d(x_n,x_N)<1$. 将前 $N-1$ 项到 $x_N$ 的距离与 $1$ 一起取有限最大值, 就得到整个序列的统一界.
+
+最后设 $x_{n_k}\to x$. 对精度 $\varepsilon/2$ 取 Cauchy 下标 $N$. 再取 $k$ 足够大, 使 $n_k\ge N$ 且 $d(x_{n_k},x)<\varepsilon/2$. 对每个 $n\ge N$, 都有
+\[
+ d(x_n,x)\le d(x_n,x_{n_k})+d(x_{n_k},x)<\varepsilon.
+\]
+这里固定一个足够靠后的子序列项作为中间点, 就把子序列的信息传给了整个尾部.
+\end{proof}
+
+\begin{proposition}[两个 Cauchy 序列之间的距离]\label{ch:seq:cauchy-distance}
+若 $(x_n)$ 和 $(y_n)$ 都是 $(X,d)$ 中的 Cauchy 序列, 则实数序列 $(d(x_n,y_n))$ 收敛, 即使 $X$ 本身不完备.
+\end{proposition}
+\begin{proof}
+给定 $\varepsilon>0$, 取共同下标 $N$, 使 $m,n\ge N$ 时两序列各自项间距离均小于 $\varepsilon/2$. 由反三角不等式的双端点形式,
+\[
+ |d(x_n,y_n)-d(x_m,y_m)|
+ \le d(x_n,x_m)+d(y_n,y_m)<\varepsilon.
+\]
+因此 $(d(x_n,y_n))$ 是实数中的 Cauchy 序列. 实数的完备性保证它收敛. 此处没有假设 $x_n$ 或 $y_n$ 在 $X$ 中有极限, 也没有把不存在的极限代入距离.
+\end{proof}
+
+\begin{example}
+证明 $(0,1)$ 的通常距离不完备, 并证明每个离散度量空间都完备.
+\end{example}
+\begin{solution}
+在子空间 $(0,1)$ 的通常距离下, 令 $x_n=1/(n+1)$. 给定 $\varepsilon>0$, 取 $N$ 使 $1/(N+1)<\varepsilon/2$. 对 $m,n\ge N$, 有 $|x_m-x_n|\le x_m+x_n<\varepsilon$, 所以它是 Cauchy 序列. 但它在 $\mathbb{R}$ 中的极限为 $0$, 而 $0\notin(0,1)$. 若它在 $(0,1)$ 中还有极限, 由同一距离下的极限唯一性, 该极限也只能是 $0$, 矛盾. 因而 $(0,1)$ 不完备.
+
+在离散度量下, 对 $\varepsilon=1/2$ 应用 Cauchy 条件, 得到尾部任意两项的距离小于 $1/2$. 由于离散距离只能是 $0$ 或 $1$, 这些项必须全部相同. 因而离散度量空间中的 Cauchy 序列最终恒定, 所以每个离散度量空间都完备.
+\end{solution}
+完备性讨论的是空间是否容纳全部 Cauchy 极限. 后面的完备性与完备化章节会系统发展这个主题. 当前先记住: ``收敛 $\Rightarrow$ Cauchy $\Rightarrow$ 有界''在任何度量空间中成立, 反向则需要额外条件.
+
+\originalsection{开集, 闭集及其运算}\label{ch:seq:open-closed}
+\begin{definition}[开集与闭集]\label{ch:seq:def-open}
+设 $A\subseteq X$. 若对每个 $x\in A$, 都存在 $r>0$, 使 $B_X(x,r)\subseteq A$, 则称 $A$ 在 $X$ 中\textbf{开}. 若 $X\setminus A$ 在 $X$ 中开, 则称 $A$ 在 $X$ 中\textbf{闭}. 若 $U$ 是包含 $x$ 的开集, 则称 $U$ 为 $x$ 的\textbf{开邻域}.
+\end{definition}
+本文用``开邻域''明确表示邻域本身开. 有些教材允许``邻域''是任何包含一个开邻域的集合; 两种约定对这里的收敛与连续性结论没有影响.
+
+\begin{proposition}[开球与闭球]\label{ch:seq:balls-open}
+每个开球 $B(x,r)$ 都是开集, 每个闭球 $\overline B(x,r)$ 都是闭集. 每个单点集 $\{x\}$ 都是闭集.
+\end{proposition}
+\begin{proof}
+若 $y\in B(x,r)$, 则 $s=r-d(x,y)>0$. 对 $z\in B(y,s)$, 三角不等式给出
+\[
+ d(x,z)\le d(x,y)+d(y,z)<d(x,y)+s=r.
+\]
+所以 $B(y,s)\subseteq B(x,r)$, 证明了开球是开集. 这一论证对 $y=x$ 同样成立, 不必另设特殊情况.
+
+若 $y\notin\overline B(x,r)$, 则 $s=d(x,y)-r>0$. 对 $z\in B(y,s)$, 反三角不等式给出
+\[
+ d(x,z)\ge d(x,y)-d(y,z)>d(x,y)-s=r.
+\]
+所以这个球留在闭球的补集中, 补集开, 闭球闭.
+
+若 $y\ne x$, 则 $B(y,d(x,y))$ 不含 $x$. 因而单点集补集中每一点都有一个仍在补集内的球, 证明单点集闭.
+\end{proof}
+
+\begin{theorem}[开闭集的集合运算]\label{ch:seq:operations}
+在度量空间 $X$ 中, $\varnothing$ 和 $X$ 都既开又闭. 任意族开集的并为开集, 有限多个开集的交为开集. 任意族闭集的交为闭集, 有限多个闭集的并为闭集.
+\end{theorem}
+\begin{proof}
+空集开, 因为其中没有需要核对的小球条件的点. $X$ 开, 因为任何球按定义都在 $X$ 中. 二者互为补集, 所以也都闭.
+
+设 $U=\bigcup_{i\in I}U_i$, 且每个 $U_i$ 开. 若 $x\in U$, 则 $x\in U_{i_0}$ 对某个下标 $i_0$ 成立. 取 $r>0$, 使 $B(x,r)\subseteq U_{i_0}$, 自然也有 $B(x,r)\subseteq U$. 所以任意并开.
+
+设 $U_1,\ldots,U_m$ 开且 $x$ 属于它们的交. 分别取 $r_i>0$, 使 $B(x,r_i)\subseteq U_i$. 因为只有有限多个正数, $r=\min_i r_i$ 仍然严格为正. 因而 $B(x,r)\subseteq\bigcap_iU_i$, 证明有限交开. 零个集合的交约定为 $X$, 也与结论一致.
+
+闭集结论由补集与 De Morgan 律得到. 具体地, 如果每个 $F_i$ 闭, 则
+\[
+ X\setminus\bigcap_{i\in I}F_i
+ =\bigcup_{i\in I}(X\setminus F_i)
+\]
+是开集, 所以交闭. 对有限并, 其补集是有限多个开集的交, 因而同样开, 证明并闭. De Morgan 律本身来自逐点判断: 一点不属于并集, 当且仅当它不属于任何一个集合; 一点不属于交集, 当且仅当它不属于其中至少一个集合.
+\end{proof}
+``有限''这个条件不能删去. 在 $\mathbb{R}$ 中,
+\[
+ \bigcap_{n=1}^\infty(-1/n,1/n)=\{0\}
+\]
+不是开集. 与之对应,
+$\bigcup_{n=1}^\infty[1/n,1]=(0,1]$ 不是闭集. 第一个例子中, 每个邻域半径都可以取正, 但无限多个半径的下确界可能为零.
+
+有限集闭, 因为它是有限多个闭单点集的并. 开与闭也不是互相否定的两个形容词. 例如 $[0,1)$ 在 $\mathbb{R}$ 中既不开也不闭: 点 $0$ 的任何小球都会越过左端点, 而补集在点 $1$ 的任何小球都会遇到 $[0,1)$. 离散空间的任何子集则既开又闭, 因为每个点都可用单点球隔离. 开闭集合与空间能否被分成两个部分的关系, 将在连通性章节中专门讨论.
+
+\begin{proposition}[开集是球的并]\label{ch:seq:union-balls}
+$U\subseteq X$ 是开集当且仅当它可以写成 $X$ 中某些开球的并.
+\end{proposition}
+\begin{proof}
+若 $U$ 开, 则对每个 $x\in U$, 取一个 $r_x>0$ 使 $B(x,r_x)\subseteq U$. 每个 $x$ 都在相应球中, 所以 $U=\bigcup_{x\in U}B(x,r_x)$. 若 $U=\varnothing$, 用空族的并即可. 反方向由每个球开及开集任意并仍开得到.
+\end{proof}
+
+\originalsection{相对开闭性}\label{ch:seq:subspaces}
+``这个集合开不开''必须说明它被放在哪个空间中. 子空间中的球只搜索子空间里的点, 因此同一个集合在不同环境里可能有不同的开闭性质.
+
+\begin{theorem}[子空间中的开闭集]\label{ch:seq:subspace-open}
+设 $A\subseteq X$, 并在 $A$ 上使用子空间度量. 对 $U\subseteq A$, $U$ 在 $A$ 中开当且仅当存在 $X$ 中的开集 $O$, 使 $U=A\cap O$. 对 $F\subseteq A$, $F$ 在 $A$ 中闭当且仅当存在 $X$ 中的闭集 $C$, 使 $F=A\cap C$.
+\end{theorem}
+\begin{proof}
+若 $U=A\cap O$, 对每个 $x\in U$, 由 $O$ 开可取 $r_x>0$ 使 $B_X(x,r_x)\subseteq O$. 于是
+$B_A(x,r_x)=A\cap B_X(x,r_x)\subseteq U$, 所以 $U$ 在 $A$ 中开.
+
+反过来, 若 $U$ 在 $A$ 中开, 对每个 $x\in U$ 取 $r_x>0$, 使 $A\cap B_X(x,r_x)\subseteq U$. 令 $O=\bigcup_{x\in U}B_X(x,r_x)$, 则 $O$ 在 $X$ 中开. 每个 $x\in U$ 都属于 $A\cap O$; 另一方面, $A\cap O$ 中每点落在某个 $A\cap B_X(x,r_x)$ 中, 因而属于 $U$. 所以 $A\cap O=U$.
+
+闭集版本用 $A$ 中的补集转化为开集版本. 若 $A\setminus F=A\cap O$, 则
+\[
+ F=A\setminus(A\cap O)=A\cap(X\setminus O).
+\]
+右边是 $A$ 与 $X$ 中闭集的交. 相反方向使用同一补集关系即可.
+\end{proof}
+
+\begin{example}
+说明 $[0,1/2)$ 在 $[0,1]$ 中相对开, 在 $\mathbb{R}$ 中却不开, 以及 $(0,1/2]$ 在 $(0,1)$ 中相对闭, 在 $\mathbb{R}$ 中却不闭.
+\end{example}
+\begin{solution}
+在 $X=\mathbb{R}$ 中取 $A=[0,1]$. 集合 $U=[0,1/2)$ 是 $A$ 中的开集, 因为 $U=A\cap(-1,1/2)$, 但它不是 $\mathbb{R}$ 中的开集. 在另一个子空间 $A=(0,1)$ 中, $F=(0,1/2]$ 是相对闭集, 因为 $F=A\cap(-\infty,1/2]$, 但它不是 $\mathbb{R}$ 中的闭集.
+
+任一子空间 $A$ 在自身中总是既开又闭. 这并不表明 $A$ 在环境空间中也开或闭. 例如 $(0,1)$ 作为自己的全集是闭的, 但在 $\mathbb{R}$ 中不是闭的.
+\end{solution}
+
+\originalsection{内部, 闭包与边界}\label{ch:seq:closure}
+开集描述一个集合中的点能否容许小幅移动而仍留在集合内. 闭包则描述一个点能否被集合中的点任意逼近. 这两种描述合起来, 能够分清集合内部, 外部及两者之间的边界.
+
+\begin{definition}[内部, 闭包与边界]\label{ch:seq:def-closure}
+对 $A\subseteq X$, 定义
+\begin{align*}
+ A^\circ&=\{x\in X:\exists r>0,\ B(x,r)\subseteq A\},\\
+ \overline A&=\{x\in X:\forall r>0,\ B(x,r)\cap A\ne\varnothing\},\\
+ \partial A&=\{x\in X:\forall r>0,\ B(x,r)\cap A\ne\varnothing
+             \text{ 且 }B(x,r)\cap(X\setminus A)\ne\varnothing\}.
+\end{align*}
+它们分别称为 $A$ 在 $X$ 中的\textbf{内部}, \textbf{闭包}和\textbf{边界}. 闭包允许一个点用它自己被``逼近'', 所以 $A\subseteq\overline A$.
+\end{definition}
+
+\begin{theorem}[内部与闭包的基本性质]\label{ch:seq:closure-properties}
+$A^\circ$ 是包含在 $A$ 中的最大开集; $\overline A$ 是包含 $A$ 的最小闭集. 因而
+\[
+ A\text{ 开}\Longleftrightarrow A=A^\circ,
+ \qquad
+ A\text{ 闭}\Longleftrightarrow A=\overline A.
+\]
+此外,
+\[
+ \overline A=X\setminus(X\setminus A)^\circ,
+ \qquad
+ \partial A=\overline A\cap\overline{X\setminus A}
+           =\overline A\setminus A^\circ.
+\]
+特别地, 边界是闭集, 且 $X$ 可分成三个互不相交的集合
+\[
+ X=A^\circ\ \cup\ \partial A\ \cup\ (X\setminus A)^\circ.
+\]
+\end{theorem}
+\begin{proof}
+若 $x\in A^\circ$, 取 $r>0$ 使 $B(x,r)\subseteq A$. 开球本身开, 且它的每个点都是 $A$ 的内点, 故 $B(x,r)\subseteq A^\circ$. 所以 $A^\circ$ 开. 任意开集 $O\subseteq A$ 中的点都有一个留在 $O$, 从而留在 $A$ 中的球, 所以 $O\subseteq A^\circ$. 这证明了最大性及开集判据.
+
+按定义, $x\notin\overline A$ 当且仅当存在 $r>0$ 使 $B(x,r)\cap A=\varnothing$, 即 $B(x,r)\subseteq X\setminus A$. 这又等价于 $x\in(X\setminus A)^\circ$. 得到第一条恒等式, 并由内部开得到 $\overline A$ 闭. 它包含 $A$, 因为每个以 $a\in A$ 为中心的球都包含 $a$.
+
+若 $C$ 闭且包含 $A$, 对 $x\notin C$, 开集 $X\setminus C$ 包含一个以 $x$ 为中心的球; 该球不与 $A$ 相交. 所以 $x\notin\overline A$, 即 $\overline A\subseteq C$. 这证明了最小性. 若 $A$ 已闭, 最小性给出 $\overline A\subseteq A$, 结合反向包含即得闭集判据.
+
+边界定义要求每个球同时与两边相交, 因而正是 $\overline A\cap\overline{X\setminus A}$. 对补集应用第一条恒等式, 得 $\overline{X\setminus A}=X\setminus A^\circ$, 所以边界也等于 $\overline A\setminus A^\circ$. 两个闭集的交闭. 最后, 一个点若不在边界, 则至少有某个球完全落在 $A$ 或完全落在其补集中; 它相应属于其中一个内部. 两个内部不相交, 并且都不与边界相交, 得到所述分解.
+\end{proof}
+
+\begin{example}
+分别求 $\mathbb{R}$ 中 $[0,1)$ 与 $\mathbb{Q}$ 的内部, 闭包和边界. 再在离散空间中求任意子集的内部, 闭包和边界, 并比较开球的闭包与同半径闭球.
+\end{example}
+\begin{solution}
+在 $\mathbb{R}$ 中, 若 $A=[0,1)$, 则 $A^\circ=(0,1)$, $\overline A=[0,1]$, $\partial A=\{0,1\}$. 边界点可能属于 $A$, 也可能不属于 $A$.
+
+有理数与无理数在 $\mathbb{R}$ 中都稠密, 因为每个非空实区间都包含两种数. 例如有理数的存在可从 Archimedes 性质先选足够大分母, 再选合适整数分子得到; 在更小区间内找到有理数后加上足够小的非零有理数倍 $\sqrt2$, 便得到区间内的无理数. 因而对 $A=\mathbb{Q}$,
+\[
+ A^\circ=\varnothing,\qquad \overline A=\mathbb{R},\qquad
+ \partial A=\mathbb{R}.
+\]
+这提醒我们, 边界并不一定是一条线或少数端点, 它可以是整个空间.
+
+在离散空间中, 每个集合都有单点球留在自己内部, 因而 $A^\circ=A=\overline A$, $\partial A=\varnothing$. 在具有至少两个点的离散空间里, $B(x,1)=\{x\}$, 所以其闭包仍是 $\{x\}$; 但闭球 $\overline B(x,1)=X$. 因此``闭球等于开球闭包''在一般度量空间中不成立.
+\end{solution}
+
+\begin{definition}[稠密, 聚点与孤立点]
+若 $\overline A=X$, 称 $A$ 在 $X$ 中\textbf{稠密}. 若 $x\in X$ 的每个球都与 $A\setminus\{x\}$ 相交, 称 $x$ 为 $A$ 的\textbf{聚点}. 若 $x\in A$ 且存在球 $B(x,r)$ 满足 $B(x,r)\cap A=\{x\}$, 称 $x$ 为 $A$ 的\textbf{孤立点}.
+\end{definition}
+聚点的定义排除了只由点本身贡献的相交. 因此每个孤立点都属于闭包, 但不是聚点. 例如 $A=\{0\}\cup\{1/n:n\ge1\}\subset\mathbb{R}$ 中, $0$ 是聚点, 而每个 $1/n$ 都是孤立点. 对固定 $n$, 相邻数值与 $1/n$ 的距离严格为正, 取小于这些间隔的半径即可隔离它; $n=1$ 时只需核对右侧空白与下一项的距离.
+
+\begin{proposition}[闭包的集合运算]\label{ch:seq:closure-operations}
+若 $A\subseteq B$, 则 $\overline A\subseteq\overline B$ 且 $A^\circ\subseteq B^\circ$. 对任意 $A,B\subseteq X$, 有
+\[
+ \overline{A\cup B}=\overline A\cup\overline B,
+ \qquad
+ (A\cap B)^\circ=A^\circ\cap B^\circ,
+ \qquad
+ \overline{A\cap B}\subseteq\overline A\cap\overline B.
+\]
+\end{proposition}
+\begin{proof}
+包含关系的结论直接来自球的定义: 一个球与 $A$ 相交就与 $B$ 相交; 一个球包含在 $A$ 中就包含在 $B$ 中.
+
+单调性给出 $\overline A\cup\overline B\subseteq\overline{A\cup B}$. 另一方面, $\overline A\cup\overline B$ 是包含 $A\cup B$ 的闭集, 由闭包最小性得到反向包含. 对内部, 若球包含在 $A\cap B$ 中, 它也分别包含在两者中. 反之, 若一点分别为两者的内点, 取两个有效半径的较小者, 得到留在交集内的球. 最后一式由 $A\cap B$ 分别包含在 $A$ 与 $B$ 中, 再用单调性得到.
+\end{proof}
+最后一式可能严格. 取 $A=(0,1)$, $B=(1,2)$, 二者的交为空, 但闭包的交为 $\{1\}$. 任意无限并的闭包也未必等于各自闭包的并: 取单点集 $A_n=\{1/n\}$, 各自都闭, 但并集的闭包还包含 $0$.
+
+\originalsection{用序列识别拓扑性质}\label{ch:seq:sequence-criteria}
+度量空间的小球允许我们用半径 $1/n$ 构造一串逐渐精确的逼近点. 这一可数构造, 是序列能完整识别闭包和连续性的原因.
+
+\begin{theorem}[邻域中的最终包含]\label{ch:seq:neighborhood-limit}
+对 $(X,d)$ 中的序列 $(x_n)$ 与点 $x$, 以下两条等价: $x_n\to x$; 对每个 $x$ 的开邻域 $U$, 除有限多个下标外, 所有 $x_n$ 都属于 $U$.
+\end{theorem}
+\begin{proof}
+若 $x_n\to x$ 且 $U$ 是 $x$ 的开邻域, 取 $r>0$ 使 $B(x,r)\subseteq U$. 收敛定义保证某个 $N$ 之后各项都在这个球内, 从而都在 $U$ 中.
+
+反过来, 对每个 $\varepsilon>0$, $B(x,\varepsilon)$ 是 $x$ 的开邻域. 只有有限多个下标的项不在这个球中, 所以取一个大于这些例外下标的 $N$, 就有 $n\ge N$ 时 $d(x_n,x)<\varepsilon$. 这正是收敛定义.
+\end{proof}
+\begin{remark}
+这里正确的结论是序列最终\textbf{在}每个邻域中. 原讲义第2讲 Theorem 27 的陈述多出否定词 ``not'', 与前文实数例子及证明意图不一致. 本章已按收敛定义修正. ``有限多个例外''指下标个数有限, 而不只是例外值的种类有限.
+\end{remark}
+
+\begin{theorem}[闭包与闭集的序列判据]\label{ch:seq:closure-sequences}
+对 $A\subseteq X$ 与 $x\in X$, 有 $x\in\overline A$ 当且仅当存在 $A$ 中的序列 $(a_n)$ 使 $a_n\to x$. 因而 $A$ 闭当且仅当: 每个在 $X$ 中收敛, 且各项都在 $A$ 中的序列, 其极限仍属于 $A$.
+\end{theorem}
+\begin{proof}
+若 $x\in\overline A$, 对每个 $n\ge1$, 球 $B(x,1/n)$ 与 $A$ 相交, 选 $a_n$ 为交集中一点. 有 $d(a_n,x)<1/n$, 因而 $a_n\to x$. 若 $A$ 为空, 没有这样的 $x$, 两边同时不成立.
+
+反过来, 若 $a_n\in A$ 且 $a_n\to x$, 则对任意 $r>0$, 足够靠后的 $a_n$ 落在 $B(x,r)$ 中, 所以该球与 $A$ 相交, 即 $x\in\overline A$.
+
+若 $A$ 闭, 就有 $\overline A=A$, 因而上一结论表明所有这样的极限都在 $A$ 中. 若所有这样的极限都在 $A$ 中, 对任意 $x\in\overline A$, 用第一部分构造序列并应用假设, 得 $x\in A$. 所以 $\overline A\subseteq A$, 从而 $A$ 闭.
+\end{proof}
+注意判据所说的是``若序列在 $X$ 中收敛'', 并不要求每个 $A$ 中序列都收敛. 例如 $\mathbb{R}$ 是闭集, 其中序列 $n$ 却不收敛.
+
+\begin{proposition}[聚点的序列判据]\label{ch:seq:accumulation-sequences}
+$x$ 是 $A$ 的聚点当且仅当存在由 $A\setminus\{x\}$ 中互不相同的点组成的序列, 收敛于 $x$.
+\end{proposition}
+\begin{proof}
+若 $x$ 是聚点, 先在 $B(x,1)\cap(A\setminus\{x\})$ 中取 $a_1$. 已取互不相同的 $a_1,\ldots,a_{n-1}$ 后, 取
+\[
+ r_n=\min\left\{\frac1n,\frac12d(x,a_1),\ldots,
+ \frac12d(x,a_{n-1})\right\}>0.
+\]
+聚点条件允许在 $B(x,r_n)\cap(A\setminus\{x\})$ 中选 $a_n$. 此球排除了所有此前的 $a_i$, 且 $d(a_n,x)<1/n$, 因而得到互不相同且趋于 $x$ 的序列.
+
+反过来, 若这些点趋于 $x$, 则每个以 $x$ 为中心的球都包含一个序列项, 该项属于 $A\setminus\{x\}$, 所以 $x$ 是聚点. 互不相同的条件还体现了聚点周围有无限多个不同的点; 仅有常值序列不能证明聚点性质.
+\end{proof}
+
+\originalsection{连续性的等价表达}\label{ch:seq:continuity}
+函数连续意味着输入的小变化只能引起输出的小变化. 为了准确表达, 必须同时指定输入与输出所用的距离, 并区分在一点连续与在整个空间连续.
+
+\begin{definition}[连续与 Lipschitz 连续]\label{ch:seq:def-continuity}
+设 $(X,d_X),(Y,d_Y)$ 为度量空间, $f:X\to Y$, $c\in X$. 若
+\[
+ \forall\varepsilon>0,\ \exists\delta>0,\
+ \forall x\in X,\quad
+ d_X(x,c)<\delta\Longrightarrow d_Y(f(x),f(c))<\varepsilon,
+\]
+则称 $f$ \textbf{在 $c$ 连续}. 若 $f$ 在 $X$ 中每一点连续, 称 $f$ \textbf{连续}. 如果存在一个与 $x,x'$ 无关的常数 $L\ge0$, 使
+\[
+ d_Y(f(x),f(x'))\le Ld_X(x,x')\qquad(x,x'\in X),
+\]
+则称 $f$ 为\textbf{Lipschitz 连续映射}.
+\end{definition}
+一般连续性的 $\delta$ 可以依赖于 $c$ 与 $\varepsilon$. Lipschitz 估计则用一个常数控制整个空间. 若 $L>0$, 取 $\delta=\varepsilon/L$ 即得连续; 若 $L=0$, $f$ 是常值映射, 也连续. 第1章微分算子从 $C^1$ 范数到上确界范数的估计, 就是 $L=1$ 的例子. 若函数原本定义在 $A\subseteq X$ 上, 应把 $A$ 当作定义域并使用子空间度量, 量词中的 $x$ 只在 $A$ 中变化.
+
+\begin{theorem}[点处连续的三个判据]\label{ch:seq:continuity-equivalence}
+对 $f:X\to Y$ 和 $c\in X$, 下列条件等价:
+\begin{enumerate}
+ \item $f$ 在 $c$ 满足 $\varepsilon$--$\delta$ 连续性定义;
+ \item 对 $X$ 中每个满足 $x_n\to c$ 的序列, 都有 $f(x_n)\to f(c)$;
+ \item 对 $f(c)$ 的每个开邻域 $U\subseteq Y$, 逆像 $f^{-1}(U)$ 包含 $c$ 的一个开邻域.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+先由第一条推出第二条. 对给定 $\varepsilon>0$, 连续性给出 $\delta>0$. 因为 $x_n\to c$, 某个 $N$ 之后都有 $d_X(x_n,c)<\delta$. 故相同尾部满足 $d_Y(f(x_n),f(c))<\varepsilon$, 得到像序列收敛.
+
+反过来, 假设 $f$ 在 $c$ 不连续. 否定定义中的量词, 得到一个固定的 $\varepsilon_0>0$, 使对每个 $\delta>0$, 都能找到 $x\in X$ 满足
+\[
+ d_X(x,c)<\delta,\qquad d_Y(f(x),f(c))\ge\varepsilon_0.
+\]
+对 $\delta=1/n$ 逐次选择 $x_n$. 这样 $x_n\to c$, 但所有像点到 $f(c)$ 的距离都至少为 $\varepsilon_0$, 所以像序列不趋于 $f(c)$. 这与第二条矛盾. 反证中 $\varepsilon_0$ 必须是固定的, 不能随 $n$ 变化.
+
+再证第一条推出第三条. 若 $U$ 是 $f(c)$ 的开邻域, 取 $\varepsilon>0$ 使 $B_Y(f(c),\varepsilon)\subseteq U$. 连续性给出 $\delta>0$, 从而
+\[
+ B_X(c,\delta)\subseteq f^{-1}(B_Y(f(c),\varepsilon))
+ \subseteq f^{-1}(U).
+\]
+左边是所需开邻域. 最后, 若第三条成立, 对 $U=B_Y(f(c),\varepsilon)$ 应用它. 所得到的 $c$ 的开邻域包含某个球 $B_X(c,\delta)$, 故这个球的像落在 $U$ 中, 正是第一条.
+\end{proof}
+注意第三条只要求逆像在点 $c$ 附近包含一个开邻域. 若 $f$ 只在 $c$ 连续, 整个逆像未必开. 当连续性在每一点成立时, 才能得到如下全局结论.
+
+\begin{theorem}[连续映射的逆像判据]\label{ch:seq:preimage}
+对度量空间间的映射 $f:X\to Y$, 下列条件等价: $f$ 连续; $Y$ 中每个开集的逆像在 $X$ 中开; $Y$ 中每个闭集的逆像在 $X$ 中闭.
+\end{theorem}
+\begin{proof}
+若 $f$ 连续且 $U\subseteq Y$ 开, 对每个 $x\in f^{-1}(U)$, $U$ 是 $f(x)$ 的开邻域. 上一定理给出包含在 $f^{-1}(U)$ 中的 $x$ 的开邻域, 进而给出一个包含在逆像中的小球. 因而逆像开.
+
+若每个开集的逆像开, 固定 $c\in X$ 与 $\varepsilon>0$. 集合 $f^{-1}(B_Y(f(c),\varepsilon))$ 是包含 $c$ 的开集, 所以包含某个 $B_X(c,\delta)$. 这证明 $f$ 在 $c$ 连续. 因为 $c$ 任意, $f$ 连续.
+
+最后, 逆像与补集可交换:
+\[
+ f^{-1}(Y\setminus A)=X\setminus f^{-1}(A).
+\]
+因此开集逆像开与闭集逆像闭互相等价.
+\end{proof}
+
+\begin{example}
+给出连续映射不保持开集的像为开集, 也不保持闭集的像为闭集的例子.
+\end{example}
+\begin{solution}
+常值映射 $f:\mathbb{R}\to\mathbb{R}$, $f(x)=0$, 是连续的, 但非空开区间的像为 $\{0\}$, 并非开集. 连续性因而保证的是\emph{开集的逆像}开, 不是开集的像开.
+
+同样, 闭集的像不一定闭. 连续函数 $f(x)=e^x$ 把闭集 $\mathbb{R}$ 映成 $(0,\infty)$, 该集合在 $\mathbb{R}$ 中不闭. 后文将看到, 若定义域集合紧, 连续像具有更强的性质; 当前不能把这一额外结论提前套用到任意闭集.
+\end{solution}
+
+\begin{proposition}[复合与限制]\label{ch:seq:composition}
+若 $f:X\to Y$, $g:Y\to Z$ 连续, 则 $g\circ f$ 连续. 若 $A\subseteq X$, 则 $f|_A:A\to Y$ 在子空间度量下连续.
+\end{proposition}
+\begin{proof}
+对 $Z$ 中任意开集 $U$, 有
+$(g\circ f)^{-1}(U)=f^{-1}(g^{-1}(U))$. 先由 $g$ 连续知内部逆像在 $Y$ 中开, 再由 $f$ 连续知外部逆像在 $X$ 中开. 应用逆像判据, 得到复合连续.
+
+对限制映射, $(f|_A)^{-1}(U)=A\cap f^{-1}(U)$. 右边是 $A$ 与 $X$ 中开集的交, 根据子空间定理在 $A$ 中开. 所以限制也连续.
+\end{proof}
+
+\originalsection{到集合的距离}\label{ch:seq:distance-functions}
+反三角不等式已经告诉我们, 到固定点的距离是连续函数. 现在将固定点换成一个非空集合, 就得到一个能够识别闭包的重要工具.
+
+\begin{definition}[距离函数]
+设 $A\subseteq X$ 非空. 对 $x\in X$, 定义
+\[
+ \operatorname{dist}(x,A)=\inf_{a\in A}d(x,a).
+\]
+它是 $x$ 到 $A$ 的\textbf{距离}. 因为集合非空, 所取下确界是一组有限非负数的下确界, 因而总是一个有限非负实数. 这里不要求存在某个 $a$ 达到下确界.
+\end{definition}
+
+\begin{theorem}[距离函数的连续性与零点]\label{ch:seq:distance-set}
+对非空 $A\subseteq X$, 有
+\[
+ |\operatorname{dist}(x,A)-\operatorname{dist}(y,A)|\le d(x,y).
+\]
+因此距离函数为 $1$-Lipschitz 连续函数. 此外,
+\[
+ \operatorname{dist}(x,A)=0\Longleftrightarrow x\in\overline A.
+\]
+若 $A$ 闭, 零点集恰好是 $A$.
+\end{theorem}
+\begin{proof}
+对每个 $a\in A$, 有 $d(x,a)\le d(x,y)+d(y,a)$. 对 $a$ 取下确界, 得
+\[
+ \operatorname{dist}(x,A)\le d(x,y)+\operatorname{dist}(y,A).
+\]
+交换 $x,y$, 就得到绝对值估计.
+
+若下确界等于零, 对每个 $r>0$ 都能找到 $a\in A$ 使 $d(x,a)<r$; 否则 $r$ 会是一个正下界, 与下确界为零矛盾. 所以每个球都与 $A$ 相交, 即 $x\in\overline A$. 反过来, 若 $x\in\overline A$, 每个球都与 $A$ 相交, 则下确界不超过每个正 $r$, 只能为零. 闭集情形由 $\overline A=A$ 得到.
+\end{proof}
+
+\begin{example}
+举例说明到一个非空集合的距离可以为零却没有最近点, 以及两个非空, 不相交闭集之间的距离可以为零.
+\end{example}
+\begin{solution}
+在 $\mathbb{R}$ 中取 $A=(0,1)$, 有 $\operatorname{dist}(0,A)=0$, 但 $0\notin A$, 所以没有 $a\in A$ 能使 $|0-a|$ 等于零. 即使 $A$ 闭, 一般度量空间中也不能自动断言最近点存在. 例如取 $X=\{p\}\cup\{a_n:n\ge1\}$, 对不同点指定
+\[
+ d(p,a_n)=1+\frac1n,\qquad d(a_n,a_m)=2\quad(n\ne m),
+\]
+并用对称性及对角线上取零补齐定义. 所有非零距离都在 $(1,2]$ 中, 所以三个互不相同的点满足三角不等式: 左边不超过 $2$, 右边大于 $2$; 有点重复的情形也直接成立. 因而这是度量. 集合 $A=\{a_n:n\ge1\}$ 闭, 因为它的补集 $\{p\}=B(p,1)$ 是开集. 但是 $\operatorname{dist}(p,A)=1$, 而每个 $d(p,a_n)>1$, 所以没有最近点. 最近点问题需要额外紧性或几何条件.
+
+两个不相交闭集之间的距离也可能为零. 在 $\mathbb{R}^2$ 的欧氏距离下, 取
+\[
+ F=\{(t,0):t\ge1\},\qquad
+ G=\{(t,1/t):t\ge1\}.
+\]
+它们不相交. $F$ 显然闭; 若 $G$ 中序列 $(t_n,1/t_n)$ 在 $\mathbb{R}^2$ 中趋于 $(t,s)$, 则 $t_n\to t\ge1$, 且 $1/t_n\to1/t$, 所以 $s=1/t$, 极限仍在 $G$ 中, 由序列判据知 $G$ 闭. 但两点 $(n,0)$ 与 $(n,1/n)$ 的距离为 $1/n$, 因而
+$\inf\{d(u,v):u\in F,v\in G\}=0$. 对一个固定外点到闭集的距离严格为正, 与两个无限闭集之间缺少统一正间隔, 是不同的命题.
+\end{solution}
+
+\originalsection{度量可以不同而拓扑相同}\label{ch:seq:equivalent-metrics}
+开集保留了每一点附近有哪些可用的活动范围, 但不保留距离的具体数值. 将一个度量所产生的全部开集记为 $\mathcal{T}_d$, 称为它诱导的\textbf{度量拓扑}. 定理\ref{ch:seq:operations} 证明了它满足空集和全集属于其中, 任意并封闭及有限交封闭三个性质. 后文的基础拓扑将直接把这三条作为开集系统的公理.
+
+\begin{definition}[同拓扑的度量与同胚]
+同一集合 $X$ 上的度量 $d$ 与 $\rho$ 若满足 $\mathcal{T}_d=\mathcal{T}_\rho$, 称为\textbf{产生相同拓扑的度量}. 若双射 $h:X\to Y$ 及其逆映射 $h^{-1}$ 都连续, 称 $h$ 为\textbf{同胚}. 同胚保留开集系统, 因而也保留由开集表述的性质.
+\end{definition}
+
+\begin{proposition}[比较小球]\label{ch:seq:same-topology}
+$d$ 与 $\rho$ 产生相同拓扑, 当且仅当对每个 $x\in X$ 与每个 $r>0$, 都能找到 $s,t>0$ 使
+\[
+ B_\rho(x,s)\subseteq B_d(x,r),\qquad
+ B_d(x,t)\subseteq B_\rho(x,r).
+\]
+它们产生相同拓扑时, 有完全相同的收敛序列及极限, 并且用二者之一作为定义域或值域的度量, 不改变映射的连续性.
+\end{proposition}
+\begin{proof}
+若拓扑相同, $d$-球是包含 $x$ 的 $\rho$-开集, 因而包含某个 $\rho$-球. 交换角色得到另一包含关系.
+
+反过来, 若小球互相包含的条件成立, 对 $d$-开集 $U$ 中每一点 $x$, 先取留在 $U$ 中的 $d$-球, 再在该球中取一个 $\rho$-球, 便证明 $U$ 为 $\rho$-开集. 交换角色得到所有开集相同. 收敛序列相同由邻域判据得到, 连续性相同则由开集逆像判据得到. 此时恒等映射在两个度量空间之间是同胚.
+\end{proof}
+
+例如 $\mathbb{R}^n$ 上的 $d_1,d_2,d_\infty$ 产生相同拓扑, 因为第1章的范数比较给出了互相包含的小球. 球面弦长距离与测地距离也由同样的理由产生相同拓扑. 练习\ref{ch:metric:ex-bounded} 中 $d/(1+d)$ 的球可明确换算, 所以它与 $d$ 也产生相同拓扑.
+
+\begin{proposition}[双边常数估计的额外作用]\label{ch:seq:bilipschitz-metrics}
+若存在 $c,C>0$, 使 $cd(x,y)\le\rho(x,y)\le Cd(x,y)$ 对所有 $x,y\in X$ 成立, 则两种度量产生相同拓扑, 具有相同的 Cauchy 序列, 并且其中一个完备当且仅当另一个完备.
+\end{proposition}
+\begin{proof}
+由 $\rho\le Cd$ 得 $B_d(x,r/C)\subseteq B_\rho(x,r)$; 由 $cd\le\rho$ 得 $B_\rho(x,cr)\subseteq B_d(x,r)$. 上一命题给出拓扑相同.
+
+若序列为 $d$-Cauchy, 对精度 $\varepsilon/C$ 应用它, 便得到 $\rho$-Cauchy 条件; 反方向使用精度 $c\varepsilon$. 因而 Cauchy 序列相同. 若 $d$ 完备, 则任何 $\rho$-Cauchy 序列先是 $d$-Cauchy, 在 $d$ 中收敛, 再由拓扑相同知也在 $\rho$ 中收敛. 反方向相同.
+\end{proof}
+这里只说这一\emph{较强的双边估计}能够保留完备性. 单有拓扑相同, 结论并不成立.
+
+\begin{example}
+\label{ch:seq:not-topological-complete}在 $\mathbb{R}$ 上考虑 $d(x,y)=|x-y|$ 和 $\rho(x,y)=|\arctan x-\arctan y|$. 证明二者都是度量, 产生相同拓扑, 但一个完备, 另一个不完备. 同时比较二者的有界性.
+\end{example}
+\begin{solution}
+
+在同一集合 $\mathbb{R}$ 上, 考虑
+\[
+ d(x,y)=|x-y|,\qquad
+ \rho(x,y)=|\arctan x-\arctan y|.
+\]
+$\arctan$ 是单射, 因而 $\rho$ 的正定性成立; 对称性与三角不等式来自实数绝对值, 所以 $\rho$ 是度量.
+
+它与通常距离产生相同拓扑. 一方面, 中值定理与 $0<(\arctan)'(t)=1/(1+t^2)\le1$ 给出 $\rho(x,y)\le|x-y|$, 因此通常距离足够小便使 $\rho$ 足够小. 另一方面, 固定 $x$, $\tan$ 在 $\arctan x$ 处连续, 所以对于任意 $\varepsilon>0$, 存在 $\delta>0$, 使
+\[
+ |\arctan y-\arctan x|<\delta
+ \Longrightarrow |y-x|<\varepsilon.
+\]
+这就给出了反方向的小球包含.
+
+通常实数空间完备, 但 $(\mathbb{R},\rho)$ 不完备. 序列 $x_n=n$ 的反正切值趋于 $\pi/2$, 所以这些值构成实数 Cauchy 序列, 从而 $(n)$ 为 $\rho$-Cauchy. 若它在 $\rho$ 中趋于某个 $x\in\mathbb{R}$, 则 $|\arctan n-\arctan x|\to0$, 因而 $\arctan x=\pi/2$, 不可能. 所以该序列没有 $\rho$-极限.
+
+同一开集系统保留了收敛与连续性, 却没有保留 Cauchy 条件. 原因是 Cauchy 条件要求尾部任意两点在一个\emph{统一的距离尺度}下接近, 而拓扑只指定每一点局部有哪些邻域. 本例也说明有界性不是拓扑不变量: $\mathbb{R}$ 在通常距离下无界, 但所有 $\rho$-距离都小于 $\pi$.
+\end{solution}
+
+\originalsection{练习与解答}\label{ch:seq:exercises}
+以下题目均为编者练习. 前几题训练量词与相对拓扑, 后几题说明常见结论的边界.
+
+\begin{exercise}\label{ch:seq:ex-subsequence}
+设 $(x_n)$ 是度量空间中的序列. 证明 $x_n\to x$ 当且仅当每个子序列都有一个进一步的子序列收敛于 $x$.
+\end{exercise}
+\begin{solution}
+正方向由子序列保持同一极限得到, 每个子序列本身就已经趋于 $x$.
+
+反方向用反证法. 若 $x_n$ 不趋于 $x$, 则存在固定 $\varepsilon_0>0$, 使对每个 $N$, 都存在 $n\ge N$ 满足 $d(x_n,x)\ge\varepsilon_0$. 递归选取严格递增的下标 $n_k$, 使这些项全部满足该不等式. 这个子序列的任何进一步子序列仍然距 $x$ 至少为 $\varepsilon_0$, 不可能趋于 $x$, 与题设矛盾.
+\end{solution}
+
+\begin{exercise}\label{ch:seq:ex-relative-closure}
+设 $A\subseteq X$, $E\subseteq A$. 证明 $E$ 在子空间 $A$ 中的闭包为 $A\cap\overline E^{\,X}$, 其中上标说明闭包在 $X$ 中取. 再取 $X=\mathbb{R}$, $A=(0,1]$, $E=(0,1)$, 求 $E$ 在 $A$ 中的内部, 闭包与边界.
+\end{exercise}
+\begin{solution}
+对 $x\in A$, 有
+\[
+ B_A(x,r)\cap E=(A\cap B_X(x,r))\cap E=B_X(x,r)\cap E,
+\]
+因为 $E\subseteq A$. 所以 $x$ 的每个 $A$-球与 $E$ 相交, 当且仅当每个 $X$-球与 $E$ 相交. 将 $x$ 限制在 $A$ 中, 就得到闭包公式.
+
+在具体例子中, $E=A\cap(-1,1)$, 所以 $E$ 在 $A$ 中开, 内部为 $(0,1)$. 它在 $X$ 中的闭包是 $[0,1]$, 与 $A$ 相交得 $(0,1]$. 因而相对边界为 $\{1\}$. 点 $0$ 不在环境空间 $A$ 中, 不能出现在相对边界里.
+\end{solution}
+
+\begin{exercise}\label{ch:seq:ex-separation}
+设 $F,G$ 是度量空间中两个非空, 不相交的闭集. 证明
+\[
+ u(x)=\frac{\operatorname{dist}(x,F)}
+ {\operatorname{dist}(x,F)+\operatorname{dist}(x,G)}
+\]
+是连续函数, 满足 $u|_F=0$ 与 $u|_G=1$. 不要假定两个集合之间的距离有正下界.
+\end{exercise}
+\begin{solution}
+两个距离函数连续且非负. 若某点分母为零, 则它到 $F$ 与 $G$ 的距离都为零. 由于两集合闭, 该点同时属于 $F$ 与 $G$, 与不相交矛盾. 因而分母在每一点严格为正; 通过连续实函数的加法与除法, 得到 $u$ 连续.
+
+若 $x\in F$, 分子为零, 而 $x\notin G$ 保证到 $G$ 的距离严格为正, 故 $u(x)=0$. 若 $x\in G$, 则到 $G$ 的距离为零, 到 $F$ 的距离为正, 故 $u(x)=1$. 证明只使用了每个固定点的分母为正, 并未要求所有点的分母具有统一正下界.
+\end{solution}
+
+\begin{exercise}\label{ch:seq:ex-open-union}
+设 $X=U\cup V$, 其中 $U,V$ 是 $X$ 中的开集. 若 $f:X\to Y$ 的限制 $f|_U$ 和 $f|_V$ 均连续, 证明 $f$ 连续. 再证明将有限个开集换成任意族开集, 结论仍成立.
+\end{exercise}
+\begin{solution}
+对 $Y$ 中开集 $O$, 限制连续意味着 $f^{-1}(O)\cap U$ 在 $U$ 中开. 因为 $U$ 本身在 $X$ 中开, 子空间中相对开集也是 $X$ 中开集: 它可写成 $U\cap W$ 且 $W$ 在 $X$ 中开. $V$ 同理. 因而
+\[
+ f^{-1}(O)=(f^{-1}(O)\cap U)\cup(f^{-1}(O)\cap V)
+\]
+在 $X$ 中开, 逆像判据给出连续. 对任意开覆盖 $(U_i)_{i\in I}$, 使用 $f^{-1}(O)=\bigcup_i(f^{-1}(O)\cap U_i)$, 并应用任意开集并仍开即可. 这里不需要覆盖有限.
+\end{solution}
+
+\begin{exercise}\label{ch:seq:ex-graph}
+在 $X\times Y$ 上使用度量
+$D((x,y),(x',y'))=\max\{d_X(x,x'),d_Y(y,y')\}$.
+证明这个公式给出度量, 且连续映射 $f:X\to Y$ 的图像
+$\Gamma_f=\{(x,f(x)):x\in X\}$ 是闭集. 说明反过来不一定成立.
+\end{exercise}
+\begin{solution}
+正定性与对称性由各个分量得到. 每个分量距离都满足三角不等式, 因而两分量中的任一个都不超过相邻两段的 $D$ 距离之和; 取最大值即得 $D$ 的三角不等式. 此外, 在 $D$ 中收敛等价于两个分量分别收敛.
+
+设 $\Gamma_f$ 中序列 $(x_n,f(x_n))$ 在积空间中趋于 $(x,y)$. 则 $x_n\to x$ 且 $f(x_n)\to y$. 连续性给出 $f(x_n)\to f(x)$, 极限唯一性给出 $y=f(x)$. 所以极限仍在图像中, 由闭集序列判据知图像闭.
+
+反例取 $X=Y=\mathbb{R}$, 并定义 $f(0)=0$, $f(x)=1/x$ 对 $x\ne0$. 它在 $0$ 不连续, 因为 $1/n\to0$, 但 $f(1/n)=n$ 不趋于 $0$. 图像却闭. 若图像中序列 $(x_n,f(x_n))$ 趋于有限点 $(x,y)$, 当 $x\ne0$ 时, 最终 $x_n\ne0$, 且 $f(x_n)\to1/x$, 故 $y=1/x$. 当 $x=0$ 时, 如果有无限多个 $x_n\ne0$, 沿这些下标 $x_n\to0$, 则 $|f(x_n)|=1/|x_n|\to\infty$, 与像序列收敛从而有界矛盾. 因此最终 $x_n=0$, 得 $y=0$. 两种情形的极限都在图像中, 图像闭.
+\end{solution}
+
+\begin{exercise}\label{ch:seq:ex-truncated-cauchy}
+对于练习\ref{ch:metric:ex-bounded} 的 $\rho=d/(1+d)$, 证明 $d$ 与 $\rho$ 具有相同的 Cauchy 序列, 因而完备性相同. 解释这为何不与例\ref{ch:seq:not-topological-complete} 矛盾.
+\end{exercise}
+\begin{solution}
+因 $\rho(x,y)\le d(x,y)$, $d$-Cauchy 立即推出 $\rho$-Cauchy. 反方向, 给定 $\varepsilon>0$, 令 $\eta=\varepsilon/(1+\varepsilon)\in(0,1)$. 由于 $t/(1+t)$ 严格递增,
+\[
+ \rho(x_n,x_m)<\eta\Longrightarrow d(x_n,x_m)<\varepsilon.
+\]
+对 $\rho$-Cauchy 条件使用精度 $\eta$, 就得到 $d$-Cauchy 条件. 两者已有相同拓扑, 所以收敛序列相同; Cauchy 序列也相同, 完备性因而相同.
+
+例\ref{ch:seq:not-topological-complete} 只说明同拓扑未必足以保留完备性, 并没有说每一对同拓扑度量都改变完备性. 本题的换算对所有点对使用同一个精度 $\eta$, 而反正切例子中从 $\rho$ 小推出 $d$ 小, 只能在一个固定有限点附近使用依赖该点的局部控制.
+\end{solution}

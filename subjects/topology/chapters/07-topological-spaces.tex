@@ -1,0 +1,170 @@
+\originalchapter{拓扑空间与连通性}\label{ch:topology}
+\emph{本章以 18.S190 第6讲第1--2页的拓扑空间定义和第2讲第4页的连通性定义为起点. 基、分离性、积与商、连通性的完整论证为编者补充.}
+
+\originalsection{拓扑公理与基}
+度量同时规定距离的数值和开集的结构. 连续函数的逆像判据只涉及开集, 因而可以将开集本身作为基本对象. 这样做保留了连续性、紧致性和连通性, 但不再自动保留柯西序列、距离误差或收缩系数. 后面每次从度量空间推广到拓扑空间时, 都要检查证明是否曾使用半径或距离.
+
+\begin{definition}
+设 $X$ 是集合. 一个子集族 $\mathcal T\subseteq\mathcal P(X)$ 称为 $X$ 上的拓扑, 如果 $\varnothing,X\in\mathcal T$, 任意多个 $\mathcal T$ 中集合的并仍属 $\mathcal T$, 有限多个的交仍属 $\mathcal T$. $(X,\mathcal T)$ 称为拓扑空间. $\mathcal T$ 中的集合称为开集, 补集为开集的集合称为闭集. 点 $x$ 的邻域指包含一个含 $x$ 的开集的集合; 开邻域则还要求自身开.
+\end{definition}
+闭包 $\overline A$ 仍定义为所有包含 $A$ 的闭集的交. 等价地, $x\in\overline A$ 当且仅当 $x$ 的每个开邻域与 $A$ 相交: 若有不交的开邻域 $U$, 闭集 $X\setminus U$ 包含 $A$ 却不包含 $x$; 若 $x$ 不在某个闭超集 $F$ 内, 开邻域 $X\setminus F$ 就与 $A$ 不交. 内部是所有包含于 $A$ 的开集的并, 边界仍是 $\overline A\setminus A^\circ$. 这些定义只使用开闭结构, 因而适用于一般拓扑.
+
+这里允许空并和空交, 分别是 $\varnothing$ 和 $X$. “任意并”与“有限交”不能交换: 在通常实数拓扑中, $\bigcap_{n\ge1}(-1/n,1/n)=\{0\}$ 不是开集.
+
+\begin{example}
+$\mathcal P(X)$ 是离散拓扑, $\{\varnothing,X\}$ 是平凡拓扑. 验证它们确为拓扑, 并说明度量空间的开集形成拓扑, 而至少含两点的平凡拓扑不能由度量产生.
+\end{example}
+\begin{solution}
+离散拓扑包含所有子集, 而平凡拓扑只包含空集与全集, 两者均直接满足三个公理. 度量空间的开集形成拓扑 $\mathcal T_d$, 因为开集的任意并和有限交仍开. 若 $X$ 至少有两点, 平凡拓扑不能由度量产生: 度量中的半径小于两点距离的开球能够包含其中一点而排除另一点.
+\end{solution}
+
+\begin{definition}
+一个开集族 $\mathcal B$ 称为拓扑 $\mathcal T$ 的基, 如果每个开集都是某些 $\mathcal B$ 中集合的并. 等价地, 对每个 $x\in U\in\mathcal T$, 都存在 $B\in\mathcal B$ 满足 $x\in B\subseteq U$.
+\end{definition}
+开球是度量拓扑的一组基. 基使检验连续性和写出开集更有效: 不必处理所有开集, 只须处理足够小的一批基本开集.
+
+\begin{proposition}\label{thm:basis-criterion}
+子集族 $\mathcal B$ 能作为某个拓扑的基, 当且仅当它覆盖 $X$, 且若 $x\in B_1\cap B_2$, 则有 $B_3\in\mathcal B$ 满足 $x\in B_3\subseteq B_1\cap B_2$. 此时由它生成的拓扑就是它的所有并组成的集合族.
+\end{proposition}
+\begin{proof}
+若已有拓扑且 $\mathcal B$ 是基, 则把基的局部包含性质分别用于 $X$ 和开集 $B_1\cap B_2$, 即得两个条件. 反过来, 令 $\mathcal T$ 为基元素的所有并. 覆盖条件保证 $X\in\mathcal T$, 空并保证 $\varnothing\in\mathcal T$, 任意并的性质由并集结合律直接得到. 若 $U,V\in\mathcal T$ 且 $x\in U\cap V$, 可选 $B_1,B_2$ 使 $x\in B_1\subseteq U$ 和 $x\in B_2\subseteq V$. 再选 $B_3$ 使 $x\in B_3\subseteq U\cap V$. 将对所有 $x$ 选出的这些 $B_3$ 取并就得到 $U\cap V$, 故其属于 $\mathcal T$. 两两交闭合加上 $X$ 可推出所有有限交闭合.
+\end{proof}
+
+实线上端点为有理数的开区间也是一组基. 给定 $x\in(a,b)$, 有理数的稠密性使我们可取 $a<q<x<r<b$. 因而 $x\in(q,r)\subseteq(a,b)$. 这说明一组基不必包含所有开球, 只须能够在每一点局部缩小.
+
+\begin{definition}
+若对任意不同的点 $x,y\in X$, 都存在互不相交的开邻域 $U\ni x$ 和 $V\ni y$, 则称 $X$ 为 Hausdorff 空间. 若对每个点 $x$ 存在可数个开邻域 $U_1,U_2,\ldots$, 使任意开邻域 $U\ni x$ 都包含某个 $U_n$, 则称 $X$ 满足第一可数性.
+\end{definition}
+度量空间是 Hausdorff 空间: 取半径 $d(x,y)/3$ 的两个球, 三角不等式使两球不相交. 它也满足第一可数性: $B(x,1/n)$ 构成点 $x$ 的可数邻域基.
+
+\originalsection{序列与连续映射}
+在拓扑空间中定义 $x_n\to x$, 是指每个 $x$ 的开邻域都包含序列的所有充分靠后的项. 度量空间中这与 $\varepsilon$ 定义等价, 因为开球构成基. 在 Hausdorff 空间中极限唯一: 若序列同时收敛到不同的 $x,y$, 两个不相交的开邻域都应包含充分靠后的项, 产生矛盾. 一般拓扑空间中这个结论会失效; 平凡拓扑中每个序列收敛到每个点.
+
+\begin{definition}
+拓扑空间间的映射 $f:X\to Y$ 称为连续, 如果对每个 $Y$ 的开集 $V$, $f^{-1}(V)$ 都是 $X$ 的开集. 若 $f$ 是双射, 且 $f$ 与 $f^{-1}$ 均连续, 则称 $f$ 为同胚.
+\end{definition}
+复合连续映射仍连续, 因为 $(g\circ f)^{-1}(W)=f^{-1}(g^{-1}(W))$. 逆像保持任意并, 所以检查连续性时只需检查目标空间的基元素. 对闭集的逆像仍闭也是等价判据, 因为 $f^{-1}(Y\setminus F)=X\setminus f^{-1}(F)$.
+
+\begin{proposition}\label{thm:first-countable-sequence}
+连续映射保持序列收敛. 若 $X$ 满足第一可数性, 则反过来也成立: 若 $x_n\to x$ 总能推出 $f(x_n)\to f(x)$, 则 $f$ 连续. 同样, 在第一可数空间中, $x\in\overline A$ 当且仅当存在 $A$ 中序列收敛到 $x$.
+\end{proposition}
+\begin{proof}
+若 $f$ 连续, 则 $f(x)$ 的每个开邻域 $V$ 的逆像都是 $x$ 的开邻域; $x_n\to x$ 保证 $x_n$ 最终在这个逆像中. 反过来, 若 $f$ 不连续, 存在 $Y$ 中开集 $V$, 使 $f^{-1}(V)$ 非开. 取 $x\in f^{-1}(V)$ 且没有包含于此逆像的 $x$ 的开邻域. 将 $x$ 的可数邻域基换成 $W_n=U_1\cap\cdots\cap U_n$, 可使其递减. 按 $x$ 的选法, 每个 $x$ 的开邻域都有点的像落在 $V$ 外. 从每个 $W_n$ 选 $x_n$ 满足 $f(x_n)\notin V$. 邻域基的性质保证 $x_n\to x$, 而像序列不收敛到 $f(x)$, 矛盾. 若 $x\in\overline A$, 每个 $W_n$ 都与 $A$ 相交, 选 $a_n\in A\cap W_n$ 即得 $a_n\to x$. 反向由收敛定义直接得到所有开邻域与 $A$ 相交.
+\end{proof}
+上述反向结论中, 第一可数性承担了从所有邻域中选出一条序列的作用. 不能把度量空间的序列判据不加条件地搬到一般拓扑空间.
+
+\begin{example}\label{ex:cocountable}
+在不可数集合 $X$ 上定义余可数拓扑: 非空开集是补集可数的集合. 验证这是拓扑, 并说明闭包和连续性的序列判据在这个空间中失效.
+\end{example}
+\begin{solution}
+这是拓扑, 因为若一个并集非空, 可选其中一个非空成员 $U$, 并集的补集包含于可数集 $X\setminus U$; 空并或成员全为空的并仍为空集. 有限交只需在成员均非空时检查, 其补集是有限个可数集的并; 若有空成员则交为空. 在此拓扑中, 收敛序列必须最终恒等于极限. 若 $x_n\to x$ 但有无穷多项不同于 $x$, 令 $C=\{x_n:x_n\ne x\}$, 则 $X\setminus C$ 是 $x$ 的开邻域, 这些无穷多项都不在其中, 矛盾. 然而任意不可数真子集 $A$ 都满足 $\overline A=X$, 因为不可数的 $A$ 不可能包含在可数的开集补集中. 因此 $x\notin A$ 属于 $\overline A$, 却没有 $A$ 中序列收敛到它.
+\end{solution}
+这也是一个非 Hausdorff 空间: 两个非空开集的交非空, 因为不可数集合删去两个可数集仍非空. 从该空间到同一集合的离散拓扑的恒等映射保持所有序列极限, 却不连续. 此例同时指出闭包序列判据和序列连续判据的适用边界.
+\end{solution}
+
+\originalsection{子空间、积空间与商空间}
+\begin{definition}
+若 $A\subseteq X$, 则 $\mathcal T_A=\{A\cap U:U\in\mathcal T_X\}$ 称为子空间拓扑. 对拓扑空间 $X,Y$, 由所有矩形 $U\times V$ 生成的拓扑称为 $X\times Y$ 的积拓扑, 其中 $U,V$ 分别开.
+\end{definition}
+子空间的开集不必在原空间中开. 例如 $[0,1]$ 中的 $[0,1/2)$ 是相对开集, 因为它等于 $[0,1]\cap(-1,1/2)$. 相对开闭必须注明所处空间.
+矩形基满足命题\ref{thm:basis-criterion}, 因为矩形交仍是矩形. 若 $X,Y$ 是度量空间, 则
+\[
+ d((x,y),(x',y'))=\max\{d_X(x,x'),d_Y(y,y')\}
+\]
+是度量, 其半径 $r$ 的球正是 $B_X(x,r)\times B_Y(y,r)$. 反过来, 任一点在开矩形中时, 可取两个分量允许半径的最小值, 找到其中的积度量球. 因而这个度量恰生成积拓扑. 有限多个空间同理. 这里不把有限积结论误当成任意无限积的度量公式.
+
+\begin{proposition}
+映射 $h:Z\to X\times Y$ 连续, 当且仅当两个坐标映射 $\pi_X\circ h$ 和 $\pi_Y\circ h$ 连续.
+\end{proposition}
+\begin{proof}
+投影的开集逆像是开矩形 $U\times Y$ 或 $X\times V$, 故投影连续. 若 $h$ 连续, 两个复合当然连续. 反过来, 开矩形的逆像等于两个坐标逆像的交, 因而开; 用矩形基检查连续性即可.
+\end{proof}
+
+\begin{definition}
+设 $\sim$ 是 $X$ 上的等价关系, $Q=X/{\sim}$ 是等价类集合, $q:X\to Q$ 是自然满射. 定义 $V\subseteq Q$ 开, 当且仅当 $q^{-1}(V)$ 在 $X$ 中开. 这称为商拓扑. 更一般地, 满射 $q:X\to Q$ 若满足此开集等价判据, 则称为商映射.
+\end{definition}
+这个定义确实给出拓扑, 因为逆像保持任意并、有限交以及全集和空集. “像的开集”与“逆像的开集”作用不同: 商映射本身连续, 但连续满射未必是商映射.
+
+\begin{proposition}\label{thm:quotient-universal}
+若 $q:X\to Q$ 是商映射, $h:Q\to Y$ 是映射, 则 $h$ 连续当且仅当 $h\circ q$ 连续. 因而一个在每个等价类上常值的连续映射 $f:X\to Y$ 唯一诱导连续映射 $\widetilde f:Q\to Y$.
+\end{proposition}
+\begin{proof}
+正向用复合连续性. 反向取 $Y$ 中开集 $V$, 由复合连续可知 $q^{-1}(h^{-1}(V))$ 开, 商拓扑定义给出 $h^{-1}(V)$ 开. 若 $f$ 在等价类上常值, 定义 $\widetilde f([x])=f(x)$ 是良定义的, 并满足 $\widetilde f\circ q=f$. 满射性使这一定义唯一.
+\end{proof}
+
+\begin{lemma}\label{thm:compact-hausdorff}
+Hausdorff 空间的紧子集闭. 从紧空间到 Hausdorff 空间的连续双射是同胚.
+\end{lemma}
+\begin{proof}
+设 $K$ 紧, $y\notin K$. 对每个 $x\in K$, 取互不相交的开邻域 $U_x\ni x$ 和 $V_x\ni y$. 有限个 $U_{x_i}$ 覆盖 $K$, 则 $\bigcap_i V_{x_i}$ 是 $y$ 的开邻域且与 $K$ 不交. 故 $X\setminus K$ 开. 空 $K$ 的结论也成立. 对连续双射 $f:X\to Y$, $X$ 的闭集 $F$ 紧: 给定 $F$ 的相对开覆盖, 先把各成员写成 $F\cap O_i$, 其中 $O_i$ 在 $X$ 中开. 集合族 $\{O_i\}$ 加上 $X\setminus F$ 是 $X$ 的开覆盖, 从其有限子覆盖中即可得到 $F$ 的有限子覆盖. 连续像 $f(F)$ 紧, 因而在 $Y$ 中闭. 于是逆映射的闭集逆像都闭, 故逆映射连续. 紧性与连续像论证只使用开覆盖, 在一般拓扑空间中同样成立.
+\end{proof}
+
+\begin{example}
+将 $[0,1]$ 的两个端点视为等价, 其余点仅与自身等价. 证明商空间同胚于单位圆 $S^1$.
+\end{example}
+\begin{solution}
+映射 $f(t)=(\cos 2\pi t,\sin 2\pi t)$ 连续, 并且其纤维正好是这些等价类, 故由命题\ref{thm:quotient-universal}诱导连续双射 $\widetilde f:[0,1]/{\sim}\to S^1$. 商空间是紧区间的连续像, 因而紧; $S^1$ 是欧氏空间子空间, 因而 Hausdorff. 引理\ref{thm:compact-hausdorff}保证 $\widetilde f$ 为同胚. 这说明粘合端点的几何直觉怎样变成可验证的拓扑论证.
+\end{solution}
+
+\originalsection{连通性与道路连通性}
+\begin{definition}
+若空间 $X$ 不能写成两个互不相交、非空开集的并, 则称 $X$ 连通. 这样的表示称为一个分离. 子集的连通性总相对于子空间拓扑定义. 若任意 $x,y\in X$ 都可用连续映射 $\gamma:[0,1]\to X$ 连接, 即 $\gamma(0)=x$, $\gamma(1)=y$, 则称 $X$ 道路连通.
+\end{definition}
+连通不意味着只有一个点. 它意味着没有开闭的方式把空间整体分成两部分. 空空间也按定义连通, 但许多连通像和并集论证会另外要求有关集合非空.
+
+\begin{proposition}
+空间 $X$ 连通当且仅当其同时开闭的子集只有 $\varnothing$ 和 $X$. 连通空间的连续像连通.
+\end{proposition}
+\begin{proof}
+非空真子集 $A$ 同时开闭时, $A$ 和 $X\setminus A$ 给出分离. 反之, 分离的两部分互为补集, 所以都同时开闭. 若连续像 $f(X)$ 有分离 $U,V$, 它们在 $X$ 中的逆像是互不相交的非空开集并覆盖 $X$, 与连通性矛盾. 这里用到 $f:X\to f(X)$ 的连续性, 它由子空间开集逆像判据保证.
+\end{proof}
+
+\begin{theorem}\label{thm:interval-connected}
+实数集 $I$ 连通当且仅当它是区间, 即对 $a,b\in I$ 且 $a<t<b$, 必有 $t\in I$. 空集和单点集包括在此约定中.
+\end{theorem}
+\begin{proof}
+若 $a<t<b$, $a,b\in I$ 而 $t\notin I$, 则 $I\cap(-\infty,t)$ 与 $I\cap(t,\infty)$ 给出分离, 因而连通集必须是区间. 反向设 $I$ 是区间但有分离 $U,V$. 取 $a\in U,b\in V$, 必要时交换名称, 使 $a<b$. 令 $s=\sup(U\cap[a,b])$, 则 $s\in[a,b]\subseteq I$. 若 $s\in U$, 相对开放性给出 $\varepsilon>0$ 使 $I\cap(s-\varepsilon,s+\varepsilon)\subseteq U$. 又 $b\in V$, 故 $s<b$; 从 $s$ 右侧取一个仍在 $[a,b]$ 中的点会违反上确界. 若 $s\in V$, 相对开放性给出 $\varepsilon>0$ 使 $I\cap(s-\varepsilon,s+\varepsilon)\subseteq V$. 由于 $a\in U$, 有 $s>a$; 上确界的定义保证这小段里又有 $U$ 的点, 矛盾. 两种情形均不可能, 故区间连通.
+\end{proof}
+若 $f:I\to\mathbb R$ 连续, 其像是连通集, 因而是区间. 这立即给出介值定理, 并说明其背后的条件是定义域的连通性, 而不只是函数有局部极限.
+
+\begin{proposition}
+道路连通空间连通. 连通子集族若有公共点, 则其并连通.
+\end{proposition}
+\begin{proof}
+若道路连通空间有分离, 取两个分量中的端点并用道路连接. 道路的像是连通区间的连续像, 不可能同时与分离的两部分相交, 矛盾. 若连通集合 $A_i$ 有公共点 $p$ 而并集有分离, 设 $p$ 属于其中一部分. 每个 $A_i$ 都因连通而必须完全在该部分, 另一部分因此空, 矛盾.
+\end{proof}
+欧氏空间中凸集道路连通, 因为 $\gamma(t)=(1-t)x+ty$ 处处留在凸集内. 更一般地, 星形集可先把 $x$ 连接到星形中心, 再连接到 $y$.
+
+\begin{example}\label{ex:sine-curve}
+连通不必道路连通. 令
+\[
+ G=\{(x,\sin(1/x)):0<x\le1\},\qquad S=G\cup(\{0\}\times[-1,1]).
+\]
+证明 $S$ 连通而非道路连通.
+\end{example}
+\begin{solution}
+$G$ 是区间 $(0,1]$ 的连续像, 因而连通. 它在平面中的闭包正是 $S$: 对任意 $a\in[-1,1]$, 选 $\theta$ 使 $\sin\theta=a$, 则充分大的 $n$ 所对应的 $x_n=1/(\theta+2\pi n)$ 在 $(0,1]$ 中且趋于 $0$, 点 $(x_n,\sin(1/x_n))$ 收敛到 $(0,a)$; 其他新极限点不存在, 因为 $y$ 坐标总在该闭区间中, 而 $x>0$ 时由连续性仍在图像上. 连通集的闭包连通: 若闭包有分离, 连通的原集只能在一部分, 另一非空相对开部分应与稠密原集相交, 矛盾.
+
+但是 $S$ 中不存在从竖直线段到 $G$ 的道路. 假设有道路 $\gamma(t)=(x(t),y(t))$, 从 $x(0)=0$ 到 $x(1)>0$. 连续函数 $x(t)$ 的零点集合是非空闭集, 因为它包含 $0$, 且是紧区间的闭子集. 因此它有最大值 $t_0$. 因为 $x(1)>0$, 有 $t_0<1$; 按最大值定义和 $S$ 中横坐标非负的条件, $x(t)>0$ 对 $t\in(t_0,1]$ 成立. 对任意小的 $\delta>0$, 从 $x(t_0)=0$ 到 $x(t_0+\delta)>0$ 的介值性保证该小时间段内 $x(t)$ 取得所有充分小的正值. 其中可选 $1/x=\pi/2+2k\pi$ 以及 $1/x=3\pi/2+2k\pi$, 所以 $y(t)$ 在任意这样的时间段内分别取得 $1$ 与 $-1$. 这与 $y$ 在 $t_0$ 连续矛盾. 因而 $S$ 连通而非道路连通.
+\end{solution}
+
+\originalsection{练习与解答}
+以下练习由编者编写, 不作为官方试题.
+\begin{exercise}
+证明有限积 $X\times Y$ 在 $X,Y$ 连通时连通. 同时证明道路连通空间的有限积道路连通.
+\end{exercise}
+\begin{solution}
+若某一因子为空, 积为空, 结论按定义成立. 否则固定 $(x_0,y_0)$. 对每个 $x\in X$, 子集 $\{x\}\times Y$ 同胚于 $Y$, 而 $X\times\{y_0\}$ 同胚于 $X$. 两者都连通且交于 $(x,y_0)$, 因而 $A_x=(\{x\}\times Y)\cup(X\times\{y_0\})$ 连通. 所有 $A_x$ 都含 $(x_0,y_0)$, 故其并即整个积空间连通. 若两因子道路连通, 分别选从 $x_1$ 到 $x_2$ 的道路 $\alpha$ 和从 $y_1$ 到 $y_2$ 的道路 $\beta$. 坐标连续性保证 $t\mapsto(\alpha(t),\beta(t))$ 为积空间的道路.
+\end{solution}
+\begin{exercise}
+设 $X$ 是紧空间, $Y$ 是 Hausdorff 空间, $f:X\to Y$ 是连续满射. 证明 $f$ 是商映射. 为什么去掉紧性后, 连续双射不一定是同胚?
+\end{exercise}
+\begin{solution}
+若 $f^{-1}(V)$ 开, 则 $F=X\setminus f^{-1}(V)$ 闭而紧. 由于 $f$ 满射, $f(F)=Y\setminus V$; 它紧, 在 $Y$ 中闭, 故 $V$ 开. 反向由连续性保证, 所以 $f$ 是商映射. 对反例, 取离散拓扑的 $\mathbb R$ 到通常拓扑的 $\mathbb R$ 的恒等映射. 它连续且双射, 但逆映射不连续, 因为单点集在离散拓扑中开而在通常拓扑中不开. 离散的无限实数空间不是紧空间, 其单点开覆盖无有限子覆盖.
+\end{solution}
+\begin{exercise}
+设 $X$ 是连通空间, $f:X\to\{0,1\}$ 连续, 目标赋予离散拓扑. 证明 $f$ 是常值. 用这个判据证明任意至少有两点的离散空间不连通.
+\end{exercise}
+\begin{solution}
+像是连通子集, 而离散二点空间唯一的非空连通子集是两个单点, 所以当 $X$ 非空时 $f$ 常值; 空定义域按通常约定也无非恒定映射. 若离散空间有不同点 $a,b$, 令 $f(a)=0$, 其余点值为 $1$. 所有逆像均开, 所以 $f$ 连续且非常值, 该空间不连通.
+\end{solution}

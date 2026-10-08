@@ -1,0 +1,450 @@
+\originalchapter{度量与典型空间}\label{ch:metric}
+\emph{本章以 Paige Bright 的 MIT OCW 18.S190 IAP 2023 第1讲正文第1--7页为主要来源, 重新组织叙述并补全证明; 范数比较, 球面距离的严格解释及本章练习为编者补充.}
+
+在实数上, ``两项越来越接近''可以写成 $|x-y|$ 越来越小. 如果对象换成向量, 可以量线段的长度; 如果对象换成函数, 则需要先决定要比较图像的最大偏差, 还是整个区间上的累计偏差. 度量空间保留这些比较共同遵守的规则, 使收敛与连续的讨论不再依赖坐标或函数值的具体形式.
+
+本章默认读者已经学过实数的完备性, 连续函数在闭区间上的有界性, 最大值定理与一致连续性, 以及 Riemann 积分的基本性质. 这些一元分析结论会在函数空间的例子中使用. 抽象度量空间的完备性则将在后文重新研究.
+
+\originalsection{度量公理}\label{ch:metric:axioms}
+\begin{definition}[度量空间]
+设 $X$ 是一个集合. 一个函数 $d:X\times X\to[0,\infty)$ 称为 $X$ 上的\textbf{度量}, 如果对任意 $x,y,z\in X$, 都有
+\[
+ d(x,y)=0\Longleftrightarrow x=y,\qquad
+ d(x,y)=d(y,x),\qquad
+ d(x,z)\le d(x,y)+d(y,z).
+\]
+最后一个条件称为\textbf{三角不等式}. 配备了度量的集合 $(X,d)$ 称为\textbf{度量空间}.
+\end{definition}
+距离取值有限且非负, 两个不同对象之间的距离严格为正. 三角不等式表达的是: 经过中间点走一段路, 不会比两端之间的直接距离更短. 它也提供了本书最常用的估计方法: 如果目标中的两个点不容易直接比较, 就插入一个已知接近两者的中间点.
+
+集合 $X$ 不必具有加法, 数乘或大小关系. 因而 $x+y$ 在一般度量空间中可能没有意义, 但 $d(x,y)$ 总有意义. 这一区别决定了哪些实分析论证能够原样推广, 哪些需要重新表达.
+
+\begin{lemma}[反三角不等式]\label{ch:metric:reverse}
+在任意度量空间中, 对 $x,y,z\in X$, 有
+\[
+ |d(x,z)-d(y,z)|\le d(x,y).
+\]
+更一般地, 对 $x,x',y,y'\in X$, 有
+\[
+ |d(x,y)-d(x',y')|\le d(x,x')+d(y,y').
+\]
+\end{lemma}
+\begin{proof}
+由 $d(x,z)\le d(x,y)+d(y,z)$ 可得 $d(x,z)-d(y,z)\le d(x,y)$. 交换 $x,y$, 得到相反方向的差也不超过 $d(x,y)$, 合并即得第一式. 对第二式, 插入 $x'$ 与 $y'$, 有
+\[
+ d(x,y)\le d(x,x')+d(x',y')+d(y',y).
+\]
+于是 $d(x,y)-d(x',y')\le d(x,x')+d(y,y')$. 再交换带撇与不带撇的点即可.
+\end{proof}
+第一式意味着, 当一个端点移动很少时, 它到固定点的距离也只会改变很少. 第二式允许两个端点同时移动. 下一章中距离与极限之间的相容性, 都将从这一估计直接得到.
+
+\begin{definition}[球, 子空间与有界集]\label{ch:metric:balls}
+设 $(X,d)$ 是度量空间, $x\in X$ 且 $r>0$. 定义\textbf{开球}与\textbf{闭球}
+\[
+ B_X(x,r)=\{y\in X:d(x,y)<r\},\qquad
+ \overline B_X(x,r)=\{y\in X:d(x,y)\le r\}.
+\]
+不易混淆时省略下标 $X$. 如果 $A\subseteq X$, 将 $d$ 限制在 $A\times A$ 上仍得到度量, 称为\textbf{子空间度量}. 若存在 $p\in X$ 与 $R\ge0$, 使每个 $a\in A$ 都满足 $d(a,p)\le R$, 则称 $A$ \textbf{有界}. 空集约定为有界.
+\end{definition}
+子空间度量满足公理, 因为对 $A$ 中任意三个点, 原来的度量公理仍然成立. 子空间中的球由
+\[
+ B_A(x,r)=A\cap B_X(x,r)\qquad(x\in A)
+\]
+给出. ``球''指距离小于指定半径的所有对象, 它不必长成欧氏几何中的圆或圆球. 此外, 闭球记号中的横线只是名称记号; 在一般度量空间中, 它不一定等于相应开球的闭包, 这一差异将在下一章出现.
+
+有界性的中心可以更换. 如果 $A$ 被中心 $p$, 半径 $R$ 的闭球包含, 那么对另一点 $q\in X$, 三角不等式给出 $d(a,q)\le R+d(p,q)$. 因而有界性不取决于最初选择哪个中心.
+
+\originalsection{范数与诱导度量}\label{ch:metric:norms}
+向量空间中, ``两个点相距多远''通常由它们的差向量有多长决定. 这使我们可以把度量的构造转化为长度函数的构造.
+
+\begin{definition}[范数]
+设 $V$ 是实向量空间. 函数 $\lVert\cdot\rVert:V\to[0,\infty)$ 称为\textbf{范数}, 如果对任意 $u,v\in V$ 与 $\lambda\in\mathbb{R}$, 满足
+\[
+ \lVert v\rVert=0\Longleftrightarrow v=0,\qquad
+ \lVert\lambda v\rVert=|\lambda|\lVert v\rVert,\qquad
+ \lVert u+v\rVert\le\lVert u\rVert+\lVert v\rVert.
+\]
+配备了范数的向量空间称为\textbf{赋范空间}.
+\end{definition}
+\begin{proposition}\label{ch:metric:norm-metric}
+若 $\lVert\cdot\rVert$ 是 $V$ 上的范数, 则 $d(u,v)=\lVert u-v\rVert$ 是度量.
+\end{proposition}
+\begin{proof}
+正定性由 $u-v=0\Longleftrightarrow u=v$ 得到. 齐次性给出 $\lVert v-u\rVert=\lVert-(u-v)\rVert=\lVert u-v\rVert$, 所以距离对称. 最后,
+\[
+ \lVert u-w\rVert=\lVert(u-v)+(v-w)\rVert
+ \le\lVert u-v\rVert+\lVert v-w\rVert,
+\]
+正是度量的三角不等式.
+\end{proof}
+
+在 $\mathbb{R}^n$ 上, 对 $v=(v_1,\ldots,v_n)$, 最常用的三个范数是
+\[
+ \lVert v\rVert_1=\sum_{i=1}^n|v_i|,\qquad
+ \lVert v\rVert_2=\left(\sum_{i=1}^nv_i^2\right)^{1/2},\qquad
+ \lVert v\rVert_\infty=\max_{1\le i\le n}|v_i|.
+\]
+它们分别产生 $d_1,d_2,d_\infty$. 其中 $d_2$ 是欧氏距离. 对 $v\ne0$, 至少一个坐标不为零, 所以三个范数均严格为正. 齐次性也都直接来自绝对值的齐次性. 三角不等式值得分别核对, 因为它反映了这三种长度对各坐标的不同组合方式.
+
+\begin{lemma}[有限维 Cauchy--Schwarz 不等式]\label{ch:metric:cs}
+对 $u,v\in\mathbb{R}^n$, 记 $u\cdot v=\sum_{i=1}^nu_iv_i$. 则
+\[
+ |u\cdot v|\le\lVert u\rVert_2\lVert v\rVert_2.
+\]
+\end{lemma}
+\begin{proof}
+如果 $v=0$, 结论成立. 如果 $v\ne0$, 则对任意 $t\in\mathbb{R}$, 有
+\[
+ 0\le\sum_{i=1}^n(u_i-tv_i)^2
+ =\lVert u\rVert_2^2-2t(u\cdot v)+t^2\lVert v\rVert_2^2.
+\]
+取 $t=(u\cdot v)/\lVert v\rVert_2^2$, 得
+\[
+ 0\le\lVert u\rVert_2^2-
+ \frac{(u\cdot v)^2}{\lVert v\rVert_2^2}.
+\]
+移项并开平方即得所需不等式. 这里选择 $t$ 是为了尽量消去 $u$ 在 $v$ 方向上的分量, 也就是让平方和最小.
+\end{proof}
+
+\begin{proposition}\label{ch:metric:three-norms}
+$\lVert\cdot\rVert_1,\lVert\cdot\rVert_2,\lVert\cdot\rVert_\infty$ 都是 $\mathbb{R}^n$ 上的范数. 并且对每个 $v\in\mathbb{R}^n$, 有
+\[
+ \lVert v\rVert_\infty\le\lVert v\rVert_2
+ \le\lVert v\rVert_1\le n\lVert v\rVert_\infty,
+ \qquad
+ \lVert v\rVert_1\le\sqrt n\lVert v\rVert_2.
+\]
+\end{proposition}
+\begin{proof}
+$1$-范数的三角不等式来自对每个坐标使用 $|u_i+v_i|\le|u_i|+|v_i|$, 然后求和. 对最大值范数, 每个坐标都满足
+\[
+ |u_i+v_i|\le|u_i|+|v_i|
+ \le\lVert u\rVert_\infty+\lVert v\rVert_\infty.
+\]
+对 $i$ 取最大值即可. 欧氏范数则使用上一个引理:
+\begin{align*}
+ \lVert u+v\rVert_2^2
+ &=\lVert u\rVert_2^2+2u\cdot v+\lVert v\rVert_2^2\\
+ &\le\lVert u\rVert_2^2+2\lVert u\rVert_2\lVert v\rVert_2
+       +\lVert v\rVert_2^2
+ =(\lVert u\rVert_2+\lVert v\rVert_2)^2.
+\end{align*}
+两边均非负, 开平方得到三角不等式.
+
+对于比较不等式, 每一项 $|v_i|$ 都不超过 $\lVert v\rVert_2$, 从而 $\lVert v\rVert_\infty\le\lVert v\rVert_2$. 又因为
+\[
+ \sum_i|v_i|^2\le\left(\sum_i|v_i|\right)^2,
+ \qquad
+ \sum_i|v_i|\le n\max_i|v_i|,
+\]
+得到中间两项. 最后一式对向量 $(|v_1|,\ldots,|v_n|)$ 和 $(1,\ldots,1)$ 使用 Cauchy--Schwarz 不等式即可.
+\end{proof}
+
+\begin{example}
+在 $\mathbb{R}^2$ 中取 $x=(1,-1)$ 与 $y=(4,3)$. 求它们在 $d_1,d_2,d_\infty$ 下的距离, 并描述三种度量下以原点为中心, 半径为 $1$ 的开球.
+\end{example}
+\begin{solution}
+在 $\mathbb{R}^2$ 中, 取 $x=(1,-1)$ 与 $y=(4,3)$. 差向量为 $(3,4)$, 故
+\[
+ d_1(x,y)=7,\qquad d_2(x,y)=5,\qquad d_\infty(x,y)=4.
+\]
+以原点为中心, 半径为 $1$ 的开球, 在 $d_2$ 下是 $x_1^2+x_2^2<1$ 的圆盘, 在 $d_1$ 下是 $|x_1|+|x_2|<1$ 的菱形内部, 在 $d_\infty$ 下是 $\max\{|x_1|,|x_2|\}<1$ 的正方形内部. 距离数值和球形状都发生了变化, 但上述比较不等式表明: 任何一种距离足够小, 另外两种也会足够小. 下一章将把这一点精确表述为它们产生相同的开集.
+\end{solution}
+
+\begin{remark}
+原讲义还提及一般的 $p$-范数
+$\lVert v\rVert_p=(\sum_i|v_i|^p)^{1/p}$, 其中 $1\le p<\infty$. 其三角不等式是 Minkowski 不等式, 不能从绝对值三角不等式直接推出. 本书这一阶段只使用已经完整证明的 $p=1,2,\infty$ 三个版本, 不把一般版本作为隐藏的先修知识.
+\end{remark}
+
+\originalsection{离散集合与有限空间}\label{ch:metric:discrete}
+\begin{example}\label{ch:metric:discrete-example}
+对任意集合 $X$, 定义
+\[
+ d_{\mathrm{dis}}(x,y)=
+ \begin{cases}
+ 0,&x=y,\\
+ 1,&x\ne y.
+ \end{cases}
+\]
+证明这是度量, 求所有半径的开球, 并判断空间是否有界.
+\end{example}
+\begin{solution}
+正定性和对称性由定义直接得到. 若 $x=z$, 三角不等式左边为零. 若 $x\ne z$, 则 $y$ 不可能同时等于 $x$ 和 $z$, 所以 $d_{\mathrm{dis}}(x,y)+d_{\mathrm{dis}}(y,z)\ge1=d_{\mathrm{dis}}(x,z)$.
+
+在这个度量下, 当 $0<r\le1$ 时, $B(x,r)=\{x\}$; 当 $r>1$ 时, $B(x,r)=X$. 即使 $X$ 有无限多个点, 它仍然有界, 因为所有距离都不超过 $1$. 有界因而不等于点数有限.
+\end{solution}
+
+\begin{proposition}[有限度量空间中的最小间隔]\label{ch:metric:finite}
+设 $(X,d)$ 是有限度量空间, 且 $X$ 至少有两个点. 则
+\[
+ \eta=\min\{d(x,y):x,y\in X,\ x\ne y\}>0,
+\]
+而且对每个 $x\in X$, 都有 $B(x,\eta)=\{x\}$. 若 $X$ 只有一个点, 每个正半径球也都是这个单点集.
+\end{proposition}
+\begin{proof}
+不同点对的距离组成一个非空有限集, 每个数都严格为正, 故其最小值存在且为正. 当 $y\ne x$ 时, $d(x,y)\ge\eta$, 所以 $y\notin B(x,\eta)$; 而 $x$ 总在自己的正半径球中.
+\end{proof}
+有限空间中不同点的距离未必全相等, 因而其度量未必是离散度量. 但是它总有一种共同性质: 每个点都可以用足够小的球单独分离出来. 这将使有限度量空间与离散空间在开集, 收敛等性质上相同.
+
+\originalsection{连续函数空间的度量}\label{ch:metric:functions}
+设 $a<b$ 为实数, $C([a,b])$ 表示区间 $[a,b]$ 上的实值连续函数全体. 两个函数相等, 指它们在区间的每一点都相等. 函数空间中的``点''是一整个函数; 因而函数空间里的球包含的是许多函数, 并不是定义域上的一个小区间.
+
+\begin{proposition}[上确界范数]\label{ch:metric:sup}
+对 $f\in C([a,b])$, 定义
+\[
+ \lVert f\rVert_\infty=\sup_{t\in[a,b]}|f(t)|.
+\]
+这是一个范数, 从而
+\[
+ d_\infty(f,g)=\sup_{t\in[a,b]}|f(t)-g(t)|
+\]
+是 $C([a,b])$ 上的度量.
+\end{proposition}
+\begin{proof}
+连续函数 $|f|$ 在闭有界区间上有最大值, 所以上确界有限. 若范数为零, 则对所有 $t$, $0\le|f(t)|\le\lVert f\rVert_\infty=0$, 从而 $f$ 是零函数. 反之零函数的范数为零. 齐次性来自 $|\lambda f(t)|=|\lambda||f(t)|$. 最后, 对区间中的每个 $t$, 都有
+\[
+ |f(t)+g(t)|\le|f(t)|+|g(t)|
+ \le\lVert f\rVert_\infty+\lVert g\rVert_\infty.
+\]
+对左边取上确界, 得到范数三角不等式. 再用命题\ref{ch:metric:norm-metric} 即得度量结论.
+\end{proof}
+证明三角不等式时不必先找最大值点. 只要右边是对每个 $t$ 都成立的同一个上界, 它自然也是左边上确界的上界. 这种``先逐点估计, 再取上确界''的方法, 在后续一致收敛与算子连续性中十分常用.
+
+\begin{example}
+固定 $f\in C([a,b])$ 和 $r>0$, 描述上确界度量下 $B(f,r)$ 中的函数. 再在 $[0,1]$ 上取 $f(t)=t$, $g(t)=t^2$, 求 $d_\infty(f,g)$.
+\end{example}
+\begin{solution}
+固定 $f\in C([a,b])$ 和 $r>0$. 条件 $g\in B(f,r)$ 等价于
+\[
+ \sup_{t\in[a,b]}|g(t)-f(t)|<r.
+\]
+由于 $|g-f|$ 在闭区间上取到最大值, 这又等价于每个 $t$ 都满足 $f(t)-r<g(t)<f(t)+r$. 可以把它理解为 $g$ 的整个图像落在 $f$ 上下宽度为 $r$ 的带内. 若定义域不是紧区间, 仅仅逐点严格小于 $r$ 未必能保证上确界也严格小于 $r$.
+
+例如在 $[0,1]$ 上取 $f(t)=t$ 与 $g(t)=t^2$, 则
+\[
+ d_\infty(f,g)=\max_{0\le t\le1}(t-t^2)=\frac14,
+\]
+因为 $t-t^2=\frac14-(t-\frac12)^2$. 所以 $g\in B(f,r)$ 当且仅当 $r>1/4$.
+\end{solution}
+
+最大偏差并不是唯一合理的函数距离. 如果希望比较整个区间上的累计偏差, 积分可以给出另一种度量.
+
+\begin{proposition}[积分距离]\label{ch:metric:l1}
+在 $C([a,b])$ 上,
+\[
+ d_{L^1}(f,g)=\int_a^b|f(t)-g(t)|\,\mathrm{d}t
+\]
+是度量. 此外,
+\[
+ d_{L^1}(f,g)\le(b-a)d_\infty(f,g).
+\]
+\end{proposition}
+\begin{proof}
+非负性, 对称性和距离有限都由连续函数积分的基本性质得到. 要证明正定性, 不能只说``积分为零则函数为零'', 因为这一断言对任意函数并不成立. 此处连续性是关键.
+
+设 $f(t_0)\ne g(t_0)$, 并记 $c=|f(t_0)-g(t_0)|>0$. 连续性给出 $t_0$ 在 $[a,b]$ 中的一个相对邻域, 在其中 $|f(t)-g(t)|>c/2$. 即使 $t_0$ 是端点, 该邻域也包含一个正长度区间 $J\subseteq[a,b]$. 因而
+\[
+ \int_a^b|f-g|\,\mathrm{d}t
+ \ge\int_J|f-g|\,\mathrm{d}t
+ \ge\frac c2\,|J|>0.
+\]
+所以积分距离为零时, $f=g$ 在每一点都成立. 反方向当然成立. 三角不等式由逐点的 $|f-h|\le|f-g|+|g-h|$ 积分得到. 最后, 对所有 $t$ 有 $|f(t)-g(t)|\le d_\infty(f,g)$, 对这个常数上界积分即得比较式.
+\end{proof}
+
+\begin{example}
+\label{ch:metric:spikes}在 $[0,1]$ 上定义 $f_n(t)=\max\{1-nt,0\}$. 求 $d_\infty(f_n,0)$ 与 $d_{L^1}(f_n,0)$, 并判断积分距离能否用一个固定常数反向控制上确界距离.
+\end{example}
+\begin{solution}
+
+在 $[0,1]$ 上定义 $f_n(t)=\max\{1-nt,0\}$. 它是一条高度为 $1$, 底边长为 $1/n$ 的三角形尖峰. 于是
+\[
+ d_\infty(f_n,0)=1,\qquad
+ d_{L^1}(f_n,0)=\int_0^{1/n}(1-nt)\,\mathrm{d}t=\frac1{2n}.
+\]
+积分距离趋于零, 最大偏差却始终是 $1$. 因而上一个命题中的估计不能在全体连续函数上反向成立: 不存在与函数无关的常数 $C$, 使 $d_\infty(f,g)\le C d_{L^1}(f,g)$ 总成立. 同一个集合上的不同度量, 确实可能表达不同的接近方式.
+\end{solution}
+
+\originalsection{C¹空间与微分算子}\label{ch:metric:c1}
+记 $C^1([a,b])$ 为连续可微实函数的空间, 其中区间内部有导数, 且导数连续延拓到端点; 端点处也可等价地采用相应的单侧导数. 如果只用上确界距离比较函数值, 便可能遗漏其变化速度.
+
+\begin{proposition}[$C^1$ 范数与微分算子]\label{ch:metric:derivative}
+在 $C^1([a,b])$ 上定义
+\[
+ \lVert f\rVert_{C^1}=\lVert f\rVert_\infty+\lVert f'\rVert_\infty,
+ \qquad
+ d_{C^1}(f,g)=\lVert f-g\rVert_{C^1}.
+\]
+这是范数及其诱导度量. 微分算子
+\[
+ D:C^1([a,b])\to C([a,b]),\qquad Df=f'
+\]
+满足
+\[
+ d_\infty(Df,Dg)\le d_{C^1}(f,g).
+\]
+因此, 对任意 $\varepsilon>0$, 若 $d_{C^1}(f,g)<\varepsilon$, 就有 $d_\infty(Df,Dg)<\varepsilon$; 特别地, 微分算子连续.
+\end{proposition}
+\begin{proof}
+两个上确界均有限. 若 $\lVert f\rVert_{C^1}=0$, 第一项已保证 $f=0$. 齐次性由微分的线性和上确界范数的齐次性得到. 对三角不等式, 分别应用
+\[
+ \lVert f+g\rVert_\infty\le\lVert f\rVert_\infty+\lVert g\rVert_\infty,
+ \qquad
+ \lVert f'+g'\rVert_\infty\le\lVert f'\rVert_\infty+\lVert g'\rVert_\infty,
+\]
+再相加即可. 算子估计则来自
+\[
+ d_\infty(Df,Dg)=\lVert f'-g'\rVert_\infty
+ \le\lVert f-g\rVert_\infty+\lVert f'-g'\rVert_\infty.
+\]
+连续性的精确定义将在下一章给出; 此处估计已经给出了对任意精度都可使用的控制.
+\end{proof}
+
+\begin{example}
+在 $C^1([0,1])$ 上只用 $d_\infty$ 比较函数, 并在 $C([0,1])$ 上同样使用 $d_\infty$. 判断微分算子 $D:C^1([0,1])\to C([0,1])$ 是否连续.
+\end{example}
+\begin{solution}
+在 $C^1([0,1])$ 上, 若只用 $d_\infty$ 比较函数, 微分算子便不连续. 取
+\[
+ f_n(t)=\frac{\sin(nt)}n.
+\]
+则 $\lVert f_n\rVert_\infty\le1/n\to0$, 但 $f_n'(t)=\cos(nt)$ 且 $\lVert f_n'\rVert_\infty=1$, 因为 $t=0$ 时导数等于 $1$. 这说明连续性需要同时说明定义域与值域各使用什么度量. $C^1$ 范数中加入导数项, 正是为了排除``函数很小但振荡很快''的现象.
+\end{solution}
+
+只比较导数的表达式 $\lVert f'-g'\rVert_\infty$ 也不是整个 $C^1([a,b])$ 上的度量. 不同的常数函数会使它等于零, 违反正定性. 若额外固定一个函数值, 例如限制在满足 $f(a)=0$ 的子空间, 这一缺陷就消失了. 章末练习将核对这个区别.
+
+\originalsection{球面上的弦长与测地距离}\label{ch:metric:sphere}
+还有一种差异与函数空间无关: 我们可以用环境空间中的直线距离, 也可以用被限制在对象内部的路径长度. 必须先说清楚对象究竟是哪个集合.
+
+\begin{proposition}[单位球面上的两种距离]\label{ch:metric:sphere-example}
+设
+\[
+ S^2=\{x\in\mathbb{R}^3:\lVert x\rVert_2=1\}.
+\]
+这是单位\textbf{球面}, 不包含球体内部. 欧氏距离限制在 $S^2$ 上给出\textbf{弦长距离} $d_{\mathrm{ch}}(x,y)=\lVert x-y\rVert_2$. 另一种距离为
+\[
+ d_{\mathrm{geo}}(x,y)=\arccos(x\cdot y)\in[0,\pi],
+\]
+称为单位球面的\textbf{测地距离}. 它等于连接两点的较短大圆弧的长度; 对互为对跖点的两点, 任意相应半大圆的长度都为 $\pi$.
+\end{proposition}
+\begin{proof}
+先证明角度公式确实满足度量公理. Cauchy--Schwarz 不等式保证 $x\cdot y\in[-1,1]$, 所以公式有定义. 又由
+$\lVert x-y\rVert_2^2=2-2x\cdot y$, 得到角度为零当且仅当 $x=y$. 对称性也直接成立.
+
+对三角不等式, 记 $\alpha=d_{\mathrm{geo}}(x,z)$, $\beta=d_{\mathrm{geo}}(z,y)$. 若 $\alpha+\beta\ge\pi$, 则 $d_{\mathrm{geo}}(x,y)\le\pi\le\alpha+\beta$. 若 $\alpha+\beta<\pi$, 将向量分解为沿 $z$ 的分量和与 $z$ 垂直的分量:
+\[
+ x=(\cos\alpha)z+u,\qquad
+ y=(\cos\beta)z+v,
+\]
+其中 $u\cdot z=v\cdot z=0$, $\lVert u\rVert_2=\sin\alpha$, $\lVert v\rVert_2=\sin\beta$. Cauchy--Schwarz 给出
+\[
+ x\cdot y=\cos\alpha\cos\beta+u\cdot v
+ \ge\cos\alpha\cos\beta-\sin\alpha\sin\beta
+ =\cos(\alpha+\beta).
+\]
+由于 $\arccos$ 在 $[-1,1]$ 上递减, 有 $d_{\mathrm{geo}}(x,y)\le\alpha+\beta$.
+
+为说明``最短路径''确有数学含义, 可把连续路径 $\gamma:[0,1]\to S^2$ 的长度定义为各分割下弦长和的上确界:
+\[
+ L(\gamma)=\sup_{0=t_0<\cdots<t_m=1}
+ \sum_{j=1}^m\lVert\gamma(t_j)-\gamma(t_{j-1})\rVert_2.
+\]
+对夹角 $\theta\in[0,\pi]$, 相应弦长 $c$ 满足 $c=2\sin(\theta/2)$, 故当 $c\to0$ 时 $\theta/c\to1$. 给定 $\varepsilon>0$, 充分短的弦满足 $\theta\le(1+\varepsilon)c$. 路径的三个坐标函数都在 $[0,1]$ 上连续, 由本章声明的一元分析先修, 它们分别一致连续. 对给定弦长精度, 分别把三个坐标变化控制在该精度的 $1/\sqrt3$ 以下, 再取三个有效参数间隔的最小值, 就得到整条路径关于欧氏距离的一致连续性. 因而可以把参数区间分得足够细, 使每一小段两端的弦都满足这一估计. 用已经证明的角度三角不等式, 得
+\[
+ d_{\mathrm{geo}}(\gamma(0),\gamma(1))
+ \le\sum_jd_{\mathrm{geo}}(\gamma(t_{j-1}),\gamma(t_j))
+ \le(1+\varepsilon)L(\gamma).
+\]
+若路径长度有限, 令 $\varepsilon\downarrow0$ 得角度距离不超过路径长度; 长度无限时结论也成立. 较短大圆弧的长度恰为夹角: 分割弦长和不超过总圆弧长, 而等分后的弦长和 $2m\sin(\theta/(2m))$ 趋于 $\theta$. 所以大圆弧达到上述下界, 测地距离确实是所有球面内连续路径长度的最小值.
+\end{proof}
+
+\begin{remark}
+原讲义第1讲 Example 18 用了 ``unit ball'' 一词, 但随后描述的是球面上两点之间的球面路径. 本章明确改为 $S^2$. 若对象是实心球 $\{x:\lVert x\rVert_2\le1\}$, 两点间的直线段留在球内, 其内部最短路径长度就是欧氏距离, 不能与球面大圆弧混为一谈.
+\end{remark}
+
+例如北极与赤道上的一点, 弦长为 $\sqrt2$, 测地距离为 $\pi/2$; 对跖点的弦长为 $2$, 测地距离为 $\pi$. 两种距离满足
+\[
+ d_{\mathrm{ch}}(x,y)\le d_{\mathrm{geo}}(x,y)
+ \le\frac\pi2 d_{\mathrm{ch}}(x,y).
+\]
+这里第一式来自 $\sin u\le u$, 第二式来自 $\sin u\ge2u/\pi$ 对 $0\le u\le\pi/2$ 的成立; 后一不等式可由正弦函数在该区间的凹性与连接两端的弦线得到. 因而这两种距离虽有不同数值, 对``趋于某一点''给出的判断相同.
+
+\originalsection{练习与解答}\label{ch:metric:exercises}
+以下各题是围绕本章内容设计的编者练习, 不标作 MIT 原习题.
+
+\begin{exercise}\label{ch:metric:ex-bounded}
+设 $d$ 是 $X$ 上的度量. 证明
+$\rho(x,y)=d(x,y)/(1+d(x,y))$ 也是度量, 且其所有距离都小于 $1$. 对 $0<r<1$, 求 $\rho$-球与 $d$-球之间的关系.
+\end{exercise}
+\begin{solution}
+令 $h(t)=t/(1+t)$. 它在 $[0,\infty)$ 上严格递增, 且只在 $t=0$ 取零. 所以正定性, 对称性成立. 对 $a,b\ge0$, 有
+\[
+ h(a+b)=\frac{a}{1+a+b}+\frac{b}{1+a+b}
+ \le\frac{a}{1+a}+\frac{b}{1+b}=h(a)+h(b).
+\]
+由三角不等式与 $h$ 的单调性,
+$\rho(x,z)\le h(d(x,y)+d(y,z))\le\rho(x,y)+\rho(y,z)$.
+另外 $h(t)<1$. 最后,
+\[
+ \frac{d(x,y)}{1+d(x,y)}<r
+ \Longleftrightarrow d(x,y)<\frac r{1-r},
+\]
+故 $B_\rho(x,r)=B_d(x,r/(1-r))$. 若 $r\ge1$, 则 $B_\rho(x,r)=X$.
+\end{solution}
+
+\begin{exercise}\label{ch:metric:ex-c1}
+在 $V=\{f\in C^1([a,b]):f(a)=0\}$ 上, 证明 $\lVert f\rVert_D=\lVert f'\rVert_\infty$ 是范数, 并证明
+\[
+ \lVert f\rVert_D\le\lVert f\rVert_{C^1}
+ \le(1+b-a)\lVert f\rVert_D.
+\]
+说明为何在整个 $C^1([a,b])$ 上第一项不是范数.
+\end{exercise}
+\begin{solution}
+若 $\lVert f'\rVert_\infty=0$, 则 $f'=0$. 由微积分基本定理与 $f(a)=0$,
+$f(t)=\int_a^tf'(s)\,\mathrm{d}s=0$. 因而在 $V$ 上正定性成立. 齐次性与三角不等式由导数的线性及上确界范数的相应性质得到. 同一积分表达式给出
+\[
+ |f(t)|\le\int_a^t|f'(s)|\,\mathrm{d}s
+ \le(b-a)\lVert f'\rVert_\infty,
+\]
+故 $\lVert f\rVert_\infty\le(b-a)\lVert f\rVert_D$, 从而得到第二个估计. 第一个估计来自 $C^1$ 范数包含导数项. 在整个空间中, 非零常数函数的导数为零, 所以正定性失败.
+\end{solution}
+
+\begin{exercise}\label{ch:metric:ex-integration}
+对 $f\in C([a,b])$, 定义 $Tf(t)=\int_a^tf(s)\,\mathrm{d}s$. 证明 $Tf\in C^1([a,b])$, 且
+\[
+ \lVert Tf-Tg\rVert_{C^1}\le(1+b-a)\lVert f-g\rVert_\infty.
+\]
+\end{exercise}
+\begin{solution}
+微积分基本定理给出 $(Tf)'=f$, 而 $f$ 连续, 所以 $Tf\in C^1([a,b])$. 对每个 $t$,
+\[
+ |Tf(t)-Tg(t)|
+ \le\int_a^t|f(s)-g(s)|\,\mathrm{d}s
+ \le(b-a)\lVert f-g\rVert_\infty.
+\]
+取上确界, 再与 $\lVert(Tf-Tg)'\rVert_\infty=\lVert f-g\rVert_\infty$ 相加, 即得估计. 它说明积分算子不仅控制函数值, 也控制所得函数的一阶导数.
+\end{solution}
+
+\begin{exercise}\label{ch:metric:ex-nonmetric}
+判断 $\mathbb{R}$ 上的 $d(x,y)=|x-y|^2$ 是否为度量. 再证明对固定 $0<\alpha\le1$, $d_\alpha(x,y)=|x-y|^\alpha$ 是度量.
+\end{exercise}
+\begin{solution}
+平方距离不是度量. 取 $x=0,y=1,z=2$, 有 $d(0,2)=4>1+1=d(0,1)+d(1,2)$.
+
+对于 $0<\alpha\le1$, 先证 $(a+b)^\alpha\le a^\alpha+b^\alpha$. 当 $a+b=0$ 时成立; 否则令 $s=a/(a+b)\in[0,1]$. 因 $s^\alpha\ge s$ 且 $(1-s)^\alpha\ge1-s$, 两式相加并乘以 $(a+b)^\alpha$ 即得. 于是
+\[
+ |x-z|^\alpha\le(|x-y|+|y-z|)^\alpha
+ \le|x-y|^\alpha+|y-z|^\alpha.
+\]
+正定性与对称性由绝对值得到, 所以 $d_\alpha$ 是度量. 本题也说明: 把已有距离代入递增函数, 还必须核对该函数是否保留三角不等式.
+\end{solution}
+
+\begin{exercise}\label{ch:metric:ex-finite}
+设 $X=\{a,b,c\}$, 指定 $d(a,b)=2$, $d(b,c)=3$, $d(a,c)=s$, 并用对称性及 $d(x,x)=0$ 补齐距离. 求所有使 $d$ 成为度量的 $s$, 并在 $s=1$ 时写出 $B(a,1)$, $B(a,2)$, $B(a,3)$.
+\end{exercise}
+\begin{solution}
+不同点距离为正要求 $s>0$. 三个可能有内容的三角不等式分别是 $s\le2+3$, $2\le3+s$, $3\le2+s$. 合并得 $1\le s\le5$, 而这一范围也保证全部公理. 当 $s=1$ 时, 开球的严格不等号不能遗漏, 因而
+\[
+ B(a,1)=\{a\},\qquad B(a,2)=\{a,c\},\qquad B(a,3)=X.\qedhere
+\]
+\end{solution}

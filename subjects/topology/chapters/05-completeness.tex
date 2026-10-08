@@ -1,0 +1,416 @@
+\originalchapter{完备空间与完备化}\label{ch:complete}
+
+\emph{来源: 本章重编自 Paige Bright, MIT OCW 18.S190, IAP 2023, Lecture 5, pp.\ 5--6, 并承接 Lecture 1, pp.\ 4--7 的函数空间例子. 原课留作练习的完备性证明在此补全; 嵌套闭集判据、Cauchy 序列构造及章末练习为编者补充. 来源和许可详见书末说明.}
+
+\originalsection{Cauchy序列与完备性}
+
+上一章研究紧性时, 我们从任意序列中寻找收敛子列. 完备性回答另一个问题: 如果一个序列的后段已经彼此任意接近, 空间中是否有一个点承接这些越来越集中的项? 这里不要求从所有序列中找到好子列, 而只考察已经满足 Cauchy 条件的序列.
+
+\begin{definition}\label{def:complete}
+度量空间 $(X,d)$ 称为\textbf{完备空间}, 如果其中每个 Cauchy 序列都收敛于 $X$ 中某点. 具体地, 对每个满足
+\[
+\forall\varepsilon>0\ \exists N\ \forall m,n\geq N,
+\qquad d(x_m,x_n)<\varepsilon
+\]
+的序列 $(x_n)$, 都存在 $x\in X$ 使 $d(x_n,x)\to0$.
+\end{definition}
+
+条件中的 ``收敛于 $X$ 中某点'' 必不可少. 在更大的空间中找到极限, 不能直接证明原空间完备. 每个收敛序列都是 Cauchy 序列: 若 $x_n\to x$, 当 $m,n$ 足够大时,
+\[
+d(x_m,x_n)\leq d(x_m,x)+d(x,x_n)<\varepsilon.
+\]
+反向推理必须用到空间的完备性.
+
+\begin{example}
+已知 $\mathbb R$ 在通常距离下完备. 证明 $\mathbb Q$ 和 $(0,1)$ 在通常距离下都不完备.
+\end{example}
+\begin{solution}
+取有理数 $q_n$ 使 $|q_n-\sqrt2|<1/n$, 则 $(q_n)$ 在 $\mathbb R$ 中收敛, 因而在 $\mathbb Q$ 的限制距离下是 Cauchy 序列. 若它在 $\mathbb Q$ 中收敛于 $q$, 就会在 $\mathbb R$ 中同时收敛于 $q$ 和 $\sqrt2$. 极限唯一性给出 $q=\sqrt2$, 与 $q\in\mathbb Q$ 矛盾.
+
+区间 $(0,1)$ 也不完备, 因为 $x_n=1/(n+1)$ 是其中的 Cauchy 序列, 在 $\mathbb R$ 中的唯一极限 $0$ 却不属于该区间. 缺失的极限不一定是无理数; 一个被删去的端点也足以破坏完备性.
+\end{solution}
+
+\begin{example}
+证明离散度量下的任意集合都完备.
+\end{example}
+\begin{solution}
+若集合为空, 没有需要检验的序列. 否则对 Cauchy 序列使用 $\varepsilon=1/2$, 可知从某一项开始任意两项的距离都小于 $1/2$. 离散距离只有 $0$ 和 $1$, 所以这些项必须相同, 序列最终为常值并收敛.
+\end{solution}
+
+\begin{proposition}\label{prop:complete-subsequence}
+若 Cauchy 序列 $(x_n)$ 有一个收敛子列 $x_{n_j}\to x$, 则整个序列也收敛于 $x$.
+\end{proposition}
+\begin{proof}
+给定 $\varepsilon>0$, 由 Cauchy 条件取 $N$ 使 $m,n\geq N$ 时 $d(x_m,x_n)<\varepsilon/2$. 再选一个 $j$ 使 $n_j\geq N$ 且 $d(x_{n_j},x)<\varepsilon/2$. 于是对所有 $n\geq N$,
+\[
+d(x_n,x)\leq d(x_n,x_{n_j})+d(x_{n_j},x)<\varepsilon.
+\]
+这里用于比较的子列项只需选定一个; Cauchy 条件随后控制所有足够靠后的项.
+\end{proof}
+
+因此紧度量空间是完备的: 先用紧性找到收敛子列, 再用上面的命题收回整个 Cauchy 序列. 完备性本身并不保证紧性, 例如 $\mathbb R$ 完备但不紧. 完备性约束 Cauchy 序列, 紧性则还要求空间不能无限分散.
+
+\originalsection{子空间的完备性}
+
+\begin{theorem}\label{thm:closed-complete}
+设 $A$ 是完备度量空间 $X$ 的子集, 并赋予限制距离. 则 $A$ 完备当且仅当 $A$ 在 $X$ 中闭.
+\end{theorem}
+\begin{proof}
+先设 $A$ 闭. 若 $(a_n)$ 是 $A$ 中的 Cauchy 序列, 它也是 $X$ 中的 Cauchy 序列. $X$ 完备给出 $a_n\to x\in X$. 由于 $A$ 闭, $x\in A$, 故序列在 $A$ 中收敛.
+
+反过来, 设 $A$ 完备. 取 $x\in\overline A$. 每个球 $B(x,1/n)$ 都与 $A$ 相交, 所以可取 $a_n\in A$ 使 $d(a_n,x)<1/n$. 序列 $(a_n)$ 在 $X$ 中收敛于 $x$, 因而是 Cauchy 序列. $A$ 完备给出某个 $a\in A$ 使 $a_n\to a$. 同一个限制距离下的收敛也就是在 $X$ 中的收敛, 极限唯一性给出 $x=a\in A$. 因此 $\overline A=A$, 即 $A$ 闭.
+\end{proof}
+
+这段证明还说明: 完备子空间在任意度量母空间中都闭, 反方向才需要母空间完备. 若母空间不完备, 闭子集也可能不完备, 因为母空间自身就是一个闭子集.
+
+\begin{corollary}\label{cor:dense-complete}
+若 $A$ 是度量空间 $X$ 的稠密完备子空间, 则 $A=X$.
+\end{corollary}
+\begin{proof}
+由刚才证明的方向, $A$ 在 $X$ 中闭. 稠密性又给出 $\overline A=X$, 所以 $A=\overline A=X$.
+\end{proof}
+
+\begin{remark}
+稠密性不能保证完备性. $\mathbb Q$ 在 $\mathbb R$ 中稠密, 却不完备. 母空间也可能是完备空间的扩张而仍然不完备: $\{0\}$ 完备, 把它扩张成 $[0,1)$ 后, 序列 $1-1/n$ 缺少极限. 这两种现象的区别在于, 完备性关乎限制距离下所有 Cauchy 序列的极限, 不是集合的大小或点的多少.
+\end{remark}
+
+\begin{theorem}[嵌套闭集判据]\label{thm:complete-nested}
+非空度量空间 $X$ 完备, 当且仅当下述性质成立: 对每个非空闭集序列
+\[
+F_1\supset F_2\supset\cdots,
+\qquad \operatorname{diam}F_n\longrightarrow0,
+\]
+交集 $\bigcap_{n=1}^{\infty}F_n$ 恰有一个点. 这里
+$\operatorname{diam}F=\sup\{d(x,y):x,y\in F\}$, 允许前面有限项的直径为无穷大.
+\end{theorem}
+\begin{proof}
+若 $X$ 完备, 从每个 $F_n$ 取 $x_n$. 对 $m,n\geq N$, 嵌套性保证 $x_m,x_n\in F_N$, 因而
+$d(x_m,x_n)\leq\operatorname{diam}F_N$. 直径趋于 $0$ 表明 $(x_n)$ 是 Cauchy 序列, 所以 $x_n\to x\in X$. 固定 $N$, 后段全部位于闭集 $F_N$, 故 $x\in F_N$. 这对每个 $N$ 成立, 得到 $x\in\bigcap_NF_N$. 若 $y$ 也在交集中, 则对每个 $N$ 都有 $d(x,y)\leq\operatorname{diam}F_N$, 令 $N\to\infty$ 得 $x=y$.
+
+反过来, 假设嵌套闭集性质成立. 对任意 Cauchy 序列 $(x_n)$, 令
+\[
+F_N=\overline{\{x_n:n\geq N\}}.
+\]
+这些集非空、闭且嵌套. 给定 $\varepsilon>0$, 取 $N$ 使 $m,n\geq N$ 时 $d(x_m,x_n)<\varepsilon/2$. 对任意 $u,v\in F_N$, 从序列后段分别取 $u_j\to u$, $v_j\to v$. 三角不等式给出距离函数的连续性, 所以
+$d(u,v)=\lim_jd(u_j,v_j)\leq\varepsilon/2$. 因此 $\operatorname{diam}F_N\leq\varepsilon/2$, 直径趋于 $0$. 假设给出 $x\in\bigcap_NF_N$. 当 $n\geq N$ 时 $x_n,x\in F_N$, 故
+$d(x_n,x)\leq\operatorname{diam}F_N\to0$. 于是 $(x_n)$ 在 $X$ 中收敛.
+\end{proof}
+
+直径趋于 $0$ 不是可删去的附带条件. 在完备空间 $\mathbb R$ 中, 非空闭集 $F_n=[n,\infty)$ 嵌套, 交集却为空. 它们向无穷远移动, 并没有集中到一个点.
+
+\originalsection{上确界距离与函数空间的完备性}
+
+在函数空间中, 一个点是一整个函数. 若要用极限寻找函数方程的解, 就必须先选定函数之间的距离. 本节的距离同时控制所有自变量, 因而能把函数列的收敛转化为一致收敛.
+
+\begin{definition}\label{def:cb-space}
+对非空度量空间 $X$, 定义
+\[
+C_b(X)=\{f:X\to\mathbb R:f\text{ 连续且有界}\},
+\qquad \|f\|_\infty=\sup_{x\in X}|f(x)|.
+\]
+函数 $f,g\in C_b(X)$ 的\textbf{上确界距离}为
+$d_\infty(f,g)=\|f-g\|_\infty$.
+\end{definition}
+
+有界性保证上确界是有限实数. 这里不要求最大值在某点取得: 例如 $f(x)=x$ 在 $X=(0,1)$ 上有上确界 $1$, 却没有最大值. 原课将 $C_b(X)$ 记为 $C_\infty(X)$; 本书用下标 $b$ 强调有界, 避免与光滑函数空间 $C^\infty$ 混淆.
+
+先核对这是一个距离. 非负性和对称性来自绝对值. 若 $\|f-g\|_\infty=0$, 则每个 $x$ 上都有 $|f(x)-g(x)|=0$, 所以 $f=g$. 对每个 $x$,
+\[
+|f(x)-h(x)|\leq |f(x)-g(x)|+|g(x)-h(x)|
+\leq\|f-g\|_\infty+\|g-h\|_\infty.
+\]
+对左端取上确界, 即得到三角不等式. 这个证明没有使用最大值点, 因而适用于非紧空间 $X$.
+
+\begin{definition}
+函数列 $(f_n)$ \textbf{一致收敛}于函数 $f$, 如果
+\[
+\forall\varepsilon>0\ \exists N\ \forall n\geq N\ \forall x\in X,
+\qquad |f_n(x)-f(x)|<\varepsilon.
+\]
+相比点态收敛, 一致收敛要求同一个 $N$ 对所有 $x$ 有效.
+\end{definition}
+
+在有界函数空间中, $d_\infty(f_n,f)\to0$ 等价于一致收敛. 一个方向直接由
+$|f_n(x)-f(x)|\leq\|f_n-f\|_\infty$ 得到; 另一个方向对一致收敛的不等式取上确界, 用 $\varepsilon/2$ 代替 $\varepsilon$ 即可.
+
+\begin{theorem}\label{thm:cb-complete}
+对任意非空度量空间 $X$, $(C_b(X),d_\infty)$ 是完备空间.
+\end{theorem}
+\begin{proof}
+设 $(f_n)$ 是上确界距离下的 Cauchy 序列. 目标是构造一个仍然属于 $C_b(X)$ 的极限. 构造分为点态极限、一致控制、有界性和连续性四个相互衔接的步骤.
+
+固定 $x\in X$. 由于
+\[
+|f_n(x)-f_m(x)|\leq\|f_n-f_m\|_\infty,
+\]
+实数列 $(f_n(x))$ 是 Cauchy 序列. $\mathbb R$ 完备, 因而可定义
+$f(x)=\lim_{n\to\infty}f_n(x)$. 这样在每一点定义出一个函数 $f:X\to\mathbb R$, 但此刻尚未知道它连续或有界.
+
+给定 $\varepsilon>0$, 取 $N$ 使 $m,n\geq N$ 时
+$\|f_n-f_m\|_\infty<\varepsilon/2$. 固定任意 $n\geq N$ 和任意 $x$, 在
+$|f_n(x)-f_m(x)|<\varepsilon/2$ 中令 $m\to\infty$, 得
+\[
+|f_n(x)-f(x)|\leq\varepsilon/2.
+\]
+$N$ 不依赖 $x$, 所以取上确界可得
+$\|f_n-f\|_\infty\leq\varepsilon/2<\varepsilon$. 这就是一致收敛. 注意极限可能把严格不等式变成非严格不等式, 提前使用 $\varepsilon/2$ 可保留最终所需的严格估计.
+
+对上述估计取一次 $\varepsilon=2$, 则某个 $N$ 满足所有 $x$ 上
+$|f(x)-f_N(x)|\leq1$. 于是
+\[
+|f(x)|\leq |f_N(x)|+1\leq\|f_N\|_\infty+1.
+\]
+因此 $f$ 有界. 无须假设所有 $f_n$ 的界一开始就是同一个常数; 一个固定函数 $f_N$ 和一致误差已经足够.
+
+最后证明连续性. 固定 $x_0\in X$ 和 $\varepsilon>0$. 一致收敛允许先选一个 $n$ 使
+$\|f-f_n\|_\infty<\varepsilon/3$. $f_n$ 在 $x_0$ 连续, 再选 $\delta>0$ 使
+$d(x,x_0)<\delta$ 时 $|f_n(x)-f_n(x_0)|<\varepsilon/3$. 于是
+\begin{align*}
+|f(x)-f(x_0)|
+&\leq |f(x)-f_n(x)|+|f_n(x)-f_n(x_0)|
+     +|f_n(x_0)-f(x_0)|\\
+&<\varepsilon.
+\end{align*}
+故 $f$ 连续. 至此 $f\in C_b(X)$, 且 $d_\infty(f_n,f)\to0$, 完备性得证.
+\end{proof}
+
+\begin{corollary}\label{cor:c-interval-complete}
+设 $a<b$. 实连续函数空间 $C([a,b])=C^0([a,b])$ 在上确界距离下完备.
+\end{corollary}
+\begin{proof}
+连续函数在紧区间 $[a,b]$ 上有界, 所以
+$C([a,b])=C_b([a,b])$. 应用定理~\ref{thm:cb-complete} 即得. 具体证明仍是: 由一致 Cauchy 得每一点的实数极限, 由同一个尾部估计得一致收敛, 再以三段误差证明极限连续.
+\end{proof}
+
+\begin{remark}
+点态极限本身不能保留连续性. $f_n(x)=x^n$ 在 $[0,1]$ 上连续, 点态极限为
+\[
+f(x)=\begin{cases}0,&0\leq x<1,\\1,&x=1,\end{cases}
+\]
+它在 $1$ 不连续. 因此这些 $f_n$ 不可能在上确界距离下形成 Cauchy 序列: 若是, 上面的完整性证明会迫使其点态极限连续. 这也解释了为什么函数方程中的距离必须认真选择.
+\end{remark}
+
+\originalsection{等距嵌入与完备化}
+
+对不完备空间, 我们希望补上 Cauchy 序列缺少的极限, 又不改变原有点之间的距离. 仅说 ``把所有极限添进去'' 并不是构造, 因为在构造完成之前, 这些极限还没有一个共同的母空间. 原课提供了一个巧妙办法: 先把空间等距放入已经证明完备的函数空间, 再取闭包.
+
+\begin{definition}\label{def:completion}
+度量空间 $X$ 的一个\textbf{完备化}是一个完备度量空间 $\widehat X$, 连同等距嵌入 $i:X\to\widehat X$, 满足 $i(X)$ 在 $\widehat X$ 中稠密. 等距嵌入的意思是
+\[
+\widehat d(i(x),i(y))=d(x,y)\qquad(x,y\in X).
+\]
+等距性自动保证 $i$ 单射. 我们常把 $x$ 和 $i(x)$ 视为同一点, 但定义中保留嵌入能准确表达完备化的唯一性.
+\end{definition}
+
+\begin{theorem}\label{thm:completion-exists}
+每个度量空间都有完备化.
+\end{theorem}
+\begin{proof}
+空空间已经完备, 取自身即可. 以下设 $X\ne\varnothing$, 并固定一个基点 $o\in X$. 对每个 $x\in X$ 定义
+\[
+g_x(p)=d(p,x)-d(p,o)\qquad(p\in X).
+\]
+为什么减去第二项? 若空间无界, $p\mapsto d(p,x)$ 可能无界, 不能放进 $C_b(X)$. 两个距离的差却由反三角不等式满足
+\[
+|g_x(p)|=|d(p,x)-d(p,o)|\leq d(x,o).
+\]
+因此对固定 $x$, 函数 $g_x$ 有界. 又由三角不等式,
+\begin{align*}
+|g_x(p)-g_x(q)|
+&\leq |d(p,x)-d(q,x)|+|d(p,o)-d(q,o)|\\
+&\leq 2d(p,q),
+\end{align*}
+所以 $g_x$ 连续. 于是 $g_x\in C_b(X)$.
+
+定义 $i(x)=g_x$. 对任意 $x,y\in X$,
+\[
+|g_x(p)-g_y(p)|=|d(p,x)-d(p,y)|\leq d(x,y),
+\]
+取上确界得到 $\|g_x-g_y\|_\infty\leq d(x,y)$. 为了得到反向不等式, 只需找一个取等的测试点. 取 $p=x$, 就有
+\[
+|g_x(x)-g_y(x)|=|d(x,x)-d(x,y)|=d(x,y).
+\]
+故 $\|g_x-g_y\|_\infty=d(x,y)$, $i$ 是等距嵌入. 这里映射只需是到它的像 $i(X)$ 的双射, 无须满射到整个 $C_b(X)$.
+
+现在令 $\widehat X=\overline{i(X)}$, 闭包在 $C_b(X)$ 中取得, 并赋予上确界距离的限制. 定理~\ref{thm:cb-complete} 给出 $C_b(X)$ 完备, 定理~\ref{thm:closed-complete} 给出闭子空间 $\widehat X$ 完备. 由闭包的定义, $i(X)$ 在 $\widehat X$ 中稠密. 这正好满足完备化的全部要求.
+\end{proof}
+
+这个构造的用途超出证明存在性: 原空间里的几何距离成为两个函数之间的上确界距离. 基点 $o$ 只用于让函数有界, 不改变最后恢复出来的距离. 不同基点可能给出不同的函数模型, 下节说明这些模型仍表示同一个完备化.
+
+\originalsection{完备化的唯一性}
+
+\begin{theorem}\label{thm:completion-unique}
+若 $(\widehat X_1,i_1)$ 和 $(\widehat X_2,i_2)$ 都是 $X$ 的完备化, 则存在唯一的满射等距映射
+$U:\widehat X_1\to\widehat X_2$, 满足 $U\circ i_1=i_2$.
+\end{theorem}
+\begin{proof}
+对 $z\in\widehat X_1$, 由 $i_1(X)$ 稠密, 选 $x_n\in X$ 使
+$i_1(x_n)\to z$. 序列 $(i_1(x_n))$ 是 Cauchy 序列, 等距性给出
+\[
+\widehat d_2(i_2(x_n),i_2(x_m))
+=d(x_n,x_m)
+=\widehat d_1(i_1(x_n),i_1(x_m)).
+\]
+所以 $(i_2(x_n))$ 也是 Cauchy 序列. 由 $\widehat X_2$ 完备, 可以定义
+$U(z)=\lim_ni_2(x_n)$.
+
+先核对定义与近似序列无关. 若 $i_1(y_n)\to z$, 则
+\[
+d(x_n,y_n)\leq\widehat d_1(i_1(x_n),z)
+                 +\widehat d_1(z,i_1(y_n))\longrightarrow0.
+\]
+等距性让 $\widehat d_2(i_2(x_n),i_2(y_n))\to0$, 因而两个极限相同. 取常值近似序列可得 $U(i_1(x))=i_2(x)$.
+
+对 $z,w\in\widehat X_1$, 分别选近似序列 $i_1(x_n)\to z$, $i_1(y_n)\to w$. 距离对两个变量连续, 所以
+\begin{align*}
+\widehat d_2(U(z),U(w))
+&=\lim_n\widehat d_2(i_2(x_n),i_2(y_n))\\
+&=\lim_n d(x_n,y_n)=\widehat d_1(z,w).
+\end{align*}
+因此 $U$ 等距, 特别地单射.
+
+为证明满射, 任取 $v\in\widehat X_2$, 选 $x_n\in X$ 使 $i_2(x_n)\to v$. 等距性表明 $(i_1(x_n))$ 是 Cauchy 序列. 由 $\widehat X_1$ 完备, 它收敛于某个 $z$, 而定义给出 $U(z)=v$.
+
+最后, 若 $V$ 是另一满足 $V\circ i_1=i_2$ 的等距映射, 则它连续. 对任意 $i_1(x_n)\to z$,
+\[
+V(z)=\lim_nV(i_1(x_n))=\lim_ni_2(x_n)=U(z).
+\]
+所以 $V=U$, 唯一性得证.
+\end{proof}
+
+\begin{remark}
+``唯一'' 指的是固定原空间嵌入后, 延伸该嵌入的等距同构唯一. 它不表示两个构造所得的点集在字面上相等, 也不表示完备空间不能有其他等距对称. 例如 $\mathbb R$ 有等距映射 $x\mapsto-x$, 但它不在原嵌入的每一点上保持恒等.
+\end{remark}
+
+\originalsection{Cauchy序列模型}
+
+\emph{本节为编者补充, 将原课提出但未展开的 Cauchy 序列思路写成完整构造. 它与上一节的函数模型互补: 新点就是原空间中近似过程的等价类.}
+
+设 $\mathcal C(X)$ 是 $X$ 中所有 Cauchy 序列组成的集合. 对 $u=(u_n)$ 和 $v=(v_n)$, 定义
+\[
+u\sim v\quad\Longleftrightarrow\quad d(u_n,v_n)\longrightarrow0.
+\]
+自反性和对称性直接来自距离; 若 $u\sim v$ 且 $v\sim w$, 则
+$d(u_n,w_n)\leq d(u_n,v_n)+d(v_n,w_n)\to0$, 所以关系传递. 因此可以取商集 $\mathcal C(X)/\!\sim$.
+
+\begin{proposition}\label{prop:cauchy-completion-distance}
+在等价类上定义
+\[
+\rho([u],[v])=\lim_{n\to\infty}d(u_n,v_n).
+\]
+该极限存在, 与代表序列无关, 且 $\rho$ 是商集上的距离.
+\end{proposition}
+\begin{proof}
+由三角不等式,
+\[
+|d(u_n,v_n)-d(u_m,v_m)|\leq d(u_n,u_m)+d(v_n,v_m).
+\]
+右端由两个 Cauchy 条件趋于 $0$, 所以 $(d(u_n,v_n))$ 是实数 Cauchy 序列, 极限存在且有限. 若 $u\sim u'$、$v\sim v'$, 同样的估计给出
+\[
+|d(u_n,v_n)-d(u'_n,v'_n)|
+\leq d(u_n,u'_n)+d(v_n,v'_n)\longrightarrow0,
+\]
+故极限与代表元无关.
+
+非负性和对称性对每一项成立, 取极限后仍成立. $\rho([u],[v])=0$ 恰好等价于 $u\sim v$, 也就是 $[u]=[v]$. 最后从
+$d(u_n,w_n)\leq d(u_n,v_n)+d(v_n,w_n)$ 取极限, 得到三角不等式.
+\end{proof}
+
+把 $x\in X$ 对应到常值序列的类, 记为 $j(x)=[(x,x,\ldots)]$. 则
+$\rho(j(x),j(y))=d(x,y)$, 所以 $j$ 等距.
+
+\begin{theorem}\label{thm:cauchy-completion}
+赋予上述距离的 $\mathcal C(X)/\!\sim$, 连同嵌入 $j$, 是 $X$ 的完备化.
+\end{theorem}
+\begin{proof}
+先证明 $j(X)$ 稠密. 任取 $A=[(u_n)]$ 和 $\varepsilon>0$, 由 $(u_n)$ 的 Cauchy 性取 $N$, 使 $m,n\geq N$ 时 $d(u_n,u_m)<\varepsilon/2$. 当 $n\geq N$ 时,
+\[
+\rho(j(u_n),A)=\lim_{m\to\infty}d(u_n,u_m)
+\leq\varepsilon/2<\varepsilon.
+\]
+因此 $j(u_n)\to A$.
+
+再证明商空间完备. 设 $(A_k)$ 是商空间中的 Cauchy 序列. 利用刚证明的稠密性, 对每个 $k\geq1$ 选 $x_k\in X$ 使
+$\rho(A_k,j(x_k))<2^{-k}$. 对 $k,l$,
+\[
+d(x_k,x_l)=\rho(j(x_k),j(x_l))
+\leq 2^{-k}+\rho(A_k,A_l)+2^{-l}.
+\]
+当 $k,l$ 足够大时右端任意小, 所以 $(x_k)$ 是 $X$ 中的 Cauchy 序列. 令 $A=[(x_k)]$. 第一段稠密性证明对这个序列给出 $j(x_k)\to A$. 因此
+\[
+\rho(A_k,A)\leq\rho(A_k,j(x_k))+\rho(j(x_k),A)
+\longrightarrow0.
+\]
+于是每个 Cauchy 序列 $(A_k)$ 都在商空间中收敛, 完备性得证.
+\end{proof}
+
+两个构造之间的对应也可以直接写出: 把 $[(x_n)]$ 送到 $C_b(X)$ 中的一致极限 $\lim_ng_{x_n}$. 等距性保证 $(g_{x_n})$ 一致 Cauchy, 等价序列给出同一个极限. 唯一性定理说明这正是两个完备化之间延伸原嵌入的唯一等距同构. 对 $\mathbb Q$ 的通常距离而言, 这个构造恢复 $\mathbb R$; 换一个距离, 得到的完备化也可能改变.
+
+\originalsection{练习与解答}
+
+\emph{以下题目均为编者练习, 用于检查完备性条件、函数空间距离与完备化构造, 不冒充 MIT 原题.}
+
+\begin{exercise}\label{ex:complete-topology-metric}
+在 $\mathbb R$ 上定义 $d_*(x,y)=|\arctan x-\arctan y|$. 证明 $d_*$ 是距离, 它与通常距离诱导同一拓扑, 但 $(\mathbb R,d_*)$ 不完备. 描述它的一个完备化.
+\end{exercise}
+\begin{solution}
+$\arctan$ 单射, 所以 $d_*(x,y)=0$ 当且仅当 $x=y$. 非负性、对称性和三角不等式由实数绝对值立即得到. 映射
+$\arctan:\mathbb R\to(-\pi/2,\pi/2)$ 在通常拓扑下连续, 逆映射 $\tan$ 也连续, 因而是同胚. $d_*$ 又恰好是这个映射拉回的通常距离, 所以两种距离给出同一拓扑.
+
+取 $x_n=n$. 则 $\arctan n\to\pi/2$, 所以 $(n)$ 对 $d_*$ 是 Cauchy 序列. 如果它对 $d_*$ 收敛于 $x\in\mathbb R$, 就有 $\arctan n\to\arctan x$, 迫使 $\arctan x=\pi/2$, 不可能. 因此该度量不完备. 闭区间 $[-\pi/2,\pi/2]$ 连同嵌入 $i(x)=\arctan x$ 是其完备化: 区间完备, 映射等距, 像为稠密的开区间. 这个例子说明完备性属于距离结构, 同一拓扑不能单独决定它.
+\end{solution}
+
+\begin{exercise}\label{ex:c1-complete}
+在 $C^1([a,b])$ 上取距离
+\[
+d_{C^1}(f,g)=\|f-g\|_\infty+\|f'-g'\|_\infty.
+\]
+证明它是完备距离. 若只使用 $\|f-g\|_\infty$, $C^1([-1,1])$ 是否完备?
+\end{exercise}
+\begin{solution}
+距离公理由两项上确界估计得到; 第一项已保证正定性. 若 $(f_n)$ 对 $d_{C^1}$ 是 Cauchy 序列, 则 $(f_n)$ 和 $(f_n')$ 分别在 $C([a,b])$ 的上确界距离下是 Cauchy 序列. 由推论~\ref{cor:c-interval-complete}, 存在连续函数 $f,h$ 使 $f_n\to f$, $f_n'\to h$, 两者均为一致收敛.
+
+对每个 $x\in[a,b]$, 微积分基本定理给出
+\[
+f_n(x)=f_n(a)+\int_a^x f_n'(t)\,\mathrm dt.
+\]
+而
+\[
+\left|\int_a^x(f_n'(t)-h(t))\,\mathrm dt\right|
+\leq(b-a)\|f_n'-h\|_\infty\longrightarrow0.
+\]
+令 $n\to\infty$ 得 $f(x)=f(a)+\int_a^xh(t)\,\mathrm dt$. 因 $h$ 连续, 再用微积分基本定理得 $f\in C^1([a,b])$ 且 $f'=h$. 因而
+$d_{C^1}(f_n,f)=\|f_n-f\|_\infty+\|f_n'-h\|_\infty\to0$.
+
+若只控制函数值, 取 $f_n(x)=\sqrt{x^2+1/n}$, 它们属于 $C^1([-1,1])$, 且
+\[
+0\leq f_n(x)-|x|
+=\frac{1/n}{\sqrt{x^2+1/n}+|x|}\leq\frac1{\sqrt n}.
+\]
+故 $f_n$ 一致收敛于 $|x|$, 从而是上确界 Cauchy 序列. $|x|$ 在 $0$ 不可微, 不属于 $C^1([-1,1])$. 任何可能的上确界极限必为它, 所以这一距离下不完备.
+\end{solution}
+
+\begin{exercise}\label{ex:l1-incomplete-continuous}
+在 $C([0,1])$ 上取 $d_1(f,g)=\int_0^1|f(x)-g(x)|\,\mathrm dx$. 证明这一空间不完备.
+\end{exercise}
+\begin{solution}
+对 $n\geq3$, 令 $f_n$ 在 $[0,1/2-1/n]$ 上为 $0$, 在 $[1/2+1/n,1]$ 上为 $1$, 中间用直线连接. 设 $s(x)=0$ 当 $x<1/2$, $s(x)=1$ 当 $x\geq1/2$. 两者只在长度 $2/n$ 的区间上可能不同, 且差的绝对值不超过 $1$, 所以
+$\int_0^1|f_n-s|\leq2/n$. 于是
+$d_1(f_n,f_m)\leq2/n+2/m$, $(f_n)$ 是 Cauchy 序列.
+
+若它在该空间中收敛于连续函数 $f$, 则积分三角不等式给出
+\[
+\int_0^1|f-s|\leq d_1(f,f_n)+\int_0^1|f_n-s|\longrightarrow0.
+\]
+因此左端为 $0$. 在区间 $(0,1/2)$ 上, 连续非负函数 $|f|$ 的积分为 $0$, 故每一点都为 $0$: 若某点为正, 连续性会使一段正长度区间上的值有正下界, 积分便为正. 同理在 $(1/2,1)$ 上 $f=1$. 这与 $f$ 在 $1/2$ 连续矛盾. 因而不存在连续极限, 该距离下不完备.
+\end{solution}
+
+\begin{exercise}\label{ex:completion-cauchy-limits}
+设 $(\widehat X,i)$ 是 $X$ 的完备化. 证明 $\widehat X$ 中每个点都是 $X$ 中某个 Cauchy 序列在嵌入后的极限. 若 $X$ 已经完备, 证明 $i$ 满射.
+\end{exercise}
+\begin{solution}
+任取 $z\in\widehat X$. 稠密性允许取 $x_n\in X$ 使
+$\widehat d(i(x_n),z)<1/n$. 故 $i(x_n)\to z$, 从而是 Cauchy 序列. 等距性让 $(x_n)$ 在 $X$ 中也是 Cauchy 序列.
+
+若 $X$ 完备, 则 $x_n\to x\in X$. 等距性给出 $i(x_n)\to i(x)$, 极限唯一性迫使 $z=i(x)$. 每个 $z$ 都在像中, 所以 $i$ 满射. 已完备的空间没有需要补入的新极限.
+\end{solution}
