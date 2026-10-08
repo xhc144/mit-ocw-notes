@@ -104,8 +104,11 @@ def source_checks():
 
 def package():
     destination = SUBJECT/"dist/source.zip"
-    exclusions = {destination, SUBJECT/"qa/release-verification.json"}
+    exclusions = {destination, SUBJECT/"dist/main.pdf", SUBJECT/"qa/release-verification.json"}
     files = [p for p in SUBJECT.rglob("*") if p.is_file() and p not in exclusions and "__pycache__" not in p.parts and p.suffix not in {".pyc", ".aux", ".log", ".toc", ".out", ".fls", ".fdb_latexmk"}]
+    build = json.loads((SUBJECT/"qa/build-record.json").read_text())
+    required_figures = [SUBJECT/item["path"] for item in build["inputs"] if item["path"].startswith("figures/assessments/")]
+    assert len(required_figures) == 7 and all(p in files for p in required_figures)
     assert not any(p.name.endswith(".cls") for p in files), "Generated class must come from filecontents"
     with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for path in sorted(files):
@@ -125,6 +128,8 @@ def clean_build(reference):
             for name in archive.namelist():
                 assert not name.startswith("/") and ".." not in Path(name).parts
             archive.extractall(root)
+        assert not (root/"dist/main.pdf").exists(), "Finished PDF is delivered separately"
+        assert not (root/"main.pdf").exists(), "Clean compilation must generate its PDF"
         for record in reference["compiled_inputs"]:
             assert sha((root/record["path"]).read_bytes()) == record["sha256"]
         env = dict(os.environ, SOURCE_DATE_EPOCH="1791417600", FORCE_SOURCE_DATE="1")
@@ -137,10 +142,13 @@ def clean_build(reference):
         assert not warnings, warnings
         rebuilt = pdf_info(root/"main.pdf")
         official = pdf_info(SUBJECT/"dist/main.pdf")
+        rebuilt_text = [page.get_text() for page in fitz.open(root/"main.pdf")]
+        official_text = [page.get_text() for page in fitz.open(SUBJECT/"dist/main.pdf")]
+        assert rebuilt_text == official_text
         assert rebuilt["outline"] == official["outline"]
         assert rebuilt["links"] == official["links"]
         assert rebuilt["page_renders"] == official["page_renders"]
-        return {"status": "PASS", "passes": 3, "pages": rebuilt["pages"], "rebuilt_pdf_sha256": rebuilt["sha256"], "distributed_pdf_sha256": official["sha256"], "pdf_bytes_equal": rebuilt["sha256"] == official["sha256"], "all_page_pixels_equal": True, "navigation_equal": True, "all_compiled_input_hashes_equal": True, "log_warnings": warnings, "expected_class_generation_notice": class_notice}
+        return {"status": "PASS", "passes": 3, "pages": rebuilt["pages"], "rebuilt_pdf_sha256": rebuilt["sha256"], "distributed_pdf_sha256": official["sha256"], "pdf_bytes_equal": rebuilt["sha256"] == official["sha256"], "all_page_text_equal": True, "all_page_pixels_equal": True, "navigation_equal": True, "all_compiled_input_hashes_equal": True, "log_warnings": warnings, "expected_class_generation_notice": class_notice}
 
 
 def main():
@@ -153,7 +161,7 @@ def main():
     write_json(SUBJECT/"qa/source-verification.json", sources)
     write_json(SUBJECT/"qa/page-render-hashes.json", {"pdf_sha256": document["sha256"], "dpi_equivalent": 111.6, "pages": document["page_renders"], "actual_visual_review": [{"reviewer": "primary AI editor", "physical_pages": [1,61]}, {"reviewer": "independent AI PS1-PS4 reviewer", "physical_pages": [62,70]}, {"reviewer": "independent AI PS5-PS8 reviewer", "physical_pages": [70,79]}]})
     write_json(SUBJECT/"qa/navigation-verification.json", {key:document[key] for key in ["pages", "sha256", "outline", "links"]})
-    release = {"status": "PASS", "pages": document["pages"], "pdf_sha256": document["sha256"], "source_check": {"problems": sources["problems"], "terminal_units": sources["terminal_units"]}}
+    release = {"status": "PASS", "pages": document["pages"], "pdf_sha256": document["sha256"], "source_check": {"problems": sources["problems"], "terminal_units": sources["terminal_units"]}, "package_policy": {"finished_pdf_delivered_separately": "dist/main.pdf", "required_experiment_vector_pdfs": 7, "experiments_and_licenses_retained": True}}
     if args.package:
         release["zip_file_count"] = package()
     if args.clean_build:

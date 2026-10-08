@@ -38,7 +38,7 @@ Laurent Demanet 原讲义, MIT 18.330 Introduction to Numerical Analysis, Spring
 - figures/runge.tex: 可编辑的 Runge 数值演示图
 - figures/assessments/: 从脚本生成的矢量图
 - dist/main.pdf: 一册正式 PDF
-- dist/source.zip: PDF、完整可编辑源码及来源/检查说明
+- dist/source.zip: 完整可编辑源码、编译所需的七张实验矢量PDF、脚本/数据、许可证及来源/检查说明；成品PDF单独交付，不重复装入源码包
 - LICENSE.md 与 licenses/: 署名、CC BY-NC-SA 4.0 许可链接及条款快照
 - QA.md: 覆盖和检查边界
 - qa/: 独立复审、逐页视觉检查、目录链接、干净ZIP重编与文件哈希证据
