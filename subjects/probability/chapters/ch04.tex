@@ -1,0 +1,356 @@
+\originalchapter{泊松过程与更多离散分布}
+\sourcelecture{12--14}
+
+\originalsection{稀有事件与泊松极限}
+二项模型在固定次数内数成功. 若试验次数越来越多, 单次成功越来越罕见, 但总成功数的期望维持在有限水平, 会出现另一种稳定分布. 来电、粒子发射或某类罕见结果都可能启发这种模型, 但数学推导中的独立性和概率稳定性需要在具体应用中检查.
+\begin{definition}
+设 $\lambda\ge0$. 非负整数变量 $X$ 服从参数 $\lambda$ 的泊松分布, 记作 $X\sim\Pois(\lambda)$, 若
+\[
+\Prob(X=k)=\ee^{-\lambda}\frac{\lambda^k}{k!},\qquad k=0,1,2,\ldots.
+\]
+$\lambda=0$ 时定义 $X\equiv0$.
+\end{definition}
+指数函数的 Taylor 级数保证 $\sum_{k\ge0}\ee^{-\lambda}\lambda^k/k!=1$, 所以确实得到概率分布. $\lambda$ 在这里是给定观察窗口内的平均次数, 与下一节每单位时间的速率要区分.
+
+\begin{theorem}[二项分布的泊松极限]
+若 $p_n\in[0,1]$, $np_n\to\lambda\in[0,\infty)$, $X_n\sim\Bin(n,p_n)$, 则对每个固定非负整数 $k$,
+\[
+\Prob(X_n=k)\longrightarrow\ee^{-\lambda}\frac{\lambda^k}{k!}.
+\]
+\end{theorem}
+\begin{proof}
+先设 $\lambda>0$. 此时 $p_n\to0$, 且对充分大的 $n$,
+\[
+\binom nkp_n^k=\frac{(np_n)^k}{k!}\prod_{j=0}^{k-1}(1-j/n)\longrightarrow\frac{\lambda^k}{k!}.
+\]
+又 $\log(1-u)=-u+O(u^2)$ ($u\to0$), 而 $np_n^2=(np_n)p_n\to0$, 所以
+\[
+(n-k)\log(1-p_n)=-(n-k)p_n+O(np_n^2)\to-\lambda.
+\]
+指数化得到剩余因子趋于 $\ee^{-\lambda}$. 若 $\lambda=0$, $\Prob(X_n\ge1)\le\E X_n=np_n\to0$, 故在0处概率趋于1, 其他点趋于0.
+\end{proof}
+此处 $k$ 固定是条件的一部分. 不能把点态极限当作所有尾概率的统一误差界. 对任意固定整数阈值 $r$, 可将 $0,\ldots,r-1$ 的有限和取极限, 得到 $\Prob(X_n\ge r)$ 的极限. 由于极限质量总和为1, 也可先控制有限区间外的质量, 再比较其内每一点, 说明分布整体收敛. 但在有限 $n$ 的具体尾部估计中仍须判断近似误差.
+
+公式各部分具有计数意义. 恰好 $k$ 次稀有成功需要选择 $k$ 个位置, 约有 $n^k/k!$ 种; 每组位置的成功概率约为 $(\lambda/n)^k$, 没有其他成功的概率约为 $\ee^{-\lambda}$. 这里 $k!$ 是有序位置转成无序位置的重复计数因子. $\ee^{-\lambda}$ 则来自 $(1-\lambda/n)^n$ 的极限, 与连续复利中 $(1+\lambda/n)^n\to\ee^\lambda$ 是同一指数结构.
+
+\begin{proposition}
+若 $X\sim\Pois(\lambda)$, 则 $\E X=\Var(X)=\lambda$, 且对整数 $r\ge1$, $\E(X)_r=\lambda^r$.
+\end{proposition}
+\begin{proof}
+$\lambda=0$ 直接成立. 对 $\lambda>0$, 非负项允许平移求和:
+\[
+\E(X)_r=\sum_{k=r}^\infty\frac{k!}{(k-r)!}\ee^{-\lambda}\frac{\lambda^k}{k!}
+=\lambda^r\ee^{-\lambda}\sum_{j=0}^\infty\frac{\lambda^j}{j!}=\lambda^r.
+\]
+$r=1$ 得均值, $r=2$ 结合 $X^2=(X)_2+X$ 得 $\E X^2=\lambda^2+\lambda$, 因而方差为 $\lambda$.
+\end{proof}
+从二项均值与方差猜测这个结果很自然, 但分布收敛本身不能直接保证矩收敛, 所以上述求和证明不能省略.
+
+\begin{example}
+一项设备独立进行 $10000$ 次检查, 每次出现指定罕见提示的概率为 $0.0003$. 求恰有两次提示的精确概率与泊松近似. 若另一系统每小时提示次数按参数 $3/2$ 的泊松分布建模, 求一小时内至少一次提示的概率.
+\end{example}
+\begin{solution}
+第一问的精确值为 $\binom{10000}{2}(0.0003)^2(0.9997)^{9998}$. 平均数为3, 泊松近似为 $\ee^{-3}3^2/2!$. 第二问利用补事件为 $1-\ee^{-3/2}$. 两问都依赖所指定模型; 单有平均数并不能推出泊松分布.
+\end{solution}
+
+\originalsection{泊松过程的公理与计数分布}
+只记录一个窗口的次数会丢失事件的时刻. 将截至时间 $t$ 的次数记作 $N(t)$, 就得到一族定义在同一样本空间上的变量. 一条实验结果对应整条非减阶梯路径.
+\begin{definition}
+速率 $\lambda>0$ 的齐次泊松过程是非减、右连续、非负整数值过程 $N(t)$ ($t\ge0$), 有 $N(0)=0$, 有限时间内次数有限, 并满足:
+\begin{enumerate}
+\item 不相交半开区间 $(s,t]$ 中的增量 $N(t)-N(s)$ 相互独立.
+\item 增量分布只依赖区间长度, 称为平稳增量.
+\item 当 $h\downarrow0$ 时, $\Prob(N(h)=1)=\lambda h+o(h)$, $\Prob(N(h)\ge2)=o(h)$.
+\end{enumerate}
+当 $\lambda=0$ 时, 约定 $N(t)\equiv0$ 为零速率的退化泊松过程. 其中 $f(h)=o(h)$ 表示 $f(h)/h\to0$.
+\end{definition}
+路径条件使“跳跃次数”有明确含义. 第三个条件排除短时间内多次事件与单次事件同阶的成簇机制. 平稳增量只说明分布不随起点改变, 独立增量则说明不同窗口间没有概率依赖, 二者不能互相替代.
+
+\begin{theorem}
+上述公理推出
+\[
+N(t)-N(s)\sim\Pois(\lambda(t-s)),\qquad0\le s<t.
+\]
+\end{theorem}
+\begin{proof}
+只需证 $s=0$. 固定 $t>0$, 等分为 $n$ 个长度 $h=t/n$ 的窗口. 令 $B_j$ 表示第 $j$ 个窗口至少出现一次事件的指示变量, 则它们独立同分布, 成功概率
+\[
+p_n=\Prob(N(h)\ge1)=\lambda t/n+o(1/n).
+\]
+所以 $\sum_jB_j\sim\Bin(n,p_n)$, $np_n\to\lambda t$. 若每个窗口至多发生一次, 则 $N(t)=\sum_jB_j$. 两者不相等的概率不超过
+\[
+\sum_{j=1}^n\Prob(\text{第 }j\text{ 个窗口至少两次})=n\,o(t/n)\longrightarrow0.
+\]
+因此每个 $k$ 处的概率差也趋于0, 应用泊松极限即得 $\Prob(N(t)=k)=\ee^{-\lambda t}(\lambda t)^k/k!$. 平稳增量给出一般区间版本.
+\end{proof}
+特别地, 无事件概率为 $\ee^{-\lambda t}$. 也可以从 $\Prob(N(h)=0)=1-\lambda h+o(h)$ 直接用独立分块得
+\[
+\Prob(N(t)=0)=\bigl[1-\lambda t/n+o(1/n)\bigr]^n\to\ee^{-\lambda t}.
+\]
+左边与 $n$ 无关, 因而等于该极限. 取对数时余项仍趋于0, 因为 $n\,o(1/n)=o(1)$.
+
+\begin{example}
+速率为每小时2的泊松过程, 求前半小时恰一次且后一小时恰两次的概率, 并求在已知前半小时无事件的条件下, 随后半小时仍无事件的概率.
+\end{example}
+\begin{solution}
+两个窗口不相交, 均值分别为1、2, 联合概率为
+$(\ee^{-1}\cdot1)(\ee^{-2}2^2/2)=2\ee^{-3}$.
+条件化不改变未来窗口分布, 所以第二问为 $\ee^{-1}$. 若只知道总共三次, 则两个窗口次数不再独立, 因为其和被固定.
+\end{solution}
+
+\originalsection{指数间隔与过程构造}
+令 $S_r$ 为第 $r$ 次事件的时刻, $T_1=S_1$, $T_r=S_r-S_{r-1}$ ($r\ge2$). 无事件概率立即给出
+\[
+\Prob(T_1>t)=\Prob(N(t)=0)=\ee^{-\lambda t},\qquad t\ge0.
+\]
+这引出第一个连续变量, 即指数等待时间.
+\begin{definition}
+$T\sim\Exp(\lambda)$ ($\lambda>0$), 是指 $T\ge0$ 且 $\Prob(T>t)=\ee^{-\lambda t}$ ($t\ge0$). 其分布函数为 $1-\ee^{-\lambda t}$, 密度为 $\lambda\ee^{-\lambda t}$ ($t>0$).
+\end{definition}
+密度就是区间概率的积分表示, 由分布函数求导得到. 后续章节会系统说明密度与连续变量. 此处直接用微积分可算
+\[
+\E T=\int_0^\infty t\lambda\ee^{-\lambda t}\dd t=1/\lambda,
+\quad \E T^2=2/\lambda^2,\quad\Var(T)=1/\lambda^2.
+\]
+两次分部积分即可得到第二个积分, 边界项 $t^j\ee^{-\lambda t}$ ($j=1,2$) 在无穷处为0. 指数分布还有无记忆性:
+\[
+\Prob(T>s+t\mid T>s)=\frac{\ee^{-\lambda(s+t)}}{\ee^{-\lambda s}}=\ee^{-\lambda t}.
+\]
+已经等了多久, 不改变继续等待的分布. 这是模型性质, 不是所有实际等待都具有的规律.
+
+在一个随机事件时刻重新开始过程, 不能直接把“确定时间的独立增量”当作证明. 我们改用构造来同时说明所有间隔独立, 并验证过程公理.
+\begin{theorem}[指数间隔构造]
+取独立同分布的 $T_j\sim\Exp(\lambda)$, 令 $S_0=0$, $S_r=\sum_{j=1}^rT_j$, 以及
+\[
+N(t)=\max\{r\ge0:S_r\le t\}.
+\]
+则这是速率 $\lambda$ 的泊松过程. 反过来, 满足前述公理的过程具有这一构造的分布, 因而连续间隔 $T_j$ 独立且均为 $\Exp(\lambda)$.
+\end{theorem}
+\begin{proof}
+先证 $S_r\to\infty$ 几乎必然. 每个 $T_j\ge1/\lambda$ 的概率为 $\ee^{-1}$, 独立性保证从任意指标以后全都小于 $1/\lambda$ 的概率为 $\lim_m(1-\ee^{-1})^m=0$. 对起始指标作可数并, 可知几乎必然有无穷多个这样的间隔, 于是部分和发散. 因此 $N(t)$ 有限, 路径右连续且单次跳跃.
+
+关键是计算固定 $t$ 内恰有 $m$ 个到达点的联合概率密度. 由变量替换 $s_j=t_1+\cdots+t_j$ (Jacobian为1), 前 $m$ 个到达时刻的密度为
+$\lambda^m\ee^{-\lambda s_m}$, 在 $0<s_1<\cdots<s_m$ 上. 再要求 $T_{m+1}>t-s_m$, 其概率为 $\ee^{-\lambda(t-s_m)}$. 故在 $0<s_1<\cdots<s_m<t$ 中, 恰有这些 $m$ 次且没有更多次的密度为常数 $\lambda^m\ee^{-\lambda t}$.
+
+取划分 $0=a_0<a_1<\cdots<a_\ell=t$, 指定每段事件数为 $k_i$, 总数 $m=\sum_i k_i$. 第 $i$ 段内 $k_i$ 个有序时刻的区域体积为 $(a_i-a_{i-1})^{k_i}/k_i!$: 长方体中去掉相等坐标的零体积部分后, 被 $k_i!$ 种严格次序等分. 因此所求联合概率为
+\[
+\lambda^m\ee^{-\lambda t}\prod_{i=1}^\ell\frac{(a_i-a_{i-1})^{k_i}}{k_i!}
+=\prod_{i=1}^\ell\ee^{-\lambda(a_i-a_{i-1})}
+\frac{[\lambda(a_i-a_{i-1})]^{k_i}}{k_i!}.
+\]
+这既给出泊松边缘分布, 又证明独立、平稳增量. 对任意不相交窗口, 把空隙也加入划分再对空隙次数求和即可. 泊松公式在 $h\downarrow0$ 时给 $\Prob(N(h)=1)=\lambda h+O(h^2)$, $\Prob(N(h)\ge2)=O(h^2)$, 所以公理全成立.
+
+反过来, 由前一定理与独立增量, 公理已经确定所有有限个确定时刻的联合分布, 且与构造相同. 非减右连续路径在所有非负有理时刻的取值决定整条路径: 任意 $t$ 的取值是有理时刻从右趋近所得极限. $S_r=\inf\{t:N(t)\ge r\}$ 也由这些有理时刻的值决定. 因此到达时刻和间隔的联合分布与构造一致, 即间隔独立同分布为指数分布.
+\end{proof}
+这一证明没有把连续时刻的概率当作点概率. 到达某个精确时刻的概率为0; 计算的对象是时刻落在某个区域的积分.
+
+\begin{proposition}[第 $r$ 次事件的等待时间]
+对整数 $r\ge1$, $S_r$ 的分布满足
+\[
+\Prob(S_r>t)=\ee^{-\lambda t}\sum_{k=0}^{r-1}\frac{(\lambda t)^k}{k!},\qquad t\ge0,
+\]
+其密度与矩为
+\[
+f_{S_r}(t)=\frac{\lambda^rt^{r-1}\ee^{-\lambda t}}{(r-1)!}\ (t>0),
+\quad\E S_r=r/\lambda,\quad\Var(S_r)=r/\lambda^2.
+\]
+\end{proposition}
+\begin{proof}
+$S_r>t$ 等价于 $N(t)\le r-1$, 对泊松质量函数求有限和得尾概率. 对其求导取负, 相邻项消去, 留下所述密度. 均值与方差来自 $r$ 个独立指数间隔之和.
+\end{proof}
+这称为整数形状参数的 Gamma 或 Erlang 分布. 等待第一次与等待第 $r$ 次不同; 后者一般没有无记忆性.
+
+\originalsection{叠加、分裂与条件计数}
+\begin{proposition}[泊松变量的叠加]
+若 $X\sim\Pois(\alpha)$ 与 $Y\sim\Pois(\beta)$ 独立, 则 $X+Y\sim\Pois(\alpha+\beta)$. 若 $\alpha+\beta>0$, 则
+\[
+X\mid(X+Y=m)\sim\Bin\left(m,\frac{\alpha}{\alpha+\beta}\right).
+\]
+\end{proposition}
+\begin{proof}
+卷积给出
+\[
+\Prob(X+Y=m)=\ee^{-(\alpha+\beta)}\sum_{j=0}^m
+\frac{\alpha^j\beta^{m-j}}{j!(m-j)!}
+=\ee^{-(\alpha+\beta)}\frac{(\alpha+\beta)^m}{m!}.
+\]
+用联合概率除以该值, 即得条件二项概率. 参数为0时相应变量恒为0, 结论仍成立.
+\end{proof}
+两个独立泊松过程的和也是泊松过程, 速率相加. 每个窗口的次数按上述公式相加, 不同窗口依赖的原过程增量相互独立, 因而保留独立增量. 不允许省掉两个过程彼此独立的条件: 若把同一过程加给自己, 只会出现大小为2的跳跃.
+
+\begin{theorem}[独立标记与泊松分裂]
+在速率 $\lambda$ 的泊松过程每次事件上, 独立地以概率 $p\in[0,1]$ 标为甲, 否则标为乙; 标记独立于事件时刻. 则甲、乙形成彼此独立的泊松过程, 速率分别为 $\lambda p$ 与 $\lambda(1-p)$.
+\end{theorem}
+\begin{proof}
+对长度 $t$ 的窗口, 设甲、乙次数为 $A,B$. 给定总次数 $a+b$, 甲数服从二项分布, 因而
+\begin{align*}
+\Prob(A=a,B=b)
+&=\ee^{-\lambda t}\frac{(\lambda t)^{a+b}}{(a+b)!}
+\binom{a+b}{a}p^a(1-p)^b\\
+&=\left[\ee^{-\lambda pt}\frac{(\lambda pt)^a}{a!}\right]
+\left[\ee^{-\lambda(1-p)t}\frac{[\lambda(1-p)t]^b}{b!}\right].
+\end{align*}
+这给出两个独立泊松变量. 多个不相交窗口的原次数独立, 窗口所用标记也独立, 所以所有窗口的甲乙次数联合概率进一步分解. 由此得到两个过程彼此独立及各自独立平稳增量. $p=0,1$ 直接解释为一个空过程.
+\end{proof}
+固定总数之后甲乙次数相互牵制; 不固定总数时却独立, 这并不矛盾. 泊松总数的随机性恰好补偿了条件下的负相关.
+
+上述时刻区域的常密度还说明, 给定 $N(t)=m$, $m$ 个到达时刻的有序联合密度为 $m!/t^m$. 这正是 $m$ 个独立均匀 $[0,t]$ 点排序后的密度. 因而长度为 $s$ 的子窗口次数, 在给定总数 $m$ 时服从 $\Bin(m,s/t)$. 分成多段时则是多项计数, 而各段条件次数一般不独立.
+
+\begin{example}
+服务请求按每小时6的泊松过程到达, 每次独立以概率 $1/3$ 属于甲类. 求半小时内甲恰一次且乙恰两次的概率; 已知这一小时总共9次, 求前20分钟恰3次的概率.
+\end{example}
+\begin{solution}
+半小时甲、乙次数独立, 参数分别为1、2, 所求概率为 $2\ee^{-3}$. 第二问是在固定总数下计数, 为
+$\binom93(1/3)^3(2/3)^6$, 而不能使用参数2的无条件泊松概率.
+\end{solution}
+
+\originalsection{几何分布与无记忆性}
+\begin{definition}
+独立试验每次以概率 $p\in(0,1]$ 成功, 第一次成功所在轮次 $G$ 服从几何分布 $\Geom(p)$:
+\[
+\Prob(G=k)=q^{k-1}p,\qquad k=1,2,\ldots,\quad q=1-p.
+\]
+\end{definition}
+前 $k-1$ 次失败且第 $k$ 次成功的乘积就是该式. $p>0$ 保证 $q^n\to0$, 因而几乎必然成功, 总概率 $p\sum_{j\ge0}q^j=1$. $p=0$ 时永不成功, 不能定义同样的有限值分布. 另一个常见约定统计成功前失败数 $F=G-1$, 其支持是 $0,1,\ldots$; 使用时务必声明约定.
+
+尾概率为 $\Prob(G>k)=q^k$, 故对非负整数 $m,n$,
+\[
+\Prob(G>m+n\mid G>m)=q^n=\Prob(G>n).
+\]
+只要条件事件概率正, 几何分布有离散无记忆性. $p=1$ 时部分条件事件概率为0, 这些条件表达式不定义.
+\begin{proposition}
+$\E G=1/p$, $\E G^2=(2-p)/p^2$, $\Var(G)=q/p^2$.
+\end{proposition}
+\begin{proof}
+尾和公式给 $\E G=\sum_{k\ge0}q^k=1/p$. 当 $0<p<1$, 级数 $\sum_{k\ge1}k^2q^{k-1}p$ 的相邻项比趋于 $q<1$, 故二阶矩有限. 首轮成功时 $G-1=0$; 首轮失败时, 后续等待与原 $G$ 同分布, 所以
+\[
+\E(G-1)^2=q\E G^2.
+\]
+展开左边得 $\E G^2-2/p+1=q\E G^2$, 从而 $\E G^2=(2-p)/p^2$. 减去 $1/p^2$ 得方差. $p=1$ 时 $G\equiv1$, 公式直接成立.
+\end{proof}
+先检查矩有限再在等式中移项很重要, 否则可能只是对无穷量做了非法相减. 同样首轮分解给 $\E(G-1)=q\E G$, 也可推出均值, 但仍需先确认可积.
+
+几何与指数等待可通过时间网格连接. 令网格长度 $h\downarrow0$, 每格成功概率 $p_h=\lambda h+o(h)$, 独立. 对 $t\ge0$,
+\[
+\Prob(hG_h>t)=(1-p_h)^{\lfloor t/h\rfloor}\to\ee^{-\lambda t}.
+\]
+因而格点等待时间趋于指数等待时间. 这不是说 $G_h$ 本身趋于有限变量; 未缩放的轮数平均约为 $1/(\lambda h)$, 会越来越大.
+
+\originalsection{负二项分布与第多次成功}
+\begin{definition}
+在同样的独立试验中, 第 $r$ 次成功所在轮次 $K$, $r\ge1$ 为整数, 称为本章约定的负二项变量, 参数为 $(r,p)$:
+\[
+\Prob(K=k)=\binom{k-1}{r-1}p^rq^{k-r},\qquad k\ge r.
+\]
+\end{definition}
+第 $k$ 次必须成功, 前 $k-1$ 次恰有 $r-1$ 次成功, 故得到公式. 它与“前 $k$ 次恰有 $r$ 次成功”的二项事件不同: 后者不要求最后一轮成功. 有些文献把失败数 $K-r$ 称为负二项变量; 它的均值相应是 $rq/p$, 不能与轮数均值混淆.
+
+\begin{proposition}
+$K$ 可写为 $r$ 个独立 $\Geom(p)$ 变量之和, 故 $\E K=r/p$, $\Var(K)=rq/p^2$. 上述质量函数总和为1.
+\end{proposition}
+\begin{proof}
+设 $G_j$ 为第 $j-1$ 次成功之后到第 $j$ 次成功所需轮数. 对任意正整数 $g_1,\ldots,g_r$, 指定这些间隔等于指定一个有限序列: $g_1-1$ 次失败后成功, 接着 $g_2-1$ 次失败后成功, 依此继续. 独立试验给该事件概率
+\[
+\prod_{j=1}^r q^{g_j-1}p.
+\]
+这直接证明间隔的联合质量函数分解, 无需预先调用随机时刻的独立性定理. 每个间隔有限几乎必然, 因而 $K=\sum_jG_j$ 有限几乎必然, 也保证质量函数总和为1. 线性性与独立方差相加得矩公式.
+\end{proof}
+还可从等待时间和次数的等价事件得到
+\[
+\Prob(K\le n)=\Prob(\Bin(n,p)\ge r),\qquad n\ge r.
+\]
+在泊松网格极限中, $hK_h$ 趋于第 $r$ 次泊松事件的等待时间: 上式右边由二项泊松极限趋于 $\Prob(\Pois(\lambda t)\ge r)$, 恰好是 $S_r$ 的分布函数.
+
+\begin{example}
+监测器每分钟独立以概率 $1/50$ 发出一次提示. 从开始计时起观察300分钟, 求平均提示数、前120分钟无提示概率、第5次提示恰在第200分钟的概率和等待第5次提示的平均分钟数.
+\end{example}
+\begin{solution}
+总提示数为 $\Bin(300,1/50)$, 均值为6. 无提示概率为 $(49/50)^{120}$. 第5次恰在200分钟需前199分钟恰4次且第200分钟提示, 因而概率为
+\[
+\binom{199}{4}(1/50)^5(49/50)^{195}.
+\]
+等待平均为 $5/(1/50)=250$ 分钟. 总数恰5次的泊松近似为 $\ee^{-6}6^5/5!$; 整个300分钟无提示的指数模型近似为 $\ee^{-6}$. 所有“第几分钟”均按完整分钟轮次计数, 精确连续时刻的点概率则为0.
+\end{solution}
+
+\originalsection{不放回抽样与超几何分布}
+二项分布把各次结果视为独立. 不放回抽样的组成会随抽取变化, 但可以直接用组合计数处理.
+\begin{definition}
+总体有 $M\ge1$ 个对象, 其中 $a$ 个为指定类别, $0\le a\le M$. 等概率抽取一个大小为 $n$ 的子集, $0\le n\le M$. 指定类别个数 $H$ 服从超几何分布:
+\[
+\Prob(H=k)=\frac{\binom ak\binom{M-a}{n-k}}{\binom Mn},
+\quad \max(0,n-M+a)\le k\le\min(a,n).
+\]
+\end{definition}
+分子同时选择 $k$ 个指定对象与 $n-k$ 个其他对象, 分母是所有子集数. 各 $k$ 分类互斥并穷尽全部抽样子集, 因而质量总和为1. 这也是组合恒等式
+$\sum_k\binom ak\binom{M-a}{n-k}=\binom Mn$ 的概率解释.
+
+\begin{proposition}
+令 $p=a/M$. 则 $\E H=np$. 当 $M\ge2$ 时,
+\[
+\Var(H)=np(1-p)\frac{M-n}{M-1}.
+\]
+$M=1$ 时合法抽样均为确定结果, 方差为0.
+\end{proposition}
+\begin{proof}
+把子集抽样实现为随机排列的前 $n$ 个对象, 令 $I_j$ 为第 $j$ 个对象属于指定类别的指示变量. 由对称性 $\E I_j=p$, 所以均值为 $np$. 对 $i\ne j$,
+\[
+\E I_iI_j=\frac{a(a-1)}{M(M-1)},\qquad
+\Cov(I_i,I_j)=\frac{a(a-1)}{M(M-1)}-\frac{a^2}{M^2}
+=-\frac{p(1-p)}{M-1}.
+\]
+将 $n$ 个方差与 $n(n-1)$ 个有序协方差相加:
+\[
+\Var(H)=np(1-p)-\frac{n(n-1)p(1-p)}{M-1}
+=np(1-p)\frac{M-n}{M-1}.
+\]
+\end{proof}
+均值与同参数二项分布相同, 方差却有有限总体修正因子. 当 $n=M$ 时全部抽完, 类别数确定, 方差为0. 当总体很大、抽样比例很小且 $a/M\to p$, 对固定 $n$ 各有限结果序列的概率趋于独立 Bernoulli 序列概率, 因而超几何分布趋于 $\Bin(n,p)$. 这里固定 $n$ 或另行控制抽样比例是近似成立的条件.
+
+\begin{example}
+20个零件中6个带指定标签, 不放回抽取4个. 求恰有2个带标签的概率、期望和方差.
+\end{example}
+\begin{solution}
+概率为 $\binom62\binom{14}2/\binom{20}4$. $p=3/10$, 期望为 $6/5$, 方差为
+$4(3/10)(7/10)(16/19)=336/475$. 若把各次错误地视为独立, 会得到方差 $21/25$, 漏掉抽样产生的负相关.
+\end{solution}
+
+\originalsection{模型核查与练习}
+泊松模型的平均数与方差相等, 但反过来仅有这两个矩相等也不能确定分布. 若事件受共同环境影响, 可能成簇或随时间变速. 少量数据中月度直方图接近泊松, 不足以保证极罕见尾部或跨月独立性. 例如以各 $1/2$ 的概率选择整月速率0或2, 再条件于该速率生成泊松次数, 总均值仍为1, 但总方差为 $\E\Lambda+\Var(\Lambda)=2$. 直接计算亦可见 $\E X^2=\E(\Lambda^2+\Lambda)=3$, 方差为2. 混合环境改变了尾部, 同一潜在环境还可造成不同窗口间相关. 因此“许多稀有事件”是建模线索, 独立性才是上述推导可用的数学条件.
+
+\begin{exercise}
+$X\sim\Pois(2)$, $Y\sim\Pois(1)$ 独立. 写出 $\Prob(X>Y)$ 的收敛级数及 $\Prob(X=Y)$ 的级数, 并说明如何控制截断误差.
+\end{exercise}
+\begin{solution}
+按 $X$ 的值分解得
+\[
+\Prob(X>Y)=\ee^{-3}\sum_{k=1}^\infty\frac{2^k}{k!}\sum_{j=0}^{k-1}\frac1{j!},
+\quad
+\Prob(X=Y)=\ee^{-3}\sum_{k=0}^\infty\frac{2^k}{(k!)^2}.
+\]
+这些是非负互斥事件概率的和, 故收敛且不超过1. 第一式截在 $k=M$ 时遗漏不超过 $\Prob(X>M)$. 若 $M+2>2$, 泊松尾中后续项比至多 $2/(M+2)$, 因而
+\[
+\Prob(X>M)\le\ee^{-2}\frac{2^{M+1}}{(M+1)!}\frac1{1-2/(M+2)}.
+\]
+第二式截断误差同样可由 $\Prob(X>M)$ 控制. 例如 $M=15$ 时该界小于 $5\times10^{-10}$, 所以可安全给出小数近似 $\Prob(X>Y)\approx0.605703$. 若将 $Y$ 参数改为 $1/2$, 同一推导给 $\ee^{-5/2}\sum_{k\ge1}(2^k/k!)\sum_{j=0}^{k-1}((1/2)^j/j!)$, 约为 $0.730988$.
+\end{solution}
+
+\begin{exercise}
+独立公平轮次使整数状态每次增加或减少1, 初始状态为7, 到0或18时停止. 求到18的概率和平均停止轮数.
+\end{exercise}
+\begin{solution}
+用上一章已证明的有限边界递推, 胜率为 $7/18$, 期望轮数为 $7(18-7)=77$. 若原量每步变化为 $d>0$, 先将全部边界与初始值按 $d$ 缩放, 只有它们位于同一可达格点时才可使用该状态模型.
+\end{solution}
+
+\begin{exercise}
+$N(t)$ 是速率3的泊松过程. 求第3次事件在时间1之后的概率, 求已等了1单位且仍无事件后再等超过2单位的概率. 两个问题有何区别?
+\end{exercise}
+\begin{solution}
+第一个事件等价于 $N(1)\le2$, 概率为 $\ee^{-3}(1+3+9/2)$. 第二问为 $\Prob(T_1>3\mid T_1>1)=\ee^{-6}$, 使用第一次等待的无记忆性. 第3次到达时间是三个指数间隔的和, 不能套用第一次等待的尾概率公式.
+\end{solution}
+
+\begin{exercise}
+将一个速率4的泊松过程独立分成甲、乙两类, 甲概率为 $1/4$. 已知前2单位时间共8次, 求其中甲类恰3次的概率. 不给定总数时, 求同一窗口甲3次乙5次的概率.
+\end{exercise}
+\begin{solution}
+条件概率为 $\binom83(1/4)^3(3/4)^5$. 无条件下两类独立, 均值分别为2、6, 联合概率为 $\ee^{-8}2^3 6^5/(3!5!)$. 前者为后者除以 $\Prob(N(2)=8)=\ee^{-8}8^8/8!$, 因而两种计算一致.
+\end{solution}

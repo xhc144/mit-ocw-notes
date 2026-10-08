@@ -1,0 +1,211 @@
+\originalchapter{大数定律、中心极限定理与凸性}
+\sourcelecture{27,30--31}
+
+\originalsection{平均值的偏差与收敛的含义}
+设 $X_1,X_2,\ldots$ 独立同分布, 写 $S_n=\sum_{k=1}^nX_k$, $A_n=S_n/n$. 期望描述分布的重心, 而实际观察到的是随机的 $A_n$. 本章先控制平均值偏离重心的概率, 再描述偏差的形状, 最后区分一次大样本实验与一条无限样本路径.
+
+\begin{theorem}[Markov与Chebyshev不等式]
+若 $Y\geq0$, $a>0$, 则 $\Prob(Y\geq a)\leq\E Y/a$. 若 $X$ 有有限均值 $\mu$ 和方差 $\sigma^2$, 则对 $r>0$,
+\[\Prob(|X-\mu|\geq r)\leq\frac{\sigma^2}{r^2}.\]
+\end{theorem}
+\begin{proof}
+逐个样本点有 $Y\geq a\ind_{\{Y\geq a\}}$, 取期望并除以 $a$ 即得第一式. 对非负变量 $(X-\mu)^2$ 应用第一式, 门槛取 $r^2$, 就得到第二式. 第一式在期望无限时仍成立, 但不提供有用上界.
+\end{proof}
+这些估计只用很少的信息, 因而通常比精确分布粗. 不过, 一旦方差随样本量趋于零, 粗估计已足以证明收敛.
+
+\begin{definition}[三种收敛]
+在同一概率空间上, $Y_n$ \emph{依概率收敛}于 $Y$, 记为 $Y_n\xrightarrow{\Prob}Y$, 是指对每个 $\eps>0$, $\Prob(|Y_n-Y|>\eps)\to0$. \emph{几乎处处收敛} $Y_n\to Y$ 是指 $\Prob(\{\omega:Y_n(\omega)\to Y(\omega)\})=1$. \emph{依分布收敛} $Y_n\Rightarrow Y$ 是指在 $F_Y$ 的每个连续点 $x$, $F_{Y_n}(x)\to F_Y(x)$. 最后一种收敛只比较分布, 不要求变量定义在同一概率空间.
+\end{definition}
+\begin{proposition}
+几乎处处收敛蕴含依概率收敛, 依概率收敛蕴含依分布收敛. 若极限是常数 $c$, 则依分布收敛于 $c$ 等价于依概率收敛于 $c$.
+\end{proposition}
+\begin{proof}
+若几乎处处收敛, 固定 $\eps>0$, 令 $B_N=\bigcup_{n\geq N}\{|Y_n-Y|>\eps\}$. 这些事件递减, 其交集是偏差超过 $\eps$ 无限次的事件, 概率为零. 概率的从上连续性给出 $\Prob(B_N)\to0$, 从而每个 $n\geq N$ 的偏差概率都不超过它.
+
+若依概率收敛, 对 $\delta>0$ 有
+\[F_Y(x-\delta)-\Prob(|Y_n-Y|>\delta)\leq F_{Y_n}(x)\leq F_Y(x+\delta)+\Prob(|Y_n-Y|>\delta).\]
+先让 $n\to\infty$, 再让 $\delta\downarrow0$, 在连续点得到结论. 最后, 若 $Y_n\Rightarrow c$, 则 $c-\eps$ 和 $c+\eps$ 都是常数分布的连续点,
+\[\Prob(|Y_n-c|>\eps)\leq F_{Y_n}(c-\eps)+1-F_{Y_n}(c+\eps)\to0.\]
+另一方向已证明.
+\end{proof}
+\begin{example}
+在 $[0,1)$ 上取均匀概率. 对每个 $k\geq0$, 按次序列出 $2^k$ 个变量
+$\ind_{[j/2^k,(j+1)/2^k)}$, $0\leq j<2^k$, 将各层串成序列. 每个变量等于1的概率为 $2^{-k}\to0$, 所以序列依概率趋于0. 但每个样本点在每层恰有一次取值1, 也在所有足够大层中取到0, 所以没有任何样本点上的收敛. 这说明小概率偏差仍可能不断出现.
+
+再令 $Y$ 以相等概率取 $\pm1$, $Y_n=(-1)^nY$. 所有 $Y_n$ 与 $Y$ 同分布, 因而依分布收敛于 $Y$; 奇数 $n$ 时 $\Prob(|Y_n-Y|>1)=1$, 所以不依概率收敛于 $Y$.
+\end{example}
+
+\originalsection{弱大数定律及有限均值的边界}
+\begin{theorem}[有限方差弱大数定律]
+若 $X_k$ 独立同分布, $\E X_k=\mu$, $\Var(X_k)=\sigma^2<\infty$, 则
+\[\Prob(|A_n-\mu|\geq\eps)\leq\frac{\sigma^2}{n\eps^2},\qquad A_n\xrightarrow{\Prob}\mu.\]
+\end{theorem}
+\begin{proof}
+期望的线性性给出 $\E A_n=\mu$. 独立性使不同项的协方差为零, 故 $\Var(A_n)=n\sigma^2/n^2=\sigma^2/n$. 再应用Chebyshev不等式. 对任意固定的正 $\eps$, 上界趋于零.
+\end{proof}
+\begin{example}
+独立检测中每次发现缺陷的概率为 $p$. 设 $X_k$ 是第 $k$ 次是否发现缺陷的指示变量. 由 $p(1-p)\leq1/4$, 要保证缺陷比例与 $p$ 的距离小于 $0.02$ 的概率至少 $0.95$, 充分条件是
+\[\frac1{4n(0.02)^2}\leq0.05,\quad n\geq12500.\]
+这是对所有 $p$ 都有效的保守保证, 不是精确所需的最小样本量.
+\end{example}
+有限方差并非弱大数定律的必要条件. 方差证明失效时, 可以先删去极端尾部, 再把删去部分的平均影响控制住.
+\begin{theorem}[有限均值弱大数定律]
+若 $X_k$ 独立同分布且 $\E|X_1|<\infty$, 则 $A_n\xrightarrow{\Prob}\E X_1$.
+\end{theorem}
+\begin{proof}
+对固定 $K>0$, 令 $U_k=X_k\ind_{\{|X_k|\leq K\}}$, $V_k=X_k-U_k$, $m_K=\E U_1$. 有界的 $U_k$ 满足有限方差弱大数定律. 记 $r_K=\E(|X_1|\ind_{\{|X_1|>K\}})$, 可积性意味着 $r_K\to0$; 例如按 $j\leq|X_1|<j+1$ 分层, 可积的非负级数尾和趋于零. 又有 $|m_K-\mu|\leq r_K$.
+
+给定 $\eps>0$, 取 $K$ 使 $r_K<\eps/3$. 三角不等式与Markov不等式给出
+\[\Prob(|A_n-\mu|>\eps)\leq\Prob\left(\left|\frac1n\sum U_k-m_K\right|>\frac\eps3\right)+\frac{3r_K}{\eps}.\]
+固定 $K$ 让 $n\to\infty$, 第一项趋于零; 再让 $K\to\infty$, 得到所需结论. 此处顺序不能倒置: 方差界的常数可以依赖于 $K$.
+\end{proof}
+\begin{example}
+密度 $f(x)=\alpha x^{-\alpha-1}\ind_{\{x\geq1\}}$, $1<\alpha<2$, 满足
+$\E X=\alpha/(\alpha-1)<\infty$, 而 $\E X^2=\infty$. 因而有限均值版本适用, 有限方差的概率上界不适用. 标准Cauchy变量的密度为 $1/[\pi(1+x^2)]$, 绝对均值无限; 其独立样本平均仍有同一Cauchy分布, 所以并不向某个常数集中. 后面的特征函数可直接核对这一点.
+\end{example}
+
+\originalsection{特征函数与中心极限定理}
+大数定律说 $A_n-\mu$ 变小, 却没有说明放大后的偏差是什么形状. 独立和的标准差是 $\sigma\sqrt n$, 所以自然考察 $(S_n-n\mu)/(\sigma\sqrt n)$.
+\begin{definition}
+随机变量 $X$ 的特征函数是 $\varphi_X(t)=\E\ee^{\ii tX}$, $t\in\R$. 因 $|\ee^{\ii tX}|=1$, 它总是存在. 独立的 $X,Y$ 满足 $\varphi_{X+Y}(t)=\varphi_X(t)\varphi_Y(t)$; 而 $\varphi_{aX+b}(t)=\ee^{\ii tb}\varphi_X(at)$.
+\end{definition}
+两个公式分别由独立性分解期望和代入指数得到. 若 $\E|X|^m<\infty$, 在零点求导给出 $\varphi_X^{(m)}(0)=\ii^m\E X^m$, 因而 $\E X^m=\ii^{-m}\varphi_X^{(m)}(0)$. 求导交换可以先限制到 $|X|\leq K$, 再用 $|X|^m$ 的可积尾部控制差商. 这里的 $\ii^{-m}$ 不能误写为 $\ii^m$.
+
+以下分析工具单独声明. 本章证明特征函数的极限计算, 但不把该工具的引用算作它的本地证明.
+\begin{theorem}[L\'evy连续性定理, 引用的分析工具]
+若概率分布的特征函数 $\varphi_n(t)$ 对每个实数 $t$ 趋于 $\varphi(t)$, 且 $\varphi$ 在零点连续, 则 $\varphi$ 是某个概率分布的特征函数, 对应分布依分布收敛到该分布. 特别地, 若极限已经是变量 $Y$ 的特征函数, 则 $Y_n\Rightarrow Y$.
+\end{theorem}
+这一定理涉及分布的紧性与Fourier变换的唯一性, 超出本书所设微积分先修范围, 本章不证明. 下面所有以它完成的证明都明确保留这一依赖; 不需要这个工具的有限均值弱大数定律已在上节独立证明.
+
+为了看清讲义中的另一条弱大数定律路线, 若 $\E|X|<\infty$, 则
+\[\varphi_X(h)=1+\ii h\mu+o(h).\]
+确切地说, $(\ee^{\ii hX}-1)/h\to\ii X$, 且绝对值不超过 $|X|$; 在有界部分一致取极限, 尾部由 $\E(|X|\ind_{|X|>K})$ 控制, 就可交换极限. 因而
+\[\varphi_{A_n}(t)=\varphi_X(t/n)^n\longrightarrow\ee^{\ii t\mu}.\]
+这里使用 $n\log(1+z_n)=nz_n+O(n|z_n|^2)$, 其中 $z_n=\ii t\mu/n+o(1/n)$; 复对数只在1附近选取连续分支, 不需要全局定义. 由L\'evy定理和常数极限的等价性, 又得到弱大数定律. Cauchy特征函数 $\ee^{-|t|}$ 则给出 $\varphi_{A_n}(t)=\ee^{-|t|}$, 解释了平均不集中的现象; 此处使用Cauchy特征函数的已知计算.
+
+\begin{lemma}[有限二阶矩的展开]
+若 $\E Y=0$, $\E Y^2=1$, 则 $\varphi_Y(h)=1-h^2/2+o(h^2)$.
+\end{lemma}
+\begin{proof}
+令 $r(u)=\ee^{\ii u}-1-\ii u+u^2/2$. 微积分的Taylor公式给出 $r(u)/u^2\to0$. 同时
+$|\ee^{\ii u}-1-\ii u|\leq u^2/2$, 可由二次积分余项得到, 所以 $|r(u)|\leq u^2$. 对 $|Y|\leq K$ 的部分, $r(hY)/h^2$ 一致趋于零; 剩余部分的期望绝对值不超过 $\E(Y^2\ind_{|Y|>K})$, 它随 $K\to\infty$ 趋于零. 故 $\E r(hY)=o(h^2)$, 取期望并使用两个矩条件即得结论.
+\end{proof}
+\begin{theorem}[独立同分布中心极限定理]
+若 $X_k$ 独立同分布, $\E X_k=\mu$, $0<\Var(X_k)=\sigma^2<\infty$, 则
+\[B_n=\frac{S_n-n\mu}{\sigma\sqrt n}\Rightarrow Z,\qquad Z\sim\Normal(0,1).\]
+因此对固定实数 $a<b$, $\Prob(a\leq B_n\leq b)\to\Phi(b)-\Phi(a)$, 其中 $\Phi(x)=\int_{-\infty}^x\ee^{-u^2/2}\dd u/\sqrt{2\pi}$.
+\end{theorem}
+\begin{proof}[证明(调用L\'evy连续性定理)]
+令 $Y_k=(X_k-\mu)/\sigma$. 它们独立同分布, 均值零, 二阶矩一. 引理与独立性给出
+\[\varphi_{B_n}(t)=\left[\varphi_Y\left(\frac{t}{\sqrt n}\right)\right]^n
+=\left[1-\frac{t^2}{2n}+o\left(\frac1n\right)\right]^n\to\ee^{-t^2/2}.\]
+最后一步仍可用1附近的复对数: 对固定 $t$, $n\log\varphi_Y(t/\sqrt n)\to-t^2/2$. 标准正态的特征函数为 $\ee^{-t^2/2}$: 对高斯密度积分求导并分部积分得到 $\varphi'_Z(t)=-t\varphi_Z(t)$, 而 $\varphi_Z(0)=1$, 解此常微分方程即得公式. 高斯尾部保证求导、分部积分均合法. 现在调用L\'evy定理得到依分布收敛. 因正态分布连续, 两个端点的分布函数收敛给出区间概率; 若使用闭区间, 可用任意小的端点扩张和缩小夹逼, 再让扩张量趋于零.
+\end{proof}
+对Bernoulli变量 $X_k$ 取 $\Prob(X_k=1)=p$, $0<p<1$, 则 $\mu=p$, $\sigma^2=p(1-p)$, 所以CLT立即给出De Moivre--Laplace结论:
+\[\Prob\left(a\leq\frac{S_n-np}{\sqrt{np(1-p)}}\leq b\right)\longrightarrow\Phi(b)-\Phi(a).\]
+它把二项计数的正态近似置于一般独立和的理论之中.
+
+若 $\sigma=0$, 每个 $X_k=\mu$ 几乎处处, 和没有波动, 无须也不能除以 $\sigma$. CLT不声称 $B_n$ 依概率趋于一个正态变量, 也不自动提供给定 $n$ 的误差界.
+
+讲义还给出矩母函数路线. 若存在 $\delta>0$ 使 $M_Y(t)=\E\ee^{tY}$ 在 $|t|<\delta$ 有限, 可用两侧指数可积性控制求导, 得 $M_Y(t)=1+t^2/2+o(t^2)$. 因而 $M_{B_n}(t)\to\ee^{t^2/2}$ 对每个固定 $t$ 成立(当 $n$ 足够大时函数存在). 矩母函数连续性定理的适用版本是: 在零点某个共同开邻域中, 矩母函数趋于某分布的有限矩母函数, 则分布收敛. 此定理同样是外部分析工具. 有限方差本身不保证矩母函数在零点邻域存在, 所以一般CLT必须使用特征函数路线.
+
+\begin{example}
+每个随机计分 $X$ 以概率 $1/4,1/2,1/4$ 取 $0,2,4$. 有 $\E X=2$, $\E X^2=6$, $\Var(X)=2$. 对 $n=5000$ 次独立计分, $\E S_n=10000$, 标准差为100. 因而
+\[\Prob(9800\leq S_n\leq10100)\approx\Phi(1)-\Phi(-2)\approx0.8186.\]
+这是近似值. 若希望改善整数端点附近的近似, 可以使用格点跨度为2所对应的半格修正, 但CLT本身不证明该修正的误差更小.
+\end{example}
+\begin{example}
+某计数模型每小时产生独立的 $\Pois(3)$ 次事件. $m$ 小时总数 $N_m\sim\Pois(3m)$, 均值和方差均为 $3m$. 把它写成 $m$ 个独立小时计数的和, 得
+$\Prob(N_m\leq3m+a\sqrt{3m})\approx\Phi(a)$. 例如 $m=300$ 时标准差为30, 超过960次的概率约为 $1-\Phi(2)\approx0.0228$. 近似适用于所声明的独立、恒定速率模型, 不能仅凭事件数量大就断定现实数据服从正态.
+\end{example}
+非同分布或依赖变量也有CLT, 但需要额外条件以排除某一项支配总波动等情形. 本章不陈述这些推广, 因此“很多小因素相加”只是寻找模型的线索, 不是可以代替条件的证明.
+
+\originalsection{强大数定律与乘法过程}
+弱大数定律分别控制每个大的 $n$; 强大数定律要求在概率为一的同一批路径上, 此后所有平均值最终都接近 $\mu$. 仅有 $O(1/n)$ 的偏差概率不可求和, 因而不能直接排除无限次偏差. 第31讲通过四阶矩把概率界改成可求和的 $O(1/n^2)$.
+\begin{lemma}[第一Borel--Cantelli引理]
+若 $\sum_n\Prob(E_n)<\infty$, 则 $E_n$ 无限次发生的概率为零, 无须独立性.
+\end{lemma}
+\begin{proof}
+对任意 $N$, $\Prob(\bigcup_{n\geq N}E_n)\leq\sum_{n\geq N}\Prob(E_n)\to0$. 无限次发生的事件包含在每个这样的并集中, 所以其概率为零.
+\end{proof}
+\begin{theorem}[本章证明的强大数定律版本]
+若 $X_k$ 独立同分布且 $\E|X_1|^4<\infty$, 则 $A_n\to\mu=\E X_1$ 几乎处处.
+\end{theorem}
+\begin{proof}
+中心化 $Y_k=X_k-\mu$. 由 $|x-y|^4\leq8(|x|^4+|y|^4)$, $K=\E Y_1^4<\infty$. 记 $v=\E Y_1^2$, 则 $v^2\leq K$, 因 $\Var(Y_1^2)=K-v^2\geq0$.
+
+展开 $T_n^4=(\sum Y_k)^4$. 指标出现方式为 $1+1+1+1$, $2+1+1$, $3+1$, $2+2$, $4$. 前三种都有一个只出现一次的独立因子, 均值零, 所以期望为零. 每对不同指标产生 $6Y_i^2Y_j^2$, 因为从四个位置中选两个放 $i$ 有 $\binom42=6$ 种. 因而
+\[\E T_n^4=nK+6\binom n2v^2=nK+3n(n-1)v^2\leq3Kn^2.\]
+Markov不等式给出
+$\Prob(|T_n/n|>\eps)\leq3K/(n^2\eps^4)$, 其和有限. Borel--Cantelli表明, 对固定 $\eps$, 偏差超过 $\eps$ 只发生有限次. 对 $\eps=1,1/2,1/3,\ldots$ 取可数个概率为一的事件之交, 概率仍为一. 在交集上对每个正 $\eps$ 选 $1/j<\eps$, 从而 $T_n/n\to0$.
+\end{proof}
+\begin{remark}
+一般独立同分布强大数定律只需 $\E|X_1|<\infty$. 本章并未证明这个最一般版本; 上面的完整本地证明范围是有限四阶矩. 这足以覆盖本节所有有界乘数的例子, 也与源讲义的证明条件一致. 强大数定律蕴含弱大数定律, 正是本章第一节已证明的几乎处处收敛蕴含依概率收敛.
+\end{remark}
+\begin{example}
+设某抽象乘法过程每期乘数 $R_k$ 独立, 以概率 $0.54$ 取 $1.2$, 以概率 $0.46$ 取 $0.8$. 总量 $W_n=W_0\prod_{k=1}^nR_k$, $W_0>0$. 一方面
+\[\E R_1=1.016,\qquad \E W_n=W_0(1.016)^n\to\infty.\]
+另一方面, 令 $X_k=\log R_k$, 它有界, 而
+\[\mu_{\log}=0.54\log1.2+0.46\log0.8\approx-0.00419<0.\]
+强大数定律给出 $n^{-1}\log(W_n/W_0)\to\mu_{\log}$ 几乎处处. 在这些路径上最终 $\log(W_n/W_0)<n\mu_{\log}/2\to-\infty$, 因此 $W_n\to0$ 几乎处处. 期望增长与路径衰减并不矛盾: 少数极大值可以支撑期望. 这里没有交换极限和期望的可积控制.
+\end{example}
+
+\originalsection{Jensen不等式及等号}
+\begin{definition}
+区间 $I$ 上的实值函数 $g$ 称为凸函数, 若对 $x,y\in I$, $0\leq\lambda\leq1$,
+$g(\lambda x+(1-\lambda)y)\leq\lambda g(x)+(1-\lambda)g(y)$. 若 $x\ne y$, $0<\lambda<1$ 时不等号严格, 则称严格凸. $g$ 凹是指 $-g$ 凸.
+\end{definition}
+图形上, 凸函数位于两点连线之下. 若二阶可微, $g''\geq0$ 等价于凸性: 导数递增使割线斜率递增, 从而满足凸性; 反过来凸性使左右差商夹住导数并使导数递增, 再求导即得 $g''\geq0$.
+\begin{lemma}[支撑直线]
+若 $g$ 在区间 $I$ 凸, $m$ 是 $I$ 的内点, 则存在有限实数 $a$, 使对所有 $x\in I$,
+$g(x)\geq g(m)+a(x-m)$.
+\end{lemma}
+\begin{proof}
+对 $x<m<y$, 凸性给出
+\[\frac{g(m)-g(x)}{m-x}\leq\frac{g(y)-g(m)}{y-m}.\]
+左侧所有斜率的上确界不超过右侧所有斜率的下确界. 两者有限: 取固定的左右内点, 用它们的割线斜率给这些界限以有限约束. 在两者之间取 $a$. 对 $x<m$, 左侧斜率不超过 $a$, 移项得所需式; 对 $y>m$, 右侧斜率不小于 $a$, 也得所需式. 在 $m$ 取等. 若可微, 可以取 $a=g'(m)$; 不可微时仍有支撑线.
+\end{proof}
+\begin{theorem}[Jensen不等式]
+设 $X\in I$ 几乎处处, $\E|X|<\infty$, $m=\E X$ 是区间 $I$ 的内点, $g:I\to\R$ 凸. 则 $\E g(X)$ 在扩展实数意义下存在, 且
+\[\E g(X)\geq g(\E X).\]
+取任一在 $m$ 的支撑斜率 $a$, 当期望有限时, 等号成立当且仅当
+$g(X)=g(m)+a(X-m)$ 几乎处处. 特别地, 若 $g$ 严格凸, 等号成立当且仅当 $X=m$ 几乎处处. 凹函数在其期望有意义时不等号反向.
+\end{theorem}
+\begin{proof}
+支撑线 $L(x)=g(m)+a(x-m)$ 满足 $g(X)-L(X)\geq0$. $L(X)$ 可积, 所以 $g(X)$ 的负部可积, 期望不会出现 $\infty-\infty$. 取期望得
+$\E g(X)\geq\E L(X)=g(m)$. 等号等价于非负变量 $g(X)-L(X)$ 的期望为零, 而非负变量期望为零等价于它几乎处处为零: 若 $\Prob(H>0)>0$, 某个 $j$ 满足 $\Prob(H\geq1/j)>0$, 则 $\E H>0$.
+
+若严格凸且某 $x\ne m$ 也落在支撑线上, 对 $m,x$ 间的内点, 严格凸性要求函数低于这条线, 与支撑性质矛盾. 因而接触集合只有 $m$, 等号条件随之成立. 对 $-g$ 应用结果得到凹函数版本.
+\end{proof}
+若均值是 $I$ 中包含的端点, 则 $X$ 被限制在端点一侧; $\E(X-m)=0$ 和固定符号使 $X=m$ 几乎处处, Jensen直接取等. 这处理了上述内点条件之外的边界, 但不能给未定义的端点值强行赋值.
+
+\begin{example}
+对正的可积变量 $R$, 若 $\E|\log R|<\infty$, 严格凹的 $\log$ 给出
+$\E\log R\leq\log\E R$, 非常数时严格. 这解释乘法过程为何必须看平均对数增长率. 对同样均值的两个结果, Jensen只保证确定值 $\E R$ 的对数效用不低于随机结果; 它并不比较任意两个不同随机分布的风险高低.
+\end{example}
+\begin{example}
+设报酬函数 $g(x)=0.01C+0.25\max(x-C,0)$, $C>0$. 它是两条仿射函数的最大值, 因而凸. 确定结果 $X=C$ 的报酬为 $0.01C$. 若 $X$ 以相等概率取 $0.6C,1.4C$, 均值仍为 $C$, 但平均报酬为
+$[0.01C+(0.01C+0.10C)]/2=0.06C$.
+
+这个模型展示凸报酬会使执行者从波动获益. 如果每期另有独立的失败概率 $q>0$, 第一次失败前的期数具有几何尾 $\Prob(T>n)=(1-q)^n\to0$, 所以最终失败几乎必然. 执行者此前所得报酬与委托者最终损失是不同随机量. 此处讨论模型的激励结构, 不由Jensen推断所有更波动的方案都更好, 也不对实际投资提出建议.
+\end{example}
+
+\originalsection{习题与解答}
+\begin{exercise}
+独立变量 $X_k$ 均值为 $\mu$, 方差不超过常数 $C$, 不要求同分布. 证明 $n^{-1}\sum_{k=1}^nX_k\xrightarrow{\Prob}\mu$.
+\end{exercise}
+\begin{solution}
+平均值期望仍为 $\mu$, 独立性给出方差不超过 $nC/n^2=C/n$. Chebyshev给出偏差超过 $\eps$ 的概率不超过 $C/(n\eps^2)\to0$. 这说明相同均值与统一方差界已足以完成这一弱定律版本.
+\end{solution}
+\begin{exercise}
+令 $X_k$ 独立同分布, 密度 $\ee^{-x}\ind_{x>0}$. 给出 $S_n$ 的CLT标准化, 并估计 $n=400$ 时 $\Prob(S_n>440)$. 说明 $S_n/n$ 与标准化变量的极限为何不同.
+\end{exercise}
+\begin{solution}
+分部积分得到 $\E X=1$, $\E X^2=2$, 方差1. 所以 $(S_n-n)/\sqrt n\Rightarrow\Normal(0,1)$. 在 $n=400$ 时门槛标准化为 $(440-400)/20=2$, 所求近似为 $1-\Phi(2)\approx0.0228$. 平均值的偏差尺度为 $1/\sqrt n$ 并趋于零, 所以 $S_n/n\xrightarrow{\Prob}1$; CLT把这个变小的偏差乘以 $\sqrt n$, 保留非退化的形状.
+\end{solution}
+\begin{exercise}
+若 $X$ 在 $[-2,2]$ 取值且 $\E X=0$, 证明 $\E\ee^X\geq1$, 并确定等号. 再说明 $\E|X|\geq|\E X|$ 的等号是否必须要求 $X$ 为常数.
+\end{exercise}
+\begin{solution}
+指数严格凸且 $X$ 有界, Jensen给出 $\E\ee^X\geq\ee^{\E X}=1$, 等号当且仅当 $X=0$ 几乎处处. 绝对值只是凸, 在非负半轴仿射. 例如以相等概率取1和3, 有 $\E|X|=|\E X|=2$ 却非常数. 一般该等号成立当且仅当 $X$ 几乎处处同号(允许零): 写 $X=X^+-X^-$, 等号等价于 $\E X^+=0$ 或 $\E X^-=0$.
+\end{solution}

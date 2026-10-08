@@ -1,0 +1,613 @@
+\originalchapter{连续随机变量与常用连续分布}
+\label{chap:continuous}
+\sourcelecture{17--20}
+
+离散分布把概率放在一个个点上. 连续模型则把概率分散到区间中: 精确命中某个点的概率可以为零, 而命中一段区间的概率仍然为正. 本章从这个区别出发, 建立密度、分布函数和积分期望的联系. 随后研究均匀、正态、指数、gamma、Cauchy 和 beta 分布. 这些分布分别描述位置、许多小扰动的总和、等待时间、累计等待时间、随机方向的投影和未知成功率.
+
+\originalsection{密度、分布函数与积分期望}
+
+\begin{definition}[概率密度]
+若存在非负可积函数 $f_X:\R\to[0,\infty)$, 满足 $\int_{\R}f_X(x)\dd x=1$, 且对每个可测集合 $B$ 有
+\[
+ \Prob(X\in B)=\int_B f_X(x)\dd x,
+\]
+则称 $X$ 具有概率密度 $f_X$, 或称其分布绝对连续. 本章中的连续随机变量均指具有密度的随机变量.
+\end{definition}
+
+密度 $f_X(x)$ 的单位是随机变量单位的倒数. 它表示单位长度所承载的概率, 并非点 $x$ 本身的概率. 例如均匀分布在长度 $1/5$ 的区间上时, 密度为 $5$, 这不违反概率不超过 $1$. 对单点积分为零, 所以 $\Prob(X=x)=0$. 在 $f_X$ 连续的点,
+\[
+ \Prob(x<X\le x+h)=\int_x^{x+h}f_X(t)\dd t
+ =f_X(x)h+o(h)\quad(h\downarrow0).
+\]
+密度在有限个点上的值可以改变而不改变分布. 因而写密度公式时, 支撑集端点取开区间还是闭区间没有概率上的差别.
+
+\begin{definition}[分布函数]
+任意实值随机变量的分布函数为 $F_X(t)=\Prob(X\le t)$. 若 $X$ 有密度, 则
+\[
+ F_X(t)=\int_{-\infty}^t f_X(x)\dd x.
+\]
+在密度的连续点有 $F_X'(t)=f_X(t)$.
+\end{definition}
+
+\begin{proposition}[区间端点]
+令 $F_X(a-)=\lim_{t\uparrow a}F_X(t)=\Prob(X<a)$. 对任意分布和 $a<b$,
+\begin{align*}
+ \Prob(a<X\le b)&=F_X(b)-F_X(a),\\
+ \Prob(a\le X\le b)&=F_X(b)-F_X(a-),\\
+ \Prob(X=a)&=F_X(a)-F_X(a-).
+\end{align*}
+有密度时 $F_X$ 连续, 所以上述区间概率不受端点影响.
+\end{proposition}
+\begin{proof}
+把事件 $\{X\le b\}$ 分别分成 $\{X\le a\}$ 与 $\{a<X\le b\}$, 或 $\{X<a\}$ 与 $\{a\le X\le b\}$, 即得前两式. $\{X=a\}$ 是 $\{X\le a\}$ 去掉 $\{X<a\}$ 后的部分. 对有密度的分布, 单点概率为零, 因此没有跳跃.
+\end{proof}
+
+\begin{example}
+设 $f_X(x)=2x$ 在 $0<x<1$ 上, 在其余位置为零. 求分布函数、$\Prob(1/4<X<3/4)$ 和 $\Prob(X=1/2)$.
+\end{example}
+\begin{solution}
+归一性由 $\int_0^1 2x\dd x=1$ 保证. 逐段积分得到
+\[
+ F_X(t)=\begin{cases}0,&t\le0,\\t^2,&0<t<1,\\1,&t\ge1.\end{cases}
+\]
+因此区间概率为 $(3/4)^2-(1/4)^2=1/2$, 点概率为零. 虽然 $f_X(1/2)=1$, 这个数描述附近区间的概率密度, 不表示点概率为 $1$.
+\end{solution}
+
+分布函数的定义适用于离散、连续和混合分布. 不能把上述积分式无条件推广到所有随机变量. 例如以概率 $1/3$ 取零, 以概率 $2/3$ 在 $(0,1)$ 均匀取值的变量 $M$ 满足
+\[
+ F_M(t)=\begin{cases}0,&t<0,\\1/3+2t/3,&0\le t<1,\\1,&t\ge1.\end{cases}
+\]
+这里 $\Prob(0\le M\le1/2)=2/3$, 而 $F_M(1/2)-F_M(0)=1/3$ 只算出 $\Prob(0<M\le1/2)$. 在跳点以外求导得到 $2/3$, 其积分仅为 $2/3$, 会漏掉零点的质量. 更一般地, 分布函数连续也不自动保证存在密度; 本课程不展开奇异连续分布的构造.
+
+\begin{proposition}[连续型期望公式]
+若 $X$ 有密度 $f_X$, $g$ 为可测函数, 并且 $\int_{\R}|g(x)|f_X(x)\dd x<\infty$, 则
+\[
+ \E[g(X)]=\int_{\R}g(x)f_X(x)\dd x.
+\]
+对于非负 $g$, 同一公式成立, 允许结果为 $+\infty$. 特别地, $\E[X]$ 为有限实数需要 $\int |x|f_X(x)\dd x<\infty$.
+\end{proposition}
+\begin{proof}
+对指示函数 $g=\ind_B$, 公式就是密度定义. 对在有限个不交集合上取常值的非负阶梯函数, 由期望和积分的有限可加性得到公式. 把一般非负 $g$ 从下方以阶梯函数逼近, 期望与积分均定义为这些非负逼近的极限, 因而得到等式. 对一般 $g$, 写成 $g=g^+-g^-$; 绝对可积条件使两个非负部分的积分都有限, 可以相减. 这也说明不能把 $+\infty-\infty$ 作为期望.
+\end{proof}
+
+该论证使用非负积分的单调逼近性质. 对本章分段连续的密度和计算函数, 积分可用微积分中的通常积分或反常积分计算; 不需要先建立完整的测度论. 但对于任意可测集合的概率, 积分应理解为 Lebesgue 积分, 而非总能存在的 Riemann 积分.
+
+积分的线性给出期望线性. 若 $\E[X^2]<\infty$, 则
+\[
+ \Var(X)=\E[(X-\E X)^2]=\E[X^2]-(\E X)^2.
+\]
+同样由展开可得 $\E[aX+b]=a\E X+b$ 和 $\Var(aX+b)=a^2\Var(X)$. 这些公式与离散型完全一致, 区别仅在如何计算期望.
+
+\originalsection{均匀分布与可测集合}
+
+\begin{definition}[均匀分布]
+对 $\alpha<\beta$, 在 $[\alpha,\beta]$ 上的均匀分布具有密度
+\[
+ f_X(x)=\frac1{\beta-\alpha}\ind_{(\alpha,\beta)}(x).
+\]
+它的含义是相同长度的子区间具有相同概率.
+\end{definition}
+
+若 $U$ 在 $[0,1]$ 上均匀分布, 对 $r>-1$,
+\[
+ \E[U^r]=\int_0^1 u^r\dd u=\frac1{r+1}.
+\]
+因此 $\E U=1/2$, $\E U^2=1/3$, $\Var(U)=1/12$. 当 $X=\alpha+(\beta-\alpha)U$ 时, 对 $\alpha<x<\beta$,
+\[
+ \Prob(X\le x)=\Prob\left(U\le\frac{x-\alpha}{\beta-\alpha}\right)
+ =\frac{x-\alpha}{\beta-\alpha}.
+\]
+区间外的分布函数分别为 $0$ 和 $1$, 所以 $X$ 正是所需均匀变量. 从仿射变换立即得到
+\[
+ \E X=\frac{\alpha+\beta}{2},\qquad
+ \Var(X)=\frac{(\beta-\alpha)^2}{12}.
+\]
+均值取中点来自对称性, 方差随长度平方缩放则来自距离的平方.
+
+\begin{example}
+公交车严格每 $12$ 分钟到站一次, 乘客到站时刻相对于班次的相位在一个周期上均匀. 求等待时间 $W$ 的均值、方差和至少等待 $9$ 分钟的概率.
+\end{example}
+\begin{solution}
+一个周期内, 等待时间与相位之和为 $12$. 将均匀相位反射后仍均匀, 所以 $W$ 在 $[0,12]$ 上均匀. 于是 $\E W=6$, $\Var(W)=12$, $\Prob(W\ge9)=3/12=1/4$. 单位分别是分钟、分钟平方和无单位概率. 这里固定周期的假设很重要; 随机到站的车辆不一定产生均匀等待时间.
+\end{solution}
+
+对 $U$ 均匀于 $[0,1]$, 有理数集合的概率为零: 它是可数个单点的并, 每个单点概率为零, 可数可加性遂给出结论. 这并不意味着每个子集都能赋予与长度一致的概率. 原课程通过如下构造说明为什么概率公理需要指定可测事件族.
+
+\begin{proposition}[不能给所有子集赋予平移不变的长度]
+在选择公理下, 不存在定义于 $[0,1)$ 所有子集的概率 $\mu$, 同时满足可数可加性和模 $1$ 平移不变性.
+\end{proposition}
+\begin{proof}
+把 $[0,1)$ 看成首尾相接的圆. 定义 $x\sim y$ 当且仅当 $x-y$ 为有理数. 这是等价关系. 用选择公理从每个等价类选一个代表, 组成集合 $A$. 对有理数 $r\in[0,1)$, 记
+\[
+ A_r=\{(a+r)\bmod1:a\in A\}.
+\]
+这些集合两两不交. 事实上, 若 $(a+r)\bmod1=(a'+r')\bmod1$, 则 $a-a'$ 为有理数, 因而代表的唯一性给出 $a=a'$, 随后 $r=r'$. 它们的并覆盖整个圆: 每个 $x$ 与其代表 $a$ 相差有理数, 取差值模 $1$ 即可.
+
+有理数是可数无限集. 若平移不变性成立, 每个 $A_r$ 的概率均为同一个 $c=\mu(A)$. 可数可加性要求 $1=\sum_r c$. 当 $c=0$ 时右侧为 $0$, 当 $c>0$ 时右侧无穷大, 两者都矛盾.
+\end{proof}
+
+通常概率论保留选择公理与可数可加性, 把事件限制为可测集合. 区间、单点、它们的可数并以及本书计算中的积分区域均属这一范围. 上面的 $A$ 不是可测集合, 所以无需为它指定概率. 本书不构造 Lebesgue 测度, 但也不把任意子集都默认为事件.
+
+\originalsection{正态密度的归一化与标准化}
+
+二项分布的柱形图集中在 $np$ 附近, 宽度约为 $\sqrt{np(1-p)}$. 当 $n$ 增大, 若横轴按这个宽度缩放, 柱形逐渐呈现钟形. 在证明这个极限以前, 先独立建立钟形密度本身.
+
+\begin{lemma}[高斯积分]
+\[
+ \int_{-\infty}^{\infty}\ee^{-x^2/2}\dd x=\sqrt{2\pi}.
+\]
+\end{lemma}
+\begin{proof}
+记积分为 $I$. 它有限: 当 $|x|\ge1$ 时 $x^2/2\ge|x|/2$, 所以尾部受可积指数函数控制. 非负被积函数允许迭代积分, 从而
+\[
+ I^2=\int_{\R^2}\ee^{-(x^2+y^2)/2}\dd x\dd y.
+\]
+用 $x=r\cos\theta$, $y=r\sin\theta$ 换元. 在半径为 $r$ 的圆环上, 面积元为 $r\dd r\dd\theta$: 径向厚度 $\dd r$ 与切向长度 $r\dd\theta$ 相乘. 在有限圆盘上应用多元换元, 再让半径趋于无穷, 得
+\[
+ I^2=\int_0^{2\pi}\int_0^\infty
+       \ee^{-r^2/2}r\dd r\dd\theta
+ =2\pi[-\ee^{-r^2/2}]_0^\infty=2\pi.
+\]
+由于 $I>0$, 取正平方根得到结论.
+\end{proof}
+
+\begin{definition}[正态分布]
+标准正态变量 $Z$ 的密度为
+\[
+ \phi(z)=\frac1{\sqrt{2\pi}}\ee^{-z^2/2},\qquad z\in\R.
+\]
+对 $\mu\in\R$, $\sigma>0$, 称 $X=\mu+\sigma Z$ 服从正态分布 $\Normal(\mu,\sigma^2)$. 其密度为
+\[
+ f_X(x)=\frac1{\sigma\sqrt{2\pi}}
+       \ee^{-(x-\mu)^2/(2\sigma^2)}.
+\]
+\end{definition}
+
+密度中的 $1/\sigma$ 保证拉伸后总面积仍为 $1$. 具体地,
+$F_X(x)=F_Z((x-\mu)/\sigma)$, 对 $x$ 求导便得到密度式. 当 $\sigma=0$ 时 $X$ 恒等于 $\mu$, 分布退化为一个点, 不再有上述密度.
+
+\begin{proposition}
+标准正态变量满足 $\E Z=0$, $\Var(Z)=1$. 因而 $X\sim\Normal(\mu,\sigma^2)$ 的均值为 $\mu$, 方差为 $\sigma^2$.
+\end{proposition}
+\begin{proof}
+先核对均值存在:
+\[
+ \E|Z|=\frac2{\sqrt{2\pi}}\int_0^\infty
+ z\ee^{-z^2/2}\dd z=\sqrt{\frac2\pi}<\infty.
+\]
+由于 $z\phi(z)$ 是奇函数, 对称积分给出 $\E Z=0$. 又有 $\phi'(z)=-z\phi(z)$, 分部积分得
+\[
+ \E Z^2=\int_{\R}z^2\phi(z)\dd z
+ =[-z\phi(z)]_{-\infty}^{\infty}+\int_{\R}\phi(z)\dd z=1.
+\]
+边界项为零, 因为指数衰减快于一次幂. 最后应用期望、方差的仿射变换公式.
+\end{proof}
+
+记 $\Phi(t)=\int_{-\infty}^t\phi(z)\dd z$. 这个积分没有初等函数表达式, 可以通过数值积分或表格求值. 对称性给出
+\[
+ \Phi(-t)=1-\Phi(t),\qquad
+ \Prob(|Z|\le t)=2\Phi(t)-1\quad(t\ge0).
+\]
+常用值为 $\Phi(-1)\approx0.1587$, $\Phi(-2)\approx0.0228$, $\Phi(-3)\approx0.00135$. 因而落在均值一个、两个、三个标准差内的概率分别约为 $0.6827$, $0.9545$, $0.9973$.
+
+\begin{example}
+某理想化测量误差 $X$ 服从 $\Normal(2,9)$. 求 $\Prob(-1\le X\le8)$ 及 $\Prob(X>8)$.
+\end{example}
+\begin{solution}
+这里标准差是 $3$, 而非 $9$. 令 $Z=(X-2)/3$, 则
+\[
+ \Prob(-1\le X\le8)=\Prob(-1\le Z\le2)
+ =\Phi(2)-\Phi(-1)\approx0.8186,
+\]
+且 $\Prob(X>8)=1-\Phi(2)\approx0.0228$.
+\end{solution}
+
+\originalsection{二项分布的正态极限}
+
+\begin{theorem}[De Moivre--Laplace 定理]
+固定 $0<p<1$, 记 $q=1-p$, 令 $S_n\sim\Bin(n,p)$. 对任意有限实数 $a<b$,
+\[
+ \lim_{n\to\infty}\Prob\left(a\le\frac{S_n-np}{\sqrt{npq}}\le b\right)
+ =\Phi(b)-\Phi(a).
+\]
+\end{theorem}
+
+本定理把离散概率在标准化坐标中变成曲线下面积. 不能只把二项质量 $\Prob(S_n=k)$ 画得像钟形就当作证明. 以下证明利用相邻概率的比值确定钟形, 再由总概率为 $1$ 确定归一常数, 从而不依赖 Stirling 公式.
+
+\begin{proof}
+写 $\sigma_n=\sqrt{npq}$, $m=\lfloor np\rfloor$, $p_{n,k}=\Prob(S_n=k)$. 由二项质量公式,
+\[
+ \frac{p_{n,k+1}}{p_{n,k}}=\frac{n-k}{k+1}\frac pq.
+\]
+当 $k=m+\ell$, $|\ell|\le K\sqrt n$ 时, 把分子分母分别写成 $nq+O(1)-\ell$ 与 $np+O(1)+\ell$, 用
+$\log(1+u)=u+O(u^2)$ 展开, 得到一致估计
+\[
+ \log\frac{p_{n,m+\ell+1}}{p_{n,m+\ell}}
+ =-\frac{\ell}{npq}+O\left(\frac1n+\frac{\ell^2}{n^2}\right).
+\]
+这里 $O$ 表示绝对值被某个固定常数乘以括号内的量控制; 常数可依赖 $p,K$, 不依赖 $n,\ell$. 对 $\ell=0,\ldots,j-1$ 求和, 对负 $j$ 则反向求和, 有
+\[
+ \log\frac{p_{n,m+j}}{p_{n,m}}
+ =-\frac{j^2}{2\sigma_n^2}+o(1),\qquad |j|\le K\sigma_n,
+\]
+其中误差在该范围一致趋零. 原因是一次求和的误差至多为
+$O(|j|/n+|j|^3/n^2)=O(n^{-1/2})$, 而用 $j^2$ 替换 $j(j-1)$ 的误差也趋零.
+
+令 $c_n=\sigma_n p_{n,m}$. 上式使有限标准化区间内的概率和成为 Riemann 和:
+\[
+ \Prob\left(a\le\frac{S_n-np}{\sigma_n}\le b\right)
+ =c_n\left(\int_a^b\ee^{-t^2/2}\dd t+o(1)\right).
+\]
+网格间距为 $1/\sigma_n$, $m-np$ 有界, 因而中心的小偏移不影响极限. 先取区间 $[-1,1]$, 左侧不超过 $1$, 可知 $c_n$ 有界. 任取收敛子列, 设其极限为 $c$. 由于 $\E S_n=np$, $\Var(S_n)=npq$, Chebyshev 不等式给出
+\[
+ \Prob\left(\left|\frac{S_n-np}{\sigma_n}\right|>K\right)\le K^{-2}.
+\]
+沿子列令 $n\to\infty$, 得
+\[
+ 1-K^{-2}\le c\int_{-K}^K\ee^{-t^2/2}\dd t\le1.
+\]
+再令 $K\to\infty$, 用高斯积分得到 $c=1/\sqrt{2\pi}$. 每个收敛子列都只能有此极限, 而 $c_n$ 有界, 故整个序列趋于这个值. 代回 Riemann 和公式即得结论.
+\end{proof}
+
+有限 $n$ 时, 定理只提供近似, 不保证某个预定误差. 一个整数质量代表宽度为 $1$ 的小柱, 因而常使用连续性修正
+\[
+ \Prob(r\le S_n\le s)\approx
+ \Phi\left(\frac{s+1/2-np}{\sqrt{npq}}\right)
+ -\Phi\left(\frac{r-1/2-np}{\sqrt{npq}}\right).
+\]
+这来自把第 $k$ 个柱子对应到 $[k-1/2,k+1/2]$, 是改善近似的规则, 并非以上极限定理额外给出的误差界. 当 $p$ 很靠近 $0$ 或 $1$, 使 $np$ 或 $nq$ 很小时, 正态近似可能较差.
+
+\begin{example}
+独立抛掷公平硬币 $40000$ 次. 用正态近似估计正面数严格大于 $20200$ 的概率.
+\end{example}
+\begin{solution}
+均值为 $20000$, 标准差为 $\sqrt{40000/4}=100$. 严格大于意味着至少 $20201$ 个正面. 使用连续性修正,
+\[
+ \Prob(S>20200)\approx1-\Phi\left(\frac{20200.5-20000}{100}\right)
+ =1-\Phi(2.005)\approx0.0225.
+\]
+若不作修正, 使用 $1-\Phi(2)\approx0.0228$. 两个结果都表示两个标准差以上的右尾概率.
+\end{solution}
+
+\originalsection{指数等待时间与无记忆性}
+
+\begin{definition}[指数分布]
+对 $\lambda>0$, 若 $X$ 的密度为 $f_X(x)=\lambda\ee^{-\lambda x}$ 在 $x>0$ 上, 其余为零, 则记 $X\sim\Exp(\lambda)$. 参数 $\lambda$ 称为速率.
+\end{definition}
+
+积分给出
+\[
+ F_X(t)=\begin{cases}0,&t<0,\\1-\ee^{-\lambda t},&t\ge0,\end{cases}
+ \qquad \Prob(X>t)=\ee^{-\lambda t}\quad(t\ge0).
+\]
+尾概率比密度更便于研究等待问题. 若时间单位为小时, 则 $\lambda$ 的单位为每小时, $\lambda t$ 无单位.
+
+\begin{proposition}[指数矩]
+对整数 $n\ge0$, $\E[X^n]=n!/\lambda^n$. 因而 $\E X=1/\lambda$, $\Var(X)=1/\lambda^2$.
+\end{proposition}
+\begin{proof}
+记 $M_n=\int_0^\infty x^n\lambda\ee^{-\lambda x}\dd x$. 对 $n\ge1$ 分部积分,
+\[
+ M_n=[-x^n\ee^{-\lambda x}]_0^\infty
+       +n\int_0^\infty x^{n-1}\ee^{-\lambda x}\dd x
+     =\frac n\lambda M_{n-1}.
+\]
+边界项为零, 且 $M_0=1$, 归纳即得矩公式. 再用 $M_2-M_1^2$ 得方差.
+\end{proof}
+
+\begin{theorem}[无记忆性]
+若 $X\sim\Exp(\lambda)$, 则对 $s,t\ge0$,
+\[
+ \Prob(X>s+t\mid X>s)=\Prob(X>t)=\ee^{-\lambda t}.
+\]
+即在已经等待 $s$ 且事件尚未发生的条件下, 剩余等待时间 $X-s$ 仍服从同一指数分布.
+\end{theorem}
+\begin{proof}
+事件 $\{X>s+t\}$ 包含于 $\{X>s\}$, 因而条件概率为
+$\ee^{-\lambda(s+t)}/\ee^{-\lambda s}=\ee^{-\lambda t}$.
+\end{proof}
+
+\begin{proposition}[无记忆分布的刻画]
+设非负、有限的随机变量 $X$ 满足 $\Prob(X>0)=1$, 每个有限 $t$ 的尾概率均为正, 且满足上述无记忆等式. 则存在 $\lambda>0$ 使 $X\sim\Exp(\lambda)$.
+\end{proposition}
+\begin{proof}
+令 $S(t)=\Prob(X>t)$. 无记忆性给出 $S(s+t)=S(s)S(t)$. 记 $h(t)=-\log S(t)$, 则 $h(s+t)=h(s)+h(t)$, 且 $h$ 非减. 从整数倍和分数倍先得 $h(r)=rh(1)$ 对非负有理数 $r$ 成立. 再用有理数从两侧夹逼任意实数, 单调性给出 $h(t)=th(1)$. 因为 $X$ 有限, $S(t)\to0$, 所以 $h(1)>0$. 取 $\lambda=h(1)$ 即可.
+\end{proof}
+
+几何分布是对应的离散模型: 若 $G$ 记录第一次成功的试验编号, 则
+$\Prob(G>m+n\mid G>m)=(1-p)^n$. 这要求成功率固定, 各次试验独立. 如果成功率本身未知, 观察会更新成功率的分布, 预测就可能改变. 例如先以相同概率选择一枚成功率为 $1/2$ 或 $3/4$ 的硬币, 再重复独立抛这同一枚硬币. 连续 $k$ 次成功后, 下一次成功的条件概率为
+\[
+ \frac{(1/2)^{k+1}+(3/4)^{k+1}}{(1/2)^k+(3/4)^k}.
+\]
+它随 $k$ 改变. 条件于选定硬币的成功率时试验独立, 去掉这个条件后则不独立. 这就是等待模型的参数假设为何必须说清楚.
+
+\begin{proposition}[独立指数变量的最小值]
+若 $X_i\sim\Exp(\lambda_i)$, $i=1,\ldots,n$, 相互独立, 则
+$T=\min_i X_i\sim\Exp(\lambda_1+\cdots+\lambda_n)$.
+\end{proposition}
+\begin{proof}
+$T>t$ 等价于所有 $X_i>t$. 因独立性,
+\[
+ \Prob(T>t)=\prod_{i=1}^n\ee^{-\lambda_i t}
+ =\ee^{-t\sum_i\lambda_i}.
+\]
+尾函数唯一确定分布.
+\end{proof}
+
+最小值的公式需要相互独立. 当两个等待时间完全相同, 最小值就是原变量, 速率不会加倍. 独立时, 多个钟同时运转会增加任一事件发生的总速率.
+
+\begin{example}
+有 $n$ 个元件, 每个寿命独立服从 $\Exp(\lambda)$. 设 $M$ 为最后一个元件失效的时刻. 求 $F_M$, $\E M$ 与 $\Var(M)$.
+\end{example}
+\begin{solution}
+对 $t\ge0$, 所有元件都在 $t$ 前失效的概率为
+\[
+ F_M(t)=\prod_{i=1}^n\Prob(X_i\le t)=(1-\ee^{-\lambda t})^n.
+\]
+求矩时更便于使用相邻失效间隔. 第一次失效前有 $n$ 个指数钟, 等待 $D_1\sim\Exp(n\lambda)$. 第一个钟响后, 其余 $n-1$ 个钟由无记忆性恢复为独立的原速率钟, 所以 $D_2\sim\Exp((n-1)\lambda)$, 依此类推.
+
+还需说明这些间隔独立, 不能只凭各自的边缘分布相加方差. 设第一次响的是第 $i$ 个钟, 时刻在 $t$ 附近, 其余钟的剩余寿命分别为 $r_j>0$. 用独立密度作变换 $x_i=t$, $x_j=t+r_j$, 联合密度为
+\[
+ \lambda\ee^{-n\lambda t}\prod_{j\ne i}\lambda\ee^{-\lambda r_j}.
+\]
+它分解为第一次时刻和身份的密度, 乘以独立剩余指数钟的密度. 因而剩余钟的联合分布不依赖已经发生的时刻与身份. 重复这一步, 所有 $D_i$ 相互独立. 于是
+\[
+ M=D_1+\cdots+D_n,\qquad
+ \E M=\frac1\lambda\sum_{j=1}^n\frac1j,\qquad
+ \Var(M)=\frac1{\lambda^2}\sum_{j=1}^n\frac1{j^2}.
+\]
+\end{solution}
+
+在速率 $\lambda$ 的 Poisson 过程中, 时长 $t$ 内没有事件的概率是 $\Prob(N(t)=0)=\ee^{-\lambda t}$. 因而第一次事件的等待时间为指数分布. 独立增量与平移不变的计数规律, 或反过来的独立指数间隔, 将离散的计数与连续的时间连接起来. 在下一节可以直接检验: 独立指数间隔产生的事件数确实为 Poisson 分布, 而不是仅凭小时间区间的近似来断言.
+
+\originalsection{Gamma 函数与累计等待时间}
+
+\begin{definition}[Gamma 函数]
+对 $\alpha>0$, 定义
+\[
+ \Gamma(\alpha)=\int_0^\infty x^{\alpha-1}\ee^{-x}\dd x.
+\]
+\end{definition}
+
+在零附近, $x^{\alpha-1}$ 可积恰好需要 $\alpha>0$; 在无穷远处, 指数衰减保证积分有限. 分部积分给出
+\[
+ \Gamma(\alpha+1)=\alpha\Gamma(\alpha),\qquad
+ \Gamma(1)=1,\qquad \Gamma(n)=(n-1)!\quad(n\ge1).
+\]
+在分部积分的边界, $x^\alpha\ee^{-x}$ 在零和无穷均趋零, 因而递推式对每个正实数 $\alpha$ 成立. 取 $x=z^2/2$ 并应用高斯积分还得到 $\Gamma(1/2)=\sqrt\pi$.
+
+\begin{definition}[Gamma 分布]
+若 $\alpha,\lambda>0$, 密度为
+\[
+ f_X(x)=\frac{\lambda^\alpha}{\Gamma(\alpha)}
+            x^{\alpha-1}\ee^{-\lambda x}\ind_{(0,\infty)}(x),
+\]
+称 $X$ 服从 shape 参数为 $\alpha$、rate 参数为 $\lambda$ 的 gamma 分布, 记为 $\operatorname{Gamma}(\alpha,\lambda)$. 本书固定这一参数次序; 尺度参数为 $1/\lambda$.
+\end{definition}
+
+用 $u=\lambda x$ 换元, 密度的积分为 $\Gamma(\alpha)/\Gamma(\alpha)=1$. 这也说明速率改变只是在时间轴上缩放. 对 $r> -\alpha$,
+\[
+ \E[X^r]=\frac{\Gamma(\alpha+r)}{\lambda^r\Gamma(\alpha)}.
+\]
+这是直接将 $x^r$ 乘入密度后换元得到的; 条件 $r> -\alpha$ 控制零点附近的可积性. 特别地,
+\[
+ \E X=\frac\alpha\lambda,\qquad
+ \E X^2=\frac{\alpha(\alpha+1)}{\lambda^2},\qquad
+ \Var(X)=\frac\alpha{\lambda^2}.
+\]
+$\alpha=1$ 正是指数分布. 对非整数 $\alpha$ 分布仍有意义, 但不能解释成等待第 $\alpha$ 次事件.
+
+\begin{proposition}[第 $n$ 次 Poisson 事件的时间]
+在速率 $\lambda$ 的 Poisson 过程中, 第 $n$ 次事件的时刻 $T_n$ 服从 $\operatorname{Gamma}(n,\lambda)$.
+\end{proposition}
+\begin{proof}
+$T_n>t$ 当且仅当 $N(t)\le n-1$. 因而对 $t\ge0$,
+\[
+ \Prob(T_n>t)=\ee^{-\lambda t}
+       \sum_{k=0}^{n-1}\frac{(\lambda t)^k}{k!}.
+\]
+求导时相邻项相消, 留下
+\[
+ f_{T_n}(t)=-\frac{\dd}{\dd t}\Prob(T_n>t)
+ =\lambda\ee^{-\lambda t}\frac{(\lambda t)^{n-1}}{(n-1)!}.
+\]
+这就是 $\operatorname{Gamma}(n,\lambda)$ 密度.
+\end{proof}
+
+同一密度也可以从离散等待的极限看出. 每单位时间做 $N$ 次成功率为 $\lambda/N$ 的独立试验, 第 $n$ 次成功发生在第 $k$ 次试验的概率为
+\[
+ \binom{k-1}{n-1}(\lambda/N)^n(1-\lambda/N)^{k-n}.
+\]
+固定 $n$ 和 $x>0$, 令 $k/N\to x$, 上式乘以 $N$ 趋于
+$\lambda^n x^{n-1}\ee^{-\lambda x}/(n-1)!$. 乘 $N$ 是因为一个时间格的宽度为 $1/N$: 点质量除以格宽才对应密度. 严格的累计概率极限也可由
+$\Prob(T_n>t)=\Prob(\Bin(\lfloor Nt\rfloor,\lambda/N)<n)$ 和二项到 Poisson 的极限得到.
+
+现在反过来, 取独立指数间隔 $X_1,X_2,\ldots$, 并记 $S_n=X_1+\cdots+X_n$. 下一章将由卷积证明 $S_n$ 的上述 gamma 密度. 令 $N(t)$ 为 $S_n\le t$ 的最大 $n$, 则对 $n\ge1$,
+\begin{align*}
+ \Prob(N(t)=n)
+ &=\int_0^t f_{S_n}(s)\Prob(X_{n+1}>t-s)\dd s\\
+ &=\int_0^t\frac{\lambda^n s^{n-1}\ee^{-\lambda s}}{(n-1)!}
+                 \ee^{-\lambda(t-s)}\dd s
+ =\ee^{-\lambda t}\frac{(\lambda t)^n}{n!}.
+\end{align*}
+$n=0$ 时概率为 $\Prob(X_1>t)=\ee^{-\lambda t}$. 这些概率之和为 $1$, 也表明有限时间内不会产生无穷多个事件. 无记忆性使任意观察时刻的剩余间隔重新具有指数分布, 所以未来计数与过去独立; 这补足了从指数间隔到 Poisson 过程的联系.
+
+整数 shape 还具有体积解释. 正数 $x_1,\ldots,x_{n-1}$ 满足 $x_1+\cdots+x_{n-1}\le t$ 的区域体积为 $t^{n-1}/(n-1)!$. 对 $n-1=1$ 它是区间长度, 更高维由对最后一个坐标积分归纳得到. 这解释了 gamma 密度中 $t^{n-1}$ 的来源, 而不把超平面的欧氏面积误认为同一体积.
+
+\originalsection{Cauchy 分布与不存在的期望}
+
+\begin{definition}[标准 Cauchy 分布]
+标准 Cauchy 密度为
+\[
+ f_C(x)=\frac1{\pi(1+x^2)},\qquad x\in\R.
+\]
+\end{definition}
+
+让角度 $\Theta$ 在 $(-\pi/2,\pi/2)$ 上均匀, 并令 $C=\tan\Theta$. 正切在这个区间严格递增, 因而
+\[
+ F_C(x)=\Prob(\Theta\le\arctan x)
+ =\frac12+\frac1\pi\arctan x.
+\]
+求导得到 Cauchy 密度; $\arctan x$ 在两端趋于 $\pm\pi/2$, 同时核对总概率为 $1$. 几何上, 从 $(0,1)$ 发出的随机方向射线落在水平轴上的位置就是这个变量.
+
+\begin{center}
+\begin{tikzpicture}[scale=.85,>=Stealth]
+ \draw[->] (-2.6,0)--(3.5,0) node[right] {$x$};
+ \draw[dashed] (0,0)--(0,2);
+ \draw[thick,->] (0,2)--(2.3,0);
+ \fill (0,2) circle(2pt) node[above] {$(0,1)$};
+ \fill (2.3,0) circle(2pt) node[below] {$C=\tan\Theta$};
+ \draw (0,1.55) arc[start angle=-90,end angle=-41,radius=.45];
+ \node at (.32,1.35) {$\Theta$};
+ \node[left] at (0,1) {$1$};
+\end{tikzpicture}
+\end{center}
+
+对位置 $a\in\R$ 和尺度 $b>0$, $Y=a+bC$ 的密度为
+\[
+ f_Y(y)=\frac{b}{\pi((y-a)^2+b^2)}.
+\]
+$a$ 是对称中心和中位数, $b$ 是尺度, 不能称它们为均值与标准差.
+
+\begin{proposition}
+标准 Cauchy 变量没有有限期望, 其通常的期望也未定义; 二阶矩为无穷大. 更精确地, 对 $r\ge0$, $\E|C|^r<\infty$ 当且仅当 $r<1$.
+\end{proposition}
+\begin{proof}
+在 $x\ge1$ 上,
+\[
+ \frac12x^{r-2}\le\frac{x^r}{1+x^2}\le x^{r-2}.
+\]
+所以尾积分收敛当且仅当 $r-2<-1$, 即 $r<1$. 在零附近, $r\ge0$ 保证可积. 特别地,
+\[
+ \int_0^R\frac{x}{\pi(1+x^2)}\dd x
+ =\frac1{2\pi}\log(1+R^2)\longrightarrow\infty.
+\]
+正半轴上的期望为 $+\infty$, 负半轴上的为 $-\infty$, 因而不能相加定义为零. 对称截断积分为零只是主值, 不等于概率期望. 二阶矩由 $r=2$ 的情形发散.
+\end{proof}
+
+原课程还用 Brownian 运动解释 Cauchy 分布. Brownian 运动可理解为细网格随机游走的连续极限, 但其存在性与路径理论超出本章. 在这里明确引用它的半平面命中事实: 从 $(u,v)$、$v>0$ 出发, 首次命中水平轴的位置 $H$ 满足
+\[
+ \Prob(H\le x)=\frac12+\frac1\pi\arctan\frac{x-u}{v}.
+\]
+于是从 $(0,1)$ 出发的命中点为标准 Cauchy, 从 $(0,2)$ 出发的命中点具有 $2C$ 的分布. 此公式作为几何解释引用, 本书不以它作为其他分布结论的证明. Cauchy 分布具有稳定性: 两个独立标准 Cauchy 的和与 $2C$ 同分布. 下一章给出直接积分验证, 无须依赖 Brownian 运动. 此时若试图套用方差加法, 会写出 $4\Var(C)=2\Var(C)$; 错误在于 $\Var(C)$ 并非有限数, 所以不能作这种有限矩运算.
+
+\originalsection{Beta 分布与未知成功率}
+
+\begin{definition}[Beta 函数与分布]
+对 $a,b>0$, 定义
+\[
+ B(a,b)=\int_0^1 x^{a-1}(1-x)^{b-1}\dd x.
+\]
+密度 $f(x)=x^{a-1}(1-x)^{b-1}/B(a,b)$ 在 $0<x<1$ 上, 其余为零的分布称为 $\operatorname{Beta}(a,b)$.
+\end{definition}
+
+条件 $a,b>0$ 分别保证两端的可积性. 两个参数都等于 $1$ 时是均匀分布. $a<1$ 或 $b<1$ 时密度可在端点无界, 但总概率仍然有限; 密度不需要处处有界.
+
+\begin{proposition}[Beta--Gamma 恒等式]
+\[
+ B(a,b)=\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}\quad(a,b>0).
+\]
+\end{proposition}
+\begin{proof}
+将两个 gamma 积分相乘:
+\[
+ \Gamma(a)\Gamma(b)=\int_{u>0,v>0}
+      u^{a-1}v^{b-1}\ee^{-(u+v)}\dd u\dd v.
+\]
+选择总量 $s=u+v$ 与比例 $r=u/(u+v)$, 是为了把指数中的总量与幂函数中的比例分离. 逆变换为 $u=sr$, $v=s(1-r)$, 区域变为 $s>0$, $0<r<1$. 其面积放大率为
+\[
+ \left|\det\begin{pmatrix}r&s\\1-r&-s\end{pmatrix}\right|=s.
+\]
+代入并分开非负积分,
+\[
+ \Gamma(a)\Gamma(b)
+ =\left(\int_0^\infty s^{a+b-1}\ee^{-s}\dd s\right)
+  \left(\int_0^1r^{a-1}(1-r)^{b-1}\dd r\right)
+ =\Gamma(a+b)B(a,b).
+\]
+多元换元的条件及这个面积因子的作用, 将在下一章系统说明.
+\end{proof}
+
+对于 $P\sim\operatorname{Beta}(a,b)$, 把 $x^k$ 乘入密度, 得
+\[
+ \E[P^k]=\frac{B(a+k,b)}{B(a,b)}\quad(k\ge0).
+\]
+结合 gamma 递推式,
+\[
+ \E P=\frac a{a+b},\quad
+ \E P^2=\frac{a(a+1)}{(a+b)(a+b+1)},\quad
+ \Var(P)=\frac{ab}{(a+b)^2(a+b+1)}.
+\]
+这里均值由两个参数的比例决定, 而 $a+b$ 增大时分布更集中.
+
+现在把成功率本身视为随机变量 $P$. 假设先从 $[0,1]$ 均匀选择 $P$, 再在给定 $P=p$ 的条件下独立做 $n$ 次成功率为 $p$ 的试验. 记成功数为 $H$. 对一个小区间 $\dd p$, 同时观察到 $P$ 落在该区间和 $H=h$ 的概率为
+\[
+ \binom nh p^h(1-p)^{n-h}\dd p.
+\]
+因此条件于 $H=h$ 的密度是把这式除以总概率:
+\[
+ f_{P\mid H=h}(p)=
+ \frac{p^h(1-p)^{n-h}}{\int_0^1u^h(1-u)^{n-h}\dd u}
+ =\frac{p^h(1-p)^{n-h}}{B(h+1,n-h+1)}.
+\]
+这就是 $\operatorname{Beta}(h+1,n-h+1)$. 条件事件 $H=h$ 的概率为正, 所以此处是普通条件概率, 不涉及对概率为零的事件 $P=p$ 直接相除.
+
+\begin{example}
+成功率先均匀选择, 随后进行 $8$ 次条件独立试验, 观察到 $5$ 次成功. 求下一次成功的预测概率和成功率的条件方差.
+\end{example}
+\begin{solution}
+后验成功率为 $\operatorname{Beta}(6,4)$. 给定成功率时下一次成功概率为 $P$, 所以去掉条件后的预测概率为后验均值
+\[
+ \Prob(\text{下一次成功}\mid H=5)=\E[P\mid H=5]=\frac6{10}=\frac35.
+\]
+后验方差为 $6\cdot4/(10^2\cdot11)=6/275$. 它描述未知参数的剩余不确定性, 不是一次试验指示变量的方差.
+\end{solution}
+
+若先验改为 $\operatorname{Beta}(a,b)$, 用同一乘法得到后验
+$\operatorname{Beta}(a+h,b+n-h)$, 预测成功概率为 $(a+h)/(a+b+n)$. 均匀先验仅是 $a=b=1$ 的特例, 不是所谓“不知道任何事情”唯一可能的数学表达.
+
+\originalsection{习题与解答}
+
+\begin{exercise}
+设 $X$ 的密度为 $c(1-x)$, $0<x<1$, 其余为零. 求 $c$, $F_X$, 均值、方差和 $\Prob(X>1/2)$. 若以概率 $1/4$ 直接取 $0$, 以概率 $3/4$ 按此密度取值形成 $Y$, 求 $F_Y$ 与 $\Prob(0\le Y\le1/2)$.
+\end{exercise}
+\begin{solution}
+归一条件为 $c\int_0^1(1-x)\dd x=c/2=1$, 所以 $c=2$. 在 $(0,1)$ 上 $F_X(t)=2t-t^2$, 两端外分别为 $0,1$. 由
+\[
+ \E X=2\int_0^1(x-x^2)\dd x=\frac13,\qquad
+ \E X^2=2\int_0^1(x^2-x^3)\dd x=\frac16,
+\]
+得 $\Var(X)=1/18$. 右尾概率 $1-F_X(1/2)=1/4$. 对混合分布,
+\[
+ F_Y(t)=\begin{cases}0,&t<0,\\
+ 1/4+(3/4)(2t-t^2),&0\le t<1,\\1,&t\ge1.\end{cases}
+\]
+所以 $\Prob(0\le Y\le1/2)=F_Y(1/2)-F_Y(0-)=13/16$.
+\end{solution}
+
+\begin{exercise}
+三个相互独立的指数钟的速率分别为 $1,2,4$. 求第一次响的时间的均值, 以及已经 $3$ 个时间单位没有钟响后, 再等待超过 $2$ 个时间单位的条件概率. 若只考虑速率为 $2$ 的钟, 已等 $3$ 单位后其条件总寿命的均值是多少?
+\end{exercise}
+\begin{solution}
+最小等待时间 $T\sim\Exp(7)$, 所以 $\E T=1/7$. 无记忆性给出
+$\Prob(T>5\mid T>3)=\ee^{-14}$. 对单独的速率 $2$ 的钟 $X$, 条件于 $X>3$, $X=3+(X-3)$, 剩余项的条件均值为 $1/2$, 所以 $\E[X\mid X>3]=7/2$. 无记忆性描述剩余寿命, 不表示总寿命的条件均值仍为 $1/2$.
+\end{solution}
+
+\begin{exercise}
+事件按速率 $3$ 的 Poisson 过程发生. 设 $T$ 为第四次事件的时刻. 求 $\E T$, $\Var(T)$ 和 $\Prob(T>1)$. 再设未知成功率 $P$ 先验为 $\operatorname{Beta}(2,3)$, 观察到 $4$ 次成功、$2$ 次失败, 求后验和下一次成功的预测概率.
+\end{exercise}
+\begin{solution}
+$T\sim\operatorname{Gamma}(4,3)$, 所以均值为 $4/3$, 方差为 $4/9$. $T>1$ 等价于 $N(1)\le3$, 故
+\[
+ \Prob(T>1)=\ee^{-3}\left(1+3+\frac{3^2}{2!}+\frac{3^3}{3!}\right)
+ =13\ee^{-3}.
+\]
+后验密度正比于 $p^{2-1+4}(1-p)^{3-1+2}$, 因而为 $\operatorname{Beta}(6,5)$, 预测成功概率为 $6/11$.
+\end{solution}
+
+\begin{exercise}
+若 $C$ 为标准 Cauchy 变量, 求 $\Prob(|C|\le1)$, $\Prob(C>t)$ ($t>0$), 并说明为什么由对称性不能断言 $\E C=0$.
+\end{exercise}
+\begin{solution}
+$\arctan1=\pi/4$, 所以 $F_C(1)-F_C(-1)=1/2$. 右尾概率为 $1/2-\arctan(t)/\pi$, 当 $t\to\infty$ 时约为 $1/(\pi t)$, 显示比指数和正态尾部衰减慢得多. 正负半轴的期望分别发散到相反的无穷, 未满足绝对可积性. 对称性只能使对称截断的主值为零, 不能定义通常期望.
+\end{solution}

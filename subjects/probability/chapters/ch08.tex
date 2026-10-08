@@ -1,0 +1,252 @@
+\originalchapter{条件期望与分布的变换函数}
+\sourcelecture{23, 25--26}
+条件分布描述已获得信息以后还剩下的随机性. 条件期望则把这整个分布压缩成一个预测值. 因为信息本身也是随机获得的, 条件期望是随机变量, 而不是一个固定数字. 本章从能直接计算的联合分布入手, 再用指数函数把分布编码, 为独立和与极限定理准备工具.
+
+\originalsection{条件分布与零概率条件}
+若 $(X,Y)$ 离散, 当 $p_Y(y)>0$ 时,
+\[p_{X\mid Y}(x\mid y)=\frac{p_{X,Y}(x,y)}{p_Y(y)}.\]
+这就是把联合概率中固定 $y$ 的一列归一化. 连续情形不能使用 $\Prob(X\in A,Y=y)/\Prob(Y=y)$, 因为分母为0.
+\begin{definition}[条件密度]
+若 $(X,Y)$ 有联合密度 $f(x,y)$, 令 $f_Y(y)=\int_\R f(x,y)\dd x$. 在 $0<f_Y(y)<\infty$ 的点, 定义
+\[f_{X\mid Y}(x\mid y)=\frac{f(x,y)}{f_Y(y)}.\]
+它作为 $x$ 的函数非负且积分为1. 在其他 $y$ 处可任意指定一个概率密度; 这些点对 $Y$ 的分布而言总概率为0.
+\end{definition}
+条件密度的依据是下述重建公式: 对任意可测集合 $A,B$,
+\[\Prob(X\in A,Y\in B)=\int_B\left(\int_Af_{X\mid Y}(x\mid y)\dd x\right)f_Y(y)\dd y.\]
+将定义代入, 右边恢复联合密度积分. 所以可以先按 $f_Y$ 抽取 $Y$, 再按该 $y$ 对应的条件密度抽取 $X$, 得到原联合分布. 也得到边缘密度的混合公式
+$f_X(x)=\int_\R f_{X\mid Y}(x\mid y)f_Y(y)\dd y$, 几乎处处成立.
+
+在适当连续条件下, 上述定义还可从窄带条件的极限得到. 令 $g_A(v)=\int_A f(x,v)\dd x$. 若 $g_A$ 与 $f_Y$ 在 $y$ 连续且 $f_Y(y)>0$, 则
+\[
+\Prob(X\in A\mid |Y-y|<\eps)
+=\frac{\int_{y-\eps}^{y+\eps}g_A(v)\dd v}{\int_{y-\eps}^{y+\eps}f_Y(v)\dd v}
+\longrightarrow\frac{g_A(y)}{f_Y(y)}.
+\]
+分子分母同时除以 $2\eps$, 再用连续函数的局部平均趋于函数值即可. 没有这些局部条件时, 不能保证每个指定 $y$ 都有这种极限.
+\begin{example}
+在三角形 $0<x<y<1$ 上均匀取点 $(X,Y)$. 求 $X$ 在给定 $Y=y$ 时的分布.
+\end{example}
+\begin{solution}
+面积为 $1/2$, 联合密度为2. 因而 $f_Y(y)=\int_0^y2\dd x=2y$, $0<y<1$, 条件密度为 $1/y$, $0<x<y$. 所以给定 $Y=y$, $X$ 均匀分布于 $(0,y)$, 而不是 $(0,1)$. 条件会改变取值范围, 必须在除以边缘密度以前就确认支持集.
+\end{solution}
+
+同一个零概率集合, 不同的邻域收缩方式可能给不同答案. 例如在矩形 $0<x<1,-1<y<1$ 上均匀取点. 按 $|Y|<\eps$ 收缩, 极限的 $X$ 是 $(0,1)$ 均匀分布. 若观察变量换成 $T=Y/X$, 则 $T=0$ 仍对应 $Y=0$, 但按 $|T|<\eps$ 收缩时, 对固定 $x$ 的带宽为 $2\eps x$. 对 $0<\eps<1$, 条件密度正比于 $x$, 归一化后为 $2x$. 零概率条件的含义由观察变量及其条件分布决定, 不能只凭集合相同就认定条件分布相同.
+
+\originalsection{条件期望的对象与基本性质}
+\begin{definition}
+设 $X$ 可积. 离散情形定义
+$m(y)=\sum_x xp_{X\mid Y}(x\mid y)$, 连续联合密度情形定义
+$m(y)=\int_\R xf_{X\mid Y}(x\mid y)\dd x$.
+在这些公式有意义的点上, $m(y)=\E[X\mid Y=y]$ 是一个数. 定义随机变量
+$\E[X\mid Y]=m(Y)$; 它只依赖观察到的 $Y$.
+\end{definition}
+绝对可积保证条件绝对期望几乎处处有限. 例如连续情形
+$\int\bigl(\int |x|f_{X\mid Y}(x\mid y)\dd x\bigr)f_Y(y)\dd y=\E|X|<\infty$.
+因此可能失效的条件值只落在一个 $Y$ 概率为0的集合. 此外 $|m(y)|\le\E[|X|\mid Y=y]$, 故 $m(Y)$ 也可积.
+
+\begin{theorem}[全期望与拉出已知因子]
+若 $X$ 可积, 则 $\E[\E(X\mid Y)]=\E X$. 若 $h(Y)$ 有界, 则
+\[\E[h(Y)X\mid Y]=h(Y)\E[X\mid Y],\qquad
+\E[h(Y)X]=\E[h(Y)\E(X\mid Y)].\]
+同样公式对无界 $h$ 也成立, 只要 $h(Y)X$ 可积.
+\end{theorem}
+\begin{proof}
+连续情形, 全期望是
+\[
+\int_\R m(y)f_Y(y)\dd y
+=\int_\R\int_\R xf(x,y)\dd x\dd y=\E X.
+\]
+可交换积分是因为 $\iint |x|f(x,y)\dd x\dd y<\infty$. 离散情形把积分换成求和, 由绝对收敛得到相同等式. 条件给定 $y$ 后, $h(y)$ 是常数, 所以可从关于 $x$ 的期望中提出. 对该等式再用全期望即得第二式. 无界情形先把 $h$ 截断为 $h\ind_{\{|h|\le n\}}$; 由 $|hX|$ 可积和条件积分的绝对值估计, 两边均可通过可积控制取极限. 特别地, 这也保证 $h(Y)m(Y)$ 可积.
+\end{proof}
+这里的全期望不是在未知条件之间简单平均, 而是以条件值本身的概率为权重. 条件均值虽可能随 $y$ 很大或很小, 对所有条件再平均仍恢复原平均值.
+
+若不具备联合密度, 例如 $X=Y$, 可用下述刻画: $m(Y)$ 可积且对每个有界函数 $h$ 满足
+$\E[h(Y)m(Y)]=\E[h(Y)X]$. 这称为关于 $Y$ 所含信息的条件期望. 它的存在在一般概率空间中需要测度论的条件期望存在定理, 本书调用该定理而不证明它; 对离散与联合密度情形, 上面的构造已直接建立存在. 刻画保证几乎处处唯一: 两个候选之差为 $d(Y)$, 取 $h(Y)=\operatorname{sgn}(d(Y))$, 便得 $\E|d(Y)|=0$.
+
+\begin{proposition}[塔式性质]
+若 $X$ 可积, $Z=g(Y)$, 即 $Z$ 提供的信息包含于 $Y$ 提供的信息, 则
+\[\E[\E(X\mid Y)\mid Z]=\E(X\mid Z).\]
+\end{proposition}
+\begin{proof}
+左边记作 $W$, 是 $Z$ 的函数. 对任意有界 $h(Z)$, 连用两次刻画,
+\[\E[h(Z)W]=\E[h(Z)\E(X\mid Y)]=\E[h(g(Y))X]=\E[h(Z)X].\]
+唯一性给出结论. 从更细的信息回到更粗的信息后, 得到与直接按粗信息预测相同的结果. 条件顺序不能任意交换; 这里需要明确的信息包含关系.
+\end{proof}
+条件期望也满足线性性和非负性, 证明分别在条件积分中用线性性及被积函数非负, 或使用刻画及唯一性. 若 $X$ 与 $Y$ 独立, 条件分布不随 $y$ 改变, 所以 $\E[X\mid Y]=\E X$. 若 $X=h(Y)$, 则已经知道 $X$, 所以 $\E[X\mid Y]=X$.
+
+\begin{example}
+独立进行30次成功概率为 $p$ 的试验, $S$ 为总成功数, $K$ 为前12次成功数. 求 $\E[S\mid K]$ 和 $\Var(S\mid K)$.
+\end{example}
+\begin{solution}
+写 $S=K+L$, 后18次成功数 $L\sim\Bin(18,p)$ 与 $K$ 独立. 给定 $K=k$, 前段数已成为常数, 因而 $\E[S\mid K]=K+18p$, $\Var(S\mid K)=18p(1-p)$. 再平均得到 $\E S=12p+18p=30p$.
+\end{solution}
+\begin{example}
+一批20件产品中有5件带标记, 不放回依次抽取6件. 已知前两件均带标记, 求6件中带标记数的条件期望.
+\end{example}
+\begin{solution}
+剩余18件中有3件带标记. 后四个抽取位置的每个指标在给定条件下期望为 $3/18$. 无须假设这些指标独立, 线性性给条件期望 $2+4(3/18)=8/3$.
+\end{solution}
+
+\originalsection{条件方差与最佳平方预测}
+\begin{definition}
+若 $\E X^2<\infty$, 定义
+\[\Var(X\mid Y)=\E[(X-\E[X\mid Y])^2\mid Y]
+=\E[X^2\mid Y]-(\E[X\mid Y])^2.\]
+这通常是 $Y$ 的随机函数. 平方恒等式是在每个条件分布中展开, 并非无条件方差的记号改写.
+\end{definition}
+令 $m=\E[X\mid Y]$. 条件积分的柯西不等式给 $m^2\le\E[X^2\mid Y]$, 故 $m$ 有有限二阶矩.
+\begin{theorem}[全方差]
+若 $\E X^2<\infty$, 则
+\[\Var X=\Var(\E[X\mid Y])+\E[\Var(X\mid Y)].\]
+\end{theorem}
+\begin{proof}
+由全期望,
+$\E\Var(X\mid Y)=\E X^2-\E m^2$.
+又 $\E m=\E X$, 所以
+$\Var m=\E m^2-(\E X)^2$.
+相加正好为 $\E X^2-(\E X)^2$. 第一项描述不同条件均值之间的变化, 第二项描述每个条件内部仍未消除的变化.
+\end{proof}
+\begin{example}
+在本章三角形取点模型中, 求 $\E X$、$\Var X$.
+\end{example}
+\begin{solution}
+给定 $Y=y$ 后, $X$ 均匀于 $(0,y)$, 所以条件均值为 $y/2$, 条件方差为 $y^2/12$. 从 $f_Y(y)=2y$ 得 $\E Y=2/3$, $\E Y^2=1/2$, $\Var Y=1/18$. 因此
+\[\E X=\frac13,\qquad \Var X=\frac14\frac1{18}+\frac1{12}\frac12=\frac1{18}.\]
+用边缘密度 $f_X(x)=2(1-x)$ 直接计算二阶矩为 $1/6$, 减去 $1/9$ 也得到 $1/18$.
+\end{solution}
+\begin{theorem}[平方损失下的最佳预测]
+若 $\E X^2<\infty$, 对任何具有有限二阶矩的预测 $a(Y)$,
+\[\E[(X-a(Y))^2]=\E[(X-m(Y))^2]+\E[(m(Y)-a(Y))^2].\]
+因此条件期望是依赖 $Y$ 的最佳平方预测, 且最优预测几乎处处唯一.
+\end{theorem}
+\begin{proof}
+把误差分解为 $X-m+(m-a)$, 平方展开. 交叉项期望为0, 因为 $m-a$ 是 $Y$ 的函数, 而 $\E[X-m\mid Y]=0$. 两个因子的乘积可积由二阶矩及柯西不等式保证; 可以先截断 $m-a$, 再用可积控制得到拉出因子的等式. 剩下两个平方项均非负, 第二项仅当 $a=m$ 几乎必然时为0.
+\end{proof}
+只允许常数预测时同样有
+$\E(X-c)^2=\Var X+(\E X-c)^2$, 最优常数为 $\E X$.
+若 $X,Y$ 独立、均值为0, 令 $Z=X+Y$, 方差分别为 $\sigma_X^2,\sigma_Y^2$, 则
+\[\Cov(X,Z)=\sigma_X^2,\quad
+\rho(X,Z)=\frac{\sigma_X}{\sqrt{\sigma_X^2+\sigma_Y^2}},\quad
+\E[Z\mid X]=X,\quad\Var(Z\mid X)=\sigma_Y^2,\]
+其中相关系数要求 $\sigma_X>0$ 及分母非零. 全方差将 $\Var Z$ 分成已观察到的 $X$ 的变化和未观察到的 $Y$ 的变化.
+
+\originalsection{矩母函数及微分条件}
+\begin{definition}
+实随机变量 $X$ 的矩母函数为 $M_X(t)=\E\ee^{tX}$, $t\in\R$. 允许值为 $+\infty$. 其有限定义域是 $D_X=\{t:M_X(t)<\infty\}$, 且总有 $M_X(0)=1$.
+\end{definition}
+它将分布变成指数函数的加权平均. 对 $t>0$, $\Prob(X\ge b)>0$ 时有 $M_X(t)\ge\ee^{tb}\Prob(X\ge b)$. 对负尾也有类似估计, 所以两侧都有非零质量的变量, 在正负两个方向上均会使矩母函数至少按某个指数下界增长.
+\begin{theorem}[矩的生成]
+若存在 $a>0$ 使 $M_X(a),M_X(-a)<\infty$, 则对 $|t|<a$, $M_X$ 可任意次微分, 且
+\[M_X^{(k)}(t)=\E[X^k\ee^{tX}],\qquad M_X^{(k)}(0)=\E X^k.\]
+并且对 $|t|<a$,
+$M_X(t)=\sum_{k=0}^\infty(\E X^k)t^k/k!$.
+\end{theorem}
+\begin{proof}
+由 $\ee^{a|X|}\le\ee^{aX}+\ee^{-aX}$ 知 $\E\ee^{a|X|}<\infty$. 对任意 $0<b<a$, 多项式增长慢于指数增长, 所以每个整数 $k\ge0$ 存在常数 $C$ 使
+$|x|^k\ee^{b|x|}\le C\ee^{a|x|}$.
+取 $t$ 的小邻域包含于 $[-b,b]$, 差商由中值定理被 $|X|\ee^{b|X|}$ 控制, 因而可把导数移入期望. 对已取得的导数重复论证, 得所有阶的公式. 最后指数级数的绝对值和为 $\ee^{|t||X|}$, 它可积, 故可逐项求期望. 这说明交换步骤成立的原因; 仅有某些有限矩, 并不自动保证存在矩母函数的邻域.
+\end{proof}
+从而 $\E X=M'_X(0)$, $\Var X=M''_X(0)-(M'_X(0))^2$.
+\begin{proposition}[和与仿射变换]
+独立变量 $X,Y$ 在各自矩母函数有限的 $t$ 处满足
+\[M_{X+Y}(t)=M_X(t)M_Y(t).\]
+另有 $M_{cX+d}(t)=\ee^{dt}M_X(ct)$. 对独立同分布的 $X_1,\ldots,X_n$, 和的矩母函数为 $M_X(t)^n$.
+\end{proposition}
+\begin{proof}
+$\ee^{t(X+Y)}=\ee^{tX}\ee^{tY}$, 独立乘积期望公式给出第一式. 第二式直接从 $\ee^{t(cX+d)}=\ee^{dt}\ee^{ctX}$ 得到. 对独立和重复第一式即可.
+\end{proof}
+
+\originalsection{常用分布与存在性}
+若 $B$ 是成功概率 $p$ 的伯努利变量, 直接计算得
+$M_B(t)=1-p+p\ee^t$. 二项变量为 $n$ 个独立伯努利变量之和, 故
+\[M_{\Bin(n,p)}(t)=(1-p+p\ee^t)^n,\qquad t\in\R.\]
+对 $X\sim\Pois(\lambda)$,
+\[M_X(t)=\sum_{k=0}^\infty\ee^{tk}\ee^{-\lambda}\frac{\lambda^k}{k!}
+=\ee^{-\lambda}\sum_{k=0}^\infty\frac{(\lambda\ee^t)^k}{k!}
+=\exp\{\lambda(\ee^t-1)\},\qquad t\in\R.\]
+这也恢复 $\E X=\Var X=\lambda$: 一阶导数为 $M_X(t)\lambda\ee^t$, 二阶导数为 $M_X(t)[\lambda^2\ee^{2t}+\lambda\ee^t]$.
+
+若 $G\sim\Normal(0,1)$, 配方得到
+\[
+M_G(t)=\frac1{\sqrt{2\pi}}\int_\R\exp\left(tx-\frac{x^2}2\right)\dd x
+=\ee^{t^2/2}\frac1{\sqrt{2\pi}}\int_\R\ee^{-(x-t)^2/2}\dd x
+=\ee^{t^2/2}.
+\]
+因此 $X=\mu+\sigma G$ 的矩母函数为 $\exp(\mu t+\sigma^2t^2/2)$, 在所有实数上有限.
+
+对率为 $\lambda>0$ 的指数变量,
+\[M_X(t)=\lambda\int_0^\infty\ee^{-(\lambda-t)x}\dd x
+=\frac{\lambda}{\lambda-t},\qquad t<\lambda.\]
+$t=\lambda$ 时被积函数为常数, $t>\lambda$ 时增长, 两种情况积分均为无穷. 不能把有理表达式延伸到 $t>\lambda$ 当作期望, 那里甚至会得到负值.
+
+伽马分布采用形状参数 $\alpha>0$ 与率参数 $\lambda>0$, 密度为
+$f(x)=\lambda^\alpha x^{\alpha-1}\ee^{-\lambda x}/\Gamma(\alpha)$, $x>0$, 其中 $\Gamma(\alpha)=\int_0^\infty u^{\alpha-1}\ee^{-u}\dd u$. 代换 $u=(\lambda-t)x$ 得
+\[M_X(t)=\left(\frac{\lambda}{\lambda-t}\right)^\alpha,\qquad t<\lambda.\]
+$t\ge\lambda$ 时积分发散. 当 $\alpha=n$ 为正整数时, 该函数也是 $n$ 个独立同率指数变量之和的矩母函数. 非整数形状不能解释为非整数个变量之和, 必须用密度积分.
+
+对首次成功试验次数 $X\sim\Geom(p)$, 支持集为 $1,2,\ldots$, 有
+\[M_X(t)=\sum_{k\ge1}p(1-p)^{k-1}\ee^{tk}
+=\frac{p\ee^t}{1-(1-p)\ee^t},\]
+当 $0<p<1$ 时要求 $t<-\log(1-p)$; $p=1$ 时 $X=1$, 矩母函数为 $\ee^t$.
+
+存在性不能省略. 标准柯西变量的密度为 $1/[\pi(1+x^2)]$. 当 $t>0$ 时, 正半轴上的指数增长使积分发散; 当 $t<0$ 时负半轴同理, 所以只有 $M_X(0)=1$ 有限. 另有所有整数矩都有限而矩母函数仍不在0的邻域有限的例子: 若 $X=\ee^G$, $G$ 标准正态, 则 $\E X^k=\ee^{k^2/2}$, 但 $t>0$ 时
+\[\E\ee^{tX}=\frac1{\sqrt{2\pi}}\int_\R\exp(t\ee^g-g^2/2)\dd g=\infty,\]
+因为在充分大的 $g$ 上指数中的 $t\ee^g-g^2/2$ 趋于无穷, 被积函数最终大于1. 因此把形式上的矩级数当作必然收敛的矩母函数会出错.
+
+\begin{theorem}[矩母函数唯一性, 调用版]
+若 $X,Y$ 的矩母函数在同一开区间 $(-a,a)$ 上有限且相等, 则 $X,Y$ 同分布.
+\end{theorem}
+这是概率变换的唯一性定理; 完整证明需要拉普拉斯变换的唯一性, 超出本章初等积分范围, 此处明确作为工具调用. 它要求整个邻域的函数相等, 不能仅以 $M(0)=1$, 若干导数相等, 或没有指数可积条件的全部矩相等代替. 前面的计算因此真正识别了独立和的分布: 独立泊松变量之和仍为泊松分布, 参数相加; 独立正态变量之和仍为正态分布, 均值与方差分别相加; 同率独立伽马变量的形状参数相加.
+\begin{exercise}
+独立的 $A\sim\Pois(2)$, $B\sim\Pois(5)$, 令 $D=A-B$. 求 $D$ 的矩母函数、均值、方差, 并判断它是否为泊松变量.
+\end{exercise}
+\begin{solution}
+由独立及变号公式,
+$M_D(t)=\exp\{2(\ee^t-1)+5(\ee^{-t}-1)\}$.
+令括号内为 $L(t)$, 则 $M'_D=M_DL'$, $M''_D=M_D[(L')^2+L'']$. 在0处 $L'=-3,L''=7$, 因而均值为 $-3$, 方差为7. 它不是泊松变量, 因为存在负值的正概率, 例如 $A=0,B=1$ 的概率为 $5\ee^{-7}>0$. 变换公式必须结合支持集理解.
+\end{solution}
+
+\originalsection{特征函数与极限工具}
+\begin{definition}
+实随机变量 $X$ 的特征函数为
+\[\varphi_X(t)=\E\ee^{\ii tX}=\E\cos(tX)+\ii\E\sin(tX),\qquad t\in\R.\]
+复数期望按实部、虚部分别定义. 因 $|\ee^{\ii tX}|=1$, 它对所有分布及所有实 $t$ 都存在, 且 $|\varphi_X(t)|\le1$, $\varphi_X(0)=1$.
+\end{definition}
+特征函数把增长的实指数换成有界的振荡函数. 若 $X$ 有密度, $\varphi_X(t)=\int\ee^{\ii tx}f_X(x)\dd x$ 是密度的傅里叶变换; 无密度时定义仍有效. 若 $X$ 整数值, 则 $\varphi_X(t+2\pi)=\varphi_X(t)$, 特别地在 $2\pi$ 的整数倍处为1, 因为对每个整数 $k$ 都有 $\ee^{2\pi\ii k}=1$.
+
+独立性给 $\varphi_{X+Y}(t)=\varphi_X(t)\varphi_Y(t)$, 仿射变换给 $\varphi_{cX+d}(t)=\ee^{\ii dt}\varphi_X(ct)$, 证明与矩母函数完全相同, 且不需要指数可积条件. 它在 $t$ 上连续: 若 $t_n\to t$, 被积函数逐点收敛并被常数1控制, 所以可交换极限与期望.
+
+若 $\E|X|^k<\infty$, 则可微到 $k$ 阶, 且
+\[\varphi_X^{(k)}(t)=\E[(\ii X)^k\ee^{\ii tX}],\qquad
+\E X^k=\ii^{-k}\varphi_X^{(k)}(0).\]
+差商由中值积分公式被 $|X|$ 控制, 重复微分时由 $|X|^j$ 控制, $j\le k$, 这些量均可积. 正确的还原因子是 $\ii^{-k}$, 例如二阶导数满足 $\varphi_X''(0)=-\E X^2$.
+
+对正态变量, $\varphi_{\Normal(\mu,\sigma^2)}(t)=\exp(\ii\mu t-\sigma^2t^2/2)$. 不能直接把实积分中的配方平移到复数路径而不给理由. 一个实变量推导是令 $G$ 标准正态, 由可积的一阶矩与分部积分,
+\[
+\varphi'_G(t)=\int_\R\ii x\ee^{\ii tx}\frac{\ee^{-x^2/2}}{\sqrt{2\pi}}\dd x
+=-t\varphi_G(t).
+\]
+这里写 $x f_G(x)=-f'_G(x)$, 分部积分的端点项因高斯衰减而为0. 配合 $\varphi_G(0)=1$, 微分方程给 $\varphi_G(t)=\ee^{-t^2/2}$, 再用仿射变换得到一般式.
+
+\begin{definition}[依分布收敛]
+若对 $F_X$ 的每个连续点 $x$, 都有 $F_{X_n}(x)\to F_X(x)$, 则称 $X_n$ 依分布收敛到 $X$, 记作 $X_n\Rightarrow X$. 不要求这些变量定义在同一概率空间.
+\end{definition}
+连续点的限制不可删掉. 例如常量 $X_n=1/n$ 收敛到常量0, 在 $x=0$ 却有 $F_{X_n}(0)=0$ 而 $F_X(0)=1$.
+\begin{theorem}[特征函数唯一性与连续性, 调用版]
+相同的特征函数确定相同的分布. 若对每个实数 $t$, $\varphi_{X_n}(t)\to\varphi_X(t)$, 则 $X_n\Rightarrow X$. 更一般地, 若逐点极限为 $\varphi$, 且 $\varphi$ 在0连续, 则 $\varphi$ 是某个概率分布的特征函数, 并有向该分布的依分布收敛.
+\end{theorem}
+这是勒维连续性定理与特征函数唯一性定理. 本章把它们作为明确的外部分析工具, 不把逐点收敛的计算误称为定理本身的证明. 0处连续条件防止概率质量逃向无穷: 例如 $X_n$ 在 $(-n,n)$ 均匀分布, $t\ne0$ 时 $\varphi_{X_n}(t)=\sin(nt)/(nt)\to0$, 而在0处始终为1. 极限函数在0不连续, 不对应概率分布的特征函数.
+
+矩母函数也有连续性定理: 若某个共同邻域 $(-a,a)$ 内各 $M_{X_n}$ 有限, 且逐点收敛于该邻域内有限的 $M_X$, 则 $X_n\Rightarrow X$. 原课程所用的所有实数上有限并收敛的版本是它的较强条件特例. 这一结论同样作为变换连续性工具调用, 不对一般只有形式矩级数的情形使用.
+
+\begin{example}
+令 $X_n\sim\Bin(n,\lambda/n)$, 其中固定 $\lambda>0$, 只取 $n>\lambda$. 用变换说明其极限分布.
+\end{example}
+\begin{solution}
+对每个实数 $t$,
+\[M_{X_n}(t)=\left(1+\frac{\lambda(\ee^t-1)}n\right)^n
+\longrightarrow\exp\{\lambda(\ee^t-1)\}.
+\]
+右边是 $\Pois(\lambda)$ 的矩母函数, 所有函数均在整个实轴有限. 因而可调用矩母函数连续性定理, 得 $X_n\Rightarrow\Pois(\lambda)$. 只有函数极限计算加上连续性定理, 才完成分布极限的论证.
+\end{solution}
+下一章将把独立和标准化后计算特征函数极限. 有限方差足以产生二阶局部展开, 无须矩母函数存在. 所以中心极限定理的一般有限方差版本使用特征函数更合适; 若另有指数可积条件, 矩母函数也能完成对应证明. 指数变换还可结合 $\Prob(X\ge b)\le\ee^{-tb}M_X(t)$ 研究大偏差, 但这类估计需要选取 $t>0$ 且矩母函数有限.
