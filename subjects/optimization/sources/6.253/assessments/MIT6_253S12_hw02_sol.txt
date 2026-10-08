@@ -1,0 +1,299 @@
+                   6.253: Convex Analysis and Optimization
+                                 Homework 2
+                                     Prof. Dimitri P. Bertsekas
+
+                                         Spring 2010, M.I.T.
+
+
+
+
+Problem 1
+(a) Let C be a nonempty convex cone. Show that cl(C) and ri(C) is also a convex cone.
+(b) Let C = cone({x1 , . . . , xm }). Show that
+
+                                       �m
+                              ri(C) = {   ai xi |ai > 0, i = 1, . . . , m}.
+                                          i=1
+
+
+Solution.
+(a) Let x ∈ cl(C) and let α be a positive scalar. Then, there exists a sequence {xk } ∈ C such
+that xk → x, and since C is a cone, αxk ∈ C for all k. Furthermore, αxk → αx, implying that
+αx ∈ cl(C). Hence, cl(C) is a cone, and it also convex since the closure of a convex set is convex.
+
+By Prop.1.3.2, the relative interior of a convex set is convex. To show that rin(C) is a cone,
+let x ∈ rin(C). Then, x ∈ C and since C is a cone, αx ∈ C for all α > 0. By the Line Segment
+Principle, all the points on the line segment connecting x and αx, except possibly αx, belong to
+rin(C). Since this is true for every α > 0, it follows that αx ∈ rin(C) for all α > 0, showing that
+rin(C) is a cone.
+                                                                                         �m
+(b) Consider the linear transformation A that maps (α1 , . . . , αm ) ∈ Rm into           i=1 αi xi   ∈ Rn .
+Note that C is the image of the nonempty convex set
+
+                                {(α1 , . . . , αm ) | α1 ≥ 0, . . . , αm ≥ 0}
+
+under A. Therefore, we have
+
+                      rin(C) = rin(A · {(α1 , . . . , αm ) | α1 ≥ 0, . . . , αm ≥ 0})
+                              = A · rin({(α1 , . . . , αm ) | α1 ≥ 0, . . . , αm ≥ 0})
+                              = A · {(α1 , . . . , αm ) | α1 > 0, . . . , αm > 0}
+                                �m                                        �
+                                 �
+                              =       αi xi | α1 > 0, . . . , αm > 0 .
+                                   i=1
+
+
+
+
+                                                     1
+Problem 2
+Let C1 and C2 be convex sets. Show that
+
+               C1 ∩ ri(C2 ) =
+                            � ∅     if and only if       ri(C1 ∩ af f (C2 )) ∩ ri(C2 ) =
+                                                                                       � ∅.
+
+
+Solution.
+Let x ∈ C1 ∩ rin(C2 ) and x̄ ∈ rin(C1 ∩ af f (C2 )). Let L be the line segment connecting x and x̄.
+Then L belongs to C1 ∩ af f (C2 ) since both of its endpoints belong to C1 ∩ af f (C2 ). Hence, by
+the Line Segment Principle, all points of L except possibly x, belong to rin(C1 ∩ af f (C2 )). On
+the other hand, by the deﬁnition of relative interior, all points of L that are suﬃciently close to x
+belong to rin(C2 ), and these points, except possibly for x belong to rin(C1 ∩ af f (C2 )) ∩ rin(C2 ).
+The other direction is obvious.
+
+
+
+
+                                                     2
+Problem 3
+(a) Consider a vector x∗ such that a given function f : Rn �→ R is convex over a sphere centered
+at x∗ . Show that x∗ is a local minimum of f if and only if it is a local minimum of f along every
+line passing through x∗ [i.e., for all d ∈ Rn , the function g : R �→ R, deﬁned by g(α) = f (x∗ + αd),
+has α∗ = 0 as its local minimum].
+(b) Consider the nonconvex function f : R2 �→ R given by
+
+                                   f (x1 , x2 ) = (x2 − px21 )(x2 − qx21 ),
+
+where p and q are scalars with 0 < p < q, and x∗ = (0, 0). Show that f (y, my 2 ) < 0 for y =
+                                                                                            � 0 and
+                            ∗
+m satisfying p < m < q, so x is not a local minimum of f even though it is a local minimum along
+every line passing through x∗ .
+
+Solution.
+(a) If x∗ is a local minimum of f , evidently it is also a local minimum of f along any line passing
+through x∗ .
+     Conversely, let x∗ be a local minimum of f along any line passing through x∗ . Assume, to arrive
+at a contradiction, that x∗ is not a local minimum of f and that we have f (x̄) < f (x∗ ) for some
+x̄ in the sphere centered at x∗ within which f is assumed convex. Then, by convexity of f , for all
+α ∈ (0, 1), we have
+
+                         f (αx∗ + (1 − α)x̄) ≤ αf (x∗ ) + (1 − α)f (x̄) < f (x∗ ),
+
+so f decreases monotonically along the line segment connecting x∗ and x̄. This contradicts the
+hypothesis that x∗ is a local minimum of f along any line passing through x∗ .
+
+(b) We ﬁrst show that the function g : R �→ R deﬁned by g(α) = f (x∗ + αd) has a local minimum
+at α = 0 for all d ∈ R2 . We have
+
+          g(α) = f (x∗ + αd) = (αd2 − pα2 d21 )(αd2 − qα2 d21 ) = α2 (d2 − pαd21 )(d2 − qαd21 ).
+
+Also,
+
+        g � (α) = 2α(d2 − pαd21 )(d2 − qαd21 ) + α2 (−pd21 )(d2 − qαd21 ) + α2 (d2 − pαd21 )(−qd21 ).
+
+Thus g � (0) = 0. Furthermore,
+
+             g �� (α) = 2(d2 − pαd21 )(d2 − qαd21 ) + 2α(−pd21 )(d2 − qαd21 )
+                     + 2α(d2 − pαd21 )(−qd21 ) + 2α(−pd21 )(d2 − qαd21 ) + α2 (−pd21 )(−qd21 )
+                     + 2α(d2 − pαd21 )(−qd21 ) + α2 (−pd21 )(−qd21 ).
+
+Thus g �� (0) = 2d22 , which is positive if d2 =
+                                               � 0. If d2 = 0, g(α) = pqα4 d41 , which is clearly minimized
+at α = 0. Therefore, (0, 0) is a local minimum of f along every line that passes through (0, 0).
+    We now show that if p < m < q, f (y, my 2 ) < 0 if y �= 0 and that f (y, my 2 ) = 0 otherwise.
+Consider a point of the form (y, my 2 ). We have f (y, my 2 ) = y 4 (m−p)(m−q). Clearly, f (y, my 2 ) < 0
+if and only if p < m < q and y �= 0. In any �−neighborhood of (0, 0), there exists a y =           � 0 such
+                                    2
+that for some m ∈ (p, q), (y, my ) also belongs to the neighborhood. Since f (0, 0) = 0, we see that
+(0, 0) is not a local minimum.
+
+
+
+
+                                                      3
+Problem 4
+(a) Consider the quadratic program
+
+                                       minimize    1/2 |x|2 + c� x
+                                              x                                                      (1)
+                                       subject to Ax = 0
+
+where c ∈ Rn and A is an m × n matrix of rank m. Use the Projection Theorem to show that
+
+                                       x∗ = −(I − A� (AA� )−1 A)c
+
+is the unique solution.
+(b) Consider the more general quadratic program
+
+                            minimize     1/2 (x − x̄)� Q(x − x̄) + c� (x − x̄)
+                                 x
+                                                                                                     (2)
+                            subject to Ax = b
+
+where c and A are as before, Q is a symmetric positive deﬁnite matrix, b ∈ Rm , and x̄ is a vector
+in Rn , which is feasible, i.e., satisﬁes Ax̄ = b. Use the transformation y = Q1/2 (x − x̄) to write this
+problem in the form of part (a) and show that the optimal solution is
+
+                                        x∗ = x̄ − Q−1 (c − A� λ),
+
+where λ is given by
+                                       λ = (AQ−1 A� )−1 AQ−1 c.
+
+
+(c) Apply the result of part (b) to the program
+
+                                     minimize     1/2 x� Qx + c� x)
+                                          x
+                                                                                                     (3)
+                                     subject to Ax = b
+
+and show that the optimal solution is
+
+                               x∗ = −Q−1 (c − A� λ − A� (AQ−1 A� )−1 b).
+
+
+
+Solution.
+(a) By adding the constant term 1/2�c�2 to the cost function, we can equivalently write this problem
+as
+                                     minimize 1/2�c + x�2
+                                              x
+                                        subject to Ax = 0
+which is the problem of projecting the vector −c on the subspace X = {x | Ax = 0}. By the
+optimality condition for projection, a vector x∗ such that Ax∗ = 0 is the unique projection if and
+only if
+                               (c + x∗ )� x = 0,   ∀ x with Ax = 0.
+It can be seen that the vector
+                                       x∗ = −(I − A� (AA� )−1 A)c
+satisﬁes this condition and is thus the unique solution of the quadratic programming problem in
+(a). (The matrix AA� is invertible because A has rank m.)
+
+                                                   4
+(b) By introducing the transformation y = Q1/2 (x − x̄), we can write the problem as
+                                                          �       ��
+                                   minimize      1/2�y�2 + Q−1/2 c y
+                                       y
+
+                                   subject to AQ−1/2 y = 0
+
+   Using part (a), we see that the solution of this problem is
+                               �                       �−1       �
+                       y ∗ = − I − Q−1/2 A� AQ−1 A�        AQ−1/2 Q−1/2 c
+                                             �
+
+
+and by passing to the x-coordinate system through the inverse transformation x∗ − x̄ = Q−1/2 y ∗ ,
+we obtain the optimal solution
+                                    x∗ = x̄ − Q−1 (c − A� λ),
+where λ is given by
+                                                    �−1
+                                        λ = AQ−1 A�     AQ−1 c.
+                                           �
+                                                                                                             (4)
+
+
+
+(c) The quadratic program in part (b) contains as a special case the program
+
+                                        minimize     1/2x� Qx + c� x
+                                            x
+                                        subject to Ax = b
+
+This special case is obtained when x̄ is given by
+
+                                        x̄ = Q−1 A� (AQ−1 A� )−1 b.                                          (5)
+
+Indeed x̄ as given above satisﬁes Ax̄ = b as required, and for all x with Ax = b, we have
+
+                             x� Qx̄ = x� A� (AQ−1 A� )−1 b = b� (AQ−1 A� )−1 b,
+
+which implies that for all x with Ax = b,
+
+        1/2(x − x̄)� Q(x − x̄) + c� (x − x̄) = 1/2x� Qx + c� x + (1/2x̄� Qx̄ − c� x̄ − b� (AQ−1 A� )−1 b).
+
+The last term in parentheses on the right-hand side above is constant, thus establishing that the
+programs (2) and (3) have the same optimal solution when x̄ is given by Eq. 5. Therefore, we
+obtain the optimal solution of program (3):
+
+                             x∗ = −Q−1 c − A� λ − A� (AQ−1 A� )−1 b ,
+                                        �                          �
+
+
+where λ is given by Eq. 4.
+
+
+
+
+                                                      5
+Problem 5
+Let X be a closed convex subset of Rn , and let f : Rn �→ (−∞, ∞] be a closed convex function such
+that X ∩ dom(f ) = � ∅. Assume that f and X have no common nonzero direction of recession. Let
+X ∗ be the set of minima of f over X (which is nonempty and compact), and let f ∗ = inf x∈X f (x).
+Show that:
+(a) For every � > 0 there exists a δ > 0 such that every vector x ∈ X with f (x) ≤ f ∗ + δ satisﬁes
+minx∗ ∈X ∗ �x − x∗ � ≤ �.
+(b) If f is real-valued, for every δ > 0 there exists an � > 0 such that every vector x ∈ X with
+minx∗ ∈X ∗ �x − x∗ � ≤ � satisﬁes f (x) ≤ f ∗ + δ.
+(c) Every sequence {xk } ⊂ X satisfying f (xk ) → f ∗ is bounded and all its limit points belong to X ∗ .
+
+Solution.
+(a) Let � > 0 be given. Assume, to arrive at a contradiction, that for any sequence {δk } with δk ↓ 0,
+there exists a sequence {xk } ∈ X such that for all k
+
+                           f ∗ ≤ f (xk ) ≤ f ∗ + δk ,         min �xk − x∗ � ≥ �.
+                                                             x∗ ∈X ∗
+
+It follows that, for all k, xk belongs to the set {x ∈ X | f (x) ≤ f ∗ + δ0 }, which is compact since
+f and X are closed and have no common nonzero direction of recession. Therefore, the sequence
+{xk } has a limit point x̄ ∈ X, which using also the lower semicontinuity of f , satisﬁes
+
+                     f (x̄) ≤ lim inf f (xk ) = f ∗ ,       �x̄ − x∗ � ≥ �,   ∀ x∗ ∈ X ∗ ,
+                               k→∞
+
+a contradiction.
+
+(b) Let δ > 0 be given. Assume, to arrive at a contradiction, that there exist sequences {xk } ⊂ X,
+{x∗k } ⊂ X ∗ , and {�k } with �k ↓ 0 such that
+
+                       f (xk ) > f ∗ + δ,       �xk − x∗k � ≤ �k ,       ∀ k = 0, 1, . . .
+
+(here x∗k is the projection of xk on X ∗ ). Since X ∗ is compact, there is a subsequence {x∗k }K that
+converges to some x∗ ∈ X ∗ . It follows that {xk }K also converges to x∗ . Since f is real-valued, it is
+continuous, so we must have f (xk ) → f (x∗ ), a contradiction.
+
+(c) Let x̄ be a limit point of the sequence {xk } ⊂ X satisfying f (xk ) → f ∗ . By lower semicontinuity
+of f , we have that
+                                       f (x̄) ≤ lim inf f (xk ) = f ∗ .
+                                                   k→∞
+
+Because {xk } ∈ X and X is closed, we have x̄ ∈ X, which in view of the preceding relation implies
+that f (x̄) = f ∗ , i.e., x̄ ∈ X ∗ .
+
+
+
+
+                                                        6
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+6.253 Convex Analysis and Optimization
+Spring 2012
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

@@ -1,0 +1,347 @@
+                  Optimization Methods in Management Science
+                                  MIT 15.053, Spring 2013
+                    Problem Set 5, Due: Thursday April 2th, 2013
+
+   Problem Set Rules:
+
+  1. Each student should hand in an individual problem set.
+
+  2. Discussing problem sets with other students is permitted. Copying from another person
+     or solution set is not permitted.
+
+  3. Late assignments will not be accepted. No exceptions.
+
+
+
+
+Problem 1
+(15 points) A local radio station is going to schedule commercials within 60 second blocks.
+Consider the following six commercials. number 1 is 12 seconds long, number 2 is 18 seconds
+long, number 3 is 22 seconds long, number 4 is 35 seconds long, number 5 is 40 seconds long
+and number 6 is 59 seconds long. What is the smallest number of 60 second blocks that the
+commercials ﬁt into?
+
+ Solution.      The key is to start with enough blocks for a trivial arrangement, in this case 5
+ obviously will work. Then we let yj = 1 if block j is used and yj = 0 otherwise and xij = 1
+ if commercial i is assigned to block j and xij = 0 otherwise. Based on this choice of decision
+ variables, the formulation is as follows:
+
+
+  min y1 + y2 + y3 + y4 + y5
+   s.t.   12x1j + 18x2j + 22x3j + 35x4j + 40x5j + 59x6j ≤ 60yj ,      for j = 1, . . . , 5
+                              xi1 + xi2 + xi3 + xi4 + xi5 = 1,        for i = 1, . . . , 6
+                                                  xij , yj ∈ {0, 1}   for j = 1, . . . , 5 & i = 1, . . . , 6
+
+ The ﬁrst set of constraints represent the condition that each possible programming block
+ contains at most 60 seconds of commercial programming. The second set of constraints
+ represent the condition that each commercial is assigned to exactly one programming block.
+ We then minimize the total number of blocks. Additionally, we need all of our decision
+ variables to be binary.
+ By inspection, however, the minimum number of blocks needed is 4; the sum of all commercial
+ times is 186, meaning that more than 3 are needed, and there is a clear way to use only 4.
+
+
+Problem 2
+(25 points) A typical large oil and gas company operates many explorations and production
+projects, which involve several billion dollars every year. These companies are annually faced
+with the problem of where the capital should be spent and which combination of projects should
+be selected from several possible project mixes. They have the diﬃcult task of portfolio selection
+from a large number of competing projects for immediate or future operation under a limited
+amount of investments.
+    Consider a small ﬁrm with 4 competing oil production projects. Table 1 presents the pro­
+duction, capital, and the net present value for these projects. They contact you to help select
+the best combination of projects under a certain amount of investment, while fulﬁlling the ﬁrm’s
+goals.
+
+(a) (5 points) Formulate an integer program to maximize the net present value (NPV) subject
+    to a capital limit stating the ﬁrm can spend no more than $32 million (M$) and a production
+    level stating the ﬁrm must produce at least 73 million barrels (Mbbl).
+
+      Solution.     We deﬁne four binary variables xA , xB , xC , xD as follows:
+
+                     1 if Project A is selected,                    1 if Project B is selected,
+            xA :=                                        xB :=
+                     0 otherwise.                                   0 otherwise.
+                     1 if Project C is selected,                    1 if Project D is selected,
+            xC :=                                        xD :=
+                     0 otherwise.                                   0 otherwise.
+
+      Then our formulation is:
+                               max 25xA + 20xB + 19xC + 28xD
+                               s.t.   11xA + 9xB + 14xC + 17xD ≤ 32,
+                                      28xA + 20xB + 25xC + 30xD ≥ 73,
+                                      xA , xB , xC , xD ∈ {0, 1}.
+
+(b) (9 points, 3 points each) Suppose that there are the following additional constraints:
+
+      (i) If Project A is selected, then Project B is also selected;
+     (ii) Either Project A is selected or Project C selected, but not both;
+    (iii) At least one of Projects A,B, and D is selected.
+
+    Extend your integer program to satisfy theses constraints.
+
+      Solution.     The additional constraints for each part are as follows:
+       (i) xA ≤ xB or equivalently xA − xB ≤ 0;
+      (ii) xA + xB = 1.
+     (iii) xA + xB + xC ≥ 1.
+
+(c) (5 points) Now assume that the selection must satisfy the production level as well as the
+    budget limit over each of the next 3 years as indicated in Table 2. The production and
+    capital for each project during the next 3 years are given in Table 3. Write an integer
+    program to determine the most proﬁtable selection.
+
+      Solution.    Suppose that xA , xB , xC , xD are the binary variables as deﬁned in Part A.
+      Here we have a budget constraint and a production constraint for each year. Therefore,
+
+
+
+
+                                                 2
+                         Table 1: Portfolio optimization problem Data
+
+                  P roject     NPV (M$)         Capital (M$)      Production (Mbbl)
+                     A            25                 11                  28
+                     B            20                  9                  20
+                     C            19                 14                  25
+                     D            28                 17                  30
+
+
+
+            Table 2: Budget limitation and production level over the next 3 years
+
+                             Year      Budget (M$)       Production (Mbbl)
+                              1            18                   20
+                              2            10                   25
+                              3             7                   30
+
+
+
+      the formulation is:
+                                    max 25xA + 20xB + 19xC + 28xD
+                                    s.t.   5xA + 4xB + 6xC + 8xD ≤ 18,
+                                           4xA + 3xB + 5xC + 5xD ≤ 10,
+                                           3xA + 3xB + 4xC + 5xD ≤ 7,
+                                           5xA + 5xB + 6xC + 8xD ≥ 20,
+                                           5xA + 7xB + 9xC + 10xD ≥ 25,
+                                           8xA + 8xB + 10xC + 12xD ≥ 30,
+                                           xA , xB , xC , xD ∈ {0, 1}.
+
+(d) (6 points) Generalize your integer program to a general setting: Assume that you are given
+    a set of n projects and your task is to maximize the net present value (NPV), subject to
+    a capital limit stating that we can spend no more that Ci and a production limit stating
+    that we must produce at least Pi million barrels over each of the next L year. Assume that
+    npvj represents the NPV of jth asset and pi,j and ci,j represent the production and capital
+    for the j th project in the ith year, respectively. Write the corresponding integer program.
+
+      Solution.     We deﬁne the decision variables x1 , x2 , . . . , xn as follows:
+                                      (
+                                        1 if Project j is selected,
+                                xj :=
+                                        0 otherwise.
+
+
+
+
+                                                     3
+      Then the problem is formulated as the following integer program:
+                                         n
+                                         n
+                                max            npvj xj
+                                         j=1
+                                         nn
+                                s.t.           cij xj ≤ Ci ,   for i = 1, . . . , L,
+                                         j=1
+                                         n
+                                         n
+                                               pij xj ≥ Pi ,   for i = 1, . . . , L,
+                                         j=1
+
+                                         xj ∈ {0, 1},          for j = 1, . . . , n.
+
+
+              Table 3: Portfolio optimization problem data over the next 3 years
+
+                         Project       ﬁrst year     second year      third year
+                                              Capital (M$)
+                            A             5                4                3
+                            B             4                3                3
+                            C             6                5                4
+                            D             8                5                5
+                                         Production (Mbbl)
+                            A             5                5                8
+                            B             5                7                8
+                            C             6                9               10
+                            D             8               10               12
+
+
+    Do not be scared by the fact that we have parameters n, Ci , Pi , cij , pij instead of numbers!
+    You can treat them just as you would treat numbers. Start by deﬁning the decision variables.
+
+
+Problem 3
+(24 points) We have two binary variables x1 , x2 ∈ {0, 1}. We want to represent the outcome of
+the three logical operations AND, OR, XOR applied on x1 and x2 . The deﬁnition of these three
+operations is as follows:
+   • Let w = (x1 AND x2 ). w is 1 if and only if both x1 and x2 are 1, and is 0 otherwise.
+   • Let y = (x1 OR x2 ). y is 1 if and only if at least one of the variables x1 and x2 is 1, and
+     is 0 otherwise.
+   • Let z = (x1 XOR x2 ). z is 1 if and only if the variables x1 and x2 have diﬀerent values,
+     and is 0 otherwise.
+In Table 4, we give the value of each variable w, y, z in terms of the value of x1 and x2 . The
+deﬁnition in the table is equivalent to the one given above.
+   Your goal in this problem is to deﬁne w, y, z using linear constraints only. For the AND and
+OR operations, you are not allowed to introduce additional variables.
+
+                                                     4
+                            x2 = 0 x2 = 1        x2 = 0 x2 = 1       x2 = 0 x2 = 1
+                  x1 = 0       0         0          0        1          0         1
+                  x1 = 1       0         1          1        1          1         0
+                                 w (AND)              y (OR)              z (XOR)
+
+                           Table 4: Value of w, y, z as a function of x1 , x2 .
+
+
+(a) (8 points) Write a set of linear constraints that deﬁne w = (x1 AND x2 ). The constraints
+    should only involve the variables w, x1 , x2 .
+
+      Solution.      There are multiple acceptable formulations; one is the following:
+
+                                               w ≤ x1
+                                               w ≤ x2
+                                               w ≥ x1 + x2 − 1
+
+(b) (8 points) Write a set of linear constraints that deﬁne y = (x1 OR x2 ). The constraints
+    should only involve the variables y, x1 , x2 .
+
+      Solution.      Again, there are multiple acceptable formulations; one is the following:
+
+                                                  y ≥ x1
+                                                  y ≥ x2
+                                                  y ≤ x1 + x2
+
+(c) (8 points) Write a set of linear constraints that deﬁne z = (x1 XOR x2 ). You are allowed
+    to introduce an auxiliary variable in this case. Thus, the constraints should involve the
+    variables z, x1 , x2 , and possibly an additional variable a.
+
+      Solution.      Again, there are multiple acceptable formulations; one is the following:
+
+                                               z = x1 + x2 − 2a
+                                               a ≤ x1
+                                               a ≤ x2
+                                               a ≥ x1 + x2 − 1
+                                               a ∈ {0, 1}
+
+Problem 4
+(36 points) We are given an integer program deﬁned as follows:
+                                                                               ⎫
+                  max 10x1 + 22x2 + 5x3 + 15x4 + 17x5 + 12x6 + 4x7             ⎪
+                                                                               ⎪
+                   s.t.: 5x1 + 3x2 + 8x3 + 9x4 + 16x5 + 5x6 + 10x7 ≤ 700
+                                                                               ⎬
+           ∀i = 1, 2, 3                                            xi ∈ {0, 1} ⎪
+                                                                               ⎪
+         ∀i = 4, 5, 6, 7                                     0 ≤ xi ≤ 200.
+                                                                               ⎭
+
+   For each of the parts below, you are to add constraint(s) and possibly variables to ensure
+that the logical condition is satisﬁed by the integer program. Each part is independent; that is,
+
+
+                                                    5
+no part depends on the parts preceding it. You do not need to repeat the integer programming
+objective or constraints given above. You may use the big M method for formulating constraint
+when it is appropriate. If you need to use the big M method, choose the answer that corresponds
+to the best possible value for the big M coeﬃcient that appears in the formulation. (By “best
+possible value” we mean the smallest possible value such that the logical constraints modeled
+through the big M remain valid.)
+
+(a) (3 points) Write a single linear constraint that is equivalent to the statement “If x2 = 1 is
+    selected, then x1 = 0”
+
+      Solution.     x1 + x2 ≤ 1
+
+(b) (3 points) Write a single linear constraint that is equivalent to the statement “x1 and x3
+    cannot both be 1”.
+
+      Solution.     x 1 + x3 ≤ 1
+
+(c) (4 points) Add a single integer variable w4 and a constraint that ensures that x8 is divisible
+    by 3 but not divisible by 6. (The remainder when dividing by 6 must be 3).
+
+      Solution.     x8 − 6w4 = 3.
+
+(d) (4 points) Add three binary variables w5 , w6 , and w7 and two constraints that ensures that
+    x5 = 9 or 15 or 20.
+
+      Solution.     x5 = 9w5 + 15w6 + 20w7 and w5 + w6 + w7 = 1.
+
+(e) (7 points) Add 3 binary variables w1 , w2 , and w3 and at most 4 constraints so as to ensure
+    that at least two of the following constraints is satisﬁed: (i) x4 ≥ 50, (ii) x5 ≤ 25, (iii)
+    x6 + x7 ≤ 100.
+
+      Solution.   x4 ≥ 50 − M (1 − w1 ), x5 ≤ 25 + M (1 − w2 ), x6 + x7 ≤ 100 + M (1 − w3 )
+      and w1 + w2 + w3 ≥ 2, with M ≥ 300.
+
+(f) (7 points) Add variable(s) and constraint(s) that ensure either 2x4 +x5 ≤ 50 or 4x4 −x5 ≥ 20,
+    but not both.
+
+      Solution.   2x4 + x5 ≤ 50 + M (1 − w8 ) , 4x4 − x5 ≥ 20 − M (1 − w9 ) , w8 + w9 = 1 ,
+      with M ≥ 450.
+
+(g) (8 points) Add variable(s) and constraint(s) that model the cost of x4 as f4 (x4 ), which
+    is deﬁned as follows: If 0 ≤ x4 ≤ 50, then f4 (x4 ) = 20x4 . If 51 ≤ x4 ≤ 100, then
+    f4 (x4 ) = 1000. If 101 ≤ x4 ≤ 200, then f4 (x4 ) = −500 + 15x4 .
+
+
+
+
+                                                6
+Solution.
+                                                                                       ⎫
+   New Obj Fn: max 10x1 + 22x2 + 5x3 + f4 (x) + 17x5 + 12x6 + 4x7                      ⎪
+                                                                                       ⎪
+               s.t.:                                w 1 + w2 + w3         =   1        ⎪
+                                                                                       ⎪
+                                                                                       ⎪
+                                                                                       ⎪
+                                                       y 1 + y2 + y3      =   x4       ⎪
+                                                                                       ⎪
+                                                                                       ⎪
+                                                                                       ⎪
+                                   20y1 + 1000w2 − 500w3 + 15y3           =   f4 (x4 ) ⎪
+                                                                                       ⎪
+                                                                                       ⎬
+                                                          0w1 ≤ y1        ≤   50w1
+                                                        51w2 ≤ y2         ≤   100w2 ⎪
+                                                                                       ⎪
+                                                                                       ⎪
+                                                                                       ⎪
+                                                       101w3 ≤ y3         ≤   200w3 ⎪
+                                                                                       ⎪
+                                                                                       ⎪
+                                                                                       ⎪
+                                                                          ∈   {0, 1} ⎪
+                                                                                       ⎪
+                                                           w1 , w2 , w3                ⎪
+                                                                                       ⎪
+                                                                                       ⎭
+                                              0 ≤ y1 , y2 , y3 ≤ 200.
+
+
+
+
+                                        7
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

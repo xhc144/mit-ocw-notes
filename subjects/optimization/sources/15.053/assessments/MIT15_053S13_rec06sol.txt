@@ -1,0 +1,328 @@
+                  Optimization Methods in Management Science
+                                          MIT 15.053
+                                   Recitation 6
+                     TAs: Giacomo Nannicini, Ebrahim Nasrabadi
+
+
+
+
+Problem 1
+The purpose of this recitation is to familiarize students with a variety of integer programming
+modeling techniques as described in the IP Formulation Guide and in the powerpoint tutorial
+on IP formulations.
+
+   We start with an integer program IP1 deﬁned as follows:
+                                                                            ⎫
+                    max        21x1 + 32x2 + 40x3 + 49x4 + 57x5 +           ⎪
+                                                                            ⎪
+                             +71x6 + 82x7 + 91x8 + 100x9 + 109x10           ⎪
+                                                                            ⎪
+                                                                            ⎪
+                                                                            ⎪
+                       s.t.:        2x1 + 3x2 + 4x3 + 5x4 + 6x5 +
+                                                                            ⎬
+                                                                              (IP1)
+                                 +7x6 + 8x7 + 9x8 + 10x9 + 11x10 ≤ 900 ⎪    ⎪
+           ∀i = 1, . . . , 3                                    xi ∈ {0, 1} ⎪
+                                                                            ⎪
+                                                                            ⎪
+                                                                            ⎪
+          ∀i = 4, . . . , 10                              0 ≤ xi ≤ 100.
+                                                                            ⎭
+
+   For each of the parts below, you are to add constraint(s) and possibly variables to ensure
+that the logical condition is satisﬁed by the integer program. Each part is independent; that is,
+no part depends on the parts preceding it. You do not need to repeat the integer programming
+objective or constraints given above. You may use the big M method for formulating constraint
+when it is appropriate.
+
+(a) (4 points) Write a single linear constraint that is equivalent to the statement “If x1 = 1,
+    then x2 = 0.”
+
+      Solution.     x 1 + x2 ≤ 1
+
+(b) (4 points) Write a single linear constraint that is equivalent to the statement “x2 = 1 or
+    x3 = 0,” but not both.
+
+      Solution.     x2 = x3
+
+(c) (4 points) Add a binary variable w1 , and add two constraints that ensure that w1 = 1 if
+    x5 + x6 ≥ 70, and w1 = 0 if x5 + x6 ≤ 69.
+
+      Solution.     x5 + x6 ≥ 70 − M (1 − w1 ) and x5 + x6 ≤ 69 + M w1 .
+
+(d) (4 points) Add 3 binary variables w2 , w3 , and w4 and at most 4 constraints so as to ensure
+    that at least one of the following constraints is satisﬁed: (i) x5 ≤ 92, (ii) x6 ≤ 40, (iii)
+    x7 + x8 ≥ 74.
+
+      Solution. x5 ≤ 92 + M (1 − w2 ), x6 ≤ 40 + M (1 − w3 ), x7 + x8 ≥ 74 − M (1 − w4 ) and
+      w2 + w3 + w4 ≥ 1.
+(e) (4 points) Add a single binary variable w5 and two constraints to ensure that at least one
+    of the following two constraints are satisﬁed (i) x9 ≤ 45, (ii) x10 ≥ 22.
+
+       Solution.       x9 ≤ 45 + M w5 and x10 ≥ 22 − M (1 − w5 ).
+
+(f) (4 points) Add a single integer variable w6 and a constraint that ensures that x8 is divisible
+    by 2 but not divisible by 4. (The remainder when dividing by 4 must be 2).
+
+       Solution.       x8 − 4w6 = 2.
+
+(g) (4 points) Add three binary variables w7 , w8 , and w9 and two constraints that ensures that
+    x10 = 13 or 39 or 88.
+
+       Solution.       x10 = 13w7 + 39w8 + 88w9 and w7 + w8 + w9 = 1.
+
+(h) (4 points) Add variable(s) and constraint(s) that model the cost of x4 as f4 (x4 ), which is
+    deﬁned as follows: If x4 = 0, then f4 (x4 ) = 0. If x4 ≥ 1, then f4 (x4 ) = 250 + 49x4 .
+
+       Solution.     We add a binary variable w10 and model the cost of x4 as: 250w10 + 49x4 ,
+       subject to the constraints: w10 ≤ x4 ≤ 100w10 .
+
+(i) (8 points) Add variable(s) and constraint(s) that model the cost of x5 as f5 (x5 ), which is
+    deﬁned as follows: If 0 ≤ x5 ≤ 10, then f5 (x5 ) = 57x5 . If 11 ≤ x5 ≤ 20, then f5 (x5 ) = 570.
+    If 21 ≤ x5 ≤ 100, then f5 (x5 ) = −480 + 50x5 .
+
+       Solution.
+                                                                                              ⎫
+                        Obj function: 57y1 + 570w2 − 480w3 + 50y3                             ⎪
+                                                                                              ⎪
+                                 s.t.:               w1 + w2 + w3                =   1        ⎪
+                                                                                              ⎪
+                                                                                              ⎪
+                                                                                              ⎪
+                                                      y1 + y2 + y3               =   x5
+                                                                                              ⎪
+                                                                                              ⎪
+                                                                                              ⎬
+                                                        0w1 ≤ y1                 ≤   10w1
+                                                       11w2 ≤ y2                 ≤   20w2 ⎪
+                                                                                             ⎪
+                                                                                             ⎪
+                                                                                             ⎪
+                                                       21w3 ≤ y3                 ≤   100w3 ⎪
+                                                                                             ⎪
+                                                                                             ⎪
+                                                                                             ⎪
+                                                                                 ∈   {0, 1}.
+                                                                                             ⎭
+                                                        w1 , w2 , w3
+
+Problem 2
+As the leader of an oil-exploration drilling venture, you need to determine which 5 sites out of
+10 to evaluate for drilling opportunities. The goal is to select 5 sites with the lowest overall cost.
+Label the sites S1 , S2 , . . . , S10 , and the exploration costs associated with each as c1 , c2 , . . . , c10 .
+Regional development restrictions are such that:
+
+  (i) Evaluating sites S2 and S7 will prevent you from evaluating either site S6 or S9 .
+
+ (ii) Evaluating sites S1 and S3 will prevent you from also evaluating both sites S5 and S6 .
+
+(iii) Evaluating site S3 or S4 prevents you from evaluating site S6 .
+
+(iv) Of the group S3 , S6 , S7 , S8 , at most two sites may be assessed.
+
+
+
+
+                                                       2
+    Formulate an integer program to determine the minimum-cost exploration scheme that satis­
+ﬁes these restrictions. Try to develop a model in which the only variables are x1 , . . . , x10 , where
+xj is 1 or 0 according as site j is evaluated or not. (For example, the constraint “Evaluating
+sites S2 and S7 will prevent you from exploring site S6 ” can be expressed as x2 + x6 + x7 ≤ 2
+because the only binary solutions prohibited have x2 = x6 = x7 = 1.)
+
+  Solution.      The formulation depends on how you interpreted the constraint logic. In this
+  case, well let xi = 1 if we drill at site i, and 0 otherwise. For all parts our objective function
+  is as
+                                                     10
+                                                     1
+                                             min           ci xi .
+                                                     i=1
+
+
+  Our only constraint initially is that we must select 5 sites, thus:
+                                             10
+                                             1
+                                                    ci xi = 5.
+                                              i=1
+
+
+  The additional constraints for each part are as follows:
+
+   (i) For this condition, we need two constraints:
+
+                                             x2 + x7 + x6 ≤ 2,
+                                             x2 + x7 + x9 ≤ 2.
+
+       Each constraint restricts the system to only explore two out of the three sites listed.
+       Thus, if x2 and x7 both equal 1, x6 and x9 must both be 0.
+   (ii) We can still represent this condition with one constraint as follows:
+
+                                           x1 + x3 + x5 + x6 ≤ 3.
+
+       Essentially, we can select up to 3 of the set, but we any 4th selection would break the
+       constraint as expected.
+  (iii) We can represent this with two constraints:
+
+                                                x3 + x6 ≤ 1,
+                                                x4 + x6 ≤ 1.
+
+  (iv) This type of constraint is the easiest to translate as
+
+                                           x3 + x6 + x7 + x8 < 2.
+
+
+Problem 3
+Suppose you want to minimize or maximize a piecewise linear function of one variable, subject
+to linear constraints. This is a problem that can be solved by resorting to linear constraints
+only, possibly by adding extra variables. In this example, we consider the function with three
+pieces shown in Figure 1.
+
+
+                                                     3
+              f(x)
+
+                 7
+
+                 6
+                                                             −5+2x
+                 5
+
+                 4
+                          4−x
+                 3
+                                              1+0.5x
+                 2
+
+                 1
+
+                                                                                x
+                           1      2       3         4    5      6       7
+                  Figure 1: Piecewise linear function discussed in Problem 5.
+
+
+(a) Suppose we want to minimize f (x) shown in Figure 1. Assume that x is subject to a set of
+    linear constraints that involve other variables A(x' |x) = b, so that we cannot simply solve
+    the problem by inspection because we do not know what values x will take. How can we
+    formulate this problem in linear form? Do we need integer variables? (In your formulation,
+    you can ignore the additional constraints A(x' |x) = b.)
+
+      Solution.      Notice that f (x) can be expressed as the maximum of the three linear
+      functions, that is,
+
+                                f (x) = max{4 − x, 1 + 0.5x, −5 + 2x}
+
+      So the problem is to formulate
+
+                          max f (x) = min max{4 − x, 1 + 0.5x, −5 + 2x}.
+
+      This problem can be formulated as a linear program by introducing an extra variable y
+      and setting y = max{4 − x, 1 + 0.5x, −5 + 2x}. This implies that y is greater that or equal
+      to each piece of f (x). This results in the following formulation:
+                                                                ⎫
+                                        min            y        ⎪
+                                                                ⎪
+                                        s.t.:     4−x ≤ y ⎪
+                                                                ⎪
+                                                                ⎬
+                                               1 + 0.5x ≤ y
+                                               −5 + 2x ≤ y ⎪
+                                                                ⎪
+                                                                ⎪
+                                                                ⎪
+                                                    x, y ≥ 0.
+                                                                ⎭
+
+
+                                                4
+(b) Consider now the problem of maximizing f (x) of Figure 1, subject to a set of linear con­
+    straints that involve other variables. We cannot use the same approach of Part 2.A. Explain
+    why and ﬁnd an alternative way of formulating the problem, adding (binary or integer) vari­
+    ables as needed.
+
+      Solution.     As mentioned previously, f (x) is the maximum of a number of linear func­
+      tions. Therefore, we deal with the following situation
+
+                           max f (x) = max max{4 − x, 1 + 0.5x, −5 + 2x}.
+
+      In general, such a problem cannot be expressed in the simple way of Part 5.A. We must use
+      a more general approach where we select the active piece of the piecewise linear function
+      with binary variables, then maximize the corresponding piece.
+      We introduce two new variables for every pice of the function:
+
+                            1 if 0 ≤ x < 3,                         x   if 0 ≤ x < 3,
+                    w1 =                                    x1 =
+                            0 otherwise.                            0   otherwise.
+                            1 if 2 ≤ x < 4,                         x   if 2 ≤ x < 4,
+                    w2 =                                    x2 =
+                            0 otherwise.                            0   otherwise.
+                            1   if 4 ≤ x ≤ 6,                       x   if 4 ≤ x ≤ 6,
+                    w3 =                                    x3 =
+                            0   otherwise.                          0   otherwise.
+
+
+
+      We can now write the integer program as follows:
+                                                                                   ⎫
+                      max 4w1 − x1 + 1w2 + 0.5x2 − 5w3 + 2x3                       ⎪
+                                                                                   ⎪
+                      s.t.:                      x 1 + x2 + x3          =   x      ⎪
+                                                                                   ⎪
+                                                                                   ⎪
+                                                                                   ⎪
+                                               w 1 + w 2 + w3           =   1
+                                                                                   ⎪
+                                                                                   ⎪
+                                                                                   ⎬
+                                                     0w1 ≤ x1           ≤   2w1
+                                                     2w2 ≤ x2           ≤   4w2
+                                                                                    ⎪
+                                                                                    ⎪
+                                                                                    ⎪
+                                                                                    ⎪
+                                                     4w3 ≤ x3           ≤   6w3
+                                                                                    ⎪
+                                                                                    ⎪
+                                                                                    ⎪
+                                                                                    ⎪
+                                                                        ∈   {0, 1}.
+                                                                                    ⎭
+                                                     w1 , w2 , w3
+
+      We next show that each solution of the above integer program corresponds to a point of
+      the original problem with the same objective function value and vice versa. Suppose that
+      (w, x) = (w1 , w2 , w3 , x1 , x2 , x3 , x) is a feasible solution to the integer program. Then
+      exactly one of the three binary variables w1 , w2 , w3 must be 1. Suppose that w2 = 2. It
+      then follows from the constrains that w1 = w3 = 0, and in addition 2 ≤ x2 = x ≤ 4.
+      Moreover, the objective function value for (w, x) is 1 + 0.5x. Hence, the solution (w, x)
+      corresponds to the point x (2 ≤ x ≤ 4) with the same the objective function value.
+      Now consider a point x in [0,6]. Assume that 2 ≤ x ≤ 4. In this case, by setting
+      w2 = 1, w1 = w3 = 0, x1 = x3 = 0, x2 = x, we get a feasible solution for the integer
+      program, whose objective function value equals 1 + 0.5x.
+      In Problem 4, the function f (x) is the maximum of a number of linear functions. There­
+      fore, f is a convex piecewise linear function and minimizing such a function can be repre­
+      sented by a linear program, but we need an integer program to formulate min f (x). On
+      the other hand, minimizing a concave piecewise linear function (a function that can be
+
+                                                 5
+written as the minimum of a number of linear functions) can be expressed by a linear
+program, but we need an integer program to formulate the maximization version.
+
+
+
+
+                                      6
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

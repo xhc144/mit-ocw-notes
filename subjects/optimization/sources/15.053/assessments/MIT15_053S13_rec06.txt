@@ -1,0 +1,147 @@
+                 Optimization Methods in Management Science
+                                          MIT 15.053
+                                   Recitation 6
+                     TAs: Giacomo Nannicini, Ebrahim Nasrabadi
+
+
+
+
+Problem 1
+The purpose of this recitation is to familiarize students with a variety of integer programming
+modeling techniques as described in the IP Formulation Guide and in the powerpoint tutorial
+on IP formulations.
+
+   We start with an integer program IP1 deﬁned as follows:
+                                                                            ⎫
+                    max        21x1 + 32x2 + 40x3 + 49x4 + 57x5 +           ⎪
+                                                                            ⎪
+                             +71x6 + 82x7 + 91x8 + 100x9 + 109x10           ⎪
+                                                                            ⎪
+                                                                            ⎪
+                                                                            ⎪
+                       s.t.:        2x1 + 3x2 + 4x3 + 5x4 + 6x5 +
+                                                                            ⎬
+                                                                              (IP1)
+                                 +7x6 + 8x7 + 9x8 + 10x9 + 11x10 ≤ 900 ⎪    ⎪
+           ∀i = 1, . . . , 3                                    xi ∈ {0, 1} ⎪
+                                                                            ⎪
+                                                                            ⎪
+                                                                            ⎪
+          ∀i = 4, . . . , 10                              0 ≤ xi ≤ 100.
+                                                                            ⎭
+
+   For each of the parts below, you are to add constraint(s) and possibly variables to ensure
+that the logical condition is satisﬁed by the integer program. Each part is independent; that is,
+no part depends on the parts preceding it. You do not need to repeat the integer programming
+objective or constraints given above. You may use the big M method for formulating constraint
+when it is appropriate.
+
+(a) (4 points) Write a single linear constraint that is equivalent to the statement “If x1 = 1,
+    then x2 = 0.”
+
+(b) (4 points) Write a single linear constraint that is equivalent to the statement “x2 = 1 or
+    x3 = 0,” but not both.
+
+(c) (4 points) Add a binary variable w1 , and add two constraints that ensure that w1 = 1 if
+    x5 + x6 ≥ 70, and w1 = 0 if x5 + x6 ≤ 69.
+
+(d) (4 points) Add 3 binary variables w2 , w3 , and w4 and at most 4 constraints so as to ensure
+    that at least one of the following constraints is satisﬁed: (i) x5 ≤ 92, (ii) x6 ≤ 40, (iii)
+    x7 + x8 ≥ 74.
+
+(e) (4 points) Add a single binary variable w5 and two constraints to ensure that at least one
+    of the following two constraints are satisﬁed (i) x9 ≤ 45, (ii) x10 ≥ 22.
+
+(f) (4 points) Add a single integer variable w6 and a constraint that ensures that x8 is divisible
+    by 2 but not divisible by 4. (The remainder when dividing by 4 must be 2).
+
+(g) (4 points) Add three binary variables w7 , w8 , and w9 and two constraints that ensures that
+    x10 = 13 or 39 or 88.
+(h) (4 points) Add variable(s) and constraint(s) that model the cost of x4 as f4 (x4 ), which is
+    deﬁned as follows: If x4 = 0, then f4 (x4 ) = 0. If x4 ≥ 1, then f4 (x4 ) = 250 + 49x4 .
+
+(i) (8 points) Add variable(s) and constraint(s) that model the cost of x5 as f5 (x5 ), which is
+    deﬁned as follows: If 0 ≤ x5 ≤ 10, then f5 (x5 ) = 57x5 . If 11 ≤ x5 ≤ 20, then f5 (x5 ) = 570.
+    If 21 ≤ x5 ≤ 100, then f5 (x5 ) = −480 + 50x5 .
+
+
+Problem 2
+As the leader of an oil-exploration drilling venture, you need to determine which 5 sites out of
+10 to evaluate for drilling opportunities. The goal is to select 5 sites with the lowest overall cost.
+Label the sites S1 , S2 , . . . , S10 , and the exploration costs associated with each as c1 , c2 , . . . , c10 .
+Regional development restrictions are such that:
+
+  (i) Evaluating sites S2 and S7 will prevent you from evaluating either site S6 or S9 .
+
+ (ii) Evaluating sites S1 and S3 will prevent you from also evaluating both sites S5 and S6 .
+
+(iii) Evaluating site S3 or S4 prevents you from evaluating site S6 .
+
+(iv) Of the group S3 , S6 , S7 , S8 , at most two sites may be assessed.
+
+    Formulate an integer program to determine the minimum-cost exploration scheme that satis­
+ﬁes these restrictions. Try to develop a model in which the only variables are x1 , . . . , x10 , where
+xj is 1 or 0 according as site j is evaluated or not. (For example, the constraint “Evaluating
+sites S2 and S7 will prevent you from exploring site S6 ” can be expressed as x2 + x6 + x7 ≤ 2
+because the only binary solutions prohibited have x2 = x6 = x7 = 1.)
+
+
+Problem 3
+Suppose you want to minimize or maximize a piecewise linear function of one variable, subject
+to linear constraints. This is a problem that can be solved by resorting to linear constraints
+only, possibly by adding extra variables. In this example, we consider the function with three
+pieces shown in Figure 1.
+
+(a) Suppose we want to minimize f (x) shown in Figure 1. Assume that x is subject to a set of
+    linear constraints that involve other variables A(x' |x) = b, so that we cannot simply solve
+    the problem by inspection because we do not know what values x will take. How can we
+    formulate this problem in linear form? Do we need integer variables? (In your formulation,
+    you can ignore the additional constraints A(x' |x) = b.)
+
+(b) Consider now the problem of maximizing f (x) of Figure 1, subject to a set of linear con­
+    straints that involve other variables. We cannot use the same approach of Part 2.A. Explain
+    why and ﬁnd an alternative way of formulating the problem, adding (binary or integer) vari­
+    ables as needed.
+
+
+
+
+                                                       2
+f(x)
+
+   7
+
+   6
+                                            −5+2x
+   5
+
+   4
+          4−x
+   3
+                              1+0.5x
+   2
+
+   1
+
+                                                                 x
+           1       2      3         4   5       6      7
+   Figure 1: Piecewise linear function discussed in Problem 5.
+
+
+
+
+                                3
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

@@ -1,0 +1,373 @@
+                 Optimization Methods in Management Science
+                                          MIT 15.053
+                                   Recitation 3
+                     TAs: Giacomo Nannicini, Ebrahim Nasrabadi
+
+
+   At the end of this recitation, students should be able to:
+
+  1. Understand when an LP is: unbounded, degenerate, has multiple optimal solutions.
+
+  2. Find multiple optimal solutions of an LP, in case they exist.
+
+  3. Perform Phase I of the simplex method.
+
+
+
+
+Problem 1
+Consider the following simplex tableau:
+                            Basic    x1    x2        x3    s1    s2     Rhs
+                            (−z)      1     2       5/4                   0
+                             s1       2     1         1     1             6
+                             s2             2         1          1        4
+As usual, empty cells contain a zero. Assume a maximization problem.
+
+Part 1.A
+Apply the simplex algorithm to compute an optimal solution. Always pivot in the column with
+largest reduced cost. Write down the optimal solution and optimal objective function value. Is
+the optimal solution that you found unique? Why?
+
+ Solution.     Pivot column: x2 , pivot row: 2.
+
+                            Basic   x1    x2        x3     s1      s2    Rhs
+                            (−z)     1             1/4             -1     -4
+                             s1      2             1/2     1     -1/2      4
+                             x2                1   1/2            1/2      2
+
+ Pivot column: x1 , pivot row: 1.
+
+                           Basic    x1    x2       x3       s1      s2    Rhs
+                           (−z)                           -1/2    -3/4     -6
+                            x1       1             1/4     1/2    -1/4      2
+                            x2             1       1/2             1/2      2
+
+ The optimal solution is x1 = 2, x2 = 2, with cost 6. It is not unique because x3 has zero
+ reduced cost in the ﬁnal tableau, hence it could be pivoted in staying at the same objective
+ function value.
+Part 1.B
+Describe all the optimal solutions to the problem. Use the ﬁnal tableau of Part 1.A as a
+starting point. (Hint: the ﬁrst step is to compute all optimal vertices. When we say “describe
+all solutions”, we mean that you should ﬁnd equations that describe them, not that you should
+write down all optimal points. That would be a very lengthy task, seeing as there is an inﬁnite
+number of solutions.)
+
+ Solution.     Starting from the optimal tableau, we pivot in x3 . The ratio test forces x2 out
+ of the basis. We obtain the following optimal tableau.
+
+                           Basic   x1      x2    x3        s1     s2   Rhs
+                           (−z)                          -1/2   -3/4    -6
+                            x1      1     -1/2            1/2   -1/2     1
+                            x3               2       1             1     4
+
+ This deﬁnes another optimal solution: x1 = 1, x3 = 4, with the same objective function value.
+ We could pivot in x2 again, but the ratio test would force x3 out of the basis. Therefore, we
+ would go back to the previous tableau and associated optimal solution. It follows that there
+ are only two vertices of the feasible region that are optimal.
+ Since there are two distinct optimal vertices, the whole segment between them is optimal. We
+ can express this segment as the convex combination of its two endpoints:
+                                ⎛ ⎞         ⎛ ⎞             ⎛ ⎞
+                                  x1          2              1
+                                ⎝x2 ⎠ = λ ⎝2⎠ + (1 − λ) ⎝0⎠ .
+                                  x3          0              4
+
+ with 0 ≤ λ ≤ 1. This can be rewritten as:
+
+                                          x1 = 1 + λ
+                                          x2 = 2λ
+                                          x3 = 4 − 4λ
+
+ with 0 ≤ λ ≤ 1.
+ An alternative way to ﬁnd the equations describing all optimal solutions is to apply the Δ
+ method to the optimal tableau of Part 1.A, with x3 entering the basis. If x3 = Δ, we have:
+
+                                          x1 = 2 − Δ/4
+                                          x2 = 2 − Δ/2
+                                          x3 = Δ,
+
+ with Δ ≥ 0. Clearly the maximum value that Δ can take while leaving x1 , x2 ≥ 0 is 4. This
+ system of equations with 0 ≤ Δ ≤ 4 describes the same segment as the system above for
+ 0 ≤ λ ≤ 1.
+
+
+Problem 2
+Consider the following simplex tableau:
+
+
+                                                 2
+                             Basic   x1     x2        x3          x4    x5       Rhs
+                             (−z)     0     -3         0           2     0        -6
+                              x1      1     -4                     2               0
+                              x3            -6            1        3               2
+                              x5            -1                           1         5
+
+Assume that this is a maximization problem.
+
+Part 2.A
+What is the current basic feasible solution and its objective function value? Is the current bfs
+degenerate?
+
+ Solution.      The current bfs is x3 = 2, x5 = 5. All the remaining variables have value 0,
+ including x1 , which is basic. The objective function value is 6. The bfs is degenerate because
+ x1 = 0.
+
+Part 2.B
+Perform one pivot. What is the new basic feasible solution and its objective function value? Did
+anything change with respect to the previous bfs? And with respect to the previous tableau?
+
+ Solution. We pivot in s1 and the ratio test tells us that we have to pivot out x1 (min{0/2, 2/3}
+ is clearly 0, thus we pivot on the coeﬃcient “2”). We obtain:
+
+                             Basic     x1    x2           x3       x4    x5       Rhs
+                             (−z)      -1     1            0        0     0        -6
+                              x4      1/2    -2                     1               0
+                              x3     -3/2                     1                     2
+                              x5                 -1                          1      5
+
+ The new basic feasible solution is therefore x3 = 2, x5 = 5 and all the remaining variables
+ have value zero. The objective function value is 6.
+ Nothing changed with respect to the previous bfs. We have exactly the same solution because
+ we performed a degenerate pivot.
+ However the tableau has changed: we have diﬀerent coeﬃcients and a diﬀerent set of basic
+ variables.
+
+Part 2.C
+The tableau that you obtained after Part 2.B is not optimal because some reduced cost is
+positive. In fact, the problem is unbounded (why?). Give the equations describing a ray of the
+feasible region along which the objective function can be increased indeﬁnitely.
+
+ Solution. The problem is unbounded because in the ﬁnal tableau x2 has positive reduced
+ cost and all its coeﬃcients in the rows are nonpositive. This means that x2 can increased
+
+
+
+
+                                                      3
+ indeﬁnitely to increase the objective function value. To describe the corresponding ray, we
+ note that if we bring x2 to the rhs of the equations that form the simplex tableau we obtain:
+
+                                        x4 = 0 + 2x2
+                                        x3 = 2
+                                        x 5 = 5 + x2 .
+
+
+ Because x2 is nonnegative, we can increase x2 as much as we want without leaving the feasible
+ region, and at the same time increasing the objective function value. The ray can therefore
+ be described as:
+
+                                        x2 = Δ
+                                        x3 = 2
+                                        x4 = 2Δ
+                                        x5 = 5 + Δ
+
+
+ for Δ ≥ 0.
+
+
+Problem 3
+Consider the following LP:                              ⎫
+                                  max    x1 + 3x2       ⎪
+                                                        ⎪
+                                        2x1 − 2x2 = 1
+                                                        ⎬
+                                                                                         (LP)
+                                          x1 + x2 ≥ 5 ⎪ ⎪
+                                            x1 , x2 ≥ 0
+                                                        ⎭
+
+Observe that a basic feasible solution is not readily apparent. We want to perform Phase I of
+the simplex method to ﬁnd an initial basic feasible solution.
+
+Part 3.A
+Add surplus and artiﬁcial variables as needed to perform Phase I, then determine the Phase
+I objective function. Write the resulting LP and the corresponding initial Phase I simplex
+tableau. What is the basic feasible solution in this tableau?
+ Solution.     We start by introducing a nonnegative surplus variable s1 in the second con­
+ straint.                                                   ⎫
+                                max       x1 + 3x2          ⎪
+                                                            ⎪
+                                         2x1 − 2x2 = 1
+                                                            ⎬
+                                      x1 + x2 − s1 = 5 ⎪    ⎪
+                                          x1 , x2 , s1 ≥ 0.
+                                                            ⎭
+
+ There is no isolated variable with a +1 coeﬃcient in any row. We must introduce artiﬁcial
+ variables s2 , s3 .                                                ⎫
+                               max               x1 + 3x2           ⎪
+                                                                    ⎪
+                                         2x1 − 2x2 + s2 = 1
+                                                                    ⎬
+                                     x 1 + x2 − s 1 + s 3 = 5 ⎪     ⎪
+                                        x1 , x2 , s1 , s2 , s3 ≥ 0.
+                                                                    ⎭
+
+
+                                             4
+  Next, we must determine the Phase I objective. We want to minimize the sum of the artiﬁcial
+  variables: min s2 + s3 . In maximization form, this can be written as max −s2 − s3 . We can
+  substitute s2 and s3 with their expression in terms of the original variables found through the
+  problem’s constraints. We obtain: w = −s2 − s3 = (2x1 − 2x2 − 1) + (x1 + x2 − s1 − 5) =
+  (3x1 − x2 − s1 − 6). This is the Phase I objective function. The Phase I LP is therefore:
+                                                                      ⎫
+                                max 3x1 − x2 − s1 − 6                 ⎪
+                                                                      ⎪
+                                          2x1 − 2x2 + s2 = 1
+                                                                      ⎬
+                                       x1 + x2 − s1 + s3 = 5 ⎪        ⎪
+                                          x1 , x2 , s1 , s2 , s3 ≥ 0.
+                                                                      ⎭
+
+  The corresponding simplex tableau is the following:
+
+                                Basic       x1       x2       s1    s2    s3       Rhs
+                                (−w)         3       -1       -1                     6
+                                 s2          2       -2             1                1
+                                 s3          1        1       -1          1          5
+
+  The basic feasible solution is s2 = 1, s3 = 5.
+
+Part 3.B
+Perform two iterations of the simplex algorithm on the tableau obtained at the end of Part 3.A.
+Is Phase I completed? If we now have a basic feasible solution for the original problem, explain
+why and write the solution. If we do not have a basic feasible solution for the original problem,
+explain why.
+
+  Solution.     We start from this tableau:
+
+                                Basic       x1       x2       s1    s2    s3       Rhs
+                                (−w)         3       -1       -1                     6
+                                 s2          2       -2             1                1
+                                 s3          1        1       -1          1          5
+
+  We can now apply the simplex algorithm in the normal way. Pivot column: x1 , pivot row: 1.
+
+                               Basic    x1       x2       s1         s2    s3      Rhs
+                               (−w)               2       -1       -3/2            9/2
+                                x1          1    -1                 1/2            1/2
+                                s3                2       -1       -1/2        1   9/2
+
+  Pivot column: x2 , pivot row: 2.
+
+                             Basic     x1       x2        s1         s2     s3       Rhs
+                             (−w)                                    -1     -1         0
+                              x1        1             -1/2          1/4    1/2      11/4
+                              x2                 1    -1/2         -1/4    1/2       9/4
+
+
+
+
+                                                          5
+  After two iterations, the tableau is optimal: all reduced costs are nonpositive. The ﬁnal
+  objective function value is 0. This means that we drove all the artiﬁcial variables out of
+  the basis. The current basis is x1 , x2 , and the corresponding basic feasible solution is x1 =
+  11/4, x2 = 9/4. This is a basic feasible solution for the original problem. We can now ignore
+  the columns corresponding to s2 and s3 and proceed with Phase II of the simplex tableau as
+  usual.
+
+
+Problem 4
+(Note: this problem is more diﬃcult than the rest, and will require some serious thinking. You
+will not be tested on Problem 4 in the upcoming quizzes, problem sets or midterms. However
+it is very useful for understanding some subtleties of Phase I of the simplex method.)
+     Suppose that we have an LP with three nonnegative variables x1 , x2 , x3 to which we have
+to apply Phase I of the simplex method to ﬁnd an initial basic feasible solution. The artiﬁcial
+variables are labeled s1 , s2 , s3 . After a few iterations of the simplex method in Phase I, we obtain
+the following optimal tableau with an objective function value of zero, where b is a parameter
+that will be speciﬁed later:
+                             Basic    x1    x2   x3   s1    s2    s3   Rhs
+                             (−w)                -1   -3          -1
+                              x1       1          2    1           2     4
+                              x2             1    1   -3           5     1
+                              s2                  b    1    1     -1
+The artiﬁcial variable s2 is still basic, therefore we do not have a basis for the original problem.
+But the objective value of Phase I is zero, therefore a bfs for the original problem exists. Our
+goal is to ﬁnd a basis to start Phase II of the simplex method.
+
+Part 4.A
+Assume b = −2. How do we proceed in this case? Determine a basis for the original problem
+and the corresponding tableau that can be used to start Phase II (after restoring the original
+objective function, which is not relevant for the purposes of this problem). (Hint: try to perform
+a pivot to drive the artiﬁcial variable out of the basis; this pivot may be something that you
+are normally not allowed to do, but notice that the basis is degenerate.)
+  Solution.      If b = −2, the tableau reads as follows:
+
+                              Basic    x1   x2   x3    s1    s2   s3   Rhs
+                              (−w)               -1    -3         -1
+                               x1       1         2     1          2     4
+                               x2            1    1    -3          5     1
+                               s2                -2     1    1    -1
+
+  The troublesome row is the third one, where s2 is still basic. However, because the Phase I
+  objective function value is zero, all artiﬁcial variables must have value zero, as is the case. We
+  can therefore pivot in x3 and pivot out s2 , regardless of the fact that x3 has negative reduced
+  cost: the rhs value of the third constraint is zero, therefore the solution will not “move”. Also
+  note that we are pivoting on a negative element: usually, this is not allowed because dividing
+  the constraint by a negative coeﬃcient would make the rhs negative, but since the rhs is zero,
+  there is no risk in this case. We perform the pivot and obtain:
+
+                                                  6
+                         Basic   x1      x2       x3         s1           s2      s3   Rhs
+                         (−w)                      0       -7/2         -1/2    -1/2
+                          x1        1                         2            1       1       4
+                          x2                 1             -5/2          1/2     9/2       1
+                          x3                          1    -1/2         -1/2     1/2
+
+ Now the basis contains only original variables. The corresponding basic feasible solution is
+ x1 = 4, x2 = 1, x3 = 0. We can drop the columns corresponding to s1 , s2 , s3 , restore the
+ original objective function, and proceed with Phase II.
+ More generally, this method for driving an artiﬁcial variable out of the basis at the end of
+ Phase I can always be used, as long as there is least one nonzero coeﬃcient for the original
+ variables in the row where the artiﬁcial variable is basic. In Part 4.B we examine what
+ happens when this is not the case.
+
+Part 4.B
+Assume b = 0. How do we proceed in this case? Determine a basis for the original problem and
+the corresponding tableau that can be used to start Phase II restoring the original objective
+function. (Hint: write down the equation corresponding to the last row of the tableau, and
+observe that this is a linear combination of the original constraints. What does this row mean
+in terms of the original equations?)
+
+ Solution.     If b = 0, the tableau reads as follows:
+
+                            Basic       x1       x2       x3       s1    s2    s3   Rhs
+                            (−w)                          -1       -3          -1
+                             x1          1                 2        1           2      4
+                             x2                   1        1       -3           5      1
+                             s2                                     1    1     -1
+
+ In this case, we cannot pivot out s2 and pivot in x3 because the corresponding element of the
+ tableau is zero. However, the last equation in the tableau reads: 0x1 +0x2 +0x3 +s1 +s2 −s3 =
+ 0. This means that by performing row operations we have obtained a linear combination of
+ the original problem constraints that is identically zero, hence the constraints are linearly
+ dependent, and one of them is redundant. It follows that we can simply drop the third row,
+ together with the artiﬁcal variables. The tableau that we can use to start Phase II is:
+
+                                      Basic       x1       x2       x3        Rhs
+                                      (−w)                          -1
+                                       x1             1              2          4
+                                       x2                      1     1          1
+
+ The corresponding basic feasible solution is x1 = 4, x2 = 1, x3 = 0.
+ In general, if all coeﬃcients for the original variables in the row where the artiﬁcial variable
+ is basic are zero, then the corresponding equation is redundant, and the initial constraint can
+ be dropped.
+
+
+
+
+                                                          7
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

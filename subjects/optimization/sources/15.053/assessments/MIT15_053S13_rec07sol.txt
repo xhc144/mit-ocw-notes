@@ -1,0 +1,215 @@
+                    Optimization Methods in Management Science
+                                                       MIT 15.053
+                                       Recitation 7
+                         TAs: Giacomo Nannicini, Ebrahim Nasrabadi
+
+
+
+
+Problem 1
+Suppose branch and bound is being applied to a 0–1 integer program in which we are maximizing.
+By node 11 the ﬁrst three variables have been ﬁxed. An incumbent has already been found (in
+another part of the tree) and has value 15. Furthermore, x4 has been chosen to be the next
+variable to branch on. This situation is illustrated in the following fragment of the branch and
+bound tree:
+
+                
+                                                                       Incumbent:  z  =  15  
+                                    x1,  x2,  x3  fixed  
+
+
+
+                                      11   zLP     16  
+
+                       x4  =  1                  x4  =  0  
+
+
+                         12                        13  
+
+
+
+              Figure 1: A fragment of the branch and bound tree for Problem 1.
+
+   The LP relaxation solved at node 11 (which has x4 and x5 as free variables) was:
+
+                                                max 18x4 + ax5 + 10
+                                                s.t.        8x4 + 10x5 ≤ 5,
+                                                                0 ≤ x4 ≤ 1,
+                                                                0 ≤ x5 ≤ 1,
+
+   (Hint: For the following questions, the LP relaxation essentially becomes a one variable
+problem that can be solved by inspection.)
+
+Part A.1
+Suppose x4 is set to 1. Does node 12 get pruned (fathomed)? Justify your answer.
+
+ Solution.         Yes, node 12 gets fathomed. If x4 is set to 1, then the LP relaxation becomes:
+                                      max ax5 + 28
+                                       s.t.     10x5 ≤ −3,
+                                               0 ≤ x5 ≤ 1,
+
+ The relaxation is infeasible because of the ﬁrst constraint, so node 12 gets fathomed.
+
+Part B.1
+Suppose x4 is set to 0 and parameter a = 12. Does node 13 get pruned (fathomed)? Justify
+your answer.
+
+ Solution.     No, node 13 does not get fathomed. If x4 = 0 and a = 12, then the LP relaxation
+ becomes:
+                                       max 12x5 + 10
+                                        s.t.        10x5 ≤ 5,
+                                               0 ≤ x5 ≤ 1,
+
+ The optimal solution to this relaxation is x5 = 1/2, with an objective value of 16. Because
+ the solution is fractional and has a value better (higher) than the incumbent, the node wont
+ be fathomed (since its possible that a better solution could be found in the subtree).
+
+Part C.1
+Suppose x4 is set to 0 and parameter a = 8. Does node 13 get pruned (fathomed)? Justify your
+answer.
+
+ Solution.      Yes, node 13 gets fathomed. If x4 = 0 and a = 8, then the LP relaxation
+ becomes:
+                                       max 8x5 + 10
+                                        s.t.        10x5 ≤ 5,
+                                               0 ≤ x5 ≤ 1,
+
+ The optimal solution to this relaxation is x5 = 1/2 with an objective value of 14. Since this
+ solution is not better than the incumbent, node 13 gets fathomed.
+
+
+Problem 2
+Consider the knapsack problem with the following decision variables for i = 1 to 4:
+                                   �
+                                     1 if item i is selected;
+                              xi =
+                                     0 otherwise.
+
+   The knapsack problem is formulated as follows:
+
+
+
+
+                                                2
+                    max 19x1 + 23x2 + 30x3 + 40x4
+                    s.t.      6x1 + 8x2 + 10x3 + 13x4 ≤ 25,                                      (1)
+                                                   xi ∈ {0, 1},      for i = 1, . . . , 4.
+
+      Apply the branch-and-bound algorithm to solve the problem (notice that the the LP relax­
+  ation of a knapsack problem can be easily solved by selecting the items.
+
+    Solution.    Let’s ﬁrst review the branch and bound algorithm: At each iteration, we select
+    an active node j and make it inactive. Suppose that LP(j) represents the integer program
+    corresponding to node j, in which the binary variables are relaxed to be fractional. Let x(j)
+    and ZLP (j) be the optimal solution and the optimal value of LP. There are three cases:
+
+Case: 1 If ZLP (j) ≤ Z ∗ , the node j gets pruned;
+Case: 2 If ZLP (j) > Z ∗ , and x(j) is integral, then update the incumbent solution by setting
+        Z ∗ := ZLP (j) and x∗ := x(j); In addition, node j gets pruned,
+Case: 3 If ZLP (j) > Z ∗ and x(j) is not integral, then make the childeren of node j as active;
+
+    We now apply this algorithm to solve Problem (1)). We ﬁrst need an initial incumbent
+    solution. We set x∗ = (0, 0, 0, 0) with value z ∗ = 0 as the initial incumbent solution and then
+    start with node 1, which represents problem IP(1) (notice that IP(1) is the original knapsack
+    problem, that is, Problem (1)). Remember that this node is considered as an active node.
+    We select node 1 and then solve LP(1). Notice that LP(1) is IP(1) with relating the binary
+    variable to be fractional. More precisely, LP(1) is as follows:
+
+                      max 19x1 + 23x2 + 30x3 + 40x4
+                       s.t.     6x1 + 8x2 + 10x3 + 13x4 ≤ 25,                                (LP(1))
+                                                 0 ≤ xi ≤ 1,         for i = 1, . . . , 4.
+
+    We next require to compute an optimal solution for LP(1). There is a simple way to solve
+    LP(1) since there is a single constraint. In fcat, we want to select as much as possible of the
+    items with the greatest proﬁt per weight ratio. In Table 1, the proﬁt per weight ratio of each
+    item is given.
+
+                    Table 1: Proﬁt per weight ratio of each item for problem 2
+
+                                 item           1         2      3         4
+                               Proﬁt(P)        19        23     30        40
+                               Weight(W)        6         8     10        13
+                                 P/W        3.16667    2.875     3      3.0769
+
+
+    Therefore, we ﬁrst select item 4 since it has the most proﬁt per weight ratio. The knapsack
+    still have a capacity of 12, and we then select item 1. After selecting item 1 and 4, the
+    knapsack still has a capacity of 6. So we can select 0.6 fraction of item 3. This gives an
+    optimal solution for LP(1) as x(1) = (1, 0, 0.6, 1) with value ZLP (1) = 75.75. At this node,
+    Case 3 occurs, so we make the children of node 1 (i.e., nodes 2 and 3) as active.
+
+                                                   3
+We next choose node 2 and make it inactive. We then solve LP(2). Notice that at node 2,
+the value of the ﬁrs binary variable is set to be zero, so LP(2) is as follows:
+
+                             max 23x2 + 30x3 + 40x4
+                             s.t.          8x2 + 10x3 + 13x4 ≤ 25,                                                                                (LP(2))
+                                                               0 ≤ xi ≤ 1,               for i = 2, . . . , 4.
+
+The optimal solution of LP(2) is x(2) = (0, 2/8, 1, 1) with value ZLP (2) = 75. Notice that
+Z ∗ < ZLP (2) and x(2) is not integral, so we make the children of node 2 (nodes 4 and 5) as
+active.
+The above procedure is repeated until there is no active node, at which point the incumbent
+solution will be optimal. Figure 2 gives an overview of the branch and bound tree for solving
+Problem (1). As shown in the tree, the nodes 15,17,19,21 get pruned since the corresponding
+linear program at these nodes are all infeasible. In addition, we get x(4) = (0, 0, 11) with
+value ZLP (4) = 70 at node 4, so node gets pruned and the incumbent solution is updated.
+Later on, we get an improved incumbent solution at node 20 since we have x(20) = (1, 1, 1, 0)
+with value ZLP (20) = 73. This is the optimal solution.
+
+
+
+                                                             IP(1)  
+                                                                1  
+                                x1=0                                                         x1=1  
+
+
+ZLP(2)=75.57   2                                                                                        3             ZLP(3)=75  
+
+
+
+                                                                                                                     x2=1  
+    x2=0                   x2=1                                                    x2=0  
+
+
+
+
+   4           ZLP(4)=75   5                                   ZLP(6)=77   6                          ZLP(7)=75.846                7  
+ZLP(4)=70         x3=0                     x3=1                   x3=0                   x3=1                      x3=0                         x3=1
+
+                                                  ZLP(9)                                               ZLP(12)                    ZLP(13)  
+         ZLP(8)=63   8                     9   =74.53                  10     ZLP(11)   11             =75.846  
+                                                                                                                    12            =75.846  
+                                                                                                                                                13  
+                                                                              =75.846  
+                                                                ZLP(10)=59  
+                                                                                                x4=1   x4=0  
+                                                                                                                           x4=1                        x4=1  
+                             x4=0                 x4=1                        x4=0                                             x4=0  
+
+                                    14         15                                 16           17           18             19            20             21  
+
+                     ZLP(14)=53              InFeas                    ZLP(16)=49   InFeas              ZLP(18) InFeas   ZLP(20) InFeas  
+                                                                                                        =42              =73       
+
+
+                            Figure 2: Branch and Bound Tree for Problem 1.
+
+
+
+
+                                                                       4
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

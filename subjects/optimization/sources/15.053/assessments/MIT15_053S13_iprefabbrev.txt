@@ -1,0 +1,226 @@
+                                    �
+
+            IP Formulation guide (abbreviated)
+                       15.053 and 15.058
+                            Spring 2013
+
+
+
+•   For use on the quiz on April 4, 2013
+    and for the midterm on April 18, 2013.
+
+•   DO NOT WRITE ON THIS DOCUMENT
+
+•   This document will be provided with the quiz and midterm.
+
+•   Hand in this guide at the end of the quiz and midterm.
+1M����Packinv,�coverinv,�anp�rartitioninv�rroblemsM�
+
+There is a collection of sets S1, ., Sn with Si C {1, 2, 3, ., m} for i = 1 to n.
+Associated with each set Si is a cost ci.
+
+                   ⎧⎪ 1            if i ∈S j                                     ⎧⎪ 1    if set S j is selected
+         Let aij = ⎨                                                 Let x j = ⎨
+                   ⎪⎩ 0           otherwise.                                     ⎪⎩ 0    otherwise.
+
+The set packing problem is the problem of selecting the maximum cost subcollection of sets, no two of which
+share a common element. The set covering problem is the problem of selecting the minimum cost
+subcollection of sets, so that each element i E {1, 2, ., m} is in one of the sets.
+
+
+                      ∑ cx
+                                  n
+           Maximize               j=1       j       j
+
+
+           subject to ∑ a x ≤ 1 for each i ∈{1,...,m}
+                              n
+                                  j=1 ij            j
+                                                                                                        Set Packing Problem
+                             x j ∈{0,1}                 for each j ∈{1,...,n}.
+
+
+                          ∑ cx
+                              n
+          Minimize            j=1       j       j
+
+
+                          ∑ a x ≥ 1 for each i ∈{1,...,m}
+                              n
+          subject to          j=1 ij            j
+                                                                                                        Set Covering Problem
+                             x j ∈{0,1}                 for each j ∈{1,...,n}.
+
+
+Section�.M����opular�aritmmeticM
+�
+x = a (mod b) is the same as: there is an integer q such that a + qb = x. integer.�
+�
+                   ConstraintM�                           IP�Constraint�
+
+                       x is odd.                                 x - 2W = 1, W � 0, W is integral.
+
+                       x is even.                                x - 2W = 0, W � 0, W is integral.
+
+                   x = a (mod b)                                 x - bW = a, W � 0, W is integral.
+                 Table�1M��Modular arithmetic formulations.
+�
+3M��sestrictinv�a�variable�to�take�on�one�ov�several�valuesM�
+
+                                                               x = 4 W1 + 8 W2 + 13 W3;
+         x E {4, 8, 13}                                        W1 + W2 + W3 = 1
+                                                               Wi E {0, 1} for i = 1 to 3.
+                                                               x = 4 W1 + 8 W2 + 13 W3;
+         x E {0, 4, 8, 13}                                     W1 + W2 + W3 � 1
+                                                               Wi E {0, 1} for i = 1 to 3.
+�
+
+
+
+
+                                                                                                                               2
+         Lovical�ConstraintsM�                                                                                                                                                                                                       IP�Constraint�
+
+         If item i is selected, then item j is also selected.                                                                                                                                                                                   xi - xj � 0
+
+         Either item i is selected or item j is selected, but not both.                                                                                                                                                                        xi + xj = 1
+
+         Item i is selected or item j is selected or both.                                                                                                                                                                                     xi + xj � 1
+
+         If item i is selected, then item j is not selected.                                                                                                                                                                                   xi + xj � 1
+
+         If item i is not selected, then item j is not selected.                                                                                                                                                                              -xi +xj � 0
+
+         At most one of items i, j, and k are selected.                                                                                                                                                                                xi + xj + xk � 1
+
+         Exactly one of items i, j, and k are selected.                                                                                                                                                                                xi + xj + xk = 1
+
+         At least one of items i, j and k are selected.                                                                                                                                                                                xi + xj + xk � 1
+                                                     Table�.M���Simple constraints involving two or three binary variables.
+
+ 4M���Lovical�constraints�anp�tme�biv���metmopM�
+
+ In the following, we assume that all integer variables are bounded from above. We also assume that all
+ variables are required to be integer valued. We let M denote some very large integer.
+
+
+
+         Logical	  Constraints	  using	  big	  M	                                                                                                                       IP	  Constraint	  
+         method.	  
+                                                                                                                                   x1	  +	  4x2	  -­‐	  2x4	  	  	  	  ≥	  	  	  	  7	  	  	  -­‐	  M	  w	  
+                x1	  +	  4x2	  -­‐	  2x4	  ≥	  7	  	  	  	  or	  
+                                                                                                                                   3x1	  -­‐	  5x2	  	  	  	  	  	  	  	  	  	  	  	  ≤	  	  	  12	  +	  M(1-­‐w)	  
+                3x1	  -­‐	  5x2	  ≤	  	  12	  
+                                                                                                                                   	  	  	  	  	  	  	  	  	  	  	  w	  ∈	  {0,1}	  
+                                                                                                                                   x1	  +	  4x2	  -­‐	  2x4	  	  	  	  ≤	  	  	  	  	  6	  	  +	  M	  w	  
+         If	  	  x1	  +	  4x2	  -­‐	  2x4	  	  ≥	  	  	  7	  	  	  	  	  	  	  	  	  	  then	  
+                                                                                                                                   3x1	  -­‐	  5x2	  	  	  	  	  	  	  	  	  	  	  	  ≤	  	  	  12	  +	  M(1-­‐w)	  
+               3x1	  -­‐	  5x2	  	  	  	  	  	  	  	  	  	  	  ≤	  	  12	  
+                                                                                                                                   	  	  	  	  	  	  	  	  	  	  	  w	  ∈	  {0,1}	  
+         At	  least	  two	  of	  the	  following	                                                                            x1	  +	  4x2	  +	  2x4	  	  	  ≥	  	  	  	  7	  	  	  -­‐	  M(1-­‐w1)	  	  
+         constraints	  are	  satisfied:	                                                                                        3x1	  -­‐	  5x2	  	  	  	  	  	  	  	  	  	  	  	  ≤	  	  12	  	  +	  M(1-­‐w2)	  	  	  
+               	  x1	  +	  4x2	  +	  2x4	  	  	  ≥	  	  	  7;	  	  	                                                 2x2	  +	  x3	  	  	  	  	  	  	  	  	  	  	  	  	  	  ≥	  	  	  	  6	  	  	  	  -­‐	  M(1-­‐w3)	  
+               3x1	  -­‐	  5x2	  	  	  	  	  	  	  	  	  	  	  	  ≤	  	  12;	                                     w1	  +w2	  +w3	  	  	  	  	  	  ≥	  	  	  	  2	  
+               2x2	  +	  x3	  	  	  	  	  	  	  	  	  	  	  	  	  	  	  ≥	  	  	  	  6;	                     	  	  	  wi	  ∈	  {0,1}	  	  for	  i	  =	  1	  to	  3.	  
+         At	  most	  one	  of	  the	  following	                                                                  This	  is	  equivalent	  to	  :	  	  at	  least	  two	  of	  the	  
+         constraints	  are	  satisfied:	                                                                             following	  constraints	  are	  satisfied.	  
+               	  x1	  +	  4x2	  +	  2x4	  	  ≥	  	  	  7;	  	  	                                                  x1	  +	  4x2	  +	  2x4	  ≤	  	  	  	  6;	  	  	  
+               3x1	  -­‐	  5x2	  	  	  	  	  	  	  	  	  	  	  	  ≤	  	  12;	                                  3x1	  -­‐	  5x2	  	  	  	  	  	  	  	  	  	  ≥	  	  	  13;	  
+ 	            2x2	  +	  x3	  	  	  	  	  	  	  	  	  	  	  	  	  	  ≥	  	  6	  ;	                          2x2	  +	  x3	  	  	  	  	  	  	  	  	  	  	  	  ≤	  	  	  	  5;	  
+ 	  
+ 	  
+ 	  
+ 	  
+ 	  
+
+	  
+	  
+                                                                                                                                                                                                                                                                  3
+	                                                                                                                                                                                                                                                                3	  
+5M��Fidep�costs�
+
+Here we consider an integer program in which there are fixed costs on variables. For example, consider the
+following integer program:
+
+
+             Formulation�usinv�videp�costs�                            IP�Formulation�
+
+                                                                        Maximize                52x1 − 500w1 + 30x2 − 400w2 + 20x3 − 300w3
+             Maximize         f (x1 ) + f 2 (x2 ) + f3 (x3 )
+                                                                        subject to                  2x1 + 4x2 + 5x3 ≤ 100
+             subject to        2x1 + 4x2 + 5x3 ≤ 100
+                                                                                                       x1 + x2 + x3 ≤ 30
+                                 x1 + x2 + x3 ≤ 30
+                                                                                                  10x1 + 5x2 + 2x3 ≤ 204
+                              10x1 + 5x2 + 2x3 ≤ 204
+                                                                                                     xi ≤ Mwi              for i = 1 to 3
+                          xi ≥ 0 and integer for i = 1 to 3.
+                                                                                            xi ≥ 0 and integer for i = 1 to 3.
+                                                                                                                                                             	  
+
+               ⎧                                  ⎧ 30x − 400 if x ≥ 1                    ⎧ 20x − 300                                       if x3 ≥ 1
+where f (x ) = ⎪⎨ 52x1 − 500 if x1 ≥ 1 , f (x ) = ⎪⎨   2           2                      ⎪
+                                                                         , and f3 (x3 ) = ⎨    3
+                                                                                                                                                        .
+       1 1
+               ⎪⎩     0      if x1
+                                   = 0
+                                          2  2
+                                                  ⎪⎩   0      if x 2
+                                                                     = 0                  ⎪⎩   0                                            if x3 = 0
+
+
+Section�6M��Piece�ise�linear�vunctionsM
+
+Integer programming can be used to model functions that are piecewise linear. For example, consider the
+following function.
+
+
+
+
+                                                                   ⎧ 2x               if 0 ≤ x ≤ 3
+                                                                   ⎪
+                                                               y = ⎨ 9− x             if 4 ≤ x ≤ 7
+                                                                   ⎪
+                                                                   ⎩ −5 + x           if 8 ≤ x ≤ 9.
+
+
+
+
+One can model y in several different ways. Here is one of them. We first define two new variables for every
+piece of the curve.
+
+ Devinitions�ov�tme�variables�                                                IP�vormulation�
+
+     ⎧⎪ 1      if 0 ≤ x ≤ 3          ⎧⎪ x       if 0 ≤ x ≤ 3                  0	  ≤	  x1	  ≤	  3w1	  
+w1 = ⎨                          x1 = ⎨
+      ⎪⎩ 0                                                                    4w2	  ≤	  x2	  ≤	  7w2	  
+               otherwise.            ⎩⎪ 0       otherwise.
+                                                                              8w3	  ≤	  x3	  ≤	  9w3	  
+     ⎧⎪ 1      if 4 ≤ x ≤ 7          ⎧⎪ x      if 4 ≤ x ≤ 7                   w1	  +	  w2	  +	  w3	  =	  1	  
+w2 = ⎨                          x2 = ⎨
+      ⎩⎪ 0                                                                    x	  =	  x1	  +	  x2	  +	  x3	  
+               otherwise.             ⎩⎪ 0      otherwise.
+                                                                              	  
+     ⎧⎪ 1      if 8 ≤ x ≤ 9          ⎧⎪ x      if 8 ≤ x ≤ 9                   wi	  ∈	  {0,	  1}	  for	  i	  =	  1	  to	  3.	  
+w3 = ⎨                          x3 = ⎨
+     ⎪⎩ 0      otherwise.            ⎪⎩ 0       otherwise.                    	  
+
+
+
+
+                                                                                                                                                            4	  
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

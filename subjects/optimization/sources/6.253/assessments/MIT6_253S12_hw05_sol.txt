@@ -1,0 +1,337 @@
+                    6.253: Convex Analysis and Optimization
+                               Homework 5
+                                       Prof. Dimitri P. Bertsekas
+
+                                              Spring 2010, M.I.T.
+
+
+Problem 1
+Consider the convex programming problem
+
+                                       minimize         f (x)
+                                           x
+                                       subject to x ∈ X,              g(x) ≤ 0,
+
+of Section 5.3, and assume that the set X is described by equality and inequality constraints as
+
+                                                        ¯ gj (x) ≤ 0, j = r + 1, . . . , r̄}.
+                    X = {x | hi (x) = 0, i = 1, . . . , m,
+
+Then the problem can alternatively be described without an abstract set constraint, in terms of all
+of the constraint functions
+
+                        hi (x) = 0, i = 1, . . . , m,
+                                                   ¯            gj (x) ≤ 0, j = 1, . . . , r.
+                                                                                           ¯
+
+We call this the extended representation of (P). Show if there is no duality gap and there exists a
+dual optimal solution for the extended representation, the same is true for the original problem.
+
+Solution.
+Assume that there exists a dual optimal solution in the extended representation. Thus there exist
+nonnegative scalars λ∗1 , . . . , λ∗m , λm+1
+                                         ∗              ∗ and µ∗ , . . . , µ∗ , µ∗ , . . . , µ∗ such that
+                                             , . . . , λm
+                                                        ¯       1           r    r+1          r̄
+                                           ⎧                                               ⎫
+                                           ⎨              m
+                                                          ¯
+                                                          �                 � r̄           ⎬
+                                ∗                             ∗
+                             f = infn f (x) +               λi hi (x) +          µ∗j gj (x) ,
+                                      x∈R ⎩                                                ⎭
+                                                     i=1                   j=1
+
+from which we have
+                                        m̄
+                                        �                    r̄
+                                                             �
+                          ∗
+                         f ≤ f (x) +          λ∗i hi (x) +         µ∗j gj (x),    ∀ x ∈ Rn .
+                                        i=1                  j=1
+
+For any x ∈ X, we have hi (x) = 0 for all i = 1, . . . , m̄, and gj (x) ≤ 0 for all j = r + 1, . . . , r̄, so
+that µ∗j gj (x) ≤ 0 for all j = r + 1, . . . , r̄. Therefore, it follows from the preceding relation that
+                                                  r
+                                                  �
+                                   ∗
+                                 f ≤ f (x) +            µ∗j gj (x),        ∀ x ∈ X.
+                                                  j=1
+
+
+
+
+                                                           1
+Taking the inﬁmum over all x ∈ X, it follows that
+                                 ⎧                          ⎫
+                                 ⎨           �r             ⎬
+                        ∗                            ∗
+                       f ≤ inf f (x) +             µj gj (x)
+                             x∈X ⎩                          ⎭
+                                             j=1
+                                                     ⎧                     ⎫
+                                                     ⎨         r
+                                                               �           ⎬
+                           ≤          inf              f (x) +   µ∗j gj (x)
+                             x∈X,gj (x)≤0, j=1,...,r ⎩                     ⎭
+                                                                            j=1
+
+                                ≤                 inf           f (x)
+                                     x∈X, hi (x)=0, i=1,...,m
+                                       gj (x)≤0, j=1,...,r
+
+                                =f ∗ .
+
+Hence, equality holds throughout above, showing that the scalars λ∗1 , . . . , λ∗m , µ∗1 , . . . , µ∗r constitute
+a dual optimal solution for the original representation.
+
+
+Problem 2
+Consider the class of problems
+
+                            minimize              f (x)
+                                 x
+                            subject to x ∈ X,                   gj (x) ≤ uj , j = 1, . . . , r,
+
+where u = (u1 , . . . , ur ) is a vector parameterizing the right-hand side of the constraints. Given two
+distinct values ū and ũ of u, let f¯ and f˜ be the corresponding optimal values, and assume that f¯
+and f˜ are ﬁnite. Assume further that µ̄ and µ̃ are corresponding dual optimal solutions and that
+there is no duality gap. Show that
+
+                                             µ̃� (ũ − ū) ≤ f¯ − f˜ ≤ µ̄� (ũ − ū).
+
+
+Solution.
+We have
+                                                               ¯� (g(x) − u)},
+                                             f¯ = inf {f (x) + µ          ¯
+                                                   x∈X
+
+                                             f = inf {f (x) + µ� (g(x) − u)}.
+                                                   x∈X
+
+Let q̄(µ) denote the dual function of the problem corresponding to ū:
+
+                                       q̄(µ) = inf {f (x) + µ� (g(x) − u)}.
+                                                                       ¯
+                                                    x∈X
+
+We have
+                                  ¯� (g(x) − ū)} − inf {f (x) + µ� (g(x) − u)}
+            f¯ − f = inf {f (x) + µ
+                      x∈X                                       x∈X
+                                  ¯ (g(x) − ū)} − inf {f (x) + µ� (g(x) − u)}
+                   = inf {f (x) + µ      �
+                                                                           ¯ + µ� (u − ū)
+                      x∈X                                       x∈X
+                                              �
+                   = q̄(µ̄) − q̄(µ) + µ (u − ū)
+                   ≥ µ� (u − ū),
+
+where the last inequality holds because µ̄ maximizes q̄.
+     This proves the left-hand side of the desired inequality. Interchanging the roles of f¯, ū, µ̄, and
+f , u, µ, shows the desired right-hand side.
+
+
+                                                                2
+Problem 3
+Let gj : Rn �→ R, j = 1, . . . , r, be convex functions over the nonempty convex subset of Rn . Show
+that the system
+                                         gj (x) < 0,   j = 1, . . . , r,
+has no solution within X if and only if there exists a vector µ ∈ Rr such that
+                                         r
+                                         �
+                                               µj = 1,          µ ≥ 0,
+                                         j=1
+
+                                        µ� g(x) ≥ 0,           ∀ x ∈ X.
+Hint: Consider the convex program
+
+                     minimize     y
+                        x,y
+
+                     subject to x ∈ X, ,        y ∈ R,          gj (x) ≤ y,   j = 1, . . . , r.
+
+
+Solution.
+The dual function for the problem in the hint is
+                                        ⎧                         ⎫
+                                        ⎨     � r                 ⎬
+                        q(µ) = inf       y+        µj (gj (x) − y)
+                               y∈R, x∈X ⎩                         ⎭
+                                              j=1
+                               �
+                                 inf x∈X rj =1 µj gj (x) if rj =1 µj = 1,
+                                        �                     �
+                             =
+                                                           if rj =1 µj =
+                                                              �
+                                 −∞                                    � 1.
+
+The problem in the hint satisﬁes the Slater condition, so the dual problem has an optimal solution
+µ∗ and there is no duality gap.
+   Clearly the problem in the hint has an optimal value that is greater or equal to 0 if and only if
+the system of inequalities
+                                   gj (x) < 0,     j = 1, . . . , r,
+has no solution within X. Since there is no duality gap, we have
+
+                                                max
+                                                � r
+                                                              q(µ) ≥ 0
+                                         µ≥0,    j =1 µj =1
+
+
+if and only if the system of inequalities gj (x) < 0, j = 1, . . . , r, has no solution within X. This is
+equivalent to the statement we want to prove.
+
+
+Problem 4
+Consider the problem
+                                      minimize     f (x)
+                                         x
+                                      subject to x ∈ X,          g(x) ≤ 0,
+where X is a convex set, and f and gj are convex over X. Assume that the problem has at least
+one feasible solution. Show that the following are equivalent.
+   (i) The dual optimal value q ∗ = supµ∈Rr q(µ) is ﬁnite.
+   (ii) The primal function p is proper.
+
+
+                                                       3
+    (iii) The set
+
+               M = {(u, w) ∈ Rr+1 | there is an x ∈ X such that g(x) ≤ u, f (x) ≤ w}
+
+does not contain a vertical line.
+
+Solution.
+We note that −q is closed and convex, and that
+
+                                    q(µ) = inf r {p(u) + µ� u},            ∀ µ ∈ Rr .
+                                             u∈R
+
+Since q(µ) ≤ p(0) for all µ ∈ Rr , given the feasibility of the problem [i.e., p(0) < ∞], we see that
+q ∗ is ﬁnite if and only if q is proper. Since q is the conjugate of p(−u) and p is convex, by the
+Conjugacy Theorem, q is proper if and only if p is proper. Hence (i) is equivalent to (ii).
+     We note that the epigraph of p is the closure of M . Hence, given the feasibility of the problem,
+(ii) is equivalent to the closure of M not containing a vertical line. Since M is convex, its closure
+does not contain a line if and only if M does not contain a line (since the closure and the relative
+interior of M have the same recession cone). Hence (ii) is equivalent to (iii).
+
+
+Problem 5
+Consider a proper convex function F of two vectors x ∈ Rn and y ∈ Rm . For a ﬁxed (x̄, ȳ) ∈
+dom(F ), let ∂x F (x̄, ȳ) and ∂y F (x̄, ȳ) be the subdiﬀerentials of the functions F (·, ȳ) and F (x̄, ·) at
+x̄ and ȳ, respectively. (a) Show that
+
+                                       ∂F (x̄, ȳ) ⊂ ∂x F (x̄, ȳ) × ∂y F (x̄, ȳ),
+
+and give an example showing that the inclusion may be strict in general. (b) Assume that F has
+the form
+                              F (x, y) = h1 (x) + h2 (y) + h(x, y),
+where h1 and h2 are proper convex functions, and h is convex, real-valued, and diﬀerentiable. Show
+that the formula of part (a) holds with equality.
+
+Solution.
+(a) We have (gx , gy ) ∈ ∂F (x̄, ȳ) if and only if
+
+                    F (x, y) ≥ F (x̄, ȳ) + gx� (x − x̄) + gy� (y − ȳ),       ∀ x ∈ Rn , y ∈ Rm .
+
+By setting y = ȳ, we obtain that gx ∈ ∂x F (x̄, ȳ), and by setting x = x̄, we obtain that gy ∈
+∂y F (x̄, ȳ), so that (gx , gy ) ∈ ∂x F (x̄, ȳ) × ∂y F (x̄, ȳ).
+    For an example where the inclusion is strict, consider any function whose subdiﬀerential is not
+a Cartesian product at some point, such as F (x, y) = |x + y| at points (x̄, ȳ) with x̄ + ȳ = 0.
+(b) Since F is the sum of functions of the given form, we have
+
+              ∂F (x̄, ȳ) = {(gx , 0) | gx ∈ ∂h1 (x̄)} + {(0, gy ) | gy ∈ ∂h2 (ȳ)} + {�h(x̄, ȳ)}
+
+[the relative interior condition of the proposition is clearly satisﬁed]. Since
+
+                                       �h(x̄, ȳ) = (�x h(x̄, ȳ), �y h(x̄, ȳ)),
+
+                                        ∂x F (x̄, ȳ) = ∂h1 (x̄) + �x h(x̄, ȳ),
+                                        ∂y F (x̄, ȳ) = ∂h2 (ȳ) + �y h(x̄, ȳ),
+the result follows.
+
+                                                            4
+Problem 6
+This exercise shows how a duality gap results in nondiﬀerentiability of the dual function. Consider
+the problem
+                                  minimize f (x)
+                                         x
+                                      subject to x ∈ X,     g(x) ≤ 0,
+and assume that for all µ ≥ 0, the inﬁmum of the Lagrangian L(x, µ) over X is attained by at
+least one xµ ∈ X. Show that if there is a duality gap, then the dual function q(µ) = inf x∈X L(x, µ)
+is nondiﬀerentiable at every dual optimal solution. Hint: If q is diﬀerentiable at a dual optimal
+solution µ∗ , by the theory of Section 5.3, we must have ∂q(µ∗ )/∂µj ≤ 0 and µ∗j ∂q(µ∗ )/∂µj = 0 for
+all j. Use optimality conditions for µ∗ , together with any vector xµ∗ that minimizes L(x, µ∗ ) over
+X, to show that there is no duality gap.
+
+Solution.
+To obtain a contradiction, assume that q is diﬀerentiable at some dual optimal solution µ∗ ∈ M ,
+where M = {µ ∈ Rr | µ ≥ 0}. Then
+
+                                  �q(µ∗ )(µ∗ − µ) ≥ 0,           ∀ µ ≥ 0.
+
+If µ∗j = 0, then by letting µ = µ∗ +γej for a scalar γ ≥ 0, and the vector ej whose jth component is 1
+and the other components are 0, from the preceding relation we obtain ∂q(µ∗ )/∂µj ≤ 0. Similarly,
+if µ∗j > 0, then by letting µ = µ∗ + γej for a suﬃciently small scalar γ (small enough so that
+µ∗ + γej ∈ M ), from the preceding relation we obtain ∂q(µ∗ )/∂µj = 0. Hence
+
+                                 ∂q(µ∗ )/∂µj ≤ 0,        ∀ j = 1, . . . , r,
+
+                                µ∗j ∂q(µ∗ )/∂µj = 0,      ∀ j = 1, . . . , r.
+Since q is diﬀerentiable at µ∗ , we have that
+
+                                             �q(µ∗ ) = g(x∗ ),
+
+for some vector x∗ ∈ X such that q(µ∗ ) = L(x∗ , µ∗ ). This and the preceding two relations imply
+that x∗ and µ∗ satisfy the necessary and suﬃcient optimality conditions for an optimal primal and
+dual optimal solution pair. It follows that there is no duality gap, a contradiction.
+
+
+Problem 7
+Consider the problem
+                              minimize       f (x) = 10x1 + 3x2
+                                  x
+                              subject to 5x1 + x2 ≥ 4, x1 , x2 = 0 or 1,
+(a) Sketch the set of constraint-cost pairs {(4 − 5x1 − x2 , 10x1 + 3x2 )|x1 , x2 = 0 or 1}.
+(b)Describe the corresponding MC/MC framework as per Section 4.2.3.
+(c) Solve the problem and its dual, and relate the solutions to your sketch in part (a).
+
+Solution.
+(a) The set of constraint-cost pairs contains 4 points: (-2,13), (-1,10), (3,3), (4,0).
+(b) To each of these 4 points we add the ﬁrst orphant and we get the M     ¯ set.
+
+
+
+
+                                                    5
+(c) The primal optimal solution is x∗ = (1, 0) and the primal optimal cost is p∗ = 10. The dual
+function is easily found to be:
+                                       ⎧
+                                       ⎨4µ
+                                       ⎪            if µ ≤ 2,
+                                q(µ) = 10 − µ       if 2 ≤ µ ≤ 3,
+                                       ⎪
+                                         13 − 2µ if 3 ≤ µ.
+                                       ⎩
+
+   Therefore q ∗ = 8. This is the intersection of the line segment connecting the points (4,0), (-1,10)
+with the y-axis.
+
+
+
+
+                                                  6
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+6.253 Convex Analysis and Optimization
+Spring 2012
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

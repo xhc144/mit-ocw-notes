@@ -1,0 +1,363 @@
+                  Optimization Methods in Management Science
+                                          MIT 15.053, Spring 2013
+                       Problem Set 6, Due: Thursday April 11th, 2013
+
+   Problem Set Rules:
+  1. Each student should hand in an individual problem set.
+
+  2. Discussing problem sets with other students is permitted. Copying from another person
+     or solution set is not permitted.
+
+  3. Late assignments will not be accepted. No exceptions.
+
+  4. The non-Excel solution should be handed in at the beginning of class on the day the
+     problem set is due. The Excel solutions, if required, should be posted on the website by
+     the beginning of class on the day the problem set is due. Questions that require an Excel
+     submission are marked with Excel submission . For Excel submission questions, only
+     the Excel spreadsheet will be graded.
+
+
+
+Problem 1
+(Total 16 points) We are using Branch-and-Bound to solve an Integer Program with an objective
+function in maximization form. All coeﬃcients of the objective function are integer valued.
+    We currently have the following Branch-and-Bound tree, where nodes are labeled N1 , . . . , N9
+and the numbers below each node indicate the value of its LP relaxation. The incumbent
+solution was obtained in solving the LP at N4 . The optimal LP solution was feasible for the IP
+and had objective value 25.
+
+
+
+
+                                                   29.2  
+                                                   27.2  
+
+
+
+
+                                 27.2                                      26.5  
+
+
+
+
+                          25              26.8              26.5                    24.8  
+                                                                                       
+                                                                                       
+                                                                                       
+
+                                                   25.2              ?  
+
+
+(a) (4 points) Let v9 be the optimum value of the LP associated with node N9 . Choose the
+    best answer. (It is the answer that is correct and provides the most information.)
+
+      i.   v9 ≤ 27.2
+     ii.   v9 ≤ 26.5
+    iii.   v9 = 26.5
+    iv.    v9 ≥ 25.2
+            Solution.     ii. v9 ≤ 26.5 because the parent node has LP solution 26.5, and thus
+            when adding an additional constraint in the child node, it cannot have a higher
+            optimal solution.
+
+(b) (4 points) With the information that we currently have, what are the best upper and lower
+    bounds that we can give on the value v ∗ of the optimal solution for the integer program?
+
+      Solution.      We know the solution must be at least as high as the incumbent, which is
+      v4 = 25; in addition, the optimal solution cannot be greater than v3 = 26.5, and thus must
+      also be less than or equal to 26 because all of the IP coeﬃcients are integer. Therefore,
+      25 ≤ v∗ ≤ 26.
+
+(c) (8 points) For each of the following nodes of the tree, say whether it is active (A) or fathomed
+    (F) or whether there is not enough information (NEI) to know. We recall that fathoming
+    is the same as pruning.
+
+      (i) N4
+            Solution.     F- N4 has been Fathomed has its LP relaxation is a feasible solution
+            for the IP, and it is the incumbent solution.
+     (ii) N5
+            Solution.     A- N5 has an LP solution higher than the incumbent, so its children
+            will need to be checked.
+    (iii) N7
+            Solution.     F- The LP solution for N7 is less than the incument, so it is fathomed.
+    (iv) N8
+            Solution.       F- Because the LP solution for N8 is 25.2, the IP feasible solution for
+            any of its descendants cannot be higher than 25, which is the incumbent solution;
+            therefore, it is fathomed.
+     (v) N9
+            Solution.     NEI- The LP solution for N9 must be known to know if it is fathomed
+            or not.
+
+
+Problem 2
+(Total 24 points) Consider the following capital budgeting problem: We have a set of six possible
+investments with the following characteristics:
+
+                         Investment       1     2       3    4     5      6
+                         NPV Added       $33   $45    $25   $17   $39   $23
+                        Cash Required    $10   $14     $8   $6    $12    $8
+
+We want to ﬁnd the optimal set of investments that maximizes the total Net Present Value
+(NPV) while limiting the amount of initial investment to $28.
+
+                                                 2
+(a) (4 points) Write an integer program to determine the optimal set of investments that max­
+    imizes the net present value.
+
+      Solution.             This is a knapsack type of problem. Deﬁne binary decision variables
+      x1 , x2 , . . . , x6 for each investment. The integer program that yields the optimal set of
+      investments that maximizes the net present value is given below.
+
+        max 33x1 + 45x2 + 25x3 + 17x4 + 39x5 + 23x6
+          s.t.   10x1 + 14x2 + 8x3 + 6x4 + 12x5 + 8x6 ≤ 28,    (Initial investment constraint)
+                 x1 , x2 , x3 , x4 , x5 , x6 ∈ {0, 1}.
+
+(b) Excel submission (15 points) Start with the incumbent x1 = 1, x2 = 0, x3 = 0, x4 =
+    1, x5 = 1, and x6 = 0. Its objective value is 89. Solve for the ﬁrst ﬁve nodes of the Branch
+    and Bound tree as given on the spreadsheet. (The spreadsheet is already set up to solve
+    the linear program.) You should adjust upper or lower bounds in each case to solve the
+    LP. Write the solutions in the spaces indicated on the spreadsheet. Also enter the objective
+    values manually after the solutions to the nodes of the tree. (Don’t copy cell K19 because
+    it contains a formula. ) Indicate in column M whether the nodes of the tree are fathomed
+    or not.
+
+      Solution.        See Excel solution.
+
+(c) (5 points) Either node 2 or node 3 will repeat the solution from node 1. Explain why. Either
+    node 4 or node 5 repeats the solution of node 2. Explain why.
+
+      Solution. Node 3 repeats Node 1. Note that the optimal solution of Node 1 has x1 = 1.
+      Therefore adding a constraint x1 = 1 to Node 3 yields the same optimal solution. For the
+      similar reason, Node 5 repeats the solution of Node 2, because both have x1 = 0, x2 = 1.
+
+  Solution.
+
+
+Problem 3
+(All parts are Excel submission .) (Total 18 points) Consider the same integer program from
+Problem 2. However, this time, we will solve the problem using cutting planes. We will start
+with the same incumbent as in Problem 2. This incumbent is the optimal integer solution.
+
+(a) (4 points) Solve the linear program. Does the solution to this LP prove that the incumbent
+    is optimal for the IP? Why or why not? If your answer to part (a) is “no”, then continue
+    to Part (b).
+
+      Solution.     No, the LP solution does not prove that the incumbent is optimal for the
+      IP. Because the LP solution is fractional, and it turns out that ZLP > ZIP .
+
+(b) (7 points) You obtained a solution for Part (a) in which two variables are 1 and one is
+    a fraction less than 1. Add to the LP the “cut” xi + xj + xk ≤ 2, where these are the
+    three decision variables that were positive in the LP solution. (And write the cut on the
+    spreadsheet in the indicated place.) Solve the revised linear program. Does the solution to
+    this LP prove that the incumbent is optimal for the IP? Why or why not? If your answer
+    to Part (b) is “no”, then continue to Part (c).
+
+                                                         3
+      Solution.     From the LP solution, we add a constraint x1 + x2 + x5 ≤ 2. The LP does
+      not prove the incumbent is optimal, because the LP solution is fractional and ZLP =
+      90.75 > 89, and we are maximizing.
+
+(c) (7 points) You obtained a solution for Part (b) in which two variables are 1 and one is a
+    fraction less than 1. Add to the LP from Part (b) the “cut” xi + xj + xk ≤ 2, where these
+    are the three decision variables that were positive in the LP solution. (And write the cut on
+    the spreadsheet in the indicated place.) Solve the revised linear program. Does the solution
+    to this LP prove that the incumbent is optimal for the IP? Why or why not?
+
+      Solution.     Add another constraint x1 + x3 + x5 ≤ 2. The LP relaxation still does not
+      prove the incumbent is optimal, because the LP solution is fractional and ZLP = 90.6 >
+      89.
+
+
+Problem 4
+(Total 12 points, 3 points each) We want to ﬁnd valid inequalities for the following 0-1 knapsack
+problem:
+                                                                                 ⎫
+              max 22x1 + 10x2 + 16x3 + 11x4 + 18x5 + 6x6                         ⎬
+               s.t.:        4x1 + 3x2 + 7x3 + 6x4 + 5x5 + 8x6 ≤ 15                 (KP)
+                                           x1 , x2 , x3 , x4 , x5 , x6 ∈ {0, 1}.
+                                                                                 ⎭
+
+   For each of the inequalities below, identify whether or not they are valid.
+
+(a) x1 + x3 + x4 ≤ 2.
+
+      Solution.      Valid- the sum of the constraint coeﬃcients is 17, which breaks the con­
+      straint, so x1 + x3 + x4 must be less than 3.
+
+(b) x2 + x3 + x5 ≤ 2.
+
+      Solution. Invalid- the sum of the constraint coeﬃcients is 15, meaning all three decision
+      variables could potentially be 1 and x2 + x3 + x5 could be 3.
+
+(c) x3 + x5 ≤ 1.
+
+      Solution.     Invalid- both decision variables could be 1, and the constraint would not be
+      broken.
+
+(d) x1 + x2 + x4 + x6 ≤ 3.
+
+      Solution.      Valid- the sum of all of the constraint coeﬃcients for these four decision
+      variables is 21, which breaks the constraint, so at most three can be chosen.
+
+
+
+
+                                               4
+Problem 5
+(Total 30 points)We want to solve the following integer program with two variables:
+                                                              ⎫
+                                   max 4x1 + 3x2              ⎪
+                                                              ⎪
+                                    s.t.:   2x1 + x2 ≤ 11 ⎪
+                                                              ⎪
+                                                              ⎬
+                                           −x1 + 2x2 ≤ 6
+                               ∀j = 1, 2          xj ≥ 0 ⎪
+                                                              ⎪
+                                                              ⎪
+                                                              ⎪
+                               ∀j = 1, 2          xj ∈ Z.
+                                                              ⎭
+
+Let s1 , s2 be the slack variables for the ﬁrst and second constraint respectively. Solving the LP
+relaxation for this problem yields the following optimal Simplex tableau:
+
+                             Basic   x1    x2       s1        s2      Rhs
+                             (−z)                -11/5      -2/5   -133/5
+                              x1       1           2/5      -1/5     16/5
+                              x2            1      1/5       2/5     23/5
+
+(a) (4 points) Slack variables are usually allowed to be fractional. If x1 and x2 are both integers,
+    will s1 and s2 also be integers? Brieﬂy explain why or why not.
+
+      Solution. Yes, they can be considered integer constrained because they are equal to the
+      sum of integers (integer variables and integer coeﬃcients). For example: s1 = 11−2x1 −x2 ,
+      and the rhs is integer because x1 and x2 is integer. It follows that s1 can be considered
+      integer constrained as well.
+
+(b) (6 points) Derive a Gomory cut from each of the ﬁrst two rows in the optimal Simplex
+    tableau.
+
+      Solution.     The ﬁrst row reads:
+                                               2    1    16
+                                           x1 + s1 − s2 = .
+                                               5    5     5
+      We round down the coeﬃcients on the left-hand side, and obtain:
+                                                            16
+                                                x1 − s2 ≤      .
+                                                            5
+      Because x1 and s2 are integer, the rhs must be integer as well. Therefore, we can round
+      it down:
+                                            x1 − s2 ≤ 3.
+      We now subtract this last equation from the ﬁrst, and obtain:
+                                             2     4    1
+                                               s1 + s2 ≥ .
+                                             5     5    5
+      We repeat this procedure for the second row and obtain:
+                                             1     2    3
+                                               s1 + s2 ≥ .
+                                             5     5    5
+      These are the two Gomory cuts.
+
+
+                                                   5
+                            x1 + 2x2 ≤ 11
+
+
+
+
+                                            −x1 + 2x2 ≤ 6
+
+
+                                            x2 ≤ 4
+
+
+
+
+                                Figure 1: Sketch for Part 1.C.
+
+
+(c) (6 points) Express the cuts in terms of the original variables x1 and x2 . Graph the feasible
+    region for x1 and x2 , and illustrate the cuts on the graph.
+
+      Solution.     From the deﬁnition of the slack variables, we know that:
+
+                                        s1 = 11 − 2x1 − x2
+                                        s2 = 6 + x1 − 2x2 .
+
+      Therefore we can substitute for these two variables in the Gomory cuts, and obtain the
+      following cuts:
+                                                         9
+                                                 x2 ≤
+                                                         2
+                                                 x2    ≤ 4.
+
+      Clearly the second cut is stronger than the ﬁrst one. We can now graph the feasible region
+      in the (x1 , x2 )-space: see Figure 1.
+
+(d) (6 points) We now append the cuts (or the cut, if only one of them is needed) to the LP
+    relaxation, and resolve. We provide the optimal Simplex tableau after resolving below:
+
+                              Basic   x1    x2         s1   s2     s3   Rhs
+                              (−z)                     -2          -1   -26
+                               x1      1              1/2        -1/2   7/2
+                               s2                     1/2   1    -5/2   3/2
+                               x2            1                      1     4
+
+    where s3 is the slack variable corresponding to the appended cut. Which rows can be used
+    to derive Gomory cuts? Compute the cuts. Rewrite them in terms of x1 and x2 .
+
+
+                                                  6
+                           x1 + 2x2 ≤ 11
+
+
+
+
+                                           −x1 + 2x2 ≤ 6
+
+
+                                           x2 ≤ 4
+
+
+
+                                               x1 + x2 ≤ 7
+
+
+
+                               Figure 2: Sketch for Part 1.E.
+
+
+     Solution.      We can derive Gomory cuts from the ﬁrst and the second row, because the
+     rhs value is fractional. The third row has integer coeﬃcients, therefore it cannot be used
+     to derive a Gomory cut.
+     Both rows yield the same cut, thus we only derive the ﬁrst one. We obtain:
+                                           1     1    1
+                                             s1 + s3 ≥ .
+                                           2     2    2
+
+(e) (8 points) Draw the cuts on your sketch and ﬁnd the new optimal solution graphically.
+    Is this new solution optimal? (Hint: if you did everything correctly, the new solution is
+    optimal with objective function value 25.)
+
+     Solution.     In terms of x1 and x2 , the new cut can be written as x1 + x2 ≤ 7. The cut
+     is shown in Figure 2. We can now see graphically that the integer point (4, 3) is optimal
+     for the LP relaxation, hence it is optimal for the original problem.
+
+
+
+
+                                              7
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

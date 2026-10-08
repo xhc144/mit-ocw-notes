@@ -1,0 +1,235 @@
+                     6.253: Convex Analysis and Optimization
+                                   Homework 4
+                                       Prof. Dimitri P. Bertsekas
+
+                                           Spring 2010, M.I.T.
+
+
+
+
+Problem 1
+Let f : Rn �→ R be the function
+                                                             n
+                                                         1�
+                                              f (x) =       |xi |p
+                                                         p
+                                                             i=1
+
+where 1 < p. Show that the conjugate is
+                                                              n
+                                                         1�
+                                             f � (y) =      |yi |q ,
+                                                         q
+                                                             i=1
+
+where q is deﬁned by the relation
+                                                   1 1
+                                                    + = 1.
+                                                   p q
+
+
+Solution.
+Consider ﬁrst the case n = 1. Let x and y be scalars. By setting the derivative of xy − (1/p)|x|p to
+zero, and we see that the supremum over x is attained when sgn(x)|x|p−1 = y, which implies that
+xy = |x|p and |x|p−1 = |y|. By substitution in the formula for the conjugate, we obtain
+                                         1           1       1     p   1
+                         f ∗ (y) = |x|p − |x|p = (1 − )|x|p = |y| p−1 = |y|q .
+                                         p           p       q         q
+
+   We now note that for any function f : Rn �→ (−∞, ∞] that has the form
+
+                                      f (x) = f1 (x1 ) + · · · + fn (xn ),
+
+where x = (x1 , . . . , xn ) and fi : R �→ (−∞, ∞], i = 1, . . . , n, the conjugate is given by
+
+                                      f ∗ (y) = f1∗ (y1 ) + · · · + fn∗ (yn ),
+
+where fi∗ : R �→ (−∞, ∞] is the conjugate of fi , i = 1, . . . , n. By combining this fact with the result
+above, we obtain the desired result.
+
+
+
+
+                                                         1
+Problem 2
+(a) Show that if f1 : Rn �→ (−∞, ∞] and f2 : Rn �→ (−∞, ∞] are closed proper convex functions,
+with conjugates denoted by f1 � and f2 � , respectively, we have
+
+                                        f1 (x) ≤ f2 (x),          ∀ x ∈ Rn ,
+
+if and only if
+                                       f1 � (y) ≥ f2 � (y),        ∀ y ∈ Rn .
+(b) Show that if C1 and C2 are nonempty closed convex sets, we have
+
+                                                    C1 ⊂ C2 ,
+
+if and only if
+                                    σC1 (y) ≤ σC2 (y),               ∀ y ∈ Rn .
+Construct an example showing that closedness of C1 and C2 is a necessary assumption.
+
+Solution.
+(a) If f1 (x) ≤ f2 (x) for all x, we have for all y ∈ Rn ,
+
+                       f1∗ (y) = sup {x� y − f1 (x)} ≥ sup {x� y − f1 (x)} = f2∗ (y).
+                                x∈Rn                          x∈Rn
+
+The reverse implication follows from the fact that f1 and f2 are the conjugates of f1∗ and f2∗ ,
+respectively.
+(b) Consider the indicator functions δC1 and δC2 of C1 and C2 . We have
+
+                     C1 ⊂ C2       if and only if             δC1 (x) ≥ δC2 (x),   ∀ x ∈ Rn .
+
+Since σC1 and σC2 are the conjugates of δC1 and δC2 , respectively, the result follows from part (a).
+     To see that the assumption of closedness of C1 and C2 is needed, consider two convex sets that
+have the same closure, but none of the two is contained in the other, such as for example (0, 1] and
+[0, 1).
+
+
+
+
+                                                         2
+Problem 3
+Let X1 , . . . , Xr , be nonempty subsets of Rn . Derive formulas
+                                                               �      for�the support functions for X1 +
+· · · + Xr , conv(X1 ) + · · · + conv(Xr ), ∪rj=1 Xj , and conv ∪rj=1 Xj .
+
+Solution.
+Let X = X1 + · · · + Xr . We have for all y ∈ Rn ,
+
+                               σX (y) =          sup        x� y
+                                            x∈X1 +···+Xr
+                                        =      sup          (x1 + · · · + xr )� y
+                                         x1 ∈X1 ,...,xr ∈Xr
+
+                                        = sup x�1 y + · · · + sup x�r y
+                                         x1 ∈X1                 xr ∈Xr
+                                        = σX1 (y) + · · · + σXr (y).
+
+
+Since Xj and conv(Xj ) have the same support function, it follows that
+
+                                            σX1 (y) + · · · + σXr (y)
+
+is also the support function of
+                                     conv(X1 ) + · · · + conv(Xr ).
+   Let also X = ∪rj=1 Xj . We have
+
+                        σX (y) = sup y � x = max sup y � x = max σXj (y).
+                                  x∈X            j=1,...,r x∈Xj         j=1,...,r
+
+
+This is also the support function of conv(∪rj=1 Xj ).
+
+
+
+
+                                                        3
+Problem 4
+Consider a function φ of two real variables x and z taking values in compact intervals X and Z,
+respectively. Assume that for each z ∈ Z, the function φ(·, z) is minimized over X at a unique
+point denoted x̂(z). Similarly, assume that for each x ∈ X, the function φ(x, ·) is maximized over
+Z at a unique point denoted ẑ(x). Assume further that the functions x̂(z) and ẑ(x) are continuous
+over Z and X, respectively. Show that φ has a saddle point (x∗ , z ∗ ). Use this to investigate the
+existence of saddle points of φ(x, z) = x2 + z 2 over X = [0, 1] and Z = [0, 1].
+
+Solution.
+We consider a function φ of two real variables x and z taking values in compact intervals X and Z,
+respectively. We assume that for each z ∈ Z, the function φ(·, z) is minimized over X at a unique
+point denoted x̂(z), and for each x ∈ X, the function φ(x, ·) is maximized over Z at a unique point
+denoted ẑ(x),
+                        x̂(z) = arg min φ(x, z),    ẑ(x) = arg max φ(x, z).
+                                      x∈X                                 z∈Z
+
+   Consider the composite function f : X �→ X given by
+
+                                               f (x) = x̂(ẑ(x)),
+
+which is a continuous function in view of the assumption that the functions x̂(z) and ẑ(x) are
+continuous over Z and X, respectively. Assume that the compact interval X is given by [a, b]. We
+now show that the function f has a ﬁxed point, i.e., there exists some x∗ ∈ [a, b] such that
+
+                                                 f (x∗ ) = x∗ .
+
+   Deﬁne the function g : X �→ X by
+
+                                              g(x) = f (x) − x.
+
+Assume that f (a) > a and f (b) < b, since otherwise [in view of the fact that f (a) and f (b) lie in
+the range [a, b]], we must have f (a) = a and f (b) = b, and we are done. We have
+
+                                            g(a) = f (a) − a > 0,
+
+                                            g(b) = f (b) − b < 0.
+Since g is a continuous function, the preceding relations imply that there exists some x∗ ∈ (a, b)
+such that g(x∗ ) = 0, i.e., f (x∗ ) = x∗ . Hence, we have
+
+                                                x̂(ẑ(x∗ )) = x∗ .
+
+   Denoting ẑ(x∗ ) by z ∗ , we obtain
+
+                                        x∗ = x̂(z ∗ ),       z ∗ = ẑ(x∗ ).
+
+By deﬁnition, a pair (x̄, z̄) is a saddle point if and only if
+
+                                  max φ(x̄, z) = φ(x̄, z̄) = min φ(x, z̄),
+                                  z∈Z                             x∈X
+
+or equivalently, if x̄ = x̂(z̄) and z̄ = ẑ(x̄). Therefore, we see that (x∗ , z ∗ ) is a saddle point of φ.
+     We now consider the function φ(x, z) = x2 +z 2 over X = [0, 1] and Z = [0, 1]. For each z ∈ [0, 1],
+the function φ(·, z) is minimized over [0, 1] at a unique point x̂(z) = 0, and for each x ∈ [0, 1], the
+function φ(x, ·) is maximized over [0, 1] at a unique point ẑ(x) = 1. These two curves intersect at
+(x∗ , z ∗ ) = (0, 1), which is the unique saddle point of φ.
+
+                                                         4
+Problem 5
+In the context of Section 4.2.2, let F (x, u) = f1 (x) + f2 (Ax + u), where A is an m × n matrix, and
+f1 : Rn �→ (−∞, ∞] and f2 : Rm �→ (−∞, ∞] are closed convex functions. Show that the dual
+function is
+                                     q(µ) = −f1� (A� µ) − f2� (−µ),
+where f1� and f2� are the conjugate functions of f1 and f2 , respectively. Note: This is the Fenchel
+duality framework discussed in Section 5.3.5.
+
+Solution.
+From Section 4.2.1, the dual function is
+
+                                           q(µ) = −p� (−µ),
+
+where p� is the conjugate of the function
+
+                                      p(u) = infx∈Rn F (x, u).
+
+The max crossing value is
+                                         q ∗ = sup{−p� (−µ)}.
+                                                 µ
+
+By using the change of variables z = Ax + u in the following calculation, we have
+
+                         p� (−µ) = sup{−µ� u − inf{f1 (x) + f2 (Ax + u)}}
+                                     u               x
+                                             �
+                                 = sup{−µ (z − Ax) − f1 (x) − f2 (z)}
+                                   z,x
+
+                                 = f1� (A� µ) + f2� (−µ),
+
+
+where f1� and f2� are the conjugate functions of f1 and f2 , respectively. Thus,
+
+                                    q(µ) = −f1� (A� µ) − f2� (−µ).
+
+
+
+
+                                                     5
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+6.253 Convex Analysis and Optimization
+Spring 2012
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

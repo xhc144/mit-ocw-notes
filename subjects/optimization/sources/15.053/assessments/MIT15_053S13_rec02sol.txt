@@ -1,0 +1,391 @@
+                    Optimization Methods in Management Science
+                                                MIT 15.053
+                                      Recitation 2
+                        TAs: Giacomo Nannicini, Ebrahim Nasrabadi
+
+
+
+
+Problem 1
+This problem veriﬁes your understanding of the geometry of Linear Programming. The ques­
+tions are not trivial, therefore consider carefully your answer.
+
+   Consider the feasible region depicted in Figure 2 (note that it extends indeﬁnitely towards
+the upper right part of the graph). Here is a proposition that is valid for all linear programs
+and will be useful for solving this problem. For any point p, let c(p) be the cost of point p.
+Proposition. If point p" is on the line segment joining points p and p"" , then:
+
+   • c(p" ) ≥ min{c(p), c(p"" )}, and
+
+   • c(p" ) ≤ max{c(p), c(p"" )}.
+
+   For example, in Figure 2 we have c(E) ≥ min{c(D), c(F )}, and c(E) ≤ max{c(D), c(F )}.
+This follows from simple linear algebra: if p" is on the line segment between p and p"" , then
+
+
+               x2
+
+
+
+
+                                        A
+
+
+
+                                                       H
+               B
+
+
+
+
+                    C
+                                                                G
+
+
+
+                          D         E       F                                x1
+
+                         Figure 1: Feasible region discussed in Problem 3.
+p" = λp + (1 − λ)p"" for some 0 ≤ λ ≤ 1. The cost of a point is a linear fuction and therefore
+can be expressed as cT p. Then it is straightforward to verify that cT p" = λcT p + (1 − λ)cT p"" ≥
+λ min{c(p), c(p"" )} + (1 − λ) min{c(p), c(p"" )} = min{c(p), c(p"" )}. The proof for the second state­
+ment is similar.
+Questions. Answer the set of True/False questions below.
+
+(a) F cannot be a unique optimum of the problem.
+
+      Solution.      False.
+
+(b) If C is an optimal solution, D is also optimal.
+
+      Solution.      True.
+
+(c) If A and B are optimal, the problem is unbounded.
+
+      Solution.      False.
+
+(d) If B and F are optimal, G is not optimal.
+
+      Solution.      False.
+
+(e) If no point among B, D and F is optimal, the problem is unbounded.
+
+      Solution.      True.
+
+(f) There exists an objective function such that the problem is infeasible.
+
+      Solution.      False.
+
+(g) If B, D and F are not optimal, the problem is infeasible.
+
+      Solution.      False.
+
+(h) D and F could simultaneously be the only optima of the problem.
+
+      Solution.      False.
+
+(i) If D and G are optimal, there is an inﬁnite number of feasible solutions.
+
+      Solution.      True.
+
+(j) If the problem has a ﬁnite optimal objective value, G could be an optimal solution.
+
+      Solution.      True.
+
+(k) There exists an objective function such that H is optimal but A is not.
+
+      Solution.      False.
+
+(l) If H is an optimal solution, there are inﬁnitely many optimal solutions and the limit of the
+    objective function values is plus or minus inﬁnity.
+
+      Solution.      False.
+
+
+
+
+                                                  2
+Problem 2
+Consider the feasible region deﬁned by the following constraints:
+                                                          ⎫
+                                      x1 − x2 ≥ −1.5 ⎪    ⎪
+                                     x1 − 2x2 ≤ 2
+                                                          ⎬
+                                                                                          (LP2)
+                                     4x1 + x2 ≥ 2         ⎪
+                                                          ⎪
+                                        x1 , x2 ≥ 0.
+                                                          ⎭
+
+(a) Draw the feasible region of (LP2). Does this LP have an optimal solution for all possible
+    objective functions? Why?
+
+      Solution.    The feasible region is sketched in Figure 2. Because the feasible region
+      is unbounded, this problem does not have an optimal solution for all possible objective
+      functions.
+                        x2
+
+
+
+
+                                             A
+
+
+
+                                                         H
+                          B
+
+
+
+
+                              C
+                                                                G
+
+
+
+                                    D    E       F                     x1
+
+
+                                  Figure 2: Feasible region for Part 2.A.
+
+
+(b) Give an example of:
+
+      • An objective function such that both (0, 0) and (0, 1.5) are optimal (in minimization
+        form)
+      • An objective function such that only the point (0, 1.5) is optimal (in minimization
+        form).
+      • An objective function such that (LP2) is unbounded (in maximization form).
+
+    If such an example does not exist, explain why.
+
+      Solution.
+        • In order for (0, 0) and (0, 1.5) to be optimal, the whole segment between them has
+          to be optimal. Hence the objective function has level lines parallel to the x2 axis. In
+          two dimensions, the only objective function with this property is: min x1 .
+
+                                                     3
+        • The point (0, 1.5) is the unique optimum for objective functions with slope between
+          the vertical axis x2 and the constraint x1 − x2 ≥ −1.5. Hence the slope should be
+          between 1 and +∞. All functions of the form min x1 − βx2 with β ∈ (0, 1) have this
+          property (note that the values β = 0 and β = 1 are excluded because (0, 1.5) would
+          be optimal but not unique).
+        • We are looking for objective functions that increase when moving towards the top
+          right part of the graph. All functions of the form max αx1 + βx2 with α, β ≥ 0 have
+          this property. There are other functions (with one negative coeﬃcient) that yield an
+          unbounded objective function value, but here we are just required to give an example.
+
+
+Problem 3
+Consider the following LP:
+                                                                    ⎫
+                             max         10x1 + 8x2 − 3x3           ⎪
+                                                                    ⎪
+                             s.t.:      2x1 + 4x2 − 0.5x3 ≤ 6
+                                                                    ⎪
+                                                                    ⎪
+                                                                    ⎬
+                                       −2x1 + 6x2 − 4.5x3 ≤ 4                               (LP3)
+                                                    x1 , x2 ≥ 0
+                                                                    ⎪
+                                                                    ⎪
+                                                                    ⎪
+                                                                    ⎪
+                                                         x3   free.
+                                                                    ⎭
+
+(a) Write (LP3) in canonical form. If you have to introduce extra variables, explain what they
+    stand for. Compute the initial basic feasible solution and write its value for all of the
+    problem’s variables (regardless of whether they are present in the original formulation or
+    introduced for the canonical form).
+
+      Solution.     To put (LP3) into canonical form, we ﬁrst have to substitute x3 with two
+                                                                                  −
+      nonnegative variables: x+  3 that represents the positive part of x3 , and x3 that represents
+                                     +    −
+      its negative part, i.e. x3 = x3 − x3 . This yields:
+                                                                    −
+                                         10x1 + 8x2 − 3x+
+                                                                             ⎫
+                              max                          3 + 3x3           ⎪
+                                       2x1 + 4x2 − 0.5x3+ + 0.5x−
+                                                                             ⎪
+                               s.t.:                                  ≤  6
+                                                                             ⎬
+                                                                    3
+                                                         +          −
+                                     −2x1 + 6x2 − 4.5x3 + 4.5x3 ≤ 4 ⎪
+                                                                    −
+                                                                             ⎪
+                                                    x1 , x2 , x+ , x  ≥  0.
+                                                                             ⎭
+                                                               3    3
+
+      Then we introduce nonnegative slack variables to transform the constraints into equality
+      constraints: s1 and s2 represent the diﬀerence between the rhs and the lhs of the ﬁrst,
+      respectively second, constraint. We obtain the canonical form:
+
+                                         10x1 + 8x2 − 3x3+ + 3x−
+                                                                               ⎫
+                          max                                           3      ⎪
+                                  2x1 + 4x2 − 0.5x3+ + 0.5x−
+                                                                               ⎪
+                           s.t.:                                   +   s   = 6
+                                                                               ⎬
+                                                                3        1
+                                 −2x1 + 6x2 − 4.5x3+ + 4.5x−    3 + s2 = 4 ⎪
+                                                         + −
+                                                                               ⎪
+                                              x1 , x2 , x3 , x3 , s1 , s2 ≥ 0.
+                                                                               ⎭
+
+      The corresponding basic feasible solution is s1 = 6, s2 = 4. This implies that all the
+                                          −
+      remaining variables x1 , x2 , x+
+                                     3 , x3 have value 0.
+
+(b) Write the initial simplex tableau and perform two iterations of the simplex algorithm. Is
+    the basic solution after two iterations optimal? Why?
+
+      Solution.     Initial tableau:
+
+                                                 4
+                             Basic        x1     x2     x+3    x−
+                                                                3     s1       s2       Rhs
+                             (−z)         10      8      -3      3                        0
+                              s1           2      4    -0.5    0.5    1                   6
+                              s2          -2      6    -4.5    4.5             1          4
+     Pivot column: x1 , pivot row: 1. First iteration:
+                           Basic     x1         x2      x+3     x−3     s1      s2       Rhs
+                           (−z)                -12     -0.5     0.5     -5               -30
+                            x1        1          2    -0.25    0.25    0.5                 3
+                            s2                  10       -5       5      1          1     10
+     Pivot column: x+
+                    3 , pivot row: 2. Second iteration:
+
+                           Basic     x1         x2    x+
+                                                       3      x−
+                                                               3     s1         s2       Rhs
+                           (−z)                -13                 -5.1       -0.1       -31
+                            x1        1        1.5                 0.45      -0.05        2.5
+                            x−
+                             3                   2    -1       1    0.2        0.2          2
+     This tableau is optimal.
+
+(c) In (LP3), replace the ﬁrst constraint 2x1 + 4x2 − 0.5x3 ≤ 6 with −2x1 + 4x2 − 0.5x3 ≤ 6.
+    Write the initial simplex tableau (note that only one coeﬃcient changes with respect to the
+    ﬁrst tableau of Part 2.B). Perform one iteration of the simplex algorithm. What happens
+    in this case?
+
+     Solution.     The amended initial tableau is:
+                             Basic        x1     x2     x+3    x−
+                                                                3     s1       s2       Rhs
+                             (−z)         10      8      -3      3                        0
+                              s1          -2      4    -0.5    0.5    1                   6
+                              s2          -2      6    -4.5    4.5             1          4
+     Column x1 has a positive reduced cost and all of the coeﬃcients are negative. Therefore
+     the problem is unbounded: we can increase x1 as much as we want to improve the objective
+     function value, while still staying feasible.
+
+
+Problem 4
+Here we review the Simplex Algorithm in more detail, without an Excel spreadsheet to provide
+guidance. Be careful when carrying out the calculations.
+
+   Consider the following linear program:
+                                                                           ⎫
+                                   max          2x1 + 4x2                  ⎪
+                                                                           ⎪
+                                   s.t.:                                   ⎪
+                                                                           ⎪
+                                                                           ⎪
+                                                                           ⎪
+                                           0.5x1 − 5x2         ≤     12
+                                                                           ⎬
+                                              x1 + 2x2         ≥     −2 ⎪
+                                                                        ⎪
+                                               x2 + x3         ≥     4 ⎪
+                                                                        ⎪
+                                                                        ⎪
+                                                                        ⎪
+                                              x1 , x2 , x3     ≥     0.
+                                                                        ⎭
+
+
+
+
+                                                       5
+(a) Write the initial simplex tableau. To do so, you will have to transform the problem into
+    canonical form. What is the initial basic feasible solution? (Hint: at least one of the original
+    variables is basic)
+
+      Solution. We have to introduce a slack variable s1 in the ﬁrst constraint, and surplus
+      variables s2 , s3 in the second and third constraint. We also have to ﬂip the second con­
+      straint, multiplying through by −1 to obtain a nonnegative rhs value. The problem in
+      standard form is:                                                    ⎫
+                                   max                2x1 + 4x2            ⎪
+                                                                           ⎪
+                                    s.t.:                                  ⎪
+                                                                           ⎪
+                                                                           ⎪
+                                                                           ⎪
+                                            0.5x1 − 5x2 + s1 = 12
+                                                                           ⎬
+                                              −x1 − 2x2 + s2 = 2 ⎪         ⎪
+                                                  x 2 + x3 − s 3 = 4 ⎪
+                                                                           ⎪
+                                                                           ⎪
+                                                                           ⎪
+                                          x1 , x2 , x3 , s1 , s2 , s3 ≥ 0.
+                                                                           ⎭
+
+      We put this into tableau form and we obtain:
+                               Basic     x1   x2       x3   s1   s2   s3   Rhs
+                               (−z)       2    4                             0
+                                s1      0.5   -5            1               12
+                                s2       -1   -2                 1           2
+                                x3             1        1             -1     4
+      The initial basic feasible solution is s1 = 12, s2 = 2, x3 = 4. The remaining variables have
+      value zero.
+
+(b) Perform one iteration of the simplex algorithm, by pivoting in the variable with the largest
+    reduced cost. Write down the candidate variables for pivoting out, and the corresponding
+    value of the ratio test. Finally, report the simplex tableau after the ﬁrst iteration.
+
+      Solution.     We pivot in x2 because it has the largest reduced cost (4 against 2 of x1 ;
+      x3 has zero reduced cost). The only candidate for pivoting out is x3 (pivot on the third
+      row) because it is the only positive coeﬃcient in the pivot column. The ratio test yields
+      the value 4/1 = 4. The tableau after the ﬁrst iteration is:
+                               Basic     x1   x2       x3   s1   s2   s3   Rhs
+                               (−z)       2            -4              4   -16
+                                s1      0.5             5   1         -5    32
+                                s2       -1             2        1    -2    10
+                                x2             1        1             -1     4
+
+(c) Would the simplex algorithm terminate after the ﬁrst iteration? Why? Can you guess the
+    optimal objective function value?
+
+      Solution.      The simplex algorithm terminates after the ﬁrst iteration detecting an un­
+      bounded objective function value: the column corresponding to s3 has a positive reduced
+      cost, but its coeﬃcient in all rows are nonpositive. This means that we can increase s3
+      as much as possible and increase the objective function value while staying within the
+      feasible region. It follows that there is no optimal objective function value (we also accept
+      +∞ as the answer for the optimal objective function value).
+
+
+
+                                                   6
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

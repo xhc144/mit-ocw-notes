@@ -1,0 +1,171 @@
+                      6.253: Convex Analysis and Optimization
+                                     Homework 1
+                                     Prof. Dimitri P. Bertsekas
+
+                                        Spring 2010, M.I.T.
+
+
+Problem 1
+(a) Let C be a nonempty subset of Rn , and let λ1 and λ2 be positive scalars. Show that if C is
+convex, then (λ1 + λ2 )C = λ1 C + λ2 C. Show by example that this need not be true when C is not
+convex.
+(b) Show that the intersection ∩i∈I Ci of a collection {Ci | i ∈ I} of cones is a cone.
+(c) Show that the image and the inverse image of a cone under a linear transformation is a cone.
+(d) Show that the vector sum C1 + C2 of two cones C1 and C2 is a cone.
+(e) Show that a subset C is a convex cone if and only if it is closed under addition and positive
+scalar multiplication, i.e., C + C ⊂ C, and γC ⊂ C for all γ > 0.
+
+Solution.
+(a) We always have (λ1 + λ2 )C ⊂ λ1 C + λ2 C, even if C is not convex. To show the reverse inclusion
+assuming C is convex, note that a vector x in λ1 C + λ2 C is of the form x = λ1 x1 + λ2 x2 , where
+x1 , x2 ∈ C. By convexity of C, we have
+                                         λ1           λ2
+                                              x1 +         x2 ∈ C,
+                                     λ 1 + λ2      λ1 + λ2
+and it follows that
+                                   x = λ1 x1 + λ2 x2 ∈ (λ1 + λ2 )C,
+so λ1 C + λ2 C ⊂ (λ1 + λ2 )C.
+    For a counterexample when C is not convex, let C be a set in Rn consisting of two vectors, 0
+and x �= 0, and let λ1 = λ2 = 1. Then C is not convex, and (λ1 + λ2 )C = 2C = {0, 2x}, while
+λ1 C + λ2 C = C + C = {0, x, 2x}, showing that (λ1 + λ2 )C =
+                                                           � λ1 C + λ2 C.
+
+    (b) Let x ∈ ∩i∈I Ci and let α be a positive scalar. Since x ∈ Ci for all i ∈ I and each Ci is
+a cone, the vector αx belongs to Ci for all i ∈ I. Hence, αx ∈ ∩i∈I Ci , showing that ∩i∈I Ci is a cone.
+
+    (c) First we prove that A · C is a cone, where A is a linear transformation and A · C is the image
+of C under A. Let z ∈ A · C and let α be a positive scalar. Then, Ax = z for some x ∈ C, and
+since C is a cone, αx ∈ C. Because A(αx) = αz, the vector αz is in A · C, showing that A · C is a
+cone.
+    Next we prove that the inverse image A−1 · C of C under A is a cone. Let x ∈ A−1 · C and let α
+be a positive scalar. Then Ax ∈ C, and since C is a cone, αAx ∈ C. Thus, the vector A(αx) ∈ C,
+implying that αx ∈ A−1 · C, and showing that A−1 · C is a cone.
+
+   (d) Let x ∈ C1 + C2 and let α be a positive scalar. Then, x = x1 + x2 for some x1 ∈ C1 and
+x2 ∈ C2 , and since C1 and C2 are cones, αx1 ∈ C1 and αx2 ∈ C2 . Hence, αx = αx1 +αx2 ∈ C1 +C2 ,
+
+                                                   1
+showing that C1 + C2 is a cone.
+
+   (e) Let C be a convex cone. Then γC ⊂ C, for all γ > 0, by the deﬁnition of cone. Furthermore,
+by convexity of C, for all x, y ∈ C, we have z ∈ C, where
+                                                1
+                                             z = (x + y).
+                                                2
+Hence (x + y) = 2z ∈ C, since C is a cone, and it follows that C + C ⊂ C.
+   Conversely, assume that C + C ⊂ C, and γC ⊂ C. Then C is a cone. Furthermore, if x, y ∈ C
+and α ∈ (0, 1), we have αx ∈ C and (1 − α)y ∈ C, and αx + (1 − α)y ∈ C (since C + C ⊂ C).
+Hence C is convex.
+
+
+Problem 2
+Let C be a nonempty convex subset of Rn . Let also f = (f1 , . . . , fm ), where fi : C �→ �,
+i = 1, . . . , m, are convex functions, and let g : Rm �→ R be a function that is convex and monoton­
+ically nondecreasing over a convex set that contains the set {f (x) | x ∈ C}, in the sense that for
+all u1 , u2 in this set such that u1 ≤ u2 , we have g(u1 ) ≤ g(u2 ). Show that the function h deﬁned
+by h(x) = g(f (x)) is convex over C. If in addition, m = 1, g is monotonically increasing and f is
+strictly convex, then h is strictly convex.
+
+Solution.
+Let x, y ∈ Rn and let α ∈ [0, 1]. By the deﬁnitions of h and f , we have
+
+
+            h(αx + (1 − α)y) = g(f (αx + (1 − α)y))
+                               = g(f1 (αx + (1 − α)y), . . . , fm (αx + (1 − α)y))
+                               ≤ g(αf1 (x) + (1 − α)f1 (y), . . . , αfm (x) + (1 − α)fm (y))
+                               = g(α(f1 (x), . . . , fm (x)) + (1 − α)(f1 (y), . . . , fm (y)))
+                               ≤ αg(f1 (x), . . . , fm (x)) + (1 − α)g(f1 (y), . . . , fm (y))
+                               = αg(f (x)) + (1 − α)g(f (y))
+                               = αh(x) + (1 − α)h(y)                                              (1)
+
+    where the ﬁrst inequality follows by convexity of each fi and monotonicity of g, while the second
+inequality follows by convexity of g.
+    If m = 1, g is monotonically increasing, and f is strictly convex, then the ﬁrst inequality is
+strict whenever x =� y and α ∈ (0, 1), showing that h is strictly convex.
+
+
+
+
+                                                     2
+Problem 3
+Show that the following functions from Rn to (−∞, ∞] are convex:
+(a) f1 (x) = ln(ex1 + · · · + exn ).
+(b) f2 (x) = �x�p with p ≥ 1.
+                �
+(c) f3 (x) = eβx Ax , where A is a positive semideﬁnite symmetric n × n matrix and β is a positive
+scalar.
+(d) f4 (x) = f (Ax + b), where f : Rm �→ R is a convex function, A is an m × n matrix, and b is a
+vector in Rm .
+
+Solution.
+(a) We show that the Hessian of f1 is positive semideﬁnite at all x ∈ Rn . Let (x) = ex1 + · · · + exn .
+Then a straightforward calculation yields                                      ¯
+
+                                           n   n
+                                        1 � � (xi +xj )
+                   z � �2 f1 (x)z =                e    (zi − zj )2 ≥ 0,   ∀ z ∈ Rn .
+                                      (x)2
+                                           i=1 j=1
+                                      ¯
+Hence by the previous problem, f1 is convex.
+
+    (b) The function f2 (x) = �x�p can be viewed as a composition g(f (x)) of the scalar function
+g(t) = tp with p ≥ 1 and the function f (x) = �x�. In this case, g is convex and monotonically
+increasing over the nonnegative axis, the set of values that f can take, while f is convex over Rn
+(since any vector norm is convex). From problem 2, it follows that the function f2 (x) = �x�p is
+convex over Rn .
+
+    (c) The function f3 (x) = ex      can be viewed as a composition g(f (x)) of the function g(t) = e¯t
+                                 � Ax
+                               ¯
+for t ∈ R and the function f (x) = x� Ax for x ∈ Rn . In this case, g is convex and monotonically
+increasing over R, while f is convex over Rn (since A is positive semideﬁnite). From problem 2, it
+follows that f3 is convex over Rn .
+
+   (d) This part is straightforward using the deﬁnition of a convex function.
+
+
+Problem 4
+Let X be a nonempty bounded subset of Rn . Show that
+
+                                         cl(conv(X)) = conv(cl(X)).
+
+In particular, if X is compact, then conv(X) is compact.
+
+Solution.
+The set cl(X) is compact since X is bounded by assumption. Hence, its convex hull, conv(cl(X)),
+is compact, and it follows that
+
+                            cl(conv(X)) ⊂ cl(conv(cl(X))) = conv(cl(X)).
+
+It is also true that
+                           conv(cl(X)) ⊂ conv(cl(conv(X))) = cl(conv(X)),
+since, the closure of a convex set is convex. Hence, the result follows.
+
+
+
+
+                                                      3
+Problem 5
+Construct an example of a point in a nonconvex set X that has the prolongation property, but is
+not a relative interior point of X.
+
+Solution.
+Take two intersecting lines in the plane, and consider the point of intersection.
+
+
+
+
+                                                 4
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+6.253 Convex Analysis and Optimization
+Spring 2012
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

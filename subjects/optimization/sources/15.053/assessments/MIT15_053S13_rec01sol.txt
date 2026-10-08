@@ -1,0 +1,361 @@
+                 Optimization Methods in Management Science
+                                          MIT 15.053
+                                    Recitation 1
+                      TAs: Giacomo Nannicini, Ebrahim Nasrabadi
+
+
+
+
+Problem 1
+You create your own start-up company that caters high-quality organic food directly to a number
+of customers. You receive a number of tentative orders and you now have to tell your customers
+which orders you are going to take. Before embarking on this journey, you ﬁrst want to allocate
+your production capabilities in order to devise a feasible daily production plan that maximizes
+your proﬁt.
+    There are only three diﬀerent kinds of food that you oﬀer at this early stage of the company:
+Hummus (H) with garlic pitas, an excellent Moussaka (M), and a traditional Tabouleh (T) with
+parsley and mint.
+    Each meal has to be cooked, packaged and delivered. Each operation is run by yourself.
+You have to deliver between 12PM and 2PM everyday, and the food is made on the same day,
+therefore you estimate that the total number of available cooking hours is 4, the total number
+of packaging hours is 2, and the total number of delivery hours is 2.
+    Cooking suﬃcient Hummus for 10 portions requires 1 hour of time, packaging is done at the
+rate of 20 portions per hour, and delivery at the rate of 30 per hour. The cost of the ingredients
+for 1 portion is $1, and each packaged portion can be sold for $7.
+    Moussaka takes more time to prepare: in one hour, the food cooking team can prepare 5
+portions. Packaging is done at the rate of 15 portions per hour. Since the Moussaka has to be
+delivered while still warm out of the oven, it is delivered in smaller batches, therefore only 15
+portions can be delivered in one hour. The cost of the ingredients for 1 portion is $2, and it
+can be sold for $12.
+    Finally, Tabouleh can be prepared at the rate of 15 portions per hour, it can be packaged
+at the rate of 25 portions per hour, and delivered at the rate of 30 per hour. Tabouleh is very
+inexpensive and one portion only costs $0.5 in raw ingredients, and can be sold for $5.
+    Customers expressed interest in having the following products delivered every day: 20 Hum­
+mus meals, 10 Moussaka meals, and 30 Tabouleh meals.
+
+Part 1.A
+What is the best combination of meals in order to maximize proﬁt? We can assume that meals
+do not have to be produced in even numbers – that is, we allow a non-integer solution.
+    Write the corresponding Linear Programming formulation on paper, labeling each decision
+variable and constraint with a proper name (nonnegativity constraints need not be labeled, but
+do not forget to include them!). Then use Excel to solve the problem. (Hint: the number of
+Moussaka meals is between 5 and 10 in the optimal solution.)
+
+  Solution.     We deﬁne the following decision variables:
+
+    • xH : number of Hummus meals,
+    • xM : number of Mussaka meals,
+    • xT : number of Tabouleh meals.
+
+  The decision problem can be written as follows:
+                                                                            ⎫
+                          min              6xH + 10xM + 4.5xT               ⎪
+                                                                            ⎪
+                     Cooking: (1/10)xH + (1/5)xM + (1/15)xT            ≤ 4 ⎪⎪
+                                                                            ⎪
+                                                                            ⎪
+                    Packaging: (1/20)xH + (1/15)xM + (1/25)xT          ≤ 2 ⎪⎪
+                                                                            ⎪
+                                                                            ⎪
+                     Delivery: (1/30)xH + (1/15)xM + (1/30)xT          ≤ 2
+                                                                            ⎬
+                                                                                             (LP)
+                    DemandH:                                 xH        ≤ 20 ⎪
+                                                                            ⎪
+                    DemandM:                                 xM        ≤ 10 ⎪
+                                                                            ⎪
+                                                                            ⎪
+                                                                            ⎪
+                    DemandT:                                  xT       ≤ 30 ⎪
+                                                                            ⎪
+                                                                            ⎪
+                                                                            ⎪
+                                                                       ≥ 0,
+                                                                            ⎭
+                                                    xH , xM , xT
+
+  The corresponding optimal solution is: xH = 8, xM = 6, xT = 30, with a corresponding total
+  proﬁt of $243.
+
+Part 1.B
+Your little brother oﬀers his help for one hour a day. You assume that he can work as fast as
+you do, and he can use his bike if needed for delivery, but he can only help with one of the three
+tasks: cooking, packaging or delivery (not all of them). He asks $10 dollars as a compensation.
+Should you accept his help? In case of a positive answer, would it be better to ask him to
+help with cooking, packaging or delivery? (Hint: compute the change in proﬁt if you increase
+cooking, packaging or delivery time availability by one hour.)
+
+  Solution.    If we resolve problem ?? increasing by one the right-hand side value of the
+  Cooking constraint we obtain a solution with objective value: $257.5, yielding a proﬁt increase
+  of $14.5 compared to our initial solution.
+  If we resolve problem ?? increasing by one the right-hand side value of the Packaging constraint
+  we obtain a solution with objective value: $255 yielding a proﬁt increase of $12 compared to
+  our initial solution.
+  If we resolve problem ?? increasing by one the right-hand side value of the Packaging constraint
+  we obtain a solution with objective value: $243 yielding no proﬁt increase compared to our
+  initial solution.
+  Therefore, it is worth asking our little brother to help us with Cooking for one hour at the
+  cost of $10, because our revenue increases by more than the additional cost.
+
+Part 1.C
+There is a drop in the demand of Hummus: instead of 20 meals, only 10 are now requested.
+   Does this change the optimal combination of meals to maximize proﬁt? Could you have
+guessed without using Excel to solve the new problem?
+
+  Solution. The optimal solution does not change. This could have been guessed by noticing
+  that we produce xH = 8 ≤ 10 Hummus meals in the optimal allocation. Adding a new
+  constraint that is satisﬁed by the current optimal solution does not aﬀect the solution.
+
+
+
+
+                                                2
+Part 1.D
+Because you do not want to cook only one kind of meal over and over again, you decide that
+none of the foods should make up more than 50% of the total portions prepared. How can you
+add this requirement to the Linear Program deﬁned in Part 1.A (Hint: you may need more
+than one constraint)? Is the resulting mathematical program still linear? If not, is there a way
+to write it in linear form?
+
+ Solution.     Requiring that the number of Hummus meals does not exceed 50% of the total
+ production can be written as: xH /(xH + xM + xT ) ≤ 1/2. Similarly, for Moussaka we can
+ write: xM /(xH + xM + xT ) ≤ 1/2. And for Tabouleh: xT /(xH + xM + xT ) ≤ 1/2. However
+ these constraints are not linear because we have decision variables at the denominator. We
+ can transform them into linear constraints by multiplying through by (xH + xM + xT ), which
+ is nonnegative. Note that by doing this we are excluding the solution xH = 0, xM = 0, xT = 0,
+ but we can do this because we know that the zero solution is not optimal.
+ The ﬁnal Linear Program becomes therefore:
+                                                                              ⎫
+                          min              6xH + 10xM + 4.5xT                 ⎪
+                                                                              ⎪
+                                                                      ≤
+                                                                              ⎪
+                     Cooking: (1/10)xH + (1/5)xM + (1/15)xT                4 ⎪⎪
+                                                                              ⎪
+                                                                              ⎪
+                    Packaging: (1/20)xH + (1/15)xM + (1/25)xT         ≤    2 ⎪⎪
+                                                                              ⎪
+                                                                              ⎪
+                     Delivery: (1/30)xH + (1/15)xM + (1/30)xT         ≤    2 ⎪⎪
+                                                                              ⎪
+                                                                              ⎪
+                    DemandH:                                 xH       ≤    20 ⎪
+                                                                              ⎪
+                                                                              ⎬
+                    DemandM:                                 xM       ≤    10             (LP/ )
+                    DemandT:                                  xT      ≤    30 ⎪
+                                                                              ⎪
+                                                                              ⎪
+                                                                              ⎪
+                   MaxRatioH:     (1/2)xH − (1/2)xM − (1/2)xT         ≤    0 ⎪
+                                                                              ⎪
+                                                                              ⎪
+                                                                              ⎪
+                                 −(1/2)xH + (1/2)xM − (1/2)xT         ≤
+                                                                              ⎪
+                   MaxRatioM:                                              0 ⎪⎪
+                                                                              ⎪
+                                                                              ⎪
+                   MaxRatioT:    −(1/2)xH − (1/2)xM + (1/2)xT         ≤    0 ⎪⎪
+                                                                              ⎪
+                                                                              ⎪
+                                                    xH , xM , xT      ≥    0, ⎭
+
+Problem 2
+Consider the functions depicted in Figure 1.
+
+Part 2.A
+Which functions represented in Figure 1 are convex (select one or more)?
+
+  a) f (x) = 0.5x2 − 5
+
+  b) g(x) = 0.25x3
+
+  c) h(x) = −2 log(x + 5)
+
+  d) £(x) = 0.5x2 − 2 sin x − 5
+
+ Solution.     a) and c) are convex. b) and d) are not.
+
+
+
+
+                                               3
+        10                                                     10
+
+
+
+
+         5                                                      5
+
+
+
+
+         0                                                      0
+
+
+
+
+         -5                                                     -5
+
+
+
+
+        -10                                                    -10
+              -4        -2     0        2     4                       -4     -2     0     2       4
+
+
+                                    2                                                         3
+                    (a) f (x) = 0.5x − 5                                   (b) g(x) = 0.25x
+        10                                                     10
+
+
+
+
+         5                                                      5
+
+
+
+
+         0                                                      0
+
+
+
+
+         -5                                                     -5
+
+
+
+
+        -10                                                    -10
+              -4        -2     0        2     4                       -4     -2     0     2       4
+
+
+                                                                                    2
+                   (c) h(x) = −2 log(x + 5)                          (d) e(x) = 0.5x − 2 sin x − 5
+
+                                Figure 1: Four real functions of one variable.
+
+
+Part 2.B
+Based on your answer to Part A, which functions out of the list below are convex?
+
+  a) f (x) + g(x)
+
+  b) πh(x)
+
+  c) 2.5f (x) + h(x)
+
+  d) max{f (x)/3, h(x)/7}
+
+  e) −£(x)
+
+ Solution.      The sum of convex functions is convex. The positive multiple of a convex
+ function is convex. The max of convex functions is convex. It follows that b), c) and d) are
+ convex. e) is the negative of a convex function and is therefore concave by deﬁnition.
+
+
+Problem 3
+Which ones of the following mathematical programs is not a Linear Program? For those that
+are not Linear Programs, can they be reformulated in linear form?
+
+
+                                                      4
+                                                              ⎫
+                                   min 0.5x1 + 3x2            ⎪
+                                                              ⎪
+                                       x1 + 1.35x2 = 2.7
+                                                              ⎬
+                                                                                                  (a)
+                                                 x1 ≥ 0       ⎪
+                                                              ⎪
+                                                 x2     free,
+                                                              ⎭
+                                                              ⎫
+                                   max 0.5x1 + 3x2            ⎪
+                                                              ⎪
+                                        0.99x1 + x2 ≥ 2.7
+                                                              ⎬
+                                                                                                  (b)
+                                            x1 − x2 < 8 ⎪     ⎪
+                                              x1 , x2 ≥ 0,
+                                                              ⎭
+                                                              ⎫
+                                min      0.5x1 + 3x2          ⎪
+                                                              ⎪
+                                    (0.99x1 + x2 )/x2 ≥ 2.7 ⎪
+                                                              ⎪
+                                                              ⎬
+                                             x1 − x2 ≤ 8                                          (c)
+                                                   x1 ≥ 0
+                                                              ⎪
+                                                              ⎪
+                                                              ⎪
+                                                              ⎪
+                                                   x2   free,
+                                                              ⎭
+                                                              ⎫
+                                min      0.5x1 + 3x2          ⎪
+                                                              ⎪
+                                    (0.99x1 + x2 )/x2 ≥ 2.7 ⎪
+                                                              ⎪
+                                                              ⎬
+                                             x1 − x2 ≤ 8                                          (d)
+                                                   x1 ≥ 0
+                                                              ⎪
+                                                              ⎪
+                                                              ⎪
+                                                              ⎪
+                                                   x2 ≥ 1.5,
+                                                              ⎭
+
+  Solution.     a) is a Linear Program. b) is not because it contains a strict inequality. c) and
+  d) are not because they contain decision variables at the denominator. d) can be reformulated
+  in linear form by multiplying through the ﬁrst constraint by x2 , which is a positive variable.
+  The same trick does not work for c) because we a priori we do not know the sign of x2 .
+
+
+Problem 4
+Formulate the following problem in algebraic form.
+    We have m facilities and n customers. Each customer requires dj , j = 1, . . . , n units of
+product, and each facility can produce at most pi , i = 1, . . . , m units. Shipping one unit from
+facility i to customer j costs cij dollars. Write a Linear Program to minimize the cost of shipping
+products from the facilities to the customers, meeting the demand of all customers while not
+exceeding the production capability of any facility. You can assume that we are allowed to ship
+fractional quantities of product.
+    Do not be scared by the fact that we have parameters n, m, dj , pi , cij instead of numbers!
+You can treat them just as you would treat numbers. Start by deﬁning the decision variables.
+(Hint: we want to decide how many units should go from each facility to each customer.)
+
+  Solution.     A natural choice for the decision variables of this assignment problem is to
+  consider the decision variables xij = number of units shipped from the i-th facility to the j-th
+  customer, i = 1, . . . , m, j = 1, . . . , n. The problem can therefore be formulated as follows:
+                                                           jm jn                     ⎫
+                                                     min     i=1  j=1 cij xij        ⎪
+                                                                  jn                 ⎪
+                              Demand: ∀j = 1, . . . , n                   x    = d
+                                                                                     ⎬
+                                                                  jni=1     ij     j
+                                                                                                   (P)
+                   MaxProduction: ∀i = 1, . . . , m                  j=1 xij ≤ pi ⎪  ⎪
+                                                     ∀i, j                xij ≥ 0,
+                                                                                     ⎭
+
+
+
+
+                                                  5
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

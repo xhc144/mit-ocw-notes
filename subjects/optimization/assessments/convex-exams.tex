@@ -1,0 +1,178 @@
+\originalchapter{6.253 期中考试题与解答}\label{chap:6253-exams}
+本章按原件分别保留 Spring 2010 和 Spring 2012 的考试, 不把两年的问题合并成一场考试. 官方库存提供的是含题面的解答文件, 2010年有2个主问题、11个编号作答项, 2012年有2个主问题、14个编号作答项. 判断题原要求不必说明理由; 为便于复核, 本稿补入简洁证明或反例. 官方给出的答案与 AI 独立补解、修正均在相应处区分.
+
+\originalsection{2010年春季期中考试}
+原件署名 Prof. Dimitri P. Bertsekas. 判断题每项8分, 共48分; 第2题各项10、15、5、15、7分, 共52分; 全卷100分. 原件未载具体考试日期或时长, 不能补造.
+
+\begin{exercise}\label{ass:6253-exam2010-q1}
+\textbf{原题1.} 判断以下陈述真伪, 不必说明理由.
+\begin{enumerate}[label=(\arabic*)]
+\item 若凸集 $X_1,X_2$ 可由超平面分离, 且 $X_1$ 开, 则二者不交.
+\item 若凸函数 $f:\R^n\to\R$ 满足某个 $\gamma>0$ 下 $|f(x)|\le\gamma$ 对所有 $x$ 成立, 则 $\min_{x\in\R^n}f(x)$ 有解.
+\item 集合 $\{(x_1,x_2):|x_1|+|x_2|=1\}$ 的支持函数为 $\sigma(y)=\max\{y_1,y_2\}$.
+\item 若 $f:\R^n\to(-\infty,\infty]$ 凸, 且 $\partial f(\bar x)\ne\varnothing$, 则 $f$ 在 $\bar x$ 下半连续.
+\item 对 $M=\{(u,w):u\in\R,|u|\le w\}$, MC/MC 对偶函数对所有 $\mu\in\R$ 都有 $q(\mu)=0$.
+\item 若 $f$ 凸, $S$ 是线性子空间, $\bar x\in S$, $\partial f(\bar x)\cap S^\perp\ne\varnothing$, 则 $\bar x$ 在 $S$ 上最小化 $f$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方答案:} 真、真、假、真、假、真. 以下理由为 AI 补证.
+(1) 分离超平面的一侧含 $X_1$, 而开集不可能包含位于界面上的点, 故 $X_1$ 在开侧, 与另一闭侧中的 $X_2$ 不交.
+(2) 实际上 $f$ 必为常数. 若 $f(y)>f(x)$, 将线段沿 $y-x$ 方向延长, 凸性给 $f(x+t(y-x))\ge f(x)+t[f(y)-f(x)]$ 对 $t>1$, 与有界矛盾. 任一点皆为最优解.
+(3) 正确支持函数为 $\max\{|y_1|,|y_2|\}$, 因线性泛函在菱形的四个顶点 $\pm e_i$ 取最大值; 例如 $y=(-1,0)$ 原式给0而真值为1.
+(4) 取 $s\in\partial f(\bar x)$, 则 $f(x)\ge f(\bar x)+s\T(x-\bar x)$. 对 $x\to\bar x$ 取下极限即可.
+(5) $q(\mu)=\inf_u(|u|+\mu u)$, 当 $|\mu|\le1$ 为0, 当 $|\mu|>1$ 为 $-\infty$, 故并非对所有乘子都为0.
+(6) 取 $s\in\partial f(\bar x)\cap S^\perp$. 对 $x\in S$, $s\T(x-\bar x)=0$, 次梯度不等式给 $f(x)\ge f(\bar x)$.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-exam2010-q2}
+\textbf{原题2.} 考虑 $\min\{f(x):g(x)\le0,x\in X\}$, 其中
+$f(x)=e^{-x_1}$, $g(x)=x_1^2/x_2$, $X=\{(x_1,x_2):x_2>0\}$.
+\begin{enumerate}[label=(\arabic*)]
+\item $g$ 在 $X$ 上是否凸? (10分)
+\item 画 $M=\{(u,w):\exists x\in X,\ g(x)\le u,f(x)\le w\}$. (15分)
+\item 原问题最优值 $f^*$ 是多少? (5分)
+\item 对偶最优值与对偶间隙是多少? (15分)
+\item 将约束改为 $g(x)\le u$, $u>0$, 是否有对偶间隙? (7分)
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答重构.} (1) $g$ 为凸函数 $t^2$ 的透视函数. 直接算得
+\[
+\nabla^2g(x)=\frac2{x_2^3}
+\begin{pmatrix}x_2\\-x_1\end{pmatrix}
+\begin{pmatrix}x_2&-x_1\end{pmatrix}\succeq0.
+\]
+(2) $u<0$ 时无点; $u=0$ 强制 $x_1=0$, 故 $w\ge1$. 若 $u>0$, 对任何 $w>0$, 可选足够大的 $x_1$ 使 $e^{-x_1}\le w$, 再选 $x_2\ge x_1^2/u$ 且 $x_2>0$. 因而
+$M=\{(u,w):u>0,w>0\}\cup\{(0,w):w\ge1\}$.
+\begin{center}
+\begin{tikzpicture}[x=1.1cm,y=1.3cm]
+\fill[structurecolor!9](0,0)rectangle(3,2.1);
+\draw[->](-.35,0)--(3.3,0)node[right]{$u$};
+\draw[->](0,-.25)--(0,2.4)node[above]{$w$};
+\draw[dashed,thick](0,0)--(0,1);\draw[very thick,structurecolor](0,1)--(0,2.1);
+\fill[structurecolor](0,1)circle(2pt)node[left]{$1$};
+\node at(1.65,1.25){$u>0,\ w>0$};
+\node[below]at(1.5,0){$w=0$ 不属于 $M$};
+\end{tikzpicture}
+\end{center}
+图中浅色内部属于 $M$, 竖轴仅粗线段及其向上延长属于 $M$; 水平轴不属于 $M$.
+(3) 可行集是 $\{(0,x_2):x_2>0\}$, 每点费用均为1, 所以 $f^*=1$ 且取到.
+(4) 对 $\mu\ge0$, $e^{-x_1}+\mu x_1^2/x_2\ge0$, 而先令 $x_1\to\infty$, 再使 $x_2$ 增长足够快, 可使二项同时趋零. 所以 $q(\mu)=0$ 对全部 $\mu\ge0$ 成立, $q^*=0$, 间隙为1. 在 MC/MC 延伸到全实数的定义下, $\mu<0$ 时 $q(\mu)=-\infty$.
+(5) 对固定 $u>0$, 取 $x_1\to\infty$, $x_2=x_1^2/u$ 得 $p(u)=0$, 不取到. 新对偶函数 $q_u(\mu)=-\mu u$, 最优乘子 $\mu=0$, 值为0, 故没有间隙. 也可用 $x_1=0,x_2>0$ 的严格可行性验证 Slater 条件.
+\end{solution}
+
+\originalsection{2012年春季期中考试}
+原件署名 Prof. Dimitri Bertsekas, 第1题60分, 第2题40分, 共100分. 原件未载各子项分值、具体考试日期或时长.
+
+\begin{exercise}\label{ass:6253-exam2012-q1}
+\textbf{原题1.} 以下 $X\subseteq\R^n$ 非空凸, $A,b$ 维数适当, $f:\R^n\to(-\infty,\infty]$ 凸且真. 判断真伪, 不必说明理由. (60分)
+\begin{enumerate}[label=(\arabic*)]
+\item 若 $\epi f$ 闭, 则 $f$ 连续.
+\item 若 $\epi f$ 闭, 则 $\dom f$ 闭.
+\item $\ri X=\operatorname{int}X$.
+\item $X$ 与 $\ri X$ 的衰退锥相同.
+\item 存在分离 $X$ 与 $-X$ 的超平面.
+\item 二维函数 $f(x_1,x_2)=(x_1+x_2)^2$ 强制趋于无穷, 即是 coercive.
+\item 若 $f$ 闭且 $\dom f$ 紧, 则共轭 $f^*$ 全空间实值.
+\item 若 $\min\{f(x):x\in X,Ax=b\}$ 的最优值有限且 $X$ 开, 则无对偶间隙.
+\item 若 $f$ 为一个实值函数与 $X$ 的指示函数之和, 则对每个 $x\in X$, 至少存在一个 $f$ 的次梯度.
+\item 若 $f(x)=b\T x$ 且 $x^*$ 在 $X$ 上最小化 $f$, 则 $X$ 在 $x^*$ 的法锥包含 $-b$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方答案:} 前6项假, 后4项真. \textbf{AI 独立审定:} 按原题写出的条件, 第8项为假; 第9项若未假设实值部分凸, 也为假. 以下保留原题并说明条件差别.
+
+(1) 假. 闭上图保证下半连续, 不保证边界连续. 取 $f(s,t)=t^2/s$ 对 $s>0$, $f(0,0)=0$, 其余取 $+\infty$. 其上图为 $\{(s,t,w):s\ge0,w\ge0,t^2\le sw\}$, 是闭凸集. 但 $(s,t)=(\varepsilon^2,\varepsilon)\to(0,0)$ 时 $f=1$, 与原点值0不同, 即使只在定义域内也不连续.
+(2) 假. $f(x)=1/x$ 对 $x>0$, 其余为 $+\infty$, 闭真凸而定义域为开半轴.
+(3) 假. 平面中的水平线段 $[-1,1]\times\{0\}$ 内部空, 相对内部为 $(-1,1)\times\{0\}$.
+(4) 假. 取 $X=\{(x_1,x_2):x_1>0,x_2\ge0\}\cup\{(0,0)\}$. 则 $\rec X=X$: 从原点出发要求衰退方向就在 $X$ 中, 而这些方向确能使各点保持在 $X$. $\ri X=\{x_1>0,x_2>0\}$, 其衰退锥却是闭非负正交域 $\R_+^2$, 包含 $(0,1)$.
+(5) 假. 取 $X$ 为以原点为中心的开单位球, 则 $X=-X$ 且有内点, 不可能由非零法向量的超平面分离.
+(6) 假. 沿 $(t,-t)$, 范数趋无穷而费用恒为0.
+(7) 真. 由闭性和紧定义域, $f$ 在定义域有有限下界 $m$. 因而
+$f^*(y)\le\max_{x\in\dom f}y\T x-m<\infty$; 任取有限目标点又给有限下界, 所以 $f^*(y)\in\R$.
+
+(8) \textbf{AI 修正: 按原题为假.} 取 $n=1$, $X=\R$, 等式约束 $x=0$, 并令
+\[
+f(x)=\begin{cases}0,&x>0,\\1,&x=0,\\+\infty,&x<0.\end{cases}
+\]
+$f$ 真凸, 原问题最优值为1. 对等式乘子 $\lambda\in\R$, $q(\lambda)=\inf_x[f(x)+\lambda x]$ 在 $\lambda\ge0$ 时为0, 在 $\lambda<0$ 时为 $-\infty$. 所以对偶值为0, 间隙为1. $X$ 开并未使约束点落入 $\ri(\dom f)$; 原题缺少相应资格条件. 若补充存在 $\bar x\in\ri(X\cap\dom f)$ 满足 $A\bar x=b$, 强对偶定理才可用. 不把官方的 True 机械翻译为无条件结论.
+
+(9) \textbf{AI 条件审定: 字面条件不足.} 取 $X=[0,\infty)$,
+$f(x)=-\sqrt x$ 对 $x\ge0$, 其余为 $+\infty$. 这是凸真函数, 且可写成实值函数 $h(x)=-\sqrt{\max\{x,0\}}$ 与 $\ind X$ 之和. 若 $s\in\partial f(0)$, 对所有 $t>0$ 必须 $-\sqrt t\ge st$, 即 $s\le-1/\sqrt t$, 无有限 $s$ 可行. 因而第9项按未加凸性的原文为假.
+官方解答隐含实值部分 $h$ 全空间凸. 在这个补充条件下, $\partial h(x)\ne\varnothing$ 对全部 $x$ 成立, $0\in\partial\ind X(x)$ 对全部 $x\in X$ 成立, 次微分和法则给 $\partial f(x)=\partial h(x)+N_X(x)\ne\varnothing$, 所以官方 True 在此条件下成立.
+
+(10) 真. 最优性是 $b\T(x-x^*)\ge0$ 对所有 $x\in X$, 正是 $-b\in N_X(x^*)$ 的定义.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-exam2012-q2}
+\textbf{原题2.} 考虑 $\min(x^2+y^2)$, 约束 $a-x-y\le0$, $x,y\in\{0,1\}$. (40分)
+(a) 画约束--费用点集 $\{(a-x-y,x^2+y^2):x,y\in\{0,1\}\}$, 并画扰动函数
+$p(u)=\min\{x^2+y^2:a-x-y\le u,\ x,y\in\{0,1\}\}$. $p$ 是否下半连续?
+(b) 取 $M=\epi p$ 的 MC/MC 框架. 哪些 $a$ 使问题可行且有对偶间隙? 哪些 $a$ 使问题可行且无间隙? 哪些 $a$ 使问题可行且有唯一对偶最优解?
+(c) 选一个可行无间隙的 $a$, 写出最大截距问题, 并求全部原、对偶最优解.
+(d) 将约束改成 $a-x-y<0$, 重新回答(a)、(b).
+\end{exercise}
+\begin{solution}
+(a) \textbf{AI 独立补图与补解:} 官方此处标有 \emph{To be added}, 因而图及枚举推导不是现成的官方完整答案. 令 $s=x+y$, 则 $s\in\{0,1,2\}$ 且 $x^2+y^2=s$. 不同约束--费用点只有三个: $(a,0),(a-1,1),(a-2,2)$; 中间点由 $(1,0),(0,1)$ 两个解共同产生. 因而
+\[
+p(u)=\begin{cases}
+0,&u\ge a,\\1,&a-1\le u<a,\\2,&a-2\le u<a-1,\\+\infty,&u<a-2.
+\end{cases}
+\]
+图以下使用横坐标 $u-a$, 因此对所有 $a$ 只需水平平移, 没有固定某个参数冒充一般结论.
+\begin{center}
+\begin{tikzpicture}[x=1.25cm,y=.9cm]
+\draw[->](-2.55,0)--(1.3,0)node[right]{$u-a$};
+\draw[->](0,-.3)--(0,2.7)node[above]{$p$};
+\draw[very thick,structurecolor](-2,2)--(-1,2);
+\draw[very thick,structurecolor](-1,1)--(0,1);
+\draw[very thick,structurecolor](0,0)--(1.1,0);
+\foreach \x/\y in {-2/2,-1/1,0/0}{\fill[structurecolor](\x,\y)circle(2pt);}
+\foreach \x/\y in {-1/2,0/1}{\draw[structurecolor,fill=white](\x,\y)circle(2pt);}
+\node[below]at(-2,0){$-2$};\node[below]at(-1,0){$-1$};
+\node[left]at(0,1){$1$};\node[left]at(0,2){$2$};
+\node at(-1.9,2.6){左侧为 $+\infty$};
+\end{tikzpicture}
+\end{center}
+实点是函数取值, 空心点不取; 三个实点也正是约束--费用点的平移图. 在每个跳点, 函数取左右极限中较低的值, 所以 $p$ 下半连续; 或由 $\epi p$ 是三个闭正交域平移的有限并直接判断.
+
+(b) 以下对偶推导为 AI 验算, 与官方区间答案一致. 对 $\mu\ge0$,
+\[
+q_a(\mu)=\min_{s=0,1,2}\{s+\mu(a-s)\}
+=\begin{cases}a\mu,&0\le\mu\le1,\\2+(a-2)\mu,&\mu\ge1.\end{cases}
+\]
+可行当且仅当 $a\le2$. 在可行范围, 原最优值为0 ($a\le0$)、1 ($0<a\le1$)、2 ($1<a\le2$). 对偶值为0 ($a\le0$)、$a$ ($0<a\le2$). 因此可行且有间隙的参数为 $(0,1)\cup(1,2)$; 可行无间隙的为 $(-\infty,0]\cup\{1,2\}$. 全部最优乘子为
+\[
+\argmax_{\mu\ge0}q_a(\mu)=\begin{cases}
+\{0\},&a<0,\\{}[0,1],&a=0,\\\{1\},&0<a<2,\\{}[1,\infty),&a=2.
+\end{cases}
+\]
+所以可行且有唯一对偶最优解的参数为 $(-\infty,0)\cup(0,2)$. $a>2$ 时原问题不可行且对偶上无界, 不列入这些区间.
+
+(c) 取 $a=1$. 最大截距问题为
+$\max_{\mu\ge0}\inf_{u\in\R}\{p(u)+\mu u\}$.
+原最优解集合为 $\{(1,0),(0,1)\}$, 最优值1; 对偶唯一最优解 $\mu=1$, 对偶值1. 支持线 $w+u=1$ 同时经过三个约束--费用点.
+
+(d) 严格约束的扰动函数是
+\[
+p_{<}(u)=\begin{cases}
+0,&u>a,\\1,&a-1<u\le a,\\2,&a-2<u\le a-1,\\+\infty,&u\le a-2.
+\end{cases}
+\]
+\begin{center}
+\begin{tikzpicture}[x=1.25cm,y=.9cm]
+\draw[->](-2.55,0)--(1.3,0)node[right]{$u-a$};
+\draw[->](0,-.3)--(0,2.7)node[above]{$p_{<}$};
+\draw[very thick,structurecolor](-2,2)--(-1,2);
+\draw[very thick,structurecolor](-1,1)--(0,1);
+\draw[very thick,structurecolor](0,0)--(1.1,0);
+\foreach \x/\y in {-1/2,0/1}{\fill[structurecolor](\x,\y)circle(2pt);}
+\foreach \x/\y in {-2/2,-1/1,0/0}{\draw[structurecolor,fill=white](\x,\y)circle(2pt);}
+\node[below]at(-2,0){$-2$};\node[below]at(-1,0){$-1$};
+\node[left]at(0,1){$1$};\node[left]at(0,2){$2$};
+\end{tikzpicture}
+\end{center}
+\textbf{AI 补证:} 原约束--费用点集仍为三个点, 但可行性要求 $u>a-s$, 因而上图中的水平阶梯改成左开右闭. 在 $u=a$, $p_{<}(a)=1$ 而从右趋近的函数值为0, 故不下半连续; 其余两跳点也不下半连续.
+严格可行当且仅当 $a<2$. 原最优值为0 ($a<0$)、1 ($0\le a<1$)、2 ($1\le a<2$). 虽然 $\epi p_{<}$ 不闭, 仿射泛函下确界在其闭包上不变, 所以对偶函数仍为 $q_a$. 可行有间隙的参数为 $[0,2)$, 可行无间隙的为 $(-\infty,0)$, 可行且唯一对偶解的为 $(-\infty,0)\cup(0,2)$. 在 $a=0$ 对偶最优集仍为 $[0,1]$, 因而不是唯一解.
+\end{solution}

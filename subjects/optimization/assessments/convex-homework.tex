@@ -1,0 +1,360 @@
+\originalchapter{6.253 作业题与解答}\label{chap:6253-homework}
+本章收录官方课程库存中的五份作业, 共27个原编号主问题. 原件题头均写明 Dimitri P. Bertsekas, Spring 2010; 文件名中的 S12 和末页的 Spring 2012 是 OCW 发布课程标识, 不能据此把作业改为2012年. 除另行标明的 AI 补证或修正外, 解答根据同名官方解答重构; 原题中的外部教材引用由课程附带的 \texttt{MIT6\_253S12\_summary.pdf} 核实. 本章“锥”沿用原题对正数倍封闭的约定, 不额外要求包含原点. $L_C=\rec C\cap(-\rec C)$ 表示闭凸集的线性空间.
+
+\originalsection{作业1: 凸集与凸函数}
+\begin{exercise}\label{ass:6253-hw1-q1}
+\textbf{原题1.} (a) 设非空 $C\subseteq\R^n$, $\lambda_1,\lambda_2>0$. 证明: 若 $C$ 凸, 则 $(\lambda_1+\lambda_2)C=\lambda_1C+\lambda_2C$; 举例说明非凸时不一定成立.
+(b) 证明任意锥族的交 $\bigcap_{i\in I}C_i$ 是锥.
+(c) 证明锥在线性变换下的像和逆像都是锥.
+(d) 证明两个锥的向量和 $C_1+C_2$ 是锥.
+(e) 证明 $C$ 为凸锥当且仅当 $C+C\subseteq C$ 且对每个 $\gamma>0$ 有 $\gamma C\subseteq C$.
+\end{exercise}
+\begin{solution}
+(a) 同一点相加给 $(\lambda_1+\lambda_2)C\subseteq\lambda_1C+\lambda_2C$. 反向, 对 $x_i\in C$,
+\[
+\lambda_1x_1+\lambda_2x_2=(\lambda_1+\lambda_2)
+\left(\frac{\lambda_1}{\lambda_1+\lambda_2}x_1+
+\frac{\lambda_2}{\lambda_1+\lambda_2}x_2\right),
+\]
+括号内由凸性属于 $C$. 非凸反例为 $C=\{0,v\}$, $v\ne0$, $\lambda_1=\lambda_2=1$: $2C=\{0,2v\}$, 而 $C+C=\{0,v,2v\}$.
+
+(b) 若 $x$ 属于每个 $C_i$, 则 $\gamma x$ 也属于每个 $C_i$.
+(c) 若 $z=Ax$, $x\in C$, 则 $\gamma z=A(\gamma x)\in AC$; 若 $Ax\in C$, 则 $A(\gamma x)=\gamma Ax\in C$, 所以逆像也对正数倍封闭.
+(d) 若 $x=x_1+x_2$, 则 $\gamma x=\gamma x_1+\gamma x_2\in C_1+C_2$.
+(e) 凸锥中 $x+y=2[(x+y)/2]\in C$. 反向, 两个假设给出锥性, 并使 $tx+(1-t)y\in C$ 对 $0<t<1$ 成立; 两端点本来就在 $C$, 故 $C$ 凸.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw1-q2}
+\textbf{原题2.} 设 $C\subseteq\R^n$ 非空凸, $f=(f_1,\ldots,f_m)$, 各 $f_i:C\to\R$ 凸. 设 $g:\R^m\to\R$ 在包含 $f(C)$ 的某个凸集 $D$ 上凸且按分量单调不减: 对 $u,v\in D$, $u\le v$ 蕴含 $g(u)\le g(v)$. 证明 $h(x)=g(f(x))$ 在 $C$ 上凸. 若再有 $m=1$, $g$ 严格单调递增且 $f$ 严格凸, 证明 $h$ 严格凸.
+\end{exercise}
+\begin{solution}
+对 $x,y\in C$, $0\le t\le1$, 各分量凸性给 $f(tx+(1-t)y)\le tf(x)+(1-t)f(y)$. 这两个向量都属于 $D$, 因而
+\[
+h(tx+(1-t)y)\le g(tf(x)+(1-t)f(y))
+\le th(x)+(1-t)h(y).
+\]
+在标量情形, $x\ne y$ 且 $0<t<1$ 时第一处不等式因严格凸性和严格单调性变为严格不等式, 即得严格凸性.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw1-q3}
+\textbf{原题3.} 证明下列函数凸:
+(a) $f_1(x)=\log(\sum_{i=1}^n e^{x_i})$;
+(b) $f_2(x)=\norm{x}^p$, $p\ge1$;
+(c) $f_3(x)=e^{\beta x\T Ax}$, 其中 $A$ 为半正定对称矩阵, $\beta>0$;
+(d) $f_4(x)=f(Ax+b)$, 其中 $f:\R^m\to\R$ 凸, $A\in\R^{m\times n}$, $b\in\R^m$.
+\end{exercise}
+\begin{solution}
+(a) 令 $S=\sum_i e^{x_i}$, $p_i=e^{x_i}/S$. 则 $\nabla^2f_1=\operatorname{diag}(p)-pp\T$, 所以
+\[
+z\T\nabla^2f_1(x)z=\sum_i p_i z_i^2-\left(\sum_i p_i z_i\right)^2
+=\frac{1}{2S^2}\sum_{i,j}e^{x_i+x_j}(z_i-z_j)^2\ge0.
+\]
+\textbf{AI 修正:} 官方双重求和式遗漏因子 $1/2$; 该遗漏不影响非负性结论, 但这里写出正确等式.
+(b) 任意范数凸, $t^p$ 在 $[0,\infty)$ 上凸且单调不减, 用原题2.
+(c) $x\T Ax$ 凸, $e^{\beta t}$ 凸且递增, 再用原题2.
+(d) 仿射映射保凸组合, 将 $A(tx+(1-t)y)+b=t(Ax+b)+(1-t)(Ay+b)$ 代入 $f$ 的凸性不等式即可.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw1-q4}
+\textbf{原题4.} 设 $X\subseteq\R^n$ 非空有界. 证明 $\cl(\conv X)=\conv(\cl X)$. 特别地, 若 $X$ 紧, 则 $\conv X$ 紧.
+\end{exercise}
+\begin{solution}
+$\cl X$ 紧. 由 Carath\'eodory 定理, $\conv(\cl X)$ 是紧集 $\Delta_{n+1}\times(\cl X)^{n+1}$ 在映射 $(\alpha,x_1,\ldots,x_{n+1})\mapsto\sum_i\alpha_i x_i$ 下的像, 故紧且闭. 因 $\conv X\subseteq\conv(\cl X)$, 取闭包得到一个包含. 另一方面 $\cl(\conv X)$ 是包含 $\cl X$ 的凸集, 因而包含 $\conv(\cl X)$. 若 $X$ 本身紧, 即有 $\conv X=\cl(\conv X)$ 且紧. 这里复用定理\ref{thm:caratheodory}及其紧性推论.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw1-q5}
+\textbf{原题5.} 构造一个非凸集 $X$ 中的点, 它具有延长性质, 却不属于 $\ri X$. 延长性质指: 对每个 $x\in X$ 且 $x\ne\bar x$, 从 $x$ 到 $\bar x$ 的线段能够越过 $\bar x$ 再延长一段, 延长后的点仍属于 $X$.
+\end{exercise}
+\begin{solution}
+取 $X$ 为平面上两条不同的相交直线之并, $\bar x$ 为交点. 任何 $x\in X$ 与 $\bar x$ 都在其中一条完整直线上, 因此可越过交点延长. 但 $\aff X=\R^2$, 而 $X$ 不包含交点附近的任何平面开球, 故 $\bar x\notin\ri X$. $X$ 非凸, 因为分别从两条线上选取非交点, 所得线段通常离开两条直线.
+\end{solution}
+
+\originalsection{作业2: 相对内部与最优解稳定性}
+\begin{exercise}\label{ass:6253-hw2-q1}
+\textbf{原题1.} (a) 设 $C$ 非空凸锥, 证明 $\cl C$ 与 $\ri C$ 都是凸锥.
+(b) 若 $C=\cone\{x_1,\ldots,x_m\}$, 证明
+$\ri C=\{\sum_{i=1}^m a_ix_i:a_i>0\}$.
+\end{exercise}
+\begin{solution}
+(a) 闭包和相对内部的凸性见第\ref{chap:2}章. 正数倍映射 $x\mapsto\gamma x$ 是 $\aff C$ 上的同胚, 且 $\gamma C=C$, 因此 $\gamma\cl C=\cl C$, $\gamma\ri C=\ri C$.
+(b) 令 $A(a)=\sum_i a_i x_i$. 相对内部在线性像下交换, 故
+$\ri C=\ri(A\R_+^m)=A(\ri\R_+^m)=A\R_{++}^m$. 即使生成向量线性相关或包含零向量, 此公式仍成立.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw2-q2}
+\textbf{原题2.} 设 $C_1,C_2$ 凸, 证明
+$C_1\cap\ri C_2\ne\varnothing$ 当且仅当
+$\ri(C_1\cap\aff C_2)\cap\ri C_2\ne\varnothing$.
+\end{exercise}
+\begin{solution}
+反向由相对内部包含于原集合即得. 正向取 $x\in C_1\cap\ri C_2$, 令 $D=C_1\cap\aff C_2$. $D$ 非空凸, 取 $z\in\ri D$. 若 $z=x$, 已有结论. 否则 $x_t=(1-t)x+tz$ 在 $0<t\le1$ 时属于 $\ri D$, 而在充分小的 $t>0$ 时由 $x$ 的相对内点性质属于 $\ri C_2$. 因此交集非空.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw2-q3}
+\textbf{原题3.} (a) 设 $f:\R^n\to\R$ 在以 $x^*$ 为中心的某个球形邻域内凸. 证明: $x^*$ 为局部极小点当且仅当沿经过 $x^*$ 的每条直线都是局部极小点, 即每个 $d\in\R^n$ 对应的 $g(\alpha)=f(x^*+\alpha d)$ 在 $\alpha=0$ 有局部极小值.
+(b) 设 $0<p<q$, $f(x_1,x_2)=(x_2-px_1^2)(x_2-qx_1^2)$. 证明 $(0,0)$ 沿每条经过原点的直线局部极小, 但当 $p<m<q$ 且 $y\ne0$ 时 $f(y,my^2)<0$, 因而并非二维局部极小点.
+\end{exercise}
+\begin{solution}
+(a) 必要性直接成立. 若球内有 $y$ 使 $f(y)<f(x^*)$, 则对每个 $0<t<1$,
+$f(x^*+t(y-x^*))\le(1-t)f(x^*)+tf(y)<f(x^*)$.
+这在线方向 $d=y-x^*$ 上产生任意近的下降点, 与线上的局部极小矛盾. 原文 sphere 在这里必须按包含内部的球形邻域理解.
+(b) 沿方向 $d=(d_1,d_2)$,
+$g(\alpha)=\alpha^2(d_2-p\alpha d_1^2)(d_2-q\alpha d_1^2)$.
+若 $d_2\ne0$, 充分小的 $|\alpha|$ 使两括号同号, 因而 $g(\alpha)\ge0$. 若 $d_2=0$, 则 $g(\alpha)=pq\alpha^4d_1^4\ge0$. 但 $f(y,my^2)=y^4(m-p)(m-q)<0$, 且 $(y,my^2)\to(0,0)$ 当 $y\to0$.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw2-q4}
+\textbf{原题4.} 设 $A\in\R^{m\times n}$ 满行秩, $c\in\R^n$.
+(a) 用投影定理证明 $\min_{Ax=0}(\norm{x}^2/2+c\T x)$ 的唯一解为
+$x^*=-(I-A\T(AA\T)^{-1}A)c$.
+(b) 设 $Q\succ0$ 对称, $A\bar x=b$. 用 $y=Q^{1/2}(x-\bar x)$ 将
+$\min_{Ax=b}\{(x-\bar x)\T Q(x-\bar x)/2+c\T(x-\bar x)\}$ 化为(a), 并证明
+$x^*=\bar x-Q^{-1}(c-A\T\lambda)$, $\lambda=(AQ^{-1}A\T)^{-1}AQ^{-1}c$.
+(c) 将(b)用于 $\min_{Ax=b}(x\T Qx/2+c\T x)$, 证明
+$x^*=-Q^{-1}[c-A\T\lambda-A\T(AQ^{-1}A\T)^{-1}b]$, 其中 $\lambda$ 如(b).
+\end{exercise}
+\begin{solution}
+(a) 配方后目标为 $\norm{x+c}^2/2-\norm c^2/2$, 故在 $\ker A$ 上投影 $-c$. $P=I-A\T(AA\T)^{-1}A$ 满足 $AP=0$, 而 $c-Pc\in\operatorname{range}(A\T)=(\ker A)^\perp$, 所以投影为 $-Pc$. 投影定理给唯一性.
+(b) 新约束为 $AQ^{-1/2}y=0$, 新目标为 $\norm y^2/2+(Q^{-1/2}c)\T y$. 令 $B=AQ^{-1/2}$, 用(a)再乘 $Q^{-1/2}$ 得所示结果. $BB\T=AQ^{-1}A\T\succ0$, 所需逆矩阵存在.
+(c) 取 $\bar x=Q^{-1}A\T(AQ^{-1}A\T)^{-1}b$. 这满足 $A\bar x=b$, 且对全部可行 $x$, $x\T Q\bar x=b\T(AQ^{-1}A\T)^{-1}b$ 为常数. 展开(b)目标, 它与(c)目标只差常数, 代回即得公式. 也可直接验算
+\[
+Ax^*=b,\qquad Qx^*+c=A\T(AQ^{-1}A\T)^{-1}(AQ^{-1}c+b),
+\]
+并由严格凸性确认唯一性.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw2-q5}
+\textbf{原题5.} 设 $X\subseteq\R^n$ 闭凸, $f:\R^n\to(-\infty,\infty]$ 闭凸, $X\cap\dom f\ne\varnothing$, 且 $f$ 与 $X$ 没有共同非零衰退方向. 记非空紧的极小点集为 $X^*$, $f^*=\inf_{x\in X}f(x)$.
+(a) 证明每个 $\varepsilon>0$ 对应某个 $\delta>0$, 使 $x\in X$, $f(x)\le f^*+\delta$ 蕴含 $\dist(x,X^*)\le\varepsilon$.
+(b) 若 $f$ 全空间实值, 证明每个 $\delta>0$ 对应某个 $\varepsilon>0$, 使 $x\in X$, $\dist(x,X^*)\le\varepsilon$ 蕴含 $f(x)\le f^*+\delta$.
+(c) 证明任何 $x_k\in X$, $f(x_k)\to f^*$ 的序列有界, 且所有聚点属于 $X^*$.
+\end{exercise}
+\begin{solution}
+每个非空有限水平集 $K_\gamma=X\cap\{f\le\gamma\}$ 闭凸, 其衰退锥为 $\rec X\cap\rec f=\{0\}$, 故紧.
+(a) 若结论失败, 可取 $f(x_k)\le f^*+1/k$, $\dist(x_k,X^*)>\varepsilon$. 全序列在紧集 $K_{f^*+1}$ 中, 子序列趋于 $\bar x\in X$. 下半连续性给 $f(\bar x)\le f^*$, 因而 $\bar x\in X^*$, 与距离条件矛盾.
+(b) 若失败, 存在 $x_k\in X$, $x_k^*\in X^*$ 使 $\norm{x_k-x_k^*}\le1/k$ 而 $f(x_k)>f^*+\delta$. 紧性使一个子序列 $x_k^*\to x^*\in X^*$, 从而 $x_k\to x^*$. 全空间实值凸函数连续, 得 $f(x_k)\to f^*$, 矛盾.
+(c) \textbf{AI 补证:} 官方解答只证聚点性质, 未明确补齐有界性. 序列的尾部位于 $K_{f^*+1}$, 有限个首项也有界, 故全序列有界. 任一聚点由 $X$ 闭及 $f$ 下半连续性属于 $X^*$.
+\end{solution}
+
+\originalsection{作业3: 回缩、分离与部分极小化}
+\begin{exercise}\label{ass:6253-hw3-q1}
+\textbf{原题1.} (a) 用二阶锥 $C=\{(u,v,w):\norm{(u,v)}\le w\}$、衰退方向 $d=(1,0,1)$ 及渐近序列 $x_k=(k,\sqrt{k},\sqrt{k^2+k})$ 说明非多面体闭凸锥不一定可回缩.
+(b) 将 $C$ 写成无限多个闭半空间的交, 说明无限个可回缩嵌套集合序列的逐项交不一定可回缩.
+\end{exercise}
+\begin{solution}
+(a) $x_k\in\partial C$, $\norm{x_k}\to\infty$, 且 $x_k/\norm{x_k}\to d/\norm d$. $d\in C=\rec C$. 然而
+\[
+(k-1)^2+k-\big(\sqrt{k^2+k}-1\big)^2
+=2\big(\sqrt{k^2+k}-k\big)>0.
+\]
+所以 $x_k-d\notin C$ 对全部 $k\ge1$ 成立, 该渐近序列不可回缩.
+(b) Cauchy--Schwarz 不等式及取等给
+$\norm{(u,v)}=\max_{s^2+t^2=1}(su+tv)$, 因而
+$C=\bigcap_{s^2+t^2=1}\{(u,v,w):su+tv\le w\}$.
+每个半空间构成一个可回缩的常值嵌套序列, 其无限逐项交是不可回缩的常值序列 $C_k=C$.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw3-q2}
+\textbf{原题2.} 设 $C\subseteq\R^n$ 非空凸, $M\subseteq\R^n$ 非空仿射. 证明 $M\cap\ri C=\varnothing$ 当且仅当存在包含 $M$ 的超平面 $H$, 使 $\ri C$ 位于 $H$ 的一个开半空间内.
+\end{exercise}
+\begin{solution}
+必要性直接成立. 正向, 因 $\ri M=M$, 适当分离定理给 $a\ne0$ 使 $a\T m\le a\T x$ 对所有 $m\in M$, $x\in C$ 成立, 且两集不同时包含在同一超平面内. 在仿射集上, 此上界强制 $a$ 垂直于 $M$ 的方向空间, 故 $a\T m=b$ 为常数. 于是 $H=\{x:a\T x=b\}$ 包含 $M$, $C$ 在其闭上侧. 若某个相对内点也取等, 线性泛函在 $C$ 上的相对内点取得最小值, 必在 $C$ 上恒为 $b$, 与适当分离矛盾. 因而所有相对内点都严格位于上侧.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw3-q3}
+\textbf{原题3.} 设 $C_1,C_2$ 非空凸, $B=\{x:\norm x\le1\}$. 若存在 $\varepsilon>0$ 使 $C_1+\varepsilon B$ 与 $C_2+\varepsilon B$ 分别位于超平面 $H$ 的两个开半空间, 称 $H$ 强分离 $C_1,C_2$.
+(a) 证明下列三个条件等价: (i) 存在强分离超平面; (ii) 存在 $a\in\R^n$ 使 $\inf_{C_1}a\T x>\sup_{C_2}a\T x$; (iii) $\inf_{x_i\in C_i}\norm{x_1-x_2}>0$, 即 $0\notin\cl(C_2-C_1)$.
+(b) 若 $C_1,C_2$ 不交, 证明教材命题1.5.3中的五个条件中的任一个都保证强分离. 经课程官方汇总原文核实, 五个条件为:
+\begin{enumerate}[label=(\arabic*)]
+\item $C_2-C_1$ 闭;
+\item $C_1$ 闭, $C_2$ 紧;
+\item $C_1,C_2$ 均为多面体;
+\item 两集闭且 $\rec C_1\cap\rec C_2=L_{C_1}\cap L_{C_2}$;
+\item $C_1$ 闭, $C_2$ 多面体, 且 $\rec C_1\cap\rec C_2\subseteq L_{C_1}$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) (i)$\Rightarrow$(ii): 设 $H=\{x:a\T x=b\}$, 第一集在上侧. 将每个 $x_1\in C_1$ 向 $-a$ 方向移动 $\varepsilon$ 得 $a\T x_1>b+\varepsilon\norm a$, 同理 $a\T x_2<b-\varepsilon\norm a$; 取上下确界仍有正间隔.
+(ii)$\Rightarrow$(iii): 设间隔为 $\eta>0$. $a$ 非零, 且 $\norm a\norm{x_1-x_2}\ge a\T(x_1-x_2)\ge\eta$.
+(iii)$\Rightarrow$(i): 令 $D=\cl(C_1-C_2)$, $z=P_D(0)\ne0$. 投影不等式给 $z\T(x_1-x_2)\ge\norm z^2$. 固定 $C_2$ 中一点给 $C_1$ 上泛函的有限下界, 固定 $C_1$ 中一点给 $C_2$ 上泛函的有限上界; 两集各自非空又给反方向的有限界, 故 $\inf_{C_1}z\T x$ 与 $\sup_{C_2}z\T x$ 均为有限实数, 且前者比后者至少大 $\norm z^2$. 取两高度中点作 $b$, 再取 $0<\varepsilon<\norm z/2$, 即得强分离.
+
+(b) 官方解答明确以“条件(2)--(5)各蕴含条件(1)”完成证明; 这里补齐该依赖的可核内容. 条件(2)由紧集分量取收敛子序列, 使闭集与紧集的差闭; 条件(3)由多面体线性像为多面体. 条件(4)令 $D=C_2\times C_1$, $A(x_2,x_1)=x_2-x_1$. 则 $\rec D\cap\ker A$ 中的点为 $(d,d)$, 其中 $d$ 是共同衰退方向; 假设使它属于 $L_D$. 定理\ref{thm:closed-image}给 $AD=C_2-C_1$ 闭. 条件(5)在同一定理的回缩版本中取 $X=C_2\times\R^n$, $D=\R^n\times C_1$: $X$ 为多面体, 共同的零像方向 $(d,d)$ 由条件属于 $L_D$, 故差集仍闭. 因两集不交, $0\notin C_2-C_1=\cl(C_2-C_1)$, 再用(a). 五条件来源是官方汇总命题1.5.3, 非猜测外书缺题.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw3-q4}
+\textbf{原题4.} 若全部水平集 $V_\gamma=\{x:f(x)\le\gamma\}$ 凸, 称 $f:\R^n\to(-\infty,\infty]$ 拟凸. 设 $X$ 凸且 $X\cap\dom f\ne\varnothing$, $f^*=\inf_Xf$.
+(a) 假设 $f$ 不在 $X$ 中任何非退化线段上恒等于某个实数 $c$. 证明 $f$ 在 $X$ 上每个局部极小点都是全局极小点.
+(b) 再设 $X$ 闭, $f$ 闭且真. 对 $\Gamma=\{\gamma:\gamma>f^*\}$, 令 $R_f=\bigcap_{\gamma\in\Gamma}\rec V_\gamma$, $L_f=\bigcap_{\gamma\in\Gamma}L_{V_\gamma}$. 仿照教材命题3.2.4, 证明下列条件任一个都使 $f$ 在 $X$ 上取到最小值: (1) $\rec X\cap R_f=L_X\cap L_f$; (2) $X$ 是多面体, $\rec X\cap R_f\subseteq L_f$.
+\end{exercise}
+\begin{solution}
+(a) 沿用优化中的惯例, 局部极小点 $x^*$ 必须满足 $f(x^*)<\infty$. 若存在 $y\in X$ 使 $f(y)<f(x^*)$, 拟凸性给 $f((1-t)x^*+ty)\le f(x^*)$. 局部极小性又使足够小的 $t\ge0$ 上此值不小于 $f(x^*)$, 因而在一条非退化线段上恒等于实数 $f(x^*)$, 矛盾.
+\textbf{AI 条件说明:} 若把 $+\infty$ 的点也称作局部极小点, 原陈述不成立. 例如 $f(x)=x$ 对 $x<0$, 其余为 $+\infty$, 在 $X=\R$ 上拟凸且无实数常值线段, 但任何 $x>0$ 的邻域内均为 $+\infty$. 此处明确正常的有限目标值约定.
+
+(b) 选严格递减的有限实数 $\gamma_k\downarrow f^*$; 若 $f^*=-\infty$, 取 $\gamma_k\to-\infty$. $K_k=X\cap V_{\gamma_k}$ 均非空闭凸且嵌套. 共同衰退锥为 $\rec X\cap R_f$, 共同线性空间为 $L_X\cap L_f$.
+条件(1)下, 在共同线性空间 $L$ 的正交补中选取各 $K_k$ 离原点最近的点. 若此序列无界, 取规范化极限方向 $d$; 闭凸射线判据使 $d\in\bigcap_k\rec K_k=L$, 而所选点及 $d$ 均在 $L^\perp$, 与 $d\ne0$ 矛盾. 因而序列有界, 子序列极限属于全部 $K_k$.
+条件(2)下, $X$ 是可回缩集, 对 $C_k=V_{\gamma_k}$ 使用定理\ref{thm:retractive-intersection}, 得交非空. 两种情形中交内点均满足 $f(x)\le\inf_k\gamma_k=f^*$. 因 $f$ 真, 这同时排除了 $f^*=-\infty$, 所以确有有限最小值.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw3-q5}
+\textbf{原题5.} 设 $F:\R^{n+m}\to(-\infty,\infty]$ 闭真凸, $X=\{x:\inf_zF(x,z)<\infty\}$, 并假设各纤维 $F(x,\cdot)$ 对 $x\in X$ 闭.
+(a) 若某个 $\bar x\in X$ 的纤维极小点集非空紧, 证明所有 $x\in X$ 都有非空紧的纤维极小点集.
+(b) 若所有纤维在 $\R^m$ 上可微, 证明对每个 $d\in\R^m$, $\lim_{\alpha\to\infty}\nabla_zF(x,z+\alpha d)\T d$ 与 $x\in X,z\in\R^m$ 无关.
+\end{exercise}
+\begin{solution}
+\textbf{官方解答重构并补齐依赖.} 闭凸集含有从某一点出发的射线, 就有相应的全局衰退方向. 对 $\epi F$ 应用该判据, 得每个非空纤维水平集的衰退锥均为
+$K=\{d:(0,d,0)\in\rec(\epi F)\}$, 与纤维基点无关. 更一般地, 纤维的衰退函数满足
+$F(x,\cdot)^\infty(d)=F^\infty(0,d)$.
+(a) 在 $\bar x$ 的紧极小点集, 补零高度后的衰退锥为 $\{0\}$, 因而 $K=\{0\}$. 每个纤维的非空闭凸水平集遂有界且紧. 在其中任一个非空有限水平集上用下半连续性取最小值, 得到最优值有限、极小点集非空紧. 这也复用了定理\ref{thm:partial-min}的纤维论证.
+(b) 对一维凸可微函数 $\psi(t)=F(x,z+td)$, $\psi'$ 单调, 且对 $t>0$,
+$[\psi(t)-\psi(0)]/t\le\psi'(t)\le[\psi(2t)-\psi(t)]/t$.
+若 $s=\lim_{t\to\infty}[\psi(t)-\psi(0)]/t$ 有限, 右端也趋于 $s$; 若 $s=+\infty$, 左端已使导数趋于 $+\infty$. 故导数极限为 $s=F^\infty(0,d)$, 与 $x,z$ 无关.
+\end{solution}
+
+\originalsection{作业4: 共轭、支持函数与鞍点}
+\begin{exercise}\label{ass:6253-hw4-q1}
+\textbf{原题1.} 设 $p>1$, $f(x)=\frac1p\sum_{i=1}^n|x_i|^p$. 若 $1/p+1/q=1$, 证明 $f^*(y)=\frac1q\sum_i|y_i|^q$.
+\end{exercise}
+\begin{solution}
+此题对应正文例题\ref{ex:conjugate-models}中的幂函数共轭, 复用其标量结论. 对每个坐标, 最大点满足 $y_i=\operatorname{sgn}(x_i)|x_i|^{p-1}$, 从而 $y_ix_i=|x_i|^p=|y_i|^q$, 最大值为 $(1-1/p)|y_i|^q=|y_i|^q/q$. 坐标互不耦合, 各自上确界求和即为 $f^*$.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw4-q2}
+\textbf{原题2.} (a) 设 $f_1,f_2$ 闭真凸. 证明 $f_1\le f_2$ 当且仅当 $f_1^*\ge f_2^*$, 两个不等式均指逐点成立.
+(b) 设 $C_1,C_2$ 非空闭凸. 证明 $C_1\subseteq C_2$ 当且仅当对每个 $y$, $\sigma_{C_1}(y)\le\sigma_{C_2}(y)$. 举例说明去掉闭性后结论可能失败.
+\end{exercise}
+\begin{solution}
+(a) 从 $x\T y-f_1(x)\ge x\T y-f_2(x)$ 取上确界, 得正向. 对 $f_1^*\ge f_2^*$ 再取共轭, 并用 $f_i^{**}=f_i$, 得反向. 官方正向公式最后一个上确界误写为 $f_1$; 此处改正为 $f_2$.
+(b) $C_1\subseteq C_2$ 等价于 $\ind{C_1}\ge\ind{C_2}$. 指示函数的共轭是支持函数, 用(a). 若 $C_1=[0,1]$, $C_2=(0,1)$, 两者支持函数相同但 $C_1\not\subseteq C_2$. 因而闭性不能同时取消. \textbf{AI 精化:} 反向推论其实只需 $C_2$ 闭凸, 不需 $C_1$ 闭; 原题“$C_1,C_2$ 的闭性必要”应理解为取消闭性假设会使统一陈述失败, 不能理解为两边的闭性分别必要.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw4-q3}
+\textbf{原题3.} 设 $X_1,\ldots,X_r\subseteq\R^n$ 非空. 求以下四个集合的支持函数:
+$X_1+\cdots+X_r$;
+$\conv X_1+\cdots+\conv X_r$;
+$\bigcup_{j=1}^rX_j$;
+$\conv(\bigcup_{j=1}^rX_j)$.
+\end{exercise}
+\begin{solution}
+前两个支持函数均为 $\sum_{j=1}^r\sigma_{X_j}(y)$, 后两个均为 $\max_{1\le j\le r}\sigma_{X_j}(y)$. 第一式由
+$\sup_{x_j\in X_j}y\T\sum_jx_j=\sum_j\sup_{x_j\in X_j}y\T x_j$; 第二式由线性泛函在集合及其凸包上的上确界相同. 对有限并, 在每个分支上取上确界后再取有限最大值即可, 再次取凸包不改变结果. 非空性使各支持函数不取 $-\infty$, 所以这些含 $+\infty$ 的公式无不定和问题.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw4-q4}
+\textbf{原题4.} 设 $X,Z$ 为非空紧实区间. 对函数 $\phi(x,z)$, 假设每个 $z\in Z$ 的 $\phi(\cdot,z)$ 在 $X$ 上有唯一极小点 $\hat x(z)$, 每个 $x\in X$ 的 $\phi(x,\cdot)$ 在 $Z$ 上有唯一极大点 $\hat z(x)$, 且两映射均连续. 证明存在鞍点 $(x^*,z^*)$. 据此研究 $\phi(x,z)=x^2+z^2$, $X=Z=[0,1]$ 的鞍点.
+\end{exercise}
+\begin{solution}
+设 $X=[a,b]$. 连续映射 $T(x)=\hat x(\hat z(x))$ 从 $X$ 到自身. 若 $a=b$, 直接有不动点; 否则 $T(a)-a\ge0$, $T(b)-b\le0$, 中间值定理给 $T(x^*)=x^*$. 令 $z^*=\hat z(x^*)$, 则 $x^*=\hat x(z^*)$, 因而对全部 $x\in X,z\in Z$,
+$\phi(x^*,z)\le\phi(x^*,z^*)\le\phi(x,z^*)$.
+例中 $\hat x(z)=0$, $\hat z(x)=1$, 唯一鞍点为 $(0,1)$, 鞍点值为1. 目标对 $z$ 也凸不妨碍此受限区间上的鞍点存在.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw4-q5}
+\textbf{原题5.} 在扰动框架中设 $F(x,u)=f_1(x)+f_2(Ax+u)$, $A\in\R^{m\times n}$, $f_1,f_2$ 为相应空间上的闭凸函数. 证明 $q(\mu)=-f_1^*(A\T\mu)-f_2^*(-\mu)$. 原题指出这是教材第5.3.5节的 Fenchel 对偶框架.
+\end{exercise}
+\begin{solution}
+使用本书扰动对偶的定义 $q(\mu)=\inf_{x,u}[F(x,u)+\mu\T u]$. 令 $z=Ax+u$, 则
+\[
+q(\mu)=\inf_{x,z}\{f_1(x)-(A\T\mu)\T x+f_2(z)+\mu\T z\}
+=-f_1^*(A\T\mu)-f_2^*(-\mu).
+\]
+\textbf{AI 条件说明:} 原题只写“闭凸”, 未显写真性. 若 $f_1,f_2$ 均为真函数, 两个分离下确界只取有限值或 $-\infty$, 公式明确成立. 不能把它宣称为包括不真函数的无条件等式: 例如 $f_1\equiv+\infty$, $f_2\equiv0$, $A=0$, $\mu\ne0$, 则由定义 $q(\mu)=+\infty$, 但右端 $-f_1^*(0)-f_2^*(-\mu)=+\infty-\infty$ 未定义. 这种退化情形须按 $q$ 的定义处理. 公式本身不宣称强对偶.
+\end{solution}
+
+\originalsection{作业5: 乘子、扰动与整数规划}
+\begin{exercise}\label{ass:6253-hw5-q1}
+\textbf{原题1.} 原凸规划为 $\min\{f(x):x\in X,g_j(x)\le0,\ j=1,\ldots,r\}$. 设
+$X=\{x:l_i(x)=0,\ i=1,\ldots,m;\ g_j(x)\le0,\ j=r+1,\ldots,\bar r\}$.
+将所有等式和 $\bar r$ 个不等式均显式写出, 称为扩展表示. 证明: 若扩展表示无对偶间隙且有对偶最优解, 则原表示也如此.
+\end{exercise}
+\begin{solution}
+设扩展最优乘子为 $\lambda_i^*\in\R$ 与 $\mu_j^*\ge0$, 则
+$f^*=\inf_x[f(x)+\sum_i\lambda_i^*l_i(x)+\sum_{j=1}^{\bar r}\mu_j^*g_j(x)]$.
+对 $x\in X$, 等式项为零, 新增不等式项非正, 所以
+$f^*\le f(x)+\sum_{j=1}^r\mu_j^*g_j(x)$.
+对 $X$ 取下确界得 $f^*\le q(\mu_1^*,\ldots,\mu_r^*)\le f^*$, 最后一步为弱对偶. 因而截取前 $r$ 个不等式乘子就是原问题的最优乘子. \textbf{AI 修正:} 官方解答误把等式乘子也写成非负; 等式乘子无符号限制, 且它们不是仍保留抽象集合约束的原问题的对偶变量.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw5-q2}
+\textbf{原题2.} 对参数规划 $\min\{f(x):x\in X,g(x)\le u\}$, 两个不同参数 $\bar u,\tilde u$ 的有限最优值分别为 $\bar f,\tilde f$, 最优乘子分别为 $\bar\mu,\tilde\mu$, 且均无对偶间隙. 证明
+$\tilde\mu\T(\tilde u-\bar u)\le\bar f-\tilde f\le\bar\mu\T(\tilde u-\bar u)$.
+\end{exercise}
+\begin{solution}
+记 $q_u(\mu)=\inf_{x\in X}[f(x)+\mu\T(g(x)-u)]$. 则
+$\bar f=q_{\bar u}(\bar\mu)\ge q_{\bar u}(\tilde\mu)
+=q_{\tilde u}(\tilde\mu)+\tilde\mu\T(\tilde u-\bar u)
+=\tilde f+\tilde\mu\T(\tilde u-\bar u)$.
+交换两组参数再整理即得另一侧. 两个估计表达最优乘子对最优值变动的支持界.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw5-q3}
+\textbf{原题3.} 设 $X\subseteq\R^n$ 非空凸, $g_j:\R^n\to\R$ 在 $X$ 上凸. 证明 $g_j(x)<0$ ($j=1,\ldots,r$) 在 $X$ 中无解当且仅当存在 $\mu\ge0$, $\sum_j\mu_j=1$, 使 $\mu\T g(x)\ge0$ 对全部 $x\in X$ 成立. 提示: 考虑 $\min_{x\in X,y\in\R}\{y:g_j(x)\le y\}$.
+\end{exercise}
+\begin{solution}
+若有此乘子, 对全部分量严格负的 $g(x)$, 非负权重和为1会给 $\mu\T g(x)<0$, 矛盾. 反向按提示构造辅助凸规划. 其值为 $v=\inf_X\max_j g_j(x)$; 无严格可行解时 $0\le v<\infty$. 在 $\ri X$ 选一点 $x_0$, 再取 $y_0>\max_jg_j(x_0)$, 即有 Slater 点. 故辅助问题无间隙且最优乘子存在. 其对偶函数为
+\[
+q(\mu)=\begin{cases}\inf_{x\in X}\mu\T g(x),&\sum_j\mu_j=1,\\-\infty,&\sum_j\mu_j\ne1.\end{cases}
+\]
+最优乘子 $\mu\ge0$ 满足和为1, 且其下确界等于 $v\ge0$, 即得所需不等式. 先确认辅助最优值有限, 再用乘子存在定理.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw5-q4}
+\textbf{原题4.} 设 $X$ 凸, $f,g_j$ 在 $X$ 上凸, 原题假设“至少有一个可行解”. 本题沿用教材第5.3节目标和约束在 $X$ 上实值的约定, 因而这个可行解具有有限目标值; 此条件说明并非新增一项原题假设. 记扰动函数 $p(u)=\inf\{f(x):x\in X,g(x)\le u\}$,
+$M=\{(u,w):\exists x\in X,\ g(x)\le u,\ f(x)\le w\}$.
+证明下列等价: (i) 对偶最优值 $q^*=\sup_{\mu\in\R^r}q(\mu)$ 有限; (ii) $p$ 真; (iii) $M$ 不含竖直直线. 此处按扰动对偶定义 $q(\mu)=\inf_u[p(u)+\mu\T u]$, 对负分量乘子自动为 $-\infty$.
+\end{exercise}
+\begin{solution}
+\textbf{AI 修正证明.} 因 $p(0)<\infty$, $p$ 不恒为 $+\infty$, 且 $q(\mu)\le p(0)$. 若 $p(u_0)=-\infty$, 则所有 $q(\mu)=-\infty$, 所以(i)蕴含(ii). 若 $p$ 真凸, 有仿射下界 $p(u)\ge a\T u+b$, 取 $\mu=-a$ 得 $q(\mu)\ge b> -\infty$, 再结合 $q(\mu)\le p(0)<\infty$ 得(i).
+
+对任意固定 $u$, $p(u)=-\infty$ 当且仅当每个 $w\in\R$ 都有某个 $x$ 满足 $g(x)\le u$, $f(x)\le w$, 即当且仅当 $\{u\}\times\R\subseteq M$. 这直接证明(ii)与(iii)等价. 不需声称 $\epi p=\cl M$; 该等式在 $p$ 不闭时错误, 例如2010年期中题2的 $p(0)=1$, 而 $\cl M$ 在 $u=0$ 含全部 $w\ge0$.
+\textbf{AI 条件说明:} 若把本题推广到扩展实值目标, 却允许所有可行点的目标均为 $+\infty$, 原等价性可能失败. 例如 $X=\R$, $g(x)=x$, $f=\ind{[1,\infty)}$. 形式可行点 $x\le0$ 全部目标无穷; 此时 $p(u)=0$ 对 $u\ge1$, 其余为 $+\infty$, 是真凸函数, 且 $M=[1,\infty)\times[0,\infty)$ 无竖线, 但 $q(\mu)=\mu$ 对 $\mu\ge0$, $q^*=+\infty$. 因而证明中 $p(0)<\infty$ 不能取消.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw5-q5}
+\textbf{原题5.} 设 $F(x,y)$ 真凸, $(\bar x,\bar y)\in\dom F$, $\partial_xF$, $\partial_yF$ 分别为固定另一变量后的次微分.
+(a) 证明 $\partial F(\bar x,\bar y)\subseteq\partial_xF(\bar x,\bar y)\times\partial_yF(\bar x,\bar y)$, 并给出严格包含的例子.
+(b) 若 $F(x,y)=h_1(x)+h_2(y)+h(x,y)$, 其中 $h_1,h_2$ 真凸, $h$ 全空间实值凸且可微, 证明(a)中的包含为等号.
+\end{exercise}
+\begin{solution}
+(a) 全次梯度不等式中先固定 $y=\bar y$, 再固定 $x=\bar x$, 即得两分量分别为偏次梯度. 对 $F(x,y)=|x+y|$, 在 $(0,0)$ 处,
+$\partial F=\{(t,t):|t|\le1\}$, 而 $\partial_xF\times\partial_yF=[-1,1]^2$, 严格包含.
+(b) 次微分和法则可用, 因 $h$ 全空间有限, 且 $h_1(x)+h_2(y)$ 的定义域为笛卡尔积. 得
+$\partial F=[\partial h_1(\bar x)\times\partial h_2(\bar y)]+\{\nabla h(\bar x,\bar y)\}$.
+两偏次微分分别为 $\partial h_1(\bar x)+\nabla_x h$ 与 $\partial h_2(\bar y)+\nabla_y h$, 故等号成立, 包括某个次微分为空的情形.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw5-q6}
+\textbf{原题6.} 设 $\min\{f(x):x\in X,g(x)\le0\}$ 的拉格朗日函数 $L(x,\mu)=f(x)+\mu\T g(x)$ 对每个 $\mu\ge0$ 都在 $X$ 上取到下确界. 证明: 若有对偶间隙, 则 $q(\mu)=\inf_XL(x,\mu)$ 在每个对偶最优解处不可微. 提示: 若 $q$ 在最优 $\mu^*$ 处可微, 则 $\partial_jq(\mu^*)\le0$, $\mu_j^*\partial_jq(\mu^*)=0$; 结合拉格朗日极小点证明没有间隙.
+\end{exercise}
+\begin{solution}
+反设某最优 $\mu^*$ 处 $q$ 可微, 此处可微指原题使用的通常全空间导数. 在非负正交域上的最大化一阶条件给 $\nabla q(\mu^*)\le0$, $(\mu^*)\T\nabla q(\mu^*)=0$. 取 $x^*\in\argmin_XL(x,\mu^*)$. 对每个 $\mu$,
+$q(\mu)\le L(x^*,\mu)=q(\mu^*)+g(x^*)\T(\mu-\mu^*)$,
+所以 $g(x^*)$ 为凹函数 $q$ 的超梯度; 可微性给 $g(x^*)=\nabla q(\mu^*)$. 因而 $x^*$ 可行, 且 $(\mu^*)\T g(x^*)=0$. 于是 $q^*=L(x^*,\mu^*)=f(x^*)\ge f^*\ge q^*$, 无间隙, 矛盾. 若没有对偶最优解, 原题结论为关于空集的命题, 并不保证最优乘子存在.
+\end{solution}
+
+\begin{exercise}\label{ass:6253-hw5-q7}
+\textbf{原题7.} 考虑 $\min(10x_1+3x_2)$, 约束 $5x_1+x_2\ge4$, $x_1,x_2\in\{0,1\}$.
+(a) 画约束--费用点集 $\{(4-5x_1-x_2,10x_1+3x_2):x_i\in\{0,1\}\}$.
+(b) 描述相应的 MC/MC 框架.
+(c) 解原、对偶问题并联系(a)图.
+\end{exercise}
+\begin{solution}
+(a) 四点依次为 $(4,0),(3,3),(-1,10),(-2,13)$.
+\begin{center}
+\begin{tikzpicture}[x=.8cm,y=.26cm]
+\draw[->](-2.6,0)--(4.9,0)node[right]{$u$};
+\draw[->](0,-.8)--(0,15)node[above]{$w$};
+\draw[dashed](-1,10)--(4,0);
+\foreach \x/\y in {4/0,3/3,-1/10,-2/13}{\fill(\x,\y)circle(2pt);}
+\node[below]at(4,0){$(4,0)$};\node[right]at(3,3){$(3,3)$};
+\node[left]at(-1,10){$(-1,10)$};\node[left]at(-2,13){$(-2,13)$};
+\fill(0,8)circle(2pt)node[right]{$(0,8)$};
+\end{tikzpicture}
+\end{center}
+(b) 对各点加非负正交域得到 $M=\{(u,w):\exists x,\ g(x)\le u,f(x)\le w\}$; 原最优值是 $M$ 与竖轴交点的最低高度, 对偶值为支持直线 $w+\mu u=\xi$, $\mu\ge0$, 的最大截距.
+(c) 原问题只有 $(1,0),(1,1)$ 可行, 最优解 $(1,0)$, $f^*=10$. 枚举四个拉格朗日值给
+\[
+q(\mu)=\min\{4\mu,3+3\mu,10-\mu,13-2\mu\}
+=\begin{cases}4\mu,&0\le\mu\le2,\\10-\mu,&2\le\mu\le3,\\13-2\mu,&\mu\ge3.\end{cases}
+\]
+因此唯一最优乘子 $\mu^*=2$, $q^*=8$, 间隙为2. 支持线 $w+2u=8$ 经过 $(4,0),(-1,10)$, 在竖轴的截距为8; 真正可行的整数点最低费用仍为10.
+\end{solution}

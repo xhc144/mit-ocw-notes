@@ -1,0 +1,267 @@
+                  Optimization Methods in Management Science
+                                          MIT 15.053
+                                    Recitation 8
+                      TAs: Giacomo Nannicini, Ebrahim Nasrabadi
+
+
+   At the end of this recitation, students should be able to:
+
+  1. Derive Gomory cut from fractional rows of the Simplex tableau.
+
+  2. Have an intuitition of the geometry of Gomory cuts.
+
+  3. Understand the concept of valid cover and of minimal cover for a knapsack problem.
+
+
+
+
+Problem 1
+Consider the linear programming feasible region and the integer program feasible region given
+in the diagram to the right.
+
+
+
+
+                             
+            Figure 1: Sketch of the feasible region of the LP relaxation for Problem 1
+
+   Which of the following are valid inequalities for the integer program?
+
+(a) x ≤ 4
+
+     Solution.       No
+
+(b) x ≥ 2
+
+     Solution.       Yes
+
+(c) y ≥ 1
+
+     Solution.       Yes
+                           x2
+
+
+
+
+                                                                        x1
+
+
+           Figure 2: Sketch of the feasible region of the LP relaxation for Part 2.A.
+
+
+(d) y ≤ 6 Yes
+
+(e) x + y ≥ 3.
+
+      Solution.      Yes
+
+
+Problem 2
+Consider the feasible region of an Integer Program deﬁned by the following constraints:
+                                                            ⎫
+                                       −3x1 + 5x2 ≤ 12 ⎪    ⎪
+                                         4x1 + 3x2 ≤ 20 ⎪
+                                                            ⎪
+                                                            ⎬
+                                           x1 + x2 ≤ 11/2     (IP )
+                            ∀j = 1, 2           xj ≥ 0
+                                                            ⎪
+                                                            ⎪
+                                                            ⎪
+                                                            ⎪
+                            ∀j = 1, 2           xj ∈ Z.
+                                                            ⎭
+
+(a) Sketch the feasible region of the LP relaxation of the problem. Then, determine the convex
+    hull of the feasible integer points of (IP), ﬁrst graphically, and then algebraically, using your
+    sketch to determine the inequalities that deﬁne the convex hull. (Note: the ﬁrst constraint
+    passes through the points (−4, 0) and (1, 3), and the second constraint passes through the
+    points (5, 0) and (2, 4). This should allow you to draw the feasible region very quickly.)
+
+      Solution. The feasible region of the LP relaxation is sketched in Figure 2. The feasible
+      integer points are those inside the yellow region.
+      The convex hull of the feasible integer points is the smallest convex set that contains all
+      of them. We can determine the set graphically as shown in Figure 3. It is sometimes also
+      called simply the convex hull of the Integer Program.
+      It is not hard too see graphically that the integer hull is deﬁned by three constraints:
+      −x1 + x2 ≤ 2, x2 ≤ 3 and x1 + x2 ≤ 5, together with nonnegativity x1 ≥ 0, x2 ≥ 0.
+
+                                                 2
+                         x2
+
+
+
+
+                                                                        x1
+
+
+             Figure 3: Sketch of the integer hull of the integer points for Part 2.A.
+
+
+(b) Let F be the feasible region of (IP). (Note: F is a set of integer points, it is not the feasible
+    region of the LP relaxation of (IP).) Consider the set X deﬁned as: X = {x1 + x2 ≤ 11/2 :
+    x1 , x2 ∈ Z}. What is the relationship between F and X, in terms of inclusion?
+    Now determine a valid inequality for the set X. Is this inequality also valid for (IP)? Justify
+    your answer based on the relationship between F and X. (Recall the deﬁnition of valid
+    inequality for a set: it is an inequality that does not cut oﬀ any integer feasible point of the
+    set.)
+
+      Solution.      The set X is deﬁned by only some of the constraints that deﬁne F : it has
+      integrality on the two variables, and the constraint x1 + x2 ≤ 11/2. It is therefore clear
+      that every point that satisﬁes (IP) also satisﬁes the constraints of X. Hence, F ⊆ X.
+      Any inequality that does not cut oﬀ integer points that satisfy x1 + x2 ≤ 11/2 is a valid
+      inequality for X. We can easily determine such an inequality by noticing that the left-
+      hand side of the inequality integer, therefore we can round down the right-hand side. We
+      obtain x1 + x2 ≤ 5. This inequality is valid for X and is valid for (IP) as well: in fact, it
+      is one of the inequalities that deﬁne the convex hull of (IP). It is easy to show validity:
+      because x1 + x2 ≤ 5 is valid for X, it does not cut oﬀ any point in X. Because X is a
+      relaxation of F (that is, F ⊆ X), x1 + x2 ≤ 5 cannot cut oﬀ any point in F . It follows
+      that the inequality is valid for (IP).
+
+
+Problem 3
+We want to solve an integer program (which is a maximization problem) using the Gomory
+cutting plane technique. We ﬁrst consider the linear programming relaxation with the following
+initial LP tableau.
+
+
+
+
+                                                 3
+                            Basic       x1       x2   x3       s1       s2    s3     Rhs
+                            (−z)        -2        4    1                               0
+                             s1          2        1    1           1                   8
+                             s2         -4        4    2                 1             8
+                             s3          1        2    3                       1       9
+
+   After three pivots, we obtain the following optimal tableau for the LP relaxation:
+
+                         Basic   x1      x2         x3        s1        s2     s3       Rhs
+                         (−z)     0       0       -2 13                - 23   - 23   - 11 13
+                          s1                      -1 12       1           1
+                                                                          4    -1         1
+                          x2                 1     1 16                  1
+                                                                        12
+                                                                                1
+                                                                                3       3 23
+                          x1        1              1 23                − 16     1
+                                                                                3       1 23
+
+(a) Derive two Gomory cuts based on the ﬁnal two constraints of the second tableau.
+
+      Solution.    Gomory cut from the second row: By rounding down the coeﬃcients and
+      the RHS, we obtain
+                                   x1 + x3 + 0s2 + 0s3 ≤ 3,
+      By subtracting this inequality from the the second constraint in the tableau, we get the
+      following Gomory cut:
+                                     x3 /3 + s2 /12 + s3 /3 ≥ 2/3.                         (1)
+
+      Similarly, we get the following Gomory cut from the third row:
+
+                                         2x3 /3 + 5s2 /6 + s3 /3 ≥ 2/3                         (2)
+
+(b) Does the basic feasible solution from ﬁnal tableau satisfy either of the two constraints from
+    Part (a)?
+
+      Solution.     No, the current LP solution from Tableau 2 does not satisfy either of the
+      two constraints from part (a).
+
+
+Problem 4
+Consider the knapsack set: K = {x ∈ {0, 1}7 : 11x1 + 6x2 + 6x3 + 5x4 + 5x5 + 4x6 + x7 ≤ 19}.
+We want to derive valid inequalities for this set.
+
+(a) For each of the following inequalities, identify whether or not they are valid knapsack covers,
+    and explain why.
+
+     (a) x4 + x5 + x6 ≤ 2
+     (b) x1 + x2 + x6 ≤ 2
+     (c) x2 + x3 + x6 + x7 ≤ 3
+     (d) x2 + x4 + x5 + x6 ≤ 3
+     (e) x1 + x3 + x4 + x5 ≤ 3
+     (f) x2 + x3 + x4 + x5 + x6 ≤ 4
+
+
+
+                                                          4
+                                                             nn
+      Solution. Suppose we have a knapsack constraint
+                                                   n           j=1 aj xj ≤ b withnn variables. Let
+      C ⊆ {1, . . . , n}. An inequality of the form j∈C xj ≤ |C| − 1 is valid if j∈C aj > b.
+      We can use this deﬁnition to check validity of the inequalities
+                                                           n          above. For example, the ﬁrst
+      inequality is not valid: we have C = {4, 5, 6} and j∈C j 5 + 5 + 4 ≤ 19. Intuitively,
+                                                                 a  =
+      this can be veriﬁed as follows: the weight of items 4, 5 and 6 sums up to 14. Therefore,
+      we cannot say that we must select at most 2 out of these 3 items: we could potentially
+      select all of them without violating the knapsack constraint. At the same time, the second
+      inequality is valid: we have C = {1, 2, 6}, which yields 11 + 6 + 4 > 19. So, we can safely
+      state that we can select at most 2 items out of the set {1, 2, 6}: otherwise, we would
+      violate the knapsack constraint.
+      With the same logic, we can verify validity of all the inequalities.
+      (a) Not valid.
+      (b) Valid.
+      (c) Not valid.
+      (d) Valid.
+      (e) Valid.
+      (f) Valid.
+
+(b) For all valid knapsack covers in Part (a), identify whether or not they are minimal.
+
+      Solution.      A knapsack cover is minimal if removing any element from the cover yields
+      a set that is not a cover. This is better explained by an example. Consider inequality
+      2) above: x1 + x2 + x6 ≤ 2. The cover is formed by the elements {1, 2, 6}, whose weight
+      sums up to 21 > 19. If we remove any element from the cover, the sum of the weights
+      will be less than 19, hence we would not obtain another cover. It follows that the cover
+      {1, 2, 6} and the corresponding inequality are minimal.
+      Similarly, we can determine that 4) is minimal, 5) is not minimal, and 6) is not minimal.
+
+(c) (Advanced material: understanding this question is not required for the Midterm.)
+
+    Consider the knapsack cover C = {2, 3, 4, 5} that yields the inequality x2 + x3 + x4 + x5 ≤ 3.
+    Do you see a way of enlarging the cover while keeping the same right-hand side of the
+    inequality? That is: can you ﬁnd a valid inequality of the form x2 + x3 + x4 + x5 + [. . . ] ≤ 3,
+    where the [. . . ] stands for one or more variables? If you can ﬁnd such an inequality (called
+    an extended cover), do you think that it is stronger or weaker than the initial cover? Justify
+    your answer.
+
+      Solution.        If we look at the weight of the items in the cover (i.e. the coeﬃcient with
+      which the items appear in the knapsack constraint), we see that x1 has larger weight than
+      every item in the cover. Therefore, if we can select at most 3 items out of the set C, we
+      can also select at most 3 items out of the set C ∪ {1}.
+      This can be proven as follows. By hypothesis, x2 + x3 + x4 + x5 ≤ 3 is a valid cover
+      inequality. We want to prove that x1 + x2 + x3 + x4 + x5 ≤ 3 is valid. Suppose not. Then
+      there exists a set a feasible solution to the knapsack set K such that four items out of
+      {1, 2, 3, 4, 5} are selected. Note that the four items with least weight out of {1, 2, 3, 4, 5}
+      are 2, 3, 4, 5. Therefore, every set of four items out of {1, 2, 3, 4, 5} has weight at least
+      equal to the weight of {2, 3, 4, 5}. But {2, 3, 4, 5} is a valid cover by hypothesis, which
+
+                                                 5
+implies that the sum of the weight of every four items out of {1, 2, 3, 4, 5} is larger than
+19. The contradiction follows.
+The inequality x1 + x2 + x3 + x4 + x5 ≤ 3 is an extended cover. The extended cover is at
+least as strong as the initial cover. In fact, because x1 ≥ 0, we have x2 + x3 + x4 + x5 ≤
+x1 + x2 + x3 + x4 + x5 ≤ 3. It follows that every point that satisﬁes the extended cover
+also satisﬁes the initial cover: the extended cover cuts oﬀ at least the same points that are
+cut oﬀ by the initial cover. However, the converse is not necessarily true. For example,
+the point x1 = 3/4, x2 = 3/4, x3 = 3/4, x4 = 3/4, x5 = 3/4, which is not feasible for K, is
+not cut oﬀ by the initial cover, but is cut oﬀ by the extended cover.
+
+
+
+
+                                          6
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+15.053 Optimization Methods in Management Science
+Spring 2013
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

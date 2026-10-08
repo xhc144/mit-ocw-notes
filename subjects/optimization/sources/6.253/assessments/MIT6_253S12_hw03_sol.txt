@@ -1,0 +1,270 @@
+                    6.253: Convex Analysis and Optimization
+                                  Homework 3
+                                     Prof. Dimitri P. Bertsekas
+
+                                          Spring 2010, M.I.T.
+
+
+
+
+Problem 1
+(a) Show that a nonpolyhedral closed convex cone need not be retractive, by using as an example
+the cone C = {(u, v, w) | �(u,
+                          √ v)�√ ≤ w}, the recession direction d = (1, 0, 1), and the corresponding
+asymptotic sequence {(k, k, k 2 + k)}. (This is the, so-called, second order cone, which plays an
+important role in conic programming; see Chapter 5.)
+(b) Verify that the cone C of part (a) can be written as the intersection of an inﬁnite number of
+closed halfspaces, thereby showing that a nested set sequence obtained by intersection of an inﬁnite
+number of retractive nested set sequences need not be retractive.
+
+Solution.
+                     0, 1) is the recession direction associated with the asymptotic sequence {xk } ,
+(a) Clearly, d =√(1, √
+where xk = (k, k, k 2 + k). On the other hand, it can be veriﬁed by straightforward calculation
+that the vector                                     √ �
+                                   xk − d = (k − 1, k, k 2 + k − 1)
+does not belong to C. Indeed, denoting
+                                                   √               �
+                           uk = k − 1,      vk =    k,      wk =    k 2 + k − 1,
+
+we have
+                               �(uk , vk )�2 = (k − 1)2 + k = k 2 − k + 1,
+while                             �                               �
+                           wk2 = ( k 2 + k − 1)2 = k 2 + k + 1 − 2 k 2 + k,
+and it can be seen that
+                                    �(uk , vk )�2 > wk2 ,    ∀ k ≥ 1.
+   (b) Since by the Schwarz inequality, we have
+
+                                         max (ux + vy) = �(u, v)�,
+                                    �(x,y)�=1
+
+it follows that the cone
+                                    C = {(u, v, w) | �(u, v)� ≤ w}
+can be written as
+                               C = ∩�(x,y)�=1 {(u, v, w) | ux + vy ≤ w}.
+Hence C is the intersection of an inﬁnite number of closed halfspaces.
+
+                                                     1
+Problem 2
+Let C be a nonempty convex set in Rn , and let M be a nonempty aﬃne set in Rn . Show that
+M ∩ rin(C) = ∅ is a necessary and suﬃcient condition for the existence of a hyperplane H contain­
+ing M , and such that rin(C) is contained in one of the open halfspaces associated with H.
+
+Solution.
+If there exists a hyperplane H with the properties stated, the condition M ∩ rin(C) = ∅ clearly
+holds. Conversely, if M ∩ rin(C) = ∅, then M and C can be properly separated. This hyperplane
+can be chosen to contain M since M is aﬃne. If this hyperplane contains a point in rin(C), then it
+must contain all of C. This contradicts the proper separation property, thus showing that rin(C)
+is contained in one of the open halfspaces.
+
+
+
+
+                                                2
+Problem 3
+Let C1 and C2 be nonempty convex subsets of Rn , and let B denote the unit ball in Rn , B = {x |
+�x� ≤ 1}. A hyperplane H is said to separate strongly C1 and C2 if there exists an � > 0 such that
+C1 + �B is contained in one of the open halfspaces associated with H and C2 + �B is contained in
+the other. Show that:
+(a) The following three conditions are equivalent.
+    (i) There exists a hyperplane separating strongly C1 and C2 .
+    (ii) There exists a vector α ∈ Rn such that inf x∈C1 α� x > supx∈C2 α� x.
+    (iii) inf x1 ∈C1 , x2 ∈C2 �x1 − x2 � > 0, i.e., 0 ∈
+                                                      / cl(C2 − C1 ).
+(b) If C1 and C2 are disjoint, any one of the ﬁve conditions for strict separation, given in Prop.
+1.5.3, implies that C1 and C2 can be strongly separated.
+
+Solution.
+(a) We ﬁrst show that (i) implies (ii). Suppose that C1 and C2 can be separated strongly. By
+deﬁnition, this implies that for some nonzero vector a ∈ Rn , b ∈ R, and � > 0, we have
+
+                                       C1 + �B ⊂ {x | a� x > b},
+
+                                       C2 + �B ⊂ {x | a� x < b},
+                                              � 0, we also have
+where B denotes the closed unit ball. Since a =
+
+                           inf{a� y | y ∈ B} < 0,            sup{a� y | y ∈ B} > 0.
+
+Therefore, it follows from the preceding relations that
+
+                      b ≤ inf{a� x + �a� y | x ∈ C1 , y ∈ B} < inf{a� x | x ∈ C1 },
+
+                      b ≥ sup{a� x + �a� y | x ∈ C2 , y ∈ B} > sup{a� x | x ∈ C2 }.
+Thus, there exists a vector a ∈ Rn such that
+
+                                            inf a� x > sup a� x,
+                                           x∈C1             x∈C2
+
+proving (ii).
+Next, we show that (ii) implies (iii). Suppose that (ii) holds, i.e., there exists some vector a ∈ Rn
+such that
+                                         inf a� x > sup a� x,
+                                           x∈C1             x∈C2
+
+Using the Schwartz inequality, we see that
+
+                                    0 < inf a� x − sup a� x
+                                          x∈C1        x∈C2
+                                      =      inf        a� (x1 − x2 ),
+                                        x1 ∈C1 , x2 ∈C2
+
+                                      ≤           inf       �a��x1 − x2 �.
+                                          x1 ∈C1 , x2 ∈C2
+
+
+
+   It follows that
+                                            inf         �x1 − x2 � > 0,
+                                      x1 ∈C1 , x2 ∈C2
+
+thus proving (iii). Finally, we show that (iii) implies (i). If (iii) holds, we have for some � > 0,
+
+                                        inf          �x1 − x2 � > 2� > 0.
+                                   x1 ∈C1 , x2 ∈C2
+
+
+                                                        3
+From this we obtain for all x1 ∈ C1 , all x2 ∈ C2 , and for all y1 , y2 with �y1 � ≤ �, �y2 � ≤ �,
+
+                       �(x1 + y1 ) − (x2 + y2 )� ≥ �x1 − x2 � − �y1 � − �y2 � > 0,
+
+which implies that 0 ∈  / (C1 + �B) − (C2 + �B). Therefore, the convex sets C1 + �B and C2 + �B
+are disjoint. By the Separating Hyperplane Theorem, we see that C1 + �B and C2 + �B can be
+separated, i.e., C1 + �B and C2 + �B lie in opposite closed halfspaces associated with the hyperplane
+that separates them. Then, the sets C1 + (�/2)B and C2 + (�/2)B lie in opposite open halfspaces,
+which by deﬁnition implies that C1 and C2 can be separated strongly.
+    (b) Since C1 and C2 are disjoint, we have 0 ∈/ (C1 − C2 ). Any one of conditions (2)-(5) of Prop.
+1.5.3 imply condition (1) of that proposition, which states that the set C1 − C2 is closed, i.e.,
+
+                                        cl(C1 − C2 ) = C1 − C2 .
+
+Hence, we have 0 ∈
+                 / cl(C1 − C2 ), which implies that
+
+                                           inf          �x1 − x2 � > 0.
+                                      x1 ∈C1 , x2 ∈C2
+
+From part (a), it follows that there exists a hyperplane separating C1 and C2 strongly.
+
+
+
+
+                                                        4
+Problem 4
+We say that a function f : Rn �→ (−∞, ∞] is quasiconvex if all its level sets
+
+                                          Vγ = {x | f (x) ≤ γ}
+
+are convex. Let X be a convex subset of Rn , let f be a quasiconvex function such that X ∩dom(f ) =
+                                                                                                  �
+∅, and denote f ∗ = inf x∈X f (x).
+    (a) Assume that f is not constant on any line segment of X, i.e., we do not have f (x) = c for
+some scalar c and all x in the line segment connecting any two distinct points of X. Show that
+every local minimum of f over X is also global.
+    (b) Assume that X is closed, and f is closed and proper. Let Γ be the set of all γ > f ∗ , and
+denote
+                                   Rf = ∩γ∈Γ Rγ ,     Lf = ∩γ∈Γ Lγ ,
+where Rγ and Lγ are the recession cone and the lineality space of Vγ , respectively. Use the line of
+proof of Prop. 3.2.4 to show that f attains a minimum over X if any one of the following conditions
+holds:
+   (1) RX ∩ Rf = LX ∩ Lf .
+   (2) RX ∩ Rf ⊂ Lf , and X is a polyhedral set.
+
+Solution.
+(a) Let x∗ be a local minimum of f over X and assume, to arrive at a contradiction, that there
+exists a vector x̄ ∈ X such that f (x̄) < f (x∗ ). Then, x̄ and x∗ belong to the set X ∩ Vγ ∗ , where
+γ ∗ = f (x∗ ). Since this set is convex, the line segment connecting x∗ and x̄ belongs to the set,
+implying that
+
+                         f (αx̄ + (1 − α)x∗ ) ≤ γ ∗ = f (x∗ ),     ∀ α ∈ [0, 1].
+   For each integer k ≥ 1, there must exist an αk ∈ (0, 1/k] such that
+
+                     f (αk x̄ + (1 − αk )x∗ ) < f (x∗ ),   for some αk ∈ (0, 1/k]
+
+otherwise, we would have that f (x) is constant for x on the line segment connecting x∗ and (1/k)x̄+
+(1 − (1/k))x∗ . This contradicts the local optimality of x∗ .
+    (b) We consider the level sets
+                                         Vγ = {x | f (x) ≤ γ}
+for γ > f ∗ . Let {γk } be a scalar sequence such that γk ↓ f ∗ . Using the fact that for two nonempty
+closed convex sets C and D such that C ∈ D, we have RC ∈ RD , it can be seen that
+
+                                      Rf = ∩γ∈Γ Rγ = ∩∞
+                                                      k=1 Rγk .
+
+Similarly, Lf can be written as
+                                       Lf = ∩γ∈Γ Lγ = ∩∞
+                                                       k=1 Lγk .
+
+Under each of the conditions (1) and (2), we will show that the set of minima of f over X, which
+is given by
+                                      X ∗ = ∩∞
+                                             k=1 (X ∩ Vγk )
+
+is nonempty.
+    Let condition (1) hold. The sets X ∩Vγk are nonempty, closed, convex, and nested. Furthermore,
+for each k, their recession cone is given by RX ∩ Rγk and their lineality space is given by LX ∩ Lγk .
+We have that
+                                     ∩∞k=1 (RX ∩ Rγk ) = RX ∩ Rf ,
+
+
+                                                     5
+and
+                                  ∩∞
+                                   k=1 (LX ∩ Lγk ) = LX ∩ Lf ,
+
+while by assumption RX ∩ Rf = LX ∩ Lf . Then it follows that X ∗ is nonempty.
+    Let condition (2) hold. The sets Vγk are nested and the intersection X ∩ Vγk is nonempty for
+all k. We also have by assumption that RX ∩ Rf ∈ Lf and X is a polyhedral set. It follows that
+X ∗ is nonempty.
+
+
+
+
+                                               6
+Problem 5
+Let F : Rn+m �→ (−∞, ∞] be a closed proper convex function of two vectors x ∈ Rn and z ∈ Rm ,
+and let                             �                     �
+                                    X=      x | infm F (x, z) < ∞ .
+                                                z∈R
+
+Assume that the function F (x, ·) is closed for each x ∈ X. Show that:
+    (a) If for some x̄ ∈ X, the minimum of F (x̄, ·) over Rm is attained at a nonempty and compact
+set, the same is true for all x ∈ X.
+    (b) If the functions F (x, ·) are diﬀerentiable for all x ∈ X, they have the same asymptotic slopes
+along all directions, i.e., for each d ∈ Rm , the value of limα→∞ �z F (x, z + αd)� d is the same for all
+x ∈ X and z ∈ Rm .
+
+Solution.
+The recession cone of F has the form
+
+                                RF = {(dx , dz ) | (dx , dz , 0) ∈ Repi(F ) }.
+
+The (common) recession cone of the nonempty level sets of F (x, ·), x ∈ X, has the form
+
+                                           {dz | (0, dz ) ∈ RF },
+
+for all x ∈ X, where RF is the recession cone of F . Furthermore, the recession function of F (x, ·)
+is the same for all x ∈ X.
+    (a) By the compactness hypothesis, the recession cone of F (x̄, ·) consists of just the origin, so
+the same is true for the recession cones of all F (x, ·), x ∈ X. Thus the nonempty level sets of
+F (x, ·), x ∈ X, are all compact.
+    (b) This is a consequence of the fact that the recession function of F (x, ·) is the same for all
+x ∈ X, and the comments following Prop. 1.4.5
+
+
+
+
+                                                      7
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+6.253 Convex Analysis and Optimization
+Spring 2012
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+
