@@ -1,0 +1,728 @@
+% MIT 18.712 Fall 2010, Homework 5--9. 中文题面与编者独立解答.
+% 本文件只用主文件已定义的宏; 题源页码均为109页旧PDF的实际页码.
+\originalsection{Homework 5: 扩张与代数表示}
+
+以下解答均为编者独立推导, 并非官方答案的翻译. 本节的代数带单位, 表示保持单位. 涉及不可约表示的标量自同态以及射影空间分类时, 底域取代数闭域 $k$; 题目另有指定时服从题目条件. 扩张是一个正合列 $0\to V\to U\to W\to0$, 因而同时记录子表示和商表示的指定识别.
+
+\begin{exercise}\label{hw:2.21}
+\textbf{MIT 18.712 (2010), Homework 5, 原题 2.21; 旧PDF第30页.}
+设 $A$ 为代数, $V,W$ 为其表示. 利用一个向量空间分裂将扩张 $U$ 写成 $V\oplus W$, 并令
+\[
+ \rho_U(a)=\begin{pmatrix}\rho_V(a)&f(a)\\0&\rho_W(a)\end{pmatrix},
+ \qquad f:A\to\Hom_k(W,V)\text{ 线性}.
+\]
+(a) 求该矩阵定义表示的充要条件; 满足条件的映射组成空间 $Z^1(W,V)$.
+(b) 对 $X:W\to V$, 令 $dX(a)=\rho_V(a)X-X\rho_W(a)$. 证明 $dX$ 为余循环, 且 $dX=0$ 当且仅当 $X$ 为表示同态. 由此说明余边界空间 $B^1(W,V)$ 同构于 $\Hom_k(W,V)/\Hom_A(W,V)$, 并定义 $\operatorname{Ext}^1(W,V)=Z^1(W,V)/B^1(W,V)$.
+(c) 证明相差余边界的两个余循环给出同构的扩张; 反之, 若同构在子表示和商表示上均为恒等, 则两个余循环相差余边界.
+(d) 若 $V,W$ 有限维不可约, 证明两个非零扩张类给出的中间表示同构, 当且仅当两类相差非零标量. 因而非平凡扩张的中间表示同构类由 $\mathbb P\operatorname{Ext}^1(W,V)$ 参数化; 所有扩张均平凡当且仅当此空间为零.
+\end{exercise}
+\begin{solution}
+(a) 计算乘积的右上角得到必要且充分的条件
+\[
+ f(ab)=\rho_V(a)f(b)+f(a)\rho_W(b).                 \tag{H5.1}
+\]
+代入 $a=b=1$ 可得 $f(1)=2f(1)$, 所以 $f(1)=0$. 因而乘法条件也保证保持单位. 条件是关于 $f$ 的齐次线性条件, 所以余循环组成向量空间.
+
+(b) 直接展开有
+\[
+\begin{aligned}
+ dX(ab)&=\rho_V(a)\rho_V(b)X-X\rho_W(a)\rho_W(b)\\
+ &=\rho_V(a)dX(b)+dX(a)\rho_W(b).
+\end{aligned}
+\]
+故 $dX$ 是余循环. $dX=0$ 恰是 $X$ 与每个 $a$ 的作用交换. 线性映射 $d$ 的核为 $\Hom_A(W,V)$, 第一同构定理给出所要求的同构.
+
+(c) 写 $T=\begin{pmatrix}1&X\\0&1\end{pmatrix}$. 条件 $T\rho_f(a)=\rho_{f'}(a)T$ 等价于 $f(a)-f'(a)=dX(a)$. 因此这样的 $T$ 给出扩张同构, 而任何在两端为恒等的扩张同构都必为此形式. 原题这一小问末尾把 $B^1(W,V)$ 写成 $B^1(V,W)$; 由映射的定义可见应为前者.
+
+(d) 先注意非分裂扩张 $U$ 中的不可约子表示只能是指定的 $V$. 若另一个不可约子表示 $L$ 未包含在 $V$ 内, 则商映射 $L\to W$ 非零, 从而为同构; 其逆给出 $W\to U$ 的分裂, 矛盾. 若 $L\subset V$, 则 $L=V$. 因而任意中间表示同构 $U_f\to U_{f'}$ 都保持这个子表示, 并在子表示和商表示上分别为非零标量 $\alpha,\beta$. 它的矩阵为 $\begin{pmatrix}\alpha&X\\0&\beta\end{pmatrix}$, 交换条件给出
+\[
+ \alpha f-\beta f'=dX.
+\]
+在 $\operatorname{Ext}^1$ 中即为 $[f']=(\alpha/\beta)[f]$. 反过来, 此关系可选取 $X$ 实现, 所得矩阵可逆. 零类恰好对应分裂扩张. 非分裂中间表示不可能与 $V\oplus W$ 同构, 因为后者完全可约, 其中每个子表示都有补空间. 这证明射影空间分类及最后的等价关系. 代数闭域条件在将两端的自同构化为标量时使用; 一般域不能不加修改地沿用该射影空间结论.
+\end{solution}
+
+\begin{exercise}\label{hw:2.22}
+\textbf{MIT 18.712 (2010), Homework 5, 原题 2.22; 旧PDF第30页.}
+(a) 令 $A=\C[x_1,\ldots,x_n]$, $V_a,V_b$ 为一维表示, $x_i$ 分别作用为 $a_i,b_i$. 计算 $\operatorname{Ext}^1(V_a,V_b)$ 并分类 $A$ 的二维表示.
+(b) 令复代数 $B$ 由 $x_1,\ldots,x_n$ 生成, 关系为所有 $x_ix_j=0$. 证明当 $n>1$ 时, $B$ 有无穷多个两两不同构的不可分解表示.
+\end{exercise}
+\begin{solution}
+(a) 对扩张 $0\to V_b\to U\to V_a\to0$, 写
+\[
+ \rho(x_i)=\begin{pmatrix}b_i&t_i\\0&a_i\end{pmatrix}.
+\]
+生成元两两交换当且仅当 $(b_i-a_i)t_j=(b_j-a_j)t_i$. 如果 $a\ne b$, 选一个 $b_i-a_i\ne0$, 则所有 $t_j$ 为同一个标量乘 $b_j-a_j$, 正是余边界, 所以 $\operatorname{Ext}^1(V_a,V_b)=0$. 如果 $a=b$, 交换条件恒成立且余边界为零, 所以 $\operatorname{Ext}^1(V_a,V_a)\cong\C^n$.
+
+一族交换的复矩阵有公共特征向量: 先取一个矩阵的非零特征子空间, 其余矩阵保持它, 再在该空间重复, 有限维数保证最终取得公共特征向量. 在二维情形其张成的一维空间给出上述扩张. 因而所有二维表示是 $V_a\oplus V_b$ (无序参数对 $\{a,b\}$), 或者
+\[
+ \rho(x_i)=a_i I+t_i\begin{pmatrix}0&1\\0&0\end{pmatrix},
+ \qquad t\ne0.
+\]
+后一类由 $a\in\C^n$ 与 $[t]\in\mathbb P^{n-1}$ 唯一参数化. 它不可分解: 若分解为两条不变直线, 每个 $x_i$ 在该分解下都是对角矩阵; 但某个 $t_i\ne0$ 的矩阵有非平凡Jordan块. $t=0$ 则已经属于 $V_a\oplus V_a$.
+
+(b) 令 $\rho(x_i)=t_iN$, 其中 $N=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, $t\ne0$. 因为 $N^2=0$, 所有关系均成立. 同上这些表示不可分解, 而同构类由 $[t]\in\mathbb P^{n-1}$ 区分. 当 $n>1$ 时, $[1:s:0:\cdots:0]$, $s\in\C$, 已给出无穷多个不同的类.
+\end{solution}
+
+\begin{exercise}\label{hw:2.23}
+\textbf{MIT 18.712 (2010), Homework 5, 原题 2.23; 旧PDF第30页.}
+设 $Q$ 为有限且没有有向圈的箭图, $P_Q$ 为其路径代数. 求所有不可约表示及其间的 $\operatorname{Ext}^1$, 并分类总维数为2的表示.
+\end{exercise}
+\begin{solution}
+路径代数以所有有向路径为基, 长度零的路径为顶点幂等元 $e_i$. 采用 $e_j\alpha e_i=\alpha$ 的约定, 其中 $\alpha:i\to j$; 路径的乘法对应线性映射的复合. 一个表示等价于给各顶点向量空间 $M_i=e_iM$, 给各箭头线性映射 $M_i\to M_j$. 总维数是 $\sum_i\dim M_i$.
+
+正长度路径张成的理想 $J$ 是幂零理想, 因为无有向圈的路径长度小于顶点数. 若 $M$ 为简单模, $JM$ 是子模. 若 $JM=M$, 则反复乘 $J$ 得 $J^rM=M$, 与幂零性矛盾; 所以 $JM=0$. 因为 $P_Q/J\cong\prod_i k$, 不可约表示恰为顶点表示 $S_i$: 顶点 $i$ 放 $k$, 其余顶点放零, 箭头全为零.
+
+扩张 $0\to S_i\to U\to S_j\to0$ 在各顶点均为向量空间分裂. 若 $i\ne j$, 只有从 $j$ 到 $i$ 的箭头能够有非零作用, 每条这样的箭头给一个任意标量; 其他箭头为零. 没有需要再施加的关系, 因为路径代数由这些箭头自由拼接生成. 固定两端的扩张同构在各顶点只能是恒等, 也没有能改变这些标量的跨顶点线性映射. 故
+\[
+ \operatorname{Ext}^1(S_j,S_i)\cong k^{r_{ji}},
+ \qquad r_{ji}=\#\{\text{箭头 }j\to i\}.
+\]
+若 $i=j$, 顶点处只有二维空间且没有自环, 所有箭头作用均为零, 所以扩张分裂; 公式仍成立, 因为 $r_{ii}=0$.
+
+总维数为2时, 或仅有一个顶点放二维空间, 得 $S_i\oplus S_i$; 或两个不同顶点各放一维空间. 后一种情形, 所有连向零空间的箭头均为零. 无有向圈保证这两个顶点之间不可能同时有两个方向的箭头. 全部箭头标量为零时得 $S_i\oplus S_j$; 若 $j\to i$ 有 $r_{ji}$ 条箭头且参数向量 $t\ne0$, 改变两顶点的基只把 $t$ 乘共同的非零标量. 因而非平凡类由 $\mathbb P^{r_{ji}-1}(k)$ 参数化. 至少一条箭头非零时表示不可分解, 因为可能的非零直和分解只能把两个顶点分开, 而这样会迫使全部箭头为零. 这也说明没有漏掉二维表示.
+\end{solution}
+
+\begin{exercise}\label{hw:2.24}
+\textbf{MIT 18.712 (2010), Homework 5, 原题 2.24; 旧PDF第31页.}
+设 $\rho:A\to\End(V)$. 一个形式变形是 $\widetilde\rho=\rho+t\rho_1+t^2\rho_2+\cdots$, 满足 $\widetilde\rho(ab)=\widetilde\rho(a)\widetilde\rho(b)$. 以形式可逆算子 $b(t)=1+tb_1+t^2b_2+\cdots$ 共轭得到的变形称为同构.
+(a) 证明若 $\operatorname{Ext}^1(V,V)=0$, 所有形式变形均同构于 $\rho$.
+(b) 逆命题是否成立? 考虑双数代数 $k[x]/(x^2)$.
+\end{exercise}
+\begin{solution}
+(a) 假设已通过共轭消去次数小于 $r$ 的项, 则当前变形为 $\rho+t^r\eta+O(t^{r+1})$. 比较乘法公式中 $t^r$ 的系数, 得
+\[
+ \eta(ab)=\rho(a)\eta(b)+\eta(a)\rho(b).
+\]
+因此 $\eta$ 为余循环, 假设给出 $X_r$ 使 $\eta(a)=\rho(a)X_r-X_r\rho(a)$. 用 $1+t^rX_r$ 共轭, 新的 $t^r$ 项为 $\eta+X_r\rho-\rho X_r=0$, 更低次项不变. 从 $r=1$ 开始归纳. 这些共轭算子的有序乘积在形式幂级数意义下存在: 任意固定次数的系数只依赖有限多个因子. 其常数项为1, 所以可逆, 并把整个变形化为 $\rho$. 此处是形式逐系数论证, 不需要解析收敛.
+
+(b) 不成立. 取一维表示 $V=k$, 令 $x$ 作用为零. 一阶扩张中 $x$ 可作用为 $\begin{pmatrix}0&t_0\\0&0\end{pmatrix}$, 任意 $t_0\in k$, 所以 $\operatorname{Ext}^1(V,V)\cong k\ne0$. 但在一维形式变形中, $x$ 必作用为 $a(t)\in tk[[t]]$, 且关系要求 $a(t)^2=0$. 幂级数环 $k[[t]]$ 是整环, 故 $a(t)=0$. 因而所有形式变形仍平凡. 一阶可变方向未必能够延伸为全部阶数的变形.
+\end{solution}
+
+\begin{exercise}\label{hw:2.25}
+\textbf{MIT 18.712 (2010), Homework 5, 原题 2.25; 旧PDF第31页.}
+设有限维复向量空间 $V$ 带对称双线性型 $(\ ,\ )$. 定义Clifford代数
+\[
+ \operatorname{Cl}(V)=T(V)/(v\otimes v-(v,v)1:v\in V),
+\]
+其中 $T(V)=\bigoplus_{r\ge0}V^{\otimes r}$. 等价关系为 $uv+vu=2(u,v)1$.
+(i) 若型非退化, 证明 $\dim V=2n$ 时此代数为 $\operatorname{Mat}_{2^n}(\C)$, 有唯一的不可约表示, 维数 $2^n$; $\dim V=2n+1$ 时为两个这样的矩阵代数的直和, 有两个不可约表示.
+(ii) 证明代数半单当且仅当型非退化. 型退化时求 $\operatorname{Cl}(V)/\operatorname{Rad}(\operatorname{Cl}(V))$.
+\end{exercise}
+\begin{solution}
+先证明一个维数事实. 对任意基 $x_1,\ldots,x_d$, 用 $x_jx_i=-x_ix_j+2(x_i,x_j)$ 交换相邻乱序因子, 用 $x_i^2=(x_i,x_i)$ 消去重复, 可将任意字写成 $x_{i_1}\cdots x_{i_r}$, $i_1<\cdots<i_r$, 的线性组合, 所以维数至多 $2^d$.
+
+这些单项式也线性无关. 在 $\bigwedge V$ 上令 $L_v$ 为左外乘 $v$, $\iota_v$ 为收缩:
+\[
+ \iota_v(w_1\wedge\cdots\wedge w_r)
+ =\sum_{j=1}^r(-1)^{j-1}(v,w_j)
+ w_1\wedge\cdots\widehat{w_j}\cdots\wedge w_r.
+\]
+直接展开得到 $\iota_vL_w+L_w\iota_v=(v,w)I$, 且两种同类算子分别反交换. 所以 $L_v+\iota_v$ 满足Clifford关系. 一个有序单项式作用于 $1\in\bigwedge^0V$ 时, 最高外次数项恰为 $x_{i_1}\wedge\cdots\wedge x_{i_r}$. 若存在单项式的线性关系, 取其中最大次数, 这些不同的外积基向量迫使所有最高次数系数为零; 向下归纳得关系平凡. 因而 $\dim\operatorname{Cl}(V)=2^d$, 对退化型也成立.
+
+(i) 偶数维非退化复对称型可取双曲基 $a_i,b_i$, 使 $(a_i,a_j)=(b_i,b_j)=0$, $(a_i,b_j)=\delta_{ij}/2$. 这是将对角正交基每两个组合成各向同性向量得到的. 在 $S=\bigwedge\langle a_1,\ldots,a_n\rangle$ 上, 让 $a_i$ 左外乘, $b_i$ 按 $b_i(a_j)=\delta_{ij}$ 作外代数收缩. 它们满足 $a_ib_j+b_ja_i=\delta_{ij}$.
+
+算子 $P_0=\prod_i b_ia_i$ 是投影到常数外积的算子: $b_ia_i$ 在未含 $a_i$ 的外积上为1, 在含 $a_i$ 的外积上为0, 这些投影互相交换. 对子集 $I,J$, 适当调整收缩的顺序和符号后, $a_IP_0b_J$ 将基向量 $a_J$ 送至 $a_I$, 将其余基向量送至零. 所以Clifford代数的像包含全部矩阵单位, 等于 $\End(S)$. 两边维数同为 $2^{2n}$, 故同构. 矩阵代数的唯一简单模是列向量空间 $S$, 从而得到不可约性与半单性.
+
+奇数维再加一个与所有 $a_i,b_i$ 正交且 $c^2=1$ 的向量 $c$. 外代数上的次数奇偶算子 $\Gamma=(-1)^{\deg}$ 与每个 $a_i,b_i$ 反交换. 令 $c$ 分别作用为 $\Gamma$ 与 $-\Gamma$, 得到 $S_+,S_-$. 偶数部分已经作用为全部 $\End(S)$; 代数中也有 $\Gamma=\prod_i(1-2a_ib_i)$ 的对应元素. 因而 $c\Gamma$ 在两个表示上分别为 $+I,-I$, 证明两者不同构, 并且 $(1\pm c\Gamma)/2$ 分别投影到两个矩阵块. 两个表示合起来给出满射
+\[
+ \operatorname{Cl}(V)\longrightarrow\End(S_+)\oplus\End(S_-).
+\]
+两边维数均为 $2^{2n+1}$, 所以这是同构, 也证明没有遗漏其他不可约表示. $n=0$ 时同一论证给出 $\operatorname{Cl}(\C)\cong\C\oplus\C$.
+
+(ii) 令 $R=\{r:(r,V)=0\}$ 为型的根基, 取补空间 $V=W\oplus R$. $W$ 上的型非退化. 理想 $J=(R)$ 的每个基单项式含至少一个 $R$ 中的基向量. 因为这些向量与所有生成元反交换且平方为零, $J^{\dim R+1}=0$. 商代数为 $\operatorname{Cl}(W)$, 由(i)半单.
+
+幂零理想杀死每个简单模: 若 $JM\ne0$, 简单性迫使 $JM=M$, 与 $J$ 幂零矛盾. 所以 $J\subset\operatorname{Rad}$, 其中根基可定义为所有简单模零化理想的交. 反过来, 半单商 $\operatorname{Cl}(V)/J$ 的简单模的零化理想交为零, 故 $\operatorname{Rad}\subset J$. 因而
+\[
+ \operatorname{Rad}(\operatorname{Cl}(V))=(R),\qquad
+ \operatorname{Cl}(V)/\operatorname{Rad}\cong\operatorname{Cl}(V/R).
+\]
+若 $R\ne0$, 前面的基证明保证 $R$ 在Clifford代数中的像非零, 所以根基非零, 代数不半单. 若 $R=0$, (i)已经证明半单.
+\end{solution}
+
+\begin{exercise}\label{hw:3.4}
+\textbf{MIT 18.712 (2010), Homework 5, 原题 3.4; 旧PDF第34页.}
+设 $|G|=p^n$, 底域 $k$ 的特征为 $p$. 证明 $G$ 的每个不可约 $k$ 表示均为平凡表示.
+\end{exercise}
+\begin{solution}
+对 $|G|$ 归纳. 非平凡有限 $p$ 群的中心非平凡: 类方程中非中心共轭类的大小均被 $p$ 整除, 所以 $p\mid|Z(G)|$. 在中心中取一个阶为 $p$ 的元素 $z$. 在特征 $p$ 中,
+\[
+ (\rho(z)-I)^p=\rho(z)^p-I=0.
+\]
+一个幂零算子在非零空间上有非零核, 而 $z$ 中心保证该核为子表示. 不可约性使核等于整个表示, 所以 $z$ 作用平凡. 表示因此下降为 $G/\langle z\rangle$ 的不可约表示, 归纳得整个 $G$ 作用平凡. 一个平凡不可约表示只能是一维, 因为其任意子空间均不变. 这说明特征整除群阶时, Maschke定理的结论确实失效.
+\end{solution}
+
+\originalsection{Homework 6: 有限群的具体计算}
+
+\begin{exercise}\label{hw:3.17}
+\textbf{MIT 18.712 (2010), Homework 6, 原题 3.17; 旧PDF第43页.}
+设 $G$ 为正 $N$ 边形的全部对称群, $|G|=2N$.
+(a) 分别在 $N$ 为奇数和偶数时求所有复不可约表示.
+(b) 令 $V$ 为平面标准实表示的复化, 求 $V\otimes V$ 的不可约分解.
+\end{exercise}
+\begin{solution}
+写 $G=\langle r,s:r^N=s^2=1,\ srs=r^{-1}\rangle$, $\zeta=e^{2\pi i/N}$. 包括把正2边形视为线段的边界情形, 因此 $N\ge2$. 对 $k\in\Z/N\Z$, 定义二维表示
+\[
+ W_k(r)=\begin{pmatrix}\zeta^k&0\\0&\zeta^{-k}\end{pmatrix},
+ \qquad W_k(s)=\begin{pmatrix}0&1\\1&0\end{pmatrix}.
+\]
+若 $2k\ne0\pmod N$, $r$ 的两条特征直线互异, $s$ 交换它们, 所以表示不可约. $W_k\cong W_{N-k}$, 且除这对指标外不同构, 由 $r$ 的特征值集合可知.
+
+一维表示中 $r=r^{-1}$, 所以 $r$ 只能取允许的 $\pm1$, $s$ 任取 $\pm1$. 当 $N$ 为奇数时有 $1$ 与反射符号表示 $\varepsilon$ ($r\mapsto1,s\mapsto-1$), 以及 $W_k$, $1\le k\le(N-1)/2$. 其维数平方和为 $2+4(N-1)/2=2N$. 当 $N$ 为偶数时有四个一维表示 $\chi_{\alpha,\beta}$ ($r\mapsto\alpha,s\mapsto\beta$, $\alpha,\beta=\pm1$), 以及 $W_k$, $1\le k<N/2$; 平方和为 $4+4(N/2-1)=2N$. 因而清单完整.
+
+(b) $V=W_1$. 用其基 $e_+,e_-$, 张成 $e_+\otimes e_+,e_-\otimes e_-$ 的子空间是 $W_2$; 其余两个基向量的和与差分别给 $1$ 与 $\varepsilon$. 所以
+\[
+ V\otimes V\cong1\oplus\varepsilon\oplus W_2.
+\]
+这里须把 $W_2$ 继续判断是否不可约. $N=3$ 时 $W_2\cong W_1$; $N=4$ 时 $r$ 在 $W_2$ 上为 $-I$, 所以 $W_2=\chi_{-1,1}\oplus\chi_{-1,-1}$. 对 $N\ge5$, $W_2$ 不可约 (指标可换成 $N-2$). 这避免在正方形情形把可分解的二维项误称不可约.
+
+最后处理 $N=2$. 此时 $G\cong C_2\times C_2$, (a)的偶数情形已列出它的四个一维表示, 没有二维不可约表示. 标准平面表示中, $r=-I$, $s$ 在沿线段与垂直线段的两条直线上分别作用为 $1,-1$, 所以 $V=\chi_{-1,1}\oplus\chi_{-1,-1}$. 两个自张量均平凡, 两个交叉张量均为 $\varepsilon$ ($r\mapsto1,s\mapsto-1$), 故 $V\otimes V=2\cdot1\oplus2\cdot\varepsilon$. 也可在通式中使用 $W_2=W_0=1\oplus\varepsilon$ 得到同一结果.
+\end{solution}
+
+\begin{exercise}\label{hw:3.18}
+\textbf{MIT 18.712 (2010), Homework 6, 原题 3.18; 旧PDF第43页.}
+令 $G$ 为所有 $g(a,b,c)=\begin{pmatrix}1&a&c\\0&1&b\\0&0&1\end{pmatrix}$, $a,b,c\in\mathbb F_p$, 组成的Heisenberg群. 给定 $z^p=1$, 在 $\mathbb F_p$ 上复函数空间中要求
+\[
+ (\rho(g(1,0,0))f)(x)=f(x-1),\qquad
+ (\rho(g(0,1,0))f)(x)=z^xf(x).
+\]
+(a) 证明该表示存在且唯一, 求所有 $g$ 的作用.
+(b) 记此表示为 $R_z$, 证明其不可约当且仅当 $z\ne1$.
+(c) 分类所有一维表示, 分解 $R_1$, 并说明其中每个出现的一维表示只出现一次.
+(d) 利用维数平方和分类全部不可约表示.
+\end{exercise}
+\begin{solution}
+群乘法为 $g(a,b,c)g(a',b',c')=g(a+a',b+b',c+c'+ab')$. 写 $A=g(1,0,0)$, $B=g(0,1,0)$, $C=g(0,0,1)$, 则 $AB=CBA$. 指定的移位 $T$ 与乘法 $M$ 满足 $TM=z^{-1}MT$, 所以 $C$ 必作用为 $z^{-1}I$. 因为 $g(a,b,c)=A^aB^bC^{c-ab}$, 唯一可能的公式是
+\[
+ (\rho(g(a,b,c))f)(x)=z^{bx-c}f(x-a).             \tag{H6.1}
+\]
+将两次作用复合, 指数成为 $(b+b')x-c-c'-ab'$, 正好符合群乘法, 证明存在性. $\mathbb F_p$ 指数可用任意整数代表, 因为 $z^p=1$.
+
+若 $z\ne1$, 则 $z$ 是本原 $p$ 次单位根, $M$ 在点质量基 $\delta_x$ 上有互异特征值 $z^x$. 任意不变子空间由这些特征向量的一部分张成, 而 $T$ 循环置换所有 $\delta_x$, 所以非零子空间必为整个空间. 若 $z=1$, $B,C$ 平凡, $A$ 为循环移位, 故表示分解为其 $p$ 条特征直线而不可约.
+
+一维表示杀死交换子 $C$, 所以因子化为 $G/\langle C\rangle\cong\mathbb F_p^2$. 固定 $\omega=e^{2\pi i/p}$, 全部一维表示为
+\[
+ L_{u,v}(g(a,b,c))=\omega^{ua+vb},\qquad u,v\in\mathbb F_p.
+\]
+函数 $f_u(x)=\omega^{-ux}$ 张成 $R_1$ 中的 $L_{u,0}$, 因而 $R_1=\bigoplus_uL_{u,0}$, 每项一次. 对各 $z\ne1$, 中心 $C$ 的标量 $z^{-1}$ 不同, 所以 $R_z$ 两两不同构. 已有 $p^2$ 个一维表示与 $p-1$ 个 $p$ 维表示, 维数平方和为 $p^2+(p-1)p^2=p^3=|G|$, 证明清单完整, 包括 $p=2$.
+\end{solution}
+
+\begin{exercise}\label{hw:3.19}
+\textbf{MIT 18.712 (2010), Homework 6, 原题 3.19; 旧PDF第43页.}
+设 $V$ 为有限维复向量空间. 证明 $\Sym^nV$ 与 $\bigwedge^mV$, $0\le m\le\dim V$, 在自然作用下是 $\GL(V)$ 的不可约表示.
+\end{exercise}
+\begin{solution}
+按题目的不可约性要求, 所讨论的空间应非零; $V=0,n>0$ 时对称幂为零, 不称不可约. 其余情形中, 次数零的空间是一维平凡表示. 设 $d=\dim V>0$, 取基 $e_1,\ldots,e_d$. 对称幂的基为 $e^\alpha=e_1^{\alpha_1}\cdots e_d^{\alpha_d}$, $\sum\alpha_i=n$; 外幂的基为 $e_I=e_{i_1}\wedge\cdots\wedge e_{i_m}$.
+
+取整数 $B>\max(n,1)$ 与实数 $t>1$, 令 $H e_i=t^{B^{i-1}}e_i$. 在对称幂中的特征值为 $t^{\sum\alpha_iB^{i-1}}$, 由 $B$ 进制表达唯一而互异; 外幂相同, 指数的数字为0或1. 因此一个 $H$ 不变子空间必由一部分基向量张成: 各特征投影都是 $H$ 的插值多项式, 可分别提取这些分量.
+
+若对称幂的非零不变子空间包含 $e^\alpha$ 且 $\alpha_j>0$, 用 $1+E_{ij}$, $i\ne j$, 作用, 展开 $(e_j+e_i)^{\alpha_j}$, 再以特征投影提取, 得到 $e^{\alpha-e_j+e_i}$; 其系数为 $\alpha_j\ne0$. 重复这种搬移可从任意次数 $n$ 的单项式到达任意另一个, 所以子空间包含全基.
+
+对外幂, 若 $j\in I,i\notin I$, 则 $(1+E_{ij})e_I=e_I\pm e_{I\setminus\{j\}\cup\{i\}}$. 特征投影取得后者. 任意两个 $m$ 元子集可逐次交换一个元素连接, 故同样包含全基. 这证明两种表示均不可约, 并明确使用了复数域的特征零性质.
+\end{solution}
+
+\begin{exercise}\label{hw:3.20}
+\textbf{MIT 18.712 (2010), Homework 6, 原题 3.20; 旧PDF第43页.}
+有限无重边图的邻接矩阵在相邻顶点处为1, 其余为0. 证明若该图的自同构群非交换, 邻接矩阵必有重特征值.
+\end{exercise}
+\begin{solution}
+设邻接矩阵为 $A$. 图为无向图, 所以 $A$ 是实对称矩阵. 每个图自同构的置换矩阵 $P$ 满足 $PA=AP$. 若 $A$ 的所有特征值均单重, 它有由一维特征子空间组成的正交特征基; 每个 $P$ 保持各特征直线, 因而在该共同基下为对角矩阵. 于是全部 $P$ 两两交换. 自同构在顶点集上的作用忠实, 所以自同构群也交换, 与条件矛盾.
+\end{solution}
+
+\begin{exercise}\label{hw:3.21}
+\textbf{MIT 18.712 (2010), Homework 6, 原题 3.21; 旧PDF第44页.}
+正二十面体的旋转群为 $A_5$.
+(a) 分解其在12个顶点上复函数空间的表示.
+(b) 分别分解其在20个面及30条边上复函数空间的表示.
+\end{exercise}
+\begin{solution}
+记 $A_5$ 的不可约表示为 $1,U,U',T,F$, 维数分别为 $1,3,3,4,5$. 令 $\phi=(1+\sqrt5)/2$, $\phi'=(1-\sqrt5)/2$. 所需特征标表为
+\[
+\begin{array}{c|rrrrr}
+ &1&2A&3A&5A&5B\\ \hline
+\text{类大小}&1&15&20&12&12\\
+1&1&1&1&1&1\\
+U&3&-1&0&\phi&\phi'\\
+U'&3&-1&0&\phi'&\phi\\
+T&4&0&1&-1&-1\\
+F&5&1&-1&0&0
+\end{array}                                                     \tag{H6.2}
+\]
+可直接得到这些表示与数值: $U$ 是空间旋转表示, 阶2、3、5旋转的迹是 $1+2\cos\theta$; 共轭的 $\sqrt5$ 取值给 $U'$. $T$ 是五点置换表示去掉常数, $F$ 是 $\Sym^2U$ 去掉标量型. 对后三者及 $U,U'$ 用表中的类大小计算, 行范数均为1, 行间内积为0, 且维数平方和 $1+9+9+16+25=60$, 从而这是完整表. $U'$ 的存在也可由 $A_5$ 的外自同构取得: 以奇置换共轭, 交换两个5循环类.
+
+置换特征标等于固定对象数. 顶点、面、边的特征标分别是
+\[
+ (12,0,0,2,2),\quad (20,0,2,0,0),\quad (30,2,0,0,0).
+\]
+因为阶5轴穿过一对相对顶点, 阶3轴穿过一对相对面的中心, 阶2轴穿过一对相对边的中点; 其他非恒等旋转不固定相应对象. 将这三行与(H6.2)各行取内积, 得到
+\[
+\begin{aligned}
+ \operatorname{Fun}(\text{顶点})&=1\oplus U\oplus U'\oplus F,\\
+ \operatorname{Fun}(\text{面})&=1\oplus U\oplus U'\oplus2T\oplus F,\\
+ \operatorname{Fun}(\text{边})&=1\oplus U\oplus U'\oplus2T\oplus3F.
+\end{aligned}
+\]
+例如顶点中 $U$ 的重数为 $(36+24(\phi+\phi'))/60=1$, 边中 $F$ 的重数为 $(150+30)/60=3$. 各行的维数分别为12、20、30, 与原空间一致.
+\end{solution}
+
+\begin{exercise}\label{hw:3.22}
+\textbf{MIT 18.712 (2010), Homework 6, 原题 3.22; 旧PDF第44页.}
+设 $G$ 为有限域 $\mathbb F_q$ 上所有仿射变换 $x\mapsto ax+b$, $a\in\mathbb F_q^\times,b\in\mathbb F_q$. 求所有复不可约表示、特征标和不可约表示的全部张量积.
+\end{exercise}
+\begin{solution}
+群阶为 $q(q-1)$. 将乘法群 $\mathbb F_q^\times$ 的 $q-1$ 个一维特征标 $\lambda$ 拉回, 得一维表示 $L_\lambda(a,b)=\lambda(a)$. 在 $\mathbb F_q$ 的置换表示中去掉常数, 得 $q-1$ 维子表示 $W$ (函数值总和为零). 恒等仿射变换固定 $q$ 点, 非零平移不固定点, 而 $a\ne1$ 的仿射变换有唯一固定点 $b/(1-a)$. 所以
+\[
+ \chi_W(a,b)=\begin{cases}q-1,&a=1,b=0,\\-1,&a=1,b\ne0,\\0,&a\ne1.\end{cases}
+\]
+其范数为 $((q-1)^2+(q-1))/(q(q-1))=1$, 因而不可约. 已列表示的平方和为 $(q-1)+(q-1)^2=q(q-1)$, 清单完整. $q=2$ 时 $W$ 本身是一维, 仍是与平凡表示不同的另一不可约表示.
+
+一维表示间显然有 $L_\lambda\otimes L_\mu=L_{\lambda\mu}$. 由于 $\lambda(1)=1$ 且 $\chi_W$ 仅在 $a=1$ 处非零, $L_\lambda\otimes W\cong W$. 最后
+\[
+ \inner{\chi_W^2}{\lambda}=1,\qquad
+ \inner{\chi_W^2}{\chi_W}
+ =\frac{(q-1)^3-(q-1)}{q(q-1)}=q-2.
+\]
+因此 $W\otimes W\cong\bigoplus_\lambda L_\lambda\oplus(q-2)W$. 维数为 $(q-1)+(q-2)(q-1)=(q-1)^2$, 也检查了这一分解.
+\end{solution}
+\originalsection{Homework 7: 实表示与张量积}
+
+\begin{exercise}\label{hw:3.23}
+\textbf{MIT 18.712 (2010), Homework 7, 原题 3.23; 旧PDF第44页.}
+令 $G=\operatorname{SU}(2)$, 将标准空间 $V=\C^2$ 看成四维实表示.
+(a) 证明 $V$ 实不可约.
+(b) 证明交换代数 $H=\End_{\R[G]}V$ 为四维实除代数.
+(c) 找基 $1,i,j,k$, 满足 $i^2=j^2=k^2=-1$, $ij=-ji=k$, $jk=-kj=i$, $ki=-ik=j$, 从而四元数群 $Q_8$ 是 $H^\times$ 的子群.
+(d) 对 $q=a+bi+cj+dk$ 定义 $\bar q=a-bi-cj-dk$ 与 $\|q\|^2=q\bar q$. 证明 $\overline{q_1q_2}=\bar q_2\bar q_1$ 及范数乘法性.
+(e) 证明单位四元数群同构于 $\operatorname{SU}(2)$.
+(f) 单位四元数在纯虚四元数空间上以 $x\mapsto qxq^{-1}$ 作用. 证明由此得到的 $h:\operatorname{SU}(2)\to\operatorname{SO}(3)$ 满射, 核为 $\{1,-1\}$.
+\end{exercise}
+\begin{solution}
+(a) $\operatorname{SU}(2)$ 在 $\C^2$ 的单位球面上传递: 任意单位向量 $(z_1,z_2)$ 都是某个矩阵 $\begin{pmatrix}z_1&-\bar z_2\\z_2&\bar z_1\end{pmatrix}$ 的第一列. 非零实不变子空间含一个非零向量, 也就包含同长度的整个球面, 其线性张成是整个实空间. 故实不可约.
+
+(b),(c) 令 $i$ 为乘以复数 $i$, 令 $j(z_1,z_2)=(-\bar z_2,\bar z_1)$, $k=ij$. 直接计算 $j^2=-1$, $ji=-ij$, 而每个 $\operatorname{SU}(2)$ 矩阵都与 $j$ 交换. 它们产生四元数乘法关系.
+
+任意实线性算子 $T$ 唯一分解为复线性部分 $(T-iTi)/2$ 与复反线性部分 $(T+iTi)/2$. 若 $T$ 与群作用交换, 两部分也交换. 标准复表示不可约 (由(a)即知), Schur引理使复线性部分为复标量. 复反线性部分与 $j^{-1}$ 复合为复线性群同态, 所以为复标量乘 $j$. 因而 $H=\C\oplus\C j$ 为四维实代数, 基为 $1,i,j,k$. 若 $T\ne0$, 实Schur引理给出其核为零且像为全空间, 所以可逆, 逆仍与群作用交换. 八个元素 $\pm1,\pm i,\pm j,\pm k$ 构成 $Q_8$.
+
+(d) 基元素的关系逐项给出共轭反转乘法次序, 双线性推广得 $\overline{q_1q_2}=\bar q_2\bar q_1$. 同样展开有 $q\bar q=\bar qq=a^2+b^2+c^2+d^2$. 因此
+\[
+ (q_1q_2)\overline{q_1q_2}
+ =q_1q_2\bar q_2\bar q_1=\|q_2\|^2\|q_1\|^2.
+\]
+取非负平方根得到范数乘法性, 并得非零四元数的逆为 $\bar q/\|q\|^2$.
+
+(e) 此处的抽象四元数代数另有复矩阵实现
+\[
+ a+bi+cj+dk\longmapsto
+ \begin{pmatrix}a+bi&c+di\\-c+di&a-bi\end{pmatrix}.
+\]
+三个虚单位的像满足相同乘法关系, 所以此映射保持乘法且单射. 矩阵与其共轭转置之积为 $\|q\|^2I$, 行列式为 $\|q\|^2$. 范数1的像恰为所有 $\operatorname{SU}(2)$ 矩阵, 因为后者均有 $\begin{pmatrix}\alpha&\beta\\-\bar\beta&\bar\alpha\end{pmatrix}$, $|\alpha|^2+|\beta|^2=1$, 的形式. 这证明同构, 也将群的底层空间识别为三维球面 $S^3$.
+
+(f) 将纯虚四元数看作 $\R^3$, 有 $uv=-u\cdot v+u\times v$. 共轭作用保持纯虚性和范数. 若 $u$ 为单位纯虚四元数, 则 $q=\cos(\theta/2)+u\sin(\theta/2)$ 的共轭作用为
+\[
+ x\longmapsto x\cos\theta+(u\times x)\sin\theta
+              +u(u\cdot x)(1-\cos\theta).
+\]
+这由展开 $qx\bar q$ 得到, 是绕 $u$ 轴旋转 $\theta$ 的公式. 每个三维旋转都有一个固定轴, 并在正交平面上是二维旋转, 所以上式给出满射. 若 $q$ 在核中, 它与 $i,j,k$ 都交换; 由乘法关系比较系数可得 $q$ 为实数. 再用范数1得到 $q=\pm1$.
+\end{solution}
+
+\begin{exercise}\label{hw:3.24}
+\textbf{MIT 18.712 (2010), Homework 7, 原题 3.24; 旧PDF第44--45页.}
+(a) 推导 $\operatorname{SO}(3)$ 的有限子群分类: 循环群、阶 $2n$ 的二面体旋转群 ($n\ge2$)、正四面体旋转群 $A_4$、立方体/正八面体旋转群 $S_4$、正十二面体/正二十面体旋转群 $A_5$.
+(b) 利用 $\operatorname{SU}(2)\to\operatorname{SO}(3)$ 分类 $\operatorname{SU}(2)$ 的有限子群.
+\end{exercise}
+\begin{solution}
+(a) 设非平凡有限子群 $G$ 的阶为 $n$. 非恒等旋转在单位球面上恰固定轴的两个端点, 称为极点. 某极点 $P$ 的稳定子是绕该轴的有限旋转群, 因而循环, 设阶为 $m_P\ge2$. 若极点轨道代表为 $P_1,\ldots,P_k$, 对有序对 $(g,P)$, $g\ne1,gP=P$, 计数, 得
+\[
+ 2(n-1)=\sum_{i=1}^k\frac n{m_i}(m_i-1),\qquad
+ 2\left(1-\frac1n\right)=\sum_{i=1}^k\left(1-\frac1{m_i}\right). \tag{H7.1}
+\]
+每项至少 $1/2$, 而总和小于2, 故 $k\le3$. $k=1$ 不可能: 左边至少1, 右边小于1. $k=2$ 时, $1/m_1+1/m_2=2/n$; 因为 $m_i\le n$, 每项至少 $1/n$, 故 $m_1=m_2=n$. 全群固定同一轴, 所以为循环群.
+
+$k=3$ 时按 $m_1\le m_2\le m_3$ 排序, 有 $1/m_1+1/m_2+1/m_3=1+2/n>1$. 若 $m_1\ge3$, 总和至多1, 所以 $m_1=2$. 若 $m_2\ge4$, 总和仍至多1. 剩下的可能恰为
+\[
+\begin{array}{c|c}
+(m_1,m_2,m_3)&n\\\hline
+(2,2,m)&2m\\
+(2,3,3)&12\\
+(2,3,4)&24\\
+(2,3,5)&60
+\end{array}                                                     \tag{H7.2}
+\]
+还须由这张数值表识别实际旋转群, 不能仅靠群阶判定.
+
+对 $(2,2,m)$ 且 $m>2$, 阶 $m$ 的极点轨道有两个点. 它们必互为相反点, 因为稳定子的非恒等旋转仅固定这两个点. 群保持该轴, 绕轴旋转组成阶 $m$ 循环子群, 其余元素交换轴的两端, 必为垂直轴的半周旋转. 选一条这样的轴, 得生成元 $r,s$ 满足 $r^m=s^2=1,srs=r^{-1}$, 即二面体旋转群. $m=2$ 时群阶4, 三个非恒等元素均为半周旋转. 任意两个不同的轴必须垂直, 因为两次半周旋转的复合仍为半周旋转; 可从旋转复合的角度公式或四元数乘法验证. 因而为三条互相垂直轴的半周旋转群 $D_2$.
+
+后三种情形中, 空间表示实不可约. 若有不变直线, 群保持一对相反极点; 保持轴方向的子群为循环, 交换两端的元素为半周旋转, 故群只能为上述循环或二面体群. 若有不变平面, 它的正交补给出不变直线, 也不可能. 因而对任意轨道 $\mathcal O$, 对称算子 $\sum_{P\in\mathcal O}PP^{\mathsf T}$ 的各特征空间都不变, 它必为 $|\mathcal O|I/3$. 同时 $\sum P=0$, 因为此和是固定向量.
+
+对 $(2,3,3)$, 取阶3极点的四点轨道. 一个极点的阶3稳定子循环置换另外三点 (若其相反点也在轨道, 剩下两点不可能被非恒等三循环作用). 所以该点与另外三点的内积相同. 用四点和为零得内积 $-1/3$, 即正四面体顶点. 群嵌入四面体旋转群且两者阶均为12, 所以相等, 对四个顶点的作用给出 $A_4$.
+
+对 $(2,3,4)$, 取阶4极点的六点轨道. 稳定子的非轴点轨道长为4, 所以除所选极点外的五点中必含其相反点, 其余四点是绕轴的正方形. 整个轨道有三对相反点, 故该正方形的纬度为零. 这是正八面体的六个顶点. 群等于其阶24旋转群; 对立方体四条体对角线的忠实作用将它识别为 $S_4$.
+
+对 $(2,3,5)$, 取阶5极点的十二点轨道. 同理它含所选点 $P$ 及 $-P$, 其余十点组成两个正五边形, 位于相反纬度 $a,-a$. 用前述对称算子在 $P$ 方向的值, 得 $2+10a^2=12/3=4$, 所以 $a^2=1/5$. 两个五边形由取相反点对应, 方位角相差 $\pi$, 即模 $2\pi/5$ 相差 $\pi/5$. 这些是正二十面体的标准顶点: 每个点恰与内积 $1/\sqrt5$ 的五点相连, 共30条等长边、20个等边三角形面. 因而群等于其阶60旋转群. 为识别抽象群, 先计算共轭类. 阶3与阶5旋转的中心化子只能是同轴旋转, 阶分别为3与5, 因而类大小为20与12. 阶2轴的无序极点对稳定子阶为4, 正是该半周旋转的中心化子, 故15个阶2元素组成一个共轭类. 每个此中心化子都是四元Klein群: 其中不存在阶4元素, 因为所有元素的阶由极点稳定子只可能为1、2、3、5. 每个阶2元素只属于一个这样的四元群, 因为四元群交换而其阶已等于中心化子阶. 所以15个阶2元素分成五个四元群的三非恒等元素集. 共轭作用传递地置换这五个群, 给出 $G\to S_5$. 其像的阶被5整除, 故核阶至多12. 但任何非平凡正规子群都包含一个完整非恒等共轭类, 这些类大小分别为15、20、12、12, 连同单位元使子群阶至少13. 因而核平凡, 像为 $S_5$ 的指数2子群 $A_5$. 指数2子群必含全部偶置换: 所有换位在商群中有同一像, 所以偶数个换位的乘积落入核, 而 $A_5$ 本身已有阶60. 这完成几何群的识别. 各类列出的标准旋转群均存在, 所以分类无缺项.
+
+(b) 设 $H\subset\operatorname{SU}(2)$ 有限, $G=h(H)$. 若 $-1\in H$, 则 $H=h^{-1}(G)$: 每个 $g\in G$ 的两个提升都在 $H$, 而总共只有这两个. 因而得到循环群的二重提升 (阶 $2n$ 的循环群), 二面体群的二重提升 (阶 $4n$ 的二元二面体群), 以及二元四面体、二元八面体、二元二十面体群, 阶分别为24、48、120. 二元二面体群可写为
+\[
+ \langle x,y:x^{2n}=1,\ y^2=x^n,\ yxy^{-1}=x^{-1}\rangle,
+ \qquad n\ge2.
+\]
+若 $-1\notin H$, 映射 $h|_H$ 单射. $\operatorname{SU}(2)$ 中唯一的阶2元素为 $-1$, 因为单位四元数 $q^2=1$ 迫使 $q=\pm1$. Cauchy定理使 $|H|$ 为奇数, 所以 $G$ 的上述分类只能给奇数阶循环群. 它的全提升是阶 $2|G|$ 的循环群, 其中唯一的奇数阶子群就是 $H$. 合并两种情形, 完整名单是任意阶的循环群, 阶 $4n$ ($n\ge2$) 的二元二面体群, 及三种二元多面体群. 单位子群也包括在循环群中.
+\end{solution}
+
+\begin{exercise}\label{hw:3.25}
+\textbf{MIT 18.712 (2010), Homework 7, 原题 3.25; 旧PDF第45页.}
+求原题3.18中的Heisenberg群所有复不可约表示的特征标及张量积.
+\end{exercise}
+\begin{solution}
+沿用习题\ref{hw:3.18}的 $L_{u,v}$ 与 $R_z$, $z\ne1,z^p=1$. 一维特征标是 $\omega^{ua+vb}$. 在公式(H6.1)的点质量基中, $a\ne0$ 时作用移位, 迹为零; $a=0,b\ne0$ 时迹为 $z^{-c}\sum_xz^{bx}=0$. 所以
+\[
+ \chi_{R_z}(g(a,b,c))=
+ \begin{cases}p z^{-c},&a=b=0,\\0,&(a,b)\ne(0,0).\end{cases}
+\]
+中心指数的负号来自原题移位 $f(x-1)$ 的约定, 必须与3.18一致.
+
+一维表示的张量积为 $L_{u,v}\otimes L_{u',v'}=L_{u+u',v+v'}$. 一维表示在中心上恒为1, 所以 $L_{u,v}\otimes R_z\cong R_z$. 若 $zw\ne1$, $R_z\otimes R_w$ 的特征标在中心为 $p^2(zw)^{-c}$, 在其他元素处为0, 即 $p\chi_{R_{zw}}$, 因而
+\[
+ R_z\otimes R_w\cong pR_{zw}\quad(zw\ne1).
+\]
+若 $zw=1$, 对所有一维表示之和, 在 $(a,b)=(0,0)$ 时特征标为 $p^2$, 否则为0 (分别对 $u,v$ 求单位根和). 故
+\[
+ R_z\otimes R_{z^{-1}}\cong
+ \bigoplus_{u,v\in\mathbb F_p}L_{u,v}.
+\]
+两种结果的维数均为 $p^2$; 对 $p=2$ 只有第二种非线性张量积情形.
+\end{solution}
+
+\begin{exercise}\label{hw:3.26}
+\textbf{MIT 18.712 (2010), Homework 7, 原题 3.26; 旧PDF第45页.}
+若有限群 $G$ 的复表示 $V$ 忠实, 证明每个不可约表示都包含在某个 $\Sym^nV$ 中, 从而包含在某个 $V^{\otimes n}$ 中.
+\end{exercise}
+\begin{solution}
+对每个 $g\ne1$, 忠实性使 $V^*$ 上 $g$ 的固定空间为真子空间. 复向量空间不是有限多个真线性子空间的并: 可分别选一个非零线性方程在各子空间上消失, 它们的乘积是非零多项式, 不可能处处为零. 因而可取 $u\in V^*$ 的稳定子为1, 其轨道含 $|G|$ 个不同点.
+
+将 $\Sym V$ 看作 $V^*$ 上的多项式环, 定义 $\Phi(f)(g)=f(gu)$. 群作用满足 $(hf)(\xi)=f(h^{-1}\xi)$, 所以 $\Phi(hf)(g)=\Phi(f)(h^{-1}g)$, 即 $\Phi$ 是到左正则函数表示的同态. 它满射: 对轨道中的一个点 $u_i$, 每个其他点 $u_j$ 可取仿射线性函数 $\ell_{ij}$, 使 $\ell_{ij}(u_i)=1,\ell_{ij}(u_j)=0$. 乘积 $\prod_{j\ne i}\ell_{ij}$ 在轨道上给出点质量函数, 这些函数构成目标空间的一组基.
+
+这些有限多个插值多项式有某个最大次数 $D$, 因而 $\bigoplus_{n=0}^D\Sym^nV$ 已满射到正则表示. Maschke定理使该满射分裂, 正则表示又包含每个不可约表示. 对一个不可约表示 $L$ 的嵌入, 投影到某个次数分量必须非零, 所以把 $L$ 嵌入对应的 $\Sym^nV$. 最后复数域中对称化算子 $\frac1{n!}\sum_{\sigma\in S_n}\sigma$ 将对称幂识别为 $V^{\otimes n}$ 的子空间. 平凡表示可取 $n=0$.
+\end{solution}
+
+\begin{exercise}\label{hw:3.27}
+\textbf{MIT 18.712 (2010), Homework 7, 原题 3.27; 旧PDF第45--46页.}
+弹性论中令 $V=\R^3$. 小变形的变形张量为对称算子 $d\in\Sym^2V$, 应力张量为 $S\in\End(V)$. 具体地, 对局部变形的微分作极分解 $A=DO$, $D=1+d$; $O$ 为正交旋转部分. 应力定义为通过面积为 $\|v\|$、法向为 $v$ 的小圆盘的力 $F_v=Sv$. 各向同性的线性弹性律是 $\operatorname{SO}(3)$ 等变线性映射 $f:\Sym^2V\to\End(V)$, $S=f(d)$.
+(a) 证明 $\End(V)=\R\oplus V\oplus W$, $\Sym^2V=\R\oplus W$, 其中 $W$ 为五维表示.
+(b) 证明 $V,W$ 复化后仍不可约. 由此证明 $S$ 总是对称, 且对 $x\in\R,y\in W$ 有 $f(x+y)=Kx+\mu y$, $K,\mu\in\R$.
+\end{exercise}
+\begin{solution}
+(a) 使用欧氏内积识别 $\End(V)$ 与 $V\otimes V$. 一个矩阵唯一分解为标量矩阵、反对称矩阵及对称无迹矩阵. 这些空间在旋转共轭下不变; 反对称矩阵由 $v\mapsto(x\mapsto v\times x)$ 与标准三维表示等变同构. 对称无迹部分 $W$ 维数 $6-1=5$. 对称矩阵恰为标量部分与 $W$ 的和.
+
+(b) 为避免仅用几何直觉断言复不可约, 在多项式模型中检查. 写 $u=x+iy,v=x-iy,w=z$, 则欧氏二次型为 $Q=uv+w^2$. 复旋转李代数的下列微分算子均保持 $Q$:
+\[
+ H=2(u\partial_u-v\partial_v),\quad
+ E=u\partial_w-2w\partial_v,\quad
+ F=2w\partial_u-v\partial_w.
+\]
+直接算出 $[H,E]=2E,[H,F]=-2F,[E,F]=H$. 这三个算子张成保持 $Q$ 的三维李代数, 因而群不变子空间对它们均不变 (沿实旋转的一参数子群微分, 再复线性组合). 在一次多项式空间中, $u,w,v$ 的 $H$ 权分别为 $2,0,-2$, $E,F$ 在相邻权之间非零作用, 所以任意非零不变子空间通过特征投影及升降作用包含全部三条权线.
+
+在二次多项式中, 无迹对称张量对应调和二次式, 即 $4\partial_u\partial_v+\partial_w^2$ 的核. 从 $u^2$ 连续用 $F$ 得
+\[
+ u^2,\quad4uw,\quad8w^2-4uv,\quad-24wv,\quad24v^2.
+\]
+这五项均调和, 其 $H$ 权为 $4,2,0,-2,-4$, 因而构成 $W_\C$ 的基. $F$ 连接相邻基向量, 而 $E$ 反向连接且系数非零, 例如由 $[E,F^r]u^2=r(5-r)F^{r-1}u^2$ 可直接验证. 同样的特征投影与升降论证证明 $W_\C$ 不可约.
+
+这三个不可约分量的维数 $1,3,5$ 不同, 因而两两不同构. 对 $f$ 的复化用Schur引理, 从 $\R\oplus W$ 到 $V$ 的分量为零, 在标量空间与 $W$ 上分别为标量 $K,\mu$. $f$ 保持实空间, 所以两标量均为实数, 其像落在对称矩阵空间. 若 $d=(\tr d/3)I+d_0$, 则具体公式是
+\[
+ S=K\frac{\tr d}{3}I+\mu d_0.
+\]
+这里 $K,\mu$ 的数值约定跟随原题对两个分量的参数化; 弹性稳定性所要求的正性是额外的物理假设, 不是仅由等变性推出.
+\end{solution}
+
+\begin{exercise}\label{hw:4.1}
+\textbf{MIT 18.712 (2010), Homework 7, 原题 4.1; 旧PDF第47页.}
+设 $V$ 为有限群 $G$ 的复不可约表示. 非自对偶者称复型; 有非退化不变对称双线性型者称实型; 有非退化不变反对称双线性型者称四元数型.
+(a) 将 $V$ 看成实表示, 证明其交换代数分别为 $\C$, $\operatorname{Mat}_2(\R)$, $\mathbb H$.
+(b) 证明 $V$ 为实型当且仅当存在实表示 $V_\R$ 使 $V\cong V_\R\otimes_\R\C$.
+\end{exercise}
+\begin{solution}
+取平均得到 $G$ 不变的正定Hermitian型 $\langle\ ,\ \rangle$, 约定第一变量复线性. 将任意实线性群自同态分解为复线性与复反线性部分, 前一部分由Schur引理为 $\C I$. 一个反线性群同态等价于 $\bar V\to V$ 的复线性同态. 酉型又给出 $\bar V\cong V^*$, 所以复型时后一部分为零, 交换代数恰为 $\C$.
+
+自对偶时, 一个非零不变双线性型 $B$ 对应唯一反线性可逆算子 $j$, 满足 $B(v,w)=\langle v,jw\rangle$. 不变性使 $j$ 与群作用交换. 因而 $j^2=\lambda I$, $\lambda\ne0$. 比较 $j j^2$ 与 $j^2j$, 利用反线性得 $\lambda=\bar\lambda$. 由Hermitian型的唯一性, 存在 $c>0$ 使 $\langle jv,jw\rangle=c\langle w,v\rangle$. 若 $B(w,v)=\epsilon B(v,w)$, $\epsilon=\pm1$, 则
+\[
+ c\langle v,v\rangle=B(jv,v)
+ =\epsilon B(v,jv)=\epsilon\lambda\langle v,v\rangle.
+\]
+故 $\lambda$ 的符号为 $\epsilon$. 将 $j$ 乘一个正实数, 可正规化为实型 $j^2=1$, 四元数型 $j^2=-1$. 全部反线性同态是 $\C j$, 因为与 $j^{-1}$ 复合后是复标量. 于是交换代数为 $\C\oplus\C j$, 且 $ji=-ij$.
+
+若 $j^2=-1$, 这正是四元数代数. 若 $j^2=1$, 将 $i,j$ 分别送至 $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$ 与 $\begin{pmatrix}1&0\\0&-1\end{pmatrix}$, 它们满足相同关系且连同乘积与单位构成四维矩阵基, 所以交换代数同构于 $\operatorname{Mat}_2(\R)$. 注意此处研究的是复不可约表示的实化, 实型时它分解为两个同构的实表示, 因而交换代数不是仅有 $\R$.
+
+(b) 实型时取 $V_\R=\{v:jv=v\}$. 对任意 $v$, 唯一分解为
+\[
+ v=\frac{v+jv}{2}+i\frac{v-jv}{2i},
+\]
+两项的实向量部分均在 $V_\R$. 所以 $V=V_\R\oplus iV_\R$, 且群保持 $V_\R$, 得到所需复化同构. 反之, 若 $V$ 是实表示的复化, 对实表示平均一个正定实内积, 再作复双线性延拓, 得非退化不变对称型. 因而 $V$ 为实型.
+\end{solution}
+\originalsection{Homework 8: 诱导与对称群}
+
+\begin{exercise}\label{hw:4.15}
+\textbf{MIT 18.712 (2010), Homework 8, 原题 4.15; 旧PDF第51页.}
+(a) 证明对任意有限群 $G$, 存在 $\mathbb Q$ 的有限Galois扩张 $K\subset\C$, 使 $G$ 的每个有限维复表示均可选基令所有群元素矩阵的系数落在 $K$ 中.
+(b) 若 $V$ 为维数大于1的复不可约表示, 证明存在 $g\in G$ 使 $\chi_V(g)=0$.
+\end{exercise}
+\begin{solution}
+(a) 记 $\overline{\mathbb Q}$ 为复数中的代数数域. Maschke定理在此特征零域成立, 且该域代数闭, 所以群代数分块为
+\[
+ \overline{\mathbb Q}[G]\cong\bigoplus_i\operatorname{Mat}_{d_i}(\overline{\mathbb Q}).
+\]
+给出这一分块的依据. 令 $A=\overline{\mathbb Q}[G]$, 每个简单模 $S_i$ 都是 $A$ 的商, 因为任意非零向量生成 $S_i$; 正则模完全可约, 所以所有简单模都在其中出现. 同构 $\Hom_A(A,S_i)\cong S_i$, $f\mapsto f(1)$, 结合Schur引理说明 $S_i$ 在正则模中的重数为 $d_i=\dim S_i$. 因而 $\dim A=\sum_i d_i^2$. 作用映射 $A\to\bigoplus_i\End(S_i)$ 是单射: 若一个元素在所有简单模上为零, 它在正则模上也为零, 作用于单位元即知该元素为零. 两边维数相同, 故映射满射, 得到上面的分块, 无需预先调用一般半单代数分类.
+
+将底域扩张到 $\C$, 上式变为 $\C[G]\cong\bigoplus_i\operatorname{Mat}_{d_i}(\C)$, 因而每个复不可约表示由一个 $\overline{\mathbb Q}$ 上的简单模扩域得到, 没有新增或合并简单模. 对有限多个简单模各选基, 所有有限多个群元素的全部矩阵系数是有限多个代数数. 它们生成一个有限数域, 取其正规闭包 $K$ 即为有限Galois扩张. 任意有限维表示是这些不可约表示的直和, 选分块基后仍只用 $K$ 中的矩阵系数.
+
+(b) 给出旧讲义备注中的圆分域论证, 它还省去(a)的调用. 令 $N=|G|$, $d=\dim V>1$, 反设所有特征标值非零. 因为每个 $g$ 的特征值是 $N$ 次单位根, 所有 $\chi(g)$ 都是 $\mathbb Q(\zeta)$ 中的代数整数, $\zeta=e^{2\pi i/N}$. 酉化给 $\chi(g^{-1})=\overline{\chi(g)}$. 所以
+\[
+ \alpha=\prod_{g\ne1}\chi(g)\chi(g^{-1})
+       =\prod_{g\ne1}|\chi(g)|^2
+\]
+是正的代数整数. 特征标正交给 $\sum_g|\chi(g)|^2=N$, 故非恒等项的算术平均为 $(N-d^2)/(N-1)<1$. 算术--几何平均不等式给 $0<\alpha<1$.
+
+圆分域的每个Galois自同构形如 $\zeta\mapsto\zeta^j$, $(j,N)=1$, 并把 $\chi(g)$ 变为 $\chi(g^j)$. 幂映射 $g\mapsto g^j$ 是集合上的双射: 取 $\ell$ 满足 $j\ell\equiv1\pmod N$, 则 $g\mapsto g^\ell$ 为其逆; 此处不要求该映射保持群乘法. 它也双射非恒等元素集. 因而每个自同构固定 $\alpha$, 所以 $\alpha\in\mathbb Q$. 有理代数整数为整数 (将既约分数代入首一整系数方程, 分母必须为1), 与 $0<\alpha<1$ 矛盾. 因此存在零特征标值. 本题使用有限代数扩张的正规闭包及圆分域Galois群这两个基础数论事实, 未把它们扩展为一章数论课程.
+\end{solution}
+
+\begin{exercise}\label{hw:4.31}
+\textbf{MIT 18.712 (2010), Homework 8, 原题 4.31; 旧PDF第55页.}
+设 $K\subset H\subset G$ 为群, $V$ 为 $K$ 的表示. 证明
+\[
+ \Ind_H^G(\Ind_K^HV)\cong\Ind_K^GV.
+\]
+\end{exercise}
+\begin{solution}
+在群代数张量模型中, 左边为 $\C[G]\otimes_{\C[H]}(\C[H]\otimes_{\C[K]}V)$. 定义
+\[
+ F(g\otimes(h\otimes v))=gh\otimes v,\qquad
+ J(g\otimes v)=g\otimes(1\otimes v).
+\]
+对 $h_0\in H$, 两个平衡表达式 $gh_0\otimes(h\otimes v)$ 与 $g\otimes(h_0h\otimes v)$ 的像相同; 对 $k\in K$, $h k\otimes v=h\otimes kv$ 的像也相同. 所以 $F$ 良定义. 对 $J$, $gk\otimes v$ 的像为 $g\otimes(k\otimes v)=g\otimes(1\otimes kv)$, 也良定义. 两映射显然 $G$ 等变, 并且 $FJ=1$, $JF(g\otimes(h\otimes v))=gh\otimes(1\otimes v)=g\otimes(h\otimes v)$. 因而互逆. 论证对一般底域及一般群同样成立.
+\end{solution}
+
+\begin{exercise}\label{hw:4.34}
+\textbf{MIT 18.712 (2010), Homework 8, 原题 4.34; 旧PDF第57--58页.}
+分别对 $A_5$ 的子群 (a) $C_2$, (b) $C_3$, (c) $C_5$, (d) $A_4$, (e) $C_2\times C_2$, 从其每一个不可约表示诱导到 $A_5$, 求全部不可约分解.
+\end{exercise}
+\begin{solution}
+沿用(H6.2)的 $1,U,U',T,F$. Frobenius互反使诱导的重数等于对应子群上的限制重数. 下面各行列出诱导表示中 $(1,U,U',T,F)$ 的重数; 一行完全确定其直和分解.
+\[
+\begin{array}{c|c|rrrrr}
+\text{子群}&\text{其不可约表示}&1&U&U'&T&F\\\hline
+C_2&1&1&1&1&2&3\\
+&-&0&2&2&2&2\\\hline
+C_3&1&1&1&1&2&1\\
+&\zeta,\zeta^2&0&1&1&1&2\\\hline
+C_5&1&1&1&1&0&1\\
+&\xi,\xi^{-1}&0&1&0&1&1\\
+&\xi^2,\xi^{-2}&0&0&1&1&1\\\hline
+A_4&1&1&0&0&1&0\\
+&\eta,\bar\eta&0&0&0&0&1\\
+&D&0&1&1&1&1\\\hline
+C_2\times C_2&1&1&0&0&1&2\\
+&\text{任一非平凡一维表示}&0&1&1&1&1
+\end{array}                                                     \tag{H8.1}
+\]
+一格中并列的子群表示分别有相同分解, 并非先把它们相加. 对 $C_5$, 选择生成元在类 $5A$, 令 $\xi=e^{2\pi i/5}$; 改选 $5B$ 生成元会交换 $U,U'$ 对应的两行. 对 $A_4$, $D$ 是三维不可约表示, $\eta,\bar\eta$ 为通过 $A_4/(C_2\times C_2)\cong C_3$ 的两个非平凡一维表示.
+
+逐项核算如下. $C_2$ 的正、负重数为 $(d\pm\chi(2A))/2$, 给前两行. $C_3$ 的平凡重数为 $(d+2\chi(3A))/3$, 另外两者的重数为 $(d-\chi(3A))/3$. $C_5$ 上, $U$ 的特征值为 $1,\xi,\xi^{-1}$, $U'$ 为 $1,\xi^2,\xi^{-2}$; $T$ 是四个非平凡一维特征标的和, $F$ 是全部五个一维特征标的和, 得到三行. 这些特征值也可将(H6.2)在四个非恒等幂上的值作离散Fourier变换得到.
+
+在 $A_4$ 上, $U,U'$ 限制均为 $D$, $T$ 限制为 $1\oplus D$, $F$ 限制为 $\eta\oplus\bar\eta\oplus D$. 检查恒等、三个双换位、两个各含四个元素的3循环类的值分别相等即可确认, 给出相应三行. 最后 $C_2\times C_2$ 的三个非恒等元素都在 $2A$, 所以平凡重数为 $(d+3\chi(2A))/4$, 每个非平凡重数为 $(d-\chi(2A))/4$. 各行维数依次为指数乘子群表示维数: $30,20,12,5$ (或 $15$), $15$, 与诱导的维数公式相符.
+\end{solution}
+
+\textbf{对称群题目的前置工具.}
+下面五道关于 $S_n$ 的指定作业题需要一般Young模. 这里补出所用定义和关键工具, 仅服务这些题解; 不把整套Young表、钩长公式与Schur--Weyl表示分类称为正文已全面覆盖的内容.
+
+一个分拆 $\lambda=(\lambda_1\ge\cdots\ge\lambda_r>0)$ 满足 $\sum\lambda_i=n$. Young图第 $j$ 行有 $\lambda_j$ 个格子, 格子位置用 (列 $i$, 行 $j$) 记录, 与原题 $i-j$ 的内容约定一致. 固定给格子填入 $1,\ldots,n$ 的表, 令 $P_\lambda$ 为行置换群, $Q_\lambda$ 为列置换群, 并令
+\[
+ a_\lambda=\frac1{|P_\lambda|}\sum_{p\in P_\lambda}p,
+ \quad b_\lambda=\frac1{|Q_\lambda|}\sum_{q\in Q_\lambda}\sgn(q)q,
+ \quad c_\lambda=a_\lambda b_\lambda,
+ \quad V_\lambda=\C[S_n]c_\lambda.
+\]
+左右乘法次序遵循旧讲义, 不任意交换 $a,b$.
+
+\begin{lemma}\label{hw:young-tools}
+各 $V_\lambda$ 是两两不同构的全部不可约表示, 且 $c_\lambda^2=\kappa_\lambda c_\lambda$, $\kappa_\lambda>0$. 它们可在 $\mathbb Q$ 上实现.
+\end{lemma}
+\begin{proof}
+先证 $a_\lambda x b_\lambda\in\C c_\lambda$ 对所有 $x\in\C[S_n]$ 成立. 只需 $x=g$. 若有两个数字同处原表的一行, 又同处 $g$ 变换后的表的一列, 相应换位 $t$ 在 $P_\lambda$ 中, $g^{-1}tg\in Q_\lambda$. 因此 $a_\lambda g b_\lambda=a_\lambda t g b_\lambda=-a_\lambda g b_\lambda$, 得零. 若不存在这样的两个数字, 原表第一行的 $\lambda_1$ 个数字在变换后表中分占全部 $\lambda_1$ 列. 可分别在各列内置换, 将它们送到第一行, 再在第一行内排列到原来的位置. 删除已经对齐的第一行, 重复此操作. 最终得到 $g\in P_\lambda Q_\lambda$, 从而 $a_\lambda g b_\lambda=\pm c_\lambda$.
+
+取 $x=b_\lambda a_\lambda$, 得 $c_\lambda^2=\kappa_\lambda c_\lambda$. 因为 $P_\lambda\cap Q_\lambda=\{1\}$, $c_\lambda$ 的单位元系数为 $1/(|P_\lambda||Q_\lambda|)>0$. 群代数左正则作用的迹为群阶乘单位元系数, 因而 $c_\lambda$ 不是平方为零的算子, $\kappa_\lambda\ne0$. 在群元素正交的内积下 $a,b$ 均为正交投影, $aba$ 是非零正半定算子且 $(aba)^2=\kappa_\lambda aba$. 取它的非零特征值, 即得 $\kappa_\lambda>0$.
+
+所以 $e_\lambda=c_\lambda/\kappa_\lambda$ 为幂等元, 上述公式还给 $e_\lambda\C[S_n]e_\lambda=\C e_\lambda$. 在半单代数的矩阵分块中, 一个幂等元在各块的秩为 $r_i$, 其角代数维数为 $\sum r_i^2$. 此处为1, 故恰一个块有秩1, 左理想 $\C[S_n]e_\lambda$ 不可约.
+
+不同分拆按字典序比较. 若 $\lambda>\mu$, 则 $a_\lambda x b_\mu=0$: 在两图前面的等长行可像上述过程逐行对齐并删除, 在第一个长度不同的行, $\lambda$ 的该行比 $\mu$ 剩余图的列数多, 必有两个数字同处一行又同处一列, 给出同样的换位消去. 对此等式取群代数的共轭转置, 得 $b_\mu\C[S_n]a_\lambda=0$, 所以 $e_\mu\C[S_n]e_\lambda=0$. 两个对应的简单左理想因此不可能同构. 分拆数等于 $S_n$ 的共轭类数 (由循环长度分类), 故这些不可约表示已全部列出.
+
+最后 $c_\lambda$ 的系数均有理, 在有理群代数中取其左理想的一组有理基. 左乘群元素的矩阵系数有理, 复化后就是 $V_\lambda$, 证明有理实现.
+\end{proof}
+
+为证明分支规则, 还需要一个可计算的特征标模型. 取变量数 $N\ge n$, 令 $p_r(x)=\sum_i x_i^r$. 对循环型 $\mu=(1^{m_1}2^{m_2}\cdots)$, 令 $p_\mu=\prod_rp_r^{m_r}$, $z_\mu=\prod_r r^{m_r}m_r!$. 类大小为 $n!/z_\mu$. 定义特征标映射
+\[
+ \operatorname{ch}(f)=\sum_{\mu\vdash n}\frac{f(\mu)}{z_\mu}p_\mu,
+ \qquad \langle p_\mu,p_\nu\rangle=\delta_{\mu\nu}z_\mu.
+\]
+这是等距映射, 由类大小与特征标内积公式直接得到. 令 $h_r$ 为次数 $r$ 的完全对称多项式, 即所有非降指标单项式之和, $h_0=1,h_r=0$ ($r<0$). 生成函数
+\[
+ \sum_{r\ge0}h_r t^r=\prod_i(1-x_it)^{-1}
+  =\exp\left(\sum_{r\ge1}\frac{p_r t^r}{r}\right)
+\]
+说明 $\operatorname{ch}(1_{S_r})=h_r$. 从 $S_a\times S_b$ 的外张量积诱导到 $S_{a+b}$ 时, $\operatorname{ch}$ 将诱导变成乘法: 在给定循环型中选择属于前 $a$ 个点的循环, 对每种长度选出 $k_r$ 个, 产生二项系数 $\binom{m_r}{k_r}$; 与 $z_\mu$ 的阶乘因子相除恰为两个相应 $z$ 因子的倒数. 这逐循环验证了该乘法公式.
+
+\begin{lemma}\label{hw:schur-tools}
+令 $\delta=(N-1,N-2,\ldots,0)$, $A_\ell(x)=\det(x_i^{\ell_j})$, 则
+\[
+ s_\lambda(x)=\frac{A_{\lambda+\delta}(x)}{A_\delta(x)}
+ =\det(h_{\lambda_i-i+j}(x)),\qquad
+ \operatorname{ch}(\chi_{V_\lambda})=s_\lambda.
+\]
+并有 $p_1s_\mu=\sum_{\lambda\in A(\mu)}s_\lambda$, 其中 $A(\mu)$ 为加一个格子所得Young图的集合.
+\end{lemma}
+\begin{proof}
+分子交错, 被Vandermonde多项式 $A_\delta=\prod_{i<j}(x_i-x_j)$ 整除, 商为对称多项式. 两套各 $N$ 个变量满足Cauchy恒等式
+\[
+ \sum_\lambda s_\lambda(x)s_\lambda(y)
+ =\prod_{i,j}(1-x_iy_j)^{-1}
+ =\sum_\mu\frac{p_\mu(x)p_\mu(y)}{z_\mu}.       \tag{H8.2}
+\]
+第一等式可纯用行列式证明: 对矩阵 $((1-x_iy_j)^{-1})$, 将每项展开为 $\sum_{r\ge0}x_i^ry_j^r$, 用Cauchy--Binet公式, 行列式变成对严格递减非负指数 $\ell$ 的 $A_\ell(x)A_\ell(y)$ 之和. 另一方面Cauchy行列式公式给其值为 $A_\delta(x)A_\delta(y)/\prod_{i,j}(1-x_iy_j)$. 该公式可将两边乘分母验证: 分子分别对 $x,y$ 交错, 每个变量次数至多 $N-1$, 因而必为两个Vandermonde的常数倍, 比较最高交错项得常数1. 两边相除并写 $\ell=\lambda+\delta$, 即得第一等式. 第二等式是对数展开后逐项指数化.
+
+由(H8.2), $s_\lambda$ 在上述 $p$ 内积下构成正交归一基. 再将(H8.2)乘 $A_\delta(y)$, 提取 $y^{\lambda+\delta}$ 系数. 右侧的乘积是 $\prod_i\sum_{r\ge0}h_r(x)y_i^r$, 与 $A_\delta(y)$ 相乘并展开行列式, 系数恰为 $\det(h_{\lambda_i-i+j}(x))$; 左侧只有 $A_{\lambda+\delta}(y)$ 的恒等排列贡献该严格递减指数, 给 $s_\lambda(x)$. 因而得到行列式公式.
+
+每个 $h_r$ 对应一个平凡特征标, 乘积对应外张量诱导. 所以该行列式是某个整系数虚特征标的像. 范数为1使该虚特征标只能是一个不可约特征标的正号或负号. 其在单位元的值为
+\[
+ n!\det\left(\frac1{(\lambda_i-i+j)!}\right)
+ =\frac{n!\prod_{i<j}(\ell_i-\ell_j)}{\prod_i\ell_i!}>0,
+ \qquad \ell_i=\lambda_i+N-i.                   \tag{H8.3}
+\]
+负阶乘的倒数按零解释. 为验证第二等式, 每行乘 $\ell_i!$, 各列成为次数 $N-j$、首项系数1的下降阶乘多项式; 列消元化为Vandermonde行列式. 第一等式来自提取 $p_1^n$ 的系数, 因为令其他 $p_r$ 为零后 $h_r=p_1^r/r!$. 正性使它为实际不可约特征标.
+
+还需说明其标签与 $V_\lambda$ 一致. 在字典序下 $s_\lambda$ 的最高单项式为 $x^\lambda$, 系数1: 比较上述分子、分母的最高单项式即可. 从(H8.2)提取 $y^\mu$ 系数, 得
+\[
+ h_{\mu_1}\cdots h_{\mu_N}
+ =\sum_\lambda [y^\mu]s_\lambda(y)\,s_\lambda(x).
+\]
+因而行置换诱导模 $M_\mu=\C[S_n]a_\mu$ 的分解只含标签 $\lambda\ge\mu$, 标签 $\mu$ 的重数为1. 对Young构造, 上一引理的消去论证给 $a_\mu\C[S_n]c_\lambda=0$ ($\mu>\lambda$), 且 $a_\lambda\C[S_n]c_\lambda=\C c_\lambda$. 这两个空间的维数就是 $\Hom(M_\mu,V_\lambda)$ 的维数 (同态由幂等元 $a_\mu$ 的像决定). 因而Young构造也有同样的三角分解及对角重数1. 从最大分拆开始向下归纳, 两种不可约标签逐个一致, 证明特征标公式.
+
+最后 $p_1A_\ell=\sum_j A_{\ell+e_j}$. 这是将行列式按排列展开后, 把额外的 $x_i$ 因子归到其对应的指数列得到的. 若 $\ell_j+1=\ell_{j-1}$, 该项两列相同而为零; 其余项恰对应在 $\mu$ 的可加位置增加一格. 除以 $A_\delta$, 得所需加格公式.
+\end{proof}
+
+\begin{exercise}\label{hw:4.39}
+\textbf{MIT 18.712 (2010), Homework 8, 原题 4.39; 旧PDF第59页.}
+求对称群 $S_n$ 全部不可约表示维数的和.
+\end{exercise}
+\begin{solution}
+由引理\ref{hw:young-tools}, 每个不可约表示有实矩阵实现. 在其实空间上平均正定内积, 复双线性延拓后是非退化不变对称型, 所以全部为实型.
+
+说明所用Frobenius--Schur计数. 对不可约 $L$, 投影 $P=|G|^{-1}\sum_g\rho(g)\otimes\rho(g)$ 投到 $(L\otimes L)^G$. 翻转 $\tau(v\otimes w)=w\otimes v$ 的迹满足 $\tr(\tau(A\otimes A))=\tr(A^2)$, 故 $\tr(\tau P)=|G|^{-1}\sum_g\chi_L(g^2)$. 对实型表示, 非退化对称不变型的逆对应一个对称不变张量, Schur引理又使不变张量空间为一维, 故此迹为1. 令 $r(g)=\#\{h:h^2=g\}$. 则 $\langle r,\chi_L\rangle=|G|^{-1}\sum_h\overline{\chi_L(h^2)}=1$ (这里特征标实值). 将类函数 $r$ 在全部不可约特征标基下展开, 取单位元的值, 得
+\[
+ \sum_{\lambda\vdash n}\dim V_\lambda
+ =\#\{\sigma\in S_n:\sigma^2=1\}
+ =\sum_{k=0}^{\lfloor n/2\rfloor}\frac{n!}{2^k k!(n-2k)!}.
+\]
+最后一式是先选 $2k$ 个被移动的点, 再将它们分成 $k$ 个无序对子形成互不相交的换位; 其余点固定. 此处计数包含恒等置换, 对应 $k=0$.
+\end{solution}
+
+\begin{exercise}\label{hw:4.50}
+\textbf{MIT 18.712 (2010), Homework 8, 原题 4.50; 旧PDF第63页.}
+对Young图 $\mu$, 令 $A(\mu)$ 为加一格所得图, $R(\mu)$ 为删一格所得图.
+(a) 若 $|\mu|=n$, 证明 $\Res_{S_{n-1}}^{S_n}V_\mu=\bigoplus_{\lambda\in R(\mu)}V_\lambda$.
+(b) 若 $|\mu|=n-1$, 证明 $\Ind_{S_{n-1}}^{S_n}V_\mu=\bigoplus_{\lambda\in A(\mu)}V_\lambda$.
+\end{exercise}
+\begin{solution}
+先证(b). 把 $S_{n-1}$ 看作 $S_{n-1}\times S_1$, 其 $S_1$ 因子平凡. 特征标映射的诱导乘法公式及引理\ref{hw:schur-tools}给
+\[
+ \operatorname{ch}\left(\chi_{\Ind V_\mu}\right)
+ =s_\mu h_1=s_\mu p_1=\sum_{\lambda\in A(\mu)}s_\lambda.
+\]
+映射单射, 特征标决定完全可约表示, 故得到(b), 每项重数1. 对(a), Frobenius互反给
+\[
+ [\Res V_\mu:V_\lambda]=[V_\mu:\Ind V_\lambda]
+ =\begin{cases}1,&\mu\in A(\lambda),\\0,&\text{其他}.
+ \end{cases}
+\]
+加格与删格互逆, 于是正好得到(a). 前置证明中的行列式与加格公式补齐了分支规则的依据, 不仅引用其名称.
+\end{solution}
+
+\begin{exercise}\label{hw:4.51}
+\textbf{MIT 18.712 (2010), Homework 8, 原题 4.51; 旧PDF第63页.}
+Young图的内容为 $c(\lambda)=\sum_j\sum_{i=1}^{\lambda_j}(i-j)$. 令 $C=\sum_{1\le i<j\le n}(ij)\in\C[S_n]$. 证明 $C$ 在Specht模 $V_\lambda$ 上作用为标量 $c(\lambda)$.
+\end{exercise}
+\begin{solution}
+换位之和 $C$ 是中心元, 因而由Schur引理在 $V_\lambda$ 上为某标量 $\gamma$, 特别有 $C a_\lambda b_\lambda=\gamma a_\lambda b_\lambda$. 比较单位元的系数: $a_\lambda b_\lambda$ 的该系数为 $1/(|P_\lambda||Q_\lambda|)$; $C a_\lambda b_\lambda$ 的该系数为所有换位在 $a_\lambda b_\lambda$ 中的系数之和.
+
+一个换位 $t$ 若可写成 $pq$, $p\in P_\lambda,q\in Q_\lambda$, 则它必在行群或列群中. 确实, 对被 $t$ 固定的数字 $a$, $q(a)$ 同时位于 $a$ 的列和 $a$ 的行 (因为 $p(q(a))=a$), 行列交集只有该格, 所以 $q(a)=a$ 且 $p(a)=a$. 因而 $p,q$ 均只可能作用于被交换的那两个数字, 至多一个非平凡, 因为两不同格不可能同时同行又同列. 反之同行换位的系数为正 $1/(|P||Q|)$, 同列换位为负同一值, 其他为零. 故
+\[
+ \gamma=\sum_j\binom{\lambda_j}{2}-\sum_i\binom{\lambda'_i}{2}
+ =\sum_{(i,j)\in\lambda}\bigl((i-1)-(j-1)\bigr)=c(\lambda).
+\]
+这里 $\lambda'_i$ 是第 $i$ 列的高度. 最后的逐格计数将行内左侧格数与列内上方格数相减, 与原题内容符号完全一致.
+\end{solution}
+\originalsection{Homework 9: 内容与矩阵不变量}
+
+\begin{exercise}\label{hw:4.52}
+\textbf{MIT 18.712 (2010), Homework 9, 原题 4.52; 旧PDF第63页.}
+(a) 对 $S_n$ 的任意有限维复表示 $V$, 证明 $E=(12)+(13)+\cdots+(1n)$ 可对角化, 特征值为整数且介于 $1-n$ 与 $n-1$ 之间.
+(b) 证明 $E$ 在 $V_\lambda$ 上为标量当且仅当 $\lambda$ 是矩形Young图, 并计算标量.
+\end{exercise}
+\begin{solution}
+令 $C_n$ 为全部换位之和, $C_{n-1}$ 为仅交换数字 $2,\ldots,n$ 的换位之和, 则 $E=C_n-C_{n-1}$. 对不可约 $V_\lambda$, $C_n$ 作用为 $c(\lambda)$; 在限制分解的 $V_\mu$, $\mu\in R(\lambda)$, 上, $C_{n-1}$ 作用为 $c(\mu)$. 因而 $E$ 在这一分量的标量为删去那一格的内容 $c(\lambda)-c(\mu)=i-j$. 完全可约性与分支规则给出直和分解, 故 $E$ 可对角化. 每个格子至少在第1行和第1列, 至多在第 $n$ 行或第 $n$ 列, 因而 $1-n\le i-j\le n-1$. 任意表示是不可约表示的直和, 结论随之成立.
+
+(b) 可删格位于满足 $\lambda_j>\lambda_{j+1}$ 的行末, 其内容是 $\lambda_j-j$. 对两条这样的行 $j<k$, 有 $\lambda_j-j>\lambda_k-k$, 所以不同可删格的内容互异. 因而 $E$ 为标量恰好等价于只有一个可删格, 即所有非零行长相等, Young图为矩形. 若矩形有 $a$ 列、$b$ 行, 唯一可删格为 $(a,b)$, 标量为 $a-b$. $n=1$ 时 $E=0$, 对一格矩形公式仍成立.
+\end{solution}
+
+\begin{exercise}\label{hw:4.68}
+\textbf{MIT 18.712 (2010), Homework 9, 原题 4.68; 旧PDF第68页.}
+(a) 证明 $V'_\lambda=\C[S_n]b_\lambda a_\lambda$ 与 $V_\lambda=\C[S_n]a_\lambda b_\lambda$ 同构.
+(b) 令代数自同构 $\varphi(s)=\sgn(s)s$. 说明它将一个表示扭曲为与符号表示 $\C_-$ 的张量积, 且 $\varphi(\C[S_n]a)=\C[S_n]\varphi(a)$. 由(a)证明 $V_\lambda\otimes\C_-\cong V_{\lambda'}$, 其中 $\lambda'$ 为转置Young图.
+\end{exercise}
+\begin{solution}
+(a) 写 $a=a_\lambda,b=b_\lambda,\kappa=\kappa_\lambda>0$. 由引理\ref{hw:young-tools}, $(ab)^2=\kappa ab$. 取共轭转置, 因 $a,b$ 自伴且 $\kappa$ 实, 同样有 $(ba)^2=\kappa ba$. 定义 $f(x)=xa$, $g(y)=yb$. 若 $x=uab$, 则 $xa=(ua)ba\in V'$, 若 $y=uba$, 则 $yb=(ub)ab\in V$, 所以良定义, 且两者均与左群作用交换. 对这两种元素分别有
+\[
+ gf(x)=xab=\kappa x,\qquad fg(y)=yba=\kappa y.
+\]
+因为 $\kappa\ne0$, $f$ 可逆, 逆为 $\kappa^{-1}g$, 证明同构.
+
+(b) $\varphi$ 保持乘法且自身互逆. 对任意左理想 $L$, 限制映射 $\varphi:L\to\varphi(L)$ 满足 $\varphi(sx)=\sgn(s)s\varphi(x)$, 因而是符号扭曲后的表示同构. 对一般表示同样用 $\rho\circ\varphi$ 定义扭曲, 在群元素上作用即 $\sgn(s)\rho(s)$. 自同构的满射性还给 $\varphi(\C[S_n]a)=\C[S_n]\varphi(a)$.
+
+将同一张填数表转置, 行群与列群交换. 因而 $\varphi(a_\lambda)=b_{\lambda'}$, $\varphi(b_\lambda)=a_{\lambda'}$, 连同归一化因子均恰好对应. 所以
+\[
+ V_\lambda\otimes\C_-\cong
+ \C[S_n]b_{\lambda'}a_{\lambda'}\cong V_{\lambda'},
+\]
+最后一步使用(a), 不把两个Young算子的顺序直接视为相同.
+\end{solution}
+
+\begin{exercise}\label{hw:4.69}
+\textbf{MIT 18.712 (2010), Homework 9, 原题 4.69; 旧PDF第68页.}
+令 $R_{k,N}$ 为 $k$ 个复 $N\times N$ 矩阵 $X_1,\ldots,X_k$ 的多项式函数中, 对同时共轭 $X_i\mapsto gX_ig^{-1}$ 不变者组成的代数. 对任意有限字 $w$ 定义 $T_w=\tr(w(X_1,\ldots,X_k))$. 证明 $R_{k,N}$ 由全部 $T_w$ 生成.
+\end{exercise}
+\begin{solution}
+先证明本题所需的Schur--Weyl交换代数结论, 不需要完整的多项式表示分类. 令 $U=\C^N$, $d\ge0$. 置换群 $S_d$ 在 $U^{\otimes d}$ 上交换张量因子, $\GL(U)$ 以 $g^{\otimes d}$ 作用. 通过 $\End(U^{\otimes d})\cong\End(U)^{\otimes d}$, 与全部置换交换的算子恰为对张量因子置换不变的张量, 即 $\Sym^d(\End U)$.
+
+这些对称张量由 $g^{\otimes d}$, $g\in\GL(U)$, 线性张成. 证明如下: 一个线性泛函若在所有可逆 $g$ 的纯幂张量上为零, 则多项式 $P(X)=\ell(X^{\otimes d})$ 在所有可逆矩阵处为零. 对任意矩阵 $X$, $X+tI$ 仅在有限多个 $t$ 处不可逆, 故 $P(X+tI)$ 这一一元多项式恒为零, 特别 $P(X)=0$. 对纯幂作极化, 即在 $P(\sum t_iX_i)$ 中提取 $t_1\cdots t_d$ 系数, 知 $\ell$ 在所有对称张量上为零. 有限维线性代数给出所需张成性.
+
+因此 $S_d$ 的交换代数正是 $g^{\otimes d}$ 的线性张成代数. 半单有限群表示的双交换代数是原群代数的像: 将空间写为 $\bigoplus_\alpha L_\alpha\otimes M_\alpha$, 原群代数像为 $\bigoplus_\alpha\End(L_\alpha)\otimes I$, 其交换代数为 $\bigoplus_\alpha I\otimes\End(M_\alpha)$, 再取交换代数恢复原像. 故
+\[
+ \End_{\GL(U)}(U^{\otimes d})
+ =\text{张量因子置换算子的线性张成}.              \tag{H9.1}
+\]
+论证对 $N<d$ 同样成立; 置换算子此时可能线性相关, 但生成结论不变.
+
+现在令 $f$ 为不变多项式. 按各矩阵的次数分解为多齐次部分, 共轭保持次数, 所以每部分仍不变. 对多次数 $(d_1,\ldots,d_k)$, $d=\sum d_i$, 对每组变量作极化, 得一个 $d$ 重线性函数, 在属于同一 $X_i$ 的 $d_i$ 个位置内对称, 且仍对同时共轭不变. 在复数域中, 极化与令同组各变量相等互逆 (包含相应阶乘归一化), 所以只需描述全部不变多线性函数.
+
+迹配对 $\End(U)\times\End(U)\to\C$, $(A,B)\mapsto\tr(AB)$, 非退化且共轭不变. 因而 $d$ 重线性函数唯一写成
+\[
+ (Y_1,\ldots,Y_d)\longmapsto
+ \tr_{U^{\otimes d}}\bigl(A(Y_1\otimes\cdots\otimes Y_d)\bigr).
+\]
+它不变当且仅当 $A$ 与 $g^{\otimes d}$ 交换. 由(H9.1), $A$ 是置换算子 $P_\sigma$ 的线性组合. 对单个置换, 在张量基中展开迹, 每个循环给一串首尾相接的矩阵指标, 因而
+\[
+ \tr\bigl(P_\sigma(Y_1\otimes\cdots\otimes Y_d)\bigr)
+ =\prod_{(i_1\cdots i_r)\text{ 为 }\sigma\text{ 的循环}}
+       \tr(Y_{i_r}\cdots Y_{i_1}).                 \tag{H9.2}
+\]
+这里取 $P_\sigma(v_1\otimes\cdots\otimes v_d)
+ =v_{\sigma^{-1}(1)}\otimes\cdots\otimes v_{\sigma^{-1}(d)}$; 换一种置换约定只会反转循环中矩阵的排列, 仍属于某个字的迹. 例如固定点给 $\tr(Y_i)$, 二循环给 $\tr(Y_jY_i)$, 三循环给 $\tr(Y_kY_jY_i)$, 可直接复核指标收缩.
+
+将同一组的 $Y$ 全部代回 $X_i$, (H9.2)每一项就是若干 $T_w$ 的乘积. 各多齐次部分因而均为这些迹的多项式, 相加得到 $f$ 也在它们生成的代数中. 反过来每个 $T_w$ 显然对同时共轭不变, 因为共轭在字的乘积中逐项抵消且迹不变. 零次数部分是常数, 已包含在生成代数中. 这完成两个方向的证明.
+\end{solution}

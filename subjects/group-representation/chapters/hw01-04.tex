@@ -1,0 +1,595 @@
+% MIT 18.712 Fall 2010, Homework 1--4. 中文题面据2011-02-01旧讲义逐页核对.
+% 解答由编者独立推导, 并非MIT官方解答. 不新增排版宏.
+\originalsection{Homework 1: 子表示与循环表示}
+
+以下题目中的代数均有单位, 表示保持单位. 依旧讲义第7页的总约定, 未另作说明时底域 $k$ 代数闭. 一个非零表示若不能写成两个非零子表示的直和, 称为不可分解表示. 这个条件弱于不可约性. 本节至 Homework 4 的题解均为编者独立编写, 不标作官方答案.
+
+\begin{exercise}\label{hw:1.20}
+MIT 18.712 (2010), Homework 1, 原题1.20. 设 $V$ 是代数 $A$ 的非零有限维表示. 证明 $V$ 含有不可约子表示, 并举例说明无限维表示未必有此性质.
+\end{exercise}
+\begin{solution}
+在 $V$ 的所有非零子表示中, 取维数最小的一个 $W$. 这样的选择存在, 因为这些维数是 $1,\ldots,\dim V$ 中的整数. 若 $W$ 有非零真子表示 $U$, 则 $\dim U<\dim W$, 与选择矛盾. 所以 $W$ 不可约.
+
+无限维反例取 $A=k[x]$, $V=A$ 为左正则表示. 它的子表示正是 $k[x]$ 的理想. 若 $J$ 是非零理想, 则 $xJ$ 是非零子理想; 而 $xJ\ne J$, 因为在 $J$ 中选取次数最小的非零多项式 $f$, $xJ$ 中所有非零多项式的次数都严格大于 $\deg f$. 因此任一非零子表示仍含非零真子表示, $V$ 没有不可约子表示.
+\end{solution}
+
+\begin{exercise}\label{hw:1.21}
+MIT 18.712 (2010), Homework 1, 原题1.21. 代数 $A$ 的中心定义为 $Z(A)=\{z\in A:za=az\text{ 对所有 }a\in A\}$. 若 $A$ 交换, 则 $Z(A)=A$.
+\begin{enumerate}[label=(\alph*)]
+\item 证明: 若 $V$ 是有限维不可约表示, 则每个 $z\in Z(A)$ 在 $V$ 上以某标量 $\chi_V(z)$ 作用, 而 $\chi_V:Z(A)\to k$ 是代数同态, 称为中心特征.
+\item 证明: 若 $V$ 是有限维不可分解表示, 则 $\rho(z)$ 只有一个特征值 $\chi_V(z)$, 它等于 $z$ 在任一不可约子表示上作用的标量; 这些标量仍给出同态 $\chi_V:Z(A)\to k$.
+\item (b)中的 $\rho(z)$ 是否一定是标量算子?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 因为 $z$ 在中心, $\rho(z)$ 与所有 $\rho(a)$ 交换. 取它的一个特征值 $c\in k$. 非零特征空间 $\ker(\rho(z)-c\id)$ 是子表示, 故不可约性迫使它等于 $V$. 于是 $\rho(z)=c\id$. 由表示的线性、乘法及单位性质, 有
+\[
+\chi_V(z+z')=\chi_V(z)+\chi_V(z'),\quad
+\chi_V(zz')=\chi_V(z)\chi_V(z'),\quad
+\chi_V(cz)=c\chi_V(z),\quad \chi_V(1)=1.
+\]
+
+(b) $\rho(z)$ 的各广义特征空间都被 $A$ 保持, 因为 $\rho(a)$ 与 $(\rho(z)-c\id)^r$ 交换. 代数闭域上的广义特征空间分解是直和分解. 不可分解性因此保证 $\rho(z)$ 恰有一个特征值. 由上一题取不可约子表示 $W\subset V$. (a)说明 $z$ 在 $W$ 上以标量 $\chi_W(z)$ 作用, 而该标量必须是 $\rho(z)$ 的唯一特征值. 因此对所有 $z$ 有 $\chi_V(z)=\chi_W(z)$, (a)的同态性质立即传给 $\chi_V$. 这也说明选取不同的 $W$ 不会改变所得同态.
+
+(c) 不一定. 取 $A=k[t]$, 在 $V=k^2$ 上令 $t$ 以非零二阶幂零Jordan块 $N$ 作用. 若 $V$ 分解为两个一维子表示, 则 $N$ 在两条直线上都只能以特征值0作用, 从而 $N=0$, 矛盾. 故 $V$ 不可分解, 但中心元 $t$ 的作用并非标量. 此题依赖代数闭性: 例如把 $\C$ 视作实代数, 其一维复正则模是不可约实表示, $\mathrm i$ 的作用却不是实标量算子.
+\end{solution}
+
+\begin{exercise}\label{hw:1.22}
+MIT 18.712 (2010), Homework 1, 原题1.22. 对表示 $V$, 记 $\End_A(V)$ 为所有 $A$-线性自同态组成的代数. 证明左正则表示满足 $\End_A(A)\cong A^{\mathrm{op}}$, 其中 $A^{\mathrm{op}}$ 的乘法与 $A$ 相反.
+\end{exercise}
+\begin{solution}
+若 $T:A\to A$ 是 $A$-线性的, 则 $T(a)=T(a\cdot1)=aT(1)$. 因而 $T$ 正是右乘 $b=T(1)$ 的算子 $R_b$. 反过来, $R_b(ac)=a(cb)$, 所以右乘算子总是 $A$-线性的. 映射 $b\mapsto R_b$ 是向量空间同构, 且 $R_bR_c(a)=(ac)b=a(cb)$, 即 $R_bR_c=R_{cb}$. 这正是 $A^{\mathrm{op}}$ 的乘法.
+\end{solution}
+
+\begin{exercise}\label{hw:1.23}
+MIT 18.712 (2010), Homework 1, 原题1.23. 证明Dixmier的无限维Schur引理: 若 $A$ 是复代数, $V$ 是具有至多可数基的不可约表示, 则每个表示同态 $\phi:V\to V$ 都是标量算子. 原题提示先考察除代数 $D=\End_A(V)$ 及其子域 $\C(\phi)$.
+\end{exercise}
+\begin{solution}
+非零 $T\in D$ 的核与像都是子表示, 因而核为0、像为 $V$; 逆映射也是 $A$-线性的. 故 $D$ 是除代数. 固定 $0\ne v\in V$. 评价映射 $D\to V$, $T\mapsto Tv$ 是单射: 如果 $Tv=0$, 则 $T(av)=aTv=0$, 而不可约性给出 $Av=V$. 因此 $D$ 的复维数至多可数.
+
+假设 $\phi$ 不是标量. 若有非零多项式 $p$ 满足 $p(\phi)=0$, 在 $\C$ 上分解 $p(t)=c\prod_i(t-a_i)$. 除代数没有零因子, 于是某个 $\phi-a_i\id=0$, 矛盾. 所以 $\phi$ 对 $\C$ 超越, 每个非零多项式 $p(\phi)$ 均可逆. 它们和 $\phi$ 彼此交换, 给出嵌入 $\C(t)\hookrightarrow D$.
+
+但 $\{(t-a)^{-1}:a\in\C\}$ 是不可数线性无关族. 确实, 若有限和 $\sum_{i=1}^r c_i/(t-a_i)=0$ 且 $a_i$ 两两不同, 乘以 $\prod_i(t-a_i)$ 再令 $t=a_j$, 得到 $c_j\prod_{i\ne j}(a_j-a_i)=0$, 即所有 $c_j=0$. 这与 $D$ 至多可数维矛盾. 故 $\phi$ 是标量.
+\end{solution}
+
+\begin{exercise}\label{hw:1.24}
+MIT 18.712 (2010), Homework 1, 原题1.24. 设 $A=k[x_1,\ldots,x_n]$, 真理想 $I\ne A$ 包含所有次数 $\ge N$ 的齐次多项式. 证明 $A/I$ 是不可分解表示.
+\end{exercise}
+\begin{solution}
+记 $B=A/I$, $\mathfrak m=(\bar x_1,\ldots,\bar x_n)\subset B$. 因为 $\mathfrak m^N=0$, 每个 $b\in B$ 可写成 $c+u$, 其中 $c\in k$, $u\in\mathfrak m$. 若 $c\ne0$, 则
+\[
+(c+u)^{-1}=c^{-1}\sum_{j=0}^{N-1}(-c^{-1}u)^j.
+\]
+若 $I$ 包含常数项非零的多项式, 其在 $B$ 中的像为0又可逆, 就会得到 $B=0$, 与 $I\ne A$ 矛盾. 所以 $B/\mathfrak m\cong k$, $\mathfrak m$ 是唯一极大理想.
+
+若 $B=M\oplus L$ 是两个子表示的直和, 到 $M$ 的投影 $P$ 属于 $\End_A(B)$. 它由 $e=P(1)$ 唯一决定, 因为 $P(\bar a)=\bar a e$, 且 $P^2=P$ 给出 $e^2=e$. 在 $B/\mathfrak m=k$ 中, $e$ 的像是0或1. 前者使 $e$ 幂零, 结合 $e^r=e$ 得 $e=0$; 后者同样使幂等元 $1-e$ 为0, 即 $e=1$. 投影只能是零或恒等, 因此不存在非平凡直和分解. 这里未假设 $I$ 自身齐次; 所需条件是它包含全部高次齐次多项式.
+\end{solution}
+
+\begin{exercise}\label{hw:1.25}
+MIT 18.712 (2010), Homework 1, 原题1.25. 对非零表示 $V$, 若 $Av=V$, 则称 $v$ 为循环向量; 有循环向量的表示称为循环表示.
+\begin{enumerate}[label=(\alph*)]
+\item 证明 $V$ 不可约当且仅当每个非零向量都是循环向量.
+\item 证明 $V$ 循环当且仅当 $V\cong A/I$, 其中 $I$ 是某左理想.
+\item 举出不可分解但不循环的表示. 原题提示取 $A=\C[x,y]/(x,y)^2$, $V=A^*$, 令 $(af)(b)=f(ba)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 对非零 $v$, $Av$ 是包含 $v=1v$ 的非零子表示. 不可约性保证它等于 $V$. 反之, 若 $U$ 是非零子表示, 取 $0\ne v\in U$, 则 $V=Av\subset U$, 所以 $U=V$.
+
+(b) 若 $v$ 循环, 则 $A\to V$, $a\mapsto av$ 是满射表示同态; 其核 $I$ 是左理想, 因而诱导 $A/I\cong V$. 反过来, $1+I$ 在 $A/I$ 中是循环向量.
+
+(c) $A$ 的基为 $1,x,y$. 取对偶基 $\varepsilon_0,\varepsilon_x,\varepsilon_y$, 则
+\[
+x\varepsilon_x=\varepsilon_0,\quad y\varepsilon_y=\varepsilon_0,
+\qquad x\varepsilon_0=x\varepsilon_y=y\varepsilon_0=y\varepsilon_x=0.
+\]
+对 $f=a\varepsilon_0+b\varepsilon_x+c\varepsilon_y$, 子空间 $Af$ 包含在 $\operatorname{span}(f,\varepsilon_0)$ 中, 维数至多2, 所以三维的 $V$ 不循环. 任一非零子表示 $U$ 都包含 $\varepsilon_0$: 如果它有 $b$ 或 $c$ 非零的向量, 作用 $x$ 或 $y$ 即可得到非零倍的 $\varepsilon_0$; 否则它已经包含在 $\C\varepsilon_0$ 中. 两个非零子表示因此交非零, 不能构成直和, $V$ 不可分解.
+\end{solution}
+
+\originalsection{Homework 2: 生成关系与张量运算}
+
+\begin{exercise}\label{hw:1.26}
+MIT 18.712 (2010), Homework 2, 原题1.26. Weyl代数 $A$ 由 $x,y$ 生成, 满足 $yx-xy=1$.
+\begin{enumerate}[label=(\alph*)]
+\item 若 $\operatorname{char}k=0$, 求所有有限维表示及所有双边理想.
+\item 以下设 $\operatorname{char}k=p>0$. 求 $A$ 的中心.
+\item 求所有有限维不可约表示. 原题提示从 $y$ 的特征向量 $v$ 出发, 证明 $v,xv,\ldots,x^{p-1}v$ 构成基.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+先说明计算所用的基. 关系 $yx=xy+1$ 把每个单词化为 $x^iy^j$ 的线性组合, $i,j\ge0$. 这些正规单词也线性无关. 可在自由代数中按此规则约化: 每次交换降低逆序数, 出现的常数项则降低单词长度, 所以约化终止. 两个可约的 $yx$ 不会有共同字母; 对不相交的两个位置, 先约化哪一个都给出相同结果. 对单词长度和逆序数归纳, 最终正规式唯一. 因而 $\{x^iy^j\}$ 确是基, 这在任意特征都成立.
+
+(a) 若 $X,Y$ 是 $d$ 维表示中的矩阵, 则 $YX-XY=\id$ 的迹给出 $0=d$. 特征0时这迫使 $d=0$, 所以只有零表示. 对非零双边理想 $J$, 取非零 $u=\sum_{j=0}^r f_j(x)y^j\in J$, $f_r\ne0$. 由于
+\[
+[x,u]=-\sum_{j=1}^r j f_j(x)y^{j-1},
+\quad (\operatorname{ad}x)^r u=(-1)^rr!f_r(x),
+\]
+理想 $J$ 含非零多项式 $f_r(x)$. 再用 $[y,f(x)]=f'(x)$, 连续取次数多次交换子, 得到非零常数, 即 $1\in J$. 所以双边理想只有0和 $A$.
+
+(b) 在特征 $p$ 下, $[y,x^p]=p x^{p-1}=0$, $[x,y^p]=-p y^{p-1}=0$, 故 $k[x^p,y^p]\subset Z(A)$. 对一般元素 $u=\sum c_{ij}x^iy^j$, 正规基的独立性表明 $[y,u]=0$ 当且仅当所有出现的 $i$ 均被 $p$ 整除; 同理 $[x,u]=0$ 当且仅当所有 $j$ 均被 $p$ 整除. 因此 $Z(A)=k[x^p,y^p]$.
+
+(c) 仍依旧讲义约定令 $k$ 代数闭. 中心元 $x^p,y^p$ 在不可约有限维 $V$ 中分别作用为标量 $a,b$. 取 $yv=\lambda v$, $v\ne0$, 则 $\lambda^p=b$. 由 $yx^i=x^iy+i x^{i-1}$, 空间
+\[
+U=\operatorname{span}(v,xv,\ldots,x^{p-1}v)
+\]
+被 $x,y$ 保持: 最后一个向量再乘 $x$ 得到 $av$. 所以 $U=V$. 若有关系 $\sum_{i=0}^r c_i x^iv=0$ 且 $r<p$, $c_r\ne0$, 作用 $(y-\lambda)^r$ 得 $r!c_rv=0$, 矛盾. 因而上述 $p$ 个向量是基.
+
+每个 $(a,b)\in k^2$ 都给出一个表示:
+\[
+V_{a,b}=k[t]/(t^p-a),\qquad
+x f=t f,\quad y f=\frac{df}{dt}+\lambda f,
+\qquad \lambda^p=b.
+\]
+导数保持理想 $(t^p-a)$, 所以作用定义良好, 且 $yx-xy=1$, $x^p=a\id$, $y^p=b\id$. 非零不变子空间中取次数为 $r<p$ 的非零多项式, 作用 $(y-\lambda)^r$ 得到非零常数, 再乘 $x$ 得到全空间. 故它不可约. 上述基计算说明任何不可约表示都同构于其中一个, 而不同 $(a,b)$ 由中心作用区分. 代数闭特征 $p$ 的域中 $p$ 次根唯一, 无额外参数.
+\end{solution}
+
+\begin{exercise}\label{hw:1.27}
+MIT 18.712 (2010), Homework 2, 原题1.27. 令 $q\in\C^\times$, 代数 $A$ 由可逆元 $x,y$ 生成, 满足 $xy=qyx$.
+\begin{enumerate}[label=(\alph*)]
+\item 对不同的 $q$ 求中心; 若 $q$ 不是单位根, 求所有双边理想.
+\item 哪些 $q$ 使 $A$ 有非零有限维表示?
+\item 对这些 $q$, 求所有有限维不可约表示.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+本题严格使用 $xy=qyx$ 的方向. 基为 $x^iy^j$, $i,j\in\Z$, 其乘法为
+\[
+(x^iy^j)(x^ry^s)=q^{-jr}x^{i+r}y^{j+s}.
+\]
+右侧本身定义一个结合代数并满足给定关系, 又每个单词可整理为这些单项式, 故它也证明基的独立性.
+
+(a) 共轭给出 $x(x^iy^j)x^{-1}=q^j x^iy^j$, $y(x^iy^j)y^{-1}=q^{-i}x^iy^j$. 若 $q$ 不是单位根, 中心只有 $\C$. 若 $q$ 的精确阶为 $\ell\ge1$, 则中心为 $\C[x^{\pm\ell},y^{\pm\ell}]$.
+
+当 $q$ 不是单位根时, 对非零双边理想 $J$, 取支持项数最少的非零元素 $u$. 左乘可逆单项式并乘标量后, 可设其常数项为1. 若 $u$ 有某项的 $y$ 指数 $j\ne0$, 则 $xux^{-1}-u$ 是非零的 $J$ 中元素, 其常数项消失, 支持更小, 矛盾. 所以所有项的 $j=0$. 再用 $yuy^{-1}-u$ 同理消去 $i\ne0$ 的可能性. 于是 $u=1$, $J=A$. 双边理想只有0和 $A$.
+
+(b) 对 $d>0$ 维表示的可逆矩阵 $X,Y$, 行列式关系 $\det(XY)=q^d\det(YX)$ 给出 $q^d=1$. 因而 $q$ 必须是单位根. 下面的构造证明此条件充分.
+
+(c) 设 $q$ 精确阶为 $\ell$. 中心作用使 $X^\ell=a\id$, $Y^\ell=b\id$, 其中 $a,b\ne0$. 取 $Yv=\beta v$, $\beta^\ell=b$. 因为 $YX=q^{-1}XY$, 向量 $X^iv$ 的 $Y$ 特征值是 $\beta q^{-i}$, $0\le i<\ell$, 两两不同. 它们线性无关, 且张成空间被 $X,Y$ 保持, 故不可约性使它们构成全空间的基. 于是表示维数为 $\ell$.
+
+对任意 $a,b\in\C^\times$, 在基 $e_0,\ldots,e_{\ell-1}$ 上定义
+\[
+Xe_i=e_{i+1}\ (i<\ell-1),\quad Xe_{\ell-1}=ae_0,
+\qquad Ye_i=\beta q^{-i}e_i,\quad \beta^\ell=b.
+\]
+直接验证 $XY=qYX$. 不变子空间被 $Y$ 的特征投影保持, 故包含某个 $e_i$, 再由可逆 $X$ 生成全部基, 所以表示不可约. 更换 $\beta$ 为另一 $\ell$ 次根相当于沿 $X$ 的循环重新选取起点, 不改变同构类. 因而同构类恰由中心参数 $(a,b)$ 决定. $\ell=1$ 即 $q=1$ 时, 这给出所有一维表示.
+\end{solution}
+
+\begin{exercise}\label{hw:1.33}
+MIT 18.712 (2010), Homework 2, 原题1.33. 箭图 $Q$ 的顶点集为 $I$, 边集为 $E$; 边 $h$ 从 $h'$ 指向 $h''$. 路径代数 $P_Q$ 的基为所有有向路径, 包括各顶点的长度0路径 $p_i$, 乘法 $ab$ 表示先走 $b$ 再走 $a$, 无法连接时为0. 证明它由 $p_i$ 与单边路径 $a_h$ 生成, 定义关系为
+\begin{enumerate}[label=\arabic*.]
+\item $p_i^2=p_i$, $p_ip_j=0$ 当 $i\ne j$;
+\item $a_hp_{h'}=a_h$, $a_hp_j=0$ 当 $j\ne h'$;
+\item $p_{h''}a_h=a_h$, $p_i a_h=0$ 当 $i\ne h''$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+每条正长度路径是对应单边路径按逆行进顺序的乘积, 所以这些元素生成 $P_Q$, 且三组关系直接由连接规则得到. 还需证明不存在遗漏的关系.
+
+在仅由这些关系定义的代数中, 任意含 $p_i$ 的单词可把 $p_i$ 吸收或变为0. 两条不匹配的边满足
+\[
+a_h a_g=a_h p_{h'}p_{g''}a_g=0\qquad(h'\ne g'').
+\]
+所以剩下的非零单词恰是有向路径, 以及长度0路径. 它们的像在 $P_Q$ 中是不同的基向量, 不可能有额外线性关系. 因而由关系定义的代数与 $P_Q$ 同构.
+
+若在有单位代数的范畴表述有限箭图, 还须写明 $1=\sum_i p_i$, 或把右侧直接定义为单位. 否则在自由的有单位代数中仅写原题三组关系, 会保留一个多余的单位分量. 旧讲义第13页已先说明 $\sum_i p_i$ 是路径代数的单位; 此处沿用该约定.
+\end{solution}
+
+\begin{exercise}\label{hw:1.38}
+MIT 18.712 (2010), Homework 2, 原题1.38. 若 $A=\bigoplus_{n\ge0}A[n]$ 且 $A[n]A[m]\subset A[n+m]$, 称 $A$ 为非负整数分次代数. 各分次有限维时, Hilbert级数为 $h_A(t)=\sum_{n\ge0}\dim A[n]t^n$. 求以下代数的Hilbert级数:
+\begin{enumerate}[label=(\alph*)]
+\item 多项式代数 $k[x_1,\ldots,x_m]$, 按总次数分次;
+\item 自由代数 $k\langle x_1,\ldots,x_m\rangle$, 按单词长度分次;
+\item 外代数, 关系为 $x_ix_j+x_jx_i=0$ 且 $x_i^2=0$, 按次数分次;
+\item 有限箭图的路径代数 $P_Q$, 令 $\deg p_i=0$, $\deg a_h=1$. 原题提示用邻接矩阵 $M_Q$ 表达.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 单项式对应指数 $r_1,\ldots,r_m\ge0$, 因而
+\[
+h_A(t)=\prod_{i=1}^m\left(\sum_{r_i\ge0}t^{r_i}\right)=\frac1{(1-t)^m}.
+\]
+这也给出 $\dim A[n]=\binom{n+m-1}{m-1}$, 当 $m>0$.
+
+(b) 长度 $n$ 的单词有 $m^n$ 个, 故 $h_A(t)=\sum_{n\ge0}m^nt^n=(1-mt)^{-1}$.
+
+(c) 换序和平方为0的关系使递增指标的单项式 $x_{i_1}\cdots x_{i_n}$, $i_1<\cdots<i_n$, 张成 $A[n]$. 它们独立, 例如在基为所有子集的向量空间上, 让 $x_i$ 以插入 $i$ 并按换序次数赋符号的算子作用: 若已有 $i$, 作用为0; 否则得到相应并集. 这些算子满足全部关系, 不同递增单项式作用于空集得到不同基向量. 这一证明在特征2也成立, 因为平方为0是单独给出的关系. 所以 $\dim A[n]=\binom mn$, $h_A(t)=(1+t)^m$.
+
+(d) 规定 $(M_Q)_{ij}$ 为从顶点 $i$ 到 $j$ 的边数. 矩阵乘法归纳表明 $(M_Q^n)_{ij}$ 是从 $i$ 到 $j$ 的长度 $n$ 路径数. 令 $\mathbf1$ 为全1列向量, 则
+\[
+h_{P_Q}(t)=\sum_{n\ge0}\mathbf1^{\mathsf T}M_Q^n\mathbf1\,t^n
+=\mathbf1^{\mathsf T}(I-tM_Q)^{-1}\mathbf1.
+\]
+这里是形式幂级数恒等式; 不需要先证明分析意义的收敛. 因为 $I-tM_Q$ 的行列式常数项为1, 逆矩阵给出的表达式也是有理函数.
+\end{solution}
+
+\begin{exercise}\label{hw:1.49}
+MIT 18.712 (2010), Homework 2, 原题1.49. 张量积 $V\otimes W$ 是把形式符号 $v\otimes w$ 按双线性关系取商得到的向量空间.
+\begin{enumerate}[label=(\alph*)]
+\item 构造双线性映射 $V\times W\to U$ 与线性映射 $V\otimes W\to U$ 之间的自然双射.
+\item 若 $(v_i)$ 与 $(w_j)$ 分别是 $V,W$ 的基, 证明 $(v_i\otimes w_j)$ 是张量积的基.
+\item 当 $V$ 有限维时, 构造无须选基的自然同构 $V^*\otimes W\cong\Hom(V,W)$.
+\item 定义 $S^nV$ 为 $V^{\otimes n}$ 对所有 $T-sT$ 张成的子空间的商, 其中 $s$ 为换位. 定义 $\bigwedge^nV$ 为对所有满足某个换位 $sT=T$ 的张量 $T$ 张成的子空间的商. 用 $V$ 的基给出这两个空间的基; 当 $\dim V=m$ 时求维数.
+\item 特征0时, 将上述两个商自然地分别等同于所有换位下不变的张量子空间、所有换位下变号的张量子空间.
+\item 线性算子 $A:V\to W$ 诱导 $S^nA$ 与 $\bigwedge^nA$. 当 $V=W$ 为 $N$ 维, $A$ 的特征值为 $\lambda_1,\ldots,\lambda_N$ 时, 求这两个诱导算子的迹.
+\item 证明 $\bigwedge^N A=\det(A)\id$, 并据此证明 $\det(AB)=\det(A)\det(B)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 双线性 $b$ 对形式符号给出 $v\otimes w\mapsto b(v,w)$. 双线性恰保证它消去定义张量积的关系, 因而唯一降为线性映射 $\widetilde b$. 反过来, 对线性 $L$ 令 $b(v,w)=L(v\otimes w)$, 就得到双线性映射. 两种操作互逆, 且都只使用映射与张量积本身, 没有基的选择.
+
+(b) 展开 $v,w$ 的有限基表示可知 $v_i\otimes w_j$ 张成张量积. 令 $v_i^*,w_j^*$ 为取相应坐标的线性泛函. 双线性映射 $(v,w)\mapsto v_i^*(v)w_j^*(w)$ 依(a)降为张量积上的泛函, 在 $v_r\otimes w_s$ 上的值为 $\delta_{ir}\delta_{js}$. 对任一有限线性关系应用这些泛函, 各系数都为0, 所以它们独立.
+
+(c) 映射
+\[
+\Theta:V^*\otimes W\longrightarrow\Hom(V,W),\qquad
+\Theta(f\otimes w)(v)=f(v)w
+\]
+由(a)定义, 无须选基. 为证明它可逆, 临时取有限基 $v_1,\ldots,v_m$ 及对偶基, 给 $L$ 配上 $\sum_i v_i^*\otimes L(v_i)$. 代入可见 $\Theta$ 将它送回 $L$; 对纯张量的同样计算也给出左逆. 因而 $\Theta$ 是同构, 其逆既唯一, 也与临时选基无关. 有限维条件用于保证上述和是有限和.
+
+(d) 对 $S^nV$, 每个纯基张量可重新排序, 所以基候选为
+\[
+v_{i_1}\cdots v_{i_n},\qquad i_1\le\cdots\le i_n.
+\]
+把张量送到具有同名变量的交换单项式, 可证明这些候选独立. 对外幂, 重复指标的纯张量被交换这两个位置的换位固定, 故在商中为0. 对任一张量 $T$, $T+sT$ 被 $s$ 固定, 因而换位在商中变号. 所以外幂由 $v_{i_1}\wedge\cdots\wedge v_{i_n}$, $i_1<\cdots<i_n$, 张成.
+
+为了在任意特征中核对独立性, 把纯基张量的不同指标按排序符号送到相应递增指标的形式基向量, 有重复指标则送到0. 若 $sT=T$, 在纯基张量基中, $s$ 的二元轨道上的系数相等, 两项经过此映射相消; 一元轨道含重复指标, 像为0. 因此映射确实消去原题给出的全部关系, 并把递增候选送到不同基向量. 于是
+\[
+\dim S^nV=\binom{m+n-1}{n},\qquad
+\dim\bigwedge^nV=\binom mn.
+\]
+约定 $n=0$ 时两个空间均为 $k$, $n>m$ 时外幂为0; $m=0,n>0$ 时两个空间均为0.
+
+(e) 特征0时定义平均算子
+\[
+P_+=\frac1{n!}\sum_{\sigma\in S_n}\sigma,
+\qquad P_-=\frac1{n!}\sum_{\sigma\in S_n}\sgn(\sigma)\sigma.
+\]
+它们的像分别是不变张量与变号张量, 且在各自的像上为恒等. $P_+$ 消去 $T-sT$; 商映射 $q_+$ 满足 $q_+(P_+T)=q_+(T)$, 故它从商到不变子空间的映射是同构. 对外幂, 若 $sT=T$, 则 $P_-T=P_-sT=-P_-T$, 故 $P_-T=0$. 又商中 $\sigma T=\sgn(\sigma)T$, 所以 $q_-(P_-T)=q_-(T)$, 同理给出同构. 除以 $n!$ 和2在这里都合法.
+
+(f) 在特征值所在的分裂域中将 $A$ 上三角化; 扩域不改变迹. 无须假设 $A$ 可对角化. 在(d)的有序单项式基上, 诱导算子仍为三角矩阵, 对角元是相应特征值的乘积, 故
+\begin{align*}
+\tr(S^nA)&=\sum_{\substack{r_1+\cdots+r_N=n\\ r_i\ge0}}
+\lambda_1^{r_1}\cdots\lambda_N^{r_N},\\
+\tr(\bigwedge^nA)&=\sum_{1\le i_1<\cdots<i_n\le N}
+\lambda_{i_1}\cdots\lambda_{i_n}.
+\end{align*}
+第一式是完全齐次对称多项式, 第二式是初等对称多项式. 对 $n>N$, 第二式为空和, 值为0.
+
+(g) 在 $V$ 的基 $v_1,\ldots,v_N$ 下展开 $Av_1\wedge\cdots\wedge Av_N$, 重复指标项为0, 剩余各排列项带符号, 系数恰为矩阵行列式. 由于 $\bigwedge^NV$ 是以 $v_1\wedge\cdots\wedge v_N$ 为基的一维空间, 得到所述等式. 再由作用于纯张量的定义,
+\[
+\det(AB)\id=\bigwedge^N(AB)
+=(\bigwedge^NA)(\bigwedge^NB)=\det(A)\det(B)\id.
+\]
+这是从顶次外幂的复合性质得到的乘法公式.
+\end{solution}
+
+\originalsection{Homework 3: Dehn不变量与李代数表示}
+
+本节为官方作业涉及的扩展内容, 不把有限群主线扩称为一般李代数教材. 李代数是带双线性交替括号的向量空间, 满足Jacobi恒等式 $[x,[y,z]]+[y,[z,x]]+[z,[x,y]]=0$. 其表示 $\rho$ 满足 $\rho([x,y])=\rho(x)\rho(y)-\rho(y)\rho(x)$. 下列题解补齐本题所需的张量作用、最高权和可解性论证.
+
+\begin{exercise}\label{hw:1.51}
+MIT 18.712 (2010), Homework 3, 原题1.51. 平面上同面积多边形可以有限次直线切割后重拼. Hilbert第三问题询问同体积多面体是否也有此性质, 特别是立方体和正四面体. 对多面体 $A$, 定义
+\[
+D(A)=\sum_a l(a)\otimes\overline{\frac{\beta(a)}\pi}
+\quad\in\R\otimes_{\mathbb Q}(\R/\mathbb Q),
+\]
+其中 $a$ 遍历边, $l(a)$ 为边长, $\beta(a)$ 为内部二面角, 横线表示模 $\mathbb Q$ 的类.
+\begin{enumerate}[label=(\alph*)]
+\item 证明平面直切 $A$ 为 $B,C$ 时, $D(A)=D(B)+D(C)$.
+\item 证明 $\alpha=\arccos(1/3)/\pi$ 非有理. 原题提示考察 $z+z^{-1}=2/3$ 及 $z^k+z^{-k}$ 的分母.
+\item 计算正四面体和立方体的Dehn不变量, 据此否定上述问题.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 先把切割前后的全部边按交点细分为公共的小线段. 沿同一条边分成长度 $l_1,l_2$ 时, 张量积的双线性给出 $(l_1+l_2)\otimes\bar\theta=l_1\otimes\bar\theta+l_2\otimes\bar\theta$, 因而这种细分不改变不变量.
+
+对每条小线段, 取垂直于它的局部截面, 观察各块占据的角扇形. 若线段来自原多面体的边, 各块的内部角之和是原二面角; 若它落在原面内部, 各块角之和为 $\pi$; 若落在原多面体内部, 总角为 $2\pi$. 后两类对角除以 $\pi$ 后是整数, 在 $\R/\mathbb Q$ 中为0. 因而各块新增边的贡献总和为0, 原边的贡献则按长度和角度可加. 逐线段求和即得结论. 这种局部扇形论证也允许切割平面经过顶点或原边, 无须用不变量并不保证连续的极限论证. 刚体运动保持长度和内部角, 所以 $D$ 也是重拼不变量.
+
+(b) 假设 $\alpha=2m/n$, 取 $z=e^{\mathrm i\pi\alpha}$, 则 $z^n=1$, $z+z^{-1}=2\cos(\pi\alpha)=2/3$. 记 $u_k=z^k+z^{-k}$. 递推式为
+\[
+u_0=2,\quad u_1=2/3,\qquad u_{k+1}=(2/3)u_k-u_{k-1}.
+\]
+写 $u_k=a_k/3^k$, 得 $a_0=2$, $a_1=2$, $a_{k+1}=2a_k-9a_{k-1}$. 对 $k\ge1$, 归纳可知 $a_k\equiv2^k\pmod3$, 所以 $a_k$ 不被3整除. $u_k$ 的最简分母恰为 $3^k$. 但 $z^n=1$ 给出 $u_n=2$, 分母为1, 矛盾.
+
+(c) 立方体的每个二面角为 $\pi/2$, 因而 $D(\text{立方体})=0$. 边长 $l>0$ 的正四面体每条边的内部二面角为 $\arccos(1/3)$, 所以 $D(\text{正四面体})=6l\otimes\bar\alpha$. 这里的角度可由正四面体两相邻面的向外单位法向量内积为 $-1/3$ 得到: 内二面角是法向量夹角的补角.
+
+这个纯张量非零. 在 $\R$ 作为 $\mathbb Q$-向量空间时, 将非零向量 $6l$ 扩充为基, 取线性泛函 $f:\R\to\mathbb Q$ 满足 $f(6l)=1$. 则 $(f\otimes\id)(6l\otimes\bar\alpha)=\bar\alpha\ne0$, 非零性由(b)保证. 因而即使两者体积相同, 它们也不能有限平面切割后重拼.
+\end{solution}
+
+\begin{exercise}\label{hw:1.54}
+MIT 18.712 (2010), Homework 3, 原题1.54. 设 $V,W,U$ 是李代数 $\mathfrak g$ 的有限维表示. 张量积上的作用为 $x(v\otimes w)=xv\otimes w+v\otimes xw$, 对偶作用为 $(xf)(w)=-f(xw)$. 证明
+\[
+\Hom_{\mathfrak g}(V\otimes W,U)\cong
+\Hom_{\mathfrak g}(V,U\otimes W^*).
+\]
+\end{exercise}
+\begin{solution}
+先以题\ref{hw:1.49}(c)的自然同构把 $U\otimes W^*$ 识别为 $\Hom(W,U)$, 其作用为 $(xT)(w)=xT(w)-T(xw)$. 对线性 $F:V\otimes W\to U$, 定义 $\Phi(F)(v)(w)=F(v\otimes w)$. 反向映射把 $T:V\to\Hom(W,U)$ 送到 $v\otimes w\mapsto T(v)(w)$. 双线性保证反向映射定义良好, 两者互逆.
+
+$F$ 是 $\mathfrak g$-线性的条件是
+\[
+F(xv\otimes w)+F(v\otimes xw)=xF(v\otimes w).
+\]
+移项后即 $\Phi(F)(xv)(w)=(x\Phi(F)(v))(w)$, 正好是 $\Phi(F)$ 的 $\mathfrak g$-线性条件. 若希望把同构写入 $U\otimes W^*$, 任取 $W$ 的基 $w_i$ 与对偶基 $w_i^*$, 则
+\[
+\Phi(F)(v)=\sum_i F(v\otimes w_i)\otimes w_i^*.
+\]
+这个式子的基无关性来自上面的自然同构, 而非额外的选择.
+\end{solution}
+
+\begin{exercise}\label{hw:1.55}
+MIT 18.712 (2010), Homework 3, 原题1.55. 复李代数 $\mathfrak{sl}_2$ 的表示由算子 $E,F,H$ 描述, 满足
+\[
+[H,E]=2E,\qquad [H,F]=-2F,\qquad [E,F]=H.
+\]
+设 $V$ 有限维; 记 $\overline V(\lambda)$ 为 $H$ 对特征值 $\lambda$ 的广义特征空间.
+\begin{enumerate}[label=(\alph*)]
+\item 选 $H$ 的实部最大的特征值 $\lambda$, 证明 $E\overline V(\lambda)=0$.
+\item 对任意表示 $W$ 中满足 $Ew=0$ 的非零向量 $w$, 求次数为 $k$ 的多项式 $P_k$ 使 $E^kF^kw=P_k(H)w$. 先算 $EF^kw$.
+\item 对 $v\in\overline V(\lambda)$, 证明存在 $N>0$ 使 $F^Nv=0$.
+\item 证明 $H$ 在 $\overline V(\lambda)$ 上可对角化.
+\item 对非零 $v$ 令 $N_v$ 为(c)中最小的 $N$, 证明 $\lambda=N_v-1$.
+\item 证明每个 $N>0$ 都有唯一同构类的 $N$ 维不可约表示, 并在适当的基下给出 $E,F,H$ 的矩阵. 记最高权为 $\lambda$ 的这种表示为 $V_\lambda$, 其维数为 $\lambda+1$.
+\item 证明Casimir算子 $C=EF+FE+H^2/2$ 与 $E,F,H$ 交换, 并在 $V_\lambda$ 上等于 $\lambda(\lambda+2)\id/2$.
+\item 假设存在不能分解为较小表示直和的可约表示, 取其中维数最小者 $V$. 证明 $C$ 在 $V$ 上只有一个特征值 $\lambda(\lambda+2)/2$, 其中 $\lambda$ 是非负整数.
+\item 证明 $V$ 有子表示 $W\cong V_\lambda$, 且 $V/W\cong V_\lambda^{\oplus n}$.
+\item 证明 $H$ 的特征空间 $V(\lambda)$ 维数为 $n+1$. 取基 $v_1,\ldots,v_{n+1}$, 证明全部 $F^jv_i$, $1\le i\le n+1$, $0\le j\le\lambda$, 独立且构成 $V$ 的基. 原题提示: 若 $Fx=0$, $Hx=\mu x$, 则 $Cx=\mu(\mu-2)x/2$, 并从谱范围推出 $\mu=-\lambda$.
+\item 令 $W_i=\operatorname{span}(v_i,Fv_i,\ldots,F^\lambda v_i)$. 证明各 $W_i$ 是子表示, 由此否定上述最小反例.
+\item 给定有限维复空间上的幂零算子 $A$, 证明存在一个在表示同构意义下唯一的 $\mathfrak{sl}_2$ 表示使 $E=A$. 原题标为Jacobson--Morozov引理.
+\item 求 $V_\lambda\otimes V_\mu$ 的不可约直和分解. 原题提示用 $\chi_V(x)=\tr(e^{xH})$ 及其对直和、张量积的性质.
+\item 设 $V=\C^M\otimes\C^N$, $A=J_M(0)\otimes\id_N+\id_M\otimes J_N(0)$, 其中 $J_r(0)e_i=e_{i-1}$, $J_r(0)e_1=0$. 用(l),(m)求 $A$ 的Jordan形.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 由 $HE=E(H+2)$, 得 $(H-\lambda-2)^rE=E(H-\lambda)^r$. 所以 $E$ 将 $\overline V(\lambda)$ 映入 $\overline V(\lambda+2)$. 后者为0, 因为 $\lambda$ 的实部最大. 故 $E$ 在最高广义特征空间上为0. 同理由 $HF=F(H-2)$, 得 $F\overline V(\nu)\subset\overline V(\nu-2)$.
+
+(b) 交换子展开给出
+\begin{align*}
+[E,F^k]&=\sum_{i=0}^{k-1}F^iHF^{k-1-i}\\
+&=\sum_{i=0}^{k-1}F^{k-1}(H-2(k-1-i))
+=kF^{k-1}(H-k+1).
+\end{align*}
+所以 $EF^kw=kF^{k-1}(H-k+1)w$. 因为 $E(H-c)w=(H-c-2)Ew=0$, 多项式作用后的向量仍被 $E$ 消去. 对 $k$ 归纳便得到
+\[
+P_k(H)=k!\,H(H-1)\cdots(H-k+1).
+\]
+这些多项式的根 $0,1,\ldots,k-1$ 均为单根.
+
+(c) (a)末尾的降权公式给出 $F^Nv\in\overline V(\lambda-2N)$. $H$ 的谱有限, 而这些复数两两不同, 所以充分大的 $N$ 使该广义特征空间为0. 因为 $\overline V(\lambda)$ 有限维, 也可选一个 $N$ 使 $F^N$ 在整个空间上为0.
+
+(d) 对这样的 $N$, (a),(b)给出 $P_N(H)|_{\overline V(\lambda)}=E^NF^N=0$. 一个被无重根多项式消去的算子可对角化: 若 $p(t)=\prod_i(t-c_i)$, 不同因子互素, 多项式的Bezout恒等式把空间分解为各 $\ker(H-c_i)$ 的直和. 因此 $H$ 在该空间上可对角化. 它只有特征值 $\lambda$, 故实际上是 $\lambda\id$.
+
+(e) 对非零 $v$, 已知 $Hv=\lambda v$. 用(b)的一次升权式及 $F^{N_v}v=0$ 得
+\[
+0=EF^{N_v}v=N_v(\lambda-N_v+1)F^{N_v-1}v.
+\]
+最后一个向量非零, 且特征0, 所以 $\lambda=N_v-1\in\Z_{\ge0}$.
+
+(f) 设 $v$ 是非零最高权向量. (e)说明向量 $v_j=F^jv$, $0\le j\le\lambda$, 均非零, 具有不同的 $H$ 特征值. 它们张成的空间被 $E,F,H$ 保持, 所以在不可约表示中就是全空间. 其作用为
+\[
+Hv_j=(\lambda-2j)v_j,\quad
+Fv_j=v_{j+1},\quad
+Ev_j=j(\lambda-j+1)v_{j-1},
+\]
+其中 $v_{-1}=v_{\lambda+1}=0$. 因此 $H$ 的矩阵为 $\operatorname{diag}(\lambda,\lambda-2,\ldots,-\lambda)$; $F$ 的次对角线全为1; $E$ 的第 $j$ 列在第 $j-1$ 行有系数 $j(\lambda-j+1)$, 其余为0, 这里列行从0编号.
+
+反过来, 对任意非负整数 $\lambda$ 以这些公式定义算子, 在每个 $v_j$ 上计算可验证三个交换关系, 因而确实定义表示. 非零子表示经 $H$ 的多项式特征投影包含某个 $v_j$; 连续作用 $E$ 得到 $v_0$, 因为中间系数均非零; 再作用 $F$ 得到全部基. 所以表示不可约. 公式也说明同一维数的不可约表示彼此同构. $N$ 维者对应 $\lambda=N-1$.
+
+(g) 使用 $[AB,D]=A[B,D]+[A,D]B$, 有
+\begin{align*}
+[EF+FE,E]&=-EH-HE,&[H^2/2,E]&=HE+EH,\\
+[EF+FE,F]&=HF+FH,&[H^2/2,F]&=-HF-FH.
+\end{align*}
+所以 $[C,E]=[C,F]=0$. 直接由权关系得到 $[C,H]=0$. 在最高权向量 $v_0$ 上, $FEv_0=0$, $EFv_0=\lambda v_0$, 所以 $Cv_0=\lambda(\lambda+2)v_0/2$. 因为 $C$ 与 $F$ 交换, 同一标量作用于全部 $F^jv_0$, 得到结论.
+
+(h) 最小反例不可分解; 否则每个较小直和项依维数归纳都完全可约, 其直和也完全可约. $C$ 与表示作用交换, 所以其广义特征空间是子表示. 不可分解性迫使 $C$ 只有一个特征值 $c$. 任取不可约子表示 $W$, 它由(f)同构于某个 $V_\lambda$, 所以由(g)有 $c=\lambda(\lambda+2)/2$.
+
+(i) 此 $W\cong V_\lambda$ 是真子表示. 商 $V/W$ 维数更小, 由最小性完全可约. 因为 $C$ 的唯一特征值在商中仍为 $c$, 每个不可约商分量 $V_\nu$ 满足 $\nu(\nu+2)=\lambda(\lambda+2)$. $\nu,\lambda\ge0$, 所以 $\nu=\lambda$, 得 $V/W\cong V_\lambda^{\oplus n}$, 其中 $n\ge1$.
+
+(j) 取基使 $W$ 位于前面, 则 $H$ 的矩阵为分块上三角, 其特征多项式是 $W$ 和商的特征多项式之积. 因此谱恰在 $\lambda,\lambda-2,\ldots,-\lambda$ 中, 每个的代数重数为 $n+1$. 最高实部的广义特征空间 $\overline V(\lambda)$ 由(d)已经是特征空间, 故 $\dim V(\lambda)=n+1$.
+
+固定 $0\le j\le\lambda$. 若 $\sum_i c_iF^jv_i=0$, 作用 $E^j$, (b)给出
+\[
+j!\lambda(\lambda-1)\cdots(\lambda-j+1)\sum_i c_i v_i=0.
+\]
+前面的系数非零, 所以所有 $c_i=0$. 不同 $j$ 的向量位于不同 $H$ 特征空间, 因而全部独立. 它们共有 $(n+1)(\lambda+1)=\dim V$ 个, 所以是基.
+
+原题提示中的底权计算也成立: 若 $Fx=0$, $Hx=\mu x$, 则 $EFx=0$, $FEx=EFx-Hx=-\mu x$, 所以 $Cx=\mu(\mu-2)x/2$. 比较唯一特征值得到 $\mu=-\lambda$ 或 $\mu=\lambda+2$. 后一种不在刚求出的 $H$ 的谱中, 因而必须舍去. 不能只从二次方程未经谱检查就断言 $\mu=-\lambda$.
+
+(k) 由(e), 每个最高权向量满足 $F^{\lambda+1}v_i=0$, 再由(f)的作用公式, $W_i$ 被 $E,F,H$ 保持, 且 $W_i\cong V_\lambda$. (j)的基给出 $V=\bigoplus_{i=1}^{n+1}W_i$, 与最小反例矛盾. 因此所有有限维复 $\mathfrak{sl}_2$ 表示均完全可约. 旧讲义(k)把末句中的 $W_i$ 误写作 $V_i$, 这里统一使用已定义的 $W_i$.
+
+(l) 在 $V_\lambda$ 上, $E$ 的每个相邻升权系数均非零, 所以适当缩放基后, $E$ 是一个大小 $\lambda+1$ 的幂零Jordan块. 给定 $A$ 的Jordan块大小 $r_1,\ldots,r_s$, 取表示 $\bigoplus_iV_{r_i-1}$; 其中的 $E$ 与 $A$ 具有相同Jordan形. 用一个相似变换把此表示搬到给定空间, 使 $E$ 恰等于 $A$, 得到存在性.
+
+任意满足 $E=A$ 的表示由(k)完全可约. 各不可约分量的维数恰是 $A$ 的Jordan块大小; Jordan形的唯一性因此决定表示的同构类. 这里的唯一性是在允许同时共轭 $E,F,H$ 的意义下, 并非固定 $E$ 后 $F,H$ 作为具体矩阵逐项唯一.
+
+(m) $H$ 在 $V_\lambda$ 上的权为 $\lambda,\lambda-2,\ldots,-\lambda$. 令 $q=e^x$, 则
+\[
+\chi_{V_\lambda}(x)=q^\lambda+q^{\lambda-2}+\cdots+q^{-\lambda}.
+\]
+对直和, 迹相加; 对张量积, $H=H_V\otimes\id+\id\otimes H_W$, 两项交换, 所以 $e^{xH}=e^{xH_V}\otimes e^{xH_W}$, 迹相乘. 假设 $\lambda\le\mu$. 乘积中权 $\lambda+\mu-2r$ ($0\le r\le\lambda+\mu$)的系数是满足 $i+j=r$, $0\le i\le\lambda$, $0\le j\le\mu$ 的数目. 另一方面, 在
+\[
+\sum_{k=0}^{\lambda}
+(q^{\lambda+\mu-2k}+q^{\lambda+\mu-2k-2}+\cdots+q^{-\lambda-\mu+2k})
+\]
+中该系数为 $\min(\lambda,r,\lambda+\mu-r)+1$, 正是前述计数. 两个Laurent多项式相等. 不同 $V_r$ 的特征标线性无关, 因为最大权项的系数可逐次读出. 结合(k)的完全可约性, 得
+\[
+V_\lambda\otimes V_\mu\cong
+\bigoplus_{k=0}^{\min(\lambda,\mu)}V_{\lambda+\mu-2k}.
+\]
+
+(n) 由(l)把 $J_M(0)$ 与 $J_N(0)$ 分别看作 $V_{M-1}$ 与 $V_{N-1}$ 的 $E$. 张量积的 $E$ 正是题中的 $A$. 按(m)分解后, 每个 $V_r$ 上的 $E$ 是单个大小 $r+1$ 的块, 因而
+\[
+A\sim\bigoplus_{k=0}^{\min(M,N)-1}J_{M+N-1-2k}(0).
+\]
+各块大小从 $M+N-1$ 以步长2降到 $|M-N|+1$. 它们之和为 $MN$, 与原空间维数一致.
+\end{solution}
+
+\originalsection{Homework 4: 可解李代数与生成关系}
+
+\begin{exercise}\label{hw:1.56}
+MIT 18.712 (2010), Homework 4, 原题1.56. 李代数的导代数 $K(\mathfrak g)=[\mathfrak g,\mathfrak g]$ 是所有 $[x,y]$ 的线性包, 它是理想. 递归令 $K^0(\mathfrak g)=\mathfrak g$, $K^{r+1}(\mathfrak g)=[K^r(\mathfrak g),K^r(\mathfrak g)]$. 若某个 $K^r(\mathfrak g)=0$, 则称 $\mathfrak g$ 可解. 证明Lie定理: 有限维复可解李代数的任一有限维不可约表示均为一维. 原题提示对李代数维数归纳, 并用迹证明导代数的共同特征空间被 $\mathfrak g$ 保持.
+\end{exercise}
+\begin{solution}
+Jacobi恒等式给出 $[z,[x,y]]=[[z,x],y]+[x,[z,y]]$, 所以 $K(\mathfrak g)$ 是理想. 非零可解李代数的导代数 $\mathfrak a=K(\mathfrak g)$ 是真子代数, 否则导出列永不变为0. 对 $\dim\mathfrak g$ 归纳, 同时证明其每个非零有限维表示有共同特征向量. 当 $\dim\mathfrak g=0$ 时任取非零向量即可. 对较小的 $\mathfrak a$, 归纳给出 $0\ne v\in V$ 和线性泛函 $\chi:\mathfrak a\to\C$ 使 $av=\chi(a)v$.
+
+固定 $x\in\mathfrak g$, 取 $U=\operatorname{span}(v,xv,x^2v,\ldots)$, 这是有限维的 $x$-不变空间. 令 $U_j=\operatorname{span}(v,\ldots,x^jv)$. 对 $a\in\mathfrak a$, 归纳得到
+\[
+a x^jv\equiv\chi(a)x^jv\pmod{U_{j-1}}.
+\]
+事实上 $ax^j=x(ax^{j-1})+[a,x]x^{j-1}$, 且 $[a,x]\in\mathfrak a$, 因而第二项落在 $U_{j-1}$, 第一项的最高项由归纳确定. 这也证明每个 $U_j$ 被 $\mathfrak a$ 保持. 取第一个线性相关前的 $v,xv,\ldots,x^{d-1}v$ 为 $U$ 的基, 则 $a|_U$ 的对角线均为 $\chi(a)$, 故 $\tr_U(a)=d\chi(a)$.
+
+特别地, $[x,a]\in\mathfrak a$, 其在 $U$ 上的迹为 $d\chi([x,a])$. 又因为 $x,a$ 均保持 $U$, 交换子矩阵的迹为0. 特征0使 $d\ne0$, 所以 $\chi([x,a])=0$.
+
+令 $V_\chi=\{w:aw=\chi(a)w\text{ 对所有 }a\in\mathfrak a\}$, 它非零. 对 $w\in V_\chi$, 有
+\[
+a(xw)=x(aw)+[a,x]w=\chi(a)xw+\chi([a,x])w=\chi(a)xw.
+\]
+因此 $V_\chi$ 被 $\mathfrak g$ 保持. 在该空间上, 每个 $[x,y]\in\mathfrak a$ 作用为标量, 其迹又是交换子的迹0, 所以该标量为0. 从而 $\mathfrak g$ 在 $V_\chi$ 上的所有算子彼此交换. 有限个交换复矩阵有共同特征向量: 逐次取一个算子的非零特征空间, 其余算子保持它, 直至遍历 $\mathfrak g$ 的一组有限基即可. 这完成归纳中的较强结论. 若原表示不可约, 共同特征向量张成的非零一维子表示就是全空间, 故 $\dim V=1$.
+\end{solution}
+
+\begin{exercise}\label{hw:1.57}
+MIT 18.712 (2010), Homework 4, 原题1.57. 对基为 $X,Y$、关系为 $[X,Y]=Y$ 的二维李代数, 分别在特征0与正特征中分类有限维不可约表示. 正特征中Lie定理是否仍成立? 底域依旧讲义总约定代数闭.
+\end{exercise}
+\begin{solution}
+在特征0中, 导代数为 $kY$, 再次取导代数为0, 所以它可解. 上一题的证明适用于任意代数闭特征0域: 只使用特征值的存在和正整数可逆, 未使用复数的分析性质. 不可约表示均一维. 一维中交换子为0, 所以 $Y$ 作用为0, 而 $X$ 作用为任意标量 $a\in k$. 这些 $a$ 给出互不同构的全部表示.
+
+以下令 $\operatorname{char}k=p$. 表示中的同名算子满足 $XY-YX=Y$. 由此 $Y^p$ 与 $X,Y$ 都交换, 以及 $X^p-X$ 与 $X,Y$ 都交换. 后一断言可由 $XY=Y(X+1)$ 推出: $X^pY=Y(X+1)^p=Y(X^p+1)$, 故 $[X^p-X,Y]=0$. 由有限维Schur引理,
+\[
+Y^p=b\id,\qquad X^p-X=c\id.
+\]
+若 $b=0$, 则 $Y$ 幂零, $\ker Y\ne0$. 由 $YX=XY-Y$, 此核也被 $X$ 保持. 不可约性给出 $\ker Y=V$, 即 $Y=0$. 剩下单个算子 $X$ 的不可约有限维表示必为一维, 与特征0的族相同.
+
+若 $b\ne0$, 则 $Y$ 可逆. 多项式 $t^p-t-c$ 的导数为 $-1$, 没有重根, 故 $X$ 可对角化. 取 $Xv=av$, 则
+\[
+XY^iv=(a+i)Y^iv,\qquad 0\le i<p.
+\]
+这 $p$ 个特征值两两不同, 相应向量独立. 它们的张成空间被 $X,Y$ 保持, 因为 $Y^pv=bv$, 所以它就是 $V$. 全部这类表示因此是 $p$ 维, 具有基 $e_0,\ldots,e_{p-1}$ 和作用
+\[
+Xe_i=(a+i)e_i,\qquad Ye_i=e_{i+1}\ (i<p-1),
+\qquad Ye_{p-1}=be_0.
+\]
+其中 $b\in k^\times$. 这些公式满足 $[X,Y]=Y$, 包括最后一个基向量上的关系, 因为 $p=0$ 于 $k$. 非零不变子空间由 $X$ 的特征投影包含某个 $e_i$, 再用可逆 $Y$ 得到全部基, 故表示不可约.
+
+参数 $a$ 可以沿循环改为 $a+i$, $i\in\mathbb F_p$, 而不改变同构类. 完整的同构参数为 $(c,b)=(a^p-a,b)\in k\times k^\times$: 多项式 $t^p-t-c$ 的根恰为 $a+\mathbb F_p$, 所以相同的中心参数给出同构表示, 不同参数则不能同构. 可解的二维李代数已有 $p>1$ 维不可约表示, 因而Lie定理在正特征中不成立. 这里所分类的是一般李代数表示, 未另加限制性表示条件 $Y^p=0$.
+\end{solution}
+
+\begin{exercise}\label{hw:1.58}
+MIT 18.712 (2010), Homework 4, 原题1.58, 官方标为难题, 作业中为选做. 对李代数元素 $x$, 记 $\operatorname{ad}(x)(z)=[x,z]$. 令 $\mathfrak g_n$ 由两个生成元 $x,y$ 和定义关系
+\[
+(\operatorname{ad}x)^2(y)=0,\qquad
+(\operatorname{ad}y)^{n+1}(x)=0
+\]
+生成.
+\begin{enumerate}[label=(\alph*)]
+\item 证明 $\mathfrak g_1,\mathfrak g_2,\mathfrak g_3$ 有限维, 并求维数.
+\item 证明 $\mathfrak g_4$ 无限维, 并显式构造它的一组基.
+\end{enumerate}
+原题未在此处指定底域. 以下证明给出复数底域的版本, 并在末尾说明正特征下原陈述的条件问题. (b)中的全空间基采用确定的有限消元算法形式, 而不调用仿射李代数分类或未证明的表示完备性定理.
+\end{exercise}
+\begin{solution}
+(a) 令 $D=\operatorname{ad}y$, $x_i=D^ix$. Jacobi恒等式说明 $D$ 是导子: $D[u,v]=[Du,v]+[u,Dv]$. 两条定义关系等价于 $[x_0,x_1]=0$ 和 $x_{n+1}=0$.
+
+当 $n=1$ 时, $x_0,x_1$ 交换, $Dx_0=x_1$, $Dx_1=0$, 所以 $y,x_0,x_1$ 张成一个对括号封闭的空间, 包含两个生成元, 因而张成整个 $\mathfrak g_1$. 反过来, 在三个独立基向量上定义唯一非零基本括号 $[y,x_0]=x_1$, 便得到满足原关系且由 $x_0,y$ 生成的三维李代数. 因此原代数维数既不大于也不小于3, 恰为3.
+
+当 $n=2$ 时, 依次对 $[x_0,x_1]=0$ 作用 $D$, 得到 $[x_0,x_2]=0$, 再作用 $D$ 得 $[x_1,x_2]=0$. 因而 $y,x_0,x_1,x_2$ 张成全代数. 以 $x_0,x_1,x_2$ 为交换的三维空间, 让 $D$ 依次把 $x_0$ 送到 $x_1$, $x_1$ 送到 $x_2$, $x_2$ 送到0, 构成与 $ky$ 的半直积; 这给出满足原关系的四维模型. 所以 $\dim\mathfrak g_2=4$.
+
+当 $n=3$ 时, 从 $[x_0,x_1]=0$ 连续取导, 利用 $x_4=0$, 得
+\[
+[x_0,x_2]=0,\quad [x_1,x_2]+[x_0,x_3]=0,
+\quad 2[x_1,x_3]=0,\quad 2[x_2,x_3]=0.
+\]
+在特征0下可除以2. 令 $z=[x_0,x_3]=-[x_1,x_2]$. $z$ 与全部 $x_i$ 交换: 对 $x_0,x_3$ 用表达式 $-[x_1,x_2]$ 和已得零括号, 对 $x_1,x_2$ 用表达式 $[x_0,x_3]$ 和Jacobi恒等式. 另外 $Dz=[x_1,x_3]=0$. 因而
+\[
+y,x_0,x_1,x_2,x_3,z
+\]
+张成全代数. 为证明独立, 先以 $x_0,x_1,x_2,x_3,z$ 为基定义一个两步幂零李代数, 唯一非零基本括号为 $[x_0,x_3]=z$, $[x_1,x_2]=-z$, $z$ 中心. 再令 $Dx_i=x_{i+1}$, $Dx_3=Dz=0$. 逐对检查可知 $D$ 保持这些括号: 唯一可能产生非零和的一对是 $(x_0,x_2)$, 其导数括号和为 $[x_1,x_2]+[x_0,x_3]=-z+z=0$; 其余直接为0. 因此 $D$ 是导子, 与 $ky$ 的半直积是六维李代数, 满足原关系且由 $x_0,y$ 生成. 得到 $\dim\mathfrak g_3=6$.
+
+(b) 先以具体矩阵证明无限维, 再构造覆盖全空间的基. 在 $\mathfrak{sl}_3(\C[t])$ 中令 $e=E_{12}+E_{23}$, $P_0=E_{31}$, $P_i=(\operatorname{ad}e)^iP_0$. 用 $E_{ij}E_{rs}=\delta_{jr}E_{is}$ 计算得到
+\begin{align*}
+P_1&=E_{21}-E_{32},&P_2&=\operatorname{diag}(1,-2,1),\\
+P_3&=3(E_{23}-E_{12}),&P_4&=6E_{13},\qquad P_5=0.
+\end{align*}
+并且 $[P_0,P_1]=0$. 所以 $x\mapsto tP_0$, $y\mapsto e$ 满足两条定义关系, 给出李代数同态 $\Psi:\mathfrak g_4\to\mathfrak{sl}_3(\C[t])$.
+
+为在像中产生无限多个独立元素, 递归定义
+\[
+a_1=x,\qquad
+a_{m+2}=\frac16
+\Bigl[\bigl[[y,x],[y,[y,a_m]]\bigr],[y,x]\Bigr]
+\quad(m=1,3,5,\ldots).
+\]
+设 $Q_0=E_{21}+E_{32}$. 直接矩阵计算给出 $[P_1,P_2]=3Q_0$, $[Q_0,P_1]=2P_0$. 若 $\Psi(a_m)=t^mP_0$, 则递推式的像为
+\[
+\frac16\bigl[[tP_1,t^mP_2],tP_1\bigr]
+=\frac16\,t^{m+2}[3Q_0,P_1]=t^{m+2}P_0.
+\]
+归纳知全部奇数 $m$ 的像是 $t^mE_{31}$. 不同 $t$ 次数的矩阵多项式独立, 故对应的 $a_m$ 在原代数中也独立. 因而 $\mathfrak g_4$ 无限维. 此论证只使用同态的存在, 没有把该矩阵像擅自等同于整个原代数.
+
+下面给出一组真正覆盖原代数的显式算法基. 为使选择完全确定, 对所有二叉括号词使用字符串编码: $x,y$ 为长度1词, 若 $u,v$ 已编码, 则 $[u,v]$ 的编码就是左方括号、$u$、逗号、$v$、右方括号的连接. 按ASCII字符串字典序排列, 即字符顺序为逗号、左方括号、右方括号、$x$、$y$. 记 $W_d$ 为具有 $d$ 个叶子的全部这种词, $F_d$ 为以 $W_d$ 为基的有理向量空间. 每个 $W_d$ 是有限集, 递归由
+\[
+W_1=\{x,y\},\qquad
+W_d=\bigcup_{a=1}^{d-1}\{[u,v]:u\in W_a,\ v\in W_{d-a}\}
+\]
+生成. 这里尚不使用反交换或Jacobi关系; $[u,v]$ 与 $[v,u]$ 作为形式词是不同基向量.
+
+逐个次数建立以 $W_d$ 为列的有理关系矩阵 $R_d$. 行的加入规则如下:
+\begin{enumerate}[label=\arabic*.]
+\item 加入所有本次数的反交换关系 $[u,v]+[v,u]$.
+\item 加入所有本次数的Jacobi关系 $[u,[v,w]]+[v,[w,u]]+[w,[u,v]]$.
+\item 次数3时加入 $[x,[x,y]]$; 次数6时加入 $[y,[y,[y,[y,[y,x]]]]]$.
+\item 对全部 $a<d$, 取已计算的 $R_a$ 的非零行最简阶梯形作为关系空间的固定基. 对其每行 $r$ 和每个 $u\in W_{d-a}$, 加入 $[r,u]$、$[u,r]$; 这里把括号按线性展开为 $W_d$ 的坐标.
+\end{enumerate}
+所有枚举都有限, 只需整数和有理数运算. 将 $R_d$ 化为最简行阶梯形, 主元取当前最左的非零列. 定义 $B_d$ 为非主元列所对应的括号词的余类. 则
+\[
+\mathcal B=\bigcup_{d\ge1}B_d
+\]
+就是所构造的基. 它的定义不涉及选择未知子空间、不以猜测维数为停止准则; 给定任一括号词, 按其次数作有限计算便能判断它是否属于 $\mathcal B$, 并算出其在 $B_d$ 上的坐标.
+
+证明完备性如下. 令 $T_d$ 为 $R_d$ 的行空间, $T=\bigoplus_dT_d$, $F=\bigoplus_dF_d$. 第4步保证 $[T,F]\subset T$, $[F,T]\subset T$. 前两步保证 $F/T$ 的括号反交换且满足Jacobi; 在特征0中, 反交换也给出 $[u,u]=0$. 第3步给出两条定义关系. 反过来, 以上每一行都由这些反交换、Jacobi和定义关系以及取括号生成, 所以 $T$ 正是这些关系在自由非结合括号空间中生成的理想. 因此 $(F/T)\otimes_\mathbb Q\C$ 具有原定义代数的普遍性质: 任何两个满足原关系的李代数元素都唯一决定从它出发的同态. 于是它就是 $\mathfrak g_4$.
+
+有限矩阵的行最简阶梯形中, 主元列的向量可由关系表达为非主元列的组合, 而非主元列之间不存在非零关系. 所以 $B_d$ 是每个次数商空间的基. 两条定义关系都是齐次的, 各次数不混合, 因而它们的并集是全代数的基. 扩充标量到 $\C$ 保持这些基和关系的独立性.
+
+为给出可直接核算的开头几项, 令 $v=[x,D^3x]$. 各次数可另取如下基:
+\begin{center}
+\begin{tabular}{ccl}
+\toprule
+总次数 $d$ & 维数 & 一组基\\
+\midrule
+1&2&$x,y$\\
+2&1&$Dx$\\
+3&1&$D^2x$\\
+4&1&$D^3x$\\
+5&2&$v,D^4x$\\
+6&1&$Dv$\\
+7&2&$[x,Dv],D^2v$\\
+\bottomrule
+\end{tabular}
+\end{center}
+表格给出有限次数的一组基; 全空间算法基的正确性由前面的理想和消元证明保证. 此种显式基是算法形式, 计算量随次数很快增加, 不把它声称为闭式的仿射根基.
+
+以下不依赖消元程序, 直接证明表中各组向量是基. 令 $x_i=D^ix$, 此时 $x_5=0$. 从 $[x_0,x_1]=0$ 及其前四次导数得到
+\begin{align*}
+[x_0,x_2]&=0,&[x_1,x_2]&=-[x_0,x_3]=-v,\\
+2[x_1,x_3]+[x_0,x_4]&=0,&
+2[x_2,x_3]+3[x_1,x_4]&=0.
+\end{align*}
+Jacobi还给出 $[x_0,v]=-[x_0,[x_1,x_2]]=0$, 其导数为 $[x_1,v]=-[x_0,Dv]$. 又
+\[
+Dv=\tfrac12[x_0,x_4],\qquad
+D^2v=\tfrac12[x_1,x_4],\qquad [x_2,x_3]=-3D^2v.
+\]
+从次数1逐次取括号, 上述关系把次数2至7的全部词分别约化到表列的张成集. 原因是每个括号词最外层都分成两个次数更小的词; 用已经列出的较低次数张成集代入, 这些等式涵盖总次数至7的所有分拆. 矩阵同态则给出相应非零像:
+\[
+\Psi(x_i)=tP_i,\quad
+\Psi(v)=-3t^2Q_0,\quad
+\Psi(Dv)=-3t^2\operatorname{diag}(1,0,-1),
+\]
+以及 $\Psi(D^2v)=3t^2e$, $\Psi([x,Dv])=-6t^3P_0$. 在每个列出两个词的次数中, 它们的像有不同 $t$ 次数, 因而独立; 其余次数的单个像非零. 这从上界和下界两方面证明了表中的初始维数, 没有从数值实验外推无限次数的结论.
+
+最后核对底域遗漏. (a)对 $n=3$ 的证明用到2可逆. 若把原题按全局约定解释为任意代数闭域, 则特征2时其有限维断言确实不成立. 在特征2的 $\mathfrak{sl}_3(k[t])$ 中仍取 $x\mapsto tE_{31}$, $y\mapsto e$. 此时上述 $P_3=e$, $P_4=0$, 所以满足 $\mathfrak g_3$ 的关系. 像中含 $te$; 若已含 $t^m e$, 则
+\[
+[tE_{31},t^me]=t^{m+1}(E_{21}+E_{32}),\qquad
+(\operatorname{ad}e)^2(E_{21}+E_{32})=e.
+\]
+因而又含 $t^{m+1}e$. 这些矩阵多项式独立, 证明特征2下 $\mathfrak g_3$ 无限维. 所以本题的复数版本完整成立, 而原文省略的特征条件不可直接删除; 本题解不声称分类其他正特征下的这些生成代数.
+\end{solution}

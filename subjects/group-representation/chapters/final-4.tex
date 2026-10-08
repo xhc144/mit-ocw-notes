@@ -1,0 +1,74 @@
+\originalsection{期末作业第4题}
+\begin{exercise}\label{final:4}
+\textbf{MIT 18.712（2010）期末作业原题4；官方期末PDF第1页.}
+设 $V$ 是 $\mathfrak{sl}_2(\C)$ 的二维向量表示。求 $V^{\otimes n}$ 中各不可约表示的重数。
+\end{exercise}
+\begin{solution}
+本题所需的李代数知识在此补齐。$\mathfrak{sl}_2(\C)$ 是迹为零的 $2\times2$ 复矩阵组成的李代数，括号为 $[X,Y]=XY-YX$。取
+\[
+ e=\begin{pmatrix}0&1\\0&0\end{pmatrix},\quad
+ f=\begin{pmatrix}0&0\\1&0\end{pmatrix},\quad
+ h=\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+\]
+则 $[h,e]=2e,[h,f]=-2f,[e,f]=h$。李代数在张量积上的作用是
+\[
+ X(u_1\otimes\cdots\otimes u_n)
+ =\sum_{j=1}^n u_1\otimes\cdots\otimes Xu_j\otimes\cdots\otimes u_n.
+\]
+下文只证明本题需要的不可约表示与分解，不把这段增补视为覆盖旧讲义的整个李代数专题。
+
+记 $L_m=\Sym^m V$，$m\ge0$。把它写成变量 $x,y$ 的 $m$ 次齐次多项式空间，取基 $v_j=x^{m-j}y^j$，$0\le j\le m$，则
+\[
+ ev_j=jv_{j-1},\qquad fv_j=(m-j)v_{j+1},\qquad hv_j=(m-2j)v_j.
+\]
+不存在的端点基向量按零处理。$h$ 的特征值两两不同；任一不变子空间经 $h$ 的多项式投影含有某个 $v_j$，而 $e,f$ 又把所有基向量连在一起，故 $L_m$ 不可约。它的维数为 $m+1$，权为 $m,m-2,\ldots,-m$，每个权的重数为一。
+
+这些也是所有有限维不可约表示。事实上，$e$ 把 $h$ 的广义特征空间的权提高二，$f$ 则降低二；有限谱使 $e,f$ 都幂零，这里不需要预先假定 $h$ 可对角化。$\ker e$ 非零且在 $h$ 下不变，所以可取 $ev=0,hv=\lambda v$。由交换关系归纳得到
+\[
+ e f^jv=j(\lambda-j+1)f^{j-1}v,\qquad
+ h f^jv=(\lambda-2j)f^jv.
+\]
+设 $f^m v\ne0,f^{m+1}v=0$。代入 $j=m+1$ 得到 $\lambda=m$。所生成的子空间有基 $v,fv,\ldots,f^mv$，在 $e,f,h$ 下不变；不可约性使它等于整个表示，并由上面的作用公式与 $L_m$ 同构。
+
+为在本题中获得完全可约性，无需引用一般李代数的完全可约定理。直接考虑乘法映射
+\[
+ \mu:L_m\otimes V\longrightarrow L_{m+1},\qquad p\otimes z\longmapsto pz.
+\]
+它满射且与 $e,f,h$ 的作用相容。映射
+\[
+ \delta(p)=\frac1{m+1}\left(\frac{\partial p}{\partial x}\otimes x+
+               \frac{\partial p}{\partial y}\otimes y\right)
+\]
+也是表示同态；对 $e,f,h$ 逐一应用乘积求导法则即可验证。Euler齐次公式给出 $\mu\delta=\id$。当 $m\ge1$ 时，映射
+\[
+ L_{m-1}\longrightarrow\ker\mu,\qquad
+ p\longmapsto xp\otimes y-yp\otimes x
+\]
+是单射且与作用相容，因为 $x\otimes y-y\otimes x$ 在 $\mathfrak{sl}_2$ 下不变。比较维数，它的像就是 $\ker\mu$。因此
+\[
+ L_m\otimes V\cong L_{m+1}\oplus L_{m-1}\quad(m\ge1),
+ \qquad L_0\otimes V\cong L_1.
+\]
+从 $V^{\otimes0}=L_0$ 出发归纳，$V^{\otimes n}$ 是若干 $L_m$ 的直和。
+
+现在数权空间。$V$ 的两个基向量的权为 $1,-1$。张量基中若有 $r$ 个权为 $-1$ 的因子，总权就是 $n-2r$，所以权 $m$ 的重数为
+\[
+ a_{n,m}=\binom n{(n-m)/2}
+\]
+（下标非整数或不在 $[0,n]$ 时按零处理）。对 $m\ge0$，每个最高权为 $m,m+2,m+4,\ldots$ 的不可约直和项都向权 $m$ 贡献一维。若 $M_{n,m}$ 是 $L_m$ 的重数，则
+\[
+ a_{n,m}=M_{n,m}+M_{n,m+2}+\cdots.
+\]
+相邻两式相减，得到最终答案
+\[
+ \boxed{\displaystyle
+ M_{n,m}=\binom n r-\binom n{r-1},\qquad r=\frac{n-m}{2},
+ \quad 0\le m\le n,\quad m\equiv n\pmod2.}
+\]
+其余 $m$ 的重数为零，约定 $\binom n{-1}=0$。等价地，对上述允许的 $m$，
+\[
+ M_{n,m}=\frac{m+1}{n-r+1}\binom n r.
+\]
+例如 $V^{\otimes2}=L_2\oplus L_0$，$V^{\otimes3}=L_3\oplus2L_1$，
+$V^{\otimes4}=L_4\oplus3L_2\oplus2L_0$；最后一个分解的维数为 $5+3\cdot3+2=16$，与 $2^4$ 一致。
+\end{solution}

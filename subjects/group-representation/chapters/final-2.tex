@@ -1,0 +1,331 @@
+\originalsection{期末作业第2题}
+\begin{exercise}\label{final:2}
+\textbf{MIT 18.712 (2010) 期末作业第2题.}
+设 $\mathbb F_q$ 为有 $q$ 个元素的有限域. 分类二维空间 $\mathbb F_q^2$ 的仿射变换群
+$\GL_2(\mathbb F_q)\ltimes\mathbb F_q^2$ 的所有不可约复表示, 并求出它们的特征标.
+\end{exercise}
+
+以下解答由中文编者撰写. 原题见课程期末作业第1页; 所用理论见公开旧讲义第4.24节与第4.26节, 印刷页68--75及76--77. 原讲义的第4.24节先假设特征不为2, 本题本身没有这个限制. 下面用二次扩域的乘法模型重新证明所需结论, 因而也包含偶特征和 $q=2$.
+
+\begin{solution}
+令 $F=\mathbb F_q$, $K=\GL_2(F)$, $A=F^2$, 把 $A$ 的元素写成列向量. 记仿射群为 $\Gamma$, 其元素写成 $(g,v)$, 对列向量 $x$ 的作用是 $x\mapsto gx+v$. 因而
+\[
+ (g,v)(h,w)=(gh,v+gw),\qquad
+ |K|=(q^2-1)(q^2-q)=q(q-1)(q^2-1),\qquad |\Gamma|=q^2|K|.
+\]
+先完整列出 $K$ 的不可约表示, 再分析非零平移特征对应的稳定子. 这样得到的参数和公式可以在任意给定 $(g,v)$ 上直接求值.
+
+\textbf{一、$K$ 的参数与共轭类型.}
+写 $\widehat{F^\times}$ 为乘法群 $F^\times$ 的复特征群. 再取二次扩域 $E=\mathbb F_{q^2}$, 把 $E$ 看成二维 $F$ 向量空间. 对 $z\in E^\times$, 乘法 $x\mapsto zx$ 给出一个矩阵 $m_z\in K$. 它的迹和行列式分别是
+\[
+ \operatorname{Tr}_{E/F}(z)=z+z^q,\qquad N_{E/F}(z)=z^{q+1}.
+\]
+这个构造不要求选取平方根, 所以适用于偶特征.
+
+$K$ 有如下四种共轭类型:
+\[
+ S_a=aI,\qquad
+ J_a=\begin{pmatrix}a&1\\0&a\end{pmatrix},\qquad
+ D_{a,b}=\begin{pmatrix}a&0\\0&b\end{pmatrix},\qquad E_z=m_z.
+\]
+其中 $a,b\in F^\times$, $D_{a,b}$ 中 $a\ne b$, 无序对 $\{a,b\}$ 只计一次; $E_z$ 中 $z\in E^\times\setminus F^\times$, 对 $\{z,z^q\}$ 也只计一次. 这四种情形分别对应标量矩阵、非平凡Jordan块、两个不同的域内特征值、不可约二次特征多项式. 有理标准形说明没有遗漏, 并给出上述参数的唯一性.
+
+各类大小及类数如下:
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+类型 & 每个共轭类的大小 & 共轭类数 \\
+\midrule
+$S_a$ & $1$ & $q-1$ \\
+$J_a$ & $q^2-1$ & $q-1$ \\
+$D_{a,b}$ & $q(q+1)$ & $(q-1)(q-2)/2$ \\
+$E_z$ & $q(q-1)$ & $q(q-1)/2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+确实, 四种中心化子的阶依次为 $|K|$, $q(q-1)$, $(q-1)^2$, $q^2-1$. 对最后一种, 与 $m_z$ 交换的 $F$ 线性变换恰是 $E$ 线性变换, 因而可逆者恰为 $E^\times$. 类数合计为 $q^2-1$.
+
+\textbf{二、$K$ 的全部不可约特征标.}
+它们分成以下四族. 此处 $\alpha,\beta\in\widehat{F^\times}$, 而 $\theta\in\widehat{E^\times}$. 记 $\theta^q(z)=\theta(z^q)$.
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+表示 & 参数 & 维数 & 个数 \\
+\midrule
+$L_\alpha$ & $\alpha$ & $1$ & $q-1$ \\
+$\mathrm{St}_\alpha$ & $\alpha$ & $q$ & $q-1$ \\
+$P_{\alpha,\beta}$ & $\{\alpha,\beta\}$, $\alpha\ne\beta$ & $q+1$ & $(q-1)(q-2)/2$ \\
+$C_\theta$ & $\{\theta,\theta^q\}$, $\theta\ne\theta^q$ & $q-1$ & $q(q-1)/2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+除表中写出的无序参数等同以外, 没有其他同构关系. 对非分裂参数, 条件 $\theta\ne\theta^q$ 必须保留.
+
+为了给出每个共轭类上的值, 令 $\varphi=\theta|_{F^\times}$. 特征标表拆成两部分写为
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+特征标 & $S_a$ & $J_a$ \\
+\midrule
+$\chi_{L_\alpha}$ & $\alpha(a^2)$ & $\alpha(a^2)$ \\
+$\chi_{\mathrm{St}_\alpha}$ & $q\alpha(a^2)$ & $0$ \\
+$\chi_{P_{\alpha,\beta}}$ & $(q+1)\alpha(a)\beta(a)$ & $\alpha(a)\beta(a)$ \\
+$\chi_{C_\theta}$ & $(q-1)\varphi(a)$ & $-\varphi(a)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+特征标 & $D_{a,b}$ & $E_z$ \\
+\midrule
+$\chi_{L_\alpha}$ & $\alpha(ab)$ & $\alpha(N_{E/F}z)$ \\
+$\chi_{\mathrm{St}_\alpha}$ & $\alpha(ab)$ & $-\alpha(N_{E/F}z)$ \\
+$\chi_{P_{\alpha,\beta}}$ & $\alpha(a)\beta(b)+\alpha(b)\beta(a)$ & $0$ \\
+$\chi_{C_\theta}$ & $0$ & $-\theta(z)-\theta(z^q)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+这些参数也可以明确用整数给出. 取 $E^\times$ 的生成元 $\gamma$, 则 $\gamma^{q+1}$ 生成 $F^\times$. 可令
+\[
+ \alpha_t(\gamma^{q+1})=e^{2\pi it/(q-1)}\quad(0\le t<q-1),\qquad
+ \theta_j(\gamma)=e^{2\pi ij/(q^2-1)}\quad(0\le j<q^2-1).
+\]
+$C_\theta$ 的参数就是把不被 $q+1$ 整除的 $j$ 按 $j\sim qj\pmod{q^2-1}$ 成对归类. $\theta^q=\theta$ 的参数共有 $q-1$ 个, 所以余下的参数对共有 $q(q-1)/2$ 个. 当 $q=2$ 时 $\widehat{F^\times}$ 只有平凡特征, 上述 $\alpha_0$ 公式的分母为1, 仍有意义.
+
+下面证明表中表示的存在、不可约性和完整性.
+
+一维表示定义为 $L_\alpha(g)=\alpha(\det g)$. 取上三角子群 $B\le K$, 定义
+\[
+ \xi_{\alpha,\beta}\begin{pmatrix}a&c\\0&b\end{pmatrix}=\alpha(a)\beta(b),\qquad
+ P_{\alpha,\beta}=\Ind_B^K\xi_{\alpha,\beta}.
+\]
+这里暂时也允许 $\alpha=\beta$. $K/B$ 是 $F^2$ 中直线的集合, 共 $q+1$ 条. 诱导特征标只对 $g$ 的不变直线求和, 每条直线贡献 $g$ 在该直线上和商空间上的两个标量所对应的 $\alpha,\beta$ 值. 四种类型的不变直线数分别为 $q+1,1,2,0$, 于是得到 $P_{\alpha,\beta}$ 那一行, 包括 $\alpha=\beta$ 的情形.
+
+为核不可约性, 令 $w=\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$. 上三角群的双陪集分解是 $K=B\sqcup BwB$, 且 $B\cap wBw^{-1}$ 为对角群. 用本书前文的Frobenius互反与Mackey双陪集分解, 有
+\begin{equation}\label{eq:final2-principal-inner}
+ \langle\chi_{P_{\alpha,\beta}},\chi_{P_{\mu,\nu}}\rangle_K
+ =\delta_{\alpha,\mu}\delta_{\beta,\nu}
+  +\delta_{\alpha,\nu}\delta_{\beta,\mu}.
+\end{equation}
+具体地说, 双陪集 $B$ 对应在 $B$ 上直接比较两个一维特征, 给第一项; $BwB$ 对应在对角群上比较 $\alpha(a)\beta(b)$ 与 $\mu(b)\nu(a)$, 给第二项. 对角线上的 $a,b$ 可以独立取值, 所以只有表中两个匹配条件贡献1. 这个论证不使用特征不为2的条件.
+
+当 $\alpha\ne\beta$ 时, 式\eqref{eq:final2-principal-inner}的自内积为1, 故 $P_{\alpha,\beta}$ 不可约, 而且只在交换参数时同构. 当 $\alpha=\beta$ 时, Frobenius互反说明 $L_\alpha$ 在 $P_{\alpha,\alpha}$ 中恰出现一次. 自内积为2, 所以
+\[
+ P_{\alpha,\alpha}=L_\alpha\oplus\mathrm{St}_\alpha,
+ \qquad \dim\mathrm{St}_\alpha=q,
+\]
+其中 $\mathrm{St}_\alpha$ 不可约. 用 $P_{\alpha,\alpha}$ 的特征标减去 $L_\alpha$ 即得表中 $\mathrm{St}_\alpha$ 的行. 同一内积公式和Frobenius互反还给出
+$\langle\chi_{\mathrm{St}_\alpha},\chi_{\mathrm{St}_\mu}\rangle_K=\delta_{\alpha,\mu}$, 并说明它们与 $L_\mu$、参数不同的主系列都正交. 因而这些表示之间没有遗漏的同构.
+
+剩下的 $C_\theta$ 用虚表示构造. 虚表示的特征标是实际表示特征标的整数线性组合; 若其自内积为1, 则在不可约特征标基下只有一个系数为 $1$ 或 $-1$. 若它在单位元的值为正, 系数必为 $1$, 因而它确实是一个不可约表示的特征标.
+
+令 $T=\{m_z:z\in E^\times\}\le K$, 并取 $\theta\ne\theta^q$. 诱导特征标公式给出 $Y_\theta=\Ind_T^K\theta$ 的值:
+\[
+ \chi_{Y_\theta}(S_a)=q(q-1)\varphi(a),\qquad
+ \chi_{Y_\theta}(J_a)=\chi_{Y_\theta}(D_{a,b})=0,\qquad
+ \chi_{Y_\theta}(E_z)=\theta(z)+\theta(z^q).
+\]
+第一式来自中心标量及指数 $[K:T]=q(q-1)$; 后一式来自 $E_z$ 的共轭类与 $T$ 相交于 $m_z,m_{z^q}$, 且其中心化子就是 $T$. 中间两种类型不能共轭进入 $T$.
+
+考虑虚表示
+\begin{equation}\label{eq:final2-cuspidal-virtual}
+ \mathcal C_\theta
+ =\mathrm{St}_1\otimes P_{\varphi,1}-P_{\varphi,1}-Y_\theta.
+\end{equation}
+即使 $\varphi=1$, 这里的 $P_{\varphi,1}$ 仍是已经定义的实际诱导表示, 无须假定它不可约. 用已算出的三行特征标相乘、相减, 就得到表中 $\chi_{C_\theta}$ 的四个值. 尤其单位元的值为 $q-1>0$.
+
+还要真正核其自内积. 对另一满足 $\kappa\ne\kappa^q$ 的参数 $\kappa$, 记 $\omega=\kappa|_{F^\times}$, 并设
+$u=\delta_{\theta,\kappa}+\delta_{\theta,\kappa^q}$. 循环群特征的正交性给出
+\[
+ \sum_{z\in E^\times}
+ (\theta(z)+\theta^q(z))\overline{(\kappa(z)+\kappa^q(z))}
+ =2(q^2-1)u.
+\]
+在子群 $F^\times$ 上, 这个被加数变为 $4\varphi(a)\overline{\omega(a)}$. 结合四种类的大小, 标量类与Jordan类的总贡献为
+\[
+ \bigl((q-1)^2+q^2-1\bigr)
+ \sum_{a\in F^\times}\varphi(a)\overline{\omega(a)}
+ =2q(q-1)\sum_{a\in F^\times}\varphi(a)\overline{\omega(a)}.
+\]
+非分裂类的贡献则为
+\[
+ \frac{q(q-1)}2\left(
+ 2(q^2-1)u-4\sum_{a\in F^\times}\varphi(a)\overline{\omega(a)}\right).
+\]
+两式中的域内求和抵消, 再除以 $|K|=q(q-1)(q^2-1)$, 得到
+\begin{equation}\label{eq:final2-cuspidal-inner}
+ \langle\chi_{\mathcal C_\theta},\chi_{\mathcal C_\kappa}\rangle_K
+ =\delta_{\theta,\kappa}+\delta_{\theta,\kappa^q}.
+\end{equation}
+所以式\eqref{eq:final2-cuspidal-virtual}确实给出不可约 $C_\theta$, 且参数正好按Frobenius对归类. 当 $q>2$ 时, 维数 $q-1$ 与其余三族的维数不同; 当 $q=2$ 时, $C_\theta$ 在 $J_1$ 上的值为 $-1$, 而唯一的 $L_1$ 在这里的值为1, 所以也不与它同构.
+
+全部表示的维数平方和为
+\begin{align*}
+ &(q-1)+(q-1)q^2
+ +\frac{(q-1)(q-2)}2(q+1)^2
+ +\frac{q(q-1)}2(q-1)^2\\
+ &\hspace{3em}=q(q-1)^2(q+1)=|K|.
+\end{align*}
+已构造的表示两两不同, 所以正则表示的维数平方和定理说明它们构成 $K$ 的完整不可约列表. 这里没有使用“所有一维表示都是行列式特征”作为前提; 对 $q=2$ 而言, 这句话本来就是错误的, 因为 $C_\theta$ 也是一维表示.
+
+\textbf{三、平移特征的两个轨道及稳定子.}
+选定一个非平凡加法特征 $\psi:F\to\C^\times$. 若 $q=p^f$, 可取
+$\psi(t)=\exp(2\pi i\operatorname{Tr}_{F/\mathbb F_p}(t)/p)$.
+对行向量 $y\in F^{1\times2}$, 定义
+\[
+ \lambda_y(v)=\psi(yv),\qquad v\in A.
+\]
+这些是 $A$ 的全部 $q^2$ 个特征. 若 $y\ne y'$, 则非零 $F$ 线性映射 $v\mapsto(y-y')v$ 的像为 $F$, 因而 $\lambda_y\ne\lambda_{y'}$. $K$ 在这些特征上的作用为 $g\cdot\lambda_y=\lambda_{yg^{-1}}$. 非零行向量彼此可由可逆矩阵变换, 所以只有两个轨道: $\{0\}$ 与所有非零行向量.
+
+零轨道的稳定子是整个 $K$. 它给出上面四族表示向 $\Gamma$ 的提升, 即
+\[
+ \widetilde U(g,v)=U(g),\qquad U\in\Irr(K),\qquad
+ \chi_{\widetilde U}(g,v)=\chi_U(g).
+\]
+因此平移子群在这些表示上作用平凡, 维数也不变.
+
+取非零轨道的代表 $y_0=(1,0)$. 稳定子为
+\[
+ H=\left\{h(b,d)=\begin{pmatrix}1&0\\b&d\end{pmatrix}:
+ b\in F,\ d\in F^\times\right\},\qquad |H|=q(q-1).
+\]
+因为 $y_0h=y_0$, 这也等价于 $y_0h^{-1}=y_0$. 其乘法为
+$h(b,d)h(c,e)=h(b+dc,de)$, 即一维仿射群.
+
+$H$ 的不可约表示也可完整算出. 正规子群
+$N=\{h(b,1):b\in F\}$ 是加法群, 而 $F^\times$ 对 $\widehat N$ 的作用有两个轨道: 平凡特征与全部非平凡特征. 平凡轨道给出
+\[
+ \eta_\tau(h(b,d))=\tau(d),\qquad \tau\in\widehat{F^\times}.
+\]
+非平凡轨道的稳定子为平凡群, 给出唯一的另一个表示
+\[
+ R=\Ind_N^H\psi,\qquad \dim R=q-1.
+\]
+这里 $\psi$ 在 $N$ 上的含义是 $\psi(h(b,1))=\psi(b)$. 其特征标为
+\begin{equation}\label{eq:final2-H-character}
+ r(b,d)=\chi_R(h(b,d))=
+ \begin{cases}
+ q-1,& d=1,\ b=0,\\
+ -1,& d=1,\ b\ne0,\\
+ 0,& d\ne1.
+ \end{cases}
+\end{equation}
+确实, 当 $d\ne1$ 时, $h(b,d)$ 不能共轭进 $N$, 诱导特征标为0. 当 $d=1$ 时, 诱导公式给出
+$\sum_{t\in F^\times}\psi(tb)$, 它在 $b=0$ 时为 $q-1$, 在 $b\ne0$ 时为 $-1$.
+$R$ 在 $N$ 上的不同特征各出现一次, 且 $F^\times$ 传递置换这些一维空间, 所以 $R$ 不可约. $\eta_\tau$ 两两不同, 又与 $R$ 不同; 即使 $q=2$, $R$ 在非平凡平移上的值为 $-1$, 仍与 $\eta_1$ 有别. 最后
+\[
+ (q-1)\cdot1^2+(q-1)^2=q(q-1)=|H|,
+\]
+证明没有其他不可约表示.
+
+\textbf{四、$\Gamma$ 的完整分类与其不可约性.}
+因为 $H$ 固定 $\lambda_{y_0}$, 对任意 $\sigma\in\Irr(H)$, 公式
+\[
+ \rho_\sigma(h,v)=\lambda_{y_0}(v)\sigma(h)
+ \qquad (h\in H,\ v\in A)
+\]
+定义 $H\ltimes A$ 的表示. 乘法成立的原因是
+$\lambda_{y_0}(hw)=\lambda_{y_0}(w)$. 定义
+\[
+ V_\sigma=\Ind_{H\ltimes A}^{\Gamma}\rho_\sigma.
+\]
+把 $\sigma=\eta_\tau$ 的表示记为 $Q_\tau$, 把 $\sigma=R$ 的表示记为 $Q_R$. 则所有不可约表示为
+\begin{equation}\label{eq:final2-all-affine}
+ \widetilde L_\alpha,\quad
+ \widetilde{\mathrm{St}}_\alpha,\quad
+ \widetilde P_{\alpha,\beta},\quad
+ \widetilde C_\theta,\quad
+ Q_\tau\ (\tau\in\widehat{F^\times}),\quad Q_R.
+\end{equation}
+前四族的参数等同如上; 后两族没有进一步的同构关系. 新表示的维数为
+\[
+ \dim Q_\tau=q^2-1,\qquad
+ \dim Q_R=(q^2-1)(q-1).
+\]
+
+为证明这一分类, 将任意复表示按平移特征分解为权空间
+$V=\bigoplus_y V_y$, 其中 $v\in A$ 在 $V_y$ 上作用为 $\psi(yv)$. 群 $K$ 按 $y\mapsto yg^{-1}$ 置换这些空间. 若 $V$ 不可约, 它的非零权空间只能落在一个轨道: 否则每个轨道对应的权空间和都是真不变子空间. 零轨道的情况恰是 $K$ 的提升表示.
+
+对于非零轨道, $V_{y_0}$ 是 $H$ 的表示. 若它有真非零 $H$ 不变子空间, 将该子空间由 $K$ 搬到各个权空间, 其直和就给出 $V$ 的真非零 $\Gamma$ 不变子空间. 因而 $V_{y_0}$ 必须是不可约 $\sigma$. 反过来, $V_\sigma$ 在每个非零权空间上的维数为 $\dim\sigma$, $y_0$ 权空间上的 $H$ 作用正是 $\sigma$. 任何 $\Gamma$ 不变子空间也分解为权空间; 在 $y_0$ 权空间上由 $\sigma$ 的不可约性只能取零或全部, 再由轨道传递性在其余权空间上同时取零或全部. 所以 $V_\sigma$ 不可约.
+
+取 $K/H$ 的一组代表, 把 $V_{y_0}$ 搬到全部非零权空间, 自然得到 $V_\sigma$ 到 $V$ 的同构. 这也证明每个非零轨道表示都由这种诱导构造获得. 其 $y_0$ 权空间能恢复 $\sigma$, 因而不同 $\sigma$ 给出不同表示. 零轨道与非零轨道则可由平移子群的作用区分. 这是本题所需半直积分类定理的直接证明.
+
+再作完整性检验. 前四族的平方和为 $|K|$, 后两族的平方和为
+\[
+ (q^2-1)^2\bigl((q-1)+(q-1)^2\bigr)
+ =(q^2-1)^2q(q-1)=(q^2-1)|K|.
+\]
+合计正好为 $q^2|K|=|\Gamma|$. 不可约表示总数为
+$(q^2-1)+(q-1)+1=q^2+q-1$.
+
+\textbf{五、所有仿射元素上的特征标公式.}
+前四族的公式已经给出: 忽略 $v$, 在 $g$ 的共轭类型上代入 $K$ 的特征标表. 为求后两族, 定义
+\[
+ W_g=\{y\in F^{1\times2}:yg=y\},\qquad
+ k_g=\dim_F W_g,\qquad
+ \epsilon_g(v)=
+ \begin{cases}1,&v\in\im(g-I),\\0,&v\notin\im(g-I).\end{cases}
+\]
+这里 $\im(g-I)$ 是 $F^2$ 中的列向量像空间. 对任意 $\sigma\in\Irr(H)$, 诱导特征标为以下完全可计算的有限和:
+\begin{equation}\label{eq:final2-affine-induced-character}
+ \chi_{V_\sigma}(g,v)=\frac1{|H|}
+ \sum_{\substack{t\in K\\tgt^{-1}\in H}}
+ \psi(y_0tv)\chi_\sigma(tgt^{-1}).
+\end{equation}
+例如可遍历 $K$ 的全部矩阵, 对满足条件者使用式\eqref{eq:final2-H-character}或 $\eta_\tau$ 直接求和. 下面化成更简短的闭式.
+
+先说明式\eqref{eq:final2-affine-induced-character}的来源与归一化. 对 $(s,u)\in\Gamma$, 有
+\[
+ (s,u)^{-1}(g,v)(s,u)
+ =\bigl(s^{-1}gs,\ s^{-1}(v+(g-I)u)\bigr).
+\]
+若 $s^{-1}gs\in H$, 则行向量 $y=y_0s^{-1}$ 满足 $yg=y$, 所以 $y(g-I)u=0$. 诱导公式中的平移特征因而与 $u$ 无关, 对 $u$ 求和抵消分母里的 $|A|$. 再令 $t=s^{-1}$, 便得到式\eqref{eq:final2-affine-induced-character}.
+
+对每个满足 $yg=y$ 的非零行向量 $y$, 恰有 $|H|$ 个 $t$ 满足 $y_0t=y$. 它们彼此相差左乘 $H$ 元素, 故 $\chi_\sigma(tgt^{-1})$ 的值相同. 于是式\eqref{eq:final2-affine-induced-character}也等于对 $W_g\setminus\{0\}$ 的一次求和. 当 $\sigma=\eta_\tau$ 时, $tgt^{-1}=h(b,d)$ 中的 $d$ 必为 $\det g$, 所以
+\[
+ \chi_{Q_\tau}(g,v)
+ =\tau(\det g)\sum_{y\in W_g\setminus\{0\}}\psi(yv).
+\]
+对整个 $W_g$ 求和, 若 $v\in\im(g-I)$, 每项都是1, 和为 $q^{k_g}$. 若 $v\notin\im(g-I)$, 由于 $W_g$ 恰是 $\im(g-I)$ 的行向量零化空间, 存在 $y\in W_g$ 使 $yv\ne0$. 将该 $y$ 乘以 $F$ 中适当的标量, 可保证 $\psi(yv)\ne1$. 因而 $y\mapsto\psi(yv)$ 是 $W_g$ 的非平凡加法特征, 其和为0. 去掉零向量的贡献1, 得
+\begin{equation}\label{eq:final2-affine-linear-little}
+ \chi_{Q_\tau}(g,v)
+ =\tau(\det g)\bigl(q^{k_g}\epsilon_g(v)-1\bigr).
+\end{equation}
+若 $k_g=0$, 则 $\im(g-I)=F^2$, 右端为0, 所以该式也包含没有特征值1的情形.
+
+当 $\sigma=R$ 时, 式\eqref{eq:final2-H-character}还给出
+\begin{equation}\label{eq:final2-affine-nonlinear-little}
+ \chi_{Q_R}(g,v)=
+ \begin{cases}
+ (q-1)\bigl(q^2\mathbf1_{\{v=0\}}-1\bigr),&g=I,\\
+ 1-q\epsilon_g(v),&g\ne I,\ (g-I)^2=0,\\
+ 0,&\text{其他情形}.
+ \end{cases}
+\end{equation}
+确实, 当 $g=I$ 时, 稳定子表示的每项迹为 $q-1$, 再乘所有非零平移特征的和即可. 若 $g\ne I$ 且 $(g-I)^2=0$, 则 $g$ 为非平凡幺幂矩阵, $k_g=1$. 每个相关共轭矩阵都是 $h(b,1)$, $b\ne0$, 故 $R$ 的特征标值恒为 $-1$, 结果是式\eqref{eq:final2-affine-linear-little}中求和的负值. 其余情形中, 若没有特征值1则求和集合为空; 若有特征值1且 $\det g\ne1$, 式\eqref{eq:final2-H-character}给出的每项为0. 这穷尽了二维矩阵的所有可能性.
+
+特别地, 对非平凡幺幂 $g$, $Q_\tau$ 的值与 $\tau$ 无关, 在 $v\in\im(g-I)$ 时为 $q-1$, 否则为 $-1$; $Q_R$ 的值分别为 $1-q$ 和1. 对特征值为 $1,d$、$d\ne1$ 的矩阵, $Q_\tau$ 的值分别为 $(q-1)\tau(d)$ 和 $-\tau(d)$, 而 $Q_R$ 的值总为0. 这些值都由上述闭式公式直接得到.
+
+\textbf{六、$q=2$ 的边界检验.}
+此时 $K$ 置换三个非零向量, 得到 $K\simeq S_3$. 其三个不可约表示是 $L_1$、$\mathrm{St}_1$ 和唯一的 $C_\theta$, 维数分别为 $1,2,1$. 在 $I,J_1,E_z$ 上的值分别为
+\[
+ \chi_{L_1}=(1,1,1),\qquad
+ \chi_{\mathrm{St}_1}=(2,0,-1),\qquad
+ \chi_{C_\theta}=(1,-1,1).
+\]
+最后一个正是 $S_3$ 的符号表示. $H\simeq C_2$ 的两个不可约表示都是一维的, 分别为 $\eta_1$ 与 $R$. 因而 $\Gamma$ 的维数列表为 $1,1,2,3,3$, 平方和为24. 仿射群忠实作用于 $F_2^2$ 的四个点, 阶为24, 故 $\Gamma\simeq S_4$.
+
+还可逐类核对公式. 非零纯平移在四个点上是两个不交的换位. 非平凡幺幂 $g$ 满足 $\im(g-I)=\ker(g-I)$: 若 $v\in\im(g-I)$, 则 $(g,v)$ 与 $(g,0)$ 共轭, 在四个点上是一个换位; 若 $v\notin\im(g-I)$, 则 $(g,v)^2=(I,(g-I)v)$ 是非零平移, 所以 $(g,v)$ 是一个4轮换. 非分裂 $g$ 的阶为3且 $g-I$ 可逆, 所有 $(g,v)$ 都与 $(g,0)$ 共轭, 在四个点上是3轮换. 按这些五类, 式\eqref{eq:final2-affine-linear-little}与式\eqref{eq:final2-affine-nonlinear-little}分别给出
+\begin{center}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+ & 单位元 & 换位 & 双换位 & 3轮换 & 4轮换 \\
+\midrule
+$\chi_{Q_1}$ & $3$ & $1$ & $-1$ & $0$ & $-1$ \\
+$\chi_{Q_R}$ & $3$ & $-1$ & $-1$ & $0$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+这与 $S_4$ 的两个三维不可约特征标一致, 也检查了偶特征下的符号、平移项及边界维数. 至此, 式\eqref{eq:final2-all-affine}给出全部表示, 两张 $K$ 的表与式\eqref{eq:final2-affine-linear-little}、\eqref{eq:final2-affine-nonlinear-little}给出它们在每一个仿射元素上的特征标.
+\end{solution}

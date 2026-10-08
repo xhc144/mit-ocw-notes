@@ -1,0 +1,94 @@
+\originalchapter{对偶、张量积与新表示}
+\originalsection{对偶表示}
+$V^*=\Hom_\C(V,\C)$ 的元素是线性泛函. 要使自然配对 $\lambda(v)$ 在同时作用后不变, 必须定义
+\[
+ (g\lambda)(v)=\lambda(g^{-1}v).
+\]
+这满足 $(gh)\lambda=g(h\lambda)$, 在对偶基中的矩阵为 $\rho_{V^*}(g)=\rho_V(g^{-1})^{\mathsf T}$, 所以
+\[
+ \chi_{V^*}(g)=\chi_V(g^{-1})=\overline{\chi_V(g)}.
+\]
+若 $V$ 不可约, $V^*$ 也不可约: 由对偶特征标与原特征标的平方范数相同, 推论\ref{cor:char-decomposition}即可判断. 也可取非零真子表示的零化子获得反证.
+
+有自然线性同构 $V^*\otimes W\to\Hom_\C(V,W)$, 把 $\lambda\otimes w$ 映到 $v\mapsto\lambda(v)w$. 在基与对偶基中这些映射就是矩阵单位, 因而构成一组基; 对群作用的兼容性由上述逆元公式保证. 这解释第三章Hom特征标乘积公式的结构来源.
+
+\originalsection{张量积与重数}
+\begin{definition}
+$V\otimes W$ 是由符号 $v\otimes w$ 张成、满足对每一变量的线性关系的向量空间. 若 $\{v_i\},\{w_j\}$ 为基, 则 $\{v_i\otimes w_j\}$ 为基, 维数为 $\dim V\dim W$. 两个 $G$ 表示的张量积作用定义为 $g(v\otimes w)=gv\otimes gw$.
+\end{definition}
+基结论可通过坐标直接核实: 双线性关系使任意纯张量写成 $\sum_{i,j}a_i b_j v_i\otimes w_j$; 反向把这些基符号映到独立坐标向量, 给出线性独立性. 因而张量积不是只由纯张量组成的集合, 一般元素是纯张量的和.
+
+\begin{proposition}\label{prop:tensorcharacter}
+$\chi_{V\otimes W}(g)=\chi_V(g)\chi_W(g)$. 若 $S_i$ 为全部不可约, 则 $S_k$ 在 $V\otimes W$ 中的重数为
+\[
+ \frac1{|G|}\sum_{g\in G}\chi_V(g)\chi_W(g)\overline{\chi_k(g)}.
+\]
+\end{proposition}
+\begin{proof}
+若 $g$ 在两空间的矩阵为 $A,B$, 在张量基的对角元素为 $A_{ii}B_{jj}$, 总迹为 $\sum_{i,j}A_{ii}B_{jj}=\tr A\tr B$. 重数公式再由特征标分解定理得到.
+\end{proof}
+
+张量积可以产生新表示, 也可以暴露已有表示的对偶关系. 例如 $1$ 在 $V^*\otimes W$ 中的重数为 $\dim\Hom_G(V,W)$. 当 $V,W$ 不可约时, 这个数恰为0或1, 而不是张量积本身通常不可约.
+
+\originalsection{对称平方与外平方}
+在 $V\otimes V$ 上定义交换算子 $\tau(v\otimes w)=w\otimes v$. 它满足 $\tau^2=I$ 并与群作用交换. 因为底域为复数, 投影 $(I\pm\tau)/2$ 给出直和
+\[
+ V\otimes V=\Sym^2V\oplus\bigwedge^2V,
+\]
+两者分别为 $\tau$ 的 $+1,-1$ 特征空间. 在基中, 对称部分由 $v_i\otimes v_i$ 与 $v_i\otimes v_j+v_j\otimes v_i$ ($i<j$) 张成, 外平方由 $v_i\otimes v_j-v_j\otimes v_i$ ($i<j$) 张成. 维数分别为 $d(d+1)/2$ 与 $d(d-1)/2$.
+
+\begin{proposition}\label{prop:symext}
+对任意 $g\in G$, 有
+\[
+ \chi_{\Sym^2V}(g)=\frac{\chi_V(g)^2+\chi_V(g^2)}2,\qquad
+ \chi_{\bigwedge^2V}(g)=\frac{\chi_V(g)^2-\chi_V(g^2)}2.
+\]
+\end{proposition}
+\begin{proof}
+令 $\rho_V(g)$ 的特征值为 $\lambda_1,\ldots,\lambda_d$, 对称平方的特征值是 $\lambda_i\lambda_j$ ($i\le j$), 外平方是同样乘积但只取 $i<j$. 平方 $(\sum_i\lambda_i)^2$ 把所有 $i\ne j$ 项计两次, 而 $\sum_i\lambda_i^2=\chi_V(g^2)$ 只计对角项. 相加或相减再除以2, 得到两式.
+\end{proof}
+
+\begin{example}
+对 $S_3$ 标准表示 $U$, 求 $\Sym^2U$ 与 $\bigwedge^2U$.
+\end{example}
+\begin{solution}
+三类上 $\chi_U=(2,0,-1)$, 平方映射把换位送到单位元、三循环送到另一三循环, 所以 $\chi_U(g^2)=(2,2,-1)$. 两公式给出对称平方特征标 $(3,1,0)$, 外平方特征标 $(1,-1,1)$. 前者是 $1\oplus U$, 后者是符号表示. 也可由 $\bigwedge^2U$ 的作用就是二维矩阵行列式直接看出后一结论.
+\end{solution}
+
+\originalsection{直积群}
+若 $V$ 是 $G$ 表示, $W$ 是 $H$ 表示, 在 $V\otimes W$ 上定义 $(g,h)(v\otimes w)=gv\otimes hw$, 记为外张量积 $V\boxtimes W$. 此处群的两个因子独立作用, 与同一个群的内部张量积有所区别.
+
+\begin{theorem}\label{thm:products}
+若 $S_i,T_j$ 分别为 $G,H$ 的全部复不可约表示, 则 $S_i\boxtimes T_j$ 两两不等价且不可约, 并穷尽 $G\times H$ 的全部不可约.
+\end{theorem}
+\begin{proof}
+特征标为 $\chi_i(g)\psi_j(h)$. 在直积群上的内积是两重有限和, 可分成因子的内积乘积:
+\[
+ \inner{\chi_i\psi_j}{\chi_k\psi_\ell}_{G\times H}
+ =\inner{\chi_i}{\chi_k}_G\inner{\psi_j}{\psi_\ell}_H
+ =\delta_{ik}\delta_{j\ell}.
+\]
+由范数判别知不可约, 由不同特征标正交知互不等价. 又维数平方和为
+$\sum_{i,j}(d_i\dim T_j)^2=(\sum_i d_i^2)(\sum_j(\dim T_j)^2)=|G||H|$, 所以没有遗漏.
+\end{proof}
+
+\originalsection{虚表示}
+\begin{definition}
+不可约表示的整数线性组合 $\sum_i n_i S_i$ ($n_i\in\Z$) 称虚表示, 特征标为 $\sum_i n_i\chi_i$. 实际表示对应所有 $n_i\ge0$ 的情形.
+\end{definition}
+虚表示允许在构造中先减去已知分量. 例如置换表示减去平凡表示是合法虚表示; 若存在不变补空间, 它又实际由该补空间实现. 不能只凭某个函数在单位元处为正, 就把任意差写成实际表示.
+
+\begin{lemma}\label{lem:virtualnorm}
+若虚特征标 $f$ 满足 $\inner f f_G=1$ 且 $f(e)>0$, 则 $f$ 是某个不可约表示的特征标.
+\end{lemma}
+\begin{proof}
+写 $f=\sum_i n_i\chi_i$, 行正交给 $\inner f f_G=\sum_i n_i^2$. 整数平方和为1迫使恰有一个系数为 $1$ 或 $-1$, 其他全为0. 此时 $f(e)=\pm d_i$, 正值条件选出 $+1$.
+\end{proof}
+“虚”这一条件不可省略: 它保证系数为整数, 才能从平方和为1推出单一系数. 期末作业中会利用这个引理构造二元二十面体群的一个不可约表示.
+
+\begin{exercise}
+证明用任意一维表示 $L$ 张量, 会置换不可约表示的同构类型. 说明其逆操作.
+\end{exercise}
+\begin{solution}
+$L$ 的每个群矩阵为非零标量. $L\otimes V$ 的子空间不变条件因此与 $V$ 相同, 所以保持不可约性. 若 $L\otimes V\cong L\otimes W$, 再张量 $L^*$ 并用 $L^*\otimes L\cong1$, 得 $V\cong W$. 逆操作正是张量 $L^*$, 从而给出同构类型集合的置换.
+\end{solution}

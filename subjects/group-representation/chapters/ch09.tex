@@ -1,0 +1,82 @@
+\originalchapter{不变形式与四次对称群}
+\originalsection{不变双线性形式}
+Hermite内积在一个变量上线性、另一个变量上共轭线性. 本节的双线性形式 $B:V\times V\to\C$ 则在两个变量上都复线性. 二者不能混同. 若 $B(gv,gw)=B(v,w)$ 对所有 $g$ 成立, 称 $G$ 不变. 它对应交织映射 $T_B:V\to V^*$, 定义 $T_B(v)(w)=B(v,w)$: 不变性等价于 $T_B(gv)(w)=T_B(v)(g^{-1}w)$.
+
+\begin{proposition}\label{prop:invariantbilinear}
+若 $V$ 复不可约, 则不变双线性形式空间在 $V\not\cong V^*$ 时为0; 在 $V\cong V^*$ 时为一维. 后一情形每个非零不变形式非退化, 且必为对称或交错形式之一.
+\end{proposition}
+\begin{proof}
+形式空间同构于 $\Hom_G(V,V^*)$. $V^*$ 也不可约, 所以Schur引理给出维数0或1. 非零 $T_B$ 必为同构, 因而 $B$ 非退化. 转置形式 $B^{\mathsf T}(v,w)=B(w,v)$ 也不变, 所以 $B^{\mathsf T}=cB$. 再转置得 $B=c^2B$, 所以 $c=\pm1$. $c=1$ 即对称; $c=-1$ 给 $B(v,v)=0$, 即交错.
+\end{proof}
+交错非退化形式只能在偶数维空间存在: 其矩阵满足 $A^{\mathsf T}=-A$, 若维数 $d$ 为奇数, 则 $\det A=\det A^{\mathsf T}=\det(-A)=(-1)^d\det A=-\det A$, 从而行列式为0.
+
+\originalsection{Frobenius--Schur指标}
+\begin{theorem}\label{thm:fs}
+对不可约复表示 $V$ 定义 $\nu(V)=|G|^{-1}\sum_g\chi_V(g^2)$. 则
+\[
+ \nu(V)=\begin{cases}
+ 0,&V\not\cong V^*,\\
+ 1,&V\text{有非零不变对称双线性形式},\\
+ -1,&V\text{有非零不变交错双线性形式}.
+ \end{cases}
+\]
+\end{theorem}
+\begin{proof}
+把双线性形式看成 $V^*\otimes V^*$ 中的张量, 其对称和交错部分分别为 $\Sym^2(V^*)$ 与 $\bigwedge^2(V^*)$. 交换两变量的算子与群作用交换, 所以不变形式空间也按这两部分分解. 由命题\ref{prop:symext}与平均投影公式, 两个不变空间维数之差为
+\[
+ \frac1{|G|}\sum_g\bigl(\chi_{\Sym^2 V^*}(g)-\chi_{\bigwedge^2 V^*}(g)\bigr)
+ =\frac1{|G|}\sum_g\chi_{V^*}(g^2)=\overline{\nu(V)}.
+\]
+命题\ref{prop:invariantbilinear}说明: 非自对偶时两维数都是0; 自对偶时只有一种形式, 对称情况的差为1, 交错情况为 $-1$. 因而差是实数, 等于其共轭, 得到结论.
+\end{proof}
+本书用指标辨别三种不变形式类型. 与实表示、四元数表示的完整对应在课程习题原题4.1中进一步说明; 这里的证明不借助该对应.
+
+\begin{example}
+比较第五章 $D_8$ 的二维表示 $E$ 与 $Q_8$ 的二维表示 $F$ 的指标.
+\end{example}
+\begin{solution}
+$D_8$ 中 $e,r^2$ 及四个反射平方为 $e$, 两个奇数次旋转平方为 $r^2$. 因此 $\nu(E)=(6\cdot2+2\cdot(-2))/8=1$. $E$ 的实正交矩阵也直接保持 $v^{\mathsf T}w$ 这一对称双线性形式.
+
+$Q_8$ 中 $\pm1$ 的平方为1, 其余六个元素平方为 $-1$, 所以 $\nu(F)=(2\cdot2+6\cdot(-2))/8=-1$. 矩阵 $A=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$ 定义交错形式 $B(v,w)=v^{\mathsf T}Aw$. 第五章的两生成元矩阵均行列式为1, 而任意二阶矩阵 $M$ 满足 $M^{\mathsf T}AM=(\det M)A$, 所以此形式不变. 二群的特征标表相同, 平方映射不同, 指标因而不同.
+\end{solution}
+
+\originalsection{四次对称群的标准表示}
+$S_4$ 的共轭类按循环类型分为 $e,(12),(12)(34),(123),(1234)$, 类大小分别为 $1,6,3,8,6$. 换位为选择两个数字, 共6个; 双换位为把四个数字分成两对, 共3个; 三循环先选三个数字再选两个方向, 共8个; 四循环共 $(4-1)!=6$ 个. 类大小之和为24.
+
+四点置换表示分成平凡直线与标准空间 $W=\{(a_1,\ldots,a_4):\sum a_i=0\}$, 所以 $\chi_W(g)$ 为固定点数减1, 得 $3,1,-1,0,-1$. 平方范数是 $(9+6+3+0+6)/24=1$, 故 $W$ 不可约. 张量符号表示给 $W'=W\otimes\sgn$, 特征标为 $3,-1,-1,0,1$, 也不可约.
+
+\originalsection{商群构造与完整特征标表}
+考虑三种把四点分成两对的划分
+\[
+ P_1=12|34,\qquad P_2=13|24,\qquad P_3=14|23.
+\]
+$S_4$ 置换这三个对象, 给同态 $S_4\to S_3$. 换位 $(12)$ 交换 $P_2,P_3$, 三循环在三划分上给三循环, 所以像包含 $S_3$ 的生成元, 因而满射. 核包含正规四元群 $N=\{e,(12)(34),(13)(24),(14)(23)\}$, 而核的阶为 $24/6=4$, 所以恰为 $N$. 把 $S_3$ 的二维标准表示沿此商映射拉回, 得不可约 $E$: 不变子空间与商群上的不变子空间相同.
+
+在三划分上的置换特征标减1, 得 $\chi_E=2,0,2,-1,0$. 所以全部候选列表为
+\begin{center}
+\begin{tabular}{c|rrrrr}
+\toprule
+代表元 &$e$&$(12)$&$(12)(34)$&$(123)$&$(1234)$\\
+类大小 &1&6&3&8&6\\\midrule
+$1$&1&1&1&1&1\\
+$\sgn$&1&$-1$&1&1&$-1$\\
+$E$&2&0&2&$-1$&0\\
+$W$&3&1&$-1$&0&$-1$\\
+$W'$&3&$-1$&$-1$&0&1\\\bottomrule
+\end{tabular}
+\end{center}
+已构造的五个不可约两两特征标不同, 平方和为 $1+1+4+9+9=24$, 因而穷尽. 全部具有实矩阵, 并保持平均后的实正定内积; 其复线性延拓为对称不变双线性形式, 所以指标均为1. 这不需要一般Young图理论.
+
+\begin{example}
+设 $H=S_3\le S_4$ 是第四个点的稳定子, $U$ 为 $H$ 的二维标准表示. 分解 $\Ind_H^{S_4}U$.
+\end{example}
+\begin{solution}
+$W$ 限制到 $H$ 的特征标为 $(3,1,0)$, 等于 $1_H\oplus U$ 的特征标; 因此 $\Res W\cong1_H\oplus U$. 同理 $\Res W'\cong\sgn_H\oplus U$, 因为 $U\otimes\sgn_H\cong U$. 二维 $E$ 限制到 $H$ 的值是 $(2,0,-1)$, 即 $U$. 两个一维 $S_4$ 表示限制后都不含 $U$. 互反得到 $\Ind_H^{S_4}U\cong E\oplus W\oplus W'$. 维数为 $2+3+3=8=[S_4:H]\cdot2$.
+\end{solution}
+
+\begin{exercise}
+求 $W\otimes W$、$\Sym^2W$ 与 $\bigwedge^2W$ 的分解.
+\end{exercise}
+\begin{solution}
+张量特征标为 $(9,1,1,0,1)$, 与五行取内积给重数 $1,0,1,1,1$, 所以 $W\otimes W\cong1\oplus E\oplus W\oplus W'$. 平方映射的类顺序给 $\chi_W(g^2)=(3,3,3,0,-1)$, 从而对称平方为 $(6,2,2,0,0)$, 外平方为 $(3,-1,-1,0,1)$. 与表比较得 $\Sym^2W\cong1\oplus E\oplus W$, $\bigwedge^2W\cong W'$.
+\end{solution}

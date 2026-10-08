@@ -1,0 +1,186 @@
+% !TeX program = xelatex
+% 数学 LaTeX 排版 Skill v4.0.0；版式保持 v3 金标准. XeLaTeX 编译至少两次. 不分发字体.
+% WZ-LOCKED-CLASS-BEGIN
+\begin{filecontents*}[overwrite]{elegantbook-original-adapter.cls}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{elegantbook-original-adapter}[2026/09/23 v3.0 fixed mathematical book environments]
+\LoadClass[10pt,letterpaper,oneside]{book}
+\RequirePackage[UTF8,scheme=plain,fontset=fandol]{ctex}
+\RequirePackage{fontspec}
+\setmainfont{cmunrm.otf}[BoldFont=cmunbx.otf,ItalicFont=cmunti.otf,BoldItalicFont=cmunbi.otf]
+\setCJKfamilyfont{sourceheader}[ItalicFont=FandolKai-Regular.otf]{FandolKai-Regular.otf}
+\RequirePackage{amsmath,amssymb,mathrsfs}
+\RequirePackage{amsthm,etoolbox}
+\RequirePackage{xcolor,geometry,setspace,fancyhdr,enumitem,needspace,xurl}
+\definecolor{structurecolor}{HTML}{880E4F}
+\definecolor{main}{HTML}{9C27B0}
+\geometry{paperwidth=612bp,paperheight=792bp,left=20mm,right=20mm,top=95.04bp,bottom=20mm,headheight=12pt,headsep=25pt,footskip=30pt}
+\setstretch{1.6}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlist{nosep,leftmargin=2em}
+\AtBeginDocument{\setlength{\abovedisplayskip}{4pt plus 1pt minus 1pt}\setlength{\belowdisplayskip}{4pt plus 1pt minus 1pt}\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{3pt}}
+\fancyhf{}
+\fancyhead[L]{{\itshape\CJKfamily{sourceheader}\rightmark}}
+\fancyhead[R]{{\itshape\CJKfamily{sourceheader}\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{structurecolor}\hrule height\headrulewidth width\headwidth\vskip-\headrulewidth}}
+\pagestyle{fancy}
+\fancypagestyle{cover}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}\renewcommand{\headrule}{}}
+\RequirePackage{hyperref}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=structurecolor,urlcolor=structurecolor,citecolor=structurecolor,linktoc=section,bookmarksnumbered=true,bookmarksopen=true,pdfborder={0 0 0},pdfstartview=FitH}
+\setcounter{tocdepth}{1}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.4em}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\newcommand{\originalchapter}[1]{\par\addvspace{14pt}\Needspace{5\baselineskip}\refstepcounter{chapter}\setcounter{section}{0}\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}\markboth{\thechapter\quad #1}{}\begingroup\centering\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\thechapter\quad #1\par\endgroup\nobreak\vspace{8pt}}
+\newcommand{\originalsection}[1]{\par\addvspace{9pt}\Needspace{4\baselineskip}\refstepcounter{section}\addcontentsline{toc}{section}{\protect\hspace*{1.5em}\protect\numberline{\protect\textcolor{structurecolor}{\thesection}}#1}\markright{\thesection\quad #1}\noindent{\fontsize{12}{17}\selectfont\color{structurecolor}\thesection\quad}{\bfseries\fontsize{12}{17}\selectfont #1}\par\nobreak\vspace{4pt}}
+
+% Semantic environments are registered once here, not re-designed in manuscripts.
+\newtheoremstyle{wzstatement}{6pt}{5pt}
+  {\normalfont\kaishu}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzdefinition}{6pt}{5pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzproblem}{7pt}{5pt}
+  {\normalfont\songti}{2em}{\normalfont\bfseries\color{main}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}}
+\newtheoremstyle{wzremark}{4pt}{4pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries}
+  {}{.7em}{\thmname{#1}}
+\theoremstyle{wzstatement}
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{wzdefinition}
+\newtheorem{definition}[theorem]{定义}
+\theoremstyle{wzproblem}
+\newtheorem{example}{例题}[chapter]
+\newtheorem{exercise}{习题}[chapter]
+\theoremstyle{wzremark}
+\newtheorem*{remark}{注}
+\renewcommand{\proofname}{证明}
+% Retain the native amsthm QED stack; only adjust the fixed typography.
+\expandafter\patchcmd\csname\string\proof\endcsname{\normalfont \topsep6\p@\@plus6\p@\relax}
+  {\normalfont\songti \topsep5\p@\@plus1\p@\relax}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof spacing}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\itshape}{\normalfont\bfseries}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof heading}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\ignorespaces}
+  {\setlength{\parindent}{2em}\ignorespaces}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof paragraphs}{Check the amsthm version.}}
+\AtBeginEnvironment{proof}{\par\Needspace{3\baselineskip}}
+\renewcommand{\qedsymbol}{\ensuremath{\square}}
+\newenvironment{solution}{\begin{proof}[解答]}{\end{proof}}
+\newcommand{\wzcheckchapter}{\ifnum\value{chapter}<1
+  \ClassError{elegantbook-original-adapter}{Numbered mathematics before chapter 1}{Move it after the first originalchapter.}\fi}
+
+\newcommand{\wzregisterguard}[1]{\AtBeginEnvironment{#1}{\wzcheckchapter\par\Needspace{3\baselineskip}}}
+\forcsvlist{\wzregisterguard}{theorem,lemma,proposition,corollary,definition,example,exercise}
+% Front matter and bibliography are not numbered mathematical chapters.
+\newcommand{\originalpreface}{\par\addvspace{10pt}\Needspace{5\baselineskip}
+  \noindent{\bfseries\fontsize{12}{17}\selectfont 前言}\par\nobreak\vspace{4pt}}
+\newcommand{\originalcontents}{\par\addvspace{14pt}
+  \begin{center}{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont 目录}\end{center}
+  \vspace{-10pt}\@starttoc{toc}}
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]{
+  \par\addvspace{12pt}\Needspace{3\baselineskip}\phantomsection
+  \addcontentsline{toc}{chapter}{\bibname}
+  \markboth{\bibname}{}
+  \noindent{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\bibname}\par\nobreak\vspace{6pt}
+  \list{\@biblabel{\@arabic\c@enumiv}}
+    {\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth
+     \advance\leftmargin\labelsep\usecounter{enumiv}
+     \let\p@enumiv\@empty\renewcommand\theenumiv{\@arabic\c@enumiv}
+     \setlength{\itemsep}{3pt}\setlength{\parsep}{0pt}}
+  \sloppy\clubpenalty4000\widowpenalty4000\sfcode`\.=1000\relax
+}{\def\@noitemerr{\@latex@warning{Empty bibliography}}\endlist}
+
+\numberwithin{equation}{chapter}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+\allowdisplaybreaks[2]
+\emergencystretch=2em
+\clubpenalty=6000
+\widowpenalty=6000
+\raggedbottom
+\endinput
+\end{filecontents*}
+% WZ-LOCKED-CLASS-END
+\documentclass{elegantbook-original-adapter}
+% ===== 元数据内容槽 =====
+\newcommand{\BookTitle}{有限群表示论}
+\hypersetup{pdftitle={有限群表示论: MIT 18.712 中文重构本},pdfauthor={Pavel Etingof 等原讲义; 中文重构}}
+\usepackage{tikz,booktabs,longtable}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Ind}{\operatorname{Ind}}
+\newcommand{\Res}{\operatorname{Res}}
+\newcommand{\Irr}{\operatorname{Irr}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\inner}[2]{\langle #1,#2\rangle}
+\begin{document}
+\frontmatter
+\begin{center}
+{\color{structurecolor}\bfseries\fontsize{18}{25}\selectfont\BookTitle\par}
+{\bfseries MIT 18.712 中文重构本\par}
+Pavel Etingof 等原讲义; 中文编排与增补\par
+Introduction to Representation Theory, Fall 2010\par
+2026年10月8日\par
+\end{center}
+\input{chapters/course-info.tex}
+\clearpage
+\originalpreface
+群的表示把抽象对称写成线性变换. 对有限群, 平均运算使不变子空间总有不变补空间, 从而把研究任意表示的问题化为研究不可约表示. 特征标把这些线性变换压缩为共轭类上的数值, 正交关系又使这些数值足以恢复表示的分解. 诱导与限制则把一个群的表示和其子群的表示连接起来.
+
+本书假定读者会复向量空间、基与矩阵、特征值、秩、迹和有限维内积空间. 群、子群、陪集与共轭类所需的事实在第一章补齐. 除特别说明外, 群有限, 表示空间为有限维复向量空间. Maschke定理另外说明一般域中的条件, 并给出模特征反例; 本书不展开模表示理论.
+
+主要依据为 MIT OpenCourseWare \href{https://ocw.mit.edu/courses/18-712-introduction-to-representation-theory-fall-2010/pages/lecture-notes/}{18.712, Fall 2010} 的公开旧讲义, 完整PDF共109页, 首页标明2011年2月1日. 原作者为 Pavel Etingof、Oleg Golberg、Sebastian Hensel、Tiankai Liu、Alex Schwendner、Elena Yudovina 与 Dmitry Vaintrob. 本书选取旧讲义第一、二章中必要基础、第三章有限群表示基本理论, 以及第四章中的直积、诱导、Mackey分解、Frobenius互反等内容, 重新安排依赖关系, 以中文重写定义、证明、计算和题解. 英文原件仅在仓库sources目录归档, 不嵌入本PDF, 也不收入中文源码ZIP.
+
+循环群、对称群 $S_3$ 与 $S_4$、二面体群、四元数群和 $A_4$ 提供贯穿例子. 正则表示、矩阵系数、群代数的矩阵分块及Frobenius行列式均给出证明. 对称平方、外平方、置换表示与平均投影的展开, 以及部分练习解答, 是编者为衔接主线补充的论证, 不冒称原课完整题解.
+
+本书不是旧讲义全部章节的译本. 正文围绕有限群表示展开; 作业与期末题解按需要补出李代数与 $\mathfrak{sl}_2$、箭图、Young模、Schur--Weyl交换代数及 $\GL_2(\mathbb F_q)$ 的局部论证, 不把它们称为这些专题的完整教材. 范畴论、一般有限维代数的根基与投射覆盖、Frobenius整除性、Burnside可解性与Artin定理均未作为系统专题纳入. 群代数的半单分块是有限群主线的一部分, 不表示已经覆盖一般有限维代数. 书末给出逐节来源与取舍表.
+
+旧讲义末页为MIT OCW许可说明; 默认 \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0} 及 \href{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}{OCW使用条款}适用, 单独权利标记优先. 本中文改编同许可非商业共享, 并注明翻译、重组、增补及自绘图等改动; 不表示MIT或作者认可本项目. 官方另链的2016年AMS出版书明示禁止上传到非作者网站, 本项目未下载归档或改编该版本. 新增课程信息、11次作业的全部52道题(含选做)和4道期末题均置于本主PDF. 这些题解会涉及若干正文未系统展开的主题, 不把所需局部论证称为该主题的完整教材. 来源核查与文件校验见同目录source-manifest.json.
+\clearpage
+\originalcontents
+\clearpage
+\mainmatter
+\input{chapters/ch01.tex}
+\input{chapters/ch02.tex}
+\input{chapters/ch03.tex}
+\input{chapters/ch04.tex}
+\input{chapters/ch05.tex}
+\input{chapters/ch06.tex}
+\input{chapters/ch07.tex}
+\input{chapters/ch08.tex}
+\input{chapters/ch09.tex}
+\originalchapter{课程习题与考试}
+\label{ch:course-problems}
+以下题目取自MIT 18.712, Fall 2010官方作业清单及期末作业, 与前九章编者练习分开编号. 所有解答均由AI辅助独立编写并作数学复核, 不是MIT公布的标准答案. 旧讲义已有的提示在题解中用于参考并核查; 原题笔误及本稿采用的条件会明确说明. 官方未提供单独测验、期中卷或练习考试.
+\input{chapters/hw01-04.tex}
+\input{chapters/hw05-09.tex}
+\input{chapters/hw10-11.tex}
+\input{chapters/final-1.tex}
+\input{chapters/final-2.tex}
+\input{chapters/final-3.tex}
+\input{chapters/final-4.tex}
+\input{chapters/source-map.tex}
+\begin{thebibliography}{9}
+\bibitem{old} Pavel Etingof, Oleg Golberg, Sebastian Hensel, Tiankai Liu, Alex Schwendner, Elena Yudovina, Dmitry Vaintrob. \textit{Introduction to Representation Theory}. 公开旧讲义, 2011-02-01, MIT OCW 18.712, Fall 2010. \href{https://ocw.mit.edu/courses/18-712-introduction-to-representation-theory-fall-2010/24d8b3fa2ce48e48ee6c2d8d5e3562f6_MIT18_712F10_replect.pdf}{109页完整旧PDF}.
+\bibitem{course} MIT OpenCourseWare. \href{https://ocw.mit.edu/courses/18-712-introduction-to-representation-theory-fall-2010/pages/lecture-notes/}{18.712官方讲义目录}, 含旧版分章文件及2016出版书转载限制说明.
+\bibitem{license} MIT OpenCourseWare. \href{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}{使用条款}; \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}.
+\end{thebibliography}
+\end{document}

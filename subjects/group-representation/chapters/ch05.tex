@@ -1,0 +1,111 @@
+\originalchapter{经典群的特征标表}
+\originalsection{循环群与一维表示}
+由推论\ref{cor:abelian}, $C_n$ 的不可约复表示都是一维, 第一章构造的 $L_0,\ldots,L_{n-1}$ 已穷尽所有可能. 特征标表是 $\chi_j(r^a)=\zeta^{ja}$. 正交关系也可直接由几何级数核对: 当 $j\ne k\pmod n$ 时,
+\[
+ \sum_{a=0}^{n-1}\zeta^{(j-k)a}=\frac{1-\zeta^{(j-k)n}}{1-\zeta^{j-k}}=0;
+\]
+当 $j=k$ 时和为 $n$. 这说明特征标正交确实推广了离散傅里叶基的正交.
+
+对一般群, 一维表示是同态 $G\to\C^\times$. 由于目标群交换, 每个交换子 $ghg^{-1}h^{-1}$ 必映成1. 令 $[G,G]$ 为交换子生成的正规子群, 则所有一维表示都经交换化 $G/[G,G]$ 分解. 反过来, 交换化的每个一维表示拉回后仍是一维表示. 因此一维表示只看见群的交换部分, 更高维表示记录其余对称结构.
+
+\originalsection{三次对称群}
+$S_3$ 的三类已在例题\ref{ex:s3classes}中求出. 平凡表示、置换矩阵行列式给出的符号表示以及标准平面表示 $U$ 的特征标如下.
+\begin{center}
+\begin{tabular}{c|rrr}
+\toprule
+代表元 &$e$&$(12)$&$(123)$\\
+类大小 &1&3&2\\\midrule
+$1$&1&1&1\\
+$\sgn$&1&$-1$&1\\
+$U$&2&0&$-1$\\\bottomrule
+\end{tabular}
+\end{center}
+符号表示为同态, 因为置换矩阵的行列式在乘积下相乘. $U$ 的范数已算为1, 所以不可约. 三行不同, 维数平方和 $1+1+4=6$ 穷尽全部不可约. 特征标表既可由具体矩阵计算, 又可用正交关系检查; 两种做法彼此支持.
+
+\begin{example}
+分解 $U\otimes U$, 并求 $S_3$ 正则表示中 $U$ 的重数.
+\end{example}
+\begin{solution}
+张量积特征标逐点相乘, 其证明见第六章. 所以 $U\otimes U$ 的特征标为 $(4,0,1)$. 与三行取加权内积分别得 $(4+2)/6=1$, $(4+2)/6=1$, $(8-2)/6=1$. 因此 $U\otimes U\cong1\oplus\sgn\oplus U$. 正则表示的重数等于不可约维数, 所以 $U$ 出现两次.
+\end{solution}
+
+\originalsection{正方形的二面体群}
+记 $D_8=\langle r,s:r^4=s^2=e,\ srs=r^{-1}\rangle$, 阶为8; 本书的下标表示群的阶. 可把 $r$ 看成正方形旋转90度, $s$ 看成反射. 元素为 $r^a$ 与 $r^as$, $a=0,1,2,3$. 关系给出五个共轭类:
+\[
+ \{e\},\quad\{r^2\},\quad\{r,r^3\},\quad\{s,r^2s\},\quad\{rs,r^3s\}.
+\]
+例如 $r(r^as)r^{-1}=r^{a+2}s$, 所以反射按指数奇偶分成两类. $r^2$ 在中心.
+
+一维表示中 $r\mapsto a$, $s\mapsto b$. 关系 $srs=r^{-1}$ 给 $a=a^{-1}$, 所以 $a,b\in\{1,-1\}$; 四种选择都成立, 记为 $L_{a,b}$. 二维几何表示 $E$ 给出矩阵
+\[
+ \rho_E(r)=\begin{pmatrix}0&-1\\1&0\end{pmatrix},\qquad
+ \rho_E(s)=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+\]
+其特征标表可合并写成
+\begin{center}
+\begin{tabular}{c|rrrrr}
+\toprule
+代表元 &$e$&$r^2$&$r$&$s$&$rs$\\
+类大小 &1&1&2&2&2\\\midrule
+$L_{a,b}$&1&1&$a$&$b$&$ab$\\
+$E$&2&$-2$&0&0&0\\\bottomrule
+\end{tabular}
+\end{center}
+$E$ 的范数为 $(4+4)/8=1$, 所以不可约; 平方和 $4\cdot1^2+2^2=8$, 分类完整. 这说明二维实几何空间在复数域中仍不可约. 对照仅旋转的循环群, 旋转矩阵可分成两个复特征直线, 但加入反射后两条直线被交换, 不再分别为子表示.
+
+\begin{center}
+\begin{tikzpicture}[scale=.8,>=Stealth]
+\draw (-1,-1) rectangle (1,1);
+\foreach \p/\t in {(1,1)/1,(-1,1)/2,(-1,-1)/3,(1,-1)/4}{\fill \p circle (2pt);}
+\node[above right] at (1,1){1};\node[above left] at (-1,1){2};
+\node[below left] at (-1,-1){3};\node[below right] at (1,-1){4};
+\draw[dashed] (-1.6,0)--(1.6,0);\node[left] at (-1.6,0){反射轴};
+\draw[->] (1.7,0) arc[start angle=0,end angle=75,radius=1.7];\node[right] at (1.7,.7){$r$};
+\end{tikzpicture}
+\end{center}
+图中 $r$ 取逆时只改变生成元选择, 不改变特征标表; 这里的矩阵约定为逆时针90度旋转.
+
+\originalsection{四元数群}
+四元数群 $Q_8=\{\pm1,\pm i,\pm j,\pm k\}$ 满足 $i^2=j^2=k^2=-1$, $ij=k=-ji$. 其五个共轭类依次为 $\{1\}$、$\{-1\}$、$\{\pm i\}$、$\{\pm j\}$ 与 $\{\pm k\}$. 中心为 $\{\pm1\}$, 交换化为 $C_2\times C_2$, 所以有四个一维表示, 由 $i\mapsto a,j\mapsto b$, $a,b=\pm1$ 决定; $-1$ 必映到1, $k$ 映到 $ab$.
+
+令 $i$ 与 $j$ 在 $\C^2$ 上作用为
+\[
+ I=\begin{pmatrix}i&0\\0&-i\end{pmatrix},\qquad
+ J=\begin{pmatrix}0&1\\-1&0\end{pmatrix}.
+\]
+矩阵满足 $I^2=J^2=-I_2$, $IJ=-JI$, 所以构成 $Q_8$ 表示 $F$. 其特征标如下.
+\begin{center}
+\begin{tabular}{c|rrrrr}
+\toprule
+代表元 &1&$-1$&$i$&$j$&$k$\\
+类大小 &1&1&2&2&2\\\midrule
+$L_{a,b}$&1&1&$a$&$b$&$ab$\\
+$F$&2&$-2$&0&0&0\\\bottomrule
+\end{tabular}
+\end{center}
+同样由范数1与平方和8得完整性. 作为带有列大小的数值表, 它与 $D_8$ 的表相同; 可是群并不同构, 因为 $Q_8$ 中只有一个二阶元素, $D_8$ 有五个. 特征标表并不总能恢复群. 第九章将用包含 $g^2$ 信息的Frobenius--Schur指标区别二者的二维表示.
+
+\originalsection{四次交错群}
+$A_4$ 为 $S_4$ 中的偶置换, 阶为12. 令
+$N=\{e,(12)(34),(13)(24),(14)(23)\}$, 它是正规四元子群, 商群为 $C_3$. 三个非单位双换位构成一个共轭类. 八个三循环在 $A_4$ 中分成两个大小4的类: 例如 $(123)$ 的中心化子在 $A_4$ 中阶为3, 所以类大小为4; 其逆不在同一类, 因为把一个三循环共轭成逆的 $S_4$ 置换为奇置换. 选两类代表 $t,t^{-1}$, 使 $tN$ 生成商群.
+
+商群给出三个一维表示 $1,L,L^2$, 在 $t$ 上取 $1,\omega,\omega^2$, 其中 $\omega=\exp(2\pi i/3)$. 四点置换表示的常数向量补空间 $W$ 为三维. 固定点计数减1给出特征标 $3,-1,0,0$, 所以
+\begin{center}
+\begin{tabular}{c|rrrr}
+\toprule
+代表元 &$e$&$(12)(34)$&$t$&$t^{-1}$\\
+类大小 &1&3&4&4\\\midrule
+$1$&1&1&1&1\\
+$L$&1&1&$\omega$&$\omega^2$\\
+$L^2$&1&1&$\omega^2$&$\omega$\\
+$W$&3&$-1$&0&0\\\bottomrule
+\end{tabular}
+\end{center}
+$W$ 范数为 $(9+3)/12=1$, 所以不可约. 平方和 $1+1+1+9=12$, 分类完整. 三维表示具有实矩阵, 但两个非平凡一维表示互为复共轭, 这说明特征标的值可能不是实数.
+
+\begin{exercise}
+分解 $A_4$ 的 $W\otimes W$, 并由特征标检查所得总维数.
+\end{exercise}
+\begin{solution}
+张量特征标为 $(9,1,0,0)$. 与三个一维特征标内积都为 $(9+3)/12=1$, 与 $W$ 内积为 $(27-3)/12=2$. 故 $W\otimes W\cong1\oplus L\oplus L^2\oplus W^{\oplus2}$, 维数 $1+1+1+2\cdot3=9$.
+\end{solution}

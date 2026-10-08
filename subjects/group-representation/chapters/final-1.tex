@@ -1,0 +1,66 @@
+% 中文题面译自 MIT 18.712 Fall 2010 takehome assignment 第1页。
+% 未见随题公开官方答案；下列解答为编者独立推导。
+\originalsection{期末作业第1题}
+\begin{exercise}\label{final:1}
+\textbf{MIT 18.712（2010）期末作业原题1；官方期末PDF第1页.}
+设 $Q$ 是有限箭图，即有限有向图。域 $k$ 上的路径代数 $A(Q)$ 以所有沿箭头方向的路径为一组基，包括各顶点上长度为零的路径；乘法为路径拼接，不能拼接时乘积为零。
+\begin{enumerate}[label=(\roman*)]
+\item 把上三角矩阵代数表示为某个 $A(Q)$。
+\item 证明：$A(Q)$ 有限维，当且仅当 $Q$ 无有向圈。
+\item 当 $Q$ 无有向圈时，把左正则模 $A(Q)$ 分解为不可分解模的直和。
+\item 给出使 $A(Q)\cong A(Q)^{\mathrm{op}}$ 成立的箭图条件，并据此举出一个与其反代数不同构的代数。
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+以下约定乘积 $pq$ 表示先走 $q$、再走 $p$，与线性映射的复合次序一致。改变这一约定只会把所画箭图反向，不改变题目的内容。记顶点 $i$ 的零长路径为 $e_i$，则
+\[
+ e_i^2=e_i,\qquad e_i e_j=0\ (i\ne j),\qquad 1=\sum_i e_i.
+\]
+
+\textbf{(i)} 对 $n\times n$ 上三角矩阵，取有向直线
+\[
+1\longleftarrow2\longleftarrow\cdots\longleftarrow n.
+\]
+每对 $i\le j$ 恰有一条从 $j$ 到 $i$ 的路径 $p_{ij}$。令 $p_{ij}\mapsto E_{ij}$，其中 $E_{ij}$ 是矩阵单位。路径乘积满足
+\[
+ p_{ij}p_{ab}=\begin{cases}p_{ib},&j=a,\\0,&j\ne a,\end{cases}
+\]
+这正是 $E_{ij}E_{ab}=\delta_{ja}E_{ib}$。该映射把一组基映为一组基，因此是代数同构。
+
+\textbf{(ii)} 若存在正长有向圈 $c$，则 $c,c^2,c^3,\ldots$ 是互不相同的路径，故在路径基中线性无关，$A(Q)$ 无限维。反之，若没有有向圈，一条有向路径不能重复顶点，否则重复部分给出有向圈。若 $Q$ 有 $s$ 个顶点，所有路径长度至多 $s-1$；箭头数有限，所以这样的路径只有有限条，$A(Q)$ 有限维。
+
+\textbf{(iii)} 由正交幂等元得到
+\[
+ A(Q)=\bigoplus_{i\in Q_0}A(Q)e_i.
+\]
+这里 $A(Q)e_i$ 的路径基是所有以 $i$ 为起点的路径。直和性可直接由路径的起点唯一看出。任一左模自同态 $T$ 由 $T(e_i)$ 确定，因为 $T(ae_i)=aT(e_i)$；又有 $T(e_i)=e_iT(e_i)$，故
+\[
+ \End_{A(Q)}(A(Q)e_i)\cong(e_iA(Q)e_i)^{\mathrm{op}}.
+\]
+无有向圈时，从 $i$ 回到 $i$ 的路径只有 $e_i$，所以右侧是 $k$。若 $A(Q)e_i$ 有非平凡直和分解，投影到一个直和项将给出一个不等于 $0,1$ 的幂等自同态，而域 $k$ 没有这种幂等元。因此各项均不可分解，所写直和就是所求分解。其各项维数等于以相应顶点为起点的路径数。
+
+\textbf{(iv)} 记 $Q^{\mathrm{op}}$ 为把所有箭头反向的箭图。反向阅读路径给出
+\[
+ A(Q)^{\mathrm{op}}\cong A(Q^{\mathrm{op}}).
+\]
+因此，一个适用于任意有限箭图的充分条件是 $Q\cong Q^{\mathrm{op}}$：存在顶点置换，把从 $i$ 到 $j$ 的箭头与从置换后的 $j$ 到置换后的 $i$ 的箭头一一对应。
+
+对无有向圈的箭图，这一条件也是必要的。为证明这一点，令 $J$ 为所有正长路径张成的理想。它是幂零理想，且 $A(Q)/J\cong k^{Q_0}$，故 $J$ 是代数的根基。具体说，幂零理想在任意简单模上的像必须为零，否则迭代作用仍等于整个简单模，与幂零性矛盾；另一方面，$k^{Q_0}$ 的简单模足以分离其元素。因此根基恰为 $J$。代数同构保持根基，并置换商代数 $k^{Q_0}$ 的坐标幂等元。空间
+\[
+ \overline e_j(J/J^2)\overline e_i
+\]
+的维数恰为从 $i$ 到 $j$ 的箭头数，因为 $J^2$ 由长度至少二的路径张成。于是代数同构也恢复箭头数；$A(Q)\cong A(Q)^{\mathrm{op}}$ 将迫使 $Q\cong Q^{\mathrm{op}}$。
+
+例如取下面的分叉箭图：
+\begin{center}
+\begin{tikzpicture}[>=Stealth,every node/.style={circle,draw,inner sep=2pt},scale=.85]
+\node (a) at (0,0) {$1$};\node (b) at (1.4,.65) {$2$};\node (c) at (1.4,-.65) {$3$};
+\draw[->] (a)--(b);\draw[->] (a)--(c);
+\node[draw=none] at (3,0) {$Q^{\mathrm{op}}:$};
+\node (aa) at (4.2,0) {$1$};\node (bb) at (5.6,.65) {$2$};\node (cc) at (5.6,-.65) {$3$};
+\draw[->] (bb)--(aa);\draw[->] (cc)--(aa);
+\end{tikzpicture}
+\end{center}
+左图有一个出度为二的顶点，右图没有这样的顶点，故两图不同构，因而 $A(Q)\not\cong A(Q)^{\mathrm{op}}$。这也是一个五维代数的例子：三条零长路径加两条箭头构成其基。
+\end{solution}
+

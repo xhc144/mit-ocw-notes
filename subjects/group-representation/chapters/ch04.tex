@@ -1,0 +1,116 @@
+\originalchapter{正则表示与群代数结构}
+\originalsection{正则表示与平方和}
+群代数 $R=\C[G]$ 上的左乘作用 $h\cdot[g]=[hg]$ 称左正则表示. 它也是 $G$ 在自身上左乘的置换表示, 所以
+\[
+ \chi_R(g)=\begin{cases}|G|,&g=e,\\0,&g\ne e.\end{cases}
+\]
+非单位元左乘不可能固定群元素, 这解释了所有非单位元处的零值.
+
+\begin{theorem}\label{thm:regular}
+有限群只有有限多个复不可约同构类型 $S_1,\ldots,S_r$. 令 $d_i=\dim S_i$, 则
+\[
+ R\cong\bigoplus_{i=1}^r S_i^{\oplus d_i},\qquad |G|=\sum_{i=1}^r d_i^2.
+\]
+\end{theorem}
+\begin{proof}
+Maschke定理使有限维 $R$ 分解为有限个不可约分量. 对任意不可约 $S$, 定理\ref{thm:hom-character}给出
+\[
+ \dim\Hom_G(S,R)=\inner{\chi_R}{\chi_S}_G=\overline{\chi_S(e)}=\dim S>0.
+\]
+因此 $S$ 一定同构于 $R$ 的某个分量, 所有不可约类型都已在这个有限列表中. 同一公式给出 $S_i$ 在 $R$ 中的重数为 $d_i$. 再比较总维数得到平方和.
+\end{proof}
+平方和是检验候选列表是否完整的有效办法: 若已构造一批两两不等价的不可约, 其维数平方和等于 $|G|$, 就不可能再有新不可约类型. 只看到平方和正确, 却未验证候选不可约与互不等价, 还不能宣布分类完成.
+
+\originalsection{矩阵分块与共轭类数}
+\begin{theorem}\label{thm:groupalgebra}
+映射
+\[
+ \Phi:\C[G]\longrightarrow\bigoplus_{i=1}^r\End_\C(S_i),\qquad
+ a\longmapsto(\rho_i(a))_{i=1}^r
+\]
+是保单位元的代数同构.
+\end{theorem}
+\begin{proof}
+各 $\rho_i$ 都为代数同态, 所以 $\Phi$ 保乘法与单位元. 若 $\Phi(a)=0$, 则 $a$ 在所有不可约上作用为零, 因此在它们组成的正则表示上也作用为零. 可是正则作用中 $a\cdot e=a$, 所以 $a=0$. 这证明单射. 两边维数分别为 $|G|$ 与 $\sum_i d_i^2$, 定理\ref{thm:regular}说明相等, 因而单射亦为满射.
+\end{proof}
+这里不调用一般有限维代数的结构定理. 完全可约性与正则表示已经提供证明所需的全部信息. 该同构到抽象 $\End(S_i)$ 不需选基; 把各块写成具体矩阵代数时才需选择 $S_i$ 的基. 分块大小 $d_i$ 是内在的.
+
+\begin{theorem}\label{thm:classes}
+不可约表示的同构类型数等于共轭类数. 不可约特征标构成 $\Cl(G)$ 的正交规范基.
+\end{theorem}
+\begin{proof}
+对 $a=\sum_g a_g g$, 中心条件等价于对所有 $h$ 有 $hah^{-1}=a$, 即系数在共轭类上相同. 因此每个类的元素和构成群代数中心的一组基, 中心维数为类数.
+
+矩阵代数 $\operatorname{Mat}_d(\C)$ 的中心只有标量矩阵: 与所有对角矩阵交换迫使非对角项为零, 再与每个矩阵单位 $E_{ij}$ 交换迫使所有对角项相同. 直和代数的中心是各块中心的直和, 所以由定理\ref{thm:groupalgebra}, 群代数中心维数为 $r$. 两种计算得类数等于 $r$. 类函数空间的维数也等于类数, 而 $r$ 个不可约特征标已由推论\ref{cor:roworth}证明正交规范, 故构成基.
+\end{proof}
+
+\originalsection{列正交与矩阵系数}
+\begin{corollary}[特征标列正交]\label{cor:columnorth}
+若 $g,h$ 不共轭, 则 $\sum_i\chi_i(g)\overline{\chi_i(h)}=0$. 若 $g,h$ 共轭, 此和为 $|C_G(g)|$.
+\end{corollary}
+\begin{proof}
+令类代表为 $c_1,\ldots,c_r$, 类大小为 $n_j$. 矩阵 $A_{ij}=\sqrt{n_j/|G|}\chi_i(c_j)$ 由行正交满足 $AA^*=I$. 它是方阵, 所以 $A$ 可逆且 $A^*=A^{-1}$, 进而 $A^*A=I$. 列 $j,k$ 的关系给出 $j\ne k$ 时和为0, $j=k$ 时和为 $|G|/n_j=|C_G(c_j)|$. 同类的特征标值相同, 因而得到一般形式.
+\end{proof}
+行正交确定分解重数, 列正交则约束不同共轭类的值. 在计算特征标表时, 两者结合常能恢复缺失项, 但仍要构造或论证这些行确实来自表示.
+
+\begin{theorem}[矩阵系数正交]\label{thm:matrixorth}
+对每个不可约 $S_i$ 取不变内积的正交规范基, 写 $\rho_i(g)_{ab}$ 为矩阵元素. 则
+\[
+ \frac1{|G|}\sum_{g\in G}\rho_i(g)_{ab}\overline{\rho_j(g)_{cd}}
+ =\begin{cases}d_i^{-1}\delta_{ac}\delta_{bd},&i=j,\\0,&i\ne j.\end{cases}
+\]
+所以所有函数 $\sqrt{d_i}\rho_i(\cdot)_{ab}$ 构成 $G$ 上全部复值函数空间的正交规范基.
+\end{theorem}
+\begin{proof}
+对 $T:S_j\to S_i$, 平均算子
+$\mathcal P(T)=|G|^{-1}\sum_g\rho_i(g)T\rho_j(g)^{-1}$ 为交织映射. 若 $i\ne j$, Schur引理给 $\mathcal P(T)=0$. 若 $i=j$, 其为标量算子, 且平均不改变迹, 所以 $\mathcal P(T)=(\tr T/d_i)I$.
+
+令 $T$ 为只有第 $(b,d)$ 项为1的矩阵单位. 因各矩阵酉, $\rho_j(g)^{-1}_{dc}=\overline{\rho_j(g)_{cd}}$, 故 $\mathcal P(T)$ 的 $(a,c)$ 项就是所求平均. 当 $i=j$ 时, $\tr T=\delta_{bd}$; 这给出公式. 正交规范函数的总数为 $\sum_i d_i^2=|G|$, 与全部函数空间的维数相同, 因而是一组基.
+\end{proof}
+
+\originalsection{中心投影与傅里叶反演}
+\begin{proposition}\label{prop:central-idempotent}
+定义
+\[
+ e_i=\frac{d_i}{|G|}\sum_{g\in G}\chi_i(g^{-1})g\in\C[G].
+\]
+则 $e_i$ 在 $S_j$ 上作用为 $\delta_{ij}I$, 并满足 $e_i^2=e_i$, $e_ie_j=0$ ($i\ne j$), $\sum_i e_i=e$. 在任意表示 $V$ 上, $\rho_V(e_i)$ 是到 $S_i$ 等型分量的投影.
+\end{proposition}
+\begin{proof}
+系数为类函数, 所以 $e_i$ 在群代数中心, 在 $S_j$ 上为标量 $\lambda_{ij}I$. 取迹得到
+\[
+ d_j\lambda_{ij}=\frac{d_i}{|G|}\sum_g\chi_i(g^{-1})\chi_j(g)
+ =d_i\delta_{ij}.
+\]
+当 $i=j$ 时 $d_i=d_j$, 从而 $\lambda_{ij}=\delta_{ij}$. 各乘积与总和在每个矩阵块上分别满足所述关系, 定理\ref{thm:groupalgebra}的单射性把关系拉回群代数. 最后按 $V$ 的不可约分解检查作用, 就得到等型投影.
+\end{proof}
+
+\begin{proposition}
+若 $a=\sum_g a_g g$, 则
+\[
+ a_g=\frac1{|G|}\sum_i d_i\tr\bigl(\rho_i(g^{-1})\rho_i(a)\bigr).
+\]
+\end{proposition}
+\begin{proof}
+对任意 $b\in\C[G]$, 左乘 $b$ 在正则表示上的迹为 $|G|b_e$, 因为每个对角元素都为单位元系数 $b_e$. 又正则表示包含 $d_i$ 份 $S_i$, 所以该迹为 $\sum_i d_i\tr\rho_i(b)$. 取 $b=g^{-1}a$, 其单位元系数为 $a_g$, 即得公式.
+\end{proof}
+这是有限非交换群上的傅里叶反演: 标量系数 $a_g$ 与一族矩阵 $\rho_i(a)$ 相互决定. 对交换群, 所有块一维, 就回到通常的离散傅里叶变换.
+
+\originalsection{Frobenius行列式}
+\begin{theorem}\label{thm:frobdet}
+为每个 $g\in G$ 引入独立变量 $x_g$, 将行、列都按群元素排列. 矩阵 $X$ 的 $(g,h)$ 项为 $x_{gh^{-1}}$. 则
+\[
+ \det X=\prod_i\det\left(\sum_{g\in G}x_g\rho_i(g)\right)^{d_i}.
+\]
+\end{theorem}
+\begin{proof}
+令 $a=\sum_g x_g g$, 在多项式系数环上考虑正则表示. $a h=\sum_g x_g gh$, 输出基元素 $u$ 的系数为 $x_{uh^{-1}}$, 所以左乘矩阵就是 $X$. 正则表示的复数域分解使用一个固定的常系数换基矩阵, 因而在加入变量后仍成立. 每个 $S_i$ 块出现 $d_i$ 次, 分块对角矩阵的行列式就是右侧乘积.
+\end{proof}
+该公式说明因子次数和出现重数都由不可约维数控制. 本节证明行列式的表示论分解, 不另外证明这些多项式因子在多项式环中的不可约性.
+
+\begin{exercise}
+对 $C_2=\{e,s\}$ 直接核对Frobenius行列式及中心投影.
+\end{exercise}
+\begin{solution}
+两个一维表示在 $s$ 上取 $1,-1$. 矩阵 $X=\begin{pmatrix}x_e&x_s\\x_s&x_e\end{pmatrix}$ 的行列式是 $(x_e+x_s)(x_e-x_s)$, 与两块对应. 中心投影为 $e_+=(e+s)/2$, $e_-=(e-s)/2$; 用 $s^2=e$ 直接得 $e_\pm^2=e_\pm$, $e_+e_-=0$, $e_++e_-=e$.
+\end{solution}

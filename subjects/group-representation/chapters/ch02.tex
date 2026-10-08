@@ -1,0 +1,86 @@
+\originalchapter{交织映射与完全可约性}
+\originalsection{Schur引理}
+\begin{theorem}[Schur引理]\label{thm:schur}
+设 $V,W$ 为不可约表示. 非零交织映射 $T:V\to W$ 必为同构. 如果 $V$ 是有限维复不可约表示, 则 $\End_G(V)=\C I_V$. 因此
+\[
+ \dim\Hom_G(V,W)=\begin{cases}1,&V\cong W,\\0,&V\not\cong W.\end{cases}
+\]
+\end{theorem}
+\begin{proof}
+由命题\ref{prop:kernelimage}, $\ker T$ 与 $\im T$ 都不变. 非零性排除 $\ker T=V$ 与 $\im T=0$; 不可约性迫使 $\ker T=0$, $\im T=W$, 所以 $T$ 同构.
+
+若 $T\in\End_G(V)$, 复数域保证其特征多项式有根 $\lambda$, 因而 $T-\lambda I$ 的核非零. 它仍为交织映射, 若非零就应可逆, 与非零核矛盾. 所以 $T=\lambda I$. 若 $V\cong W$, 固定一个同构 $S:V\to W$, 则任意 $T$ 满足 $S^{-1}T\in\C I$, 即 $T$ 为 $S$ 的标量倍; 若不等价, 第一部分排除所有非零 $T$.
+\end{proof}
+这里两个条件发挥不同作用. 不可约性控制核与像, 复数域和有限维性提供特征值. 例如 $\R^2$ 上90度旋转生成的 $C_4$ 实表示不可约, 但其交织算子包括旋转矩阵本身, 并不都是实标量. 第一部分的核像论证仍然有效.
+
+\begin{corollary}\label{cor:abelian}
+有限交换群的每个复不可约表示都是一维的. 对任意群, 中心元素在不可约表示上作用为标量.
+\end{corollary}
+\begin{proof}
+若 $z\in Z(G)$, $\rho(z)$ 与所有 $\rho(g)$ 交换, 所以Schur引理适用. 当整个 $G$ 交换时, 每个 $g$ 都作用为标量, 任意直线都不变. 不可约性迫使维数为1.
+\end{proof}
+中心作用的标量随 $z$ 乘法相乘, 从而给出 $Z(G)\to\C^\times$ 的同态, 称中心特征标. 它通常不能决定整个不可约表示, 因为中心以外还保留信息.
+
+\originalsection{平均投影与Maschke定理}
+\begin{theorem}[Maschke定理]\label{thm:maschke}
+设 $G$ 为有限群, $k$ 为域, 且 $|G|$ 在 $k$ 中非零. 对任意有限维 $k$ 表示 $V$ 及子表示 $U$, 存在子表示 $W$ 使 $V=U\oplus W$. 因而每个有限维表示都完全可约. 特别地, 结论对 $k=\C$ 成立.
+\end{theorem}
+\begin{proof}
+先取普通线性投影 $P:V\to U$, 使 $P|_U=I_U$; 它来自任意向量空间补空间, 未必交织. 我们希望修正投影而保留它在 $U$ 上的恒等性质. 对任意 $g$, 共轭算子 $\rho(g)P\rho(g)^{-1}$ 的像仍在 $U$ 内, 在 $U$ 上仍恒等. 因此可以平均:
+\[
+ Q=\frac1{|G|}\sum_{g\in G}\rho(g)P\rho(g)^{-1}.
+\]
+有限性使和式有意义, 底域条件使除以 $|G|$ 合法. 对任意 $h\in G$, 左乘 $h$ 置换求和指标, 所以 $\rho(h)Q\rho(h)^{-1}=Q$. 又 $Q(V)\subseteq U$, $Q|_U=I_U$, 因而 $Q^2=Q$. 令 $W=\ker Q$, 其不变性由 $Q\rho(h)=\rho(h)Q$ 保证. 每个 $v$ 写成 $Qv+(v-Qv)$, 两项分别在 $U,W$; 交集为0, 所以 $V=U\oplus W$.
+
+若 $V\ne0$, 先选一个不可约子表示, 取其不变补空间, 再对较低维补空间归纳. 维数严格下降, 过程有限步终止, 得到不可约直和分解.
+\end{proof}
+不能仅把 $P$ 的矩阵各元素平均后就认定它还是投影; 平均一般不保持幂等性. 此处幂等性成立是因为每个被平均的算子像都在 $U$ 内、在 $U$ 上都恒等, 这两个性质合起来给出 $Q^2=Q$.
+
+\begin{example}\label{ex:modular}
+设 $k$ 的特征为素数 $p$, 在 $k^2$ 上令 $C_p$ 的生成元作用为 $J=\begin{pmatrix}1&1\\0&1\end{pmatrix}$. 证明这确为表示, 但不完全可约.
+\end{example}
+\begin{solution}
+令 $N=J-I$, 则 $N^2=0$, 由二项式公式 $J^p=I+pN=I$, 所以群关系成立. 直线 $U=ke_1$ 不变. 若存在不变补直线, 它由 $v=ae_1+be_2$, $b\ne0$ 生成. $Jv=(a+b)e_1+be_2$ 若是 $v$ 的标量倍, 比较 $e_2$ 系数得标量为1, 再比较 $e_1$ 系数得 $b=0$, 矛盾. 因此 $U$ 无不变补空间. 这也展示不可分解与不可约在一般底域中不同.
+\end{solution}
+
+\originalsection{不变内积}
+\begin{proposition}\label{prop:unitary}
+有限群的每个复表示可选取正定Hermite内积, 使所有群元素的作用为酉算子.
+\end{proposition}
+\begin{proof}
+取任意正定Hermite内积 $(\ ,\ )_0$, 本书约定其第一变量线性. 定义
+\[
+ (v,w)_G=\frac1{|G|}\sum_{g\in G}(gv,gw)_0.
+\]
+这是Hermite形式. 非零 $v$ 的每个 $gv$ 非零, 因而 $(v,v)_G>0$. 对任意 $h$, 求和指标 $g\mapsto gh$ 是双射, 所以 $(hv,hw)_G=(v,w)_G$.
+\end{proof}
+如果 $U$ 不变, 则 $U^\perp$ 也不变, 因为对 $w\in U^\perp$, $u\in U$, 有 $(gw,u)_G=(w,g^{-1}u)_G=0$. 这给出Maschke定理在复数域上的第二个证明. 平均投影证明适用更多底域; 内积证明则对后面的矩阵系数正交非常方便.
+
+\originalsection{分解的唯一性}
+\begin{proposition}\label{prop:multiplicity}
+若 $V$ 完全可约, $S$ 为不可约表示, 则任意不可约分解中 $S$ 的出现次数都等于 $\dim\Hom_G(S,V)$, 也等于 $\dim\Hom_G(V,S)$.
+\end{proposition}
+\begin{proof}
+对有限直和, 线性映射由各分量唯一决定, 所以
+$\Hom_G(S,\bigoplus_j V_j)\cong\bigoplus_j\Hom_G(S,V_j)$. Schur引理使每个与 $S$ 等价的分量贡献维数1, 其余贡献0. 反向Hom同样逐分量计算. 因而重数不依赖所选分解.
+\end{proof}
+这里的唯一性是指不可约同构类型与重数唯一, 而不是具体子空间唯一. 例如两个平凡表示之和是平凡作用的 $\C^2$, 任意两条不同直线都可作为分量.
+
+\begin{proposition}
+令 $V_S$ 为 $V$ 中所有与 $S$ 等价的不可约子表示之和. 则这些等型分量给出典范分解 $V=\bigoplus_S V_S$, 且
+\[
+ S\otimes\Hom_G(S,V)\longrightarrow V_S,\qquad s\otimes T\longmapsto T(s)
+\]
+是同构, 其中群只作用在第一个因子.
+\end{proposition}
+\begin{proof}
+选一个不可约直和分解, 按同构类型把分量分组. 若 $S$ 与另一类型 $T$ 不等价, 任何 $S$ 子表示投影到 $T$ 分量的映射都为0; 所以所有 $S$ 子表示恰落在对应组内. 这证明组的空间就是 $V_S$, 与选择无关. 若 $V_S\cong S^{\oplus m}$, 选相应同构 $T_1,\ldots,T_m$ 作为 $\Hom_G(S,V)$ 的基, 上述评价映射就在各组上是该直和同构, 因而是双射.
+\end{proof}
+张量积将在第六章具体构造; 这里的 $S\otimes\C^m$ 只需理解为 $m$ 份 $S$ 的直和. 这一表述把不可约空间与重数空间分开, 解释了为什么重数是一个Hom空间的维数.
+
+\begin{exercise}
+若 $V\cong\bigoplus_i S_i^{\oplus m_i}$, 其中 $S_i$ 两两不等价, 求 $\End_G(V)$ 的结构与维数.
+\end{exercise}
+\begin{solution}
+交织映射的各块 $S_i\to S_j$ 在 $i\ne j$ 时为0; 同型块为标量. 因此 $m_i$ 份 $S_i$ 之间的所有映射由一个 $m_i\times m_i$ 复矩阵描述, 复合对应矩阵乘法. 所以 $\End_G(V)\cong\bigoplus_i\operatorname{Mat}_{m_i}(\C)$, 维数是 $\sum_i m_i^2$.
+\end{solution}

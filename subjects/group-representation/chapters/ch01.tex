@@ -1,0 +1,83 @@
+\originalchapter{群与线性表示}
+\originalsection{有限群的必要语言}
+一个群 $G$ 是带有结合乘法的集合, 有单位元 $e$, 每个元素 $g$ 有逆元 $g^{-1}$. 我们把乘积 $gh$ 理解为先作 $h$ 再作 $g$, 这与线性映射复合的记号相同. 群的阶 $|G|$ 是元素数. 子群 $H\le G$ 包含单位元并对乘法、取逆封闭. 左陪集 $gH$ 是集合 $\{gh:h\in H\}$; 两个左陪集或者相同, 或者不相交: 若 $g_1h_1=g_2h_2$, 则 $g_2^{-1}g_1=h_2h_1^{-1}\in H$, 从而 $g_1H=g_2H$. 因此陪集把 $G$ 分成等大的块, 每块有 $|H|$ 个元素, 所以
+\[
+ |G|=[G:H]|H|,
+\]
+其中 $[G:H]$ 为陪集数. 特别地, 元素 $g$ 的阶是最小的正整数 $m$ 使 $g^m=e$, 并且 $m$ 整除 $|G|$.
+
+群作用在集合 $X$ 上, 指对每个 $g\in G$ 有置换 $x\mapsto gx$, 且 $ex=x$, $(gh)x=g(hx)$. 元素 $x$ 的轨道为 $Gx$, 稳定子为 $G_x=\{g:gx=x\}$. 映射 $gG_x\mapsto gx$ 良定义且为双射, 因为 $g_1x=g_2x$ 等价于 $g_2^{-1}g_1\in G_x$. 这证明轨道大小为 $[G:G_x]$.
+
+把作用取为共轭 $g\cdot x=gxg^{-1}$, 就得到共轭类. 元素 $x$ 的中心化子 $C_G(x)=\{g:gx=xg\}$ 是其稳定子, 所以共轭类的大小是 $|G|/|C_G(x)|$. 群中心 $Z(G)$ 是与所有元素交换的元素组成的子群. 单元素共轭类恰由中心元素构成. 后面的特征标只在共轭类上取值, 因而先弄清这些类能大幅减少计算量.
+
+\begin{example}\label{ex:s3classes}
+求三次对称群 $S_3$ 的共轭类与类大小.
+\end{example}
+\begin{solution}
+$S_3$ 是集合 $\{1,2,3\}$ 的所有置换. 对任意置换 $g$, 有 $g(i\ j)g^{-1}=(g(i)\ g(j))$, 三循环也按同样方式更换标签. 因此三个换位 $(12),(13),(23)$ 共轭, 两个三循环 $(123),(132)$ 共轭, 单位元自成一类. 各类大小为 $1,3,2$, 总和为6. 相应中心化子的阶为 $6,2,3$.
+\end{solution}
+
+\originalsection{表示与矩阵}
+\begin{definition}
+群 $G$ 的复表示是复向量空间 $V$ 及群同态 $\rho:G\to\GL(V)$. 即 $\rho(e)=I$, $\rho(gh)=\rho(g)\rho(h)$. 其维数是 $\dim V$. 简写 $gv=\rho(g)v$.
+\end{definition}
+选基后, 表示就是一组可逆矩阵 $\rho(g)$. 改变基使所有矩阵同时共轭. 所以某个矩阵的具体元素依赖基, 但维数、迹和整个表示的分解是内在对象. 只知道一个群元素的矩阵通常不够; 群的关系必须全部满足.
+
+\begin{definition}
+表示 $V,W$ 之间的同态, 或交织映射, 是线性映射 $T:V\to W$, 满足 $T\rho_V(g)=\rho_W(g)T$ 对一切 $g\in G$ 成立. 所有这种映射组成向量空间 $\Hom_G(V,W)$. 可逆交织映射称同构; 此时两个表示等价, 记 $V\cong W$.
+\end{definition}
+在同一组基中, 同构等价于存在一个可逆矩阵 $T$ 对所有 $g$ 同时满足 $\rho_W(g)=T\rho_V(g)T^{-1}$. 每个表示都可取直和: 在 $V\oplus W$ 上让 $g(v,w)=(gv,gw)$, 其矩阵为分块对角矩阵.
+
+\begin{example}
+设 $C_n=\langle r:r^n=e\rangle$. 描述其一维复表示.
+\end{example}
+\begin{solution}
+一维空间上的可逆线性变换是乘以非零复数. 令 $\rho(r)=z$, 群关系要求 $z^n=1$. 因此 $z=\zeta^j$, 其中 $\zeta=\exp(2\pi i/n)$, $j=0,\ldots,n-1$. 记此表示为 $L_j$, 则 $\rho_j(r^a)=\zeta^{ja}$. 任意一维交织同构是非零标量, 所以不同 $j$ 的表示不等价. 第五章将证明这些就是 $C_n$ 的全部不可约表示.
+\end{solution}
+
+\originalsection{不变子空间与商表示}
+\begin{definition}
+子空间 $U\subseteq V$ 若满足 $gU\subseteq U$ 对所有 $g\in G$ 成立, 称不变子空间或子表示. 非零表示 $V$ 若只有 $0,V$ 两个子表示, 称不可约. 若 $V$ 不能写成两个非零子表示的直和, 称不可分解. 若 $V$ 是不可约表示的直和, 称完全可约.
+\end{definition}
+因为 $g^{-1}$ 也在群中, 条件 $gU\subseteq U$ 实际蕴含 $gU=U$. 当 $U$ 不变时, 在商空间上定义 $g(v+U)=gv+U$; 若更换代表元 $v$ 为 $v+u$, 两个结果只差 $gu\in U$, 所以这是良定义的商表示 $V/U$.
+
+\begin{proposition}\label{prop:kernelimage}
+交织映射的核与像都是子表示. 非零有限维表示总有不可约子表示.
+\end{proposition}
+\begin{proof}
+若 $Tv=0$, 则 $T(gv)=gTv=0$; 若 $w=Tv$, 则 $gw=T(gv)$ 仍在像中. 对后一结论, 从所有非零子表示中选取维数最小者 $U$. 若 $U$ 有非零真子表示, 其维数更小, 矛盾.
+\end{proof}
+不可约必不可分解, 反向结论一般不成立. 对有限群复表示, 第二章的Maschke定理会保证反向成立. 定理的价值恰在这里: 一个任意选取的向量空间补空间未必不变, 需要利用群的有限性把它修正.
+
+\begin{example}\label{ex:permstandard}
+$S_3$ 置换 $\C^3$ 的三个坐标. 找到一个一维子表示及其不变补空间.
+\end{example}
+\begin{solution}
+令 $e_1,e_2,e_3$ 为标准基, 定义 $g e_j=e_{g(j)}$. 直线 $L=\C(e_1+e_2+e_3)$ 上作用恒等. 平面 $U=\{(a,b,c):a+b+c=0\}$ 也不变, 因为置换不改变坐标和. 任意 $v=(a,b,c)$ 可唯一写成
+\[
+ v=\frac{a+b+c}{3}(1,1,1)+\left(v-\frac{a+b+c}{3}(1,1,1)\right),
+\]
+从而 $\C^3=L\oplus U$. 在基 $u_1=e_1-e_2,u_2=e_2-e_3$ 中, $s=(12)$ 与 $r=(123)$ 的矩阵是
+\[
+ \rho_U(s)=\begin{pmatrix}-1&1\\0&1\end{pmatrix},\qquad
+ \rho_U(r)=\begin{pmatrix}0&-1\\1&-1\end{pmatrix}.
+\]
+直接相乘可核对 $s^2=e$, $r^3=e$, $srs=r^{-1}$. 第五章再证明 $U$ 不可约.
+\end{solution}
+
+\originalsection{群代数}
+\begin{definition}
+群代数 $\C[G]$ 是以符号 $[g]$ ($g\in G$) 为基的向量空间, 乘法由 $[g][h]=[gh]$ 双线性延拓. 其单位元是 $[e]$. 下文常把 $[g]$ 简写为 $g$.
+\end{definition}
+群代数把群的乘法与线性组合放进一个对象. 它是含单位元的结合代数: 结合律在基元素上由群结合律保证, 再由双线性推广. $\dim\C[G]=|G|$. 给定群表示, 公式
+\[
+ \rho\left(\sum_{g\in G}a_g g\right)=\sum_{g\in G}a_g\rho(g)
+\]
+定义一个保单位元的代数同态 $\C[G]\to\End(V)$. 反过来, 这样的代数同态限制到 $g$ 就是群表示, 因为 $g\cdot g^{-1}=e$ 保证像可逆. 因而群表示和群代数的左模是同一结构的两种语言. 本书只用群代数所需的代数知识, 不预先调用一般半单代数结构定理.
+
+\begin{exercise}
+设 $N\trianglelefteq G$ 是正规子群. 证明 $G/N$ 的表示可看成 $N$ 作用恒等的 $G$ 表示, 且二者的不可约性一致.
+\end{exercise}
+\begin{solution}
+若 $\bar\rho:G/N\to\GL(V)$, 令 $\rho(g)=\bar\rho(gN)$, 则 $N$ 中元素作用恒等. 反过来, 若 $N\subseteq\ker\rho$, 则 $gN=hN$ 蕴含 $h^{-1}g\in N$, 所以 $\rho(g)=\rho(h)$; 因而可定义 $\bar\rho(gN)=\rho(g)$. 两种作用给出的线性变换集合相同, 不变子空间也相同, 所以不可约性一致.
+\end{solution}

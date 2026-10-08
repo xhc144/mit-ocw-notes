@@ -1,0 +1,104 @@
+\Needspace{9\baselineskip}
+\originalchapter{限制与诱导}
+\originalsection{限制与构造问题}
+若 $H\le G$, 在同一个空间上仅让 $H$ 中元素作用, 得限制表示 $\Res_H^G V$. 一个 $G$ 不可约表示限制后可以分裂: $S_3$ 的标准表示限制到 $C_3=\langle(123)\rangle$ 时, 三循环矩阵有两个不同特征值 $\omega,\omega^2$, 所以分解为 $L_1\oplus L_2$. 反过来, 给定 $H$ 表示 $W$, 怎样系统构造 $G$ 表示? 不能随意给 $G\setminus H$ 的元素指定矩阵, 因为全部群关系必须相容. 诱导表示通过为每个陪集安放一份 $W$ 来解决这个问题.
+
+\originalsection{群代数张量构造}
+$\C[G]$ 可在左边受 $G$ 左乘、右边受 $H$ 右乘. 定义平衡张量积
+\[
+ \Ind_H^G W=\C[G]\otimes_{\C[H]}W,
+\]
+它是普通 $\C[G]\otimes_\C W$ 的商空间, 增添关系 $(ah)\otimes w=a\otimes hw$ ($a\in\C[G],h\in H$). 这里下标表示可以把 $H$ 的作用从第一因子移到第二因子, 而不只是复标量之间的移动. $G$ 的作用为 $g(a\otimes w)=ga\otimes w$; 左乘与右乘交换, 所以作用保持平衡关系, 在商空间上良定义.
+
+选左陪集代表 $T\subset G$, 每个元素唯一写成 $th$, $t\in T,h\in H$. 因而群代数作为右 $\C[H]$ 模是 $\bigoplus_{t\in T}t\C[H]$, 诱导空间相应为
+\begin{equation}\label{eq:ind-cosets}
+ \Ind_H^G W=\bigoplus_{t\in T}t\otimes W,\qquad
+ \dim\Ind_H^G W=[G:H]\dim W.
+\end{equation}
+要看这不是仅有生成性, 可将 $th\otimes w$ 映到第 $t$ 份中的 $hw$. 此映射保持全部平衡关系, 与 $w\mapsto t\otimes w$ 的直和互逆, 所以没有隐藏的额外关系.
+
+若 $g t=t'h$ ($t'\in T,h\in H$), 则作用公式为
+\[
+ g(t\otimes w)=t'\otimes hw.
+\]
+所以群作用置换陪集块, 同时在每个块内应用一个 $H$ 矩阵. 这个公式可直接生成诱导表示的具体矩阵.
+
+\originalsection{等变函数模型}
+另一种模型为所有函数 $f:G\to W$, 满足 $f(xh)=h^{-1}f(x)$, 群作用为 $(g f)(x)=f(g^{-1}x)$. 条件沿右乘 $H$ 的方向决定函数值, 所以每个左陪集的一个值决定整个函数. 左平移保持此条件, 且满足表示法则.
+
+把 $t\otimes w$ 映成支撑在 $tH$ 上的函数 $f_{t,w}$, 在 $th$ 处取值 $h^{-1}w$. 若 $t$ 改为 $th_0$, $w$ 改为 $h_0^{-1}w$, 所得函数不变; 这正对应平衡张量关系. 逐陪集的取值映射证明它是同构, 且 $g f_{t,w}=f_{gt,w}$ 保证交织. 因而这两种构造描述同一个诱导表示.
+
+\begin{remark}
+旧讲义§4.8使用条件 $F(hx)=hF(x)$ 与作用 $(gF)(x)=F(xg)$, 即右陪集函数模型. 令 $F(x)=f(x^{-1})$ 就得到该约定. 因此旧源公式中的 $xgx^{-1}$ 与本书公式中的 $x^{-1}gx$ 不冲突, 只是代表元方向不同. 用公式计算时不能混用两个约定.
+\end{remark}
+
+\originalsection{诱导特征标}
+\begin{theorem}\label{thm:ind-char}
+设 $\chi_W$ 为 $H$ 表示 $W$ 的特征标, $T$ 为左陪集代表. 则
+\begin{align*}
+ \chi_{\Ind_H^G W}(g)
+ &=\sum_{\substack{t\in T\\t^{-1}gt\in H}}\chi_W(t^{-1}gt)\\
+ &=\frac1{|H|}\sum_{\substack{x\in G\\x^{-1}gx\in H}}\chi_W(x^{-1}gx).
+\end{align*}
+\end{theorem}
+\begin{proof}
+依照式\eqref{eq:ind-cosets}写作用矩阵. 若 $gtH\ne tH$, 原块 $t\otimes W$ 被送到另一块, 对总迹没有贡献. 若 $gtH=tH$, 令 $h=t^{-1}gt\in H$, 则 $g(t\otimes w)=t\otimes hw$, 这一对角块的迹为 $\chi_W(h)$. 相加得到第一式. 同一陪集代表换成 $th_0$ 时, $h$ 变成 $h_0^{-1}hh_0$, 特征标不变; 每个陪集有 $|H|$ 个元素, 从而得到第二式.
+\end{proof}
+若 $g$ 的共轭类不与 $H$ 相交, 诱导特征标在 $g$ 处为0. 在单位元处公式给 $[G:H]\dim W$, 与空间维数一致. 若 $W=1_H$, 诱导表示就是 $G$ 在 $G/H$ 上的置换表示, 特征标正是固定陪集数.
+
+\originalsection{Frobenius互反}
+\begin{theorem}[Frobenius互反]\label{thm:reciprocity}
+若 $W$ 为 $H$ 表示, $V$ 为 $G$ 表示, 则有自然线性同构
+\[
+ \Hom_G(\Ind_H^G W,V)\cong\Hom_H(W,\Res_H^G V).
+\]
+因此在特征标层面,
+\[
+ \inner{\chi_{\Ind_H^G W}}{\chi_V}_G
+ =\inner{\chi_W}{\chi_{\Res_H^G V}}_H.
+\]
+\end{theorem}
+\begin{proof}
+对 $G$ 交织映射 $T$, 定义 $\alpha(w)=T(e\otimes w)$. 由 $e\otimes hw=h\otimes w=h(e\otimes w)$ 得 $\alpha(hw)=h\alpha(w)$, 所以 $\alpha$ 为 $H$ 交织映射.
+
+反过来, 对 $H$ 交织映射 $\alpha$, 定义 $T_\alpha(g\otimes w)=g\alpha(w)$, 再线性延拓. 需核对平衡关系: $T_\alpha(gh\otimes w)=gh\alpha(w)=g\alpha(hw)=T_\alpha(g\otimes hw)$, 所以映射在商空间上良定义. 又 $T_\alpha(a(g\otimes w))=ag\alpha(w)=aT_\alpha(g\otimes w)$, 因而交织. 在 $e\otimes w$ 上两构造互逆; 这类向量的全部 $G$ 平移生成诱导空间, 所以确是互逆同构.
+
+取维数得Hom版本的数值等式. 定理\ref{thm:hom-character}把相应维数写成 $\inner{\chi_V}{\chi_{\Ind W}}_G$ 与 $\inner{\chi_{\Res V}}{\chi_W}_H$. 两边是实非负整数, 共轭不变, 所以也得到陈述中顺序的特征标等式.
+\end{proof}
+“自然”指这两个公式无需选基或陪集代表, 并与交织映射的前后复合相容. 互反把一个较大群上的分解计算变为子群上的限制计算, 是诱导表示最常用的工具.
+
+对有限群还可证明另一个方向
+$\Hom_G(V,\Ind_H^G W)\cong\Hom_H(\Res_H^G V,W)$. 在函数模型中, $T\mapsto(v\mapsto T(v)(e))$ 是所需映射. 反向公式为 $T_\alpha(v)(x)=\alpha(x^{-1}v)$. 因 $\alpha$ 交织,
+$T_\alpha(v)(xh)=h^{-1}T_\alpha(v)(x)$; 又
+$T_\alpha(gv)(x)=\alpha(x^{-1}gv)=T_\alpha(v)(g^{-1}x)$, 所以得到良定义交织映射. 取单位元值和利用交织性即可逐项核对互逆. 有限性保证函数模型与上节的诱导空间同构; 在无限群情形, 两种方向不能不加条件地混称同一个构造.
+
+\originalsection{诱导的传递性与投影公式}
+\begin{proposition}\label{prop:transitivity}
+若 $K\le H\le G$, 则 $\Ind_H^G(\Ind_K^H W)\cong\Ind_K^G W$.
+\end{proposition}
+\begin{proof}
+定义 $g\otimes(h\otimes w)\mapsto gh\otimes w$. 将中间 $H$ 元素从外因子移到内因子, 或将 $K$ 元素移到 $w$, 都不改变输出的平衡张量, 所以良定义且交织. 逆映射为 $g\otimes w\mapsto g\otimes(e\otimes w)$. 对 $k\in K$, 两种写法 $gk\otimes w$ 与 $g\otimes kw$ 的像相同, 因为可把 $k$ 先移入 $\C[H]$ 再移到 $W$. 两个复合在纯张量上为恒等, 所以是同构.
+\end{proof}
+\begin{proposition}\label{prop:projectionformula}
+$G$ 表示 $V$ 与 $H$ 表示 $W$ 满足
+\[
+ \Ind_H^G(\Res_H^G V\otimes W)\cong V\otimes\Ind_H^G W.
+\]
+\end{proposition}
+\begin{proof}
+把 $g\otimes(v\otimes w)$ 映到 $gv\otimes(g\otimes w)$. 对 $h\in H$, 源中的 $gh\otimes(v\otimes w)$ 等于 $g\otimes(hv\otimes hw)$; 两者输出都为 $ghv\otimes(g\otimes hw)$. 因而映射良定义. 它与 $G$ 作用兼容. 逆映射把 $v\otimes(g\otimes w)$ 映为 $g\otimes(g^{-1}v\otimes w)$; 替换 $g$ 为 $gh$ 时, 相应 $h^{-1}$ 恰由平衡关系消去. 在生成元上核对两个复合为恒等即可.
+\end{proof}
+
+\begin{example}\label{ex:s3induction}
+令 $H=C_3\trianglelefteq S_3$. 分解 $\Ind_H^{S_3}L_j$, $j=0,1,2$.
+\end{example}
+\begin{solution}
+$1$ 与 $\sgn$ 限制到 $H$ 均为平凡表示; 标准表示限制为 $L_1\oplus L_2$. 互反给出 $\Ind L_0$ 在三种不可约中的重数为 $1,1,0$, 所以 $\Ind L_0\cong1\oplus\sgn$. $\Ind L_1$ 的重数为 $0,0,1$, 所以等价于标准表示; $L_2$ 同理. 各诱导表示维数为2, 与所得分解一致. 也可由诱导特征标计算: 两个非平凡诱导在三类上取 $2,0,\omega+\omega^2= -1$.
+\end{solution}
+
+\begin{exercise}
+求 $S_3$ 从 $H=\langle(12)\rangle\cong C_2$ 诱导平凡表示及非平凡一维表示的分解.
+\end{exercise}
+\begin{solution}
+标准表示在换位上的特征值为 $1,-1$, 所以限制为平凡加非平凡. $\sgn$ 限制为非平凡. 互反得 $\Ind_H^{S_3}1\cong1\oplus U$, $\Ind_H^{S_3}\varepsilon\cong\sgn\oplus U$. 两者都为三维; 前者就是三个陪集上的置换表示.
+\end{solution}

@@ -1,0 +1,105 @@
+\originalchapter{特征标与正交关系}
+\originalsection{特征标的基本性质}
+\begin{definition}
+表示 $V$ 的特征标是函数 $\chi_V:G\to\C$, $\chi_V(g)=\tr\rho_V(g)$. 在每个共轭类上取常值的函数称类函数; 所有复值类函数构成向量空间 $\Cl(G)$.
+\end{definition}
+迹不因换基而改变. 又 $\rho(hgh^{-1})=\rho(h)\rho(g)\rho(h)^{-1}$, 因而特征标为类函数. $\chi_V(e)=\dim V$, 直和满足 $\chi_{V\oplus W}=\chi_V+\chi_W$.
+
+若 $g$ 的阶为 $m$, 则 $\rho(g)^m=I$. 多项式 $t^m-1$ 在复数域中没有重根, 所以 $\rho(g)$ 可对角化, 所有特征值都是 $m$ 次单位根. 因此
+\[
+ \chi_V(g^{-1})=\overline{\chi_V(g)},\qquad |\chi_V(g)|\le\dim V.
+\]
+后一不等式来自单位复数之和的三角不等式. 若 $\chi_V(g)=\dim V$, 各特征值实部至多为1而实部总和已等于维数, 所以它们全为1; 对角化再给出 $\rho(g)=I$. 于是
+\begin{equation}\label{eq:character-kernel}
+ \ker\rho_V=\{g\in G:\chi_V(g)=\chi_V(e)\}.
+\end{equation}
+特征标能辨别哪些群元素实际作用恒等, 但并不单凭一个值恢复整套矩阵.
+
+\begin{example}
+设 $G$ 作用在有限集合 $X$ 上, 在基 $\{e_x:x\in X\}$ 张成的空间 $\C[X]$ 上令 $g e_x=e_{gx}$. 求其特征标.
+\end{example}
+\begin{solution}
+矩阵每列只含一个1. 对角线上对应 $x$ 的元素等于1恰在 $gx=x$ 时, 否则为0. 因此 $\chi_{\C[X]}(g)=|X^g|$, 其中 $X^g=\{x:gx=x\}$. 例题\ref{ex:permstandard}的三维置换表示在 $S_3$ 三类上的值是 $3,1,0$; 减去平凡分量的特征标1, 得到标准平面表示的值 $2,0,-1$.
+\end{solution}
+
+\originalsection{类函数内积与不变向量}
+\begin{definition}
+在复值函数空间上定义Hermite内积
+\[
+ \inner{f}{h}_G=\frac1{|G|}\sum_{g\in G}f(g)\overline{h(g)}.
+\]
+若两者为类函数, 选各类代表 $c_j$, 类大小为 $n_j$, 则内积等于 $|G|^{-1}\sum_j n_j f(c_j)\overline{h(c_j)}$.
+\end{definition}
+注意这是加权内积, 不是直接对特征标表每列求平均; 不同共轭类含的元素数不同.
+
+\begin{proposition}\label{prop:reynolds}
+对表示 $V$, 算子 $P_G=|G|^{-1}\sum_{g\in G}\rho_V(g)$ 是投影到不变向量空间 $V^G=\{v:gv=v\ \forall g\}$ 的投影. 因而
+\[
+ \dim V^G=\frac1{|G|}\sum_{g\in G}\chi_V(g)=\inner{\chi_V}{1}_G.
+\]
+\end{proposition}
+\begin{proof}
+对任意 $h$, $\rho(h)P_G=P_G$, 所以 $P_G(V)\subseteq V^G$; 对 $v\in V^G$, 所有求和项都是 $v$, 所以 $P_Gv=v$. 两者合起来给出 $P_G^2=P_G$, 且像正是 $V^G$. 在 $\im P_G\oplus\ker P_G$ 的基中矩阵为 $\operatorname{diag}(I,0)$, 迹等于像的维数. 迹的线性性给出所列等式.
+\end{proof}
+
+\begin{corollary}[轨道计数公式]\label{cor:burnside-count}
+有限群 $G$ 作用在有限集合 $X$ 上, 轨道数为 $|G|^{-1}\sum_{g\in G}|X^g|$.
+\end{corollary}
+\begin{proof}
+$\C[X]$ 中不变向量的系数在每个轨道上必须相同, 所以每个轨道贡献一个自由系数, 不变空间的维数就是轨道数. 应用命题\ref{prop:reynolds}与置换特征标公式即可.
+\end{proof}
+这是通常称为Burnside引理的计数公式, 与本书未纳入的Burnside $p^aq^b$ 可解性定理是两个不同结论.
+
+\originalsection{交织空间的特征标计算}
+我们希望把分解重数写成特征标的内积. 命题\ref{prop:multiplicity}已经把重数写为交织空间维数; 所以先把普通线性映射空间本身变成表示.
+
+对 $T\in\Hom_\C(V,W)$, 定义 $g\cdot T=\rho_W(g)T\rho_V(g)^{-1}$. 这满足群作用法则, 而不变向量恰是交织映射. 若 $A,B$ 分别作用在 $W,V$, 线性算子 $T\mapsto ATB$ 在矩阵单位 $E_{ij}$ 基下的迹是 $\sum_{i,j}A_{ii}B_{jj}=\tr A\tr B$. 因此此Hom表示的特征标为 $\chi_W(g)\chi_V(g^{-1})$.
+
+\begin{theorem}\label{thm:hom-character}
+任意有限群复表示 $V,W$ 满足
+\[
+ \dim\Hom_G(V,W)=\inner{\chi_W}{\chi_V}_G.
+\]
+\end{theorem}
+\begin{proof}
+把命题\ref{prop:reynolds}用于上述Hom表示, 得
+\[
+ \dim\Hom_G(V,W)=\frac1{|G|}\sum_g\chi_W(g)\chi_V(g^{-1})
+ =\frac1{|G|}\sum_g\chi_W(g)\overline{\chi_V(g)}.
+\]
+这里每个等式均发生在有限维空间与有限和中, 无须额外极限交换条件.
+\end{proof}
+
+\begin{corollary}[不可约特征标的行正交]\label{cor:roworth}
+若 $S_i$ 两两不等价且不可约, 则 $\inner{\chi_{S_i}}{\chi_{S_j}}_G=\delta_{ij}$.
+\end{corollary}
+\begin{proof}
+由定理\ref{thm:hom-character}, 内积是 $\dim\Hom_G(S_j,S_i)$, 再应用Schur引理.
+\end{proof}
+\begin{corollary}\label{cor:char-decomposition}
+若 $V\cong\bigoplus_i S_i^{\oplus m_i}$, 则
+\[
+ m_i=\inner{\chi_V}{\chi_{S_i}}_G,\qquad
+ \inner{\chi_V}{\chi_V}_G=\sum_i m_i^2.
+\]
+特别地, 非零表示不可约当且仅当其特征标的内积平方范数为1. 两个表示同构当且仅当特征标相同.
+\end{corollary}
+\begin{proof}
+特征标的可加性与行正交给出两式. 正整数重数的平方和等于1恰表示只有一个分量且重数为1. 若特征标相同, 与每个不可约特征标取内积得到相同重数, 分解唯一性保证同构. 反向由迹在同构下不变得到.
+\end{proof}
+范数判别只适用于已知是表示特征标的函数. 任意类函数即使范数为1, 也可能不是表示特征标; 第六章会给虚表示版本的精确补充条件.
+
+\originalsection{分解计算}
+\begin{example}
+$S_3$ 作用在集合 $X=\{(i,j):1\le i,j\le3,\ i\ne j\}$ 上. 分解对应的六维置换表示.
+\end{example}
+\begin{solution}
+一个有序对被 $g$ 固定, 当且仅当其两个坐标都被固定. 单位元固定6个, 换位只固定一个数字, 因而没有互异固定对, 三循环无固定点. 特征标为 $(6,0,0)$. 三个候选不可约特征标为平凡 $(1,1,1)$、符号 $(1,-1,1)$ 和标准 $(2,0,-1)$; 标准表示的范数为 $(4+0+2)/6=1$, 所以不可约. 与六维表示取内积得重数 $1,1,2$. 三者维数之和为 $1+1+2\cdot2=6$, 所以本表示的分解为 $1\oplus\sgn\oplus U^{\oplus2}$. 第四章将证明该候选列表也穷尽了 $S_3$ 的全部不可约表示.
+\end{solution}
+
+\begin{exercise}
+设置换表示 $\C[X]$ 中平凡表示出现 $a$ 次. 证明 $a$ 等于 $G$ 在 $X$ 上的轨道数. 若作用传递, 是否必有 $\C[X]\cong1\oplus$ 一个不可约表示?
+\end{exercise}
+\begin{solution}
+平凡表示重数为 $\dim\C[X]^G$, 由轨道计数论证即为轨道数. 后一断言不成立: $C_3$ 在自身上的左乘作用传递, 其三维置换表示分解成三个不同一维表示. 其中平凡表示确只出现一次, 但剩余二维空间仍可约.
+\end{solution}
