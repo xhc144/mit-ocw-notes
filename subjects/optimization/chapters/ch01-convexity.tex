@@ -1,0 +1,180 @@
+\originalchapter{凸集与凸函数}\label{chap:1}
+本章对应原讲义第1讲的优化概念及第2--3讲, 原PDF第2--38页. 先理解凸性提供了什么, 再把这一几何性质转写为分析和计算工具.
+
+\originalsection{优化问题与凸性}
+最优化问题的基本形式是求 $\inf_{x\in C}f(x)$. 集合 $C$ 是可行集, $f$ 是目标函数. 记最优值为 $f^*$; 若某个 $x^*\in C$ 满足 $f(x^*)=f^*$, 则称其为最优解. 写 $\inf$ 而非 $\min$ 是为了不预设最优解存在. 例如 $f(x)=e^x$ 在 $\R$ 上的下确界为0, 却没有取到0的点.
+
+\begin{definition}
+集合 $C\subseteq\R^n$ 称为凸集, 若任意 $x,y\in C$ 及 $t\in[0,1]$ 都满足 $(1-t)x+ty\in C$. 在凸集 $C$ 上, 函数 $f:C\to\R$ 称为凸函数, 若
+\[
+f((1-t)x+ty)\le(1-t)f(x)+tf(y).
+\]
+若对 $x\ne y$ 及 $0<t<1$ 不等号严格, 则称 $f$ 严格凸. 凸规划指 $C$ 与 $f$ 都凸的最优化问题.
+\end{definition}
+凸集要求连接两个可行点的整条线段仍然可行; 凸函数要求线段上的函数图像不高于两端图像的弦. 这不是“图像看起来像碗”的模糊描述, 因为可行集可以位于低维平面上, 目标也可以不可微.
+
+\begin{proposition}\label{prop:localglobal}
+凸函数在凸集上的每个局部极小点都是全局极小点. 最优解集合是凸集; 严格凸函数至多有一个最优解.
+\end{proposition}
+\begin{proof}
+设 $x^*$ 是局部极小点, 若存在 $y\in C$ 使 $f(y)<f(x^*)$, 则对任意 $0<t<1$,
+$f((1-t)x^*+ty)\le(1-t)f(x^*)+tf(y)<f(x^*)$. 取足够小的 $t$ 就与局部极小性矛盾. 若 $x,y$ 都最优, 凸性给出线段上函数值不大于 $f^*$, 而最优值的定义给出反向不等式. 若严格凸且 $x\ne y$, 线段内部的值严格小于 $f^*$, 产生矛盾.
+\end{proof}
+上述结论不保证最优解存在, 也不保证任何数值算法都能快速找到它. 原课程强调对偶的另一作用: 即使原问题含有整数限制或其他非凸结构, 由拉格朗日乘子得到的对偶目标仍是凹函数, 因而对偶最大化具有凸优化结构. 我们将在对偶章节证明这一点及其下界意义.
+
+\begin{example}
+比较 $f(x)=x^2$ 在 $C_1=\R$ 与 $C_2=\{-2,1\}$ 上的局部、全局最优点.
+\end{example}
+\begin{solution}
+在 $C_1$ 上, $f$ 严格凸, 唯一最优点为0. 在离散可行集 $C_2$ 中, 两个点都在相对拓扑意义下局部最优, 因为可取一个小邻域不包含另一个可行点. 但 $f(-2)=4>1=f(1)$, 所以 $-2$ 不是全局最优. 关键障碍在于两点间线段不在 $C_2$ 中, 命题\ref{prop:localglobal}的证明无法使用.
+\end{solution}
+
+\originalsection{保持凸性的运算}
+半空间 $\{x:a\T x\le b\}$ 和超平面 $\{x:a\T x=b\}$ 都是凸集. 有限个半空间的交称为多面体, 它闭且凸, 但不一定有界. 锥是对正数乘法封闭的集合; 锥本身不一定凸或闭. 本书涉及生成锥时将明确包括原点.
+
+\begin{proposition}
+任意族凸集的交为凸集. 凸集的线性像、仿射像、逆像、数乘、向量和、闭包与内部均为凸集.
+\end{proposition}
+\begin{proof}
+交集的两点属于每一个原集合, 因而线段逐一属于它们. 对线性映射 $A$, 有 $A((1-t)x+ty)=(1-t)Ax+tAy$; 这一恒等式同时证明线性像与逆像的结论, 平移不改变线段结构. 若 $x_i\in C_i$, 则 $(1-t)(x_1+x_2)+t(y_1+y_2)$ 是两个可行线段点之和. 闭包的结论通过用 $C$ 中序列逼近端点, 然后取极限得到. 若端点属于内部, 它们各有一小球包含于 $C$; 对 $0<t<1$, 将一端小球与另一端固定点作凸组合, 得到以相应线段点为中心的小球. 端点本身已经是内点.
+\end{proof}
+内部可以为空, 例如 $\R^2$ 中的一条直线; 后面用相对内部处理这一情形. 线性像保持凸性却未必保持闭性, 两种性质不能混为一谈.
+
+\begin{proposition}\label{prop:convexoperations}
+设各 $f_i:\R^n\to(-\infty,+\infty]$ 为凸函数. 下列运算保持凸性: 正系数有限和 $\sum_i\alpha_i f_i$; 仿射复合 $f(Ax+b)$; 逐点上确界 $\sup_i f_i(x)$. 若参与运算的函数都闭, 上述得到的函数也闭.
+\end{proposition}
+\begin{proof}
+凸性不等式可以乘以正数后相加, 也可以在仿射映射下代入. 对上确界, 每个 $i$ 都有
+$f_i((1-t)x+ty)\le(1-t)\sup_jf_j(x)+t\sup_jf_j(y)$, 再对 $i$ 取上确界. 闭性将由下一节的下半连续性等价刻画得到. 仿射映射连续, 因而保持下半连续性; 上确界的上图是各上图的交. 对有限和, 在任一极限点附近, 每个下半连续函数都具有一个有限下界, 所以可以对下极限使用有限和不等式, 不会出现 $+\infty-\infty$.
+\end{proof}
+常用的凸函数包括仿射函数、范数及半正定二次型. 范数的凸性由三角不等式与齐次性给出. 二次函数 $f(x)=\tfrac12 x\T Qx+b\T x+c$ 的凸性取决于对称矩阵 $Q$ 是否半正定; 若原矩阵不对称, 先以 $(Q+Q\T)/2$ 代替它, 因为反对称部分对二次型没有贡献.
+
+\begin{example}
+证明 $f(x)=\max\{a_1\T x+b_1,\ldots,a_m\T x+b_m\}$ 凸, 并说明为何凸函数的逐点最小值未必凸.
+\end{example}
+\begin{solution}
+每个仿射函数凸, 所以命题\ref{prop:convexoperations}适用. 反例为 $g(x)=\min\{x,-x\}=-|x|$. 取 $x=-1,y=1,t=1/2$, 有 $g(0)=0>-1=(g(-1)+g(1))/2$. 上确界与下确界在凸性运算中并不对称.
+\end{solution}
+
+\originalsection{上图、闭性与扩展实值}
+约束可以放入目标函数中. 对集合 $C$, 定义指示函数 $\ind{C}(x)=0$ 当 $x\in C$, 在其他点取 $+\infty$. 则在 $C$ 上最小化 $f$ 等价于在全空间最小化 $f+\ind{C}$. 这里的 $+\infty$ 是禁止不可行点的记号, 不参与普通实数算术.
+
+\begin{definition}
+对于扩展实值函数 $f:\R^n\to[-\infty,+\infty]$, 定义有效域 $\dom f=\{x:f(x)<+\infty\}$ 及上图
+$\epi f=\{(x,w)\in\R^{n+1}:f(x)\le w\}$. 若上图凸, 称 $f$ 凸; 若上图闭, 称 $f$ 闭. 若 $\dom f\ne\varnothing$ 且 $f$ 从不取 $-\infty$, 称 $f$ 为真函数. 对序列 $x_k\to x$, 若总有 $f(x)\le\liminf_kf(x_k)$, 则称 $f$ 在 $x$ 下半连续.
+\end{definition}
+对有限值函数, 上图凸性与此前的函数凸性定义等价. 一方面, 取上图中两点并使用函数凸性; 另一方面, 对图像上两点 $(x,f(x))$ 与 $(y,f(y))$ 使用上图凸性. 有效域也因此凸. 函数的下水平集 $\{x:f(x)\le\gamma\}$ 和严格下水平集 $\{x:f(x)<\gamma\}$ 都凸, 但反过来, 仅有水平集凸只说明拟凸, 不足以说明函数凸.
+
+\begin{center}
+\begin{tikzpicture}[scale=.85]
+\draw[->] (-.2,0)--(4.3,0) node[right]{$x$};
+\draw[->] (0,-.2)--(0,3.8) node[above]{$w$};
+\draw[thick,domain=.2:3.6,samples=70] plot (\x,{.35*(\x-1.7)^2+.6});
+\draw[dashed] (.6,1.024)--(3.2,1.3875);
+\node at (2.1,2.8){$\epi f$};
+\node at (3.4,.6){$f$};
+\fill (.6,1.024) circle(1.5pt); \fill (3.2,1.3875) circle(1.5pt);
+\end{tikzpicture}
+\end{center}
+图中虚线为两端图像点之间的线段, 凸性要求它处在上图中. 图只辅助定义, 不代替其量词条件.
+
+\begin{theorem}\label{thm:lsc}
+对定义在整个 $\R^n$ 上的扩展实值函数, 下列三条等价: 每个实数 $\gamma$ 的下水平集都闭; 函数处处下半连续; 上图闭.
+\end{theorem}
+\begin{proof}
+若函数下半连续, 取 $(x_k,w_k)\in\epi f$ 且 $(x_k,w_k)\to(x,w)$, 则 $f(x)\le\liminf f(x_k)\le w$, 所以上图闭. 若上图闭, 由 $x_k$ 属于 $\gamma$ 水平集可知 $(x_k,\gamma)\in\epi f$, 极限 $(x,\gamma)$ 仍在上图, 因而水平集闭.
+
+最后假设所有水平集闭. 若在某个 $x$ 有 $f(x)>\liminf_kf(x_k)$, 可在二者之间取实数 $\gamma$. 存在子序列满足 $f(x_{k_j})\le\gamma$, 又有 $x_{k_j}\to x$. 水平集闭便给出 $f(x)\le\gamma$, 矛盾. 这也适用于无穷值, 因为两者严格不等时仍能选取有限的中间实数.
+\end{proof}
+“定义在整个空间”不能省略. 在 $(0,1)$ 上恒为0的函数在其定义域内下半连续, 但上图 $(0,1)\times[0,\infty)$ 并不闭. 若把端点函数值定义为 $+\infty$, 上图不变, 而端点处的下半连续性失败. 因此约束进入目标后, 应在全空间上检查闭性.
+
+\begin{example}
+给出一个闭真凸函数, 其有效域不是闭集.
+\end{example}
+\begin{solution}
+取 $f(x)=1/x$ 当 $x>0$, 在 $x\le0$ 取 $+\infty$. 在正半轴上 $f''(x)=2/x^3>0$, 上图凸. 对有限 $\gamma>0$, 下水平集为 $[1/\gamma,\infty)$; 对 $\gamma\le0$ 为空集. 它们都闭, 所以函数闭, 但 $\dom f=(0,\infty)$ 不闭. 此例说明闭性由上图决定, 不能简单替换为有效域闭.
+\end{solution}
+若有效域闭且函数在有效域内下半连续, 则把域外取 $+\infty$ 后的函数确实闭. 证明时, 上图中的收敛序列的横坐标极限仍在有效域, 然后使用相对下半连续性即可.
+
+原讲义也提到非真闭凸函数的特殊性. 若它不恒为 $+\infty$ 而在某点取 $-\infty$, 则它在每一个有效域点都取 $-\infty$. 设 $f(x_0)=-\infty$, $y\in\dom f$. 凸性使 $(1-t)y+tx_0$ 在任意 $t>0$ 时都具有任意低的上图高度; 令 $t\downarrow0$, 上图闭性使 $(y,r)$ 对任意实数 $r$ 都属于上图, 所以 $f(y)=-\infty$. 因而后续优化理论主要使用真函数, 避免这类退化情形.
+
+\originalsection{可微凸函数与最优性}
+\begin{theorem}\label{thm:firstorder}
+设 $C$ 凸, $f$ 在包含 $C$ 的开集上可微. 函数 $f$ 在 $C$ 上凸, 当且仅当对任意 $x,z\in C$,
+\begin{equation}\label{eq:tangent}
+f(z)\ge f(x)+\nabla f(x)\T(z-x).
+\end{equation}
+若对不同的 $x,z$ 不等号总严格, 则 $f$ 严格凸.
+\end{theorem}
+\begin{proof}
+设 $f$ 凸. 对 $0<t\le1$, 凸性给出
+$[f(x+t(z-x))-f(x)]/t\le f(z)-f(x)$. 令 $t\downarrow0$, 左侧趋于 $\nabla f(x)\T(z-x)$, 得到\eqref{eq:tangent}.
+
+反过来, 设\eqref{eq:tangent}成立. 对 $w=(1-t)x+tz$, 分别在基点 $w$ 使用它, 得
+$f(x)\ge f(w)+\nabla f(w)\T(x-w)$ 与 $f(z)\ge f(w)+\nabla f(w)\T(z-w)$. 乘以 $1-t$ 与 $t$ 后相加, 梯度项抵消, 得到凸性. 当 $0<t<1$ 且 $x\ne z$ 时, $x,w,z$ 两两不同; 严格版本给出严格凸性.
+\end{proof}
+\eqref{eq:tangent}把局部一阶信息变成了全局下界. 这就是凸优化中驻点容易判定的原因. 但有约束时, 梯度不必为零: 在边界处, 所有可行移动方向都可能让目标增加.
+
+\begin{theorem}\label{thm:vi}
+在定理\ref{thm:firstorder}的条件下再设 $f$ 凸. 点 $x^*\in C$ 最优, 当且仅当
+\[
+\nabla f(x^*)\T(x-x^*)\ge0\quad(x\in C).
+\]
+\end{theorem}
+\begin{proof}
+充分性由切平面下界直接得到. 对必要性, 固定 $x\in C$, 线段 $x^*+t(x-x^*)$ 在 $0\le t\le1$ 时可行. 最优性使差商 $[f(x^*+t(x-x^*))-f(x^*)]/t\ge0$. 令 $t\downarrow0$ 即得结论.
+\end{proof}
+无约束 $C=\R^n$ 时, 可以取梯度方向与反方向, 条件等价于 $\nabla f(x^*)=0$. 若 $C$ 是线性等式约束, 条件表示梯度垂直于所有可行方向. 一般凸集的情况将在法锥与次梯度章节统一处理.
+
+\begin{theorem}\label{thm:hessian}
+设 $f$ 二阶连续可微. 若在凸集 $C$ 上 $\nabla^2f(x)\succeq0$, 则 $f$ 在 $C$ 上凸; 若处处正定, 则严格凸. 若 $C$ 还是开集, 则凸性反过来蕴含 Hessian 半正定.
+\end{theorem}
+\begin{proof}
+对 $x,z\in C$ 令 $h(t)=f(x+t(z-x))$. 它满足 $h''(t)=(z-x)\T\nabla^2f(x+t(z-x))(z-x)\ge0$. 因而 $h'$ 单调, 积分得 $h(1)\ge h(0)+h'(0)$; 由定理\ref{thm:firstorder}即得凸性. 当 $x\ne z$ 且 Hessian 正定时, $h''>0$, 积分不等式严格.
+
+反向结论在内点 $x$ 处对任意方向 $d$ 考察 $f(x+td)+f(x-td)-2f(x)\ge0$. 除以 $t^2$ 并令 $t\to0$, 得 $d\T\nabla^2f(x)d\ge0$. 开集条件保证足够小的正负方向都可行.
+\end{proof}
+正定是严格凸的充分条件, 不是必要条件. 例如 $x^4$ 严格凸, 但在0处二阶导数为0. 低维可行集上的凸性也不要求在所有环境方向上 Hessian 半正定.
+
+\originalsection{投影与有限表示}
+\begin{theorem}[投影定理]\label{thm:projection}
+非空闭凸集 $C\subseteq\R^n$ 上, 每个 $z\in\R^n$ 都有唯一最近点 $P_C(z)$. 点 $p\in C$ 等于 $P_C(z)$ 当且仅当
+\begin{equation}\label{eq:projectionvi}
+(z-p)\T(x-p)\le0\quad(x\in C).
+\end{equation}
+\end{theorem}
+\begin{proof}
+固定 $x_0\in C$. 只须在 $C\cap\{x:\norm{x-z}\le\norm{x_0-z}\}$ 上寻找最小值; 此集非空、闭且有界, 所以紧, 连续目标取到最小值. 函数 $\norm{x-z}^2$ 严格凸, 因而最小点唯一. 最优性条件\ref{thm:vi}与梯度 $2(p-z)$ 给出\eqref{eq:projectionvi}.
+\end{proof}
+\begin{corollary}\label{cor:nonexpansive}
+投影非扩张: $\norm{P_C(u)-P_C(v)}\le\norm{u-v}$. 若 $x\in C$, 则 $\norm{P_C(z)-x}\le\norm{z-x}$.
+\end{corollary}
+\begin{proof}
+记 $p=P_C(u),q=P_C(v)$. 在两次投影条件中分别取 $x=q,p$, 相加得到 $\norm{p-q}^2\le(p-q)\T(u-v)\le\norm{p-q}\norm{u-v}$. 对第二条, 展开 $\norm{z-x}^2=\norm{z-p}^2+\norm{p-x}^2+2(z-p)\T(p-x)$, 最后一项非负.
+\end{proof}
+\begin{example}
+求 $z$ 在半空间 $C=\{x:a\T x\le b\}$ 上的投影, 其中 $a\ne0$.
+\end{example}
+\begin{solution}
+若 $a\T z\le b$, 投影就是 $z$. 否则令 $p=z-[(a\T z-b)/\norm{a}^2]a$. 有 $a\T p=b$, 且 $z-p$ 是 $a$ 的正倍数. 因而对任意 $x\in C$, $(z-p)\T(x-p)\le0$, 投影定理给出答案. 这也是投影梯度算法的一种可直接计算的约束步骤.
+\end{solution}
+
+对任意集合 $X$, 其凸包 $\conv X$ 是包含它的最小凸集, 等于全部有限凸组合 $\sum_i\alpha_i x_i$, 其中 $\alpha_i\ge0$, $\sum_i\alpha_i=1$. 仿射包 $\aff X$ 允许系数为任意实数但仍要求和为1. 生成锥 $\cone X$ 允许非负系数而不要求和为1. 凸组合集合本身凸且包含 $X$, 又必须包含于每个包含 $X$ 的凸集, 这证明了两种凸包定义一致.
+
+\begin{theorem}[Carathéodory 定理]\label{thm:caratheodory}
+若 $X\subseteq\R^n$ 非空, 则 $\cone X$ 中每个非零向量都能写成至多 $n$ 个来自 $X$ 的线性无关向量的正组合. 每个 $x\in\conv X$ 都能写成至多 $n+1$ 个来自 $X$ 的向量的凸组合.
+\end{theorem}
+\begin{proof}
+选择一个项数最少的正组合 $x=\sum_{i=1}^m\alpha_i x_i$. 若 $x_i$ 线性相关, 有非零系数 $\beta_i$ 使 $\sum_i\beta_i x_i=0$. 必要时整体换号, 使某个 $\beta_i>0$. 取 $t=\min_{\beta_i>0}\alpha_i/\beta_i>0$. 新系数 $\alpha_i-t\beta_i$ 全部非负且至少一个为0, 但仍表示 $x$, 与最少项数矛盾. 因而 $m\le n$.
+
+对凸组合, 提升到 $\R^{n+1}$: $ (x,1)=\sum_i\alpha_i(x_i,1)$. 由锥版本可用至多 $n+1$ 个提升向量正组合表示. 最后一个坐标强制系数和为1, 所以降回原空间得到凸组合.
+\end{proof}
+\begin{corollary}
+紧集的凸包紧. 有限集合生成的锥闭.
+\end{corollary}
+\begin{proof}
+若 $X$ 紧, 每个凸包点可表示为 $n+1$ 项凸组合, 不足的项补零. 因而 $\conv X$ 是紧集 $\Delta_{n+1}\times X^{n+1}$ 在连续映射 $(\alpha,x_1,\ldots,x_{n+1})\mapsto\sum_i\alpha_ix_i$ 下的像, 其中 $\Delta_{n+1}$ 是系数单纯形, 所以紧.
+
+设 $X$ 有限, $y_k\in\cone X$ 收敛. 锥版本使每个 $y_k$ 由 $X$ 的一个线性无关子集正组合表示. 可能的子集有限, 可取子序列让它固定为 $x_1,\ldots,x_m$. 线性无关保证从 $y_k$ 恢复系数的线性逆映射连续, 所以系数收敛到非负值, 极限仍在生成锥中. 对零向量也有结论, 因为原点属于生成锥.
+\end{proof}
+闭集的凸包却不一定闭. 例如 $X=\{(t,1/t):t>0\}\cup\{(t,-1/t):t>0\}$ 闭; 任意趋向 $t=0$ 的点都向无穷逃逸, 不产生有限漏点. 凸包包含 $(t,0)$ 对所有 $t>0$, 因而原点在其闭包中. 但每个有限凸组合的第一坐标都正, 所以原点不在凸包中. 后面讨论对偶闭性时, 这种“极限存在而表示参数逃向无穷”的现象会再次出现.

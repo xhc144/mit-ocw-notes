@@ -1,0 +1,230 @@
+\originalchapter{近端稳定化与增广拉格朗日}\label{chap:9}
+本章对应原第19--20讲及第21讲的广义近端部分, 原PDF第260--284页. 主线是同一个二次正则化子问题的原问题实现、共轭实现和约束优化实现; bundle方法则把精确目标换成切平面模型.
+
+\originalsection{近端子问题的存在与基本恒等式}
+设$f:\R^n\to(-\infty,+\infty]$闭、真、凸. 对$c>0$及任意$z\in\R^n$, 定义
+\[
+ \operatorname{prox}_{cf}(z)=\argmin_x\left\{f(x)+\frac1{2c}\norm{x-z}^2\right\}.
+\]
+闭真凸函数有仿射下界$f(x)\ge a\T x+b$. 加上正二次项后, 目标下水平集有界, 且目标下半连续, 故最小值达到. 二次项的严格凸性给唯一性. 因此起点即使不在$\dom f$内, 第一步也定义良好并落入有效域. 约束$x\in X$可用$f+\ind{X}$吸收, 但需此和函数为真.
+
+近端点法是
+\begin{equation}\label{eq:proximal-point}
+ x_{k+1}=\operatorname{prox}_{c_k f}(x_k),\qquad c_k>0.
+\end{equation}
+最优性条件为
+\begin{equation}\label{eq:prox-subgradient}
+ g_{k+1}:=\frac{x_k-x_{k+1}}{c_k}\in\partial f(x_{k+1}).
+\end{equation}
+这是一种隐式次梯度步: 使用新点的次梯度, 不是旧点的次梯度. 隐式性使每步更贵, 也带来稳定性. 若$x_k$已经最优, 则$0\in\partial f(x_k)$, 因而$x_{k+1}=x_k$; 近端点法不会像无稳定化切平面法那样主动离开最优点.
+
+\begin{lemma}\label{lem:prox-distance}
+对任意$y\in\dom f$, 有
+\begin{equation}\label{eq:prox-distance}
+ \norm{x_{k+1}-y}^2\le\norm{x_k-y}^2
+ -2c_k\bigl(f(x_{k+1})-f(y)\bigr)-\norm{x_k-x_{k+1}}^2.
+\end{equation}
+若$x_k\in\dom f$, 还满足
+\[
+ f(x_{k+1})+\frac1{2c_k}\norm{x_{k+1}-x_k}^2\le f(x_k).
+\]
+\end{lemma}
+\begin{proof}
+由\eqref{eq:prox-subgradient}, $g_{k+1}\T(x_{k+1}-y)\ge f(x_{k+1})-f(y)$. 展开$x_k-y=(x_{k+1}-y)+c_k g_{k+1}$的平方, 移项得到第一式. 第二式是用$x_k$作为子问题的比较点. 若$x_k$不是最优点, 子问题唯一极小点不等于$x_k$, 此时目标确实严格下降.
+\end{proof}
+
+与显式次梯度距离估计相比, 这里没有$+c_k^2\norm{g}^2$误差, 反而多了一个负的移动距离项. 不需假设所有次梯度有统一范数界.
+
+\originalsection{收敛、增长阶与有限终止}
+\begin{theorem}\label{thm:prox-convergence}
+若$\sum_{k=0}^\infty c_k=\infty$, 则$f(x_k)\to f^*=\inf f$. 若最优集合$X^*$非空, 则$x_k$趋于其中一个点.
+\end{theorem}
+\begin{proof}
+从第一步起目标值单调不增. 将\eqref{eq:prox-distance}求和并删去非正项, 对任意$y\in\dom f$及$N\ge1$有
+\[
+ 2\sum_{k=0}^{N-1}c_k\bigl(f(x_{k+1})-f(y)\bigr)\le\norm{x_0-y}^2.
+\]
+因$f(x_N)\le f(x_{k+1})$, 得
+\[
+ f(x_N)\le f(y)+\frac{\norm{x_0-y}^2}{2\sum_{k=0}^{N-1}c_k}.
+\]
+令$N\to\infty$, 再对$y$取下确界, 得值收敛, 也包括$f^*=-\infty$的情形.
+
+若$x^*\in X^*$, 距离不等式使$\norm{x_k-x^*}$单调不增, 故序列有界. 取一个收敛子列, 下半连续性与值收敛保证其极限$\bar x\in X^*$. 到$\bar x$的距离同样单调并沿该子列趋零, 所以整个序列趋于$\bar x$.
+\end{proof}
+
+参数$c_k$越大, 对离开当前点的二次惩罚越弱, 子问题越接近原目标. 但大$c_k$也可能使子问题数值求解困难. 若目标在最优集合附近有较陡增长, 一个近端步可跨越更多距离.
+
+\begin{proposition}\label{prop:prox-growth}
+设$X^*\ne\varnothing$, $d(x)=\dist(x,X^*)$. 假设在相关近邻内
+\[
+ f(x)-f^*\ge\theta d(x)^p,\qquad\theta>0,\quad p\ge1.
+\]
+若$x_{k+1}$在该近邻且非最优, 则
+\begin{equation}\label{eq:prox-growth-distance}
+ d(x_k)\ge d(x_{k+1})+c_k\theta d(x_{k+1})^{p-1}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+记$u=x_{k+1}$, $v=x_k$, $g=(v-u)/c_k$. 取$z_u=P_{X^*}(u)$, 次梯度不等式与柯西不等式给
+\[
+ \theta d(u)^p\le f(u)-f^*\le g\T(u-z_u)\le\norm{g}d(u),
+\]
+故$\norm{g}\ge\theta d(u)^{p-1}$. 再取$z_v=P_{X^*}(v)$, 展开并用同一次梯度不等式,
+\begin{align*}
+ d(v)^2&=\norm{u-z_v+c_k g}^2\\
+ &\ge d(u)^2+2c_k\theta d(u)^p+c_k^2\norm{g}^2\\
+ &\ge\bigl(d(u)+c_k\theta d(u)^{p-1}\bigr)^2.
+\end{align*}
+取非负平方根即得结论.
+\end{proof}
+
+当$p=2$且$c_k\to\bar c>0$, 有$\limsup d(x_{k+1})/d(x_k)\le1/(1+\theta\bar c)<1$, 即线性距离收敛. 当$1<p<2$且$c_k\ge\underline c>0$, 有
+\[
+ d(x_{k+1})\le\left(\frac{d(x_k)}{\underline c\theta}\right)^{1/(p-1)},
+\]
+幂指数大于一, 所以距离收敛超线性. 下界$\underline c$在此结论中不能省略; 若$c_k$不断趋零, 正则化可能越来越强.
+
+当$p=1$, 非终止步满足$d(x_k)-d(x_{k+1})\ge\theta c_k$. 若$\sum c_k=\infty$, 永远不终止将使非负距离下降到负数, 所以有限终止. 若增长界全局成立且$c_0\ge d(x_0)/\theta$, 第一步即最优. 有最优解的多面体凸函数具有相应的线性误差界, 这是原第265页有限终止结论的基础.
+
+\begin{example}
+对$f(x)=|x|$, 显式求一个近端步并解释有限终止.
+\end{example}
+\begin{solution}
+子问题$\min_u|u|+(u-x)^2/(2c)$的最优性条件是$0\in\partial|u|+(u-x)/c$. 在$u>0$时解为$u=x-c$, 在$u<0$时为$u=x+c$, 在$u=0$时条件是$|x|\le c$. 因而
+\[
+ \operatorname{prox}_{c|\cdot|}(x)=\operatorname{sign}(x)\max\{|x|-c,0\}.
+\]
+非零步使绝对值减少$c$, 累计参数之和超过$|x_0|$时便到达零. 此例同时表明参数变化不能在有限终止讨论里被忽略.
+\end{solution}
+
+\originalsection{共轭实现与Moreau包络}
+对二次函数$r_{k}(x)=\norm{x-x_k}^2/(2c_k)$, 共轭由配方给$r_k^*(v)=x_k\T v+(c_k/2)\norm{v}^2$. 所以近端子问题的Fenchel对偶可写为
+\begin{equation}\label{eq:dual-proximal}
+ y_{k+1}=\argmin_y\left\{f^*(y)-x_k\T y+\frac{c_k}{2}\norm{y}^2\right\}.
+\end{equation}
+二次函数处处有限, 保证适用强对偶. 原对偶问题都有唯一解, 并满足
+\[
+ y_{k+1}\in\partial f(x_{k+1}),\qquad
+ x_{k+1}=x_k-c_k y_{k+1}.
+\]
+因此可以先求共轭侧的子问题, 再重建原点. 选择哪侧只由结构便利决定, 不是另一种不同的近端迭代. 若$c_k$有正下界且$x_k$收敛, 则$y_{k+1}\to0$. 没有参数条件时, 不能仅由$x_k-x_{k+1}\to0$就除以可能趋零的$c_k$.
+
+定义Moreau包络
+\[
+ e_c f(z)=\inf_x\left\{f(x)+\frac1{2c}\norm{x-z}^2\right\},\qquad u(z)=\operatorname{prox}_{cf}(z).
+\]
+它把非光滑凸函数变成可微凸函数, 并且$\nabla e_c f(z)=(z-u(z))/c$. 为说明可微性, 比较在$z$和$z+h$处的最优解, 得
+\begin{align*}
+ e_cf(z+h)-e_cf(z)&\le\frac1c(z-u(z))\T h+\frac1{2c}\norm h^2,\\
+ e_cf(z+h)-e_cf(z)&\ge\frac1c(z-u(z+h))\T h+\frac1{2c}\norm h^2.
+\end{align*}
+近端映射非扩张: 对两点的最优性条件作差, 次梯度单调性给
+\[
+ \norm{u(z)-u(w)}^2\le(u(z)-u(w))\T(z-w).
+\]
+故$u(z+h)-u(z)=O(\norm h)$, 上下界的线性主部相同, 余量为$O(\norm h^2)$, 得到梯度公式. 同一单调性还给\mbox{$\norm{\nabla e_cf(z)-\nabla e_cf(w)}\le\norm{z-w}/c$}.
+
+包络与$f$有相同最优值和最优集合: 显然$e_cf(z)\ge f^*$, 最优点达到等号; 反向, 包络最优点的梯度为零, 故$z=u(z)$且$0\in\partial f(z)$. 近端步于是也是步长$c_k$的包络梯度步. 原第278页由此指出可以在平滑包络上考虑Newton或拟Newton加速, 但该建议不等于给出它们的无条件收敛结论.
+
+\originalsection{近端切平面与bundle方法}
+切平面下界$F_k\le f$与二次稳定项组合成
+\[
+ u_k\in\argmin_{x\in X}\left\{F_k(x)+\frac1{2c_k}\norm{x-y_k}^2\right\}.
+\]
+$u_k$是查询点, $y_k$是近端中心, 两者不必相同. 如果每轮都把中心移到查询点, 就是近端切平面法. 参数很大时稳定作用弱, 又接近普通切平面法; 参数很小时可能过于保守. 存储的切面很多时, 二次子问题也会变贵.
+
+bundle方法保留一个稳定中心, 用真实下降检验决定是否移动. 假设中心已被查询且$F_k(y_k)=f(y_k)$, 定义预测下降
+\begin{equation}\label{eq:bundle-prediction}
+ \delta_k=f(y_k)-\left(F_k(u_k)+\frac1{2c_k}\norm{u_k-y_k}^2\right)\ge0.
+\end{equation}
+取固定$\beta\in(0,1)$. 若$f(y_k)-f(u_k)\ge\beta\delta_k$, 令$y_{k+1}=u_k$, 称实步. 否则中心不动, 称空步. 两种情形都在$u_k$求次梯度并加入新切面. 空步虽然没有接受查询点, 却修正了过度乐观的模型.
+
+当$\delta_k=0$, 强凸性使$u_k=y_k$. 此时$y_k$最小化模型加稳定项, 稳定项在中心梯度为零; 因模型与$f$相切, 其最优性条件也是原问题的最优性条件. 所以零预测下降可以作精确停止证书.
+
+\begin{theorem}\label{thm:basic-bundle-convergence}
+为给出可完整证明的基本版本, 设$X=\R^n$, $f$实值凸, 初始水平集$\{x:f(x)\le f(y_0)\}$紧, $c_k=c>0$, 始终保留全部切面. 则上述bundle法的中心目标值趋于$f^*$, 中心的每个聚点最优.
+\end{theorem}
+\begin{proof}
+中心目标值单调不增, 因而中心留在紧水平集内. 记$s_k=(y_k-u_k)/c\in\partial F_k(u_k)$. 强凸性给
+\[\delta_k\ge\frac{\norm{u_k-y_k}^2}{2c}.\]
+对任意$z$, 模型次梯度不等式给
+\[
+ f(z)\ge F_k(u_k)+s_k\T(z-u_k)
+ =f(y_k)+s_k\T(z-y_k)-\varepsilon_k,
+\]
+其中$\varepsilon_k=\delta_k-\norm{u_k-y_k}^2/(2c)\in[0,\delta_k]$. 故$s_k$是中心处的$\varepsilon_k$次梯度, 并有$\norm{s_k}\le\sqrt{2\delta_k/c}$.
+
+若有无限多个实步, 中心目标的总下降有限, 而每个实步下降至少$\beta\delta_k$, 所以实步上的$\delta_k\to0$. 用任一最优点$z=x^*$代入上式, 中心有界使内积趋零, 从而实步前的中心目标趋于$f^*$. 单调性使所有中心目标也趋于$f^*$.
+
+若只有有限多个实步, 从某一步起中心固定为$y$. 写$Q_k=F_k+\norm{\cdot-y}^2/(2c)$, $q_k=Q_k(u_k)$. 模型单调增加, 故$q_k$不减且不超过$f(y)$. 一张固定旧切面与二次项给统一的强制有界下水平集, 所以查询点有界, 在这些点的次梯度也有界. 强凸性给
+\[
+ q_{k+1}-q_k\ge\frac1{2c}\norm{u_{k+1}-u_k}^2,
+\]
+故相邻查询点之差趋零. 新切面在$u_k$接触$f$, 所以
+\[
+ q_{k+1}\ge f(u_k)+g_k\T(u_{k+1}-u_k)+\frac1{2c}\norm{u_{k+1}-y}^2.
+\]
+与$q_k=F_k(u_k)+\norm{u_k-y}^2/(2c)$相减, 得模型误差$f(u_k)-F_k(u_k)\to0$. 但空步检验说明
+\[
+ f(u_k)-F_k(u_k)>(1-\beta)\delta_k+\frac1{2c}\norm{u_k-y}^2.
+\]
+所以$\delta_k\to0$, 再用上述误差次梯度不等式得到$f(z)\ge f(y)$对所有$z$, 即固定中心已经最优. 两种情形均完成值收敛, 聚点最优由连续性得到.
+\end{proof}
+
+实用bundle算法常聚合旧切面、调整参数或设置允许误差. 它们应保留足够的模型信息, 需要各自的分析; 原讲义的通式不意味着任意删面、任意参数更新仍满足本定理.
+
+\originalsection{增广拉格朗日作为对偶近端法}
+考虑凸等式问题$\min\{f(x):x\in X,\ Ex=d\}$. 定义扰动值函数
+\[
+ p(u)=\inf\{f(x):x\in X,\ Ex-d=u\},\qquad
+ q(\mu)=\inf_{x\in X}\{f(x)+\mu\T(Ex-d)\}=-p^*(-\mu).
+\]
+假设$p$闭、真、凸, 对偶最优乘子存在, 所需子问题下确界达到. 在凹对偶目标上作近端最大化,
+\[
+ \mu_{k+1}=\arg\max_\mu\left\{q(\mu)-\frac1{2c_k}\norm{\mu-\mu_k}^2\right\},
+\]
+其共轭实现是在扰动变量上最小化$p(u)+\mu_k\T u+(c_k/2)\norm u^2$, 然后令$\mu_{k+1}=\mu_k+c_k u_{k+1}$. 代入$p$的定义可实现为
+\begin{equation}\label{eq:augmented-lagrangian}
+ \begin{split}
+ x_{k+1}&\in\argmin_{x\in X}\left\{f(x)+\mu_k\T(Ex-d)+\frac{c_k}{2}\norm{Ex-d}^2\right\},\\
+ \mu_{k+1}&=\mu_k+c_k(Ex_{k+1}-d).
+ \end{split}
+\end{equation}
+花括号中的函数是增广拉格朗日函数. 普通二次惩罚只加最后一项; 增广拉格朗日还不断校正线性乘子, 因而不必单靠让惩罚参数趋于无穷来消除违反量.
+
+验证其对偶近端身份也可直接用最优性. 设$u_{k+1}=Ex_{k+1}-d$. 扰动子问题的最优性给$-\mu_k-c_k u_{k+1}\in\partial p(u_{k+1})$. 令$\mu_{k+1}=\mu_k+c_k u_{k+1}$, 共轭次梯度关系表明$x_{k+1}$最小化普通拉格朗日函数$L(x,\mu_{k+1})$, 并且$u_{k+1}$为$q$在新乘子处的超梯度. 因而$u_{k+1}=(\mu_{k+1}-\mu_k)/c_k$正好满足对偶近端最优性.
+
+若$\sum c_k=\infty$, 对$-q$应用定理\ref{thm:prox-convergence}, 乘子趋于一个对偶最优解. 若还满足$c_k\ge\underline c>0$, 则残差$Ex_{k+1}-d\to0$. 由
+\[
+ q(\mu_{k+1})=f(x_{k+1})+\mu_{k+1}\T(Ex_{k+1}-d)
+\]
+得$f(x_{k+1})\to f^*$. 若原点序列有聚点且$X$闭、$f$下半连续, 该聚点原最优. 乘子收敛与原变量有界性是不同事项, 不能把后者省略.
+
+对切平面模型$F_k+\ind{X}$同样可作原或共轭侧的近端子问题. 不受约束时, $F_k^*$正是共轭目标的内线性化; 有约束时还涉及与$\ind X$的共轭卷积, 不能机械把它当作单纯的有限点凸包. 在完整Fenchel模型中两种实现仍等价. 若只在通过进展检验后移动中心, 对应外模型的bundle与共轭内模型的bundle两种表达.
+
+\originalsection{广义正则化与上界最小化}
+广义近端迭代写成$x_{k+1}\in\argmin_x\{f(x)+D_k(x,x_k)\}$. 这里不再有二次项自动保证存在性, 必须另假设子问题达到最小值. 若$D_k(x,x_k)\ge D_k(x_k,x_k)$, 则比较点$x_k$给
+\[
+ f(x_{k+1})\le f(x_{k+1})+D_k(x_{k+1},x_k)-D_k(x_k,x_k)\le f(x_k).
+\]
+若$f$凸, $D_k(\cdot,x_k)$凸且在$x_k$可微, 两者满足相对内部相交条件, 则算法在$x_k$停住意味着$x_k$最优: 正则项在其极小点$x_k$梯度为零, 和函数的最优性于是给$0\in\partial f(x_k)$. 这些条件也保证非最优点的严格目标改善. 对非凸$f$, 这种全局最优结论一般失效, 不能只凭下降性声称收敛到全局极小点.
+
+Bregman正则化取$D_k(x,y)=[\phi(x)-\phi(y)-\nabla\phi(y)\T(x-y)]/c_k$, 在$\phi$可微的区域使用. 凸性使其非负并在$x=y$为零; 它不一定对称, 也不一定满足三角不等式. 熵与镜像下降将在后一章计算.
+
+上界最小化, 即MM方法, 则构造$M_k(x,y)\ge f(x)$及$M_k(y,y)=f(y)$, 令$x_{k+1}\in\argmin_x M_k(x,x_k)$. 比较得到$f(x_{k+1})\le M_k(x_{k+1},x_k)\le f(x_k)$. 若要写成$f+D$形式, 应令$D_k(x,y)=M_k(x,y)-f(x)$, 而不是把上界值减去一个只依赖$y$的常数后再次加到$f$上. 原第284页有关MM的两种通式没有保持这一对应, 本稿采用与上界最小化定义一致的写法.
+
+\begin{example}
+对$f(x)=R(x)+\norm{Ax-b}^2$, 其中$R$闭真凸, 构造一个容易求解的MM上界.
+\end{example}
+\begin{solution}
+取$\tau\ge\norm A^2$并且$\tau>0$, 令
+\[
+ M(x,y)=R(x)+\norm{Ax-b}^2-\norm{A(x-y)}^2+\tau\norm{x-y}^2.
+\]
+最后两项之和非负, 故$M(x,y)\ge f(x)$且$M(y,y)=f(y)$. 展开平方后,
+\[
+ M(x,y)=R(x)+\norm{Ay-b}^2+2(Ay-b)\T A(x-y)+\tau\norm{x-y}^2.
+\]
+因此最小化$M$等价于计算$R$的近端映射, 中心为$y-A\T(Ay-b)/\tau$, 参数为$1/(2\tau)$. 原页写的系数一对应$\norm A\le1$的情形; 不核对谱范数便不能保证它是上界. EM是统计模型中另一类上界最小化方法, 原页只提名称, 并未给特定似然模型, 本章不据此捏造一个通用的全局收敛定理.
+\end{solution}

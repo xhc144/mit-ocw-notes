@@ -1,0 +1,100 @@
+\originalchapter{次梯度与灵敏度}\label{chap:5}
+本章对应原第12讲, 第158--172页. 可微凸函数由一个切平面提供下界; 不可微点可能允许多个支撑斜率. 次梯度将这种全局下界性质保留下来, 既提供最优性证书, 也为次梯度与切平面算法提供信息.
+
+\originalsection{定义、存在性与共轭等号}
+\begin{definition}
+对真凸函数 $f$, 若 $x\in\dom f$ 且 $g\in\R^n$ 满足 $f(z)\ge f(x)+g\T(z-x)$ 对全部 $z\in\R^n$ 成立, 称 $g$ 为 $f$ 在 $x$ 的次梯度. 全部次梯度组成次微分 $\partial f(x)$; 域外约定为空集.
+\end{definition}
+次微分是闭凸集, 因为每个 $z$ 对 $g$ 规定一个闭半空间. 当 $f$ 可微时, $\partial f(x)=\{\nabla f(x)\}$: 切平面不等式给包含, 而任一次梯度对 $z=x+td$ 的不等式在 $t\downarrow0$ 和 $t\uparrow0$ 两向给出 $g\T d=\nabla f(x)\T d$.
+
+\begin{example}
+计算 $f(x)=|x|$ 及 $h(x)=\max\{0,(x^2-1)/2\}$ 的次微分.
+\end{example}
+\begin{solution}
+绝对值在正负半轴的导数分别为1和 $-1$, 在0处次梯度条件是 $|z|\ge gz$ 对全部 $z$, 等价于 $-1\le g\le1$. 对 $h$, 当 $|x|<1$ 时局部恒为0且可微, 次微分为 $\{0\}$; 当 $|x|>1$ 时为 $\{x\}$. 在1处, 支撑斜率可取0与1之间任意值, 由左、右差商也只能取这些值, 所以为 $[0,1]$; 在 $-1$ 处为 $[-1,0]$.
+\end{solution}
+\begin{theorem}\label{thm:subgrad-exists}
+真凸函数在 $\ri\dom f$ 上次微分非空. 若 $S$ 是有效域仿射包的方向空间, 则在这些点 $\partial f(x)=S^\perp+G$, 其中 $G\subseteq S$ 非空紧. 对任意域内点, 次微分非空紧当且仅当该点属于有效域的环境空间内部.
+\end{theorem}
+\begin{proof}
+在仿射包内, 对平移函数 $p(u)=f(x+u)-f(x)$ 使用 MC/MC 的相对内部支持论证, 得到 $p(u)\ge g\T u$ 的非竖直支持平面, 从而次梯度存在. 也可直接在闭上图的边界 $(x,f(x))$ 支持; 相对内部连续性保证这个边界高度未改变, 域内相对球强制竖直系数为正.
+
+取相对球半径 $r$ 并在略大球上用凸性给有限上界 $M$. 对 $g\in\partial f(x)\cap S$, 在 $z=x+r g/\norm g$ 代入支撑不等式, 得 $r\norm g\le M-f(x)$, 所以这一集合有界, 又闭非空, 故紧. 沿 $S^\perp$ 加任何向量不改变域内支撑不等式, 给出分解. 若点是环境内点, $S=\R^n$, 所以次微分非空紧.
+
+反过来, 若域内点不是环境内点, 分离有效域得到非零法向量 $a$, $a\T(z-x)\le0$ 对全部域内 $z$. 任一次梯度 $g$ 都可加上 $ta$, $t\ge0$, 仍是次梯度, 因而若非空就无界. 这证明必要性, 包括低维域情形.
+\end{proof}
+边界点可以有次梯度, 也可以没有. 指示函数在边界通常具有无界法锥; $-\sqrt x$ 在非负半轴边界0则没有有限次梯度. 后续算法在每一步调用次梯度时必须保证所选点确实有可用次梯度.
+
+\begin{theorem}[Fenchel 不等式与等号]\label{thm:fenchel-equality}
+对真凸函数, $x\T y\le f(x)+f^*(y)$. 等号成立当且仅当 $y\in\partial f(x)$. 若 $f$ 闭, 还等价于 $x\in\partial f^*(y)$.
+\end{theorem}
+\begin{proof}
+不等式正是共轭定义. 等号使 $x$ 达到 $\sup_z[y\T z-f(z)]$, 即 $f(z)\ge f(x)+y\T(z-x)$; 反向也由同式得到. 若 $f$ 闭真凸, 双共轭等于 $f$, 对共轭函数反向使用相同等号条件即可.
+\end{proof}
+\begin{corollary}
+闭真凸函数的全空间极小点集等于 $\partial f^*(0)$. 若 $0\in\ri\dom f^*$, 极小点存在; 极小点集非空紧当且仅当 $0\in\operatorname{int}\dom f^*$.
+\end{corollary}
+\begin{proof}
+$x$ 最优当且仅当 $0\in\partial f(x)$, 用 Fenchel 等号等价于 $x\in\partial f^*(0)$. 其余结论由次梯度存在性与紧性定理得到.
+\end{proof}
+
+\originalsection{法锥与支撑函数}
+集合 $C$ 在 $x\in C$ 的法锥为 $N_C(x)=\{g:g\T(z-x)\le0\ \forall z\in C\}$. 由定义立即有 $\partial\ind C(x)=N_C(x)$. 内点的法锥为 $\{0\}$; 边界法向量朝向所有可行方向的反侧.
+
+\begin{proposition}\label{prop:poly-normal}
+对多面体 $C=\{x:a_i\T x\le b_i\}$, 在可行点 $x$ 有 $N_C(x)=\cone\{a_i:a_i\T x=b_i\}$.
+\end{proposition}
+\begin{proof}
+活跃法向量的非负组合显然是法向量. 反向, 任一法向量 $g$ 对局部可行方向 $d$ 满足 $g\T d\le0$. 这些方向由活跃不等式 $a_i\T d\le0$ 刻画, 因为不活跃约束有严格余量, 对任何固定方向足够小的正步长仍满足它们. Farkas 引理使 $g$ 是活跃法向量的非负组合.
+\end{proof}
+\begin{proposition}
+若 $K=\cl\conv X$ 非空, 则 $\partial\sigma_X(y)=\argmax_{x\in K}y\T x$. 对有限最大仿射函数 $f(x)=\max_i(a_i\T x+b_i)$, 令 $I(x)=\{i:a_i\T x+b_i=f(x)\}$, 则 $\partial f(x)=\conv\{a_i:i\in I(x)\}$.
+\end{proposition}
+\begin{proof}
+$\sigma_X=\ind K^*$, 且 $\ind K$ 闭真凸, 所以 Fenchel 等号说明 $x\in\partial\sigma_X(y)$ 当且仅当 $x\in K$ 且 $y\T x=\sigma_X(y)$. 最大值未取到时, 两边都是空集.
+
+对最大仿射函数, 每个活跃斜率都是次梯度, 其凸组合也都是. 若 $g$ 不在这些斜率凸包中, 严格分离给方向 $d$ 使 $g\T d>\max_{i\in I(x)}a_i\T d$. 因为项数有限, 不活跃项的余量确保足够小的 $t>0$ 时, $f(x+td)=f(x)+t\max_{i\in I(x)}a_i\T d$. 这违反 $g$ 的次梯度不等式, 所以没有更多次梯度.
+\end{proof}
+
+\originalsection{链式法则与和法则}
+\begin{theorem}\label{thm:subgrad-chain}
+令 $F(x)=f(Ax)$ 为真凸函数. 总有 $A\T\partial f(Ax)\subseteq\partial F(x)$. 若 $\operatorname{Range}A\cap\ri\dom f\ne\varnothing$, 或 $f$ 为多面体凸函数, 则等号成立.
+\end{theorem}
+\begin{proof}
+正向包含把 $f$ 的支撑不等式代入 $Az$ 即得. 反向设 $d\in\partial F(x)$, 则 $(y,z)=(Ax,x)$ 达到问题 $\min[f(y)-d\T z]$, 约束 $Az=y$, $y\in\dom f$ 的有限最小值. 相对内部资格条件使这个等式约束问题具有最优乘子 $v$. 若 $f$ 多面体, 可以在其多面体上图上写成线性规划, 也有最优乘子. 拉格朗日函数为 $f(y)-d\T z+v\T(Az-y)$. 对自由 $z$ 极小化要求 $A\T v=d$, 而对 $y$ 的最优性说明 $v\in\partial f(Ax)$. 因而 $d$ 属于右侧所述像.
+\end{proof}
+多面体函数指上图为多面体的真凸函数, 可写成多面体域上有限个仿射函数的最大值. 这类函数的资格条件可以比一般凸函数宽松, 因为其有限生成结构排除了参数向无穷逃逸而丢失边界的困难.
+
+\begin{theorem}\label{thm:subgrad-sum}
+设 $f_i$ 真凸且 $F=\sum_i f_i$ 真. 若 $\bigcap_i\ri\dom f_i\ne\varnothing$, 则 $\partial F(x)=\sum_i\partial f_i(x)$. 若前 $k$ 个函数多面体, 条件可放宽为
+\[
+\left(\bigcap_{i\le k}\dom f_i\right)\cap
+\left(\bigcap_{i>k}\ri\dom f_i\right)\ne\varnothing.
+\]
+\end{theorem}
+\begin{proof}
+令 $A x=(x,\ldots,x)$, $h(x_1,\ldots,x_m)=\sum_i f_i(x_i)$. 对各独立变量, 次梯度不等式说明 $\partial h=\partial f_1\times\cdots\times\partial f_m$. 又 $F=h\circ A$, 用链式法则即得一般资格条件下的等式. 在含多面体项的情况下, 同一拆变量证明中的相等约束与多面体域可合并为一个多面体集合; 对其余项使用 MC/MC 多面体加强版本. 它只要求该多面体与剩余有效域相对内部相交, 正是所列放宽条件. 最优乘子的存在再给出各分量次梯度的分解.
+\end{proof}
+没有资格条件时只能保证次微分和包含于总函数的次微分, 不能任意作反向分解. 例如 $f(x)=-\sqrt x$ 在非负半轴上, $C=\{0\}$, 总函数 $f+\ind C$ 在0最小且有零次梯度, 但 $\partial f(0)=\varnothing$, 所以无法把零分成目标次梯度与法向量之和.
+
+\begin{theorem}[约束次梯度最优性]
+若 $f$ 与凸集 $X$ 满足下列任一条件: 相对内部相交; $f$ 多面体且 $\dom f\cap\ri X\ne\varnothing$; $X$ 多面体且 $\ri\dom f\cap X\ne\varnothing$; 二者都多面体且有共同可行点, 则 $x^*$ 最优当且仅当存在 $g\in\partial f(x^*)$ 使 $-g\in N_X(x^*)$, 即 $g\T(x-x^*)\ge0$ 对所有 $x\in X$.
+\end{theorem}
+\begin{proof}
+在 $X$ 上最小化等价于全空间最小化 $f+\ind X$. 全空间最优性等价于 $0\in\partial(f+\ind X)(x^*)$. 上述条件分别允许使用和法则, 所以它等价于 $0\in\partial f(x^*)+N_X(x^*)$, 即所述条件.
+\end{proof}
+可微情况恢复第1章的变分不等式. 一般情况只须找到一个适当次梯度, 不要求整个次微分都朝向可行集外.
+
+\originalsection{乘子的灵敏度意义}
+对约束扰动函数 $p(u)$, 若它真凸且强对偶成立, 则最优乘子集为 $-\partial p(0)$. 因为 $q(\mu)=-p^*(-\mu)$, 最优性正是 $p(0)+p^*(-\mu)=0$, 由 Fenchel 等号即得. 因而每个最优乘子给出全局扰动下界
+\[
+p(u)\ge p(0)-\mu^{*\mathsf T}u.
+\]
+放宽约束的分量 $u_j>0$ 不会提高最优值, 非负乘子记录这一降低的局部边际幅度. 若 $p$ 在0可微, 最优乘子唯一, 且 $\mu_j^*=-\partial p(0)/\partial u_j$. 若不可微, 可能有多个乘子, 每个都给一个合法的一阶下界, 不能假定某个乘子在大幅扰动下仍精确预测最优值.
+
+\begin{example}
+最小化 $x^2/2$ 且 $x\ge b$, 在 $b>0$ 处求影子价格.
+\end{example}
+\begin{solution}
+写约束 $b-x\le u$. 对足够小的 $u$, 最优点为 $x=b-u$, 所以 $p(u)=(b-u)^2/2$. 有 $-p'(0)=b$. 拉格朗日函数 $x^2/2+\mu(b-x)$ 在 $x=\mu$ 极小, 原最优点为 $b$, 因而最优乘子为 $b$, 与扰动导数一致. 当放宽量 $u\ge b$ 时, 最优点变为0, 旧的一阶公式只能给下界, 不能继续当作等式.
+\end{solution}

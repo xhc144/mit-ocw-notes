@@ -1,0 +1,247 @@
+\originalchapter{锥模型、惩罚与次梯度迭代}\label{chap:7}
+本章对应原第14--16讲, 原PDF第185--213页. 第14讲先承接锥对偶的建模应用, 随后转入非光滑算法. 本章补写的计算与收敛证明是对幻灯片省略步骤的教学重构.
+
+\originalsection{二阶锥与半正定模型}
+线性锥问题的两种常用格式是
+\[
+ \inf\{c\T x:Ax=b,\ x\in C\},\qquad
+ \inf\{c\T x:Ax-b\in C\}.
+\]
+这里$C$是闭凸锥, 其对偶锥取$C^*=\{y:y\T z\ge0,\ z\in C\}$. 第一种格式的对偶是$\sup\{b\T\lambda:c-A\T\lambda\in C^*\}$; 第二种格式的对偶是$\sup\{b\T\lambda:A\T\lambda=c,\ \lambda\in C^*\}$. 例如对第二式取拉格朗日函数$c\T x-\lambda\T(Ax-b)$, 对$x$取下确界, 即可看到等式$A\T\lambda=c$的来源. 本节所说的对偶界总是弱对偶界; 把它升级为最优值相等还需前章的强对偶条件.
+
+记$\mathcal Q_d=\{(u,t)\in\R^{d-1}\times\R:\norm{u}\le t\}$为二阶锥. 因$\mathcal Q_d^*=\mathcal Q_d$, 问题
+\[
+ \min c\T x\quad\text{满足}\quad A_i x-b_i\in\mathcal Q_{d_i},\quad i=1,\ldots,m
+\]
+的对偶是
+\[
+ \max\sum_{i=1}^m b_i\T\lambda_i\quad\text{满足}\quad
+ \sum_{i=1}^m A_i\T\lambda_i=c,\quad \lambda_i\in\mathcal Q_{d_i}.
+\]
+多个锥约束只是在乘积锥上写一个约束, 并不需要另造一套对偶理论.
+
+\begin{example}
+在鲁棒线性规划中, 第$j$条约束要求$a\T x\le b$对所有$(a,b)\in T_j$成立. 设不确定集为椭球
+\[
+ T_j=\{(\bar a_j+P_j u,\bar b_j+q_j\T u):\norm{u}\le1\}.
+\]
+把这条无限多不等式写成一个二阶锥约束.
+\end{example}
+\begin{solution}
+最坏约束违反量为
+\begin{align*}
+ g_j(x)&=\sup_{\norm{u}\le1}\bigl[(\bar a_j+P_j u)\T x-\bar b_j-q_j\T u\bigr]\\
+ &=\bar a_j\T x-\bar b_j+\sup_{\norm{u}\le1}(P_j\T x-q_j)\T u\\
+ &=\bar a_j\T x-\bar b_j+\norm{P_j\T x-q_j}.
+\end{align*}
+最后一步用柯西不等式; 向量非零时取同方向的单位向量达到上界. 因而$g_j(x)\le0$恰好等价于$(P_j\T x-q_j,\bar b_j-\bar a_j\T x)\in\mathcal Q_{d_j+1}$. 这说明椭球不确定性所引入的非线性仍可保留为标准锥模型.
+\end{solution}
+
+对称矩阵空间的内积是$\inner{U}{V}=\tr(UV)$. 半正定锥$\mathbb S_+^n$在此内积下自对偶, 内部为正定矩阵. 于是半正定规划
+\[
+ \min\inner{D}{X}\quad\text{满足}\quad
+ \inner{A_i}{X}=b_i\ (i=1,\ldots,m),\quad X\succeq0
+\]
+的对偶是$\max\{b\T\lambda:D-\sum_i\lambda_i A_i\succeq0\}$. 若原问题有正定可行矩阵, 且原最优值有限, 则强对偶成立且对偶最优解存在. 若对偶有严格可行点, 且对偶最优值有限, 则反向的结论成立. 有限性不可从严格可行性自动推出.
+
+\begin{example}
+给定仿射对称矩阵$M(\lambda)=D+\sum_{i=1}^m\lambda_i M_i$, 最小化其最大特征值.
+\end{example}
+\begin{solution}
+由谱定理, $\lambda_{\max}(M(\lambda))\le z$等价于$zI-M(\lambda)\succeq0$. 故问题可写为
+\[
+ \min_{z,\lambda}z\quad\text{满足}\quad zI-D-\sum_i\lambda_i M_i\succeq0.
+\]
+变量虽包含矩阵的特征值, 约束对$(z,\lambda)$却是仿射半正定约束.
+\end{solution}
+
+\begin{example}
+考虑非凸二次等式问题
+\[
+ \min_x x\T Q_0x+a_0\T x+b_0\quad\text{满足}\quad
+ x\T Q_i x+a_i\T x+b_i=0,\quad i=1,\ldots,m,
+\]
+其中$Q_i$对称. 推导一个半正定规划形式的拉格朗日下界.
+\end{example}
+\begin{solution}
+令$Q(\lambda)=Q_0+\sum_i\lambda_iQ_i$, $a(\lambda)=a_0+\sum_i\lambda_i a_i$, $b(\lambda)=b_0+\sum_i\lambda_i b_i$. 对偶函数是
+\[
+ q(\lambda)=\inf_x\{x\T Q(\lambda)x+a(\lambda)\T x+b(\lambda)\}.
+\]
+条件$q(\lambda)\ge t$是一个对所有$x$成立的二次不等式. 它等价于
+\[
+ \begin{pmatrix}
+ Q(\lambda)&a(\lambda)/2\\
+ a(\lambda)\T/2&b(\lambda)-t
+ \end{pmatrix}\succeq0.
+\]
+正定方向的等价性可由配方看出. 一般情形, 矩阵半正定显然推出二次不等式. 反向, 对$(v,s)$在$s\ne0$时把二次型写成$s^2$乘以$x=v/s$的表达式; 在$s=0$时由连续性取极限. 因而对偶就是在上述矩阵约束下最大化$t$. 它给原问题下界, 不保证非凸原问题的强对偶. 特别地, $x_i\in\{0,1\}$可写成$x_i^2-x_i=0$, 所以这种下界也适用于离散优化.
+\end{solution}
+
+\originalsection{精确惩罚与乘子的阈值}
+考虑凸约束问题
+\[
+ f^*=\inf\{f(x):x\in X,\ g_j(x)\le0,\ j=1,\ldots,r\},
+\]
+其中$X$凸, $f,g_j$为实值凸函数. 惩罚函数$P:\R^r\to\R$在负正交锥上为零, 在出现正分量时为正; 为使$P\circ g$仍凸, 本节还取$P$凸且逐坐标不减. 常用选择是$P_c(u)=c\sum_j\max\{0,u_j\}$或$\frac c2\sum_j\max\{0,u_j\}^2$.
+
+用扰动值函数$p(u)=\inf\{f(x):x\in X,\ g(x)\le u\}$, 有
+\begin{equation}\label{eq:penalty-value}
+ \inf_{x\in X}\{f(x)+P(g(x))\}=\inf_u\{p(u)+P(u)\}.
+\end{equation}
+一侧由取$u=g(x)$得到; 另一侧由$g(x)\le u$与$P$单调性得到, 再分别逼近下确界. 设$p$真凸, 并满足Fenchel强对偶的相对内部条件, 则右侧等于
+\[
+ \sup_{\mu\ge0}\{q(\mu)-P^*(\mu)\},\qquad
+ q(\mu)=\inf_{x\in X}\{f(x)+\mu\T g(x)\}.
+\]
+$P$在负正交锥上为零, 故其共轭在含负分量的$\mu$处为$+\infty$. 惩罚的作用是在原对偶目标$q$上再扣掉一个凸函数$P^*$.
+
+\begin{proposition}\label{prop:exact-penalty}
+若$\mu^*\ge0$为一个满足$q(\mu^*)=f^*\in\R$的最优乘子, 且$\mu^*\in\partial P(0)$, 则惩罚问题的最优值等于$f^*$. 对$P_c(u)=c\sum_j\max\{0,u_j\}$, 条件为$0\le\mu_j^*\le c$. 若$c>\norm{\mu^*}_\infty$, 则惩罚问题的每个最优解都可行, 因而也是原问题的最优解.
+\end{proposition}
+\begin{proof}
+次梯度不等式给$P(u)\ge\mu^{*\mathsf T}u$. 所以对每个$x\in X$,
+\[
+ f(x)+P(g(x))\ge f(x)+\mu^{*\mathsf T}g(x)\ge q(\mu^*)=f^*.
+\]
+另一方面, 用原问题的可行点逼近$f^*$, 惩罚项恒为零, 得到反向值界. 对分段线性惩罚, $\partial P_c(0)=[0,c]^r$. 若$x$有违反约束的分量, 则
+\[
+ c\sum_j(g_j(x))_+-\mu^{*\mathsf T}g(x)
+ \ge\sum_{g_j(x)>0}(c-\mu_j^*)g_j(x)>0.
+\]
+此时惩罚目标严格大于$f^*$, 不可能最优. 这里严格阈值用于排除不可行最优解; 仅用非严格阈值足以保证最优值相等.
+\end{proof}
+
+一维共轭计算尤其直观. 对$c>0$,
+\[
+ (c\,u_+)^*(\mu)=
+ \begin{cases}0,&0\le\mu\le c,\\+\infty,&\text{其他},\end{cases}
+ \qquad
+ \left(\frac c2(u_+)^2\right)^*(\mu)=
+ \begin{cases}\mu^2/(2c),&\mu\ge0,\\+\infty,&\mu<0.\end{cases}
+\]
+第一式在一段乘子区间上完全平坦; 第二式只在零处取零. 原第193页还画了带线性项的二次惩罚. 为符合负半轴上惩罚为零的定义, 应取$P(u)=a u_++(u_+)^2$, $a\ge0$, 此时
+\[
+ P^*(\mu)=\begin{cases}
+ +\infty,&\mu<0,\\0,&0\le\mu\le a,\\(\mu-a)^2/4,&\mu>a.
+ \end{cases}
+\]
+这是在$u\ge0$上最大化$(\mu-a)u-u^2$所得. 原页印作$\max\{0,au+u^2\}$, 若按全实轴解释会在$u<-a$处产生正惩罚, 与该页图形和前页定义不相容; 这里明确采用与惩罚定义相容的分段形式. 更一般地, $P^*$在$\mu^*$取最小值等价于$0\in\partial P^*(\mu^*)$, 也等价于$\mu^*\in\partial P(0)$. 若$P$在零处可微且负半轴上为零, 则$\partial P(0)=\{0\}$, 无法容纳非零最优乘子. 这解释了精确惩罚常常必然非光滑.
+
+\begin{example}
+最小化$-x$, 约束$x\le0$. 比较$c x_+$和$\frac c2(x_+)^2$两种惩罚.
+\end{example}
+\begin{solution}
+原最优解为$x=0$, 最优乘子为$\mu^*=1$. 线性惩罚在$c>1$时唯一最优于零; 在$c=1$时所有$x\ge0$都有目标值零, 因此值的精确性不代表解的精确性. 二次惩罚在$x>0$上目标为$-x+cx^2/2$, 导数为$-1+cx$, 最优解$x=1/c$始终违反约束, 目标值为$-1/(2c)$. 只有令$c\to\infty$才消除违反量.
+\end{solution}
+
+\originalsection{方向导数与最陡下降}
+对凸函数$f$及$x\in\dom f$, 方向导数取单侧极限
+\[
+ f'(x;d)=\lim_{\alpha\downarrow0}\frac{f(x+\alpha d)-f(x)}{\alpha}.
+\]
+若$0<a<b$, 凸性给$f(x+ad)\le(1-a/b)f(x)+(a/b)f(x+bd)$, 故差商随$\alpha$增大不减, 上述极限存在于扩展实数中. 在$x\in\ri(\dom f)$时, 方向导数是次微分的支撑函数: $f'(x;d)=\sup_{g\in\partial f(x)}g\T d$. 在边界或域外方向上使用此公式必须另核对适用条件.
+
+对本节的实值凸函数, $\partial f(x)$为非空紧凸集. $f'(x;d)<0$意味着沿$d$走足够小的正步长确实降低目标. 与之相反, 任意一个负次梯度方向不一定下降, 因为方向导数取所有次梯度的最大内积.
+
+\begin{proposition}
+设$g^*$为$\partial f(x)$中欧氏范数最小的向量. 若$g^*\ne0$, 单位球上的最陡下降方向是$d^*=-g^*/\norm{g^*}$, 并且$\min_{\norm{d}\le1}f'(x;d)=-\norm{g^*}$. 若$g^*=0$, 则$x$是全局最优点.
+\end{proposition}
+\begin{proof}
+投影最优性给$(g-g^*)\T g^*\ge0$对所有$g\in\partial f(x)$成立. 因此$g\T d^*\le-\norm{g^*}$, 而$g=g^*$达到等号. 对任意单位球内$d$, 支撑函数至少为$g^{*\mathsf T}d\ge-\norm{g^*}$. 两个方向的界吻合. 若$0\in\partial f(x)$, 次梯度不等式给$f(z)\ge f(x)$对所有$z$成立.
+\end{proof}
+
+算法中常把未归一化的$-g^*$写作搜索方向, 再用步长吸收范数. 原第196页的表述应在这个意义下理解; 它不是单位球约束问题在$\norm{g^*}\ne1$时的原样最优解. 计算最小范数次梯度需要整个次微分, 代价可能很高. 更重要的是, 非光滑点附近活跃次梯度集合可突变; 仅依当前最陡方向和精确线搜索, 不能据此推出全局收敛. 原第197--198页的示意例用于强调这个失效机制, 并未给出可复算的函数表达式. 后面改用到最优解的距离作为进展量, 不要求每一步目标下降.
+
+\originalsection{一个次梯度的计算}
+若$f(x)=\sup_{z\in Z}\phi(x,z)$, 每个$\phi(\cdot,z)$凸, 且$z_x$在$x$达到上确界, 则任取$g\in\partial_x\phi(x,z_x)$都有$g\in\partial f(x)$. 证明只需把三件事连起来:
+\[
+ f(y)\ge\phi(y,z_x)\ge\phi(x,z_x)+g\T(y-x)=f(x)+g\T(y-x).
+\]
+因此不必算出整个次微分. 对有限个可微函数的最大值, 可选任何一个活跃分支的梯度.
+
+拉格朗日对偶也是这种结构. 若$x_\mu$达到$q(\mu)=\inf_{x\in X}\{f(x)+\mu\T g(x)\}$, 则
+\[
+ q(\nu)\le f(x_\mu)+\nu\T g(x_\mu)
+ =q(\mu)+g(x_\mu)\T(\nu-\mu).
+\]
+于是$g(x_\mu)$是凹函数$q$的超梯度, $-g(x_\mu)$是$-q$的次梯度. 在$\mu\ge0$上最大化$q$对应迭代$\mu_{k+1}=[\mu_k+\alpha_k g(x_{\mu_k})]_+$: 违反约束使相应乘子增大, 是计算公式与经济解释相吻合的地方.
+
+\originalsection{投影次梯度法的距离估计}
+设$X$非空闭凸, $f$凸且在迭代点有次梯度. 投影次梯度迭代为
+\begin{equation}\label{eq:subgradient-iteration}
+ x_{k+1}=P_X(x_k-\alpha_k g_k),\qquad g_k\in\partial f(x_k),\quad\alpha_k>0.
+\end{equation}
+投影保证可行性, 但不保证目标序列单调. 例如$f(x)=|x|$在零点允许次梯度$g=1$, 一步可把最优点移到$-\alpha$.
+
+先回顾投影的非扩张性. 设$p=P_X(u)$, $q=P_X(v)$. 投影不等式给$(u-p)\T(q-p)\le0$及$(v-q)\T(p-q)\le0$. 相加得$\norm{p-q}^2\le(p-q)\T(u-v)\le\norm{p-q}\norm{u-v}$, 故$\norm{p-q}\le\norm{u-v}$.
+
+\begin{lemma}\label{lem:subgradient-distance}
+对迭代\eqref{eq:subgradient-iteration}, 任意$y\in X$都有
+\[
+ \norm{x_{k+1}-y}^2\le\norm{x_k-y}^2
+ -2\alpha_k\bigl(f(x_k)-f(y)\bigr)+\alpha_k^2\norm{g_k}^2.
+\]
+若$f(x_k)>f(y)$且$0<\alpha_k<2(f(x_k)-f(y))/\norm{g_k}^2$, 则到$y$的距离严格减小.
+\end{lemma}
+\begin{proof}
+用$P_X(y)=y$与非扩张性, 再展开平方, 得
+\begin{align*}
+ \norm{x_{k+1}-y}^2&\le\norm{x_k-\alpha_k g_k-y}^2\\
+ &=\norm{x_k-y}^2-2\alpha_k g_k\T(x_k-y)+\alpha_k^2\norm{g_k}^2.
+\end{align*}
+次梯度不等式给$g_k\T(x_k-y)\ge f(x_k)-f(y)$, 代入即得. 严格步长条件使右边的修正量为负.
+\end{proof}
+
+\begin{theorem}\label{thm:subgradient-value}
+设生成的次梯度满足$\norm{g_k}\le C$.
+\begin{enumerate}
+\item 若$\alpha_k=\alpha>0$, 则当$f^*=\inf_X f> -\infty$时, $\liminf_k f(x_k)\le f^*+\alpha C^2/2$. 若$f^*=-\infty$, 则$\inf_k f(x_k)=-\infty$.
+\item 若$\alpha_k\to0$且$\sum_k\alpha_k=\infty$, 则$\liminf_k f(x_k)=f^*$, 因而历史最好值$\min_{0\le j\le k}f(x_j)$趋于$f^*$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+固定$y\in X$. 若从某一步开始总有$f(x_k)-f(y)>\alpha C^2/2+\delta$, 距离引理使平方距离每步至少减少$2\alpha\delta$, 不可能永远非负. 故$\liminf f(x_k)\le f(y)+\alpha C^2/2$. 对$y$取下确界得到第一项; 当$f^*=-\infty$时可令$f(y)$任意小.
+
+第二项若失败, 可选$y\in X$与$\delta>0$使从某步起$f(x_k)-f(y)\ge\delta$. 再取足够大的$k$使$\alpha_k C^2\le\delta$. 距离引理于是给$\norm{x_{k+1}-y}^2\le\norm{x_k-y}^2-\alpha_k\delta$. 求和与$\sum\alpha_k=\infty$矛盾. 下界$f(x_k)\ge f^*$完成证明. 这个论证不要求最优解存在.
+\end{proof}
+
+如果还要求迭代点本身收敛, 可增加$f$下半连续、最优解存在以及$\sum_k\alpha_k^2<\infty$. 距离引理此时给到每个最优点的平方距离仅有可求和的向上误差, 所以该距离有极限, 且序列有界. 由上一定理取得目标值趋于$f^*$的子列, 再取其收敛子列; 下半连续性保证极限最优. 到这个极限点的距离已有极限且子列距离趋零, 故整个序列趋于该最优点. 必须把这个点收敛结论与仅有最好值收敛的较弱结论区分开.
+
+\originalsection{步长、目标值估计与误差次梯度}
+常数步长带来固定误差邻域, 递减步长以渐慢的移动换取精度. 若知道$f^*$, 可选动态步长
+\[
+ \alpha_k=\frac{f(x_k)-f^*}{\norm{g_k}^2}
+\]
+并在$g_k=0$时停止. 距离引理给平方距离至少下降$(f(x_k)-f^*)^2/\norm{g_k}^2$. 用统一界$C^2$替代分母也可保证下降. 实际中常以目标值估计$f_k$替代$f^*$; 估计过低会造成围绕最优集合的振荡, 过高则可能只到达$f\le f_k$的水平集. 原讲义给的自适应办法是$f_k=\min_{j\le k}f(x_j)-\delta_k$, 以是否达到本次目标调整期望下降量$\delta_k$: 达到时放大, 未达到时缩小但保留一个正下限. 这是一类实现策略, 不能在未给参数条件时把它当作已证明的精确收敛定理.
+
+\begin{definition}
+对$\varepsilon\ge0$, 向量$g$称为$f$在$x\in\dom f$的$\varepsilon$次梯度, 若对所有$z$都有$f(z)\ge f(x)+g\T(z-x)-\varepsilon$. 全体这样的向量组成$\partial_\varepsilon f(x)$; 域外该集合为空.
+\end{definition}
+有$\partial_0 f(x)=\partial f(x)$, $\varepsilon_1\le\varepsilon_2$时集合包含关系为$\partial_{\varepsilon_1}f(x)\subseteq\partial_{\varepsilon_2}f(x)$, 且$\bigcap_{\varepsilon>0}\partial_\varepsilon f(x)=\partial f(x)$. 这些关系都直接来自定义的不等式.
+
+若$\phi(x,z_x)\ge\sup_z\phi(x,z)-\varepsilon$, 任取$g\in\partial_x\phi(x,z_x)$, 则
+\[
+ f(y)\ge\phi(y,z_x)\ge\phi(x,z_x)+g\T(y-x)
+ \ge f(x)+g\T(y-x)-\varepsilon.
+\]
+所以近似求解内部最大化就能得到误差可控的次梯度. 对偶算法里, 原子问题不必每次算到完全精确.
+
+以$g_k\in\partial_{\varepsilon_k}f(x_k)$代替精确次梯度, 距离估计变成
+\begin{equation}\label{eq:epsilon-distance}
+ \norm{x_{k+1}-y}^2\le\norm{x_k-y}^2
+ -2\alpha_k\bigl(f(x_k)-f(y)-\varepsilon_k\bigr)+\alpha_k^2 C^2.
+\end{equation}
+重复前面的矛盾证明, 常数$\alpha,\varepsilon$给$\liminf f(x_k)\le f^*+\varepsilon+\alpha C^2/2$; 若$\alpha_k\to0$, $\sum\alpha_k=\infty$, $\varepsilon_k\to\bar\varepsilon$, 则$\liminf f(x_k)\le f^*+\bar\varepsilon$. 这里所谓“到达误差最优集合”首先是目标最好值的保证, 并不自动意味着所有迭代点最后都留在该集合中.
+
+最后说明误差次梯度与增量方法的联系. 若$g\in\partial f(\bar x)$, 则把次梯度不等式改写到$x$得
+\[
+ g\in\partial_\varepsilon f(x),\qquad
+ \varepsilon=|f(x)-f(\bar x)|+\norm{g}\norm{x-\bar x}.
+\]
+若$f$在相关区域为$C$-Lipschitz且$\norm{g}\le C$, 则$\varepsilon\le2C\norm{x-\bar x}$. 又由定义逐项相加,
+\[
+ \partial_{\varepsilon_1}f_1(x)+\cdots+\partial_{\varepsilon_m}f_m(x)
+ \subseteq\partial_{\sum_i\varepsilon_i}\left(\sum_i f_i\right)(x).
+\]
+在一轮增量迭代中, 各分量在彼此接近却不同的点计算次梯度, 因而可在轮起点理解为带小误差的次梯度. 约束投影逐次进行时, 整轮并不严格等于对次梯度和只做一次投影; 严格的整轮距离估计将在增量方法一章给出.

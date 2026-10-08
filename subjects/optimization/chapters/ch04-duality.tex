@@ -1,0 +1,144 @@
+\originalchapter{扰动、对偶与最优性}\label{chap:4}
+本章对应原第1讲对偶导论以及第8--11讲的对偶理论, 原PDF第6--16页、第104--157页. 对偶的基本问题是: 能否用一个容易计算的下界逼近原最优值, 下界是否取到, 以及下界与原值相等时如何恢复解.
+
+\originalsection{最小共点与最大截距}
+对非空 $M\subseteq\R^{r+1}$, 把点记为 $(u,w)$. 定义最小共点值 $w^*=\inf\{w:(0,w)\in M\}$, 以及
+\[
+q(\mu)=\inf_{(u,w)\in M}(w+\mu\T u),\qquad q^*=\sup_{\mu\in\R^r}q(\mu).
+\]
+超平面 $w+\mu\T u=\xi$ 将 $M$ 放在上方的条件是 $\xi\le q(\mu)$, 所以 $q^*$ 是这类非竖直超平面在 $w$ 轴上的最大截距. 原课程称为 min common / max crossing, 简称 MC/MC. 它不是额外的计算技巧, 而是统一各种对偶问题的几何形式.
+
+\begin{proposition}[弱对偶]\label{prop:weakdual}
+$q$ 凹且上半连续, 总有 $q(\mu)\le w^*$ 及 $q^*\le w^*$. 将 $M$ 向上补齐、取凸包或闭包都不改变 $q$.
+\end{proposition}
+\begin{proof}
+$q$ 是关于 $\mu$ 的仿射函数族的下确界, 所以凹且上半连续. 在下确界中只取 $u=0$ 的点即得 $q(\mu)\le w^*$. 线性泛函的下确界在凸包与闭包上不变; 向上增加 $w$ 也不降低下确界.
+\end{proof}
+若 $M=\epi p$, 则 $w^*=p(0)$, $q(\mu)=-p^*(-\mu)$, $q^*=p^{**}(0)$. 对偶把扰动函数中原点处的高度替换为其闭凸包高度. 这直接说明闭性、凸性为何进入强对偶条件.
+
+\begin{theorem}[MC/MC 强对偶条件]\label{thm:mc1}
+设 $w^*<+\infty$, 向上补齐集合 $M^+=\{(u,v):\exists(u,w)\in M, v\ge w\}$ 凸. 则 $q^*=w^*$ 当且仅当对每个 $(u_k,w_k)\in M$, $u_k\to0$, 都有 $w^*\le\liminf_kw_k$.
+\end{theorem}
+\begin{proof}
+必要性由 $q(\mu)\le w_k+\mu\T u_k$ 取下极限, 再对 $\mu$ 取上确界得到. 若 $w^*=-\infty$, 弱对偶已经给强对偶, 因而只须考虑有限 $w^*$.
+
+设序列条件成立. 对任意 $\varepsilon>0$, 点 $(0,w^*-\varepsilon)$ 不在 $\cl M^+$, 否则近似序列将违反条件. 闭凸集 $\cl M^+$ 也不含竖直直线: 一条这样的直线使向下方向成为其衰退方向, 而 $(0,w^*)\in\cl M^+$, 从而使所有 $(0,w^*-\varepsilon)$ 都在闭包中. 不含竖直直线的凸集有一个非竖直半空间下界; 这是上一章仿射下界论证对一般集合的同一版本. 若严格分离当前外点的平面恰为竖直, 加上该非竖直下界的小正倍数, 仍严格分离且竖直系数为正. 规范化为1得到 $w^*-\varepsilon<q(\mu)\le w^*$. 令 $\varepsilon\downarrow0$ 得结论.
+\end{proof}
+补充上段使用的集合版本: 闭凸集是包含它的全部闭半空间之交. 若全部界定半空间都竖直, 该交必含每个已有点上方与下方的整条竖直线. 因而至少一个界定半空间非竖直. 向上补齐使其竖直系数非负, 非零时即为正. 对非闭集, 其相对内部与闭包具有同一衰退锥, 所以闭包若含竖直线, 原集合的相对内部也含竖直线; 无竖直线性质因而保留.
+
+\begin{theorem}[乘子存在与紧性]\label{thm:mc2}
+在上述凸性条件下设 $w^*$ 有限, $D=\{u:\exists w,(u,w)\in M\}$. 若 $0\in\ri D$, 则强对偶成立且有对偶最优解. 对偶最优解集非空紧当且仅当 $0\in\operatorname{int}D$.
+\end{theorem}
+\begin{proof}
+$(0,w^*)$ 不在 $\ri M^+$, 否则向下小幅移动仍可行. 适当分离给出
+$\beta w^*\le\mu\T u+\beta w$ 对所有 $(u,w)\in M^+$, 且泛函不在整个集合上恒定. 向上封闭使 $\beta\ge0$. 若 $\beta=0$, 则 $\mu\T u$ 在 $D$ 的相对内点0取得最小值, 必在整个 $D$ 恒为0, 与适当性矛盾. 故 $\beta>0$, 除以它得到 $q(\mu/\beta)\ge w^*$, 弱对偶使等号成立.
+
+若0为内点, 选 $\pm re_i\in D$ 及相应有限高度 $w_i^\pm$. 对任意最优乘子, $w^*\le w_i^\pm\pm r\mu_i$, 因而每个分量有上下界. 最优集由上半连续性闭, 所以紧. 反过来, 若有最优乘子而0不是内点, 支持 $D$ 于0得到非零 $a$ 使 $a\T u\ge0$ 对所有 $u\in D$. 则 $q(\mu+ta)\ge q(\mu)=w^*$ 对 $t\ge0$, 弱对偶又强制等号, 最优集含非零射线, 不紧.
+\end{proof}
+这里强对偶与乘子存在是不同结论. 扰动函数可能在原点闭却没有非竖直支持平面, 此时最优下界只能由乘子趋向无穷取到极限.
+
+\begin{theorem}[多面体加强]\label{thm:mc3}
+设 $\widetilde M$ 凸, $P$ 为非空多面体, $M=\widetilde M-(P\times\{0\})$, $w^*$ 有限. 若 $\ri\widetilde D\cap P\ne\varnothing$, 其中 $\widetilde D$ 是 $\widetilde M$ 的横坐标投影, 则强对偶成立且有最优乘子. 所有最优乘子满足 $\mu\T d\le0$ 对 $d\in\rec P$.
+\end{theorem}
+\begin{proof}
+令 $C_1=\{(u,v):\exists(u,w)\in\widetilde M,v>w\}$, $C_2=P\times\{w^*\}$. 两者不交, 否则 $M$ 在竖轴上有低于 $w^*$ 的点. 多面体加强分离使 $C_2$ 位于下侧, 并且平面不包含整个 $C_1$. 写分离不等式为 $\mu\T z+\beta w^*\le\mu\T u+\beta v$. 有 $\beta\ge0$. 若 $\beta=0$, 在 $\ri\widetilde D\cap P$ 的共同点, $\mu\T u$ 在 $\widetilde D$ 上取得相对内部极小, 因而恒定, 违背分离加强性质. 故可规范化 $\beta=1$.
+
+对 $z\in P$ 与 $(u,v)\in C_1$ 取下确界, 得 $w^*\le\inf(v+\mu\T(u-z))=q(\mu)$; 弱对偶给等号. 若某个 $d\in\rec P$ 满足 $\mu\T d>0$, 令 $z$ 沿 $d$ 趋于无穷就使上述下确界为 $-\infty$, 不可能最优.
+\end{proof}
+与相对内部版本相比, 这里把 $\ri P$ 放宽为 $P$ 本身. 线性不等式允许等号处可行而无需严格可行, 正是这一放宽的后果.
+
+\originalsection{拉格朗日对偶}
+考虑 $\inf\{f(x):x\in X,g(x)\le0\}$, 其中 $g=(g_1,\ldots,g_r)$. 定义扰动函数
+$p(u)=\inf\{f(x):x\in X,g(x)\le u\}$. 引入拉格朗日函数 $L(x,\mu)=f(x)+\mu\T g(x)$. 对 $\mu\ge0$,
+\[
+q(\mu)=\inf_u(p(u)+\mu\T u)=\inf_{x\in X}L(x,\mu).
+\]
+若任一分量 $\mu_j<0$, 可把相应 $u_j$ 增大至无穷, 所以对偶值为 $-\infty$. 对偶问题因而在非负正交域上最大化 $q$. 原问题不必凸, 弱对偶及 $q$ 的凹性仍成立; 凸性主要用于使下界达到原最优值.
+
+\begin{theorem}[非线性 Farkas 引理]\label{thm:nonlinear-farkas}
+设 $X$ 凸, $f,g_j$ 在 $X$ 上有限凸, 且 $g(x)\le0$ 时 $f(x)\ge0$. 若存在 $\bar x\in X$ 使 $g(\bar x)<0$, 则存在 $\mu\ge0$ 使 $f(x)+\mu\T g(x)\ge0$ 对所有 $x\in X$ 成立. 此类乘子集合非空紧; 反过来, 其非空紧性蕴含严格可行点存在. 若全部 $g_j$ 仿射, 则仅要求 $\ri X$ 中有一个可行点就足以保证乘子存在.
+\end{theorem}
+\begin{proof}
+取 $M=\{(u,w):\exists x\in X,g(x)\le u,f(x)\le w\}$. 它凸, 严格可行点使0为其横向投影内点, 而 $w^*\ge0$ 且有限. 定理\ref{thm:mc2}给出 $q(\mu)=w^*\ge0$, 并强制 $\mu\ge0$. 任一证书乘子满足 $0\le f(\bar x)+\mu\T g(\bar x)$, 因而 $\sum_j\mu_j\le f(\bar x)/\min_j(-g_j(\bar x))$. 证书集合闭, 故紧.
+
+若没有严格可行点, 凸上闭集合 $g(X)+\R_+^r$ 与严格负正交域不交. 分离两集给非零 $d\ge0$ 使 $d\T g(x)\ge0$ 对所有 $x\in X$. 任一证书 $\mu$ 因而可加上 $td$, $t\ge0$, 仍是证书, 所以非空证书集不紧. 仿射约束的版本把 $M$ 写成仿射像上图加正交域, 用定理\ref{thm:mc3}及 $\ri X$ 中可行点得到证书.
+\end{proof}
+\begin{theorem}[凸规划强对偶]\label{thm:slater}
+设 $X,f,g_j$ 如上, 原最优值有限. 若存在严格可行点, 或全部 $g_j$ 仿射且 $\ri X$ 中有可行点, 则 $q^*=f^*$ 且有最优乘子. 在严格可行条件下最优乘子集还紧.
+\end{theorem}
+\begin{proof}
+将上一引理用于 $f-f^*$. 得 $f^*\le f(x)+\mu^{*\mathsf T} g(x)$ 对全部 $x\in X$. 取下确界得 $f^*\le q(\mu^*)$, 弱对偶给反向不等式. 对最优乘子, 严格可行点同样给出 $\sum_j\mu_j\le[f(\bar x)-f^*]/\min_j(-g_j(\bar x))$, 所以最优集紧.
+\end{proof}
+这一结论保证对偶解, 并不单独保证原解存在; 原解的存在仍由上一章的闭性、紧性或多面体结构判断.
+
+\begin{theorem}[原始--对偶最优性]\label{thm:lagrangian-optimal}
+可行点 $x^*$ 与 $\mu^*\ge0$ 同时最优且具有零对偶间隙, 当且仅当
+\[
+x^*\in\argmin_{x\in X}L(x,\mu^*),\qquad
+\mu_j^*g_j(x^*)=0\quad(j=1,\ldots,r).
+\]
+\end{theorem}
+\begin{proof}
+若二者最优且零间隙, 有
+$f^*=q(\mu^*)\le L(x^*,\mu^*)=f(x^*)+\sum_j\mu_j^*g_j(x^*)\le f(x^*)=f^*$.
+全部等号迫使 $x^*$ 达到拉格朗日下确界, 且每个非正项为0. 反过来, 两条件使 $q(\mu^*)=f(x^*)$, 弱对偶夹逼给出二者最优及零间隙.
+\end{proof}
+乘子为正的约束必须取等号; 有松弛的约束必须乘子为零. 反向均不必成立, 因为一个活跃约束也可能乘子为零.
+
+等式约束 $Ax=b$ 的乘子 $\lambda$ 无符号限制, 因为等式可写成两组反向不等式, 其非负乘子差可为任意实数. 拉格朗日函数为 $f(x)+\mu\T g(x)+\lambda\T(Ax-b)$. 纯等式的强对偶条件是有限原值与 $\ri X$ 中有等式可行点. 混合约束可用以下条件: 在等式可行集中有严格不等式可行点, 且 $\ri X$ 与等式平面相交. 取严格可行点与后一相对内点的合适凸组合, 可在 $\ri X$ 内保留严格不等式并满足等式, 从而同时应用相对内部与严格可行论证. 最优性条件增加等式可行性, 但等式没有额外的互补松弛条件.
+
+\originalsection{线性与二次规划对偶}
+\begin{theorem}\label{thm:lpdual}
+线性规划 $\inf\{c\T x:Ax\ge b\}$ 的对偶为 $\sup\{b\T\mu:A\T\mu=c,\mu\ge0\}$. 若任一最优值有限, 两问题都有最优解且最优值相同. 若原问题无界向下, 对偶不可行; 若对偶无界向上, 原问题不可行.
+\end{theorem}
+\begin{proof}
+拉格朗日函数为 $(c-A\T\mu)\T x+b\T\mu$. 对自由 $x$ 取下确界, 当 $A\T\mu=c$ 时为 $b\T\mu$, 否则为 $-\infty$. 若原值有限, 多面体上的线性函数取到最小值, 记解为 $x^*$. 令 $J$ 为活跃行集合. 可行方向锥为 $D=\{d:a_j\T d\ge0,j\in J\}$, 任一这样的方向都允许足够小的可行正步长. 最优性使 $c\T d\ge0$ 对 $d\in D$. Farkas 引理使 $c=\sum_{j\in J}\mu_j a_j$, $\mu_j\ge0$. 非活跃项置零, 得对偶可行乘子且 $c\T x^*=\sum_j\mu_jb_j=b\T\mu$. 弱对偶使二者最优. 对偶值有限的情况可对对偶线性规划反向应用同一论证. 两个无界结论直接由弱对偶得到.
+\end{proof}
+对线性问题, 原始、对偶可行性加互补松弛就是完整最优性证书. 两边都不可行也是可能的, 因而不能把无界与不可行一一对应而忽略此情形.
+
+\begin{example}
+求 $\tfrac12x\T Qx+c\T x$ 在 $Ax\le b$ 下的对偶, 其中 $Q\succ0$.
+\end{example}
+\begin{solution}
+对固定 $\mu\ge0$, 无约束二次函数的极小点为 $x(\mu)=-Q^{-1}(c+A\T\mu)$. 代回得
+\[
+q(\mu)=-\tfrac12\mu\T AQ^{-1}A\T\mu-\mu\T(b+AQ^{-1}c)-\tfrac12c\T Q^{-1}c.
+\]
+所以对偶等价于非负正交域上的半正定二次最小化. 若原问题可行, 正定二次项保证原解存在唯一, 仿射约束强对偶给最优乘子. 最优性证书是 $Ax^*\le b$, $\mu^*\ge0$, $x^*=-Q^{-1}(c+A\T\mu^*)$ 及 $\mu_j^*((Ax^*)_j-b_j)=0$.
+\end{solution}
+
+\originalsection{Fenchel 对偶及反例}
+对闭真凸函数 $f_1,f_2$, 原问题为 $\inf_x[f_1(x)+f_2(x)]$. 将同一个变量拆成 $x_1=x_2$, 拉格朗日函数取 $f_1(x_1)+f_2(x_2)+y\T(x_2-x_1)$, 分别极小化得
+\[
+q(y)=-f_1^*(y)-f_2^*(-y).
+\]
+若原值有限且 $\ri\dom f_1\cap\ri\dom f_2\ne\varnothing$, 等式约束强对偶给出零间隙与对偶解. 原点 $x^*$ 与乘子 $y^*$ 的完整证书为
+$x^*\in\argmin_x[f_1(x)-y^{*\mathsf T}x]$ 及 $x^*\in\argmin_x[f_2(x)+y^{*\mathsf T}x]$. 若两者可微且全空间有限, 这等价于 $y^*=\nabla f_1(x^*)=-\nabla f_2(x^*)$.
+
+Fenchel 两侧结构对称. 对偶值有限且 $\ri\dom f_1^*\cap\ri(-\dom f_2^*)\ne\varnothing$ 时, 反向使用强对偶可保证原解. 这个结论与原侧资格条件所保证的“对偶解存在”要分开.
+
+\begin{example}
+说明强对偶、对偶解存在与原解存在不能互相替代.
+\end{example}
+\begin{solution}
+第一例沿用部分极小化反例: 在非负象限最小化 $e^{-\sqrt{x_1x_2}}$, 加等式 $x_1=0$. 原值为1. 对偶 $q(\lambda)=\inf_{x\ge0}[e^{-\sqrt{x_1x_2}}+\lambda x_1]$ 在 $\lambda\ge0$ 时为0, 在 $\lambda<0$ 时为 $-\infty$. 当 $\lambda\ge0$, 选 $x_1\downarrow0$ 同时 $x_1x_2\to\infty$ 就逼近0; 当 $\lambda<0$, 固定 $x_2=0$ 令 $x_1\to\infty$ 即无界. 因而间隙为1. 非负象限的相对内部不满足 $x_1=0$, 资格条件失效.
+
+第二例最小化 $x$ 且 $x^2\le0$. 唯一可行原解为0, 原值0. 对 $\mu>0$, 完成平方给 $q(\mu)=-1/(4\mu)$; $\mu=0$ 时为 $-\infty$. 对偶上确界0而无最优乘子. 扰动函数为 $p(u)=-\sqrt u$ 对 $u\ge0$, 其余为 $+\infty$, 在0下半连续却没有有限斜率支持线.
+
+最后, 无约束最小化 $e^x$ 的原值0未取到. 把它写成 $f_1=e^x,f_2=0$, Fenchel 对偶可在唯一可行共轭乘子0处取到0. 因而即使强对偶与对偶解都有, 原解仍可不存在.
+\end{solution}
+
+\originalsection{极小极大与零和博弈}
+对任意有限值 $\phi:X\times Z\to\R$, 总有 $\sup_z\inf_x\phi(x,z)\le\inf_x\sup_z\phi(x,z)$. 因为固定 $x,z$ 时, 左侧内层不超过 $\phi(x,z)$, 对另一变量依次取界即可. 鞍点 $(x^*,z^*)$ 定义为
+$\phi(x^*,z)\le\phi(x^*,z^*)\le\phi(x,z^*)$ 对全部 $x,z$ 成立. 鞍点等价于极小极大等式成立且两侧最优值分别在 $x^*,z^*$ 取到: 一方面由鞍点夹逼; 另一方面两侧共同最优值夹住 $\phi(x^*,z^*)$, 于是两条鞍点不等式成立.
+
+约束优化是 $\inf_x\sup_{\mu\ge0}L(x,\mu)$, 因为不可行点让内层为 $+\infty$, 可行点让它为 $f(x)$. 对偶是把两层交换. 因而拉格朗日鞍点就是零间隙且存在原始--对偶最优解的情况.
+
+更一般地取 $p(u)=\inf_x\sup_z[\phi(x,z)-u\T z]$. 对固定 $x$, 内层是 $-\phi(x,\cdot)$ 的共轭在负参数处的值. 对 $u$ 再极小化并交换两个下确界, 得 $q(\mu)=\inf_x\widehat\phi(x,\mu)$, 其中 $\widehat\phi$ 是关于第二变量的闭凹包. 若每个第二变量函数已经闭凹, 对偶正是 $\sup_z\inf_x\phi(x,z)$. 当 $p$ 真凸且在0闭, MC/MC 给极小极大等式. 原资料这一构造的作用是说明何种闭凹化进入对偶, 而不是在任意 $X,Z$ 上无条件交换极值.
+
+\begin{example}
+有限零和矩阵博弈中, 玩家一以概率 $x\in\Delta_n$ 选行, 玩家二以概率 $z\in\Delta_m$ 选列, 第一人向第二人支付 $x\T Az$. 证明双方最坏情形最优值相同.
+\end{example}
+\begin{solution}
+对固定 $x$, 最大期望支付为 $\max_j(A\T x)_j$. 玩家一问题因此是线性规划 $\min t$, $A\T x\le t\mathbf1$, $\mathbf1\T x=1$, $x\ge0$. 其对偶可写成 $\max s$, $Az\ge s\mathbf1$, $\mathbf1\T z=1$, $z\ge0$, 正是玩家二的 $\max_z\min_i(Az)_i$. 两个单纯形紧, 目标连续, 原值有限; 线性规划强对偶保证等式与双方策略存在. 例如 $A=\left(\begin{smallmatrix}1&-1\\-1&1\end{smallmatrix}\right)$ 时, 双方各以 $(1/2,1/2)$ 混合, 期望值恒为0, 直接构成鞍点.
+\end{solution}

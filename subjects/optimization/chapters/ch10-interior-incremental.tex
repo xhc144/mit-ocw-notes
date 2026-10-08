@@ -1,0 +1,196 @@
+\originalchapter{内点障碍与增量方法}\label{chap:10}
+本章对应原第21讲内点部分与第22讲, 原PDF第285--300页, 并接续第16讲第212--213页的增量方法引入. 障碍法从严格可行区域逼近边界最优点, 增量法则利用目标的巨大分量和结构; 两者处理的是不同的计算困难.
+
+\originalsection{障碍法及其极限}
+设$f,g_1,\ldots,g_r$为连续凸函数, 可行集$C=\{x:g_j(x)\le0,\ j=1,\ldots,r\}$, 严格可行集$S=\{x:g_j(x)<0,\ j=1,\ldots,r\}$非空. 在$S$上取连续障碍函数$B$, 要求当点从内部趋于边界时$B\to+\infty$. 常用的是
+\[
+ B(x)=-\sum_{j=1}^r\ln(-g_j(x)),\qquad
+ B(x)=-\sum_{j=1}^r\frac1{g_j(x)}.
+\]
+这些函数都使靠近约束边界变得昂贵. 与违反约束后再处罚的惩罚法不同, 障碍函数只在严格可行区使用.
+
+取$\varepsilon_k>0$, $\varepsilon_k\downarrow0$, 每轮求
+\[
+ x_k\in\argmin_{x\in S}\{f(x)+\varepsilon_k B(x)\}.
+\]
+子问题最小值达到仍需假设, 例如需要相应有界下水平集; 障碍阻止接近有限边界, 并不自动阻止逃向无穷远.
+
+\begin{theorem}\label{thm:barrier-limit}
+在上述条件下, 障碍法所生成序列的每个聚点都是原约束问题的最优解.
+\end{theorem}
+\begin{proof}
+取$x_{k_j}\to\bar x$. 因$C$闭, $\bar x\in C$. 若它不是最优, 则有$z\in C$满足$f(z)<f(\bar x)$. 取一个严格可行点$s$, 对充分小的$t>0$, $\widetilde z=(1-t)z+ts$严格可行: 凸性给$g_i(\widetilde z)\le(1-t)g_i(z)+tg_i(s)<0$. 连续性还给$f(\widetilde z)<f(\bar x)$. 子问题最优性于是给
+\[
+ f(x_{k_j})+\varepsilon_{k_j}B(x_{k_j})
+ \le f(\widetilde z)+\varepsilon_{k_j}B(\widetilde z).
+\]
+若$\bar x\in S$, 障碍值连续, 故左边附加项趋零. 若$\bar x\in\partial S$, 障碍值趋于$+\infty$, 故该附加项下极限非负. 两种情形都推出$f(\bar x)\le f(\widetilde z)$, 矛盾.
+\end{proof}
+
+严格可行性在证明中有明确作用: 保证每个较优可行点都能由严格可行点逼近. 缺少这种可逼近性时, 不能沿用这段证明.
+
+\begin{example}
+最小化$\frac12(x_1^2+x_2^2)$, 约束$x_1\ge2$, 用对数障碍求近似解并考察病态性.
+\end{example}
+\begin{solution}
+原最优解是$(2,0)$. 子问题为
+\[
+ \min_{x_1>2,x_2}\left\{\frac12(x_1^2+x_2^2)-\varepsilon\ln(x_1-2)\right\}.
+\]
+驻点条件给$x_2=0$及$x_1-\varepsilon/(x_1-2)=0$, 所以$x_1=1+\sqrt{1+\varepsilon}$, 另一根不在严格可行区. 随$\varepsilon\downarrow0$趋于2. 子问题在该点的Hessian为
+\[
+ \operatorname{diag}\left(1+\frac\varepsilon{(x_1-2)^2},1\right).
+\]
+因为$x_1-2=\varepsilon/(\sqrt{1+\varepsilon}+1)\sim\varepsilon/2$, 第一特征值约为$4/\varepsilon$, 而第二个恒为1. 越接近边界, 条件数越差, 说明简单固定步长梯度法会困难, 应用Newton方向和保持严格可行的线搜索.
+\end{solution}
+
+若$f,g_j$可微, 对数障碍子问题的驻点可写成
+\[
+ \nabla f(x_\varepsilon)+\sum_j\mu_j\nabla g_j(x_\varepsilon)=0,
+ \qquad \mu_j=\frac\varepsilon{-g_j(x_\varepsilon)}>0.
+\]
+于是$\mu_j g_j(x_\varepsilon)=-\varepsilon$, 是互补松弛的平滑近似. 在凸问题的其他可行条件成立时, 这些乘子给对偶可行解, 原对偶间隙不超过$r\varepsilon$. 这解释了沿中心路径降低障碍参数为何具有可检验的精度含义.
+
+\originalsection{锥的对数障碍}
+二阶锥$\mathcal Q_d$的内部写成$t>\norm u$. 标准障碍为
+\[
+ B(u,t)=-\ln(t^2-\norm u^2),\qquad t>\norm u.
+\]
+定义域必须指定正分支; 仅写$t^2>\norm u^2$会错误地包含$t<0$的另一支. 对SOCP$\min\{c\T x:A_i x-b_i\in\mathcal Q_{d_i}\}$, 近似问题是
+\[
+ \min_x\left\{c\T x+\varepsilon\sum_i B_i(A_i x-b_i)\right\},\quad
+ A_i x-b_i\in\operatorname{int}\mathcal Q_{d_i}.
+\]
+Newton方向利用障碍的Hessian, 线搜索必须让所有锥残差保持在内部.
+
+半正定锥的障碍是$-\ln\det Z$, 定义在$Z\succ0$. 对对偶SDP
+\[
+ \max_\mu b\T\mu\quad\text{满足}\quad Z(\mu)=D-\sum_i\mu_i A_i\succeq0,
+\]
+障碍问题为最大化$b\T\mu+\varepsilon\ln\det Z(\mu)$, 限制$Z(\mu)\succ0$. 其导数是$b_i-\varepsilon\tr(Z^{-1}A_i)$. 在驻点令$X_\varepsilon=\varepsilon Z^{-1}\succ0$, 则$\inner{A_i}{X_\varepsilon}=b_i$, 因而得到一个原可行矩阵. 同时
+\[
+ X_\varepsilon Z=\varepsilon I,\qquad
+ \inner{D}{X_\varepsilon}-b\T\mu
+ =\inner{Z}{X_\varepsilon}=n\varepsilon.
+\]
+这既是矩阵互补条件的近似, 也是直接的原对偶误差证书. 原讲义在第288页提到内点复杂度分析, 未陈述自协调障碍或完整复杂度定理; 本章不把仅有这些障碍公式当成已经证明多项式复杂度.
+
+\originalsection{大规模分量和与极限环}
+设$f(x)=\sum_{i=1}^m f_i(x)$, $m$很大. 分量可代表每个数据样本的损失、分离对偶成本或情景成本. 例如最小二乘和$\ell_1$正则化,
+\[
+ \lambda\norm{x}_1+\frac12\sum_{i=1}^m(c_i\T x-d_i)^2,
+\]
+其中$\norm{x}_1=\sum_j|x_j|$. 随机规划中的期望$\mathbb E[F(x,\omega)]$也可用样本分量近似, 或逐次查询随机分量. 两阶段模型$F_1(x)+\mathbb E_\omega[\inf_y F_2(x,y,\omega)]$先选择$x$, 待情景$\omega$出现后再优化补救变量$y$; 若相应联合模型凸且部分最小化有效, 情景成本同样提供凸分量. 多约束问题和分布式优化也可把不同约束或节点的信息组织成逐次更新.
+
+全梯度或全次梯度需要遍历所有分量. 增量法每次只处理$i_k$:
+\[
+ x_{k+1}=P_X(x_k-\alpha_k g_{i_k}(x_k)),\qquad
+ g_i(x)\in\partial f_i(x).
+\]
+一个由$m$次分量更新组成的轮次, 工作量与一次全次梯度近似相当, 却在中间不断更新点的位置. 这可能显著提升实际效果, 但固定步长一般产生极限环.
+
+\begin{example}
+依次对$f_1(x)=\frac12(1-x)^2$和$f_2(x)=\frac12(1+x)^2$作增量梯度步, 使用固定$\alpha\in(0,2)$.
+\end{example}
+\begin{solution}
+从轮起点$a$出发, 第一步为$u=(1-\alpha)a+\alpha$, 第二步为$v=(1-\alpha)u-\alpha=(1-\alpha)^2a-\alpha^2$. 因$(1-\alpha)^2<1$, 轮起点趋于$a_*=-\alpha/(2-\alpha)$, 中间点趋于$u_*=\alpha/(2-\alpha)$. 原总目标是$1+x^2$, 唯一最优点为零; 两点极限环的振幅随步长趋零而趋零, 固定步长却不会消失.
+\end{solution}
+
+\begin{example}
+对$|1-x|+|1+x|+|x|$按三个分量的顺序更新. 取$0<\alpha<1/2$, 轮起点$a\in(0,\alpha)$. 展示固定步长极限环对起点的依赖.
+\end{example}
+\begin{solution}
+这一轮依次得到$a+\alpha$, $a$, $a-\alpha$. 下一轮从$a-\alpha<0$出发依次得到$a$, $a-\alpha$, $a$. 因而轮末点在$a$和$a-\alpha$间交替, 振荡位置取决于$a$. 总目标在$[-1,1]$上为$2+|x|$, 最优点仍为零. 此处无需虚构非唯一最优集合来解释振荡.
+\end{solution}
+
+\originalsection{循环次序的整轮估计}
+为把原讲义的“有界次梯度”写成可核对的充分条件, 假设各$f_i$在所有相关点之间为$C$-Lipschitz, 所用次梯度范数不超过$C$. 若$X$紧且函数在其开邻域实值凸, 这类统一界通常成立. 一轮从$x_k$开始, 以同一个步长$\alpha_k$依次作
+\[
+ \psi_0=x_k,\quad \psi_i=P_X(\psi_{i-1}-\alpha_k g_i(\psi_{i-1})),\quad
+ x_{k+1}=\psi_m.
+\]
+本节下标$k$计整轮, 与前节计单次分量更新的下标不同.
+
+\begin{lemma}\label{lem:incremental-cycle}
+对任意$y\in X$, 有
+\[
+ \norm{x_{k+1}-y}^2\le\norm{x_k-y}^2
+ -2\alpha_k\bigl(f(x_k)-f(y)\bigr)+\alpha_k^2m^2C^2.
+\]
+\end{lemma}
+\begin{proof}
+非扩张性给$\norm{\psi_i-\psi_{i-1}}\le\alpha_k C$, 所以$\norm{\psi_{i-1}-x_k}\le(i-1)\alpha_k C$. 每步次梯度距离估计求和, 再用
+\[
+ f_i(\psi_{i-1})\ge f_i(x_k)-C\norm{\psi_{i-1}-x_k}
+ \ge f_i(x_k)-(i-1)\alpha_kC^2,
+\]
+得到误差$\alpha_k^2 C^2[m+2\sum_{i=1}^m(i-1)]=\alpha_k^2m^2C^2$.
+\end{proof}
+
+由与次梯度法同样的距离矛盾论证, 固定步长给$\liminf_k f(x_k)\le f^*+\alpha m^2C^2/2$. 若$\alpha_k\to0$, $\sum\alpha_k=\infty$, 则轮末历史最好值趋于$f^*$. 若还有最优解存在、下半连续性和$\sum\alpha_k^2<\infty$, 则轮末点趋于一个最优点; 轮内距离至多$mC\alpha_k\to0$, 所以所有分量迭代点同样收敛. 逐轮投影与“先加全部次梯度再投影”并不相同, 但整轮距离估计把两者的差异控制在二阶步长误差内.
+
+\originalsection{独立随机次序与概率保证}
+若每步$i_k$独立于过去, 在$\{1,\ldots,m\}$中均匀抽取, 则在当前信息$\mathcal F_k$条件下,
+\begin{equation}\label{eq:random-incremental-distance}
+ \mathbb E[\norm{x_{k+1}-y}^2\mid\mathcal F_k]
+ \le\norm{x_k-y}^2-\frac{2\alpha_k}{m}(f(x_k)-f(y))+\alpha_k^2C^2.
+\end{equation}
+这由对每个分量的距离估计取条件平均得到. 与循环整轮误差$m^2C^2$相比, 随机单步的误差只有$C^2$, 但目标下降项也除以$m$.
+
+\begin{proposition}
+在上述统一有界和Lipschitz条件下, 固定步长$\alpha$满足
+\[
+ \liminf_k f(x_k)\le f^*+\frac{\alpha mC^2}{2}\quad\text{几乎必然}.
+\]
+若$\alpha_k\to0$且$\sum\alpha_k=\infty$, 则$\liminf_k f(x_k)=f^*$几乎必然.
+\end{proposition}
+\begin{proof}
+固定$y\in X$与$\delta>0$. 固定步长时, 在$f(x_k)>f(y)+\alpha mC^2/2+\delta$的区域, 条件期望中的平方距离每步至少减少$2\alpha\delta/m$. 停在第一次进入该水平集的时刻, 对停止后的非负距离取期望并逐步求和. 若永远不进入有正概率, 该求和中的期望累计减少将无穷大, 与初始有限距离矛盾. 从任意确定时刻重新应用同一论证, 得每个尾部都进入该水平集, 即下极限不超过这个阈值. 对可数个逼近$f^*$的$y$和趋零的$\delta$取交集, 得第一项.
+
+递减步长时, 取足够晚的起点使$\alpha_k C^2\le\delta/m$. 在$f(x_k)>f(y)+\delta$区域, 条件漂移不超过$-\alpha_k\delta/m$. 由于$\sum\alpha_k=\infty$, 同样的停止求和论证保证每个尾部都进入这个水平集. 令$\delta\downarrow0$并用可数逼近点, 得第二项.
+\end{proof}
+
+如果要求点序列几乎必然收敛, 可再加$\sum\alpha_k^2<\infty$及最优解存在, 用带可求和误差的非负超鞅收敛定理获得到最优集合的距离收敛. 本命题没有把下极限保证误称为每次目标都收敛. 每轮开始随机打乱全部分量的顺序, 即不放回随机重排, 在实践中也常用; 它与这里的独立有放回抽样不同, 不能直接以\eqref{eq:random-incremental-distance}逐步条件平均.
+
+\originalsection{增量近端与次梯度的组合}
+对$f_i$的约束近端步$z=\argmin_{x\in X}\{f_i(x)+\norm{x-v}^2/(2\alpha)\}$, 在次梯度和规则适用时, 有$g\in\partial f_i(z)$使
+\[
+ z=P_X(v-\alpha g).
+\]
+因为最优性条件是$v-z-\alpha g\in N_X(z)$, 恰为投影条件. 这是新点次梯度的隐式更新; 对只有扩展实值定义的函数, 必须核对相对内部等条件以保证可拆出这样的$g$.
+
+设$F_i=f_i+h_i$, 总目标$F=\sum_iF_i$. 可对较容易的$f_i$用近端, 对其他$h_i$用显式次梯度:
+\[
+ z_k\in\argmin_{x\in X}\left\{f_{i_k}(x)+\frac1{2\alpha_k}\norm{x-x_k}^2\right\},\qquad
+ x_{k+1}=P_X(z_k-\alpha_k h'_{i_k}(z_k)).
+\]
+也可以调换次序或把近端步先放在整个空间上, 但相应的可行性和误差分析需重新检查.
+
+为把原第298页的“小常数”明确化, 假设$f_i,h_i$都在相关区域为$C$-Lipschitz, 所用隐式和显式次梯度均有界于$C$, 并满足上述近端拆分条件. 近端距离估计加上次梯度距离估计, 再把$F_i(z_k)$比较到$F_i(x_k)$, 得单步界
+\[
+ \norm{x_{k+1}-y}^2\le\norm{x_k-y}^2
+ -2\alpha_k(F_{i_k}(x_k)-F_{i_k}(y))+5\alpha_k^2C^2.
+\]
+其中$\norm{z_k-x_k}\le\alpha_k C$, 所以替换两个函数值至多引入$4\alpha_k^2C^2$, 显式步另有$\alpha_k^2C^2$. 每个完整分量步移动至多$2\alpha_k C$. 循环一轮, 再比较到轮起点, 误差上界是
+\[
+ [5m+8\sum_{i=1}^m(i-1)]\alpha_k^2C^2
+ =(4m^2+m)\alpha_k^2C^2\le5m^2\alpha_k^2C^2.
+\]
+因此原讲义的统一写法$\beta\alpha_k^2m^2C^2$可在这些明确充分条件下取$\beta=5$. 固定步长的循环值界为$F^*+5\alpha m^2C^2/2$, 独立均匀抽样的几乎必然下极限界为$F^*+5\alpha mC^2/2$. 递减步长时二阶误差消失, 得到与前面相同的最好值收敛结论. 这些数值常数是本稿为补齐论证给出的保守界, 不是原作者宣称的最佳常数.
+
+\begin{example}
+对$\lambda\norm{x}_1+\frac12\sum_i(c_i\T x-d_i)^2$, 给出两个可直接实现的分量近端公式.
+\end{example}
+\begin{solution}
+一维绝对值近端公式逐坐标应用, 给
+\[
+ \operatorname{prox}_{\alpha\lambda\norm{\cdot}_1}(v)_j
+ =\operatorname{sign}(v_j)\max\{|v_j|-\alpha\lambda,0\}.
+\]
+因此小坐标直接被置零. 对$q_i(x)=\frac12(c_i\T x-d_i)^2$, 近端最优性是$z-v+\alpha c_i(c_i\T z-d_i)=0$. 左乘$c_i\T$先解标量残差, 得
+\[
+ c_i\T z-d_i=\frac{c_i\T v-d_i}{1+\alpha\norm{c_i}^2},\qquad
+ z=v-\frac{\alpha(c_i\T v-d_i)}{1+\alpha\norm{c_i}^2}c_i.
+\]
+若将正则项均摊到$m$个分量, 每个分量应使用$\lambda/m$而不是$\lambda$; 或将它作为独立的第$m+1$个分量每轮处理一次. 两种组织都保持原目标, 反复对每个样本施加完整$\lambda$却会把正则化强度乘上$m$.
+\end{solution}

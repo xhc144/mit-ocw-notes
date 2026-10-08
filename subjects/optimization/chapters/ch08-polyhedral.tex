@@ -1,0 +1,200 @@
+\originalchapter{多面体近似与内外线性化}\label{chap:8}
+本章对应原第16讲后半、第17--18讲, 原PDF第214--259页. 切平面、单纯形分解及广义单调规划在本章统一处理. 原第18讲所依据的研究论文是Bertsekas与Yu的\emph{A Unifying Polyhedral Approximation Framework for Convex Optimization}, SIAM Journal on Optimization 21 (2011), 333--360. 本章给出幻灯片实际包含的算法与收敛结果, 不把混合情形的研究级分析压缩成无条件保证.
+
+\originalsection{切平面与上下界}
+次梯度$g_i\in\partial f(x_i)$给全局仿射下界$\ell_i(x)=f(x_i)+g_i\T(x-x_i)$. 对$f$取有限个下界的最大值,
+\[
+ F_k(x)=\max_{0\le i\le k}\ell_i(x),
+\]
+则$F_k\le f$, 且$F_{k+1}\ge F_k$. 其上图为若干半空间的交集, 包含真正的$\epi f$, 所以称为外线性化. “外”描述上图的位置, 不是函数值较大.
+
+切平面法从$x_0\in X$开始, 反复求解
+\[
+ x_{k+1}\in\argmin_{x\in X}F_k(x),
+\]
+然后在新点取次梯度加入模型. 若$X$为多面体, 每轮可写成线性规划: 最小化$t$, 满足$x\in X$和$t\ge\ell_i(x)$对所有$i\le k$成立. 原变量维数基本不变, 但约束数逐轮增多.
+
+设$L_k=F_k(x_{k+1})$及$U_k=\min_{i\le k}f(x_i)$. 则
+\begin{equation}\label{eq:cut-bounds}
+ L_k\le f^*\le U_k,\qquad L_{k+1}\ge L_k,\quad U_{k+1}\le U_k.
+\end{equation}
+因此$U_k-L_k$是可检验的绝对误差证书. 它来自下界模型与实际可行点, 不需知道$f^*$.
+
+\begin{theorem}\label{thm:cutting-convergence}
+设$X$非空闭凸, $f:\R^n\to\R$凸, 每轮模型最小值达到. 切平面迭代的每个聚点都是$f$在$X$上的最优解. 更一般地, 对闭真凸$f$, 同一结论在所取次梯度沿收敛子列有界时成立, 但须保证所有迭代点及极限点在相关定义域中可用.
+\end{theorem}
+\begin{proof}
+取收敛子列$x_{k_j}\to\bar x$, 令$j>h$且$k_j>k_h$. 第$k_h$步加入的平面已在生成$x_{k_j}$的模型中, 所以对每个$z\in X$,
+\[
+ f(x_{k_h})+g_{k_h}\T(x_{k_j}-x_{k_h})
+ \le F_{k_j-1}(x_{k_j})\le f(z).
+\]
+实值凸函数连续, 且次梯度在紧邻域上有界. 令$h,j\to\infty$, 混合内积趋零, 得$f(\bar x)\le f(z)$. 闭性给$\bar x\in X$. 扩展实值版本用下半连续性取下极限; 由有界次梯度和同一不等式保证$f(\bar x)\le f(z)<\infty$, 从而极限落在有效域内.
+\end{proof}
+
+如果$X$有界, 上述条件使序列有聚点, 因而最好值趋于$f^*$. 但从一个迭代点的目标值突然变差并不违背定理: 模型在远离采样点处可能非常乐观. 即使$x_0$恰为最优点, 第一张切平面也可能把下一步推向远处. 这是下一章引入近端稳定化的原因.
+
+若$f=\max_{1\le j\le N}(a_j\T x+b_j)$为有限多面体函数, 并且次梯度计算规则每次选一个活跃的原始斜率$a_j$, 则有限终止: 非最优时新点的真实值严格高于当前模型值, 因而必须加入一张尚未包含的活跃平面; 至多加入$N$张. 若任意选择活跃斜率的凸组合, 可产生无限多不同平面, 不能用同一个有限计数证明.
+
+原讲义还给出两个变体. 一是同时用分离超平面对$X$作外近似, 在违反约束时加入约束切面. 二是中心切平面法, 在下界模型与当前上界形成的定位区域
+\[
+ \{(x,t):x\in X,\ F_k(x)\le t\le U_k\}
+\]
+内选较居中的点, 再作查询和切割. 它控制查询点的几何位置, 不再总取下界模型的极小点. 具体的中心定义、删面规则和复杂度必须随具体算法给出.
+
+\originalsection{单纯形分解}
+当线性优化比非线性优化便宜, 还可从内部逐渐扩大可行集合. 设$X$是有界多面体, $f$可微凸. 初始$X_0=\{x_0\}\subseteq X$, 第$k$轮已有$x_k$在$\conv(X_k)$上最优. 先解大型但线性的子问题
+\[
+ \widetilde x_{k+1}\in\argmin_{x\in X}\nabla f(x_k)\T(x-x_k),
+\]
+选择一个达到最小值的极点. 加入$X_{k+1}=X_k\cup\{\widetilde x_{k+1}\}$, 再求
+\[
+ x_{k+1}\in\argmin_{x\in\conv(X_{k+1})}f(x).
+\]
+最后一个问题可用系数变量$\alpha$写成$\min f(\sum_{v\in X_{k+1}}\alpha_vv)$, 约束$\alpha_v\ge0$, $\sum_v\alpha_v=1$. 原空间即使很大, 有效优化变量数也仅为当前保存的点数.
+
+\begin{theorem}
+在上述条件下, 不删点的单纯形分解法有限次找到最优解.
+\end{theorem}
+\begin{proof}
+记$d_k=\min_{x\in X}\nabla f(x_k)\T(x-x_k)\le0$, 因$x_k\in X$. 若$d_k=0$, 则可微凸函数的最优性条件说明$x_k$在$X$上最优. 若$d_k<0$, 因$x_k$已在$\conv(X_k)$上最优, 对该凸包内每个$x$有$\nabla f(x_k)\T(x-x_k)\ge0$. 所以$\widetilde x_{k+1}$不属于该凸包, 尤其未存入$X_k$. 每个非终止步骤加入一个新极点, 而有界多面体的极点有限, 故最终必须终止. 子问题最小值存在由紧性和连续性保证.
+\end{proof}
+
+可用$-d_k$作误差上界, 因对最优解$x^*$, 凸性给$f(x_k)-f^*\le\nabla f(x_k)\T(x_k-x^*)\le-d_k$. 它在不求$f^*$的情况下给停止准则.
+
+原讲义建议丢弃满足$\nabla f(x_{k+1})\T(v-x_{k+1})>0$的旧极点, 因这些点不能以正权重出现在当前最优凸组合中. 这可减小子问题, 但删点后有限终止的上述计数论证不再直接适用, 不能沿用不删点版的结论. 无界多面体需要处理极射线或人工界; 非多面体集合仍可作线性优化, 但不再有有限极点论证. 非光滑$f$则需下面的原对偶匹配次梯度, 随意选一个次梯度一般不够.
+
+\originalsection{函数的内线性化及共轭关系}
+对闭真凸$h$与有限点集$V=\{v_1,\ldots,v_N\}\subseteq\dom h$, 定义内线性化
+\begin{equation}\label{eq:inner-linearization}
+ \overline h_V(z)=\begin{cases}
+ \displaystyle\min\left\{\sum_j\alpha_jh(v_j):\sum_j\alpha_jv_j=z,\ \sum_j\alpha_j=1,\ \alpha_j\ge0\right\},&z\in\conv V,\\
+ +\infty,&z\notin\conv V.
+ \end{cases}
+\end{equation}
+其上图是有限条竖直向上射线$\{(v_j,t):t\ge h(v_j)\}$的凸包. 系数在紧单纯形中, 所以可行时最小值达到. 凸性给$h\le\overline h_V$, 而在每个采样点$v_j$有等号. 增加点使内模型下降, 同时使其有效域扩大.
+
+对$f$的外模型, 若$y_j\in\partial f(x_j)$, Fenchel等式给$f(x_j)+f^*(y_j)=x_j\T y_j$, 因而
+\[
+ F(x)=\max_j\{x\T y_j-f^*(y_j)\}.
+\]
+这段表述既说明外模型由斜率决定, 也为下面的对偶关系消除采样点$x_j$.
+
+\begin{proposition}\label{prop:inner-outer-conjugacy}
+设$Y=\{y_1,\ldots,y_N\}$为上述斜率集合. 则$F^*=\overline{f^*}_Y$. 反向地, 对任意有限$V\subseteq\dom h$, 有
+\[
+ (\overline h_V)^*(y)=\max_{v\in V}\{v\T y-h(v)\}.
+\]
+\end{proposition}
+\begin{proof}
+先算第二式. 任一$z$可行表示成$\sum\alpha_vv$, 所以
+\[
+ y\T z-\sum_v\alpha_vh(v)=\sum_v\alpha_v\bigl(y\T v-h(v)\bigr)
+ \le\max_{v\in V}\{y\T v-h(v)\}.
+\]
+取$z=v$达到对应项. 对$h=f^*$、$V=Y$, 第二式右边恰为$F$. 内模型为闭真凸多面体函数, 取双共轭即得第一式. 这也证明了“外模型的共轭是内模型”并非仅是图形比喻.
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[x=2.2cm,y=1.5cm]
+ \draw[->] (-1.65,0)--(1.65,0) node[right]{$x$};
+ \draw[->] (0,-.15)--(0,2.35) node[above]{$t$};
+ \draw[thick] plot[domain=-1.48:1.48,samples=70] (\x,{\x*\x});
+ \draw[structurecolor,thick] (-1.5,2)--(-.5,0)--(.5,0)--(1.5,2);
+ \draw[dashed,thick] (-1,1)--(0,0)--(1,1);
+ \fill (-1,1) circle (1.2pt); \fill (0,0) circle (1.2pt); \fill (1,1) circle (1.2pt);
+ \node at (-1.05,2.2) {$f(x)=x^2$};
+ \node[structurecolor] at (1.05,.45) {$F(x)$};
+ \node at (-.75,.3) {$\overline f_V(x)$};
+ \node[below] at (-1,0) {$-1$}; \node[below] at (1,0) {$1$};
+\end{tikzpicture}
+\end{center}
+图中取$V=\{-1,0,1\}$, 外模型$F(x)=\max\{0,2x-1,-2x-1\}$位于抛物线下方, 内模型在$[-1,1]$上为$|x|$, 区间外为$+\infty$. 实线与虚线分别反映上图外包和内包.
+
+\originalsection{广义单纯形分解与对偶切平面}
+现在最小化$f(x)+c(x)$, $f,c$闭真凸. 用内线性化$C_k$替代$c$, 求$x_k\in\argmin(f+C_k)$. 在满足次梯度和规则的正则性条件下, 可取
+\[
+ g_k\in\partial f(x_k),\qquad -g_k\in\partial C_k(x_k).
+\]
+随后求$\widetilde x_{k+1}$满足$-g_k\in\partial c(\widetilde x_{k+1})$, 即
+\[
+ \widetilde x_{k+1}\in\argmin_x\{c(x)+g_k\T x\},
+\]
+并将此点加入内模型. 若$f$可微, $g_k=\nabla f(x_k)$; 若$f$不可微, 必须选能与内模型最优性相匹配的$g_k$. 这就是非光滑版本比“把梯度换成任意次梯度”更细的地方.
+
+对$c=\ind{X}$, 内模型为$\ind{\conv V_k}$, 上式变成在$X$上最小化$g_k\T x$. 于是经典单纯形分解是其特殊情形. 同时Fenchel对偶是
+\[
+ \min_y\{f^*(y)+c^*(-y)\}.
+\]
+内模型$C_k$的共轭是$c^*$的外模型; 所以原问题的广义单纯形分解正对应对偶问题的切平面精化. 原、对偶计算只要使用同一匹配最优对, 就产生相同的数学迭代信息; 应选较方便求解的一侧实现.
+
+\originalsection{广义单调规划的对称对偶}
+令$x=(x_1,\ldots,x_m)$, 各块$x_i\in\R^{n_i}$, $S$为乘积空间中的线性子空间. 广义单调规划, 简称EMP, 写成
+\begin{equation}\label{eq:emp-primal}
+ \inf_{x\in S}\sum_{i=1}^m f_i(x_i),\qquad f_i\text{闭、真、凸}.
+\end{equation}
+若各块是一维, 它包含经典单调规划; 网络环流守恒给一个子空间, 每条弧的凸成本给一个分量. 取$S=\{(x,x):x\in\R^n\}$得到Fenchel问题. 取$S=\{(x,\ldots,x):x\in\R^n\}$则得到函数和最小化. 仿射约束$Ax=b$可增加变量$z$, 把$Ax-z=0$纳入子空间, 并加入$\ind{\{b\}}(z)$.
+
+引入$z_i=x_i$和乘子$y_i$, 得
+\[
+ L(x,z,y)=\sum_i\bigl(f_i(z_i)+y_i\T(x_i-z_i)\bigr).
+\]
+对$z$取下确界给$-\sum_i f_i^*(y_i)$. 对$x\in S$取下确界, 当$y\in S^\perp$时为零, 否则为$-\infty$, 因子空间可沿任意正负方向缩放. 因而对偶的最小化写法是
+\begin{equation}\label{eq:emp-dual}
+ \inf_{y\in S^\perp}\sum_i f_i^*(y_i).
+\end{equation}
+注意\eqref{eq:emp-dual}的最小值是原拉格朗日对偶最大值的相反数. 强对偶时, 两个最小化问题的最优值相加为零, 不是相等.
+
+\begin{proposition}\label{prop:emp-optimality}
+一对有限目标值的可行点$x\in S$, $y\in S^\perp$同时最优且无对偶间隙, 当且仅当$y_i\in\partial f_i(x_i)$对所有$i$成立. 等价条件是$x_i\in\partial f_i^*(y_i)$.
+\end{proposition}
+\begin{proof}
+Fenchel不等式给每个$r_i=f_i(x_i)+f_i^*(y_i)-x_i\T y_i\ge0$. 正交性给$\sum_i x_i\T y_i=0$, 所以原对偶目标之差是$\sum_i r_i$. 差为零当且仅当每项为零, 而每项为零等价于共轭次梯度关系. 反向同样由零间隙和弱对偶得到最优性.
+\end{proof}
+
+通常可用$S\cap\ri(\dom f_1\times\cdots\times\dom f_m)\ne\varnothing$作充分条件. 原第246页另给更宽的向量和条件: 若原问题可行, 对所有有效可行$x$和$\varepsilon>0$, 集合
+\[
+ S^\perp+\bigl(\partial_\varepsilon f_1(x_1)\times\cdots\times\partial_\varepsilon f_m(x_m)\bigr)
+\]
+闭, 则零对偶间隙成立. 这里的笛卡尔积等于把各分量嵌入对应块后作向量和; 不应误读为在不同维空间里直接相加. 这项高级对偶定理在本节作为已声明的工具使用, 不用它替代后面的算法证明.
+
+该条件覆盖各$f_i$分别属于以下类别的情形: 在整个空间实值; 多面体; 本质一维; 定义域一维. 为说明原页的术语, 本质一维指$f_i(x)=h(a\T x)$, $h$为闭真凸一维函数; 定义域一维指$\aff(\dom f_i)$是点或直线. 两种一维情形的误差次微分都由一个闭区间及线性约束描述, 因而为多面体; 实值情形的误差次微分紧. 紧凸集与多面体的和闭, 解释了这些类别为何适用. 定义核对来源为Bertsekas的\href{https://web.mit.edu/dimitrib/www/Extended_Mono.pdf}{\emph{Extended Monotropic Programming and Duality}, 2010年修订稿}, 定义4.1--4.2. 交换原、对偶后, “实值”可改成“共轭实值”, 即co-finite, 但需要相应的对偶可行性.
+
+\originalsection{混合多面体近似算法}
+把指标集分成互不相交的三类$E,O,I$: 保持精确、外线性化、内线性化. 对$i\in O$保存有限斜率集$Y_i$, 对$i\in I$保存有限点集$V_i$. 每轮求近似EMP的原对偶最优对$(\widehat x,\widehat y)$:
+\[
+ \min_{x\in S}\left\{
+ \sum_{i\in E}f_i(x_i)+\sum_{i\in O}f_{i,Y_i}(x_i)
+ +\sum_{i\in I}\overline f_{i,V_i}(x_i)\right\}.
+\]
+然后按分量精化:
+\begin{enumerate}
+\item 对$i\in O$, 取$\widetilde y_i\in\partial f_i(\widehat x_i)$, 加入$Y_i$.
+\item 对$i\in I$, 取$\widetilde x_i\in\partial f_i^*(\widehat y_i)$, 加入$V_i$.
+\end{enumerate}
+第二步等价于求$f_i(x_i)-\widehat y_i\T x_i$的极小点. 算法定义隐含了近似原对偶最优对及这些查询的存在, 应在具体应用中核对; 闭真凸本身不保证任意共轭次梯度都存在.
+
+对偶近似问题把$f_{i,Y_i}^*$变成内模型, 把$(\overline f_{i,V_i})^*$变成外模型. 原对偶角色交换不改变点和斜率的精化过程. 与经典每轮只加一张整体切平面不同, 这里一轮可同时精化多个分量; 若分量是一维, 查询很便宜, 并能保留原成本或网络的分离结构. 混合模型既有下界分量又有上界分量, 因此其目标值一般既不是原最优值的下界也不是上界; 不能直接套用\eqref{eq:cut-bounds}.
+
+\begin{proposition}
+假设每个外线性化分量是实值多面体函数, 每个内线性化分量的共轭是实值多面体函数, 且每次加入的斜率或点从相应有限多面体表示中选取. 若近似最优对及查询一直存在, 算法有限次得到原问题的最优原对偶对.
+\end{proposition}
+\begin{proof}
+如果某一轮所有查询都未精化模型, 则对外分量, 新查询平面已在模型中, 所以模型在$\widehat x_i$与$f_i$接触. 近似问题的匹配次梯度$\widehat y_i$于是也属于$\partial f_i(\widehat x_i)$. 对内分量, 在共轭侧作同一论证, 得$\widehat x_i\in\partial f_i^*(\widehat y_i)$. 精确分量本已满足同一关系. 命题\ref{prop:emp-optimality}证明该对原问题最优. 否则至少有一个分量加入新的表示元素, 而总元素数有限, 故不能无限精化.
+\end{proof}
+
+\begin{proposition}\label{prop:emp-outer-limit}
+对纯外线性化情形$I=\varnothing$, 若每个外分量生成的查询次梯度序列有界, 则近似原最优点序列的每个聚点原最优. 对纯内线性化情形$O=\varnothing$, 若生成的查询点序列有界, 则近似对偶最优点序列的每个聚点对偶最优.
+\end{proposition}
+\begin{proof}
+证明第一项. 对任一有效可行$x\in S$, 两个先后轮次$k>\ell$的模型最优性给
+\begin{multline*}
+ \sum_{i\in E}f_i(\widehat x_i^k)+
+ \sum_{i\in O}\left[f_i(\widehat x_i^\ell)
+ +\widetilde y_i^{\ell\mathsf T}(\widehat x_i^k-\widehat x_i^\ell)\right]\\
+ \le\sum_i f_i(x_i).
+\end{multline*}
+沿同一收敛子列取$k,\ell\to\infty$, 有界次梯度使所有内积趋零. 每个闭真凸函数有仿射下界, 因此在有界子列上其值有统一下界, 可以对有限和使用下半连续性, 得$\sum_i f_i(\bar x_i)\le\sum_i f_i(x_i)$. 子空间闭, 故$\bar x\in S$. 第二项交换共轭和子空间, 由内外共轭关系得到.
+\end{proof}
+
+这两个结果分别控制原聚点与对偶聚点, 不是混合情形的无条件收敛证明. 原第258页明确将一般混合情形的分析交给Bertsekas--Yu论文. 在需要混合算法的具体实现时, 应另检查查询有界性、模型精化误差和原对偶可行性, 不能仅以“每轮更多切面”替代这些条件. 近端项也可加入近似问题以稳定迭代, 并把已得的内外模型带入下一轮; 下一章解释这种稳定化为何有用.

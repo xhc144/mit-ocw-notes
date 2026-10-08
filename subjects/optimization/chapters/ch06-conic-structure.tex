@@ -1,0 +1,79 @@
+\originalchapter{锥规划与问题结构}\label{chap:6}
+本章承接原第11讲锥对偶及第13讲, 原PDF第153--157页、第173--184页. 后续算法的选择不仅取决于是否凸, 还取决于目标与约束如何分解、线性优化或投影是否容易计算, 以及约束锥的结构.
+
+\originalsection{锥约束与对偶锥}
+闭凸锥 $C$ 的非负对偶锥定义为 $C^+=\{y:y\T x\ge0\ \forall x\in C\}$. 它等于 $-C^\circ$, 且 $(C^+)^+=C$. 最小化闭真凸 $f$ 于 $x\in C$ 可写成 $\min(f+\ind C)$, Fenchel 对偶为
+\[
+\sup_{y\in C^+}\{-f^*(y)\}.
+\]
+原讲义有时将它改写为 $\min_{y\in C^+}f^*(y)$, 此时是将对偶目标整体换号, 两个最小化问题的值不能直接写成相等.
+
+\begin{theorem}
+若原值有限且 $\ri\dom f\cap\ri C\ne\varnothing$, 则上述锥对偶零间隙且有最优解. 若对偶值有限且 $\ri\dom f^*\cap\ri C^+\ne\varnothing$, 则反向保证零间隙及原解存在. 原始--对偶解对满足 $x\in C$, $y\in C^+$, $y\in\partial f(x)$ 与 $x\T y=0$.
+\end{theorem}
+\begin{proof}
+前两条分别在 Fenchel 对偶的原侧与共轭侧使用资格条件. 最优解对的拉格朗日条件是 $y\in\partial f(x)$ 与 $-y\in\partial\ind C(x)=N_C(x)$. 对锥, 后式等价于 $y\in C^+$ 与 $x\T y=0$: 在法锥定义中取 $z=0,2x$ 得内积为0, 再对任意 $z\in C$ 得非负对偶条件. 反向把这些条件代回 Fenchel 等号, 得 $f(x)=-f^*(y)$, 弱对偶使二者最优.
+\end{proof}
+
+\begin{proposition}\label{prop:conic-dual}
+线性锥规划有如下两种常用对偶形式:
+\[
+\inf_{Ax=b,\ x\in C}c\T x
+\quad\longleftrightarrow\quad
+\sup_{c-A\T\lambda\in C^+}b\T\lambda,
+\]
+\[
+\inf_{Ax-b\in C}c\T x
+\quad\longleftrightarrow\quad
+\sup_{A\T y=c,\ y\in C^+}b\T y.
+\]
+\end{proposition}
+\begin{proof}
+第一式拉格朗日函数取 $c\T x+\lambda\T(b-Ax)$. 在锥上极小化 $(c-A\T\lambda)\T x$ 时, 系数属于 $C^+$ 则下确界为0, 否则沿某个锥方向趋于 $-\infty$. 第二式先令 $z=Ax-b\in C$, 用乘子 $y$ 对等式写 $c\T x-y\T(Ax-b-z)$; 对自由 $x$ 极小化要求 $A\T y=c$, 对锥变量 $z$ 极小化要求 $y\in C^+$, 剩余为 $b\T y$.
+\end{proof}
+若用仿射集合 $b+S$ 而非矩阵等式描述, $f(x)=c\T x+\ind{b+S}(x)$ 的共轭为 $(y-c)\T b$ 当 $y-c\in S^\perp$, 否则为 $+\infty$. 对偶最大值因此为 $\sup[b\T c-b\T y]$, 约束 $y-c\in S^\perp$, $y\in C^+$. 去掉常数并换号才得到原讲义的对偶最小化形式 $\min b\T y$. 这一计算保留了常数, 有助于检查对偶最优值的符号.
+
+\originalsection{二阶锥与半正定锥}
+\begin{proposition}
+非负正交锥、二阶锥 $\mathcal Q_n=\{(u,t):\norm u\le t\}$ 以及对称半正定矩阵锥 $\mathbb S_+^n$ 都自对偶, 即 $C^+=C$. 矩阵空间的内积取 $\langle X,Y\rangle=\tr(XY)$.
+\end{proposition}
+\begin{proof}
+非负正交域的结论逐坐标取单位向量即可. 若 $(u,t),(v,s)\in\mathcal Q_n$, 则 $u\T v+ts\ge-\norm u\norm v+ts\ge0$, 因而二阶锥包含于其对偶. 若 $(v,s)$ 不在锥内, 当 $s<0$ 取 $(0,1)$ 给负内积; 否则 $\norm v>s$, 取 $(-v/\norm v,1)$ 给负内积, 得反向包含.
+
+若 $X,Y\succeq0$, 对 $X$ 作谱分解 $X=\sum_i\lambda_i v_iv_i\T$, 则 $\tr(XY)=\sum_i\lambda_i v_i\T Yv_i\ge0$. 若对称矩阵 $Y$ 非半正定, 取 $v$ 使 $v\T Yv<0$, 秩一半正定矩阵 $vv\T$ 与它的内积为负, 所以不属于对偶. 对称矩阵空间实际维数为 $n(n+1)/2$, 不必把重复的对称分量当作独立坐标.
+\end{proof}
+二阶锥规划的约束可写为 $A_ix-b_i\in\mathcal Q_{n_i}$, 目标线性. 把锥取笛卡尔积并用命题\ref{prop:conic-dual}, 得对偶 $\max\sum_i b_i\T y_i$, $\sum_iA_i\T y_i=c$, $y_i\in\mathcal Q_{n_i}$. 若有严格锥可行点且原值有限, 则零间隙与对偶解存在. 这些资格条件并不比一般线性锥规划更强, 也不能因锥自对偶就删掉.
+
+\begin{example}
+把 $\norm{Bx-d}\le a\T x+\beta$ 和 $\norm{x}^2\le t$ 写成锥约束.
+\end{example}
+\begin{solution}
+第一条就是 $(Bx-d,a\T x+\beta)\in\mathcal Q$, 自动要求右侧非负. 第二条等价于 $(2x,t-1,t+1)\in\mathcal Q_{n+2}$, 因为 $(t+1)^2-[(t-1)^2+4\norm{x}^2]=4(t-\norm{x}^2)$, 且锥条件保证 $t+1\ge0$. 反向原不等式使 $t\ge0$, 故也满足锥约束. 不少凸二次模型可通过这种提升成为二阶锥规划.
+\end{solution}
+半正定规划在 $\mathbb S^n$ 中最小化 $\langle C,X\rangle$, 约束 $\mathcal A(X)=b$, $X\succeq0$. 其对偶为 $\max b\T y$, $C-\mathcal A^*(y)\succeq0$, 其中伴随算子由 $\langle\mathcal A^*y,X\rangle=y\T\mathcal A(X)$ 定义. 互补性是 $\langle X,C-\mathcal A^*y\rangle=0$. 若原始与对偶松弛矩阵都半正定, 该内积等于0还蕴含其矩阵乘积为零: 从 $\tr(X^{1/2}SX^{1/2})=0$ 得半正定矩阵 $X^{1/2}SX^{1/2}=0$, 继而 $S^{1/2}X^{1/2}=0$, 因而 $SX=0$. 后章会给最大特征值与离散二次规划的具体建模例子.
+
+\originalsection{可分离结构与离散下界}
+设变量按块 $x_i\in X_i$, 目标为 $\sum_i f_i(x_i)$, 耦合约束为 $\sum_i g_{ji}(x_i)\le0$. 对固定 $\mu\ge0$, 拉格朗日下确界可分解为
+\[
+q(\mu)=\sum_iq_i(\mu),\qquad
+q_i(\mu)=\inf_{x_i\in X_i}\left[f_i(x_i)+\sum_j\mu_jg_{ji}(x_i)\right].
+\]
+每个块可独立计算; 原问题变量维数很大时, 耦合乘子维数可能较小. 若各块下确界取到, 令块解为 $x_i(\mu)$, 则向量 $s_j=\sum_i g_{ji}(x_i(\mu))$ 是凹函数 $q$ 的超梯度, 即 $q(\nu)\le q(\mu)+s\T(\nu-\mu)$. 证明只须在 $q(\nu)$ 的极小化中代入旧块解, 无须对块解关于乘子求导. 等价地 $-s$ 是凸函数 $-q$ 的次梯度.
+
+当 $X_i$ 离散, 强对偶可能失败, 但 $q(\mu)$ 仍是原最优值的合法下界. 在分支定界中, 每个节点固定部分离散选择, 剩余子问题的对偶值给节点下界; 已找到的可行解给全局上界. 若节点下界不小于当前上界, 节点可剪枝. 对偶间隙影响下界紧度与搜索效率, 不影响下界的正确性. 本课程在这里介绍结构用途, 并未把离散问题变成无条件强对偶的凸问题.
+
+\originalsection{大规模和与多约束}
+统计学习常出现 $f(x)=\sum_{i=1}^m f_i(x)$, 每一项对应一个样本损失. 最小二乘为 $\sum_i(a_i\T x-b_i)^2$; 加 $\ell_1$ 正则得到
+$\sum_i(a_i\T x-b_i)^2+\lambda\sum_j|x_j|$. 不可微项促使部分坐标精确为0, 后面的近端软阈值公式会把这一性质计算出来. 离散概率空间上的期望 $\mathbb E F(x,\omega)=\sum_i p_iF(x,\omega_i)$ 也具有同一大和结构. 两阶段随机规划还可写为 $F_1(x)+\mathbb E_\omega[\inf_yF_2(x,y,\omega)]$, 其中内层值函数的凸性与闭性需要使用部分极小化条件, 不能因为写成期望就自动成立.
+
+当约束数很大时, 一种方式是罚函数, 如 $\sum_j[(a_j\T x-b_j)_+]^2$ 或 $\sum_j(a_j\T x-b_j)_+$. 二次惩罚通常需要参数趋大才逼近精确可行; 非光滑线性惩罚在乘子有界条件下可以精确, 其阈值将在下降方法章节证明. 另一种方式是先保留少量约束, 求解后检测违反项并加回, 形成外逼近; 若维护一组确定可行的点或内模型, 则是内逼近. 它们分别提供不同方向的界, 后面的切平面与单纯形分解将说明如何形成最优性间隔.
+
+原第178页给出实践中的粗略问题层级: 线性与凸二次、二阶锥、半正定、一般凸、非凸、离散. 这是一种课程组织视角, 并非对每个实例的严格复杂度排名. 网络结构、可分离性、投影和线性优化子问题的可解性, 都可能显著改变实际难度. 第1讲所强调的算法与对偶结合, 在这些结构化问题中最有作用.
+
+\originalsection{由紧性保证强对偶}
+\begin{proposition}
+设 $X$ 闭凸, $f,g_j$ 为闭凸函数, 原可行集 $C=\{x\in X:g(x)\le0\}$ 非空紧且存在有限目标值可行点, $f$ 真. 则原解集非空紧, 拉格朗日对偶零间隙. 此条件本身不保证对偶解存在.
+\end{proposition}
+\begin{proof}
+在紧可行集上用下半连续性得到原解存在, 且最优值有限. 令 $F(x,u)=f(x)$ 当 $x\in X,g(x)\le u$, 其他点为 $+\infty$. 其上图由闭凸条件定义, 所以闭凸. 在 $u=0$ 处的一个非空有限目标水平集包含于紧可行集, 因而紧. 部分极小化定理使 $p(u)=\inf_xF(x,u)$ 闭真凸. 于是 $p^{**}(0)=p(0)$, 即强对偶. 对偶解需要 $p$ 在0有次梯度, 紧性只保证闭性而不保证这一点; 前章 $x^2\le0$ 的例子正说明区别.
+\end{proof}

@@ -1,0 +1,170 @@
+\originalchapter{相对内部与无穷远方向}\label{chap:2}
+本章对应原第4--5讲, 第39--63页. 凸性不仅控制两点之间, 还控制边界与无穷远处的行为. 相对内部处理低维可行集, 衰退方向则把不有界性变成可计算的代数条件.
+
+\originalsection{相对内部与线段原理}
+\begin{definition}
+设 $C$ 非空, $L=\aff C-x_0$ 为其仿射包的方向子空间. 点 $x\in C$ 属于相对内部 $\ri C$, 若某个 $r>0$ 满足 $x+\{u\in L:\norm{u}<r\}\subseteq C$.
+\end{definition}
+例如线段的相对内部是去掉两个端点后的开线段, 单点集的相对内部就是它自己. 相对内部总在自身的仿射包中计算, 不能把它当成环境空间内部.
+
+\begin{theorem}[线段原理]\label{thm:segment}
+若 $C$ 凸, $x\in\ri C$, $y\in\cl C$, 则 $(1-t)x+ty\in\ri C$ 对所有 $0\le t<1$ 成立.
+\end{theorem}
+\begin{proof}
+取定义中的相对球半径 $r$. 当 $t=0$ 结论已知. 固定 $0<t<1$, 取 $y_k\in C$ 趋于 $y$, 并令 $z=(1-t)x+ty$. 对任意 $u\in L$ 满足 $\norm{u}<(1-t)r/2$, 选足够大的 $k$ 使 $t\norm{y-y_k}/(1-t)<r/2$. 则
+\[
+z+u=(1-t)\left(x+\frac{t(y-y_k)+u}{1-t}\right)+ty_k\in C.
+\]
+括号内点位于以 $x$ 为中心半径 $r$ 的相对球内. 因而 $z$ 也具有包含于 $C$ 的相对球.
+\end{proof}
+\begin{theorem}\label{thm:ri-basic}
+非空凸集的相对内部非空、凸且具有相同的仿射包. 点 $x\in C$ 属于 $\ri C$, 当且仅当每条从 $y\in C$ 到 $x$ 的线段都能越过 $x$ 延长而仍留在 $C$ 中.
+\end{theorem}
+\begin{proof}
+设仿射维数为 $m$. 取 $m+1$ 个仿射无关的点 $z_0,\ldots,z_m\in C$. 它们的单纯形包含于 $C$, 且重心附近有一个相对于 $\aff C$ 的小球, 所以相对内部非空. 该小球也说明相对内部的仿射包等于 $\aff C$. 两个相对内点之间的线段用各自小球作凸组合即可证明仍是相对内点.
+
+相对内点允许沿任何方向小幅移动, 因而线段可以延长. 反过来, 取 $z\in\ri C$. 若 $x=z$, 已得结论; 否则假设的延长性给出 $w=x+\varepsilon(x-z)\in C$. 点 $x$ 是 $z,w$ 间的真内分点, 由线段原理属于 $\ri C$.
+\end{proof}
+\begin{proposition}
+非空凸集满足 $\cl(\ri C)=\cl C$ 及 $\ri(\cl C)=\ri C$. 两个非空凸集有相同闭包当且仅当有相同相对内部. 若 $\ri C\subseteq D\subseteq\cl C$ 且 $D$ 凸, 则 $D$ 也有相同闭包和相对内部.
+\end{proposition}
+\begin{proof}
+固定 $z\in\ri C$. 对 $y\in\cl C$, 线段原理给出 $(1-t)z+ty\in\ri C$ 对 $t<1$ 成立, 令 $t\uparrow1$ 得到闭包等式. 若 $x\in\ri(\cl C)$, 则从 $z$ 到 $x$ 的线段可以在 $\cl C$ 内延长到 $y$, 因而 $x$ 是 $z,y$ 的真内分点, 再由线段原理得 $x\in\ri C$. 其余结论由这两个等式及集合夹逼立即得到.
+\end{proof}
+\begin{proposition}
+若凹函数在非空凸集 $C$ 的相对内点 $x^*$ 取到最小值, 则它在 $C$ 上恒定.
+\end{proposition}
+\begin{proof}
+若某个 $y\in C$ 满足 $f(y)>f(x^*)$, 延长线段至 $w\in C$ 使 $x^*=(1-t)y+tw$, $0<t<1$. 由最小性 $f(w)\ge f(x^*)$, 而凹性给出 $f(x^*)\ge(1-t)f(y)+tf(w)>f(x^*)$, 矛盾.
+\end{proof}
+因此在可行集上非恒定的线性目标不可能在相对内部取到最小值. 注意说的是“在可行集上非恒定”, 否则环境空间的非零线性函数可能恰好在一个低维可行集上恒定.
+
+\originalsection{相对内部的运算}
+\begin{theorem}\label{thm:ri-image}
+对非空凸集 $C$ 与线性映射 $A$, 有 $A(\ri C)=\ri(AC)$. 同时 $A(\cl C)\subseteq\cl(AC)$; 若 $C$ 有界, 则后者等号成立.
+\end{theorem}
+\begin{proof}
+线性映射从方向空间 $L$ 到 $AL$ 是满射. 在有限维中可取一个连续线性右逆, 所以相对球的像包含 $AL$ 中的某个相对球. 这证明 $A(\ri C)\subseteq\ri(AC)$.
+
+取 $z\in\ri C$ 及 $y\in\ri(AC)$. 若 $y=Az$, 无须进一步处理. 否则在 $AC$ 中把 $Az$ 到 $y$ 的线段越过 $y$ 延长到 $v=Aw$, 其中 $w\in C$. 于是 $y=(1-t)Az+tAw$, $t<1$, 并且 $(1-t)z+tw\in\ri C$, 给出反向包含.
+
+闭包的正向包含由连续性得到. 若 $C$ 有界, 对 $y_k=Ax_k\to y$, 可选 $x_k$ 的收敛子序列, 极限 $x\in\cl C$ 满足 $Ax=y$, 得反向包含.
+\end{proof}
+\begin{theorem}\label{thm:ri-intersection}
+若 $C_1,C_2$ 非空凸, 则相对内部与笛卡尔积、向量和可交换:
+\[
+\ri(C_1\times C_2)=\ri C_1\times\ri C_2,\qquad
+\ri(C_1+C_2)=\ri C_1+\ri C_2.
+\]
+若 $\ri C_1\cap\ri C_2\ne\varnothing$, 则
+\[
+\ri(C_1\cap C_2)=\ri C_1\cap\ri C_2,\qquad
+\cl(C_1\cap C_2)=\cl C_1\cap\cl C_2.
+\]
+\end{theorem}
+\begin{proof}
+积的结论由相对球定义得到; 和是积在线性映射 $(x_1,x_2)\mapsto x_1+x_2$ 下的像, 所以使用定理\ref{thm:ri-image}. 对交, 固定共同相对内点 $z$. 两个相对球在共同仿射方向空间的交仍含一个球, 故 $z\in\ri(C_1\cap C_2)$. 更一般地, $\ri C_1\cap\ri C_2$ 中任一点也如此.
+
+反向取 $x\in\ri(C_1\cap C_2)$. 延长 $z$ 到 $x$ 的线段到共同可行点 $w$, 于是 $x$ 是 $z,w$ 的真内分点, 在每个 $C_i$ 中都属相对内部. 对闭包, 取 $y\in\cl C_1\cap\cl C_2$, 用 $z$ 与 $y$ 的线段内分点同时逼近, 即得到 $y\in\cl(C_1\cap C_2)$.
+\end{proof}
+在没有资格条件时, 通常只能得到 $\ri C_1\cap\ri C_2\subseteq\ri(C_1\cap C_2)$ 与 $\cl(C_1\cap C_2)\subseteq\cl C_1\cap\cl C_2$. 取实轴上的 $C_1=(-\infty,0]$, $C_2=[0,\infty)$, 交集的相对内部为 $\{0\}$, 而相对内部的交为空. 若改成两个开半轴, 它们交为空, 闭包的交却仍是 $\{0\}$.
+
+闭包对向量和只有 $\cl C_1+\cl C_2\subseteq\cl(C_1+C_2)$. 若一集有界, 可对该集的表示序列取收敛子序列, 另一表示序列随之收敛, 因而等号成立. 对线性逆像, 若 $A^{-1}(\ri C)\ne\varnothing$, 把逆像看成集合 $\{(x,y):y=Ax\}$ 与 $\R^n\times C$ 的交, 可得
+$\ri(A^{-1}C)=A^{-1}(\ri C)$ 及 $\cl(A^{-1}C)=A^{-1}(\cl C)$. 这两个公式需要上述非空资格条件; 不可把原讲义的运算摘要读成无条件规则.
+
+\begin{proposition}[纤维公式]
+设 $C\subseteq\R^{n+m}$ 凸, $C_x=\{y:(x,y)\in C\}$, $D=\{x:C_x\ne\varnothing\}$. 则
+$\ri C=\{(x,y):x\in\ri D,\ y\in\ri C_x\}$.
+\end{proposition}
+\begin{proof}
+投影定理\ref{thm:ri-image}说明 $x\in\ri D$ 时存在 $y_0$ 使 $(x,y_0)\in\ri C$. 纤维仿射平面 $M_x=\{x\}\times\R^m$ 因而与 $\ri C$ 相交. 用交集公式得 $\ri(M_x\cap C)=M_x\cap\ri C$, 而左边正是 $\{x\}\times\ri C_x$. 结合投影的反向包含即得结论.
+\end{proof}
+
+\originalsection{凸函数的连续性与闭包}
+\begin{theorem}\label{thm:convex-continuity}
+真凸函数在 $\ri(\dom f)$ 上相对连续. 特别地, 有限值凸函数在整个 $\R^n$ 上连续.
+\end{theorem}
+\begin{proof}
+将坐标平移并限制到有效域的仿射包, 只须在内点0证明. 取一个小立方体包含于有效域, 其所有顶点函数值有限; 由凸性, 立方体内函数值不超过这些顶点值的最大值 $M$. 对趋于0的非零点 $x$, 选固定半径 $r$ 使正反两个径向点 $y=rx/\norm{x}$ 与 $z=-rx/\norm{x}$ 都在立方体中. 记 $s=\norm{x}/r$. 凸性给出
+\[
+f(x)\le(1-s)f(0)+sM,\qquad
+f(0)\le\frac{s}{1+s}M+\frac1{1+s}f(x).
+\]
+后式等价于 $f(x)\ge(1+s)f(0)-sM$. 令 $x\to0$ 即得连续性.
+\end{proof}
+在边界可能不连续或取无穷. 闭包恰好修补从内部逼近边界时漏掉的上图极限. 对真凸函数定义 $\cl f$ 使 $\epi(\cl f)=\cl(\epi f)$. 它是被 $f$ 逐点控制的最大闭凸函数. 对一般函数, 先将上图取凸包再闭包得到闭凸包函数; 它是被原函数控制的最大闭凸函数, 但可能不真.
+
+\begin{proposition}
+真凸函数的闭包仍为真凸函数, 在 $\ri(\dom f)$ 上与原函数相同. 若 $x$ 属于该相对内部, $y\in\dom(\cl f)$, 则
+\[
+(\cl f)(y)=\lim_{t\downarrow0}f(y+t(x-y)).
+\]
+函数、其闭包与其闭凸包有相同下确界; 原函数取到下确界的点, 在这些包函数下仍为最优点.
+\end{proposition}
+\begin{proof}
+连续性已说明内部上图不产生新的有限高度. 在内部取一小球, 凸性与局部有界性给出有限的仿射下界; 因而上图闭包不可能包含任何整条竖直线, 所以闭包真. 这一仿射下界也可以由下一章的上图分离构造, 不依赖边界连续性.
+
+令 $g=\cl f$. 线段原理与内部相等性说明 $f(y+t(x-y))=g(y+t(x-y))$. 凸性给出该值不超过 $(1-t)g(y)+tg(x)$, 下半连续性给出极限下界不小于 $g(y)$, 所以极限恰为 $g(y)$.
+
+若 $m=\inf f$ 有限, 整个原上图都位于闭半空间 $w\ge m$ 中, 其凸包与闭包也如此, 所以包函数下确界不小于 $m$; 又因包函数不大于原函数, 有反向不等式. 当 $m=-\infty$ 或 $+\infty$ 时由同一序关系直接得到. 原最优点的函数值被这两个界夹住.
+\end{proof}
+这里仿射下界的存在将在分离章节给出完整独立证明; 读者可暂把这一句话作为明确的前向引用, 不能用它替代后面的证明.
+
+\originalsection{衰退锥与线性空间}
+\begin{definition}
+非空凸集 $C$ 的衰退锥为 $\rec C=\{d:x+td\in C\ \text{对一切 }x\in C,t\ge0\}$. 其线性空间为 $L_C=\rec C\cap(-\rec C)$.
+\end{definition}
+$L_C$ 中的方向允许正反两向无限移动. 因而它是子空间, 且 $C=L_C+(C\cap L_C^\perp)$. 确实, 将 $x\in C$ 正交分解为 $x=l+z$, 沿 $-l\in L_C$ 移动得到 $z\in C\cap L_C^\perp$; 反向包含由衰退方向定义得到. 任何 $S\subseteq L_C$ 的子空间也可替代 $L_C$ 作同样分解.
+
+\begin{theorem}\label{thm:recession}
+对非空闭凸集 $C$, 衰退锥闭且凸. 一个方向属于衰退锥, 当且仅当从某个点出发的整条对应射线包含于 $C$. 集合 $C$ 无界当且仅当衰退锥含非零方向. 对非空交集, $\rec(\bigcap_iC_i)=\bigcap_i\rec C_i$. 还满足 $\rec(\ri C)=\rec C$.
+\end{theorem}
+\begin{proof}
+对每个固定的 $x,t$, 条件 $x+td\in C$ 对 $d$ 定义闭凸集, 取交即得第一条. 若 $x_0+sd\in C$ 对 $s\ge0$ 成立, 则对任意 $x\in C,t\ge0$ 及 $s>t$,
+$(1-t/s)x+(t/s)(x_0+sd)\in C$. 令 $s\to\infty$ 得 $x+td\in C$, 用到了闭性.
+
+无界时固定 $x_0\in C$, 取 $x_k\in C$ 满足 $r_k=\norm{x_k-x_0}\to\infty$. 单位方向的子序列趋于某个单位向量 $d$. 对固定 $t\ge0$, $x_0+(t/r_k)(x_k-x_0)\in C$ 最终成立, 极限为 $x_0+td$, 从而 $d\in\rec C$. 反向显然, 因为一条非零射线无界. 对交, 若一个方向给交集中的某点提供整条射线, 则分别用射线判据得到它属于每个衰退锥.
+
+若 $d\in\rec C$ 且 $x\in\ri C$, 将 $x$ 附近相对球沿 $td$ 平移, 仍在 $C$, 所以 $x+td\in\ri C$. 反向若 $d\in\rec(\ri C)$, 同一射线位于 $C$, 用闭集射线判据即可.
+\end{proof}
+闭性条件重要. 非闭凸集可以无界而没有非零衰退方向, 所以不能对任意凸集套用无界性判据.
+
+\originalsection{衰退函数与最优解存在性}
+闭真凸函数的衰退函数 $f^\infty$ 定义为上图衰退锥的边界函数, 即 $\epi(f^\infty)=\rec(\epi f)$. 对任意 $x\in\dom f$,
+\begin{equation}\label{eq:recession-function}
+f^\infty(d)=\sup_{t>0}\frac{f(x+td)-f(x)}t
+=\lim_{t\to\infty}\frac{f(x+td)-f(x)}t.
+\end{equation}
+差商随 $t$ 单调不减, 因为一维凸性使短弦斜率不大于长弦斜率. 若其上确界为 $a$, 就有 $f(x+td)\le f(x)+ta$ 对所有 $t\ge0$ 成立, 等价于 $(d,a)$ 从上图某点出发给出射线. 由闭凸射线判据, 该方向对整个上图有效, 所以上确界与基点无关, 并给出公式. 有限差商的极限不可能为 $-\infty$.
+
+若 $f$ 在全空间可微, 则还可写 $f^\infty(d)=\lim_{t\to\infty}\nabla f(x+td)\T d$. 设 $h(t)=f(x+td)$, 凸性使 $h'(t)$ 单调; 由 $[h(t)-h(0)]/t=t^{-1}\int_0^t h'(s)\,\mathrm ds$, 其平均值趋于同一有限或无穷极限, 即得公式.
+
+定义函数的衰退方向为 $R_f=\{d:f^\infty(d)\le0\}$, 线性空间为 $L_f=R_f\cap(-R_f)$. 前者使函数沿射线不增加, 后者使函数沿整条直线恒定. 原资料第55页的英文摘要出现“nondecreasing”; 由上图的水平衰退方向定义及第57页示意可知应为“不增加”, 本稿依数学定义表述.
+
+\begin{proposition}\label{prop:levelrecession}
+闭真凸函数的所有非空下水平集具有相同衰退锥 $R_f$. 若某个非空下水平集有界, 则所有下水平集紧.
+\end{proposition}
+\begin{proof}
+若 $d\in R_f$, 函数沿射线不增加, 所以它保持每个水平集. 反过来, 若某个水平集从 $x$ 沿 $d$ 包含整条射线, 则函数值在这条射线上有一个有限上界. 将该上界减去 $f(x)$ 再除以 $t$, 令 $t\to\infty$, 得 $f^\infty(d)\le0$. 因而衰退锥相同. 下水平集闭凸, 有界当且仅当衰退锥没有非零方向, 故一集有界推出全部有界, 闭有界则紧.
+\end{proof}
+\begin{example}
+计算半正定二次函数 $f(x)=x\T Qx+a\T x+b$ 的衰退方向与恒定方向, 其中 $Q$ 对称半正定.
+\end{example}
+\begin{solution}
+差商为 $2x\T Qd+t\,d\T Qd+a\T d$. 若 $Qd\ne0$, 半正定性给出 $d\T Qd>0$, 极限为 $+\infty$. 若 $Qd=0$, 衰退函数为 $a\T d$. 因而 $R_f=\{d:Qd=0,a\T d\le0\}$, $L_f=\{d:Qd=0,a\T d=0\}$. 特别地, 正定二次函数在所有非零方向上衰退函数为 $+\infty$.
+\end{solution}
+若多个闭真凸函数在某点同时有限, 则有限和的衰退函数等于其衰退函数之和; 有限最大值则对应衰退函数的最大值. 证明在共同有限的基点使用\eqref{eq:recession-function}; 有限个单调差商的极限可交换有限和或最大值. 对任意上确界族, 还需上确界函数为真并在基点有限, 此时 $\rec(\epi\sup_if_i)=\bigcap_i\rec(\epi f_i)$ 给出 $ (\sup_if_i)^\infty=\sup_i f_i^\infty$. 不能忽略真性而进行无穷算术.
+
+\begin{theorem}[最优解存在性]\label{thm:weierstrass}
+设 $X$ 闭非空, $f$ 下半连续且不取 $-\infty$, $X\cap\dom f\ne\varnothing$. 若某个非空可行下水平集有界, 则最优解集合非空且紧. 这包括 $X$ 有界, 或 $f$ 在 $X$ 上强制, 即 $\norm{x_k}\to\infty$ 时 $f(x_k)\to+\infty$.
+\end{theorem}
+\begin{proof}
+选该紧水平集中的点 $x_0$. 所有比 $f(x_0)$ 更好的候选点都在同一个紧集内. 下半连续函数在紧集上取到下确界: 取极小化序列并选收敛子序列, 下半连续性保证极限值不大于下确界, 因而等于它. 这也说明下确界有限, 否则会使极限点取 $-\infty$. 最优解集是闭水平集且包含于原紧集, 所以紧.
+\end{proof}
+\begin{theorem}
+若再设 $X$ 闭凸且 $f$ 闭真凸, 则最优解集合非空且紧, 当且仅当 $\rec X\cap R_f=\{0\}$.
+\end{theorem}
+\begin{proof}
+任一非空可行水平集 $X\cap\{f\le\gamma\}$ 的衰退锥等于 $\rec X\cap R_f$. 若其为 $\{0\}$, 水平集有界, 上一定理适用. 反过来, 若最优解集非空紧, 它的衰退锥为 $\{0\}$. 将它写成可行集与最优值水平集之交, 同一公式给出必要性.
+\end{proof}
+因此若 $f=\sum_i f_i$ 为真, 而其中某一项在每个非零方向上的衰退函数都为 $+\infty$, 总目标具有紧非空最优解集. 若该项是正定二次函数, 总目标还严格凸, 所以最优解唯一. 同样的存在性论证适用于有限最大值, 但最大值未必严格凸, 不可自动添加唯一性结论.

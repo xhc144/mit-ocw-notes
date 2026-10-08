@@ -1,0 +1,251 @@
+\originalchapter{一阶复杂度、复合近端与镜像下降}\label{chap:11}
+本章对应原第23--24讲, 原PDF第301--316页, 并接续第21讲的Bregman正则化. 用统一的距离或势函数估计比较非光滑、光滑与加速算法, 最后计算熵近端及乘法更新. 复杂度所计的一步必须指明所需查询; 一个难解近端子问题不能视作与一次廉价次梯度计算成本相同.
+
+\originalsection{从渐近收敛到迭代次数}
+设最优点$x^*$存在, 记$R=\norm{x_0-x^*}$. 对次梯度法使用固定步长$\alpha$及$\norm{g_k}\le G$, 距离估计求和给
+\[
+ 2\alpha\sum_{k=0}^{N-1}(f(x_k)-f^*)\le R^2+N\alpha^2G^2.
+\]
+因最小值不大于平均值,
+\begin{equation}\label{eq:subgradient-complexity}
+ \min_{0\le k<N}f(x_k)-f^*\le\frac{R^2}{2\alpha N}+\frac{\alpha G^2}{2}.
+\end{equation}
+若预先给定次数$N$, 取$\alpha=R/(G\sqrt N)$得到误差至多$RG/\sqrt N$. 若要求误差$\varepsilon$, 可取$\alpha=\varepsilon/G^2$, 再令$N\ge R^2G^2/\varepsilon^2$. 因而有$O(\varepsilon^{-2})$的迭代次数上界. 这里输出的是历史最好点, 或用凸性输出平均点, 不是自动把最后点当作最好点.
+
+参数$R,G$若只知上界, 可用相应上界选步长; 若未知, 需要自适应或阶段式策略, 不应把依赖未知最优点的公式直接当作可无条件实现的程序.
+
+\originalsection{光滑性、投影与二次模型}
+设$f$凸可微, 梯度在包含所用线段的凸区域内满足$\norm{\nabla f(x)-\nabla f(y)}\le L\norm{x-y}$. 令$\omega(z;x)=f(x)+\nabla f(x)\T(z-x)$. 沿线段积分,
+\begin{align*}
+ f(z)-\omega(z;x)
+ &=\int_0^1[\nabla f(x+t(z-x))-\nabla f(x)]\T(z-x)\,\mathrm dt\\
+ &\le\int_0^1 Lt\norm{z-x}^2\,\mathrm dt
+ =\frac L2\norm{z-x}^2.
+\end{align*}
+凸性给另一侧$f(z)\ge\omega(z;x)$. 所以$f$被切平面与一个二次上界夹住.
+
+梯度投影步
+\[
+ u=P_X(x-\alpha\nabla f(x))
+ =\argmin_{z\in X}\left\{\omega(z;x)+\frac1{2\alpha}\norm{z-x}^2\right\}
+\]
+是对目标作线性化后的近端步. 投影最优性给$\nabla f(x)\T(u-x)\le-\norm{u-x}^2/\alpha$, 因而
+\[
+ f(u)\le f(x)-\left(\frac1\alpha-\frac L2\right)\norm{u-x}^2.
+\]
+所以$0<\alpha<2/L$保证非零步的严格下降. 不过下一项简洁复杂度估计使用更保守的$\alpha\le1/L$.
+
+二次模型的强凸性对所有$z\in X$给
+\[
+ \omega(u;x)+\frac1{2\alpha}\norm{u-x}^2
+ \le\omega(z;x)+\frac1{2\alpha}\norm{z-x}^2-\frac1{2\alpha}\norm{z-u}^2.
+\]
+结合光滑上界和凸性下界, 得到核心比较式
+\begin{equation}\label{eq:gradient-threepoint}
+ f(u)-f(z)\le\frac{\norm{x-z}^2-\norm{u-z}^2}{2\alpha}
+ -\left(\frac1{2\alpha}-\frac L2\right)\norm{u-x}^2.
+\end{equation}
+它比只证明$f(u)\le f(x)$更强, 因为直接把目标误差与到任意比较点的距离变化相连.
+
+\begin{theorem}\label{thm:gradient-complexity}
+设$X$非空闭凸, 最优解存在, 取$\alpha=1/L$. 梯度投影法满足对所有$N\ge1$,
+\[
+ f(x_N)-f^*\le\frac{L\dist(x_0,X^*)^2}{2N}.
+\]
+\end{theorem}
+\begin{proof}
+在\eqref{eq:gradient-threepoint}取$z=x^*$, 对$k=0,\ldots,N-1$求和, 距离项望远镜消去, 得$\sum_{k=0}^{N-1}(f(x_{k+1})-f^*)\le L\norm{x_0-x^*}^2/2$. 目标值单调, 每项至少为$f(x_N)-f^*$, 再对$x^*$取最近最优点即得.
+\end{proof}
+
+于是光滑性把$O(\varepsilon^{-2})$改善到$O(\varepsilon^{-1})$. 若$L$未知, 可从试探步长出发, 按固定因子缩小直到$f(u)\le\omega(u;x)+\norm{u-x}^2/(2\alpha)$. 该检验直接验证本次二次上界, 足以使用同一比较式. 在有统一Lipschitz常数且试探规则给已接受步长正下界时, 同阶复杂度仍成立.
+
+\originalsection{复合目标的梯度近端法}
+设$H=f+g+\ind X$, 其中$f$光滑凸, $g$闭真凸, $X$闭凸, 和函数为真. 保留易处理但可能不可微的$g$, 只线性化$f$:
+\begin{equation}\label{eq:forward-backward}
+ u=\argmin_{z\in X}\left\{\omega(z;x)+g(z)+\frac1{2\alpha}\norm{z-x}^2\right\}.
+\end{equation}
+配方给等价实现: 先$v=x-\alpha\nabla f(x)$, 再$u=\operatorname{prox}_{\alpha(g+\ind X)}(v)$. 这把不方便求近端的光滑部分交给梯度计算, 把有闭式或廉价近端的非光滑部分保留下来.
+
+令$q(z)=\omega(z;x)+g(z)+\norm{z-x}^2/(2\alpha)+\ind X(z)$. 子问题强凸性给$q(u)\le q(z)-\norm{z-u}^2/(2\alpha)$. 与前节完全相同的夹逼得到
+\begin{equation}\label{eq:composite-threepoint}
+ H(u)-H(z)\le\frac{\norm{x-z}^2-\norm{u-z}^2}{2\alpha}
+ -\left(\frac1{2\alpha}-\frac L2\right)\norm{u-x}^2,
+ \quad z\in\dom H.
+\end{equation}
+因此$\alpha\le1/L$保证复合目标下降, 并给$H(x_N)-H^*\le\norm{x_0-x^*}^2/(2\alpha N)$. 取$g=0$就是梯度投影, 取$f=0$就是近端点法.
+
+多个光滑分量可以先合成一个$f$, 但每步必须计算其全梯度. 这不是每次只选一个分量的增量算法; 循环增量的常步长极限环与本节完整梯度近端的定理并不矛盾. 原第312页关于“不能推广到多个分量”的警示应在保持这种逐分量更新结构的意义下理解.
+
+\originalsection{梯度法上界的量级与动量}
+\begin{example}
+固定$L>0$, 取参数$h>0$, 定义
+\[
+ f_h(x)=\begin{cases}
+ Lx^2/2,&|x|\le h,\\
+ Lh|x|-Lh^2/2,&|x|>h.
+ \end{cases}
+\]
+从$x_0=R>h$以步长$1/L$作梯度下降, 说明$O(\varepsilon^{-1})$上界的量级无法只靠固定步长梯度法改善.
+\end{example}
+\begin{solution}
+两段在$\pm h$处的值和一阶导数一致, 导数为$L\max\{-h,\min\{x,h\}\}$, 故梯度的Lipschitz常数为$L$. 只要$x_k>h$, 就有$x_{k+1}=x_k-h$. 为把函数族参数与目标精度分开, 给定小$\varepsilon$, 取$h=2\varepsilon/(LR)$. 在线性段$f_h(x)\le\varepsilon$要求$x\le R/2+h/2$. 因此至少要约$R/(2h)=LR^2/(4\varepsilon)$步, 与前节上界同阶. 这是随精度变化的一族问题, 不应把函数参数$h$与目标误差$\varepsilon$混成一个固定问题的两种距离.
+\end{solution}
+
+经典重球法加入固定动量,
+\[
+ x_{k+1}=x_k-\alpha\nabla f(x_k)+\beta(x_k-x_{k-1}),\qquad0<\beta<1.
+\]
+另一种形式先外推$y_k=x_k+\beta(x_k-x_{k-1})$, 再在$y_k$处作梯度投影. 对上例的线性段, 两种形式都使位移满足$v_{k+1}=\beta v_k-h$. 从零初速度开始, $|v_k|\le h/(1-\beta)$, 所以固定$\beta$至多改善常数, 迭代次数仍为$O(\varepsilon^{-1})$量级. 动量的稳定性也取决于参数与目标, 不能仅凭$\beta\in(0,1)$就宣称所有凸问题收敛.
+
+\originalsection{递增外推与加速势函数}
+对复合目标$H=f+g+\ind X$, 假设$f$在所有外推点及相应线段上凸、$L$-光滑. 外推点未必在$X$内, 因此只假设梯度在$X$上Lipschitz不足以定义或分析算法. 本节以$f$在整个空间$L$-光滑作为方便的充分条件.
+
+令$x_{-1}=x_0\in\dom H$, $\theta_{-1}=1$, $\theta_k=2/(k+2)$对$k\ge0$. 取
+\[
+ \beta_0=0,\qquad\beta_k=\frac{k-1}{k+2}\ (k\ge1),\qquad
+ y_k=x_k+\beta_k(x_k-x_{k-1}),
+\]
+然后在$y_k$处作步长$1/L$的复合梯度近端步. 一般系数关系为$\beta_k=\theta_k(1-\theta_{k-1})/\theta_{k-1}$. 这里$\beta_k\to1$, 但不是随意加大动量, 而是与下面的势函数恒等式匹配. 原第307页行文中的初始索引与其显式例子不完全一致, 本节按上述明确索引定义算法.
+
+\begin{theorem}\label{thm:accelerated-complexity}
+上述算法满足对所有$N\ge1$,
+\[
+ H(x_N)-H^*\le\frac{2L\norm{x_0-x^*}^2}{(N+1)^2}.
+\]
+所以达到目标误差$\varepsilon$所需次数为$O(\varepsilon^{-1/2})$.
+\end{theorem}
+\begin{proof}
+记$\Delta_k=H(x_k)-H^*$, 并定义
+\[
+ w_k=x_k+\frac{1-\theta_{k-1}}{\theta_{k-1}}(x_k-x_{k-1}),\qquad w_0=x_0.
+\]
+于是$y_k=(1-\theta_k)x_k+\theta_k w_k$, 而
+$w_{k+1}=x_k+(x_{k+1}-x_k)/\theta_k$. 在\eqref{eq:composite-threepoint}取线性化中心$y_k$, 比较点$z=(1-\theta_k)x_k+\theta_k x^*$. 凸性给$H(z)\le(1-\theta_k)H(x_k)+\theta_k H^*$. 又
+\[
+ y_k-z=\theta_k(w_k-x^*),\qquad x_{k+1}-z=\theta_k(w_{k+1}-x^*).
+\]
+所以
+\begin{equation}\label{eq:accelerated-energy}
+ \frac{\Delta_{k+1}}{\theta_k^2}+\frac L2\norm{w_{k+1}-x^*}^2
+ \le\frac{1-\theta_k}{\theta_k^2}\Delta_k+\frac L2\norm{w_k-x^*}^2.
+\end{equation}
+对$k\ge1$, 所选参数满足
+\[
+ \frac{1-\theta_k}{\theta_k^2}=\frac{k(k+2)}4
+ \le\frac{(k+1)^2}4=\frac1{\theta_{k-1}^2}.
+\]
+故势函数逐步不增. 第零步$\theta_0=1$使$\Delta_0$项消失, 给初始势至多$L\norm{x_0-x^*}^2/2$. 迭代得到$\Delta_N/\theta_{N-1}^2\le L\norm{x_0-x^*}^2/2$, 代入$\theta_{N-1}=2/(N+1)$即得. 证明也解释了为什么要使用这组看似不直观的外推系数.
+\end{proof}
+
+加速算法的目标值未必每步下降, 势函数下降代替了单步下降. 对纯光滑约束问题取$g=0$, 就得到原第307页的加速投影法; 对有廉价近端的$g$同一证明仍有效.
+
+在无约束且最优解存在的情形, 对实值、全局$G$-Lipschitz的非光滑凸$f$, 还可先用Moreau包络$e_cf$平滑. 下界与误差界为
+\[
+ 0\le f(x)-e_cf(x)\le\frac{cG^2}{2}.
+\]
+因为$f(u)\ge f(x)-G\norm{u-x}$, 对$u$最小化右边加二次项即可得到下界$e_cf(x)\ge f(x)-cG^2/2$. 包络梯度常数为$1/c$. 若取$c=\varepsilon/G^2$, 对包络用加速法达到$\varepsilon/2$误差, 则原目标总误差不超过$\varepsilon$, 外层次数为$O(GR/\varepsilon)$. 但每次包络梯度本身需要解近端子问题. 原第308页的$O(\varepsilon^{-1})$应按这种更强的查询能力理解, 不能据此说任意廉价次梯度黑箱都已有同样复杂度. 平滑也可能破坏逐分量的增量结构.
+
+\originalsection{Bregman正则化与三点恒等式}
+设$\phi$为闭真凸函数, 在其有效域内部的开凸集上可微严格凸, 定义
+\[
+ D_\phi(x,y)=\phi(x)-\phi(y)-\nabla\phi(y)\T(x-y).
+\]
+它非负, 对严格凸情形$x\ne y$时为正; 通常不是对称距离. 二次函数$\phi(x)=\norm{x}^2/2$给普通平方距离. 广义近端步最小化$H(x)+D_\phi(x,x_k)/c_k$, 在定义域、子问题存在性和次梯度和规则成立时, 有
+\[
+ \frac{\nabla\phi(x_k)-\nabla\phi(x_{k+1})}{c_k}\in\partial H(x_{k+1}).
+\]
+也就是在梯度坐标$\nabla\phi(x)$中作隐式次梯度更新.
+
+Bregman三点恒等式为
+\begin{equation}\label{eq:bregman-threepoint}
+ D_\phi(z,x)-D_\phi(z,u)-D_\phi(u,x)
+ =[\nabla\phi(u)-\nabla\phi(x)]\T(z-u).
+\end{equation}
+逐项展开定义即得, 所有$\phi$值相消后只剩梯度项. 对广义近端步, 次梯度不等式与此式结合给
+\[
+ c_k(H(x_{k+1})-H(z))\le
+ D_\phi(z,x_k)-D_\phi(z,x_{k+1})-D_\phi(x_{k+1},x_k).
+\]
+这是欧氏近端距离估计的真正推广. 若要进一步推出点收敛, 还需用$D_\phi$控制点间距离、核对边界行为及参数条件, 不能把形式相似当作全部证明.
+
+把$D_\phi(\cdot,x_k)/c_k$的共轭直接配算, 得
+\[
+ r_k^*(s)=\frac1{c_k}\left[\phi^*(\nabla\phi(x_k)+c_k s)-\phi^*(\nabla\phi(x_k))\right].
+\]
+故Fenchel对偶最小化$H^*(y)+\phi^*(\nabla\phi(x_k)-c_k y)/c_k$, 可忽略与$y$无关的常数. 若$\nabla\phi^*$在相关点存在, 原点由$\nabla\phi^*(\nabla\phi(x_k)-c_k y)$重建. 内外线性化、bundle及增量组合也可接入这种正则化, 但每个组合都要保持相应的存在性与误差条件.
+
+\originalsection{熵近端及指数增广拉格朗日}
+取非负正交锥上的熵函数
+\[
+ \phi(x)=\sum_i x_i(\ln x_i-1),\qquad0\ln0:=0.
+\]
+负分量处取$+\infty$. 对$y_i>0$,
+\[
+ D_\phi(x,y)=\sum_i\left[x_i\ln\frac{x_i}{y_i}-x_i+y_i\right].
+\]
+原第314页的目标省略了仅依赖旧点的$\sum_i y_i/c_k$, 不影响极小点. 熵近端最小化$H(x)+D_\phi(x,x_k)/c_k$. 若$H$的非负有效域包含一个各分量严格正的点, 则一个已存在的有限极小点不能有零分量: 沿通往严格正点的线段, 零分量产生$t\ln t$项, 其右导数为$-\infty$, 而凸性控制$H$的增长至多为线性, 因此边界点不是极小点. 若没有严格正可行点, 则不能照搬“所有后续点都正”的假设.
+
+一维$p(t)=t(\ln t-1)$在$t\ge0$上定义, 共轭计算为
+\[
+ p^*(s)=\sup_{t\ge0}\{st-t\ln t+t\}=e^s,
+\]
+因为导数$ s-\ln t=0$给$t=e^s$, 且目标严格凹. 因而熵近端的对偶, 使用标准共轭$H^*(y)=\sup_x(y\T x-H(x))$, 是
+\begin{equation}\label{eq:entropy-prox-dual}
+ \min_y\left\{H^*(y)+\frac1{c_k}\sum_i x_{k,i}e^{-c_k y_i}\right\},\qquad
+ x_{k+1,i}=x_{k,i}e^{-c_k y_i}.
+\end{equation}
+若换变量$v=-y$, 则写成$H^*(-v)+\sum_i x_{k,i}e^{c_kv_i}/c_k$, 重建点使用正指数. 原第314--315页把$H^*(y)$与正指数同时写在同一约定下, 少了这一负号; 本节明确保留相容的共轭和指数符号.
+
+对凸不等式问题$\min\{f(x):x\in X,\ g_j(x)\le0\}$, 在非负乘子上对凹对偶函数$q$作熵近端最大化, 则得到指数增广拉格朗日法:
+\begin{equation}\label{eq:exponential-alm}
+ \begin{split}
+ x_{k+1}&\in\argmin_{x\in X}\left\{f(x)+\frac1{c_k}\sum_j\mu_{k,j}e^{c_k g_j(x)}\right\},\\
+ \mu_{k+1,j}&=\mu_{k,j}e^{c_k g_j(x_{k+1})},\qquad\mu_{0,j}>0.
+ \end{split}
+\end{equation}
+这里正指数是正确的: 若$x_{k+1}$使子问题最优性与原凸模型的和规则成立, 新乘子恰为各指数项的导数系数, 所以$x_{k+1}$最小化$L(x,\mu_{k+1})$. 因而$g(x_{k+1})$是$q$在新乘子处的超梯度, 而熵近端最优性为
+\[
+ -g_j(x_{k+1})+\frac1{c_k}\ln\frac{\mu_{k+1,j}}{\mu_{k,j}}=0,
+\]
+与更新式吻合. 违反量为正使乘子按比例增加, 严格满足约束使之减少. 所有乘子保持正, 但可在极限中趋零. 这一推导建立算法等价性; 具体收敛还需非二次近端的相关条件, 不由指数公式单独保证.
+
+\originalsection{镜像下降与单纯形上的乘法更新}
+镜像下降进一步把$H$的主要目标线性化. 设$g_k\in\partial f(x_k)$, 在闭凸集$X$上取
+\[
+ x_{k+1}\in\argmin_{x\in X}\{\alpha_k g_k\T(x-x_k)+D_\phi(x,x_k)\}.
+\]
+最优性是$[\alpha_k g_k+\nabla\phi(x_{k+1})-\nabla\phi(x_k)]\T(z-x_{k+1})\ge0$, $z\in X$. 对二次$\phi$, 它正是投影次梯度法.
+
+设$\phi$相对某范数$\norm{\cdot}$为$\sigma$-强凸, 即$D_\phi(u,x)\ge\sigma\norm{u-x}^2/2$, 次梯度的对偶范数满足$\norm{g_k}_*\le G$. 用最优性及\eqref{eq:bregman-threepoint}, 得
+\begin{align*}
+ \alpha_k(f(x_k)-f(z))
+ &\le\alpha_k g_k\T(x_k-x_{k+1})
+   +D_\phi(z,x_k)-D_\phi(z,x_{k+1})-D_\phi(x_{k+1},x_k)\\
+ &\le D_\phi(z,x_k)-D_\phi(z,x_{k+1})+\frac{\alpha_k^2G^2}{2\sigma}.
+\end{align*}
+第二步是对$r=\norm{x_k-x_{k+1}}$最大化$\alpha_kGr-\sigma r^2/2$. 求和后用凸性, 对加权平均点$\bar x_N=(\sum_{k<N}\alpha_kx_k)/(\sum_{k<N}\alpha_k)$得到
+\begin{equation}\label{eq:mirror-rate}
+ f(\bar x_N)-f(z)\le
+ \frac{D_\phi(z,x_0)+(G^2/(2\sigma))\sum_{k<N}\alpha_k^2}{\sum_{k<N}\alpha_k}.
+\end{equation}
+欧氏平方距离被与约束几何匹配的Bregman量替换, 算法的基本进展机制仍是望远镜求和.
+
+在概率单纯形$X=\{x\ge0:\sum_i x_i=1\}$上, 取熵$\phi$及$x_{0,i}>0$. 子问题去掉常数后为
+\[
+ \min_{x\in X}\sum_i\left[x_i g_{k,i}+\frac1{\alpha_k}x_i\ln\frac{x_i}{x_{k,i}}\right].
+\]
+对等式约束加乘子$\lambda$, 驻点给$g_{k,i}+(\ln(x_i/x_{k,i})+1)/\alpha_k+\lambda=0$. 用总和为一解出公因子,
+\begin{equation}\label{eq:entropy-mirror-update}
+ x_{k+1,i}=\frac{x_{k,i}e^{-\alpha_k g_{k,i}}}{\sum_jx_{k,j}e^{-\alpha_k g_{k,j}}}.
+\end{equation}
+分母归一化保证概率总和, 指数保证正性. 目标次梯度较大的坐标减小权重, 较小的坐标增大相对权重.
+
+熵在单纯形上相对$\ell_1$范数是1-强凸. 对内部线段$x(t)=x+th$, $\sum_i x_i(t)=1$, 柯西不等式给
+\[
+ h\T\nabla^2\phi(x(t))h=\sum_i\frac{h_i^2}{x_i(t)}\ge\left(\sum_i|h_i|\right)^2.
+\]
+沿线段二次积分得$D_\phi(u,x)\ge\norm{u-x}_1^2/2$, 边界点可取极限. 对偶范数是$\ell_\infty$, 因而若$\norm{g_k}_\infty\le G$, 可在\eqref{eq:mirror-rate}取$\sigma=1$. 从均匀分布$x_{0,i}=1/n$开始, 对任意最优点有
+\[
+ D_\phi(x^*,x_0)=\ln n+\sum_i x_i^*\ln x_i^*\le\ln n.
+\]
+取常数步长$\alpha=\sqrt{2\ln n}/(G\sqrt N)$, 平均点误差至多$G\sqrt{2\ln n/N}$, 当$n=1$时问题仅有一个可行点, 无需该步长公式. 这段补充估计说明选择熵并非只为获得一个漂亮的指数更新式: 它也让初始距离与维数的依赖从欧氏几何改成$\ln n$.
