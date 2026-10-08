@@ -35,9 +35,11 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-首批三学科中文整理册均已交付：数值分析59页、数值代数67页、最优化66页，共192页。对应41份可归档原PDF已提交，6份有第三方权利例外的原文件保留来源链接。全站归档仍在分批进行，课程目录总量不能用作已交付讲义分母。
+截至2026-10-08，已核验并交付 **6册中文整书，共438个PDF物理页**：数值分析59页、数值代数67页、最优化66页、数理统计66页、拓扑72页、概率论108页。下表提供PDF下载、源码包及各科学习范围；册数只统计已有实际成品并完成交付核验的学科，原件下载不计作中文讲义完成。
 
-官方站点地图清单登记了 2,587 个课程目录项。这是课程站点目录数量，不是讲义数量、已下载文件数量或可交付译文数量。数值分析、数值代数、最优化三科当前已交付的完整中文译编讲义为 0 册。详细目录及计数含义见 `manifests/metadata/`；实际文件归档进度由文件清单单独记录。
+首批数值分析、数值代数、最优化三科共192页，对应41份可归档原PDF已提交，6份有第三方权利例外的原文件保留来源链接。全站归档仍在分批进行，课程目录总量不能用作已交付讲义分母。
+
+官方站点地图清单登记了 2,587 个课程目录项。这是课程站点目录数量，不是讲义数量、已下载文件数量或可交付译文数量。详细目录及计数含义见 `manifests/metadata/`；实际文件归档进度由文件清单单独记录。
 
 ## 当前可用资料
 
@@ -47,5 +49,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 | [数值代数](subjects/numerical-linear-algebra/) | [18.335J 原讲义](sources/18.335j-spring-2019/)：25份PDF、227页；核心12份59页 | **67页** · [下载中文PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/numerical-linear-algebra/dist/main.pdf) · [源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/numerical-linear-algebra/dist/source.zip) |
 | [最优化](subjects/optimization/) | [6.253原稿](sources/6.253-spring-2012/)及[线性规划补充](sources/15.053-spring-2013/) | **66页** · [下载中文PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/optimization/dist/main.pdf) · [源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/optimization/dist/source.zip) |
 | [数理统计](subjects/mathematical-statistics/) | [18.650 原讲义与来源清单](sources/18.650-fall-2016/)：当前10份PDF、24讲、292源页；九份原件275页归档，PCA原件17页保留链接 | **66页** · [下载中文PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/mathematical-statistics/dist/main.pdf) · [源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/mathematical-statistics/dist/source.zip) · 10章涵盖统计模型与参数推断、极大似然与矩估计、检验与拟合优度、回归、贝叶斯、PCA和GLM · [内容及核验详情](subjects/mathematical-statistics/README.md) |
+| [拓扑](subjects/topology/) | [18.S190 度量空间及选读补充](subjects/topology/sources/)：主课六讲，另有原习题及18.901、18.102选读；范围见详情 | **72页** · [下载中文PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/topology/topology.pdf) · [源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/topology/topology-source.zip) · 8章涵盖度量空间、开闭集与连续、紧性、完备化、压缩映射、连通性和函数空间，含37道带解答练习 · [内容及核验详情](subjects/topology/README.md) |
+| [概率论](subjects/probability/) | [18.600 原讲义与来源清单](sources/18.600-fall-2019/)：37份主讲义及1份补充，共2,413源页 | **108页** · [下载中文PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/probability/dist/main.pdf) · [源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/probability/dist/source.zip) · 12章及综合练习涵盖计数、条件概率、分布、期望、极限、有限马尔可夫链、熵和鞅 · [内容及核验详情](subjects/probability/README.md) |
 
 原件的逐文件官方链接、页数和SHA-256见[数值分析来源清单](manifests/numerical-analysis-sources.json)。
