@@ -1,0 +1,84 @@
+\originalchapter{全纯函数}
+\sourceinfo{18.04 Topic 2, pp.1--20. 偏导条件与单点可微的区别为编者补充}
+\originalsection{极限与复导数}
+\begin{definition}
+记 $D(a,r)=\{z:|z-a|<r\}$. 若集合中每点都有包含于集合的小圆盘, 则它为开集. 连通开集称为域. 极限 $f(z)\to L$ ($z\to a$) 指: 对每个 $\eps>0$, 存在 $\delta>0$, 使定义域中 $0<|z-a|<\delta$ 时 $|f(z)-L|<\eps$. 连续指此极限等于 $f(a)$.
+\end{definition}
+该条件涵盖所有趋近方式. 验证有限条直线上的极限相同, 不能证明二维极限存在. 实部和虚部极限分别存在且等于 $\Re L,\Im L$, 才等价于复极限存在. 这是因为 $|\Re w|,|\Im w|\le |w|\le |\Re w|+|\Im w|$.
+\begin{definition}
+若有限极限 $f'(a)=\lim_{h\to0}(f(a+h)-f(a))/h$ 存在, 称 $f$ 在 $a$ 复可微. 在开集内每点复可微称为全纯. 局部有收敛幂级数表达称为解析; 第5章证明这两个性质等价. 在整个 $\C$ 全纯称为整函数.
+\end{definition}
+原课程常把单点复可微也称作 ``analytic at a point''. 本书保留上述区分, 防止把一个点的导数误当作邻域内的全纯性. 导数存在等价于 $f(a+h)=f(a)+f'(a)h+o(|h|)$, 因而复可微蕴含连续.
+
+$z^2$ 的差商为 $2z+h$, 所以导数为 $2z$. 共轭函数的差商为 $\bar h/h$: 实方向得1, 虚方向得 $-1$, 因而处处没有复导数. 函数 $|z|^2$ 在0的差商为 $\bar h\to0$, 因而在0可微, 却在任何零点邻域内都不全纯.
+
+和、积、商及链式法则与实微积分形式相同. 其共同依据是一次近似. 例如乘积展开为
+\[
+(fg)(a+h)=f(a)g(a)+\bigl(f'(a)g(a)+f(a)g'(a)\bigr)h+o(|h|).
+\]
+商法则要求分母在点处非零. 链式法则中先把内函数的增量代入外函数的一次近似, 利用内增量为 $O(|h|)$ 控制余项, 得 $(g\circ f)'=g'(f)f'$. 不能因为熟悉实公式而忽略这些定义域条件.
+
+\originalsection{Cauchy--Riemann 方程}
+\begin{theorem}\label{thm:cr}
+写 $f=u+\ii v$, $z=x+\ii y$. 若 $f$ 在点 $a$ 复可微, 则该点四个偏导存在且 $u_x=v_y$, $u_y=-v_x$, $f'=u_x+\ii v_x$. 反之, 若 $u,v$ 在该点作为实二元函数可微且满足两条方程, 则 $f$ 在该点复可微. 特别地, 邻域内四个偏导连续并满足方程, 则 $f$ 在该邻域全纯.
+\end{theorem}
+\begin{proof}
+差商沿实方向趋近时为 $u_x+\ii v_x$, 沿虚方向为 $v_y-\ii u_y$. 两者相等给出必要条件. 反向论证须控制任意方向. 实可微给出
+\[
+\Delta f=(u_x+\ii v_x)\Delta x+(u_y+\ii v_y)\Delta y+o\bigl((\Delta x^2+\Delta y^2)^{1/2}\bigr).
+\]
+代入方程, 右端为 $(u_x+\ii v_x)(\Delta x+\ii\Delta y)+o(|\Delta z|)$. 除以 $\Delta z$ 后余项趋零, 得到复导数. 连续偏导蕴含实可微是二元微积分的结论.
+\end{proof}
+仅在一点有偏导并满足两条方程还不充分. 设 $f(0)=0$, 其余点 $f(x+\ii y)=xy/(x^2+y^2)$. 在零点四个偏导全为零, 但沿 $y=x$ 得 $f=1/2$, 函数甚至不连续. 判定全纯时, 必须检查正则性, 再检查方程.
+
+实导数矩阵在全纯点形如 $\begin{pmatrix}a&-b\\b&a\end{pmatrix}$, 其中 $a+\ii b=f'(z)$. 它等于一次旋转乘上一个伸缩; 行列式为 $|f'(z)|^2$. 当 $f'\ne0$ 时, 局部一阶映射保持有向角. 第11章会把这种一阶结论发展成局部和全局的保角映射.
+\begin{proposition}
+域上全纯函数若导数恒为零, 则为常数. 若其值全为实数, 或实部恒定, 或模恒定, 也必为常数.
+\end{proposition}
+\begin{proof}
+导数为零时由方程知 $u,v$ 四个偏导为零. 在任意小圆盘上沿线段应用实微积分, 两者恒定. 局部常数在连通域上恒定: 固定一个函数值, 其对应点集及补集都为开集. 纯实值与实部恒定的情形直接由方程得到四个偏导为零. 模恒定为 $c>0$ 时, 微分 $u^2+v^2=c^2$ 并代入方程, 得关于 $u_x,v_x$ 的线性方程, 系数行列式为 $u^2+v^2=c^2$, 因而导数为零. $c=0$ 时已经恒为零.
+\end{proof}
+
+\originalsection{初等函数与分支}
+由 $\ee^{x+\ii y}=\ee^x\cos y+\ii\ee^x\sin y$ 检查方程, 得 $(\ee^z)'=\ee^z$. 三角函数由指数线性组合得到 $(\sin z)'=\cos z$, $(\cos z)'=-\sin z$. 多项式整, 有理函数在分母非零处全纯, 并不能把未约掉的零分母全部称为极点.
+
+主对数在割平面全纯. 局部极坐标微分给出 $(\log r)_x=x/r^2$, $(\log r)_y=y/r^2$, $\theta_x=-y/r^2$, $\theta_y=x/r^2$, 符合方程, 所以 $(\Log z)'=(x-\ii y)/r^2=1/z$. 任意两条全纯对数分支在连通共同域上的差为 $2k\pi\ii$, 其中整数 $k$ 恒定. 这是连续函数只能把连通集映为连通集的结果.
+
+没有在 $\C\setminus\{0\}$ 上定义的连续全局对数. 若有, 对单位圆参数 $\ee^{\ii t}$ 可写 $L(\ee^{\ii t})=\ii t+2\pi\ii k(t)$. 连续性使整数函数 $k$ 恒定, 但 $t=0,2\pi$ 是同一点却给出相差 $2\pi\ii$ 的值, 矛盾.
+\begin{example}
+在割平面上求 $z^\alpha$ 的导数, 并解释 $\sqrt z$ 在0处的行为.
+\end{example}
+\begin{solution}
+固定 $L=\Log$, 链式法则给出 $(\ee^{\alpha L})'=\alpha\ee^{\alpha L}/z=\alpha z^{\alpha-1}$, 右边须使用同一分支. 平方根分支在割平面全纯, 可连续补为 $\sqrt0=0$, 但零点差商的模为 $1/\sqrt{|h|}$, 不会有有限极限. 零点是分支点, 不是后文意义下的孤立全纯奇点.
+\end{solution}
+
+\originalsection{双曲函数与复合割线}
+双曲函数定义为 $\cosh z=(\ee^z+\ee^{-z})/2$, $\sinh z=(\ee^z-\ee^{-z})/2$. 它们整, 导数互换, 且 $\cosh^2z-\sinh^2z=1$, $\cos(\ii z)=\cosh z$, $\sin(\ii z)=\ii\sinh z$. 这些恒等式从指数代数直接导出, 因而不受实数自变量的限制.
+
+反三角函数必须处理多个分支. 解 $w=\sin z$, 令 $\zeta=\ee^{\ii z}\ne0$, 得 $\zeta^2-2\ii w\zeta-1=0$, 所以 $\zeta=\ii w\pm\sqrt{1-w^2}$, 再取 $z=-\ii\log\zeta$. 在 $w=0$ 附近选择平方根在0为1和对数在1为0, 得
+\[
+\arcsin w=-\ii\Log\bigl(\ii w+\sqrt{1-w^2}\bigr).
+\]
+该式是局部解析逆, 不是未经选择的全局单值公式. 隐式微分给 $(\arcsin w)'=1/\sqrt{1-w^2}$, 根的符号要与初值相容. $w=\pm1$ 是分支点. 类似地, 解 $w=\sinh z$ 令 $\zeta=\ee^z$, 得局部 $\operatorname{arsinh}w=\Log(w+\sqrt{w^2+1})$, 在0取导数1的分支. 多值对数与平方根的其他选择给其余逆值.
+
+复合函数的割线是外函数割线的原像. 主平方根 $\sqrt{1-z}$ 的域为 $\C\setminus[1,\infty)$: 条件 $1-z\in(-\infty,0]$ 恰等价于 $z$ 在该射线上. 对主值 $\sqrt{1+\ee^z}$, 写 $z=x+\ii y$. 外根被割掉当且仅当 $1+\ee^z$ 为非正实数. 这要求 $\sin y=0$; 偶数倍 $\pi$ 时值为正, 奇数倍时值 $1-\ee^x\le0$ 当且仅当 $x\ge0$. 所以须删去全部水平射线 $\{x+(2k+1)\pi\ii:x\ge0\}$, $k\in\Z$. 在删去这些射线后的开集, 指数与主平方根的复合全纯. 只删某一个零点, 或只删负实轴, 都没有检查复合割线的实际原像.
+
+\originalsection{习题与解答}
+\begin{exercise}
+找出 $f(z)=|z|^2$ 的全部复可微点, 以及 $f(z)=\Re z$ 的全部复可微点.
+\end{exercise}
+\begin{solution}
+前者 $u=x^2+y^2$, $v=0$, 方程要求 $x=y=0$, 且已由差商验证0处导数为0. 后者 $u_x=1$, $v_y=0$, 必要条件处处失败, 所以无点复可微.
+\end{solution}
+\begin{exercise}
+设 $u=x^3-3xy^2+2x$. 求 $v$ 使 $u+\ii v$ 全纯.
+\end{exercise}
+\begin{solution}
+$v_y=u_x=3x^2-3y^2+2$, 积分得 $v=3x^2y-y^3+2y+c(x)$. 再由 $v_x=-u_y=6xy$ 得 $c'(x)=0$. 故 $v=3x^2y-y^3+2y+C$, 函数为 $z^3+2z+\ii C$.
+\end{solution}
+\begin{exercise}
+设全纯 $f=u+\ii v$, 在 $r>0$ 的局部极坐标中推导 Cauchy--Riemann 方程.
+\end{exercise}
+\begin{solution}
+链式法则给 $u_r=u_x\cos\theta+u_y\sin\theta$ 和 $v_\theta=r(-v_x\sin\theta+v_y\cos\theta)$. 代入直角坐标方程得 $u_r=v_\theta/r$. 同理 $v_r=-u_\theta/r$. 逆向用坐标变换可恢复原方程; 在 $r=0$ 不能使用这组表达.
+\end{solution}

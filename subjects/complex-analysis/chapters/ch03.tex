@@ -1,0 +1,94 @@
+\originalchapter{复积分与 Cauchy 定理}
+\sourceinfo{18.04 Topic 3 全部正文; 多元微积分复习. Goursat 与同伦证明为编者补充, 参照18.112 L8--L9的范围}
+\originalsection{路径积分}
+\begin{definition}
+路径 $\gamma:[a,b]\to\C$ 是连续、分段 $C^1$ 的映射, 允许自交和重复经过同一点. 对其像上连续的函数 $f$, 定义 $\int_\gamma f(z)\dd z=\int_a^b f(\gamma(t))\gamma'(t)\dd t$. 长度为 $\ell(\gamma)=\int_a^b|\gamma'(t)|\dd t$.
+\end{definition}
+保向的分段光滑重参数化不改变积分, 由实换元公式得证. 反向路径记为 $-\gamma$, 积分改变符号; 首尾可衔接的路径拼接后积分相加. $\dd z$ 表示有向复增量, $|\dd z|$ 表示无向弧长. 若 $f=u+\ii v$, 则
+\[
+\int_\gamma f\dd z=\int_\gamma(u\dd x-v\dd y)+\ii\int_\gamma(v\dd x+u\dd y).
+\]
+这与两个实线积分完全一致, 却把两组微分同时组织起来.
+\begin{proposition}[积分估计]\label{prop:ml}
+有 $|\int_\gamma f\dd z|\le\int_\gamma|f||\dd z|\le M\ell(\gamma)$, 其中 $M=\max_\gamma|f|$.
+\end{proposition}
+\begin{proof}
+复数 Riemann 和满足三角不等式. 取极限得 $|\int_a^b g(t)\dd t|\le\int_a^b|g(t)|\dd t$. 代入 $g=f(\gamma)\gamma'$ 得第一式, 再用 $|f|\le M$ 得第二式.
+\end{proof}
+\begin{example}
+在逆时针圆 $z=a+r\ee^{\ii t}$ 上计算 $\int(z-a)^n\dd z$, 其中 $n\in\Z$.
+\end{example}
+\begin{solution}
+代入参数得到 $\ii r^{n+1}\int_0^{2\pi}\ee^{\ii(n+1)t}\dd t$. $n=-1$ 时为 $2\pi\ii$, 其余整数时为0. 这一结果是 Cauchy 公式和留数理论的基本计算.
+\end{solution}
+同一个单位圆上 $\int\bar z\dd z=\int_0^{2\pi}\ee^{-\ii t}\ii\ee^{\ii t}\dd t=2\pi\ii$. 因而闭路积分为零并非所有连续函数的性质.
+
+\originalsection{原函数与路径无关}
+\begin{theorem}
+设 $f$ 在域 $\Omega$ 连续. 下列三项等价: $f$ 在 $\Omega$ 有全纯原函数 $F$, 即 $F'=f$; 同端点路径积分相同; 所有闭路径积分为零.
+\end{theorem}
+\begin{proof}
+若 $F'=f$, 链式法则与实微积分给 $\int_\gamma f\dd z=F(\gamma(b))-F(\gamma(a))$. 因而原函数蕴含路径无关, 并蕴含闭路积分为零. 反过来, 两条同端点路径与反向路径拼接成闭路, 所以闭路为零蕴含路径无关. 连通开集内任意两点可用折线连接: 固定基点, 可连到它的点集及其补集都开. 定义 $F(z)=\int_{z_0}^z f\dd\zeta$, 因路径无关而良定义. 对足够小的复数 $h$, 选择末段为直线, 得
+\[
+\frac{F(z+h)-F(z)}h=\int_0^1 f(z+th)\dd t\longrightarrow f(z).
+\]
+收敛由 $f$ 在 $z$ 的连续性一致控制 $0\le t\le1$ 而得到. 所以 $F'=f$.
+\end{proof}
+例如 $1/z^2$ 在穿孔平面有原函数 $-1/z$, 所有闭路积分为零; $1/z$ 没有全局原函数, 因为单位圆积分不为零. 函数全纯与域没有洞, 是两个不同条件.
+
+\originalsection{三角形积分定理}
+\begin{theorem}[Goursat]\label{thm:goursat}
+若 $f$ 在闭三角形 $T$ 的某开邻域全纯, 则 $\int_{\partial T}f\dd z=0$. 不需要预先假定 $f'$ 连续.
+\end{theorem}
+\begin{proof}
+连接三边中点, 把 $T$ 分成四个相似三角形. 内边积分互相抵消, 四个边界积分的和等于原积分. 至少一个小三角形积分模不小于原来的四分之一. 反复选择, 得嵌套闭三角形 $T_n$, 直径 $d/2^n$, 周长 $L/2^n$, 且 $|I(T)|\le4^n|I(T_n)|$. 它们交于一点 $a$, 这是紧性和直径趋零的结果.
+
+在 $a$ 复可微, 可写 $f(z)=f(a)+f'(a)(z-a)+\eta(z)(z-a)$, 其中 $\eta(z)\to0$. 常数和一次项有原函数, 它们绕三角形积分为零. 当 $n$ 大到 $T_n$ 上 $|\eta|<\eps$ 时, 积分估计给 $|I(T_n)|\le\eps dL/4^n$. 因而 $|I(T)|\le\eps dL$. 对任意 $\eps>0$ 成立, 所以积分为零.
+\end{proof}
+在圆盘内选择基点, 对每点沿直线积分定义 $F$. 三角形定理说明改变最后一段时路径积分不变, 因而前节的差商论证仍给 $F'=f$. 所以全纯函数在每个圆盘上都有原函数. 这一局部事实将替代原课程 Green 证明中暂时使用的连续偏导条件.
+
+\originalsection{同伦与有孔区域}
+两条同端点路径在 $\Omega$ 内同伦, 指存在连续 $H(s,t)$ 将一条变为另一条, 且端点固定. 闭路同伦可以允许共同起点随变形移动. 域称为单连通, 若每条闭路都能在域内连续收缩为一点.
+\begin{theorem}\label{thm:homotopy}
+全纯函数沿同伦的分段光滑路径的积分相同. 特别地, 单连通域上所有闭路积分为零, 每个全纯函数有原函数.
+\end{theorem}
+\begin{proof}
+同伦像是域内的紧集, 可用有限个有原函数的圆盘覆盖. 该有限覆盖在紧同伦像上有正的 Lebesgue 数. 参数方形上 $H$ 一致连续; 存在足够细的矩形网格, 使每格的像包含在一个这样的圆盘内. 对网格边, 用连接端点的直线段替代其连续像, 必要时再细分, 使相关线段与相邻格顶点都在相应圆盘内. 一格四边的积分为零, 因其在有原函数的圆盘内. 求和后内部边抵消, 只剩外边.
+
+外边对应的原路径各小段和直线替代段也在一个圆盘内, 原函数保证积分一致. 固定端点的两条端边为常路径, 贡献为零; 闭路同伦时两条端边相互反向, 贡献也抵消. 因而变形前后积分相同. 将闭路收缩为一点便得零积分, 再用前节等价性得到原函数.
+\end{proof}
+这个证明并不假定连续同伦的每条中间路径都可微; 网格与局部原函数只需要端点和最终两条可积路径. 因此不会把光滑性暗中施加给一般拓扑同伦.
+
+若一个有界区域边界由外圈 $C_0$ 和互不相交的内圈 $C_1,\ldots,C_m$ 构成, 各圈为两两不相交的分段光滑简单闭曲线, 所有内圈位于外圈内部且各自内部不重叠, 各圈都暂按逆时针方向记录, 则正向区域边界为 $C_0-C_1-\cdots-C_m$. 当 $f$ 在区域闭包邻域全纯时,
+\[
+\int_{C_0}f\dd z=\sum_{j=1}^m\int_{C_j}f\dd z.
+\]
+对多边形边界, 剖分为有限三角形即得; 一般分段光滑边界用域内足够近的多边形替代, 局部原函数保证小段积分保持, 因而同样成立. 等价地可沿连接各内圈的割线打开区域, 两份割线反向抵消. 积分方向规则始终是沿边走时区域在左侧.
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=.9]
+\draw[thick] (0,0) ellipse (3 and 1.7);
+\draw[thick] (-1,0) circle (.55); \draw[thick] (1,0) circle (.5);
+\draw[->] (0,1.7)--(-.45,1.68); \node at (2.7,1.6) {$C_0$};
+\draw[->] (-1,-.55)--(-1.3,-.47); \node at (-1,-.95) {$-C_1$};
+\draw[->] (1,-.5)--(.72,-.42); \node at (1,-.92) {$-C_2$};
+\node at (0,1) {$\Omega$};
+\end{tikzpicture}
+\end{center}
+\begin{remark}
+对于 $C^1$ 的 $u,v$, Green 定理也给 $\int f\dd z=\iint(-v_x-u_y)\dd x\dd y+\ii\iint(u_x-v_y)\dd x\dd y=0$. 这是原课程路线的直接验证. Goursat 论证补足了仅假定全纯时的正则性问题.
+\end{remark}
+
+\originalsection{习题与解答}
+\begin{exercise}
+计算从1到 $1+\ii$ 的直线段上 $\int\dd z/z$, 以及单位圆上 $\int\dd z/z$.
+\end{exercise}
+\begin{solution}
+第一条路径在主对数域内, 故积分为 $\Log(1+\ii)-\Log1=\tfrac12\log2+\pi\ii/4$. 单位圆绕过主对数的割线, 不能用同一全局原函数, 直接参数化得 $2\pi\ii$.
+\end{solution}
+\begin{exercise}
+证明连续 $f$ 若在一个圆盘内沿所有三角形边界积分为零, 则在圆盘内全纯.
+\end{exercise}
+\begin{solution}
+以基点为首端, 定义沿直线段的积分 $F(z)$. 三角形条件允许将差值化为从 $z$ 到 $z+h$ 的直线段积分, 因而 $F'=f$. 第4章会证明全纯 $F$ 的导数仍全纯, 于是 $f$ 全纯. 这一命题称为 Morera 定理; 在使用它时须先建立 Cauchy 导数公式.
+\end{solution}

@@ -1,0 +1,949 @@
+
+===== ORIGINAL PAGE 1 =====
+Topic 12 Notes
+Jeremy Orloﬀ 
+12 Laplace transform 
+12.1 Introduction 
+The Laplace transform takes a function of time and transforms it to a function of a complex variable 
+�. Because the transform is invertible, no information is lost and it is reasonable to think of a function 
+� (�) and its Laplace transform � (�) as two views of the same phenomenon. Each view has its uses
+and some features of the phenomenon are easier to understand in one view or the other. 
+We can use the Laplace transform to transform a linear time invariant system from the time domain
+to the �-domain. This leads to the system function �(�) for the system –this is the same system 
+function used in the Nyquist criterion for stability. 
+One important feature of the Laplace transform is that it can transform analytic problems to algebraic
+problems. We will see examples of this for diﬀerential equations. 
+12.2 A brief introduction to linear time invariant systems 
+Let’s start by deﬁning our terms. 
+Signal. A signal is any function of time. 
+System. A system is some machine or procedure that takes one signal as input does something with 
+it and produces another signal as output. 
+Linear system. A linear system is one that acts linearly on inputs. That is, �1(�) and �2(�) are inputs 
+to the system with outputs �1(�) and �2(�) respectively, then the input �1 + �2 produces the output 
+�1 + �2 and, for any constant �, the input ��1 produces output ��1. 
+This is often phrased in one sentence as input �1�1 + �2�2 produces output �1�1 + �2�2, i.e. linear 
+combinations of inputs produces a linear combination of the corresponding outputs. 
+Time invariance. Suppose a system takes input signal � (�) and produces output signal �(�). The 
+system is called time invariant if the input signal �(�) = � (� − �) produces output signal �(� − �). 
+LTI. We will call a linear time invariant system an LTI system. 
+Example 12.1. Consider the constant coeﬃcient diﬀerential equation 
+3� ′′ + 8� ′ + 7� = � (�) 
+This equation models a damped harmonic oscillator, say a mass on a spring with a damper, where 
+� (�) is the force on the mass and �(�) is its displacement from equilibrium. If we consider � to be 
+the input and � the output, then this is a linear time invariant (LTI) system. 
+Example 12.2. There are many variations on this theme. For example, we might have the LTI system 
+3� ′′ + 8� ′ + 7� = � ′(�), 
+where we call � (�) the input signal and �(�) the output signal. 
+1 
+
+
+===== ORIGINAL PAGE 2 =====
+|||
+|||
+|||
+12 LAPLACE TRANSFORM 
+2 
+12.3 Laplace transform 
+Deﬁnition. The Laplace transform of a function � (�) is deﬁned by the integral 
+∞ 
+(� ; �) = ∫ 
+e−��� (�) ��, 
+0 
+for those � where the integral converges. Here � is allowed to take complex values. 
+Important note. The Laplace transform is only concerned with � (�) for � ≥ 0. Generally, speaking 
+we can require � (�) = 0 for � < 0. 
+Standard notation. Where the notation is clear, we will use an upper case letter to indicate the 
+Laplace transform, e.g, (� ; �) = � (�). 
+The Laplace transform we deﬁned is sometimes called the one-sided Laplace transform. There is a 
+two-sided version where the integral goes from −∞ to ∞. 
+12.3.1 First examples 
+Let’s compute a few examples. We will also put these results in the Laplace transform table at the
+end of these notes. 
+e�� 
+Example 12.3. Let � (�) = 
+. Compute � (�) = (� ; �) directly. Give the region in the complex 
+�-plane where the integral converges. 
+(e��; �) = ∫ 
+∞
+e��e 
+∞
+e(�−�)� ∞ 
+−�� �� = ∫ 
+e(�−�)� �� = 
+{ 
+� − � | 
+0
+0 
+0 
+1 
+if Re(�) > Re(�) 
+�−� 
+= 
+divergent 
+otherwise 
+The last formula comes from plugging ∞ into the exponential. This is 0 if Re(� − �) < 0 and 
+undeﬁned otherwise. 
+Example 12.4. Let � (�) = �. Compute � (�) = (� ; �) directly. Give the region in the complex 
+�-plane where the integral converges. 
+∞ 
+�e−�� ∞ 
+−�� �� 
+(�; �) = ∫ 
+�e
+= 
+{ 
+−� | 
+0
+0 
+� 
+if Re(�) > 0 
+� 
+= 
+divergent 
+otherwise 
+The last formula comes from plugging ∞ into the exponential. This is 0 if Re(−�) < 0 and undeﬁned 
+otherwise. 
+Example 12.5. Let � (�) = �. Compute � (�) = (� ; �) directly. Give the region in the complex 
+�-plane where the integral converges. 
+∞
+∞ 
+�e−�� 
+− e−�� 
+(�; �) = ∫ 
+�e 
+=
+−� 
+�2 |0 
+−�� �� 
+0
+{ 1 
+if Re(�) > 0 
+�2 
+= 
+divergent 
+otherwise 
+
+
+===== ORIGINAL PAGE 3 =====
+12 LAPLACE TRANSFORM 
+3 
+Example 12.6. Compute 
+(cos(��)). 
+Solution: We use the formula 
+e��� + e−��� 
+cos(��) = 
+. 
+2 
+1∕(� − ��) + 1∕(� + ��) 
+� 
+So, 
+(cos(��); �) = 
+= 
+2 
+�2 + �2 . 
+12.3.2 Connection to Fourier transform 
+The Laplace and Fourier transforms are intimately connected. In fact, the Laplace transform is often
+called the Fourier-Laplace transform. To see the connection we’ll start with the Fourier transform 
+of a function � (�). 
+∞ 
+�̂(�) = ∫ 
+� (�)e−��� ��. 
+−∞ 
+If we assume � (�) = 0 for � < 0, this becomes 
+∞ 
+�̂(�) = ∫ 
+� (�)e−��� ��. 
+(1) 
+0 
+Now if � = �� then the Laplace transform is 
+∞ 
+(� ; �) = (� ; ��) = ∫ 
+� (�)e−��� �� 
+(2) 
+0 
+Comparing these two equations we see that �̂(�) = (� ; ��). We see the transforms are basically
+the same things using diﬀerent notation –at least for functions that are 0 for � < 0. 
+12.4 Exponential type 
+The Laplace transform is deﬁned when the integral for it converges. Functions of exponential type 
+are a class of functions for which the integral converges for all � with Re(�) large enough. 
+Deﬁnition. We say that � (�) has exponential type � if there exists an � such that |� (�)| < �e�� for 
+all � ≥ 0. 
+Note. As we’ve deﬁned it, the exponential type of a function is not unique. For example, a function
+of exponential type 2 is clearly also of exponential type 3. It’s nice, but not always necessary, to ﬁnd
+the smallest exponential type for a function. 
+Theorem. If � has exponential type � then (� ) converges absolutely for Re(�) > �. 
+Proof. We prove absolute convergence by bounding 
+|� (�)e−��|. 
+
+
+===== ORIGINAL PAGE 4 =====
+|
+|
+|
+|
+|
+12 LAPLACE TRANSFORM 
+4 
+The key here is that Re(�) > � implies Re(� − �) < 0. So, we can write 
+∞
+∞ 
+∞ 
+|� (�)e−��| �� ≤∫ 
+|�e(�−�)�| �� = ∫ 
+�eRe(�−�)� �� 
+∫0
+0 
+0 
+The last integral clearly converges when Re(� − �) < 0. QED 
+Example 12.7. Here is a list of some functions of exponential type. 
+� (�) = e�� ∶ 
+< 2eRe(�)� 
+� (�) 
+(exponential type Re(�)) 
+� (�) = 1 ∶ 
+� (�) < 2 = 2e0⋅� (exponential type 0) 
+� (�) = cos(��) ∶ |� (�)| ≤ 1 
+(exponential type 0) 
+In the above, all of the inequalities are for � ≥ 0. 
+For � (�) = �, it is clear that for any � > 0 there is an � depending on � such that |� (�)| ≤ �e�� 
+for � ≥ 0. In fact, it is a simple calculus exercise to show � = 1∕(��) works. So, � (�) = � has 
+exponential type � for any � > 0. 
+The same is true of ��. It’s worth pointing out that this follows because, if � has exponential type � 
+and � has exponential type � then � � has exponential type � + �. So, if � has exponential type � then 
+�� has exponential type ��. 
+12.5 Properties of Laplace transform 
+We have already used the linearity of Laplace transform when we computed (cos(��)). Let’s oﬃ­
+cially record it as a property. 
+Property 1. The Laplace transform is linear. That is, if � and � are constants and � and � are 
+functions then 
+(�� + ��) = �(� ) + �(�). 
+(3) 
+(The proof is trivial –integration is linear.) 
+Property 2. A key property of the Laplace transform is that, with some technical details, 
+Laplace transform transforms derivatives in � to multiplication by � (plus some details). 
+This is proved in the following theorem. 
+Theorem. If � (�) has exponential type � and Laplace transform � (�) then 
+(� ′(�); �) = �� (�) − � (0), valid for Re(�) > �. 
+(4) 
+Proof. We prove this using integration by parts. 
+∞
+∞ 
+′(�)e−�� �� = � (�)e−�� ∞ 
+(� ′; �) = ∫ 
+� 
+|0 + ∫ 
+�� (�)e−�� �� = −� (0) + �� (�). 
+0
+0 
+∞, � (�)e−�� 
+In the last step we used the fact that at � = 
+= 0, which follows from the assumption 
+about exponential type. 
+
+
+===== ORIGINAL PAGE 5 =====
+12 LAPLACE TRANSFORM 
+5 
+Equation 4 gives us formulas for all derivatives of � . 
+(� ′′; �) = �2� (�) − �� (0) − � ′(0) 
+(5) 
+(� ′′′; �) = �3� (�) − �2� (0) − �� ′(0) − � ′′(0) 
+(6) 
+Proof. For Equation 5: 
+(� ′′; �) = ((� ′)′; �) = �(� ′; �)−� ′(0) = � (�� (�) − � (0))−� ′(0) = �2� (�)−�� (0)−� ′(0). QED 
+The proof Equation 6 is similar. Also, similar statements hold for higher order derivatives. 
+Note. There is a further complication if we want to consider functions that are discontinuous at the
+origin or if we want to allow � (�) to be a generalized function like �(�). In these cases � (0) is not 
+deﬁned, so our formulas are undeﬁned. The technical ﬁx is to replace 0 by 0− in the deﬁnition and 
+all of the formulas for Laplace transform. You can learn more about this by taking 18.031. 
+Property 3. Theorem. If � (�) has exponential type �, then � (�) is an analytic function for Re(�) > � 
+and 
+� ′(�) = −(�� (�); �). 
+(7) 
+Proof. We take the derivative of � (�). The absolute convergence for Re(�) large guarantees that we 
+can interchange the order of integration and taking the derivative. 
+∞
+∞ 
+� 
+� ′(�) = 
+� (�)e−�� �� = ∫ 
+−�� (�)e−�� �� = (−�� (�); �). 
+�� ∫0
+0 
+This proves Equation 7. 
+Equation 7 is called the �-derivative rule. We can extend it to more derivatives in �: Suppose 
+(� ; �) = � (�). Then, 
+(�� (�); �) = −� ′(�) 
+(8) 
+(��� (�); �) = (−1)�� (�)(�) 
+(9) 
+Equation 8 is the same as Equation 7 above. Equation 9 follows from this. 
+Example 12.8. Use the s-derivative rule and the formula (1; �) = 1∕� to compute the Laplace 
+transform of �� for � a positive integer. 
+Solution: Let � (�) = 1 and � (�) = (� ; �). Using the s-derivative rule we get 
+1 
+(�; �) = (�� ; �) = −� ′(�) = �2 
+2 
+(�2; �) = (�2� ; �) = (−1)2� ′′(�) = �3 
+�! 
+(��; �) = (��� ; �) = (−1)�� �(�) = ��+1 
+Property 4. �-shift rule. As usual, assume � (�) = 0 for � < 0. Suppose � > 0. Then, 
+(� (� − �); �) = e−��� (�) 
+(10) 
+
+
+===== ORIGINAL PAGE 6 =====
+12 LAPLACE TRANSFORM 
+6 
+Proof. We go back to the deﬁnition of the Laplace transform and make the change of variables 
+� = � − �. 
+∞
+∞ 
+(� (� − �); �) = ∫ 
+� (� − �)e−�� �� = ∫ 
+� (� − �)e−�� �� 
+0 
+� 
+∞
+∞ 
+= ∫ 
+� (�)e−�(�+�) �� = e−�� 
+∫ 
+� (�)e−�� �� = e−��� (�). 
+0
+0 
+The properties in Equations 3-10 will be used in examples below. They are also in the table at the 
+end of these notes. 
+12.6 Diﬀerential equations 
+Coverup method. We are going to use partial fractions and the coverup method. We will assume
+you have seen partial fractions. If you don’t remember them well or have never seen the coverup
+method, you should read the note Partial fractions and the coverup method posted with the class 
+notes. 
+Example 12.9. Solve � ′′ − � = e2�, �(0) = 1, � ′(0) = 1 using Laplace transform. 
+Solution: Call (�) = � . Apply the Laplace transform to the equation gives 
+(�2� − ��(0) − � ′(0)) − � =
+1 
+� −2 
+A little bit of algebra now gives 
+(�2 −1)� =
+1
++ � + 1. 
+� −2 
+So 
+1 
+� + 1 
+1 
+1 
+� = 
++
+= 
++ 
+(� − 2)(�2 −1) 
+�2 −1 
+(� − 2)(�2 −1) 
+� −1 
+Use partial fractions to write 
+�
+� 
+� 
+1 
+� =
++
++
++ 
+� −2 
+� −1 
+� + 1 
+� −1. 
+The coverup method gives � = 1∕3, � = −1∕2, � = 1∕6. 
+We recognize 
+1 
+� − � 
+as the Laplace transform of e��, so 
+�(�) = �e2� + �e� + �e−� + e� = 1e2� − 1e� + 1e−� + e�. 
+3 
+2
+6 
+Example 12.10. Solve � ′′ − � = 1, �(0) = 0, � ′(0) = 0. 
+Solution: The rest (zero) initial conditions are nice because they will not add any terms to the algebra.
+As in the previous example we apply the Laplace transform to the entire equation. 
+1 
+1
+1 
+�
+� 
+� 
+�2� − � = , so � = 
+= 
+=
++
++ 
+� 
+�(�2 −1) 
+�(� − 1)(� + 1) 
+� 
+� −1 
+� + 1 
+The coverup method gives � = −1, � = 1∕2, � = 1∕2. So, 
+� = � + �e� + �e−� = −1 + 1
+2e� + 2
+1e−�. 
+
+
+===== ORIGINAL PAGE 7 =====
+12 LAPLACE TRANSFORM 
+7 
+12.7 System functions and the Laplace transform 
+When we introduced the Nyquist criterion for stability we stated without any justiﬁcation that the
+system was stable if all the poles of the system function �(�)were in the left half-plane. We also 
+asserted that the poles corresponded to exponential modes of the system. In this section we’ll use 
+the Laplace transform to more fully develop these ideas for diﬀerential equations. 
+12.7.1 Lightning review of 18.03 
+Deﬁnitions. 
+� 
+1. � = 
+is called a diﬀerential operator. Applied to a function � (�) we have 
+�� 
+�� 
+�� = 
+. 
+�� 
+We read �� as ‘� applied to � .’ 
+Example 12.11. If � (�) = �3 + 2 then �� = 3�2, �2� = 6�. 
+2. If � (�) is a polynomial then � (�) is called a polynomial diﬀerential operator. 
+Example 12.12. Suppose � (�) = �2 + 8� + 7. What is � (�)? Compute � (�) applied to � (�) = 
+�3 + 2� + 5. Compute � (�) applied to �(�) = e2�. 
+Solution: � (�) = �2 + 8� + 7�. (The � in 7� is the identity operator.) To compute � (�)� we 
+compute all the terms and sum them up: 
+� (�) = �3 + 2� + 5 
+�� (�) = 3�2 + 2 
+�2� (�) = 6� 
+Therefore: (�2 + 8� + 7�)� = 6� + 8(3�2 + 2) + 7(�3 + 2� + 5) = 7�3 + 24�2 + 20� + 51. 
+�(�) = e2� 
+��(�) = 2e2� 
+�2�(�) = 4e2� 
+Therefore: (�2 + 8� + 7�)� = 4e2� + 8(2)e2� + 7e2� = (4 + 16 + 7)e2� = � (2)e2�. 
+The substitution rule is a straightforward statement about the derivatives of exponentials. 
+Theorem 12.13. (Substitution rule) For a polynomial diﬀerential operator � (�) we have 
+� (�)e�� = � (�)e�� . 
+(11) 
+Proof. This is obvious. We ‘prove it’ by example. Let � (�) = �2 + 8� + 7�. Then 
+� (�)��� = �2e�� + 8�e�� + 7e�� 
+= � (�)e�� 
+= (�2 + 8� + 7)e�� 
+. 
+
+
+===== ORIGINAL PAGE 8 =====
+12 LAPLACE TRANSFORM 
+8 
+Let’s continue to work from this speciﬁc example. From it we’ll be able to remind you of the general
+approach to solving constant coeﬃcient diﬀerential equations. 
+Example 12.14. Suppose � (�) = �2+8�+7. Find the exponential modes of the equation � (�)� = 0. 
+Solution: The exponential modes are solutions of the form �(�) = e�0�. Using the substititution rule 
+� (�)e�0� = 0 ⇔ � (�0) = 0. 
+That is, �(�) = e�0� is a mode exactly when �0 is a root of � (�). The roots of � (�) are −1, −7. So the 
+modal solutions are 
+−� 
+−7� 
+�1(�) = e 
+and �2(�) = e 
+. 
+Example 12.15. Redo the previous example using the Laplace transform. 
+Solution: For this we solve the diﬀerential equation with arbitrary initial conditions: 
+� (�)� = � ′′ + 8� ′ + 7� = 0; 
+�(0) = �1, � ′(0) = �2. 
+Let � (�) = (�; �). Applying the Laplace transform to the equation we get 
+(�2� (�) − ��(0) − � ′(0)) + 8(�� (�) − �(0)) + 7� (�) = 0 
+Algebra: 
+��1 + 8�1 + �2 
+(�2 + 8� + 7)� (�) − ��1 − �2 −8�1 = 0 ⇔ � = �2 + 8� + 7 
+Factoring the denominator and using partial fractions, we get 
+��1 + 8�1 + �2 
+��1 + 8�1 + �2 
+� 
+� 
+� (�) = 
+= 
+=
++ 
+�2 + 8� + 7 
+(� + 1)(� + 7) 
+� + 1 
+� + 7. 
+We are unconcerned with the exact values of � and �. Taking the Laplace inverse we get 
+−� + �e−7� 
+�(�) = �e 
+. 
+That is, �(�) is a linear combination of the exponential modes. 
+You should notice that the denominator in the expression for � (�) is none other than the characteristic 
+polynomial � (�). 
+12.7.2 The system function 
+Example 12.16. With the same � (�) as in Example 12.12 solve the inhomogeneous DE with rest 
+initial conditions: � (�)� = � (�), �(0) = 0, � ′(0) = 0. 
+Solution: Taking the Laplace transform of the equation we get 
+� (�)� (�) = � (�). 
+Therefore 
+1 
+� (�) = 
+� (�) 
+� (�) 
+We can’t ﬁnd �(�) explicitly because � (�) isn’t speciﬁed. 
+
+
+===== ORIGINAL PAGE 9 =====
+12 LAPLACE TRANSFORM 
+9 
+But, we can make the following deﬁnitions and observations. Let �(�) = 1∕� (�). If we declare � 
+to be the input and � the output of this linear time invariant system, then �(�) is called the system 
+function. So, we have 
+� (�) = �(�) ⋅ � (�). 
+(12) 
+The formula � = � ⋅ � can be phrased as 
+output = system function × input. 
+Note well, the roots of � (�) correspond to the exponential modes of the system, i.e. the poles of 
+�(�) correspond to the exponential modes. 
+The system is called stable if the modes all decay to 0 as � goes to inﬁnity. That is, if all the poles 
+have negative real part. 
+Example 12.17. This example is to emphasize that not all system functions are of the form 1∕� (�). 
+Consider the system modeled by the diﬀerential equation 
+� (�)� = �(�)� , 
+where � and � are polynomials. Suppose we consider � to be the input and � to be the ouput. Find 
+the system function. 
+Solution: If we start with rest initial conditions for � and � then the Laplace transform gives 
+� (�)�(�) = �(�)� (�) or 
+�(�) 
+�(�) = 
+⋅ � (�) 
+� (�) 
+Using the formulation 
+output = system function × input, 
+we see that the system function is 
+�(�) 
+�(�) = � (�) . 
+Note that when � (�) = 0 the diﬀerential equation becomes � (�)� = 0. If we make the assumption 
+that the �(�)∕� (�) is in reduced form, i.e. � and � have no common zeros, then the modes of the 
+system (which correspond to the roots of � (�)) are still the poles of the system function. 
+Comments. All LTI systems have system functions. They are not even all of the form �(�)∕� (�). 
+But, in the �-domain, the output is always the system function times the input. If the system function
+is not rational then it may have an inﬁnite number of poles. Stability is harder to characterize, but
+under some reasonable assumptions the system will be stable if all the poles are in the left half-plane. 
+The system function is also called the transfer function. You can think of it as describing how the 
+system transfers the input to the output. 
+12.8 Laplace inverse 
+Up to now we have computed the inverse Laplace transform by table lookup. For example, −1(1∕(�− 
+�)) = e��. To do this properly we should ﬁrst check that the Laplace transform has an inverse. 
+We start with the bad news: Unfortunately this is not strictly true. There are many functions with
+the same Laplace transform. We list some of the ways this can happen. 
+
+
+===== ORIGINAL PAGE 10 =====
+12 LAPLACE TRANSFORM 
+10 
+1. If � (�) = �(�) for � ≥ 0, then clearly � (�) = �(�). Since the Laplace transform only concerns 
+� ≥ 0, the functions can diﬀer completely for � < 0. 
+2. Suppose � (�) = e�� and 
+{
+� (�) 
+for � ≠ 1 
+�(�) = 
+. 
+0 
+for � = 1. 
+That is, � and � are the same except we arbitrarily assigned them diﬀerent values at � = 1. Then, 
+since the integrals won’t notice the diﬀerence at one point, � (�) = �(�) = 1∕(� − �). In this sense 
+it is impossible to deﬁne −1(� ) uniquely. 
+The good news is that the inverse exists as long as we consider two functions that only diﬀer on a
+negligible set of points the same. In particular, we can make the following claim. 
+Theorem. Suppose � and � are continuous and � (�) = �(�) for all � with Re(�) > � for some �. 
+Then � (�) = �(�) for � ≥ 0. 
+This theorem can be stated in a way that includes piecewise continuous functions. Such a statement
+takes more care, which would obscure the basic point that the Laplace transform has a unique inverse
+up to some, for us, trivial diﬀerences. 
+We start with a few examples that we can compute directly. 
+Example 12.18. Let 
+� (�) = e�� . 
+So, 
+1 
+� (�) = 
+. 
+� − � 
+Show 
+� (�) = 
+∑ 
+Res(� (�)e��) 
+(13) 
+�+�∞ 
+� (�) = 1 
+� (�)e�� �� 
+(14) 
+2�� ∫�−�∞ 
+The sum is over all poles of e��∕(� − �). As usual, we only consider � > 0. 
+Here, � > Re(�) and the integral means the path integral along the vertical line � = �. 
+Solution: Proving Equation 13 is straightforward: It is clear that 
+e�� 
+� − � 
+has only one pole which is at � = �. Since, 
+(
+) 
+∑ 
+e�� 
+= e�� 
+Res 
+, � 
+� − � 
+we have proved Equation 13. 
+Proving Equation 14 is more involved. We should ﬁrst check the convergence of the integral. In this 
+case, � = � + ��, so the integral is 
+�+�∞ 
+∞
+e(�+��)� 
+e�� 
+∞
+e��� 
+1
+1 
+� (�)e�� �� = 
+� �� = 
+��. 
+2�� ∫ 
+2�� ∫ 
+� + �� − � 
+2� ∫ 
+� + �� − � 
+�−�∞ 
+−∞ 
+−∞ 
+
+
+===== ORIGINAL PAGE 11 =====
+||||
+||||
+|||
+|||
+|||
+|||
+|||
+|||
+12 LAPLACE TRANSFORM 
+11 
+The (conditional) convergence of this integral follows using exactly the same argument as in the 
+e�� 
+example near the end of Topic 9 on the Fourier inversion formula for � (�) = 
+. That is, the 
+integrand is a decaying oscillation, around 0, so its integral is also a decaying oscillation around 
+some limiting value. 
+Now we use the contour shown below. 
+Re(z)
+Im(z)
+C1
+−C2
+−C3
+C4
+c −Ri
+c + Ri
+−R + Ri
+−R −Ri
+c
+xa
+We will let � go to inﬁnity and use the following steps to prove Equation 14. 
+1. The residue theorem guarantees that if the curve is large enough to contain � then 
+(
+) 
+e�� 
+∑ 
+e�� 
+1 
+= e�� 
+�� = 
+Res 
+, � 
+. 
+2�� ∫�1−�2−�3+�4 � − � 
+� − � 
+2. In a moment we will show that the integrals over �2, �3, �4 all go to 0 as � → ∞. 
+3. Clearly as � goes to inﬁnity, the integral over �1 goes to the integral in Equation 14 
+Putting these steps together we have 
+e�� 
+�+�∞
+e�� 
+e�� = lim 
+�� = ∫ 
+��. 
+�→∞ ∫�1−�2−�3+�4 � − � 
+� − � 
+�−�∞ 
+Except for proving the claims in step 2, this proves Equation 14. 
+To verify step 2 we look at one side at a time. 
+�2: �2 is parametrized by � = �(�) = � + ��, with −� ≤ � ≤ �. So, 
+� 
+� 
+e�� 
+e(�+��)� 
+e�� 
+e�� − e−�� 
+�� 
+�� = 
+. 
+= ∫ 
+≤∫ 
+|∫�2 � − � 
+| 
+−� |� + �� − �| 
+−� � 
+�� 
+Since � and � are ﬁxed, it’s clear this goes to 0 as � goes to inﬁnity. 
+The bottom �4 is handled in exactly the same manner as the top �2. 
+�3: �3 is parametrized by � = �(�) = −� + ��, with −� ≤ � ≤ �. So, 
+| 
+e�� 
+| 
+� 
+e(−�+��)� 
+� e−�� 
+e−�� 
+� 
+2�e−�� 
+�� 
+�� = 
+�� = 
+. 
+= ∫ 
+≤∫ 
+|∫�3 � − � 
+| 
+−� |−� + �� − � | 
+−� � + � 
+� + � ∫−� 
+� + � 
+Since � and � > 0 are ﬁxed, it’s clear this goes to 0 as � goes to inﬁnity. 
+Example 12.19. Repeat the previous example with � (�) = � for � > 0, � (�) = 1∕�2. 
+
+
+===== ORIGINAL PAGE 12 =====
+12 LAPLACE TRANSFORM 
+12 
+This is similar to the previous example. Since � decays like 1∕�2 we can actually allow � ≥ 0 
+Theorem 12.20. Laplace inversion 1. Assume � is continuous and of exponential type �. Then for 
+� > � we have 
+�+�∞ 
+� (�) = 1 
+� (�)e�� ��. 
+(15) 
+2�� ∫�−�∞ 
+As usual, this formula holds for � > 0. 
+Proof. The proof uses the Fourier inversion formula. 
+We will just accept this theorem for now. 
+Example 12.18 above illustrates the theorem. 
+Theorem 12.21. Laplace inversion 2. Suppose � (�) has a ﬁnite number of poles and decays like 
+1∕� (or faster). Deﬁne 
+� (�) = 
+∑ 
+Res(� (�)e��, ��), where the sum is over all the poles ��. 
+(16) 
+Then (� ; �) = � (�) 
+Proof. Proof given in class. To be added here. The basic ideas are present in the examples above,
+though it requires a fairly clever choice of contours. 
+The integral inversion formula in Equation 15 can be viewed as writing � (�) as a ‘sum’ of exponen­
+tials. This is extremely useful. For example, for a linear system if we know how the system responds
+to input � (�) = e�� for all �, then we know how it responds to any input by writing it as a ‘sum’ of 
+exponentials. 
+12.9 Delay and feedback. 
+Let � (�) = 0 for � < 0. Fix � > 0 and let ℎ(�) = � (� − �). So, ℎ(�) is a delayed version of the signal 
+� (�). The Laplace property Equation 10 says 
+−��� (�), 
+�(�) = e 
+where � and � are the Laplace transforms of ℎ and � respectively. 
+Now, suppose we have a system with system function �(�). (Again, called the open loop system.)
+As before, can feed the output back through the system. But, instead of just multiplying the output
+by a scalar we can delay it also. This is captured by the feedback factor �e−��. 
+The system function for the closed loop system is 
+� 
+���(�) = 1 + �e−��� 
+Note even if you start with a rational function the system function of the closed loop with delay is
+not rational. Usually it has an inﬁnite number of poles. 
+Example 12.22. Suppose �(�) = 1, � = 1 and � = 1 ﬁnd the poles of ���(�). 
+Solution: 
+1 
+. 
+���(�) = 1 + e−� 
+So the poles occur where e−� = −1, i.e. at ���, where � is an odd integer. There are an inﬁnite 
+number of poles on the imaginary axis. 
+Example 12.23. Suppose �(�) = 1, � = 1 and � = 1∕2 ﬁnd the poles of ���(�). Is the closed loop 
+system stable? 
+
+
+===== ORIGINAL PAGE 13 =====
+12 LAPLACE TRANSFORM 
+13 
+Solution: 
+1 
+���(�) = 1 + e−�∕2. 
+So the poles occur where e−� = −2, i.e. at − log(2)+���, where � is an odd integer. Since − log(2) < 
+0, there are an inﬁnite number of poles in the left half-plane. With all poles in the left half-plane,
+the system is stable. 
+Example 12.24. Suppose �(�) = 1, � = 1 and � = 2 ﬁnd the poles of ���(�). Is the closed loop 
+system stable? 
+Solution: 
+1 
+. 
+���(�) = 1 + 2e−� 
+So the poles occur where e−� = −1∕2, i.e. at log(2)+���, where � is an odd integer. Since log(2) > 0, 
+there are an inﬁnite number of poles in the right half-plane. With poles in the right half-plane, the
+system is not stable. 
+Remark. If Re(�) is large enough we can express the system function 
+1 
+�(�) = 1 + �e−�� 
+as a geometric series 
+1
+−�� + �2 −2�� − �3 −3�� + … 
+= 1 − �e
+e 
+e 
+1 + �e−�� 
+So, for input � (�), we have output 
+−��� (�) + �2e−2��� (�) − �3e−3��� (�) + … 
+�(�) = �(�)� (�) = � (�) − �e 
+Using the shift formula Equation 10, we have 
+�(�) = � (�) − �� (� − �) + �2� (� −2�) − �3� (� −3�) + … 
+(This is not really an inﬁnite series because � (�) = 0 for � < 0.) If the input is bounded and � < 1 
+then even for large � the series is bounded. So bounded input produces bounded output –this is also
+what is meant by stability. On the other hand if � > 1, then bounded input can lead to unbounded 
+output –this is instability. 
+12.10 Table of Laplace transforms 
+Properties and Rules 
+We assume that � (�) = 0 for � < 0. 
+Function 
+Transform 
+∞ 
+� (�) 
+� (�) = ∫ 
+� (�)e−�� �� 
+(Deﬁnition) 
+0 
+� � (�) + � �(�) 
+� � (�) + � �(�) 
+(Linearity) 
+e��� (�) 
+� (� − �) 
+(�-shift) 
+� ′(�) 
+�� (�) − � (0) 
+
+
+===== ORIGINAL PAGE 14 =====
+0 
+12 LAPLACE TRANSFORM 
+14 
+� ′′(�) 
+�2� (�) − �� (0) − � ′(0) 
+� (�)(�) 
+��� (�) − ��−1� (0)− 
+⋯ − � (�−1)(0) 
+�� (�)
+−� ′(�) 
+��� (�) 
+(−1)�� (�)(�) 
+−��� (�) 
+� (� − �)
+e 
+(�-translation or �-shift) 
+� 
+� (�) 
+� (�) �� 
+(integration rule) 
+∫ 
+� 
+� (�)
+∞ 
+� (�) �� 
+� 
+∫� 
+
+
+===== ORIGINAL PAGE 15 =====
+12 LAPLACE TRANSFORM 
+15 
+Function Table 
+Function 
+Transform 
+Region of convergence 
+1 
+1∕� 
+Re(�) > 0 
+e�� 
+1∕(� − �) 
+Re(�) > Re(�) 
+� 
+1∕�2 
+Re(�) > 0 
+�� 
+�!∕��+1 
+Re(�) > 0 
+cos(��) 
+�∕(�2 + �2) 
+Re(�) > 0 
+sin(��) 
+�∕(�2 + �2) 
+Re(�) > 0 
+e�� cos(��) 
+(� − �)∕((� − �)2 + �2) 
+Re(�) > Re(�) 
+e�� sin(��) 
+�∕((� − �)2 + �2) 
+Re(�) > Re(�) 
+�(�) 
+1 
+all � 
+�(� − �) 
+−�� 
+e 
+all � 
+e�� + e−�� 
+cosh(��) = 
+2 
+�∕(�2 − �2) 
+Re(�) > � 
+e�� − e−�� 
+sinh(��) = 
+2 
+�∕(�2 − �2) 
+Re(�) > � 
+1 (sin(��) − �� cos(��)) 
+2�3 
+1 
+(�2 + �2)2 
+Re(�) > 0 
+2 
+� 
+� sin(��) 
+� 
+(�2 + �2)2 
+Re(�) > 0 
+1 (sin(��) + �� cos(��)) 
+2� 
+�2 
+(�2 + �2)2 
+Re(�) > 0 
+��e�� 
+�!∕(� − �)�+1 
+Re(�) > Re(�) 
+1
+√ 
+� � 
+1
+√ 
+� 
+Re(�) > 0 
+�� 
+Γ(� + 1) 
+��+1 
+Re(�) > 0 
+
+
+===== ORIGINAL PAGE 16 =====
+MIT OpenCourseWare
+https://ocw.mit.edu
+18.04 Complex Variables with Applications
+Spring 2018
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.

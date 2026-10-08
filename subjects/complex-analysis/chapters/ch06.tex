@@ -1,0 +1,103 @@
+\originalchapter{Laurent 级数与留数}
+\sourceinfo{18.04 Topic 7, pp.10--18及 Topic 8 全部正文; 18.112 L11、L14. 奇点分类判据证明为编者补充}
+\originalsection{环域展开}
+\begin{theorem}[Laurent]\label{thm:laurent}
+若 $f$ 在环域 $r<|z-a|<R$ 全纯, 则有唯一表达 $f(z)=\sum_{n\in\Z}c_n(z-a)^n$, 正负两部分分别局部一致绝对收敛. 系数为
+\[
+c_n=\frac1{2\pi\ii}\int_{|\zeta-a|=\rho}\frac{f(\zeta)}{(\zeta-a)^{n+1}}\dd\zeta,\qquad r<\rho<R.
+\]
+圆逆时针, 系数与 $\rho$ 无关.
+\end{theorem}
+\begin{proof}
+选 $r<\rho_1<|z-a|<\rho_2<R$. 对两圈间区域在 $z$ 挖小孔, Cauchy 公式给 $f(z)$ 等于外圈核积分减去内圈核积分. 外圈上按 $(z-a)/(\zeta-a)$ 展开几何级数, 得非负幂. 内圈上用
+\[
+\frac1{\zeta-z}=-\sum_{k\ge0}\frac{(\zeta-a)^k}{(z-a)^{k+1}},
+\]
+得到负幂; 负号与内圈前的负号相抵消. 两种展开在严格处于两圈间的紧子环域上一致绝对收敛, 所以可逐项积分. 系数公式的圈半径可变, 因被积函数在两圈间全纯且边界积分相同. 任意紧子环域均可这样选圈, 所以展开覆盖整个环域.
+
+若有另一展开, 在环域内任一圈上乘 $(z-a)^{-m-1}$ 再积分, 一致收敛允许逐项积分. 整数幂圆积分只有指数 $-1$ 不为零, 所以必得到 $2\pi\ii c_m$, 证明唯一性.
+\end{proof}
+负幂部分叫主部, 非负幂部分叫正则部. Laurent 展开不仅依赖中心, 也依赖所用环域. 例如
+\[
+\frac1{z(z-1)}=-\frac1z\frac1{1-z}=-\sum_{n\ge0}z^{n-1},\quad 0<|z|<1,
+\]
+而在 $|z|>1$ 它等于 $\sum_{n\ge0}z^{-n-2}$. 外环的 $z^{-1}$ 系数为0, 不能当作0处孤立奇点的留数: 外圈已经同时绕住1处奇点.
+
+\originalsection{孤立奇点}
+\begin{definition}
+若 $f$ 在 $0<|z-a|<R$ 全纯, 则 $a$ 是孤立奇点. 主部全为零称为可去奇点; 主部有限且最高负幂为 $(z-a)^{-m}$, 系数非零, 称为 $m$ 阶极点; 主部有无穷多非零项称为本性奇点.
+\end{definition}
+\begin{theorem}\label{thm:removable}
+孤立奇点可去当且仅当 $f$ 在某穿孔邻域有界. $a$ 为 $m$ 阶极点当且仅当 $f(z)=(z-a)^{-m}g(z)$, $g$ 在 $a$ 附近全纯且 $g(a)\ne0$. 孤立奇点是极点当且仅当 $|f(z)|\to\infty$ ($z\to a$).
+\end{theorem}
+\begin{proof}
+可去时补后的全纯函数连续, 故局部有界. 反向设 $|f|\le M$. 对 $k\ge1$, 负系数公式给 $|c_{-k}|\le M\rho^k$. 令 $\rho\downarrow0$ 得所有负系数为零, 正则部提供全纯补值. 极点分解直接由有限主部得到; 逆向把 $g$ 作 Taylor 展开即可, 它的常数项非零保证阶数恰为 $m$.
+
+极点分解给 $|f|\to\infty$. 反向若模趋无穷, 则足够近处 $f\ne0$, $1/f$ 全纯且趋零, 可补为全纯零点. 它不能局部恒为零, 所以有有限正阶 $m$, 分解 $1/f=(z-a)^mh$ 且 $h(a)\ne0$, 得极点.
+\end{proof}
+函数 $\sin z/z$ 在0可去, $1/z^m$ 是 $m$ 阶极点, $\ee^{1/z}$ 是本性奇点. 本性并不意味着 ``模总趋向无穷'': 沿正实方向 $\ee^{1/z}\to\infty$, 沿负实方向趋零. $\Log z$ 的0点则不是孤立奇点, 因为没有覆盖整个穿孔圆盘的单值全纯分支.
+\begin{theorem}[Casorati--Weierstrass]
+若 $a$ 为本性奇点, 则任意穿孔邻域内 $f$ 的值在 $\C$ 中稠密.
+\end{theorem}
+\begin{proof}
+若值域不稠密, 存在 $b$ 和 $\eps>0$, 使整个小穿孔邻域上 $|f-b|\ge\eps$. 则 $g=1/(f-b)$ 有界全纯, 可补过 $a$. 若 $g(a)\ne0$, 则 $f=b+1/g$ 可去; 若 $g(a)=0$, $g$ 有有限阶零点, 则 $f$ 为极点. 两者均与本性矛盾.
+\end{proof}
+无穷远奇点通过 $f(1/\zeta)$ 分类. 非常数多项式在无穷远为极点, 有界于无穷远邻域的整函数为常数, 非多项式整函数在无穷远为本性奇点.
+
+\originalsection{留数与计算}
+\begin{definition}
+孤立奇点 $a$ 的留数是穿孔圆盘 Laurent 展开的 $c_{-1}$, 记 $\Res(f,a)$. 等价地, 在逆时针小圆上有
+\[
+\Res(f,a)=\frac1{2\pi\ii}\int_{|z-a|=\rho}f(z)\dd z.
+\]
+\end{definition}
+在 $m$ 阶极点, 写 $g(z)=(z-a)^mf(z)$, 则 $\Res(f,a)=g^{(m-1)}(a)/(m-1)!$. 因为所需系数恰是 $g$ 的 $m-1$ 次项. 若 $f=p/q$, $q(a)=0$, $q'(a)\ne0$, 则 $\Res(f,a)=p(a)/q'(a)$; 即使 $p(a)=0$ 导致可去, 该式仍给零留数.
+\begin{example}
+求 $\ee^z/z^3$, $\cot z$, $\ee^{1/z}$ 在0的留数.
+\end{example}
+\begin{solution}
+第一式的留数为指数级数的 $z^2$ 系数 $1/2$. $\cot z=\cos z/\sin z$, 分母在0有简单零点, 所以留数为1. 本性奇点的留数仍有意义: $\ee^{1/z}=1+z^{-1}+z^{-2}/2!+\cdots$, 留数也为1. 极点阶数与留数是不同信息, 留数为零也不代表可去, 如 $1/z^2$.
+\end{solution}
+长除法还给 $\cot z=z^{-1}-z/3-z^3/45+O(z^5)$. 可把未知 Laurent 系数乘回 $\sin z$ 并与 $\cos z$ 的系数比较, 不需反复求高阶导数.
+
+\originalsection{留数定理}
+\begin{theorem}\label{thm:residue}
+设 $C$ 为分段光滑简单闭曲线, 正向绕行. 若 $f$ 在 $C$ 及其内部的开邻域除有限个孤立奇点 $a_1,\ldots,a_m$ 外全纯, 且奇点均不在 $C$ 上, 则 $\int_Cf\dd z=2\pi\ii\sum_j\Res(f,a_j)$.
+\end{theorem}
+\begin{proof}
+围每个奇点选互不相交的小圆, 完全在曲线内, 且各自穿孔圆盘内无其他奇点. 在挖孔后的区域上应用有孔边界定理, 外圈积分等于各小圈的逆时针积分之和. 每个小圈积分由留数定义等于 $2\pi\ii\Res(f,a_j)$.
+\end{proof}
+奇点允许是本性奇点. 若曲线自交或多次绕行, 应按绕数加权, 不能只说 ``曲线里面''. 第8章给出明确的绕数定义与公式.
+
+\begin{example}
+求 $\int_{|z|=2}(5z-2)/(z(z-1))\dd z$ 和 $\int_{|z|=1}z^2\sin(1/z)\dd z$, 均逆时针.
+\end{example}
+\begin{solution}
+第一式两极点0、1的留数分别为2、3, 所以积分为 $10\pi\ii$. 第二式在0的展开为 $z-1/(6z)+1/(120z^3)-\cdots$, 留数为 $-1/6$, 积分为 $-\pi\ii/3$.
+\end{solution}
+无穷远留数处理的是微分 $f(z)\dd z$, 不只是函数. 在坐标 $\zeta=1/z$ 下 $\dd z=-\zeta^{-2}\dd\zeta$, 定义 $\Res(f,\infty)=-\Res(\zeta^{-2}f(1/\zeta),0)$. 若平面只有有限个孤立奇点, 大圆的 Laurent 展开给 $\Res(f,\infty)$ 为 $z^{-1}$ 系数的相反数. 因而 $\sum_{a\in\C}\Res(f,a)+\Res(f,\infty)=0$. 这里负号同时来自坐标微分和内外区域的方向变换.
+
+\originalsection{零极阶数与本性值域}
+若全纯 $p,q$ 在 $a$ 的零点阶数分别为 $m,n$, 则写 $p=(z-a)^mu$, $q=(z-a)^nv$, $u(a)v(a)\ne0$, 得 $p/q=(z-a)^{m-n}u/v$. 因而 $m>n$ 时有 $m-n$ 阶零点, $m=n$ 时可去且补值非零, $m<n$ 时有 $n-m$ 阶极点. 这条一般规则统一了有理函数中约因子与零分母的关系.
+
+原课还陈述大 Picard 定理: 在本性奇点的任意穿孔邻域内, 函数取每个复数值无穷多次, 至多允许一个例外值. 它比 Casorati 的稠密性强得多, 例如 $\ee^{1/z}$ 恰遗漏0. 这里保留原课的引用版陈述; 其证明需要超出本主课的值分布工具, 不作为本书已证明的核心定理, 后文也不依赖它. 本书已完整证明并实际使用的是 Casorati 定理, 不把稠密性冒称为 Picard.
+
+\originalsection{习题与解答}
+\begin{exercise}
+分类 $(\ee^z-1)/z^2$, $\sin(1/z)$ 和 $z\sin(1/z)$ 在0的奇点并计算留数.
+\end{exercise}
+\begin{solution}
+第一式展开为 $z^{-1}+1/2+\cdots$, 简单极点, 留数1. 第二式主部无穷, 本性, 留数1. 第三式为 $1-1/(6z^2)+\cdots$, 仍本性, 留数0.
+\end{solution}
+\begin{exercise}
+求 $1/[z(z^2+1)(z-2)^2]$ 在2的留数.
+\end{exercise}
+\begin{solution}
+二阶极点处 $g=1/[z(z^2+1)]$. $g'=- (3z^2+1)/[z^2(z^2+1)^2]$, 所以留数 $g'(2)=-13/100$.
+\end{solution}
+\begin{exercise}
+证明整函数在无穷远为可去奇点则为常数, 为 $m$ 阶极点则为 $m$ 次多项式.
+\end{exercise}
+\begin{solution}
+可去意味着大圆外有界, 全平面有界后用 Liouville. $m$ 阶极点给 $|f(z)|\le C|z|^m$ 于大圆外, 由 Cauchy 估计消去所有高于 $m$ 的 Taylor 系数. 主部最高阶非零又使次数恰为 $m$.
+\end{solution}

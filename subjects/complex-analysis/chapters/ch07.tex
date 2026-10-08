@@ -1,0 +1,143 @@
+\originalchapter{留数的积分应用}
+\sourceinfo{18.04 Topic 9 全部正文; 18.112 L15. 各类大、小圆弧估计与 Fourier 反演条件为编者补充}
+\originalsection{实轴积分}
+把实积分嵌入闭曲线, 留数定理负责计算闭路积分, 另一个同样必要的工作是证明增加的边界积分趋零. 如果只写 ``闭合曲线后取留数'', 常会漏掉收敛条件、方向或实轴上的奇点.
+\begin{proposition}
+有理函数 $R=P/Q$ 无实极点, 且 $\deg Q\ge\deg P+2$. 则
+\[
+\int_{-\infty}^\infty R(x)\dd x=2\pi\ii\sum_{\Im a>0}\Res(R,a).
+\]
+\end{proposition}
+\begin{proof}
+实轴上 $R=O(x^{-2})$, 故绝对可积. 在上半圆闭路上应用留数定理. 对足够大的半径, 圆弧上 $|R|\le C/R^2$, 弧长 $\pi R$, 积分模不超过 $C\pi/R\to0$. 选半径超过所有极点后, 留数和固定, 实线段积分趋于整条实轴积分.
+\end{proof}
+\begin{example}
+计算 $\int_{-\infty}^{\infty}(x^2+1)^{-2}\dd x$ 和 $\int_0^\infty (x^4+1)^{-1}\dd x$.
+\end{example}
+\begin{solution}
+第一式上半平面只有二阶极点 $\ii$. $g(z)=(z+\ii)^{-2}$, $g'(\ii)=-2/(2\ii)^3=1/(4\ii)$, 积分为 $2\pi\ii/(4\ii)=\pi/2$.
+
+第二式的上半平面极点为 $a=\ee^{\ii\pi/4}$ 和 $b=\ee^{3\ii\pi/4}$. 留数为 $1/(4a^3)$、$1/(4b^3)$, 和为 $-\ii/(2\sqrt2)$. 整条实轴积分为 $\pi/\sqrt2$, 被积函数偶, 所以半轴积分为 $\pi/(2\sqrt2)$.
+\end{solution}
+
+\originalsection{振荡因子与 Jordan 估计}
+\begin{lemma}[Jordan 估计]\label{lem:jordan}
+固定 $t>0$. 若上半圆 $C_R$ 上 $|g(z)|\le M_R$ 且 $M_R\to0$, 则 $\int_{C_R}\ee^{\ii tz}g(z)\dd z\to0$.
+\end{lemma}
+\begin{proof}
+设 $z=R\ee^{\ii\theta}$, 得积分模不超过 $M_RR\int_0^\pi\ee^{-tR\sin\theta}\dd\theta$. 在 $0\le\theta\le\pi/2$ 有 $\sin\theta\ge2\theta/\pi$, 利用对称性, 上界为
+\[
+2M_RR\int_0^{\pi/2}\ee^{-2tR\theta/\pi}\dd\theta
+\le\frac{\pi M_R}{t}\longrightarrow0.
+\]
+\end{proof}
+$t<0$ 要在下半平面闭合, 因为那里的指数模衰减; 闭路为顺时针, 需要负号. 此估计允许 $g=O(1/z)$, 比纯粹的长度乘最大值估计更强.
+\begin{example}
+对 $a>0$, 计算 $\int_{-\infty}^\infty\ee^{\ii tx}/(x^2+a^2)\dd x$.
+\end{example}
+\begin{solution}
+$t>0$ 时上半平面留数为 $\ee^{-at}/(2\ii a)$, 结果为 $\pi\ee^{-at}/a$. $t<0$ 时下半平面留数为 $\ee^{at}/(-2\ii a)$, 再乘顺时针的 $-2\pi\ii$, 得 $\pi\ee^{at}/a$. $t=0$ 直接用有理积分. 故统一结果为 $\pi\ee^{-a|t|}/a$, 实部给余弦积分, 虚部因奇偶性为0.
+\end{solution}
+
+\originalsection{圆周换元与割线积分}
+对于三角有理积分, 令 $z=\ee^{\ii\theta}$, 则 $\dd\theta=\dd z/(\ii z)$, $\cos\theta=(z+z^{-1})/2$, $\sin\theta=(z-z^{-1})/(2\ii)$. 原积分化为单位圆积分, 但要连同换元产生的 $z$ 因子一起约分再找奇点.
+\begin{example}
+设 $a,b\in\R$, $a>|b|$, 计算 $I=\int_0^{2\pi}\dd\theta/(a+b\cos\theta)$.
+\end{example}
+\begin{solution}
+$b=0$ 时结果为 $2\pi/a$. $b\ne0$ 时换元得 $I=(2/\ii)\int_{|z|=1}\dd z/(bz^2+2az+b)$. 两根为 $(-a\pm\sqrt{a^2-b^2})/b$, 乘积1, 只有加号根在圆内. 在该根分母导数为 $2\sqrt{a^2-b^2}$, 故 $I=2\pi/\sqrt{a^2-b^2}$.
+\end{solution}
+
+\begin{example}\label{ex:keyhole}
+对 $0<\alpha<1$, 计算 $I_\alpha=\int_0^\infty x^{\alpha-1}/(1+x)\dd x$.
+\end{example}
+\begin{solution}
+取辐角 $0<\arg z<2\pi$, 使割线位于正实轴. 在割平面上积分 $z^{\alpha-1}/(1+z)$, 沿钥匙孔曲线: 上岸从 $\eps$ 到 $R$, 大圆逆时针, 下岸从 $R$ 返回 $\eps$, 小圆顺时针. 上岸值趋 $x^{\alpha-1}/(1+x)$, 下岸多因子 $\ee^{2\pi\ii(\alpha-1)}=\ee^{2\pi\ii\alpha}$. 两岸贡献之和为 $(1-\ee^{2\pi\ii\alpha})I_\alpha$.
+
+大圆积分为 $O(R^{\alpha-1})\to0$, 小圆为 $O(\eps^\alpha)\to0$, 这恰好用到 $0<\alpha<1$. 唯一极点 $-1$ 的留数为 $\ee^{\pi\ii(\alpha-1)}=-\ee^{\pi\ii\alpha}$. 因而
+\[
+(1-\ee^{2\pi\ii\alpha})I_\alpha=-2\pi\ii\ee^{\pi\ii\alpha},\qquad
+I_\alpha=\frac\pi{\sin\pi\alpha}.
+\]
+严格地说两岸可先取夹角 $\delta$ 的射线, 在固定 $\eps,R$ 下让 $\delta\to0$, 再令 $R\to\infty,\eps\to0$, 由绝对积分估计控制这些极限.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=.75]
+\draw[->] (-3.8,0)--(4.5,0) node[right]{$\Re z$};
+\draw[->] (0,-3.5)--(0,3.7) node[above]{$\Im z$};
+\draw[thick] (.55,.13)--(3.5,.13) arc (2.13:357.87:3.5024)--(.55,-.13);
+\draw[thick] (.55,-.13) arc (-13.3:-346.7:.565);
+\draw[->,thick] (1.3,.13)--(2,.13); \draw[->,thick] (2,-.13)--(1.3,-.13);
+\fill (-1,0) circle (2pt) node[above left]{$-1$};
+\node at (2.15,.52){$\arg z\to0$}; \node at (2.2,-.57){$\arg z\to2\pi$};
+\node at (-2.5,2.6){$|z|=R$}; \node at (.6,.8){$\eps$};
+\end{tikzpicture}
+\end{center}
+
+\originalsection{实轴极点与主值}
+定义 Cauchy 主值 $\operatorname{PV}\int_{-\infty}^\infty f(x)\dd x$ 为在实轴奇点两侧对称删去小区间并在无穷远对称截断后的极限. 它与通常的广义积分不同. 若 $f(z)=c/(z-a)+h(z)$, 在实轴点 $a$ 上方用顺时针小半圆从 $a-\eps$ 到 $a+\eps$ 避开极点, 则奇异部分积分为 $-\pi\ii c$, 正则部分积分趋零. 因而这一半留数贡献不能遗漏.
+\begin{example}
+证明 $\int_0^\infty\sin x/x\dd x=\pi/2$, 广义积分按通常单侧极限理解.
+\end{example}
+\begin{solution}
+对 $\ee^{\ii z}/z$ 取上半圆和避开0的上方小半圆, 闭路内无奇点. 大圆贡献由 Jordan 估计趋零, 小半圆贡献趋 $-\pi\ii$, 故实轴主值为 $\pi\ii$. 虚部 $\sin x/x$ 在0可连续补值, 是偶函数. 其无穷远单侧积分收敛: 分部积分给 $\int_A^B\sin x/x\dd x=[-\cos x/x]_A^B-\int_A^B\cos x/x^2\dd x$, 尾量为 $O(1/A)$. 因此实轴虚部积分等于两倍半轴积分, 得所求值.
+\end{solution}
+
+\originalsection{级数与 Fourier 变换}
+\begin{example}
+证明对 $a>0$, $\sum_{n\in\Z}(n^2+a^2)^{-1}=\pi\coth(\pi a)/a$.
+\end{example}
+\begin{solution}
+积分 $F(z)=\pi\cot(\pi z)/(z^2+a^2)$ 于顶点 $\pm(N+1/2)\pm\ii(N+1/2)$ 的方形, $N>a$. 整数极点处留数为 $1/(n^2+a^2)$. 另外两点 $\pm\ii a$ 的留数之和为 $-\pi\coth(\pi a)/a$, 由 $\cot(\ii t)=-\ii\coth t$ 得到.
+
+在竖边 $\Re z=N+1/2$ 上, $|\cot\pi z|=|\tanh(\pi\Im z)|\le1$; 横边上用指数表达可得统一有界, 例如当 $|\Im z|\ge1/2$ 时不超过 $\coth(\pi/2)$. 分母在四边模至少为 $|z|^2-a^2\ge(N+1/2)^2-a^2$, 总边长为 $8(N+1/2)$. 积分趋零. 留数定理后取 $N\to\infty$, 整数项绝对收敛, 即得结果.
+\end{solution}
+
+取 Fourier 约定 $\widehat g(\omega)=\int_\R g(x)\ee^{-\ii\omega x}\dd x$. 前面振荡积分给 $g(x)=1/(x^2+a^2)$ 的变换 $\widehat g(\omega)=\pi\ee^{-a|\omega|}/a$. 反演中的常数取决于这一约定, 不能省略 $1/(2\pi)$.
+\begin{theorem}[Gaussian 正则化反演]\label{thm:fourier}
+若 $g\in L^1(\R)$, 在 $x$ 连续, 则
+\[
+g(x)=\lim_{\eta\downarrow0}\frac1{2\pi}\int_\R\widehat g(\omega)\ee^{\ii\omega x-\eta\omega^2}\dd\omega.
+\]
+若另有 $\widehat g\in L^1$, 可去掉正则化并直接积分. 分段光滑跳点的正则化值是左右极限平均.
+\end{theorem}
+\begin{proof}
+实 Gaussian 积分及配方的 Fourier 计算给
+\[
+\frac1{2\pi}\int_\R\ee^{\ii\omega s-\eta\omega^2}\dd\omega
+ =\frac1{\sqrt{4\pi\eta}}\ee^{-s^2/(4\eta)}=:K_\eta(s).
+\]
+该计算也可先对 $s$ 求导并分部积分得到微分方程 $I'(s)=-sI(s)/(2\eta)$, 用 $I(0)=\sqrt{\pi/\eta}$ 定常数. 因 $g$ 可积且 Gaussian 频率因子可积, 绝对积分允许换序, 正则化积分等于 $\int g(t)K_\eta(x-t)\dd t$.
+
+$K_\eta\ge0$, 总积分1, 且任意 $\delta>0$ 外的质量趋零. 在 $|t-x|<\delta$ 用连续性令 $|g(t)-g(x)|$ 小; 外部积分中的 $g$ 项由 $\|g\|_1\sup_{|s|\ge\delta}K_\eta(s)\to0$ 控制, 常数项由尾质量控制. 故极限为 $g(x)$. 跳点时用核的偶性分为两半, 每半质量为 $1/2$, 同理得左右平均. 若 $\widehat g$ 可积, 被积函数由 $|\widehat g|$ 控制, 可取极限去正则化.
+\end{proof}
+这里 $L^1$ 表示绝对可积函数, 可先以本书例子的分段连续广义积分理解. 本证明调用绝对可积时的 Fubini 换序与控制收敛: 有可积绝对值上界时允许换序或取极限. 对这些具体核, 相同结论也可先在有界矩形上交换, 再以给出的尾估计取极限. 原课程对一般反演略去的收敛细节由这个版本补足; 不把只连续且指数增长的函数未经条件检查便代入一个普通绝对积分.
+
+\originalsection{两个分支点的割线}
+\begin{example}
+计算 $\int_1^\infty\dd x/[x\sqrt{x^2-1}]$, 其中根为正实根.
+\end{example}
+\begin{solution}
+在 $\C\setminus[-1,1]$ 选择 $S(z)=\sqrt{z^2-1}$, 满足 $S(z)\sim z$ 于无穷远. 可用 $S(z)=(z+1)\sqrt{(z-1)/(z+1)}$ 定义: 分式在割线外避开负实轴, 外根取主分支. $z>1$ 时 $S$ 为正, $z<-1$ 时为负. 考虑 $f=1/(zS(z))$, 它在割线外全纯且为 $O(z^{-2})$.
+
+在割线端点 $\pm1$ 附近, $f$ 有平方根型增长; 0也位于割线上, 绕割线做闭路时还要处理该点. 采用该分支导出的原函数可以直接完成计算:
+\[
+\frac{\dd}{\dd z}\arccos(1/z)=\frac1{zS(z)},\qquad z>1,
+\]
+其中实区间上逆余弦从0连续增加到 $\pi/2$. 该导数由局部反三角函数的隐式微分得到, 沿实区间所选 $S>0$, 所以 $\int_{1+\eps}^R f(x)\dd x=\arccos(1/R)-\arccos(1/(1+\eps))$. 两端极限给 $\pi/2$. 收敛性由1附近的 $O((x-1)^{-1/2})$ 与无穷远的 $O(x^{-2})$ 保证.
+\end{solution}
+这个例子保留原课两个分支点的分支选择与收敛核查, 采用显式原函数完成数值计算. 钥匙孔轮廓在上一节已完整使用; 此例的数值计算采用原函数, 不另宣称完成含0的割线闭路计算.
+
+\originalsection{习题与解答}
+\begin{exercise}
+求 $\int_\R\cos(tx)/(x^2+a^2)^2\dd x$, $a>0$.
+\end{exercise}
+\begin{solution}
+对前面 $\pi\ee^{-a|t|}/a$ 关于 $a$ 求导. 在任意 $a$ 的小闭邻域, 导数被一个可积有理函数控制, 所以积分与导数可交换. 因 $\partial_a(x^2+a^2)^{-1}=-2a(x^2+a^2)^{-2}$, 结果为 $\pi(1+a|t|)\ee^{-a|t|}/(2a^3)$.
+\end{solution}
+\begin{exercise}
+利用钥匙孔积分求 $\int_0^\infty x^{\alpha-1}/(1+x)^2\dd x$, $0<\alpha<1$.
+\end{exercise}
+\begin{solution}
+分部积分对 $x^\alpha/(1+x)$ 求导, 两端值均为0, 得 $\int x^\alpha/(1+x)^2=\alpha I_\alpha$. 又 $I_\alpha=\int x^{\alpha-1}/(1+x)^2+\int x^\alpha/(1+x)^2$, 因而结果为 $(1-\alpha)\pi/\sin(\pi\alpha)$.
+\end{solution}

@@ -1,0 +1,140 @@
+\originalchapter{Laplace 变换}
+\sourceinfo{18.04 Topic 12 全部正文及 Topic 9的 Fourier 应用. 反演、冲激和稳定性条件为编者补充}
+\originalsection{定义与全纯性}
+\begin{definition}
+局部分段连续函数 $f:[0,\infty)\to\C$ 的单侧 Laplace 变换为 $F(s)=\int_0^\infty f(t)\ee^{-st}\dd t$, 在积分绝对收敛的 $s$ 上定义. 若存在 $C,c$ 使 $|f(t)|\le C\ee^{ct}$ 于充分大的 $t$, 称 $f$ 为指数阶.
+\end{definition}
+只考虑 $t\ge0$, 并在需要讨论信号延迟时把 $f$ 延为 $t<0$ 时零. 有有限个跳点的分段连续函数按实、虚部作广义积分; 绝对可积指 $\int|f|<\infty$. 本章的积分换序和极限交换都由明确的绝对值控制进行. 为简洁, 第7章的 $L^1$ 记号仍表示绝对可积, 不要求读者先完成一般测度论.
+\begin{theorem}
+指数阶 $c$ 的 $f$ 在 $\Re s>c$ 有绝对收敛的全纯变换, 且 $F^{(n)}(s)=\int_0^\infty(-t)^nf(t)\ee^{-st}\dd t$.
+\end{theorem}
+\begin{proof}
+在该半平面内的紧集取 $\Re s\ge c+\delta$, 尾部被 $Ct^n\ee^{-\delta t}$ 控制, 积分有限. 近0处局部分段连续保证有界可积. 截断积分为全纯函数, 尾估计在紧集上一致趋零; 全纯局部一致极限定理给全纯性和导数极限. 差商也可用同一 $\delta$ 缩小后的指数控制直接验证, 所以导数积分公式成立.
+\end{proof}
+例如 $F(s)=1/(s-a)$ 对应 $f(t)=\ee^{at}$, 积分仅在 $\Re s>\Re a$ 收敛. 有理表达虽可在 $s\ne a$ 继续定义, 左侧积分不会因此在其余区域突然收敛; 这是下一章解析延拓要区分的两件事.
+
+\originalsection{运算规则}
+线性由积分线性给出. 分部积分在 $f$ 连续且局部分段 $C^1$, $f,f'$ 满足足够的指数阶条件时给 $\mathcal L(f')=sF-f(0+)$. 反复应用,
+\[
+\mathcal L(f^{(n)})=s^nF(s)-\sum_{j=0}^{n-1}s^{n-1-j}f^{(j)}(0+).
+\]
+端点条件不可省略. 若函数在内部有跳点, 普通分段导数的变换还需要相应跳跃项, 或把导数解释为含冲激的广义导数.
+
+乘时间对应 $\mathcal L(t^nf)=(-1)^nF^{(n)}$. 乘指数对应 $\mathcal L(\ee^{at}f)=F(s-a)$, 收敛半平面同时平移. 因果延迟 $f(t-\tau)\mathbf1_{t\ge\tau}$ 的变换为 $\ee^{-\tau s}F(s)$, $\tau\ge0$, 由 $u=t-\tau$ 换元得到. 积分规则为 $\mathcal L(\int_0^tf(u)\dd u)=F(s)/s$, 在足够右的半平面用导数规则或绝对换序证明.
+
+另一条规则是 $\mathcal L(f(t)/t)(s)=\int_s^{+\infty}F(\zeta)\dd\zeta$, 右端沿水平射线 $\zeta=s+r$ 积分. 条件是 $f(t)/t$ 在0附近绝对可积且尾部为指数阶. 对此条件, 绝对换序给
+\[
+\int_0^\infty F(s+r)\dd r
+ =\int_0^\infty f(t)\ee^{-st}\left(\int_0^\infty\ee^{-rt}\dd r\right)\dd t
+ =\int_0^\infty\frac{f(t)}t\ee^{-st}\dd t.
+\]
+\begin{theorem}[卷积规则]
+定义因果卷积 $(f*g)(t)=\int_0^tf(u)g(t-u)\dd u$. 若 $f,g$ 局部分段连续且为指数阶, 则在足够右的半平面 $\mathcal L(f*g)=FG$.
+\end{theorem}
+\begin{proof}
+令 $v=t-u$, 积分区域 $0\le u\le t$ 变成 $u,v\ge0$. 绝对值双重积分不超过 $\int_0^\infty|f(u)|\ee^{-\sigma u}\dd u\int_0^\infty|g(v)|\ee^{-\sigma v}\dd v<\infty$, 其中 $\sigma=\Re s$ 足够大. 对有限矩形先用普通二重积分换序, 再用此尾控制扩展到无穷区域, 得
+\[
+\int_0^\infty\int_0^\infty f(u)g(v)\ee^{-s(u+v)}\dd u\dd v=F(s)G(s).
+\]
+这证明了卷积的变换公式.
+\end{proof}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+函数 & 变换 & 一个绝对收敛范围\\
+\midrule
+$1$ & $1/s$ & $\Re s>0$\\
+$t^n$, $n\in\Z_{\ge0}$ & $n!/s^{n+1}$ & $\Re s>0$\\
+$\ee^{at}$ & $1/(s-a)$ & $\Re s>\Re a$\\
+$\cos bt$, $b\in\R$ & $s/(s^2+b^2)$ & $\Re s>0$\\
+$\sin bt$, $b\in\R$ & $b/(s^2+b^2)$ & $\Re s>0$\\
+$\cosh bt$, $b\in\R$ & $s/(s^2-b^2)$ & $\Re s>|b|$\\
+$\sinh bt$, $b\in\R$ & $b/(s^2-b^2)$ & $\Re s>|b|$\\
+\bottomrule
+\end{tabular}
+\end{center}
+这些公式由指数积分与递推分部积分得到, 不只是查表结果. 如 $\mathcal L(t^n)=n\mathcal L(t^{n-1})/s$, 起点 $\mathcal L(1)=1/s$. 表中的双曲函数范围采用 $|b|$, 避免负参数时把指数增长方向写错.
+
+\originalsection{微分方程与系统函数}
+线性系统指输入线性组合产生输出同一线性组合; 时不变指延迟输入使输出同样延迟. 常系数微分方程在零初始状态下定义因果线性时不变系统. 非零初值产生额外自由响应, 不能直接把整个输入输出映射称为线性零状态算子.
+\begin{example}
+解 $y''+3y'+2y=1$, $y(0)=y'(0)=0$, $t\ge0$.
+\end{example}
+\begin{solution}
+变换后 $(s^2+3s+2)Y=1/s$, 所以 $Y=1/[s(s+1)(s+2)]=1/(2s)-1/(s+1)+1/[2(s+2)]$. 反演得 $y=1/2-\ee^{-t}+\ee^{-2t}/2$. 代回初值和方程可逐项核对. 零状态系统函数为 $H=1/[(s+1)(s+2)]$, 输出变换是 $HF$.
+\end{solution}
+一般 $P(D)y=Q(D)f$, $D=\dd/\dd t$, 在双方静止初始条件下变换为 $P(s)Y=Q(s)F$, 系统函数为 $H=Q/P$. 需要先约去公共因子, 并区分传递函数中的可见模式与实际状态方程中的隐藏模式.
+
+冲激 $\delta_\tau$ 不当作普通函数, 而是作用于测试函数 $\varphi$ 给 $\varphi(\tau)$ 的对象. 因果单位冲激取 $\tau=0$ 的约定, $\mathcal L(\delta_0)=1$, $\mathcal L(\delta_\tau)=\ee^{-\tau s}$. 这一约定免除把端点冲激误算为一半的歧义. 对方程 $y''+3y'+2y=f$ 的因果 Green 函数为 $h(t)=(\ee^{-t}-\ee^{-2t})\mathbf1_{t\ge0}$. $h(0+)=0$, $h'(0+)=1$, 分布二阶导数产生单位冲激, 所以 $(D^2+3D+2)h=\delta_0$. 对一般输入 $y=h*f$, 卷积给零状态响应.
+
+Fourier 方法对整条实轴上的平移不变方程同样有效. 例如衰减解 $-y''+a^2y=f$, $a>0$, 的变换为 $\widehat y=\widehat f/(\omega^2+a^2)$. 第7章算出的反变换核为 $K(x)=\ee^{-a|x|}/(2a)$, 因而 $y=K*f$. $K$ 连续, 导数从 $1/2$ 跳到 $-1/2$, 所以 $-K''+a^2K=\delta_0$. 对分段光滑、紧支撑 $f$, 可以直接微分两侧积分核验证方程和无穷远衰减. 这样原课的冲激、Green 函数与 Fourier 解微分方程形成同一条应用线索.
+
+\originalsection{Fourier 乘子与因果解}
+若 $f$ 连续、局部分段 $C^1$, $f,f'$ 绝对可积且 $f(\pm\infty)=0$, 在有限区间分部积分再取极限给 $\widehat{f'}(\omega)=\ii\omega\widehat f(\omega)$. 二阶时在相同的 $f'$ 条件下重复一次, 得 $\widehat{f''}=-\omega^2\widehat f$. 于是常系数微分算子 $P(D)$ 变成乘子 $P(\ii\omega)$. 有跳跃的函数则须把跳跃冲激计入导数, 不能直接套用普通导数规则.
+\begin{example}
+用 Fourier 方法求 $y''+8y'+7y=\ee^{-2t}\mathbf1_{t\ge0}$ 的因果零状态解.
+\end{example}
+\begin{solution}
+外力的变换为 $1/(2+\ii\omega)$, 因而候选 $\widehat y=1/[(1+\ii\omega)(2+\ii\omega)(7+\ii\omega)]$. 该函数在实轴绝对可积, 反演时对 $t>0$ 在上半平面闭合, 对 $t<0$ 在下半平面闭合. 所有极点在 $\omega=\ii,2\ii,7\ii$, 下半平面没有极点; 圆弧积分由 $O(|\omega|^{-3})$ 与指数衰减趋零. 部分分式为
+\[
+\widehat y=\frac1{6(1+\ii\omega)}-\frac1{5(2+\ii\omega)}
+ +\frac1{30(7+\ii\omega)}.
+\]
+每项的留数反演给相应因果指数, 所以 $y(t)=(\ee^{-t}/6-\ee^{-2t}/5+\ee^{-7t}/30)\mathbf1_{t\ge0}$. 在0右侧 $y=y'=0$, 与负半轴零解连续衔接且一阶导数连续; 因而二阶导数没有额外冲激. 直接代入得右侧外力. 这既验证 Fourier 乘子推导, 又明确因果条件如何由极点位置体现.
+\end{solution}
+对 $y''+y=\ee^{-2t}\mathbf1_{t\ge0}$, 因果 Green 核为 $\sin t\mathbf1_{t\ge0}$, 得 $y(t)=(\ee^{-2t}-\cos t+2\sin t)\mathbf1_{t\ge0}/5$. 它在正无穷不衰减, 不能假设普通绝对可积 Fourier 变换存在. 纯主值乘子 $\operatorname{PV}(1/(1-\omega^2))$ 对应对称 Green 核 $\sin|t|/2$, 会给另一个边界条件下的解. 原课实轴极点例的主值轮廓与因果选择在这里作此区分; 本书用因果卷积给完整解, 不把主值选择偷换成唯一的因果反演.
+
+\originalsection{反演与唯一性}
+对 $c$ 大于指数阶, 将 $g(t)=\ee^{-ct}f(t)$ 在负半轴补零, 则 $g\in L^1$ 且 $\widehat g(\omega)=F(c+\ii\omega)$. 因而第7章 Gaussian 反演在每个连续点 $t>0$ 给严格版本
+\[
+f(t)=\lim_{\eta\downarrow0}\frac1{2\pi\ii}
+\int_{c-\ii\infty}^{c+\ii\infty}F(s)\ee^{st}\ee^{\eta(s-c)^2}\dd s.
+\]
+在这条竖线上, 正则化因子为 $\ee^{-\eta\omega^2}$. 若 $F(c+\ii\omega)$ 可积, 可去掉它, 得普通绝对收敛的 Bromwich 积分. 对适当分段 $C^1$ 函数, 也有对称截断的条件收敛版本; 对有理变换下面直接证明, 不把一般连续性当作足以保证所有普通 Fourier 积分收敛的条件.
+
+若两个连续指数阶函数的 Laplace 变换相同, 其差的 Fourier 变换在这条竖线为零, Gaussian 反演给差在所有 $t>0$ 为零, 连续性再给 $t=0$ 也为零. 分段连续函数只保证连续点相同; 在有限个点任意改值不会改变积分, 因而不宣称对每个点无条件唯一.
+\begin{theorem}[有理变换的留数反演]\label{thm:laplaceres}
+若 $F$ 为严格真有理函数, 所有极点 $a_j$ 均在 $\Re s<c$, 则对 $t>0$,
+\[
+f(t)=\sum_j\Res\bigl(\ee^{st}F(s),a_j\bigr)
+ =\lim_{R\to\infty}\frac1{2\pi\ii}\int_{c-\ii R}^{c+\ii R}\ee^{st}F(s)\dd s,
+\]
+且 $\mathcal L(f)=F$ 于足够右的半平面.
+\end{theorem}
+\begin{proof}
+部分分式分解写 $F=\sum_{j,m}A_{jm}(s-a_j)^{-m}$. 分部积分或函数表给 $\mathcal L[t^{m-1}\ee^{a_jt}/(m-1)!]=(s-a_j)^{-m}$. 另一方面 $\ee^{st}$ 在 $a_j$ 的 Taylor 系数使该项留数正是 $A_{jm}t^{m-1}\ee^{a_jt}/(m-1)!$. 有限求和证明第一表达与变换关系.
+
+对竖线积分, 用左闭合矩形, 顶底高度 $\pm R$, 左边 $\Re s=-R$. 因 $F$ 严格真有理, 在足够大 $|s|$ 有 $|F(s)|\le C/|s|$. 顶底边上的积分模至多为 $C\int_{-R}^c\ee^{tx}\dd x/R\le C\ee^{tc}/(tR)$, 左边至多 $2C\ee^{-tR}$. 三边趋零. 矩形正向, 右边由下向上, 留数定理使右边截断积分趋向上述留数和.
+\end{proof}
+该公式不能仅凭有限极点个数便用于任何增长的亚纯函数; 圆外的衰减或关闭轮廓的估计不可删去. 若变换有多项式部分, 其逆含冲激及其导数, 也不全是普通时间函数.
+\begin{example}
+求 $F(s)=1/(s^2+b^2)^2$ 的逆变换, $b>0$.
+\end{example}
+\begin{solution}
+由 $\mathcal L(\sin bt)=b/(s^2+b^2)$ 对 $b$ 求导并组合, 或直接算两二阶极点, 得 $f(t)=(\sin bt-bt\cos bt)/(2b^3)$. 逐项变换为 $1/[2b^2(s^2+b^2)]-(s^2-b^2)/[2b^2(s^2+b^2)^2]$, 合并即原式.
+\end{solution}
+
+\originalsection{延迟反馈}
+负反馈系统满足 $y=H*(f-k y)$, 变换后 $Y=HF-kHY$, 所以闭环 $H/(1+kH)$. 延迟 $\tau$ 的反馈将分母改成 $1+k\ee^{-\tau s}H(s)$. 即便 $H$ 有理, 新函数一般有无穷多个极点.
+
+取 $H=1$, $\tau>0$, $k>0$. 极点由 $\ee^{-\tau s}=-1/k$ 给
+\[
+s_n=\frac{\log k}{\tau}+\frac{(2n+1)\pi\ii}{\tau},\qquad n\in\Z.
+\]
+符号可通过取模核对. $k<1$ 时全在左半平面, $k>1$ 时全在右半平面. 更强的输入输出结论可从时域直接证明: 对足够右的 $s$, 几何展开给 $Y=\sum_{n\ge0}(-k)^n\ee^{-n\tau s}F$, 故 $y(t)=\sum_{0\le n\le t/\tau}(-k)^nf(t-n\tau)$. 每个有限 $t$ 只有有限项.
+
+若 $0<k<1$, 则 $|y(t)|\le\|f\|_\infty/(1-k)$, 得有界输入有界输出. 若 $k>1$, 可取持续时间小于 $\tau$ 的有界脉冲输入, 每次延迟复制产生模为 $k^n$ 的脉冲, 故不稳定. $k=1$ 时取不同延迟区间上符号交替的有界输入, 在相同相位点各项同向相加, 输出随项数增长, 也不能称为有界输入有界输出稳定. 这里没有靠 ``极点看起来都在左边'' 代替无限维系统所需的估计.
+
+\originalsection{习题与解答}
+\begin{exercise}
+解 $y'+2y=f(t)$, $y(0)=y_0$, 并区分自由响应和零状态响应.
+\end{exercise}
+\begin{solution}
+变换给 $(s+2)Y=F+y_0$. 所以 $y=y_0\ee^{-2t}+\int_0^t\ee^{-2(t-u)}f(u)\dd u$. 第一项为自由响应, 第二项为卷积零状态响应. 求导可核对初值与方程.
+\end{solution}
+\begin{exercise}
+若 $f(t)=\sin t$ ($t\ge0$), 求延迟两单位后的变换, 并求 $t\sin t$ 的变换.
+\end{exercise}
+\begin{solution}
+延迟信号必须写 $\sin(t-2)\mathbf1_{t\ge2}$, 变换为 $\ee^{-2s}/(s^2+1)$. 时间乘法给 $-\dd[(s^2+1)^{-1}]/\dd s=2s/(s^2+1)^2$.
+\end{solution}

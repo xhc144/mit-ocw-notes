@@ -1,0 +1,81 @@
+\originalchapter{调和函数}
+\sourceinfo{18.04 Topic 5 全部正文, Topic 10的 Dirichlet 问题; 18.112 L16的共轭、环域均值与 Poisson 公式}
+\originalsection{调和共轭}
+\begin{definition}
+实函数 $u$ 在开集上为 $C^2$ 且满足 $\Delta u=u_{xx}+u_{yy}=0$, 称为调和函数. 若 $u+\ii v$ 全纯, 称 $v$ 为 $u$ 的调和共轭.
+\end{definition}
+全纯函数的实部和虚部调和. 例如 $u_{xx}+u_{yy}=v_{yx}-v_{xy}=0$, 混合偏导可交换是因为全纯函数已经由 Cauchy 理论证为无限次光滑. 共轭有方向: 若 $v$ 是 $u$ 的共轭, 则 $-u$ 是 $v$ 的共轭, 因为 $-\ii(u+\ii v)=v-\ii u$ 全纯.
+\begin{theorem}\label{thm:conjugate}
+单连通域上的任意调和函数 $u$ 都有全局调和共轭, 共轭只差实常数. 一般域上每点都有局部共轭, 因而调和函数自动无限次光滑.
+\end{theorem}
+\begin{proof}
+令 $g=u_x-\ii u_y$. 由于 $u$ 为 $C^2$, 其各偏导连续, 且 $u_{xx}=-u_{yy}$、$u_{xy}=u_{yx}$ 恰为 $g$ 的 Cauchy--Riemann 方程. 所以 $g$ 全纯. 单连通时有原函数 $F=U+\ii V$. $F'=U_x-\ii U_y=g$ 给 $U_x=u_x,U_y=u_y$, 因而 $U-u$ 在域内为常数; 调整 $F$ 的实常数使 $U=u$. 两个共轭之差使全纯函数 $\ii(v_1-v_2)$ 纯虚, 因而恒定. 任意域局部可取小圆盘重复同一证明; $u$ 局部是全纯函数实部, 所以光滑.
+\end{proof}
+单连通不能删去. $u=\log|z|$ 在穿孔平面调和, 若有单值共轭, 则全纯 $F$ 的导数必须为 $1/z$, 与单位圆积分非零矛盾. 局部共轭就是辐角, 绕原点一周增加 $2\pi$.
+\begin{example}
+求 $u=x^2-y^2$ 和 $u=x/(x^2+y^2)$ 的共轭, 并核对等值线的正交性.
+\end{example}
+\begin{solution}
+前者是 $z^2$ 的实部, 共轭为 $2xy$. 后者是 $1/z$ 的实部, 共轭为 $-y/(x^2+y^2)$. 一般情况下 $\nabla u\cdot\nabla v=u_xv_x+u_yv_y=0$. 当 $f'\ne0$ 时两个梯度都非零, 隐函数定理使等值线局部为光滑曲线, 两个法向量正交, 所以曲线正交. 在 $z^2$ 的0点梯度消失, $u=0$ 为两条对角线、$v=0$ 为两坐标轴, 都不是一条光滑曲线; 不能在那里宣称正交定理仍适用.
+\end{solution}
+
+\originalsection{均值与边值唯一性}
+\begin{theorem}[调和最大值原理]\label{thm:harmonicmax}
+圆盘内调和函数满足圆周平均值性质. 域内若有局部最大或局部最小, 则恒定. 有界域上连续到闭包的调和函数, 最大和最小均在边界取得. 因而连续 Dirichlet 边值问题至多有一个解.
+\end{theorem}
+\begin{proof}
+在圆盘取共轭, 对全纯函数平均值取实部即可. 若 $u$ 在一点有局部最大值 $M$, 所有足够小圆上 $M-u\ge0$ 且平均为零, 连续性迫使圆上每点等于 $M$, 从而邻域恒定. 共轭函数实部在邻域恒定, 相应全纯函数导数为零, 恒等定理使其导数在域内恒为零; 或利用局部性质沿相交圆盘传播常数. 对 $-u$ 得最小值结论. 有界闭包紧, 极值存在, 非常数时只能在边界. 两个相同边值的解之差调和且边界为零, 最大最小值都为零.
+\end{proof}
+Dirichlet 问题是给定边界函数, 在内部寻找调和函数. 唯一性不自动给存在性; 下面在圆盘构造解. 若边界有跳跃, 也不能要求一个连续到整个闭包的函数同时满足两侧不同极限.
+
+环域中圆周平均不一定恒定. 记 $A(r)=(2\pi)^{-1}\int_0^{2\pi}u(a+r\ee^{\ii t})\dd t$. 极坐标 Laplace 算子为 $\partial_r^2+r^{-1}\partial_r+r^{-2}\partial_t^2$. 对 $t$ 积分消掉周期二阶导数, 得 $(rA')'=0$, 因而 $A(r)=\alpha\log r+\beta$. 圆盘含中心时有限性迫使 $\alpha=0$, 恢复均值性质.
+
+\originalsection{Poisson 公式}
+\begin{theorem}[圆盘 Poisson 公式]\label{thm:poisson}
+若 $u$ 在单位圆盘调和并连续到闭盘, 则对 $0\le r<1$,
+\[
+u(r\ee^{\ii\phi})=\frac1{2\pi}\int_0^{2\pi}
+\frac{1-r^2}{1-2r\cos(\phi-t)+r^2}\,u(\ee^{\ii t})\dd t.
+\]
+反过来, 对连续圆周数据 $U$, 右式给调和函数且连续取得给定边值.
+\end{theorem}
+\begin{proof}
+记 $z=r\ee^{\ii\phi}$. 核 $P_z(t)=(1-|z|^2)/|\ee^{\ii t}-z|^2$ 等于 $\Re[(\ee^{\ii t}+z)/(\ee^{\ii t}-z)]$. 所以固定有界可积 $U$, 积分是全纯函数实部, 在内部调和; 紧子盘内核与所有所需导数一致有界, 积分与微分可交换. 几何级数给 $P_z(t)=1+2\Re\sum_{n\ge1}z^n\ee^{-\ii nt}$, 积分可知核总质量为 $2\pi$, 且核非负.
+
+当 $z$ 从盘内任意趋近圆周点 $\zeta_0$, 在 $|\ee^{\ii t}-\zeta_0|\ge\delta$ 的弧上, 分母最终有正下界而 $1-|z|^2\to0$, 核质量趋零. 近弧上利用 $U$ 在 $\zeta_0$ 的连续性, $|U-U(\zeta_0)|$ 小; 全核质量恒为 $2\pi$ 控制该误差. 因而边界极限为 $U(\zeta_0)$. 对连续 $U$, 每点都成立并给连续到闭盘的解. 原先的 $u$ 与该构造具有同一边值, 最大值唯一性给相等. 本证明不需要先假设 $u$ 在边界外全纯, 避免把连续边界条件误加强.
+\end{proof}
+若 $U$ 只有有限个跳点且分段连续, 同样在每个连续边界点收敛到 $U$. 在跳点沿径向趋近时, 偶对称的核给左右极限平均; 任意切向路径可能有不同极限, 因而不能将径向结论误写为任意方向结论.
+
+上半平面的对应核为 $u(x+\ii y)=\pi^{-1}\int_\R yU(t)/((x-t)^2+y^2)\dd t$, $y>0$. 对有界连续数据积分存在. 对内部紧集, 实核及其二阶偏导在大 $|t|$ 时统一为 $O((1+t^2)^{-1})$, 乘有界 $U$ 后可积, 所以微分可移入积分; 每个实核对 $x,y$ 调和, 因而积分调和. 核总质量1, 且 $y\downarrow0$ 时远离 $x$ 的质量趋零, 同一论证给边值. 不加有界性或无穷远控制时, 上半平面的边界零值不保证唯一: $u=y$ 就是一个非零解.
+\begin{example}
+在单位圆盘求边值 $U(\ee^{\ii t})=3+2\cos2t-\sin3t$ 的调和延伸.
+\end{example}
+\begin{solution}
+Poisson 核的 Fourier 展开使第 $n$ 次频率乘以 $r^n$, 所以 $u=3+2r^2\cos2\phi-r^3\sin3\phi$. 也可写 $u=\Re(3+2z^2+\ii z^3)$, 直接核对边值并用唯一性.
+\end{solution}
+\begin{example}
+求上半平面的有界调和函数, 边值在 $x<0$ 为1、$x>0$ 为0.
+\end{example}
+\begin{solution}
+取 $0<\arg z<\pi$, $u(z)=\arg z/\pi=\Re[\Log z/(\pi\ii)]$. 在左右两半轴分别趋于1、0, 且 $0<u<1$. 0处是数据跳点, 沿垂线趋近为 $1/2$, 沿射线角度 $\theta$ 趋近为 $\theta/\pi$. 多个阶梯边值也可叠加这些角函数: 断点 $a_j$ 处左值减右值为 $d_j$, 则 $u=c_{\rm right}+\sum_j d_j\arg(z-a_j)/\pi$.
+\end{solution}
+
+\originalsection{习题与解答}
+\begin{exercise}
+求环域 $1<|z|<R$ 内调和函数, 内边界值0、外边界值1, $R>1$.
+\end{exercise}
+\begin{solution}
+$u=\log|z|/\log R$ 调和并满足边值. 环域有界, 最大值原理给唯一性. 它一般没有全局单值共轭, 因为共轭应为 $\arg z/\log R$.
+\end{solution}
+\begin{exercise}
+若 $u$ 是平面上有上界的调和函数, 证明它恒定.
+\end{exercise}
+\begin{solution}
+平面单连通, 存在整 $f$ 使 $u=\Re f$. 则 $\ee^f$ 有界整, Liouville 给恒定, 指数无零点所以 $f'=0$.
+\end{solution}
+\begin{exercise}
+证明全纯 $T$ 与调和 $u$ 的复合 $u\circ T$ 仍调和, 并写出 Laplace 变换公式.
+\end{exercise}
+\begin{solution}
+局部写 $u=\Re f$, 则 $u\circ T=\Re(f\circ T)$ 调和. 直接二元链式法则与 $T$ 的方程也给 $\Delta(u\circ T)=|T'|^2(\Delta u)\circ T$. 当 $T'\ne0$ 且有逆时, 这使调和边值问题可在两域间双向转移.
+\end{solution}

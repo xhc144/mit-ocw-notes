@@ -1,0 +1,114 @@
+\originalchapter{辐角原理与零点计数}
+\sourceinfo{18.04 Topic 11 全部正文; 18.112 L12--L14. Nyquist 方向约定与稳定性区别为编者补充}
+\originalsection{绕数}
+\begin{definition}
+闭路径 $\gamma$ 不经过 $a$ 时, 定义绕数 $\Ind(\gamma,a)=(2\pi\ii)^{-1}\int_\gamma\dd z/(z-a)$.
+\end{definition}
+\begin{proposition}\label{prop:index}
+绕数是整数, 等于沿路径连续辐角的总增量除以 $2\pi$. 它在 $\C\setminus\gamma$ 每个连通分支上恒定, 在无界分支为0, 对不经过 $a$ 的同伦不变.
+\end{proposition}
+\begin{proof}
+把参数区间分成有限小段, 使每段 $\gamma-a$ 的像在有全纯对数的小圆盘内. 在相邻段用 $2\pi\ii$ 的整数倍调整对数, 使其首尾衔接. 这样得到连续对数值 $\log|\gamma(t)-a|+\ii\theta(t)$. 逐段积分 $1/(z-a)$, 实部首尾相消, 虚部为 $\ii(\theta(b)-\theta(a))$. 闭路两端指数相同, 增量是 $2\pi$ 的整数倍.
+
+积分核对 $a$ 连续且曲线距离非零, 所以绕数对 $a$ 连续; 连续整数值函数在连通分支恒定. 对足够大 $|a|$, 积分估计趋零, 因为整数只能最终为零, 无界分支全为零. 同伦不变性来自第3章应用于穿孔平面上的 $1/(z-a)$.
+\end{proof}
+标准逆时针简单闭曲线内部绕数1, 外部0. 例如单位圆绕两遍, 曲线的几何像仍是一个圆, 绕数却是2. 计数依赖路径的参数与方向, 不只是图上画出的集合.
+
+\originalsection{辐角原理}
+亚纯函数指除孤立极点外全纯的函数. 在曲线及其内部邻域亚纯且曲线上没有零点或极点时, 内部只有有限个零点和极点: 否则紧性给域内聚点, 违背零点或极点的孤立性.
+\begin{theorem}[辐角原理]\label{thm:argument}
+设 $f$ 在正向简单闭曲线 $C$ 及其内部的开邻域亚纯, 不恒为零, 且在 $C$ 无零、无极点. 设内部零点总阶数为 $N$, 极点总阶数为 $P$, 则
+\[
+\frac1{2\pi\ii}\int_C\frac{f'(z)}{f(z)}\dd z=N-P=\Ind(f\circ C,0).
+\]
+\end{theorem}
+\begin{proof}
+在零点 $a$ 写 $f=(z-a)^mg$, $g(a)\ne0$, 则 $f'/f=m/(z-a)+g'/g$, 留数为 $m$. 在 $m$ 阶极点同理留数为 $-m$. 其他点全纯, 留数定理给第一式. 换元沿像路径的积分恰为 $\int_Cf'/f$, 所以等于像路径绕数. 图像可能自交, 但绕数定义仍适用.
+\end{proof}
+\begin{theorem}[Rouché]\label{thm:rouche}
+若 $f,g$ 在简单闭曲线及其内部邻域全纯, 且在边界上 $|g|<|f|$, 则 $f$ 与 $f+g$ 在内部的零点总数按重数相同.
+\end{theorem}
+\begin{proof}
+对 $0\le t\le1$, $f+tg$ 在边界非零. 辐角原理的积分是连续于 $t$ 的整数函数: 分母在紧的边界参数和 $t$ 区间上有统一正下界. 所以零点计数不变.
+\end{proof}
+\begin{example}
+求 $z^5+3z+1$ 在单位圆内的零点数, 以及在 $|z|<2$ 内的零点数.
+\end{example}
+\begin{solution}
+单位圆上 $|z^5+1|\le2<|3z|=3$, 故与 $3z$ 一样, 有1个零点. 半径2圆上 $|3z+1|\le7<|z^5|=32$, 故有5个零点. 两条边界都无零点, 因此剩下4个零点位于 $1<|z|<2$.
+\end{solution}
+
+\originalsection{局部映射}
+\begin{theorem}\label{thm:localmap}
+非恒定全纯 $f$ 在 $a$ 附近若 $f-f(a)$ 有 $m$ 阶零点, 则对足够小的圆盘及足够接近 $f(a)$ 的每个 $w$, 方程 $f(z)=w$ 在圆盘内按重数有 $m$ 个解. 因而非常数全纯映射把开集映为开集. 若 $f'(a)\ne0$, 则在 $a$ 的某邻域一一且具有全纯逆映射.
+\end{theorem}
+\begin{proof}
+选半径 $r$ 使 $a$ 是闭盘内 $f-f(a)$ 的唯一零点, 边界最小模 $\delta>0$. 对 $|w-f(a)|<\delta$, Rouché 比较 $f-f(a)$ 与常数 $f(a)-w$, 得 $m$ 个根, 所以像包含中心为 $f(a)$ 的小圆盘.
+
+若 $m=1$, 对足够小闭盘, $f'$ 无零点. 上述小像圆盘中的每个 $w$ 都有唯一且简单的根; 原域中取该小圆盘的原像分支, 得一一对应. 逆映射连续性可由紧性验证: 任意 $w_n\to w$, 相应根的子序列聚点必须是唯一根, 所以整个序列收敛. 令 $z'=f^{-1}(w+h)$, 则
+\[
+\frac{f^{-1}(w+h)-f^{-1}(w)}h
+ =\left(\frac{f(z')-f(z)}{z'-z}\right)^{-1}\longrightarrow\frac1{f'(z)}.
+\]
+故逆映射全纯.
+\end{proof}
+这里 ``按重数有 $m$ 个'' 不保证 $m$ 个不同点. 若 $m>1$, 更可写 $f-f(a)=h^m$, 其中 $h=(z-a)g^{1/m}$, 在小盘对非零 $g$ 选择对数后取根, 得 $h'(a)\ne0$. 因而局部行为就是一个保角坐标后的 $m$ 次幂映射. 非零全纯函数在单连通域存在对数的证明将在第13章给出; 小盘情形也可用对 $g(a)$ 附近的幂级数分支直接构造.
+
+\originalsection{Nyquist 判据}
+对于有理传递函数 $G(s)$, 非零负反馈系数 $k$ 的闭环函数为 $G_{\rm cl}=G/(1+kG)$. 令 $F=1+kG$. 为清楚固定方向, 取右半平面的正向大半圆边界 $C_R$: 虚轴从 $+\ii R$ 向 $-\ii R$ 下行, 再沿右半圆从底到顶. 区域始终在左侧. 若 $G$ 无虚轴极点且 $F$ 无虚轴零点, 半径足够大时辐角原理给
+\[
+Z=P+\Ind(1+kG(C_R),0)=P+\Ind(kG(C_R),-1),
+\]
+其中 $Z$ 为右半平面 $F$ 的零点数, $P$ 为其极点数; $k\ne0$ 时一般等于 $G$ 的右半平面极点数. 有理函数写成既约 $G=N/D$ 后, 闭环分母为 $D+kN$, 与分子 $N$ 无公共根, 因此零点计数确实对应闭环极点. 若有隐藏状态的精确消去, 输入输出极点计数不能自动替代内部稳定性检查.
+
+当 $G$ 严格真有理时, 大半圆上的 $G\to0$, 像曲线该段收缩到0, 所以主要图形来自虚轴频率响应. 本方向下 $\omega$ 从正向负变化; 若惯常图采用从负向正的参数, 绕数要换符号. 只说 ``绕 $-1$ 几圈'' 而不声明方向, 判据没有确定数值.
+\begin{example}
+设 $G(s)=1/(s-1)$, $k>0$. 判断闭环稳定性.
+\end{example}
+\begin{solution}
+闭环为 $1/(s+k-1)$, 极点 $1-k$. 所以 $k>1$ 时严格位于左半平面, $0<k<1$ 时有1个右半平面极点, $k=1$ 时位于虚轴, 不满足本判据的无边界零点条件. 从绕数看, 开环有 $P=1$, 稳定时要求 $\Ind(kG(C_R),-1)=-1$. 这与直接代数计算一致.
+\end{solution}
+对严格真有理且既约的因果系统, 所有极点严格在左半平面保证冲激响应可积, 因而有界输入产生有界输出. 虚轴上的简单极点只给某些自由解有界, 并不保证此种输入输出稳定性. 延迟使传递函数非有理, 有限大曲线辐角原理仍成立, 但还需核查无穷远行为及无穷多个极点的计数范围, 第12章给具体例子.
+
+\originalsection{一般 Cauchy 与加权留数}
+\begin{definition}
+闭路径 $\gamma\subset\Omega$ 若对每个 $a\notin\Omega$ 都有 $\Ind(\gamma,a)=0$, 称相对于 $\Omega$ 零同调. 这只涉及本书已定义的整数绕数, 无需先修代数拓扑.
+\end{definition}
+\begin{theorem}\label{thm:generalcauchy}
+若 $f$ 在开集 $\Omega$ 全纯, $\gamma$ 为其中零同调的闭路径, 则 $\int_\gamma f\dd z=0$; 对 $w\in\Omega\setminus\gamma$, 有
+\[
+\frac1{2\pi\ii}\int_\gamma\frac{f(z)}{z-w}\dd z=\Ind(\gamma,w)f(w).
+\]
+\end{theorem}
+\begin{proof}
+采用18.112 L13的 Dixon 路线并补足正则性. 定义对称差商 $g(w,z)=(f(z)-f(w))/(z-w)$, 对角上补 $f'(w)$. 局部 Taylor 展开或沿小圆盘的线段公式 $g(w,z)=\int_0^1f'(w+t(z-w))\dd t$ 说明联合连续; 固定一个变量时它全纯, 对角可去.
+
+令 $\Omega_0=\{w\notin\gamma:\Ind(\gamma,w)=0\}$, 是开集. 在 $\Omega$ 定义 $H(w)=(2\pi\ii)^{-1}\int_\gamma g(w,z)\dd z$, 在 $\Omega_0$ 定义 $H(w)=(2\pi\ii)^{-1}\int_\gamma f(z)/(z-w)\dd z$. 交集上两式相同, 因差为 $f(w)\Ind(\gamma,w)=0$. 零同调保证 $\Omega\cup\Omega_0=\C$, 所以得到全平面函数.
+
+在 $\Omega_0$ 核与路径有正距离, 可以微分积分, 得全纯. 在 $\Omega$ 对小三角形积分, 联合连续使有限路径的双积分可换序, 内层 $g$ 的三角形积分为零; Morera 给全纯. 所以 $H$ 整. 大 $|w|$ 时使用 $\Omega_0$ 的定义, 积分估计给 $H(w)=O(1/|w|)\to0$. Liouville 使 $H\equiv0$, 得加权公式. 再对全纯函数 $F(z)=(z-w_0)f(z)$ 应用该公式, $w_0\in\Omega\setminus\gamma$, 右边为零, 左边为 $(2\pi\ii)^{-1}\int_\gamma f$, 得零积分结论.
+\end{proof}
+若 $f$ 在 $\Omega$ 除有限个孤立奇点 $a_j$ 外全纯, 曲线不经过它们且相对 $\Omega$ 零同调, 则
+\[
+\int_\gamma f\dd z=2\pi\ii\sum_j\Ind(\gamma,a_j)\Res(f,a_j).
+\]
+证明可从每个奇点减去其 Laurent 主部. 主部在 $\C\setminus\{a_j\}$ 全纯, 负幂级数在曲线紧集上一致收敛; 指数 $-m$, $m\ne1$ 的项有全局原函数, 积分为零, $-1$ 次项给绕数. 减去主部后函数可补为 $\Omega$ 上全纯, 一般 Cauchy 使剩余积分为零. 此公式为自交或多次绕行时明确的计数规则.
+
+\originalsection{习题与解答}
+\begin{exercise}
+证明 $z^4+6z+2$ 在单位圆内恰有一个零点.
+\end{exercise}
+\begin{solution}
+边界上 $|z^4+2|\le3<6=|6z|$, 与 $6z$ 比较即得一个, 重数已计入.
+\end{solution}
+\begin{exercise}
+设 $f$ 在闭单位圆盘邻域全纯, $|f(z)-z|<1$ 于圆周. 证明任意 $|w|<1-\max_{|z|=1}|f(z)-z|$ 都在 $f(\D)$ 内.
+\end{exercise}
+\begin{solution}
+记边界最大差为 $M<1$. 对所给 $w$, $|(f-z)-w|\le M+|w|<1=|z|$. Rouché 比较 $f-w$ 与 $z$, 得盘内恰一个零点, 即有原像.
+\end{solution}
+\begin{exercise}
+解释为什么 $\int_C f'/f$ 一般不为零, 即使 $f$ 在 $C$ 及其内部全纯.
+\end{exercise}
+\begin{solution}
+若 $f$ 内部有零点, $f'/f$ 在那里有简单极点, 留数等于零点阶数, 不满足 Cauchy 零积分的全域全纯假设. 例如 $f(z)=z$, 单位圆积分为 $2\pi\ii$.
+\end{solution}

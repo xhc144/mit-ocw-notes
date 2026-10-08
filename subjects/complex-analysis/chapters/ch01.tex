@@ -1,0 +1,82 @@
+\originalchapter{复数与复平面}
+\sourceinfo{18.04 Topic 1, pp.1--24; Topic 2, pp.5--7. 球面坐标推导为编者补充}
+\originalsection{代数与几何}
+\begin{definition}
+复数是形如 $z=x+\ii y$ 的数, 其中 $x,y\in\R$, $\ii^2=-1$. 记 $\Re z=x$, $\Im z=y$, $\bar z=x-\ii y$, $|z|=(x^2+y^2)^{1/2}$. 全体复数组成域 $\C$.
+\end{definition}
+加法按两个坐标相加, 乘法按分配律与 $\ii^2=-1$ 计算. $\Im z$ 是实数, 不是 $\ii y$. 恒等式 $z\bar z=|z|^2$ 给出非零数的逆元 $z^{-1}=\bar z/|z|^2$. 例如 $(3+4\ii)/(1+2\ii)=(11-2\ii)/5$. 共轭满足 $\overline{z+w}=\bar z+\bar w$, $\overline{zw}=\bar z\bar w$; 因而 $|zw|=|z||w|$.
+
+把 $z$ 对应到点 $(x,y)$, 模就是到原点的距离, $|z-w|$ 就是两点距离. 平移由加法表示, 复数乘法的旋转意义将在极坐标中出现.
+\begin{proposition}[三角不等式]
+任意 $z,w\in\C$ 满足 $|z+w|\le |z|+|w|$ 和 $\bigl||z|-|w|\bigr|\le |z-w|$. 第一式取等当且仅当至少一个数为零, 或两个非零数在原点发出的同一条射线上.
+\end{proposition}
+\begin{proof}
+写 $z\bar w=A+\ii B$, 则 $A\le(A^2+B^2)^{1/2}=|z||w|$. 于是 $|z+w|^2=|z|^2+2A+|w|^2\le(|z|+|w|)^2$. 两边非负, 开方即可. 非零时取等要求 $z\bar w$ 为正实数, 即 $z/w$ 为正实数. 再对 $z=(z-w)+w$ 应用第一式, 得 $|z|-|w|\le|z-w|$; 交换 $z,w$ 得另一半.
+\end{proof}
+圆和直线可以直接写成复数关系. 圆 $|z-a|=r$ 的内部为 $|z-a|<r$; 直线 $\Re(\bar b z)=c$ 的法向量为 $b\ne0$. 轨迹 $|z-a|=|z-b|$ 是线段 $ab$ 的垂直平分线. 这些表达式不需要把复数大小作有序比较; $z>w$ 在复数域内没有通常的意义.
+
+\originalsection{指数与极坐标}
+对实数 $\theta$, 定义 $\ee^{\ii\theta}=\cos\theta+\ii\sin\theta$. 实三角函数的加法公式给出 $\ee^{\ii\theta}\ee^{\ii\phi}=\ee^{\ii(\theta+\phi)}$. 对 $z=x+\ii y$ 定义 $\ee^z=\ee^x(\cos y+\ii\sin y)$, 于是 $\ee^{z+w}=\ee^z\ee^w$, $\ee^0=1$, $|\ee^z|=\ee^{\Re z}$, 指数永远不为零. 实指数、正弦与余弦的级数绝对收敛, 分离偶项和奇项可得 $\ee^z=\sum_{n\ge0}z^n/n!$. 第5章会证明这一复幂级数可以逐项求导.
+
+每个非零复数可写成 $z=r\ee^{\ii\theta}$, 其中 $r=|z|>0$. 所有满足该式的 $\theta$ 构成辐角集合 $\arg z=\theta+2\pi\Z$. 两个数相乘时模相乘、辐角相加; 除法则模相除、辐角相减. 因而乘以 $2\ii$ 将所有长度放大两倍, 同时逆时针转过 $\pi/2$.
+\begin{center}
+\begin{tikzpicture}[scale=1.0,>=Stealth]
+\draw[->] (-.4,0)--(4,0) node[right]{$\Re z$};
+\draw[->] (0,-.3)--(0,2.8) node[above]{$\Im z$};
+\draw[thick,->] (0,0)--(3,2) node[above right]{$z=r\ee^{\ii\theta}$};
+\draw[dashed] (3,0) node[below]{$x$}--(3,2)--(0,2) node[left]{$y$};
+\draw (0.8,0) arc (0:33.69:.8); \node at (1,.28) {$\theta$};
+\node at (1.5,1.3) {$r$};
+\end{tikzpicture}
+\end{center}
+\begin{example}
+求 $(1+\ii)^6$ 及 $w^n=z\ne0$ 的全部解, 其中 $n$ 为正整数.
+\end{example}
+\begin{solution}
+$1+\ii=\sqrt2\ee^{\ii\pi/4}$, 因而 $(1+\ii)^6=8\ee^{3\pi\ii/2}=-8\ii$. 若 $z=r\ee^{\ii\theta}$, 所有根为 $r^{1/n}\ee^{\ii(\theta+2k\pi)/n}$, $k=0,\ldots,n-1$. 任意根的模必须为 $r^{1/n}$, 辐角必须满足 $n\phi-\theta\in2\pi\Z$, 所以已经找全; 不同 $k$ 给出不同根. 它们是圆上正 $n$ 边形的顶点.
+\end{solution}
+根的多值性不能通过把辐角默认为一个数而消失. 取某个连续辐角范围, 就是在选根函数的分支. 例如正实轴上取正平方根, 沿绕原点一周的曲线连续延伸后会变成负平方根.
+
+复三角函数定义为 $\sin z=(\ee^{\ii z}-\ee^{-\ii z})/(2\ii)$, $\cos z=(\ee^{\ii z}+\ee^{-\ii z})/2$. 直接展开得到
+\[
+\sin(x+\ii y)=\sin x\cosh y+\ii\cos x\sinh y,\qquad
+\cos(x+\ii y)=\cos x\cosh y-\ii\sin x\sinh y.
+\]
+加法公式和 $\sin^2z+\cos^2z=1$ 在复数上仍成立, 但 $|\sin z|\le1$ 不成立: $\sin(\ii y)=\ii\sinh y$. 解 $\sin z=0$ 等价于 $\ee^{2\ii z}=1$, 由模先得 $\Im z=0$, 再得 $z\in\pi\Z$. $\cos z=0$ 的解为 $\pi/2+\pi\Z$.
+
+\originalsection{对数与映射}
+指数的周期为 $2\pi\ii$, 且 $\ee^{z_1}=\ee^{z_2}$ 当且仅当 $z_1-z_2\in2\pi\ii\Z$. 因此方程 $\ee^w=z\ne0$ 的解为 $w=\log|z|+\ii(\theta+2k\pi)$. 这里 $\log|z|$ 是实对数. 在割平面 $\C\setminus(-\infty,0]$ 上选择 $-\pi<\Arg z<\pi$, 定义主值 $\Log z=\log|z|+\ii\Arg z$. 对负实数可给出数值主辐角 $\pi$, 但这样得到的函数在该轴附近不连续, 不能当作该轴邻域的全纯分支.
+
+在选定对数分支的域上可定义 $z^\alpha=\ee^{\alpha\Log z}$. 即使 $\alpha$ 为实数, 跨越割线后数值也可能改变. 主值通常不满足 $\Log(zw)=\Log z+\Log w$: 例如 $z=w=\ee^{3\pi\ii/4}$, 两边分别为 $-\pi\ii/2$ 与 $3\pi\ii/2$.
+
+复函数也描述平面区域的变换. $w=z^2$ 把辐角为 $(0,\pi/2)$ 的第一象限一一映为上半平面; 模平方而辐角加倍. $w=\ee^z$ 把带状域 $0<\Im z<\pi$ 一一映为上半平面: 每条水平线变成射线, 每条竖直线段变成半圆弧. 逆映射是辐角在 $(0,\pi)$ 的对数分支. 区域的一一对应须同时核对像、单射和满射, 只检查边界图形并不够.
+
+\originalsection{无穷远点}
+扩充复平面为 $\widehat\C=\C\cup\{\infty\}$. 定义 $z_n\to\infty$ 为 $|z_n|\to\infty$, 无论趋近方向如何都到同一个点. 无穷远邻域为 $\{\infty\}\cup\{|z|>R\}$. 局部坐标 $\zeta=1/z$ 将它变为零点邻域; 研究 $f$ 在无穷远的极限、全纯性或奇点, 就研究 $f(1/\zeta)$ 在零点的相应性质.
+
+单位球面上的点 $(X,Y,T)$ 经北极投影到 $z=(X+\ii Y)/(1-T)$. 反解为
+\[
+X=\frac{2\Re z}{1+|z|^2},\qquad Y=\frac{2\Im z}{1+|z|^2},\qquad
+T=\frac{|z|^2-1}{1+|z|^2}.
+\]
+把这些式子代入 $X^2+Y^2+T^2=1$ 可核实球面条件. 当 $|z|\to\infty$, 球面点趋近北极 $(0,0,1)$, 这解释了只添加一个无穷远点的几何意义. 非常数多项式的无穷远极限是无穷大, 而 $\ee^z$ 在无穷远没有单一极限.
+
+\originalsection{习题与解答}
+\begin{exercise}
+求 $z^4=-16$ 的全部根, 并证明四根之和为零.
+\end{exercise}
+\begin{solution}
+根为 $2\ee^{\ii(\pi/4+k\pi/2)}$, $k=0,1,2,3$. 相隔两个指标的根互为相反数, 所以和为零. 也可用 $1+\ii-1-\ii=0$ 求和.
+\end{solution}
+\begin{exercise}
+证明 $|\sin(x+\ii y)|^2=\sin^2x+\sinh^2y$, 并求 $0\le x,y\le2\pi$ 上 $|\sin z|$ 的最大值及取等位置.
+\end{exercise}
+\begin{solution}
+利用实虚部表达及 $\cosh^2y-\sinh^2y=1$, 有 $\sin^2x\cosh^2y+\cos^2x\sinh^2y=\sin^2x+\sinh^2y$. 两项分别在 $x=\pi/2,3\pi/2$ 和 $y=2\pi$ 取最大值, 模的最大值为 $\cosh(2\pi)$, 位置即这两个边界点.
+\end{solution}
+\begin{exercise}
+计算 $\int\ee^x\cos2x\dd x$.
+\end{exercise}
+\begin{solution}
+取 $\int\ee^{(1+2\ii)x}\dd x=\ee^{(1+2\ii)x}/(1+2\ii)$ 的实部. 乘分子分母以 $1-2\ii$, 得 $\ee^x(\cos2x+2\sin2x)/5+C$. 取实部与实积分交换是积分线性的直接结果.
+\end{solution}

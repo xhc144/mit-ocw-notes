@@ -1,0 +1,101 @@
+\originalchapter{复势与平面流动}
+\sourceinfo{18.04 Topic 6 全部正文; Topic 10的圆定理. 多连通域的周期障碍及流线计算为编者补充}
+\originalsection{模型与复速度}
+设平面定常速度场为 $V=(p(x,y),q(x,y))$, $p,q$ 为 $C^1$. 定常指不随时间改变; 不可压且密度恒定、无局部源汇给 $p_x+q_y=0$; 无旋给 $q_x-p_y=0$. 后两者分别是散度与旋度条件. 它们是所选模型的假设, 不是所有真实流动都满足的普遍规律.
+
+散度定理的二维形式解释第一式: 正向闭边界上净向外通量为 $\int(p\dd y-q\dd x)=\iint(p_x+q_y)\dd x\dd y$. 无旋条件同理由环流 Green 公式说明. 穿孔域上的涡流可在每一点旋度为零, 却有围孔环流; 原点不在模型域内, 所以与局部无旋不矛盾.
+\begin{definition}
+全纯函数 $\Phi=\phi+\ii\psi$ 若满足 $V=\nabla\phi$, 称为速度场的复势. $\phi$ 是速度势, $\psi$ 是流函数. 复速度定义为 $\Phi'=p-\ii q$, 注意虚部的负号.
+\end{definition}
+\begin{theorem}
+全纯复势产生不可压、无旋速度场. 反之, 在单连通域上, 任意 $C^1$ 且不可压、无旋的速度场都有复势.
+\end{theorem}
+\begin{proof}
+全纯时 $\phi$ 调和, 所以 $\operatorname{div}\nabla\phi=0$, 混合偏导相等给旋度0, 方程又给 $\Phi'=\phi_x-\ii\phi_y$. 反向令 $g=p-\ii q$. 两条流动方程恰好是 $g$ 的 Cauchy--Riemann 方程, 所以 $g$ 全纯. 在单连通域取原函数 $\Phi$, 由 $\Phi'=\phi_x-\ii\phi_y=p-\ii q$ 得所需速度场.
+\end{proof}
+流体轨迹 $z(t)=(x(t),y(t))$ 满足 $(x',y')=V$. 沿轨迹 $\dd\psi/\dd t=\nabla\psi\cdot\nabla\phi=0$, 因而轨迹位于 $\psi$ 等值线上. 若 $V\ne0$, 等值线光滑且正是流线. 停滞点满足 $\Phi'=0$; 此处等值集可能交叉, 单纯看等值图不能确定流线的平滑延伸.
+
+\originalsection{源、涡与偶极}
+均匀速度 $V=(U,0)$ 的势为 $\Phi=Uz$, $U$ 为实常数. 流线是水平线, 方向由 $U$ 的符号决定. $\Phi=z^2$ 给 $V=(2x,-2y)$, 流线为 $2xy=\text{常数}$, 原点为停滞点. 在实轴向两侧流出, 在虚轴向原点流入.
+
+源势 $\Phi=c\Log z$, $c\in\R$, 给 $V=(cx/r^2,cy/r^2)$, $\phi=c\log r$, $\psi=c\theta$. $c>0$ 为向外源, $c<0$ 为汇. 围原点的正向圆通量为 $2\pi c$, 环流0. 复势依赖分支, 速度 $c/z$ 在穿孔平面单值. 流函数绕孔增量为 $2\pi c$, 所以不存在单值全局复势.
+
+涡势选择 $\Phi=-\ii\kappa\Log z$, 给 $\phi=\kappa\theta$, $\psi=-\kappa\log r$, $V=(-\kappa y/r^2,\kappa x/r^2)$. $\kappa>0$ 时逆时针, 环流 $2\pi\kappa$, 通量0. 原课程的 $\ii\Log z$ 对应 $\kappa=-1$, 所以是顺时针涡. 圆周围有整体环流并不表示穿孔域内每点有局部旋度.
+
+更一般地, 若单值复速度 $g=p-\ii q$ 在某域全纯, 则
+\[
+\int_C g(z)\dd z=\int_C(p\dd x+q\dd y)+\ii\int_C(p\dd y-q\dd x).
+\]
+实部为环流、虚部为向外通量. 有单值原函数的充要条件是所有这些复周期为零. 这准确给出单连通假设在复势存在性中的作用.
+
+\begin{example}
+分析 $\Phi=\Log(z-1)+\Log(z+1)$ 的速度和停滞点, 并说明远处流动.
+\end{example}
+\begin{solution}
+这是位于 $\pm1$ 的两等强源, 复速度 $\Phi'=1/(z-1)+1/(z+1)=2z/(z^2-1)$. 仅在0处停滞. 远处 $\Phi'=2/z+O(z^{-3})$, 相当于总强度2的源. 在实轴外段 $q=0$, 在虚轴上 $p=0$, 可由对称性或直接代入 $z=\ii y$ 得到; 因而坐标轴是相应流线的等值集. 局部可把两对数相加为 $\Log(z^2-1)$ 加一个常数, 但不能未经分支核对将此等式当全域恒等式.
+\end{solution}
+\begin{example}
+将位置 $\pm h$ 的源汇对取极限, 得到偶极势.
+\end{example}
+\begin{solution}
+取 $\Phi_h=(A/(2h))(\Log(z-h)-\Log(z+h))$. 对远离0的紧集, Taylor 展开或对参数积分给 $\Log(z-h)-\Log(z+h)=-2h/z+O(h^3)$, 一致成立. 因而 $\Phi_h\to-A/z$, 复速度趋 $A/z^2$. 此局部势称为偶极或双极势; 两源汇总通量为零, 但留下有方向的流场.
+\end{solution}
+
+\originalsection{圆形障碍}
+\begin{theorem}[Milne--Thomson 圆定理]
+设 $f$ 在闭圆盘 $|z|\le a$ 的开邻域全纯, 并在外部所需域上作为原流复势. 定义
+\[
+\Phi(z)=f(z)+\overline{f(a^2/\bar z)},\qquad |z|>a.
+\]
+第二项在圆外全纯, 不引入圆外的新奇点; 圆周上 $\Im\Phi=0$, 所以圆周为不穿透的流线边界.
+\end{theorem}
+\begin{proof}
+若 $f(z)=\sum c_nz^n$, 且收敛半径大于 $a$, 则第二项等于 $\sum\bar c_na^{2n}z^{-n}$, 在 $|z|>a$ 的紧集上一致收敛, 故全纯. 因原函数在盘内邻域全纯, 反射点始终位于其正常域, 所以圆外无新增奇点. $|z|=a$ 时 $a^2/\bar z=z$, 于是 $\Phi=f(z)+\overline{f(z)}$ 为实数. 在非停滞点, $\psi$ 恒定使速度切向; 停滞点速度为零同样不穿透.
+\end{proof}
+\begin{example}
+求半径 $a>0$ 的圆柱外匀速流及其停滞点, 其中 $U>0$.
+\end{example}
+\begin{solution}
+取 $f=Uz$, 得 $\Phi=U(z+a^2/z)$, $\Phi'=U(1-a^2/z^2)$. 外部远处趋向均匀流, 停滞点为边界上的 $\pm a$. 极坐标中 $\psi=U(r-a^2/r)\sin\theta$, 圆周 $r=a$ 是 $\psi=0$. 速度分量为 $V_r=U(1-a^2/r^2)\cos\theta$, $V_\theta=-U(1+a^2/r^2)\sin\theta$, 显示边界法向分量为零.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=.85]
+\draw[->,gray] (-4.2,0)--(4.4,0) node[right]{$x$};
+\draw[->,gray] (0,-2.6)--(0,2.8) node[above]{$y$};
+\draw[thick] (0,0) circle (1);
+\foreach \b in {.35,.8,1.3}{
+\draw[domain=20:160,samples=90,smooth,variable=\t]
+plot ({((\b/sin(\t)+sqrt((\b/sin(\t))^2+4))/2)*cos(\t)}, {((\b/sin(\t)+sqrt((\b/sin(\t))^2+4))/2)*sin(\t)});
+\draw[domain=20:160,samples=90,smooth,variable=\t]
+plot ({((\b/sin(\t)+sqrt((\b/sin(\t))^2+4))/2)*cos(\t)}, {-((\b/sin(\t)+sqrt((\b/sin(\t))^2+4))/2)*sin(\t)});
+}
+\fill (-1,0) circle (1.5pt); \fill (1,0) circle (1.5pt);
+\node[below left] at (-1,0){$-a$}; \node[below right] at (1,0){$a$};
+\end{tikzpicture}
+\end{center}
+图取 $a=U=1$, 各条流线由 $\psi=\pm0.35,\pm0.8,\pm1.3$ 的方程绘出. 一般流线满足 $y(1-a^2/(x^2+y^2))=\psi/U$, 图形不替代已经核验的边界条件.
+
+对源位于 $-2$ 的 $f=\Log(z+2)$, 单位圆定理给 $\Phi=\Log(z+2)+\overline{\Log(1/\bar z+2)}$. 可在盘内选择与实轴相容的分支, 第二项等于相应 $\Log(2+1/z)$. 其复速度为 $1/(z+2)-1/[z(2z+1)]$, 修正项在远处为 $O(z^{-2})$, 而原源项为 $O(z^{-1})$. 新奇点位于圆内, 外流中只保留原源.
+
+\originalsection{匀速流叠加源}
+\begin{example}
+设 $U,Q>0$, 分析 $\Phi(z)=Uz+(Q/(2\pi))\Log z$ 的流与停滞点.
+\end{example}
+\begin{solution}
+记 $c=Q/(2\pi)$, 复速度为 $U+c/z$, 速度场为 $(U+cx/r^2,cy/r^2)$. 近原点源项占优, 向外通量为 $Q$; 无穷远趋于向右匀速. 唯一停滞点为 $z=-c/U$. 流函数 $\psi=Uy+c\theta$, 在上半平面该停滞点极限值为 $c\pi$, 下半平面为 $-c\pi$. 这两条等值分支构成从停滞点向下游分开的分界流线, 与实轴上游的流线衔接; 对数分支变化只加常数, 不改变速度. 在实轴 $x<-c/U$ 速度向右, $-c/U<x<0$ 速度向左, 表示源与均匀流相抵的方向变化.
+\end{solution}
+位置 $\pm a$ 的有限源汇对可写 $c[\Log(z-a)-\Log(z+a)]$. 复速度 $2ac/(z^2-a^2)$, 无有限停滞点, 净通量为零; 远处为 $2ac/z^2+O(z^{-4})$. 取 $a\to0$ 并固定 $2ac$ 就得到本章偶极极限, 因而有限源汇与极限模型的关系已同时保留.
+
+\originalsection{习题与解答}
+\begin{exercise}
+场 $V=(cy,0)$ 是否不可压、无旋? $c\ne0$.
+\end{exercise}
+\begin{solution}
+散度0, 旋度为 $q_x-p_y=-c\ne0$, 是剪切流, 不能由全纯复势表示. 水平箭头不旋转成圆并不意味着旋度为零.
+\end{solution}
+\begin{exercise}
+在圆柱外匀速势中加入 $-\ii\kappa\Log z$. 求边界停滞点存在条件.
+\end{exercise}
+\begin{solution}
+径向速度仍为零, 边界切向速度为 $-2U\sin\theta+\kappa/a$. 当 $U>0$ 时, 存在边界停滞点当且仅当 $|\kappa|\le2Ua$, 方程为 $\sin\theta=\kappa/(2Ua)$. 严格不等时有两个, 等号时合并为一个.
+\end{solution}

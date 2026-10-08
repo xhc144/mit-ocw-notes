@@ -1,0 +1,119 @@
+\originalchapter{解析延拓与 Gamma 函数}
+\sourceinfo{18.04 Topic 13 全部正文; 18.112 L18的 Beta、反射与乘积路线. 乘积、倍增和实轴 Stirling 证明为编者补充}
+\originalsection{延拓与分支}
+\begin{definition}
+若 $\Omega\subset\Omega'$ 为域, $f$ 在 $\Omega$ 全纯, 而 $F$ 在 $\Omega'$ 全纯且限制到 $\Omega$ 等于 $f$, 则 $F$ 为 $f$ 到 $\Omega'$ 的解析延拓. 允许孤立极点时称为亚纯延拓.
+\end{definition}
+恒等定理保证到一个固定连通域的延拓唯一, 却不保证延拓存在, 也不保证沿不同闭路的局部延拓最后给同一分支. 例如 $\Log z$ 沿绕0一周的路径逐盘延拓后增加 $2\pi\ii$. 主对数域与辐角 $(0,2\pi)$ 的对数域的交集分成上下半平面: 两分支在上半平面相同、在下半平面相差 $2\pi\ii$. 共同域不连通, 并不违背恒等定理.
+\begin{proposition}\label{prop:logexist}
+单连通域内无零点的全纯 $f$ 有全纯对数 $L$, 即 $\ee^L=f$, 因而也有任意给定正整数次根.
+\end{proposition}
+\begin{proof}
+$f'/f$ 全纯, 取原函数 $H$. 则 $(f\ee^{-H})'=0$, 所以 $f\ee^{-H}=c\ne0$. 选一个数 $\ell$ 满足 $\ee^\ell=c$, 得 $L=H+\ell$. $\ee^{L/n}$ 为所需根. 两对数只差 $2\pi\ii$ 的整数倍, 选择初始值后唯一.
+\end{proof}
+若能沿域内任意路径解析延拓, 且沿同伦路径所得局部函数相同, 单连通性使其形成单值函数. 同伦路径相同的依据是用有限小圆盘覆盖同伦像, 在小网格上靠恒等定理逐格传播相同的局部函数. 这称为单值化原理; 其假设中的 ``沿每条路径可延拓'' 是实质条件, 不能由单连通自动保证任意函数可延到任何目标域.
+
+\originalsection{Gamma 积分}
+\begin{definition}
+对 $\Re z>0$, 定义 $\Gamma(z)=\int_0^\infty t^{z-1}\ee^{-t}\dd t$, 其中 $t^{z-1}=\ee^{(z-1)\log t}$ 使用正实数对数.
+\end{definition}
+\begin{theorem}
+积分在右半平面绝对收敛且全纯, 满足 $\Gamma(1)=1$, $\Gamma(z+1)=z\Gamma(z)$. 因而对整数 $n\ge0$, $\Gamma(n+1)=n!$. 它亚纯延拓到全平面, 恰在 $0,-1,-2,\ldots$ 有简单极点, 留数为 $(-1)^n/n!$.
+\end{theorem}
+\begin{proof}
+在紧集上取 $0<\delta\le\Re z\le M$. 零点附近的绝对值由 $t^{\delta-1}$ 控制, 无穷远由 $t^{M-1}\ee^{-t}$ 控制, 任意阶 $z$ 导数增加的 $|\log t|^k$ 仍可积. 截断积分局部一致极限或受控差商给全纯性. 分部积分中 $t^z\ee^{-t}$ 在两端为零, 得递推式, 初值直接积分得到.
+
+递推反写为 $\Gamma(z)=\Gamma(z+m+1)/[z(z+1)\cdots(z+m)]$. 对 $\Re z>-m-1$ 除分母零点外定义亚纯函数, 重叠域上由递推一致. 在 $z=-n$ 选 $m=n$, 分子趋 $\Gamma(1)=1$, 分母除 $z+n$ 外趋 $(-1)^nn!$, 所以简单极点留数 $(-1)^n/n!$. 非整数点选足够大 $m$ 即全纯, 因而没有其他极点.
+\end{proof}
+Gamma 延拓不是把发散的原积分赋一个普通积分值. 正实轴上 $\Gamma(x)>0$, 但其余复点的非零性仍需要证明, 下面的乘积会给出.
+
+若 $\Re\alpha>0$, $\Re s>0$, 则 $\mathcal L(t^{\alpha-1})(s)=\Gamma(\alpha)s^{-\alpha}$, $s$ 的对数选右半平面分支. 先对实 $s>0$ 换元 $u=st$, 得式; 再对 $s$ 用恒等定理扩到右半平面. 在 $t=0$ 不必有普通函数有界性, $\Re\alpha>0$ 的局部可积性已足够. 原课较强的 $\Re\alpha>1$ 条件可放宽到这一最适范围. 例如 $\mathcal L(1/\sqrt{\pi t})=1/\sqrt s$.
+
+\originalsection{Beta、反射与倍增}
+定义 $B(z,w)=\int_0^1t^{z-1}(1-t)^{w-1}\dd t$, $\Re z,\Re w>0$. 绝对收敛使二重 Gamma 积分可换元 $x=r t,y=r(1-t)$, Jacobian 为 $r$, 得
+\[
+\Gamma(z)\Gamma(w)=\Gamma(z+w)B(z,w).
+\]
+这是恒等式形式, 即使暂未证明分母非零, 也没有贸然作除法. 当 $z,w$ 为正实数时分母正, 可写成商; 随后乘积非零性保证复参数商式同样有意义.
+
+取实 $0<x<1$, $w=1-x$, 再换元 $t=u/(1+u)$, 得 $\Gamma(x)\Gamma(1-x)=\int_0^\infty u^{x-1}/(1+u)\dd u$. 第7章钥匙孔积分已给 $\pi/\sin\pi x$. 两边亚纯, 恒等定理从实区间推广, 所以
+\[
+\Gamma(z)\Gamma(1-z)=\frac\pi{\sin\pi z}
+\]
+作为亚纯恒等式成立, 在非整数点可直接取值. 负整数的极点与另一因子的有限值由递推精确协调.
+
+倍增公式由 Beta 积分的对称性得到. 对 $\Re z>0$, 用 $t=(1+u)/2$ 并分两半,
+\[
+B(z,z)=2^{1-2z}\int_{-1}^1(1-u^2)^{z-1}\dd u
+ =2^{1-2z}B(1/2,z).
+\]
+代入 Gamma 关系并消去正实参数下非零因子, 再解析延拓, 得
+\[
+\Gamma(z)\Gamma(z+1/2)=2^{1-2z}\sqrt\pi\,\Gamma(2z).
+\]
+$\Gamma(1/2)=\sqrt\pi$ 可先由 $t=u^2$ 得 $2\int_0^\infty\ee^{-u^2}\dd u$, 将 Gaussian 积分平方后以极坐标求得 $\pi$. 因而计算该常数不依赖尚待证明的倍增公式. 递推给 $\Gamma(3/2)=\sqrt\pi/2$.
+
+\originalsection{Euler 乘积}
+\begin{theorem}\label{thm:gammaproduct}
+令 $\gamma=\lim_{N\to\infty}(\sum_{n=1}^N1/n-\log N)$, 则
+\[
+\frac1{\Gamma(z)}=z\ee^{\gamma z}\prod_{n=1}^\infty\left(1+\frac zn\right)\ee^{-z/n}.
+\]
+右侧在全平面局部一致收敛为整函数, 零点恰为 $0,-1,-2,\ldots$, 全为简单零点. 特别地 Gamma 在其有限正常点处从不为零.
+\end{theorem}
+\begin{proof}
+先说明 Euler 常数存在. $H_N-\log N$ 由积分比较有下界, 且增量 $1/(N+1)-\log(1+1/N)<0$, 所以单调收敛.
+
+对 $\Re z>0$, Beta 积分反复分部积分给 $B(z,N+1)=N!/[z(z+1)\cdots(z+N)]$. 令 $u=Nt$, 则
+\[
+N^zB(z,N+1)=\int_0^N u^{z-1}(1-u/N)^N\dd u\longrightarrow\Gamma(z).
+\]
+因为 $0\le(1-u/N)^N\le\ee^{-u}$, 在参数紧集上用 $u^{\delta-1}$ 与 $u^{M-1}$ 的分段控制, 极限局部一致. 倒数有限乘积为
+\[
+\frac{z(z+1)\cdots(z+N)}{N!N^z}
+ =z\ee^{z(H_N-\log N)}\prod_{n=1}^N(1+z/n)\ee^{-z/n}.
+\]
+对固定紧集及足够大 $n$, 主对数展开给 $|\Log(1+z/n)-z/n|\le C_K/n^2$. 对数尾级数一致绝对收敛, 故乘积局部一致收敛; 远离列出的有限零因子时尾乘积非零. 因此极限整函数 $E$ 的零点恰为这些简单零点. 在右半平面, 上述有限 Gamma 近似与倒数乘积相乘恒为1, 两者都局部一致收敛, 得 $\Gamma E=1$, 同时证明 Gamma 无零点. 亚纯延拓使此恒等式遍及全平面, 给所述乘积.
+\end{proof}
+无穷乘积不能像有限乘积那样未经收敛论证便求导. 在避开零点的紧集, 局部一致极限定理保证有限乘积导数趋于极限导数, 分母又有正下界, 所以对数导数合法. 本乘积给
+\[
+\frac{\Gamma'(z)}{\Gamma(z)}=-\gamma-\frac1z+
+\sum_{n=1}^\infty\left(\frac1n-\frac1{n+z}\right).
+\]
+尾项在紧集为 $O(n^{-2})$. 将 $z$ 与 $-z$ 的倒数乘积相乘, 再结合反射公式和递推, 得正弦乘积 $\sin\pi z=\pi z\prod_{n\ge1}(1-z^2/n^2)$. 在整数外取对数导数还得 $\pi\cot\pi z=1/z+\sum_{n\ge1}2z/(z^2-n^2)$, 与留数求和方法相互核对.
+
+\originalsection{Stirling 的实轴版本}
+\begin{theorem}
+实数 $x\to+\infty$ 时, $\Gamma(x+1)\sim\sqrt{2\pi x}(x/\ee)^x$. 因而 $n!\sim\sqrt{2\pi n}(n/\ee)^n$.
+\end{theorem}
+\begin{proof}
+从积分出发令 $t=xv$, 得
+\[
+\Gamma(x+1)=x^{x+1}\ee^{-x}\int_0^\infty
+\ee^{-x h(v)}\dd v,\qquad h(v)=v-1-\log v.
+\]
+$h\ge0$, 仅在 $v=1$ 为零, 且 $h(1)=h'(1)=0,h''(1)=1$. 固定小 $\delta\in(0,1/2)$, 在 $|v-1|\le\delta$ 上有 $h(v)\ge c(v-1)^2$; Taylor 展开给 $xh(1+u/\sqrt x)\to u^2/2$. 换元后被 $\ee^{-cu^2}$ 控制, 将积分区间外补零, 控制收敛给局部积分乘 $\sqrt x$ 趋 $\int_\R\ee^{-u^2/2}\dd u=\sqrt{2\pi}$.
+
+剩余两端不是只用点态极限忽略. $0<v\le1-\delta$ 时 $h(v)\ge h(1-\delta)>0$, 区间长度有限, 积分指数小. $v\ge1+\delta$ 时 $h'(v)=1-1/v\ge\delta/(1+\delta)=d>0$, 所以 $h(v)\ge h(1+\delta)+d(v-1-\delta)$, 尾积分至多 $\ee^{-xh(1+\delta)}/(xd)$. 两者乘 $\sqrt x$ 都趋零. 故总积分等价于 $\sqrt{2\pi/x}$, 代回即得.
+\end{proof}
+原课列出复参数渐近而略去证明. 复域版本需要固定对数分支及远离负实轴的扇区条件, 本书不据实轴证明声称其已成立; 对应拓展边界在来源表中保留.
+
+\originalsection{习题与解答}
+\begin{exercise}
+计算 $\Gamma(5/2)$, $\Gamma(-1/2)$, 以及 Gamma 在 $-3$ 的留数.
+\end{exercise}
+\begin{solution}
+递推给 $\Gamma(5/2)=3\sqrt\pi/4$, $\Gamma(-1/2)=-2\sqrt\pi$. 留数为 $(-1)^3/3!=-1/6$.
+\end{solution}
+\begin{exercise}
+证明 $\int_0^1t^{x-1}(1-t)^n\dd t=n!/[x(x+1)\cdots(x+n)]$, $x>0$, $n\ge0$.
+\end{exercise}
+\begin{solution}
+$n=0$ 时为 $1/x$. $n\ge1$ 时分部积分取 $\dd(t^x)/x$, 两端项为零, 得 $n/x$ 乘 $B(x+1,n)$. 递推即得式, 也说明 Euler 乘积近似不需调用未证明的 Beta 商式.
+\end{solution}
+\begin{exercise}
+原积分 $\int_0^\infty\ee^{3t}\ee^{-zt}\dd t$ 能否在 $z=0$ 使用? 其解析延拓在0是多少?
+\end{exercise}
+\begin{solution}
+原积分仅在 $\Re z>3$ 收敛, $z=0$ 发散. 在该半平面值为 $1/(z-3)$, 解析延拓到 $\C\setminus\{3\}$ 后在0值为 $-1/3$. 延拓值与发散积分不能混称.
+\end{solution}

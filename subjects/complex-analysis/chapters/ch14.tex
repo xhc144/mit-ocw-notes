@@ -1,0 +1,92 @@
+\originalchapter{正规族与 Riemann 映射}
+\sourceinfo{拓展: 18.112 L12、L19、L20. L20仅为教材证明注记; 本章完整存在性证明与反射原理为编者补充}
+\originalsection{Schwarz 引理}
+\begin{theorem}[Schwarz]\label{thm:schwarz}
+若 $f:\D\to\D$ 全纯且 $f(0)=0$, 则 $|f(z)|\le|z|$, $|f'(0)|\le1$. 任一非零点取等, 或导数模取等, 则 $f(z)=\ee^{\ii\theta}z$.
+\end{theorem}
+\begin{proof}
+把 $g=f/z$ 在0补为 $f'(0)$, 得全纯函数. 在 $|z|=r<1$ 上 $|g(z)|\le1/r$, 最大模原理给内部同一界. 对固定 $z$ 令 $r\uparrow1$, 得 $|g(z)|\le1$. 若在某点模为1, 最大模原理使 $g$ 为单位模常数.
+\end{proof}
+圆盘自同构 $\phi_a(z)=(z-a)/(1-\bar az)$ 满足
+\[
+1-|\phi_a(z)|^2=\frac{(1-|a|^2)(1-|z|^2)}{|1-\bar az|^2}>0.
+\]
+其逆为 $(w+a)/(1+\bar aw)$. 任意圆盘自同构经 $\phi_a$ 归一化后固定0, 对函数和逆都用 Schwarz, 得它是旋转. 所以所有圆盘自同构形如 $\ee^{\ii\theta}\phi_a$.
+
+对 $f:\D\to\D$ 全纯, 用 $\phi_{f(a)}\circ f\circ\phi_a^{-1}$ 应用 Schwarz, 得 Schwarz--Pick 估计
+\[
+\left|\frac{f(z)-f(a)}{1-\overline{f(a)}f(z)}\right|
+\le\left|\frac{z-a}{1-\bar az}\right|,\qquad
+\frac{|f'(a)|}{1-|f(a)|^2}\le\frac1{1-|a|^2}.
+\]
+定义长度元 $|\dd z|/(1-|z|^2)$, 对任意分段光滑路径应用第二式后积分, 得像路径长度不增加. 这给18.112中非 Euclid 圆盘解释的解析基础; 完整双曲几何公理及测地线理论不在本章范围.
+
+\originalsection{正规族与 Hurwitz 定理}
+\begin{definition}
+域上全纯函数族称为正规, 若任意函数序列都有在每个紧集上一致收敛于有限全纯函数的子序列. 本书使用有限值版, 不把趋于无穷的亚纯正规族版本混入.
+\end{definition}
+\begin{theorem}[Montel]\label{thm:montel}
+若全纯函数族在每个紧集上统一有界, 则正规.
+\end{theorem}
+\begin{proof}
+固定紧集 $K\Subset\Omega$, 取 $d>0$ 使其闭 $2d$ 邻域仍为域内紧集, 函数族在其上统一有界 $M$. Cauchy 导数估计给闭 $d$ 邻域上 $|f'|\le M/d$. 对 $K$ 内距离小于 $d$ 的两点, 线段位于该邻域, 故 $|f(z)-f(w)|\le(M/d)|z-w|$. 全族于是等度连续.
+
+域内取可数稠密点列, 对每点上的有界数列逐次取收敛子序列, 再取对角子序列, 得在所有稠密点收敛. 对任意紧集, 用有限个小圆盘覆盖, 每盘中心选附近稠密点, 等度连续使函数在任意点与该稠密点的差统一小. 稠密点有限, 所以对角子序列在那里最终互差小. 三角不等式使其在整个紧集一致 Cauchy, 复数完备性给一致极限. 选稠密点时使用 $K$ 的一个紧邻域, 不能错误要求稠密点必须属于 $K$ 本身. 第4章局部一致极限定理保证极限全纯.
+\end{proof}
+\begin{theorem}[Hurwitz]\label{thm:hurwitz}
+域上无零点全纯 $f_n$ 局部一致收敛于 $f$, 则 $f$ 无零点或恒为零. 单射全纯函数的局部一致极限, 若非常数, 则仍单射.
+\end{theorem}
+\begin{proof}
+若 $f$ 非恒零且在 $a$ 有零点, 选小圆使该点为盘内唯一零点, 边界 $|f|$ 有正下界. 对充分大 $n$, $|f_n-f|<|f|$ 于边界, Rouché 使 $f_n$ 有相同正数个零点, 矛盾.
+
+对第二项, 固定 $w\in\Omega$, 考察 $g_n(z)=(f_n(z)-f_n(w))/(z-w)$, 在 $w$ 补为 $f_n'(w)$. 单射函数导数非零, 所以 $g_n$ 无零点. 导数的局部一致收敛与差商积分表达保证 $g_n$ 局部一致收敛于对应 $g$. 若 $f$ 非常数, $g$ 不恒为零, 故无零点. 因而 $f(z)\ne f(w)$ 对任何 $z\ne w$, 得单射.
+\end{proof}
+
+\originalsection{Riemann 映射定理}
+\begin{theorem}[Riemann]\label{thm:riemann}
+若 $\Omega\subsetneq\C$ 非空单连通域, 则存在双全纯映射 $f:\Omega\to\D$. 给定 $a\in\Omega$, 要求 $f(a)=0$ 和 $f'(a)>0$ 为正实数后, 映射唯一.
+\end{theorem}
+\begin{proof}
+先构造到圆盘的一个单射全纯映射, 使极值族非空. 取 $b\notin\Omega$, 无零点函数 $z-b$ 在单连通域有平方根 $h$. 若 $h(z_1)=h(z_2)$, 平方得 $z_1=z_2$, 所以 $h$ 单射. 它的像不同时包含互为相反的两个点: 平方相等将迫使原像相同, 而 $h\ne0$. 取 $c=h(a)$, 开映射性给某个 $\eps>0$ 使 $D(c,\eps)\subset h(\Omega)$, 则 $D(-c,\eps)$ 与像不相交. 因而 $1/(h+c)$ 单射全纯且模不超过 $1/\eps$. 适当缩放使像严格在圆盘内, 再用圆盘自同构和旋转, 得归一化映射 $f_0(a)=0,f_0'(a)>0$.
+
+令 $\mathcal F$ 为所有这样的归一化单射映射. 在 $a$ 的固定小圆上 Cauchy 估计给 $f'(a)\le M_0$, 所以导数上确界 $M$ 有限且 $M\ge f_0'(a)>0$. 取 $f_n'(a)\to M$, 族在域内由1统一有界, Montel 给局部一致极限 $f$. 导数收敛给 $f'(a)=M>0$, 因而非常数. 最大模原理使像严格在圆盘内, Hurwitz 使它单射, 所以 $f\in\mathcal F$ 并取得最大导数.
+
+假若有 $b\in\D\setminus f(\Omega)$, 因 $f(a)=0$, $b\ne0$. $\phi_b\circ f$ 无零点, 在单连通域取全纯平方根 $h$; 它在圆盘内且单射. 记 $c=h(a)$, $|c|=\sqrt{|b|}$. 归一化 $g=\ee^{\ii\theta}\phi_c\circ h$, 旋转使 $g'(a)>0$. 链式法则给
+\[
+\frac{g'(a)}{f'(a)}=\frac{1-|b|^2}{2\sqrt{|b|}(1-|b|)}
+ =\frac{1+|b|}{2\sqrt{|b|}}>1,
+\]
+因为 $0<|b|<1$. 这与最大导数矛盾, 所以像覆盖整个圆盘. 单射全纯逆由局部映射定理全纯.
+
+若 $f_1,f_2$ 均归一化, 则 $f_2\circ f_1^{-1}$ 为固定0的圆盘自同构, 只能是旋转. 导数为正实数迫使旋转为1, 得唯一性.
+\end{proof}
+不能把 $\Omega=\C$ 纳入, 否则映到圆盘会是有界非常数整函数, 与 Liouville 矛盾. 定理也不保证映射有初等闭式表达, 不自动保证任意粗糙边界都有连续一一的边界延伸. 显式公式与一般存在性解决的是不同问题.
+
+\originalsection{Schwarz 反射}
+\begin{theorem}[直线反射原理]
+设域关于实轴局部对称, $f$ 在上半部分全纯, 连续到一段实轴且该段函数值为实数. 则可向下半部分延拓为 $F(z)=\overline{f(\bar z)}$, 并在实轴段附近全纯.
+\end{theorem}
+\begin{proof}
+下半部分的共轭差商给 $F'(z)=\overline{f'(\bar z)}$, 所以全纯. 实轴边值为实数使两部分与原边值连续衔接. 对跨实轴的小三角形, 在距轴 $\eps$ 的上下两条平行线截开, 每个远离实轴的多边形边界积分为零. 让 $\eps\to0$, 连续性使沿轴两份积分反向抵消, 连接短边积分趋零, 故原三角形积分为零. Morera 给穿过实轴的全纯性.
+\end{proof}
+实轴段上没有连续实值边界这一条件时不能直接反射. 圆弧边界可先用 Möbius 变换送到实轴, 对像函数反射后再拉回; 所有映射须在所选局部正常点有效. 反射可帮助延拓, 但不是任意实轴边界函数都能全纯延伸.
+
+\originalsection{习题与解答}
+\begin{exercise}
+全纯 $f:\D\to\D$ 固定两个不同的内部点. 证明 $f$ 恒等.
+\end{exercise}
+\begin{solution}
+用圆盘自同构把一个固定点送到0, 得共轭映射固定0及另一非零点. Schwarz 在非零固定点处取等, 映射为旋转, 第二固定点又迫使旋转为1. 反向共轭得到原映射恒等.
+\end{solution}
+\begin{exercise}
+证明若 $f_n:\Omega\to\D$ 全纯, 则存在局部一致收敛子序列. 极限一定仍映入开圆盘吗?
+\end{exercise}
+\begin{solution}
+局部统一有界, Montel 给子序列. 极限模至多1; 若非常数, 最大模原理使其严格小于1. 常数极限可以在圆周上, 例如 $f_n=1-1/n$ ($n\ge2$).
+\end{solution}
+\begin{exercise}
+说明穿孔圆盘不能与单位圆盘双全纯.
+\end{exercise}
+\begin{solution}
+若有双全纯 $T$, 它是拓扑同胚, 将每条闭路收缩与其逆一起拉回, 使穿孔圆盘单连通. 但小圆围0绕数为1, 若可收缩成点, 同伦不变性迫使其绕数为0, 矛盾.
+\end{solution}

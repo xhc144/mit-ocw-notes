@@ -1,0 +1,105 @@
+\originalchapter{Cauchy 公式与模估计}
+\sourceinfo{18.04 Topic 4 全部正文; 18.112 L10为主题背景. 交换极限与全域常数论证为编者补充}
+\originalsection{积分公式}
+\begin{theorem}[Cauchy 积分公式]\label{thm:cauchy}
+设 $f$ 在闭圆盘 $\overline{D(a,R)}$ 的某开邻域全纯, $C$ 是其逆时针边界. 对任意 $w\in D(a,R)$,
+\[
+f(w)=\frac1{2\pi\ii}\int_C\frac{f(z)}{z-w}\dd z.
+\]
+公式对其他分段光滑简单闭曲线也成立, 前提是 $f$ 在曲线及整个内部的开邻域全纯, $w$ 位于内部.
+\end{theorem}
+\begin{proof}
+在 $w$ 周围挖去半径 $\rho$ 的小圆盘. 核函数在剩余闭区域邻域全纯, 有孔边界定理将外圈积分化为小圆 $C_\rho$ 积分. 分解 $f(z)=f(w)+(f(z)-f(w))$. 第一项积分为 $2\pi\ii f(w)$. 第二项的模不超过 $2\pi\max_{|z-w|=\rho}|f(z)-f(w)|$, 由连续性趋零. 外圈积分不依赖 $\rho$, 所以等于第一项. 一般曲线同样挖小圆即可.
+\end{proof}
+要点是积分不只看边界上的全纯性; 内部若有奇点, 不可套用公式. 例如 $1/z$ 在单位圆附近全纯, 但单位圆内部有奇点, 因而其积分不为零.
+\begin{theorem}[导数公式]\label{thm:derivcauchy}
+同一条件下 $f$ 有各阶导数, 且
+\[
+f^{(n)}(w)=\frac{n!}{2\pi\ii}\int_C\frac{f(z)}{(z-w)^{n+1}}\dd z,\qquad n=0,1,2,\ldots.
+\]
+\end{theorem}
+\begin{proof}
+固定一个严格在圆内的紧集 $K$, 它到 $C$ 的距离为 $d>0$. 当 $|h|<d/2$ 时,
+\[
+\frac{1}{h}\left(\frac1{z-w-h}-\frac1{z-w}\right)=\frac1{(z-w-h)(z-w)}.
+\]
+右端在 $z\in C,w\in K$ 上一致趋于 $(z-w)^{-2}$, 差的模为 $O(|h|/d^3)$. 乘以有界 $f(z)$ 后积分差仍趋零, 故可把差商极限移入积分. 得到一阶公式. 同样的距离估计允许再次求导, 而核函数每次求导产生因子 $n+1$, 归纳即得各阶公式. 核导数连续且一致受界, 积分表示又表明各阶导数连续.
+\end{proof}
+复可微一次便自动无限次可微. 这也说明全纯函数的实、虚部有连续的任意阶偏导, 前章 Green 路线中的正则性最终获得保证, 但不作为该路线未经证明的起点.
+\begin{example}
+计算逆时针圆 $|z|=2$ 上 $\int\ee^z/(z-1)^3\dd z$.
+\end{example}
+\begin{solution}
+分子整, 1在圆内. 用 $n=2$ 的公式, 积分为 $2\pi\ii f''(1)/2!=\pi\ii\ee$. 若圆改为 $|z|=1/2$, 被积函数在圆内全纯, 积分为0.
+\end{solution}
+
+\originalsection{Cauchy 估计与 Liouville 定理}
+\begin{corollary}[Cauchy 估计]\label{cor:cauchyestimate}
+若 $f$ 在 $\overline{D(a,R)}$ 邻域全纯, $M_R=\max_{|z-a|=R}|f(z)|$, 则 $|f^{(n)}(a)|\le n!M_R/R^n$.
+\end{corollary}
+\begin{proof}
+导数公式中的分母模为 $R^{n+1}$, 圆长度为 $2\pi R$. 用积分估计即可.
+\end{proof}
+\begin{theorem}[Liouville]
+有界整函数必为常数.
+\end{theorem}
+\begin{proof}
+若 $|f|\le M$, 则以任意 $a$ 为心、任意 $R$ 为半径的圆都适用估计, 给 $|f'(a)|\le M/R$. 令 $R\to\infty$ 得 $f'(a)=0$. 前章的零导数结论给出常数性.
+\end{proof}
+\begin{corollary}[代数基本定理]
+次数为 $n\ge1$ 的复多项式按重数恰有 $n$ 个复根.
+\end{corollary}
+\begin{proof}
+若 $P$ 无根, 则 $1/P$ 整. 最高次项给 $|P(z)|\to\infty$ ($|z|\to\infty$), 所以 $1/P$ 在大圆外有界; 圆内由连续性和紧性也有界. Liouville 迫使 $1/P$ 恒定, 与 $P$ 次数正矛盾. 因而有一根 $a$, 多项式除法给 $P=(z-a)Q$. 反复对降次多项式应用存在根结论, 直到次数0; 这给出 $n$ 个一次因子, 同时也证明不可能有额外根.
+\end{proof}
+更一般地, 若 $m\in\mathbb Z_{\ge0}$, 整函数满足 $|f(z)|\le C(1+|z|^m)$, 取 $n>m$ 后 Cauchy 估计令 $R\to\infty$, 得所有这些阶的导数为零. 第5章的 Taylor 展开说明 $f$ 是次数至多 $m$ 的多项式.
+
+\originalsection{平均值与最大模}
+\begin{proposition}[平均值性质]
+若 $f$ 在闭圆盘邻域全纯, 则 $f(a)=(2\pi)^{-1}\int_0^{2\pi}f(a+r\ee^{\ii t})\dd t$.
+\end{proposition}
+\begin{proof}
+在 Cauchy 公式中代入 $z=a+r\ee^{\ii t}$, $\dd z=\ii r\ee^{\ii t}\dd t$, 核的分母恰好抵消.
+\end{proof}
+\begin{theorem}[最大模原理]\label{thm:maxmod}
+域 $\Omega$ 上全纯函数的模若在域内某点有局部最大值, 则函数恒定. 若 $\Omega$ 有界且 $f$ 连续到闭包, 最大模在边界取得; 非常数时内部不会取得它.
+\end{theorem}
+\begin{proof}
+设 $|f(a)|=M$ 为一个小圆盘内的最大模. $M=0$ 时此圆盘上 $f=0$. $M>0$ 时乘一个单位复数, 可设 $f(a)=M$ 为正实数. 平均值性质的实部给 $M$ 等于圆周上 $\Re f$ 的平均, 而 $\Re f\le |f|\le M$. 连续的非负差 $M-\Re f$ 平均为零, 故每点都为零; 再用 $|f|\le M$ 得 $\Im f=0$. 对所有足够小的圆成立, 所以邻域内 $f=M$.
+
+局部常数如何传遍域将在第5章恒等定理给出完整证明. 也可现在作如下论证: 令 $S$ 为具有某常数值且在邻域恒定的点集. 它开; 若 $a$ 在域内为 $S$ 的极限点, 则 $f$ 的各阶导数在这些邻域为零, 连续性使它们在 $a$ 都为零. 第5章从 Cauchy 公式直接得到的局部 Taylor 展开使 $a$ 也属于 $S$. 所以 $S$ 又闭, 连通性给 $S=\Omega$. 这只依赖下一章已经由公式可证明的展开, 不反过来用最大模证明展开. 有界闭包紧, $|f|$ 取得最大值, 非常数时内部不能取得, 只剩边界.
+\end{proof}
+原理在无界域上的边界表述需要额外的无穷远控制. 例如 $\ee^{-\ii z}$ 在上半平面实轴上的模为1, 内部模为 $\ee^{\Im z}>1$, 整个域上并没有有限最大值. 最小模也不能直接照抄: $f(z)=z$ 在0取得模的最小值, 却非常数. 若 $f$ 无零点, 可对 $1/f$ 应用最大模原理.
+
+\originalsection{Morera 与极限}
+\begin{theorem}[Morera]\label{thm:morera}
+开集上连续 $f$ 若对每个闭三角形及其内部包含于开集的三角形, 边界积分都为零, 则 $f$ 全纯.
+\end{theorem}
+\begin{proof}
+在每个小圆盘内用三角形条件构造原函数 $F$, 第3章差商计算给 $F'=f$. 导数公式保证 $F'$ 全纯. 因而 $f$ 局部全纯, 也就全纯于原开集.
+\end{proof}
+\begin{theorem}\label{thm:weierstrasslimit}
+开集上全纯函数列 $f_j$ 若在每个紧集上一致收敛于 $f$, 则 $f$ 全纯, 且对每个固定 $n$, $f_j^{(n)}$ 在紧集上一致收敛于 $f^{(n)}$.
+\end{theorem}
+\begin{proof}
+局部一致极限连续, 且三角形积分可以取极限, 故 Morera 给 $f$ 全纯. 对一个圆盘内更小的紧集, 用同一外圆的导数公式. 差的积分模至多为 $n!\ell(C)\sup_C|f_j-f|/(2\pi d^{n+1})$, 其中 $d$ 是紧集到圆的距离. 故导数一致收敛. 任意紧集用有限个这样的小圆盘覆盖便得结论.
+\end{proof}
+\originalsection{习题与解答}
+\begin{exercise}
+整函数满足 $\Re f\le A$. 证明 $f$ 恒定.
+\end{exercise}
+\begin{solution}
+$\ee^f$ 整且模不超过 $\ee^A$, 所以恒定. 其导数 $\ee^f f'=0$, 指数无零点, 故 $f'=0$.
+\end{solution}
+\begin{exercise}
+若 $f$ 在闭单位圆盘邻域全纯且 $|f|\le1$ 于单位圆周, 证明 $|f'(0)|\le1$.
+\end{exercise}
+\begin{solution}
+Cauchy 估计直接给 $|f'(0)|\le1$. 条件若只是在圆内某条线段成立, 则不能替代圆周条件.
+\end{solution}
+\begin{exercise}
+证明整函数若 $f(z)\to0$ ($|z|\to\infty$), 则 $f\equiv0$.
+\end{exercise}
+\begin{solution}
+大圆外有界, 圆内紧性给有界, 所以整函数恒定. 其无穷远极限使常数为0. 也可固定 $a$, 用大圆 Cauchy 公式估计或最大模原理令边界最大模趋零.
+\end{solution}
