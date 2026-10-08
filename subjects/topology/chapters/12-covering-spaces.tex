@@ -1,0 +1,120 @@
+\originalchapter{覆盖空间}\label{ch:coverings}
+\emph{本章与18.904的覆盖、提升及基本群教学要求对应. 官方摘要并非完整证明文本, 以下局部构造、提升定理、分类论证及练习均为编者补充.}
+
+\originalsection{局部多层结构}
+圆周的角度提升将一圈展开为直线. 覆盖空间把这个构造推广为每个小邻域上若干互不相交的副本, 使全局环路能够通过提升端点被检测.
+\begin{definition}
+连续满射$p:E\to X$称为覆盖映射, 若每个$x\in X$有开邻域$U$, 使$p^{-1}(U)$是互不相交开集$V_\lambda$的并, 且每个$p|_{V_\lambda}:V_\lambda\to U$为同胚. 称$U$被均匀覆盖, $V_\lambda$为其上的片. 集合$p^{-1}(x)$称为纤维.
+\end{definition}
+覆盖映射局部同胚, 因而为开映射: 任意开集与各片相交后映为开集, 再取并. 纤维为离散子空间, 但总空间未必离散. 例如$\R\to S^1$的每个纤维是$a+\mathbb Z$, 各片是短角区间; $z\mapsto z^n$($n\ge1$)是$n$层圆周覆盖. 相反, $z\mapsto z^n$作为$\mathbb C\to\mathbb C$在零点有分支, $n>1$时不是覆盖.
+
+\begin{lemma}\label{lem:lift-unique}
+若$p:E\to X$为覆盖, $Y$连通, 两个连续$f,g:Y\to E$满足$pf=pg$并在一点相同, 则处处相同.
+\end{lemma}
+\begin{proof}
+在任意$y$附近, 选$pf(y)$的均匀覆盖邻域$U$, 再缩小$Y$的邻域, 使$f,g$的像各留在其所在片中. 若$f(y)=g(y)$, 两者在同一片, 由该片上$p$单射而在整个邻域相同. 若不同, 两者所在片不同, 在整个邻域不同. 因而相等集及其补集均开; 连通性与非空相等集给出结论.
+\end{proof}
+
+\originalsection{道路与同伦提升}
+\begin{theorem}\label{thm:cover-path-lift}
+给定道路$\alpha:I\to X$及$e_0\in p^{-1}(\alpha(0))$, 存在唯一道路$\widetilde\alpha:I\to E$使$p\widetilde\alpha=\alpha$, $\widetilde\alpha(0)=e_0$.
+\end{theorem}
+\begin{proof}
+均匀覆盖邻域的逆像覆盖紧区间$I$, 用Lebesgue数取有限分割, 使每个小闭区间的像落在一个均匀覆盖邻域中. 在第一段用含$e_0$的片上逆映射, 后续各段用含前一末值的片. 端点一致, 有限粘合给出连续提升. 唯一性由引理\ref{lem:lift-unique}.
+\end{proof}
+
+\begin{theorem}[环路同伦提升]\label{thm:cover-homotopy-lift}
+设$H:I^2\to X$连续, 已给定底边$H(t,0)$的提升. 则存在唯一$\widetilde H:I^2\to E$提升$H$并与该底边提升一致. 若$H$是固定端点的道路同伦, 提升的两个端点在同伦时间中也不动.
+\end{theorem}
+\begin{proof}
+均匀覆盖邻域在$H$下的逆像覆盖紧正方形, 用Lebesgue数取足够细的矩形网格, 使每个小闭格的像位于一个均匀覆盖邻域. 从底层由左向右, 再逐行向上构造. 在第一格, 已知底边提升落在一个片中: 底边连通, 不可能跨越互不相交的片. 用该片的逆映射提升整格. 后续格与已构造部分相交于下边、左边或两者, 这些边组成连通集, 已有提升均落在同一片中, 选此片的逆映射. 因而重叠处一致, 有限闭格粘合给出连续映射. 唯一性用引理\ref{lem:lift-unique}.
+
+若端点在$X$中不动, 其提升随$s$连续且落在一个离散纤维中, 连通区间到离散空间的像为单点, 故提升端点不动.
+\end{proof}
+这条定理保证固定基点同伦的环路有相同的提升终点. 仅知每条道路可以提升并不足以得到这个结论, 必须用到同伦提升.
+
+\begin{theorem}\label{thm:cover-injective}
+覆盖诱导的$p_*:\pi_1(E,e_0)\to\pi_1(X,x_0)$单射. 其像正是从$e_0$提升后仍回到$e_0$的环路类.
+\end{theorem}
+\begin{proof}
+若$\widetilde\alpha$是$E$中的环路, 则它本身就是$p\widetilde\alpha$从$e_0$出发的提升, 故像的类有闭提升. 反向, 有闭提升的$\alpha$就是该提升环路的像. 若$p\widetilde\alpha$固定端点同伦于常值环路, 提升该同伦. 最后一条道路提升是从$e_0$出发的常值道路, 两端始终固定, 故$\widetilde\alpha$在$E$中可缩. 因而核平凡, $p_*$单射.
+\end{proof}
+
+\originalsection{映射提升的判据}
+\begin{definition}
+空间局部道路连通, 指每点有由道路连通开集组成的邻域基. 空间半局部单连通, 指每个$x$有邻域$U$使$U$中基于$x$的环路在全空间$X$中可缩. 单连通指非空、道路连通且基本群平凡.
+\end{definition}
+局部道路连通空间的道路分支开: 每点的小道路连通邻域留在其道路分支内. 因而连通且局部道路连通的空间道路连通. 若每点有由单连通开集组成的邻域基, 称空间局部单连通. 局部单连通蕴含半局部单连通, 反向不能把“在$X$中可缩”误改为“在$U$中可缩”.
+
+\begin{theorem}[提升判据]\label{thm:map-lifting}
+设$Y$道路连通且局部道路连通, $f:(Y,y_0)\to(X,x_0)$连续, $p:(E,e_0)\to(X,x_0)$为覆盖. 则存在保持基点的连续提升$\widetilde f:Y\to E$, 当且仅当$f_*\pi_1(Y,y_0)\subseteq p_*\pi_1(E,e_0)$. 存在时唯一.
+\end{theorem}
+\begin{proof}
+有提升时$f_*=p_*\widetilde f_*$, 得必要性. 反之, 对$y$选从$y_0$到$y$的道路$\gamma$, 定义$\widetilde f(y)$为$f\gamma$从$e_0$出发提升的终点. 若改选$\delta$, 则$f(\gamma*\overline\delta)$的类属于$p_*\pi_1(E,e_0)$, 其提升闭. 先提升$f\gamma$, 再提升$f\overline\delta$返回$e_0$, 将后一段反向, 由道路提升唯一性可知两种终点相同. 故定义不依赖选择.
+
+为证连续, 给定$y$, 取$f(y)$的均匀覆盖邻域$U$, 再取道路连通开邻域$W\ni y$满足$f(W)\subseteq U$. 从$y$到$z\in W$的道路留在$W$内, 其像的提升留在含$\widetilde f(y)$的片$V$中. 于是对所有$z\in W$, $\widetilde f(z)=(p|_V)^{-1}f(z)$, 给出连续性. 唯一性由连通性和引理\ref{lem:lift-unique}.
+\end{proof}
+
+\begin{example}
+对于$n\ge1$, 求$f:S^1\to S^1$何时能通过覆盖$p_n(z)=z^n$提升, 两者基点均取$1$.
+\end{example}
+\begin{solution}
+$p_{n*}$是$\mathbb Z$上乘$n$, 像为$n\mathbb Z$. 若$f_*$是乘$d$, 提升判据给出$n\mid d$. 特别$f(z)=z^d$可提升为$z^{d/n}$. 一般连续$f$也按相同条件提升, 无需它具有幂函数形式. 提升的基点若未指定, 会有$n$种初始选择.
+\end{solution}
+
+\originalsection{普适覆盖的构造}
+\begin{theorem}\label{thm:universal-cover}
+若$X$道路连通、局部道路连通且半局部单连通, 则存在道路连通、单连通的覆盖空间$\widetilde X\to X$, 称为普适覆盖.
+\end{theorem}
+\begin{proof}
+固定$x_0$. 将从$x_0$出发的道路按固定端点同伦分类, 类记$[\alpha]$, 终点投影$p[\alpha]=\alpha(1)$. 称道路连通开集$U$为合适邻域, 若其中环路在$X$中都可缩. 假设给出这种邻域基: 先在半局部单连通邻域中缩到道路连通开集, 对别的基点用$U$内道路改变基点, 可缩性不变.
+
+对$\alpha(1)\in U$, 令$B([\alpha],U)=\{[\alpha*\beta]:\beta\text{是从}\alpha(1)\text{出发且留在}U\text{的道路}\}$. 任意$U$中点都有这样的$\beta$, 而同终点的两种$\beta$相差$U$内环路, 在$X$中可缩, 故$p$将$B([\alpha],U)$双射到$U$. 若两个这样的集合在$[\gamma]$处相交, 取终点的小合适邻域$W$包含于两原邻域的交, 则$B([\gamma],W)$包含于二者. 所以这些集合构成拓扑基.
+
+在此拓扑中, $p$在每个$B([\alpha],U)$上为同胚: 若$[\gamma]$在基片$B([\alpha],U)$中, 且合适邻域$W$包含其终点并含于$U$, 则限制投影的逆像$(p|_{B([\alpha],U)})^{-1}(W)=B([\gamma],W)$; 这里是限制投影, 全局逆像通常有多片. 同时投影把基片中的小基片映成开邻域. 对固定$u\in U$, 用各$[\alpha]$终点为$u$的基片覆盖$p^{-1}(U)$. 两片若相交, 通过$U$内道路走回$u$, 得原两类相同, 故两片相等; 其余片互不相交. 因而$p$为覆盖.
+
+道路$\alpha$有自然提升$t\mapsto[\alpha|_{[0,t]}]$, 各限制段重参数到$I$, 在$t=0$取常值类. 局部在一个合适$U$内变化时它落在同一基片, 并由片上的逆映射连续, 故整体连续. 它连接常值类与$[\alpha]$, 所以$\widetilde X$道路连通. 若$\widetilde X$中有基于常值类的环路, 其投影$\alpha$的自然提升终点为$[\alpha]$, 但也是常值类. 因而$\alpha$在$X$中可缩; 由$p_*$单射, 原环路也可缩, 得到单连通性.
+\end{proof}
+半局部单连通的用途出现在基片投影的单射性: 小邻域内不同路径只有在全空间可缩的前提下才被识别. 例如平面子空间$\bigcup_{n\ge1}C_n$, 其中$C_n$圆心为$(1/n,0)$、半径为$1/n$, 各圈共用原点, 称为Hawaiian earring. 原点每个邻域都包含足够小的整个圈. 固定$n$, 保留$C_n$而把其他圈压到原点给连续收缩: 在原点的连续性由所有足够小圈都留在小邻域保证, 在其他点可取不碰其他圈的小邻域. 因而该圈的一次环绕在全空间也不可缩. 半局部单连通在原点失效. 这特指平面子空间拓扑, 不能与抽象可数楔和的拓扑混淆.
+
+\originalsection{子群与覆盖分类}
+\begin{theorem}\label{thm:cover-classification}
+在定理\ref{thm:universal-cover}的条件下, 基于$x_0$的道路连通覆盖, 按保持覆盖投影和基点的同胚分类, 与$G=\pi_1(X,x_0)$的子群$H$一一对应, 对应关系为$H=p_*\pi_1(E,e_0)$. 层数为指数$[G:H]$. 若不指定覆盖基点, 对应子群的共轭类.
+\end{theorem}
+\begin{proof}
+给定$H$, 将同终点的道路$\alpha,\beta$视为等价, 当且仅当$[\alpha*\overline\beta]\in H$. 自反、对称、传递由子群和道路消去律得到, 其等价类记为$[\alpha]_H$. 沿普适覆盖证明中相同的基片构造拓扑, 因合适邻域的环路类为单位, 基片仍双射于$U$, 得覆盖$E_H\to X$. 自然道路提升使$E_H$道路连通. 基于$x_0$的环路提升闭恰好是其类属于$H$, 故对应子群正是$H$. $x_0$上纤维的类由$g h^{-1}\in H$判定相同, 即右陪集$Hg$, 其数目为$[G:H]$.
+
+反过来, 对道路连通覆盖$E$及其子群$H$, 定义$F:E_H\to E$将$[\alpha]_H$送到从$e_0$提升$\alpha$的终点. 同终点的$\alpha,\beta$提升终点相同, 当且仅当$\alpha*\overline\beta$从$e_0$的提升闭, 即其类在$H$中. 因而$F$良定义且单射. 道路连通性使任意$e\in E$能从$e_0$沿道路到达, 投影后其提升终点为$e$, 故$F$满射. 为核对局部连续性, 取一个同时合适且被给定覆盖$E\to X$均匀覆盖的道路连通开邻域$U$: 先取均匀覆盖邻域, 再在其与半局部单连通邻域的交内缩小, 局部道路连通性保证可选. 均匀覆盖邻域限制到开子集仍均匀覆盖. 令$q:E_H\to X$, 基片$B$与给定覆盖的片$V$包含对应点, 道路提升唯一性给$F|_B=(p|_V)^{-1}\circ(q|_B)$. 这是两片间的同胚, 所以$F$连续且开, 结合双射得覆盖同胚. 最后在同一纤维改变基点, 以总空间中道路连接并投影为环路$u$, 由基点改变公式得到子群的共轭; 所有这种改变也都由提升环路实现.
+\end{proof}
+
+\begin{definition}
+覆盖的甲板变换是同胚$T:E\to E$满足$pT=p$. 它们组成群$\operatorname{Deck}(p)$.
+\end{definition}
+连通覆盖的甲板变换由一点的像唯一确定, 因为它与另一变换是同一投影的两个提升, 可用引理\ref{lem:lift-unique}. 对正规子群$H\triangleleft G$, 构造$T_u[\alpha]_H=[u*\alpha]_H$. 正规性保证换代表后的共轭$u(\alpha\overline\beta)\overline u$仍在$H$中, 故良定义. 它逐片为同胚, 逆为$T_{\overline u}$. $u$在$H$中时作用恒等, 反之常值类的像改变; 由纤维上的传递作用及一点唯一性, 得$\operatorname{Deck}(E_H)=G/H$.
+
+\begin{example}
+分类所有连通圆周覆盖, 并计算$n$层覆盖的甲板群.
+\end{example}
+\begin{solution}
+$\mathbb Z$的子群为$n\mathbb Z$($n\ge1$)及$\{0\}$. 前者由$z\mapsto z^n$实现, 后者由$\R\to S^1$实现, 分类定理保证没有遗漏. 前者甲板群为$\mathbb Z/n\mathbb Z$, 具体是乘$n$次单位根; 后者为$\mathbb Z$, 具体是整数平移. 这项分类指覆盖同胚类型, 不要求任意给定投影已经写成幂函数.
+\end{solution}
+
+\originalsection{练习与解答}
+\begin{exercise}
+证明$n$层覆盖中底空间每个点的纤维点数相同, 若底空间道路连通. 说明证明是否需要总空间连通.
+\end{exercise}
+\begin{solution}
+选从$x$到$y$的道路, 将每个$x$纤维点提升到一个$y$纤维点. 反向道路的提升给出逆对应, 因道路提升唯一性, 两次复合回到原点. 所以纤维之间双射, 无需总空间连通. 无限纤维也有相同基数.
+\end{solution}
+\begin{exercise}
+设$p:E\to X$覆盖且$X$单连通、局部道路连通. 证明每个道路连通的$E$必由$p$同胚到$X$.
+\end{exercise}
+\begin{solution}
+$G$平凡, 唯一子群指数为$1$. 由分类或闭提升判据, 每个纤维只有一点: 若同纤维两点由道路连接, 投影为可缩环路, 同伦提升使终点回到起点. 因而$p$双射, 覆盖映射开且连续, 故为同胚. 没有总空间连通条件时可为多份$X$的不交并.
+\end{solution}
+\begin{exercise}
+考虑$p:\R^2\to S^1\times S^1$, $p(s,t)=(e^{2\pi is},e^{2\pi it})$. 证明它是普适覆盖并求甲板变换.
+\end{exercise}
+\begin{solution}
+小开弧的积逆像为互不相交角矩形, 投影逐片为同胚, 故是覆盖. $\R^2$凸且道路连通, 所以单连通. 平移$(s,t)\mapsto(s+m,t+n)$($m,n\in\mathbb Z$)都是甲板变换. 任意甲板变换对每点的位移为整数向量, 位移函数连续, 连通性使其恒定, 所以恰为这些变换, 群为$\mathbb Z^2$.
+\end{solution}

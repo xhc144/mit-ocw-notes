@@ -1,0 +1,121 @@
+\originalchapter{积空间与商空间}\label{ch:products}
+\emph{本章沿18.901的任意积、商拓扑、局部紧性与Tychonoff定理安排补充完整论证. 商空间分离性参照Notes G; 超滤子的证明、模型计算和练习为编者补充.}
+
+\originalsection{任意积与箱拓扑}
+给定一族空间$\{X_i\}_{i\in I}$, 集合$P=\prod_{i\in I}X_i$由每个坐标取一个元素的函数组成. 讨论非空积时, 默认在通常含选择公理的集合论框架内工作. 积上的开集不能简单地定义为任意开矩形, 因为那会对无限多个坐标同时施加约束.
+\begin{definition}
+积拓扑的基本开集为$\prod_iU_i$, 其中$U_i\subseteq X_i$开, 且除有限多个$i$外均有$U_i=X_i$. 不要求这个有限性条件所得的是箱拓扑. 坐标投影记为$\pi_i:P\to X_i$.
+\end{definition}
+基本矩形的有限交仍有上述形式, 所以构成基. 积拓扑是使所有投影连续的最粗拓扑: 每个基本矩形是有限个$\pi_i^{-1}(U_i)$的交, 任一使投影连续的拓扑必包含它们. 因而$f:Z\to P$连续当且仅当所有$\pi_i\circ f$连续; 两方向分别用复合连续性和有限交逆像判据证明.
+
+\begin{example}
+在$\R^{\mathbb N}$的积拓扑中, 证明序列收敛当且仅当逐坐标收敛. 说明映射$t\mapsto(t,t,\ldots)$在积拓扑连续, 在箱拓扑不连续.
+\end{example}
+\begin{solution}
+积中收敛由连续投影推出各坐标收敛. 反向对只约束有限组坐标的基本邻域, 在每个坐标上取充分靠后的指标, 再取其最大值即可. 对所述映射, 每个坐标都是恒等函数, 因而积拓扑下连续. 箱开集$\prod_{n\ge1}(-1/n,1/n)$的逆像是$\{0\}$, 在$\R$中不开, 因而箱拓扑下不连续.
+\end{solution}
+
+\begin{proposition}\label{thm:countable-product-metric}
+若$(X_n,d_n)$可度量化, 则可数积的积拓扑由
+$d(x,y)=\sum_{n\ge1}2^{-n}\min\{1,d_n(x_n,y_n)\}$生成. 非空空间的任意积Hausdorff当且仅当各因子Hausdorff. 可数个第二可数空间的积第二可数.
+\end{proposition}
+\begin{proof}
+$\min(1,a+b)\le\min(1,a)+\min(1,b)$保证每项的三角不等式, 级数正定且收敛. 给定有限坐标约束, 取足够小$d$球使对应每一项都小于所需阈值, 可保证球在基本矩形中. 反向先截尾使$\sum_{n>N}2^{-n}<\varepsilon/2$, 再用前$N$个坐标的小球使头部总和小于$\varepsilon/2$, 得到包含于$d$球的基本矩形.
+
+若各因子Hausdorff, 两个不同积点必在某一坐标不同, 该坐标的分离邻域逆像将两点分离. 反向固定其他坐标, 单个因子作为积中的一个子空间嵌入, 而Hausdorff性传给子空间. 对第二可数性, 将每个因子的可数基与有限坐标集组合; 可数集的有限子集可数, 每组有限选择也可数, 所得基可数.
+\end{proof}
+不可数积通常不满足第一可数性. 例如$\{0,1\}^I$的$0$点若有可数邻域基, 将每个邻域缩成基本矩形, 所有受约束坐标的并仍可数. 取不在其中的$j$, 没有这些基本邻域能包含于$\{x:x_j=0\}$, 矛盾. 这也说明不能用一条序列代替任意积中的全部邻域信息.
+
+\originalsection{积空间的紧致性}
+设$X,Y$均紧. 若一因子为空, 积为空而紧, 以下设非空. 有限积的证明可以直接从开覆盖开始. 对$X\times Y$的开覆盖, 固定$x$, 用有限个开矩形覆盖紧切片$\{x\}\times Y$, 每个矩形含于某个覆盖成员. 将这些矩形的$X$分量取交, 得$x$的邻域$U_x$, 使$U_x\times Y$由同一有限组成员覆盖. 再从$\{U_x\}$选有限个覆盖紧$X$, 即得全积的有限子覆盖. 这个论证亦称管状邻域论证.
+
+任意积需要一个能同时处理所有坐标的工具. 下面从有限交性质构造超滤子, 不将度量序列的对角法误用于不可数积.
+\begin{definition}
+集合$X$上的滤子$\mathcal F$是一个子集族: $X\in\mathcal F$, $\varnothing\notin\mathcal F$, 对有限交封闭, 且$A\in\mathcal F$, $A\subseteq B$时$B\in\mathcal F$. 在真滤子中极大的滤子称为超滤子. 给定$x\in X$, 若$x$的每个邻域都属于$\mathcal F$, 称滤子收敛于$x$.
+\end{definition}
+一个具有有限交性质的集合族生成真滤子: 取包含它的有限交的所有超集. 记这个生成滤子为$\mathcal F_0$. 对所有包含$\mathcal F_0$的真滤子按包含排序, 该集合非空; 任一非空链的并仍是真滤子且包含$\mathcal F_0$, 空链也有$\mathcal F_0$作上界. 用Zorn引理得到极大元, 它也是所有真滤子中的极大元, 因为任何更大真滤子仍包含$\mathcal F_0$. 这是此处调用选择公理的具体位置. 超滤子$\mathcal U$对任意$A\subseteq X$满足$A\in\mathcal U$或$X\setminus A\in\mathcal U$, 且两者不能同时属于它. 若$A\notin\mathcal U$, 在$\mathcal U$中加入$A$不能生成真滤子, 故存在$F\in\mathcal U$与$A$不交, 上封闭性给出$X\setminus A\in\mathcal U$.
+
+\begin{lemma}\label{lem:ultrafilter-compact}
+空间紧致当且仅当每个超滤子都至少收敛于一点. 这里开覆盖与闭集有限交性质的等价, 由取补集直接得到, 对任意拓扑空间成立.
+\end{lemma}
+\begin{proof}
+若$X$紧, 超滤子中各集合的闭包有有限交性质, 因为原集合的有限交非空. 由紧性选$x\in\bigcap_{F\in\mathcal U}\overline F$. 若$x$的开邻域$V$不在$\mathcal U$中, 则$X\setminus V\in\mathcal U$, 其闭包就是自身, 与$x$的选取矛盾. 因而$\mathcal U$收敛于$x$.
+
+反之, 对有有限交性质的闭集族扩充为超滤子, 取其极限$x$. 每个原闭集$F$必须含$x$, 否则开邻域$X\setminus F$也在滤子中, 与$F$的交为空. 因而闭集有限交性质推出共同交非空, 等价于紧性. 空空间没有真滤子, 结论也成立.
+\end{proof}
+
+\begin{theorem}[Tychonoff定理]\label{thm:tychonoff}
+任意一族紧空间的积, 在积拓扑中仍紧.
+\end{theorem}
+\begin{proof}
+若积为空则紧. 否则设$\mathcal U$为积上的超滤子. 对每个$i$, 令$\mathcal U_i=\{A\subseteq X_i:\pi_i^{-1}(A)\in\mathcal U\}$. 逆像保持交与补集, 故$\mathcal U_i$是超滤子. 紧性使其收敛于某个$x_i$. 选取这些极限得到$x=(x_i)$. $x$的基本邻域由有限个坐标邻域逆像相交得到, 各逆像均在$\mathcal U$中, 因而基本邻域及其超集均在$\mathcal U$中. 所以$\mathcal U$收敛于$x$, 用引理\ref{lem:ultrafilter-compact}完成证明.
+\end{proof}
+Hausdorff不是积紧致定理的条件, 它的作用是极限唯一和紧集闭等性质. 箱拓扑则会使结论失败: $\{0,1\}^{\mathbb N}$在箱拓扑是无限离散空间, 单点开覆盖无有限子覆盖, 而在积拓扑紧致.
+
+\originalsection{商映射与粘合}
+第7章给出的商泛性质是构造映射的主要工具. 这里进一步处理如何验证商映射和商空间的分离性.
+\begin{proposition}\label{thm:quotient-open-closed}
+连续满射若为开映射或闭映射, 则是商映射. 商映射的复合仍为商映射. 若$q:X\to Q$为商映射, $W\subseteq Q$开, 则限制$q:q^{-1}(W)\to W$仍是商映射.
+\end{proposition}
+\begin{proof}
+开映射情形, 若$q^{-1}(V)$开, 则$V=q(q^{-1}(V))$开. 闭映射情形将同一论证用于补集. 对复合, 连续性和反向开集判据依次使用即可. 最后若$V\subseteq W$且其逆像在$q^{-1}(W)$相对开, 因$q^{-1}(W)$开, 该逆像在$X$中开, 故$V$在$Q$中开, 特别在$W$中开; 反向由连续性.
+\end{proof}
+限制到任意子集时不能无条件使用最后结论. 同样, 两个商映射的积也不能无条件宣布是商映射; 后面的道路商构造只使用已验证的紧到Hausdorff情形或开映射情形.
+
+\begin{theorem}\label{thm:closed-equivalence}
+设$X$紧Hausdorff, $R\subseteq X\times X$是闭的等价关系. 则商空间$Q=X/R$紧Hausdorff, 且商映射$q$闭.
+\end{theorem}
+\begin{proof}
+对闭集$F\subseteq X$, 饱和集$q^{-1}(q(F))$是紧集$R\cap(X\times F)$在第一坐标的投影, 故紧而闭. 商拓扑的闭集判据于是说明$q(F)$闭. 商空间紧是连续像定理.
+
+不同等价类$C,D$各为闭紧子集, 因为类$C$是$R$与一条坐标切片的交所给出的闭集. 在紧Hausdorff空间的正规性下, 选不交开集$U\supseteq C$, $V\supseteq D$. 集合$U'=X\setminus q^{-1}(q(X\setminus U))$开、饱和, 包含$C$且包含于$U$; 同样构造$V'$. 商空间中的$q(U'),q(V')$开, 因为逆像分别是$U',V'$, 它们不交并分别含两类. 因而$Q$为Hausdorff.
+\end{proof}
+
+\begin{example}
+证明$[0,1]^2$将相对边按相同参数粘合的商空间同胚于环面$S^1\times S^1$. 证明$S^n$的对径点商$\mathbb RP^n$是紧Hausdorff空间.
+\end{example}
+\begin{solution}
+映射$(s,t)\mapsto(e^{2\pi is},e^{2\pi it})$的纤维正是相对边粘合所生成的等价类, 诱导从紧商空间到Hausdorff环面的连续双射, 由第7章同胚判据得到结论. 对对径点商, 等价关系是对角线与映射$x\mapsto-x$的图像之并. 两者分别为连续函数$(x,y)\mapsto|y-x|$与$(x,y)\mapsto|y+x|$的零点集, 所以在$S^n\times S^n$中闭. 有限并闭, 用定理\ref{thm:closed-equivalence}即可.
+\end{solution}
+反例也说明闭关系条件的意义. 在$\R$中将所有非零点粘为一类, 保留零点一类. 非零类在商中开, 但零点类没有与其不交的开邻域, 商不Hausdorff. 等价关系不闭: $(1/n,1)$属于关系, 却趋于不属于关系的$(0,1)$.
+
+\originalsection{局部紧性与一点紧化}
+\begin{definition}
+Hausdorff空间若每点都有一个紧邻域, 称为局部紧空间. 邻域不一定开, 但须包含该点的开邻域. 一点紧化是在$X$外加入一点$\infty$, 使其邻域通过紧集的补集表达.
+\end{definition}
+\begin{lemma}\label{lem:local-compact-shrink}
+局部紧Hausdorff空间中, 对$x\in U$且$U$开, 存在开$V$满足$x\in V\subseteq\overline V\subseteq U$, 且$\overline V$紧. 因而这种空间正则.
+\end{lemma}
+\begin{proof}
+取紧邻域$K$及开$O$使$x\in O\subseteq K$. 紧$K$在Hausdorff空间中闭, 且作为子空间正规. 在$K$中将$x$的开邻域$K\cap O\cap U$收缩为相对开$W$, 使$\overline W^{\,K}\subseteq O\cap U$. 因$W\subseteq O$且$O$在$X$中开, $W$也是$X$中开. $K$闭使$\overline W^{\,X}=\overline W^{\,K}$, 后者为紧集, 且包含于$U$. 单点闭, 正则性由引理\ref{lem:shrink}得到.
+\end{proof}
+
+\begin{theorem}\label{thm:one-point}
+若$X$局部紧Hausdorff且不紧, 在$X^*=X\cup\{\infty\}$中保留$X$的开集, 并把$\{\infty\}\cup(X\setminus K)$($K\subseteq X$紧)作为$\infty$的开邻域基. 则$X^*$紧Hausdorff, $X$为其开稠密子空间.
+\end{theorem}
+\begin{proof}
+紧集在$X$中闭, 两个所述无穷点邻域的交对应紧集的有限并; 它们与$X$开集的交仍开. 因而给出拓扑基, 且诱导原子空间拓扑. 对$X$中的两个点, 原Hausdorff邻域仍可用. 对$x$与$\infty$, 用引理\ref{lem:local-compact-shrink}取紧闭包的开邻域$V$; $V$与$X^*\setminus\overline V$分离二者. 任意开覆盖取一个含$\infty$的成员, 它的补集包含于某个紧$K$并闭, 因而紧; 从剩余成员取有限子覆盖. 故$X^*$紧. 若$\infty$有不与$X$相交的开邻域, 将导致$X$本身紧, 与假设矛盾. 所以$X$稠密.
+\end{proof}
+对$n\ge1$, $\R^n$的一点紧化是$S^n$. 将北极删去后, 球面点$(u,t)\in\R^n\times\R$经立体投影变为$u/(1-t)$; 逆映射为
+$x\mapsto(2x/(1+|x|^2),(|x|^2-1)/(1+|x|^2))$.
+两式连续互逆, 当$|x|\to\infty$时逆像趋北极. 更准确地, 北极邻域的补集在其余球面紧, 映到$\R^n$中紧, 所以延伸为一点紧化的连续双射; 紧到Hausdorff判据使其为同胚.
+
+\originalsection{练习与解答}
+\begin{exercise}
+证明积投影是开映射, 但未必是闭映射.
+\end{exercise}
+\begin{solution}
+非空因子的积中, 基本矩形投影到所选坐标是对应开集, 或为空; 一般开集是基本矩形的并, 故投影开. $\R^2$中的闭集$\{(x,y):xy=1\}$投影为$\R\setminus\{0\}$, 不闭. 因而开投影的商映射性质不能误说成它总是闭映射.
+\end{solution}
+\begin{exercise}
+证明可数个紧度量空间的积是紧度量空间, 并给出一条不用超滤子的序列证明.
+\end{exercise}
+\begin{solution}
+度量由命题\ref{thm:countable-product-metric}给出. 对积中的序列, 先在第一坐标取收敛子列, 再在其内部取第二坐标收敛子列, 依次进行. 从第$n$层子列中选一个原指标, 要求这些原指标严格递增, 并保留其属于前$n$层的性质. 所得对角子列每个固定坐标均收敛, 因而在积中收敛. 积序列紧, 用度量空间中序列紧与紧的等价得紧性. 此证明不能直接处理不可数坐标.
+\end{solution}
+\begin{exercise}
+设$X$紧Hausdorff, $A$为非空闭集. 将整个$A$缩成一点、其余点各自保留. 证明商空间紧Hausdorff.
+\end{exercise}
+\begin{solution}
+关系$R=\Delta_X\cup(A\times A)$闭, 因为Hausdorff空间的对角线闭: 对不同点取不交开邻域, 其积避开对角线, 故对角线的补集开. $A\times A$也闭. 用定理\ref{thm:closed-equivalence}. 同样的定义若用于非闭$A$, 不能靠这个结论保证Hausdorff性.
+\end{solution}

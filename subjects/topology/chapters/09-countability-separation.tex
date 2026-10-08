@@ -1,0 +1,138 @@
+\originalchapter{可数性与分离公理}\label{ch:separation}
+\emph{本章沿18.901 Fall 2004的可数性、分离公理与可度量化教学安排展开. Notes D提供可数性比较的直接依据; 完整证明、反例及练习由编者补充. 不复制该课商业教材.}
+
+\originalsection{闭包与连续性}
+第7章已将连续性表述为开集逆像的性质. 下面重新检查依赖距离的概念, 使后续构造能够在一般拓扑空间中使用.
+\begin{definition}
+对拓扑空间$X$中的子集$A$, 内部$A^\circ$是包含于$A$的所有开集的并, 闭包$\overline A$是包含$A$的所有闭集的交. 边界为$\partial A=\overline A\setminus A^\circ$. 若$\overline A=X$, 称$A$在$X$中稠密.
+\end{definition}
+这些并与交分别开、闭, 因而内部是最大的开子集, 闭包是最小的闭超集. 点$x$属于$\overline A$当且仅当$x$的每个开邻域都与$A$相交: 若有开邻域$U$与$A$不交, 闭集$X\setminus U$包含$A$却不含$x$; 反之, 若$x$不在某个包含$A$的闭集$F$中, 则$X\setminus F$就是这样的邻域. 这个判据没有使用序列, 所以无需第一可数性.
+
+\begin{proposition}\label{thm:closure-continuity}
+映射$f:X\to Y$连续当且仅当对每个$A\subseteq X$有$f(\overline A)\subseteq\overline{f(A)}$.
+\end{proposition}
+\begin{proof}
+若$f$连续, $x\in\overline A$, 则$f(x)$的每个开邻域$V$的逆像都是$x$的开邻域, 与$A$相交, 故$V$与$f(A)$相交. 反之, 设所述包含关系成立. 对闭集$F\subseteq Y$, 取$A=f^{-1}(F)$. 因为$\overline{f(A)}\subseteq F$, 有$\overline A\subseteq f^{-1}(F)=A$, 因而$f^{-1}(F)$闭, 得到连续性.
+\end{proof}
+
+\begin{lemma}[粘合引理]\label{lem:pasting}
+设$X=\bigcup_i A_i$, 且各$f_i:A_i\to Y$连续并在重叠处相同. 若$\{A_i\}$是开覆盖, 或是有限闭覆盖, 则逐片定义的$f:X\to Y$连续.
+\end{lemma}
+\begin{proof}
+对开覆盖, 开集$V\subseteq Y$的逆像是各相对开集$f_i^{-1}(V)$的并; 因为$A_i$本身开, 这些集合在$X$中也开. 对有限闭覆盖, 改用闭集$F\subseteq Y$: 各$f_i^{-1}(F)$在闭子空间$A_i$中闭, 故在$X$中闭, 有限并仍闭. 重叠处的一致性保证$f$良定义.
+\end{proof}
+有限这一条件不可任意删除. 将$\R$按单点分成无限闭覆盖时, 任意函数在每片上都连续, 并不能推出全局连续. 后面拼接道路时使用的是有限个闭区间, 正好符合引理条件.
+
+\originalsection{三种可数性条件}
+\begin{definition}
+空间$X$若有可数的开集基, 称为第二可数. 若有可数稠密子集, 称为可分. 若每个开覆盖都有可数子覆盖, 称为Lindel\"of空间. 第一可数性只要求每点各自具有可数邻域基, 并不要求这些基的总数可数.
+\end{definition}
+这些条件分别控制全局开集、稠密点集和开覆盖. $\R^n$中有理中心、有理半径的球构成可数基: 对$x\in U$先取$B(x,\varepsilon)\subseteq U$, 再选有理中心$q$足够靠近$x$, 以及满足$|x-q|<r<\varepsilon-|x-q|$的有理半径$r$, 即有$x\in B(q,r)\subseteq U$.
+
+\begin{proposition}\label{thm:second-countable}
+第二可数空间第一可数、可分且Lindel\"of. 第二可数性传给子空间.
+\end{proposition}
+\begin{proof}
+设$\{B_n\}$为可数基. 含点$x$的基元素给出其邻域基. 从每个非空$B_n$选一点$x_n$, 则任意非空开集包含某个非空$B_n$, 因而与$\{x_n\}$相交, 得到可分性. 对任意开覆盖$\mathcal U$, 将那些包含在某个$U\in\mathcal U$中的$B_n$列出, 对每个这样的$n$选择一个$U_n\supseteq B_n$. 任意$x$先属于某个$U$, 再属于其中某个基元素, 故被某个$U_n$覆盖. 最后, $\{A\cap B_n\}$是子空间$A$的可数基. 若$X$为空, 各结论直接成立.
+\end{proof}
+
+\begin{theorem}\label{thm:metric-countability}
+度量空间中, 第二可数、可分、Lindel\"of三者等价.
+\end{theorem}
+\begin{proof}
+只须证明另外两者各自推出第二可数. 若$D$可数稠密, 则以$D$中点为中心、正有理数为半径的球构成可数基, 证明与上面的欧氏空间论证相同, 只用三角不等式. 若空间Lindel\"of, 对每个正整数$n$从全体半径$1/n$的球覆盖中取可数子覆盖, 记其中心集为$D_n$. 可数集$D=\bigcup_nD_n$稠密: 给定非空开球$B(x,\varepsilon)$, 取$1/n<\varepsilon$, 覆盖$x$的球中心属于$D\cap B(x,\varepsilon)$. 再用已经证明的可分情形.
+\end{proof}
+
+\begin{example}
+在$\R$上以$[a,b)$为基定义下限拓扑. 证明此空间第一可数且可分, 但不是第二可数.
+\end{example}
+\begin{solution}
+点$x$的$[x,x+1/n)$形成可数邻域基. 每个非空基本开集都含有理数, 故$\mathbb Q$稠密. 假设有可数基$\mathcal B$. 对每个$x$选$B_x\in\mathcal B$满足$x\in B_x\subseteq[x,x+1)$. 若$x<y$, 则$B_y\subseteq[y,y+1)$不含$x$, 而$B_x$含$x$, 所以$B_x\ne B_y$. 这要求基含有不可数多个不同成员, 矛盾. 因而度量空间中的等价不能照搬到一般拓扑空间.
+\end{solution}
+
+\originalsection{正则性与正规性}
+\begin{definition}
+$T_1$指每个单点集闭. Hausdorff也称$T_2$. 本书称一个$T_1$空间为正则空间, 若点$x$与不含它的闭集$F$有互不相交的开邻域; 称为正规空间, 若任意两不相交闭集有互不相交的开邻域. 这里将$T_1$纳入约定, 以避免不同教材的术语差异.
+\end{definition}
+Hausdorff蕴含$T_1$: 对固定$y$, 每个$x\ne y$都有不含$y$的开邻域, 这些邻域的并为$X\setminus\{y\}$. 正则也蕴含Hausdorff, 因为第二个点构成闭集. 正规蕴含正则, 因为点本身闭.
+
+\begin{lemma}\label{lem:shrink}
+$T_1$空间正则当且仅当对$x\in U$且$U$开, 存在开集$V$满足$x\in V\subseteq\overline V\subseteq U$. $T_1$空间正规当且仅当对闭集$A\subseteq U$且$U$开, 存在开集$V$满足$A\subseteq V\subseteq\overline V\subseteq U$.
+\end{lemma}
+\begin{proof}
+若有分离性质, 将点或闭集$A$与$X\setminus U$分离为开集$V,W$. 因为$W\cap V=\varnothing$且$W$开, 有$\overline V\subseteq X\setminus W\subseteq U$. 反之, 将$U$取为另一个闭集的补集, 用$V$与$X\setminus\overline V$作所需的互不相交开邻域.
+\end{proof}
+
+\begin{proposition}\label{thm:normal-examples}
+度量空间正规. 紧Hausdorff空间正规. 正则Lindel\"of空间正规.
+\end{proposition}
+\begin{proof}
+度量情形, 对非空不交闭集$A,B$, 函数$d(x,A)=\inf_{a\in A}d(x,a)$是$1$-Lipschitz, 且其零点集正是$A$. 开集$\{d(x,A)<d(x,B)\}$与$\{d(x,B)<d(x,A)\}$不交并分别包含$A,B$. 空闭集的情形取空邻域即可.
+
+紧Hausdorff情形先用有限覆盖证明正则: 给定$x\notin F$, 对每个$y\in F$选互不相交开邻域$U_y\ni x$, $V_y\ni y$, 用有限个$V_y$覆盖闭而紧的$F$, 再将相应$U_y$取交. 给定闭集$A\subseteq U$, 用正则性对每个$a\in A$取开邻域$V_a$使$\overline{V_a}\subseteq U$. 有限个$V_a$覆盖紧集$A$, 其并的闭包仍包含于$U$, 用引理\ref{lem:shrink}得到正规性.
+
+最后设$X$正则Lindel\"of, $A,B$不交且闭; 任一为空时用空集及全集分离即可. 闭子空间$A$也Lindel\"of: 将相对开覆盖写为$A\cap O_i$, 其中$O_i$在$X$中开, 用$\{O_i\}\cup\{X\setminus A\}$覆盖$X$, 取可数子覆盖再限制到$A$. 因而可以找到可数开族$U_n,V_n$分别覆盖$A,B$, 满足$\overline{U_n}\cap B=\varnothing$, $\overline{V_n}\cap A=\varnothing$. 必要时重复成员补成序列. 令
+\[
+ U=\bigcup_n\left(U_n\setminus\bigcup_{i\le n}\overline{V_i}\right),\qquad
+ V=\bigcup_n\left(V_n\setminus\bigcup_{i\le n}\overline{U_i}\right).
+\]
+各括号内集合开, 且$U,V$分别包含$A,B$. 若一点同时属于第$n$个$U$片和第$m$个$V$片, 当$m\le n$时第一片已删去$V_m$的闭包, 当$n\le m$时第二片已删去$U_n$的闭包, 两种情形都矛盾.
+\end{proof}
+
+\originalsection{Urysohn引理与延拓}
+用连续函数分离闭集比用开集分离更强地连接了拓扑与分析. 距离公式只适用于已知的度量, 一般正规空间则要用一串嵌套开集构造函数.
+\begin{theorem}[Urysohn引理]\label{thm:urysohn}
+设$X$正规, $A,B$是不交闭集. 存在连续$f:X\to[0,1]$满足$f|_A=0$, $f|_B=1$.
+\end{theorem}
+\begin{proof}
+记$D$为$[0,1]$中的二进有理数. 先取$U_1=X\setminus B$, 再由引理\ref{lem:shrink}取$A\subseteq U_0\subseteq\overline{U_0}\subseteq U_1$. 每一层相邻已定义的$r<s$之间, 取$U_{(r+s)/2}$使$\overline{U_r}\subseteq U_{(r+s)/2}\subseteq\overline{U_{(r+s)/2}}\subseteq U_s$. 逐层进行后, 对所有$r<s$均有$\overline{U_r}\subseteq U_s$.
+
+定义$f(x)=\inf\{r\in D:x\in U_r\}$, 集合为空时令$f(x)=1$. $A\subseteq U_0$给出$f(A)=0$, 而$B$不属于任何$U_r$, 给出$f(B)=1$. 对$0<a\le1$, 有$\{f<a\}=\bigcup_{r<a}U_r$: 若下确界小于$a$, 必有一个候选$r<a$; 反向立即成立. 对$0\le a<1$, 有
+$\{f>a\}=\bigcup_{r>a}(X\setminus\overline{U_r})$.
+右侧一点不在$\overline{U_r}$, 就不在任何$U_s$($s\le r$), 因而$f\ge r>a$. 反之, 若$f(x)>a$, 选$a<r<s<f(x)$的二进有理数; 由于$\overline{U_r}\subseteq U_s$且$x\notin U_s$, 有$x\notin\overline{U_r}$. 这些逆像全开, 超出$[0,1]$的$a$则给出空集或全集. 开区间是两个这样的射线的交, 故$f$连续.
+\end{proof}
+
+\begin{theorem}[有界Tietze延拓]\label{thm:tietze}
+设$X$正规, $A\subseteq X$闭, $f:A\to[-M,M]$连续, $M\ge0$. 则存在连续$F:X\to[-M,M]$使$F|_A=f$.
+\end{theorem}
+\begin{proof}
+$M=0$时取零函数. 先对$r>0$及连续$h:A\to[-r,r]$构造误差缩减项. 集合$C=\{h\le-r/3\}$和$D=\{h\ge r/3\}$在$A$中闭, 因$A$闭而在$X$中闭, 且不交. 用Urysohn引理得到$g:X\to[-r/3,r/3]$, 在$C,D$上分别取$-r/3,r/3$. 在$C$上有$g=-r/3$, $h\in[-r,-r/3]$, 故$|h-g|\le2r/3$; 在$D$上有$g=r/3$, $h\in[r/3,r]$, 同界成立; 其余点满足$|h|<r/3$, $|g|\le r/3$, 仍得$|h-g|\le2r/3$.
+
+对$h_0=f$, $r_0=M$做此构造, 再令$h_{n+1}=h_n-g_n|_A$, $r_{n+1}=2r_n/3$. 每步都有$\lVert g_n\rVert_\infty\le r_n/3$, $\lVert h_{n+1}\rVert_\infty\le r_{n+1}$. 级数$F=\sum_{n\ge0}g_n$一致收敛, 因为$\sum r_n/3=M$. 其值在$[-M,M]$中, 在$A$上与$f$的误差不超过$r_{n+1}\to0$. 一致极限在任意拓扑定义域上连续: 给定$x$和$\varepsilon$, 先使一致尾差小于$\varepsilon/3$, 再取有限部分和在$x$的邻域使变化小于$\varepsilon/3$, 三角不等式控制总变化. 因而$F$为所需延拓.
+\end{proof}
+这里证明的是实值有界版本. 它不表示从闭子集到任意目标空间的映射都能延拓; 例如圆周恒等映射不能延拓为从圆盘到圆周的连续映射, 第\ref{ch:fundamental}章将给出阻碍.
+
+\originalsection{可度量化}
+这里先约定可数立方体$[0,1]^{\mathbb N}$的积拓扑: 基本开集只对有限个坐标指定相对开区间, 其余坐标任意. 坐标逆像的有限交构成这个基, 因而映入立方体连续当且仅当各坐标连续. 第\ref{ch:products}章再讨论任意积.
+\begin{theorem}[第二可数正则空间的可度量化]\label{thm:metrization}
+每个第二可数正则空间都同胚于可数立方体$[0,1]^{\mathbb N}$的一个子空间, 因而可度量化.
+\end{theorem}
+\begin{proof}
+第二可数蕴含Lindel\"of, 故空间正规. 设$\{B_n\}$为可数基. 对所有满足$\overline{B_i}\subseteq B_j$的有序对$(i,j)$, 用Urysohn引理选连续$f_{ij}:X\to[0,1]$, 在$\overline{B_i}$上取$1$, 在$X\setminus B_j$上取$0$. 这些函数可数, 列成$f_1,f_2,\ldots$, 有限时重复, 空间为空时结论直接成立.
+
+对任意$x\in U$且$U$开, 先选$x\in B_j\subseteq U$, 再由正则性选$x\in V\subseteq\overline V\subseteq B_j$, 最后选$x\in B_i\subseteq V$. 相应$f_{ij}(x)=1$, 且$\{f_{ij}>1/2\}\subseteq B_j\subseteq U$. 因而这些函数既分离不同点, 又能检测全部开邻域. 映射$\Phi(x)=(f_n(x))_n$连续且单射, 其像中每个原开邻域都含一个坐标开集的逆像, 所以逆映射也连续.
+
+可数立方体上定义$\rho(u,v)=\sum_{n\ge1}2^{-n}|u_n-v_n|$. 正定性与三角不等式逐项成立. 小$\rho$距离强制任意固定有限组坐标接近; 反之, 先令尾和小于$\varepsilon/2$, 再约束前有限组坐标使其贡献小于$\varepsilon/2$, 可在每个点找到包含于$\rho$球的基本积邻域. 故该度量生成积拓扑. 将其通过$\Phi$拉回即可.
+\end{proof}
+第二可数只是充分条件, 不是可度量化的必要条件: 任意不可数集合的离散度量生成离散拓扑, 而它没有可数基. 第\ref{ch:products}章会进一步区分可数积与不可数积.
+
+\originalsection{练习与解答}
+以下题目与解答均为编者补充.
+\begin{exercise}
+证明正则性传给子空间. 指出上述正规性的证明为何不能同样直接搬到任意子空间.
+\end{exercise}
+\begin{solution}
+在$A\subseteq X$中给定$x\in A\cap U$, 其中$U$在$X$中开. 在$X$中取$x\in V\subseteq\overline V^{\,X}\subseteq U$. 则$A\cap V$是所需相对开邻域, 且$\overline{A\cap V}^{\,A}\subseteq A\cap\overline V^{\,X}\subseteq A\cap U$. $T_1$也传给子空间. 正规性要收缩的是整个闭集而非一个点; $A$中的闭集一般不在$X$中闭, 不能直接调用$X$的正规性. 若$A$闭, 其闭集确实在$X$中闭, 这时正规性传给$A$.
+\end{solution}
+\begin{exercise}
+设$X$第二可数, $A$为其子集. 证明$A$可分. 为什么仅知$X$可分不能用同一证明?
+\end{exercise}
+\begin{solution}
+子空间$A$第二可数, 从其非空基元素中各选一点可得可数稠密集. 若只知$D$在$X$中稠密, $D\cap A$未必在$A$中稠密: 在$X=\R$, $D=\mathbb Q$, $A=\R\setminus\mathbb Q$时交为空. 因而不能靠截取原稠密集证明任意子空间可分.
+\end{solution}
+\begin{exercise}
+设$A,B$是度量空间中不交非空闭集. 验证$u(x)=d(x,A)/(d(x,A)+d(x,B))$连续且分别在$A,B$上取$0,1$. 分母是否存在全空间统一的正下界?
+\end{exercise}
+\begin{solution}
+两个距离函数连续且非负, 同时为零会使$x\in A\cap B$, 故分母逐点为正, 商连续. 在$A$上第一项为零而第二项正, 在$B$上相反. 统一正下界未必存在: 在$\R^2$中取$A=\{(t,0):t\in\R\}$及$B=\{(t,e^{-t}):t\in\R\}$. 两者闭且不交, 而在$(t,0)$处分母不超过$e^{-t}$, 当$t\to\infty$趋零. 连续性只需逐点非零.
+\end{solution}

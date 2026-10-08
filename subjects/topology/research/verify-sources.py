@@ -36,4 +36,4 @@ if pdf_pages != manifest["counts"]["all_pdf_pages"]:
     errors.append("total PDF page count")
 if errors:
     raise SystemExit("\n".join(errors))
-print(f"Verified {len(manifest['files'])} files; 13 PDFs, {pdf_pages} pages.")
+print(f"Verified {len(manifest['files'])} files; {sum(row['kind'] == 'pdf' for row in manifest['files'])} PDFs, {pdf_pages} pages.")

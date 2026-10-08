@@ -1,0 +1,197 @@
+246
+VII. TWO-DIMENSIONAL COMPLEXES
+33. Combinatorial winding numbers and the boundary operators
+In the previous lecture, we introduced cuts and the resulting winding numbers. We now generalize
+that notion a bit, and relate it to boundary operators.
+• To each loop one can associate a vector, which counts how many times each edge in the
+complex appears in it (with signs).
+• By taking suitable scalar products, one can define general combinatorial winding num-
+bers, which are homotopy invariants. This construction will also explain the geometric
+meaning of the first Betti number of a complex.
+(33a) From loops to vectors. Let K be an abstract complex. Let’s introduce some notation.
+If (i, j) is an edge, which by definition means 1 ≤i < j ≤n0, we write e(i,j) for the corresponding
+unit (standard basis) vector in Rn1 (recall n1 is the number of edges, and we usually order those
+edges lexicographically). We also find it convenient to write e(j,i) = −e(i,j). To any combinatorial
+loop l = (a0, . . . , am) one can associate a vector
+(33.1)
+vl =
+m
+X
+i=1
+e(ai−1,ai) ∈Rn1.
+In words: if ai−1 < ai, we take the unit vector for the edge (ai−1, ai); if ai−1 > ai, take minus
+the unit vector for the edge (ai, ai−1); and add up all those vectors to get vl. A constant loop
+l gives rise to the vector vl = 0, since there are no contributions at all. The same is true for
+loops l = (a, b, a), since one gets two terms which exactly cancel each other. It is important
+to remember that vl only sees which edges are part of l, not the order in which they occur.
+Therefore, it doesn’t have all the information about the loop,
+Example 33.1. Take the graph
+(33.2)
+1
+2
+3
+with edges (1, 2), (1, 3), (2, 3). The loop l = (1, 2, 3, 1) consists of the edges (1, 2), (2, 3), and the
+reverse of (1, 3). Therefore, vl = (1, −1, 1).
+Example 33.2. Take two tetrahedra, stick them together along one triangle, and then forget that
+triangle. The outcome is this surface (n0 = 5, n1 = 9, and n2 = 6 including two triangles that
+are “hidden” at the back the picture):
+(33.3)
+1
+2
+3
+4
+5
+33. COMBINATORIAL WINDING NUMBERS AND THE BOUNDARY OPERATORS
+247
+In the loop l = (2, 3, 4, 2, 3, 4, 2), each of the three edges (2, 3), (2, 4), (3, 4) appears twice, but the
+edge (2, 4) appears in reverse order. Therefore,
+(33.4) vl = 2e(2,3) + 2e(3,4) + 2e(4,2) = 2e(2,3) + 2e(3,4) −2e(2,4) = (0, 0, 0, 2, −2, 0, 2, 0, 0) ∈Rn1.
+In the rightmost expression, we have followed our usual convention of listing the edges in lexico-
+graphic order: (1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (2, 5), (3, 4), (3, 5), (4, 5).
+Lemma 33.3. The vector vl always satisfies D1vl = 0.
+For that, it’s enough to remember that by definition of boundary operators, De(i,j) ∈Rn0 is the
+j-th unit vector minus the i-th unit vector. Basically, this the difference between the endpoints
+of the edge (i, j). The terms in D1vl coming from subsequent edges will partly cancel, since each
+edge ends where the following one starts; and because we have a loop that comes back to its
+starting point, they will finally cancel altogether.
+Theorem 33.4. Suppose that l0 and l1 are homotopic. Then vl0 −vl1 = D2x for some x ∈Rn2.
+To prove that, we have to investigate what happens to vl under the moves that define the notion
+of homotopy. If we change the starting point, vl doesn’t change at all, since we still have the
+same edges, just in different order. And if insert or delete a zigzag (. . . , a, b, a, . . . ), we add or
+remove two contributions to vl, but those contributions are the same basis vector with opposite
+signs, so again vl remains the same.
+The interesting part is passing over a triangle: a single move passes from l0 = (. . . , a, b, c, . . . ) to
+l1 = (. . . , a, c, . . . ). This means that
+(33.5)
+vl0 −vl1 = e(a,c) −e(a,b) −e(b,c).
+The notation here hides some sign issues, but irrespectively, the right hand is, up to an overall
+sign, D2 of the unit vector in Rn2 associated to the triangle with vertices {a, b, c}. A general
+homotopy involves several such moves, but one can add the resulting vectors in Rn2 to get the
+desired x.
+(33b) Winding numbers. We want to turn the vectors vl into a practical tool for distinguishing
+non-homotopic loops. For that purpose, it’s important to remember the fact that D2D1 = 0.
+Corollary 33.5. Fix some c ∈Rn1 such that Dt
+2c = 0. Then, the number c · vl ∈R is a
+homotopy invariant, which means it remains the same if (keeping c the same, of course) we
+change l to a homotopic loop.
+We call this the combinatorial winding number of l with respect to c, and write it as
+(33.6)
+windc(l) = c · vl.
+The proof is really easy. Suppose that l0 and l1 are homotopic. Then
+(33.7)
+vl1 −vl0 = D2x
+=⇒
+Ic(l1) −Ic(l0) = c · (vl1 −vl0) = c · D2x = Dt
+2c · x = 0.
+248
+VII. TWO-DIMENSIONAL COMPLEXES
+Concretely, a vector c has one coefficient for every edge, and Dt
+2c = 0 consists of one equation
+for every triangle. If (p, q, r) is a triangle, which always means p < q < r, then the equation is:
+(33.8)
+the (p, q)-coefficient of c plus the (q, r)-coefficient of c equals the (p, r)-coefficient of c.
+The cuts used in the previous lecture were actually specific choices of vectors c: whenever an
+edge (i, j), i < j, occurs in the cut with sign ±1, we take ±e(i,j), and add up those vectors. The
+outcome satisfies (33.8), as one can check by looking at this picture:
+(33.9)
+p
+r
+q
+p
+r
+q
+p
+r
+q
++
+−
++
++
++
++
+e(p,q) −e(q,r)
+e(p,q) + e(p,r)
+e(p,r) + e(q,r)
+as standing for vectors (up to overall ±1 signs)
+(33.10)
+c = ±(e(p,q) −e(q,r)), c = ±(e(p,q) + e(p,r)), c = ±(e(q,r) −e(p,r)).
+Of course, a general solution of Dt
+2c = 0 doesn’t correspond to a cut, and one could skip the
+geometric intuition and just look for such solutions directly, by solving that system of equations
+like any linear algebra problem.
+Example 33.6. The cut in the torus we drew last time,
+(33.11)
+1
+2
+3
+1
+1
+1
+2
+3
+4
+4
+7
+7
+5
+6
+8
+9
++
++
++
++
++
+−
++
+corresponds to the vector
+(33.12)
+c = e(2,3) + e(5,6) + e(8,9) −e(3,8) + e(5,9) + e(2,6).
+(33c) Theory aspects. Remember that D1D2 = 0. For the transposed matrices, we have
+(33.13)
+Dt
+2Dt
+1 = (D1D2)t = 0.
+In principle, this seems to provide an easy way to find solutions of Dt
+2c = 0: any vector c = Dt
+1b
+will do. However, these are useless for our purpose:
+Lemma 33.7. If c = Dt
+1b, then windc(l) = 0 for all loops l.
+The proof is a simple matrix computation: since D1vl = 0,
+(33.14)
+windDt
+1b(l) = (Dt
+1b) · vl = b · (D1b) = 0.
+33. COMBINATORIAL WINDING NUMBERS AND THE BOUNDARY OPERATORS
+249
+What is the overall implication? We have seen that any c ∈Rn1 with Dt
+2c = 0 gives rise to a
+combinatorial winding number windc. The number of linearly independent such c is
+(33.15)
+nullity(Dt
+2) = n1 −rank(Dt
+2) = n1 −rank(D2).
+However, we now that some of those combinatorial winding numbers are just zero. The number
+of linearly independent c which are useless in this way is
+(33.16)
+rank(Dt
+1) = rank(D1).
+Hence, the actually useful number is
+(33.17)
+nullity(Dt
+2) −rank(Dt
+1) = n1 −rank(D2) −rank(D1) = b1(K).
+In words, this means that there are b1(K) essentially different ways of measuring “how a loop
+winds around K”. Finally, this provides us with a geometric intuition for the first Betti numbers,
+even though it’s one that requires quite a bit of background knowledge. The extreme case is
+b1(K) = 0. In that case, the combinatorial winding numbers are all zero, which means they
+provide no information whatsoever about homotopy classes of loops. To understand homotopy
+better, one would then need to refine our tools (see the case of the projective plane from the end
+of the previous lecture; the mod 2 calculation used there hints at a whole new concept, that of
+mod 2 Betti numbers).
+MIT OpenCourseWare
+https://ocw.mit.edu 
+18.900 Geometry and Topology in the Plane 
+Spring 2023 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

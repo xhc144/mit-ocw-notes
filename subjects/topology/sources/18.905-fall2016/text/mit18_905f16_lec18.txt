@@ -1,0 +1,176 @@
+45
+This integer χ(X) is called the Euler characteristic of X. We will prove this theorem by show-
+ing that χ(X) equals a number computed from the homology groups of X, which are themselves
+homotopy invariants.
+We’ll need a little bit of information about the structure of ﬁnitely generated abelian groups.
+Let A be an abelian group. The set of torsion elements of A,
+Tors(A) = {a ∈A : na = 0 for some n̸ = 0} ,
+is a subgroup of A. A group is torsion free if Tors(A) = 0. For any A the quotient group A/Tors(A)
+is torsion free.
+For a general abelian group, that’s about all you can say. But now assume A is ﬁnitely generated.
+Then Tors(A) is a ﬁnite abelian group and A/Tors(A) is a ﬁnitely generated free abelian group,
+isomorphic to Zr for some integer r called the rank of A. Pick elements of A that map to a set
+of generators of A/Tors(A), and use them to deﬁne a map A/TorsA →A splitting the projection
+map. This shows that if A is ﬁnitely generated then
+A ∼= Tors(A) ⊕Zr .
+A ﬁnite abelian group A is necessarily of the form
+Z/n1 ⊕Z/n2 ⊕· · · ⊕Z/nt where n1|n2| · · · |nt .
+The ni are the “torsion coeﬃcients” of A. They are well deﬁned natural numbers.
+Lemma 18.2. Let 0 →A →B →C →0 be a short exact sequence of ﬁnitely generated abelian
+groups. Then
+rank A −rank B + rank C = 0 .
+Theorem 18.3. Let X be a ﬁnite CW complex. Then
+χ(X) =
+X
+k
+(−1)krank Hk(X) .
+Proof. Pick a CW-structure with, say, ak k-cells for each k. We have the cellular chain complex
+C∗. Write H∗, Z∗, and B∗for the homology, the cycles, and the boundaries, in this chain complex.
+From the deﬁnitions, we have two families of short exact sequences:
+0 →Zk →Ck →Bk−1 →0
+and
+0 →Bk →Zk →Hk →0 .
+Let’s use them and facts about rank rewrite the alternating sum:
+X
+k
+(−1)kak =
+X
+k
+(−1)krank(Ck)
+=
+X
+k
+(−1)k(rank (Zk) + rank (Bk−1))
+=
+X
+k
+(−1)k(rank (Bk) + rank (Hk) + rank (Bk−1))
+The terms rank Bk + rank Bk−1 cancel because it’s an alternating sum. This leaves P
+k(−1)krank Hk.
+But Hk ∼= Hsing
+k
+(X).
+18
+Euler characteristic and homology approximation
+Theorem 18.1. Let X be a ﬁnite CW-complex with an n-cells. Then
+χ(X) =
+X
+∞
+(−1)kak
+k=0
+depends only on the homotopy type of X; it is independent of the choice of CW structure.
+46
+CHAPTER 2. COMPUTATIONAL METHODS
+In the early part of the 20th century, “homology groups” were not discussed. It was Emmy
+Noether who ﬁrst described things that way. Instead, people worked mainly with the sequence of
+ranks,
+βk = rank Hk(X) ,
+which are known (following Poincaré) as the Betti numbers of X.
+Given a CW-complex X of ﬁnite type, can we give a lower bound on the number of k-cells in terms
+of the homology of X? Let’s see. Hk(X) is ﬁnitely generated because Ck(X) ←- Zk(X) ↠Hk(X).
+Thus
+Hk(X) =
+t(k)
+M
+i=1
+Z/ni(k)Z ⊕Zr(k)
+where the n1(k)| · · · |nt(k)(k) are the torsion coeﬃcients of Hk(X) and r(k) is the rank.
+The minimal chain complex with Hk = Zr and Hq = 0 for q̸ = k is just the chain complex with 0
+everywhere except for Zr in the kth degree. The minimal chain complex of free abelian groups with
+Hk = Z/nZ and Hq = 0 for q̸ = k is the chain complex with 0 everywhere except in dimensions
+k + 1 and k, where we have Z n−→Z These small complexes are called elementary chain complexes.
+This implies that a lower bound on the number of k-cells is
+r(k) + t(k) + t(k −1) .
+The ﬁrst two terms give generators for Hk, and the last gives relations for Hk−1.
+These elementary chain complexes can be realized as the reduced cellular chains of CW complexes
+(at least if k > 0). A wedge of r copies of Sk has a CW structure with one 0-cell and r k-cells, so
+its cellular chain complex has Zr in dimension k and 0 in other positive dimensions. To construct a
+CW complex with cellular chain complex given by Z n−→Z in dimensions k + 1 and k and 0 in other
+positive dimensions, start with Sk as k-skeleton and attach a k + 1-cell by a map of degree n. For
+example, when k = 1 and n = 2, you have RP2. These CW complexes are called “Moore spaces.”
+This maximally eﬃcient construction of a CW complex in a homotopy type can in fact be
+achieved, at least in the simply connected case:
+Theorem 18.4 (Wall, [10]). Let X be a simply connected CW-complex of ﬁnite type. Then there
+exists a CW complex Y with r(k) + t(k) + t(k −1) k-cells, for all k, and a homotopy equivalence
+Y →X.
+We will prove this theorem in 18.906.
+The construction of Moore spaces can be generalized:
+Proposition 18.5. For any graded abelian group A∗with Ak = 0 for k ≤0, there exists a CW
+complex X with eH∗(X) = A∗.
+Proof. Let A be any abelian group. Pick generators for A. They determine a surjection from a free
+abelian group F0. The kernel F1 of that surjection is free, being a subgroup of a free abelian group.
+Write G0 for minimal set of generators of F0, and G1 for a minimal set of generators for F1.
+Let k ≥1. Deﬁne Xk to be the wedge of |G0| copies of Sk, so Hk(Xk) = ZG0. Now deﬁne an
+attaching map
+α :
+a
+b∈G1
+Sk
+b →Xk
+19. COEFFICIENTS
+47
+by specifying it on each summand Sk
+b . The generator b ∈G1 is given by a linear combination of the
+generators of F0, say
+b =
+s
+X
+i=1
+niai .
+We want to mimic this in topology. To do this, ﬁrst map Sk →Ws Sk by pinching (s −1) tangent
+circles to points. In homology, this map takes a generator of Hk(Sk) to the sum of the generators
+of the k-dimensional homology of the various spheres in the bouquet. Map the ith sphere in the
+wedge to Sk
+ai ⊆Xk by a map of degree ni. The map on the summand Sk
+b is then the composite of
+these two maps,
+Sk
+b →
+s_
+i=1
+Sk →
+_
+a
+Sk
+a .
+Altogether, we get a map α that realizes F1 →F0 in Hk. So using it as an attaching map produces
+a CW complex X with eHq(X) = A for q = k and 0 otherwise. Write M(A, k) for a CW complex
+produced in this way.
+Finally, given a graded abelian group A∗, form the wedge over k of the spaces M(Ak, k).
+Such a space M(A, k), with eHq(M(A, k)) = A for q = k and 0 otherwise, is called a Moore space
+of type (A, k) [9]. The notation is a bit deceptive, since M(A, k) cannot be made into a functor
+Ab →HoTop.
+19
+Coeﬃcients
+Abelian groups can be quite complicated, even ﬁnitely generated ones. Vector spaces over a ﬁeld
+are so much simpler! A vector space is determined up to isomorphism by a single cardinality, its
+dimension. Wouldn’t it be great to have a version of homology that took values in the category of
+vector spaces over a ﬁeld?
+We can do this, and more. Let R be any commutative ring at all. Instead of forming the free
+abelian group on Sin∗(X), we could just as well form the free R-module:
+S∗(X; R) = RSin∗(X)
+This gives, ﬁrst, a simplicial object in the category of R-modules. Forming the alternating sum of
+the face maps produces a chain complex of R-modules: Sn(X; R) is an R-module for each n, and
+d : Sn(X; R) →Sn−1(X; R) is an R-module homomorphism. The homology groups are then again
+R-modules:
+Bibliography
+[1] M. G. Barratt and J. Milnor, An example of anomalous singular homology, Proc. Amer. Math.
+Soc. 13 (1962) 293–297.
+[2] G. Bredon, Topology and Geometry, Springer-Verlag, 1993.
+[3] A. Dold, Lectures on Algebraic Topology, Springer-Verlag, 1980.
+[4] S. Eilenberg and J. C. Moore, Homology and ﬁbrations, I: Coalgebras, cotensor product and its
+derived functors, Comment. Math. Helv. 40 (1965) 199–236.
+[5] S. Eilenberg and N. Steenrod, Foundations of Algebraic Topology, Princeton University Press,
+1952.
+[6] A. Hatcher, Algebraic Topology, Cambridge University Press, 2002.
+[7] D. Kan, Adjoint funtors, Trans. Amer. Math. Soc. 87 (1958) 294–329.
+[8] J. Milnor, On axiomatic homology theory, Paciﬁc J. Math 12 (1962) 337–341.
+[9] J. C. Moore, On the homotopy groups of spaces with a single non-vanishing homology group,
+Ann. Math. 59 (1954) 549–557.
+[10] C. T. C Wall, Finiteness conditions for CW complexes, Ann. Math. 81 (1965) 56–69.
+109
+MIT OpenCourseWare
+https://ocw.mit.edu
+18.905 Algebraic Topology I
+Fall 2016
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.

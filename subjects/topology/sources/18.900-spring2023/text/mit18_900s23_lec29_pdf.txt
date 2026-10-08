@@ -1,0 +1,237 @@
+29. BETTI NUMBERS
+219
+29. Betti numbers
+We have mentioned shape complexes, but we didn’t explain the meaning of the word “complex”.
+What’s going on is that any triangulation is an example of the much more general notion of
+planar complex. A planar complex is a collection points, edges (line segments), and triangles in
+the plane. In this lecture,
+• We introduce planar complexes, and their Euler characteristic;
+• we encode the combinatorial structure of such a complex in its boundary operators
+(which are matrices, so, get ready for some linear algebra);
+• from those matrices, we extract some more interesting topological invariants, the Betti
+numbers.
+(29a) Combinatorial data. A planar complex is: a finite collection of points; plus, a finite
+collection of edges (line segments); plus, a finite collection of triangles, all of it in the plane, and
+subject to a bunch of rules:
+• If an edge is part of our complex, then both of its endpoints are part of the complex.
+• If a triangle is part of our complex, then all three sides are edges that are also part of
+the complex.
+• Otherwise, no overlaps, no intersections!
+It may be easiest first to think of the case where there are only points and edges. Then, a planar
+complex is just a graph drawn in the plane (with straight edges that don’t intersect). To make
+a general complex, we fill in some (could be none, all, or any subset of them) triangle-shaped
+regions created by that graph. Here’s an example and some non-examples:
+(29.1)
+intersecting
+line segments
+overlapping
+triangles
+point inside
+triangle
+line segment
+without endpoint
+line segment
+intersects triangle
+220
+VII. TWO-DIMENSIONAL COMPLEXES
+Definition 29.1. Suppose that a planar complex K consists of n0 points, n1 edges, and n2
+triangles. Its Euler characteristic χ = χ(K) is
+(29.2)
+χ = n0 −n1 + n2.
+Given that the Euler characteristic contains so little information about our complex (it only
+knows how many pieces of each dimension there are, not how they are arranged), it’s surprising
+that it is of any importance at all!
+(29b) Boundary operators. What if we were programmers, and wanted to encode the combi-
+natorial structure of a complex? We could do it like this.
+• Number the points by {1, . . . , n0}.
+• Every edge can be described by its pair (i, j) of endpoints, for 1 ≤i < j ≤n0. Record
+all the edges in our complex by pairs (i1, j1), . . . , (in1, jn1).
+• Every triangle can be described by its triple (p, q, r) of vertices, for 1 ≤p < q < r ≤n0.
+Record all the triangles in our complex by triples (p1, q1, r1), . . . , (pn2, qn2, rn2).
+Next, we turn the combinatorial data into a pair of matrices, the so-called boundary operators
+D1 and D2 of the complex.
+D1 is a matrix with n0 rows and n1 columns, which means that rows are labeled by points and
+columns are labeled by edges (the triangles are irrelevant for D1). Each column vector contains
+one entry with −1 and one entry with 1, all other entries being zero. Namely, if the column
+corresponds to an edge (i, j), the i-th entry is −1 and the j-th entry is 1.
+Example 29.2. This is the complex obtained from a triangulation of a pentagon:
+(29.3)
+1
+2
+3
+5
+4
+It has n0 = 5, n1 = 7, n2 = 3 (hence χ = 1). The edges are
+(29.4)
+(1, 2), (1, 3), (1, 4), (1, 5), (2, 3), (3, 4), (4, 5).
+Therefore,
+(29.5)
+D1 =
+
+
+
+
+
+
+
+−1
+−1
+−1
+−1
+0
+0
+0
+1
+0
+0
+0
+−1
+0
+0
+0
+1
+0
+0
+1
+−1
+0
+0
+0
+1
+0
+0
+1
+−1
+0
+0
+0
+1
+0
+0
+1
+
+
+
+
+
+
+
+.
+D2 is a matrix with n1 rows and n2 columns, which means that rows are labeled by edges and
+columns are labeled by triangles. Each column vector contains two 1 entries and one −1 entry.
+Namely, if the column corresponds to a triangle (p, q, r), then the entries corresponding to the
+edges (p, q) and (q, r) are marked 1, and the entry corresponding to (p, r) is marked −1.
+29. BETTI NUMBERS
+221
+Example 29.3. For (29.3), the triangles are
+(29.6)
+(1, 2, 3), (1, 3, 4), (1, 2, 5).
+The first triangle has edges (1, 2), (2, 3) and (1, 3), which are numbers 1, 5 and 2 in the ordering
+from (29.4). This determines where to put the nonzero entries in the first column of D2. Taking
+this and the other two triangles into account, we get:
+(29.7)
+D2 =
+
+
+
+
+
+
+
+
+
+
+
+1
+0
+0
+−1
+1
+0
+0
+−1
+1
+0
+0
+−1
+1
+0
+0
+0
+1
+0
+0
+0
+1
+
+
+
+
+
+
+
+
+
+
+
+.
+When writing down the matrices, we have implicitly chosen to order the edges and triangles in
+some way. We’ll use lexicographic ordering, but that doesn’t really matter. What matters is that
+when choosing the order in which the edges appear, you need to use the same one for D1 and D2
+(as we’ve done in the examples above).
+Fact 29.4. The boundary operators always satisfy D1D2 = 0 (the zero matrix).
+(29c) Betti numbers. Remember that the rank of a matrix A is the maximal number of linearly
+independent columns that you can find. It is also the maximal number of linearly independent
+rows, which means that a matrix and its transpose have the same rank:
+(29.8)
+rank(At) = rank(A).
+The nullity of a matrix is the maximal number of linearly independent vectors w which solve
+Aw = 0, the linear system of equations determined by A. The rank-nullity theorem relates the
+two notions:
+(29.9)
+if A is a matrix with n columns, rank(A) + nullity(A) = n.
+Definition 29.5. The Betti numbers b0 = b0(K), b1 = b1(K), b2 = b2(K), are defined by
+(29.10)
+b0 = n0 −rank(D1),
+b1 = n1 −rank(D1) −rank(D2),
+b2 = n2 −rank(D2).
+Note that the alternating sum of the Betti numbers is the Euler characteristic:
+(29.11)
+b0 −b1 + b2 = n0 −n1 + n2 = χ.
+The Betti numbers are nonnegative integers. To see that, we use the linear algebra facts above:
+(29.12)
+b0 = n0 −rank(Dt
+1) = nullity(Dt
+1),
+b1 = nullity(D1) −rank(D2),
+b2 = nullity(D2).
+222
+VII. TWO-DIMENSIONAL COMPLEXES
+From that, it’s clear that b0 ≥0 and b2 ≥0. What about b1? Because D1D2 = 0, every column
+of D2 is a solution of D1w = 0, so there are at least as many linearly independent solutions as
+column vectors, which means that nullity(D1) ≥rank(D2).
+Example 29.6. In (29.5), the last four rows are clearly linearly independent. On the other hand,
+if we add up all the rows we get zero (something that’s always true for D1), so the first row is
+minus the sum of the others. It follows that rank(D1) = 4. In (29.7), the three columns are
+clearly linearly independent, so rank(D2) = 3. Therefore, the Betti numbers are
+(29.13)
+b0 = 5 −4 = 1, b1 = 7 −4 −3 = 0, b2 = 3 −3 = 0.
+It will take us a while to understand what Betti numbers mean, but here’s a start:
+Theorem 29.7. b0 is the number of components (parts not connected to each other) of the com-
+plex.
+To understand that, think of what Dt
+1w = 0 means. The vector w assigns to each vertex in our
+complex a real number. For each edge, the corresponding coefficient of Dt
+1w is the difference
+of the coefficients of w assigned to the endpoints of that edge. Therefore, Dt
+1w = 0 says that
+whenever two vertices are connected by an edge, they carry the same number. So, a solution
+Dt
+1w = 0 must assign the same value to all vertices in a given component, and there are no
+other constraints. In other words, such a solution is given by choosing a real number for each
+component.
+MIT OpenCourseWare
+https://ocw.mit.edu 
+18.900 Geometry and Topology in the Plane 
+Spring 2023 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

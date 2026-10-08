@@ -1,0 +1,174 @@
+30
+I. POLYGONS
+4. The winding number (continued)
+In the last lecture, we talked about winding numbers in informal terms. Now,
+• we give a trigonometric formula for the winding number.
+It’s not a good tool for
+computing things by hand, but it puts our discussion on a basis which is independent
+of intuition.
+• We look at some properties and applications of winding numbers.
+(4a) A formula for the winding number.
+Remember the intuition behind the winding
+number: take a polygonal loop p with vertices (v0, v1, . . . , vn = v0), and a point q not lying on p.
+Standing at q, we turn around to follow a point which goes once around p, and count the total
+number of rotations we have performed. One can do this by measuring the total angle by which
+we have turned (making sure to count clockwise turning negatively), divided by 2π.
+To make this precise, suppose that we have vectors w1, w2 ∈R2 which are both nonzero, and
+which do not point in opposite directions (w1 is not a negative multiple of w2). We measure the
+angle α between those two vectors, and write it as
+(4.1)
+∢(w1, w2) = α ∈(−π, π);
+it is positive if (w1, w2) is a positively oriented basis; negative for negatively oriented bases;
+and zero if w1, w2 are positive multiples of each other. In the application to winding numbers,
+we are standing and q and watching the segment from vk−1 to vk; the relevant angle is then
+∢(vk−1 −q, vk −q). It will never happen that vk−1 −q = 0, or that vk = 0, or that vk−1 −q
+and vk −q point in opposite directions; because any of those would mean that q lies on p. So
+∢(vk−1 −q, vk −q) is always defined. This gives the following formula, which we use as definition
+of the winding number:
+(4.2)
+wind(p, q) = 1
+2π
+n
+X
+k=1
+∢(vk−1 −q, vk −q).
+(4b) Properties. In the area formula from the last lecture, we saw wind(p, some point q ∈R),
+where R was one of the regions into which p divides the plane. This makes sense because of:
+Proposition 4.1. If we move q around without crossing p, wind(p, q) remains constant.
+The proof is a classical argument in topology: looking at (4.2) shows that the winding number
+depends continuously on q (as long as we do not cross p, where the expression becomes ill-
+defined). But a continuous function can’t jump from one integer value to a different one, so
+wind(p, q) doesn’t change if we move q around (again, unless we cross p).
+Corollary 4.2. Suppose that q can be moved to infinity without crossing p. Then wind(p, q) = 0.
+Because of the previous Proposition, we can assume that q is very very far from p. In this case,
+the vectors vk −q are all equal to −q plus an error which is relatively much smaller than q. As a
+4. THE WINDING NUMBER (CONTINUED)
+31
+consequence, the angles in (4.2) are very small, and add up to a number which is much smaller
+in absolute value than 2π, so |wind(p, q)| ≪1. Since the winding number is an integer, it must
+be zero!
+Proposition 4.3. Let q0, q1 be two points which lie on either side of one of the edges of p, as
+follows:
+(4.3)
+p
+q0
+q1
+We assume that all other edges lie outside the picture (this is important!). Then wind(p, q1) =
+wind(p, q0) + 1.
+Let’s think of q0, q1 as lying very close to each other, and that the edge which is being crossed is
+vk−1vk. Its contribution to the winding numbers is
+(4.4)
+∢(vk−1 −q0, vk −q0) ≈−π,
+∢(vk−1 −q1, vk −q1) ≈π,
+as the following picture shows:
+(4.5)
+q0
+q1
+vk−1
+vk
+The other edges contribute approximately the same to wind(p, q0) and wind(p, q1). Therefore,
+wind(p, q1) ≈wind(p, q0) + 1. But since we are talking about integers, an approximate equality
+with small error is necessarily a strict equality.
+Example 4.4. We compute the winding numbers region by region, starting with the outside (the
+fat arrows show one possible direction of reasoning):
+(4.6)
+0
+-1
+-2
+-1
+0
+1
+0
+-1
+-1
+0
+1
+0
+Proposition 4.3 leads to another algorithm for computing winding numbers. Choose a ray (half-
+line) starting at q and going to infinity, subject to:
+(4.7)
+the ray must avoid the vertices of p, and intersect each edge in at most one point.
+32
+I. POLYGONS
+Count the intersection points between our ray and the edges of p, with signs:
+(4.8)
+ray
+p
++1
+ray
+p
+−1
+q
+q
+Explicitly, our ray is determined by a nonzero vector w, and the sign depends on whether (w, vk −
+vk−1) is an oriented basis or not. One can write the outcome as:
+(4.9)
+wind(p, q) =
+X
+those 1 ≤k ≤n for which
+the ray intersects vk−1vk
+sign(w × (vk −vk−1)).
+This is the first of several formulae of the same kind that we will encounter: each computes a
+topological quantity by counting points with ±1 signs, and in order to work, they require some
+linear independence condition, in this case (4.7).
+Remark 4.5. The sign conventions in (4.3) and (4.8) may look like opposites, but are consistent:
+in one situation, we’re computing how the winding number around q1 differs from that around
+q0; in the other, we’re computing the winding number at the starting point q of the ray.
+Suppose that P is a polygon. Choose a ray (4.7). Each intersection point of that ray with the
+edges of P contributes ±1 to the winding number. The winding number is even (0) if q lies
+outside P, and odd (±1, depending on how our numbering of the vertices goes around P) if q
+lies inside P. This leads to the “point-in-polygon test”:
+(4.10)
+q lies
+(
+outside
+inside
+P if the ray intersects the edges of P an
+(
+even
+odd
+number of times.
+(4c) A topological application. A simple self-intersection of a polygonal loop is a point where
+two edges cross: that point is not allowed to be a vertex, and should not lie on any other edge.
+Here’s a loop with a simple self-intersection, and three examples that have more complicated
+self-intersections (which we don’t want here):
+(4.11)
+Proposition 4.6. Take a polygonal loop which has N simple self-intersections, and no self-
+intersections of any other kind. divides the plane into N + 2 regions.
+There is a process that removes a simple self-intersection point:
+(4.12)
+4. THE WINDING NUMBER (CONTINUED)
+33
+It’s important to do it as indicated, so that the outcome is a single loop, and not two of them!
+Winding numbers show that in the picture above, the parts to the left and right of the intersection
+point belong to different regions:
+(4.13)
+winding number x + 1
+x −1
+x
+x
+After we remove the selfintersection point, those two regions get merged.
+Therefore, (4.12)
+decreases the number of regions by 1. Repeated application reduces the statement of Proposition
+4.6 to the familiar case N = 0 of polygons.
+Example 4.7. Here’s a repeated application of that process, together with the winding numbers:
+(4.14)
+1
+1
+1
+2
+0
+0
+1
+1
+-1
+0
+1
+-1
+1
+0
+MIT OpenCourseWare
+https://ocw.mit.edu 
+18.900 Geometry and Topology in the Plane 
+Spring 2023 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

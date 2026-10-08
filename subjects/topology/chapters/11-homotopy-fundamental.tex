@@ -1,0 +1,137 @@
+\originalchapter{同伦与基本群}\label{ch:fundamental}
+\emph{同伦、星形集和形变收缩取材于18.905第5讲, 绕数参照18.900第4讲. 基本群路线与18.904 Spring 2011的Lecture Summaries相衔接, 该课仅提供讲课要求; 本章群结构、圆周计算及应用的完整证明为编者补充.}
+
+\originalsection{同伦与形变收缩}
+同胚要求两空间的点与开集完全对应, 而圆周和穿孔平面虽不同胚, 却有相同的环绕障碍. 为表达连续变形, 必须把时间变量也纳入连续性的定义, 不能只要求每个时刻分别连续.
+\begin{definition}
+两个连续映射$f_0,f_1:X\to Y$间的同伦是连续映射$H:X\times[0,1]\to Y$, 满足$H(x,0)=f_0(x)$, $H(x,1)=f_1(x)$. 若对$A\subseteq X$总有$H(a,s)=f_0(a)=f_1(a)$, 称同伦相对于$A$. 两空间同伦等价, 指存在$f:X\to Y$, $g:Y\to X$使$gf$同伦于$\operatorname{id}_X$, $fg$同伦于$\operatorname{id}_Y$.
+\end{definition}
+同伦是等价关系. 恒定时间给出自反性, $s\mapsto1-s$给出对称性; 将两个同伦各压缩至半段时间再粘合给出传递性, 连续性由有限闭覆盖的粘合引理保证. 与连续映射前后复合仍是同伦, 因而同伦等价亦可复合.
+
+\begin{definition}
+若$A\subseteq X$且连续$r:X\to A$满足$r|_A=\operatorname{id}_A$, 称$r$为收缩映射. 若存在$H:X\times[0,1]\to X$从恒等映射变到包含映射与$r$的复合, 且对$a\in A$恒有$H(a,s)=a$, 称$A$为$X$的强形变收缩. 本书说“形变收缩”时采用这个保持$A$的版本. 非空空间的恒等映射若同伦于常值映射, 称空间可缩.
+\end{definition}
+收缩映射与第6章具有Lipschitz常数小于$1$的收缩算子是不同概念. 此处只表示把空间映回一个子空间, 不涉及距离缩小.
+
+\begin{example}
+证明$\R^n\setminus\{0\}$形变收缩到$S^{n-1}$, 而星形区域可缩. 说明同伦等价不保持紧致性.
+\end{example}
+\begin{solution}
+令$r(x)=x/|x|$, 并取$H(x,s)=((1-s)+s/|x|)x$. 系数始终正, 所以不经过零; $x$在单位球面上时始终不动, 最后到达$r(x)$. 星形区域以$b$为中心时, $H(x,s)=(1-s)x+sb$留在区域内, 给出可缩性. 球面紧而穿孔空间不紧, 两者却因上述形变收缩而同伦等价.
+\end{solution}
+
+\originalsection{道路的运算}
+记$I=[0,1]$. 从$x$到$y$的道路是连续$\alpha:I\to X$满足$\alpha(0)=x$, $\alpha(1)=y$. 道路同伦须固定两个端点: $H(0,s)=x$, $H(1,s)=y$. 若$\alpha$从$x$到$y$, $\beta$从$y$到$z$, 定义先走$\alpha$再走$\beta$的拼接
+\[
+ (\alpha*\beta)(t)=
+ \begin{cases}\alpha(2t),&0\le t\le1/2,\\ \beta(2t-1),&1/2\le t\le1.
+ \end{cases}
+\]
+相交点处两值一致, 粘合引理保证连续. 逆道路为$\overline\alpha(t)=\alpha(1-t)$, 常值道路记$c_x$.
+
+\begin{lemma}\label{lem:path-reparameter}
+若$\varphi:I\to I$连续且$\varphi(0)=0$, $\varphi(1)=1$, 则$\alpha\circ\varphi$与$\alpha$固定端点同伦. 拼接在道路同伦类上良定义, 满足结合律、常值单位律以及$[\alpha*\overline\alpha]=[c_x]$.
+\end{lemma}
+\begin{proof}
+同伦为$H(t,s)=\alpha((1-s)\varphi(t)+st)$. 若两段道路分别作固定端点同伦, 在两个半段上拼接这些同伦即可, 中间端点始终一致. 结合律的两种三段拼接只改变走各段的时间分配. 以每段占$1/3$的道路作参照, 将两种分配的折点对应作分段线性重参数, 用刚给出的同伦比较. 拼上常值段也由这种重参数同伦移去等待时间.
+
+最后$\alpha*\overline\alpha$等于$\alpha(u(t))$, 其中$u(t)=\min(2t,2-2t)$. 取$H(t,s)=\alpha((1-s)u(t))$, 两端恒为$x$, 最后全为$x$, 得到逆道路消去律.
+\end{proof}
+
+\begin{definition}
+以$x_0$为基点的环路是起点终点均为$x_0$的道路. 其固定端点同伦类的集合记$\pi_1(X,x_0)$, 乘法为$[\alpha][\beta]=[\alpha*\beta]$, 称为基本群.
+\end{definition}
+前一引理已证明群公理: 常值环路是单位, 反向环路给逆元. 基本群一般不交换. 两个圈粘在一点的空间中, “先走左圈再走右圈”与相反顺序并非总能固定基点变形, 第\ref{ch:vankampen}章将严格计算.
+
+\originalsection{映射与基点}
+\begin{proposition}\label{thm:pi1-functor}
+连续映射$f:(X,x_0)\to(Y,y_0)$诱导群同态$f_*[\alpha]=[f\circ\alpha]$. 有$(gf)_*=g_*f_*$, $(\operatorname{id}_X)_*=\operatorname{id}$. 若$f_0,f_1$间的同伦保持基点$x_0$的像为$y_0$, 则$(f_0)_*=(f_1)_*$.
+\end{proposition}
+\begin{proof}
+把道路同伦与$f$复合仍固定端点, 故定义与代表无关. 拼接与复合逐段相容, 故是同态. 复合和恒等式直接检查. 对保持基点的同伦$H$, 映射$(t,s)\mapsto H(\alpha(t),s)$就是像环路的固定端点同伦.
+\end{proof}
+
+\begin{proposition}\label{thm:basepoint-change}
+从$x_0$到$x_1$的道路$u$给出同构
+$c_u:\pi_1(X,x_1)\to\pi_1(X,x_0)$,
+$c_u[\alpha]=[u*\alpha*\overline u]$.
+若$H$为$f_0$到$f_1$的不保持基点同伦, $u(s)=H(x_0,s)$, 则$(f_0)_*=c_u\circ(f_1)_*$, 两边目标均为$\pi_1(Y,f_0(x_0))$.
+\end{proposition}
+\begin{proof}
+相邻的$\overline u*u$可按引理\ref{lem:path-reparameter}消去, 因而$c_u$保持乘法, 逆同构为$c_{\overline u}$. 对第二式, 将正方形$(t,s)\mapsto H(\alpha(t),s)$的边界读作$f_0\alpha*u*\overline{f_1\alpha}*\overline u$. 这条边界环路可缩: 将正方形边界以其起点为中心在凸正方形内作直线收缩, 再与$H(\alpha(t),s)$复合. 因而边界代表单位, 整理得到所述公式.
+\end{proof}
+道路连通空间的不同基点给出同构群, 但同构依赖道路, 并非不带选择的相同群. 若两基点道路不同, 相应同构可能相差内共轭. 可缩且道路连通的空间基本群平凡: 常值映射诱导零同态, 上式表明恒等同态与它经基点改变相同, 故所有类均为单位. 对非空凸集还可直接以基点为中心作环路的直线收缩.
+
+\begin{proposition}\label{thm:pi1-product}
+有限积的基本群为各因子基本群的积. 形变收缩$A\subseteq X$对每个$a_0\in A$诱导$\pi_1(A,a_0)\cong\pi_1(X,a_0)$.
+\end{proposition}
+\begin{proof}
+积中的环路和固定端点同伦分别等价于各坐标的环路与同伦, 拼接也逐坐标进行, 所以投影给出双射且保持群运算. 对形变收缩, 包含$i$与$r$均保持$a_0$, 满足$ri=\operatorname{id}_A$, $ir$保持基点同伦于恒等, 因而$i_*$与$r_*$互逆.
+\end{proof}
+
+\originalsection{圆周与绕数}
+将平面与复数域对应, 记$p:\R\to S^1$, $p(t)=e^{2\pi it}$. 任意长度小于$1$且避开端点识别的角区间上, $p$都是到一段开圆弧的同胚. 开圆弧的全部逆像是这些角区间的整数平移, 彼此不交. 这使“展开角度”有严格含义.
+\begin{lemma}\label{lem:circle-lift}
+对道路$\alpha:I\to S^1$及$a\in\R$满足$p(a)=\alpha(0)$, 存在唯一连续$\widetilde\alpha:I\to\R$使$p\widetilde\alpha=\alpha$, $\widetilde\alpha(0)=a$.
+\end{lemma}
+\begin{proof}
+以开圆弧覆盖$S^1$, 其道路逆像为$I$的开覆盖. 紧区间的Lebesgue数引理给出有限分割, 使每个闭小段的像包含于一段开圆弧. 在第一小段使用含$a$的角区间逆支. 在后续小段选含前一段末值的整数平移逆支. 段与段端点相同, 故粘成连续提升. 若有两个提升, 差值逐点为整数且连续, 由$I$连通而恒定; 初值差为零, 故完全相同.
+\end{proof}
+
+对基于$1$的环路, 取初值$0$的提升, 其末值为整数, 称为绕数$w(\alpha)$. 更一般的闭曲线可取任意初始角, 末角减初角仍为整数且与初值整数平移无关.
+\begin{lemma}\label{lem:winding-homotopy}
+绕数在固定基点同伦下不变, 且$w(\alpha*\beta)=w(\alpha)+w(\beta)$.
+\end{lemma}
+\begin{proof}
+拼接的提升先走$\widetilde\alpha$, 再走$w(\alpha)+\widetilde\beta$, 因而末值相加. 为证明同伦不变, 先比较足够接近的两个环路. 若$|\alpha(t)-\beta(t)|<1$对全部$t$成立, 比值$\beta(t)/\alpha(t)$落在含$1$且不含$-1$的圆弧中, 可唯一写作$e^{2\pi i\theta(t)}$, 其中$\theta(t)\in(-1/2,1/2)$连续. 基点条件给$\theta(0)=\theta(1)=0$. 因而$\widetilde\alpha+\theta$是$\beta$初值为零的提升, 末值相同.
+
+若$H:I^2\to S^1$为同伦, 由紧正方形上一致连续性, 可将时间$s$分成有限小段, 使相邻两时刻的环路在全部$t$上都距离小于$1$. 逐次使用前述比较, 得首尾绕数相同.
+\end{proof}
+
+\begin{theorem}\label{thm:pi1-circle}
+绕数给出同构$\pi_1(S^1,1)\cong\mathbb Z$. 因而穿孔平面的基本群为$\mathbb Z$, 环面的基本群为$\mathbb Z^2$.
+\end{theorem}
+\begin{proof}
+良定义和同态性质已证. 环路$t\mapsto e^{2\pi int}$的绕数为$n$, 故满射. 若两个环路绕数相同为$n$, 其提升都从$0$走到$n$. 在$\R$中取提升的直线同伦, 再与$p$复合, 两端始终映到$1$, 得固定基点同伦. 因而绕数也单射. 穿孔平面用径向形变收缩, 环面用积的基本群计算.
+\end{proof}
+绕数不只描述圆周内的环路. 对避开$a\in\R^2$的闭曲线$\gamma$, 将$(\gamma-a)/|\gamma-a|$投到圆周即可定义绕$a$的数. 若曲线能在穿孔平面内缩成一点, 此数必须为零. 零绕数对避开一个点的空间足以判定可缩, 对避开多个点则未必足够, 因为基本群可能不交换.
+
+\originalsection{圆盘的拓扑阻碍}
+\begin{theorem}\label{thm:no-retract-disk}
+不存在连续收缩$r:D^2\to S^1$, 其中$D^2=\{x\in\R^2:|x|\le1\}$.
+\end{theorem}
+\begin{proof}
+若有, 包含$i:S^1\hookrightarrow D^2$满足$ri=\operatorname{id}_{S^1}$, 因而$r_*i_*$为$\pi_1(S^1,1)$的恒等同态. 圆盘凸, 基本群平凡, 复合必为零同态, 与$\pi_1(S^1,1)=\mathbb Z$矛盾.
+\end{proof}
+
+\begin{theorem}[二维Brouwer不动点定理]
+每个连续$f:D^2\to D^2$至少有一个不动点.
+\end{theorem}
+\begin{proof}
+若处处$f(x)\ne x$, 令$v=x-f(x)\ne0$. 从$f(x)$沿$x$的方向继续走, 在圆周处停止. 为验证这一几何构造的连续性, 解$|x+\lambda v|^2=1$并取非负根:
+\[
+ \lambda(x)=\frac{-x\cdot v+\sqrt{(x\cdot v)^2+(1-|x|^2)|v|^2}}{|v|^2},
+ \qquad r(x)=x+\lambda(x)v.
+\]
+根号内非负, 分母非零, 各运算连续, 且代回二次方程得$|r(x)|=1$. 若$|x|=1$, 因$f(x)\in D^2$且$f(x)\ne x$, 有$x\cdot v=1-x\cdot f(x)>0$, 所以$\lambda(x)=0$, $r(x)=x$. 因而$r$为不可能存在的收缩, 矛盾.
+\end{proof}
+
+\originalsection{练习与解答}
+\begin{exercise}
+证明闭环带$\{x\in\R^2:1\le|x|\le2\}$的基本群为$\mathbb Z$, 但它与圆周不同胚.
+\end{exercise}
+\begin{solution}
+径向映射将它形变收缩到内圆周, 故基本群相同. 删去圆周任一点后得到开弧, 仍连通; 环带删去一个内点后也连通, 所以这一粗判据不足. 改看删去两点: 圆周删去两个不同点不连通, 环带删去任意两点仍道路连通. 后者用极坐标具体连接. 设删点集为$A$, 选$r\in(1,2)$不等于任何删点的半径. 对保留点$x$, 先在半径$|x|$的圆周上沿足够短且避开$A$的弧, 走到不等于任何删点角度的角度$\theta_x$; 有限性及$x\notin A$保证可选. 再沿$\theta_x$的径向段走到半径$r$, 这段不经过删点. 对另一点同样处理, 再沿半径$r$的圆周连接中间点. 该圆周没有删点, 全部路径留在闭环带内. 因同胚保持删点后的连通性, 二者不同胚.
+\end{solution}
+\begin{exercise}
+对整数$n$, 计算$f_n:S^1\to S^1$, $f_n(z)=z^n$所诱导的基本群同态. 推出$n\ne\pm1$时$f_n$不能是同伦等价.
+\end{exercise}
+\begin{solution}
+绕数为$k$的提升$\widetilde\alpha$在复合后变为$n\widetilde\alpha$, 末角为$nk$, 故同态为$k\mapsto nk$. 同伦等价诱导基本群同构, 即使同伦逆不保持基点, 基点改变也仅加入同构; $\mathbb Z$的乘$n$同态只有$n=\pm1$才可逆. $n=0$为常值映射, 同样不可逆.
+\end{solution}
+\begin{exercise}
+给出一条绕数为零但并非常值的圆周环路, 并显式给出固定基点收缩.
+\end{exercise}
+\begin{solution}
+取$\alpha(t)=\exp(2\pi i\sin(2\pi t))$. 提升$\sin(2\pi t)$两端均为零, 绕数为零. 同伦$H(t,s)=\exp(2\pi i(1-s)\sin(2\pi t))$连续, 两端恒为$1$, 最后为常值. 零绕数描述同伦类, 不要求路径本身不移动.
+\end{solution}

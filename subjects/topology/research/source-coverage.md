@@ -127,3 +127,8 @@ Notes A 在官方目录标注“Courtesy of Dr. Joao P. Santos. Used with permis
 ## 编排建议
 
 主线必须保留六讲全部数学主题。可将紧支撑、泛函/流形/Dirichlet 等预告放入拓展章，但不能从整册覆盖表中消失。为考纲与基础拓扑教学补充内部/闭包/边界/稠密、相对拓扑、连通与路径连通、同胚、有限积与商的初步概念；明确标注为编者补充。Baire 与 Picard 可列为应用与拓展，不声称原六讲给出全部证明，也不声称它们由考纲逐项要求。
+
+
+## 修订范围更正
+
+以上为原72页版记录。15章修订版将可数性与积商的一般情形展开，新增Notes G等来源，见[修订逐文件范围](revision-source-coverage.md)。Notes A仍未选入；原先将Used with permission视为下游许可不可推断的理由现已根据OCW官方FAQ更正，详见sources/ATTRIBUTION.md及总清单，不再沿用该误判。

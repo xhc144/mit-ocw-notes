@@ -1,0 +1,170 @@
+10
+CHAPTER 1. SINGULAR HOMOLOGY
+5
+Homotopy, star-shaped regions
+We’ve computed the homology of a point. Let’s now compare the homology of a general space X
+to this example. There’s always a unique map X →∗: ∗is a “terminal object” in Top. We have
+an induced map
+Hn(X) →Hn(∗) =
+(
+Z
+n = 0
+0
+otherwise .
+Any formal linear combination c = P aixi of points of X is a 0-cycle. The map to ∗sends c to
+P ai ∈Z. This deﬁnes the augmentation ϵ : H∗(X) →H∗(∗). If X is nonempty, the map X →∗
+is split by any choice of point in X, so the augmentation is also split epi. The kernel of ϵ is the
+reduced homology eH∗(X) of X, and we get a canonical splitting
+H∗(X) ∼= eH∗(X) ⊕Z .
+Actually, it’s useful to extend the deﬁnition to the empty space by the following device. Extend
+the singular chain complex for any space to include Z in dimension −1, with d : S0(X) →S−1(X)
+given by the augmentation ϵ sending each 0-simplex to 1 ∈Z. Let’s write eS∗(X) for this chain
+complex, and eH∗(X) for its homology. When X̸ = ∅, ϵ is surjective and you get the same answer
+as above. But
+eHq(∅) =
+(
+Z
+for q = −1
+0
+for q̸ = −1 .
+This convention is not universally accepted, but I ﬁnd it useful. eH∗(X) is the reduced homology of
+X.
+What other spaces have trivial homology? A slightly non-obvious way to reframe the question
+is this:
+When do two maps X →Y induce the same map in homology?
+For example, when do 1X : X →X and X →∗→X induce the same map in homology? If they
+do, then ϵ : H∗(X) →Z is an isomorphism.
+The key idea is that homology is a discrete invariant, so it should be unchanged by deformation.
+Here’s the deﬁnition that makes “deformation” precise.
+Deﬁnition 5.1. Let f0, f1 : X →Y be two maps. A homotopy from f0 to f1 is a map h : X×I →Y
+(continuous, of course) such that h(x, 0) = f0(x) and f(x, 1) = f1(x). We say that f0 and f1 are
+homotopic, and that h is a homotopy between them. This relation is denoted by f0 ≃f1.
+Homotopy is an equivalence relation on maps from X to Y . Transitivity follows from the gluing
+lemma of point set topology. We denote by [X, Y ] the set of homotopy classes of maps from X to
+Y . A key result about homology is this:
+Theorem 5.2 (Homotopy invariance of homology). If f0 ≃f1, then H∗(f0) = H∗(f1): homology
+cannot distinguish between homotopic maps.
+Suppose I have two maps f0, f1 : X →Y with a homotopy h : f0 ≃f1, and a map g : Y →Z.
+Composing h with g gives a homotopy between g ◦f0 and g ◦f1. Precomposing also works: If
+5. HOMOTOPY, STAR-SHAPED REGIONS
+11
+g : W →X is a map and f0, f1 : X →Y are homotopic, then f0 ◦g ≃f1 ◦g. This lets us compose
+homotopy classes: we can complete the diagram:
+Top(Y, Z) × Top(X, Y )
+
+/ Top(X, Z)
+
+[Y, Z] × [X, Y ]
+/ [X, Z]
+Deﬁnition 5.3. The homotopy category (of topological spaces) Ho(Top) has the same objects as
+Top, but Ho(Top)(X, Y ) = [X, Y ] = Top(X, Y )/ ≃.
+We may restate Theorem 5.2 as follows:
+For each n, the homology functor Hn : Top →Ab factors as Top →Ho(Top) →Ab;
+it is a “homotopy functor.”
+We will prove this in the next lecture, but let’s stop now and think about some consequences.
+Deﬁnition 5.4. A map f : X →Y is a homotopy equivalence if [f] ∈[X, Y ] is an isomorphism in
+Ho(Top). In other words, there is a map g : Y →X such that fg ≃1Y and gf ≃1X.
+Such a map g is a homotopy inverse for f; it is well-deﬁned only up to homotopy.
+Most topological properties are not preserved by homotopy equivalences. For example, com-
+pactness is not a homotopy-invariant property: Consider the inclusion i : Sn−1 ⊆Rn −{0}. A
+homotopy inverse p : Rn −{0} →Sn−1 can be obtained by dividing a (always nonzero!) vector
+by its length. Clearly p ◦i = 1Sn−1. We have to ﬁnd a homotopy i ◦p ≃1Rn−{0}. This is a map
+(Rn −{0}) × I →Rn −{0}, and we can use (v, t) 7→tv + (1 −t) v
+||v||.
+On the other hand:
+Corollary 5.5. Homotopy equivalences induce isomorphisms in homology.
+Proof. If f has homotopy inverse g, then f∗has inverse g∗.
+Deﬁnition 5.6. A space X is contractible if the map X →∗is a homotopy equivalence.
+Corollary 5.7. Let X be a contractible space. The augmentation ϵ : H∗(X) →Z is an isomorphism.
+Homotopy equivalences in general may be somewhat hard to visualize. A particularly simple
+and important class of homotopy equivalences is given by the following deﬁnition.
+Deﬁnition 5.8. An inclusion A ,→X is a deformation retract provided that there is a map h :
+X × I →X such that h(x, 0) = x and h(x, 1) ∈A for all x ∈X and h(a, t) = a for all a ∈A and
+t ∈I.
+For example, Sn−1 is a deformation retract of Rn −{0}.
+We now set about constructing a proof of homotopy invariance of homology. The ﬁrst step is to
+understand the analogue of homotopy on the level of chain complexes.
+Deﬁnition 5.9. Let C∗, D∗be chain complexes, and f0, f1 : C∗→D∗be chain maps. A chain
+homotopy h : f0 ≃f1 is a collection of homomorphisms h : Cn →Dn+1 such that dh+hd = f1 −f0.
+12
+CHAPTER 1. SINGULAR HOMOLOGY
+This relation takes some getting used to. It is an equivalence relation. Here’s a picture (not a
+commutive diagram).
+· · ·
+/ Cn+1
+
+d
+/ Cn
+h
+|
+
+d / Cn−1
+h
+|
+
+/ · · ·
+· · ·
+/ Dn+1
+d
+/ Dn
+d / Dn−1
+/ · · ·
+Lemma 5.10. If f0, f1 : C∗→D∗are chain homotopic, then f0∗= f1∗: H∗(C) →H∗(D).
+Proof. We want to show that for every c ∈Zn(C∗), the diﬀerence f1c −f0c is a boundary. Well,
+f1c −f0c = (dh + hd)c = dhc + hdc = dhc .
+So homotopy invariance of homology will follow from
+Proposition 5.11. Let f0, f1 : X →Y be homotopic. Then f0∗, f1∗: S∗(X) →S∗(Y ) are chain
+homotopic.
+To prove this we will begin with a special case.
+Deﬁnition 5.12. A subset X ⊆Rn is star-shaped with respect to b ∈X if for every x ∈X the
+interval
+{tb + (1 −t)x : t ∈[0, 1]}
+lies in X.
+Any nonempty convex region is star shaped.
+Any star-shaped region X is contractible: A
+homotopy inverse to X →∗is given by sending ∗7→b. One composite is perforce the identity. A
+homotopy from the other composite to the identity 1X is given by (x, t) 7→tb + (1 −t)x.
+So we should expect that ϵ : H∗(X) →Z is an isomorphism if X is star-shaped. In fact, using
+a piece of language that the reader can interpret:
+Proposition 5.13. S∗(X) →Z is a chain homotopy equivalence.
+Proof. We have maps S∗(X)
+ϵ−→Z
+η−→S∗(X) where η(1) = c0
+b. Clearly ϵη = 1, and the claim is
+that ηϵ ≃1 : S∗(X) →S∗(X). The chain map ηϵ concentrates everything at the point b: ηϵσ = cn
+b
+for all σ ∈Sinn(X). Our chain homotopy h : Sq(X) →Sq+1(X) will actually send simplices to
+6. HOMOTOPY INVARIANCE OF HOMOLOGY
+13
+simplices. For σ ∈Sinq(X), deﬁne the chain homotopy evaluated on σ by means of the following
+“cone construction”: h(σ) = b ∗σ, where
+(b ∗σ)(t0, . . . , tq+1) = t0b + (1 −t0)σ
+(t1, . . . , tq+1)
+1 −t0
+
+.
+Explanation: The denominator 1 −t0 makes the entries sum to 1, as they must if we are to apply
+σ to this vector. When t0 = 1, this isn’t deﬁned, but it doesn’t matter since we are multiplying by
+1 −t0. So (b ∗σ)(1, 0, . . . , 0) = b; this is the vertex of the cone.
+0
+1
+0
+1
+2
+Setting t0 = 0, we ﬁnd
+d0b ∗σ = σ .
+Setting ti = 0 for i > 0, we ﬁnd
+dib ∗σ = hdi−1σ .
+Using the formula for the boundary operator, we ﬁnd
+db ∗σ = σ −b ∗dσ
+. . . unless q = 0, when
+db ∗σ = σ −c0
+b .
+This can be assembled into the equation
+db ∗+b ∗d = 1 −ηϵ
+which is what we wanted.
+MIT OpenCourseWare
+https://ocw.mit.edu
+18.905 Algebraic Topology I
+Fall 2016
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
