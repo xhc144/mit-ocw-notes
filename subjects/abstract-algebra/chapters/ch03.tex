@@ -1,0 +1,46 @@
+\originalchapter{置换群与群的具体构造}
+\originalsection{循环分解与符号}
+有限集合 $\{1,\ldots,n\}$ 上的双射组成对称群 $S_n$, 阶为 $n!$. 对任一点反复作用置换, 首次重复必返回起点; 各轨道互不相交, 于是置换唯一分解为不交循环, 只差循环书写起点及各循环次序. 不交循环交换, 一个长度 $r$ 的循环的阶是 $r$, 所以整个置换的阶为各循环长度的最小公倍数.
+
+长度 $r$ 的循环可以写为 $(a_1\,a_r)\cdots(a_1\,a_2)$, 即 $r-1$ 个换位. 要定义奇偶性, 还必须证明不同换位分解的奇偶一致.
+\begin{proposition}
+置换矩阵 $P_\sigma$, 由 $P_\sigma e_i=e_{\sigma(i)}$ 定义, 满足 $P_{\sigma\tau}=P_\sigma P_\tau$. 因而 $\sgn(\sigma)=\det P_\sigma\in\{1,-1\}$ 是同态, 每个换位符号为 $-1$. 换位分解的奇偶性唯一.
+\end{proposition}
+\begin{proof}
+在每个基向量上检查复合等式. 行列式乘法公式给出同态性. 置换矩阵由单位矩阵交换列得到, 行列式只能为 $\pm1$; 单次换位交换两列, 行列式为 $-1$. 所以任意 $k$ 个换位的乘积行列式为 $(-1)^k$, 不依赖分解. 这里仅使用先修线性代数的行列式性质.
+\end{proof}
+\begin{definition}
+交错群 $A_n=\ker\sgn$ 由偶置换构成. $n\ge2$ 时符号满射, 故 $|A_n|=n!/2$, 且 $A_n\trianglelefteq S_n$.
+\end{definition}
+\originalsection{共轭与凯莱定理}
+\begin{proposition}
+$\tau(a_1\,\cdots\,a_r)\tau^{-1}=(\tau(a_1)\,\cdots\,\tau(a_r))$. 两个置换在 $S_n$ 中共轭当且仅当其循环长度多重集相同.
+\end{proposition}
+\begin{proof}
+右侧把 $\tau(a_i)$ 送至 $\tau(a_{i+1})$, 与左侧一致, 其余点均固定. 因而共轭保留循环类型. 反之把长度对应循环的点依次一一配对, 得置换 $\tau$, 上述公式即给出共轭.
+\end{proof}
+\begin{theorem}[凯莱]
+每个群同构于某个置换群的子群; 有限阶 $n$ 的群可嵌入 $S_n$.
+\end{theorem}
+\begin{proof}
+对 $g\in G$ 定义左平移 $L_g(x)=gx$. 逆为 $L_{g^{-1}}$, 故是置换. $L_gL_h=L_{gh}$, 所以 $g\mapsto L_g$ 是同态; 若 $L_g=L_h$, 在 $e$ 上取值得 $g=h$. 有限时将 $G$ 的元素编号即可.
+\end{proof}
+\originalsection{直积、二面体群与表示}
+群 $G,H$ 的直积 $G\times H$ 逐坐标乘法. $\Z/m\Z\times\Z/n\Z$ 循环当且仅当 $\gcd(m,n)=1$: 元素 $(\bar1,\bar1)$ 的阶是 $\lcm(m,n)$; 若不互素, 任一元素阶都至多该最小公倍数, 小于群阶.
+
+正 $n$ 边形 ($n\ge3$) 的旋转 $r$ 与一个翻折 $s$ 满足 $r^n=s^2=e$, $srs=r^{-1}$. 任何词用 $sr=r^{-1}s$ 可移成 $r^i$ 或 $r^is$, 至多 $2n$ 种. 几何上这 $2n$ 个变换不同, 组成二面体群 $D_n$, 本书约定其阶为 $2n$. 此例也解释生成元和关系的表示 $\langle r,s\mid r^n=s^2=e,srs=r^{-1}\rangle$: 把所有形式词对关系造成的等同取商. 一般自由群构造不在此详述, 后文只在已验证的具体群中使用表示.
+\begin{example}确定 $S_4$ 的共轭类和 $A_4$ 的一个正规子群, 并证明 $A_4$ 没有阶6子群.\end{example}
+\begin{solution}
+循环类型为 $1^4,2\,1^2,2^2,3\,1,4$, 元素数分别为 $1,6,3,8,6$, 总计24. $V=\{e,(12)(34),(13)(24),(14)(23)\}$ 是子群; 共轭保留双换位, 故正规, 并且 $V\cong C_2\times C_2$.
+
+若 $H\le A_4$ 阶6, 则指数2, 正规. 商 $A_4/H$ 阶2, 所有阶3元素在商中的像为单位元, 因为像的阶同时整除3与2. 但 $A_4$ 的八个3循环及单位元都会在 $H$ 中, 超过6, 矛盾.
+\end{solution}
+\originalsection{带解答练习}
+\begin{exercise}求 $(1234)(56)$ 的阶与符号, 并列出 $S_3$ 的全部正规子群.\end{exercise}
+\begin{solution}
+阶为 $\lcm(4,2)=4$, 符号为 $(-1)^3(-1)=1$. $S_3$ 子群阶仅可为1,2,3,6. 阶2子群由一个换位生成, 被其他换位共轭到不同子群, 不正规. 唯一阶3子群是 $A_3$, 正规. 故正规子群为 $\{e\},A_3,S_3$.
+\end{solution}
+\begin{exercise}证明 $D_n$ 的旋转子群正规, 并计算中心.\end{exercise}
+\begin{solution}
+旋转子群指数2. $r^i$ 与 $s$ 交换等价于 $r^{2i}=e$. 而 $r^is$ 与 $r$ 交换要求 $r=r^{-1}$, 对 $n\ge3$ 不成立. 因而 $n$ 奇数时中心只有 $e$; $n$ 偶数时中心为 $\{e,r^{n/2}\}$.
+\end{solution}

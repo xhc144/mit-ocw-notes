@@ -1,0 +1,44 @@
+\originalchapter{模与线性结构}
+\originalsection{从向量空间到模}
+\begin{definition}
+设 $R$ 是交换环. $R$ 模 $M$ 是交换加法群, 带标量乘法 $R\times M\to M$, 满足 $r(m+n)=rm+rn$, $(r+s)m=rm+sm$, $(rs)m=r(sm)$, $1m=m$. 保持加法与标量乘法的映射称模同态. 子模是包含0且对加法、负元及标量乘法封闭的子集.
+\end{definition}
+域上的模就是向量空间. $\Z$ 模就是交换群: $nm$ 由重复加法及负号强制确定. 环的理想是 $R$ 自身作为模的子模. 任意矩阵 $A\in M_{s\times t}(R)$ 给出同态 $R^t\to R^s$, 核描述线性关系, 商 $R^s/\im A$ 描述按这些关系识别生成元的模.
+
+模的核、像、商与同构定理都按加法群构造, 还需核验标量相容. 若 $m-m'\in N$, 则 $r(m-m')\in N$, 所以 $r(m+N)=rm+N$ 良定义. 对同态 $f$, 映射 $M/\ker f\to\im f$, $m+\ker f\mapsto f(m)$ 双射且线性. 包含 $N$ 的子模和 $M/N$ 的子模由像、原像对应.
+\originalsection{自由模与有限生成}
+两个模的直和 $A\oplus C$ 是笛卡尔积上的逐坐标加法和标量乘法. 在同一个模中的内部直和指两子模的和为所讨论的模, 且交为0; 每个元素因而有唯一两分量表示.
+
+\begin{definition}
+有限列 $m_1,\ldots,m_s$ 生成 $M$ 指每个元素可写 $\sum r_im_i$. 若这种写法唯一, 则该列称基, $M$ 称自由模, 并同构于 $R^s$. 元素 $m$ 的湮灭理想为 $\ann(m)=\{r:rm=0\}$; 由某个非零标量杀掉的元素称挠元, 此处 $R$ 为整环.
+\end{definition}
+域上每个有限生成模有基; 一般环上不能这样推断. $\Z/2\Z$ 由一个元素生成却不是自由 $\Z$ 模, 因生成元被2杀掉. 对整环, 挠元构成子模: 若 $am=0,bn=0$ 且 $a,b\ne0$, 则 $ab(m+n)=0$; $ab\ne0$ 是这里整环条件的用途.
+\begin{theorem}\label{thm:subfree}
+PID $R$ 上, $R^n$ 的任何子模自由且可由至多 $n$ 个元素生成.
+\end{theorem}
+\begin{proof}
+按 $n$ 归纳. 对 $n=1$, 子模是理想 $(d)$; 若非零, $r\mapsto rd$ 因整环消去律给出 $R\cong(d)$; 零模以空基表示.
+
+对一般 $n$, 投影到第一坐标的像是理想 $(d)$. 若 $d=0$, 子模位于 $0\times R^{n-1}$, 用归纳. 若 $d\ne0$, 选 $v$ 的第一坐标为 $d$. 任意 $w$ 的第一坐标是 $ad$, 故 $w-av$ 属投影核 $K$. 因 $av$ 第一坐标 $ad$, $Rv\cap K=0$. 于是子模为 $Rv\oplus K$, 核由至多 $n-1$ 个元素自由生成, 加上 $v$ 即为所求基.
+\end{proof}
+以下 $R$ 为 PID. 有限生成模 $M$ 是某个 $R^s$ 的商. 取生成元给满射 $R^s\to M$, 其核按定理\ref{thm:subfree}有限生成且自由, 选其基得到矩阵 $A$ 与表示 $M\cong R^s/\im A$. 下一章会把矩阵关系化成一维关系, 这正是模理论引入的目的.
+\originalsection{正合与分裂}
+
+\begin{definition}
+列 $0\to A\xrightarrow{i}B\xrightarrow{p}C\to0$ 称短正合列, 若 $i$ 单射、$p$ 满射且 $\ker p=\im i$. 若有同态 $s:C\to B$ 使 $ps$ 为恒等, 称分裂.
+\end{definition}
+\begin{proposition}
+分裂短正合列满足 $B\cong A\oplus C$. 若 $C$ 自由则一定分裂.
+\end{proposition}
+\begin{proof}
+映射 $(a,c)\mapsto i(a)+s(c)$ 是同态. 对 $b$, 令 $c=p(b)$, 则 $b-s(c)\in\ker p$, 给出满射; 若 $i(a)+s(c)=0$, 应用 $p$ 得 $c=0$, 再由 $i$ 单射得 $a=0$. 若 $C$ 自由, 给每个基向量任选 $B$ 中原像, 唯一线性延拓得到 $s$.
+\end{proof}
+\originalsection{带解答练习}
+\begin{exercise}短正合列 $0\to\Z\xrightarrow{\times2}\Z\to\Z/2\Z\to0$ 是否分裂?\end{exercise}
+\begin{solution}
+若有截面 $s$, 因 $2\bar1=0$, 必有 $2s(\bar1)=0$ 在 $\Z$ 中, 故 $s(\bar1)=0$, 不能映回 $\bar1$. 不分裂. 这说明不能把所有商模都写成原模的直和因子.
+\end{solution}
+\begin{exercise}对 $R=\Z$ 和 $M=\Z/12\Z$, 求 $\ann(\bar4)$ 及其生成子模.\end{exercise}
+\begin{solution}
+$n\bar4=0$ 当且仅当 $3\mid n$, 所以湮灭理想是 $3\Z$. 子模 $\{\bar0,\bar4,\bar8\}$ 同构于 $\Z/3\Z$.
+\end{solution}

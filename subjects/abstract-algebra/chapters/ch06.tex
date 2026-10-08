@@ -1,0 +1,45 @@
+\originalchapter{整除与唯一分解}
+\originalsection{分式域与因子}
+\begin{theorem}
+每个整环 $R$ 嵌入一个分式域 $K$, 其中元素写为 $a/b$, $a,b\in R,b\ne0$, 且任何包含 $R$ 的域都接收唯一延拓 $a/b\mapsto a b^{-1}$.
+\end{theorem}
+\begin{proof}
+在有序对 $(a,b)$ 上定义 $(a,b)\sim(c,d)$ 当且仅当 $ad=bc$. 自反、对称直接; 若 $ad=bc$, $cf=de$, 则 $adf=bde$, 消去非零 $d$ 得 $af=be$, 所以传递. 定义加法 $(a,b)+(c,d)=(ad+bc,bd)$ 和乘法 $(ac,bd)$; 代入等价式可直接核实独立于代表元. 它们满足环公理, 单位为 $(1,1)$, 非零 $(a,b)$ 的逆为 $(b,a)$. 映射 $a\mapsto(a,1)$ 单射. 延拓被 $a/b=a\cdot b^{-1}$ 强制决定, 且交叉乘积等价保证它良定义.
+\end{proof}
+\begin{definition}
+整环中 $a\mid b$ 指 $b=ac$ 对某个 $c\in R$ 成立. 两元素相伴指相差一个单位因子. 非零非单位 $p$ 若 $p=ab$ 迫使 $a$ 或 $b$ 为单位, 称不可约元; 若 $p\mid ab$ 迫使 $p\mid a$ 或 $p\mid b$, 称素元. 每个非零非单位都可分解为不可约元, 且分解除次序与相伴外唯一的整环称唯一分解整环 (UFD).
+\end{definition}
+素元一定不可约: 若 $p=ab$, 则 $p\mid a$ 或 $p\mid b$; 如 $a=pc$, 消去 $p$ 得 $1=cb$, 所以 $b$ 为单位. 反向一般不成立. 但在 UFD 中不可约元必为素元: 若 $p\mid ab$, 分解 $a,b$ 及商 $ab/p$ 为不可约元, 唯一性迫使 $p$ 与 $a$ 或 $b$ 的某个因子相伴, 故整除其中一个. 零因子输入时结论直接成立. 因而 UFD 中不可约元 $p$ 的商环 $R/(p)$ 为整环.
+\originalsection{欧几里得整环与主理想整环}
+\begin{definition}
+每个理想均主的整环称主理想整环 (PID). 若存在函数 $\delta:R\setminus\{0\}\to\N\cup\{0\}$, 使对 $a,b\in R,b\ne0$ 可写 $a=bq+r$, 且 $r=0$ 或 $\delta(r)<\delta(b)$, 则称欧几里得整环.
+\end{definition}
+\begin{theorem}\label{thm:pidufd}
+欧几里得整环是 PID, PID 是 UFD. PID 中不可约元都是素元, 任意 $a,b$ 的最大公因子 $d$ 可写为 $ra+sb$.
+\end{theorem}
+\begin{proof}
+非零理想中选 $\delta$ 最小的非零元素 $b$. 对 $a\in I$ 除以 $b$ 得余项仍在 $I$, 最小性迫使余项0, 故 $I=(b)$.
+
+在 PID 中 $(a,b)=(d)$, 因 $a,b\in(d)$, $d$ 是公因子; 又 $d=ra+sb$, 任一公因子整除 $d$. 若 $p$ 不可约, 理想 $(p)\subseteq(a)$ 迫使 $a\mid p$, 因而 $(a)=(p)$ 或 $(a)=R$. 所以 $(p)$ 极大, 从定理\ref{thm:maximal}得到 $p$ 素.
+
+为证分解存在, 先证 PID 的理想升链停止. 升链 $I_1\subseteq I_2\subseteq\cdots$ 的并是理想, 可写 $(d)$. 元素 $d$ 属于某一 $I_N$, 从而整个并等于 $I_N$. 若某个非零非单位不能有限分解, 它必可拆为两个非单位, 其中至少一个仍不能有限分解. 反复选此因子 $a_{k+1}$, 得严格升链 $(a_k)\subsetneq(a_{k+1})$, 矛盾. 唯一性则从 $p_1\cdots p_r=q_1\cdots q_s$ 开始, 素性使 $p_1$ 整除某个 $q_j$, 不可约性使它们相伴; 消去后归纳即可.
+\end{proof}
+\originalsection{高斯整数与分解失败}
+高斯整数 $\Z[i]$ 的范数 $N(a+bi)=a^2+b^2$ 为非负整数, 且乘法性由复数绝对值给出. 对 $z,w\in\Z[i],w\ne0$, 将 $z/w$ 的实虚部各舍入至最近整数得 $q$, 则 $|z/w-q|^2\le1/2$, 所以 $r=z-qw$ 满足 $N(r)\le N(w)/2<N(w)$. 故 $\Z[i]$ 是欧几里得整环.
+\begin{example}说明 $\Z[\sqrt{-5}]$ 不是 UFD, 尽管每个非零非单位都能分解为不可约元.\end{example}
+\begin{solution}
+范数 $N(a+b\sqrt{-5})=a^2+5b^2$ 乘法性成立, 值为正整数. 单位仅 $\pm1$. 非单位范数至少2, 所以可用范数归纳完成有限分解. 范数2和3无解, 因而范数4的2、范数9的3、范数6的 $1\pm\sqrt{-5}$ 均不可约: 若分成非单位, 范数因子会要求不存在的2或3. 但
+\[
+6=2\cdot3=(1+\sqrt{-5})(1-\sqrt{-5}),
+\]
+两边不可约因子的范数分别为4,9与6,6, 不可能相伴, 唯一性失败.
+\end{solution}
+\originalsection{带解答练习}
+\begin{exercise}证明 UFD 中两个非零元素的 gcd 和 lcm 存在, 且其乘积与 $ab$ 相伴.\end{exercise}
+\begin{solution}
+将涉及的不同素因子列为 $p_1,\ldots,p_k$, 写 $a=u\prod p_i^{r_i}$, $b=v\prod p_i^{s_i}$. gcd 可取指数 $\min(r_i,s_i)$, lcm 取 $\max(r_i,s_i)$; 任意公因子或公倍数的指数比较给出定义. 因最小与最大之和等于 $r_i+s_i$, 两者乘积与 $ab$ 相伴.
+\end{solution}
+\begin{exercise}证明 $\Z[x]$ 不是 PID.\end{exercise}
+\begin{solution}
+若 $(2,x)=(f)$, 则 $f\mid2$, 多项式次数相加迫使 $f$ 为整数常数, 只能相伴于1或2. 若为1, 则1可写 $2a(x)+xb(x)$, 代入0得到1为偶数; 若为2, 则 $2\mid x$, 不成立. 因此该理想不主.
+\end{solution}

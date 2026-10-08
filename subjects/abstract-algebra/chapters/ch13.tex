@@ -1,0 +1,44 @@
+\originalchapter{Galois 对应与计算}
+\originalsection{基本定理}
+\begin{theorem}[有限 Galois 对应]\label{thm:galois}
+设 $L/F$ 为有限 Galois 扩张, $G=\Gal(L/F)$. 中间域 $E$ 与子群 $H\le G$ 由
+$E\mapsto\Gal(L/E)$ 和 $H\mapsto L^H$ 互逆对应, 且反转包含关系. 有 $[L:E]=|H|$, $[E:F]=[G:H]$. 中间域 $E/F$ 正规当且仅当 $H$ 在 $G$ 中正规, 此时 $\Gal(E/F)\cong G/H$.
+\end{theorem}
+\begin{proof}
+对任意中间域, $L/E$ 仍是可分多项式的分裂域 (把原 $F$ 多项式看作 $E$ 多项式), 所以为 Galois, 自同构数等于 $[L:E]$. 记 $H=\Gal(L/E)$, Artin 定理给 $[L:L^H]=|H|=[L:E]$, 而 $E\subseteq L^H$, 塔公式迫使相等. 对任意 $H$, Artin 定理直接给 $\Gal(L/L^H)=H$. 包含反转来自“固定更多自同构则元素更少”, 次数公式由塔公式.
+
+对 $g\in G$, 直接检查 $g(L^H)=L^{gHg^{-1}}$. 若 $H$ 正规, 则所有 $g$ 保持 $E=L^H$; 任意 $F$ 嵌入 $E$ 可逐根延拓为 $L$ 的自同构, 因 $L/F$ 正规, 所以所有嵌入均保持 $E$, $E/F$ 正规. 反之 $E/F$ 正规使所有 $g$ 保持 $E$, 上述固定域等式与对应唯一性给 $gHg^{-1}=H$. 可分性继承, 故 $E/F$ Galois. 限制同态 $G\to\Gal(E/F)$ 的核为 $H$, 满射由嵌入延拓, 第一同构定理给商群结论.
+\end{proof}
+\originalsection{双二次扩张}
+\begin{example}求 $L=\Q(\sqrt2,\sqrt3)$ 的所有中间域.\end{example}
+\begin{solution}
+它是 $(x^2-2)(x^2-3)$ 的分裂域, 次数4. 独立改变两个平方根符号得到四个自同构, 群为 $C_2\times C_2$. 三个阶2子群分别固定 $\sqrt2,\sqrt3,\sqrt6$, 固定域为对应二次域, 因次数都是2. 加上 $\Q$ 和 $L$ 共五个中间域, 没有其他.
+\begin{center}
+\begin{tikzpicture}[every node/.style={font=\normalsize},>=Stealth]
+\node (t) at (0,2.2) {$\Q(\sqrt2,\sqrt3)$};
+\node (a) at (-3,1.1) {$\Q(\sqrt2)$};
+\node (b) at (0,1.1) {$\Q(\sqrt3)$};
+\node (c) at (3,1.1) {$\Q(\sqrt6)$};
+\node (d) at (0,0) {$\Q$};
+\draw (t)--(a)--(d) (t)--(b)--(d) (t)--(c)--(d);
+\end{tikzpicture}
+\end{center}
+图中的线表示域包含关系, 自同构子群的包含次序反向.
+\end{solution}
+\originalsection{三次多项式的分裂域}
+\begin{example}求 $x^3-2$ 的分裂域、Galois 群及中间域.\end{example}
+\begin{solution}
+令 $\alpha=\sqrt[3]2$, $\omega$ 为非实三次单位根. 分裂域 $L=\Q(\alpha,\omega)$, $\Q(\alpha)$ 次数3且实, $\omega$ 不在其中而满足二次式 $x^2+x+1$, 故总次数6. 自同构置换三个根, 给出 $G\hookrightarrow S_3$; Galois 性使 $|G|=6$, 所以 $G=S_3$.
+
+$S_3$ 的一个阶3子群给唯一二次域 $\Q(\omega)$, 它正规. 三个阶2子群给三个三次域 $\Q(\alpha),\Q(\omega\alpha),\Q(\omega^2\alpha)$; 各根稳定子为阶2, 固定域次数3, 所以恰是这些域, 彼此不同. 再加端点 $\Q,L$ 共六个中间域. 三个阶2子群不正规, 故三个三次域在 $\Q$ 上不正规.
+\end{solution}
+\originalsection{有限域的 Galois 群}
+$\F_{p^n}/\F_p$ 是可分多项式 $x^{p^n}-x$ 的分裂域. Frobenius 的阶为 $n$, 而域次数也是 $n$, 所以全部自同构恰为其幂, 群为 $C_n$. 固定 $\mathrm{Fr}^d$ 的元素满足 $x^{p^d}=x$; 一般固定域为 $\F_{p^{\gcd(n,d)}}$, 因群中 $\mathrm{Fr}^d$ 生成的子群等于 $\mathrm{Fr}^{\gcd(n,d)}$ 生成的子群. 这恢复上一章的子域分类.
+\originalsection{带解答练习}
+\begin{exercise}求 $x^4-2$ 的分裂域次数和 Galois 群.\end{exercise}
+\begin{solution}
+设 $\alpha=\sqrt[4]2$. 艾森斯坦给 $[\Q(\alpha):\Q]=4$, 这是实域. 加入 $i$ 后次数加倍, 得分裂域 $L=\Q(\alpha,i)$ 次数8. 在四根 $\alpha,i\alpha,-\alpha,-i\alpha$ 上, 有自同构 $r$ 送 $\alpha\mapsto i\alpha$, $i\mapsto i$, 因 $L/\Q(i)$ 次数4且 $x^4-2$ 在 $\Q(i)$ 为 $\alpha$ 的最小多项式; 还有复共轭 $s$, 固定 $\alpha$ 并送 $i\mapsto-i$. 它们满足 $r^4=s^2=1,srs=r^{-1}$, 生成8个不同自同构, 所以群为阶8的 $D_4$.
+\end{solution}
+\begin{remark}
+根式可解性与可解群的等价定理需要进一步的根式塔论证. 本册不调用它证明任何结果, 也不把“Galois 群非交换”误当作不可根式求解. 上述三次和四次例子仅计算分裂域和群.
+\end{remark}

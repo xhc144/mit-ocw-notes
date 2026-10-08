@@ -1,0 +1,59 @@
+\originalchapter{陪集、同态与商群}
+\originalsection{陪集与拉格朗日定理}
+\begin{definition}
+对 $H\le G$, 左陪集 $gH=\{gh:h\in H\}$, 右陪集 $Hg=\{hg:h\in H\}$. 左陪集数称为指数 $[G:H]$.
+\end{definition}
+\begin{lemma}
+左陪集或者相等或者不交; $aH=bH$ 当且仅当 $b^{-1}a\in H$. 每个陪集与 $H$ 等势.
+\end{lemma}
+\begin{proof}
+若 $ah_1=bh_2$, 则 $b^{-1}a=h_2h_1^{-1}\in H$, 所以 $a=bh$, 从而 $aH=bH$. 反之 $b^{-1}a\in H$ 即给出相等. 映射 $h\mapsto ah$ 是双射, 逆映射为 $x\mapsto a^{-1}x$. 每个元素在自己的陪集中, 故这些不交陪集划分 $G$.
+\end{proof}
+\begin{theorem}[拉格朗日]
+有限群中 $|G|=[G:H]|H|$. 特别地, 子群阶和元素阶都整除群阶.
+\end{theorem}
+\begin{proof}
+对陪集划分计数得第一个等式. 再对循环子群 $\langle a\rangle$ 应用即可.
+\end{proof}
+逆命题不能任意使用: 群阶的一个因子未必是某个子群的阶. 后文将用 $A_4$ 给出阶6的反例, 用 Sylow 定理说明素数幂最大因子的存在.
+\originalsection{同态与正规子群}
+\begin{definition}
+映射 $\varphi:G\to G'$ 若满足 $\varphi(ab)=\varphi(a)\varphi(b)$, 称为同态; 双射同态称为同构. 核为 $\ker\varphi=\{g:\varphi(g)=e\}$, 像为 $\im\varphi=\varphi(G)$. 子群 $N$ 若对每个 $g\in G$ 有 $gNg^{-1}=N$, 称为正规子群, 记 $N\trianglelefteq G$.
+\end{definition}
+同态把单位元送到单位元: $\varphi(e)=\varphi(e)^2$, 消去即可. 又把逆元送到逆元. 因此像和核均是子群; 对 $n\in\ker\varphi$, $\varphi(gng^{-1})=e$, 所以核正规. 同态单射等价于核只有单位元: 两个元素像相等当且仅当 $b^{-1}a\in\ker\varphi$.
+\begin{theorem}[商群的构造]\label{thm:quotient}
+若 $N\trianglelefteq G$, 则陪集集合 $G/N$ 在 $(aN)(bN)=abN$ 下成群; 投影 $\pi:g\mapsto gN$ 的核为 $N$. 反之, 此乘法若良定义, 则 $N$ 必正规.
+\end{theorem}
+\begin{proof}
+改变代表元为 $an_1,bn_2$ 时, 乘积是 $ab(b^{-1}n_1b)n_2$, 与 $ab$ 属同一陪集, 这里恰用到正规性. 结合律来自 $G$, 单位元为 $N$, 逆元为 $a^{-1}N$. 投影保持乘积且 $gN=N$ 当且仅当 $g\in N$.
+
+反之 $(gN)(N)(g^{-1}N)=N$ 必须不依赖 $N$ 的代表元, 所以任何 $gng^{-1}$ 都属于 $N$. 这给出 $gNg^{-1}\subseteq N$; 用 $g^{-1}$ 再作一次得到反向包含.
+\end{proof}
+\begin{theorem}[第一同构定理]\label{thm:iso1}
+任何群同态诱导同构 $G/\ker\varphi\cong\im\varphi$, 对应 $g\ker\varphi\mapsto\varphi(g)$.
+\end{theorem}
+\begin{proof}
+陪集相同意味着 $h^{-1}g$ 在核中, 故像相同; 反之像相同也给出陪集相同. 因而诱导映射良定义且单射, 按像的定义满射, 并保持乘积.
+\end{proof}
+\originalsection{同构定理与对应关系}
+\begin{theorem}
+设 $N\trianglelefteq G$, $H\le G$. 则 $HN=\{hn:h\in H,n\in N\}$ 是子群, $H\cap N\trianglelefteq H$, 且 $H/(H\cap N)\cong HN/N$. 若 $N\le K\trianglelefteq G$, 则 $(G/N)/(K/N)\cong G/K$. 包含 $N$ 的子群 $H$ 与 $G/N$ 的子群 $\bar H$ 一一对应, 对应为 $H\mapsto H/N$, $\bar H\mapsto\pi^{-1}(\bar H)$; 正规性也对应.
+\end{theorem}
+\begin{proof}
+两个 $hn$ 的乘积可用 $n_1h_2=h_2(h_2^{-1}n_1h_2)$ 改写为同一形式, 逆元也可改写, 所以 $HN$ 成群. 限制投影 $H\to HN/N$ 满射且核为 $H\cap N$, 用第一同构定理. 映射 $G/N\to G/K$, $gN\mapsto gK$, 良定义、满射且核为 $K/N$, 再用第一同构定理.
+
+子群原像总成子群. 若 $H$ 包含 $N$, 则 $\pi^{-1}(\pi(H))=H$, 因 $gN=hN$ 意味着 $g\in hN\subseteq H$. 满射性又给 $\pi(\pi^{-1}(\bar H))=\bar H$. 最后 $\pi(gHg^{-1})=\pi(g)\bar H\pi(g)^{-1}$, 结合原像相等式即得正规性对应.
+\end{proof}
+\begin{example}求 $\Z/12\Z$ 到 $\Z/8\Z$ 的所有群同态.\end{example}
+\begin{solution}
+同态由 $\bar1$ 的像 $x$ 决定, 且必须满足 $12x=0$ 模8. 这等价于 $4x=0$, 即 $x$ 为偶数. 四个同态分别由 $x=0,2,4,6$ 给出. 定义 $\bar k\mapsto kx$ 不依赖整数代表元, 因为 $12x=0$.
+\end{solution}
+\originalsection{带解答练习}
+\begin{exercise}证明指数为2的子群正规.\end{exercise}
+\begin{solution}
+若 $g\in H$, 左右陪集均为 $H$. 若 $g\notin H$, 左陪集 $gH$ 与右陪集 $Hg$ 都是 $G\setminus H$: 任一方向的陪集划分都只有两块. 因而 $gH=Hg$, 等价于正规性.
+\end{solution}
+\begin{exercise}若 $H,K\trianglelefteq G$ 且 $H\cap K=\{e\}$, 证明 $hk=kh$.\end{exercise}
+\begin{solution}
+交换子 $hkh^{-1}k^{-1}$ 因 $K$ 正规属于 $K$, 又因 $H$ 正规可写成 $h(kh^{-1}k^{-1})\in H$. 交只有 $e$, 所以交换子为 $e$, 即所求.
+\end{solution}

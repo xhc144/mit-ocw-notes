@@ -1,0 +1,60 @@
+\originalchapter{群作用与 Sylow 定理}
+\originalsection{轨道与稳定子}
+\begin{definition}
+若有限群阶为素数 $p$ 的幂, 称为 $p$ 群; $p$ 子群是自身为 $p$ 群的子群. 中心 $Z(G)$ 是与群中每个元素交换的元素集合; 中心化子 $C_G(x)$ 是与指定元素 $x$ 交换的元素集合, 两者由子群判别法成子群. 自同构是从群到自身的同构, 所有自同构在复合下成群 $\Aut(G)$. 非平凡群若没有非平凡真正规子群, 称单群.
+\end{definition}
+\begin{definition}
+群 $G$ 在集合 $X$ 上的作用是规则 $(g,x)\mapsto gx$, 满足 $ex=x$ 和 $(gh)x=g(hx)$. 点 $x$ 的轨道是 $Gx$, 稳定子是 $G_x=\{g:gx=x\}$.
+\end{definition}
+稳定子由子群判别法成群. “在同一轨道”是等价关系: 单位元、逆元和乘积分别给出自反、对称和传递性, 故轨道划分 $X$.
+\begin{theorem}[轨道稳定子公式]\label{thm:orbit}
+映射 $G/G_x\to Gx$, $gG_x\mapsto gx$, 是双射. 有限情形 $|Gx|=[G:G_x]$.
+\end{theorem}
+\begin{proof}
+$gx=hx$ 当且仅当 $h^{-1}g\in G_x$, 恰是陪集相等条件; 因而映射良定义、单射且满射.
+\end{proof}
+共轭作用 $g\cdot x=gxg^{-1}$ 的稳定子是中心化子 $C_G(x)$, 单点轨道恰是中心 $Z(G)$ 的元素. 于是有限群满足类方程
+\[
+|G|=|Z(G)|+\sum_x[G:C_G(x)],
+\]
+其中求和对非中心共轭类各取一个代表.
+\begin{lemma}\label{lem:pfix}
+有限 $p$ 群作用于有限集合 $X$, 则 $|X|\equiv|X^G|\pmod p$, 其中 $X^G$ 为所有群元素都固定的点. 非平凡有限 $p$ 群的中心非平凡.
+\end{lemma}
+\begin{proof}
+轨道大小整除群阶, 所以非单点轨道大小被 $p$ 整除; 把轨道大小相加即得同余. 对共轭作用, 固定点集为中心. 若 $p\mid|G|$, 则 $p\mid|Z(G)|$, 而中心包含 $e$, 故至少有 $p$ 个元素.
+\end{proof}
+\originalsection{Sylow 定理的证明}
+\begin{theorem}[柯西]\label{thm:cauchy}
+若素数 $p$ 整除有限群阶, 则群中存在阶为 $p$ 的元素.
+\end{theorem}
+\begin{proof}
+令 $X=\{(g_1,\ldots,g_p):g_1\cdots g_p=e\}$. 前 $p-1$ 项任取, 最后一项唯一, 所以 $|X|=|G|^{p-1}$ 被 $p$ 整除. 循环移位保持乘积为 $e$: 移位后乘积为 $g_1^{-1}(g_1\cdots g_p)g_1=e$. 因此阶 $p$ 的循环群作用于 $X$. 固定点为 $(g,\ldots,g)$ 且 $g^p=e$. 引理\ref{lem:pfix}说明这类 $g$ 的个数被 $p$ 整除, 至少含 $e$, 故另有非单位元, 其阶恰为 $p$.
+\end{proof}
+\begin{theorem}[Sylow]\label{thm:sylow}
+设 $|G|=p^am$, $p\nmid m$. 则有阶 $p^a$ 的子群, 称 Sylow $p$ 子群. 任一 $p$ 子群包含于某个 Sylow $p$ 子群, 所有 Sylow $p$ 子群互相共轭. 其个数 $n_p$ 满足 $n_p\mid m$ 且 $n_p\equiv1\pmod p$.
+\end{theorem}
+\begin{proof}
+先归纳群阶证明存在性. 若 $a=0$, 单位子群即可. 若 $p\mid|Z(G)|$, 柯西定理给出中心内阶 $p$ 子群 $C$. 商 $G/C$ 的阶为 $p^{a-1}m$, 归纳得到其中阶 $p^{a-1}$ 子群, 原像阶为 $p^a$.
+
+若 $p\nmid|Z(G)|$, 类方程至少有一项 $[G:C_G(x)]$ 不被 $p$ 整除, 否则右侧模 $p$ 不为0. 对应的中心化子是真子群, 其阶仍被 $p^a$ 整除, 在该真子群中归纳可得所求.
+
+固定 Sylow 子群 $P$, 让任意 $p$ 子群 $Q$ 左乘作用于 $G/P$. 该集合有 $m$ 个点, 不被 $p$ 整除, 故有固定陪集 $gP$. 固定条件是 $g^{-1}Qg\le P$, 所以 $Q\le gPg^{-1}$. 若 $Q$ 本身也是 Sylow 子群, 阶相等迫使等号, 共轭性成立.
+
+$G$ 共轭作用于所有 Sylow 子群, 轨道就是整个集合, 稳定子是正规化子 $N_G(P)=\{g:gPg^{-1}=P\}$. 因 $P\le N_G(P)$, $n_p=[G:N_G(P)]$ 整除 $m$. 再让 $P$ 作用于此集合. 若 $Q$ 被 $P$ 固定, 则 $P\le N_G(Q)$. 此时 $PQ$ 是子群, 因 $P$ 正规化 $Q$; 其阶 $|P||Q|/|P\cap Q|$ 是 $p$ 幂, 且不超过 $p^a$. 因 $Q$ 已阶 $p^a$, 必有 $P=Q$. 所以只有 $P$ 自己为固定点, 引理\ref{lem:pfix}得 $n_p\equiv1\pmod p$.
+\end{proof}
+\originalsection{小阶群与应用}
+Sylow 子群唯一当且仅当正规, 因全部共轭. 若 $|G|=pq$, $p<q$ 为素数, 则 $n_q\mid p$ 且 $n_q\equiv1\pmod q$, 只能是1, 因而 $G$ 不是单群. 若还 $p\nmid q-1$, 阶 $q$ 正规子群 $Q$ 上的共轭作用给出 $P\to\Aut(Q)$, 而 $\Aut(C_q)$ 阶 $q-1$ (自同构由一个生成元的像决定, 该像可为任一非单位元, 共 $q-1$ 个; 每种选择给出可逆同态), 所以像阶只能为1. 于是 $P,Q$ 交换且交平凡, $G\cong P\times Q\cong C_{pq}$.
+\begin{example}分类阶为 $p^2$ 的群.\end{example}
+\begin{solution}
+中心非平凡. 若中心阶 $p$, 则商群阶 $p$, 循环. 当 $G/Z(G)$ 循环时, 任意元素可写 $g^iz$, 两个这样元素交换, 所以 $G$ 交换, 反而中心就是 $G$. 因此中心不能只阶 $p$, 群交换. 若有阶 $p^2$ 元素则循环; 否则所有非单位元阶 $p$. 取 $a\ne e$, 再取 $b\notin\langle a\rangle$, 两个阶 $p$ 子群交只有 $e$, 其直积给出整个 $G$, 故 $G\cong C_p\times C_p$.
+\end{solution}
+\originalsection{带解答练习}
+\begin{exercise}证明阶15的群循环; 证明阶12的群必有正规 Sylow 子群或正规阶4子群.\end{exercise}
+\begin{solution}
+$15=3\cdot5$, 且 $3\nmid4$, 用前述结论. 对阶12, $n_3=1$ 或4. 若为1已有正规子群; 若为4, 各阶3子群仅交于 $e$, 共给出8个阶3元素. 剩余4个元素包含任何阶4 Sylow 子群的全部元素, 所以该 Sylow 子群唯一, 正规.
+\end{solution}
+\begin{exercise}有限群作用于自身的子群集合. 证明正规化子是子群, 并说明它与中心化子的区别.\end{exercise}
+\begin{solution}
+正规化子是此作用的稳定子, 故成群. 正规化要求整体送回同一子群, 可以置换其中元素; 中心化要求每个元素不变. 例如 $S_3$ 的 $A_3$ 正规化子是整个 $S_3$, 中心化子只有 $A_3$.
+\end{solution}

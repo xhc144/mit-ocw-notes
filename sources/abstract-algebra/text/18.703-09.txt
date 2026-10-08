@@ -1,0 +1,286 @@
+9. Quotient Groups 
+Given a group G and a subgroup H, under what circumstances can 
+we ﬁnd a homomorphism φ: G −→ G', such that H is the kernel of φ? 
+Clearly a necessary condition is that H is normal in G. Somewhat 
+surprisingly this trivially necessary condition is also in fact suﬃcient. 
+The idea is as follows. Given G and H there is an obvious map of 
+sets, where H is the inverse image of a point. We just put X to be the 
+collection of left cosets of H in G. Then there is an obvious function 
+φ: G −→ X. 
+The map φ just does the obvious thing, it sends g to φ(g) = [g] = gH, 
+the left coset corresponding to g. The real question is, can we make X 
+into a group? 
+Suppose that we are given two left cosets [a] = aH and [b] = bH. 
+The obvious way to try to deﬁne a multiplication in X is to set 
+(aH)(bH) = [a][b] = [ab] = (ab)H. 
+Unfortunately there is a problem with this attempt to deﬁne a multi­
+plication. The problem is that the multiplication map is not necessarily 
+well-deﬁned. 
+To give an illustrative example of the problems that arise deﬁning 
+maps on equivalences classes by choosing representatives, consider the 
+following example. Let Y be the set of all people and let ∼ be the 
+equivalence relation such that x ∼ y iﬀ x and y have the same colour 
+eyes. Then the equivalence classes are simply all possible colours of 
+people’s eyes. We denote the set of all equivalence classes by Y/ ∼. 
+Consider trying to deﬁne a function, 
+f : Y/ ∼−→ R, 
+on the equivalences classes to the real numbers. Given a colour, pick 
+a person with that colour eyes, and send that colour to the height of 
+that person. 
+This is clearly absurd. Given any colour, there are lots of people 
+with that colour eyes, and nearly everyone’s height will be diﬀerent, so 
+we don’t get a well-deﬁned function this way. 
+In fact the problem is that we might represent a left-coset in a dif­
+ferent way. Suppose that a'H = aH and b'H = bH, so that [a'] = [a] 
+and [b'] = [b]. Then we would also have another way to deﬁne the 
+multiplication, that is 
+(a'H)(b'H) = [a'][b'] = [a'b'] = (a'b')H. 
+1 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+For the multiplication to be well-deﬁned, we need 
+[a ' b ' ] = [ab]. 
+' b ' 
+' 
+In other words we need that a 
+∈ abH. Now we do know that a = ah 
+and b ' = bk for h and k ∈ H. It follows then that 
+' b ' 
+a  = (ah)(bk). 
+We want to manipulate the right hand side, until it is of the form 
+abh ' where h ' ∈ H. Now in general it is absolutely guaranteed that this 
+is going to fail. The point is, if this method did work, then there would 
+be a homomorphism whose kernel is equal to H. So at the very least, 
+we had better assume that H is normal in G. 
+Now we would like to move the b through the h. As H is normal in 
+G, we have 
+b−1Hb ⊂ H. 
+In particular b−1hb = l ∈ H. Thus hb = bl. It follows that 
+' b ' 
+a  = (ah)(bk) 
+= a(hb)k 
+= a(bl)k 
+= (ab)(lk) 
+= (ab)h ' , 
+where h ' = lk ∈ H. 
+Thus, almost by a miracle, if H is normal in G, then the set of left 
+cosets of H in G becomes a group. 
+Theorem 9.1. Let G be a group and let H be a normal subgroup. 
+Then the left cosets of H in G form a group, denoted G/H. G/H is 
+called the quotient of G modulo H. The rule of multiplication in G 
+is deﬁned as 
+(aH)(bH) = abH. 
+Furthermore there is a natural surjective homomorphism 
+φ: G −→ G/H, 
+deﬁned as φ(g) = gH. Moreover the kernel of φ is H. 
+Proof. We have already checked that this rule of multiplication is well-
+deﬁned. 
+2 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+We check the three axioms for a group. We ﬁrst check associativity. 
+Suppose that a, b and c are in G. Then 
+(aH)(bHcH) = (aH)(bcH) 
+= (a(bc))H 
+= ((ab)c)H 
+= (ab)H(cH) 
+= (aHbH)cH. 
+Thus this rule of multiplication is associative. 
+It is easy to see that eH = H plays the role of the identity. Indeed 
+aHeH = aeH = aH = eHaH. 
+Finally given a left coset aH, a−1H is easily seen to be the inverse 
+of aH. 
+Thus G/H certainly does form a group. 
+It is easy to see that φ is a surjective homomorphism. Finally the 
+inverse image of the identity is equal to all those elements g of G such 
+that gH = H. Almost by deﬁnition of an equivalence relation, it follows 
+that g ∈ H, so that Ker φ = H. 
+D 
+At this point it is useful to introduce a little bit of category theory: 
+Deﬁnition 9.2. A category C consists of two things. The ﬁrst is the 
+objects of the category. The second is, given any two objects, X 
+and Y , we associate a collection of morphisms, denoted Hom(X, Y ). 
+Given three objects, X, Y and Z and two morphisms f ∈ Hom(X, Y ), 
+g ∈ Hom(Y, Z), there is a rule of composition, 
+g ◦ f ∈ Hom(X, Z). 
+A category satisﬁes the following two axioms. 
+(1) Composition is  associative. That is, given f ∈ Hom(X, Y ), 
+g ∈ Hom(Y, Z), h ∈ Hom(Z, W ), we have 
+h ◦ (g ◦ f) = (h ◦ g) ◦ f. 
+(2) There is an element IX ∈ Hom(X, X) that acts as an identity, 
+so that if f ∈ Hom(X, Y ) and g ∈ Hom(Y, X) we have, 
+f ◦ IX = f, 
+and 
+IX ◦ g = g. 
+Given f ∈ Hom(X, Y ) we say that g ∈ Hom(Y, X) is the inverse 
+of f if f ◦ g = IY and g ◦ f = IX . In this case we say that f is an 
+isomorphism and we say that X a
+3 
+ 
+ nd Y are isomorphic. 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+Given most advanced mathematics classes, there is normally a nat­
+urally associated category. 
+For us, the most natural category is the category of groups. The 
+objects are the collection of all groups and the morphisms are homo­
+morphisms. Composition of morphisms is composition of functions. It 
+is not hard to see that all the axioms are satisﬁed. In fact the only 
+thing we have not checked is that composition of homomorphisms is a 
+homomorphism, which is an exercise for the reader. 
+Two groups are isomorphic iﬀ they are isomorphic as objects of the 
+category. 
+Another very natural category is the category of sets. Here a mor­
+phism is any function. 
+Yet another category is the category of topological spaces. The ob­
+jects are topological spaces and the morphisms are continuous maps. 
+Two topological spaces are then homeomorphic iﬀ they are isomorphic 
+as objects of this category. The category of metric spaces is a subcat­
+egory of the category of topological spaces. 
+The category of vector spaces, is the category whose objects are 
+vector spaces and whose morphisms are linear maps. 
+Deﬁnition 9.3. Let 
+a
+A 
+ B 
+b
+c
+ 
+ 
+C 
+ D 
+d
+be a collection of objects and morphisms belonging to a category. 
+We say that the diagram commutes if the two morphisms from A 
+to D are the same, that is 
+c ◦ a = d ◦ b. 
+In a category, the focus of interest is not the objects, but the mor­
+phisms between the objects. In this sense, we would like to characterise 
+the notion of the quotient group in a way that does not make explicit 
+reference to the elements of G/H, but rather deﬁne everything in terms 
+of homomorphisms between groups. Even though this is somewhat ab­
+stract, there is an obvious advantage to this approach; as a set G/H is 
+rather complicated, its elements are left cosets, which are themselves 
+sets. But really we only need to know what G/H is up to isomorphism. 
+Deﬁnition 9.4. Let G be a group and let H be a normal subgroup. 
+The categorical quotient of G by H is a group Q together with a 
+homomorphism u: G −→ Q, such that 
+4 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+ 
+ 
+ 
+• the kernel of u is H. 
+which is universal amongst all such homomorphisms in the following 
+sense. 
+Suppose that φ: G −→ G ' is any homomorphism such that the kernel 
+of φ contains H. Then there is a unique induced homomorphism 
+φ 
+G ' 
+G 
+u 
+f 
+Q, 
+which makes the diagram commute. 
+Note that in the deﬁnition of the categorical quotient, the most im­
+portant part of the deﬁnition refers to the homomorphism u, and the 
+universal property that it satisﬁes. 
+Theorem 9.5. The category of groups admits categorical quotients. 
+That is to say, given a group G and a normal subgroup H, there is a 
+categorical quotient group Q. Furthermore, Q is unique, up to a unique 
+isomorphism. 
+Proof. We ﬁrst prove existence. Let G/H be the quotient group and let 
+u: G −→ G/H be the natural homomorphism. I claim that this pair 
+forms a categorical quotient. Thus we have to prove that u is universal. 
+To this end, suppose that we are given a homomorphism φ: G −→ 
+G ' , whose kernel contains H. Deﬁne a map 
+f : G/H −→ G ' 
+by sending gH to φ(g). It is clear that the condition that the diagram 
+commutes, forces this deﬁnition of f. We have to check that f is well-
+deﬁned. 
+Suppose that g1H = g2H. We need to check that φ(g1) = φ(g2). As 
+g1H = g2H, it follows that g2 = g1h, for some h ∈ H. In this case 
+φ(g2) = φ(g1h) 
+= φ(g1)φ(h) 
+= φ(g1), 
+where we used the fact that h is in the kernel of φ. Thus the map f is 
+well-deﬁned. 
+Now we check that f is a homomorphism. Suppose that x and y are 
+in G/H. Then x = g1H and y = g2H, for some g1 and g2 in G. In this 
+5 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+-
+?
+-
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+case  
+f(xy) = f(g1g2H) 
+= φ(g1g2) 
+= φ(g1)φ(g2) 
+= f(g1H)f(g2H) = f(x)f(y). 
+Thus f is a homomorphism. Finally we check that the diagram above 
+commutes. Suppose that g ∈ G. Going along the top we get φ(g). 
+Going down ﬁrst, we get gH and then going diagonally we get f(gH) = 
+φ(g), by deﬁnition of f. It is clear that f is the only map which makes 
+the diagram commute. 
+Thus G/H is a categorical quotient. In particular categorical quo­
+tients exist. 
+Now we prove that categorical quotients are unique, up to unique iso­
+morphism. Suppose that Q1 and Q2 are two such categorical quotients. 
+As Q1 is a categorical quotient and there is a homomorphism u2 : G −→ 
+Q2 it follows that there is an induced homomorphism f : Q1 −→ Q2, 
+which makes the following diagram commute 
+G 
+u2 
+Q2 
+u1 
+f 
+Q1, 
+By symmetry there is a homomorphism g : Q2 −→ Q1, which makes 
+the same diagram commute, with 1 and 2 switched. Consider the 
+composition f ◦ g : Q2 −→ Q2. This is a homomorphism which make 
+the following diagram commute 
+G 
+u2 
+Q2 
+u2 
+Q2. 
+However there is one homomorphism that makes the diagram com­
+mute, namely the identity. By uniqueness, f ◦ g must be the identity. 
+Similarly g ◦ f must be the identity. So f and g are inverses of each 
+other, and hence isomorphisms. Note that f itself is unique, since its 
+existence was given to us by the universal property of u1. 
+Thus the quotient is unique, up to a unique isomorphism. 
+D 
+6 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+-
+?
+-
+-
+?
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.703 Modern Algebra
+Spring 2013
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

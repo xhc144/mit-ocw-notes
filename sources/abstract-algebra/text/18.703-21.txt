@@ -1,0 +1,499 @@
+21. Polynomial rings 
+Let us now turn out attention to determining the prime elements 
+of a polynomial ring, where the coeﬃcient ring is a ﬁeld. We already 
+know that such a polynomial ring is a UFD. Therefore to determine 
+the prime elements, it suﬃces to determine the irreducible elements. 
+We start with some basic facts about polynomial rings. 
+Lemma 21.1. Let R be an integral domain. 
+Then the units in R[x] are precisely the units in R. 
+Proof. One direction is clear. A unit in R is a unit in R[x]. 
+Now suppose that f(x) is a unit in R[x]. Given a polynomial g, 
+denote by d(g) the degree of g(x) (note that we are not claiming that 
+R[x] is a Euclidean domain). Now f(x)g(x) = 1. Thus 
+0 = d(1) 
+= d(fg) 
+≥ d(f) + d(g). 
+Thus both of f and g must have degree zero. It follows that f(x) = f0 
+and that f0 is a unit in R[x]. 
+D 
+Lemma 21.2. Let R be a ring. The natural inclusion 
+R −→ R[x] 
+which just sends an element r ∈ R to the constant polynomial r, is a 
+ring homomorphism. 
+Proof. Easy. 
+D 
+The following universal property of polynomial rings, is very useful. 
+Lemma 21.3. Let 
+φ: R −→ S 
+be any ring homomorphism and let s ∈ S be any element of S. 
+Then there is a unique ring homomorphism 
+ψ : R[x] −→ S, 
+such that φ(x) = s and which makes the following diagram commute 
+φ
+R 
+/ S
+/
+ψ 
+f
+ 
+R[x] 
+1 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+Proof. Note that any ring homomorphism 
+ψ : R[x] −→ S 
+that sends x to s and acts as φ on the coeﬃcients, must send 
+n
+n−1 
+anx + an−1x 
++ · · · + a0 
+to 
+n
+n−1
+φ(an)s + φ(an−1)s 
++ · · · + φ(a0). 
+Thus it suﬃces to check that the given map is a ring homomorphism, 
+which is left as an exercise to the reader. 
+D 
+Deﬁnition 21.4. Let R be a ring and let α be an element of R. The 
+natural ring homomorphism 
+φ: R[x] −→ R, 
+which acts as the identity on R and which sends x to α, is called eval­
+uation at α and is often denoted evα. 
+We say that α is a zero (aka root) of f(x), if f(x) is in the kernel 
+of evα. 
+Lemma 21.5. Let K be a ﬁeld and let α be an element of K. 
+Then the kernel of evα is the ideal (x − α). 
+Proof. Denote by I the kernel of evα. 
+Clearly x−α is in I. On the other hand, K[x] is a Euclidean domain, 
+and so it is certainly a PID. Thus I is principal. Suppose it is generated 
+by f, so that I = (f). Then f divides x − α. If f has degree one, then 
+x − α must be an associate of f and the result follows. If f has degree 
+zero, then it must be a constant. As f has a root at α, in fact this 
+constant must be zero, a contradiction. 
+D 
+Lemma 21.6. Let K be a ﬁeld and let f(x) be a polynomial in K[x]. 
+Then we can write f(x) = g(x)h(x) where g(x) is a linear polynomial 
+if and only if f(x) has a root in K. 
+Proof. First note that a linear polynomial always has a root in K. 
+Indeed any linear polynomial is of the form ax + b, where a  = 0. Then 
+it is easy to see that α = − a
+b is a root of ax + b. 
+On the other hand, the kernel of the evaluation map is an ideal, so 
+that if g(x) has a root α, then in fact so does f(x) = g(x)h(x). Thus 
+if we can write f(x) = g(x)h(x), where g(x) is linear, then it follows 
+that f(x) must have a root. 
+Now suppose that f(x) has a root at α. Consider the linear polyno­
+mial g(x) = x − α. Then the kernel of evα is equal to (x − α). As f is 
+in the kernel, f(x) = g(x)h(x), for some h(x) ∈ R[x]. 
+D 
+2 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+ 
+Lemma 21.7. Let K be a ﬁeld and let f(x) be a polynomial of degree 
+two or three. 
+Then f(x) is irreducible if and only if it has no roots in K. 
+Proof. If f(x) has a root in K, then f(x) = g(x)h(x), where g(x) has 
+degree one, by (21.6). As the degree of f is at least two, it follows that 
+h(x) has degree at least one. Thus f(x) is not irreducible. 
+Now suppose that f(x) is not irreducible. Then f(x) = g(x)h(x), 
+where neither g nor h is a unit. Thus both g and h have degree at 
+least one. As the sum of the degrees of g and h is at most three, the 
+degree of f, it follows that one of g and h has degree one. Now apply 
+(21.6). 
+D 
+Deﬁnition 21.8. Let p be a prime. 
+Fp denotes the unique ﬁeld with p elements. 
+Of course, Fp is isomorphic to Zp. However, as we will see later, it 
+is useful to replace Z by F . 
+Example 21.9. First consider the polynomial x2 + 1. Over the real 
+numbers this is irreducible. Indeed, if we replace x by any real number 
+a, then a2 is non-negative and so a2 + 1 cannot equal zero. 
+On the other hand ±i is a root of x2 +1, as i2 +1 = 0. Thus x2 +1 is 
+reducible over the complex numbers. Indeed x2 +1 = (x+i)(x−i). Thus 
+an irreducible polynomial might well become reducible over a larger ﬁeld. 
+Consider the polynomial x2 + x + 1. We consider this over various 
+ﬁelds. As observed in (21.7) this is reducible iﬀ it has a root in the 
+given ﬁeld. 
+Suppose we work over the ﬁeld F5. We need to check if the ﬁve 
+elements of F5 are roots or not. We have 
+12 + 1 + 1 = 3 22 + 2 + 1 = 2 32 + 3 + 13 42 + 4 = 1 
+Thus x2 +x +1 is irreducible over F5. Now consider what happens over 
+the ﬁeld with three elements F3. Then 1 is a root of this polynomial. 
+As neither 0 nor 2 are roots, we must have 
+x 2 + x + 1 = (x − 1)2 = (x + 2)2 , 
+which is easy to check. 
+Now let us determine all irreducible polynomials of degree at most 
+four over F2. Any linear polynomial is irreducible. There are two such 
+x and x + 1. A general quadratic has the form f(x) = x2 + ax + b. 
+b = 0, else x divides f(x). Thus b = 1. If a = 0, then f(x) = x2 + 1, 
+which has 1 as a zero. Thus f(x) = x2 + x + 1 is the only irreducible 
+quadratic. 
+3 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+̸=
+
+
+ 
+ 
+Now suppose that we have an irreducible cubic f(x) = x3 +ax+bx+1. 
+This is irreducible iﬀ f(1) = 0, which is the same as to say that there 
+are an odd number of terms. Thus the irreducible cubics are f(x) = 
+x3 + x2 + 1 and x3 + x + 1. 
+Finally suppose that f(x) is a quartic polynomial. The general irre­
+ducible is of the form x4 + ax3 + bx2 + cx + 1. f(1) = 0 is the same 
+as to say that either two of a, b and c is equal to zero or they are all 
+equal to one. Suppose that 
+f(x) = g(x)h(x). 
+If f(x) does not have a root, then both g and h must have degree two. 
+If either g or h were reducible, then again f would have a linear factor, 
+and therefore a root. Thus the only possibilty is that both g and h are 
+the unique irreducible quadratic polynomials. 
+In this case 
+f(x) = (x 2 + x + 1)2 = x 4 + x 2 + 1. 
+Thus x4 + x3 + x2 + x + 1, x4 + x3 + 1, and x4 + x + 1 are the three 
+irreducible quartics. 
+Obviously it would be nice to have some more general methods of 
+proving that a given polynomial is irreducible. The ﬁrst is rather beau­
+tiful and due to Gauss. The basic idea is a follows. Suppose we are 
+given a polynomial with integer coeﬃcients. Then it is natural to also 
+consider this polynomial over the rationals. Note that it is much easier 
+to prove that this polynomial is irreducible over the integers than it is 
+to prove that it is irreducible over the rationals. For example it is clear 
+that 
+x 2 − 2 
+is irreducible over the integers. In fact it is irreducible over the rationals 
+√ 
+as well, that is, 
+2 is not a rational number. 
+First some deﬁnitions. 
+Deﬁnition 21.10. Let R be a commutative ring and let a1, a2, . . . , ak 
+be a sequence of elements of R. The gcd of a1, a2, . . . , ak is an element 
+d ∈ R such that 
+(1) d|ai, for all 1 ≤ i ≤ k. 
+(2) If d'|ai, for all 1 ≤ i ≤ k, then d'|d. 
+Lemma 21.11. Let R be a UFD. 
+Then the gcd of any sequence a1, a2, . . . , ak of non-zero elements of 
+R exists. 
+4 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+̸=
+̸
+
+
+Proof. There are two obvious ways to proceed. 
+The ﬁrst is to take a common factorisation of each ai into a product 
+of powers of primes, as in the case k = 2. 
+The second is to recursively construct the gcd, by setting di to be 
+the gcd of di−1 and ai and taking d1 = a1. In this case d = dk will be 
+a gcd for the whole sequence a1, a2, . . . , ak. 
+D 
+Deﬁnition 21.12. Let R be a UFD and let f(x) be a polynomial with 
+coeﬃcients in R. 
+The content of f(x), denoted c(f), is the gcd of the coeﬃcients of 
+f. 
+Example 21.13. Let f(x) = 24x3 − 60x + 40. Then the content of f 
+is 4. Thus 
+f(x) = 4(8x 3 − 15x + 10). 
+Lemma 21.14. Let R be a UFD. Then every element of R[x] has a 
+factorisation of the form 
+cf, 
+where c ∈ R and the content of f is one. 
+Proof. Obvious. 
+D 
+Here is the key result. 
+Proposition 21.15. Let R be a UFD. Suppose that g and h ∈ R[x] 
+and let f(x) = g(x)h(x). 
+Then the content of f is equal to the content of g times the content 
+of h. 
+Proof. It is clear that the content of g divides the content of f. There­
+fore we may assume that the content of g and h is one, and we only 
+have to prove that the same is true for f. 
+Suppose not. As R is a UFD, it follows that there is a prime p that 
+divides the content of f. We may write 
+n
+n−1
+n
+n−1
+g(x) = anx +an−1x 
++· · ·+a0 
+and h(x) = bnx +bn−1x 
++· · ·+b0. 
+As the content of g is one, at least one coeﬃcient of g is not divisible 
+by p. Let i be the ﬁrst such, so that p divides ak, for k < i whilst p 
+does not divide ai. Similarly pick j so that p divides bk, for k < j, 
+whilst p does not divide bj . 
+Consider the coeﬃcient of xi+j in f. This is equal to 
+a0bi+j + a1bi+j−1 + · · · + ai−1bj+1 + aibj + ai+1bj+1 + · · · + ai+j b0. 
+Note that p divides every term of this sum, except the middle one 
+aibj . Thus p does not divide the coeﬃcient of xi+j . But this contradicts 
+the deﬁnition of the content. 
+D 
+5 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+Theorem 21.16. (Gauss’ Lemma) Let R be a UFD and let f(x) ∈ 
+R[x]. Let F be the ﬁeld of fractions of R. Suppose that the content of 
+f is one and that we may write f(x) = u1(x)v1(x), where u1(x) and 
+v1(x) are in F [x]. 
+Then we may ﬁnd u(x) and v(x) in R[x], such that 
+f(x) = u(x)v(x) 
+where the degree of u is the same as the degree of u1 and the degree of 
+v is the same as the degree of v. 
+In particular if f is irreducible in R[x] then it is irreducible in F [x]. 
+Proof. We have 
+f(x) = u1(x)v1(x). 
+Now clear denominators. That is, multiply through by the product 
+c of all the denominators in u1(x) and v1(x). In this way we get an 
+expression of the form 
+cf(x) = u2(x)v2(x), 
+where now u2 and v2 belong to R[x]. Now write 
+u2(x) = au(x) 
+and 
+v2(x) = bv(x). 
+We get 
+cf(x) = abu(x)v(x). 
+By (21.15) we can c divides ab, ab = cα, where α ∈ R. Therefore, 
+replacing u(x) by αu(x), we have 
+f(x) = u(x)v(x). 
+D 
+Corollary 21.17. Let R be a UFD. 
+Then R[x] is a UFD. 
+Proof. It is clear that the Factorisation algorithm terminates, by in­
+duction on the degree. Therefore it suﬃces to prove that irreducible 
+implies prime. 
+Suppose that f(x) ∈ R[x] is irreducible. If f has degree zero, then 
+it is an irreducible element of R and hence a prime element of R and 
+there is nothing to prove. 
+Otherwise we may assume that the content of f is one. By Gauss’ 
+Lemma, f is not only irreducible in R[x] but also in F [x]. But then f 
+is a prime element of F [x] as F [x] is a UFD. 
+Now suppose that f divides gh, where g and h ∈ R[x]. As f is prime 
+in F [x], f divides g or h in F [x]. Suppose it divides g. Then we may 
+write 
+g = fk, 
+6 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+some k ∈ F [x]. As in the proof of Gauss’ Lemma, this means we may 
+write 
+g = fk ' , 
+some k ' ∈ R[x]. But then f(x) divides g in R[x]. 
+D 
+Corollary 21.18. Z[x] is a UFD. 
+Deﬁnition 21.19. Let R be a commutative ring and let x1, x2, . . . , xn 
+be indeterminates. 
+A monomial in x1, x2, . . . , xn is a product of powers of x1, x2, . . . , xn. 
+If I = (d1, d2, . . . , dn), then let 
+ 
+I
+di
+x =
+x .
+i 
+The degree d of a monomial is the sum of the degrees of the indi­
+e 
+vidual terms, 
+di. 
+The polynomial ring R[x1, x2, . . . , xn] is equal to the set of all ﬁnite 
+formal sums
+ 
+I 
+aI x , 
+I 
+with the obvious addition and multiplication. The degree of a poly­
+nomial is the maximum degree of a monomial term that appears with 
+non-zero coeﬃcient. 
+Example 21.20. Let x and y be indeterminates. A typical element of 
+Q[x, y] might be 
+x 2 + y 2 − 1. 
+This has degree 2. Note that xy also has degree two. A more compli­
+cated example might be 
+5
+2 x 3 − 7xy + y ,
+3 
+a polynomial of degree 5. 
+Lemma 21.21. Let R be a commutative ring and let x1, x2, . . . , xn be 
+indeterminates. Let S = R[x1, x2, . . . , xn−1]. Then there is a natural 
+isomorphism 
+R[x1, x2, . . . , xn] ' S[xn]. 
+Proof. Clear. 
+D 
+To illustrate how this proceeds, it will probably help to give an ex­
+ample. Consider the polynomial 
+5
+2 x 3 − 7xy + y . 
+3 
+7 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+'
+ 
+ 
+Consider this as a polynomial in y, whose coeﬃcients lie in the ring 
+R[x]. That is 
+y 5 + (−7x)y + 2/3x 3 ∈ R[x][y]. 
+Corollary 21.22. Let R be a UFD. Then R[x1, x2, . . . , xn] is a UFD. 
+Proof. By induction on n. The case n = 1 is (21.17). 
+Set S = R[x1, x2, . . . , xn−1]. By induction S is a UFD. But then 
+S[x] 
+R[x1, x2, . . . , xn] is a UFD. 
+D 
+Now we give a way to prove that polynomials with integer coeﬃcients 
+are irreducible. 
+Lemma 21.23. Let 
+φ: R −→ S 
+be a ring homomorphism. 
+Then there is a unique ring homomorphism 
+ψ : R[x] −→ S[x] 
+which makes the following diagram commute 
+φ / S
+R 
+R[x] 
+ψ/ S[x] 
+and which sends x to x. 
+Proof. Let 
+f : R −→ S[x] 
+be the composition of φ with the natural inclusion of S into S[x]. By 
+the universal property of R[x], there is a unique ring homomorphism 
+ψ : R[x] −→ S[x]. 
+The rest is clear. 
+D 
+Theorem 21.24. (Eisenstein’s Criteria) Let 
+n
+n−1
+f(x) = anx + an−1x 
++ · · · + a0 
+be a polynomial with integer coeﬃcients. Suppose that there is a prime 
+p such that p divides ai, i ≤ n − 1, p does not divide an and p2 does 
+not divide a0. 
+Then f(x) is irreducible in Q[x]. 
+8 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+Proof. There is no harm in assuming that the content of f is one, so 
+that by Gauss’ Lemma, it suﬃces to prove that f is irreducible over Z. 
+Suppose not. Then we may ﬁnd two polynomials g(x) and h(x), of 
+positive degree, with integral coeﬃcients, such that 
+f(x) = g(x)h(x). 
+Suppose that 
+n
+n−1
+f(x) = anx + an−1x 
++ · · · + a0 
+d
+d−1 
+g(x) = bdx + bd−1x 
++ · · · + b0 
+e
+e−1
+h(x) = cex + ce−1x 
++ · · · + c0, 
+for some n, d and e > 1. As an = bdce and an is not divisible by p, 
+then neither is bd nor ce. 
+Consider the natural ring homomorphism 
+Z −→ Fp. 
+This induces a ring homomorphism 
+Z[x] −→ Fp[x]. 
+It is convenient to denote the image of a polynomial g(x) as ¯g(x). As 
+we have a ring homomorphism, 
+¯f(x) = ¯g(x)h¯(x). 
+¯
+Since the leading coeﬃcient of f is not divisible by p, f(x) has the 
+same degree as f(x), and the same holds for g(x) and h(x). On the 
+other hand, every other coeﬃcient of f(x) is divisible by p, and so 
+¯f(x) = ¯anx n . 
+¯
+Since Fp is a ﬁeld, Fp is a UFD and so ¯g = bdxd and ¯g(x) = ¯cexe . It 
+follows that every other coeﬃcient of g(x) and h(x) is divisible by p. 
+In particular b0 and c0 are both divisible by p, and so, as a0 = b0c0, a0 
+must be divisible by p2, a contradiction. 
+D 
+Example 21.25. Let 
+f(x) = 2x 7 − 15x 6 + 60x 5 − 18x 4 − 9x 3 + 45x 2 − 3x + 6. 
+Then f(x) is irreducible over Q. We apply Eisenstein with p = 3. Then 
+the top coeﬃcient is not divisible by 3, the others are, and the smallest 
+coeﬃcient is not divisible by 9 = 32 . 
+Lemma 21.26. Let p be a prime. Then 
+p−1 
+p−2
+f(x) = x
++ x
++ · · · + x + 1, 
+is irreducible over Q. 
+9 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+Proof. By Gauss’ Lemma, it suﬃces to prove that f(x) is irreducible 
+over Z. 
+First note that 
+xp − 1 
+f(x) = 
+, 
+x − 1 
+as can be easily checked. Consider the change of variable 
+y = x − 1. 
+As this induces an automorphism 
+Z[x] −→ Z[x] 
+by sending x to x−1, this will not alter whether or not f is irreducible. 
+In this case 
+(y + 1)p − 1 
+f(y) = 
+y   
+  
+ 
+ 
+p
+p 
+p
+p−1 
+p−2 
+p−3 
+= y
++
+y
++
+y
++ . . .
+1
+2
+p − 1
+p−1 
+p−2 
+= y
++ py
++ · · · + p. 
+  
+Note that
+p
+i
+is divisible by p, for all 1 ≤ i < p, so that we can apply 
+Eisenstein to f(y), using the prime p. 
+D 
+10 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.703 Modern Algebra
+Spring 2013
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

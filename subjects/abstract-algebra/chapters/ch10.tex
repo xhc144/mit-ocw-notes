@@ -1,0 +1,43 @@
+\originalchapter{域扩张与代数元}
+\originalsection{次数与最小多项式}
+\begin{definition}
+若域 $K$ 包含域 $F$, 称 $K/F$ 为域扩张, 次数 $[K:F]$ 是 $K$ 作为 $F$ 向量空间的维数. 若 $\alpha\in K$ 是某非零 $F$ 多项式的根, 称其对 $F$ 代数; 否则称超越. 最小包含 $F$ 和 $\alpha$ 的子域记 $F(\alpha)$.
+\end{definition}
+\begin{theorem}\label{thm:minpoly}
+代数元 $\alpha$ 有唯一首一最小多项式 $m_\alpha\in F[x]$, 它不可约, 且
+$F(\alpha)=F[\alpha]\cong F[x]/(m_\alpha)$, 次数为 $\deg m_\alpha$.
+\end{theorem}
+\begin{proof}
+代值同态 $F[x]\to K$ 的核非零, 在 PID 中有唯一首一生成元 $m$. 若 $m=gh$ 正次数分解, 则 $g(\alpha)h(\alpha)=0$, 域无零因子迫使低次因子也在核中, 矛盾. 不可约元在 $F[x]$ 中生成极大理想, 故像 $F[\alpha]$ 已是域, 就等于 $F(\alpha)$. 除法给每个余数类唯一代表次数小于 $\deg m$, 所以 $1,\alpha,\ldots,\alpha^{d-1}$ 为基.
+\end{proof}
+\begin{theorem}[塔公式]\label{thm:tower}
+若 $F\subseteq E\subseteq K$ 且两段有限, 则 $[K:F]=[K:E][E:F]$.
+\end{theorem}
+\begin{proof}
+取 $E/F$ 基 $u_i$ 和 $K/E$ 基 $v_j$. 先按 $v_j$ 再按 $u_i$ 展开说明 $u_iv_j$ 张成 $K$; 若 $\sum_{i,j}a_{ij}u_iv_j=0$, 按 $v_j$ 独立得每个 $\sum_i a_{ij}u_i=0$, 再按 $u_i$ 独立得全部系数0.
+\end{proof}
+有限扩张中每个元素代数, 因幂列线性相关. 有限个代数元逐次添加形成有限扩张, 故代数元的和、积、差及非零逆元仍代数. 塔公式也说明: 对中间域 $E$, $[E:F]$ 整除 $[K:F]$.
+\originalsection{根的添加与分裂域}
+任何不可约 $f\in F[x]$ 可以通过域 $F[x]/(f)$ 添加一个根 $\bar x$. 对一般非零多项式先添加一个不可约因子的根, 除去一次因子, 再归纳; 经过有限次扩张, 全部根都存在.
+\begin{definition}
+多项式 $f$ 在 $F$ 上的分裂域是由其全部根生成的域, 且 $f$ 在其中完全分裂为一次因子.
+\end{definition}
+\begin{lemma}[嵌入延拓]\label{lem:extend}
+若 $\sigma:F\to F'$ 为域同构, $\alpha$ 对 $F$ 的最小多项式为 $m$, 则将 $\alpha$ 送至 $\sigma(m)$ 的任意根 $\beta$, 可唯一延拓为 $F(\alpha)\cong F'(\beta)$. 因而分裂域除保持底域的同构外唯一.
+\end{lemma}
+\begin{proof}
+同构将系数逐个变换, $m$ 不可约故 $\sigma(m)$ 不可约. 两边都同构于相应多项式商域, 对应 $\sum a_i\alpha^i\mapsto\sum\sigma(a_i)\beta^i$, 因模最小多项式识别而良定义. 对分裂域, 逐个延拓根的像; 目标域含有对应多项式所有根, 每步可以继续. 最终根全被送入目标分裂域, 其像包含全部根, 故满射.
+\end{proof}
+\originalsection{可分性}
+形式导数定义为 $f'=\sum i a_ix^{i-1}$, 满足乘法法则. 在分裂域中一个根重数至少2当且仅当同时是 $f$ 和 $f'$ 的根; 由 $(x-a)^rg$ 直接求导可核. 所以 $f$ 无重根当且仅当 $\gcd(f,f')=1$. 代数元称可分指最小多项式无重根; 有限扩张可分指每个元素可分.
+
+特征0的不可约多项式导数非零且次数降低, gcd 必为1. 特征 $p$ 时导数为0恰为所有指数被 $p$ 整除, 此时可能不可分. 例如在 $\F_p(t)$ 上 $x^p-t$ 不可约: 若 $t$ 是 $p$ 次幂, 分子分母的 $t$ 指数比较将矛盾; 更完整地, 在 $\F_p[t][x]$ 对素元 $t$ 用艾森斯坦证明不可约. 这里采用 UFD 版本: 若素元整除全部低次系数而其平方不整除常数项, 最高系数不被它整除, 则分式域上不可约. 第7章证明逐字适用: 高斯引理清分母, 再在整环 $R/(p)$ 中使用 $x$ 是素元且多项式次数相加, 推得两因子常数项均被 $p$ 整除, 造成平方整除的矛盾. 因此不依赖未经证明的推广. 它只有一个不同根, 重数 $p$.
+\begin{example}求 $\Q(\sqrt2,\sqrt3)$ 的次数和一组基.\end{example}
+\begin{solution}
+$\sqrt3\notin\Q(\sqrt2)$: 若 $\sqrt3=a+b\sqrt2$, $a,b\in\Q$, 平方给 $3=a^2+2b^2+2ab\sqrt2$. 因 $\sqrt2$ 无理, $ab=0$; $b=0$ 或 $a=0$ 都迫使有理数平方为3或 $3/2$, 用素因子奇偶性可排除. 所以两次扩张各次数2, 总次数4, 基为 $1,\sqrt2,\sqrt3,\sqrt6$.
+\end{solution}
+\originalsection{带解答练习}
+\begin{exercise}在 $\Q(\sqrt2)$ 中求 $(1+\sqrt2)^{-1}$, 并求 $\sqrt2+\sqrt3$ 的最小多项式.\end{exercise}
+\begin{solution}
+逆元为 $\sqrt2-1$. 令 $\alpha=\sqrt2+\sqrt3$, 则 $\alpha^2=5+2\sqrt6$, 所以 $\alpha^4-10\alpha^2+1=0$. 又 $\alpha^{-1}=\sqrt3-\sqrt2$, 故两者和差恢复 $\sqrt2,\sqrt3$, $\Q(\alpha)$ 即次数4的双二次域, 最小多项式因此为该首一四次式.
+\end{solution}

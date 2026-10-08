@@ -1,0 +1,190 @@
+20. Euclidean Domains 
+Let R be an integral domain. We want to ﬁnd natural conditions on 
+R such that R is a PID. Looking at the case of the integers, it is clear 
+that the key property is the division algorithm. 
+Deﬁnition 20.1. Let R be an integral domain. We say that R is 
+Euclidean, if there is a function 
+d: R −{0} −→ N ∪{0}, 
+which satisﬁes, for every pair of non-zero elements a and b of R, 
+(1) 
+d(a) ≤ d(ab). 
+(2) There are elements q and r of R such that  
+b = aq + r,  
+where either r = 0 or d(r) < d(a).  
+Example 20.2. The ring Z is a Euclidean domain. The function d is  
+the absolute value.  
+Deﬁnition 20.3. Let R be a ring and let f ∈ R[x] be a polynomial  
+with coeﬃcients in R. The degree of f is the largest n such that the  
+coeﬃcient of xn is non-zero.  
+Lemma 20.4. Let R be an integral domain and let f and g be two  
+elements of R[x].  
+Then the degree of fg is the sum of the degrees of f and g. In 
+particular R[x] is an integral domain. 
+Proof. Suppose that 
+f = amx m+am−1x m+· · ·+a1x+a0 
+and 
+g = bnx n+bn−1x n+· · ·+b1x+b0. 
+Then 
+m+n
+m+n−1
+fg = (ambn)x 
++ cm+n−1x 
++ · · · + c1x + c0. 
+As R is an integral domain, ambn  = 0 and so fg has degree n + m. D 
+Deﬁnition-Lemma 20.5. Let k be a ﬁeld and let R = k[x] be the 
+polynomial ring. Deﬁne a function 
+d: R −{0} −→ N ∪{0} 
+by sending f to its degree. 
+Then R is a Euclidean domain. 
+1
+ 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+Proof. The ﬁrst property of d follows from (20.4). 
+We prove the second property. Suppose that we are given two poly­
+nomials f and g. We want to divide f into g. We proceed by induction 
+on the degree of g. If the degree of g is less than the degree of f, there 
+is nothing to prove, take q = 0 and r = g. Suppose the result holds for 
+all degrees less than the degree of g. We may suppose that 
+g = bxn + g1 
+and 
+f = ax m + f1, 
+where f1 and g1 are of degree less than m and n. Put q0 = cxn−m , 
+where c = b/a. Let h = g − q0f. Then h has degree less than g. By 
+induction then, 
+h = q1f + r, 
+where r has degree less than f. It follows that 
+g = h + q0f 
+= (q0 + q1)f + r 
+= qf + r, 
+where q = q0 + q1. 
+D 
+Deﬁnition-Lemma 20.6. Let R = Z[i] be the ring of Gaussian inte­
+gers. Deﬁne a function 
+d: R −{0} −→ N ∪{0}, 
+by sending a + bi to its norm, which is by deﬁnition a2 + b2 . 
+Then the ring of Gaussian integers is a Euclidean domain. 
+Proof. Note ﬁrst that if z is a complex number, then the absolute value 
+of z, deﬁned as the square root of the product of z with its complex 
+conjugate ¯z, is closely related to the norm of z. 
+In fact if z is a Gaussian integer x + iy, then 
+|z|2 = zz¯ = x 2 + y 2 = d(z). 
+On the other hand, suppose we use polar coordinates, rather than 
+Cartesian coordinates, to represent a complex number, 
+iθ 
+z = re . 
+Then r = |z|. 
+For any pair z1 and z2 of complex numbers, we have 
+|z1z2| = |z1||z2|. 
+Indeed this is clear, if we use polar coordinates. Now suppose that 
+both z1 and z2 are Gaussian integers. If we square both sides of the 
+equation above, we get 
+d(z1z2) = d(z1)d(z2). 
+2
+ 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+As the absolute value of a Gaussian integer is always at least one, (1) 
+follows easily. 
+To prove (2), it helps to think about this problem geometrically. 
+First note that one may think of the Gaussian integers as being all 
+points in the plane with integer coordinates. Fix a Gaussian integer α. 
+To obtain all multiples of α = reiθ, that is, the principal ideal (α), it 
+suﬃces to take this lattice, rotate it through an angle of θ and stretch 
+it by an amount r. With this picture, it is clear that given any other 
+Gaussian integer β, there is a multiple of α, call it qα, such that the 
+square of the distance between β and qα is at most r2/2. Indeed let 
+γ = β/α. Pick a Gaussian integer q such that the square of the distance 
+between γ and q is at most 1/2. Then the distance between β = γα 
+and qα is at most r2/2. Thus we may write 
+β = qα + r, 
+(diﬀerent r of course) such that d(r) < d(α). 
+D 
+It might help to see a simple example of how this works in practice. 
+Suppose that we take a = 1 + i and b = 4 − 5i. The ﬁrst step is to 
+construct 
+b 
+c = . 
+a  
+Now aa¯ = 12 + 12 = 2, so that the inverse of a is  
+a¯
+1 − i  
+= 
+. 
+2
+2  
+Multiplying by b we get  
+¯ ab 
+c = 2 
+1 
+= 
+((1 − i)(4 − 5i))
+2 
+1 
+= − (1 + 9i)
+2 
+1
+9 
+= −
+− i. 
+2
+2 
+Now we pick a Gaussian integer that is no more than a distance of 1 
+from c. For example −4i will do (indeed any one of −1 − 5i, −5i, −4i 
+and −1 − 4i will work). This is our quotient q. The error at this point 
+is 
+1 
+i 
+s = c − q = −(
++
+). 
+2
+2
+Now multiplying both sides by a, we get 
+r = sa = b − qa, 
+3
+ 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+
+
+ 
+so that  
+b = qa + r. 
+Thus 
+r = − 1(1 + i)2 = i. 
+2
+Clearly 
+d(r) = 1 = 2d(s) < d(a) = 2, 
+as required. 
+Lemma 20.7. Every Euclidean domain is a PID. 
+In particular every Euclidean domain is a UFD. 
+Proof. Let I be an ideal in a Euclidean domain. We want to show that 
+I is principal. If I = {0} then I = (0). Pick a an element of I, such 
+that d(a) is minimal. I claim that I = (a). Suppose that b ∈ I. We 
+may write 
+b = aq + r. 
+If r = b−aq ∈ I. If r = 0 then d(r) < d(a), which contradicts our choice 
+of a. Otherwise r = 0 and b ∈(a) so that I = (a) is principal. 
+D 
+Corollary 20.8. The Gaussian integers and the polynomials over any 
+ﬁeld are a UFD. 
+Of course, one reason why the division algorithm is so interesting, is 
+that it furnishes a method to construct the gcd of two natural numbers 
+a and b, using Euclid’s algorithm. Clearly the same method works in 
+an arbitrary Euclidean domain. 
+4 
+MIT OCW: 18.703 Modern Algebra
+Prof. James McKernan
+̸=
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.703 Modern Algebra
+Spring 2013
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

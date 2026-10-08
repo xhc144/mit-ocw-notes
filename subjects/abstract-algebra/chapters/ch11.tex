@@ -1,0 +1,42 @@
+\originalchapter{有限域}
+\originalsection{特征与 Frobenius}
+\begin{definition}
+域 $F$ 的特征是 $n\cdot1=0$ 的最小正整数, 不存在时记为0. 特征若正则必为素数 $p$: 若 $n=ab$ 合成, $(a\cdot1)(b\cdot1)=0$ 与最小性冲突. $F$ 的最小子域为特征0时的 $\Q$, 或特征 $p$ 时的 $\F_p$.
+\end{definition}
+有限域是其素域上的有限维向量空间, 因而元素数必为 $p^n$. 在特征 $p$ 的交换环中, 二项式中间系数被 $p$ 整除, 所以 $(a+b)^p=a^p+b^p$. 映射 $\mathrm{Fr}:a\mapsto a^p$ 保持加法、乘法和1, 在域上单射; 有限性使其满射, 因而为自同构.
+\begin{proposition}
+有限域上每个不可约多项式可分.
+\end{proposition}
+\begin{proof}
+若不可约 $f$ 不可分, $f'$ 必为0, 故 $f=\sum a_ix^{pi}$. Frobenius 满射使每个系数 $a_i=b_i^p$, 从而 $f=(\sum b_ix^i)^p$, 不可约性矛盾.
+\end{proof}
+\originalsection{存在性与唯一性}
+\begin{theorem}\label{thm:finitefield}
+对每个素数幂 $q=p^n$, 存在唯一 (除同构外) 阶 $q$ 的域, 记为 $\F_q$. 它是 $x^q-x$ 在 $\F_p$ 上的分裂域.
+\end{theorem}
+\begin{proof}
+取 $x^q-x$ 的分裂域 $L$. 导数为 $-1$, 故有恰好 $q$ 个不同根. 根集合 $S$ 对加减乘法封闭, 因 $(a\pm b)^q=a^q\pm b^q$, $(ab)^q=a^qb^q$; 对非零 $a$, $(a^{-1})^q=(a^q)^{-1}=a^{-1}$. 且0,1在其中, 所以 $S$ 是域. 它包含全部根, 分裂域的最小性给 $L=S$, 故阶 $q$.
+
+反之任意阶 $q$ 域的非零乘法群阶 $q-1$, 拉格朗日定理给 $a^{q-1}=1$, 所有元素满足 $a^q=a$. 因此它就是 $x^q-x$ 的分裂域, 唯一性来自分裂域唯一性.
+\end{proof}
+\originalsection{乘法群与子域}
+\begin{theorem}\label{thm:finitecyclic}
+域的有限乘法子群 $H$ 是循环群.
+\end{theorem}
+\begin{proof}
+$H$ 交换. 令各元素阶的最小公倍数为 $m$. 对每个素数幂 $p^a\mid m$ 的最高幂, 有某个元素阶含该幂; 取其适当幂得到阶恰为 $p^a$ 的元素. 这些元素相乘, 因交换且阶互素, 乘积的阶为各阶之积 $m$: 若乘积某次幂为1, 一个因子幂等于其余因子幂的逆, 两边阶互素, 故每一因子幂均为1. 因而 $H$ 有阶 $m$ 元素. 同时每个 $h$ 满足 $h^m=1$, 多项式根数界给 $|H|\le m$. 而该元素已经给出 $m$ 个不同幂, 所以 $|H|=m$, 群循环.
+\end{proof}
+$\F_{p^n}$ 上 Frobenius 的阶恰为 $n$: $n$ 次迭代为恒等, 若 $0<d<n$ 次迭代恒等, 则 $x^{p^d}-x$ 会有 $p^n$ 个根, 超过次数. 对 $d\mid n$, 多项式 $x^{p^d}-x$ 的根全在 $\F_{p^n}$ 中: 非零根满足阶整除 $p^d-1$, 而 $p^d-1\mid p^n-1$, 循环乘法群中恰有 $p^d-1$ 个这样的元素. 加0得唯一 $p^d$ 元子域. 任何子域的次数 $d$ 整除 $n$, 由塔公式, 且其元素必为该多项式的根, 故没有其他子域.
+\begin{example}在 $\F_2[t]/(t^3+t+1)$ 中证明 $\alpha=\bar t$ 生成乘法群.\end{example}
+\begin{solution}
+三次式无 $\F_2$ 根所以不可约, 商域阶8. $\alpha\ne0,1$, 而乘法群阶7是素数, 因此 $\alpha$ 阶7, 生成整个乘法群. 可用 $\alpha^3=\alpha+1$ 逐次约化检查全部七个非零元素.
+\end{solution}
+\originalsection{带解答练习}
+\begin{exercise}列出 $\F_{p^{12}}$ 的所有子域及其包含关系.\end{exercise}
+\begin{solution}
+次数为 $12$ 的正因子 $1,2,3,4,6,12$, 分别给 $\F_p,\F_{p^2},\F_{p^3},\F_{p^4},\F_{p^6},\F_{p^{12}}$. 包含当且仅当次数整除: 必要性由塔公式, 充分性由相应根集合包含.
+\end{solution}
+\begin{exercise}证明 $\F_p(t)$ 的 Frobenius 不是满射.\end{exercise}
+\begin{solution}
+若 $(f(t)/g(t))^p=t$, 约成互素分子分母, 则 $f^p=tg^p$. 素因子 $t$ 在左侧的指数是 $p$ 的倍数, 右侧是 $1$ 加 $p$ 的倍数, 矛盾. 因而 $t$ 没有原像.
+\end{solution}

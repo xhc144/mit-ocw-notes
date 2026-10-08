@@ -1,0 +1,47 @@
+\originalchapter{多项式与不可约性}
+\originalsection{除法与根}
+在交换环 $R$ 上, 多项式是有限形式和 $\sum a_ix^i$, 不是仅指其代值函数; 在有限域上不同多项式可能定义同一函数, 如 $x^q-x$ 处处取0. 在整环中非零多项式满足 $\deg(fg)=\deg f+\deg g$, 因最高项系数乘积非零.
+\begin{theorem}
+若 $F$ 为域, 则任意 $f,g\in F[x]$, $g\ne0$, 存在唯一 $q,r$ 使 $f=qg+r$, $r=0$ 或 $\deg r<\deg g$. 所以 $F[x]$ 是欧几里得整环. 次数 $d$ 的非零多项式在任意包含 $F$ 的域中至多有 $d$ 个不同根.
+\end{theorem}
+\begin{proof}
+若 $\deg f\ge\deg g$, 用最高项之比乘相应 $x$ 幂消去 $f$ 最高项; 次数严格下降, 迭代终止. 两种除法相减时 $(q-q')g=r'-r$, 非零左侧次数至少 $\deg g$, 与右侧冲突, 故唯一. 代入 $a$ 的余项定理给出 $f(a)=0$ 等价于 $(x-a)\mid f$. 每剥去一个根次数降1, 且其他不同根仍是商的根, 归纳得根数界.
+\end{proof}
+\originalsection{高斯引理}
+若 $R$ 为 UFD, 多项式系数的 gcd 称内容, 差一个单位. 内容为单位称本原多项式. 每个非零多项式可写成内容乘本原多项式.
+\begin{lemma}[高斯]\label{lem:gauss}
+UFD 上两个本原多项式的乘积仍本原. 对分式域 $K$, 本原 $f\in R[x]$ 在 $R[x]$ 不可约当且仅当在 $K[x]$ 不可约. $R[x]$ 本身也是 UFD.
+\end{lemma}
+\begin{proof}
+若某素元 $p$ 整除乘积的全部系数, 则把系数模 $p$ 化到整环 $R/(p)$ 后, 两个非零多项式的乘积为零, 矛盾. 所以乘积本原, 一般内容也满足 $c(fg)\sim c(f)c(g)$.
+
+任意 $K[x]$ 多项式清分母后再除内容可写成 $u g_0$, $u\in K^\times$, $g_0\in R[x]$ 本原. 若本原 $f=gh$ 在 $K[x]$ 非平凡分解, 则 $f=uvg_0h_0$. 将 $uv=a/b$ 写成非零 $a,b\in R$ 的互素分数. 等式 $bf=ag_0h_0$ 的两边内容分别与 $b,a$ 相伴, 因 $f,g_0h_0$ 都本原. 故 $a,b$ 相伴. 互素性迫使两者都是单位, 所以 $uv$ 为 $R$ 的单位. 因而分解可在 $R[x]$ 实现. 反向显然, 而本原多项式的常数非单位因子不可能出现.
+
+最后在 $K[x]$ 唯一分解 $f/c(f)$, 把每个因子改成本原 $R[x]$ 因子, 得存在性. 唯一性由 $K[x]$ 的唯一性和上述内容比较给出, 常数内容再用 $R$ 的唯一性分解. 因而得到 $R[x]$ 的唯一分解.
+\end{proof}
+\originalsection{约化与艾森斯坦判别}
+\begin{proposition}
+设 $f\in\Z[x]$ 本原, 模素数 $p$ 后次数不变, 且 $\bar f\in\F_p[x]$ 不可约, 则 $f$ 在 $\Q[x]$ 不可约.
+\end{proposition}
+\begin{proof}
+若可约, 高斯引理给出正次数整数分解 $f=gh$. 最高系数模 $p$ 非零保证两因子的次数都不变, 因而约化给出 $\bar f$ 的非平凡分解, 矛盾.
+\end{proof}
+\begin{theorem}[艾森斯坦]\label{thm:eisenstein}
+设 $f=a_nx^n+\cdots+a_0\in\Z[x]$, $n\ge1$, 存在素数 $p$ 使 $p\nmid a_n$, $p\mid a_i$ 对 $i<n$ 成立, 且 $p^2\nmid a_0$. 则 $f$ 在 $\Q[x]$ 不可约.
+\end{theorem}
+\begin{proof}
+先除内容, 条件仍成立. 若 $f=gh$ 为两个正次数整数多项式乘积, 约化后乘积仅为单项式 $\bar a_nx^n$. 在 $\F_p[x]$ 的唯一分解中因子都只能是非零常数乘 $x$ 的幂. 两因子的次数约化不变, 故都含正次 $x$, 两个常数项都被 $p$ 整除. 于是 $p^2\mid a_0$, 矛盾.
+\end{proof}
+\begin{example}证明 $1+x+\cdots+x^{p-1}$ 对素数 $p$ 在 $\Q[x]$ 不可约.\end{example}
+\begin{solution}
+代入 $x=y+1$, 得 $((y+1)^p-1)/y=\sum_{k=1}^p\binom pk y^{k-1}$. 除最高系数1外均被 $p$ 整除, 常数 $p$ 不被 $p^2$ 整除. 艾森斯坦判别给出代入后不可约, 而代入 $y=x-1$ 是逆变换, 故原式不可约.
+\end{solution}
+\originalsection{带解答练习}
+\begin{exercise}证明 $x^3-2$ 在 $\Q[x]$ 不可约, 而 $x^4+4$ 可约.\end{exercise}
+\begin{solution}
+前者对素数2用艾森斯坦. 后者为 $(x^2-2x+2)(x^2+2x+2)$, 由 $(x^2+2)^2-(2x)^2$ 展开可核.
+\end{solution}
+\begin{exercise}求 $\F_2$ 上所有首一不可约二次、三次多项式.\end{exercise}
+\begin{solution}
+二次或三次可约当且仅当有一次因子, 即有域内根. 首一候选常数必须1; 再代入1排除. 二次仅 $x^2+x+1$; 三次仅 $x^3+x+1$ 和 $x^3+x^2+1$. 它们在0,1都不取0.
+\end{solution}

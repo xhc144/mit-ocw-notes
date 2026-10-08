@@ -1,0 +1,50 @@
+\originalchapter{群与子群}
+\originalsection{可逆运算的公理}
+正三角形的旋转和翻折可以复合, 且每一步可以撤销. 把这类运算抽象出来, 需要先约定复合次序: 本书 $gh$ 表示先作用 $h$, 再作用 $g$. 加法群中相应运算写作 $a+b$.
+\begin{definition}
+群是带二元运算的非空集合 $G$, 满足结合律 $(ab)c=a(bc)$, 存在单位元 $e$ 使 $ea=ae=a$, 且每个 $a$ 有逆元 $a^{-1}$ 使 $aa^{-1}=a^{-1}a=e$. 若还满足 $ab=ba$, 则称为交换群或阿贝尔群.
+\end{definition}
+\begin{proposition}
+单位元和每个元素的逆元唯一; $(ab)^{-1}=b^{-1}a^{-1}$. 群中左右消去律成立.
+\end{proposition}
+\begin{proof}
+若 $e,f$ 都是单位元, 则 $e=ef=f$. 若 $b,c$ 都是 $a$ 的逆元, 则 $b=b(ac)=(ba)c=c$. 两个乘积 $(ab)(b^{-1}a^{-1})$ 与 $(b^{-1}a^{-1})(ab)$ 都为 $e$, 给出乘积逆元公式. 对 $ax=ay$ 左乘 $a^{-1}$, 对 $xa=ya$ 右乘 $a^{-1}$, 分别得 $x=y$.
+\end{proof}
+整数、有理数、实数与复数在加法下均成群. 非零有理数在乘法下成群, 整数在乘法下不成群: $2$ 没有整数逆元. 域 $F$ 上的可逆 $n$ 阶矩阵成群 $\mathrm{GL}_n(F)$; 矩阵结合律保证复合结合, 可逆性保证乘积仍在集合内. 一般矩阵乘法不交换.
+\begin{definition}
+非空子集 $H\subseteq G$ 若在限制运算下成群, 称为子群, 记 $H\le G$. 群的阶 $|G|$ 是其元素数, 可为无穷.
+\end{definition}
+\begin{proposition}[子群判别]
+非空子集 $H$ 是子群当且仅当对所有 $a,b\in H$, 有 $ab^{-1}\in H$.
+\end{proposition}
+\begin{proof}
+必要性由子群封闭性得到. 反之取 $a\in H$, 得 $e=aa^{-1}\in H$; 再令第一元素为 $e$ 得 $b^{-1}\in H$; 最后对 $a,b^{-1}$ 应用条件得 $ab\in H$. 结合律继承自 $G$, 单位元和逆元也都属于 $H$.
+\end{proof}
+\originalsection{生成与循环群}
+任意一族子群的交仍是子群: 单位元在每个子群中, 且判别式 $ab^{-1}$ 同时留在每个子群中. 包含集合 $S$ 的所有子群的交称为 $\langle S\rangle$. 它恰由 $S$ 中元素及其逆元的有限乘积组成, 包括空乘积 $e$: 这些乘积成子群, 又被任何包含 $S$ 的子群包含.
+\begin{definition}
+由一个元素 $a$ 生成的群 $\langle a\rangle=\{a^k:k\in\Z\}$ 称为循环群. 元素 $a$ 的阶是使 $a^m=e$ 的最小正整数 $m$; 若不存在则称阶无穷.
+\end{definition}
+\begin{theorem}\label{thm:cyclic}
+整数加法群的子群均为 $d\Z$, 其中 $d\ge0$. 无限循环群同构于 $\Z$, 阶为 $n$ 的循环群同构于 $\Z/n\Z$. 循环群的子群仍循环; 有限循环群中对每个 $d\mid n$ 恰有一个阶为 $d$ 的子群.
+\end{theorem}
+\begin{proof}
+非零子群 $H\le\Z$ 含正整数. 取最小正元素 $d$, 对任何 $h\in H$ 作除法 $h=qd+r$, $0\le r<d$. 因 $r\in H$, 最小性迫使 $r=0$, 故 $H=d\Z$. 零子群对应 $d=0$.
+
+映射 $k\mapsto a^k$ 满射到 $\langle a\rangle$. 若 $a$ 阶无限则它单射; 若阶为 $n$, 除法证明 $a^k=e$ 当且仅当 $n\mid k$, 故余数类恰对应不同元素. 对任意子群 $K\le\langle a\rangle$, 原像是 $d\Z$, 因而 $K=\langle a^d\rangle$. 有限情形原像包含 $n\Z$, 所以 $d\mid n$, 且 $K$ 有 $n/d$ 个元素. 给定所需阶 $r\mid n$, 必须且只需取 $d=n/r$.
+\end{proof}
+\begin{example}
+求 $\Z/18\Z$ 中 $\overline{12}$ 的阶及其生成的子群.
+\end{example}
+\begin{solution}
+$k\overline{12}=0$ 等价于 $18\mid12k$, 即 $3\mid2k$, 即 $3\mid k$. 阶为3, 子群为 $\{\bar0,\bar6,\overline{12}\}$. 一般 $\bar a$ 在 $\Z/n\Z$ 的阶为 $n/\gcd(a,n)$: 约去最大公因子后两整数互素.
+\end{solution}
+\originalsection{带解答练习}
+\begin{exercise}证明有限群中非空、乘法封闭的子集是子群. 说明无限情形为何不能照搬.\end{exercise}
+\begin{solution}
+对 $a\in H$, 正幂序列中两项相等, 设 $a^i=a^j$, $i<j$. 在 $G$ 内消去得 $a^{j-i}=e\in H$. 若 $a\ne e$, 则 $a^{-1}=a^{j-i-1}\in H$; $a=e$ 时逆元本身已在 $H$. 于是逆元和乘积封闭. 无限群 $\Z$ 的正整数子集加法封闭, 却没有0和加法逆元.
+\end{solution}
+\begin{exercise}设 $a$ 的有限阶为 $n$. 证明 $\ord(a^k)=n/\gcd(n,k)$.\end{exercise}
+\begin{solution}
+写 $n=dn'$, $k=dk'$, $\gcd(n',k')=1$. 条件 $(a^k)^m=e$ 等价于 $n\mid km$, 等价于 $n'\mid k'm$, 再由互素性等价于 $n'\mid m$. 最小正 $m$ 为 $n'$.
+\end{solution}

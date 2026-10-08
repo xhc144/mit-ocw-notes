@@ -1,0 +1,45 @@
+\originalchapter{自同构与固定域}
+\originalsection{嵌入数与正规扩张}
+$F$ 嵌入指固定 $F$ 的单射域同态. 在下面的有限扩张计数中, 固定目标域 $\Omega$, 为所有选定生成元的 $F$ 最小多项式乘积的分裂域; 它容纳所有需要的共轭根.
+底域 $F$ 保持不动的 $K$ 自同构组成群 $\Aut_F(K)$, 记作 $\Gal(K/F)$ 时并不自动断言扩张是 Galois. 任一自同构将代数元送至同一最小多项式的一个根 (允许为自身), 因为逐系数代入保持0.
+\begin{proposition}\label{prop:embeddings}
+有限扩张 $K/F$ 向包含相关分裂域的域内的 $F$ 嵌入数至多为 $[K:F]$. 若 $K$ 由可分元生成, 则恰为 $[K:F]$, 并且扩张的每个元素可分.
+\end{proposition}
+\begin{proof}
+有限扩张可由有限多个代数元逐次生成. 每一步延拓数至多为该元在当前域上最小多项式的次数, 引理\ref{lem:extend}和塔公式给出上界. 若生成元对 $F$ 可分, 它在当前域上的最小多项式整除其 $F$ 最小多项式, 仍无重根, 运输后的当前最小多项式整除相应生成元的 $F$ 最小多项式, 所以仍在 $\Omega$ 完全分裂; 每个不同根给一个延拓, 所以每一步延拓数都等于次数, 总数相乘恰为 $[K:F]$.
+
+若 $\beta\in K$, 所有嵌入先限制到 $F(\beta)$, 再延拓到 $K$. 若 $\beta$ 最小多项式的不同根少于其次数, 计数上界将严格小于 $[F(\beta):F][K:F(\beta)]$, 与已经得到的总数矛盾. 故每个 $\beta$ 可分.
+\end{proof}
+\begin{definition}
+有限扩张 $K/F$ 正规指任何在 $K$ 中有根的 $F$ 不可约多项式在 $K$ 中完全分裂. 既正规又可分称为有限 Galois 扩张.
+\end{definition}
+有限扩张正规当且仅当它是有限多个 $F$ 多项式的分裂域. 一方向由有限生成元的最小多项式全部分裂, 它们的根生成的域就是 $K$. 另一方向可用嵌入延拓: 若 $K$ 是分裂域, 为核对另外一个不可约多项式时, 将目标取为它与原生成多项式的共同分裂域. 任一嵌入把生成根排列到同一根集合, 故像为 $K$; 对任意有根的不可约式, 先将该根送至任意其他根, 再逐次延拓到 $K$, 所以其他根也在 $K$ 中. 这同时证明正规等价于所有 $F$ 嵌入均保持 $K$ 本身. 因而有限 Galois 扩张满足 $|\Gal(K/F)|=[K:F]$.
+\originalsection{Artin 固定域定理}
+\begin{lemma}[不同域同态的独立性]\label{lem:independent}
+从域 $L$ 到域 $L'$ 的不同同态 $\sigma_1,\ldots,\sigma_n$ 作为函数在 $L'$ 上线性无关.
+\end{lemma}
+\begin{proof}
+若存在非零线性关系, 选非零项数最小者, 归一化最后系数为1. 只有一项不可能, 因在1处取值非零. 取 $a$ 使 $\sigma_1(a)\ne\sigma_n(a)$. 把关系在 $ax$ 处的式减去 $\sigma_n(a)$ 乘在 $x$ 处的式, 最后一项消失, 第一项不消失, 得到项数更少的非零关系, 矛盾.
+\end{proof}
+\begin{theorem}[Artin]\label{thm:artin}
+设 $H$ 为域 $L$ 的有限自同构群, $E=L^H=\{x:\sigma(x)=x\text{ 对所有 }\sigma\in H\}$. 则 $L/E$ 有限 Galois, $[L:E]=|H|$, 且 $\Gal(L/E)=H$.
+\end{theorem}
+\begin{proof}
+自同构保持加减乘法和非零逆元, 所以共同固定集合 $E$ 确为子域. 先证次数上界. 设 $|H|=n$, 将列向量 $v(x)=(\sigma(x))_{\sigma\in H}\in L^n$ 的所有值取张成空间, 选基列 $v(x_1),\ldots,v(x_r)$, $r\le n$. 对任意 $x$, 有唯一系数 $c_i\in L$ 使 $v(x)=\sum c_iv(x_i)$. 对等式全部作用 $\tau\in H$, 其行指标从 $\sigma$ 变成 $\tau\sigma$, 只是排列, 所以 $v(x)=\sum\tau(c_i)v(x_i)$. 唯一性给 $\tau(c_i)=c_i$, 即 $c_i\in E$. 在恒等同态行取值得 $x=\sum c_ix_i$, 故 $[L:E]\le r\le n$.
+
+反之令 $d=[L:E]$, 每个 $E$ 线性函数 $L\to L$ 由一组 $E$ 基的 $d$ 个取值决定, 这些函数作为 $L$ 向量空间维数 $d$. $H$ 中的 $n$ 个函数由引理\ref{lem:independent}独立, 所以 $n\le d$, 得 $d=n$.
+
+对任意 $x\in L$, 取其在 $H$ 下不同像的乘积多项式 $\prod_y(t-y)$. $H$ 排列这些根, 所以系数在 $E$. 该式无重根且全在 $L$ 分裂, 最小多项式整除它, 从而每个元素可分, 并且其最小多项式全分裂, 得正规. 最后 $H\subseteq\Gal(L/E)$, 后者大小至多 $[L:E]=n$, 所以相等.
+\end{proof}
+\originalsection{本原元}
+\begin{theorem}
+有限可分扩张由一个元素生成.
+\end{theorem}
+\begin{proof}
+有限底域时扩域也有限, 非零乘法群循环, 其生成元同时生成整个域. 无限底域时, 先处理 $F(\alpha,\beta)$. 设其 $F$ 嵌入为 $\sigma_1,\ldots,\sigma_d$. 选 $c\in F$ 使所有 $\sigma_i(\alpha+c\beta)$ 两两不同: 对每对不同嵌入, 若 $\beta$ 像不同至多禁掉一个 $c$, 若 $\beta$ 像相同则 $\alpha$ 像不同, 不禁任何 $c$. 仅有限个禁值, 无限域中可选. 元素 $\gamma=\alpha+c\beta$ 有至少 $d$ 个不同共轭, 最小多项式次数至少 $d$, 又不超过 $[F(\alpha,\beta):F]=d$, 所以 $F(\gamma)$ 就是整个域. 对有限多个生成元归纳.
+\end{proof}
+\originalsection{带解答练习}
+\begin{exercise}为什么 $\Q(\sqrt[3]2)/\Q$ 不是 Galois?\end{exercise}
+\begin{solution}
+$x^3-2$ 不可约且特征0可分, 但另两根非实, 不在这个实域中, 所以不正规. 自同构必须把实根送至同域内的根, 只有自身, 因而自同构群平凡, 大小小于次数3.
+\end{solution}
