@@ -1,0 +1,220 @@
+\originalchapter{贝叶斯统计}
+\label{chap:bayes}
+
+\originalsection{参数、数据与先验信息}
+频率学派与贝叶斯学派都从观测数据出发, 也都必须说明数据怎样产生. 区别在于怎样表达未知参数. 在频率学派模型 $(\PP_\theta)_{\theta\in\Theta}$ 中, 真实参数 $\theta$ 是未知而固定的; 随机性来自样本. 估计量的偏差、方差、置信区间覆盖率, 都是在反复产生样本的意义下定义的. 贝叶斯方法则给参数空间加上一个概率分布, 用它表达观察数据之前的不确定性, 再借助数据更新这个分布. 这不要求现实中的参数每次实验都会随机变化: 参数分布可以是认识状态的数学模型. 
+
+\begin{example}
+设 $p$ 是某人口中女性所占比例. 有放回地随机抽取 $n$ 人, 以 $X_i=1$ 表示第 $i$ 人为女性, 以 $X_i=0$ 表示其他情况. 条件于 $p$, 假设
+\[
+ X_1,\ldots,X_n\mid p\ \iid\ \operatorname{Ber}(p).
+\]
+频率学派可以用 $\bar X$ 估计 $p$, 构造置信区间, 或检验 $p=1/2$. 若事先相信 $p$ 接近 $1/2$, 贝叶斯方法允许把这种信息放入分析, 而不是只在分析结束后作口头解释. 
+\end{example}
+
+\begin{definition}[先验与后验]
+观察样本之前赋予参数 $\theta$ 的概率分布称为先验分布, 记作 $\Pi$; 若它对选定参考测度有密度, 记作 $\pi(\theta)$. 条件于参数的样本联合密度记作 $p_n(x\mid\theta)$. 观察 $X=x$ 后, 参数的条件分布 $\Pi(\cdot\mid x)$ 称为后验分布. 
+\end{definition}
+这里有两个不同层次的概率对象: $p_n(\cdot\mid\theta)$ 描述给定参数时数据的不确定性; $\Pi$ 描述给定数据之前参数的不确定性. 条件独立并不意味着边际独立. 若所有 $X_i$ 共用一个随机 $p$, 把 $p$ 积分掉之后, 观测之间一般相关. 
+
+对于人口比例, 可以选择对称的 Beta 先验. 定义
+\[
+ B(a,b)=\int_0^1 t^{a-1}(1-t)^{b-1}\dd t
+       =\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)},\qquad a,b>0.
+\]
+$\operatorname{Beta}(a,b)$ 的密度为
+\[
+ \pi(p)=\frac{p^{a-1}(1-p)^{b-1}}{B(a,b)},\quad 0<p<1.
+\]
+它的均值为 $a/(a+b)$, 方差为 $ab/[(a+b)^2(a+b+1)]$. 这两个公式可直接由 $\E[p^r]=B(a+r,b)/B(a,b)$ 取 $r=1,2$ 得到. 对称先验 $\operatorname{Beta}(a,a)$ 均值为 $1/2$, 方差为 $1/[4(2a+1)]$; $a$ 越大, 越集中于 $1/2$. 关于“有 $90\%$ 把握落在 $(0.4,0.6)$”这样的陈述, 需要用 Beta 分布的区间概率实际校准, 不能任意指定一个 $a$ 就同时保证多组百分比. 
+
+\originalsection{贝叶斯公式与共轭更新}
+\begin{theorem}[后验密度]
+若先验是概率密度, 且对实际观察 $x$ 有
+\[
+ 0<m(x):=\int_\Theta p_n(x\mid t)\pi(t)\dd t<\infty,
+\]
+则后验密度为
+\[
+ \pi(\theta\mid x)=\frac{p_n(x\mid\theta)\pi(\theta)}{m(x)}.
+\]
+因此, 作为参数的函数, 后验密度正比于先验密度乘似然. 
+\end{theorem}
+\begin{proof}
+参数与数据的联合密度为 $\pi(\theta)p_n(x\mid\theta)$. 对参数积分给出数据的边际密度 $m(x)$. 联合密度除以边际密度就是条件密度; 分母有限且严格为正, 保证所得函数可积且积分为一. 对于连续数据, 条件分布只需在边际分布几乎处处的 $x$ 上定义. 
+\end{proof}
+计算时先找后验的函数形状通常更有效, 最后再识别归一化常数. 不过, 在使用不正常先验时, 最后的可积性检查不可省略. 
+
+\begin{example}
+令 $s=\sum_{i=1}^n X_i$, 先验为 $\operatorname{Beta}(a,b)$. 求后验、后验均值与下一次观测成功的预测概率. 
+\end{example}
+\begin{solution}
+对于观测到的有序二元样本, 似然为 $p^s(1-p)^{n-s}$, 故
+\[
+ \pi(p\mid X)\propto p^{a+s-1}(1-p)^{b+n-s-1}.
+\]
+因为 $a+s>0$、$b+n-s>0$, 这个核可积, 于是
+\[
+ p\mid X\sim\operatorname{Beta}(a+s,b+n-s),\qquad
+ \E[p\mid X]=\frac{a+s}{a+b+n}.
+\]
+下一次观测的预测概率须先条件于 $p$ 再平均: 
+\[
+ \PP(X_{n+1}=1\mid X)=\int_0^1 p\pi(p\mid X)\dd p
+ =\frac{a+s}{a+b+n}.
+\]
+后验均值还可以写成
+\[
+ \frac{a+s}{a+b+n}=\frac{a+b}{a+b+n}\frac{a}{a+b}
+                    +\frac{n}{a+b+n}\bar X.
+\]
+因此先验均值与样本比例按信息量加权. $a,b$ 可看作更新公式里的先验伪计数, 但并不一定来自真实的额外观测. 
+\end{solution}
+\begin{definition}[共轭先验]
+若某类先验在给定抽样模型下更新后仍属于同一分布族, 就称该先验族与这个抽样模型共轭. 共轭是先验族与似然的关系, 并不是先验本身脱离模型后的性质. 
+\end{definition}
+
+\begin{example}
+设 $X_i\mid\theta\iid N(\theta,\sigma^2)$, $\sigma^2>0$ 已知, 先验为 $\theta\sim N(m_0,\tau^2)$, $\tau^2>0$. 求后验. 
+\end{example}
+\begin{solution}
+利用平方和分解
+\[
+ \sum_i(X_i-\theta)^2=\sum_i(X_i-\bar X)^2+n(\theta-\bar X)^2,
+\]
+后验中依赖 $\theta$ 的指数为
+\[
+ -\frac12\left\{\frac{n}{\sigma^2}(\theta-\bar X)^2
+                  +\frac1{\tau^2}(\theta-m_0)^2\right\}.
+\]
+展开二次项并配方, 令
+\[
+ v_n=\left(\frac n{\sigma^2}+\frac1{\tau^2}\right)^{-1},\qquad
+ m_n=v_n\left(\frac{n\bar X}{\sigma^2}+\frac{m_0}{\tau^2}\right),
+\]
+便得到 $\theta\mid X\sim N(m_n,v_n)$. 这里加起来的是精度, 即方差的倒数. 数据精度越大, 后验均值越接近 $\bar X$; 先验精度越大, 越接近 $m_0$. 独立的新观测满足 $X_{n+1}\mid X\sim N(m_n,\sigma^2+v_n)$, 预测方差同时包含新观测噪声和参数不确定性. 
+\end{solution}
+
+\originalsection{平坦先验、非正常先验与 Jeffreys 先验}
+没有明确先验信息时, 人们常试图采用“尽量少提供信息”的先验. 这个说法必须联系参数化理解: 对 $p$ 均匀不等于对 $\log[p/(1-p)]$ 均匀. 
+
+\begin{definition}[非正常先验]
+相对于指定参考测度, 非负可测函数 $\pi$ 若积分无限, 就不能归一化为概率密度, 称为非正常先验. 此时把 $p_n(x\mid\theta)\pi(\theta)$ 归一化得到的后验, 只有在归一化积分严格为正且有限时才有意义. 
+\end{definition}
+常数密度在有限正体积的参数空间上可归一化为均匀分布; 在 $\R$ 上则不能. 仅说参数空间有界还不够, 仍应明确参考测度和有限正体积. 
+
+对于 Bernoulli 参数, $\pi(p)=1$、$0<p<1$ 是 $\operatorname{Beta}(1,1)$, 后验为 $\operatorname{Beta}(1+s,1+n-s)$. 对于 $X_i\mid\theta\iid N(\theta,1)$, $\theta\in\R$, 采用 $\pi(\theta)=1$ 则是非正常先验. 只要 $n\geq1$, 平方和分解给出
+\[
+ \pi(\theta\mid X)\propto\exp\{-n(\theta-\bar X)^2/2\},\qquad
+ \theta\mid X\sim N(\bar X,1/n).
+\]
+这里后验正常并不能把原先验变成真正的概率分布; 例如先验预测分布依然不能照正常先验的方式解释. 
+
+\begin{definition}[Jeffreys 先验]
+在正则模型中, 若 Fisher 信息矩阵 $I(\theta)$ 正定, Jeffreys 先验的密度核定义为
+\[
+ \pi_J(\theta)\propto\sqrt{\det I(\theta)}.
+\]
+它可能正常, 也可能非正常. 使用单次观测信息还是独立样本总信息, 只相差一个与参数无关的常数. 
+\end{definition}
+Bernoulli 单次观测的信息为 $I(p)=1/[p(1-p)]$, 所以 Jeffreys 先验为 $\operatorname{Beta}(1/2,1/2)$. 已知方差的正态位置模型信息为 $1/\sigma^2$, 因此 Jeffreys 先验在均值坐标中为常数. 
+
+\begin{proposition}[光滑重参数化不变性]
+设 $\eta=\varphi(\theta)$ 是参数空间之间的光滑一一对应, 逆映射 $\theta=\psi(\eta)$ 的 Jacobian 矩阵 $J(\eta)$ 可逆. 则在 $\theta$ 坐标下的 Jeffreys 密度经变量替换后, 仍为 $\eta$ 坐标下的 Jeffreys 密度. 
+\end{proposition}
+\begin{proof}
+得分向量按链式法则变为 $s_\eta=J^\top s_\theta$, 于是
+\[
+ I_\eta(\eta)=J(\eta)^\top I_\theta(\psi(\eta))J(\eta).
+\]
+取行列式平方根得
+\[
+ \sqrt{\det I_\eta(\eta)}
+ =|\det J(\eta)|\sqrt{\det I_\theta(\psi(\eta))}.
+\]
+右边正是密度变量替换公式. 因此不变的是概率测度或先验测度, 不是把同一个数值函数原封不动地写在两种坐标中. 
+\end{proof}
+这解释了 Jeffreys 先验相对于简单“平坦先验”的优势, 但它不意味着任何问题都存在唯一客观的先验, 也不免除后验正常性的检查. 
+
+\originalsection{可信区域与频率覆盖}
+\begin{definition}[后验可信区域]
+给定 $0<\alpha<1$, 依赖数据的集合 $C(X)\subseteq\Theta$ 若满足
+\[
+ \Pi(\theta\in C(X)\mid X)=1-\alpha,
+\]
+就称为后验概率 $1-\alpha$ 的可信区域. 若后验有原子, 指定概率的区域未必存在; 此时常用后验概率至少 $1-\alpha$ 的版本. 
+\end{definition}
+原幻灯片把这种区域称为 Bayesian confidence region. 为避免混淆, 本稿采用“可信区域”. 频率置信区间的条件是, 对固定真值 $\theta$, $\PP_\theta\{\theta\in C(X)\}\geq1-\alpha$; 可信区域的条件则是在已观测数据下对参数分布求概率. 两者积分的对象不同, 通常不能相互替代. 
+
+对连续一维后验, 等尾可信区间是两个后验分位数之间的区间, 每侧尾概率为 $\alpha/2$. 例如平坦先验正态位置模型给出
+\[
+ \left[\bar X-z_{1-\alpha/2}\frac\sigma{\sqrt n},\,
+       \bar X+z_{1-\alpha/2}\frac\sigma{\sqrt n}\right].
+\]
+它恰好也具有精确频率覆盖率, 因为固定 $\theta$ 时 $\sqrt n(\bar X-\theta)/\sigma\sim N(0,1)$. 这是一种特定模型下的重合, 并不是两种定义相同的理由. 对于正常先验, 由全期望公式还有先验平均覆盖率
+\[
+ \int_\Theta\PP_\theta\{\theta\in C(X)\}\Pi(\dd\theta)=1-\alpha,
+\]
+但这个平均等式不保证每一个固定参数的覆盖率都等于 $1-\alpha$. 
+
+\originalsection{损失函数、贝叶斯估计与 MAP}
+后验分布包含比一个点估计更多的信息. 要把它压缩成一个决策, 需要说明错误的代价. 设行动为 $a$, 损失为 $L(\theta,a)$. 观察数据后, 选择使后验期望损失最小的行动: 
+\[
+ \widehat a(X)\in\argmin_a\int_\Theta L(\theta,a)\Pi(\dd\theta\mid X).
+\]
+这是贝叶斯决策的一般形式. 原讲义的“Bayes estimator”特指下面的平方损失估计. 
+
+\begin{proposition}[平方损失与绝对损失]
+若后验二阶矩有限, 在平方损失 $L(\theta,a)=(\theta-a)^2$ 下, 唯一最优行动是后验均值. 若后验一阶矩有限, 在绝对损失 $L(\theta,a)=|\theta-a|$ 下, 最优行动是任意后验中位数. 
+\end{proposition}
+\begin{proof}
+令 $m=\E[\theta\mid X]$. 平方损失的后验期望分解为
+\[
+ \E[(\theta-a)^2\mid X]=\Var(\theta\mid X)+(m-a)^2,
+\]
+交叉项为零, 故唯一极小点为 $a=m$. 对于绝对损失, 行动向右移动时, 左侧参数点贡献正斜率, 右侧参数点贡献负斜率. 在 $a$ 处的左右导数分别为 $2F(a-)-1$ 与 $2F(a)-1$, 其中 $F$ 是后验分布函数. 凸函数取得极小值当且仅当左导数不大于零、右导数不小于零, 即 $F(a-)\leq1/2\leq F(a)$, 这正是中位数条件. 
+\end{proof}
+对于正常先验, 后验风险的逐数据最小化也使先验平均风险最小: 对任意其他决策规则, 先条件于数据比较后验风险, 再对数据积分即可. 非正常先验对应的估计规则常称广义贝叶斯规则, 不能直接调用正常先验的平均风险解释. 
+
+\begin{definition}[最大后验估计]
+若后验密度有最大值, 最大后验估计(MAP)为
+\[
+ \widehat\theta_{\mathrm{MAP}}\in\argmax_\theta\pi(\theta\mid X)
+ =\argmax_\theta\{\log p_n(X\mid\theta)+\log\pi(\theta)\}.
+\]
+\end{definition}
+在离散参数空间及零一损失下, MAP 正是最优分类行动. 对连续参数, 精确命中的零一损失几乎总为一, 不能直接用这个论证; MAP 可从小邻域误差的极限解释, 但它依赖密度坐标, 通常不具重参数化不变性. 正态先验使 MAP 相当于带二次惩罚的似然最大化. 
+
+Beta 后验参数记为 $A=a+s$、$B=b+n-s$. 若 $A,B>1$, 对数后验求导给出内部 MAP
+\[
+ \widehat p_{\mathrm{MAP}}=\frac{A-1}{A+B-2}.
+\]
+当参数不满足这两个不等式时, 众数可能在边界、可能有两个边界峰, 甚至在开放区间上只有上确界而无最大点; 不能机械使用该公式. 相反, 后验均值 $(a+s)/(a+b+n)$ 对所有 $a,b>0$ 均有定义. 
+
+\originalsection{作为频率估计量的贝叶斯规则}
+贝叶斯构造也可以作为产生频率估计量的工具: 先选一个先验, 再计算后验均值, 最后在固定真实参数下评价它. 这时先验未必表示实际信念, 而可能只是规定收缩强度的方法. 
+
+\begin{proposition}[Beta 后验均值的频率性质]
+固定 $a,b>0$, 设 $X_i\iid\operatorname{Ber}(p)$, $0<p<1$. 则
+\[
+ \widehat p=\frac{a+n\bar X}{a+b+n}\pto p,\qquad
+ \sqrt n(\widehat p-p)\dto N(0,p(1-p)).
+\]
+其偏差与方差为
+\[
+ \E_p\widehat p-p=\frac{a-(a+b)p}{a+b+n},\qquad
+ \Var_p\widehat p=\frac{np(1-p)}{(a+b+n)^2}.
+\]
+\end{proposition}
+\begin{proof}
+期望和方差公式由二项总数的均值 $np$、方差 $np(1-p)$ 直接得到. 又
+\[
+ \widehat p-\bar X=\frac{a-(a+b)\bar X}{a+b+n},
+\]
+因 $0\leq\bar X\leq1$, 差为 $O(n^{-1})$. 大数定律给一致性; 乘 $\sqrt n$ 后这个差趋于零, 再用 Bernoulli 中心极限定理和 Slutsky 定理得渐近正态性. 
+\end{proof}
+对称先验给出 $(a+n\bar X)/(2a+n)$; Jeffreys 先验给出 $(1/2+n\bar X)/(1+n)$. 正态共轭模型中, 固定 $m_0,\tau^2$ 时 $m_n-\bar X=O_{\PP_\theta}(n^{-1})$, 因此同样有一致性以及 $\sqrt n(m_n-\theta)\dto N(0,\sigma^2)$. 平坦正态先验则直接给出 $\bar X$. 
+
+\begin{remark}[先验影响的适用范围]
+在上述正则、固定先验的例子中, 先验造成的改动比 $n^{-1/2}$ 小, 所以不改变一阶渐近分布. 原讲义把这一观察概括为先验一般不影响渐近性质; 若不加条件, 这并不成立. 先验若把真值附近排除, 或随 $n$ 变得过度集中, 后验可能不一致; 非正则模型也可能有不同极限. 更一般的渐近正态结论需要可辨识性、局部光滑性、非退化信息及先验在真值附近为正等条件. 
+\end{remark}

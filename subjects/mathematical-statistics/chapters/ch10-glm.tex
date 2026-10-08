@@ -1,0 +1,357 @@
+\originalchapter{广义线性模型}
+\label{chap:glm}
+
+\originalsection{从线性回归到响应分布与连接函数}
+正态线性回归同时规定两个部分: 条件分布为正态, 且条件均值是协变量的线性函数. 对于独立观测 $(x_i,Y_i)$, $x_i\in\R^p$, 其形式为
+\[
+ Y_i\mid x_i\sim N(\mu_i,\sigma^2),\qquad \mu_i=x_i^\top\beta.
+\]
+若 $Y_i$ 是计数, 正态分布可能产生没有意义的负值; 若 $Y_i$ 是二元变量, 线性均值也可能跑出 $(0,1)$. 广义线性模型保留线性预测子 $\eta_i=x_i^\top\beta$, 同时放宽响应分布, 并把线性关系放在变换后的均值上. 
+
+\begin{definition}[广义线性模型]
+一个 GLM 由以下部分组成: 条件于给定设计, 响应独立且属于指定的单参数指数离散族; 均值 $\mu_i=\E[Y_i\mid x_i]$ 通过可逆、可微的连接函数 $g$ 满足
+\[
+ g(\mu_i)=\eta_i=x_i^\top\beta.
+\]
+连接函数应把允许的均值映到线性预测子的允许范围. 后面的微分推导还要求所用位置上 $g'(\mu_i)\ne0$. 
+\end{definition}
+原稿有一页要求连接函数单调递增, 但其倒数连接例子单调递减; 通用定义应允许严格单调的可微连接. 典型的对数、logit 与 probit 连接都递增, 某些其他连接则限制线性预测子的定义域. 
+
+\begin{example}
+流行初期第 $t_i$ 天新增病例的期望可能近似为 $\mu_i=\gamma\exp(\delta t_i)$, 其中 $\gamma>0$. 取对数得到
+\[
+ \log\mu_i=\log\gamma+\delta t_i=\beta_0+\beta_1t_i.
+\]
+响应是计数, 可尝试 $Y_i\sim\operatorname{Pois}(\mu_i)$ 与对数连接. $\exp(\beta_1)$ 表示时间增加一个单位时条件均值的倍数. Poisson 模型要求方差等于均值, 实际数据若存在聚集、过度离散或时间依赖, 应重新评估这个随机部分. 
+\end{example}
+
+\begin{example}
+令 $x_i>0$ 为猎物密度, 假定期望捕食率
+\[
+ \mu_i=\frac{\alpha x_i}{h+x_i},\qquad\alpha,h>0.
+\]
+当 $x_i$ 增大时, 均值趋于最大率 $\alpha$; 当 $x_i=h$ 时达到最大率的一半. 倒数变换给出
+\[
+ \frac1{\mu_i}=\frac1\alpha+\frac h\alpha\frac1{x_i}
+              =\beta_0+\beta_1\frac1{x_i}.
+\]
+它对原参数非线性, 但对变换后的参数 $\beta_0=1/\alpha$、$\beta_1=h/\alpha$ 线性. 若标准差近似正比于均值, 可采用固定形状的 Gamma 响应. 这里线性预测子必须为正, 且若保留原生物解释, 还应限制 $\beta_0,\beta_1>0$. 原稿的曲线表达的正是上升后逐渐平缓这一形状. 
+\end{example}
+
+\begin{example}
+原讲义介绍 $81$ 名儿童矫正脊柱手术后的资料, 响应为术后是否出现脊柱后凸, 协变量包括年龄(月)、涉及的椎骨数与起始椎骨位置. 二元响应的条件分布为 Bernoulli, 均值是发生概率 $p_i$. 为了使预测保持在 $(0,1)$, 可设
+\[
+ p_i=\frac{\exp(x_i^\top\beta)}{1+\exp(x_i^\top\beta)}
+ \quad\text{或}\quad p_i=\Phi(x_i^\top\beta).
+\]
+这分别给出 logistic 与 probit 回归. 数据例子说明建模需要, 不据此宣称某个协变量具有因果作用. 
+\end{example}
+
+\originalsection{指数族与指数离散族}
+\begin{definition}[指数族]
+相对于固定参考测度, 若一族密度或概率质量函数可写成
+\[
+ p_\vartheta(y)=\exp\left\{\sum_{j=1}^k\zeta_j(\vartheta)T_j(y)-B(\vartheta)\right\}h(y),
+\]
+则称它具有 $k$ 个统计量的指数族表示. $T_j$ 是统计量, $\zeta_j$ 是自然参数, $B$ 负责归一化; 支持应在所讨论的正则范围内不依赖参数. 
+\end{definition}
+这里“$k$ 参数”需要注意可辨识性: 若自然参数只取低维曲面上的值, 或统计量线性相关, 有效自由度可能少于 $k$. 
+
+正态 $N(\mu,\sigma^2)$ 的密度展开为
+\[
+ \exp\left\{\frac\mu{\sigma^2}y-\frac1{2\sigma^2}y^2
+ -\frac{\mu^2}{2\sigma^2}-\log(\sigma\sqrt{2\pi})\right\}.
+\]
+因此未知均值与方差时可以取两个统计量 $y,y^2$, 自然参数为 $\mu/\sigma^2,-1/(2\sigma^2)$. 方差已知时只需统计量 $y$, 把含 $y^2$ 的部分放进 $h(y)$. 
+
+Bernoulli 与 Poisson 分别有表示
+\[
+ p^y(1-p)^{1-y}
+ =\exp\left\{y\log\frac p{1-p}+\log(1-p)\right\},\quad y\in\{0,1\},
+\]
+\[
+ \frac{\lambda^ye^{-\lambda}}{y!}
+ =\exp\{y\log\lambda-\lambda-\log(y!)\},\quad y\in\N\cup\{0\}.
+\]
+Gamma 分布用形状 $a>0$、尺度 $b>0$ 参数化时, 密度为
+\[
+ f(y)=\frac1{\Gamma(a)b^a}y^{a-1}e^{-y/b},\quad y>0.
+\]
+对数密度为 $(a-1)\log y-y/b-\log\Gamma(a)-a\log b$, 因此统计量可以取 $\log y,y$; 均值 $\mu=ab$ 时, 也可写为 $\Gamma(a)^{-1}(a/\mu)^a y^{a-1}e^{-ay/\mu}$. 
+
+原稿还列出逆 Gamma 和逆高斯作为指数族例子. 逆 Gamma 密度为
+\[
+ f(y)=\frac{\kappa^a}{\Gamma(a)}y^{-a-1}e^{-\kappa/y},\quad y>0,
+\]
+其统计量是 $\log y,1/y$. 逆高斯采用无歧义的均值 $\mu>0$ 与形状 $\lambda>0$ 参数化: 
+\[
+ f(y)=\sqrt{\frac\lambda{2\pi y^3}}
+ \exp\left\{-\frac{\lambda(y-\mu)^2}{2\mu^2y}\right\},\quad y>0.
+\]
+展开指数为 $-\lambda y/(2\mu^2)-\lambda/(2y)+\lambda/\mu$, 故也是指数族. 它与逆 Gamma 是不同分布. 卡方、Beta、二项以及负二项分布也有相应指数族表示; Beta 的统计量是 $\log y,\log(1-y)$, 二项在试验次数固定时与 Bernoulli 使用同一个 logit 自然参数, 负二项在形状固定时也可作为均值回归的响应族. 
+
+\begin{definition}[GLM 的指数离散族形式]
+本章的 GLM 响应采用
+\[
+ f_\theta(y;\phi)=\exp\left\{\frac{y\theta-b(\theta)}\phi+c(y,\phi)\right\},\qquad\phi>0,
+\]
+其中 $\theta$ 是自然参数, $\phi$ 是离散参数, 支持不依赖 $\theta$. 在本章推导中 $\phi$ 视为已知, $b,c$ 为指定函数. 若 $\phi$ 也未知, 整个模型不一定自动成为通常意义下的两参数指数族. 
+\end{definition}
+相较前面的通用指数族, 这个形式要求核心统计量就是响应 $y$. 并非每一种指数族都能直接作为这种单均值 GLM 的响应. 
+
+\originalsection{均值、方差与典则连接}
+\begin{theorem}[均值与方差公式]
+若允许在归一化积分中对 $\theta$ 微分两次, 且相应矩有限, 则
+\[
+ \mu=\E_\theta Y=b'(\theta),\qquad
+ \Var_\theta(Y)=\phi b''(\theta).
+\]
+非退化响应满足 $b''(\theta)>0$, 故自然参数到均值的映射严格递增. 
+\end{theorem}
+\begin{proof}
+对 $\int f_\theta(y;\phi)\dd y=1$ 求导, 得
+\[
+ 0=\E_\theta\left[\frac{\partial\log f_\theta(Y;\phi)}{\partial\theta}\right]
+  =\E_\theta\left[\frac{Y-b'(\theta)}\phi\right],
+\]
+于是均值为 $b'(\theta)$. 再微分一次, 有
+\[
+ 0=\E_\theta\left[\frac{\partial^2\log f_\theta}{\partial\theta^2}
+       +\left(\frac{\partial\log f_\theta}{\partial\theta}\right)^2\right]
+ =-\frac{b''(\theta)}\phi+\frac{\Var_\theta(Y)}{\phi^2}.
+\]
+这给出方差公式; 正方差和 $\phi>0$ 则给 $b''>0$. 离散响应把积分换成求和即可. 
+\end{proof}
+定义方差函数 $V(\mu)=b''((b')^{-1}(\mu))$, 于是条件方差为 $\phi V(\mu)$. $V$ 只给出均值与方差的关系, 不能单独确定整个条件分布. 
+
+\begin{definition}[典则连接]
+使线性预测子等于自然参数的连接称为典则连接: 
+\[
+ g(\mu)=(b')^{-1}(\mu),\qquad\theta=\eta=x^\top\beta.
+\]
+\end{definition}
+下面四个基本响应族同时给出均值、方差与典则连接: 
+\[
+\begin{array}{c|c|c|c|c}
+ \text{分布}&b(\theta)&\phi&V(\mu)&g(\mu)\\ \hline
+ N(\mu,\sigma^2)&\theta^2/2&\sigma^2&1&\mu\\
+ \operatorname{Pois}(\mu)&e^\theta&1&\mu&\log\mu\\
+ \operatorname{Ber}(\mu)&\log(1+e^\theta)&1&\mu(1-\mu)&\log[\mu/(1-\mu)]\\
+ \operatorname{Gamma}(a,\mu/a)&-\log(-\theta)&1/a&\mu^2&-1/\mu
+\end{array}
+\]
+Gamma 的自然参数域是 $\theta<0$. 其典则连接是负倒数, 严格递增; 前面捕食率用的正倒数连接是非典则连接, 严格递减. 这也说明典则连接的值域未必是整个 $\R$, 设计与参数必须满足预测子的域限制. 
+
+以 Gamma 为例, 取 $\theta=-1/\mu$、$\phi=1/a$, 则
+\[
+ \frac{y\theta-b(\theta)}\phi=-\frac{ay}{\mu}-a\log\mu,
+\]
+剩余项为 $c(y,\phi)=a\log a-\log\Gamma(a)+(a-1)\log y$. 所以 $\Var(Y)=\mu^2/a$, 标准差与均值正比, 符合捕食率例子中的假设. 
+
+Bernoulli 的其他常用连接是
+\[
+ g_{\mathrm{probit}}(p)=\Phi^{-1}(p),\qquad
+ g_{\mathrm{cloglog}}(p)=\log\{-\log(1-p)\}.
+\]
+对应逆连接为 $\Phi(\eta)$ 与 $1-\exp\{-e^\eta\}$, 都把 $\R$ 映入 $(0,1)$. logistic 与标准正态分布函数都是 S 形曲线, 但尾部不同; 两者未经尺度调整并不一致. 连接函数的图像是这些 S 形曲线的反函数, 靠近概率 $0,1$ 时趋向无穷. 
+
+\originalsection{似然、得分与严格凹性}
+令设计矩阵 $\mathsf X$ 的第 $i$ 行为 $x_i^\top$, $Y=(Y_1,\ldots,Y_n)^\top$. 设
+\[
+ \eta_i=x_i^\top\beta,\quad\mu_i=g^{-1}(\eta_i),\quad
+ \theta_i=(b')^{-1}(\mu_i)=h(\eta_i),\quad
+ h=(b')^{-1}\circ g^{-1}.
+\]
+在 $\phi$ 已知时, 略去不依赖 $\beta$ 的项, 条件对数似然为
+\[
+ \ell(\beta)=\frac1\phi\sum_i\{Y_ih(\eta_i)-b(h(\eta_i))\}.
+\]
+求一次与两次导数分别得到
+\[
+ U(\beta)=\nabla\ell(\beta)
+ =\frac1\phi\sum_i(Y_i-\mu_i)h'(\eta_i)x_i,
+\]
+\[
+ \nabla^2\ell(\beta)
+ =\frac1\phi\sum_i\left\{(Y_i-\mu_i)h''(\eta_i)
+                  -b''(\theta_i)[h'(\eta_i)]^2\right\}x_ix_i^\top.
+\]
+第二式用到了 $\partial\mu_i/\partial\eta_i=b''(\theta_i)h'(\eta_i)$. 每个矩阵项都是 $p\times p$, 指标形式的乘积应为 $x_{ij}x_{ik}$. 
+
+\begin{proposition}[典则连接下的凹性]
+若采用典则连接, $\phi>0$, 每个响应非退化, 且设计矩阵列满秩, 则对数似然在自然参数允许的凸参数域上严格凹. 因此若有限最大值确实达到, 最大似然估计唯一. 
+\end{proposition}
+\begin{proof}
+典则连接给 $h(\eta)=\eta$, 于是
+\[
+ U(\beta)=\phi^{-1}\mathsf X^\top(Y-\mu),\qquad
+ \nabla^2\ell(\beta)=-\phi^{-1}\mathsf X^\top
+      \diag\{b''(\eta_i)\}\mathsf X.
+\]
+对任何非零 $a$, 列满秩保证至少一个 $x_i^\top a\ne0$; 因 $b''(\eta_i)>0$, 有
+\[
+ a^\top\nabla^2\ell(\beta)a
+ =-\phi^{-1}\sum_i b''(\eta_i)(x_i^\top a)^2<0.
+\]
+沿任意非平凡线段二阶导数为负, 故严格凹. 若有两个不同最大点, 中点会有更大的值, 矛盾. 
+\end{proof}
+严格凹性排除了两个有限最大点, 却不保证最大点存在. 若设计不满秩, 某些系数变化不改变预测子, 此时参数本身不可辨识. 非典则连接下 Hessian 含有残差项, 通常不能直接给出全局凹性的同一保证. 
+
+\originalsection{二次近似、Newton 方法与 Fisher scoring}
+对二阶连续可微函数 $f$, 在 $a$ 附近的 Taylor 展开为
+\[
+ f(a+d)=f(a)+\nabla f(a)^\top d
+          +\tfrac12 d^\top\nabla^2f(a)d+o(\norm d^2).
+\]
+把梯度的线性近似置零, 若 Hessian 可逆, 得到 Newton 步
+\[
+ a_{\mathrm{new}}=a-[\nabla^2f(a)]^{-1}\nabla f(a).
+\]
+用于最大化似然时, 负定 Hessian 使这个步成为局部二次近似的最大点. 实际算法重复计算, 而不是把近似解误当成真实极值的精确公式. 
+
+\begin{remark}[收敛与二阶条件]
+负定 Hessian 是严格凹性的充分条件; 严格凹函数的 Hessian 不必处处负定, 例如 $f(t)=-t^4$ 在零处的二阶导数为零. 普通 Newton 方法也不会仅凭凹性和二阶连续可微就从任意起点全局二次收敛. 局部二次收敛通常要求解附近 Hessian 非奇异及适当的光滑性; 全局稳定性常需阻尼、线搜索或信赖域. 更新还须留在模型参数域内. 
+\end{remark}
+
+Fisher scoring 用信息矩阵替代观测 Hessian. 在正确模型及常规可微条件下, 
+\[
+ I(\beta)=-\E_\beta[\nabla^2\ell(\beta)\mid\mathsf X]
+ =\frac1\phi\sum_i b''(\theta_i)[h'(\eta_i)]^2x_ix_i^\top.
+\]
+因为 $\E[Y_i-\mu_i\mid\mathsf X]=0$, Hessian 的残差项在期望下消失. 更新为
+\[
+ \beta_{\mathrm{new}}=\beta+I(\beta)^{-1}U(\beta).
+\]
+信息矩阵是半正定; 只有设计可辨识、权重为正等条件成立时才正定. 典则连接下观测 Hessian 不含 $Y$, 故 $I=-\nabla^2\ell$, Newton 与 Fisher scoring 完全一致. 非典则连接下两者一般不同. 
+
+似然与 KL 的关系也解释了取期望的动机: 若真实条件密度为 $f_{\beta_0}$, 则
+\[
+ \E_{\beta_0}\log f_\beta(Y)
+ =\E_{\beta_0}\log f_{\beta_0}(Y)
+   -\KL(f_{\beta_0}\Vert f_\beta).
+\]
+因此最大化期望对数似然等价于最小化 KL; 这个恒等式并不是说每个观测似然本身就是负 KL, 也不单独给出迭代收敛保证. 
+
+\originalsection{加权最小二乘与 IRLS 的完整推导}
+先考虑已知异方差的正态模型 $Y=\mathsf X\beta+\varepsilon$, $\varepsilon\sim N_n(0,W^{-1})$, $W$ 为正对角矩阵. 对数似然中依赖 $\beta$ 的部分为
+\[
+ -\tfrac12(Y-\mathsf X\beta)^\top W(Y-\mathsf X\beta).
+\]
+其梯度置零给正规方程 $\mathsf X^\top W\mathsf X\beta=\mathsf X^\top WY$. 若设计列满秩, 则
+\[
+ \widehat\beta=(\mathsf X^\top W\mathsf X)^{-1}\mathsf X^\top WY.
+\]
+这就是加权最小二乘(WLS). 方差大的观测权重小. 若设计不满秩, 应讨论预测值或采用广义逆, 不能直接使用矩阵逆公式. 
+
+现在回到 GLM. 由 $g(b'(\theta_i))=\eta_i$ 求导得
+\[
+ g'(\mu_i)b''(\theta_i)h'(\eta_i)=1.
+\]
+令 $V_i=b''(\theta_i)=V(\mu_i)$, 定义
+\[
+ w_i=\frac{h'(\eta_i)}{\phi g'(\mu_i)}
+     =\frac1{\phi V_i[g'(\mu_i)]^2}>0,\qquad W=\diag(w_1,\ldots,w_n).
+\]
+于是信息矩阵与得分可以统一写为
+\[
+ I=\mathsf X^\top W\mathsf X,\qquad
+ U=\mathsf X^\top Wd,\quad d_i=g'(\mu_i)(Y_i-\mu_i).
+\]
+第二式的第 $i$ 项为 $x_iw_id_i=x_i(Y_i-\mu_i)h'(\eta_i)/\phi$, 确实等于此前得分. 引入工作响应
+\[
+ z_i=\eta_i+g'(\mu_i)(Y_i-\mu_i)=\eta_i+d_i,
+\]
+Fisher scoring 便变成
+\begin{align*}
+ \beta_{\mathrm{new}}
+ &=\beta+(\mathsf X^\top W\mathsf X)^{-1}\mathsf X^\top W(z-\mathsf X\beta)\\
+ &=(\mathsf X^\top W\mathsf X)^{-1}\mathsf X^\top Wz.
+\end{align*}
+这正是对工作响应 $z$ 的 WLS 拟合. $z$ 不是新观察到的数据, 而是当前均值处的线性化量; 权重也必须随当前参数更新. 
+
+\begin{definition}[迭代重加权最小二乘]
+给定可行初值 $\beta^{(0)}$, 第 $k$ 次迭代依次计算
+\[
+ \eta_i^{(k)}=x_i^\top\beta^{(k)},\quad
+ \mu_i^{(k)}=g^{-1}(\eta_i^{(k)}),\quad
+ z_i^{(k)}=\eta_i^{(k)}+g'(\mu_i^{(k)})(Y_i-\mu_i^{(k)}),
+\]
+\[
+ w_i^{(k)}=\frac1{\phi V(\mu_i^{(k)})[g'(\mu_i^{(k)})]^2},\qquad
+ \beta^{(k+1)}=(\mathsf X^\top W^{(k)}\mathsf X)^{-1}
+                         \mathsf X^\top W^{(k)}z^{(k)}.
+\]
+这个由 Fisher scoring 得到的算法称为 IRLS. 
+\end{definition}
+实际实现解线性方程即可, 无需显式形成逆矩阵. 对共享已知 $\phi$, 它在 WLS 更新中作为公共比例抵消, 但在信息矩阵与标准误中不能漏掉. 对于 Bernoulli 的 $0/1$ 数据, 不能不加处理地用 $\mu_i^{(0)}=Y_i$: logit 在端点无穷大, 权重为零. 可取有限的系数初值, 或在均值域内部取初始值, 并检查后续可行性、似然变化与得分. 
+
+\originalsection{Logistic 回归与完全分离}
+Bernoulli 响应配典则 logit 连接时, 令
+\[
+ p_i=\frac{e^{\eta_i}}{1+e^{\eta_i}},\qquad\eta_i=x_i^\top\beta.
+\]
+对数似然、得分与 Hessian 为
+\[
+ \ell(\beta)=\sum_i\{Y_ix_i^\top\beta-\log(1+e^{x_i^\top\beta})\},
+\]
+\[
+ U=\mathsf X^\top(Y-p),\qquad
+ \nabla^2\ell=-\mathsf X^\top\diag\{p_i(1-p_i)\}\mathsf X.
+\]
+由于所有有限预测子给 $0<p_i<1$, 列满秩保证 Hessian 负定. Logistic IRLS 使用
+\[
+ w_i=p_i(1-p_i),\qquad
+ z_i=\eta_i+\frac{Y_i-p_i}{p_i(1-p_i)}.
+\]
+这也直接给出 Newton 更新 $\beta_{\mathrm{new}}=\beta+(\mathsf X^\top W\mathsf X)^{-1}\mathsf X^\top(Y-p)$. 
+
+logit 方程还说明系数的解释: 固定其他变量, 某坐标增加一单位时, 优势比 $p/(1-p)$ 乘以对应的 $e^{\beta_j}$. 优势比的倍数通常不等于概率的倍数. 
+
+\begin{example}
+若存在向量 $a$ 使所有 $Y_i=1$ 的点满足 $x_i^\top a>0$, 所有 $Y_i=0$ 的点满足 $x_i^\top a<0$, 则称样本完全线性分离. 沿 $\beta=ta$、$t\to\infty$, 成功点的预测概率趋于一, 失败点的预测概率趋于零, 因此每项观测的对数概率趋于零, $\ell(ta)\to0$. 然而任意有限 $\beta$ 下每个观测的概率严格小于一, 所以 $\ell(\beta)<0$. 故上确界为零却不在有限参数处取得. 
+\end{example}
+例如用截距和一个坐标, 两个观测 $(x,Y)=(-1,0),(1,1)$ 的设计列满秩, $\beta=(0,t)^\top$ 就是上述路径. 信息矩阵随 $t$ 增大趋向奇异, IRLS 系数可能持续增大; 这不能单凭停止阈值解释为一个正常的有限估计. 若存在使所有分类不等式弱成立、至少一个严格成立的方向, 也可能发生准完全分离. 惩罚似然或先验可以给出有限规则, 但那时优化目标已包含额外约束或惩罚. 
+
+若有限 MLE 存在并处于内部, 在固定 $p$、适当设计与正则渐近条件下, 可用 $I(\widehat\beta)^{-1}$ 近似协方差, 构造 Wald 标准误. 满秩与局部曲率本身不保证小样本正态近似的准确性, 分离情形更不能套用这个正常结论. 
+
+\originalsection{Probit、Poisson 与正态回归的工作量}
+对 probit 回归, $\mu_i=\Phi(\eta_i)$. 以 $\varphi$ 表示标准正态密度, 则
+\[
+ g'(\mu_i)=\frac1{\varphi(\eta_i)},\qquad
+ w_i=\frac{\varphi(\eta_i)^2}{\mu_i(1-\mu_i)},\qquad
+ z_i=\eta_i+\frac{Y_i-\mu_i}{\varphi(\eta_i)}.
+\]
+响应仍为 Bernoulli, 自然参数仍是 $\log[\mu_i/(1-\mu_i)]$, 只是它不等于 $\eta_i$. 因此这是非典则连接, IRLS 对应 Fisher scoring 而一般不对应观测 Hessian 的 Newton 步. 若设潜在变量 $Y_i^*=x_i^\top\beta+\varepsilon_i$、$\varepsilon_i\sim N(0,1)$, 观察 $Y_i=\ind\{Y_i^*>0\}$, 则 $\PP(Y_i=1\mid x_i)=\Phi(x_i^\top\beta)$, 给出一个常见的潜变量解释. 
+
+Poisson 对数连接有 $\mu_i=e^{\eta_i}$, $V(\mu_i)=\mu_i$, 因此
+\[
+ \ell(\beta)=\sum_i\{Y_i\eta_i-e^{\eta_i}-\log(Y_i!)\},\qquad
+ U=\mathsf X^\top(Y-\mu),
+\]
+\[
+ w_i=\mu_i,\qquad z_i=\eta_i+\frac{Y_i-\mu_i}{\mu_i}.
+\]
+若不同观测具有已知暴露时长 $t_i>0$, 可以建模 $\mu_i=t_i e^{x_i^\top\beta}$, 即在线性预测子中加入已知偏置 $\log t_i$, 其系数固定为一. 这把事件总数与单位暴露率区分开来. 
+
+Poisson 条件均值正确并不意味着条件方差也正确. 若真实方差大于均值而仍用 $\phi=1$ 的 Poisson 信息矩阵报告标准误, 通常会低估不确定性. 过度离散可能来自个体异质性、聚集或遗漏结构, 需要检查其来源. 可以在适当条件下考虑准似然估计、额外离散参数或稳健协方差估计; 这些方法需要各自的独立性或相关结构假设, 不由本章的Poisson似然公式自动保证.
+
+正态恒等连接则有 $V(\mu)=1$、$g'=1$、$w_i=1/\sigma^2$、$z_i=Y_i$. 因此 IRLS 第一次更新就是普通最小二乘, 以后不再改变. 这说明 GLM 的迭代计算确实包含线性回归作为特例. 
+
+Gamma 正倒数连接给 $V(\mu)=\mu^2$、$g'=-1/\mu^2$, 于是 $w_i=\mu_i^2/\phi$, $z_i=\eta_i-(Y_i-\mu_i)/\mu_i^2$. 虽然连接导数为负, 权重仍为正, 因为其定义中出现平方; 这也是一般 IRLS 公式比只记某个模型的特殊公式更可靠的原因. 
+
+\originalsection{饱和模型与离差}
+模型拟合好坏可以与“每个观测都有独立均值”的饱和模型比较. 饱和模型不再要求 $g(\mu_i)=x_i^\top\beta$, 而让每个 $\mu_i$ 自由变化. 若观测值在均值域内部, 单项似然对自然参数求导给 $Y_i-b'(\theta_i)=0$, 故饱和拟合为 $\widetilde\mu_i=Y_i$. 对于 Bernoulli 的端点或 Poisson 零值, 应把它理解为参数边界上的似然上确界. 
+
+给定离散参数, 定义离差
+\[
+ D=2\{\ell_{\mathrm{sat}}-\ell(\widehat\beta)\}\geq0.
+\]
+它衡量 GLM 相对于完美逐点拟合丢失的对数似然. Poisson 例子为
+\[
+ D=2\sum_i\left\{Y_i\log\frac{Y_i}{\widehat\mu_i}-(Y_i-\widehat\mu_i)\right\},
+\]
+其中 $0\log0$ 项按极限取零. 正态已知方差时为 $\sum_i(Y_i-\widehat\mu_i)^2/\sigma^2$. 这些量的比较意义来自同一响应分布; 它们不是不加条件就服从某个精确卡方分布. 似然比的渐近卡方近似需要内部真值、可辨识性与适当渐近框架, 不能直接对每个只有一次 Bernoulli 观测的饱和模型作无条件推广. 
+
+\begin{remark}[补充范围]
+饱和模型、离差、分离、probit 的工作权重与 Poisson 暴露量是对原讲义的补充, 用来澄清最大值存在性、模型比较以及通用公式的应用. 原件主体着重指数族、连接函数与拟合算法; 这些补充不冒充原幻灯片中已给出的定理. 
+\end{remark}

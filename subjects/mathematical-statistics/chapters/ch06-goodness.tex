@@ -1,0 +1,135 @@
+\originalchapter{拟合优度检验}
+\originalsection{经验分布与整条分布曲线}
+参数检验在选定模型内问参数是否等于某个值; 拟合优度检验则问模型本身是否合适. 例如数据是否正态, 是否来自某个泊松分布, 或是否符合一个完全给定的分布? 后两种问题还须区分参数已知与参数由数据估计的情形.
+\begin{definition}[经验分布函数]
+实值样本$X_1,\ldots,X_n$的经验分布函数为
+\[
+ F_n(t)=\frac1n\sum_{i=1}^n\ind_{\{X_i\leq t\}}.
+\]
+它是右连续、非减的阶梯函数, 每个观测贡献质量$1/n$. 总体分布函数$F(t)=\PP(X\leq t)$唯一决定实值变量的分布.
+\end{definition}
+固定$t$后, 指示变量是参数$F(t)$的Bernoulli样本, 所以大数定律与CLT给出
+\[
+ F_n(t)\longrightarrow F(t)\text{ 几乎处处},\qquad
+ \sqrt n(F_n(t)-F(t))\dto N(0,F(t)(1-F(t))).
+\]
+不过检验整条曲线要考察所有$t$, 单个$t$的CLT不够. 以下一致大数定律填补第一层缺口.
+\begin{theorem}[Glivenko--Cantelli]
+独立同分布实值样本满足$\sup_t|F_n(t)-F(t)|\to0$几乎处处.
+\end{theorem}
+\begin{proof}
+先对均匀样本$U_i$证明. 固定整数$k$, 在有限网格$j/k$上大数定律同时成立. 若$j/k\leq t\leq(j+1)/k$, 经验分布的单调性给出
+\[
+ |G_n(t)-t|\leq\max_{0\leq j\leq k}|G_n(j/k)-j/k|+1/k.
+\]
+在所有整数$k$所对应的概率1事件的交集上, 先令$n\to\infty$, 再令$k\to\infty$, 得到一致收敛. 对任意$F$, 用广义逆$F^{-1}(u)=\inf\{x:F(x)\geq u\}$表示$X_i=F^{-1}(U_i)$; 对$u\in(0,1)$, $F^{-1}(u)\leq t$等价于$u\leq F(t)$. 因而$F_n(t)=G_n(F(t))$, 所述上确界不超过$\sup_{u\in[0,1]}|G_n(u)-u|$. 任意原样本与这一构造同分布, 故结论成立.
+\end{proof}
+\begin{definition}[Brownian桥]
+标准Brownian桥$B$是$[0,1]$上的连续中心高斯过程, 协方差为$\E[B(s)B(t)]=\min(s,t)-st$. 它可由标准Brownian运动$W$写成$B(t)=W(t)-tW(1)$.
+\end{definition}
+本章调用经验过程的Donsker定理: 当$F$连续时,
+\[
+ \sqrt n\sup_t|F_n(t)-F(t)|\dto\sup_{0\leq u\leq1}|B(u)|.
+\]
+固定点CLT只能说明有限个点的波动; 此定理还控制点之间的振荡, 属于函数空间极限定理. 完整证明需要紧性理论, 本章把它明确作为外部经验过程工具, 不把固定点CLT冒充证明.
+
+\originalsection{Kolmogorov--Smirnov检验}
+对一个完全给定的连续分布函数$F_0$, 检验$H_0:F=F_0$对$H_1:F\ne F_0$. 取
+\[
+ D_n=\sup_{t\in\R}|F_n(t)-F_0(t)|,\qquad T_n=\sqrt nD_n.
+\]
+若$K=\sup_{0\leq u\leq1}|B(u)|$, 则用$K$的$1-\alpha$分位数校准得到渐近水平$\alpha$的KS检验, 渐近$p$值为$\PP(K\geq T_n)$, 这里尾概率的自变量代入观测统计量.
+
+\begin{proposition}[实际计算与枢轴性]
+在连续$F_0$下, 排序样本$X_{(1)}\leq\cdots\leq X_{(n)}$满足
+\[
+ D_n=\max_{1\leq i\leq n}\left\{\frac{i}{n}-F_0(X_{(i)}),\ F_0(X_{(i)})-\frac{i-1}{n}\right\}.
+\]
+在原假设下, $D_n$的有限样本分布与具体$F_0$无关, 等于均匀样本经验分布与恒等函数的上确界距离.
+\end{proposition}
+\begin{proof}
+连续分布下几乎必然没有重复值. 每个跳点右侧$F_n=i/n$, 左极限为$(i-1)/n$. 在相邻跳点之间$F_n$常数而$F_0$非减, 最大差只能出现在两端极限; 两侧尾部也由首末跳点控制, 得到公式. 原假设下概率积分变换$U_i=F_0(X_i)$为独立均匀变量. 将公式中的$F_0(X_{(i)})$换为$U_{(i)}$, 就得到均匀样本对应的同一公式. 连续但不严格递增时, $F_0$的平坦区间没有样本质量, 故结论仍成立.
+\end{proof}
+\begin{example}
+三个排序后的观测在$F_0$下的分布函数值为$.1,.4,.8$. 求$D_3$.
+\end{example}
+\begin{solution}
+右侧差分别为$1/3-.1=7/30$, $2/3-.4=4/15$, $1-.8=1/5$; 左侧差分别为$.1$, $.4-1/3=1/15$, $.8-2/3=2/15$. 最大值为$4/15$, 因而$T_3=4\sqrt3/15$. 这里只须检查六个数.
+\end{solution}
+枢轴性允许有限样本模拟: 固定$n$, 独立生成$M$组均匀样本, 每组计算$T_n^{(b)}$, 取这些值的经验$1-\alpha$分位数. 模拟尾概率可用$M^{-1}\sum_b\ind_{\{T_n^{(b)}\geq T_n\}}$估计. 这是带Monte Carlo误差的近似校准; 使用有限样本分布的精确分位数则是精确KS检验. 分位数表也必须区分有限$n$与渐近表. 若$F_0$离散, 概率积分变换不再是上述连续均匀形式, 常用连续KS表不能直接套用.
+
+\originalsection{其他距离与估计参数的影响}
+上确界距离关注最大的局部差别. 标准Cram\'er--von Mises统计量使用整体平方距离, Anderson--Darling则加重尾部:
+\[
+ C_n=n\int(F_n-F_0)^2\dd F_0,\qquad
+ A_n=n\int\frac{(F_n-F_0)^2}{F_0(1-F_0)}\dd F_0.
+\]
+积分限是整条实轴, 第二式在$0<F_0<1$的部分解释. 使用$\dd F_0$后可变换到均匀尺度. 课程展示了以$\dd t$积分的距离表达式; 那也可以作为某种加权距离, 但一般不具有上述标准统计量的分布无关性质, 甚至可能因尾部行为而发散. 选择距离时连积分测度也要说明.
+
+若原假设是``某个正态分布'', 均值和方差未知, 自然会计算
+\[
+ D_n^{\rm fit}=\sup_t|F_n(t)-\Phi((t-\bar X_n)/\hat\sigma)|,
+ \qquad\hat\sigma^2=n^{-1}\sum_i(X_i-\bar X_n)^2.
+\]
+然而同一数据既估计分布又衡量拟合, 拟合后距离通常变小. 不能再以完全给定分布的KS表校准. 一阶看, $F_{\hat\theta}(t)-F_\theta(t)$也是$n^{-1/2}$尺度, 会从经验过程里减去与估计量相关的一项; 它并不因$\hat\theta\pto\theta$就消失在$\sqrt n$尺度上.
+\begin{proposition}[正态族的Lilliefors枢轴性]
+对$n\geq2$的独立正态样本, $D_n^{\rm fit}$的分布不依赖真实均值和正方差. 可通过标准正态模拟并在每次模拟中重新估计均值与方差校准.
+\end{proposition}
+\begin{proof}
+写$X_i=\mu+\sigma Z_i$. 则$\bar X=\mu+\sigma\bar Z$, $\hat\sigma_X=\sigma\hat\sigma_Z$, 因而$(X_{(i)}-\bar X)/\hat\sigma_X=(Z_{(i)}-\bar Z)/\hat\sigma_Z$. 用跳点计算公式后所有未知参数消去. 正态连续样本的样本方差几乎必然正, 所以比值有定义.
+\end{proof}
+这就是Kolmogorov--Lilliefors检验的校准原则. 若模拟时不重新拟合, 模拟的是另一个统计量. 对一般复合族, 未必能消去参数; 参数bootstrap可模拟拟合模型、每次重新估计、重新算距离, 其有效性仍须相应正则条件.
+
+\originalsection{QQ图}
+\begin{definition}[分位数图]
+广义分位数为$F^{-1}(u)=\inf\{x:F(x)\geq u\}$, $0<u<1$. QQ图用同一概率水平比较理论分位数与经验分位数. 课程取$u=i/n$, $i=1,\ldots,n-1$, 画$(F_0^{-1}(i/n),X_{(i)})$. 实务也常取$u_i=(i-1/2)/n$, 避免0和1端点.
+\end{definition}
+完全给定分布正确时点应在$y=x$附近; 正态族但位置和尺度未知时, 用标准正态分位数作横轴, 点应近似落在某条直线$y=\mu+\sigma x$上. 系统弯曲反映形状偏离, 两端特别偏离可能反映尾部差别. QQ图是诊断图, 本身不提供指定第一类错误概率. 经验分位数由从小到大的顺序统计量给出; 原课件文字中的``ith largest''应读为第$i$小, 否则方向相反.
+
+\originalsection{复合多项模型的卡方检验}
+设有$K$个类别, 原假设指定光滑概率族$p(\theta)=(p_1(\theta),\ldots,p_K(\theta))$, $\theta\in\R^d$. 在原假设模型中用计数似然估计$\hat\theta$, 然后比较实际频率与拟合频率:
+\[
+ Q_n=n\sum_{j=1}^K\frac{(\hat p_j-p_j(\hat\theta))^2}{p_j(\hat\theta)}.
+\]
+\begin{theorem}[估计参数后的自由度]
+假设真值为内点, 每类真概率为正, 概率映射连续可微且导数秩为$d<K-1$, 模型局部可识别并满足MLE正则展开. 则$Q_n\dto\chi_{K-1-d}^2$.
+\end{theorem}
+\begin{proof}
+记$p=p(\theta_0)$, $D=\diag(p)$, $v=(\sqrt{p_j})$, $J$为$K\times d$概率导数矩阵. 前章的标准化频率误差$Z_n=\sqrt nD^{-1/2}(\hat p-p)$趋于$v^\perp$上的标准正态. 因为$\sum_jp_j(\theta)=1$, 有$v^\top D^{-1/2}J=0$. 记$A=D^{-1/2}J$. 多项似然得分展开给出
+\[
+ \sqrt n(\hat\theta-\theta_0)
+ =(A^\top A)^{-1}A^\top Z_n+o_{\PP}(1).
+\]
+故拟合后残差标准化为$(I-P_A)Z_n+o_{\PP}(1)$, $P_A=A(A^\top A)^{-1}A^\top$. 拟合消去$v^\perp$中的$d$个正交方向, 剩余$K-1-d$个. 分母$p_j(\hat\theta)$趋于正数$p_j$, 所以平方长度得到所述极限.
+\end{proof}
+\begin{example}
+观测变量可能取$0,1,\ldots,r$, 检验它是否服从某个$\operatorname{Bin}(r,p)$, $r$已知.
+\end{example}
+\begin{solution}
+类别数$K=r+1$, 参数维数$d=1$, 概率为$p_j(p)=\binom rj p^j(1-p)^{r-j}$. 对未合并的计数, $\hat p=\bar X/r$. 代入Pearson统计量, 内点$p\in(0,1)$且$r\geq2$时自由度为$r-1$. 课程列出的支持$\{1,\ldots,K\}$与$\operatorname{Bin}(K,p)$不相容; 二项分布必须包含0. 端点$p=0,1$有零概率格, 不适用此正则结论.
+\end{solution}
+
+\originalsection{分箱、独立性与实践条件}
+当原空间无限, 预先选互不相交且覆盖全空间的箱$A_1,\ldots,A_K$, 将观测转成类别. 令$p_j(\theta)=\PP_\theta(X\in A_j)$, 再应用上述有限模型. 分箱只检验各箱概率是否吻合; 某些箱内形状差异可能被隐藏. 箱数固定是这里的渐近框架, 不能让它随$n$任意增大而照搬相同证明.
+
+泊松例可取$A_1=\{0\},\ldots,A_{K-1}=\{K-2\}$, $A_K=\{K-1,K,\ldots\}$. 此时
+\[
+ p_j(\lambda)=e^{-\lambda}\lambda^{j-1}/(j-1)!\ (j<K),\qquad
+ p_K(\lambda)=1-\sum_{l=0}^{K-2}e^{-\lambda}\lambda^l/l!.
+\]
+尾部须合并成箱以覆盖全空间. 不能只追求尾概率极小: 预期频数太小会使卡方近似很差. 常用每箱预期频数至少约5作为经验检查, 它不是有限样本定理. 参数维数及概率导数秩也要在合并后重新核对.
+
+\begin{remark}[分组估计的条件]
+上面的$K-1-d$自由度证明依赖按箱计数似然得到的MLE, 或具有同一投影展开的估计量. 若先在连续原始数据上估计参数再分箱, 参数估计的渐近协方差一般不同, 未必仍得到同一个卡方极限. 可改用分组MLE, 或对完整``估计再分箱''程序作校准. 数据驱动选择箱界同样需要额外处理.
+\end{remark}
+\begin{example}
+两个分类变量分别有$r,c$类, 用同一批$n$个独立个体形成计数$N_{ab}$. 检验两个变量独立.
+\end{example}
+\begin{solution}
+独立模型为$p_{ab}=u_av_b$, 其中边际概率各和为1. 计数似然在约束下的MLE是$\hat u_a=N_{a+}/n$, $\hat v_b=N_{+b}/n$. 于是预期计数为$E_{ab}=N_{a+}N_{+b}/n$, 统计量为
+\[
+ Q=\sum_{a,b}\frac{(N_{ab}-E_{ab})^2}{E_{ab}}.
+\]
+类别数为$rc$, 独立模型维数为$(r-1)+(c-1)$, 故自由度$rc-1-r-c+2=(r-1)(c-1)$. 条件是总体各格概率正且固定类别数; 零边际使公式无定义, 须先处理空类别. 独立性是联合概率可分解, 并不表示表中的各格计数独立.
+\end{solution}
+此列联表例是前述有限拟合模型的补充应用, 原课件未单独展开. 所有卡方检验都应同时报告拟合模型、类别数、估计的独立参数数目和频数条件, 使使用的自由度可复核.

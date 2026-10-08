@@ -1,0 +1,220 @@
+\originalchapter{参数假设检验}
+\originalsection{从实际问题到拒绝规则}
+樱花十英里长跑在2009年有14974名参赛者, 平均用时103.5分钟. 2012年的选手是否更快? 随机抽取2012年的$n$名选手, 记用时为$X_1,\ldots,X_n$. 课程用正态分布近似用时, 并暂设两年的方差相同, 都为373. 于是模型为$X_i\iid N(\mu,373)$, 问题化为$H_0:\mu=103.5$对$H_1:\mu<103.5$. 这不是检验整个分布是否等于$N(103.5,373)$: 正态性和方差已经作为建模条件固定, 此时只考察均值.
+
+仅因$\bar X_n<103.5$就宣布变快是不可靠的. 即使总体均值不变, 样本均值也会有随机波动, 而且在正态模型下落在均值下方的概率恰为一半. 应把下降幅度与标准误$\sqrt{373/n}$比较. 后面将得到拒绝规则
+\[
+ \bar X_n<103.5-z_{1-\alpha}\sqrt{373/n},
+\]
+其中$z_u$表示标准正态分布的$u$分位数. 样本增大时容许的误差带缩小, 但缩小的尺度是$n^{-1/2}$, 不是任意趋零的数.
+
+另一个问题来自止咳糖浆试验. 治疗组与安慰剂组每小时咳嗽次数的均值分别为$\mu_{\rm drug}$与$\mu_{\rm control}$. 课程以独立泊松样本建模, 希望判断$\mu_{\rm drug}<\mu_{\rm control}$. 这里没有固定的历史参照值, 两个均值都须由数据估计. 独立性使均值差的方差等于两个样本均值方差之和; 这将引出双样本检验.
+
+\begin{definition}[检验与错误概率]
+在模型$(E,(\PP_\theta)_{\theta\in\Theta})$中, 取不相交的参数集合$\Theta_0,\Theta_1$, 考察$H_0:\theta\in\Theta_0$对$H_1:\theta\in\Theta_1$. 检验是可测函数$\psi:E^n\to\{0,1\}$, 值1表示拒绝原假设, 值0表示不拒绝. 拒绝域为$R_\psi=\{x:\psi(x)=1\}$. 第一类错误概率、第二类错误概率和功效函数分别为
+\[
+ \alpha_\psi(\theta)=\PP_\theta(\psi=1)\quad(\theta\in\Theta_0),\qquad
+ \beta_\psi(\theta)=\PP_\theta(\psi=0),\quad
+ \pi_\psi(\theta)=1-\beta_\psi(\theta)\quad(\theta\in\Theta_1).
+\]
+最坏情形功效为$\inf_{\theta\in\Theta_1}\pi_\psi(\theta)$. 水平不超过$\alpha$指$\sup_{\theta\in\Theta_0}\alpha_\psi(\theta)\leq\alpha$. 渐近水平不超过$\alpha$的逐点版本指对每个固定$\theta\in\Theta_0$, $\limsup_n\PP_\theta(\psi_n=1)\leq\alpha$.
+\end{definition}
+原假设和备择并不对称: 我们先控制错误拒绝原假设的概率, 再寻找能发现备择的规则. 不拒绝仅表示证据不足, 不证明原假设为真. 逐点渐近水平也不自动等于对所有参数一致控制的渐近水平. 若$\Theta_0$只有一个点, 原假设称为简单假设; 否则称为复合假设. 含未知干扰参数的原假设通常是复合的.
+
+\begin{example}
+80次掷币得到54次正面, 与30次掷币得到13次正面, 哪一组更不符合公平硬币?
+\end{example}
+\begin{solution}
+设$X_i\iid\operatorname{Ber}(p)$, $H_0:p=1/2$, $H_1:p\ne1/2$. 在原假设下
+\[
+ T_n=\frac{\sqrt n(\hat p-1/2)}{\sqrt{(1/2)(1-1/2)}}\dto N(0,1),\qquad\hat p=\bar X_n.
+\]
+第一组$T_{80}=\sqrt{80}(54/80-1/2)/(1/2)\approx3.13$, 第二组$T_{30}\approx-0.73$. 因而用双侧5\%临界值1.96, 第一组拒绝, 第二组不拒绝. 必须取绝对值, 否则只能发现正面过多而不能发现正面过少. 原幻灯片把$54/80$先近似为$.68$, 得到约3.22; 本文直接用实际计数计算, 避免中途舍入改变统计量. 第二组的$.77$同样来自先把$13/30$近似为$.43$.
+\end{solution}
+
+\begin{definition}[$p$值]
+对随水平$\alpha$增大而扩张的拒绝域族, $p$值定义为使观测样本进入拒绝域的水平下确界. 连续情形下, 若拒绝规则取$p\leq\alpha$, 此等价逐点成立; 若用严格统计量阈值, 两者在边界概率为零时几乎必然等价. 对上述正态近似双侧检验, $p=2\{1-\Phi(|T_n|)\}$.
+\end{definition}
+两组硬币数据的近似$p$值分别为$.00175$和$.465$. $p$值是原假设下出现至少同样极端统计量的概率, 不是原假设为真的概率. 若样本小, 可直接计算二项分布的尾概率得到精确检验; 因离散性, 无随机化时水平可能严格小于名义值.
+
+\originalsection{正态模型的精确检验}
+\begin{definition}[$\chi^2$与Student分布]
+独立标准正态变量$Z_1,\ldots,Z_d$的平方和服从$\chi_d^2$. 若$Z\sim N(0,1)$与$V\sim\chi_d^2$独立, 则$Z/\sqrt{V/d}$服从$t_d$. 特别地$\chi_2^2$是率参数$1/2$的指数分布.
+\end{definition}
+\begin{theorem}[正态样本的正交分解]
+设$X_i\iid N(\mu,\sigma^2)$, $n\geq2$, 并记
+\[
+ S_n=\frac1n\sum_{i=1}^n(X_i-\bar X_n)^2,\qquad s^2=\frac{n}{n-1}S_n.
+\]
+则$\bar X_n\sim N(\mu,\sigma^2/n)$, $nS_n/\sigma^2\sim\chi_{n-1}^2$, 且$\bar X_n$与$S_n$独立. 因而$\sqrt n(\bar X_n-\mu)/s\sim t_{n-1}$.
+\end{theorem}
+\begin{proof}
+标准化向量$Z=(X-\mu\boldsymbol1)/\sigma$为$n$维标准正态. 选正交矩阵, 第一行是$\boldsymbol1^\top/\sqrt n$. 变换后的坐标仍独立标准正态, 第一坐标为$\sqrt n(\bar X_n-\mu)/\sigma$, 其余$n-1$个坐标的平方和恰为$\sum(X_i-\bar X_n)^2/\sigma^2$. 第一坐标与其余坐标独立, 于是得到全部结论. 最后按$t$分布定义取比值.
+\end{proof}
+检验$H_0:\mu=\mu_0$对双侧备择, 已知$\sigma$时用$Z=\sqrt n(\bar X_n-\mu_0)/\sigma$并在$|Z|>z_{1-\alpha/2}$时拒绝; 未知$\sigma$时用$T=\sqrt n(\bar X_n-\mu_0)/s$, 在$|T|>t_{n-1,1-\alpha/2}$时拒绝. 单侧$\mu>\mu_0$把临界值改成$t_{n-1,1-\alpha}$并只看右尾; 单侧$\mu<\mu_0$只看左尾. 正态条件下这些结论是有限样本精确结果, 不要求$n$很大.
+
+\begin{example}
+在方差373已知的长跑模型中, 求左侧水平$\alpha$检验在真实均值$\mu<103.5$时的功效.
+\end{example}
+\begin{solution}
+拒绝事件是$\bar X_n<103.5-z_{1-\alpha}\sqrt{373/n}$. 对真实均值标准化得到
+\[
+ \pi(\mu)=\Phi\left(\frac{\sqrt n(103.5-\mu)}{\sqrt{373}}-z_{1-\alpha}\right).
+\]
+对每个固定的严格备择, 功效随$n$增大趋于1. 但若备择包含任意接近103.5的均值, 最坏情形功效的下确界只有$\alpha$. 因而最坏功效与逐个固定备择的一致性须分开理解.
+\end{solution}
+
+\originalsection{似然与最强检验}
+永不拒绝的检验第一类错误为零, 但功效也为零. Neyman--Pearson观点是在水平约束下比较功效, 而不是单独追求第一类错误最小.
+\begin{theorem}[简单假设的Neyman--Pearson引理]
+设两种假设的联合密度为$f_0,f_1$, 相对于同一支配测度定义. 允许随机化检验$\varphi(x)\in[0,1]$. 取$c\geq0$, 使$\varphi_*$在$f_1>cf_0$时为1, 在$f_1<cf_0$时为0, 并在等号集合适当随机化以满足$\E_0\varphi_*=\alpha$. 则对所有$\E_0\varphi\leq\alpha$的检验, $\E_1\varphi\leq\E_1\varphi_*$.
+\end{theorem}
+\begin{proof}
+由拒绝规则, 逐点有$(\varphi_*-\varphi)(f_1-cf_0)\geq0$. 积分得
+\[
+ \E_1\varphi_*-\E_1\varphi\geq c(\E_0\varphi_*-\E_0\varphi)\geq0.
+\]
+这证明了水平限制下功效最大. 连续似然比常可不随机化; 离散分布的阈值原子则可能需要随机化.
+\end{proof}
+\begin{example}
+对$N(\mu,\sigma^2)$样本, 比较$\mu_0$与$\mu_1>\mu_0$.
+\end{example}
+\begin{solution}
+联合似然比的对数为
+\[
+ \log\frac{f_{\mu_1}(X)}{f_{\mu_0}(X)}
+ =\frac{n(\mu_1-\mu_0)}{\sigma^2}\bar X_n
+ -\frac{n(\mu_1^2-\mu_0^2)}{2\sigma^2}.
+\]
+它随$\bar X_n$严格递增, 所以最强检验拒绝大均值. 其水平$\alpha$阈值只依赖$\mu_0$, 对每个$\mu_1>\mu_0$都是同一规则. 因而这里得到整个单侧备择的一致最强检验. 这并不意味着所有复合备择都有这样的检验.
+\end{solution}
+
+\originalsection{Wald检验与隐式约束}
+设$\theta\in\R^d$, 正则模型中的极大似然估计满足
+\[
+ \sqrt n(\hat\theta-\theta)\dto N_d(0,I(\theta)^{-1}),
+\]
+其中$I(\theta)$为单个观测的Fisher信息. 假定$I$连续且正定, $\hat\theta\pto\theta$. 检验$H_0:\theta=\theta_0$时, Slutsky定理与连续映射定理给出
+\[
+ W_n=n(\hat\theta-\theta_0)^\top I(\hat\theta)(\hat\theta-\theta_0)\dto\chi_d^2.
+\]
+于是用$\chi_d^2$的$1-\alpha$分位数作上尾阈值. 这是估计误差在信息度量下的平方长度. 标量有方向的备择更适合使用带符号的标准化误差; 无符号平方统计量仍控制水平, 却忽略方向信息.
+
+\begin{proposition}[一般约束的Wald检验]
+设$\sqrt n(\hat\theta-\theta)\dto N_d(0,\Sigma(\theta))$, $\hat\theta\pto\theta$, 且$g:\R^d\to\R^k$在真值附近连续可微. 记$Dg(\theta)$为$k\times d$导数矩阵. 若$\Gamma(\theta)=Dg(\theta)\Sigma(\theta)Dg(\theta)^\top$正定且有一致估计$\hat\Gamma$, 则在$H_0:g(\theta)=0$下
+\[
+ n g(\hat\theta)^\top\hat\Gamma^{-1}g(\hat\theta)\dto\chi_k^2.
+\]
+\end{proposition}
+\begin{proof}
+一阶展开为$g(\hat\theta)=g(\theta)+Dg(\theta)(\hat\theta-\theta)+o_{\PP}(n^{-1/2})$. 在原假设下首项为零. 标准化后趋于$N_k(0,I_k)$, 再取平方长度得到结论. 若$\Sigma$正定且$Dg$行满秩, 对非零$v$, $v^\top\Gamma v=(Dg^\top v)^\top\Sigma(Dg^\top v)>0$, 正定性因而得到保证.
+\end{proof}
+例如$g(\theta)=\theta_1-\theta_2$用于比较两个参数, $g(\theta)=(\theta_1,\theta_2)$用于同时检验两个系数为零. 约束的个数应按独立约束的秩计算, 不能仅数表达式.
+
+\originalsection{似然比与Wilks定理}
+令$\ell_n$为联合对数似然, $\hat\theta$为无约束MLE, $\hat\theta^c$为$\Theta_0$上的约束MLE. 似然比统计量写为
+\[
+ L_n=2\{\ell_n(\hat\theta)-\ell_n(\hat\theta^c)\}\geq0.
+\]
+它衡量施加原假设后拟合损失多少. 若$\Theta$局部为$d$维光滑参数空间, $\Theta_0$在真值附近是$r$维光滑子流形, 则正则Wilks结论是$L_n\dto\chi_{d-r}^2$.
+
+\begin{theorem}[正则Wilks结论及其局部推导]
+假设真参数$\theta_0$是参数空间内点, 信息$I_0$正定, MLE与约束MLE具有$n^{-1/2}$尺度的一致性, 并且局部对数似然在相关有界集合上一致具有展开
+\[
+ \ell_n(\theta_0+h/\sqrt n)-\ell_n(\theta_0)
+ =h^\top\Delta_n-\tfrac12h^\top I_0h+o_{\PP}(1),\qquad
+ \Delta_n\dto N_d(0,I_0).
+\]
+若局部约束趋于$r$维切空间, 则$L_n\dto\chi_{d-r}^2$.
+\end{theorem}
+\begin{proof}
+置$u=I_0^{1/2}h$, $Z_n=I_0^{-1/2}\Delta_n$. 局部目标为$u^\top Z_n-\norm{u}^2/2=\norm{Z_n}^2/2-\norm{u-Z_n}^2/2$. 无约束最大值在$u=Z_n$取得; 约束最大值在$Z_n$对变换后切空间$V$的正交投影取得. 两个最大值差的两倍为$\norm{(I-P_V)Z_n}^2+o_{\PP}(1)$. 极限标准正态的$d-r$个正交坐标平方和就是所述卡方分布.
+\end{proof}
+这里明确把局部一致展开及MLE定位作为正则性条件, 而没有声称任何模型都适用. 边界参数、不可识别参数、奇异信息或随参数变化的支持可能破坏条件, 此时不能机械使用维数差. 对原课件固定末$d-r$个坐标的原假设, 切空间正好有维数$r$.
+
+\originalsection{多项分布中的Pearson统计量}
+设类别空间$\{a_1,\ldots,a_K\}$, 各类概率$p_j>0$, $\sum_jp_j=1$. 记$N_j=\sum_i\ind_{\{X_i=a_j\}}$, $\hat p_j=N_j/n$. 联合似然为$\prod_jp_j^{N_j}$; 拉格朗日乘子或严格凹性给出MLE$\hat p$. 若某类没有观测, MLE可能在闭单纯形边界, 这不影响内点真参数下的渐近结论. 检验指定$p^0$时定义
+\[
+ Q_n=\sum_{j=1}^K\frac{(N_j-np_j^0)^2}{np_j^0}
+ =n\sum_{j=1}^K\frac{(\hat p_j-p_j^0)^2}{p_j^0}.
+\]
+\begin{proposition}
+在$H_0:p=p^0$且各$p_j^0>0$时, $Q_n\dto\chi_{K-1}^2$.
+\end{proposition}
+\begin{proof}
+单个类别指示向量的协方差为$D-pp^\top$, $D=\diag(p)$. 多元CLT给出$\sqrt n(\hat p-p)\dto N_K(0,D-pp^\top)$. 乘$D^{-1/2}$后协方差为$I-vv^\top$, $v=(\sqrt{p_j})$, $\norm v=1$. 它是对$v^\perp$的秩$K-1$正交投影. 所以标准化误差的平方长度趋于$K-1$个独立正态平方和.
+\end{proof}
+均匀性检验取$p_j^0=1/K$. 一个自由度损失来自概率之和固定为1, 并不是所有$K$类计数独立. 下一章进一步允许原假设内估计参数.
+
+\originalsection{双样本均值比较}
+两组样本分别来自均值$\mu_X,\mu_Y$, 方差$\sigma_X^2,\sigma_Y^2$的总体, 两组互相独立, 组内独立同分布. 在有限正方差及$n,m\to\infty$, $n/m$趋于正有限常数时,
+\[
+ Z_{n,m}=\frac{\bar X_n-\bar Y_m-(\mu_X-\mu_Y)}{\sqrt{\sigma_X^2/n+\sigma_Y^2/m}}\dto N(0,1).
+\]
+这是两个独立CLT的线性组合; 若方差未知, 用各组一致样本方差替代并应用Slutsky. 检验相等均值时双侧拒绝$|Z|>z_{1-\alpha/2}$; 止咳糖浆问题按治疗组减控制组的次序取左尾. 泊松模型可用均值估计方差, 标准误为$\sqrt{\bar X_n/n+\bar Y_m/m}$.
+
+\begin{remark}
+课件双样本大样本页的比例存在倒置: 若方差均为1, 正确标准误为$\sqrt{1/n+1/m}$, 因而乘$\sqrt n$后的分母是$\sqrt{1+n/m}$. 直接写方差和可以避免$n/m$与$m/n$混淆.
+\end{remark}
+正态、未知且允许不等方差时, 常用Welch统计量
+\[
+ T_W=\frac{\bar X_n-\bar Y_m}{\sqrt{s_X^2/n+s_Y^2/m}},\qquad
+ \nu=\frac{(s_X^2/n+s_Y^2/m)^2}{s_X^4/[n^2(n-1)]+s_Y^4/[m^2(m-1)]}.
+\]
+用$t_\nu$近似校准, 不是一般精确分布. 若额外知道两组方差相同, 则合并估计
+\[
+ s_p^2=\frac{(n-1)s_X^2+(m-1)s_Y^2}{n+m-2},\qquad
+ T_p=\frac{\bar X_n-\bar Y_m}{s_p\sqrt{1/n+1/m}}\sim t_{n+m-2}
+\]
+在原假设下精确成立: 均值差为正态, 合并残差平方和为独立的$\chi_{n+m-2}^2$. 方差相等条件不可从公式里省掉.
+
+\originalsection{对称性与有限样本随机化检验}
+本节补充用户考纲要求的``基于对称性的检验'', 不属于本章MIT幻灯片的原有内容. 它用原假设下可验证的对称性给出有限样本校准, 无须正态近似. 对称性要求比``均值为零''强, 必须根据原假设说明.
+
+\begin{definition}[对称分布与符号翻转]
+实值变量$D$关于0对称指$D$与$-D$同分布. 设独立配对差$D_1,\ldots,D_n$各自关于0对称, 且$\PP(D_i=0)=0$. 写$A_i=|D_i|$, $S_i=\operatorname{sign}(D_i)$. 在原假设下, 条件于$(A_1,\ldots,A_n)$, 符号向量$S$在$\{-1,1\}^n$的$2^n$种取值中均匀分布.
+\end{definition}
+为什么可以固定绝对值而随机符号? 对任意正半轴可测集$C$, 对称性给出$\PP(A_i\in C,S_i=1)=\PP(A_i\in C,S_i=-1)=\PP(A_i\in C)/2$. 因而符号与绝对值独立且公平; 不同配对差的独立性进一步使所有符号独立. 独立样本可以分布不同, 只要每个差都对称, 结论仍成立. 若来自配对测量, 必须说明不同配对单位独立, 不能把同一人的多次测量自动当作独立配对差.
+
+可取检验统计量$T(D)=\sum_iD_i$来发现正方向变化, 或取$|\sum_iD_i|$进行双侧检验. 对观测$d$, 定义符号翻转$p$值
+\[
+ p(d)=\frac1{2^n}\#\left\{s\in\{-1,1\}^n:
+ T(s_1|d_1|,\ldots,s_n|d_n|)\geq T(d)\right\}.
+\]
+用$p\leq\alpha$拒绝. 也可以取正差数$B=\sum_i\ind_{\{D_i>0\}}$, 这就是符号检验; 原假设下$B\sim\operatorname{Bin}(n,1/2)$, 不需要知道差值的大小分布.
+
+\begin{lemma}[有限均匀样本的尾秩]
+设有限集合$\Omega$有$m$个元素, $\omega$均匀分布, $T:\Omega\to\R$. 令$p(\omega)=m^{-1}\#\{v:T(v)\geq T(\omega)\}$. 则对所有$\alpha\in[0,1]$, $\PP(p\leq\alpha)\leq\alpha$.
+\end{lemma}
+\begin{proof}
+按$T$值从大到小把元素分组, 相同值归为一组. 每组的$p$值等于从最高组到本组的累计元素数除以$m$. 满足$p\leq\alpha$的组必是前面的若干完整组, 累计元素数至多$m\alpha$, 因而其概率至多$\alpha$. 无合适累计数时事件为空, 这解释离散检验的保守性.
+\end{proof}
+条件于绝对值应用此引理得到$\PP(p\leq\alpha\mid A)\leq\alpha$, 再取期望便得到无条件有限样本水平. 因包含等号, 相同统计量全部计入尾部; 无须假装统计量一定没有并列. 如要精确实现任意水平, 可在临界组独立随机化, 但不随机化的保守规则已有效.
+
+\begin{example}
+四个独立配对差为$1,2,3,4$, 检验差分布关于0对称, 对正方向备择用和统计量.
+\end{example}
+\begin{solution}
+固定绝对值后有16种符号, 观测和为10, 只有全正号达到10, 故$p=1/16$. 在5\%水平不拒绝, 在10\%水平拒绝. 若用绝对和作双侧统计量, 全正与全负都达到10, $p=2/16=1/8$. 单侧与双侧的极端性定义不同, 不能在看见结果后任选较小者. 用正号数作单侧符号检验同样有$p=\PP(\operatorname{Bin}(4,1/2)\geq4)=1/16$.
+\end{solution}
+连续无零假设便于直接记$n$个独立符号. 若有零差, 可固定零的位置, 只翻转非零差, 并以其个数代替$n$; 对称性仍给出非零符号条件均匀. 绝对值重复不妨碍符号向量均匀, 但统计量可能并列, 仍须按上述含等号规则处理. 原假设仅说$\E D_i=0$时, 偏斜分布不保证符号公平, 此校准可能失效.
+
+两独立样本也可使用另一个对称性. 设$X_1,\ldots,X_n\iid F$, $Y_1,\ldots,Y_m\iid F$, 两组独立. 原假设是\emph{同分布}, 不仅是同均值. 合并后$N=n+m$个观测独立同分布, 所以联合分布在任意指标排列下不变, 即具有交换性. 固定合并样本, 遍历所有大小为$n$的标签子集$S\subset\{1,\ldots,N\}$, 以它作为第一组, 补集作为第二组. 例如统计量取
+\[
+ T_S=\left|\frac1n\sum_{i\in S}Z_i-\frac1m\sum_{i\notin S}Z_i\right|,\qquad
+ p=\binom Nn^{-1}\#\{S:T_S\geq T_{S_0}\}.
+\]
+
+\begin{proposition}[标签置换检验的水平]
+上述同分布原假设下, 标签置换规则$p\leq\alpha$具有有限样本水平不超过$\alpha$.
+\end{proposition}
+\begin{proof}
+在观测值互不相同时, 条件于排序后的合并样本, 每一种将$n$个观测分配给第一组的标签子集具有相同概率$1/\binom Nn$. 应用尾秩引理并取期望即得结论. 有重复值时, 仍按观测指标而非不同数值列举标签; 可附加独立连续辅助标记打破排序并列, 条件于带标记的排序样本后标签仍均匀. 检验统计量不使用辅助标记, 因而同一尾秩证明对原统计量成立.
+\end{proof}
+\begin{example}
+两组为$X=(1,2)$, $Y=(3,4)$, 用均值差绝对值作置换检验.
+\end{example}
+\begin{solution}
+六个第一组子集$\{1,2\},\{1,3\},\{1,4\},\{2,3\},\{2,4\},\{3,4\}$的统计量分别为$2,1,0,0,1,2$. 观测值为2, 所以$p=2/6=1/3$. 这是精确离散校准, 数据看起来两组分开并不足以使四个观测提供很小的$p$值.
+\end{solution}
+若两总体均值相等但方差或形状不同, 合并样本一般不交换, 上述朴素置换规则不保证有限样本水平. 这与前节检验均值相等的大样本或正态双样本$t$检验是不同原假设. 枚举过大时可随机抽取置换近似尾概率, 但必须区分Monte Carlo近似与已经证明的全枚举水平.

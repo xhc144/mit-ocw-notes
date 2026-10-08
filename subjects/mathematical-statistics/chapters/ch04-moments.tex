@@ -1,0 +1,365 @@
+\originalchapter{矩估计与渐近分析}
+\originalsection{为什么使用矩}
+最大似然通过完整密度或质量函数估计参数. 若似然难以最大化, 另一条路线是先估计几个容易计算的分布特征, 再从这些特征反解参数. 最常见的分布特征是矩: 一阶矩描述均值, 二阶矩配合均值描述方差, 更高阶矩包含偏斜与尾部的信息. 这种方法何时能区分分布, 以及需要多少个矩, 必须分别回答.
+
+\begin{definition}[总体矩与经验矩]
+若 $\E_\theta|X|^k<\infty$, 分布的 $k$ 阶原点矩为 $m_k(\theta)=\E_\theta X^k$. 对独立同分布样本, 经验矩为
+\[
+ \widehat m_{k,n}=\frac1n\sum_{i=1}^nX_i^k.
+\]
+记 $m_0=1$, 它表示分布的总质量. 一般而言 $\widehat m_{k,n}$ 不是 $(\overline X_n)^k$: 求幂在每次观测内, 求平均在观测之间.
+\end{definition}
+按大数定律, 若绝对 $k$ 阶矩有限, $\widehat m_{k,n}\to m_k(\theta)$ 几乎处处. 这给出估计矩的直接办法. 但即使某几个矩准确已知, 也不保证能从中唯一恢复分布. 先从紧区间上的多项式逼近理解所有矩的作用.
+
+\begin{theorem}[Weierstrass逼近定理]
+设 $f$ 在有限闭区间 $[a,b]$ 上连续. 对任意 $\varepsilon>0$, 存在多项式 $p(x)=\sum_{k=0}^da_kx^k$ 使
+\[
+ \sup_{x\in[a,b]}|f(x)-p(x)|<\varepsilon.
+\]
+\end{theorem}
+\begin{proof}
+线性变换后只须证明 $[0,1]$ 的情形. 定义Bernstein多项式
+\[
+ B_Nf(x)=\sum_{j=0}^Nf(j/N)\binom Njx^j(1-x)^{N-j}.
+\]
+对固定 $x$, 可写成 $\E f(K/N)$, 其中 $K\sim\operatorname{Bin}(N,x)$. 连续函数在紧区间上一致连续且有界. 令 $M=\sup|f|$, 给定 $\varepsilon>0$, 可取 $\delta>0$ 使 $|u-v|\le\delta$ 时 $|f(u)-f(v)|<\varepsilon/2$. 因为 $\E(K/N)=x$, $\Var(K/N)=x(1-x)/N\le1/(4N)$, 有
+\[
+ |B_Nf(x)-f(x)|\le\varepsilon/2+2M\PP(|K/N-x|>\delta)
+ \le\varepsilon/2+\frac{M}{2N\delta^2}.
+\]
+取 $N$ 足够大, 此上界小于 $\varepsilon$ 且不依赖 $x$, 得到一致逼近. 将多项式复合线性变换即可回到 $[a,b]$.
+\end{proof}
+
+\begin{corollary}[紧支撑上的矩确定分布]
+若 $P,Q$ 都支撑于同一个有限闭区间 $[a,b]$, 且所有原点矩相同, 则 $P=Q$.
+\end{corollary}
+\begin{proof}
+所有矩相同意味着所有多项式积分相同. 对连续函数 $h$ 取一致误差小于 $\varepsilon$ 的多项式 $p$, 则
+\[
+ \left|\int h\,\mathrm dP-\int h\,\mathrm dQ\right|
+ \le\left|\int(h-p)\,\mathrm dP\right|+
+ \left|\int(p-h)\,\mathrm dQ\right|<2\varepsilon.
+\]
+故连续函数积分全部相同. 为直接看出分布函数相同, 对每个 $t$ 取连续函数 $h_j$, 在 $x\le t$ 时为1, 在 $x\ge t+1/j$ 时为0, 中间线性下降. 它们逐点趋于 $\ind_{\{x\le t\}}$, 控制收敛给 $P(( -\infty,t])=Q(( -\infty,t])$. 分布函数决定实直线上的概率测度, 因而 $P=Q$.
+\end{proof}
+这一结论不要求密度存在, 因而离散、连续、混合分布都可使用. 在可识别参数模型中, 分布相同又推出参数相同. 但它使用\emph{所有}矩, 不是只使用某个预先固定的有限 $d$. 每个连续函数所需的逼近次数不同, Weierstrass定理本身并不告诉我们统计模型需要几个矩.
+
+\begin{example}
+说明有限个矩不能在不加模型限制时唯一确定概率分布.
+\end{example}
+\begin{solution}
+对称于0的 $\operatorname{Unif}[-1,1]$ 与在 $\{-1,1\}$ 各放质量 $1/2$ 的分布均值都为0, 却是不同分布. 因而一阶矩不能一般地识别分布. 更一般地, 给定 $d$, 在 $d+2$ 个不同节点上, 保持总质量与前 $d$ 阶矩只施加 $d+1$ 个线性约束, 存在非零零空间方向. 从各节点均为正的质量出发, 沿该方向作足够小的正负扰动, 得到两个不同概率分布而前 $d$ 阶矩相同.
+\end{solution}
+
+\begin{example}
+构造两个不同的无界支撑概率分布, 使它们的所有原点矩都相同.
+\end{example}
+\begin{solution}
+设 $X=e^Y$, $Y\sim N(0,1)$, 对数正态密度为
+\[
+ f(x)=\frac1{x\sqrt{2\pi}}e^{-(\log x)^2/2},\qquad x>0.
+\]
+对 $|\varepsilon|\le1$, 定义 $f_\varepsilon(x)=f(x)\{1+\varepsilon\sin(2\pi\log x)\}$. 它非负, 且对整数 $k\ge0$,
+\begin{align*}
+ \int_0^\infty x^kf(x)\sin(2\pi\log x)\,\mathrm dx
+ &=\frac1{\sqrt{2\pi}}\int_{\R}e^{ky-y^2/2}\sin(2\pi y)\,\mathrm dy\\
+ &=e^{k^2/2}\E\sin(2\pi(Z+k))=0,
+\end{align*}
+其中 $Z\sim N(0,1)$, 完成平方得到第二行; 因 $k$ 是整数, 正弦等于 $\sin(2\pi Z)$, 关于0奇对称, 期望为0. $k=0$ 说明密度归一化, 其余 $k$ 说明所有原点矩都与 $f$ 相同. 不同 $\varepsilon$ 给出不同密度. 因而不能在无界支撑上无条件援引Weierstrass定理宣称所有矩决定分布.
+\end{solution}
+
+理论上若要求经验分布和某个参数分布对\emph{所有}有界连续函数的积分相同, 两个分布就应完全相同. 连续模型的经验分布却是离散的, 一般不存在这样的参数. 矩估计的实用目标不是解无限个精确拟合方程, 而是挑出能在所选参数族内部识别参数的有限个特征.
+
+\originalsection{有限支撑、Vandermonde矩阵与求积}
+设支撑节点 $x_1,\ldots,x_r$ 已知且互异. 未知量只有各节点的概率 $p_1,\ldots,p_r$, 其中 $\sum_jp_j=1$, 所以自由参数数目为 $r-1$. 前 $r-1$ 阶矩与归一化条件构成方程
+\[
+ \sum_{j=1}^rp_jx_j^k=m_k,\qquad k=0,1,\ldots,r-1.
+\]
+写成矩阵形式为 $Vp=m$, 其中
+\[
+ V=\begin{pmatrix}
+ 1&1&\cdots&1\\
+ x_1&x_2&\cdots&x_r\\
+ \vdots&\vdots&&\vdots\\
+ x_1^{r-1}&x_2^{r-1}&\cdots&x_r^{r-1}
+ \end{pmatrix},\qquad
+ m=(1,m_1,\ldots,m_{r-1})^\top.
+\]
+
+\begin{proposition}[已知有限支撑的矩恢复]
+$\det V=\prod_{1\le j<k\le r}(x_k-x_j)\ne0$. 因而若给定矩向量来自该支撑上的概率分布, 它唯一确定概率向量 $p=V^{-1}m$.
+\end{proposition}
+\begin{proof}
+将行列式视为节点变量的多项式. 若两个节点相等, 两列相同, 行列式为0, 所以每个差因子 $x_k-x_j$ 都整除行列式. 行列式总次数为 $0+1+\cdots+(r-1)$, 与这些差因子的总次数相同, 故二者相差一个常数. 按最后一行与最后节点的最高次项递归比较, 系数为前 $r-1$ 个节点的Vandermonde行列式, 归纳得常数为1. 节点互异使行列式非零, 因而线性方程有唯一解. 非负性并非矩阵可逆自动保证, 而由给定矩确实来自该支撑上的概率分布保证.
+\end{proof}
+还可用Lagrange多项式理解该结果. 定义
+\[
+ l_j(x)=\prod_{k\ne j}\frac{x-x_k}{x_j-x_k},
+\]
+则 $l_j(x_k)=\ind_{\{j=k\}}$, 所以 $p_j=\E l_j(X)$. $l_j$ 次数不超过 $r-1$, 因而它的期望只需要前 $r-1$ 阶矩. 在这一已知支撑模型中, 把矩换成经验矩还给出
+\[
+ \widehat p_j=\frac1n\sum_i l_j(X_i)
+ =\frac1n\sum_i\ind_{\{X_i=x_j\}},
+\]
+正是各节点的经验频率, 自动非负且和为1. 若输入的是额外测量误差污染的矩, 解出来的概率则可能为负, 需要另作约束处理.
+
+\begin{example}
+对支撑 $\{0,1,2\}$ 上的概率分布, 用前两阶矩恢复三个节点的概率.
+\end{example}
+\begin{solution}
+若 $E=\{0,1,2\}$, 则 $m_1=p_1+2p_2$, $m_2=p_1+4p_2$, 其中下标表示节点本身. 因而
+\[
+ p_2=(m_2-m_1)/2,\qquad p_1=2m_1-m_2,\qquad
+ p_0=1-\tfrac32m_1+\tfrac12m_2.
+\]
+可实现的矩向量必须使这三个数都非负. 这展示了“方程可解”与“解属于统计模型”之间的区别.
+\end{solution}
+
+源讲义将这一组有限支撑方程放在Gaussian quadrature的标题下. 上述论证准确地说是\emph{已知节点上的权重恢复}. 真正的Gaussian求积还会选择节点, 使 $r$ 个节点对次数最高 $2r-1$ 的多项式积分精确. 两者都把积分化为有限加权和, 但结论不同. 以下给出这种联系, 避免把前 $r-1$ 阶矩的Vandermonde恢复误称为完整Gaussian求积.
+
+\begin{proposition}[Gaussian求积的矩匹配]
+设概率测度 $P$ 支撑于 $[a,b]$, 支撑含多于 $r$ 个点. 则存在互异的节点 $z_1,\ldots,z_r\in(a,b)$ 和正权重 $w_1,\ldots,w_r$, $\sum_jw_j=1$, 使
+\[
+ \int q\,\mathrm dP=\sum_{j=1}^rw_jq(z_j)
+\]
+对所有次数不超过 $2r-1$ 的多项式成立.
+\end{proposition}
+\begin{proof}
+在次数不超过 $r$ 的多项式空间上定义内积 $\langle u,v\rangle=\int uv\,\mathrm dP$. 非零次数不超过 $r$ 的多项式至多有 $r$ 个根, 支撑点多于 $r$ 保证平方积分严格为正. Gram--Schmidt正交化因此给出首一的 $r$ 次正交多项式 $p_r$, 它与所有低于 $r$ 次的多项式正交.
+
+设 $p_r$ 在 $(a,b)$ 中发生符号变化的不同实根为 $z_1,\ldots,z_s$, 并取 $v(x)=\prod_{j=1}^s(x-z_j)$. 若 $s<r$, 则 $p_rv$ 在整个 $[a,b]$ 上不改变符号, 且只在 $p_r$ 的根处为0. 支撑点多于 $r$, 故其积分非零, 与正交性矛盾. 因而 $s=r$, $p_r$ 的全部根均为互异的内点实根.
+
+以这些根定义Lagrange多项式 $l_j$ 并取 $w_j=\int l_j\,\mathrm dP$. 对 $\deg q\le2r-1$, 多项式除法给 $q=p_r u+v$, $\deg u\le r-1$, $\deg v\le r-1$. 正交性使 $\int p_ru\,\mathrm dP=0$, 节点上 $p_r=0$, 插值使 $v=\sum_jv(z_j)l_j$. 因而求积公式成立. 对 $q=l_j^2$ 使用这一公式, 得 $w_j=\int l_j^2\,\mathrm dP>0$. 取 $q=1$ 给 $\sum_jw_j=1$.
+\end{proof}
+该命题还说明有限个矩一般不能恢复任意分布: 一个支撑含很多点的分布与上述 $r$ 节点分布, 前 $2r-1$ 阶矩完全相同. 唯一恢复依赖于先固定已知有限支撑, 或依赖特定参数族的额外结构.
+
+\originalsection{矩估计的定义与存在性}
+\begin{definition}[矩估计]
+设参数 $\theta\in\Theta\subset\R^d$, 所选择的前 $d$ 阶矩均有限. 定义矩映射
+\[
+ \psi(\theta)=(m_1(\theta),\ldots,m_d(\theta))^\top.
+\]
+若 $\psi$ 单射, 且经验矩向量 $\widehat M_n=(\widehat m_{1,n},\ldots,\widehat m_{d,n})^\top$ 属于 $\psi(\Theta)$, 则矩估计为
+\[
+ \widehat\theta_n^{\mathrm{MM}}=\psi^{-1}(\widehat M_n).
+\]
+\end{definition}
+这一定义有两个条件: 理论矩必须能区分参数, 经验矩也必须落在可反解的区域. 参数维数为 $d$ 时选 $d$ 个矩是常用起点, 并不是定理. 有些模型需要不同的矩或更多个特征; 有些模型缺少所需矩. 即使整体模型可识别, 某个特定的矩映射仍可能不单射, 例如均值固定而方差未知的正态模型不能仅靠一阶矩估计方差.
+
+可以把 $X^k$ 换成一般函数 $h_k(X)$, 建立 $\E_\theta h_k(X)=\widehat h_{k,n}$ 的方程; 使用多于参数维数的特征时, 通常不能全部精确求解, 需要明确一种加权拟合准则. 本章先研究恰好可反解的普通矩方法. 若经验矩偶尔不在像集内, 可定义一个备用值, 但应注明它在该事件上不是精确矩方程的解.
+
+\begin{example}
+求Bernoulli、Poisson、指数及均匀上端点模型的一阶矩估计, 并与MLE比较.
+\end{example}
+\begin{solution}
+Bernoulli的 $m_1(p)=p$, Poisson的 $m_1(\lambda)=\lambda$, 故矩估计均为 $\overline X_n$, 与前章的MLE相同, 边界存在性仍须按参数空间处理. 指数模型 $m_1(\lambda)=1/\lambda$, 故矩估计是 $1/\overline X_n$, 也与MLE相同. 对 $\operatorname{Unif}[0,\theta]$, $m_1(\theta)=\theta/2$, 矩估计却为 $2\overline X_n$, 与MLE $M_n$ 不同.
+\end{solution}
+
+\begin{example}
+利用前两阶矩求正态均值与方差的矩估计, 并检查经验矩是否属于模型的矩像集.
+\end{example}
+\begin{solution}
+参数为 $(\mu,v)$, 有 $m_1=\mu$, $m_2=\mu^2+v$. 因而矩映射的逆为
+\[
+ \mu=m_1,\qquad v=m_2-m_1^2.
+\]
+将矩换成经验矩得到 $\widehat\mu_n=\overline X_n$ 与
+$\widehat v_n=\overline{X^2}_n-(\overline X_n)^2=n^{-1}\sum_i(X_i-\overline X_n)^2$, 与正态MLE相同. 当样本全部相同时, 经验矩落在 $v=0$ 的边界, 不在原来 $v>0$ 的像集中. 对非退化正态样本与 $n\ge2$, 这一事件概率为0.
+\end{solution}
+
+\begin{example}
+利用前两阶矩求Gamma分布形状与尺度的矩估计.
+\end{example}
+\begin{solution}
+取形状 $a>0$, 尺度 $b>0$, 密度为
+\[
+ f_{a,b}(x)=\frac{x^{a-1}e^{-x/b}}{\Gamma(a)b^a},\qquad x>0.
+\]
+Gamma函数递推 $\Gamma(a+1)=a\Gamma(a)$ 给 $\E X=ab$, $\E X^2=a(a+1)b^2$, 因而 $\Var(X)=ab^2$. 记 $u=m_1$, $w=m_2-u^2$, 则
+\[
+ a=u^2/w,\qquad b=w/u.
+\]
+在 $u>0,w>0$ 时逆映射存在且光滑. 经验均值为正, 经验方差在至少两个不相等的观测时为正, 故
+\[
+ \widehat a_n=\frac{\overline X_n^2}{\overline{X^2}_n-\overline X_n^2},\qquad
+ \widehat b_n=\frac{\overline{X^2}_n-\overline X_n^2}{\overline X_n}.
+\]
+Gamma似然关于形状的方程含Gamma函数的对数导数, 通常要数值求解; 上述矩估计则是直接可算的初值或替代估计.
+\end{solution}
+
+\begin{example}
+对 $\operatorname{Unif}[a,b]$, 利用前两阶矩求两个端点的矩估计.
+\end{example}
+\begin{solution}
+设 $X\sim\operatorname{Unif}[a,b]$, $a<b$. 均值 $u=(a+b)/2$, 方差 $w=(b-a)^2/12$, 所以前两阶矩的逆为
+\[
+ a=u-\sqrt{3w},\qquad b=u+\sqrt{3w}.
+\]
+以下要求分母为 $n$ 的经验方差 $\widehat w_n>0$. 结合经验均值, 得矩估计 $\widehat a_n=\overline X_n-\sqrt{3\widehat w_n}$, $\widehat b_n=\overline X_n+\sqrt{3\widehat w_n}$. 若 $\widehat w_n=0$, 经验矩落在边界, 公式给出相同两端点, 不属于 $a<b$ 的原模型, 因而该模型的精确矩估计不存在. 在正经验方差的条件下, 它们是矩方程的解, 但不一定包含样本极值; 精确拟合矩不等于让所有观测位于估计支撑内. 当样本极差严格为正, 并采用闭区间密度版本时, 最大似然用样本最小值与最大值估计两端点: 必须包含所有观测, 而其似然随区间长度减小而增大. 如果 $n=1$ 或全部观测相同, 在 $a<b$ 下可使区间长度趋于0, 似然无界, 因而MLE不存在.
+\end{solution}
+
+\originalsection{一致性与多元Delta方法}
+\begin{proposition}[矩估计的一致性]
+设所选 $d$ 个绝对矩有限, 矩映射在真实参数处具有一个连续的逆 $g$; 该逆定义在真实矩向量 $M=\psi(\theta)$ 的一个邻域内. 若在经验矩不属于此邻域的事件上任意延拓估计量, 则 $g(\widehat M_n)\to\theta$ 几乎处处, 从而弱一致.
+\end{proposition}
+\begin{proof}
+对每个 $X_i^k$ 使用强大数定律, 由于只有有限个坐标, 所有坐标同时收敛的事件仍有概率1. 因而 $\widehat M_n\to M$ 几乎处处, 最终落在所指定的邻域. 逆映射在 $M$ 的连续性给 $g(\widehat M_n)\to g(M)=\theta$.
+\end{proof}
+连续的局部逆比“单射”更具体. 单射本身不能在任意参数空间上保证反函数连续. 若 $\psi$ 在开邻域内连续可微, 且Jacobian $D\psi(\theta)$ 非奇异, 逆函数定理提供局部连续可微逆. 逆函数定理在这里作为多元微积分先修使用, 其作用是保证附近经验矩确实有唯一的附近参数解.
+
+\begin{theorem}[多元Delta方法]
+设 $T_n\in\R^p$, $\sqrt n(T_n-\eta)\dto N_p(0,\Sigma)$, $g:\R^p\to\R^k$ 在 $\eta$ 邻域可定义且在 $\eta$ 可微. 以 $k\times p$ 的Jacobian
+\[
+ J=Dg(\eta)=\left(\frac{\partial g_i}{\partial x_j}(\eta)\right)_{1\le i\le k,1\le j\le p}
+\]
+表示导数, 则
+\[
+ \sqrt n\{g(T_n)-g(\eta)\}\dto N_k(0,J\Sigma J^\top).
+\]
+$\Sigma$ 可以半正定, 极限允许退化.
+\end{theorem}
+\begin{proof}
+可微性给 $g(\eta+h)-g(\eta)=Jh+r(h)$, 且 $\norm{r(h)}/\norm h\to0$. 分布收敛使 $A_n=\sqrt n(T_n-\eta)$ 依概率有界并使 $T_n\pto\eta$. 所以
+\[
+ \sqrt n\norm{r(T_n-\eta)}
+ =\norm{A_n}\frac{\norm{r(T_n-\eta)}}{\norm{T_n-\eta}}\pto0,
+\]
+零分母时余项置0. 于是所求向量为 $JA_n$ 加一个概率趋零的向量. 线性变换正态向量的协方差为 $J\Sigma J^\top$, 再用Slutsky定理完成证明.
+\end{proof}
+Jacobian的行对应输出, 列对应输入, 这一约定固定了矩阵乘法的顺序. 若改用转置的梯度约定, 公式应相应转置; 不可同时保留两种约定的记号.
+
+\begin{theorem}[矩估计的渐近分布]
+设 $\E_\theta|X|^{2d}<\infty$, 令 $H(X)=(X,X^2,\ldots,X^d)^\top$, $M=\E_\theta H(X)$, 并令
+\[
+ \Sigma(\theta)=\Cov_\theta(H(X)),\qquad
+ \Sigma_{jk}(\theta)=m_{j+k}(\theta)-m_j(\theta)m_k(\theta).
+\]
+假设 $\psi$ 在真实参数附近有可微逆 $g$, Jacobian为 $J=Dg(M)$. 则矩估计满足
+\[
+ \sqrt n(\widehat\theta_n^{\mathrm{MM}}-\theta)\dto
+ N_d(0,\Gamma(\theta)),\qquad
+ \Gamma(\theta)=J\Sigma(\theta)J^\top.
+\]
+若 $D\psi(\theta)$ 可逆, 则 $J=D\psi(\theta)^{-1}$.
+\end{theorem}
+\begin{proof}
+$2d$ 阶绝对矩保证每个 $X^k$ 的二阶矩有限, 也保证各交叉矩有限. 多元中心极限定理给
+$\sqrt n(\widehat M_n-M)\dto N_d(0,\Sigma)$.
+对 $g$ 使用多元Delta方法即得结论. 逆映射恒等式 $g(\psi(\theta))=\theta$ 求导给 $Dg(M)D\psi(\theta)=I_d$, 因而在可逆时得到导数公式.
+\end{proof}
+一致性通常只需要所用的 $d$ 阶绝对矩; 正态波动则需要这些函数的二阶矩, 普通幂矩方法因而通常需要 $2d$ 阶绝对矩. 不能把“一阶矩存在, 所以均值一致”直接加强为“均值必有中心极限定理”.
+
+\originalsection{渐近协方差的实际计算}
+\begin{example}
+计算正态均值与方差矩估计的联合渐近分布.
+\end{example}
+\begin{solution}
+对正态模型 $X\sim N(\mu,v)$, $g(u,w)=(u,w-u^2)$, 故
+\[
+ J=\begin{pmatrix}1&0\\-2\mu&1\end{pmatrix}.
+\]
+计算 $X,X^2$ 的协方差需要三、四阶矩. 将 $X=\mu+Z$, $\E Z=\E Z^3=0$, $\E Z^2=v$, $\E Z^4=3v^2$, 展开得
+\[
+ \Sigma=\begin{pmatrix}
+ v&2\mu v\\
+ 2\mu v&4\mu^2v+2v^2
+ \end{pmatrix}.
+\]
+因此
+\[
+ \Gamma=J\Sigma J^\top=\begin{pmatrix}v&0\\0&2v^2\end{pmatrix},\qquad
+ \sqrt n\begin{pmatrix}\widehat\mu_n-\mu\\\widehat v_n-v\end{pmatrix}
+ \dto N_2\left(0,\begin{pmatrix}v&0\\0&2v^2\end{pmatrix}\right).
+\]
+这与前章的 $I(\mu,v)^{-1}$ 相同, 符合这两个矩估计恰为MLE. 将 $v$ 换成一致的 $\widehat v_n$ 即可构造两个坐标各自的Wald区间. 两个各为95\%的区间并不自动构成联合覆盖95\%的矩形区域; 联合置信要求额外控制或使用联合正态分布.
+\end{solution}
+
+\begin{example}
+计算Gamma形状与尺度矩估计的联合渐近协方差.
+\end{example}
+\begin{solution}
+Gamma矩公式为 $m_k=b^ka(a+1)\cdots(a+k-1)$. 对 $u=m_1=ab$, $w=m_2=a(a+1)b^2$, 记 $q=w-u^2=ab^2$. 逆映射 $g(u,w)=(u^2/q,q/u)$ 的Jacobian为
+\[
+ J=\begin{pmatrix}
+ 2uw/q^2&-u^2/q^2\\
+ -w/u^2-1&1/u
+ \end{pmatrix}
+ =\begin{pmatrix}
+ 2(a+1)/b&-1/b^2\\
+ -(2+1/a)&1/(ab)
+ \end{pmatrix}.
+\]
+所需协方差为
+\[
+ \Sigma=\begin{pmatrix}
+ ab^2&2a(a+1)b^3\\
+ 2a(a+1)b^3&2a(a+1)(2a+3)b^4
+ \end{pmatrix}.
+\]
+例如右下元由 $m_4-m_2^2=a(a+1)b^4\{(a+2)(a+3)-a(a+1)\}$ 得出. 矩阵相乘得到
+\[
+ \Gamma=\begin{pmatrix}
+ 2a(a+1)&-2(a+1)b\\
+ -2(a+1)b&(2a+3)b^2/a
+ \end{pmatrix}.
+\]
+所以 $\sqrt n((\widehat a_n,\widehat b_n)^\top-(a,b)^\top)$ 收敛到此协方差的正态向量. 负交叉项反映形状与尺度的互相补偿: 在均值接近固定时, 形状增大往往伴随尺度减小. 将参数替换成一致矩估计可估计该协方差.
+\end{solution}
+
+\begin{example}
+计算均匀分布两端点矩估计的联合渐近分布.
+\end{example}
+\begin{solution}
+设 $c=(a+b)/2$, $L=b-a>0$, $X=c+Z$, 则 $Z\sim\operatorname{Unif}[-L/2,L/2]$, $\E Z^2=L^2/12$, $\E Z^3=0$, $\E Z^4=L^4/80$. 在均值与方差坐标下, 一阶影响分别为 $Z$ 与 $Z^2-L^2/12$, 因而联合渐近协方差为
+\[
+ \begin{pmatrix}L^2/12&0\\0&L^4/180\end{pmatrix}.
+\]
+这是先对 $(\widehat m_1,\widehat m_2)$ 使用Delta方法得到的均值、方差极限. 对逆映射 $a=c-\sqrt{3v}$, $b=c+\sqrt{3v}$, 在 $v=L^2/12$ 处关于 $v$ 的导数分别为 $-3/L,3/L$. 再一次使用Delta方法, 得
+\[
+ \sqrt n\begin{pmatrix}\widehat a_n-a\\\widehat b_n-b\end{pmatrix}
+ \dto N_2\left(0,L^2\begin{pmatrix}2/15&1/30\\1/30&2/15\end{pmatrix}\right).
+\]
+因为 $L>0$, 这里开平方的逆映射在真实点光滑. 若参数区间长度退化到0, 这个局部推导便不能直接照搬.
+\end{solution}
+
+一般模型若不方便写出 $\Sigma(\theta)$, 可由样本估计
+\[
+ \widehat\Sigma_n=\frac1n\sum_i
+ (H(X_i)-\widehat M_n)(H(X_i)-\widehat M_n)^\top.
+\]
+已有 $2d$ 阶绝对矩保证其中每个样本平均一致, 故 $\widehat\Sigma_n\pto\Sigma$. 若 $Dg$ 连续, 取 $\widehat\Gamma_n=Dg(\widehat M_n)\widehat\Sigma_nDg(\widehat M_n)^\top$ 即得一致协方差估计. 对渐近方差正的第 $j$ 个坐标, Wald区间为 $[\widehat\theta_{n,j}\pm z_{1-\alpha/2}\sqrt{\widehat\Gamma_{n,jj}/n}]$. 若相应极限方差为0, 不可机械地用零标准误来声称非退化正态覆盖率.
+
+\originalsection{矩估计与最大似然的比较}
+两个方法有时完全重合, 如Bernoulli、Poisson、指数以及正态均值方差模型. 它们重合时, 不能仅根据方法名称断言谁更准确. 一般正则模型中, MLE使用完整分布结构, 渐近协方差常达到信息下界; 只使用几个矩会丢失部分信息, 但给出的方程可能易于计算. 有限样本二次风险受偏差、尾部与参数边界影响, 不存在不加条件的“MLE风险总小于矩估计风险”定理.
+
+\begin{proposition}[正则矩估计的渐近信息比较]
+设选择的向量特征 $H(X)$ 有协方差 $\Sigma$, 矩映射 $\psi(\theta)=\E_\theta H(X)$ 的Jacobian $A=D\psi(\theta)$ 可逆. 假设正则得分 $s_\theta$ 有正定信息 $I$, 可交换特征期望的求导与积分. 则矩估计渐近协方差 $\Gamma=A^{-1}\Sigma A^{-\top}$ 满足 $\Gamma\succeq I^{-1}$.
+\end{proposition}
+\begin{proof}
+微分期望给 $A=\E_\theta[(H-\psi)s_\theta^\top]$, 因为得分均值为0. 定义 $U=A^{-1}(H-\psi)$, 则 $\E U=0$, $\Cov(U)=\Gamma$, $\E[Us_\theta^\top]=I_d$. 因而
+\[
+ \Cov(U-I^{-1}s_\theta)=\Gamma-I^{-1}\succeq0.
+\]
+这就得到比较. 等号要求 $U=I^{-1}s_\theta$ 几乎处处, 即所选矩的一阶信息恰好重现完整得分.
+\end{proof}
+该结论比较的是满足正则条件的一阶渐近协方差. 单凭分布收敛, 甚至不能自动推出 $n$ 倍二次风险的收敛, 后者还需要平方误差的一致可积性. 因而不能以这个矩阵比较代替所有有限样本风险比较.
+
+\begin{example}
+对均匀上端点模型, 比较矩估计、MLE及无偏最大值修正的二次风险与收敛速度.
+\end{example}
+\begin{solution}
+对 $\operatorname{Unif}[0,\theta]$, 矩估计 $T_n=2\overline X_n$ 无偏, 且
+\[
+ R_\theta(T_n)=4\Var(\overline X_n)=\frac{\theta^2}{3n},\qquad
+ \sqrt n(T_n-\theta)\dto N(0,\theta^2/3).
+\]
+MLE $M_n$ 的密度为 $nx^{n-1}/\theta^n$ ($0<x<\theta$), 从而
+$\E M_n=n\theta/(n+1)$, $\E M_n^2=n\theta^2/(n+2)$. 直接展开二次风险得
+\[
+ R_\theta(M_n)=\theta^2\left(\frac n{n+2}-\frac{2n}{n+1}+1\right)
+ =\frac{2\theta^2}{(n+1)(n+2)}.
+\]
+当 $n>2$ 时此风险小于矩估计风险; $n=1,2$ 时相等. 若用无偏修正 $(n+1)M_n/n$, 其风险为 $\theta^2/(n(n+2))$. 上端点MLE有 $n^{-1}$ 误差尺度, 矩估计只有 $n^{-1/2}$; 这一模型不正则, 所以上述正则信息比较不是证明其优势的途径, 这里依靠精确分布直接计算.
+\end{solution}
+
+计算方面, 对数似然在凸参数域上凹时, 可以利用凸优化工具找到全局最大点, 仍须核对存在性与边界. 非凹目标可能有多个局部最大点, 常用EM等算法通常只保证特定条件下目标不下降, 不能普遍保证得到全局最大值. 矩估计则可能先得到闭式解, 也可能遇到多根、越界或病态的逆映射. 方法选择应结合模型信息、方程的可解性及所需的误差保证; 上面的定义、条件与例子给出逐项判断的依据.

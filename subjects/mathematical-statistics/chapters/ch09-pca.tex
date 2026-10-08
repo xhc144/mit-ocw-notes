@@ -1,0 +1,186 @@
+\originalchapter{主成分分析}
+\label{chap:pca}
+
+\originalsection{多元数据与协方差}
+一组观测往往同时记录许多变量. 把第 $i$ 个观测写为列向量 $X_i=(X_i^{(1)},\ldots,X_i^{(d)})^\top\in\R^d$, 把观测按行放入数据矩阵
+\[
+ \mathsf X=\begin{pmatrix}X_1^\top\\\vdots\\X_n^\top\end{pmatrix}\in\R^{n\times d}.
+\]
+若 $d$ 很大, 逐坐标作图既困难, 也可能掩盖变量间的共同变化. 主成分分析(PCA)的目标是在较低维空间中表示这个点云, 同时尽量保留它的变异. 它首先是一种确定性数据变换; 只有讨论总体推断时才需要把这些点看成随机样本. 
+
+\begin{definition}[总体与样本协方差]
+若随机向量 $X\in\R^d$ 满足 $\E\norm{X}^2<\infty$, 其均值与协方差矩阵定义为
+\[
+ m=\E X,\qquad \Sigma=\E[(X-m)(X-m)^\top]
+       =\E[XX^\top]-mm^\top.
+\]
+对 $n$ 个观测, 令
+\[
+ \bar X=\frac1n\sum_iX_i,\qquad
+ S=\frac1n\sum_i(X_i-\bar X)(X_i-\bar X)^\top
+  =\frac1n\sum_iX_iX_i^\top-\bar X\bar X^\top.
+\]
+本章使用分母 $n$, 与原讲义一致; 使用 $n-1$ 的无偏版本仅整体缩放特征值, 不改变主成分方向. 
+\end{definition}
+矩阵的第 $(j,k)$ 个元素是第 $j$ 与第 $k$ 个坐标的协方差. 矩阵形式把所有坐标关系放在一起, 更重要的是, 它可以表达任意方向上的方差. 
+
+\begin{proposition}[方向方差]
+对任意 $u\in\R^d$, 
+\[
+ \Var(u^\top X)=u^\top\Sigma u,\qquad
+ \frac1n\sum_i\{u^\top(X_i-\bar X)\}^2=u^\top Su.
+\]
+因此 $\Sigma$ 与 $S$ 均为实对称半正定矩阵. 
+\end{proposition}
+\begin{proof}
+$u^\top X$ 的中心化量为 $u^\top(X-m)$. 其平方等于 $u^\top(X-m)(X-m)^\top u$, 取期望即得第一式; 把期望换为经验平均得到第二式. 对称性来自每个外积矩阵的对称性, 半正定性来自方差非负. 
+\end{proof}
+若 $u\ne0$ 且 $u^\top Su=0$, 每个非负平方项都必须为零, 所以所有数据点都在仿射超平面 $u^\top x=u^\top\bar X$ 上. 总体版本中, 非负随机变量期望为零意味着其几乎处处为零, 故 $u^\top\Sigma u=0$ 等价于 $u^\top X=u^\top m$ 几乎必然成立. 反之, 较大的单位方向方差表示点云在该方向铺展较广. 
+
+\originalsection{中心化是一次正交投影}
+令 $\mathbf1=(1,\ldots,1)^\top\in\R^n$, 定义
+\[
+ H=I_n-\frac1n\mathbf1\mathbf1^\top,\qquad Z=H\mathsf X.
+\]
+$Z$ 的第 $i$ 行是 $(X_i-\bar X)^\top$. 于是
+\[
+ \bar X=\frac1n\mathsf X^\top\mathbf1,\qquad
+ S=\frac1n Z^\top Z=\frac1n\mathsf X^\top H\mathsf X.
+\]
+这里 $\mathbf1$ 属于 $\R^n$, 不是 $\R^d$; 这些维数对检查矩阵公式很有用. 
+
+\begin{proposition}[中心化矩阵]
+$H$ 是到 $\mathbf1^\perp=\{v\in\R^n:\sum_i v_i=0\}$ 的正交投影, 且 $\operatorname{rank}(H)=n-1$. 
+\end{proposition}
+\begin{proof}
+直接计算得 $H^\top=H$, 并利用 $\mathbf1^\top\mathbf1=n$ 得 $H^2=H$. 任意 $v$ 都分解为
+\[
+ v=\frac{\mathbf1^\top v}{n}\mathbf1+Hv,
+\]
+其中第一项在 $\operatorname{span}(\mathbf1)$ 中, 第二项与 $\mathbf1$ 正交; 故 $H$ 删除均值分量并保留零和分量. 像空间维数为 $n-1$. 
+\end{proof}
+因此 $\operatorname{rank}(S)\leq\min(d,n-1)$. 特别是 $d\geq n$ 时, 样本协方差必然奇异, 即使总体协方差满秩也一样. 这是高维协方差估计中无法回避的结构限制. 
+
+\originalsection{谱分解与逐方向最大方差}
+\begin{theorem}[实对称矩阵的谱分解]
+对实对称矩阵 $A\in\R^{d\times d}$, 存在正交矩阵 $P=(v_1,\ldots,v_d)$ 与实数 $\lambda_1,\ldots,\lambda_d$, 使
+\[
+ A=P\diag(\lambda_1,\ldots,\lambda_d)P^\top
+   =\sum_{j=1}^d\lambda_jv_jv_j^\top.
+\]
+若 $A$ 半正定, 则所有特征值非负. 
+\end{theorem}
+\begin{proof}
+函数 $u\mapsto u^\top Au$ 在紧的单位球面上有最大点 $v$. 对任意 $w\perp v$, 沿曲线 $(v+tw)/\norm{v+tw}$ 求导, 极值条件给出 $w^\top Av=0$. 因此 $Av$ 与 $v$ 平行, 即 $Av=\lambda v$. 由于 $A$ 对称, $v^\perp$ 在 $A$ 下不变: 若 $w\perp v$, 则 $v^\top Aw=(Av)^\top w=0$. 在这个维数少一的空间重复论证, 归纳得到正交特征向量基. 若 $A$ 半正定, $\lambda_j=v_j^\top Av_j\geq0$. 
+\end{proof}
+将 $S$ 的特征值按 $\lambda_1\geq\cdots\geq\lambda_d\geq0$ 排列. 变换后的观测 $P^\top X_i$ 的协方差为 $P^\top SP=\diag(\lambda_1,\ldots,\lambda_d)$. 因而不同坐标经验不相关, 第 $j$ 个坐标的经验方差为 $\lambda_j$. 不相关不等于独立; PCA 本身并未作独立性断言. 
+
+\begin{theorem}[主成分的变分刻画]
+上述特征向量可依次选择为
+\[
+ v_j\in\argmax_{\norm{u}=1,\ u\perp v_1,\ldots,v_{j-1}}u^\top Su,
+ \qquad j=1,\ldots,d,
+\]
+相应最大值为 $\lambda_j$. 
+\end{theorem}
+\begin{proof}
+把单位向量展开为 $u=\sum_\ell c_\ell v_\ell$, 有 $\sum_\ell c_\ell^2=1$. 于是
+\[
+ u^\top Su=\sum_\ell\lambda_\ell c_\ell^2\leq\lambda_1.
+\]
+$u=v_1$ 取得等号. 若还要求 $u\perp v_1,\ldots,v_{j-1}$, 则前 $j-1$ 个系数为零, 余下特征值均不大于 $\lambda_j$, 同样得到上界 $\lambda_j$, 并由 $u=v_j$ 达到. 
+\end{proof}
+当特征值有重数时, 方向并不唯一. 在最大特征值对应的特征子空间中, 任意单位向量均可作为第一主成分. 若 $1\leq k<d$ 且 $\lambda_k>\lambda_{k+1}$, 前 $k$ 个方向张成的子空间唯一, 但各特征向量仍可能有符号或重根内的基选择自由. 
+
+\originalsection{投影、重构与最小误差}
+给定 $0\leq k\leq d$, 取 $P_k=(v_1,\ldots,v_k)\in\R^{d\times k}$. 中心化主成分得分为
+\[
+ Y_i=P_k^\top(X_i-\bar X),\qquad
+ \widehat X_i=\bar X+P_kY_i.
+\]
+$\widehat X_i$ 是 $X_i$ 到仿射子空间 $\bar X+\operatorname{span}(v_1,\ldots,v_k)$ 的正交投影. 原讲义输出 $P_k^\top X_i$; 它与这里的得分只差所有点共有的平移 $P_k^\top\bar X$, 经验协方差相同. 但重构时显式中心化更清楚. 
+
+\begin{theorem}[PCA 的最优重构性质]
+设 $0\leq k\leq d$. 对任意 $d\times k$ 矩阵 $Q$, $Q^\top Q=I_k$, 投影到 $\bar X+\operatorname{im}Q$ 的平均平方重构误差为
+\[
+ \frac1n\sum_i\norm{(I_d-QQ^\top)(X_i-\bar X)}^2
+ =\tr(S)-\tr(Q^\top SQ).
+\]
+其最小值为 $\sum_{j=k+1}^d\lambda_j$, 由 $Q=P_k$ 达到. 允许任意仿射子空间也不会得到更小的值. 
+\end{theorem}
+\begin{proof}
+令 $\Pi=QQ^\top$. 它对称且幂等, 故 $\norm{(I-\Pi)z}^2=z^\top(I-\Pi)z$. 平均后用迹的循环性质得到误差公式. 再令
+\[
+ a_j=\norm{Q^\top v_j}^2.
+\]
+正交投影不增加长度, 所以 $0\leq a_j\leq1$; 且 $\sum_j a_j=\tr(Q^\top Q)=k$. 因此
+\[
+ \tr(Q^\top SQ)=\sum_j\lambda_ja_j\leq\sum_{j=1}^k\lambda_j.
+\]
+当 $k=0$ 或 $k=d$ 时该上界直接是等式. 对 $1\leq k<d$, 最后一个不等式可从差值直接验证: 前 $k$ 项损失为 $\sum_{j\leq k}\lambda_j(1-a_j)$, 后面获得的量为 $\sum_{j>k}\lambda_ja_j$; 两组系数的和相同, 而前组特征值不小于 $\lambda_k$、后组不大于 $\lambda_k$. $Q=P_k$ 给 $a_j=1$($j\leq k$)和 $0$($j>k$), 达到上界. 
+
+若投影到 $a+\operatorname{im}Q$, 把 $X_i-a=(X_i-\bar X)+(\bar X-a)$ 代入, 交叉项的平均为零, 误差额外增加 $\norm{(I-QQ^\top)(\bar X-a)}^2$. 取 $a=\bar X$ 可使它为零, 所以一般仿射子空间也不能改善这个最小值. 
+\end{proof}
+这一结论明确了“保留信息”的含义: PCA 对欧氏距离下的平均平方重构误差最优. 它不保证保留分类标签、因果结构或一切有用信息, 方差小的方向也可能含有重要信号. 
+
+\begin{example}
+设经验协方差为
+\[
+ S=\begin{pmatrix}2&1\\1&2\end{pmatrix}.
+\]
+求一个主成分的方向、解释方差比例与重构误差.
+\end{example}
+\begin{solution}
+特征值为 $3,1$, 对应单位方向 $v_1=(1,1)^\top/\sqrt2$ 与 $v_2=(1,-1)^\top/\sqrt2$. 保留一个主成分时, 得分是两坐标中心化后的和除以 $\sqrt2$, 重构把两坐标的共同变化保留下来. 解释方差比例为 $3/4$, 平均平方误差为 $1$. 直接保留任一原始坐标的轴方向, 解释方差仅为 $2$, 误差为 $2$, 故斜方向更合适. 
+\end{solution}
+
+\originalsection{SVD 实现与维数选择}
+对于中心化矩阵 $Z$, 奇异值分解写成
+\[
+ Z=U\diag(s_1,\ldots,s_r)V^\top,
+ \qquad s_1\geq\cdots\geq s_r>0,
+\]
+其中 $r=\operatorname{rank}(Z)$, $U,V$ 的列分别正交归一. 因为
+\[
+ S=\frac1n Z^\top Z
+   =V\diag(s_1^2/n,\ldots,s_r^2/n)V^\top,
+\]
+右奇异向量就是非零主成分方向, $\lambda_j=s_j^2/n$. 当 $0\leq k\leq r$ 时, 得分矩阵为 $ZV_k=U_k\diag(s_1,\ldots,s_k)$, 重构矩阵为 $ZV_kV_k^\top$. 若选择 $r<k\leq d$, 则把右奇异向量补成正交基, 新增方向对应零特征值, 得分为零, 重构和保留前 $r$ 个方向相同. 对 $k=d$, 所有方向都保留, 重构误差为零. 对 $k=0$, 得分为空, 每个点重构为均值, 误差为总方差. 
+
+\begin{proposition}[截断 SVD 的最优性]
+若 $0\leq k\leq r$, 则截断矩阵 $Z_k=\sum_{j=1}^k s_ju_jv_j^\top$ 在所有秩不大于 $k$ 的矩阵中, 使 Frobenius 平方误差最小, 最小值为 $\sum_{j>k}s_j^2$. 
+\end{proposition}
+\begin{proof}
+任取秩不大于 $k$ 的矩阵 $B$, 把其行空间包含在一个 $k$ 维子空间中, 令对应正交投影为 $\Pi$. 每一行上, $Z-B$ 分解成与该子空间正交的 $Z(I-\Pi)$ 和子空间内的 $Z\Pi-B$, 所以
+\[
+ \norm{Z-B}_{\mathrm F}^2
+ =\norm{Z(I-\Pi)}_{\mathrm F}^2+\norm{Z\Pi-B}_{\mathrm F}^2
+ \geq n\sum_{j>k}\lambda_j.
+\]
+上一节的最优投影定理给出这个下界; 取 $B=Z_k=ZV_kV_k^\top$ 达到. 因此不仅在投影形式中最优, 在所有秩不大于 $k$ 的重构矩阵中也最优. 
+\end{proof}
+实际算法就是中心化、计算协方差谱分解或 SVD、选择 $k$、输出得分与方向. 若总方差 $\tr(S)>0$, 累计解释方差比例为
+\[
+ r_k=\frac{\lambda_1+\cdots+\lambda_k}{\lambda_1+\cdots+\lambda_d}.
+\]
+选择最小 $k$ 使 $r_k\geq1-\alpha$, 等价于把平均平方重构误差限制在总方差的 $\alpha$ 倍以内. 若总方差为零, 所有观测相同, 该比值是 $0/0$, 应直接报告无需保留变异方向. 另一经验方法是观察碎石图中特征值下降由快转慢的“肘部”; 它是启发式判断, 不是总能找到的唯一拐点. 二维或三维显示则通常直接取 $k=2$ 或 $3$. 
+
+不同变量的单位会改变 PCA. 例如把米改为毫米, 协方差中的相关行列会相应放大, 主方向也可能改变. 若研究的是相对变化, 可以先把每个非零方差坐标标准化, 等价于对相关矩阵做 PCA; 这改变了所优化的距离, 须依据问题选择, 不能把标准化当作无影响的步骤. 
+
+\originalsection{可视化与协方差估计}
+原讲义用约 $1400$ 名欧洲个体、约 $500000$ 个遗传标记的数据展示 PCA 得分与地理结构的联系. 这说明高维坐标的共同变化可以在少数主成分上呈现可解释结构; 它不是证明每个数据集都能得到地理或其他语义坐标. 本稿不复制该页另有出版商许可声明的地图或图像. 
+
+若 $X_i\iid X$, 固定维数 $d$ 且 $\E\norm X^2<\infty$, 每个 $X^{(j)}X^{(k)}$ 可积, 由 Cauchy--Schwarz 不等式可知这一点. 逐元素大数定律于是给出
+\[
+ \frac1n\sum_iX_iX_i^\top\pto\E[XX^\top],\qquad
+ \bar X\bar X^\top\pto mm^\top,
+\]
+故 $S\pto\Sigma$. 固定维数下矩阵范数等价, 也有范数一致性. 原稿的 $n\gg d$ 是实践提示; 当 $d$ 随 $n$ 增长时, 上述固定维数论证不能直接保证谱范数一致性. 
+
+如果总体协方差近似低秩, 可以保留前 $k$ 个特征值, 构造
+\[
+ S_k=\sum_{j=1}^k\lambda_jv_jv_j^\top.
+\]
+它把样本中小特征值方向删除, 可能在适当的结构假设、损失函数与 $k$ 选择下改善对 $\Sigma$ 的估计. 但不能无条件说它比 $S$ 更好: 如果目标就是样本矩阵 $S$, $S$ 本身误差为零; 如果总体有被截去的重要方向, 则截断会引入偏差. 估计收益取决于降低噪声与增加偏差之间的平衡. 
+
+在 $d\gg n$ 的问题中, 还可能知道真实主方向只有少数非零坐标. 这引出稀疏 PCA: 在最大方差目标之外加坐标稀疏约束或惩罚, 使方向更易估计和解释. 它与仅仅截断特征值不同, 且涉及额外假设与优化问题; 原讲义在此只提示方向, 不给稀疏 PCA 的算法或普遍保证. 

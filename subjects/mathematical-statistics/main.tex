@@ -1,0 +1,174 @@
+% !TeX program = xelatex
+% 数学 LaTeX 排版 Skill v4.0.0；版式保持 v3 金标准. XeLaTeX 编译至少两次. 不分发字体.
+% WZ-LOCKED-CLASS-BEGIN
+\begin{filecontents*}[overwrite]{elegantbook-original-adapter.cls}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{elegantbook-original-adapter}[2026/09/23 v3.0 fixed mathematical book environments]
+\LoadClass[10pt,letterpaper,oneside]{book}
+\RequirePackage[UTF8,scheme=plain,fontset=fandol]{ctex}
+\RequirePackage{fontspec}
+\setmainfont{cmunrm.otf}[BoldFont=cmunbx.otf,ItalicFont=cmunti.otf,BoldItalicFont=cmunbi.otf]
+\setCJKfamilyfont{sourceheader}[ItalicFont=FandolKai-Regular.otf]{FandolKai-Regular.otf}
+\RequirePackage{amsmath,amssymb,mathrsfs}
+\RequirePackage{amsthm,etoolbox}
+\RequirePackage{xcolor,geometry,setspace,fancyhdr,enumitem,needspace,xurl}
+\definecolor{structurecolor}{HTML}{880E4F}
+\definecolor{main}{HTML}{9C27B0}
+\geometry{paperwidth=612bp,paperheight=792bp,left=20mm,right=20mm,top=95.04bp,bottom=20mm,headheight=12pt,headsep=25pt,footskip=30pt}
+\setstretch{1.6}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlist{nosep,leftmargin=2em}
+\AtBeginDocument{\setlength{\abovedisplayskip}{4pt plus 1pt minus 1pt}\setlength{\belowdisplayskip}{4pt plus 1pt minus 1pt}\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{3pt}}
+\fancyhf{}
+\fancyhead[L]{{\itshape\CJKfamily{sourceheader}\rightmark}}
+\fancyhead[R]{{\itshape\CJKfamily{sourceheader}\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{structurecolor}\hrule height\headrulewidth width\headwidth\vskip-\headrulewidth}}
+\pagestyle{fancy}
+\fancypagestyle{cover}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}\renewcommand{\headrule}{}}
+\RequirePackage{hyperref}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=structurecolor,urlcolor=structurecolor,citecolor=structurecolor,linktoc=section,bookmarksnumbered=true,bookmarksopen=true,pdfborder={0 0 0},pdfstartview=FitH}
+\setcounter{tocdepth}{1}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.4em}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\newcommand{\originalchapter}[1]{\par\addvspace{14pt}\Needspace{5\baselineskip}\refstepcounter{chapter}\setcounter{section}{0}\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}\markboth{\thechapter\quad #1}{}\begingroup\centering\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\thechapter\quad #1\par\endgroup\nobreak\vspace{8pt}}
+\newcommand{\originalsection}[1]{\par\addvspace{9pt}\Needspace{4\baselineskip}\refstepcounter{section}\addcontentsline{toc}{section}{\protect\hspace*{1.5em}\protect\numberline{\protect\textcolor{structurecolor}{\thesection}}#1}\markright{\thesection\quad #1}\noindent{\fontsize{12}{17}\selectfont\color{structurecolor}\thesection\quad}{\bfseries\fontsize{12}{17}\selectfont #1}\par\nobreak\vspace{4pt}}
+
+% Semantic environments are registered once here, not re-designed in manuscripts.
+\newtheoremstyle{wzstatement}{6pt}{5pt}
+  {\normalfont\kaishu}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzdefinition}{6pt}{5pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzproblem}{7pt}{5pt}
+  {\normalfont\songti}{2em}{\normalfont\bfseries\color{main}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}}
+\newtheoremstyle{wzremark}{4pt}{4pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries}
+  {}{.7em}{\thmname{#1}}
+\theoremstyle{wzstatement}
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{wzdefinition}
+\newtheorem{definition}[theorem]{定义}
+\theoremstyle{wzproblem}
+\newtheorem{example}{例题}[chapter]
+\newtheorem{exercise}{习题}[chapter]
+\theoremstyle{wzremark}
+\newtheorem*{remark}{注}
+\renewcommand{\proofname}{证明}
+% Retain the native amsthm QED stack; only adjust the fixed typography.
+\expandafter\patchcmd\csname\string\proof\endcsname{\normalfont \topsep6\p@\@plus6\p@\relax}
+  {\normalfont\songti \topsep5\p@\@plus1\p@\relax}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof spacing}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\itshape}{\normalfont\bfseries}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof heading}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\ignorespaces}
+  {\setlength{\parindent}{2em}\ignorespaces}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof paragraphs}{Check the amsthm version.}}
+\AtBeginEnvironment{proof}{\par\Needspace{3\baselineskip}}
+\renewcommand{\qedsymbol}{\ensuremath{\square}}
+\newenvironment{solution}{\begin{proof}[解答]}{\end{proof}}
+\newcommand{\wzcheckchapter}{\ifnum\value{chapter}<1
+  \ClassError{elegantbook-original-adapter}{Numbered mathematics before chapter 1}{Move it after the first originalchapter.}\fi}
+
+\newcommand{\wzregisterguard}[1]{\AtBeginEnvironment{#1}{\wzcheckchapter\par\Needspace{3\baselineskip}}}
+\forcsvlist{\wzregisterguard}{theorem,lemma,proposition,corollary,definition,example,exercise}
+% Front matter and bibliography are not numbered mathematical chapters.
+\newcommand{\originalpreface}{\par\addvspace{10pt}\Needspace{5\baselineskip}
+  \noindent{\bfseries\fontsize{12}{17}\selectfont 前言}\par\nobreak\vspace{4pt}}
+\newcommand{\originalcontents}{\par\addvspace{14pt}
+  \begin{center}{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont 目录}\end{center}
+  \vspace{-10pt}\@starttoc{toc}}
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]{
+  \par\addvspace{12pt}\Needspace{3\baselineskip}\phantomsection
+  \addcontentsline{toc}{chapter}{\bibname}
+  \markboth{\bibname}{}
+  \noindent{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\bibname}\par\nobreak\vspace{6pt}
+  \list{\@biblabel{\@arabic\c@enumiv}}
+    {\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth
+     \advance\leftmargin\labelsep\usecounter{enumiv}
+     \let\p@enumiv\@empty\renewcommand\theenumiv{\@arabic\c@enumiv}
+     \setlength{\itemsep}{3pt}\setlength{\parsep}{0pt}}
+  \sloppy\clubpenalty4000\widowpenalty4000\sfcode`\.=1000\relax
+}{\def\@noitemerr{\@latex@warning{Empty bibliography}}\endlist}
+
+\numberwithin{equation}{chapter}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+\allowdisplaybreaks[2]
+\emergencystretch=2em
+\clubpenalty=6000
+\widowpenalty=6000
+\raggedbottom
+\endinput
+\end{filecontents*}
+% WZ-LOCKED-CLASS-END
+\documentclass{elegantbook-original-adapter}
+% ===== 元数据内容槽 =====
+\newcommand{\BookTitle}{数理统计与数据分析}
+\newcommand{\BookAuthor}{Philippe Rigollet 原讲义; 中文重编与补充}
+\newcommand{\BookDate}{MIT 18.650, Fall 2016}
+\newcommand{\PDFTitle}{数理统计与数据分析: MIT 18.650 中文整理本}
+\newcommand{\PDFAuthor}{Philippe Rigollet; 中文整理项目}
+\hypersetup{pdftitle={\PDFTitle},pdfauthor={\PDFAuthor}}
+\usepackage{tikz,pgfplots,booktabs,longtable}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,calc,patterns}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\inner}[2]{\langle #1,#2\rangle}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\iid}{\mathrm{i.i.d.}}
+\newcommand{\pto}{\xrightarrow{\PP}}
+\newcommand{\dto}{\xrightarrow{\mathrm d}}
+\DeclareMathOperator{\KL}{KL}
+\begin{document}
+\frontmatter
+\begin{center}
+{\color{structurecolor}\bfseries\fontsize{18}{25}\selectfont\BookTitle\par}
+{\bfseries MIT 18.650 中文整理本\par}
+\BookAuthor\par
+\BookDate\par
+\end{center}
+\originalpreface
+观察数据并不能直接给出总体的规律. 一次调查中的比例、样本均值或拟合直线都随样本改变. 统计推断把这种变化写成数学模型, 再说明估计会偏离真值多远、拒绝假设会承担怎样的错误概率, 以及预测对模型条件有何依赖.
+
+本书主源为 Massachusetts Institute of Technology 的 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/pages/lecture-slides/}{18.650 Statistics for Applications (Fall 2016)} 当前内容页十份讲义, 原作者 Philippe Rigollet, 对应第 1--24 讲. 原件共 292 个 PDF 物理页, 含逐步显现页及来源声明; 重显部分在正文合并, 新增定义、条件、推导和例子保留并按依赖重组. 第 6 讲使用 15 页新版矩估计, 第 17--18 讲使用 18 页新版贝叶斯统计, 不采用自动资源列表中的两份旧版.
+
+读者应已学习微积分、基础概率和矩阵运算. 概率中的大数定律、中心极限定理及其统计用途在正文准确说明; 布朗桥的构造与一般经验过程极限定理作为明确调用的概率工具. 第 1 章的抽样设计、描述统计与箱线图是本整理本自编补充, 并非 MIT 原课完整提供的基础统计实务. 各章增加的证明、边界条件及计算解释属于中文重编, 不称为原作者逐字讲授的内容. 贝叶斯、主成分和广义线性模型也完整纳入, 不把它们仅列作名词.
+
+本书不宣称覆盖领军考试整份考纲. 已核官方招生简章包含概率与统计; 本次也实际读取用户资料库中六页考纲的第 1、4、6 页文本, 第 4 页列出抽样、基本统计量与图形、极大似然与矩估计、两类错误和 $p$ 值、基于对称性的检验、单样本与双样本检验及一元线性回归. 本书据此优先完整展开统计应用, 并保留 MIT 原课其他实质内容. 用户提供考纲副本的读取, 不等同于取得官网原始发布文件的字节校验.
+
+MIT OCW 原材料默认使用 \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0 International}; 本中文改编按同一许可非商业共享, 不表示 MIT 或原作者认可. 第三方图像有单独声明时不由默认许可覆盖. PCA 原件中 Nature 出版方授权转载的基因地图不纳入本书, 相关数学内容独立推导, 本书图形均为自编数据或通用数学示意的原生 TikZ. 原件逐文件链接、物理页数、哈希及上传状态另见源码附带清单.
+\clearpage
+\originalcontents
+\clearpage
+\mainmatter
+\input{chapters/ch01-data.tex}
+\input{chapters/ch02-models.tex}
+\input{chapters/ch03-estimation.tex}
+\input{chapters/ch04-moments.tex}
+\input{chapters/ch05-testing.tex}
+\input{chapters/ch06-goodness.tex}
+\input{chapters/ch07-regression.tex}
+\input{chapters/ch08-bayes.tex}
+\input{chapters/ch09-pca.tex}
+\input{chapters/ch10-glm.tex}
+\input{references.tex}
+\end{document}

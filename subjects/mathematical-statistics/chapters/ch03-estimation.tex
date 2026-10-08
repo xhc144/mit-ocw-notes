@@ -1,0 +1,318 @@
+\originalchapter{参数估计与最大似然}
+\originalsection{统计量、偏差与风险}
+模型明确以后, 我们用观测构造未知参数的替代量. 估计量在观察之前是随机变量, 观察之后才成为一个确定数值. 它是否接近真实参数, 需要在 $\PP_\theta$ 下讨论, 不能只看某次实验的结果.
+
+\begin{definition}[统计量与估计量]
+统计量是样本 $(X_1,\ldots,X_n)$ 的可测函数. 参数 $\theta$ 的估计量 $\widehat\theta_n=T_n(X_1,\ldots,X_n)$ 是用于估计该参数的统计量, 其中规则 $T_n$ 不能依赖未知的 $\theta$. 对每个 $\theta\in\Theta$, 若在 $\PP_\theta$ 下 $\widehat\theta_n\pto\theta$, 称其弱一致; 若 $\widehat\theta_n\to\theta$ 几乎处处, 称其强一致.
+\end{definition}
+样本均值、最大值、样本方差和 $X_1+\log(1+|X_n|)$ 都是统计量. 它们是否是有用的估计量, 取决于目标参数与模型. “能由数据计算”排除了未知参数, 可测性则确保有关它们的概率和期望有定义. 对隐式最大化问题, 还须确保选出的解是可测函数.
+
+\begin{definition}[偏差与二次风险]
+当相关期望存在时, 偏差为 $b_\theta(\widehat\theta_n)=\E_\theta\widehat\theta_n-\theta$. 若偏差为0, 称其无偏. 二次风险为
+\[
+ R_\theta(\widehat\theta_n)=\E_\theta\norm{\widehat\theta_n-\theta}^2.
+\]
+对于向量参数, 这里使用Euclidean范数.
+\end{definition}
+\begin{proposition}[偏差与方差分解]
+标量参数满足
+\[
+ R_\theta(\widehat\theta_n)=b_\theta(\widehat\theta_n)^2+\Var_\theta(\widehat\theta_n).
+\]
+向量情形右侧改为 $\norm{b_\theta}^2+\tr\Cov_\theta(\widehat\theta_n)$.
+\end{proposition}
+\begin{proof}
+将误差写成 $(\widehat\theta_n-\E_\theta\widehat\theta_n)+b_\theta$. 平方展开后, 交叉项的期望为0. 向量情形逐坐标相加即得迹公式.
+\end{proof}
+无偏不等于误差小, 一致也不等于有限样本风险小. Bernoulli样本均值既无偏又强一致, 风险为 $p(1-p)/n$. 常数估计量 $1/2$ 在 $p=1/2$ 时风险为0, 却不能在所有参数处一致. 因此不能把某一个参数处的风险比较提升为整体最优性.
+
+\originalsection{置信区间与覆盖率}
+\begin{definition}[置信区间]
+对标量参数与 $\alpha\in(0,1)$, 置信水平至少 $1-\alpha$ 的置信区间是数据决定的随机区间 $I_n$, 其端点不依赖未知参数, 并满足
+\[
+ \PP_\theta(\theta\in I_n)\ge1-\alpha,\qquad\theta\in\Theta.
+\]
+若对每个固定 $\theta\in\Theta$ 有
+$\liminf_{n\to\infty}\PP_\theta(\theta\in I_n)\ge1-\alpha$, 称其渐近置信水平至少 $1-\alpha$.
+\end{definition}
+这里参数是固定的, 随机的是由重复样本产生的区间. 观察后说“95\%置信区间”指构造规则的重复覆盖性质, 不是给固定未知参数赋予95\%的后验概率. 若覆盖极限存在且等于 $1-\alpha$, 可以说渐近水平恰为 $1-\alpha$.
+
+前章的 Bernoulli 例子展示了三种构造: 利用 $p(1-p)\le1/4$ 的保守渐近区间, 用样本比例代入标准误的 Wald 区间, 以及 Hoeffding 的有限样本区间. 含有真实 $p$ 的区间 $[\widehat p_n\pm z_{1-\alpha/2}\sqrt{p(1-p)/n}]$ 即使覆盖率正确, 仍不是这里定义的置信区间, 因为数据不足以计算其端点. 后文最大似然与矩估计的渐近分布, 都要经过同样的未知方差处理才能给出可计算区间.
+
+\originalsection{分布距离与似然原理}
+参数误差只在选择参数坐标以后才有意义. 更直接的目标是使拟合分布 $\PP_{\widehat\theta_n}$ 接近真实分布 $\PP_{\theta_*}$: 任意事件的预测概率都应相近. 这一想法引出总变差距离.
+
+\begin{definition}[总变差距离]
+对同一可测空间的概率测度 $P,Q$, 定义
+\[
+ \operatorname{TV}(P,Q)=\sup_{A\in\mathcal E}|P(A)-Q(A)|.
+\]
+\end{definition}
+\begin{proposition}
+若 $P,Q$ 关于同一测度 $\nu$ 有密度 $p,q$, 则
+\[
+ \operatorname{TV}(P,Q)=\frac12\int|p-q|\,\mathrm d\nu.
+\]
+离散分布的公式为 $\frac12\sum_x|p(x)-q(x)|$, 连续分布则以 Lebesgue 积分表示. 总变差非负、对称, 为0当且仅当 $P=Q$, 并满足三角不等式.
+\end{proposition}
+\begin{proof}
+令 $h=p-q$, 因为 $\int h\,\mathrm d\nu=0$, 其正部、负部积分相等且均为 $\frac12\int|h|\,\mathrm d\nu$. 任意事件的 $\int_Ah$ 位于负部积分的负值与正部积分之间. 取 $A=\{h\ge0\}$ 达到正部积分, 故得公式. 对称与非负由定义得到, 为0说明所有事件概率相同. 对每个 $A$, $|P(A)-R(A)|\le|P(A)-Q(A)|+|Q(A)-R(A)|$, 取上确界得三角不等式.
+\end{proof}
+直接最小化与真实分布的总变差需要估计整条概率规律. 对连续分布, 经验分布集中于有限个样本点, 与任何具有密度的模型分布的总变差都是1: 取事件 $A=\{X_1,\ldots,X_n\}$ 即可看出. 因而不能不加处理地用经验分布替代真实分布做总变差最小化. 最大似然改用一种期望能由样本平均替代的比较量.
+
+\begin{definition}[Kullback--Leibler散度]
+若 $P$ 关于 $Q$ 绝对连续, 定义
+\[
+ \KL(P,Q)=\int\log\left(\frac{\mathrm dP}{\mathrm dQ}\right)\,\mathrm dP.
+\]
+若 $P$ 不关于 $Q$ 绝对连续, 定为 $+\infty$. 在共同密度表示下, 它是 $\int p\log(p/q)\,\mathrm d\nu$, 约定 $0\log(0/q)=0$, 而 $p>0,q=0$ 时该项为 $+\infty$.
+\end{definition}
+\begin{proposition}[KL的非负性]
+$\KL(P,Q)\ge0$, 且为0当且仅当 $P=Q$. 一般不对称, 也不满足三角不等式.
+\end{proposition}
+\begin{proof}
+若不绝对连续, 结论直接成立. 在密度表示中, 对 $p>0$ 使用 $-\log u\ge1-u$, 得
+\[
+ \int_{p>0}p\log(p/q)\,\mathrm d\nu
+ \ge1-\int_{p>0}q\,\mathrm d\nu\ge0.
+\]
+更精确地, $u-1-\log u\ge0$, 仅在 $u=1$ 取等. 若KL为0, 两个非负余量均为0, 得 $q/p=1$ 在 $P$ 几乎处处, 且 $Q$ 在 $\{p=0\}$ 无质量, 所以 $P=Q$. 反向结论立即成立. 不对称可取 $P=\operatorname{Ber}(1/4)$, $Q=\operatorname{Ber}(1/2)$: 两方向分别为 $\frac14\log(1/2)+\frac34\log(3/2)$ 与 $\frac12\log(4/3)$, 数值不同. 对正态同方差模型, $\KL(N(a,1),N(b,1))=(a-b)^2/2$. 取 $a=0,b=1,c=2$ 得两端散度2, 经过中间分布的和为1, 违反三角不等式.
+\end{proof}
+
+设模型有共同密度 $f_\theta$, 且所需对数期望有限. 有
+\[
+ \KL(\PP_{\theta_*},\PP_\theta)
+ =\E_{\theta_*}\log f_{\theta_*}(X)-\E_{\theta_*}\log f_\theta(X).
+\]
+第一项不依赖候选参数 $\theta$. 对第二项用大数定律启发, 将期望换成 $n^{-1}\sum_i\log f_\theta(X_i)$. 于是最大化经验平均对数密度对应于最小化KL目标的经验版本. 常数项无法由此直接计算, 但不影响求最大值. 这里的逐点大数定律只是动机, 尚不能证明随机最大值点的一致性; 一致性需要后文的统一控制.
+
+\begin{definition}[似然与最大似然估计]
+对观测值 $x=(x_1,\ldots,x_n)$, 独立同分布模型的似然和对数似然为
+\[
+ L_n(x;\theta)=\prod_{i=1}^nf_\theta(x_i),\qquad
+ \ell_n(x;\theta)=\sum_{i=1}^n\log f_\theta(x_i).
+\]
+在离散模型中 $f_\theta$ 是质量函数, $L_n$ 是这组数据的联合概率; 在连续模型中 $L_n$ 是联合密度, 不是观察到精确点的概率. 最大似然估计是任一可测选择
+\[
+ \widehat\theta_n\in\argmax_{\theta\in\Theta}L_n(X;\theta),
+\]
+前提是最大值达到且可进行这种选择. 当最大似然为正时, 取对数不改变最大化点, 可等价地最大化 $\ell_n$.
+\end{definition}
+似然把数据固定、把参数当作自变量. 它不要求关于 $\theta$ 的积分为1, 因而通常不是参数的概率密度. 最大值点可能不存在、可能不唯一, 这些均需针对模型检查.
+
+\originalsection{凹性与最大化的条件}
+\begin{definition}[凹函数]
+在凸集 $\Theta\subset\R^d$ 上, 函数 $h$ 凹是指
+\[
+ h(tu+(1-t)v)\ge th(u)+(1-t)h(v),\qquad 0\le t\le1.
+\]
+若 $u\ne v$, $0<t<1$ 时严格不等号成立, 称为严格凹. 凸与严格凸分别指 $-h$ 凹与严格凹.
+\end{definition}
+对 $h:\Theta\subset\R^d\to\R$, 梯度是由一阶偏导组成的列向量 $\nabla h=(\partial h/\partial\theta_j)_{j=1}^d$, Hessian是二阶偏导组成的矩阵 $D^2h=(\partial^2h/\partial\theta_j\partial\theta_k)_{j,k=1}^d$. 二阶偏导连续时混合偏导相等, Hessian为对称矩阵. 沿方向 $v$ 的一阶变化由 $\nabla h^\top v$ 给出, 二阶曲率由 $v^\top D^2hv$ 给出.
+
+\begin{proposition}[导数判别与极值]
+在开凸集上, 二次连续可微的 $h$ 凹当且仅当 Hessian $D^2h(\theta)$ 半负定. Hessian处处负定足以保证严格凹, 但不是必要条件. 对可微凹函数, 任一满足 $\nabla h(\theta_0)=0$ 的内点都是全局最大点. 严格凹函数最多有一个最大点; 若最大点在内点, 必满足梯度为0.
+\end{proposition}
+\begin{proof}
+沿任意线段考察 $\varphi(t)=h(u+t(v-u))$, 则 $\varphi''(t)=(v-u)^\top D^2h(u+t(v-u))(v-u)$. 一元二阶导数非正与凹性等价, 因而得到半负定判别. 负定使每条非平凡线段上的导数严格减小, 从而严格凹. 凹函数的切平面位于函数图像之上:
+$h(v)\le h(u)+\nabla h(u)^\top(v-u)$, 这由沿线段的差商单调性得到. 在驻点右侧为 $h(u)$, 所以它是全局最大点. 两个不同最大点会使中点的函数值严格大于最大值, 因而严格凹时唯一. 内点极值的梯度为0来自各坐标方向的一阶必要条件.
+\end{proof}
+例如 $-\theta^2$, $\sqrt\theta$ ($\theta>0$), $\log\theta$ 均严格凹; $\sin\theta$ 在 $[0,\pi]$ 凹, 其内部二阶导数严格为负; $2\theta-3$ 同时凹和凸但不严格. 函数 $-\theta^4$ 严格凹, 二阶导数在0却为0, 说明负定条件不能写成严格凹的充要条件. 多元函数 $-\theta_1^2-2\theta_2^2$ 的Hessian为 $\diag(-2,-4)$, 严格凹; $-(\theta_1-\theta_2)^2$ 沿 $(1,1)$ 方向恒定, 仅凹. 在 $\theta_1+\theta_2>0$ 上, $\log(\theta_1+\theta_2)$ 的Hessian为
+\[
+ -\frac{1}{(\theta_1+\theta_2)^2}\begin{pmatrix}1&1\\1&1\end{pmatrix},
+\]
+也仅凹, 因其沿保持两坐标之和的方向不变.
+
+严格凹不保证最大值存在, 如 $h(\theta)=\log\theta$ 在 $(0,\infty)$ 上无最大值. 最大点位于边界时, 也未必是驻点, 如在 $[0,1]$ 上最大化 $h(\theta)=\theta$. 高次乘积 $\prod_i(\theta-X_i)$ 一般既不凹又可能有许多驻点, 求一个导数零点不能解决全局最大化. 似然计算要先认清定义域、边界及目标的形状, 再决定是否能用得分方程.
+
+\originalsection{典型模型的最大似然计算}
+\begin{example}
+分别求Bernoulli成功概率与Poisson均值的最大似然估计, 并检查开参数空间中的边界样本.
+\end{example}
+\begin{solution}
+设 $S=\sum_iX_i$. Bernoulli模型的似然为 $p^S(1-p)^{n-S}$. 若 $0<S<n$, 则
+\[
+ \ell_n'(p)=\frac Sp-\frac{n-S}{1-p}=\frac{S-np}{p(1-p)},\qquad
+ \ell_n''(p)=-\frac S{p^2}-\frac{n-S}{(1-p)^2}<0.
+\]
+唯一最大点为 $\widehat p_n=S/n$. 若 $S=0$ 或 $S=n$, 在开参数空间 $(0,1)$ 上只有分别趋于0或1的上确界, 没有MLE. 把模型扩为 $p\in[0,1]$ 后, 样本均值在所有样本上都是MLE.
+
+Poisson模型的似然为 $e^{-n\lambda}\lambda^S/\prod_iX_i!$. 当 $S>0$,
+\[
+ \ell_n'(\lambda)=-n+S/\lambda,\qquad
+ \ell_n''(\lambda)=-S/\lambda^2<0,
+\]
+故 $\widehat\lambda_n=S/n$. 若 $S=0$, 开空间 $\lambda>0$ 上同样没有达到的最大值. 若允许 $\lambda=0$ 的退化Poisson分布, MLE为0. 真实参数为正时全零事件概率 $e^{-n\lambda}$ 趋于0, 可在该事件上约定一个值而不影响渐近分布, 但该约定不能被称为原开模型的MLE.
+\end{solution}
+
+\begin{example}
+求独立同分布指数样本的到达率MLE, 并判断它是否无偏.
+\end{example}
+\begin{solution}
+指数模型的似然为 $\lambda^n\exp(-\lambda\sum_iT_i)$, 对数似然为 $n\log\lambda-\lambda\sum_iT_i$. 其二阶导数 $-n/\lambda^2<0$, 且 $T_i>0$ 几乎处处, 唯一最大点为 $\widehat\lambda_n=n/\sum_iT_i=1/\overline T_n$. 前章得到的估计因此也是MLE. 若 $n>1$, $\sum_iT_i$ 的 Gamma 密度给出 $\E\widehat\lambda_n=n\lambda/(n-1)$, 所以一致MLE并不必然无偏.
+\end{solution}
+
+\begin{example}
+求正态模型中均值与方差的联合MLE, 检查存在条件并计算方差MLE的偏差.
+\end{example}
+\begin{solution}
+设 $X_i\sim N(\mu,v)$, $v>0$. 对数似然为
+\[
+ \ell_n(\mu,v)=-\frac n2\log(2\pi)-\frac n2\log v-
+ \frac1{2v}\sum_i(X_i-\mu)^2.
+\]
+固定 $v$ 时, 利用
+\[
+ \sum_i(X_i-\mu)^2=\sum_i(X_i-\overline X_n)^2+n(\overline X_n-\mu)^2,
+\]
+唯一最优均值为 $\overline X_n$. 记 $Q=\sum_i(X_i-\overline X_n)^2$. 代入后关于 $v$ 的导数为 $(Q-nv)/(2v^2)$. 若 $Q>0$, 导数在 $Q/n$ 左侧为正、右侧为负, 故全局最大点为
+\[
+ \widehat\mu_n=\overline X_n,\qquad
+ \widehat v_n=\frac1n\sum_i(X_i-\overline X_n)^2.
+\]
+此处无需声称对 $(\mu,v)$ 联合严格凹. 若 $Q=0$, 在 $\mu=\overline X_n$, $v\downarrow0$ 时似然无界, 不存在MLE. 对连续正态样本, $n\ge2$ 时 $Q>0$ 几乎处处; $n=1$ 则必然不存在联合MLE.
+
+又因 $Q=\sum_i(X_i-\mu)^2-n(\overline X_n-\mu)^2$, 取期望得到 $\E Q=(n-1)v$. 因而方差MLE有偏差 $-v/n$, 而 $Q/(n-1)$ 无偏. 两者都一致, 无偏版本与MLE分母不同的原因在这里可以直接看出.
+\end{solution}
+
+\originalsection{得分、Fisher信息与信息下界}
+\begin{definition}[得分与Fisher信息]
+在可微密度模型中, 单次观测的得分向量是
+$s_\theta(X)=\nabla_\theta\log f_\theta(X)$. 当其平方可积且 $\E_\theta s_\theta=0$ 时, 单次观测的Fisher信息为
+\[
+ I(\theta)=\E_\theta[s_\theta s_\theta^\top]=\Cov_\theta(s_\theta).
+\]
+独立样本的总得分是 $S_n(\theta)=\sum_i s_\theta(X_i)$, 总信息为 $nI(\theta)$.
+\end{definition}
+得分表示对数密度对参数的局部敏感性, 信息矩阵衡量这种敏感性在各参数方向的均方大小. 这些等式需要正则性, 不能只凭“几乎处处二次可微”得到.
+
+\begin{proposition}[信息的两个表达式]
+假设参数属于开集, 密度的支撑不依赖参数, $f_\theta$ 在共同支撑上正且二次可微, 并可将归一化积分的一阶、二阶求导移入积分. 假设有关得分和二阶导数的期望有限. 则
+\[
+ \E_\theta s_\theta=0,\qquad
+ I(\theta)=-\E_\theta D^2_\theta\log f_\theta(X).
+\]
+\end{proposition}
+\begin{proof}
+对 $\int f_\theta\,\mathrm d\nu=1$ 求导, 得 $\int\nabla f_\theta\,\mathrm d\nu=0$, 而 $\nabla f_\theta=f_\theta s_\theta$, 所以得分均值为0. 再求导, 用
+\[
+ D^2 f_\theta=f_\theta\{D^2\log f_\theta+s_\theta s_\theta^\top\},
+\]
+积分等于零便得信息等式. 各样本得分独立且均值零, 协方差相加, 所以总信息为 $nI(\theta)$.
+\end{proof}
+
+\begin{example}
+计算Bernoulli、Poisson、指数以及正态均值方差模型的单次Fisher信息.
+\end{example}
+\begin{solution}
+Bernoulli得分为 $(X-p)/(p(1-p))$, 信息为 $1/(p(1-p))$. Poisson得分为 $X/\lambda-1$, 信息为 $1/\lambda$. 指数到达率的得分为 $1/\lambda-T$, 信息为 $1/\lambda^2$. 正态参数取 $(\mu,v)$ 时,
+\[
+ s_{\mu,v}(X)=\begin{pmatrix}(X-\mu)/v\\-1/(2v)+(X-\mu)^2/(2v^2)\end{pmatrix},
+ \qquad I(\mu,v)=\begin{pmatrix}1/v&0\\0&1/(2v^2)\end{pmatrix}.
+\]
+交叉项为0是因为中心正态的三阶矩为0; 第二个对角元利用 $\E(X-\mu)^4=3v^2$ 得到. 信息会随参数化改变, 例如以标准差而非方差为坐标时, 对应的数值不同.
+\end{solution}
+
+\begin{theorem}[Cram\'er--Rao下界]
+考虑一维正则模型, 单次信息 $0<I(\theta)<\infty$. 若统计量 $T_n$ 二阶矩有限, 且可对其期望求导移入积分, 记 $m(\theta)=\E_\theta T_n$. 则
+\[
+ \Var_\theta(T_n)\ge\frac{m'(\theta)^2}{nI(\theta)}.
+\]
+特别地, 无偏估计量满足 $\Var_\theta(T_n)\ge1/(nI(\theta))$.
+\end{theorem}
+\begin{proof}
+对联合密度求导得
+\[
+ m'(\theta)=\E_\theta[T_n S_n(\theta)]
+ =\E_\theta[(T_n-m(\theta))S_n(\theta)],
+\]
+最后使用总得分均值为0. Cauchy--Schwarz不等式给
+$m'(\theta)^2\le\Var_\theta(T_n)\E_\theta S_n(\theta)^2
+=\Var_\theta(T_n)nI(\theta)$, 得到结论. 若 $T_n$ 无偏, $m(\theta)=\theta$, 导数为1.
+\end{proof}
+有偏估计量不能直接套用无偏版本; 若偏差为 $b(\theta)$, 分子应为 $(1+b'(\theta))^2$. 等号要求中心化估计量与总得分成比例. Bernoulli与Poisson的样本均值达到各自下界. 向量情形, 若 $T_n$ 无偏估计整个参数且 $I$ 正定, 则 $\Cov(T_n)\succeq(nI)^{-1}$. 证明对向量 $T_n-\theta-(nI)^{-1}S_n$ 求协方差, 其半正定性给出该不等式; 交叉协方差 $\E[(T_n-\theta)S_n^\top]$ 为单位矩阵, 来自各坐标期望的求导.
+
+\originalsection{MLE的一致性与渐近正态性}
+可识别性、共同支撑、真实参数为内点与信息非奇异都很重要, 但单列这几条还不足以构成完整的一般MLE定理. 例如逐点大数定律不控制随样本移动的最大值点. 下面分别给出一致性的可检查版本和从得分展开推出正态极限的版本.
+
+\begin{theorem}[紧参数空间上的一致性]
+设 $\Theta\subset\R^d$ 紧, $m(\theta)=\E_{\theta_*}\log f_\theta(X)$ 有限连续, 并有唯一最大点 $\theta_*$. 假设经验目标 $M_n(\theta)=n^{-1}\ell_n(\theta)$ 满足
+\[
+ \sup_{\theta\in\Theta}|M_n(\theta)-m(\theta)|\pto0.
+\]
+若可测估计量满足 $M_n(\widehat\theta_n)\ge M_n(\theta_*)-r_n$, 其中 $r_n\pto0$, 则 $\widehat\theta_n\pto\theta_*$. 特别地, 已存在的MLE满足该结论.
+\end{theorem}
+\begin{proof}
+对任意 $\varepsilon>0$, 紧集 $K_\varepsilon=\{\theta\in\Theta:\norm{\theta-\theta_*}\ge\varepsilon\}$ 上由连续性与唯一性得到严格间隙
+$\delta=m(\theta_*)-\max_{K_\varepsilon}m>0$, 若该集空则结论直接成立. 在统一误差小于 $\delta/3$ 且 $r_n<\delta/3$ 的事件上, 每个 $\theta\in K_\varepsilon$ 的经验值都比 $M_n(\theta_*)-r_n$ 小, 所以估计量不能落入该集. 该事件概率趋于1, 得一致性.
+\end{proof}
+正确设定且可识别的模型中, KL非负性保证 $m$ 的唯一最大点, 前提是对数期望均有定义并有限. 统一大数定律是本定理额外要求. 一项常用充分条件为 $\log f_\theta(x)$ 关于 $\theta$ 连续, 且存在可积包络 $H$ 使 $\sup_\Theta|\log f_\theta(X)|\le H(X)$. 其理由是: 紧性给有限覆盖, 连续性使局部振荡趋于0, 包络与控制收敛使振荡期望也趋于0, 再对有限个中心点及振荡使用大数定律. 非紧参数空间需要另行防止最大化点逃向无穷远, 不能省略这一环节.
+
+\begin{theorem}[得分展开的渐近正态性]
+设 $\theta_*\in\operatorname{int}\Theta$, $\widehat\theta_n\pto\theta_*$. 假设在 $\theta_*$ 的某个凸邻域 $U$ 上对数密度二次连续可微, 单次得分均值为0且协方差 $I(\theta_*)$ 有限正定. 设 $\widehat\theta_n$ 以概率趋于1为满足 $\nabla\ell_n(\widehat\theta_n)=0$ 的内点, 并假设
+\[
+ \sup_{\theta\in U}\left\|
+ \frac1n D^2\ell_n(\theta)-\E_{\theta_*}D^2\log f_\theta(X)
+ \right\|\pto0,
+\]
+其中期望矩阵关于 $\theta$ 在 $\theta_*$ 连续, 且其在 $\theta_*$ 为 $-I(\theta_*)$. 则
+\[
+ \sqrt n(\widehat\theta_n-\theta_*)\dto
+ N_d(0,I(\theta_*)^{-1}).
+\]
+\end{theorem}
+\begin{proof}
+在 $\widehat\theta_n\in U$ 且得分为0的事件上, 沿线段积分导数, 得
+\[
+ 0=\frac1{\sqrt n}\nabla\ell_n(\theta_*)+
+ H_n\sqrt n(\widehat\theta_n-\theta_*),\qquad
+ H_n=\int_0^1\frac1nD^2\ell_n(\theta_*+t(\widehat\theta_n-\theta_*))\,\mathrm dt.
+\]
+统一收敛、一致性与期望矩阵连续性给 $H_n\pto-I(\theta_*)$. 正定性使其以概率趋于1可逆. 多元中心极限定理给
+$n^{-1/2}\sum_i s_{\theta_*}(X_i)\dto N_d(0,I(\theta_*))$.
+多元中心极限定理在此作为概率先修调用, 可由每个线性组合的一元中心极限定理与Cram\'er--Wold定理获得. 因而
+\[
+ \sqrt n(\widehat\theta_n-\theta_*)=-H_n^{-1}
+ \frac1{\sqrt n}\sum_i s_{\theta_*}(X_i)
+ \dto N_d(0,I^{-1}II^{-1})=N_d(0,I^{-1}),
+\]
+这里矩阵逆在非奇异矩阵处连续, 并用向量形式的Slutsky定理. 排除事件的概率趋于0, 不改变分布极限.
+\end{proof}
+这些明确假设把源讲义中的“其他技术条件”拆开了: 先以统一目标控制得到一致性, 再用统一Hessian控制合法展开. 不能只用一个未经证明的“MLE一般一致”代替第一步. 许多模型可以直接算出MLE并单独用大数定律验证一致性, 不必强行放进紧参数空间定理.
+
+若 $\widehat I_n\pto I(\theta_*)$ 且正定, 则对第 $j$ 个坐标, 令 $\widehat v_{j,n}=(\widehat I_n^{-1})_{jj}$, 有
+\[
+ \frac{\sqrt n(\widehat\theta_{n,j}-\theta_{*,j})}{\sqrt{\widehat v_{j,n}}}\dto N(0,1).
+\]
+可取 $\widehat I_n=I(\widehat\theta_n)$, 前提是 $I$ 在真实参数处连续; 或用在MLE处的负样本平均Hessian, 前提是上面的一致控制成立. 于是 Wald 区间为 $[\widehat\theta_{n,j}\pm z_{1-\alpha/2}\sqrt{\widehat v_{j,n}/n}]$. 一维正则MLE的渐近方差 $I^{-1}$ 与无偏信息下界相呼应, 但渐近方差最优不能被理解为每个 $n$ 下二次风险都最小.
+
+\originalsection{参数决定支撑的非正则模型}
+\begin{example}
+对 $X_i\sim\operatorname{Unif}[0,\theta]$, 求 $\theta$ 的MLE、收敛速度和极限分布, 并构造精确置信区间.
+\end{example}
+\begin{solution}
+设 $X_i\sim\operatorname{Unif}[0,\theta]$, $\theta>0$, 令 $M_n=\max_iX_i$. 使用闭区间密度表示, 似然为
+\[
+ L_n(\theta)=\theta^{-n}\ind_{\{\theta\ge M_n\}}.
+\]
+在 $\theta\ge M_n$ 上严格递减, 所以 $\widehat\theta_n=M_n$ 是MLE, 几乎处处 $M_n>0$. 其分布为
+\[
+ \PP_\theta(M_n\le x)=(x/\theta)^n,\qquad0\le x\le\theta.
+\]
+对 $0<\varepsilon<\theta$, $\PP_\theta(\theta-M_n>\varepsilon)=(1-\varepsilon/\theta)^n\to0$, 所以它一致. 实际上 $M_n$ 随 $n$ 单调且不超过 $\theta$, 该尾概率又表明其几乎处处极限必为 $\theta$, 故强一致.
+
+但对固定 $t\ge0$ 与充分大的 $n$,
+\[
+ \PP_\theta\left(\frac{n(\theta-M_n)}\theta>t\right)
+ =\left(1-\frac tn\right)^n\longrightarrow e^{-t}.
+\]
+因此 $n(\theta-M_n)/\theta\dto\operatorname{Exp}(1)$, 误差尺度是 $n^{-1}$, 极限不是正态. 形式上对 $\log f_\theta(X)=-\log\theta$ 求导给得分 $-1/\theta$, 其均值不为0; 这暴露了忽略移动支撑边界的求导错误. 正则信息等式与上节MLE定理不能应用.
+
+利用上述分布还能构造精确区间. $M_n/\theta$ 的分布函数为 $u^n$, 所以
+\[
+ \PP_\theta\left(M_n\le\theta\le M_n\alpha^{-1/n}\right)
+ =\PP_\theta(M_n/\theta\ge\alpha^{1/n})=1-\alpha.
+\]
+区间 $[M_n,M_n\alpha^{-1/n}]$ 在每个 $n$ 都有精确覆盖, 不必借助正态近似.
+\end{solution}
+这一例说明统计模型中的支撑条件有实质作用. 参数估计可以一致且比 $n^{-1/2}$ 更快, 同时完全不服从正则MLE的渐近结论. 下一章将用同一模型比较矩估计, 进一步看出计算方便与统计精度之间的差异.

@@ -1,0 +1,228 @@
+\originalchapter{统计模型与概率工具}
+\originalsection{从观测到统计模型}
+一次观测本身不能说明它将怎样重复. 统计推断需要给重复实验规定一个概率规律, 再讨论该规律中未知的部分. 例如, 在吻向偏好的观察中, 124对情侣中有80对向右转头, 样本比例为 $80/124\approx0.645$. 这个数大于 $1/2$, 但三次观察中的两次向右也会给出更大的比例 $2/3$. 只有把样本数量与随机波动联系起来, 才能判断这种差异提供了多少证据.
+
+令 $R_i$ 表示第 $i$ 对情侣是否向右, 向右记为1, 向左记为0. 因为 $R_i$ 只取两个值, 单个观测的分布必为某个 Bernoulli 分布. 然而, 各对情侣的成功概率可能不同, 不同观察也可能相关. 以下讨论作出更强的假设: 所有成功概率等于同一个 $p$, 且 $R_1,\ldots,R_n$ 相互独立. 此时
+\[
+ R_1,\ldots,R_n\overset{\mathrm{iid}}\sim\operatorname{Ber}(p),\qquad
+ \widehat p_n=\overline R_n=\frac1n\sum_{i=1}^nR_i.
+\]
+独立性可以由在不同时间、地点采集数据来支持, 但采集方式本身不是独立性的数学证明. 同分布则要求所研究的人群与实验条件足够稳定. 对固定的复杂现象加入随机噪声, 也是一种模型选择; 后续概率结论的有效性依赖这些选择.
+
+\begin{definition}[统计模型]
+设一次观测取值于可测空间 $(E,\mathcal E)$. 统计模型是概率测度族
+\[
+ (E,\mathcal E,\{\PP_\theta:\theta\in\Theta\}),
+\]
+其中 $E$ 称为单次观测的样本空间, $\Theta$ 为参数空间. 独立同分布的 $n$ 次观测所对应的实验具有样本空间 $E^n$ 与联合分布 $\PP_\theta^{\otimes n}$. 若 $\Theta\subset\R^d$ 且 $d$ 固定, 称其为参数模型.
+\end{definition}
+这里的 $\theta$ 是分布的标签, 不是随机观测. 若真实分布确为某个 $\PP_{\theta_*}$, 就称模型设定正确, $\theta_*$ 称为真实参数. 若真实分布不属于所选族, 参数估计仍可计算, 但原来关于 $\theta_*$ 的解释与保证须重新检查.
+
+\begin{example}
+写出Bernoulli、指数、Poisson与正态模型的样本空间、参数空间及概率质量函数或密度.
+\end{example}
+\begin{solution}
+Bernoulli模型为 $E=\{0,1\}$, $\Theta=(0,1)$, 质量函数为 $p^x(1-p)^{1-x}$. 指数模型为 $E=(0,\infty)$, $\lambda>0$, 密度为 $\lambda e^{-\lambda x}$. Poisson模型为 $E=\{0,1,2,\ldots\}$, $\lambda>0$, 质量函数为 $e^{-\lambda}\lambda^x/x!$. 正态模型为 $E=\R$, 参数 $(\mu,v)\in\R\times(0,\infty)$, 密度为
+\[
+ f_{\mu,v}(x)=\frac1{\sqrt{2\pi v}}\exp\left(-\frac{(x-\mu)^2}{2v}\right).
+\]
+为避免方差与标准差混淆, 本章把正态方差记为 $v=\sigma^2$.
+\end{solution}
+
+例如, 研究大学生家庭的孩子人数时, 可以分别估计取值 $1,2,\ldots,6,\ge7$ 的七个类别概率, 它们的和为1, 因而有六个自由参数. 也可以选一个只有单参数的计数模型来减少估计负担. 但包含本人后的孩子人数至少为1, 普通 Poisson 分布仍给0正概率. 若坚持这一数据定义, 应使用 $1+\operatorname{Poiss}(\lambda)$ 或零截断 Poisson 等适当模型, 或明确承认普通 Poisson 只是近似. 参数少不等于模型正确.
+
+\begin{definition}[可识别性]
+模型可识别, 是指映射 $\theta\mapsto\PP_\theta$ 为单射, 即
+\[
+ \PP_\theta=\PP_{\theta'}\quad\Longrightarrow\quad\theta=\theta'.
+\]
+\end{definition}
+若两个不同参数给出同一观测分布, 无论观测多少次, 数据都不能区分它们. 前述四个常见模型均可识别: Bernoulli成功概率、指数均值的倒数、Poisson均值、正态均值和方差分别由分布确定.
+
+\begin{example}
+设 $Y_i\sim N(\mu,\sigma^2)$, 只观察 $X_i=\ind_{\{Y_i\ge0\}}$. 判断 $\mu,\sigma$ 及比值 $\mu/\sigma$ 是否可识别.
+\end{example}
+\begin{solution}
+若未观测的 $Y_i\sim N(\mu,\sigma^2)$, 而实际只记录 $X_i=\ind_{\{Y_i\ge0\}}$, 则
+\[
+ \PP_{\mu,\sigma}(X_i=1)=\Phi(\mu/\sigma),
+\]
+其中 $\Phi$ 是标准正态分布函数. 将 $(\mu,\sigma)$ 同时乘任意正数不改变此概率. 因而 $\mu,\sigma$ 不能分别识别. 由于 $\Phi$ 严格递增, 比值 $\eta=\mu/\sigma$ 可识别. 这说明应根据实际记录的观测设计参数, 不能把未记录的量当作已经观察到.
+\end{solution}
+
+\originalsection{收敛概念与基本运算}
+渐近统计讨论样本量趋于无穷时的行为. 必须区分逐条样本路径的接近、出现大误差的概率减小, 以及分布形状接近. 以下随机变量定义于同一概率空间时才讨论几乎处处、概率或 $L^q$ 收敛; 分布收敛只比较各自的分布, 不要求这种共同实现.
+
+\begin{definition}[四种收敛]
+对随机变量 $T_n,T$, 几乎处处收敛指 $\PP(\{\omega:T_n(\omega)\to T(\omega)\})=1$. 概率收敛 $T_n\pto T$ 指对每个 $\varepsilon>0$, $\PP(|T_n-T|>\varepsilon)\to0$. 当 $q\ge1$ 时, $L^q$ 收敛指 $\E|T_n-T|^q\to0$. 分布收敛 $T_n\dto T$ 指在 $T$ 的分布函数所有连续点 $x$ 处,
+\[
+ \PP(T_n\le x)\longrightarrow\PP(T\le x).
+\]
+随机向量的前三种定义以范数代替绝对值; 分布收敛可用下述有界连续函数刻画.
+\end{definition}
+
+\begin{theorem}[分布收敛的概率先修]
+$T_n\dto T$ 等价于对所有有界连续函数 $f$, $\E f(T_n)\to\E f(T)$. 对实随机变量, 也等价于对每个 $t\in\R$, 特征函数 $\E e^{itT_n}\to\E e^{itT}$. 若 $T_n\dto T$ 且 $g$ 在 $T$ 几乎必然落入的点处连续, 则 $g(T_n)\dto g(T)$.
+\end{theorem}
+本章调用概率论中的弱收敛刻画、特征函数连续性定理与连续映射定理, 不在此重建其测度论证明. 对有界连续 $g$, 连续映射结论直接来自对 $f\circ g$ 使用刻画; 一般连续 $g$ 亦如此, 因为测试函数 $f$ 有界而 $f\circ g$ 仍有界连续. 允许零概率不连续点的版本属于所调用的概率先修.
+
+\begin{proposition}[收敛间的关系]
+几乎处处收敛蕴含概率收敛; $L^q$ 收敛蕴含概率收敛及 $L^r$ 收敛 ($1\le r\le q$); 概率收敛蕴含分布收敛. 这些推出关系中的极限一致, 对共同空间的概率极限而言是一致到几乎处处相等.
+\end{proposition}
+\begin{proof}
+几乎处处收敛使 $\ind_{\{|T_n-T|>\varepsilon\}}\to0$ 几乎处处, 由控制收敛定理其期望趋于0. Markov不等式给出
+\[
+ \PP(|T_n-T|>\varepsilon)\le\varepsilon^{-q}\E|T_n-T|^q,
+\]
+而 Jensen 不等式给出 $\E|T_n-T|^r\le(\E|T_n-T|^q)^{r/q}$. 对任意 $\delta>0$,
+\[
+ \PP(T\le x-\delta)-\PP(|T_n-T|>\delta)
+ \le\PP(T_n\le x)
+ \le\PP(T\le x+\delta)+\PP(|T_n-T|>\delta).
+\]
+先令 $n\to\infty$, 再在连续点令 $\delta\downarrow0$, 即得分布收敛. 若 $T_n$ 同时概率收敛到 $T,U$, 则
+$\PP(|T-U|>\varepsilon)\le\PP(|T-T_n|>\varepsilon/2)+\PP(|T_n-U|>\varepsilon/2)\to0$, 所以 $T=U$ 几乎处处.
+\end{proof}
+
+连续函数保持几乎处处收敛, 因为可逐条路径应用普通连续性. 它也保持概率收敛: 先在一个概率任意接近1的有界区域内限制 $T$, 再用该区域附近的连续性控制 $g(T_n)-g(T)$. 由此, 两个几乎处处或概率收敛的序列可以相加、相乘; 除法还需极限分母不为0几乎处处. 概率情形可先用并集界得到 $(U_n,V_n)\pto(U,V)$, 再应用连续性.
+
+\begin{example}
+构造两个各自分布收敛的随机变量序列, 使它们的和不分布收敛.
+\end{example}
+\begin{solution}
+设 $Z\sim N(0,1)$, $U_n=Z$, $V_n=(-1)^nZ$. 两个序列都具有固定的标准正态分布, 因而各自分布收敛. 但 $U_n+V_n$ 在偶数项是 $2Z$, 奇数项恒为0, 不存在共同的分布极限. 只有获得联合分布收敛后, 才能对分布极限直接做这些运算.
+\end{solution}
+
+\begin{theorem}[Slutsky定理]
+若 $U_n\dto U$, $V_n\pto c$, 其中 $c$ 是常向量, 则 $(U_n,V_n)\dto(U,c)$. 因此 $U_n+V_n\dto U+c$, 标量情形 $U_nV_n\dto cU$, 若 $c\ne0$ 则 $U_n/V_n\dto U/c$, 其中在 $V_n=0$ 的事件上将比值任意定义为0. 该事件的概率不超过 $\PP(|V_n-c|\ge|c|)$, 因而趋于0, 不改变分布极限.
+\end{theorem}
+\begin{proof}
+由分布收敛, $U_n$ 的分布紧: 对任意 $\varepsilon>0$, 可取 $M$ 使充分大的 $n$ 满足 $\PP(\norm{U_n}>M)<\varepsilon$. 这个结论可由在连续点比较分布函数得到; 向量情形逐坐标并集界即可. 对任意有界连续 $h$, 在 $\{\norm u\le M,\norm{v-c}\le1\}$ 上一致连续, 因而当 $\norm{v-c}\le\delta$ 时, $|h(u,v)-h(u,c)|$ 可一致地小于 $\varepsilon$. 在补集上用 $2\sup|h|$ 控制, 得到
+\[
+ |\E h(U_n,V_n)-\E h(U_n,c)|
+ \le\varepsilon+2\sup|h|\{\varepsilon+\PP(\norm{V_n-c}>\delta)\}.
+\]
+令 $n\to\infty$ 并使 $\varepsilon\downarrow0$, 再利用 $U_n\dto U$ 应用于 $u\mapsto h(u,c)$, 即得联合收敛. 后面的结论来自连续映射定理.
+\end{proof}
+
+\originalsection{大数定律、中心极限定理与偏好比例}
+\begin{theorem}[独立同分布的概率先修]
+设 $X_1,X_2,\ldots$ 独立同分布, $\overline X_n=n^{-1}\sum_iX_i$. 若 $\E|X_1|<\infty$, 则 $\overline X_n\to\mu=\E X_1$ 几乎处处, 因而也依概率收敛. 若另外 $0<\sigma^2=\Var(X_1)<\infty$, 则
+\[
+ \sqrt n(\overline X_n-\mu)\dto N(0,\sigma^2),\qquad
+ \frac{\sqrt n(\overline X_n-\mu)}{\sigma}\dto N(0,1).
+\]
+\end{theorem}
+这里调用独立同分布强大数定律和中心极限定理, 作为本学科概率先修. 有限方差时弱大数定律可直接证明: $\Var(\overline X_n)=\sigma^2/n$, Chebyshev不等式给 $\PP(|\overline X_n-\mu|>\varepsilon)\le\sigma^2/(n\varepsilon^2)\to0$. 强大数定律允许只有一阶矩, 中心极限定理则控制 $n^{-1/2}$ 尺度的波动; 两者用途不同.
+
+对 Bernoulli 模型, $\E R_i=p$, $\Var(R_i)=p(1-p)$, 故 $\widehat p_n\to p$ 几乎处处. 当固定 $p\in(0,1)$ 时,
+\[
+ \frac{\sqrt n(\widehat p_n-p)}{\sqrt{p(1-p)}}\dto N(0,1).
+\]
+记 $z_{1-\alpha/2}$ 为标准正态的 $1-\alpha/2$ 分位数. 极限分布在两端点连续, 因而
+\[
+ \PP_p\left(|\widehat p_n-p|\le z_{1-\alpha/2}\sqrt{\frac{p(1-p)}n}\right)\to1-\alpha.
+\]
+这是以未知 $p$ 表示的误差概率, 还不是可由数据直接计算的区间. 利用 $p(1-p)\le1/4$, 可得到区间
+\[
+ I_n^{\mathrm{cons}}=
+ \left[\widehat p_n-\frac{z_{1-\alpha/2}}{2\sqrt n},
+       \widehat p_n+\frac{z_{1-\alpha/2}}{2\sqrt n}\right]\cap[0,1].
+\]
+对每个固定 $p$, 其覆盖概率的下极限至少为 $1-\alpha$. 若 $0<p<1$ 且 $p\ne1/2$, 实际极限为 $2\Phi(z_{1-\alpha/2}/(2\sqrt{p(1-p)}))-1$, 一般更大. 124次观察与 $\alpha=0.05$ 给出约 $[0.557,0.733]$. 三次观察则给出截断前约 $[0.101,1.233]$, 这个计算不能据中心极限定理保证小样本覆盖率. 小样本可以从 $n\widehat p_n\sim\operatorname{Bin}(n,p)$ 的精确概率出发.
+
+另一种处理未知方差的方法是代入 $\widehat p_n$. 由一致性与连续性, $\widehat p_n(1-\widehat p_n)\pto p(1-p)>0$. 在全0或全1样本上把下式标准化统计量约定为0; 对固定内点 $p$, 这种事件的概率为 $(1-p)^n+p^n\to0$. Slutsky定理给
+\[
+ \frac{\sqrt n(\widehat p_n-p)}{\sqrt{\widehat p_n(1-\widehat p_n)}}\dto N(0,1),
+\]
+从而可计算的 Wald 区间
+\[
+ I_n^{\mathrm W}=\left[
+ \widehat p_n-z_{1-\alpha/2}\sqrt{\frac{\widehat p_n(1-\widehat p_n)}n},
+ \widehat p_n+z_{1-\alpha/2}\sqrt{\frac{\widehat p_n(1-\widehat p_n)}n}
+ \right]\cap[0,1]
+\]
+对固定内点 $p$ 有极限覆盖率 $1-\alpha$. 在全0或全1样本上区间会退化; 这不影响固定内点的渐近结论, 却提示它在小样本或靠近边界时可能很差. 渐近结论不自动在随 $n$ 接近边界的参数序列上一致成立.
+
+\originalsection{有界观测的有限样本控制}
+\begin{lemma}[Hoeffding引理]
+若 $a\le X\le b$ 几乎处处, 则对任意 $t\in\R$,
+\[
+ \E\exp\{t(X-\E X)\}\le\exp\{t^2(b-a)^2/8\}.
+\]
+\end{lemma}
+\begin{proof}
+令 $K(t)=\log\E e^{t(X-\E X)}$. 有界性允许求导与期望交换. $K(0)=K'(0)=0$, 且 $K''(t)$ 等于以指数因子倾斜后的概率分布下 $X$ 的方差. 任意支撑于 $[a,b]$ 的分布都有
+\[
+ \Var(X)\le\E(X-(a+b)/2)^2\le(b-a)^2/4.
+\]
+因此 $K''(t)\le(b-a)^2/4$. 对 $t\ge0$ 积分两次得 $K(t)\le t^2(b-a)^2/8$; 对 $t<0$ 对反方向积分或对 $-X$ 使用同一结果. 指数化即得结论.
+\end{proof}
+
+\begin{theorem}[Hoeffding不等式]
+若 $X_1,\ldots,X_n$ 独立同分布, $a<b$ 且 $a\le X_i\le b$ 几乎处处, $\mu=\E X_i$, 则对 $u>0$,
+\[
+ \PP(|\overline X_n-\mu|\ge u)\le2\exp\left(-\frac{2nu^2}{(b-a)^2}\right).
+\]
+\end{theorem}
+\begin{proof}
+由Markov不等式、独立性和引理, 对 $t>0$,
+\[
+ \PP\left(\sum_i(X_i-\mu)\ge nu\right)
+ \le e^{-tnu}\prod_i\E e^{t(X_i-\mu)}
+ \le\exp\{-tnu+nt^2(b-a)^2/8\}.
+\]
+取 $t=4u/(b-a)^2$ 给出上尾界 $e^{-2nu^2/(b-a)^2}$. 对 $-X_i$ 得下尾界, 两尾相加完成证明.
+\end{proof}
+对偏好比例, 取 $a=0,b=1$ 并解 $2e^{-2nu^2}=\alpha$, 得到
+\[
+ I_n^{\mathrm H}=\left[\widehat p_n-\sqrt{\frac{\log(2/\alpha)}{2n}},
+ \widehat p_n+\sqrt{\frac{\log(2/\alpha)}{2n}}\right]\cap[0,1].
+\]
+对每个 $n\ge1$ 与每个 $p\in[0,1]$, 这个区间的覆盖率至少 $1-\alpha$. 它通常宽于正态近似区间, 换来的是不用等待 $n$ 足够大的明确保证. 想使半宽不超过 $\varepsilon$, 只需 $n\ge\log(2/\alpha)/(2\varepsilon^2)$.
+
+\originalsection{Delta方法与到站间隔的估计}
+观察地铁到站的间隔 $T_1,\ldots,T_n$, 假设它们独立且服从同一指数分布 $\operatorname{Exp}(\lambda)$, 其中 $\lambda>0$ 为到达率. 指数分布的无记忆性来自
+\[
+ \PP(T>t+s\mid T>t)=\frac{e^{-\lambda(t+s)}}{e^{-\lambda t}}=e^{-\lambda s},\qquad s,t\ge0.
+\]
+这种模型描述等待时间的剩余部分不依赖已等待多久. 它不等于真实列车一定无记忆, 也不证明连续间隔独立. 同一个 $\lambda$ 通常只应描述相对稳定的时段, 不宜混合高峰与深夜.
+
+积分或指数分布矩公式给出 $\E T_i=1/\lambda$, $\Var(T_i)=1/\lambda^2$. 因而自然估计量为
+\[
+ \widehat\lambda_n=\frac1{\overline T_n}.
+\]
+$\overline T_n>0$ 几乎处处, 强大数定律和倒数的连续性给 $\widehat\lambda_n\to\lambda$ 几乎处处. 中心极限定理先给出 $\sqrt n(\overline T_n-1/\lambda)\dto N(0,\lambda^{-2})$. 要求到达率的误差, 需要把这个极限传递给倒数函数.
+
+\begin{theorem}[一元Delta方法]
+若 $\sqrt n(Z_n-\eta)\dto N(0,\tau^2)$, 且 $g$ 在 $\eta$ 附近有定义并在 $\eta$ 可微, 则
+\[
+ \sqrt n\{g(Z_n)-g(\eta)\}\dto N(0,g'(\eta)^2\tau^2).
+\]
+若 $g'(\eta)=0$, 右侧是集中于0的退化分布, 不能据此宣称存在非退化的正态近似.
+\end{theorem}
+\begin{proof}
+分布收敛使 $A_n=\sqrt n(Z_n-\eta)$ 依概率有界, 即对每个 $\varepsilon>0$ 可取 $M$ 使充分大的 $n$ 满足 $\PP(|A_n|>M)<\varepsilon$. 因而 $Z_n-\eta\pto0$. 可微性给
+\[
+ g(\eta+h)-g(\eta)=g'(\eta)h+h r(h),\qquad r(h)\to0.
+\]
+于是左侧为 $g'(\eta)A_n+A_n r(Z_n-\eta)$. 余项依概率趋于0: 先限制 $|A_n|\le M$, 再用 $r(Z_n-\eta)\pto0$. 用Slutsky定理即得结论. 若估计量偶尔不在函数定义域, 只要该事件概率趋于0, 可在其上任意定义而不改变极限.
+\end{proof}
+
+取 $g(t)=1/t$, $\eta=1/\lambda$, $g'(\eta)=-\lambda^2$, 得
+\[
+ \sqrt n(\widehat\lambda_n-\lambda)\dto N(0,\lambda^2).
+\]
+未知标准差为 $\lambda$. 一种做法直接反解事件
+$|\widehat\lambda_n-\lambda|\le c_n\lambda$, 其中 $c_n=z_{1-\alpha/2}/\sqrt n$. 当 $c_n<1$ 时, 它等价于
+\[
+ \frac{\widehat\lambda_n}{1+c_n}\le\lambda\le
+ \frac{\widehat\lambda_n}{1-c_n}.
+\]
+因此反解区间为 $[\widehat\lambda_n/(1+c_n),\widehat\lambda_n/(1-c_n)]$, 两端均可计算且为正. 当 $c_n\ge1$ 时不能沿用这个双侧反解公式; 其中上界条件不再提供有限上界.
+
+更通用的做法是用一致估计量代替未知标准差. 因为 $\widehat\lambda_n\pto\lambda>0$, Slutsky定理给出
+\[
+ \frac{\sqrt n(\widehat\lambda_n-\lambda)}{\widehat\lambda_n}\dto N(0,1),
+\]
+所以 $[\widehat\lambda_n(1-c_n),\widehat\lambda_n(1+c_n)]\cap(0,\infty)$ 是渐近置信区间. 两个区间在有限样本中不同, 都有固定 $\lambda$ 下的同一极限覆盖率. 如需始终为正的区间, 还可对 $\log\widehat\lambda_n$ 使用Delta方法: 其渐近方差为1, 从而得到 $[\widehat\lambda_ne^{-c_n},\widehat\lambda_ne^{c_n}]$. 这是对同一极限工具的另一种应用.
