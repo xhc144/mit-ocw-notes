@@ -1,28 +1,41 @@
-"""Create the stable, editable source archive; never bundle fonts or held notebooks.
+"""Package Chinese editable sources and reproducible experiment dependencies.
 
-Run within the complete repository after PDF/QA verification. Official assessment
-originals appear under originals/assessments in the ZIP; their manifest retains
-the repository-relative original paths and source URLs.
+The fixed class is embedded in main.tex. English originals remain in repository
+sources/; no originals, HTML, extracted text caches, or review reports are copied.
+An explicit list prevents post-publication QA/history files from entering the ZIP.
+The numerical checker in qa/ is executable experiment code, not a review report.
 """
 from pathlib import Path
 import hashlib
 import zipfile
 
 SUB = Path(__file__).resolve().parents[1]
-REPO = SUB.parents[1]
-SOURCE = REPO / 'sources/18.335j-spring-2019/assessments'
 files = {}
-for name in ['main.tex', 'build.sh', 'README.md', 'LICENSE.md',
-             'source-coverage.json', 'source-manifest.json']:
+for name in [
+    'main.tex', 'build.sh', 'README.md', 'LICENSE.md',
+    'source-coverage.json', 'source-manifest.json',
+    'experiments/assessment-summation.pdf',
+    'experiments/nla_experiments.jl',
+    'experiments/assessment_checks.jl',
+    'experiments/assessment_checks.py',
+    'experiments/julia-results/base-experiments.txt',
+    'experiments/julia-results/checks.txt',
+    'experiments/julia-results/newton.csv',
+    'experiments/julia-results/qr.txt',
+    'experiments/julia-results/summation.csv',
+    'qa/check_numerical_examples.py',
+    'qa/numerical-example-checks.json',
+    'qa/assessment-numerical-checks.json',
+    'tools/package_source.py',
+]:
+    if not (SUB / name).is_file():
+        raise FileNotFoundError(name)
     files[name] = SUB / name
-for folder in ['chapters', 'assessments', 'experiments', 'tools', 'qa']:
-    for path in (SUB / folder).rglob('*'):
-        if path.is_file() and '__pycache__' not in path.parts and path.suffix not in ['.pyc', '.ipynb']:
-            files[str(path.relative_to(SUB))] = path
-for path in SOURCE.iterdir():
-    if path.is_file() and path.suffix in ['.pdf', '.txt', '.json']:
-        files['originals/assessments/' + path.name] = path
+for folder in ['chapters', 'assessments']:
+    for path in (SUB / folder).glob('*.tex'):
+        files[str(path.relative_to(SUB))] = path
 archive = SUB / 'dist/source.zip'
+archive.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(archive, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
     for name, path in sorted(files.items()):
         info = zipfile.ZipInfo(name, date_time=(2026, 10, 8, 0, 0, 0))

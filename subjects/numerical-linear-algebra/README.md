@@ -35,9 +35,11 @@ OCW默认CC BY-NC-SA 4.0，特殊署名与权利例外仍适用。另见LICENSE.
 
 脚本执行三轮XeLaTeX，将生成结果放在build/main.pdf。dist/main.pdf为已完成核验的发布PDF，不由本脚本覆盖。
 
+源码ZIP采用明确清单，只含中文TeX、嵌入主文件的固定模板、必要图、许可证、来源元数据及可复现数值实验脚本与数据。英文原始PDF、课程HTML和提取文本缓存在仓库[sources目录](https://github.com/xhc144/mit-ocw-notes/tree/main/sources/18.335j-spring-2019/)单独保留；审稿、视觉、远端交付及历史报告在仓库[qa目录](https://github.com/xhc144/mit-ocw-notes/tree/main/subjects/numerical-linear-algebra/qa/)保存，均不复制进源码ZIP。`qa/check_numerical_examples.py`及两份数值参考结果属于可复现实验，保留在ZIP中。运行`python3 tools/package_source.py`可按同一清单重新打包。
+
 主文件通过静态input引用chapters/和assessments/，所有路径按项目根解析。用户提供的math-latex-typesetting Skill可进一步执行validate.py进行模板、日志、PDF和渲染核验。
 
-Julia实验只用标准库：运行`julia --startup-file=no experiments/nla_experiments.jl`及`julia --startup-file=no experiments/assessment_checks.jl`。Python交叉验证运行`python3 experiments/assessment_checks.py`，需要NumPy、SciPy、Matplotlib、mpmath。已用Julia 1.10.10、Python 3.12.14实际运行；输出及版本记录随源码保存。获取原件工具须在仓库原目录运行，需BeautifulSoup及pdftotext/pdfinfo；外部notebook原件只作本地核对且被Git及源码ZIP排除。
+Julia实验只用标准库：运行`julia --startup-file=no experiments/nla_experiments.jl`及`julia --startup-file=no experiments/assessment_checks.jl`。Python交叉验证运行`python3 experiments/assessment_checks.py`，需要NumPy、SciPy、Matplotlib、mpmath；基础27项数值检查运行`python3 qa/check_numerical_examples.py`，需要NumPy。已用Julia 1.10.10、Python 3.12.14实际运行；输出及数值参考结果随源码保存。获取原件工具仅在完整仓库中提供，需BeautifulSoup及pdftotext/pdfinfo；外部notebook原件只作本地核对且被Git及源码ZIP排除。
 
 ## 检查边界
 
@@ -49,4 +51,4 @@ Julia实验只用标准库：运行`julia --startup-file=no experiments/nla_expe
 - 目录、书签及内部交叉引用已检查；源码ZIP在空目录独立解包、三轮XeLaTeX重编后逐页文本和渲染结果一致。
 - 行内矩阵高度等自动提醒已按实际页面复核，未发现截断或重叠；自动PASS不是数学或教学质量的自动认证。
 
-详细来源覆盖、构建哈希和检查记录在source-coverage.json与qa/中保存。最终PDF以交付清单中的SHA-256为准。
+详细来源覆盖见source-coverage.json；构建哈希、审稿及交付检查记录在仓库qa/中保存。最终PDF以交付清单中的SHA-256为准。
