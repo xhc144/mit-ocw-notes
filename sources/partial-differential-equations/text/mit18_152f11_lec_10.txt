@@ -1,0 +1,1075 @@
+MATH 18.152 COURSE NOTES - CLASS MEETING # 10
+18.152 Introduction to PDEs, Fall 2011
+Professor: Jared Speck
+Class Meeting # 10: Introduction to the Wave Equation
+1. What is the
+(
+wa
+)
+ve equation?
+The standard wave equation for a function u t,x (where t ∈R, x
+1
+∈Rn) is
+(1.0.1)
+∂2
+c
+t u
+∆u
+0.
+2
+(1.0.1) is second order and linear. The constan
+−
+t
++
+c
+0
+=
+is called the speed (this terminology will be
+length
+justiﬁed as
+→
+our
+∞
+course progresses), and it has dimensions
+>
+of
+. Note that heuristically speaking,
+time
+if we let c
+, then (1.0.1) becomes Laplace’s equation. However, as we will see, in order to have
+a well-posed problem for (1.0.1), we will need to specify Cauchy (i.e. initial data) for u and also
+∂tu. The fact that we need to specify Cauchy data is in stark contrast to Laplace’s equation, but
+is analogous to the heat equation. The fact that we need to specify two pieces of Cauchy data is
+connected to the fact that the wave equation is second order in time.
+2. Where does it come from?
+Equation (1.0.1) arises in an incredible variety of physical contexts, especially those involving
+disturbances that propagate at a ﬁnite speed. Let’s discuss how the wave equation arises as an
+approximation to the equations of ﬂuid mechanics. For simplicity, let’s only discuss the case of 1
+spatial dimension. The
++
+equations of ﬂuid mechanics, which are known as the Euler equations, take
+the following form in 1
+1 dimensions:
+(2.0.2a)
+∂tρ +
+(
+) +
+∂x ρv
+0,
+(2.0.2b)
+∂
+2
+(
+)
+t ρv
+(
+∂
+)
+x
+(
+ρv
+) =
+∂xp,
+where ρ t,x
+is the ﬂuid mass density, v t,x
+is the ﬂuid velocity, and p t,x
+Equation (2.0.2a) implies the conservation of mass,
+(
+and
+) = −
+equation (2.0.2b) is
+to the
+is created by
+(
+Newton’s
+the rate of change of ﬂuid momentum is equal
+force, which
+the
+) is the pressure.
+second law:
+pressure gradient
+(i.e., the −∂xp term). The Euler equations are highly nonlinear, and we are very far from obtaining
+a full understanding of how their solutions behave in general.
+A fundamental aspect of ﬂuid mechanics is that the system is not closed because there are not
+enough equations. A common method of achieving closure is by choosing an equation of state, which
+is a relationship between the ﬂuid variables. This relationship is often empirically determined. A
+commonly studied equation of state is
+(2.0.3a)
+p
+Kργ
+where γ > 1 and K > 0 are constants. For future
+=
+use, we note that under (2.0.3a), we have
+1
+
+
+2
+MATH 18.152 COURSE NOTES - CLASS MEETING # 10
+(2.0.3b)
+∂xp = Kγργ 1∂xρ,
+(2.0.3c)
+∂2
+xp = Kγργ
+−
+−1∂2
+xρ
+Kγ γ
+1 ργ−2 ∂xρ 2,
+Also for future use, we diﬀerentiate (2.0.2a)
+deduce that
++
+with
+(
+resp
+−
+ect
+)
+to
+(
+t and
+)
+(2.0.2b) with respect to x to
+(2.0.4a)
++
++
+∂2
+t ρ +
++
+ρ∂t∂xv
+v∂t∂xρ
+∂tρ∂xv
+∂tv∂xρ
+0,
+(2.0.4b)
+ρ∂
+2
+2
+t∂
+2
+xv
+v∂t∂xρ
+∂tρ∂xv
+∂tv∂xρ
++
+∂xρ
+4
++
+ρv∂xv
++
+2∂xρ∂xv
+=
+∂xp.
+The theory of acoustics is based on linearizing
+(2.0.4b) aro
++
+(i.e.
++
+throwing
++
+awa
+equations (2.0.4a) -
+und the static solutions ρ = ρ¯ = const >
+y the nonlinear terms) the
+0, v
+= −
+0, p
+p¯
+const
+0.
+These static solutions describe a ﬂuid at rest. Let’s assume that we make a small perturbation of
+this solution, i.e., that v is small, and that
+=
+=
+=
+>
+(2.0.5)
+ρ
+ρ¯
+δ,
+where δ t,x
+Using
+(
+) is a small function.
+the expansion (2.0.5), we now throw aw
+=
+ay (with
++
+the help of (2.0.3c)) all of the quadratic and
+higher-order small terms from (2.0.4a) - (2.0.4b) to obtain the following approximating system
+(the quantities that are assumed to be small are v, δ, and all of their partial derivatives):
+(2.0.6a)
+∂2
+t δ + ρ∂
+¯ t∂xv
+0,
+(2.0.6b)
+ρ∂
+¯
+=
+γ
+t∂xv = −Kγρ¯ −1∂2
+xδ.
+Comparing (2.0.6a) and (2.0.6b), we see that δ veriﬁes the following approximating equation
+(2.0.7)
+−∂2
+t δ + Kγρ¯γ−1∂2
+xδ
+0.
+Equation (2.0.7) is a wave equation for the perturbation δ t,x ! It models the propagation of sound
+waves. This is the linear theory of acoustics! Note that the
+=
+speed associated to the equation (2.0.7)
+depends on the background density ρ¯
+(
+)
+(2.0.8)
+∶
+c =
+√
+Kγρ¯γ−1.
+When γ > 1, higher background density Ô⇒faster sound speed propagation.
+Remark 2.0.1. For air under “normal” atmospheric conditions, γ = 1.4 is a pretty good model.
+3. Some Well-Posed Problems
+Recall
+●
+that well-posed PDEs have three important properties:
+Given suitable data, a solution exists.
+The solution is unique.
+The solution depends continuously on the data.
+●
+●
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 10
+3
+Perhaps the
++
+most often studied well-posed problem for the wave equation is the global Cauchy
+problem in 1
+n spacetime dimensions:
+(3.0.9a)
+∂2
+t u t,x
+∆xu t,x
+0,
+t,x
+n
+(3.0.9b)
+u 0,x
+f x ,
+x
+(3.0.9c)
+−
+(
+) +
+∂u
+(
+) =
+(
+) ∈
+×
+t
+We now mention some additional well-posed
+(
+0,x
+) =
+g x ,
+problems
+( )
+x
+in the
+∈
+R
+R ,
+Rn,
+Rn.
+case of 1
+1 dimensions. We assume
+that u veriﬁes the wave equation for
+(
+) = ( )
+∈
++
+(t,x) ∈(−∞,
+(3.0.10a)
+∞) × [0,L] and that Cauchy data is given:
+(3.0.10b)
+(3.0.10c)
+−∂2
+2
+t u(t,x) + ∂xu(t,x
+0,
+t,x
+R
+0,L
+u 0,x
+) =
+f x ,
+(
+x
+) ∈
+0,
+×
+L
+[
+,
+∂u 0,x
+g x ,
+x
+0,L .
+]
+t
+(3.0.9a) -
+[
+,
+Unlike in the case of
+(3.0.9c),
+(
+) =
+( )
+∈
+]
+(
+because
+) = (
+of
+)
+the ﬁniteness
+∈[
+]
+of the interval [0,L], we need
+to supplement (3.0.10a) - (3.0.10c) with additional conditions in order to generated a well-posed
+problem. Here are some well-known ways of generating a well-posed problem; they are essentially
+the same as in the case of the heat equation.
+(1) Dirichlet data: also specifying u t,0
+a t , u t,L
+b t for t
+0
+(2) Neumann data: also specifying ∂xu t,0
+a t , ∂xu t,L
+b t for t
+0
+(3) Robin data: also specifying ∂xu
+(
+0
+) =
+(
+) = (
+0
+)
+) = ku
+( )
+(
+(t,
+(t, ), ∂xu
+) = ( )
+>
+(
+t,
+) = ( )
+>
+( L) = −ku(t,L) for t > 0, where k > 0
+is a constant
+(4) Mixed data: e.g. one kind of data at x
+4. 1
+1 spacetime
+= 0, and a diﬀerent kind at x = L
+Let’s consider the wave equation with
++
+speed c in 1
+(4.0.11)
+c 2∂2u τ,x
+∂2u
++
+dimensions
+1 dimensions:
+−−
+τ (
+) +
+x (τ,x
+Let’s ﬁrst note the following fact: if f,g are any diﬀerentiable
+def
+) = 0.
+def
+functions, then u x,τ
+f x
+and u(
+cτ
+x,τ)
+wave,
+(
+and
+)
+= g(x + cτ) solve (4.0.11). The ﬁrst is called a right-traveling
+the second is
+called a left-traveling
+(⋅)
+wave.
+(
+T
+⋅)
+o visualized wave propagation in 1
+1 dimensions, you can
+=
+imagine
+( −
+)
+that the graph of f
+and g
+are translated
++
+to the right/left at a speed c. This gives a good idea
+of what wave motion looks like in 1
+1 dimensions. In particular,
++
+the amplitudes of the traveling
+wave solutions are preserved in time. As we will see, wave propagation in higher dimensions is quite
+diﬀerent. In higher dimensions,
++
+the amplitudes decay in time due to the spreading out of the waves.
+You will study the case of 1
+3 spatial dimension in one of
+−
+your homework exercises; you will show
+that in this case, the amplitudes decay at a rate of order t 1 as t
+.
+Remark 4.0.2. Not all wave solutions in 1
+→∞
++ 1 dimensions are traveling waves; see Theorem 4.1.
+def
+By making the change of variables t =
+∶
+cτ, we can transform equation (4.0.11) into a wave equation
+with speed equal to 1
+(4.0.12)
+∂2u t,x
+∂2
+t
+xu t,x
+0.
+−
+(
+) +
+(
+) =
+
+
+4
+MATH 18.152 COURSE NOTES - CLASS MEETING # 10
+This makes our life a bit easier. Let’s now consider the global Cauchy problem by supplementing
+(4.0.12) with the initial data
+(4.0.13)
+u(0,x
+As we will see, (4.0.12) + (4.0.13)
+) = f(x),
+∂tu(0,x) = g(x).
+has a unique solution that has a nice representation.
+Theorem 4.1 (
+(
+d’Alem
+)
+bert’s formula). Assume that
+∈
+f
+unique solution u t,x to (4.0.12) + (4.0.13) satisﬁes u
+C2
+∈
+([
+C2( )
+∞)
+R
+×
+and g
+C1 R . Then the
+0,
+R
+an
+∈
+) and c
+be
+(
+repr
+)
+esented by
+d’Alembert’s formula:
+1
+1
+z
+u t,x
+f x
+t
+f x
+t
+2
+2
+=x+t
+(4.0.14)
+g z dz.
+z x t
+Remark 4.0.3. For the w
+(
+ave
+)
+equation
+=
+( ( + )
+−
+−2
++
+∂2
+t u
+(
+−c
++ ∂2
+xu
+)) +
+0 form
+∫=
+ula
+−
+(4.0.14)
+( )
+is replaced with
+1
+u(
+1
+z x ct
+(4.0.15)
+t,x) =
+f x
+ct
+f x
+ct
+=
+g z dz.
+2
+Remark
+( ( +
+) + ( −
+)) + 2c ∫z
+= +
+=x ct
+4.0.4. Equation (4.0.14) illustrates the ﬁnite speed of
+−
+pr
+(
+op
+(
+agation
+)
+property associated
+to the wave equation.
+“initial data interval”
+interval have no eﬀect
+)
+with the help of energy
+{(
+More precisely, the value of the solution at
+t,x
+is only inﬂuenced by the
+0,y) ∣x −t ≤y ≤x + t}; changes to the initial data (4.0.13) outside of this
+on the solution at t,x . We will reexamine this property later in the course
+methods.
+Proof. To derive (4.0.14), it is convenient
+(
+to in
+)
+troduce a change of variables called null coordinates:
+def
+(4.0.16)
+q = t −x,
+def
+(4.0.17)
+s
+t
+x.
+The chain rule implies the following relationships
+=
++
+between partial derivatives:
+∂q = 1
+1
+(4.0.18)
+∂t
+∂
+∂
+=
+x ,
+∂s
+∂t
+x ,
+2
+2
+(4.0.19)
+∂t
+∂q
+(
+∂
+−
+s,
+)
+∂x
+=
+∂s
+(
+∂
++
+q.
+)
+The operators ∂q and ∂s can b
++
+e view
+=
+−
+(
+−)
+ed as directional derivatives in the t,x Cartesian spacetime
+direction .5 1, 1
+and .5 1,1
+respectively.
+These null directions, which are sometimes called
+characteristic directions, are extremely important. In the future, we will
+(
+discuss
+)
+the notion of a
+characteristic direction in
+(
+a general
+)
+setting.
+It is now easy to see that (4.0.12) takes the following form in null coordinates:
+(4.0.20)
+∂s∂qu
+0.
+Integrating (4.0.20) with respect to s, we have that
+=
+(4.0.21)
+∂qu = H(q ,
+where H is a function of q.
+)
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 10
+5
+Note that the value of q is the same for the pair of Cartesian spacetime points τ,y and 0,y τ .
+Thus, using the initial conditions (4.0.13), we have that
+(
+)
+(
+−)
+(4.0.22)
+∂qu(τ,y) = ∂qu(0,y −τ) = (1(∂t −∂x)u)(0,y −τ) = 1(g(y
+τ
+f ′ y
+τ
+.
+2
+2
+Similarly, interchanging the partial derivatives in (4.0.20) to deduce ∂s∂
+−
+qu
+) −
+0, w
+(
+e
+−
+conclude
+))
+that
+(
+) = 1
+(4.0.23)
+∂
+=
+su τ,y
+2(g(y + τ) + f ′ y
+τ
+.
+Adding (4.0.22) and (4.0.23), and using (4.0.18), we hav
+(
+e that
++ ))
+∂tu(t,x) = 1
+(4.0.24)
+(f ′(x + t) −f
+2
+′(x −t
+Integrating (4.0.24) in time with respect to t from 0
+)
+to
++ g(x + t) + g(x −t)).
+t, and again using the initial conditions
+(4.0.13), we have that
+³¹¹¹¹
+f
+1
+u
+·
+x
+(4.0.25)
+u(t,x
+( )
+) = (0,x
+¹¹¹¹µ
+)+2(f(x + t) −f(x) + f(x −t) −f(x))
+1
+τ
+2 ∫
+t
+g x
+g x
+τ dτ
+= +
++
+τ
+1
+=0
+1
+z x t
+f x
+t
+f x
+t
+g z dz,
+2
+2
+( + ) + ( −)
+z x t
+where
+( +
+to
+)
+derive the
+=
+last
+( (
+equalit
++ ) +
+y,
+(
+we
+−
+made
+)) +
+the
+∫=
+in
+−
+tegration
+( )
+=
+−
+change
+(
+of variables z
+x
+τ for the
+g x
+τ
+term, and the change of variables z
+x
+τ for the g x
+ha
+=
+−τ
+e
++
+) term. W
+ve thus derived
+(4.0.14).
+□
+Without a lot of additional
++
+eﬀort, we can extend Theorem 4.1 to apply to the following initial
++ boundary value PDE in 1
+1 dimensions; the result is stated and proved in the next corollary.
+This PDE would arise in the study of e.g. the following idealized problem: a description of the
+propagation of waves on an inﬁnitely long vibrating string with one end ﬁxed. Furthermore, the
+corollary will later play a role in our extension of Theorem 4.1 to the case of 1
+3 dimensions.
+Corollary 4.0.1. Let f
+C2
+0,
+, g
+C1
+unique solution to the fol
+∈
+lowing 1
+∞))
+1 dimensional
++
+([
+∈
+([0,∞
+(0
+initial
+)), and assume that f
++ boundary value pr
+)
+oblem
+=
+u
++
+g(0) = 0. Then the
+(4.0.26a)
+∂2
+t
+t,x
+∂2
+xu t,x
+0,
+t,x
+(4.0.26b)
+u t,0
+0,
+t
+0,
+(4.0.26c)
+−
+(
+) +
+u
+(
+0,x
+) =
+f x ,
+(
+x
+) ∈[
+∞× (
+) =
+∈[
+∞)
+0,
+)
+(
+0,
+,
+∞,
+(
+) =
+( )
+∈(0,∞),
+)
+(4.0.26d)
+∂tu 0,x
+g x ,
+x
+0,
+satisﬁes u
+2
+)
+∈C
+(
+) = ( )
+∈(
+∞
+([0,∞) × [0,∞)). Furthermore, it can be represented as
+(4.0.27)
+u(t,x
+⎨
+⎧⎪⎪⎪
+) =
+1
+1
+z x t
+2(f
+z
+x
+1
+(x + t) + f(x −t)) + 2
+1
+z
+=
+x
++
+t g z dz,
+if 0
+t
+t
+2 f x
+t
+f t
+x
+2
+∫
+z
+=∣
+=
+x
+−∣
++
+t g
+(
+z
+)
+dz,
+if 0
+≤
+x
+≤
+⎪
+x,
+⎩⎪⎪
+( ( + ) −( −)) +
+∫=∣−∣( )
+≤
+≤t.
+
+
+6
+MATH 18.152 COURSE NOTES - CLASS MEETING # 10
+Proof. The idea is that if we extend u to be odd in x, then we can reduce the problem to the case
+of Theorem 4.1. Motivated by this, we deﬁne
+(4.0.28)
+ũ(
+def
+t,
+,
+t,
+≥
+(4.0.29)
+) = {
+u t, x ,
+if t
+≥
+def
+f x
+f
+u
+−
+t
+,x
+0
+x
+(
+(
+x)
+−)
+if
+0
+≥
+,
+,
+0,x
+0,
+̃( ) = {
+,
+f
+(x),
+if x ≥
+−(−
+0,
+x),
+if x ≤
+( )
+≥
+0,
+≤
+̃
+def
+g(x) = { g x
+(4.0.30)
+g
+Since u t,x solves (4.0.26a), it follows that
+t,x
+R
+R with initial data u 0,x
+f
+−
+x
+(−
+,
+if x
+0,
+(
+)
+x ,
+if x
+0.
+(
+) ∈
+×
+̃(
+) = ̃( )
+u
+, ∂
+)
+̃
+t
+(
+u
+)
+̃
+t,
+(
+x is a
+̃
+solution to the wave equation (4.0.12) for
+t,x) = g
+≤
+(x). Thus, by (4.0.14), we have that
+ũ(t,x) = 1
+(4.0.31)
+(f̃(
+1
+x + t) + f̃(x −t)) +
+∫
+z=x+t
+= −
+̃g(z)dz.
+2
+2
+z x t
+The expression
+{(
+) ∣
+(4.0.27)
+≤
+now easily follows from considering (4.0.31) separately in the spacetime
+regions
+t,x
+0
+t
+x
+and
+t,x
+0
+x
+t
+- (4.0.30); note
+that in the case {(
+, and from the deﬁnitions (4.0.28)
+t,x
+≤
+}
+t
+{(
+) ∣0 ≤
+≤x}, since
+) ∣≤
+≤}
+̃g is odd, the part of the integral from x −
+[∣−∣
++
+t
+]
+to t
+cancels
+and thus the only net contribution comes from the integration interval
+x
+t ,x
+−x
+t .
+□
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.152 Introduction to Partial Differential Equations.
+Fall 2011
+ 
+ 
+ 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

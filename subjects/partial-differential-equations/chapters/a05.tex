@@ -1,0 +1,87 @@
+\originalchapter{课程作业: Fourier 方法与场论}
+\originalsection{作业9: 2011年11月17日交}
+所有 Fourier 变换均采用 $\widehat f(\xi)=\int\ee^{-2\pi\ii x\xi}f(x)\dd x$.
+\begin{exercise}\label{ps:9I}
+\textbf{原题 I(a--c).} 分别分类 $u_{tt}+u_{tx}+u_{xx}=0$, $u_{tt}+2u_{tx}+u_{xx}=0$, $2u_{tt}-u_{tx}-12u_{xx}=0$.
+\end{exercise}
+\begin{solution}
+主矩阵依次为 $\left(\begin{smallmatrix}1&1/2\\1/2&1\end{smallmatrix}\right)$, $\left(\begin{smallmatrix}1&1\\1&1\end{smallmatrix}\right)$, $\left(\begin{smallmatrix}2&-1/2\\-1/2&-12\end{smallmatrix}\right)$. (a)特征值 $3/2,1/2$ 正, 椭圆型. (b)特征值2、0, 退化抛物型主部; 换 $s=t+x,r=t-x$ 后为 $4u_{ss}=0$, 不同于带时间一阶漂移的热方程. (c)行列式 $-24-1/4<0$, 两特征值异号, 双曲型.
+\end{solution}
+\begin{exercise}\label{ps:9II}
+\textbf{原题 II(a,b).} 定义 $\operatorname{sinc}x=\sin(\pi x)/(\pi x)$, 在0取1. 证光滑, 并求 $\mathbf1_{[-a,a]}$ 的 Fourier 变换, $a>0$.
+\end{exercise}
+\begin{solution}
+(a) $\operatorname{sinc}x=\sum_{k\ge0}(-1)^k(\pi x)^{2k}/(2k+1)!$, 幂级数在紧集可任意逐项求导, 故全线 $C^\infty$.
+(b) $\xi\ne0$ 时直接积分得 $\int_{-a}^a\ee^{-2\pi\ii x\xi}\dd x=\sin(2\pi a\xi)/(\pi\xi)=2a\operatorname{sinc}(2a\xi)$. $\xi=0$ 时两边均为2a.
+\end{solution}
+\begin{exercise}\label{ps:9III}
+\textbf{原题 III.} 令 $C_0(\R)=\{u\in C(\R;\C):u(x)\to0\ (x\to\pm\infty)\}$, 范数为 $\sup_x|u(x)|$. 若 $u_j\in C_0(\R)$ 且一致收敛至 $u$, 证明 $u\in C_0$.
+\end{exercise}
+\begin{solution}
+一致极限连续. 给 $\eps>0$, 选 $j$ 使 $\|u-u_j\|_\infty<\eps/2$, 再选 $R$ 使 $|x|>R$ 时 $|u_j(x)|<\eps/2$. 则 $|u(x)|<\eps$, 故两端趋0.
+\end{solution}
+\begin{exercise}\label{ps:9IV}
+\textbf{原题 IV.} $f$ 连续且紧支撑, $\tau_yf(x)=f(x-y)$, 证明 $\|\tau_yf-f\|_1\to0$ 当 $y\to0$.
+\end{exercise}
+\begin{solution}
+$f$ 全线一致连续. 若支撑在 $[-R,R]$, $|y|<1$ 时差支撑于 $[-R-1,R+1]$. 所以范数不超过 $(2R+2)\sup_x|f(x-y)-f(x)|\to0$.
+\end{solution}
+\begin{exercise}\label{ps:9V}
+\textbf{原题 V.} 对同样的 $f$, 证明 $f_t=\Gamma(t)*f\to f$ 于 $L^1$.
+\end{exercise}
+\begin{solution}
+核质量1与 Tonelli 给 $\|f_t-f\|_1\le\int\Gamma(t,y)\|\tau_yf-f\|_1\dd y$. 选 $r>0$ 使 $|y|<r$ 时内范数 $<\eps$, 小位移部分不超过 $\eps$. 其余内范数不超过 $2\|f\|_1$, 核尾 $\int_{|y|\ge r}\Gamma(t,y)\dd y=\int_{|z|\ge r/\sqrt t}\Gamma(1,z)\dd z\to0$. 先定r再令t趋0, 得结论.
+\end{solution}
+\begin{exercise}\label{ps:9VI}
+\textbf{原题 VI(a--e).} 沿热正则化证明上述 $f$ 的 Riemann--Lebesgue 引理: (a)求 $\widehat f_t$; (b)连续有界与误差界; (c)$\widehat f_t\in C_0$; (d)一致趋 $\widehat f$; (e)$\widehat f$ 两端趋0.
+\end{exercise}
+\begin{solution}
+(a)卷积定理及 Gaussian 变换给 $\widehat f_t=\ee^{-4\pi^2t\xi^2}\widehat f$.
+(b)对任意 $h\in L^1$, $|\widehat h|\le\|h\|_1$. 对 $\xi_j\to\xi$, 指数逐点收敛并受 $|h|$ 控制, 故变换连续. 特别 $\|\widehat f_t-\widehat f\|_\infty\le\|f_t-f\|_1$.
+(c) $\widehat f$ 有界, Gaussian 因子趋0, 故 $\widehat f_t\in C_0$.
+(d)由(b)与原题 V, 误差趋0.
+(e)用原题 III 的一致闭合性得 $\widehat f\in C_0$. 此题的源假设为连续紧支撑, 一般 $L^1$ 版可通过该类在 $L^1$ 的稠密性和同样的一致误差估计推广.
+\end{solution}
+\originalsection{作业10: 2011年12月1日交}
+\begin{exercise}\label{ps:10I}
+\textbf{原题 I(a--d).} $f\in C_c^\infty(\R^n)$, 沿 Fourier 变换重推热核及全空间热初值解. 为排除无穷远异常解, 采用 Schwartz 或连续 $L^2$ 能量解类.
+\end{exercise}
+\begin{solution}
+(a) $\widehat{\Delta u}=-4\pi^2|\xi|^2\widehat u$, 所以 $\partial_t\widehat u=-4\pi^2|\xi|^2\widehat u$, 初值 $\widehat f$.
+(b)标量 ODE 得 $\widehat u=\ee^{-4\pi^2t|\xi|^2}\widehat f$.
+(c)一维 Gaussian 积分 $\int\ee^{-a\xi^2+2\pi\ii x\xi}\dd\xi=\sqrt{\pi/a}\ee^{-\pi^2x^2/a}$, 取 $a=4\pi^2t$; 各坐标相乘得逆核 $(4\pi t)^{-n/2}\ee^{-|x|^2/(4t)}=\Gamma(t,x)$.
+(d)卷积定理和反演给 $u=\Gamma(t)*f$. 公式正时间 Schwartz, 初时以近似恒等收敛. 任意仅光滑且无增长约束的全空间解不能无条件使用此 Fourier 推导.
+\end{solution}
+\begin{exercise}\label{ps:10II}
+\textbf{原题 II(a--c).} 实值 $f\in C_c^\infty(\R)$, 证明 $\int f^2=-2\int xff'$, 推出 $\|f\|_2^2\le2\|xf\|_2\|f'\|_2$, 再得 Heisenberg 不等式 $\|f\|_2^2\le4\pi\|xf\|_2\|\xi\widehat f\|_2$.
+\end{exercise}
+\begin{solution}
+(a)积分 $\partial_x(xf^2)=f^2+2xff'$, 紧支撑给边界项0.
+(b)上式取绝对值后用 Cauchy--Schwarz.
+(c)导数变换 $\widehat{f'}=2\pi\ii\xi\widehat f$, Plancherel 给 $\|f'\|_2=2\pi\|\xi\widehat f\|_2$, 代入(b). 对非零f两种局部化尺度乘积不能任意小.
+\end{solution}
+\begin{exercise}\label{ps:10III}
+\textbf{原题 III(a--c).} $f\in C_c^\infty(\R;\C)$, 证明 $f(x)\ee^{-2\pi\ii\xi x}$ 的指数展开对全体x及有界 $|\xi|<R$ 绝对一致收敛, 可逐项积分, 且非零 $\widehat f$ 不能紧支撑或在非空开区间消失.
+\end{exercise}
+\begin{solution}
+(a)若 $\supp f\subset[-M,M]$, 每项绝对值不超过 $\|f\|_\infty(2\pi RM)^k/k!$, 其和有限; 支撑外每项为0. Weierstrass 判别保证一致绝对收敛, 和为 $f(x)\ee^{-2\pi\ii\xi x}$.
+(b)全体项同处有限支撑, 可逐项积分,
+$\widehat f(\xi)=\sum_{k\ge0}\xi^k\int f(x)(-2\pi\ii x)^k\dd x/k!$.
+系数绝对值不超过 $\|f\|_1(2\pi M)^k/k!$, 所得级数对有界复 $\xi$ 一致绝对收敛, 故是整函数.
+(c)解析函数若在开区间为0, 在区间一点所有导数0, Taylor 级数在那里恒0, 再由相交圆盘延拓到全平面; 在任意中心 $\xi_0$ 把f换为 $\ee^{-2\pi\ii\xi_0x}f$, 同一估计给关于 $\xi-\xi_0$ 的无限半径级数, 因此可直接由零点处全部Taylor系数为0得全域为0. 所以 $\widehat f\equiv0$, 反演得 $f=0$. 非零f的变换不能紧支撑, 因紧支撑外已有开区间零值. 必须保留零函数例外.
+\end{solution}
+\begin{exercise}\label{ps:10IV}
+\textbf{原题 IV(a--c), 含符号勘误.} $\ii\psi_t+\Delta\psi/2=F$, $\psi(0)=\phi$, 推积分因子、频率 Duhamel 式及空间核式. 取 $\phi\in C_c^\infty$, $F\in C([0,T];\Sch)$ 且所需半范数在有限时间段一致受控.
+\end{exercise}
+\begin{solution}
+(a)令 $\omega=2\pi^2|\xi|^2$, 方程为 $\partial_t\widehat\psi=-\ii\omega\widehat\psi-\ii\widehat F$, 所以 $\partial_t(\ee^{\ii\omega t}\widehat\psi)=-\ii\ee^{\ii\omega t}\widehat F$.
+(b)积分后乘回得到
+\[
+\widehat\psi(t,\xi)=\ee^{-\ii\omega t}\widehat\phi(\xi)-\ii\int_0^t\ee^{-\ii\omega(t-s)}\widehat F(s,\xi)\dd s.
+\]
+原卷(b)源项指数误写正号, 这里改为负号.
+(c)反演与第十一章已证的振荡核给
+$\psi=K(t)*\phi-\ii\int_0^tK(t-s)*F(s)\dd s$,
+$K(t,x)=(2\pi\ii t)^{-n/2}\ee^{\ii|x|^2/(2t)}$.
+端点 $t=s$ 用酉群强极限 $U(0)=I$ 解释, 不是代入奇异核. 所选 Schwartz 类允许频率求导和换积分. 更弱的 $L^1_tL^2_x$ 源项用群的 Bochner 积分; 原卷(c)的“形式”核反演不能直接当成任意逐时紧支撑源的定理.
+\end{solution}

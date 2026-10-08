@@ -1,0 +1,74 @@
+\originalchapter{波能量与 Minkowski 几何}\label{ch:energywave}
+\sourcelecture{12--14}
+\originalsection{守恒与锥上的能量}
+设 $u_{tt}-c^2\Delta u=F$. 定义密度 $e=\tfrac12(u_t^2+c^2|\nabla u|^2)$, 通量 $p=-c^2u_t\nabla u$. 直接求导得
+\begin{equation}\label{eq:localwaveenergy}
+\partial_te+\diver p=u_tF.
+\end{equation}
+这条局部等式包含整体守恒及有限传播. 齐次 Dirichlet 边界的光滑解有 $u_t=0$, 齐次 Neumann 有 $\partial_\nu u=0$, 都使边界通量消失; Robin $\partial_\nu u+\alpha u=0$, $\alpha=\alpha(x)\ge0$ 与时间无关, 则能量要加 $\frac{c^2}2\int_{\partial\Omega}\alpha u^2$ 才守恒.
+\begin{theorem}\label{thm:coneenergy}
+设 $u$ 为齐次波方程的 $C^2$ 解, $0\le t<R/c$. 对收缩球 $B_{R-ct}(x_0)$ 定义 $E(t)=\int e(t,x)\dd x$, 则 $E(t)\le E(0)$. 相同初值数据在 $B_R(x_0)$ 上的两解在后向锥 $|x-x_0|<R-ct$ 内相同.
+\end{theorem}
+\begin{proof}
+对移动球积分求导, 边界向内速度为 $c$, 所以
+\begin{align*}
+E'(t)&=\int_{\partial B_{R-ct}}\bigl(c^2u_t\partial_\nu u-ce\bigr)\dd S\\
+&=-\frac c2\int_{\partial B_{R-ct}}
+\left[(u_t-c\partial_\nu u)^2+c^2|\nabla_{\mathrm{tan}}u|^2\right]\dd S\le0.
+\end{align*}
+$\nabla_{\mathrm{tan}}$ 为球面切向梯度, $|\nabla u|^2=(\partial_\nu u)^2+|\nabla_{\mathrm{tan}}u|^2$. 对两解差 $w$, 初始能量零, 所以锥内 $w_t=\nabla w=0$. 沿固定空间点的竖直线连接初始截面, 因该线仍在锥内, 且 $w(0,x)=0$, 得 $w(t,x)=0$. 仅控制导数后还需初始位移去掉常数.
+\end{proof}
+本证明在紧锥上进行, 不要求全空间总能量有限. 因此任意 $C^2$ 全空间波初值解均唯一. 初值的支撑包含于 $B_R$ 时, 支撑在 $t$ 时刻包含于 $B_{R+ct}$, 由外部各后向锥零数据得到.
+\begin{proposition}\label{prop:wavestability}
+在消失通量的边界条件下或全空间充分衰减时,
+\[
+E(t)^{1/2}\le E(0)^{1/2}+\frac1{\sqrt2}\int_0^t\|F(s)\|_2\dd s.
+\]
+\end{proposition}
+\begin{proof}
+积分\eqref{eq:localwaveenergy}得 $E'=\int u_tF\le\sqrt{2E}\|F\|_2$. 用 $(E+\eps^2)^{1/2}$ 处理零点, 积分并令 $\eps\downarrow0$. 这给能量空间的连续依赖. $E$ 不直接控制 $u$ 的 $L^2$ 范数, 但 $\|u(t)\|_2\le\|f\|_2+\int_0^t\|u_t(s)\|_2\dd s$ 可补充该控制.
+\end{proof}
+\originalsection{Lorentz 变换与零标架}
+以下速度归一化为1. 时空坐标 $x^0=t,x^1,\ldots,x^n$, 度量矩阵 $m=\operatorname{diag}(-1,1,\ldots,1)$. $m(X,Y)=-X^0Y^0+\sum_iX^iY^i$. 非零向量满足 $m(X,X)<0$、$=0$、$>0$ 时分别称为类时、零、类空. 因 $m(X,X)$ 可负, 它不是正定内积. $X^0>0$ 称为未来指向.
+
+指标升降用 $X_\mu=m_{\mu\nu}X^\nu$, $X^\mu=m^{\mu\nu}X_\nu$; 重复的一上一下指标对 $0,\ldots,n$ 求和. $\partial^0=-\partial_t$, $\partial^i=\partial_i$, $\square=m^{\mu\nu}\partial_\mu\partial_\nu=-\partial_t^2+\Delta$.
+\begin{proposition}
+若线性变换 $\Lambda$ 满足 $\Lambda^Tm\Lambda=m$, 则保持类时/零/类空类型, 且 $u\circ\Lambda$ 与 $u$ 的波算子满足 $\square(u\circ\Lambda)=(\square u)\circ\Lambda$.
+\end{proposition}
+\begin{proof}
+第一项直接由 $m(\Lambda X,\Lambda X)=m(X,X)$. 取逆矩阵得等价关系 $\Lambda m^{-1}\Lambda^T=m^{-1}$, 链式法则使二阶导数系数化为同一个 $m^{-1}$, 故得算子等式. 取行列式得 $|\det\Lambda|=1$. 这只保证度量保持, 不自动保证未来指向保持; 需另选保时间方向的分支.
+\end{proof}
+一维 Lorentz boost 为 $(t',x')=(\gamma(t-vx),\gamma(x-vt))$, $|v|<1$, $\gamma=(1-v^2)^{-1/2}$. 平方展开验证 $-(t')^2+(x')^2=-t^2+x^2$.
+
+令 $r=|x|>0$, $L=\partial_t+\partial_r$, $\underline L=\partial_t-\partial_r$, 配球面上的局部正交切向标架 $e_1,\ldots,e_{n-1}$. 有 $m(L,\underline L)=-2$, $m(L,L)=m(\underline L,\underline L)=0$, 且
+\[
+m^{-1}=-\tfrac12(L\otimes\underline L+\underline L\otimes L)+\sum_A e_A\otimes e_A.
+\]
+对基向量逐对求值即可核验. 球面切向标架只需局部选取, 不声称所有维数的球面都可全局平滑选一组标架.
+\originalsection{应力张量与乘子}
+\begin{definition}
+对实标量场 $u$, 令 $Q=m^{\alpha\beta}\partial_\alpha u\partial_\beta u=-u_t^2+|\nabla u|^2$. 能量动量张量为
+\[
+T^{\mu\nu}=\partial^\mu u\partial^\nu u-\tfrac12m^{\mu\nu}Q.
+\]
+对向量场 $X$ 的流为 $J_X^\mu=T^{\mu\nu}X_\nu$, 形变张量为 $\pi^X_{\mu\nu}=\tfrac12(\partial_\mu X_\nu+\partial_\nu X_\mu)$.
+\end{definition}
+\begin{proposition}\label{prop:stress}
+$\partial_\mu T^{\mu\nu}=(\square u)\partial^\nu u$. 若 $\square u=0$, 则 $\partial_\mu J_X^\mu=T^{\mu\nu}\pi^X_{\mu\nu}$. 特别地, Killing 场 $\pi^X=0$ 产生守恒流.
+\end{proposition}
+\begin{proof}
+乘积法则得 $(\square u)\partial^\nu u+\partial^\mu u\partial_\mu\partial^\nu u-\tfrac12\partial^\nu Q$. 最后两项因混合导数交换抵消. 再对 $T^{\mu\nu}X_\nu$ 求导, $T$ 对称使反对称部分不贡献, 剩余为 $T:\pi$.
+\end{proof}
+取 $X=-\partial_t$, $X_0=1$, 得 $J^0=T^{00}=\tfrac12(u_t^2+|\nabla u|^2)$, $J^i=-u_tu_i$, 就是局部能量流. 指标符号若改成 $X=\partial_t$, 流整体变号, 不能忽略.
+\begin{lemma}[主导能量正性]\label{lem:dominant}
+这里因果向量指类时或零向量, 包括零向量; 非零未来指向表示时间分量为正. 若 $X,Y$ 同为未来指向因果向量, 则 $T_{\mu\nu}X^\mu Y^\nu\ge0$; 同为过去指向也成立.
+\end{lemma}
+\begin{proof}
+先令 $X$ 类时, 可用保未来的 Lorentz 变换把它化为 $(a,0,\ldots,0)$, $a>0$: 沿 $X$ 空间方向用速度 $v=|X'|/X^0<1$ 的 boost 消去空间分量. 张量表达在这种坐标变化下保持. 因 $Y^0\ge|Y'|$, 得
+\[
+T(X,Y)=a\left[\tfrac12(u_t^2+|\nabla u|^2)Y^0+u_t\nabla u\cdot Y'\right]
+\ge\frac{aY^0}2(|u_t|-|\nabla u|)^2\ge0.
+\]
+类时近似零向量并取极限得零情形. 过去指向同时乘 $-1$ 不改变双线性值.
+\end{proof}
+注意在 $1+n$ 维中 $m_{\mu\nu}T^{\mu\nu}=(1-(n+1)/2)Q$. 三维空间即 $-Q$, 一般不为零. 后面的课程作业勘误与 Morawetz 修正流都依赖这一点.

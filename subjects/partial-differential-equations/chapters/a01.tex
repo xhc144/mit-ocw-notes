@@ -1,0 +1,67 @@
+\originalchapter{课程作业: 基础与热方程}
+\label{ch:assignheat}
+本章至课程考试部分均保留 MIT 18.152, Fall 2011, Jared Speck 的原题编号. 公开完整题面译为中文; 只有期中附有官方答案, 其余解答为 AI 独立编写、经数学审读的解答. 为使积分和解的意义明确, 增补条件及原卷勘误均明示. 题目链接与缺项表见末章.
+\originalsection{作业1: 2011年9月15日交}
+\begin{exercise}\label{ps:1I}
+\textbf{原题 I.} 在有界光滑域 $\Omega\subset\R^n$, $u,v\in C^2(\overline\Omega)$, 证明 Green 第二恒等式. 原题未写有界性; 无界域需另有积分与无穷远通量条件.
+\end{exercise}
+\begin{solution}
+令 $F=u\nabla v-v\nabla u$. 乘积法则给 $\diver F=u\Delta v-v\Delta u$, 交叉项 $\nabla u\cdot\nabla v$ 抵消. 散度定理及 $F\cdot\nu=u\partial_\nu v-v\partial_\nu u$ 给
+\[
+\int_\Omega(u\Delta v-v\Delta u)\dd x
+=\int_{\partial\Omega}(u\partial_\nu v-v\partial_\nu u)\dd S.
+\]
+\end{solution}
+\begin{exercise}\label{ps:1II}
+\textbf{原题 II.} 对 $0<\eps<1/2$, 证明 $h(x)=\sin x\log(1+x^2)/|x|^{1-\eps}$ 属于 $L^2(\R)$.
+\end{exercise}
+\begin{solution}
+在 $|x|\le1$ 用 $|\sin x|\le|x|$, $\log(1+x^2)\le x^2$, 得 $|h|^2\le|x|^{4+2\eps}$ 可积. 在 $|x|\ge1$, $|h|^2\le\log^2(1+x^2)/|x|^{2-2\eps}$. 取 $0<\delta<1-2\eps$, 则 $\log^2(1+x^2)\le C_\delta |x|^\delta$; 指数 $2-2\eps-\delta>1$, 两个尾部均可积. 在0定义为0不改变 $L^2$ 类.
+\end{solution}
+\begin{exercise}\label{ps:1III}
+\textbf{原题 III.} 实内积空间 $V$ 中证明 Cauchy--Schwarz 与三角不等式.
+\end{exercise}
+\begin{solution}
+$w=0$ 显然. 否则 $q(t)=\|v+tw\|^2=\|v\|^2+2t\langle v,w\rangle+t^2\|w\|^2\ge0$. 于 $t=-\langle v,w\rangle/\|w\|^2$ 取最小值, 得 $\langle v,w\rangle^2\le\|v\|^2\|w\|^2$. 再展开 $\|v+w\|^2$ 并用刚得不等式, 得 $\|v+w\|^2\le(\|v\|+\|w\|)^2$, 开平方即可.
+\end{solution}
+\begin{exercise}\label{ps:1IV}
+\textbf{原题 IV.} 对实值 $L^2(\R)$ 函数的几乎处处等价类, 验证 $\langle f,g\rangle=\int fg$ 是内积, 推出积分 Cauchy--Schwarz. 并证明
+\[
+\left|\int_\R\frac{\sin x\log(1+x^2)}{|x|^{3/4}}f(x)\dd x\right|\le C\|f\|_2.
+\]
+\end{exercise}
+\begin{solution}
+$2|fg|\le f^2+g^2$ 先保证积分存在. 线性和对称性由积分性质得到. $\int f^2\ge0$, 等号当且仅当 $f=0$ 几乎处处, 即零等价类. 应用原题 III 得 $|\int fg|\le\|f\|_2\|g\|_2$. 原题 II 取 $\eps=1/4$, 令上述权函数为 $h$, 得 $C=\|h\|_2<\infty$. 复值版内积应改为 $\int f\overline g$.
+\end{solution}
+原题 V 是阅读 Salsa 的附录 A, 不是公开完整习题, 在末章登记.
+\originalsection{作业2: 2011年9月22日交}
+原题 I、II 仅引用 Salsa 题号, 未收入猜造题面.
+\begin{exercise}\label{ps:2III}
+\textbf{原题 III.} 对零 Dirichlet 热流
+\[
+u(t,x)=\sum_{m=1}^\infty\frac{2(-1)^{m+1}}{m\pi}\ee^{-m^2\pi^2t}\sin(m\pi x),
+\]
+证明 $\|u(t,\cdot)-x\|_{L^2(0,1)}\to0$ 当 $t\downarrow0$.
+\end{exercise}
+\begin{solution}
+$x$ 的正弦系数为 $b_m=2\int_0^1x\sin(m\pi x)\dd x=2(-1)^{m+1}/(m\pi)$. 正弦系完备及 Parseval 给
+\[
+\|u(t)-x\|_2^2=\tfrac12\sum_{m\ge1}|b_m|^2|\ee^{-m^2\pi^2t}-1|^2.
+\]
+每项趋0, 并受可和的 $|b_m|^2/2$ 控制, 所以趋0. 初值在 $x=1$ 为1, 正时间边值为0, 角点不连续, 因此不能把此解称为闭矩形连续解. $L^2$ 初始迹仍成立.
+\end{solution}
+\begin{exercise}\label{ps:2IV}
+\textbf{原题 IV.} $u_t=u_{xx}$ 于 $(0,\infty)\times(0,\ell)$, 零 Dirichlet 边值, 初值 $\ell^{-2}x(\ell-x)$. 不显式求解, 依次求初始 $L^2$ 范数、能量导数、$C^0$ 与 Poincaré 型估计, 证明 $\|u(t)\|_2\le\sqrt{\ell/30}\ee^{-t/\ell^2}$.
+\end{exercise}
+\begin{solution}
+代 $x=\ell y$ 得 $\|u(0)\|_2^2=\ell\int_0^1y^2(1-y)^2\dd y=\ell/30$. 正时间分部积分给 $\partial_t\|u\|_2^2=2\int u u_{xx}=-2\|u_x\|_2^2$. 对 $u(0)=0$ 的空间端点条件,
+$|u(x)|=|\int_0^xu_x|\le\sqrt\ell\|u_x\|_2$, 所以 $\|u\|_\infty\le\sqrt\ell\|u_x\|_2$, 再积分得 $\|u\|_2^2\le\ell^2\|u_x\|_2^2$. 故 $y(t)=\|u(t)\|_2^2$ 满足 $y'\le-2\ell^{-2}y$. 从 $\delta>0$ 积分后令 $\delta\downarrow0$, 用 $L^2$ 初始连续性得 $y(t)\le(\ell/30)\ee^{-2t/\ell^2}$.
+
+原卷末段的区间误写 $[0,1]$, 此处统一为 $(0,\ell)$. 初始角点高阶相容性不满足, 所用类别为正时间光滑且具有初值迹, 不强求 $C^{1,2}$ 延伸到角点.
+\end{solution}
+\begin{exercise}\label{ps:2V}
+\textbf{原题 V.} $D>0$, 从 $u(t,x)=(Dt)^{-1/2}V(x/\sqrt{Dt})$ 推导非负、偶、质量1且两端衰减的一维热基本解.
+\end{exercise}
+\begin{solution}
+置 $\zeta=x/\sqrt{Dt}$. 求导代入 $u_t-Du_{xx}=0$, 得 $V''+(\zeta V)'/2=0$, 即 $(V'+\zeta V/2)'=0$. 偶性给 $V'(0)=0$, 故积分常数为0. 分离变量得 $V=V(0)\ee^{-\zeta^2/4}$. 归一化 $1=\int V\dd\zeta=\sqrt{4\pi}V(0)$, 所以 $u=(4\pi Dt)^{-1/2}\ee^{-x^2/(4Dt)}$. 此式确非负、偶、衰减, 且直接求导验证 PDE.
+\end{solution}

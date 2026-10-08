@@ -1,0 +1,993 @@
+MATH 18.152 COURSE NOTES - CLASS MEETING # 13
+18.152 Introduction to PDEs, Fall 2011
+Professor: Jared Speck
+Class Meeting # 13: Geometric Energy Estimates
+1. ◻m, the energy-momentum tensor, and compatible currents
+The following shorthand notation is often used for the “linear wave operator associated to m:”
+◻
+def
+(1.0.1)
+m = (m−1)αβ
+−
++
+=
+∂α∂β.
+Using this notation, the wave equation
+∂2
+t
+∆φ
+0 can be expressed as
+(1.0.2)
+mφ = 0.
+We now introduce a very important object
+◻
+called the energy-momentum tensor. As we will see,
+it encodes some very important conservation laws associated to solutions of (1.0.2).
+Deﬁnition 1.0.1. The energy-momentum tensor associated to equation (1.0.2) is
+def
+Tµν = ∂µφ∂νφ −1
+(1.0.3)
+mµν
+2
+(m−1)αβ∂αφ∂βφ.
+Later in the course, we will hopefully have time to motivate its derivation in the larger context
+of variational methods. For now, we will simply study/use its useful properties.
+Note that Tµν is symmetric:
+(1.0.4)
+Tµν = Tνµ.
+In your homework, you will prove the following very important positivity property of T, which is
+called the dominant energy condition.
+Lemma 1.0.1 (Dominant Energy Condition for Tµν).
+(1.0.5)
+T(X,Y )
+def= TαβXαY β ≥0 if X,Y are both timelike and future-directed or timelike and past-directed.
+Since causal vectors are the limit of timelike vectors, we have the following consequence of (1.0.5):
+(1.0.6)
+T(X,
+)
+def
+Y
+= T
+α
+β
+αβX Y
+≥0 if X,Y are future-directed and causal or past-directed and causal.
+As before, we can raise the indices of T
+(1.0.7)
+T µν
+∶
+= (m−1)µα(m−1)νβTαβ.
+1
+
+
+2
+MATH 18.152 COURSE NOTES - CLASS MEETING # 13
+(
+A very sp
+=
+=
+⋯
+)
+ecial case of Lemma 1.0.1 is the following, which corresponds to Xµ
+Y µ
+δµ
+0
+1,0,0,
+,0 in the lemma:
+=
+T
+= T 00 = 1
+3
+2
+1
+(1.0.8)
+∂φ
+φ 2
+00
+µ
+t,x
+.
+2 µ
+The
+∑
+=0
+(
+) = 2
+derivation of (1.0.8) is a simple computation that you
+∣∇
+should
+∣
+do for yourself. Note that T00 is
+positive deﬁnite in all of the derivatives of φ. This fact will play an important role in Theorem 2.1
+below.
+The next lemma shows that T µν is divergence-free whenever φ veriﬁes the wave equation. This fact
+is intimately connected to the derivation of conservation laws, which are fundamental ingredients
+in the study of hyperbolic PDEs.
+Lemma 1.0.2 (The divergence of T µν). Let Tµν be the energy-momentum tensor deﬁned in
+(1.0.3). Then
+(1.0.9)
+∂T µν
+1
+mφ
+m−
+να
+µ
+∂αφ.
+In particular, if φ is a solution to (1.0.2)
+=
+,
+(
+then
+◻
+)(
+)
+(1.0.10)
+∂µT µν
+0.
+Proof. The proof is a computation that uses the symmetry
+=
+property (m−1)µν = (m−1)νµ and the
+fact that we are allowed to interchange the order of partial derivatives (if φ is suﬃciently smooth):
+(1.0.11)
+∂µT µν = ∂µ((m−1
+mφ
+m
+)µα(m−1)νβ
+1
+∂φ∂φ −
+(m−1)µν m−1 αβ
+α
+β
+∂αφ∂βφ
+= (◻
+2
+1 νβ∂βφ
+m 1 µα m 1 νβ ∂α
+(
+φ ∂µ
+)
+∂βφ
+)
+−1
+1
+−
+m
+)(
+)
+(
+−)µν(m−1
++
+)αβ
+(
+−)
+(
+−
+(
+)
+1
+∂µ∂αφ ∂βφ
+)
+(
+)
+−
+(m−1)µν(m−1)αβ(∂αφ)∂µ∂βφ
+= (◻
+2
+2
+mφ
+m−1 νβ∂βφ,
+where the last three terms have
+)(
+canceled
+)
+each other.
+□
+As we will soon see, the energy-momentum tensor provides an amazingly convenient way of
+bookkeeping in the divergence theorem. However, in order to apply the divergence theorem, we
+need to ﬁnd a useful vectorﬁeld to take the divergence of. By useful, we mean a vectorﬁeld that can
+be used to control a solution φ to the wave equation. One way of constructing a useful vectorﬁeld is
+to start with an auxiliary vectorﬁeld X and then to contract it with the energy momentum tensor
+to form a new vectorﬁeld J. The next deﬁnition shows how to do this.
+Deﬁnition 1.0.2. Given any vectorﬁeld X, we associate to it the following compatible current,
+which is itself a vectorﬁeld:
+X Jµ def
+(1.0.12)
+T µαXα.
+(
+)
+=
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 13
+3
+So which vectors X are the useful ones? It turns out that the answer is causal vectors. This fact is
+closely connected to the dominant energy condition (1.0.5). This will become more clear in our proof
+def
+def
+of theorem 2.1 below; Note that by Lemma 1.0.1, JµYµ = T µαXαYµ = T
+α
+αβX Y β = T(X,Y ) ≥0 if
+X,Y are both timelike and future-directed (i.e.,
+In order to apply the divergence theorem to
+carry out this computation in the next corollary
+(
+X ,Y 0
+0) or past-directed (i.e., X
+X)
+0
+,
+0).
+Jµ, we
+>
+0 Y 0
+of course need to know its divergence.
+<
+We
+.
+Corollary 1.0.3. Using (1.0.4) and (1.0.10), we have that
+(1.0.13)
+∂(
+(X)
+Jµ) = T αβ(X
+µ
+)παβ,
+where
+(X)
+def
+πµν = 1
+(1.0.14)
+(∂µXν + ∂νXµ
+2
+is called the deformation tensor of X.
+)
+We now state a version of the divergence theorem that is tailored to our study of the linear wave
+equation.
+Theorem 1.1 (Divergence Theorem
+(
+)
+). Let φ be a solution to the linear wave equation ◻mφ = 0.
+Let
+⊂
+X
++
+be any vectorﬁeld, and let
+X J be the compatible current deﬁne in Deﬁnition 1.0.2. Let
+Ω
+R1 n be a domain with boundary ∂Ω. Then the following integral identity holds:
+∫
+ˆNα
+(X)Jα[φ(
+X
+(1.0.15)
+σ)]dσ = ∫∂µ
+(
+)
+Jµ φ t,x
+dtdnx.
+∂Ω
+Ω
+2. Energy Estimates and
+(
+Uniqueness
+[ (
+)])
+We will now use the results
+◻
+of
+=
+the previous section to derive some extremely important energy
+estimates for solutions to
+mφ
+0. The results we derive are a geometry version of integration by
+parts + the divergence theorem. They could alternatively be derived by multiplying both sides of
+the wave equation by a suitable quantity and then integrating by parts over a suitable hypersurfaces,
+but there is a substantial gain in geometric insight that
+(
+accompanies our use of compatible currents.
+Theorem 2.1 (Energy estimates in a cone). Let φ t,x be a C2 solution to the 1 n dimensional
+global Cauchy problem for the linear wave equation
+)
++
+(2.0.16)
+mφ
+0,
+(2.0.17)
+φ 0,x
+f x ,
+x
+Rn,
+(2.0.18)
+∈[
+∞]
+∂φ
+◻
+=
+t
+(
+0,x
+) =
+g
+(
+x
+)
+,
+x
+∈
+Rn.
+Let R
+0,
+, let X be the past-directed timelike vector deﬁned by Xµ
+δµ
+0 , and let
+X Jµ φ t,y
+b
+∑
+e the
+(
+comp
+)
+atible
+= (
+curr
+(
++
+ent (1.0.12) associated
+)
+to
+=
+)
+X
+(
+. Note
+)
+that
+∈
+by (1.0.8),
+=
+(
+)
+tφ
+(X
+n
+∂
+2
+µ 0 ∂µφ 2
+n
+i
+)J
+−
+∑
+µ φ t,y
+[ (
+)]
+2
+t,yφ t,y
+=
+=
+2
+1
+the
+ener
+(
+= ∣∇
+(
+)∣=
+(∂iφ
+. Deﬁne
+square of the
+gy E φ
+t by
+[
+)]
+def
+1
+E2
+)
+ˆ
+(2.0.19)
+φ
+t
+Nµ
+(X)Jµ φ t,y
+dny
+[ ]( )
+2
+BR−
+p
+2
+BR−
+t,yφ t,y
+dny,
+t
+t p
+[ ]( ) = ∫
+( )
+[ (
+)]
+=
+∫
+( ) ∣∇
+(
+)∣
+
+
+4
+MATH 18.152 COURSE NOTES - CLASS MEETING # 13
+ˆ
+where Nµ = δ0
+µ
+R4, and BR p
+= −
+( )
+(and
+⊂
+ˆ
+therefore N µ
+δµ
+0 ) is the past-pointing unit normal covector to
+t
+BR t p
+R3 denotes the solid Euclidean ball of radius R centered at p. Then
+{ }×
+−( ) ⊂
+(2.0.20)
+E[φ](t) ≤E φ
+0 .
+Pr
+[
+o
+∞
+def
+of.
+) ×
+The goal
+∣∣−
+is to
+∣≤
+apply
+−
+Theorem
+}
+1.1 to the solid truncated backwards light cone
+t,p;R
+τ,y
+0,
+C
+Rn
+= B
+y
+t
+C
+∪
+p
+[ ]( )
+M
+R
+∪
+τ
+T
+and to
+B
+mak
+=
+e
+{
+use
+} ×
+of the
+( )
+dominan energy condition. It is easy
+def
+that ∂
+t,p;R
+t,p;R
+, where
+0
+BR p
+is the ﬂat base of the truncated cone,
+= {(
+to see
+)
+def
+∈
+{
+(
+def
+t}×B
+n
+R−t p) is the ﬂat top of the truncated cone, and Mt,p;R
+=
+= {(τ,y
+is the mantle of the truncated cone.
+T
+By Theorem 1.1, we have that
+) ∈[0,∞)×R ∣∣y−p∣= R−τ}
+(2.0.21)
+E[φ](t) −E[
+X
+φ](0) + F[φ] = ∫C
+∂µ(
+(
+)
+Jµ[φ(τ,y)])dτdny,
+t,p
+where
+def
+ˆ
+(2.0.22)
+F φ
+N
+α
+α
+φ
+dσ
+t,p;R
+(X)J
+σ
+is the “ﬂux” associated to
+t,p;R.
+[
+Since
+] =
+φ
+M
+solves the wav
+[
+e
+(
+equa
+)]
+tion (2.0.16), and since
+X πµν
+0,
+the identity (1.0.13) implies
+∫
+M
+that the right-hand side of (2.0.21) is 0. Therefore,
+(
+)
+=
+(2.0.23)
+E[φ](
+[ ] ≥
+t) −E[φ](0) + F φ
+0.
+We claim that F φ
+0. The energy
+observation for showing that F[φ] ≥
+inequality (2.0.20) would then follow from (2.0.23). They key
+=
+0 is the following. Along
+[ ] =
+the mantle
+t,p;R, it is easy to see
+ˆ
+(draw the picture!) that Nµ
+Lµ, where L is a past-directed null vector. Therefore, the integrand
+in (2.0.22) is equal to TαβXαLβ, and sinc
+≥
+e X is a past-directed
+[ ] ≥
+timelike vector,
+M
+the dominant energy
+condition (1.0.6) implies that TαβXαLβ
+0. Therefore, F φ
+0 as desired.
+□
+Theorem 2.1 can easily be used to prove the following local uniqueness result for solutions to the
+linear wave equation.
+Corollary 2.0.4 (Uniqueness
+same initial data on BR(p
+def
+light cone”
+p;R
+τ,y
+def
+)
+0
+⊂{(
+).
+)
+Supp
+∣
+ose
+= }
+that two C2 solutions φ1 and φ2 to (2.0.16) have the
+C
+= {(
+τ,y
+τ
+0 . Then
+τ
+R,0
+y
+p
+R
+Proof. Deﬁne ψ
+φ1 φ2
+)
+.
+∣
+Then
+≤
+ψ
+≤
+veriﬁes
+≤∣
+(2.0.16)
+−∣≤
+and
+−
+the two solutions agree on the “solid
+ds
+τ}
+backwar
+.
+=
+−
+furthermore, E[ψ](
+[ ]( ) =
+≤
+≤
+[ ]( )
+0
+0. Thus, by Theorem
+2.1, E
+(
+ψ
+)
+t
+∈C
+0 for 0
+t
+R. Therefore, from the deﬁnition of E ψ
+t , it follows that
+τ,yψ τ,y
+0 for τ,
+(
+y
+)
+p
+=
+;R. Thus, by elemen
+(
+tary
+) ∈
+analysis,
+C
+ψ is constant in
+p;R. But ψ
+)
+0,
+=
+x
+0 for
+∇
+0,x
+p
+us, ψ
+points τ,y
+(
+)
+;R
+Th
+τ,y
+0 for all
+p;R.
+□
+=
+.
+Corollary 2.0.4 is one illustration of the ﬁnite speed of prop
+C
+agation prop
+(
+ert
+)
+y
+=
+associated
+(
+)
+to
+∈C
+the
+linear wave equation. Another way to think about it is the following. Suppose you alter the initial
+conditions outside of BR p , but not on BR p itself. Then this alteration has no eﬀect whatsoever
+on the behavior of the solution in the spacetime region
+p;R Think about this claim yourself; it
+( )
+( )
+C
+follows easily from the Corollary!
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 13
+5
+3. Developments, Domain of Dependence, and Range of Influence
+We will now develop a language for discussing the ﬁnite speed of propagation properties of the
+linear wave equation in more detail. If we had more time in this course, we could adopt a more
+geometric point of view that would apply to many other hyperbolic PDEs. This would involve
+ﬂeshing out our discussion of Lorentzian geometry, and also developing a generalized version of
+geometry that applies to a large class of PDEs.
+Warning 3.0.1. Some people permute or even severely alter the following deﬁnitions, which can
+be very confusing. The deﬁnitions below therefore indicate some of my biases.
+Deﬁnition 3.0.3
+(
+)
+(
+=
+Dev
+(
+elopmen
+)
+(
+t)
+)
+. Let S
+t,x
+t
+0 be a set. Assume that that we know the
+initial data φ 0,x
+f x , ∂tφ 0,x
+⊂{(
+) ∣
+=
+= g(x) for the wave equation (1.0.2), but only for x
+S. Then a
+future development Ωof
+(
+S is
+)
+deﬁned to be a “future” region
+}
+of spacetime Ω
+R1+n ∩{(t,
+∈
+⊂
+x
+t
+0
+on which the
+D
+solution
+−( )
+φ t,x
+to (1.0.2) is uniquely determined by the initial data on S
+)
+.
+∣
+A
+≥
+past
+development
+S
+can be analogously deﬁned (replace t
+0 with t
+0 in the previous deﬁnition).
+}
+Example 3.0.1. If BR(p) and Cp;R are as in Corollary 2.0.4, then
+p;R is a development of BR p .
+You can im
+(
+agine
+)
+that the solution knows how to “develop”
+≥
+in
+p;R from
+≤
+.
+C
+the initial conditions on
+(
+its
+subset BR p
+)
+Deﬁnition
+D
+3.0.4 (Maximal development). The maximal
+C
++( )
+future development of S, which we
+denote by
+D
+S
+(
+,
+)
+is deﬁned to be the union of all future developments of S. The maximal past
+development
+( ) ∪D−
+Example
+D+ S
+3.0.2.
+( )
+−S
+can be analogously deﬁned. The maximal development of S is deﬁned to be
+S .
+def
+Consider the plane P = {(t,
+D
+x1 x2,x3) ∣x1 = 0}
+(
+,
+) =
+. Then using techniques from
+a more advanced course, one could show that
+P
+P for the wave equation (1.0.2). That is,
+knowing the conditions of a solution φ along P is not enough information to determine the solution
+anywhere else. This is closely connected to the fact that all smooth curves in P have tangent vectors
+that are timelike relative to the Minkowski metric.
+Deﬁnition 3.0.5 (Domain of dependence). Let Ω⊂R1+n. Assume that φ is a solution to the
+wave equation (1.0.2) in Ω. A domain
+∣
+of dep
+∇
+endenc
+∣
+e for Ωis a set S such that φ is completely
+determined on Ωfrom only the data φ S and
+t,xφ S.
+Remark 3.0.1. For general nonlinear hyperbolic PDEs, domains of dependence depend both on
+Ωand the solution φ itself. However, for the linear wave equation, domains of dependence do
+not depend on the solution. Roughly speaking, this is because the “geometry of the solution” is
+predetermined by the Minkowski metric m.
+Example 3.0.3. In 1 1 dimensions, a domain of dependence for the spacetime point t,x (for the
+wave equation (1.0.2)) is the “initial data” interval 0
+x t,x t . Another domain of dependence
+for this point is the in
++
+terval {t
+{ }×[ −
++ ]
+/2} × [x −t/2,x + t/2]. A trivial example is that t,x is
+(
+a domain
+)
+of
+dependence for itself.
+Example 3.0.4.
+≥}
+In 1+
+=
+=
+3 dimensions, a domain of dependence for the positive t axis
+(
+)
+t,x1,x2,x3
+x1
+x2
+x3
+0,t
+0 (for the wave equation (1.0.2)) is all of “space:” {(t,x1,x2,x3
+{(
+) ∣t = 0}. Any subset
+of space is not a domain of dependence for the positive t axis.
+) ∣
+=
+The next deﬁnition is complementary to the notion of domain of dependence.
+
+
+6
+MATH 18.152 COURSE NOTES - CLASS MEETING # 13
+Deﬁnition
++
+3.0.6 (Range of inﬂuence). Assume that φ is a solution to the wave equation (1.0.2)
+in
+(
+R1
+)
+n. The range of inﬂuence R for a set S ⊂
+(
+) ∈
+∣
+∇
+R1+n is the set of all points t,x
+R1+n such that
+φ t,x is aﬀected by the initial data φ S and
+t,xφ S.
+Example
+= { } × [−
+3.0.5. In 1
+1 dimen
+S
+0
+1,1
++
+] is R = {(t,x) ∣−
+sions, the (fut
++
+ure) range of inﬂuence (for t
+0) of the interval
++
+t −1 ≤x ≤t
+1 .
+∣
+Example
+{(
+3.0.6. In 1
+1 dimensions, the (future) range of inﬂuence (for t
+≥
+=
+) ∣≥}
+R = {(
+0) of the t axis
+S
+t,0
+t
+0
+is
++
+t,x
+t
+0 .
+}
+Example
+R = {(
+3.0.7.
+) ∣
+≤
+In
+≤
+1
+∣
+3
+∣
+dimensions,
+=
+the (future) range of inﬂuence (for t
+0) of
+≥
+S
+0
+∂B1 0
+def
+is
+t,x
+0
+t
+1, x
+1
+) ∣
+t
+≥}
+t,x
+0
+t
+t, x
+1
+t
+where x
+≥√
+x1 2
+= {
+x2
+}
+2
+x3 2
+This is a consequence of the Sharp Huygens’ Principle.
+×
+( )
+−} ∪{(
+) ∣
+≤
+<
+∣∣=
++ }
+∣∣=
+(
+) + (
+) + (
+) .
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.152 Introduction to Partial Differential Equations.
+Fall 2011
+ 
+ 
+ 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

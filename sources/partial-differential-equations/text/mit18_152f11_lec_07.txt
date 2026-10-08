@@ -1,0 +1,2110 @@
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+18.152 Introduction to PDEs, Fall 2011
+Professor: Jared Speck
+Class Meeting # 7: The Fundamental Solution and Green Functions
+1. The Fundamental Solution for ∆in Rn
+Here is a situation that often arises in physics. We are given a function f x on Rn representing
+the spatial density of some kind of quantity, and we want to solve the following
+( )
+equation:
+(1.0.1)
+∆u(x) = f(x),
+x = (x1,⋯,xn) ∈Rn
+∣
+.
+Furthermore, we often want to impose the following decay condition as x
+(1.0.2)
+u x
+0.
+∣→∞∶
+For technical reasons, we will need a diﬀerent condition in the case n
+2. A good physical example
+is
+(
+the theory of electrostatics, in which u
+∣( )∣→
+)
+x is the electric potential1, and f x is the charge density.
+f x
+could be e.g a compactly supported function modeling the charge
+=
+density of a charged star,
+and we might want to know how the p
+(
+oten
+)
+tial behaves far away from the
+(
+star
+)
+(i.e. as x
+).
+Roughly speaking, the decay conditions (1.0.2) are physically motivated by the fact that
+should not have a large eﬀect on far-away locations.
+∣
+the
+∣→
+star
+∞
+As we will soon see, the PDE (1.0.1) has a unique solution
+∣∣→∞
+verifying (1.0.2) as long as f x
+is
+suﬃciently diﬀerentiable and decays suﬃciently rapidly as x
+. Much like in the case of the heat
+equation, we will be able to construct the solution using an object called the fundamental solution
+( )
+.
+Deﬁnition 1.0.1. The fundamental solution Φ corresponding to the operator ∆is
+( )
+def= { −
+1
+2π ln∣x∣
+n =
+≥
+2,
+(1.0.3)
+Φ x
+1
+ωn∣x∣n−2
+n
+3,
+where as usual ∣x∣
+def=
+√
+∑n
+i=1(xi)2 and ωn is the surface area of a unit ball in Rn (e.g. ω3
+4π).
+Remark 1.0.1. Some people prefer to deﬁne their Φ to be the negative of our Φ.
+=
+Essentially, our goal in this section is to show that ∆Φ x
+δ x , where δ is the delta distribution.
+Let’s
+∫
+(
+assume
+)
+that this holds for now. We then claim that the solution to (1.0.1) is u x
+f
+Φ x
+n
+(
+f
+∗
+y Φ x
+y dny. This can be heuristically justiﬁed
+(
+b
+)
+y
+=
+the
+( )
+following heuristic computations:
+R
+∆x f
+Φ
+f
+∆xΦ
+f
+δ
+f x .
+( ) =
+∗
+( ) =
+Let’s no
+(
+−)
+)
+w
+∗
+rigorous
+solution veriﬁes
+=
+make
+Laplace’s
+=
+∗
+sense
+=
+(
+of
+)
+this. We ﬁrst show that away from the origin, the fundamental
+equation.
+Lemma 1.0.1. If x
+1
+≠0, then ∆Φ(x) = 0.
+Recall that the the force F associated to u is F = −∇u.
+1
+
+
+2
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+def
+Proof. Let’s do the proof in the
+=
+case
++
+n = 3. Note that Φ(x) = Φ(r) (r = ∣x∣) is spherically symmetric.
+Thus,
+=
+using the fact that ∆
+∂2
+2
+r
+r∂r when r
+0 for spherically symmetric functions, we have that
+∆Φ
+∂2
+2
+2
+2
+rΦ +
+r
+r∂Φ = ω
+−
+4
+3r4 + ω3r = 0.
+□
+We are now ready to state and prove a rigorous
+>
+version of the aforementioned heuristic results.
+Theorem 1.1 (Solution to Poisson’s equation in Rn
+≥
+). Let f x
+C0
+Rn
+(i.e., f x
+is a
+smooth, compactly supported function
+( )
+on Rn). Then for
+∣
+n
+∣→
+3, the Laplace e
+∞
+quation ∆u x
+f x
+has a unique smooth solution
+( ) →
+u x
+∣
+that
+∣→∞
+tends to
+( ) ∈
+(
+)
+(
+( ) =
+∞
+=
+∣∇
+0
+(
+as
+)∣→
+x
+∣
+.
+∣
+F
+→
+or
+∞
+n
+2, the solution is unique
+)
+under the assumptions u
+∣
+x
+x∣
+0 as x
+and
+u x
+0 as x
+. Furthermore, these unique
+( )
+solutions can be represented as
+1
+ln y f x
+y d2y,
+n
+2,
+(1.0.4)
+u(x) = (Φ
+f
+x
+2π
+R2
+1
+n
+ω
+n y n 2f x
+y d y,
+n
+3.
+n
+R
+−
+Furthermor
+∣∣
+e,
+→
+ther
+∞∶
+e exist constants
+∗)( )
+C
+= {
+∫
+∣∣( −)
+=
+n
+as
+−
+0 such
+∫
+∣
+that the fol
+solution
+x
+∣
+( −)
+≥
+>
+lowing decay estimate holds for the
+∣u(x)∣≤{ C2 ln x
+n
+2,
+(1.0.5)
+∣
+Cn
+x∣n−2
+∣∣
+n
+=
+≥3.
+Remark 1.0.2. As we alluded to above, Theorem 1.1 shows that ∆Φ x
+δ x , where δ is the
+“delta distribution.” For on the one hand, as we have previously discussed, we have that f
+δ
+f.
+On the other hand, our proof of Theorem 1.1 below will show that f
+∆
+(
+u
+) =
+∆
+(
+Φ
+)
+f
+∆Φ
+f.
+Thus, for any f, we have δ
+f
+∆Φ
+f, and so ∆Φ
+δ.
+=
+∗
+Proof. We consider only the case n
+3. Let’s ﬁrst show existence by
+=
+checking
+=
+(
+that
+∗
+the
+) =
+function
+(
+) ∗
+∗
+= (
+) ∗
+=
+=
+u
+deﬁned in (1.0.4) solves the equation and has the desired properties. We ﬁrst diﬀerentiate under
+the in
+(
+tegral
+−)
+(we use one of our prior propositions to justify this) and use the fact that ∆xf x
+y
+∆yf x
+y (you can easily verify this with the chain rule) to derive
+( −) =
+( ) = −1
+∫
+∣
+1
+1
+∆
+d3
+xu x
+∣∆xf(x −y)d3
+1
+(1.0.6)
+y
+∆yf x
+y
+y.
+4π
+R3 y
+4π
+R3 y
+To show that the right-hand side of (1.0.6) is equal
+=
+to
+−
+f
+∫
+x , w
+∣
+e
+∣
+will
+(
+split
+−)
+the integral into two
+pieces: a small ball centered at the origin, and it’s complement. Thus, let Bϵ 0 denote the ball of
+radius ϵ centered at 0. We then split
+( )
+( )
+∆xu(x) = −1
+(1.0.7)
+∫
+( ) ∣
+1
+∣
+−1
+∆
+y
+∫
+∆
+3
+yf(x −y)d3
+1
+def
+( ) ∣∣
+yf(x −y)d y = I
+I
+4π
+Bϵ 0
+y
+4π
+Bc 0
+0
++ I.
+y
+We ﬁrst show that I goes to 0 as ϵ →
++
+ϵ
+. To this end, let
+def
+(1.0.8)
+M = sup
+∈
+∣f(y)∣+ ∣∇f(y)∣+ ∣∆yf(y)∣.
+y R3
+Then using spherical coordinates
+r,ω
+for the y variable, and recalling that d3y
+r2 dω (where
+ω ∈∂B
+3
+1(0
+(
+)
+) ⊂R is a point on the unit sphere and dω
+sin
+that
+=
+=
+θ dθ dφ) in spherical coordinates, we have
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+3
+1
+ϵ
+(1.0.9)
+I
+∆f x
+y
+d3y
+2
+y
+M
+r dω dr
+2ϵ πM.
+Bϵ 0
+y
+r 0
+∂B1 0
+Clearly, the right-hand
+∣∣≤∫
+side
+( )
+of
+∣∣
+(1.0.9)
+∣
+(
+go
+−
+es
+)∣
+to 0
+≤
+as ϵ
+∫= ∫
+( )
+=
+→0
+We would now like to understand the second term on
++.
+the right-hand side of (1.0.7). We claim
+that
+(1.0.10)
+f x
+II
+0
+as ϵ →0+.
+(
+After
+) =
+w
+(
+e
+)
+show this, we can combine
+that ∆u x
+f x as desired.
+∣( )
+(1.0.7),
+−
+∣→
+(1.0.9), and (1.0.10) and let ϵ
+0 to deduce
+x
++
+To show (1.0.10), we will use integration by parts via Green’s identity and simple
+→
+estimates to
+control the boundary terms. Recall that Green’s identity for two functions u,v is
+(1.0.11)
+Using (1.0.11) and
+∫v x ∆u x
+u x ∆v x dnx
+v
+ˆ
+σ
+u
+ˆ
+Nu
+Nv σ dσ.
+Ω
+∂Ω
+Lemma
+( )
+1.0.1,
+( ) −
+we
+(
+compute
+)
+( )
+that
+= ∫
+∇
+( ) −∇
+( )
+(1.0.12)
+0
+∫Bcϵ(0) −∣
+1
+1
+1
+∆yf x
+y
+f x
+y ∆
+d3
+1
+y
+y
+ˆ
+f x
+σ
+f x
+σ
+ˆ
+dσ.
+∇
+y
+­
+y
+(
+N
+0
+σ
+N σ
+Bcϵ
+(σ
+∂
+)
+) σ
+Above,
+ˆ
+N σ
+∣
+is the
+(
+out
+−)
+w
++
+ard
+(
+unit
+−)
+radial derivativ
+= ∫
+e on
+( )
+the
+∇
+sphere
+(
+∂B
+−
+ϵ
+) −( −)∇
+( )
+0 . This corresponds to the
+“opposite” choice of normal that appears
+∣∣
+in the standard
+∣
+form
+∣
+ulation of Green’s identity for
+∣∣
+Bc
+ϵ 0 ,
+but we have compensated for
+∇
+this by carefully inserting minus signs
+( )
+on the right-hand side of
+(1.0.12). Recalling also that
+1
+1
+ˆ
+N(
+c
+σ) ∣σ∣= −∣σ∣2, that ∣σ∣= ϵ on ∂Bϵ(0), and that dσ
+ϵ2dω on ∂Bc
+ϵ
+(
+0
+)
+,
+it follows that
+=
+( )
+−∫
+1
+(1.0.13)
+( ) ∣∣∆yf(x −y)d3y = −∫
+( ) ϵω ⋅(∇f)(x −ϵω)dω + ∫
+( ) f(x
+ϵω dω.
+Bcϵ 0
+y
+∂B1 0
+∂B1 0
+Using (1.0.8), it follows that the ﬁrst integral on the right-hand side of (1.0.13)
+−
+is bounded
+)
+by
+4πMϵ, and thus goes to 0 as ϵ →0+. Furthermore, since f is continuous and since
+∂B1 0 1dω
+4π,
+it
+=
+follows that the second integral converges to 4πf(x) as ϵ →0+. We have thus pro
+∫
+ved
+(
+(1.0.10)
+)
+for
+n
+3.
+=
+To estimate u x
+as x
+, we assume that
+to estimate right-hand side of (1.0.4) when x
+holds for y
+R
+∣(
+and
+)∣
+x
+∣∣
+2
+→
+R.
+∞
+Using this inequalit
+( )
+( )
+(1.0.4) by
+∣∣>
+f x vanishes outside of the ball BR 0
+≤
+. It suﬃces
+1
+2
+∣∣≤
+∣∣>
+2R. We ﬁrst note the inequality ∣x−y∣
+∣x∣, which
+y and (1.0.8), we can estimate right-hand side of
+(1.0.14)
+∣u(x)∣= 1 ∣∫
+1
+( ) ∣−∣f(
+M
+2R3M
+y d3y
+1d3y
+,
+4π
+BR 0
+x
+y
+2π x
+BR 0
+3 x
+and we have shown (1.0.5) in the case n
+.
+)
+∣≤
+∣∣∫
+( )
+∣∣
+= 3
+=
+
+
+4
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+To prove uniqueness, we will make use of Corollary 4.0.4,
+∞
+which we will prove later. Now if u,v
+are two solutions with the assumed decay conditions at
+, then using the usual strategy, we note
+def
+that w
+u
+v is a solution to the Laplace equation
+(1.0.15)
+=
+−
+∆w
+0
+that veriﬁes ∣w(x)∣
+0 as x
+. In particular, w is a bounded harmonic function on R3. We will
+show in Corollary
+∣(
+4.0.4
+→
+belo
+∣∣
+w
+→
+that
+∞
+∣
+w(
+)∣→
+∣
+→∞
+x m
+=
+)
+ust be a constant function. Furthermore, the constant
+must be 0 since w x
+0 as x
+.
+□
+2. Green functions for domains Ω
+Our goal in this section is to derive an analog of Theorem 1.1 on the interior of domains Ω
+Rn.
+Speciﬁcally, we will study the boundary value Poisson problem
+⊂
+(2.0.16)
+∆u(x) = f(x),
+x ∈Ω⊂Rn,
+u x
+g x ,
+x
+∂Ω.
+Theorem
+C( Ω)
+2.1 (Basic existence
+Then
+( ) = (
+theorem
+)
+). Let g be
+∂
+.
+the PDE (2.0.16) has a unique solution u
+∈
+Proof. This proof is a bit beyond this course.
+∈
+∈
+a bounde
+( )
+g
+Ω∩
+d Lipschitz domain, and let
+C2
+C(Ω).
+□
+Deﬁnition 2.0.2. Let Ω⊂
+(
+) ∈
+×
+Rn be a domain. A Green function in Ωis deﬁned to be a function of
+x,y
+Ω
+Ωverifying the following conditions for each ﬁxed x
+Ω
+(2.0.17)
+∆yG(
+(
+x,y) = δ(
+) =
+x ,
+∈
+y
+∶
+∈Ω
+(2.0.18)
+G x,σ
+0,
+)
+σ
+∂Ω.
+Proposition 2.0.2. Let Φ be the fundamental
+∈
+(
+)
+solution (1.0.3) for ∆in Rn, and let Ω
+Rn be a
+domain. Then the Green function G x,y
+for Ωcan be decomposed as
+∈
+(2.0.19)
+G
+where for each x
+Ω, φ x,y
+solves the
+(x,y) = Φ(x −)
+(
+∈
+(
+)
+y −φ x,y
+Dirichlet
+),
+problem
+(2.0.20)
+∆yφ(x,y) =
+(
+) =
+0,
+(2.0.21)
+φ x,σ
+Φ
+∈
+ve
+(x −σ
+Proof. As we ha
+previously discussed, ∆Φ
+)
+y
+Ω,
+,
+σ ∈∂Ω.
+= δ. Also using (2.0.20), we compute that
+(2.0.22)
+∆y(Φ(x −y)
+φ x,y
+∆yΦ x
+y
+∆yφ x,y
+δ
+Therefore, Φ x
+y
+φ x,y veriﬁes equation (2.0.17).
+Furthermore, using (2.0.21), w
+−
+e ha
+(
+ve
+)
+that
+) =
+Φ x
+(
+σ
+−)
+φ
+−
+x,σ
+(
+0
+)
+whenev
+= ( −
+(
+x
+)
+( −) −
+)
+y .
+( −
+) −(
+) =
+er σ ∈
+) −(
+)
+∂Ω. Thus, Φ x
+y
+φ x,y also veriﬁes the boundary condition (2.0.18).
+(
+□
+−
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+5
+The following technical proposition will play later in this section when we derive representation
+formulas for solutions to (2.0.16) in terms of Green functions.
+Proposition 2.0.3 (Representation formula for u). Let Φ be the fundamental solution (1.0.3)
+for ∆in Rn, and let Ω
+Rn be a domain. Assume that u
+C2 Ω. Then for every x
+Ω, we have
+the following representation
+⊂
+formula for u x
+∈
+( )
+∈
+(2.0.23) u(x) = ∫Φ(x −y)∆u(y)dn
+y
+y
+( ) ∶
+Ω
+−∫
+( −)∇
+( )
++∫
+( )∇
+( −)
+Proof. We’ll do the proof for n
+3, in whic
+´¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹
+Φ
+¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹
+x
+σ
+¸¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹
+ˆ
+N( )u σ dσ
+u σ
+ˆ
+σ
+N(σ)Φ x
+σ dσ .
+∂Ω
+∂Ω
+single layer potential
+double layer potential
+=
+(
+( )
+h case Φ x
+1
+¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¶
+´¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¸¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¹¶
+4π x
+identity (1.0.11). Let Bϵ x be a ball of radius ϵ centered at
+∣
+x,
+∣. We will also make use of Green’s
+def
+and let Ωϵ
+ΩBϵ x . Note that
+∂Ωϵ
+∂Ω
+∂Bϵ x . Using (1.0.11), we compute that
+) = −
+=
+/
+( )
+(2.0.24)
+=
+∪−
+( )
+∫
+1
+1
+1
+∆u y d3y
+ˆu σ
+u σ
+ˆ
+N
+N
+dσ
+Ωϵ ∣x −y∣
+( )
+= ∫∂Ωϵ ∣x −σ∣∇
+( ) −( )∇(∣x −σ∣)
+= ∫
+∣
+1
+∂Ωx −σ∣∇ˆ
+Nu(σ)dσ
+1
+ˆ
+Nu σ
+−∫
+u σ
+dσ
+)
+ˆ
+N
+∂Ω(
+∇(
+1
+)dσ
+x
+σ
+−∫∂Bϵ(x) ∣x −σ∣∇
+( )
++ ∫
+1
+∂Bϵ
+∣−
+(x
+∣
+ˆ
+In the last two integrals above, N σ denotes the radially outward unit
+) u(σ)∇ˆ
+N(∣x −σ
+b
+∣)dσ.
+normal to the
+oundary of
+the ball Bϵ x . This corresponds to the “opposite” choice of normal that appears in the standard
+formulation
+(
+of Green’s
+( )
+)
+identity, but we have compensated by adjusting the signs in front of the
+integrals.
+Let’s symbolically write (2.0.24) as
+(2.0.25)
+L = R1 + R2 +
+↓
+R3
+4
+Our
++ R .
+goal
+●
+is to show that as
+L
+4π
+ΩΦ x
+y
+R1
+→
+y
+R2
+−
+4π
+4π
+∫
+single
+double
+( −
+la
+)
+ϵ
+0
+(
+, the
+∆yu y)
+following limits are achieved:
+●
+R3
+→
+d3
+●
+0
+×
+y
+R4
+→−
+4πu
+×
+er potential
+●
+→
+layer potential
+●
+ha
+→−
+x .
+Once we
+ve calculated
+W
+( )
+the above limits, (2.0.23) then follows from simple algebraic rearranging.
+e ﬁrst address L. Let M = maxy∈Ω∆u(y
+1
+(2.0.26)
+∣
+1
+). We then estimate
+∣∫
+3
+1
+∆u y d3y
+∆u y d y
+∆u y
+d3y
+Ωx −y∣
+( )
+−∫Ωϵ ∣x −y∣
+( )
+∣≤∫Bϵ(x) ∣x
+M
+Bϵ x
+−y
+1
+∣∣
+d
+(
+3y
+)∣
+0 as ϵ
+0.
+x
+y
+This shows that L converges to
+1
+Ωx y ∆u y d3y as ϵ
+0.
+≤
+∫
+( )
+→
+↓
+The limits for R1 and R2 are obvious since these terms do not dep
+∣
+end
+−
+on
+∣
+We now address R3. To this end,
+∫
+∣−∣
+( )
+↓
+ϵ.
+Let M
+maxy Ω
+u y . We then estimate R3 by
+′ =
+∈∣∇( )∣
+
+
+6
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+(2.0.27)
+∣R3∣≤∫
+( ) ∣∣−
+1
+∣∇ˆ
+Nu(
+1
+σ)∣dσ ≤∫
+=
+4πϵ2
+ϵ−
+′
+( )
+M ′ dσ
+1M
+0 as ϵ
+0.
+∂Bϵ x
+x
+σ
+∂Bϵ x ϵ
+surface area of ∂Bϵ
+We now address R4. Using spherical coordinates
+r,θ,φ
+±
+0,
+0
+(x)
+×
+→
+↓
+x, we ha
+dσ =
+,π
+0,2π
+ve that
+r2 sinθ dθ dφ. Therefore,
+∂
+(
+x−σ∣2 dσ
+) ∈[
+φ
+estimate
+∣
+1
+Bϵ(x)
+∈[
+∞
+0,2
+)
+π]
+× [
+) ×
+∫
+= ∫
+dθ
+[
+dφ
+)
+∫θ∈[0,π] 1
+=
+centered at
+4π. We now
+1
+1
+1
+(2.0.28)
+∣
+R4 −[ −u(x)]∣= ∣u(x) +
+∫
+( ) u σ
+4π
+π
+Bϵ x
+( )∇ˆ
+4
+N(σ)( x
+σ
+u
+σ
+dσ
+)dσ
+∂
+∣
+= 1
+1
+x
+u
+4π
+1
+(
+2
+x
+∣
+∣
+B
+−∣
+∫∂
+ϵ( ) ( ( ) −( )) ∣x −σ
+1
+u x
+u σ
+dσ
+)
+∣
+≤4π ∫∂Bϵ(x) ∣( ) −( )∣(∣x −σ
+1
+ϵ
+∣2
+∣
+)
+≤1
+max
+u x
+u σ
+dσ
+≤
+4π
+2
+σ ∂B
+x
+∂Bϵ x
+x
+σ
+∈max
+∈
+(
+(
+u
+∣( )
+)∣(
+)
+x
+( )∣
+) −u
+−
+(σ)∣→0 as
+σ ∂B
+x
+∫
+ϵ
+( )
+0
+ϵ
+(
+.
+∣−∣)
+This shows that R4 →−4πu
+↓
+(x) as ϵ ↓0.
+□
+Theorem 2.2 (Representation formula for solutions to the boundary value Poisson
+equation). The solution u to (2.0.16) can be represented as
+(2.0.29)
+u(x) = −∫f
+Ω(y)G(x,y)dny −
+Proof. Applying Proposition 2.0.3, we have that
+∫
+g
+´
+x,
+Ω
+Poisson
+¹¹¹¹¹¹¹¹¹¹¹¹¸¹¹¹¹¹¹¹¹¹¹¹¹
+σ
+∂
+(σ)
+∇ˆ
+NG(
+kernel
+¶
+)
+dσ.
+(2.0.30)
+u(x) = −∫Φ
+Ω
+(x −y)f y
+Recall also that
+( )dny + ∫
+Φ
+∂Ω
+(x −σ)∇ˆ
+N(σ)u(σ)dσ −∫
+g
+∂Ω(σ)∇ˆ
+N(σ)Φ(x −σ)dσ.
+(2.0.31)
+G(x,y) = Φ(x −y
+(2.0.32)
+G x,σ
+0 when
+) −φ(x,y
+σ
+∂Ω.
+)
+Applying the Green
+∈
+identity (1.0.11) to the functions u y and φ x,y , and recalling that ∆yφ x,y
+0 for each ﬁxed x
+Ω, we have that
+(
+) =
+∈
+( )
+(
+)
+(
+) =
+∆u y
+Φ x σ
+u σ
+(2.0.33)
+0
+φ
+(
+=
+x,y f y
+)
+dny
+φ
+(
+x,
+−
+σ
+)
+ˆ
+Nu σ dσ
+g
+(
+σ
+)
+ˆ
+Nφ x,σ dσ.
+Ω
+∂Ω
+∂Ω
+Adding (2.0.30) and (2.0.33),
+−
+³
+¹¹¹¹¹µ
+¬
+∫
+(
+)
+¬
+(
+and
+)
+using
+¹¹¹¹·
+∫
+(2.0.31),
+(
+w
+)∇
+e deduce
+( )
+the
++ ∫
+formula
+( )
+(2.0.29).
+∇
+(
+)
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+7
+□
+3. Poisson’s Formula
+def
+Let’s compute the
+=
+Green
+( )
+function
+⊂
+G x,y and Poisson kernel P x,σ
+ˆ
+NG x,σ from (2.0.29)
+def
+in the case that Ω
+BR 0
+R3 is a
+(
+ball
+)
+of radius R centered at
+(
+the
+)
+origin.
+= −∇
+We’ll use a technique
+called the method of images that works for special domains.
+(
+)
+Warning 3.0.1. Brace yourself for a bunch of tedious computations that at the end of the day will
+lead to a very nice expression.
+The basic idea is to hope that φ
+y, is equal to the potential generated
+To ensure that property (2.0.18) holds,
+(x,y) from (2.0.19), viewed as a potential that depends on
+by some “imaginary charge” q placed at a point x∗
+Ωc.
+{
+q and x
+have to be chosen so that along the boundary
+y
+R3
+y
+R , φ x,y
+1
+4π x y . In a nutshell, w
+∗
+e guess that
+∈
+q
+(3.0.34)
+∈
+∣∣∣=
+}
+(
+) =
+∣−∣
+1
+G x,y
+,
+4π x
+y
+4π x
+y
+and we try to solve for q and x
+(
+) =
+∣−∣−
+∣
+∗
+∗so that G
+−
+(x,y) vanishes when ∣y
+ha
+∣
+∣= R. Thus, when ∣y∣= R, we must
+ve
+1
+(3.0.35)
+4π∣x −y∣=
+q
+.
+4π∣x∗−y
+(3.0.36)
+∣x∗−y
+∣
+∣2 = q2∣x −y∣2.
+(3.0.37)
+∣x∣2 −2x ⋅y + R2 = ∣x
+y
+Then
+∣2
+performing simple algebra, we ha
+−
+ve
+= q2∣x∗−y∣2 = q2(∣x∗∣2 −2x∗⋅y + R2).
+(3.0.38)
+∣x∗∣2 + R2 −q2(R2
+Now since the left-hand side of (3.0.38) does not
++ ∣x∣2) = 2y ⋅(x∗−q2x).
+depend on
+∗=
+y, it must be the case that the second
+term on the right-hand side vanishes. This implies that x
+q2x, and also leads to the equation
+(3.0.39)
+q4∣x∣2 −q2(R2 + ∣x∣2
+Solving
+) + R2 = 0.
+(3.0.39) for q, we ﬁnally have that
+R
+(3.0.40)
+q
+(3.0.41)
+∣
+R
+x
+= ∣x∣,
+∗=
+2
+x∣x.
+2
+Therefore,
+
+
+8
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+φ(
+1
+R
+(3.0.42)
+x,y
+2
+,
+4π x
+R
+x 2x
+y
+1
+(3.0.43)
+φ(0,y
+) =
+,
+∣∣∣∣∣
+∣
+→
+R
+−
+where we took a limit as x
+0 in (3.0.42) to
+) =
+derive (3.0.43).
+Next, using (3.0.34), we have
+(3.0.44)
+G(x,y
+(3.0.45)
+G 0,y
+) =
+∣
+1
+−
+1
+4π x
+y∣−4π
+y
+∣x
+1
+1 .
+4π
+R
+∣∣
+R
+∣
+R2
+,
+x∣2x −y∣
+x ≠0,
+(
+) =
+∣∣−
+∇
+(
+) =
+x
+(3.0.46)
+yG x,y
+4π
+∗
+Now when σ
+∂B
+0 , (3.0.36) and (3.0.40)
+−
+−
+R
+∣−
+y
+1 R x
+y
+∈
+( )
+x
+y
+imply
+∣3 −4π ∣x∣∣x∗−y∣3
+that
+(3.0.47)
+Therefore, using (3.0.46) and (3.0.47), w
+∣
+R
+x∗
+σ
+x
+σ .
+x
+e compute
+−∣= ∣∣
+that
+∣−∣
+∇
+(
+) =
+R2
+x
+σ
+σG
+4π x
+−
+σ 3 −1
+(3.0.48)
+4π
+x
+∣x
+2
+∣2 x
+x,σ
+R2 x
+∗
+σ
+−σ
+x
+σ
+=
+−σ
+x
+4π x
+σ 3 −1
+4π
+∣∣2
+3
+R2
+∣x 2x
+σ
+x
+∣
+σ
+−
+3
+=
+1
+.
+4π
+∣
+x
+−
+σ
+∣
+3
+R2
+∣−∣
+∣−∣
+∣−∣
+ˆ
+Using (3.0.48) and the fact that
+−
+∣
+N
+−∣(
+= σ
+R
+−
+(σ)
+, w
+∣
+e
+∣
+deduce
+)
+∇ˆ
+N(σ)G(
+def
+ˆ
+(3.0.49)
+x,σ
+σG x,σ
+N
+Remark 3.0.3. If the ball were cen
+)
+tered
+= ∇
+at
+(
+the p
+)
+oin
+⋅
+t
+(
+R
+σ) =
+2
+.
+σ 3
+3 instead
+−∣x∣2
+1
+4πR
+∣x
+p ∈R
+of
+(3.0.49)
+−
+the
+∣
+origin, then the formula
+would be replaced with
+∇
+(
+)
+def= ∇
+(
+) ⋅
+( ) = R2
+x
+p 2
+1
+N(σ)
+ˆ
+(3.0.50)
+ˆ
+G x,σ
+σG x,σ
+N σ
+.
+4πR
+x
+σ 3
+(
+Theorem
+)
+3.1 (Poisson’s formula). Let B
+a
+∣
+R3
+−
+R p
+be
+b
+−
+all
+∣
+of radius R centered at p
+p
+(
+1,p2
+(
+,p
+))
+3 , and let x = (x1,x2,x3) denote a point in
+∣−∣
+( )
+R
+⊂
+3. Then the unique solution u ∈C2(BR(p
+C BR p
+of the PDE
+=
+)) ∩
+{ ∆
+(
+u
+0,
+x
+Ω,
+(3.0.51)
+u x
+c
+=
+) = f(x),
+x
+∈
+∈∂Ω,
+an be represented using the Poisson formula:
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+9
+( )
+R2
+x
+p 2
+f σ
+(3.0.52)
+u x
+dσ.
+4πR
+x
+σ 3
+∂BR p
+Remark 3.0.4. In n dimensions, the
+=
+for
+−
+m
+∣
+ula
+−
+(3.0.
+∣
+∫
+52)
+(
+gets
+)
+( )
+∣
+replaced
+−∣
+with
+(3.0.53)
+u(x) = R2 −∣x −p∣2
+ωnR
+∫
+f σ
+dσ,
+n
+∂BR p
+x
+where as usual, ω is the surface area of the unit ball in
+( )
+Rn.
+(
+−σ
+)
+n
+∣
+∣
+Proof. The identity (3.0.52) follows immediately from Theorem 2.2 and (3.0.50).
+□
+4. Harnack’s inequality
+Theorem 4.1 (Harnac
+∈
+k’s
+( )
+inequality). Let u be harmonic and non-negative in the ball BR(0
+Rn. Then for any x
+BR 0 , we have that
+) ⊂
+Rn−2 R
+x
+Rn 2 R
+x
+(4.0.54)
+u 0
+u x
+R
+x
+n 1
+R
+−
+u 0 .
+x
+n 1
+Proof. We’ll do the proof for
+(
+−∣∣)
+(
+n
++ ∣
+3.
+∣)
+The
+−
+basic
+( ) ≤( ) ≤
+(
+(
+−
+=
+idea is to combine
++ ∣∣)
+∣∣)
+the
+−
+P
+(
+oisson
+)
+representation formula
+with simple inequalities and the mean value property. By Theorem 3.1, we have that
+u(x) = R2 −∣x
+(4.0.55)
+4πR
+By the triangle inequality, for σ
+∂B
+0
+(i.e.
+∣2
+f σ
+∂BR
+R
+∫
+σ
+( )
+dσ
+3
+R
+−
+.
+∈
+0
+x
+(
+∣
+( )
+∣∣=
+σ
+), we
+)
+∣
+have that ∣x
+Applying the ﬁrst inequality to (4.0.55), and using the non-negativity of
+∣−R ≤∣x −σ∣≤∣x∣+ R.
+f, we deduce that
+R
+x
+1
+(4.0.56)
+u
+No
+b
+mean value
+(x)
+R2
+w recall that
+y the
+prop
+≤
+ert
++ ∣∣
+−
+y
+∣
+f σ dσ.
+x∣2 4πR
+∂BR 0
+, we hav
+∫
+e that
+( ) ( )
+(4.0.57)
+u(0) =
+1
+4πR2 ∫
+f σ dσ.
+∂BR
+Th
+(0
+us, combining (4.0.56) and (4.0.57), we have that
+) ( )
+( ) ≤Rn−2(R
+x
+(4.0.58)
+u x
+R
+x
++
+n
+which implies one of the inequalities in (4.0.54). The other
+∣
+−
+∣),
+1
+one can be proven similarly using the
+remaining triangle inequality.
+(
+−∣∣)
+□
+Corollary 4.0.4 (Liouville’s theorem). Suppose that u
+C2 Rn
+is harmonic on Rn. Suppose
+their exists a constant M such that u x
+M for all x
+Rn
+∈
+, or
+(
+such
+)
+that u x
+M for all x
+Rn.
+Then u is constant.
+( ) ≥
+∈
+( ) ≤
+∈
+
+
+10
+MATH 18.152 COURSE NOTES - CLASS MEETING # 7
+def
+Proof. We ﬁrst consider the case that u x
+M. Let v
+u
+M . Observe that v
+0 is harmonic
+and veriﬁes the hypotheses of Theorem 4.1.
+( ) ≥
+Thus, by (4.0.54),
+=
++ ∣
+if
+∣
+x
+≥
+∈Rn and R is suﬃciently large,
+we have that
+Rn−2(R −∣x∣)
+(
++ ∣∣)
+( ) ≤( ) ≤R
+(
+n
+(4.0.59)
+x
+u
+R
+−2
+x
+x
+n−
+u 0
+u
+1
+(R +
+0
+R −∣x∣)
+.
+n
+Allowing R
+in (4.0.59), we conclude that v x
+v 0 . Th
+∣
+−1
+∣) ( )
+→∞
+( ) = ( )
+us, v is a constant-valued function
+(and therefore u is too).
+(
+T
+)
+def
+o handle the case u x
+M, we simply consider the function w x
+u x
+M in place of
+v x , and we argue as ab
+(
+o
+)
+ve.
+≤
+( ) = −( ) + ∣
+∣
+□
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.152 Introduction to Partial Differential Equations.
+Fall 2011
+ 
+ 
+ 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

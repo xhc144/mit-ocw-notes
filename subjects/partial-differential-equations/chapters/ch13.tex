@@ -1,0 +1,65 @@
+\originalchapter{输运方程与 Burgers 奇性}\label{ch:transport}
+\sourcelecture{1,24; 激波与熵条件为编者补充}
+\originalsection{特征流与入流数据}
+\begin{theorem}\label{thm:transport}
+设 $b(t,x)$ 连续且对空间 $C^1$, 在有限时间区间对空间全局 Lipschitz, 并具有至多线性增长. 对 $u_t+b\cdot\nabla u+a u=F$, 光滑初值 $u(0)=g$ 的经典解沿流 $X'(t)=b(t,X)$ 满足
+\[
+u(t,X(t;0,y))=\ee^{-\int_0^ta(s,X(s))\dd s}g(y)
++\int_0^t\ee^{-\int_s^ta(r,X(r))\dd r}F(s,X(s))\dd s.
+\]
+系数与数据足够 $C^1$ 时该式给 $C^1$ 解, 并唯一.
+\end{theorem}
+\begin{proof}
+先修 ODE 存在唯一性和线性增长保证流在给定有限时间区间存在. 导数矩阵满足 $\partial_tD_yX=(D_xb)D_yX$, 初值 $I$; 倒流给逆, 所以流为 $C^1$ 微分同胚. 链式法则给沿曲线的标量 ODE $\frac{\mathrm d}{\mathrm dt}u+a u=F$, 积分因子解即所示公式. 反向由每点唯一的流线确定初始点, 求导核验 PDE. 任意解都服从同一 ODE, 给唯一性.
+\end{proof}
+有界域的特征若从侧边进入, 要在入流边界 $b\cdot\nu<0$ 给值; 出流边界不能再任意独立指定值. 数据曲面 $\Sigma$ 对时空向量 $(1,b)$ 非特征的条件是该向量不切于 $\Sigma$. 这是第一章直线例子的几何推广.
+
+对齐次输运, $u$ 沿流恒定但体积未必守恒. Jacobian $J=\det D_yX$ 满足 $J'=(\diver b)(t,X)J$, $J(0)=1$, 由行列式微分与线性矩阵 ODE 得到. $\diver b=0$ 时保持体积, 从而保持所有有限 $L^p$ 范数. 连续性方程 $\rho_t+\diver(b\rho)=0$ 则是输运加 $a=\diver b$, 满足 $\rho(t,X)J=\rho(0,y)$, 总质量守恒.
+\originalsection{Burgers 的隐式解与破裂时间}
+\begin{theorem}\label{thm:burgers}
+设 $g\in C^1(\R)$ 有界且 $g'$ 有界. 无粘 Burgers 方程 $u_t+uu_x=0$, $u(0)=g$ 的特征为 $x=y+tg(y)$, 沿特征 $u=g(y)$. 只要 $1+tg'(y)>0$ 且有统一正下界, 该映射是全直线 $C^1$ 微分同胚, 解为 $u(t,x)=g(Y(t,x))$, 且
+\[
+u_x(t,x)=\frac{g'(Y)}{1+tg'(Y)},\qquad u_t=-u u_x.
+\]
+若 $m=\inf g'<0$, 则在 $0\le t<T_*=-1/m$ 保持 $C^1$; 若负最小值取得, 则在该特征上 $u_x\to-\infty$ 当 $t\uparrow T_*$. 若 $g'\ge0$, 则对所有正时间存在经典解.
+\end{theorem}
+\begin{proof}
+沿 $X'=u(t,X)$ 有 $\frac{\mathrm d}{\mathrm dt}u(t,X)=u_t+uu_x=0$, 故 $u=g(y)$, $X=y+tg(y)$. 当导数 $1+tg'>0$ 有统一下界, 映射严格递增; $g$ 有界使 $X(y)\to\pm\infty$, 所以满射. 逆函数定理给 $Y_x=(1+tg'(Y))^{-1}$, $Y_t=-g(Y)/(1+tg'(Y))$, 得导数及方程. $t<T_*$ 时下界 $1+tm>0$. 在取得 $m$ 的点分母趋零而分子负非零, 得梯度爆破. 非负导数给下界1, 任意有限时间均可构造. 唯一性在经典且所需流线存在的类别由特征给出.
+\end{proof}
+更一般的不有界初值需另核全局流与映射满射, 本册不省略该条件. 梯度破裂发生时函数值仍沿特征保持原幅值. 因而守恒一个 $L^2$ 范数并不能防止导数爆破.
+\begin{example}
+初值 $g(x)=-\tanh x$, 求首次破裂时间.
+\end{example}
+\begin{solution}
+$g'=-\operatorname{sech}^2x$, 最小值 $-1$ 于0取得, 所以 $T_*=1$. 中心特征为 $x=0$, 上面 $u=0$, 但 $u_x(t,0)=-1/(1-t)$ 趋负无穷. $g$ 本身不在 $L^2$, 此例用于梯度奇性, 不援引总 $L^2$ 能量. 可另取具有负斜率的光滑紧支撑初值得到有限能量版本.
+\end{solution}
+\originalsection{守恒律、激波与熵}
+光滑 Burgers 解满足 $u_t+(u^2/2)_x=0$. 乘 $u$ 得 $\partial_t(u^2/2)+\partial_x(u^3/3)=0$. 对紧支撑或足够可积且允许求导和消失边界通量的解, $\int u^2$ 守恒. 仅“在无穷远趋零”不保证 $L^2$ 可积.
+
+破裂后采用分布守恒律. $u$ 为局部有界弱解, 若对 $\phi\in C_c^\infty((0,\infty)\times\R)$ 有 $\int[u\phi_t+(u^2/2)\phi_x]=0$. 初值以局部 $L^1$ 迹给定.
+\begin{proposition}\label{prop:RH}
+分段常值 $u=u_L$ 于 $x<st$, $u=u_R$ 于 $x>st$, 是 Burgers 弱解当且仅当 $s=(u_L+u_R)/2$, 若 $u_L\ne u_R$.
+\end{proposition}
+\begin{proof}
+对移动界面两侧分部积分, 界面分布项为 $[-s(u_R-u_L)+(u_R^2-u_L^2)/2]\delta_{x=st}$. 系数为零即 Rankine--Hugoniot 条件 $s[u]=[u^2/2]$, 除以非零跳跃得速度. 常值两侧的内部导数为零.
+\end{proof}
+弱守恒不能单独确定物理解. 对凸熵 $\eta$, 熵通量满足 $q'(u)=\eta'(u)u$, 熵条件要求 $\partial_t\eta(u)+\partial_xq(u)\le0$ 于分布意义. 对平方熵 $\eta=u^2/2$, $q=u^3/3$, 激波系数为
+\[
+-s[\eta]+[q]=\frac{(u_R-u_L)^3}{12}.
+\]
+所以下降跃迁 $u_L>u_R$ 满足非正熵产生, 上升跃迁不满足. 一般凸熵也可直接核验. 置 $a=u_L>b=u_R$, $s=(a+b)/2$, 其界面系数为
+\[
+-s[\eta]+[q]=-\int_b^a\eta'(v)(v-s)\dd v
+=-\int_b^a[\eta'(v)-\eta'(s)](v-s)\dd v\le0.
+\]
+第二等号用 $\int_b^a(v-s)\dd v=0$, 最后一步用凸性使 $\eta'$ 单调. 因而下降激波满足所有光滑凸熵条件; 一般凸熵可由光滑凸函数逼近. 两侧特征均向界面汇聚.
+\begin{example}
+初值在零点左侧为 $u_L$, 右侧为 $u_R$, 求熵解.
+\end{example}
+\begin{solution}
+若 $u_L>u_R$, 取速度 $s=(u_L+u_R)/2$ 的下降激波. 若 $u_L<u_R$, 取稀疏波
+\[
+u(t,x)=\begin{cases}u_L,&x/t\le u_L,\\x/t,&u_L<x/t<u_R,\\u_R,&x/t\ge u_R.\end{cases}
+\]
+扇形内部 $u_t=-x/t^2$, $uu_x=x/t^2$, 互相抵消; 两连接线函数值连续, 不产生跳跃分布, 因而为弱解. 它在每个 $t>0$ 局部 Lipschitz, 链式法则给熵等式几乎处处, 连续连接使熵无奇异贡献, 故满足凸熵条件. 初时在局部 $L^1$ 中趋原阶梯函数. 本册证明这些基本解, 不建立任意有界数据熵解的完整存在唯一性理论.
+\end{solution}

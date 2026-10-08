@@ -1,0 +1,84 @@
+\originalchapter{热核与全空间初值问题}\label{ch:heatkernel}
+\sourcelecture{4--5}
+\originalsection{缩放与 Gaussian 核}
+抛物缩放 $u_\lambda(t,x)=\lambda^nu(\lambda^2t,\lambda x)$ 保持方程, 也保持空间积分. 集中质量随时间扩散的尺度应为 $|x|\sim\sqrt{Dt}$. 一维试取 $K(t,x)=(Dt)^{-1/2}V(\zeta)$, $\zeta=x/\sqrt{Dt}$, 得
+\[
+V''+\tfrac12\zeta V'+\tfrac12V=0,
+\quad (V'+\tfrac12\zeta V)'=0.
+\]
+取偶对称且衰减的解, 在零点有 $V'(0)=0$, 故 $V'+\zeta V/2=0$, 得 $V=C\ee^{-\zeta^2/4}$. Gaussian 积分由二维极坐标求出 $\int_\R\ee^{-s^2}\dd s=\sqrt\pi$. 归一化后, 各方向相乘给
+\begin{equation}\label{eq:heatkernel}
+K_D(t,x)=(4\pi Dt)^{-n/2}\ee^{-|x|^2/(4Dt)},\qquad t>0.
+\end{equation}
+直接求导有 $\partial_tK_D=(-n/(2t)+|x|^2/(4Dt^2))K_D$ 及 $\Delta K_D=(-n/(2Dt)+|x|^2/(4D^2t^2))K_D$, 所以 $K_t=D\Delta K$. 换元 $x=\sqrt{4Dt}\,z$ 得 $\int K_D=1$. 注意 $x=0$ 时核趋于无穷, $x\ne0$ 时趋零; 所谓初值 $\delta_0$ 指分布极限.
+\begin{lemma}\label{lem:heatapprox}
+若 $g$ 有界连续, $K_D(t)*g(x)\to g(x)$ 在每个连续点成立; 若 $g$ 有界且一致连续, 则一致收敛. 对 $1\le p<\infty$, $g\in L^p$ 时收敛于 $L^p$.
+\end{lemma}
+\begin{proof}
+卷积定义为 $(K*g)(x)=\int K(y)g(x-y)\dd y$. 减去 $g(x)\int K$ 后, 在 $|y|<\delta$ 用连续性控制差值, 其余部分用 $2\|g\|_\infty\int_{|y|\ge\delta}K$. 换元后尾积分下限为 $\delta/\sqrt{4Dt}\to\infty$, 故趋零. 一致连续使 $\delta$ 不依赖 $x$. $L^p$ 情形以 $\|g(\cdot-y)-g\|_p$ 替代点态差值, 利用平移连续性和积分 Minkowski 不等式. 平移连续性由紧支撑阶梯函数逼近证明, 与引理\ref{lem:fejer}相同.
+\end{proof}
+\originalsection{构造、正性与无穷传播}
+\begin{theorem}\label{thm:heatrn}
+$g$ 有界连续时, $u(t)=K_D(t)*g$ 是全空间热方程的有界经典解, 正时间 $C^\infty$, 连续取得初值. 有界解中唯一, 且 $\|u(t)\|_\infty\le\|g\|_\infty$. $g\in L^p$ 时同公式满足 $\|u(t)\|_p\le\|g\|_p$ 及 $L^p$ 初始迹, $p<\infty$.
+\end{theorem}
+\begin{proof}
+在 $t\in[\tau,T]$, $x$ 位于紧集时, 核的任意导数均被 $C(1+|y|)^m\ee^{-c|y|^2}$ 控制, 可积. 所以可交换求导与积分, 用 $K_t=D\Delta K$ 得方程和光滑性. 初值由上引理. 核非负且积分为1, 给一致范数估计. 积分 Minkowski 与平移保 $L^p$ 范数给 $L^p$ 收缩.
+
+证明有界唯一性, 取零初值解 $w$ 及任意 $\eps>0$. 设 $\Phi(t,x)=|x|^2+2nDt+1$, 则 $\Phi_t-D\Delta\Phi=0$. 在大球 $B_R$ 的侧边, 有界性使 $w-\eps\Phi\le0$; 初时也非正. 最大值原理给 $w\le\eps\Phi$ 于该柱. 对固定点先取足够大 $R$, 再令 $\eps\downarrow0$, 得 $w\le0$. 对 $-w$ 重复即得零.
+\end{proof}
+$g\ge0$ 且非零于正测度集合时, $K_D>0$ 使 $u(t,x)>0$ 对每个 $t>0,x$ 成立. 所以紧支撑的非负热量立即影响全空间. 对一般带符号数据, 不能仅从核正性推出每点非零. $L^1$ 数据的总量由 Fubini 保持: $\int u=\int g$. 全空间的长期衰减通常为幂次, 如 $\|u(t)\|_\infty\le(4\pi Dt)^{-n/2}\|g\|_1$, 与有界杆的谱隙导致的指数衰减不同.
+\begin{example}
+一维初值 $g(x)=\ee^{-a x^2}$, $a>0$, 求热方程解并计算总量.
+\end{example}
+\begin{solution}
+配方积分得到
+\[
+u(t,x)=(1+4aDt)^{-1/2}\exp\left(-\frac{a x^2}{1+4aDt}\right).
+\]
+宽度增大而峰值减小, 积分始终为 $\sqrt{\pi/a}$. 可直接求导核验 PDE, 也可由卷积构造的唯一性认定.
+\end{solution}
+\originalsection{增长数据与唯一性类别}
+\begin{proposition}\label{prop:growthheat}
+若 $g$ 连续且 $|g(x)|\le A\ee^{b|x|^2}$, $b>0$, 则核卷积在 $0<t<(4Db)^{-1}$ 收敛并给经典解. 在 $[0,T']$, $T'<(4Db)^{-1}$, 有
+\[
+|u(t,x)|\le A(1-4Dbt)^{-n/2}\exp\left(\frac{b|x|^2}{1-4Dbt}\right).
+\]
+在每个有限时间柱上满足某个统一 Gaussian 增长界的解中, 初值解唯一.
+\end{proposition}
+\begin{proof}
+将 $b|y|^2-|x-y|^2/(4Dt)$ 配方, 二次项系数为负恰当且仅当 $4Dbt<1$. 积分得到所示界. 正时间紧区间内导数仍是多项式乘严格衰减 Gaussian, 可求导. 初始迹在近点用连续性, 尾部以 $\ee^{b|y|^2}$ 和小时间核相乘的衰减控制, 得 $u(t,x)\to g(x)$.
+
+对两个增长解之差, 在固定时间区间取共同界 $|w|\le C\ee^{B|x|^2}$. 选 $a>B$ 和小时间 $0\le t\le\tau<(4Da)^{-1}$. 函数
+\[
+\Psi(t,x)=(1-4Dat)^{-n/2}\exp\left(\frac{a|x|^2}{1-4Dat}\right)
+\]
+是热方程解, 由同一配方或直接求导核实, 且 $\Psi\ge\ee^{a|x|^2}$. 对 $w-\eps\Psi$ 在 $B_R$ 用最大值原理; $C\ee^{BR^2}\le\eps\ee^{aR^2}$ 对充分大 $R$ 成立. 先取 $R$, 再令 $\eps\downarrow0$, 得 $w\le0$, 同理 $-w\le0$. 用同样长度的短时间段从已知零截面重新开始, 有限次覆盖整个区间.
+\end{proof}
+唯一性始终包含解类别. 放弃无穷远增长限制会出现零初值的非平凡热方程解, 本册不建立该反例的一般构造, 也不声称所有光滑全空间解唯一.
+\originalsection{Duhamel 原理与半空间反射}
+\begin{theorem}\label{thm:duhamelheat}
+设 $g$ 有界连续, $f$ 及其空间一、二阶导数在 $[0,T]\times\R^n$ 有界连续. 则
+\[
+u(t)=K_D(t)*g+\int_0^tK_D(t-s)*f(s)\dd s
+\]
+是 $u_t-D\Delta u=f$ 的有界解, 正时间 $C^{1,2}$, 初值为 $g$.
+\end{theorem}
+\begin{proof}
+记积分项 $v$. 为处理 $s=t$ 的核奇性, 将空间导数移到 $f$, 得 $\Delta v=\int_0^tK_D(t-s)*\Delta f(s)\dd s$. 积分分部的无穷远边界项因核衰减与 $f,\nabla f$ 有界而消失. 用 $K_D(r)*f(s)\to f(s)$ 及二阶导数的有界控制, Leibniz 法则给
+\[
+v_t=f(t)+\int_0^tD K_D(t-s)*\Delta f(s)\dd s=f+D\Delta v.
+\]
+$\|v(t)\|_\infty\le t\|f\|_\infty$ 给零初值. 连续性由近似单位和控制收敛保证. 两解之差的有界唯一性已证.
+\end{proof}
+在半直线 $x>0$ 上, 零 Dirichlet 数据用奇反射, 零 Neumann 用偶反射:
+\[
+K_{\mathrm D}(t,x,y)=K_D(t,x-y)-K_D(t,x+y),\quad
+K_{\mathrm N}(t,x,y)=K_D(t,x-y)+K_D(t,x+y).
+\]
+积分范围为 $y>0$. 对 $x=0$ 值或导数直接计算得所需边界; 初值由全空间近似单位在内部成立. Dirichlet 核对 $x,y>0$ 非负, 因 $|x-y|<x+y$; Neumann 核总质量为1.
+\begin{exercise}
+$g=0$, $f(t,x)=1$ 于全空间, 求解并核验初始迹.
+\end{exercise}
+\begin{solution}
+$K_D*1=1$, Duhamel 积分为 $\int_0^t1\dd s=t$. 因而 $u=t$, 有 $u_t=1$, $\Delta u=0$, $u(0)=0$.
+\end{solution}

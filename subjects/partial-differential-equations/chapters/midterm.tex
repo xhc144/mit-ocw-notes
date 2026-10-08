@@ -1,0 +1,45 @@
+\originalchapter{2011年期中考试及官方解答重构}
+2011年10月27日星期四, 五题各20分, 总100分. 原卷要求逻辑完整, 指明所用定理及适用条件. 本章答案以 Jared Speck 官方 \textit{Midterm Exam Solutions} 为依据翻译重构; 纠正一般反向热级数的存在性、零能量除法等条件问题, 不把这些修订说成官方勘误.
+\begin{exercise}\label{exam:mI}
+\textbf{原题 I(a:8分,b:12分).} 区间 $[0,1]$ 的反向热方程 $u_t=-u_{xx}$, 零 Dirichlet 边值. (a)找全部分离变量解 $u=v(t)w(x)$. (b)光滑初值f两端为0且 $\|f\|_\infty\le\eps$, 讨论 $t=1$ 大小, 与零初值及正向热流比较, 说明适定性.
+\end{exercise}
+\begin{solution}
+(a)零解总成立. 对非零乘积, 分离得 $v'/v=-w''/w=\lambda$. 两端零的非零空间解必须 $\lambda=m^2\pi^2$, $m=1,2,\ldots$, 因 $\lambda=0$ 的仿射解及 $\lambda<0$ 的双曲函数解都被两端零强迫为零. 因此全部非零分离解是 $A\ee^{m^2\pi^2t}\sin(m\pi x)$, A任意非零常数. 官方列 $m\ge0$, 其中 $m=0$ 只是零函数.
+
+(b)取 $f=\eps\sin(m\pi x)$, 得 $\|u(1)\|_\infty=\eps\ee^{m^2\pi^2}$ 可任意大. 为严格给连续依赖失败, 取 $\eps_m=\ee^{-m^2\pi^2/2}$, 则初值范数趋0, $t=1$ 范数趋无穷; 零初值对应零解. 正向热流则模态为 $\ee^{-m^2\pi^2t}$, 最大原理给 $\|u(t)\|_\infty\le\|f\|_\infty$, 连续依赖成立.
+
+官方把一般光滑f的展开 $\sum b_m\ee^{m^2\pi^2t}\sin(m\pi x)$ 直接称解, 此处须修订: 它一般只是形式级数. 若要求在正时间 $\tau$ 属于 $L^2$, 必须 $\sum|b_m|^2\ee^{2m^2\pi^2\tau}<\infty$, 即使系数超多项式衰减也未必满足该 Gaussian 加权条件; 仅端点为零的光滑初值甚至可能只有多项式衰减. 例如 $f=x(1-x)$ 的系数为 $4[1-(-1)^m]/(m^3\pi^3)$, 代入上述加权和立即发散, 所以不存在正时间 $L^2$ 解. 反向问题既可无解, 也在已有解的单频序列上失去连续依赖, 故在通常的初值范数中不适定.
+\end{solution}
+\begin{exercise}\label{exam:mII}
+\textbf{原题 II:20分.} $u\in C^\infty(\R^3)$ 调和且 $|u(x)|\le\sqrt{|x|}$, 证明 $u=0$.
+\end{exercise}
+\begin{solution}
+$u(0)=0$. 在 $B_R$ 置 $v=u+\sqrt R\ge0$, $v(0)=\sqrt R$. 官方使用三维球 Harnack:
+\[
+\left[\frac{R(R-r)}{(R+r)^2}-1\right]\sqrt R\le u(x)\le
+\left[\frac{R(R+r)}{(R-r)^2}-1\right]\sqrt R,
+\quad r=|x|<R.
+\]
+固定r时两系数括号为 $O(r/R)$, 乘 $\sqrt R$ 趋0, 夹逼得 $u(x)=0$.
+\end{solution}
+\begin{exercise}\label{exam:mIII}
+\textbf{原题 III:20分.} $u_t-u_{xx}=-u$ 于 $[0,2]\times[0,1]$, 给定非正初值与两个非正边值, $u\in C^{1,2}$, 证 $u\le0$.
+\end{exercise}
+\begin{solution}
+在紧矩形取最大点. 若在初片或空间端点, 数据给非正. 否则假设最大值正; 空间内点有 $u_{xx}\le0$. 若 $0<t_0<2$ 则 $u_t=0$, 若 $t_0=2$ 则左时间导数 $u_t\ge0$. 两种情形均使 $u_t-u_{xx}\ge0$, 而方程右端 $-u<0$, 矛盾. 这是官方最大点证明, 也可对 $\ee^tu$ 用普通热最大原理.
+\end{solution}
+\begin{exercise}\label{exam:mIV}
+\textbf{原题 IV(a:6分,b:2分,c:12分).} $u\in C^{1,2}([0,\infty)\times[0,1])$, $u_t=u_{xx}$ 于该域, $u_x(t,0)=u_x(t,1)=0$, $u(0)=f$. (a)证 $T(t)=\int_0^1u$ 不变; (b)猜长期状态; (c)严格证明在一个合适范数中收敛.
+\end{exercise}
+\begin{solution}
+(a) $T'=\int u_{xx}=u_x(1)-u_x(0)=0$.
+(b)绝热端点无热量流失, 稳态应为常数 $C=T(0)=\int_0^1f$.
+(c)按官方能量论证置 $w=u-C$, 则 $\int w=0$, 满足齐次热方程及 Neumann 边值. 连续性和零均值给某点 $x_0$ 有 $w(x_0)=0$, 故 $|w(x)|\le\int_0^1|w_x|\le\|w_x\|_2$, 进而 $\|w\|_2^2\le\|w_x\|_2^2$. 分部积分给 $\partial_t\|w\|_2^2=-2\|w_x\|_2^2\le-2\|w\|_2^2$. 积分得 $\|u(t)-C\|_2\le\ee^{-t}\|f-C\|_2\to0$. 官方后面的“积分(21)”误引空间估计, 应积分其(22)的时间微分不等式; 此处明确使用后者.
+\end{solution}
+\begin{exercise}\label{exam:mV}
+\textbf{原题 V(a:8分,b:12分).} 原条件为 $F\in C^2([0,\infty)\times\R)$, $f\in C^2\cap L^2$, $g\in C^1\cap L^2$, $u\in C^2$, 每个时刻u紧支撑. $-u_{tt}+u_{xx}=F$, 初值f,g, $\|F(t)\|_2\le(1+t^2)^{-1}$. 编者为严格积分补充有限能量及无穷远通量控制, 可采用有限时间段统一紧支撑的光滑解类. 定义 $E^2=\int(u_t^2+u_x^2)$. (a)证 $(E^2)'=-2\int Fu_t$; (b)证 $E(t)\le E(0)+C$.
+\end{exercise}
+\begin{solution}
+(a) 求导并以 $u_{tt}=u_{xx}-F$ 代换, 得 $2\int u_tu_{xx}+u_xu_{xt}-Fu_t$. 前两项分部积分相消, 余 $-2\int Fu_t$. 原卷假设逐时紧支撑; 严格积分论证可取有限时间段统一紧支撑, 或用有限能量截断传递.
+(b)Cauchy--Schwarz 给 $(E^2)'\le2E\|F\|_2$. 不能在 $E=0$ 时直接除E. 置 $E_\delta=\sqrt{E^2+\delta^2}$, 得 $E_\delta'\le(E/E_\delta)\|F\|_2\le(1+t^2)^{-1}$. 积分再令 $\delta\downarrow0$, 得 $E(t)\le E(0)+\arctan t\le E(0)+\pi/2$. 这补足官方直接除E的零值情形.
+\end{solution}

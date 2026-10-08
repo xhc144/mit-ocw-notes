@@ -1,0 +1,85 @@
+\originalchapter{主部分类与 Fourier 变换}\label{ch:fourier}
+\sourcelecture{15--18}
+\originalsection{二次型与方程类型}
+常系数二阶算子写作 $Lu=\sum_{j,k=0}^n a^{jk}u_{x_jx_k}+\sum_jb^ju_{x_j}+du$, 混合导数交换允许将 $A=(a^{jk})$ 对称化. 主符号为 $p(\xi)=\xi^TA\xi$. 非奇异线性坐标变换 $y=Mx$ 使主矩阵成为 $MAM^T$, 是合同变换.
+\begin{theorem}\label{thm:classification}
+对称常矩阵 $A$ 可经非奇异线性变换化为只有 $1,-1,0$ 的对角阵. 全部特征值同号且非零为椭圆型; 恰一个异号而其余同号且均非零为波型双曲型; 恰一个零而其余同号非零为退化抛物主部. 各种正、负、零方向的数量在非奇异坐标变换下不变.
+\end{theorem}
+\begin{proof}
+由实对称谱定理选正交 $Q$, $QAQ^T=\operatorname{diag}(\lambda_j)$. 非零方向再缩放 $|\lambda_j|^{-1/2}$, 零方向保留尺度, 得所示正规形. 惯性不变可从二次型正定子空间的最大维数证明: 可逆变换双射正定子空间, 故最大维数不变; 负定同理, 零维数由秩决定. 因此类型不依赖所选坐标.
+\end{proof}
+主部退化尚不足以保证有时间演化. 如 $u_{xx}=0$ 在 $(t,x)$ 上主部秩1, 但没有 $u_t$; 热型演化还要求低阶项在主部零方向有非零一阶导数, 其符号决定时间方向. 变量系数问题的点态分类也不自动给全局适定性.
+\begin{example}
+把 $u_{tt}-4u_{tx}+2u_{xx}=0$ 化为标准波方程.
+\end{example}
+\begin{solution}
+令 $s=t$, $y=x+2t$. 则 $\partial_t=\partial_s+2\partial_y$, $\partial_x=\partial_y$, 主部为 $\partial_s^2-2\partial_y^2$. 故为速度 $\sqrt2$ 的波方程. 原始混合项不是新的非线性, 只反映坐标选择.
+\end{solution}
+\originalsection{变换、衰减与微分}
+\begin{definition}
+对 $f\in L^1(\R^n)$, 定义 $\widehat f(\xi)=\int f(x)\ee^{-2\pi\ii x\cdot\xi}\dd x$, 逆变换为 $h^\vee(x)=\int h(\xi)\ee^{2\pi\ii x\cdot\xi}\dd\xi$. Schwartz 空间 $\Sch$ 由所有 $C^\infty$ 函数组成, 满足每个 $\alpha,\beta$ 的 $\sup_x|x^\alpha\partial^\beta f(x)|<\infty$.
+\end{definition}
+$L^1$ 变换有界连续, $\|\widehat f\|_\infty\le\|f\|_1$: 绝对值估计给有界性, 用 $2|f|$ 控制指数差, 控制收敛给连续性. 一致连续性可先把 $f$ 尾积分截小, 有界区域内用指数的 Lipschitz 估计.
+\begin{proposition}\label{prop:fourierprops}
+对 $f,g\in\Sch$, 有
+\begin{align*}
+\widehat{f(\cdot-a)}(\xi)&=\ee^{-2\pi\ii a\cdot\xi}\widehat f(\xi),&
+\widehat{\ee^{2\pi\ii b\cdot x}f}(\xi)&=\widehat f(\xi-b),\\
+\widehat{f(x/\lambda)}(\xi)&=|\lambda|^n\widehat f(\lambda\xi)\quad(\lambda\ne0),&
+\widehat{f*g}&=\widehat f\widehat g,\\
+\widehat{\partial^\alpha f}&=(2\pi\ii\xi)^\alpha\widehat f,&
+\partial_\xi^\beta\widehat f&=\widehat{(-2\pi\ii x)^\beta f}.
+\end{align*}
+此外 $\widehat f\in\Sch$.
+\end{proposition}
+\begin{proof}
+前三式分别换元 $y=x-a$, 合并指数, 换元 $y=x/\lambda$, Jacobian 必须取 $|\lambda|^n$. 卷积式对绝对可积双积分使用 Fubini, 置 $z=x-y$ 后指数分离. 导数式对空间积分分部, Schwartz 衰减消去端点; 频率导数式在积分内求导, 因 $x^\beta f$ 可积. 对频率导数再乘任意频率单项式, 上述两式将它化为某个 Schwartz 函数的 Fourier 变换, 其一致上界由 $L^1$ 范数控制, 所以变换仍在 $\Sch$.
+\end{proof}
+$L^1$ 函数的变换还在无穷远趋零: 先对紧支撑光滑函数用积分分部得到衰减, 再以其在 $L^1$ 中的稠密性和一致变换估计逼近. 有界连续不等于无穷远取得最大值, 所以范数一般写上确界.
+\originalsection{Gaussian 与反演}
+\begin{lemma}\label{lem:complexgaussian}
+$\operatorname{Re}z>0$ 时,
+\[
+\widehat{\ee^{-\pi z|x|^2}}(\xi)=z^{-n/2}\ee^{-\pi|\xi|^2/z}.
+\]
+右半平面平方根取正实轴上正值的连续分支.
+\end{lemma}
+\begin{proof}
+一维令 $I(z)=\int\ee^{-\pi z x^2}\dd x$. 在右半平面紧集内可对 $z$ 求导, 控制函数为多项式乘衰减 Gaussian. 对 $(x\ee^{-\pi z x^2})'$ 积分得 $I=-2zI'$, 所以 $z^{1/2}I$ 的导数为零, 由 $I(1)=1$ 得 $I=z^{-1/2}$. 设 $H(\xi)$ 为变换. 频率求导并以 $(\ee^{-\pi zx^2})'=-2\pi zx\ee^{-\pi zx^2}$ 分部积分, 得 $H'=-2\pi\xi H/z$. 此线性 ODE 与 $H(0)=I(z)$ 给公式, 不需对可能为零的 $H$ 取对数. 高维由 Fubini 和各坐标乘积得到.
+\end{proof}
+\begin{theorem}[Fourier 反演]\label{thm:inversion}
+$f\in\Sch$ 时 $f=(\widehat f)^\vee$. 更一般地, 若 $f$ 连续、$f\in L^1$ 且 $\widehat f\in L^1$, 则逐点反演成立.
+\end{theorem}
+\begin{proof}
+直接交换无正则化的双积分不合法. 对 $\eps>0$ 插入 $\ee^{-\pi\eps|\xi|^2}$, Gaussian 引理及 Fubini 得
+\[
+\int\widehat f(\xi)\ee^{2\pi\ii x\cdot\xi}\ee^{-\pi\eps|\xi|^2}\dd\xi
+=\int f(y)\eps^{-n/2}\ee^{-\pi|x-y|^2/\eps}\dd y.
+\]
+右边是近似单位, 在连续点趋 $f(x)$. 对连续 $L^1$ 函数, 近点连续性控制, 远点用 $L^1$ 尾与 Gaussian 在远点的上界控制, 不要求 $f$ 全局有界. 左边由 $|\widehat f|$ 控制趋逆变换. 得反演式; 换指数符号给另一个逆次序.
+\end{proof}
+\originalsection{Plancherel 与 PDE 乘子}
+\begin{theorem}\label{thm:plancherel}
+Fourier 变换在 $\Sch$ 上保复内积 $\langle f,g\rangle=\int f\overline g$, 并唯一延拓为 $L^2(\R^n)$ 上的酉算子, 逆为逆变换的 $L^2$ 延拓.
+\end{theorem}
+\begin{proof}
+$\Sch$ 上 Fubini 合法, 由反演 $\overline{g(x)}=\int\overline{\widehat g(\xi)}\ee^{-2\pi\ii x\cdot\xi}\dd\xi$, 得
+\[
+\int f\overline g\dd x=\int\widehat f\,\overline{\widehat g}\dd\xi.
+\]
+$\Sch$ 在 $L^2$ 中稠密: 先截断空间和函数值, 再用光滑近似单位平滑, 必要时乘紧支撑截断, 误差由平移连续性及尾积分控制. 给 $f\in L^2$ 取 $f_j\in\Sch$ 逼近, 保范数使 $\widehat f_j$ Cauchy, 完备性给极限且与逼近列无关. 逆变换同样延拓, $\Sch$ 上两者互逆, 由连续性在 $L^2$ 上互逆, 故为酉算子.
+\end{proof}
+$L^2$ 变换一般是范数极限, 不保证原定义积分绝对收敛. 这一点使能量解可以严格处理.
+
+热方程取空间变换得到 $\partial_t\widehat u=-4\pi^2D|\xi|^2\widehat u$, 所以 $\widehat u=\ee^{-4\pi^2Dt|\xi|^2}\widehat g$, Gaussian 反演回到热核. 波方程得到 $\widehat u_{tt}+(2\pi c|\xi|)^2\widehat u=0$, 故
+\[
+\widehat u(t,\xi)=\cos(2\pi c|\xi|t)\widehat f(\xi)
++\frac{\sin(2\pi c|\xi|t)}{2\pi c|\xi|}\widehat g(\xi).
+\]
+零频处第二因子定义为 $t$, 是可去奇点. $f\in H^1$, $g\in L^2$ 时乘子有界控制 $u\in C(H^1)$, $u_t\in C(L^2)$, 控制收敛给时间连续及初值. 对光滑近似列传递方程和能量守恒, 得弱能量解. 唯一性可在时间上正则化差解作能量法, 或在变换端解每个频率的 ODE; 这明确了全空间弱解的类别.
+\begin{exercise}
+计算 $f(x)=\ee^{-\pi a|x|^2}$ 的 $L^2$ 范数与变换范数, $a>0$.
+\end{exercise}
+\begin{solution}
+$\|f\|_2^2=(2a)^{-n/2}$. 变换为 $a^{-n/2}\ee^{-\pi|\xi|^2/a}$, 平方积分为 $a^{-n}(a/2)^{n/2}=(2a)^{-n/2}$, 与 Plancherel 一致.
+\end{solution}

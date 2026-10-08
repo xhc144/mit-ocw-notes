@@ -1,0 +1,81 @@
+\originalchapter{波方程与显式传播公式}\label{ch:wave}
+\sourcelecture{10--12}
+\originalsection{声学线性化与一维特征}
+一维可压缩流体的连续方程和动量方程为 $\rho_t+(\rho v)_x=0$, $(\rho v)_t+(\rho v^2+p)_x=0$. 在静态 $\rho=\rho_0>0$, $v=0$ 附近取 $\rho=\rho_0+\eta$ 并保留一阶小量, 得
+\[
+\eta_t+\rho_0v_x=0,\qquad \rho_0v_t+p'(\rho_0)\eta_x=0.
+\]
+对第一式求时间导数, 用第二式的空间导数消去 $v$, 得 $\eta_{tt}-c^2\eta_{xx}=0$, $c^2=p'(\rho_0)>0$. 若 $p=K\rho^\gamma$, 则 $c^2=K\gamma\rho_0^{\gamma-1}$. 线性波方程是小扰动近似, 不是完整非线性流体方程.
+\begin{theorem}[d'Alembert 公式]\label{thm:dalembert}
+$f\in C^2(\R)$, $g\in C^1(\R)$, $c>0$ 时, $u_{tt}-c^2u_{xx}=0$, $u(0)=f$, $u_t(0)=g$ 的唯一 $C^2$ 解为
+\begin{equation}\label{eq:dalembert}
+u(t,x)=\frac{f(x-ct)+f(x+ct)}2+\frac1{2c}\int_{x-ct}^{x+ct}g(y)\dd y.
+\end{equation}
+\end{theorem}
+\begin{proof}
+取 $\xi=x+ct$, $\eta=x-ct$, 则 $\partial_t^2-c^2\partial_x^2=-4c^2\partial_\xi\partial_\eta$. 因而全部 $C^2$ 解为 $A(\xi)+B(\eta)$. 初时 $A+B=f$, $c(A'-B')=g$, 得 $A'=(f'+g/c)/2$, $B'=(f'-g/c)/2$. 从 $x$ 分别积分至 $x+ct,x-ct$, 并用 $A(x)+B(x)=f(x)$, 即得公式. 反过来公式的导数给方程, $t=0$ 得初值, $u_t(0)=g$. 以上从任意解推导也给唯一性, 不需全空间衰减假设.
+\end{proof}
+右行波为 $F(x-ct)$, 左行波为 $G(x+ct)$. 速度初值产生区间积分, 一般解不只是一个刚性平移. 点 $(t,x)$ 只依赖区间 $[x-ct,x+ct]$ 内的数据.
+\begin{center}
+\begin{tikzpicture}[x=1.3cm,y=1.05cm,>=Latex]
+\draw[->](-2.5,0)--(2.6,0) node[right]{$x$};
+\draw[->](0,-.1)--(0,2.5) node[above]{$t$};
+\draw[structurecolor,thick](-2,0)--(0,2)--(2,0);
+\draw[main,thick](-2,0)--(2,0);
+\fill(0,2)circle(1.5pt) node[right=4pt]{$(t_0,x_0)$};
+\node[below] at (-2,0){$x_0-ct_0$};\node[below] at (2,0){$x_0+ct_0$};
+\node at(0,0.7){依赖区域};
+\end{tikzpicture}
+\end{center}
+图为一维后向特征锥的示意, 横坐标原点平移到 $x_0$, 斜率与坐标尺度对应.
+\originalsection{反射与有界弦}
+半直线固定端 $u(t,0)=0$ 用 $f,g$ 的奇延拓套用\eqref{eq:dalembert}. 若要求闭半平面的 $C^2$ 解, 奇延拓 $f$ 需 $f(0)=f''(0)=0$, 奇延拓 $g$ 需 $g(0)=0$; 仅 $f(0)=g(0)=0$ 不保证所有二阶导数跨反射线连续. 弱解可用较弱条件. 自由端 $u_x(t,0)=0$ 用偶延拓, 对 $C^2$ 构造需 $f'(0)=g'(0)=0$.
+
+固定端区间 $0<x<L$ 的模态为
+\[
+u(t,x)=\sum_{k\ge1}\left(a_k\cos(c\sqrt{\lambda_k}t)+\frac{b_k}{c\sqrt{\lambda_k}}\sin(c\sqrt{\lambda_k}t)\right)\sin(k\pi x/L),
+\]
+$a_k,b_k$ 分别为位移和速度的正弦系数. 对足够光滑相容数据可逐项求导; 对 $f\in H_0^1$, $g\in L^2$, 级数在能量范数中收敛. 这里的能量收敛可由导数的 Parseval 补足: 对光滑紧支撑 $f$, 分部积分给 $f'$ 的余弦系数为 $(k\pi/L)a_k$, 常数系数为零. 偶延拓与 Fejér 核的论证给余弦系完备性, 故 $\|f'\|_2^2=(L/2)\sum_k\lambda_k|a_k|^2$. 用 $C_c^\infty$ 在 $H_0^1$ 中的定义性稠密推广到一般 $f$. 速度有 $(L/2)\sum_k|b_k|^2=\|g\|_2^2$. 每个模态的 $c^2\lambda_k$ 倍位移平方与速度平方之和恒为 $c^2\lambda_k|a_k|^2+|b_k|^2$, 可和尾项一致控制所有时间的能量误差. 因此级数在 $H_0^1\times L^2$ 中收敛, 时间连续由有限模态近似和统一尾界得到. 各模态能量恒定, 不像热模态指数衰减.
+\begin{example}
+$f(x)=0$, $g(x)=1$ 于全直线, 求波方程解并解释其不是单个行波.
+\end{example}
+\begin{solution}
+\eqref{eq:dalembert}给 $u=(2c)^{-1}(2ct)=t$. 它在每个空间点同时线性增长, $u_{tt}=u_{xx}=0$. 可分成两个线性行波的叠加, 但其整体图形不是同一轮廓的单向平移.
+\end{solution}
+\originalsection{球面平均与 Kirchhoff 公式}
+以下先令 $c=1$. 对三维函数 $h$ 定义 $M_rh(x)=(4\pi)^{-1}\int_{\Sph^2}h(x+r\theta)\dd\theta$. 散度定理给
+\[
+\partial_r M_rh=\frac1{4\pi r^2}\int_{B_r(x)}\Delta h\dd y,
+\qquad \partial_r(r^2\partial_rM_rh)=r^2M_r\Delta h.
+\]
+因此 $U(t,r)=M_ru(t,\cdot)(x)$ 满足 $U_{tt}=U_{rr}+2U_r/r$, 而 $V=rU$ 满足 $V_{tt}=V_{rr}$ 且 $V(t,0)=0$. 其初值为 $rM_rf$, $rM_rg$, 皆对 $r$ 作奇延拓. 用一维公式后除以 $r$ 并令 $r\downarrow0$, 得
+\begin{equation}\label{eq:kirchhoff}
+u(t,x)=\partial_t\bigl(tM_tf(x)\bigr)+tM_tg(x).
+\end{equation}
+\begin{theorem}\label{thm:kirchhoff}
+$f\in C^3(\R^3)$, $g\in C^2(\R^3)$ 时, \eqref{eq:kirchhoff}给三维 $C^2$ 初值解. 对速度 $c$, 公式为 $u=\partial_t(tM_{ct}f)+tM_{ct}g$.
+\end{theorem}
+\begin{proof}
+前面的推导表明任意经典解必须取此形式. 还需核验构造确实满足方程. $M_th$ 满足 Darboux 恒等式 $(\partial_t^2+2t^{-1}\partial_t)M_th=M_t\Delta h$. 故 $W_h=tM_th$ 满足 $(W_h)_{tt}=\Delta_xW_h$. 时间导数 $\partial_tW_f$ 也满足波方程. $W_h(0)=0$, $W_h'(0)=h$, $W_h''(0)=0$, 后一式由球面对 $\theta$ 的平均为零及 Taylor 展开得到. 所以 $u(0)=f$, $u_t(0)=g$.
+
+$f$ 三阶、$g$ 二阶连续保证公式中所需的两阶导数存在且连续, 正时间仅在紧球面求导; 在 $t=0$ 用 $M_th=h+t^2\Delta h/6+o(t^2)$ 及相应导数展开延伸. 一般速度由时间缩放或直接对 $M_{ct}$ 的恒等式得到. 唯一性亦由下一章的局部能量法保证.
+\end{proof}
+三维公式只在球面 $|y-x|=ct$ 取初值及其邻域导数, 这是尖锐 Huygens 原理. 若初值紧支撑, 某固定点最终不再受其影响. 一维速度积分则保留锥内部贡献, 没有同样的尖锐性质.
+\originalsection{二维降维与源项}
+将二维数据视为三维中与 $x_3$ 无关的函数. 上下半球投影到二维圆盘, 球面元为 $t\,\dd y/\sqrt{t^2-|x-y|^2}$, 两半球相加, 因而
+\[
+tM_th(x)=\frac1{2\pi}\int_{|y-x|<t}\frac{h(y)}{\sqrt{t^2-|x-y|^2}}\dd y.
+\]
+代入\eqref{eq:kirchhoff}得到二维 Poisson 波公式. 积分核在圆周奇异但可积, 初值依赖整个圆盘, 所以没有三维的尖锐 Huygens 性质. 正则性和 PDE 可由三维延拓公式核验, 避免直接在移动奇异边界上形式求导.
+
+记 $S_c(t)h$ 为零位移、速度 $h$ 的齐次波解. 对光滑源 $F$, Duhamel 公式为
+\[
+u(t)=u_{\mathrm{hom}}(t)+\int_0^tS_c(t-s)F(s)\dd s.
+\]
+因为 $S_c(0)=0$, $\partial_tS_c(0)=I$, 两次时间求导给源项 $F(t)$ 加上齐次波算子作用, 故 $(\partial_t^2-c^2\Delta)u=F$. 这与热方程的一次时间求导有不同的端点项.
+\begin{exercise}
+三维 $f=0$, $g=1$, 证明 $u=t$ 并核对一般速度公式中的系数.
+\end{exercise}
+\begin{solution}
+球面平均 $M_{ct}1=1$, 所以 $u=t$. 若改写成球面积分, 速度项应是 $(4\pi c^2t)^{-1}\int_{|y-x|=ct}g\dd S$, 球面积为 $4\pi c^2t^2$, 恰得 $t$. 漏掉 $c^2$ 会使初始速度错误.
+\end{solution}

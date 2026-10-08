@@ -1,0 +1,828 @@
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+18.152 Introduction to PDEs, Fall 2011
+Professor: Jared Speck
+Class Meeting # 19: Schr¨odinger’s Equation
+1. Introduction
+Schr¨odinger’s equation is the fundamental PDE of quantum mechanics. In the case of a single
+quantum particle, the unknown function is the wave function ψ(t, x), which is a map from R1+n
+into the complex numbers:
+ψ : R1+n →C.
+Above and throughout these notes, t is the time coordinate, and x = (x1, · · · , xn) are the spatial
+coordinates. Schr¨odinger’s equation is
+1
+(1.0.1)
+i∂tψ(t, x) +
+∆ψ(t, x) = V (t, x)ψ(t, x),
+2
+where ∆= Pn
+i=1 ∂2
+i is the usual Laplacian with respect to the spatial variables, and V (t, x) is the
+potential, which models the interaction of the particle with its environment. In this course, we
+will mainly consider the case of free particles, in which V = 0 (i.e., the homogeneous Schr¨odinger
+equation). In the case of free particles, there is an important family of solutions to (1.0.1), namely
+the free waves. The free wave solutions provide some important intuition about how solutions to
+the homogeneous Schr¨odinger equation behave. To derive the free wave solutions, we ﬁrst make the
+assumption that
+(1.0.2)
+ψ(t, x) = ei(ωt−ξ·x),
+where · is the Euclidean dot product. Above, ω ∈R is the frequency, and ξ
+ξ
+∈Rn is the wave vector.
+Note that (1.0.2) can be written as ei|ξ|( ω t−
+·x)
+|ξ|
+|ξ|
+, where |ξ| is the Euclidean length of ξ. Since
+ξ is
+|ξ|
+a unit vector in Rn, it therefore follows that the speed of the plane wave is
+ω
+(1.0.3)
+.
+|ξ|
+Plugging (1.0.2) into (1.0.1), we derive the algebraic relation
+−(ω + |ξ|2
+(1.0.4)
+)ei(ωt+ξ·x) = 0,
+2
+which implies
+1
+
+
+2
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+ω =
+|ξ|2
+(1.0.5)
+−
+,
+2
+ω =
+|ξ
+(1.0.6)
+|
+|ξ
+−
+.
+|
+2
+These conditions are necessary and suﬃcient in order for the function given in (1.0.2) to solve
+(1.0.1) when V = 0. Note in particular that (1.0.6) shows that the speed of the plane wave solution
+depends on |ξ|, and in particular that larger |ξ|′s lead to larger speeds. The dependence of the speed
+of the plane wave on ξ is known as dispersion, and (1.0.5) is known as the dispersion relation of
+Schr¨odinger’s equation.
+Dispersion plays a very important role in the analysis of certain PDEs, and in particular Schr¨odinger’s
+equation. Heuristically, one sometimes imagines that a “typical” solution to a dispersive PDE is
+composed of many free waves, each moving at a diﬀerent speed and/or spatial direction (at least
+when the dispersion relation is non-trivial). The dispersive nature of the PDE suggests that the
+diﬀerent free wave components in the solution should separate from each other. As we will see
+(see e.g. Theorem 2.1), this heuristic argument is sometimes rigorously borne out, and separation
+can cause the overall amplitude of the solution to decay in time (frequently at a rate of t to some
+negative power).
+2. The Fundamental Solution
+We are now going to study the following global Cauchy problem for Schr¨odinger’s equation:
+1
+(2.0.7a)
+i∂tψ(t, x) +
+∆ψ(t, x) = 0,
+2
+(2.0.7b)
+ψ(0, x) = φ(x).
+Let’s start by momentarily forgetting about the initial data and instead trying to ﬁnd the fundamen-
+tal solution K(t, x) to equation (2.0.7a). We will precisely deﬁne the fundamental solution below;
+it is analogous to the fundamental solution for the heat equation. As we will see, the techniques
+from Fourier analysis that we have previously developed will allow us to derive the fundamental
+solution with relative ease. To this end, we set ψ(t, x) = K(t, x), take the spatial Fourier of equation
+ˆ
+(2.0.7a), and use the Fourier transform property (∂
+α⃗
+α⃗K)∧(t, ξ) = (2πiξ) K(t, ξ) (and in particular
+∧
+−
+2| |2 ˆ
+ˆ
+(∆K) (t, ξ) =
+4π ξ K(t, ξ)) to deduce the following ODE for K(t, ξ) :
+ˆ
+ˆ
+(2.0.8)
+i∂K(t, ξ) −2π2 ξ|2
+t
+|
+K(t, ξ) = 0.
+We rewrite (2.0.8) as
+ˆ
+(2.0.9)
+∂t ln K(t, ξ) = −2π2i|ξ|2,
+which can be easily integrated to give
+ˆK(t, ξ) = Ce−2π2it|ξ|2
+(2.0.10)
+,
+where C(ξ) is a constant that we have to calculate.
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+3
+To calculate C(ξ), we recall that we are ultimately trying to solve the following initial value
+problem for Schr¨odinger’s equation:
+1
+(2.0.11a)
+i∂tψ(t, x) +
+∆ψ(t, x) = 0,
+2
+(2.0.11b)
+ψ(0, x) = φ(x).
+Since K(t, x) is supposed to be the fundamental solution, we would like (in analogy with the results
+of our study of the heat equation) the solution to (2.0.11a) - (2.0.11b) to be of the form
+(2.0.12)
+ψ(t, x) = (K(t, ·) ∗φ(·))(x).
+Formally taking the Fourier transform of (2.0.12), using the fact that the Fourier transform turns
+convolutions into products, and using (2.0.10), we arrive at the formal relation
+ˆ
+ˆ
+ˆ
+2
+2 ˆ
+(2.0.13)
+ψ(t, ξ) = K(t, ξ)φ(ξ) = C(ξ)e−2π it|ξ| φ(ξ).
+Since (2.0.13) must in particular hold at t = 0, it is easy to see that
+(2.0.14)
+C(ξ) = 1.
+Thus, the spatial Fourier transform of K can be expressed as
+ˆ
+2
+2
+(2.0.15)
+K(t, ξ) = e−2π it|ξ| .
+In the next proposition, we make rigorous sense of the above formal calculations, and we calculate
+ˆ
+K(t, x) from K(t, ξ).
+Proposition 2.0.1 (Calculation of the Fundamental Solution K(t, x) for Schr¨odinger’s
+equation). Let φ(x) be a smooth compactly supported function, and let ψ(t, x) be the function
+whose spatial Fourier transform is deﬁned as in (2.0.13):
+ˆ
+ˆ
+ˆ
+(2.0.16)
+ψ(t, ξ) = K(t, ξ)φ(ξ),
+ˆ
+where K(t, ξ) is deﬁned in (2.0.15). Then if t > 0, we have that
+def
+(2.0.17)
+ψ(t, x) = (K(t, ·) ∗φ)(x) =
+Z
+K(t, y)φ(x −y) dny =
+Z
+K(t, x −y)φ(y) dny,
+Rn
+Rn
+where
+1
+K(t, x) =
+i |x|2
+(2.0.18)
+e
+2t .
+(2πit)n/2
+Above, i1/2 = eiπ/4 = √1 (1 + i).
+2
+ˆ
+Remark 2.0.1. We refer to K(t, ξ) as the Fourier transform of K(t, x), and K(t, x) as the inverse
+ˆ
+Fourier transform of K(t, ξ).
+
+
+4
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+Remark 2.0.2. Note that K(t, ·) is not an element of L1 because
+R
+K(t, x) dnx =
+. Since many
+R |
+|
+∞
+of our previous results for the Fourier transform used the assumption that K(t, ·) ∈L1, our analysis
+of K(t, x) is more delicate than these results.
+Proof. For simplicity, let’s consider only the case n = 1. Previously, we showed that since φ is
+ˆ
+smooth and compactly supported, φ is smooth, is rapidly decaying at inﬁnity, and is an element of
+L1
+ˆ
+ˆ
+. Therefore, the same is true of the function ψ(ξ) = e−2π2it|ξ|2φ(ξ). Thus, by the Fourier inversion
+ˆ
+theorem, ψ(t, x) is the inverse Fourier transform of ψ(t, ξ) :
+ˆ ∨
+def
+Z
+2πiξx ˆ
+Z
+2πiξx −2π2it|ξ|2 ˆ
+(2.0.19)
+ψ(t, x) = (ψ) (t, x) =
+e
+ψ(t, ξ) dξ =
+e
+e
+φ(ξ) dξ.
+R
+R
+ˆ
+To complete the proof, we will use that fact that the aforementioned properties of φ together
+with the expression (2.0.19) allow us to express
+(2.0.20)
+ψ(t, x) = lim
+Z
+e2πiξx
+2 ˆ
+e−2π2(δ+i)t|ξ| φ(ξ) dx.
+δ→0+
+R
+We will show (2.0.20) at the end of the proof; let us take it for granted at the moment.
+Deﬁning
+def
+2
+2
+(2.0.21)
+fδ;t(ξ) = e−2π (δ+i)t|ξ| ,
+we see that (2.0.20) is by deﬁnition equivalent to
+ˆ
+(2.0.22)
+ψ(t, x) = lim (fδ;tφ)∨(x).
+δ→0+
+Note that fδ;t is a Gaussian whose argument has negative real part. Thus, we have previously
+calculated its inverse Fourier transform:
+1
+fδ
+∨
+2
+(2.0.23)
+;t(x) = p
+e−|x| /(2t(δ+i)).
+2π(δ + i)t
+Furthermore, it is easy to see that
+1
+2
+(2.0.24)
+lim f ∨(x) = √
+ei|x| /(2t)
+δ;t
+.
+δ→0+
+2πit
+We note that in the formula (2.0.24),
+√
+i = eiπ/4 = √1 (1 + i).
+2
+Using (2.0.22), the Fourier transform + Fourier inversion identity (uv)∨= [u∨∗v∨], and the
+ˆ
+Fourier inversion theorem (φ)∨= φ, we have that
+ψ(t, x) = lim [fδ
+∨
+;t ∗
+def
+(2.0.25)
+φ](x) = lim
+Z
+fδ
+∨
+;t(x −y)φ(y) dy
+δ→0+
+δ→0+
+R
+=
+Z
+lim fδ
+∨
+;t(x −y)φ(y) dy
+R δ→0+
+1
+= √
+Z
+ei|x−y|2/(2t)φ(y) dy.
+2πit
+R
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+5
+We are allowed to bring the limit inside the integral in (2.0.25) because φ(y) is smooth and compactly
+supported and because (for each ﬁxed t > 0) the limit (2.0.24) is achieved uniformly on compact
+spatial sets. We have thus shown (2.0.17).
+It remains to prove (2.0.20). We need to show that
+(2.0.26)
+ Z
+e2πiξxe−2π2it|ξ|2 e−2π2δt|ξ|2
+R
+−1
+go
+ˆφ(ξ) dξ
+es to 0 as δ ↓0. As we hav
+
+e previously discussed several times, the
+split the integral over R into an integral over a ball [ R, R
+
+
+key to such an estimate is to
+−
+] and its complement. More precisely,
+for any R > 0, the expression (2.0.26) can be bounded as follows:
+≤
+Z
+| −2π2
+2
+e
+δt|ξ| −1||ˆ
+(2.0.27)
+φ(ξ)| dξ +
+Z
+|e−2π2δt ξ
+|
+{z
+| |2 −
+ˆ
+1 φ
+[−R,R]
+|
+{|
+R
+| (ξ)| dξ
+ξ|≥
+}
+≤1
+≤
+max |e−2π2δt|ξ|2 −
+|ˆφ(ξ)|
+ˆ
+1|
+Z
+dx +
+)
+}
+∈[−R,R]
+[−R
+]
+Z
+ξ
+ξ
+{|ξ|≥R
+|φ(
+,R
+| dξ
+}
+def
+= I + II.
+Let ϵ > 0 be a positive number. In our previous studies of the Fourier transform, we showed that
+ˆ
+def
+ˆ
+(see also the remarks above)
+R
+|φ| dξ = ∥φ∥L1 < ∞. Now by Taylor expanding, we see that the
+R
+following inequality holds whenever R > 0, ξ ∈[−R, R], and δtR2 is suﬃciently small:
+(2.0.28)
+| −2π2
+e
+δt|ξ|2 −1| ≤CδtR2,
+where C is a positive constant.
+Thus, we have the following estimate, valid whenever δtR2 is
+suﬃciently small:
+(2.0.29)
+|I| ≤CδtR2
+Z
+|ˆ
+ˆ
+φ(ξ) dx
+[−R
+|
+≤CϵtR2
+]
+∥φ∥L1.
+,R
+Furthermore, since ∥ˆφ∥L1 < ∞, if R is suﬃciently large, then
+(2.0.30)
+|II| ≤ϵ.
+Thus, if t is ﬁxed, R is ﬁrst chosen to be suﬃciently large, and then δ is chosen to be suﬃciently
+small, we have that
+(2.0.31)
+|I| + |II| ≤CδtR2 + ϵ ≤2ϵ.
+In total, we have shown that if δ is suﬃciently small, then (2.0.26) is ≤2ϵ. Since this holds for any
+ϵ > 0, we have thus shown (2.0.20).
+□
+We now formally deﬁne the fundamental solution.
+Deﬁnition 2.0.1 (The Fundamental Solution to Schr¨odinger’s equation). The fundamental
+|x|2
+solution associated to (1.0.1) is the function K(t, x) =
+1
+ei 2t
+(2πit)n/2
+given in (2.0.18).
+
+
+6
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+As an exercise, let’s check that K(t, x) veriﬁes Schr¨odinger equation.
+Lemma 2.0.2 (K(t, x) veriﬁes the free Schr¨odinger equation). For t > 0, K(t, x) is a solution
+to the free Schr¨odinger equation.
+Proof. We use the chain rule to calculate
+| |2
+i
+| |2
+x
+x
+(2.0.32)
+∂
+i
+je
+2t = xj ei 2t ,
+t
+2 i |x|2
+ i(xj)2 i
+(2.0.33)
+∂j e
+2t = 1 +
+ei |x|2
+2t ,
+t
+t
+1
+1
+|
+∆K(t, x) =
+
+x
+n
+(2.0.34)
+ei
+|2
+2t
+i
+n/2
+ |x|2
+ei |x|2
+2t ,
+2
+(2πit)
+2t −2t2
+i
+|x
+i
+|2 
+n
+i
+i∂
+
+tK(t, x) =
+e
+2t
+(2πit)n/2
+|x|2
+(2.0.35)
+−
+−
+.
+2t
+2t2
+From the last two calculations, it easily follows that
+
+1
+(2.0.36)
+i∂tK(t, x) +
+∆K(t, x) = 0.
+2
+□
+We would like our fundamental solution to have the property that limt→0+ ψ(t, x) = φ(x) for nice
+def
+functions φ, where ψ(t, x) = [K(t, ·) ∗φ(·)](x). Now using (2.0.13), if the initial datum φ is smooth
+ˆ
+and compactly supported (and therefore, as previously shown, φ is smooth and rapidly decaying),
+it is not diﬃcult to show that
+∥ˆ
+ˆ
+(2.0.37)
+lim ψ(t,
+t↓0
+·) −φ∥L2 = 0.
+ˆ
+ˆ
+(2.0.13) shows that the transformed function ψ(t, ) converges to the transformed datum φ( ) in
+def
+the L2
+·
+·
+norm as t ↓0. But how does the function ψ(t, ·) = [K(t,
+1
+R
+·)
+φ(·)](x) behave as t ↓0? By
+|
+∗
+−|2
+x
+y
+(2.0.17), this is equivalent to studying the behavior of
+2
+n/
+n ei
+t
+2
+φ(y) dny as t
+(2πit)
+R
+↓0. The next
+proposition brieﬂy addresses this surprisingly diﬃcult question.
+Proposition 2.0.3 (The behavior of K(t, ·) ∗φ(·) as t ↓0). Let φ ∈C∞(Rn
+c
+). Then
+1
+(2.0.38)
+lim
+→0+ (2πit)n/2
+t
+Z
+|x
+ei
+−y|2
+2t
+φ(y) dny = φ(x).
+Rn
+Proof. The proof of this proposition requires a technically involved technique from Fourier Analysis
+known as the method of stationary phase; it is therefore slightly beyond the scope of this course.
+The main diﬃculty is that the most of the important behavior in (2.0.38) is due to the rapid
+oscillation in y of the integrand (except when y is near x!) as t ↓0.
+□
+We are now ready to state and prove the main theorem concerning the solution to the free
+Schr¨odinger equation.
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+7
+Theorem 2.1 (The Solution to the Global Cauchy Problem Schr¨odinger’s Equation
+and the Dispersive Estimate). Let φ(x)
+n
+∈C
+n
+c
+∞(R ). Then there exists a unique solution ψ ∈
+C∞((0, ∞) × R ) to the free Schr¨odinger equation
+1
+(2.0.39a)
+i∂tψ(t, x) +
+∆ψ(t, x) = 0,
+t > 0, x ∈Rn,
+2
+(2.0.39b)
+ψ(0, x) = φ(x),
+x ∈Rn.
+The solution can be expressed as
+(2.0.40)
+ψ(t, x) = [K(t, ·) ∗φ(·)](x),
+where K(t, x) is the fundamental solution deﬁned in (2.0.18).
+Furthermore, for each t > 0, the solution ψ(t, x) veriﬁes the dispersive estimate
+def
+C
+def C
+(2.0.41)
+∥ψ(t, ·)∥C0 = max ψ(t, x)
+φ L1 =
+φ(x) dnx.
+x∈Rn |
+| ≤tn/2∥∥
+tn/2
+|
+|
+Above, C > 0 is a constant that does not depend on the initial data.
+Z
+Proof. Let L
+def
+= i∂
+1
+t + ∆x denote the free Schr¨odinger operator. By deﬁnition, we have that
+2
+1
+| −|2
+x
+y
+(2.0.42)
+[K(t, ·) ∗φ(·)](x) =
+Z
+φ(y)
+ei
+2
+dn
+t
+y.
+Rn
+(2πit)n/2
+According to our previously discussed diﬀerentiation-under-the-integral theorem (and making use
+of our assumptions on φ(x)), for t > 0, we can diﬀerentiate under the integral in (2.0.42) and use
+Lemma 2.0.2 to deduce that
+1
+L
+| −|2
+x
+y
+(2.0.43)
+[K(t, ·) ∗φ(·)](x) =
+Z
+φ(y)L
+n
+ei
+t
+o
+dn
+2
+y = 0.
+2
+n
+(2πit)n/
+R
+Thus, φ ∗Kt veriﬁes Schr¨odinger’s equation (2.0.39a).
+The fact that ψ ∈C∞((0, ∞) × Rn) follows from expressing
+Z
+1
+2
+−
+y|
+[K(t, ·) ∗φ(·
+|
+(2.0.44)
+)](x) =
+φ(x
+y)
+ei 2t dny.
+(2π
+n/2
+Rn
+it)
+and repeatedly diﬀerentiating with respect to x under the integral.
+To prove (2.0.41), we note that the following simple pointwise inequality follows easily from
+(2.0.42):
+1
+(2.0.45)
+|
+|x−y|2
+[K(t, ·) ∗φ(·)](x)| ≤
+Z
+
+φ(y)
+ei
+2t
+dny
+2
+Rn
+(2πit)n/
+1
+
+1
+≤
+
+|φ(y)
+ny
+(2π)n/2tn/2
+Rn
+|
+def
+d
+= (2
+
+Z
+.
+π)n/ tn/2∥φ∥L1
+2
+Taking the max over all x ∈Rn, the estimate (2.0.41) thus follows.
+□
+
+
+8
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+Let’s now prove a very important property of suﬃciently regular solutions to the free Schr¨odinger
+equation: their L2 norm is constant in time.
+Proposition 2.0.4 (Preservation of L2 norm). Under the assumptions of Theorem 2.1, we have
+that
+L2 norm of the data
+(2.0.46)
+∥ψ(t, ·)∥L2 =
+∥φ∥L2
+,
+wher
+R e the L2 norm on the left-hand of (2.0.46) is taken
+z }|
+over
+{
+the spatial variables only. In particular,
+if
+2
+n
+n |φ(x)| d x = 1, then
+R
+n |ψ(t, x) 2 dnx = 1 holds for all t
+0.
+R
+R
+|
+≥
+Proof. We give two proofs, the ﬁrst using the original solution, and the second using its Fourier
+transform; both proofs are important. For the ﬁrst proof, we begin by noting that if
+1
+(2.0.47)
+i∂tψ(t, x) +
+∆ψ(t, x) = 0,
+2
+then by taking the complex conjugate of both sides, we have that
+1
+−
+¯
+¯
+(2.0.48)
+i∂tψ(t, x) +
+∆ψ(t, x) = 0,
+2
+¯
+where ψ denotes the complex conjugate of ψ.
+2
+| |2
+¯
+Diﬀerentiating under the integral in the deﬁnition of the L norm, recalling that ψ
+= ψψ, and
+using (2.0.47) - (2.0.48), we thus deduce that
+d
+d
+∥
+¯
+ψ( ·
+¯
+¯
+(2.0.49)
+t, )∥2
+L2 =
+Z
+ψ(t, x)ψ(t, x) dnx =
+Z
+∂tψ(t, x)ψ(t, x) + ψ(t, x)∂tψ(t, x) dnx
+dt
+dt
+Rn
+Rn
+i
+¯
+¯
+=
+Z
+∆ψ(t, x)ψ(t, x) −ψ(t, x)∆ψ(t, x) dnx.
+2
+Rn
+Integrating by parts on the right-hand side of (2.0.49), we conclude that
+d
+i
+(2.0.50)
+dt∥ψ(t, ·)∥2
+L2 = −
+∇
+∇
+¯
+ψ(t, x) · ∇¯ψ(t, x) −
+ψ(t, x)
+Rn
+· ∇ψ(t, x) dnx = 0,
+2
+where · denotes the Euclidean dot pro
+Z
+duct. We have thus shown (2.0.46).
+For the second proof, we begin by recalling (2.0.13) and (2.0.14):
+ˆ
+2
+2 ˆ
+(2.0.51)
+ψ(t, ξ) = e−2π it|ξ| φ(ξ).
+In particular, (2.0.51) implies that
+| ˆψ(t, ξ)|2 = |ˆ
+(2.0.52)
+φ(ξ)|2.
+Integrating (2.0.52) over Rn, we deduce that
+∥ˆ
+2
+ˆ
+(2.0.53)
+ψ(t, ·)∥L = ∥φ∥L2,
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 19
+9
+where the L2 norm on the left-hand side of (2.0.53) is taken over the ξ variables only. Finally, by
+Plancherel’s theorem, we see that (2.0.53) implies
+(2.0.54)
+∥ψ(t, ·)∥L2 = ∥φ∥L2.
+Again, we have shown (2.0.46).
+□
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.152 Introduction to Partial Differential Equations.
+Fall 201s1
+ 
+ 
+ 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

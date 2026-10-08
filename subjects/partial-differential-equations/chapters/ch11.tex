@@ -1,0 +1,60 @@
+\originalchapter{Schrödinger 方程与色散}\label{ch:schrodinger}
+\sourcelecture{19--20}
+\originalsection{频率演化与解类别}
+本章使用原课归一化 $\ii u_t+\tfrac12\Delta u=0$. 复数未知函数同时编码振幅与相位. 平面波 $\ee^{\ii(k\cdot x-\omega t)}$ 代入得 $\omega=|k|^2/2$, 相速度为 $|k|/2$, 群速度为 $\nabla_k\omega=k$. 相速度与波包的群速度不同; 两者均随频率变化, 这是色散.
+\begin{theorem}\label{thm:schroL2}
+对 $g\in L^2(\R^n)$, 定义
+\[
+U(t)g=\mathcal F^{-1}\left(\ee^{-2\pi^2\ii t|\xi|^2}\widehat g(\xi)\right),\qquad t\in\R.
+\]
+则 $U(t)$ 是强连续酉群, 给唯一 $C(\R;L^2)$ 的分布初值解. $g\in\Sch$ 时为经典解并保持 $\Sch$; $H^s$ 正则性保持, 不产生热方程那种一般平滑效应.
+\end{theorem}
+\begin{proof}
+乘子模为1, Plancherel 给保范数、群性质 $U(t+s)=U(t)U(s)$ 及逆 $U(-t)$. 时间连续由 $|\ee^{-2\pi^2\ii t|\xi|^2}-1|^2|\widehat g|^2\le4|\widehat g|^2$ 和控制收敛. 对 $\Sch$ 数据可任意求导, 变换 ODE 为 $\partial_t\widehat u=-2\pi^2\ii|\xi|^2\widehat u$, 等价于 PDE. 对一般数据用 $\Sch$ 逼近, 在测试函数意义传递导数, 得分布解.
+
+说明唯一性时不能随意对一个仅为 $L^2$ 的函数逐点求频率导数. 对频率乘光滑紧支撑截断 $\chi_R$, PDE 给 $v_t=-2\pi^2\ii|\xi|^2v$ 于分布时间意义, 右端为连续 $L^2$ 函数, 所以 $v$ 可微并满足 Hilbert 空间 ODE. 乘 $\ee^{2\pi^2\ii t|\xi|^2}$ 得常数, 初值决定 $v$. 令截断趋1给全部频率唯一. $H^s$ 定义为加权范数 $\int(1+|\xi|^2)^s|\widehat g|^2<\infty$, 模1保持该范数.
+\end{proof}
+\originalsection{振荡核与色散估计}
+\begin{theorem}\label{thm:schrokernel}
+$t>0$, $g\in\Sch$ 时
+\[
+U(t)g(x)=\int_{\R^n}K(t,x-y)g(y)\dd y,
+\qquad K(t,x)=(2\pi\ii t)^{-n/2}\ee^{\ii|x|^2/(2t)}.
+\]
+$\ii^{1/2}=\ee^{\ii\pi/4}$. 对 $g\in L^1\cap L^2$ 有
+\[
+\|U(t)g\|_\infty\le(2\pi |t|)^{-n/2}\|g\|_1,\qquad t\ne0.
+\]
+\end{theorem}
+\begin{proof}
+在频率乘子加 $\ee^{-2\pi^2\delta t|\xi|^2}$, $\delta>0$, 复杂 Gaussian 公式给核
+\[
+K_\delta(t,x)=[2\pi t(\delta+\ii)]^{-n/2}
+\exp\left(-\frac{|x|^2}{2t(\delta+\ii)}\right).
+\]
+当 $\delta\downarrow0$, 频率端积分由 $|\widehat g|$ 控制, 趋 $U(t)g$. 空间端对固定 $t>0$ 有 $|K_\delta|\le(2\pi t)^{-n/2}$, 故由 $|g|$ 控制, 趋 $K*g$. 这证明核式, 没有将不可积的 $K$ 直接代入仅适用于 $L^1$ 核的卷积变换定理. 取绝对值给色散估计. $t<0$ 由共轭核和群的逆得到. 一般 $L^1\cap L^2$ 数据同时在两范数中逼近: 空间卷积一致收敛, $L^2$ 解收敛, 所以两者几乎处处相同, 估计传递.
+\end{proof}
+$|K(t,x)|$ 与 $x$ 无关, 因而 $K(t,\cdot)\notin L^1$. 核不是非负平均, 色散衰减由振荡结构产生, 不能使用热方程比较原理. 对 $g\in\Sch$, 初始点态极限无需本册之外的驻相法: 频率积分中 $\widehat g\in L^1$, 直接控制收敛给 $U(t)g(x)\to g(x)$, 甚至一致收敛.
+\begin{example}
+初值 $g(x)=\ee^{-a|x|^2}$, $a>0$, 求自由演化.
+\end{example}
+\begin{solution}
+将热 Gaussian 解的扩散时间替换为 $\ii t/2$, 或用 Fourier Gaussian 积分, 得
+\[
+u(t,x)=(1+2\ii at)^{-n/2}\exp\left(-\frac{a|x|^2}{1+2\ii at}\right).
+\]
+分支从 $t=0$ 连续选取. 模平方为 $(1+4a^2t^2)^{-n/2}\exp[-2a|x|^2/(1+4a^2t^2)]$, 积分为 $(\pi/(2a))^{n/2}$ 不变. 峰值下降与总概率守恒可以同时成立.
+\end{solution}
+\originalsection{守恒律、势与 Duhamel 公式}
+对 $\Sch$ 解, $u_t=\ii\Delta u/2$, 乘 $\overline u$ 积分取实部, 得
+\[
+\frac{\mathrm d}{\mathrm dt}\int|u|^2=2\operatorname{Re}\int\overline u\,\frac{\ii}2\Delta u
+=-\operatorname{Re}\left(\ii\int|\nabla u|^2\right)=0.
+\]
+这是空间端的质量守恒证明. $\nabla u$ 也满足同一方程, 所以 $\frac12\int|\nabla u|^2$ 守恒. 对实的、与时间无关的光滑势 $V$, 在衰减充分时 $\ii u_t=-\Delta u/2+Vu$ 的质量及能量 $\int(\tfrac12|\nabla u|^2+V|u|^2)$ 守恒; 分部积分使 Hamilton 算子对称. 时变实势仍保质量, 能量导数为 $\int V_t|u|^2$. 本册不建立一般势的算子定义域和存在理论.
+
+对 $\ii u_t+\tfrac12\Delta u=F$, 初值 $g$, 有
+\begin{equation}\label{eq:duhamelschro}
+u(t)=U(t)g-\ii\int_0^tU(t-s)F(s)\dd s.
+\end{equation}
+若 $F\in C([0,T];\Sch)$ 且所需半范数一致受控, 可以求导核验; 若 $F\in L^1([0,T];L^2)$, Bochner 积分给连续 $L^2$ mild 解, 由近似传递弱 PDE. 范数满足 $\|u(t)\|_2\le\|g\|_2+\int_0^t\|F(s)\|_2\dd s$. 指数必须为 $\ee^{-2\pi^2\ii(t-s)|\xi|^2}$, 源项前必须为 $-\ii$, 与热方程相比较时不能沿用正实指数或漏掉 $\ii$.

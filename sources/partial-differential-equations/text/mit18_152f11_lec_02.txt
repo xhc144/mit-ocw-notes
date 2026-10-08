@@ -1,0 +1,1295 @@
+MATH 18.152 COURSE NOTES - CLASS MEETING # 2
+18.152 Introduction to PDEs, Fall 2011
+Professor: Jared Speck
+Class Meeting # 2: The Diﬀusion (aka Heat) Equation
+1. Introduction to the Heat Equation
+def
+The heat equation for a function u(t,x), x
+(1.0.1)
+=
+x1,
+,xn
+Rn, is
+>
+ut
+D∆u
+(
+f
+⋯
+t,x
+)
+.
+∈
+Here, the constant D
+0 is the diﬀusion coeﬃcient, f t,x is an inhomogeneous term, and ∆is the
+Laplacian operator, which takes the following
+−
+form
+=
+in
+(
+)
+(
+Car
+)
+tesian coordinates:
+n
+def
+(1.0.2)
+∆
+∂2
+i .
+i 1
+Equation (1.0.1) is ﬁrst-order and linear.
+= ∑
+=
+2. A simple model of heat flow that leads to the heat equation
+We now give an example of a simple
+B
+mo
+⊂
+del of heat ﬂow that leads to the heat equation. Consider
+a homogeneous, isotropic solid body
+Rn (n = 3 is the physically relevant case) described by the
+following physical properties:
+def
+(2.0.3)
+ρ = mass density ∼[mass] × [Volume −
+(2.0.4)
+e
+] 1
+def
+= constant,
+t,x
+thermal energy per unit mass
+energy
+mass
+1.
+Let’s also assume that
+(
+heat
+) =
+is supplied to the body by an
+∼
+external
+[
+]
+source
+× [
+wh
+]−
+ich pumps in heat at
+the following rate per unit mass:
+(2.0.5)
+R
+energy
+time −1
+mass −1.
+The
+(
+total
+)
+thermal E t;V
+energy contained in a body sub-volume V
+at time t is the integral
+of e t,x over V
+∼[
+] × [
+]
+× [
+]
+(
+)
+⊂B
+∶
+E(t;V )
+def
+(2.0.6)
+= ∫ρe t,x dnx.
+V
+The rate of change of the total energy contained in V
+(
+is
+)
+d
+d
+(2.0.7)
+E(t;V ) =
+∫ρe(t,x)dnx
+ρ∂e
+dn
+t
+t,x
+x.
+dt
+dt
+V
+V
+In (2.0.7), we have assumed that you can diﬀerentiate
+= ∫
+under the
+(
+in
+)
+tegral; we can do this when
+e t,x is a “nice” function. We will be more precise about the meaning of “nice” later in the course.
+1
+(
+)
+
+
+2
+MATH 18.152 COURSE NOTES - CLASS MEETING # 2
+Let’s now address the factors that can cause
+d
+dtE t;V
+to be non-zero. That is, let’s account for
+the factors that cause the energy within the volume
+account for only two factors. First, by integrating
+(
+V
+)
+to change. In our simple model, we will
+(2.0.5) over V, we deduce the rate of energy
+pumped into the sub-volume V by the external source:
+(2.0.8)
+∫ρR(t,x
+energy
+w
+)dnx
+time −1.
+V
+Second, we
+ill also assume that heat energy
+∼
+is
+[
+ﬂowing
+] ×
+throughout
+[
+]
+the body, and that ﬂow can
+be modeled by a heat ﬂux vector q
+(2.0.9)
+q ∼[energy] × [time]−1 × [area]−1,
+which speciﬁes the direction and magnitude of heat ﬂow across a unit area. That is, if dσ
+∂V is
+ˆ
+ˆ
+a small surface area with outward unit-normal N, then q N is the energy ﬂowing out of the small
+surface. Thus, the rate of heat energy ﬂowing into V is
+⊂
+⋅
+−∫
+ˆ
+(2.0.10)
+q Ndσ
+qdnx
+energy
+time
+1,
+∂V
+where
+⋅
+= −∫V
+the equality follows from the divergence
+∇⋅
+theorem.
+∼[
+] × [
+]−
+We will connect the various energies together by assuming the following energy conservation
+“law:” The rate of change of total energy in the sub-volume V is equal to the rate of heat energy
+ﬂowing into V + rate of heat energy supplied by the external source. Using (2.0.7), (2.0.8), and
+(2.0.10), we see that this “law” takes the following form in terms of integrals:
+(2.0.11)
+ρ∂te t,x dnx
+qdnx
+ρR dnx.
+V
+V
+V
+Since the above relations are
+∫
+assumed
+(
+)
+to hold
+= −
+for
+∫∇
+all
+⋅
+body
++
+sub-v
+∫
+olumes V, the integrands must be
+equal (again, as long as they are nice):
+(2.0.12)
+ρ∂te(t,x
+2.1. Fourier’s law. In order to turn (2.0.12)
+)
+(
+in
+= −∇⋅q + ρR.
+)
+to a PDE that we can study, we need to make an-
+other assumption about e t,x , q, and their relation to the temperature u t,x . Fourier hypothesized
+the following “Fourier’s Law of heat conduction:”
+(
+)
+(2.1.1)
+q(t,x) = −κ∇u
+(
+def
+where
+(t,x),
+κ > 0 is the thermal conductivity, and ∇u
+∂1u,
+,∂nu
+is the spatial derivative gradient
+of
+∇
+the
+(
+)
+temperature u t,x . We will assume that κ is a constant.
+Recall that at each ﬁxed t,
+u t,
+{
+x
+∣
+poin
+( )
+ts
+=
+in the direction of maximal increase
+= (
+and that
+⋯
+u
+)
+t,x is perpendicular to the level
+sets
+x
+u x
+constant
+)
+. Thus, (2.1.1) states that heat ﬂows
+decreasing temperature) and that the ﬂow is perpendicular to the
+∇(
+)
+}
+“from hot to cold” (i.e. towards
+surfaces of constant temperature.
+Remark 2.1.1. (2.1.1) is NOT A FUNDAMENTAL LAW OF NATURE! It is a simple but rea-
+sonable (under certain circumstances) model!
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 2
+3
+We need one more assumption in order to derive our PDE - we need to relate e t,x to u t,x . We
+will assume a very simple model, which is experimentally veriﬁed by many subs
+(
+tances
+)
+in
+(
+moderate
+temperature ranges:
+)
+(2.1.2)
+e
+cυu.
+Here, cυ > 0 is the speciﬁc heat at constant volume
+many of our previous assumptions, (2.1.2) is also
+=
+. We also assume that cυ is constant. Like
+just a simple model, and not a fundamental law
+of nature.
+Finally, we combine (2.0.12), (2.1.1), and (2.1.2), and use the identity ∇⋅∇u = ∆u, thus arriving
+at
+κ
+1
+(2.1.3)
+∂tu t,x
+∆u
+R.
+cυρ
+cυ
+This is the heat equation (1.0.1) with D
+(
+κ
+cυ
+)
+ρ
+=
+and f
++
+1
+c R.
+υ
+3.
+=
+Well-posedness
+=
+Remember, one of the main goals of PDE theory is to ﬁgure out which kind of data lead to a
+unique solution. It is not always obvious which kind of data we are allowed to specify in order to
+solve the equation. When we have a PDE and a notion of data such that the data always lead to a
+unique solution, and the solution depends “continuously” on the data, we say that the problem is
+well-posed.
+3.1. Dirichlet boundary conditions. Let’s study Dirichlet boundary conditions for the heat
+equation in n
+1 dimensions. Think of a one-dimensional rod with endpoints at x
+0 and x
+L.
+Let’s set most
+=
+of the constants equal to 1 for simplicity, and assume that there is no external source
+pumping energy into the rod, i.e., that there is no inhomogeneous term f.
+=
+=
+Then we could, for example, prescribe the temperature of the rod at t
+0 (sometimes called
+Cauchy data) and also at the boundaries x = 0 and x = L for all times t
+=
+∈[0,T] ∶
+(3.1.1)
+⎪⎪⎪
+⎧
+u
+=
+⎨
+∂
+) ×
+⎪
+t −
+) ∈(
+(
+)
+⎪u
+(
+As we will see, under
+(
+u
+D∂2
+xu
+0,
+t,x
+0,T
+0,L ,
+⎩⎪
+(
+0,x
+g x ,
+x
+0,L ,
+Cauchy data ,
+t,0
+) =
+) = h0
+(
+(t
+)
+),
+u(t,L) = hL t
+suitable assumptions
+∈[
+]
+on
+(
+the
+(
+),
+t > 0,
+Dirichlet data .
+functions, g,
+)
+h0,hL, these conditions lead to a
+well-posed problem.
+(
+)
+3.2. Neumann (N for Normal!) boundary conditions. Instead of prescribing the temperature
+at
+=
+the boundaries, let’s instead prescribe the inward rate of heat ﬂow (given by Fourier’s law with
+κ
+1) at the boundaries:
+(3.2.1)
+⎪⎪⎪
+⎧∂tu
+D
+0,
+−
+∂2
+xu
+x
+x
+= 0,
+u
+g
+,
+∂xu t,0
+h0 t ,
+(t,x) ∈(0,T
+0,L),
+Cauchy data
+×
+,
+∂xu t,L
+)
+h
+(
+L t ,
+Neumann data .
+Under suitable assumption
+⎪
+problem.
+⎪
+⎨
+(
+) = (
+)
+⎪⎩−
+(
+s on
+)
+=
+the
+(
+)
+( )
+functions,
+(
+g,h
+)
+0
+=
+,hL,
+(
+these
+)
+conditions
+(
+also lead
+)
+to a well-posed
+
+
+4
+MATH 18.152 COURSE NOTES - CLASS MEETING # 2
+3.3. Robin boundary conditions. We can also take some linear combinations of the Dirichlet
+and Neumann conditions:
+⎧⎪⎪⎪∂tu −D∂2
+xu
+(3.3.1)
+u 0,x
+g x
+=
+(
+0
+(t,x
+0
+⎪⎨
+(
+(
+T
+0,L ,
+⎩⎪
+) =
+)
+,
+,
+⎪−
+(
+) +
+,
+(
+)
+Cauc
+)
+=
+hy data ,
+∂xu t,0
+αu t,0
+h0 t
+∈(
+,
+) × (
+)
+)
+∂xu t,L
+where α
+0 is a positive constant. Under
+( )
+suitable
+(
+ass
+)
+αu t,L
+hL t ,
+Robin data ,
+>
+u
++
+mptions
+(
+)
+on
+=
+the
+( )
+function
+(
+s, g,h0,hL
+)
+, these
+conditions also lead to a well-posed problem.
+3.4. Mixed boundary conditions. The above three boundary conditions are called homogeneous
+because they are of the same type at each end. It is also possible to prescribe one condition at
+one endpoint, and a diﬀerent condition at the other endpoint. These are called mixed boundary
+conditions. These conditions also lead to a well-posed problem.
+4. Separation of variables
+We now discuss a technique, known as separation of variables, that can be used to explicitly
+solve certain PDEs. It is especially useful in the study of linear PDEs. Although this technique is
+applicable to some important PDEs, it is unfortunately far from universally applicable.
+In a
+●
+nutshell, the separation of variables
+(
+tec
+) =
+hnique
+( ) (
+can
+)
+be summarized as:
+●
+Look for a solution of the form u t,x
+v t w x .
+Plug this guess into the PDE and hope that the PDE forces the functions v and w to be
+solutions to ODEs that can be solved without too much trouble.
+As we will see, when one tries to apply this technique, one quickly runs into diﬃculties that are
+best addressed using techniques from Fourier analysis. We don’t have time right now to give a
+detailed introduction to Fourier analysis, but we will return to it later in the course if time permits;
+at the moment, we will only show how to use some of these techniques, without fully justifying
+them.
+A great way to illustrate separation of variables is through an example. Let’s try to solve the
+heat equation problem with homogeneous (i.e., vanishing) Dirichlet conditions
+⎧⎪⎪⎪u
+xx =
+⎨
+t −u
+0,
+(
+(
+) =
+t,
+∈[
+x
+0,T
+0,1 ,
+(4.0.1)
+⎪⎪⎪
+⎩
+u
+(
+0,x
+) =
+x,
+x
+(
+0
+0
+)
+,
+u t,0
+,
+u t,1
+∈(
+] × [
+]
+]
+by separation of variables.
+) =
+1 ,
+0,
+Remark 4.0.1. Note that such a solution cannot possibly be continuous at the point (0,1 .
+We plug in the form u(t,x) = v(t)w(x) into (4.0.1) and discover that
+)
+v′(t
+(4.0.2)
+v
+)
+(t
+= w′′(x
+w
+)
+)
+(x) .
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 2
+5
+This should hold for all t,x. It therefore must be the case that both sides are equal to a constant,
+which we will call λ. We then have
+(4.0.3a)
+v′(t
+(4.0.3b)
+w′′ x
+) =
+( )
+Furthermore, w 0
+w 1
+0 by the boundary
+Let’s address v ﬁrst, since it requires less
+(
+work
+) =
+λv t
+λw x .
+( ) =
+( ) =
+conditions.
+( )
+,
+to deal with than w. If λ ∈R, then (4.0.3a) can
+be generally solved:
+(4.0.4)
+v(t) = Aeλt
+for some A
+R.
+In con
+●
+trast, the study of w x splits into three cases:
+λ
+0
+∈
+( )
+= . Then
+and B
+C
+λ
+0. Then
+( ) =
++
+∈
+=
+B
+C
++
+0,
+=
+w x
+Bx
+=
+C for
+=
+some B,C
+R. The boundary conditions imply that C
+0
+●
+>
+0
+(
+, so
+) =
+that√B
++
+C
+0. Thus, this solution is not very interesting.
++
+=
+w x
+√Be
++
+λx
+C
+√e
+√
+λx for some B,C
+R. The boundary conditions imply that
+and Be
+λ
+Ce
+−
+−
+λ =
+√
+0, which
+√
+forces B
+∈
+= C = 0. This solution is also not very
+●
+interesting.
+λ <
+(
+0
+)
+.
+=
+Then w x
+B sin
+λ x
+C cos
+λ x for some B,C
+R. The boundary condition
+w
+=
+0
+−
+0 forces C
+0, so w x
+B sin
+λx . The boundary condition w 1
+0 then forces
+def
+λ
+π2m2 for
+( )
+some
+=
+(
+∣∣) +
+=
+m
+(
+Z
+)
+,
+=
+where
+(
+Z
+√(
+∣∣)
+)
+∈
++
++ = the set of non-ne
+∈
+gative integers.
+The λ are
+called eigenvalues, and the corresponding wm are the corresponding eigenve
+( )
+ctors
+=
+. Equation
+def
+(4.0.3a) is called an eigenvalue problem corresponding to
+2
+We have shown that the only solutions w are of the form wm x
+(4.0.4) and the fact that λ
+π2m2 for our solutions, we have pro
+L =
+heat equation ∂tu
+∂2
+xu
+0 that satisfying the boundary conditi
+( ) =
+the linear
+(
+operator
+.
+2πmx), m ∈
+∂x
+= −
+B sin
+Z+. Using also
+−
+=
+duced a family of solutions to the
+ons:
+(4.0.5)
+um t,x
+e−m2π2t sin mπx ,
+Am
+R,
+m
+Z+.
+But we haven’t yet satisﬁed the initial condition u 0,x
+x. To do this, we could try using the
+superposition principle:
+(
+) =
+(
+)
+∈
+∈
+(
+) =
+(4.0.6)
+u t,x
+∞
+Amum t,x .
+m 1
+We would have to solve for the Am to
+(
+achiev
+) =
+e
+∑
+the
+=
+desired
+(
+initial
+)
+condition u 0,x
+x.
+Here is a list of things we would have to do to fully solve this problem using
+(
+this
+) =
+technique:
+(1) Find plausible Am.
+(2) Show that the inﬁnite sum (4.0.6) converges.
+(3) Show that the inﬁnite sum solves the heat equation.
+(4) Show that u t,x satisﬁes the boundary
+(5) Check that lim
+(
+t→
+)
+0+ u(t,x) = u(0,x
+may or may not hold. We already
+point 0,1 .
+) =
+conditions.
+x. We also have to investigate in which sense this limit
+know that this equality cannot hold pointwise at the
+(
+)
+
+
+6
+MATH 18.152 COURSE NOTES - CLASS MEETING # 2
+(6) Show that there can be no other solution with these initial/boundary conditions (unique-
+ness).
+Let’s deal with (1) ﬁrst. If (4.0.6) holds, then at t = 0 ∶
+(4.0.7)
+x = u(0,x) =
+∞
+A
+mπ
+m
+∑
+=
+mum 0,x
+Am sin
+x .
+1
+This is a Fourier series expansion for the function
+(
+f
+) =
+m
+∑
+∞
+=1
+x
+x on the
+(
+interv
+)
+al 0,1 .
+It
+(
+is helpful
+)
+to think of a function f
+a
+) =
+(x) as
+vector in
+(
+an inﬁnite dimensional vector space and the
+sin mπx as basis vectors (however, it is not trivial to show that they form a
+[
+basis...).
+]
+Furthermore,
+if we introduce the dot product
+⟨f(
+def
+(4.0.8)
+x
+then the basis vectors are orthogonal
+),g(x
+(do the
+)⟩=
+computation
+∫[0,1] f(x)g(x)dx,
+yourself!):
+⟨sin(
+2
+(4.0.9)
+x)
+1
+if m
+n
+mπ
+,sin(πnx
+This
+)⟩= { 0
+/
+if m
+=
+≠n.
+suggests that the following heuristic computations might be able to be made completely
+rigorous:
+(4.0.10)
+∫[
+f x sin πnx dx
+f x ,sin πnx
+Am sin mπx ,sin πnx
+0,1
+( )
+(
+)
+= ⟨( )
+(
+)⟩= ⟨
+m
+∑
+∞
+]
+=
+∞
+1
+Am sin
+(
+mπx
+)
+,sin
+(
+π
+)⟩
+=
+m
+∑
+=
+nx
+1
+1
+⟨
+(
+)
+(
+)⟩
+=
+An.
+2
+Applying this to our function f(x) = x, we integrate by parts to compute that
+2
+2
+(4.0.11) Am = 2∫
+2
+[
+xsin mπx dx
+xcos mπx
+x 1
+0
+cos πnx dx
+1 m 1
+x
+.
+0,1
+We now hope that
+]
+our solution
+(
+)
+is:
+= −mπ
+(
+)∣=
+= + mπ ∫[0,1
+(
+= (−)
++
+]
+)
+mπ
+(4.0.12)
+u(t,x) =
+m
+∑
+∞
+m
+2
+=
+1
+1e m2π2t
+sin mπx .
+1
+Remark
+(−)
++
+−
+mπ
+4.0.2. The individual terms (−1)m+1e−m2π2t 2
+(
+)
+mπ sin mπx are sometimes called the modes
+of the solution. Note that
+∑∞eac
+(
+h
+−
+mo
+)
+de
++
+−
+is rapidly deca
+(
+ying
+)
+at
+more, the inﬁnite sum
+m
+m2π2t 2
+m 1
+1
+1e
+mπ sin mπx
+also
+(
+an exp
+)
+onential rate as t
+. Further-
+=
+decays exponentially in time. Later
+in the course we will study the heat equation on all of R, and we will once again see
+→∞
+that under
+suitable assumptions, solutions to the heat equation tend to exponentially decay in time. However,
+if we had non-zero Dirichlet conditions for the problem (4.0.1), then the solution might not decay
+to 0, but instead to some other state.
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 2
+7
+Let’s now answer some of the remaining questions
+−
+from above.
+(2) Thanks to the rapidly decaying in m factor e m2π2
+]
+t, for
+y t >
+∈[
+an
+0, the series (4.0.12) can be
+seen to uniformly converge for x
+0,1
+using one of the standard convergence arguments from
+analysis (carefully work through
+=
+this argument yourself; pg. 9 of your book might be a helpful
+reference). The argument for t
+0 is much more subtle and is addressed in Theorem 4.1 below.
+(3) We already know that eac
+>
+h mode
+−
+in (4.0.12) solves the heat equation. So what about the
+inﬁnite sum? Again, for any t
+0, the e m2π2t factor plus standard results from analysis allow us
+to repeatedly diﬀerentiate the series term-by-term in both t and x (work through this yourself).
+In particular, the
+>
+>
+series is smooth (i.e., inﬁnitely diﬀerentiable in all variables) for any t
+0. In
+particular, for t
+0, we have that
+2
+2
+2
+2
+2
+(4.0.13a)
+∂tu = ∑
+∞
+=
+∂t[(−1)m+1e m
+1
+m
+−
+π t
+sin mπx
+mπ
+m
+∞
+mmπe
+1
+−m π t sin
+1
+2
+2
+2
+2
+2
+2
+(4.0.13b)
+∂2u
+∞
+∂2
+1 m 1e m π t
+sin
+(
+mπx
+)] = ∑
+=
+∞
+(−
+1
+)
+mmπe m π t
+(mπx ,
+x
+x
+sin
+)
+= ∑
+[(−)
++
+−
+(
+)] = ∑
+=
+(−)
+−
+=
+(mπx),
+−
+m 1
+mπ
+m 1
+mπ
+which shows that
+∂tu + ∂2
+xu
+(4)
+= 0.
+The fact that u veriﬁes the correct Dirichlet conditions at x = 0 and x
+1 follows from the
+fact that each of the modes does.
+The remaining two questions require more work.
+We ﬁrst quote
+=
+Fourier analysis to help us understand the Fourier expansion at t
+address question 5 in your homework.
+Theorem 4.1 (Some basic facts from Fourier analysis).
+=
+the following theorem from
+( )
+0. Using this theorem, you will
+∥∥
+If f x
+is a function such that
+f
+2
+L2
+wher
+∞
+([0,1
+e Am
+])
+def
+( )
+= ∫
+1
+0 ∣f(x)∣2dx < ∞
+(
+(
+,
+( )
+( ) = ∑
+=
+∫
+)
+)
+then f x
+can be Fourier-expanded as f x
+m=1 Am sin
+2
+[0,1] f x sin mπx dx. The inﬁnite sum converges in the sense that
+(mπx),
+∥f −∑
+N
+(4.0.14)
+m=
+Am sin
+1
+(mπx
+We also have the Parseval identity
+)∥L2([0,1]) →0 as N →∞.
+1
+(4.0.15)
+∥f∥2
+2([0,1]) = ∑
+∞
+=
+A2
+L
+m∥sin(mπx)∥2
+L2([0,1
+m 1
+∞
+Note that (4.0.15) is an “inﬁnite dimensional Pythagorean the
+])
+[
+or
+= ∑
+=
+A2
+1 2
+m.
+m
+em.”
+Furthermore, if f is continuous on 0,1], then for any subinterval [a,b] ⊂(0,1),
+N
+(4.0.16)
+f
+Am sin mπx
+C0
+m 1
+([a,b])
+0 as N
+,
+i.e., the convergence is uniform
+∥−∑
+on
+=
+any close
+(
+d subinterval
+)∥
+→
+a,b of the
+→∞
+open interval 0,1 .
+Exercise 4.0.1. Many extensions of Theorem 4.1 are possible.
+[
+]
+Read Appendix A of
+(
+your
+)
+textbook
+in order to learn about them.
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.152 Introduction to Partial Differential Equations.
+Fall 2011
+ 
+ 
+ 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

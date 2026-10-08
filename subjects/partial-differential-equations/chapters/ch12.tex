@@ -1,0 +1,74 @@
+\originalchapter{变分原理与场的守恒律}\label{ch:lagrangian}
+\sourcelecture{21--23}
+\originalsection{作用量与 Euler--Lagrange 方程}
+\begin{definition}
+拉格朗日函数 $\mathcal L(x,u,p)$ 取决于点、标量场与其一阶导数变量 $p=(p_0,\ldots,p_n)$. 在有界时空区域 $K$ 上的作用量是 $A[u]=\int_K\mathcal L(x,u,\partial u)\dd x$. 若对每个 $\psi\in C_c^\infty(K)$ 有 $\frac{\mathrm d}{\mathrm d\eps}A[u+\eps\psi]|_{\eps=0}=0$, 称 $u$ 为驻点.
+\end{definition}
+驻点是函数而非时空中一个点, 也不必是极小值. 波方程作用量含正负二次项, 不能以正定最小化直觉替代驻点条件.
+\begin{theorem}\label{thm:EL}
+$\mathcal L\in C^2$, $u\in C^2$ 时, 驻点条件等价于
+\[
+\partial_\mu\left(\frac{\partial\mathcal L}{\partial p_\mu}(x,u,\partial u)\right)
+-\frac{\partial\mathcal L}{\partial u}(x,u,\partial u)=0.
+\]
+\end{theorem}
+\begin{proof}
+紧支撑变分使积分内导数连续可积, 链式法则给 $\delta A=\int(\mathcal L_u\psi+\mathcal L_{p_\mu}\partial_\mu\psi)$. 积分分部无边界项, 得 $\delta A=\int[\mathcal L_u-\partial_\mu\mathcal L_{p_\mu}]\psi$. 若连续括号函数非零, 在其同号小邻域取非负光滑测试函数, 积分非零, 矛盾. 反过来括号恒零则每个变分为零.
+\end{proof}
+取 $\mathcal L=-\tfrac12m^{\mu\nu}u_\mu u_\nu-V(u)=\tfrac12u_t^2-\tfrac12|\nabla u|^2-V(u)$, 则 $\mathcal L_{p_\mu}=-\partial^\mu u$, $\mathcal L_u=-V'(u)$, 所以 $\square u-V'(u)=0$, 等价于 $u_{tt}-\Delta u+V'(u)=0$. $V(u)=m_0^2u^2/2$ 给 Klein--Gordon 方程. 参数 $m_0$ 与度量 $m$ 是不同对象.
+\originalsection{坐标变化与度量变分}
+光滑向量场 $Y$ 的局部流满足 $\frac{\mathrm d}{\mathrm d\eps}F_\eps(x)=Y(F_\eps(x))$, $F_0(x)=x$. ODE 唯一性给 $F_{\eps+s}=F_\eps\circ F_s$ 及逆 $F_{-\eps}$. 在固定紧集上 Taylor 展开为 $F_\eps=x+\eps Y+O(\eps^2)$, 导数矩阵 $M=I+\eps DY+O(\eps^2)$. 因 $(I+\eps A)^{-1}=I-\eps A+O(\eps^2)$,
+\[
+M^{-1}=I-\eps DY+O(\eps^2),\qquad \det M^{-1}=1-\eps\diver Y+O(\eps^2).
+\]
+行列式的一次项是迹: Leibniz 展开中恒等排列贡献 $1+\eps\sum_jA_{jj}$, 其他排列要至少两项非对角因子, 为 $O(\eps^2)$.
+
+新坐标 $\widetilde x=F_\eps(x)$ 下, 标量场 $\widetilde u(\widetilde x)=u(x)$, 协变导数和度量分别变为 $\widetilde p=M^{-T}p$, $\widetilde m=M^{-T}mM^{-1}$. 逆度量 $\widetilde m^{-1}=Mm^{-1}M^T$. 于是 $p^Tm^{-1}p$ 为标量不变量. 坐标变换后度量分量一般不再是固定对角矩阵; 任意微分同胚的不变性要同时变换度量, 与固定 Minkowski 矩阵的 Lorentz 对称性不同.
+
+若度量以参数变化, 对 $mm^{-1}=I$ 求导, 得
+\begin{equation}\label{eq:inversevariation}
+\delta m^{-1}=-m^{-1}(\delta m)m^{-1}.
+\end{equation}
+对称度量变分可直接用矩阵等式, 避免独立非对角分量的重复计数.
+\originalsection{能量动量张量的变分来源}
+对只依赖 $u,\partial u,m$ 且为标量的 $\mathcal L$, 定义 $P^{\mu\nu}$ 为对称矩阵导数, 满足 $\delta\mathcal L=P^{\mu\nu}\delta m_{\mu\nu}$, 在所有有序指标上求和. 令
+\[
+T^{\mu\nu}=2P^{\mu\nu}+m^{\mu\nu}\mathcal L.
+\]
+\begin{theorem}\label{thm:stressvariation}
+若 $\mathcal L$ 没有显式坐标依赖, 按上述同时变换场与度量的方式坐标不变, 且 $u$ 满足 Euler--Lagrange 方程, 则常 Minkowski 度量下 $\partial_\mu T^{\mu\nu}=0$.
+\end{theorem}
+\begin{proof}
+取紧支撑 $Y$, 新坐标固定时, 标量与导数变化为 $\delta u=-Y^\alpha u_\alpha$, $\delta p_\mu=-\partial_\mu(Y^\alpha u_\alpha)$, 度量变化为 $\delta m_{\mu\nu}=-m_{\alpha\nu}\partial_\mu Y^\alpha-m_{\mu\alpha}\partial_\nu Y^\alpha$. Jacobian 变化为 $-\partial_\alpha Y^\alpha$. 作用量换元后的值不变, 所以
+\[
+0=\int\left[-\mathcal L_uY^\alpha u_\alpha
+-\mathcal L_{p_\mu}\partial_\mu(Y^\alpha u_\alpha)
+-2P^{\mu\nu}m_{\alpha\nu}\partial_\mu Y^\alpha
+-\mathcal L\partial_\alpha Y^\alpha\right]\dd x.
+\]
+头两项分部积分后由 Euler--Lagrange 消失, 后两项合为 $-\int T^{\mu\nu}m_{\alpha\nu}\partial_\mu Y^\alpha$. 再分部积分得 $\int(\partial_\mu T^{\mu\nu})m_{\alpha\nu}Y^\alpha=0$. 任意紧支撑 $Y$ 及 $m$ 可逆给散度为零.
+\end{proof}
+对 $\mathcal L=-Q/2-V(u)$, 由\eqref{eq:inversevariation}得 $P^{\mu\nu}=\tfrac12\partial^\mu u\partial^\nu u$, 因而
+\[
+T^{\mu\nu}=\partial^\mu u\partial^\nu u-m^{\mu\nu}(Q/2+V(u)),\quad
+T^{00}=\tfrac12(u_t^2+|\nabla u|^2)+V(u).
+\]
+直接求散度也得 $(\square u-V'(u))\partial^\nu u$, 与变分证明相符. 若 $V\ge0$ 则能量密度非负, 但其控制哪些范数仍要看 $V$ 的增长.
+\originalsection{对称性与 Noether 流}
+若驻点场有一参数内部变换 $u_\eps=u+\eps\eta+O(\eps^2)$, 且拉格朗日变化为全散度 $\delta\mathcal L=\partial_\mu B^\mu$, 则
+\[
+\partial_\mu(\mathcal L_{p_\mu}\eta-B^\mu)=0.
+\]
+证明是链式法则 $\delta\mathcal L=\mathcal L_u\eta+\mathcal L_{p_\mu}\partial_\mu\eta$, 用 Euler--Lagrange 代入为 $\partial_\mu(\mathcal L_{p_\mu}\eta)$. 对多个实分量逐个求和即可. 这解释了守恒量来自连续对称性, 并非每个 PDE 都自动有正定能量.
+\begin{example}
+对波方程加常数的对称性, 求对应流.
+\end{example}
+\begin{solution}
+$V=0$ 时 $\mathcal L$ 只依赖导数, $u\mapsto u+\eps$ 保持它, 所以 $\eta=1$, $B=0$, 流为 $-\partial^\mu u$. 守恒等式就是 $-\square u=0$. 时间平移的流则给二次能量, 是不同对称性.
+\end{solution}
+\begin{exercise}
+$V(u)=m_0^2u^2/2$, 证明足够衰减的 Klein--Gordon 解有 $\int(u_t^2+|\nabla u|^2+m_0^2u^2)$ 守恒.
+\end{exercise}
+\begin{solution}
+将 $u_{tt}-\Delta u+m_0^2u=0$ 乘 $u_t$ 积分. 前后两项分别为 $\tfrac12\partial_t\int u_t^2$ 与 $\tfrac12\partial_t\int m_0^2u^2$, 中间经分部积分为 $\tfrac12\partial_t\int|\nabla u|^2$. 总导数为零. 充分衰减或齐次 Dirichlet/Neumann 边界使边界通量消失. Robin 边界应另计边界能量, 见第九章.
+\end{solution}

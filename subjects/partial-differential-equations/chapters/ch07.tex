@@ -1,0 +1,70 @@
+\originalchapter{Green 函数、Poisson 核与 Harnack 不等式}\label{ch:green}
+\sourcelecture{7--9}
+\originalsection{Green 表示公式}
+\begin{definition}
+齐次 Dirichlet Green 函数 $G(x,y)$ 满足 $-\Delta_yG(x,y)=\delta_x(y)$, 且边界上 $G(x,\xi)=0$. 一般写 $G(x,y)=\Phi(x-y)-H_x(y)$, 其中 $H_x$ 调和且边界值等于 $\Phi(x-\xi)$. 定义中仍需规定奇异部分及正则性, 不能把任意分布关系当作可逐点使用的核.
+\end{definition}
+\begin{theorem}\label{thm:greenrepresentation}
+若 $\Omega$ 有界光滑, $u\in C^2(\overline\Omega)$, $-\Delta u=f$, $u=g$ 于边界, 且具有上述 Green 函数, 则
+\[
+u(x)=\int_\Omega G(x,y)f(y)\dd y+\int_{\partial\Omega}P(x,\xi)g(\xi)\dd S_\xi,
+\qquad P=-\partial_{\nu_y}G.
+\]
+\end{theorem}
+\begin{proof}
+在 $\Omega\setminus\overline B_\eps(x)$ 使用 Green 第二等式, 内部 $\Delta_yG=0$. 小球边界的区域外法向指向 $x$. $G\partial_\nu u$ 项因 $u$ 光滑为 $O(\eps)$, 二维为 $O(\eps|\log\eps|)$; $u\partial_\nu G$ 项趋于 $u(x)$, 因基本解的单位通量. $H_x$ 的平滑部分不贡献极限. 外边界因 $G=0$ 只留下 $-u\partial_\nu G=P g$. 内部 $-\Delta u=f$ 项给 $\int Gf$. 整理即得表示式. 此论证也说明正负号必须与 $-\Delta$ 的约定一致.
+\end{proof}
+该定理是给定 Green 函数及经典解时的表示, 一般域 Green 函数存在和边界正则性不在这里凭公式推出. 三维半空间 $x_n>0$ 可用像点 $x^*=(x',-x_n)$ 构造 $G=\Phi(x-y)-\Phi(x^*-y)$, 直接满足零边界.
+\originalsection{球域像点与 Poisson 公式}
+对 $B_R(0)$, $n\ge3$, $x\ne0$ 的反演像点为 $x^*=R^2x/|x|^2$. 若 $|y|=R$, 直接平方可得 $|x^*-y|=(R/|x|)|x-y|$. 因而
+\[
+G(x,y)=\Phi(x-y)-\left(\frac R{|x|}\right)^{n-2}\Phi(x^*-y).
+\]
+像点在球外, 第二项于球内调和, 两项在边界抵消. $x=0$ 时取极限 $G(0,y)=\Phi(y)-[(n-2)\omega_nR^{n-2}]^{-1}$. 二维为
+\[
+G(x,y)=\frac1{2\pi}\log\frac{|x|\,|x^*-y|}{R|x-y|},\qquad
+G(0,y)=\frac1{2\pi}\log\frac R{|y|}.
+\]
+对 $y$ 取外法向导数, 两维与高维统一给
+\begin{equation}\label{eq:poissonkernel}
+P_R(x,\xi)=\frac{R^2-|x|^2}{\omega_nR|x-\xi|^n},\qquad |\xi|=R.
+\end{equation}
+例如高维 $\nabla_y\Phi(x-y)=(x-y)/(\omega_n|x-y|^n)$; 第二项同理, 再用像点距离等式及 $\nu_y=\xi/R$ 相减, 分子化为 $|x|^2-R^2$, 最后加负号得\eqref{eq:poissonkernel}.
+\begin{theorem}\label{thm:poissonball}
+若 $g\in C(\partial B_R)$, 则 $u(x)=\int_{\partial B_R}P_R(x,\xi)g(\xi)\dd S$ 是唯一 $C^\infty(B_R)\cap C(\overline B_R)$ 调和解, 连续取得边界 $g$.
+\end{theorem}
+\begin{proof}
+对固定边界点直接求导得 $\Delta_xP_R(x,\xi)=0$; 可将 $R^2-|x|^2$ 与 $|x-\xi|^{-n}$ 的 Laplace 乘积展开核验, 用 $|\xi|^2=R^2$ 消去全部项. 内部紧集到边界有正距离, 故积分可任意求导. $P_R>0$. 用 Green 表示定理对恒等于1的调和函数, 得 $\int P_R=1$, 该使用没有循环: 恒定解事先已知, 仅借表示式计算核的总量.
+
+对 $x\to\xi_0\in\partial B_R$, 将 $u(x)-g(\xi_0)=\int P_R[g(\xi)-g(\xi_0)]$ 分为近远两段. 近处以 $g$ 的一致连续性控制在 $\eps$; 远处当 $|\xi-\xi_0|\ge\delta$, $x$ 充分近时 $|x-\xi|\ge\delta/2$, 所以核积分至多 $C_\delta(R^2-|x|^2)\to0$. 得连续边界迹. 唯一性由最大值原理.
+\end{proof}
+\begin{example}
+单位圆上 $g(\theta)=\cos(3\theta)+2\sin(2\theta)$, 求调和延拓.
+\end{example}
+\begin{solution}
+极坐标 Laplace 算子为 $\partial_{rr}+r^{-1}\partial_r+r^{-2}\partial_{\theta\theta}$. 逐项代入得 $r^3\cos3\theta$ 和 $r^2\sin2\theta$ 调和. 它们在原点也是多项式: 分别为 $x^3-3xy^2$ 和 $2xy$. 因而 $u=r^3\cos3\theta+2r^2\sin2\theta$ 连续取得边界值, 唯一性认定它就是 Poisson 积分.
+\end{solution}
+\originalsection{Harnack 与单侧 Liouville 定理}
+\begin{theorem}\label{thm:harnack}
+若 $u\ge0$ 在 $B_R(0)$ 内调和, 则对 $r=|x|<R$,
+\[
+\frac{R^{n-2}(R-r)}{(R+r)^{n-1}}u(0)
+\le u(x)\le
+\frac{R^{n-2}(R+r)}{(R-r)^{n-1}}u(0).
+\]
+\end{theorem}
+\begin{proof}
+先对球半径 $s<R$ 且 $s>r$ 使用 Poisson 公式, 边界值非负. $s-r\le|x-\xi|\le s+r$ 给上下核界, 而球面平均给 $\int_{\partial B_s}u=\omega_n s^{n-1}u(0)$. 相乘得到相同公式中 $R$ 换成 $s$. 令 $s\uparrow R$ 即得, 不要求 $u$ 连续延伸到最外球面.
+\end{proof}
+\begin{corollary}
+若全空间调和函数有统一上界或下界, 则为常数. 非负调和函数若在内点为零, 则在连通域恒零.
+\end{corollary}
+\begin{proof}
+下界 $M$ 时令 $v=u-M\ge0$, 对任意固定 $x$ 在任意大球用 Harnack, 两侧系数均趋1, 得 $v(x)=v(0)$. 上界对 $-u$ 使用. 零点情形在小球由 Harnack 得恒零, 再以连通性沿相交球传播, 或直接用强最小值原理.
+\end{proof}
+\begin{exercise}
+若三维 $-\Delta u=f\ge0$, $u=0$ 于光滑有界域边界, 证明 $u\ge0$, 并说明正 Green 函数与此结论的一致性.
+\end{exercise}
+\begin{solution}
+$\Delta(-u)=f\ge0$, 弱最大值原理给 $-u\le0$. Green 函数固定点源的正性可在挖去小球后比较: 小球边界 $\Phi-H_x>0$ 对充分小半径成立, 外边界零, 中间调和, 故 $G\ge0$. 因此表示 $u=\int Gf$ 也给非负性.
+\end{solution}

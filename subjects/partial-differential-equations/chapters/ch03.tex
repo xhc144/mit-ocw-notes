@@ -1,0 +1,75 @@
+\originalchapter{分离变量与 Fourier 级数}\label{ch:series}
+\sourcelecture{2--3; Fourier 分析所需的论证为编者补充}
+\originalsection{Dirichlet 特征函数}
+在杆 $(0,L)$ 上令 $u(t,x)=T(t)X(x)$, 代入 $u_t=Du_{xx}$, 非零因子处有 $T'/(DT)=X''/X=-\lambda$. 因而
+\[
+-X''=\lambda X,\quad X(0)=X(L)=0,\qquad T'= -D\lambda T.
+\]
+乘 $X$ 积分得 $\lambda\int X^2=\int (X')^2$, 非零解要求 $\lambda>0$. 解 ODE 后边界条件给 $\lambda_k=(k\pi/L)^2$, $X_k(x)=\sin(k\pi x/L)$, $k\ge1$. 零特征值与负特征值只有零解. 正交关系是
+\[
+\int_0^L\sin(k\pi x/L)\sin(j\pi x/L)\dd x=\frac L2\delta_{kj}.
+\]
+由积化和差公式积分即可验证. 分离变量仅找到了单个模态; 要表示任意数据, 还需证明这些模态在 $L^2$ 中完备.
+\originalsection{完备性与初始迹}
+以下给出所需的完备性论证, 避免把有限叠加原理直接用于未经检验的无穷和. 在周期 $2\pi$ 上, 定义 Fejér 核
+\[
+F_N(\theta)=\frac1{N+1}\left|\sum_{j=0}^N\ee^{\ii j\theta}\right|^2
+=\sum_{|k|\le N}\left(1-\frac{|k|}{N+1}\right)\ee^{\ii k\theta}.
+\]
+它非负, $\int_{-\pi}^{\pi}F_N\dd\theta=2\pi$, 且 $|\theta|\ge\delta>0$ 时由几何级数得 $F_N\le[(N+1)\sin^2(\delta/2)]^{-1}$. 所以质量集中在零点附近.
+\begin{lemma}\label{lem:fejer}
+对周期 $L^2$ 函数 $f$, $\sigma_N f=(2\pi)^{-1}F_N*f$ 在 $L^2$ 中趋于 $f$. 对连续周期函数, 收敛是一致的.
+\end{lemma}
+\begin{proof}
+周期平移在 $L^2$ 中连续: 阶梯函数可直接算出平移造成的误差, 再用阶梯函数在 $L^2$ 中稠密及平移保范数, 得 $\|f(\cdot-\theta)-f\|_2\to0$. 由积分 Minkowski 不等式,
+\[
+\|\sigma_N f-f\|_2\le\frac1{2\pi}\int_{-\pi}^{\pi}F_N(\theta)\|f(\cdot-\theta)-f\|_2\dd\theta.
+\]
+在 $|\theta|<\delta$ 用平移连续性使第二因子小于 $\eps$, 其余部分用 $2\|f\|_2$ 及核在远处的质量趋零. 故上极限至多 $\eps$. 连续函数用一致连续性和上确界范数重复同一论证.
+\end{proof}
+\begin{theorem}\label{thm:sinebasis}
+$e_k=(2/L)^{1/2}\sin(k\pi x/L)$ 为 $L^2(0,L)$ 的完备正交规范系. 对 $g\in L^2$, 写 $b_k=(2/L)\int_0^Lg(x)\sin(k\pi x/L)\dd x$, 则
+\[
+g=\sum_{k=1}^\infty b_k\sin(k\pi x/L)\quad\text{于 }L^2,
+\qquad \|g\|_2^2=\frac L2\sum_{k=1}^\infty |b_k|^2.
+\]
+\end{theorem}
+\begin{proof}
+把 $g$ 奇延拓到 $(-L,L)$ 并周期延拓. 若 $g$ 与所有正弦正交, 奇延拓的余弦及常数系数因奇性为零, 正弦系数也为零. Fejér 平均全为零, 引理迫使延拓函数为零, 所以正交补为零. 有限正交投影的误差与其余子空间正交, 勾股定理给 Bessel 不等式. 系数平方可和使投影在 $L^2$ 中 Cauchy; 完备性给极限, 其误差与全部 $e_k$ 正交, 故为零. 取范数得 Parseval 等式.
+\end{proof}
+连续函数的普通 Fourier 部分和并不总是一致收敛. 本册使用已证明的 $L^2$ 完备性和 Fejér 一致逼近, 不采用“连续即普通级数一致收敛”的过强说法.
+\originalsection{区间热方程的构造}
+\begin{theorem}\label{thm:intervalheat}
+$g\in L^2(0,L)$ 时,
+\[
+u(t,x)=\sum_{k\ge1}b_k\ee^{-D\lambda_kt}\sin(k\pi x/L)
+\]
+在每个 $t\ge\tau>0$ 上可逐项任意求导, 满足热方程及零 Dirichlet 边界, 且 $u(t)\to g$ 于 $L^2$ 当 $t\downarrow0$. 在 $C([0,T];L^2)$、正时间光滑且可作能量积分的此类解中唯一, 并有
+\[
+\|u(t)\|_2\le\ee^{-D\pi^2t/L^2}\|g\|_2.
+\]
+\end{theorem}
+\begin{proof}
+任意时间、空间导数使第 $k$ 项至多多一个 $k^m$ 因子. Cauchy--Schwarz 和 $\sum k^{2m}\ee^{-2D\lambda_k\tau}<\infty$ 保证一致绝对收敛, 故可逐项求导. 每项都满足方程和边界. Parseval 给
+\[
+\|u(t)-g\|_2^2=\frac L2\sum_k|b_k|^2|\ee^{-D\lambda_kt}-1|^2\longrightarrow0,
+\]
+用可和控制项 $4|b_k|^2$ 交换极限. 同式给衰减估计. 唯一性在 $[\eps,t]$ 上用能量法得 $\|w(t)\|_2\le\|w(\eps)\|_2$, 令 $\eps\downarrow0$.
+\end{proof}
+\begin{example}\label{ex:rodx}
+求 $L=D=1$, $g(x)=x$, 零 Dirichlet 边界的热方程解, 并解释右下角的不连续.
+\end{example}
+\begin{solution}
+积分分部给 $b_k=2\int_0^1x\sin(k\pi x)\dd x=2(-1)^{k+1}/(k\pi)$. 故
+\[
+u(t,x)=\sum_{k\ge1}\frac{2(-1)^{k+1}}{k\pi}\ee^{-k^2\pi^2t}\sin(k\pi x).
+\]
+初值在 $L^2$ 意义成立. 对内部点的点态初始迹, 将 $g(x)=x$ 奇延拓并以周期2延拓, 得有界锯齿函数 $G$. 周期化热核 $K_{\rm per}(t,z)=\sum_{m\in\mathbb Z}K_1(t,z+2m)$ 在一个周期内质量为1, 非负, 远离零模周期的质量趋零. 因而周期卷积在 $G$ 的连续内点趋 $G(x)$. 对周期模态直接积分 Gaussian 得因子 $\ee^{-k^2\pi^2t}$, 由 $L^2$ 完备性, 该卷积正是上面的级数. 这给 $0<x<1$ 的点态初始迹, 不借助未证明的普通 Fourier 级数收敛断言. $t>0$ 时 $u(t,1)=0$, 而 $g(1)=1$, 因而不能在 $(0,1)$ 角点连续. 一个点不影响 $L^2$ 初始迹, 所以这不妨碍定理的存在和唯一性.
+\end{solution}
+Neumann 情形用 $1,\cos(k\pi x/L)$; 常数模态不衰减, 其系数是平均温度. 非零恒定 Dirichlet 边界可先减去连接端点值的仿射稳态函数. 随时间变化的边界可减去同样的仿射函数 $H(t,x)$, 但新方程的源必须改成 $f-H_t+D H_{xx}$.
+\begin{exercise}
+解 $u_t=Du_{xx}$, $u(t,0)=A$, $u(t,L)=B$, $u(0,x)=g(x)$, 其中 $g$ 连续且满足角点相容条件.
+\end{exercise}
+\begin{solution}
+令 $H(x)=A+(B-A)x/L$, $v=u-H$, 则 $v$ 满足零边界和初值 $g-H$. 对 $g-H$ 展开正弦级数得到上述解, 再加 $H$. 能量估计给 $\|u(t)-H\|_2\le\ee^{-D\pi^2t/L^2}\|g-H\|_2$.
+\end{solution}

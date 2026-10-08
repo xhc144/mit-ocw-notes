@@ -1,0 +1,1069 @@
+MATH 18.152 COURSE NOTES - CLASS MEETING # 6
+18.152 Introduction to PDEs, Fall 2011
+Professor: Jared Speck
+Class Meeting # 6: Laplace’s and Poisson’s Equations
+We will now study the Laplace and Poisson equations on a domain (i.e. open connected subset)
+Ω⊂Rn. Recall that
+def
+∆= ∑
+n
+(0.0.1)
+i=
+∂2
+i .
+1
+The Laplace equation is
+(0.0.2)
+∆u x
+0,
+x
+Ω,
+while the Poisson equation is the
+( )
+inhomoge
+=
+neous equation
+∈
+(0.0.3)
+∆u x
+f x .
+Functions u ∈C2 Ωverifying (0.0.2) are said
+order, linear, constant coeﬃcient PDEs. As in
+(
+to
+) =
+( )
+( )
+be harmonic. (0.0.2) and (0.0.3) are both second
+our study of the heat equation, we will need to supply
+some kind of boundary conditions to get a well-posed problem. But unlike the heat equation, there
+is no “timelike” variable, so there is no “initial condition” to specify!
+1. Where does
+≡
+it come from?
+1.1. Basic examples. First example: set ∂tu
+0 in the heat equation, and (0.0.2) results. These
+solutions are known as steady state solutions.
+Second example: We start with Maxwell equations from electrodynamics.
+The quantities of
+interest
+●
+are
+E = (
+●
+= (
+E1 t,x,y,z ,E2 t,x,y,z ,E3 t,x,y,z
+is the electric ﬁeld
+●
+B
+= (
+B
+(
+1
+(
+)
+(
+(t,x,y,z),B2(t,x,y,z
+)
+),B3
+(
+(
+)
+(
+)
+(
+t,x,y,z
+is the magnetic induction
+●
+J
+J1 t,x,y,z ,J2 t,x,y,z ,J3 t,x,y,z
+))
+)
+)) is
+)
+the current density
+ρ is the charge density
+Maxwell’s equations are
+(1.1.1)
+∂tE −∇×
++
+B
+(1.1.2)
+∂
+=
+J,
+∇⋅E = ρ,
+tB
+E
+0
+−
+,
+B
+0.
+Recall that ∇× is the curl operator,
+∇×
+=
+so that e.g. ∇× B = (∂yB3
+∇⋅
+=
+−∂zB2,∂zB1 −∂xB3,∂xB2
+∂yB1 .
+Let’s look for steady-state solutions with ∂tE
+∂tB
+0. Then equation (1.1.2) implies that
+1
+−
+)
+=
+≡
+
+
+2
+MATH 18.152 COURSE NOTES - CLASS MEETING # 6
+(1.1.3)
+E
+0,
+so that by the Poincar´e lemma, there exists
+∇
+a scalar-v
+×
+=
+alued function φ(x,y,z) such that
+(1.1.4)
+E(x,y,z) = −∇φ(x,y,z .
+The function φ is called
+)
+∇⋅∇
+=
+an electric potential. Plugging (1.1.4) into the second of (1.1.1), and using
+the identity
+φ
+∆φ, we deduce that
+(1.1.5)
+∆φ x,y,z
+ρ x,y,z .
+This is exactly the Poisson equation (0.0.3)
+(
+with
+) = −
+inhomog
+(
+)
+eneous term f
+ρ. Thus, Poisson’s
+equation is at the heart of electrostatics.
+1.2. Connections
+( ) =
+( ) +
+to complex
+( )
+analysis. Let z
+x
+iy (where x,y
+R) b
+=
+e
+−
+a complex number,
+and let f z
+u z
+iv z
+be a complex-valued function
+b
+=
++
+(where u,v
+R
+to
+e diﬀerentiable at z0 if
+∈
+∈
+). We recall that f is said
+f
+−f z
+→
+(z)
+(
+−
+0
+(1.2.1)
+lim
+z
+z0
+z
+z0
+exists. If the limit exists, we denote it by f
+)
+′(z0).
+(
+A fundamen
+)
+tal result of complex analysis is the following: f is diﬀerentiable at z0
+x0
+iy0
+x0,y0 if and only if the real and imaginary parts of f verify the Cauchy-Riemann equations
+=
++
+at z0
+≃
+(1.2.2)
+ux(x0,y0
+∶
+(1.2.3)
+uy(x0,y0
+Diﬀerentiating (1.2.2) and using the symmetry
+) =
+(
+)
+that u x,y and v x,y are C1 near x0,y0 ),
+) =
+v
+−
+y x0,y0 ,
+vx(x0,y0).
+(
+)
+(
+)
+(
+)
+of mixed partial derivatives (we are assuming here
+we have
+def
+(1.2.4)
+∆u
+def
+(1.2.5)
+∆v
+= uxx
+yy
+vyx
+vxy
+0,
+xx
++ u
+= v
+vyy
+=
+uy
+−
+x
+uxy
+=
+0.
+Thus, the real and imaginary parts of a complex-diﬀer
++
+= −
+entiable
++
+=
+function are harmonic!
+2. Well-posed Problems
+Much like in the case of the heat equation, we are interested in well-posed problems for the Laplace
+and Poisson equations. Recall that well-posed problems are problems that i) have a solution; ii)the
+solutions are unique; and iii)the solution varies continuously with the data.
+ˆ
+Let Ω⊂Rn be a domain with a Lipschitz boundary, and let N denote the unit outward normal
+vector to ∂Ω. We consider the PDE
+(2.0.6)
+∆u(x
+f x ,
+x
+Ω,
+supplemented by some boundary conditions. The following boundary conditions are known to lead
+to well-posed problems:
+) =
+( )
+∈
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 6
+3
+(1) Dirichlet data: specify a function g x deﬁned on ∂Ωsuch that u ∂Ωx
+g x .
+(2) Neumann data: specify a function h x deﬁned on ∂Ωsuch that
+ˆ
+Nu x
+∂Ωx
+h x .
+(3) Robin-t
+( )
+ype data:
+>
+specify a function
+(
+h
+)
+(
+x
+)
+deﬁned on ∂Ωsuch that
+∣
+ˆ
+Nu
+(
+x
+) =
+∂Ω
+(
+x
+)
+αu ∂Ωx
+h x , where α
+0 is a constant.
+∇
+( )∣
+( ) =
+( )
+(4) Mixed conditions: for example, we c
+(
+an
+)
+divide ∂Ωinto two disjoint
+∇
+(
+pieces
+)∣
+(
+∂Ω
+)+
+S
+∣
+D
+(
+S
+)
+N
+=
+,
+where
+( )
+SN is relatively open in ∂Ω
+∣
+, and specify a function g x deﬁned on SD and a function
+h x deﬁned on SN such that u SD x
+g x ,
+ˆ
+Nu SN x
+(
+h
+)
+x .
+=
+∪
+(5)
+∣
+Condi
+∞
+ecify asymptotic conditions on u x
+as
+x∣→
+tions at inﬁnity: When Ω
+Rn, we can sp
+. We will return to this kind
+(
+of
+) =
+condition
+( ) ∇
+∣
+( )
+=
+later in the
+=
+(
+course.
+)
+( )
+3. Uniqueness via the Energy Method
+In this section, we address the question of uniqueness for solutions to the equation (0.0.3), sup-
+plemented by suitable boundary conditions. As in the case of the heat equation, we are able to
+provide a simple proof based on the energy method.
+Theorem 3.1. Let Ω⊂Rn be a smooth, bounded domain. Then under Dirichlet, Robin, or mixed
+boundary conditions, there is at most one solution of regularity u
+C2 Ω
+C1 Ω
+to the Poisson
+equation (0.0.3).
+In the case of Neumann conditions, any two solutions can diﬀer
+∈
+by at
+(
+most
+) ∩
+a
+(
+constant.
+)
+Proof. If u and v are two solutions to (0.0.3) with the same boundary data, then we can subtract
+def
+them (aren’t linear PDEs nice?!...) to get a solution w
+u
+v to the Poisson equation with 0 data:
+(3.0.7)
+∆w = 0.
+=
+−
+Let’s perform the usual trick of multiplying (3.0.7) by w, integrating over Ω, and integrating by
+parts via the divergence theorem:
+(3.0.8)
+0 = ∫w∆w dnx = ∫w∇⋅∇w dnx
+Ω
+Ω
+In the case of Dirichlet data, w ∂Ω
+0, so the last term
+case, we have that
+= −∫
+w 2 dnx
+w
+ˆ
+Nw dσ.
+∣
+=
+Ω
+∂Ω
+in
+∣∇
+(3.0.8)
+∣
+v
++
+anishes.
+∫
+∇
+Thus, in the Dirichlet
+(3.0.9)
+w 2
+0.
+Ω
+Thus, ∇w
+0 in Ω, and so w is constant in
+∫
+Ω.
+∣∇
+Since
+∣=
+=
+≡
+w is 0 on ∂Ω, we have that w
+0 in Ω, which
+shows that u
+v in Ω.
+Similarly, in the Robin case
+≡
+(3.0.10)
+∫
+w∇ˆ
+Nw dσ = −α∫
+w2 dσ
+∂Ω
+∂
+≤0,
+Ω
+which implies that
+(3.0.11)
+∫∣∇w∣2
+b
+= 0,
+Ω
+and we can argue as
+efore conclude that w
+0 in Ω.
+≡
+
+
+4
+MATH 18.152 COURSE NOTES - CLASS MEETING # 6
+Now in the Neumann case, we have that
+ˆ
+Nw ∂Ω
+0, and we can argue as above to conclude that
+w is constant in Ω. But now we can’t say an
+∇
+ything
+∣
+ab
+=
+=
++
+out the constant, so the best we can conclude
+is that u
+v
+constant in Ω.
+□
+4. Mean value properties
+Harmonic functions u have some amazing properties.
+Some of the most important ones are
+captured in the following theorem, which shows that the pointwise values of u can be determined
+by its average over solid balls or their boundaries.
+Theorem
+( ) ⊂
+4.1 (Mean value properties). Let u x
+be harmonic in the domain Ω
+Rn, and let
+BR x
+Ωbe a ball of radius R centered at the point
+( )
+x. Then the following mean value
+hold:
+⊂
+formulas
+u(x) =
+n
+(4.0.12a)
+ωnRn ∫BR
+1
+(4.0.12b)
+u x
+(
+u
+x) (y)dny,
+where ω
+n
+n is the area of ∂B1 0
+R
+(
+,
+) =
+−∫
+u σ dσ,
+n 1
+( ) ⊂
+ωnR
+∂BR x
+=
+that is, the area
+(
+of
+)
+the
+( )
+boundary of the unit ball in Rn.
+Proof. Let’s address the n
+2 case only; the proof is similar for other values of n. Let’s also assume
+that x is the origin; as we will see, we will be able to treat the case of general x by reducing it to
+the origin. We will work with polar coordinates (r,θ)
+( )
+=
+on R2. For a ball of radius r, we have that
+the
+=
+measure
+∇⋅
+=
+dσ
+∇
+corresponding
+(
+to
+)
+∂Br 0
+is dσ
+r dθ. Note also that along ∂Br 0 , we have that
+ˆ
+ˆ
+∂ru
+u N
+ˆ
+Nu, where N σ is the unit normal to ∂Br 0 . For any 0
+r
+R
+(
+, w
+)
+e deﬁne
+( )
+def=
+1
+∫
+1
+2π
+( )
+1
+2
+g r
+≤
+π
+(4.0.13)
+<
+2πr
+∂Br(0
+We now note that since u is continuous
+) u(σ)dσ =
+∫= ru(r,θ
+2
+at
+)dθ
+πr
+θ 0
+= 2π
+0, we have that
+∫
+)dθ.
+θ= u(r,θ
+0
+(4.0.14)
+u 0
+lim g r .
+Thus, we would obtain (4.0.12b) in the case
+this. To this
+( )
+x
+end, we calculate that
+=
+( )
+=
+r
+0
+→0+
+if we could show that g′(r) = 0. Let’s now show
+g′
+1
+2π
+1
+2π
+1
+(4.0.15)
+r
+∂ru r,θ dθ
+ˆ
+ˆ
+σ dσ
+2π
+θ
+2π
+Nu r,θ dθ
+N
+u
+.
+0
+θ 0
+2π
+σ
+∂B1 0
+By the divergence
+( )
+theorem
+=
+∫
+,
+=
+this last
+(
+term
+)
+=
+is equal
+∫=
+to
+∇
+(
+)
+=
+∫
+( ) ∇
+( ) ( )
+1
+(4.0.16)
+∆
+2π ∫B1(0)
+u(y
+But ∆u
+0 since u is harmonic, so we have shown that
+)d2y.
+(4.0.17)
+=
+g
+and we have shown (4.0.12b) for x
+0.
+′
+T
+(r) =
+=
+0,
+o prove (4.0.12a), we use polar coordinate integration and (4.0.12b) (in the case x
+0) to obtain
+=
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 6
+5
+R
+R
+2π
+(4.0.18)
+u 0 R2
+1
+1
+2
+ru 0 dr
+ru r,θ dθ dr
+u y d2y.
+0
+2π
+0
+θ 0
+2π
+BR 0
+We have now shown
+( )
+(4.0.12a)
+/ = ∫
+and
+(
+(4.0.12b)
+)
+=
+when
+∫
+x
+∫=
+0.
+(
+)
+=
+∫
+( ) ( )
+To
+(
+obtain
+) = (
+def
+the
+)(
+corresp
++ ) =
+onding formulas for non-zero x, deﬁne v y
+u x
+y , and note that
+∆yv y
+∆yu
+x
+y
+0. Therefore, using what we
+=
+have already
+(
+sho
+)
+wn,
+=
+(
++ )
+(4.0.19)
+u(x) =
+2
+v(0) =
+∫
+2
+( ) v(y)
+2
+d2y
+u x
+y d2y
+u y d2y,
+ω
+2
+nR2
+BR 0
+ω2R
+BR 0
+ω
+2
+2R
+BR x
+which implies (4.0.12a) for general x . We can
+=
+similarly
+∫
+o
+(
+btain
+) (
+(4.0.12b)
++ )
+=
+for general
+∫
+(
+x.
+) ( )
+□
+5. Maximum Principle
+Let’s now discuss another amazing property veriﬁed by harmonic functions. The property, known
+as the strong maximum principle, says that most harmonic functions achieve their maximums and
+minimums only on the interior of Ω. The only exceptions are the constant functions.
+Theorem 5.1 (Strong Maximum Principle). Let Ω
+Rn be a domain, and assume that u
+C Ω
+veriﬁes the mean value property (4.0.12a). Then if u achieves its max or min at a point p
+Ω, then
+u is constant on Ω. Therefore, if Ωis bounded and u
+⊂
+∈C(Ω) is not constant, then for every
+∈
+( )
+∈
+x ∈Ω,
+we have
+(5.0.20)
+u(x) < maxu y ,
+u x
+minu y .
+y
+Ω
+y
+the
+∈∂
+∂Ω
+Proof. W
+∈
+e give
+argumen
+( ) =
+t for the
+( )
+“min” in the case n
+(
+>
+= 2. Supp
+)
+ose
+∈
+⊂
+that
+( )
+( )
+u achieves its min at a
+poin
+( )
+t p
+Ω, and that u p
+m. Let B p
+Ωbe any ball centered at p, and let z be any point in
+B p . Choose a small ball Br(z) of radius r centered z with Br(z) ⊂B
+Note
+(p).
+that by the deﬁnition of a min, we have that
+(5.0.21)
+u
+Using
+(z) ≥m.
+the assumption that the mean value property (4.0.12a) holds, we conclude that
+(5.0.22)
+m = ∣(
+1
+)∣∫
+(
+u y d2
+1
+y
+u y d2y
+u y d2y
+B p
+B p
+B p
+Br z
+B Br z
+= ∣(
+1
+)∣{∣B
+2
+1
+r
+)
+z
+(
+u
+)
+z
+= ∣( )∣{∫
+( ) ( )
++ ∫
+/
+( )∣( ) + ∫
+/
+( ) u(y)d y} ≥∣( )∣{∣Br
+( ) ( )
+}
+B p
+B Br z
+B p
+Rearranging inequality (5.0.22), we conclude that
+(z)∣u(z) + m(∣B(p)∣−∣Br(z)∣)}.
+(5.0.23)
+u
+Com
+(z) ≤m.
+bining (5.0.21) and (5.0.23), we conclude that
+(5.0.24)
+u(x) = m
+
+
+6
+MATH 18.152 COURSE NOTES - CLASS MEETING # 6
+holds for all points x ∈B(p). Therefore, u is locally
+(
+constan
+) =
+t at any point where it achieves its min.
+Since Ωis open and connected, we conclude that u x
+m for all x
+The next corollary will allow us to compare the size
+∈Ω.
+□
+of two solutions to Poisson’s equation if we
+have information about the size of the source terms and about the values of the solutions on ∂Ω.
+The proof is based on Theorem 5.1.
+Corollary 5.0.1. Let Ω
+(5.0.25)
+⊂Rn be a bounded domain and let f
+∆u
+0,
+x
+Ω,
+∈C(Ω). Then the PDE
+u x
+f x ,
+x
+∂Ω,
+has at most one solution u
+2
+=
+∈
+f
+C
+Ω
+{
+C Ω. Furthermore, if uf and ug are the solutions corre-
+sponding to the data f,g
+C Ω, then
+( ) =
+( )
+∈
+(1) (Comparison Pr
+∈
+( ) ∩
+( )
+∈
+inciple
+( )
+) If f
+(2) (Stability Estimate) For any x
+≥g on
+>
+∂Ωand f ≠g, then
+uf x
+u
+∈
+uf
+ug in Ω.
+Ω, we have that
+g x
+max f y
+g y .
+y ∂Ω
+Proof. We ﬁrst prove the Comparison
+∣
+( ) −
+Principle.
+( )∣≤
+Let
+∈
+∣
+w
+( )
+u
+−
+f
+(
+ug
+)∣
+. Then by subtracting the PDEs,
+we see that w solves
+=
+−
+{ ∆w
+(5.0.26)
+u x
+Since w is harmonic, since f x
+g x
+=
+∈
+not constant and that for every x
+(
+Ω,
+) =
+0,
+f(x) −g
+0 on ∂Ω
+( )
+x
+≥
+,
+≥
+Ω,
+( ) −( )
+x
+0,
+x
+∂Ω,
+∈
+and since
+w
+∈
+f ≠g, Theorem 5.1 implies that w is
+e have
+(5.0.27)
+w(x) > max
+∈
+f(y) −g y
+0.
+y ∂Ω
+This proves the Comparison Principle.
+For the Stability Estimate, we perform a similar argumen
+( ) ≥
+t for both ±w, which leads to the
+estimates
+(5.0.28)
+w(x) > −max f y
+g y ,
+−( ) > −
+y∈∂Ω
+(5.0.29)
+w x
+max
+∣
+∈
+∣f
+(
+y
+y ∂Ω
+) −
+g
+(
+y
+)∣
+.
+Combining (5.0.28) and (5.0.29), we deduce the Stabilit
+( )
+y
+−
+Estimate.
+( )∣
+The “at most one” statemen
+=
+t of the corollary now follows directly from applying the Stability
+Estimate to w in the case f
+g.
+□
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.152 Introduction to Partial Differential Equations.
+Fall 2011
+ 
+ 
+ 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

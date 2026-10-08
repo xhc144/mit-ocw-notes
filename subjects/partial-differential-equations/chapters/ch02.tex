@@ -1,0 +1,63 @@
+\originalchapter{热方程的边界问题与能量}\label{ch:heatboundary}
+\sourcelecture{2--4}
+\originalsection{守恒律与边界条件}
+温度 $u$, 密度 $\rho>0$, 比热 $c_v>0$ 和热导率 $\kappa>0$ 均在均匀各向同性模型中使用. 任意子区域 $V$ 的热能为 $\int_V\rho c_vu$. 若单位质量热源率为 $R$, 热流为 $q=-\kappa\nabla u$, 则
+\[
+\frac{\mathrm d}{\mathrm dt}\int_V\rho c_vu\dd x
+=-\int_{\partial V}q\cdot\nu\dd S+\int_V\rho R\dd x
+=\int_V(\kappa\Delta u+\rho R)\dd x.
+\]
+连续被积函数在任意小区域上积分为零意味着自身为零, 故 $u_t-D\Delta u=f$, 其中 $D=\kappa/(\rho c_v)$, $f=R/c_v$. 这是模型推导, Fourier 热传导定律及常比热假设有其物理适用范围.
+
+令 $Q_T=(0,T]\times\Omega$. 抛物边界为 $\partial_pQ_T=(\{0\}\times\overline\Omega)\cup([0,T]\times\partial\Omega)$, 不包括最后时刻的内部. Dirichlet 数据 $u(0,x)=g(x)$, $u(t,\xi)=h(t,\xi)$ 若要求闭柱连续, 则角点须有 $g|_{\partial\Omega}=h(0,\cdot)$. 更高正则性还需更高相容条件; 例如 $g\in C^2$ 时可能要 $D\Delta g+f(0)=h_t(0)$ 于边界.
+\originalsection{能量耗散、唯一性与稳定性}
+\begin{theorem}\label{thm:heatenergy}
+设 $\Omega$ 有界、边界 $C^1$, $u$ 为闭柱上 $C^{1,2}$ 的齐次热方程解. 边界为齐次 Dirichlet、齐次 Neumann 或 $\partial_\nu u+\alpha u=0$、$\alpha\ge0$ 的 Robin 条件时,
+\[
+\frac12\frac{\mathrm d}{\mathrm dt}\|u(t)\|_2^2
+=-D\|\nabla u(t)\|_2^2-D\int_{\partial\Omega}\alpha|u|^2\dd S\le0,
+\]
+其中 Dirichlet/Neumann 情形最后一项取零. 分段混合条件也成立, 每段采用相应项. 同一初值和边界数据的解唯一.
+\end{theorem}
+\begin{proof}
+将 $u_t=D\Delta u$ 乘 $u$ 积分, 用\eqref{eq:greenone}. Dirichlet 段因 $u=0$ 消去边界项, Neumann 段因 $\partial_\nu u=0$ 消去, Robin 段为 $-\alpha u^2$. 取两解之差 $w$, 它有零初值及齐次边界, 故 $0\le\|w(t)\|_2^2\le\|w(0)\|_2^2=0$. 连续性使几乎处处为零强化为处处为零.
+\end{proof}
+Robin 的符号不能任意省略. 负 $\alpha$ 会使上述耗散证明失效, 不等于立即失去唯一性; 在合适条件下仍可用边界估计与 Gronwall 不等式处理, 本册使用 $\alpha\ge0$ 的版本.
+\begin{proposition}\label{prop:heatl2stable}
+若两解之差满足 $w_t-D\Delta w=F$ 与相同类型的齐次耗散边界, 则
+\[
+\|w(t)\|_2\le\|w(0)\|_2+\int_0^t\|F(s)\|_2\dd s.
+\]
+\end{proposition}
+\begin{proof}
+能量等式与 Cauchy--Schwarz 给 $\frac12(\|w\|_2^2)'\le\|w\|_2\|F\|_2$. 为避免在 $\|w\|_2=0$ 除零, 设 $y_\eps=(\|w\|_2^2+\eps^2)^{1/2}$, 得 $y_\eps'\le\|F\|_2$. 积分后令 $\eps\downarrow0$ 即得结果.
+\end{proof}
+\begin{example}
+绝热杆 $u_t=Du_{xx}$, $u_x(t,0)=u_x(t,L)=0$ 的平均温度如何变化?
+\end{example}
+\begin{solution}
+$\frac{\mathrm d}{\mathrm dt}\int_0^Lu\dd x=D[u_x]_0^L=0$, 所以平均 $\overline u=L^{-1}\int_0^Lg$ 守恒. 能量耗散的是偏离平均的部分, 并不强迫非零平均趋于零. 若给外法向导数 $h_0,h_L$, 则总量变化为 $D(h_0+h_L)$; 左端符号已包括在外法向定义里.
+\end{solution}
+\originalsection{弱最大值原理}
+\begin{theorem}\label{thm:heatmax}
+$\Omega$ 有界. 设 $w\in C(\overline Q_T)\cap C^{1,2}((0,T)\times\Omega)$, 且 $w_t-D\Delta w\le0$ 于内部. 则 $\max_{\overline Q_T}w\le\max_{\partial_pQ_T}w$.
+\end{theorem}
+\begin{proof}
+先在 $[0,\tau]\times\overline\Omega$, $\tau<T$, 上考察 $v=w-\eps t$. 若最大点有 $t_0>0$, $x_0\in\Omega$, 空间 Hessian 半负定, 故 $\Delta v\le0$; 时间内点 $v_t=0$, 上顶点以左导数得 $v_t\ge0$. 因而 $v_t-D\Delta v\ge0$, 与 $w_t-D\Delta w-\eps<0$ 矛盾. 所以 $v$ 的最大值在抛物边界, 从而 $w\le M+\eps\tau$, 其中 $M=\max_{\partial_pQ_T}w$. 令 $\eps\downarrow0$, 再令 $\tau\uparrow T$, 连续性给闭柱上的结论.
+\end{proof}
+\begin{corollary}\label{cor:heatcompare}
+若 $u_t-D\Delta u=f$, $v_t-D\Delta v=g$, 且抛物边界上 $u\le v$, 内部 $f\le g$, 则 $u\le v$. 此外,
+\[
+\|u-v\|_{C(\overline Q_T)}\le\|u-v\|_{C(\partial_pQ_T)}+T\|f-g\|_{C(\overline Q_T)}.
+\]
+\end{corollary}
+\begin{proof}
+对 $u-v$ 应用最大值原理得比较结论. 令 $A=\|u-v\|_{\partial_pQ_T}$, $B=\|f-g\|_\infty$. 对 $u-v-A-Bt$ 与 $v-u-A-Bt$ 分别应用原理, 得 $|u-v|\le A+Bt$.
+\end{proof}
+取 $v=0$ 可知非负初边值与非负源产生非负解. 这给出顺序结构及一致范数稳定性. 定理要求空间有界; 在全空间中最大值可能不取得, 后章用增长控制处理无穷远.
+\begin{exercise}
+若 $u_t-D\Delta u+qu=0$, $q\ge0$ 为连续函数, 初边值满足 $0\le u\le M$, $M\ge0$, 证明 $0\le u\le M$.
+\end{exercise}
+\begin{solution}
+对该算子作严格扰动最大值证明, 在正的内部最大点有 $u_t-D\Delta u+qu\ge0$, 因 $qu\ge0$, 与严格负右端矛盾. 比较 $u$ 与零, 得下界; 常数 $M$ 满足 $M_t-D\Delta M+qM=qM\ge0$, 是上解, 故得上界. 可用 $\eps\ee^{\lambda t}$ 作严格扰动, $\lambda>0$, 在有限柱上确保不等式严格.
+\end{solution}

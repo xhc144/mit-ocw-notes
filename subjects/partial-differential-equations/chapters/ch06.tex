@@ -1,0 +1,62 @@
+\originalchapter{Poisson 方程的基本解与弱问题}\label{ch:fundamental}
+\sourcelecture{7; 弱存在性为编者补充}
+\originalsection{点源与基本解的归一化}
+径向函数 $v(r)$ 满足 $\Delta v=v''+(n-1)v'/r$. 令其为零得到 $v'=Cr^{1-n}$, 所以 $n\ge3$ 时 $v=Ar^{2-n}+B$, $n=2$ 时 $v=A\log r+B$. 为使外向通量 $-\int_{\partial B_r}\partial_r\Phi=1$, 取
+\begin{equation}\label{eq:newtonkernel}
+\Phi(x)=\begin{cases}
+\displaystyle\frac{|x|^{2-n}}{(n-2)\omega_n},&n\ge3,\\[3pt]
+\displaystyle-\frac1{2\pi}\log|x|,&n=2.
+\end{cases}
+\end{equation}
+本式为 $-\Delta$ 的基本解. 三维为 $1/(4\pi|x|)$. $n-2$ 因子不可省略; 原课一般维数的部分公式缺该因子, 本册按通量核定.
+\begin{theorem}\label{thm:fundsolution}
+$\Phi$ 局部可积, 且 $-\Delta\Phi=\delta_0$ 于分布意义.
+\end{theorem}
+\begin{proof}
+原点附近 $n\ge3$ 的径向积分为常数乘 $\int_0^\eps r\dd r$, 二维为 $\int_0^\eps r|\log r|\dd r$, 均有限. 给 $\psi\in C_c^\infty$, 取大球包含支撑, 挖去 $B_\eps$. 外边界项为零. 内边界的区域外法向为 $-\partial_r$, 用 Green 第二等式得
+\[
+\int_{|x|>\eps}\Phi(-\Delta\psi)\dd x
+=\int_{|x|=\eps}(\Phi\partial_r\psi-\psi\partial_r\Phi)\dd S.
+\]
+第一项为 $O(\eps)$, 二维为 $O(\eps|\log\eps|)$, 均趋零. 第二项因 $-\partial_r\Phi=1/(\omega_n\eps^{n-1})$ 等于球面平均 $\psi$, 趋于 $\psi(0)$. 被挖去小球的左端积分也趋零, 故得分布等式.
+\end{proof}
+\originalsection{Newton 势与无穷远条件}
+\begin{theorem}\label{thm:newtonpotential}
+$f\in C_c^\infty(\R^n)$ 时 $u=\Phi*f$ 为光滑解 $-\Delta u=f$. $n\ge3$ 时 $u(x)=O(|x|^{2-n})$, 在趋零解中唯一. 二维有
+\[
+u(x)=-\frac{\int f}{2\pi}\log|x|+O(|x|^{-1}),\qquad |x|\to\infty,
+\]
+故非零总源时不能同时要求 $u\to0$. 在给定上述渐近式的解中唯一.
+\end{theorem}
+\begin{proof}
+把导数移到紧支撑的 $f$: $\partial^\alpha u(x)=\int\Phi(y)\partial^\alpha f(x-y)\dd y$. 局部可积性使此式有限且连续, 所以 $u$ 光滑. 基本解分布等式给 $-\Delta u=f$, 光滑性使它逐点成立. 若 $\supp f\subset B_a$, $|x|>2a$, 则 $|x-y|\ge|x|/2$, 得高维衰减. 二维写 $\log|x-y|=\log|x|+O(a/|x|)$, 在 $|y|\le a$ 一致成立, 故得展开. 两解之差调和且趋零, 在大球边界差的上界趋零, 最大值原理给全空间差为零.
+\end{proof}
+若只要求二维 $u/\log|x|\to0$ 与 $\nabla u\to0$, 常数仍满足, 所以该条件不能确定加法常数. 若总源为零, 本册选趋零归一化. 若总源非零, 选上述常数项为零的渐近式.
+\begin{example}
+三维单位球内均匀源 $f=\rho$, 球外为零, 求趋零的径向弱解.
+\end{example}
+\begin{solution}
+径向方程 $(r^2u')'=-r^2\rho$ 给内部 $u'= -\rho r/3$, $u=A-\rho r^2/6$. 外部为 $B/r$. 因没有表面点源, $u,u'$ 于 $r=1$ 连续, 得 $B=\rho/3$, $A=\rho/2$. 故内部 $u=\rho(3-r^2)/6$, 外部 $u=\rho/(3r)$. 法向导数连续使分部积分无额外界面分布, 确实满足弱方程. 二阶导数于界面跳跃, 与源的跳跃一致.
+\end{solution}
+\originalsection{齐次 Dirichlet 弱解的存在}
+一般区域未必有可写出的 Green 函数. 以下提供存在性的另一个入口, 不把一般光滑域经典解的正则性当作未经证明的结论.
+\begin{definition}
+$H^1(\Omega)$ 是 $u$ 及全部弱一阶导数在 $L^2$ 中的空间. $H_0^1(\Omega)$ 是 $C_c^\infty(\Omega)$ 在 $H^1$ 范数下的闭包; 齐次边界值在这里由闭包定义表达, 本册不需要一般迹定理.
+\end{definition}
+\begin{lemma}\label{lem:poincare}
+若 $\Omega$ 有界且包含于边长 $L$ 的立方体, 则对 $v\in H_0^1(\Omega)$ 有 $\|v\|_2\le L\|\nabla v\|_2$.
+\end{lemma}
+\begin{proof}
+先令 $v\in C_c^\infty(\Omega)$, 零延拓至立方体. 沿第一坐标 $v(x_1,x')=\int_0^{x_1}\partial_1v(s,x')\dd s$, Cauchy--Schwarz 给 $|v|^2\le L\int_0^L|\partial_1v|^2\dd s$. 再积分 $x_1,x'$ 得 $\|v\|_2^2\le L^2\|\partial_1v\|_2^2$. 对逼近列取极限即可. 因此 $\|\nabla v\|_2$ 是 $H_0^1$ 上与 $H^1$ 范数等价的完备范数.
+\end{proof}
+\begin{theorem}\label{thm:weakpoisson}
+$\Omega$ 有界, $f\in L^2(\Omega)$ 时, 存在唯一 $u\in H_0^1(\Omega)$ 满足
+\[
+\int_\Omega\nabla u\cdot\nabla v\dd x=\int_\Omega f v\dd x\quad(v\in H_0^1(\Omega)).
+\]
+并有 $\|\nabla u\|_2\le L\|f\|_2$. 它是泛函 $J(v)=\tfrac12\|\nabla v\|_2^2-\int fv$ 的唯一极小点.
+\end{theorem}
+\begin{proof}
+$H_0^1$ 以梯度内积成为 Hilbert 空间, $\ell(v)=\int fv$ 有界, 因 $|\ell(v)|\le L\|f\|_2\|\nabla v\|_2$. 采用先修的 Hilbert 空间 Riesz 表示定理, 得唯一 $u$ 表示 $\ell$, 正是弱式. 取 $v=u$ 得范数估计. 对 $v=u+w$, 展开并以弱式消去线性项, 得 $J(u+w)=J(u)+\tfrac12\|\nabla w\|_2^2$, 故唯一极小. 唯一性也可对两解之差取自身测试, 不依赖 Riesz 定理.
+\end{proof}
+这里证明的是能量空间中的弱存在性, 不自动给闭包 $C^2$ 解. 对球域连续边界的调和解, 下一章直接构造并证明取得边界值. 不把所有 $f$ 和所有 Lipschitz 域一概声称具有经典解.

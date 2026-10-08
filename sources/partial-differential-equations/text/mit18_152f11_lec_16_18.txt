@@ -1,0 +1,1055 @@
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+18.152 Introduction to PDEs, Fall 2011
+Professor: Jared Speck
+Class Meeting # 16: The Fourier Transform on Rn
+1. Introduction to the Fourier Transform
+Earlier in the course, we learned that periodic functions f ∈L2([−1, 1]) (of period 2) can be
+represented using a Fourier series:
+a0
+∞
+∞
+(1.0.1)
+f(x)“ = ”
++
+X
+am cos(mπx) +
+X
+bm sin(mπx).
+2
+m=1
+m=1
+The “ = ” sign above is interpreted in the sense of the convergence of the sequence of partial sums
+associated to the right-hand side in the L2([−1, 1]) norm. The coeﬃcients am and bm represent the
+“amount of the frequency m” that the function f contains. These coeﬃcients were related to f
+itself by
+a0 =
+Z 1
+(1.0.2a)
+f(x) dx,
+(1.0.2b)
+Z
+−1
+1
+am =
+f(x) cos(mπx) dx,
+(m ≥1),
+−1
+bm =
+Z 1
+(1.0.2c)
+f(x) sin(mπx) dx,
+(m ≥1).
+−1
+The Fourier transform is a “continuous” version of the formula (1.0.1) for functions deﬁned on
+the whole space Rn. Our goal is to write functions f deﬁned on Rn as a superposition of diﬀerent
+frequencies. However, instead of discrete frequencies m, we will need to use “continuous frequencies”
+ξ.
+Deﬁnition 1.0.1 (Fourier Transform). Let f ∈L1(Rn), i.e.,
+R
+n |f(x)
+R
+| dnx < ∞. The Fourier
+ˆ
+transform of f is denoted by f, and it is a new function of the frequency variable ξ ∈Rn. It is
+deﬁned for each frequency ξ as follows:
+ˆ
+def
+(1.0.3)
+f(ξ) =
+Z
+f(x)e−2πiξ·x dnx,
+Rn
+where · denotes the Euclidean dot product, i.e., if x = (x1
+P
+,
+def
+· · · , xn) and ξ = (ξ1,
+n
+j
+j
+· · · , ξn), then
+ξ · x =
+j=1 ξ x . In the above formula, recall that if is r is a real number, then eir = sin r + i cos r.
+The formula (1.0.3) is analogous to the formulas (1.0.2a) - (1.0.2c). It provides the “amount of
+the frequency component” ξ that f contains. Later in the course, we will derive an analog of the
+representation formula (1.0.1).
+1
+
+
+2
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+Remark 1.0.1. The Fourier transform can be deﬁned on a much larger class of functions than
+those that belong to L1. However, to make rigorous sense of this fact requires advanced techniques
+that go beyond this course.
+We will also use the following notation.
+Deﬁnition 1.0.2 (Inverse Fourier transform). Given a function f(ξ) ∈L1(Rn), its inverse
+Fourier transform, which is denoted by f ∨, is a new function of x deﬁned as follows:
+∨
+def ˆ −
+def
+(1.0.4)
+f (x) = f( x) =
+Z
+f(x)e2πiξ·x dnξ.
+Rn
+ˆ
+The name is motivated as follows: later in the course, we will show that (f)∨= f. Thus, ∨is in
+fact the inverse of the operator ∧.
+The Fourier transform is very useful in the study of certain PDEs. To use it in the context
+of PDEs, we will have to understand how the Fourier transform operator interacts with partial
+derivatives. In order to do this, it is convenient to introduce the following notation, which will si-
+multaneously help us bookkeep when taking repeated derivatives, and when classifying the structure
+monomials.
+Deﬁnition 1.0.3. If
+def
+(1.0.5)
+α⃗= (α1, · · · , αn)
+is an array of non-negative integers, then we deﬁne ∂α⃗to be the diﬀerential operator
+def
+1
+∂α⃗= ∂α
+1 · · · ∂αn
+(1.0.6)
+n .
+def
+Note that ∂
+1
+n
+α⃗is an operator of order |α⃗| = α +
++ α .
+If x = (x1, · · · , xn) is an element of Cn
+· · ·
+, then we also deﬁne xα⃗to be the monomial
+xα⃗def
+1
+n
+(1.0.7)
+= (x1)α · · · (xn)α .
+The following function spaces will play an important role in our study of the Fourier transform.
+Throughout this discussion, the functions f are allowed to be complex-valued.
+Deﬁnition 1.0.4 (Some important function spaces).
+Ck def
+(1.0.8)
+= {f : Rn →C | ∂α⃗f is continuous for |α⃗| ≤k},
+def
+(1.0.9)
+C = {f : Rn
+0
+→C | f is continuous and
+lim f(x) = 0}.
+|x|→∞
+We also recall the following norm on the space of bounded, continuous functions f : Rn →C :
+∥f∥
+def
+(1.0.10)
+C0 = max
+x∈Rn |f(x)|.
+The L2
+ˆ
+norm plays an important role in Fourier analysis. Since f is in general complex-valued
+we also need to extend the notion of the L2 inner product to complex-valued functions. This is
+accomplished in the next deﬁnition.
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+3
+Deﬁnition 1.0.5 (Inner product for complex-valued functions). Let f and g be complex-
+valued functions deﬁned on Rn. We deﬁne their complex inner product by
+⟨f, g⟩
+def
+(1.0.11)
+=
+Z
+f(x)g¯(x) dnx,
+Rn
+where g¯ denotes the complex conjugate of g. That is, if g(x) = u(x) + iv(x), where u and v are
+def
+real-valued, then g¯(x) = u(x) −iv(x).
+We also deﬁne norm of f by
+1/2
+∥∥
+def
+= ⟨
+def
+(1.0.12)
+f
+f, f⟩1/2 =
+ Z
+|f(x)
+Rn
+|2 dnx
+.
+Note that this is just the standard L2 norm extended to complex-v
+
+alued functions.
+Note that ⟨·, ·⟩and ∥·∥verify all of the standard properties associated to a complex inner product
+and its norm:
+• ∥f∥≥0 and ∥f∥= 0 if and only if f = 0 almost everywhere
+• ⟨g, f⟩= ⟨f, g⟩(Hermitian symmetry)
+• If a and b are complex numbers, then ⟨af + bg, h⟩= a⟨f, h⟩+ b⟨g, h⟩, and ⟨f, ag⟩= a¯⟨f, g⟩
+(Hermitian linearity)
+• |⟨f, g⟩| ≤∥f∥∥g∥(Cauchy-Schwarz inequality)
+• ∥f + g∥≤∥f∥+ ∥g∥(Triangle Inequality)
+2. Properties of the Fourier Transform
+ˆ
+The next lemma illustrates some basic properties of f that hold whenever f ∈L1.
+ˆ
+∈
+1
+∈
+ˆ
+Lemma 2.0.1 (Properties of f for f
+L ). Suppose that f
+L1(Rn). Then f is a bounded,
+continuous function and
+∥ˆ
+(2.0.13)
+f∥C0 ≤∥f∥L1.
+Proof. Since |eir| = 1 for all real numbers r, it follows that for each ﬁxed ξ, we have
+| ˆ
+(2.0.14)
+f(ξ)| ≤
+Z
+|
+def
+f(x)e−2πiξ·x| dnx ≤
+Z
+|f(x)
+Rn
+| dnx =
+n
+∥f∥L1.
+R
+Taking the max over all ξ ∈Rn, the estimate (2.0.13) thus follows.
+ˆ
+We now prove that f is continuous. Given ϵ > 0, let BR be a ball of radius R centered at the
+origin such that the integral of |f| over its complement Bc
+R is no larger than ϵ :
+(2.0.15)
+Z
+Bc
+R
+|f(x)| dnx ≤ϵ.
+It is possible to choose such a ball since f
+L1. We then estimate
+∈
+
+
+4
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+Z
+≤2
+(2.0.16)
+| ˆ ) −ˆ
+f(ξ
+f(η)| ≤
+|f(x)||e−2πiξ·x −e−2πiη·x| dnx +
+Z
+|f(x)|
+z
+|e−2πiξ·x }|
+−e−2πiη·x{
+| dnx
+≤
+Z
+B
+c
+R
+BR
+f(x) e−2πiξ·x
+e−2πiη·x dnx + 2ϵ.
+BR
+|
+||
+−
+|
+Now since e−2πir is a uniformly continuous function of the real number r on any compact set, if
+|ξ −η| is suﬃciently small, then we can ensure that max
+|e−2πiξ·x −e−2πiη·x
+x∈BR
+| ≤ϵ. We then
+conclude that the ﬁnal integral over BR on the right-hand side of (2.0.16) will be no larger than
+(2.0.17)
+max |e−2πiξ·x −e−2πiη·x|
+Z
+|
+def
+f(x) dnx
+ϵ
+f(x) dnx = ϵ f
+L1.
+x∈BR
+B
+Rn
+R
+|
+≤
+Z
+|
+|
+∥∥
+ˆ
+ˆ
+Thus, in total, we have shown that if |ξ −η| is suﬃciently small, then |f(ξ) −f(η)| ≤ϵ∥f∥L1 + 2ϵ.
+ˆ
+Since such an estimate holds for all ϵ > 0, f is continuous by deﬁnition.
+□
+It is helpful to introduce notation to indicate that a function has been translated.
+Deﬁnition 2.0.6 (Translation of a function). If Rn →C is a function and y ∈Rn is any point,
+then we deﬁne the translated function τyf by
+def
+(2.0.18)
+τyf(x) = f(x −y).
+The next theorem collects together some very important properties of the Fourier transform. In
+particular, it illustrates how the Fourier transform interacts with translations, derivatives, multi-
+plication by polynomials, products, convolutions, and complex conjugates.
+Theorem 2.1 (Important properties of the Fourier transform). Assume that f, g ∈L1(Rn),
+and let t ∈R. Then
+(2.0.19a)
+ˆ
+(τ
+−π
+yf)∧(ξ) = e
+2 iξ·yf(ξ),
+(2.0.19b)
+ˆ
+ˆ
+def
+h(ξ) = τ
+2πiη x
+ηf(ξ)
+if h(x) = e
+· f(x),
+(2.0.19c)
+ˆ
+n ˆ
+def
+h(ξ) = t f(tξ)
+if h(x) = f(t−1x),
+(2.0.19d)
+ˆ
+(f ∗g)∧(ξ) = f(ξ)gˆ(ξ),
+(2.0.19e)
+If xα⃗
+ˆ
+f ∈L1for |α⃗| ≤k, then f ∈Ck
+ˆ
+and ∂α⃗f(ξ) = [(−2πix)α⃗f(x)]∧(ξ),
+(2.0.19f)
+ˆ
+If f ∈Ck, ∂α⃗f ∈L1 for |α⃗| ≤k, and ∂α⃗f ∈C0 for |α⃗| ≤k −1, then (∂
+= (2
+α⃗
+α⃗f)∧(ξ)
+πiξ) f(ξ),
+(2.0.19g)
+¯ˆ
+¯
+¯
+f(ξ) = (f)∨(ξ) and (f ∨)(ξ) = (f)∧(ξ).
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+5
+¯
+Above, f denotes the complex conjugate of f; i.e., if f = u + iv, where u and v are real-valued,
+¯
+then f = u −iv.
+Proof. To prove (2.0.19a), we make the change of variables z = x −y, dnz = dnx and calculate that
+(2.0.20)
+(τy )∧
+def
+def
+ˆ
+f
+(ξ) =
+Z
+f(x −y)e−2πix·ξ dnx =
+f(z)e−2πi(z+y)·ξ dnz = e−2πiy·ξ
+f(z)e−2πiz·ξ dnz = e−2πiy·ξf(ξ).
+Rn
+Rn
+Rn
+To prove (2.0.19b), we calculate that
+Z
+Z
+ˆ
+def
+(2.0.21)
+h(ξ) =
+Z
+e2πiη·xf(x)e−2πix·ξ dnx =
+Z
+f(x)e−2πix·(ξ−η) dn
+def ˆ
+x = f(ξ −
+def
+ˆ
+η) = τηf(ξ).
+Rn
+Rn
+To prove (2.0.19c), we make the change of variables y = t−1x, dny = t−ndnx to deduce that
+ˆ
+def
+(2.0.22)
+h(ξ) =
+Z
+f(t−1x)e−2πix·ξ dnx
+Z
+Rn
+f(y)e−2πiy·tξ tndny
+Rn
+def
+= tn ˆf(tξ).
+To prove (2.0.19d), we use the deﬁnition of convolution, (2.0.19a), and Fubini’s theorem to deduce
+that
+(2.0.23)
+def
+(f ∗g)∧(ξ) =
+Z
+e−2πx·ξ Z
+f(x −y)g(y)dny
+
+dnx =
+Z
+g(y)
+Z
+e−2πx·ξf(x
+n
+d
+n
+Rn
+Rn
+−y)d x
+R
+
+ny
+|
+Rn
+{z
+Z
+ˆ
+e−2πiξ·yf(ξ)
+ˆ
+= f(ξ)
+e−2πiξ·yg(y) dn
+def ˆ
+y = f(ξ)gˆ(
+}
+ξ).
+Rn
+ˆ
+To prove (2.0.19e), we diﬀerentiate under the integral in the deﬁnition of f(ξ) to deduce that
+(2.0.24)
+(ξ) ˆ
+Z
+(ξ)
+∂α⃗f(ξ) =
+f(x)∂α⃗e−2πix·ξ dnx =
+Z
+def
+f(x)(−2πix)α⃗e−2πix·ξ dnx = [(−2πix)α⃗f(x)]∧(ξ).
+Rn
+Rn
+To prove (2.0.19f), we integrate by parts |α⃗| times and use the hypotheses on f to discard the
+boundary terms at inﬁnity, thus concluding that
+(2.0.25)
+(∂
+)∧
+def
+f
+(ξ) =
+Z
+∂
+2πix ξ
+n
+α⃗
+(x)
+2πix ξ
+n
+α⃗
+α⃗f(x)e−
+· d x =
+Z
+f(x)(−1)| |∂α⃗e−
+· d x
+Rn
+Rn
+=
+Z
+def
+ˆ
+f(x)(2πiξ)α⃗e−2πix·ξ dnx = (2πiξ)α⃗f(ξ).
+Rn
+To deduce the ﬁrst relation in (2.0.19g), we compute that
+
+
+6
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+(2.0.26)
+¯ˆ
+def
+f(ξ) =
+Z
+¯
+¯
+def ˆ¯
+def
+¯
+f(x)e−2πix·ξ dnx =
+Z
+f(x)e−2πix·ξ dnx =
+Z
+f(x)e2πix·ξ dnx = f(−ξ) = (f)∨(ξ).
+Rn
+Rn
+Rn
+The second relation in (2.0.19g) can be shown using similar reasoning.
+□
+ˆ
+(2.0.19e) roughly shows that if f decays very rapidly at inﬁnity, then f is very diﬀerentiable.
+Similarly, (2.0.19f) roughly shows that if f is very diﬀerentiable with rapidly decaying derivatives,
+ˆ
+then f also rapidly decays.
+The Fourier transform thus connects the decay properties of f to
+ˆ
+the diﬀerentiability properties of f, and vice versa. In the next proposition, we provide a speciﬁc
+example of these phenomena. More precisely, the next proposition shows that the Fourier transform
+of a smooth, compactly supported function is itself smooth and rapidly decaying at inﬁnity.
+ˆ
+Proposition 2.0.2. Let f ∈Cc
+∞(Rn), i.e., f is a smooth, compactly supported function. Then f
+is smooth and “rapidly decaying at inﬁnity” in the following sense: for each N ≥0, there exists a
+constant CN > 0 such that
+| ˆ
+(2.0.27)
+f(ξ)| ≤CN(1 + |ξ|)−N.
+Furthermore, an estimate similar to (2.0.27) holds (with possibly diﬀerent constants) for all of the
+derivatives |
+ˆ
+∂⃗βf(ξ)|.
+ˆ
+In particular, f ∈L1 :
+ˆ
+(2.0.28)
+∥f(ξ ∥
+def
+ˆ
+)
+n
+L1 =
+Z
+Rn |f(ξ)| d ξ < ∞,
+ˆ
+⃗
+and similarly for ∂⃗βf, where β is any derivative multi-index.
+Proof. Using (2.0.19e) and the fact that f is compactly supported (and hence xα⃗f
+L1), we see
+ˆ
+∈
+that f is smooth.
+To prove (2.0.27), we use (2.0.19f), (2.0.13), and the fact that ∥∂α⃗f∥L1 < ∞for any diﬀerential
+operator ∂α⃗to deduce that
+(2.0.29)
+|(2πiξ)α⃗ˆf(ξ)| = |(∂α⃗f)∧(ξ)| ≤∥∂α⃗f∥L1 = Cα⃗,
+where Cα⃗is a constant depending on α⃗. In particular, if M
+
+≥0 is an integer, then by apply-
+def
+Pn
+
+  X
+n
+M ˆ
+ing (2.0.29) to the diﬀerential operator ∆M = (
+∂2
+i )M
+i=1
+i.e.,
+(2πi)2M
+(ξi)2
+=1
+
+f(ξ)
+ =
+i
+|ξ|2M
+|(∆Mf)∧(ξ)| ≤CM
+|
+{z
+}
+
+, it follows that
+ˆ
+(2.0.30)
+(2π|ξ|)2M|f(ξ)| ≤CM
+for some constant CM > 0. It is easy to see that an estimate of the form (2.0.27) follows from
+(2.0.30).
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+7
+(2.0.28) follows from (2.0.27) and the fact that
+Z
+1
+(2.0.31)
+dnξ <
+Rn (1 + |ξ
+∞.
+|)n+1
+To see that (2.0.31) holds, perform the integration using spherical coordinates on Rn :
+1
+n
+∞
+(2.0.32)
+Z
+1
+ρn−
+d ξ = ωn
+dρ,
+n+1
+n+1
+Rn (1 + |ξ|)
+Z
+ρ=0 (1 + ρ)
+def
+where ρ = |ξ|
+def
+=
+qPn
+j=1(ξj)2 is the radial variable on Rn, and ωn is the surface area of the unit
+ball in Rn. By a simple comparison estimate, it is easy to see that the integral on the right-hand
+side of (2.0.32) converges (the integrand behaves like 0 near ρ = 0, and like
+1 near
+).
+ρ2
+∞
+ˆ
+To show that similar results hold for for ∂⃗βf, we ﬁrst use (2.0.19e) to conclude that
+ˆ
+∂⃗βf(ξ) = [(−
+⃗
+(2.0.33)
+2πix)βf(x)]∧(ξ).
+Furthermore, the function (−
+⃗
+2πix)βf(x) also satisﬁes the hypotheses of the proposition. We can
+ˆ
+ˆ
+⃗
+therefore repeat the above arguments with ∂⃗βf in place of f and (−2πix)βf(x) in place of f.
+□
+3. Gaussians
+One of the most important classes of functions in Fourier theory is the class of Gaussians. The
+next proposition shows that this class interacts very nicely with the Fourier transform.
+Proposition 3.0.3 (The Fourier transform of a Gaussian is another Gaussian). Let f(x) =
+exp(−πPz|x|2), where z = a + ib is a complex number, a, b ∈R, a > 0, x = (x1, · · · , xn)
+2
+n
+j 2
+∈Rn, and
+|x| =
+j=1(x ) . Then
+ˆ
+(3.0.34)
+f(ξ) = z−n/2exp(−π|ξ|2/z).
+Proof. We consider only the case b = 0, so that z = a. The cases b = 0 would follow from an
+argument similar to the one we give below but requiring a few additional technical details. We ﬁrst
+address the case n = 1. Then by properties (2.0.19e)-(2.0.19f) of Theorem 2.1, we have that
+i
+d
+ˆ
+2
+2
+i
+2π
+(3.0.35)
+f ′(ξ) = (−2πixe−aπx )∧(ξ) =
+(
+e−aπx )∧
+ˆ
+ˆ
+(ξ) =
+2πiξf(ξ) = −
+ξf(ξ).
+a dx
+a
+a
+We can view (3.0.35) as
+d
+−2π
+ˆ
+(3.0.36)
+ln f =
+ξ.
+dξ
+a
+Integrating (3.0.36) with respect to ξ and then exponentiating both sides, we conclude that
+ˆ
+(3.0.37)
+f(ξ) = Cexp(−πξ2/a.)
+ˆ
+Furthermore, the constant C clearly must be equal to f(0).
+̸
+
+
+8
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+ˆ
+We now compute f(0) :
+ˆ
+def
+(3.0.38)
+f(0) =
+Z
+1
+2
+e−πax e−2πiξ0 dx = a−1/2.
+R
+Note that you have previously calculated this integral
+z }| {
+in your homework. Combining (3.0.36) and
+(3.0.38), we arrive at the desired expression (3.0.34) in the case n = 1.
+To treat the case of general n, we note that the properties of the exponential function and the
+Fubini theorem together allow us to reduce it to the case of n = 1 :
+ˆ
+(3.0.39)
+f(ξ) =
+Z
+exp(
+n
+−πa|x|2)exp(−2πiξ · x) dnx
+Z
+R
+
+X
+n
+X
+n
+=
+exp
+Rn
+−πa
+(xk)2
+k=1
+
+exp
+
+−2πi
+ξjxj
+dnx
+Z
+j=1
+n
+Y
+n
+
+=
+Rn j=1
+n
+exp
+ −πa(xj)2
+exp(−2πiξjxj)
+o
+dnx
+=
+Y n Z
+exp
+ −πa(xj)2
+exp(−2πiξjxj) dxj
+j=1
+R
+n
+o
+=
+Y
+a−1/2exp
+j=1
+ −π(ξj)2/a
+n
+
+= a−n/2exp
+ −πa−1
+= a−n/2exp( π ξ 2/a
+X
+(ξj)2
+j=1
+
+−| |
+).
+We have thus shown (3.0.34).
+□
+4. Fourier Inversion and the Plancherel Theorem
+The next lemma is very important. It shows that the Fourier transform interacts nicely with the
+L2 inner product.
+Lemma 4.0.4 (Interaction of the Fourier transform with the L2 inner product). Assume
+that f, g ∈L1. Then
+(4.0.40)
+Z
+ˆf(x)g(x) dnx =
+Z
+f(x)gˆ(x) dnx.
+Rn
+Rn
+Alternatively, in terms of the complex L2 inner product, we have that
+ˆ
+(4.0.41)
+⟨f, g⟩= ⟨f, g∨⟩.
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+9
+Proof. Using the deﬁnition of the Fourier transform and Fubini’s theorem, the left-hand side of
+(4.0.40) is equal to
+(4.0.42)
+Z
+Z
+f(ξ)g(x)e−2πiξ·x dnξ dnx.
+Rn
+Rn
+By the same reasoning, this is also equal to the right-hand side of (4.0.40).
+To obtain (4.0.41), simply replace g with g¯ in the identity (4.0.40) and use property (2.0.19g).
+□
+The next theorem is central to Fourier analysis. It shows that the operators ∧and ∨are inverses
+ˆ
+of each other whenever f and f are nice functions.
+Theorem 4.1 (Fourier inversion theorem). Suppose that f : Rn →C is a continuous function,
+that f ∈L1
+ˆ
+, and that f ∈L1. Then
+ˆ
+(4.0.43)
+(f)∨= (f ∨)∧= f.
+That is, the operators ∧and ∨are inverses of each other.
+Proof. We ﬁrst note that
+ˆ
+(f)∨
+def
+(4.0.44)
+(x) =
+Z
+n Z
+f(y)e−2πiy·ξ dny e2πix·ξ dnξ.
+Rn
+Rn
+Note that the integral in (4.0.44) is not absolutely convergent
+o
+when viewed as a function of (y, ξ) ∈
+Rn × Rn. Thus, our proof of (4.0.43) will involve a slightly delicate limiting procedure that makes
+use of the auxiliary function
+def
+(4.0.45)
+φ(t, ξ) = exp(−πt2|ξ|2 + 2πiξ · x).
+Note that (2.0.19b) and Proposition 3.0.3 together imply that
+ˆ
+def
+(4.0.46)
+φ(y) = t−nexp(−π|x −y|2/t2) = Γ(t, x −y),
+where
+def
+(4.0.47)
+Γ(t; y) = t−nexp(−π|y|2/t2).
+Also note that Γ(t, y) is just the fundamental solution of the heat equation with diﬀusion constant
+D =
+1 . In particular, we previously showed in our study of the heat equation that
+4π
+(4.0.48)
+Z
+Γ(t, y) dny = 1
+Rn
+for all t > 0. We now compute that
+
+
+10
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+(Γ(t, ·) ∗
+def
+(4.0.49)
+f)(x) =
+Z
+Γ(t, x
+Rn
+−y)f(y) dny
+=
+Z
+ˆφ(t, y)f(y) dny
+Rn
+=
+Z
+ˆ
+φ(t, ξ)f(ξ) dnξ
+Rn
+=
+Z
+exp(−πt2|ξ|2 ˆ
+)f(ξ)exp(2πiξ x
+Rn
+· ) dnξ
+During our study of the heat equation, we showed that the left-hand side of (4.0.49) converges to
+f(x) as t ↓0. To complete the proof of the theorem, it remains to show that the right-hand side
+converges to
+Z
+ˆ
+·
+n
+def
+ˆ
+d
+∨
+def
+ˆ
+(4.0.50)
+f(ξ)exp(2πiξ x)
+ξ = (f) (x) = (f)∧(
+R
+−x)
+n
+as t ↓0. To this end, given any number ϵ > 0, choose a ball BR of radius R centered at the origin
+such that
+Z
+Bc
+R
+| ˆ
+(4.0.51)
+f(ξ)| dnξ ≤ϵ.
+Above, Bc
+ˆ
+R denotes the complement of the ball. It is possible to choose such a ball since f ∈L1.
+We then estimate
+(4.0.52)
+
+Z
+ˆ
+exp(−πt2|ξ|2 ˆ
+)f(ξ)exp(2πiξ x
+n
+· ) dnξ
+f ∨(x)
+R
+−
+
+def
+=
+
+Z
+ˆ
+exp(
+Z
+
+−
+ˆ
+πt2|ξ|2)f(ξ)exp(2πiξ · x) dnξ −
+f(ξ)exp(2πiξ
+Rn
+Rn
+· x) dnξ
+
+≤
+Z
+
+|ξ|2
+ˆ
+exp(−πt2
+)
+1
+
+R
+−
+
+|f(ξ)
+n
+| dnξ
+≤1
+≤
+
+ˆ
+ˆ
+max exp(−πt2|ξ|2) −1
+f
+ξ∈BR
+ Z
+
+BR
+| (ξ)| dnξ +
+Z
+Bc
+z
+|exp(−πt
+}|
+2|ξ|2) −1
+{
+| |f(ξ)| dnξ
+≤max
+ξ∈BR
+max
+
+R
+ˆ
+exp(−πt2|ξ|2) −1
+∥f∥L1 +
+Z
+| ˆf(ξ)
+Bc
+| dnξ
+R
+≤
+
+∥ˆ
+exp(−πt2|ξ|2) −1
+f
+1
+ξ
+∥L + ϵ.
+∈BR
+As t ↓0, the ﬁrst term on the right-hand side of (4.0.52) converges to 0. In particular, if t is
+suﬃciently small, then the right-hand side of (4.0.52) will be no larger than 2ϵ. Since this holds
+for any ϵ > 0, we have thus shown that the right-hand side of (4.0.49) converges to the expression
+(4.0.50) as t ↓
+ˆ
+0, i.e., that it converges to (f)∨(x). Since, as we have previously noted, the left-hand
+ˆ
+side of (4.0.49) converges to f(x) as t ↓0, we have thus shown that (f)∨(x) = f(x).
+It can similarly be shown that (f ∨)∧(x) = f(x). This completes the proof of (4.0.43).
+
+
+MATH 18.152 COURSE NOTES - CLASS MEETING # 16
+11
+□
+The next theorem plays a central role in many areas of PDE and analysis. It shows that the
+Fourier transform preserves the L2 norm of functions.
+Theorem 4.2 (The Plancherel theorem). Suppose that f, g : Rn
+1
+→C are continuous functions,
+that f, g ∈L ∩L2
+ˆ
+, and that f, gˆ ∈L1
+ˆ
+. Then f, gˆ ∈L2, and
+⟨f, g⟩= ⟨ˆ
+(4.0.53)
+f, gˆ⟩,
+i.e., the Fourier transform preserves the L2 inner product. In particular, by setting f = g, it follows
+from (4.0.53) that
+∥f∥L2 = ∥ˆ
+(4.0.54)
+f∥L2.
+Proof. By applying (4.0.41) with g replaced by gˆ, we have that
+⟨ˆ
+(4.0.55)
+f, gˆ⟩= ⟨f, (gˆ)∨⟩.
+By the Fourier inversion theorem (i.e. Theorem 4.1), we have that (gˆ)∨= g, and so the right-hand
+side of (4.0.55) is equal to
+(4.0.56)
+⟨f, g⟩.
+We have thus shown (4.0.53).
+□
+
+
+MIT OpenCourseWare
+http://ocw.mit.edu
+18.152 Introduction to Partial Differential Equations.
+Fall 2011
+ 
+ 
+ 
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.

@@ -1,0 +1,61 @@
+\originalchapter{方程、数据与解的意义}\label{ch:basic}
+\sourcelecture{1}
+\originalsection{偏微分算子与线性结构}
+设 $\Omega\subset\R^n$ 是开且连通的区域. 多重指标 $\alpha=(\alpha_1,\ldots,\alpha_n)\in\N^n$ 的阶为 $|\alpha|=\sum_j\alpha_j$, $\partial^\alpha=\partial_1^{\alpha_1}\cdots\partial_n^{\alpha_n}$. 对含时间的函数写 $u(t,x)$, 空间梯度为 $\nabla u=(u_{x_1},\ldots,u_{x_n})$, Laplace 算子为 $\Delta u=\sum_j u_{x_jx_j}$. 时间不计入 $\Delta$.
+\begin{definition}
+含未知函数及其偏导数的关系 $F(x,u,\partial u,\ldots,\partial^m u)=0$ 称为偏微分方程. 实际出现的最高导数阶数称为阶. 若 $L=\sum_{|\alpha|\le m}a_\alpha(x)\partial^\alpha$, 则 $Lu=f$ 为线性方程; $f=0$ 时称为齐次. 系数依赖于未知函数时一般不再线性.
+\end{definition}
+热方程 $u_t-D\Delta u=0$ 是时间一阶、空间二阶, 按最高导数阶数是二阶方程. 波方程 $u_{tt}-c^2\Delta u=0$ 是二阶方程. $u_t+uu_x=0$ 是一阶非线性方程, 非线性来自 $u$ 与 $u_x$ 的乘积. 齐次指右端为零, 与两端边界条件是否同一种类型是不同概念.
+\begin{proposition}\label{prop:superposition}
+线性算子 $L$ 的齐次解组成向量空间. 若 $Lu_p=f$, 则全部非齐次解恰为 $u_p+v$, 其中 $Lv=0$.
+\end{proposition}
+\begin{proof}
+由 $L(au+bv)=aLu+bLv$ 得齐次解对线性组合封闭. 若 $Lu=f$, 则 $L(u-u_p)=0$; 反过来 $L(u_p+v)=f+0=f$. 这同时证明两类解的对应. 若还规定边界数据, 相加时数据也必须相加, 不能把任意齐次方程解加入而保持原边界值.
+\end{proof}
+\begin{example}
+求 $a u_x+b u_y=0$ 的解, 其中 $(a,b)\ne(0,0)$, 并分析数据 $u(x,0)=g(x)$.
+\end{example}
+\begin{solution}
+沿 $(x,y)=(x_0+as,y_0+bs)$ 有 $\frac{\mathrm d}{\mathrm ds}u=a u_x+b u_y=0$. 取横向坐标 $r=bx-ay$, 则每条直线上 $r$ 不变, 在全平面全部 $C^1$ 解是 $u=F(r)$. 若 $b\ne0$, 数据给 $F(bx)=g(x)$, 故 $u(x,y)=g(x-ay/b)$. 若 $b=0$, 数据线本身为特征线, 数据必须是常数, 而不同水平线上的值仍可任意选择. 数据并非越多越好, 要与方程的传播方向相容.
+\end{solution}
+\originalsection{经典解、分布与弱解}
+\begin{definition}
+经典解是具有方程所需连续导数并逐点满足方程的函数. 对热方程采用 $C^{1,2}$: 函数、一次时间导数和至多二次空间导数连续. 边界与初值是否逐点成立, 需另行规定. $L^p(\Omega)$ 由可测函数的几乎处处等价类组成, 范数为 $\|u\|_p=(\int_\Omega |u|^p\dd x)^{1/p}$, $p<\infty$, 而 $\|u\|_\infty$ 是本质上确界.
+\end{definition}
+一次积分分部常比逐点二次导数要求更弱. 记 $C_c^\infty(\Omega)$ 为具有紧支撑的光滑测试函数. 分布是其上的连续线性泛函, 局部可积函数 $u$ 定义 $\langle u,\phi\rangle=\int u\phi$. 分布导数定义为 $\langle\partial_j T,\phi\rangle=-\langle T,\partial_j\phi\rangle$. 这里连续指测试函数支撑位于同一紧集且所有阶导数一致趋零时, 泛函值也趋零. Dirac 分布满足 $\langle\delta_a,\phi\rangle=\phi(a)$, 不是普通函数.
+\begin{definition}
+局部可积的 $u$ 是 $-\Delta u=f$ 的分布解, 若对每个 $\phi\in C_c^\infty(\Omega)$ 有 $\int u(-\Delta\phi)=\int f\phi$. 若 $u$ 具有平方可积的弱一阶导数, 则等价的弱形式是 $\int\nabla u\cdot\nabla\phi=\int f\phi$. 初边值问题的弱解还必须指定初始迹和边界条件, 仅写内点测试等式并不完整.
+\end{definition}
+\begin{example}
+计算 $u(x)=|x|$ 的分布二阶导数.
+\end{example}
+\begin{solution}
+把积分在零处分开, 对紧支撑 $\phi$ 积分分部两次:
+\[
+\int_\R |x|\phi''(x)\dd x
+=\int_{-\infty}^0(-x)\phi''\dd x+\int_0^\infty x\phi''\dd x=2\phi(0).
+\]
+故 $u''=2\delta_0$. 零点以外的经典导数为零, 却不能描述折角处的集中源. 这正是引入弱导数的作用.
+\end{solution}
+\originalsection{适定性与积分恒等式}
+\begin{definition}
+在指定数据空间和解空间中, 一个问题称为适定, 若每个允许数据都有解, 解唯一, 且解连续依赖数据. 连续依赖必须带有范数及时间区间; 仅有显式公式不构成适定性证明.
+\end{definition}
+热方程需给一个初值, 波方程需给位移和速度两个初值. 在有界区域还须选边界条件. Dirichlet 给 $u$, Neumann 给外法向导数 $\partial_\nu u=\nabla u\cdot\nu$, Robin 给 $\partial_\nu u+\alpha u$. 一维区间左端外法向是 $-1$, 右端是 $1$, 因而左端 $\partial_\nu u=-u_x$, 右端 $\partial_\nu u=u_x$.
+
+对 $C^1$ 边界的有界区域及闭包上足够光滑的函数, 散度定理给出
+\begin{align}
+\int_\Omega v\Delta u\dd x
+&=\int_{\partial\Omega}v\partial_\nu u\dd S-\int_\Omega\nabla v\cdot\nabla u\dd x,\label{eq:greenone}\\
+\int_\Omega(v\Delta u-u\Delta v)\dd x
+&=\int_{\partial\Omega}(v\partial_\nu u-u\partial_\nu v)\dd S.\label{eq:greentwo}
+\end{align}
+第一式对向量场 $v\nabla u$ 应用散度定理; 再交换 $u,v$ 相减即得第二式. 后文反复用这两个等式: 能量法令 $v=u$, Green 函数法令 $v$ 为带点源的辅助函数. 对奇异核不能直接套用, 必须先挖去小球再取极限.
+
+积分号下求导采用以下先修判据: 参数邻域内被积函数可微, 导数被同一个可积函数控制, 则可交换求导与积分. 证明由差商、微积分基本定理和控制收敛给出. 后文热核的导数是多项式乘 Gaussian, 正时间紧区间内提供所需控制函数.
+\begin{exercise}
+验证 $u_{xx}+u_{yy}=0$ 的所有仿射函数解, 并说明只给 $u(0,0)=0$ 为什么不能确定解.
+\end{exercise}
+\begin{solution}
+$u=ax+by+d$ 的二阶导数为零. 原点条件仅令 $d=0$, 仍留下两个自由参数. 事实上还有无限多其他调和函数; 单点值不是二维区域边界值问题所需的数据.
+\end{solution}

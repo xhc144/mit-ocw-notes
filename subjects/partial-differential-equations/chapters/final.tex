@@ -1,0 +1,66 @@
+\originalchapter{2011年期末考试及独立解答}
+2011年12月19日星期一. 原卷七题总170分, 要求列明定理和条件. 期末卷实际允许一张8.5\,$\times$\,11英寸纸的正反两面手写笔记, 禁止其他书籍、笔记、计算器; 这与教学大纲的闭卷无笔记说明有差异, 本册以实际试卷说明为准. 官方未公开期末答案; 本章全部解答为 AI 独立编写并数学复核.
+\begin{exercise}\label{exam:fI}
+\textbf{原题 I:20分.} 一维波方程光滑初值f,g在 $|x|\ge R$ 消失, 证明 $t>0$, $|x|\ge R+t$ 时 $u(t,x)=0$.
+\end{exercise}
+\begin{solution}
+$d'Alembert$ 式 $u=[f(x+t)+f(x-t)]/2+\tfrac12\int_{x-t}^{x+t}g(y)\dd y$. 若 $x\ge R+t$, 则两个端点及整个积分区间都在 $[R,\infty)$; 若 $x\le-R-t$, 则都在 $(-\infty,-R]$. 所有项为0. 等号位置也因数据在 $|x|\ge R$ 为0成立.
+\end{solution}
+\begin{exercise}\label{exam:fII}
+\textbf{原题 II(a,b各10分).} $f=\mathbf1_{[-2,2]}$, 求 Fourier 变换及其 $L^2$ 范数.
+\end{exercise}
+\begin{solution}
+(a)直接积分得 $\widehat f(\xi)=\sin(4\pi\xi)/(\pi\xi)=4\operatorname{sinc}(4\xi)$, 0处取连续值4.
+(b)Plancherel 给 $\|\widehat f\|_2=\|f\|_2=\sqrt4=2$. 不需额外计算振荡平方积分.
+\end{solution}
+\begin{exercise}\label{exam:fIII}
+\textbf{原题 III(a:5分,b:10分,c:5分,d:10分).} 全空间波方程初位移 $f\in C_c^\infty(\R^n)$, 初速度0. (a)推频率 ODE; (b)求解; (c)求时间导数与空间梯度变换; (d)只用 Fourier 方法, 不用分部积分, 证 $\|\nabla_{t,x}u(t)\|_2=\|\nabla f\|_2$. 原定义(4)被积函数误写f, 应为 $u(t,x)$.
+\end{exercise}
+\begin{solution}
+(a)空间变换给 $\widehat u_{tt}=-4\pi^2|\xi|^2\widehat u$, $\widehat u(0)=\widehat f$, $\widehat u_t(0)=0$.
+(b) $\widehat u=\cos(2\pi t|\xi|)\widehat f$, 在 $\xi=0$ 为常数 $\widehat f(0)$.
+(c) $\widehat u_t=-2\pi|\xi|\sin(2\pi t|\xi|)\widehat f$, $\widehat{\nabla u}=2\pi\ii\xi\cos(2\pi t|\xi|)\widehat f$.
+(d) 对各分量用 Plancherel, 两平方和为
+\[
+\int4\pi^2|\xi|^2[\sin^2(2\pi t|\xi|)+\cos^2(2\pi t|\xi|)]|\widehat f|^2\dd\xi
+=\|\nabla f\|_2^2.
+\]
+开平方即得, 全部计算在频率端.
+\end{solution}
+\begin{exercise}\label{exam:fIV}
+\textbf{原题 IV:20分.} 给定 $u_t-u_{xx}=-(t^2+x^2)$ 在 $[0,2]\times[0,1]$ 的光滑解, 初值f. 证明整体最大值不可能在 $(0,2)\times(0,1)$ 取得. 原卷未给边值却称唯一 Cauchy 解, 该唯一性无依据; 所证局部最大值命题无需新增边界条件.
+\end{exercise}
+\begin{solution}
+若内部 $(t_0,x_0)$ 为整体最大点, $u_t=0$, $u_{xx}\le0$, 所以 $u_t-u_{xx}\ge0$. 然而 $t_0>0$ 使右边 $-(t_0^2+x_0^2)<0$, 矛盾.
+\end{solution}
+\begin{exercise}\label{exam:fV}
+\textbf{原题 V(a,b各10分).} 自由 Schrödinger 方程 $\ii\psi_t+\Delta\psi/2=0$, 初值 $\phi\in C_c^\infty(\R^n;\C)$. (a)证 $L^2$ 范数守恒; (b)以此证唯一. 原“所有光滑解”应限制到 Schwartz 解或 $C_tL^2$ 能量解类.
+\end{exercise}
+\begin{solution}
+(a)Schwartz 解允许分部积分,
+$\partial_t\int|\psi|^2=2\operatorname{Re}\int\overline\psi(\ii\Delta\psi/2)=-\operatorname{Re}(\ii\int|\nabla\psi|^2)=0$.
+也可用 $\widehat\psi=\ee^{-2\pi^2\ii t|\xi|^2}\widehat\phi$ 与 Plancherel, 直接推广至 $C_tL^2$ 的分布解类; 唯一性频率截断论证见定理\ref{thm:schroL2}.
+(b) 两个同类解之差w仍满足齐次方程, 初值0. 对w用(a)得 $\|w(t)\|_2=0$, 几乎处处相同; 若两解连续则逐点相同. 仅光滑性不能保证积分可积和无穷远边界项消失, 因此不扩大本结论的解类别.
+\end{solution}
+\begin{exercise}\label{exam:fVI}
+\textbf{原题 VI(a:5分,b:15分,c:5分,d:5分).} $\mathcal L=-Q/2-\phi^4/4$. 求 Euler--Lagrange 方程、应力张量及 $T^{00}$ 正性、张量散度, 并说明 $J^\mu=T^{\mu0}$ 给出的守恒量.
+\end{exercise}
+\begin{solution}
+(a) $\Box\phi=\phi^3$, 即 $\phi_{tt}-\Delta\phi+\phi^3=0$.
+(b) $T^{\mu\nu}=\partial^\mu\phi\partial^\nu\phi-m^{\mu\nu}(Q/2+\phi^4/4)$, 故 $T^{00}=(\phi_t^2+|\nabla\phi|^2)/2+\phi^4/4\ge0$.
+(c)按乘积法则及混合偏导相等, $\partial_\mu T^{\mu\nu}=(\Box\phi-\phi^3)\partial^\nu\phi=0$ 在场方程上.
+(d) $J$ 无散度, $J^i=-\phi_i\phi_t$. 若初值紧支撑且考虑存在期间的受控支撑解, 或有限能量且无穷远通量消失的解, 时空柱积分给
+$\int[(\phi_t^2+|\nabla\phi|^2)/2+\phi^4/4](t)=\int[(\phi_t^2+|\nabla\phi|^2)/2+\phi^4/4](0)$.
+此能量控制每个时刻时空梯度的空间 $L^2$ 范数和场值的空间 $L^4$ 范数, 但本题没有据此证明任意维数任意初值的非线性全局存在.
+\end{solution}
+\begin{exercise}\label{exam:fVII}
+\textbf{原题 VII(a--f各5分).} 举色散方程、非有限传播初值问题; 写三维 Dirichlet Green 方程及边值; 分类 $-u_{tt}+4u_{tx}-u_{xx}=0$; 定义适定性; 举 $\R^2$ 上线性 Cauchy 不适定问题.
+\end{exercise}
+\begin{solution}
+(a)自由 Schrödinger 方程, $\omega(k)=|k|^2/2$, 群速度随频率变化, 并有 $|t|^{-n/2}$ 的 $L^1$ 至 $L^\infty$ 色散界.
+(b)全空间热方程 $u_t=\Delta u$, 非负非零紧支撑初值与处处正热核卷积, 任意 $t>0$ 全空间严格正, 所以没有有限传播速度.
+(c)沿原课程 $\Delta$ 号约定, 固定x时 $\Delta_yG(x,y)=\delta_x(y)$ 于分布意义, $G(x,y)=0$ 于 $y\in\partial\Omega$. 本书正文若采用 $-\Delta$ 核则右边仍为 $\delta_x$, 核整体变号. 奇点处不能写普通光滑方程.
+(d)矩阵 $\left(\begin{smallmatrix}-1&2\\2&-1\end{smallmatrix}\right)$ 特征值1、$-3$, 异号, 双曲型.
+(e)指定数据空间、解空间、时间区间及范数后, 对允许数据存在解、唯一且连续依赖数据, 称 Hadamard 适定. “连续依赖”须明确拓扑, 不能仅说有显式公式.
+(f)时空 $\R^2$ 的反向热方程 $u_t=-u_{xx}$, 在全线有界周期光滑数据的 $C^0$ 初值范数中不适定: 初值 $f_k=\ee^{-k^2/2}\sin kx\to0$, 解 $u_k=\ee^{k^2(t-1/2)}\sin kx$, 在 $t=1$ 范数趋无穷. 每个成员确为经典全空间解, 所以这是连续依赖的实际反例.
+\end{solution}

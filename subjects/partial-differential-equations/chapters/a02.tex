@@ -1,0 +1,41 @@
+\originalsection{作业3: 2011年9月29日交}
+\begin{exercise}\label{ps:3I}
+\textbf{原题 I.} 零边值热流的初值为 $f(x)=x(1-x)$, 证明 $u(t,x)=u(t,1-x)$.
+\end{exercise}
+\begin{solution}
+$v(t,x)=u(t,1-x)$ 满足 $v_t=v_{xx}$, 两端为0, 初值 $f(1-x)=f(x)$. 对差 $w=u-v$ 用热流能量唯一性或最大原理得 $w=0$. 类别为正时间光滑且闭域连续, 不强求不相容的角点二阶导数.
+\end{solution}
+\begin{exercise}\label{ps:3II}
+\textbf{原题 II, 含勘误.} 初值仍为 $f=x(1-x)$, 两端边值均为常数, $u$ 在闭域连续. 证明 $u\ge0$, 求所有 $\alpha,\beta>0$ 使 $u\le\alpha f\ee^{-\beta t}$, 并说明长期一致趋零. 原卷最后的 $t\to0$ 应为 $t\to\infty$.
+\end{exercise}
+\begin{solution}
+闭域连续性及 $f(0)=f(1)=0$ 强制两个边界常数为0. 最大原理给非负. 一个简明充分范围是 $\alpha\ge1$, $0<\beta\le8$: 令 $w=\alpha f\ee^{-\beta t}$, 则 $w_t-w_{xx}=\alpha\ee^{-\beta t}(2-\beta f)\ge0$, 因 $f\le1/4$; 初边值比较给所需界.
+
+题面问“所有”, 所以上述范围不足. 给出以下精确的谱式刻画, 其中只含显式数列而没有未知 PDE 解:
+\[
+A(\beta)=\sup_{t\ge0,\ 0<x<1}
+\frac{8\sum_{j=0}^\infty(2j+1)^{-3}\ee^{-((2j+1)^2\pi^2-\beta)t}\sin((2j+1)\pi x)}{\pi^3x(1-x)}.
+\]
+全部答案恰为 $0<\beta\le\pi^2$, $\alpha\ge A(\beta)$. 此隐式常数由显式收敛级数定义, 适用于没有简洁初等闭式的参数部分. 下面证明其有限性、必要性与充分性.
+
+两次分部积分给 $f$ 的正弦系数 $8/(m^3\pi^3)$ 于奇数 $m$, 偶数为0. 热级数因此正是上式乘 $f\ee^{-\beta t}$. 对 $t>0$ 绝对收敛, 对 $t=0$ 以连续初值解释. 由于 $f\le\tfrac12\sin\pi x$, 热比较给 $u\le\tfrac12\ee^{-\pi^2t}\sin\pi x$. 此初始不等式可用 $\sin\pi x\ge2x(1-x)$ 证明: 在 $[0,1/2]$ 凹性给 $\sin\pi x\ge2x\ge2x(1-x)$, 另半区对称. 又 $\sin\pi x\le\pi\min(x,1-x)$, 故 $\sin\pi x/f\le2\pi$. 对 $\beta\le\pi^2$ 得 $1\le A(\beta)\le\pi$; 下界由初时比值为1. 所以定义确给有限阈值, 逐点取上确界证明 $\alpha\ge A$ 的充要性.
+
+若 $\beta>\pi^2$, 把假设界乘正的 $\sin\pi x$ 积分. 左侧第一系数为 $\ee^{-\pi^2t}\int f\sin\pi x$, 右侧为 $\alpha\ee^{-\beta t}\int f\sin\pi x$, 矛盾于大时间. 当 $\beta\le8$, 上面超解证明与初值下界给 $A=1$. 当 $\beta>8$, 在中心 $u_t(0,1/2)=f''=-2$, 故 $\partial_t(\ee^{\beta t}u/f)|_{t=0}=\beta-8>0$, 得 $A>1$. 例如 $\beta=\pi^2,\alpha=\pi$ 可行, 说明仅报 $\beta\le8$ 会漏解. 最后任取可行参数, $\|u(t)\|_\infty\le\alpha\ee^{-\beta t}/4\to0$.
+\end{solution}
+原题 III、IV 只有 Salsa 引用, 见缺项表.
+\begin{exercise}\label{ps:3V}
+\textbf{原题 V.} $L=\partial_t+\widetilde L$, 其中 $\widetilde L$ 线性且仅作用于空间. 若 $v^{(s)}(\tau,x)$ 满足 $Lv^{(s)}=0$, $v^{(s)}(0,x)=F(s,x)$, 证明 $v(t,x)=\int_0^tv^{(s)}(t-s,x)\dd s$ 满足 $Lv=F$, $v(0)=0$.
+\end{exercise}
+\begin{solution}
+假设参数族足够光滑且允许积分求导. Leibniz 公式给 $v_t=v^{(t)}(0,x)+\int_0^t\partial_\tau v^{(s)}(t-s,x)\dd s$. 线性及空间算子换积分给 $Lv=F(t,x)+\int_0^t(\partial_\tau+\widetilde L)v^{(s)}(t-s,x)\dd s=F(t,x)$. 零长度积分给初值0. 原卷齐次初值写成 $f(t,x)$ 留有自由时间, 应改为一般 $h(x)$; 参数族的初值才是 $F(s,x)$.
+\end{solution}
+\begin{exercise}\label{ps:3VI}
+\textbf{原题 VI.} 给热方程 $u_t-D\Delta u=F$, $u(0)=g$ 的表示公式, 并选充分条件证明公式有意义且正确.
+\end{exercise}
+\begin{solution}
+取 $g\in C_c^\infty(\R^n)$, $F\in C^\infty([0,T]\times\R^n)$ 且空间支撑于同一紧集. 定义
+\[
+u(t,x)=\Gamma_D(t)*g(x)+\int_0^t\Gamma_D(t-s)*F(s)(x)\dd s.
+\]
+第一项满足齐次 PDE 并以近似恒等趋 $g$. 源项可将空间导数移到 $F$: $\Delta(\Gamma*F)=\Gamma*\Delta F$, 后者一致有界, 避免核在 $s=t$ 的导数奇性. 对时间求导得到端点 $F(t,x)$ 与 $D\Delta$ 积分项, 即非齐次方程. 源项的 $L^\infty$ 范数不超过 $t\sup_s\|F(s)\|_\infty$, 初时趋0. 齐次项与源项相加给初值和 PDE, 有界类唯一性由热最大原理给出.
+\end{solution}

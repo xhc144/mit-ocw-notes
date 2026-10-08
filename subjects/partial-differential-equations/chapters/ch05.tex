@@ -1,0 +1,57 @@
+\originalchapter{调和函数与最大值原理}\label{ch:harmonic}
+\sourcelecture{6,9}
+\originalsection{静态模型与平均值性质}
+热方程的无源稳态满足 $\Delta u=0$. 静电场在无旋且单连通的区域内可写 $E=-\nabla u$, 由 $\diver E=\rho$ 得 $-\Delta u=\rho$. 无旋场在任意非单连通区域未必有全局势, 所以不能省略拓扑条件. 本册统一采用 $-\Delta u=f$; 与原课写 $\Delta u=f$ 时的源项相差一个负号.
+\begin{definition}
+$u\in C^2(\Omega)$ 且 $\Delta u=0$ 时称为调和函数. $\Delta u\ge0$ 称为次调和, $\Delta u\le0$ 称为超调和. 记 $\omega_n=|\Sph^{n-1}|$, 则 $|B_R|=\omega_n R^n/n$.
+\end{definition}
+\begin{theorem}\label{thm:meanvalue}
+若 $\overline B_R(x)\subset\Omega$, $u$ 调和, 则
+\[
+u(x)=\frac1{\omega_nR^{n-1}}\int_{\partial B_R(x)}u\dd S
+=\frac n{\omega_nR^n}\int_{B_R(x)}u\dd y.
+\]
+次调和函数的中心值不大于这两个平均值.
+\end{theorem}
+\begin{proof}
+设 $A(r)=\omega_n^{-1}\int_{\Sph^{n-1}}u(x+r\theta)\dd\theta$. 链式法则及散度定理给
+\[
+A'(r)=\frac1{\omega_nr^{n-1}}\int_{\partial B_r(x)}\partial_\nu u\dd S
+=\frac1{\omega_nr^{n-1}}\int_{B_r(x)}\Delta u\dd y.
+\]
+调和时导数为零, $r\downarrow0$ 得 $A(r)=u(x)$. 对球面平均乘 $\omega_nr^{n-1}$ 并从零积分到 $R$, 得球体平均. 次调和时 $A'\ge0$, 从而平均不小于 $A(0)=u(x)$.
+\end{proof}
+\originalsection{强最大值与边界稳定性}
+\begin{theorem}\label{thm:strongharmonic}
+连通区域上的调和函数若在内点取得全域最大值或最小值, 则恒为常数. 若 $\Omega$ 有界、$u\in C(\overline\Omega)$, 则最大最小值可在边界取得.
+\end{theorem}
+\begin{proof}
+设最大值为 $M$, $u(x_0)=M$. 任意小球的平均也为 $M$, 而 $M-u\ge0$ 连续, 积分为零, 故小球内 $u=M$. 集合 $\{u=M\}$ 在 $\Omega$ 中既闭又开, 连通性使它等于全域. 最小值对 $-u$ 应用. 有界闭包紧, 极值存在, 若仅在内部取得则常数, 此时边界也取相同值.
+\end{proof}
+对 $\Delta u\ge0$, 用 $u+\eps|x|^2$ 的严格次调和性排除内部最大, 然后令 $\eps\downarrow0$, 得弱最大值原理. 这里不需假设次调和函数满足平均值等式.
+\begin{corollary}\label{cor:poissoncomparison}
+若 $-\Delta u=f$, $-\Delta v=g$, 且 $f\le g$, $u\le v$ 于边界, 则 $u\le v$ 于内部. 调和边界问题有至多一个闭包连续解, 并满足 $\|u-v\|_{C(\overline\Omega)}\le\|u-v\|_{C(\partial\Omega)}$.
+\end{corollary}
+\begin{proof}
+$\Delta(u-v)=g-f\ge0$, 对差使用弱最大值原理. 同源项时差调和, 对正负差分别应用得范数估计及唯一性.
+\end{proof}
+\begin{example}
+$\Omega\subset B_R(0)$, $-\Delta u=f$, $u=0$ 于边界. 给出只依赖源上界的估计.
+\end{example}
+\begin{solution}
+令 $M=\|f\|_\infty$, $\psi=M(R^2-|x|^2)/(2n)$. 有 $-\Delta\psi=M$, 且 $\psi\ge0$ 于边界. 比较 $u$ 和 $\psi$, 再比较 $-u$ 和 $\psi$, 得 $|u|\le\psi\le MR^2/(2n)$. 该估计直接体现解对源的连续依赖.
+\end{solution}
+\originalsection{光滑性与局部估计}
+\begin{proposition}\label{prop:harmonicsmooth}
+$C^2$ 调和函数实际上为 $C^\infty$. 若 $\overline B_R(x_0)\subset\Omega$, 则
+$|\partial^\alpha u(x_0)|\le C_{n,\alpha}R^{-|\alpha|}\sup_{B_R(x_0)}|u|$.
+\end{proposition}
+\begin{proof}
+取径向 $\rho\in C_c^\infty(B_1)$, $\rho\ge0$, $\int\rho=1$, $\rho_r(y)=r^{-n}\rho(y/r)$. 用球面平均和径向积分得 $u*\rho_r=u$ 于距边界大于 $r$ 的地方. 右边卷积光滑, 且 $\partial^\alpha u=u*\partial^\alpha\rho_r$. 取 $r=R/2$, 由 $\|\partial^\alpha\rho_r\|_1=r^{-|\alpha|}\|\partial^\alpha\rho\|_1$ 得估计. 所选光滑核可取 $C\exp[-1/(1-|y|^2)]$ 于单位球内, 外部为零, 常数 $C$ 使积分为1.
+\end{proof}
+\begin{exercise}
+证明全空间有界调和函数为常数.
+\end{exercise}
+\begin{solution}
+固定 $x_0$, 上述一阶导数估计对任意 $R$ 成立, $|\nabla u(x_0)|\le C R^{-1}\|u\|_\infty$. 令 $R\to\infty$ 得 $\nabla u=0$, 连通性给常数. 后章用 Harnack 不等式将“两侧有界”加强为“单侧有界”.
+\end{solution}
