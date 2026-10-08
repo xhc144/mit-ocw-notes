@@ -1,0 +1,177 @@
+% SOURCE: OCW L7--8 HTML, no independent complete handout; self-authored mathematical development.
+\originalchapter{奇异值分解与最小二乘}\label{ch:svd}
+\originalsection{从伸缩方向认识矩阵}
+特征值描述方阵在某些方向上的不变性, 却不能直接处理长方矩阵, 对非正规方阵也不一定准确描述伸缩. 奇异值分解把任何矩阵分为输入空间的正交旋转、坐标轴上的非负伸缩和输出空间的正交旋转. 它因此同时解释秩、条件数、最小二乘与低秩逼近.
+
+以下对复空间使用 $x^*y$ 内积; 实矩阵只需把共轭转置改为转置. 复矩阵 $A$ 称为 Hermitian, 若 $A=A^*$; 酉矩阵满足 $U^*U=I$.
+
+\begin{theorem}[Hermitian 谱分解]\label{thm:hermitian}
+若 $H=H^*\in\C^{n\times n}$, 则存在酉矩阵 $V$ 和实对角矩阵 $\Lambda$ 使 $H=V\Lambda V^*$. 若 $x^*Hx\ge0$ 对所有 $x$ 成立, 全部特征值非负.
+\end{theorem}
+\begin{proof}
+$ x^*Hx$ 为实数, 并在单位球面上连续, 因而取得最大值 $\lambda$ 于单位向量 $v$. 对任意 $w\perp v$, 考察归一化后的 $v+tw$ 的 Rayleigh 商; 在实参数 $t=0$ 处的一阶导数为 $2\operatorname{Re}(w^*Hv)$, 必须为零. 再以 $iw$ 替代 $w$, 得虚部也为零. 因而 $Hv$ 与所有 $w\perp v$ 正交, 所以 $Hv=\lambda v$. 对任意 $w\perp v$, 有 $v^*Hw=(Hv)^*w=0$, 说明 $v^\perp$ 在 $H$ 下不变. 在这个维数少一的空间上重复, 用归纳法得到正交归一特征基. 半正定情形对单位特征向量有 $\lambda=v^*Hv\ge0$.
+\end{proof}
+\begin{theorem}[奇异值分解]\label{thm:svd}
+对 $A\in\C^{m\times n}$, 存在酉矩阵 $U\in\C^{m\times m}$、$V\in\C^{n\times n}$ 使
+\[
+A=U\Sigma V^*,\qquad
+\Sigma=\diag(\sigma_1,\ldots,\sigma_p)\ \text{的长方矩阵形式},\quad
+\sigma_1\ge\cdots\ge\sigma_p\ge0,\ p=\min(m,n).
+\]
+若 $r=\rank(A)$, 则 $A=\sum_{i=1}^r\sigma_i u_iv_i^*$, 且 $Av_i=\sigma_i u_i$, $A^*u_i=\sigma_i v_i$ 对 $i\le r$ 成立.
+\end{theorem}
+\begin{proof}
+$A^*A$ 是 Hermitian 半正定矩阵, 由定理 \ref{thm:hermitian} 有正交特征基 $v_i$, 特征值写为 $\sigma_i^2\ge0$. 对正特征值定义 $u_i=Av_i/\sigma_i$. 于是
+$u_i^*u_j=v_i^*A^*Av_j/(\sigma_i\sigma_j)=\delta_{ij}$.
+这些向量可扩充为输出空间的正交归一基. 零特征值对应 $\norm{Av_i}_2^2=0$, 故 $Av_i=0$. 对全部输入基向量核对即可得 $A=U\Sigma V^*$. 最后 $A^*u_i=A^*Av_i/\sigma_i=\sigma_i v_i$, 而正奇异值的个数正是像空间维数.
+\end{proof}
+这个证明说明 SVD 一定存在, 但并不建议在计算中先形成 $A^*A$ 再求特征值. 因 $A^*A$ 的条件数会平方, 还会丢掉小奇异值的信息. 稳定的数值 SVD 通常先用正交变换约化为双对角矩阵, 再用专用迭代处理.
+
+\begin{proposition}\label{prop:svdnorm}
+$\norm{A}_2=\sigma_1$, $\norm{A}_F^2=\sum_i\sigma_i^2$. 对可逆方阵, $\kappa_2(A)=\sigma_1/\sigma_n$. 酉左右乘保持这两种范数和全部奇异值.
+\end{proposition}
+\begin{proof}
+写 $x=Vy$, 则 $\norm{Ax}_2^2=\sum_i\sigma_i^2|y_i|^2\le\sigma_1^2\norm{x}_2^2$, 取 $x=v_1$ 达到. Frobenius 范数的平方等于 $\operatorname{tr}(A^*A)$, 等于特征值之和. 可逆时 $A^{-1}=V\Sigma^{-1}U^*$, 因而逆范数为 $1/\sigma_n$. 酉变换保持内积, 可从范数定义或 SVD 表示直接验证不变性.
+\end{proof}
+\begin{theorem}[到奇异矩阵的距离]\label{thm:singulardistance}
+对可逆 $n\times n$ 矩阵,
+\[
+\min_{A+E\text{ 奇异}}\norm{E}_2=\sigma_n(A),\qquad
+\frac{\min\norm{E}_2}{\norm{A}_2}=\frac1{\kappa_2(A)}.
+\]
+\end{theorem}
+\begin{proof}
+若 $A+E$ 奇异, 可取单位向量 $z$ 使 $(A+E)z=0$, 从而 $\norm{E}_2\ge\norm{Ez}_2=\norm{Az}_2\ge\sigma_n$. 取 $E=-\sigma_nu_nv_n^*$, 则 $(A+E)v_n=0$ 且 $\norm{E}_2=\sigma_n$, 达到下界.
+\end{proof}
+因此大条件数也可解释为相对靠近奇异集合. 一个只需极小相对扰动就变成奇异的矩阵, 不可能保证解对所有输入误差都稳健.
+
+\originalsection{正交投影与伪逆}
+\begin{definition}
+若 $Q$ 的列正交归一, $P=QQ^*$ 称为到 $\range(Q)$ 的正交投影. 它满足 $P^*=P$, $P^2=P$. 对 $A$ 的 SVD, 定义 Moore--Penrose 伪逆
+\[
+A^\dagger=V\Sigma^\dagger U^*=
+\sum_{i=1}^r\sigma_i^{-1}v_iu_i^*,
+\]
+其中正奇异值取倒数, 零奇异值保持零, 并转置长方矩阵形状.
+\end{definition}
+\begin{proposition}
+对任意向量 $b$, $Pb$ 是子空间 $\range(Q)$ 中离 $b$ 最近的唯一向量. 最小距离为 $\norm{(I-P)b}_2$.
+\end{proposition}
+\begin{proof}
+对 $z\in\range(Q)$, 分解 $b-z=(I-P)b+(Pb-z)$. 两项正交, 因而
+$\norm{b-z}_2^2=\norm{(I-P)b}_2^2+\norm{Pb-z}_2^2$.
+第二项仅在 $z=Pb$ 时为零, 得到唯一最优点.
+\end{proof}
+\begin{theorem}[最小二乘的全部解]\label{thm:ls}
+问题 $\min_x\norm{Ax-b}_2$ 的全部解为 $x=A^\dagger b+z$, $z\in\ker A$. 其中唯一的最小范数解为 $x_\star=A^\dagger b$, 且拟合值为 $AA^\dagger b$, 残差为 $(I-AA^\dagger)b$. 最小二乘解等价于满足正规方程 $A^*(Ax-b)=0$.
+\end{theorem}
+\begin{proof}
+令 $y=V^*x$, $c=U^*b$. 酉不变性使目标的平方变成
+\[
+\sum_{i=1}^r|\sigma_i y_i-c_i|^2+\sum_{i=r+1}^{m}|c_i|^2.
+\]
+前 $r$ 个坐标必须取 $y_i=c_i/\sigma_i$; 其余输入坐标不影响目标, 正是 $\ker A$ 的分量. 为使解范数最小, 这些自由坐标必须全为零. 这也证明投影和残差公式. 最优时残差与 $\range(A)$ 正交, 等价于 $A^*(Ax-b)=0$; 反过来, 该正交性使所有目标增量的交叉项为零, 故是全局最小点.
+\end{proof}
+正规方程是数学刻画, 不一定是最佳计算方法. 满列秩时, $A^*A$ 的特征值为 $\sigma_i^2$, 因而 $\kappa_2(A^*A)=\kappa_2(A)^2$. 若 $\kappa_2(A)\approx10^8$, binary64 中形成正规矩阵便可能丢掉最小谱方向. QR 直接使用 $A$ 的正交结构, 不必把条件数先平方.
+
+\begin{example}
+令 $A=\begin{pmatrix}1&0\\0&2\\0&0\end{pmatrix}$, $b=(3,4,5)^T$. 求最小二乘解与残差.
+\end{example}
+\begin{solution}
+目标平方为 $(x_1-3)^2+(2x_2-4)^2+25$, 故 $x_\star=(3,2)^T$, 残差 $b-Ax_\star=(0,0,5)^T$. 第三个输出方向不在 $A$ 的像中, 任何输入都无法拟合这一分量. SVD 形式把这个事实写为 $AA^\dagger=\diag(1,1,0)$.
+\end{solution}
+
+\originalsection{回归、主成分与不同的观察角度}
+在线性回归中, 矩阵 $A$ 的第 $i$ 行表示第 $i$ 个样本的特征, $x$ 为待拟合系数, $b_i$ 为观测输出. 线性代数角度是把 $b$ 投影到列空间; 优化角度是极小化凸二次函数; 若另假设观测噪声独立、同方差、正态, 统计角度的最大似然估计也给出同一最小二乘目标. 最后一解释依赖概率假设, 不是只由 QR 分解便能推导出数据真的正态. 若噪声有已知不同方差, 可按权重先缩放各行, 再解加权最小二乘.
+
+主成分分析用于找数据中方差最大的正交方向. 设已中心化的数据矩阵 $D\in\R^{m\times n}$ 每行是一个样本, $m>1$. 沿单位方向 $v$ 的样本投影为 $Dv$, 方差为 $\norm{Dv}_2^2/(m-1)$. 因而最大方差方向是 $D$ 的第一右奇异向量. 在其正交补中继续最大化, 依次得到其余右奇异向量, 对应方差为 $\sigma_i(D)^2/(m-1)$.
+\begin{proof}
+对 $D=U\Sigma V^T$, 写单位 $v=Vy$, 则 $\norm{Dv}_2^2=\sum_i\sigma_i^2 y_i^2\le\sigma_1^2$, 第一坐标向量达到上界. 限制 $v\perp v_1$ 即使 $y_1=0$, 相同论证选出第二个坐标; 递推即可. 这也表明样本协方差 $D^TD/(m-1)$ 的特征方向与右奇异向量相同.
+\end{proof}
+数据先中心化是必要步骤, 否则最大方向可能主要描述均值而非波动. 主成分对变量单位和缩放敏感, 原始量纲的方差最大不等同于标准化后最大. 计算上直接对 $D$ 做 SVD, 可避免形成协方差矩阵导致的小奇异值信息损失. 第一个方向方差最大并不自动意味着它对预测任务最有用, 因这里的目标没有使用响应变量 $b$.
+
+\originalsection{最小二乘的敏感性}
+当残差不为零时, 最小二乘的输入扰动比方阵系统多一个几何因素. 设 $A$ 满列秩, $r=b-Ax$, 则 $A^*r=0$. 对微小 $\Delta A,\Delta b$, 把扰动后的正规方程保留一阶项, 得
+\[
+A^*A\,\Delta x
+=A^*(\Delta b-\Delta A\,x)+(\Delta A)^*r+O(\norm{\Delta}^2).
+\]
+因此一阶解变化为
+\[
+\Delta x=A^\dagger(\Delta b-\Delta A\,x)
++(A^*A)^{-1}(\Delta A)^*r+O(\norm{\Delta}^2).
+\]
+这里的 $O(\norm{\Delta}^2)$ 是在固定满秩 $A$ 邻域中的局部记号, 常数依赖 $A,b$. 第一项类似线性方程组, 第二项却含 $\norm{(A^*A)^{-1}}=1/\sigma_n^2$ 与残差. 当拟合不好时, 改变列空间方向会使解更敏感. 所以即便使用后向稳定 QR, 原问题本身仍可能具有 $\kappa(A)^2$ 量级的矩阵扰动敏感性. 稳定算法不能消除这个问题性质.
+
+\begin{proof}[一阶公式的推导]
+扰动后的残差为 $r+\Delta b-\Delta A\,x-A\Delta x-\Delta A\Delta x$. 与 $A+\Delta A$ 的列正交, 展开 $(A+\Delta A)^*$ 与这个残差的乘积. 原项 $A^*r$ 为零, 留下一阶项 $A^*\Delta b-A^*\Delta A\,x-A^*A\Delta x+(\Delta A)^*r$. 把二阶乘积并入余项, 再左乘可逆 $A^*A$ 的逆即得结论. 满列秩保证局部解映射光滑, 因此这个线性化在小扰动极限中有效.
+\end{proof}
+
+\originalsection{最佳低秩逼近}
+\begin{theorem}[截断 SVD]\label{thm:ey}
+令 $A_k=\sum_{i=1}^k\sigma_i u_iv_i^*$, $0\le k<r$. 对所有秩不超过 $k$ 的矩阵 $B$, 有
+\[
+\norm{A-B}_2\ge\sigma_{k+1}=\norm{A-A_k}_2,
+\qquad
+\norm{A-B}_F^2\ge\sum_{i>k}\sigma_i^2=\norm{A-A_k}_F^2.
+\]
+\end{theorem}
+\begin{proof}
+先看算子范数. 维数为 $k+1$ 的空间 $\Span(v_1,\ldots,v_{k+1})$ 与 $\ker B$ 有非零交, 因 $\rank B\le k$. 取交中的单位向量 $z$, 有 $Bz=0$ 及 $\norm{Az}_2\ge\sigma_{k+1}$, 给出下界. 截断矩阵的差有最大奇异值 $\sigma_{k+1}$, 故达到.
+
+再看 Frobenius 范数. 设 $P$ 为到 $\range(B)$ 的正交投影. 因 $(I-P)B=0$, 且正交投影不增 Frobenius 范数,
+\[
+\norm{A-B}_F^2\ge\norm{(I-P)A}_F^2
+=\sum_{i=1}^r\sigma_i^2(1-\norm{Pu_i}_2^2).
+\]
+记 $w_i=\norm{Pu_i}_2^2$, 则 $0\le w_i\le1$, 且 $\sum_iw_i\le\rank P\le k$. 由于 $\sigma_i^2$ 降序, 把权重从较小系数处移到较大系数处只会增大和, 所以 $\sum_i\sigma_i^2w_i\le\sum_{i=1}^k\sigma_i^2$. 得所需尾和下界. $A_k$ 的误差恰好有该尾和, 故达到.
+\end{proof}
+若 $\sigma_k=\sigma_{k+1}$, 最优低秩子空间可能不唯一. 即使存在谱间隙, 算子范数意义下的所有最优矩阵也不能简单宣称唯一. 本定理只给出最优值与一个最优构造.
+
+\originalsection{正则化与广义奇异值}
+小奇异值方向中的数据噪声经 $1/\sigma_i$ 放大. 对近似低秩问题, 把所有非零奇异值都倒数并不一定合适. 截断伪逆取
+$x_k=\sum_{i=1}^k(u_i^*b/\sigma_i)v_i$, 丢弃小奇异值方向; 它降低噪声放大, 同时引入截断偏差. 截断阈值应反映噪声和模型, 不能单由机器精度决定.
+
+\begin{proposition}[Tikhonov 正则化]
+对 $\lambda>0$, 问题 $\min_x(\norm{Ax-b}_2^2+\lambda\norm{x}_2^2)$ 有唯一解
+\[
+x_\lambda=(A^*A+\lambda I)^{-1}A^*b
+=\sum_{i=1}^r\frac{\sigma_i}{\sigma_i^2+\lambda}(u_i^*b)v_i.
+\]
+\end{proposition}
+\begin{proof}
+目标的 Hessian 为 $2(A^*A+\lambda I)$, 对任何非零 $z$ 的二次型是 $2(\norm{Az}_2^2+\lambda\norm{z}_2^2)>0$, 因而严格凸. 令梯度为零即得第一式. 在 SVD 坐标中逐个解 $(\sigma_i^2+\lambda)y_i=\sigma_i u_i^*b$, 得第二式和唯一性.
+\end{proof}
+滤波因子从 $1/\sigma_i$ 改为 $\sigma_i/(\sigma_i^2+\lambda)$. 很小的 $\sigma_i$ 不再被无限放大; 但真实信号的这些方向也会被压小. 正则化是在噪声与偏差之间作数学选择, 不等同于“把不稳定算法修好”.
+
+若惩罚为 $\norm{Lx}_2^2$, 则应同时考虑 $A$ 与 $L$. 以下给出一个条件明确、便于证明的广义 SVD 版本.
+\begin{theorem}[矩阵对的广义分解]
+设 $A\in\C^{m\times n}$, $L\in\C^{p\times n}$, $m,p\ge n$, 且叠放矩阵 $\begin{pmatrix}A\\L\end{pmatrix}$ 满列秩. 则存在可逆 $X$、列正交归一的 $U\in\C^{m\times n}$ 和 $V\in\C^{p\times n}$, 以及非负对角矩阵 $C,S$, 使
+\[
+A=UCX^{-1},\qquad L=VSX^{-1},\qquad C^2+S^2=I.
+\]
+\end{theorem}
+\begin{proof}
+先作薄 QR: $\begin{pmatrix}A\\L\end{pmatrix}=\begin{pmatrix}Q_A\\Q_L\end{pmatrix}R$, 其中 $R$ 可逆且 $Q_A^*Q_A+Q_L^*Q_L=I$. 酉对角化 $Q_A^*Q_A=W C^2W^*$, 特征值位于 $[0,1]$, 再令 $S^2=I-C^2$. $Q_AW$ 的列彼此正交, 第 $i$ 列长度为 $c_i$; 把非零列归一化, 零列补成正交归一列, 得 $Q_AW=UC$. 同理 $Q_LW=VS$. 因 $m,p\ge n$, 所需补列均可完成. 取 $X^{-1}=W^*R$ 即得分解.
+\end{proof}
+一般尺寸的 GSVD 需要长方对角块, 本册不把上述方块写法无条件套到所有矩阵对. 若令 $y=X^{-1}x$, 则带 $L$ 的正则化在这个坐标中按 $c_i^2+\lambda s_i^2$ 分离. 对 $\lambda>0$ 全部该分母为正, 解为
+\[
+x=Xy,\qquad y_i=\frac{c_i\,u_i^*b}{c_i^2+\lambda s_i^2}.
+\]
+$X$ 一般不是酉矩阵, 所以不能据此断言原 $x$ 的欧氏范数得到保持. 数值求解也可直接对叠放矩阵 $\begin{pmatrix}A\\\sqrt\lambda L\end{pmatrix}$ 作 QR, 避免显式形成正规矩阵.
+
+\begin{exercise}
+证明 $AA^\dagger$ 和 $A^\dagger A$ 分别是到 $\range(A)$ 与 $\range(A^*)$ 的正交投影, 并推导 $AA^\dagger A=A$.
+\end{exercise}
+\begin{solution}
+在 SVD 中, $AA^\dagger=\sum_{i=1}^ru_iu_i^*$, $A^\dagger A=\sum_{i=1}^rv_iv_i^*$. 它们正是相应正交基组成的投影. $A$ 的每个列向量都属于 $\range(A)$, 对其投影不变, 所以 $AA^\dagger A=A$.
+\end{solution}
+\begin{exercise}
+对 $A=\diag(1,10^{-6})$, $b=(1,10^{-6}+10^{-4})^T$, 比较精确逆解与取 $\lambda=10^{-8}$ 的 Tikhonov 解. 说明为什么“更接近数据”不一定等于“更接近真实信号”.
+\end{exercise}
+\begin{solution}
+若无噪声真实数据为 $(1,10^{-6})^T$, 真实解是 $(1,1)^T$. 精确逆解是 $(1,101)^T$. 正则化解第一分量为 $1/(1+10^{-8})$, 第二分量为 $10^{-6}(10^{-6}+10^{-4})/(10^{-12}+10^{-8})\approx0.0101$. 它仍对第二个真实分量有偏差, 但避免了 $101$ 的噪声放大. 正则化强度应由噪声和先验选择, 这个数值比较不证明给定 $\lambda$ 最优.
+\end{solution}
+\begin{remark}
+本章对应原课 L7--8 的 SVD、回归、广义 SVD 主题, 两讲由 Alan Edelman 客座讲授. 这些讲次主要给课堂说明与外部示例, 没有一份覆盖本章证明的官方手册. 本章数学证明、GSVD 的限定版本、正则化例题均为自编补充.
+\end{remark}

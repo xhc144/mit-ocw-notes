@@ -1,0 +1,174 @@
+% SOURCE: OCW L2--4, Persson IEEE handout; Johnson myths, summation, recursive summation, norm equivalence.
+% ADAPTATION: original connected Chinese exposition, proofs and worked examples added.
+\originalchapter{浮点运算与误差分析}\label{ch:float}
+\originalsection{为什么精确公式仍会算错}
+线性代数中的等式是关于实数或复数的精确关系. 计算机只存有限个数, 每次运算还要把结果舍入到可表示集合. 例如在精确算术中, $((a+b)-a)-b=0$; 若 $a$ 很大、$b$ 很小, $a+b$ 可能舍入为 $a$, 随后的结果就成为 $-b$. 因此代数上相同的公式, 可能具有不同的数值行为. 我们要分析的是实际运算路径, 不能只看最终表达式.
+
+\begin{definition}
+基数为 $\beta\ge2$、有效位数为 $t$ 的正规浮点数写为 $\pm m\beta^e$, 其中有效数字满足 $1\le m<\beta$, 且 $m$ 由 $t$ 位基数 $\beta$ 数字表示, 指数 $e$ 限于固定范围. 零、次正规数、无穷和 NaN 需要单独编码. 用 $\operatorname{fl}(x)$ 表示把实数 $x$ 按给定舍入规则映射到浮点集合.
+\end{definition}
+IEEE 754 的 binary64 使用二进制, 含 53 位有效精度, 正规数的有效指数范围为 $-1022$ 到 $1023$. 这里的 53 包括正规数隐含的首位 $1$. 机器中从 $1$ 到下一个更大的浮点数的间距为 $2^{-52}$; 在舍入到最近数的模型下, 单位舍入误差为 $u=2^{-53}$. 有些软件把前一个间距称为 machine epsilon, 有些文献用同一名称指 $u$, 所以必须先核对定义.
+
+\begin{proposition}\label{prop:rounding}
+舍入到最近浮点数时, 若 $x$ 和舍入结果处于正规范围, 则存在 $|\delta|\le u=\tfrac12\beta^{1-t}$ 使 $\operatorname{fl}(x)=x(1+\delta)$. 对基本运算, 在未发生上溢、下溢且精确结果可按该模型处理时,
+\[
+\operatorname{fl}(a\mathbin{\circ}b)=(a\mathbin{\circ}b)(1+\delta),\qquad |\delta|\le u,
+\quad \circ\in\{+,-,\times,/\}.
+\]
+\end{proposition}
+\begin{proof}
+在区间 $[\beta^e,\beta^{e+1})$ 内, 相邻浮点数间距为 $\beta^{e-t+1}$. 舍入到最近数的绝对误差不超过此间距的一半. 除以 $|x|\ge\beta^e$, 就得相对误差上界 $\tfrac12\beta^{1-t}$. 基本运算先取数学上的精确结果, 再作一次正确舍入, 便得到同一结论.
+\end{proof}
+次正规数的目的是让接近零的数仍可表示, 从而渐进下溢. 但它们没有统一的相对误差界; 接近零时宜用绝对误差界. 上溢、除零和 NaN 也不满足上述实数相对误差模型. 后面的推导会明确假定这些异常没有发生.
+
+\begin{example}
+解释 binary64 中为什么按通常的舍入到最近、遇中点取偶数的规则, $(1+2^{-53})-1$ 可以得到 $0$, 而不是 $2^{-53}$.
+\end{example}
+\begin{solution}
+$1$ 附近向上的间距为 $2^{-52}$. $1+2^{-53}$ 恰好处在 $1$ 与 $1+2^{-52}$ 的中点, 中点规则选择尾数末位为偶数的 $1$. 第一步结果因此是 $1$, 第二步为零. 这里不是减法本身有很大舍入误差, 而是加法已经丢掉了所需信息.
+\end{solution}
+浮点加法一般不满足结合律. 编译器、并行归约和不同的矩阵乘法实现可能改变加法顺序, 从而改变最后几位. 这并不自动说明某个实现错误; 需要判断误差规模是否符合问题条件数和算法稳定性.
+
+\originalsection{IEEE 编码与常见误解}
+在 binary32 中, 一个数含 1 位符号、8 位指数和 23 位显式尾数字段; 在 binary64 中分别为 1、11 和 52 位. 正规数用隐含首位补成 24 或 53 位精度. 若指数编码为 $E$, 小数字段为 $0.M$, 正规值分别为 $(-1)^S(1.M)2^{E-127}$ 和 $(-1)^S(1.M)2^{E-1023}$. 指数全零用于零和次正规数, 全一用于无穷和 NaN. 次正规数不含隐含首位 $1$.
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & binary32 & binary64\\
+\midrule
+有效二进制位 & 24 & 53\\
+最小正规正数 & $2^{-126}$ & $2^{-1022}$\\
+最小次正规正数 & $2^{-149}$ & $2^{-1074}$\\
+最大有限数 & $(2-2^{-23})2^{127}$ & $(2-2^{-52})2^{1023}$\\
+单位舍入误差 & $2^{-24}$ & $2^{-53}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+例如 binary32 的 $E=129$、$1.M=1.101_2=13/8$ 表示 $6.5$. 正规最小指数编码 $E=1$ 对应 $2^{-126}$; 同一最低尺度下允许首位为零, 最小非零尾数给出 $2^{-149}$. 渐进下溢能使相邻有限浮点数的非零差仍被表示; 若硬件选择把次正规数直接刷成零, 这种性质可能不再成立, 实验必须记录该行为.
+
+浮点误差不是每次自动加入的独立随机数. 可精确表示的结果, 例如 $1+1=2$, 在正确舍入下仍精确; 乘零在不含 NaN 或无穷异常时仍得零. 在有效整数范围内, 浮点可以精确表示整数并精确执行结果仍可表示的整数加减. “存了多少位”与“结果准了多少位”也不同: 相消、累计误差或病态问题可以使准确位数远少于存储位数; 某些整数结果则完全准确.
+
+binary64 中 $0.1$ 通常不可精确表示, 因其分母含因子 $5$, 二进制有限小数的分母只含 $2$. 这是一种确定性的舍入, 不是运行时随机挑选尾数. 十进制浮点可以准确表示这个十进制数, 但它同样只有有限精度, 并不对任意实数精确. 有符号零 $+0,-0$ 的区分也有用, 例如有符号无穷和某些复函数分支需要知道趋零方向. 所以“浮点数不可能恰好为零”和“零符号总无意义”都不正确.
+
+若为平均误差建立随机模型, 必须另加假设. 假设各次舍入近似零均值、弱相关, 方差约为 $u^2$, 长为 $k$ 的误差和的均方根可为 $O(\sqrt{k}u)$ 而非最坏的 $O(ku)$. 这解释了顺序求和常比最坏界好, 成对求和可把相应树深降到 $O(\log n)$. 但输入最后几位、运算关联和舍入方向可能高度相关, 平均模型不能替代对所有输入成立的稳定性证明.
+
+\originalsection{误差怎样沿运算链传播}
+\begin{lemma}\label{lem:gamma}
+若 $|\delta_i|\le u$, $\rho_i\in\{-1,1\}$, 且 $ku<1$, 则
+\[
+\prod_{i=1}^{k}(1+\delta_i)^{\rho_i}=1+\theta_k,
+\qquad |\theta_k|\le\gamma_k:=\frac{ku}{1-ku}.
+\]
+\end{lemma}
+\begin{proof}
+先注意 $|\log(1+\delta_i)|$ 的控制也可导出相近估计, 但这里给出适用于正负指数的直接论证. 每个因子及其倒数均位于 $[1-u,(1-u)^{-1}]$, 故乘积位于 $[(1-u)^k,(1-u)^{-k}]$. Bernoulli 不等式给出 $(1-u)^k\ge1-ku$, 从而乘积不超过 $(1-ku)^{-1}=1+\gamma_k$, 也不小于 $1-ku\ge1-\gamma_k$.
+\end{proof}
+$\gamma_k$ 的意义是把多次小舍入合成一个可控制的扰动. 当 $ku\ll1$ 时, $\gamma_k\approx ku$; 不能在 $ku$ 已很大时仍随意用这个一阶近似.
+
+\begin{theorem}[顺序求和]\label{thm:sum}
+对输入 $x_1,\ldots,x_n$, 按 $s_1=x_1$, $s_k=\operatorname{fl}(s_{k-1}+x_k)$ 计算. 若上述浮点模型成立且 $(n-1)u<1$, 则
+\[
+\widehat s=\sum_{i=1}^n x_i(1+\eta_i),\quad |\eta_i|\le\gamma_{n-1},
+\qquad
+|\widehat s-s|\le\gamma_{n-1}\sum_{i=1}^n|x_i|,
+\]
+其中 $s=\sum_i x_i$.
+\end{theorem}
+\begin{proof}
+记第 $k$ 次加法误差为 $\delta_k$. 把递推式展开,
+\[
+\widehat s=x_1\prod_{k=2}^n(1+\delta_k)
++\sum_{i=2}^n x_i\prod_{k=i}^n(1+\delta_k).
+\]
+每个输入沿运算树最多经过 $n-1$ 次舍入. 由引理 \ref{lem:gamma}, 相应乘积可写成 $1+\eta_i$, 且 $|\eta_i|\le\gamma_{n-1}$. 减去精确和并用三角不等式, 得到误差界.
+\end{proof}
+这一定理一方面给出了绝对误差界, 另一方面说实际结果是略微改变输入后的精确和. 但若正负数严重相消, $|s|$ 可以远小于 $\sum|x_i|$, 相对误差便很大. 这需要把算法稳定性与问题本身的敏感性分开.
+
+\begin{definition}
+当 $s\ne0$ 时, 求和问题在逐分量相对扰动下的条件数为 $\kappa_{\rm sum}=\sum_i|x_i|/|s|$. 若 $s=0$, 相对条件数可能无穷, 此时应改用绝对误差尺度.
+\end{definition}
+\begin{proof}[条件数公式的推导]
+若 $|\Delta x_i|\le\eps|x_i|$, 则 $|\Delta s|\le\eps\sum|x_i|$. 对实输入, 令 $\Delta x_i=\eps|x_i|\operatorname{sign}(s)$ 即能取到这个绝对上界; 因而最坏相对放大倍数正是所给比值.
+\end{proof}
+成对求和把输入分为两半, 各自求和后再相加. 若 $n=2^m$, 每个输入仅经过 $m=\log_2 n$ 层, 同样的展开给出绝对误差不超过 $\gamma_m\sum|x_i|$. 对一般 $n$ 可用深度不超过 $\lceil\log_2n\rceil$ 的近似平衡二叉树. 顺序与成对求和都对输入是后向稳定的, 但误差常数随 $n$ 的增长不同. 递归求和的好处来自浅运算树, 不是来自递归这个程序语法本身.
+
+\begin{proposition}[点积与矩阵乘法]\label{prop:dot}
+对实数向量 $x,y$, 用通常乘法加顺序累加计算 $x^Ty$, 在 $nu<1$ 和浮点模型成立的条件下,
+\[
+|\operatorname{fl}(x^Ty)-x^Ty|\le\gamma_n\sum_{i=1}^n|x_i||y_i|.
+\]
+因此普通实矩阵乘法的结果可写成 $\widehat C=AB+E$, 满足逐分量界 $|E|\le\gamma_n|A||B|$.
+\end{proposition}
+\begin{proof}
+先把第 $i$ 次乘法的舍入因子写入对应输入项, 再沿求和树展开. 第一项最多经历一次乘法和 $n-1$ 次加法, 其余项不会更多. 引理 \ref{lem:gamma} 控制每项总扰动为 $\gamma_n$, 再求绝对值之和. 对矩阵乘法的每个元素应用点积界即得结论. 复数实现需把实乘法、加法的额外次数吸收入常数, 不能原封不动沿用实数操作计数.
+\end{proof}
+
+\originalsection{相消与等价表达式}
+相近数相减有时被笼统称为“灾难性相消”. 更精确的说法是: 减法可能把此前输入中的误差暴露并放大. 在可表示数的适当范围内, 一次减法甚至可以精确完成, 但这不恢复已经丢失的信息.
+
+\begin{example}
+在 $x$ 接近零时, 如何稳定计算 $f(x)=\sqrt{1+x}-1$?
+\end{example}
+\begin{solution}
+直接公式先把 $1+x$ 与平方根舍入到接近 $1$ 的数, 再相减, 相对误差可能被约 $1/|x|$ 放大. 由有理化可改写为
+\[
+f(x)=\frac{x}{\sqrt{1+x}+1},\qquad x\ge-1.
+\]
+当 $x$ 很小时, 分母接近 $2$, 没有两个相近大数相减. 若输入 $x$ 已可靠且没有异常范围问题, 分母的相对小误差只引起结果的相对小误差. 在 $x=-1$ 附近应另看输入敏感性, 不能把这个改写解释为所有区间均无条件良态.
+\end{solution}
+线性方程组中常见的相消来自消元更新 $a_{ij}-l_{ik}u_{kj}$. 我们不能避免一切相消, 而应控制参与相减的数不被算法放大到极大, 这就是主元选择和增长因子的作用. 正交变换则保持向量的 $2$-范数, 更容易建立可靠的全局误差界.
+
+\originalsection{范数与有限维等价性}
+\begin{definition}
+向量范数 $\norm{\cdot}$ 满足正定性、绝对齐次性和三角不等式. 常用范数为 $\norm{x}_1=\sum|x_i|$, $\norm{x}_2=(\sum|x_i|^2)^{1/2}$, $\norm{x}_\infty=\max|x_i|$. 由向量范数诱导的矩阵范数为
+\[
+\norm{A}=\sup_{x\ne0}\frac{\norm{Ax}}{\norm{x}}.
+\]
+矩阵的 Frobenius 范数为 $\norm{A}_F=(\sum_{ij}|a_{ij}|^2)^{1/2}$.
+\end{definition}
+诱导范数衡量线性映射对向量长度的最坏放大. 它直接给出 $\norm{Ax}\le\norm{A}\norm{x}$ 和 $\norm{AB}\le\norm{A}\norm{B}$. Frobenius 范数便于逐元素误差分析, 但它不是由同维向量 $2$-范数诱导的算子范数.
+
+\begin{proposition}
+对 $x\in\C^n$, 有
+\[
+\norm{x}_\infty\le\norm{x}_2\le\norm{x}_1,\qquad
+\norm{x}_1\le\sqrt n\norm{x}_2,\qquad
+\norm{x}_2\le\sqrt n\norm{x}_\infty.
+\]
+并且 $\norm{A}_1=\max_j\sum_i|a_{ij}|$, $\norm{A}_\infty=\max_i\sum_j|a_{ij}|$.
+\end{proposition}
+\begin{proof}
+第一组不等式分别来自最大项不超过平方和、展开平方和后的非负交叉项, 以及 Cauchy--Schwarz 不等式; 最后一条来自各项不超过最大项. 对矩阵 $1$-范数,
+$\norm{Ax}_1\le\sum_j(\sum_i|a_{ij}|)|x_j|$, 故上界是最大列和, 取对应标准基向量可达到. 对无穷范数, 先用最大行和给上界; 取各分量的相位使最大行的各项同相, 可达到该界.
+\end{proof}
+\begin{theorem}[有限维范数等价]
+固定有限维空间上的任意两个范数 $\norm{\cdot}_a,\norm{\cdot}_b$ 都存在常数 $c,C>0$ 使 $c\norm{x}_a\le\norm{x}_b\le C\norm{x}_a$ 对所有 $x$ 成立.
+\end{theorem}
+\begin{proof}
+先与标准 $1$-范数比较. 若 $x=\sum x_ie_i$, 三角不等式给 $\norm{x}_b\le M\norm{x}_1$, 其中 $M=\max_i\norm{e_i}_b$. 因而 $\norm{\cdot}_b$ 关于标准坐标连续: $|\norm{x}_b-\norm{y}_b|\le M\norm{x-y}_1$. 标准 $1$-范数单位球面是紧集, 连续函数 $\norm{x}_b$ 在其上取得正的最小值 $m$; 最小值不能为零, 因球面不含零向量. 缩放得 $m\norm{x}_1\le\norm{x}_b$. 对范数 $a$ 同样比较, 再合并两个界即得结论.
+\end{proof}
+这里的常数可以依赖维数. 因此“有限维等价”不等于大型问题中不同范数的误差界一样好; 也不能据此推断无穷维空间上所有范数都等价.
+
+\originalsection{稳定性与一个可执行的检查原则}
+\begin{definition}
+设问题为 $y=f(x)$, 算法输出 $\widehat y$. 前向误差比较 $\widehat y$ 与 $f(x)$. 后向误差问是否存在小扰动 $\Delta x$ 使 $\widehat y=f(x+\Delta x)$. 若后向误差在选定范数和尺度下为 $O(u)$, 其常数可合理依赖规模而不依赖病态的具体输入, 称算法后向稳定.
+\end{definition}
+后向稳定不承诺结果有很多正确数字. 它承诺算法相当于把原问题轻微扰动后精确求解; 若问题本身对小扰动高度敏感, 前向误差仍会很大. 反过来, 在某个例子上前向误差很小也不证明算法对所有输入稳定.
+
+实际检查先分三件事. 第一, 输入能否准确表达、是否存在溢出下溢. 第二, 算法是否具有合适的后向误差界. 第三, 问题条件数是否会放大这个后向误差. 后文以线性系统的残差、最小二乘的正交条件和特征向量残差具体实施这个原则.
+
+\begin{exercise}
+对 $x=(1,-1+\eps)$, 求精确和的条件数, 并解释 $\eps\to0$ 时为什么后向稳定求和也可能丢掉相对有效数字.
+\end{exercise}
+\begin{solution}
+当 $0<\eps<1$ 时, 和为 $\eps$, 条件数为 $(2-\eps)/\eps$. 输入各自只有 $O(u)$ 相对误差时, 和的绝对扰动可以达 $O(u)$, 相对扰动可达 $O(u/\eps)$. 当 $\eps$ 与 $u$ 同阶时, 相对精度无法保证; 这源于问题相消的敏感性.
+\end{solution}
+\begin{exercise}
+证明 $\norm{A}_F\le\sqrt{\min(m,n)}\norm{A}_2$ 对 $A\in\C^{m\times n}$ 成立. 可在读完第 \ref{ch:svd} 章后用奇异值证明, 并说明何时取等.
+\end{exercise}
+\begin{solution}
+若非零奇异值为 $\sigma_1,\ldots,\sigma_r$, 则 $\norm{A}_F^2=\sum_{i=1}^r\sigma_i^2\le r\sigma_1^2\le\min(m,n)\norm{A}_2^2$. 非零矩阵取等要求 $r=\min(m,n)$ 且全部奇异值相同.
+\end{solution}
+\begin{remark}
+本章对应原课 L2--4. 浮点表示、CGS/MGS 之外的误差背景来自 Per-Olof Persson 的 IEEE 手册及 Johnson 的浮点误解、顺序求和、递归求和与范数等价性手册. 误差模型的证明、例题和章内教学连接为自编补充; 不把现实硬件的所有指令和次正规数处理纳入同一无条件相对误差模型.
+\end{remark}

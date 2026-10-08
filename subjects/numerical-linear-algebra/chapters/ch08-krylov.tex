@@ -1,0 +1,266 @@
+% SOURCE: MIT 18.335J Spring 2019, Week 6 L17, Week 7 L18--19;
+% Johnson, Why restarting Arnoldi/Lanczos is not trivial, March 21, 2019.
+% ADAPTATION: self-authored supplemental explanation; not a translation of absent handouts.
+\originalchapter{Krylov 子空间、Arnoldi 与 Lanczos}\label{ch:krylov}
+\originalsection{从反复乘矩阵到保留整个子空间}
+大型线性代数问题的困难常常不是一条公式不会写, 而是不能存储或分解矩阵. 设 $A\in\C^{n\times n}$. 若 $A$ 有 $s$ 个非零元, 一次矩阵向量积通常只需 $O(s)$ 次运算; 对某些积分算子或结构矩阵, 甚至可以在不显式构造 $A$ 的情况下计算 $Av$. 反之, 一个稠密的 $n\times n$ 分解可能需要 $O(n^2)$ 存储和 $O(n^3)$ 运算. 因此我们要把问题改写成一系列矩阵向量积和低维计算.
+
+幂法从 $b$ 开始生成 $b,Ab,A^2b,\ldots$, 每一步通常只保留最新的方向. 这适合某些占优势的特征向量, 却丢掉了前面向量已经携带的信息. 若目标是求线性方程的解, 或多个特征方向, 比较自然的改进是保留这些向量的\emph{整个线性包}, 再在其中选最合适的近似.
+
+\begin{definition}
+对 $A\in\C^{n\times n}$ 和 $b\ne0$, 第 $k$ 个 Krylov 子空间定义为
+\[
+\mathcal K_k(A,b)=\Span\{b,Ab,\ldots,A^{k-1}b\},\qquad \mathcal K_0(A,b)=\{0\}.
+\]
+等价地, $v\in\mathcal K_k(A,b)$ 当且仅当 $v=q(A)b$, 其中 $q$ 是次数至多 $k-1$ 的多项式.
+\end{definition}
+这一等价表达非常重要. 它说明迭代方法并不是任意搜索 $n$ 维空间, 而是在不断增大的多项式族中选择系数. 后面的收敛分析因此会成为多项式逼近问题.
+
+\begin{proposition}\label{prop:krylov-grade}
+令 $d$ 是使 $b,Ab,\ldots,A^db$ 线性相关的最小正整数. 则 $\dim\mathcal K_k(A,b)=k$ 对 $1\le k\le d$ 成立, 且
+\[
+\mathcal K_{d+1}(A,b)=\mathcal K_d(A,b),\qquad
+A\mathcal K_d(A,b)\subseteq\mathcal K_d(A,b).
+\]
+存在唯一首一、次数为 $d$ 的多项式 $m_b$ 使 $m_b(A)b=0$. 若 $A$ 可逆, 则 $m_b(0)\ne0$, 且 $A^{-1}b\in\mathcal K_d(A,b)$.
+\end{proposition}
+\begin{proof}
+按 $d$ 的最小性, 前 $d$ 个向量线性无关. 第一次相关关系中 $A^db$ 的系数必须非零, 否则较早已经相关. 因此可唯一写成
+\[
+A^db=-\sum_{j=0}^{d-1}c_jA^jb,
+\qquad m_b(z)=z^d+\sum_{j=0}^{d-1}c_jz^j.
+\]
+$A$ 把前 $d-1$ 个生成向量送到下一个, 把最后一个送到上述线性组合, 所以子空间不变. 唯一性也来自前 $d$ 个向量的线性无关.
+
+若 $c_0=0$ 且 $A$ 可逆, 则把 $m_b(A)b=0$ 乘以 $A^{-1}$ 就得到次数 $d-1$ 的首一消去关系, 矛盾. 故 $c_0\ne0$. 再次乘以 $A^{-1}$ 并整理,
+\[
+A^{-1}b=-\frac1{c_0}\left(A^{d-1}b+\sum_{j=1}^{d-1}c_jA^{j-1}b\right)
+\in\mathcal K_d(A,b).
+\]
+\end{proof}
+$d$ 称为 $b$ 相对于 $A$ 的级数或 grade. 它可以远小于 $n$. 例如 $b$ 恰为特征向量时 $d=1$; 若 $A$ 为 Hermitian 矩阵, 且 $b$ 只在 $d$ 个不同特征值的特征子空间上有非零分量, 则 grade 正好是这个数目.
+
+\begin{proposition}[移位不改变 Krylov 子空间]\label{prop:krylov-shift}
+对任意 $\mu\in\C$ 和 $k\ge1$, 有
+$\mathcal K_k(A+\mu I,b)=\mathcal K_k(A,b)$.
+\end{proposition}
+\begin{proof}
+二项式展开表明 $(A+\mu I)^jb$ 是 $b,Ab,\ldots,A^jb$ 的线性组合, 因而一侧包含于另一侧. 把 $A$ 写成 $(A+\mu I)-\mu I$, 同样得到反向包含.
+\end{proof}
+这只是\emph{搜索空间}的等式. 用不同准则从同一空间中选出的近似解仍可能不同, 所以不能由此推断求解 $Ax=b$ 与 $(A+\mu I)x=b$ 同样容易.
+
+\originalsection{Arnoldi 如何生成稳定的基}
+直接把 $b,Ab,\ldots$ 放在矩阵中有两个问题: 各列长度可能相差巨大, 各列也可能几乎平行. 即使这些列在精确算术中独立, 浮点数中也可能严重病态. Arnoldi 的关键是每生成一个新方向就正交化, 而不是等全部幂次向量生成后再处理.
+
+取 $v_1=b/\norm{b}_2$. 第 $j$ 步先计算 $w=Av_j$, 再用改进 Gram--Schmidt 依次执行
+\begin{equation}\label{eq:arnoldi-step}
+ h_{ij}=v_i^*w,\quad w\leftarrow w-h_{ij}v_i\quad(i=1,\ldots,j),\qquad
+ h_{j+1,j}=\norm{w}_2,\quad v_{j+1}=\frac{w}{h_{j+1,j}}.
+\end{equation}
+最后的除法只在 $h_{j+1,j}\ne0$ 时进行. 在精确算术中, 每次更新后的 $w$ 都垂直于已经处理的基向量; 后面的减法不会破坏这一点, 因为基向量彼此正交.
+
+记 $V_k=[v_1,\ldots,v_k]$, $H_k=(h_{ij})_{i,j=1}^k$, 并把 $H_k$ 下面补一行得到
+\[
+\overline H_k=
+\begin{bmatrix}H_k\\ h_{k+1,k}e_k^*\end{bmatrix}\in\C^{(k+1)\times k},
+\]
+这里 $e_k$ 是 $\C^k$ 的最后一个坐标向量. 所有尚未定义且位于第一条次对角线以下的 $h_{ij}$ 取零.
+
+\begin{theorem}[Arnoldi 关系]\label{thm:arnoldi}
+若前 $k$ 步未发生 $h_{j+1,j}=0$, 则 $V_{k+1}^*V_{k+1}=I$, $\range(V_j)=\mathcal K_j(A,b)$, 且
+\begin{equation}\label{eq:arnoldi-relation}
+ AV_k=V_{k+1}\overline H_k
+ =V_kH_k+h_{k+1,k}v_{k+1}e_k^*,\qquad H_k=V_k^*AV_k.
+\end{equation}
+$H_k$ 是上 Hessenberg 矩阵.
+\end{theorem}
+\begin{proof}
+归纳假设 $V_j$ 是 $\mathcal K_j$ 的正交基. 正交化后得到
+\[
+Av_j=\sum_{i=1}^{j}h_{ij}v_i+h_{j+1,j}v_{j+1}.
+\]
+因此 $v_{j+1}\perp\range(V_j)$, 且 $v_{j+1}\in\mathcal K_{j+1}$. 因为它非零, 所以 $j+1$ 个向量独立. 另一方面 $\dim\mathcal K_{j+1}\le j+1$, 故这些向量恰为其基. 初始 $v_1$ 显然满足归纳起点.
+
+把每一步的等式并列就得矩阵关系. 第 $j$ 列只出现 $v_1,\ldots,v_{j+1}$, 所以 $h_{ij}=0$ 对 $i>j+1$ 成立. 左乘 $V_k^*$ 后, 最后一项因 $V_k^*v_{k+1}=0$ 消失, 得到 $H_k=V_k^*AV_k$.
+\end{proof}
+Arnoldi 因而是\emph{部分 Hessenberg 化}: 只构造整个矩阵分解中当前需要的前几列. 它与先对所有幂次列做精确 Gram--Schmidt 得到相同的子空间, 但避免显式计算很高的幂次.
+
+\begin{proposition}[精确中止]\label{prop:arnoldi-breakdown}
+若第 $j$ 步 $h_{j+1,j}=0$, 则 $\mathcal K_j$ 是 $A$-不变子空间, 并且 $AV_j=V_jH_j$. 若 $A$ 可逆, 在此子空间中求解 $H_jy=\norm{b}_2e_1$ 就得到 $A^{-1}b=V_jy$.
+\end{proposition}
+\begin{proof}
+前 $j-1$ 列的乘积已经落在 $\range(V_j)$; 中止的第 $j$ 列也完全落在该空间. 因而整个空间不变. $A$ 在该空间上的限制是单射, 有限维下也是满射, 所以 $H_j$ 可逆. 由 $V_j\norm{b}_2e_1=b$ 便得到所述解.
+\end{proof}
+这种中止常称为幸运中止. 数值实现中, 一个很小但非零的 $h_{j+1,j}$ 不能直接当作精确不变性证明; 应检查得到的残差与所需容差.
+
+若一次 $Av$ 的代价为 $C_A$, 则 $k$ 步矩阵乘法代价为 $kC_A$. 第 $j$ 步需与 $j$ 个长度 $n$ 的向量作内积和更新, 所以总正交化代价为 $O(nk^2)$, 基的存储为 $O(nk)$. 这正是方法运行很久后不得不考虑重启的原因.
+
+\originalsection{Rayleigh--Ritz 近似与可计算的残差}
+有了一个正交基, 大型特征值问题可以投影成小问题. 我们搜索 $x=V_ky\ne0$ 和 $\theta\in\C$, 并要求特征残差 $Ax-\theta x$ 垂直于搜索空间. 此条件叫 Galerkin 条件:
+\[
+V_k^*(AV_ky-\theta V_ky)=0
+\quad\Longleftrightarrow\quad H_ky=\theta y.
+\]
+小矩阵 $H_k$ 的特征值称为 Ritz 值, 相应的 $V_ky$ 称为 Ritz 向量. 这是一条选近似的规则, 并不是说每个 Ritz 值都已接近所需特征值.
+
+\begin{proposition}[Ritz 残差]\label{prop:ritz-residual}
+若 $H_ky=\theta y$, $\norm{y}_2=1$, 则 $x=V_ky$ 为单位向量, 且
+\[
+Ax-\theta x=h_{k+1,k}v_{k+1}e_k^*y,
+\qquad \norm{Ax-\theta x}_2=|h_{k+1,k}|\,|e_k^*y|.
+\]
+若 $A$ 为正规矩阵, 则
+$\min_{\lambda\in\operatorname{spec}(A)}|\theta-\lambda|\le\norm{Ax-\theta x}_2$.
+\end{proposition}
+\begin{proof}
+把 Arnoldi 关系乘以 $y$ 得到残差式. 正交基保持长度, 因而 $\norm{x}_2=1$. 若 $A=U\Lambda U^*$ 是正规矩阵的酉对角化, 写 $x=Uc$, 则
+\[
+\norm{Ax-\theta x}_2^2
+=\sum_i|\lambda_i-\theta|^2|c_i|^2
+\ge\left(\min_i|\lambda_i-\theta|^2\right)\sum_i|c_i|^2.
+\]
+最后的和为 $1$, 开平方即得结论.
+\end{proof}
+残差小能保证一个\emph{近邻特征值}, 却未必能识别目标特征值, 也未必能保证特征向量误差小. 若 $A$ Hermitian, 目标是简单特征值 $\lambda_\ell$, 且 $|\lambda_i-\theta|\ge\delta>0$ 对所有 $i\ne\ell$ 成立, 则同一展开给出
+\[
+\sum_{i\ne\ell}|c_i|^2\le\frac{\norm{Ax-\theta x}_2^2}{\delta^2}.
+\]
+左侧正是 $x$ 与目标特征方向夹角的正弦平方. 这里特征值间隔是不可忽略的条件.
+
+若 $A=A^*$, 则 $H_k=H_k^*$. 对任意单位 $y$, $y^*H_ky=(V_ky)^*A(V_ky)$, 所以
+\[
+\lambda_{\max}(H_k)=\max_{0\ne x\in\mathcal K_k}\frac{x^*Ax}{x^*x},\qquad
+\lambda_{\min}(H_k)=\min_{0\ne x\in\mathcal K_k}\frac{x^*Ax}{x^*x}.
+\]
+由于搜索空间嵌套, 最大 Ritz 值随 $k$ 单调不减且不超过 $\lambda_{\max}(A)$, 最小 Ritz 值单调不增且不小于 $\lambda_{\min}(A)$. 这提供了对 Hermitian 极端特征值近似的清晰解释.
+
+\originalsection{Lanczos 的三项递推为何成立}
+Arnoldi 的内积数随迭代步数增加. 对 Hermitian 矩阵, 上 Hessenberg 结构与 Hermitian 对称性同时存在, 因而 $H_k$ 必为实对角、共轭对称的三对角矩阵. 在本算法取 $h_{j+1,j}\ge0$ 的约定下, 次对角线和超对角线都是同一个非负实数.
+
+令 $\alpha_j=v_j^*Av_j\in\R$, $\beta_j=h_{j+1,j}\ge0$, 并设 $\beta_0=0$, $v_0=0$. 精确算术中的递推为
+\begin{equation}\label{eq:lanczos-step}
+ w=Av_j-\beta_{j-1}v_{j-1},\qquad
+ \alpha_j=v_j^*w,\qquad
+ w\leftarrow w-\alpha_jv_j,\qquad
+ \beta_j=\norm{w}_2,\quad v_{j+1}=w/\beta_j.
+\end{equation}
+因此
+\[
+T_k=\begin{bmatrix}
+\alpha_1&\beta_1&&\\
+\beta_1&\alpha_2&\ddots&\\
+&\ddots&\ddots&\beta_{k-1}\\
+&&\beta_{k-1}&\alpha_k
+\end{bmatrix},\qquad
+AV_k=V_kT_k+\beta_kv_{k+1}e_k^*.
+\]
+
+\begin{proof}[三项递推的证明]
+对 $i\le j-2$, Hermitian 性给出 $v_i^*Av_j=(Av_i)^*v_j$. 已完成的第 $i$ 步表明 $Av_i\in\Span\{v_1,\ldots,v_{i+1}\}$, 而 $i+1\le j-1$, 所以该内积为零. 对 $i=j-1$, 第 $j-1$ 步给出 $v_{j-1}^*Av_j=\beta_{j-1}$. 因而在第 $j$ 步, 只需消去 $v_{j-1}$ 和 $v_j$ 两个方向; 其他方向的系数在精确算术中本来就为零.
+\end{proof}
+三项递推来自对称性和已经建立的正交关系共同作用, 不能只凭矩阵是稀疏就使用它. 对一般非 Hermitian 矩阵, 删除较早方向的正交化会改变算法.
+
+\begin{example}
+对
+\[
+A=\begin{bmatrix}2&-1&0\\-1&2&-1\\0&-1&2\end{bmatrix},\qquad v_1=e_1,
+\]
+执行 Lanczos, 并解释两步 Ritz 值的意义.
+\end{example}
+\begin{solution}
+第一步 $Av_1=2e_1-e_2$, 所以 $\alpha_1=2$, $\beta_1=1$, $v_2=-e_2$. 第二步
+\[
+Av_2=e_1-2e_2+e_3,\qquad
+Av_2-\beta_1v_1=2v_2+e_3,
+\]
+故 $\alpha_2=2$, $\beta_2=1$, $v_3=e_3$. 第三步得到 $\alpha_3=2$, $\beta_3=0$. 因此
+$T_2=\begin{bmatrix}2&1\\1&2\end{bmatrix}$ 的 Ritz 值为 $1,3$.
+
+原矩阵的特征值为 $2-\sqrt2,2,2+\sqrt2$. 两步的最小值 $1$ 和最大值 $3$ 分别从内侧逼近两个极端特征值. 对 $T_2$ 的单位特征向量, 最后分量绝对值都是 $1/\sqrt2$, 所以两个 Ritz 残差均为 $1/\sqrt2$. 第三步空间已等于整个 $\R^3$, 残差项消失, 三个特征值全都精确出现.
+\end{solution}
+只求 $T_k$ 的特征值时, 精确 Lanczos 可只保留当前和前一向量, 加上 $\alpha_j,\beta_j$ 的标量序列, 存储为 $O(n+k)$. 若要恢复 Ritz 向量, 就要存储基, 或在第二遍重新生成基. 这些节省还会受到舍入误差的限制.
+
+\originalsection{浮点数中的正交性与幽灵特征值}
+在浮点运算中, 三项递推产生的 $\widehat v_i$ 不会永久满足 $\widehat v_i^*\widehat v_j=0$. 误差会被后续乘法传播, 而 Lanczos 没有主动消去所有旧方向. 当某个特征方向已经收敛时, 新向量中极小的该方向分量可能再次被放大. 结果是三对角矩阵的谱中出现同一特征值的额外近似副本, 通常叫\emph{幽灵特征值}. 它们不能直接解释成原矩阵特征值的真实重数.
+
+这里有两个不同的检查对象. 一个是局部递推缺陷
+\[
+A\widehat V_k-\widehat V_k\widehat T_k
+-\widehat\beta_k\widehat v_{k+1}e_k^*,
+\]
+另一个是全局正交缺陷 $\widehat V_k^*\widehat V_k-I$. 前者小不自动保证后者小; 没有接近酉的基, 也不能直接把精确 Ritz 残差公式当成完整误差证书. 最稳妥的验收仍是对最终 $\widehat x$ 计算 $A\widehat x-\widehat\theta\widehat x$.
+
+常用的补救是全重正交化、选择性重正交化或部分重正交化. 全重正交化在每步把 $w$ 与全部旧基重新正交化, 可靠但失去理想的线性存储优势. 选择性方案主要防止向量重新进入已经收敛的特征方向. 部分方案则用便宜的估计监控正交缺陷, 超过阈值才重正交化. 阈值和误差传播需要专门分析, 不能用一条固定经验常数替代所有问题的判断.
+
+Arnoldi 本身显式保存全部基并作正交化, 因而较少出现上述无控制的旧方向再进入, 但一次改进 Gram--Schmidt 也不是精确正交化. 若新向量几乎落在旧空间中, 投影减法会强烈消去有效数字. 实务中可对 $w$ 再做一次正交化, 并把第二遍内积加到原有 $h_{ij}$ 上, 从而保持同一个 Arnoldi 关系的数值版本. 不能只修改向量而忘记修改投影系数.
+
+\originalsection{为什么重启不能只截取几个 Ritz 向量}
+假设已运行到 $m$ 步, 记
+\begin{equation}\label{eq:arnoldi-before-restart}
+AV_m=V_mH_m+f_me_m^*,\qquad f_m\perp\range(V_m).
+\end{equation}
+为了缩减存储, 想保留一个 $k<m$ 维空间 $\widehat V_k=V_mY$, 其中 $Y^*Y=I$. 可以把 $Y$ 补成酉矩阵 $[Y,Y_\perp]$. 将原关系乘以 $Y$, 并把 $H_mY$ 分解为两个坐标块, 得
+\begin{equation}\label{eq:restart-full}
+A\widehat V_k
+=\widehat V_k(Y^*H_mY)
++V_mY_\perp(Y_\perp^*H_mY)
++f_me_m^*Y.
+\end{equation}
+能继续普通 Arnoldi 的标准形式应是
+\[
+A\widehat V_k=\widehat V_k\widehat H_k+\widehat f_ke_k^*,
+\qquad \widehat f_k\perp\range(\widehat V_k),
+\]
+其中 $\widehat H_k$ 上 Hessenberg, 且外部残差只出现在最后一列. 这比单纯保留一个好的近似子空间要求更多.
+
+若选 $H_m$ 的 $k$ 个线性无关特征向量组成 $Z$, 作薄 QR 分解 $Z=YR$, 并设 $H_mZ=Z\Theta$, 则
+\[
+H_mY=YR\Theta R^{-1},\quad
+Y_\perp^*H_mY=0,\quad
+Y^*H_mY=R\Theta R^{-1}.
+\]
+$R\Theta R^{-1}$ 是上三角矩阵, 因而当然也是上 Hessenberg. 看似两大困难都消失了, 但最后一项仍是
+\[
+f_m(e_m^*Y).
+\]
+行向量 $e_m^*Y$ 一般在多个位置非零, 而不是某个标量乘以 $e_k^*$. 所以多个保留向量都带有外部残差, 不能把它们原样当作已经完成的普通 Arnoldi 前 $k$ 步.
+
+\begin{example}
+设保留两个正交 Ritz 向量后有 $e_m^*Y=(a,b)$, 其中 $a,b\ne0$. 即使 $Y^*H_mY=\diag(\theta_1,\theta_2)$, 新关系的第一列仍为
+$A\widehat v_1=\theta_1\widehat v_1+a f_m$.
+普通两步 Arnoldi 的第一列应完全落在 $\Span\{\widehat v_1,\widehat v_2\}$, 所以直接截取不符合该递推结构.
+\end{example}
+这个障碍并不是说 Ritz 向量不能用于重启. 它说明需要\emph{重新组织分解}: 隐式重启借助小 Hessenberg 矩阵上的移位 QR 步骤, 同时变换大空间基和残差结构; 厚重启也保留多个近似方向, 但使用相应的扩展递推形式. 二者都有比上述朴素截取更多的代数安排.
+
+从多项式角度看, 隐式移位起到过滤不需要谱分量的作用. 若一次过滤对应 $p(A)$, 移位放在不需要的 Ritz 值附近, 则这些谱分量被削弱, 目标分量相对保留. 对非正规矩阵, 此图像还要考虑特征向量病态与多项式矩阵范数, 不能只看 $|p(\lambda)|$. 本章完成标准 Arnoldi 结构及朴素截取为何失效的证明; 隐式重启的完整实现还涉及移位 QR 的结构保持、截断和有限精度处理, 这里不把概述冒充其全部证明. 实际计算宜采用经过验证的实现, 并独立验算 Ritz 残差.
+
+\originalsection{习题与解答}
+\begin{exercise}
+设 $A=\diag(1,2,2,4)$, $b=(1,0,1,0)^T$. 求 $b$ 相对于 $A$ 的 grade 和消去多项式, 并说明为什么 Arnoldi 不需要四步.
+\end{exercise}
+\begin{solution}
+只有特征值 $1,2$ 的分量被激发. $b,Ab$ 独立, 而 $(A-I)(A-2I)b=0$, 因此 grade 为 $2$, $m_b(z)=(z-1)(z-2)$. Arnoldi 第二步产生不变子空间后中止; 未被 $b$ 激发的特征值 $4$ 不会凭空出现.
+\end{solution}
+\begin{exercise}
+设 $A$ 可逆. 证明只用普通 Arnoldi 从一个固定 $b$ 开始, 无法保证发现 $A$ 的每个特征值. 给出一个实对称矩阵的例子, 并说明多个起始向量为何有助于补救.
+\end{exercise}
+\begin{solution}
+取 $A=\diag(1,2,3)$, $b=e_1$, 则所有 Krylov 子空间都只有 $\Span\{e_1\}$, 唯一 Ritz 值为 $1$. 若用多个起始向量组成块 $B$, 则块空间 $\Span\{B,AB,\ldots\}$ 可包含更多特征方向. 但它能发现哪些方向仍取决于起始块对相应不变子空间的投影; 多起点不是无条件保证.
+\end{solution}
+\begin{exercise}
+证明在 Arnoldi 未中止时, 第 $k$ 步产生的方向满足
+\[
+\min_{\substack{p\text{ 首一}\\\deg p=k}}\norm{p(A)v_1}_2
+=\prod_{j=1}^k h_{j+1,j}.
+\]
+由此解释为何这个多项式问题与移位无关.
+\end{exercise}
+\begin{solution}
+反复使用 $Av_j\in\Span\{v_1,\ldots,v_{j+1}\}$, 可知 $A^kv_1$ 在 $v_{k+1}$ 上的系数为 $\prod_{j=1}^k h_{j+1,j}$, 其余部分落在 $\mathcal K_k$. 首一多项式 $p$ 的低次项 $p(A)v_1-A^kv_1$ 可以遍历 $\mathcal K_k$, 所以最小化就是从 $A^kv_1$ 中消去它在 $\mathcal K_k$ 上的正交投影. 剩余长度正为右侧. 对 $A+\mu I$, 首一次数 $k$ 的 $p(z)$ 与首一次数 $k$ 的 $q(z)=p(z+\mu)$ 一一对应, 故最小值相同. 此结论是关于新 Krylov 方向的多项式最小化, 不能直接等同于每个 Ritz 对的同一误差界.
+\end{solution}
+\begin{exercise}
+设 $A=A^*$, $x$ 为单位向量, $\theta=x^*Ax$. 若 $\theta$ 附近有两个非常接近的特征值, 为什么小残差通常只能证明 $x$ 接近相应二维不变子空间, 而不能证明它接近其中某一个固定特征向量?
+\end{exercise}
+\begin{solution}
+在特征基中, 残差长度为 $\sum_i|\lambda_i-\theta|^2|c_i|^2$ 的平方根. 对远离 $\theta$ 的特征值, 系数受到间隔下界控制; 对两个接近 $\theta$ 的特征值, 两个系数之间如何分配可以几乎不改变残差. 因而只能控制该簇以外的投影. 即使重复特征值对应的空间已经精确得到, 其中的单个正交基向量本来也不唯一.
+\end{solution}

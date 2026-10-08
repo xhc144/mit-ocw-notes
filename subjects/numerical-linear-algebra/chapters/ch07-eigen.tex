@@ -1,0 +1,202 @@
+% SOURCE: OCW L14--17 HTML; Persson Hessenberg (2p), QR I (4p), QR II (9p). Original proofs/supplements distinguished at chapter end.
+\originalchapter{特征值问题与 QR 迭代}\label{ch:eigen}
+\originalsection{Schur 形式与迭代的必要性}
+求全部特征值不应通常先展开特征多项式再求根. 系数的形成可能丢掉矩阵结构, 从根到系数的敏感性也可能很差. 对首一多项式
+$p(z)=z^n+c_{n-1}z^{n-1}+\cdots+c_0$, 伴随矩阵
+\[
+C=\begin{pmatrix}
+0&0&\cdots&0&-c_0\\
+1&0&\cdots&0&-c_1\\
+0&1&\cdots&0&-c_2\\
+\vdots&\vdots&\ddots&\vdots&\vdots\\
+0&0&\cdots&1&-c_{n-1}
+\end{pmatrix}
+\]
+满足 $\det(zI-C)=p(z)$, 可由行列式递推或特征向量递推核查. 这把一般多项式求根嵌入特征值问题. 一般五次以上多项式不存在统一的有限次根式公式, 所以不能期待像 LU 那样, 对所有矩阵以有限次四则运算与根式精确给出特征值. 数值算法采用迭代逼近; 这个代数限制不妨碍达到给定精度, 也不表示每个特殊矩阵都需要无限迭代.
+
+\begin{theorem}[复 Schur 分解]\label{thm:schur}
+对任意 $A\in\C^{n\times n}$, 存在酉矩阵 $Q$ 和上三角矩阵 $T$ 使 $A=QTQ^*$. $T$ 的对角元是 $A$ 的全部特征值. 若 $A$ Hermitian, $T$ 为实对角矩阵.
+\end{theorem}
+\begin{proof}
+由代数基本定理, $A$ 有特征值 $\lambda$ 和单位特征向量 $q_1$. 扩充 $q_1$ 为酉矩阵 $Q_1$, 则 $Q_1^*AQ_1=\begin{pmatrix}\lambda&*\\0&B\end{pmatrix}$. 对 $B$ 按维数归纳, 在后 $n-1$ 个坐标内再作酉变换, 得上三角 $T$. 相似保持特征多项式, 上三角矩阵的特征值是对角元. 若 $A=A^*$, 则 $T=T^*$, 而同时上三角与 Hermitian 的矩阵必为实对角.
+\end{proof}
+Schur 分解对缺陷矩阵也存在, 比特征向量对角化更稳健. 例如 $\begin{pmatrix}1&1\\0&1\end{pmatrix}$ 只有一维特征空间, 不可对角化, 但本身就是 Schur 形式. 实矩阵若坚持实正交变换, 目标通常是实准上三角形式, 对角含 $1\times1$ 实根块与 $2\times2$ 复共轭根块.
+
+特征多项式路线的另一个风险是系数扰动. 原课程提到的 Wilkinson 多项式为 $p(z)=\prod_{j=1}^{20}(z-j)$, 所有根本来都是简单整数. 若只对 $z^{19}$ 的系数加 $\eta$, 简单根 $r$ 的一阶变化满足
+\[
+\Delta r\approx-\frac{\eta r^{19}}{p'(r)},\qquad
+p'(r)=(-1)^{20-r}(r-1)!(20-r)!\quad(r=1,\ldots,20).
+\]
+这个公式来自把 $(p+\eta z^{19})(r+\Delta r)=0$ 保留一阶项. 即使原根很整齐, $r^{19}/p'(r)$ 也可非常大. 这不是说所有多项式表示都同样病态, 而是说明把矩阵先转成某种系数表示, 可以引入不同于原矩阵问题的敏感性. 正交相似方法尽可能直接保持矩阵结构, 不经过这条额外路线.
+
+\originalsection{特征值敏感性与残差}
+\begin{theorem}[Bauer--Fike 型界]\label{thm:bauer}
+若 $A=X\Lambda X^{-1}$ 可对角化, $\mu$ 是 $A+E$ 的任一特征值, 则
+\[
+\min_i|\mu-\lambda_i|\le\kappa_2(X)\norm{E}_2.
+\]
+若 $A$ 正规, 可取酉 $X$, 因而界为 $\norm{E}_2$.
+\end{theorem}
+\begin{proof}
+若 $\mu$ 已是 $A$ 的特征值, 结论成立. 否则取 $(A+E)z=\mu z$, $z\ne0$, 得
+$z=(\mu I-A)^{-1}Ez$.
+所以 $1\le\norm{(\mu I-A)^{-1}}_2\norm{E}_2$. 由对角化,
+\[
+\norm{(\mu I-A)^{-1}}_2
+\le\frac{\kappa_2(X)}{\min_i|\mu-\lambda_i|},
+\]
+合并即可. 正规矩阵有酉特征基, 条件数为 $1$.
+\end{proof}
+\begin{proposition}
+设 $\lambda$ 为单特征值, $Ar=\lambda r$, $l^*A=\lambda l^*$, $l^*r\ne0$. 对光滑小扰动, 特征值的一阶变化为
+\[
+\Delta\lambda=\frac{l^*Er}{l^*r}+O(\norm{E}_2^2),
+\qquad \kappa_{\lambda,\rm abs}=\frac{\norm{l}_2\norm{r}_2}{|l^*r|}.
+\]
+\end{proposition}
+\begin{proof}
+沿 $A(t)=A+tE$ 的局部单特征值分支对 $A(t)r(t)=\lambda(t)r(t)$ 求导, 左乘 $l^*$. 因 $l^*A=\lambda l^*$, 含 $r'(0)$ 的两项抵消, 得 $\lambda'(0)=l^*Er/(l^*r)$. 局部单根的光滑性来自特征多项式对 $\lambda$ 的非零导数与隐函数定理. Cauchy--Schwarz 给上界; 选择单位范数秩一扰动把 $r$ 方向映到 $l$ 方向, 可达到分子最大值, 得绝对条件数.
+\end{proof}
+对 Hermitian 矩阵可取 $l=r$ 为单位向量, 一阶绝对条件数为 $1$. 非正规矩阵的左右特征向量可能几乎正交, 特征值就会敏感. 缺陷点的一阶公式甚至不适用: $A=\begin{pmatrix}0&1\\0&0\end{pmatrix}$ 加 $E=\begin{pmatrix}0&0\\\eps&0\end{pmatrix}$ 后特征值为 $\pm\sqrt\eps$, 而 $\norm{E}_2=\eps$.
+
+\begin{proposition}[近似特征对的后向解释]\label{prop:eigres}
+对单位向量 $v$ 与标量 $\theta$, 记 $r=Av-\theta v$. 存在 $\norm{E}_2=\norm{r}_2$ 使 $(A+E)v=\theta v$, 具体可取 $E=-rv^*$. 若 $A$ Hermitian, 则还可直接得到 $\min_i|\theta-\lambda_i|\le\norm{r}_2$.
+\end{proposition}
+\begin{proof}
+秩一构造立即给出 $(A-rv^*)v=\theta v$ 和范数等式. Hermitian 情形写 $v=\sum c_iq_i$, 则 $\norm{r}_2^2=\sum_i|\lambda_i-\theta|^2|c_i|^2\ge\min_i|\lambda_i-\theta|^2$.
+\end{proof}
+若取 $\theta=v^*Av$ 为实 Rayleigh 商, 则 $v^*r=0$, 还可选 Hermitian 扰动 $E=-rv^*-vr^*$, 在 $\Span(v,r)$ 上范数也是 $\norm{r}_2$. 这使近似对的解释保留 Hermitian 结构. 非正规矩阵中小残差仍是小后向误差, 但特征值前向距离还需要条件性控制.
+
+\originalsection{Hessenberg 与三对角约化}
+\begin{definition}
+上 Hessenberg 矩阵满足 $h_{ij}=0$ 当 $i>j+1$, 即只允许主对角以下第一条副对角非零. Hermitian 的 Hessenberg 矩阵必为三对角.
+\end{definition}
+求 Schur 形式不能照搬 QR 分解的单边消元, 因为右乘恢复相似性时可能重新产生刚消掉的零. 更温和的目标是每列保留一个副对角元. 第 $k$ 步只在行 $k+1,\ldots,n$ 上作 Householder 反射, 把第 $k$ 列从第 $k+2$ 行以下消零; 同时右乘相同反射, 使变换为 $A\leftarrow H_k^*AH_k$.
+
+\begin{proposition}
+这个两侧反射不破坏前 $k-1$ 列已有的 Hessenberg 零. 最终得到 $A=QHQ^*$, $Q$ 酉, $H$ 上 Hessenberg. Hermitian 情形得到三对角矩阵.
+\end{proposition}
+\begin{proof}
+左乘仅混合行 $k+1,\ldots,n$; 对前 $k-1$ 列, 这些位置已经为零, 混合后仍零. 右乘只混合列 $k+1,\ldots,n$, 不动前 $k$ 列, 因而不破坏本步和此前列的消零. 逐步归纳得 Hessenberg 结构. 两侧乘积为相似变换, Hermitian 性保持; 其下方零的共轭位置在上方也为零, 因而三对角.
+\end{proof}
+对实稠密矩阵, 一般 Hessenberg 约化主导约为 $\tfrac{10}{3}n^3$ 次操作; 利用对称结构的三对角约化约为 $\tfrac43n^3$. 成本只支付一次, 后续迭代显著便宜. 正交相似还允许像命题 \ref{prop:orthaccum} 那样累积误差; 标准实现的约化是后向稳定的, 但需要区分存储的近似 $Q$ 和分析中的精确酉邻近矩阵.
+
+\originalsection{幂法与移位反迭代}
+幂法从单位向量 $v_0$ 出发, 反复算 $w=Av_k$, $v_{k+1}=w/\norm{w}_2$, 并用 $\theta_k=v_k^*Av_k$ 估计特征值. 每一步只需一次矩阵向量乘法, 适合寻找主导特征方向. $w=0$ 时须停止或换初始向量, 不能继续除以零.
+
+\begin{theorem}[Hermitian 幂法收敛]\label{thm:power}
+设 $A$ Hermitian, $|\lambda_1|>|\lambda_2|\ge\cdots$, $\lambda_1\ne0$, 且 $q_1^*v_0\ne0$. 忽略单位复相位或实符号, $v_k$ 趋向 $q_1$, 其夹角正切为 $O((|\lambda_2/\lambda_1|)^k)$, Rayleigh 商误差为 $O((|\lambda_2/\lambda_1|)^{2k})$.
+\end{theorem}
+\begin{proof}
+写 $v_0=\sum c_iq_i$, $c_1\ne0$. 归一化不改变方向, 故 $v_k$ 与
+$q_1+\sum_{i>1}(c_i/c_1)(\lambda_i/\lambda_1)^kq_i$ 同方向. 正交分解给夹角正切不超过
+$(\sum_{i>1}|c_i/c_1|^2)^{1/2}|\lambda_2/\lambda_1|^k$.
+对任意单位 $v=\sum d_iq_i$, Rayleigh 商误差为
+$\theta-\lambda_1=\sum_{i>1}(\lambda_i-\lambda_1)|d_i|^2$,
+其绝对值不超过 $\max_i|\lambda_i-\lambda_1|\sin^2\angle(v,q_1)$, 得平方速度.
+\end{proof}
+若 $|\lambda_1|=|\lambda_2|$, 或初始向量对主导空间分量为零, 这个定理的结论不能保证. 例 $A=\diag(1,-1)$ 的一般初始向量会来回变化, 不趋一个方向. 缺陷和非正规矩阵需要另看 Jordan 结构和特征向量条件性.
+
+移位反迭代反复解 $(A-\mu I)w=v_k$, 再归一化, 等价于对 $(A-\mu I)^{-1}$ 作幂法. 它优先放大离 $\mu$ 最近的特征值. 固定移位可复用 LU; 不应显式形成逆矩阵. 若最近特征值为唯一的 $\lambda_j$, 收敛因子为
+$\max_{i\ne j}|(\lambda_j-\mu)/(\lambda_i-\mu)|$.
+移位越接近目标, 理论速度越快, 但线性系统更病态, 求解误差也要监控.
+
+\originalsection{Rayleigh 商迭代}
+Rayleigh 商 $\rho(v)=v^*Av/(v^*v)$ 也是使 $\norm{Av-\alpha v}_2$ 最小的标量 $\alpha$: 把 $Av$ 投影到 $v$ 的张成空间即可. Hermitian 情形, 在单位球面上的驻点是特征向量; 局部特征值误差对方向误差为二阶.
+
+Rayleigh 商迭代每次取 $\mu_k=\rho(v_k)$, 解 $(A-\mu_kI)w=v_k$, 归一化得到下一向量.
+\begin{proposition}[局部三次收敛]
+设 $A$ Hermitian, $\lambda_j$ 单, 与其余谱间隙为 $g=\min_{i\ne j}|\lambda_i-\lambda_j|>0$. 若 $v_k$ 已足够接近 $q_j$, 且移位系统可逆, 则
+\[
+\tan\angle(v_{k+1},q_j)\le C\tan^3\angle(v_k,q_j)
+\]
+对固定邻域内某个常数 $C$ 成立.
+\end{proposition}
+\begin{proof}
+写 $v=c_jq_j+\sum_{i\ne j}c_iq_i$, 令 $t=(\sum_{i\ne j}|c_i|^2)^{1/2}/|c_j|$. Rayleigh 商满足
+$|\mu-\lambda_j|\le M\sum_{i\ne j}|c_i|^2\le Mt^2$,
+其中 $M=\max_i|\lambda_i-\lambda_j|$. 足够接近时该差小于 $g/2$, 所以 $|\lambda_i-\mu|\ge g/2$ ($i\ne j$). 反迭代后各非目标系数与目标系数的比例为
+$ (c_i/c_j)(\lambda_j-\mu)/(\lambda_i-\mu)$.
+由正交和得新夹角正切不超过 $(2M/g)t^3$, 即所述界.
+\end{proof}
+这个结论是局部的, 不保证任意初始向量收敛到预定特征值. 若已经得到精确特征向量, 移位系统奇异, 应以残差已为零而结束. 某些尚非特征向量的情形也可能恰好使 Rayleigh 商等于一个特征值, 简单求逆步骤无法执行; 实现需检测和处理, 而不是把证明中的“可逆”略去.
+
+\originalsection{未移位 QR 与同时迭代}
+QR 特征值算法从 $A_0=A$ 出发, 每次作 $A_{k-1}=Q_kR_k$, 再置 $A_k=R_kQ_k$. 因 $A_k=Q_k^*A_{k-1}Q_k$, 每一步保持特征值. 令 $\mathcal Q_k=Q_1\cdots Q_k$, 则 $A_k=\mathcal Q_k^*A\mathcal Q_k$.
+
+\begin{proposition}\label{prop:qriter}
+设 $A$ 可逆, 各 QR 分解按正实对角的相容约定完成. 则
+\[
+A^k=\mathcal Q_k\mathcal R_k,\qquad
+\mathcal R_k=R_kR_{k-1}\cdots R_1.
+\]
+因此 QR 迭代等价于每步把 $A$ 作用到当前正交基后再正交化的同时迭代, 从单位基开始.
+\end{proposition}
+\begin{proof}
+$k=1$ 成立. 若 $A^{k-1}=\mathcal Q_{k-1}\mathcal R_{k-1}$, 则
+$A\mathcal Q_{k-1}=\mathcal Q_{k-1}A_{k-1}=\mathcal Q_{k-1}Q_kR_k=\mathcal Q_kR_k$.
+相乘得 $A^k=\mathcal Q_kR_k\mathcal R_{k-1}$, 完成归纳. 这个等式也表明同一步的 $\mathcal Q_k$ 正是 $A\mathcal Q_{k-1}$ 的正交化结果.
+\end{proof}
+直接形成很高次 $A^k$ 会让主导方向淹没其他方向, 后续一次 QR 难以恢复它们. 同时迭代每步正交化保留不同方向, 以酉变换避免这个额外的数值损失.
+
+为明确收敛条件, 继续假设 $A$ 可逆, 且 $A=V\Lambda V^*$ Hermitian, 特征值模严格降序. 对每个 $1\le j<n$, 取前 $j$ 个初始坐标向量组成 $E_j$, 写 $V^*E_j=\begin{pmatrix}C_1\\C_2\end{pmatrix}$, 假设 $C_1$ 可逆. 由
+\[
+V^*A^kE_j=\begin{pmatrix}\Lambda_1^kC_1\\\Lambda_2^kC_2\end{pmatrix}
+\]
+知其列空间是主导坐标空间上方的图, 下方图矩阵为
+$F_k=\Lambda_2^kC_2C_1^{-1}\Lambda_1^{-k}$.
+故 $\norm{F_k}_2\le\norm{C_2C_1^{-1}}_2|\lambda_{j+1}/\lambda_j|^k$.
+对每个 $j$ 都满足该非退化条件时, 各级嵌套列空间趋向主导特征空间, 正交列依次趋向对应特征向量, 因而 $A_k$ 趋向对角形式. 这给出 QR 收敛的一个充分条件和证明; 不把未移位 QR 描述为对任意矩阵必收敛.
+
+对可逆实对称 $A$, 由 $A^k=\mathcal Q_k\mathcal R_k$ 和对称性,
+$A^{-k}=\mathcal Q_k\mathcal R_k^{-T}$.
+把列顺序反转的置换记为 $P$, 则
+$A^{-k}P=(\mathcal Q_kP)(P\mathcal R_k^{-T}P)$,
+第二因子仍上三角. 因而最后一个 $\mathcal Q_k$ 列也可看作对反转初始基实施反迭代的首方向. 这一关系解释了移位通常从尾部目标特征值着手.
+
+\originalsection{移位、退耦与实际 QR}
+移位 QR 作
+\[
+A_{k-1}-\mu_kI=Q_kR_k,\qquad
+A_k=R_kQ_k+\mu_kI.
+\]
+仍有 $A_k=Q_k^*A_{k-1}Q_k$. 相似关系与归纳还给
+\[
+\prod_{j=1}^k(A-\mu_jI)=\mathcal Q_k\mathcal R_k,
+\]
+各因子都是 $A$ 的多项式而可交换. 因此移位同时迭代用多项式滤波替代简单的 $A^k$. 一个合适移位可迅速压制尾部方向的耦合.
+
+对实对称三对角矩阵, 常取尾对角元素 $a_{nn}$ 作 Rayleigh 移位. 但这个选择可能保留不利对称性. 例 $T=\begin{pmatrix}0&1\\1&0\end{pmatrix}$ 的尾对角为 $0$, 未移位 QR 不能消掉耦合. Wilkinson 移位使用末尾 $2\times2$ 块
+$\begin{pmatrix}a&b\\b&d\end{pmatrix}$ 中离 $d$ 较近的特征值. 令 $\delta=(a-d)/2$, 可稳定写为
+\[
+\mu=d-\operatorname{sign}(\delta)
+\frac{b^2}{|\delta|+\sqrt{\delta^2+b^2}},
+\]
+$\delta=0$ 时固定取一个符号以打破平局; $b=0$ 则直接退耦, 不计算 $0/0$. 这个写法避免 $\delta$ 与平方根的相近数相减. 在上例中可选 $\mu=1$ 或 $-1$, 对应已知特征值并使块迅速分离.
+
+原手册对实对称三对角 QR 的 Wilkinson 移位给出全局收敛与至少二次的边界说明. 其严格全局证明和特殊退化情形超出本章局部迭代证明的范围; 这里采用这一专门算法结果, 不推广到一般非正规矩阵, 也不承诺每一步或每个输入必为三次速度. 本章已证明的三次结论是带可逆和谱间隙条件的 Rayleigh 商反迭代局部结论.
+
+当副对角 $h_{i+1,i}$ 已足够小, 可把它设为零, 分离前后两个块分别迭代, 称为退耦或 deflation. 对称三对角中同时置对称位置为零, 此操作就是加一个只含该连接项的小 Hermitian 扰动, 范数为 $|h_{i+1,i}|$. 阈值应以附近对角尺度、机器精度和安全最小数设定, 不宜只用固定绝对 $10^{-12}$.
+
+Hessenberg QR 每步可用 $O(n)$ 个 Givens 旋转, 每个更新 $O(n)$ 元素, 总计 $O(n^2)$. 对称三对角可用隐式移位和追赶凸起保持带状, 仅求特征值时每步约 $O(n)$; 若同时累计稠密特征向量矩阵, 成本更高. 显式构造稠密 $Q$ 再乘 $RQ$ 会失去这个复杂度优势. 实际库还采用多移位、分治等方法, 本章不展开所有工程细节.
+
+\originalsection{SVD 的双对角约化与可靠输出}
+对长方矩阵, 交替作左、右 Householder 变换可约化为上双对角矩阵 $B$, 即 $A=UBV^*$. 第一列左消元后, 在第一行剩余条目右消元, 再对尾块重复. 左变换处理列, 右变换处理行, 同时保留已有零的形状. 奇异值在这些酉左右变换下不变, 后续对双对角矩阵作专用 QR 或其他迭代. 这就是 Golub--Kahan 双对角化的稠密结构思想; 不能把它与直接形成 $A^*A$ 的算法混同.
+
+对于 Hermitian 特征分解, 合理检查包含 $\norm{AQ-Q\Lambda}$ 与 $\norm{Q^*Q-I}$ 两项. 若算法后向误差为 $\norm{E}_2=O(u)\norm{A}_2$, 单个特征值的绝对误差也是这个量级; 很小的特征值相对误差却可能很大. 对接近的多个特征值, 单个特征向量可能不稳定, 但整个不变子空间仍可能准确. 正规矩阵的特征值绝对可靠性不自动等于每个特征向量相对可靠性.
+
+\begin{exercise}
+设 Hermitian 矩阵有单位特征向量 $q_j$, $v=\cos\theta\,q_j+\sin\theta\,w$, $w\perp q_j$, $\norm{w}_2=1$. 证明 $\rho(v)-\lambda_j=\sin^2\theta(w^*Aw-\lambda_j)$.
+\end{exercise}
+\begin{solution}
+展开 $v^*Av$, 交叉项为零, 因 $q_j^*Aw=\lambda_jq_j^*w=0$. 主项为 $\lambda_j\cos^2\theta+(w^*Aw)\sin^2\theta$, 减去 $\lambda_j$ 即得.
+\end{solution}
+\begin{exercise}
+若 $A$ Hermitian, 单位 $v$ 的 Rayleigh 商为 $\theta$, 残差为 $r$. 假设除目标特征值 $\lambda_j$ 外均满足 $|\lambda_i-\theta|\ge g>0$. 证明 $\sin\angle(v,q_j)\le\norm{r}_2/g$.
+\end{exercise}
+\begin{solution}
+写 $v=\sum c_iq_i$, 有 $\norm{r}_2^2=\sum|\lambda_i-\theta|^2|c_i|^2\ge g^2\sum_{i\ne j}|c_i|^2$. 最后一和就是夹角正弦的平方. 谱间隙小的时候, 残差可以很小而单个方向误差仍较大.
+\end{solution}
+\begin{remark}
+本章对应 L14--17, 核心资料为 Persson 的 Hessenberg/Tridiagonal Reduction 与 The QR Algorithm I/II. Schur 归纳、QR 同时迭代、反迭代、移位和历史手册的结构被保留并重新叙述. 特征值扰动证明、Rayleigh 局部三次推导、逐级子空间收敛与例题为自编补充. 全局 Wilkinson 收敛和完整库实现只在明确限定下作为引用结果, 不伪称本章已证明全部高性能特征值软件细节.
+\end{remark}

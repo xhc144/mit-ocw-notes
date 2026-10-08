@@ -1,0 +1,173 @@
+% SOURCE: OCW L4--5, L7; no complete handout for L5. Self-authored proofs and examples.
+\originalchapter{条件数与线性系统扰动}\label{ch:condition}
+\originalsection{问题的敏感性}
+同一套方程的精确解可能对输入极敏感. 这发生在算法开始之前. 若把两个几乎平行的直线相交, 很小的斜率变化就会让交点移动很远. 线性系统的病态性正是这一几何现象在高维中的表现. 条件数应先描述问题, 稳定性再描述解题方法.
+
+\begin{definition}
+设 $f$ 是有限维赋范空间之间的映射, $x\ne0$, $f(x)\ne0$. 相对条件数定义为
+\[
+\kappa_f(x)=\lim_{\eps\downarrow0}\sup_{0<\norm{\Delta x}\le\eps\norm{x}}
+\frac{\norm{f(x+\Delta x)-f(x)}/\norm{f(x)}}{\norm{\Delta x}/\norm{x}}.
+\]
+若 $f$ 在 $x$ 处 Fr\'echet 可微, 则 $\kappa_f(x)=\norm{Df(x)}\norm{x}/\norm{f(x)}$, 其中导数范数是相应诱导范数.
+\end{definition}
+\begin{proof}
+可微性给出 $f(x+h)-f(x)=Df(x)h+o(\norm{h})$, 余项对方向一致趋于零, 因而最坏放大上界趋于 $\norm{Df(x)}$. 有限维单位球面的紧致性保证线性映射范数可达到; 沿达到最大值的方向取趋零的 $h$, 得到相同下界.
+\end{proof}
+条件数依赖输入、输出尺度和范数. 若输出为零, 相对误差本身无定义, 此时使用绝对条件数或混合尺度比硬套相对条件数更恰当. 参数化方式也重要: 对矩阵条目的相对扰动与对模型参数的扰动可能给出不同问题.
+
+\begin{example}
+对 $f(x)=\sqrt{x}$ ($x>0$) 与 $g(x)=1/(1-x)$ ($x\ne1$), 分别求相对条件数.
+\end{example}
+\begin{solution}
+由导数公式,
+$\kappa_f=|x f'(x)/f(x)|=1/2$,
+$\kappa_g=|x g'(x)/g(x)|=|x/(1-x)|$.
+后者在 $x\to1$ 时无界, 因分母趋零; 在 $x=0$ 处相对输入尺度失效, 但绝对导数为 $1$, 问题并不因此病态.
+\end{solution}
+
+\originalsection{可逆矩阵的条件数}
+\begin{definition}
+对可逆方阵 $A$, 在给定诱导范数下定义 $\kappa(A)=\norm{A}\norm{A^{-1}}$. 对奇异矩阵记 $\kappa(A)=\infty$. $\kappa(A)\ge1$, 因为 $1=\norm{I}\le\norm{A}\norm{A^{-1}}$.
+\end{definition}
+把 $A$ 看成线性映射, $\norm{A}$ 控制最大伸长, $1/\norm{A^{-1}}$ 控制最小伸长. 二者之比衡量一个方向比另一个方向更容易被压扁多少. 第 \ref{ch:svd} 章会把它写成最大与最小奇异值之比.
+
+\begin{proposition}\label{prop:bcondition}
+固定可逆 $A$, 解 $x=A^{-1}b$ 对非零右端 $b$ 的相对条件数为
+\[
+\kappa_b(A,b)=\frac{\norm{A^{-1}}\norm{b}}{\norm{x}}\le\kappa(A).
+\]
+在 $2$-范数下对某些 $b$ 可以取到 $\kappa(A)$; 但某个特定 $b$ 的条件数可能明显更小.
+\end{proposition}
+\begin{proof}
+映射 $b\mapsto A^{-1}b$ 是线性的, 套用定义即得精确公式. 由 $b=Ax$ 得 $\norm{b}\le\norm{A}\norm{x}$, 给出上界. 在 $2$-范数下, 取 $x$ 为最大奇异值的右奇异向量, 就有 $\norm{b}/\norm{x}=\norm{A}_2$, 故达到上界. 这里最后一步使用第 \ref{ch:svd} 章的 SVD 结论.
+\end{proof}
+\begin{lemma}[小扰动可逆性]\label{lem:neumann}
+若 $\norm{E}<1$, 则 $I+E$ 可逆, 且 $(I+E)^{-1}=\sum_{j=0}^{\infty}(-E)^j$, $\norm{(I+E)^{-1}}\le1/(1-\norm{E})$.
+\end{lemma}
+\begin{proof}
+矩阵级数在范数下绝对收敛, 因 $\sum\norm{E}^j<\infty$. 有限部分和乘以 $I+E$ 得 $I+(-1)^mE^{m+1}$, 其余项趋零. 极限因此是双侧逆; 三角不等式给出范数界.
+\end{proof}
+这个引理是扰动估计的基础. 它明确给出可逆性条件, 而不仅是“扰动很小”这种没有尺度的说法.
+
+\begin{theorem}[线性系统扰动界]\label{thm:perturb}
+设 $Ax=b$, $(A+\Delta A)(x+\Delta x)=b+\Delta b$, $A$ 可逆, $x\ne0$. 若 $\eta=\norm{A^{-1}}\norm{\Delta A}<1$, 则 $A+\Delta A$ 可逆, 且
+\[
+\frac{\norm{\Delta x}}{\norm{x}}
+\le\frac{\kappa(A)}{1-\kappa(A)\norm{\Delta A}/\norm{A}}
+\left(\frac{\norm{\Delta A}}{\norm{A}}+\frac{\norm{\Delta b}}{\norm{b}}\right),
+\]
+这里假定 $b\ne0$, 以使用右端相对误差.
+\end{theorem}
+\begin{proof}
+由 $A+\Delta A=A(I+A^{-1}\Delta A)$ 和引理 \ref{lem:neumann} 可知可逆. 两个系统相减, 得
+\[
+\Delta x=(I+A^{-1}\Delta A)^{-1}A^{-1}(\Delta b-\Delta A\,x).
+\]
+因此 $\norm{\Delta x}\le\norm{A^{-1}}(\norm{\Delta b}+\norm{\Delta A}\norm{x})/(1-\eta)$. 除以 $\norm{x}$, 再用 $\norm{b}\le\norm{A}\norm{x}$, 就得到所述界.
+\end{proof}
+若两个输入相对误差都约为 $u$, 且 $\kappa(A)u\ll1$, 则前向误差约为 $O(\kappa(A)u)$. 但当分母接近零时, 一阶近似失效. 矩阵可能被扰动成奇异, 此时不存在有意义的统一相对解误差保证.
+
+\begin{example}
+设 $A=\diag(1,\eps)$, $b=(1,\eps)^T$, $0<\eps<1$. 比较右端扰动 $\Delta b=(0,u)^T$ 与 $\Delta b=(u,0)^T$ 的影响.
+\end{example}
+\begin{solution}
+精确解为 $x=(1,1)^T$, $\kappa_2(A)=1/\eps$. 第一种扰动给 $\Delta x=(0,u/\eps)^T$, 第二种给 $\Delta x=(u,0)^T$. 同样大小的右端误差, 落在不同方向上会有不同影响. 条件数是最坏方向的保证, 不预测每一次误差一定被放大到上界.
+\end{solution}
+
+\originalsection{残差、后向误差与前向误差}
+\begin{definition}
+对近似解 $\widehat x$, 定义残差 $r=b-A\widehat x$. 范数后向误差使用允许扰动的尺度: 寻找尽量小的 $\eta$ 使
+\[
+(A+\Delta A)\widehat x=b+\Delta b,\quad
+\norm{\Delta A}_2\le\eta\norm{A}_2,\quad
+\norm{\Delta b}_2\le\eta\norm{b}_2.
+\]
+\end{definition}
+\begin{theorem}\label{thm:backward}
+若 $\widehat x\ne0$ 且 $\norm{A}_2\norm{\widehat x}_2+\norm{b}_2>0$, 上述最小后向误差为
+\[
+\eta_2(\widehat x)=\frac{\norm{r}_2}{\norm{A}_2\norm{\widehat x}_2+\norm{b}_2}.
+\]
+若仅允许扰动 $A$, 相应最小值为 $\norm{r}_2/(\norm{A}_2\norm{\widehat x}_2)$.
+\end{theorem}
+\begin{proof}
+扰动方程等价于 $\Delta A\widehat x-\Delta b=r$, 所以三角不等式给出
+$\norm{r}_2\le\eta(\norm{A}_2\norm{\widehat x}_2+\norm{b}_2)$.
+若 $r=0$, 零扰动达到下界. 若 $r\ne0$, 令 $d=\norm{A}_2\norm{\widehat x}_2+\norm{b}_2$, 取
+\[
+\Delta A=\frac{\norm{A}_2}{d\norm{\widehat x}_2}\,r\widehat x^*,
+\qquad \Delta b=-\frac{\norm{b}_2}{d}\,r.
+\]
+秩一矩阵的 $2$-范数为两个向量范数的乘积, 因此两项满足恰好所需的相对界, 并且 $\Delta A\widehat x-\Delta b=r$. 只扰动 $A$ 时直接取 $\Delta A=r\widehat x^*/\norm{\widehat x}_2^2$ 即可.
+\end{proof}
+这说明缩放残差是有效的后向准确度指标. 单看 $\norm{r}$ 不够, 因把方程同乘一个常数会改变它; 分母消除了这种整体缩放影响.
+
+\begin{corollary}\label{cor:resforward}
+若 $Ax=b\ne0$, 则
+\[
+\frac{\norm{x-\widehat x}}{\norm{x}}
+\le\kappa(A)\frac{\norm{b-A\widehat x}}{\norm{b}}.
+\]
+\end{corollary}
+\begin{proof}
+由 $x-\widehat x=A^{-1}r$ 得分子不超过 $\norm{A^{-1}}\norm{r}$, 再用 $\norm{b}\le\norm{A}\norm{x}$ 即可.
+\end{proof}
+残差很小并不保证解很准, 因还要乘条件数. 一个残差相对为 $10^{-12}$ 的计算, 若条件数约为 $10^{10}$, 最坏解相对误差界仍只有 $10^{-2}$ 量级. 反过来, 大条件数的上界不说明每个实际解都这么差.
+
+\begin{example}
+令 $A=\diag(1,10^{-12})$, $b=(1,0)^T$, 近似解 $\widehat x=(1,1)^T$. 判断残差与解误差.
+\end{example}
+\begin{solution}
+精确解 $x=(1,0)^T$. 残差为 $(0,-10^{-12})^T$, 相对残差仅 $10^{-12}$, 但相对解误差为 $1$. 它恰好位于被 $A$ 压缩的方向上. 因此停止迭代时除了残差阈值, 还应考虑所需解精度和可获得的条件数估计.
+\end{solution}
+
+\originalsection{分量尺度与缩放}
+某些系统的不同方程、变量采用不同物理单位. 范数尺度可能掩盖小分量的巨大相对误差. 因而还要考虑逐分量扰动.
+
+\begin{proposition}\label{prop:componentwise}
+对实矩阵与实向量, 允许 $|\Delta A|\le\eta|A|$, $|\Delta b|\le\eta|b|$, 则近似解的最小分量后向误差为
+\[
+\eta_c=\max_i\frac{|r_i|}{(|A||\widehat x|+|b|)_i}.
+\]
+若分母、分子同为零, 该项记为零; 若分母为零而分子非零, 记为无穷.
+\end{proposition}
+\begin{proof}
+逐行取绝对值给出必要的下界. 记第 $i$ 行分母为 $d_i>0$, 令 $t_i=r_i/d_i$, 并取
+$\Delta a_{ij}=t_i|a_{ij}|\operatorname{sign}(\widehat x_j)$,
+$\Delta b_i=-t_i|b_i|$.
+则该行 $\sum_j\Delta a_{ij}\widehat x_j-\Delta b_i=t_i d_i=r_i$, 且所有扰动不超过 $\eta_c$ 的分量界. 分母为零的行按约定处理即可.
+\end{proof}
+选择对角矩阵 $D_r,D_c$ 后, 可解缩放系统 $(D_rAD_c)y=D_rb$, 最后取 $x=D_cy$. 行缩放调整方程量级, 列缩放调整变量量级. 合理缩放可改善算法行为和范数条件数, 但不能消除真正的线性相关性. 缩放也必须与原变量的误差目标一致, 不能只报告缩放空间中的好看数字.
+
+\originalsection{误差改进与可靠停止}
+若已有近似解 $\widehat x$, 可计算残差 $r=b-A\widehat x$, 求校正方程 $Ad=r$, 再更新 $\widehat x\leftarrow\widehat x+d$. 这称为迭代改进. 其数学依据是精确校正 $d=x-\widehat x$; 实际中校正也有误差, 但较高精度残差往往能补回求解阶段丢掉的数字.
+
+\begin{proposition}
+假设每次校正实际解的是 $(A+E)d=r$, 且残差与更新在本命题中视为精确. 若 $\norm{A^{-1}E}\le q<1/2$, 则改进后的误差满足
+\[
+\norm{e_{\rm new}}\le\frac{q}{1-q}\norm{e},\qquad e=x-\widehat x.
+\]
+\end{proposition}
+\begin{proof}
+由 $r=Ae$ 得 $d=(I+A^{-1}E)^{-1}e$. 因而
+$e_{\rm new}=e-d=(I+A^{-1}E)^{-1}A^{-1}Ee$.
+应用引理 \ref{lem:neumann} 即得系数 $q/(1-q)<1$.
+\end{proof}
+这个简单模型解释了改进的收缩机制, 但真正浮点实现还要加残差计算和更新误差的项. 当病态性使 $q$ 不小, 或残差被低精度相消污染, 改进可能停滞. 合理停止要同时检查缩放残差、相邻更新量和可用精度; 不能要求浮点算法无限降低残差.
+
+\begin{exercise}
+设 $A$ 可逆, 证明对任何非零标量 $\alpha$, 有 $\kappa(\alpha A)=\kappa(A)$. 说明为什么方程整体倍乘不改善条件数.
+\end{exercise}
+\begin{solution}
+$\norm{\alpha A}=|\alpha|\norm{A}$, $\norm{(\alpha A)^{-1}}=|\alpha|^{-1}\norm{A^{-1}}$, 两因子相消. 它改变绝对数值尺度, 但最大伸长与最小伸长的比例不变.
+\end{solution}
+\begin{exercise}
+若 $A$ 与 $B$ 均可逆, 证明 $\kappa(AB)\le\kappa(A)\kappa(B)$. 对 $2$-范数给出严格不等式的例子.
+\end{exercise}
+\begin{solution}
+由次乘性和 $(AB)^{-1}=B^{-1}A^{-1}$ 即得. 取 $A=\diag(2,1)$, $B=\diag(1,2)$, 两个条件数都为 $2$, 而 $AB=2I$ 的条件数为 $1$.
+\end{solution}
+\begin{remark}
+本章对应原课 L5 及 L7 的条件数主题, 官方资源索引在这些讲次没有独立手册. 定义、线性系统扰动、后向误差的可达构造与迭代改进分析均为自编补充, 用来补足课堂说明不能代替的推理环节.
+\end{remark}

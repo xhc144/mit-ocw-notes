@@ -1,0 +1,274 @@
+% SOURCE: MIT 18.335J Spring 2019, Week 7, Lecture 20; Week 8, Lecture 21.
+% ADAPTATION: self-authored supplemental exposition and examples.
+\originalchapter{GMRES 与多项式收敛分析}\label{ch:gmres}
+\originalsection{从大方程到小最小二乘}
+设 $A\in\C^{n\times n}$ 可逆, 希望解 $Ax=b$. 选初值 $x_0$, 记 $r_0=b-Ax_0$. 若 $r_0=0$, 已经完成求解; 以下假设 $\beta=\norm{r_0}_2>0$. 与其在整个 $\C^n$ 中任意修正 $x_0$, 我们在不断增大的仿射空间
+\[
+x_0+\mathcal K_k(A,r_0)
+\]
+中搜索. 这一选择每多一维只需要一次新的矩阵向量积, 而且包含用次数越来越高的多项式作用于残差得到的修正.
+
+\begin{definition}
+第 $k$ 步 GMRES 近似 $x_k$ 是上述仿射空间中使真实残差二范数最小的向量:
+\begin{equation}\label{eq:gmres-definition}
+ x_k=\operatorname*{arg\,min}_{x\in x_0+\mathcal K_k(A,r_0)}\norm{b-Ax}_2.
+\end{equation}
+名称来自 generalized minimal residual, 即广义最小残差法.
+\end{definition}
+可逆性使最小化解唯一: 若写成某个满列秩基 $Z_k$ 的坐标, 则 $AZ_k$ 也满列秩, 二次目标严格凸. 本章主要讨论可逆方阵; 对奇异或不相容系统, 最小二乘解、空间中止与最小范数解之间还需额外条件, 不能直接沿用这里所有结论.
+
+对 $(A,r_0)$ 做 Arnoldi, 令 $v_1=r_0/\beta$. 第 $k$ 步尚未中止时有
+\[
+AV_k=V_{k+1}\overline H_k,
+\qquad V_{k+1}^*V_{k+1}=I.
+\]
+任何候选写成 $x=x_0+V_ky$, 因而
+\begin{equation}\label{eq:gmres-small-residual}
+ b-Ax=V_{k+1}(\beta e_1-\overline H_ky),\qquad
+ \norm{b-Ax}_2=\norm{\beta e_1-\overline H_ky}_2.
+\end{equation}
+于是原来的 $n$ 维问题等价于一个 $(k+1)\times k$ 小最小二乘问题:
+\begin{equation}\label{eq:gmres-small-ls}
+ y_k=\operatorname*{arg\,min}_{y\in\C^k}\norm{\beta e_1-\overline H_ky}_2,
+ \qquad x_k=x_0+V_ky_k.
+\end{equation}
+这里不能把 $\overline H_k$ 随意换成方阵 $H_k$. 最后一行 $h_{k+1,k}e_k^*$ 正是候选解在当前子空间外产生的残差, 忽略它会改变最小化目标.
+
+\begin{proposition}[最小残差的正交条件]\label{prop:gmres-optimality}
+GMRES 残差 $r_k=b-Ax_k$ 满足
+\[
+r_k\perp A\mathcal K_k(A,r_0).
+\]
+等价地, $\overline H_k^*(\beta e_1-\overline H_ky_k)=0$. 此条件在可逆情形下唯一确定 $x_k$.
+\end{proposition}
+\begin{proof}
+对任意修正方向 $v\in\mathcal K_k$, 目标平方沿 $x_k+tv$ 为 $\norm{r_k-tAv}_2^2$. 分别对实参数 $t$ 和纯虚参数 $t$ 求一阶变化为零, 得 $(Av)^*r_k=0$. 反过来, 若此正交关系成立, 则
+\[
+\norm{r_k-Av}_2^2=\norm{r_k}_2^2+\norm{Av}_2^2,
+\]
+所以 $x_k$ 是唯一极小点. 在 Arnoldi 坐标中代入式 \eqref{eq:gmres-small-residual}, 即得小问题的正规方程.
+\end{proof}
+该正规方程用于理解最优性, 不是建议计算时形成 $\overline H_k^*\overline H_k$: 后者会平方条件数. 稳定实现应使用 QR 分解.
+
+\originalsection{QR 更新、存储与停止检验}
+因为 $\overline H_k$ 为上 Hessenberg, 可用相邻两行的 Givens 酉旋转逐个消去次对角元. 若 $Q_k$ 是这些旋转组成的小酉矩阵, 则
+\[
+Q_k^*\overline H_k=\begin{bmatrix}R_k\\0\end{bmatrix},\qquad
+Q_k^*(\beta e_1)=\begin{bmatrix}g_k\\\gamma_{k+1}\end{bmatrix},
+\]
+其中 $R_k\in\C^{k\times k}$ 上三角且可逆. 酉变换保持二范数, 所以
+\[
+\norm{\beta e_1-\overline H_ky}_2^2
+=\norm{g_k-R_ky}_2^2+|\gamma_{k+1}|^2.
+\]
+解三角方程 $R_ky_k=g_k$ 后, 最小残差恰为 $|\gamma_{k+1}|$.
+
+从 $k-1$ 步扩展到 $k$ 步时, 先把旧旋转作用到新 Hessenberg 列, 再增加一个旋转消去新次对角元. 小 QR 更新每步只需 $O(k)$ 运算, $k$ 步共需 $O(k^2)$; 不必每一步重新分解整个小矩阵. 大空间正交化仍需 $O(nk^2)$, 所以 GMRES 的主要增长成本通常来自保存和处理所有基向量. 可以先只跟踪 $|\gamma_{k+1}|$, 在达到候选容差时再解三角方程并形成 $x_k$.
+
+一个基本实现按下列顺序组织:
+\begin{enumerate}
+\item 计算 $r_0=b-Ax_0$, 归一化为 $v_1$, 初始化小 QR 的右端为 $\beta e_1$.
+\item 用一次 $Av_j$ 和正交化扩展 Arnoldi, 必要时重正交化并同步累加 $h_{ij}$.
+\item 更新小 QR 和变换后的右端, 用新末分量估计残差长度.
+\item 达到候选容差、到达重启长度或遇到近中止时, 解三角系统、形成近似解, 再检查真实残差.
+\end{enumerate}
+最后一步很重要. 浮点数中, 基不完全正交, Arnoldi 关系也有缺陷, 小问题给出的递推残差可能低估 $b-A\widehat x_k$. 重启时重新计算真实残差还可防止递推误差一直累积.
+
+若目标是验证线性方程被稳定地求解, 可以用尺度无关的残差指标
+\begin{equation}\label{eq:linear-backward-indicator}
+\eta(\widehat x)=\frac{\norm{b-A\widehat x}_2}
+{\norm{A}_2\norm{\widehat x}_2+\norm{b}_2}.
+\end{equation}
+它控制范数意义下的相对后向扰动. 例如令 $r=b-A\widehat x$, 把 $r$ 分成作用于矩阵和右端的两个扰动, 可构造 $\Delta A,\Delta b$ 使
+$(A+\Delta A)\widehat x=b+\Delta b$, 且
+$\norm{\Delta A}_2\le\eta\norm{A}_2$, $\norm{\Delta b}_2\le\eta\norm{b}_2$.
+当 $\widehat x\ne0$ 时, 可取
+\[
+\Delta A=\frac{\eta\norm{A}_2}{\norm{\widehat x}_2}
+\frac{r}{\norm{r}_2}\widehat x^*,\qquad
+\Delta b=-\eta\norm{b}_2\frac{r}{\norm{r}_2},
+\]
+对 $r=0$ 则取零扰动. $\widehat x=0$ 的情形只需 $\Delta b=-b$. 但即使后向误差小, 前向解误差仍可被 $\kappa_2(A)$ 放大. 对 $b\ne0$, 常用的简明上界是
+\[
+\frac{\norm{x_* -\widehat x}_2}{\norm{x_*}_2}
+\le\kappa_2(A)\frac{\norm{b-A\widehat x}_2}{\norm{b}_2},
+\qquad x_*=A^{-1}b.
+\]
+停止容差应结合用户需要的解精度、条件数和数据本身的误差制定.
+
+\originalsection{残差多项式与有限步中止}
+\begin{theorem}[GMRES 的多项式表述]\label{thm:gmres-polynomial}
+在精确算术中,
+\begin{equation}\label{eq:gmres-poly-min}
+\norm{r_k}_2=
+\min_{\substack{p\in\C[z],\ \deg p\le k\\p(0)=1}}
+\norm{p(A)r_0}_2.
+\end{equation}
+因此未重启 GMRES 的残差范数单调不增. 若 $r_0$ 相对于可逆 $A$ 的 grade 为 $d$, 则至迟第 $d\le n$ 步得到 $r_d=0$.
+\end{theorem}
+\begin{proof}
+任意修正 $v\in\mathcal K_k$ 可写为 $v=q(A)r_0$, $\deg q\le k-1$. 其残差为
+\[
+r_0-Av=(I-Aq(A))r_0=p(A)r_0,\qquad p(z)=1-zq(z).
+\]
+该多项式次数至多 $k$, 常数项为 $1$. 反过来, 任何这样的 $p$ 都使 $(1-p(z))/z$ 为次数至多 $k-1$ 的多项式, 因而产生一个合法修正. 两个最小化问题完全等价.
+
+次数至多 $k$ 的可行集包含前一步的可行集, 所以最小值不增. 由命题 \ref{prop:krylov-grade}, $m_{r_0}(0)\ne0$. 取 $p=m_{r_0}/m_{r_0}(0)$, 就有 $p(0)=1$ 且 $p(A)r_0=0$, 于是第 $d$ 步的最小残差为零.
+\end{proof}
+有限步中止是代数上的完整性结论, 不是大型计算的运行时间保证. 对数百万维问题, 等到 $n$ 步既存不下基也承担不起正交化; 浮点数还会破坏精确消去关系. 实际关键是能否在远少于 $n$ 步时达到足够精度.
+
+\begin{example}
+设 $A=\diag(1,2)$, $x_0=0$, $b=(1,1)^T$. 求一步 GMRES 并用多项式复核.
+\end{example}
+\begin{solution}
+一步候选为 $x=\alpha b$. 残差为 $(1-\alpha,1-2\alpha)^T$, 目标平方为
+$(1-\alpha)^2+(1-2\alpha)^2$. 最小点为 $\alpha=3/5$, 因而
+\[
+x_1=(3/5,3/5)^T,\qquad r_1=(2/5,-1/5)^T,\qquad
+\norm{r_1}_2=1/\sqrt5.
+\]
+这等于对 $p(z)=1-\alpha z$ 最小化 $|p(1)|^2+|p(2)|^2$. 第二步可取
+$p(z)=(1-z)(1-z/2)$, 对两个特征值都为零, 因而精确求解. 一步结果一般不等于沿 $b$ 最小化能量范数所得的 CG 结果, 因为两者的最优性准则不同.
+\end{solution}
+
+\originalsection{正规矩阵、谱簇与异常值}
+\begin{theorem}[可对角化情形的谱界]\label{thm:gmres-spectral}
+若 $A=X\Lambda X^{-1}$, 则
+\begin{equation}\label{eq:gmres-spectral-bound}
+\frac{\norm{r_k}_2}{\norm{r_0}_2}
+\le\kappa_2(X)
+\min_{\substack{\deg p\le k\\p(0)=1}}
+\max_i|p(\lambda_i)|.
+\end{equation}
+若 $A$ 正规, 可以取 $X$ 酉, 因而前面的因子为 $1$. 此时对给定 $r_0=Xc$, 还有精确表述
+\[
+\norm{r_k}_2^2=
+\min_{\substack{\deg p\le k\\p(0)=1}}
+\sum_i|c_i|^2|p(\lambda_i)|^2.
+\]
+\end{theorem}
+\begin{proof}
+多项式满足 $p(A)=Xp(\Lambda)X^{-1}$. 对任意合法 $p$,
+\[
+\norm{p(A)r_0}_2\le\norm{X}_2\norm{X^{-1}}_2
+\max_i|p(\lambda_i)|\norm{r_0}_2.
+\]
+最小化即得第一式. 若 $X$ 酉, 则长度保持, 直接按坐标求和得到最后的等式.
+\end{proof}
+该界解释为什么\emph{谱的位置}比单一条件数包含更多收敛信息. 例如谱集中在不含原点的圆盘 $|z-c|\le\rho<|c|$ 中, 取
+$p(z)=(1-z/c)^k$, 得
+\[
+\norm{r_k}_2\le\kappa_2(X)(\rho/|c|)^k\norm{r_0}_2.
+\]
+谱簇越小且越远离原点, 越容易构造满足 $p(0)=1$ 而在簇上很小的低次多项式.
+
+少量离群值通常可以用少量多项式根处理. 若 $\lambda_1,\ldots,\lambda_s\ne0$ 是离群值, 可取
+\[
+p(z)=\prod_{i=1}^s(1-z/\lambda_i)\,(1-z/c)^{k-s},\qquad k\ge s.
+\]
+该多项式在离群值处精确为零, 在主谱簇上受后一个因子控制. 前面各因子在簇上的最大值会贡献常数, 所以不能简单断言消去离群值完全没有代价. 但它揭示了 Krylov 方法常比只按全局条件数预测的速度更快的原因.
+
+\begin{example}\label{ex:gmres-cycle}
+令 $A$ 为 $n$ 阶循环置换矩阵, 满足 $Ae_j=e_{j+1}$ 对 $j<n$ 成立, $Ae_n=e_1$. 取 $x_0=0$, $b=e_1$. 证明 GMRES 在前 $n-1$ 步均不改善残差, 第 $n$ 步才精确求解.
+\end{example}
+\begin{solution}
+$A$ 酉, 因而 $\kappa_2(A)=1$. 对 $k<n$,
+\[
+\mathcal K_k(A,b)=\Span\{e_1,\ldots,e_k\},\qquad
+A\mathcal K_k=\Span\{e_2,\ldots,e_{k+1}\}\perp b.
+\]
+所以对每个候选 $x$, $\norm{b-Ax}_2^2=1+\norm{Ax}_2^2$, 唯一最小点是 $x_k=0$, 残差长度保持 $1$. 第 $n$ 步空间等于整个空间, 解为 $x_*=e_n$. 谱由单位圆上的 $n$ 次单位根组成, 并未在某个远离原点的小区域集中. 这说明小条件数本身不能保证少步 GMRES.
+\end{solution}
+
+\originalsection{非正规矩阵为什么需要额外信息}
+若矩阵很非正规, 特征向量可能几乎平行, 定理 \ref{thm:gmres-spectral} 中 $\kappa_2(X)$ 很大. 若矩阵根本不可对角化, 该定理不能使用. 例如 Jordan 块上的 $p(A)$ 还含有 $p'(\lambda),p''(\lambda)$ 等导数项; 只知道 $p$ 在特征值处很小远远不够.
+
+\begin{example}
+取
+\[
+A=\begin{bmatrix}1&M\\0&1\end{bmatrix},\qquad b=e_2,\qquad x_0=0,
+\]
+其中 $M>0$. 它只有特征值 $1$. 一步 GMRES 的残差却怎样随 $M$ 变化?
+\end{example}
+\begin{solution}
+候选 $x=\alpha e_2$, 残差为 $(-M\alpha,1-\alpha)^T$. 最小二乘给出
+$\alpha=1/(M^2+1)$, 所以
+\[
+\frac{\norm{r_1}_2}{\norm{r_0}_2}=\frac{M}{\sqrt{M^2+1}}.
+\]
+当 $M$ 很大时, 一步几乎没有进展. 多项式 $p(z)=1-z$ 虽在唯一特征值处为零, 但
+$p(A)=\begin{bmatrix}0&-M\\0&0\end{bmatrix}$ 并非零矩阵. 第二步可以用 $(1-z)^2$ 消去整个 Jordan 块, 于是精确终止.
+\end{solution}
+即使保持可对角化, 类似问题仍存在. 对 $A=\begin{bmatrix}1&M\\0&2\end{bmatrix}$ 和同一 $b$, 一步相对残差为 $M/\sqrt{M^2+4}$, 尽管两个特征值始终固定. 其特征向量矩阵随 $M$ 变得病态, 正好补充了谱位置遗漏的信息.
+
+并非所有非正规问题都只能放弃一般估计. 一个可直接证明的充分条件是矩阵 Hermitian 部分严格正定.
+\begin{theorem}[正实部给出的收敛保证]\label{thm:gmres-positive-real}
+若 $\operatorname{Re}(v^*Av)\ge\nu\norm{v}_2^2$ 对所有 $v$ 成立, 其中 $\nu>0$, 且 $L=\norm{A}_2$, 则
+\[
+\frac{\norm{r_k}_2}{\norm{r_0}_2}
+\le\left(1-\frac{\nu^2}{L^2}\right)^{k/2}.
+\]
+\end{theorem}
+\begin{proof}
+对实数 $\alpha>0$,
+\[
+\norm{(I-\alpha A)v}_2^2
+=\norm{v}_2^2-2\alpha\operatorname{Re}(v^*Av)+\alpha^2\norm{Av}_2^2
+\le(1-2\alpha\nu+\alpha^2L^2)\norm{v}_2^2.
+\]
+取 $\alpha=\nu/L^2$, 得 $\norm{I-\alpha A}_2\le\sqrt{1-\nu^2/L^2}$. 将合法多项式 $p(z)=(1-\alpha z)^k$ 代入式 \eqref{eq:gmres-poly-min}, 并利用矩阵范数的次乘性, 即得所需界. 此条件也保证 $A$ 可逆, 因为 $Av=0$ 会迫使 $v=0$.
+\end{proof}
+这里的信息来自整个二次型, 不只是特征值. 更精细的非正规收敛理论会使用数值域、伪谱或矩阵多项式范数. 对实际问题, 观测残差历史、正交缺陷和预条件后的算子行为, 通常比盯着少数估计特征值更稳妥.
+
+\originalsection{重启和预条件改变了什么}
+GMRES($m$) 表示每个周期只运行最多 $m$ 步, 然后用当前解作新初值, 重新计算残差并生成新 Krylov 基. 它把基存储限制为 $O(nm)$, 每周期正交化限制为 $O(nm^2)$. 但新周期只在当前残差生成的空间中搜索, 不再对过去全部方向联合最小化.
+
+若每个周期的残差多项式为 $p_j$, 则 $s$ 个周期后形式上有
+\[
+r^{(s)}=p_s(A)\cdots p_1(A)r_0,\qquad
+\deg p_j\le m,\quad p_j(0)=1.
+\]
+总次数至多 $sm$, 但这些因子逐周期贪心选取, 不等于一次性求全局最优的次数 $sm$ 多项式. 这解释了全 GMRES 的有限中止结论为何不能直接移植到重启方法.
+
+例 \ref{ex:gmres-cycle} 给出严格停滞的情形. 若 $m<n$, 每一个周期从 $x=0$, $r=e_1$ 开始, 周期最优解仍为 $0$. 因而 GMRES($m$) 可无限重复且残差完全不变. 在精确算术中, 可逆矩阵也不能保证任意固定重启长度的 GMRES 收敛.
+
+预条件的目的就是在保持同一原问题解的同时, 改善迭代看到的算子. 本节假设 $M$ 可逆. 本书约定 $M$ 是容易求解的 $A$ 的近似, 实现只需要求 $Mz=v$, 不显式形成 $M^{-1}$. 左预条件系统是
+\[
+M^{-1}Ax=M^{-1}b.
+\]
+对它使用 GMRES, 最小化的是 $\norm{M^{-1}(b-Ax)}_2$. 若 $M^{-1}$ 对某些方向缩放很强, 该残差小可能不代表原始残差同样小, 所以应同时检查 $b-Ax$.
+
+右预条件可写成修正形式
+\[
+AM^{-1}y=r_0,\qquad x=x_0+M^{-1}y.
+\]
+对该系统使用 GMRES, 最小化的就是原方程残差 $\norm{r_0-AM^{-1}y}_2$. 左右预条件算子相似:
+$M^{-1}A=M^{-1}(AM^{-1})M$, 因而谱相同, 但欧氏内积下的非正规程度、起始残差和最小化范数可以不同, 实际残差历史不必相同.
+
+若每次应用的预条件器变化, 不能再把整个过程当作一个固定矩阵 $AM^{-1}$ 的 Krylov 方法. 灵活 GMRES 在第 $j$ 步保存实际求得的 $z_j$, 用 $Az_j$ 正交化, 并令最终修正为 $\sum_j y_jz_j$. 它仍有小最小二乘结构, 但固定算子的残差多项式理论一般不再原样适用. 下一章会在 Hermitian 正定条件下推导更节省存储的 CG 以及对称预条件方式.
+
+\originalsection{习题与解答}
+\begin{exercise}
+在 GMRES 的同一个 Krylov 空间中, 另一种方法 FOM 要求 $r_k\perp\mathcal K_k$ 而非 $r_k\perp A\mathcal K_k$. 推导它的小方程, 并说明这个方程可能失败而 GMRES 最小二乘仍有解.
+\end{exercise}
+\begin{solution}
+写 $x=x_0+V_ky$, 则 $V_k^*r=\beta e_1-H_ky$, 故 FOM 解 $H_ky=\beta e_1$. 即使 $A$ 可逆, 压缩矩阵 $H_k$ 也可能奇异. 例如 $A=\begin{bmatrix}0&1\\1&0\end{bmatrix}$, $r_0=e_1$, 一步有 $H_1=[0]$, FOM 方程无解; GMRES 的 $\overline H_1=(0,1)^T$ 满列秩, 最小点仍存在, 此时修正为零.
+\end{solution}
+\begin{exercise}
+若 $A$ 正规, 谱包含在 $|z-3|\le1$ 内, 给出 $k$ 步 GMRES 的相对残差上界. 若只知道 $A$ 可对角化且同样的谱包含关系, 还缺少什么信息?
+\end{exercise}
+\begin{solution}
+取 $p(z)=(1-z/3)^k$, 正规情形得 $\norm{r_k}_2/\norm{r_0}_2\le3^{-k}$. 可对角化情形还需控制特征向量矩阵的 $\kappa_2(X)$; 谱包含关系本身不能约束这个因子.
+\end{solution}
+\begin{exercise}
+证明若 $\norm{I-\alpha A}_2\le q<1$ 对某个 $\alpha\in\C$ 成立, 则任意重启长度 $m\ge1$ 的 GMRES($m$) 每周期至少满足相对残差缩减因子 $q^m$.
+\end{exercise}
+\begin{solution}
+对每个周期的当前残差 $r$, 合法的 $m$ 次多项式 $(1-\alpha z)^m$ 给出候选残差, 长度不超过 $q^m\norm{r}_2$. GMRES 周期最小值不大于此候选, 所以每周期都有同一个收缩保证. 若提前幸运中止, 残差已为零. 该充分条件解释了为什么定理 \ref{thm:gmres-positive-real} 的假设也能保证固定长度重启收敛, 而一般可逆性不能.
+\end{solution}
+\begin{exercise}
+设左预条件 GMRES 输出 $\widehat x$ 且 $\norm{M^{-1}(b-A\widehat x)}_2\le\tau$. 证明原残差不超过 $\norm{M}_2\tau$, 并说明为什么实际仍宜直接计算原残差.
+\end{exercise}
+\begin{solution}
+令 $\widetilde r=M^{-1}(b-A\widehat x)$, 则 $b-A\widehat x=M\widetilde r$, 长度至多 $\norm{M}_2\tau$. 若 $\norm{M}_2$ 很大, 这个界很弱; 若 $\tau$ 只是浮点递推估计, 还可能存在残差间隙. 直接计算 $b-A\widehat x$ 同时解决尺度解释和递推真实性两个问题.
+\end{solution}

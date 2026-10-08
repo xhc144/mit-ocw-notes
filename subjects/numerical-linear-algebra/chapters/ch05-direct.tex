@@ -1,0 +1,157 @@
+% SOURCE: OCW L13--14 HTML, no independent full handout. Self-authored derivations and examples.
+\originalchapter{LU 与 Cholesky 直接法}\label{ch:direct}
+\originalsection{消元就是分解}
+解 $Ax=b$ 时, 高斯消元逐列消去对角线以下的元素. 如果把每一步减去的倍数保存下来, 原矩阵就被分解为下三角与上三角的乘积. 因此一次分解可以服务多个右端, 不必每次重新消元.
+
+考虑第一步分块
+\[
+A=\begin{pmatrix}a&v^*\\w&B\end{pmatrix},\qquad a\ne0.
+\]
+减去第一行的倍数后剩余块为 $S=B-wv^*/a$, 称为 Schur 补. 恒等式
+\[
+A=\begin{pmatrix}1&0\\w/a&I\end{pmatrix}
+\begin{pmatrix}a&v^*\\0&S\end{pmatrix}
+\]
+正是消元的矩阵表达. 接着对 $S$ 作同一操作, 直到得到 $A=LU$, $L$ 为单位下三角, $U$ 为上三角.
+
+\begin{theorem}\label{thm:lu}
+若 $A\in\C^{n\times n}$ 的全部顺序主子式 $\det A_{1:k,1:k}$ ($k=1,\ldots,n$) 非零, 则存在唯一的 $A=LU$, $L$ 单位下三角, $U$ 上三角且对角非零. 反之, 若存在这样的分解, 全部顺序主子式非零.
+\end{theorem}
+\begin{proof}
+$k=1$ 保证首主元 $a\ne0$. 分块消元恒等式说明 $S$ 的前 $k-1$ 阶顺序主子式为 $\det A_{1:k,1:k}/a$, 因而全非零. 对维数归纳得到存在性. 若 $LU=\widetilde L\widetilde U$, 则 $\widetilde L^{-1}L=\widetilde U U^{-1}$, 左边单位下三角、右边上三角, 故二者都是 $I$, 得唯一性. 反向对分解取前 $k$ 行列, 该块行列式为 $\prod_{i=1}^k u_{ii}\ne0$.
+\end{proof}
+无主元 LU 不是对任意可逆矩阵都可执行. 例如 $\begin{pmatrix}0&1\\1&0\end{pmatrix}$ 可逆, 但首主元为零. 即使主元只是很小而不为零, 乘子也会很大, 造成增长与舍入损失.
+
+\originalsection{部分主元选择}
+在第 $k$ 列, 部分主元策略从当前行 $k,\ldots,n$ 中选择绝对值最大的条目, 把该行与第 $k$ 行交换. 精确算术中可逆矩阵的这个剩余列不会全为零. 最终得到 $PA=LU$, $P$ 为置换矩阵, 且消元乘子满足 $|l_{ik}|\le1$.
+
+一次分解后的求解流程是 $Ly=Pb$, 再解 $Ux=y$. 下三角系统用前代,
+$y_i=(c_i-\sum_{j<i}l_{ij}y_j)/l_{ii}$;
+上三角系统用回代,
+$x_i=(y_i-\sum_{j>i}u_{ij}x_j)/u_{ii}$.
+单位下三角的 $l_{ii}=1$, 无需除法. 每个三角求解约需 $n^2$ 次实数加乘.
+
+\begin{remark}
+实现行交换时, 不仅交换尚未消元的矩阵行, 也要交换已经保存的前 $k-1$ 列乘子. 否则程序中的 $L$ 与累计置换 $P$ 不匹配, 即便最终 $U$ 看起来上三角, 也未必满足 $PA=LU$.
+\end{remark}
+\begin{example}
+对 $A=\begin{pmatrix}\delta&1\\1&1\end{pmatrix}$, $0<\delta\ll1$, 比较无主元与部分主元 LU.
+\end{example}
+\begin{solution}
+无主元分解为
+\[
+L=\begin{pmatrix}1&0\\1/\delta&1\end{pmatrix},\qquad
+U=\begin{pmatrix}\delta&1\\0&1-1/\delta\end{pmatrix}.
+\]
+原矩阵元素不超过 $1$, 中间却出现 $1/\delta$. 若舍入误差落在这些大数上, 后续相减可能留下远大于输入精度的误差.
+
+部分主元先交换两行, 得
+\[
+PA=\begin{pmatrix}1&1\\\delta&1\end{pmatrix},\qquad
+L=\begin{pmatrix}1&0\\\delta&1\end{pmatrix},\quad
+U=\begin{pmatrix}1&1\\0&1-\delta\end{pmatrix}.
+\]
+乘子和中间元素保持温和. 此处矩阵本身在 $\delta\to0$ 时并不趋奇异; 无主元算法的失败风险不能归咎于问题必然病态.
+\end{solution}
+部分主元只交换行, 开销约为 $O(n^2)$ 的比较, 不改变分解的 $\tfrac23n^3$ 主导实数操作数. 完全主元在剩余子矩阵中选最大条目并交换行列, 得 $PAQ=LU$, 更强地控制增长但增加搜索和数据移动. 实际选法需兼顾可靠性、稀疏结构及计算成本.
+
+\originalsection{增长因子与后向误差}
+\begin{definition}
+设消元过程中当前矩阵依次为 $A^{(k)}$, 定义元素增长因子
+\[
+\rho=\frac{\max_{i,j,k}|a_{ij}^{(k)}|}{\max_{i,j}|a_{ij}|}.
+\]
+采用只计 $U$ 元素的版本时, 需明确与这里的定义有细微区别.
+\end{definition}
+乘子小并不自动保证所有中间元素小. 每次 Schur 补更新仍可能把原来同号或异号的数相减为更大的数. 部分主元的可靠性要通过 $\rho$ 进入误差分析.
+
+\begin{proposition}
+部分主元高斯消元在精确算术下满足 $\rho\le2^{n-1}$. 对适当矩阵, 若相等主元优先保留当前行, 这个指数上界可以达到.
+\end{proposition}
+\begin{proof}
+因 $|l_{ik}|\le1$, 一次更新的每个元素满足
+$|a_{ij}^{(k+1)}|\le|a_{ij}^{(k)}|+|l_{ik}a_{kj}^{(k)}|\le2M_k$,
+其中 $M_k$ 是当前最大绝对值. 最多 $n-1$ 次更新, 得上界. 达到的构造是主对角为 $1$、主对角以下为 $-1$、最后一列全为 $1$、其余上三角元素为零的矩阵. 消元时乘子均为 $-1$, 最后一列沿主元行依次成为 $1,2,4,\ldots,2^{n-1}$, 且相等主元不触发行交换.
+\end{proof}
+例如 $n=4$ 时的构造为
+\[
+\begin{pmatrix}1&0&0&1\\-1&1&0&1\\-1&-1&1&1\\-1&-1&-1&1\end{pmatrix},
+\]
+最后一个主元为 $8$. 因此部分主元 LU 不能无条件称为对所有输入具有温和常数的后向稳定算法. 它通常有效, 但要认识增长例外, 必要时改用更强主元或正交方法.
+
+\begin{proposition}[LU 因子残差的标准尺度]
+在常规实数浮点模型下, 已完成的高斯消元因子可解释为
+\[
+PA+\Delta A=\widehat L\widehat U,\qquad
+|\Delta A|\le\gamma_{cn}|\widehat L||\widehat U|,
+\]
+这里 $c$ 是由固定实现的每项操作链长度确定的常数, $cnu<1$, 并假定没有上溢、下溢及异常主元. 本命题给出误差量级, 不声称所有实现都具有同一个精确 $\gamma_n$ 常数.
+\end{proposition}
+\begin{proof}[误差尺度的推导]
+每个因子关系对应一次已计算乘子和消元点积. 将计算的关系反向写成原条目加误差,
+\[
+(PA)_{ij}+\Delta a_{ij}=\sum_{k\le\min(i,j)}\widehat l_{ik}\widehat u_{kj}.
+\]
+若最后一个未知量通过除以主元生成, 把除法的因子移回等式左边; 引理 \ref{lem:gamma} 的正负指数版本同样控制它. 点积每项累积的舍入因子数为至多一个与 $n$ 同阶的常数. 因此逐条误差不超过对应绝对值乘积之和乘 $\gamma_{cn}$ (常数 $c$ 由相应操作组织确定). 把逐条关系组成矩阵, 即得到所述逐分量尺度. 这一步没有说 $|L||U|$ 与 $|A|$ 一样大; 两者的差距正是增长风险.
+\end{proof}
+再加前代、回代的误差, 可得到最终计算解是一个邻近系统的精确解, 扰动仍受 $|L||U|$ 类尺度控制. 对实际浮点因子, 应用实际计算增长 $\widehat\rho=\max|\widehat u_{ij}|/\max|a_{ij}|$, 而不是直接代入精确消元的 $\rho$. 若计算乘子仍满足 $|\widehat l_{ij}|\le1+O(u)$, 则 $\norm{\widehat L}_\infty\le n(1+O(u))$, $\norm{\widehat U}_\infty\le n\widehat\rho\max|a_{ij}|$. 一个粗略界因此为
+$\norm{\Delta A}_\infty/\norm{A}_\infty\le\gamma_{cn} n^2\widehat\rho(1+O(u))$.
+真实界往往更好, 但这个公式清楚说明: 只有增长温和, 后向误差才与机器精度同阶. 前向误差还要按第 \ref{ch:condition} 章乘问题条件数.
+
+\originalsection{正定结构与 Cholesky 分解}
+\begin{definition}
+Hermitian 矩阵 $A$ 若对所有非零 $x$ 满足 $x^*Ax>0$, 称为 Hermitian 正定. 实情形称对称正定 (SPD). 它的全部特征值为正.
+\end{definition}
+\begin{theorem}[Cholesky 分解]\label{thm:chol}
+Hermitian 正定矩阵存在唯一分解 $A=LL^*$, 其中 $L$ 为下三角且对角元为正实数.
+\end{theorem}
+\begin{proof}
+按维数归纳. 写 $A=\begin{pmatrix}a&w^*\\w&B\end{pmatrix}$, 正定性给 $a>0$. 令 $\ell_{11}=\sqrt a$, $\ell_{21}=w/\sqrt a$. 对非零 $z$, 取向量 $(-w^*z/a,z)^T$, 可算得
+\[
+\begin{pmatrix}-w^*z/a\\z\end{pmatrix}^{\!*}
+A\begin{pmatrix}-w^*z/a\\z\end{pmatrix}
+=z^*(B-ww^*/a)z>0.
+\]
+所以 Schur 补也是正定, 可继续归纳. 拼接下三角因子得存在性. 首对角必须为正平方根, 第一列随之唯一, 剩余块再由归纳唯一, 得全部唯一性.
+\end{proof}
+Cholesky 不需要主元, 因每一步正定 Schur 补的对角主元均为正. 实数递推公式为
+\[
+\ell_{kk}=\sqrt{a_{kk}-\sum_{j<k}\ell_{kj}^2},\qquad
+\ell_{ik}=\frac{a_{ik}-\sum_{j<k}\ell_{ij}\ell_{kj}}{\ell_{kk}},\quad i>k.
+\]
+复数版本的平方与乘积应改为绝对值平方及带共轭的内积. 只处理一个三角半部, 主导操作数为 $\tfrac13n^3$, 约为 LU 的一半. 解系统时作 $Ly=b$, $L^*x=y$.
+
+\begin{example}
+对 $A=\begin{pmatrix}4&2&0\\2&5&1\\0&1&3\end{pmatrix}$ 求 Cholesky 分解.
+\end{example}
+\begin{solution}
+第一列为 $\ell_{11}=2$, $\ell_{21}=1$, $\ell_{31}=0$. 第二列给 $\ell_{22}=\sqrt{5-1}=2$, $\ell_{32}=1/2$. 最后 $\ell_{33}=\sqrt{3-1/4}=\sqrt{11}/2$. 因而
+\[
+L=\begin{pmatrix}2&0&0\\1&2&0\\0&1/2&\sqrt{11}/2\end{pmatrix}.
+\]
+直接相乘恢复 $A$, 同时正对角保证其正定, 因 $x^TAx=\norm{L^Tx}_2^2>0$ 对非零 $x$ 成立.
+\end{solution}
+对已完成的浮点 Cholesky, 标准分量误差界为 $|\Delta A|\le\gamma_{n+1}|\widehat L||\widehat L|^*$ 类形式. 与 LU 的区别是 $A$ 正定时因子尺度受到二次型结构限制, 不会发生部分主元 LU 那种任意指数增长. 对角主元计算若变成非正, 可能表示输入并非正定, 也可能表示矩阵离半正定边界太近, 舍入已破坏正定性. 此时不能简单把负数改成小正数继续并声称解了原问题; 应检查对称性、数据与尺度, 或明确采用正则化的新问题.
+
+\originalsection{带状、三对角与不定问题}
+带宽为 $w$ 的矩阵若消元保持带状, 可以把成本从 $O(n^3)$ 降到约 $O(nw^2)$, 存储降到 $O(nw)$. 对 SPD 带状矩阵, Cholesky 保持同一下带宽: 更新只涉及此前有公共非零列的位置, 不会越出带宽. 三对角 SPD 情形因 $w=1$ 可用 $O(n)$ 成本分解和求解.
+
+对称但不正定的矩阵不能直接用实 Cholesky. 常用 $PAP^T=LDL^T$, $D$ 为 $1\times1$ 或 $2\times2$ 块对角, 配合对称主元策略. 为什么需要 $2\times2$ 块? 矩阵 $\begin{pmatrix}0&1\\1&0\end{pmatrix}$ 可逆且对称, 两个对角元都为零, 单个非零对角主元无从选择; 取整块即可继续. 这里的分解结构与正定性保证不同, 不应混称为 Cholesky.
+
+多右端问题应复用分解. 通常也不应为解 $Ax=b$ 先显式计算 $A^{-1}$: 这增加成本和舍入步骤, 并丢掉结构化三角求解的直接后向误差解释. 若任务确实需要逆矩阵条目或多次线性映射, 仍应根据用途决定, 而不是把“逆”作为默认求解步骤.
+
+\begin{exercise}
+证明 SPD 矩阵的每个顺序主子式为正, 并解释为什么这保证无主元 LU 存在.
+\end{exercise}
+\begin{solution}
+对前 $k$ 阶主子矩阵 $A_k$, 任意非零 $z$ 扩展为 $(z,0)^T$, 有 $z^*A_kz>0$. 因而 $A_k$ 正定, 所有特征值为正, 其行列式也为正. 定理 \ref{thm:lu} 的条件随即满足. Cholesky 进一步利用了对称性, 不只是无主元 LU 的另一个名字.
+\end{solution}
+\begin{exercise}
+设 $A=\begin{pmatrix}2&-1&0\\-1&2&-1\\0&-1&2\end{pmatrix}$. 写出其 Cholesky 对角和次对角, 并说明所有更低位置为何保持零.
+\end{exercise}
+\begin{solution}
+$\ell_{11}=\sqrt2$, $\ell_{21}=-1/\sqrt2$, $\ell_{22}=\sqrt{3/2}$, $\ell_{32}=-\sqrt{2/3}$, $\ell_{33}=\sqrt{4/3}$, 而 $\ell_{31}=0$. 三对角结构在第一步余块中仍保持三对角, 继续递推也不会产生跨越一个下对角的非零.
+\end{solution}
+\begin{remark}
+本章对应原课 L13--14 的 LU、部分主元、Cholesky 与结构化求解器. 这两讲的官方索引明确没有手册. 本章分解存在性、增长构造、Cholesky 证明和例题为自编补充; 浮点误差常数依具体实现的操作组织而变, 不据一个抽象公式保证任意程序实现均稳定.
+\end{remark}

@@ -1,0 +1,154 @@
+% SOURCE: OCW L9--10; Persson Gram-Schmidt and Householder/Givens handouts.
+\originalchapter{正交化与 QR 分解}\label{ch:qr}
+\originalsection{把列空间换成正交坐标}
+给定满列秩矩阵 $A=(a_1,\ldots,a_n)\in\C^{m\times n}$, $m\ge n$, 希望寻找同一列空间的正交归一基 $q_1,\ldots,q_n$. 每个 $a_j$ 仅用前 $j$ 个基向量表示时, 系数矩阵为上三角, 即薄 QR 分解 $A=QR$, $Q^*Q=I_n$, $R$ 上三角. 这个分解把几何部分放在 $Q$, 把尺度和线性相关程度放在 $R$.
+
+\begin{theorem}
+满列秩矩阵存在薄 QR 分解. 若要求 $R$ 的对角元为正实数, 该分解唯一.
+\end{theorem}
+\begin{proof}
+对各列依次去掉已有基方向的投影, 得
+\[
+v_j=a_j-\sum_{i<j}(q_i^*a_j)q_i,\quad
+r_{jj}=\norm{v_j}_2>0,\quad q_j=v_j/r_{jj}.
+\]
+满列秩保证 $v_j\ne0$. 设 $r_{ij}=q_i^*a_j$ ($i<j$), 就得存在性. 若 $A=QR=\widetilde Q\widetilde R$, 两组 $Q$ 的列空间相同, $S=Q^*\widetilde Q=R\widetilde R^{-1}$ 既酉又上三角. 上三角酉矩阵必为对角酉矩阵: 从第一列长度与正交性开始逐列归纳即可. 对角正实的条件使 $S$ 全部对角元为 $1$, 因而两分解相同.
+\end{proof}
+秩亏时可以做带列主元 QR 或允许零对角的分解, 但上面“归一化非零余量”和唯一性的条件不能直接保留.
+
+\originalsection{经典与改进 Gram--Schmidt}
+经典 Gram--Schmidt (CGS) 先用原列 $a_j$ 计算全部系数 $r_{ij}=q_i^*a_j$, 再作一次整体减法. 改进 Gram--Schmidt (MGS) 则让余量不断更新:
+\[
+v\leftarrow a_j;\qquad
+r_{ij}\leftarrow q_i^*v,\quad v\leftarrow v-q_i r_{ij}
+\quad (i=1,\ldots,j-1).
+\]
+最后 $r_{jj}=\norm{v}_2$, $q_j=v/r_{jj}$. 在精确算术中, 因已有 $q_i$ 彼此正交, 两者完全等价; 在浮点算术中, CGS 与 MGS 使用的点积输入不同, 误差因此不同.
+
+\begin{proposition}
+设 $q_i$ 正交归一, 则
+\[
+I-QQ^*=(I-q_kq_k^*)\cdots(I-q_1q_1^*),\qquad
+Q=(q_1,\ldots,q_k).
+\]
+\end{proposition}
+\begin{proof}
+展开乘积时, 因 $q_i^*q_j=0$ ($i\ne j$), 含两个不同秩一投影的交叉项全为零. 留下 $I-\sum q_iq_i^*=I-QQ^*$.
+\end{proof}
+从矩阵角度看, Gram--Schmidt 是在 $A$ 右边依次乘上三角矩阵, 用线性组合把列正交化, 最后有 $Q=AR^{-1}$. 若这些三角变换病态, 正交方向容易受到误差污染. Householder 则在 $A$ 左边乘酉矩阵把它三角化, 把病态三角因子留在结果 $R$ 而不用于生成 $Q$.
+
+CGS 实现左边的整体投影, MGS 实现右边的顺序投影. 当已有正交性被舍入破坏时, 这个等式不再精确, MGS 能较及时地删除仍残留的旧方向. 但单次 MGS 也不是在任意病态输入上都保持机器精度正交.
+
+\begin{example}
+考虑三列 $a_1=(1,\eps,0,0)^T$, $a_2=(1,0,\eps,0)^T$, $a_3=(1,0,0,\eps)^T$, 其中 $0<\eps\ll1$, 并假设在演示舍入模型下 $1+\eps^2$ 被舍入为 $1$. 比较 CGS 与 MGS 的第三列.
+\end{example}
+\begin{solution}
+先得 $q_1\approx(1,\eps,0,0)^T$. 第二列减去 $q_1$ 后约为 $(0,-\eps,\eps,0)^T$, 故 $q_2\approx(0,-1,1,0)^T/\sqrt2$.
+
+CGS 用原 $a_3$ 计算 $q_2^Ta_3\approx0$, 所以第三列余量约为 $(0,-\eps,0,\eps)^T$. 归一化后 $q_3\approx(0,-1,0,1)^T/\sqrt2$, 与 $q_2$ 的内积约为 $1/2$, 正交性严重破坏.
+
+MGS 先从 $a_3$ 去掉 $q_1$ 得 $v=(0,-\eps,0,\eps)^T$, 再算 $q_2^Tv=\eps/\sqrt2$. 去掉这个投影后得 $(0,-\eps/2,-\eps/2,\eps)^T$, 归一化为 $(0,-1,-1,2)^T/\sqrt6$, 此时与 $q_2$ 正交到演示模型的精度. 这个例子说明运算次序的差异, 不是对所有误差情形的严格 MGS 稳定性证明.
+\end{solution}
+再正交化是在第一遍得到 $v$ 后再对已有 $Q$ 作一遍投影删除, 并累加到 $R$ 的系数. 它常能显著恢复正交性, 但若输入实际已到数值秩亏、余量被噪声淹没, 不能凭第二遍凭空恢复有效方向. 此时应报告秩判定或使用带主元 QR/SVD.
+
+\originalsection{Householder 反射}
+\begin{definition}
+对非零向量 $v$, Householder 反射为 $H=I-2vv^*/(v^*v)$. 它沿 $v$ 方向变号, 在 $v^\perp$ 上不变.
+\end{definition}
+\begin{proposition}
+$H^*=H$, $H^2=I$, 所以 $H$ 酉. 对非零 $x$, 令 $\alpha=-\operatorname{phase}(x_1)\norm{x}_2$, $v=x-\alpha e_1$, 其中 $x_1=0$ 时相位取 $1$. 则 $Hx=\alpha e_1$.
+\end{proposition}
+\begin{proof}
+$P=vv^*/(v^*v)$ 满足 $P^*=P$, $P^2=P$, 因而 $(I-2P)^2=I$. 又 $\overline\alpha x_1=-|x_1|\norm{x}_2$, 所以
+\[
+v^*x=\norm{x}_2^2+|x_1|\norm{x}_2,
+\quad v^*v=2(\norm{x}_2^2+|x_1|\norm{x}_2).
+\]
+故 $2v(v^*x)/(v^*v)=v$, $Hx=x-v=\alpha e_1$.
+\end{proof}
+选择负相位使 $v_1=x_1-\alpha$ 的两项同方向相加, 避免相近数相减. 若反过来取同相位的 $\alpha$, 当 $x$ 已接近坐标轴时 $v$ 可能几乎为零, 其方向受到舍入噪声支配. 这是从数学构造走向稳定实现的关键细节.
+
+QR 算法依次对剩余子矩阵的第一列作反射. 第 $j$ 个反射只作用于行 $j,\ldots,m$, 不破坏此前列的零元. 得到
+\[
+H_n\cdots H_1 A=\begin{pmatrix}R\\0\end{pmatrix},\qquad
+Q_{\rm full}=H_1\cdots H_n.
+\]
+只取 $Q_{\rm full}$ 的前 $n$ 列便是薄 $Q$. 实际通常保存每个反射向量与标量, 不显式构造所有 $m\times m$ 反射矩阵. 要算 $Q^*b$, 按消元顺序把反射作用于 $b$ 即可.
+
+\begin{example}
+求把 $x=(3,4)^T$ 变到第一坐标轴的 Householder 反射.
+\end{example}
+\begin{solution}
+$\norm{x}_2=5$, 取 $\alpha=-5$, $v=(8,4)^T$, $v^Tv=80$. 因此
+\[
+H=I-\frac1{40}\begin{pmatrix}64&32\\32&16\end{pmatrix}
+=\begin{pmatrix}-3/5&-4/5\\-4/5&3/5\end{pmatrix},\quad
+Hx=(-5,0)^T.
+\]
+$H$ 两行的长度均为 $1$、内积为零, 可直接核查正交性.
+\end{solution}
+
+\originalsection{Givens 旋转与局部消元}
+对实数 $a,b$ 不同时为零, 令 $r=\sqrt{a^2+b^2}$, $c=a/r$, $s=b/r$. 平面旋转
+\[
+G=\begin{pmatrix}c&s\\-s&c\end{pmatrix}
+\]
+满足 $G^TG=I$, $G(a,b)^T=(r,0)^T$. 把这个 $2\times2$ 块嵌入单位矩阵, 就能只混合两行, 消去某个指定元素. 当 $a=b=0$ 时取恒等变换.
+
+直接计算 $a^2+b^2$ 可能上溢, 即使最终 $r$ 可表示. 可先取 $t=\max(|a|,|b|)$, 再算 $r=t\sqrt{(a/t)^2+(b/t)^2}$; 实现中的 hypot 函数采用类似尺度保护. 复数 Givens 需要共轭相位的专门公式, 不应把实数公式原样套入.
+
+Householder 一次消去一列的一整段, 适合稠密 QR; Givens 仅动两行, 适合已有结构的矩阵、稀疏局部更新和迭代算法中的小型 Hessenberg 最小二乘. 对一般稠密 $m\times n$ 矩阵, 逐项 Givens QR 的主导操作数约为 $3mn^2-n^3$, 约比 Householder 高 $50\%$. 两种变换都靠正交性控制范数, 选择主要取决于待保留的结构和数据访问方式.
+
+\originalsection{误差与计算成本}
+正交变换本身条件数为 $1$, 不会把误差的 $2$-范数放大. 为看到这点怎样进入算法分析, 给出一个局部扰动的累积结论.
+\begin{proposition}\label{prop:orthaccum}
+设第 $j$ 步实际结果满足 $A_j=H_jA_{j-1}+E_j$, 其中 $H_j$ 是精确酉矩阵. 则
+\[
+A_s=(H_s\cdots H_1)(A_0+\Delta A),\qquad
+\norm{\Delta A}_{2,F}\le\sum_{j=1}^s\norm{E_j}_{2,F}.
+\]
+\end{proposition}
+\begin{proof}
+逐步展开得
+$A_s=H_s\cdots H_1A_0+\sum_jH_s\cdots H_{j+1}E_j$.
+左乘 $(H_s\cdots H_1)^*$, 把误差项定义为 $\Delta A$. 每项仅被酉矩阵左右作用, 范数保持不变, 再用三角不等式即得.
+\end{proof}
+标准尺度保护的 Householder QR 在正常浮点模型下有 $A+\Delta A=\widetilde Q\widehat R$, $\widetilde Q$ 精确列正交, 且 $\norm{\Delta A}_F\le C(m,n)u\norm{A}_F+O(u^2)$. 存储的 $\widehat Q$ 通常只有近似正交, 它与分析中的精确 $\widetilde Q$ 不应混为一谈. 上述累积命题解释了为什么误差不经过病态三角因子的放大; 完整逐指令常数还需计入反射向量生成、点积与舍入, 本册不把这个实现层面的标准结果伪装成只由命题便已无条件证明.
+
+对实 $m\times n$ ($m\ge n$) 稠密矩阵, Householder QR 的主导操作数为 $2mn^2-\tfrac23n^3$. 其来源是第 $j$ 步对约 $(m-j+1)\times(n-j)$ 尾块作一次秩一更新, 每元素约四次实数加乘, 累加三次多项式的主导项即可. CGS/MGS 的主导操作数约 $2mn^2$, 但正交性保证不同. 最快的实现还会把多个反射合并成块以调用高效矩阵乘法, 第 \ref{ch:performance} 章讨论数据移动.
+
+\originalsection{用 QR 解最小二乘}
+对满列秩 $A$, 若 $A=Q_{\rm full}\begin{pmatrix}R\\0\end{pmatrix}$, 把 $Q_{\rm full}^*b=(c_1,c_2)^T$ 按前 $n$ 个坐标分块, 则
+\[
+\norm{Ax-b}_2^2=\norm{Rx-c_1}_2^2+\norm{c_2}_2^2.
+\]
+所以先用反射求 $c_1$, 再回代解 $Rx=c_1$. 残差范数就是 $\norm{c_2}_2$, 不必先计算一个易相消的 $b-Ax$ 才知道理论拟合误差. 实际仍应回到原输入检查残差和最优性.
+
+\begin{example}
+用薄 QR 求 $A=\begin{pmatrix}1&1\\1&0\\0&1\end{pmatrix}$, $b=(1,2,0)^T$ 的最小二乘解.
+\end{example}
+\begin{solution}
+由第一列得到 $q_1=(1,1,0)^T/\sqrt2$, $r_{11}=\sqrt2$. 第二列投影系数 $r_{12}=1/\sqrt2$, 余量为 $(1/2,-1/2,1)^T$, 故 $q_2=(1,-1,2)^T/\sqrt6$, $r_{22}=\sqrt{3/2}$. 于是
+\[
+R=\begin{pmatrix}\sqrt2&1/\sqrt2\\0&\sqrt{3/2}\end{pmatrix},
+\qquad Q^Tb=(3/\sqrt2,-1/\sqrt6)^T.
+\]
+第二行给 $x_2=-1/3$, 第一行给 $x_1=5/3$. 残差 $b-Ax=(-1/3,1/3,1/3)^T$, 与两列均正交, 范数为 $1/\sqrt3$.
+\end{solution}
+若矩阵近秩亏, 回代会放大小对角造成的误差. 带列主元 QR 每步在剩余列中选择较大的余量范数, 作 $AP=QR$. 它有助于揭示数值秩和选择较独立列, 但不能无条件代替 SVD 的最佳秩判定. 数值秩阈值必须考虑数据噪声、矩阵尺度和目标误差.
+
+\begin{exercise}
+设满列秩 $A=QR$, 证明 $\kappa_2(R)=\kappa_2(A)$, 并据此解释 QR 为什么不改变问题本身的条件数.
+\end{exercise}
+\begin{solution}
+$A^*A=R^*Q^*QR=R^*R$, 所以二者全部奇异值相同. QR 避免额外引入条件数平方的计算路线, 但原 $A$ 的小奇异值仍由 $R$ 保留.
+\end{solution}
+\begin{exercise}
+对非零 $v$, 证明 Householder 反射的行列式为 $-1$, 并确定其全部特征值.
+\end{exercise}
+\begin{solution}
+$v$ 是特征值 $-1$ 的特征向量, $v^\perp$ 上特征值都是 $1$. 在这组基中反射为 $\diag(-1,1,\ldots,1)$, 因而行列式为 $-1$.
+\end{solution}
+\begin{remark}
+本章整理 Persson 的 Gram--Schmidt 与 Householder/Givens 手册, 对应 L9--10. 投影乘积、CGS/MGS 的演示例、反射构造与计算结构来自这些手册; 唯一性证明、误差累积命题、完整最小二乘计算和秩判定说明为自编补充.
+\end{remark}

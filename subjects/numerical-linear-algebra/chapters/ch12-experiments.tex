@@ -1,0 +1,123 @@
+% SOURCE: course use of Julia; self-authored experiments. Official Julia documentation API checked 2026-10-08, no Julia executable in preparation environment.
+\originalchapter{数值实验与综合训练}\label{ch:experiment}
+\originalsection{先决定实验要检验什么}
+数值实验最有价值的作用是区分几个经常混淆的命题: 分解残差小不等于基完全正交, 原方程残差小不等于解误差小, 特征值近似准确不等于特征向量稳定, 迭代步数少不等于总运行时间短. 一个好的实验围绕某个明确问题设计, 再用独立指标检验它.
+
+本章给出可复现的数学实验与自编 Julia 示例. 代码采用实数 Float64 数据, 只调用 LinearAlgebra、SparseArrays 与 Random 标准库. API 名称按 Julia 官方文档核对; 编写环境未安装 Julia, 所以本章不把这些代码或性能称为本环境已运行的 Julia 实测. 随附脚本保留完整实现, 下文解释应观测哪些量、哪些现象有数学保证. 不复制原课程 Julia 简介中的第三方权利保留图像.
+
+实验记录至少包括数据生成方式、浮点类型、矩阵尺寸、容差、软件与 BLAS 版本、线程设置. 若比较时间, 先运行一次使编译和初始化完成, 将数据生成排除在计时之外, 报告多次重复. 若比较准确度, 先固定同一个原始问题和同一个验收指标.
+
+\originalsection{正交化实验}
+取第 \ref{ch:qr} 章的近线性相关矩阵
+\[
+A=\begin{pmatrix}1&1&1\\\eps&0&0\\0&\eps&0\\0&0&\eps\end{pmatrix},\qquad \eps=10^{-8}.
+\]
+分别做 CGS、MGS 和 Householder QR, 记录
+\[
+\eta_{\rm fact}=\frac{\norm{A-QR}_F}{\norm{A}_F},\qquad
+\eta_{\rm orth}=\norm{Q^*Q-I}_2.
+\]
+第一个量检验因子乘积是否近似原矩阵, 第二个检验基是否正交. 二者必须同时看. 某个 $Q$ 的列几乎平行时, 乘积 $QR$ 仍可能很接近 $A$; 若随后把 $Q^*$ 当作正交逆使用, 错误才会显著暴露.
+
+用于比较 CGS 与 MGS 的教学实现如下. 它没有重正交化, 也不是供生产环境替代成熟库的代码.
+\begin{verbatim}
+function gs_demo(A; modified=true)
+    m, n = size(A)
+    Q = zeros(Float64, m, n)
+    R = zeros(Float64, n, n)
+    for j in 1:n
+        v = copy(A[:, j])
+        for i in 1:j-1
+            R[i,j] = dot(Q[:,i], modified ? v : A[:,j])
+            v -= R[i,j] * Q[:,i]
+        end
+        R[j,j] = norm(v)
+        R[j,j] > 0 || error("zero remainder")
+        Q[:,j] = v / R[j,j]
+    end
+    return Q, R
+end
+\end{verbatim}
+变动 $\eps$ 可观察从清晰独立到接近数值秩亏的过程. 当 $\eps$ 不太小时, 两种 Gram--Schmidt 都可能表现良好; 当 $\eps$ 小到有效余量接近舍入尺度时, CGS 的正交性可显著丢失. MGS 往往改善, 但不能据几次测试证明它在所有输入上保持机器精度正交. 再正交化与 Householder 的差异, 应用同样两个指标比较.
+
+还可解同一 $A$ 的最小二乘, 比较用正规方程、QR 与 SVD 产生的 $x$. 检验不仅是 $\norm{Ax-b}$, 还包括 $\norm{A^*(b-Ax)}$ 和相对于高精度或已知真解的误差. 对不相容问题, 残差本来可能很大; 正交最优性才是拟合是否达到最小值的检验.
+
+\originalsection{残差与病态方向实验}
+令 $A=\diag(1,10^{-12})$, $b=(1,0)^T$, $\widehat x=(1,1)^T$. 这个实验无需任何求解器, 就能严格算出相对残差为 $10^{-12}$, 相对解误差为 $1$. 它是理解停止准则的基线. 然后在不同奇异方向上给 $b$ 加同样大小的噪声, 比较解的变化, 验证第 \ref{ch:condition} 章的最坏方向解释.
+
+第二个实验可用指定奇异值构造矩阵. 先取两个正交矩阵 $U,V$, 设置 $A=U\diag(1,10^{-2},10^{-4},10^{-6})V^T$, 选已知 $x_*$, 令 $b=Ax_*$. 给 $b$ 沿最小左奇异向量加扰动 $\eps u_4$, 则解恰好变化 $10^6\eps v_4$. 这一步是精确数学结论, 与所用求解器无关. 后向稳定算法应在这个敏感性之外只引入小量级后向误差.
+
+对数据有噪声的版本, 可比较截断 SVD 和 Tikhonov. 在绘图时把横轴设为正则化强度或截断秩, 同时画数据残差与真解误差. 两条曲线的最优位置不一定相同. 若没有真解, 不能把数据拟合最好直接当成去噪最好.
+
+\begin{example}
+设 $A=\diag(1,\sigma)$, 真实 $x_*=(1,1)^T$, 数据为 $b=(1,\sigma+\eta)^T$. 精确逆解的第二分量误差是多少? Tikhonov 第二分量的偏差与噪声项分别是什么?
+\end{example}
+\begin{solution}
+逆解第二分量为 $1+\eta/\sigma$, 误差 $\eta/\sigma$. Tikhonov 给
+\[
+(x_\lambda)_2=\frac{\sigma(\sigma+\eta)}{\sigma^2+\lambda},\qquad
+(x_\lambda)_2-1=-\frac{\lambda}{\sigma^2+\lambda}
++\frac{\sigma\eta}{\sigma^2+\lambda}.
+\]
+第一项是正则化偏差, 第二项是噪声传播. 增大 $\lambda$ 抑制第二项, 却通常增大第一项, 不能只看其中一项选择参数.
+\end{solution}
+
+\originalsection{幂法与 Rayleigh 商速度实验}
+取 $A=\diag(4,2,1)$, $v_0=(1,1,1)^T/\sqrt3$. 精确幂法方向与 $(4^k,2^k,1)^T$ 相同. 因而
+\[
+\tan\theta_k=\frac{\sqrt{4^k+1}}{4^k},\qquad
+\rho(v_k)=\frac{4\cdot16^k+2\cdot4^k+1}{16^k+4^k+1}.
+\]
+对足够大的 $k$, 夹角约以 $1/2$ 的因子收缩, Rayleigh 商误差约以 $1/4$ 的因子收缩. 在半对数图上, 后者斜率约为前者两倍. 浮点误差底到达后会停滞, 不能把最后几步的比值当作新的收敛阶.
+
+实验记录三个量: 与已知主特征向量的夹角、Rayleigh 商误差、真实特征残差. 若只记录相邻特征值估计的差, 一个停滞在错误位置的算法也可能看起来“变化很小”. 再把矩阵改为 $\diag(4,3.99,1)$, 观察谱间隙变小怎样降低幂法速度. 对移位反迭代, 应记录每个移位线性系统的求解残差, 而不仅记录外层向量变化.
+
+\originalsection{稀疏 Poisson、CG 与分解复用}
+一维 Dirichlet Poisson 矩阵为 $A=\operatorname{tridiag}(-1,2,-1)$. 取 $x_*=(1,\ldots,1)^T$, $b=Ax_*$. 稀疏存储有 $3n-2$ 个非零元, 按自然顺序的 Cholesky 下三角因子有 $2n-1$ 个非零元. 这说明一个规模很大的矩阵也可能有线性成本的直接解法; 不能只凭维数就断言必须迭代.
+
+可用如下初始化和库分解:
+\begin{verbatim}
+using LinearAlgebra, SparseArrays
+n = 100
+A = spdiagm(-1 => -ones(n-1), 0 => 2.0 .* ones(n),
+             1 => -ones(n-1))
+xtrue = ones(n)
+b = A*xtrue
+F = cholesky(Symmetric(A))
+xdirect = F \ b
+residual = norm(b-A*xdirect)
+\end{verbatim}
+Symmetric 只是声明程序应该使用相应的对称视图, 并不证明任意输入真的是对称或正定. 本例结构本身已经保证这些条件. 库也可能先作减少填充的置换, 所以实际因子非零数要按其采用的顺序记录, 不自动等同于自然顺序的计数. 对真实测量矩阵, 必须先检查数据; 把一个非对称矩阵包成 Symmetric 可能意味着选择某一半条目来定义了不同矩阵.
+
+用自编 CG 和同一问题比较时, 记录每步真实残差、能量误差和总矩阵向量积次数. 为了教学核验每步重新计算真实残差, 会额外增加一次乘法; 计时应明确这个测量开销. 向量相对误差只有已知真解时可直接计算. 对能量误差, 可用 $\sqrt{(x_*-x)^TA(x_*-x)}$, 不把欧氏误差自动当作能量误差.
+
+然后把一个右端改为许多右端, 复用同一 $F$ 解多个系统. 直接法的构造成本只支付一次, 迭代法的预条件器也应复用后公平比较. 对二维和三维网格, 还要记录因子非零数、排序和峰值内存; 输入 $\operatorname{nnz}(A)=O(N)$ 并不保证因子也线性.
+
+\originalsection{方法选择的综合练习}
+\begin{exercise}
+一个满列秩 $m\times n$ 矩阵 ($m\gg n$) 条件数约为 $10^7$, 需要解不相容最小二乘. 某程序形成 $A^TA$, 用 Cholesky 得到很小的正规方程残差. 这是否足以验收? 你会怎样改进计算与检查?
+\end{exercise}
+\begin{solution}
+不足. 正规矩阵条件数约为 $10^{14}$, 它在形成时已经引入误差; 很小的正规系统残差只检验了这个形成后的问题. 宜用 Householder QR 或必要时 SVD 直接处理原 $A$, 检查原数据的最小二乘残差、$A^T(b-Ax)$、分解后向误差以及相应条件性. 不相容问题的残差可以本来就大, 不能把它必须接近零作为验收条件.
+\end{solution}
+\begin{exercise}
+两个可逆矩阵条件数都为 $1$, 一个是 $2I$, 另一个是第 \ref{ch:gmres} 章的循环置换矩阵. 对初始残差 $e_1$ 的 GMRES, 为什么一个一步收敛而另一个可能前 $n-1$ 步完全停滞?
+\end{exercise}
+\begin{solution}
+$2I$ 的最小消去多项式为 $1-z/2$, 所以一步能消去残差. 循环置换的残差方向依次走到相互正交的坐标轴, 在 $k<n$ 时 $A\mathcal K_k\perp e_1$, 最小修正为零. 条件数描述输入解映射的最坏放大, 不描述满足 $p(0)=1$ 的低次多项式能否在整个谱和当前残差方向上变小.
+\end{solution}
+\begin{exercise}
+某 SPD 问题使用每次不同的非对称 ILU 近似作为“PCG 预条件器”, 测试中偶尔收敛. 能否据此使用第 \ref{ch:cg} 章的 Chebyshev 界?
+\end{exercise}
+\begin{solution}
+不能. 标准 PCG 界依赖固定 Hermitian 正定的 $M$ 和等价对称变换. 非对称且变化的 ILU 不满足这些条件, 成功算例不补足证明缺口. 应改用满足条件的对称正定预条件器及 PCG, 或使用适用于变化预条件的灵活 GMRES 等算法, 并重新检查真实残差与成本.
+\end{solution}
+\begin{exercise}
+一个稀疏非对称系统, 全 GMRES 残差持续下降, 但 GMRES(20) 每个周期几乎无改进. 你会检查哪些信息, 可在不改变原方程的前提下考虑哪些改进?
+\end{exercise}
+\begin{solution}
+先验证小问题递推残差与真实残差一致, 检查正交性、预条件应用和周期末更新. 若不是实现问题, 可能是短周期丢失了关键谱方向, 或算子很非正规. 可在内存允许下增大重启长度, 改善预条件, 保留有价值的近似不变子空间或采用成熟的增广重启实现. 单靠更紧的容差通常不恢复丢失的搜索空间. 对一般矩阵, 固定长度重启本来就没有无条件收敛保证.
+\end{solution}
+\begin{remark}
+本章实验题与示例代码为自编补充. 课程原有 Julia 资料提供工具背景, 官方 Julia 文档只用于核对调用名称与基本对象. 本章严格区分可证明的精确算术预测、允许读者执行的代码和本环境已经核算的数学例题, 不虚构运行时间或代码执行记录.
+\end{remark}

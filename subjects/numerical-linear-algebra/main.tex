@@ -1,0 +1,172 @@
+% !TeX program = xelatex
+% 数学 LaTeX 排版 Skill v4.0.0；版式保持 v3 金标准. XeLaTeX 编译至少两次. 不分发字体.
+% WZ-LOCKED-CLASS-BEGIN
+\begin{filecontents*}[overwrite]{elegantbook-original-adapter.cls}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{elegantbook-original-adapter}[2026/09/23 v3.0 fixed mathematical book environments]
+\LoadClass[10pt,letterpaper,oneside]{book}
+\RequirePackage[UTF8,scheme=plain,fontset=fandol]{ctex}
+\RequirePackage{fontspec}
+\setmainfont{cmunrm.otf}[BoldFont=cmunbx.otf,ItalicFont=cmunti.otf,BoldItalicFont=cmunbi.otf]
+\setCJKfamilyfont{sourceheader}[ItalicFont=FandolKai-Regular.otf]{FandolKai-Regular.otf}
+\RequirePackage{amsmath,amssymb,mathrsfs}
+\RequirePackage{amsthm,etoolbox}
+\RequirePackage{xcolor,geometry,setspace,fancyhdr,enumitem,needspace,xurl}
+\definecolor{structurecolor}{HTML}{880E4F}
+\definecolor{main}{HTML}{9C27B0}
+\geometry{paperwidth=612bp,paperheight=792bp,left=20mm,right=20mm,top=95.04bp,bottom=20mm,headheight=12pt,headsep=25pt,footskip=30pt}
+\setstretch{1.6}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlist{nosep,leftmargin=2em}
+\AtBeginDocument{\setlength{\abovedisplayskip}{4pt plus 1pt minus 1pt}\setlength{\belowdisplayskip}{4pt plus 1pt minus 1pt}\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{3pt}}
+\fancyhf{}
+\fancyhead[L]{{\itshape\CJKfamily{sourceheader}\rightmark}}
+\fancyhead[R]{{\itshape\CJKfamily{sourceheader}\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{structurecolor}\hrule height\headrulewidth width\headwidth\vskip-\headrulewidth}}
+\pagestyle{fancy}
+\fancypagestyle{cover}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}\renewcommand{\headrule}{}}
+\RequirePackage{hyperref}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=structurecolor,urlcolor=structurecolor,citecolor=structurecolor,linktoc=section,bookmarksnumbered=true,bookmarksopen=true,pdfborder={0 0 0},pdfstartview=FitH}
+\setcounter{tocdepth}{1}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.4em}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\newcommand{\originalchapter}[1]{\par\addvspace{14pt}\Needspace{5\baselineskip}\refstepcounter{chapter}\setcounter{section}{0}\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}\markboth{\thechapter\quad #1}{}\begingroup\centering\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\thechapter\quad #1\par\endgroup\nobreak\vspace{8pt}}
+\newcommand{\originalsection}[1]{\par\addvspace{9pt}\Needspace{4\baselineskip}\refstepcounter{section}\addcontentsline{toc}{section}{\protect\hspace*{1.5em}\protect\numberline{\protect\textcolor{structurecolor}{\thesection}}#1}\markright{\thesection\quad #1}\noindent{\fontsize{12}{17}\selectfont\color{structurecolor}\thesection\quad}{\bfseries\fontsize{12}{17}\selectfont #1}\par\nobreak\vspace{4pt}}
+
+% Semantic environments are registered once here, not re-designed in manuscripts.
+\newtheoremstyle{wzstatement}{6pt}{5pt}
+  {\normalfont\kaishu}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzdefinition}{6pt}{5pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzproblem}{7pt}{5pt}
+  {\normalfont\songti}{2em}{\normalfont\bfseries\color{main}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}}
+\newtheoremstyle{wzremark}{4pt}{4pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries}
+  {}{.7em}{\thmname{#1}}
+\theoremstyle{wzstatement}
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{wzdefinition}
+\newtheorem{definition}[theorem]{定义}
+\theoremstyle{wzproblem}
+\newtheorem{example}{例题}[chapter]
+\newtheorem{exercise}{习题}[chapter]
+\theoremstyle{wzremark}
+\newtheorem*{remark}{注}
+\renewcommand{\proofname}{证明}
+% Retain the native amsthm QED stack; only adjust the fixed typography.
+\expandafter\patchcmd\csname\string\proof\endcsname{\normalfont \topsep6\p@\@plus6\p@\relax}
+  {\normalfont\songti \topsep5\p@\@plus1\p@\relax}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof spacing}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\itshape}{\normalfont\bfseries}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof heading}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\ignorespaces}
+  {\setlength{\parindent}{2em}\ignorespaces}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof paragraphs}{Check the amsthm version.}}
+\AtBeginEnvironment{proof}{\par\Needspace{3\baselineskip}}
+\renewcommand{\qedsymbol}{\ensuremath{\square}}
+\newenvironment{solution}{\begin{proof}[解答]}{\end{proof}}
+\newcommand{\wzcheckchapter}{\ifnum\value{chapter}<1
+  \ClassError{elegantbook-original-adapter}{Numbered mathematics before chapter 1}{Move it after the first originalchapter.}\fi}
+
+\newcommand{\wzregisterguard}[1]{\AtBeginEnvironment{#1}{\wzcheckchapter\par\Needspace{3\baselineskip}}}
+\forcsvlist{\wzregisterguard}{theorem,lemma,proposition,corollary,definition,example,exercise}
+% Front matter and bibliography are not numbered mathematical chapters.
+\newcommand{\originalpreface}{\par\addvspace{10pt}\Needspace{5\baselineskip}
+  \noindent{\bfseries\fontsize{12}{17}\selectfont 前言}\par\nobreak\vspace{4pt}}
+\newcommand{\originalcontents}{\par\addvspace{14pt}
+  \begin{center}{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont 目录}\end{center}
+  \vspace{-10pt}\@starttoc{toc}}
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]{
+  \par\addvspace{12pt}\Needspace{3\baselineskip}\phantomsection
+  \addcontentsline{toc}{chapter}{\bibname}
+  \markboth{\bibname}{}
+  \noindent{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\bibname}\par\nobreak\vspace{6pt}
+  \list{\@biblabel{\@arabic\c@enumiv}}
+    {\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth
+     \advance\leftmargin\labelsep\usecounter{enumiv}
+     \let\p@enumiv\@empty\renewcommand\theenumiv{\@arabic\c@enumiv}
+     \setlength{\itemsep}{3pt}\setlength{\parsep}{0pt}}
+  \sloppy\clubpenalty4000\widowpenalty4000\sfcode`\.=1000\relax
+}{\def\@noitemerr{\@latex@warning{Empty bibliography}}\endlist}
+
+\numberwithin{equation}{chapter}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+\allowdisplaybreaks[2]
+\emergencystretch=2em
+\clubpenalty=6000
+\widowpenalty=6000
+\raggedbottom
+\endinput
+\end{filecontents*}
+% WZ-LOCKED-CLASS-END
+\documentclass{elegantbook-original-adapter}
+% ===== 元数据内容槽 =====
+\newcommand{\BookTitle}{数值线性代数}
+\newcommand{\BookAuthor}{}
+\newcommand{\BookDate}{}
+\newcommand{\PDFTitle}{数值线性代数：MIT 18.335J 中文整理与补充}
+\newcommand{\PDFAuthor}{}
+\hypersetup{pdftitle={\PDFTitle},pdfauthor={\PDFAuthor}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{longtable,booktabs}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\inner}[2]{\langle #1,#2\rangle}
+\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\Span}{span}
+\begin{document}
+\frontmatter
+\begin{center}
+{\color{structurecolor}\bfseries\fontsize{18}{25}\selectfont 数值线性代数\par}
+\vspace{5pt}
+{MIT 18.335J Spring 2019 相关课程资料中文整理与自编补充\par}
+\end{center}
+\originalpreface
+数值线性代数研究如何在有限精度和有限计算资源下求解线性方程组、最小二乘问题及特征值问题. 本册面向已学过矩阵运算、线性空间、内积、特征值和微积分的读者, 目标是把数学结构、误差分析和实际算法连在一起. 从浮点运算出发, 依次讨论条件数、SVD、QR、LU、Cholesky、特征值算法和大型稀疏问题. 读完后应能解释为什么某个算法适合某类矩阵, 能检查其条件, 也能用残差判断计算结果的可信程度.
+
+主要来源是 MIT OpenCourseWare 的 Steven G. Johnson 教授 18.335J Introduction to Numerical Methods, Spring 2019. 本册选取第 2--5、7--24 讲的数值线性代数主题; 原课程还含 ODE、优化、积分和 FFT, 本册不重复这些专题. 官方资源栏共有 27 份 PDF 手册, 共 261 页; 其中直接相关的核心手册为 12 份、59 页, 性能补充 3 份、16 页. 课程另有逐周 HTML 课堂说明, 部分重要讲次明确没有独立手册. 因此本册是按学科重组的中文讲义, 不是声称完整逐字翻译了原课程 39 讲的官方讲稿.
+
+有独立手册的部分按其数学内容整理, 保留原作者和来源; 原手册简略、仅列算法或只有课堂主题的部分, 补充了连续的中文解释、证明、例题与习题. 这些扩展是本册自编补充, 不冒称 MIT 原文. 每章末说明对应课次和资料, 附录给出来源覆盖表. Per-Olof Persson 的浮点、正交化、QR 和稀疏算法手册另行署名. 本册没有复制或下载 Trefethen 与 Bau 的版权教材全文.
+
+MIT OCW 资料一般按 Creative Commons Attribution--NonCommercial--ShareAlike 4.0 许可使用, 具体资源的特殊署名和权利说明仍适用. 本册作为非商业学习用改编材料保留相同许可, 不代表 MIT 官方出版或认可. 原件、逐文件来源和校验值另随项目保存. 阅读时应把数学结论、精确算术中的算法性质、有限精度中的经验现象分开; 数值实验用于检验实现和理解现象, 不能替代证明.
+\originalcontents
+\clearpage
+\mainmatter
+\input{chapters/ch01-floating.tex}
+\input{chapters/ch02-conditioning.tex}
+\input{chapters/ch03-svd.tex}
+\input{chapters/ch04-qr.tex}
+\input{chapters/ch05-direct.tex}
+\input{chapters/ch06-performance.tex}
+\input{chapters/ch07-eigen.tex}
+\input{chapters/ch08-krylov.tex}
+\input{chapters/ch09-gmres.tex}
+\input{chapters/ch10-cg-precondition.tex}
+\input{chapters/ch11-sparse.tex}
+\input{chapters/ch12-experiments.tex}
+\input{chapters/appendix-sources.tex}
+\begin{thebibliography}{9}
+\bibitem{ocw} Steven G. Johnson. Introduction to Numerical Methods, 18.335J, Spring 2019. MIT OpenCourseWare. \url{https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/}.
+\bibitem{index} MIT OpenCourseWare. Resource Index and Lecture Notes for 18.335J, Spring 2019. \url{https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/resource-index/}; \url{https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/resources/lecture-notes/}.
+\bibitem{persson} Per-Olof Persson. Floating-Point Arithmetic, the IEEE Standard; Gram-Schmidt Orthogonalization; Householder Reflectors and Givens Rotations; The QR Algorithm I and II; Sparse Matrix Algorithms. MIT 18.335J/6.337J handouts, 2006--2007, republished in the Spring 2019 course resources. 各份实际题名、署名和页数见项目来源清单.
+\bibitem{tb} Lloyd N. Trefethen and David Bau III. Numerical Linear Algebra. SIAM, 1997. 仅列为原课程指定教材与进一步阅读, 本册未复制其全文.
+\bibitem{julia} The Julia Project. Linear Algebra and Sparse Arrays standard-library documentation. \url{https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/}; \url{https://docs.julialang.org/en/v1/stdlib/SparseArrays/}. API核对日期: 2026-10-08.
+\bibitem{terms} MIT OpenCourseWare. Privacy and Terms of Use. \url{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}. Creative Commons BY-NC-SA 4.0: \url{https://creativecommons.org/licenses/by-nc-sa/4.0/}.
+\end{thebibliography}
+\end{document}

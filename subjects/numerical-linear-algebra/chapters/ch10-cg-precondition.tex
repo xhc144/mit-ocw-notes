@@ -1,0 +1,318 @@
+% SOURCE: MIT 18.335J Spring 2019, Week 8, Lectures 21--23.
+% ADAPTATION: self-authored supplemental explanations, proofs, examples and exercises.
+\originalchapter{共轭梯度、预条件与双共轭方法}\label{ch:cg}
+\originalsection{正定性把解方程变成极小化}
+现在假设 $A\in\C^{n\times n}$ Hermitian 正定, 即 $A=A^*$ 且 $x^*Ax>0$ 对所有 $x\ne0$ 成立. 定义能量内积与能量范数
+\[
+\inner{x}{y}_A=x^*Ay,\qquad \norm{x}_A=(x^*Ax)^{1/2},
+\]
+并令 $x_*=A^{-1}b$. 我们考虑实值二次函数
+\[
+f(x)=\frac12x^*Ax-\operatorname{Re}(b^*x).
+\]
+其变化由残差 $r=b-Ax$ 控制. 把 $x=x_*+h$ 展开, 交叉项因 $Ax_*=b$ 消去, 得到
+\begin{equation}\label{eq:cg-quadratic-energy}
+f(x)-f(x_*)=\frac12h^*Ah=\frac12\norm{x-x_*}_A^2.
+\end{equation}
+因此解方程、极小化 $f$, 以及极小化能量误差是同一个任务. 正定性同时保证极小点存在、唯一, 并给出一个真正的误差范数. 若 $A$ 只有 Hermitian 性而非正定性, $f$ 可能为鞍点函数, 后面分母的正性和极小化证明都将失效.
+
+先看最简单的最速下降. 在当前残差方向 $r$ 上选择实步长 $\alpha$, 有
+\[
+f(x+\alpha r)=f(x)-\alpha r^*r+\frac{\alpha^2}{2}r^*Ar.
+\]
+唯一最优步长为 $\alpha=r^*r/(r^*Ar)$. 更新后 $r_{\mathrm{new}}=r-\alpha Ar$, 从而 $r^*r_{\mathrm{new}}=0$. 连续残差彼此正交看似有利, 但并不意味着同时保留了对过去各方向的最优性: 后续更新会重新改变以前已经调好的坐标.
+
+\begin{example}
+设 $A=\diag(1,100)$, $b=0$, $x_0=(1,1/100)^T$. 解释最速下降的折返和慢收敛.
+\end{example}
+\begin{solution}
+$r_0=(-1,-1)^T$, $\alpha_0=2/101$, 故
+\[
+x_1=(99/101,-99/10100)^T,\qquad
+r_1=(-99/101,99/101)^T.
+\]
+两个残差方向正交. 由于 $r_1$ 的两个分量绝对值仍相等, 下一步仍用 $\alpha_1=2/101$, 得
+$x_2=(99/101)^2x_0$. 之后这一模式重复, 能量误差每步乘以 $99/101$. 二次函数的等高线很扁, 欧氏最陡方向在长轴两侧折返, 因而仅沿当前梯度精确搜索仍很慢.
+\end{solution}
+若 $a=\lambda_{\min}(A)>0$, $c=\lambda_{\max}(A)$, 则选择固定步长 $2/(a+c)$ 已保证能量误差每步不超过 $(c-a)/(c+a)$. 最速下降的精确线搜索不会更差, 因而其一般保证需要约 $O(\kappa_2(A)\log(1/\tau))$ 步达到相对误差 $\tau$. 共轭梯度的改进点不是再找一个更精细的单步长度, 而是使新的搜索不破坏所有旧方向的极小化.
+
+\originalsection{共轭方向与整个子空间上的最优性}
+\begin{definition}
+非零向量 $p_0,\ldots,p_{k-1}$ 若满足 $p_i^*Ap_j=0$ 对 $i\ne j$ 成立, 称为 $A$-共轭或 $A$-正交. 因 $A$ 正定, 它们线性无关.
+\end{definition}
+这里的共轭并不是复共轭运算的同义词, 而是通过 $A$ 定义的正交性. 如果用这些方向作坐标, 二次函数中的混合项全部消失, 各坐标的一维极小化就不会互相干扰.
+
+\begin{proposition}[共轭方向的联合极小化]\label{prop:conjugate-directions}
+设 $p_0,\ldots,p_{k-1}$ 两两 $A$-共轭. 从 $x_0$ 开始依次令
+\[
+\alpha_j=\frac{p_j^*r_j}{p_j^*Ap_j},\qquad
+x_{j+1}=x_j+\alpha_jp_j,\qquad
+r_{j+1}=r_j-\alpha_jAp_j.
+\]
+则 $r_k\perp\Span\{p_0,\ldots,p_{k-1}\}$, 且 $x_k$ 是该仿射子空间上 $f$ 的唯一极小点, 也使能量误差最小. 在复数情形, 上述系数允许复数; 这是沿复线的极小化公式.
+\end{proposition}
+\begin{proof}
+更新消去 $p_j^*r_j$ 的分量, 所以 $p_j^*r_{j+1}=0$. 对 $i<j$, 已有 $p_i^*r_j=0$, 新变化为 $-\alpha_jp_i^*Ap_j=0$, 所以旧正交性保留. 最终残差垂直于全部方向.
+
+对任意 $h$ 在这些方向的线性包中, 展开二次函数得
+\[
+f(x_k+h)-f(x_k)=-\operatorname{Re}(h^*r_k)+\frac12h^*Ah
+=\frac12h^*Ah\ge0.
+\]
+等号仅在 $h=0$ 时成立. 再用式 \eqref{eq:cg-quadratic-energy} 即得能量误差最小化.
+\end{proof}
+任意给定的一组方向都可以用能量内积做 Gram--Schmidt, 但保存所有旧方向并作全部投影依然昂贵. CG 的特殊之处是从残差生成方向时, 绝大多数能量投影自动为零, 最终只需前一个方向.
+
+\originalsection{从 Krylov 极小化推导三项算法}
+令 $x_k$ 是 $x_0+\mathcal K_k(A,r_0)$ 上 $f$ 的唯一极小点, $r_k=b-Ax_k$. 这里先把 $x_k$ 用最优性定义, 再导出怎样低成本地得到它, 以免把待证明的递推性质当成假设.
+
+\begin{lemma}\label{lem:cg-residual-space}
+在精确算术中,
+\[
+r_k\perp\mathcal K_k(A,r_0),\qquad r_k\in\mathcal K_{k+1}(A,r_0).
+\]
+若 $r_k\ne0$, 则 $\mathcal K_{k+1}=\mathcal K_k\oplus\Span\{r_k\}$. 不同非零残差彼此正交.
+\end{lemma}
+\begin{proof}
+对任意 $h\in\mathcal K_k$, 沿 $x_k+th$ 和 $x_k+\mathrm it h$ 的实参数一阶条件给出 $h^*r_k=0$. 又 $x_k-x_0\in\mathcal K_k$, 所以
+$r_k=r_0-A(x_k-x_0)\in\mathcal K_{k+1}$. 若 $r_k\ne0$, 它正交于 $\mathcal K_k$ 且不属于其中, 故维数至少增加一. Krylov 空间每一步最多增加一维, 所以所述直和成立. 对 $i<k$, $r_i\in\mathcal K_{i+1}\subseteq\mathcal K_k$, 故 $r_i^*r_k=0$.
+\end{proof}
+
+现在令 $p_0=r_0$. 假设 $p_0,\ldots,p_{k-1}$ 已是 $\mathcal K_k$ 的 $A$-共轭基. 对 $r_k$ 做能量正交化, 得
+\[
+p_k=r_k-\sum_{i=0}^{k-1}
+\frac{p_i^*Ar_k}{p_i^*Ap_i}\,p_i.
+\]
+对 $i\le k-2$, $p_i\in\mathcal K_{i+1}$, 因而 $Ap_i\in\mathcal K_{i+2}\subseteq\mathcal K_k$. Hermitian 性及引理给出
+\[
+p_i^*Ar_k=(Ap_i)^*r_k=0.
+\]
+只剩最后一个投影. 因此 $p_k=r_k+\beta_{k-1}p_{k-1}$, 其中
+\[
+\beta_{k-1}=-\frac{p_{k-1}^*Ar_k}{p_{k-1}^*Ap_{k-1}}.
+\]
+新方向不为零, 因为其欧氏正交于旧空间的分量为非零的 $r_k$. 它补齐 $\mathcal K_{k+1}$, 并与所有旧方向 $A$-共轭.
+
+命题 \ref{prop:conjugate-directions} 表明沿 $p_k$ 更新就得到新的子空间极小点. 因 $r_k$ 垂直旧方向,
+$p_k^*r_k=r_k^*r_k$, 故
+\[
+\alpha_k=\frac{r_k^*r_k}{p_k^*Ap_k},\qquad
+r_{k+1}=r_k-\alpha_kAp_k.
+\]
+为了把 $\beta$ 改写成只含残差长度的公式, 用前一步关系
+$Ap_{k-1}=(r_{k-1}-r_k)/\alpha_{k-1}$, 得
+\[
+p_{k-1}^*Ar_k
+=\frac{(r_{k-1}-r_k)^*r_k}{\alpha_{k-1}}
+=-\frac{r_k^*r_k}{\alpha_{k-1}}.
+\]
+再代入 $\alpha_{k-1}=r_{k-1}^*r_{k-1}/(p_{k-1}^*Ap_{k-1})$, 最终得到
+$\beta_{k-1}=r_k^*r_k/(r_{k-1}^*r_{k-1})$.
+
+\begin{theorem}[CG 算法及其精确性质]\label{thm:cg-algorithm}
+设 $A=A^*>0$, $r_0=b-Ax_0\ne0$, $p_0=r_0$. 在残差非零时反复计算
+\begin{equation}\label{eq:cg-algorithm}
+\begin{aligned}
+q_k&=Ap_k,&\alpha_k&=\frac{r_k^*r_k}{p_k^*q_k},\\
+x_{k+1}&=x_k+\alpha_kp_k,&r_{k+1}&=r_k-\alpha_kq_k,\\
+\beta_k&=\frac{r_{k+1}^*r_{k+1}}{r_k^*r_k},&
+p_{k+1}&=r_{k+1}+\beta_kp_k.
+\end{aligned}
+\end{equation}
+若 $r_{k+1}=0$, 在计算下一方向前停止. 每个非零搜索方向的分母 $p_k^*Ap_k$ 为正. 由算法得到的 $x_k$ 恰为 $x_0+\mathcal K_k(A,r_0)$ 中能量误差最小的向量; 残差彼此欧氏正交, 搜索方向彼此 $A$-共轭. 若 grade 为 $d$, 则至迟第 $d\le n$ 步精确终止.
+\end{theorem}
+\begin{proof}
+前面的构造从唯一的子空间极小点逐步推出了式 \eqref{eq:cg-algorithm}, 故它同时证明递推与该极小点一致. 正分母来自正定性与方向非零. 当维数不再增长时, 引理 \ref{lem:cg-residual-space} 表明残差既属于 $\mathcal K_d$ 又垂直它, 因而只能为零. 也可由 $A^{-1}r_0\in\mathcal K_d$ 得知精确解已经属于候选空间.
+\end{proof}
+每步只需一次矩阵向量积、若干内积和向量更新, 不必保存全部 Krylov 基. 总向量存储为 $O(n)$, 是 CG 相比全 GMRES 的重要优势. 这并不是把 GMRES 的基随意删除, 而是正定极小化和 Hermitian 三项结构带来的合法压缩.
+
+\begin{example}
+对 $A=\diag(1,2)$, $b=(1,1)^T$, $x_0=0$, 计算两步 CG 并与上一章的一步 GMRES 比较.
+\end{example}
+\begin{solution}
+$r_0=p_0=(1,1)^T$, $\alpha_0=2/3$, 因而
+\[
+x_1=(2/3,2/3)^T,\qquad r_1=(1/3,-1/3)^T,
+\quad\beta_0=1/9,\quad p_1=(4/9,-2/9)^T.
+\]
+$Ap_1=(4/9,-4/9)^T$, $p_1^*Ap_1=8/27$, $r_1^*r_1=2/9$, 故 $\alpha_1=3/4$. 更新得 $x_2=(1,1/2)^T$, $r_2=0$. 可直接核对 $p_0^*Ap_1=0$.
+
+一步 GMRES 为 $(3/5,3/5)^T$, 欧氏残差长度 $1/\sqrt5$; 一步 CG 的残差长度为 $\sqrt2/3$, 略大. 但 CG 的能量误差为 $1/\sqrt6$, 小于一步 GMRES 的 $\sqrt{9/50}$. 两者都在同一个一维空间中取最优点, 区别来自所最小化的范数.
+\end{solution}
+
+\originalsection{Chebyshev 界与谱簇带来的进一步加速}
+CG 的多项式观点与 GMRES 相似, 只是优化对象换成能量误差. 记 $e_k=x_*-x_k$. 因 $r_0=Ae_0$, 有
+\[
+e_k=e_0-q(A)r_0=(I-Aq(A))e_0=p(A)e_0,\qquad p(0)=1,\quad\deg p\le k.
+\]
+子空间极小化立即给出
+\begin{equation}\label{eq:cg-poly}
+\norm{e_k}_A=
+\min_{\substack{\deg p\le k\\p(0)=1}}\norm{p(A)e_0}_A
+\le\min_{\substack{\deg p\le k\\p(0)=1}}
+\max_{\lambda\in\operatorname{spec}(A)}|p(\lambda)|\,\norm{e_0}_A.
+\end{equation}
+最后一步把 $A$ 在酉特征基中对角化, 使两边平方成为带权和 $\sum_i\lambda_i|p(\lambda_i)|^2|c_i|^2$ 的比较. 正定性使所有权重非负.
+
+为从特征值所在区间构造多项式, 定义 Chebyshev 多项式 $T_0(t)=1$, $T_1(t)=t$, $T_{k+1}(t)=2tT_k(t)-T_{k-1}(t)$. 余弦加法公式归纳给出
+$T_k(\cos\theta)=\cos(k\theta)$, 所以 $|T_k(t)|\le1$ 在 $[-1,1]$ 上成立. 对 $t>1$, 令 $\rho=t+\sqrt{t^2-1}>1$, 递推同样给出
+\[
+T_k(t)=\frac12(\rho^k+\rho^{-k})\ge\frac12\rho^k.
+\]
+不需要先掌握最佳一致逼近定理, 这两条性质就足以构造我们需要的收敛界.
+
+\begin{theorem}[CG 的条件数界]\label{thm:cg-chebyshev}
+设 $0<a=\lambda_{\min}(A)<c=\lambda_{\max}(A)$, $\kappa=c/a$. 则精确 CG 满足
+\begin{equation}\label{eq:cg-chebyshev}
+\frac{\norm{e_k}_A}{\norm{e_0}_A}
+\le2\left(\frac{\sqrt\kappa-1}{\sqrt\kappa+1}\right)^k.
+\end{equation}
+若 $a=c$, 则 $A=aI$, 一步即得到精确解.
+\end{theorem}
+\begin{proof}
+线性函数 $t(z)=(c+a-2z)/(c-a)$ 把 $[a,c]$ 映到 $[-1,1]$, 且 $t(0)=(c+a)/(c-a)>1$. 取合法多项式
+\[
+p_k(z)=\frac{T_k(t(z))}{T_k(t(0))}.
+\]
+分子在谱区间上的绝对值至多 $1$, 分母至少为 $\rho^k/2$, 其中
+\[
+\rho=t(0)+\sqrt{t(0)^2-1}
+=\frac{\sqrt c+\sqrt a}{\sqrt c-\sqrt a}.
+\]
+于是 $\max_{z\in[a,c]}|p_k(z)|\le2\rho^{-k}$. 代入式 \eqref{eq:cg-poly} 得结论.
+\end{proof}
+由 $\log((\sqrt\kappa+1)/(\sqrt\kappa-1))\ge2/\sqrt\kappa$, 达到能量相对误差 $\tau$ 的充分步数约为
+$\tfrac12\sqrt\kappa\log(2/\tau)$. 与最速下降的 $\kappa$ 量级相比, 条件数依赖改善为平方根. 但该界只使用谱的两个端点, 所以常常偏保守.
+
+例如有 $s$ 个小特征值远离主簇 $[a,c]$, 可以在多项式中先放入 $s$ 个对应根, 再对主簇使用 Chebyshev 因子. 那么端点比主要由较窄的主簇控制, 乘上有限个离群值因子在主簇上的界. 迭代中逐渐抑制离群方向后, 观测收敛常会加快, 有时称为超线性阶段. 这是一种依赖谱分布和起始误差分量的现象, 不是所有 SPD 矩阵都必然出现的统一速度定理.
+
+\originalsection{对称预条件与 PCG 的正确内积}
+把左预条件系统写成 $M^{-1}Ax=M^{-1}b$ 时, 即使 $A,M$ 都 Hermitian 正定, $M^{-1}A$ 在欧氏内积中通常也不 Hermitian. 直接把它当作普通 SPD 矩阵运行标准 CG, 没有正确性依据. 正确推导要通过一个对称变换, 或等价地改变内积.
+
+设 $M=CC^*$ 是一个可逆 Cholesky 因子分解. 令 $y=C^*x$, 则原方程等价于
+\begin{equation}\label{eq:pcg-symmetric}
+\widetilde A y=\widetilde b,\qquad
+\widetilde A=C^{-1}AC^{-*},\qquad\widetilde b=C^{-1}b.
+\end{equation}
+$\widetilde A$ 显然 Hermitian, 且 $v^*\widetilde Av=(C^{-*}v)^*A(C^{-*}v)>0$, 所以它适合普通 CG. 算法中不必真的存储 $C$; 它只是证明对称性的工具.
+
+将变换后的残差记为 $\widetilde r=C^{-1}r$. 定义 $z=M^{-1}r$, 则
+$\widetilde r^*\widetilde r=r^*M^{-1}r=r^*z$. 把变换后搜索方向映回原坐标, 就得到以下递推.
+
+\begin{theorem}[预条件共轭梯度]\label{thm:pcg}
+若 $A=A^*>0$, 固定预条件矩阵 $M=M^*>0$, 令 $r_0=b-Ax_0$; 若 $r_0=0$ 则直接停止. 否则解 $Mz_0=r_0$, 取 $p_0=z_0$, $\rho_0=r_0^*z_0$. 对非零残差计算
+\begin{equation}\label{eq:pcg-algorithm}
+\begin{aligned}
+q_k&=Ap_k,&\alpha_k&=\frac{\rho_k}{p_k^*q_k},\\
+x_{k+1}&=x_k+\alpha_kp_k,&r_{k+1}&=r_k-\alpha_kq_k,\\
+Mz_{k+1}&=r_{k+1},&\rho_{k+1}&=r_{k+1}^*z_{k+1},\\
+\beta_k&=\frac{\rho_{k+1}}{\rho_k},&p_{k+1}&=z_{k+1}+\beta_kp_k.
+\end{aligned}
+\end{equation}
+若 $r_{k+1}=0$ 则停止. 这是对 \eqref{eq:pcg-symmetric} 运行普通 CG 后的等价算法. 它仍使原坐标中的能量误差最小, 但候选空间为
+\[
+x_0+\mathcal K_k(M^{-1}A,M^{-1}r_0).
+\]
+误差界 \eqref{eq:cg-chebyshev} 中的条件数换成 $\kappa_2(C^{-1}AC^{-*})$.
+\end{theorem}
+\begin{proof}
+变换后初始残差为 $C^{-1}r_0$, 初始搜索方向相同. 映回原坐标时, 搜索方向成为 $C^{-*}C^{-1}r_0=M^{-1}r_0$. 每次 $\widetilde p^*\widetilde A\widetilde p$ 等于 $p^*Ap$, 每次 $\widetilde r^*\widetilde r$ 等于 $r^*M^{-1}r$, 所以 CG 的 $\alpha,\beta$ 完全变成上述公式. 更新同样一一对应.
+
+映回的子空间可写为
+$C^{-*}\mathcal K_k(\widetilde A,C^{-1}r_0)=\mathcal K_k(M^{-1}A,M^{-1}r_0)$. 能量满足
+$\norm{C^*e}_{\widetilde A}^2=e^*Ae$, 因而变换后能量最小化和误差界恰为原坐标中的所述结论.
+\end{proof}
+另一种看法是 $M^{-1}A$ 在内积 $\inner{u}{v}_M=u^*Mv$ 中自伴且正定. 其特征值是广义特征值问题 $Av=\lambda Mv$ 的正实数, 与 $\widetilde A$ 的谱相同. 预条件成功通常要求这些特征值集中, 同时应用 $M^{-1}$ 足够便宜.
+
+\begin{proposition}[谱等价的含义]\label{prop:pcg-spectral-equivalence}
+若存在 $0<c_1\le c_2$ 使
+\[
+c_1v^*Mv\le v^*Av\le c_2v^*Mv\qquad\text{对所有 }v,
+\]
+则 $\operatorname{spec}(\widetilde A)\subseteq[c_1,c_2]$, 从而预条件条件数不超过 $c_2/c_1$.
+\end{proposition}
+\begin{proof}
+令 $v=C^{-*}w$, 则 $v^*Mv=w^*w$, $v^*Av=w^*\widetilde Aw$. 不等式成为 $c_1\norm{w}_2^2\le w^*\widetilde Aw\le c_2\norm{w}_2^2$. 取单位特征向量就得到谱界.
+\end{proof}
+这个准则能把预条件器的设计转化为可证明的二次型比较. 只要求 $M$ 的每个元素看起来接近 $A$ 通常不够; 要关心难收敛方向在两个二次型中受到怎样的缩放.
+
+\originalsection{常用预条件器、有限精度与验收}
+Jacobi 预条件取 $M=\diag(A)$, 对 SPD 矩阵其对角元均为正. 它便宜, 能修正变量尺度差异, 但只看局部独立坐标, 不一定处理好网格方程的低频误差. 块 Jacobi 把强耦合的变量成组, 在每个小块中求解, 因而能捕捉比单点更强的局部结构.
+
+不完全 Cholesky 在消元时舍弃部分填充, 得到易解的近似因子 $M=LL^*$. 但舍弃可能使未修正的分解遇到非正主元; 必须用保证正定的构造、移位或其他受控修改, 不能因原矩阵 SPD 就断言任意丢弃策略也 SPD. 对一般非对称矩阵, 不完全 LU 常与 GMRES 或稳定化双共轭方法配合; 非对称 ILU 不可无条件用于 PCG.
+
+多重网格通过细网格平滑处理高频误差, 再在粗网格校正低频误差. 若作为 PCG 预条件器使用, 整个循环的线性作用还应满足所需的对称性和正定性, 例如使用配对的前后平滑与一致的转移算子. 多重网格并非只把一个 Jacobi 步重复很多次, 它的核心是跨尺度校正.
+
+预条件器的总成本应比较
+\[
+\text{构造成本}+k\bigl(\text{一次 }Av\text{ 的成本}+\text{一次 }M^{-1}v\text{ 的成本}\bigr).
+\]
+更少的迭代不一定更快. 若有许多右端, 较昂贵的预条件构造可被摊销; 若矩阵频繁变化, 则构造成本更敏感. 在理想但昂贵的极限 $M=A$ 下, PCG 一步收敛, 可是应用预条件器本身已经等于解原问题.
+
+浮点 CG 中, 残差正交性、方向共轭性和 $n$ 步精确终止都不再严格成立. 递推残差还会与真实残差分离. 每隔适当阶段或临近收敛时重算 $b-A\widehat x$ 有助于检查; 若用真实残差替换递推残差, 后续方向也可能需要重新启动, 不能任意替换后仍声称精确共轭性质保持不变.
+
+CG 保证单调下降的是能量误差和二次目标, 而非欧氏残差范数. 正确的停止检验宜同时考虑真实残差、相对尺度和应用误差. 对 SPD 矩阵, $\norm{e}_A^2=r^*A^{-1}r$, 并且
+\[
+\frac{\norm{r}_2}{\sqrt{\lambda_{\max}(A)}}
+\le\norm{e}_A\le
+\frac{\norm{r}_2}{\sqrt{\lambda_{\min}(A)}}.
+\]
+这些界需要特征值端点或可靠估计; 不能把一个小残差百分比自动当作同样大小的能量误差百分比.
+
+若预条件器随迭代改变, 标准 PCG 的固定变换证明失效. 只有当变动方式符合某个灵活 CG 方法的假设并采用相应递推, 才能继续给出理论保证. 对变动、非线性或不精确内层求解, 灵活 GMRES 往往是更直接的替代, 仍需检查实际算子和收敛.
+
+\originalsection{BiCG 的动机与不可忽略的中断}
+非 Hermitian 矩阵通常不能既保留 GMRES 的欧氏残差最小化, 又维持简单的三项递推. 双共轭梯度 BiCG 采用两个互为对偶的 Krylov 序列, 用双正交性换取短递推. 它的内存较低, 但失去了 SPD 能量极小化的保护.
+
+以下给出实矩阵版本, 以避免复共轭系数遮住基本结构. 取初始残差 $r_0$ 和影子残差 $\widetilde r_0$, 要求 $\rho_0=\widetilde r_0^Tr_0\ne0$, 并置 $p_0=r_0$, $\widetilde p_0=\widetilde r_0$. 形式上的递推为
+\begin{equation}\label{eq:bicg}
+\begin{aligned}
+q_k&=Ap_k,&\widetilde q_k&=A^T\widetilde p_k,
+&\alpha_k&=\frac{\rho_k}{\widetilde p_k^Tq_k},\\
+x_{k+1}&=x_k+\alpha_kp_k,&
+r_{k+1}&=r_k-\alpha_kq_k,&
+\widetilde r_{k+1}&=\widetilde r_k-\alpha_k\widetilde q_k,\\
+\rho_{k+1}&=\widetilde r_{k+1}^Tr_{k+1},&
+\beta_k&=\frac{\rho_{k+1}}{\rho_k},\\
+p_{k+1}&=r_{k+1}+\beta_kp_k,&
+\widetilde p_{k+1}&=\widetilde r_{k+1}+\beta_k\widetilde p_k.
+\end{aligned}
+\end{equation}
+在没有中断的精确双 Lanczos 构造中, 残差满足双正交关系 $\widetilde r_i^Tr_j=0$ 对 $i\ne j$, 方向满足 $\widetilde p_i^TAp_j=0$ 对 $i\ne j$. 这里没有正定性保证 $\rho_k$ 或 $\widetilde p_k^TAp_k$ 非零. 任一关键分母为零时, 上述公式就不能继续, 即使原矩阵可逆也是如此.
+
+\begin{example}
+取 $A=\begin{bmatrix}0&1\\1&0\end{bmatrix}$, $r_0=\widetilde r_0=e_1$. 则 $\rho_0=1$, 但 $\widetilde p_0^TAp_0=e_1^TAe_1=0$. BiCG 第一个步长即无定义, 而 $A$ 可逆, 方程当然有唯一解.
+\end{example}
+从块矩阵的角度,
+\[
+B=\begin{bmatrix}0&A\\A^*&0\end{bmatrix}
+\]
+是 Hermitian, 但一般不正定. 若 $\sigma_i(A)>0$, 则其特征值含 $\pm\sigma_i(A)$: 对一个奇异向量对 $Av=\sigma u$, $A^*u=\sigma v$, 向量 $(u,\pm v)^T$ 分别对应 $\pm\sigma$. 因而借助此块矩阵得到的共轭构造面向鞍点, 不能套用正定极小化证明. 这解释了课程中将 BiCG 与 Hermitian 不定块系统联系起来时, 为什么中断成为中心问题.
+
+QMR 通过准最小残差处理双 Lanczos 序列; BiCGSTAB 在双共轭多项式之外增加局部残差平滑因子, 常可减少剧烈振荡并避免显式乘以 $A^T$. 这些方法是有价值的低存储选择, 但名称中的稳定化不表示绝无中断或对所有问题保证单调收敛. 若影子配对近于零、局部最小化分母退化或有限精度损坏双正交性, 仍可能失败. 应报告中断原因, 检查真实残差, 并考虑改变预条件器、使用经过验证的稳定化实现或改用 GMRES. 对实对称不定系统, MINRES 利用 Lanczos 和最小残差条件, 通常比硬套 CG 更合适.
+
+\originalsection{习题与解答}
+\begin{exercise}
+证明非零的两两 $A$-共轭向量线性无关. 指出如果 $A$ 只是 Hermitian 不定, 证明的哪一步可能失效.
+\end{exercise}
+\begin{solution}
+若 $\sum_jc_jp_j=0$, 左乘 $p_i^*A$ 得 $c_ip_i^*Ap_i=0$. 正定性保证 $p_i^*Ap_i>0$, 故每个 $c_i=0$. 不定情形可能有非零 $p_i$ 满足 $p_i^*Ap_i=0$, 于是无法除去该因子; 一个非零方向甚至可能与自己 $A$-正交.
+\end{solution}
+\begin{exercise}
+设 $A$ SPD 且只有 $s$ 个不同特征值. 证明无论初值如何, 精确 CG 至迟 $s$ 步终止, 并说明为何这不等于浮点数中固定 $s$ 步达到任意精度.
+\end{exercise}
+\begin{solution}
+取 $p(z)=\prod_{j=1}^s(1-z/\lambda_j)$, 则 $p(0)=1$, $p(A)=0$. 能量多项式最小化给出第 $s$ 步误差为零. 浮点迭代不严格保持这些多项式关系、残差正交性与共轭性; 数据和运算还会扰动谱, 所以实际需以真实残差和应用误差验收.
+\end{solution}
+\begin{exercise}
+取 $A=\diag(1,100)$, $M=\diag(1,10)$. 求对称预条件矩阵的特征值和条件数. 比较 $M=I$ 与 $M=A$ 的情况, 并解释为什么仅比较迭代数不足以决定预条件器优劣.
+\end{exercise}
+\begin{solution}
+$M^{-1/2}AM^{-1/2}=\diag(1,10)$, 条件数为 $10$. $M=I$ 时为 $100$, $M=A$ 时为 $1$, 后者一步终止. 但一般矩阵下精确应用 $A^{-1}$ 可能比许多便宜迭代还昂贵, 因此要计入预条件器构造和每次求解成本. 这个对角例子中三者都很便宜, 不能据此推广到复杂稀疏问题.
+\end{solution}
+\begin{exercise}
+证明 $M^{-1}A$ 与 $M^{-1/2}AM^{-1/2}$ 相似, 并说明为什么前者的欧氏二范数条件数不一定等于后者的特征值比.
+\end{exercise}
+\begin{solution}
+$M^{-1}A=M^{-1/2}(M^{-1/2}AM^{-1/2})M^{1/2}$. 相似保持特征值, 却只有酉相似才保持奇异值和欧氏二范数. 因此 $M^{-1}A$ 的欧氏条件数可能受 $M^{1/2}$ 的尺度影响; PCG 理论中的条件数是对称变换矩阵的正特征值比.
+\end{solution}
