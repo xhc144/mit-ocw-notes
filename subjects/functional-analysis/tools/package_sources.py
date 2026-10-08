@@ -15,8 +15,14 @@ def main() -> None:
     root = Path(__file__).resolve().parents[1]
     output = args.out or root / 'functional-analysis-source.zip'
     selected = [root / name for name in (
-        'main.tex', 'BUILD.md', 'ATTRIBUTION.md', 'LICENSE.md',
-        'source-manifest.json', 'qa/review-banach.md', 'qa/review-hilbert.md',
+        'main.tex', 'README.md', 'BUILD.md', 'ATTRIBUTION.md', 'LICENSE.md',
+        'source-manifest.json', 'assessment-inventory.json',
+        'qa/review-banach.md', 'qa/review-hilbert.md',
+        'qa/review-assessments-1.md', 'qa/review-assessments-2.md',
+        'qa/review-assessments-3.md', 'qa/review-coverage.md',
+        'qa/core-preservation.json', 'qa/template-lock.json',
+        'qa/source-integrity.json', 'qa/visual-review.json',
+        'qa/visual-pages-1.json', 'qa/visual-pages-2.json', 'qa/visual-pages-3.json',
     )]
     for directory in ('chapters', 'vendor/math-latex-typesetting', 'tools'):
         selected.extend(p for p in (root / directory).rglob('*') if p.is_file()

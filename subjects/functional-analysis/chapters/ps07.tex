@@ -1,0 +1,40 @@
+\originalsection{作业7}\label{sec:ps07}
+原件2页, 数学题面1页. 原题允许使用: 对 $a<b$, $1\le p<\infty$, $f\in L^p([a,b])$ 和每个 $\eps>0$, 存在阶梯 $\psi$ 及连续 $g$, $g(a)=g(b)=0$, 使 $\norm{f-\psi}_p+\norm{f-g}_p<\eps$. 此结论亦由命题\ref{prop:lp-density}的证明给出.
+\begin{exercise}\label{ps07:1}
+原题1. 设 $1\le p<\infty$. (a) 证明 $1\le q\le p$ 时 $L^p([a,b])\subset L^q([a,b])$. (b) 证明 $L^p([a,b])$ 可分. (c) 对 $f\in L^p(\R)$ 与 $\eps>0$, 求连续紧支集函数 $g$ 使 $\norm{f-g}_p<\eps$. (d) 证明 $L^p(\R)$ 可分. 原提示(b): 参看当周第二讲的证明提纲; (c): 先截断至 $[-n,n]$, 再用上述密度定理.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) $q=p$ 直接成立. 若 $q<p$, 对 $|f|^q$ 与1用共轭指数 $p/q$, $p/(p-q)$ 的 Hölder, 得 $\norm f_q\le(b-a)^{1/q-1/p}\norm f_p$. 此复用第\ref{ch:measure}章有限测度包含关系的习题解答.
+
+(b) 取端点为有理数（另允许固定 $a,b$）、系数为 $\Q+\ii\Q$ 的有限区间阶梯函数, 形成可数集. 任意阶梯函数可用这些函数逼近: 端点移动 $\delta$ 只改变测度至多 $2\delta$ 的集合, 对区间指示函数的 $L^p$ 误差为对称差测度的 $1/p$ 次方; 系数移动的误差由有限区间长度控制. 与原题允许的阶梯密度结合, 该可数集稠密.
+
+(c) $\int_{|x|>n}|f|^p\to0$, 所以先选 $n$ 使截断误差小于 $\eps/2$. 在 $[-n,n]$ 内用零端点连续逼近, 误差小于 $\eps/2$, 再延为区间外零. 端点零保证全轴连续, 支集包含于 $[-n,n]$, 与截断误差相加小于 $\eps$.
+
+(d) 取有限个有理端点的有界区间指示函数与有理复系数的线性组合. 此集可数, 对 $[-n,n]$ 上的截断用(b)逼近, 再令 $n$ 足够大控制全轴尾积分, 得稠密.
+\end{proof}
+\begin{exercise}\label{ps07:2}
+原题2. (a) 对可测 $E\subset\R$, 证明 $L^\infty(E)$ 为 Banach 空间. (b) 对 $f\in C([a,b])$, 证明 $\norm f_{L^\infty}=\sup_{[a,b]}|f|$, 并推出 $C([a,b])$ 不在 $L^\infty([a,b])$ 中稠密.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 等价类上的范数正定性、齐次性和三角不等式见第\ref{ch:measure}章定义及其后论证. 设 $(f_n)$ 为 Cauchy 列, 选择可测代表元. 对每对 $n,m$, 本质界 $|f_n-f_m|\le\norm{f_n-f_m}_\infty$ 在一个零测集外成立. 再除去每个 $f_n$ 本质界的例外, 可数并仍为零测集 $N$. 在 $E\setminus N$ 上 Cauchy 条件给出一致 Cauchy, 因而逐点有有限极限 $f$, 在 $N$ 上置零. 此函数可测. 固定 $n_0$ 足够大, 在共同零测集外有 $|f|\le\norm{f_{n_0}}_\infty+1$, 所以 $f$ 本质有界. Cauchy 界取点态极限得 $\norm{f_n-f}_\infty\to0$. 空或零测定义域得到零 Banach 空间, 同样成立.
+
+(b) 令 $M=\max|f|$, 本质上确界至多 $M$. 若 $C<M$, 连续性使 $|f|>C$ 在某个正长度相对区间内成立, 故 $C$ 不是本质界; 于是二者相等. 再取 $h=\ind_{[a,c]}$, $a<c<b$. 若连续 $g$ 满足 $\norm{g-h}_{L^\infty}<1/2$, 在左侧由连续性及几乎处处界得 $\operatorname{Re}g>1/2$, 在右侧得 $\operatorname{Re}g<1/2$, 且实际各有统一正差额. 在 $c$ 两侧取极限矛盾. 因而该 $h$ 到连续函数的距离至少 $1/2$, 不稠密.
+\end{proof}
+\begin{exercise}\label{ps07:3}
+原题3. 对 $a<b$, $1\le p\le\infty$, $g\in L^\infty([a,b])$, 定义 $Tf=gf$. 证明 $T\in\B(L^p([a,b]))$ 且 $\norm T=\norm g_\infty$.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+乘法对等价类良定义且线性, 几乎处处界给出 $\norm{gf}_p\le\norm g_\infty\norm f_p$, 包括 $p=\infty$. 令 $M=\norm g_\infty$. $M=0$ 时 $T=0$. $M>0$ 时每个 $0<\delta<M$ 的集合 $A=\{|g|>M-\delta\}$ 有正测度, 否则 $M-\delta$ 是本质界. 取 $f=\ind_A/m(A)^{1/p}$ 于有限 $p$, 或取 $f=\ind_A$ 于 $p=\infty$. 它们范数为1, 且 $\norm{Tf}_p\ge M-\delta$. 令 $\delta\downarrow0$ 得反向界.
+\end{proof}
+\begin{exercise}\label{ps07:4}
+原题4. (a) 在预 Hilbert 空间中证明极化恒等式
+\[
+\ip uv=\tfrac14\bigl(\norm{u+v}^2-\norm{u-v}^2+\ii\norm{u+\ii v}^2-\ii\norm{u-\ii v}^2\bigr).
+\]
+(b) 若复赋范空间的范数满足平行四边形恒等式, 证明存在 Hermitian 内积使 $\norm u=\ip uu^{1/2}$. 原提示: 用(a)右端定义内积.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 记 $z=\ip uv$. 前两个平方之差为 $4\operatorname{Re}z$, 后两个之差为 $4\operatorname{Im}z$, 因第一变量线性而 $\ip u{\ii v}=-\ii z$. 代回即得恒等式.
+
+(b) 复用命题\ref{prop:parallelogram}的完整逆向证明. 具体地, 在底层实空间设 $B(u,v)=(\norm{u+v}^2-\norm{u-v}^2)/4$. 平行四边形恒等式相减给出 $B(x+z,y)+B(x-z,y)=2B(x,y)$. 先取 $z=x$ 得二倍齐次性, 再令 $x=(u+v)/2,z=(u-v)/2$ 得加法性; 整数、有理齐次性及连续性给出实双线性. 对称性与 $B(u,u)=\norm u^2$ 直接成立. 由 $\norm{\ii u}=\norm u$ 有 $B(\ii u,\ii v)=B(u,v)$, $B(\ii u,v)=-B(u,\ii v)$. 因而 $B(u,v)+\ii B(u,\ii v)$ 对第一变量复线性、共轭对称, 且对角值为 $\norm u^2$. 这建立了内积, 没有预先假设待证的双线性或使用其 Cauchy--Schwarz.
+\end{proof}

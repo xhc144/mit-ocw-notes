@@ -1,0 +1,36 @@
+\originalsection{作业5}\label{sec:ps05}
+原件3页, 数学题面2页.
+\begin{exercise}\label{ps05:1}
+原题1. (a) 若 $E,F$ 可测, 证明 $m(E\cup F)+m(E\cap F)=m(E)+m(F)$. (b) 若 $E_1\supset E_2\supset\cdots$ 可测且 $m(E_1)<\infty$, 证明 $m(\bigcap_{k\ge1}E_k)=\lim_n m(E_n)$. 原件将(b)称为“从下连续”; 此处条件为递减列, 应称\textbf{从上连续}.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 将 $E\cup F$ 分为 $E\setminus F$, $E\cap F$, $F\setminus E$ 三个不交部分, 对非负扩展实数作加法即可得到等式. 不用可能未定义的 $\infty-\infty$.
+
+(b) $A_n=E_1\setminus E_n$ 递增, 其并为 $E_1\setminus\bigcap E_n$. 从下连续由不交差集分解和可数可加性得到, 已在定理\ref{thm:mct}的证明中给出. 因 $m(E_1)$ 有限, 可用 $m(E_n)=m(E_1)-m(A_n)$ 并取极限. 有限性必要: $E_n=[n,\infty)$ 的每项测度为无穷而交集为空.
+\end{proof}
+\begin{exercise}\label{ps05:2}
+原题2. 设 $E$ 可测, $f,g:E\to[-\infty,\infty]$ 可测. (a) 证明 $fg$ 可测, 其中异号无穷相乘取 $-\infty$, 同号取 $+\infty$, $(\pm\infty)0=0$. (b) 对 $a\in\R$, 在 $f=-g=\pm\infty$ 处令 $h=a$, 其余处令 $h=f+g$, 证明 $h$ 可测.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 令 $f_n=\max(-n,\min(f,n))$, $g_n$ 同理. 它们有限且可测, 所以 $f_ng_n$ 可测. 对有限值其极限为通常的积; 一个因子为无穷、另一个为非零有限值时极限有正确符号; 两个无穷时同样成立; 某因子为零时乘积恒为零. 因而 $f_ng_n\to fg$ 于扩展实数, 可测函数的逐点极限可测.
+
+(b) 集合 $A=\{f=+\infty,g=-\infty\}\cup\{f=-\infty,g=+\infty\}$ 可测, 因无穷取值集由可数阈值交表示. 在 $E\setminus A$ 上 $f_n+g_n\to f+g$, 包括两个同号无穷的情形. 在 $A$ 上将每个 $f_n+g_n$ 的值换成常数 $a$, 得可测分段函数, 其逐点极限就是 $h$. 这避免在 $A$ 上使用未定义的无穷相减.
+\end{proof}
+\begin{exercise}\label{ps05:3}
+原题3. (a) 若 $E,F$ 可测, $f:E\cup F\to[-\infty,\infty]$, 证明 $f$ 可测当且仅当两限制 $f|_E,f|_F$ 可测. (b) 若 $E$ 可测, 将 $f:E\to[-\infty,\infty]$ 在 $E^c$ 上延为零得 $g$, 证明 $f$ 可测当且仅当 $g$ 可测. (c) 若 $u,v:E\to\R$ 可测, 证明 $(u^2+v^2)^{1/2}$ 可测.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 限制的阈值集为原阈值集与可测定义域的交; 反向将两限制的阈值集取并, 恰为 $\{f>t\}$, 故可测. 这里定义域上“可测”指阈值集作为 $\R$ 的子集可测.
+
+(b) $g$ 可测蕴含限制可测. 反向若 $t\ge0$, $\{g>t\}=\{x\in E:f(x)>t\}$; 若 $t<0$, 再并上 $E^c$, 仍可测.
+
+(c) 可测有限函数乘积及和可测, 连续函数 $t\mapsto\sqrt t$ 在非负半轴上的复合保持可测. 后一事实可由连续函数的开集原像为可数开区间并来验证, 每个区间原像由两个阈值集相交表示.
+\end{proof}
+\begin{exercise}\label{ps05:4}
+原题4. 设 $E$ 可测, $m(E)<\infty$, $f_n,f:E\to\R$ 可测且 $f_n\to f$ 几乎处处. (a) 对 $k,n\in\N$, 令 $F_n(k)=\bigcup_{m\ge n}\{|f_m-f|\ge1/k\}$, 证明 $m(F_n(k))\to0$. (b) 给定 $\eps>0$, 选 $n_k$ 使 $m(F_{n_k}(k))<2^{-k}\eps$, 令 $F=\bigcup_{k\ge1}F_{n_k}(k)$, 证明 $m(F)<\eps$ 且 $f_n\to f$ 在 $E\setminus F$ 上一致. 这是 Littlewood 第二原则, 亦称 Egorov 定理. 原件的 $F^c$ 在此解释为定义域内的相对补集.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 固定 $k$, $F_n(k)$ 可测且递减. 在收敛点, 充分大的 $m$ 都有 $|f_m-f|<1/k$, 所以该点不在交集中. 交集因此包含于收敛失败的零测集, 测度为零. 所有 $F_n(k)\subset E$ 有有限测度, 用题\ref{ps05:1}(b)得结论.
+
+(b) 次可加性给出 $m(F)\le\sum m(F_{n_k}(k))<\sum2^{-k}\eps=\eps$; 严格性例如由第一项的严格差额保证. 对每个 $x\in E\setminus F$, 任意 $n\ge n_k$ 都有 $|f_n(x)-f(x)|<1/k$. 给定误差 $\delta>0$, 选 $1/k<\delta$, 同一个 $n_k$ 对所有这些 $x$ 有效, 即一致收敛.
+\end{proof}

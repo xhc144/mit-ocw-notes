@@ -1,0 +1,38 @@
+\originalsection{作业8}\label{sec:ps08}
+原件3页, 数学题面2页. 此组按原作业引入周期 Sobolev 空间, 只讨论 Fourier 加权定义及其指定性质.
+\begin{exercise}\label{ps08:1}
+原题1. 设 $H$ 为 Hilbert 空间, $(e_n)_{n\ge1}$ 为可数无限正交归一系, $W=\Span\{e_n:n\ge1\}$ 指有限线性组合. (a) 证明 $w\in\overline W$ 当且仅当 $w=\sum_{n\ge1}c_ne_n$ 对某个 $c\in\ell^2$ 成立. (b) 对 $u\in H$ 和 $w\in\overline W$, 证明
+\[
+\left\|u-\sum_{n\ge1}\ip u{e_n}e_n\right\|\le\norm{u-w},
+\]
+且等号当且仅当 $w=\sum\ip u{e_n}e_n$. 原提示: 展开平方并配方. 原PDF在(b)左端漏印范数符号; 向量不能直接与实数比较, 此处依题意补回.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 若 $c\in\ell^2$, 正交性给出级数部分和之差的范数平方为平方尾和, 完备性使它收敛, 极限在 $\overline W$ 内. 反之, Bessel 使 $c_n=\ip w{e_n}\in\ell^2$; 级数和 $v$ 满足 $w-v$ 与每个 $e_n$ 正交, 从而与 $\overline W$ 正交. 因 $w-v\in\overline W$, 得 $w-v=0$. 此复用定理\ref{thm:onb}中针对正交系的展开证明.
+
+(b) 令 $v=\sum\ip u{e_n}e_n$. 同一证明给出 $u-v\perp\overline W$. 对任意 $w\in\overline W$, 两项 $u-v$ 与 $v-w$ 正交, 所以 $\norm{u-w}^2=\norm{u-v}^2+\norm{v-w}^2$. 不等式与等号条件同时得到; 也扩展了第\ref{ch:hilbert}章有限投影的习题.
+\end{proof}
+\begin{exercise}\label{ps08:2}
+原题2. 设 $W$ 为 Hilbert 空间 $H$ 的线性子空间. (a) 证明 $W^\perp=\{u:\ip uw=0\text{对所有 }w\in W\}$ 是闭线性子空间. (b) 证明 $\overline W=(W^\perp)^\perp$. 原PDF有闭包横线; 未假设 $W$ 本身闭.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 每个固定 $w$ 的内积泛函连续线性, 所以 $W^\perp$ 是这些泛函的闭核的交. (b) 连续性给出 $W^\perp=(\overline W)^\perp$ 且 $\overline W\subset(W^\perp)^\perp$. 若 $x\in(W^\perp)^\perp$, 对闭子空间 $\overline W$ 用正交分解\ref{cor:orthodecompose}, 得 $x=v+z$, $v\in\overline W,z\in W^\perp$. 则 $0=\ip xz=\norm z^2$, 故 $x=v\in\overline W$.
+\end{proof}
+\begin{exercise}\label{ps08:3}
+原题3. 对 $s\ge0$, 定义 $H^s(\mathbb T)=\{f\in L^2([-\pi,\pi]):\sum_{n\in\Z}(1+|n|^2)^s|\widehat f(n)|^2<\infty\}$. (a) 若 $f\in C^k([-\pi,\pi])$ 且 $f^{(j)}(\pi)=f^{(j)}(-\pi)$ 对 $0\le j<k$ 成立, 证明 $f\in H^s(\mathbb T)$ 对 $0\le s\le k$ 成立. (b) 证明 $H^s$ 是向量空间, 且 $\ip fg_{H^s}=\sum_{n\in\Z}\widehat f(n)\overline{\widehat g(n)}(1+|n|^2)^s$ 为 Hermitian 内积. (c) 证明它是 Hilbert 空间. 原提示(a): 分部积分.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) $k=0$ 时由 Parseval 得 $H^0=L^2$. $k\ge1$ 时对 $n\ne0$ 分部积分 $k$ 次, 端点项因指定的周期条件消失, 得 $\widehat{f^{(k)}}(n)=(\ii n)^k\widehat f(n)$. $f^{(k)}$ 连续且在有限区间平方可积, Parseval 给出 $\sum_{n\ne0}|n|^{2k}|\widehat f(n)|^2<\infty$. 对 $s\le k$, $n\ne0$ 时 $(1+n^2)^s\le2^s|n|^{2k}$; 零频项有限, 得结论. 仅写 $O(|n|^{-k})$ 会不足以证明端点 $s=k$, 此处使用导数的平方可和.
+
+(b) 加权系数列相加、数乘仍在 $\ell^2(\Z)$, 因而为向量空间. Cauchy--Schwarz 保证所给级数绝对收敛, 线性与共轭对称逐项成立. 若对角值零, 全部 Fourier 系数零, 由定理\ref{thm:fouriercomplete}的完备性得 $f=0$ 于 $L^2$ 等价类, 所以正定.
+
+(c) 映射 $U_sf=((1+n^2)^{s/2}\widehat f(n))_{n\in\Z}$ 线性等距至 $\ell^2(\Z)$. 对任意 $c\in\ell^2(\Z)$, 令 $a_n=(1+n^2)^{-s/2}c_n$. 因权重至少1, $a\in\ell^2$. Fourier 完备性保证 $\sum a_n\ee^{\ii nx}$ 在 $L^2$ 中收敛于一个 $f$, 其 Fourier 系数恰为 $a_n$; 正交归一基为 $(2\pi)^{-1/2}\ee^{\ii nx}$, 故部分和的 $L^2$ 范数平方是 $2\pi\sum|a_n|^2$. 于是 $f\in H^s$, $U_sf=c$, 映射满射. $\ell^2$ 完备给出 $H^s$ 完备.
+\end{proof}
+\begin{exercise}\label{ps08:4}
+原题4. 设 $s>1/2$. (a) 证明存在 $C(s)>0$ 使 $\sum_{n\in\Z}|\widehat f(n)|\le C(s)\norm f_{H^s}$ 对所有 $f\in H^s$ 成立. (b) 证明每个 $f\in H^s$ 有连续代表元 $g\in C([-\pi,\pi])$, $f=g$ 几乎处处, 且 $\norm g_\infty\le C(s)\norm f_{H^s}$. 原提示: Weierstrass 一致收敛判别.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 用加权 Cauchy--Schwarz 得所需界, 其中 $C(s)=(\sum_{n\in\Z}(1+n^2)^{-s})^{1/2}<\infty$, 因 $2s>1$ 且非零项可由 $|n|^{-2s}$ 控制.
+
+(b) 级数 $\sum\widehat f(n)\ee^{\ii nx}$ 由(a)绝对一致收敛, 其和 $g$ 连续且周期, 上确界受系数绝对和控制. 同一部分和在 $L^2$ 中趋于 $f$, 一致收敛也蕴含 $L^2$ 收敛于 $g$, 极限唯一给出 $f=g$ 几乎处处. 所指是唯一连续代表元, 不是任意等价类代表元都连续.
+\end{proof}

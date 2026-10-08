@@ -1,0 +1,57 @@
+\originalsection{作业10}\label{sec:ps10}
+原件4页, 数学题面及前置定理3页. 原题提供 Arzelà--Ascoli 定理: 闭区间上连续函数列若一致有界且等度连续, 则有在上确界范数中收敛的子列. 等度连续指每个 $\eps>0$ 有共同 $\delta>0$, 使 $|x-y|<\delta$ 时所有函数的差均小于 $\eps$. 以下按原题允许使用这一实分析定理.
+\begin{exercise}\label{ps10:1}
+原题1. 设 $f_n\in C^1([0,1])$, $B=\sup_n(\norm{f_n}_2+\norm{f_n'}_2)<\infty$. (a) 证明 $\norm{f_n}_\infty\le B$. (b) 证明 $|f_n(x)-f_n(y)|\le B|x-y|^{1/2}$. (c) 证明有子列在 $L^2([0,1])$ 中收敛. 原提示(a): 先证 $|f_n(x)|\le|f_n(y)|+\norm{f_n'}_2$, 再对 $y$ 积分.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 微积分基本定理和 Cauchy--Schwarz 给出原提示的不等式; 对 $y\in[0,1]$ 积分, $\norm{f_n}_1\le\norm{f_n}_2$, 故 $|f_n(x)|\le\norm{f_n}_2+\norm{f_n'}_2\le B$. (b) 在 $x,y$ 间直接用 Cauchy--Schwarz: $|\int_y^x f_n'|\le\norm{f_n'}_2|x-y|^{1/2}$. (c) (a),(b)给出一致有界、等度连续, Arzelà--Ascoli 抽取一致收敛子列; 区间长度为1, $L^2$ 误差不超过一致误差.
+\end{proof}
+\begin{exercise}\label{ps10:2}
+原题2. 若 $K\in C([a,b]^2)$, 定义 $Tf(x)=\int_a^bK(x,y)f(y)\dd y$. 证明 $T\in\B(L^2([a,b]))$ 且每个有界序列的像都有 $L^2$ 收敛子列, 即 $T$ 紧.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+设 $\ell=b-a$. 逐点 Cauchy--Schwarz 给出 $|Tf(x)|\le\sqrt\ell\norm K_\infty\norm f_2$, 故 $\norm{Tf}_2\le\ell\norm K_\infty\norm f_2$, 线性及对等价类良定义由积分得到. 若 $\norm{f_n}_2\le M$, 则 $(Tf_n)$ 一致有界. 又
+$|Tf_n(x)-Tf_n(x')|\le\sqrt\ell M\sup_y|K(x,y)-K(x',y)|$. 核在紧正方形上一致连续, 右端对所有 $n$ 一致趋于零. Arzelà--Ascoli 给出一致收敛子列, 从而在 $L^2$ 收敛. 此为定理\ref{thm:continuouskernelcompact}在一般有限区间上的同一结论, 这里按原题给出的定理另证.
+\end{proof}
+\begin{exercise}\label{ps10:3}
+原题3. 对 $s>0$, $B\ge0$, 证明 $K=\{f\in H^s(\mathbb T):\norm f_{H^s}\le B\}$ 是 $L^2([-\pi,\pi])$ 的紧子集. 因而嵌入 $H^s(\mathbb T)\to L^2(\mathbb T)$ 为紧算子.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+Parseval 给出 $\norm f_2^2\le2\pi B^2$, 且若 $P_N$ 保留 $|n|\le N$ 的 Fourier 项,
+\[
+\sup_{f\in K}\norm{f-P_Nf}_2^2\le2\pi B^2(1+(N+1)^2)^{-s}\longrightarrow0.
+\]
+再证闭性: 若 $f_j\in K$, $f_j\to f$ 于 $L^2$, 每个 Fourier 系数因其为有界泛函而收敛. 对每个有限 $N$, 取极限得 $\sum_{|n|\le N}(1+n^2)^s|\widehat f(n)|^2\le B^2$. 令 $N\to\infty$, 得 $f\in H^s$ 且在 $K$ 内. 所以 $K$ 闭、有界且具有一致有限维逼近, 定理\ref{thm:compact-approx}给出紧性. $s>0$ 正是尾界趋于零的条件.
+\end{proof}
+\begin{exercise}\label{ps10:4}
+原题4. 设复矩阵 $(A_{ij})_{i,j\ge1}$ 满足 $\sum_i\sum_j|A_{ij}|^2<\infty$, 定义 $(Ta)_i=\sum_{j\ge1}A_{ij}a_j$ 于 $a\in\ell^2$. (a) 证明 $T\in\B(\ell^2)$ 且 $\norm T\le(\sum_{i,j}|A_{ij}|^2)^{1/2}$. (b) 定义 $(T_na)_i=\sum_{j=1}^nA_{ij}a_j$ 于 $i\le n$, 其余坐标零; 证明 $T_n$ 有限秩且 $\norm{T-T_n}\to0$, 从而 $T$ 紧.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 每一行平方可和, Cauchy--Schwarz 保证各坐标级数绝对收敛. 同一不等式给出 $\sum_i|(Ta)_i|^2\le\sum_{i,j}|A_{ij}|^2\norm a_2^2$, 故结果在 $\ell^2$, 线性有界及范数界成立.
+
+(b) $T_n$ 的像包含于前 $n$ 个标准基的张成, 故有限秩. 对差矩阵用(a), 得 $\norm{T-T_n}^2\le\sum_{\max(i,j)>n}|A_{ij}|^2\to0$. 此尾和既截行也截列; 由定理\ref{thm:compactnorm}得紧. 这补全第\ref{ch:compact}章平方可和矩阵的计算.
+\end{proof}
+\begin{exercise}\label{ps10:5}
+原题5. 在 $\ell^2$ 上令 $La=(a_2,a_3,\ldots)$, $Ra=(0,a_1,a_2,\ldots)$. (a) $L$ 或 $R$ 紧吗? 说明理由. (b) 证明 $R$ 无特征值. (c) 证明 $\sigma(R)=\{\lambda\in\C:|\lambda|\le1\}$. (d) 证明 $L$ 的特征值集为开单位圆盘, 并求各特征空间. (e) 证明 $\sigma(L)$ 为闭单位圆盘. 原提示(d): 解递推 $a_{k+1}=\lambda a_k$.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 二者都不紧. $Re_n=e_{n+1}$ 与 $Le_{n+1}=e_n$ 都是两两距离 $\sqrt2$ 的序列, 无收敛子列.
+
+(b) 若 $Ra=\lambda a$, $\lambda=0$ 时 $R$ 单射使 $a=0$; $\lambda\ne0$ 时第一坐标给 $a_1=0$, 后续坐标递推全零, 无非零特征向量.
+
+(c) $\norm R=1$, $|\lambda|>1$ 时 Neumann 级数使 $R-\lambda I$ 可逆. 若 $|\lambda|<1$, 取 $y=(1,\overline\lambda,\overline\lambda^2,\ldots)\in\ell^2\setminus\{0\}$. $R^*=L$, 所以 $(R-\lambda I)^*y=(L-\overline\lambda I)y=0$, 得 $\ran(R-\lambda I)\subset y^\perp\ne\ell^2$, 不可逆. 谱闭（命题\ref{prop:spectrumcompact}）, 所以单位圆边界也在谱中.
+
+(d) 递推给出 $a=a_1(1,\lambda,\lambda^2,\ldots)$. 非零此列平方可和当且仅当 $|\lambda|<1$, 所以每个这样的特征空间正是该向量的一维张成, 其余 $\lambda$ 无特征向量.
+
+(e) $\norm L=1$, 圆盘外由 Neumann 可逆; 圆盘内由(d)已有特征值, 边界由谱闭性收入. 不把“没有特征值”等同于“没有谱”.
+\end{proof}
+\begin{exercise}\label{ps10:6}
+原题6（原注“不提交”）. 对 $f\in L^2([0,1])$, 定义 $Tf(x)=\int_0^xf(t)\dd t$. (a) 证明 $T$ 有界且紧; 原提示为 $|Tf(x)|\le\norm f_2$, $|Tf(x)-Tf(y)|\le\norm f_2|x-y|^{1/2}$. (b) 若 $Tf=0$, 证明每个 $0\le a<b\le1$ 都有 $\int_a^bf=0$, 推出 $\int_0^1f\chi=0$ 对每个简单函数 $\chi$ 成立, 从而 $f=0$. (c) 若 $\lambda\ne0$ 且 $(T-\lambda I)f=0$, 证明 $f$ 有 $C^1$ 代表元且满足 $f-\lambda f'=0$, $f(0)=0$, 从而 $f=0$. 因此 $T$ 没有特征值.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) Cauchy--Schwarz 给出原提示的两个界, 特别地 $Tf$ 连续且 $\norm{Tf}_2\le\norm f_2$. 对有界输入列, 这些界给出一致有界与等度连续, Arzelà--Ascoli 使像有一致收敛子列, 因而有 $L^2$ 收敛子列, 算子紧.
+
+(b) $Tf$ 连续, 若作为 $L^2$ 等价类为零, 则连续代表元处处零, 所以 $\int_a^bf=Tf(b)-Tf(a)=0$. 因而对每个区间阶梯函数 $\psi$ 有 $\int f\psi=0$. 对任一可测简单函数 $\chi$, 用题\ref{ps07:1}前置密度定理在 $L^2$ 中取阶梯 $\psi_n\to\chi$; Cauchy--Schwarz 保证 $\int f\psi_n\to\int f\chi=0$. 最后以阶梯逼近 $\overline f$ 得 $\int|f|^2=0$, 所以 $f=0$. 这里特意区分任意可测简单函数与区间阶梯函数, 不把二者误称相同.
+
+(c) 等式给出 $f$ 的连续代表元 $g=Tf/\lambda$, 且 $g(0)=0$. 因 $f=g$ 几乎处处, $Tf=Tg$, 对连续 $g$ 用微积分基本定理得 $\lambda g'=g$, 所以 $g\in C^1$. 对 $\ee^{-x/\lambda}g(x)$ 求导得零, 初值又为零, 故 $g=0$, $f=0$ 于等价类.
+\end{proof}

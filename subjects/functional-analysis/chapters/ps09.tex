@@ -1,0 +1,55 @@
+\originalsection{作业9}\label{sec:ps09}
+原件4页, 数学题面及前置定理3页. 原题先给出如下子列定理及证明: 若 $h_n\in L^1(E)$ 且 $\norm{h_n}_1\to0$, 可选 $n_j$ 递增使 $m(\{|h_{n_j}|\ge2^{-j}\})\le2^{-j}$, 因为该测度不超过 $2^j\norm{h_{n_j}}_1$. 这些例外集的尾并测度至多 $\sum_{j\ge k}2^{-j}$, 所以其上极限集合零测; 在补集上 $h_{n_j}\to0$. 原证明中 $h/f$ 名称混写及阈值 $\ge/>$ 混用, 此处统一为 $h$ 及 $\ge$.
+
+原题还固定光滑函数 $\phi:\R\to\R$, 满足 $\phi(-x)=\phi(x)$, $\phi\ge0$, $|x|>1$ 时为零, $\int_\R\phi=1$. 定义磨光核 $\phi_\eps(x)=\eps^{-1}\phi(x/\eps)$, $\eps>0$, 故支集在 $[-\eps,\eps]$, 积分仍为1. 后续交换积分使用第\ref{ch:measure}章明示的 Tonelli--Fubini 先修, 并核对非负或绝对可积条件.
+\begin{exercise}\label{ps09:1}
+原题1. 设 $g\in C(\R)$, $|x|>R$ 时 $g(x)=0$, 定义 $g_\eps(x)=\int_\R\phi_\eps(x-y)g(y)\dd y=\int_\R\phi_\eps(z)g(x-z)\dd z$. (a) 证明 $g_\eps$ 无限可微且 $|x|>R+\eps$ 时为零. (b) 证明 $\norm{g_\eps-g}_\infty\to0$ 当 $\eps\downarrow0$. (c) 对 $f\in L^2(\R)$ 和 $\delta>0$, 求光滑紧支集 $h$ 使 $\norm{f-h}_2<\delta$. 原提示: Fourier 平均收敛的思路可用于前两题.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 积分的 $y$ 限于 $[-R,R]$. 对任何阶导数, $\phi_\eps^{(m)}$ 连续有界, 其差商由再高一阶导数的上界控制. 控制收敛允许逐阶微分, 得 $g_\eps^{(m)}(x)=\int\phi_\eps^{(m)}(x-y)g(y)\dd y$. 若 $|x|>R+\eps$, $|y|\le R$ 时核为零, 所以函数为零.
+
+(b) $g$ 在全轴上一致连续, 因紧区间外为零. 令其模连续性为 $\omega_g(\eps)=\sup_{|x-y|\le\eps}|g(x)-g(y)|\to0$. 核非负且质量1, 得 $|g_\eps(x)-g(x)|\le\omega_g(\eps)$ 对所有 $x$ 成立.
+
+(c) 题\ref{ps07:1}(c)先给出连续紧支集 $g$, $\norm{f-g}_2<\delta/2$. 对 $0<\eps<1$, $g_\eps-g$ 支集在共同有限区间 $[-R-1,R+1]$, 故 $\norm{g_\eps-g}_2\le\sqrt{2R+2}\norm{g_\eps-g}_\infty\to0$. 取小 $\eps$, 令 $h=g_\eps$, 用(a)及三角不等式即得.
+\end{proof}
+\begin{exercise}\label{ps09:2}
+原题2. 对 $f\in L^2(\R)$, $\eps>0$, 定义 $f_\eps(x)=\int_\R\phi_\eps(x-y)f(y)\dd y$. (a) 证明 $\norm{f_\eps}_2\le\norm f_2$. (b) 证明 $\norm{f_\eps-f}_2\to0$ 当 $\eps\downarrow0$. 原提示(a): 先对连续函数估计, 再作 $L^2$ 逼近, 用前置子列定理识别极限.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 每个 $x$ 的积分绝对收敛, 因 $\int|\phi_\eps(x-y)f(y)|\dd y\le\norm{\phi_\eps}_2\norm f_2$. 用质量1的非负权重作 Cauchy--Schwarz,
+\[
+|f_\eps(x)|^2\le\int_\R\phi_\eps(z)|f(x-z)|^2\dd z.
+\]
+该非负被积函数可测, Tonelli 与平移不变性得 $\int|f_\eps|^2\le\int\phi_\eps(z)\norm f_2^2\dd z=\norm f_2^2$. 定义的卷积可测也由积分的可测性给出, 故属于 $L^2$. 这一直接证明比原提示的极限识别少一步, 不额外假设 $f$ 连续.
+
+(b) 对给定 $\delta>0$, 选连续紧支集 $g$ 使 $\norm{f-g}_2<\delta$. (a)作用于 $f-g$ 给出
+$\norm{f_\eps-f}_2\le2\delta+\norm{g_\eps-g}_2$. 最后一项由题\ref{ps09:1}的共同支集与一致收敛趋于零. 先取上极限再令 $\delta\downarrow0$.
+\end{proof}
+\begin{exercise}\label{ps09:3}
+原题3. 若 $H$ 为 Hilbert 空间, $P\in\B(H,H)$ 是投影（$P^2=P$）且 $\ip{Pu}v=\ip u{Pv}$ 对所有 $u,v$ 成立, 证明 $W=\ran P$ 是闭子空间, 且 $P=\Pi_W$ 为正交投影.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+此为第\ref{ch:adjoint}章关于自伴幂等算子的习题. $\ran P=\ker(I-P)$, 故闭. 对 $w=Pv\in W$, $\ip{u-Pu}w=\ip{P(u-Pu)}v=0$. 又 $Pu\in W$, 所以 $u=Pu+(u-Pu)$ 为正交分解, 其唯一性给出 $Pu=\Pi_Wu$.
+\end{proof}
+\begin{exercise}\label{ps09:4}
+原题4. 设 $C\subset H$ 为闭凸集. (a) 证明每个 $u\in H$ 有唯一最近点 $P_Cu\in C$, 即 $\norm{u-P_Cu}=\inf_{w\in C}\norm{u-w}$. (b) 对 $u\in H$ 和 $v\in C$, 证明 $v=P_Cu$ 当且仅当 $\operatorname{Re}\ip{u-v}{w-v}\le0$ 对所有 $w\in C$ 成立. 原提示(b): 展开 $\norm{u-[(1-t)v+tw]}^2$ 再令 $t\downarrow0$.
+
+\textbf{条件勘误}: 原题未声明 $C$ 非空. $C=\varnothing$ 是闭凸集但无最近点, 所以(a)按字面为假. 以下在明确补充 $C\ne\varnothing$ 后证明; 不把此条件隐藏进原题.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 复用定理\ref{thm:projection}的闭凸集证明. 令 $d=\inf_C\norm{u-w}<\infty$, 选 $v_n\in C$ 使距离趋于 $d$. 中点仍在 $C$, 平行四边形恒等式给出
+\[
+\norm{v_n-v_m}^2\le2\norm{u-v_n}^2+2\norm{u-v_m}^2-4d^2\longrightarrow0.
+\]
+完备性及闭性使极限 $v\in C$, 连续性使距离为 $d$. 两个不同最近点的中点将由同式给出更小距离, 故唯一.
+
+(b) 固定 $u\in H,v\in C$. 若 $v$ 最优, 对 $w\in C$, $0<t\le1$, 凸性与原提示给出 $0\le-2t\operatorname{Re}\ip{u-v}{w-v}+t^2\norm{w-v}^2$. 除以 $t$ 并令 $t\downarrow0$, 得不等式. 反向若该不等式成立, 展开 $\norm{u-w}^2=\norm{u-v}^2+\norm{w-v}^2-2\operatorname{Re}\ip{u-v}{w-v}\ge\norm{u-v}^2$, 所以 $v$ 是唯一最近点.
+\end{proof}
+\begin{exercise}\label{ps09:5}
+原题5. 设 $(h_k)$ 为任意非负实数列. (a) 证明 $C=\{b\in\ell^2:|b_k|\le h_k\text{对所有 }k\}$ 是闭凸集. (b) 对 $a\in\ell^2$, 求 $P_Ca$ 的各坐标.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 各坐标泛函连续, 闭圆盘原像的交闭. 逐坐标三角不等式保证凸性, $0\in C$ 保证非空. 不要求 $(h_k)\in\ell^2$.
+
+(b) 令 $b_k=a_k$ 当 $|a_k|\le h_k$, 否则令 $b_k=h_ka_k/|a_k|$. 因 $|b_k|\le|a_k|$, $b\in\ell^2$, 且 $b\in C$. 对圆盘内任意 $z$, 若 $|a_k|>h_k$, 反三角不等式给出 $|a_k-z|\ge|a_k|-h_k=|a_k-b_k|$; 若 $|a_k|\le h_k$, 右端为零. 将平方不等式求和得 $\norm{a-c}_2\ge\norm{a-b}_2$ 对所有 $c\in C$ 成立. 由题\ref{ps09:4}唯一性, $P_Ca=b$; $a_k=0$ 时第一种情形已定义为零.
+\end{proof}

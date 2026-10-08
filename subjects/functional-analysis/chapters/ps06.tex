@@ -1,0 +1,34 @@
+\originalsection{作业6}\label{sec:ps06}
+原件3页, 数学题面2页. 区间均有 $a<b$. 阶梯函数指有限值简单函数且各取值集为有限个区间的并; 区间可开、闭或半开, 单点也允许作为退化区间. 有限端点的值不影响积分.
+\begin{exercise}\label{ps06:1}
+原题1. (a) 若实阶梯函数 $\psi:[a,b]\to\R$ 满足 $\sup|\psi|\le B$, 对每个 $\eps>0$, 构造连续 $g$ 与可测 $E\subset[a,b]$, 使 $g(a)=g(b)=0$, $\sup|g|\le B$, $m(E)<\eps$, 且在 $[a,b]\setminus E$ 上 $|\psi-g|<\eps$.
+
+(b) 若实简单函数 $\phi:[a,b]\to\R$ 满足 $\sup|\phi|\le B$, 对每个 $\eps>0$, 构造阶梯 $\psi$ 与可测 $E$, 使 $\sup|\psi|\le B$, $m(E)<\eps$, 且在补集上 $|\phi-\psi|<\eps$. 原提示: 用 Littlewood 第一原则.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 收集所有取值区间端点及 $a,b$ 为有限集 $D$. 在 $[a,b]\setminus D$ 的每个分割区间上 $\psi$ 恒定. 在各端点选互不相交的小邻域, 相对总长度小于 $\eps$, 令它们的并为 $E$, 并包含全部端点. 在 $E$ 外令 $g=\psi$; 在内部端点的小邻域中用线段连接两侧常值, 在 $a,b$ 邻域连接零与邻近常值. 得连续 $g$, 所有线段值是 $[-B,B]$ 中两点的凸组合, 故不超 $B$. 补集上误差为零. $B=0$ 时直接取 $g=0,E=\varnothing$.
+
+(b) 写 $\phi=\sum_{j=1}^m c_j\ind_{A_j}$, $A_j$ 为可测分割, $|c_j|\le B$. 按题\ref{ps04:2}选有限区间并 $U_j$, 使 $m(A_j\triangle U_j)<\eps/m$. 与 $[a,b]$ 相交, 定义 $D_1=U_1$, $D_j=U_j\setminus\bigcup_{i<j}U_i$, 并在所有 $U_j$ 的补集取零. 这些集合由有限端点分割而成, 故 $\psi=\sum c_j\ind_{D_j}$ 为阶梯函数, 且各点至多取一个 $c_j$, 保持 $B$ 界. 除去 $E=\bigcup(A_j\triangle U_j)$, 各点属于恰好正确的 $U_j$, 从而 $\psi=\phi$. 总例外测度小于 $\eps$.
+\end{proof}
+\begin{exercise}\label{ps06:2}
+原题2. 若实可测 $f:[a,b]\to\R$ 满足 $\sup|f|\le B$, 对每个 $\eps>0$, 构造连续 $g$ 和可测 $E$, 使 $g(a)=g(b)=0$, $\sup|g|\le B$, $m(E)<\eps$, 且补集上 $|f-g|<\eps$. 这是 Littlewood 第三原则的有界版本.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+将 $[-B,B]$ 分成有限个长度小于 $\eps/3$ 的值域段, 以各段内一点代替 $f$ 得简单 $\phi$, 满足 $|\phi|\le B$, $\sup|f-\phi|<\eps/3$. 对题\ref{ps06:1}(b),(a)依次使用参数 $\eps/3$, 得阶梯 $\psi$、连续 $g$ 及两个例外集, 总测度小于 $2\eps/3<\eps$. 例外并集外三项误差各小于 $\eps/3$, 故总误差小于 $\eps$; 所有逼近均保持 $B$ 界与最终端点零. $B=0$ 直接取零函数.
+\end{proof}
+\begin{exercise}\label{ps06:3}
+原题3. 设实函数 $f:[a,b]\to\R$ Lebesgue 可积. 对每个 $\eps>0$, (a) 求有界可测 $h$ 使 $\int_a^b|f-h|<\eps$; (b) 求阶梯 $\psi$ 使 $\int_a^b|f-\psi|<\eps$; (c) 求连续 $g$, $g(a)=g(b)=0$, 使 $\int_a^b|f-g|<\eps$. 原提示(a): 取 $h_n=f\ind_{\{|f|\le n\}}$.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) $|f-h_n|=|f|\ind_{\{|f|>n\}}\to0$ 几乎处处, 受可积 $|f|$ 控制. 定理\ref{thm:dct}给出积分趋于零, 取充分大的 $n$.
+
+(b) 先取(a)的 $h$, 误差小于 $\eps/3$, 令 $|h|\le B$. 对有界函数的值域作简单量化后用题\ref{ps06:1}(b), 得阶梯 $\psi$ 保持 $B$ 界, 在某个测度小于 $\delta$ 的例外集外误差小于 $2\delta$. 因而 $\int|h-\psi|\le2\delta(b-a)+2B\delta$. 选 $\delta$ 使此值小于 $\eps/3$, 与截断误差相加得到要求.
+
+(c) 先取(b)中的 $\psi$, 误差小于 $\eps/2$, 设 $|\psi|\le B_1$. 用题\ref{ps06:1}(a)的构造, $g=\psi$ 于例外集外且 $|g|\le B_1$, 所以 $\int|\psi-g|\le2B_1m(E)$. 选例外测度使此项小于 $\eps/2$; $B_1=0$ 时取零. 相加即得结论. 这些构造细化了命题\ref{prop:lp-density}的 $p=1$ 密度证明.
+\end{proof}
+\begin{exercise}\label{ps06:4}
+原题4. 若复函数 $f\in L^1([-\pi,\pi])$, 定义 $\widehat f(n)=(2\pi)^{-1}\int_{-\pi}^{\pi}f(x)\ee^{-\ii nx}\dd x$, $n\in\Z$. 证明 Riemann--Lebesgue 引理 $|\widehat f(n)|\to0$ 当 $|n|\to\infty$. 原提示: 先对阶梯函数证明, 再用题3逼近.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+对单个区间 $(c,d)$ 及 $n\ne0$, $\left|\int_c^d\ee^{-\ii nx}\dd x\right|\le2/|n|$, 因而有限线性组合的阶梯函数 Fourier 系数趋于零. 将 $f$ 的实、虚部分别按题\ref{ps06:3}(b)逼近, 得复阶梯 $\psi$ 使 $\norm{f-\psi}_1$ 任意小. 有 $|\widehat f(n)-\widehat\psi(n)|\le(2\pi)^{-1}\norm{f-\psi}_1$, 对所有 $n$ 一致. 先固定逼近, 再令 $|n|\to\infty$, 最后令逼近误差趋于零, 即得结论.
+\end{proof}

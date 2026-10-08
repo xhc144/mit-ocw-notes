@@ -1,0 +1,40 @@
+\originalsection{作业1}\label{sec:ps01}
+原件3页, 其中数学题面2页. 采用 $1/\infty=0$; 对偶中的配对不加共轭. 原件规定作业经 Gradescope 在24:00前提交, 未给本份的具体日期.
+\begin{exercise}\label{ps01:1}
+原题1. (a) 对 $n\in\N$, $a_k,b_k\in\R$ 及 $1<p<\infty$, $1/p+1/q=1$, 证明 $\sum_{k=1}^n|a_kb_k|\le(\sum|a_k|^p)^{1/p}(\sum|b_k|^q)^{1/q}$. 原提示: 对 $A,B>0$, $0<t<1$, 在 $x>0$ 上由 $t x+(1-t)B-x^tB^{1-t}$ 在 $x=B$ 处取最小值得 $A^tB^{1-t}\le tA+(1-t)B$.
+
+(b) 对 $1\le p<\infty$, 证明 $(\sum|a_k+b_k|^p)^{1/p}\le(\sum|a_k|^p)^{1/p}+(\sum|b_k|^p)^{1/p}$. 原提示: 先把 $|a_k+b_k|^p$ 控制为 $(|a_k|+|b_k|)|a_k+b_k|^{p-1}$, 再用(a).
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 这是引理\ref{lem:holder-seq}的有限版本. 为核对原提示, 上述函数的导数为 $t[1-(B/x)^{1-t}]$, 在 $x<B$ 时负、$x>B$ 时正. 取 $t=1/p$, $A=s^p,B=r^q$ 得 $sr\le s^p/p+r^q/q$, 零值由连续性得到. 两列范数非零时分别归一化再求和, 右端为 $1/p+1/q=1$; 任一范数为零时左端也为零.
+
+(b) $p=1$ 逐项使用三角不等式. $p>1$ 时令 $S=(\sum|a_k+b_k|^p)^{1/p}$. 若 $S=0$ 结论成立; 否则原提示与(a)给出 $S^p\le(\norm a_p+\norm b_p)S^{p-1}$, 因为 $(p-1)q=p$. 除以 $S^{p-1}$ 即得结论.
+\end{proof}
+\begin{exercise}\label{ps01:2}
+原题2. 证明对 $1\le p<\infty$, $\ell^p$ 是 Banach 空间; 须同时证明它是赋范空间及完备.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+正定性、齐次性由定义得到. 将上一题(b)用于前 $N$ 项再令 $N\to\infty$, 同时得到加法封闭和三角不等式; 数乘封闭显然. 完备性的逐坐标证明已在定理\ref{thm:lpseqbanach}写出: Cauchy 列 $a^{(n)}$ 的每一坐标有极限 $a_k$, 固定前 $J$ 项取极限, 得 $\sum_{k\le J}|a_k^{(n)}-a_k|^p\le\eps^p$; 令 $J\to\infty$ 得 $\norm{a^{(n)}-a}_p\le\eps$. 选定一个 $n$ 再用三角不等式保证 $a\in\ell^p$, 因而极限在本空间内.
+\end{proof}
+\begin{exercise}\label{ps01:3}
+原题3. 已知 $\ell^\infty=C_b(\N,d_{\rm disc})$ 是 Banach 空间, 证明 $c_0=\{a\in\ell^\infty:a_k\to0\}$ 是闭子空间, 从而是 Banach 空间.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+线性组合的极限仍为零, 故为子空间. 若 $a^{(n)}\in c_0$ 且 $\norm{a^{(n)}-a}_\infty\to0$, 给定 $\eps>0$, 先令一致误差小于 $\eps/2$, 再令该固定 $a^{(n)}$ 的尾项小于 $\eps/2$, 得 $|a_k|<\eps$ 于充分大的 $k$. 所以 $a\in c_0$. 此为定理\ref{thm:lpseqbanach}末段的同一论证; 闭子空间完备性由命题\ref{prop:closedsubspace}保证.
+\end{proof}
+\begin{exercise}\label{ps01:4}
+原题4. 对 $1\le p\le\infty$, 令 $S=\{a\in\ell^p:\norm a_p=1\}$. (a) 证明 $S$ 闭. (b) 证明 $S$ 不紧. 原提示: 用标准坐标向量 $e_n=(\delta_{kn})_k$ 构造无收敛子列的序列.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 范数连续, $S$ 是闭集 $\{1\}$ 的原像. (b) 每个 $e_n\in S$, 且 $m\ne n$ 时 $\norm{e_n-e_m}_p=2^{1/p}$ 于有限 $p$, 在 $p=\infty$ 时等于1. 任一子列都非 Cauchy, 从而没有收敛子列. 度量紧集中的每条序列应有收敛子列, 故 $S$ 不紧.
+\end{proof}
+\begin{exercise}\label{ps01:5}
+原题5. 设 $1\le p<\infty$, $1/p+1/q=1$. (a) 对 $a\in\ell^p,b\in\ell^q$, 证明 $\sum_{k\ge1}|a_kb_k|\le\norm a_p\norm b_q$. (b) 对 $b\in\ell^q$, 证明 $F_b(a)=\sum a_kb_k$ 属于 $(\ell^p)^*$ 且 $\norm{F_b}=\norm b_q$. (c) 证明 $F:\ell^q\to(\ell^p)^*$, $b\mapsto F_b$, 是双射有界线性算子.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 当 $p>1$, 对有限部分和用题1(a), 右端不超过全列范数的积, 再取极限. 当 $p=1,q=\infty$, 逐项用 $|b_k|\le\norm b_\infty$ 后求和.
+
+(b) 绝对收敛使 $F_b$ 良定义且线性, (a)给出范数上界. $p>1$ 时令 $S_N=\sum_{k\le N}|b_k|^q$; 若 $S_N>0$, 取 $a_k=\overline{b_k}|b_k|^{q-2}/S_N^{1/p}$ 于 $k\le N$ 且 $b_k\ne0$ 的坐标, 其余置零, 则 $\norm a_p=1$, $F_b(a)=S_N^{1/q}$. 取 $N\to\infty$ 得反向界. $p=1$ 时取相位调整后的 $e_k$, 得 $\norm{F_b}\ge|b_k|$, 再取上确界. 零 $b$ 情形直接成立.
+
+(c) $F$ 线性且等距, 因而有界和单射. 对任一 $f\in(\ell^p)^*$, 令 $b_k=f(e_k)$. 上一有限支撑测试给出 $\sum_{k\le N}|b_k|^q\le\norm f^q$ 于 $p>1$, $p=1$ 时给出 $|b_k|\le\norm f$. 所以 $b\in\ell^q$. 对 $a$ 的有限截断用线性性, 再由截断在 $\ell^p$ 中收敛和 $f$ 连续性得到 $f(a)=\sum a_kb_k$. 这正是定理\ref{thm:dual-lp}的表示证明, 满射由此成立.
+\end{proof}

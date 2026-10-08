@@ -1,0 +1,142 @@
+MATH 18.102/18.1021                                               Assignment 9
+
+
+   Assignments are to be submitted to Gradescope by 24:00.
+   The following is necessary for the ﬁrst two problems.
+
+Theorem. Let E ⊂ R be measurable, and let hn ∈ L1(E), n ∈ N, such that R E |hn| → 0
+as n →∞. Then there exists a subsequence {hnj }j such that for almost every x ∈ E,
+limj→∞ hnj (x) = 0.
+
+Proof. Let j ∈ N. Then
+
+                            Z            Z              Z
+     m({x ∈ E | |hn(x)| ≥ 2−j }) =          1 ≤ 2j            |hn| ≤ 2j    |hn| → 0,
+                                             {|hn|>2−j }          {|hn|>2−j }         E
+
+as n →∞. Thus, there exists a sequence of integers n1 < n2 < n3 < · · · such that for all
+j ∈ N,
+
+                     m({x ∈ E | |hnj (x)| ≥ 2−j }) ≤ 2−j .
+
+Let Ej = {x ∈ E  | |hnj (x)| ≥ 2−j }, and F := T∞k=1 S∞j=k Ej  . Then m S∞j=1 Ej  ≤
+Pj m(Ej ) ≤ Pj 2−j = 1 < ∞, so by continuity of Lebesgue measure
+
+                               ∞
+                       m(F ) = lim m [ Ej
+                              k→∞
+                                                    j=k
+                             ∞
+                      ≤ lim X m(Ej )
+                              k→∞
+                                                 j=k
+                             ∞
+                      ≤ lim X 2−j
+                              k→∞
+                                                 j=k
+                      = lim 2−k+1 = 0.
+                              k→∞
+
+One can then easily check that for all x ∈ E\F = S∞k=1 T∞j=k (E\Ej )  , we have limj→∞ |fnj (x)| =
+0, and thus {x ∈ E | limj→∞ |fnj (x)| =6 0} ⊂ F (a set of measure zero) proving the theorem.
+
+
+Deﬁnition. Let ϕ : R → R be an inﬁnitely diﬀerentiable function such that
+
+   • for all x ∈ R, ϕ(−x) = ϕ(x) and ϕ(x) ≥ 0,
+
+   •  if |x| > 1 then ϕ(x) = 0,
+
+                   ϕ(x)dx = 1.   • R R ϕ(x)dx = R −11
+
+For ϵ > 0, we deﬁne ϕϵ(x) = 1ϵ ϕ xϵ  , and note R R ϕϵ(x)dx = 1. The family of functions {ϕϵ}
+is called a a family of molliﬁers.
+
+   For problems 1 and 2, the arguments used in showing convergence of Fourier series in
+L2([−π, π]) might be useful.
+
+                                       1
+
+MATH 18.102/18.1021
+
+
+   1. Let g ∈ C(R) with the property that there exists R > 0 such that if |x| > R then
+     g(x) = 0. Note that this implies g is uniformly continuous on R. For ϵ > 0, deﬁne
+
+                         Z                Z
+                        gϵ(x) :=   ϕϵ(x − y)g(y)dy =   ϕϵ(z)g(x − z)dz.
+                              R                   R
+
+       (a) Prove that gϵ is inﬁnitely diﬀerentiable and if |x| > R + ϵ then gϵ(x) = 0.
+      (b) Prove that kgϵ − gk∞ → 0 as ϵ → 0+ .
+       (c) Let f ∈ L2(R) and δ > 0.  Prove that there exists an inﬁnitely diﬀerentiable
+          function h with the property that there exists S > 0 such that if |x| > S then
+          h(x) = 0 and
+
+                                       kf − hk2 < δ.
+
+          This shows that the subspace of smooth, compactly supported functions is dense
+           in L2(R).
+
+   2. For f ∈ L2(R) and ϵ > 0, we deﬁne
+
+                                 Z
+                                   fϵ(x) =   ϕϵ(x − y)f(y)dy.
+                                       R
+       (a) Prove that for all f ∈ L2(R), kfϵk2 ≤kfk2.
+          Hint: First prove the inequality for all continuous functions in L2(R). Now let
+          f ∈ L2(R) and fn ∈ C(R) ∩ L2(R), n ∈ N, such that kfn − fk2 → 0. By the
+          estimate for continuous functions, the sequence {(fn)ϵ}n is a Cauchy sequence in
+          L2(R), so there exists g ∈ L2(R) such that k(fn)ϵ − gk2 → 0 as n →∞. Prove
+          that for all x ∈ R, |(fn)ϵ(x) − fϵ(x)| → 0 as n →∞, and use the Theorem above
+           to conclude g = fϵ. Finally, conclude kfϵk2 ≤kfk2.
+      (b) Prove that for all f ∈ L2(R), kfϵ − fk2 → 0 as ϵ → 0+ .
+
+   3. Let H be a Hilbert space.  Suppose that P ∈B(H, H) is a projection and for all
+      u, v ∈ H, hP u, vi = hu, P vi. Prove that W := Range(P ) = {Pu | u ∈ H} is a closed
+     subspace of H and P = ΠW .
+
+   4. Let H be a Hilbert space, and let C ⊂ H be a closed convex subset.
+
+       (a) Prove that for all u ∈ H there exists a unique element v ∈ C such that
+
+                                ku − vk = inf ku − wk.
+                                           w∈C
+
+       We denote this element in C by v = PC u.
+      (b) Let u ∈ H and v ∈ C. Prove that v = PC u if and only if for all w ∈ C
+
+                                 Rehu − v, w − vi ≤ 0.                             (†)
+
+          Hint: To show that v = PC u implies (†), let w ∈ C, and for t ∈ [0, 1], w(t) =
+           (1 − t)v + tw ∈ C. Then
+
+                           ku − vk2 ≤ku − w(t)k2 ,   t ∈ [0, 1].
+
+       Now expand this out, cancel terms and send t → 0+ .
+
+                                       2
+
+MATH 18.102/18.1021
+
+
+   5. Let {hk}k be a sequence of non-negative real numbers.
+
+       (a) Prove that C = {{bk}k ∈ `2 | |bk| ≤ hk for all k} is a closed convex subset of `2 .
+      (b) For a = {ak}k ∈ `2 , compute PC a = {(PC a)k}k.
+
+
+
+
+
+                                       3
+
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+18.102 / 18.1021 Introduction to Functional Analysis
+Spring 2021
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.

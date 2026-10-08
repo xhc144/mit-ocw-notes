@@ -1,0 +1,48 @@
+\originalchapter{期末作业}\label{ch:final}
+原件3页, 题面2页, 5题共40分. 本章按官方资源页及大纲命名为期末作业; 原PDF内部沿用 exam 用语不改变这一归档分类.
+\begin{exercise}\label{final:1}
+原题1（8分）. 令 $f(x)=-1$ 于 $[-\pi,0]$, $f(x)=1$ 于 $(0,\pi]$. 求 $\widehat f(n)=(2\pi)^{-1}\int_{-\pi}^{\pi}f(x)\ee^{-\ii nx}\dd x$, $n\in\Z$, 并用结果计算 $\sum_{k=0}^\infty(2k+1)^{-2}$. 原提示: 用范数与 Fourier 系数的关系.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+零点取值不影响积分, $\widehat f(0)=0$. 对 $n\ne0$, 分别积分两段, 或利用奇性, 得 $\widehat f(n)=-\ii[1-(-1)^n]/(\pi n)$. 因而非零偶频系数为零, 奇频为 $-2\ii/(\pi n)$. Parseval 给出 $1=(2\pi)^{-1}\norm f_2^2=\sum_{n\in\Z}|\widehat f(n)|^2=(8/\pi^2)\sum_{k\ge0}(2k+1)^{-2}$, 所以所求和为 $\pi^2/8$. 此使用第\ref{ch:fourier}章已证明的完备性, 不是未经证明的点态级数求和.
+\end{proof}
+\begin{exercise}\label{final:2}
+原题2（8分）. 用适当收敛定理计算
+\[
+\lim_{n\to\infty}\int_0^1\frac{n\cos x}{1+n^2x^2}\dd x,
+\qquad
+\lim_{n\to\infty}\int_0^\infty\frac{n\sin(x/n)}{x(1+x^2)}\dd x.
+\]
+原提示: 一个或两个积分中可先换元.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+第一个积分以 $t=nx$ 换元, 等于 $\int_0^\infty\ind_{[0,n]}(t)\cos(t/n)/(1+t^2)\dd t$. 被积函数对固定 $t$ 趋于 $(1+t^2)^{-1}$, 绝对值受此全轴可积函数控制. 控制收敛给出极限 $\int_0^\infty(1+t^2)^{-1}\dd t=\pi/2$. 原变量下虽几乎处处趋零, 却没有相应统一控制, 不能直接把极限带入.
+
+第二个积分对每个 $x>0$ 有 $n\sin(x/n)/x\to1$, 且 $|n\sin(x/n)|\le x$, 所以受 $(1+x^2)^{-1}$ 控制. 同一定理给出极限 $\pi/2$. 单点 $x=0$ 可按连续延拓赋值, 不影响积分; 两个反正切积分的 Lebesgue 值由连续函数的截断积分及单调收敛得到.
+\end{proof}
+\begin{exercise}\label{final:3}
+原题3（8分）. 若 $W$ 为 Hilbert 空间 $H$ 的线性子空间, 证明 $W^\perp=\{u:\ip uw=0\text{对所有 }w\in W\}$ 是闭子空间, 且 $(W^\perp)^\perp=\overline W$. 原PDF右端带闭包横线.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+此与题\ref{ps08:2}相同, 复用其完整证明: $W^\perp$ 是连续内积泛函闭核的交; 对 $\overline W$ 作正交分解 $x=v+z$, 若 $x\in(W^\perp)^\perp$, 则 $0=\ip xz=\norm z^2$, 故 $x\in\overline W$. 反向包含由内积连续性得到. 不去掉题面的闭包.
+\end{proof}
+\begin{exercise}\label{final:4}
+原题4. 对有界复数列 $(\mu_k)$, 定义 $Ma=(\mu_ka_k)_k$ 于 $\ell^2$, 已知 $M$ 有界且 $\norm M\le\sup_k|\mu_k|$. (a)（4分）证明 $M$ 自伴当且仅当每个 $\mu_k$ 为实数. (b)（4分）若 $\mu_k\to0$, 证明 $M$ 紧. 原题允许不加证明引用 Piazza 中讨论的性质: 对 $A\in\B(\ell^2)$,
+\[
+\overline{\{Ab:\norm b_2\le1\}}=\{Ab:\norm b_2\le1\}.
+\]
+以下证明不需要该额外提示.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+(a) 绝对收敛的内积计算给出 $M^*b=(\overline{\mu_k}b_k)_k$. 故实数列使 $M=M^*$. 反之测试 $e_k$ 得 $\mu_k=\overline{\mu_k}$, 每项实.
+
+(b) 令 $M_N$ 只保留前 $N$ 个对角项, 它有限秩, 且 $\norm{M-M_N}=\sup_{k>N}|\mu_k|\to0$; 等式下界由测试 $e_k$ 后取上确界得到. 由定理\ref{thm:compactnorm}得紧. 此复用第\ref{ch:compact}章对角紧算子的习题, 不要求 $(\mu_k)$ 平方可和.
+\end{proof}
+\begin{exercise}\label{final:5}
+原题5（8分）. 在 $L^2([0,1])$ 上令 $Mf(x)=xf(x)$, 已知 $M$ 有界且 $\norm M\le1$. 证明 $\sigma(M)=[0,1]$, 且 $M$ 无特征值. 原提示: 对 $\lambda\in[0,1]$ 考察常数函数1是否在 $\ran(M-\lambda I)$ 内.
+\end{exercise}
+\begin{proof}[AI 独立解答]
+若 $\lambda\notin[0,1]$, 距离 $d=\dist(\lambda,[0,1])>0$, 乘法 $f\mapsto f/(x-\lambda)$ 为有界双向逆, 范数至多 $1/d$, 故 $\lambda$ 在预解集. 若 $\lambda\in[0,1]$, 方程 $(x-\lambda)f(x)=1$ 将要求 $f(x)=1/(x-\lambda)$ 几乎处处. 此函数在 $\lambda$ 的单侧或双侧邻域平方不可积, 包括端点0、1, 故常数1不在值域, $M-\lambda I$ 不满射. 因而谱正是 $[0,1]$.
+
+若 $(M-\lambda I)f=0$, 在 $x\ne\lambda$ 处 $f=0$ 几乎处处; 可能的单点支集是零测集, 所以 $f=0$ 于 $L^2$ 等价类. 对非实或区间外 $\lambda$ 更是处处没有零因子, 同样无非零特征向量. 这补全第\ref{ch:spectrum}章乘法谱例子的区间端点核对.
+\end{proof}
