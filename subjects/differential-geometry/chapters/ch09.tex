@@ -1,0 +1,80 @@
+\originalchapter{指数映射与最短路径}
+\originalsection{指数映射与正常邻域}
+初值存在唯一性让我们从一个点沿任意切向出发. 把方向和行进长度合成一个切向量, 得到指数映射.
+\begin{definition}
+令 $\gamma_V$ 为初值 $p,V$ 的测地线. 对能定义到时刻1的 $V$, 定义 $\Exp_p(V)=\gamma_V(1)$. 由仿射换参, $\Exp_p(tV)=\gamma_V(t)$ 在双方有定义时成立.
+\end{definition}
+\begin{proposition}\label{prop:normal-neighborhood}
+$\Exp_p$ 在切空间原点附近光滑, $\dd(\Exp_p)_0=\id:T_pM\to T_pM$. 因而存在 $\rho>0$, 使它把 $B_\rho(0)\subset T_pM$ 微分同胚地映到一个曲面邻域, 称为正常邻域.
+\end{proposition}
+\begin{proof}
+取足够小的初速度, 常微分方程的局部存在及光滑依赖保证解在 $[0,1]$ 上存在并光滑依赖速度. 对任意 $V$, $\Exp_p(tV)=\gamma_V(t)=p+tV+o(t)$, 因而原点微分是恒等映射. 逆函数定理给出一个开邻域上的微分同胚, 再缩小为切空间球即可.
+\end{proof}
+不同于一般坐标, 正常坐标把经过中心的径向直线变为测地线. 正常极坐标 $F(r,\theta)=\Exp_p(r e(\theta))$, 其中 $e(\theta)$ 是切平面的单位圆方向, 在 $r=0$ 有极坐标自身的奇异性, 而非曲面奇点.
+\begin{theorem}[Gauss 引理]\label{thm:gauss-lemma}
+正常极坐标下 $|F_r|=1$, $\langle F_r,F_\theta\rangle=0$. 因而度量写成 $\dd r^2+A(r,\theta)^2\dd\theta^2$, $r>0$, $A>0$.
+\end{theorem}
+\begin{proof}
+每条 $r\mapsto F(r,\theta)$ 是初速度为单位向量的测地线, 故 $|F_r|=1$, $\nabla_rF_r=0$. 微分交叉内积得
+\[
+ \partial_r\langle F_r,F_\theta\rangle
+ =\langle F_r,\nabla_rF_\theta\rangle
+ =\langle F_r,\nabla_\theta F_r\rangle
+ =\tfrac12\partial_\theta|F_r|^2=0.
+\]
+$r=0$ 时 $F_\theta=0$, 所以内积恒为0. $r>0$ 时正常坐标的秩为2, $F_\theta$ 非零, 得 $A=|F_\theta|>0$.
+\end{proof}
+\originalsection{径向测地线的极小性}
+\begin{theorem}\label{thm:local-minimizing}
+在上述正常邻域, 对 $0<r_0<\rho$, 径向测地线从 $p$ 到 $q=F(r_0,\theta_0)$ 的长度 $r_0$ 在所有曲面分段光滑连接路径中最小. 在邻域内达到等长的正则路径具有同一径向轨迹, 且不回走.
+\end{theorem}
+\begin{proof}
+对留在正常邻域且不经过中心的路径, Gauss 引理给出
+\[
+ |\dot\gamma|=\sqrt{\dot r^2+A^2\dot\theta^2}\ge|\dot r|.
+\]
+从中心出发时先忽略 $r<\delta$ 的小段, 对其余段积分, 再令 $\delta\downarrow0$, 得路径长度至少 $r_0$. 多次穿过中心的路径亦可按穿越段分别估计. 径向路径达到此下界.
+
+若竞争路径离开正常邻域, 则在第一次达到任意半径 $r_1\in(r_0,\rho)$ 前已花费长度至少 $r_1>r_0$, 不可能更短. 这是针对整条曲面的竞争路径, 不是只在一个参数域内的比较. 取等要求 $\dot\theta=0$ 在 $r>0$ 处成立, 且径向坐标单调不减; 因 $A>0$, 不允许非零环向速度. 由连续性与正则性, 路径具有所述径向轨迹.
+\end{proof}
+这只保证足够短的测地线段最短. 指数映射远处可能失去单射性或秩. 球面上从一点到其对跖点有无穷多条长度 $\pi R$ 的大圆半弧, 超过这个长度的径向大圆弧则有更短竞争路径.
+\begin{definition}
+连通曲面的内蕴距离定义为 $d(p,q)=\inf L(\gamma)$, 下确界取遍从 $p$ 到 $q$ 的分段光滑路径.
+\end{definition}
+\begin{proposition}\label{prop:distance}
+$d$ 是有限值距离, 且诱导曲面原有拓扑. 对嵌入曲面还有 $d(p,q)\ge|p-q|$.
+\end{proposition}
+\begin{proof}
+连通曲面局部路径连通, 路径连通分支既开又闭, 所以分段坐标路径能连接任意两点. 非负性、对称性和三角不等式来自长度、路径反向和拼接. 欧氏空间中积分速度的范数不小于位移范数, 故 $d\ge|p-q|$, 从而不同点距离为正.
+
+对拓扑, 取一个坐标片中包含点的较小闭坐标球, 度量特征值在其中有正下界 $m$ 与上界 $M$. 坐标短直线像的长度不超过 $\sqrt M$ 乘坐标位移, 所以坐标接近推出距离接近. 反之从中心出发要离开此片内小球, 在第一次碰边界前至少花费 $\sqrt m$ 乘球半径的长度. 故充分小的距离球留在任意给定坐标邻域. 两种拓扑一致. 正常邻域定理还给出 $d(p,\Exp_pV)=|V|$ 在充分小的球内成立.
+\end{proof}
+\originalsection{闭曲面与全局存在}
+本节“闭子集”意为在 $\R^3$ 中拓扑闭合, 不等同于紧致无边界. 无边界嵌入曲面可以非紧致而仍为闭子集, 例如平面和完整圆柱.
+\begin{theorem}\label{thm:closed-geodesic}
+若连通无边界正则嵌入曲面 $M$ 是 $\R^3$ 的闭子集, 则每条测地线可延续到所有实时间, 内蕴距离完备, 任意两点间有恒速长度最小测地线.
+\end{theorem}
+\begin{proof}
+先证完备. $d$-Cauchy 点列由 $|p-q|\le d(p,q)$ 在欧氏空间中也是 Cauchy, 因 $M$ 闭而收敛到 $p\in M$. 由前述拓扑相同, 它也在 $d$ 中收敛. 注意这里不仅用了闭性, 还用了曲面度量与坐标拓扑相容.
+
+对全时间延续, 速度恒定为 $c$. 若最大时间端点 $T<\infty$, 则在任何固定初始时刻之后, 位置留在某个有界欧氏球内. 与 $M$ 相交得到紧集. 速度属于该紧集上长度为 $c$ 的切向量集合, 后者也是紧集: 它是位置与有界速度的闭子集, 切向条件随点连续. 光滑测地线向量场在此紧集附近有有限个局部存在图及统一短时存在界. 于是从接近 $T$ 的时刻再解可越过 $T$, 与最大区间矛盾. 负向时间同理.
+
+最后证最短线存在. 给两点 $p,q$, 取一条连接路径的长度 $L_0$, 取长度趋于 $d(p,q)$ 且不超过 $L_0+1$ 的路径列. 将各路径以恒速参数写在 $[0,1]$ 上. 它们在内蕴距离中 Lipschitz 常数不超过 $L_0+1$, 位置均在欧氏闭球 $\overline B(p,L_0+1)$ 与 $M$ 的紧交集中. 由于两种拓扑一致, 此集在距离 $d$ 下亦紧. 对有理时刻逐次抽取收敛子列, 再取对角子列. 所有曲线有共同 Lipschitz 界, 取有限细时间网格可将网格点收敛提升为整个区间一致收敛. 因此得到连续极限 $\gamma_j\to\gamma$, 且 $\gamma(0)=p,\gamma(1)=q$.
+
+记 $D=d(p,q)>0$. 对 $s<t$, 由恒速逼近列有 $d(\gamma_j(s),\gamma_j(t))\le L(\gamma_j)(t-s)$, 极限后为 $d(\gamma(s),\gamma(t))\le D(t-s)$. 将 $[0,1]$ 按 $0,s,t,1$ 分割, 端点三角不等式给出 $D\le Ds+D(t-s)+D(1-t)=D$. 所以每一项都必须取等, 即 $d(\gamma(s),\gamma(t))=D(t-s)$.
+
+还需证明这个距离等距路径确实光滑, 不能直接套用仅为正则路径证明的取等结论. 固定 $a<1$, 取 $\delta>0$ 使 $\gamma([a,a+\delta])$ 留在以 $\gamma(a)$ 为中心的正常邻域. 其正常径向坐标为 $r(t)=D(t-a)$. 对 $a<s<t\le a+\delta$ 且 $t-s$ 足够小, 在 $\gamma(s)$ 的正常邻域中, 用一条光滑径向最短测地线连接 $\gamma(s),\gamma(t)$, 长度为 $D(t-s)=r(t)-r(s)$. 缩短 $t-s$ 使这段连接线留在原中心的正常极坐标环带内. 对该光滑连接线用 Gauss 引理, 长度至少为径向坐标变化; 现已取等, 因而它的角坐标不变, 两端有 $\theta(s)=\theta(t)$. 这使极限路径的角坐标在 $(a,a+\delta]$ 上局部恒定, 从而在此连通区间恒定. 故 $\gamma(t)=\Exp_{\gamma(a)}(D(t-a)e)$, 其中 $e$ 为固定单位方向.
+
+在每个内部时刻选稍早的 $a$, 可知 $\gamma$ 局部为光滑恒速测地线; 初值唯一性使各段相容. 它的速度为 $D$, 在 $[0,1]$ 上长度为 $D$, 即全局最短. $p=q$ 时取常值路径.
+\end{proof}
+原课程第36--39讲给出的闭子集版本由此在二维嵌入情形补成证明. 若去掉闭性, 结论可失败: 穿孔平面中穿过孔洞的直线不能延续, 位于孔洞两侧的点间距离下确界也可能没有路径达到.
+\originalsection{习题}
+\begin{exercise}\label{ex:9a}
+球面半径为 $R$, 点 $p,q$ 的中心夹角为 $\alpha\in[0,\pi]$. 证明 $d(p,q)=R\alpha$, 并说明最短曲线在非对跖、对跖及同点三种情况的区别.
+\end{exercise}
+\begin{exercise}\label{ex:9b}
+在穿孔平面 $\R^2\setminus\{0\}$ 中, 证明 $p=(-1,0)$ 与 $q=(1,0)$ 的内蕴距离是2, 但不存在达到距离的路径.
+\end{exercise}
+\begin{exercise}\label{ex:9c}
+在正常极坐标中, 证明 $A(r,\theta)=r+O(r^3)$, 并用 $K=-A_{rr}/A$ 得到 $A(r,\theta)=r-\frac16K(p)r^3+o(r^3)$. 明确 $r=0$ 的初值如何取得.
+\end{exercise}

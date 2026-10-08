@@ -1,0 +1,99 @@
+\originalchapter{第二基本形式与曲率}
+\originalsection{形算子与第二基本形式}
+第一基本形式只测量曲面内的长度. 曲面在空间中如何弯曲, 需要比较邻点的法向量. 本章选定单位法向 $N$; 所有导数首先作为欧氏空间导数计算.
+\begin{definition}
+形算子 $S_p:T_pM\to T_pM$ 为 $S_p(V)=-\dd N_p(V)$. 第二基本形式为 $\II_p(V,W)=\langle S_pV,W\rangle$.
+\end{definition}
+因 $|N|^2=1$, $\dd N(V)\perp N$, 故它确实属于 $T_pM$. 在参数坐标中记
+\[
+ h_{ij}=\langle X_{ij},N\rangle,\qquad
+ h=\begin{pmatrix}e&f\\f&g_2\end{pmatrix}.
+\]
+这里用 $g_2$ 作为第二基本形式的末项, 避免与度量矩阵 $g$ 混淆. 具体算例常写 $\II=e\dd u^2+2f\dd u\dd v+g_2\dd v^2$.
+\begin{proposition}\label{prop:shape}
+第二基本形式对称, $\langle S X_i,X_j\rangle=h_{ij}$. 形算子的坐标矩阵为 $g^{-1}h$, 并且它关于度量 $g$ 自伴.
+\end{proposition}
+\begin{proof}
+微分 $\langle N,X_j\rangle=0$, 得 $\langle-\partial_iN,X_j\rangle=\langle N,X_{ij}\rangle$. 混合偏导交换说明 $h_{ij}=h_{ji}$. 若 $SX_i=\sum_k S^k{}_iX_k$, 则 $h_{ij}=\sum_k S^k{}_i g_{kj}$. 矩阵形式为 $h=S^{\mathsf T}g$; 利用 $h$ 对称也有 $h=gS$, 故 $S=g^{-1}h$. 对称性正是 $\langle SV,W\rangle=\langle V,SW\rangle$.
+\end{proof}
+\begin{definition}
+形算子的两个实特征值 $k_1,k_2$ 称为主曲率, 正交特征方向称为主方向. Gauss 曲率为 $K=k_1k_2=\det S$, 平均曲率为 $H=(k_1+k_2)/2=\tr S/2$.
+\end{definition}
+线性代数中的实对称算子谱定理保证主方向存在. $g^{-1}h$ 在一般坐标下未必是普通对称矩阵, 但它与对称矩阵 $g^{-1/2}hg^{-1/2}$ 相似, 因而仍有实谱. 特征方程应写 $\det(h-kg)=0$, 不能写成 $\det(g-kh)=0$.
+\begin{proposition}\label{prop:KH}
+在参数坐标中,
+\[
+ K=\frac{eg_2-f^2}{EG-F^2},\qquad
+ H=\frac{Eg_2-2Ff+Ge}{2(EG-F^2)}.
+\]
+反转法向量时 $h,S,k_i,H$ 全部变号, 而 $K$ 不变.
+\end{proposition}
+\begin{proof}
+第一式是 $\det(g^{-1}h)=\det h/\det g$. 用 $g^{-1}=(EG-F^2)^{-1}\left(\begin{smallmatrix}G&-F\\-F&E\end{smallmatrix}\right)$ 求迹得第二式. 反向结论来自 $N\mapsto-N$.
+\end{proof}
+\originalsection{法曲率与 Euler 公式}
+\begin{definition}
+单位切向量 $V$ 的法曲率为 $k_n(V)=\II(V,V)$. 对非零切向量可写成 $k_n(V)=\II(V,V)/\I(V,V)$.
+\end{definition}
+\begin{proposition}\label{prop:normal-curvature}
+任意经过 $p$、单位速度且切向为 $V$ 的曲面曲线 $\alpha$, 都满足 $\langle\alpha''(0),N(p)\rangle=k_n(V)$. 若 $V=\cos\theta e_1+\sin\theta e_2$, $e_i$ 为单位主方向, 则
+\begin{equation}\label{eq:euler}
+ k_n(V)=k_1\cos^2\theta+k_2\sin^2\theta.
+\end{equation}
+\end{proposition}
+\begin{proof}
+微分 $\langle\alpha',N\rangle=0$, 得 $\langle\alpha'',N\rangle=-\langle\alpha',\dd N(\alpha')\rangle=\II(V,V)$. 展开自伴算子在正交特征基下的二次型, 混合项为0, 得 Euler 公式.
+\end{proof}
+所以法曲率只依赖切向, 不依赖曲线如何在曲面上偏转. 若空间曲率 $\kappa\ne0$, 曲线主法向与曲面法向的夹角为 $\beta$, 则 $k_n=\kappa\cos\beta$; 这就是 Meusnier 关系. 法截线的空间曲率为 $|k_n|$; 当 $k_n\ne0$ 时, 其密切平面是 $V,N$ 所张成的平面. 在渐近方向上 $k_n=0$, 该点的 Frenet 密切平面不一定有定义.
+\begin{definition}
+点的两主曲率相等时称为脐点. $K>0$ 称为椭圆点, $K<0$ 称为双曲点. $K=0$ 且 $S\ne0$ 称为抛物点, $S=0$ 称为平坦点. $\II(V,V)=0$ 的非零方向称为渐近方向.
+\end{definition}
+Euler 公式说明: 椭圆点无法向曲率为0的方向; 双曲点有两条不同渐近方向; 抛物点只有一条. 平坦点在此是点态概念, 不自动意味着邻域是平面.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=6.6cm,height=4.4cm,view={40}{25},axis lines=box,clip=false,xtick=\empty,ytick=\empty,ztick=\empty]
+\addplot3[surf,domain=-1:1,y domain=-1:1,samples=13,shader=flat,z buffer=sort,colormap={dg}{color(0cm)=(white);color(1cm)=(structurecolor)},opacity=.85] {(.5*x*x-.5*y*y)};
+\node[anchor=north] at (axis description cs:.35,-.05) {$u$};
+\node[anchor=west] at (axis description cs:.92,.02) {$v$};
+\node[anchor=east] at (axis description cs:-.03,.50) {$z$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+在鞍面 $z=(u^2-v^2)/2$ 的原点, $\I=\dd u^2+\dd v^2$, $\II=\dd u^2-\dd v^2$, $K=-1$, 两个渐近方向为 $u=\pm v$. 图按所给鞍面绘制, 不是曲率证明.
+\originalsection{基本算例与脐点曲面}
+\begin{example}
+计算平面、半径 $R$ 的球面和圆柱的主曲率.
+\end{example}
+\begin{solution}
+平面法向量固定, $S=0$. 球面外法向 $N(p)=p/R$, 故对任意切向 $V$, $SV=-V/R$, 两主曲率为 $-1/R$, $K=1/R^2$, $H=-1/R$.
+
+圆柱 $X(\theta,z)=(R\cos\theta,R\sin\theta,z)$ 取外法向 $(\cos\theta,\sin\theta,0)$. 环向单位向量 $e_\theta=(-\sin\theta,\cos\theta,0)$ 满足 $Se_\theta=-e_\theta/R$, 轴向向量满足 $Se_z=0$. 所以 $K=0$, $H=-1/(2R)$. 圆柱和其局部展开平面有相同第一基本形式, 却有不同第二基本形式.
+\end{solution}
+\begin{proposition}\label{prop:graph-curvature}
+图像曲面 $X(u,v)=(u,v,f(u,v))$ 取向上法向, 令 $W=\sqrt{1+f_u^2+f_v^2}$, 则
+\[
+ \II=\frac{f_{uu}\dd u^2+2f_{uv}\dd u\dd v+f_{vv}\dd v^2}{W},\qquad
+ K=\frac{f_{uu}f_{vv}-f_{uv}^2}{(1+f_u^2+f_v^2)^2}.
+\]
+\end{proposition}
+\begin{proof}
+$N=(-f_u,-f_v,1)/W$, $X_{ij}=(0,0,f_{ij})$, 得第二基本形式. 第一基本形式行列式为 $W^2$, 而 $\det h=(f_{uu}f_{vv}-f_{uv}^2)/W^2$, 相除得 $K$.
+\end{proof}
+\begin{theorem}\label{thm:umbilic}
+连通正则曲面若处处为脐点, 则它的像包含在某个平面或球面中.
+\end{theorem}
+\begin{proof}
+在一个连通参数片上写 $S=\lambda\id$, 即 $N_u=-\lambda X_u$, $N_v=-\lambda X_v$. 对两式取混合偏导并相减, 得 $\lambda_vX_u=\lambda_uX_v$. 两向量独立, 故 $\lambda_u=\lambda_v=0$, $\lambda$ 局部恒定. 连通性使同一定向下它恒定; 若整体不先选定定向, 在重叠片上法向符号可统一延续, 以下局部平面或球面也因非空开交集而必须一致.
+
+若 $\lambda=0$, $N$ 固定, $\langle X,N\rangle$ 固定, 曲面落在平面上. 若 $\lambda\ne0$, $X+N/\lambda$ 的两偏导为0, 圆心固定且半径为 $1/|\lambda|$. 不同片若给出两不同平面或球面, 其交不能含二维开片, 因而沿连通曲面得到同一个平面或球面.
+\end{proof}
+\originalsection{习题}
+\begin{exercise}\label{ex:5a}
+求旋转抛物面 $z=(x^2+y^2)/(2a)$, $a>0$, 的 $K,H$, 取向上法向. 判断其椭圆点和脐点.
+\end{exercise}
+\begin{exercise}\label{ex:5b}
+设一点 $k_1=2,k_2=-1$. 求所有法曲率为0的方向, 并求法曲率的最大值、最小值和方向平均值.
+\end{exercise}
+\begin{exercise}\label{ex:5c}
+正则水平曲面 $F=0$ 取 $N=\nabla F/|\nabla F|$. 证明 $\II(V,W)=-\operatorname{Hess}F(V,W)/|\nabla F|$ 对切向量成立. 据此求椭球 $x^2/a^2+y^2/b^2+z^2/c^2=1$, $a,b,c>0$, 在 $(a,0,0)$ 的主曲率.
+\end{exercise}

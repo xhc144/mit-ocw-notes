@@ -1,0 +1,91 @@
+\originalchapter{空间曲线与挠率}
+\originalsection{Frenet 标架}
+空间曲线除弯曲强度外, 还会离开当前的密切平面. 平面有向曲率的一个实数不足以描述这两种变化. 本章以 $C^3$ 单位速度曲线 $\alpha:J\to\R^3$ 为起点.
+\begin{definition}
+若 $\kappa(s)=|\alpha''(s)|>0$, 定义单位切向量 $T=\alpha'$, 主法向量 $n=\alpha''/\kappa$, 副法向量 $b=T\times n$. $(T,n,b)$ 称为 Frenet 标架; 张成 $T,n$ 的平面称为密切平面. 挠率定义为 $\tau=\langle n',b\rangle$.
+\end{definition}
+$\kappa>0$ 是定义主法向量的条件, 不能在拐直点仍无条件使用此标架. 平面曲线的 $\kappa$ 是前章 $|k|$; 空间挠率有正负, 空间曲率非负.
+\begin{theorem}[Frenet--Serret 方程]\label{thm:space-frenet}
+在 $\kappa>0$ 的区间上,
+\begin{equation}\label{eq:frenet3}
+ T'=\kappa n,\qquad n'=-\kappa T+\tau b,\qquad b'=-\tau n.
+\end{equation}
+而且 $\tau=\det(\alpha',\alpha'',\alpha''')/\kappa^2$.
+\end{theorem}
+\begin{proof}
+第一式来自定义. 微分 $\langle n,n\rangle=1$ 得 $n'\perp n$, 微分 $\langle n,T\rangle=0$ 得 $\langle n',T\rangle=-\kappa$. $b$ 分量是 $\tau$, 得第二式. 微分 $b=T\times n$ 得 $b'=T'\times n+T\times n'=-\tau n$. 最后 $\alpha'''=\kappa'n+\kappa(-\kappa T+\tau b)$, 而 $\alpha'\times\alpha''=\kappa b$, 三重积为 $\kappa^2\tau$.
+\end{proof}
+\begin{proposition}\label{prop:space-param}
+任意正则参数下, 若 $\gamma'\times\gamma''\ne0$, 则
+\[
+ \kappa=\frac{|\gamma'\times\gamma''|}{|\gamma'|^3},\qquad
+ \tau=\frac{\det(\gamma',\gamma'',\gamma''')}{|\gamma'\times\gamma''|^2}.
+\]
+两者在参数反向时都保持数值, 在空间反射时 $\tau$ 变号而 $\kappa$ 不变.
+\end{proposition}
+\begin{proof}
+令 $\gamma'=vT$, 则 $\gamma''=v'T+v^2\kappa n$, 故叉积为 $v^3\kappa b$. 再微分, $\gamma'''$ 的 $b$ 分量为 $v^3\kappa\tau$, 所以三重积为 $v^6\kappa^2\tau$. 两个公式成立. 对任意换参, 叉积取得 $\phi'^3$ 因子, 三重积取得 $\phi'^6$ 因子; 平方或绝对值消去符号. 空间正交变换对三重积乘以其行列式, 给出最后的断言.
+\end{proof}
+\begin{proposition}
+在连通区间上且 $\kappa>0$ 时, $\tau\equiv0$ 当且仅当曲线位于一个固定平面中.
+\end{proposition}
+\begin{proof}
+若 $\tau=0$, 则 $b'=0$, $b$ 固定, 且 $\langle\alpha',b\rangle=0$. 因而 $\langle\alpha,b\rangle$ 为常数, 曲线位于该平面. 反之若曲线位于法向为 $a$ 的平面, $T,n$ 都与 $a$ 垂直; 连续单位副法向量必为固定的 $a$ 或 $-a$, 所以 $b'=0$, $\tau=0$.
+\end{proof}
+\originalsection{曲线基本定理}
+平面曲线基本定理是一个角函数的积分. 空间情形则需积分一个旋转标架. 这里使用线性常微分方程的存在唯一性: 连续系数在区间上给定初值后有唯一解; 在系数连续的每个紧子区间上解可继续, 光滑系数给光滑解.
+\begin{theorem}\label{thm:space-fundamental}
+给定光滑函数 $\kappa>0,\tau$ 于区间 $J$, 固定 $s_0\in J$, 在 $s_0$ 处给定初始点 $p$ 和正向正交标架 $(T_0,n_0,b_0)$, 存在唯一单位速度空间曲线具有这些曲率、挠率和初值. 因而 $(\kappa,\tau)$ 确定曲线, 精确到正向欧氏刚体运动.
+\end{theorem}
+\begin{proof}
+以列向量组成矩阵 $Q=(T,n,b)$, 解
+\[
+ Q'=QA,\qquad A=\begin{pmatrix}0&-\kappa&0\\\kappa&0&-\tau\\0&\tau&0\end{pmatrix},\qquad Q(s_0)=Q_0.
+\]
+由于 $A^{\mathsf T}=-A$, 矩阵 $M=Q^{\mathsf T}Q$ 满足 $M'=A^{\mathsf T}M+MA$. 常矩阵 $M=I_3$ 是具有相同初值的解, 唯一性使其一直成立. $\det Q$ 连续、只取 $\pm1$ 且初值为1, 故标架始终正向. 它的列向量范数为1, 不会在有限区间爆破, 因此可在整个 $J$ 上解出.
+
+定义 $\alpha=p+\int_{s_0}^s T\dd u$. 则 $\alpha'=T$, $\alpha''=\kappa n$, 所以主法向和副法向恰为所解标架, 挠率为 $\tau$. 任意另一满足条件的曲线产生同一标架方程和初值, 唯一性给出相同曲线. 任意两个初始正向标架由唯一正向正交矩阵联系, 再加平移得到最后结论.
+\end{proof}
+当 $\kappa=0$ 时不能由 $n=\alpha''/\kappa$ 定义 Frenet 标架. 这不表示曲线不存在, 只表示本定理的假设不再适用; 例如直线有许多可选法向标架, 但没有上述定义的挠率.
+\originalsection{圆柱螺线与一般螺线}
+\begin{example}
+求 $\gamma(t)=(a\cos t,a\sin t,ct)$ 的曲率和挠率, 其中 $a>0$, $c\in\R$.
+\end{example}
+\begin{solution}
+令 $q=\sqrt{a^2+c^2}$. 有 $|\gamma'|=q$,
+\[
+ \gamma'\times\gamma''=(ac\sin t,-ac\cos t,a^2),\qquad
+ |\gamma'\times\gamma''|=aq,
+\]
+三重积为 $a^2c$, 故 $\kappa=a/q^2$, $\tau=c/q^2$. 弧长参数为 $s=qt$; 当 $c=0$ 时曲线退化为圆, 挠率为0. 切向量与竖直轴的夹角满足 $\cos\beta=c/q$, 与参数无关.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=8cm,height=5cm,view={38}{22},axis lines=box,clip=false,xtick=\empty,ytick=\empty,ztick=\empty,xmin=-1.4,xmax=1.4,ymin=-1.4,ymax=1.4,zmin=0,zmax=3.8]
+\addplot3[thick,structurecolor,domain=0:720,samples=160,samples y=0] ({cos(x)},{sin(x)},{x/200});
+\node[anchor=north] at (axis description cs:.35,-.05) {$x$};
+\node[anchor=west] at (axis description cs:.92,.02) {$y$};
+\node[anchor=east] at (axis description cs:-.03,.50) {$z$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+图示取 $a=1$, $c=\pi^{-1}\cdot0.9$; 竖直比例用于显示两圈结构, 曲率数值由公式确定.
+\begin{theorem}[一般螺线判据]\label{thm:lancret}
+单位速度曲线在连通区间上满足 $\kappa>0$. 其单位切向量与某个固定单位向量夹角恒定, 当且仅当 $\tau/\kappa$ 为常数.
+\end{theorem}
+\begin{proof}
+若 $\tau/\kappa=d$ 为常数, 则 $U=(dT+b)/\sqrt{1+d^2}$ 满足 $U'=(d\kappa-\tau)n/\sqrt{1+d^2}=0$, 且 $\langle T,U\rangle=d/\sqrt{1+d^2}$ 固定.
+
+反之设 $\langle T,U\rangle=a$ 恒定. 微分并用 $\kappa>0$, 得 $\langle n,U\rangle=0$, 所以 $U=aT+c(s)b$. 再微分得 $0=(a\kappa-c\tau)n+c'b$, 故 $c$ 为常数, $a\kappa=c\tau$. $c$ 不可能为0, 否则 $a\ne0$ 而 $\kappa=0$. 因而 $\tau/\kappa=a/c$ 为常数.
+\end{proof}
+此结论中的“螺线”不要求曲率为常数. 若曲率和挠率都为常数且 $\kappa>0$, 由基本定理, 曲线与圆或圆柱螺线的一段全等.
+\originalsection{习题}
+\begin{exercise}\label{ex:3a}
+求 $\gamma(t)=(t,t^2,t^3)$ 的曲率和挠率. 判断它是否在任意非空开区间上为平面曲线.
+\end{exercise}
+\begin{exercise}\label{ex:3b}
+对单位速度空间曲线 $\kappa>0$, 证明曲线位于以 $p$ 为中心、半径 $R$ 的球面上时有 $\langle\alpha-p,n\rangle=-1/\kappa$. 若进一步 $\tau\ne0$, 表示 $\alpha-p$ 在 $n,b$ 中的分量, 并得到球面半径的恒等式.
+\end{exercise}
+\begin{exercise}\label{ex:3c}
+设 $\tau/\kappa=d$ 恒定且非零. 证明将一般螺线正交投影到垂直于固定轴 $U=(dT+b)/\sqrt{1+d^2}$ 的平面后, 投影正则, 并求其速度及无向曲率.
+\end{exercise}

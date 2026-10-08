@@ -1,0 +1,106 @@
+\originalchapter{弧长与平面曲率}
+\originalsection{正则曲线与弧长}
+曲线不只是一个点集. 同一个圆可以匀速或变速走过, 也可以改变行走方向. 几何量应能区分形状与参数造成的差异. 本书用 $\langle\cdot,\cdot\rangle$ 表示欧氏内积, $|\cdot|$ 表示相应范数.
+\begin{definition}
+设 $I\subset\R$ 为区间. 给定整数 $r\ge1$, 一个 $C^r$ 映射 $\gamma:I\to\R^n$ 若处处满足 $\gamma'(t)\ne0$, 称为正则曲线. 速度为 $v(t)=|\gamma'(t)|$. 区间 $[a,b]\subset I$ 上的长度为 $L(\gamma)=\int_a^b v(t)\dd t$.
+\end{definition}
+后文默认对象光滑, 即 $C^\infty$; 单项结论只需有限阶导数时会指出. 例如曲率需要 $C^2$, 挠率需要 $C^3$. 正则性使曲线具有一个确定的切线方向, 并允许弧长成为新参数.
+\begin{proposition}\label{prop:arclength}
+取 $t_0\in I$, 定义 $s(t)=\int_{t_0}^t v(u)\dd u$. 则 $s$ 严格递增, 映射到区间 $J=s(I)$, 逆函数 $t=t(s)$ 与原曲线同阶光滑. 曲线 $\alpha(s)=\gamma(t(s))$ 满足 $|\alpha'(s)|=1$.
+\end{proposition}
+\begin{proof}
+有 $s'(t)=v(t)>0$, 故 $s$ 严格递增而且单射. 逆函数定理在每一点给出局部光滑逆函数, 这些逆函数由单射性在交集上一致, 因而拼成 $J$ 上的逆. 链式法则给出 $\alpha'=\gamma'/v$, 所以其长度为1. 对有限闭区间, 端点处的光滑性理解为来自邻近开区间的限制.
+\end{proof}
+若 $\widetilde\gamma=\gamma\circ\phi$, $\phi$ 是区间间光滑微分同胚, 则 $|\widetilde\gamma'|=v(\phi)|\phi'|$. 换元公式说明长度不变. $\phi'>0$ 保持定向, $\phi'<0$ 反转定向. 长度只依赖所走弧段及其重数; 重复绕一圈仍会增加长度.
+\begin{example}
+比较 $\gamma(t)=(t^3,0)$ 与 $\eta(t)=(t,t^2)$ 在 $t=0$ 附近的参数性质.
+\end{example}
+\begin{solution}
+$\gamma'(0)=0$, 所以它不是所给参数下的正则曲线, 尽管其像是一条直线. 改用横坐标能正则描述同一点集, 但 $t\mapsto t^3$ 在0的逆不是光滑微分同胚. 对 $\eta$, 有 $\eta'=(1,2t)$, 处处非零. 弧长 $s(t)=\int_0^t\sqrt{1+4u^2}\dd u$ 严格递增; 无须写出逆的初等表达式, 已能合法地使用弧长参数.
+\end{solution}
+\originalsection{有向曲率与 Frenet 方程}
+在定向平面中记 $J(x,y)=(-y,x)$, 即逆时针旋转直角. 若 $T$ 是单位切向量, 左法向量为 $n=JT$. 由 $\langle T,T\rangle=1$ 得 $T'\perp T$, 所以切向量的变化只有法向分量.
+\begin{definition}
+单位速度平面曲线的有向曲率为 $k(s)=\det(T(s),T'(s))$. 对任意正则参数, 定义
+\begin{equation}\label{eq:plane-curvature}
+k(t)=\frac{\det(\gamma'(t),\gamma''(t))}{|\gamma'(t)|^3}.
+\end{equation}
+\end{definition}
+\begin{proposition}\label{prop:plane-frenet}
+对任意参数, 有 $\dd T/\dd t=v k n$, $\dd n/\dd t=-v k T$. 对弧长参数, 有 $T'=k n$, $n'=-kT$.
+\end{proposition}
+\begin{proof}
+写 $\gamma'=vT$, 则 $\gamma''=v'T+vT'$. 由于 $T'$ 与 $T$ 垂直, 可写成 $aJT$. 取行列式得 $\det(\gamma',\gamma'')=v^2a$, 所以 $a=vk$. 再用 $J^2=-\id$ 得第二式. 在弧长参数下 $v=1$.
+\end{proof}
+曲率的量纲为长度的倒数. 正值表示切向量向左转, 负值表示向右转; $|k|$ 衡量弯曲强度. 换参时二阶导数中的 $\phi''\gamma'$ 不贡献行列式, 从而
+\[
+ k_{\widetilde\gamma}(u)=\operatorname{sgn}(\phi'(u))k_\gamma(\phi(u)).
+\]
+故保持定向时曲率不变, 反向时有向曲率变号. 平面反射同样使有向曲率变号, 平移与正向旋转保持它.
+\begin{theorem}\label{thm:plane-fundamental}
+给定区间 $J$ 上的连续函数 $k$、点 $p$ 和单位向量 $T_0$, 存在唯一 $C^2$ 单位速度平面曲线 $\alpha$ 具有该曲率并满足 $\alpha(s_0)=p$, $\alpha'(s_0)=T_0$. 因而曲率函数确定曲线, 精确到平移和正向旋转.
+\end{theorem}
+\begin{proof}
+取 $T_0=(\cos\theta_0,\sin\theta_0)$, 定义
+\[
+ \theta(s)=\theta_0+\int_{s_0}^s k(u)\dd u,\qquad
+ \alpha(s)=p+\int_{s_0}^s(\cos\theta(u),\sin\theta(u))\dd u.
+\]
+直接微分得单位速度与 $T'=kJT$. 为证明唯一性, 任意另一单位切向量 $\widetilde T$ 满足同一线性方程 $\widetilde T'=kJ\widetilde T$ 和相同初值. 差向量 $D$ 满足 $D'=kJD$, 故 $(|D|^2)'=2k\langle D,JD\rangle=0$. 由初值为零可知切向量一致, 积分后曲线一致.
+\end{proof}
+\begin{corollary}
+曲率恒为0的连通正则平面曲线位于直线上. 曲率恒为非零常数 $c$ 的曲线位于半径 $1/|c|$ 的圆上.
+\end{corollary}
+\begin{proof}
+弧长化后, 前一种情形 $T'=0$. 后一种情形 $\alpha+n/c$ 的导数为 $T-T=0$, 故圆心固定, 且 $|\alpha-\text{圆心}|=1/|c|$.
+\end{proof}
+\originalsection{密切圆与计算}
+在点 $s_0$ 附近, 单位速度曲线的 Taylor 展开为
+\[
+\alpha(s_0+h)=\alpha(s_0)+hT(s_0)+\tfrac12h^2 k(s_0)n(s_0)+o(h^2).
+\]
+一次项给切线, 二次项给曲率. 当 $k(s_0)\ne0$ 时, 与这两个导数同时相同的圆称为密切圆, 圆心为 $\alpha(s_0)+n(s_0)/k(s_0)$, 半径为 $1/|k(s_0)|$. 唯一性来自圆心必须位于法线上, 且圆的曲率固定其有向距离. $k=0$ 时密切对象是切线, 无有限半径的密切圆.
+\begin{center}
+\begin{tikzpicture}[scale=1.15,>=Latex]
+\draw[->] (-2.3,0)--(2.3,0) node[right] {$x$};
+\draw[->] (0,-.3)--(0,2.35) node[above] {$y$};
+\draw[thick,structurecolor,domain=-1.35:1.35,samples=60] plot (\x,{\x*\x/2});
+\draw[dashed] (0,1) circle (1);
+\draw[->,thick] (0,0)--(1.0,0) node[below] {$T$};
+\draw[->,thick] (0,0)--(0,.65) node[left] {$n$};
+\fill (0,1) circle (1.4pt) node[right=4pt] {圆心};
+\node at (1.7,1.9) {$y=x^2/2$};
+\node at (-1.65,1.8) {密切圆};
+\end{tikzpicture}
+\end{center}
+图中抛物线在原点有 $k=1$. 图示只表达二阶接触, 不表示曲线与圆在邻域重合.
+\begin{example}
+求椭圆 $\gamma(t)=(a\cos t,b\sin t)$, $a\ge b>0$, 的曲率和曲率极值.
+\end{example}
+\begin{solution}
+有 $v^2=a^2\sin^2t+b^2\cos^2t$, 而 $\det(\gamma',\gamma'')=ab$. 所以
+\[
+ k(t)=\frac{ab}{(a^2\sin^2t+b^2\cos^2t)^{3/2}}.
+\]
+分母最小时曲率最大: 在 $(\pm a,0)$ 有 $k=a/b^2$; 在 $(0,\pm b)$ 有 $k=b/a^2$. 若 $a>b$, 这四点是全部曲率极值点. 不能把参数的二阶导数范数直接当曲率, 因为此参数一般不是单位速度.
+\end{solution}
+图像曲线 $\gamma(x)=(x,f(x))$ 的曲率为 $f''/(1+f'^2)^{3/2}$. 对隐式曲线也有不必先解出图像的公式.
+\begin{proposition}
+设 $F\in C^2(U)$, $\nabla F\ne0$ 在正则水平曲线 $F=c$ 上. 选择单位切向量 $T=J\nabla F/|\nabla F|$, 则
+\[
+ k=\frac{\operatorname{Hess}F(J\nabla F,J\nabla F)}{|\nabla F|^3}.
+\]
+\end{proposition}
+\begin{proof}
+弧长微分 $F(\alpha(s))=c$ 两次, 得 $\operatorname{Hess}F(T,T)+\langle\nabla F,\alpha''\rangle=0$. 所选左法向量为 $n=-\nabla F/|\nabla F|$, 代入 $\alpha''=kn$ 即得公式. 反转定向会使结果变号.
+\end{proof}
+\originalsection{习题}
+\begin{exercise}\label{ex:1a}
+求 $\gamma(t)=(e^t\cos t,e^t\sin t)$ 的速度与有向曲率, 并求 $t=0$ 处密切圆的圆心和半径.
+\end{exercise}
+\begin{exercise}\label{ex:1b}
+设正则平面曲线曲率处处非零. 以弧长表示其密切圆圆心轨迹 $C(s)=\alpha(s)+n(s)/k(s)$. 求 $C'$, 并说明曲率的临界点如何影响此轨迹的正则性.
+\end{exercise}
+\begin{exercise}\label{ex:1c}
+对水平集 $x^2+2y^2=1$, 取由 $T=J\nabla F/|\nabla F|$ 确定的方向, 计算 $k$ 在 $(1,0)$ 与 $(0,1/\sqrt2)$ 的值, 与椭圆公式核对.
+\end{exercise}

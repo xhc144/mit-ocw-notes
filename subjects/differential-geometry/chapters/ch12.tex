@@ -1,0 +1,93 @@
+\originalchapter{双曲平面与常曲率模型}
+\originalsection{Poincar\'e 圆盘度量}
+内蕴几何允许先给正定度量, 再谈长度、曲率与测地线, 而不要求已经找到三维欧氏曲面. 这是原课程 Minkowski 双曲模型所揭示的观点. 本章采用等价的二维圆盘度量, 不把它误认成欧氏圆盘的通常长度. 对任意二维光滑正定度量, 用第7章联络定义 $K=\langle R(e_1,e_2)e_2,e_1\rangle$, 此值与单位正交标架无关: 二维曲率算子的反对称性与度量相容性使它由这一标量唯一决定, 正交换基的两个面积因子相乘为1. 正向标架仍满足 $\dd\omega=-K\dd A$. 这一定义在欧氏曲面上由 Gauss 方程与 $\det S$ 一致, 在未嵌入的圆盘上则无须形算子.
+\begin{definition}
+单位圆盘 $\mathbb D=\{z=u+iv\in\C:|z|<1\}$ 上的双曲度量为
+\[
+ \I=\frac{4(\dd u^2+\dd v^2)}{(1-u^2-v^2)^2}.
+\]
+其面积元为 $\dd A=4\dd u\dd v/(1-|z|^2)^2$.
+\end{definition}
+\begin{proposition}\label{prop:hyperbolic-K}
+圆盘度量的 Gauss 曲率恒为 $-1$. 欧氏边界圆不是度量空间中的点集.
+\end{proposition}
+\begin{proof}
+写 $f=\log2-\log(1-u^2-v^2)$, 则度量为 $e^{2f}(\dd u^2+\dd v^2)$. 有 $\Delta f=4/(1-u^2-v^2)^2$, 由命题\ref{prop:metric-K}, $K=-e^{-2f}\Delta f=-1$. 当 $|z|\to1$, 系数发散, 只在开圆盘中定义光滑正定度量; 边界不能当作普通曲面边界代入距离公式.
+\end{proof}
+\begin{proposition}\label{prop:disk-isometry}
+对 $a\in\mathbb D$, 映射 $\phi_a(z)=(z-a)/(1-\overline a z)$ 为圆盘的等距微分同胚, 正向旋转亦为等距.
+\end{proposition}
+\begin{proof}
+直接展开得
+\[
+ 1-|\phi_a(z)|^2=\frac{(1-|a|^2)(1-|z|^2)}{|1-\overline a z|^2},\qquad
+ |\phi_a'(z)|=\frac{1-|a|^2}{|1-\overline a z|^2}.
+\]
+故 $2|\phi_a'(z)||\dd z|/(1-|\phi_a(z)|^2)=2|\dd z|/(1-|z|^2)$, 长度元不变. 分母在圆盘非零, 逆映射为 $w\mapsto(w+a)/(1+\overline a w)$, 仍送圆盘到圆盘, 因而为微分同胚. 旋转对模长与欧氏长度不变, 同样成立.
+\end{proof}
+\originalsection{距离与测地线}
+\begin{theorem}\label{thm:hyperbolic-distance}
+双曲距离为
+\begin{equation}\label{eq:disk-distance}
+ d(z,w)=2\arctanh\left|\frac{w-z}{1-\overline z w}\right|
+ =\log\frac{1+q}{1-q},\qquad q=\left|\frac{w-z}{1-\overline z w}\right|.
+\end{equation}
+其中 $0\le q<1$. 连接两点的最短路径轨迹唯一.
+\end{theorem}
+\begin{proof}
+先求从0到半径 $r$ 的距离. 任意路径以极坐标表示时, 长度元满足
+\[
+ \frac{2\sqrt{\dot r^2+r^2\dot\theta^2}}{1-r^2}\ge\frac{2|\dot r|}{1-r^2}.
+\]
+积分至少为 $\int_0^r2\dd t/(1-t^2)=2\arctanh r$, 径向线达到. 对可穿过0的路径可分段或在小圆外取极坐标再令半径趋于0. 等长要求角方向不变且半径不回走, 故轨迹唯一. 用等距 $\phi_z$ 把起点送到0, 终点模长为 $q$, 得公式及唯一性. $q<1$ 来自上一命题的圆盘映射恒等式.
+\end{proof}
+径向路径采用双曲弧长 $s$ 时为 $z(s)=\tanh(s/2)e^{i\theta_0}$. 最短路径的一阶能量变分为0, 故它是测地线; 等距保持能量变分与测地线. 初值唯一性因此说明所有非恒定测地线轨迹都是径向直径的圆盘等距像.
+\begin{corollary}\label{cor:disk-geodesics}
+非恒定双曲测地线的最大延拓轨迹在欧氏图中为直径, 或与单位圆正交的圆盘内圆弧. 任意两个不同点位于唯一这样的轨迹上. 限制参数区间只截取该轨迹的一段.
+\end{corollary}
+\begin{proof}
+分式线性变换把广义圆, 即圆或直线, 送到广义圆. 这一事实可由将 $\phi_a^{-1}$ 代入广义圆的方程 $A|z|^2+Bz+\overline B\overline z+C=0$ 后清除分母验证. 它还保角, 因复导数非零在每点是伸缩与旋转. 所以直径与边界的直角经映射后仍为直角. 上一定理的径向唯一性给出两点间唯一弧, 初值存在唯一性排除其他轨迹.
+\end{proof}
+\begin{center}
+\begin{tikzpicture}[scale=2]
+\draw[thin] (0,0) circle (1);
+\draw[thick,structurecolor] (-1,0)--(1,0);
+\draw[thick,structurecolor,domain=150:210,samples=60] plot ({2+sqrt(3)*cos(\x)},{sqrt(3)*sin(\x)});
+\fill (.5,.866025) circle (.7pt);\fill (.5,-.866025) circle (.7pt);
+\node[anchor=west] at (1.12,.55) {边界不属于 $\mathbb D$};
+\node[anchor=east] at (-1.1,-.5) {直径};
+\node[anchor=west] at (.7,-1.1) {正交圆弧};
+\end{tikzpicture}
+\end{center}
+\begin{proposition}
+双曲圆盘在此距离下完备. 半径 $\rho$ 的双曲圆周长为 $2\pi\sinh\rho$, 圆盘面积为 $2\pi(\cosh\rho-1)$.
+\end{proposition}
+\begin{proof}
+若点列为双曲 Cauchy, 到0的距离有界, 距离公式使欧氏模长统一小于某个 $r_0<1$. 又度量系数至少为4, 故它是欧氏 Cauchy, 收敛到圆盘内部点; 在紧圆盘内度量与欧氏度量一致有界比较, 因而双曲收敛. 这证明完备, 并解释边界为什么在无穷远.
+
+令 $r=\tanh(\rho/2)$, 则极坐标度量化为 $\dd\rho^2+\sinh^2\rho\dd\theta^2$: 径向项来自 $\dd\rho=2\dd r/(1-r^2)$, 环向系数来自 $2r/(1-r^2)=\sinh\rho$. 圆周积分给出 $2\pi\sinh\rho$, 面积积分 $\int_0^{2\pi}\int_0^\rho\sinh t\dd t\dd\theta$ 给出所示面积.
+\end{proof}
+\originalsection{角亏与局部欧氏实现}
+\begin{proposition}
+非退化有限双曲测地三角形的面积为 $\pi-(\alpha+\beta+\gamma)$, 因而内角和小于 $\pi$. 有 $n$ 条测地边的简单凸多边形面积为 $(n-2)\pi-\sum_j\alpha_j$.
+\end{proposition}
+\begin{proof}
+此类区域为紧致圆盘, 边界测地曲率为0. 带角点 Gauss--Bonnet 的推导只依赖度量联络和 $\dd\omega=-K\dd A$, 因而对圆盘内蕴度量同样适用. 代入 $K=-1$ 与外角 $\pi-\alpha_j$ 得公式. 非退化三角形有正面积, 所以角和严格小于 $\pi$.
+\end{proof}
+\begin{example}
+在三维欧氏空间局部构造 $K=-1$ 的旋转曲面, 并判断它是否给出了完整双曲圆盘的全局实现.
+\end{example}
+\begin{solution}
+取母线弧长 $s<0$, $r(s)=e^s$, $z'(s)=\sqrt{1-e^{2s}}$, 可取任一积分常数. 由于 $r'^2+z'^2=1$, 第6章公式给出 $K=-r''/r=-1$. 这是伪球面的一个正则部分, 经向长度到 $s=0$ 有限. 在该边界 $z'$ 趋于0, 母线二阶导数出现发散, 不能把当前参数域平滑补成完整双曲平面. 有限端的缺失已足以说明此片不完备, 因而不是完整圆盘的等距全局模型. 本书不以此例证明一般负曲率完整曲面的全局不可嵌入定理.
+\end{solution}
+常曲率模型展示了同样的几何关系: 球面小圆周长小于欧氏 $2\pi\rho$, 双曲平面大于它; 测地三角形角和相应大于或小于 $\pi$. 这些结论在各自公式中有明确适用半径与区域, 不将示意图代替证明.
+\originalsection{习题}
+\begin{exercise}\label{ex:12a}
+在双曲圆盘上求 $d(0,1/2)$、$d(-1/2,1/2)$, 并给出沿实轴的单位速度参数.
+\end{exercise}
+\begin{exercise}\label{ex:12b}
+双曲平面一个测地三角形内角为 $\pi/3,\pi/4,\pi/6$. 求面积. 与单位球面上具有同样三个内角的测地圆盘三角形比较, 判断后者是否可能.
+\end{exercise}
+\begin{exercise}\label{ex:12c}
+求度量 $\I=(\dd x^2+\dd y^2)/y^2$, $y>0$, 的曲率, 并证明竖直直线为测地线轨迹, 求其恒速参数及两点 $(x_0,y_1),(x_0,y_2)$ 的距离.
+\end{exercise}

@@ -1,0 +1,81 @@
+\originalchapter{测地线与变分}
+\originalsection{测地线方程}
+曲面上“直行”不能用欧氏加速度为0定义, 因为留在曲面上通常需要法向约束力. 应要求加速度没有切向分量.
+\begin{definition}
+光滑曲线 $\gamma:I\to M$ 若 $\nabla_{\dot\gamma}\dot\gamma=0$, 称为测地线. 对嵌入曲面, 等价于 $\ddot\gamma$ 垂直于切平面. 允许常值测地线.
+\end{definition}
+\begin{proposition}\label{prop:geodesic-eq}
+在坐标 $x=(x^1,x^2)$ 中, 测地线方程为
+\begin{equation}\label{eq:geodesic}
+ \ddot x^k+\sum_{i,j}\Gamma^k_{ij}(x)\dot x^i\dot x^j=0,\qquad k=1,2.
+\end{equation}
+测地线速度恒定. 对任意 $p\in M,V\in T_pM$, 存在包含0的开区间及唯一测地线满足 $\gamma(0)=p,\dot\gamma(0)=V$; 唯一性指共同定义区间上相同. 解光滑依赖初值.
+\end{proposition}
+\begin{proof}
+把 $\dot\gamma=\sum_i\dot x^iX_i$ 代入协变导数分量公式, 得方程. 度量相容性给出 $(|\dot\gamma|^2)'=2\langle\nabla_{\dot\gamma}\dot\gamma,\dot\gamma\rangle=0$.
+
+将二阶方程写成一阶系统 $\dot x=v$, $\dot v^k=-\sum\Gamma^k_{ij}(x)v^iv^j$. 光滑右端在坐标域内局部 Lipschitz, 标准常微分方程定理给出存在唯一性及初值的光滑依赖. 换坐标后方程由同一个几何条件描述, 故局部解在交集上相容, 可延续到最大区间. 此处不把局部存在误写成所有曲面上的全时间存在.
+\end{proof}
+非恒定测地线的仿射换参 $t\mapsto at+b$ 仍是测地线; 一般非匀速换参则增添沿切向的加速度, 不再满足该方程. 一个曲线的像可为测地线轨迹, 但所给参数可能不是测地线参数.
+\begin{example}
+求半径 $R$ 球面与圆柱上的全部测地线.
+\end{example}
+\begin{solution}
+球面上单位速度测地线满足 $\gamma''=\lambda\gamma$. 对 $|\gamma|^2=R^2$ 微分两次得 $\langle\gamma'',\gamma\rangle=-1$, 因而 $\lambda=-1/R^2$. 初值 $p,V$, $|V|=1$, $p\perp V$ 的解是 $\gamma(s)=p\cos(s/R)+RV\sin(s/R)$, 即大圆. 任意恒速情形用仿射换参, 再加常值曲线即为全部.
+
+圆柱展开坐标 $(u,z)$ 下度量为 $\dd u^2+\dd z^2$, Christoffel 符号全为0, 解为 $u=at+b,z=ct+d$. 在空间中即 $\gamma(t)=(R\cos((at+b)/R),R\sin((at+b)/R),ct+d)$, 包括母线、水平圆及圆柱螺线. 这些曲线都局部直行, 水平圆走过半圈后却不再是两端点间最短的弧.
+\end{solution}
+\originalsection{能量与第一变分}
+\begin{definition}
+固定参数区间 $[a,b]$, 曲线能量为 $\mathcal E(\gamma)=\frac12\int_a^b|\dot\gamma|^2\dd t$. 光滑变分为映射 $F(t,\eps)$, 每条 $F(\cdot,\eps)$ 留在曲面上, $F(t,0)=\gamma(t)$. 变分场为 $V(t)=\partial_\eps F(t,0)$.
+\end{definition}
+\begin{theorem}[能量第一变分]\label{thm:first-energy}
+有
+\begin{equation}\label{eq:first-energy}
+ \left.\partial_\eps\mathcal E(F(\cdot,\eps))\right|_0
+ =\langle V,\dot\gamma\rangle\big|_a^b-
+ \int_a^b\langle V,\nabla_{\dot\gamma}\dot\gamma\rangle\dd t.
+\end{equation}
+所以固定端点变分下的驻值曲线恰为测地线.
+\end{theorem}
+\begin{proof}
+积分微分后得到 $\int\langle\nabla_\eps F_t,F_t\rangle\dd t$. 无挠性及参数偏导交换给出 $\nabla_\eps F_t=\nabla_tF_\eps$. 度量相容性允许分部积分, 得所示边界项与积分项. 若端点固定, $V(a)=V(b)=0$, 测地线使变分为0.
+
+反之若对所有固定端点变分一阶导数为0, 在任意短坐标段上可以实现任意紧支撑切向场: 在参数域中取 $x_\eps=x+\eps v$, 再用参数片映入曲面. 若加速度切向分量在某点不为0, 取其附近与该分量同向的小支撑场, 使积分非零, 矛盾. 故切向加速度处处为0.
+\end{proof}
+\begin{proposition}\label{prop:length-energy}
+固定区间上 $L^2\le2(b-a)\mathcal E$, 等号当且仅当速度几乎处处恒定; 光滑时即处处恒定. 非常值正则曲线能量绝对最小当且仅当它长度绝对最小且采用恒速参数.
+\end{proposition}
+\begin{proof}
+对速度函数用 Cauchy--Schwarz, 得 $\bigl(\int v\bigr)^2\le(b-a)\int v^2$. 取等条件是 $v$ 与常数函数成比例. 任意正则曲线可弧长化再线性调整到同一参数区间, 所以相同像和方向的最小可能能量为 $L^2/(2(b-a))$. 若长度不是最小, 取更短曲线并匀速化会得到更小能量; 若速度不恒定, 同一路径匀速化也会降低能量. 反向用不等式直接得到. 允许分段光滑竞争曲线时可逐段弧长化, 连接点不影响长度和能量积分.
+\end{proof}
+驻值与最小必须区分. 球面上完整大圆是测地线, 但连接同一点的非恒定一周曲线能量大于常值曲线. 前述变分证明只给必要驻值条件; 局部最短性下一章另证.
+\originalsection{旋转曲面与 Clairaut 关系}
+对第6章的度量 $\I=\dd s^2+r(s)^2\dd\theta^2$, 方程为
+\[
+ \ddot s-rr'\dot\theta^2=0,\qquad
+ \ddot\theta+2(r'/r)\dot s\dot\theta=0.
+\]
+\begin{proposition}\label{prop:clairaut}
+旋转曲面测地线有守恒量 $c=r(s)^2\dot\theta$. 若采用单位速度参数, 与经向的有向夹角为 $\beta$, 则 $c=r(s)\sin\beta$; 同时 $\dot s^2+c^2/r(s)^2=1$.
+\end{proposition}
+\begin{proof}
+第二个测地线方程乘 $r^2$ 后恰为 $(r^2\dot\theta)'=0$. 在单位正交基 $e_s=X_s,e_\theta=X_\theta/r$ 中, 单位切向量为 $\dot s\,e_s+r\dot\theta\,e_\theta$. 其环向分量是 $\sin\beta$, 因而得到 Clairaut 关系, 长度为1给出最后一式.
+\end{proof}
+若 $c\ne0$, 曲线只能进入 $r\ge|c|$ 的部分; 在 $r=|c|$ 可有 $\dot s=0$ 的转向点. 经线 $\theta$ 恒定始终是测地线. 纬线 $s=s_0$ 在非零速度下为测地线当且仅当 $r'(s_0)=0$.
+\begin{example}
+判断标准环面的内赤道、外赤道和经过管截面的经圆是否为测地线.
+\end{example}
+\begin{solution}
+用母线弧长 $s=a\varphi$, $r=R+a\cos(s/a)$, 得 $r'=-\sin\varphi$. 在 $\varphi=0,\pi$, $r'=0$, 因而外赤道和内赤道均是恒速测地线. 固定 $\theta$ 的经圆属于经线, 也为测地线. 其他纬线不满足 $r'=0$, 即使它们是空间中的圆, 其加速度仍有曲面切向分量.
+\end{solution}
+\originalsection{习题}
+\begin{exercise}\label{ex:8a}
+圆柱半径为 $R$, 两点在展开坐标中为 $(0,0)$ 与 $(R\theta,h)$, $0\le\theta<2\pi$. 列出所有连接两点的测地线, 并确定最短长度和多条最短线出现的条件.
+\end{exercise}
+\begin{exercise}\label{ex:8b}
+旋转曲面单位速度测地线的 Clairaut 常数为 $c\ne0$. 在 $\dot s\ne0$ 的区间求 $\dd\theta/\dd s$, 并说明何时可以在 $r=|c|$ 处把纬线当作测地线.
+\end{exercise}
+\begin{exercise}\label{ex:8c}
+证明若曲面和其度量在一个反射下保持不变, 且该反射的固定点集在曲面上是一条正则曲线, 则该固定曲线采用弧长参数后为测地线. 用初值唯一性, 并说明正则固定曲线条件的作用.
+\end{exercise}

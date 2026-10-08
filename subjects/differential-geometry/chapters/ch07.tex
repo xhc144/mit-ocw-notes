@@ -1,0 +1,141 @@
+\par\Needspace{9\baselineskip}
+\originalchapter{内蕴联络与 Gauss 方程}
+\originalsection{切向投影与 Christoffel 符号}
+欧氏导数会离开曲面切平面. 若只保留切向分量, 得到曲面自身的微分法则. 设 $V,W$ 为切向量场, 用 $D_VW$ 表示沿 $V$ 对三维向量分量求导.
+\begin{definition}
+曲面的协变导数为 $\nabla_VW=(D_VW)^{\top}$, 其中 $\top$ 表示正交投影到切平面. 法向分解为
+\begin{equation}\label{eq:gauss-formula}
+ D_VW=\nabla_VW+\II(V,W)N.
+\end{equation}
+\end{definition}
+式\eqref{eq:gauss-formula}的法向系数来自微分 $\langle W,N\rangle=0$. 协变导数对第一个变量是函数线性的, 对第二个变量满足
+\[
+ \nabla_V(fW)=V(f)W+f\nabla_VW.
+\]
+它同时满足度量相容性
+\[
+ V\langle W,Z\rangle=\langle\nabla_VW,Z\rangle+\langle W,\nabla_VZ\rangle
+\]
+及无挠性 $\nabla_VW-\nabla_WV=[V,W]$, 其中 Lie 括号在坐标中是向量场作为微分算子的交换子. 两性质分别继承自欧氏内积求导和混合偏导交换.
+\begin{definition}
+坐标切向量记为 $X_i$, 定义 Christoffel 符号 $\Gamma^k_{ij}$ 使
+\[
+ X_{ij}=\sum_k\Gamma^k_{ij}X_k+h_{ij}N.
+\]
+\end{definition}
+\begin{proposition}\label{prop:christoffel}
+记 $(g^{ij})=g^{-1}$, 则
+\begin{equation}\label{eq:christoffel}
+ \Gamma^k_{ij}=\frac12\sum_\ell g^{k\ell}
+ (\partial_i g_{j\ell}+\partial_j g_{i\ell}-\partial_\ell g_{ij}).
+\end{equation}
+所以联络由第一基本形式决定.
+\end{proposition}
+\begin{proof}
+微分 $g_{j\ell}=\langle X_j,X_\ell\rangle$ 并写出指标循环的三个式子, 得
+\[
+ \partial_i g_{j\ell}+\partial_j g_{i\ell}-\partial_\ell g_{ij}
+ =2\langle X_{ij},X_\ell\rangle
+ =2\sum_k\Gamma^k_{ij}g_{k\ell}.
+\]
+左乘逆矩阵即得. 对 $W=\sum_jw^jX_j$, 分量公式为
+\[
+ \nabla_{X_i}W=\sum_k\left(\partial_iw^k+\sum_j\Gamma^k_{ij}w^j\right)X_k,
+\]
+故知道 $g$ 便知道整个联络, 而无须知道嵌入的第二基本形式.
+\end{proof}
+Christoffel 符号在换坐标时含二阶换元项, 所以它们本身不是一个张量的分量. 由它们定义的协变导数却是坐标无关的几何操作. 用同一公式, 对不一定嵌入三维空间的二维正定光滑度量也能定义联络; 后面的双曲平面使用这一做法.
+\originalsection{Gauss 曲率的内蕴性}
+为避免符号混乱, 固定曲率算子的约定
+\[
+ R(V,W)Z=\nabla_V\nabla_WZ-\nabla_W\nabla_VZ-\nabla_{[V,W]}Z.
+\]
+\begin{theorem}[Gauss 方程]\label{thm:gauss}
+对曲面切向量有
+\begin{equation}\label{eq:gauss-eq}
+ R(V,W)Z=\II(W,Z)SV-\II(V,Z)SW.
+\end{equation}
+对任意正向单位正交切标架 $e_1,e_2$,
+\[
+ K=\langle R(e_1,e_2)e_2,e_1\rangle.
+\]
+\end{theorem}
+\begin{proof}
+欧氏空间的导数交换满足 $D_VD_WZ-D_WD_VZ-D_{[V,W]}Z=0$. 将两次导数都按式\eqref{eq:gauss-formula}分解. 其中 $D_V(\II(W,Z)N)$ 的切向分量为 $-\II(W,Z)SV$. 收集切向分量得
+\[
+ 0=R(V,W)Z-\II(W,Z)SV+\II(V,Z)SW,
+\]
+即所需公式. 再令 $V=e_1,W=Z=e_2$, 内积为 $h_{22}h_{11}-h_{12}^2=\det S=K$. 并不要求此标架是主标架.
+\end{proof}
+\begin{corollary}[Gauss 绝妙定理]\label{cor:egregium}
+Gauss 曲率只依赖第一基本形式及其一、二阶导数. 局部等距保持 Gauss 曲率.
+\end{corollary}
+\begin{proof}
+式\eqref{eq:christoffel}表明协变导数由度量决定; 曲率算子由协变导数、它的一阶导数和 Lie 括号决定. Gauss 方程把 $K$ 表示成这个内蕴算子的一个度量分量. 局部等距在相应坐标中保持度量, 因而保持该值.
+\end{proof}
+这解释了为何圆柱可局部展开而球面不能: 平面 $K=0$, 球面 $K=1/R^2$. 但相同 $K$ 未必给出相同局部度量, 更不能由一个数恢复嵌入曲面.
+\begin{proposition}[Codazzi 方程]\label{prop:codazzi}
+形算子满足 $(\nabla_VS)W=(\nabla_WS)V$, 其中 $(\nabla_VS)W=\nabla_V(SW)-S(\nabla_VW)$. 等价地, 第二基本形式的协变导数对前两指标对称.
+\end{proposition}
+\begin{proof}
+对法向场使用欧氏导数交换式. 因 $D_WN=-SW$, 切向分量给出 $-\nabla_V(SW)+\nabla_W(SV)+S[V,W]=0$. 用无挠性替换 $[V,W]=\nabla_VW-\nabla_WV$, 即得结论. 对任意 $Z$ 取内积并用度量相容性, 得第二基本形式版本.
+\end{proof}
+\originalsection{正交标架与曲率二形式}
+二维上用一条连接一形式能把许多指标浓缩. 在局部选正向单位正交标架 $e_1,e_2$, 定义一形式 $\omega$ 使
+\[
+ \nabla_Ve_1=\omega(V)e_2,\qquad \nabla_Ve_2=-\omega(V)e_1.
+\]
+这里 $\dd A$ 作为二形式表示与曲面定向相容的面积形式. 一形式是对切向量线性取值的场, 可在坐标中写 $\omega=A\dd u+B\dd v$. 其外微分在本册只需二元公式 $\dd\omega=(\partial_uB-\partial_vA)\dd u\wedge\dd v$; Green 公式为 $\int_D\dd\omega=\int_{\partial D}\omega$.
+\begin{proposition}\label{prop:connection-curvature}
+在上述约定下, $\dd\omega=-K\dd A$. 若把标架旋转为 $\widetilde e_1=\cos\psi e_1+\sin\psi e_2$, $\widetilde e_2=-\sin\psi e_1+\cos\psi e_2$, 则 $\widetilde\omega=\omega+\dd\psi$.
+\end{proposition}
+\begin{proof}
+计算 $R(V,W)e_1$ 的 $e_2$ 分量, 两个连接乘积相消, 只剩 $V(\omega(W))-W(\omega(V))-\omega([V,W])=\dd\omega(V,W)$. 对 $V=e_1,W=e_2$, Gauss 方程给出 $R(e_1,e_2)e_1$ 的 $e_2$ 分量为 $-K$. 而 $\dd A(e_1,e_2)=1$, 得首式. 对旋转后的两向量直接用乘积法则微分, 新增角速度项 $\dd\psi$, 得第二式.
+\end{proof}
+\begin{proposition}\label{prop:metric-K}
+若 $\I=\dd u^2+a(u,v)^2\dd v^2$, $a>0$, 则 $K=-a_{uu}/a$. 若 $\I=e^{2f}(\dd u^2+\dd v^2)$, 则 $K=-e^{-2f}(f_{uu}+f_{vv})$.
+\end{proposition}
+\begin{proof}
+第一种度量取 $e_1=\partial_u$, $e_2=a^{-1}\partial_v$. 由 Christoffel 公式, $\omega(\partial_u)=0$, $\omega(\partial_v)=a_u$, 所以 $\dd\omega=a_{uu}\dd u\wedge\dd v$. 面积元为 $a\dd u\dd v$, 得公式.
+
+第二种取 $e_1=e^{-f}\partial_u$, $e_2=e^{-f}\partial_v$. Christoffel 公式给出 $\omega=-f_v\dd u+f_u\dd v$, 从而 $\dd\omega=(f_{uu}+f_{vv})\dd u\wedge\dd v$. 面积元为 $e^{2f}\dd u\dd v$, 亦得公式. 两次计算使用同一符号约定.
+\end{proof}
+\originalsection{曲面的基本数据}
+\begin{theorem}[刚性部分]\label{thm:surface-rigidity}
+若两个正则参数片 $X,\widetilde X$ 在同一连通参数域上具有相同的第一、第二基本形式, 法向均由相容参数方向选取, 则它们相差一个正向欧氏刚体运动.
+\end{theorem}
+\begin{proof}
+在每点以 $(X_1,X_2,N)$ 和 $(\widetilde X_1,\widetilde X_2,\widetilde N)$ 组成可逆矩阵 $F,\widetilde F$. Gauss 公式与 $N_i=-\sum_k(g^{-1}h)^k{}_iX_k$ 写成 $\partial_iF=F B_i$, 其中 $B_i$ 只由 $g,h$ 与 Christoffel 符号组成. 两个片的 $B_i$ 相同, 所以 $A=\widetilde FF^{-1}$ 的两偏导为0, 在连通域上恒定. 因 $F^{\mathsf T}F=\widetilde F^{\mathsf T}\widetilde F=\operatorname{diag}(g,1)$, $A$ 为正交矩阵. 两组框架正向, 故 $\det A=1$. 又 $\partial_i(\widetilde X-AX)=0$, 平移向量恒定.
+\end{proof}
+\begin{theorem}[曲面基本定理的局部存在性]\label{thm:surface-existence}
+在平面开集上给定光滑正定对称矩阵 $g$ 与光滑对称矩阵 $h$. 用 $g$ 定义联络, 用 $S=g^{-1}h$ 定义形算子. 若它们满足式\eqref{eq:gauss-eq}与 Codazzi 方程, 则在每点的足够小邻域上存在正则曲面参数片, 第一、第二基本形式恰为 $g,h$. 相同参数域上的实现由前一定理在刚体运动意义下唯一.
+\end{theorem}
+\begin{proof}
+取以该点为原点的小矩形, 指标 $i,j,k$ 取1,2. 记 $\Gamma_i$ 的第 $k,j$ 项为 $\Gamma^k_{ij}$, $S_i$ 为 $S$ 的第 $i$ 列, $h_i$ 为 $h$ 的第 $i$ 行. 设置三阶矩阵
+\[
+ B_i=\begin{pmatrix}\Gamma_i&-S_i\\h_i&0\end{pmatrix},\qquad
+ M=\begin{pmatrix}g&0\\0&1\end{pmatrix}.
+\]
+度量相容性及 $gS=h$ 给出 $\partial_iM=B_i^{\mathsf T}M+MB_i$. Gauss--Codazzi 使
+\begin{equation}\label{eq:flat-system}
+ \partial_1B_2-\partial_2B_1+B_1B_2-B_2B_1=0.
+\end{equation}
+具体而言, 左上块为联络曲率矩阵减去 $S_1h_2-S_2h_1$, 正是 Gauss 方程; 左下块为 $\partial_1h_2-\partial_2h_1+h_1\Gamma_2-h_2\Gamma_1$, 是 Codazzi 的坐标式. 右上块是该式在度量相容性下的转置对偶, 右下块为 $-h_1S_2+h_2S_1=0$, 来自 $hg^{-1}h$ 对称. 因而所有块确实为0.
+
+选择初始可逆框架矩阵 $F_0$ 满足 $F_0^{\mathsf T}F_0=M(0)$ 且 $\det F_0>0$. 先沿 $v=0$ 解 $F_u=FB_1$, 再从每个底边点沿竖线解 $F_v=FB_2$. 光滑常微分方程解依赖参数, 所得 $F$ 光滑. 记误差 $H=F_u-FB_1$. 对 $v$ 求导并用式\eqref{eq:flat-system}, 得 $H_v=HB_2$, 底边 $H=0$, 故 $H$ 恒为0. 这样两个偏微分方程都满足, 不必未经说明引用路径无关积分定理.
+
+矩阵 $F^{\mathsf T}F$ 与 $M$ 在每条上述积分线都满足相同线性矩阵方程和初值, 因而相等. 把 $F$ 的列记为 $Y_1,Y_2,N$, 则 $\langle Y_i,Y_j\rangle=g_{ij}$, $N$ 为单位法向. 正定性使 $Y_1,Y_2$ 独立, 连续性保持正向. 方程的前两列写成 $\partial_iY_j=\sum_k\Gamma^k_{ij}Y_k+h_{ij}N$. $\Gamma^k_{ij}$ 与 $h_{ij}$ 均对 $i,j$ 对称, 所以 $\partial_1Y_2=\partial_2Y_1$.
+
+定义 $X(u,v)=p_0+\int_0^uY_1(t,0)\dd t+\int_0^vY_2(u,t)\dd t$. 有 $X_v=Y_2$, 而 $X_u=Y_1(u,0)+\int_0^v\partial_uY_2(u,t)\dd t=Y_1(u,v)$. 因而 $X$ 正则, 度量为 $g$, 二阶法向分量为 $h$, 所选 $N$ 恰与参数定向相容. 这完成局部存在性.
+\end{proof}
+局部积分不保证任意全局数据都能拼成一个单射嵌入; 非单连通区域可能出现框架或位置的回路不一致. 本定理精确到足够小邻域, 不把局部实现扩张成未经证明的全局嵌入结论.
+\originalsection{习题}
+\begin{exercise}\label{ex:7a}
+对 $\I=\dd u^2+r(u)^2\dd v^2$, 写出全部非零 Christoffel 符号, 并由公式直接求 $K$.
+\end{exercise}
+\begin{exercise}\label{ex:7b}
+给定 $\I=e^{2f}(\dd u^2+\dd v^2)$ 且 $f(u,v)=u^2+v^2$, 求 $K$ 和连接形式. 此度量是否局部等距于平面?
+\end{exercise}
+\begin{exercise}\label{ex:7c}
+假设一个连通参数片 $K\equiv0$. 证明在足够小的单连通邻域可以选择平行正交标架, 并构造到欧氏平面的局部等距. 须说明为何所用一形式可积分.
+\end{exercise}

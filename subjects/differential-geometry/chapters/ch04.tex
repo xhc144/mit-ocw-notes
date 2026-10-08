@@ -1,0 +1,81 @@
+\originalchapter{正则曲面与第一基本形式}
+\originalsection{参数片与切平面}
+在平面曲线上, 一个非零导数张成切线. 在曲面上, 两个独立的一阶导数张成切平面. 参数平面上的线性代数因而可以描述曲面的长度和角度.
+\begin{definition}
+设 $U\subset\R^2$ 开. 光滑映射 $X:U\to\R^3$ 若 $X_u\times X_v\ne0$, 称为正则参数片. 其在参数 $(u,v)$ 处的切平面方向为 $\operatorname{span}(X_u,X_v)$. 单位法向量为 $N=(X_u\times X_v)/|X_u\times X_v|$.
+\end{definition}
+仅有秩条件不保证全局单射. 为描述一个作为点集的曲面, 还需要求每一点邻域中存在与参数域同胚的单射参数片. 满足此条件的 $M\subset\R^3$ 称为正则嵌入曲面; 本书整体结论默认曲面为此意义, 局部公式也适用于浸入参数片.
+\begin{proposition}\label{prop:implicit}
+局部点集 $F^{-1}(0)$ 若 $\nabla F\ne0$, 则为正则曲面. 反之, 每个正则嵌入曲面在一点附近可经空间坐标旋转写成图像, 因而为这样的正则水平集.
+\end{proposition}
+\begin{proof}
+若在点处 $F_z\ne0$, 隐函数定理给出 $z=f(x,y)$, 参数片 $X(u,v)=(u,v,f(u,v))$ 的叉积为 $(-f_u,-f_v,1)$, 非零. 若别的偏导非零则交换坐标.
+
+反之, 在参数片某点, $DX$ 的秩为2, 存在一个非零的 $2\times2$ 子式. 将空间轴旋转或交换, 可假设到 $xy$ 平面的投影 $\pi\circ X$ 导数可逆. 逆函数定理给出局部微分同胚, 换参后前两个分量就是 $(x,y)$, 第三个是 $f(x,y)$. 定义 $F(x,y,z)=z-f(x,y)$, 其梯度非零且局部零集恰为曲面.
+\end{proof}
+\begin{proposition}
+曲面上一点 $p$ 的所有光滑曲线速度组成二维线性空间 $T_pM$. 若 $p=X(u,v)$, 则 $T_pM=\operatorname{span}(X_u,X_v)$; 若曲面由 $F=0$ 定义, 则 $T_pM=\ker\dd F_p$.
+\end{proposition}
+\begin{proof}
+曲面曲线在局部写成 $X(u(t),v(t))$, 其速度为 $u'X_u+v'X_v$. 任意此类线性组合都可由参数直线在短时间内实现, 故等式成立. 对水平集, 微分 $F(\gamma)=0$ 得速度在 $\ker\dd F_p$ 中; 两者维数均为2, 因而相等.
+\end{proof}
+\begin{example}
+说明球面的极坐标参数在极点失效为何不表示球面有奇点; 比较圆锥顶点.
+\end{example}
+\begin{solution}
+半径 $R$ 的球面有 $X(\theta,\varphi)=R(\sin\theta\cos\varphi,\sin\theta\sin\varphi,\cos\theta)$. 在 $\theta=0,\pi$, $X_\varphi=0$, 此参数失去秩. 然而球面是 $x^2+y^2+z^2-R^2=0$ 的零集, 梯度在球面非零, 所以换用图像参数就恢复正则性. 圆锥 $z^2=x^2+y^2$ 在顶点则不可能有唯一切平面: 经过顶点的母线方向张成三维空间. 若它是正则曲面, 所有这些速度应落在二维切空间, 矛盾.
+\end{solution}
+\originalsection{长度与角度}
+\begin{definition}
+参数片的第一基本形式为切空间内积的拉回:
+\[
+ \I=a\,\dd u^2+2b\,\dd u\dd v+c\,\dd v^2,\qquad
+ g=\begin{pmatrix}a&b\\b&c\end{pmatrix},
+\]
+其中 $a=\langle X_u,X_u\rangle$, $b=\langle X_u,X_v\rangle$, $c=\langle X_v,X_v\rangle$. 常用记号也为 $E=a,F=b,G=c$. 后文采用 $E,F,G$ 写具体算例, 用 $g_{ij}$ 写一般指标公式.
+\end{definition}
+对非零参数向量 $w$, 有 $w^{\mathsf T}gw=|DX(w)|^2>0$, 故 $g$ 正定. 特别 $E>0$, $G>0$, $EG-F^2>0$. 曲线 $\gamma(t)=X(u(t),v(t))$ 的长度为
+\[
+ L=\int\sqrt{E u'^2+2F u'v'+Gv'^2}\dd t.
+\]
+对两个参数方向 $w,z$, 对应空间切向量的夹角满足 $\cos\beta=(w^{\mathsf T}gz)/\sqrt{(w^{\mathsf T}gw)(z^{\mathsf T}gz)}$. 仅把参数域当欧氏平面测量会忽略曲面的度量.
+\begin{proposition}\label{prop:metric-transform}
+若 $\widetilde X=X\circ\phi$, $\phi$ 为局部微分同胚, 其 Jacobian 为 $A$, 则 $\widetilde g=A^{\mathsf T}(g\circ\phi)A$. 因而长度和角度不依赖所选坐标.
+\end{proposition}
+\begin{proof}
+由链式法则 $D\widetilde X=(DX\circ\phi)A$, 取转置相乘即得矩阵公式. 一个实际切向量在两个坐标中的参数分量满足 $w=A\widetilde w$, 所以二次型数值一致.
+\end{proof}
+\begin{definition}
+曲面间的局部微分同胚 $f:M\to\widetilde M$ 若满足 $\langle\dd f(V),\dd f(W)\rangle=\langle V,W\rangle$, 称为局部等距. 它保持曲线长度和交角. 若 $f$ 全局双射且逆光滑, 则为等距映射.
+\end{definition}
+圆柱可以局部展开为平面, 但整圆柱与平面不是全局双射等距. 区分局部与整体对于测地线最短性同样重要.
+\originalsection{面积与定向}
+\begin{proposition}\label{prop:area}
+曲面面积元为 $\dd A=|X_u\times X_v|\dd u\dd v=\sqrt{EG-F^2}\dd u\dd v$. 在坐标变换下按普通面积换元规则变化, 因而定义与参数无关.
+\end{proposition}
+\begin{proof}
+$X_u,X_v$ 张成的微小平行四边形面积是其叉积长度. 恒等式 $|X_u\times X_v|^2=|X_u|^2|X_v|^2-\langle X_u,X_v\rangle^2$ 给出根号表达式. 由命题\ref{prop:metric-transform}, $\det\widetilde g=(\det A)^2\det(g\circ\phi)$, 故 $\sqrt{\det\widetilde g}=|\det A|\sqrt{\det(g\circ\phi)}$, 与二元换元公式一致.
+\end{proof}
+为积分一般曲面, 可以取覆盖与分割统一把积分化成坐标积分, 对紧区域也可用有限曲面三角剖分分块积分; 块的边界面积为0, 所以不会重复计数. 不应对任意非单射参数片直接积分后称为点集的面积, 因为可能带有覆盖重数.
+\begin{definition}
+曲面若存在全局光滑单位法向场 $N$, 称为可定向. 选择 $N$ 即选定定向; 正向切标架 $(e_1,e_2)$ 满足 $e_1\times e_2=N$. 一个参数片与定向相容当 $X_u\times X_v$ 指向 $N$.
+\end{definition}
+相容坐标之间的 Jacobian 行列式为正. 反转 $N$ 不改变长度面积, 但会改变第二基本形式及有向测地曲率的符号. 本册的整体 Gauss--Bonnet 对定向曲面陈述; 闭嵌入曲面可定向是明确使用的拓扑事实.
+\begin{example}
+计算球面与圆柱的度量和面积元, 并写出圆柱展开.
+\end{example}
+\begin{solution}
+球面参数如前, 在 $0<\theta<\pi$ 上 $E=R^2,F=0,G=R^2\sin^2\theta$. 因而 $\dd A=R^2\sin\theta\dd\theta\dd\varphi$, 对 $0<\varphi<2\pi$ 积分得 $4\pi R^2$, 省略的极点和经线面积为0.
+
+圆柱参数 $X(u,v)=(R\cos(u/R),R\sin(u/R),v)$ 有 $E=G=1,F=0$, 故与平面 $(u,v)$ 的度量相同. 限制 $u$ 于长度小于 $2\pi R$ 的区间得到单射展开. 若不限制, $u$ 与 $u+2\pi R$ 对应同一点, 这就是全局展开的重数问题.
+\end{solution}
+\originalsection{习题}
+\begin{exercise}\label{ex:4a}
+对图像 $X(u,v)=(u,v,f(u,v))$, 求第一基本形式和面积元. 用它计算抛物面 $z=(x^2+y^2)/2$ 在 $x^2+y^2\le a^2$ 上的面积.
+\end{exercise}
+\begin{exercise}\label{ex:4b}
+对球面去掉北极, 采用参数 $X(u,v)=\bigl(2u,2v,u^2+v^2-1\bigr)/(1+u^2+v^2)$. 证明其为单位球面参数, 求度量并判断它是否保角.
+\end{exercise}
+\begin{exercise}\label{ex:4c}
+圆锥去掉顶点, 参数 $X(r,\theta)=(r\cos\theta,r\sin\theta,ar)$, $a>0,r>0$. 构造局部等距到平面扇形的参数变换, 并给出绕锥一周对应的扇形角.
+\end{exercise}

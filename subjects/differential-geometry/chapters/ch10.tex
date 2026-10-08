@@ -1,0 +1,88 @@
+\originalchapter{平行移动与局部 Gauss--Bonnet}
+\originalsection{平行移动}
+把一个切向量从一点移到另一点, 不能要求它在三维空间中完全不变, 因为切平面本身改变. 内蕴的“不转动”要求其协变导数为0.
+\begin{definition}
+沿曲线 $\gamma$ 的切向量场 $V$ 若 $\nabla_{\dot\gamma}V=0$, 称为平行场. 给定起点向量后, 方程的解定义沿该路径的平行移动.
+\end{definition}
+\begin{proposition}\label{prop:parallel}
+平行移动存在唯一, 保持向量内积. 在正向单位标架 $e_1,e_2$ 下, 单位向量 $V=\cos\phi\,e_1+\sin\phi\,e_2$ 平行当且仅当 $\dot\phi=-\omega(\dot\gamma)$.
+\end{proposition}
+\begin{proof}
+坐标分量满足线性方程 $\dot v^k+\sum_{i,j}\Gamma^k_{ij}\dot x^iv^j=0$, 线性常微分方程给出存在唯一性. 度量相容性说明两个平行场的内积导数为0. 对角表达式求导, 与 $JV=-\sin\phi e_1+\cos\phi e_2$ 的分量为 $\dot\phi+\omega(\dot\gamma)$, 得最后条件.
+\end{proof}
+平行移动依赖路径. 对在同一坐标片中的正向闭边界 $\partial D$, 起点和终点切平面相同. 净旋转角模 $2\pi$ 称为绕该边界的 holonomy 角. 由命题\ref{prop:connection-curvature},
+\begin{equation}\label{eq:holonomy}
+ \Delta\phi=-\oint_{\partial D}\omega=\int_D K\dd A\pmod{2\pi}.
+\end{equation}
+它将曲率解释为小回路平行移动的角缺陷. 等式的实数代表依赖选取的角分支, 几何旋转只按模 $2\pi$ 定义.
+\originalsection{测地曲率与 Darboux 分解}
+\begin{definition}
+在定向曲面上, 单位速度正则曲线的有向测地曲率为 $k_g=\langle\nabla_TT,N\times T\rangle$. 任意正则参数下,
+\[
+ k_g=\frac{\det(\dot\gamma,\ddot\gamma,N)}{|\dot\gamma|^3}.
+\]
+\end{definition}
+空间加速度在正交基 $T,N\times T,N$ 下有分解
+\begin{equation}\label{eq:darboux}
+ \gamma''=k_g(N\times T)+k_nN,\qquad \kappa^2=k_g^2+k_n^2
+\end{equation}
+其中使用弧长参数, $k_n=\II(T,T)$. 第一式来自 $\gamma''\perp T$ 及前两种曲率定义, 第二式是正交分量平方和. 所以法曲率与测地曲率描述不同弯曲分量.
+\begin{proposition}\label{prop:kg-angle}
+若 $T=\cos\theta e_1+\sin\theta e_2$, 则 $k_g=\dd\theta/\dd s+\omega(T)$. 单位速度曲线为测地线当且仅当 $k_g=0$.
+\end{proposition}
+\begin{proof}
+对 $T$ 使用乘积法则和 $\nabla e_1=\omega e_2,\nabla e_2=-\omega e_1$, 得 $\nabla_TT=(\theta'+\omega(T))(N\times T)$. 无切向加速度的条件就是该系数为0. 若不是恒速参数, $k_g=0$ 只说明轨迹可以弧长化为测地线, 并不消除沿切向的速度变化.
+\end{proof}
+\begin{example}
+半径 $R$ 球面取外法向. 求北半球纬圆 $\theta=\theta_0\in(0,\pi/2)$ 沿 $\varphi$ 增加方向的测地曲率和北极帽的曲率积分.
+\end{example}
+\begin{solution}
+记球坐标 $X=R(\sin\theta\cos\varphi,\sin\theta\sin\varphi,\cos\theta)$. 纬圆空间曲率为 $1/(R\sin\theta_0)$, 主法向指向纬圆圆心. 直接将其加速度与 $N\times T$ 内积, 得 $k_g=\cot\theta_0/R$. 弧长元为 $R\sin\theta_0\dd\varphi$, 故 $\int k_g\dd s=2\pi\cos\theta_0$. 北极帽面积为 $2\pi R^2(1-\cos\theta_0)$, 乘 $K=1/R^2$ 得 $\int K\dd A=2\pi(1-\cos\theta_0)$. 两项之和为 $2\pi$.
+\end{solution}
+\originalsection{带角点的圆盘公式}
+本节区域为包含在一个正向坐标片内的拓扑圆盘 $D$, 边界由有限条 $C^2$ 正则弧组成, 交点处有非零夹角, 无尖点回折. 沿正向边界在第 $j$ 个角点, 从入切向到出切向的有向外转角为 $\beta_j\in(-\pi,\pi)$, 内角 $\alpha_j=\pi-\beta_j\in(0,2\pi)$. 光滑边界没有角点项.
+\begin{theorem}[局部 Gauss--Bonnet]\label{thm:local-gb}
+在上述条件下,
+\begin{equation}\label{eq:local-gb}
+ \int_DK\dd A+\int_{\partial D}k_g\dd s+\sum_j\beta_j=2\pi.
+\end{equation}
+\end{theorem}
+\begin{proof}
+坐标片上可用 Gram--Schmidt 取得全局正向单位标架. 在每条光滑边上取切向角 $\theta$, 于角点加上有向跳跃 $\beta_j$. 切向一周相对于此标架的总角变化为 $2\pi$. 为解释这点, 参数平面中边界的切向按定理\ref{thm:turning}及其角点版本总转 $2\pi$. 从坐标基换到曲面正交基的变换是 $D$ 上的正行列式矩阵场. 它在圆盘上可连续变形到常矩阵场: 正定对称部分可线性变形到恒等, 旋转部分在单连通圆盘上可取连续角函数并收缩. 此变形不使非零切向量成为零, 所以边界单位切向映射的旋转数不变. 因而相对于所选标架也总转 $2\pi$. 角点版本亦可将角点在小邻域光滑化, 外角正是被替换小弧的极限转角.
+
+逐边积分命题\ref{prop:kg-angle}, 得
+\[
+ \int_{\partial D}k_g\dd s+\sum_j\beta_j
+ =2\pi+\oint_{\partial D}\omega.
+\]
+连接形式光滑定义于整个圆盘, Green 公式与 $\dd\omega=-K\dd A$ 给出 $\oint\omega=-\int_DK\dd A$, 即所需等式.
+\end{proof}
+\begin{corollary}[测地三角形]\label{cor:triangle}
+包含在单一坐标圆盘中的简单测地三角形, 内角为 $\alpha_1,\alpha_2,\alpha_3$, 满足
+\[
+ \alpha_1+\alpha_2+\alpha_3=\pi+\int_DK\dd A.
+\]
+\end{corollary}
+\begin{proof}
+三边 $k_g=0$, 三角点外角和为 $3\pi-\sum\alpha_j$, 代入局部公式. 本结论对跨多个坐标片的三角形会由整体带边界版本推广.
+\end{proof}
+\begin{center}
+\begin{tikzpicture}[scale=1.05,>=Latex]
+\draw[thick,structurecolor] (0,0) to[bend right=12] (3.6,0) to[bend right=12] (1.7,2.5) to[bend right=12] (0,0);
+\node[below left] at (0,0) {$A$};\node[below right] at (3.6,0) {$B$};\node[above] at (1.7,2.5) {$C$};
+\node at (.55,.45) {$\alpha_1$};\node at (3.0,.45) {$\alpha_2$};\node at (1.7,1.95) {$\alpha_3$};
+\draw[->] (1.2,-.28)--(2.2,-.28);
+\node at (1.75,.95) {$\displaystyle\int_D K\dd A$};
+\end{tikzpicture}
+\end{center}
+图为曲面圆盘上的三角形示意, 不是在参数平面中测量三角形欧氏角. 曲面内角应由第一基本形式计算.
+\originalsection{习题}
+\begin{exercise}\label{ex:10a}
+在定向曲面上反转法向 $N$, 但保持同一参数方向的曲线, 说明 $k_g,K,k_n$ 如何变化. 再说明 Gauss--Bonnet 中为何必须同时调整正向边界方向.
+\end{exercise}
+\begin{exercise}\label{ex:10b}
+半径 $R$ 的球面上, 三条互相垂直的过心平面围成一个球面八分之一三角形. 求三个内角、面积、曲率积分, 验证三角形公式.
+\end{exercise}
+\begin{exercise}\label{ex:10c}
+若单位向量沿球面北极帽边界平行移动一周, 北极帽的极角半径为 $\theta_0\in(0,\pi)$, 求净旋转角模 $2\pi$. 当 $\theta_0=\pi/2$ 时为何结果不与球面非零曲率矛盾?
+\end{exercise}

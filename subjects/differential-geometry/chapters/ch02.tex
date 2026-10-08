@@ -1,0 +1,91 @@
+\originalchapter{闭曲线的整体几何}
+\originalsection{切角与旋转数}
+局部曲率告诉我们切线在一小段上怎样转动, 但闭合条件会约束整条曲线累计转了多少. 一个闭曲线在这里指周期正则映射 $\gamma:\R\to\R^2$, $\gamma(t+P)=\gamma(t)$. 若 $[0,P)$ 上不同参数不对应同一点, 称为简单闭曲线.
+\begin{lemma}\label{lem:angle}
+设 $T:I\to S^1$ 为 $C^1$ 映射. 可取 $C^1$ 实函数 $\theta$ 使 $T=(\cos\theta,\sin\theta)$; 指定 $\theta(t_0)$ 后唯一, 且 $\theta'=\det(T,T')$.
+\end{lemma}
+\begin{proof}
+选择一个与 $T(t_0)$ 对应的角 $\theta_0$, 定义 $\theta(t)=\theta_0+\int_{t_0}^t\det(T,T')\dd u$. 由单位向量的微分分解, 原 $T$ 与由该角定义的向量都满足 $V'=\det(T,T')JV$. 前章的线性方程唯一性说明它们相同. 两个角函数的差连续且属于 $2\pi\Z$, 在区间上必为常数.
+\end{proof}
+\begin{definition}
+闭曲线的旋转数为 $m=(\theta(P)-\theta(0))/(2\pi)$, 其中 $\theta$ 为单位切向量的连续切角. 总有向曲率为 $\int_0^P k(t)v(t)\dd t$.
+\end{definition}
+由于 $T(P)=T(0)$, 旋转数是整数. 引理给出
+\begin{equation}\label{eq:turning}
+ \int_0^P k(t)v(t)\dd t=2\pi m.
+\end{equation}
+闭合本身并不强迫 $m=1$. 圆重复走 $q$ 圈有 $m=q$, 而有自交的闭曲线可以有 $m=0$. 绕某个不在曲线上的点的绕数, 则是位置向量 $\gamma-p$ 的角变化; 它与切向量旋转数是两个不同量.
+\begin{example}
+求 $\gamma(t)=(\sin t,\sin 2t)$, $0\le t\le2\pi$, 的旋转数.
+\end{example}
+\begin{solution}
+$\gamma'=(\cos t,2\cos2t)$ 不会同时为零, 故曲线正则. 参数平移 $t\mapsto t+\pi$ 时, 速度不变, 而
+\[
+ \det(\gamma',\gamma'')=-2\sin t\,(1+2\cos^2t)
+\]
+变号. 因而 $kv=\det(\gamma',\gamma'')/v^2$ 在两个半周期的积分相消, 总曲率为0, 旋转数为0. 它在原点自交, 所以不属于下面的简单闭曲线结论.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=7.5cm,height=4.1cm,axis equal image,axis lines=middle,xtick=\empty,ytick=\empty,xmin=-1.25,xmax=1.25,ymin=-1.25,ymax=1.25,xlabel={$x$},ylabel={$y$},xlabel style={at={(axis description cs:1,.5)},anchor=west},ylabel style={at={(axis description cs:.5,1)},anchor=south}]
+\addplot[thick,structurecolor,domain=0:360,samples=181] ({sin(x)},{sin(2*x)});
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\originalsection{转角定理与凸性}
+凸区域指任意两点间线段仍在区域内; 严格凸指凸区域的边界不含非平凡线段. 支撑线指经过边界点且把整个区域置于一侧的直线. 这里使用平面简单闭曲线分割内外区域的 Jordan 定理, 以及简单多边形可三角剖分的拓扑事实. 二者均不是曲率公式的推论. 曲线沿区域在左侧的方向称为正向边界.
+\begin{theorem}[转角定理]\label{thm:turning}
+$C^2$ 正则简单闭平面曲线若按正向边界定向, 则总有向曲率为 $2\pi$; 反向时为 $-2\pi$.
+\end{theorem}
+\begin{proof}
+先看有 $q$ 个顶点的正向简单多边形. 三角剖分给出内部角之和 $(q-2)\pi$, 凹顶点的内角允许大于 $\pi$. 在顶点把切向量转入下一条边的有向外角为 $\pi-\alpha_j\in(-\pi,\pi)$, 所以外角总和为 $2\pi$.
+
+将光滑曲线弧长化, 周期为 $L$. 单位切向量连续, 且其导数有界. 把周期分为足够细的小段, 用弦连接端点. 这些弦的单位方向与该小段上的切向量一致地接近: 这是 $\alpha(b)-\alpha(a)=\int_a^b T\dd s$ 及 $T$ 一致连续的结果.
+
+还需保证细弦构成的多边形简单. 为此在 $s\in\R/L\Z$ 上考虑 $F(s,r)=\alpha(s)+rn(s)$. 有 $F_s=(1-rk)T,F_r=n$. 缩小带宽使 $1-rk>0$, 在 $r=0$ 的导数以 $T,n$ 为列向量, 可逆; 逆函数定理给出局部带状邻域. 紧致性使局部宽度可以统一缩小. 对远离圆周参数对角线的 $(s,t)$, 简单性及紧致性使 $|\alpha(s)-\alpha(t)|$ 有正下界; 再缩小宽度便排除远处的重叠. 因而 $F$ 给出整条曲线的管状带, 每一点有唯一投影参数 $s\in\R/L\Z$. 足够细的每条弦处于相应局部带中, 投影参数与原小弧接近, 其方向与该投影点处的 $T$ 的内积为正. 若弦以参数 $u$ 表示, 则 $\dd s/\dd u=\langle\text{弦速度},T(s)\rangle/(1-rk(s))>0$, 故投影参数沿弦严格增加, 并以两端点的参数为起终值. 相邻弦只在共同端点相遇, 不相邻弦的投影参数区间内部不交. 多边形因此简单, 且方向与原曲线一致.
+
+记细分点为 $s_j$, 把每条弦的角 $\beta_j$ 选成靠近 $\theta(s_j)$ 的实数分支. 写 $\theta(L)=\theta(0)+2\pi m$, 闭合时设下一周的 $\beta_q=\beta_0+2\pi m$. 细分足够细使全部相邻角差 $\beta_{j+1}-\beta_j$ 的绝对值小于 $\pi$, 包括最后一个差; 它们正是多边形的有向外角. 相加后为 $2\pi m=\theta(L)-\theta(0)$. 多边形外角总和已为 $2\pi$, 故 $\theta(L)-\theta(0)=2\pi$. 由式\eqref{eq:turning} 得结论; 反向结论由换参变号得到.
+\end{proof}
+\begin{corollary}
+简单闭平面曲线满足 $\int|k|\dd s\ge2\pi$. 等号成立当且仅当相应定向下 $k$ 不变号.
+\end{corollary}
+\begin{proof}
+三角不等式给出 $\int|k|\dd s\ge|\int k\dd s|=2\pi$. 对连续 $k$, 若同时有正值和负值, 两个有正长度的区间使不等式严格. 反之不变号时等号成立.
+\end{proof}
+\begin{proposition}\label{prop:strict-convex}
+正向简单闭曲线若 $k>0$, 则每条切线都是支撑线, 且每个法向方向恰有一个支撑点. 因而它围成严格凸区域.
+\end{proposition}
+\begin{proof}
+切角 $\theta(s)$ 严格增加, 由转角定理一周恰增加 $2\pi$. 对任意单位向量 $a$, 函数 $f(s)=\langle\alpha(s),a\rangle$ 的导数为 $\langle T(s),a\rangle$. 一周内它恰有一个从正变负的零点及一个从负变正的零点, 分别为唯一最大和最小. 切线垂直于 $a$ 的这两个点因此是全局支撑点. 进一步, 介于高度最大与最小之间的每条垂直于 $a$ 的直线恰与边界相交两点, 因为高度函数在两段上分别严格递增和递减. 由 Jordan 内外区分, 区域在此直线上的截面恰为两交点间的区间. 因为 $a$ 任意, 任意直线与闭区域的交都是区间或空集, 这等价于区域凸. 若边界含非平凡线段, 其曲率在该段为0, 与假设矛盾.
+\end{proof}
+\originalsection{支撑函数与四顶点定理}
+严格正曲率时可用外法向的角 $\varphi$ 作参数. 记 $n_o(\varphi)=(\cos\varphi,\sin\varphi)$, $t(\varphi)=Jn_o$, 定义支撑函数 $h(\varphi)=\langle\alpha(\varphi),n_o(\varphi)\rangle$. 不要求原点在内部; 平移只给 $h$ 增加一阶三角函数.
+\begin{proposition}\label{prop:support}
+有 $\alpha=hn_o+h't$, 且 $\alpha'=(h+h'')t$. 曲率半径为 $\rho=h+h''>0$, 曲率为 $k=1/\rho$.
+\end{proposition}
+\begin{proof}
+因 $\alpha'$ 沿 $t$ 方向, 微分 $h$ 得 $h'=\langle\alpha,t\rangle$. 在正交基 $n_o,t$ 下展开 $\alpha$ 得第一式. 再用 $n_o'=t$, $t'=-n_o$ 微分, 两个法向项相消, 得第二式. 切向角随 $\varphi$ 增加的速度为1, 弧长速度为 $\rho$, 所以 $k=1/\rho$.
+\end{proof}
+\begin{lemma}[初阶 Sturm--Hurwitz 引理]\label{lem:sturm}
+连续 $2\pi$ 周期函数 $f$ 若与 $1,\cos\varphi,\sin\varphi$ 都积分正交, 则至少有四个不同零点.
+\end{lemma}
+\begin{proof}
+若零点无限多则已成立. 否则若无符号变化, $f$ 与常数1的积分不可能为0, 除非恒为0. 周期函数的符号变化次数为偶数; 假设少于四个零点, 则只能有两个符号变化点 $a,b$. 取一阶三角多项式 $p(\varphi)=\cos(\varphi-(a+b)/2)-\cos((b-a)/2)$, 选代表元使 $0<b-a<2\pi$. 它只在 $a,b$ 为零, 在两弧上分别取相反符号. 必要时乘 $-1$, 使 $fp\ge0$ 且在非空开区间严格为正. 于是 $\int fp>0$, 但正交条件给出该积分为0, 矛盾.
+\end{proof}
+\begin{theorem}[严格正曲率的四顶点定理]
+光滑简单闭平面曲线若 $k>0$, 则至少有四个不同点满足 $\dd k/\dd s=0$.
+\end{theorem}
+\begin{proof}
+取上述法向角参数. $\rho'=h'+h'''$ 的积分为0. 分部积分并用周期性可得它与 $\cos\varphi$ 和 $\sin\varphi$ 的积分也为0: 在这两项中三阶导数恰抵消一阶导数. 由引理, $\rho'$ 至少有四个零点. 又 $\dd k/\dd s=-\rho'/\rho^3$, $\rho>0$, 零点一一对应. 圆的曲率恒定, 所有点都是此意义下的顶点.
+\end{proof}
+这里证明的是原讲义第10讲的严格正曲率版本, 不把它扩大为任意闭曲线的结论.
+\originalsection{习题}
+\begin{exercise}\label{ex:2a}
+设单位速度曲线 $\alpha(s)$ 满足 $\alpha(s+L)=\alpha(s)$, 且 $k(s)>0$, $L$ 不要求是最小周期. 若 $\int_0^L k\dd s=4\pi$, 它相对于指定周期是否为简单曲线? 给出解释和一个例子.
+\end{exercise}
+\begin{exercise}\label{ex:2b}
+设 $h(\varphi)=a+b\cos2\varphi$, $a>3|b|>0$. 由支撑函数公式构造曲线, 求曲率及其临界点, 并证明所得闭曲线简单.
+\end{exercise}
+\begin{exercise}\label{ex:2c}
+设正向严格正曲率简单闭曲线的支撑函数为 $h$. 证明其周长为 $\int_0^{2\pi}h\dd\varphi$, 面积为 $\frac12\int_0^{2\pi}(h^2-h'^2)\dd\varphi$.
+\end{exercise}
