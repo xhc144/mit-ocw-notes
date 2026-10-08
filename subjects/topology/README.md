@@ -1,8 +1,14 @@
 # 度量空间与基础拓扑
 
-状态：整册编写与审校进行中，尚未完成 PDF 和逐页核验。不要将本阶段标为完整交付。
+已交付完整8章简体中文讲义：72个PDF物理页、37道带完整解答的练习，采用用户上传的固定 LaTeX v4.0.0 版式。八章数学交叉审校、编译、目录链接及全部页面核查完成。详细考纲核实边界仍按下文如实保留。
 
 主源为 MIT OCW 18.S190 Introduction to Metric Spaces, January IAP 2023（Paige Bright）。中文按概念重新编排，补齐论证与勘误；一般拓扑、Picard、Baire 及函数空间紧性等标明编者补充。详细新领军考纲原 PDF 本次未能重新获取；已核最新版官方简章及考纲发布通知，证据边界见 `research/syllabus-verification.md` 和书前说明。
+
+## 交付
+
+- [完整PDF](topology.pdf)
+- [可编辑源码包](topology-source.zip)（含原生分章LaTeX、原件、许可、工具与审校；不含字体或页面缓存）
+- [最终核查证据](review/FINAL_CHECKS.json)
 
 ## 文件
 
@@ -30,10 +36,12 @@ python3 vendor/math-lecture-writing/scripts/check_project.py . --main main.tex
 python3 research/verify-sources.py
 ```
 
-依赖下载保持 HTTPS 与固定校验和验证。`build/` 是本机临时编译与渲染证据，不加入 Git；发布后的最终 PDF 和源 ZIP 将放本目录根。各个数学/机械/视觉检查分别记录，模板验证器不会自动证明数学正确。
+依赖下载保持 HTTPS 与固定校验和验证。`build/` 是本机临时编译与渲染证据，不加入 Git；最终 PDF 和同源源码 ZIP 位于本目录根。各个数学/机械/视觉检查分别记录，模板验证器不会自动证明数学正确。
 
 ## 来源和许可
 
 中文译编、重排、修正与增补采用 **CC BY-NC-SA 4.0**；原课作者、学期、官网链接、原件校验和与第三方例外见 `sources/ATTRIBUTION.md`。原习题没有公开官方答案，本书自编练习和题解不冒称 OCW 答案。MIT 和原作者不为本项目背书。固定 Skill 的源码/模板按用户提供的包用于本项目，字体从正规运行时依赖安装而不分发。
 
 本次工作只提交 `subjects/topology/`；未编辑其他学科或全局清单。
+
+源码包可以解压到任意可写目录并从 `main.tex` 编译。环境依赖默认放 `/workspace/.local/texmf`；如改变路径，应相应设置 `TEXMFHOME`。`python3 tools/package_sources.py` 可重建源码包并检查每个压缩成员的实际SHA与源文件一致。

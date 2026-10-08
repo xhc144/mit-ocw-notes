@@ -44,6 +44,8 @@ kpsewhich cmunrm.otf
 
 已完整读取固定 skill 主文件、STYLE_SPEC、ENVIRONMENTS、MATH_LAYOUT、EDITORIAL_RULES、VALIDATION 与完整模板. 官方 `scripts/validate.py` 对原样张实际得到 `AUTOMATED PASS`; source、compile、log、pdf 阶段全通过, 3 页全渲染, 无错误或提醒. 已逐页打开可读尺寸页面: 字体、颜色、目录、行间式、数学环境与空心 QED 正常. 此结果只证明原样张工具链与版式机械检查, 不是全书审查.
 
+另实际用 `--texmf-dir /tmp/topology-toolchain/fresh-texmf` 从空的 TEXMF 树重跑 bootstrap, 两份 Debian 包和 CM Unicode OTF 均从下载缓存重新校验、提取成功. 设置该新树为 TEXMFHOME 后, 同一原样张再次通过官方 `validate.py` 的 source、compile、log、pdf 检查. 这验证本机从缓存重建依赖, 不声称已在另一台云实例复现.
+
 此前通用中文烟雾稿也成功编译, 并核对 2 个书签与 5 个内部链接; 正式书稿以固定样张和最终全书证据为准.
 
 运行时工具为 Python 3.12, XeLaTeX, latexmk 4.86, pdftotext/pdfinfo, PyMuPDF 1.26.6, Pillow 12.3.0. 样张最终日志用的是系统 l3kernel; 系统 expl3.sty SHA256 为 `1841b4d9b33cfd2826939618eb53739cd9360dbef9b7b0e51008e74a2815fa98`.
@@ -61,7 +63,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 tools/audit_tex_source.py main.tex --out build
 
 `audit_pdf.py` 另核对书签和内部链接是否指向有效页, 保存 PDF SHA256 与每页图片. 所有最终页面必须另行实际打开检查; 数学内容修改后重新构建, 不以旧 PDF 代替新源码.
 
-`audit_tex_source.py` 复用原 skill 的静态输入解析、环境/数学分隔符检查和锁定区比对, 并核对字面标签、引用与书目键. 报告绑定当前全部输入 SHA256; 动态 TeX 和最终 PDF 链接仍需真实编译检查. 初稿检查为 11 个输入、168 个唯一标签、32 个引用目标, 无重复或未解析目标; 1 条证明末尾 QED 放置提醒须结合最终页面复核. 内容变化后需重跑, 不把旧报告视为当前稿证据.
+`audit_tex_source.py` 复用原 skill 的静态输入解析、环境/数学分隔符检查和锁定区比对, 并核对字面标签、引用与书目键. 报告绑定当前全部输入 SHA256; 动态 TeX 和最终 PDF 链接仍需真实编译检查. 最终冻结稿已重跑为 PASS: 11 个输入、168 个唯一标签、32 个引用目标、6 个书目键, 0 错误及 0 提醒, 无重复或未解析目标. `review/source-static-audit.json` 保存该冻结稿证据. 内容变化后需重跑, 不把旧报告视为当前稿证据.
 
 ## 内容槽与环境
 
