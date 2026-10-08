@@ -1,0 +1,99 @@
+\originalchapter{Hilbert 空间与正交展开}\label{ch:hilbert}
+\originalsection{内积与几何}
+范数可度量长度, 却未必给出角度和正交分解. Hilbert 空间增加内积, 并保留完备性; 这两个条件共同支持无限维的投影与展开. 本书采用内积对第一变量线性、对第二变量共轭线性的约定.
+
+\begin{definition}
+内积是函数 $\ip{x}{y}:H\times H\to\K$, 对第一变量线性, 满足 $\ip{x}{y}=\overline{\ip{y}{x}}$, 且 $\ip{x}{x}\ge0$, 等号当且仅当 $x=0$. 带内积的空间称预 Hilbert 空间. 由内积诱导的范数为 $\norm{x}=\sqrt{\ip{x}{x}}$. 此范数下完备时称 Hilbert 空间.
+\end{definition}
+
+\begin{theorem}[Cauchy--Schwarz]\label{thm:cs}
+预 Hilbert 空间中 $|\ip{x}{y}|\le\norm{x}\norm{y}$. 等号成立当且仅当 $x,y$ 线性相关.
+\end{theorem}
+\begin{proof}
+若 $y=0$, 结论成立. 否则令 $a=\ip{x}{y}/\norm{y}^2$, 则 $\ip{x-ay}{y}=0$. 展开得到
+\[
+0\le\norm{x-ay}^2=\norm{x}^2-\frac{|\ip{x}{y}|^2}{\norm{y}^2}.
+\]
+移项后取平方根即得不等式. 等号恰好要求 $\norm{x-ay}=0$, 即 $x=ay$; 包含零向量的情况也符合线性相关条件.
+\end{proof}
+正定性和齐次性直接给出诱导范数的前两个条件, 而 $\norm{x+y}^2=\norm{x}^2+\norm{y}^2+2\operatorname{Re}\ip{x}{y}\le(\norm{x}+\norm{y})^2$ 给出三角不等式. 内积连续, 因为
+$|\ip{x_n}{y_n}-\ip{x}{y}|\le\norm{x_n-x}\norm{y_n}+\norm{x}\norm{y_n-y}$, 当两向量列收敛时右端趋于零.
+
+\begin{proposition}[平行四边形恒等式]\label{prop:parallelogram}
+内积范数满足 $\norm{x+y}^2+\norm{x-y}^2=2\norm{x}^2+2\norm{y}^2$. 反之, 满足此恒等式的实或复范数来自唯一内积.
+\end{proposition}
+\begin{proof}
+正向展开两个平方, 混合项抵消. 反向的细节为编者补全. 先在底层实空间令 $B(x,y)=(\norm{x+y}^2-\norm{x-y}^2)/4$. 它连续、对称, 且 $B(-x,y)=-B(x,y)$. 对平行四边形恒等式分别取向量 $x+y,z$ 与 $x-y,z$, 两式相减, 得
+\[
+B(x+z,y)+B(x-z,y)=2B(x,y).
+\]
+取 $z=x$ 得 $B(2x,y)=2B(x,y)$. 再令 $x=(u+v)/2$, $z=(u-v)/2$, 得 $B(u,y)+B(v,y)=B(u+v,y)$. 因而有整数与有理数齐次性; 连续性再将齐次性延至所有实数. $B(x,x)=\norm{x}^2$, 所以实情形已得到内积.
+
+复情形由 $\norm{\ii x}=\norm{x}$ 得 $B(\ii x,\ii y)=B(x,y)$, 从而 $B(\ii x,y)=-B(x,\ii y)$. 定义 $\ip{x}{y}=B(x,y)+\ii B(x,\ii y)$. 实双线性及上述关系给出第一变量的复线性; 对称性和 $B(y,\ii x)=-B(x,\ii y)$ 给出共轭对称. 又有 $B(x,\ii x)=0$, 故 $\ip{x}{x}=\norm{x}^2$. 由这些恒等式倒推可见内积被范数唯一确定.
+\end{proof}
+
+\begin{example}
+核对 $\ell^2$ 和 $L^2(E)$ 的内积, 并说明 $\ell^p$, $p\ne2$, 的标准范数不来自内积.
+\end{example}
+\begin{solution}
+分别取 $\ip{a}{b}=\sum_ja_j\overline{b_j}$ 与 $\ip{f}{g}=\int_Ef\overline g$. Hölder 保证绝对收敛或绝对可积, 所以定义合法. 对角线值恰为对应范数的平方, 其余内积公理由求和与积分得到. 前文已证明完备性, 因而二者为 Hilbert 空间.
+
+在 $\ell^p$ 中取 $e_1,e_2$, 当 $p<\infty$ 时平行四边形左端为 $2\cdot2^{2/p}$, 右端为4, 仅 $p=2$ 相等. $p=\infty$ 时左端为2, 也不等于4. 这否定的是标准范数的内积表示, 不否定空间可改用其他拓扑或其他结构.
+\end{solution}
+
+\originalsection{正交系与 Bessel 不等式}
+\begin{definition}
+$x\perp y$ 表示 $\ip{x}{y}=0$. 正交归一系 $(e_j)$ 满足 $\ip{e_j}{e_k}=\delta_{jk}$. 一个正交归一系的有限线性组合在 $H$ 中稠密时, 称其为正交归一基. 基可以不可数; 本书的展开主要在可分 Hilbert 空间中使用可数基.
+\end{definition}
+正交归一系中的向量两两距离为 $\sqrt2$, 因此可分空间中的这种系至多可数: 以各向量为中心、半径小于 $\sqrt2/2$ 的球两两不交, 每球需包含可数稠密集的一个不同元素.
+
+\begin{theorem}[Bessel 不等式]\label{thm:bessel}
+对任一有限或可数正交归一系 $(e_j)$, 有 $\sum_j|\ip{x}{e_j}|^2\le\norm{x}^2$. 若 $P_Nx=\sum_{j=1}^N\ip{x}{e_j}e_j$, 则
+\[
+\norm{x-P_Nx}^2=\norm{x}^2-\sum_{j=1}^N|\ip{x}{e_j}|^2.
+\]
+\end{theorem}
+\begin{proof}
+由正交归一性, $x-P_Nx$ 与每个 $e_j$, $j\le N$, 正交, 且 $\norm{P_Nx}^2=\sum_{j=1}^N|\ip{x}{e_j}|^2$. 对 $x=P_Nx+(x-P_Nx)$ 展开范数平方, 正交使混合项为零. 得有限恒等式, 非负余项给出有限不等式, 最后令 $N\to\infty$.
+\end{proof}
+
+\begin{theorem}\label{thm:onb}
+每个可分 Hilbert 空间都有有限或可数正交归一基. 若 $(e_j)$ 为此基, 则对每个 $x\in H$ 有范数收敛及 Parseval 恒等式
+\[
+x=\sum_j\ip{x}{e_j}e_j,\qquad
+\norm{x}^2=\sum_j|\ip{x}{e_j}|^2.
+\]
+对有限或可数正交归一系, 它是基当且仅当只与整个系都正交的向量是零. 此处级数证明限于有限或可数系; 不可数情形的判别可在下一章用闭子空间的正交补证明.
+\end{theorem}
+\begin{proof}
+从可数稠密集 $(v_n)$ 出发做 Gram--Schmidt. 在已有 $e_1,\ldots,e_k$ 时, 令 $w=v_n-\sum_{j=1}^k\ip{v_n}{e_j}e_j$. 若 $w=0$, 跳过; 否则加入 $w/\norm{w}$. 正交性逐项核对. 每个 $v_n$ 都在所构系的有限张成中, 所以最终张成稠密. 零空间取空基. 反过来, 有有限或可数正交归一基时, 系数取有理数 (复值取 $\Q+\ii\Q$) 的有限组合构成可数稠密集, 所以空间可分.
+
+对任一可数正交归一系, Bessel 不等式和正交性给出
+$\norm{P_Mx-P_Nx}^2=\sum_{j=N+1}^M|\ip{x}{e_j}|^2\to0$.
+完备性给出极限 $y$. 对每个固定 $e_j$ 取内积极限, 得 $\ip{x-y}{e_j}=0$. 若系的张成稠密, 连续性说明 $x-y$ 与所有向量正交, 因而 $x=y$. 有限恒等式取极限给出 Parseval.
+
+反之, 若只有零向量与全系正交, 则上述极限仍满足 $x-y$ 与全系正交, 从而 $y=x$, 有限张成稠密. 这一论证使用 Hilbert 完备性, 不把未完备预 Hilbert 空间中的最大正交系自动当作收敛展开依据.
+\end{proof}
+
+\originalsection{坐标表示与分类}
+\begin{theorem}\label{thm:hilbert-l2}
+每个无限维可分 Hilbert 空间等距同构于 $\ell^2$. 对选定的基 $(e_j)$, 同构为 $Ux=(\ip{x}{e_j})_j$.
+\end{theorem}
+\begin{proof}
+第一变量线性使 $U$ 线性, Parseval 给出 $\norm{Ux}_2=\norm{x}$, 因而单射. 给定 $a\in\ell^2$, 级数 $\sum_ja_je_j$ 的部分和由平方尾和估计为 Cauchy, 完备性给出和 $x$. 对每个 $e_j$ 取内积得 $\ip{x}{e_j}=a_j$, 所以 $U$ 满射. 对两向量的部分和取内积并取极限, 得 $\ip{x}{y}=\sum_j\ip{x}{e_j}\overline{\ip{y}{e_j}}=\ip{Ux}{Uy}$, 因此也保持内积. 有限维情形同理对应于 $\K^d$.
+\end{proof}
+抽象 Hilbert 空间的可分分类不表示所有问题都成为有限矩阵运算. 算子在所选基中可以耦合无穷多个坐标, 求逆与谱仍有不同于有限维的现象.
+
+\begin{exercise}
+对任一正交归一基, 证明 $P_Nx$ 是 $x$ 在 $\Span(e_1,\ldots,e_N)$ 中的唯一最佳近似.
+\end{exercise}
+\begin{solution}
+任意 $v$ 在该有限张成中, $x-v=(x-P_Nx)+(P_Nx-v)$ 的两项正交. 故 $\norm{x-v}^2=\norm{x-P_Nx}^2+\norm{P_Nx-v}^2\ge\norm{x-P_Nx}^2$, 等号恰好为 $v=P_Nx$.
+\end{solution}
+
+\begin{exercise}
+证明 $\ell^2$ 中的向量级数 $\sum_{n\ge1}e_n/n$ 收敛但不绝对收敛. 说明 Hilbert 展开中的平方可和不能换成绝对可和.
+\end{exercise}
+\begin{solution}
+部分和之差的范数平方为对应的 $\sum n^{-2}$ 尾和, 因而 Cauchy 并收敛. 但各项范数之和是 $\sum1/n$, 发散. 正交性消除了混合项, 所以这里只需平方可和. 绝对级数判别是足够条件, 并非每个收敛级数都必须满足的条件.
+\end{solution}

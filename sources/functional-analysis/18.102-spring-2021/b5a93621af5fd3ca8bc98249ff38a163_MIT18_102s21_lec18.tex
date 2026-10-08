@@ -1,0 +1,227 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{April 27, 2021}
+
+We discussed the Riesz representation theorem last time, which states that for a Hilbert space $H$, we can identify each $f \in H' = \mc{B}(H, \CC)$ with a unique element $v \in H$ such that $f(u) = \langle u, v \rangle$ for all $u \in H$. (In other words, every continuous linear functional on $H$ can be realized as an inner product with a fixed vector.) 
+
+We can use this to expand on a concept we've touched on previously in an assignment:
+
+\begin{theorem}
+Let $H$ be a Hilbert space, and let $A: H \to H$ be a bounded linear operator. Then there exists a unique bounded linear operator $A^\ast: H \to H$, known as the \vocab{adjoint} of $A$, satisfying 
+\[
+    \langle Au, v \rangle = \langle u, A^\ast v \rangle
+\]
+for all $u, v \in H$. In addition, we have that $||A^\ast|| = ||A||$.
+\end{theorem}
+\begin{proof}
+We can show uniqueness similarly to how we showed it in the Riesz representation theorem: if $\langle u, A_1^\ast v \rangle= \langle u, A_2^\ast v \rangle$ for all $u, v$ for two potential candidates $A_1, A_2$, then $\langle u, (A_1^\ast v - A_2^\ast v) \rangle = 0$ for all $u, v$, and we can always set $u = (A_1^\ast v - A_2^\ast v)$ to show that we must have $A_1^\ast v = A_2^\ast v$ for all $v$, meaning that $A_1^\ast$ and $A_2^\ast$ were the same operator to begin with.
+
+To show that such an operator does exist, first fix $v \in H$, and define a map $f_v: H \to \CC$ by $f_v(u) = \langle Au, v \rangle$. This is a linear map (in the argument $u$) because for any $u_1, u_2 \in H$ and $\lambda_1, \lambda_2 \in \CC$, we have
+\[
+    f_v(\lambda_1 u_1 + \lambda_2 u_2) = \langle A(\lambda_1 u_1 + \lambda_2 u_2), v \rangle = \langle \lambda_1 Au_1 + \lambda_2 Au_2, v \rangle
+\]
+by linearity of $A$, and then this simplifies to 
+\[
+    = \lambda_1 \langle Au_1, v \rangle + \lambda_2 \langle Au_2, v \rangle = \lambda_1 f_v(u_1) + \lambda_2 f_v(u_2)
+\]  
+by linearity in the first argument of the inner product. We claim this is also a continuous linear operator (so that it is actually an element of the dual). Indeed, we can check that if $||u|| = 1$, 
+\[
+    |f_v(u)| = |\langle Au, v \rangle| \le ||Au|| \cdot ||v||
+\]
+by the Cauchy-Schwarz inequality, and this is bounded by $||A|| \cdot ||v||$. Therefore, $||f_v|| \le ||A|| \cdot ||v||$ (which is a constant), and thus $f_v \in H'$. By the Riesz representation theorem, we can therefore find a (unique) element, which we denote $A^\ast v$, of $H$ satisfying
+\[
+    \langle Au, v \rangle = f_v(u) = \langle u, A^\ast v \rangle.
+\]
+We now need to show that $A^\ast$ is a bounded linear operator. For linearity, let $v_1, v_2 \in H$ and let $\lambda_1, \lambda_2 \in \CC$. We know that for all $u \in H$, 
+\[
+    \boxed{\langle u, A^\ast(\lambda_1 v_1 + \lambda_2 v_2) \rangle} = \langle Au, \lambda_1 v_1 + \lambda_2 v_2 \rangle,
+\]
+and now by conjugate linearity in the second variable, this simplifies to 
+\[
+    = \overline{\lambda}_1 \langle Au, v_1 \rangle + \overline{\lambda}_2 \langle Au, v_2 \rangle = \overline{\lambda}_1 \langle u, A^\ast v_1 \rangle + \overline{\lambda}_2 \langle u, A^\ast v_2 \rangle.
+\]
+Pulling the complex numbers back in shows that this is 
+\[
+    = \boxed{\langle u, \lambda_1 A^\ast v_1 + \lambda_2 A^\ast v_2 \rangle}.
+\]
+The only way for these two boxed expressions to be equal for all $u$ is if the two operators are equal: $A^\ast(\lambda_1 v_1 + \lambda_2v_2) = \lambda_1 A^\ast(v_1) + \lambda_2 A^\ast(v_2)$, which is the desired linearity result for $A^\ast$.
+
+We now show that $A^\ast$ is bounded with $||A^\ast|| = ||A||$. Take a unit-norm vector $||v|| = 1$: if $A^\ast v = 0$, then clearly $||A^\ast v || \le ||A||$. Otherwise, we still want to show that same inequality. Suppose $A^\ast v \ne 0$. Then 
+\[
+    \boxed{||A^\ast v ||^2} = \langle A^\ast v, A^\ast v \rangle = \langle A A^\ast v, v \rangle
+\]
+by definition of the adjoint, and now by Cauchy-Schwarz this is bounded by 
+\[
+    \le ||AA^\ast v || \cdot ||v|| = ||A A^\ast v || \le \boxed{||A|| \cdot ||A^\ast v||}.
+\]
+Dividing by the nonzero constant $||A^\ast v||$ yields $||A^\ast v|| \le ||A||$, as desired, and now taking the sup over all $v$ with $||v|| = 1$ yields $||A^\ast|| \le ||A||$.
+
+To finish, we need to show equality. For all $u, v \in H$, we have
+\[
+    \langle A^\ast u, v \rangle = \overline{\langle v, A^\ast u \rangle} = \overline{\langle Av, u \rangle} = \langle u, Av \rangle,
+\]
+so the adjoint of the adjoint of $A$ is $A$ itself (since $\langle u, Av \rangle = \langle A^\ast u, v \rangle = \langle u, (A^\ast)^\ast v \rangle$). Therefore, we can flip the roles of $A^\ast$ and $A$ in this argument to find that
+\[
+    ||(A^\ast)^\ast|| \le ||A^\ast|| \implies ||A|| \le ||A^\ast||,
+\]
+and putting the inequalities together yields $||A|| = ||A^\ast||$ as desired. 
+\end{proof}
+
+Let's see a concrete example of what these adjoint operators look like:
+
+\begin{example}
+If our Hilbert space is $H = \CC^n$, so that $u$ is an $n$-dimensional vector, then we know that 
+\[
+    (Au)_i = \sum_{j=1}^n A_{ij} u_j
+\]
+for some fixed complex numbers $A_{ij}$, and we can represent $A$ as a finite-dimensional matrix.
+\end{example}
+
+To determine the adjoint of $A$, we need to figure out the operator $B$ that satisfies $\langle Au, v \rangle = \langle u, Bv \rangle$. Towards that, notice that
+\[
+    \langle Au, v \rangle  = \sum_{i=1}^n (Au)_i \overline{v}_i = \sum_{i,j} A_{ij} u_j \overline{v}_i 
+\]
+and switching the order of summation yields 
+\[
+    = \sum_{j=1}^n u_j \overline{\sum_{i=1}^n \overline{A}_{ij} v_i} = \sum_{j=1}^n u_j \overline{(A^\ast v)_j},
+\]
+where the adjoint of $A$ acts on $v$ as 
+\[
+    (A^\ast v)_i = \sum_{j=1}^n \overline{A_{ji}} v_j.
+\]
+So for matrices, the adjoint is also representable by a martix, and it is the conjugate transpose of $A$.
+
+\begin{example}
+Now consider the space $\ell^2$, in which an operator is described with a double sequence $\{A_{ij}\}^\infty$ in $\CC$ so that 
+\[
+    \sum_{i,j} |A_{ij}|^2 = \lim_{N \to \infty} \sum_{i=1}^N \sum_{j=1}^N |A_{ij}|^2 < \infty.
+\]
+\end{example}
+
+Specifically, we define $A: \ell^2 \to \ell^2$ via
+\[
+    (A \underline{a})_i = \sum_{j=1}^{\infty} A_{ij} a_j.
+\]
+We can check by the Cauchy-Schwarz inequality that this is a bounded linear operator as long as $\sum_{i,j} |A_{ij}|^2$ is satisfied (the order of summation does not matter because all terms in the double sum are nonnegative). So $A \in \mc{B}(\ell^2, \ell^2)$, and for all $\underline{a}, \underline{b} \in \ell^2$, we have
+\[
+    \langle A \underline{a}, \underline{b} \rangle_{\ell^2} = \sum_i \sum_j A_{ij} a_j \overline{b}_i = \sum_j a_j \overline{\left(\sum_i \overline{A}_{ij} b_i \right)} = \langle \underline{a}, A^\ast \underline{b} \rangle,
+\]
+where we define the adjoint similarly to in the finite-dimensional case:
+\[
+    (A^\ast\underline{b})_i = \sum_{j=1}^{\infty} \overline{A}_{ji} b_j.
+\]
+
+Finally, we can try doing an integral instead of an infinite sum:
+
+\begin{example}
+Let $K \in C([0, 1] \times [0, 1])$, and define the map $A: L^2([0, 1]) \to L^2([0, 1])$ via
+\[
+    Af(x) = \int_0^1 K(x, y) f(y) dy.
+\]
+\end{example}
+
+We can then check that the adjoint $A^\ast$ is defined as
+\[
+    A^\ast g(x) = \int_0^1 \overline{K(y, x)} g(y) dy,
+\]
+so we're again flipping the indices and taking a complex conjugate. 
+
+\begin{theorem}
+Let $H$ be a Hilbert space, and let $A: H \to H$ be a bounded linear operator. Then 
+\[
+    (\text{Ran}(A))^\perp = \text{Null}(A^\ast),
+\]
+where $\text{Ran}(A)$ is the range of $A$ (the set of all vectors of the form $Au$), and $\text{Null}(A^\ast)$ is the nullspace of $A^\ast$ (the set of all vectors for which $A^\ast u = 0$).
+\end{theorem}
+
+In particular, if we know that the range of $A$ is a closed subspace, then always being able to solve $Au = v$ (surjectivity) is equivalent to knowing that that the adjoint is one-to-one (injectivity), sine the range of $A$ is then the orthogonal complement of the zero vector, which is the whole space. 
+
+\begin{proof}
+Note that $v \in \text{Null}(A^\ast)$ if and only if $\langle u, A^\ast v \rangle = 0$ for all $u \in H$, which is equivalent to $\langle Au, v \rangle = 0$ for all $u \in H$. So $v$ is orthogonal to all elements in $\text{Ran}(A)$, and that's equivalent to saying that $v \in \text{Ran}(A)^\perp$. (All steps here go in both directions, so this shows the equivalence of the two sets.)
+\end{proof}
+
+This is essentially an infinite-dimensional version of rank-nullity, and we want to see if we can say similar things about the solutions to linear equations that we could in the finite-dimensional case (our input needs to satisfy certain linear relations, and then our final solution is unique up to a linear subspace). But before we get to that, these operators that we'll solve solvability for have particular important properties on bounded sequences. We take for granted that a bounded linear operator takes bounded sets to bounded sets in finite-dimensional spaces, and so we can find a convergent subsequence using Heine-Borel. So the point is that there is some compactness hidden in here in $\RR^n$ and $\CC^n$, so we need to study some facts about how compactness and Hilbert spaces before we can talk about solvability of equations.
+
+\begin{definition}
+Let $X$ be a metric space. A subset $K \subset X$ is \vocab{compact} if every sequence of elements in $K$ has a subsequence converging to an element of $K$. 
+\end{definition}
+
+\begin{example}
+By the Pigeonhole Principle, all finite subsets are compact.
+\end{example}
+
+As just described, we also have the following result from real analysis:
+
+\begin{theorem}[Heine-Borel]
+A subset $K \subset \RR$ (also $\RR^n$ and $\CC^n$) is compact if and only if $K$ is closed and bounded.
+\end{theorem}
+
+Examples on the real line include closed intervals and also the set $\{0\} \cup \{\frac{1}{n}: n \in \NN\}$. We know this doesn't hold for arbitrary metric spaces or even Banach spaces, and in fact it's still not true for Hilbert spaces:
+
+\begin{example}
+Let $H$ be an infinite-dimensional Hilbert space. Then the closed ball 
+\[
+    F = \{u \in H: ||u|| \le 1\}
+\]
+is a closed and bounded set, but it is not compact.
+\end{example}
+
+This is because we can let $\{e_n\}_{n=1}^{\infty}$ be a countably infinite orthonormal subset of $H$ (it doesn't need to be a basis), which we find by Gram-Schmidt, so that all elements $e_n$ are in $F$, but 
+\[
+    ||e_n - e_k||^2 = ||e_n||^2 + ||e_k||^2 + 2 \text{Re}\langle e_n, e_k \rangle = 2.
+\]
+So the distance between any two elements of the sequence is $2$, so there is no convergent subsequence (since it cannot be Cauchy).
+
+Motivated by this, we know that all compact sets are closed and bounded, and thus we want to figure out an additional condition guarantees compactness for a Hilbert space (so that we can verify compactness without using the subsequence definition). And this is in fact related to something that we can discuss in 18.100B in a different context when thinking about the space of continuous functions.
+
+\begin{definition}
+Let $H$ be a Hilbert space. A subset $K \subset H$ has \vocab{equi-small tails} with respect to a countable orthonormal subset $\{e_n\}$ if for all $\eps > 0$, there is some $n \ge N$ so that for all $v \in K$, we have
+\[
+    \sum_{k > N} |\langle v, e_k \rangle|^2 < \eps^2.
+\]
+\end{definition}
+
+We know that the sequence for any given $v$ converges by Bessel's inequality, so that the inequality above will eventually hold for some $N$ for each $v$. But this equi-small tails requirement is a more ``uniform'' condition on the rate of convergence -- we need to be able to pick an $N$ that works for all $v \in K$ at the same time. 
+
+\begin{example}
+Any finite set $K$ has equi-small tails with respect to any countable orthonormal subset (we can take the maximum of finitely many $N$s). 
+\end{example}
+
+The motivation for this definition is that, as mentioned above, finite sets are always compact, so we should hope that this additional uniformity gives us compactness. We won't get to that result today, but here's some more motivation for why this is the correct condition to add, building on the $\{0\} \cup \{\frac{1}{n}: n \in \NN\}$ example from above:
+
+\begin{theorem}
+Let $H$ be a Hilbert space, and let $\{v_n\}_n$ be a convergent sequence with $v_n \to v$. If $\{e_k\}$ is a countable orthonormal subset, then $K = \{v_n: n \in \NN\} \cup \{v\}$ is compact, and $K$ has equi-small tails with respect to $\{e_k\}$.
+\end{theorem}
+
+\begin{proof}
+Compactness will be left as an exercise for us. For equi-small tails, the idea is that for sufficiently large $n$, $v_n$ will be close to $v$, so we can use $v$ to take care of all but finitely many of the points in our sequence. Let $\eps > 0$: since $v_n \to v$, there is some $M \in \NN$ so that for all $n \ge M$, we have $||v_n - v|| < \frac{\eps}{2}$. We choose $N$ large enough so that for this fixed $v$,
+\[
+    \sum_{k > N} |\langle v, e_k \rangle|^2 + \max_{1 \le n \le M-1} \sum_{k > N}|\langle v_n, e_k \rangle|^2 < \frac{\eps^2}{4}.
+\]
+(There are only finitely many terms here, and we can choose our $N$ large enough so that it makes the $n = 1$ term smaller than $\frac{\eps^2}{8}$, the $n = 2$ term smaller than $\frac{\eps^2}{16}$, and so on.) We claim that this $N$ uniformly bounds our tails: indeed, 
+\[
+    \sum_{k > N} |\langle v, e_k \rangle|^2 < \frac{\eps^2}{4} < \eps^2,
+\]
+and for all $1 \le n \le M-1$ we also have
+\[
+    \sum_{k > N} |\langle v_n, e_k \rangle|^2 < \frac{\eps^2}{4} < \eps^2.
+\]
+So we just need to check the condition for $n \ge M$: Bessel's inequality tells us that
+\[
+    \left(\sum_{k > N} |\langle v_n, e_k \rangle|^2 \right)^{1/2} = \left(\sum_{k > N} |\langle v_n - v, e_k \rangle + \langle v, e_k \rangle|^2 \right)^{1/2},
+\]
+and this is the $\ell^2$ norm of the sum of two sequences indexed by $k$, so by the triangle inequality this is boudned by 
+\[
+    \le \left(\sum_{k>N}|\langle v_n - v, e_k \rangle |^2\right)^{1/2} + \left(\sum_{k>N}|\langle v, e_k \rangle |^2\right)^{1/2}.
+\]
+The second term is at most $\frac{\eps}{2}$, and then the first term is bounded by Bessel's inequality by $||v_n - v||$. Since we chose $N$ large enough so that that norm is less than $\frac{\eps}{2}$, we indeed have that this is bounded by 
+\[
+    < \frac{\eps}{2} + \frac{\eps}{2} = \eps,
+\]
+as desired.
+\end{proof}
+
+Next time, we'll prove that if we have a subset of a separable Hilbert space which is closed, bounded, and has equi-small tails with respect to an orthonormal basis (which we know exists), then we have compactness, and then we'll rephrase that fact in a way that doesn't involve Hilbert spaces and go from there.

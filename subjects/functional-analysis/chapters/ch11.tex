@@ -1,0 +1,135 @@
+\originalchapter{谱与紧自伴算子}\label{ch:spectrum}
+\originalsection{预解式与谱}
+本章在非零复 Hilbert 空间 $H$ 上讨论谱. 实空间上的自伴结论可通过复化理解; 特征值与特征向量的主要论证同样适用于实空间. 无限维的不可逆性不只来自核, 还可能来自非满射或不闭的值域.
+
+\begin{theorem}[Neumann 级数]\label{thm:neumann}
+若 $A\in\B(H)$ 且 $\norm{A}<1$, 则 $I-A$ 可逆, 其有界逆为 $\sum_{n=0}^\infty A^n$, 范数不超过 $1/(1-\norm{A})$. 可逆算子集合在算子范数下开.
+\end{theorem}
+\begin{proof}
+因为 $\norm{A^n}\le\norm{A}^n$, 该级数在 Banach 空间 $\B(H)$ 中绝对收敛. 部分和 $S_N$ 满足 $(I-A)S_N=S_N(I-A)=I-A^{N+1}$. 乘法连续且余项范数趋于零, 取极限得到双侧逆. 几何级数给出范数估计.
+
+若 $T$ 可逆, 且 $\norm{T^{-1}E}<1$, 则 $T+E=T(I+T^{-1}E)$ 可逆. 特别地 $\norm{E}<1/\norm{T^{-1}}$ 足够, 所以可逆集合开.
+\end{proof}
+
+\begin{definition}
+预解集为 $\rho(T)=\{\lambda\in\C:T-\lambda I\text{ 有有界双侧逆}\}$, 谱为 $\sigma(T)=\C\setminus\rho(T)$. 预解式取 $R(\lambda)=(T-\lambda I)^{-1}$. 若 $(T-\lambda I)x=0$ 有非零解, 则 $\lambda$ 称特征值, 此时必属于谱.
+\end{definition}
+有界逆定理保证这里的有界算子双射已经具有有界逆. 但单射不足以推出可逆.
+
+\begin{proposition}\label{prop:spectrumcompact}
+$\sigma(T)$ 闭且包含于 $\{\lambda:|\lambda|\le\norm{T}\}$. 在预解集上 $R$ 范数连续, 且有预解式恒等式
+\[
+R(\lambda)-R(\mu)=(\lambda-\mu)R(\lambda)R(\mu).
+\]
+\end{proposition}
+\begin{proof}
+可逆集合开, 而 $\lambda\mapsto T-\lambda I$ 范数连续, 所以预解集开, 谱闭. 若 $|\lambda|>\norm{T}$, 则 $T-\lambda I=-\lambda(I-T/\lambda)$ 由 Neumann 级数可逆. 两个逆的差等于
+$R(\lambda)[(T-\mu I)-(T-\lambda I)]R(\mu)$, 即恒等式. 对固定 $\lambda_0$, 分解
+$T-\lambda I=(T-\lambda_0I)(I-(\lambda-\lambda_0)R(\lambda_0))$,
+Neumann 级数说明逆在 $\lambda_0$ 附近连续, 并给出局部幂级数.
+\end{proof}
+
+\begin{remark}
+下面的可选说明额外调用复分析的 Liouville 定理, 证明一般复有界算子的谱非空: 若谱空, 则对每个 $x,y$, $\ip{R(\lambda)x}{y}$ 由局部幂级数为整函数. 对 $|\lambda|>\norm{T}$, Neumann 界给出 $\norm{R(\lambda)}\le1/(|\lambda|-\norm{T})$, 所以这些整函数在无穷远趋于零, 在有限闭圆盘上由连续性有界. Liouville 说明它们恒为零, 将推出每个 $R(\lambda)=0$, 与其为逆矛盾. 此一般非空性说明调用了明确的复分析定理, 本册不重复证明 Cauchy 积分公式和 Liouville. 下文自伴谱的非空性另有完整的实估计证明, 不依赖这条调用.
+\end{remark}
+
+\begin{example}
+在 $\ell^2$ 上令 $Dx=(x_j/j)$. 求谱并说明零为什么不是特征值. 在 $L^2([0,1])$ 上令 $Mf(x)=xf(x)$, 求谱和特征值.
+\end{example}
+\begin{solution}
+$D$ 的每个 $1/j$ 是特征值. 零在谱中, 因 $De_j=e_j/j\to0$, 若存在有界逆则 $1=\norm{e_j}\le\norm{D^{-1}}/j$, 矛盾; 但 $Dx=0$ 只可能 $x=0$. 若 $\lambda\notin\{0,1,1/2,\ldots\}$, 它与这个闭集距离正, 对角逆 $(D-\lambda I)^{-1}x=(x_j/(1/j-\lambda))$ 有界, 故谱恰为上述集合.
+
+若 $\lambda\notin[0,1]$, 则 $1/(x-\lambda)$ 有界, 给出 $M-\lambda I$ 的逆. 若 $\lambda\in[0,1]$, 取区间 $I_n=[0,1]\cap(\lambda-1/n,\lambda+1/n)$, 以 $f_n=\ind_{I_n}/\sqrt{|I_n|}$ 归一化, 得 $\norm{f_n}_2=1$, $\norm{(M-\lambda I)f_n}_2\le1/n$, 否定有界逆. 所以谱为 $[0,1]$. 但 $(x-\lambda)f(x)=0$ 只允许 $f$ 在单点上可能非零, 在 $L^2$ 中即为零, 因而没有特征值.
+\end{solution}
+
+\originalsection{自伴谱的端点}
+\begin{lemma}\label{lem:selfnorm}
+若 $A=A^*$, 则 $\ip{Ax}{x}$ 实, 且 $\norm{A}=\sup_{\norm{x}=1}|\ip{Ax}{x}|$.
+\end{lemma}
+\begin{proof}
+共轭对称与自伴性给出 $\overline{\ip{Ax}{x}}=\ip{x}{Ax}=\ip{Ax}{x}$. 记右端为 $a$, Cauchy--Schwarz 给出 $a\le\norm{A}$. 对单位 $x$ 若 $Ax\ne0$, 取单位 $y=Ax/\norm{Ax}$. 则 $\ip{Ax}{y}=\norm{Ax}$ 为实数. 自伴性和展开给出
+\[
+\norm{Ax}=\tfrac14\{\ip{A(x+y)}{x+y}-\ip{A(x-y)}{x-y}\}
+\le\tfrac a4(\norm{x+y}^2+\norm{x-y}^2)=a.
+\]
+最后用平行四边形及两个单位向量. $Ax=0$ 时也有此界, 对所有单位 $x$ 取上确界得到反向不等式.
+\end{proof}
+
+\begin{theorem}\label{thm:selfspec}
+设 $A=A^*$, $a=\inf_{\norm{x}=1}\ip{Ax}{x}$, $b=\sup_{\norm{x}=1}\ip{Ax}{x}$. 则 $\sigma(A)\subset[a,b]\subset[-\norm{A},\norm{A}]$, 且 $a,b\in\sigma(A)$. 特别地自伴谱非空, $\norm{A}=\max_{\lambda\in\sigma(A)}|\lambda|$.
+\end{theorem}
+\begin{proof}
+若 $\lambda=s+\ii t$, $t\ne0$, 则
+$|t|\norm{x}^2=|\operatorname{Im}\ip{(A-\lambda I)x}{x}|\le\norm{(A-\lambda I)x}\norm{x}$.
+所以 $A-\lambda I$ 有下界 $|t|$, 单射且值域闭; 后一个结论由输入序列的 Cauchy 估计与完备性得到. 其伴随 $A-\overline\lambda I$ 也单射, 因而值域的正交补为零. 值域同时闭且稠密, 就是整个空间, 所以 $\lambda\in\rho(A)$.
+
+若实 $\lambda>b$, 则 $|\ip{(A-\lambda I)x}{x}|\ge(\lambda-b)\norm{x}^2$, 同样给出下界. 自伴性使伴随也单射, 因而满射. $\lambda<a$ 同理. 这说明谱包含于 $[a,b]$.
+
+为证明端点在谱中, 令 $c=(a+b)/2$, $B=A-cI$, $r=(b-a)/2$. 引理\ref{lem:selfnorm}给出 $\norm{B}=r$. 若 $r=0$, 则 $B=0$, $A=cI$, 所以 $a=b=c$ 是特征值. 若 $r>0$, 选单位 $x_n$ 使 $\ip{Bx_n}{x_n}\to r$. 则关键估计为
+\[
+\norm{(B-rI)x_n}^2
+=\norm{Bx_n}^2-2r\ip{Bx_n}{x_n}+r^2
+\le2r(r-\ip{Bx_n}{x_n})\to0.
+\]
+若 $A-bI=B-rI$ 有有界逆, 将得 $1\le\norm{(A-bI)^{-1}}\norm{(A-bI)x_n}\to0$, 矛盾. 所以 $b\in\sigma(A)$. 对下端选 $\ip{Bx_n}{x_n}\to-r$, 使用 $B+rI$ 的同样估计, 得 $a\in\sigma(A)$. 上述范数估计补齐了原稿从二次型趋于零直接跳到向量范数趋于零的缺口. 最后 $\norm{A}=\max(|a|,|b|)$, 由端点在谱中得到谱范数公式.
+\end{proof}
+
+\originalsection{Fredholm 相容条件}
+\begin{theorem}\label{thm:compact-eigen}
+设 $A$ 紧且自伴. 非零特征值为实数, 其特征空间 $E_\lambda=\ker(A-\lambda I)$ 有限维. 不同特征值的特征空间正交. 对每个 $\eps>0$, 绝对值至少为 $\eps$ 的特征值只有有限个, 包括各自的有限重数.
+\end{theorem}
+\begin{proof}
+单位特征向量 $x$ 满足 $\lambda=\ip{Ax}{x}$, 所以 $\lambda$ 实. 若 $E_\lambda$ 无限维, 可取无限正交归一系 $(x_n)$ 于其中; 像 $Ax_n=\lambda x_n$ 的不同项距离为 $\sqrt2|\lambda|>0$, 没有收敛子列, 违反紧性. 若 $x\in E_\lambda,y\in E_\mu$, 则
+$\lambda\ip{x}{y}=\ip{Ax}{y}=\ip{x}{Ay}=\mu\ip{x}{y}$, 不同实特征值迫使正交.
+
+如果绝对值至少为 $\eps$ 的特征空间合计无限维, 可从这些两两正交空间中选无限正交归一特征向量 $x_n$, 对应 $|\lambda_n|\ge\eps$. 不同像的距离平方为 $|\lambda_n|^2+|\lambda_m|^2\ge2\eps^2$, 再次违反紧性. 所以每个这样的区域只有有限个重数. 取 $\eps=1/k$ 后并集至多可数, 非零特征值若按重数无限列出, 必趋于零.
+\end{proof}
+
+\begin{theorem}[自伴 Fredholm 选择定理]\label{thm:fredholm}
+若 $A$ 紧且自伴, $\lambda\in\R\setminus\{0\}$, 则 $\ran(A-\lambda I)$ 闭, 且等于 $E_\lambda^\perp$. 因而方程 $(A-\lambda I)x=f$ 可解当且仅当 $f\perp E_\lambda$; 在 $E_\lambda^\perp$ 内解唯一且连续依赖 $f$. 若 $E_\lambda=\{0\}$, 则 $A-\lambda I$ 可逆. 所以每个非零谱点都是特征值.
+\end{theorem}
+\begin{proof}
+记 $B=A-\lambda I$, $M=(\ker B)^\perp$. 先证明 $B$ 在 $M$ 上有正下界. 若无, 可取 $x_n\in M$, $\norm{x_n}=1$, $Bx_n\to0$. 紧性给出子列 $Ax_{n_k}\to y$. 由 $x_{n_k}=(Ax_{n_k}-Bx_{n_k})/\lambda$ 得 $x_{n_k}\to x=y/\lambda$. 闭性使 $x\in M$, 连续性使 $Bx=0$, 同时 $\norm{x}=1$. 这与 $M\cap\ker B=\{0\}$ 矛盾. 因而存在 $c>0$ 使 $\norm{Bx}\ge c\norm{x}$ 对 $x\in M$ 成立.
+
+任意 $Bz_n\to f$, 将 $z_n$ 分解为核分量加 $x_n\in M$, 则 $Bz_n=Bx_n$. 下界说明 $(x_n)$ 为 Cauchy, $M$ 完备给出 $x_n\to x\in M$, 从而 $Bx=f$. 值域闭. 自伴性和伴随值域公式给出 $\ran B=(\ker B)^\perp=M$. 下界给出逆在此子空间上的范数界 $1/c$, 核与 $M$ 无交给出唯一性. 若核零, 值域就是全空间, 所以可逆. 非实谱点已经由自伴谱定理排除, 得最后结论.
+\end{proof}
+
+\originalsection{谱分解与函数演算}
+\begin{theorem}[紧自伴谱定理]\label{thm:spectral}
+设 $A$ 为可分 Hilbert 空间上的紧自伴算子. 存在有限或可数正交归一特征向量 $(u_j)$, 对应所有非零特征值按重数列出的 $(\lambda_j)$, 可使 $|\lambda_1|\ge|\lambda_2|\ge\cdots$. 则
+\[
+H=\ker A\oplus\overline{\Span\{u_j\}},\qquad
+Ax=\sum_j\lambda_j\ip{x}{u_j}u_j.
+\]
+非零特征值无限时 $\lambda_j\to0$, 且有限部分和算子按算子范数趋于 $A$. 在核中补上一组正交归一基, 得到全空间由特征向量组成的基.
+\end{theorem}
+\begin{proof}
+若 $A=0$, 只需核中的基. 若 $A\ne0$, 自伴谱的范数端点至少有一个非零, 由 Fredholm 选择定理是特征值; 可取单位特征向量 $u_1$, 满足 $|\lambda_1|=\norm{A}$. $u_1^\perp$ 对 $A$ 不变, 因 $\ip{Ax}{u_1}=\ip{x}{Au_1}=\lambda_1\ip{x}{u_1}$. 在此闭子空间上限制算子仍紧、自伴. 若限制非零, 重复选择范数大小的特征值与单位特征向量; 若限制为零, 过程终止.
+
+第 $N$ 步之后的余算子
+$A_N=A-\sum_{j=1}^N\lambda_j\ip{\cdot}{u_j}u_j$
+在已选有限张成上为零, 在其正交补上等于 $A$. 下一步选择给出 $\norm{A_N}=|\lambda_{N+1}|$, 所以绝对值递减. 如果无限进行, 定理\ref{thm:compact-eigen}说明这些按重数选出的值趋于零. 因而 $\norm{A_N}\to0$, 得算子范数级数展开. 若有限终止, 展开就是有限恒等式.
+
+令 $M=\overline{\Span\{u_j\}}$. 若 $x\perp M$, 所有展开系数为零, 因而 $Ax=0$. 若 $Ax=0$, 则 $0=\ip{Ax}{u_j}=\lambda_j\ip{x}{u_j}$, 非零 $\lambda_j$ 给出 $x\perp M$. 所以 $\ker A=M^\perp$, 得正交分解. 核是可分 Hilbert 空间的闭子空间, 也可分: 对环境中的可数稠密集投影到核, 得可数稠密集. 因而核有正交归一基, 与 $(u_j)$ 合并即得全空间基.
+\end{proof}
+同时有 $\overline{\ran A}=(\ker A)^\perp=M$. 一般不能去掉值域闭包: 对角算子 $x_j\mapsto x_j/j$ 的值域稠密却不闭. 谱分解的无限和在 $H$ 的范数中解释, 不把非闭值域本身当作完整的 Hilbert 空间.
+
+\begin{proposition}\label{prop:calculus}
+在上述谱基下, 给定谱上的有界函数 $\phi$, 可定义
+\[
+\phi(A)x=\phi(0)P_{\ker A}x+\sum_j\phi(\lambda_j)\ip{x}{u_j}u_j,
+\]
+当核为零时第一项省略, 只需给实际谱点定义 $\phi$. 该算子有界, 范数为 $\sup_{t\in\sigma(A)}|\phi(t)|$ 若 $\phi$ 连续. 它满足和、积及共轭函数对应和、积及伴随. 若 $A$ 非负, 则有非负自伴平方根 $A^{1/2}$, 它紧且 $(A^{1/2})^2=A$.
+\end{proposition}
+\begin{proof}
+在每个正交坐标上乘一个有界标量, Parseval 保证级数收敛并给出范数上界. 单位特征向量给出每个非零坐标的下界; 核非零时核中的单位向量给出零点下界. 若零只为谱的积聚点而非特征值, 连续性使 $\phi(\lambda_j)\to\phi(0)$, 所以这些下界仍逼近零点值. 这说明连续函数情形的范数等式. 和、积、伴随逐坐标核对, 有界性允许把有限部分和的等式取极限.
+
+若 $\ip{Ax}{x}\ge0$, 单位特征向量给出 $\lambda_j>0$. 取 $\phi(t)=\sqrt t$ 于非负谱, 便得自伴非负算子, 逐坐标平方为 $A$. 特征值 $\sqrt{\lambda_j}\to0$ 时, 有限谱截断按算子范数逼近它; 有限情况直接有限秩. 因而平方根紧. 此为紧自伴情形所需的函数演算, 不在这里扩展到一般非紧自伴算子的谱测度理论.
+\end{proof}
+
+\begin{exercise}
+给定紧自伴 $A$, 说明方程 $(I-A)x=f$ 在1为特征值及不为特征值时的可解性, 并给出相容时的解公式.
+\end{exercise}
+\begin{solution}
+若1不是特征值, Fredholm 定理保证唯一解. 若1是特征值, 必须且只需 $f\perp E_1$. 谱分解中取 $x_0=P_{\ker A}f+\sum_{\lambda_j\ne1}\ip{f}{u_j}u_j/(1-\lambda_j)$. 非零特征值只能积聚于零, 所以排除等于1的有限重数后, 剩余 $|1-\lambda_j|$ 有正下界, 级数在 $H$ 中收敛. 每个坐标代入给出 $(I-A)x_0=f$. 全部解为 $x_0+z$, $z\in E_1$; 没有相容条件时不得把零分母项直接删去.
+\end{solution}

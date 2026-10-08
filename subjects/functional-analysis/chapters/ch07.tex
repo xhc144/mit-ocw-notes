@@ -1,0 +1,108 @@
+\originalchapter{投影、表示与伴随}\label{ch:adjoint}
+\originalsection{闭凸集的最短距离}
+有限维闭有界集紧, 因而连续函数常能取到最值. 无限维的闭球一般不紧, 最短距离问题需要其他结构. Hilbert 空间的平行四边形恒等式与凸性, 能直接把极小化序列变成 Cauchy 序列.
+
+\begin{theorem}[投影定理]\label{thm:projection}
+设 $C$ 为 Hilbert 空间 $H$ 的非空闭凸集. 对每个 $x\in H$, 存在唯一 $p\in C$ 使 $\norm{x-p}=\dist(x,C)$. 此点等价地由
+\[
+\operatorname{Re}\ip{x-p}{z-p}\le0\quad(z\in C)
+\]
+刻画.
+\end{theorem}
+\begin{proof}
+平移后可设 $x=0$. 令 $d=\inf_{z\in C}\norm{z}$, 选 $z_n\in C$ 使 $\norm{z_n}\to d$. 因中点仍在 $C$, 平行四边形恒等式给出
+\[
+\norm{z_n-z_m}^2
+=2\norm{z_n}^2+2\norm{z_m}^2-4\norm{(z_n+z_m)/2}^2
+\le2\norm{z_n}^2+2\norm{z_m}^2-4d^2\to0.
+\]
+所以 $(z_n)$ 为 Cauchy, 完备性给出极限 $p$, 闭性使 $p\in C$, 范数连续性使 $\norm{p}=d$. 若 $p,q$ 都取到最小范数, 同一不等式给出 $\norm{p-q}^2\le0$, 所以唯一.
+
+回到一般 $x$, 若 $p$ 最优, 对 $z\in C$ 与 $0<t\le1$, 点 $p+t(z-p)$ 在 $C$, 所以
+$0\le\norm{x-p-t(z-p)}^2-\norm{x-p}^2=-2t\operatorname{Re}\ip{x-p}{z-p}+t^2\norm{z-p}^2$.
+除以 $t$ 后令 $t\downarrow0$, 得刻画式. 反之, 刻画式代入 $\norm{x-z}^2=\norm{x-p}^2+\norm{z-p}^2-2\operatorname{Re}\ip{x-p}{z-p}$, 得 $p$ 最优, 且 $z\ne p$ 时严格增大.
+\end{proof}
+
+\begin{corollary}\label{cor:orthodecompose}
+若 $M$ 为 $H$ 的闭线性子空间, 则 $H=M\oplus M^\perp$, 其中 $M^\perp=\{y:\ip{y}{m}=0\text{ 对所有 }m\in M\}$. 分解 $x=P_Mx+(I-P_M)x$ 唯一; $P_M$ 线性, $P_M^2=P_M$, 且 $\norm{P_M}\le1$.
+\end{corollary}
+\begin{proof}
+$M^\perp$ 是线性子空间, 并是连续泛函 $y\mapsto\ip{y}{m}$ 的零集之交, 因而闭. 取 $p$ 为 $x$ 在 $M$ 上的最优点. 投影刻画中可代入 $z=p\pm m$, 得 $\operatorname{Re}\ip{x-p}{m}=0$. 复情形再代入 $p\pm\ii m$, 得虚部也为零. 所以 $x-p\in M^\perp$. $M\cap M^\perp=\{0\}$, 因为同一个向量与自身正交则为零, 因而分解唯一.
+
+两向量分解的线性组合仍为合法分解, 唯一性给出 $P_M$ 线性. 对 $m\in M$ 有 $P_Mm=m$, 故幂等. 正交性给出 $\norm{x}^2=\norm{P_Mx}^2+\norm{(I-P_M)x}^2$, 得范数界. 若 $M\ne\{0\}$, 在单位 $m\in M$ 上达到1.
+\end{proof}
+对不闭的子空间仍有 $M^\perp=(\overline M)^\perp$, 因内积连续. 用闭子空间分解可得 $(M^\perp)^\perp=\overline M$. 具体地, 将 $x$ 分解为 $m+n$ 于 $\overline M\oplus M^\perp$, 若 $x$ 与 $M^\perp$ 正交, 则 $0=\ip{x}{n}=\norm{n}^2$, 故 $x\in\overline M$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1,>=Latex]
+\draw[->](-.4,0)--(5,0) node[right]{$M$};
+\draw[->](0,-.3)--(0,2.8) node[above]{$M^\perp$};
+\draw[->,thick,structurecolor](0,0)--(3.6,2.1) node[above right]{$x$};
+\draw[->,thick](0,0)--(3.6,0) node[below]{$P_Mx$};
+\draw[dashed](3.6,0)--(3.6,2.1);
+\draw[->,thick](0,0)--(0,2.1) node[left]{$x-P_Mx$};
+\draw[dashed](0,2.1)--(3.6,2.1);
+\draw(3.35,0)--(3.35,.25)--(3.6,.25);
+\end{tikzpicture}
+\end{center}
+图中二维分解只表示正交关系. 一般子空间可以无限维, 投影定理不依赖把整个空间画成坐标平面.
+
+\originalsection{Riesz 表示}
+\begin{theorem}[Riesz 表示定理]\label{thm:riesz}
+对 Hilbert 空间 $H$ 的每个 $f\in H^*$, 存在唯一 $y\in H$ 使 $f(x)=\ip{x}{y}$ 对所有 $x$ 成立, 且 $\norm{f}=\norm{y}$. 在复情形, $y\mapsto f_y$ 是共轭线性等距双射.
+\end{theorem}
+\begin{proof}
+若 $f=0$, 取 $y=0$. 否则 $M=\ker f$ 为闭子空间, 取 $x_0$ 使 $f(x_0)=1$. 分解 $x_0=m+z$, 其中 $m\in M$, $z\in M^\perp$. 则 $f(z)=1$, 所以 $z\ne0$. 任意 $x$ 有 $x-f(x)z\in M$, 因而
+$\ip{x}{z}=\ip{x-f(x)z}{z}+f(x)\norm{z}^2=f(x)\norm{z}^2$.
+取 $y=z/\norm{z}^2$, 得表示. 若两个向量表示同一泛函, 它们之差与所有 $x$ 的内积为零; 取 $x$ 为此差, 得二者相等. Cauchy--Schwarz 给出范数上界, 在 $x=y/\norm{y}$ 上达到下界, 零 $y$ 单独成立. 第二变量共轭线性使 $f_{\alpha y}=\overline\alpha f_y$, 所以复情形不可把此对应写成普通线性映射.
+\end{proof}
+
+\begin{proposition}\label{prop:hilbert-reflexive}
+每个 Hilbert 空间自反.
+\end{proposition}
+\begin{proof}
+取 $\Phi\in H^{**}$. 复情形令 $g(y)=\overline{\Phi(f_y)}$, 实情形无须加共轭. 前述共轭线性对应使 $g$ 对 $y$ 线性, 且 $|g(y)|\le\norm{\Phi}\norm{y}$. 用 Riesz 表示得 $g(y)=\ip{y}{z}$ 对某个 $z$ 成立. 因而 $\Phi(f_y)=\ip{z}{y}=f_y(z)$. 所有 $f\in H^*$ 都有形式 $f_y$, 所以 $\Phi=J_Hz$, 典范映射满射.
+\end{proof}
+
+\originalsection{伴随与方程的可解性}
+\begin{theorem}\label{thm:adjoint}
+设 $H_1,H_2$ 为 Hilbert 空间, $T\in\B(H_1,H_2)$. 存在唯一 $T^*\in\B(H_2,H_1)$ 满足 $\ip{Tx}{y}=\ip{x}{T^*y}$, 且 $\norm{T^*}=\norm{T}$.
+\end{theorem}
+\begin{proof}
+固定 $y\in H_2$, 函数 $x\mapsto\ip{Tx}{y}$ 线性且绝对值不超过 $\norm{T}\norm{x}\norm{y}$. Riesz 表示给出唯一向量 $T^*y$, 且 $\norm{T^*y}\le\norm{T}\norm{y}$. 比较 $\ip{x}{T^*(\alpha y+\beta z)}$ 与 $\ip{x}{\alpha T^*y+\beta T^*z}$, 用第二变量的共轭线性及表示的唯一性, 得 $T^*$ 线性. 所以已证明 $\norm{T^*}\le\norm{T}$.
+
+共轭内积等式给出 $(T^*)^*=T$, 再用同一范数上界得反向比较. 唯一性来自若所有 $\ip{x}{(S-T^*)y}=0$, 则取 $x=(S-T^*)y$ 得 $Sy=T^*y$.
+\end{proof}
+从定义逐项核对可得 $(S+T)^*=S^*+T^*$, $(\alpha T)^*=\overline\alpha T^*$, $(ST)^*=T^*S^*$, $\norm{T^*T}=\norm{T}^2$. 最后一式的上界来自复合估计, 下界来自 $\norm{Tx}^2=\ip{T^*Tx}{x}\le\norm{T^*T}\norm{x}^2$. 算子称自伴, 指 $T=T^*$; 称酉, 指 $T^*T=TT^*=I$. 酉算子保持内积且满射, 反之满射的线性内积等距映射也是酉算子.
+
+\begin{theorem}\label{thm:rangeperp}
+有界算子满足 $(\ran T)^\perp=\ker T^*$, 从而 $\overline{\ran T}=(\ker T^*)^\perp$. 若值域闭, 则 $Tx=y$ 可解当且仅当 $y\perp\ker T^*$; 所有解之差属于 $\ker T$.
+\end{theorem}
+\begin{proof}
+$y\in(\ran T)^\perp$ 当且仅当对每个 $x$ 有 $\ip{Tx}{y}=0$, 由伴随等式等价于对每个 $x$ 有 $\ip{x}{T^*y}=0$, 即 $T^*y=0$. 对等式再取正交补, 并使用双正交补等于闭包, 得第二式. 值域闭时闭包可删去, 正好给出方程的相容条件. 若 $Tx_1=Tx_2$, 则 $x_1-x_2\in\ker T$, 反之给任意解加核向量仍是解.
+\end{proof}
+
+\begin{example}
+在 $\ell^2$ 上令右移 $S(a_1,a_2,\ldots)=(0,a_1,a_2,\ldots)$. 求伴随, 并判断它是否酉.
+\end{example}
+\begin{solution}
+直接配对得 $\ip{Sa}{b}=\sum_{j\ge1}a_j\overline{b_{j+1}}$, 所以 $S^*b=(b_2,b_3,\ldots)$. 有 $S^*S=I$, 但 $SS^*b=b-b_1e_1$, 因而 $S$ 是等距嵌入却非满射, 不是酉算子. $\ker S^*=\K e_1$, 其正交补为首坐标为零的数列, 正好是 $S$ 的闭值域.
+\end{solution}
+
+\begin{exercise}
+设 $P$ 为有界幂等算子. 证明它是某闭子空间上的正交投影, 当且仅当 $P=P^*$.
+\end{exercise}
+\begin{solution}
+若 $P$ 为正交投影, 用两向量的正交分解得 $\ip{Px}{y}=\ip{Px}{Py}=\ip{x}{Py}$, 所以自伴. 反之, 幂等给出 $\ran P=\ker(I-P)$ 闭, 及 $x=Px+(I-P)x$. 若自伴, $\ip{Px}{(I-P)y}=\ip{x}{P(I-P)y}=0$, 所以这就是正交分解, $P$ 为对应正交投影.
+\end{solution}
+
+\begin{exercise}
+连续核 $k$ 在 $L^2([0,1])$ 上给出积分算子 $Tf(x)=\int_0^1k(x,y)f(y)\dd y$. 求 $T^*$.
+\end{exercise}
+\begin{solution}
+Cauchy--Schwarz 给出 $\norm{Tf}_2\le\norm{k}_{L^2([0,1]^2)}\norm{f}_2$. 对 $f,g\in L^2$, 双积分绝对值受 $\norm{k}_\infty\norm{f}_1\norm{g}_1$ 控制, 且有限区间的 Hölder 保证这两个 $L^1$ 范数有限. 因此 Fubini 合法, 得
+\[
+\ip{Tf}{g}=\int_0^1 f(y)\overline{\left(\int_0^1\overline{k(x,y)}g(x)\dd x\right)}\dd y.
+\]
+所以 $T^*g(y)=\int_0^1\overline{k(x,y)}g(x)\dd x$. 若 $k(x,y)=\overline{k(y,x)}$, 算子自伴.
+\end{solution}

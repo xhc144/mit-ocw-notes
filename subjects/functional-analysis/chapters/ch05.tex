@@ -1,0 +1,126 @@
+\originalchapter{积分与函数空间}\label{ch:measure}
+\originalsection{测度与几乎处处}
+积分范数能容纳不连续函数, 并把函数列的极限保存在空间内. 本章采用已经构造好的 Lebesgue 测度, 只建立后续泛函分析需要的积分工具. 原第6--12讲从外测度构造测度的详细过程, 是本册明确交由实变科处理的部分.
+
+\begin{definition}
+集合 $S$ 上的 $\sigma$ 代数 $\mathcal A$ 包含 $S$, 对补集及可数并封闭. 测度 $\mu:\mathcal A\to[0,\infty]$ 满足 $\mu(\varnothing)=0$, 且对两两不交的可测集 $E_n$ 有 $\mu(\bigcup_nE_n)=\sum_n\mu(E_n)$. $(S,\mathcal A,\mu)$ 称测度空间.
+\end{definition}
+若每个零测集的任意子集也可测, 则称测度完备. 本章的积分与 $L^p$ 定理适用于一般测度空间, 但其中所有被积分的函数均须可测; 不能在非完备测度空间里把任意零测集上的任意改值自动视作可测函数. 后续使用的 Lebesgue 测度是完备的.
+Lebesgue 外测度在 $\R$ 上由
+$m^*(E)=\inf\{\sum_n|I_n|:E\subset\bigcup_n I_n,\ I_n\text{为开区间}\}$ 定义. 满足 $m^*(A)=m^*(A\cap E)+m^*(A\setminus E)$ 对所有 $A\subset\R$ 成立的 $E$ 称 Lebesgue 可测集. 这些集合构成 $\sigma$ 代数, $m=m^*|_{\mathcal A}$ 为完备、平移不变的测度, 区间的测度等于长度. 这些构造事实在此作为测度先修使用, 不把定义当作它们的证明.
+
+\begin{definition}
+若某性质只在一个零测集上可能不成立, 则称该性质几乎处处成立. 实值函数 $f$ 可测, 指每个 $\{x:f(x)>t\}$ 可测; 复函数可测, 指实部和虚部都可测. 允许非负函数取值 $+\infty$.
+\end{definition}
+有限实值或复值可测函数的和、积、绝对值仍可测, 逐点极限在存在处也可测. 例如 $\{\sup_nf_n>t\}=\bigcup_n\{f_n>t\}$, 可数上下确界由补集与并得到. 函数加法可由 $\{f+g>t\}=\bigcup_{r\in\Q}\{f>r\}\cap\{g>t-r\}$ 验证; 连续实函数作用于可测函数仍可测, 从而得到积及绝对值. 扩展实值的非负函数可作非负加法, 但不作 $\infty-\infty$ 这样的未定义运算. 几乎处处相等是等价关系, 因为可数个零测集的并仍零测.
+
+\begin{definition}
+非负简单函数是只取有限个非负值的可测函数, 可写成 $s=\sum_{j=1}^Na_j\ind_{E_j}$, 各 $E_j$ 不交. 定义 $\int s\dd\mu=\sum_ja_j\mu(E_j)$, 采用 $0\cdot\infty=0$. 对非负可测 $f$, 定义 $\int f\dd\mu=\sup_{0\le s\le f}\int s\dd\mu$, 上确界遍历非负简单函数.
+\end{definition}
+把两个简单函数的分割共同细化, 可核对其积分的良定义、有限加法和单调性. 对一般非负函数, 上述定义立即给出积分的单调性. 每个非负可测函数可由递增简单函数逼近: 将 $\min(f,n)$ 的值按长度 $2^{-n}$ 向下取整, 得到 $s_n=2^{-n}\lfloor2^n\min(f,n)\rfloor$, 满足 $s_n\uparrow f$.
+
+\originalsection{积分的收敛定理}
+\begin{theorem}[单调收敛]\label{thm:mct}
+若 $f_n,f$ 都为非负可测函数, 且 $f_n\uparrow f$ 几乎处处, 则 $\int f_n\dd\mu\uparrow\int f\dd\mu$.
+\end{theorem}
+\begin{proof}
+在一个包含全部例外的可测零测集 $N$ 上把所有函数改为零, 使单调关系处处成立. 这样改值保持可测性, 且不改变积分: 简单函数在 $N$ 上的积分为零, 再用上确界定义. 令 $L=\lim_n\int f_n$, 单调性给出 $L\le\int f$. 固定非负简单函数 $s\le f$ 和 $0<c<1$, 设 $A_n=\{f_n\ge cs\}$. 在 $s>0$ 的每一点, 因 $f_n\to f\ge s>cs$, 该点最终属于 $A_n$; $s=0$ 的点也属于. 所以 $A_n\uparrow S$.
+
+测度从下连续: 若 $E_n\uparrow E$, 把 $E$ 分解为 $E_1$ 及 $E_n\setminus E_{n-1}$ 的不交并, 可数可加性得 $\mu(E_n)\uparrow\mu(E)$. 对 $s$ 的有限个值域集应用此性质, 得 $\int s\ind_{A_n}\uparrow\int s$. 因 $f_n\ge cs\ind_{A_n}$, 有 $L\ge c\int s$. 若 $\int s=\infty$ 则 $L=\infty$; 否则令 $c\uparrow1$. 再对 $s$ 取上确界, 得 $L\ge\int f$.
+\end{proof}
+由简单函数递增逼近和单调收敛, 对非负 $f,g$ 有 $\int(f+g)=\int f+\int g$, 因为可对两组简单逼近之和取极限. 同样有非负齐次性. 对级数部分和应用单调收敛, 得 $\int\sum_nf_n=\sum_n\int f_n$; 此处非负性允许两边为无穷大.
+
+\begin{theorem}[Fatou 引理]\label{thm:fatou}
+若 $f_n\ge0$ 可测, 则 $\int\liminf_nf_n\le\liminf_n\int f_n$.
+\end{theorem}
+\begin{proof}
+令 $g_k=\inf_{n\ge k}f_n$, 则 $g_k\uparrow\liminf_nf_n$. 对每个 $n\ge k$, 单调性给出 $\int g_k\le\int f_n$, 故 $\int g_k\le\inf_{n\ge k}\int f_n$. 令 $k\to\infty$, 左边用单调收敛, 右边按下极限定义收敛, 即得结论.
+\end{proof}
+
+\begin{definition}
+若 $\int|f|\dd\mu<\infty$, 则实或复可测函数 $f$ 可积. 实函数的正、负部分为 $f^+=\max(f,0)$、$f^-=\max(-f,0)$, 以 $f=f^+-f^-$ 定义积分; 复函数分别积分实部与虚部. 两部分都有限, 所以不出现 $\infty-\infty$. 积分线性, 且 $|\int f|\le\int|f|$.
+\end{definition}
+实线性可由非负加法及正负部分的分解核对. 对复三角不等式, 若积分非零, 选 $|\alpha|=1$ 使 $\alpha\int f=|\int f|$, 则 $|\int f|=\int\operatorname{Re}(\alpha f)\le\int|f|$.
+
+\begin{theorem}[控制收敛]\label{thm:dct}
+若 $f_n,f$ 都可测, $f_n\to f$ 几乎处处, 且对同一个非负可积 $g$ 有 $|f_n|\le g$ 几乎处处, 则 $f$ 可积, $\int|f_n-f|\to0$, 因而 $\int f_n\to\int f$.
+\end{theorem}
+\begin{proof}
+把所有控制与收敛关系的例外取可数并, 在这个可测零测集上把 $f_n,f,g$ 同时置零, 不改变积分. 此后取极限得 $|f|\le g$, 所以 $f$ 可积. 非负函数 $2g-|f_n-f|$ 由 Fatou 引理满足
+\[
+2\int g\le\liminf_n\int(2g-|f_n-f|)
+=2\int g-\limsup_n\int|f_n-f|.
+\]
+因为 $\int g$ 有限, 可相减, 得距离积分的上极限至多零. 每项非负, 所以该积分趋于零. 积分三角不等式给出最后结论.
+\end{proof}
+
+\begin{proposition}\label{prop:riemann-lebesgue}
+有限闭区间上的连续函数的 Lebesgue 积分等于其 Riemann 积分.
+\end{proposition}
+\begin{proof}
+先设 $f$ 为实值连续函数. 对分割 $a=x_0<\cdots<x_N=b$, 在每段取 $m_j=\min f$ 和 $M_j=\max f$, 得下、上简单函数 $s,t$, 满足 $s\le f\le t$. 端点的取值不影响积分, 因为有限集零测. 两个积分分别为 Darboux 下和 $\sum_jm_j(x_j-x_{j-1})$ 与上和 $\sum_jM_j(x_j-x_{j-1})$. 一致连续性保证分割网格足够小时每个 $M_j-m_j\le\varepsilon$, 所以上、下和之差至多 $\varepsilon(b-a)$. 这同时证明 Riemann 可积, 并把 Lebesgue 积分和 Riemann 积分夹在任意接近的同一上下界之间, 因而两者相等. 实函数有界, 正、负部分均可积; 复函数分别处理实部、虚部.
+
+特别地, 对 $\beta>0$, 令 $g_n(x)=x^{-\beta}\ind_{[1/n,1]}(x)$ 于 $(0,1)$. 它们递增趋于 $x^{-\beta}$. 单调收敛和上述连续函数结论给出 $\int_0^1x^{-\beta}\dd x=\lim_n\int_{1/n}^1x^{-\beta}\dd x$. 当 $\beta\ne1$, 截断积分为 $(1-n^{\beta-1})/(1-\beta)$; 当 $\beta=1$, 它为 $\log n$. 故极限有限当且仅当 $\beta<1$. 因此后文的幂函数分类使用的是已建立的积分衔接, 并未把不连续端点处的广义积分直接当作定义.
+\end{proof}
+
+\begin{remark}
+本书在核积分和 Fourier 平均中还使用 Tonelli--Fubini 定理作为测度先修: 对乘积 Lebesgue 测度, 非负可测函数可交换积分次序, 两边允许无穷大; 若 $\iint|h|<\infty$, 则复可测 $h$ 可交换次序, 各截面只需几乎处处可积. 不能只因每个截面看起来可积就交换. 后文每次交换均核对非负性或绝对可积性. 乘积测度的构造与此定理的完整证明留待实变科.
+\end{remark}
+
+\originalsection{范数、等价类与完备性}
+\begin{definition}
+对于 $1\le p<\infty$, $L^p(\mu)$ 由 $\int|f|^p<\infty$ 的可测函数按几乎处处相等取等价类组成, 范数为 $\norm{f}_p=(\int|f|^p)^{1/p}$. $L^\infty(\mu)$ 由本质有界函数的等价类组成, 范数为 $\norm{f}_\infty=\inf\{M\ge0:|f|\le M\text{ 几乎处处}\}$. 使用 $L^p(E)$ 时默认 Lebesgue 测度.
+\end{definition}
+该定义的运算与代表元无关, 因为两组代表元之差只在两个零测集的并上可能不为零. 若 $\int|f|^p=0$, 则每个集合 $\{|f|>1/n\}$ 测度为零, 因为积分至少是 $n^{-p}$ 倍该集合的测度; 它们的并覆盖 $f\ne0$ 的点. 所以范数为零恰好是零等价类. $L^\infty$ 的最小界也几乎处处成立, 可将界 $\norm{f}_\infty+1/n$ 的零测例外取可数并.
+
+\begin{theorem}\label{thm:holder-lp}
+若 $1/p+1/q=1$, $1\le p\le\infty$, 则 $\int|fg|\le\norm{f}_p\norm{g}_q$. 对 $1\le p\le\infty$, 有 $\norm{f+g}_p\le\norm{f}_p+\norm{g}_p$. 因而 $L^p$ 是赋范空间.
+\end{theorem}
+\begin{proof}
+当 $1<p<\infty$ 且范数非零, 将 $f,g$ 归一化后, 对 Young 不等式逐点积分, 得 Hölder. 当 $p=1$ 或 $q=1$, 用本质上界直接估计. 零范数意味着函数几乎处处为零, 单独成立.
+
+为证明 Minkowski, 先用 $|f+g|^p\le2^{p-1}(|f|^p+|g|^p)$ 知 $f+g\in L^p$. 这个逐点界来自实函数 $t^p$ 的凸性. 若 $s=\norm{f+g}_p>0$, 分别对 $|f|\,|f+g|^{p-1}$ 和 $|g|\,|f+g|^{p-1}$ 用 Hölder, 得 $s^p\le(\norm{f}_p+\norm{g}_p)s^{p-1}$, 除法即得结论. $s=0$ 时直接成立. 端点 $p=1,\infty$ 分别积分或取本质上界.
+\end{proof}
+
+\begin{theorem}[Riesz--Fischer]\label{thm:lpbanach}
+$L^p(\mu)$ 对每个 $1\le p\le\infty$ 都是 Banach 空间.
+\end{theorem}
+\begin{proof}
+先设 $p<\infty$. 根据绝对级数判别, 只需证明 $\sum_n\norm{f_n}_p<\infty$ 时函数级数收敛于 $L^p$ 中某元素. 选各项代表元, 令 $g_N=\sum_{n=1}^N|f_n|$, $g=\sum_{n\ge1}|f_n|$. 由 Minkowski 有 $\norm{g_N}_p\le C=\sum_n\norm{f_n}_p$. 因 $g_N^p\uparrow g^p$, 单调收敛给出 $\int g^p\le C^p$. 所以 $g$ 几乎处处有限, $\sum_nf_n$ 几乎处处绝对收敛, 定义其和为 $f$, 并在零测例外上取零. 它可测, 且 $|f|\le g$, 故属于 $L^p$.
+
+同一论证用于尾部, 得
+\[
+\norm{f-\sum_{n=1}^N f_n}_p
+\le\norm{\sum_{n>N}|f_n|}_p
+\le\sum_{n>N}\norm{f_n}_p\to0.
+\]
+因此绝对级数收敛, 空间完备.
+
+对 $p=\infty$, 若 $(f_n)$ 为 Cauchy 序列, 给定任意两个指标, 其函数差的本质界在一个零测集外成立. 把所有指标对的例外取可数并, 再并上每个 $f_n$ 的本质界例外, 得共同零测集 $N$. 在 $S\setminus N$ 上, $(f_n)$ 为一致 Cauchy 的有界函数列, 因而一致收敛于有界函数 $f$. 在 $N$ 上令 $f=0$. 点态极限的可测性和一致差估计给出 $f\in L^\infty$, $\norm{f_n-f}_\infty\to0$.
+\end{proof}
+
+有可数稠密子集的度量空间称可分.
+\begin{proposition}\label{prop:lp-density}
+若 $[a,b]$ 为有限区间且 $1\le p<\infty$, 则端点为零的连续函数在 $L^p([a,b])$ 中稠密. 因而 $L^p([a,b])$ 可分.
+\end{proposition}
+\begin{proof}
+先截断可测 $f$ 的大小, 再将实、虚部的有限值域分割成小格, 得简单函数逼近. 截断误差由控制收敛作用于 $|f|^p\ind_{\{|f|>N\}}$ 而趋于零; 值域格化的误差至多是常数倍格长乘 $(b-a)^{1/p}$.
+
+这里采用 Lebesgue 测度的正则性作为构造先修: 有限区间内每个可测集都可由有限个区间的并在对称差测度上任意逼近. 于是可将简单函数中每个 $\ind_E$ 换成有限区间并的示性函数, $L^p$ 误差为对称差测度的 $1/p$ 次方. 对简单函数的有限和, Minkowski 给出 $\norm{\sum_jc_j(\ind_{E_j}-\ind_{U_j})}_p\le\sum_j|c_j|\mu(E_j\mathbin{\triangle}U_j)^{1/p}$, 因而可给每一项分别分配误差. 再把每个区间端点附近的跳跃改成宽度 $\delta$ 的线性过渡, 并在 $a,b$ 附近使函数降到零. 改动只发生在总长度趋于零的有限个小区间, 函数大小受固定常数 $C$ 控制, 误差不超过 $C$ 乘改动区域总长度的 $1/p$ 次方, 所以 $L^p$ 误差趋于零. 这给出稠密性.
+
+固定 $a,b$ 和两个零端点值, 在内部支撑端点、折线节点和值上再取有理数 (复值取 $\Q+\ii\Q$), 可以任意逼近这些有限折线函数. 全部这样编码的函数构成可数集, 故得到可数稠密集. $p=\infty$ 不在本命题范围内: 跳跃函数不能被连续函数按本质上确界任意逼近.
+\end{proof}
+
+\begin{exercise}
+若 $\mu(S)<\infty$ 且 $1\le p<q\le\infty$, 证明 $\norm{f}_p\le\mu(S)^{1/p-1/q}\norm{f}_q$. 同时核对 $f(x)=x^{-\alpha}$ 在 $(0,1)$ 的 $L^p$ 条件.
+\end{exercise}
+\begin{solution}
+当 $q<\infty$, 对 $|f|^p$ 与1用共轭指数 $q/p$ 和 $q/(q-p)$ 的 Hölder, 得 $\int|f|^p\le(\int|f|^q)^{p/q}\mu(S)^{1-p/q}$. 取 $p$ 次根即得结论. 当 $q=\infty$, 逐点用本质界积分即可. 零测度时所有 $L^p$ 等价类均为零, 另行理解该结论. 对 $\alpha>0$, $\int_0^1x^{-\alpha p}\dd x$ 有限当且仅当 $\alpha p<1$, 所以它精确展示包含关系的方向.
+\end{solution}
+
+\begin{exercise}
+设 $f_n\to f$ 于 $L^p$, $1\le p<\infty$. 证明存在一个子列几乎处处趋于 $f$. 说明全列不必几乎处处收敛.
+\end{exercise}
+\begin{solution}
+选 $n_k$ 使 $\norm{f_{n_k}-f}_p^p\le2^{-k}$. 单调收敛给出 $\int\sum_k|f_{n_k}-f|^p\le1$, 故几乎处处该标量级数有限, 其项趋于零, 得所需子列. 对全列, 依次列出 $[0,1)$ 的每层二进区间示性函数: 第 $m$ 层的每项范数为 $2^{-m/p}\to0$. 每个 $x\in[0,1)$ 在每层有一项值为1, 而其他大量项为0, 因而全列在每点都不趋于零.
+\end{solution}

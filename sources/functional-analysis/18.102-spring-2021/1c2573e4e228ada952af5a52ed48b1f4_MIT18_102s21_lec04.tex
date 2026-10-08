@@ -1,0 +1,139 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{February 25, 2021}
+
+Last time, we proved the Uniform Boundedness Theorem from the Baire Category Theorem, and we'll continue to prove some ``theorems with names'' in functional analysis today.
+
+\begin{theorem}[Open Mapping Theorem]
+Let $B_1, B_2$ be two Banach spaces, and let $T \in \mc{B}(B_1, B_2)$ be a surjective linear operator. Then $T$ is an \vocab{open map}, meaning that for all open subsets $U \subset B_1$, $T(U)$ is open in $B_2$.
+\end{theorem}
+\begin{proof}
+We'll begin by proving a specialized result: we'll show that the image of the open ball $B_1(0, 1) = \{b \in B_1: ||b|| < 1\}$ contains an open ball in $B_2$ centered at $0$. (Then we'll use linearity to shift and scale these balls accordingly.)
+
+Because $T$ is surjective, everything in $B_2$ is mapped onto, meaning that 
+\[
+    B_2 = \bigcup_{n \in \NN} \overline{T(B(0, n))}
+\]  
+(because any element of $B_1$ is at a finite distance from $0$, it must be contained in one of the balls). Now we've written $B_2$ as a union of closed sets, so by Baire, there exists some $n_0 \in \NN$ such that $\overline{T(B(0, n_0))}$ contains an open ball. But $T$ is a linear operator, so this is the same set as $n_0 \overline{T(B(0, 1))}$ (we can check that closure respects scaling and so on). So we have an open ball inside $\overline{T(B(0, 1))}$ -- restated, there exists some point $v_0 \in B_2$ and some radius $r > 0$ such that $B(v_0, 4r)$ is contained in $\overline{T(B(0, 1))}$ (the choice of $4$ will make arithmetic easier later). 
+
+And we want a point that's actually in the image of $B(0, 1)$ (not just the closure), so we pick a point $v_1 = Tu_1 \in T(B(0, 1))$ such that $||v_0 - v_1|| < 2r$. (The idea here is that points in the closure of $T(B(0, 1))$ are arbitrarily close to points actually in $T(B(0, 1))$.) Now $B(v_1, 2r)$ is entirely contained in $B(v_0, 4r)$, which is contained in $\overline{T(B(0, 1)}$, and now we'll show that this closure contains an open ball \textbf{centered at 0} (which is pretty close to what we want). For any $||v|| < r$, we have
+\[
+    \frac{1}{2}(2v + v_1) \in \frac{1}{2}B(v_1, 2r) \subset \frac{1}{2}\overline{T}(B(0, 1)) = \overline{T(B(0, \tfrac{1}{2}))},
+\]
+and thus $v = -T\left(\frac{u_1}{2}\right) + \frac{1}{2}(2v + v_1)$ is an element of $-T\left(\frac{u_1}{2}\right) + \overline{T(B(0, \frac{1}{2}))}$ (this is not an equivalence class -- it's the set of elements $\overline{T(B(0, \frac{1}{2}))}$ all shifted by $-T\left(\frac{u_1}{2}\right)$), and now by linearity this means that our element $v$ must be in the set $\overline{T\left(-\frac{u_1}{2} + B\left(0, \tfrac{1}{2}\right)\right)}$. But we chose $u_1$ to have norm less than $1$, so $-\frac{u_1}{2}$ and any element of $B(0, \frac{1}{2})$ must both have norm at most $\frac{1}{2}$ (and their sum has norm at most $1$). Thus, this set must be contained in $\overline{T(B(0, 1))}$, and therefore the ball of radius $r$, $B(0, r)$ (in $B_2$) is contained in $\overline{T(B(0, 1))}$. 
+
+But by scaling, we find that $B(0, 2^{-n}r) = 2^{-n}B(0, r)$ is contained in $2^{-n} \overline{T(B(0, 1))} = \overline{T(B(0, 2^{-n}))}$ (repeatedly using homogeneity), and now we'll use that fact to prove that $B(0, \frac{r}{2})$ is contained in $T(B(0, 1))$ (finally removing the closure and proving the specialized result). To do that, take some $||v|| < \frac{r}{2}$; we know that (plugging in $n=1$) $v \in \overline{T(B(0, \frac{1}{2}))}$. So there exists some $b_1 \in B(0, \frac{1}{2})$ in $B_1$ such that $||v - Tb_1|| < \frac{r}{4}$ (this is the same idea as above that points in the closure are arbitrarily close to points in the actual set). Then taking $n = 2$, we know that $v - Tb_1 \in \overline{T(B(0, \frac{1}{4}))}$, so there is some $b_2 \in B(0, \frac{1}{4})$ such that $||v - Tb_1 - Tb_2|| < \frac{r}{8}$. Continue iterating this for larger and larger $n$, so that we have a sequence $\{b_k\}$ of elements in $B_1$ such that $||b_k|| < 2^{-k}$ and 
+\[
+    \left|\left|v - \sum_{k=1}^n Tb_k\right|\right| < 2^{-n-1}r.
+\]
+And now the series $\sum_{n=1}^{\infty} b_k$ is absolutely summable, and because $B_1$ is a Banach space, that means that the series is summable, and we have $b \in B_1$ such that $b = \sum_{k=1}^{\infty} b_k$. And 
+\[
+    ||b|| = \lim_{n \to \infty} \left|\left|\sum_{k=1}^n b_k\right|\right| \le \lim_{n \to \infty} \sum_{k=1}^n ||b_k||
+\]
+by the triangle inequality, and then we can bound this as 
+\[
+    = \sum_{k=1}^{\infty} ||b_k|| < \sum_{k=1}^{\infty} 2^{-k} = 1.
+\]
+Furthermore, because $T$ is a (bounded, thus) continuous operator, 
+\[
+    Tb = \lim_{n \to \infty} T\left(\sum_{k=1}^n b_k\right) = \lim_{n \to \infty} \sum_{k=1}^n Tb_k = v,
+\]
+because we chose our $b_k$ so that $||v - Tb_1 - Tb_2 - \cdots - Tb_k||$ converges to $0$. Therefore, since $b \in B(0, 1)$, $v \in T(B(0, 1))$, and that means the ball $B(0, \frac{r}{2})$ in $B_2$ is indeed contained in $T(B(0, 1))$.
+
+We've basically shown now that $0$ remains an interior point if it started as one, and now we'll finish with some translation arguments: if a set $U \subset B_1$ is open, and $b_2 = Tb_1$ is some arbitrary point in $T(U)$, then (by openness of $U$) there exists some $\eps > 0$ such that $b_1 + B(0, \eps) = B(b_1, \eps)$ is contained in $U$. Furthermore, by our work above, there exists some $\delta$ so that $B(0, \delta) \subset T(B(0, 1))$. So this means that 
+\[
+    B(b_2, \eps \delta) = b_2 + \eps B(0, \delta) \subset b_2 + \eps T(B(0, 1)) = T(b_1) + \eps T(B(0, 1)) = T(b_1 + B(0, \eps)).
+\]
+But $b_1 + B(0, \eps)$ is contained in $U$, so indeed we've found a ball around our arbitrary $b_2$ contained in $T(U)$, and this proves the desired result.
+\end{proof}
+
+\begin{corollary}\label{bijectivebounded}
+If $B_1, B_2$ are two Banach spaces, and $T \in \mc{B}(B_1, B_2)$ is a bijective map, then $T^{-1}$ is in $\mc{B}(B_2, B_1)$.
+\end{corollary}
+\begin{proof}
+We know that $T^{-1}$ is continuous if and only if for all open $U \subset B_1$, the inverse image of $U$ by $T^{-1}$ (which is $T(U)$) is open. And this is true by the Open Mapping Theorem.
+\end{proof}
+
+From the Open Mapping Theorem, we get this an almost topological result, which gives sufficient conditions for continuity of a linear operator. But first we need to state another result:
+
+\begin{proposition}
+If $B_1, B_2$ are Banach spaces, then $B_1 \times B_2$ (with operations done entry by entry) with norm 
+\[
+    ||(b_1, b_2)|| = ||b_1|| + ||b_2||
+\]  
+is a Banach space.
+\end{proposition}
+
+(This proof is left as an exercise: we just need to check all of the definitions, and a Cauchy sequence in $B_1 \times B_2$ will consist of a Cauchy sequence in each of the individual spaces $B_1$ and $B_2$. So it's kind of similar to proving completeness of $\RR^2$.)
+
+\begin{theorem}[Closed Graph Theorem]
+Let $B_1, B_2$ be two Banach spaces, and let $T: B_1 \to B_2$ be a (not necessarily bounded) linear operator. Then $T \in \mc{B}(B_1, B_2)$ if and only if the \vocab{graph} of $T$, defined as 
+\[
+    \Gamma(T) = \{(u, Tu): u \in B_1\},
+\]
+is closed in $B_1 \times B_2$.
+\end{theorem}
+
+This can sometimes be easier or more convenient to check than the boundedness criterion for continuity. And normally, proving continuity means that we need to show that for a sequence $\{u_n\}$ converging to $u$, $Tu_n$ converges and is also equal to $Tu$. But the Closed Graph Theorem eliminates one of the steps -- proving that the graph is closed means that given a sequence $u_n \to u$ \textbf{and} a sequence $Tu_n \to v$, we must show that $v = Tu$ (in other words, we just need to show that the convergence point is correct, without explicitly constructing one)!
+
+\begin{proof}
+For the forward direction, suppose that $T$ is a bounded linear operator (and thus continuous). Then if $(u_n, Tu_n)$ is a sequence in $\Gamma(T)$ with $u_n \to u$ and $Tu_n \to v$, we need to show that $(u, v)$ is in the graph. But 
+\[
+    v = \lim_{n \to \infty} Tu_n = T\left(\lim_{n \to \infty} u_n\right) = Tu,
+\]
+and thus $(u, v)$ is in the graph and we've proven closedness.
+
+For the other direction, consider the following commutative diagram:
+\begin{center}
+\begin{tikzcd}
+& \Gamma(T) \arrow[ld,swap, "\pi_1"] \arrow[rd, "\pi_2"] & \\ B_1 \arrow[rr, "T"] & & B_2
+\end{tikzcd}
+\end{center}
+
+Here, $\pi_1$ and $\pi_2$ are the projection maps from the graph down to $B_1$ and $B_2$ (meaning that $\pi_1(u, Tu) = u$ and $\pi_2(u, Tu) = Tu$). We want to construct a map $S: B_1 \to \Gamma(T)$ (so that $T = \pi_2 \circ S$), and we do so as follows. Since $\Gamma(T)$ is (by assumption) a closed subspace of $B_1 \times B_2$, which is a Banach space, $\Gamma(T)$ must be a Banach space as well. And now $\pi_1, \pi_2$ are continuous maps from the Banach space $\Gamma(T)$ to $B_1, B_2$ respectively, so $\pi_1$ is a bounded linear operator in $\mc{B}(\Gamma(T), B_1)$, and similarly $\pi_2 \in \mc{B}(\Gamma(T), B_2)$ (we can see this through the calculation $||\pi_2(u, v)|| = ||v|| \le ||u|| + ||v|| = ||(u, v)||$, for example). Furthermore, $\pi_1: \Gamma(T) \to B_1$ is actually \textbf{bijective} (because there is exactly one point in the graph for each $u$), so by \cref{bijectivebounded}, it has an inverse $S: B_1 \to \Gamma(T)$ which is a bounded linear operator.
+
+And now $T = \pi_2 \circ S$ is the composition of two bounded linear operators, so it is also a bounded linear operator.
+\end{proof}
+
+\begin{remark}
+The Open Mapping Theorem implies the Closed Graph Theorem, but we can also show the converse (so the two are logically equivalent).
+\end{remark}
+
+Each of the results so far has been trying to answer a question, and our next result, the \textbf{Hahn-Banach Theorem}, is asking whether the dual space of a general nontrivial normed space is trivial. (In other words, we want to know whether there are any normed spaces whose space of functionals $\mc{B}(V, \KK)$ only contains the zero function.) For example, we mentioned that for any finite $p \ge 1$, $\ell^p$ and $\ell^q$ are dual is $\frac{1}{p} + \frac{1}{q} = 1$, and it's also true that $(c_0)' = \ell^1$. So Hahn-Banach will tell us that the dual space has ``a lot of elements,'' but first we'll need an intermediate result from set theory:
+
+\begin{definition}
+A \vocab{partial order} on a set $E$ is a relation $\preceq$ on $E$ with the following properties:
+\begin{itemize}
+\item For all $e \in E$, $e \preceq e$.
+\item For all $e, f \in E$, if $e \preceq f$ and $f \preceq e$, then $e = f$.
+\item For all $e, f, g \in E$, if $e \preceq f$ and $f \preceq g$, then $e \preceq g$.
+\end{itemize}
+An \vocab{upper bound} of a set $D \subset E$ is an element $e \in E$ such that $d \preceq e$ for all $d \in D$, and a \vocab{maximal element} of $E$ is an element $e$ such that for any $f \in E$, $e \preceq f \implies e = f$ (\vocab{minimal element} is defined similarly).
+\end{definition}
+
+Notably, we do not need to have either $e \preceq f$ or $f \preceq e$ in a partial ordering, and a maximal element does not need to sit ``on top'' of everything else in $E$, because we can have other elements ``to the side:''
+
+\begin{example}
+If $S$ is a set, we can define a partial order on the powerset of $S$, in which $E \preceq F$ if $E$ is a subset of $F$. Then not all sets can be compared (specifically, it doesn't need to be true that either $E \preceq F$ or $F \preceq E$).
+\end{example}
+
+\begin{definition}
+Let $(E, \preceq)$ be a partially ordered set. Then a set $C \subset E$ is a \vocab{chain} if for all $e, f \in C$, we have either $e \preceq f$ or $f \preceq e$.
+\end{definition}
+
+(In other words, we can always compare all elements in a chain.)
+
+\begin{proposition}[Zorn's lemma]
+If every chain in a nonempty partially ordered set $E$ has an upper bound, then $E$ contains a maximal element.
+\end{proposition}
+
+We'll take this as an \textbf{axiom of set theory}, and we'll give an application of this next lecture. But we can use it to prove other things as well, like the \textbf{Axiom of Choice}.
+
+\begin{definition}
+Let $V$ be a vector space. A \vocab{Hamel basis} $H \subset V$ is a linearly independent set such that every element of $V$ is a finite linear combination of elements of $H$. 
+\end{definition}
+
+We know from linear algebra that we find a basis and calculate its cardinality to find the dimension for finite-dimensional vector spaces. (So a Hamel basis for $\RR^n$ can be the standard $n$ basis elements, and a Hamel basis for $\ell^1$ can be $(1, 0, 0, \cdots), (0, 1, 0, \cdots)$, and so on.) And next time, we'll use Zorn's lemma to talk more about these Hamel bases!

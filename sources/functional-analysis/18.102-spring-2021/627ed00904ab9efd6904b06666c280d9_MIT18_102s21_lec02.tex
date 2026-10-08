@@ -1,0 +1,270 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{February 18, 2021}
+
+We'll continue our discussion of Banach spaces today. If $V$ is a normed space, we can check that whether $V$ is Banach by taking a Cauchy sequence is seeing whether it converges in $V$. But there's an alternate way of thinking about this:
+
+\begin{definition}
+Let $\{v_n\}_{n=1}^{\infty}$ be a sequence of points in $V$. Then the series $\sum_{n} v_n$ is \vocab{summable} if $\left\{\sum_{n=1}^m v_n\right\}_{m=1}^{\infty}$ converges, and $\sum_n v_n$ is \vocab{absolutely summable} if $\left\{\sum_{n=1}^m ||v_n||\right\}_{m=1}^{\infty}$ converges.
+\end{definition}
+
+This is basically analogous to the definitions of convergence and absolute convergence for series for real numbers, and we have a similar result as well:
+
+\begin{proposition}
+If $\sum_n v_n$ is absolutely summable, then the sequence of partial sums $\left\{\sum_{n=1}^m v_n\right\}_{m=1}^{\infty}$ is Cauchy.
+\end{proposition}
+
+This proof is left to us as an exercise (it's the same proof as when $V = \RR$), and we should note that the theorem is that we have a Cauchy sequence, not necessarily that it is summable (like in the real-valued case). And that's because we need completeness, and that leads to our next result:
+
+\begin{theorem}\label{summabilitybanach}
+A normed vector space $V$ is a Banach space if and only if every absolutely summable series is summable.
+\end{theorem}
+
+This is sometimes an easier property to verify than going through the Cauchy business -- in particular, it'll be useful in integration theory later on.
+
+\begin{proof}
+We need to prove both directions. For the forward direction, suppose that $V$ is Banach. Then $V$ is complete, so any absolutely summable series is Cauchy and thus convergent in $V$ (that is, summable). 
+
+For the opposite direction, suppose that every absolutely summable series is summable. Then for any Cauchy sequence $\{v_n\}$, let's first show that we can find a convergent subsequence. (This will imply that the whole sequence converges by a triangle-inequality metric space argument.)
+
+To construct this subsequence, we basically ``speed up the Cauchy-ness of $\{v_n\}$.'' We know that for all $k \in \mathbb{N}$, there exists $N_k \in \mathbb{N}$ such that for all $n, m \ge N_k$, we have 
+\[
+    ||v_n - v_m|| < 2^{-k}.
+\]
+(We're choosing $2^{-k}$ because it's summable.) So now we define 
+\[
+    n_k = N_1 + \cdots + N_k,
+\]
+so $n_1 < n_2 < n_3 < \cdots$ is an increasing sequence of integers, and for all $k$, $n_k \ge N_k$. And now we claim that $\{v_{n_k}\}$ converge: after all, 
+\[
+    ||v_{n_{k+1}} - v_{n_k}|| < 2^{-k} 
+\]
+(because of how we choose $n_k$ and $n_{k+1}$),  and therefore the series
+\[
+    \sum_{k \in \NN} (v_{n_k+1} - v_{n_k})
+\]
+must be summable (it's absolutely summable because $\sum_{k \in \NN} 2^{-k} = 1$, and we assumed that all absolutely summable sequences are summable). Thus the sequence of partial sums 
+\[
+    \sum_{k=1}^m (v_{n_{k+1}} - v_{n_k}) = v_{n_{m+1}} - v_{n_1}
+\]
+converges in $V$, and adding $v_{n_1}$ to every term does not change convergence. Thus the sequence $\{v_{n_{m+1}}\}_{m=1}^{\infty}$ converges, and we've found our convergent subsequence (meaning that the whole sequence indeed converges). This proves that $V$ is Banach. 
+\end{proof}
+
+Now that we've appropriately characterized our vector spaces, we want to find the analog of \textbf{matrices} from linear algebra, which will lead us to \textbf{operators} and \textbf{functionals}. Here's a particular example to keep in mind (because it motivates a lot of the machinery that we'll be using):
+
+\begin{example}\label{firstlinop}
+Let $K: [0, 1] \times [0, 1] \to \mathbb{C}$ be a continuous function. Then for any function $f \in C([0, 1])$, we can define 
+\[
+    Tf(x) = \int_0^1 K(x, y) f(y) dy.
+\]
+The map $T$ is basically the inverse operators of differential operators, but we'll see that later on.
+\end{example}
+
+We can check that $Tf \in C([0, 1])$ (it's also continuous), and for any $\lambda_1, \lambda_2 \in \CC$ and $f_1, f_2 \in C([0, 1])$, we have 
+\[
+    T(\lambda_1 f_1 + \lambda_2 f_2) = \lambda_1 Tf_1 + \lambda_2 Tf_2
+\]
+(linearity). We've already proven that $C([0, 1])$ is a Banach space, so $T$ here is going to be an example of a linear operator. 
+
+\begin{definition}
+Let $V$ and $W$ be two vector spaces. A map $T: V \to W$ is \vocab{linear} if for all $\lambda_1, \lambda_2 \in \KK$ and $v_1, v_2 \in V$, 
+\[
+    T(\lambda_1v_1 + \lambda_2v_2) = \lambda_1 Tv_1 + \lambda_2 Tv_2.
+\]
+(We'll often use the phrase \vocab{linear operator} instead of ``linear map'' or ``linear transformation.'')
+\end{definition}
+
+We'll be particularly curious about linear operators that are continuous: recall that a map $T: V \to W$ (not necessarily linear) is continuous on $V$ if for all $v \in V$ and all sequences $\{v_n\}$ converging to $v$, we have $Tv_n \to Tv$. (Equivalently, we can use the topological notion of continuity and say that for all open sets $U \subset W$, the inverse image
+\[
+    T^{-1}(U) = \{v \in V: Tv \in U\}
+\]
+is open in $V$.) For linear maps, there's a way of characterizing whether a function is continuous on a normed space -- \textbf{in finite-dimensional vector spaces, all linear transformations are continuous}, but this is not always true when we have a map between two Banach spaces. 
+
+\begin{theorem}
+Let $V, W$ be two normed vector spaces. A linear operator $T: V \to W$ is continuous if and only if there exists $C > 0$ such that for all $v \in V$, $||Tv||_W \le C||v||_V$. 
+\end{theorem}
+
+In this case, we say that $T$ is a \vocab{bounded} linear operator, but \textbf{that doesn't mean the image of $T$ is bounded} -- the only such linear map is the zero map! Instead, we're saying that \textbf{bounded subsets of $V$ are always sent to bounded subsets of $W$}.
+
+\begin{proof}
+First, suppose that such a $C > 0$ exists (such that $||Tv||_W \le C||v||_V$ for all $v \in V$): we will prove continuity by showing that $Tv_n \to Tv$ for all $\{v_n\} \to v$. Start with a convergent subsequence $v_n \to v$: then 
+\[
+    ||Tv_n - Tv||_W = ||T(v_n - v)||_W
+\]
+(by linearity of $T$), and now by our assumption, this can be bounded as 
+\[
+    \le C||v_n - v||_V.
+\]
+Since $||v_n - v||_V \to 0$, the squeeze theorem tells us that $||Tv_n - Tv||_W \to 0$ (since the norm is always nonnegative), and thus $Tv_n \to Tv$. 
+
+For the other direction, suppose that $T$ is continuous. This time we'll describe continuity with the topological characterization: the inverse of every open set in $W$ is an open set in $V$, so in particular, the set
+\[
+    T^{-1}(B_W(0, 1)) = \left\{v \in V: Tv \in B_W(0, 1)\right\}
+\]
+is an open set in $V$. Since $0$ is contained in $B_W(0, 1)$, and $T(0) = 0$, we must have $0 \in T^{-1}(B_W(0, 1))$, and (by openness) we can find a ball of some radius $r > 0$ so that $B_V(0, r)$ is contained inside $T^{-1}(B_W(0, 1))$. This means that the image of $B_V(0, r)$ is contained inside $B_W(0, 1)$.
+
+Now, we claim we can take $C = \frac{2}{r}$. To show this, for any $v \in V - \{0\}$ (the case $v = 0$ automatically satisfies the inequality), we have the vector $\frac{r}{2||v||_V} v$, which has length $\frac{r}{2} < r$. This means that 
+\[
+    \frac{r}{2||v||_V} v \in B_V(0, r) \implies T\left(\frac{r}{2||v||_V} v\right) \in B_W(0, 1)
+\]
+(because $B_V(0, r)$ is all sent within $B_W(0, 1)$ under $T$), and thus 
+\[
+    \left|\left|T\left(\frac{r}{2||v||_V} v\right)\right|\right|_W < 1 \implies ||T(v)||_W \le \frac{2}{r} ||v||_V
+\]
+by taking scalars out of $T$ and using homogeneity of the norm, and we're done.
+\end{proof}
+
+The ``boundedness property'' above will become tedious to write down, so we won't use the subscripts from now on. (But we should be able to track which space we're thinking about just by thinking about domains and codomains of our operators.)
+
+\begin{example}
+The linear operator $T: C([0, 1]) \to C([0, 1])$ in \cref{firstlinop} is indeed a bounded linear operator (and thus continuous).
+\end{example}
+
+We should be able to check that $T$ is linear in $f$ easily (because constants come out of the integral). To check that it is bounded, recall that we're using the $C_{\infty}$ norm, so if we have a function $f \in C([0, 1])$, \[
+    ||f||_{\infty} = \sup_{x \in [0, 1]} |f(x)|
+\]
+(and this supremum value will actually be attained somewhere, but that's not important). We can then estimate the norm of $Tf$ by noting that for all $x \in [0, 1]$,
+\[
+    Tf(x) = \left|\int_0^1 K(x, y) f(y) dy\right| \le \int_0^1 |K(x, y)| \, \, |f(y)| dy
+\]
+by the triangle inequality, and now we can bound $f$ and $K$ by their supremum (over $[0, 1]$ and $[0, 1] \times [0, 1]$, respectively) to get 
+\[
+    \le \int_0^1 |K(x, y)| \, \, ||f||_{\infty} dy \le \int_0^1 ||K(x, y)|| \, \, ||f||_{\infty} dy = ||K(x, y)|| \, \,  ||f||_{\infty}.
+\]
+Since this bound holds for all $x$, it holds for the supremum also, and thus
+\[
+    ||Tf||_x \le ||K||_{\infty} \, \, ||f||_{\infty}
+\]
+and we can use $C = ||K||_{\infty}$ to show boundedness (and thus continuity). We will often refer to $K$ as a \vocab{kernel}.
+
+\begin{definition}
+Let $V$ and $W$ be two normed spaces. The set of bounded linear operators from $V$ to $W$ is denoted $\mc{B}(V, W)$.
+\end{definition}
+
+We can check that $\mc{B}(V, W)$ is a vector space -- the sum of two linear operators is a linear operator, and so on. Furthermore, we can put a norm on this space: 
+
+\begin{definition}
+The \vocab{operator norm} of an operator $T \in \mc{B}(V, W)$ is defined by
+\[
+    ||T|| = \sup_{||v|| = 1, v \in V} ||Tv||.
+\]
+\end{definition}
+
+This is indeed a finite number, because being bounded implies that
+\[
+    ||Tv|| \le C||v|| = C
+\]  
+whenever $||v|| = 1$, and the operator norm is the smallest such $C$ possible.
+
+\begin{theorem}
+The operator norm is a norm, which means $\mc{B}(V, W)$ is a normed space. 
+\end{theorem}
+\begin{proof}
+First, we show definiteness. The zero operator indeed has norm $0$ (because $||Tv|| = 0$ for all $v$). On the other hand, suppose that $Tv = 0$ for all $||v|| = 1$. Then rescaling tells us that $0 = Tv' = ||v'|| T\left(\frac{v'}{||v'||}\right) = 0$ for all $v' \ne 0$, so $T$ is indeed the zero operator.
+
+Next, we can show homogeneity, which follows from the homogeneity of the norm on $W$. We have 
+\[
+    \boxed{||\lambda T||} = \sup_{||v|| = 1} ||\lambda Tv|| = \sup_{||v|| = 1} |\lambda| ||Tv||,
+\]
+and now we can pull the nonnegative constant $|\lambda|$ out of the supremum to get 
+\[
+    = |\lambda| \sup_{||v|| = 1} ||Tv|| = \boxed{|\lambda| ||T||}.
+\]
+Finally, the triangle inequality also follows from the triangle inequality on $W$: if $S, T \in \mc{B}(V, W)$, and we have some element $v \in V$ with $||v|| = 1$, then 
+\[
+    ||(S+T)v|| = ||Sv + Tv|| \le ||Sv|| + ||Tv|| \le ||S|| + ||T||.
+\]
+So taking the supremum of the left-hand side over all unit-length $v$ gives us $||S+T|| \le ||S|| + ||T||$, and we're done.
+\end{proof}
+
+For example, if we return to the operator $T$ from \cref{firstlinop}, we notice that for any $f$ of unit length, we have
+\[
+    ||Tf||_{\infty} \le ||K||_{\infty}.
+\]
+Therefore, $||T|| \le ||K||$. And in general, now that we've defined the operator norm, it gives us a bound of the form 
+\[
+    \left|\left|T\left(\frac{v}{||v||}\right)\right|\right| \le ||T|| \implies ||Tv|| \le ||T|| \, \, ||v||
+\]
+for all $v \in V$ (not just those with unit length).
+
+Since we have a normed vector space, it's natural to ask for completeness, which we get in the following way:
+
+\begin{theorem}\label{banachoperatorbanach}
+If $V$ is a normed vector space and $W$ is a Banach space, then $\mc{B}(V, W)$ is a Banach space.
+\end{theorem}
+\begin{proof}
+We'll use the characterization given in \cref{summabilitybanach}. Suppose that $\{T_n\}$ is a sequence of bounded linear operators in $\mc{B}(V, W)$ such that 
+\[
+    C = \sum_n ||T_n|| < \infty.
+\]
+(In other words, we have an absolutely summable series of linear operators.) Then we need to show that $\sum_n T_n$ is summable, and we'll do this in a similar way to how we showed that the space $C_{\infty}(X)$ was Banach: we'll come up with a bounded linear operator and show that we have convergence in the operator norm.
+
+Our candidate will be obtained as follows: for any $v \in V$ and $m \in \NN$, we know that
+\[
+    \sum_{n=1}^m ||T_nv|| \le \sum_{n=1}^m ||T_n|| \, \, ||v|| \le ||v|| \sum_{n} ||T_n|| = C||v||.
+\]
+Thus, the sequence of partial sums of nonnegative real numbers $\sum_{n=1}^m ||T_nv||$ is bounded and thus convergent. Since $T_nv \in W$ for each $n$, we've shown that a series $\sum_n T_n v$ is absolutely summable in $W$, and thus (because $W$ is Banach) $\sum_n T_n v$ is summable as well. So we can define the ``sum of the $T_n$s,'' $T: V \to W$, by defining
+\[
+    Tv = \lim_{m \to \infty} \sum_{n=1}^m T_nv
+\]
+(because this limit does indeed exist). We now need to show that this candidate is a bounded linear operator.
+
+Linearity follows because for all $\lambda_1, \lambda_2 \in \KK$ and $v_1, v_2 \in V$, 
+\[
+    T(\lambda_1 v_1 + \lambda_2 v_2) = \lim_{m \to \infty} \sum_{n=1}^m T_n(\lambda_1 v_1 + \lambda_2v_2),
+\]
+and now because each $T_n$ is linear, this is
+\[
+    = \lim_{m \to \infty} \lambda_1 \sum_{n=1}^m Tv_1 + \lambda_2 \sum_{n=1}^m Tv_2. 
+\]  
+Now each of the sums converge as we want, since the sum of the limits is the limit of the sums:
+\[
+    = \lambda_1 Tv_1 + \lambda_2 Tv_2.
+\]
+(The proof that the sum of two convergent sequences also converges to the sum of the limits is the same as it is in $\RR$, except that we replace absolute values with norms.) 
+
+Next, to prove that this linear operator $T$ is bounded, consider any $v \in V$. Then 
+\[
+    ||Tv|| = \left|\left|\lim_{m \to \infty} \sum_{n=1}^m T_n v\right|\right|,
+\]
+and limits and norms interchange, so this is also 
+\[
+    = \lim_{m \to \infty} \left|\left| \sum_{n=1}^m T_n v \right|\right| \le \lim_{m \to \infty} \sum_{n=1}^m ||T_n v||
+\]
+by the triangle inequality. But now this is bounded by 
+\[
+    \le \sum_{n=1}^m ||T_n|| \, \, ||v||= C||v||,
+\]
+where $C$ is finite by assumption (because we have an absolutely summable series). So we've verified that $T$ is a bounded linear operator in $\mc{B}(V, W)$.
+
+It remains to show that $\sum_{n=1}^m T_n$ actually converges to $T$ in the operator norm (as $m \to \infty$). If we consider some $v \in V$ with $||v|| = 1$, then 
+\[
+    \boxed{\left|\left|Tv - \sum_{n=1}^m T_n v\right|\right|} = \left|\left| \lim_{m' \to \infty} \sum_{n=1}^{m'} T_n v - \sum_{n=1}^m T_n v\right|\right|, = \left|\left| \lim_{m' \to \infty} \sum_{n = m+1}^{m'} T_n v\right|\right|,
+\]
+and now we can bring the norm inside the limit and then use the triangle inequality to get
+\[
+    \le \lim_{m' \to \infty} \sum_{n = m+1}^{m'} ||T_n v|| \le \lim_{m' \to \infty} \boxed{\sum_{n=m+1}^{m'} ||T_n||}
+\]
+(because $v$ has unit length). And now this is a series of nonnegative real numbers
+\[
+    = \sum_{n = m+1}^{\infty} ||T_n||,
+\]
+and thus we note that (taking the supremum over all unit-length $v$)
+\[
+    \left|\left|T - \sum_{n=1}^m T_n\right|\right| \le \sum_{n = m+1}^{\infty} ||T_n|| \to 0
+\]  
+because we have the tail of a convergent series of real numbers. So indeed we have convergence in the operator norm as desired.  
+\end{proof}
+
+\begin{definition}
+Let $V$ be a normed vector space (over $\KK$). Then $V' = \mc{B}(V, \KK)$ is called the \vocab{dual space} of $V$, and because $\KK = \RR, \CC$ are both complete, $V'$ is then a Banach space by \cref{banachoperatorbanach}. An element of the dual space $\mc{B}(V, \KK)$ is called a \vocab{functional}.
+\end{definition}
+
+We can actually identify the dual space for all of the $\ell^p$ spaces: it turns out that
+\[
+    (\ell^p)' = \ell^{p'},
+\]
+where $p, p'$ satisfy the relation $\frac{1}{p} + \frac{1}{p'} = 1$. So the dual of $\ell^1$ is $\ell^{\infty}$, and the dual of $\ell^2$ is itself (this is the only $\ell^p$ space for which this is true), but the dual of $\ell^{\infty}$ is \textbf{not} actually $\ell^1$. (Life would be a lot easier if this were true, and this headache will come up in the $L^p$ spaces as well.)

@@ -1,0 +1,115 @@
+\originalchapter{Fourier 级数}\label{ch:fourier}
+\originalsection{Fourier 系数与 Dirichlet 核}
+正交归一系给出投影, 但只有完整的正交归一基才保证投影趋于原向量. Fourier 级数的核心问题, 正是指数函数是否张成整个 $L^2$ 空间. 本章保留主源第15--16讲用 Fejér 平均证明完备性的路线.
+
+在 $H=L^2([-\pi,\pi])$ 中取 $e_n(x)=(2\pi)^{-1/2}\ee^{\ii nx}$, $n\in\Z$. 因 $\int_{-\pi}^\pi\ee^{\ii(n-m)x}\dd x$ 在 $n=m$ 时为 $2\pi$, 否则为零, 这些函数组成正交归一系. 对 $f\in L^2$, 有 $f\in L^1$, 所以下述系数都有意义.
+
+\begin{definition}
+Fourier 系数为 $\widehat f(n)=(2\pi)^{-1}\int_{-\pi}^\pi f(t)\ee^{-\ii nt}\dd t$. 对称部分和为 $S_Nf=\sum_{|n|\le N}\widehat f(n)\ee^{\ii nx}$. 其形式级数称 Fourier 级数. Cesàro 平均为 $\sigma_Nf=(N+1)^{-1}\sum_{k=0}^NS_kf$.
+\end{definition}
+有限部分和与有限平均是定义明确的三角多项式. 在证明基的完备性之前, 不把形式级数当作已经等于 $f$ 的表达式.
+
+\begin{proposition}
+令 $D_N(t)=(2\pi)^{-1}\sum_{|n|\le N}\ee^{\ii nt}$. 则 $S_Nf(x)=\int_{-\pi}^\pi D_N(x-t)f(t)\dd t$, 且
+\[
+D_N(t)=\frac{\sin((N+1/2)t)}{2\pi\sin(t/2)}\quad(t\notin2\pi\Z),
+\qquad D_N(0)=\frac{2N+1}{2\pi}.
+\]
+\end{proposition}
+\begin{proof}
+把 Fourier 系数代入有限和并交换有限求和与积分即可得到核表示. 对 $\ee^{\ii t}\ne1$, 几何级数给出
+\[
+\sum_{n=-N}^N\ee^{\ii nt}
+=\ee^{-\ii Nt}\frac{1-\ee^{\ii(2N+1)t}}{1-\ee^{\ii t}}
+=\frac{\sin((N+1/2)t)}{\sin(t/2)}.
+\]
+在 $t\in2\pi\Z$ 时直接代入有限和得 $2N+1$, 也是连续延拓值. 核对所有实数周期延拓, 不把商式的零分母当真正奇点.
+\end{proof}
+Dirichlet 核会改变符号, 所以其积分为1并不足以控制卷积误差的绝对值. 平均后的核非负, 才能用其总质量估计误差.
+
+\originalsection{Fejér 核与一致收敛}
+\begin{proposition}\label{prop:fejerkernel}
+Cesàro 平均可写成 $\sigma_Nf(x)=\int_{-\pi}^\pi F_N(x-t)f(t)\dd t$, 其中
+\[
+F_N(t)=\frac1{2\pi(N+1)}\left|\sum_{k=0}^N\ee^{\ii kt}\right|^2
+=\frac1{2\pi(N+1)}\frac{\sin^2((N+1)t/2)}{\sin^2(t/2)}.
+\]
+第二式在 $2\pi\Z$ 上按连续延拓解释, $F_N(0)=(N+1)/(2\pi)$. 核非负、偶、$2\pi$ 周期, $\int_{-\pi}^\pi F_N=1$, 且对于 $0<\delta<\pi$,
+\[
+\sup_{\delta\le|t|\le\pi}F_N(t)
+\le\frac1{2\pi(N+1)\sin^2(\delta/2)}.
+\]
+\end{proposition}
+\begin{proof}
+平均各 $D_k$ 时, 某个频率 $n$, $|n|\le N$, 出现 $N+1-|n|$ 次. 因而 $F_N(t)=(2\pi)^{-1}\sum_{|n|\le N}(1-|n|/(N+1))\ee^{\ii nt}$. 展开 $|\sum_{k=0}^N\ee^{\ii kt}|^2$, 频率 $n=k-l$ 也出现相同次数, 得第一式. 几何级数的模给出正弦商式. 非负性由平方模得到, 偶性由取共轭得到, 周期性由有限指数和得到. 积分只保留零频率项, 所以一个周期的积分为1. 最后的界使用分子不超过1及 $\sin^2(t/2)\ge\sin^2(\delta/2)$.
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=11cm,height=4.8cm,axis lines=left,clip=false,
+xmin=-3.1416,xmax=3.1416,ymin=0,ymax=1.6,
+xtick={-3.14159,0,3.14159},xticklabels={$-\pi$,$0$,$\pi$},
+ytick={0,.5,1,1.5},xlabel={$t$},
+xlabel style={at={(axis description cs:1.03,0)},anchor=west},
+tick align=outside]
+\addplot[thick,structurecolor,domain=-pi:pi,samples=401]
+{abs(x)<0.00001 ? 9/(2*pi) : (sin(deg(9*x/2))/sin(deg(x/2)))^2/(18*pi)};
+\node[anchor=south west] at (axis description cs:0,1.05) {$F_8(t)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+图采用弧度变量 $t\in[-\pi,\pi]$, 显式将 PGFPlots 的三角函数参数转成度, 中心附近用连续极限值作数值保护. 它仅展示 $N=8$ 的核; 质量和收敛结论由公式证明, 不由图形采样推断.
+
+\begin{theorem}[Fejér 定理]\label{thm:fejer}
+若 $f$ 连续且 $2\pi$ 周期, 则 $\sigma_Nf\to f$ 一致收敛.
+\end{theorem}
+\begin{proof}
+周期连续函数在整个实轴上一致连续且有界. 由周期换元, 可把核表示写成 $\sigma_Nf(x)=\int_{-\pi}^\pi F_N(t)f(x-t)\dd t$. 利用核总质量为1,
+\[
+|\sigma_Nf(x)-f(x)|
+\le\int_{-\pi}^\pi F_N(t)|f(x-t)-f(x)|\dd t.
+\]
+给定 $\eps>0$, 先选 $0<\delta<\pi$ 使 $|t|<\delta$ 时差值小于 $\eps/2$, 对所有 $x$ 同时成立. 在此小区间上的积分至多 $\eps/2$. 其余区间上差值不超过 $2\norm{f}_\infty$, 由核的远端界和区间长度至多 $2\pi$, 所以积分至多
+$2\norm{f}_\infty/((N+1)\sin^2(\delta/2))$. 对充分大 $N$, 此数小于 $\eps/2$. 所以误差对所有 $x$ 同时小于 $\eps$, 得一致收敛.
+\end{proof}
+
+\originalsection{平方积分收敛与完整性}
+\begin{lemma}\label{lem:fejercontraction}
+对每个 $f\in L^2([-\pi,\pi])$, 有 $\norm{\sigma_Nf}_2\le\norm{f}_2$.
+\end{lemma}
+\begin{proof}
+将 $f$ 几乎处处按周期延拓. 用非负密度 $F_N(t)\dd t$ 的 Cauchy--Schwarz 不等式及总质量1, 得
+\[
+|\sigma_Nf(x)|^2\le\int_{-\pi}^\pi F_N(t)|f(x-t)|^2\dd t.
+\]
+对 $x$ 积分, 被积函数非负, 可用 Tonelli 交换次序. 周期性使任意平移的一个周期平方积分相同, 所以右端双积分为 $\norm{f}_2^2\int F_N=\norm{f}_2^2$. 这也保证截面表达式几乎处处有限. 取平方根即得界.
+\end{proof}
+
+\begin{theorem}\label{thm:fouriercomplete}
+对每个 $f\in L^2([-\pi,\pi])$, 有 $\sigma_Nf\to f$ 于 $L^2$. 指数系 $(e_n)_{n\in\Z}$ 为正交归一基, 所以也有 $S_Nf\to f$ 于 $L^2$, 及
+\[
+\norm{f}_2^2=2\pi\sum_{n\in\Z}|\widehat f(n)|^2.
+\]
+\end{theorem}
+\begin{proof}
+由连续端点为零函数的稠密性, 给定 $\eps>0$ 可选连续周期 $g$, 使 $\norm{f-g}_2<\eps/3$. Fejér 定理保证 $\norm{\sigma_Ng-g}_2\le\sqrt{2\pi}\norm{\sigma_Ng-g}_\infty<\eps/3$ 对大 $N$ 成立. 利用收缩界,
+$\norm{\sigma_Nf-f}_2\le\norm{\sigma_N(f-g)}_2+\norm{\sigma_Ng-g}_2+\norm{g-f}_2<\eps$.
+
+若 $f$ 与所有 $e_n$ 正交, 则所有 Fourier 系数为零, 每个平均也为零, 极限结论给出 $f=0$ 于 $L^2$. 定理\ref{thm:onb}于是保证指数系完整, 普通正交投影 $S_N$ 也收敛. Parseval 乘上系数归一化常数即得最后恒等式.
+\end{proof}
+这里的等式和收敛均针对几乎处处等价类及 $L^2$ 范数. 它不自动给每个点的普通 Fourier 部分和收敛. Carleson 定理等更深的调和分析结论不在本册证明范围内.
+
+\begin{exercise}
+求 $f(x)=x$, $-\pi<x<\pi$, 的 Fourier 系数, 并用 Parseval 求 $\sum_{n\ge1}n^{-2}$.
+\end{exercise}
+\begin{solution}
+零频率为零. 对 $n\ne0$ 分部积分,
+$\int_{-\pi}^\pi x\ee^{-\ii nx}\dd x=-2\pi(-1)^n/(\ii n)$, 剩余指数积分为零. 所以 $\widehat f(n)=\ii(-1)^n/n$. 又有 $\norm{f}_2^2=2\pi^3/3$. Parseval 给出 $2\pi^3/3=2\pi\sum_{n\ne0}n^{-2}=4\pi\sum_{n\ge1}n^{-2}$, 因而和为 $\pi^2/6$. 本推导只使用 $L^2$ 展开, 不需要在端点代入一个未证明逐点收敛的级数.
+\end{solution}
+
+\begin{exercise}
+证明 $\sqrt2\sin(k\pi x)$, $k\ge1$, 在 $L^2([0,1])$ 中构成正交归一基.
+\end{exercise}
+\begin{solution}
+正交归一性由积化和差积分得到. 若 $f$ 与所有正弦正交, 将 $f$ 奇延拓到 $[-1,1]$. 它与常数及所有余弦自动正交, 因为奇偶性使积分为零, 与正弦的配对则为原积分的两倍. 变量变换 $t=\pi x$ 把这些指数配对化为 $L^2([-\pi,\pi])$ 的 Fourier 系数, 它们全为零, 所以奇延拓为零, 从而 $f=0$. 完整性判别给出所需基.
+\end{solution}

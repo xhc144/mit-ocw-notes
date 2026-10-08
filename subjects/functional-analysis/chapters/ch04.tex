@@ -1,0 +1,89 @@
+\originalchapter{Banach 空间的基本定理}\label{ch:baire}
+\originalsection{Baire 定理与统一有界}
+逐个输入向量都受某个界控制, 还不一定存在控制整个单位球的共同常数. 完备性在此处的作用, 是把可数个局部限制转化成一个含有开球的限制.
+
+\begin{theorem}[Baire 类定理]\label{thm:baire}
+非空完备度量空间 $S$ 中, 可数个开稠密集合 $U_n$ 的交仍稠密. 等价地, 若 $S=\bigcup_nF_n$ 且各 $F_n$ 闭, 则至少一个 $F_n$ 有非空内部.
+\end{theorem}
+\begin{proof}
+固定任意非空开集 $O$. 因 $U_1$ 开且稠密, 可在 $O\cap U_1$ 中选一个闭球 $\overline B(s_1,r_1)$, 半径 $0<r_1<1/2$. 这是因为选定中心后开性给出一个开球, 再把半径减半即可. 递归地在 $B(s_n,r_n)\cap U_{n+1}$ 中选闭球 $\overline B(s_{n+1},r_{n+1})$, 使 $0<r_{n+1}<2^{-n-1}$. 即使某点是孤立点, 小正半径的单点球也允许这个选择.
+
+闭球逐级包含. 当 $m\ge n$, 中心 $s_m$ 在第 $n$ 个闭球中, 故 $d(s_m,s_n)\le r_n\to0$. 中心序列为 Cauchy, 完备性给出极限 $s$. 第 $n$ 个闭球闭且包含之后的中心, 因此 $s$ 属于每个闭球. 从而 $s\in O\cap\bigcap_nU_n$. 任意 $O$ 都与交相遇, 所以交稠密.
+
+若所有闭 $F_n$ 的内部为空, 则补集开且稠密, 其交非空, 不可能被 $\bigcup F_n$ 覆盖. 反之, 若某开稠密集合的交不稠密, 在一个非空开集内用相同的闭球构造也会得到矛盾. 所以两个形式等价.
+\end{proof}
+
+\begin{theorem}[统一有界原理]\label{thm:ub}
+设 $X$ 为 Banach 空间, $Y$ 为赋范空间, $\mathcal T\subset\B(X,Y)$ 为任意算子族. 若每个 $x\in X$ 都满足 $\sup_{T\in\mathcal T}\norm{Tx}<\infty$, 则 $\sup_{T\in\mathcal T}\norm{T}<\infty$.
+\end{theorem}
+\begin{proof}
+令 $E_k=\{x:\sup_{T\in\mathcal T}\norm{Tx}\le k\}$. 每个集合是闭的, 因为它是闭集 $\{x:\norm{Tx}\le k\}$ 的任意交. 点态有界保证 $X=\bigcup_{k\ge1}E_k$. Baire 定理给出某 $E_k$ 含有 $B(x_0,r)$.
+
+若 $\norm{h}<r$, 则 $x_0+h,x_0\in E_k$, 所以对所有 $T$ 同时有 $\norm{Th}\le\norm{T(x_0+h)}+\norm{Tx_0}\le2k$. 对任意单位向量 $u$ 取 $h=ru/2$, 得 $\norm{Tu}\le4k/r$. 取两个上确界, 即得 $\sup_T\norm{T}\le4k/r$. 值域只用到范数和各 $T$ 的连续性, 所以无需完备.
+\end{proof}
+
+\begin{corollary}\label{cor:stronglimit}
+若 $X,Y$ 均为 Banach 空间, $T_n\in\B(X,Y)$ 且每个 $T_nx$ 都收敛, 则逐点极限 $Tx=\lim_nT_nx$ 为有界线性算子. 但未必有 $\norm{T_n-T}\to0$.
+\end{corollary}
+\begin{proof}
+标量与向量的有限线性运算可取极限, 所以 $T$ 线性. 收敛序列逐点有界, 统一有界原理给出 $M=\sup_n\norm{T_n}<\infty$. 对 $\norm{T_nx}\le M\norm{x}$ 取极限, 得 $T$ 有界. 在 $\ell^2$ 上令 $P_n$ 截断前 $n$ 项, 则 $P_nx\to x$ 对每个 $x$ 成立, 但 $\norm{P_n-I}=1$, 因为它在 $e_{n+1}$ 上的差范数为1, 且投影的差范数至多1.
+\end{proof}
+
+\begin{example}
+在 $c_{00}$ 的上确界范数下令 $T_nx=nx_n$. 检查统一有界原理的完备性条件.
+\end{example}
+\begin{solution}
+每个 $T_n$ 连续, 且 $\norm{T_n}=n$, 在 $e_n$ 上达到. 每个固定 $x\in c_{00}$ 只有有限项非零, 所以 $\sup_n|nx_n|$ 有限. 但算子范数不统一有界. 此空间不完备: 数列 $(1/j)$ 的有限截断一致 Cauchy, 极限不属于 $c_{00}$. 因此该例准确显示去掉定义域的完备性后结论可能失效.
+\end{solution}
+
+\originalsection{开映射与有界逆}
+\begin{theorem}[开映射定理]\label{thm:open}
+若 $X,Y$ 为 Banach 空间, $T\in\B(X,Y)$ 满射, 则 $T$ 为开映射.
+\end{theorem}
+\begin{proof}
+若 $Y=\{0\}$, 结论直接成立. 否则满射性给出 $Y=\bigcup_{n\ge1}\overline{T(B_X(0,n))}$. Baire 定理与缩放说明 $A=\overline{T(B_X(0,1))}$ 含有某个球 $B_Y(y_0,r)$. 因 $A-A\subset\overline{T(B_X(0,2))}$, 对 $\norm{y}<r$ 可把 $y$ 写成 $(y_0+y)-y_0$, 得 $B_Y(0,r)\subset\overline{T(B_X(0,2))}$. 缩放得到某 $\delta>0$ 满足
+\[
+B_Y(0,\delta)\subset\overline{T(B_X(0,1))}.
+\]
+目前只得到像的闭包中有球, 不能直接删掉闭包. 给定 $\norm{y}<\delta/2$, 利用缩放后的闭包关系选 $x_1$ 使 $\norm{x_1}<1/2$, $\norm{y-Tx_1}<\delta/4$. 再选 $x_2$ 使 $\norm{x_2}<1/4$, $\norm{y-Tx_1-Tx_2}<\delta/8$. 递归得到
+\[
+\norm{x_k}<2^{-k},\qquad
+\norm{y-T\sum_{k=1}^n x_k}<\delta2^{-n-1}.
+\]
+$X$ 完备保证 $x=\sum_kx_k$ 存在; 且 $\norm{x}\le\sum_k\norm{x_k}<1$. 最后的严格不等式可由第一项严格小于 $1/2$、其余项和至多 $1/2$ 看出. 连续性给出 $Tx=y$. 因而 $B_Y(0,\delta/2)\subset T(B_X(0,1))$.
+
+对开集 $U\subset X$ 中任意 $x$, 取 $s>0$ 使 $B_X(x,s)\subset U$. 线性性与上述球关系给出 $B_Y(Tx,s\delta/2)\subset T(U)$. 所以 $T(U)$ 开. 证明中 $Y$ 的完备性用于 Baire, $X$ 的完备性用于误差级数求和.
+\end{proof}
+
+\begin{corollary}[有界逆定理]\label{cor:inverse}
+Banach 空间之间的有界线性双射具有有界线性逆. 同一向量空间上的两个完备范数若满足单向比较 $\norm{x}_a\le C\norm{x}_b$, 则两个范数等价.
+\end{corollary}
+\begin{proof}
+双射 $T$ 的逆线性. 逆映射对开集 $U\subset X$ 的逆像为 $T(U)$, 由开映射定理为开集, 所以逆连续, 进而有界. 第二个结论应用于恒等映射 $I:(X,\norm{\cdot}_b)\to(X,\norm{\cdot}_a)$; 其逆的有界性正是反向比较.
+\end{proof}
+有界逆的作用不仅是存在解, 还给出稳定性 $\norm{x}\le\norm{T^{-1}}\norm{Tx}$. 满射而不单射时则允许多解; 开映射证明仍保证能选到大小受右端项控制的某个解, 不保证这个选解规则线性.
+
+\originalsection{闭图定理}
+\begin{theorem}[闭图定理]\label{thm:closedgraph}
+若 $X,Y$ 为 Banach 空间, $T:X\to Y$ 为处处定义的线性映射, 则 $T$ 有界当且仅当图像 $\Gamma(T)=\{(x,Tx):x\in X\}$ 在 $X\times Y$ 中闭. 乘积使用范数 $\norm{(x,y)}=\norm{x}+\norm{y}$.
+\end{theorem}
+\begin{proof}
+乘积 Cauchy 序列的两个坐标分别为 Cauchy 序列, 坐标完备性给出乘积完备性. 若 $T$ 有界, 且 $x_n\to x$, $Tx_n\to y$, 则连续性给出 $Tx_n\to Tx$, 极限唯一说明 $y=Tx$, 所以图像闭.
+
+若图像闭, 它是乘积 Banach 空间的闭线性子空间, 因而完备. 坐标投影 $\pi_X:\Gamma(T)\to X$, $\pi_Y:\Gamma(T)\to Y$ 都有界, 范数至多1. 第一个投影双射, 其逆 $S:x\mapsto(x,Tx)$ 由有界逆定理有界. 所以 $T=\pi_YS$ 有界.
+\end{proof}
+闭图条件只要求: 当 $x_n$ 和 $Tx_n$ 都已经收敛时, 第二个极限必须是 $Tx$. 它不要求事先证明 $Tx_n$ 收敛. 此简化依赖两空间完备以及算子处处定义, 不能直接用来宣布偏定义的微分算子有界.
+
+\begin{exercise}
+设 $X$ 是向量空间, 两个范数都完备. 若对任意序列, $x_n\to x$ 于第一范数且 $x_n\to y$ 于第二范数时总有 $x=y$, 证明两个范数等价.
+\end{exercise}
+\begin{solution}
+恒等映射的图像闭: 乘积中的收敛对 $(x_n,x_n)\to(x,y)$ 恰由假设给出 $x=y$. 闭图定理说明 $I:(X,\norm{\cdot}_a)\to(X,\norm{\cdot}_b)$ 有界. 交换两个范数同样得到反向有界性, 即等价.
+\end{solution}
+
+\begin{exercise}
+设 $T:X\to Y$ 为 Banach 空间之间的有界单射. 证明 $\ran T$ 闭当且仅当存在 $c>0$ 使 $\norm{Tx}\ge c\norm{x}$.
+\end{exercise}
+\begin{solution}
+若值域闭, 则它本身完备, $T:X\to\ran T$ 为有界双射. 有界逆定理给出下界, 可取 $c=1/\norm{T^{-1}}$, 非零空间情形下此常数正; 零空间时任意正 $c$ 可用. 反之, 若 $Tx_n$ 收敛于 $y$, 下界保证 $x_n$ 为 Cauchy 序列. $X$ 完备给出 $x_n\to x$, 连续性给出 $Tx=y$, 故值域闭.
+\end{solution}

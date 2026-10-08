@@ -1,0 +1,221 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{March 16, 2021}
+
+Last time, we discussed a few general kinds of collections of subsets of $\RR$: recall that an \textbf{algebra} is closed under finite unions and complements, and a \textbf{$\sigma$-algebra} is also closed under countable unions. And the context for this discussion is that we defined the set of (Lebesgue) \textbf{measurable} sets to be the $E \subset \RR$ such that
+\[
+    m^\ast(A) = m^\ast(A \cap E) + m^\ast(A \cap E^c) \quad \forall A \subset \RR.
+\]
+In other words, $E$ divides sets nicely with respect to outer measure. We then defined the set of all measurable sets $\mc{M}$, and we showed last time that these do form an \textbf{algebra}. Today, we'll show that $\mc{M}$ is actually also a $\sigma$-algebra, and we'll also show that the \textbf{Borel sigma-algebra} $\mc{B}$, which is the smallest $\sigma$-algebra containing all open sets, is a subset of $\mc{M}$. (Then we'll be able to define the Lebesgue measure: the measure of any measurable set $E$ is just $m^\ast(E)$.)
+
+We'll first prove a preliminary result that will make working with countable unions a bit easier: 
+
+\begin{lemma}\label{countabledisjoint}
+Let $\mc{A}$ be an algebra, and let $\{E_n\}$ be a countable collection of elements of $\mc{A}$. Then there exists a disjoint countable collection $\{F_n\}$ of elements of $\mc{A}$, such that $\bigcup_n E_n = \bigcup_n F_n$. 
+\end{lemma}
+
+In other words, if we want to verify that our collection is closed under taking countable unions (which is a condition for being a $\sigma$-algebra), we can just check that it is closed under countable \textbf{disjoint} unions.
+
+\begin{proof}
+Let $G_n = \bigcup_{k=1}^n E_k$, so that we have $G_1 \subset G_2 \subset G_3 \subset \cdots$, and $\bigcup_n E_n = \bigcup_n G_n$ (we can check this for ourselves by checking that every element in the left set is also in the right set, and vice versa). Now define $F_1 = G_1$ and
+\[
+    F_{n+1} = G_{n+1} \setminus G_n \quad \forall n \ge 1.
+\]
+Then we find that $\bigcup_{k=1}^n F_k = \bigcup_{k=1}^n G_k$ (again, we can do the symbol-pushing if we want to check), so $\bigcup_{k=1}^{\infty} F_k = \bigcup_{k=1}^{\infty} G_k$, and this is exactly $\bigcup_{k=1}^{\infty} E_k$ as desired.
+\end{proof}
+
+So returning to measurable sets, we'll now show that the collection of Lebesgue measurable sets is a $\sigma$-algebra:
+
+\begin{proposition}\label{disjmeasprop}
+Let $A \subset \RR$, and let $E_1, \cdots, E_n$ be disjoint measurable sets. Then 
+\[
+    m^\ast\left(A \cap \left[\bigcup_{k=1}^n E_k\right]\right) = \sum_{k=1}^n m^\ast(A \cap E_k).
+\]
+\end{proposition}
+
+For example, if we had two sets $E$ and $E^c$, the above equality is the definition of $E$ being measurable.
+
+\begin{proof}
+We prove this by induction. The base case $n = 1$ is clear because both sides are identical. For the inductive step, suppose that we know the equality is true for $n = m$. Suppose we have pairwise disjoint measurable sets $E_1, \cdots, E_{m+1}$, and we have some $A \subset \RR$. Since $E_k \cap E_{m+1} = \varnothing$ for all $1 \le i \le m$, we find that 
+\[
+    A \cap \left[\bigcup_{k=1}^{m+1} E_k\right] \cap E_{m+1} = A \cap E_{m+1}
+\]
+(the only intersection comes from $E_{m+1}$ in the big union), and 
+\[
+    A \cap \left[\bigcup_{k=1}^{m+1} E_k\right] \cap E_{m+1}^c = A \cap \left[\bigcup_{k=1}^{m} E_k\right]
+\]
+(we pick up everything else except $E_{m+1}$). Now since $E_{m+1}$ is measurable, we know that
+\[
+    m^\ast\left(A \cap \left[\bigcup_{k=1}^{m+1} E_k\right]\right) = m^\ast\left(A \cap \left[\bigcup_{k=1}^{m+1} E_k\right] \cap E_{m+1}\right) + m^\ast\left(A \cap \left[\bigcup_{k=1}^{m+1} E_k\right] \cap E_{m+1}^c\right),
+\]
+and plugging in the expressions above yields 
+\[
+    = m^\ast(A \cap E_{m+1}) + m^\ast\left(A \cap \left[\bigcup_{k=1}^{m} E_k\right]\right),
+\]
+and the induction hypothesis yields 
+\[
+    = m^\ast(A \cap E_{m+1}) + \sum_{k=1}^m m^\ast(A \cap E_k),
+\]
+and combining these two terms gives us exactly what we want. 
+\end{proof}
+
+\begin{theorem}
+The collection $\mc{M}$ of measurable sets is a $\sigma$-algebra.
+\end{theorem}
+\begin{proof}
+We already know that $\mc{M}$ is an algebra, and \cref{countabledisjoint} tells us that it remains to show closure under countable disjoint unions (in other words, the countable disjoint union of a set of measurable sets is measurable). Let $\{E_n\}$ be such a countable collection of disjoint measurable sets with union $E = \bigcup_{n=1}^{\infty} E_n$: it suffices to show that $m^\ast(A \cap E^c) + m^\ast(A \cap E) \le m^\ast(A)$ (since the reverse inequality is always true). 
+
+To show this, take some $N \in \NN$. Since $\mc{M}$ is an algebra, the finite union $\bigcup_{n=1}^N E_n \subset \mc{M}$ is measurable, and thus
+\[
+    m^\ast(A) = m^\ast\left(A \cap \left[\bigcup_{n=1}^N E_n\right]\right) + m^\ast\left(A \cap \color{blue}\left[\bigcup_{n=1}^N E_n\right]^c\color{black}\right).
+\]
+Because $\bigcup_{n=1}^N E_n$ is contained in $E$, its complement $\left[\bigcup_{n=1}^N E_n\right]^c$ contains $E^c$, which means that we can write the inequality
+\[
+    \ge  m^\ast\left(A \cap \left[\bigcup_{n=1}^N E_n\right]\right) + m^\ast\left(A \cap \color{blue}E^c\color{black}\right).
+\]
+Now we can rewrite the first term here (by \cref{disjmeasprop}) to get
+\[
+     m^\ast(A) \ge \sum_{n=1}^N m^\ast(A \cap E_n) + m^\ast(A \cap E^c).
+\]
+Letting $N \to \infty$, we find that 
+\[
+    m^\ast(A) \ge \sum_{n=1}^{\infty} m^\ast(A \cap E_n) + m^\ast(A \cap E^c),
+\]
+and now by countable subadditivity we have that this is
+\[
+    \ge m^\ast\left(\bigcup_n (A \cap E_n)\right) + m^\ast(A \cap E^c) = m^\ast(A \cap E) + m^\ast(A \cap E^c),
+\]
+completing the proof.
+\end{proof}
+
+\begin{remark}
+Remember that the reason for all of this $\sigma$-algebra business is that this kind of structure is imposed on us by our expectations of what a measure should do. Specifically, we wanted the measure of a countable disjoint union of sets is the sum of the measures of the individual sets, and for that to be true we need to be able to define the measure \textbf{on} an arbitrary countable disjoint union!
+\end{remark}
+
+Thus, the collection of measurable sets does form a $\sigma$-algebra, and we can now show that it contains $\mc{B}$ if we can show that it contains all open sets. We'll start from a simpler case:
+
+\begin{proposition}\label{openinfintervalmeas}
+For all $a \in \RR$, the interval $(a, \infty)$ is measurable.
+\end{proposition}
+\begin{proof}
+Suppose we have some subset $A \subset \RR$. Define the two sets $A_1 = A \cap (a, \infty)$ and $A_2 = A \cap (-\infty, a]$; we want to show that $m^\ast(A_1) + m^\ast(A_2) \le m^\ast(A)$. 
+
+If $m^\ast(A)$ is infinite, this automatically holds, so suppose that $m^\ast(A) < \infty$. We'll equivalently show that $m^\ast(A_1) + m^\ast(A_2) \le m^\ast(A) + \eps$ for an arbitrary $\eps > 0$ as follows: let $\{I_n\}$ be a collection of intervals such that 
+\[
+    \sum_n \ell(I_n) \le m^\ast(A) + \eps
+\]
+(again, we can do this because $m^\ast(A)$ is the infimum over all collections of intervals). If we now define 
+\[
+    J_n = I_n \cap (a, \infty), \quad K_n = I_n \cap (-\infty, a],
+\]
+then for each $n$, $J_n$ and $K_n$ are each either an interval or empty (because they are intersections of two intervals). Also, $A_1 \subset \bigcup_n J_n$ and $A_2 \subset \bigcup_n K_n$, and we can check that $\ell(I_n) = \ell(J_n) + \ell(K_n)$ for each $n$ (because we're just working with intervals here). Thus, 
+\[
+    \boxed{m^\ast(A_1) + m^\ast(A_2)} \le \sum_n m^\ast(J_n) + m^\ast(K_n)
+\]
+(because $\{J_n\}$ covers $A_1$ and $\{K_n\}$ covers $A_2$), and we can simplify this as 
+\[
+    = \sum_n \ell(J_n) + \ell(K_n) = \sum_n \ell(I_n) \le \boxed{m^\ast(A) + \eps},
+\]
+and then sending $\eps \to 0$ completes the proof.
+\end{proof}
+
+From here, it's actually not too difficult to show that every open set is Lebesgue measurable:
+
+\begin{theorem}
+Every open set is measurable, so the Borel $\sigma$-algebra $\mc{B}$ is contained in the set of measurable sets $\mc{M}$.
+\end{theorem}
+\begin{proof}
+Because $(a, \infty)$ is measurable for all $a$, so is 
+\[
+    (-\infty, b) = \bigcup_{n=1}^{\infty} \left(-\infty, b - \frac{1}{n}\right] = \bigcup_{n=1}^{\infty} \left(b - \frac{1}{n}, \infty\right)^c,
+\]
+because the intervals in the last expression are measurable by \cref{openinfintervalmeas}, meaning their complements are also measurable, and then a countable union is also measurable because $\mc{M}$ is a $\sigma$-algebra. And thus any finite open interval 
+\[
+    (a, b) = (-\infty, b) \cap (a, \infty)
+\]
+is also measurable because $\sigma$-algebras are closed under intersections (since they're closed under unions and complements, and we can use De Morgan's law). Finally, \textbf{every open subset of $\RR$ is a countable union of open intervals} (this is on our homework), which completes the proof because we've shown all open intervals are measurable. 
+\end{proof}
+
+\begin{definition}
+The \vocab{Lebesgue measure} of a measurable set $E \subset \mc{M}$ is
+\[
+    m(E) = m^\ast(E).
+\]
+\end{definition}
+
+Finally, this means that we've restricted our outer measure to a set of nicely-behaved sets! And we can now immediately get a few useful results about the Lebesgue measure:
+
+\begin{proposition}
+If $A, B \in \mc{M}$ and $A \subset B$, then $m(A) \le m(B)$. Also, any interval $I$ is measurable, and $m(I) = \ell(I)$.
+\end{proposition}
+\begin{proof}
+These properties are almost all inherited directly from the outer measure, since $m(A) = m^\ast(A)$ for measurable $A$. The only detail is to check that all intervals (open, closed, or half-closed) are measurable, and we can prove this with arguments like
+\[
+    [a, b] = (b, \infty)^c \cap (-\infty, a)^c, \quad [a, b) = (-\infty, b) \cap (-\infty, a)^c,
+\]
+and using that the set of measurable sets is a $\sigma$-algebra. 
+\end{proof}
+
+And this result is good, because one of our demands for the Lebesgue measure was that we can measure intervals (and get the expected result back)! We can now check one of the other conditions that we wanted to hold, countable additivity:
+
+\begin{theorem}
+Suppose that $\{E_n\}$ is a countable collection of disjoint measurable sets. Then 
+\[
+    m\left(\bigcup_n E_n\right) = \sum_n m(E_n).
+\]
+\end{theorem}
+
+Remember that outer measure satisfied a similar \textbf{inequality}, but we're claiming that Lebesgue measure gives us \textbf{equality} now that we've specialized to ``nicer'' sets.
+
+\begin{proof}
+We know that the set $\bigcup_n E_n$ is measurable, so we already get one side of the inequality
+\[
+    m\left(\bigcup_n E_n\right) = m^\ast\left(\bigcup_n E_n\right) \le \sum_n m^\ast(E_n) = \sum_n m(E_n)
+\]
+by using the inequality for outer measure. To show the reverse inequality, we will show that $\sum_n m(E_n) \le m\left(\bigcup_n E_n\right)$. For any $N \in \NN$, we can rewrite
+\[
+    m\left(\bigcup_{n=1}^N E_n\right) = m^\ast \left(\RR \cap \bigcup_{n=1}^N E_n\right),
+\]
+and now using \cref{disjmeasprop} simplifies this to 
+\[
+    = \sum_{n=1}^N m^\ast( \RR \cap E_n) = \sum_{n=1}^N m^\ast(E_n) = \sum_{n=1}^N m(E_n). 
+\]
+So for any finite disjoint set, the sum of the measures is the measure of the union (which we've basically proved already). But now 
+\[
+    \sum_{n=1}^{N} m(E_n) = m \left(\bigcup_{n=1}^N E_n\right) \le m \left(\bigcup_{n=1}^\infty E_n\right),
+\]
+and now we have a uniform bound over all $N$, so we can take $N \to \infty$ to find that 
+\[
+    \sum_{n=1}^{\infty} m(E_n) \le m\left(\bigcup_{n=1}^{\infty} E_n\right),
+\]
+as desired. 
+\end{proof}
+
+The final condition we still need to check is that the Lebesgue measure satisfies translation-invariance: in other words, if $E \in \mc{M}$ and $x \in \RR$, then $m(E+x) = m(E)$ (where we define the set $E+x = \{y+x: y \in E\}$). (And this is a problem on our problem set.) But the point is that we've now indeed defined a measure on a very rich class of subsets of $\RR$ with the properties that we want!
+
+\begin{theorem}[Continuity of measure]
+Suppose $\{E_k\}$ is a countable collection of measurable sets such that $E_1 \subset E_2 \subset \cdots$. Then
+\[
+    m\left(\bigcup_{k=1}^{\infty} E_k\right) = \lim_{n \to \infty} m\left(\bigcup_{k=1}^{n} E_k\right) = \lim_{n \to \infty} m(E_n).
+\]
+\end{theorem}
+\begin{proof}
+The equality between the second and third quantities here is because $E_n = \bigcup_{k=1}^n E_k$ by nesting. So it suffices to show the equality between the first and third quantities, and we'll do this by first writing the countable union as a countable disjoint union. Like before, let $F_1 = E_1$ and $F_{k+1} = E_{k+1} \setminus E_k$ for all $k \ge 1$: then each of the $F_k$s is measurable because $F_{k+1} = E_{k+1} \cap E_k^c$ by nesting, and $\{F_k\}$ is a disjoint collection of measurable sets. Then for all $n \in \NN$, we can check (just like above) that
+\[
+    \bigcup_{k=1}^n F_k = E_n, \quad \bigcup_{k=1}^{\infty} F_k = \bigcup_{k=1}^{\infty} E_k. 
+\]
+Therefore, 
+\[
+    m\left(\bigcup_{k=1}^{\infty} E_k\right) = \sum_{k=1}^{\infty} m(F_k)
+\]
+by countable additivity, and now this sum can be written as 
+\[
+    = \lim_{n \to \infty} \sum_{k=1}^n m(F_k) = \lim_{n \to \infty} m\left(\bigcup_{k=1}^n F_k\right) = \lim_{n \to \infty} E_n,
+\]
+and we've shown the desired equality.
+\end{proof}
+
+We'll use the Lebesgue measure to define Lebesgue measurable functions next time, which are the analog of continuous functions for Riemann integration. Specifically, if we have a function $f: X \to Y$, then we have continuity if the preimage of an open set in $Y$ is an open set in $X$. And we'll see how to make the analogous definition next time! 

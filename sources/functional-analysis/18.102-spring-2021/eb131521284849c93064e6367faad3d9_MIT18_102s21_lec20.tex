@@ -1,0 +1,193 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{May 4, 2021}
+
+Last lecture, we introduced the concept of a \textbf{compact operator}: an operator $A \in \mc{B}(H)$ (recall that $H$ always denotes a Hilbert space) is compact if $\overline{K(\{||u|| \le 1\})}$, the closure of the image of the closed unit ball, is compact in $H$. These operators came up in our discussion of limits of finite rank operators, and we'll show today that the set of compact operators is indeed the correct closure. 
+
+\begin{example}
+Some illustrative examples of compact operators include $K: \ell^2 \to \ell^2$ sending $a = (a_1, a_2, a_3, \cdots)$ to $(\frac{a_1}{1}, \frac{a_2}{2}, \frac{a_3}{3}, \cdots)$, as well as $T: L^2 \to L^2$ sending $f(x)$ to $\int_0^1 K(x, y) f(y) dy$ for some continuous function $K: [0, 1] \times [0, 1] \to \RR$.
+\end{example}
+
+The latter is particularly important because it comes up in solutions to differential equations: if we take 
+\[
+    K(x, y) = \begin{cases} (x-1) y & 0 \le y \le x \le 1, \\ x(y-1) & 0 \le x \le y \le 1, \end{cases} 
+\] 
+then we can check that $u(x) = \int_0^1 K(x, y) f(y) dy$ satisfies the differential equation $u'' = f, u(0) = u(1) = 0$. 
+
+\begin{example}
+In contrast, even a simple-looking operator like $I$ on $\ell^2$ is not compact, because (as we've already previously demonstrated, looking at the standard basis vectors) the closed unit ball is not compact. And this argument works to show that the identity is never compact for an infinite-dimensional Hilbert space.
+\end{example}
+
+\begin{theorem}
+Let $H$ be a separable Hilbert space. Then a bounded linear operator $T \in \mc{B}(H)$ is a compact operator if and only if there exist a sequence $\{T_n\}_n$ of finite rank operators such that $||T - T_n|| \to 0$. (In other words, the set of compact operators is the closure of the set of finite rank operators $\mc{R}(H)$.)
+\end{theorem}
+
+\begin{proof}
+First, suppose $T$ is compact. Since $H$ is separable, it has an orthonormal basis, and by compactness, $\overline{\{Tu: ||u|| \le 1\}}$ is compact, meaning that it is closed, bounded, and has equi-small tails. In particular, for every $\eps > 0$, there exists some $N \in \NN$ such that 
+\[
+    \sum_{k>N}|\langle Tu, e_k \rangle|^2 < \eps^2
+\]
+for \textbf{all} $u$ satisfying $||u|| \le 1$. We can thus define the partial sums
+\[
+    T_n = \sum_{k=1}^n \langle Tu, e_k \rangle e_k:
+\]
+this is a bounded linear operator because $||T_n u||^2 \le ||u||^2$ by Bessel's inequality, and the range of $T_n$ is contained within the span of $\{e_1, \cdots, e_n\}$, so $T_n$ is a finite rank operator for each $n$. It suffices to show that this choice of $T_n$ does converge to $T$ as $n \to \infty$: indeed, for any $\eps > 0$, we can let $N$ be as above in the equi-small tails condition. Then we have, for any $||u|| = 1$, that
+\[
+    ||T_n u - Tu||^2 = \left|\left| \sum_{k=1}^n \langle Tu, e_k \rangle e_k - \sum_{k=1}^{\infty} \langle T_u, e_k \rangle e_k \right|\right|^2,
+\]
+and combining terms and using orthonormality yields
+\[
+    = \left|\left| \sum_{k> n} \langle T_u, e_k \rangle e_k \right|\right|^2 = \sum_{k>n} |\langle Tu, e_k \rangle|^2 \le \sum_{k>N} |\langle Tu, e_k \rangle|^2 < \eps^2.
+\]
+Taking the supremum over all $u$ with $||u|| = 1$ and then taking a square root yields $||T_n - T|| \le \eps$, as desired.
+
+For the opposite direction, we will use our second characterization of compact sets (approximating using finite-dimensional subspaces). Suppose we know that $||T_n - T|| \to 0$, where each $T_n$ is a finite rank operator. Then $\overline{\{Tu: ||u|| \le 1\}}$ is closed, and because it is contained in the set $\{v: ||v|| \le ||T||\}$, it is bounded.
+
+It suffices to show that for all $\eps > 0$, there exists a finite-dimensional subspace $W$ such that for all $u$ with $||u|| \le 1$, $\inf_{w \in W} ||Tu - w|| \le \eps$. The idea is to approximate $T$ with $T_n$: there is some $N$ such that $||T_N - T|| < \eps$, and thus we can let $W$ be the range of $T_N$ (which is finite-dimensional). We then have, for any $||u|| \le 1$,
+\[
+    ||Tu - T_Nu|| \le ||T - T_N|| \cdot ||u|| \le ||T - T_N|| < \eps,
+\]
+and thus $\inf_{w \in W} ||Tu - w|| < \eps$ because $T_Nu$ is an element of $W$. This means $T$ is compact. 
+\end{proof}
+
+We can also go a bit into the algebraic structure for compact operators, much like we did for finite rank operators:
+
+\begin{theorem}
+Let $H$ be a separable Hilbert space, and let $K(H)$ be the set of compact operators on $H$. Then we have the following:
+\begin{enumerate}
+\item $K(H)$ is a closed subspace of $\mc{B}(H)$.
+\item For any $T \in K(H)$, we also have $T^\ast \in K(H)$.
+\item For any $T \in K(H)$ and $A, B \in \mc{B}(H)$, we have $ATB \in K(H)$.
+\end{enumerate}
+\end{theorem}
+
+In other words, the set of compact operators is also a star-closed, two-sided ideal in the algebra of bounded linear operators.
+ 
+\begin{proof}
+Point (1) is clear because $K(H)$ is the closure of $\mc{R}(H)$ (from above). For (2), notice that if $T \in K(H)$, then there exists a sequence of finite-rank operators with $||T_n - T|| \to 0$, meaning that $||T_n^\ast - T^\ast|| \to 0$ (since the operator norm of the adjoint and the original operator are the same). Since $T_n^\ast$ is finite rank for each $n$, this means $T^\ast$ is indeed a compact operator.
+
+Finally, for (3), we also assume we have a sequence $T_n \to T$ of finite rank operators. Since we've already shown that condition (3) is satisfied by finite rank operators, we have $AT_nB$ a finite rank operator for each $n$, and thus $||AT_nB - ATB|| = ||A(T_n-T)B|| \le ||A|| \cdot ||T_n-T|| \cdot ||B| \to 0$ (because the operator norms of $A$ and $B$ are finite). Thus $AT_nB$ is a sequence of finite rank operators converging to $ATB$, and thus $ATB$ is compact.
+\end{proof}
+
+We'll now turn to studying particular properties of our operators: some of the most important numbers we associate with matrices are the \textbf{eigenvalues}. In physics, the eigenvalues of the Hamiltonian operator (which may not be finite rank) give us the energy levels of the system, and we'll explain formally how we make that definition now, making a generalization of what we encounter in linear algebra. 
+
+\begin{proposition}\label{linopinvbound}
+Let $T \in \mc{B}(H)$ be a bounded linear operator. If $||T|| < 1$, then $I - T$ is invertible, and we can compute its inverse to be the absolutely summable series 
+\[
+    (I-T)^{-1} = \sum_{n=0}^{\infty} T^n.
+\]
+\end{proposition}
+
+We did this proof ourselves, and we can also use it to prove this next result:
+
+\begin{proposition}
+The space of invertible linear operators $GL(H) = \{T \in \mc{B}(H): T \text{ invertible}\}$ is an open subset of $\mc{B}(H)$.
+\end{proposition}
+\begin{proof}
+Let $T_0 \in GL(H)$. Then we claim that any operator $T$ satisfying $||T - T_0|| < ||T_0^{-1}||^{-1}$ is invertible. Indeed,
+\[
+    ||T_0^{-1}(T - T_0)|| \le ||T_0^{-1}|| \cdot ||T - T_0|| < 1,
+\]
+so $I - T_0^{-1}(T-T_0)$ is invertible by \cref{linopinvbound}, meaning that $I - T_0^{-1}T + I = T_0^{-1}T$ is invertible, meaning that $T$ is invertible as well. Thus $T_0$ has an open neighborhood completely contained in $GL(H)$, meaning that $GL(H)$ is open.
+\end{proof}
+
+The reason we're talking about invertible linear operators here is that symmetric, real-valued matrices can be diagonalized, and we find those diagonal entries (eigenvalues) by trying to study the nullspace of $A - \lambda I$. So eigenvalues are basically impediments to the invertibility of $A - \lambda I$, and that's how we'll define our spectrum here:
+
+\begin{definition}
+Let $A \in \mc{B}(H)$ be a bounded linear operator. The \vocab{resolvent set} of $A$, denoted $\text{Res}(A)$, is the set $\{\lambda \in \CC: A - \lambda I \in GL(H)\}$, and the \vocab{spectrum} of $A$, denoted $\text{Spec}(A)$ is the complement $\CC \setminus \text{Res}(A)$.
+\end{definition}
+
+Notice that if $A - \lambda I \in GL(H)$, then we can always uniquely solve the equation $(A - \lambda I) u = v$ for any $v \in H$. We will often write $A - \lambda I$ as $A - \lambda$ for convenience. 
+
+\begin{example}
+Let $A: \CC^2 \to \CC^2$ be the linear operator given in matrix form as $A = \begin{bmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{bmatrix}$. Then $A - \lambda = \begin{bmatrix} \lambda_1 - \lambda & 0 \\ 0 & \lambda_2 - \lambda \end{bmatrix}$ is not invertible exactly when $\lambda = \lambda_1, \lambda_2$, so the spectrum of $A$ is $\{\lambda_1, \lambda_2\}$ (and $\text{Res}(A) = \CC \setminus \{\lambda_1, \lambda_2\}$).
+\end{example}
+
+In other words, the spectrum behaves as we expect it to for finite-dimensional operators, but there is an extra wrinkle for infinite-dimensional operators which we'll see soon.
+
+\begin{definition}
+If $A \in \mc{B}(H)$ and $A - \lambda$ is not injective, then there exists some $u \in H \setminus \{0\}$ with $Au = \lambda u$, and we call $\lambda$ an \vocab{eigenvalue} of $A$ and $u$ the associated \vocab{eigenvector}.
+\end{definition}
+
+\begin{example}
+If we return to our compact operator $T: \ell^2 \to \ell^2$ sending $a \mapsto (\frac{a_1}{1}, \frac{a_2}{2}, \frac{a_3}{3}, \cdots)$, then the $n$th basis vector $e_n$ is an eigenvector of $T$ with eigenvalue $\frac{1}{n}$, so the spectrum contains at least the set $\{\frac{1}{n}: n \in \NN\}$.
+\end{example}
+
+But there's also an additional eigenvalue for $T$ that we missed in this argument: it turns out that $0$ is also in the spectrum, despite there being no nonzero vectors satisfying $Tv = 0$. This is because while the operator $T -0 = T$ is indeed injective, it is not surjective and thus not invertible -- in particular, the inverse of $T$ would need to map $a \mapsto (a_1, 2a_2, 3a_3, \cdots)$, and this is not a bounded linear operator. So $0$ is not in the resolvent, and thus it is in the spectrum, and this is an additional complication because of the infinite-dimensional structure. (The root of what's going on is that the range of $T$ can be dense but not closed.)
+ 
+Also in contrast to the finite-dimensional case, it's also possible for an operator to have no eigenvalues at all:
+
+\begin{example}
+Let $T: L^2([0, 1]) \to L^2([0, 1])$ be defined via $Tf(x) = xf(x)$. Then $T$ has no eigenvalues, but the spectrum is $\text{Spec}(T) = [0, 1]$ (so again we see a discrepancy between eigenvalues and the spectrum). 
+\end{example}
+
+\begin{theorem}
+Let $A \in \mc{B}(H)$. Then $\text{Spec}(A)$ is a closed subset of $\CC$, and $\text{Spec}(A) \subset \{\lambda \in C: |\lambda| \le ||A||\}$.
+\end{theorem}
+
+In particular, this means the spectrum is a compact subset of the complex numbers -- this is another way we can understand that if $\{\frac{1}{n}: n \in \NN\}$ is in our spectrum, the limit point $0$ must also be.
+
+\begin{proof}
+It is equivalent to show that the resolvent set $\text{Res}(A)$ is open and contains the set $\{\lambda \in \CC: |\lambda| > ||A||\}$. To show openness, let $\lambda_0 \in \text{Res}(A)$, meaning that $A - \lambda_0$ is invertible. Since $GL(H)$ is open, there exists some $\eps > 0$ such that $||T - (A - \lambda_0) || < \eps \implies T \in GL(H)$. Now because 
+\[
+    |\lambda - \lambda_0| < \eps \implies ||\lambda I - \lambda_0 I|| < \eps \implies ||(A - \lambda) - (A - \lambda_0)|| < \eps, 
+\]
+this means that for all $\lambda$ in an $\eps$-neighborhood of $\lambda_0$, we have $\lambda \in \text{Res}(A)$, and that shows openness. 
+
+We now want to show that if $|\lambda| > ||A||$, then $A - \lambda$ is invertible. Indeed, for any $|\lambda| > ||A||$ (in particular $\lambda$ is nonzero), we have
+$I - \frac{1}{\lambda} A$ invertible by \cref{linopinvbound}. Thus
+\[
+    A - \lambda = -\lambda\left(I - \frac{1}{\lambda} A\right)
+\]
+is indeed invertible, and thus $\lambda \in \text{Res}(A)$ as desired. 
+\end{proof}
+
+\begin{remark}
+It makes sense to ask whether the spectrum can be empty, and the answer is no. This requires some complex analysis -- if the spectrum were empty, then for all $u, v \in H$, $f(\lambda) = \langle (A - \lambda)^{-1}u, v \rangle$ is a continuous, complex differentiable function in $\lambda$ on $\CC$. As $\lambda$ gets large, the operator norm of $(A - \lambda)^{-1}$ goes to $0$, but now Liouville's theorem tells us that because $f(\lambda) \to 0$ as $|\lambda| \to \infty$, our function must be identically zero, which means that $(A - \lambda)^{-1} = 0$, a contradiction.
+\end{remark}
+
+For our purposes going forward, though, we'll focus on self-adjoint operators, and it'll be useful to have a better characterization of them. 
+
+\begin{theorem}
+If we have a self-adjoint operator $A \in \mc{B}(H)$, meaning that $A = A^\ast$, then $\langle Au, u \rangle$ is real for all $u$, and $||A|| = \sup_{||u|| = 1} |\langle Au, u \rangle|$.
+\end{theorem}
+\begin{proof}
+The first fact is easy to show: notice that
+\[
+    \overline{\langle Au, u \rangle} = \langle u, Au \rangle = \langle u, A^\ast u \rangle = \langle Au, u \rangle
+\]
+using the definition of the inner product and the adjoint. For the second fact, let $a = \sup_{||u|| = 1} |\langle Au, u \rangle|$. For all $||u|| = 1$, we have (by Cauchy-Schwarz)
+\[
+    |\langle Au, u \rangle| \le ||Au|| \cdot ||u|| \le ||A|.
+\]
+So taking a supremum over all $u$, we find that $a$ is a finite number, and $a \le ||A||$. To finish, it suffices to prove the other inequality. For any $u \in H$ satisfying $||u|| = 1$ such that $Au \ne 0$ (there is some $u$ for which this is true, otherwise $A$ is the zero operator and the result is clear), we can define the unit-length vector $v = \frac{Au}{||Au||}$, and 
+\[
+    ||Au|| = \frac{\langle Au, Au \rangle}{||Au||} = \langle Au, v \rangle = \text{Re}\langle Au, v \rangle, 
+\]
+and we can verify ourselves that this can be written as 
+\[
+    = \frac{1}{4} \text{Re}\left[ \langle A(u+v), u+v \rangle - \langle A(u-v), u-v\rangle + i\left(\langle A(u+iv), u+iv \rangle - \langle A(u-iv), u-iv \rangle\right)\right].
+\]
+Now the $i\left(\langle A(u+iv), u+iv \rangle - \langle A(u-iv), u-iv \rangle\right)$ part is purely imaginary, since $\langle A(u\pm iv), u\pm iv \rangle$ are real by the first part of this result, and thus those two terms drop out when we take the real part. We're left with 
+\[
+    = \frac{1}{4} \left(\langle A(u+v), u+v \rangle - \langle A(u-v), u-v \rangle \right),
+\]
+and now using the fact that $\langle Au, u \rangle \le a$ for any unit-length $u$, meaning that $\langle Au, u \rangle \le a ||u||^2$ for all $u$, we can bound this as
+\[
+    \le \frac{1}{4} (a||u+v||^2 + a||u-v||^2),
+\]
+and by the parallelogram law this simplifies to (because $||u|| = ||v|| = 1$)
+\[
+    = \frac{a}{4} \cdot 2 (||u||^2 + ||v||^2) = a.
+\]
+Thus $||Au|| \le a$ for all $u$, meaning that $||A|| \le a$ as desired.
+\end{proof}
+
+\begin{remark}
+In quantum mechanics, observables (like position, momentum, and so on) are modeled by self-adjoint unbounded operators, and the point is that all things measured in nature (the associated eigenvalues) are real. So there are applications of all of our discussions here to physics!
+\end{remark}
+
+We'll discuss more about the spectrum of self-adjoint operators next time, seeing that it must be contained in $\RR$ and also within certain bounds involving $\langle Au, u \rangle$. 

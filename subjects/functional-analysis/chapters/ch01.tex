@@ -1,0 +1,108 @@
+\originalchapter{赋范空间与完备性}\label{ch:norm}
+\originalsection{范数与收敛}
+在有限维问题中, 求解线性方程只涉及有限次运算. 对函数或无穷数列, 近似解往往形成一个序列; 能否把近似解的极限仍视为合法解, 取决于空间的范数与完备性. 全书的底域 $\K$ 为 $\R$ 或 $\C$, 讨论谱时会明确采用复 Hilbert 空间.
+
+\begin{definition}
+设 $X$ 为 $\K$ 上的向量空间. 范数是函数 $\norm{\cdot}:X\to[0,\infty)$, 满足 $\norm{x}=0$ 当且仅当 $x=0$, $\norm{\alpha x}=|\alpha|\norm{x}$, 以及 $\norm{x+y}\le\norm{x}+\norm{y}$. 半范数保留齐次性与三角不等式, 允许非零向量的半范数为零. 配备范数的空间称赋范空间.
+\end{definition}
+向量可以是数列或函数, 所以范数并不只表示欧氏长度. 范数导出距离 $d(x,y)=\norm{x-y}$: 对称性来自 $\norm{-z}=\norm{z}$, 三角不等式来自 $x-z=(x-y)+(y-z)$. 下文 $B_X(x,r)$ 表示 $\norm{y-x}<r$ 的开球, $\overline B_X(x,r)$ 表示 $\norm{y-x}\le r$ 的闭球.
+
+\begin{proposition}\label{prop:normcontinuous}
+赋范空间中有 $|\norm{x}-\norm{y}|\le\norm{x-y}$. 向量加法和数乘连续. 特别地, 若 $x_n\to x$, 则 $\norm{x_n}\to\norm{x}$, 且序列 $(x_n)$ 有界.
+\end{proposition}
+\begin{proof}
+由 $\norm{x}\le\norm{x-y}+\norm{y}$ 得一个方向, 交换 $x,y$ 得另一个方向. 若 $x_n\to x$, $y_n\to y$, 则 $\norm{x_n+y_n-x-y}\le\norm{x_n-x}+\norm{y_n-y}\to0$. 若同时 $\alpha_n\to\alpha$, 则
+\[
+\norm{\alpha_n x_n-\alpha x}\le |\alpha_n|\norm{x_n-x}+|\alpha_n-\alpha|\norm{x}\to0,
+\]
+因为收敛标量序列有界. 对收敛向量序列, 充分大的 $n$ 满足 $\norm{x_n-x}<1$, 前面有限项再取最大值, 就得全序列的界.
+\end{proof}
+
+\begin{example}
+比较 $C([0,1])$ 上的两个范数 $\norm{f}_\infty=\max|f|$ 与 $\norm{f}_1=\int_0^1|f|\dd x$.
+\end{example}
+\begin{solution}
+二者均满足齐次性和三角不等式. 连续函数若不恒为零, 在某个小区间上有 $|f|\ge c>0$, 因而积分正, 所以第二个也是范数. 对 $f_n(x)=x^n$, 有 $\norm{f_n}_\infty=1$, 而 $\norm{f_n}_1=1/(n+1)\to0$. 因此同一向量空间的不同范数可给出不同的收敛概念.
+\end{solution}
+
+\begin{definition}
+若对每个 $\eps>0$ 存在 $N$, 使 $n,m\ge N$ 时 $\norm{x_n-x_m}<\eps$, 则 $(x_n)$ 为 Cauchy 序列. 每个 Cauchy 序列都有空间内的极限时, 空间称为 Banach 空间.
+\end{definition}
+这一条件不是说所有序列收敛. 它只把已经互相接近的序列的极限补齐. 选择不同范数可能改变完备性, 不能只凭向量空间的名称判断.
+
+\originalsection{函数空间与数列空间}
+若 $S=\varnothing$, 将唯一空函数的范数规定为零, 得到零 Banach 空间.
+\begin{theorem}\label{thm:cb}
+设 $S$ 为非空度量空间. 有界连续函数空间 $C_b(S)$ 在上确界范数 $\norm{f}_\infty=\sup_{s\in S}|f(s)|$ 下是 Banach 空间.
+\end{theorem}
+\begin{proof}
+设 $(f_n)$ 为 Cauchy 序列. 对每个固定 $s$, 有 $|f_n(s)-f_m(s)|\le\norm{f_n-f_m}_\infty$, 故标量完备性给出 $f(s)=\lim_n f_n(s)$. Cauchy 序列有界的证明同命题\ref{prop:normcontinuous}, 所以存在 $M$ 使每个 $\norm{f_n}_\infty\le M$, 取点态极限得 $|f(s)|\le M$.
+
+给定 $\eps>0$, 取 $N$ 使 $n,m\ge N$ 时上确界差小于 $\eps/2$. 固定 $n\ge N$, 令 $m\to\infty$, 得对所有 $s$ 同时有 $|f_n(s)-f(s)|\le\eps/2$. 因而 $f_n\to f$ 一致. 为核对连续性, 固定 $s_0$, 先取 $n$ 使一致误差小于 $\eps/3$, 再用 $f_n$ 在 $s_0$ 的连续性控制 $|f_n(s)-f_n(s_0)|<\eps/3$. 三项相加得 $|f(s)-f(s_0)|<\eps$. 因此 $f\in C_b(S)$, 且收敛发生在所给范数中.
+\end{proof}
+
+\begin{definition}
+对于 $1\le p<\infty$, 定义 $\ell^p=\{a=(a_j)_{j\ge1}:\sum_j|a_j|^p<\infty\}$, 范数为 $\norm{a}_p=(\sum_j|a_j|^p)^{1/p}$. 定义 $\ell^\infty=\{a:\sup_j|a_j|<\infty\}$, 范数为 $\norm{a}_\infty=\sup_j|a_j|$. 子空间 $c_0$ 由趋于零的数列组成, $c_{00}$ 由只有有限项非零的数列组成.
+\end{definition}
+这些集合对线性运算封闭. 当 $p>1$ 时, 三角不等式需要 Hölder 不等式支持, 不能只把求和号当有限求和使用.
+
+\begin{lemma}[Hölder 与 Minkowski 不等式]\label{lem:holder-seq}
+设 $1<p<\infty$, $q=p/(p-1)$. 则 $\sum_j|a_jb_j|\le\norm{a}_p\norm{b}_q$, 并且 $\norm{a+b}_p\le\norm{a}_p+\norm{b}_p$. 对 $p=1,q=\infty$ 也有相应 Hölder 不等式, $p=1,\infty$ 的三角不等式直接成立.
+\end{lemma}
+\begin{proof}
+对 $s,t\ge0$, 有 Young 不等式 $st\le s^p/p+t^q/q$. 固定 $t$ 时, 函数 $s^p/p-st$ 的最小值在 $s=t^{q-1}$ 取得, 代入即得此式. 若两个范数都非零, 将 $a,b$ 分别除以各自范数, 对 Young 不等式求和, 得归一化后的和不超过 $1/p+1/q=1$. 范数为零的情形直接成立; 无穷和由有限部分和取极限得到.
+
+先对有限项证明 Minkowski. 记 $s=\norm{a+b}_p$. 若 $s=0$ 无须证明. 否则
+\[
+s^p\le\sum_j(|a_j|+|b_j|)|a_j+b_j|^{p-1}
+\le(\norm{a}_p+\norm{b}_p)s^{p-1},
+\]
+第二步分别用 Hölder, 并用 $(p-1)q=p$. 除以 $s^{p-1}$ 得结论. 对截断后的数列应用此式, 令截断长度趋于无穷, 同时说明 $a+b\in\ell^p$. 当 $p=1$ 逐项相加, 当 $p=\infty$ 逐项取上确界.
+\end{proof}
+
+\begin{theorem}\label{thm:lpseqbanach}
+$\ell^p$ 对每个 $1\le p\le\infty$ 都完备. $c_0$ 是 $\ell^\infty$ 的闭子空间, 因而也完备.
+\end{theorem}
+\begin{proof}
+设 $(a^{(n)})$ 为 $\ell^p$ 中的 Cauchy 序列. 因为 $|a_j^{(n)}-a_j^{(m)}|\le\norm{a^{(n)}-a^{(m)}}_p$, 每个坐标有极限 $a_j$. 当 $p<\infty$ 时, 若 $n,m\ge N$ 的范数差小于 $\eps$, 则固定 $n\ge N$ 和有限的 $J$, 令 $m\to\infty$ 得
+\[
+\sum_{j=1}^J|a_j^{(n)}-a_j|^p\le\eps^p.
+\]
+再令 $J\to\infty$, 得 $a^{(n)}-a\in\ell^p$ 且其范数不超过 $\eps$. 取一个这样的 $n$ 并用 Minkowski, 可知 $a\in\ell^p$, 于是得到范数收敛. 当 $p=\infty$, 先固定 $j$ 取 $m$ 的极限, 再对 $j$ 取上确界, 得同样结论.
+
+若 $a^{(n)}\in c_0$ 且一致趋于 $a$, 则给定 $\eps>0$, 先取 $n$ 使 $\norm{a-a^{(n)}}_\infty<\eps/2$, 再取 $J$ 使 $j>J$ 时 $|a_j^{(n)}|<\eps/2$. 所以 $|a_j|<\eps$, 即 $a\in c_0$. 闭子空间的完备性将在下一章一般证明.
+\end{proof}
+有限截断在 $\ell^p$ 中趋于原数列, 当且仅当这里 $p<\infty$, 或所给数列属于 $c_0$ 并采用上确界范数. 对常数数列 $(1,1,\ldots)$, 有限截断的上确界误差始终为1.
+
+\originalsection{绝对收敛与有限维}
+\begin{theorem}\label{thm:series}
+赋范空间 $X$ 完备, 当且仅当每个满足 $\sum_n\norm{x_n}<\infty$ 的向量级数 $\sum_n x_n$ 在 $X$ 中收敛.
+\end{theorem}
+\begin{proof}
+若 $X$ 完备, 则部分和之差的范数不超过对应的标量尾和, 故部分和为 Cauchy 序列并收敛. 反之, 设绝对收敛的向量级数均收敛, 且 $(u_n)$ 为 Cauchy 序列. 递增选取 $n_k$, 使任意 $n,m\ge n_k$ 时 $\norm{u_n-u_m}<2^{-k}$. 于是 $\sum_k(u_{n_{k+1}}-u_{n_k})$ 绝对收敛. 其前 $m$ 项为 $u_{n_{m+1}}-u_{n_1}$, 所以 $(u_{n_k})$ 收敛于某个 $u\in X$. 对 $n,n_k$ 足够大,
+$\norm{u_n-u}\le\norm{u_n-u_{n_k}}+\norm{u_{n_k}-u}$, 两项都可任意小, 因而原序列也收敛.
+\end{proof}
+
+\begin{theorem}\label{thm:finite}
+有限维向量空间上的任意两个范数等价: 存在 $c,C>0$ 使 $c\norm{x}_a\le\norm{x}_b\le C\norm{x}_a$. 有限维赋范空间完备, 其闭有界集紧, 且任何赋范空间的有限维子空间都闭.
+\end{theorem}
+\begin{proof}
+零维情形显然, 以下设维数 $d\ge1$. 取基 $v_1,\ldots,v_d$, 以 $|t|_2$ 表示坐标 $t\in\K^d$ 的欧氏范数. 对任意所给范数,
+$\norm{\sum_jt_jv_j}\le\sum_j|t_j|\norm{v_j}\le C|t|_2$. 因而该范数是坐标的连续函数. 欧氏单位球面紧, 范数在其上达到最小值 $c$; 最小值不能为零, 因为基向量线性无关且单位坐标不是零. 齐次性给出 $c|t|_2\le\norm{\sum_jt_jv_j}$. 两个范数均与欧氏范数比较, 得等价性.
+
+给定范数下的 Cauchy 序列坐标也是 Cauchy 序列, 故逐坐标收敛; 范数上界保证收敛回到原空间. 同样的比较把闭有界集化为 $\R^{d}$ 或 $\R^{2d}$ 的闭有界集, 可用 Heine--Borel 定理. 若有限维子空间中的序列在环境空间收敛, 则它在子空间范数中为 Cauchy, 完备性给出子空间内的极限; 环境空间的极限唯一, 所以子空间闭.
+\end{proof}
+
+\begin{exercise}
+证明 $c_{00}$ 在 $\ell^2$ 范数下不完备, 但在 $\ell^2$ 中稠密.
+\end{exercise}
+\begin{solution}
+令 $u^{(n)}=\sum_{j=1}^n j^{-1}e_j$. 平方尾和 $\sum_{j>n}j^{-2}\to0$, 所以此序列为 Cauchy. 其 $\ell^2$ 极限为 $(j^{-1})$, 不在 $c_{00}$, 由极限唯一性知在 $c_{00}$ 中没有极限. 任意 $a\in\ell^2$ 的截断 $P_na$ 满足 $\norm{a-P_na}_2^2=\sum_{j>n}|a_j|^2\to0$, 所以稠密.
+\end{solution}
+
+\begin{exercise}
+若 $1\le p<q\le\infty$, 证明 $\ell^p\subset\ell^q$ 且 $\norm{a}_q\le\norm{a}_p$. 说明有限测度上的 $L^p$ 包含关系为什么不应照抄此方向.
+\end{exercise}
+\begin{solution}
+先设 $\norm{a}_p=1$, 则每个 $|a_j|\le1$. 当 $q<\infty$, 有 $\sum|a_j|^q\le\sum|a_j|^p=1$; 当 $q=\infty$ 直接用逐项界. 一般情形由归一化得到. 计数测度下各单点测度为1, 而有限区间允许函数在很小集合上很大. 例如 $x^{-1/3}$ 在 $(0,1)$ 属于 $L^2$ 而不属于 $L^3$, 因为对应幂积分分别有限与发散. 有限测度上的正确包含方向在第\ref{ch:measure}章给出.
+\end{solution}

@@ -1,0 +1,92 @@
+\originalchapter{弱拓扑与弱收敛}\label{ch:weak}
+\originalsection{弱与弱星拓扑}
+本章将主源的双对偶内容与 Melrose 讲义第3章第15节的弱收敛串联. 一般赋范空间的弱、弱星拓扑定义及可分对偶球的论证为\textbf{编者补充}. 弱收敛减少了需要一致控制的观测数量, 为有界序列提供较容易取得的极限.
+
+\begin{definition}
+$X$ 上的弱拓扑 $\sigma(X,X^*)$ 是使每个 $f\in X^*$ 连续的最弱拓扑. 在 $x$ 处的基本邻域形如
+\[
+\{y\in X:|f_j(y-x)|<\eps,\ 1\le j\le m\},
+\]
+其中只取有限个泛函. $X^*$ 上的弱星拓扑 $\sigma(X^*,X)$ 则用有限个 $x_j\in X$ 的取值 $|f(x_j)-g(x_j)|<\eps$ 定义邻域. 序列 $x_n\rightharpoonup x$ 指对每个 $f\in X^*$ 有 $f(x_n)\to f(x)$; 序列 $f_n\overset{*}{\rightharpoonup}f$ 指对每个 $x\in X$ 有 $f_n(x)\to f(x)$.
+\end{definition}
+有限交形式确实组成邻域基, 因为交集可合并有限个约束, 缩小阈值仍给邻域. 任一使所有泛函连续的拓扑必须包含这些邻域, 因而它是最弱的. 单个序列满足所有取值收敛, 就最终满足任意有限组约束, 所以与拓扑的序列收敛相符. 这里并不声称一般弱拓扑的闭性都能只靠序列刻画.
+
+Hahn--Banach 说明弱拓扑是 Hausdorff: 若 $x\ne y$, 可选 $f(x)\ne f(y)$, 用分开的标量小球取逆像就能分离二者. 对弱星拓扑, 不同泛函本来就在某个向量上取值不同. 因而弱极限与弱星极限唯一. 范数收敛蕴含弱收敛, 因 $|f(x_n-x)|\le\norm{f}\norm{x_n-x}$. 对偶的范数收敛同样蕴含弱星收敛.
+
+\begin{proposition}\label{prop:weakbounded}
+任何赋范空间中的弱收敛序列在范数下有界. 若 $X$ 为 Banach 空间, $X^*$ 中弱星收敛的序列也在范数下有界.
+\end{proposition}
+\begin{proof}
+若 $x_n\rightharpoonup x$, 对每个 $f\in X^*$, 序列 $(J_Xx_n)(f)=f(x_n)$ 有界. 对 Banach 空间 $X^*$ 上的算子 $J_Xx_n:X^*\to\K$ 用统一有界原理, 得 $\sup_n\norm{J_Xx_n}<\infty$. 等距性给出 $\sup_n\norm{x_n}<\infty$, 不要求 $X$ 完备. 对弱星收敛的 $f_n$, 直接在定义域 Banach 空间 $X$ 上用统一有界原理, 得第二结论.
+\end{proof}
+
+\begin{proposition}\label{prop:weaklsc}
+若 $x_n\rightharpoonup x$, 则 $\norm{x}\le\liminf_n\norm{x_n}$. 有界线性算子保持弱收敛.
+\end{proposition}
+\begin{proof}
+若 $x\ne0$, 选单位泛函 $f$ 使 $f(x)=\norm{x}$. 因 $f(x_n)\to\norm{x}$ 且 $|f(x_n)|\le\norm{x_n}$, 取下极限即得结论. $x=0$ 时直接成立. 对 $T\in\B(X,Y)$ 和任意 $g\in Y^*$, 复合 $gT\in X^*$, 所以 $g(Tx_n)\to g(Tx)$.
+\end{proof}
+
+\begin{example}
+比较 $\ell^2$ 中的 $e_n$ 及 $\ell^\infty$ 中的 $u^{(n)}=(\underbrace{0,\ldots,0}_{n\text{项}},1,1,\ldots)$ 的收敛.
+\end{example}
+\begin{solution}
+Riesz 表示说明 $\ell^2$ 中弱收敛等价于对每个 $a\in\ell^2$ 的内积收敛. 因 $a_n\to0$, 有 $\ip{e_n}{a}=\overline{a_n}\to0$, 所以 $e_n\rightharpoonup0$, 但范数恒为1, 不强收敛.
+
+把 $\ell^\infty=(\ell^1)^*$ 视为对偶, 对任意 $a\in\ell^1$ 有 $\sum_{j>n}a_j\to0$, 所以 $u^{(n)}$ 弱星趋于零. 但第\ref{ch:dual}章构造的泛函 $F\in(\ell^\infty)^*$ 满足 $F(u^{(n)})=1$, 因各 $u^{(n)}$ 是极限为1的收敛数列. 所以它不弱趋于零. 弱星测试向量来自 $\ell^1$, 弱测试泛函来自更大的 $(\ell^\infty)^*$, 两者不可混淆.
+\end{solution}
+
+\originalsection{Hilbert 空间的弱极限}
+\begin{theorem}\label{thm:weak-coordinates}
+设 $(e_j)$ 为可数正交归一基. 范数有界的序列 $(x_n)$ 弱收敛, 当且仅当每个坐标 $\ip{x_n}{e_j}$ 收敛. 若坐标极限为 $a_j$, 则弱极限为 $x=\sum_ja_je_j$.
+\end{theorem}
+\begin{proof}
+正向由测试泛函 $y\mapsto\ip{y}{e_j}$ 得到. 反向设 $\norm{x_n}\le M$. 对每个有限 $J$, 坐标收敛给出 $\sum_{j=1}^J|a_j|^2=\lim_n\sum_{j=1}^J|\ip{x_n}{e_j}|^2\le M^2$. 令 $J\to\infty$, 得 $a\in\ell^2$, 从而向量 $x$ 存在且 $\norm{x}\le M$.
+
+给定 $y\in H$, 令 $y_J=P_Jy$. 有
+\[
+|\ip{x_n-x}{y}|\le |\ip{x_n-x}{y_J}|+2M\norm{y-y_J}.
+\]
+先选 $J$ 使第二项小, 这一步不依赖 $n$; 再由有限个坐标收敛使第一项小. 所以对所有 $y$ 内积收敛. Riesz 表示把这等价为弱收敛. $M=0$ 时全序列零, 另行成立.
+\end{proof}
+
+\begin{theorem}\label{thm:weaksubsequence}
+Hilbert 空间中的每个范数有界序列都有弱收敛子列. 这里说的是序列结论.
+\end{theorem}
+\begin{proof}
+先设空间可分. 每个坐标序列有界, 由标量 Bolzano--Weierstrass 定理, 对第一个坐标取收敛子列, 再对第二个取前一子列的收敛子列, 依次进行. 取第 $k$ 个嵌套子列中的第 $k$ 项, 并保持原指标严格递增, 得对角子列; 对任意固定坐标, 该子列从某项起属于相应的收敛子列, 因而坐标收敛. 用定理\ref{thm:weak-coordinates}得到弱极限.
+
+若 $H$ 不可分, 令 $M$ 为原序列的闭线性张成. 有理实或有理复系数的有限线性组合给出可数稠密集, 所以 $M$ 可分. 在 $M$ 中用上述论证得到子列和极限. 对任意 $y\in H$, 分解 $y=P_My+y^\perp$, 序列及其极限均与 $y^\perp$ 正交, 所以内积测试化为 $M$ 中的测试. 因而该子列也在 $H$ 中弱收敛.
+\end{proof}
+
+\begin{proposition}\label{prop:weakstrong}
+在 Hilbert 空间中, 若 $x_n\rightharpoonup x$ 且 $\norm{x_n}\to\norm{x}$, 则 $x_n\to x$ 于范数. 非空闭凸集对弱收敛序列的极限封闭.
+\end{proposition}
+\begin{proof}
+展开得 $\norm{x_n-x}^2=\norm{x_n}^2+\norm{x}^2-2\operatorname{Re}\ip{x_n}{x}\to0$. 对闭凸集 $C$, 若 $x\notin C$, 取 $p=P_Cx$. 投影刻画给出对所有 $z\in C$ 有 $\operatorname{Re}\ip{z-p}{x-p}\le0$. 若 $x_n\in C$ 弱趋于 $x$, 则对此固定向量取内积极限, 得 $\norm{x-p}^2\le0$, 矛盾.
+\end{proof}
+
+\originalsection{可分情形的弱星紧性}
+\begin{theorem}\label{thm:weakstar-separable}
+若赋范空间 $X$ 可分, 则对偶闭单位球的每个序列都有弱星收敛子列, 极限仍在闭单位球. 该球上的弱星拓扑可由一个度量给出, 因而该球在弱星拓扑中紧.
+\end{theorem}
+\begin{proof}
+取 $X$ 的可数稠密集 $(x_j)$. 对 $\norm{f_n}\le1$, 每个标量序列 $f_n(x_j)$ 有界, 对角选择得子列 $(g_n)$, 使所有这些取值收敛. 对任意 $x$, 选 $x_j$ 接近 $x$, 则
+$|g_n(x)-g_m(x)|\le2\norm{x-x_j}+|g_n(x_j)-g_m(x_j)|$.
+先选 $j$, 再取大 $n,m$, 可知 $(g_n(x))$ 为 Cauchy. 定义 $f(x)=\lim_ng_n(x)$, 有限线性运算取极限给出线性性, 且 $|f(x)|\le\norm{x}$, 所以 $f\in X^*$, $\norm{f}\le1$, 子列弱星收敛.
+
+在此单位球上定义
+\[
+d(f,g)=\sum_{j=1}^\infty2^{-j}\min\{1,|f(x_j)-g(x_j)|\}.
+\]
+截断函数满足三角不等式, 总和有限. 若距离为零, 两泛函在稠密集上一致, 连续性使它们处处一致, 所以 $d$ 为度量. 对有限个 $x_j$ 的取值约束能使有限部分小, 剩余尾和统一小, 说明每个度量球包含弱星邻域. 反方向, 对给定的有限测试向量 $y_1,\ldots,y_m$, 各选稠密点 $x_{j_k}$ 使 $2\norm{y_k-x_{j_k}}$ 很小; 距离足够小就使每个 $|f(x_{j_k})-g(x_{j_k})|$ 小, 再用上述估计控制 $|f(y_k)-g(y_k)|$. 所以两拓扑相同.
+
+已经证明每个序列有收敛子列. 在度量空间, 序列紧等价于紧, 因而得到最后结论. 此等价是本书采用的度量空间先修, 可参见已归档的基础拓扑册. 一般不可分空间的 Banach--Alaoglu 定理需要乘积紧性, 不在本册证明范围内.
+\end{proof}
+
+\begin{exercise}
+设 $X$ 为 Banach 空间, $f_n\in X^*$, 且每个 $f_n(x)$ 都有极限. 证明这些极限构成一个 $f\in X^*$, 且 $f_n$ 弱星趋于 $f$.
+\end{exercise}
+\begin{solution}
+逐点收敛给出逐点有界, 统一有界原理给出 $M=\sup_n\norm{f_n}<\infty$. 令 $f(x)=\lim_nf_n(x)$, 有限线性运算取极限说明线性, 且 $|f(x)|\le M\norm{x}$, 因而连续. 弱星收敛正是其定义. 不需声称范数收敛.
+\end{solution}

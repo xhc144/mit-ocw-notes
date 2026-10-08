@@ -1,0 +1,157 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{May 6, 2021}
+
+We'll continue discussing properties of the spectrum of a bounded linear operator today: recall that the \textbf{resolvent} of an operator $A$ is the set of complex numbers $\lambda$ such that $A - \lambda$ is an element of $GL(H)$ (in other words, $A - \lambda$ is bijective, meaning it has a bounded inverse), and the \textbf{spectrum} of $A$ is the complement of the resolvent in $\CC$. While the spectrum is just the set of eigenvalues for matrices in a finite-dimensional vector space, there's a more subtle distinction to be made now: we define $\lambda \in \text{Spec}(A)$ to be an \textbf{eigenvalue} if there is some vector $u$ with $(A - \lambda)u = 0$, so $\lambda$ is in the spectrum because $A - \lambda$ is not injective. But there are other reasons for why $\lambda$ might be in the spectrum as well, for instance if the image is not closed. 
+
+Last time, we proved that the spectrum is closed and is contained within the ball of radius $||A||$, meaning that it is compact. We then focused our attention on self-adjoint operators, and that's where we'll be directing our study today. We proved last lecture that a self-adjoint bounded linear operator $A$ always has $\langle Au, u \rangle$ real, and that it satisfies $||A|| = \sup_{||u|| = 1} |\langle Au, u \rangle|$. Here's our next result:
+
+\begin{theorem}\label{spectrumisinrealline}
+Let $A = A^\ast \in \mc{B}(H)$ be a self-adjoint operator. Then the spectrum $\text{Spec}(A) \subset [-||A||, ||A||]$ is contained within a line segment on the real line, and at least one of $\pm ||A||$ is in $\text{Spec}(A)$.
+\end{theorem}
+
+\begin{proof}
+First, we'll show the first property (that the spectrum is contained within this given line segment). We know from last time that $\text{Spec}(A) \subset \{|\lambda| \le ||A||\}$, so we just need to show that $\text{Spec}(A) \subset \RR$ (in other words, any complex number with a nonzero imaginary part is in the resolvent). Write $A = s + it$ for $s, t$ real and $t \ne 0$, so that 
+\[
+    A - \lambda = (A - s) - it = \tilde{A} - it,
+\]
+where $\tilde{A} = A-s$ is another self-adjoint bounded linear operator because $(A-sI)^\ast = A^\ast - (sI)^\ast = A - sI$. So it suffices to show that $\tilde{A} - it$ is \textbf{bijective}, and we'll switch our notation back to using $A$ instead of $\tilde{A}$. 
+
+Note that because $\langle Au, u \rangle$ is real, 
+\[
+    \text{Im}(\langle(A-it)u, u \rangle) = \text{Im}(\langle-itu, u \rangle) = -t ||u||^2,
+\]
+so $(A - it)u = 0$ only if $u = 0$ (since that's the only instance where the right-hand side is zero). Therefore, $A-it$ is injective, and we just need to show that it is surjective. Notice that $(A - it)^\ast = A+it$ is also injective by the same argument, so 
+\[
+    \text{Range}(A-it)^\perp = \text{Null}((A-it)^\ast) = \{0\}.
+\]
+And now we can use what we know about orthogonal complements: 
+\[
+    \overline{\text{Range}(A-it)} = (\text{Range}(A-it)^\perp)^\perp = \{0\}^\perp = H,
+\]
+so it suffices to show that the range of $A-it$ is closed. To show that, suppose we have a sequence of elements $u_n$ such that $(A-it)u_n \to v$; we want to show that $v \in \text{Range}(A-it)$. We know from the calculation above that
+\[
+    |t| \cdot ||u_n - u_m||^2 = |\text{Im}(\langle(A-it)(u_n - u_m), u_n-u_m\rangle)| \le |\langle(A-it)(u_n - u_m), u_n-u_m\rangle|,
+\]
+and by Cauchy-Schwarz this is bounded by
+\[
+    \le ||(A-it)u_n - (A-it)u_m|| \cdot ||u_n-u_m||.
+\]
+Simplifying the first and last expressions, we find that
+\[
+    ||u_n - u_m|| \le \frac{1}{|t|}||(A-it)u_n - (A-it)u_m||.
+\]
+Since $t$ is a fixed constant, and our sequence $\{(A-it)u_n\}$ converges, it is also Cauchy. In particular, for any $\eps > 0$, we can find some $N$ so that the right-hand side is smaller than $\eps$ as long as $n, m \ge N$, and that same $N$ shows that our sequence $\{u_n\}$ is also Cauchy. Therefore, there exists some $u \in H$ so that $u_n \to u$ by completeness of our Hilbert space, and now we're done: since $(A-it)$ is a bounded and thus continuous linear operator, 
+\[
+    (A-it)u = \lim_{n \to \infty} (A-it)u_n = v.
+\]
+So the range is closed, and combining this with our previous work, $A-it$ is surjective. This finishes our proof that $A-it$ is bijective and thus complex numbers with nonzero imaginary part are in the resolvent.
+
+Now for the second property, since we have shown that $||A|| = \sup_{||u|| = 1} |\langle Au, u \rangle|$, there must be a sequence of unit vectors $\{u_n\}$ such that $|\langle Au_n, u_n \rangle| \to ||A||$. Since each term in this sequence is real, there must be a subsequence of these $\{u_n\}$ with $\langle Au_n, u_n\rangle$ converging to $||A||$ or to $-||A||$, which means that we have 
+\[
+    \langle (A \mp ||A||)u_n, u_n \rangle \to 0
+\]  
+as $n \to \infty$ (this notation means \textbf{one of} $-$ or $+$, depending on whether we had convergence to $||A||$ or $-||A||$). We claim that this means $A \mp ||A||$ is not invertible: assume for the sake of contradiction that it were invertible. Then
+\[
+    1 = ||u_n|| = ||(A \pm ||A||)^{-1} (A \mp ||A||) u_n|| \le ||(A \pm ||A||)^{-1}|| \cdot ||(A \mp ||A||) u_n||,
+\]
+but the right-hand side converges to $0$ as $n \to \infty$, contradiction. So $A \mp ||A||$ is not bijective, and thus one of $\pm ||A||$ must be in the spectrum of $A$, finishing the proof. 
+\end{proof}
+
+We can in fact strengthen this bound even more:
+
+\begin{theorem}
+If $A = A^\ast \in \mc{B}(H)$ is a self-adjoint bounded linear operator, and we define $a_- = \inf_{||u|| = 1} \langle Au, u \rangle$ and $a_+ = \sup_{||u|| = 1} \langle Au, u \rangle$, then $a_{\pm}$ are both contained in $\text{Spec}(A)$, which is contained within $[a_-, a_+]$. 
+\end{theorem}
+\begin{proof}
+Applying a similar strategy as before, we know that because $-||A|| \le \langle Au, u \rangle \le ||A||$ for all $u$, we must have $-||A|| \le a_- \le a_+ \le ||A||$ (by taking the infimum and supremum of the middle quantity). Now by the definition of $a_-, a_+$, there exist \textbf{two sequences} $\{u_n^{\pm}\}$ of unit vectors so that $\langle Au_n^{\pm}, u_n^{\pm} \rangle \to a_{\pm}$. And the argument we just gave works here very similarly: since we know that
+\[
+    \langle (A - a_{\pm}) u_n^{\pm}, u_n^{\pm} \rangle \to 0,
+\]
+this implies that $a_+$ and $a_-$ are both in the spectrum because we have convergence to both points. 
+
+It remains to show that the spectrum is contained within $[a_-, a_+]$. Let $b = \frac{a_- + a_+}{2}$ be their midpoint, and let $B = A - bI$. Since $b$ is a real number, $B$ is also a bounded self-adjoint operator, so by \cref{spectrumisinrealline}, we know that
+\[
+    \text{Spec}(B) \subset [-||B||, ||B||].
+\]
+This means that (shifting by $bI$)
+\[
+    \text{Spec}(A) \subset[-||B|| + b, ||B| + b],
+\]
+and we can finish by noticing that
+\[
+    ||B|| = \sup_{||u|| = 1} |\langle Bu, u \rangle| = \sup_{||u|| = 1} \left|\langle Au, u \rangle - \frac{a_+ + a_-}{2}\right|.
+\]
+Since $\langle Au, u \rangle$ always lies in the line segment $[a_-, a_+]$ (getting arbitrarily close to the endpoints), and $\frac{a_+ + a_-}{2}$ is their midpoint, this supremum will be half the length of that line segment, meaning that
+\[
+    ||B|| = \frac{a_+ - a_-}{2} \implies \text{Spec}(A) \subset[-||B|| + b, ||B| + b] = [a_-, a_+],
+\]  
+as desired, completing the proof.
+\end{proof}
+
+\begin{corollary}
+Let $A^\ast = A \in \mc{B}(H)$ be a self-adjoint linear operator. Then $\langle Au, u \rangle \ge 0$ for all $u$ if and only if $\text{Spec}(A) \subset [0, \infty)$.
+\end{corollary}
+
+(This can be shown by basically walking through the logic for what $a_-$ needs to be under either of these conditions.)
+
+We'll now move on to the spectral theory for self-adjoint \textbf{compact} operators: the short answer is that we essentially see just the eigenvalues, with the exception of zero being a possible accumulation point. And in particular, the spectrum will be countable, and this should make sense because compact operators are the limit of finite rank operators -- we don't expect to end up with wildly different behavior in the limit.
+
+\begin{definition}
+Let $A \in \mc{B}(H)$ be a bounded linear operator. We denote $E_\lambda$ to be the nullspace of $A - \lambda$, or equivalently the set of eigenvectors $\{u \in H: (A-\lambda)u = 0\}$.
+\end{definition}
+
+\begin{theorem}\label{selfadjointeigenspace}
+Suppose $A^\ast = A \in \mc{B}(H)$ is a compact self-adjoint operator. Then we have the following:
+\begin{enumerate}
+\item If $\lambda \ne 0$ is an eigenvalue of $A$, then $\lambda \in \RR$ and $\dim E_\lambda$ is finite. 
+\item If $\lambda_1 \ne \lambda_2$ are eigenvalues of $A$, then $E_{\lambda_1}$ and $E_{\lambda_2}$ are orthogonal to each other (every element in $E_{\lambda_1}$ is orthogonal to every element in $E_{\lambda_2}$). 
+\item The set of nonzero eigenvalues of $A$ is either finite or countably infinite, and if it is countably infinite and given by a sequence $\{\lambda_n\}_n$, then $|\lambda_n| \to 0$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For (1), let $\lambda$ be a nonzero eigenvalue. Suppose for the sake of contradiction that $E_\lambda$ is infinite-dimensional. Then by the Gram-Schmidt process, there exists a countable collection $\{u_n\}_n$ of orthonormal elements of $E_{\lambda}$. Since $A$ is a compact operator, this means that $\{Au_n\}_n$ must have a convergent subsequence, and in particular that means we have a Cauchy sequence $\{Au_{n_j}\}_j$. But we can calculate
+\[
+    ||Au_{n_j} - Au_{n_k}||^2 = ||\lambda u_{n_j} - \lambda u_{n_k}||^2 = |\lambda|^2 ||u_{n_j} - u_{n_k}||^2 = 2|\lambda|^2,
+\]
+so the distance between elements of the sequence does not go to $0$ for large $j, k$, a contradiction. Thus $E_\lambda$ is finite-dimensional. To show that $\lambda$ must be real, notice that we can pick a unit-length eigenvector $u$ satisfying $Au = \lambda u$, and then we have
+\[
+    \lambda = \lambda \langle u, u \rangle = \langle \lambda u, u \rangle = \langle Au, u \rangle,
+\]
+and we've already shown that this last inner product must be real, so $\lambda$ is real.
+
+For (2), suppose $\lambda_1 \ne \lambda_2$, and supppose $u_1 \in E_{\lambda_1}, u_2 \in E_{\lambda_2}$. Then 
+\[
+    \lambda_1 \langle u_1, u_2 \rangle = \langle \lambda_1 u_1, u_2 \rangle = \langle Au_1, u_2 \rangle,
+\]
+and now because $A$ is self-adjoint, this is 
+\[
+    = \langle u_1, Au_2 \rangle = \langle u_1, \lambda_2 u_2 \rangle = \lambda_2 \langle u_1, u_2 \rangle
+\]
+(no complex conjugate because eigenvalues are real). Therefore, we must have $(\lambda_1 - \lambda_2) \langle u_1, u_2 \rangle = 0$, so (because $\lambda_1 - \lambda_2 \ne 0$) $\langle u_1, u_2 \rangle = 0$ and we've shown the desired orthogonality. 
+
+Finally, for (3), let $\Lambda = \{\lambda \ne 0: \lambda \text{ eigenvalue of }A\}$. We need to show that $\Lambda$ is either finite or countably infinite, and we claim that we can actually prove both parts of (3) simultaneously by showing that if $\{\lambda_n\}_n$ is a sequence of distinct eigenvalues of $A$, then $\lambda_n \to 0$. This is because the set
+\[
+    \Lambda_N = \{\lambda \in \Lambda: |\lambda| \ge \frac{1}{N}\}
+\]
+is a finite set for each $N$ (otherwise we could take any sequence of distinct elements in $\Lambda_N$, and that can't converge to $0$), and thus $\Lambda = \bigcup_{N \in \NN} \Lambda_N$ is a countable union of finite sets and thus countable. 
+
+In order to prove this claim, let $\{u_n\}_n$ be the associated unit-length eigenvectors of our eigenvalues $\lambda_n$. Then 
+\[
+    |\lambda_n| = ||\lambda_n u_n|| = ||Au_n||,
+\]
+so we further reduce the problem to showing that $||Au_n|| \to 0$. But showing this is a consequence of us having an orthonormal sequence of vectors and $A$ being compact: suppose that $||Au_n||$ does not converge to $0$. Then there exists some $\eps_0 > 0$ and a subsequence $\{Au_{n_j}\}$ so that for all $j$, $||Au_{n_j}|| \ge \eps_0$. Then because $A$ is a compact operator, there exists a further convergent subsequence $e_k = u_{n_{j_k}}$, meaning that $\{Ae_k\}_k$ converges in $H$. 
+
+Since $e_k$ and $e_\ell$ are eigenvectors that correspond to distinct eigenvalues, they are orthogonal, and therefore $Ae_k$ and $Ae_\ell$ are also orthogonal. But now if $f = \lim_{k \to \infty} Ae_k$, then 
+\[
+    ||f|| = \lim_{k \to \infty} ||Ae_k|| \ge \eps_0,
+\]
+meaning that by continuity of the inner product,
+\[
+    \eps_0^2 \le ||f||^2 = \langle f, f \rangle = \lim_{k \to \infty} \langle Ae_k, f \rangle = \lim_{k \to \infty} \langle e_k, Af \rangle.
+\]
+And because the sequence $\langle e_k, Af \rangle$ gives us the Fourier coefficients of $Af$, the sum of their squares should be finite (by Bessel's inequality, it's at most $||Af||^2 < \infty$). This contradicts the fact that the limit of the Fourier coefficients is at least $\eps_0^2$. So our original assumption is wrong, and $||Au_n||$ must converge to $0$, proving the claim.
+\end{proof}

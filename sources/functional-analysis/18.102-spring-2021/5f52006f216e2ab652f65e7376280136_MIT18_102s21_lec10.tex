@@ -1,0 +1,207 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{March 23, 2021}
+
+Last time, we introduced the idea of a \textbf{measurable function}: recall that a function $f: E \to [-\infty, \infty]$ (where $E \subset \RR$ is measurable) is measurable if $f^{-1}((\alpha, \infty])$ is measurable for all $\alpha \in \RR$. (And because we can generate open sets with these half-open intervals, that shows that the preimage of any Borel set will be measurable as well.) We also showed that measurable functions are closed under linear combinations, infs, sups, and limits, and that changing a function on a set of measure zero preserves measurability.
+
+Everything we've done so far is for extended real-valued functions, but often we'll be dealing with complex-valued functions instead, and we'll extend our definition accordingly. Recall that we can write any complex-valued function $f$ as $\text{Re}(f) + i \cdot \text{Im}(f)$:
+
+\begin{definition}
+If $E \subset \RR$ is measurable, a complex-valued function $f: E \to \CC$ is \vocab{measurable} if $\text{Re}(f)$ and $\text{Im}(f)$ (which are both functions $E \to \RR$) are measurable.
+\end{definition}
+
+We can verify the following results (some will be assigned to our homework, and others follow from arguments similar to the ones made last lecture):
+
+\begin{theorem}\label{compmeaslincomb}
+If $f, g: E \to \CC$ are measurable functions, and $\alpha \in \CC$, then the functions $\alpha f, f + g, fg, \overline{f}, |f|$ are all measurable functions.
+\end{theorem}
+
+\begin{theorem}
+If $f_n: E \to \CC$ is measurable for all $n$, and we have pointwise convergence $f_n(x) \to f(x)$ for all $x \in E$, then $f$ is measurable.
+\end{theorem}
+
+For example, we can prove this last fact by noticing that 
+\[
+    \lim_{n \to \infty} f_n(x) = f(x) \iff \lim_{n \to \infty} \text{Re}(f_n(x)) = \text{Re}(f(x)) \text{ and } \lim_{n \to \infty} \text{Im}(f_n(x)) = \text{Im}(f(x)),
+\]  
+and we can apply the results we know about real-valued measurable functions to get measurability of $\text{Re}(f)$ and $\text{Im}(f)$, which proves measurability of $f$. So general, we don't need to work too hard to prove these results!
+
+Last lecture, we showed that continuous functions are measurable, and so are indicator functions $\chi_E$ for measurable sets $E$. \cref{compmeaslincomb} then tells us that complex linear combinations of indicator functions are also measurable, and those are ``simple'' because they only take on finitely many values:
+
+\begin{definition}
+A measurable function $\phi: E \to \CC$ is \vocab{simple} (or a \vocab{simple function}) if $|\phi(E)|$ (the size of the range) is finite.
+\end{definition}
+
+The idea is that every measurable set will be approximately a simple function, but we'll talk about that soon. And to connect this definition to the ``linear combination of indicator functions'' idea, suppose that the range $\phi(E)$ is the set of distinct values $\{a_1, \cdots, a_n\}$. Then we can define the sets 
+\[
+    A_i = \phi^{-1}\left(\{\alpha_i\}\right), 
+\]
+which are all measurable (because they're the intersections of the sets where $\text{Re}(\phi) = \text{Re}(\alpha_i)$, and also where $\text{Im}(\phi) = \text{Im}(\alpha_i)$). And then for all $i \ne j$, we know that $A_i \cap A_j = \varnothing$, and $\bigcup_{i=1}^n A_i = E$ (basically, here we're saying that the finitely many $A_i$s partition the domain based on the value of the function $\phi$). So for all $x \in \phi$, we can write
+\[
+    \phi(x) = \sum_{i=1}^n a_i \cdot \chi_{A_i}(x),
+\]
+and thus any simple function is indeed a complex linear combination of finitely many indicator functions.
+
+\begin{proposition}
+Scalar multiples, linear combinations, and products of simple functions are again simple functions.
+\end{proposition}
+
+(We can check in all cases that the resulting functions are still measurable, and also that their range includes finitely many values.)
+
+\begin{theorem}\label{meassimpleapprox}
+If $f: E \to [0, \infty]$ is a nonnegative measurable function, then there exists a sequence of simple functions $\{\phi_n\}$ such that the following properties hold:
+\begin{itemize}
+\item[(a)] We have a pointwise increasing sequence of functions dominated by $f$: $0 \le \phi_0(x) \le \phi_1(x) \le \cdots \le f(x)$ for all $x \in E$.
+\item[(b)] Pointwise convergence holds: $\lim_{n \to \infty} \phi_n(x) = f(x)$ for all $x \in E$.
+\item[(c)] For all $B \ge 0$, $\phi_n \to f$ converges uniformly on the set $\{x \in E: f(x) \le B\}$ where $f$ is bounded.
+\end{itemize}
+\end{theorem}
+
+(This proof will basically carry over to the extended real-valued functions, and also the complex-valued functions. But we'll explain soon what the difference is.)
+
+\begin{proof}
+The idea will be to build our functions $\phi_n$ to have better and better resolution ($2^{-n}$) and larger and larger range ($2^n$). Essentially, $\phi_0$ will only be able to tell whether the function is at least $1$ (we'll only let it take on the values $0$ and $1$, being $1$ if $f \ge 1$ and $0$ otherwise), $\phi_1$ will be able to tell the values of functions up to $2$ (resolving at intervals of $\frac{1}{2}$, so that it can take on the values $0, \frac{1}{2}, 1, \frac{3}{2}, 2$), and so on. And we claim that this sequence of approximations satisfies the three conditions we want above.
+
+Formally, we define the sets
+\[
+    E_n^k = \{x \in E: k2^{-n} < f(x) \le (k+1) 2^{-n}\}
+\]
+for all integers $n \ge 0$ and $0 \le k \le 2^{2n} - 1$. (This is the ``interval of length $2^{-n}$'' described above, and this is another way to write the inverse image $f^{-1}((k 2^{-n}, (k+1)2^{-n}])$, which is measurable.) We'll also define 
+\[
+    F_n = f^{-1}((2^n, \infty])
+\]
+(another measurable set which grabs the part of the function $f$ that we missed above), and that finally allows us to define 
+\[
+    \phi_n = \sum_{k=0}^{2^{2n} - 1} (k2^{-n}) \cdot \chi_{E_n^k} + 2^n \chi_{F_n}
+\]
+(remembering that $k2^{-n}$ is a lower bound for the function on the interval $E_n^k$). For example, we would have
+\[
+    \phi_1 = 0 \cdot \chi_{f^{-1}((0, \frac{1}{2}])} + \frac{1}{2} \cdot \chi_{f^{-1}((\frac{1}{2}, 1])} + 1 \cdot \chi_{f^{-1}((1, \frac{3}{2}])} + \frac{3}{2} \cdot \chi_{f^{-1}((\frac{3}{2}, 2])} + 2 \cdot \chi_{f^{-1}((2, \infty])}.
+\]
+It is indeed true that $\phi_n$ takes on finitely many values for each $n$, so $\phi_n$ is always a simple function, and by design, $0 \le \phi_n \le f$. (For example, if $f(x) = 1.7$ at some point $x$, then we fall within the $(\frac{3}{2}, 2]$ range, and then $\phi_1$ takes on the lower bound of that range $\frac{3}{2}$.) More rigorously, if $x \in E_n^k$, then 
+\[
+    k2^{-n} < f(x) \le (k+1) 2^{-n} \implies \phi_n(x) = k2^{-n} < f(x),
+\]
+and otherwise $x \in F_n$, which means $f(x) > 2^n = \phi_n(x)$. All that remains for proving part (a) is to show that the $\phi_n$s are pointwise increasing: notice that if $x \in E_n^k$, then
+\[
+    k2^{-n} < f(x) < (k+1)2^{-n} \implies (2k) 2^{-(n+1)} < f(x) \le (2k+2) 2^{-(n+1)}, 
+\]
+which implies that $x \in E_{n+1}^{2k} \cup E_{n+1}^{2k+1}$. And we can check in both cases that $\phi_{n+1}(x)$ is larger than $\phi_n(x)$: if $x \in E_{n+1}^{2k}$, then 
+\[
+    \phi_n(x) = k2^{-n} = (2k) 2^{-(n+1)} = \phi_{n+1}(x),
+\]
+and otherwise $x \in E_{n+1}^{2k+1}$, which means that 
+\[
+    \phi_n(x) = k2^{-n} = (2k) 2^{-(n+1)} < (2k+1) 2^{-(n+1)} = \phi_{n+1}(x).
+\]
+Finally, if $x \in F_n$, then $\phi_n(x) \le \phi_{n+1}(x)$ by a similar argument. So we've shown that $\phi_n(x) \le \phi_{n+1}(x)$ on each of the sets $F_n$ and $E_n^k$ (which partition $E$), and thus part (a) is proven. 
+
+We can now prove (b) and (c) because of the following: we claim that for all $x \in \{y \in E: f(y) \le 2^n\}$,
+\[
+    0  \le f(x) - \phi_n(x) \le 2^{-n}. 
+\]
+Once we show this claim, we can show part (b) because for any $x$, either $f(x) = \infty$ (this case is easy to verify) or $f(x)$ is in the sets $\{y \in E: f(y) \le 2^n\}$ for $n$ large enough, so then for sufficiently large $n$ we have $|f(x) - \phi_n(x)| \le 2^{-n}$, which is enough for pointwise convergence. And part (c) follows because for any fixed $B$, we can pick an $N$ so that $\{x \in E: f(x) \le B\}$ is contained in $\{x \in E: f(x) \le 2^N\}$, and then the bound in the claim also shows uniform convergence. 
+
+So in order to show the claim, remember that $\phi_n$ cuts up our range into intervals of resolution $2^{-n}$: since
+\[
+    \{y \in E: f(x) \le 2^n\} = \bigcup_{k=0}^{2^{2n-1}} E_n^k,
+\]
+we can just check the claim on each individual $E_n^k$. And indeed, if $x \in E_n^k$, then 
+\[
+    \phi_n(x) = k 2^{-n} \le f(x) \le (k+1) 2^{-n} \implies f(x) - \phi_n(x) \le (k+1)2^{-n} - k2^{-n} = 2^{-n},
+\]
+as desired, completing the proof. 
+\end{proof}
+
+Now, as promised, we'll extend this proof to the extended real numbers and the complex numbers:
+
+\begin{definition}
+Let $f: E \to [-\infty, \infty]$ be a measurable function. Then we define the \vocab{positive part} and \vocab{negative part} of $f$ via 
+\[
+    f^+(x) = \max(f(x), 0), \quad f^-(x) = \max(-f(x), 0),
+\]
+so that $f(x) = f^+(x) - f^-(x)$ and $|f(x)| = f^+(x) + f^-(x)$.
+\end{definition}
+
+We know that $f^+$ and $f^-$ are indeed measurable (for example because they are the supremum of the sequences $\{f, 0, 0, \cdots\}$ and $\{-f, 0, 0, \cdots\}$), and they are also nonnegative by definition.
+
+\begin{theorem}
+Let $E \subset \RR$ be measurable and $f: E \to \CC$ be measurable. Then there exists a sequence of simple functions $\{\phi_n\}$ such that the following three properties hold:
+\begin{itemize}
+\item[(a)] We again have pointwise increasing functions, in the sense that $0 \le |\phi_0(x)| \le |\phi_1(x)| \le \cdots \le |f(x)|$ for all $x \in E$.
+\item[(b)] Again, we have pointwise convergence $\lim_{n \to \infty} \phi_n(x) = f(x)$ for all $x \in E$.
+\item[(c)] For all $B \ge 0$, $\phi_n \to f$ converges uniformly on the set $\{x \in E: |f(x)| \le B\}$.
+\end{itemize}
+\end{theorem}
+
+It's left to us to fill in the details, but the idea is to apply \cref{meassimpleapprox} after splitting up the function $f$ into its real and imaginary parts, and then further splitting those up into their positive and negative parts. The linear combinations of the simple functions that arise from each of those parts will then give us the desired approximation for $f$. 
+
+The significance of this result is that we now have a way to define an integral by looking at the limit of these types of simple functions, and the Lebesgue integral can be defined this way. But we'd run into issues of whether the integral depends on the simple function representation, so we'll do something different here.
+
+Our first step is to start with Lebesgue integrals of nonnegative functions (to avoid things like $\infty - \infty$, and because as we've just seen, knowing properties for nonnegative functions will then generalize to all complex-valued functions.)
+
+\begin{definition}
+If $E \subset \RR$ is measurable, we define the class 
+\[
+    L^+(E) = \{f: E \to [0, \infty]: f \text{ measurable}\}.
+\]
+\end{definition}
+
+We'll try to define a Lebesgue integral for these functions, and we'll start with the simple ones: 
+
+\begin{definition}
+Suppose $\phi \in L^+(E)$ is a simple function such that $\phi = \sum_{j=1}^n a_j \chi_{A_j}$, where $A_i \cap A_j = \varnothing$ for all $i, j$ and $\cup_{j=1}^n A_j = E$. Then the \vocab{Lebesgue integral} of $\phi$ is 
+\[
+    \int_E \phi = \sum_{j=1}^n a_j m(A_j) \in [0, \infty].
+\]
+\end{definition}
+
+(We may write $\int_E \phi$ as $\int_E \phi dx$ as well.) Basically, we split up our simple function in a canonical way into combinations of indicator functions on disjoint sets, and then we think of the integral of each of those pieces as the ``rectangle'' with area equal to its length times height.
+
+\begin{theorem}
+Suppose $\phi, \psi$ are two simple functions. Then for any $c \ge 0$, we have the following identities:
+\begin{enumerate}
+\item $\int_E c\phi = c \int_E \phi$,
+\item $\int_E (\phi + \psi) = \int_E \phi + \int_E \psi$,
+\item $\int_E \phi \le \int_E \psi$ if $\phi \le \psi$, and
+\item if $F \subset E$ is measurable, then $\int_F \phi = \int_E \chi_F \phi \le \int_E \phi$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+We can prove (1) by noticing that if $\phi = \sum_{j=1}^n a_j \chi_{A_j}$, then $c\phi = \sum_{j=1}^n (ca_j)\chi_{A_j}$, so 
+\[
+    \int_E c\phi = \sum_{j=1}^n ca_j m(A_j) = c \sum_{j=1}^n a_j m(A_j) = c \int_E \phi.
+\]  
+(This proof is not too hard because the decomposition over sets $A_i$ is the same in both cases.) For (2), we can again write $\phi = \sum_{j=1}^n a_j \chi_{A_j}$ and write $\psi = \sum_{k=1}^m b_k \chi_{B_k}$, and then we can write 
+\[
+    E = \bigcup_{j=1}^n A_j = \bigcup_{k=1}^m B_k \implies A_j = \bigcup_{k=1}^m (A_j \cap B_k), \quad B_k = \bigcup_{j=1}^n (A_j \cap B_k),
+\]
+and all of these unions are disjoint because the $A_j$s and $B_k$s are disjoint from each other. Therefore, the additivity property of Lebesgue measure tells us that 
+\[
+    \int_E \phi + \int_E \psi = \sum_{j=1}^n a_j m(A_j) + \sum_{k=1}^m b_k m(B_k)
+\]
+can be rewritten as 
+\[
+    = \sum_{j, k} a_j m(A_j \cap B_k) + \sum_{j, k} b_k m(A_j \cap B_k) = \sum_{j, k} (a_j + b_k) m(A_j \cap B_k).
+\]
+But the sum of the two simple functions $\phi + \psi$ can be written as 
+\[
+    \phi + \psi = \sum_{j, k} (a_j + b_k) \chi_{A_j \cap B_k},
+\]
+where technically this is no longer our canonical decomposition because it's possible for the different $a_j + b_k$s to be equal to each other for different sets $(j, k)$, but that's okay because we can just combine those disjoint sets together where the function is equal. So indeed $\int_E (\phi + \psi) = \sum_{j, k} (a_j + b_k) m(A_j \cap B_k)$, and we've shown the desired equality for (2). 
+
+Next, for (3), assume $\phi, \psi$ are written in their canonical way. Then $\phi(x) \le \psi(x)$ if and only if $a_j \le b_k$ whenever $A_j \cap B_k \ne \varnothing$. So now additivity of the Lebesgue measure tells us that
+\[
+    \int_E \phi = \sum_{j=1}^n a_j m(A_j) = \sum_{j, k} a_j m(A_j \cap B_k),
+\]
+and now whenever this is nonzero we know that $A_j \cap B_k$ is nonempty, so $a_j \le b_k$. And thus we can rewrite this as 
+\[
+    \le \sum_{j, k} b_k m(A_j \cap B_k) = \sum_{k=1}^m b_k m(B_k) = \int_E \psi.
+\]
+(Finally, part (4) will be left as a simple exercise to us.)
+\end{proof}
+
+So we've now defined our ``area under the curve'' for Lebesgue integrals, and this is an indication that Riemann integrable functions will indeed be Lebesgue integrable (because step functions are indeed Riemann integrable and we have agreement there). Next time, we'll go from here to defining the integral of a nonnegative measurable function, and we'll prove some properties (including two important convergence theorems) along the way.

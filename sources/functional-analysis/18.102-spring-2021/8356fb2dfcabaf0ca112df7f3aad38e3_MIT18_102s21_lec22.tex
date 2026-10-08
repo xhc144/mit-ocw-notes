@@ -1,0 +1,165 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{May 11, 2021}
+
+We'll continue our discussion of spectral theory for self-adjoint compact operators today -- we should recall that the spectrum of a bounded linear operator is a generalization of the set of eigenvalues, and it is defined as the set of $\lambda \in \CC$ such that $A - \lambda$ is not invertible. We discussed previously that for a self-adjoint operator, the spectrum is contained within a line segment on the real line, and in the finite-dimensional case we can choose a basis of eigenvectors in which the operator is diagonal. We'll prove that something similar holds in the infinite-dimensional case, as long as we have compact operators (which makes sense, since they're the limit of finite-rank operators). But we'll prove some other results along the way first, based off of some of the examples we've been presenting.
+
+\begin{theorem}[Fredholm alternative]
+Let $A = A^\ast \in \mc{B}(H)$ be a self-adjoint compact operator, and let $\lambda \in \RR \setminus \{0\}$. Then $\text{Range}(A - \lambda)$ is closed, meaning that
+\[
+    \text{Range}(A - \lambda) = (\text{Range}(A-\lambda)^\perp)^\perp = \text{Null}(A - \lambda)^\perp.
+\]
+Thus, either $A - \lambda$ is bijective, or the nullspace of $A - \lambda$ (the eigenspace corresponding to $\lambda$) is nontrivial and finite-dimensional.
+\end{theorem}
+
+This result basically tells us when we can solve the equality $(A - \lambda)u = f$: we can do so if and only if $f$ is orthogonal to the nullspace of $A - \lambda$. The finite-dimensional part of this theorem comes from \cref{selfadjointeigenspace} -- it is useful because we can check orthogonality by taking a finite basis of $A - \lambda$'s nullspace. 
+
+A further consequence here is that because the spectrum of a self-adjoint $A$ is a subset of the reals, we have
+\[
+    \text{Spec}(A) \setminus \{0\} = \{\text{eigenvalues of }A\},
+\]
+since the nonzero spectrum only fails to be bijective because we have an eigenvector. And because the eigenvalue set is finite or countably infinite, it can only be countably infinite if those eigenvalues converge to zero. 
+
+\begin{proof}
+We need to show that the range of $A - \lambda$ is closed if $\lambda \ne 0$. Suppose we have a sequence of elements $(A - \lambda)u_n$ that converge to $f \in H$, and we need to show that $f$ is also in the range of $A - \lambda$. 
+
+It is not true that the $u_n$s will necessarily converge, but we'll find a way to extract a relevant subsequence. We can first define
+\[
+    v_n = \Pi_{\text{Null}(A - \lambda)^\perp} u_n,
+\]
+the projection onto the orthogonal complement of $\text{Null}(A - \lambda)$. Then we can use the direct sum decomposition of vectors into $\text{Null}(A - \lambda)$ and its orthogonal complement, and we find that
+\[
+    (A - \lambda) u_n = (A - \lambda) \left(\Pi_{\text{Null}(A - \lambda)} u_n+ v_n\right) =  (A - \lambda) v_n.
+\]
+So we can take away some noise and just consider a sequence $(A - \lambda) v_n \to f$, where $v_n$ all live in an orthogonal subspace to $\text{Null}(A - \lambda)$. 
+
+We now claim that $\{v_n\}$ is bounded -- suppose otherwise. Then there exists some $\{v_{n_j}\}$ such that $||v_{n_j}|| \to \infty$ as $j \to \infty$, so
+\[
+    (A - \lambda) \frac{v_{n_j}}{||v_{n_j}||} = \frac{1}{||v_{n_j}||} (A - \lambda) v_{n_j} \to 0 f = 0
+\]
+as $j \to \infty$, using the definition of our sequences and the fact that the norm diverges. Because $A$ is a compact operator, there now exists some further subsequence, which we'll denote $\{v_{n_k}\}$, such that $\left\{A\frac{v_{n_k}}{||v_{n_k}||}\right\}$ converges. But because 
+\[
+    \frac{v_{n_k}}{||v_{n_k}||} = \frac{1}{\lambda} \left(A\frac{v_{n_k}}{||v_{n_k}||} - (A - \lambda) \frac{v_{n_k}}{||v_{n_k}||} \right),
+\]
+and the second term on the right converges to $0$ and the first converges based on our choice of subsequence, we find that the sequence of terms on the left-hand side, $\{ \frac{v_{n_k}}{||v_{n_k}||}\}$, must converge to some element $v$ which is also in $\text{Null}(A - \lambda)^\perp$ (because said set is closed and our definition of $v_n$s means that all terms are indeed in $\text{Null}(A - \lambda)^\perp$). This gives us a contradiction, because $||v|| = \lim_{k \to \infty}\frac{v_{n_k}}{||v_{n_k}||} = 1$, and 
+\[
+    (A - \lambda)v = \lim_{k \to \infty} (A - \lambda) \frac{v_{n_k}}{||v_{n_k}||} = 0
+\]
+by the choice of our further subsequence. Putting this all together, $v$ is both in the nullspace of $A - \lambda$ and also its orthogonal complement, so $v = 0$, contradicting the fact that $||v|| = 1$. Thus our sequence $\{v_n\}$ must be bounded. 
+
+So now returning to what we wanted to prove, because $\{v_n\}$ is bounded and $A$ is a compact operator, $\{(A - \lambda)v_n\}$ is also bounded, and thus there exists a subsequence $\{v_{n_j}\}$ (a completely different subsequence from before) so that $\{Av_{n_j}\}$ converges. (The definition of compactness tells us facts about the unit ball, but we can always scale to a unit ball of any finite radius.) And now by the same trick as before, 
+\[
+    v_{n_j} = \frac{1}{\lambda} \left(Av_{n_j} - (A - \lambda)v_{n_j}\right)
+\]
+has both terms on the right converging, so $v_{n_j} \to v$ for some $v \in H$. And now we know that $(A - \lambda)v_{n}$ converges to $f$, so because convergence still holds when we restrict to a subsequence, we have
+\[
+    f = \lim_{j \to \infty} (A - \lambda)v_{n_j} = (A - \lambda)v
+\]
+(since $A - \lambda$ is a bounded and thus continuous linear operator), and we're done because $f$ is now in the range of $A - \lambda$.
+\end{proof}
+
+\begin{remark}
+We did not actually use the fact that $A$ is a self-adjoint operator in this argument -- the fact that $\text{Range}(A - \lambda)$ is closed is still true if $A$ is just a compact operator, but the consequences of that fact only apply for self-adjoint operators. 
+\end{remark}
+
+We've also shown previously that one of $\pm ||A||$ must be in the spectrum, and that gives us this next result:
+
+\begin{theorem}
+Let $A = A^\ast$ be a nontrivial compact self-adjoint operator. Then $A$ has a nontrivial eigenvalue $\lambda_1$ with $|\lambda_1| = \sup_{||u|| = 1} |\langle Au, u \rangle| = |\langle Au_1, u_1 \rangle|$, where $u_1$ is a normalized eigenvector (with $||u_1|| = 1$) satisfying $Au_1 = \lambda_1 u_1$.
+\end{theorem}
+\begin{proof}
+Since at least one of $\pm ||A|$ are in $\text{Spec}(A)$ (and $||A|| \ne 0$ because we have a nontrivial operator), at least one of them will be an eigenvalue of $A$ by the Fredholm alternative, and we'll let this be $\lambda_1$. The equation for $\lambda_1$ follows from the fact that we generally have
+\[
+    ||A|| = \sup_{||u|| = 1} |\langle Au, u \rangle|,
+\] 
+and the equality with $|\langle Au_1, u_1 \rangle|$ comes from the fact that being an eigenvalue implies that we have an eigenvector. 
+\end{proof}
+
+We'll now keep going -- it turns out we can keep building up eigenvalues in this way, because of the fact that eigenvectors of different eigenvalues are orthogonal. This will lead us to constructing an orthonormal basis in the way that we alluded to at the beginning of class.
+
+\begin{theorem}[Maximum principle]
+Let $A = A^\ast$ be a self-adjoint compact operator. Then the nonzero eigenvalues of $A$ can be ordered as $|\lambda_1| \ge |\lambda_2| \ge \cdots$ (including multiplicity), such that we have pairwise orthonormal eigenfunctions $\{u_k\}$ for $\lambda_k$, satisfying 
+\[
+    |\lambda_j| = \sup_{\substack{||u|| = 1 \\ u \in \text{Span}(u_1, \cdots, u_{j-1})^\perp}} |\langle Au, u \rangle| = |\langle Au_j, u_j \rangle|.
+\]
+Furthermore, we have $|\lambda_j| \to 0$ as $j \to \infty$ if the sequence of nonzero eigenvalues does not terminate.
+\end{theorem}
+
+In other words, after we find $\lambda_1$ (which will be the eigenvalue with largest magnitude) through our previous result, we can look at the orthogonal complement to all of the eigenvectors so far and get the eigenvector of next largest magnitude, and we can keep repeating this process.
+
+\begin{proof}
+We already know that we have countably many eigenvalues and that each one has a finite-dimensional eigenspace, so the fact that they can be ordered is not new information. And the fact that $|\lambda_j| \to 0$ has already previously been proved in a previous lecture as well (for the case of distinct eigenvalues, but it still holds when each eigenvalue has finite multiplicity), so the only new result is the equation for computing $|\lambda_j|$. 
+
+We will show that the equation holds by constructing our eigenvalues inductively. First of all, we can construct $\lambda_1$ and $u_1$ using our previous theorem (finding an eigenvalue of largest magnitude and its corresponding eigenvector), so the base case is satisfied. For the inductive step, suppose that we have found $\lambda_1, \cdots, \lambda_n$, along with orthonormal eigenvectors $u_1, \cdots, u_n$, satisfying the equation for $|\lambda_j|$ in the maximum principle. We now have two cases: in the first case, we have 
+\[
+    Au = \sum_{k=1}^n \lambda_k \langle u, u_k \rangle u_k,
+\]
+so we've found all of the eigenvalues and the process terminates (because $A$ is a finite-rank operator). But in the other case, $A$ is not finite-rank and the equality above doesn't hold. So if we want to find $\lambda_{n+1}$, we can define a linear operator $A_n$ (which is not identically zero) via
+\[
+    A_n u = Au  - \sum_{k=1}^n \lambda_k \langle u, u_k \rangle u_k.
+\]
+We can check that $A_n$ is a self-adjoint compact operator (because $A$ is self-adjoint and the $\lambda_k$ are real numbers, and $A_n$ is a sum of a compact operator $A$ and a finite-rank operator). So if $u \in \text{Span}\{u_1, \cdots, u_n\}$, then $A_n u = 0$ (because orthogonality of the eigenvectors so far gives us $A_n u_j = 0$ for all $j \in \{1, \cdots, n\}$ and then we can use linearity to extend to the span). Furthermore, for any $u \in \text{Span}\{u_1, \dots, u_n\}^\perp$, we have $A_n u = Au$ because the sum term drops out. Therefore, for any $u \in H$ and any $v \in \text{Span}\{u_1, \cdots, u_n\}$, we have
+\[
+    \langle A_nu, v \rangle = \langle u, A_n v \rangle = 0
+\]
+(first step because $A_n$ is self-adjoint and second step from our work above). Another way to say this is that $A_nu$ is always in the orthogonal complement of $\text{Span}\{u_1, \cdots, u_n\}$, so 
+\[
+    \text{Range}(A_n) \subset \text{Span}\{u_1, \cdots, u_n\}^\perp.
+\]
+From this fact, we learn that if $A_n u = \lambda u$ for some nonzero $\lambda u$, then $u = A_n\left(\frac{u}{\lambda}\right)$ is in the range of $A_n$, so it is in $\text{Span}\{u_1, \cdots, u_n\}^\perp$. From our work above, this means that $A_n u = A u = \lambda u$, so any nonzero eigenvalue of $A_n$ is also a nonzero eigenvalue of $A$. We can therefore apply our previous theorem to see that $A_n$ has a nonzero eigenvalue $\lambda_{n+1}$ with unit eigenvector $u_{n+1}$ (orthogonal to the span of $\{u_1, \cdots, u_n\}$ because $A_n$ is zero on that span), with $|\lambda_{n+1}| = \sup_{||u|| = 1} |\langle A_nu, u \rangle|$. Since we're still working in the same Hilbert space, this expression can be written in terms of $A$ as well. First, we note that
+\[
+    |\lambda_{n+1}| = \sup_{\substack{||u|| = 1 \\ u \in \text{Span}\{u_1, \cdots, u_n\}^\perp}} |\langle A_n u, u \rangle|,
+\]
+since $A_n u$ is zero on $\text{Span}\{u_1, \cdots, u_n\}$ anyway, and then when we restrict to those $u$, we have $A_n u = Au$, so this is 
+\[
+    = \sup_{\substack{||u|| = 1 \\ u \in \text{Span}\{u_1, \cdots, u_n\}^\perp}} |\langle Au, u \rangle|,
+\]
+which gives us the desired equation. We also preserve ordering of eigenvalues because because
+\[
+    |\lambda_{n+1}| =  \sup_{\substack{||u|| = 1 \\ u \in \text{Span}\{u_1, \cdots, u_n\}^\perp}} |\langle Au, u \rangle| \le  \sup_{\substack{||u|| = 1 \\ u \in \text{Span}\{u_1, \cdots, u_{n-1}\}^\perp}} |\langle Au, u \rangle| = |\lambda_n|.
+\]
+Finally, because $|\lambda_{n+1}| = |\langle Au_{n+1}, u_{n+1} \rangle|$, we've shown all of the results above and finished the proof.
+\end{proof}
+
+\begin{theorem}[Spectral theorem]
+Let $A = A^\ast$ be a self-adjoint compact operator on a separable Hilbert space $H$. If $|\lambda_1| \ge |\lambda_2| \ge \cdots$ are the nonzero eigenvalues of $A$, counted with multiplicity and with corresponding orthonormal eigenvectors $\{u_k\}_k$, then $\{u_k\}_k$ is an orthonormal basis for $\text{Range}(A)$ and also of $\overline{\text{Range}(A)}$, and there is an orthonormal basis $\{f_j\}_j$ of $\text{Null}(A)$ so that $\{u_k\}_k \cup \{f_j\}_j$ form an orthonormal basis of $H$.
+\end{theorem}
+
+In other words, we can find an orthonormal basis consisting entirely of eigenvectors for our self-adjoint compact operator (since the nullspace corresponds to eigenvectors of eigenvalue $0$). 
+
+\begin{proof}
+First, note that the process described in the proof of the maximum principle terminates if and only if $A$ is finite rank, meaning that there is some $n$ with $Au = \sum_{k=1}^n \lambda_k \langle u, u_k \rangle u_k$. In such a case, $\text{Range}(A) \subset \text{Span}\{u_1, \cdots, u_k\}$, and thus $\{u_k\}$ do indeed form an orthonormal basis for $\text{Range}(A)$ and also of $\overline{\text{Range}(A)}$. 
+
+Otherwise, the process does not terminate, and thus we have countably infinitely many nonzero eigenvalues $\{\lambda_k\}_{k=1}^{\infty}$, counted with multiplicity. We know that $|\lambda_k| \to 0$, and we also know that the $u_k$s form an orthonormal subset of $\text{Range}(A)$. To show it is a basis, we must show that if $f \in \text{Range}(A)$ and $\langle f, u_k \rangle = 0$ for all $k$, then $f = 0$. 
+
+To do that, we first write $f = Au$ for some $u \in H$, meaning that $\langle Au, u_k \rangle = 0$ for all $k$. Since $A$ is self-adjoint, this means (because $\lambda_k$ is real) that
+\[
+    \lambda_k \langle u, u_k \rangle = \langle u, \lambda_k u_k \rangle = \langle Au, u_k \rangle = 0.
+\]
+Therefore $u$ is orthogonal to all $u_k$, so by the maximum principle, 
+\[
+    ||f|| = ||Au|| = \left|\left|\left(A - \sum_{k=1}^n \lambda_k \langle u, u_k \rangle u_k\right) u\right|\right|
+\]
+(because each term in the sum is zero), meaning that we can rewrite this as 
+\[
+    = ||A_nu|| \le |\lambda_{n+1}| \cdot ||u||.
+\]
+Taking $n \to \infty$ and noting that the $\lambda$s converge to $0$, we must have $||f|| = 0$. This proves that the eigenvectors indeed form an orthonormal basis for the range of $A$. To show that they also form an orthonormal basis for the closure of that range, notice that
+\[
+    \overline{\text{Range}(A)} \subset \overline{\text{Span}\{u_k\}_k}
+\]
+and now remembering that the span is the set of finite linear combinations of the $u_k$s, but the closure of that can be written as 
+\[
+    = \left\{\sum_k c_k u_k: \sum_k |c_k|^2 < \infty\right\}.
+\]
+Therefore, $\{u_k\}$ must indeed be an orthonormal basis for $\overline{\text{Range}(A)}$. We finish by noting that this means we have an orthonormal basis of 
+\[
+    \overline{\text{Range}(A)} = (\text{Range}(A)^\perp)^\perp = (\text{Null}(A))^\perp,
+\]
+so to complete the orthonormal basis of $H$, we just need an orthonormal basis of $\text{Null}(A)$, which exists because $H$ is separable and thus $\text{Null}(A)$ is also separable.
+\end{proof}
+
+We'll see an application of this to differential equations and functional calculus next time!

@@ -1,0 +1,172 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{March 11, 2021}
+
+Last time, we introduced the outer measure $m^\ast$, which has many of the properties that we want in an actual measure. We'll now use this outer measure to define a measure on a class of well-behaved subsets or $\RR$ (which will then allow the measure to satisfy translation invariance and countable additivity). 
+
+We proved that we have countable subadditivity for the outer measure last lecture
+\[
+    m^\ast \left(\bigcup_{n} E_n \right) \le \sum_n m^\ast(E_n).
+\]
+It turns out equality doesn't hold until we restrict to measurable subsets, so (as we mentioned previously) we don't exactly get the condition we want for a measure. But we can verify one of the other conditions:
+
+\begin{proposition}
+If $I$ is an interval of $\RR$, then $m^\ast(I) = \ell(I)$.
+\end{proposition}
+
+In other words, we can't cover an interval of length $\ell(I)$ with a collection of intervals of smaller total length.
+
+\begin{proof}
+First, suppose that $I$ is a closed and bounded interval $[a, b]$. It suffices to show two inequalities. First, we can easily check that $m^\ast(I) \le \ell(I)$ (because $I$ is contained in $(a - \eps, b+\eps)$ for any $\eps > 0$, meaning that $m^\ast(I) \le \ell(I) + 2\eps$, and then we can take $\eps \to 0$), and in particular this means that the outer measure is finite. 
+Next, let's show that $\ell(I) \le m^\ast(I)$: in other words, the sum of the lengths of a bunch of open intervals covering $[a, b]$ have total length at least $b-a$. Suppose that $\{I_n\}$ is a collection of open intervals, such that $[a, b] \subset \bigcup_n I_n$. A closed and bounded interval is a compact set, and this compact set is covered by a bunch of open intervals. Thus, the Heine-Borel theorem tells us that \textbf{a finite collection of the} $\{I_n\}$ is sufficient to cover $[a, b]$, and we will label this finite collection $\{J_1, \cdots, J_N\}$.
+
+So now we know that $[a, b] \subset \bigcup_{k=1}^N J_k$, and the idea now is to rearrange the indexing of the open intervals. We know that one of the intervals must include the leftmost point $a$, so we'll call that $J_1$. Then (if we haven't covered the whole interval yet) there is some interval that overlaps with $J_1$, which we call $J_2$. Continuing in this way, we will eventually cover the rightmost point $b$ of the interval, so that $J_i$ and $J_{i+1}$ are always linked. 
+
+More rigorously, we know that there exists some $k_1 \in \{1, \cdots, N\}$ with $a \in J_{k_1}$, so we rearrange the finitely many intervals so that $k_1 = 1$, and suppose that this interval is $(a_1, b_1)$. If $[a, b]$ is not completely covered, then $b_1 \le b$, and there must be some integer $k_2$ such that $b_1 \in J_{k_2}$ (because it is not covered by the first interval $J_1$). We then rearrange the remaining intervals so that $k_2 = 2$, and this new interval looks like $(a_2, b_2)$. And now $b_2$ is either larger than $b$, or we can repeat the process again to find $(a_3, b_3)$: eventually we must pass $b$ because the intervals do actually cover $[a, b]$. 
+
+So now we know that there exists some $K \in \{1, \cdots, N\}$ such that for all $k \in \{1, \cdots, K-1\}$
+\[
+    b_k \le b, \quad a_{k+1} \le b_k < b_{k+1}, 
+\]
+and we also have $b < b_K$ (meaning the $K$th interval gets us to the rightmost endpoint). But now 
+\[
+    \sum_n \ell(I_n) \ge \sum_{k=1}^N \ell(J_k) \ge \sum_{k=1}^K \ell(J_k) = (b_K - a_K) + (b_{K-1} - a_{K_1}) + \cdots + (b_1 - a_1),
+\]
+and now we can bound this by regrouping the finite sum as
+\[
+    = b_K + (b_{k-1} - a_K) + (b_{k-2} - a_{K-1}) + \cdots + (b_1 - a_2) - a_1 \ge b_K - a_1 \ge b - a = \ell(I),
+\]
+completing the proof of this special case (the sum of lengths of intervals is at least $\ell(I)$ for any collection, meaning the infimum $m^\ast$ is at least $\ell(I)$ as well). 
+
+The cases for other types of intervals now follow easily. If $I$ is any finite interval $[a, b), (a, b]$, or $(a, b)$, note that $[a + \eps, b - \eps] \subset I \subset [a - \eps, b + \eps]$ (making intervals a little fatter or thinner covers or gets us completely inside $I$), and thus 
+\[
+    m^\ast([a + \eps, b - \eps]) \le m^\ast(I) \le m^\ast([a - \eps, b + \eps]) \implies (b-a) - 2\eps \le m^\ast(I) \le (b-a) + 2\eps,
+\]
+and taking $\eps \to 0$ gives us the desired result. Finally, an infinite interval $(-\infty, a)$, $(a, \infty), (-\infty, a], [a, \infty)$, or $(-\infty, \infty)$ cannot be covered by a collection of intervals of finite length (this is an exercise for us to work out). 
+\end{proof}
+
+The next result basically tells us that the outer measure of sets can be approximated by the outer measure of open sets:
+
+\begin{theorem}
+For every subset $A \subset \RR$ and $\eps > 0$, there exists an open set $O$ such that $A \subset O$ and $m^\ast(A) \le m^\ast(O) \le m^\ast(A) + \eps$.
+\end{theorem}
+\begin{proof}
+The result is clear if $m^\ast(A)$ is infinite (take $O$ to be the whole number line). Otherwise, $m^\ast(A)$ is finite, and let $\{I_n\}$ be a collection of open intervals that cover $A$ and have total length at most $m^\ast(A) + \eps$. Then $O$, this union of open intervals, is a union of open sets (so it is open), and it is clear that $A \subset O$ and (by the countable subadditivity we proved last time) 
+\[
+    m^\ast(O) = m^\ast\left(\bigcup_n I_n\right) \le \sum_n m^\ast(I_n) \le \sum_n \ell(I_n) \le m^\ast(A) + \eps.
+\]
+\end{proof}
+
+So (indeed) with respect to outer measure, every set can be approximated by a suitable open set. And now we're ready to talk about what ``suitably nice'' subsets of $\RR$ look like:
+
+\begin{definition}
+A set $E \subset \RR$ is \vocab{Lebesgue measurable} if for all $A \subset \RR$, 
+\[
+    m^\ast(A) = m^\ast(A \cap E) + m^\ast(A \cap E^c).
+\]
+\end{definition}
+
+In other words, $E$ is well-behaved if it always cuts $A$ into reasonable parts. Notice that we always know that
+\[
+    m^\ast(A) \le m^\ast(A \cap E) + m^\ast(A \cap E^c)
+\]
+by subadditivity and using that $A \subset (A \cap E) \cup (A \cap E^c)$, so measurability of a set $E$ is really telling us that \[
+    m^\ast(A \cap E) + m^\ast(A \cap E^c) \le m^\ast(A).
+\]
+
+\begin{lemma}
+The empty set $\varnothing$ and the set of real numbers $\RR$ are measurable, and a set $E$ is measurable if and only if $E^c$ is measurable.
+\end{lemma}
+\begin{proof}
+All of these are readily verifiable from the definition of measurability, which is symmetric in $E$ and $E^c$. 
+\end{proof}
+
+\begin{proposition}
+If a set $E$ has zero outer measure, meaning $m^\ast(E) = 0$, then $E$ is measurable.
+\end{proposition}
+\begin{proof}
+Because $A \cap E \subset E$, we know that $m^\ast(A \cap E) \le m^\ast(E) = 0$, which means $m^\ast(A \cap E) = 0$. So now 
+\[
+    m^\ast(A \cap E) + m^\ast(A \cap E^c) = m^\ast(A \cap E^c) \le m^\ast(A)
+\]
+(because $A \cap E^c \subset A$), and this is a sufficient condition for measurability.
+\end{proof} 
+
+This shows us that a lot of ``uninteresting'' sets are measurable, and we don't have many interesting examples of measurable sets. But it turns out that every open set is measurable, which means that (taking complements) every closed set is also measurable. There are in fact many more sets that are measurable -- most things we can write down are -- because taking unions and intersections of basic sets will always give us measurable sets. But before we explain that, we need to establish a few properties:
+
+\begin{proposition}
+If $E_1$ and $E_2$ are measurable sets, then $E_1 \cup E_2$ is measurable.
+\end{proposition}
+\begin{proof}
+We need to verify the Lebesgue measurable condition. Let $A$ be an arbitrary subset of $\RR$: since $E_2$ is measurable, we know that 
+\[
+    m^\ast(A \cap E_1^c) = m^\ast(A \cap E_1^c \cap E_2) + m^\ast(A \cap E_1^c \cap E_2^c),
+\]  
+and now $E_1^c \cap E_2^c = (E_1 \cup E_2)^c$ by de Morgan's law. On the other hand, we know that 
+\[
+    A \cap (E_1 \cup E_2) = (A \cap E_1) \cup (A \cap E_2) = (A \cap E_1) \cup (A \cap E_2 \cap E_1^c)
+\]
+(because things that are in both $A$ and $E_1$ are already included in the first term). Putting these expressions together, 
+\[
+    \boxed{m^\ast(A \cap (E_1 \cup E_2))} \le m^\ast(A \cap E_1) + m^\ast(A \cap E_2 \cap E_1^c),
+\]
+and now because $E_1$ is measurable, we can rewrite this as 
+\[
+    = m^\ast(A) - m^\ast(A \cap E_1^c) + m^\ast(A \cap E_2 \cap E_1^c) = \boxed{m^\ast(A) - m^\ast(A \cap (E_1 \cup E_2)^c)},
+\]
+and rearranging the boxed expressions gives us the desired measurability inequality.
+\end{proof}
+
+Using induction on the result above gives us a slightly more general fact:
+
+\begin{corollary}
+If sets $E_1, \cdots, E_n$ are measurable, then $\bigcup_{k=1}^n E_k$ is measurable.
+\end{corollary}
+
+(The base case is clear, and we induct on the number of sets included in the union by adding one more set at a time: $\bigcup_{k=1}^{n+1} E_k = \left(\bigcup_{k=1}^n E_k\right) \cup E_{n+1}$.) And with this result, now we're ready to discuss the structure of the set of measurable sets more explicitly:
+
+\begin{definition}
+A nonempty collection of sets $\mc{A} \subset \mc{P}(\RR)$ is an \vocab{algebra} (not the same as the ``algebra'' in algebra) if for all $E \in \mc{A}$, we have $E^c \in \mc{A}$, and for all $E_1, \cdots, E_n \in \mc{A}$, we have $\bigcup_{k=1}^n E_k \in \mc{A}$. Furthermore, an algebra $\mc{A}$ is a \vocab{$\sigma$-algebra} if we have the additional condition that for any countable collection $\{E_n\}_{n=1}^\infty$ of sets in $\mc{A}$, the union $\bigcup_n E_n$ is also in the algebra.
+\end{definition}
+
+In words, algebras are closed under complements and finite unions, while sigma-algebras also need to be closed under countable unions. And in fact, de Morgan's laws tell us that if $E_1, \cdots, E_n \in \mc{A}$, then their intersection $\bigcap_{k=1}^n E_k = \left(\bigcup_{k=1}^n E_k^c\right)^c$ is also in the algebra. So closure holds under both finite unions and finite intersections, and in particular that means that $\varnothing = E \cap E^c$ must be a measurable set (because an algebra is always nonempty), and thus $\RR = \varnothing^c$ is also always measurable. (And similarly, countable intersections of sets are also in $\sigma$-algebras $\mc{A}$.)
+
+The point of these general definitions is that we'll soon show (in the next lecture) that $\mc{M}$, the set of all measurable sets, is a $\sigma$-algebra. (And if we go into measure theory, we'll see more examples of sigma-algebras when we construct measure spaces.)
+
+\begin{example}
+The simplest sigma-algebra is given by $\mc{A} = \{\varnothing, \RR\}$, and the next simplest is $\mc{A} = \mc{P}(\RR)$. For a slightly more involved example, consider 
+\[
+    \mc{A} = \left\{E \subset \RR: E \text{ or }E^c \text{ is countable} \right\}.
+\]
+\end{example}
+
+This last example $\mc{A}$ is a $\sigma$-algebra because it's indeed closed under complements, and if we have a collection $\{E_n\}_n \subset \mc{A}$ with all sets $E_n$ countable, then the union $\bigcup_{n} E_n$ is a countable union of countable sets, which is countable (and thus the union is in $\mc{A}$). And on the other hand, if there is some $N_0$ such that $E_{N_0}^c$ is countable (instead of $E_{N_0}$), then
+\[
+    \left(\bigcup_n E_n\right)^c = \bigcap_{n} E_n^c \subset E_{N_0}^c
+\]  
+is an intersection of sets, one of which is countable, so this union itself has a countable complement (and is thus also in $\mc{A}$). So we've verified the necessary conditions, and what we have here is often called the \textbf{cocountable sigma-algebra}.
+
+\begin{proposition}
+Consider the set 
+\[
+    \Sigma = \{\mc{A}: \mc{A} \text{ sigma-algebra containing all open subsets of }\RR\}.
+\]
+(For example, $\mc{P}(\RR)$ is one of the elements of $\Sigma$.) Then the intersection of all such sigma-algebras
+\[
+    \mc{B} = \bigcap_{\mc{A} \in \Sigma} \mc{A}
+\]
+is the smallest $\sigma$-algebra containing all open subsets of $\RR$, and it's called the \vocab{Borel $\sigma$-algebra}.
+\end{proposition}
+
+(The last condition here basically says that if $\mc{A}$ is any $\sigma$-algebra in $\Sigma$, then $\mc{B}$ is a subset of $\mc{A}$.)
+
+\begin{proof}
+The difficulty of this proof really comes in unpacking the definitions, and the main part of the proof is showing that $\mc{B}$ is actually a $\sigma$-algebra. (This is because every open subset is contained in every $\mc{A} \in \Sigma$, so it must be an element of $\mc{B}$, and because it is the intersection of all of the $\sigma$-algebras in $\Sigma$, it must be the smallest one -- it's a subset of any fixed $\sigma$-algebra in $\Sigma$.)
+
+Verifying that $\mc{B}$ is a $\sigma$-algebra will mostly be left to us, but we'll show one part. Suppose that $E \in \mc{B}$ is some subset of $\RR$: because $E \in \mc{A}$ for all $\mc{A} \in \Sigma$, we must have $E^c \in \mc{A}$ for all $\mc{A} \in \Sigma$ (because each element of $\Sigma$ is a $\sigma$-algebra, meaning it is closed under complements). So $E^c$ is in every element of $\Sigma$, meaning that it must also be in $\mc{B}$. So we've shown that the Borel $\sigma$-algebra is closed under complements. (The proof of closure under countable unions is similar: those sets in the countable union must be in every $\mc{A} \in \Sigma$, and then we can apply closure under countable union within each $\mc{A}$.)
+\end{proof}
+
+We'll show next time that the set of Lebesgue measurable sets is a $\sigma$-algebra, and in fact this set of measurable sets contains the Borel sigma-algebra $\mc{B}$. (Remember that this Borel sigma-algebra is pretty big, because we can take countable unions and intersections of open sets and end up with a very rich collection of subsets of $\RR$.)

@@ -1,0 +1,92 @@
+\originalchapter{紧集与紧算子}\label{ch:compact}
+\originalsection{紧性与有限维逼近}
+在 Hilbert 空间的单位球内, 正交归一序列没有范数收敛子列, 因为两项距离恒为 $\sqrt2$. 因而闭、有界不再保证紧. 缺少的条件是能用同一个有限维子空间同时逼近集合中的所有向量.
+
+本章在度量空间中采用等价的序列紧定义. 全有界指对每个 $\eps>0$ 都能用有限个半径 $\eps$ 的球覆盖. 完备且全有界的度量空间紧: 对任意序列, 逐级取有限覆盖中含无穷项的球, 可抽出 Cauchy 子列; 完备性给出极限. 反之紧集若没有某个有限球覆盖, 可逐步选取两两距离至少 $\eps$ 的点, 与序列紧矛盾. 紧集闭且有界的结论也由序列紧得到. 这些是此处所需的度量紧性先修.
+
+\begin{theorem}\label{thm:compact-approx}
+Hilbert 空间中的集合 $C$ 紧, 当且仅当它闭、有界, 并对每个 $\eps>0$ 存在有限维子空间 $M$ 使 $\sup_{x\in C}\dist(x,M)<\eps$.
+\end{theorem}
+\begin{proof}
+若 $C$ 紧, 取有限 $\eps/2$ 网 $x_1,\ldots,x_N$, 令 $M$ 为这些点的张成. 每个 $x$ 距离其中某个点小于 $\eps/2$, 因而距离 $M$ 小于 $\eps$, 给出必要性.
+
+反之, 给定 $\eps>0$, 选 $M$ 使所有向量距 $M$ 小于 $\eps/3$. 正交投影 $P_M$ 的范数至多1, 故 $P_M(C)$ 有界. 它位于有限维空间, 其闭包紧, 可用有限个半径 $\eps/3$ 的球覆盖. 每个 $x\in C$ 距离其投影小于 $\eps/3$, 因而这些球的中心给出 $C$ 的有限 $\eps$ 网. 所以 $C$ 全有界, 闭性和 Hilbert 完备性给出 $C$ 完备, 从而紧.
+\end{proof}
+
+\begin{corollary}\label{cor:smalltails}
+在有可数正交归一基 $(e_j)$ 的 Hilbert 空间中, 闭有界集 $C$ 紧, 当且仅当有一致小尾项:
+\[
+\lim_{N\to\infty}\sup_{x\in C}\sum_{j>N}|\ip{x}{e_j}|^2=0.
+\]
+\end{corollary}
+\begin{proof}
+若一致小尾项成立, Parseval 给出 $\norm{x-P_Nx}^2$ 等于尾和, 故有限维逼近判别给出紧性. 若 $C$ 紧, 对任意 $\eps>0$ 选有限 $\eps/3$ 网 $x_1,\ldots,x_m$. 对每个网点, $P_Nx_j\to x_j$; 取共同 $N$, 使每个误差小于 $\eps/3$. 因 $\norm{I-P_N}\le1$, 对接近网点的任意 $x$ 有
+$\norm{(I-P_N)x}\le\norm{x-x_j}+\norm{(I-P_N)x_j}<2\eps/3$.
+这个共同 $N$ 适用于所有 $x$, 给出尾和一致趋于零.
+\end{proof}
+
+\begin{example}
+核对 Hilbert 立方体 $C=\{a\in\ell^2:|a_j|\le2^{-j}\}$ 的紧性.
+\end{example}
+\begin{solution}
+坐标泛函连续, 所以这些闭不等式的交闭. 范数平方不超过 $\sum_j4^{-j}$, 故有界. 尾和统一受 $\sum_{j>N}4^{-j}\to0$ 控制, 用一致小尾项判别得紧. 这个集合包含无穷多个方向, 说明无限维空间中仍可以有紧集.
+\end{solution}
+
+\originalsection{有限秩与范数闭包}
+\begin{definition}
+有界算子 $T:H_1\to H_2$ 称有限秩, 若 $\ran T$ 有限维; 称紧算子, 若 $T$ 把定义域闭单位球映为相对紧集, 即像的闭包紧. 等价地, 每个有界序列的像都有范数收敛子列.
+\end{definition}
+正向把有界输入序列除以一个共同常数, 放入单位球, 在像的紧闭包中抽取子列, 再缩放回来. 反向若单位球像不全有界, 存在 $\eps>0$, 可递归选择像中两两距离至少 $\eps$ 的点及相应单位输入, 其像无 Cauchy 子列, 与假设矛盾. 故像全有界; $H_2$ 完备使其闭包紧. 有限秩算子紧, 因为其有界像位于有限维空间中. 若 $v_1,\ldots,v_r$ 是值域的正交归一基, 则
+$Tx=\sum_{j=1}^r\ip{Tx}{v_j}v_j=\sum_{j=1}^r\ip{x}{T^*v_j}v_j$.
+这给出有限秩算子的有限泛函表示, 不要求定义域本身有限维. 当定义域和值域均为同一 $H$, 对有限组 $v_j,T^*v_j$ 的联合张成做 Gram--Schmidt, 再展开这两组向量, 即得到原第19讲在同一有限正交系下的矩阵表示.
+
+\begin{theorem}\label{thm:compactnorm}
+紧算子的算子范数极限仍紧. Hilbert 空间之间的紧算子恰为有限秩算子的算子范数闭包.
+\end{theorem}
+\begin{proof}
+若 $T_n\to T$ 于算子范数, 对 $\eps>0$ 选 $n$ 使 $\norm{T-T_n}<\eps/3$. $T_n$ 的单位球像有有限 $\eps/3$ 网, 因而同一网对 $T$ 的单位球像给出误差小于 $2\eps/3$. 所以 $T$ 的单位球像全有界, 它在完备值域中的闭包也完备且全有界, 从而紧. 这里值域完备性不可略去; 本章的 Hilbert 空间已满足.
+
+若 $T$ 紧, 取其单位球像闭包 $C$. 有限维逼近判别给出 $M$ 使 $\norm{Tx-P_MTx}<\eps$ 对所有单位球向量成立. $P_MT$ 有限秩, 且 $\norm{T-P_MT}\le\eps$. 对逐渐减小的 $\eps$ 选择一列有限秩算子, 得范数逼近. 反方向由有限秩紧和前半结论得到.
+\end{proof}
+
+\begin{corollary}\label{cor:compactideal}
+紧算子对加法、数乘、伴随以及左右复合有界算子封闭.
+\end{corollary}
+\begin{proof}
+有限秩算子的和、数乘仍有限秩, 两侧复合也仍有限秩. 伴随由前述有限泛函表示仍有限秩: 若 $Tx=\sum_j\ip{x}{w_j}v_j$, 则 $T^*y=\sum_j\ip{y}{v_j}w_j$. 对紧算子的有限秩逼近取这些运算, 复合范数估计与 $\norm{T^*}=\norm{T}$ 保证逼近仍在算子范数中收敛, 再用定理\ref{thm:compactnorm}.
+\end{proof}
+Hilbert 空间的正交投影使有限秩逼近成立. 不能未经说明把此结论套到所有 Banach 空间之间的紧算子.
+
+\originalsection{弱收敛与积分算子}
+\begin{theorem}\label{thm:compactweak}
+Hilbert 空间之间的有界算子 $T$ 紧, 当且仅当 $x_n\rightharpoonup x$ 总能推出 $Tx_n\to Tx$ 于范数.
+\end{theorem}
+\begin{proof}
+若 $T$ 紧, 弱收敛序列范数有界, 所以任意子列的像都有范数收敛的再子列. 同时 $T$ 保持弱收敛, 范数极限也为弱极限, 唯一性迫使所有这样的极限都为 $Tx$. 若整个 $Tx_n$ 不趋于 $Tx$, 会有一条子列的距离始终至少为某 $\eps>0$, 与其再子列趋于 $Tx$ 矛盾.
+
+反之, 给定有界 $(x_n)$, Hilbert 弱子列定理给出 $x_{n_k}\rightharpoonup x$. 假设使 $Tx_{n_k}\to Tx$ 于范数. 因而每个有界序列的像都有收敛子列, 算子紧.
+\end{proof}
+
+\begin{theorem}\label{thm:continuouskernelcompact}
+若 $k\in C([0,1]^2)$, 则 $Tf(x)=\int_0^1k(x,y)f(y)\dd y$ 在 $L^2([0,1])$ 上紧. 更一般地, 对平方可积核有 $\norm{T}\le\norm{k}_{L^2([0,1]^2)}$; 本册只需连续核的紧性.
+\end{theorem}
+\begin{proof}
+逐个 $x$ 使用 Cauchy--Schwarz,
+$|Tf(x)|^2\le(\int|k(x,y)|^2\dd y)\norm{f}_2^2$.
+对 $x$ 积分即得算子范数界, 非负积分用 Tonelli 解释. 连续核一致连续, 将正方形分成小矩形, 在每格取一个核值, 得有限和核 $k_N(x,y)=\sum_{i,j}c_{ij}\ind_{I_i}(x)\ind_{I_j}(y)$, 满足 $\norm{k-k_N}_\infty\to0$. 对应算子 $T_N$ 的像位于有限个 $\ind_{I_i}$ 的张成中, 所以有限秩. 核范数界给出 $\norm{T-T_N}\le\norm{k-k_N}_2\le\norm{k-k_N}_\infty\to0$, 故 $T$ 紧. 边界格线取值不影响 $L^2$ 算子.
+\end{proof}
+对平方可和矩阵 $a_{ij}$ 也有相同机制: $Tx=(\sum_ja_{ij}x_j)_i$ 满足 $\norm{T}\le(\sum_{i,j}|a_{ij}|^2)^{1/2}$. 截断到有限正方形, 剩余平方和控制算子范数误差, 所以算子紧. 这是 Hilbert--Schmidt 类型例子的必要部分; 更一般的迹类和 Schatten 理论不在主源覆盖范围.
+
+\begin{exercise}
+对 $a\in\ell^\infty$, 定义对角算子 $D_ax=(a_jx_j)$. 证明 $\norm{D_a}=\sup_j|a_j|$, 且 $D_a$ 紧当且仅当 $a_j\to0$.
+\end{exercise}
+\begin{solution}
+平方求和给范数上界, 单位向量 $e_j$ 给所有坐标的下界, 所以范数等式成立. 若 $a_j\to0$, 截断到前 $N$ 个坐标的有限秩算子与 $D_a$ 的范数差为 $\sup_{j>N}|a_j|\to0$, 所以紧. 若不趋于零, 有无限子列 $|a_{j_k}|\ge\eps>0$. 对不同 $k,l$, 像 $a_{j_k}e_{j_k},a_{j_l}e_{j_l}$ 的距离平方至少为 $2\eps^2$, 无 Cauchy 子列, 故不紧.
+\end{solution}
+
+\begin{exercise}
+证明无限维 Hilbert 空间的恒等算子不紧, 并说明任何紧算子都不可能在此空间上具有有界逆.
+\end{exercise}
+\begin{solution}
+无限维空间可逐步取不在已有有限张成中的向量并做 Gram--Schmidt, 得无限正交归一序列. 它在单位球中, 却没有范数收敛子列, 所以恒等算子不紧. 若紧 $T$ 有有界逆, 则 $I=T^{-1}T$ 由复合封闭性紧, 与前述矛盾.
+\end{solution}

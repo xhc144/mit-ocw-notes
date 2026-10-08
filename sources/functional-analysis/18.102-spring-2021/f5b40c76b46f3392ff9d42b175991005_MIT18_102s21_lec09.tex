@@ -1,0 +1,229 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{March 18, 2021}
+
+We concluded our discussion of measurable sets last lecture -- remember that the motivation is to build towards a method of integration that surpasses that of the Riemann integral, so that the set of integrable functions actually forms a Banach space. To do that, we wanted to first integrate the simplest kinds of functions, which are $1$ on some set and $0$ on others, and that's why we cared about defining measure on certain subsets of $\RR$ (namely the sigma-algebra of Lebesgue measurable sets). We won't go through the construction of a non-measurable set -- instead, we'll move ahead to Lebesgue integration now. 
+
+\begin{fact}[Informal]
+If we have an increasing, continuous function $f(x)$ on $[a, b]$, Riemann integrates this function by breaking up the \textbf{domain} into intervals of small width and calculating the area of the rectangles. But Lebesgue's theory of integration started (historically) by thinking about chopping up the \textbf{range}, looking at the piece of $f$ between two values $y_i$ and $y_{i+1}$, finding the corresponding $x_i$ and $x_{i+1}$ where the function intersects at those $y$-values, and forming a rectangle with small vertical width instead of small horizontal width. 
+\end{fact}
+
+It would then make sense to define the integral
+\[
+    \int_a^b f = \lim_{\substack{\text{partition} \\ \text{gets small}}} \sum_{i=1}^n y_{i-1} \ell(f^{-1}[y_{i-1}, y_i]).
+\]
+In the above description, our function is increasing, so the $x$-values where $f$ is between $y_{i-1}$ and $y_i$ are just a single interval. But in general, the function $f$ can cross a given $y$-value multiple times, and instead we will just have some subset of $[a, b]$ that lies between the desired range. 
+
+And this is where measure comes in handy: we know how to measure the ``length'' of a Lebesgue measurable set, so that is the condition we'll put on objects like the preimage of $[y_{i-1}, y_i]$. 
+
+We won't actually define the Lebesgue integral as we do above, because it's not clear that the result is independent of how our sequence of partitions gets smaller. But it is a way that we can integrate a Lebesgue measurable function, and it does tell us why we care about the inverse image of closed intervals being measurable. 
+
+\begin{fact}
+Throughout this discussion, we'll be considering the extended real numbers $[-\infty, \infty] = \RR \cup \{-\infty, \infty\}$, and we'll allow functions to take on the values $\pm \infty$. 
+\end{fact}
+
+Remember (from 18.100) that a sequence of real numbers $\{a_n\}_n$ converges to $\infty$ if for all $R > 0$, there exists an $N \in \NN$ such that $a_n > R$ for all $n \ge N$. The rules that we'll have for working with these extended real numbers is that $x \pm \infty = \pm \infty$ for all $x \in \RR$, $0 (\pm \infty) = 0$ (this equality is just about the algebraic objects, not limiting procedures -- we'll see why soon), and $x(\pm \infty) = \pm \infty$ for all $x > 0$ and $\mp \infty$ for $x < 0$.
+
+As mentioned just now, measurable functions should be those where inverse images of closed functions are measurable sets, and that's almost where we'll start our definition:
+
+\begin{definition}
+Let $E \subset \RR$ be measurable, and let $f: E \to [-\infty, \infty]$ be a function. Then $f$ is \vocab{Lebesgue measurable} if for all $\alpha \in \RR$, $f^{-1}((\alpha, \infty]) \in \mc{M}$ (in other words, the preimage is a measurable set).
+\end{definition}
+
+We're considering the half-open intervals in this definition, but this isn't a particularly picky choice:
+
+\begin{theorem}\label{fourmeasureequiv}
+Let $E \subset \RR$ be a measurable set, and let $f: E \to [-\infty, \infty]$. Then the following are equivalent:
+\begin{enumerate}
+\item For all $\alpha \in \RR$, $f^{-1}((\alpha, \infty]) \in \mc{M}$,
+\item For all $\alpha \in \RR$, $f^{-1}([\alpha, \infty]) \in \mc{M}$,
+\item For all $\alpha \in \RR$, $f^{-1}([-\infty, \alpha)) \in \mc{M}$,
+\item For all $\alpha \in \RR$, $f^{-1}([-\infty, \alpha]) \in \mc{M}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+First of all, (1) implies (2), because
+\[
+    [\alpha, \infty] = \bigcap_n \left(\alpha - \frac{1}{n}, \infty\right],
+\]
+and inverse images respect operations on sets, so 
+\[
+    f^{-1}([\alpha, \infty]) = \bigcap_n f^{-1}\left(\left(\alpha - \frac{1}{n}, \infty\right]\right),
+\]
+and the right-hand side is a countable intersection of measurable sets by assumption and is thus measurable. And (2) implies (1), because for all $\alpha \in \RR$, 
+\[
+    (\alpha, \infty] = \bigcup_n \left[\alpha + \frac{1}{n}, \infty\right] \implies f^{-1}(\alpha, \infty] = \bigcup_n f^{-1}\left(\left[\alpha + \frac{1}{n}, \infty\right]\right)
+\]
+is a countable union of Lebesgue measurable sets and is thus Lebesgue measurable. Therefore, (1) and (2) are equivalent. A similar argument shows that (3) and (4) are equivalent as well. Finally,
+\[
+    [-\infty, \alpha) = ([\alpha, \infty])^c,
+\]
+and taking preimages of these and using that complements of measurable sets are measurable yields that (2) and (3) are equivalent, which gives the desired result.
+\end{proof}
+
+\begin{theorem}
+If $E$ is measurable, and $f: E \to \RR$ is a measurable function, then for all $F \in \mc{B}$ (the Borel sigma-algebra), $f^{-1}(F)$ is measurable.
+\end{theorem}
+\begin{proof}
+If $f$ is measurable, then for all intervals $(a, b)$, we have 
+\[
+    f^{-1}((a, b)) = f^{-1}([-\infty, b) \cap (a, \infty]) = f^{-1}([-\infty, b)) \cap f^{-1}((a, \infty])),
+\]
+and both sets on the right-hand side are measurable and thus so is their intersection. Thus each open interval is measurable, and similar to how we concluded that open sets are measurable, we can use the fact that every open set can be written as a countable union of open intervals to show that $f^{-1}(U)$ is measurable for all open $U \subset \RR$. Thus, $\mc{A} = \{F \subset \RR: f^{-1}(F) \text{ measurable}\}$ is a sigma-algebra that contains all open sets, and thus $\mc{B}$ must be a subset of $\mc{A}$, as desired.
+\end{proof}
+
+Thus, measurable functions make the preimage of Borel sets measurable, and we can also throw $\pm \infty$ into the mix:
+
+\begin{theorem}
+If $f: E \to \RR$ is measurable, then $f^{-1}(\{\infty\})$ and $f^{-1}(\{-\infty\})$ are measurable as well. 
+\end{theorem}
+\begin{proof}
+We can write
+\[
+    f^{-1}(\{\infty\}) = \bigcap_{n=1}^{\infty} f^{-1}((n, \infty])),
+\]
+and because each set in the countable intersection on the right is measurable, so is the countable intersection. Similarly, $f^{-1}(\{-\infty\}) = \bigcap_{n=1}^{\infty} f^{-1}([-\infty, -n))$, and by using \cref{fourmeasureequiv}, we again see that the set we care about is the countable intersection of a bunch of Lebesgue measurable sets and is thus measurable. 
+\end{proof}
+
+This tells us that the inverse image of any Borel set, possibly tossing in $\pm \infty$, is always measurable for measurable functions. 
+
+\begin{example}\label{contimplmeas}
+If $f: \RR \to \RR$ is continuous, then it is measurable. (This is a good sanity check, because continuous functions are Riemann integrable).  
+\end{example}
+
+To show this, notice that 
+\[
+    f^{-1}((\alpha, \infty]) = f^{-1}((\alpha, \infty))
+\]
+is the preimage of an open set and is thus open and thus measurable.
+
+\begin{example}
+If $E, F \subset \RR$ are two measurable sets, then the indicator function $\chi_F: E \to \RR$
+\[
+    \chi_F(x) = \begin{cases} 1 & x \in F \\ 0 & x \not\in F \end{cases}
+\]
+is measurable.
+\end{example}
+
+This one can be checked by direct computation: 
+\[
+    f^{-1}((\alpha, \infty]) = \begin{cases} \varnothing & \alpha \ge 1, \\ E \cap F & 0 \le \alpha < 1, \\ E & \alpha < 0,\end{cases}
+\]
+and all of these sets are measurable. 
+
+\begin{theorem}
+Let $E \subset \RR$ be measurable, and suppose $f, g: E \to \RR$ are two measurable functions and $c \in \RR$. Then $cf, f+g, fg$ are all measurable functions.
+\end{theorem}
+
+This is useful to have because we will end up with $L^p$ spaces for integrable functions, which are often added together and multiplied.
+
+\begin{proof}
+We basically want to check the definition of measurability. For scalar multiplication, if $c = 0$, then $cf = 0$ is a continuous function, so it is measurable by \cref{contimplmeas}. Otherwise, if $\alpha \in \RR$, then 
+\[
+    cf(x) > \alpha \iff f(x) > \frac{\alpha}{c},
+\]
+so the inverse image $(cf)^{-1}((\alpha, \infty]) = f^{-1}((\frac{\alpha}{c}, \infty])$ is measurable for any $\alpha$ (because $f$ is measurable). And this is exactly the condition for $cf$ to measurable. 
+
+Next, we'll consider the sum of two measurable functions. If $\alpha \in \RR$, then we'll check preimages via
+\[
+    f(x) + g(x) > \alpha \iff f(x) > \alpha - g(x) \iff f(x) > r > \alpha - g(x)
+\]
+for \textbf{some rational number} $r$, since there is a rational number between any two distinct real numbers. And that means that there exists some $r \in \QQ$ such that 
+\[
+    x \in f^{-1}((r, \infty]) \cap g^{-1}((\alpha - r, \infty]),
+\]
+and both expressions in the intersection are measurable by assumption, so the intersection is also measurable. Thus the preimage of $(f+g)^{-1}((\alpha, \infty])$ is
+\[
+    (f+g)^{-1}((\alpha, \infty]) = \bigcup_{r \in \QQ} \left(f^{-1}((r, \infty]) \cap g^{-1}((\alpha - r, \infty])\right),
+\]
+which is measurable (because we're taking countable intersections and unions, using that the rationals are countable), so $f+g$ is measurable. 
+
+Finally, for the product $fg$, we'll pull a trick: we'll first show that $f^2$ is measurable. Because $f^2$ is a nonnegative function, for any $\alpha < 0$,
+\[
+    (f^2)^{-1}((\alpha, \infty]) = E
+\]
+(the entire domain maps within $(\alpha, \infty]$), which is measurable by assumption. The other case is where $\alpha \ge 0$, in which case $f^2 > \alpha$ if and only if $f(x) > \sqrt{\alpha}$ or $f(x) < -\sqrt{\alpha}$. So
+\[
+    (f^2)^{-1}((\alpha, \infty]) = f^{-1}((\sqrt{\alpha}, \infty]) \cup f^{-1}([-\infty, -\sqrt{\alpha})),
+\]
+and both of the sets on the right here are measurable (again using \cref{fourmeasureequiv}), so the union is measurable and thus $f^2$ is measurable. We finish by noticing that 
+\[
+    fg = \frac{1}{4} \left((f + g)^2 - (f-g)^2\right),
+\]
+and $f+g$ and $f-g$ are measurable because $f, g$ are measurable, and we can scale by $-1$ or add functions together. Every operation we take here preserves measurability, and thus we've shown that the product of two measurable functions is measurable, as desired.
+\end{proof}
+
+(Notice that the functions above only go from $E \to \RR$, and that's because we wanted to avoid $\infty - \infty$ showing up in some of the functions.) All of those properties we showed above also work for Riemann integration, so this isn't really anything special yet -- what makes Lebesgue integration stand out is that we have \textbf{closure under taking limits}.
+
+\begin{theorem}\label{measlim}
+Let $E \subset \RR$ be measurable, and let $f_n: E \to [-\infty, \infty]$ be a sequence of measurable functions. Then the functions $g_1(x) = \sup_n f_n(x), g_2(x) = \inf_n f_n(x), g_3(x) = \limsup_{n \to \infty} f_n(x) = \inf_{n} \left[\sup_{k \ge n} f_k(x)\right]$, and $g_4(x) = \liminf_{n \to \infty} f_n(x) = \sup_n \left[\inf_{k \ge n} f_k(x) \right]$ are all measurable functions.
+\end{theorem}
+\begin{proof}
+To check that the pointwise supremum is measurable, notice that
+\[
+    x \in g_1^{-1}((\alpha, \infty]) \iff \sup_n f_n(x) > \alpha,
+\]
+which occurs if and only if there is some $n$ where $f_n(x) > \alpha$: 
+\[
+    \iff x \in f_n^{-1}((\alpha, \infty]) \iff x \in \bigcup_n f_n^{-1}((\alpha, \infty]).
+\]
+Since each set in the countable union is measurable, so is the union, and thus the preimage of $((\alpha, \infty])$ under $g_1$ is indeed measurable (meaning $g_1$ is measurable). And very similarly (this time we'll include $\alpha$ in the set), we can check that
+\[
+    x \in g_2^{-1}([\alpha, \infty]) \iff x \in \bigcap_n f_n^{-1}([\alpha, \infty]),
+\]
+and each $f_n^{-1}([\alpha, \infty])$ is measurable, so the intersection is also measurable (meaning $g_2$ is measurable).
+
+Finally, $g_3$ is the infimum of a sequence of functions defined as supremums of the $f_n$s, and $g_4$ is the supremum of a sequence of functions defined as infimums of the $f_n$s. Since we've shown closure under infs and sups, that means we get the result for $g_3$ and $g_4$ immediately.
+\end{proof}
+
+\begin{corollary}
+Let $E \subset \RR$ be measurable, and let $f_n: E \to [-\infty, \infty]$ be measurable for all $n$. If $\lim_{n \to \infty} f_n(x) = f(x)$, then $f$ is measurable.
+\end{corollary}
+\begin{proof}
+If we have pointwise convergence of the functions, then $f(x) = \limsup_{n \to \infty} f_n(x) = \liminf_{n \to \infty} f_n(x)$ is measurable by \cref{measlim}.
+\end{proof}
+
+And in fact, this corollary is false for Riemann integration (the pointwise limit of Riemann integrable functions is not always Riemann integrable), so we're starting to see difference between the Riemann and Lebesgue approaches.
+
+\begin{example}
+The set $\QQ \cap [0, 1]$ is countable, so we can enumerate its elements as $\{r_1, r_2, r_3, \cdots\}$. Then the functions 
+\[
+    f_n(x) = \begin{cases} 1 & x \in \{r_1, \cdots, r_n\} \\ 0 & \text{otherwise}\end{cases}
+\]
+are each Riemann integrable (because they are piecewise continuous), but their pointwise limit is the indicator function $\chi_{\QQ \cap [0, 1]}$, which is not Riemann integrable.
+\end{example}
+
+As an important note, being Lebesgue \textbf{integrable} and \textbf{measurable} are two different things (measurable functions are candidates for being integrable), and in fact the pointwise limit of Lebesgue integrable functions will not always be Lebesgue intergrable, but they will be under an additional mild condition. So we're on track to develop a stronger theory of integration here!
+
+\begin{definition}
+Let $E$ be a measurable set. A statement $P(x)$ \vocab{holds almost everywhere (a.e.) on $E$} if 
+\[
+    m\left(\{x \in E: P(x) \text{ does not hold}\}\right) = 0.
+\]
+\end{definition}
+
+(It may seem like we're asking for the set to both be measurable and have measure zero, but remember that any set with outer measure zero is of measure zero. So replacing $m$ with $m^\ast$ above will give us the same statement.) And the idea here is that sets of measure zero don't affect measurability:
+
+\begin{theorem}
+If two functions $f, g: E \to [-\infty, \infty]$ satisfy $f = g$ a.e. on $E$, and $f$ is measurable, then $g$ is measurable.
+\end{theorem}
+
+In other words, changing a measurable function on a set of measure zero keeps it measurable.
+
+\begin{proof}
+Let $N = \{x \in E: f(x) \ne g(x)\}$: by assumption, this set has outer measure zero, so $m(N) = 0$. Then for $\alpha \in \RR$, 
+\[
+    N_{\alpha} = \{x \in N: g(x) > \alpha\} \subset N
+\]
+also has measure zero (because $m^\ast(N_\alpha) \le m^\ast(N) = 0$). Therefore, 
+\[
+    g^{-1}((\alpha, \infty]) = \left(f^{-1}((\alpha, \infty]) \cap N^c\right) \cup N_\alpha
+\]
+(because the preimages are the same outside of $N$, and then we also have to account for the set where $g(x) > \alpha$ and doesn't agree with $f$). But $N$ is measurable, so $N^c$ is measurable, and thus the intersection $f^{-1}((\alpha, \infty]) \cap N^c$ is measurable. Finally, $N_\alpha$ is also measurable (it has measure zero), so the final expression on the right is indeed measurable, proving that $g$ is measurable as desired.
+\end{proof}
+
+We'll extend this idea of measurability to (finite) complex numbers next time, and then we'll show that a particular class of functions are the universal measurable functions. That will allow us to define the Lebesgue integral for certain nonnegative functions, and from there, we'll be able to move towards proving that the set of Lebesgue integrable functions forms a Banach space.

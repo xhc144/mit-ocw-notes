@@ -1,0 +1,120 @@
+\originalchapter{Hahn--Banach 与对偶}\label{ch:dual}
+\originalsection{线性泛函的延拓}
+在 $\ell^p$ 中, 坐标投影已经给出非零连续泛函. 一般赋范空间没有指定坐标, 需要证明连续泛函仍能区分向量. 延拓定理从一个易于定义的小子空间出发, 在保持范数的同时把泛函扩展到全空间.
+
+\begin{definition}
+实向量空间上的函数 $p:X\to\R$ 称次线性函数, 若 $p(x+y)\le p(x)+p(y)$, 且 $t\ge0$ 时 $p(tx)=tp(x)$. 它不必为非负或偶函数. 范数及正数倍的范数都是次线性函数.
+\end{definition}
+
+\begin{lemma}\label{lem:hb-one}
+设 $M$ 为实向量空间 $X$ 的子空间, $f:M\to\R$ 线性, 且 $f(m)\le p(m)$. 若 $x_0\notin M$, 则 $f$ 可延拓到 $M+\R x_0$, 并仍由 $p$ 控制.
+\end{lemma}
+\begin{proof}
+每个新向量唯一写成 $m+tx_0$, 因为若两种表示相等且系数不同, 则 $x_0$ 将属于 $M$. 因而只需选择 $a=F(x_0)$, 再令 $F(m+tx_0)=f(m)+ta$. 当 $t>0$ 时, 除以 $t$ 后的条件为 $a\le p(m+x_0)-f(m)$ 对所有 $m\in M$ 成立. 当 $t<0$ 时, 令 $s=-t>0$, 得 $a\ge f(m)-p(m-x_0)$ 对所有 $m$ 成立. 所以选择范围为
+\[
+\sup_{m\in M}\{f(m)-p(m-x_0)\}
+\le a\le
+\inf_{n\in M}\{p(n+x_0)-f(n)\}.
+\]
+该区间非空: 对任意 $m,n\in M$,
+$f(m)+f(n)=f(m+n)\le p(m+n)\le p(m-x_0)+p(n+x_0)$.
+移项就得到 $f(m)-p(m-x_0)\le p(n+x_0)-f(n)$, 所以每一个下界不超过每一个上界. 用 $m=0$ 或 $n=0$ 还可知两端为有限实数. 任选 $a$ 在其中, 即同时满足正、负 $t$ 的控制, $t=0$ 则由原假设得到.
+\end{proof}
+
+\begin{theorem}[实 Hahn--Banach 定理]\label{thm:hb-real}
+在引理\ref{lem:hb-one}的条件下, 存在线性 $F:X\to\R$ 使 $F|_M=f$, 且 $F(x)\le p(x)$ 对所有 $x$ 成立.
+\end{theorem}
+\begin{proof}
+采用 Zorn 引理: 若非空偏序集中每条链都有上界, 则有极大元. 这是本书采用的选择公理形式, 不在此证明集合论公理的等价性.
+
+考虑所有受 $p$ 控制的延拓 $(N,g)$, 其中 $M\subset N\subset X$, 按扩张定义域且保持原值排序. 集合非空, 因为包含 $(M,f)$. 对任一链, 定义域的并集 $N_\infty$ 是子空间: 两个向量分别属于链中的两个子空间, 其中一个包含另一个, 因而这两个向量及其线性组合都属于较大的子空间. 在并集上令 $g_\infty(x)$ 等于任一包含 $x$ 的链成员的值; 链中延拓相容保证值唯一. 两个输入可放在同一成员中, 所以线性性成立; 控制不等式也逐点继承. 这给出链的上界.
+
+Zorn 引理给出极大延拓 $(N,F)$. 若 $N\ne X$, 可取 $x_0\notin N$, 由单维延拓引理再扩展一步, 与极大性矛盾. 所以 $N=X$.
+\end{proof}
+
+\begin{theorem}[保范数延拓]\label{thm:hb}
+设 $X$ 为实或复赋范空间, $M$ 为任意线性子空间, $f\in M^*$. 则存在 $F\in X^*$ 满足 $F|_M=f$ 及 $\norm{F}=\norm{f}$. 不要求 $X$ 完备或 $M$ 闭.
+\end{theorem}
+\begin{proof}
+实情形令 $p(x)=\norm{f}\norm{x}$, 由实定理有 $F(x)\le p(x)$. 对 $-x$ 应用得 $-F(x)\le p(x)$, 所以 $|F(x)|\le\norm{f}\norm{x}$. 限制回 $M$ 得范数相等.
+
+复情形先把 $X$ 看作实向量空间, 在 $M$ 上令 $g=\operatorname{Re}f$. 实线性泛函 $g$ 满足 $|g(m)|\le\norm{f}\norm{m}$, 可保此界延拓为实线性 $G$. 定义
+$F(x)=G(x)-\ii G(\ii x)$. 它对实数线性, 且
+$F(\ii x)=G(\ii x)+\ii G(x)=\ii F(x)$, 所以复线性. 在 $M$ 上, $\operatorname{Re}f(\ii m)=-\operatorname{Im}f(m)$, 故 $F(m)=f(m)$.
+
+还必须证明原来的界保持, 不能从实、虚部分别有界直接得到同一常数. 对 $F(x)\ne0$, 取 $|\alpha|=1$ 使 $\alpha F(x)=|F(x)|$. 则 $|F(x)|=\operatorname{Re}F(\alpha x)=G(\alpha x)\le\norm{f}\norm{\alpha x}=\norm{f}\norm{x}$. 零值时也成立. 限制给出反向比较, 完成保范数证明.
+\end{proof}
+
+\begin{remark}
+原第5讲的复延拓证明对实、虚方向的相容性写得很略. 上述实化后重建复泛函的论证为编者补全, 保留了每一步的复线性和范数控制. Zorn 引理也给出 Hamel 基存在: 对线性无关子集按包含排序, 链的并仍线性无关, 因为任一有限关系落在一个链成员中; 极大线性无关集必张成全空间. Hamel 展开只含有限项, 与后文的正交级数展开不同. 标准坐标向量是 $c_{00}$ 的 Hamel 基, 却不是 $\ell^1$ 的 Hamel 基.
+\end{remark}
+
+\originalsection{分离与双对偶}
+\begin{corollary}\label{cor:norming}
+若 $x_0\ne0$, 则存在 $f\in X^*$ 满足 $\norm{f}=1$, $f(x_0)=\norm{x_0}$. 因而 $\norm{x}=\sup_{\norm{f}\le1}|f(x)|$, 且连续泛函区分不同向量.
+\end{corollary}
+\begin{proof}
+在 $\K x_0$ 上定义 $f_0(\alpha x_0)=\alpha\norm{x_0}$. 它的范数为1, 由保范数延拓得到 $f$. 任意单位泛函都满足 $|f(x)|\le\norm{x}$, 而所构泛函使该界达到. 对不同 $x,y$, 将同一构造用于 $x-y$ 即得 $f(x)\ne f(y)$.
+\end{proof}
+
+\begin{theorem}\label{thm:distance-dual}
+设 $M$ 为闭线性子空间, $x\notin M$, $d=\dist(x,M)>0$. 存在 $f\in X^*$ 使 $f|_M=0$, $\norm{f}=1$, $f(x)=d$. 更一般地,
+\[
+\dist(x,M)=\sup\{|f(x)|:f\in X^*,\ \norm{f}\le1,\ f|_M=0\}.
+\]
+\end{theorem}
+\begin{proof}
+在 $M+\K x$ 上令 $g(m+\alpha x)=\alpha d$. 因 $x\notin M$, 表示唯一. 对 $\alpha\ne0$,
+$\norm{m+\alpha x}=|\alpha|\norm{x+m/\alpha}\ge|\alpha|d$, 所以 $\norm{g}\le1$. 取 $m_n\in M$ 使 $\norm{x-m_n}\to d$, 则 $|g(x-m_n)|/\norm{x-m_n}\to1$, 因而 $\norm{g}=1$. 用 Hahn--Banach 延拓. 任意在 $M$ 上为零的单位泛函满足 $|f(x)|=|f(x-m)|\le\norm{x-m}$, 取下确界得上界. 若 $x\in M$, 两边均为零.
+\end{proof}
+
+\begin{definition}
+双对偶为 $X^{**}=(X^*)^*$. 典范映射 $J_X:X\to X^{**}$ 定义为 $(J_Xx)(f)=f(x)$. 若 $J_X$ 满射, 则称 $X$ 自反.
+\end{definition}
+
+\begin{proposition}\label{prop:doubledual}
+$J_X$ 是线性等距嵌入. 因此 Banach 空间 $X$ 在双对偶中的像闭, 但未必等于双对偶.
+\end{proposition}
+\begin{proof}
+对每个 $x$, 关于 $f$ 的函数 $f(x)$ 线性, 且 $|f(x)|\le\norm{x}\norm{f}$, 所以属于双对偶. $J_X$ 的线性性来自 $f$ 的线性性. 推论\ref{cor:norming}给出 $\norm{J_Xx}=\norm{x}$, 因而单射. 若 $X$ 完备, 等距像也完备, 由子空间完备性判别得闭.
+\end{proof}
+
+\originalsection{数列空间的对偶}
+以下把抽象对偶具体化的计算为编者补全; 原第2讲主要给出结论. 所有泛函在输入上都取线性约定, 用配对 $\sum_j a_jb_j$ 表示, 不在 $b_j$ 上额外添加共轭.
+
+\begin{theorem}\label{thm:dual-lp}
+若 $1\le p<\infty$, $1/p+1/q=1$, 则每个 $f\in(\ell^p)^*$ 唯一写成 $f(a)=\sum_ja_jb_j$, 其中 $b\in\ell^q$, 且 $\norm{f}=\norm{b}_q$. 同样 $(c_0)^*$ 等距对应于 $\ell^1$.
+\end{theorem}
+\begin{proof}
+给定 $b\in\ell^q$, Hölder 保证级数绝对收敛及 $\norm{f_b}\le\norm{b}_q$. 对一般 $f$, 令 $b_j=f(e_j)$. 在有限支撑向量上已有 $f(a)=\sum a_jb_j$.
+
+若 $1<p<\infty$, 固定 $N$, 令 $S_N=\sum_{j=1}^N|b_j|^q$. 当 $S_N>0$, 取有限支撑向量
+$a_j=\overline{b_j}|b_j|^{q-2}/S_N^{1/p}$, 零 $b_j$ 处定义为零. 因 $(q-1)p=q$, 有 $\norm{a}_p=1$ 且 $f(a)=S_N^{1/q}$. 所以 $S_N^{1/q}\le\norm{f}$, 令 $N\to\infty$ 得 $b\in\ell^q$ 及相应界. 若 $p=1$, 由 $|b_j|=|f(e_j)|\le\norm{f}$ 得 $b\in\ell^\infty$. $c_{00}$ 在 $\ell^p$ 中稠密, 用截断收敛和 $f$ 连续性可把有限求和恒等式延至所有 $a$. 同时前面的有限支撑测试使范数反向不等式成立. 每个坐标由 $f(e_j)$ 确定, 故表示唯一.
+
+对 $c_0$, 固定 $N$, 取 $a_j=\overline{b_j}/|b_j|$ 于 $1\le j\le N$ 的非零 $b_j$ 处, 其余取零. 此向量上确界范数不超过1, 得 $\sum_{j=1}^N|b_j|\le\norm{f}$. 所以 $b\in\ell^1$. $c_{00}$ 在 $c_0$ 中稠密, 余下表示与范数证明同前.
+\end{proof}
+
+\begin{corollary}\label{cor:lp-reflexive}
+当 $1<p<\infty$ 时, $\ell^p$ 自反.
+\end{corollary}
+\begin{proof}
+令 $q=p/(p-1)$, 则 $1<q<\infty$. 定理\ref{thm:dual-lp}把 $(\ell^p)^*$ 线性等距识别为 $\ell^q$, 其中 $b$ 对应 $f_b(a)=\sum_ja_jb_j$. 再对 $\ell^q$ 应用同一定理, 任一 $\Phi\in(\ell^p)^{**}$ 都有唯一的 $a\in\ell^p$ 使 $\Phi(f_b)=\sum_jb_ja_j$. 而右边就是 $f_b(a)=(J_{\ell^p}a)(f_b)$. 全部连续泛函均为某个 $f_b$, 所以 $\Phi=J_{\ell^p}a$, 典范映射满射. 这里核对的是典范映射, 仅知道两个空间抽象同构还不足以证明自反.
+\end{proof}
+
+\begin{example}
+证明 $(\ell^\infty)^*$ 不由 $\ell^1$ 的上述配对穷尽, 并证明 $\ell^1$ 与 $c_0$ 不自反.
+\end{example}
+\begin{solution}
+令 $c\subset\ell^\infty$ 为所有收敛数列, 泛函 $L(a)=\lim_j a_j$ 在 $c$ 上线性且范数为1. Hahn--Banach 把它延拓为 $F\in(\ell^\infty)^*$. 它在 $c_0$ 上为零, 且 $F(1,1,\ldots)=1$. 若 $F(a)=\sum_ja_jb_j$ 对某个 $b\in\ell^1$ 成立, 则每个 $b_j=F(e_j)=0$, 将推出 $F=0$, 矛盾.
+
+由于 $(\ell^1)^*=\ell^\infty$, 双对偶为 $(\ell^\infty)^*$. 对 $b\in\ell^1$, 典范像 $J_{\ell^1}b$ 在 $a\in\ell^\infty$ 上的值恰为 $\sum_jb_ja_j$. 刚构造的 $F$ 不可能是这样的典范像, 所以 $\ell^1$ 不自反. 这同时说明端点 $p=1$ 不能加入上一推论.
+
+由 $(c_0)^*=\ell^1$ 和 $(\ell^1)^*=\ell^\infty$, 双对偶可识别为 $\ell^\infty$. 典范映射把 $a\in c_0$ 送到同一坐标数列 $a$, 所以常数数列不在像中, $c_0$ 不自反.
+\end{solution}
+
+\begin{exercise}
+设 $M\subset X$ 为线性子空间. 证明 $\overline M=X$ 当且仅当每个在 $M$ 上为零的连续泛函都是零.
+\end{exercise}
+\begin{solution}
+若 $M$ 稠密, 连续泛函在 $M$ 上为零, 则对任意 $x$ 取 $m_n\to x$, 得 $f(x)=\lim f(m_n)=0$. 若 $\overline M\ne X$, 对闭子空间 $\overline M$ 及其外的一个向量应用定理\ref{thm:distance-dual}, 得到在 $M$ 上为零却不恒零的泛函.
+\end{solution}

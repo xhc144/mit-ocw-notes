@@ -1,0 +1,225 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{April 13, 2021}
+
+We'll discuss \textbf{orthonormal bases} of a Hilbert space today. Last time, we defined an orthonormal set $\{e_{\lambda}\}_{\lambda \in \Lambda}$ of elements to be \textbf{maximal} if whenever $\langle u, e_\lambda \rangle = 0$ for all $\lambda$, we have $u = 0$. We proved that if we have a separable Hilbert space, then it has a countable maximal orthonormal subset (and we showed this using the Gram-Schmidt process and Bessel's inequality). Such subsets are important in our study here:
+
+\begin{definition}
+Let $H$ be a Hilbert space. An \vocab{orthonormal basis} of $H$ is a countable maximal orthonormal subset $\{e_n\}$ of $H$.
+\end{definition}
+
+Many of the examples we've encountered so far, like $\CC^n, \ell_2$, and $L^2$, are indeed countable and thus have an orthonormal basis. And the reason that we call such sets bases, like in linear algebra, is that we can draw an analogy between the two definitions:
+
+\begin{theorem}\label{orthonormconv}
+Let $\{e_n\}$ be an orthonormal basis in a Hilbert space $H$. Then for all $u \in H$, we have convergence of the \vocab{Fourier-Bessel series}
+\[
+    \lim_{m \to \infty} \sum_{n=1}^m \langle u, e_n \rangle e_n = \sum_{n=1}^\infty \langle u, e_n \rangle e_n = u.
+\]
+\end{theorem}
+
+So just like in finite-dimensional linear algebra, we can write any element as a linear combination of the basis elements, but we may need an infinite number of elements to do so here.
+
+\begin{proof}
+First, we will show that the sequence of partial sums $\left\{\sum_{n=1}^m \langle u, e_n \rangle e_n\right\}$ is a Cauchy sequence. Since we know that $\sum_{n=1} |\langle u, e_n \rangle|^2$ converges by Bessel's inequality (it's bounded by $||u||^2$), the partial sums must be a Cauchy sequence of nonnegative real numbers. Thus for any $\eps > 0$, there exists some $M$ such that for all $N \ge M$, 
+\[
+    \sum_{m = N+1}^{\infty} |\langle u, e_n \rangle|^2 < \eps^2.
+\]
+Thus, for any $m > \ell \ge M$, we can compute 
+\[
+    \left|\left|\sum_{n=1}^m \langle u, e_n \rangle e_n - \sum_{n=1}^{\ell} \langle u, e_n \rangle e_n \right|\right|^2 = \sum_{n=\ell+1}^m |\langle u, e_n \rangle|^2
+\]
+by expanding out the square $||v||^2 = \langle v, v \rangle$ and using orthonormality, and now this is bounded by 
+\[
+    \le \sum_{n=\ell+1}^\infty |\langle u, e_n \rangle|^2 < \eps^2.
+\]
+So for any $\eps$, the squared norm of the difference between partial sums goes to $0$ as we go far enough into the sequence, which proves that we do have a Cauchy sequence in our Hilbert space. Since $H$ is complete, there then exists some $u' \in H$ so that
+\[
+    u' = \lim_{m \to \infty} \sum_{n=1}^m \langle u, e_n \rangle e_n.
+\]
+We want to show that $u' = u$, and we will do this by showing that $\langle u' - u, e_n \rangle = 0$ for all $n$. By continuity of the inner product, we know that for all $\ell \in \NN$, we have
+\[
+    \langle u - u', e_\ell \rangle = \lim_{n \to \infty} \left\langle u - \sum_{n=1}^m \langle u, e_n \rangle e_n, e_\ell \right\rangle,
+\]
+and this simplifies by linearity to 
+\[
+    = \lim_{n \to \infty} \langle u, e_\ell \rangle - \sum_{n=1}^m \langle u, e_n \rangle \langle e_n, e_\ell \rangle,
+\]
+but by orthonormality the last term only exists for $n = \ell$, so this simplifies to 
+\[
+    \langle u, e_\ell \rangle - \langle u, e_\ell \cdot 1 \rangle = 0,
+\]  
+which proves the result because $\langle u - u', e_\ell \rangle = 0$ for all $\ell$ if and only if $u - u' = 0$ by maximality. 
+\end{proof}
+
+So if we have an orthonormal basis, every element can be expanded in this series in terms of the orthonormal basis elements. And thus every separable Hilbert space $H$ has an orthonormal basis, and the converse is also true:
+
+\begin{corollary}
+If a Hilbert space $H$ has an orthonormal basis, then $H$ is separable.
+\end{corollary}
+\begin{proof}
+Suppose that $\{e_n\}_n$ is an orthonormal basis for $H$. Define the set 
+\[
+    S = \bigcup_{m \in \NN} \left\{\sum_{n=1}^m q_n e_n: q_1, \cdots, q_m \in \QQ + i \QQ\right\}.
+\]  
+This is a countable subset of $H$, because the elements in each component indexed by $m$ are in bijection with $\QQ^{2m}$, which is countable, and then we take a countable union over $m$. So now by \cref{orthonormconv}, $S$ is dense in $H$, because every element $u$ can be expanded in the Fourier-Bessel series above, so the partial sums converge to $u$, and thus for any $\eps > 0$, we can take a sufficiently long partial sum of length $L$ and get within $\frac{\eps}{2}$ of $u$, and then approximate each coefficient with a rational number that is sufficiently close, and that eventual finite-length partial sum will indeed be in one of the parts of the $S$ we defined. So $S$ is indeed a countable dense subset of $H$, and we're done.
+\end{proof}
+
+We can now strengthen Bessel's inequality, which held for any orthonormal subset, with our new definition:
+
+\begin{theorem}[Parseval's identity]
+Let $H$ be a Hilbert space, and let $\{e_n\}$ be a countable orthonormal basis of $H$. Then for all $u \in H$,
+\[
+    \sum_{n} |\langle u, e_n \rangle|^2 = ||u||^2.
+\]
+\end{theorem}
+
+(In Bessel's inequality, we only had an inequality $\le$ in the expression above!)
+
+\begin{proof}
+We know that 
+\[
+    u = \sum_n \langle u, e_n \rangle e_n,
+\]
+so if the sum over $n$ is a finite sum, the result follows immediately by expanding out the inner product $||u||^2 = \langle u, u \rangle$. Otherwise, by continuity of the inner product, we can write 
+\[
+    ||u||^2 = \lim_{m \to \infty} \left \langle \sum_{n=1}^m \langle u, e_n \rangle e_n , \sum_{\ell = 1}^m \langle u, e_\ell \rangle e_\ell \right\rangle,
+\]
+and we can move the constants out (with a complex conjugate for one of them) and rearrange sums to get 
+\[
+    = \lim_{m \to \infty} \sum_{n, \ell = 1}^m \langle u, e_n \rangle \overline{\langle u, e_\ell \rangle} \langle e_n, e_\ell \rangle.
+\]
+Again, orthonormality only picks up the term where $n = \ell$, so we're left with 
+\[
+    = \lim_{m \to \infty} \sum_{n=1}^m \langle u, e_n \rangle \overline{\langle u, e_n \rangle} = \lim_{ m \to \infty} \sum_{n=1}^m |\langle u, e_n \rangle|^2,
+\]
+and this last expression is the left-hand side of Parseval's identity.
+\end{proof}
+
+We now actually have a way to identify every separable Hilbert space with the one that was introduced to us at the beginning of class:
+
+\begin{theorem}
+If $H$ is an infinite-dimensional separable Hilbert space, then $H$ is isometrically isomorphic to $\ell^2$. In other words, there exists a bijective (bounded) linear operator $T: H \to \ell^2$ so that for all $u, v \in H$, $||Tu||_{\ell^2} = ||u||_H$ and $\langle Tu, Tv \rangle_{\ell^2} = \langle u, v \rangle_H$.
+\end{theorem}
+
+(The finite-dimensional case is easier to deal with -- we can show that those Hilbert spaces are isometrically isomorphic to $\CC^n$ for some $n$.)
+
+\begin{proof}[Proof sketch]
+Since $H$ is a separable Hilbert space, it has an orthonormal basis $\{e_n\}_{n \in \NN}$, and by \cref{orthonormconv}, we must have
+\[
+    u = \sum_{n=1}^{\infty} \langle u, e_n \rangle e_n
+\]
+for all $u \in H$, which implies that
+\[
+    ||u|| = \left(\sum_{n=1}^{\infty} |\langle u, e_n \rangle|^2\right)^{1/2}.
+\]
+So we'll define our map $T$ via
+\[
+    Tu = \left\{\langle u, e_n \rangle\right\}_n:
+\]
+in other words, $Tu$ is the sequence of coefficients showing up in the expansion by orthonormal basis, and this sequence is in $\ell^2$ by the inequality we wrote down above. We can check that $T$ indeed satisfies all of the necessary conditions -- it's linear in $u$, it's surjective because every such sum $\sum_{n=1}^{\infty} c_n e_n$ is Cauchy in $H$, and it's one-to-one because every $u$ is expanded in this way, meaning that if two expansions are the same the evaluations of the infinite sums must also be the same.
+\end{proof}
+
+We can now use this theory that we've been discussing in a more concrete setting, focusing on the specific example of \textbf{Fourier series}. 
+
+\begin{proposition}
+The subset of functions $\left\{\dfrac{e^{inx}}{\sqrt{2\pi}}\right\}_{n \in \ZZ}$ is an orthonormal subset of $L^2([-\pi, \pi])$.
+\end{proposition}
+
+(If we're uncomfortable working with complex exponentials, we can define $e^{ix} = \cos x + i \sin x$ and work out all of the necessary properties -- everything that we expect for exponentials remains true.)
+
+\begin{proof}
+Notice that 
+\[
+    \langle e^{inx}, e^{imx} \rangle = \int_{-\pi}^{\pi} e^{inx} \overline{e^{imx}} dx = \int_{-\pi}^{\pi} e^{i(n-m)x} dx 
+\]
+is equal to $2\pi$ when $ n = m$ (since the integrand is $1$) and otherwise it is
+$\left.\frac{1}{i(n-m)} e^{i(n-m)x}\right|^\pi_{-\pi} = 0$ because the exponential is always $2\pi$-periodic $x$. So normalizing by $2\pi$ indeed gives us the desired 
+\[
+    \left\langle \frac{e^{inx}}{\sqrt{2\pi}}, \frac{e^{imx}}{\sqrt{2\pi}}\right\rangle = \begin{cases} 1 & m = n \\ 0 & m \ne n. \end{cases}
+\]
+\end{proof}
+
+\begin{definition}
+For a function $f \in L^2([-\pi, \pi])$, the \vocab{Fourier coefficient} $\hat{f}(n)$ of $f$ is given by 
+\[
+    \hat{f}(n) = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) e^{-int} dt,
+\]
+and the $N$th \vocab{partial Fourier sum} is 
+\[
+    S_N f(x) = \sum_{|n| \le N} \hat{f}(n) e^{inx} = \sum_{|n| \le N} \left\langle f, \frac{e^{inx}}{\sqrt{2\pi}} \right\rangle \frac{e^{inx}}{\sqrt{2\pi}}.
+\]
+\end{definition}
+
+We can then look at the limit of the partial sums, but we're not going to make any claims about convergence here yet:
+
+\begin{definition}
+The \vocab{Fourier series} of $f$ is the \textbf{formal series} $\sum_{n \in \ZZ} \hat{f}(n) e^{inx}$.
+\end{definition}
+
+The motivating question for Fourier when first studying these objects was whether or not all continuous functions could be expanded in this Fourier series manner. Trying to study things on a pointwise convergence level is difficult, but the space we should really be viewing this setup within is the $L^2$ space, and there we'll be able to get some results. The problem we're trying to resolve is as follows: 
+
+\begin{problem}
+Does the convergence (in $L^2$ norm) $\sum_{n=1}^{\infty} \hat{f} e^{inx} \to f$ hold for all $f \in L^2([-\pi, \pi])$? In other words, does 
+\[
+    ||f - S_N f||_2 = \left(\int_{-\pi}^{\pi} |f(x) - S_Nf(x)|^2 dx \right)^{1/2}
+\]
+converge to $0$ as $N \to \infty$?
+\end{problem}
+
+We'll rephrase this equivalent as follows: we want to know whether $\left\{\frac{e^{inx}}{\sqrt{2\pi}}\right\}$ is a \textbf{maximal} subset in $L^2([-\pi, \pi])$, which is equivalent to showing that 
+\[
+    \hat{f}(n) = 0 \quad \forall n \in \ZZ \implies f = 0.
+\]
+We already know that if we have an orthonormal basis, then we can indeed make this infinite expansion for any element of the space $L^2$. So this rephrasing in terms of the language of Hilbert spaces will help us out here (and we should remember that we require the completeness of $L^2$ to get to this rephrased problem statement). The answer to our problem turns out to be \textbf{yes}, but it'll take us a bit of work to get there.
+
+\begin{proposition}
+For all $f \in L^2([-\pi, \pi])$ and all $N \in \ZZ_{\ge 0}$, we have $S_Nf(x) = \int_{-\pi}^{\pi} D_N(x-t) f(t) dt$, 
+where
+\[
+    D_N(x) = \begin{cases} \frac{2N+1}{2\pi} & x = 0 \\ \frac{\sin\left(\left(N + \frac{1}{2}\right)x\right)}{2\pi \sin \frac{x}{2}} & x \ne 0 \end{cases}.
+\]
+\end{proposition}
+
+We can check that the function $D_N$ is continuous (and in fact smooth), and it is called the \vocab{Dirichlet kernel}. The proof of this will be basically a warm-up calculation in preparation for some other calculations to come:
+
+\begin{proof}
+For any $f \in L^2([-\pi, \pi])$, we know that 
+\[
+    S_N f(x) = \sum_{|n| \le N} \left(\frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) e^{-int} dt\right) e^{inx} = \int_{-\pi}^\pi f(t) \left(\frac{1}{2\pi} \sum_{|n| \le N} e^{in(x-t)}\right) dt.
+\]
+by linearity of the Lebesgue integral (even though we're using the Riemann notation, integrals are always Lebesgue here). The term in parentheses is the function $D_N(x-t)$, where 
+\[
+    D_N(x) = \frac{1}{2\pi} \sum_{|n| \le N} e^{inx} = \frac{1}{2\pi} e^{-iNx} \sum_{n = 0}^{2N} e^{inx}.
+\]
+This is a geometric series with ratio $e^{ix}$, so this evaluates to 
+\[
+    = \frac{1}{2\pi} e^{-iNx} \frac{1 - e^{i(2N+1)x}}{1-e^{ix}}
+\]
+whenever $e^{ix} \ne 1$. That happens whenever $x \ne 0$ (this is the only value within the range $(-2\pi, \pi)$ that it needs to be defined on), and when $x = 0$ the original geometric series is clearly $\frac{2N+1}{2\pi}$. So now for the $x \ne 0$ case, we can simplify this expression some more to
+\[
+    = \frac{1}{2\pi} \frac{e^{i(N + 1/2)x} - e^{-i(N + 1/2)x}}{e^{ix/2}-e^{-ix/2}},
+\]
+and now because $\sin x = \frac{e^{ix} - e^{-ix}}{2i}$, we can rewrite this as
+\[
+    = \frac{1}{2\pi} \frac{2i \sin\left(\left(N + \frac{1}{2}\right) x\right)}{2i \sin \frac{x}{2}},
+\]
+and canceling out the $2i$s gives us the desired expression for $D_N$ above.
+\end{proof}
+
+\begin{definition}
+Let $f \in L^2([-\pi, \pi])$. The $N$th \vocab{Cesaro-Fourier mean} of $f$ is 
+\[
+    \sigma_Nf(x) = \frac{1}{N+1} \sum_{k=0}^N S_kf(x).
+\]
+\end{definition}
+
+We've rephrase our convergence of Fourier series to the statement that ``if the Fourier coefficients are all zero, then the function is zero.'' And the direction we're going with this definition here is that if we can show the partial sums $S_Nf$ converge to $f$, then $f$ must be a sum of zeros, but trying to do this with $S_N$ directly is our original problem statement! So this ``averaged'' Cesaro-Fourier mean will be an easier thing to work with, and we'll try to show that $\sigma_Nf \to f$ instead. 
+
+\begin{remark}
+We do know from real analysis that the Cesaro means of a sequence of real numbers behave better than the original sequence, but we don't lose any information, so we have some expectation of getting better behavior here as well. In particular, sequences like $\{1, -1, 1, -1, \cdots\}$ do not converge, but their Cesaro means do.
+\end{remark}
+
+So next time, we'll discuss more why this convergence works: we'll show that for every $f \in L^2$, $\sigma_N f$ converges to $f$ in $L^2$. That would then show the desired result, because if all of the Fourier coefficients are zero, then $\sigma_N f$ is zero for each $N$, and thus the limit of those functions is also the zero function.

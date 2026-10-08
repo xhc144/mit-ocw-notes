@@ -1,0 +1,233 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section*{Introduction}
+
+\begin{fact}
+All lectures for this class are recorded ahead of time and watched asynchronously on Panopto (notably, the dates are all approximate in this document). The best part about this is that we can pause and rewind the lecture while taking notes, and information for how to contact course staff and attend office hours is on the course website.
+\end{fact}
+
+We'll start with a bit of explanation for what functional analysis aims to do. In some previous math classes, like calculus and linear algebra, the methods that we learn help us solve \textbf{equations with finitely many variables}. (For example, we might want to find the minimum or maximum value of a function whose inputs are in $\RR^n$, or we might want to solve a set of linear equations.) This helps us solve a lot of problems, but then we come across ODEs, PDEs, minimization, and other problems, where the set of independent variables is not finite-dimensional anymore:
+
+\begin{example}
+If we consider a problem like ``finding the shortest possible curve between two points,'' this problem is specifying a \vocab{functional}, meaning that the input is a function. And we need infinitely many real numbers to specify a real-valued function $f: [0, 1] \to \RR$.
+\end{example}
+
+So functional analysis helps us solve problems where the vector space is no longer finite-dimensional, and we'll see later on that this situation arises very naturally in many concrete problems.
+
+\section*{February 16, 2021}
+
+We'll use a lot of terminology from real analysis and linear algebra, but we'll redefine a few terms just to make sure we're all on the same page.
+
+We'll start with \vocab{normed spaces}, which are the analog of $\RR^n$ for functional analysis. First, a reminder of the definition:
+
+\begin{definition}
+A \vocab{vector space} $V$ over a field $\KK$ (which we'll take to be either $\RR$ or $\CC$) is a set of vectors which comes with an addition $+: V \times V \to V$ and scalar multiplication $\cdot: \KK \times V \to V$, along with some axioms: commutativity, associativity, identity, and inverse of addition, identity of multiplication, and distributivity.
+\end{definition}
+
+\begin{example}
+$\RR^n$ and $\CC^n$ are vector spaces, and so is $C([0, 1])$, the space of continuous functions $[0, 1] \to \CC$. (This last example is indeed a vector space because the sum of two continuous functions is continuous, and so is a scalar multiple of a continuous function.)
+\end{example}
+
+But $C([0, 1])$ is a completely different \textbf{size} from the other vector spaces we mentioned above, and this is going back to the ``finite-dimensional'' versus ``infinite-dimensional'' idea that we started with. Let's also make sure we remember the relevant definition here:
+
+\begin{definition}
+A vector space $V$ is \vocab{finite-dimensional} if every linearly independent set is a finite set. In other words, for all sets $E \subseteq V$ such that 
+\[
+    \sum_{i=1}^N a_iv_i = 0 \implies a_1 = a_2 = \cdots = a_n = 0 \quad \forall v_1, \cdots, v_N \in E,
+\]
+$E$ has a finite cardinality. $V$ is \vocab{infinite-dimensional} if it is not finite-dimensional.
+\end{definition}
+
+We'll be dealing mostly with infinite-dimensional vector spaces in this class, and we're basically going to ``solve linear equations'' or ``do calculus'' on them.
+
+\begin{example}
+We can check that $C([0, 1])$ is infinite-dimensional, because the set
+\[
+    E = \{f_n(x) = x^n: n \in \ZZ_{\ge 0}\}
+\]
+is linearly independent but contains infinitely many elements. 
+\end{example}
+
+What we'll see is that facts like the Heine-Borel theorem for $\RR^n$ become false in infinite-dimensional spaces, so we'll need to develop some more machinery.
+
+In analysis, we needed a notion of ``how close things are'' to state a lot of results, and we did that with metrics on metric spaces. We'll try defining such a distance on our vector spaces now:
+
+\begin{definition}
+A \vocab{norm} on vector space $V$ is a function $||\cdot||: V \to [0, \infty)$ satisfying the following three properties:
+\begin{enumerate}
+    \item (Definiteness) $||v|| = 0$ if and only if $v = 0$,
+    \item (Homogeneity) $||\lambda v|| = |\lambda| ||v||$ for all $v \in V$ and $\lambda \in \KK$,
+    \item (Triangle inequality) $||v_1+v_2|| \le ||v_1|| + ||v_2||$ for all $v_1, v_2 \in V$.
+\end{enumerate}
+A \vocab{seminorm} is a function $||\cdot||: V \to [0, \infty)$ which satisfies (2) and (3) but not necessarily (1), and a vector space equipped with a norm is called a \vocab{normed space}.
+\end{definition}
+
+We can indeed check that this is consistent with the definition of a \vocab{metric} $d: X \times X \to [0, \infty)$, which has the following three conditions:
+\begin{enumerate}
+    \item (Identification) $d(x, y) = 0$ if and only if $x = y$,
+    \item (Symmetry) $d(x, y) = d(y, x)$ for all $x, y \in X$,
+    \item (Triangle inequality) $d(x, y) + d(y, z) \ge d(x, z)$ for all $x, y, z \in X$.
+\end{enumerate}
+
+Indeed, we can turn our norm into a metric (and thus think of our normed space as a metric space):
+
+\begin{proposition}
+Let $||\cdot||$ be a norm on a vector space $V$. Then 
+\[
+    d(v, w) = ||v-w|| 
+\]
+defines a metric on $V$, which we call the ``metric induced by the norm.''
+\end{proposition}
+\begin{proof}
+We just need to check the three conditions above: property (1) of the norm implies property (1) of metrics, because 
+\[
+    d(v, w) = ||v-w|| = 0 \iff v-w = 0 \iff v = w.
+\]
+For property (2) of the metric, note that 
+\[
+    ||v-w|| = ||(-1)(w-v)|| = |-1| \cdot ||w-v|| = ||w-v||,
+\]
+by using property (2) of the norm. And finally, property (3) of the metric is implied by property (3) of the norm because $(x-y) + (y-z) = (x-z)$.
+\end{proof}
+
+\begin{example}
+The \vocab{Euclidean norm} on $\RR^n$ or $\CC^n$, given by 
+\[
+    ||x||_2 = \left( \sum_{i=1}^n |x_i|^2\right)^{1/2},
+\]
+is indeed a norm (this is the standard notion of ``distance'' that we're used to). But we can also define 
+\[
+    ||x||_{\infty} = \max_{1 \le i \le n} |x_i|
+\]
+(the ``length'' of a vector is the largest magnitude of any component), and more generally (for $1 \le p < \infty$)
+\[
+    ||x||_p = \left(\sum_{i=1}^n |x_i|^p\right)^{1/p}.
+\]
+\end{example}
+
+We can draw a picture of the ``unit balls'' in $\RR^2$ for the different norms we've defined above. Recall that $B(x, r)$ is the set of points that are at most $r$ away from $x$: under the norm $||\cdot||_2$, $B(0, 1)$ looks like a circle, but under the norm $||\cdot||_\infty$, $B(0, 1)$ looks like a square with vertices at $(\pm 1, \pm 1)$, and under the norm $||\cdot||_1$, it looks like a square with vertices at $(0, 1), (1, 0), (0, -1), (-1, 0)$. In general, the different $||\cdot||_p$ norms will give ``unit balls'' that are between those two squares described above. 
+
+So changing the norm does change the geometry of the balls, but not too drastically: if we take a large enough $\ell^1$ ball (that is, a ball $B(0, r)$ with large enough $r$ under the $||\cdot||_1$ norm), it will always swallow up an $\ell^\infty$ ball of any fixed size. This ``sandwiching'' basically means that the norms are essentially equivalent, but we'll get to that later in the course. 
+
+But we can now get to examples of norms on vector spaces that aren't necessarily finite-dimensional: 
+\begin{definition}
+Let $X$ be a metric space. The vector space $C_{\infty}(X)$ is defined as
+\[
+    C_{\infty}(X) = \{f: X \to \mathbb{C}: f \text{ continuous and bounded}\}. 
+\]
+\end{definition}
+For example, $C_{\infty}([0, 1])$ is $C([0, 1])$, because all continuous functions on $[0, 1]$ are bounded. 
+
+\begin{proposition}
+For any metric space $X$, we can define a norm on the vector space $C_{\infty}(X)$ via 
+\[
+    ||u||_{\infty} = \sup_{x \in X} |u(x)|.
+\]
+\end{proposition}
+\begin{proof}
+Properties (1) and (2) of a norm are clear from the definitions, and we can show property (3) as follows. If $u, v \in C_{\infty}(X)$, then for any $x \in X$, we have 
+\[
+    |u(x) + v(x)| \le |u(x)| + |v(x)|
+\]
+by the triangle inequality for $\CC$, and this is at most $||u|| + ||v||$ (because $u(x)$ is bounded by its supremum, and so is $v(x)$). Thus, we indeed have 
+\[
+    |u(x) + v(x)| \le ||u||_\infty + ||v||_\infty \quad \forall x \in X \implies ||u + v||_\infty = \sup_{x} |u(x) + v(x)| \le ||u||_\infty + ||v||_\infty.
+\]
+\end{proof}
+
+And now that we have a norm, we can think about convergence in that norm: we have $u_n \to u$ in $C_{\infty}(X)$ (convergence of the sequence) if
+\[
+    \lim_{n \to \infty} ||u_n-u||_{\infty} = 0,
+\]
+which we can unpack in more familiar analysis terms as 
+\[
+    \forall \eps > 0, \, \, \exists N \in \mathbb{N}: \forall n \ge N, \forall x \in X, |u_n(x) - u(x)| < \eps,
+\]
+which is the definition of \textbf{uniform convergence} on $X$. So convergence in this metric (we'll use metric and norm interchangeably, since the metric is induced by the norm) is really a statement of uniform convergence when we have bounded, continuous functions.
+
+Let's now write down a few more examples of normed vector spaces:
+
+\begin{definition}
+The \vocab{$\ell^p$ space} is the space of (infinite) sequences
+\[
+    \ell^p = \{\{a_j\}_{j=1}^{\infty}: ||a||_p < \infty\},
+\]  
+where we define the \vocab{$\ell^p$ norm}
+\[
+    ||a||_p = \begin{cases} \left(\sum_{j=1}^{\infty} |a_j|^p\right)^{1/p} & 1 \le p < \infty \\ \sup_{1 \le j \le \infty} |a_j| & p = \infty. \end{cases}
+\]
+\end{definition}
+
+\begin{example}
+The sequence $\left\{\frac{1}{j}\right\}_{j=1}^{\infty}$ is in $\ell^p$ for all $p > 1$ but not in $\ell^1$ (by the usual $p$-series test).
+\end{example}
+
+Checking that the triangle inequality holds in this space (or even in the finite-dimensional case) is nontrivial, so it's not clear that we necessarily have a normed vector space $\ell^p$ here! But it'll be in the exercises for us to work out the details.
+
+And now we can talk about the central objects in functional analysis that we're really interested in, which are the analogs of $\RR^n$ and $\CC^n$ in that they're \vocab{complete} (Cauchy sequences always converge). 
+
+\begin{definition}
+A normed space is a \vocab{Banach space} if it is complete with respect to the metric induced by the norm.
+\end{definition}
+
+We've learned in real analysis that $\mathbb{Q}$ is not complete, because we can construct a sequence of rationals that converge to an irrational number. So $\mathbb{R}$ ``fills in the holes,'' and we want that property for our Banach spaces.
+
+\begin{example}
+For any $n \in \ZZ_{\ge 0}$, $\RR^n$ and $\CC^n$ are complete with respect to any of the $||\cdot||_p$ norms.
+\end{example}
+
+\begin{theorem}
+For any metric space $X$, the space of bounded, continuous functions on $X$ is complete, and thus $C_{\infty}(X)$ is a Banach space.
+\end{theorem}
+\begin{proof}
+We want to show that every Cauchy sequence $\{u_n\}$ converges, meaning that it has some limit $u$ in $C_{\infty}(X)$. This proof basically illustrates \textbf{how we prove that spaces are Banach in general}: take a Cauchy sequence, come up with a candidate for the limit, and show that (1) this candidate is in the space and (2) convergence does occur.
+
+So if we have our Cauchy sequence $\{u_n\}$, first we show that it is bounded under the norm $C_{\infty}(X)$. To see this, note that there exists some positive integer $N_0$ such that for all $n, m \ge N_0$, 
+\[
+    ||u_n-u_m||_{\infty} < 1.
+\]
+So now for all $n \ge N_0$,
+\[
+    ||u_n||_{\infty} \le ||u_n - u_{N_0}||_{\infty} + ||u_{N_0}||_{\infty} < 1 + ||u_{N_0}||_{\infty}
+\]
+by the triangle inequality, and thus for all $n \in \mathbb{N}$, we have
+\[
+    ||u_n||_{\infty} \le ||u_1||_{\infty} + \cdots + ||u_{N_0}||_{\infty} + 1
+\]
+(because we need to make sure the first few terms are also small enough). So we can bound $||u_n||_{\infty}$ by some finite positive $B$, and thus we have a bounded sequence in the space $C_{\infty}(X)$.
+
+So now if we focus on a particular $x \in X$, we have
+\[
+    |u_n(x) - u_m(x)| \le \sup_{x} |u_n(x) - u_m(x)| = ||u_n - u_m||_{\infty},
+\]
+and because $\{u_n\}$ is Cauchy, for any $x \in X$, the sequence of complex numbers $\{u_n(x)\}$ (where we evaluate each function $u_n$ at the fixed $x$) is a Cauchy sequence. But the space of complex numbers is a complete metric space, so for all $x \in X$, $u_n(x)$ converges to some limit, which will help us define our candidate function:
+\[
+    u(x) = \lim_{n \to \infty} u_n(x).
+\]
+This is basically the pointwise limit, and we now need to show this is in $C_{\infty}(X)$ and that we have convergence under the \textbf{uniform convergence} norm. Now we know that 
+\[
+    |u(x)| = \lim_{n \to \infty} |u_n(x)|
+\]
+(if the limit exists, so does the limit of the absolute values), and now we know that the right-hand side is bounded by the $||\cdot||_{\infty}$ norm, and thus by the $B$ that we found above. That means that
+\[
+    \sup_{x \in X} |u(x)| \le B,
+\]
+so $u$ is indeed a bounded function. To finish the proof, we'll show continuity and convergence, which we'll do with the usual definition. Fix $\eps > 0$; since $\{u_n\}$ is Cauchy, there exists some $N$ such that for all $n, m \ge N$, we have $||u_n - u_m||_{\infty} < \frac{\eps}{2}$. So now for any $x \in X$, we have
+\[
+    |u_n(x) - u_m(x)| \le ||u_n - u_m||_{\infty} < \frac{\eps}{2},
+\]
+so taking the limit as $m \to \infty$, we have that for all $n \ge N$, 
+\[
+    |u_n(x) - u(x)| \le \frac{\eps}{2}
+\]
+(everything is still pointwise at a point $x$ here). So it's also true that $\sup_x |u_n(x) - u(x)| \le \frac{\eps}{2} < \eps$, and thus $||u_n - u||_{\infty} \to 0$. And now because $||u_n - u||_{\infty} \to 0$, we know that $u_n \to u$ uniformly on $X$, and the uniform limit of a sequence of continuous functions is continuous. Therefore, our candidate $u$ is in $C_{\infty}(X)$ and is the limit of the $u_n$s, and thus $C_{\infty}(X)$ is complete and a Banach space.
+\end{proof}
+
+This proof is a bit weird the first time we see it, but we can think about how to apply this proof to the $\ell^p$ space (it will look very similar). And we can also try using this technique to show that the space
+\[
+    c_0 = \{a \in \ell^{\infty}: \lim_{j \to \infty} a_j = 0\}
+\]
+is Banach. An important idea is that the ``points'' in our spaces are now sequences and functions instead of numbers, which is making some of the argument more complicated than in the real-number case!

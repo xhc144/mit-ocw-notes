@@ -1,0 +1,237 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{April 1, 2021}
+
+Last time, we defined the Lebesgue integral of a nonnegative measurable function, and we're going to extend that definition today:
+
+\begin{definition}
+Let $E \subset \RR$ be measurable. A measurable function $f: E \to \RR$ is \vocab{Lebesgue integrable} over $E$ if $\int_E |f| < \infty$.
+\end{definition}
+
+(Recall that we can break up a function $f$ as $f^+ - f^-$, where $f^+$ and $f^-$ are the positive and negative parts of $f$ (both are nonnegative functions). Then $|f| = f^+ + f^-$ (which we've previously showed is measurable), so we define the integral
+\[
+    \int_E |f| = \int_E f^+ + \int_E f^-. 
+\]
+Since the left-hand side is infinite if and only if one of the two terms on the right-hand side is infinite, being Lebesgue integrable is then equivalent to $f^+$ and $f^-$ both being Lebesgue integrable. So that makes the next definition valid:
+
+\begin{definition}
+The \vocab{Lebesgue integral} of an integrable function $f: E \to \RR$ is 
+\[
+    \int_E f = \int_E f^+ - \int_E f^-.
+\]
+\end{definition}
+
+This is meaningful because we're only defining this when both terms on the right-hand side are finite, so we're never subtracting things with infinities. 
+
+\begin{proposition}
+Suppose $f, g: E \to \RR$ are integrable. \begin{enumerate}
+\item For all $c \in \RR$, $cf$ is integrable with $\int_E cf = c\int_E f$, \item The sum $f+g$ is integrable with $\int_E (f+g) = \int_E f + \int_E g$, and 
+\item If $A, B$ are disjoint measurable sets, then $\int_{A \cup B} f = \int_A f + \int_B f$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+For (1), scaling by $c \ne 0$ either swaps or doesn't change the positive and negative parts of $f$ (depending on whether $c$ is positive or negative), so this is not too complicated and we can verify the details ourselves (given the analogous linearity results for nonnegative measurable functions). 
+
+For (2), notice that $|f+g| \le |f| + |g|$, so by the results for nonnegative measurable functions
+\[
+    \int_E |f+g| \le \int_E |f| + |g| = \int_E |f| + \int_E |g| < \infty.
+\]
+So $f+g$ is indeed integrable, and then 
+\[
+    f+g = (f^+ + g^+) - (f^- + g^-)
+\]
+(though note that we're not saying that $f^+ + g^+$ is the positive part of $(f+g)$ here), which means that if we split up the left-hand side into positive and negative parts, we get 
+\[
+    (f+g)^+ + (f^- + g^-) = (f^+ + g^+) + (f+g)^-.
+\]
+Then each term here is a nonnegative measurable function, so linearity tells us that 
+\[
+    \int_E (f+g)^+ + \int_E (f^- + g^-) = \int_E (f^+ + g^+) + \int_E (f+g)^-.
+\]
+Rearranging a little gives
+\[
+    \int_E (f+g)^+ - \int_E (f+g)^- = \int_E (f^+ + g^+) - \int_E (f^- + g^-),
+\]
+and then definition of the Lebesgue integral on the left side and linearity on the right side gives us 
+\[
+    \int_E (f+g) = \int_E f^+ + \int_E g^+ - \int_E f^- - \int_E g^- = \int_E f + \int_E g,
+\]
+as desired. 
+
+Finally, (3) follows from (2), the fact that 
+\[
+    f \chi_{A \cup B} = f \chi_A + f \chi_B
+\]
+when $A$ and $B$ are two disjoint sets, and the fact that $\int_E f \chi_F = \int_{E \cap F} f$ for general integrable functions $f$ because we can break everything up into positive and negative parts here as well. 
+\end{proof}
+
+\begin{proposition}
+Suppose $f, g: E \to \RR$ are measurable functions. Then we have the following:
+\begin{enumerate}
+\item If $f$ is integrable, then $\left|\int_E f \right| \le \int_E |f|$.
+\item If $g$ is integrable, and $f = g$ almost everywhere, then $f$ is integrable and $\int_E f = \int_E g$. 
+\item If $f, g$ are integrable and $f \le g$ almost everywhere, then $\int_E f \le \int_E g$. 
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+Result (1) follows from the fact that 
+\[
+    \left| \int_E f \right| = \left| \int_E f^+ - \int_E f^- \right| \le \int_E f^+ + \int_E f^- 
+\]
+(first step by definition, second step by the triangle inequality for numbers), and then we can simplify this further by linearity as 
+\[
+    = \int_E (f^+ + f^-) = \int_E |f|. 
+\]
+For (2), we know that $|f| = |g|$ almost everywhere, so from results from nonnegative measurable functions, we know that $\int_E |f| = \int_E |g| < \infty$. So $f$ satisfies the condition for being integrable, and then $|f-g|$ is nonnegative and zero almost everywhere. So (using part (1))
+\[
+    \left|\int_E f - \int_E g\right| = \left|\int_E (f-g) \right| \le \int_E |f-g| = 0,
+\]
+since the integral of a nonnegative measurable function which is zero almost everywhere is $0$. This implies that the integrals are the same.
+
+Finally, for (3), we can define a function
+\[
+    h(x) = \begin{cases} g(x) - f(x) & g(x) \ge f(x) \\ 0 & \text{otherwise}. \end{cases}
+\]
+This is a nonnegative measurable function, and $h = g-f$ almost everywhere, so 
+\[
+    0 \le \int_E h^+ = \int_E h = \int_E (g-f)
+\]
+by part (2), and then linearity gives us 
+\[
+    = \int_E g - \int_E f,
+\]
+and this chain of relations gives us the desired result.
+\end{proof}
+
+\begin{remark}
+Compact subsets of $\RR$ are Borel sets, so they are measurable and have finite measure. So simple functions that are nonzero only on a compact subset of $\RR$ will be integrable (because we have a finite sum of coefficients times finite measures). For another example, continuous functions $f$ on a closed, bounded interval $[a, b]$ also have continuous absolute value, so they attain some finite maximum $c$. Thus the integral of $|f|$ is indeed finite by monotonicity (it's at most $c(b-a)$). So a continuous function on a closed and bounded interval is also Lebesgue integrable.
+\end{remark}
+
+But we'll prove something stronger than that in just a minute, using this next result (which is one of the most useful that we'll encounter in integration theory):
+
+\begin{theorem}[Dominated Convergence Theorem]
+Let $g: E \to [0, \infty)$ be a nonnegative integrable function, and let $\{f_n\}_n$ be a sequence of real-valued measurable functions such that (1) $|f_n| \le g$ almost everywhere for all $n$ and (2) there exists a function $f: E \to \RR$ so that $f_n(x) \to f(x)$ pointwise almost everywhere on $E$. Then 
+\[
+    \lim_{n \to \infty} \int_E f_n = \int_E f. 
+\]
+\end{theorem}
+
+This result is much stronger than anything we can say in Riemann integration -- we only require pointwise convergence and an additional condition that the functions are all bounded above by some fixed integrable function.
+
+\begin{proof}
+Because we know that $|f_n| \le g$ almost everywhere, we know that $f_n$ is integrable for each $n$. Furthermore, because $f_n \to f$ almost everywhere, $f$ is measurable (because pointwise convergence of measurable functions is measurable) and $|f| \le g$ almost everywhere, so $f$ is also integrable. 
+
+Also, because changing $f$ and $f_n$ on a set of measure zero does not change the value of the Lebesgue integrals, we will assume that the assumptions in the theorem statement \textbf{actually hold everywhere} on $E$ (for example, just set the functions to all be $0$ on that set of measure zero).
+
+To start the proof, notice that 
+\[
+    \left|\int_E f_n\right| \le \int_E |f_n| \le \int_E g,
+\]
+so the sequence $\{\int_E f_n\}_n$ is a bounded sequence of real numbers, meaning that it has a finite liminf and limsup. We will show that those two values are the same and equal to $\int_E f$. First of all, because $g \pm f_n \ge 0$ for all $n$, 
+\[
+    \int_E (g-f) = \int_E \liminf_{n \to \infty} (g-f_n) \le \liminf_{n \to \infty} \int_E (g - f_n),
+\]
+where the first step by definition of pointwise convergence and second step is by Fatou's lemma. And then by linearity, this is 
+\[
+    = \int_E g - \limsup_{n \to \infty} \int_E f_n,
+\]
+since $g$ has no $n$-dependence, and flipping the sign of a liminf gives us the limsup. Similarly, we can find that 
+\[
+    \int_E (g+f) \le \int_E g + \liminf_{n \to \infty} \int_E f_n.
+\]
+All of the quantities here are finite numbers, and thus we find that (by linearity again)
+\[
+    \boxed{\limsup_{n \to \infty} \int_E f_n }\le \int_E g - \int_E (g-f) = \boxed{\int_E f}= \int_E (g+f) - \int_E g \le \boxed{\liminf_{n \to \infty} \int_E f_n}.
+\]
+But the liminf is always at most the limsup, so these three boxed numbers are equal, as desired.
+\end{proof}
+
+We can now use this to prove some other useful results:
+
+\begin{theorem}
+Let $f \in C([a, b])$ for some real numbers $a < b$. (We know that this function is measurable.) Then $\int_{[a, b]} f = \int_a^b f(x) dx$: in other words, $f$ is integrable and the Riemann and Lebesgue integrals agree. 
+\end{theorem}
+\begin{proof}
+First, because $f \in C([a, b])$ is continuous, so is $|f|$, and every continuous function on a closed and bounded interval is bounded. Thus there exists some $B \ge 0$ so that $|f| \le B$ on $[a, b]$, and thus 
+\[
+    \int_{[a, b]}|f| \le \int_{[a, b]} B = B m([a, b]) < \infty.
+\]
+So continuous functions are indeed Lebesgue integrable. Now the positive part and negative part of $f$ are continuous, because we can write 
+\[
+    f^+ = \frac{f + |f|}{2}, \quad f^- = \frac{|f| - f}{2}.
+\]
+So by linearity, it suffices to show the result for nonnegative $f$, since we can split up the Lebesgue and Riemann integrals into positive and negative parts and verify the result in both cases. 
+
+Suppose we have a sequence of partitions
+\[
+    \underline{x}^n = \left\{a = x_0^n, x_1^n, \cdots, x_{m_n}^n = b\right\}
+\]  
+of $[a, b]$, so that the norm of the partition $||\underline{x}^n|| = \max_{1 \le j \le m_n} |x_j^n - x_{j-1}^n|$ goes to $0$ as $n \to \infty$. Recall that the Riemann integral is defined in terms of Riemann sums based on these partitions, and our goal is to show that the sequence of Riemann sums converges to our Lebesgue integral. Now for each $j, n$, we define $\xi^n_j \in [x_{j-1}^n, x_j^n]$ to be the point in the interval at which the minimum is achieved (this exists by the Extreme Value Theorem):
+\[
+    \inf_{x \in [x_{j-1}^n, x_j^n]} f(x) = f(\xi_j^n).
+\]
+By the theory of Riemann integration, we then know that the lower Riemann sums converge to the Riemann integral:
+\[
+    \lim_{n \to \infty} \sum_{j=1}^{m_n} f(\xi_j^n) (x_j^n - x_{j-1}^n) = \int_a^b f(x) dx.
+\]
+But now each $\underline{x}^n$ is a finite set of points, and we can define 
+\[
+    N = \bigcup_{n=1}^{\infty} \underline{x}^n,
+\]
+which is a countable union of countable sets and is thus countable. So in particular, we have $m(N) = 0$, and now we can look at the function 
+\[
+    f_n = \sum_{j=1}^{m_n} f(\xi_j^n) \chi_{[x_{j-1}^n, x_j^n]} + 0 \chi_{\{x_j^n\}},
+\]
+which is a nonnegative simple function for each $n$ which basically traces out the lower Riemann sum (since we choose the minimum value on each interval of the partition). And as we make the partition finer and finer, the approximate areas converge to the full Riemann integral of $f$, but we can also think about the integrals of each $f_n$ as the Lebesgue integral of certain simple functions. In particular, the Lebesgue integral
+\[
+    \int_{[a, b]} f_n = \sum_{j=1}^{m_n} f(\xi_j^n) m([x_{j-1}^n, x_j^n]) = \sum_{j=1}^{m_n} f(\xi_j^n) \left(x_j^n - x_{j-1}^n\right)
+\] 
+is exactly the Riemann sum, and now we want to apply the Dominated Convergence Theorem: we just need to show that $f_n \to f$ pointwise almost everywhere and that they are all bounded by an integrable function, because that would imply $\lim_{n \to \infty} \int_{[a, b]} f_n = \int_{[a, b]} f$, and we know the left-hand side is the Riemann integral because it's the limit of the Riemann sums. 
+
+To show that the $f_n$s are all bounded by an integrable function, notice that $0 \le f_n(x) \le f(x)$ for all $x \in [a, b] \setminus N$, and we've already shown that $f$ is integrable. For pointwise convergence (everywhere except $N$), pick some $x \in [a, b] \setminus N$, and let $\eps > 0$. Because $f$ is a continuous function at $x$, we know that there exists some $\delta > 0$ so that for all $|x-y| < \delta$, $|f(x) - f(y)| < \eps$. And because the partitions get finer and finer (the norms of the partitions go to $0$), there is some $M$ so that for all $n \ge M$, we have $\max_{1 \le j \le n} (x_j^n - x_{j-1}^n) < \delta$. So for all $n \ge M$, we know that $x$ is part of a partition interval of length at most $\delta$, and 
+\[
+    f_n(x) = \sum_{j=1}^{m_n} f(\xi_j^n) \chi_{[x_{j-1}^n, x_j^n]}(x) = f(\xi_k^n)
+\]
+for some unique $k$ such that $x \in [x_{k-1}^n, x_k^n]$ (remembering that by definition, $x$ is not one of the partition points). So for all $n \ge M$, we have 
+\[
+    |f(x) - f_n(x)| = |f(x) - f(\xi_k^n)| < \eps,
+\]
+since $|x - \xi_k^n| < \delta$ (we have two points within the interval of length $\delta$). Thus we've shown that $f_n(x) \to f(x)$ for all $x \in [a, b] \setminus N$, which means that we have pointwise convergence. Remembering that $f_n$ are all dominated by $f$, the Dominated Convergence Theorem then gives us the desired result: writing out the argument in more detail,
+\[
+    \int_{[a, b]} f = \lim_{n \to \infty} \int_{[a, b]} f_n = \lim_{n \to \infty} \sum_{j=1}^{m_n} f(\xi_j^n) (x_j^n - x_{j-1}^n) = \int_a^b f(x) dx.
+\]
+\end{proof}
+
+So now everything we've proved for real integrable functions will also carry over to complex-valued integrable functions: we define $f: E \to \CC$ to be Lebesgue integrable if $\int_E |f| < \infty$, in which case we define 
+\[
+    \int_E f = \int_E \text{Re } f + i \int_E \text{Im } f.
+\]
+Then results like linearity of the integral and the Lebesgue Dominated Convergence Theorem also generalize. Here's an example of that in action:
+
+\begin{proposition}
+If $f: E \to \CC$ is integrable, then $\left|\int_E f\right| \le \int_E |f|$.
+\end{proposition}
+\begin{proof}
+If $\int_E f = 0$, this inequality is clear. Otherwise, define the complex number 
+\[
+    \alpha = \frac{\overline{\left(\int_E f\right)}}{\left|\int_E f\right|}
+\]
+(the integral of $f$ over $E$ is a complex number, and we want its normalized conjugate). Then $|\alpha| = 1$, and 
+\[
+    \left|\int_E f\right| = \alpha \int_E f = \int_E \alpha f
+\]
+(first step by definition of the norm for a complex number, second step by linearity), and because the left-hand side is a real number, so is $\int_E \alpha f$, and thus this is equal to 
+\[
+    = \text{Re} \int_E \alpha f = \int_E \text{Re}(\alpha f) \le \int_E \left|\text{Re}(\alpha f)\right|  
+\]
+by the triangle inequality for real-valued functions. And now $\text{Re}(z) \le |z|$ for all complex numbers $z$, so this can be simplified as
+\[
+    \le \int_E |\alpha f| = \int_E |f|,
+\]
+since $|\alpha| = 1$.
+\end{proof}
+
+We'll finish our discussion of measure and integration by introducing the $L^p$ spaces next time, showing that they're Banach spaces and proving a few other properties.

@@ -1,0 +1,232 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{March 30, 2021}
+
+Last time, we defined the Lebesgue integral for simple functions: for any simple function $\phi$ written in the canonical way $\sum_{j=1}^n a_j \chi_{A_j}$ for disjoint sets $A_j$, we have $\int_E \phi = \sum_{j=1}^n a_j m(A_j)$, and we proved some properties about this integral last time (we have linearity of the integral, if $f(x) \le g(x)$ for all $x$, then $\int f \le \int g$, and so on). Today, we'll define the integral for general nonnegative measurable functions, and much like Riemann sums give better and better approximations for Riemann integrals as the rectangles become thinner, we can think of Lebesgue integrals as being the result of a similar limiting procedure.
+
+We saw last time already that for a nonnegative measurable function $f$, we can always find a sequence of simple functions that increase pointwise to $f$. So it makes sense to try to define the Lebesgue integral as the limit of the integrals of the simple functions, but then we run into issues where the final integral may depend on the specific sequence of simple functions that we chose.
+
+\begin{definition}
+Let $f \in L^+(E)$. Then the Lebesgue integral of $f$ is
+\[
+    \int_E f = \sup\left\{\int_E \phi: \phi \in L^+(E) \text{ simple}, \phi \le f\right\}.
+\]
+\end{definition}
+
+\begin{proposition}\label{lebesgdefn1}
+Let $E \subset \RR$ be a set with $m(E) = 0$. Then for all $f \in L^+(E)$, we have $\int_E f = 0$.
+\end{proposition}
+
+In other words, it's only interesting to take integrals over functions of positive measure. (And this is sort of like how Riemann integrals over a point are always zero.)
+
+\begin{proof}
+Working from the definition, start with our function $f \in L^+(E)$. If $\phi$ is a simple function in the canonical form $\sum_{j=1}^n a_j \chi(A_j)$ with $\phi \le f$, then $m(A_j) \le m(A) = 0$, so in the sum $\sum_{j=1}^n a_j m(A_j)$, all terms must be zero. So we always have $\int_E \phi = 0$, and the supremum over all simple functions $\phi$ is also zero, as desired.
+\end{proof}
+
+We can also verify a bunch of results that were true of the Lebesgue integral for simple functions:
+
+\begin{proposition}\label{lebesgdefn2}
+If $\phi \in L^+(E)$ is a simple function, then the two definitions of $\int_E f$ (for simple functions and general nonnegative measurable functions) agree with each other. If $f, g \in L^+(E)$, $c \in [0, \infty)$ is a nonnegative real number, and $f \le g$, then we have $\int_E cf = c \int_E f$ and $\int_E f \le \int_E g$. Finally, if $f \in L^+(E)$ and $F \subset E$, then $\int_F f \le \int_E f$.
+\end{proposition}
+
+(The proof will be left for our homework, but the idea is that taking supremums shouldn't change our inequalities.) We can actually relax the second statement here to an ``almost-everywhere'' statement as well:
+
+\begin{proposition}
+If $f, g \in L^+(E)$, and $f \le g$ almost everywhere on $E$, then $\int_E f \le \int_E g$.
+\end{proposition}
+\begin{proof}
+Define the set $F = \{x \in E: f(x) \le g(x)\}$; this is a measurable set because $g - f$ is measurable, so the inverse image of $[0, \infty]$ is measurable (with some small details about how functions behave at $\infty$, but we're dealing with that on our homework). By assumption, $m(F^c) = 0$, and thus by \cref{lebesgdefn1} and \cref{lebesgdefn2},
+\[
+    \int_E f = \int_{F} f + \int_{F^c} f = \int_F f \le \int_F g = \int_F g + \int_{F^c} g = \int_E g,
+\]
+as desired.
+\end{proof}
+
+In particular, if we know that $f = g$ almost everywhere on $E$, then $\int_E f = \int_E g$. We may notice that we're missing the linearity that we had for simple functions: we haven't mentioned that $\int_E f + \int_E g = \int_E (f+g)$. To prove that, we'll need one of the big three results in Lebesgue integration:
+
+\begin{theorem}[Monotone Convergence Theorem]\label{monotone}
+If $\{f_n\}$ is a sequence of nonnegative measurable functions (in $L^+(E)$) such that $f_1 \le f_2 \le \cdots$ pointwise on $E$, and $f_n \to f$ pointwise on $E$ for some $f$ (which will be in $L^+(E)$ because the pointwise limit of measurable functions is measurable), then 
+\[
+    \lim_{n \to \infty} \int_E f_n = \int_E f.
+\]
+\end{theorem}
+
+Notice that the assumption of pointwise convergence here is much weaker than the uniform convergence we usually need to assume for Riemann integration.
+
+\begin{proof}
+Since $f_1 \le f_2 \le \cdots$, we know that $\int_E f_1 \le \int_E f_2 \le \cdots$. Thus, $\left\{\int_E f_n\right\}$ is a nonnegative increasing sequence of nonnegative numbers, meaning that the limit $\lim_{n \to \infty} \int_E f_n$ exists in $[0, \infty]$. Furthermore, because $\lim_{n \to \infty} f_n(x) = f(x)$ for all $x$, we know that $f_n \le f$ for all $n$, which means that $\int_E f$ (which is also some number in $[0, \infty]$) must satisfy 
+\[
+    \int_E f_n \le \int_E f \implies \lim_{n \to \infty}\int_E f_n \le \int_E f.
+\]
+It suffices to prove the reverse inequality (that $\int_E f \le \int_E \lim_{n \to \infty}\int_E f_n$), and we can show this by showing that $\int_E \phi \le \int_E \lim_{n \to \infty}\int_E f_n$ for every simple function $\phi \le f$ (the point being that eventually $f_n$ will be larger than $\phi$). 
+
+We'll first take some $\eps \in (0, 1)$ as ``breathing room.'' If $\phi = \sum_{j=1}^m a_j \chi_{A_j}$ is an arbitrary simple function with $\phi \le f$, then we can define the set
+\[
+    E_n = \left\{x \in E: f_n(x) \ge (1- \eps) \phi(x)\right\}.
+\]
+Since $(1 - \eps) \phi(x) < f(x)$ for all $x$ (we have strict equality now that $\eps$ is positive), and $\lim_{n \to \infty} f_n(x) = f(x)$, every $x$ must lie in some $E_n$. Therefore, we have
+\[
+    \bigcup_{n=1}^{\infty} E_n = E.
+\]
+Furthermore, because $f_1 \le f_2 \le \cdots$, we know that $E_1 \subset E_2 \subset \cdots$ (the sets $E_n$ are increasing by inclusion). So now notice that
+\[
+    \int_E f_n \ge \int_{E_n} f_n \ge \int_{E_n} (1 - \eps) \phi = (1-\eps) \int_{E_n} \phi = (1 - \eps) \sum_{j=1}^m a_j m(A_j \cap E_n)
+\]
+(because the inequality holds on $E_n$, and the $A_j \cap E_n$. are measurable and disjoint). And now, because $E_n$ increases to $E$, and therefore $E_1 \cap A_j \subset E_2 \cap A_j \subset \cdots$ increases to $A_j$, \textbf{continuity of Lebesgue measure} tells us that as $n \to \infty$, $m(A_j \cap E_n) \to m(A_j)$. Therefore, we can take limits on both sides and find (because we have a finite sum on the right-hand side) that for all $\eps \in (0, 1)$, we have
+\[
+    \lim_{n \to \infty} \int_E f_n \ge \lim_{n \to \infty} (1 - \eps) \sum_{j=1}^m a_j m(A_j \cap E_n) = (1 - \eps) \sum_{j=1}^m a_j m(A_j) = (1 - \eps) \int_E \phi.
+\]
+Taking $\eps \to 0$ yields the desired inequality $\int_E \phi \le \lim_{n \to \infty} \int_E f_n$, and combining the two inequalities finishes the proof.
+\end{proof}
+
+With this result, we now have tools for evaluating Lebesgue integrals that aren't just using the definition directly:
+
+\begin{corollary}
+Let $f\in L^+(E)$, and let $\{\phi_n\}_n$ be a sequence of simple functions such that $0 \le \phi_1 \le \phi_2 \le \cdots \le f$, with $\phi_n \to f$ pointwise. Then $\int_E f = \lim_{n \to \infty} \int_E \phi_n$. 
+\end{corollary}
+
+In other words, we can take any pointwise increasing sequence of simple functions and compute the limit, instead of needing to compute the supremum explicitly. (And this follows because we can just plug in the $\phi_n$s as $f_n$s into the Monotone Convergence Theorem.)
+
+
+\begin{corollary}\label{lebesgfinadd}
+If $f, g \in L^+(E)$, then $\int_E (f+g) = \int_E f + \int_E g$.
+\end{corollary}
+\begin{proof}
+Let $\{\phi_n\}_n$ and $\{\psi_n\}_n$ be two sequences of simple functions, such that $0 \le \phi_1 \le \phi_2 \le \cdots \le f$ and $\phi_n \to f$ pointwise, and similarly $0 \le \psi_1 \le \psi_2 \le \cdots \le g$ and $\psi_n \to g$ pointwise. Then we have 
+\[
+    0 \le \phi_1 + \psi_1 \le \phi_2 + \psi_2 \le \cdots \le f + g,
+\]
+where $\phi_n + \psi_n \to f + g$ pointwise, and each $\phi_i + \psi_i$ is a simple function (because it's the sum of two simple functions). Then the Monotone Convergence Theorem tells us that 
+\[
+    \int_E (f+g) = \lim_{n \to \infty} \int_E (\phi_n + \psi_n) = \lim_{n \to \infty} \int_E \phi_n + \int_E \psi_n
+\]
+by using linearity for simple functions, and then the Monotone Convergence Theorem again tells us that this is $\int_E f + \int_E g$, as desired.
+\end{proof}
+
+In fact, we have something stronger than finite additivity:
+
+\begin{theorem}
+Let $\{f_n\}_n$ be a sequence in $L^+(E)$. Then
+\[
+    \int_E \sum_n f_n = \sum_n \int_E f_n.
+\]
+\end{theorem}
+
+(The left-hand side is defined here, because we're summing a bunch of nonnegative real numbers pointwise, and we're allowing $\infty$ as an output of the our functions.)
+
+\begin{proof}
+By induction, \cref{lebesgfinadd} tells us that for each $N$, we have
+\[
+    \int_E \sum_{n=1}^N f_n = \sum_{n=1}^N \int_E f_n.
+\]
+Now because 
+\[
+    \sum_{n=1}^1 f_n \le \sum_{n=1}^2 f_n \le \cdots,
+\]
+and by definition of the infinite sum, we have pointwise convergence $\sum_{n=1}^N f_n \to \sum_{n=1}^{\infty} f_n$ as $N \to \infty$, the Monotone Convergence Theorem tells us that 
+\[
+    \int_E \sum_{n=1}^{\infty} f_n = \lim_{N \to \infty} \int_E \sum_{n=1}^N f_n = \lim_{N \to \infty} \sum_{n=1}^N \int_E f_n = \sum_{n=1}^{\infty} \int_E f_n,
+\]
+as desired.
+\end{proof}
+
+(And again, this kind of result is not going to hold for Riemann integration, if for example we enumerate the rationals and let $f_n$ be the function which is $1$ at the first $n$ rational numbers and $0$ everywhere else.)
+
+\begin{theorem}
+Let $f \in L^+(E)$. Then $\int_E f = 0$ if and only if $f = 0$ almost everywhere on $E$.
+\end{theorem}
+\begin{proof}
+First of all, if $f = 0$ almost everywhere, then $f \le 0$ almost everywhere, meaning $\int_E f \le \int_E 0 = 0$, so the integral is indeed zero. For the other direction, define 
+\[
+    F_n = \left\{x \in E: f(x) > \frac{1}{n}\right\}, \quad F = \{x \in E: f(x) > 0\}.
+\]
+We know that $F = \bigcup_{n=1}^{\infty} F_n$ (because whenever $f(x) > 0$, we have $f(x) > \frac{1}{n}$ for some large enough $n$), and we also have $F_1 \subset F_2 \subset \cdots$,. Now we can compute
+\[
+    0 \le \frac{1}{n} m (F_n) = \int_{F_n} \frac{1}{n} \le \int_{F_n} f \le \int_E f = 0,
+\]
+which means that $\frac{1}{n} m(F_n) = 0 \implies m(F_n)$ for all $n$, and thus by continuity of measure 
+\[
+    m(F) = m\left(\bigcup_{n=1}^{\infty} F_n\right) = \lim_{n \to \infty} m(F_n) = 0,
+\]
+as desired.
+\end{proof}
+
+We can now slightly relax the assumptions of the Monotone Convergence Theorem as well:
+
+\begin{theorem}
+If $\{f_n\}_n$ is a sequence in $L^+(E)$ such that $f_1(x) \le f_2(x) \le \cdots$ for almost all $x \in E$ and $\lim_{n \to \infty} f_n(x) = f(x)$, then $\int_E f = \lim_{n \to \infty} \int_E f_n$. 
+\end{theorem}
+\begin{proof}
+Let $F$ be the set of $x \in E$ where the two assumptions above hold. By assumption, $m(E \setminus F) = 0$, so $f - \chi_F f = 0$ and $f_n - \chi_F f_n = 0$ almost everywhere for all $n$. The Monotone Convergence Theorem then tells us that 
+\[
+    \int_E f = \int_E f \chi_F = \int_F f = \lim_{n \to \infty} \int_F f_n,
+\]
+where the first equality holds because the two functions $f, f\chi_F$ are equal almost everywhere, and the third equality holds because $\{f_n\}$ satisfy the assumptions of the Monotone Convergence Theorem on $F$. We can then simplify this to 
+\[
+    = \lim_{n \to \infty} \int_F f_n = \lim_{n \to \infty} \int_E f_n,
+\]
+because $E \setminus F$ has measure zero so any integral over the region has measure zero.
+\end{proof}
+
+In other words, sets of measure zero don't affect our Lebesgue integral.
+
+We're now ready for the second big convergence theorem -- it's equivalent to the Monotone Convergence Theorem, but it's often a useful restatement:
+
+\begin{theorem}[Fatou's lemma]
+Let $\{f_n\}_n$ be a sequence in $L^+(E)$. Then
+\[
+    \int_E \liminf_{n \to \infty} f_n(x) \le \liminf_{n \to \infty} \int_E f_n(x).
+\]
+\end{theorem}
+
+(Recall that we define the liminf of a sequence via
+\[
+    \liminf_{n \to \infty} a_n = \sup_{n \ge 1}\left[\inf_{k \ge n} a_k\right],
+\]
+and then the liminf function is defined pointwise.)
+
+\begin{proof}
+We know that 
+\[
+    \liminf_{n \to \infty} f_n(x) = \sup_{n \ge 1}\left[\inf_{k \ge n} f_k(x)\right],
+\]
+and the expression inside the brackets on the right is increasing in $n$ (since we're taking an infimum over a smaller set). So the supremum on the right-hand side is actually a limit of a pointwise increasing sequence of functions:
+\[
+    = \lim_{n \to \infty} \left[\inf_{k \ge n} f_k(x)\right].
+\]  
+So now by the Monotone Convergence Theorem, we have
+\[
+   \int_E \liminf f_n = \lim_{n \to \infty} \int_E \left(\inf_{k \ge n} f_k\right),
+\]
+and now for all $j \ge n$ and for all $x \in E$, we know that $\inf_{k \ge n} f_n(x) \le f_j(x)$, so for all $j \ge n$, we have a fixed bound
+\[
+    \int_E \inf_{k \ge n} f_k \le \int_E f_j,
+\]
+and thus we can take the infimum over all $j$ on the right-hand side and still have a valid inequality:
+\[
+    \int_E \inf_{k \ge n} f_k \le \inf_{j \ge n} \int_E f_j.
+\]
+So we've successfully ``swapped the integral and infimum,'' and plugging this into the Monotone Convergence Theorem equality above yields
+\[
+    \int_E \liminf f_n = \lim_{n \to \infty} \int_E \left(\inf_{k \ge n} f_k\right) \le \lim_{n \to \infty}\left[\inf_{j \ge n} \int_E f_j\right] = \liminf \int_E f_n,
+\]
+as desired.
+\end{proof}
+
+We might be worried about the fact that our functions can take on infinite values, and this next result basically says that we don't need to worry too much:
+
+\begin{theorem}
+Let $f \in L^+(E)$, and suppose that $\int_E f < \infty$. Then the set $\{x \in E: f(x) = \infty\}$ is a set of measure zero.
+\end{theorem}
+\begin{proof}
+Define the set $F = \{x \in E: f(x) = \infty\}$. We know that for all $n$, we have $n \chi_F \le f \chi_F$, so integrating both sides yields
+\[
+    n m(F) \le \int_E f \chi_F \le \int_E f < \infty.
+\]
+Therefore, for all $n$, $m(F) \le \frac{1}{n} \int_E f$, which goes to $0$ as $n \to \infty$, so we must have $m(F) = 0$.
+\end{proof}
+
+Our next steps will be to define the set of all Lebesgue integrable functions, prove some more properties of the Lebesgue integral, and then starting looking into $L^p$ spaces (the motivation for this theory of integration in the first place). 

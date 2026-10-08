@@ -1,0 +1,100 @@
+\originalchapter{有界算子与空间构造}\label{ch:operators}
+\originalsection{线性算子的连续性}
+有限维矩阵的每一行都是连续线性函数. 在无限维空间, 线性只约束有限次加法和数乘, 不自动约束极限. 分析中需要的算子因此还必须满足范数估计.
+
+\begin{theorem}\label{thm:bounded}
+设 $X,Y$ 为赋范空间, $T:X\to Y$ 为处处定义的线性映射. 以下条件等价: $T$ 连续; $T$ 在零点连续; 存在 $C\ge0$ 使 $\norm{Tx}_Y\le C\norm{x}_X$ 对所有 $x$ 成立. 满足这些条件的映射称有界线性算子.
+\end{theorem}
+\begin{proof}
+连续当然蕴含零点连续. 若在零点连续, 取 $r>0$ 使 $\norm{x}<r$ 时 $\norm{Tx}<1$. 对 $x\ne0$, 向量 $rx/(2\norm{x})$ 的范数为 $r/2$, 因而由线性性得 $\norm{Tx}<2\norm{x}/r$. $x=0$ 时也成立. 最后, 若有统一估计, 则 $\norm{Tx-Ty}\le C\norm{x-y}$, 所以处处连续.
+\end{proof}
+这里的有界是把有界集合映成有界集合. 一个非零线性算子在整个空间上的像不可能有界, 因为可以不断放大输入.
+
+\begin{definition}
+所有有界线性算子组成的空间记为 $\B(X,Y)$. 算子范数为 $\norm{T}=\sup_{\norm{x}\le1}\norm{Tx}$. 若 $X\ne\{0\}$, 也等于 $\sup_{\norm{x}=1}\norm{Tx}$. 标量值算子空间 $X^*=\B(X,\K)$ 称连续对偶空间, 其元素称连续线性泛函.
+\end{definition}
+算子范数是使 $\norm{Tx}\le C\norm{x}$ 成立的最小常数. 由逐向量的三角不等式和齐次性, 得 $\norm{S+T}\le\norm{S}+\norm{T}$, $\norm{\alpha T}=|\alpha|\norm{T}$. 若 $\norm{T}=0$, 所有单位向量映成零, 缩放后所有向量都映成零, 因而这确实是范数.
+
+\begin{proposition}\label{prop:composition}
+若 $T\in\B(X,Y)$, $S\in\B(Y,Z)$, 则 $ST\in\B(X,Z)$ 且 $\norm{ST}\le\norm{S}\norm{T}$.
+\end{proposition}
+\begin{proof}
+复合保持线性, 且 $\norm{STx}\le\norm{S}\norm{Tx}\le\norm{S}\norm{T}\norm{x}$. 对单位球取上确界即得结论.
+\end{proof}
+
+\begin{theorem}\label{thm:operatorbanach}
+若 $Y$ 完备, 则 $\B(X,Y)$ 完备, 不要求 $X$ 完备. 因而任意赋范空间的连续对偶都是 Banach 空间.
+\end{theorem}
+\begin{proof}
+设 $(T_n)$ 在算子范数下为 Cauchy 序列. 对每个 $x\in X$, 有 $\norm{T_nx-T_mx}\le\norm{T_n-T_m}\norm{x}$, 所以 $Y$ 的完备性允许定义 $Tx=\lim_nT_nx$. 极限与有限次线性运算交换, 得 $T$ 线性. Cauchy 序列 $(T_n)$ 的范数有统一界 $M$, 故取极限得 $\norm{Tx}\le M\norm{x}$.
+
+给定 $\eps>0$, 取 $N$ 使 $n,m\ge N$ 时 $\norm{T_n-T_m}<\eps$. 固定 $n\ge N$, 对每个 $x$ 令 $m\to\infty$, 得 $\norm{(T_n-T)x}\le\eps\norm{x}$. 再对单位球取上确界, 得 $\norm{T_n-T}\le\eps$. 这一步保证的是统一于单位球的收敛, 比逐个 $x$ 的收敛更强.
+\end{proof}
+
+\begin{example}
+设 $k\in C([0,1]^2)$, 定义 $(Tf)(x)=\int_0^1 k(x,y)f(y)\dd y$. 证明 $T$ 在 $C([0,1])$ 上有界. 比较微分算子在不同范数下的行为.
+\end{example}
+\begin{solution}
+积分线性. 核的一致连续性给出
+$|Tf(x)-Tf(z)|\le\norm{f}_\infty\sup_y|k(x,y)-k(z,y)|\to0$, 故输出连续. 又有 $\norm{Tf}_\infty\le\norm{k}_\infty\norm{f}_\infty$, 从而 $\norm{T}\le\norm{k}_\infty$.
+
+对 $D:C^1([0,1])\to C([0,1])$, 若定义域只给上确界范数, 则 $f_n(x)=\sin(nx)/n$ 一致趋于零, 但 $\norm{Df_n}_\infty=1$, 故 $D$ 不连续. 若定义域给 $\norm{f}_{C^1}=\norm{f}_\infty+\norm{f'}_\infty$, 则 $\norm{Df}_\infty\le\norm{f}_{C^1}$, 它变成有界算子. 算子是否有界必须连同定义域范数一起说.
+\end{solution}
+
+\originalsection{子空间与商空间}
+\begin{proposition}\label{prop:closedsubspace}
+Banach 空间 $X$ 的线性子空间 $M$, 在继承的范数下完备当且仅当 $M$ 闭.
+\end{proposition}
+\begin{proof}
+若 $M$ 闭, 其中的 Cauchy 序列在 $X$ 中收敛, 极限由闭性仍在 $M$. 若 $M$ 完备, 而 $m_n\in M$ 在 $X$ 中趋于 $x$, 则 $(m_n)$ 在 $M$ 中也是 Cauchy 序列, 故在 $M$ 中趋于某个 $m$. 极限唯一给出 $x=m\in M$.
+\end{proof}
+
+\begin{definition}
+设 $M$ 为 $X$ 的线性子空间. 商空间 $X/M$ 的元素为陪集 $x+M$, 加法与数乘定义为 $(x+M)+(y+M)=x+y+M$, $\alpha(x+M)=\alpha x+M$. 商半范数为 $\norm{x+M}_{X/M}=\inf_{m\in M}\norm{x-m}=\dist(x,M)$.
+\end{definition}
+改变代表元只平移遍历 $M$ 的变量, 所以运算与商半范数均良定义. 三角不等式来自对 $\norm{x+y-(m+n)}$ 作估计后分别逼近下确界; 非零标量的齐次性来自换元 $m=\alpha n$, 零标量单独成立.
+
+\begin{theorem}\label{thm:quotient}
+商半范数是范数当且仅当 $M$ 闭. 若 $X$ 为 Banach 空间且 $M$ 闭, 则 $X/M$ 为 Banach 空间. 商映射 $q:X\to X/M$, $q(x)=x+M$, 有界且满射, 并将开集映成开集.
+\end{theorem}
+\begin{proof}
+商半范数为零等价于 $x\in\overline M$, 故正定性恰好要求 $M=\overline M$. 又有 $\norm{qx}\le\norm{x}$, 所以 $q$ 有界. 并且 $q(B_X(0,r))=B_{X/M}(0,r)$: 一边由估计得到, 另一边由下确界小于 $r$ 可选代表元范数小于 $r$. 平移球即得开映射性质.
+
+证明完备性时, 使用定理\ref{thm:series}. 设 $\sum_n\norm{\xi_n}_{X/M}<\infty$. 对每个 $n$ 选代表元 $x_n$, 满足 $qx_n=\xi_n$ 且 $\norm{x_n}\le\norm{\xi_n}+2^{-n}$. 于是 $\sum_nx_n$ 在 $X$ 中绝对收敛, 得到和 $x$. $q$ 连续给出商空间部分和 $\sum_{n=1}^N\xi_n=q(\sum_{n=1}^Nx_n)\to qx$. 商空间的绝对收敛级数均收敛, 所以完备.
+\end{proof}
+
+\begin{proposition}
+设 $p$ 是向量空间 $V$ 上的半范数, $N=\{x:p(x)=0\}$. 则 $N$ 为子空间, $V/N$ 上的 $\norm{x+N}=p(x)$ 是范数.
+\end{proposition}
+\begin{proof}
+由 $p(\alpha x+\beta y)\le|\alpha|p(x)+|\beta|p(y)$ 可知零集对线性运算封闭. 若 $x-y\in N$, 则 $p(x)\le p(y)+p(x-y)=p(y)$, 反向也成立, 所以定义与代表元无关. 齐次性与三角不等式继承自 $p$, 正定性来自 $p(x)=0$ 当且仅当 $x+N=N$.
+\end{proof}
+后文的 $L^p$ 空间正是把积分半范数为零的函数识别成一个等价类. 这不是忽略定义的细节, 而是范数成立所必须的步骤.
+
+\originalsection{完备化与稠密延拓}
+本节为\textbf{编者补充}. 原课程主要在已经完备的空间上工作; 完备化解释了为何可以由较简单对象的近似构成新空间.
+
+\begin{theorem}\label{thm:completion}
+每个赋范空间 $X$ 都可等距嵌入一个 Banach 空间 $\widehat X$, 且其像稠密. 若 $Y$ 为 Banach 空间, 每个 $T\in\B(X,Y)$ 唯一延拓为 $\widehat T\in\B(\widehat X,Y)$, 并保持算子范数.
+\end{theorem}
+\begin{proof}
+取 $X$ 中所有 Cauchy 序列, 将 $(x_n)$ 与 $(y_n)$ 在 $\norm{x_n-y_n}\to0$ 时视为等价. 三角不等式保证这是等价关系. 用逐项线性运算定义商空间的运算; 两个等价代表元之和仍等价, 因而良定义. 设 $[(x_n)]$ 的范数为 $\lim_n\norm{x_n}$. 反三角不等式保证标量极限存在且与代表元无关, 范数为零恰好表示该序列等价于零序列. 范数的其他性质由逐项取极限得到.
+
+把 $x$ 映到常值序列得到等距嵌入 $j$. 若 $\xi=[(x_n)]$, 则 $\norm{j(x_n)-\xi}=\lim_m\norm{x_n-x_m}\to0$, 所以 $j(X)$ 稠密. 若 $(\xi_k)$ 为所构空间中的 Cauchy 序列, 用稠密性选 $x_k\in X$ 使 $\norm{j(x_k)-\xi_k}<2^{-k}$. 则 $(x_k)$ 为 $X$ 中的 Cauchy 序列. 令 $\xi=[(x_k)]$, 前面的稠密估计给出 $j(x_k)\to\xi$, 加上 $\norm{j(x_k)-\xi_k}\to0$ 得 $\xi_k\to\xi$. 因而所构空间完备.
+
+定义 $\widehat T([(x_n)])=\lim_nTx_n$. 因 $Y$ 完备且 $T$ 有界, 极限存在. 等价代表元的像之差趋于零, 所以良定义. 取极限得线性性与 $\norm{\widehat T\xi}\le\norm{T}\norm{\xi}$. 限制回 $j(X)$ 又得反向范数比较. 唯一性来自稠密性和连续性. 以此延拓恒等嵌入也可证明任意两个完备化之间存在保持原空间的唯一等距同构.
+\end{proof}
+
+\begin{exercise}
+设 $M$ 闭, $T\in\B(X,Y)$ 且 $M\subset\ker T$. 证明 $T$ 唯一分解为 $T=\widetilde Tq$, 其中 $\widetilde T:X/M\to Y$ 有界且 $\norm{\widetilde T}=\norm{T}$.
+\end{exercise}
+\begin{solution}
+令 $\widetilde T(x+M)=Tx$. 若 $x-y\in M$, 则 $Tx=Ty$, 所以良定义; 满射的 $q$ 保证唯一性. 对每个 $m\in M$, 有 $\norm{Tx}=\norm{T(x-m)}\le\norm{T}\norm{x-m}$. 取下确界得 $\norm{\widetilde T}\le\norm{T}$. 反之 $T=\widetilde Tq$ 和 $\norm{q}\le1$ 给出 $\norm{T}\le\norm{\widetilde T}$.
+\end{solution}
+
+\begin{exercise}
+证明 $C^1([0,1])$ 在 $\norm{f}_{C^1}$ 下完备.
+\end{exercise}
+\begin{solution}
+若 $(f_n)$ 为 Cauchy 序列, 则 $f_n\to f$, $f_n'\to g$ 都一致收敛, 且 $f,g$ 连续. 由 $f_n(x)=f_n(0)+\int_0^xf_n'(t)\dd t$ 取极限, 得 $f(x)=f(0)+\int_0^xg(t)\dd t$. 这里一致误差使积分误差不超过 $\norm{f_n'-g}_\infty$, 所以极限交换有依据. 微积分基本定理给出 $f'=g$, 于是 $f\in C^1$, 且两部分范数误差均趋于零.
+\end{solution}

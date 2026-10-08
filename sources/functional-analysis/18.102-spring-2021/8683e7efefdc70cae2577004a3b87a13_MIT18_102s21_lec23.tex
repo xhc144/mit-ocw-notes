@@ -1,0 +1,235 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{May 13, 2021}
+
+In this last lecture, we'll apply functional analysis to the Dirichlet problem (understanding ODEs with conditions at the boundary). In an introductory differential equations class, we often state initial conditions by specifying the value and derivatives of a function at a given point, but what we're doing here is slightly different:
+
+\begin{problem}[Dirichlet problem]
+Let $V \in C([0, 1])$ be a continuous, real-valued function. We wish to solve the differential equation 
+\[
+    \begin{cases} -u''(x) + V(x) u(x) = f(x) \quad \forall x \in [0, 1], \\ u(0) = u(1) = 0. \end{cases}
+\]
+\end{problem}
+
+We can think of this as specifying a ``force'' $f \in C([0, 1])$ and seeing whether there exists a unique solution $u \in C^2([0, 1])$ to the differential equation above. It turns out the answer is always yes when $V \ge 0$, and that's what we'll show today. 
+
+\begin{theorem}\label{dirichletuniqueness}
+Let $V \ge 0$. If $f \in C([0, 1])$ and $u_1, u_2 \in C^2([0, 1])$ both satisfy the Dirichlet problem, then $u_1 = u_2$.
+\end{theorem}
+\begin{proof}
+If $u = u_1 - u_2$, then $u \in C^2([0, 1])$, and we have a solution to
+\[
+    \begin{cases} -u''(x) + V(x) u(x) = 0 \quad \forall x \in [0, 1], \\ u(0) = u(1) = 0. \end{cases}
+\]
+We now note that it is true that
+\[
+    0 = \int_0^1 \left(-u''(x) + V(x) u(x)\right) \overline{u(x)} dx
+\]
+because the integrand is always zero, and now we can split up this integral into 
+\[
+    0 = -\int_0^1 u''(x) \overline{u(x)} dx + \int_0^1 V(x) |u(x)|^2 dx.
+\]
+Integration by parts on the first term gives 
+\[
+    0 = \left.-u'(x) \overline{u(x)}\right|^1_0 + \int_0^1 u'(x) \overline{u'(x)} dx + \int_0^1 V(x) |u(x)|^2 dx.
+\]
+The first term now vanishes by our Dirichlet boundary conditions, and we're left with 
+\[
+    0 = \int_0^1 |u'(x)|^2 dx + \int_0^1 V(x) |u(x)|^2 dx.
+\]
+Since $V$ is nonnegative, the second term is always nonnegative, and thus $0 \ge \int_0^1 |u'(x)|^2 \ge 0$, and we can only have equality if $u'(x) = 0$ everywhere (since we have a continuous function). This combined with the Dirichlet boundary conditions implies that $u = 0$, so $u_1 = u_2$.
+\end{proof}
+
+Showing existence is more involved, and we'll start by doing an easier case, specifically the one where $V = 0$. It turns out that we can write down the solution explicitly using a self-adjoint compact operator:
+
+\begin{theorem}
+Define the continuous function $K(x, y) \in C([0, 1] \times [0, 1])$ via
+\[
+    K(x, y) = \begin{cases} (x-1)y & 0 \le y \le x \le 1 \\ (y-1)x & 0 \le x \le y \le 1. \end{cases}
+\]
+Then if $Af(x) = \int_0^1 K(x, y) f(y) dy$, then $A \in \mc{B}(L^2([0, 1])$ is a compact self-adjoint operator, and $Af$ solves the Dirichlet problem with $V = 0$ (meaning that $u = Af$ is the unique solution to $-u''(x) = f(x), u(0) = u(1) = 0$). 
+\end{theorem}
+
+(The fact that the solution can be written in terms of an integral operator may not be surprising, since differentiation and integration are inverse operations by the fundamental theorem of calculus.)
+
+\begin{proof}
+First, we let 
+\[
+    C = \sup_{[0, 1] \times [0, 1]} |K(x, y)|,
+\]
+which is finite because $K$ is continuous. Then by Cauchy-Schwarz, we have
+\[
+    |Af(x)| = \left|\int_0^1 K(x, y) f(y) dy \right| \le \int_0^1 C|f(y)| dy \le C \left(\int_0^1 1^2\right)^{1/2} \left(\int_0^1 |f|^2\right)^{1/2}
+\]
+by thinking of the integral of $f$ as $\langle f, 1 \rangle$, and this shows that $|Af(x)| \le C||f||_2$. We can also get the bound 
+\[
+    |Af(x) - Af(z)| \le \sup_{y \in [0, 1]} |K(x, y) - K(z, y)| \cdot ||f||_2
+\]
+using an analogous argument. So now we can use the Arzela-Ascoli theorem (giving sufficient conditions for a sequence of functions to have a convergent subsequence) and conclude that $A$ is a compact operator on $L^2([0, 1])$ (details left for us). In fact, this also shows that $Af \in C([0, 1])$. Furthermore, $A$ is self-adjoint because for any $f, g \in C([0, 1])$, we have (under the $L^2$ pairing)
+\[
+    \langle Af, g \rangle_2 = \int_0^1 \left(\int_0^1 K(x, y) f(y) dy \right) \overline{g(x)} dx = \int_0^1 f(y) \int_0^1 K(x, y) \overline{g(x)} dx dy
+\]
+by Fubini's theorem (since we can swap the order of integration for continuous functions). We can then rewrite this expression as a different pairing
+\[
+    = \int_0^1 f(y) \overline{\left(\int_0^1 \overline{K(x, y)} g(x) dx \right)}dy = \int_0^1 f(y) \overline{\left(\int_0^1 K(y, x) g(x) dx \right)}dy
+\]
+where we've used the fact that $\overline{K(x, y)} = K(x, y)$ (because everything is real) and also that $K(x, y) = K(y, x)$ by definition. So what we end up with is just $\langle f, Ag \rangle$. Since $f, g$ were arbitrary continuous functions to start with, and $C([0, 1])$ is a dense subset of $L^2([0, 1])$, this means that $A$ is self-adjoint (since the relation $\langle Af, g \rangle = \langle f, Ag \rangle$ must hold for all $f, g \in L^2$ by a density argument).
+
+We now need to verify that $Af$ is a twice differentiable function that solves the Dirichlet problem with $V = 0$. Indeed, we write out
+\[
+    u(x) = Af(x) = (x-1) \int_0^x yf(y) dy + x \int_x^1 (y-1) f(y) dy,
+\]
+and by the fundamental theorem of calculus (just a computation) we can indeed verify $u \in C^2([0, 1])$ with $-u'' = f$. Uniqueness follows from \cref{dirichletuniqueness} above.
+\end{proof}
+
+We thus have an explicit solution for $V = 0$, and to solve the Dirichlet problem in general for $V \ne 0$, we will think about $-u'' + Vu = f$ via
+\[
+    -u'' = f - Vu \implies u = A(f - Vu)
+\]
+by thinking of the right-hand side $f - Vu$ as a fixed function of $x$ and using the result we just proved. Therefore, 
+\[
+    (I + AV)u = Af,
+\]
+and we've now gotten rid of differentiation and are just solving an equation in terms of bounded operators, though $AV$ is not generally self-adjoint because $(AV)^\ast = VA$. We can get around this issue, though: if we write $u = A^{1/2} v$ (defining $A^{1/2}$ to be some operator such that applying it twice gives us $A$), then our equation becomes 
+\[
+    A^{1/2}(I + A^{1/2} VA^{1/2})v = Af \implies I + (A^{1/2} V A^{1/2})u = A^{1/2} f,
+\]
+and we do indeed have self-adjoint operators here because $(A^{1/2}VA^{1/2})^\ast = A^{1/2}VA^{1/2}$, and from there, we can use the Fredholm alternative. Of course, everything here is not fully justified, but that's what we'll be more careful about now:
+
+\begin{theorem}
+We have $\text{Null}(A) = \{0\}$, and the orthonormal eigenvectors for $A$ are given by 
+\[
+    u_k(x) = \sqrt{2} \sin(k \pi x), \quad k \in \NN,
+\]
+with associated eigenvalues $\lambda_k = \frac{1}{k^2n^2}$. 
+\end{theorem}
+
+\begin{remark}
+As a corollary, the spectral theorem (from last lecture) then tells us that $\{\sqrt{2} \sin(k \pi x)\}$ gives us an orthonormal basis of $L^2([0, 1])$, which is a result we can also prove by rescaling our Fourier series result from $L^2([-\pi, \pi])$.
+\end{remark}
+
+\begin{proof}
+First, we'll show that the nullspace of $A$ is trivial by showing that the range of $A$ is dense in $L^2$. Indeed, if $u$ is a polynomial in $[0, 1]$ with $f = -u''$ and $u(0) = u(1) = 0$, then $Af$ is the \textbf{unique} solution to the Dirichlet problem with $V = 0$, meaning that $-(Af)'' = f$ and $Af(0) = Af(1) = 0$. Therefore $Af = u$, and therefore any polynomial vanishing at $x = 0$ and $x = 1$ is in the range of $A$. Since the polynomials vanishing at $\{0, 1\}$ are dense in the set of continuous functions vanishing at $\{0, 1\}$ (using the Weierstrass approximation theorem), and that set is dense in $L^2$, we have indeed shown that the range of $A$ is dense in $L^2$ as desired. From here, notice that $\overline{\text{Range}(A)} = \text{Null}(A)^\perp$, so if the left-hand side is $H$, then the right-hand side must have $\text{Null}(A) = \{0\}$.
+
+To show the statement about eigenvectors, suppose we have some eigenvalue $\lambda \ne 0$ and normalized eigenvector $u$ such that $Au = \lambda u$. Then because (as discussed before) the function $Af$ is always continuous by our bound on $|Af(x) - Af(z)|$, $Au$ must be twice continuously differentiable, and thus $u = \frac{1}{\lambda} Au$ is also twice continuously differentiable. So we now have (by linearity)
+\[
+    u = A\left(\frac{u}{\lambda}\right) \implies -u'' = \frac{1}{\lambda} u, \quad u(0) = u(1) = 0,
+\]
+where we're using the chain rule and the fact that $-(Af)'' = f$. This is now a simple harmonic oscillator, meaning that the solutions take the form 
+\[
+    u(x) = A \sin \left(\frac{1}{\sqrt{\lambda}} x\right) + B \cos\left(\frac{1}{\sqrt{\lambda}} x\right).
+\]
+Plugging in $u(0) = 0$ tells us that $B = 0$, and plugging in $u(1) = 0$ tells us that $\frac{1}{\sqrt{\lambda}} = n\pi$ for some $n \in \NN$, which tells us that $u(x) = A \sin(k \pi x)$ for some integer $k$, as desired (and $A = \sqrt{2}$ by direct computation). 
+\end{proof}
+
+Since we now have a basis in which the operator $A$ is diagonal, we can construct $A^{1/2}$ by essentially taking the square roots of all of the eigenvalues (so that $A^{1/2}A^{1/2} = A$). 
+
+\begin{definition}
+Let $f \in L^2([0, 1])$, and suppose that $f(x) = \sum_{k=1}^{\infty} c_k \sqrt{2} \sin(k \pi x)$, where $c_k = \int_0^1 f(x) \sqrt{2} \sin (k \pi x) dx$. Then we define the linear operator $A^{1/2}$ via
+\[
+    A^{1/2}f(x) = \sum_{k=1}^{\infty} \frac{1}{k\pi} c_k \sqrt{2} \sin (k\pi x).
+\]
+\end{definition}
+
+Here, the reason for the $\frac{1}{k\pi}$ in the definition above is that we have a $\frac{1}{k^2\pi^2}$ eigenvalue that we want to produce after two iterations of $A^{1/2}$. And it's useful to remember that taking two derivatives of $Af$ here recovers $-f$, because the second derivative of $\frac{\sin (k \pi x)}{k^2\pi^2}$ is $-\sin(k \pi x)$. 
+
+\begin{theorem}
+The operator $A^{1/2}$ is a compact, self-adjoint operator on $L^2([0, 1])$, and $(A^{1/2})^2 = A$.
+\end{theorem}
+\begin{proof}
+Suppose we have $f(x) = \sum_{k=1}^{\infty} c_k \sqrt{2} \sin(k \pi x)$ and $g(x) = \sum_{k=1}^{\infty} d_k \sqrt{2} \sin (k \pi x)$. First of all, 
+\[
+    ||A^{1/2} f||_2^2 = \left|\left|\sum_{k=1}^{\infty} \frac{c_k}{k\pi} \sin(k \pi x)\right|\right|_2^2 = \sum_{k=1}^{\infty} \frac{|c_k|^2}{k^2\pi^2}
+\]
+by Parseval's identity, and we can further bound this as
+\[
+    \le \frac{1}{\pi^2} \sum_{k=1}^{\infty} |c_k|^2 = \frac{1}{\pi^2} ||f||_2^2,
+\]
+so $A^{1/2}$ is bounded. For self-adjointness, we can use the $\ell^2$-pairing coming out of the Fourier expansion:
+\[
+    \langle A^{1/2} f, g \rangle = \sum_{k=1}^{\infty}\frac{c_k}{k\pi} \overline{d_k} = \sum_{k=1}^{\infty} c_k \overline{\frac{d_k}{k\pi}} = \langle f, A^{1/2} g \rangle.
+\]
+So we now need to show that $(A^{1/2})^2 = A$, and this is true because 
+\[
+    A^{1/2}(A^{1/2} f) = A^{1/2} \sum_{k=1}^{\infty} \frac{c_k}{k\pi} \sqrt{2} \sin(k \pi x) = \sum_{k=1}^{\infty} \frac{c_k}{k^2\pi^2} \sqrt{2} \sin(k \pi x),
+\]  
+and now because each term here is an eigenfunction of $A$, this can be written as 
+\[
+    = \sum_{k=1}^{\infty} c_k A (\sqrt{2} \sin(k \pi x)) = A\sum_{k=1}^{\infty} c_k (\sqrt{2} \sin(k \pi x)) = Af
+\]
+(we can move the $A$ out of the infinite sum because the finite sum converges in $\ell^2$-norm to the infinite sum, and because $A$ is bounded, $A$ applied to the finite sum converges to $A$ applied to the infinite sum). So $A^{1/2}A^{1/2} = A$.
+
+We'll finish by briefly discussing why $A^{1/2}$ is compact. To do that, we can show that the image of the unit ball $\{A^{1/2}f: ||f||_2 \le 1\}$ has equi-small tails (which suffices by our earlier characterizations of compactness). Indeed, for any $\eps > 0$, we may pick an $N \in \NN$ such that $\frac{1}{N^2} < \eps^2$. Then for any $f \in L^2([0, 1])$ with $||f||_2 \le 1$, we have
+\[
+    \sum_{k>N} |\langle A^{1/2} f, \sqrt{2} \sin(k \pi x) \rangle|^2 = \sum_{k>n} \frac{|c_k|^2}{k^2\pi^2} \le \frac{1}{N^2} \sum_{k=1}^{\infty} |c_k|^2 = \frac{1}{N^2}||f||_2^2 \le \frac{1}{N^2} < \eps^2,
+\]
+so $A^{1/2}$ satisfies the desired conditions and is indeed compact. 
+\end{proof}
+
+Now that we have the operator $A^{1/2}$, we'll put it to good use:
+
+\begin{theorem}
+Let $V \in C([0, 1])$ be a real-valued function, and define
+\[
+    m_V f(x) = V(x) f(x)
+\]
+to be the multiplication operator. Then $m_V$ is a bounded linear operator and self-adjoint. 
+\end{theorem}
+
+(This is left as an exercise for us.)
+
+\begin{theorem}\label{aonehalf}
+Let $V \in C([0, 1])$ be a real-valued function. Then $T = A^{1/2} m_V A^{1/2}$ is a self-adjoint compact operator on $L^2([0, 1])$, and $T$ is a bounded operator from $L^2([0, 1])$ to $C([0, 1])$. 
+\end{theorem}
+\begin{proof}
+The first part of this result follows directly from what we've already shown: since $m_V$ and $A^{1/2}$ are compact operators, so is the product $A^{1/2} m_V A^{1/2}$, and it's self-adjoint because $A^{1/2}$ and $m_V$ are self-adjoint and $(A^{1/2} m_V A^{1/2})^\ast = A^{1/2} m_V A^{1/2}$ (remembering to reverse the order in which the operators appear). For the remaining step, it remains to show that $A^{1/2}$ is a bounded linear operator from $L^2([0, 1])$ to $C([0, 1])$: indeed for any $f(x) = \sum_{k=1}^{\infty} c_k\sqrt{2} \sin(k \pi x)$, we have
+\[
+    A^{1/2}f(x) = \sum_{k=1}^{\infty} \frac{c_k}{k\pi} \sqrt{2} \sin(k \pi x).
+\]
+Since $\left|\frac{c_k}{k\pi}\sqrt{2} \sin(k \pi x) \right| \le \frac{|c_k|}{k}$, and Cauchy-Schwarz tells us that this is a summable series:
+\[
+    \sum_{k=1}^{\infty} \frac{|c_k|}{k} \le \left(\sum_k \frac{1}{k^2}\right)^{1/2} \left(\sum_{k} |c_k|^2 \right)^{1/2} < \sqrt{\frac{\pi^2}{6}} ||f||_2^2.
+\]
+We thus find that $A^{1/2} f \in C([0, 1])$ by the \textbf{Weierstrass M-test}, satisfying the bound $|A^{1/2} f(x)| \le \sqrt{\frac{\pi^2}{6}} ||f||_2$, and this shows that $A^{1/2}$ (and thus $T$) is a bounded linear operator from $L^2([0, 1])$ to $C([0, 1])$. Furthermore, because each term of the series defining $A^{1/2}f(x)$ evaluates to $0$ at $x = 0, 1$, we must have $A^{1/2}f(0) = A^{1/2}f(1) = 0$ for all $f$.
+\end{proof}
+
+We now have all of the ingredients that we need to solve our problem:
+
+\begin{theorem}
+Let $V \in C([0, 1])$ be a nonnegative real-valued continuous function, and let $f \in C([0, 1])$. Then there exists a (unique) twice-differentiable solution $u \in C^2([0, 1])$ such that
+\[
+\begin{cases} -u'' + Vu = f \quad \forall x \in [0, 1], \\ u(0) = u(1) = 0. \end{cases}
+\]
+\end{theorem}
+\begin{proof}
+We know that $A^{1/2} m_V A^{1/2}$ is a self-adjoint compact operator, so by the Fredholm alternative, $I + A^{1/2} m_V A^{1/2}$ has an inverse if and only if the nullspace is trivial. Suppose that $(I + A^{1/2} m_V A^{1/2}) g = 0$ for some $g \in L^2$. Then 
+\[
+    0 = \langle (I + A^{1/2} m_V A^{1/2})g, g \rangle = ||g||^2_2 + \langle A^{1/2} m_V A^{1/2} g, g \rangle
+\]
+by linearity, and now we can move one of the $A^{1/2}$s over by self-adjointness to get 
+\[
+    0 = ||g||^2_2 + \langle m_V A^{1/2}g, A^{1/2} g \rangle = ||g||^2_2 + \int_0^1 V |A^{1/2} g|^2 dx.
+\]
+Since $V \ge 0$, the second term is always nonnegative, meaning that we have $0 \ge ||g||^2_2 \ge 0$. This means the only way for this to happen is if $g = 0$. Thus $I + A^{1/2} m_V A^{1/2}$ is indeed invertible. 
+
+To finish, we define 
+\[
+    v = (I + A^{1/2} m_V A^{1/2})^{-1} A^{1/2} f, \quad u = A^{1/2} v.
+\]
+Then some manipulation yields
+\[
+    u + A(Vu) = A^{1/2} v + A^{1/2}(A^{1/2} m_V A^{1/2}) v = A^{1/2}(I + (A^{1/2}m_VA^{1/2}))v,
+\]
+and plugging in the definition of $v$ gives us
+\[
+    u + AVu = A^{1/2} A^{1/2} f = Af.
+\]
+And this is what we want: taking two derivatives on both sides gives us 
+\[
+    u'' - Vu = -f \implies -u'' + Vu = f,
+\]
+and thus $u$ indeed solves the differential equation. Furthermore, the last argument in the proof of \cref{aonehalf} tells us that $u = A^{1/2} v$ indeed satisfies the Dirichlet boundary conditions, and thus we've solved the Dirichlet problem. 
+\end{proof}

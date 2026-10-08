@@ -1,0 +1,173 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{February 23, 2021}
+
+Last time, we introduced the space of bounded linear operators between two normed spaces, $\mc{B}(V, W)$, and we proved that this space is Banach when $W$ is Banach. Today, we'll start seeing other ways to get normed spaces from other normed spaces, namely \textbf{subspaces and quotients}.
+
+We should recall this definition from linear algebra:
+
+\begin{definition}
+Let $V$ be a vector space. A subset $W \subseteq V$ is a \vocab{subspace} of $V$ if for all $w_1, w_2 \in W$ and $\lambda_1, \lambda_2 \in \KK$, we have $\lambda_1 w_1 + \lambda_2 w_2 \in W$ (that is, closure under linear combinations).
+\end{definition}
+
+\begin{proposition}
+A subspace $W$ of a Banach space $V$ is Banach (with norm inherited from $V$) if and only if $W$ is a closed subset of $V$ (with respect to the metric induced by the norm).
+\end{proposition}
+\begin{proof}[Proof sketch]
+If $W$ is Banach, the idea is to show that every sequence of elements in $W$ converges (to something in $V$) actually converges in $W$, and we show this by noticing that the sequence must be Cauchy, meaning that (by completeness of $W$) there is a convergence point, and then we use uniqueness of limits. 
+
+For the other direction, if $W$ is closed, then any Cauchy sequence in $W$ is also a Cauchy sequence in $V$, so it has a limit. Closedness tells us that the limit is in $W$, so every Cauchy sequence has a limit in $W$, which proves that it is Banach.
+\end{proof}
+
+\begin{definition}
+Let $W \subset V$ be a subspace of $V$. Define the equivalence relation on $V$ via 
+\[
+    v \sim v' \iff v - v' \in W,
+\]
+and let $[v]$ be the equivalence class of $v$ (the set of $v' \in V$ such that $v \sim v'$). Then the \vocab{quotient space} $V/W$ is the set of all equivalence classes $\{[v]: v \in V\}$.
+\end{definition}
+
+We can check that the usual conditions for an equivalence relation are satisfied:
+
+\begin{itemize}
+    \item Reflexivity: $v \sim v$ for all $v \in V$ (because $0 \in W$)
+    \item Symmetry: $v \sim v'$ if and only if $v' \sim v$ (because $w \in W \implies -w \in W$).
+    \item Transitivity: if $v \sim v'$ and $v' \sim v''$, then $v \sim v''$ (because of closure under addition in $W$).
+\end{itemize}
+
+We will typically denote $[v]$ as $v + W$ (using the algebra coset notation), since all elements in the equivalence class of $v$ are $v$ plus some element of $W$. And with this notation, we have (for any $v_1, v_2 \in V$)
+\[
+    (v_1 + W) + (v_2 + W) = (v_1 + v_2) + W,
+\]
+and (for any $\lambda \in \KK$)
+\[
+    \lambda(v + W) = \lambda v + W.
+\]
+We do need to check that these operations are well-defined (that is, the resulting equivalence class of the operations is independent of the representative of $v + W$), but that's something that we checked in linear algebra (or can check on our own). We typically pronounce $V/W$ ``$V$ mod $W$,'' and in particular $W = 0 + W = w + W$ for any $w \in W$.
+
+We introduced the concept of a \vocab{seminorm} when we defined a normed vector space -- basically, seminorms satisfy all of the same assumptions as norms except definiteness (so nonzero vectors can have seminorm $0$). 
+
+\begin{example}
+Consider the norm which assigns the real number $\sup |f'|$ to a function $f$: this satisfies homogeneity and the triangle inequality, but it is not a norm because the derivative of any constant function is $0$. 
+\end{example}
+
+But the constant functions form a subspace, and this next result is basically talking about how we can mod out by that subspace:
+
+\begin{theorem}
+Let $||\cdot||$ be a \textbf{seminorm} on a vector space $V$. If we define $E = \{v \in V: ||v|| = 0\}$, then $E$ is a subspace of $V$, and the function on $V/E$ defined by
+\[
+    ||v+E||_{v/E} = ||v||
+\]
+for any $v + E \in V/E$ defines a \textbf{norm}. 
+\end{theorem}
+\begin{proof}
+First of all, $E$ is a subspace because (by homogeneity and the triangle inequality)
+\[
+    ||\lambda_1 v_1 + \lambda_2 v_2 || \le \lambda_1 ||v_1|| + \lambda_2 ||v_2|| = 0
+\]
+for any $v_1, v_2 \in E$ and $\lambda_1, \lambda_2 \in \KK$, and because a seminorm is always nonnegative, we must have $||\lambda_1v_1 + \lambda_2v_2|| = 0$ (and thus $\lambda_1 v_1 + \lambda_2 v_2 \in E$.
+
+This means that $V/E$ is indeed a valid quotient space, and now we must show that our function is well-defined (in other words, that it doesn't depend on the representative from our equivalence class). Formally, that means that if we need to check that if $v + E = v' + E$, then $||v|| = ||v'||$. And we can do this with the triangle inequality: since $v + E = v' + E$, there exists some $e \in E$ such that $v = v' + e$, 
+\[
+    ||v|| = ||v' + e|| \le ||v'|| + ||e|| = ||v'||
+\]
+by the triangle inequality. But this argument is also true if we swap the roles of $v$ and $v'$, so it's also true that $||v'|| \le ||v||$, and thus their seminorms must actually be equal. 
+
+Checking that this function is actually a norm on $V/E$ is now left as an exercise to us: the properties of homogeneity and triangle inequality follow because $||\cdot||$ is already a seminorm, and definiteness comes because everything that evaluates to $0$ is in the equivalence class $0 + E$.
+\end{proof}
+
+So identifying the subspace of all zero-norm elements gives us a normed space, but we can also start with a normed space $V$ and consider some closed subset $W$ of that normed space. Then $V/W$ is a new normed space -- that will be left as an exercise for us. 
+
+With that, we've concluded the ``bare-bones'' part of functional analysis, and we're now ready to get into some fundamental results related to Banach spaces. (In other words, the theorems will now have names attached to them, and we should be able to recognize the names.) First, we'll need a result from metric space theory:
+
+\begin{theorem}[Baire Category Theorem]
+Let $M$ be a complete metric space, and let $\{C_n\}_n$ be a collection of closed subsets of $M$ such that $M = \bigcup_{n\in\NN} C_n$. Then at least one of the $C_n$ contain an open ball $B(x, r) = \{y \in M: d(x, y) < r\}$. (In other words, at least one $C_n$ has an interior point.)
+\end{theorem}
+
+(This theorem doesn't have anything to do with category theory, despite the name.) Sometimes in applying this theorem, we take $C_n$ to not necessarily be closed, and then the result is that one of their closures must contain an open ball. In other words, we can't have all of the $C_n$ be \vocab{nowhere dense}.
+
+\begin{remark}
+This theorem is pretty powerful -- it can actually be used to prove that there is a continuous function which is nowhere differentiable.
+\end{remark}
+
+\begin{proof}
+Suppose for the sake of contradiction that there is some collection of closed subsets $C_n$ that are all nowhere dense such that $\bigcup_n C_n = M$. We'll prove that there's a point not contained in any of the $C_n$s, using completeness, below.
+
+To do this, we'll construct a sequence inductively. Because $M$ contains at least one open ball, and $C_1$ cannot contain an open ball, this means that $M \ne C_1$, and thus there is some $p_1 \in M \setminus C_1$. Because $C_1$ is closed, $M \setminus C_1$ is open, and thus there is some $\eps_1 > 0$ such that $B(p_1, \eps_1) \cap C_1 = \varnothing$.
+
+Now, $B(p_1, \frac{\eps_1}{3})$ is not contained in $C_2$ (because the closed set $C_2$ is assumed to not contain any open ball), and thus there exists some point $p_2 \in B(p_1, \frac{\eps_1}{3})$ such that $p_2 \not\in C_2$. Because $C_2$ is closed, we can then find some $\eps_2 < \frac{\eps_1}{3}$ such that $B(p_2, \eps_2) \cap C_2 = \varnothing$.
+
+More generally (we'll be explicit this time but cover this in less detail in the future), suppose we have constructed points $p_2, \cdots, p_k$ and constants $\eps_1, \cdots, \eps_k$ such that $\eps_k < \frac{\eps_{k-1}}{3} < \cdots < \frac{\eps_1}{3^{k-1}}$, and with the constraint that 
+\[
+    \boxed{p_j \in B(p_{j-1}, \tfrac{\eps_{j-1}}{3}), \quad B(p_j, \eps_j) \cap C_j = \varnothing}
+\]
+for all $j$. Then we construct $p_{k+1}$ as follows: because $B(p_k, \frac{\eps_k}{3})$ is not contained in $C_{k+1}$, there exists an element $p_{k+1} \in B(p_k, \frac{\eps_k}{3})$ such that $p_{k+1} \not\in C_{k+1}$. Then we can pick some $\eps_{k+1} < \frac{\eps_k}{3}$ so that $B(p_{k+1}, \eps_{k+1}) \cap C_{k+1} = \varnothing$ (because $M \setminus C_{k+1}$ is open). So by induction we get a sequence of points $\{p_k\}$ in $M$ and a sequence of numbers $\eps_k \in (0, \eps_1)$, such that the two boxed statements above are satisfied.
+
+This sequence is Cauchy, basically because we've made our $\eps$s decrease fast enough: for all $k, \ell \in \NN$, repeated iterations of the triangle inequality gives us
+\[
+    d(p_k, p_{k+\ell}) \le d(p_k, p_{k+1}) + d(p_{k+1}, p_{k+2}) + \cdots + d(p_{k+\ell-1}, p_{k+\ell}).
+\]
+And now by the first boxed statement, we can bound this as 
+\[
+     < \frac{\eps_k}{3} + \frac{\eps_{k+1}}{3} + \cdots + \frac{\eps_{k+\ell-1}}{3} < \frac{\eps_1}{3^k} + \cdots + \frac{\eps_1}{3^{k+\ell}}.
+\]
+This sum can be bounded by the infinite geometric series 
+\[
+    < \eps_1 \sum_{m=k}^{\infty} \frac{1}{3^m} = \frac{\eps_1}{2} \cdot 3^{-k+1},
+\]
+and thus making $k$ large enough bounds this independently of $\ell$. So the sequence of points $\{p_k\}$ is Cauchy, and because $M$ is complete, there exists some $p \in M$ such that $p_k \to p$.
+
+And now we can show that $p$ doesn't lie in any of the $C_k$s (which is a contradiction) by showing that it lives in all of the balls $B(p_j, \eps_j)$ -- this is because for all $k \in \NN$, we have
+\[
+    d(p_{k+1}, p_{k+1+\ell}) < \eps_{k+1}\left[\frac{1}{3} + \frac{1}{3^2} + \cdots + \frac{1}{3^{\ell}}\right] < \eps_{k+1} \sum_{n=1}^{\infty} 3^{-n} = \frac{\eps_{k+1}}{2}.
+\]
+So taking the limit as $\ell \to \infty$, we have
+\[
+    d(p_{k+1}, p) \le \frac{\eps_{k+1}}{2} < \frac{\eps_k}{6},
+\]
+and thus 
+\[
+    d(p_k, p) \le d(p_k, p_{k+1}) + d(p_{k+1}, p) \le \frac{1}{3} \eps_k + \frac{1}{6} \eps_k < \eps_k.
+\]
+So $p \in B(p_k, \eps_k)$ for each $k$, and each of these balls is disjoint from $C_k$. So $p$ is not in any $C_k$, meaning $p \not\in \bigcup_{k} C_k = M$, which is a contradiction.
+\end{proof}
+
+And we can use this to prove some results in functional analysis now:
+
+\begin{theorem}[Uniform Boundedness Theorem]
+Let $B$ be a Banach space, and let $\{T_n\}$ be a sequence in $\mc{B}(B, V)$ (of linear operators from $B$ into some normed space $V$). Then if for all $b \in B$ we have $\sup_n||T_n b|| < \infty$ (that is, this sequence is pointwise bounded), then $\sup_n||T_n|| < \infty$ (the operator norms are bounded). 
+\end{theorem}
+\begin{proof}
+For each $k \in \NN$, define the subset 
+\[
+    C_k = \{b \in B: ||b|| \le 1, \sup_n ||T_nb|| \le k\}.
+\]
+This set is closed, because for any sequence $\{b_n\} \subset C_k$ with $b_n \to b$, we have $||b|| = \lim_{n \to \infty} ||b_n|| = 1$, and for all $m \in \NN$, we have 
+\[
+    ||T_mb|| = \lim_{n \to \infty} ||T_mb_n||
+\]
+(using the fact that these operators are bounded and thus continuous). And now $||T_mb_n|| \le k$ because $b_n \in C_k$, so the limit point must also be at most $k$.
+
+But we have
+\[
+    \{b \in B: ||b|| \le 1\} = \bigcup_{k \le n} C_k,
+\]
+because \textbf{for any} $b \in B$, there is some $k$ such that $\sup_m ||T_mb|| \le k$ (by assumption). And now the left-hand side is a complete metric space, because it is a closed subset of $M$, and thus by Baire's theorem, one of the $C_k$s contains an open ball $B(b_0, \delta_0)$. 
+
+So now for any $b \in B(0, \delta_0)$ (meaning that $||b|| < \delta_0$), we know that $b_0 + b \in B(b_0, \delta_0) \subset C_k$, so
+\[
+    \sup_n ||T_n(b_0 + b)|| \le k.
+\]
+But then 
+\[
+    \sup_n||T_nb|| = \sup_n ||-T_n b_0 + T_n(b_0 + b)|| \le \sup_n ||T_n b_0|| + \sup_n ||T_n (b_0 + b)|| \le k + k,
+\]
+because $b_0, b_0 + b$ are both in $B(b_0, \delta_0)$. So for any $b$ in the open ball $B(0, \delta_0)$ satisfies $\sup_n||T_nb|| < 2k$, and rescaling means that for any $n \in \NN$ and for all $b \in B$ with $||b|| = 1$, we have
+\[
+    \left|\left|T_n\left(\frac{\delta_0}{2}b\right)\right|\right| \le 2k \implies ||T_nb|| \le \frac{4k}{\delta_0},
+\]
+meaning that the operator norm of $T_n$ is at most $\frac{4k}{\delta_0}$ for all $n$, and thus $\sup_n||T_n|| \le \frac{4k}{\delta_0}$, and we're done. 
+\end{proof}

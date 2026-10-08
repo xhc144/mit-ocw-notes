@@ -1,0 +1,85 @@
+\originalchapter{区间上的 Dirichlet 问题}\label{ch:dirichlet}
+\originalsection{Green 算子}
+最后的应用把微分方程转化为有界算子方程, 再由紧自伴谱理论判断可解性. 主源考虑实连续势 $V$ 与连续右端 $f$, 寻找 $u\in C^2([0,1])$ 满足 $-u''+Vu=f$, $u(0)=u(1)=0$. 为使用 Hilbert 理论, 中间的算子先定义在 $L^2([0,1])$ 上, 最后再证明解的经典正则性.
+
+\begin{theorem}\label{thm:green}
+定义 $G(x,y)=\min(x,y)(1-\max(x,y))$, 以及 $Af(x)=\int_0^1G(x,y)f(y)\dd y$. 则 $A$ 是 $L^2([0,1])$ 上的紧自伴算子. 它将 $L^2$ 有界地映到连续且端点为零的函数. 若 $f$ 连续, 则 $u=Af\in C^2$, 并为 $-u''=f$, $u(0)=u(1)=0$ 的唯一解.
+\end{theorem}
+\begin{proof}
+核连续且实对称, 连续核紧性定理和伴随核公式分别给出紧性与自伴性. 因 $\norm{f}_1\le\norm{f}_2$, 有 $\norm{Af}_\infty\le\norm{G}_\infty\norm{f}_2$. 核的一致连续性还给出
+$|Af(x)-Af(z)|\le\sup_y|G(x,y)-G(z,y)|\norm{f}_2\to0$,
+所以输出连续. 核在 $x=0,1$ 时均为零, 因而端点值为零.
+
+对连续 $f$ 写成
+\[
+u(x)=(1-x)\int_0^xyf(y)\dd y+x\int_x^1(1-y)f(y)\dd y.
+\]
+求导时两个移动端点项抵消, 得 $u'(x)=-\int_0^xyf(y)\dd y+\int_x^1(1-y)f(y)\dd y$. 再求导得 $u''(x)=-xf(x)-(1-x)f(x)=-f(x)$. 连续性说明 $u\in C^2$.
+
+若两个解之差为 $w$, 则 $w''=0$, 微积分基本定理说明 $w$ 为仿射函数, 两端为零迫使 $w=0$. 这里核为正的 $G$, 原第23讲所写核的相反号会解成 $u''=f$, 因而本稿明确校正符号.
+\end{proof}
+
+\originalsection{正弦谱与平方根}
+\begin{theorem}\label{thm:greenspec}
+令 $e_k(x)=\sqrt2\sin(k\pi x)$. 则 $Ae_k=(k\pi)^{-2}e_k$, $\ker A=\{0\}$, 并且
+\[
+Af=\sum_{k\ge1}\frac{\ip{f}{e_k}}{k^2\pi^2}e_k,
+\qquad \norm{A}=\pi^{-2}.
+\]
+\end{theorem}
+\begin{proof}
+函数 $e_k/(k\pi)^2$ 满足 $-u''=e_k$ 和零端点条件, 由 Green 解的唯一性即得特征等式. 第\ref{ch:fourier}章已证明正弦系为基, 所以在有限部分和上使用线性性, 再由 $A$ 连续取极限, 得级数展开. 所有对角系数非零, 所以 $Af=0$ 蕴含各 Fourier 系数为零, 即核零. Parseval 给出范数上界 $1/\pi^2$, 在 $e_1$ 上达到. 不需要假设无限级数可以逐点求两次导数.
+\end{proof}
+
+由 Parseval 和刚得到的展开, $\ip{Af}{f}=\sum_{k\ge1}|\ip{f}{e_k}|^2/(k^2\pi^2)\ge0$. 因而 $A$ 非负, 可以应用上一章的谱平方根构造.
+
+\begin{proposition}\label{prop:greensqrt}
+令 $B=A^{1/2}$, 即 $Bf=\sum_{k\ge1}\ip{f}{e_k}e_k/(k\pi)$. 则 $B$ 紧、自伴, $B^2=A$, $\norm{B}=1/\pi$. 此外 $B:L^2\to C([0,1])$ 有界, 输出端点为零, 且 $\norm{Bf}_\infty\le\norm{f}_2/\sqrt3$.
+\end{proposition}
+\begin{proof}
+紧性、自伴性与平方等式由谱函数演算得到; 也可用对角系数 $1/(k\pi)\to0$ 的有限截断直接验证. 对每个 $x$,
+\[
+\sum_{k\ge1}\left|\frac{\ip{f}{e_k}}{k\pi}e_k(x)\right|
+\le\frac{\sqrt2}{\pi}\left(\sum_{k\ge1}|\ip{f}{e_k}|^2\right)^{1/2}
+\left(\sum_{k\ge1}k^{-2}\right)^{1/2}
+=\frac{\norm{f}_2}{\sqrt3}.
+\]
+各项上界之和有限, 所以 Weierstrass 判别保证级数绝对一致收敛, 极限连续并有给出的上确界估计. 每一有限部分和在两端为零, 一致极限也为零. 这里使用正确的平方根范数 $\norm{f}_2$, 不把它误写成范数的平方.
+\end{proof}
+
+\originalsection{非负势的存在、唯一与稳定}
+从积分方程 $u+AM_Vu=Af$ 出发, $A=B^2$ 提示先构造 $u=Bv$, 将辅助算子写成自伴的 $BM_VB$. 接下来的证明先解辅助方程、再验证输出满足原问题; 这一存在性构造无需预先断言每个候选解都属于 $B$ 的值域.
+\begin{theorem}\label{thm:dirichlet}
+若 $V\in C([0,1])$ 为实非负函数, 则每个 $f\in C([0,1])$ 都有唯一 $u\in C^2([0,1])$ 满足 $-u''+Vu=f$, $u(0)=u(1)=0$. 该解满足 $\norm{u}_2\le\pi^{-2}\norm{f}_2$.
+\end{theorem}
+\begin{proof}
+令 $M_V$ 为乘法算子, $M_Vg=Vg$. 有 $\norm{M_V}\le\norm{V}_\infty$, 实值性使 $M_V$ 自伴, 非负性使 $\ip{M_Vg}{g}=\int V|g|^2\ge0$. 它本身不要求紧. 令 $C=BM_VB$, 因 $B$ 紧且 $M_V$ 有界, 得 $C$ 紧; 伴随反转次序给出 $C=C^*$.
+
+对任意 $v$, $\ip{(I+C)v}{v}=\norm{v}^2+\int V|Bv|^2\ge\norm{v}^2$. 所以 $I+C$ 核为零, 且有下界1. 将 Fredholm 定理用于紧自伴 $C$ 和非零参数 $-1$, 得 $I+C$ 满射并可逆. 同一估计与 Cauchy--Schwarz 给出 $\norm{(I+C)^{-1}}\le1$.
+
+定义 $v=(I+C)^{-1}Bf$, $u=Bv$. 这一定义没有使用未必存在的 $B^{-1}$. 对 $(I+C)v=Bf$ 左乘 $B$, 使用 $B^2=A$, 得 $u+AM_Vu=Af$, 即 $u=A(f-Vu)$. $B:L^2\to C$ 的有界性使 $u$ 连续且端点为零, 因而 $f-Vu$ 连续. Green 定理于是使 $u\in C^2$, 且 $-u''=f-Vu$. 这完成由 Hilbert 空间解到经典解的提升.
+
+若两个经典解之差为 $w$, 分部积分及端点条件给出
+\[
+0=\int_0^1(-w''+Vw)\overline w\dd x
+=\int_0^1|w'|^2\dd x+\int_0^1V|w|^2\dd x.
+\]
+两项非负, 所以 $w'=0$ 几乎处处; 连续性进一步给出处处为零. 端点条件迫使常数 $w=0$. 最后由构造有
+$\norm{u}_2\le\norm{B}\norm{(I+C)^{-1}}\norm{B}\norm{f}_2\le\pi^{-2}\norm{f}_2$, 得稳定估计.
+\end{proof}
+用谱平方根使 $BM_VB$ 自伴, 避免了 $AM_V$ 一般不自伴的困难. 即使 $A$ 与 $M_V$ 分别自伴, 也不能因此断言它们的乘积自伴; 需要交换性, 或如这里的对称夹心结构.
+
+\begin{example}
+当 $V=0$, $f=1$ 时求解; 当 $V=-\pi^2$ 时说明唯一性为何可能失效.
+\end{example}
+\begin{solution}
+第一种情形直接积分得 $u(x)=x(1-x)/2$, 它满足 $-u''=1$ 和端点条件, 与 Green 算子结果一致. 第二种情形齐次方程为 $-u''-\pi^2u=0$, 有非零解 $\sin(\pi x)$ 满足两个端点条件. 因而非负势保证的核零性质不再自动成立. 若此时有非齐次经典解, 与 $\sin(\pi x)$ 配对并分部积分, 得必要相容条件 $\int_0^1f(x)\sin(\pi x)\dd x=0$; 对 $f=1$ 该积分为 $2/\pi\ne0$, 因而无解.
+\end{solution}
+
+\begin{exercise}
+取常数势 $V=v\ge0$ 与 $f\in C([0,1])$. 给出解的正弦系数, 并说明级数与经典解的关系.
+\end{exercise}
+\begin{solution}
+经典解存在唯一. 对方程与 $e_k$ 配对, 两次分部积分的边界项由 $u(0)=u(1)=e_k(0)=e_k(1)=0$ 消失, 得 $((k\pi)^2+v)\ip{u}{e_k}=\ip{f}{e_k}$. 因而
+$u=\sum_{k\ge1}\ip{f}{e_k}e_k/((k\pi)^2+v)$ 于 $L^2$ 成立. 系数绝对值乘 $\sqrt2$ 的和由 Cauchy--Schwarz 及 $\sum k^{-4}<\infty$ 控制, 所以级数也一致收敛到连续函数. 它与已经证明存在的经典解在 $L^2$ 中一致, 两个连续函数几乎处处一致必处处一致. 无须未经验证地对该级数逐项求两次导数.
+\end{solution}

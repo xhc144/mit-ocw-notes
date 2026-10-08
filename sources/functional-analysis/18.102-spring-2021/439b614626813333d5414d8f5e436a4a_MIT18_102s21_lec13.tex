@@ -1,0 +1,240 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.102 / 18.1021 Introduction to Functional Analysis Spring 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\pagebreak\section*{April 6, 2021}
+
+We'll complete our discussion of Lebesgue measure and integration today, finding the ``complete space of integrable functions'' that contains the space of continuous functions. Last time, we defined the class of Lebesgue integrable functions and the Lebesgue integral, and we proved the Dominated Convergence Theorem (which we then used to show that a continuous function on a closed and bounded interval has the Riemann and Lebesgue integral agree with each other). And it can in fact be shown (in a measure theory class) that \textbf{every} Riemann integrable function on a closed and bounded interval is Lebesgue integrable and that those two integrals will agree, and this way we can completely characterize the functions which are Riemann integrable: they must be continuous almost everywhere. 
+
+\begin{definition}
+Let $f: E \to \CC$ be a measurable function. For any $1 \le p < \infty$, we define the \vocab{$L^p$ norm}
+\[
+    ||f||_{L^p(E)} = \left(\int_E |f|^p\right)^{1/p}.
+\]
+Furthermore, we define the \vocab{$L^\infty$ norm} or \vocab{essential supremum} of $f$ as
+\[
+    ||f||_{L^\infty(E)} = \inf\{M > 0: m(\{x \in E: |f(x)| > M \}) = 0\}.
+\]
+\end{definition}
+
+(We'll refer to them as norms and prove that they actually are norms later.) This Lebesgue integral is always meaningful because $|f|^p$ is nonnegative (though it can be infinite or finite), and this definition should look similar to the $\ell^p$ norm for sequences we defined early on in the course.
+
+\begin{proposition}
+If $f: E \to \CC$ is measurable, then $|f(x)| \le ||f||_{L^{\infty}(E)}$ almost everywhere on $E$. Also, if $E = [a, b]$ is a closed interval and $f \in C([a, b])$, then $||f||_{L^\infty([a, b])} = ||f||_{\infty}$ is the usual sup norm on bounded continuous functions.
+\end{proposition}
+
+These facts are left as exercises for us, and they give us more of a sense of why this norm is a lot like the $\ell^{\infty}$ norm. And these next statements are facts that we proved for sequence spaces already:
+
+\begin{theorem}[Holder's inequality for $L^p$ spaces]
+If $1 \le p \le \infty$ and $\frac{1}{p} + \frac{1}{q} = 1$, and $f, g: E \to \CC$ are measurable functions, then
+\[
+    \int_E |fg| \le ||f||_{L^p(E)} ||g||_{L^q(E)}.
+\]
+\end{theorem} 
+
+We prove this in basically the same way as we did for sequences, and then again from Holder's inequality we obtain Minkowski's inequality:
+
+\begin{theorem}[Minkowski's inequality for $L^p$ spaces]
+If $1 \le p \le \infty$ and $f, g: E \to \CC$ are two measurable functions, then $||f+g||_{L^p(E)} \le ||f||_{L^p(E)} + ||g||_{L^p(E)}$.
+\end{theorem}
+
+A similar result also holds for $L^{\infty}(E)$, which we can check ourselves.
+
+\begin{fact}
+We'll use the shorthand $||\cdot||_p$ for $||\cdot||_{L^p(E)}$ from now on.
+\end{fact}
+
+\begin{definition}
+For any $1 \le p \le \infty$, we define the \vocab{$L^p$ space} 
+\[
+    L^p(E) = \left\{f: E \to \CC: f \text{ measurable and }||f||_p < \infty\right\},
+\]
+where we consider two elements $f, g$ of $L^p(E)$ to be equivalent (in other words, the same) if $f = g$ almost everywhere.
+\end{definition}
+
+We need this last condition to make the $L^p$ norms actually norms, and thus our space is actually a space of equivalence classes rather than functions:
+\[
+    [f] = \{g: E \to \CC: ||g||_{p} < \infty \text{ and } g = f \text{ a.e.}\}.
+\]
+But we'll still keep referring to elements of this space as functions (as is custom in mathematics). And now our goal will be to show that we have a norm (rather than a seminorm) on $L^p(E)$, and eventually we'll show that these are actually Banach spaces.
+
+\begin{remark}
+This might seem like a weird thing to do, but recall that the rational numbers are constructed as equivalence classes of pairs of integers, and we think of $\frac{3}{2}$ as that quantity rather than the set of $(3x, 2x)$ for nonzero integers $x$. What really matters is the properties of the equivalence class, and for our functions in $L^p(E)$, behavior on a set of measure zero does not matter.
+\end{remark}
+
+\begin{theorem}
+The space $L^p(E)$ with pointwise addition and natural scalar multiplication operations is a vector space, and it is a normed vector space under $||\cdot||_p$.
+\end{theorem}
+ 
+\begin{proof}[Proof sketch]
+This is the last time we'll refer to elements of $L^p(E)$ as equivalence classes. First of all, notice that the $L^p$ norm $||\cdot||_p$ is well-defined, because if $f = g$ almost everywhere (which is the condition for them being in the same euqivalence class), then $|f|^p = |g|^p$ almost everywhere, so $\int_E |f|^p = \int_E |g|^p$, and taking $p$th roots tells us that $||f||_p = ||g||_p$.
+
+From there, checking that we have a vector space require us to check the axioms, but also that scalar multiplication and pointwise addition are actually well-defined: in other words, if we take one representative from $[f_1]$ and add it to a representative from $[f_2]$, we need to make sure that sum is in the same equivalence class regardless of our choices from $[f_1]$ and $[f_2]$. (And then we'd need to check that kind of result for scalar multiplication as well.) We won't do these checks of well-definedness in detail, but they aren't too difficult to do.
+
+Next, we check properties of the $L^p$ norm. If $\int_E |f|^p = 0$, then $|f|^p = 0$ almost everywhere, meaning that $f = 0$ almost everywhere (and this means that $f$ is in the equivalence class $[0]$). This proves definiteness, and then homogeneity and the triangle inequality follow from the definition and Minkowski's inequality, respectively. (And with this, we can now verify all of the axioms of a vector space, including closure under addition, but that's also left as an exercise to us.)
+\end{proof}
+
+\begin{proposition}
+Let $E \subset \RR$ be measurable. Then $f \in L^p(E)$ if and only if (letting $n$ range over positive integers)
+\[
+    \lim_{n \to \infty} \int_{[-n, n] \cap E} |f|^p < \infty.
+\]
+\end{proposition}
+\begin{proof}
+We can rewrite our sequence as
+\[
+    \left\{\int_{[-n, n] \cap E} |f|^p\right\}_n = \int_E \chi_{[-n, n]} |f|^p.
+\]
+Since we know that $\left\{\chi_{[-n, n]} |f|^p\right\}$ is a pointwise increasing sequence of measurable functions, and for all $x \in E$ we have
+\[
+    \lim_{n \to \infty} \chi_{[-n, n]}(x) |f(x)|^p = |f(x)|^p.
+\]
+Thus, by the Monotone Convergence Theorem, 
+\[
+    \int_E |f|^p = \lim_{n \to \infty} \int_E \chi_{[-n, n]} |f|^p =  \lim_{n \to \infty} \int_{[-n, n] \cap E} |f|^p,
+\]
+and thus the two quantities are finite for exactly the same set of $f$s. 
+\end{proof}
+
+\begin{corollary}
+If $f: \RR \to \CC$ is a measurable function, and there exists some $C \ge 0$ and $q > 1$ so that for almost every $x \in \RR$, we have
+\[
+    |f(x)| \ge C(1 + |x|)^{-q},
+\]
+then $f \in L^p(\RR)$ for all $p \ge 1$.
+\end{corollary}
+\begin{proof}
+Notice that 
+\[
+    \int_{[-n, n]} |f|^p \le \int_{[-n, n]} C^p(1 + |x|)^{-pq} = \int_{-n}^n C^p(1 + |x|)^{-pq} dx 
+\]
+(because the function $(1+|x|)^{-pq}$ is continuous and thus the Riemann and Lebesgue integrals agree). And now we can check that this integral is at most some finite number $C^pB(p)$ for some constant depending on $p$, independent of $n$.
+\end{proof}
+
+\begin{proposition}
+Let $a < b$ and $1 \le p < \infty$ so that $f \in L^p([a, b])$, and take some $\eps > 0$. Then there exists some $g \in C([a, b])$ such that $g(a) = g(b) = 0$, so that $||f-g||_p < \eps$.
+\end{proposition}
+
+In other words, the space of continuous functions $C([a, b])$ is dense in $L^p([a, b])$, and it's a proper subset because we can find elements in $L^p$ that are not continuous. (This will be left as an exercise to us.)
+
+\begin{theorem}[Riesz-Fischer]
+For all $1 \le p \le \infty$, $L^p(E)$ is a Banach space.
+\end{theorem}
+\begin{proof}
+We'll do the case where $p$ is finite ($p = \infty$ will be left as an exercise to us). Recall that a normed space is Banach if and only if every absolutely summable series is summable, and that's what we'll use here. Suppose that $\{f_k\}$ is a sequence of functions in $L^p(E)$ such that 
+\[
+    \sum_k ||f_k||_p = M < \infty.
+\]
+We then want to show that $\sum_k f_k$ converges to some function in $L^p(E)$, meaning that $\lim_{n \to \infty} \sum_{k=1}^n f_k \to f$ in $L^p$, which can be equivalently written as 
+\[
+    \lim_{n \to \infty} \left|\left|\sum_{k=1}^n (f_k - f)\right|\right|_p = 0.
+\]
+To show this, we define the measurable function
+\[
+    g_n(x) = \sum_{k=1}^n |f_k(x)|.
+\]
+By the triangle inequality, we know that if we take norms on both sides, we have
+\[
+    ||g_n||_p = \left|\left|\sum_{k=1}^n |f_k|\right|\right|_p \le \sum_{k=1}^n ||f_k||_p \le M < \infty.
+\]
+So if we now use Fatou's lemma, we find that 
+\[
+    \int_E \left(\sum_{k=1}^{\infty} |f_k|\right)^p = \int_E \liminf_{n \to \infty} |g_n|^p \le \liminf_{n \to \infty} \int_E |g_n|^p \le M^p
+\]
+because the $L^p$ norm of $g_n$ is always at most $M$. And the function $\left(\sum_{k=1}^{\infty} |f_k|\right)^p$ must be finite almost everywhere (because its integral is finite), and thus $\sum_k |f_k(x)|$ is finite almost everywhere. And this allows us to define the function $f$ pointwise as
+\[
+    f(x) = \begin{cases} \sum_k f_k(x) & \text{if }\sum_k|f_k(x)| < \infty \text{ converges} \\ 0 & \text{otherwise,} \end{cases}
+\]
+and we'll also define the limit $g$ of the $g_n$s, as
+\[
+    g(x) = \begin{cases} \sum_k |f_k(x)| & \text{if }\sum_k|f_k(x)| < \infty \text{ converges} \\ 0 & \text{otherwise.} \end{cases}
+\]
+Then because we've shown pointwise convergence almost everywhere, we have
+\[
+    \lim_{n \to \infty} \left[\sum_{k=1}^n f_k(x) - f(x) \right] = 0,
+\]  
+and furthermore 
+\[
+    \left|\sum_{k=1}^n f_k(x) - f(x)\right|^p \le |g(x)|^p
+\]
+almost everywhere on $E$, because this holds again whenever the infinite sum $\sum_k |f_k(x)|$ converges (the expression inside the absolute value on the left is the tail $\sum_{k=n+1}^{\infty}f_k(x)$, and then we can use the triangle inequality). So now because $||\,\,\sum_k |f_k|\,\, ||_p \le M$, we also know that $||g||_p \le M$ (because those functions agree almost everywhere), and thus $\int_E |g|^p < \infty$. 
+
+Now because $||f||_p \le ||g||_p$, $\int_E |f|^p \le \int_E |g|^p < \infty$, so $f$ can be a candidate for the sum. And we apply the Dominated Convergence Theorem: since we have convergence $\left|\sum_{k=1}^n f_k(x) - f(x)\right|^p \to 0$ pointwise almost everywhere, and thus quantity is dominated by $g$, we know that 
+\[
+    \lim_{n \to \infty} \int_E \left|\sum_{k=1}^n f_k - f\right|^p = \int_E 0 = 0.
+\]
+Therefore, the absolutely summable series $\{f_k\}$ is indeed summable, and we're done -- $L^p$ is indeed a Banach space. 
+\end{proof}
+
+So because $C([a, b])$ is dense in $L^p([a, b])$, and the latter is a Banach space, we can think of the $L^p$ space as a \vocab{completion} of the continuous functions.
+
+From here, we'll move on to more general topics in functional analysis, which may be more intuitive because some aspects of it are similar to linear algebra. (Of course, some aspects are different from what we're used to, but often we can draw some parallels.) Our next topic will be \textbf{Hilbert spaces}, which give us the important notions of an inner product, orthogonality, and so on.
+
+\begin{definition}
+A \vocab{pre-Hilbert space} $H$ is a vector space over $\CC$ with a \vocab{Hermitian inner product}, which is a map $\langle \cdot, \cdot \rangle: H \times H \to \CC$ satisfying the following properties:
+\begin{enumerate}
+\item For all $\lambda_1, \lambda_2 \in \CC$ and $v_1, v_2, w \in H$, we have 
+\[
+    \langle \lambda_1 v_1 + \lambda_2 v_2, w \rangle = \lambda_1 \langle v_1, w \rangle + \lambda_2 \langle v_2, w \rangle,
+\]
+\item For all $v, w \in H$, we have $\langle v, w\rangle = \overline{\langle w, v \rangle}$,
+\item For all $v \in H$, we have $\langle v, v \rangle \ge 0$, with equality if and only if $v = 0$.
+\end{enumerate}
+\end{definition}
+
+We should think of pre-Hilbert spaces as \textbf{normed vector spaces where the norm comes from an inner product} (we'll explain this in just a second). But first, notice that if we have some $v \in H$ such that $\langle v, w \rangle = 0$ for all $w \in H$, then $v = 0$. So the only vector ``orthogonal'' to everything is the zero vector. Also, points (1) and (2) above show us that 
+\[
+    \langle v, \lambda w \rangle = \overline{\langle \lambda w, v \rangle} = \overline{\lambda} \langle w, v \rangle = \overline{\lambda} \langle v, w\rangle,
+\]
+so our inner product is linear in the first variable but does something more complicated in the second variable. 
+
+\begin{definition}
+Let $H$ be a pre-Hilbert space. Then for any $v \in H$, we define 
+\[
+    ||v|| = \langle v, v \rangle^{1/2}.
+\]
+\end{definition}
+
+\begin{theorem}
+Let $H$ be a pre-Hilbert space. For all $u, v \in H$, we have
+\[
+    \left|\langle u, v \rangle\right| \le ||u|| \,\, ||v||.
+\]
+\end{theorem}
+
+(This result should look a lot like the Cauchy-Schwarz inequality for finite-dimensional vector spaces.)
+
+\begin{proof}
+Define the function $f(t) = ||u + tv||^2$, which is nonnegative for all $t$ (by definition of the inner product). Notice that 
+\[
+    f(t) = \langle u + tv, u + tv \rangle = \langle u, u \rangle + t^2 \langle v, v \rangle + t \langle u, v \rangle + t \langle v, u \rangle 
+\]
+can be written as 
+\[
+    = ||u||^2 + t^2||v||^2 + 2t \text{Re}(\langle u, v \rangle)
+\]
+This is a quadratic function of $t$, and it achieves its minimum when its derivative is zero, which occurs (by calculus) when $t_{\text{min}} = \frac{-\text{Re}(\langle u, v \rangle)}{||v||^2}$. So plugging this in tells us that
+\[
+    0 \le f(t_{\text{min}}) = ||u||^2 - \frac{\left|\text{Re}(\langle u, v \rangle)^2\right|}{||v||^2},
+\]
+and now rearranging a bit gives us 
+\[
+    \left|\text{Re}(\langle u, v \rangle)\right| \le ||u|| \,\, ||v||.
+\]
+This is almost what we want, and to get the rest, suppose that $\langle u, v \rangle \ne 0$ (otherwise the result is already clearly true). Then if we define
+\[
+    \lambda = \frac{\overline{\langle u, v \rangle}}{|\langle u, v \rangle|}
+\]
+so that $|\lambda| = 1$, we find the chain of equalities of real numbers
+\[
+    \boxed{|\langle u, v \rangle|} = \lambda \langle u, v \rangle = \langle \lambda u, v \rangle = \text{Re}\langle \lambda u, v \rangle \le ||\lambda u|| \,\, ||v||,
+\]
+and now because $\langle \lambda u, \lambda u \rangle = \lambda \overline{\lambda} \langle u, u \rangle = \langle u, u \rangle$ (since $|\lambda| = 1$), this simplifies to
+\[
+    = \boxed{||u|| \cdot ||v||},
+\]
+as desired.
+\end{proof}
+
+Next time, we'll use this result to prove that the $||v||$ function is actually a norm on a pre-Hilbert space, and we'll then introduce Hilbert spaces (which are basically complete pre-Hilbert spaces). It'll turn out that there are basically only two types of Hilbert spaces -- finite-dimensional vector spaces and $\ell^2$ -- and we'll explain what this means soon!
