@@ -1,0 +1,199 @@
+\originalchapter{积分密度与测度分解}
+\label{ra:c9:chapter}
+\noindent 本章为编者补充. Radon--Nikodym 定理列在原课程教学大纲中, 但不在已公开的24份讲义正文中. 以下证明只使用前文已经建立的积分理论和 $L^2$ 完备性; 所需的 Hilbert 空间表示引理也在这里证明.
+
+\originalsection{绝对连续与奇异}
+如果 $f\ge0$ 可测, 则 $\nu(E)=\int_E f\dd\mu$ 定义一个测度. 单调收敛定理保证可列可加性. 这种测度不会给 $\mu$ 的零集增加质量, 因而自然提出: 是否每个具有这一性质的测度都由一个密度表示?
+
+\begin{definition}
+设 $\mu,\nu$ 为同一可测空间 $(X,\mathcal A)$ 上的正测度. 若 $\mu(E)=0$ 总蕴涵 $\nu(E)=0$, 称 $\nu$ 对 $\mu$ 绝对连续, 记为 $\nu\ll\mu$. 若存在 $S\in\mathcal A$ 使 $\mu(S)=0$ 且 $\nu(X\setminus S)=0$, 称 $\nu$ 与 $\mu$ 互相奇异, 记为 $\nu\perp\mu$.
+\end{definition}
+这里的绝对连续首先是零集之间的关系, 不要求存在一个固定常数使 $\nu(E)\le C\mu(E)$. 奇异也不要求两者的拓扑支集不交. 原子测度可以集中在稠密的可数集合上, 而该集合仍为 Lebesgue 零集.
+
+\begin{proposition}\label{ra:c9:uniform-ac}
+若 $\nu$ 为有限正测度且 $\nu\ll\mu$, 则对每个 $\eps>0$ 都存在 $\delta>0$, 使 $\mu(E)<\delta$ 蕴涵 $\nu(E)<\eps$.
+\end{proposition}
+\begin{proof}
+反设结论不成立. 存在 $\eps_0>0$ 和 $E_n\in\mathcal A$, 满足 $\mu(E_n)<2^{-n}$, 但 $\nu(E_n)\ge\eps_0$. 令 $F_k=\bigcup_{n\ge k}E_n$, 则 $F_k$ 递减且 $\mu(F_k)\le\sum_{n\ge k}2^{-n}\to0$. 所以 $F=\bigcap_kF_k$ 满足 $\mu(F)=0$. 绝对连续性给出 $\nu(F)=0$. 另一方面, 因 $\nu$ 有限, 从上连续性给出 $\nu(F)=\lim_k\nu(F_k)\ge\eps_0$, 矛盾.
+\end{proof}
+
+\begin{example}
+在 $(0,1)$ 上取 $\mu$ 为 Lebesgue 测度, $\nu(E)=\int_E x^{-1/2}\dd x$. 说明绝对连续不蕴涵 $\nu\le C\mu$.
+\end{example}
+\begin{solution}
+零集上的非负积分为零, 所以 $\nu\ll\mu$. 对 $E=(0,t)$, 有 $\nu(E)=2\sqrt t$, 而 $\mu(E)=t$. 两者之比为 $2/\sqrt t$, 当 $t\downarrow0$ 时无界. 尽管没有线性的统一常数, 命题\ref{ra:c9:uniform-ac}仍适用, 因为 $\nu((0,1))=2$.
+\end{solution}
+
+\originalsection{一个表示引理}
+积分关于函数是线性的. 为从测度恢复密度, 我们把它看成 $L^2$ 上的线性泛函. 下面的证明说明表示函数为何存在, 不把一般泛函分析的表示定理作为未证黑箱.
+
+\begin{lemma}\label{ra:c9:hilbert}
+设 $H$ 为实 Hilbert 空间, 即具有内积 $\ip{\cdot}{\cdot}$ 且在相应范数下完备的实向量空间. 若 $T:H\to\R$ 为有界线性泛函, 即存在线性映射 $T$ 与常数 $C$ 使 $|T(h)|\le C\norm h$ 对所有 $h$ 成立, 则存在唯一 $g\in H$, 使所有 $h\in H$ 都满足 $T(h)=\ip{h}{g}$.
+\end{lemma}
+\begin{proof}
+记 $\norm T=\sup_{\norm h\le1}|T(h)|$. 有界性蕴涵连续性, 因为 $|T(h)-T(k)|\le\norm T\norm{h-k}$. 若 $T=0$, 取 $g=0$. 以下设 $T\ne0$, 并令 $A=\{u:T(u)=1\}$. 该集合非空且闭. 由 $1=|T(u)|\le\norm T\norm u$, 数 $a=\inf_{u\in A}\norm u$ 为正. 选 $u_n\in A$ 使 $\norm{u_n}\to a$. 中点仍属于 $A$, 因而由平行四边形恒等式,
+\[
+ \norm{u_n-u_m}^2
+ =2\norm{u_n}^2+2\norm{u_m}^2
+   -4\norm{(u_n+u_m)/2}^2
+ \le2\norm{u_n}^2+2\norm{u_m}^2-4a^2.
+\]
+右端趋于零, 所以 $u_n$ 是 Cauchy 列. 完备性给出极限 $u\in A$, 且 $\norm u=a$. 对任意 $v\in\ker T$ 和实数 $t$, 有 $u+tv\in A$. 展开 $\norm{u+tv}^2\ge\norm u^2$, 得 $2t\ip u v+t^2\norm v^2\ge0$. 让 $t$ 分别从正负两侧趋于零, 得 $\ip u v=0$.
+
+任意 $h$ 都有 $h-T(h)u\in\ker T$, 因而 $\ip h u=T(h)\norm u^2$. 取 $g=u/\norm u^2$ 即得表示. 若 $g_1,g_2$ 都表示 $T$, 代入 $h=g_1-g_2$ 得 $\norm{g_1-g_2}^2=0$, 故唯一.
+\end{proof}
+在下面的使用中, $H=L^2(X,\lambda;\R)$, 内积为 $\ip h k=\int hk\dd\lambda$. 乘积可积由 Hölder 不等式保证, 完备性已在第5章建立. 这里只需要实空间, 不涉及复内积的共轭约定.
+
+\originalsection{Radon--Nikodym 定理}
+先把两种测度加起来. 相对于 $\lambda=\mu+\nu$, 二者都受到 $\lambda$ 控制, 因而可以用上一引理表示. 这个中间测度避免预先猜测密度的大小.
+
+\begin{theorem}[Radon--Nikodym]\label{ra:c9:rn}
+设 $\mu,\nu$ 是同一可测空间上的 $\sigma$ 有限正测度, 且 $\nu\ll\mu$. 则存在非负可测函数 $f$, 使每个 $E\in\mathcal A$ 满足 $\nu(E)=\int_E f\dd\mu$. 函数 $f$ 在 $\mu$ 几乎处处意义下唯一, 且可以选成几乎处处有限. 记作 $f=\dd\nu/\dd\mu$.
+\end{theorem}
+\begin{proof}
+先设 $\mu(X),\nu(X)<\infty$. 令 $\lambda=\mu+\nu$. 对 $h\in L^2(\lambda;\R)$ 定义 $T(h)=\int h\dd\nu$. 由于 $\nu\le\lambda$, $h$ 的 $\lambda$ 几乎处处代表也确定 $\nu$ 几乎处处代表, 所以定义与代表选择无关. Cauchy--Schwarz 给出
+\[
+ |T(h)|\le\int |h|\dd\nu
+ \le\nu(X)^{1/2}\left(\int |h|^2\dd\nu\right)^{1/2}
+ \le\nu(X)^{1/2}\norm h_{L^2(\lambda)}.
+\]
+由引理\ref{ra:c9:hilbert}, 存在实可测 $g\in L^2(\lambda)$ 使 $T(h)=\int hg\dd\lambda$. 对所有可测 $E$ 代入 $h=\ind_E$, 得 $\nu(E)=\int_E g\dd\lambda$, 以及 $\mu(E)=\int_E(1-g)\dd\lambda$.
+
+正测度不能在某个集合上得到负积分. 对集合 $\{g\le-1/n\}$ 和 $\{g\ge1+1/n\}$ 分别使用上述两个等式, 得这些集合的 $\lambda$ 测度为零. 改变一个零集上的取值后, 可令 $0\le g\le1$ 处处成立. 令 $S=\{g=1\}$. 则 $\mu(S)=0$, 又因 $\nu\ll\mu$, 有 $\nu(S)=0$, 所以 $\lambda(S)=0$. 在 $X\setminus S$ 上令 $f=g/(1-g)$, 在 $S$ 上令 $f=0$.
+
+对任意非负可测 $u$, 从指示函数的等式、简单函数线性和单调逼近依次推出
+\[
+ \int u\dd\mu=\int u(1-g)\dd\lambda,
+ \qquad
+ \int u\dd\nu=\int ug\dd\lambda.
+\]
+取 $u=f\ind_E$ 并注意 $S$ 为 $\lambda$ 零集, 就得到 $\int_E f\dd\mu=\int_E g\dd\lambda=\nu(E)$. 有限情形成立.
+
+一般情形中, 分别用递增的有限测度集合覆盖 $X$, 再取两列集合的逐项交, 得到递增 $X_n\uparrow X$ 且 $\mu(X_n),\nu(X_n)<\infty$. 令 $D_1=X_1$, $D_n=X_n\setminus X_{n-1}$. 对每个 $D_n$ 上的限制测度应用有限情形, 得到有限的非负可测密度 $f_n$. 在两两不交的 $D_n$ 上拼接 $f=f_n$. 对任意 $E$, 可列可加性和非负积分的可列可加性给出 $\nu(E)=\sum_n\nu(E\cap D_n)=\int_Ef\dd\mu$.
+
+最后证明唯一性. 若 $f,h$ 都是密度, 在任何同时使两测度有限的 $X_k$ 上, 集合 $A_{k,n}=X_k\cap\{f\ge h+1/n\}$ 满足
+$\int_{A_{k,n}}f\dd\mu=\int_{A_{k,n}}h\dd\mu<\infty$. 由 $\int_{A_{k,n}}f\dd\mu\ge\int_{A_{k,n}}h\dd\mu+\mu(A_{k,n})/n$, 得 $\mu(A_{k,n})=0$. 对 $k,n$ 取可数并得 $\mu(\{f>h\})=0$; 交换 $f,h$ 得另一方向. 这里有限性的局部化防止从两个无穷积分相等错误地相减.
+\end{proof}
+
+\begin{proposition}\label{ra:c9:density-int}
+若 $\nu=f\mu$ 表示上面的密度关系, 则对非负可测 $u$ 有 $\int u\dd\nu=\int uf\dd\mu$. 对实或复函数 $u$, 可积性等价于 $\int |u|f\dd\mu<\infty$, 此时同一等式成立.
+\end{proposition}
+\begin{proof}
+指示函数情形就是密度定义. 简单函数情形由线性性成立. 对非负可测函数取递增简单函数逼近, 两边分别使用单调收敛定理. 对可积实函数分正负部, 对复函数分实虚部即可.
+\end{proof}
+
+\begin{example}
+令 $\mu$ 为 $[0,1]$ 上的 Lebesgue 测度. 将 $\nu(E)=\int_E2x\dd x$ 与 $\rho=\nu+\delta_{1/2}$ 相比较.
+\end{example}
+\begin{solution}
+$\nu\ll\mu$, 其密度为 $2x$. 测度 $\rho$ 在单点 $\{1/2\}$ 上的质量为1, 所以 $\rho$ 不对 $\mu$ 绝对连续, 不能写成一个相对于 $\mu$ 的函数密度. 相对于 $\lambda=\mu+\delta_{1/2}$, 它却有密度: 除 $1/2$ 外取 $2x$, 在 $1/2$ 取1. 这说明密度必须说明相对于哪一个参照测度.
+\end{solution}
+
+\originalsection{Lebesgue 分解}
+上面的证明同时找出了障碍所在: $g=1$ 的集合对 $\mu$ 为零, 但没有绝对连续假设时, $\nu$ 可以在这里携带质量.
+
+\begin{theorem}[Lebesgue 分解]\label{ra:c9:decomposition}
+设 $\mu,\nu$ 为 $\sigma$ 有限正测度. 存在唯一的正测度分解 $\nu=\nu_a+\nu_s$, 其中 $\nu_a\ll\mu$, $\nu_s\perp\mu$. 绝对连续部分具有密度 $\nu_a=f\mu$.
+\end{theorem}
+\begin{proof}
+先设两测度有限. 与上一定理相同, 以 $\lambda=\mu+\nu$ 得到 $0\le g\le1$ 和 $\nu=g\lambda$, $\mu=(1-g)\lambda$. 取 $S=\{g=1\}$, 并定义 $\nu_s(E)=\nu(E\cap S)$, $\nu_a(E)=\nu(E\setminus S)$. 因 $\mu(S)=0$, 有 $\nu_s\perp\mu$. 令 $f=g/(1-g)$ 于 $X\setminus S$, 于 $S$ 上取0. 上节的积分计算给出 $\nu_a(E)=\int_Ef\dd\mu$, 故 $\nu_a\ll\mu$.
+
+对 $\sigma$ 有限情形使用上节的两两不交有限块 $D_n$. 在各块构造分解, 把密度拼接, 把奇异支承零集取可数并 $S=\bigcup_nS_n$. 可列可加性给出 $\nu_a,\nu_s$, 且 $\mu(S)=0$, $\nu_s(X\setminus S)=0$.
+
+为证唯一性, 设另有 $\nu=\widetilde\nu_a+\widetilde\nu_s$, 且两奇异部分分别集中于 $\mu$ 零集 $S,\widetilde S$. 令 $Z=S\cup\widetilde S$. 两个绝对连续部分在 $Z$ 上均为零, 两个奇异部分在 $X\setminus Z$ 上均为零. 因而对任意 $E$, 两绝对连续部分都等于 $\nu(E\setminus Z)$, 两奇异部分都等于 $\nu(E\cap Z)$. 不需对无穷总质量相减.
+\end{proof}
+
+\begin{remark}
+密度 $f$ 的存在并不表示奇异部分一定由原子组成. Cantor 集上存在没有原子的奇异概率测度. 本册已讨论 Cantor 零集与 Cantor 函数; 这里的分解解释了为什么某些单调函数能几乎处处导数为零而仍有总增长.
+\end{remark}
+
+\originalsection{绝对连续函数}
+\noindent 本节补齐原第22讲只陈述的绝对连续逆向积分定理. 绝对连续和积分函数几乎处处求导已在第8章讨论; 此处用测度密度证明相反方向, 不把几乎处处存在导数误当作充分条件.
+
+\begin{lemma}\label{ra:c9:variation}
+设实函数 $F$ 在 $[a,b]$ 上绝对连续. 则它具有有限全变差, 函数 $V(x)=\operatorname{Var}(F;[a,x])$ 也绝对连续且递增. 因而 $F-F(a)$ 可以写成两个递增绝对连续函数之差.
+\end{lemma}
+\begin{proof}
+全变差是所有有限分划 $a=t_0<\cdots<t_k=x$ 的和 $\sum_j|F(t_j)-F(t_{j-1})|$ 的上确界. 在绝对连续定义中取允许的总振幅为1, 并取得 $\delta>0$. 把 $[a,b]$ 分为有限个长度小于 $\delta$ 的固定区间. 任意分划与这些固定端点一起加细后, 每个固定区间内的振幅和小于1, 所以全区间变差受固定区间个数控制. 有限全变差因此成立.
+
+在任意 $a\le s<t\le b$ 处插入分划端点, 并从两侧选择任意接近上确界的分划, 得到变差的可加性, 即 $V(t)-V(s)=\operatorname{Var}(F;[s,t])$. 给定 $\eps>0$, 在 $F$ 的绝对连续定义中选择振幅阈值 $\eps/2$ 对应的 $\delta$. 对有限个互不相交区间 $(s_i,t_i)$, 若总长度小于 $\delta$, 则各区间内任何有限分划的所有小区间仍互不相交且总长度不变. 因而其总振幅小于 $\eps/2$. 逐个取分划上确界得 $\sum_i(V(t_i)-V(s_i))\le\eps/2<\eps$. 这正是 $V$ 的绝对连续性.
+
+令 $P=(V+F-F(a))/2$, $Q=(V-F+F(a))/2$. 因 $V(t)-V(s)\ge|F(t)-F(s)|$, $P,Q$ 递增. 它们是绝对连续函数的线性组合, 因而绝对连续, 且 $F-F(a)=P-Q$.
+\end{proof}
+
+\begin{lemma}\label{ra:c9:stieltjes}
+若 $G$ 在 $[a,b]$ 上递增且绝对连续, 则存在有限 Borel 测度 $\nu_G$, 满足 $\nu_G((s,t])=G(t)-G(s)$, 且 $\nu_G\ll m$, 其中 $m$ 为 $[a,b]$ 上的 Lebesgue 测度.
+\end{lemma}
+\begin{proof}
+下面直接把 Lebesgue 测度推到 $[a,b]$, 不调用未证的测度延拓定理. 在 $J=(G(a),G(b)]$ 上定义
+$\phi(u)=\min\{x\in[a,b]:G(x)\ge u\}$. 连续性和紧性保证最小值存在. $\phi$ 递增, 所以是 Borel 可测的. 对 Borel 集 $E\subset[a,b]$, 令 $\nu_G(E)=m_1(\phi^{-1}(E))$, 其中 $m_1$ 是实轴 Lebesgue 测度. 逆像保互不相交并, 故这确为有限测度. 若 $G(a)=G(b)$, 取零测度即可.
+
+对 $x\in[a,b]$, 连续性保证 $\phi(u)\le x$ 当且仅当 $u\le G(x)$, 因而 $\nu_G([a,x])=G(x)-G(a)$. 相减得到区间公式. 同一公式和 $G$ 连续性还说明所有单点测度为零.
+
+设 Borel 集 $E$ 满足 $m(E)=0$. 对给定 $\eps>0$, 取 $G$ 的绝对连续阈值 $\delta$. 用总长度小于 $\delta$ 的开集覆盖 $E$, 并把开集与 $[a,b]$ 的交写成至多可数个不交区间. 端点不产生 $\nu_G$ 质量, 每个区间的质量为 $G$ 的端点增量. 绝对连续性使任意有限个这样的增量之和小于 $\eps$, 可列可加性给出 $\nu_G(E)\le\eps$. 令 $\eps\downarrow0$, 得 $\nu_G(E)=0$. 对 Lebesgue 可测集, 利用 Borel 测度的完备化扩展 $\nu_G$; 因它对 $m$ 的 Borel 零集绝对连续, 扩展与代表选择无关. 严格地说, 先在 $\nu_G$ 的完备化上定义扩展, 再限制到 Lebesgue $\sigma$-代数; 两种测度各自的完整 $\sigma$-代数不必相同.
+\end{proof}
+
+\begin{theorem}[Lebesgue 积分的微积分基本定理]\label{ra:c9:ac-ftc}
+对 $[a,b]$ 上的实或复函数 $F$, 下列条件等价: $F$ 绝对连续; 存在 $f\in L^1([a,b])$ 使 $F(x)=F(a)+\int_a^x f(t)\dd t$ 对所有 $x$ 成立. 此时 $F'$ 几乎处处存在, 属于 $L^1$, 且 $F'=f$ 几乎处处. 特别地, $F(x)-F(a)=\int_a^xF'(t)\dd t$.
+\end{theorem}
+\begin{proof}
+若存在积分表示, 对有限个互不相交区间有
+$\sum_i|F(t_i)-F(s_i)|\le\int_{\bigcup_i(s_i,t_i)}|f|\dd m$. 可积函数积分对集合测度的绝对连续性给出 $F$ 绝对连续. 第8章的微分定理给出 $F'=f$ 几乎处处.
+
+反之, 先设 $F$ 实值且绝对连续. 由引理\ref{ra:c9:variation}, 写 $F-F(a)=P-Q$, 其中 $P,Q$ 递增且绝对连续, 且 $P(a)=Q(a)=0$. 对其区间增量使用引理\ref{ra:c9:stieltjes}, 得有限测度 $\nu_P,\nu_Q\ll m$. Radon--Nikodym 定理给出非负 $p,q\in L^1(m)$, 使 $\nu_P=p\,m$, $\nu_Q=q\,m$. 于是 $P(x)=\int_a^xp\dd m$, $Q(x)=\int_a^xq\dd m$, 所以取 $f=p-q$ 就得到积分表示. 已证方向说明 $F'=f$ 几乎处处, 从而导数可积. 复值情形分别对实部、虚部应用上述证明, 再合并两个可积密度.
+\end{proof}
+
+\begin{theorem}\label{ra:c9:everywhere-ftc}
+设 $F:[a,b]\to\R$ 连续, 在 $(a,b)$ 每一点都可导, 且 $F'\in L^1((a,b))$. 则 $F$ 绝对连续, 并且 $F(x)-F(a)=\int_a^x F'(t)\dd t$ 对所有 $x\in[a,b]$ 成立. 复值函数对实虚部分别应用此结论.
+\end{theorem}
+\begin{proof}
+\textbf{编者补充原第22讲的另一充分条件.} 证明利用第4章的半连续积分逼近; 处处可导的条件将在每一点的单侧差商中使用, 不能改成仅几乎处处可导.
+
+先说明一个实分析事实. 若连续函数 $P$ 在一个区间的每个内点满足
+$D^+P(x):=\limsup_{h\downarrow0}(P(x+h)-P(x))/h\le0$, 则 $P$ 非增. 若存在内点 $s<t$ 使 $P(t)>P(s)$, 选 $0<c<(P(t)-P(s))/(t-s)$. 连续函数 $Q(x)=P(x)-cx$ 在 $[s,t]$ 上取得最小值, 且因 $Q(t)>Q(s)$, 可在某个 $x_0<t$ 取得最小值. 所有足够小的正 $h$ 满足 $Q(x_0+h)\ge Q(x_0)$, 故 $D^+Q(x_0)\ge0$. 但 $D^+Q=D^+P-c<0$, 矛盾. 向端点取连续极限后, 全区间上的非增性也成立.
+
+记 $h=F'$, 在端点赋值0. 导数是连续函数差商的点态极限, 所以 $h$ 可测. 对任意 $\eps>0$, Vitali--Carath\'eodory 定理提供下半连续 $v\ge h$ 处处, 且 $\int_a^b(v-h)\dd t<\eps$. 由于 $h\in L^1$ 而 $v-h$ 非负可积, $v\in L^1$, 虽然个别点允许 $v=+\infty$. 令 $G(x)=\int_a^xv(t)\dd t$. 它连续.
+
+对任意内点 $x$, 下半连续性给出
+\[
+ \liminf_{r\downarrow0}\frac{G(x+r)-G(x)}r\ge v(x).
+\]
+确实, 若 $v(x)$ 有限, 对任何 $\eta>0$, 邻域内 $v(t)>v(x)-\eta$, 积分后再令 $\eta\downarrow0$. 若 $v(x)=+\infty$, 对任意有限 $M$ 使用同一论证, 得左边为 $+\infty$. 因 $F$ 在该点有有限导数, $P=F-G$ 满足 $D^+P(x)\le h(x)-v(x)\le0$. 前面的事实说明 $P$ 非增. 因而对 $a\le s<t\le b$,
+\[
+ F(t)-F(s)\le\int_s^tv\dd x
+ \le\int_s^th\dd x+\eps.
+\]
+对 $-F$ 和导数 $-h$ 应用相同构造, 得反向不等式, 误差仍可任意小. 令 $\eps\downarrow0$, 得 $F(t)-F(s)=\int_s^th\dd x$. 积分表示以及定理\ref{ra:c9:ac-ftc}的已证方向给出绝对连续性.
+\end{proof}
+
+仅连续且几乎处处可导不足以保证这个公式. Cantor 函数连续递增, 几乎处处导数为零, 但端点总增量为1; 它不绝对连续. 本节的测度分解说明, 正是不能由 Lebesgue 密度表示的奇异增长阻止了从导数恢复函数.
+
+\originalsection{练习与衔接}
+\begin{exercise}
+设 $\nu\ll\mu$, $\rho\ll\nu$, 且三者为 $\sigma$ 有限正测度. 写出 $\rho$ 相对于 $\mu$ 的密度, 并核对可能出现零密度的集合.
+\end{exercise}
+\begin{solution}
+取非负且几乎处处有限的 $f=\dd\nu/\dd\mu$ 和 $g=\dd\rho/\dd\nu$. 因 $g$ 只在 $\nu$ 几乎处处意义下确定, 先在 $\{f=0\}$ 上令 $g=0$, 再在其余 $\nu$ 零集上取有限代表; 这不会改变积分. 由命题\ref{ra:c9:density-int}, 对每个 $E$ 有 $\rho(E)=\int_Eg\dd\nu=\int_Egf\dd\mu$. 因而 $\dd\rho/\dd\mu=gf$ 几乎处处. 如不作代表的调整, 则约定乘积在 $f=0$ 处为零; 这正是非负积分中 $0\cdot\infty=0$ 的约定.
+\end{solution}
+
+\begin{exercise}
+说明测度的 $\sigma$ 有限条件不能无条件删除: 在不可数集合 $X=[0,1]$ 的 Lebesgue 可测集上, 取 $\mu$ 为计数测度, $\nu$ 为 Lebesgue 测度.
+\end{exercise}
+\begin{solution}
+计数测度的零集只有空集, 所以 $\nu\ll\mu$. 如果存在非负密度 $f$, 单点等式会给 $f(x)=\nu(\{x\})=0$ 对每个 $x$ 成立. 于是 $f$ 恒为零, 从而 $\int_X f\dd\mu=0$, 与 $\nu(X)=1$ 矛盾. 这里 $\mu$ 不是 $\sigma$ 有限: 每个有限计数测度集合有限, 可数个有限集不能覆盖不可数的 $X$.
+\end{solution}
+
+\begin{exercise}
+设 $\nu=f\mu$ 且 $\nu(X)<\infty$. 直接用 $f$ 证明命题\ref{ra:c9:uniform-ac}, 并说明有限质量的用途.
+\end{exercise}
+\begin{solution}
+因 $f\in L^1(\mu)$, 可选 $M>0$ 使 $\int_{\{f>M\}}f\dd\mu<\eps/2$. 若 $\mu(E)<\eps/(2M)$, 则
+\[
+ \nu(E)\le\int_{E\cap\{f\le M\}}f\dd\mu
+       +\int_{\{f>M\}}f\dd\mu
+ <M\mu(E)+\eps/2<\eps.
+\]
+有限质量保证截尾积分趋于零. 没有它时, 零集绝对连续并不自动给出对全部可测集统一的小测度控制.
+\end{solution}
+
+前文的 Hölder 不等式说明, 若 $1<p<\infty$, $q=p/(p-1)$, 每个 $g\in L^q(\mu)$ 都定义 $L^p$ 上的有界线性泛函 $T_g(f)=\int fg\dd\mu$. 本章说明了从测度恢复积分密度的机制. 从一般有界泛函构造测度、处理复数共轭约定并证明对偶空间的等距同构, 属于泛函册的衔接内容; 这里不把尚未建立的完整 $L^p$ 对偶定理当作已证结果.

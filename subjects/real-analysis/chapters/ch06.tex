@@ -1,0 +1,218 @@
+\originalchapter{乘积测度与 Fubini 定理}
+\label{ra:c6}
+\sourcelecture{18--19}
+
+\originalsection{截面与欧氏空间中的积分}
+
+把 $\R^n$ 写成 $\R^\ell\times\R^m$, 其中 $n=\ell+m$. 多重积分的一个基本问题是: 能否先固定 $y$, 对 $x$ 积分, 再对 $y$ 积分? 对连续函数和有界矩形, 这已经熟悉; 对一般可测函数, 必须先解决截面的可测性, 再解决两个积分能否交换.
+
+\begin{definition}[截面]
+若 $E\subset\R^\ell\times\R^m$, 定义 $E_y=\{x:(x,y)\in E\}$ 和 $E^x=\{y:(x,y)\in E\}$. 对函数 $f(x,y)$, 记 $f_y(x)=f(x,y)$, $f^x(y)=f(x,y)$. 这些分别是集合和函数的截面.
+\end{definition}
+
+这里的 Lebesgue 可测性包含零测集的任意子集. 正是这一点使得截面不能对每个参数都保持可测.
+
+\begin{example}
+取不可测集 $V\subset\R^\ell$ 和一点 $y_0\in\R^m$, 令 $E=V\times\{y_0\}$. 集合 $\R^\ell\times\{y_0\}$ 是零测集, 因而 $E$ 是 Lebesgue 可测的零测集. 当 $y\ne y_0$ 时 $E_y=\varnothing$, 但 $E_{y_0}=V$ 不可测.
+\end{example}
+
+零测超平面的断言可先在有界块上验证: $[-k,k]^\ell\times\{y_0\}$ 能放在体积任意小的矩形中, 再取可数并. 因此下面的结论只能要求截面在几乎处处的参数处可测.
+
+\begin{lemma}[集合的截面积公式]\label{ra:c6:cavalieri}
+若 $E\subset\R^{\ell+m}$ Lebesgue 可测, 则 $E_y$ 对几乎处处的 $y$ Lebesgue 可测. 在例外零测集上任意赋值后, $y\mapsto\lambda_\ell(E_y)$ 是 Lebesgue 可测函数, 且
+\[
+ \lambda_{\ell+m}(E)=\int_{\R^m}\lambda_\ell(E_y)\,\dd y.
+\]
+两边可以同时为 $+\infty$.
+\end{lemma}
+\begin{proof}
+保留原讲义由规则集合逐步逼近一般集合的路线. 在下面各步中, 不仅证明积分等式, 也同时证明截面积函数可测.
+
+若 $J=J_1\times J_2$ 是半开矩形, 则 $\lambda_\ell(J_y)=\lambda_\ell(J_1)\ind_{J_2}(y)$, 积分等于 $\lambda_{\ell+m}(J)$. 开集 $G$ 可以分解为可数个两两不交的半开矩形 $J_k$. 截面也两两不交, 所以 $\lambda_\ell(G_y)=\sum_k\lambda_\ell((J_k)_y)$; 单调收敛定理给出积分等式.
+
+若 $K$ 紧, 取有界开集 $G\supset K$. 对每个 $y$, $K_y$ 紧, 且 $\lambda_\ell(K_y)=\lambda_\ell(G_y)-\lambda_\ell((G\setminus K)_y)$. 两个被减函数可测; 它们的积分都有限, 因而相减得到 $\int\lambda_\ell(K_y)\,\dd y=\lambda_{\ell+m}(K)$.
+
+若 $K_j$ 递增且每个 $K_j$ 紧, 令 $B=\bigcup_jK_j$. 截面递增, 所以 $\lambda_\ell(B_y)=\lim_j\lambda_\ell((K_j)_y)$. 再用单调收敛, 公式对 $B$ 成立. 若 $G_j$ 是递减的有界开集, 令 $C=\bigcap_jG_j$, 并取紧矩形 $Q\supset G_1$. 集合 $Q\setminus C=\bigcup_j(Q\setminus G_j)$ 是递增紧集之并. 用刚才的结论, 再从 $Q$ 的截面积和体积中相减, 公式对 $C$ 成立.
+
+现在设 $E$ 有界且可测. 测度的正则性允许选择递增紧集 $K_j$ 和递减有界开集 $G_j$, 使 $K_j\subset E\subset G_j$, 且 $\lambda(K_j)\uparrow\lambda(E)$, $\lambda(G_j)\downarrow\lambda(E)$. 记 $B=\bigcup_jK_j$, $C=\bigcap_jG_j$. 则 $B\subset E\subset C$, $\lambda(B)=\lambda(C)=\lambda(E)$. 前两步给出
+\[
+ \int_{\R^m}\bigl(\lambda_\ell(C_y)-\lambda_\ell(B_y)\bigr)\,\dd y=0.
+\]
+被积函数非负, 所以 $\lambda_\ell(C_y\setminus B_y)=0$ 对几乎处处的 $y$ 成立. 对这些 $y$, $B_y\subset E_y\subset C_y$, 由 Lebesgue 测度的完备性, $E_y$ 可测且 $\lambda_\ell(E_y)=\lambda_\ell(B_y)$. 这既给出可测性, 也给出所求等式.
+
+最后对一般 $E$ 使用 $E\cap[-j,j]^n$. 这些集合递增到 $E$. 去掉每一步的例外零测集的可数并后, 所有截面同时可测并递增到 $E_y$. 单调收敛把公式传到 $E$.
+\end{proof}
+
+\begin{theorem}[Tonelli 定理, Lebesgue 版本]\label{ra:c6:tonelli-euclid}
+设 $f:\R^\ell\times\R^m\to[0,\infty]$ Lebesgue 可测. 则 $f_y$ 对几乎处处的 $y$ 可测, $F(y)=\int_{\R^\ell}f_y(x)\,\dd x$ 在例外集上任意延拓后可测, 并且
+\[
+ \int_{\R^{\ell+m}}f(x,y)\,\dd(x,y)
+ =\int_{\R^m}\left(\int_{\R^\ell}f(x,y)\,\dd x\right)\dd y.
+\]
+交换 $x,y$ 后同样成立. 各积分允许等于 $+\infty$.
+\end{theorem}
+\begin{proof}
+对 $f=\ind_E$, 结论就是引理 \ref{ra:c6:cavalieri}. 由有限线性组合, 结论对非负简单函数成立. 选择非负简单函数 $s_j\uparrow f$. 去掉所有 $s_j$ 的截面例外集后, 对其余的 $y$, $(s_j)_y\uparrow f_y$, 因而 $f_y$ 可测, 且
+$F(y)=\lim_j\int(s_j)_y\,\dd x$. 此极限递增, 所以 $F$ 可测. 对内层积分和外层积分分别用单调收敛, 得到 $\int F=\lim_j\int s_j=\int f$. 对另一种顺序重复同样论证.
+\end{proof}
+
+\begin{theorem}[Fubini 定理, Lebesgue 版本]\label{ra:c6:fubini-euclid}
+若 $f\in L^1(\R^{\ell+m})$, 则 $f_y\in L^1(\R^\ell)$ 对几乎处处的 $y$ 成立. 函数 $F(y)=\int f_y\,\dd x$ 属于 $L^1(\R^m)$, 且 $\int F\,\dd y=\int f\,\dd(x,y)$. 两个积分顺序可以交换.
+\end{theorem}
+\begin{proof}
+先对 $|f|$ 用 Tonelli 定理. 因为 $\int|f|<\infty$, 函数 $A(y)=\int|f_y|\,\dd x$ 几乎处处有限, 且 $\int A<\infty$. 所以截面几乎处处绝对可积. 若 $f$ 实值, 对 $f^+,f^-$ 用 Tonelli 后相减; 两者的积分有限, 不会出现 $\infty-\infty$. 又有 $|F(y)|\le A(y)$, 故 $F\in L^1$. 对复值函数分别处理实部和虚部.
+\end{proof}
+
+实际计算时, 非负性和绝对可积性承担不同作用. 对非负函数可先交换次序来判定积分是否有限; 对有正负变化的函数, 通常先用 $|f|$ 建立有限性, 再交换 $f$ 的积分.
+
+\begin{example}
+原讲 18 的积分计算: 在 $E=(0,\infty)\times(0,1)$ 上令 $f(x,y)=y\sin x\,e^{-xy}$. 先计算 $\int_Ef$, 再求一个一元反常积分.
+\end{example}
+\begin{solution}
+因为 $|f(x,y)|\le ye^{-xy}$, Tonelli 定理给出
+$\int_E|f|\le\int_0^1(\int_0^\infty ye^{-xy}\,\dd x)\dd y=1$.
+因此可用 Fubini. 对固定的 $y>0$, 两次分部积分, 或对 $\int_0^\infty e^{(-y+i)x}\,\dd x$ 取虚部, 得到 $\int_0^\infty e^{-yx}\sin x\,\dd x=(1+y^2)^{-1}$. 故
+$\int_Ef=\int_0^1y(1+y^2)^{-1}\,\dd y=\tfrac12\log2$.
+
+另一方面, 对 $x>0$ 分部积分给出
+$\int_0^1ye^{-xy}\,\dd y=(1-e^{-x})/x^2-e^{-x}/x$.
+于是同一个积分等于
+\[
+ \int_0^\infty\frac{\sin x}{x}
+ \left(\frac{1-e^{-x}}{x}-e^{-x}\right)\dd x
+ =\frac12\log2.
+\]
+这里并非仅因两个一元积分各自存在就交换次序; 交换的依据是前面的绝对可积估计.
+\end{solution}
+
+\begin{example}\label{ra:c6:conditional}
+作为编者补充, 在 $(0,1)^2$ 上令 $f(x,y)=(x^2-y^2)/(x^2+y^2)^2$. 两个迭代积分分别为 $\pi/4$ 和 $-\pi/4$, 而 $f\notin L^1((0,1)^2)$.
+\end{example}
+\begin{solution}
+对固定 $x>0$, 有 $\partial_y[y/(x^2+y^2)]=f(x,y)$, 所以 $\int_0^1f(x,y)\,\dd y=(1+x^2)^{-1}$. 对固定 $y>0$, 有 $\partial_x[-x/(x^2+y^2)]=f(x,y)$, 所以 $\int_0^1f(x,y)\,\dd x=-(1+y^2)^{-1}$. 再积分即得所述数值.
+
+为核实绝对不可积, 考虑 $0<x<1$, $0<y<x/2$. 此处 $x^2-y^2\ge3x^2/4$, $(x^2+y^2)^2\le25x^4/16$, 所以 $|f|\ge12/(25x^2)$. 于是
+$\int_0^1\int_0^{x/2}|f|\,\dd y\,\dd x\ge(6/25)\int_0^1\dd x/x=\infty$.
+\end{solution}
+
+\originalsection{一般乘积空间}
+
+对抽象空间, 没有开集、紧集可供逼近. 但可测矩形足以生成所需的 $\sigma$-代数. 为把矩形上的等式传到所有可测集, 先补充一个集合论工具.
+
+\begin{lemma}[$\pi$-$\lambda$ 引理, 编者补充]\label{ra:c6:pi-lambda}
+设 $\mathcal P$ 含全集并对有限交封闭. 若集合族 $\mathcal D$ 含全集, 对补集和可数不交并封闭, 且 $\mathcal P\subset\mathcal D$, 则 $\sigma(\mathcal P)\subset\mathcal D$.
+\end{lemma}
+\begin{proof}
+把含 $\mathcal P$ 的最小此类集合族记为 $\mathcal D_0$. 这种集合族称为 Dynkin 族. 若 $A\subset B$ 且 $A,B\in\mathcal D_0$, 则 $B\setminus A=(A\cup B^c)^c\in\mathcal D_0$.
+
+对固定的 $A\in\mathcal P$, 集合族 $\{B:A\cap B\in\mathcal D_0\}$ 是 Dynkin 族: 补集步骤使用 $A\setminus(A\cap B)$, 不交并步骤使用交对并的分配律. 它含 $\mathcal P$, 故含 $\mathcal D_0$. 因此 $A\cap B\in\mathcal D_0$ 对 $A\in\mathcal P$, $B\in\mathcal D_0$ 成立. 再固定 $B\in\mathcal D_0$, 同样考虑 $\{A:A\cap B\in\mathcal D_0\}$, 得到 $\mathcal D_0$ 对有限交封闭. 对任意可数并, 可通过依次减去前面的集合改写成不交并; 所以 $\mathcal D_0$ 是 $\sigma$-代数. 它含 $\mathcal P$, 从而含 $\sigma(\mathcal P)$.
+\end{proof}
+
+\begin{definition}[乘积 $\sigma$-代数]
+给定测度空间 $(X,\mathcal M,\mu)$ 和 $(Y,\mathcal N,\nu)$, 记
+$\mathcal M\otimes\mathcal N=\sigma\{A\times B:A\in\mathcal M,\ B\in\mathcal N\}$.
+其生成元称为可测矩形. 测度空间称为 $\sigma$-有限, 是指全集能写成可数个有限测度的可测集之并.
+\end{definition}
+
+\begin{proposition}\label{ra:c6:sections}
+若 $E\in\mathcal M\otimes\mathcal N$, 则 $E_y\in\mathcal M$ 对每个 $y$ 成立, $E^x\in\mathcal N$ 对每个 $x$ 成立. 若 $f$ 对乘积 $\sigma$-代数可测, 则每个函数截面也可测.
+\end{proposition}
+\begin{proof}
+使所有 $E_y$ 可测的集合 $E$ 组成一个 $\sigma$-代数, 因为截面运算与补集、可数并相容; 可测矩形属于它, 所以它含 $\mathcal M\otimes\mathcal N$. 对另一种截面同理. 对函数, 对开集 $U$ 使用 $(f^{-1}(U))_y=f_y^{-1}(U)$ 即可.
+\end{proof}
+
+\begin{theorem}[乘积测度的构造]\label{ra:c6:product}
+若 $\mu,\nu$ 都 $\sigma$-有限, 则对每个 $E\in\mathcal M\otimes\mathcal N$, 函数 $y\mapsto\mu(E_y)$ 和 $x\mapsto\nu(E^x)$ 都可测, 且
+\[
+ (\mu\times\nu)(E):=\int_Y\mu(E_y)\,\dd\nu(y)
+ =\int_X\nu(E^x)\,\dd\mu(x).
+\]
+此式定义 $\mathcal M\otimes\mathcal N$ 上的测度, 并且它是满足
+$(\mu\times\nu)(A\times B)=\mu(A)\nu(B)$ 的唯一测度. 这里约定 $0\cdot\infty=0$.
+\end{theorem}
+\begin{proof}
+先设 $\mu(X),\nu(Y)<\infty$. 令 $\mathcal D$ 为同时满足两种截面积函数可测及两种积分相等的集合族. 可测矩形在 $\mathcal D$ 中. 全集在其中; 对补集, 使用 $\mu((E^c)_y)=\mu(X)-\mu(E_y)$ 和对应的 $\nu$ 公式, 两边均只作有限量的相减; 对可数不交并, 截面仍不交, 用可数可加性及单调收敛. 所以 $\mathcal D$ 是 Dynkin 族. 由引理 \ref{ra:c6:pi-lambda}, $\mathcal D$ 包含整个乘积 $\sigma$-代数.
+
+一般情形下, 把 $X$ 和 $Y$ 分别分成可数个两两不交的有限测度集 $X_i,Y_j$. 对 $E\cap(X_i\times Y_j)$ 在有限空间 $X_i\times Y_j$ 上使用刚才的结论. 例如
+$\mu(E_y)=\sum_i\mu((E\cap(X_i\times Y_j))_y)$ 当 $y\in Y_j$.
+因此完整的截面积函数由可数和及沿 $Y_j$ 的拼接得到, 仍可测. 积分的可数可加性把每个有限块上的两种等式相加, 给出全空间上的等式.
+
+定义的 $(\mu\times\nu)(E)$ 非负且空集的测度为零. 若 $E_k$ 两两不交, 每个截面也两两不交, 因而
+$\mu((\bigcup_kE_k)_y)=\sum_k\mu((E_k)_y)$; 单调收敛证明乘积测度可数可加. 矩形公式直接从 $\mu((A\times B)_y)=\mu(A)\ind_B(y)$ 得到.
+
+若另一测度 $\eta$ 也满足矩形公式, 在有限块 $X_i\times Y_j$ 上, $\eta$ 和 $\mu\times\nu$ 都有限. 两个有限测度相等的集合构成 Dynkin 族, 因为总测度相等并可从补集中相减; 它含该块中的可测矩形, 故由引理包含该块的全部乘积可测集. 各块再相加, 得 $\eta=\mu\times\nu$.
+\end{proof}
+
+\begin{theorem}[抽象 Tonelli 与 Fubini 定理]\label{ra:c6:abstract}
+设 $\mu,\nu$ 都 $\sigma$-有限, 且 $f$ 对 $\mathcal M\otimes\mathcal N$ 可测.
+若 $0\le f\le\infty$, 两个截面积分函数都可测, 并有
+\[
+ \int_{X\times Y}f\,\dd(\mu\times\nu)
+ =\int_Y\left(\int_Xf(x,y)\,\dd\mu(x)\right)\dd\nu(y)
+ =\int_X\left(\int_Yf(x,y)\,\dd\nu(y)\right)\dd\mu(x).
+\]
+若 $f$ 为复值且 $\int|f|\,\dd(\mu\times\nu)<\infty$, 则截面几乎处处属于相应的 $L^1$, 截面积分函数属于 $L^1$, 同样的等式成立.
+\end{theorem}
+\begin{proof}
+指示函数的结论由定理 \ref{ra:c6:product} 得到. 对非负简单函数作有限线性组合, 再用非负简单函数递增逼近和两次单调收敛, 得到非负函数的结论. 可积情形先对 $|f|$ 用前一部分得到截面的绝对可积性, 再对实部、虚部的正负部分相减, 与定理 \ref{ra:c6:fubini-euclid} 的证明相同.
+\end{proof}
+
+\begin{example}
+作为编者补充, 检查 $\sigma$-有限性的作用. 在 $X=Y=[0,1]$ 上, $X$ 取 Lebesgue 测度 $\mu$, $Y$ 取计数测度 $\nu$. 对角线 $D=\{(x,y):x=y\}$ 是乘积可测集, 但
+$\int_X\nu(D^x)\,\dd\mu(x)=1$, 而 $\int_Y\mu(D_y)\,\dd\nu(y)=0$.
+\end{example}
+\begin{solution}
+对角线是闭集, 而方形的开集是可数个开矩形之并, 所以 $D$ 乘积可测. 每个截面是单点: 其计数测度为 $1$, Lebesgue 测度为 $0$, 两个积分便得到上述值. 这里 $\nu$ 不 $\sigma$-有限, 因为有限计数测度的集合只能是有限集, 可数个有限集不能覆盖 $[0,1]$. 因此这个例子没有违反前述定理.
+\end{solution}
+
+\originalsection{完备化及 Lebesgue 乘积}
+
+\begin{proposition}[完备乘积上的截面]\label{ra:c6:completion}
+设两个因子空间完备且 $\sigma$-有限, 并把乘积测度空间完备化. 对完备化可测的非负函数或可积函数, 抽象 Tonelli 或 Fubini 仍成立, 但截面的可测性改为对几乎处处的参数成立.
+\end{proposition}
+\begin{proof}
+完备化可测集与一个乘积可测集的对称差包含在乘积可测零测集内. 对函数的简单函数逼近逐项使用此事实, 并把例外零测集取可数并, 可得乘积可测函数 $g$ 及乘积可测零测集 $N$, 使 $f=g$ 于 $N^c$. 例如先对非负 $f$ 的递增简单逼近选代表, 再在 $N^c$ 上取极限, 在 $N$ 上置零; 实部、虚部分别处理即可.
+
+由 Tonelli, $\int_Y\mu(N_y)\,\dd\nu(y)=0$, 所以 $\mu(N_y)=0$ 对几乎处处的 $y$ 成立. 因子 $\mu$ 完备, 保证 $f_y$ 在这些参数处的零测修改仍可测, 且积分与 $g_y$ 相等. 另一种截面同理. 全空间积分也不受零测修改影响, 因而把 $g$ 的公式传给 $f$.
+\end{proof}
+
+\begin{theorem}\label{ra:c6:lebesgue-product}
+若 $\mathcal L^\ell,\mathcal L^m,\mathcal L^{\ell+m}$ 分别是对应欧氏空间的 Lebesgue $\sigma$-代数, 则 $\mathcal L^{\ell+m}$ 是 $\mathcal L^\ell\otimes\mathcal L^m$ 相对于 $\lambda_\ell\times\lambda_m$ 的完备化, 完备后的测度就是 $\lambda_{\ell+m}$.
+\end{theorem}
+\begin{proof}
+先证 Lebesgue 可测矩形 $A\times B$ 在 $\R^{\ell+m}$ 中可测. 当 $\lambda_\ell(A),\lambda_m(B)<\infty$ 时, 对 $\delta>0$, 用正则性取 $K_1\subset A\subset G_1$, $K_2\subset B\subset G_2$, 其中 $K_i$ 紧, $G_i$ 开且有限测度, $\lambda(G_i\setminus K_i)<\delta$. 紧积和开积都 Borel 可测. 集合截面积公式给出它们的测度分别为 $\lambda(K_1)\lambda(K_2)$ 和 $\lambda(G_1)\lambda(G_2)$. 于是
+\[
+ \lambda(G_1\times G_2)-\lambda(K_1\times K_2)
+ \le\delta\bigl(\lambda(A)+\lambda(B)+2\delta\bigr).
+\]
+两者夹住 $A\times B$, 差的测度能任意小, 所以正则性判别给出 $A\times B$ 的可测性. 一般情形用 $A\cap[-k,k]^\ell$ 和 $B\cap[-k,k]^m$ 的递增并. 对已证可测的矩形再用截面积公式, 得其测度为 $\lambda_\ell(A)\lambda_m(B)$. 因此 $\mathcal L^\ell\otimes\mathcal L^m\subset\mathcal L^{\ell+m}$; 乘积测度的唯一性说明 $\lambda_{\ell+m}$ 在此 $\sigma$-代数上的限制就是 $\lambda_\ell\times\lambda_m$.
+
+另一方面, $\R^{\ell+m}$ 的开集是可数个开矩形之并, 所以全部 Borel 集都在 $\mathcal L^\ell\otimes\mathcal L^m$ 中. 每个 Lebesgue 可测集都与某个 Borel 集只差一个 Borel 零测集的子集, 因而属于该乘积空间的完备化. 反过来, Lebesgue 测度本来完备, 所以乘积可测集的零测修改仍是 Lebesgue 可测集. 两个方向合起来即得结论.
+\end{proof}
+
+\begin{remark}
+原讲 19 的抽象乘积构造和完备化结论只作陈述. 上面的 $\pi$-$\lambda$ 证明、唯一性证明以及完备化论证是编者补充. 原讲的可测矩形估计中有一个把并集估计写成等式的笔误; 此处直接比较开积和紧积的体积, 避免重叠计数. “乘积可测”与“完备乘积可测”的区别解释了本章开头的异常截面.
+\end{remark}
+
+\originalsection{习题与解答}
+
+\begin{exercise}
+设 $f\in L^1(X,\mu)$, $g\in L^1(Y,\nu)$, 两个空间 $\sigma$-有限. 证明 $h(x,y)=f(x)g(y)$ 可积, 并求其积分和 $L^1$ 范数.
+\end{exercise}
+\begin{solution}
+坐标投影可测, 所以 $h$ 乘积可测. 对 $|f(x)g(y)|$ 用 Tonelli, 得 $\int|h|=\norm{f}_1\norm{g}_1<\infty$. 再用 Fubini, 得 $\int h=(\int f\,\dd\mu)(\int g\,\dd\nu)$. 该证明对复值函数也成立.
+\end{solution}
+
+\begin{exercise}
+设 $f\ge0$ 在 $\R^{\ell+m}$ 上可测. 已知 $\int_{\R^m}(\int_{\R^\ell}f\,\dd x)\dd y<\infty$. 证明 $f\in L^1$, 并解释若删去 $f\ge0$, 为什么“内层积分存在且外层积分有限”不够.
+\end{exercise}
+\begin{solution}
+非负时, Tonelli 将所给的有限值等同于 $\int f=\int|f|$, 所以可积. 有符号时, 内层积分可能通过正负抵消变小, 而 $\int|f|$ 仍发散. 例题 \ref{ra:c6:conditional} 给出了两种迭代积分都有限但不相等的具体反例.
+\end{solution}
+
+\begin{exercise}
+若 $N\subset\R^{\ell+m}$ 为 Lebesgue 零测集, 证明 $\lambda_\ell(N_y)=0$ 对几乎处处的 $y$ 成立, 并说明为何不能把“几乎处处”改成“每个”.
+\end{exercise}
+\begin{solution}
+Tonelli 给出 $\int\lambda_\ell(N_y)\,\dd y=\lambda_{\ell+m}(N)=0$, 非负函数积分为零即几乎处处为零. 对 $N=\R^\ell\times\{y_0\}$, 在 $y_0$ 处的截面是整个 $\R^\ell$, 故不为零; 还可把此截面换成不可测集, 得到本章开头的例子.
+\end{solution}

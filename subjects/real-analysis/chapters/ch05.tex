@@ -1,0 +1,397 @@
+\originalchapter{\texorpdfstring{$L^p$}{Lp}空间}
+\label{ra:c5:chapter}
+\sourcelecture{14--17}
+
+积分给出了函数的大小, 但不同问题需要不同的大小尺度. $\int\abs f\dd\mu$控制总量, $\int\abs f^2\dd\mu$控制平方平均, 本质上确界控制几乎处处的最大幅度. 本章把这些尺度组成函数空间, 证明其中的柯西列确实有极限, 再讨论连续函数逼近和不同指数之间的关系. 只涉及这些函数空间本身; 一般的线性算子理论留给泛函分析.
+
+\originalsection{凸性与积分不等式}
+
+\begin{definition}[凸函数]
+设 $-\infty\le a<b\le\infty$. 函数 $\varphi:(a,b)\to\R$称为凸函数, 如果对任意 $x,y\in(a,b)$及 $0\le t\le1$, 都有 $\varphi((1-t)x+ty)\le(1-t)\varphi(x)+t\varphi(y)$.
+\end{definition}
+
+图形上的含义是: 两点之间的弦位于图形上方. 为了把这一直观用于积分, 我们需要将它改写为割线斜率的比较.
+
+\begin{lemma}\label{ra:c5:convex-slopes}
+函数 $\varphi$凸, 当且仅当对任意 $a<s<t<u<b$, 有
+\[
+ \frac{\varphi(t)-\varphi(s)}{t-s}
+ \le \frac{\varphi(u)-\varphi(s)}{u-s}
+ \le \frac{\varphi(u)-\varphi(t)}{u-t}.
+\]
+其中仅要求最左边的斜率不超过最右边的斜率, 也得到等价条件.
+\end{lemma}
+\begin{proof}
+把 $t$写成 $\frac{u-t}{u-s}s+\frac{t-s}{u-s}u$, 凸性给出 $\varphi(t)\le\frac{u-t}{u-s}\varphi(s)+\frac{t-s}{u-s}\varphi(u)$. 移项并分别除以 $t-s$、$u-t$, 就得到两项比较. 反过来, 最左与最右斜率的比较乘以正数 $(t-s)(u-t)$, 正好得到上述凸性不等式. 任意两点间的严格内点都可这样表示; 端点情形是等式.
+\end{proof}
+
+\begin{proposition}\label{ra:c5:convex-continuity}
+凸函数在开区间 $(a,b)$上连续. 更确切地说, 它在每个紧子区间上满足一个 Lipschitz 估计. 若 $\varphi$可微, 则凸性等价于 $\varphi'$单调不减; 若 $\varphi\in C^2((a,b))$, 则又等价于 $\varphi''\ge0$.
+\end{proposition}
+\begin{proof}
+固定 $a<s<c<d<u<b$. 对 $c\le x<y\le d$, 割线斜率比较给出
+\[
+ \frac{\varphi(c)-\varphi(s)}{c-s}
+ \le\frac{\varphi(y)-\varphi(x)}{y-x}
+ \le\frac{\varphi(u)-\varphi(d)}{u-d}.
+\]
+例如左边可先与 $s,x$之间的斜率比较, 再与 $x,y$之间的斜率比较; 右边同理. 两端都是有限常数, 于是存在 $M<\infty$使 $\abs{\varphi(y)-\varphi(x)}\le M\abs{y-x}$. 这证明局部 Lipschitz 性及连续性.
+
+若函数凸且可微, 令割线的端点分别趋近 $s<t$, 得 $\varphi'(s)\le\frac{\varphi(t)-\varphi(s)}{t-s}\le\varphi'(t)$. 反过来, 若导数单调不减, 对 $s<t<u$分别在 $[s,t]$和 $[t,u]$应用中值定理, 两条割线的斜率等于 $\varphi'(\xi)$和 $\varphi'(\eta)$, 其中 $\xi<t<\eta$, 故满足引理的条件. 最后, 对可微的 $\varphi'$, 单调不减等价于其导数 $\varphi''$非负, 同样由差商及中值定理得到.
+\end{proof}
+
+\Needspace{7\baselineskip}
+\begin{theorem}[Jensen不等式]\label{ra:c5:jensen}
+设 $(X,\mathcal M,\mu)$为概率测度空间, 即 $\mu(X)=1$. 设实值函数 $f\in L^1(\mu)$满足 $a<f<b$几乎处处, $\varphi:(a,b)\to\R$凸. 则 $t=\int_X f\dd\mu$属于 $(a,b)$, $\varphi\circ f$的积分有定义, 且
+\[
+ \varphi\left(\int_X f\dd\mu\right)
+ \le \int_X\varphi(f)\dd\mu.
+\]
+右边允许等于 $+\infty$, 但不会出现正负部分均为无穷的情形.
+\end{theorem}
+\begin{proof}
+若 $a$有限, 非负函数 $f-a$几乎处处严格为正, 因而其积分严格为正, 所以 $t>a$. 这里用了前章的结论: 非负函数积分为零, 当且仅当它几乎处处为零. 若 $a=-\infty$, 则 $t>a$由 $f\in L^1$直接成立. 同理 $t<b$.
+
+现在在图形的 $(t,\varphi(t))$处寻找一条位于图形下方的直线. 设
+\[
+ B=\sup_{a<s<t}\frac{\varphi(t)-\varphi(s)}{t-s}.
+\]
+取任意 $u\in(t,b)$, 引理给出 $B\le(\varphi(u)-\varphi(t))/(u-t)$; 又任取一个 $s<t$给出有限下界, 所以 $B$是实数. 对 $s<t$由上确界定义, 对 $s>t$由割线比较, 都有 $\varphi(s)\ge\varphi(t)+B(s-t)$.
+
+凸函数连续, 故 $\varphi(f)$可测. 由上述下界, $\varphi(f)$的负部分被可积函数 $\abs{\varphi(t)}+\abs B(\abs f+\abs t)$控制. 因而可对非负函数 $\varphi(f)-\varphi(t)-B(f-t)$积分, 得
+\[
+ \int_X\varphi(f)\dd\mu
+ \ge\varphi(t)\mu(X)+B\left(\int_X f\dd\mu-t\mu(X)\right)
+ =\varphi(t).
+\]
+若 $f$仅几乎处处取值于区间, 可在相应零测集上把它改为任意固定内点, 不改变各积分.
+\end{proof}
+
+\begin{remark}
+以上连续性证明及 Jensen 不等式中积分存在性的核查为编者补充. 不能直接对可能不可积的 $\varphi(f)$分拆三个积分再相减; 支撑直线先保证负部分可积, 才使这个操作合法.
+\end{remark}
+
+\begin{example}\label{ra:c5:amgm}
+取凸函数 $\varphi(s)=e^s$, 则 $\exp(\int f\dd\mu)\le\int e^f\dd\mu$. 特别地, 若 $y_1,\ldots,y_n>0$, $\alpha_i\ge0$且 $\sum_i\alpha_i=1$, 在有限概率空间上令 $f(i)=\log y_i$, 得 $\prod_{i=1}^n y_i^{\alpha_i}\le\sum_{i=1}^n\alpha_i y_i$.
+等权情形给出 $(y_1\cdots y_n)^{1/n}\le(y_1+\cdots+y_n)/n$. 若某个 $y_i=0$, 对正权重项取 $y_i+\delta$再令 $\delta\downarrow0$, 仍得到相应不等式; 零权重项可以先删除.
+\end{example}
+
+\begin{lemma}[Young不等式]\label{ra:c5:young}
+设 $1<p<\infty$, $q=p/(p-1)$, 即 $1/p+1/q=1$. 对 $A,B\ge0$, 有 $AB\le A^p/p+B^q/q$.
+\end{lemma}
+\begin{proof}
+若 $A=0$或 $B=0$, 结论直接成立. 否则写 $A=e^{s/p}$、$B=e^{t/q}$, 在例题的加权算术几何平均不等式中取两个数 $e^s,e^t$及权重 $1/p,1/q$, 得 $e^{s/p+t/q}\le e^s/p+e^t/q$.
+\end{proof}
+
+\begin{theorem}[Hölder不等式]\label{ra:c5:holder}
+设 $1<p<\infty$, $1/p+1/q=1$. 若复值可测函数 $f,g$满足 $\int_X\abs f^p\dd\mu<\infty$及 $\int_X\abs g^q\dd\mu<\infty$, 则 $fg\in L^1(\mu)$, 且
+\[
+ \int_X\abs{fg}\dd\mu
+ \le\left(\int_X\abs f^p\dd\mu\right)^{1/p}
+      \left(\int_X\abs g^q\dd\mu\right)^{1/q}.
+\]
+\end{theorem}
+\begin{proof}
+记右边两个因子为 $F,G$. 若其中一个为零, 对应的函数几乎处处为零, 所以乘积也几乎处处为零. 若 $F,G>0$, 令 $u=\abs f/F$、$v=\abs g/G$, 则 $\int u^p\dd\mu=\int v^q\dd\mu=1$. Young 不等式给出 $uv\le u^p/p+v^q/q$. 积分后右边为 $1/p+1/q=1$, 乘回 $FG$便得结论.
+\end{proof}
+
+\begin{theorem}[Minkowski不等式]\label{ra:c5:minkowski}
+设 $1<p<\infty$, $f,g$为复值可测函数且 $\int\abs f^p\dd\mu$、$\int\abs g^p\dd\mu$有限. 则
+\[
+ \left(\int_X\abs{f+g}^p\dd\mu\right)^{1/p}
+ \le\left(\int_X\abs f^p\dd\mu\right)^{1/p}
+    +\left(\int_X\abs g^p\dd\mu\right)^{1/p}.
+\]
+\end{theorem}
+\begin{proof}
+先用 $s\mapsto s^p$在 $[0,\infty)$上的凸性得到 $(A+B)^p\le2^{p-1}(A^p+B^p)$, 因而 $h=\abs f+\abs g$的 $p$次方可积. 这一步保证后面除去的量是有限的. 记 $H=(\int h^p\dd\mu)^{1/p}$, 并取共轭指数 $q=p/(p-1)$. 若 $H=0$, 结论成立. 否则由 Hölder 不等式,
+\begin{align*}
+ H^p&=\int_X\abs f h^{p-1}\dd\mu+\int_X\abs g h^{p-1}\dd\mu\\
+ &\le\left[\left(\int_X\abs f^p\dd\mu\right)^{1/p}
+            +\left(\int_X\abs g^p\dd\mu\right)^{1/p}\right]
+       \left(\int_X h^{(p-1)q}\dd\mu\right)^{1/q}\\
+ &=\left[\left(\int_X\abs f^p\dd\mu\right)^{1/p}
+            +\left(\int_X\abs g^p\dd\mu\right)^{1/p}\right]H^{p-1}.
+\end{align*}
+除以 $H^{p-1}$, 再用 $\abs{f+g}\le h$, 即得所求.
+\end{proof}
+
+\begin{remark}
+原讲义还允许非负可测函数取值 $+\infty$, 并把上述两个不等式解释为扩展非负积分的不等式. 这可由已证有限范数情形补齐: 在 Hölder 不等式中, 若一个积分为零, 对应函数几乎处处为零, 按 $0\cdot\infty=0$的约定两边都为零; 若没有零因子而有一个因子无穷, 右边为无穷, 结论直接成立. 在 Minkowski 不等式中, 若右边有一个无穷项, 结论也直接成立. 因而真正需要证明的正是两个范数都有限的情形.
+\end{remark}
+
+\originalsection{函数空间与范数}
+
+\begin{definition}\label{ra:c5:lp-definition}
+设 $(X,\mathcal M,\mu)$为任意测度空间. 对 $1\le p<\infty$, 定义 $\norm f_p=(\int_X\abs f^p\dd\mu)^{1/p}$, 并以 $L^p(\mu)$表示所有可测复值函数中满足 $\norm f_p<\infty$的函数, 按几乎处处相等取等价类后形成的空间.
+
+称 $f$本质有界, 如果存在 $M<\infty$使 $\abs f\le M$几乎处处. 所有本质有界可测函数的等价类组成 $L^\infty(\mu)$, 其本质上确界范数为 $\norm f_\infty=\inf\{M\ge0:\abs f\le M\text{ 几乎处处}\}$.
+\end{definition}
+
+以后仍用 $f$表示等价类或其代表元, 但凡涉及单点值, 必须说明选择了代表元. 例如某个零测集上的极大值不改变 $L^\infty$范数. 在实值函数上也可作同样的定义, 得到实向量空间.
+
+\begin{proposition}\label{ra:c5:esssup-bound}
+若 $f\in L^\infty(\mu)$, 则 $\abs{f(x)}\le\norm f_\infty$几乎处处.
+\end{proposition}
+\begin{proof}
+由下确界定义, 对每个 $k$可取 $M_k<\norm f_\infty+1/k$使 $\abs f\le M_k$在某个零测集 $N_k$外成立. 可数并 $N=\bigcup_kN_k$仍为零测集. 对 $x\notin N$, 所有这些不等式同时成立; 令 $k\to\infty$便得结论.
+\end{proof}
+
+\begin{definition}[范数与完备性]
+复向量空间 $V$上的范数是函数 $\norm{\cdot}:V\to[0,\infty)$, 满足 $\norm v=0$当且仅当 $v=0$, $\norm{\alpha v}=\abs\alpha\norm v$, 以及 $\norm{v+w}\le\norm v+\norm w$. 范数诱导距离 $d(v,w)=\norm{v-w}$.
+
+度量空间中的序列 $(v_n)$称为柯西列, 如果对每个 $\eps>0$, 存在 $N$使 $m,n\ge N$时 $d(v_m,v_n)<\eps$. 若每个柯西列都收敛于空间中的一个点, 称该空间完备. 在范数诱导的距离下完备的赋范空间称为 Banach 空间.
+\end{definition}
+
+上述距离非负、对称, 且 $d(v,w)=0$当且仅当 $v=w$; 三角不等式直接来自范数的三角不等式. 收敛列必为柯西列, 因为 $d(v_m,v_n)\le d(v_m,v)+d(v,v_n)$. 反向推论需要完备性. 例如带通常距离的 $\R\setminus\{0\}$中, $(1/n)$是柯西列, 但它的极限 $0$不在该空间中. 这里 $\R\setminus\{0\}$是度量空间, 不是实向量空间.
+
+\begin{proposition}\label{ra:c5:lp-norm}
+对 $1\le p\le\infty$, $L^p(\mu)$是向量空间, $\norm{\cdot}_p$是其上的范数. 若 $1/p+1/q=1$, 约定 $1/\infty=0$, 则对 $f\in L^p(\mu)$及 $g\in L^q(\mu)$, 有 $fg\in L^1(\mu)$及 $\norm{fg}_1\le\norm f_p\norm g_q$.
+\end{proposition}
+\begin{proof}
+积分或本质上确界不随零测集上的修改而改变, 所以范数在等价类上有定义. 当 $p<\infty$时, 非负积分为零的判别说明 $\norm f_p=0$等价于 $f=0$几乎处处; 当 $p=\infty$时, 命题~\ref{ra:c5:esssup-bound}给出同一结论. 齐次性由定义得到.
+
+对 $1<p<\infty$, 向量加法的封闭性及三角不等式已经由 Minkowski 不等式证明. 对 $p=1$, 积分 $\abs{f+g}\le\abs f+\abs g$即可; 对 $p=\infty$, 在两个本质上确界估计共同成立的零测集外有 $\abs{f+g}\le\norm f_\infty+\norm g_\infty$. 这也证明了向量空间的封闭性.
+
+Hölder 不等式已处理 $1<p<\infty$. 在端点 $p=1,q=\infty$, 有 $\abs{fg}\le\norm g_\infty\abs f$几乎处处, 积分即可. 另一个端点交换 $f,g$.
+\end{proof}
+
+\begin{remark}
+对 $0<p<1$, 同一积分表达式仍可定义, 但一般不满足三角不等式, 因而不是这里所说的范数. 例如在二点计数测度空间上, $f=(1,0)$、$g=(0,1)$有 $\norm f_p=\norm g_p=1$, 而 $\norm{f+g}_p=2^{1/p}>2$. 本章的赋范空间结论始终以 $p\ge1$为条件.
+\end{remark}
+
+\begin{example}
+在 $\N$上取计数测度, 非负函数的积分为 $\sum_{n\ge1}f(n)$, 所以 $L^p$就是序列空间 $\ell^p$. 对 $1\le p<\infty$, 序列 $a=(a_n)$属于 $\ell^p$当且仅当 $\sum_n\abs{a_n}^p<\infty$, 范数为该和的 $1/p$次幂; $\ell^\infty$是有界序列空间, 范数为 $\sup_n\abs{a_n}$. 计数测度没有非空零测集, 此时不需要进一步区分代表元.
+\end{example}
+
+\originalsection{完备性}
+
+柯西性质只比较序列中已有的函数. 为了构造未知的极限, 我们选一个相邻差可以求和的子列. 点态上求和需要这些差的绝对值总和有限, 而 Fatou 引理恰能从范数估计得到这个条件.
+
+\begin{lemma}\label{ra:c5:cauchy-subsequence}
+任意度量空间中的柯西列 $(v_n)$都有子列 $(v_{n_k})$, 满足 $d(v_{n_{k+1}},v_{n_k})<2^{-k}$.
+\end{lemma}
+\begin{proof}
+令 $n_0=0$. 对每个 $k\ge1$选 $N_k$使 $m,n\ge N_k$时 $d(v_m,v_n)<2^{-k}$. 依次选 $n_k\ge\max\{N_1,\ldots,N_k,n_{k-1}+1\}$, 则 $n_k,n_{k+1}\ge N_k$, 所求估计成立.
+\end{proof}
+
+\begin{theorem}[Riesz--Fischer定理]\label{ra:c5:riesz-fischer}
+对任意测度空间 $(X,\mathcal M,\mu)$及 $1\le p\le\infty$, $L^p(\mu)$都是 Banach 空间.
+\end{theorem}
+\begin{proof}
+先设 $1\le p<\infty$, 并设 $(f_n)$在 $L^p$中为柯西列. 选择各函数的可测代表元, 再由引理选子列使 $\norm{f_{n_{k+1}}-f_{n_k}}_p<2^{-k}$. 令 $h_k=\abs{f_{n_{k+1}}-f_{n_k}}$, $G_m=\sum_{k=1}^m h_k$, $G=\sum_{k=1}^\infty h_k$. 有限次 Minkowski 不等式给出 $\norm{G_m}_p\le\sum_{k=1}^m2^{-k}<1$. 对 $G_m^p$应用 Fatou 引理, 得 $\int G^p\dd\mu\le1$, 所以 $G<\infty$几乎处处.
+
+于是级数 $f_{n_1}(x)+\sum_{k\ge1}(f_{n_{k+1}}(x)-f_{n_k}(x))$几乎处处绝对收敛. 在它收敛的集合上将其和定义为 $f(x)$, 在其余零测集上定义 $f(x)=0$. 收敛集合可由可测的部分和刻画, 所以 $f$可测, 且 $\abs f\le\abs{f_{n_1}}+G$几乎处处, 从而 $f\in L^p$.
+
+级数的第 $k-1$个部分和正是 $f_{n_k}$. 对尾和, 有 $\abs{f-f_{n_k}}\le\sum_{j\ge k}h_j$几乎处处. 再对有限尾和应用 Minkowski, 然后应用 Fatou, 得
+\[
+ \norm{f-f_{n_k}}_p
+ \le\sum_{j=k}^\infty\norm{h_j}_p
+ \le\sum_{j=k}^\infty2^{-j}=2^{1-k}.
+\]
+因此子列在 $L^p$范数中收敛到 $f$. 为了回到原序列, 给定 $\eps>0$, 先取 $N$使 $m,n\ge N$时 $\norm{f_m-f_n}_p<\eps/2$, 再取 $k$使 $n_k\ge N$且 $\norm{f_{n_k}-f}_p<\eps/2$. 对所有 $n\ge N$, 三角不等式给出 $\norm{f_n-f}_p<\eps$.
+
+现在设 $p=\infty$. 把以下各个估计的例外零测集取可数并: $\abs{f_n(x)}\le\norm{f_n}_\infty$, 以及对所有 $m,n$成立的 $\abs{f_m(x)-f_n(x)}\le\norm{f_m-f_n}_\infty$. 记此并集为 $N$. 在 $X\setminus N$上, 柯西条件同时给出逐点柯西性和一致的柯西估计. 由 $\C$完备, $f_n(x)$收敛到某个 $f(x)$. 将 $f$在 $N$上定义为零, 得到可测函数.
+
+范数中的柯西列有界, 所以存在 $M$使所有 $\norm{f_n}_\infty\le M$. 在 $N$外取极限得 $\abs f\le M$, 故 $f\in L^\infty$. 又给定 $\eps>0$, 柯西条件使 $m,n\ge N_0$时 $\abs{f_m-f_n}\le\eps$在 $N$外成立. 固定 $n\ge N_0$并令 $m\to\infty$, 得 $\abs{f-f_n}\le\eps$在 $N$外成立, 即 $\norm{f-f_n}_\infty\le\eps$. 这完成端点情形的证明.
+\end{proof}
+
+\begin{remark}
+引理的证明及尾和估计为编者补充. 此证明没有假设 $\mu(X)$有限或测度为 $\sigma$有限; 完备性对任意测度空间都成立.
+\end{remark}
+
+\begin{corollary}\label{ra:c5:lp-ae-subsequence}
+若 $1\le p\le\infty$且 $\norm{f_n-f}_p\to0$, 则有一个子列几乎处处收敛到 $f$.
+\end{corollary}
+\begin{proof}
+当 $p<\infty$时, 选 $n_k$使 $\norm{f_{n_k}-f}_p<2^{-k}$. 与前一定理中对 $G_m$的论证相同, $\sum_k\abs{f_{n_k}-f}$属于 $L^p$, 故几乎处处有限. 其一般项必趋于零, 即 $f_{n_k}\to f$几乎处处. 当 $p=\infty$时, 将所有 $\abs{f_n-f}\le\norm{f_n-f}_\infty$的例外零测集取并; 在其外, 原序列本身就一致收敛到 $f$.
+\end{proof}
+
+\begin{example}\label{ra:c5:spikes}
+在 $\R$的 Lebesgue 测度下, 令 $f_k=k^2\ind_{(0,1/k)}$. 每个 $f_k$属于所有 $1\le p<\infty$的 $L^p$, 且对每个 $x\in\R$都有 $f_k(x)\to0$. 但是 $\norm{f_k}_p=(k^{2p}/k)^{1/p}=k^{2-1/p}\to\infty$. 因而几乎处处收敛不保证 $L^p$收敛.
+
+另令 $g_k=k^{-1}\ind_{(k,2k)}$. 则 $g_k\to0$处处, $\norm{g_k}_p=k^{1/p-1}\to0$对每个 $p>1$成立, 而 $\norm{g_k}_1=1$. 同一列可在一种 $L^p$范数下收敛, 在另一种范数下不收敛.
+\end{example}
+
+\begin{example}\label{ra:c5:typewriter}
+对 $m\ge0$及 $0\le j<2^m$, 在 $[0,1)$上令 $f_{2^m+j}=\ind_{[j2^{-m},(j+1)2^{-m})}$. 这按从左到右的顺序, 依次列出第 $m$层所有二进小区间的示性函数. 对有限的 $p\ge1$, 有 $\norm{f_{2^m+j}}_p=2^{-m/p}$, 因而整列在 $L^p$中趋于零.
+
+但是对任意固定 $x\in[0,1)$, 每层恰有一个函数在 $x$处等于 $1$, 而从 $m\ge1$起每层也有函数在 $x$处等于 $0$. 所以整列在任何 $x\in[0,1)$处都不收敛. 这补全了原讲义留作作业的反例, 也解释了上面的推论为什么只保证子列.
+\end{example}
+
+\originalsection{连续与平滑逼近}
+
+\begin{theorem}\label{ra:c5:simple-density}
+设 $1\le p<\infty$. 所有满足 $\mu(\{s\ne0\})<\infty$的可测简单函数组成的集合 $S$, 在 $L^p(\mu)$中稠密.
+\end{theorem}
+\begin{proof}
+若 $s\in S$, 则 $\int\abs s^p\dd\mu\le\norm s_\infty^p\mu(\{s\ne0\})<\infty$, 所以 $S\subset L^p$. 先设 $f\ge0$且 $f\in L^p$. 由前章的简单函数逼近, 可取 $0\le s_n\uparrow f$. 因为 $s_n^p\le f^p$, 每个 $s_n\in L^p$. 若 $s_n$不恒为零, 其有限个非零取值中存在最小值 $c_n>0$, 因而 $c_n^p\mu(\{s_n\ne0\})\le\int s_n^p\dd\mu<\infty$. 这就核实了 $s_n\in S$.
+
+又有 $\abs{f-s_n}^p\le f^p$并逐点趋于零, 控制收敛定理给出 $\norm{f-s_n}_p\to0$. 对实值 $f$分别逼近 $f^+,f^-$; 对复值 $f$分别逼近实部和虚部的正负部分. 这些部分的绝对值都不超过 $\abs f$, 故都属于 $L^p$. 合并四个简单函数, 支撑仍是有限测度集合的有限并, 再用 Minkowski 不等式控制总误差.
+\end{proof}
+
+下面的连续逼近需要测度与拓扑相容. 单有局部紧 Hausdorff 拓扑, 并不足以把任意测度空间的简单函数变成连续函数.
+
+\begin{theorem}\label{ra:c5:cc-density}
+设 $X$为局部紧 Hausdorff 空间, $\mu$为正 Radon 测度, 即在紧集上有限并满足前章的内、外正则性条件; 也允许使用它的完备化. 则对 $1\le p<\infty$, $C_c(X)$在 $L^p(\mu)$中稠密.
+\end{theorem}
+\begin{proof}
+由前一定理, 只需逼近有限测度集合的示性函数. 设 $E$可测且 $\mu(E)<\infty$, $\delta>0$. 测度正则性给出紧集 $K\subset E$和开集 $U\supset E$, 满足 $\mu(U\setminus K)<\delta$. 前章的紧集连续截断结论给出 $h\in C_c(X)$, 满足 $0\le h\le1$, 在 $K$上等于 $1$, 且 $\supp h\subset U$. 函数 $h-\ind_E$仅可能在 $U\setminus K$上非零, 幅度不超过 $1$, 因而 $\norm{h-\ind_E}_p\le\delta^{1/p}$. 在完备化情形, 先把 $E$换成与它相差零测集的 Borel 集, 再作同一构造, 其 $L^p$等价类不变.
+
+对简单函数 $s=\sum_{i=1}^m a_i\ind_{E_i}\in S$, 每个非零系数对应的 $E_i$均有有限测度. 对各 $\ind_{E_i}$作上述逼近并取线性组合 $g\in C_c(X)$, 由 $\norm{g-s}_p\le\sum_i\abs{a_i}\norm{h_i-\ind_{E_i}}_p$, 可使误差任意小. 最后先逼近 $f$为 $s$, 再逼近 $s$为 $g$.
+\end{proof}
+
+\begin{remark}
+原讲义在此调用 Lusin 定理: 对 $s\in S$可取 $g\in C_c(X)$, 满足 $\norm g_\infty\le\norm s_\infty$及 $\mu(\{g\ne s\})<\delta$, 从而 $\norm{g-s}_p\le2\norm s_\infty\delta^{1/p}$. 这条路线同样有效. 上面的正则性证明为编者补充, 并把该结论所需的测度条件写出.
+\end{remark}
+
+在 $\R^n$的 Lebesgue 测度下, 连续函数若几乎处处为零就处处为零: 否则某一点附近的绝对值有正下界, 而该邻域有正测度. 因而 $C_c(\R^n)$可直接视为 $L^p(\R^n)$的一个子空间. 由稠密性及 Riesz--Fischer 定理, $L^p(\R^n)$正是 $C_c(\R^n)$在 $L^p$范数下的完备化. 若一般 Radon 测度的支撑不是整个 $X$, 则应先按零范数取商, 才有这一表述.
+
+\begin{definition}
+连续函数 $f:X\to\C$称为在无穷远处消失, 如果对每个 $\eps>0$, 存在紧集 $K\subset X$, 使 $x\notin K$时 $\abs{f(x)}<\eps$. 这些函数组成 $C_0(X)$, 赋予通常的上确界范数 $\norm f_{\mathrm{sup}}=\sup_{x\in X}\abs{f(x)}$.
+\end{definition}
+
+这样的函数有界: 在某个紧集外幅度小于 $1$, 在紧集上又由连续性而有界. 这里的上确界看每一个点, 与依赖测度的本质上确界应当区分.
+
+\begin{theorem}\label{ra:c5:c0-completion}
+若 $X$为局部紧 Hausdorff 空间, 则 $C_c(X)$在 $C_0(X)$中按上确界范数稠密, 且 $C_0(X)$在此范数下完备. 因此 $C_c(X)$的上确界范数完备化是 $C_0(X)$.
+\end{theorem}
+\begin{proof}
+给定 $f\in C_0(X)$及 $\eps>0$, 取紧集 $K$使 $\abs f<\eps$在 $K$外成立. 用连续截断结论取 $\chi\in C_c(X)$, 满足 $0\le\chi\le1$及 $\chi=1$在 $K$上成立. 令 $h=f\chi$. 则 $h\in C_c(X)$, 在 $K$上 $h=f$, 在 $K$外 $\abs{f-h}=\abs f\abs{1-\chi}<\eps$, 故 $\norm{f-h}_{\mathrm{sup}}\le\eps$.
+
+若 $(f_n)$是 $C_0(X)$中的柯西列, 则对每个 $x$, $(f_n(x))$是复数柯西列, 因而有极限 $f(x)$. 在一致的柯西估计中令一个指标趋于无穷, 得 $f_n\to f$一致. 为说明 $f$连续, 固定 $x$及 $\eps>0$, 选 $n$使一致误差小于 $\eps/3$, 再在 $x$的某个邻域上用 $f_n$的连续性保证 $\abs{f_n(y)-f_n(x)}<\eps/3$; 三角不等式给出 $\abs{f(y)-f(x)}<\eps$.
+
+再选 $n$使 $\norm{f-f_n}_{\mathrm{sup}}<\eps/2$, 并选紧集 $K$使 $\abs{f_n}<\eps/2$在 $K$外成立. 则 $\abs f<\eps$在 $K$外成立, 所以 $f\in C_0(X)$. 这证明完备性.
+\end{proof}
+
+\begin{example}\label{ra:c5:linfty-not-density}
+$C_c(\R)$在 $L^\infty(\R)$中不稠密. 取 $f=\ind_{(0,\infty)}$. 对任何连续函数 $g$, 都有 $\norm{f-g}_\infty\ge1/2$. 否则可取 $c<1/2$使 $\abs{f-g}\le c$几乎处处. 连续性保证 $\abs g\le c$在整个 $(-\infty,0)$上成立, 因为一个严格违反此估计的点会带来一个正测度邻域; 同理 $\abs{1-g}\le c$在整个 $(0,\infty)$上成立. 两侧趋近零得到 $\abs{g(0)}\le c$及 $\abs{1-g(0)}\le c$, 与 $1\le2c$矛盾. 所以 $L^\infty$的完备性不能给出 $C_c$在它里面稠密.
+\end{example}
+
+\begin{proposition}[平滑逼近, 编者补充]\label{ra:c5:smooth-density}
+对 $1\le p<\infty$, $C_c^\infty(\R^n)$在 $L^p(\R^n)$中稠密. 更强地, 每个 $h\in C_c(\R^n)$都可以由支撑包含在同一个紧集内的光滑函数一致逼近.
+\end{proposition}
+\begin{proof}
+先说明所需的光滑截断. 函数 $\rho(t)=e^{-1/t}$在 $t>0$时定义, 在 $t\le0$时定义为零. 对 $t>0$, 其任意阶导数都是 $e^{-1/t}$与 $1/t$的多项式之积, 当 $t\downarrow0$时都趋于零, 所以 $\rho\in C^\infty(\R)$. 函数 $\theta(t)=\rho(t)/(\rho(t)+\rho(1-t))$光滑, 在 $t\le0$时为零, 在 $t\ge1$时为一. 由此可构造在一个闭球上等于一、在稍大球外为零且取值于 $[0,1]$的光滑函数: 将 $\theta$与适当的 $R^2-\abs{x-a}^2$的仿射函数复合即可.
+
+因此对紧集 $K\subset U$及开集 $U\subset\R^n$, 可在每个 $x\in K$周围取两个同心球, 使大球的闭包包含在 $U$中, 并为它们取上述球形截断. 有限个小球覆盖 $K$, 对应截断的和 $H$在 $K$上至少为一, 且有紧支撑包含在 $U$中. 再取一个光滑实函数 $\beta$, 满足 $0\le\beta\le1$, 在 $(-\infty,1/2]$上为零, 在 $[1,\infty)$上为一, 则 $\beta(H)$就是在 $K$上等于一且支撑包含在 $U$中的光滑截断.
+
+固定 $h\in C_c(\R^n)$, 令 $K=\supp h$; 若 $h=0$无需逼近. 函数 $h$在整个 $\R^n$上一致连续, 因为它在一个包含 $K$及其邻域的大闭球上连续, 并且远离该球时为零. 给定 $\eps>0$, 选 $0<r<1$使 $\abs{x-y}<2r$时 $\abs{h(x)-h(y)}<\eps$. 用有限个球 $B(x_i,r)$覆盖 $K$, 其中 $x_i\in K$. 取 $\psi_i\in C_c^\infty$使 $0\le\psi_i\le1$, $\psi_i=1$在 $B(x_i,r)$上, 且 $\supp\psi_i\subset B(x_i,2r)$, 并令 $H=\sum_i\psi_i$. 在 $K$上 $H\ge1$.
+
+取光滑截断 $\chi$在 $K$上等于一, 且 $\supp\chi\subset\{H>0\}$. 在 $\{H>0\}$上定义
+\[
+ v(x)=\chi(x)\frac{\sum_i h(x_i)\psi_i(x)}{H(x)},
+\]
+并在其余位置定义 $v=0$. 因为 $\supp\chi$紧且包含在开集 $\{H>0\}$中, 这个延拓是光滑的, 且有紧支撑. 当 $\psi_i(x)>0$时 $\abs{x-x_i}<2r$, 所以加权平均 $A(x)=\sum_i h(x_i)\psi_i(x)/H(x)$满足 $\abs{A(x)-h(x)}<\eps$. 若 $x\in K$, 则 $v=A$; 若 $x\notin K$, 则 $h(x)=0$且 $\abs v\le\abs A<\eps$. 故 $\norm{v-h}_{\mathrm{sup}}\le\eps$.
+
+所有这些 $v$的支撑均包含在固定紧集 $K_2=\{x:\operatorname{dist}(x,K)\le2\}$中. 于是 $\norm{v-h}_p\le\norm{v-h}_{\mathrm{sup}}\,\mu(K_2)^{1/p}\to0$. 最后先用定理~\ref{ra:c5:cc-density}把任意 $f\in L^p(\R^n)$逼近为 $h\in C_c$, 再用这里的构造逼近 $h$, 即得结论. 这一证明只用连续性、光滑截断和有限加权平均, 不需要乘积积分定理; 后面引入卷积时会得到另一种逼近构造.
+\end{proof}
+
+\originalsection{不同指数的比较}
+
+\begin{example}\label{ra:c5:no-inclusions}
+在 $(0,\infty)$上取 Lebesgue 测度. 对 $1\le p<q\le\infty$, 选 $1/q<b<1/p$, 其中 $1/\infty=0$. 函数 $f(x)=x^{-b}\ind_{(0,1)}$满足 $\int_0^1\abs f^p\dd x=1/(1-bp)<\infty$, 但当 $q<\infty$时 $bq>1$, 所以 $\int_0^1\abs f^q\dd x=\infty$; 当 $q=\infty$时, 它在零点附近本质无界. 因而 $L^p$不包含于 $L^q$.
+
+反过来, $g(x)=x^{-b}\ind_{(1,\infty)}$在 $q<\infty$时满足 $\int_1^\infty\abs g^q\dd x=1/(bq-1)<\infty$, 在 $q=\infty$时本质有界, 但 $bp<1$使它不属于 $L^p$. 所以 $L^q$也不包含于 $L^p$. 小区间上的奇性与无穷远处的衰减, 对指数提出相反的要求.
+\end{example}
+
+\begin{theorem}\label{ra:c5:finite-inclusion}
+若 $0<\mu(X)<\infty$且 $1\le p<q\le\infty$, 则 $L^q(\mu)\subset L^p(\mu)$, 并且 $\norm f_p\le\mu(X)^{1/p-1/q}\norm f_q$.
+特别地, 在概率空间上 $\norm f_p\le\norm f_q$.
+\end{theorem}
+\begin{proof}
+先设 $q<\infty$. 对 $\abs f^p$和常函数 $1$, 用共轭指数 $q/p$与 $q/(q-p)$应用 Hölder 不等式, 得 $\int\abs f^p\dd\mu\le(\int\abs f^q\dd\mu)^{p/q}\mu(X)^{1-p/q}$. 取 $1/p$次幂即得结论. 当 $q=\infty$时, 在零测集外有 $\abs f^p\le\norm f_\infty^p$, 积分后取根即可.
+\end{proof}
+
+\begin{theorem}\label{ra:c5:sequence-inclusion}
+在任意集合 $X$的计数测度上, 对 $1\le p<q\le\infty$, 有 $\ell^p(X)\subset\ell^q(X)$及 $\norm f_q\le\norm f_p$.
+\end{theorem}
+\begin{proof}
+对任意 $x\in X$, 有 $\abs{f(x)}^p\le\sum_{y\in X}\abs{f(y)}^p$, 因而 $\norm f_\infty\le\norm f_p$. 若 $q<\infty$且 $\norm f_p>0$, 将 $f$除以此范数得到 $u$; 则 $\sum_x\abs{u(x)}^p=1$且所有 $\abs{u(x)}\le1$. 因为 $q>p$, 有 $\abs{u(x)}^q\le\abs{u(x)}^p$, 求和得 $\norm u_q\le1$. 乘回 $\norm f_p$即可. 零范数情形直接成立.
+
+若 $X$不可数, 非负和按所有有限子集上有限和的上确界定义. 当它有限时, 每个集合 $\{x:\abs{f(x)}\ge1/m\}$必有限, 所以非零取值只能出现在一个可数集合上; 上面的求和论证因此仍然成立.
+\end{proof}
+
+有限测度空间上, 大指数控制小指数; 计数测度的序列空间上, 包含方向相反. 两种结论的证明也说明了原因: 前者可以把常函数 $1$放进 Hölder 不等式, 后者则由每个点具有固定的正测度而获得逐点控制.
+
+\begin{definition}[局部可积性]
+设 $G\subset\R^n$开, $1\le p\le\infty$. 称可测函数 $f$属于 $L^p_{\mathrm{loc}}(G)$, 如果对每个紧集 $K\subset G$, 都有 $f\ind_K\in L^p(G)$. 对有限 $p$, 这就是说 $\int_K\abs f^p\dd x<\infty$; 对 $p=\infty$, 这就是说 $f$在每个这样的 $K$上本质有界.
+\end{definition}
+
+每个紧集具有有限 Lebesgue 测度, 所以定理~\ref{ra:c5:finite-inclusion}立即给出 $L^q_{\mathrm{loc}}(G)\subset L^p_{\mathrm{loc}}(G)$, 其中 $1\le p<q\le\infty$. 例如 $f(x)=x^{-1}$在 $G=(0,\infty)$上局部有界, 但在 $(0,1)$上的积分无穷; 局部条件只考察远离 $G$边界的紧集, 不控制靠近边界或无穷远处的行为.
+
+\begin{theorem}\label{ra:c5:interpolation}
+设 $1\le p<r<q\le\infty$, $f\in L^p(\mu)\cap L^q(\mu)$. 唯一选取 $0<\theta<1$使 $1/r=\theta/p+(1-\theta)/q$, 则 $f\in L^r(\mu)$且 $\norm f_r\le\norm f_p^\theta\norm f_q^{1-\theta}$.
+若 $f$不是零等价类, 则 $\log\norm f_p$作为变量 $1/p$的函数, 在它有定义的指数区间上凸.
+\end{theorem}
+\begin{proof}
+若 $q<\infty$, 则 $r\theta/p+r(1-\theta)/q=1$. 因为这两项均为正, 指数 $p/(r\theta)$及 $q/(r(1-\theta))$大于一且共轭. 对 $\abs f^{r\theta}$和 $\abs f^{r(1-\theta)}$应用 Hölder 不等式,
+\[
+ \int_X\abs f^r\dd\mu
+ \le\left(\int_X\abs f^p\dd\mu\right)^{r\theta/p}
+     \left(\int_X\abs f^q\dd\mu\right)^{r(1-\theta)/q}.
+\]
+取 $1/r$次幂得到范数估计. 若 $q=\infty$, 则 $\theta=p/r$. 直接估计 $\abs f^r\le\norm f_\infty^{r-p}\abs f^p$几乎处处, 即得同样结论. 这个端点为编者补充.
+
+只要两个指数上的范数有限, 中间指数的范数也有限, 所以 $I=\{s\in[1,\infty]:f\in L^s\}$是区间, 端点可以包含或不包含. 非零等价类的这些范数严格为正, 对范数估计取对数, 得 $\log\norm f_r\le\theta\log\norm f_p+(1-\theta)\log\norm f_q$. 这正是关于 $1/s$的凸性.
+\end{proof}
+
+\begin{theorem}\label{ra:c5:limit-infty}
+设 $f\in L^s(\mu)$对某个 $1\le s<\infty$成立. 对所有其他指数允许把 $\norm f_p$定义为 $+\infty$. 则在扩展实数意义下, $\lim_{p\to\infty}\norm f_p=\norm f_\infty$.
+\end{theorem}
+\begin{proof}
+若 $f=0$几乎处处, 结论直接成立. 设 $0<t<\norm f_\infty$, 令 $A_t=\{x:\abs{f(x)}>t\}$. 本质上确界的定义保证 $\mu(A_t)>0$, 而 $f\in L^s$给出 $\mu(A_t)\le t^{-s}\norm f_s^s<\infty$. 对每个有限 $p$, 有 $\norm f_p\ge t\mu(A_t)^{1/p}$. 令 $p\to\infty$, 得 $\liminf\norm f_p\ge t$. 若 $\norm f_\infty=\infty$, 可令 $t$任意大, 便得到极限为无穷.
+
+若 $0<\norm f_\infty<\infty$, 对 $p>s$有 $\int\abs f^p\dd\mu\le\norm f_\infty^{p-s}\int\abs f^s\dd\mu$, 故 $\norm f_p\le\norm f_s^{s/p}\norm f_\infty^{1-s/p}$. 右边趋于 $\norm f_\infty$, 与下界合并即得结论.
+\end{proof}
+
+在上面证明中使用的估计 $\mu(\{\abs f>t\})\le t^{-p}\norm f_p^p$就是 Chebyshev 不等式. 对 $p<\infty$, 它也说明 $L^p$范数收敛蕴含依测度收敛; 这与前章的几乎处处收敛子列结论相容. 假设至少有一个有限指数使 $f\in L^s$不能随意删除: 在无限测度空间上, 常函数 $1$有 $\norm1_\infty=1$, 但所有有限指数的范数都是无穷.
+
+\originalsection{练习}
+
+以下练习为本整理本配套练习, 不属于原课程独立作业集的逐题翻译.
+
+\begin{exercise}\label{ra:c5:ex-holder-equality}
+设 $1<p<\infty$, $1/p+1/q=1$, $f\in L^p$, $g\in L^q$, 且两个范数均非零. 证明 Hölder 不等式 $\int\abs{fg}\dd\mu\le\norm f_p\norm g_q$取等, 当且仅当 $\abs f^p/\norm f_p^p=\abs g^q/\norm g_q^q$几乎处处.
+\end{exercise}
+\begin{solution}
+固定 $B\ge0$, 对 $A\ge0$考虑 $F(A)=A^p/p-AB+B^q/q$. 若 $B>0$, 则 $F'(A)=A^{p-1}-B$, 所以唯一最小值在 $A=B^{1/(p-1)}$处取得, 最小值为零. 若 $B=0$, 仅在 $A=0$时为零. 因而 Young 不等式取等恰当且仅当 $A^p=B^q$.
+
+令 $u=\abs f/\norm f_p$、$v=\abs g/\norm g_q$. Hölder 证明中的差是非负函数 $u^p/p+v^q/q-uv$, 且其积分为 $1-\int uv\dd\mu$. 积分为零当且仅当此函数几乎处处为零, 再用刚得到的 Young 等号条件, 即得所需刻画.
+\end{solution}
+
+\begin{exercise}\label{ra:c5:ex-dominated-lp}
+设 $1\le p<\infty$, $f_n\to f$几乎处处, 且 $\abs{f_n}\le g$几乎处处对所有 $n$成立, 其中 $g$非负可测且 $g\in L^p$. 证明 $f\in L^p$且 $\norm{f_n-f}_p\to0$. 说明 $p=\infty$时对应结论为何不成立.
+\end{exercise}
+\begin{solution}
+把可数个例外零测集取并, 在其外令 $n\to\infty$得 $\abs f\le g$, 因而 $f\in L^p$. 又有 $\abs{f_n-f}^p\le(2g)^p$, 右边可积, 左边几乎处处趋于零. 控制收敛定理给出 $\int\abs{f_n-f}^p\dd\mu\to0$, 取根即得结论.
+
+在 $(0,1)$上取 $f_n=\ind_{(0,1/n)}$、$g=1$. 则 $f_n\to0$处处, 且 $\abs{f_n}\le g\in L^\infty$, 但 $\norm{f_n}_\infty=1$. 所以端点不能照搬有限指数的控制收敛结论.
+\end{solution}
+
+\begin{exercise}\label{ra:c5:ex-series}
+设 $1\le p\le\infty$且 $\sum_{n=1}^\infty\norm{u_n}_p<\infty$. 证明 $\sum_nu_n$在 $L^p$中收敛. 当 $p<\infty$时, 证明还可选代表元使此级数几乎处处绝对收敛.
+\end{exercise}
+\begin{solution}
+对部分和 $s_N=\sum_{n=1}^Nu_n$, 有 $\norm{s_M-s_N}_p\le\sum_{n=N+1}^M\norm{u_n}_p$, 因而 $(s_N)$是柯西列. 由 Riesz--Fischer 定理, 它收敛到某个 $s\in L^p$.
+
+若 $p<\infty$, 令 $G_N=\sum_{n=1}^N\abs{u_n}$, 则 $\norm{G_N}_p\le\sum_n\norm{u_n}_p$. Fatou 引理给出 $G=\sum_n\abs{u_n}\in L^p$, 故 $G<\infty$几乎处处. 点态级数因而绝对收敛到可测函数 $v$, 并且尾和的同一估计给出 $\norm{v-s_N}_p\le\sum_{n>N}\norm{u_n}_p\to0$. 极限的唯一性说明 $v=s$几乎处处. 当 $p=\infty$时, 在各个 $\abs{u_n}\le\norm{u_n}_\infty$的共同零测集外, 级数甚至一致绝对收敛.
+\end{solution}
+
+\begin{exercise}\label{ra:c5:ex-powers}
+设 $\alpha,\beta>0$, 在 $(0,\infty)$上令 $f(x)=x^{-\alpha}\ind_{(0,1)}+x^{-\beta}\ind_{[1,\infty)}$. 确定所有使 $f\in L^p$的 $1\le p\le\infty$. 另求序列 $a_n=n^{-\gamma}$的 $\ell^p$归属, 其中 $\gamma>0$.
+\end{exercise}
+\begin{solution}
+有限指数时, $\int\abs f^p\dd x=\int_0^1x^{-\alpha p}\dd x+\int_1^\infty x^{-\beta p}\dd x$. 第一个积分有限当且仅当 $\alpha p<1$, 第二个有限当且仅当 $\beta p>1$. 因而可用指数恰为 $[1,\infty)\cap(1/\beta,1/\alpha)$. 任一端点取等时都出现 $\int x^{-1}\dd x$的对数发散, 故两个端点都不能因等号而加入. 由于零点附近本质无界, $f\notin L^\infty$; 若该区间为空, 没有任何可用指数.
+
+对序列, 积分判别法给出 $\sum_nn^{-\gamma p}<\infty$当且仅当 $\gamma p>1$, 所以有限指数为 $\{p\ge1:\gamma p>1\}$. 另一方面 $\sup_nn^{-\gamma}=1$, 故总有 $a\in\ell^\infty$. 这也具体显示了函数空间与序列空间的不同包含方向.
+\end{solution}
+
+\begin{exercise}\label{ra:c5:ex-separable}
+证明对 $1\le p<\infty$, $L^p(\R^n)$存在可数稠密子集.
+\end{exercise}
+\begin{solution}
+取所有有限和 $s=\sum_{i=1}^m a_i\ind_{Q_i}$, 其中 $a_i\in\mathbb Q+i\mathbb Q$, $Q_i$为端点坐标均有理的有界半开矩形. 因为有限个可数选择仍只有可数种, 这些函数组成可数集合 $D$.
+
+给定 $f\in L^p$及 $\eps>0$, 先取 $h\in C_c(\R^n)$使 $\norm{f-h}_p<\eps/2$. 选有理端点的大矩形 $B$, 使 $\supp h$位于其内部. 函数 $h$在 $\overline B$上一致连续. 以足够细的有理网格把 $B$分为有限个半开小矩形, 在每个小矩形中选一点, 并用 $\mathbb Q+i\mathbb Q$中的数逼近该点的函数值. 网格与系数可选得使所得 $s\in D$满足 $\abs{s-h}<\delta$在 $B$上成立; 在 $B$外两者都为零. 于是 $\norm{s-h}_p\le\delta\mu(B)^{1/p}$. 选 $\delta<\eps/(2\mu(B)^{1/p})$, 三角不等式给出 $\norm{f-s}_p<\eps$. 矩形边界是零测集, 不影响估计.
+\end{solution}

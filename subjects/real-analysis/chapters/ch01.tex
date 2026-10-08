@@ -1,0 +1,219 @@
+\originalchapter{测度空间与可测函数}
+\sourcelecture{1--3}
+
+积分需要先知道集合有多大. 在 $\R^n$ 中, 长度、面积与体积给出了熟悉的答案; 在一般集合上, 我们仍希望把互不重叠的部分的大小相加. 但是, 为了使可数次分割和极限过程都能保持这一性质, 通常不能给每个子集同时规定合适的大小. 本章先确定可以测量的集合, 再确定可以积分的函数. 数值的具体来源暂不限定: 计数、一个点上的单位质量, 都可以作为测度.
+
+\originalsection{\texorpdfstring{$\sigma$}{sigma}-代数与 Borel 集}
+\begin{definition}\label{ra:c1:sigma}
+设 $X$ 是集合. 其幂集 $\mathcal P(X)$ 是 $X$ 的所有子集组成的集合. 集合族 $\mathcal M\subset\mathcal P(X)$ 称为 $X$ 上的 $\sigma$-代数, 如果 $X\in\mathcal M$, 且满足下列封闭性: 若 $A\in\mathcal M$, 则 $X\setminus A\in\mathcal M$; 若 $A_n\in\mathcal M$ 对所有 $n\in\N$ 成立, 则 $\bigcup_{n=1}^{\infty}A_n\in\mathcal M$. 二元组 $(X,\mathcal M)$ 称为可测空间, $\mathcal M$ 中的集合称为可测集.
+\end{definition}
+这里的补集始终相对于 $X$. 由 $\varnothing=X^c$ 可知空集可测. De Morgan 法则给出 $\bigcap_n A_n=(\bigcup_n A_n^c)^c$, 所以可数交也可测. 有限并、有限交可以看成补上空集或 $X$ 的可数运算, 因而同样封闭; 差集 $A\setminus B=A\cap B^c$ 也可测.
+
+拓扑与 $\sigma$-代数承担不同任务. 拓扑要求任意并和有限交仍为开集, 却不要求补集为开集; $\sigma$-代数要求补集和可数并仍可测, 却不要求不可数并仍可测. 因此, 从开集出发, 还要加入补集、可数并及它们反复产生的集合, 才能得到用于积分的集合族.
+
+\begin{proposition}\label{ra:c1:generated}
+对任意集合族 $\mathcal F\subset\mathcal P(X)$, 存在唯一最小的、包含 $\mathcal F$ 的 $\sigma$-代数, 记为 $\sigma(\mathcal F)$.
+\end{proposition}
+\begin{proof}
+令 $\mathfrak S$ 是所有包含 $\mathcal F$ 的 $\sigma$-代数组成的族. 因为 $\mathcal P(X)$ 本身属于 $\mathfrak S$, 这个族非空. 取 $\mathcal M_* =\bigcap_{\mathcal A\in\mathfrak S}\mathcal A$. 每个 $\mathcal A$ 都含 $X$, 所以 $X\in\mathcal M_*$. 若 $A\in\mathcal M_*$, 则 $A$ 属于每个 $\mathcal A$, 其补集也属于每个 $\mathcal A$, 故 $A^c\in\mathcal M_*$. 对 $A_n\in\mathcal M_*$, 在每个 $\mathcal A$ 中作可数并, 得 $\bigcup_n A_n\in\mathcal M_*$. 因而 $\mathcal M_*$ 是 $\sigma$-代数. 它包含 $\mathcal F$, 且包含于任何包含 $\mathcal F$ 的 $\sigma$-代数中, 正是所求的最小者. 两个最小者必互相包含, 所以唯一.
+\end{proof}
+
+\begin{definition}
+若 $X$ 是拓扑空间, 由其开集生成的 $\sigma$-代数记为 $\mathcal B(X)$, 称为 Borel $\sigma$-代数. 其中的集合称为 Borel 集. 可数个闭集的并称为 $F_\sigma$ 集, 可数个开集的交称为 $G_\delta$ 集.
+\end{definition}
+闭集是开集的补集, 因而闭集、$F_\sigma$ 集和 $G_\delta$ 集都为 Borel 集. 在 $\R$ 中, 单点是闭集, 所以每个可数集都是 $F_\sigma$ 集. 例如 $\mathbb Q$ 是 Borel 集, 而 $\R\setminus\mathbb Q$ 是 $G_\delta$ 集. Borel 集的定义还允许更复杂的交并过程, 并不只包括上述两类.
+
+\begin{proposition}[编者补充]\label{ra:c1:countable-base}
+$\R^d$ 中所有端点为有理数的开矩形构成可数拓扑基. 因此每个开集是可数个这样的矩形的并, 而 $\mathcal B(\R)$ 可以由开区间、由有理端点开区间, 或由所有射线 $(a,\infty)$ 生成.
+\end{proposition}
+\begin{proof}
+有理数集合可数, 有限个有理数的有序组合也可数, 故这些矩形可数. 若 $x$ 属于开集 $U$, 则存在以 $x$ 为中心且包含于 $U$ 的小球. 在每个坐标上选取略小于和略大于 $x$ 坐标的有理数, 可以使所得矩形含 $x$ 且包含于该小球. 因而 $U$ 是所有包含于 $U$ 的有理矩形的并; 这些矩形是一个可数族的子族.
+
+在一维情形, 这证明有理开区间生成全部开集. 射线本身开, 其生成的 $\sigma$-代数包含于 Borel $\sigma$-代数. 反过来, $[a,\infty)=\bigcap_{n=1}^{\infty}(a-1/n,\infty)$, 所以 $(-\infty,a)$ 是可测的补集. 再取交得到 $(a,b)=(a,\infty)\cap(-\infty,b)$, 故射线也生成全部开区间及 Borel 集.
+\end{proof}
+
+\originalsection{可测映射与连续运算}
+\begin{definition}\label{ra:c1:measurable}
+设 $(X,\mathcal M)$ 为可测空间, $Y$ 为拓扑空间. 映射 $f:X\to Y$ 称为可测, 如果对每个开集 $U\subset Y$ 都有 $f^{-1}(U)\in\mathcal M$. 当 $X$ 也是拓扑空间且 $\mathcal M=\mathcal B(X)$ 时, 称 $f$ 为 Borel 可测映射.
+\end{definition}
+原像 $f^{-1}(U)=\{x\in X:f(x)\in U\}$ 不要求 $f$ 有逆映射. 它保持并、交和补集, 这是可测性能够与集合运算相配合的原因. 连续函数的开集原像仍开, 因而连续函数必为 Borel 可测函数.
+
+\begin{proposition}\label{ra:c1:preimage-borel}
+设 $f:X\to Y$. 集合族 $\mathcal A_f=\{E\subset Y:f^{-1}(E)\in\mathcal M\}$ 是 $Y$ 上的 $\sigma$-代数. 如果 $f$ 可测, 则每个 Borel 集的原像都可测. 如果 $f:X\to Y$ 可测而 $g:Y\to Z$ 连续, 则 $g\circ f$ 可测.
+\end{proposition}
+\begin{proof}
+因为 $f^{-1}(Y)=X$, 所以 $Y\in\mathcal A_f$. 恒等式 $f^{-1}(Y\setminus E)=X\setminus f^{-1}(E)$ 和 $f^{-1}(\bigcup_n E_n)=\bigcup_n f^{-1}(E_n)$ 给出其补集与可数并封闭性. 如果 $f$ 可测, $\mathcal A_f$ 包含全部开集, 因而包含它们生成的 $\mathcal B(Y)$. 最后, 对 $Z$ 中的开集 $U$, 连续性给出 $g^{-1}(U)$ 在 $Y$ 中开, 所以 $(g\circ f)^{-1}(U)=f^{-1}(g^{-1}(U))\in\mathcal M$.
+\end{proof}
+同一原像恒等式也证明两个连续映射的复合连续. 若把 $g$ 的假设改成 Borel 可测, 结论仍成立: 此时先用本命题知道 $f$ 对 Borel 集的原像可测, 再代入 $g^{-1}(U)$ 即可. 对一般可测空间间的复合, 必须明确中间空间的 $\sigma$-代数; 不能只省略这些结构说两个任意可测映射可以复合.
+
+\begin{theorem}\label{ra:c1:continuous-operations}
+设 $u_1,\ldots,u_d:X\to\R$ 可测, $\Phi:\R^d\to Y$ 连续. 则 $x\mapsto\Phi(u_1(x),\ldots,u_d(x))$ 可测.
+\end{theorem}
+\begin{proof}
+先证 $F:X\to\R^d$, $F(x)=(u_1(x),\ldots,u_d(x))$ 可测. 开矩形 $I_1\times\cdots\times I_d$ 的原像为 $\bigcap_{j=1}^{d}u_j^{-1}(I_j)$, 是可测集. 任意开集由命题~\ref{ra:c1:countable-base} 写成可数个开矩形的并, 其原像也就是可数个可测集的并. 故 $F$ 可测. 命题~\ref{ra:c1:preimage-borel} 再给出 $\Phi\circ F$ 可测.
+\end{proof}
+证明中需要的是\emph{可数}拓扑基. 若用每个点周围的矩形形成不可数并, $\sigma$-代数的公理并不足以保证该原像可测.
+
+\begin{corollary}\label{ra:c1:complex}
+复函数 $f=u+iv:X\to\C$ 可测当且仅当实部 $u$ 与虚部 $v$ 都可测. 此时 $\abs f$ 也可测. 两个实值或复值可测函数的和、差、积可测, 可测函数乘常数仍可测. 在 $g$ 处处非零时, $f/g$ 也可测.
+\end{corollary}
+\begin{proof}
+若 $u,v$ 可测, 用连续映射 $(a,b)\mapsto a+ib$ 和定理~\ref{ra:c1:continuous-operations}. 若 $f$ 可测, 分别复合连续函数 $z\mapsto\operatorname{Re}z$, $z\mapsto\operatorname{Im}z$ 和 $z\mapsto\abs z$, 就得到 $u,v,\abs f$ 可测. 对实函数的四则运算使用相应连续映射; 对复函数, 把实部与虚部运算展开, 再用实函数的结论. 除法中 $z\mapsto1/z$ 在 $\C\setminus\{0\}$ 连续; 把 $g$ 看成到此子空间的可测映射即可.
+\end{proof}
+
+\begin{example}
+设 $E\subset X$. 证明示性函数 $\mathbf 1_E$, 在 $E$ 上取 $1$, 在 $E^c$ 上取 $0$, 可测当且仅当 $E\in\mathcal M$.
+\end{example}
+\begin{solution}
+若函数可测, 则 $E=\mathbf 1_E^{-1}((1/2,3/2))$ 可测. 反之, 一个开集的原像只能是 $\varnothing,E,E^c,X$ 之一, 这四个集合都可测.
+\end{solution}
+
+\originalsection{扩展实值函数}
+为了描述非负级数和函数的极限, 需要允许无穷值. 记 $\overline\R=[-\infty,\infty]$, 赋予序拓扑: 普通开区间、$[-\infty,a)$ 和 $(b,\infty]$ 构成拓扑基. 收敛到 $+\infty$ 是指最终大于任意实数, 收敛到 $-\infty$ 类似. 非负量的和与乘积允许无穷值, 并约定 $0\cdot\infty=0$; 但 $\infty-\infty$ 没有定义, 不可参与代数消去.
+
+\begin{proposition}\label{ra:c1:ray-test}
+映射 $f:X\to\overline\R$ 可测当且仅当对每个 $a\in\R$ 都有 $\{f>a\}\in\mathcal M$. 可以把这个条件等价地换成 $\{f\ge a\}$、$\{f<a\}$ 或 $\{f\le a\}$ 对每个实数 $a$ 可测. 只检验有理数阈值也足够.
+\end{proposition}
+\begin{proof}
+必要性来自 $(a,\infty]$ 为开集. 反过来, 假定所有 $\{f>a\}$ 可测. 则
+\[
+ \{f\ge a\}=\bigcap_{n=1}^{\infty}\{f>a-1/n\},\qquad
+ \{f<a\}=\bigcup_{n=1}^{\infty}\{f\le a-1/n\}.
+\]
+其中 $\{f\le t\}=X\setminus\{f>t\}$. 因而各型射线原像可测, 有界开区间的原像为 $\{f>a\}\cap\{f<b\}$, 也可测. $\overline\R$ 的每个开集是可数个上述基元素的并, 故 $f$ 可测. 这些恒等式及取补集同样证明四种判据等价. 若只知道有理阈值的严格上水平集可测, 用 $\{f>a\}=\bigcup_{q\in\mathbb Q,\,q>a}\{f>q\}$ 即可恢复全部实阈值. 其余型式可先以有理阈值的交并转换成严格上水平集.
+\end{proof}
+无穷值的水平集也可测, 因为 $\{f=+\infty\}=\bigcap_n\{f>n\}$, $\{f=-\infty\}=\bigcap_n\{f<-n\}$. 对有限实值函数, 本命题就是通常的实值可测性判据.
+
+\begin{remark}
+原讲义在扩展实数的若干射线判据中采用了不同的端点写法. 本书统一保留 $\pm\infty$ 端点; 对一般扩展实值函数, 若仅检验有限区间而未控制无穷值集合, 不能直接跳过这些端点.
+\end{remark}
+
+\originalsection{可测函数的极限}
+对序列 $a_n\in\overline\R$, 定义 $b_k=\sup_{n\ge k}a_n$, $c_k=\inf_{n\ge k}a_n$. 尾部缩短时, $b_k$ 递减而 $c_k$ 递增, 因此在扩展实数中总有极限. 定义
+\[
+ \limsup_{n\to\infty}a_n=\inf_{k\ge1}\sup_{n\ge k}a_n,\qquad
+ \liminf_{n\to\infty}a_n=\sup_{k\ge1}\inf_{n\ge k}a_n.
+\]
+总有 $\liminf a_n\le\limsup a_n$. 两者相等于 $L$ 当且仅当 $a_n\to L$. 对有限 $L$, 因为 $c_k\to L$ 与 $b_k\to L$, 给定 $\eps>0$ 可取 $k$ 使 $L-\eps<c_k\le a_n\le b_k<L+\eps$ 对所有 $n\ge k$ 成立. 若两者均为 $+\infty$, 则 $c_k\to+\infty$ 迫使尾部最终大于任何实数; $-\infty$ 的情形用 $b_k$ 处理. 反向则直接由收敛的定义与尾部上下界得到.
+
+上下极限还分别是序列最大的和最小的子列极限, 在这里允许无穷极限. 例如当上极限 $L$ 有限时, 一方面整个尾部最终小于 $L+1/j$, 另一方面任意尾部均有一项大于 $L-1/j$; 递归选取严格增加的下标便得到趋于 $L$ 的子列. 当 $L=+\infty$ 时, 从各尾部取大于 $j$ 的项; 当 $L=-\infty$ 时, 原序列已经趋于 $-\infty$. 下极限的结论可对 $-a_n$ 使用同一论证.
+
+\begin{theorem}\label{ra:c1:limits}
+若每个 $f_n:X\to\overline\R$ 可测, 则 $\sup_n f_n$, $\inf_n f_n$, $\limsup_n f_n$ 与 $\liminf_n f_n$ 都可测. 因而处处存在的逐点极限可测. 有限个可测函数的最大值和最小值也可测.
+\end{theorem}
+\begin{proof}
+令 $g(x)=\sup_n f_n(x)$. 对每个实数 $a$, 有 $\{g>a\}=\bigcup_n\{f_n>a\}$: 上确界严格大于 $a$ 时, 必有一个成员严格大于 $a$. 命题~\ref{ra:c1:ray-test} 给出 $g$ 可测. 取负号得到下确界可测. 对每个 $k$, 尾部上确界 $\sup_{n\ge k}f_n$ 可测, 再取这些函数的下确界, 得上极限可测; 下极限同理. 若逐点极限存在, 它等于上下极限, 因而可测. 最大值和最小值是有限族的上、下确界.
+\end{proof}
+对于复值函数的逐点极限, 分别对实部和虚部应用本定理, 再用推论~\ref{ra:c1:complex}. 原讲义曾把函数上极限写成通常极限; 上式给出了即使函数列不收敛也有意义的定义.
+
+\begin{definition}
+对实值或扩展实值函数 $f$, 定义正部 $f^+=\max(f,0)$ 与负部 $f^-=\max(-f,0)$. 若 $f$ 可测, 则二者非负且可测. 在 $f$ 有限时, $f=f^+-f^-$, $\abs f=f^++f^-$; 扩展实值情形也按逐点约定成立, 因为同一点的两部分不会同时为无穷.
+\end{definition}
+
+\originalsection{简单函数逼近}
+\begin{definition}
+只取有限多个有限实数值的函数称为简单函数. 若其不同取值为 $\alpha_1,\ldots,\alpha_r$, 取 $A_j=\{s=\alpha_j\}$, 则 $s=\sum_{j=1}^{r}\alpha_j\mathbf1_{A_j}$. 这些 $A_j$ 两两不交且并为 $X$, 称为函数的水平集表示. 简单函数可测当且仅当其每个水平集可测.
+\end{definition}
+最后的等价性可以直接从原像验证: 任意开集的原像是其中若干水平集的并; 反过来, 用足够小的开区间隔离每个不同取值, 就恢复对应水平集的原像. 复值简单函数可作完全相同的定义, 但非负积分首先只用非负实值简单函数.
+
+\begin{theorem}\label{ra:c1:simple-approx}
+若 $f:X\to[0,\infty]$ 可测, 则存在非负可测简单函数列 $s_n$, 满足 $0\le s_1\le s_2\le\cdots\le f$ 且 $s_n(x)\to f(x)$ 对每个 $x$ 成立.
+\end{theorem}
+\begin{proof}
+将 $[0,n)$ 按长度 $2^{-n}$ 分成有限多个半开区间, 定义
+\[
+ \phi_n(t)=
+ \begin{cases}
+  2^{-n}\lfloor2^nt\rfloor,&0\le t<n,\\
+  n,&n\le t\le\infty.
+ \end{cases}
+\]
+$\phi_n$ 只取 $0,2^{-n},\ldots,n$ 中的有限多个值, 且各水平集为 Borel 集, 所以 Borel 可测. 令 $s_n=\phi_n\circ f$, 命题~\ref{ra:c1:preimage-borel} 保证 $s_n$ 可测.
+
+逐点检验单调性. 当 $t<n$ 时, 二进制网格细分给出 $\lfloor2^{n+1}t\rfloor\ge2\lfloor2^nt\rfloor$, 故 $\phi_{n+1}(t)\ge\phi_n(t)$. 当 $n\le t<n+1$ 时, $n$ 本身是更细网格的端点, 所以 $\phi_{n+1}(t)\ge n=\phi_n(t)$. 当 $t\ge n+1$ 时, $\phi_{n+1}(t)=n+1\ge n=\phi_n(t)$. 每个 $\phi_n(t)\le t$. 对有限 $t$, 一旦 $n>t$, 就有 $0\le t-\phi_n(t)<2^{-n}$; 对 $t=\infty$, 有 $\phi_n(t)=n\to\infty$. 因而 $s_n\uparrow f$.
+\end{proof}
+这个构造同时作两件事: 截去很大的函数值, 再把剩下的值向下舍入到越来越细的网格. 有限截断保证每步是简单函数, 向下舍入保证始终不超过 $f$, 嵌套网格保证单调性. 后一性质正是下一章交换积分与极限的依据.
+
+\originalsection{正测度及连续性}
+\begin{definition}\label{ra:c1:measure}
+可测空间 $(X,\mathcal M)$ 上的正测度是映射 $\mu:\mathcal M\to[0,\infty]$, 满足 $\mu(\varnothing)=0$, 以及对两两不交的可测集 $A_n$ 的可数可加性
+\[
+ \mu\left(\bigcup_{n=1}^{\infty}A_n\right)=\sum_{n=1}^{\infty}\mu(A_n).
+\]
+三元组 $(X,\mathcal M,\mu)$ 称为测度空间. 若 $\mu(X)<\infty$, 称为有限测度; 若 $\mu(X)=1$, 称为概率测度. 若 $X$ 可写成可数个有限测度可测集的并, 称 $\mu$ 为 $\sigma$-有限测度.
+\end{definition}
+正测度允许某些集合的测度为 $\infty$, 但不允许空集的测度为 $\infty$. 原讲义只先写可数可加性, 再从一个有限测度集合推出空集测度为零; 本书将 $\mu(\varnothing)=0$ 明确列入定义, 以排除恒取无穷的退化映射.
+
+\begin{example}
+在 $\mathcal P(X)$ 上定义计数测度 $\mu(E)=\#E$ 当 $E$ 有限, $\mu(E)=\infty$ 当 $E$ 无限. 固定 $x_0\in X$, 定义 Dirac 测度 $\delta_{x_0}(E)=\mathbf1_E(x_0)$. 验证二者为测度.
+\end{example}
+\begin{solution}
+两者都给空集赋值零. 对互不相交的集合列, 若并集有限, 只有有限多个集合非空, 计数相加给出等式. 若并集无限而某个成员无限, 两边都为无穷; 若所有成员有限, 非空成员必有无限多个, 其正整数计数之和为无穷. 因而计数测度可数可加. 对 Dirac 测度, 不交集合中至多一个含 $x_0$, 且并集含 $x_0$ 当且仅当某个成员含它, 所以同样可数可加. Dirac 测度是概率测度; $\N$ 上的计数测度为 $\sigma$-有限, 因为 $\N=\bigcup_n\{1,\ldots,n\}$.
+\end{solution}
+
+\begin{proposition}\label{ra:c1:measure-properties}
+设 $\mu$ 是正测度.
+\begin{enumerate}
+\item 若 $A\subset B$ 均可测, 则 $\mu(A)\le\mu(B)$. 若另有 $\mu(A)<\infty$, 则 $\mu(B\setminus A)=\mu(B)-\mu(A)$.
+\item 对任意可测集列 $A_n$, 有 $\mu(\bigcup_n A_n)\le\sum_n\mu(A_n)$.
+\item 若 $A_n\uparrow A$, 即 $A_1\subset A_2\subset\cdots$ 且 $A=\bigcup_n A_n$, 则 $\mu(A_n)\uparrow\mu(A)$.
+\item 若 $A_n\downarrow A$, 即 $A_1\supset A_2\supset\cdots$ 且 $A=\bigcap_n A_n$, 并且 $\mu(A_1)<\infty$, 则 $\mu(A_n)\downarrow\mu(A)$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+由 $B=A\mathbin{\dot\cup}(B\setminus A)$ 和有限可加性得 $\mu(B)=\mu(A)+\mu(B\setminus A)$. 这既给出单调性, 也在 $\mu(A)$ 有限时允许作减法.
+
+令 $B_1=A_1$, $B_n=A_n\setminus\bigcup_{j<n}A_j$ 对 $n\ge2$. 则 $B_n$ 两两不交, 其并与 $A_n$ 的并相同, 且 $B_n\subset A_n$. 可数可加性与单调性给出第二项.
+
+对于递增列, 改取 $B_1=A_1$, $B_n=A_n\setminus A_{n-1}$. 有 $A_n=\mathop{\dot\bigcup}_{j=1}^{n}B_j$ 与 $A=\mathop{\dot\bigcup}_{j=1}^{\infty}B_j$, 所以 $\mu(A_n)$ 是非负级数 $\sum_j\mu(B_j)$ 的第 $n$ 个部分和, 收敛到 $\mu(A)$.
+
+对于递减列, 令 $C_n=A_1\setminus A_n$. 则 $C_n\uparrow A_1\setminus A$. 由前一项及 $\mu(A_1)<\infty$, 有 $\mu(A_1)-\mu(A_n)=\mu(C_n)\to\mu(A_1\setminus A)=\mu(A_1)-\mu(A)$. 所有被相减的量有限, 故得到所需结论.
+\end{proof}
+
+\begin{example}
+在 $\N$ 上取计数测度, 令 $A_n=\{n,n+1,\ldots\}$. 这些集合递减, 交集为空, 但 $\mu(A_n)=\infty$ 对每个 $n$ 成立. 因而测度的向下连续性不能无条件删去有限测度假设.
+\end{example}
+\begin{solution}
+每个整数只属于有限多个 $A_n$, 所以没有整数属于所有 $A_n$, 即 $\bigcap_n A_n=\varnothing$. 然而每个 $A_n$ 都无限, 故其测度恒为无穷, 与交集的测度零不同. 此例中 $\infty-\infty$ 的减法正是前一证明不能使用的步骤.
+\end{solution}
+
+\begin{definition}
+可测集 $N$ 满足 $\mu(N)=0$ 时称为零测集. 一个性质若在某个可测零测集以外处处成立, 就称它几乎处处成立, 简记为 a.e. 可数个零测集的并仍为零测集, 这是可数次可加性或次可加性的直接结果.
+\end{definition}
+定义中特意要求例外集被一个\emph{可测}零测集覆盖. 一般测度空间的零测集子集未必可测; 下一章的完备化将专门处理这一点.
+
+\originalsection{练习与解答}
+以下题目及解答为编者补充.
+
+\begin{exercise}
+设 $\{E_j:j\in J\}$ 是 $X$ 的一个有限或可数分割, 即各块非空、两两不交且并为 $X$. 证明这些块的任意并组成一个 $\sigma$-代数, 它就是 $\sigma(\{E_j:j\in J\})$. 对此 $\sigma$-代数, 实值函数可测当且仅当在每个块上为常数.
+\end{exercise}
+\begin{solution}
+这些并含 $X$, 补集是余下各块的并, 可数个这样的并仍是某些块的并, 故构成 $\sigma$-代数. 它含各块, 而因为块族可数, 每一个并都属于各块生成的 $\sigma$-代数, 所以两者相等. 若函数在各块上为常数, 任意开集的原像是一些完整块的并, 因而可测. 反过来, 若某块中有 $x,y$ 满足 $f(x)<f(y)$, 取两值之间的实数 $a$. 可测集 $\{f>a\}$ 含 $y$ 却不含 $x$, 不可能为完整块的并, 矛盾.
+\end{solution}
+
+\begin{exercise}
+设 $f_n:X\to\R$ 可测. 证明 $f_n(x)$ 在 $\R$ 中收敛的点组成可测集. 注意这里不把趋于无穷视为有限实数收敛.
+\end{exercise}
+\begin{solution}
+由实数的完备性, 实数序列收敛当且仅当为 Cauchy 序列. 因而所求集合为
+\[
+ C=\bigcap_{k=1}^{\infty}\ \bigcup_{N=1}^{\infty}\
+    \bigcap_{m,n\ge N}\{x:\abs{f_m(x)-f_n(x)}<1/k\}.
+\]
+每个内层集合可测, 因为差及其绝对值可测. 双下标 $(m,n)$ 仍组成可数族, 所以上式只用了可数次并交, 给出 $C\in\mathcal M$. 这个表达式也明确区分了``对每个精度可选一个尾部''的量词次序.
+\end{solution}
+
+\begin{exercise}
+设 $f:X\to[0,\infty]$ 可测. 验证简单逼近定理中的 $s_n$ 在每个 $\{f\le M\}$ 上, 当 $n>M$ 时满足 $\sup_{f\le M}\abs{f-s_n}\le2^{-n}$. 为什么不能据此断定在整个 $X$ 上一致收敛?
+\end{exercise}
+\begin{solution}
+若 $f(x)\le M<n$, 就处于未截断的部分, 所以向下舍入的误差小于 $2^{-n}$. 对这一区域取上确界得所求估计. 整个 $X$ 上的函数可能无界, 而每个 $s_n$ 都不超过 $n$. 例如 $X=\N$, $f(k)=k$, 则任意固定 $n$ 都有 $\sup_k\abs{f(k)-s_n(k)}=\infty$. 对有限函数值的逐点逼近和对有界值域的一致逼近, 都不等于对任意无界函数的一致逼近.
+\end{solution}
+
+\begin{exercise}
+设 $A_n\in\mathcal M$. 定义集合的上、下极限为 $\limsup_n A_n=\bigcap_N\bigcup_{n\ge N}A_n$ 与 $\liminf_n A_n=\bigcup_N\bigcap_{n\ge N}A_n$. 解释它们的逐点含义, 并证明其示性函数分别等于 $\limsup_n\mathbf1_{A_n}$ 与 $\liminf_n\mathbf1_{A_n}$.
+\end{exercise}
+\begin{solution}
+点属于上极限, 是说无论从哪个下标以后看, 它总会再次出现, 即属于无穷多个 $A_n$. 点属于下极限, 是说从某个下标以后它始终出现, 即除有限多个外属于每个 $A_n$. 取值只有零与一的序列上极限为一, 恰好是有无穷多个一; 下极限为一, 恰好是最终恒为一. 这给出了所述两个示性函数等式, 也由可数并交直接证明了两个集合可测.
+\end{solution}

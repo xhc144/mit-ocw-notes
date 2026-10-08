@@ -1,0 +1,166 @@
+% !TeX program = xelatex
+% 数学 LaTeX 排版 Skill v4.0.0；版式保持 v3 金标准. XeLaTeX 编译至少两次. 不分发字体.
+% WZ-LOCKED-CLASS-BEGIN
+\begin{filecontents*}[overwrite]{elegantbook-original-adapter.cls}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{elegantbook-original-adapter}[2026/09/23 v3.0 fixed mathematical book environments]
+\LoadClass[10pt,letterpaper,oneside]{book}
+\RequirePackage[UTF8,scheme=plain,fontset=fandol]{ctex}
+\RequirePackage{fontspec}
+\setmainfont{cmunrm.otf}[BoldFont=cmunbx.otf,ItalicFont=cmunti.otf,BoldItalicFont=cmunbi.otf]
+\setCJKfamilyfont{sourceheader}[ItalicFont=FandolKai-Regular.otf]{FandolKai-Regular.otf}
+\RequirePackage{amsmath,amssymb,mathrsfs}
+\RequirePackage{amsthm,etoolbox}
+\RequirePackage{xcolor,geometry,setspace,fancyhdr,enumitem,needspace,xurl}
+\definecolor{structurecolor}{HTML}{880E4F}
+\definecolor{main}{HTML}{9C27B0}
+\geometry{paperwidth=612bp,paperheight=792bp,left=20mm,right=20mm,top=95.04bp,bottom=20mm,headheight=12pt,headsep=25pt,footskip=30pt}
+\setstretch{1.6}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlist{nosep,leftmargin=2em}
+\AtBeginDocument{\setlength{\abovedisplayskip}{4pt plus 1pt minus 1pt}\setlength{\belowdisplayskip}{4pt plus 1pt minus 1pt}\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{3pt}}
+\fancyhf{}
+\fancyhead[L]{{\itshape\CJKfamily{sourceheader}\rightmark}}
+\fancyhead[R]{{\itshape\CJKfamily{sourceheader}\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{structurecolor}\hrule height\headrulewidth width\headwidth\vskip-\headrulewidth}}
+\pagestyle{fancy}
+\fancypagestyle{cover}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}\renewcommand{\headrule}{}}
+\RequirePackage{hyperref}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=structurecolor,urlcolor=structurecolor,citecolor=structurecolor,linktoc=section,bookmarksnumbered=true,bookmarksopen=true,pdfborder={0 0 0},pdfstartview=FitH}
+\setcounter{tocdepth}{1}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.4em}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\newcommand{\originalchapter}[1]{\par\addvspace{14pt}\Needspace{5\baselineskip}\refstepcounter{chapter}\setcounter{section}{0}\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}\markboth{\thechapter\quad #1}{}\begingroup\centering\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\thechapter\quad #1\par\endgroup\nobreak\vspace{8pt}}
+\newcommand{\originalsection}[1]{\par\addvspace{9pt}\Needspace{4\baselineskip}\refstepcounter{section}\addcontentsline{toc}{section}{\protect\hspace*{1.5em}\protect\numberline{\protect\textcolor{structurecolor}{\thesection}}#1}\markright{\thesection\quad #1}\noindent{\fontsize{12}{17}\selectfont\color{structurecolor}\thesection\quad}{\bfseries\fontsize{12}{17}\selectfont #1}\par\nobreak\vspace{4pt}}
+
+% Semantic environments are registered once here, not re-designed in manuscripts.
+\newtheoremstyle{wzstatement}{6pt}{5pt}
+  {\normalfont\kaishu}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzdefinition}{6pt}{5pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzproblem}{7pt}{5pt}
+  {\normalfont\songti}{2em}{\normalfont\bfseries\color{main}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}}
+\newtheoremstyle{wzremark}{4pt}{4pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries}
+  {}{.7em}{\thmname{#1}}
+\theoremstyle{wzstatement}
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{wzdefinition}
+\newtheorem{definition}[theorem]{定义}
+\theoremstyle{wzproblem}
+\newtheorem{example}{例题}[chapter]
+\newtheorem{exercise}{习题}[chapter]
+\theoremstyle{wzremark}
+\newtheorem*{remark}{注}
+\renewcommand{\proofname}{证明}
+% Retain the native amsthm QED stack; only adjust the fixed typography.
+\expandafter\patchcmd\csname\string\proof\endcsname{\normalfont \topsep6\p@\@plus6\p@\relax}
+  {\normalfont\songti \topsep5\p@\@plus1\p@\relax}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof spacing}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\itshape}{\normalfont\bfseries}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof heading}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\ignorespaces}
+  {\setlength{\parindent}{2em}\ignorespaces}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof paragraphs}{Check the amsthm version.}}
+\AtBeginEnvironment{proof}{\par\Needspace{3\baselineskip}}
+\renewcommand{\qedsymbol}{\ensuremath{\square}}
+\newenvironment{solution}{\begin{proof}[解答]}{\end{proof}}
+\newcommand{\wzcheckchapter}{\ifnum\value{chapter}<1
+  \ClassError{elegantbook-original-adapter}{Numbered mathematics before chapter 1}{Move it after the first originalchapter.}\fi}
+
+\newcommand{\wzregisterguard}[1]{\AtBeginEnvironment{#1}{\wzcheckchapter\par\Needspace{3\baselineskip}}}
+\forcsvlist{\wzregisterguard}{theorem,lemma,proposition,corollary,definition,example,exercise}
+% Front matter and bibliography are not numbered mathematical chapters.
+\newcommand{\originalpreface}{\par\addvspace{10pt}\Needspace{5\baselineskip}
+  \noindent{\bfseries\fontsize{12}{17}\selectfont 前言}\par\nobreak\vspace{4pt}}
+\newcommand{\originalcontents}{\par\addvspace{14pt}
+  \begin{center}{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont 目录}\end{center}
+  \vspace{-10pt}\@starttoc{toc}}
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]{
+  \par\addvspace{12pt}\Needspace{3\baselineskip}\phantomsection
+  \addcontentsline{toc}{chapter}{\bibname}
+  \markboth{\bibname}{}
+  \noindent{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\bibname}\par\nobreak\vspace{6pt}
+  \list{\@biblabel{\@arabic\c@enumiv}}
+    {\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth
+     \advance\leftmargin\labelsep\usecounter{enumiv}
+     \let\p@enumiv\@empty\renewcommand\theenumiv{\@arabic\c@enumiv}
+     \setlength{\itemsep}{3pt}\setlength{\parsep}{0pt}}
+  \sloppy\clubpenalty4000\widowpenalty4000\sfcode`\.=1000\relax
+}{\def\@noitemerr{\@latex@warning{Empty bibliography}}\endlist}
+
+\numberwithin{equation}{chapter}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+\allowdisplaybreaks[2]
+\emergencystretch=2em
+\clubpenalty=6000
+\widowpenalty=6000
+\raggedbottom
+\endinput
+\end{filecontents*}
+% WZ-LOCKED-CLASS-END
+\documentclass{elegantbook-original-adapter}
+% ===== 元数据内容槽 =====
+\newcommand{\BookTitle}{测度与积分}
+\newcommand{\BookAuthor}{Jeff Viaclovsky 讲授; Ethan Brown 原讲义排录}
+\newcommand{\BookDate}{MIT 18.125, Fall 2003}
+\hypersetup{pdftitle={测度与积分: MIT 18.125 中文重编本},pdfauthor={Jeff Viaclovsky; Ethan Brown; 中文译编}}
+\usepackage{booktabs,longtable}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\sourcelecture}[1]{\par\noindent 对应原课程第 #1 讲.\par}
+\begin{document}
+\frontmatter
+\begin{center}
+{\color{structurecolor}\bfseries\fontsize{18}{25}\selectfont\BookTitle\par}
+{\bfseries MIT 18.125 中文重编本\par}
+\BookAuthor\par
+\BookDate\par
+\end{center}
+\originalpreface
+集合的大小、函数的积分和极限交换是同一个理论的不同层次. 测度给可测集合指定大小, 可测函数把集合结构带到函数上, Lebesgue 积分由简单函数的逼近建立. 本册沿这一依赖顺序, 从一般测度空间进入欧氏空间, 继而讨论函数空间、乘积积分、卷积和几乎处处微分. 读者需掌握数列与级数、连续函数、紧性以及一元和多元微积分; 本册在用到时说明所需的集合与拓扑语言.
+
+主要依据为 Jeff Viaclovsky 在 MIT 讲授的 \href{https://ocw.mit.edu/courses/18-125-measure-and-integration-fall-2003/pages/lecture-notes/}{18.125 Measure and Integration, Fall 2003} 的24份公开讲义, 原稿由 Ethan Brown 根据 Viaclovsky 的手写课堂笔记排成 LaTeX. 已实际下载的24份文件合计95个PDF物理页. 本册用简体中文重新编排, 合并复述, 补齐原稿省略的论证并指出影响数学结论的排印错误. 例题和习题的解答均在正文中展开; 编者增设的内容不冒称课程原文或官方答案.
+
+第1至8章覆盖这24份讲义的主题与主要论证. 第9章为显式编者补充的 Radon--Nikodym 定理与 Lebesgue 分解, 并补证原稿只陈述的绝对连续逆向积分定理, 用来解释积分密度并接续泛函分析中的 $L^p$ 对偶. 一般赋范空间的算子理论、谱理论和一般对偶定理由泛函册承担. 官方教学大纲另列 Hausdorff 测度、面积公式与余面积公式, 但这24份下载讲义中没有相应正文; 本册不宣称已翻译这些不存在于源文件的部分. 独立作业文件及其外部教材题目不在本次归档与译编范围.
+
+原课程、作者、年份与逐文件下载链接见书末及 sources/real-analysis/source-manifest.json. 来源文件逐件核实页数与校验和; 没有发现单独第三方权利声明或复用外部图片. 本册正文采用原生 LaTeX, 不以源页截图代替文字. 中文译编、重排、补证、勘误与新增练习属于本次改动. 原课程与本改编均遵循 \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0 International}; 单独权利声明优先. 署名不表示 MIT 或原作者认可本项目. 许可依据见 \href{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}{MIT OCW 使用条款}. 版本日期: 2026-10-08.
+\clearpage
+\originalcontents
+\clearpage
+\mainmatter
+\input{chapters/ch01.tex}
+\input{chapters/ch02.tex}
+\input{chapters/ch03.tex}
+\input{chapters/ch04.tex}
+\input{chapters/ch05.tex}
+\input{chapters/ch06.tex}
+\input{chapters/ch07.tex}
+\input{chapters/ch08.tex}
+\input{chapters/ch09.tex}
+\input{chapters/source-map.tex}
+\begin{thebibliography}{9}
+\bibitem{ocw} Jeff Viaclovsky (讲授), Ethan Brown (排录). \textit{18.125 Measure and Integration, Fall 2003}. MIT OpenCourseWare. \href{https://ocw.mit.edu/courses/18-125-measure-and-integration-fall-2003/pages/lecture-notes/}{24份讲义目录}; 逐份原件页码见来源对照.
+\bibitem{terms} MIT OpenCourseWare. \href{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}{Privacy and Terms of Use}. 核验日期2026-10-08. \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0 International}.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,357 @@
+\originalchapter{正则测度与函数逼近}
+\label{ra:c4:chapter}
+\sourcelecture{10--13}
+
+\originalsection{连续函数与局部紧空间}
+
+积分是线性的: 对可积函数 $f,h$ 与标量 $a,b$, 有 $\int(af+bh)\dd\mu=a\int f\dd\mu+b\int h\dd\mu$. 若 $f\ge0$, 则积分非负. 原第 10 讲反过来问: 一个定义在连续函数上的正线性泛函, 能否由某个测度的积分给出? 这既解释正则测度的来源, 也提供后面逼近可测函数所需的开集、紧集工具.
+
+\begin{definition}\label{ra:c4:topology}
+拓扑空间 $X$ 称为 Hausdorff 空间, 若任意两个不同点有不交的开邻域. 它称为局部紧空间, 若每个点都有闭包紧的开邻域. 函数的支集是 $\supp f=\overline{\{x:f(x)\ne0\}}$. 记 $C_c(X)$ 为复值连续且具有紧支集的函数所成的向量空间.
+
+实值或扩展实值函数 $v$ 称为下半连续, 若每个 $\{v>a\}$ 都开; $u$ 称为上半连续, 若每个 $\{u<a\}$ 都开. 开集 $V$ 的示性函数 $\ind_V$ 下半连续, 闭集 $F$ 的示性函数 $\ind_F$ 上半连续.
+\end{definition}
+
+\begin{remark}
+支集定义中的闭包不可省略. $f$ 连续且具有紧支集时, 它在支集上有界. $C_c(X)$ 对线性组合封闭, 因为新支集包含在原来两个紧支集的并内. 本节只讨论测度表示所需的正泛函; 一般 Banach 空间对偶与谱理论留给泛函分析册.
+\end{remark}
+
+\begin{definition}\label{ra:c4:cutoffnotation}
+记 $K\prec f$ 表示 $K$ 紧, $f\in C_c(X)$, $0\le f\le1$, 且 $f=1$ 于 $K$. 记 $f\prec V$ 表示 $V$ 开, $f\in C_c(X)$, $0\le f\le1$, 且 $\supp f\subset V$. 正线性泛函是复线性映射 $\Lambda:C_c(X)\to\C$, 满足 $f\ge0\Rightarrow\Lambda f\ge0$.
+\end{definition}
+
+正性蕴含实函数被送到实数, 以及 $f\le h\Rightarrow\Lambda f\le\Lambda h$: 对实函数用连续的正负部分分解即可. 若 $\phi=1$ 于 $\supp f$ 且 $\phi\ge0$, 则对实函数有 $|\Lambda f|\le\norm{f}_\infty\Lambda\phi$. 因而泛函在固定紧支集上的大小可用一个截断函数控制; 不需要先假设全空间上的统一有界性.
+
+\begin{lemma}[局部紧空间的截断函数]\label{ra:c4:urysohn}
+设 $X$ 局部紧且 Hausdorff, $K\subset V$, $K$ 紧、$V$ 开. 则存在 $f\in C_c(X)$, 使 $K\prec f\prec V$. 还可以使 $f=1$ 于 $K$ 的某个开邻域.
+\end{lemma}
+\begin{proof}
+\textbf{编者补充原稿所引用的拓扑论证.} 紧 Hausdorff 空间是正规空间. 确切地说, 对不交闭集 $A,B$, 它们也是紧集. 对每个 $a\in A$ 和 $b\in B$ 选不交邻域; 先对 $b$ 的邻域取有限子覆盖, 得到 $a$ 的一个邻域与 $B$ 的一个邻域不交, 再对 $a$ 的邻域取有限子覆盖, 得到整个 $A,B$ 的不交开邻域. 因而在紧 Hausdorff 空间内, 若闭集 $A\subset U$ 且 $U$ 开, 可选开集 $W$ 使 $A\subset W\subset\overline W\subset U$.
+
+这个收缩性质也给出局部紧 Hausdorff 空间的相应局部性质. 对 $x\in V$, 先取闭包紧的开邻域 $H^\circ_x$, 在紧空间 $H_x=\overline{H^\circ_x}$ 中将 $\{x\}$ 的邻域收缩到 $H^\circ_x\cap V$ 内. 所得开邻域在 $X$ 中也是开集, 闭包紧且包含在 $V$ 内. 用紧性对 $K$ 取有限覆盖, 得到开集 $O$, 满足 $K\subset O\subset\overline O\subset V$, $\overline O$ 紧. 再收缩一次, 可在 $O$ 内取得 $K$ 的紧邻域 $L$.
+
+在紧正规空间 $H=\overline O$ 上应用下面的二进有理数构造. 对不交闭集 $L$ 和 $H\setminus O$, 反复使用收缩性质, 选开集 $U_r$ ($r\in[0,1]\cap\mathbb Z[1/2]$), 使 $L\subset U_0$, $U_1=H\setminus(H\setminus O)=O$, 且 $r<s\Rightarrow\overline{U_r}\subset U_s$. 在插入每个相邻二进有理数的中点时, 只需将 $\overline{U_r}$ 的邻域收缩到 $U_s$ 内. 令 $h(x)=\inf\{r:x\in U_r\}$, 空集的下确界取 $1$. 则 $h=0$ 于 $L$, $h=1$ 于 $H\setminus O$. 对 $0<a<1$, 有 $\{h<a\}=\bigcup_{r<a}U_r$; 同时, 利用闭包的严格嵌套, $\{h>a\}=\bigcup_{r>a}(H\setminus\overline{U_r})$. 两者均开. 端点阈值 $a=0,1$ 的非平凡水平集可由这些开集取并得到; $[0,1]$ 外的阈值给出全空间或空集. 因而 $h$ 连续. 令 $f=1-h$ 于 $H$, 并在 $X\setminus H$ 上取 $0$. 它在 $H\setminus O$ 上已为 $0$, 因而延拓连续; 支集包含在紧集 $H\subset V$ 内, 且在紧邻域 $L$ 上等于 $1$.
+\end{proof}
+
+\begin{lemma}[有限单位分解]\label{ra:c4:partition}
+若紧集 $K\subset V_1\cup\cdots\cup V_m$, 各 $V_i$ 开, 则存在 $h_i\prec V_i$, 使 $\sum_ih_i=1$ 于 $K$, 且 $0\le\sum_ih_i\le1$ 于整个 $X$.
+\end{lemma}
+\begin{proof}
+对 $K$ 各点选支集落在某个 $V_i$ 内、且在该点邻域为 $1$ 的截断函数. 紧性给出有限个此类函数. 将属于同一 $V_i$ 的函数相加, 得非负连续紧支集函数 $g_i$, 使 $s=\sum_ig_i>0$ 于 $K$. 再选 $\psi$ 满足 $K\prec\psi\prec\{s>0\}$. 在 $\{s>0\}$ 上令 $h_i=\psi g_i/s$, 其他地方取 $0$. 因 $\supp\psi$ 是包含在 $\{s>0\}$ 内的紧集, 延拓连续. 各支集落在 $V_i$ 内, 且 $\sum_ih_i=\psi$, 所以满足结论.
+\end{proof}
+
+\begin{remark}
+原稿的单位分解应理解为在 $K$ 上求和为 $1$. 在非紧空间上, 有限个紧支集函数不能在全空间求和为 $1$. 后面的证明同时使用 $K$ 上的等式与全空间的上界.
+\end{remark}
+
+\originalsection{Riesz 表示定理的测度构造}
+
+\begin{theorem}[正线性泛函的 Riesz 表示]\label{ra:c4:riesz}
+设 $X$ 为局部紧 Hausdorff 空间, $\Lambda:C_c(X)\to\C$ 为正线性泛函. 则存在包含全部 Borel 集的完备 $\sigma$ 代数 $\mathcal M$ 及其上的正测度 $\mu$, 使得:
+\begin{enumerate}
+\item 对每个 $f\in C_c(X)$, $\Lambda f=\int_X f\dd\mu$.
+\item 每个紧集 $K$ 的测度有限.
+\item 对 $E\in\mathcal M$, $\mu(E)=\inf\{\mu(V):E\subset V,\ V\text{ 开}\}$.
+\item 若 $E$ 开, 或 $E\in\mathcal M$ 且 $\mu(E)<\infty$, 则 $\mu(E)=\sup\{\mu(K):K\subset E,\ K\text{ 紧}\}$.
+\end{enumerate}
+可取 $\mathcal M$ 为下述外测度的全部 Carath\'eodory 可测集. 在这个固定 $\mathcal M$ 上, 满足这些性质的测度唯一.
+\end{theorem}
+
+原第 10 讲在一般局部紧 Hausdorff 空间中陈述此定理, 并给出构造及积分表示的提纲. 以下保留这个范围, 将原稿略去的测度步骤补齐. 唯一性所比较的是正则的表示测度; 不能将 ``唯一测度'' 理解成允许任意改变可测集域后仍有字面上的同一个对象.
+
+\begin{proof}
+对开集 $V$, 定义 $m(V)=\sup\{\Lambda f:f\prec V\}$, 对任意 $E\subset X$ 定义 $\mu^*(E)=\inf\{m(V):E\subset V,\ V\text{ 开}\}$. 以下依次验证外测度、可测性、正则性和积分表示.
+
+\textbf{开集上的运算.} $m$ 单调, $m(\varnothing)=0$. 若 $V\subset\bigcup_iV_i$, 对任意 $f\prec V$, 用 $\supp f$ 的紧性从 $V_i$ 中取有限子覆盖, 再用有限单位分解 $h_i$. 有 $f=\sum_ifh_i$, 各 $fh_i\prec V_i$, 所以 $\Lambda f\le\sum_im(V_i)$. 取上确界得 $m(V)\le\sum_im(V_i)$. 若 $V_i$ 两两不交, 固定有限个 $f_i\prec V_i$, 则 $\sum_if_i\prec\bigcup_iV_i$, 故 $m(\bigcup_iV_i)\ge\sum_im(V_i)$, 先取有限个上确界再增加项数. 因而不交开集可数可加.
+
+$\mu^*$ 是外测度: 空集与单调性直接成立; 可数次可加性用每个 $E_i$ 的开邻域 $V_i$, 使 $m(V_i)<\mu^*(E_i)+\eps2^{-i}$, 然后使用上一段. 若右边为无限大, 不等式自动成立. 对开集, 单调性并允许取 $V$ 自身, 给出 $\mu^*(V)=m(V)$.
+
+\textbf{紧集与开集的关系.} 对紧集 $K$, 有
+\begin{equation}\label{ra:c4:compactcapacity}
+ \mu^*(K)=\inf\{\Lambda f:K\prec f\}<\infty.
+\end{equation}
+首先选 $\phi$ 满足 $K\prec\phi$. 在 $U=\{\phi>1/2\}$ 上, 任意 $h\prec U$ 都有 $h\le2\phi$, 故 $m(U)\le2\Lambda\phi<\infty$. 这证明紧集的外测度有限. 对任意 $K\prec f$ 及 $0<\delta<1$, 开集 $U_\delta=\{f>1-\delta\}$ 包含 $K$, 且 $h\prec U_\delta$ 时 $h\le f/(1-\delta)$. 因而 $\mu^*(K)\le\Lambda f/(1-\delta)$; 令 $\delta\downarrow0$, 得 $\mu^*(K)\le\Lambda f$. 反之, 任意开集 $V\supset K$ 都允许选 $K\prec f\prec V$, 于是 $\Lambda f\le m(V)$. 取下确界即得 \eqref{ra:c4:compactcapacity}.
+
+开集还满足
+\begin{equation}\label{ra:c4:openinner}
+ m(V)=\sup_{K\subset V,\ K\text{ 紧}}\mu^*(K).
+\end{equation}
+一个方向来自单调性. 另一个方向中, 若 $f\prec V$, 令 $K=\supp f$. 任何 $K\prec h$ 都有 $f\le h$, 所以 $\Lambda f\le\mu^*(K)$; 再对 $f$ 取上确界.
+
+对 $K\subset V$, $K$ 紧、$V$ 开, 进一步有
+\begin{equation}\label{ra:c4:opensplit}
+ m(V)=\mu^*(K)+m(V\setminus K).
+\end{equation}
+为证 $\ge$, 任取 $h\prec V\setminus K$, 再选 $K\prec f\prec V\setminus\supp h$. $f,h$ 的支集不交, 所以 $f+h\prec V$, 从而 $m(V)\ge\mu^*(K)+\Lambda h$. 取上确界. 为证 $\le$, 给定 $\eps>0$, 选开集 $W\supset K$, 使 $m(W)<\mu^*(K)+\eps$. 在 $W\cap V$ 内取 $K$ 的紧邻域 $L$, 再取 $L\prec f\prec W\cap V$. 对任意 $h\prec V$, 有 $hf\prec W$, 而 $h(1-f)\prec V\setminus K$, 因为 $f$ 在 $K$ 的一个邻域内等于 $1$. 所以 $\Lambda h\le m(W)+m(V\setminus K)$. 取上确界再令 $\eps\downarrow0$.
+
+\textbf{Borel 集的可测性.} 设 $U$ 开, $A\subset X$ 任意, $V\supset A$ 开. 对紧集 $K\subset V\cap U$, 式 \eqref{ra:c4:opensplit} 给出
+\[
+ m(V)\ge\mu^*(K)+\mu^*(A\setminus U).
+\]
+利用 \eqref{ra:c4:openinner} 对 $K$ 取上确界, 得 $m(V)\ge m(V\cap U)+\mu^*(A\setminus U)\ge\mu^*(A\cap U)+\mu^*(A\setminus U)$. 再对 $V$ 取下确界. 相反方向由次可加性给出, 因而每个开集满足 Carath\'eodory 等式.
+
+这里也补全一般外测度的延拓步骤. 对任意外测度 $\nu^*$, 称 $E$ 可测若它对每个 $A$ 都满足 $\nu^*(A)=\nu^*(A\cap E)+\nu^*(A\setminus E)$. 补集封闭直接成立. 若 $E,F$ 可测, 先用 $E$ 切分 $A$, 再用 $F$ 切分剩余部分, 得
+\[
+ \nu^*(A)\ge\nu^*(A\cap(E\cup F))+\nu^*(A\setminus(E\cup F)),
+\]
+因为前两片的外测度之和不小于其并的外测度; 反向不等式总由次可加性成立. 这证明有限并封闭, 从而差集也封闭. 若 $E_i$ 两两不交且可测, 依次切分得
+\[
+ \nu^*(A)\ge\sum_{i=1}^N\nu^*(A\cap E_i)
+       +\nu^*\Bigl(A\setminus\bigcup_{i\ge1}E_i\Bigr).
+\]
+令 $N\to\infty$, 再利用 $\nu^*(A\cap\bigcup_iE_i)\le\sum_i\nu^*(A\cap E_i)$, 得到可数并可测. 一般可数并先将其差集化为不交并. 对 $A=\bigcup_iE_i$ 使用同一有限切分及次可加性, 得到可数可加性. 外测度零集及其所有子集也满足切分等式, 所以所得测度完备.
+
+将此论证应用于 $\mu^*$, 令 $\mathcal M$ 为其可测集族, $\mu=\mu^*|_{\mathcal M}$. 已证 $\mathcal M$ 包含 Borel 集, 测度完备, 紧集有限; 外正则性由定义直接成立. 开集内正则性就是 \eqref{ra:c4:openinner}.
+
+\textbf{有限可测集的内正则性.} 设 $\mu(E)<\infty$. 给定 $\eta>0$, 取开集 $V\supset E$ 使 $\mu(V)<\mu(E)+\eta$, 再取紧集 $K\subset V$ 使 $\mu(K)>\mu(V)-\eta$. 于是 $\mu(E\setminus K)<\eta$. 取开集 $W\supset K\setminus E$, 使 $\mu(W)<\mu(K\setminus E)+\eta$. 紧集 $L=K\setminus W$ 包含在 $E$ 内, 且
+\[
+ \mu(E\setminus L)
+ \le\mu(E\setminus K)+\mu(E\cap K\cap W)<2\eta,
+\]
+因为 $K\setminus E\subset W$ 且 $\mu(E\cap K\cap W)\le\mu(W)-\mu(K\setminus E)<\eta$. 任意小的损失证明有限集内正则. 特别地, 对有限 $E$ 可取 $L\subset E\subset V$, 使 $\mu(V\setminus L)$ 任意小.
+
+\textbf{积分表示.} 保留原稿按函数值分层并用单位分解的方法. 先取实函数 $f\in C_c(X)$. 若 $f=0$, 表示等式立即成立; 以下设 $f\ne0$, 令 $K=\supp f$, $M=\norm{f}_\infty>0$. 将 $[-M,M]$ 分成有限个长度至多 $\delta$ 的半开区间, 其右端点为 $y_i$, 用适当闭合的首端点约定覆盖整个范围. 令 $E_i\subset K$ 为相应函数值层; 这些 Borel 集构成 $K$ 的不交分割, 且 $y_i-\delta\le f\le y_i$ 于 $E_i$. 由外正则性与连续性, 可选开集
+\[
+ E_i\subset V_i\subset\{f<y_i+\delta\},
+ \qquad \mu(V_i)<\mu(E_i)+\eta/r,
+\]
+其中 $r$ 是层数. 对覆盖 $K$ 的 $V_i$ 取单位分解 $h_i$. 令 $a=M$. 因 $\sum_ih_i=1$ 于 $K$, 有 $f=\sum_ifh_i$; 又 $K\prec\sum_ih_i$, 故式 \eqref{ra:c4:compactcapacity} 给出 $\Lambda(\sum_ih_i)\ge\mu(K)$. 正性于是给出
+\begin{align*}
+ \Lambda f
+ &\le\sum_i(y_i+\delta)\Lambda h_i\\
+ &=\sum_i(y_i+a+\delta)\Lambda h_i-a\Lambda\Bigl(\sum_ih_i\Bigr)\\
+ &\le\sum_i(y_i+a+\delta)\mu(V_i)-a\mu(K)\\
+ &\le\sum_iy_i\mu(E_i)+\delta\mu(K)+(2M+\delta)\eta\\
+ &\le\int_X f\dd\mu+2\delta\mu(K)+(2M+\delta)\eta.
+\end{align*}
+$h_i$ 的支集在 $V_i$ 内, 故 $\Lambda h_i\le\mu(V_i)$; 加上 $a$ 是为了让使用这一步的系数全部非负. 先令 $\eta\downarrow0$, 再令 $\delta\downarrow0$, 得 $\Lambda f\le\int f\dd\mu$. 对 $-f$ 应用同一不等式, 得反向不等式. 实函数表示成立, 复函数再分实部、虚部, 利用复线性得到.
+
+\textbf{唯一性.} 若 $\mu_1,\mu_2$ 都满足定理性质, 取紧集 $K$ 及开邻域 $V$ 使 $\mu_2(V)<\mu_2(K)+\eps$, 再取 $K\prec f\prec V$. 则 $\mu_1(K)\le\int f\dd\mu_1=\Lambda f=\int f\dd\mu_2\le\mu_2(V)<\mu_2(K)+\eps$. 交换两测度并令 $\eps\downarrow0$, 得紧集上相等. 开集的内正则性使它们在开集上相等, 全部可测集的外正则性使它们在固定的 $\mathcal M$ 上相等. 若比较不同的可测集域, 此论证给出共同域上相等; 两者从开集产生的外测度及其完整 Carath\'eodory 域仍相同.
+\end{proof}
+
+\begin{definition}\label{ra:c4:regularity}
+包含 Borel 集的可测空间上的测度称为 Borel 测度. 用开集外逼近称为外正则, 用紧集内逼近称为内正则; 两者都成立时称为正则. $X$ 称为 $\sigma$ 紧, 若它是可数个紧集的并; 测度称为 $\sigma$ 有限, 若 $X$ 是可数个有限测度可测集的并.
+\end{definition}
+
+一般 Riesz 定理只对开集与有限可测集保证紧集内逼近. 增加 $\sigma$ 紧条件后, 可以得到对所有可测集的内正则性以及闭集逼近.
+
+\begin{proposition}\label{ra:c4:sigmacompact}
+在定理 \ref{ra:c4:riesz} 中, 若 $X$ 还 $\sigma$ 紧, 则 $\mu$ 为 $\sigma$ 有限的正则测度. 对每个 $E\in\mathcal M$ 和 $\eps>0$, 都有闭集 $F$、开集 $V$, 使 $F\subset E\subset V$ 且 $\mu(V\setminus F)<\eps$. 此外有 $F_\sigma$ 集 $A$ 和 $G_\delta$ 集 $B$, 使 $A\subset E\subset B$ 且 $\mu(B\setminus A)=0$.
+\end{proposition}
+\begin{proof}
+由给定的可数紧覆盖和截断引理, 可递归构造紧集 $K_j$ 使 $K_j\subset\operatorname{int}K_{j+1}$ 且 $\bigcup_jK_j=X$: 每一步用有限个相对紧开邻域覆盖前一个紧集和下一给定紧集, 取其闭包的并. 紧集测度有限, 所以测度 $\sigma$ 有限. 对任意 $E$, 有 $\mu(E\cap K_j)\uparrow\mu(E)$; 有限集内正则性使全部 $E$ 都能用紧集从内逼近, 即使其测度无限也成立.
+
+令 $K_0=\varnothing$, $S_j=K_j\setminus\operatorname{int}K_{j-1}$. 这是局部有限的紧集族且覆盖 $X$: 若 $x\in\operatorname{int}K_m$, 它的一个邻域不会遇到 $j\ge m+2$ 的壳层. 每个 $E\cap S_j$ 有限, 可选紧集 $C_j\subset E\cap S_j$ 与开集 $V_j\supset E\cap S_j$, 使 $\mu(V_j\setminus C_j)<\eps2^{-j}$. 令 $F=\bigcup_jC_j$, $V=\bigcup_jV_j$. 局部有限性保证 $F$ 闭, 而 $V\setminus F\subset\bigcup_j(V_j\setminus C_j)$ 给出误差界.
+
+最后对误差 $1/m$ 分别取 $F_m,V_m$, 令 $A=\bigcup_mF_m$, $B=\bigcap_mV_m$. 则 $B\setminus A$ 的测度不超过每个 $1/m$, 所以为零.
+\end{proof}
+
+\begin{example}\label{ra:c4:riemannriesz}
+在 $\R^n$ 上, 令 $\Lambda f$ 为紧支集连续函数的 Riemann 积分. Riesz 构造得到的测度就是 Lebesgue 测度.
+\end{example}
+\begin{solution}
+这个泛函正且线性. 对轴平行闭矩形 $I$, 任何 $I\prec f$ 都有 $\Lambda f\ge v(I)$, 因为非负函数 $f$ 在 $I$ 上为 $1$. 又可选截断函数支集落在任意小幅扩大后的矩形内, 因而 $\Lambda f$ 至多为扩大后的体积. 由式 \eqref{ra:c4:compactcapacity}, 得 $\mu(I)=v(I)$. 退化矩形用薄邻域同样得到零测度.
+
+有限网格分割使 $\mu(P)=v(P)$ 对矩形多面集成立. 若 $G$ 开、$K\subset G$ 紧, 可用有限个闭包落在 $G$ 内的小开矩形覆盖 $K$, 得 $K\subset P\subset G$. 因而开集内正则性给出 $\mu(G)=\sup_{P\subset G}v(P)=\lambda(G)$. 再由外正则性, 两者产生的外测度相同, 完整可测集域与测度也相同.
+\end{solution}
+
+\originalsection{Lusin 定理}
+
+本节取定理 \ref{ra:c4:riesz} 给出的正则性条件: 测度完备, 包含 Borel 集, 紧集有限, 所有可测集外正则, 有限可测集可由紧集从内逼近. Lebesgue 测度是主要例子. ``可测函数近乎连续'' 的准确含义是删去一个任意小测度的例外集后, 它与某个连续函数完全相同, 并非仅仅函数值接近.
+
+\begin{theorem}[Lusin]\label{ra:c4:lusin}
+设 $f:X\to\C$ 可测且处处有限, $A\in\mathcal M$, $\mu(A)<\infty$, 并且 $f=0$ 于 $X\setminus A$. 对每个 $\eps>0$, 存在 $g\in C_c(X)$, 使 $\mu(\{f\ne g\})<\eps$. 若 $f$ 有界, 还可保证 $\norm{g}_\infty\le\norm{f}_\infty$.
+\end{theorem}
+\begin{proof}
+先设 $0\le f\le1$, 且 $f=0$ 于某个紧集 $K$ 之外. 令 $s_0=0$, 对 $n\ge1$ 定义
+\[
+ s_n(x)=2^{-n}\min\{\lfloor2^nf(x)\rfloor,2^n-1\}.
+\]
+则 $s_n\uparrow f$, 且 $t_n=s_n-s_{n-1}$ 只取 $0,2^{-n}$ 两个值. 这个上端截断使 $f=1$ 时仍有一致的二进展开. 令 $T_n=\{t_n=2^{-n}\}\subset K$, 则 $f=\sum_{n\ge1}2^{-n}\ind_{T_n}$.
+
+取开集 $V\supset K$, 使 $\overline V$ 紧. 用有限集正则逼近选紧集 $K_n$ 和开集 $V_n$, 满足 $K_n\subset T_n\subset V_n\subset V$, $\mu(V_n\setminus K_n)<\eps2^{-n}$. 取 $K_n\prec h_n\prec V_n$, 定义 $g=\sum_{n\ge1}2^{-n}h_n$. 级数一致收敛, 所以 $g$ 连续, $0\le g\le1$, 且支集包含在 $\overline V$ 内. 在 $V_n\setminus K_n$ 之外, $h_n=\ind_{T_n}$, 故在这些夹层之并之外, $g=f$. 例外集测度小于 $\eps$.
+
+一般有界实函数分为正负部分, 分别归一化到 $[0,1]$, 应用刚才的结论并将误差各分一半. 一般复函数再分实部、虚部. 因有限个所用紧邻域的并仍紧, 得到的近似仍在 $C_c(X)$ 中. 若 $M=\norm{f}_\infty$, 对所得函数施加连续径向截断 $P_M(z)=z$ ($|z|\le M$), $P_M(z)=Mz/|z|$ ($|z|>M$), 就可使范数不超过 $M$, 而已与 $f$ 相等的点仍保持相等. $P_M(0)=0$, 所以紧支集也保持; $M=0$ 时直接取零函数.
+
+最后设 $A$ 只是有限测度且 $f$ 可能无界. 先取紧集 $K\subset A$, 使 $\mu(A\setminus K)<\eps/3$. 因 $f$ 处处有限, $A\cap\{|f|>M\}\downarrow\varnothing$, 从上连续性允许选 $M$ 使其测度小于 $\eps/3$. 令 $f'=f\ind_{K\cap\{|f|\le M\}}$. 它有界且在紧集 $K$ 外为 $0$, 所以存在 $g\in C_c(X)$, 使 $\mu(\{f'\ne g\})<\eps/3$. $f$ 与 $f'$ 的差异只在先前两种损失集上, 故总误差小于 $\eps$. 当原 $f$ 有界时, 最后再作范数截断即可.
+\end{proof}
+
+\begin{lemma}[可求和例外集]\label{ra:c4:bc}
+在任意测度空间上, 若 $\sum_n\mu(E_n)<\infty$, 则几乎每个点只属于有限多个 $E_n$.
+\end{lemma}
+\begin{proof}
+属于无限多个 $E_n$ 的集合是 $\limsup_nE_n=\bigcap_N\bigcup_{n\ge N}E_n$. 对每个 $N$, 它的测度不超过 $\sum_{n\ge N}\mu(E_n)$, 而后者趋于 $0$. 因而该集合零测. 也可令 $H=\sum_n\ind_{E_n}$; 单调收敛给出 $\int H=\sum_n\mu(E_n)<\infty$, 从而 $H<\infty$ 几乎处处, 这就是原稿的证明.
+\end{proof}
+
+\begin{corollary}\label{ra:c4:continuousae}
+在 Lusin 定理的假设下, 若 $f$ 有界, 则存在 $g_n\in C_c(X)$, $\norm{g_n}_\infty\le\norm{f}_\infty$, 使 $g_n\to f$ 几乎处处. 更强地, 几乎每个点上最终都有 $g_n(x)=f(x)$.
+\end{corollary}
+\begin{proof}
+取 $\mu(\{g_n\ne f\})<2^{-n}$. 应用上一引理, 几乎每个点只落在有限多个不相等的例外集中, 所以后来一直相等.
+\end{proof}
+
+\originalsection{Vitali--Carath\'eodory 定理}
+
+Lusin 定理控制不相等的集合. 下面的定理则用半连续函数从上下夹住可积函数, 并控制夹层的积分. 示性函数的开紧逼近正好提供这种半连续性.
+
+\begin{theorem}[Vitali--Carath\'eodory]\label{ra:c4:vitalicara}
+在本章采用的 Riesz 正则测度条件下, 设 $f:X\to\R$ 可测且 $f\in L^1(\mu)$. 对每个 $\eps>0$, 存在上半连续函数 $u:X\to[-\infty,\infty)$ 与下半连续函数 $v:X\to(-\infty,\infty]$, 使 $u\le f\le v$ 处处, $u$ 有有限上界, $v$ 有有限下界, 且 $\int_X(v-u)\dd\mu<\eps$. 因而它们有限几乎处处, 并可作为 $L^1$ 函数处理.
+\end{theorem}
+\begin{proof}
+先设 $f\ge0$. 取递增非负简单函数 $s_n\uparrow f$, 将各增量 $s_n-s_{n-1}$ 的有限个正值层枚举, 得
+\[
+ f=\sum_{i\ge1}c_i\ind_{E_i},\qquad
+ c_i>0,\qquad\sum_{i\ge1}c_i\mu(E_i)=\int f\dd\mu<\infty.
+\]
+每个 $E_i$ 的测度有限. 选 $K_i\subset E_i\subset V_i$, $K_i$ 紧、$V_i$ 开, 使 $c_i\mu(V_i\setminus K_i)<\eps2^{-i-1}$. 再取 $N$ 使 $\sum_{i>N}c_i\mu(E_i)<\eps/2$. 定义
+\[
+ u=\sum_{i=1}^Nc_i\ind_{K_i},\qquad
+ v=\sum_{i\ge1}c_i\ind_{V_i}.
+\]
+有限个闭集示性函数的正线性组合上半连续, 故 $u$ 上半连续且有界. 非负下半连续函数的部分和递增, 其上确界仍下半连续, 故 $v$ 下半连续. 有 $0\le u\le f\le v$. 逐点分解为非负项,
+\[
+ v-u=\sum_{i\ge1}c_i(\ind_{V_i}-\ind_{K_i})
+             +\sum_{i>N}c_i\ind_{K_i}.
+\]
+用单调收敛对这些项积分, 得
+\[
+ \int(v-u)\dd\mu
+ \le\sum_{i\ge1}c_i\mu(V_i\setminus K_i)
+       +\sum_{i>N}c_i\mu(E_i)<\eps.
+\]
+这保留原稿的有限下逼近与无限上逼近, 并补正其夹层展开中漏掉的项.
+
+一般实函数写成 $f=f^+-f^-$. 对两部分分别应用非负情形, 各用误差 $\eps/2$, 得 $u_\pm\le f^\pm\le v_\pm$. 令 $u=u_+-v_-$, $v=v_+-u_-$. 由于 $u_\pm$ 有限有界而 $v_\pm\ge0$, 运算不含 $\infty-\infty$. 上半连续性和下半连续性分别保持, $u\le f\le v$, 且 $v-u=(v_+-u_+)+(v_--u_-)$. 积分误差相加小于 $\eps$. 由 $f\in L^1$ 和可积夹层, $|u|,|v|\le |f|+(v-u)$ 几乎处处, 故二者可积.
+\end{proof}
+
+\begin{remark}
+\textbf{编者修正.} 原稿把 $u,v$ 的值域都写为 $\R$, 但上述无限上逼近允许在零测集上取 $+\infty$, 一般实函数的下逼近相应允许 $-\infty$. 本稿采用扩展实值版本, 并由积分误差证明两者有限几乎处处; 后面的积分结论不需要它们处处有限.
+\end{remark}
+
+\originalsection{几乎处处版本的积分结论}
+
+\begin{proposition}\label{ra:c4:aedct}
+设 $f_n$ 有可测代表, $f_n\to f$ 几乎处处, 且对某个 $g\in L^1(\mu)$ 有 $|f_n|\le g$ 几乎处处. 则 $f\in L^1(\mu)$, 且 $\int f_n\dd\mu\to\int f\dd\mu$; 还可得到 $\int|f_n-f|\dd\mu\to0$.
+\end{proposition}
+\begin{proof}
+将不收敛点、各不等式失败点、以及所取代表未定义的点合为一个可测零集 $N$. 在 $N$ 上把所有函数改为 $0$, 即可使用前章处处收敛版本的控制收敛定理; 改变零集上的值不改变积分. 不等式失败点应写成 $\{|f_n|>g\}$, 原稿的 $\ge$ 会误把等号成立的点也划入例外集. 对差值再用 $|f_n-f|\le2g$, 得 $L^1$ 收敛.
+\end{proof}
+
+\begin{theorem}[可积级数]\label{ra:c4:series}
+若 $f_k\in L^1(\mu)$ 且 $\sum_k\int_X|f_k|\dd\mu<\infty$, 则 $\sum_kf_k$ 几乎处处绝对收敛, 和函数可积, 且
+\[
+ \int_X\Bigl(\sum_{k\ge1}f_k\Bigr)\dd\mu
+   =\sum_{k\ge1}\int_Xf_k\dd\mu.
+\]
+\end{theorem}
+\begin{proof}
+令 $G=\sum_k|f_k|$. 单调收敛给出 $\int G=\sum_k\int|f_k|<\infty$, 所以 $G<\infty$ 几乎处处. 在这些点上原级数绝对收敛. 部分和 $F_N$ 满足 $|F_N|\le G$, 因而控制收敛给出积分交换. 还可用 $\int|\sum_kf_k-F_N|\le\sum_{k>N}\int|f_k|$ 直接看到 $L^1$ 收敛.
+\end{proof}
+
+\begin{proposition}[积分的可数可加性]\label{ra:c4:integraladditivity}
+设 $E_k$ 为两两不交的可测集, $E=\bigcup_kE_k$. 若 $f\ge0$ 可测, 或 $\int_E|f|\dd\mu<\infty$, 则 $\int_Ef\dd\mu=\sum_k\int_{E_k}f\dd\mu$.
+\end{proposition}
+\begin{proof}
+非负情形使用 $f\ind_E=\sum_kf\ind_{E_k}$ 和单调收敛. 可积情形先对 $|f|$ 使用非负结论, 得 $\sum_k\int|f\ind_{E_k}|=\int_E|f|<\infty$, 然后应用可积级数定理. 原第 12 讲陈述漏写两两不交; 若 $E_1=E_2$ 为正测度集且 $f=1$, 其公式便会重复计算.
+\end{proof}
+
+\originalsection{Egoroff 定理}
+
+\begin{theorem}[Egoroff]\label{ra:c4:egoroff}
+在任意测度空间上, 若 $\mu(X)<\infty$, 可测函数 $f_n:X\to\C$ 满足 $f_n\to f$ 几乎处处, 则对每个 $\eps>0$, 存在可测集 $E\subset X$, 使 $\mu(X\setminus E)<\eps$, 且 $f_n\to f$ 在 $E$ 上一致收敛.
+\end{theorem}
+\begin{proof}
+先删去零测的不收敛集 $N$, 令 $Y=X\setminus N$. 保留原稿的一致 Cauchy 构造, 令
+\[
+ S(m,k)=Y\cap\bigcap_{i,j\ge m}\{|f_i-f_j|<1/k\}.
+\]
+对固定 $k$, $S(m,k)$ 随 $m$ 递增, 并覆盖 $Y$, 因为每个点上的收敛数列是 Cauchy 列. 从下连续性及 $\mu(Y)<\infty$ 给出 $\mu(Y\setminus S(m,k))\to0$. 选 $m_k$ 使这个测度小于 $\eps2^{-k}$, 并令 $E=\bigcap_kS(m_k,k)$. 则 $\mu(X\setminus E)<\eps$.
+
+给定 $\delta>0$, 选 $k$ 使 $1/k<\delta$. 对所有 $x\in E$、$i,j\ge m_k$, 有 $|f_i(x)-f_j(x)|<1/k$. 固定 $i$ 并令 $j\to\infty$, 得 $|f_i(x)-f(x)|\le1/k<\delta$, 且这个上界对全部 $x\in E$ 一致. 因而确实得到向 $f$ 的一致收敛, 而不只是统一 Cauchy 条件.
+\end{proof}
+
+\begin{example}\label{ra:c4:infinitemeasure}
+有限测度假设不可删去. 在 $\R$ 上令 $f_n=\ind_{[n,n+1)}$, 则 $f_n\to0$ 处处, 但不能删去测度小于 $1$ 的集合而得到一致收敛.
+\end{example}
+\begin{solution}
+每个点至多属于一个区间, 所以点态极限为 $0$. 若在 $E$ 上一致趋于 $0$, 对误差 $1/2$, 必须有一个 $N$ 使 $f_n=0$ 于 $E$ 对所有 $n\ge N$ 成立. 因而 $\bigcup_{n\ge N}[n,n+1)\subset\R\setminus E$, 后者测度为无限大. 这直接核对了 Egoroff 结论的失败.
+\end{solution}
+
+\originalsection{依测度收敛与子列}
+
+\begin{definition}\label{ra:c4:measureconv}
+设 $f_n$ 和 $f$ 都是可测函数. 称 $f_n$ 依测度收敛到 $f$, 若对每个 $\delta>0$, 都有 $\mu(\{|f_n-f|>\delta\})\to0$. 等价地, 对任意 $\delta,\eta>0$, 存在 $N$ 使 $n\ge N$ 时该集合测度小于 $\eta$.
+\end{definition}
+
+原稿使用同一个 $\eps$ 同时控制函数值误差和集合测度. 它与上述两个参数版本等价: 取 $\eps<\min(\delta,\eta)$ 即可. 两参数写法在证明中更容易看清量词.
+
+\begin{proposition}\label{ra:c4:l1measure}
+若 $\int|f_n-f|\dd\mu\to0$, 则 $f_n\to f$ 依测度收敛. 若 $\mu(X)<\infty$ 且 $f_n\to f$ 几乎处处, 也有依测度收敛.
+\end{proposition}
+\begin{proof}
+对 $\delta>0$, 积分单调性给出 $\delta\mu(\{|f_n-f|>\delta\})\le\int|f_n-f|\dd\mu$, 即第一结论. 第二结论中, 给定 $\delta,\eta>0$, 用 Egoroff 定理找 $E$ 使 $\mu(X\setminus E)<\eta$, 且在 $E$ 上一致收敛. 当 $n$ 足够大时, $|f_n-f|\le\delta$ 于 $E$, 所以大偏差集合包含在 $X\setminus E$ 内.
+\end{proof}
+
+\begin{example}\label{ra:c4:typewriter}
+依测度收敛未必蕴含整个函数列几乎处处收敛.
+\end{example}
+\begin{solution}
+\textbf{编者补全原稿提到而未写出的例子.} 在 $[0,1)$ 上, 按 $m=0,1,2,\ldots$ 的顺序, 将该层全部函数
+\[
+ f_{m,j}=\ind_{[j2^{-m},(j+1)2^{-m})},\qquad 0\le j<2^m,
+\]
+依次排成一个数列. 每层函数的积分是 $2^{-m}$, 所以数列依测度趋于 $0$. 每个点在每层恰使一个函数取 $1$, 因而无限次取 $1$; 对每层 $m\ge1$, 也有函数在该点取 $0$, 因而无限次取 $0$. 所以任一点都没有数列极限. 在端点 $1$ 可另取所有函数值为 $0$, 不影响测度结论.
+\end{solution}
+
+\begin{theorem}\label{ra:c4:subsequence}
+在任意测度空间上, 若 $f_n\to f$ 依测度收敛, 则存在严格递增的指标列 $n_k$, 使 $f_{n_k}\to f$ 几乎处处.
+\end{theorem}
+\begin{proof}
+递归选择 $n_k>n_{k-1}$, 使 $\mu(E_k)<2^{-k}$, 其中 $E_k=\{|f_{n_k}-f|>2^{-k}\}$. 依测度收敛保证可以在任意先前指标之后作此选择. 由可求和例外集引理, 几乎每个 $x$ 只落在有限多个 $E_k$ 内; 后来有 $|f_{n_k}(x)-f(x)|\le2^{-k}$, 因而收敛. 严格递增条件补正了原稿直接取 $N(k)$ 而未检查子列指标的问题.
+\end{proof}
+
+\begin{lemma}\label{ra:c4:subsubsequence}
+复数列 $a_n$ 收敛到 $a$, 当且仅当它的每个子列都有一个进一步子列收敛到 $a$.
+\end{lemma}
+\begin{proof}
+必要性直接成立. 若原数列不收敛到 $a$, 则有 $\delta>0$ 和无限多个指标使 $|a_n-a|\ge\delta$. 从这些指标选出的子列没有任何进一步子列能收敛到 $a$, 与假设矛盾.
+\end{proof}
+
+\begin{theorem}[依测度的控制收敛]\label{ra:c4:measuredct}
+设 $f_n\to f$ 依测度收敛, 且 $|f_n|\le g$ 几乎处处, 其中 $g\in L^1(\mu)$ 非负. 则 $f\in L^1(\mu)$, $\int|f_n-f|\dd\mu\to0$, 从而 $\int f_n\dd\mu\to\int f\dd\mu$. 不要求 $\mu(X)<\infty$.
+\end{theorem}
+\begin{proof}
+先选一个几乎处处收敛子列, 在其共同的零测例外集之外令指标趋于无限, 得 $|f|\le g$, 所以 $f$ 可积. 任取原列的一个子列, 它仍依测度收敛到 $f$, 所以有进一步子列几乎处处收敛到 $f$. 对这个进一步子列, $|f_{n_k}-f|\le2g$, 几乎处处控制收敛给出 $\int|f_{n_k}-f|\to0$. 应用引理 \ref{ra:c4:subsubsequence} 于非负实数列 $a_n=\int|f_n-f|$, 得整个数列趋于 $0$. 最后用 $|\int f_n-\int f|\le\int|f_n-f|$.
+\end{proof}
+
+\begin{remark}
+原稿提到 ``收敛定理对依测度收敛仍成立''. 上一定理是控制收敛的准确版本. 对单调收敛, 若 $0\le f_n\uparrow h$ 且另已知 $f_n\to f$ 依测度, 子列定理使 $h=f$ 几乎处处, 再由前章单调收敛定理得 $\int f_n\uparrow\int f$. 单调性仍是必要的原假设, 不能只凭依测度收敛交换积分.
+\end{remark}
+
+\originalsection{练习与解答}
+
+\begin{exercise}
+设 $\mu(X)<\infty$, $|f_n|\le M$, 且 $f_n\to f$ 依测度收敛. 证明对每个 $1\le p<\infty$, $\int|f_n-f|^p\dd\mu\to0$.
+\end{exercise}
+\begin{solution}
+子列定理给出 $|f|\le M$ 几乎处处. 对 $\delta>0$, 分大偏差集合和其补集, 得
+\[
+ \int|f_n-f|^p\dd\mu
+ \le\delta^p\mu(X)+(2M)^p\mu(\{|f_n-f|>\delta\}).
+\]
+固定 $\delta$, 令 $n\to\infty$, 右边上极限不超过 $\delta^p\mu(X)$; 再令 $\delta\downarrow0$. 这也直接显示有限测度和统一有界性各自的用途.
+\end{solution}
+
+\begin{exercise}
+在 $[0,1]$ 上令 $f_n=n\ind_{(0,1/n)}$. 比较它的几乎处处收敛、依测度收敛和积分收敛.
+\end{exercise}
+\begin{solution}
+每个 $x>0$ 最终不在 $(0,1/n)$, 而 $x=0$ 的函数值始终为 $0$, 所以处处趋于 $0$. 对任意固定 $\delta>0$, 当 $n>\delta$ 时, 大偏差集合就是 $(0,1/n)$, 测度为 $1/n\to0$. 但 $\int_0^1f_n\dd x=1$, 并不趋于极限函数的积分 $0$. 若存在同一个可积控制函数 $g\ge f_n$ 几乎处处, 依测度控制收敛定理将迫使积分趋于 $0$, 因而这样的控制函数不存在.
+\end{solution}
+
+\begin{exercise}
+设 $f\in L^1(\R^n)$, 证明对每个 $\eps>0$, 存在 $g\in C_c(\R^n)$, 使 $\int|f-g|\dd\lambda<\eps$.
+\end{exercise}
+\begin{solution}
+\textbf{编者补充, 为后章 $L^p$ 逼近作衔接.} 先选有界盒子 $Q$ 及 $M<\infty$, 使 $h=f\ind_{Q\cap\{|f|\le M\}}$ 满足 $\int|f-h|<\eps/2$. 这是由 $|f|$ 可积以及控制收敛得到的空间截断与函数值截断. 在一个较大有界开盒子 $V\supset Q$ 内选共同开邻域 $W$, 使 $Q\subset W\subset\overline W\subset V$; 使用 Lusin 证明并将各层的开邻域限制在 $W$ 内, 得到 $g\in C_c(V)$, $\norm g_\infty\le M$, 且 $\lambda(\{h\ne g\})<\eps/(4M)$, 当 $M=0$ 时直接取 $g=0$. 因为不相等处 $|h-g|\le2M$, 所以 $\int|h-g|<\eps/2$. 三角不等式给出结论. 在一般局部紧空间上, 选择相对紧的共同邻域也有有限测度, 同样的论证适用.
+\end{solution}

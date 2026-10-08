@@ -1,0 +1,388 @@
+\originalchapter{Lebesgue 积分与收敛定理}
+\sourcelecture{2--5}
+
+简单函数把值域分成有限多个层次, 每一层都有可测的原像. 它的积分只需把``函数值乘集合大小''相加. 一般非负函数则由所有不超过它的简单函数从下方逼近. 这个定义不预先要求函数有界, 也不要求整个空间有有限测度; 允许积分为无穷, 正是先建立非负积分的好处. 在此基础上, 再用正负部和实虚部定义可积函数的积分.
+
+本章在一般测度空间 $(X,\mathcal M,\mu)$ 上进行. 只有最后与 Riemann 积分衔接的一节调用实直线上的 Lebesgue 测度; 它的构造在下一章给出, 本章其他结论不依赖这一构造.
+
+\originalsection{简单函数的积分}
+\begin{definition}\label{ra:c2:simple-integral}
+设 $s=\sum_{j=1}^{r}\alpha_j\mathbf1_{A_j}$ 为非负可测简单函数, 其中 $\alpha_j\ge0$, $A_j$ 两两不交且并为 $X$. 对 $E\in\mathcal M$, 定义
+\[
+ \int_E s\,\dd\mu=\sum_{j=1}^{r}\alpha_j\mu(A_j\cap E),
+ \qquad 0\cdot\infty=0.
+\]
+这里的积分允许为 $+\infty$.
+\end{definition}
+如果已经用所有不同取值的水平集表示 $s$, 这个表达式没有选择问题. 但计算时往往把水平集再分割, 因此还要检查不同表示给出同一积分.
+
+\begin{proposition}\label{ra:c2:simple-properties}
+简单函数积分与不交表示的选择无关. 对非负可测简单函数 $s,t$, 非负有限常数 $c$, 以及可测集 $E$, 有
+\[
+ \int_E(s+t)\,\dd\mu=\int_Es\,\dd\mu+\int_Et\,\dd\mu,
+ \qquad \int_Ecs\,\dd\mu=c\int_Es\,\dd\mu.
+\]
+若 $s\le t$, 则 $\int_Es\,\dd\mu\le\int_Et\,\dd\mu$. 另外, 集合函数 $\nu_s(E)=\int_Es\,\dd\mu$ 是正测度.
+\end{proposition}
+\begin{proof}
+设 $s$ 有两个不交表示 $\sum_i\alpha_i\mathbf1_{A_i}$ 和 $\sum_j\beta_j\mathbf1_{B_j}$. 取共同分割 $A_i\cap B_j$. 当这个交集非空时, $s$ 的值给出 $\alpha_i=\beta_j$; 交集为空时, 对积分没有贡献. 把每个 $A_i\cap E$ 分成有限个 $A_i\cap B_j\cap E$, 用测度的有限可加性, 可知两种积分都等于同一个双重有限和.
+
+对 $s$ 和 $t$ 的水平集也取共同分割. 在每一块上, 和函数的值是两值之和, 因而积分的可加性归结为 $(\alpha_i+\beta_j)\mu(A_i\cap B_j\cap E)=\alpha_i\mu(A_i\cap B_j\cap E)+\beta_j\mu(A_i\cap B_j\cap E)$. 各量非负, 即使某项无穷, 这一等式仍合法. 齐次性同样逐项得到; $c=0$ 时两边均按约定为零. 若 $s\le t$, 在每个共同分割块上对应的常数满足同一不等式, 乘非负测度并求和便得到单调性.
+
+最后, 若 $E_k$ 两两不交, 则
+\begin{align*}
+ \nu_s\left(\bigcup_k E_k\right)
+ &=\sum_{j=1}^{r}\alpha_j\sum_{k=1}^{\infty}\mu(A_j\cap E_k)\\
+ &=\sum_{k=1}^{\infty}\sum_{j=1}^{r}\alpha_j\mu(A_j\cap E_k)
+ =\sum_{k=1}^{\infty}\nu_s(E_k).
+\end{align*}
+有限个非负和与一个非负级数交换次序, 可以先对 $k\le N$ 交换有限和, 再令 $N\to\infty$. 此外 $\nu_s(\varnothing)=0$, 故 $\nu_s$ 是正测度.
+\end{proof}
+
+\originalsection{非负积分}
+\begin{definition}\label{ra:c2:positive-integral}
+对可测 $f:X\to[0,\infty]$ 和 $E\in\mathcal M$, 定义其 Lebesgue 积分为
+\[
+ \int_E f\,\dd\mu
+ =\sup\left\{\int_Es\,\dd\mu:
+  s\text{ 为可测简单函数},\ 0\le s\le f\right\}.
+\]
+未注明积分区域时, 区域为 $X$. 符号 $\int_E f\,\dd\mu$ 也常写成 $\int_E f\,d\mu$.
+\end{definition}
+这个定义和上一节相容. 若 $f$ 本身简单, 单调性说明所有候选积分都不超过 $\int_Ef\,\dd\mu$, 而选取 $s=f$ 又使上确界达到它.
+
+\begin{proposition}\label{ra:c2:positive-basic}
+设 $f,g$ 非负可测, $E,A,B$ 可测, $c\in[0,\infty)$.
+\begin{enumerate}
+\item 若 $f\le g$ 于 $E$ 上, 则 $\int_E f\,\dd\mu\le\int_Eg\,\dd\mu$.
+\item 若 $A\subset B$, 则 $\int_Af\,\dd\mu\le\int_Bf\,\dd\mu$.
+\item $\int_Ecf\,\dd\mu=c\int_Ef\,\dd\mu$.
+\item 若 $f$ 在 $E$ 上恒为零, 或 $\mu(E)=0$, 则 $\int_E f\,\dd\mu=0$.
+\item $\int_E f\,\dd\mu=\int_X\mathbf1_Ef\,\dd\mu$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+先证第五项. 对 $0\le s\le f$ 的简单函数, $\mathbf1_Es$ 是不超过 $\mathbf1_Ef$ 的简单函数, 且其在 $X$ 上的积分等于 $s$ 在 $E$ 上的积分. 这给出左边不超过右边. 反过来, 若简单函数 $0\le t\le\mathbf1_Ef$, 则 $t=0$ 于 $E^c$ 上且 $t\le f$, 故 $\int_Xt\,\dd\mu=\int_Et\,\dd\mu$ 不超过左边. 取上确界得到等式.
+
+若 $f\le g$ 于 $E$, 则 $\mathbf1_Ef\le\mathbf1_Eg$ 在整个 $X$ 上成立. 整空间上的单调性直接来自定义中候选简单函数族的包含, 再用第五项得第一项. 第二项同理, 因为 $\mathbf1_Af\le\mathbf1_Bf$. 对第三项, $c=0$ 时两边零; $c>0$ 时, 简单函数 $s\le f$ 与简单函数 $cs\le cf$ 一一对应, 上确界随乘 $c$ 而变为原上确界的 $c$ 倍. 对第四项, 若 $f$ 在 $E$ 上零, 每个候选简单函数在 $E$ 上也零; 若 $\mu(E)=0$, 每个水平集与 $E$ 的交测度均零. 两种情形中每个候选积分都是零, 上确界也零.
+\end{proof}
+
+\begin{example}
+在 $\N$ 上取计数测度. 若 $f(k)=a_k\ge0$, 证明 $\int_\N f\,\dd\mu=\sum_{k=1}^{\infty}a_k$. 对 Dirac 测度, 证明 $\int_Xf\,\dd\delta_{x_0}=f(x_0)$.
+\end{example}
+\begin{solution}
+计数测度下, 先由简单函数定义可知 $\int s\,\dd\mu=\sum_k s(k)$, 其中等式允许无穷. 因为 $s(k)\le a_k$, 每个候选积分不超过 $\sum_k a_k$. 若某个 $a_k=\infty$, 在该点取任意大的有限值, 便知积分无穷. 若所有 $a_k$ 有限, 简单函数 $s_N=\sum_{k=1}^{N}a_k\mathbf1_{\{k\}}$ 的积分为前 $N$ 项之和, 令 $N\to\infty$ 得反向不等式. 对 Dirac 测度, 每个简单函数的积分为 $s(x_0)$; 这些值不超过 $f(x_0)$. 若 $f(x_0)$ 有限, 取简单函数 $f(x_0)\mathbf1_{\{x_0\}}$; 若它无穷, 取 $M\mathbf1_{\{x_0\}}$ 并令 $M\to\infty$. 两种情形都达到所需上确界.
+\end{solution}
+
+\originalsection{单调收敛与 Fatou 引理}
+非负积分的定义直接给出单调性, 却还没有证明一般函数的可加性. 若尝试把每个函数用简单函数逼近, 就必须说明逼近的极限能否移出积分. 因此先证明单调收敛定理, 再从它推出可加性; 这个顺序避免把尚未建立的线性作为证明前提.
+
+\begin{theorem}[单调收敛定理]\label{ra:c2:mct}
+设 $f_n:X\to[0,\infty]$ 可测, $f_n\uparrow f$ 逐点成立. 则 $f$ 可测且
+\[
+ \lim_{n\to\infty}\int_Xf_n\,\dd\mu=\int_Xf\,\dd\mu.
+\]
+等式允许两边为无穷.
+\end{theorem}
+\begin{proof}
+可测性由定理~\ref{ra:c1:limits} 得到. 单调性表明 $\int f_n\,\dd\mu$ 递增, 令其极限为 $L\in[0,\infty]$. 因为 $f_n\le f$, 已有 $L\le\int f\,\dd\mu$.
+
+要证明反向不等式, 固定可测简单函数 $0\le s\le f$ 和常数 $0<c<1$, 令 $E_n=\{f_n\ge cs\}$. 这些集合可测, 因为可将 $s$ 的有限水平集分别与 $f_n$ 的相应上水平集取交. 它们随 $n$ 递增, 而其并为 $X$: 当 $s(x)=0$ 时每个 $E_n$ 都含 $x$; 当 $s(x)>0$ 时, $cs(x)<s(x)\le f(x)$, 由 $f_n(x)\to f(x)$ 可知最终 $f_n(x)>cs(x)$. 因此
+\[
+ \int_X f_n\,\dd\mu\ge\int_{E_n}f_n\,\dd\mu
+ \ge c\int_{E_n}s\,\dd\mu.
+\]
+命题~\ref{ra:c2:simple-properties} 说明 $\nu_s(E)=\int_Es\,\dd\mu$ 是测度. 用测度的向上连续性得 $\int_{E_n}s\,\dd\mu\uparrow\int_Xs\,\dd\mu$, 故 $L\ge c\int_Xs\,\dd\mu$. 若 $\int s\,\dd\mu=\infty$, 这已经迫使 $L=\infty$; 否则令 $c\uparrow1$ 得 $L\ge\int s\,\dd\mu$. 最后对全部这样的 $s$ 取上确界, 得 $L\ge\int f\,\dd\mu$.
+\end{proof}
+这里必须取 $c<1$. 若直接取 $c=1$, 一列从下方趋于 $s$ 却始终小于 $s$ 的函数会使 $E_n$ 不覆盖 $X$. 原讲义在开头写到 $c=1$ 的端点, 本书按其后续论证所需改为严格小于一.
+
+\begin{corollary}\label{ra:c2:nonnegative-additive}
+对非负可测函数 $f,g$ 有 $\int(f+g)\,\dd\mu=\int f\,\dd\mu+\int g\,\dd\mu$. 若 $f_n\ge0$ 可测, 则
+\[
+ \int_X\sum_{n=1}^{\infty}f_n\,\dd\mu
+ =\sum_{n=1}^{\infty}\int_Xf_n\,\dd\mu.
+\]
+对固定非负可测 $f$, 集合函数 $\nu_f(E)=\int_Ef\,\dd\mu$ 是正测度.
+\end{corollary}
+\begin{proof}
+用定理~\ref{ra:c1:simple-approx} 取 $s_n\uparrow f$ 和 $t_n\uparrow g$. 则 $s_n+t_n\uparrow f+g$, 简单函数可加性和单调收敛定理给出
+\[
+ \int(f+g)\,\dd\mu
+ =\lim_n\left(\int s_n\,\dd\mu+\int t_n\,\dd\mu\right)
+ =\int f\,\dd\mu+\int g\,\dd\mu.
+\]
+两列数均非负递增, 所以它们的和的极限等于极限之和, 即使某一极限无穷也成立. 对有限项相加反复应用此结论, 再对部分和 $\sum_{n=1}^{N}f_n$ 应用单调收敛, 得级数等式. 若 $E_n$ 两两不交, 逐点有 $f\mathbf1_{\cup_nE_n}=\sum_nf\mathbf1_{E_n}$. 代入级数等式和命题~\ref{ra:c2:positive-basic} 得 $\nu_f$ 可数可加, 而空集积分为零, 所以它是测度.
+\end{proof}
+
+\begin{corollary}\label{ra:c2:nonnegative-series}
+若 $a_{ij}\ge0$, 则 $\sum_i\sum_j a_{ij}=\sum_j\sum_i a_{ij}$, 两边允许为无穷.
+\end{corollary}
+\begin{proof}
+在 $\N$ 的计数测度上取 $f_j(i)=a_{ij}$. 上一推论把 $\int\sum_jf_j$ 写成 $\sum_j\int f_j$, 再使用计数积分与级数的对应关系即可.
+\end{proof}
+
+\begin{lemma}[Fatou]\label{ra:c2:fatou}
+若 $f_n:X\to[0,\infty]$ 可测, 则
+\[
+ \int_X\liminf_{n\to\infty}f_n\,\dd\mu
+ \le\liminf_{n\to\infty}\int_Xf_n\,\dd\mu.
+\]
+\end{lemma}
+\begin{proof}
+令 $g_k=\inf_{n\ge k}f_n$. 这些函数可测、非负且递增到 $\liminf_n f_n$. 对每个 $n\ge k$, $g_k\le f_n$, 故 $\int g_k\,\dd\mu\le\inf_{n\ge k}\int f_n\,\dd\mu$. 令 $k\to\infty$, 左边由单调收敛趋于 $\int\liminf_n f_n\,\dd\mu$, 右边按数列下极限定义趋于所述右端.
+\end{proof}
+单调收敛给出等式, 而没有单调性时通常只能保留 Fatou 的不等式. 函数值的质量可能向空间远处移动, 因此逐点极限可能丢失原来的积分.
+
+\begin{example}
+在 $\N$ 的计数测度下取 $f_n(k)=\mathbf1_{\{n\}}(k)$. 验证 Fatou 不等式可以严格, 并证明不存在一个可积函数 $g$ 同时控制所有 $f_n$.
+\end{example}
+\begin{solution}
+对固定 $k$, 当 $n>k$ 时 $f_n(k)=0$, 所以 $f_n\to0$ 逐点成立. 每个 $f_n$ 的积分却为一, 因而 Fatou 两端分别为零和一. 若 $g\ge f_n$ 对所有 $n$ 成立, 令 $n=k$ 就得 $g(k)\ge1$ 对所有 $k$ 成立, 从而 $\int g\,\dd\mu\ge\sum_k1=\infty$. 这也说明仅有各积分一致有界, 并不等于有一个共同的可积控制函数.
+\end{solution}
+
+\originalsection{实值与复值积分}
+\begin{definition}\label{ra:c2:l1-definition}
+对可测扩展实值函数 $f$, 若 $\int f^+\,\dd\mu$ 与 $\int f^-\,\dd\mu$ 至少一个有限, 就定义 $\int f\,\dd\mu=\int f^+\,\dd\mu-\int f^-\,\dd\mu$. 若两者都有限, 称 $f$ 可积, 记为 $f\in\mathcal L^1(\mu)$. 等价条件是 $\int\abs f\,\dd\mu<\infty$.
+
+对可测复值函数 $f=u+iv$, 当 $\int\abs f\,\dd\mu<\infty$ 时称其可积, 并定义 $\int f\,\dd\mu=\int u\,\dd\mu+i\int v\,\dd\mu$.
+\end{definition}
+实值积分在仅一个正负部积分有限时可以取 $\pm\infty$, 但不把两部都无穷的 $\infty-\infty$ 当作一个积分值. 后文涉及线性、复值积分和范数时, 均以可积函数为对象. 对复函数, $\abs u,\abs v\le\abs f\le\abs u+\abs v$, 所以可积当且仅当实部与虚部均可积; 这也保证其定义有意义.
+
+当前 $\mathcal L^1$ 先指实际的可积函数. 将几乎处处相等的函数认同以后, 得到真正具有范数结构的空间 $L^1$; 本章后面的零测集讨论将说明这种认同为何不改变积分.
+
+\begin{theorem}\label{ra:c2:linearity}
+若 $f,g$ 为可积的有限实值或复值函数, $\alpha,\beta\in\C$, 则 $\alpha f+\beta g$ 可积, 且
+\[
+ \int_X(\alpha f+\beta g)\,\dd\mu
+ =\alpha\int_Xf\,\dd\mu+\beta\int_Xg\,\dd\mu.
+\]
+\end{theorem}
+\begin{proof}
+先看可积性. 可测性由前章的连续运算得到, 而 $\abs{\alpha f+\beta g}\le\abs\alpha\abs f+\abs\beta\abs g$. 非负积分的单调性、可加性与齐次性使右边积分有限.
+
+对实值 $f,g$, 令 $h=f+g$. 逐点恒等式 $h^++f^-+g^-=f^++g^++h^-$ 只涉及非负函数. 用已经建立的非负可加性积分, 再移项, 得
+\[
+ \int h^+\,\dd\mu-\int h^-\,\dd\mu
+ =\left(\int f^+\,\dd\mu-\int f^-\,\dd\mu\right)
+ +\left(\int g^+\,\dd\mu-\int g^-\,\dd\mu\right).
+\]
+这里所有积分有限, 所以移项合法. 对实数 $a>0$, 有 $(af)^+=af^+$ 和 $(af)^-=af^-$, 非负齐次性给 $\int af=a\int f$. 对 $a<0$, 正负部交换为 $(af)^+=(-a)f^-$ 和 $(af)^-=(-a)f^+$, 同样得到等式; $a=0$ 时两边为零.
+
+对复函数, 分实部与虚部使用实值可加性. 若 $\alpha=a+ib$ 与 $f=u+iv$, 则 $\alpha f=(au-bv)+i(av+bu)$, 用实值线性得到 $\int\alpha f=(a+ib)(\int u+i\int v)=\alpha\int f$. 和的线性再给出一般结论.
+\end{proof}
+可积扩展实值函数可能在一个零测集上取无穷. 如需进行相加等逐点代数运算, 将这些无穷值改为零, 即可选取处处有限的代表. 这种修改合法的理由在下一节证明; 线性定理的逐点代数运算针对有限代表进行.
+
+\begin{theorem}[积分的三角不等式]\label{ra:c2:triangle}
+对可积复值函数 $f$, 有 $\abs{\int_Xf\,\dd\mu}\le\int_X\abs f\,\dd\mu$.
+\end{theorem}
+\begin{proof}
+若积分为零, 不等式立即成立. 否则写 $\int f\,\dd\mu=e^{i\theta}\abs{\int f\,\dd\mu}$. 乘以 $e^{-i\theta}$ 后实部等于这个绝对值. 由复积分定义、线性和实积分的单调性, 得
+\[
+ \abs{\int f\,\dd\mu}
+ =\int\operatorname{Re}(e^{-i\theta}f)\,\dd\mu
+ \le\int\abs{e^{-i\theta}f}\,\dd\mu
+ =\int\abs f\,\dd\mu.
+\]
+其中实积分单调性来自可积差函数 $\abs f-\operatorname{Re}(e^{-i\theta}f)\ge0$ 的积分非负.
+\end{proof}
+
+\originalsection{零测集与几乎处处}
+\begin{proposition}\label{ra:c2:zero-integral}
+若非负可测 $f$ 满足 $\int_E f\,\dd\mu=0$, 则 $f=0$ 几乎处处于 $E$. 反过来, 若 $f=0$ 几乎处处于 $E$, 则此积分为零. 非负可测 $f$ 若积分有限, 则 $f<\infty$ 几乎处处.
+\end{proposition}
+\begin{proof}
+令 $A_n=E\cap\{f>1/n\}$. 由单调性有 $0=\int_Ef\,\dd\mu\ge n^{-1}\mu(A_n)$, 所以每个 $A_n$ 零测. 因为 $E\cap\{f>0\}=\bigcup_n A_n$, 故其测度零. 反向, 选一个可测零测集 $N$ 使 $f=0$ 于 $E\setminus N$. 区域可加性将积分分为 $E\setminus N$ 与 $E\cap N$ 上的两个积分, 前者因函数恒零而为零, 后者因区域零测而为零.
+
+若 $C=\{f=\infty\}$, 则对任意正整数 $n$, $n\mathbf1_C\le f$, 故 $n\mu(C)\le\int f\,\dd\mu<\infty$. 令 $n\to\infty$ 得 $\mu(C)=0$.
+\end{proof}
+
+\begin{proposition}\label{ra:c2:ae-invariance}
+若可测函数 $f,g$ 几乎处处相等, 则非负情形下对每个 $E\in\mathcal M$ 有 $\int_Ef\,\dd\mu=\int_Eg\,\dd\mu$. 在实值或复值情形, $f$ 可积当且仅当 $g$ 可积, 且这时区域积分也相等.
+\end{proposition}
+\begin{proof}
+选可测零测集 $N$ 使 $f=g$ 在 $X\setminus N$ 上成立. 对非负函数, 将 $E$ 分成 $E\setminus N$ 与 $E\cap N$. 第一部分的函数相同, 第二部分两者积分均零, 故得到等式. 对实值或复值函数, 先对 $\abs f,\abs g$ 应用非负结论, 得可积性等价; 再分别对正负部, 或实部与虚部的正负部应用同一结论, 得积分相等.
+\end{proof}
+因而几乎处处相等是可积函数上的等价关系: 自反与对称直接成立; 若 $f=g$ 与 $g=h$ 分别在零测集外成立, 则在两零测集的并之外 $f=h$, 给出传递性. 记 $L^1(\mu)=\mathcal L^1(\mu)/{\sim}$, 其中 $f\sim g$ 表示几乎处处相等. 此时 $\|f\|_1=\int\abs f\,\dd\mu$ 在等价类上与代表选择无关, 且等于零当且仅当该类为零类. 更一般的 $L^p$ 空间在后文建立.
+
+\begin{proposition}\label{ra:c2:local-zero}
+若可积复值函数 $f$ 满足 $\int_Ef\,\dd\mu=0$ 对每个可测 $E$ 成立, 则 $f=0$ 几乎处处.
+\end{proposition}
+\begin{proof}
+写 $f=u+iv$. 取 $E=\{u>0\}$, 假设积分的实部为零, 即 $\int_Eu\,\dd\mu=\int_Xu^+\,\dd\mu=0$. 命题~\ref{ra:c2:zero-integral} 得 $u^+=0$ 几乎处处. 再取 $E=\{u<0\}$, 得 $\int_Xu^-\,\dd\mu=0$, 故 $u^-=0$ 几乎处处. 对 $v$ 分别取 $\{v>0\}$ 和 $\{v<0\}$, 得 $v^+=v^-=0$ 几乎处处. 四个例外零测集的并仍零测, 因而 $f=0$ 几乎处处.
+\end{proof}
+
+\begin{theorem}[第一 Borel--Cantelli 引理]\label{ra:c2:bc}
+若可测集列 $E_k$ 满足 $\sum_{k=1}^{\infty}\mu(E_k)<\infty$, 则几乎每个点只属于有限多个 $E_k$, 即 $\mu(\limsup_k E_k)=0$.
+\end{theorem}
+\begin{proof}
+令 $g=\sum_k\mathbf1_{E_k}$. 非负积分的级数交换给出 $\int g\,\dd\mu=\sum_k\mu(E_k)<\infty$, 所以 $g<\infty$ 几乎处处. 一个点属于无穷多个 $E_k$ 当且仅当 $g$ 在该点为无穷, 故这些点组成零测集.
+\end{proof}
+这里没有使用概率测度的归一化, 也没有使用事件的独立性. 编者补充的另一个直接证明是: 对任意 $N$, $\limsup_k E_k\subset\bigcup_{k\ge N}E_k$, 因而其测度不超过尾和 $\sum_{k\ge N}\mu(E_k)\to0$.
+
+\originalsection{主导收敛定理}
+\begin{theorem}[主导收敛定理]\label{ra:c2:dct}
+设 $f_n:X\to\C$ 可测, 在某个可测零测集以外收敛到 $f$. 假定存在非负可积函数 $g$, 使 $\abs{f_n}\le g$ 对每个 $n$ 几乎处处成立. 在例外零测集上把 $f$ 定义为零, 则 $f$ 可测、可积, 且
+\[
+ \int_X\abs{f_n-f}\,\dd\mu\longrightarrow0,
+ \qquad \int_Xf_n\,\dd\mu\longrightarrow\int_Xf\,\dd\mu.
+\]
+在第一式中的差取处处有限的代表计算.
+\end{theorem}
+\begin{proof}
+把不收敛的零测集、各个控制不等式失效的零测集, 以及 $\{g=\infty\}$ 合并成一个可测零测集 $N$. 将 $f_n$ 和 $g$ 在 $N$ 上同时改成零. 这种在一个可测集上的分段定义保持可测性, 且由命题~\ref{ra:c2:ae-invariance} 不改变积分. 于是可以假定函数处处有限, $f_n\to f$ 处处成立, 且 $\abs{f_n}\le g$ 处处成立. 可测函数的逐点极限可测, 并有 $\abs f\le g$, 所以 $f$ 及各 $f_n$ 可积.
+
+令 $h_n=\abs{f_n-f}$. 则 $0\le h_n\le2g$ 且 $h_n\to0$. 对非负函数 $2g-h_n$ 应用 Fatou 引理, 得
+\begin{align*}
+ \int_X2g\,\dd\mu
+ &\le\liminf_n\int_X(2g-h_n)\,\dd\mu\\
+ &=\int_X2g\,\dd\mu-\limsup_n\int_Xh_n\,\dd\mu.
+\end{align*}
+这里 $2g$ 可积, 故等式使用有限量的线性, 不涉及 $\infty-\infty$. 消去有限的 $\int2g\,\dd\mu$, 得 $\limsup_n\int h_n\,\dd\mu\le0$. 因各积分非负, 它们必趋于零. 再由积分三角不等式,
+\[
+ \abs{\int_Xf_n\,\dd\mu-\int_Xf\,\dd\mu}
+ \le\int_X\abs{f_n-f}\,\dd\mu\longrightarrow0.
+\]
+恢复原来的代表不改变上述积分, 所以结论成立.
+\end{proof}
+原讲义先写处处版本; 上面的几乎处处版本通过一个共同零测集归约到该版本. 这个归约中用到了函数列只有可数多个成员. 控制函数必须同时控制整列, 并且自身可积; 各 $f_n$ 各自可积或其积分一致有界, 都不足以替代它.
+
+\begin{corollary}[编者补充]\label{ra:c2:bounded-convergence}
+若 $\mu(X)<\infty$, $f_n\to f$ 几乎处处, 且存在有限常数 $M$ 使 $\abs{f_n}\le M$ 对所有 $n$ 几乎处处成立, 则 $\int\abs{f_n-f}\,\dd\mu\to0$.
+\end{corollary}
+\begin{proof}
+取控制函数 $g=M\mathbf1_X$. 其积分为 $M\mu(X)<\infty$, 直接应用主导收敛定理.
+\end{proof}
+
+\begin{example}
+编者补充. 在 $\N$ 上定义有限测度 $\mu(\{k\})=2^{-k}$, 并按可数可加性令 $\mu(E)=\sum_{k\in E}2^{-k}$. 取 $f_n(k)=2^n\mathbf1_{\{n\}}(k)$. 证明 $f_n\to0$ 逐点成立而其积分不趋于零. 再说明 $h_n(k)=\mathbf1_{\{k\ge n\}}(k)$ 的积分为何趋于零.
+\end{example}
+\begin{solution}
+固定 $k$ 后, $f_n(k)$ 只有在 $n=k$ 时非零, 所以逐点趋于零; 但 $\int f_n\,\dd\mu=2^n2^{-n}=1$. 若有共同可积控制函数 $g$, 逐点令 $n=k$ 得 $g(k)\ge2^k$, 因而 $\int g\,\dd\mu\ge\sum_k2^k2^{-k}=\infty$, 矛盾. 对 $h_n$, 则 $0\le h_n\le1$, 且 $\mu(\N)=1$, 故有界收敛推论给出积分趋于零. 直接计算也得到 $\int h_n\,\dd\mu=\sum_{k=n}^{\infty}2^{-k}=2^{1-n}\to0$.
+\end{solution}
+
+\originalsection{测度的完备化}
+零测集中的任意子集在积分上应当没有贡献, 但在原来的 $\sigma$-代数中可能还没有它. 完备化把这些缺少的子集加入, 同时保持已有测度.
+
+\begin{definition}
+测度空间称为完备, 如果每个可测零测集的每个子集都可测. 给定 $(X,\mathcal M,\mu)$, 定义
+\[
+ \mathcal M^*=\{E\subset X:\text{ 存在 }A,B\in\mathcal M,
+       \ A\subset E\subset B,\ \mu(B\setminus A)=0\}.
+\]
+对上述 $E$, 拟定义 $\mu^*(E)=\mu(A)$.
+\end{definition}
+
+\begin{theorem}\label{ra:c2:completion}
+$\mathcal M^*$ 是 $\sigma$-代数, $\mu^*$ 与 $A,B$ 的选择无关, 且是扩张 $\mu$ 的正测度. 测度空间 $(X,\mathcal M^*,\mu^*)$ 完备, 称为原空间的完备化.
+\end{theorem}
+\begin{proof}[证明(编者补充)]
+先证定义无歧义. 若 $A\subset E\subset B$ 与 $A'\subset E\subset B'$ 是两组包夹, 则 $A\setminus A'\subset B'\setminus A'$ 为零测, 同样 $A'\setminus A\subset B\setminus A$ 为零测. 这些差集本来就在 $\mathcal M$ 中, 所以由单调性其测度为零. 分别把 $A$ 和 $A'$ 分为公共部分及其零测差集, 得 $\mu(A)=\mu(A\cap A')=\mu(A')$. 这不需要从无穷测度中作减法.
+
+取 $A=B=X$ 得 $X\in\mathcal M^*$. 若 $A\subset E\subset B$, 则 $B^c\subset E^c\subset A^c$, 而 $A^c\setminus B^c=B\setminus A$ 零测, 所以补集仍属 $\mathcal M^*$. 若 $A_n\subset E_n\subset B_n$ 是可数个包夹, 则 $\bigcup_nA_n\subset\bigcup_nE_n\subset\bigcup_nB_n$, 且
+\[
+ \left(\bigcup_n B_n\right)\setminus\left(\bigcup_n A_n\right)
+ \subset\bigcup_n(B_n\setminus A_n).
+\]
+左边是原 $\sigma$-代数中的集合, 右边为可测零测集, 由单调性左边零测. 故 $\mathcal M^*$ 对可数并封闭.
+
+显然 $\mu^*(\varnothing)=0$, 且对 $E\in\mathcal M$ 取 $A=B=E$ 得 $\mu^*(E)=\mu(E)$. 若 $E_n\in\mathcal M^*$ 两两不交, 其包夹下集 $A_n$ 也两两不交. 上一段给出了它们并集的有效包夹, 因而
+\[
+ \mu^*\left(\bigcup_nE_n\right)
+ =\mu\left(\bigcup_nA_n\right)
+ =\sum_n\mu(A_n)=\sum_n\mu^*(E_n).
+\]
+于是 $\mu^*$ 为正测度. 最后, 若 $N\in\mathcal M^*$ 且 $\mu^*(N)=0$, 选 $A\subset N\subset B$ 的包夹. 有 $\mu(A)=0$ 与 $\mu(B\setminus A)=0$, 所以 $\mu(B)=0$. 对任意 $S\subset N$, 包夹 $\varnothing\subset S\subset B$ 表明 $S\in\mathcal M^*$ 且 $\mu^*(S)=0$. 故扩张空间完备.
+\end{proof}
+
+\begin{proposition}[编者补充]\label{ra:c2:completion-function}
+对原 $\sigma$-代数可测的非负或可积函数, 完备化不改变积分. 在完备空间中, 在零测集的任意子集上任意修改可测函数, 所得函数仍可测, 且只要原函数可积, 积分不变.
+\end{proposition}
+\begin{proof}
+原可测简单函数的积分不变, 因为各水平集的测度不变. 对非负原可测 $f$, 取原可测简单函数 $s_n\uparrow f$, 分别在原空间与完备空间用单调收敛定理, 两边极限相同. 对可积函数再分正负部、实虚部, 得积分也相同.
+
+设 $h=f$ 在一个可测零测集 $N$ 之外成立, $h$ 在 $N$ 上任意取值. 对任意开集 $U$, 两个原像 $h^{-1}(U)$ 与 $f^{-1}(U)$ 的差别包含于 $N$. 完备性使其中的任意子集可测, 故 $h^{-1}(U)$ 可测. 命题~\ref{ra:c2:ae-invariance} 给出积分不变.
+\end{proof}
+在未完备空间, ``在零测集上任意修改仍可测''不一定成立: 若零测集有不可测子集 $S$, 把零函数在 $S$ 上改成一, 就得到不可测的 $\mathbf1_S$. 原讲义关于只在几乎处处定义的函数可任意补值的说明, 必须配合完备性, 或要求所作补值本身可测. 统一在一个已知可测例外集上补成零, 则不需要原空间完备.
+
+\originalsection{与 Riemann 积分的衔接}
+本节取闭区间 $[a,b]$, $a<b$. 调用下一章构造的完备 Lebesgue 测度 $m$, 满足 $m((u,v))=v-u$, 单点零测, 且零测集能用总长度任意小的可数个开区间覆盖. 对 $[a,b]$ 上的有界实函数 $f$ 与分割 $P:a=x_0<\cdots<x_r=b$, 记各小区间上的下、上确界为 $m_j,M_j$, 定义 Darboux 和 $L(f,P)=\sum_jm_j(x_j-x_{j-1})$ 与 $U(f,P)=\sum_jM_j(x_j-x_{j-1})$. 下积分为所有下和的上确界, 上积分为所有上和的下确界; 二者相等时称 $f$ Riemann 可积.
+
+这里的可积判据必须包含\emph{有界}这一假设. 通常的闭区间 Riemann 积分要求函数有界; 反常积分另作定义, 不能直接代入下面的判据. 原讲义陈述这一判据时没有重复写出有界条件, 本书明确补上.
+
+\begin{lemma}[编者补充]\label{ra:c2:riemann-darboux}
+有界函数 $f$ Riemann 可积当且仅当对每个 $\eps>0$, 存在分割 $P$ 使 $U(f,P)-L(f,P)<\eps$.
+\end{lemma}
+\begin{proof}
+下和不超过任意上和: 对两个分割取共同加细, 下和随加细不减, 上和随加细不增, 且同一分割的下和不超过上和. 因而下积分不超过上积分. 若存在任意小的上下和差, 上下积分之差也不超过这个差, 故两积分相等. 反过来, 若它们同为 $I$, 取一个下和大于 $I-\eps/2$ 的分割及一个上和小于 $I+\eps/2$ 的分割. 它们的共同加细使上下和差小于 $\eps$.
+\end{proof}
+
+为描述不连续点, 在相对区间 $[a,b]$ 内定义点的振幅
+\[
+ \omega_f(x)=\inf_{r>0}\left(
+   \sup_{\substack{y\in[a,b]\\\abs{y-x}<r}}f(y)
+  -\inf_{\substack{y\in[a,b]\\\abs{y-x}<r}}f(y)\right).
+\]
+振幅零当且仅当 $f$ 在 $x$ 连续: 连续性给出小邻域中任意两函数值之差小; 反之, 小邻域的上下确界差小, 而 $f(x)$ 本身在其间, 所以附近值接近 $f(x)$. 对 $\eta>0$, 集合 $D_\eta=\{x:\omega_f(x)\ge\eta\}$ 闭. 确实, 若 $\omega_f(x)<\eta$, 可找到一个邻域使其中振幅小于 $\eta$; 对足够邻近的 $z$, 更小的 $z$ 邻域包含于该邻域, 于是 $\omega_f(z)<\eta$. 因而不连续点集为 Borel 集 $D=\bigcup_{n=1}^{\infty}D_{1/n}$.
+
+\begin{theorem}[Lebesgue 的 Riemann 可积判据]\label{ra:c2:riemann-criterion}
+有界实函数 $f:[a,b]\to\R$ Riemann 可积当且仅当它的不连续点集 $D$ 为 Lebesgue 零测集. 在这种情形, $f$ 为 Lebesgue 可测且可积, 两种积分相等.
+\end{theorem}
+\begin{proof}[证明(编者补充)]
+先假设 $f$ Riemann 可积. 固定 $\eta>0$, 给定任意 $\delta>0$, 选分割 $P$ 使 $U(f,P)-L(f,P)<\eta\delta$. 将振幅 $M_j-m_j\ge\eta$ 的小区间称为坏区间. 若 $x\in D_\eta$ 且 $x$ 不是分割点, 则它在某个小区间的内部; 若该区间振幅小于 $\eta$, $x$ 的更小邻域也会如此, 矛盾. 所以 $D_\eta$ 包含于坏区间的并与有限个分割点的并, 从而
+\[
+ m(D_\eta)\le\sum_{\text{坏区间 }j}(x_j-x_{j-1})
+ \le\frac{U(f,P)-L(f,P)}{\eta}<\delta.
+\]
+由于 $\delta$ 任意, $m(D_\eta)=0$. 可数并表示给出 $m(D)=0$.
+
+反过来, 假设 $D$ 零测, 并取 $M\ge0$ 使 $\abs f\le M$. 固定 $\eta,\delta>0$. 闭集 $D_\eta\subset[a,b]$ 紧且零测, 所以可以用有限个开区间覆盖它, 这些区间总长度小于 $\delta$. 令其并为 $V$. 对每个 $x\notin D_\eta$, 由振幅定义可选相对开邻域 $U_x$, 使 $f$ 在整个 $U_x$ 上的振幅小于 $\eta$. $V$ 与这些 $U_x$ 组成 $[a,b]$ 的开覆盖, 紧性允许取有限子覆盖. 有限开覆盖存在 Lebesgue 数: 存在 $\rho>0$ 使直径小于 $\rho$ 的区间必含于某个覆盖成员. 这一基础紧性结论可如下证明: 否则取直径趋零且不含于任何成员的集合, 选其一点, 再取收敛子列; 极限点位于一个开成员内, 小直径使该子列对应集合最终都包含于这个成员, 矛盾.
+
+取网格小于 $\rho$ 的分割. 每个小区间或者含于 $V$, 或者含于某个 $U_x$. 把前一种归入坏类, 其长度总和不超过 $m(V)<\delta$, 振幅不超过 $2M$; 其余小区间振幅小于 $\eta$. 因而 $U(f,P)-L(f,P)\le2M\delta+\eta(b-a)$. 先选 $\eta$ 再选 $\delta$, 可使右边任意小. 若 $M=0$ 结论直接成立. Darboux 判据给出 Riemann 可积性.
+
+最后证明与 Lebesgue 积分相等, 并同时核对可测性. 对每个 $n$, 取分割 $P_n$ 使上下和差小于 $2^{-n}$. 在各小区间上分别取常数下、上确界得到 Borel 简单函数 $\ell_n,u_n$, 小区间用半开方式分割, 最后包含端点 $b$. 有 $\ell_n\le f\le u_n$ 逐点成立, 且 $\int(u_n-\ell_n)\,dm<2^{-n}$. 令 $\ell=\sup_n\ell_n$, $u=\inf_nu_n$, 则二者 Borel 可测、有限, $\ell\le f\le u$, 并且 $0\le u-\ell\le u_n-\ell_n$ 对每个 $n$ 成立. 故 $\int(u-\ell)\,dm=0$, 从而 $u=\ell$ 几乎处处. 完备性与命题~\ref{ra:c2:completion-function} 保证夹在二者之间的 $f$ Lebesgue 可测. 它有界且区间测度有限, 所以可积. 积分单调性给出 $L(f,P_n)\le\int f\,dm\le U(f,P_n)$, 另一方面 Riemann 积分也夹在同两和之间. 两和差趋零, 因而两积分相等.
+\end{proof}
+
+\begin{example}
+编者补充. 证明 $\mathbf1_{\mathbb Q\cap[a,b]}$ Lebesgue 可积但不 Riemann 可积. 解释这与上述判据的一致性.
+\end{example}
+\begin{solution}
+可数集合的 Lebesgue 测度为零, 因为每个单点零测并且测度可数次可加. 故此示性函数积分为零. 但每个非退化小区间都有有理数和无理数, 上确界为一、下确界为零, 所以上下 Darboux 和总是 $b-a$ 与零, 不可能相等. 该函数处处不连续, 不连续点集就是正测度区间 $[a,b]$, 正与判据一致.
+\end{solution}
+
+\originalsection{练习与解答}
+以下题目及解答为编者补充.
+
+\begin{exercise}
+设 $0\le f_n\downarrow f$, 函数均可测且 $\int f_1\,\dd\mu<\infty$. 证明 $\int f_n\,\dd\mu\downarrow\int f\,\dd\mu$. 给出删去有限积分条件后结论失败的例子.
+\end{exercise}
+\begin{solution}
+由 $f_1$ 可积可选共同零测集外有限的代表. 非负函数 $f_1-f_n$ 递增到 $f_1-f$, 用单调收敛及有限量的积分线性得到 $\int f_1-\int f_n\to\int f_1-\int f$. 故 $\int f_n\to\int f$, 而其单调递减性来自积分单调性. 在 $\N$ 的计数测度上取 $f_n=\mathbf1_{\{n,n+1,\ldots\}}$, 则逐点递减到零, 但每个积分均无穷, 结论失败.
+\end{solution}
+
+\begin{exercise}
+若 $f_n$ 可测且 $\sum_n\int\abs{f_n}\,\dd\mu<\infty$, 证明 $\sum_nf_n$ 几乎处处绝对收敛, 其和可积, 且可以逐项积分.
+\end{exercise}
+\begin{solution}
+非负级数交换给出 $\int\sum_n\abs{f_n}\,\dd\mu=\sum_n\int\abs{f_n}\,\dd\mu<\infty$. 故 $G=\sum_n\abs{f_n}$ 几乎处处有限. 在这个集合上级数绝对收敛, 在其零测补集上把和定义为零. 部分和可测, 所得和 $F$ 可测, 并满足 $\abs F\le G$ 几乎处处, 因而可积. 部分和也都由同一个 $G$ 控制, 主导收敛给 $\int F\,\dd\mu=\lim_N\int\sum_{n=1}^{N}f_n\,\dd\mu=\sum_n\int f_n\,\dd\mu$. 数值级数也绝对收敛, 因为 $\sum_n\abs{\int f_n\,\dd\mu}\le\sum_n\int\abs{f_n}\,\dd\mu$.
+\end{solution}
+
+\begin{exercise}
+设 $f_n,f$ 可测, 且 $\sum_n\int\abs{f_n-f}\,\dd\mu<\infty$. 证明 $f_n\to f$ 几乎处处.
+\end{exercise}
+\begin{solution}
+对正整数 $j$, 令 $E_{n,j}=\{\abs{f_n-f}>1/j\}$. 单调性给 $\mu(E_{n,j})\le j\int\abs{f_n-f}\,\dd\mu$, 所以 $\sum_n\mu(E_{n,j})<\infty$. 第一 Borel--Cantelli 引理说明对几乎每个 $x$, 固定 $j$ 后只有有限多个 $n$ 使 $x\in E_{n,j}$. 对所有 $j$ 的例外集取可数并, 在其补集上, 对每个 $j$ 都最终有 $\abs{f_n(x)-f(x)}\le1/j$, 这正是收敛到零的条件.
+\end{solution}
+
+\begin{exercise}
+设 $T$ 为度量空间, $t_0\in T$. 对每个 $t\in T$ 有可测函数 $F(t,\cdot):X\to\C$. 假设对几乎每个 $x$, $F(t,x)$ 在 $t=t_0$ 连续, 并且在 $t_0$ 的一个邻域内有共同的非负可积控制函数 $g$, 即 $\abs{F(t,x)}\le g(x)$ 几乎处处, 其中允许每个 $t$ 的例外集不同. 在这个邻域内定义 $I(t)=\int F(t,x)\,\dd\mu(x)$, 证明 $I$ 在 $t_0$ 连续.
+\end{exercise}
+\begin{solution}
+取任意趋于 $t_0$ 的序列 $t_n$. 删去有限个不在指定邻域中的成员不影响极限. 连续性在一个固定零测集以外给出 $F(t_n,x)\to F(t_0,x)$, 而控制条件对这列可数多个参数的例外集可以取并, 得到共同零测集. 对该序列应用主导收敛, 有 $I(t_n)\to I(t_0)$. 度量空间中函数在一点连续当且仅当保持所有趋于该点的序列极限: 若不连续, 可在半径 $1/n$ 的球内选取函数值与 $I(t_0)$ 相距至少某个固定正数的点, 与序列结论矛盾. 因而 $I$ 在 $t_0$ 连续.
+\end{solution}
+
+\begin{exercise}
+在 Lebesgue 区间 $[0,1]$ 上取 $f_n(x)=x^n$. 计算其几乎处处极限, 并分别用主导收敛与 Riemann 积分计算检验积分极限.
+\end{exercise}
+\begin{solution}
+当 $0\le x<1$ 时 $x^n\to0$, 而 $x=1$ 时恒为一. 所以逐点极限是 $\mathbf1_{\{1\}}$, 几乎处处极限为零. 共同控制函数一在区间上可积, 主导收敛给 $\int_0^1x^n\,dm\to0$. 每个 $x^n$ 连续, Lebesgue 与 Riemann 积分相同, 微积分计算为 $\int_0^1x^n\,dx=1/(n+1)\to0$. 单点处的不同极限值不改变积分, 而控制函数的可积性使积分极限交换有了依据.
+\end{solution}

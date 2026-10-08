@@ -1,0 +1,231 @@
+\originalchapter{卷积与光滑逼近}
+\label{ra:c7}
+\sourcelecture{20--21}
+
+\originalsection{卷积的存在性}
+
+平移不改变 Lebesgue 测度. 把函数与一族平移后的核相乘再积分, 就得到卷积. 它一方面把两个函数组合成新函数, 另一方面能用作平滑和逼近的工具. 但两个可积函数的乘积未必可积, 因而卷积定义中的积分存在性需要证明.
+
+\begin{definition}
+对 $\R^n$ 上的可测函数 $f,g$, 在积分绝对收敛的点定义
+$(f*g)(x)=\int_{\R^n}f(y)g(x-y)\,\dd y$.
+若 $f,g\ge0$, 允许此积分为 $+\infty$. 记 $\tau_hf(x)=f(x-h)$.
+\end{definition}
+
+作为 $(x,y)$ 的函数, $f(y)g(x-y)$ Lebesgue 可测: $f(y)$ 由坐标投影得到, 而 $g(x-y)$ 可先从乘积中的 $g(u)$ 得到, 再使用可逆线性变换 $(x,y)\mapsto(x-y,y)$. 可逆线性变换保持 Lebesgue 可测性, 所以可以使用上一章的 Tonelli 定理.
+
+\begin{theorem}[$L^1$ 卷积]\label{ra:c7:l1}
+若 $f,g\in L^1(\R^n)$, 则卷积在几乎处处的 $x$ 绝对存在, 定义一个 $L^1$ 等价类, 并有 $\norm{f*g}_1\le\norm{f}_1\norm{g}_1$. 若 $f,g\ge0$, 此不等式为等式. 此外,
+$\int_{\R^n}(f*g)= (\int_{\R^n}f)(\int_{\R^n}g)$.
+\end{theorem}
+\begin{proof}
+对非负函数 $|f(y)||g(x-y)|$ 用 Tonelli 和平移不变性, 得
+\[
+ \int_{\R^n}\!\int_{\R^n}|f(y)||g(x-y)|\,\dd y\,\dd x
+ =\int_{\R^n}|f(y)|\left(\int_{\R^n}|g(x-y)|\,\dd x\right)\dd y
+ =\norm{f}_1\norm{g}_1.
+\]
+右边有限, 所以内层绝对积分几乎处处有限. 又 $|f*g|\le|f|*|g|$, 所以得到范数估计. 非负时没有绝对值引起的损失, 故等号成立. 对 $f(y)g(x-y)$ 再使用 Fubini, 得积分的乘法公式.
+\end{proof}
+
+\begin{proposition}[交换律和结合律]\label{ra:c7:algebra}
+对 $f,g\in L^1(\R^n)$, $f*g=g*f$ 几乎处处. 对 $f,g,h\in L^1(\R^n)$, $(f*g)*h=f*(g*h)$ 几乎处处. 卷积是双线性的, 并且不依赖代表函数的零测修改.
+\end{proposition}
+\begin{proof}
+交换律来自代换 $u=x-y$. 要证明结合律, 先对三重绝对积分使用 Tonelli:
+$\int\!\int\!\int|f(u)g(v)h(x-u-v)|\,\dd u\,\dd v\,\dd x
+=\norm{f}_1\norm{g}_1\norm{h}_1<\infty$.
+故对几乎处处的 $x$, 关于 $u,v$ 的积分绝对收敛. 用 Fubini 交换次序并作平移代换, 得
+\[
+ ((f*g)*h)(x)
+ =\int\!\int f(u)g(v)h(x-u-v)\,\dd v\,\dd u
+ =(f*(g*h))(x).
+\]
+双线性直接来自积分的线性. 若 $f$ 或 $g$ 改变在零测集上, 上述绝对积分估计应用于差函数, 表明卷积只改变在零测集上.
+\end{proof}
+
+\begin{example}
+若 $f=\ind_{[0,1]}$, 则 $(f*f)(x)$ 等于区间 $[0,1]\cap[x-1,x]$ 的长度. 因而在 $0\le x\le1$ 时为 $x$, 在 $1\le x\le2$ 时为 $2-x$, 其余为零. 两个有跳跃的函数卷积后产生了连续的三角形函数, 且 $\norm{f*f}_1=1=\norm{f}_1^2$.
+\end{example}
+
+\originalsection{Young 不等式}
+
+\begin{theorem}[Young 不等式]\label{ra:c7:young}
+设 $p,q,r\in[1,\infty]$, 约定 $1/\infty=0$, 并满足
+$1/r=1/p+1/q-1$. 若 $f\in L^p(\R^n)$, $g\in L^q(\R^n)$, 则卷积几乎处处绝对存在, 属于 $L^r$, 且
+$\norm{f*g}_r\le\norm{f}_p\norm{g}_q$.
+\end{theorem}
+\begin{proof}
+可先换成 $|f|,|g|$, 因为 $|f*g|\le|f|*|g|$. 范数为零的情形直接成立; 其余通过除以各自范数, 只须证明非负函数且 $\norm{f}_p=\norm{g}_q=1$ 的情形.
+
+先设 $r<\infty$. 则 $p,q<\infty$, 且由指数关系得 $r\ge p,q$. 当 $p=q=r=1$ 时, 已由定理 \ref{ra:c7:l1} 证明. 其余情形用三个因子的 Hölder 不等式, 指数分别为 $r,q',p'$, 因为 $1/r+1/q'+1/p'=1$. 这种形式可由前章的两因子版本得到: 先以 $r,r'$ 处理第一因子和后两因子的乘积, 再对后两因子的 $r'$ 次幂使用共轭指数 $q'/r'$ 与 $p'/r'$, 得 $\norm{bc}_{r'}\le\norm{b}_{q'}\norm{c}_{p'}$; 指数为无穷时以本质上界估计相应因子. 将被积函数分解为
+$[f(y)^{p/r}g(x-y)^{q/r}]\,f(y)^{1-p/r}\,g(x-y)^{1-q/r}$, 得
+\[
+ (f*g)(x)\le
+ \left(\int f(y)^pg(x-y)^q\,\dd y\right)^{1/r}
+ \left(\int f^{(1-p/r)q'}\right)^{1/q'}
+ \left(\int g^{(1-q/r)p'}\right)^{1/p'}.
+\]
+若 $q'= \infty$ 或 $p'=\infty$, 相应因子本身是常数 $1$, 其 $L^\infty$ 范数为 $1$, 不写成积分的幂. 对有限的指数, 关系 $(1-p/r)q'=p$ 和 $(1-q/r)p'=q$ 表明后两个因子都是 $1$. 第一个积分几乎处处有限, 因为 $f^p,g^q\in L^1$, 可用定理 \ref{ra:c7:l1}. 所以
+$(f*g)(x)^r\le(f^p*g^q)(x)$ 几乎处处. 再积分, 得 $\norm{f*g}_r^r\le\norm{f^p}_1\norm{g^q}_1=1$.
+
+若 $r=\infty$, 指数关系成为 $q=p'$. 对每个 $x$ 用 Hölder 及平移不变性, 得
+$\int|f(y)g(x-y)|\,\dd y\le\norm{f}_p\norm{g}_q$.
+这也包含 $p=1,q=\infty$ 及 $p=\infty,q=1$ 的端点; 若其中一个指数为 $\infty$, 指数关系必然属于这些情形. 因而所有端点都已覆盖.
+\end{proof}
+
+\begin{remark}
+原讲 20 的归一化一行把 $\norm{g}_q$ 误写为 $\norm{g}_p$, 并略过部分端点. 此处保留三个 Hölder 因子的证明, 补齐指数为 $1$ 或 $\infty$ 时的解释. 在第 \ref{ra:c8} 章还会从广义 Minkowski 不等式重新得到 $L^1*L^p\subset L^p$.
+\end{remark}
+
+\begin{lemma}[平移的 $L^p$ 连续性]\label{ra:c7:translation}
+若 $1\le p<\infty$ 且 $f\in L^p(\R^n)$, 则 $\norm{\tau_hf-f}_p\to0$ 当 $h\to0$.
+\end{lemma}
+\begin{proof}
+由前章连续紧支集函数的稠密性, 对 $\eps>0$ 取 $u\in C_c$ 使 $\norm{f-u}_p<\eps$. 平移是 $L^p$ 等距算子, 因而
+$\norm{\tau_hf-f}_p\le2\eps+\norm{\tau_hu-u}_p$.
+$u$ 一致连续, 所以 $\norm{\tau_hu-u}_\infty\to0$. 当 $|h|\le1$ 时, 差函数的支集包含在一个固定有限测度的球 $K$ 中, 因而 $\norm{\tau_hu-u}_p\le\lambda(K)^{1/p}\norm{\tau_hu-u}_\infty\to0$. 先令 $h\to0$, 再令 $\eps\to0$.
+\end{proof}
+
+\begin{theorem}[共轭指数下的连续性]\label{ra:c7:continuous}
+设 $1\le p\le\infty$, $f\in L^p(\R^n)$, $g\in L^{p'}(\R^n)$. 则积分 $(f*g)(x)$ 对每个 $x$ 绝对存在, 且 $f*g$ 有界并一致连续. 若 $1<p<\infty$, 则 $f*g\in C_0(\R^n)$, 即当 $|x|\to\infty$ 时趋于零.
+\end{theorem}
+\begin{proof}
+逐点存在和有界性已由 Hölder 给出. $p,p'$ 中至少一个有限. 若 $p'<\infty$, 则
+$|(f*g)(x+h)-(f*g)(x)|\le\norm{f}_p\norm{\tau_hg-g}_{p'}$, 右边与 $x$ 无关且趋于零. 若 $p'=\infty$, 则 $p=1$; 用交换律把平移放在 $f$ 上, 得到 $\norm{g}_\infty\norm{\tau_hf-f}_1$. 因而一致连续.
+
+若 $1<p<\infty$, 两个指数均有限, 可选 $f_k,g_k\in C_c$, 分别在 $L^p,L^{p'}$ 中逼近 $f,g$. 每个 $f_k*g_k$ 连续且紧支集. 又
+$\norm{f_k*g_k-f*g}_\infty
+\le\norm{f_k-f}_p\norm{g_k}_{p'}+\norm{f}_p\norm{g_k-g}_{p'}\to0$.
+因为 $g_k$ 的范数有界, 右边确实趋于零. 对给定 $\eps>0$, 先取一个足够接近的 $f_k*g_k$, 再在其支集以外估计, 得 $|f*g|<\eps$. 因而 $f*g$ 在无穷远消失.
+\end{proof}
+
+\begin{remark}
+原讲 20 的此定理漏写 $g\in L^{p'}$; 这是证明中 Hölder 不等式所需的条件. 两个端点不能无条件推出在无穷远消失: 取 $f\in L^1$ 且 $\int f\ne0$, $g\equiv1\in L^\infty$, 则 $f*g\equiv\int f$.
+\end{remark}
+
+\originalsection{光滑核}
+
+要把卷积变成逼近, 应使核的积分为 $1$, 并使核的质量集中到原点附近. 若还要求核无限可微, 可以从一个在边界处所有导数都为零的函数出发.
+
+\begin{lemma}[光滑紧支集核]\label{ra:c7:bump}
+存在 $\phi\in C_c^\infty(\R^n)$, 满足 $\phi\ge0$, $\supp\phi\subset\overline{B(0,1)}$, $\int\phi=1$. 对 $a>0$, 令 $\phi_a(x)=a^{-n}\phi(x/a)$, 则 $\int\phi_a=1$, $\supp\phi_a\subset\overline{B(0,a)}$.
+\end{lemma}
+\begin{proof}
+定义 $h(t)=e^{-1/t}$ 当 $t>0$, $h(t)=0$ 当 $t\le0$. 在 $t>0$ 上, 每个导数都是某个关于 $1/t$ 的多项式乘以 $e^{-1/t}$. 对每个整数 $k\ge0$, $s^ke^{-s}\to0$ 当 $s\to\infty$, 所以这些右侧导数在 $0$ 都趋于零. 归纳考察差商: 若前一阶导数在右边具有此形式且在左边为零, 除以 $t$ 后仍趋于零, 故其在 $0$ 的导数为零. 由此 $h\in C^\infty(\R)$.
+
+函数 $\psi(x)=h(1-|x|^2)$ 无限可微, 在单位球外为零, 在球内为正. 它的积分有限且正. 令 $\phi=\psi/\int\psi$. 伸缩代换 $u=x/a$ 给出 $\int\phi_a=\int\phi=1$, 支集性质也直接得到.
+\end{proof}
+
+\begin{definition}[局部可积与平滑化]
+若 $f$ 在每个紧集上绝对可积, 称 $f\in L^1_{\mathrm{loc}}(\R^n)$. 对这样的 $f$, 定义 $f_a=f*\phi_a$, 称为 $f$ 的平滑化.
+\end{definition}
+
+\begin{theorem}[平滑化的导数与支集]\label{ra:c7:mollify}
+若 $f\in L^1_{\mathrm{loc}}(\R^n)$, 则 $f_a(x)$ 对每个 $x$ 存在, $f_a\in C^\infty(\R^n)$, 且对每个多重指标 $\alpha$,
+$\partial^\alpha f_a=f*(\partial^\alpha\phi_a)$.
+若 $f$ 几乎处处在紧集 $K$ 外为零, 则 $\supp f_a\subset K+\overline{B(0,a)}$, 因而 $f_a\in C_c^\infty$.
+\end{theorem}
+\begin{proof}
+对固定 $x$, 积分只用到 $y\in\overline{B(x,a)}$, 且核有界, 所以绝对存在. 要证连续性, 将 $x$ 限制在固定的紧邻域 $V$. 所有涉及的 $y$ 都位于紧集 $V+\overline{B(0,a)}$; 被积函数被常数乘以该集上的 $|f|$ 控制. 核连续, 控制收敛给出 $f_a$ 连续.
+
+求第 $j$ 个偏导时, 把差商写成
+$\int f(y)[\phi_a(x+te_j-y)-\phi_a(x-y)]/t\,\dd y$.
+当 $|t|\le1$ 时, 核的差商由 $\norm{\partial_j\phi_a}_\infty$ 控制, 所有支集仍落在一个固定紧集上. 控制收敛允许把 $t\to0$ 的极限移入积分, 得 $\partial_jf_a=f*\partial_j\phi_a$. 对右边重复连续性论证及差商论证, 归纳得到任意阶偏导, 且均连续.
+
+若 $x\notin K+\overline{B(0,a)}$, 则对 $y\in K$ 有 $|x-y|>a$, 故核为零; 对几乎处处的 $y\notin K$ 则 $f(y)=0$. 因而 $f_a(x)=0$. 由于右侧的和集紧, 支集结论成立.
+\end{proof}
+
+\begin{remark}
+原讲 21 开头把一般平滑化写成紧支集光滑函数, 并在支集证明末尾把不等号方向写反. 一般 $f$ 只能保证光滑; 例如 $f\equiv1$ 时 $f_a\equiv1$, 支集是整个空间. 紧支集结论需要 $f$ 本身具有紧支集.
+\end{remark}
+
+\originalsection{近似恒等族与稠密性}
+
+\begin{definition}[近似恒等族]
+一族 $k_a\in L^1(\R^n)$, $a>0$, 称为近似恒等族, 若 $\int k_a=1$, $\sup_a\norm{k_a}_1=A<\infty$, 且对每个 $\delta>0$,
+$\int_{|y|\ge\delta}|k_a(y)|\,\dd y\to0$ 当 $a\to0$.
+核可以有符号; 若均非负, 则 $A=1$. 上面构造的 $\phi_a$ 是其中一个例子.
+\end{definition}
+
+\begin{theorem}[$L^p$ 逼近]\label{ra:c7:approx}
+设 $1\le p<\infty$, $f\in L^p(\R^n)$, $(k_a)$ 为近似恒等族. 则 $\norm{f*k_a-f}_p\to0$ 当 $a\to0$. 特别地, $\norm{f*\phi_a-f}_p\to0$.
+\end{theorem}
+\begin{proof}
+Young 不等式保证 $f*k_a$ 几乎处处存在. 由 $\int k_a=1$, 差写为
+$f*k_a(x)-f(x)=\int k_a(y)(f(x-y)-f(x))\,\dd y$.
+记 $A_a=\norm{k_a}_1$, 有 $1\le A_a\le A$. 对概率测度 $|k_a(y)|\,\dd y/A_a$ 用 Jensen, 当 $p=1$ 时只用积分三角不等式, 得
+\[
+ |f*k_a(x)-f(x)|^p
+ \le A_a^{p-1}\int|k_a(y)|\,|f(x-y)-f(x)|^p\,\dd y.
+\]
+这也可先对截断后的非负积分使用 Jensen, 再取极限. Tonelli 将它积分为
+$\norm{f*k_a-f}_p^p
+\le A^{p-1}\int|k_a(y)|\,\norm{\tau_yf-f}_p^p\,\dd y$.
+
+给定 $\eps>0$, 平移连续性给出 $\delta>0$, 使 $|y|<\delta$ 时 $\norm{\tau_yf-f}_p<\eps$. 对其余 $y$, 三角不等式及平移等距性给出 $\norm{\tau_yf-f}_p\le2\norm{f}_p$. 因此
+\[
+ \norm{f*k_a-f}_p^p
+ \le A^p\eps^p+
+ A^{p-1}(2\norm{f}_p)^p\int_{|y|\ge\delta}|k_a(y)|\,\dd y.
+\]
+先令 $a\to0$, 再令 $\eps\to0$, 得到结论. 这里绝对值不能删掉: 有符号核或有符号 $f$ 的差不提供非负控制.
+\end{proof}
+
+\begin{proposition}[一致逼近]\label{ra:c7:uniform}
+若 $u$ 有界且一致连续, 则 $\norm{u*k_a-u}_\infty\to0$. 特别地, 若 $u\in C_c$, 则 $u*\phi_a\to u$ 一致收敛, 且当 $a\le1$ 时这些函数的支集都包含在某个固定紧集内.
+\end{proposition}
+\begin{proof}
+把 $|u(x-y)-u(x)|$ 在 $|y|<\delta$ 上用一致连续性估计为 $\eps$, 在其余部分估计为 $2\norm{u}_\infty$. 积分后得到与 $x$ 无关的上界
+$A\eps+2\norm{u}_\infty\int_{|y|\ge\delta}|k_a(y)|\,\dd y$.
+先令 $a\to0$, 再令 $\eps\to0$. 支集结论来自定理 \ref{ra:c7:mollify}.
+\end{proof}
+
+\begin{theorem}[光滑紧支集函数稠密]\label{ra:c7:density}
+对 $1\le p<\infty$, $C_c^\infty(\R^n)$ 在 $L^p(\R^n)$ 中稠密.
+\end{theorem}
+\begin{proof}
+给定 $f\in L^p$ 和 $\eps>0$, 先由 $C_c$ 的稠密性选 $u\in C_c$, 使 $\norm{f-u}_p<\eps/2$. 对 $a\le1$, $u*\phi_a-u$ 的支集落在固定有限测度集 $K$ 中, 因而
+$\norm{u*\phi_a-u}_p\le\lambda(K)^{1/p}\norm{u*\phi_a-u}_\infty\to0$.
+取足够小的 $a$ 使它小于 $\eps/2$. 定理 \ref{ra:c7:mollify} 保证 $u*\phi_a\in C_c^\infty$, 三角不等式则给出所需逼近.
+
+也可先截断 $f$ 的支集, 再用定理 \ref{ra:c7:approx} 平滑; 这样直接得到有紧支集的平滑逼近. 以上证明保留了原讲义先逼近连续函数、再平滑连续函数的路线, 并覆盖全部有限的 $p$.
+\end{proof}
+
+\begin{example}
+作为编者补充, 检查 $p=\infty$ 的障碍. 在 $\R$ 上取 $f=\ind_{(0,\infty)}$. 对每个连续函数 $u$, 都有 $\norm{u-f}_\infty\ge1/2$.
+\end{example}
+\begin{solution}
+若本质上界小于 $1/2$, 可取 $d<1/2$ 使 $|u-f|\le d$ 几乎处处. 连续性将 $|u|\le d$ 延伸到整个 $(-\infty,0)$, 将 $|u-1|\le d$ 延伸到整个 $(0,\infty)$: 若某点不满足, 邻域内会有正测度的反例. 令两侧趋于零, 得 $|u(0)|\le d$, $|u(0)-1|\le d$, 与 $1\le2d<1$ 矛盾. 所以不能把光滑稠密性或一般的 $L^p$ 平移连续性直接延伸到 $p=\infty$.
+\end{solution}
+
+这些逼近结果是实变与泛函分析的衔接点. 在本册中, 它们用于把积分和局部平均的性质从连续函数传给可积函数. 更抽象的算子、弱拓扑和分布理论属于后续课程; 这里仅建立所需的 $L^p$ 估计与光滑逼近.
+
+\originalsection{习题与解答}
+
+\begin{exercise}
+设 $f\in L^p(\R^n)$, $1\le p<\infty$, 且 $f=0$ 几乎处处于 $B(0,R)^c$. 证明 $f*\phi_a\in C_c^\infty$, $\supp(f*\phi_a)\subset\overline{B(0,R+a)}$, 并给出其 $L^p$ 范数和导数范数的估计.
+\end{exercise}
+\begin{solution}
+有限测度上的 Hölder 说明 $f$ 在该球上可积, 所以满足平滑化定理的条件. 支集包含由 $|x|\le|y|+|x-y|\le R+a$ 得到. Young 不等式给出 $\norm{f*\phi_a}_p\le\norm{f}_p$, 以及
+$\norm{\partial^\alpha(f*\phi_a)}_p
+\le\norm{f}_p\norm{\partial^\alpha\phi_a}_1
+=a^{-|\alpha|}\norm{f}_p\norm{\partial^\alpha\phi}_1$.
+后一个伸缩等式来自 $\partial^\alpha\phi_a(x)=a^{-n-|\alpha|}(\partial^\alpha\phi)(x/a)$.
+\end{solution}
+
+\begin{exercise}
+设 $k\in L^1(\R^n)$ 且 $\int k=1$. 证明 $k_a(x)=a^{-n}k(x/a)$ 是近似恒等族, 并说明是否必须要求 $k\ge0$ 或 $k$ 紧支集.
+\end{exercise}
+\begin{solution}
+伸缩代换给出 $\int k_a=1$, $\norm{k_a}_1=\norm{k}_1$. 对 $\delta>0$,
+$\int_{|x|\ge\delta}|k_a(x)|\,\dd x=\int_{|u|\ge\delta/a}|k(u)|\,\dd u\to0$,
+因为 $k$ 绝对可积. 这些条件不要求非负或紧支集. 非负时范数恰为 $1$; 紧支集时尾部最终直接为零. 两者都只是便于估计的附加性质.
+\end{solution}
+
+\begin{exercise}
+设 $f\in L^1$, $g\in L^\infty$. 证明 $f*g$ 一致连续, 并举出它不在 $C_0$ 的例子.
+\end{exercise}
+\begin{solution}
+换元将卷积写成 $\int f(x-y)g(y)\,\dd y$, 所以其平移差的上界为 $\norm{\tau_hf-f}_1\norm{g}_\infty$, 与 $x$ 无关且随 $h\to0$ 趋于零. 取 $f=\ind_{[0,1]^n}$ 和 $g\equiv1$, 得 $f*g\equiv1$, 在无穷远不消失.
+\end{solution}

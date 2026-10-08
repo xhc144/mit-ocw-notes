@@ -1,0 +1,362 @@
+\originalchapter{最大函数与 Lebesgue 微分}
+\label{ra:c8}
+\sourcelecture{22--24}
+
+\originalsection{积分函数的局部变化}
+
+若 $f$ 连续, $F(x)=\int_a^xf(t)\,\dd t$ 的导数是 $f(x)$. 对 $f\in L^1$, 差商仍是一个短区间上的平均值, 但不能再用逐点连续性. 本章要证明: 对几乎处处的 $x$, 这些平均值仍趋于 $f(x)$. 关键工具是最大函数, 它控制所有尺度上的平均值.
+
+先说明积分函数本身具有的正则性. 对 $f\in L^1([a,b])$, 集合 $E$ 测度很小时, $\int_E|f|$ 也很小. 事实上, 取 $M$ 足够大, 使 $\int_{\{|f|>M\}}|f|<\eps/2$, 则
+$\int_E|f|\le\eps/2+M\lambda(E)$; 当 $\lambda(E)<\eps/(2M)$ 时即小于 $\eps$. 这称为积分对测度的绝对连续性.
+
+\begin{definition}
+实值或复值函数 $F:[a,b]\to\R$ 或 $\C$ 称为绝对连续, 若对每个 $\eps>0$ 都存在 $\delta>0$, 使任意有限个两两不交的区间 $(\alpha_j,\beta_j)\subset[a,b]$ 满足 $\sum_j(\beta_j-\alpha_j)<\delta$ 时, 有 $\sum_j|F(\beta_j)-F(\alpha_j)|<\eps$. 其中绝对值在复值情形表示复数的模.
+\end{definition}
+
+\begin{proposition}\label{ra:c8:primitive-ac}
+若 $f\in L^1([a,b])$, 则 $F(x)=\int_a^xf(t)\,\dd t$ 绝对连续, 因而连续.
+\end{proposition}
+\begin{proof}
+对上述不交区间, $\sum_j|F(\beta_j)-F(\alpha_j)|\le\int_{\bigcup_j(\alpha_j,\beta_j)}|f|$. 右边在区间总长度趋于零时趋于零, 正是刚才证明的积分绝对连续性. 只取一个区间就得到连续性.
+\end{proof}
+
+连续性之外的可导结论将在后面证明. 反过来, “几乎处处可导且导数可积”本身还不足以用积分恢复函数.
+
+\begin{example}\label{ra:c8:cantor}
+作为编者补充, 构造 Cantor 函数 $C:[0,1]\to[0,1]$: 它连续非减, $C(0)=0$, $C(1)=1$, 但 $C'=0$ 几乎处处. 所以 $C(1)-C(0)\ne\int_0^1C'$.
+\end{example}
+\begin{solution}
+从三分 Cantor 集的构造出发. 第 $k$ 步留下 $2^k$ 个长度为 $3^{-k}$ 的闭区间. 定义连续非减的分段线性函数 $C_k$: 在按从左至右排序的每个留下区间上增加 $2^{-k}$, 在已经删去的开区间上保持常数, 且端点值为 $0,1$. 细分到下一步只在这些留下区间内改变函数, 并保留其端点值. 因而 $\norm{C_{k+1}-C_k}_\infty\le2^{-k}$, 该估计的尾和趋于零, 所以 $C_k$ 一致收敛到连续非减函数 $C$.
+
+对任一在有限步骤中删去的开区间, 后续所有函数都在其上等于同一个常数, 故 $C'=0$ 于该开区间. 这些区间的并是 Cantor 集的补集, 其测度为 $1$, 所以 $C'=0$ 几乎处处. 端点值则在极限下仍为 $0,1$.
+
+此函数不绝对连续. 第 $k$ 步留下区间的总长度为 $(2/3)^k\to0$, 但 $C$ 在各区间两端的增量之和为 $2^k2^{-k}=1$. 这直接违反绝对连续的定义.
+\end{solution}
+
+\originalsection{覆盖选择与最大函数}
+
+\begin{lemma}[Vitali 覆盖选择]\label{ra:c8:vitali}
+设 $E\subset\R^n$ 有界, $\mathcal F$ 是一族开球, 每个球的中心属于 $E$, 且每个 $x\in E$ 是其中至少一个球的中心. 则可从 $\mathcal F$ 中选出有限或可数个两两不交的球 $B_j$, 使 $E\subset\bigcup_j3B_j$. 这里 $3B_j$ 与 $B_j$ 同心, 半径是其三倍.
+\end{lemma}
+\begin{proof}
+若球的半径无上界, 由于所有中心在有界集 $E$ 中, 一个足够大的球就覆盖 $E$, 结论成立. 因而可设半径有统一上界 $R$. 已选 $B_1,\ldots,B_{k-1}$ 后, 令 $d_k$ 为所有与它们均不相交的候选球半径的上确界. 若无此候选球, 就停止; 否则选 $B_k$ 使其半径 $r_k>d_k/2$. 此选择无需假定上确界能取到.
+
+选出的球两两不交. 若选择无限进行, 所有球都位于一个固定有界球中, 所以 $\sum_kr_k^n<\infty$, 特别地 $r_k\to0$.
+固定 $x\in E$, 取以它为中心的候选球 $B$ 并记其半径为 $\rho>0$. $B$ 必与某个已选球相交: 若与所有已选球都不相交, 在有限停止时会与停止条件矛盾; 在无限选择时则每一步 $d_k\ge\rho$, 导致 $r_k>\rho/2$, 与 $r_k\to0$ 矛盾.
+
+设 $k$ 是第一次相交的编号. 在第 $k$ 步 $B$ 仍是候选球, 所以 $\rho\le d_k<2r_k$. 若 $z_k$ 为 $B_k$ 的中心, 取交点 $w\in B\cap B_k$, 得
+$|x-z_k|\le|x-w|+|w-z_k|<\rho+r_k<3r_k$.
+因此 $x\in3B_k$, 覆盖结论成立.
+\end{proof}
+
+\begin{remark}
+本引理覆盖的是原球的中心集合 $E$. 因而选择半径大于候选上确界一半时, 放大倍数 $3$ 足够. 不能把结论未经检查改为“全部原球都包含在这些三倍球之并中”. 本章只需要中心集合的覆盖.
+\end{remark}
+
+\begin{definition}[Hardy--Littlewood 最大函数]
+对 $f\in L^1_{\mathrm{loc}}(\R^n)$, 定义
+$Mf(x)=\sup_{r>0}\lambda(B(x,r))^{-1}\int_{B(x,r)}|f(y)|\,\dd y$.
+它可以取值 $+\infty$.
+\end{definition}
+
+\begin{proposition}\label{ra:c8:max-meas}
+$Mf$ 下半连续, 因而 Borel 可测. 此外, $M(f+g)\le Mf+Mg$, $M(cf)=|c|Mf$, 且对 $f\in L^\infty$, $\norm{Mf}_\infty\le\norm{f}_\infty$.
+\end{proposition}
+\begin{proof}
+若 $Mf(x)>t$, 存在 $r>0$ 使 $\int_{B(x,r)}|f|>t\lambda(B(x,r))$. 当 $t\ge0$ 时, 可取稍大的 $r'>r$, 使同一个积分仍大于 $t\lambda(B(x,r'))$. 若 $|x'-x|<r'-r$, 则 $B(x,r)\subset B(x',r')$, 且两个半径为 $r'$ 的球体积相同. 故 $Mf(x')>t$. 当 $t<0$ 时超水平集是全空间. 因而 $\{Mf>t\}$ 开, 即下半连续. 其余三个性质来自每个球上的积分三角不等式、齐次性和本质上界.
+\end{proof}
+
+\begin{definition}[弱 $L^1$ 估计]
+可测函数 $g$ 满足弱 $L^1$ 估计, 是指存在 $A<\infty$, 使 $\lambda\{|g|>t\}\le A/t$ 对所有 $t>0$ 成立. 若算子 $T$ 满足 $A\le C\norm{f}_1$ 对 $g=Tf$ 成立, 就说它满足弱 $(1,1)$ 估计.
+\end{definition}
+
+Chebyshev 不等式说明 $L^1$ 函数满足此估计, 反向却不成立. 例如令 $g(x)=|x|^{-n}$ 于 $x\ne0$, 并在原点任意赋值, 则 $\lambda\{g>t\}=v_n/t$, 其中 $v_n=\lambda(B(0,1))$. 它在原点附近和无穷远都不可积.
+
+\begin{theorem}[最大函数的弱 $(1,1)$ 估计]\label{ra:c8:weak}
+若 $f\in L^1(\R^n)$, 则对每个 $t>0$,
+$\lambda\{Mf>t\}\le3^n\norm{f}_1/t$.
+\end{theorem}
+\begin{proof}
+先对有界集 $E_k=\{Mf>t\}\cap B(0,k)$ 估计. 对每个 $x\in E_k$, 选择一个以 $x$ 为中心的球 $B$, 使
+$t\lambda(B)<\int_B|f|$.
+这些球的半径有统一上界, 因为 $t\lambda(B)<\norm{f}_1$. 用引理 \ref{ra:c8:vitali} 选出两两不交的 $B_j$, 使 $E_k\subset\bigcup_j3B_j$. 于是
+\[
+ \lambda(E_k)\le3^n\sum_j\lambda(B_j)
+ \le\frac{3^n}{t}\sum_j\int_{B_j}|f|
+ \le\frac{3^n}{t}\norm{f}_1.
+\]
+最后 $E_k\uparrow\{Mf>t\}$, 用测度的下连续性即可. 若 $\norm{f}_1=0$, 每个球上的积分都为零, 结论也直接成立.
+\end{proof}
+
+同一估计也对 $\{Mf\ge t\}$ 成立: 对 $s<t$ 使用 $\{Mf\ge t\}\subset\{Mf>s\}$, 再令 $s\uparrow t$. 特别地, $Mf<\infty$ 几乎处处.
+
+\begin{proposition}
+若 $f\in L^1(\R^n)$ 且 $f$ 不几乎处处为零, 则 $Mf\notin L^1(\R^n)$.
+\end{proposition}
+\begin{proof}
+选择 $a>0$ 使 $c=\int_{B(0,a)}|f|>0$. 当 $|x|>a$ 时, $B(0,a)\subset B(x,2|x|)$, 所以
+$Mf(x)\ge c/(v_n2^n|x|^n)$.
+函数 $|x|^{-n}$ 在无穷远不可积. 不用极坐标也能看出: 在每个环带 $2^ka<|x|<2^{k+1}a$ 上, 其积分至少为
+$(2^{k+1}a)^{-n}v_n((2^{k+1}a)^n-(2^ka)^n)=v_n(1-2^{-n})$.
+将无穷多个不交环带相加即发散. 故 $Mf$ 不可积.
+\end{proof}
+
+\begin{remark}
+原讲 22 的证明中把“若 $Mf$ 可积”误写成“若 $Mf$ 不可积”. 正确的推论是 $Mf\in L^1$ 迫使 $f=0$ 几乎处处. 因此弱型估计不能直接提升到 $L^1$ 范数估计.
+\end{remark}
+
+\originalsection{Lebesgue 微分定理}
+
+连续函数在小球上的平均振荡趋于零. 可积函数可以由连续函数在 $L^1$ 中逼近, 但 $L^1$ 小误差不能逐点控制. 最大函数的弱型估计正好控制误差平均值较大的点集.
+
+\begin{theorem}[Lebesgue 微分定理]\label{ra:c8:differentiation}
+若 $f\in L^1_{\mathrm{loc}}(\R^n)$, 则对几乎处处的 $x$,
+\[
+ \lim_{r\downarrow0}\frac1{\lambda(B(x,r))}
+ \int_{B(x,r)}|f(y)-f(x)|\,\dd y=0.
+\]
+因而 $\lambda(B(x,r))^{-1}\int_{B(x,r)}f(y)\,\dd y\to f(x)$ 几乎处处.
+\end{theorem}
+\begin{proof}
+先设 $f\in L^1(\R^n)$, 并在一个零测集上修改, 使其处处有限. 定义平均振荡的上极限
+\[
+ f^*(x)=\limsup_{r\downarrow0}\frac1{\lambda(B(x,r))}
+ \int_{B(x,r)}|f(y)-f(x)|\,\dd y.
+\]
+目标是证明 $f^*=0$ 几乎处处. 下面的估计用外测度, 因而无需先证明这个上极限可测.
+
+积分三角不等式给出 $(f+g)^*\le f^*+g^*$. 若 $g$ 在 $x$ 连续, 则对每个 $\eps>0$, 所有足够小的球上 $|g(y)-g(x)|<\eps$, 因而 $g^*(x)=0$. 将三角不等式分别用于 $f=(f-g)+g$ 和 $f-g=f+(-g)$, 得当 $g$ 连续时 $(f-g)^*=f^*$.
+
+另一方面, 对每个球有平均振荡不超过 $Mf(x)+|f(x)|$, 所以 $f^*\le Mf+|f|$. 因而对 $t>0$,
+$\{f^*>t\}\subset\{Mf>t/2\}\cup\{|f|>t/2\}$.
+用最大函数的弱型估计和 Chebyshev 不等式, 得
+\[
+ \lambda^*\{f^*>t\}\le\frac{2(3^n+1)}{t}\norm{f}_1.
+\]
+对任意 $\eps>0$, 由 $C_c$ 在 $L^1$ 中稠密, 选连续函数 $g$ 使 $\norm{f-g}_1<\eps$. 对 $f-g$ 使用刚才的估计并利用 $(f-g)^*=f^*$, 得
+$\lambda^*\{f^*>t\}\le2(3^n+1)\eps/t$.
+让 $\eps\downarrow0$, 得每个超水平集的外测度为零. 又
+$\{f^*>0\}=\bigcup_{k\ge1}\{f^*>1/k\}$,
+故外测度为零. 由于平均振荡非负, 上极限为零就意味着其极限为零.
+
+一般局部可积的情形, 令 $f_j=f\ind_{B(0,j)}\in L^1$. 在 $B(0,j)$ 的每个点, 足够小的球完全位于该球中, 故 $f_j$ 与 $f$ 的平均振荡相同. 每个 $j$ 的例外集为零测集, 去掉它们的可数并即可.
+
+最后, 平均值与 $f(x)$ 的差的绝对值不超过平均振荡, 从而得到第二个结论.
+\end{proof}
+
+\begin{definition}[Lebesgue 点与精确值]\label{ra:c8:lebpoint}
+对局部可积等价类 $[f]$, 若存在数 $A$ 使
+$\lambda(B(x,r))^{-1}\int_{B(x,r)}|f(y)-A|\,\dd y\to0$,
+则称 $x$ 为该等价类的 Lebesgue 点, 称 $A$ 为在 $x$ 处的精确值, 记为 $\widetilde f(x)$.
+\end{definition}
+
+精确值唯一: 若 $A,B$ 都满足定义, 则对每个球有
+$|A-B|\le\lambda(B(x,r))^{-1}\int(|f-A|+|f-B|)$,
+令 $r\downarrow0$ 就得 $A=B$. 零测修改不改变任何这些积分, 所以 Lebesgue 点集合和精确值只取决于等价类. 微分定理说明几乎处处的点都是 Lebesgue 点, 并且对任一代表 $f$, $\widetilde f(x)=f(x)$ 几乎处处. 这不保证在每个 Lebesgue 点都等于任意选取的代表值.
+
+\begin{example}
+函数 $\ind_{\mathbb Q}$ 与零函数属于同一个局部可积等价类. 每个点都是 Lebesgue 点, 精确值都是 $0$, 但在有理点处所选代表值是 $1$.
+\end{example}
+
+\begin{example}
+原讲 23 的振荡例子: 在 $\R$ 上令 $g(x)=\sin(1/x)$ 当 $x\ne0$, $g(0)=0$. 原点不是其 Lebesgue 点.
+\end{example}
+\begin{solution}
+$g$ 是奇函数, 所以每个关于原点对称的区间上的平均值为零. 若存在精确值 $A$, 平均绝对偏差趋于零必推出平均值趋于 $A$, 因而只能有 $A=0$.
+
+但平均绝对值不趋于零. 换元 $u=1/x$ 得
+$r^{-1}\int_0^r|\sin(1/x)|\,\dd x=r^{-1}\int_{1/r}^\infty|\sin u|u^{-2}\,\dd u$.
+记 $q(u)=|\sin u|-2/\pi$. 它是周期函数, 每个周期的积分为零, 所以有有界原函数 $Q$. 分部积分给出
+$\int_A^\infty q(u)u^{-2}\,\dd u
+=-Q(A)A^{-2}+2\int_A^\infty Q(u)u^{-3}\,\dd u=O(A^{-2})$.
+于是上面的平均绝对值趋于 $2/\pi$. 在 $(-r,r)$ 上的平均绝对值相同, 故 $A=0$ 也不满足定义.
+\end{solution}
+
+\begin{definition}[正则地趋近一点]
+可测集序列 $E_k$ 称为正则地趋近 $x$, 若存在 $c<\infty$ 和正数序列 $r_k\to0$, 使 $0<\lambda(E_k)$, $E_k\subset B(x,r_k)$, 且 $\lambda(B(x,r_k))\le c\lambda(E_k)$.
+\end{definition}
+
+\begin{theorem}\label{ra:c8:regular}
+若 $x$ 是 $f\in L^1_{\mathrm{loc}}(\R^n)$ 的 Lebesgue 点, $E_k$ 正则地趋近 $x$, 则 $\lambda(E_k)^{-1}\int_{E_k}f\to\widetilde f(x)$.
+\end{theorem}
+\begin{proof}
+设 $A=\widetilde f(x)$. 则
+\[
+ \left|\frac1{\lambda(E_k)}\int_{E_k}f-A\right|
+ \le\frac1{\lambda(E_k)}\int_{E_k}|f-A|
+ \le\frac c{\lambda(B(x,r_k))}\int_{B(x,r_k)}|f-A|\longrightarrow0.
+\]
+\end{proof}
+
+这里的体积比条件防止 $E_k$ 在球内过于狭细, 从而只挑出平均意义下很小的一部分异常区域.
+
+\begin{corollary}[Lebesgue 密度定理]\label{ra:c8:density}
+若 $E\subset\R^n$ Lebesgue 可测, 则对几乎处处的 $x\in E$,
+$\lambda(E\cap B(x,r))/\lambda(B(x,r))\to1$;
+对几乎处处的 $x\notin E$, 此比值趋于 $0$.
+\end{corollary}
+\begin{proof}
+$\ind_E$ 局部可积, 对它使用微分定理即可. 不要求 $E$ 的总测度有限.
+\end{proof}
+
+\originalsection{微积分基本定理}
+
+\begin{theorem}[Lebesgue 积分的微积分基本定理 I]\label{ra:c8:ftc}
+设 $f\in L^1([a,b])$, $F(x)=\int_a^xf(t)\,\dd t$. 则 $F$ 绝对连续, 在几乎处处的 $x\in(a,b)$ 可导, 且 $F'(x)=f(x)$ 几乎处处. 更精确地, 若 $x$ 是 $f$ 的 Lebesgue 点, 则 $F'(x)=\widetilde f(x)$.
+\end{theorem}
+\begin{proof}
+绝对连续性已由命题 \ref{ra:c8:primitive-ac} 证明. 将 $f$ 在 $[a,b]$ 外置零. 若 $h>0$ 且 $x+h\le b$, 则
+$[F(x+h)-F(x)]/h=h^{-1}\int_x^{x+h}f(t)\,\dd t$.
+区间 $(x,x+h)$ 包含在 $B(x,h)$ 中, 后者长度为 $2h$, 所以它正则地趋近 $x$, 体积比常数为 $2$. 定理 \ref{ra:c8:regular} 说明, 对任意 $h_k\downarrow0$, 右侧趋于 $\widetilde f(x)$. 任意趋于零的正数序列都可同样处理, 所以右导数存在并等于该值.
+
+当 $h<0$ 时, 差商是 $(x+h,x)$ 上的平均值, 同理得左导数为同一个精确值. 因而在每个内部 Lebesgue 点 $F$ 可导. 微分定理说明这些点几乎处处存在, 且精确值与代表 $f(x)$ 几乎处处相等.
+\end{proof}
+
+\begin{theorem}[绝对连续版微积分基本定理 II]\label{ra:c8:ac-inverse}
+设 $F:[a,b]\to\R$ 绝对连续. 则 $F$ 几乎处处可导, $F'\in L^1([a,b])$, 且对每个 $x\in[a,b]$,
+$F(x)-F(a)=\int_a^xF'(t)\,\dd t$.
+因此绝对连续函数恰是可积函数的不定积分加一个常数.
+\end{theorem}
+
+原讲 22 陈述了这一定理, 没有给出其证明. 本册保留其完整结论, 并在定理 \ref{ra:c9:ac-ftc} 中用正测度、Radon--Nikodym 密度和本章微分定理补全证明. 最后一条等价刻画的反向, 已由命题 \ref{ra:c8:primitive-ac} 证明. 例题 \ref{ra:c8:cantor} 说明绝对连续性不能只换成连续性和几乎处处可导.
+
+\begin{proposition}[处处可导时的充分条件]\label{ra:c8:everywhere}
+若 $F$ 在 $[a,b]$ 上连续, 在每个 $x\in(a,b)$ 可导, 且 $F'\in L^1([a,b])$, 则对每个 $x\in[a,b]$, 有
+$F(x)-F(a)=\int_a^xF'(t)\,\dd t$.
+\end{proposition}
+
+这是原讲 22 同时指出的另一个充分条件. 几乎处处可导不够, 但处处可导与导数可积结合则足够. 原稿没有给出这一结论的证明; 本册在定理 \ref{ra:c9:everywhere-ftc} 中用 Vitali--Carathéodory 的逐点上逼近和单侧 Dini 导数补证, 不把它当作前述微分定理的前提.
+
+\begin{remark}
+原讲 23 把积分函数几乎处处求导的结论标为 \textit{FTOC II}, 而课程目录将它列为微积分基本定理 I. 本册按通常的内容区分命名: I 是对积分函数求导, II 是由导数积分恢复绝对连续函数.
+\end{remark}
+
+\originalsection{积分形式的 Minkowski 不等式}
+
+\sourcelecture{24}
+下面回到 $L^p$ 范数. 有限和的 Minkowski 不等式可以推广为一族函数的积分, 但必须先证明这个积分对几乎处处的点存在.
+
+\begin{theorem}[广义 Minkowski 不等式]\label{ra:c8:gmink}
+设 $(X,\mathcal M,\mu)$, $(Y,\mathcal N,\nu)$ 都 $\sigma$-有限, $1\le p<\infty$, $u:X\times Y\to\C$ 乘积可测. 令 $a(y)=\norm{u_y}_{L^p(\mu)}$, 并设 $C=\int_Ya(y)\,\dd\nu(y)<\infty$. 则对几乎处处的 $x$, $u^x\in L^1(\nu)$, 函数 $U(x)=\int_Yu(x,y)\,\dd\nu(y)$ 可测, 且
+\[
+ \norm{U}_{L^p(\mu)}
+ \le\int_Y\norm{u_y}_{L^p(\mu)}\,\dd\nu(y).
+\]
+\end{theorem}
+\begin{proof}
+由 Tonelli, $a(y)^p=\int_X|u(x,y)|^p\,\dd\mu(x)$ 可测. 若 $p=1$, 对 $|u|$ 用 Tonelli, 得 $\int_X\int_Y|u|=C<\infty$, 所以截面绝对可积且不等式成立.
+
+设 $p>1$. 若 $C=0$, 则 $a=0$ 几乎处处, 从 Tonelli 可知 $u=0$ 乘积几乎处处, 结论直接成立. 以下设 $C>0$. 可在 $u$ 上作不影响结论的零测修改, 使 $a(y)=0$ 或 $a(y)=\infty$ 的截面为零. 对 $a=\infty$ 的参数集合, $\nu$ 测度为零, 它与 $X$ 的乘积零测, 这里使用 $X$ 的 $\sigma$-有限性. 对 $a=0$ 的参数, $u_y=0$ $\mu$-几乎处处; 对这些截面非零处的指示函数用 Tonelli, 可知删去的部分同样是乘积零测.
+
+在 $0<a(y)<\infty$ 处定义 $v(x,y)=|u(x,y)|a(y)^{-1/p'}$, 其余置零. 则对几乎处处的 $y$,
+$\int_Xv(x,y)^p\,\dd\mu(x)=a(y)$.
+对几乎处处的 $x$, 关于 $y$ 的 Hölder 不等式给出
+\[
+ H(x):=\int_Y|u(x,y)|\,\dd\nu(y)
+ \le\left(\int_Yv(x,y)^p\,\dd\nu(y)\right)^{1/p}C^{1/p'}.
+\]
+用 Tonelli 将右侧的 $p$ 次幂积分, 得
+$\int_XH(x)^p\,\dd\mu(x)\le C^{p-1}\int_Y(\int_Xv^p\,\dd\mu)\dd\nu=C^p$.
+因此 $H<\infty$ 几乎处处, 从而 $U$ 绝对存在. 对实部、虚部的正负部分作截面积分, 可知 $U$ 可测; 又 $|U|\le H$, 给出所需估计. 将零测修改还原, 对修改集使用 Tonelli 可知积分和结论仍几乎处处不变.
+\end{proof}
+
+\begin{example}
+重新证明一个 Young 不等式. 若 $f\in L^1(\R^n)$, $g\in L^p(\R^n)$, $1\le p<\infty$, 令 $u(x,y)=f(y)g(x-y)$. 对固定 $y$, 平移不变性给出 $\norm{u_y}_p=|f(y)|\norm{g}_p$. 因此广义 Minkowski 不等式给出 $\norm{f*g}_p\le\norm{f}_1\norm{g}_p$, 并同时证明卷积几乎处处绝对存在. 当 $Y$ 是有限集合并取计数测度时, 同一定理退化为普通有限和的 Minkowski 不等式.
+\end{example}
+
+\originalsection{分布函数与最大算子}
+
+\begin{definition}[分布函数]
+对测度空间上的可测函数 $f$, 定义 $d_f(t)=\mu\{x:|f(x)|>t\}$, $t\ge0$. 它是非增函数, 记录函数超过每个高度的区域大小.
+\end{definition}
+
+\begin{theorem}[分层积分公式]\label{ra:c8:layercake}
+若 $f:X\to[0,\infty]$ 可测, 则 $\int_Xf\,\dd\mu=\int_0^\infty\mu\{f>t\}\,\dd t$. 对 $p>0$,
+\[
+ \int_X|f|^p\,\dd\mu
+ =p\int_0^\infty d_f(t)t^{p-1}\,\dd t.
+\]
+这些等式允许取无穷值.
+\end{theorem}
+\begin{proof}
+若 $(X,\mu)$ $\sigma$-有限, 将 $f(x)$ 写成 $\int_0^\infty\ind_{\{0<t<f(x)\}}\,\dd t$, 直接用 Tonelli 即得第一式. 为说明此公式其实不需要 $\sigma$-有限性, 也可以从非负简单函数出发: 若 $s=\sum_ja_j\ind_{E_j}$, $E_j$ 两两不交, 则
+$\int_0^\infty\mu\{s>t\}\,\dd t=\sum_j\mu(E_j)\int_0^{a_j}\dd t=\int s$.
+选择简单函数 $s_k\uparrow f$. 对每个 $t$, $\{s_k>t\}\uparrow\{f>t\}$, 两边分别用单调收敛, 得第一式.
+
+对 $|f|^p$ 使用第一式, 得 $\int|f|^p=\int_0^\infty\mu\{|f|>s^{1/p}\}\,\dd s$. 代换 $s=t^p$, 即得第二式.
+\end{proof}
+
+更一般地, 若 $\Phi:[0,\infty)\to[0,\infty)$ 局部绝对连续, $\Phi(0)=0$, 且 $\Phi'\ge0$ 几乎处处, 则
+$\int_X\Phi(f)\,\dd\mu=\int_0^\infty\mu\{f>t\}\Phi'(t)\,\dd t$.
+在 $\sigma$-有限空间上, 这是对 $\Phi(f(x))=\int_0^{f(x)}\Phi'(t)\,\dd t$ 用 Tonelli 的直接结果. 一般空间可先对简单函数验证, 再单调逼近. 在 $f=\infty$ 时, 令 $\Phi(\infty)$ 为递增极限. 原讲仅写“$\Phi$ 可微”并不充分: 还需要处理 $\Phi(0)$ 以及有符号积分的存在性. 此处给出的是所有积分均非负、足以支撑本章应用的版本.
+
+\begin{theorem}[最大函数的 $L^p$ 有界性]\label{ra:c8:strong}
+设 $1<p<\infty$, $f\in L^p(\R^n)$, 则 $Mf\in L^p(\R^n)$, 且
+$\norm{Mf}_p\le C(n,p)\norm{f}_p$.
+可取 $C(n,p)=(3^np)^{1/p}p/(p-1)$. 这个上界当 $p\to\infty$ 时趋于 $1$, 当 $p\downarrow1$ 时趋于无穷. 对 $p=\infty$, 有 $\norm{Mf}_\infty\le\norm{f}_\infty$.
+\end{theorem}
+\begin{proof}
+有限测度集上的 Hölder 说明 $f$ 局部可积, 所以最大函数定义有效. 因为 $Mf=M|f|$, 可设 $f\ge0$. 对 $t>0$ 以及固定 $0<c<1$, 分解
+$f=g_t+h_t$, 其中 $g_t=f\ind_{\{f>ct\}}$, $h_t=f\ind_{\{f\le ct\}}$.
+这里 $0\le h_t\le ct$, 而 $g_t\in L^1$, 因为在 $\{f>ct\}$ 上 $f\le(ct)^{1-p}f^p$. 这是使用弱 $(1,1)$ 估计前必须核对的条件.
+
+最大函数的次可加性及 $L^\infty$ 估计给出 $Mf\le Mg_t+ct$. 所以
+\[
+ \lambda\{Mf>t\}
+ \le\lambda\{Mg_t>(1-c)t\}
+ \le\frac{3^n}{(1-c)t}\int_{\{f>ct\}}f(x)\,\dd x.
+\]
+将此代入分层积分公式, 再对非负积分使用 Tonelli, 得
+\begin{align*}
+ \norm{Mf}_p^p
+ &\le\frac{3^np}{1-c}\int_0^\infty t^{p-2}
+       \left(\int_{\{f>ct\}}f(x)\,\dd x\right)\dd t\\
+ &=\frac{3^np}{1-c}\int_{\R^n}f(x)
+       \left(\int_0^{f(x)/c}t^{p-2}\,\dd t\right)\dd x\\
+ &=\frac{3^npc^{1-p}}{(1-c)(p-1)}\norm{f}_p^p.
+\end{align*}
+内层积分在零端有限恰因 $p>1$. 右边有限, 因此此计算同时证明 $Mf\in L^p$, 未预先假定其可积性.
+
+为选择较好的常数, 对 $c^{1-p}/(1-c)$ 的对数求导, 得 $(1-p)/c+1/(1-c)=0$, 即 $c=(p-1)/p$. 代入给出
+$\norm{Mf}_p^p\le3^np[p/(p-1)]^p\norm{f}_p^p$,
+取 $p$ 次根得到所述常数. 无穷端点则已由命题 \ref{ra:c8:max-meas} 证明.
+\end{proof}
+
+\begin{remark}
+上面的分解证明是原讲 24 所用的 Marcinkiewicz 插值方法: 对大于阈值的部分用弱 $L^1$ 控制, 对其余部分用 $L^\infty$ 控制, 再通过分布函数还原 $L^p$ 范数. 此处证明的是最大算子的这个具体结论, 没有把它当成已证明的一般插值定理. 常数在 $p\downarrow1$ 时发散与最大函数通常不在 $L^1$ 中一致, 但并不声称该上界是最优算子范数.
+\end{remark}
+
+\originalsection{习题与解答}
+
+\begin{exercise}
+设 $f\in L^1([a,b])$, $F(x)=\int_a^xf$. 证明 $|F(x)-F(y)|\le\int_{\min(x,y)}^{\max(x,y)}|f|$, 并在 $f\in L^p$, $1<p\le\infty$, 时给出连续性模的估计.
+\end{exercise}
+\begin{solution}
+积分可加性给出第一式. 若 $1<p<\infty$, 对该区间用 Hölder, 得
+$|F(x)-F(y)|\le\norm{f}_p|x-y|^{1-1/p}$.
+若 $p=\infty$, 得 $|F(x)-F(y)|\le\norm{f}_\infty|x-y|$, 即 Lipschitz 连续. 仅有 $L^1$ 条件时, 第一式与积分绝对连续性仍保证 $F$ 连续, 但未提供统一的幂次模.
+\end{solution}
+
+\begin{exercise}
+设 $x$ 为局部可积函数的 Lebesgue 点. 对任意包含 $x$ 的轴平行立方体 $Q_k$, 若其边长趋于零, 证明 $\lambda(Q_k)^{-1}\int_{Q_k}f\to\widetilde f(x)$.
+\end{exercise}
+\begin{solution}
+若边长为 $\ell_k$, 则 $Q_k\subset\overline{B(x,\sqrt n\,\ell_k)}$. 可用稍大的球, 如半径 $2\sqrt n\,\ell_k$, 保证包含关系对边界也成立. 球的体积是 $v_n(2\sqrt n)^n\ell_k^n$, 立方体体积为 $\ell_k^n$, 比值有与 $k$ 无关的上界. 因而这些立方体正则地趋近 $x$, 由定理 \ref{ra:c8:regular} 得结论.
+\end{solution}
+
+\begin{exercise}
+设 $f=\ind_{B(0,1)}$. 证明 $Mf$ 不可积, 但对每个 $p>1$ 有 $Mf\in L^p$. 说明这与弱 $(1,1)$ 估计的关系.
+\end{exercise}
+\begin{solution}
+$f$ 是非零 $L^1$ 函数, 前述命题说明 $Mf\notin L^1$. 另一方面 $f\in L^p$ 对所有有限的 $p$ 成立, 所以定理 \ref{ra:c8:strong} 给出 $Mf\in L^p$ 当 $p>1$; 对 $p=\infty$ 也有 $Mf\le1$. 弱 $(1,1)$ 只控制超水平集的测度为 $O(1/t)$, 将这个上界在所有高度上直接积分不能得到有限的 $L^1$ 范数. 它允许此例的无穷远尾部.
+\end{solution}
+
+\begin{exercise}
+设 $X$ 的测度有限, $f\ge0$, $0<p<q<\infty$, 且 $\int f^q<\infty$. 用分布函数公式直接证明 $f\in L^p$.
+\end{exercise}
+\begin{solution}
+对 $0<t\le1$, 用 $d_f(t)\le\mu(X)$; 对 $t>1$, 由 Chebyshev, $d_f(t)\le t^{-q}\int f^q$. 因此
+$\int f^p=p\int_0^\infty d_f(t)t^{p-1}\,\dd t
+\le\mu(X)+[p/(q-p)]\int f^q<\infty$.
+这是有限测度空间中 $L^q\subset L^p$ 的另一种证明; 它不声称给出 Hölder 所得的最精确范数常数.
+\end{solution}

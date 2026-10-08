@@ -1,0 +1,295 @@
+\originalchapter{Lebesgue 测度}
+\label{ra:c3:chapter}
+\sourcelecture{6--9}
+
+\originalsection{矩形与有限并}
+
+一般测度的积分理论已经建立. 现在要在 $\R^n$ 上构造一个测度, 使轴平行矩形的测度等于通常的体积. 原讲义依次处理矩形、矩形的有限并、开集、紧集, 最后用内外逼近辨认可测集. 这条路线把几何体积与抽象测度联系起来.
+
+\begin{definition}\label{ra:c3:polygon}
+轴平行闭矩形是 $I=\prod_{j=1}^n[a_j,b_j]$, 其中 $a_j\le b_j$; 其体积定义为 $v(I)=\prod_{j=1}^n(b_j-a_j)$. 有限个这类矩形的并称为矩形多面集. 将各坐标方向出现的全部端点作为分割点, 所得小矩形的内部互不相交; $v(P)$ 定义为被 $P$ 包含的小矩形的体积之和. 退化矩形的体积取 $0$.
+\end{definition}
+
+\begin{lemma}\label{ra:c3:grid}
+上述定义与分割方式无关. 对矩形多面集, 体积单调、有限次可加; 若 $P_1,P_2$ 的交只在各自的矩形边界上, 则 $v(P_1\cup P_2)=v(P_1)+v(P_2)$.
+\end{lemma}
+\begin{proof}
+将区间 $[a,b]$ 分为 $[a,t_1],\ldots,[t_m,b]$, 各段长度之和是 $b-a$. 在 $n$ 个方向分别分割, 将这些等式相乘, 得原矩形体积等于所有小矩形体积之和. 两个有限分割都有共同细分, 所以体积定义不变. 在共同网格上, 包含关系就是选择网格单元的包含关系, 从而得到单调性. 对内部互不相交的并, 每个非退化网格单元恰计一次, 故体积相加. 边界由有限个退化矩形组成, 不贡献体积.
+\end{proof}
+
+\begin{remark}
+\textbf{编者修正.} 原第 6 讲将闭矩形的分解直接写成不交并. 相邻闭矩形会共享边界. 上面的共同网格约定先在有限体积层面消除这一歧义; 在测度建立后, 改用半开矩形也会给出同一数值.
+\end{remark}
+
+\originalsection{开集与紧集}
+
+\begin{definition}\label{ra:c3:opencompact}
+对开集 $G\subset\R^n$, 定义 $\lambda(G)=\sup\{v(P):P\subset G,\ P\text{ 为矩形多面集}\}$, 并取 $\lambda(\varnothing)=0$. 对紧集 $K$, 定义 $\lambda(K)=\inf\{\lambda(G):K\subset G,\ G\text{ 开}\}$.
+\end{definition}
+
+\begin{proposition}\label{ra:c3:openproperties}
+非空开集的测度为正, $\lambda(\R^n)=\infty$, 且开集测度单调. 对任意开集列 $G_k$, 有 $\lambda(\bigcup_kG_k)\le\sum_k\lambda(G_k)$; 若这些开集两两不交, 则等号成立.
+\end{proposition}
+\begin{proof}
+非空开集包含一个各边长度为正的小矩形; $\R^n$ 包含任意大的矩形. 单调性直接来自取上确界的集合包含关系.
+
+设 $P\subset\bigcup_kG_k$ 为矩形多面集. $P$ 紧, 故有有限个 $G_k$ 覆盖它. 对这个有限开覆盖, 存在 $\delta>0$, 使 $P$ 中直径小于 $\delta$ 的每个子集包含在某一覆盖成员内. 证明这一点时, 对每个 $x\in P$ 选球 $B(x,2r_x)$ 包含在某一成员内, 再从 $B(x,r_x)$ 中取有限子覆盖, 令 $\delta$ 小于所取各半径的最小值即可. 将 $P$ 的共同网格进一步细分, 使各小矩形直径小于 $\delta$. 将每个小矩形分配给一个包含它的 $G_k$, 合并得到 $P_k\subset G_k$. 它们仅在边界上可能相交, 因而
+\[
+ v(P)=\sum_kv(P_k)\le\sum_k\lambda(G_k).
+\]
+对 $P$ 取上确界, 得到次可加性. 这补全了原稿中有限分割的论证.
+
+若 $G_k$ 两两不交, 固定 $N$ 并选 $P_k\subset G_k$ ($1\le k\le N$). 其并包含在 $\bigcup_kG_k$ 中, 故 $\sum_{k=1}^Nv(P_k)\le\lambda(\bigcup_kG_k)$. 分别取上确界, 再令 $N\to\infty$, 得反向不等式.
+\end{proof}
+
+\begin{lemma}\label{ra:c3:consistency}
+若 $P$ 为矩形多面集, 则 $\lambda(P^\circ)=v(P)$, 而按紧集定义得到的 $\lambda(P)$ 也等于 $v(P)$.
+\end{lemma}
+\begin{proof}
+任何 $Q\subset P^\circ$ 都有 $v(Q)\le v(P)$. 反过来, 在共同网格上将每个非退化小矩形略向内缩, 得到 $P'\subset P^\circ$, 且 $v(P')>v(P)-\eps$. 于是 $\lambda(P^\circ)=v(P)$.
+
+若开集 $G$ 包含 $P$, 则 $\lambda(G)\ge v(P)$, 所以紧集定义的数值不小于 $v(P)$. 将有限个小矩形分别略向外扩大, 使扩大的总体积小于 $v(P)+\eps$, 并使退化部分也包含在总体积小于 $\eps$ 的小矩形中. 扩大矩形内部的并是包含 $P$ 的开集; 由开集次可加性, 其测度至多为扩大的总体积. 令扩大造成的总误差趋于 $0$, 得反向不等式.
+\end{proof}
+
+\begin{proposition}\label{ra:c3:compactproperties}
+紧集测度有限且单调, 满足 $\lambda(K_1\cup K_2)\le\lambda(K_1)+\lambda(K_2)$. 若 $K_1\cap K_2=\varnothing$, 则等号成立.
+\end{proposition}
+\begin{proof}
+紧集有界, 所以可用一个有限体积的开矩形包住它. 单调性来自开邻域族的包含关系. 分别选开邻域 $G_i\supset K_i$, 利用 $\lambda(G_1\cup G_2)\le\lambda(G_1)+\lambda(G_2)$, 再取下确界, 得次可加性.
+
+两个不交紧集间有正距离, 故有不交开邻域 $U_1,U_2$. 对任意 $G\supset K_1\cup K_2$, 令 $G_i=G\cap U_i$. 则 $\lambda(K_1)+\lambda(K_2)\le\lambda(G_1)+\lambda(G_2)=\lambda(G_1\cup G_2)\le\lambda(G)$. 对 $G$ 取下确界即可.
+\end{proof}
+
+\begin{lemma}\label{ra:c3:compactgap}
+若 $K\subset G$, $K$ 紧且 $G$ 开, 则 $\lambda(G)=\lambda(K)+\lambda(G\setminus K)$.
+\end{lemma}
+\begin{proof}
+对任意矩形多面集 $P\subset G\setminus K$, 紧集可加性给出 $\lambda(K)+v(P)=\lambda(K\cup P)\le\lambda(G)$. 对 $P$ 取上确界, 得一个方向.
+
+另选开集 $U\supset K$, 使 $\lambda(U)<\lambda(K)+\eps$. 对任意 $P\subset G$, 有 $P\subset U\cup(G\setminus K)$, 故 $v(P)\le\lambda(U)+\lambda(G\setminus K)$. 对 $P$ 取上确界, 再令 $\eps\downarrow0$. 注意 $\lambda(K)<\infty$, 全程不使用 $\infty-\infty$.
+\end{proof}
+
+\originalsection{内外测度与有限可测集}
+
+\begin{definition}\label{ra:c3:innerouter}
+对任意 $A\subset\R^n$, 定义外测度 $\lambda^*(A)=\inf\{\lambda(G):A\subset G,\ G\text{ 开}\}$, 内测度 $\lambda_*(A)=\sup\{\lambda(K):K\subset A,\ K\text{ 紧}\}$. 若 $\lambda^*(A)<\infty$ 且 $\lambda_*(A)=\lambda^*(A)$, 称 $A$ 为有限 Lebesgue 可测集; 记全体此类集合为 $\mathcal L_0$, 并令 $\lambda(A)$ 等于上述共同值.
+\end{definition}
+
+\begin{proposition}\label{ra:c3:outerproperties}
+内外测度均单调, 且 $\lambda_*(A)\le\lambda^*(A)$. 外测度满足可数次可加不等式 $\lambda^*(\bigcup_kA_k)\le\sum_k\lambda^*(A_k)$. 若 $A_k$ 两两不交, 则 $\lambda_*(\bigcup_kA_k)\ge\sum_k\lambda_*(A_k)$. 对开集或紧集 $A$, 两种测度都等于先前定义的 $\lambda(A)$.
+\end{proposition}
+\begin{proof}
+若 $K\subset A\subset G$, 则 $\lambda(K)\le\lambda(G)$, 取上、下确界得到内外测度间的不等式. 单调性同样直接得到. 若 $\sum_k\lambda^*(A_k)=\infty$, 次可加不等式无需证明. 否则选 $G_k\supset A_k$, 使 $\lambda(G_k)<\lambda^*(A_k)+\eps2^{-k}$. 开集次可加性给出 $\lambda^*(\bigcup_kA_k)\le\sum_k\lambda^*(A_k)+\eps$, 再令 $\eps\downarrow0$.
+
+在不交情形, 选紧集 $K_k\subset A_k$; 对有限并利用紧集可加性, 得 $\lambda_*(\bigcup_kA_k)\ge\sum_{k=1}^N\lambda(K_k)$. 分别取上确界, 再令 $N\to\infty$.
+
+若 $G$ 开, 自身可用作外逼近, 所以 $\lambda^*(G)=\lambda(G)$. 其内部的矩形多面集是紧集, 因而 $\lambda_*(G)\ge\lambda(G)$, 其余方向已知. 若 $K$ 紧, 内测度取到 $K$ 自身, 外测度正是紧集测度的定义.
+\end{proof}
+
+\begin{theorem}[有限测度的逼近]\label{ra:c3:finiteapprox}
+设 $\lambda^*(A)<\infty$. 则 $A\in\mathcal L_0$ 当且仅当对每个 $\eps>0$, 都有紧集 $K$ 与开集 $G$, 使 $K\subset A\subset G$ 且 $\lambda(G\setminus K)<\eps$.
+\end{theorem}
+\begin{proof}
+若内外测度相等, 选 $G,K$ 使 $\lambda(G)<\lambda(A)+\eps/2$ 且 $\lambda(K)>\lambda(A)-\eps/2$. 引理 \ref{ra:c3:compactgap} 给出 $\lambda(G\setminus K)=\lambda(G)-\lambda(K)<\eps$.
+
+反之, $\lambda^*(A)\le\lambda(G)=\lambda(K)+\lambda(G\setminus K)<\lambda_*(A)+\eps$. 由于 $\eps$ 任意, 内外测度相等.
+\end{proof}
+
+\begin{proposition}\label{ra:c3:finitealgebra}
+若 $A,B\in\mathcal L_0$, 则 $A\cup B,A\cap B,A\setminus B\in\mathcal L_0$. 若 $A\cap B=\varnothing$, 则 $\lambda(A\cup B)=\lambda(A)+\lambda(B)$.
+\end{proposition}
+\begin{proof}
+取 $K_1\subset A\subset G_1$, $K_2\subset B\subset G_2$, 两个开紧间隙的测度均小于 $\eps/2$. 并集用 $K_1\cup K_2$ 与 $G_1\cup G_2$ 夹住; 交集用 $K_1\cap K_2$ 与 $G_1\cap G_2$ 夹住; 差集用紧集 $K_1\setminus G_2$ 与开集 $G_1\setminus K_2$ 夹住. 三种夹层都包含在 $(G_1\setminus K_1)\cup(G_2\setminus K_2)$ 中. 各集合的外测度有限, 故逼近定理适用.
+
+不交时, 外测度次可加性和内测度超可加性给出
+\[
+ \lambda^*(A\cup B)\le\lambda(A)+\lambda(B)
+ \le\lambda_*(A\cup B)\le\lambda^*(A\cup B).
+\]
+所有不等式都必须成为等式.
+\end{proof}
+
+\begin{proposition}\label{ra:c3:finitecountable}
+若 $A_k\in\mathcal L_0$ 且 $\lambda^*(\bigcup_kA_k)<\infty$, 则其并仍在 $\mathcal L_0$, 且 $\lambda(\bigcup_kA_k)\le\sum_k\lambda(A_k)$. 两两不交时等号成立.
+\end{proposition}
+\begin{proof}
+不交时, 将上一命题的内外测度夹逼换成可数版本即可. 一般情形令 $B_1=A_1$, $B_k=A_k\setminus\bigcup_{j<k}A_j$. 有限代数性质保证 $B_k\in\mathcal L_0$, 它们两两不交且并等于原并. 再用 $B_k\subset A_k$.
+\end{proof}
+
+\Needspace{7\baselineskip}
+\originalsection{全部可测集与正则性}
+
+\begin{definition}\label{ra:c3:allmeasurable}
+若对所有 $M\in\mathcal L_0$ 都有 $A\cap M\in\mathcal L_0$, 则称 $A$ 为 Lebesgue 可测集, 记为 $A\in\mathcal L$. 定义 $\lambda(A)=\sup_{M\in\mathcal L_0}\lambda(A\cap M)$.
+\end{definition}
+
+这个定义通过有限测度窗口考察可能无界或无限测度的集合. 先确认它没有改变此前的定义.
+
+\begin{proposition}\label{ra:c3:extension}
+$\mathcal L_0\subset\mathcal L$, 两个测度定义在 $\mathcal L_0$ 上一致. 若 $A\in\mathcal L$ 且新定义的 $\lambda(A)<\infty$, 则 $A\in\mathcal L_0$.
+\end{proposition}
+\begin{proof}
+有限代数性质给出第一个包含关系. 对 $A\in\mathcal L_0$, 一方面 $\lambda(A\cap M)\le\lambda(A)$; 另一方面可在上确界中取 $M=A$, 故定义一致.
+
+设新测度为有限数 $c$. 令 $Q_k=[-k,k]^n$, $A_k=A\cap Q_k\in\mathcal L_0$. 则 $\lambda(A_k)\le c$. 令 $D_1=A_1$, $D_k=A_k\setminus A_{k-1}$; 它们两两不交, 有 $\sum_{k=1}^N\lambda(D_k)=\lambda(A_N)\le c$. 外测度次可加性因而给出 $\lambda^*(A)\le\sum_k\lambda(D_k)\le c<\infty$. 现在才能使用命题 \ref{ra:c3:finitecountable}, 得 $A\in\mathcal L_0$. 这补上了原稿从有限新测度跳到有限外测度的步骤.
+\end{proof}
+
+\begin{theorem}\label{ra:c3:measure}
+$\mathcal L$ 是包含 Borel $\sigma$ 代数的 $\sigma$ 代数, $\lambda$ 是其上的完备测度. 对两两不交的 $A_k\in\mathcal L$, 有 $\lambda(\bigcup_kA_k)=\sum_k\lambda(A_k)$.
+\end{theorem}
+\begin{proof}
+对 $M\in\mathcal L_0$, 有 $A^c\cap M=M\setminus(A\cap M)\in\mathcal L_0$, 故补集可测. 又有 $(\bigcup_kA_k)\cap M=\bigcup_k(A_k\cap M)$, 这个并外测度不超过 $\lambda(M)<\infty$, 故由有限可数并性质得到可测性.
+
+设 $A_k$ 不交, $A=\bigcup_kA_k$. 对任意 $M\in\mathcal L_0$, $\lambda(A\cap M)=\sum_k\lambda(A_k\cap M)\le\sum_k\lambda(A_k)$; 取上确界得一个方向. 固定 $N$, 任取 $M_1,\ldots,M_N\in\mathcal L_0$, 令 $M=\bigcup_{j=1}^NM_j$. 则
+\[
+ \lambda(A)\ge\lambda(A\cap M)
+ \ge\sum_{k=1}^N\lambda(A_k\cap M_k).
+\]
+分别取上确界, 再令 $N\to\infty$, 得另一方向.
+
+若 $G$ 开, 则 $G\cap(-k,k)^n$ 是有限测度开集, 属于 $\mathcal L_0$. 它们的并是 $G$, 所以开集可测, 从而全部 Borel 集可测. 若 $\lambda^*(N)=0$, 则内测度也为 $0$, 故 $N\in\mathcal L_0$. 每个 $A\subset N$ 的外测度也为 $0$, 因而可测且测度为 $0$. 特别地, 可测零集的任何子集可测, 这就是完备性.
+\end{proof}
+
+\begin{theorem}[正则逼近]\label{ra:c3:regular}
+对任意 $A\subset\R^n$, 以下条件等价: $A\in\mathcal L$; 对每个 $\eps>0$, 存在闭集 $F$ 和开集 $G$, 使 $F\subset A\subset G$ 且 $\lambda(G\setminus F)<\eps$. 对可测集, 无论测度有限与否, 都有 $\lambda_*(A)=\lambda(A)=\lambda^*(A)$.
+\end{theorem}
+\begin{proof}
+先设 $A$ 可测. 令 $E_k=\{x:k-1\le\norm{x}<k\}$ ($k\ge1$), 它们是有界 Borel 集, 两两不交且覆盖 $\R^n$. 对有限可测集 $A\cap E_k$, 选 $K_k\subset A\cap E_k\subset G_k$, 使 $\lambda(G_k\setminus K_k)<\eps2^{-k}$. 令 $F=\bigcup_kK_k$, $G=\bigcup_kG_k$. $G$ 开; 而 $K_k$ 落在越来越远的壳层内, 所以其族局部有限: 每个点的某个有界邻域只遇到有限多个 $K_k$. 局部有限闭集族的并是闭集, 因而 $F$ 闭. 又有 $G\setminus F\subset\bigcup_k(G_k\setminus K_k)$, 所以夹层测度小于 $\eps$.
+
+反之, 对每个 $j$ 取 $F_j\subset A\subset G_j$, 夹层测度小于 $1/j$. 令 $B=\bigcup_jF_j$. $B$ 为 Borel 集, $B\subset A$, 且 $A\setminus B\subset G_j\setminus F_j$, 因而 $\lambda^*(A\setminus B)=0$. 由完备性, $A=B\cup(A\setminus B)$ 可测.
+
+若 $\lambda(A)<\infty$, 命题 \ref{ra:c3:extension} 已给出内外测度相等. 若 $\lambda(A)=\infty$, 则由测度的从下连续性, $\lambda(A\cap Q_k)\uparrow\infty$. 各截断集均可用紧集从内逼近, 所以 $\lambda_*(A)=\infty$; 由 $\lambda_*\le\lambda^*$, 外测度也为无限大.
+\end{proof}
+
+\begin{corollary}\label{ra:c3:borelcompletion}
+每个 Lebesgue 可测集 $A$ 都有 $F_\sigma$ 集 $B$ 与 $G_\delta$ 集 $C$, 使 $B\subset A\subset C$ 且 $\lambda(C\setminus B)=0$. 因而 Lebesgue $\sigma$ 代数是 Borel 测度空间的完备化.
+\end{corollary}
+\begin{proof}
+取前一定理中的 $F_j,G_j$, 使夹层测度小于 $1/j$, 令 $B=\bigcup_jF_j$, $C=\bigcap_jG_j$. 则 $C\setminus B\subset G_j\setminus F_j$ 对每个 $j$ 都成立, 故它是 Borel 零集. 于是 $A$ 是 Borel 集 $B$ 与一个 Borel 零集的子集之并. 反向包含由完备性得到.
+\end{proof}
+
+\originalsection{Carath\'eodory 判据}
+
+\begin{lemma}\label{ra:c3:complementidentity}
+若 $B$ 可测且 $\lambda(B)<\infty$, $A\subset B$ 任意, 则 $\lambda^*(A)+\lambda_*(B\setminus A)=\lambda(B)$.
+\end{lemma}
+\begin{proof}
+任取开集 $G\supset A$. 则 $B\setminus G\subset B\setminus A$, 所以
+\[
+ \lambda(G)+\lambda_*(B\setminus A)
+ \ge\lambda(B\cap G)+\lambda(B\setminus G)=\lambda(B).
+\]
+取下确界得一个方向. 另一方面, 对任意紧集 $K\subset B\setminus A$, 有 $A\subset B\setminus K$, 从而 $\lambda^*(A)+\lambda(K)\le\lambda(B\setminus K)+\lambda(K)=\lambda(B)$. 对 $K$ 取上确界即得结论.
+\end{proof}
+
+\begin{theorem}[Carath\'eodory 判据]\label{ra:c3:caratheodory}
+集合 $A\subset\R^n$ 可测, 当且仅当对每个 $E\subset\R^n$, 都有
+\[
+ \lambda^*(E)=\lambda^*(E\cap A)+\lambda^*(E\cap A^c).
+\]
+\end{theorem}
+\begin{proof}
+若 $A$ 可测, 对任意开集 $G\supset E$, 有 $\lambda(G)=\lambda(G\cap A)+\lambda(G\cap A^c)\ge\lambda^*(E\cap A)+\lambda^*(E\cap A^c)$. 取下确界得 $\ge$; 外测度次可加性给出 $\le$.
+
+反之, 任取 $M\in\mathcal L_0$, 记 $D=M\cap A$. 判据给出 $\lambda(M)=\lambda^*(D)+\lambda^*(M\setminus D)$. 而引理 \ref{ra:c3:complementidentity} 应用于 $M\setminus D\subset M$, 给出 $\lambda(M)=\lambda^*(M\setminus D)+\lambda_*(D)$. 所有数值有限, 可以相减, 得 $\lambda^*(D)=\lambda_*(D)$. 因而 $D\in\mathcal L_0$, 即 $A$ 可测.
+\end{proof}
+
+判据只使用外测度, 因而可测性也能从外测度单独定义. 它所要求的不是 $A$ 自己有多大, 而是用 $A$ 切分任何测试集时, 外测度都没有损失.
+
+\begin{example}\label{ra:c3:cantor}
+\textbf{编者补充.} Cantor 集是零测集, 但存在 Lebesgue 可测而非 Borel 的集合.
+\end{example}
+\begin{solution}
+从 $[0,1]$ 反复去掉各剩余区间的中间三分之一. 第 $m$ 步剩余 $2^m$ 个长度为 $3^{-m}$ 的闭区间, 得闭集 $C_m$, $\lambda(C_m)=(2/3)^m$. Cantor 集 $C=\bigcap_mC_m$ 为紧集, 单调性给出 $\lambda(C)=0$. 因而 $C$ 的所有子集都 Lebesgue 可测.
+
+\textbf{编者补充.} 用只含 $0,2$ 的三进制展开将二元无限序列映到 $C$, 可知 $|C|=\mathfrak c$, 其中 $\mathfrak c=|\R|$. 不同二元序列的三进制和不同: 若首个不同位置为 $m$, 该位差为 $2\,3^{-m}$, 后续最大总差为 $3^{-m}$, 仍留下正差. $\R$ 的 Borel 集至多有 $\mathfrak c$ 个: 开集由可数有理区间基决定, 每个 Borel 集可用可数节点的并、补运算树编码, 这样的树及其基元素标记总共只有 $\mathfrak c$ 种. 但 Cantor 定理给出 $|\mathcal P(C)|=2^{\mathfrak c}>\mathfrak c$. 所以 $C$ 有非 Borel 子集; 它们仍因零测而 Lebesgue 可测.
+\end{solution}
+
+\originalsection{平移、伸缩与不可测集}
+
+\begin{proposition}\label{ra:c3:translations}
+对 $z\in\R^n$ 和 $t>0$, 内外测度满足 $\lambda^*(z+A)=\lambda^*(A)$, $\lambda_*(z+A)=\lambda_*(A)$, 以及 $\lambda^*(tA)=t^n\lambda^*(A)$, $\lambda_*(tA)=t^n\lambda_*(A)$. 可测性在这两种变换下保持, 可测集的测度也服从这些公式.
+\end{proposition}
+\begin{proof}
+对矩形, 公式就是边长的计算. 共同网格分割使它推广到矩形多面集. 平移和正伸缩将开集、紧集分别双射到同类集合, 于是对开集的上确界、紧集的下确界、以及任意集的内外逼近依次传递公式. 变换前后有限内外测度相等的条件等价, 所以有限可测性保持. 对一般 $A$, 可用有限测度窗口的逆像检验定义 \ref{ra:c3:allmeasurable}; 逆像窗口仍在 $\mathcal L_0$, 因而一般可测性也保持.
+\end{proof}
+
+\begin{theorem}[Vitali 不可测集]\label{ra:c3:vitali}
+在选择公理下, $\R^n$ 存在不可测子集. 更强地, 每个正测度可测集都含有不可测子集.
+\end{theorem}
+\begin{proof}
+定义 $x\sim y$ 当且仅当 $x-y\in\mathbb Q^n$. 这是等价关系. 从每个等价类中选一个代表, 得集合 $V$. 枚举 $\mathbb Q^n=\{q_1,q_2,\ldots\}$, 则 $\R^n=\bigsqcup_k(q_k+V)$. 若 $\lambda^*(V)=0$, 外测度次可加性与平移不变性将给出 $\lambda^*(\R^n)=0$, 矛盾. 故 $\lambda^*(V)>0$.
+
+任取紧集 $K\subset V$, 并取有界的无限有理向量集 $D\subset\mathbb Q^n$. 集合 $q+K$ ($q\in D$) 两两不交, 而其可数并有界且可测. 因此
+\[
+ \infty>\lambda\Bigl(\bigcup_{q\in D}(q+K)\Bigr)
+ =\sum_{q\in D}\lambda(K).
+\]
+所以 $\lambda(K)=0$. 对全部 $K$ 取上确界, 得 $\lambda_*(V)=0<\lambda^*(V)$; 可测集的内外测度必相等, 故 $V$ 不可测.
+
+若 $A$ 可测且 $\lambda(A)>0$, 则 $A=\bigcup_k[A\cap(q_k+V)]$. 次可加性说明其中至少一个集合 $B$ 外测度为正. 它的内测度不超过 $\lambda_*(q_k+V)=0$, 所以 $B$ 不可测. 这就是所求子集.
+\end{proof}
+
+\begin{remark}
+原第 9 讲推论的最后一步混用了内外测度. 上面的论证使用的是所选 $B$ 的外测度为正、内测度为零; 并不声称外测度可以被内测度控制. 在 $\R^n$ 中使用 $\mathbb Q^n$ 也补全了原稿只写实数代表元的维数问题.
+\end{remark}
+
+\originalsection{线性变换与体积}
+
+\begin{lemma}\label{ra:c3:dyadic}
+每个开集 $G\subset\R^n$ 都可写成两两不交的半开立方体的可数并, 各立方体都是 $J=[0,1)^n$ 的平移和正伸缩.
+\end{lemma}
+\begin{proof}
+先选闭包包含在 $G$ 内的全部单位网格立方体. 再在边长 $1/2$ 的网格中, 选闭包包含在 $G$ 内、且尚未被已选立方体覆盖的立方体; 对边长 $2^{-m}$ 依次继续. 同层立方体不交, 两个不同层的二进网格立方体若相交, 细者包含在粗者中, 所以已选立方体仍两两不交. 对每个 $x\in G$, 当网格足够细时, 唯一包含 $x$ 的半开立方体的闭包落在 $G$ 内. 它或者被选中, 或者已被较粗者覆盖. 故所有点都被覆盖. 每层可数, 所以总族可数.
+\end{proof}
+
+\begin{lemma}\label{ra:c3:linearconstant}
+若 $T:\R^n\to\R^n$ 可逆, 令 $\rho_T=\lambda(TJ)$, 则 $0<\rho_T<\infty$, 并且对任意 $A\subset\R^n$, 有 $\lambda^*(TA)=\rho_T\lambda^*(A)$ 及 $\lambda_*(TA)=\rho_T\lambda_*(A)$. 可测性在 $T$ 下保持.
+\end{lemma}
+\begin{proof}
+$J$ 是递增紧集 $[0,1-1/k]^n$ ($k\ge2$) 的并, 所以 $TJ$ 为 Borel 集; 它有界且包含非空开集, 故 $0<\rho_T<\infty$. 由平移伸缩公式, 若 $Q=z+tJ$, 则 $\lambda(TQ)=t^n\lambda(TJ)=\rho_T\lambda(Q)$. 对开集使用上一引理的可数不交分解, 得 $\lambda(TG)=\rho_T\lambda(G)$. $T$ 为同胚, 将开邻域与紧子集双射到相应的开邻域与紧子集, 所以内外测度公式成立. 有限可测性由内外测度相等得到; 一般可测性再用有限窗口逆像检验.
+\end{proof}
+
+\begin{theorem}\label{ra:c3:determinant}
+若线性映射 $T$ 可逆, 则对所有 $A\subset\R^n$, 有 $\lambda^*(TA)=|\det T|\lambda^*(A)$, $\lambda_*(TA)=|\det T|\lambda_*(A)$. 若 $A$ 可测, 则 $TA$ 可测且 $\lambda(TA)=|\det T|\lambda(A)$. 若 $T$ 奇异, 则任意 $TA$ 都是可测零集.
+\end{theorem}
+\begin{proof}
+只需识别 $\rho_T$. 交换两个坐标保持 $J$ 的体积. 将第 $i$ 个坐标乘以 $a\ne0$ 时, $TJ$ 为半开矩形, 体积为 $|a|$. 半开和闭矩形只差有限个超平面片, 后者可用任意薄的矩形覆盖, 因而为零测集.
+
+剩下的初等变换是剪切 $Sx=x+a x_j e_i$, $i\ne j$. 将 $J$ 沿第 $j$ 个坐标分成 $m$ 个薄片. 在每个薄片内, 第 $i$ 个坐标的位移变化至多 $|a|/m$. 因而每个像薄片包含一个体积为 $(1-|a|/m)/m$ 的矩形, 并包含在一个体积为 $(1+|a|/m)/m$ 的矩形中, 此处取 $m>|a|$. 不同片在第 $j$ 个方向的内部互不相交. 求和得到
+\[
+ 1-|a|/m\le\lambda(SJ)\le1+|a|/m.
+\]
+令 $m\to\infty$, 得 $\rho_S=1$. 这是原稿 ``检查初等矩阵'' 所省略的剪切计算.
+
+可逆矩阵通过高斯消元分解为上述初等矩阵的乘积. 引理 \ref{ra:c3:linearconstant} 给出 $\rho_{ST}=\rho_S\rho_T$, 而行列式的绝对值具有同样的乘法性质, 并在各初等矩阵上等于 $\rho$. 故 $\rho_T=|\det T|$.
+
+若 $T$ 奇异, 其像包含在一个真线性子空间内. 坐标超平面的每个有界部分可用厚度趋于 $0$ 的矩形覆盖, 所以坐标超平面为零集. 任意超平面是它在某个可逆线性映射下的像; 由已证公式仍是零集. 因而 $TA$ 是零集的子集, 完备性给出可测性及零测度.
+\end{proof}
+
+\begin{remark}
+\textbf{编者修正.} 当 $\det T=0$ 且 $\lambda^*(A)=\infty$ 时, 乘积 $0\cdot\infty$ 在通常扩展实数运算中不定义. 将奇异情形单独陈述, 就不需要这个乘积. 若 $T$ 为正交变换, 则 $|\det T|=1$, 所以旋转和反射均保持 Lebesgue 测度; $\mathrm{SL}(n,\R)$ 中的变换也保持体积.
+\end{remark}
+
+\originalsection{练习与解答}
+
+\begin{exercise}
+证明 $\R^n$ 的每个可数子集是零集, 并给出一个稠密的零集.
+\end{exercise}
+\begin{solution}
+单点可用各边长趋于 $0$ 的立方体覆盖, 所以外测度为 $0$. 对可数并使用外测度次可加性. $\mathbb Q^n$ 可数且在 $\R^n$ 中稠密, 是所求例子. 稠密性并不保证正测度, 而非空开集确实有正测度.
+\end{solution}
+
+\begin{exercise}
+设 $A$ 可测且 $\lambda(A)<\infty$. 证明对每个 $\eps>0$, 存在矩形多面集 $P$, 使 $\lambda(A\mathbin\triangle P)<\eps$.
+\end{exercise}
+\begin{solution}
+取 $K\subset A\subset G$, 使 $\lambda(G\setminus K)<\eps$. 对 $K$ 的每个点选一个包含它、且闭包落在 $G$ 内的小开矩形; 紧性给出有限子覆盖. 将这些开矩形的闭包取并, 得 $K\subset P\subset G$. 因为 $A$ 与 $P$ 都包含 $K$ 且包含在 $G$ 内, $A\mathbin\triangle P\subset G\setminus K$. 此处也说明矩形多面集可在对称差意义下逼近有限可测集.
+\end{solution}
+
+\begin{exercise}
+设 $E$ 是 $\R^n$ 中的仿射超平面. 证明 $E$ 零测, 并说明为何这不能推出每个空内部闭集都零测.
+\end{exercise}
+\begin{solution}
+仿射超平面是坐标超平面的可逆线性像再作平移, 因而由定理 \ref{ra:c3:determinant} 和命题 \ref{ra:c3:translations} 零测. 为说明后半句, 在 $[0,1]$ 逐步从每个剩余闭区间内部删去一个非空开区间, 使第 $k$ 轮删除的总长度不超过 $2^{-k-2}$, 并选择删去区间使剩余区间的最大长度趋于 $0$. 所得闭集不含区间, 因而内部为空; 全部删去长度不超过 $\sum_{k\ge1}2^{-k-2}=1/4$, 所以剩余测度至少 $3/4$. 例如每轮在各区间中点删去足够短的区间, 剩余单个区间长度至多上一轮最大长度的一半, 即满足要求. 这是一个正测度的胖 Cantor 集.
+\end{solution}
