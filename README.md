@@ -18,7 +18,7 @@
 | [复变](subjects/complex-analysis/) | 全纯函数、柯西理论、级数、奇点与留数、辐角原理、解析延拓与保角映射；保留14章38道自设习题，增补9次作业、12次习题课及6份试卷，共160道大题、361个印刷小项；24项外书题面缺口另列。 | 124 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/complex-analysis/complex-analysis.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/complex-analysis/complex-analysis-source.zip) · [内容与核验](subjects/complex-analysis/README.md) |
 | [泛函](subjects/functional-analysis/) | 巴拿赫与希尔伯特空间、有界算子、哈恩–巴拿赫、统一有界、开映射与闭图、弱拓扑、紧算子与紧自伴谱；保留12章及30份旧解答，增补10份作业、期中测验和期末作业共54题的中文题面与AI独立解答。 | 59 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/functional-analysis/functional-analysis.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/functional-analysis/functional-analysis-source.zip) · [内容与核验](subjects/functional-analysis/README.md) |
 | [微分几何](subjects/differential-geometry/) | 曲线、曲面基本形式、高斯–科达齐、测地线、平行移动、高斯–博内与双曲平面；保留12章及36题旧解答，增补10份作业32个顶层题，其中30题全部要求完成，2题保留源引用缺口。 | 71 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/differential-geometry/differential-geometry.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/differential-geometry/differential-geometry-source.zip) · [内容与核验](subjects/differential-geometry/README.md) |
-| [常微分方程与动力系统](subjects/ordinary-differential-equations/) | 存在唯一性、一阶与高阶方程、强迫振动、拉普拉斯与傅里叶响应、线性系统、相图、稳定性、极限环及离散动力学；13章，29个例题与26道习题及解答。 | 38 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/ordinary-differential-equations/ordinary-differential-equations.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/ordinary-differential-equations/ordinary-differential-equations-source.zip) · [内容与核验](subjects/ordinary-differential-equations/README.md) |
+| [常微分方程与动力系统](subjects/ordinary-differential-equations/) | 存在唯一性、一阶与高阶方程、强迫振动、拉普拉斯与傅里叶响应、线性系统、相图、稳定性及动力系统；保留13章29例题26自设习题，增补217题库主问题、9份作业、22份习题课与8份试卷；教材题面缺口另列。 | 196 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/ordinary-differential-equations/ordinary-differential-equations.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/ordinary-differential-equations/ordinary-differential-equations-source.zip) · [内容与核验](subjects/ordinary-differential-equations/README.md) |
 | [抽象代数](subjects/abstract-algebra/) | 群、环、模、域与Galois理论；14个理论章，含69个MIT公开题号、116个明确小问及题解；独立附录增补4道Judson题、8项解答任务。77条外书定位仍未恢复。 | 58 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/abstract-algebra/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/abstract-algebra/dist/source.zip) · [内容与核验](subjects/abstract-algebra/README.md) |
 | [偏微分方程](subjects/partial-differential-equations/) | 热、Laplace/Poisson、Green、波、Fourier、Schrödinger及输运方程；13个理论章，含公开作业、Bonus、期中期末52道大题、114个细分要求及题解。11条教材题面缺项另列。 | 49 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/partial-differential-equations/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/partial-differential-equations/dist/source.zip) · [内容与核验](subjects/partial-differential-equations/README.md) |
 | [图论](subjects/graph-theory/) | 树、连通、匹配、染色、平面图、网络算法、矩阵树、谱图、极值与Ramsey；17个理论章及34道编者练习，增补127个官方PDF原题（258个末端小问）与75个在线Q的中文题面及解答。 | 157 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/graph-theory/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/graph-theory/dist/source.zip) · [内容与核验](subjects/graph-theory/README.md) |
@@ -40,9 +40,10 @@
 - 复变：9次作业74大题／179印刷小项、12次公开习题课44大题／84印刷小项、6份试卷42大题／98印刷小项，合计160大题、361印刷小项，含1个阅读任务；重复题保留原编号并说明，原14章38道自设习题保持。第10次习题课没有公开文件，未虚补。18.112页面提供的3份历史试卷按实际题面标为2006年，不冒称2008年当期卷。24项Ahlfors书页／题号仅登记引用和官方解答页码，未取得完整外书题面，不计作恢复；[题卷来源清单](subjects/complex-analysis/assessment-manifest.json)记录口径。一般Mittag–Leffler、素数定理、zeta延拓与函数方程等18.112高级专题仍仅归档；大Picard仅作引用式陈述，Stirling证明限正实轴，详见[学习范围](subjects/complex-analysis/README.md)。
 - 泛函：10份作业44题、期中测验5题和期末作业5题，共54道原编号题，保留原题号及所有作答要求；官方未提供答案，新增解答明确标为AI独立解答。[冻结题目清单](subjects/functional-analysis/assessment-inventory.json)逐项对应来源；期末材料依官方大纲归类为作业。原12章与30份既有解答保留。测度构造的完整体系仍由实变先修承接，作业所需测度性质、周期加权Sobolev与Volterra题已局部展开；一般Sobolev／分布理论、一般不可分Banach–Alaoglu、非自伴Fredholm及非紧自伴谱测度等高级范围未标作覆盖，详见[学习范围](subjects/functional-analysis/README.md)。
 - 微分几何：10份官方作业共32个顶层题，其中30题全部要求已有独立解答；四题内的10个显式子问另作结构登记，不与32相加。PS3.3的折线／Hopf部分已解，最后引用的Proposition6.3陈述无法定位；PS9.4只引用Lemma28.3，未找到其陈述，明确留缺。PS6.1所引课堂／教材方法未取得，以自足隆起构造独立解答。详见[冻结题目库存](subjects/differential-geometry/assignment-inventory.json)与[完成及缺口映射](subjects/differential-geometry/review/assignment-coverage.json)。原12章36题保留；已核官方库存没有公开答案、考试原卷、逐日课历或作业截止日，不编造。曲线与二维曲面主线不等同于全部41讲全译，高维／Lorentz曲率、Jacobi场与完整二阶变分等既有高级范围未标为系统覆盖。
+- 常微分方程与动力系统：新增课程说明与日历、七组Notes题库217个主问题、9份作业、22份公开习题课及8份试卷；作业中的题库回指不另当作互不重复的新题。40条Edwards–Penney教材引用对应38个不同位置，未取得公开原题面，只保留准确定位与缺口；第6、12、20、26次习题课没有公开题面。2010期末解答明确为编者独立补全，练习期末所链2008答案按实际条件与2010题面逐项核对。原13章、29个例题与26道自设习题保留；[课程覆盖总表](subjects/ordinary-differential-equations/research/coursework-coverage.json)记录题号、复用与答案来源。一般Hopf、稳定流形与全局混沌证明等未列作本册已完成的证明，12份第三方图片例外仍只留链接。
 - 群表示：已收录18.712（Fall 2010）11次作业的52道原题（51必做、1选做）及4道期末题，均有中文题面与编者解答；[题目定位清单](subjects/group-representation/assignments-manifest.json)逐项登记。9章核心与题解所需局部专题不等于旧讲义全部理论或所有未指派练习的完整覆盖，2016年AMS出版书未下载、归档或改编。
 - 图论：17个理论章保持原学习主线，增补选定的127个官方PDF原题、258个末端小问及36个公开在线页面的75个Q，均给中文题面和解答；[评测完成映射](subjects/graph-theory/assessment-completion.json)保留原题号、重复关系与官方答案有无。仅计已入选范围，不称五门课程的全部考核或全部研究级理论完成；5个主课作业块中的6条商业教材题号引用缺公开题面，另行登记。
-- 其他学科：以各册声明的学习主线、习题和已完成增补为范围；基础讲义交付不等同于全部官方考核覆盖。新增补充继续在原路径修订并保留版本历史。
+- 本轮范围：这15册已按各自选定课程现有公开材料和上述明示边界完成本轮增补。未取得的外书题面、未公开试卷、缺失课堂引用和未选专题仍按各科清单留缺；不把基础卷或选读交付说成MIT全部课程全译。后续修订继续在原路径保留版本历史。
 
 ## 第一阶段
 
@@ -86,7 +87,7 @@
 | 复变 | [18.04及18.112讲义、题卷与许可](sources/complex-analysis/)：原37份讲义325页，加60份题面／公开解答253页，合计97份PDF、578源页；6份外书作业PDF是官方解答，不含已恢复题面。该册源码ZIP为71文件的自足编译包，含49份实际TeX输入；英文原件留sources供查证，不是编译依赖 |
 | 泛函 | [18.102 Spring 2021原件、考核与许可](sources/functional-analysis/)：125页合订本、23讲；新增10份作业30页与期中／期末作业6页，共12份考核PDF、36源页。分讲PDF与合订本重复，不叠加讲义覆盖量 |
 | 微分几何 | [18.950 Fall 2008讲义、作业与来源](sources/differential-geometry/)：Paul Seidel；4份讲义60页，加10份作业20页，共14份PDF、80源页。两处课堂引用缺少可定位陈述，另留说明 |
-| 常微分方程与动力系统 | [18.03与12.006J原件及来源清单](sources/ordinary-differential-equations/)：60份已归档英文原件、555页；12份含第三方权利例外的文件仅保留链接 |
+| 常微分方程与动力系统 | [18.03与12.006J讲义、题目及来源清单](sources/ordinary-differential-equations/)：逐文件去重后152份PDF、920源页；12份含第三方图片例外的文件仅留链接。源码ZIP42文件、471,483字节，仅含中文编译输入、必要代码和来源许可说明 |
 | 抽象代数 | [18.703、RES.18-011／RES.18-012及Judson历史版来源清单](sources/abstract-algebra/)：原MIT39份PDF、545页及2个TeX ZIP；新增2份Judson历史PDF、886页，合计41份PDF、1,431源页及2个TeX ZIP。历史教材仅用于版本核对和四题增补 |
 | 偏微分方程 | [18.152 Fall 2011原件与来源清单](sources/partial-differential-equations/)：18份讲义136页，15份考核及期中解答78页，共33份、214源页 |
 | 图论 | [18.315及选读原件、评测与来源清单](sources/graph-theory/)：34份讲义1,062页，加77份评测及公开答案278页，合计111份、1,340源页；18.225 Fall 2023的344页作者书稿仅保留链接 |
@@ -106,7 +107,9 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-截至2026-10-08，已核验并交付 **15册中文整书，共1502个PDF物理页**：数值分析79页、数值代数90页、最优化126页、数理统计110页、拓扑132页、概率论237页、实变75页、复变124页、泛函59页、微分几何71页、常微分方程与动力系统38页、抽象代数58页、偏微分方程49页、图论157页、群表示97页。上方中文阅读表提供PDF下载、源码包及各科学习范围；册数只统计已有实际成品并完成交付核验的学科，原件下载不计作中文讲义完成。
+截至2026-10-08，已核验并交付 **15册中文整书，共1660个PDF物理页**：数值分析79页、数值代数90页、最优化126页、数理统计110页、拓扑132页、概率论237页、实变75页、复变124页、泛函59页、微分几何71页、常微分方程与动力系统196页、抽象代数58页、偏微分方程49页、图论157页、群表示97页。上方中文阅读表提供PDF下载、源码包及各科学习范围；册数只统计已有实际成品并完成交付核验的学科，原件下载不计作中文讲义完成。
+
+这首批15册已按各自选定课程的现有公开范围完成本轮增补与交付；实变本轮为课程资料和教材题号索引，未取得的外书题面、未公开原卷、缺失课堂引用及未选专题仍按上方边界保留。这不表示MIT全部课程或全部教材题目已经完整翻译。
 
 首批数值分析、数值代数、最优化三科的原基础卷共192页；三科增补后，当前中文册合计295页。首批对应的41份可归档原PDF已提交，6份有第三方权利例外的原文件保留来源链接；新增作业原件由各科来源清单单独记录。全站归档仍在分批进行，课程目录总量不能用作已交付讲义分母。
 
