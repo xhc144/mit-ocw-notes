@@ -1,0 +1,178 @@
+\originalchapter{作业八}\label{chap:ps08}
+本章译自 MIT 18.650, Fall 2016 官方 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-8/}{Problem Set 8}, 截止时间为 2016 年 11 月 4 日星期五中午 12 点. 官方没有附答案, 本章解答为独立推导. 对原题中样本量、可积性及共同边际密度的条件缺口, 在相关解答处明确说明, 不把补充条件伪装成原文.
+
+\begin{exercise}\label{ps08:p01}
+原作业第1题. 观察 $n$ 个人的特征 $(X_i,y_i)$, 其中 $y_i\in\R$ 为响应, $X_i\in\R^p$ 为确定性解释变量. 线性回归模型为 $y_i=X_i'\beta+\varepsilon_i$, $i=1,\ldots,n$. 误差向量 $\varepsilon=(\varepsilon_1,\ldots,\varepsilon_n)'$ 为中心正态向量, 已知协方差矩阵 $\Sigma$ 可逆. 本题允许异方差, 不假定误差独立同分布. 令 $X\in\R^{n\times p}$ 的第 $i$ 行为 $X_i'$, $Y=(y_1,\ldots,y_n)'$. 令 $\hat\beta$ 在 $\beta\in\R^p$ 上极小化 $(Y-X\beta)'\Sigma^{-1}(Y-X\beta)$.
+\begin{enumerate}[label=\arabic*.]
+\item 证明同方差情形 $\Sigma=\sigma^2I_n$, $\sigma^2>0$, 时它退化为最小二乘估计.
+\item 证明它也是极大似然估计.
+\item 给出使 $\hat\beta$ 唯一定义的 $X$ 的一个充分条件.
+\item 此后假定该条件成立, 求 $\hat\beta$ 及其分布.
+\item 求偏差和二次风险.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+协方差矩阵半正定且可逆, 因而 $\Sigma$ 正定, $\Sigma^{-1}$ 也正定.
+\begin{enumerate}[label=\arabic*.]
+\item 此时目标函数为 $\sigma^{-2}\norm{Y-X\beta}^2$. 乘以正常数不改变极小点, 所以极小点集合正是通常的最小二乘估计集合; 若设计不满秩, 两者同样可能不唯一.
+\item 条件正态密度为
+\[
+L(\beta)=(2\pi)^{-n/2}(\det\Sigma)^{-1/2}
+\exp\left\{-\frac12(Y-X\beta)'\Sigma^{-1}(Y-X\beta)\right\}.
+\]
+因 $\Sigma$ 已知, 前面的因子不依赖 $\beta$. 指数函数严格递增, 极大化似然等价于极小化目标函数. 所以其极小点集合也是极大似然估计集合.
+\item 充分条件是 $\operatorname{rank}(X)=p$, 它蕴含 $n\ge p$. 对任何非零 $v\in\R^p$, $Xv\ne0$, 从而
+$v'X'\Sigma^{-1}Xv=(Xv)'\Sigma^{-1}(Xv)>0$.
+因此 $A=X'\Sigma^{-1}X$ 正定, 二次目标严格凸, 极小点唯一. 事实上该条件也是必要的: 若 $Xv=0$ 且 $v\ne0$, 参数 $\beta$ 与 $\beta+tv$ 的目标值对所有 $t$ 相同.
+\item 展开目标函数为 $Y'\Sigma^{-1}Y-2\beta'X'\Sigma^{-1}Y+\beta'A\beta$. 梯度为 $-2X'\Sigma^{-1}Y+2A\beta$, 解正规方程得
+\[
+\hat\beta=A^{-1}X'\Sigma^{-1}Y=\beta+A^{-1}X'\Sigma^{-1}\varepsilon.
+\]
+正态向量线性变换仍为正态, 其协方差为
+\[
+A^{-1}X'\Sigma^{-1}\Sigma\Sigma^{-1}XA^{-1}=A^{-1}.
+\]
+所以 $\hat\beta\sim N_p(\beta,(X'\Sigma^{-1}X)^{-1})$. 亦可把 $\Sigma^{-1/2}Y$ 与 $\Sigma^{-1/2}X$ 作为白化后的响应与设计理解这一估计.
+\item 因误差中心化, 偏差 $\E\hat\beta-\beta=0$. 取欧氏平方损失, 二次风险为
+\[
+\E\norm{\hat\beta-\beta}^2
+=\sum_{j=1}^p\E(\hat\beta_j-\beta_j)^2
+=\operatorname{tr}\{(X'\Sigma^{-1}X)^{-1}\}.
+\]
+它不依赖 $\beta$, 但依赖设计与已知误差协方差. 若另采用预测误差损失, 风险对象会不同, 此处明确采用参数的欧氏二次风险.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps08:p02}
+原作业第2题. 设 $(X_i,Y_i)$, $i=1,\ldots,n$, 独立同分布, $X_i\in\R^p$, $p\ge1$, $Y_i\in\R$, 且
+$Y_i=X_i'\beta+\varepsilon_i$, $\E\varepsilon_i=0$, $\Cov(X_i,\varepsilon_i)=0$.
+在第1--3问假定 $X_1$ 有密度 $g$, $\varepsilon_1$ 给定 $X_1=x$ 的条件密度为 $f_x$.
+\begin{enumerate}[label=\arabic*.]
+\item 用 $\beta,f_x,g$ 写出似然.
+\item 证明 $\beta$ 的极大似然估计不依赖可能未知的 $g$.
+\item 假定 $\varepsilon_1$ 与 $X_1$ 独立且 $\varepsilon_1\sim N(0,\sigma^2)$.
+\begin{enumerate}[label=\alph*)]
+\item 求 $f_x$.
+\item 原题声称独立连续 $p$ 维随机向量 $X_1,\ldots,X_n$ 的张成秩几乎处处为 $p$, 并允许不证明使用此结果. 证明 $\beta$ 的极大似然估计等于最小二乘估计并求其表达式.
+\item 给定所有 $X_i$ 时, 极大似然估计的条件分布是什么?
+\item 极大似然估计有偏吗? 提示: 先求给定 $X_i$ 的条件期望.
+\item 求 $\sigma^2$ 的极大似然估计.
+\item 构造 $\sigma^2$ 的无偏估计 $\hat\sigma^2$, 求给定 $X_i$ 时 $(n-p)\hat\sigma^2/\sigma^2$ 的条件分布.
+\end{enumerate}
+\item 令 $p=2$, $X_i=(1,Z_i)'$, 其中标量 $Z_i$ 的方差有限且非零. 原件标量也记作 $X_i$; 这里用 $Z_i$ 区分向量和标量. 不再假定向量设计有密度. 记 $\beta=(a,b)'$, 故 $Y_i=a+bZ_i+\varepsilon_i$.
+\begin{enumerate}[label=\alph*)]
+\item 写出最小二乘估计 $(\hat a,\hat b)$.
+\item 证明它一致.
+\item 假定 $Z_1$ 与 $\varepsilon_1$ 独立, 记 $\sigma^2=\Var(\varepsilon_1)$. 证明 $(\hat a,\hat b)$ 渐近正态, 用 $\sigma^2$ 与 $Z_1$ 的矩写出渐近协方差矩阵.
+\item 当 $Z_1$ 的矩与 $\sigma^2$ 均未知时, 构造 $H_0:b>0$ 的渐近水平至多 $\alpha\in(0,1)$ 的检验.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+前两问把误差条件密度族 $f_x$ 视作给定、不随 $\beta$ 变化的模型部分; 未知边际密度 $g$ 是与 $\beta$ 分开的干扰参数. 若连 $f_x$ 也任意未知, 只消去 $g$ 并不足以指定可计算的极大似然估计.
+\begin{enumerate}[label=\arabic*.]
+\item 变换 $\varepsilon_i=Y_i-X_i'\beta$ 对 $Y_i$ 的雅可比为1. 单对观测的联合密度为 $g(x_i)f_{x_i}(y_i-x_i'\beta)$, 因而
+\[
+L(\beta)=\prod_{i=1}^ng(x_i)\prod_{i=1}^nf_{x_i}(y_i-x_i'\beta).
+\]
+\item 对固定观测, 第一项是不依赖 $\beta$ 的乘数, 所以只须极大化第二项, 即响应给定设计的条件似然. 如果极大点存在, 其集合不依赖 $g$. 未知 $g$ 的存在不改变这个关于 $\beta$ 的优化问题.
+\item
+\begin{enumerate}[label=\alph*)]
+\item 由独立性, 对所有需要的 $x$, $f_x(e)=(2\pi\sigma^2)^{-1/2}\exp(-e^2/(2\sigma^2))$, 不依赖 $x$. 条件密度在零概率的 $x$ 集合上的版本可任意选取, 不影响似然的几乎处处结论.
+\item 令 $X$ 为行向量 $X_i'$ 组成的 $n\times p$ 矩阵, $Y=(Y_i)'$. 原题的满秩断言必须补 $n\ge p$, 因为矩阵秩至多 $n$; $n<p$ 时它是错误的. 由于每个 $X_i$ 在 $\R^p$ 有密度, $n\ge p$ 时前 $p$ 行行列式为零的集合是一个非零多项式的零集, 其 Lebesgue 测度为零, 故 $X$ 几乎处处满列秩. 给定这样的设计, 正态对数似然中关于 $\beta$ 的项为 $-\norm{Y-X\beta}^2/(2\sigma^2)$, 所以
+\[
+\hat\beta=(X'X)^{-1}X'Y=\beta+(X'X)^{-1}X'\varepsilon.
+\]
+正规方程及 $X'X$ 的正定性保证唯一. 当 $n<p$ 时, 最小二乘拟合仍可定义, 但参数估计一般不唯一.
+\item 样本对独立同分布且每个误差独立于本对设计, 故给定整个 $X$ 后 $\varepsilon\sim N_n(0,\sigma^2I_n)$. 因而
+\[
+\hat\beta\mid X\sim N_p\{\beta,\sigma^2(X'X)^{-1}\}.
+\]
+无条件分布是随设计变化的正态混合, 通常不能说仍为一个固定协方差的正态分布.
+\item 条件期望为 $\E(\hat\beta\mid X)=\beta$. 若各分量绝对可积, 再用全期望公式得 $\E\hat\beta=\beta$, 即无偏. 原题条件本身却不保证这种可积性: 取 $p=n=1$, $X_1\sim U[-1,1]$, 独立误差 $N(0,\sigma^2)$, 则 $\hat\beta=\beta+\varepsilon_1/X_1$, 且
+$\E|\varepsilon_1/X_1|=\E|\varepsilon_1|\,\E|1/X_1|=\infty$.
+其正负部分均有无穷期望, 无条件期望未定义, 因而不能无条件声称无偏. 准确结论是条件无偏, 以及可积时无条件无偏. 例如 $\E\operatorname{tr}(X'X)^{-1}<\infty$ 足以由二阶矩保证可积.
+\item 给定 $\beta$, 关于 $v=\sigma^2$ 的对数似然为 $-n\log v/2-\operatorname{RSS}(\beta)/(2v)$, 其中 $\operatorname{RSS}(\beta)=\norm{Y-X\beta}^2$. 先对 $\beta$ 极大化后, 当最小残差平方和 $\operatorname{RSS}>0$ 时, 求导得
+$\hat\sigma_{\rm ML}^2=\operatorname{RSS}/n$, 因为导数 $(-nv+\operatorname{RSS})/(2v^2)$ 在该点前正后负. 给定满秩设计且 $n>p$, 非退化正态误差使 $\operatorname{RSS}>0$ 几乎处处. 当 $n=p$ 且 $X$ 可逆时, 可以完全插值, $\operatorname{RSS}=0$; 在参数域 $v>0$ 中似然随 $v\downarrow0$ 无界, 不存在有限方差极大似然估计. 所以公式中的零只能是边界形式, 不能称为参数域内的极大点.
+\item 本问须 $n>p$. 令 $P=X(X'X)^{-1}X'$, 它是秩 $p$ 的正交投影, 残差为 $(I-P)\varepsilon$. 给定 $X$, 用正交基对角化 $I-P$, 它有 $n-p$ 个特征值1及 $p$ 个特征值0. 旋转后的标准化误差仍由独立标准正态坐标组成, 故
+\[
+\operatorname{RSS}/\sigma^2\mid X\sim\chi^2_{n-p}.
+\]
+取 $\hat\sigma^2=\operatorname{RSS}/(n-p)$, 得条件期望 $\sigma^2$, 所以也无条件无偏, 且所问比值条件服从 $\chi^2_{n-p}$. 此处条件二次型的期望固定且有限, 不存在上一问的逆矩阵可积性障碍.
+\end{enumerate}
+\item 以下记 $\mu=\E Z_1$, $v=\Var Z_1>0$, $m_2=\E Z_1^2=\mu^2+v$.
+\begin{enumerate}[label=\alph*)]
+\item 令 $S_{ZZ}=\sum_i(Z_i-\bar Z)^2$. 当 $S_{ZZ}>0$ 时, 对截距与斜率求偏导得到 $\hat a=\bar Y-\hat b\bar Z$ 以及
+\[
+\hat b=\frac{\sum_i(Z_i-\bar Z)(Y_i-\bar Y)}{S_{ZZ}}.
+\]
+若 $S_{ZZ}=0$, 最小二乘斜率不唯一, 可规定 $\hat b=0,\hat a=\bar Y$ 为其中一个解. 非退化总体并不排除有限样本所有设计值相等, 因此不能省略此事件.
+\item 将回归模型代入, 得
+\[
+\hat b-b=
+\frac{n^{-1}\sum_i Z_i\varepsilon_i-\bar Z\bar\varepsilon}
+ {n^{-1}\sum_iZ_i^2-\bar Z^2},\qquad
+\hat a-a=\bar\varepsilon-(\hat b-b)\bar Z.
+\]
+由 $\E\varepsilon_1=0$, $\Cov(Z_1,\varepsilon_1)=0$, 有 $\E(Z_1\varepsilon_1)=0$. 在题中协方差存在的可积性条件下, 大数定律使分子趋于0, 分母趋于 $m_2-\mu^2=v>0$, $\bar\varepsilon\pto0$, $\bar Z\pto\mu$. 因而 $\hat b\pto b$, $\hat a\pto a$. 分母趋于正常数还表明 $\PP(S_{ZZ}=0)\to0$, 上问在该事件的定义不影响一致性.
+\item 本问采用 $\sigma^2<\infty$. 设 $W_i=(1,Z_i)'$, $M=\E W_iW_i'=\begin{pmatrix}1&\mu\\\mu&m_2\end{pmatrix}$. 独立性与误差中心化给出 $\E(W_i\varepsilon_i)=0$ 和
+$\E(\varepsilon_i^2W_iW_i')=\sigma^2M$.
+因此向量 $W_i\varepsilon_i$ 有有限协方差, 多元中心极限定理给出 $n^{-1/2}\sum_iW_i\varepsilon_i\dto N_2(0,\sigma^2M)$. 另一方面 $M_n=n^{-1}\sum_iW_iW_i'\pto M$, $\det M=v>0$. 正规方程写成
+\[
+\sqrt n\left\{\begin{pmatrix}\hat a\\\hat b\end{pmatrix}
+-\begin{pmatrix}a\\b\end{pmatrix}\right\}
+=M_n^{-1}\frac1{\sqrt n}\sum_iW_i\varepsilon_i
+\dto N_2(0,\sigma^2M^{-1}).
+\]
+求二阶逆矩阵即得渐近协方差
+\[
+\frac{\sigma^2}{v}\begin{pmatrix}m_2&-\mu\\-\mu&1\end{pmatrix}.
+\]
+这里指 $\sqrt n$ 缩放后的极限协方差; 未缩放估计的近似协方差还要除以 $n$.
+\item 在(c)的独立同方差、$0<\sigma^2<\infty$ 条件下, 令 $\hat v=n^{-1}S_{ZZ}$, $\hat e_i=Y_i-\hat a-\hat bZ_i$, $\tilde\sigma^2=n^{-1}\sum_i\hat e_i^2$. 为说明一致性, 将 $\hat e_i=\varepsilon_i-W_i'(\hat\beta-\beta)$ 平方平均; 第一项 $n^{-1}\sum_i\varepsilon_i^2\pto\sigma^2$, 交叉项因 $n^{-1}\sum_iW_i\varepsilon_i\pto0$ 且 $\hat\beta-\beta\pto0$ 而趋零, 二次项 $(\hat\beta-\beta)'M_n(\hat\beta-\beta)\pto0$. 因而 $\tilde\sigma^2\pto\sigma^2$, $\hat v\pto v$.
+
+取 $Z_n=\sqrt{n\hat v}\,\hat b/\tilde\sigma$, 当 $Z_n<z_\alpha$ 时拒绝 $H_0:b>0$, 备择为 $b\le0$. 在边界 $b=0$ 下, (c)及Slutsky定理给出 $Z_n\dto N(0,1)$; 对固定 $b>0$, $Z_n\pto+\infty$, 拒绝概率趋于0, 所以对每个原假设参数的渐近错误率至多 $\alpha$.
+
+在 $S_{ZZ}>0$ 且 $\tilde\sigma>0$ 的事件上, 对固定的设计和误差样本, 将响应的真实斜率由0增至 $b>0$ 只把 $\hat b$ 增加 $b$, 残差、$\hat v$ 与 $\tilde\sigma$ 均不变. 因而在固定的设计与误差分布下, $b>0$ 上的拒绝概率上确界为边界概率, 渐近为 $\alpha$. 若要对所有只有有限二阶矩的未知总体同时给出统一的收敛速率, 原题没有提供足够条件, 此处不作该更强承诺. 分母为零的事件规定不拒绝, 其概率在上述非退化条件下趋零. 若 $\sigma^2=0$, 则误差几乎处处为零, 无需正态近似: 可在 $S_{ZZ}>0$ 时由精确的 $\hat b\le0$ 拒绝, 在 $S_{ZZ}=0$ 时不拒绝. 在 $H_0$ 下这个规则的错误率为0.
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps08:p03}
+原作业第3题. 设 $(X_i,Y_i)$, $i=1,\ldots,n$, 为相互独立的随机对, $Y_i\in\{0,1\}$, $X_i\in\R^p$, 且
+\[
+\log\frac{\PP(Y_i=1\mid X_i)}{\PP(Y_i=0\mid X_i)}=X_i'\beta,
+\qquad\beta\in\R^p.
+\]
+原题为简化假定 $X_1$ 有未知密度 $f$.
+\begin{enumerate}[label=\arabic*.]
+\item 求 $\PP(Y_i=1\mid X_i)$.
+\item 用 $\beta$ 与 $f$ 写出模型似然.
+\item 证明 $\beta$ 的极大似然估计不依赖未知密度 $f$. 原题注: 该估计通常没有闭式, 但有算法可近似计算.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item 记 $\eta_i=X_i'\beta$, $\pi_i=\PP(Y_i=1\mid X_i)$. 由 $\pi_i/(1-\pi_i)=e^{\eta_i}$, 解得
+$\pi_i=e^{\eta_i}/(1+e^{\eta_i})=1/(1+e^{-\eta_i})$,
+$1-\pi_i=1/(1+e^{\eta_i})$.
+\item 原题只写各对独立, 不写同分布, 又只明确 $X_1$ 有密度 $f$. 要用同一个 $f$ 写所有观测的联合似然, 需补充所有 $X_i$ 有共同边际密度 $f$. 在此数学版本下, 对 $x$ 的 Lebesgue 测度与 $y$ 的计数测度, 联合似然为
+\begin{align*}
+L(\beta,f)&=\prod_{i=1}^nf(x_i)\pi_i^{y_i}(1-\pi_i)^{1-y_i}\\
+&=\left\{\prod_{i=1}^nf(x_i)\right\}
+\exp\left\{\sum_{i=1}^n[y_ix_i'\beta-\log(1+e^{x_i'\beta})]\right\}.
+\end{align*}
+若各 $X_i$ 有不同密度 $f_i$, 则第一因子改为 $\prod_if_i(x_i)$, 条件似然部分完全相同. 只假定 $X_1$ 有密度时, 仍可使用给定所有设计的条件似然, 但不能无根据给其他 $X_i$ 指定 $f$.
+\item 边际密度因子不依赖 $\beta$, 因而若有限极大点存在, 它是条件对数似然
+\[
+\ell(\beta)=\sum_i\{y_ix_i'\beta-\log(1+e^{x_i'\beta})\}
+\]
+的极大点, 与 $f$ 无关. 其梯度为 $\sum_ix_i(y_i-\pi_i)=X'(Y-\pi)$, Hessian为
+$-\sum_i\pi_i(1-\pi_i)x_ix_i'=-X'DX$,
+其中 $D$ 的对角元为 $\pi_i(1-\pi_i)>0$. 满列秩设计时Hessian负定, 有限极大点若存在则唯一, 可通过 Newton 迭代
+$\beta_{\rm new}=\beta+(X'DX)^{-1}X'(Y-\pi)$
+寻找, 必要时缩短步长以增加似然. 这解释原题所说的算法近似, 而不声称存在闭式解.
+
+原题条件也不保证有限极大点存在. 例如 $p=1$, 所有观测 $x_i>0,y_i=1$, 则 $\ell(\beta)=\sum_i\log\{1/(1+e^{-x_i\beta})\}$ 随 $\beta$ 严格增加, 当 $\beta\to+\infty$ 趋于0, 任意有限 $\beta$ 都达不到上确界. 即使 $X_i$ 有共同连续密度且支持在 $[1,2]$, 在有限真实参数下全部 $Y_i=1$ 仍有正概率. 因而准确结论是优化目标不依赖 $f$, 且当MLE存在时MLE不依赖 $f$; 不能由此自动推出存在性.
+\end{enumerate}
+\end{solution}

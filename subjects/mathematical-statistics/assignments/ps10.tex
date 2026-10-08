@@ -1,0 +1,180 @@
+\originalchapter{作业十}\label{chap:ps10}
+本章对应 MIT 18.650 Fall 2016 的 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-10/}{Problem Set 10}. 原截止时间为 2016 年 12 月 2 日星期五中午 12 时. 题面译自官方原件, 解答为独立推导.
+
+\begin{exercise}\label{ps10:p01}
+原作业第1题. 贝叶斯估计.
+设 $X_1,\ldots,X_n\iid N(0,\theta)$, 其中 $\theta>0$ 未知.
+\begin{enumerate}[label=\arabic*.]
+\item 计算 $\theta$ 的极大似然估计.
+\item 证明该估计渐近正态, 并求其渐近方差.
+\item 在贝叶斯方法中:
+\begin{enumerate}[label=\alph*)]
+\item 计算 Jeffreys 先验. 它是正常先验吗?
+\item 用 Bayes 公式计算后验分布. 它是否有良好定义?
+\item 计算对应 Jeffreys 先验的贝叶斯估计.
+\end{enumerate}
+\end{enumerate}
+原题提示: 参数 $\alpha>1$, $\beta>0$ 的逆 Gamma 分布具有密度 $\beta^\alpha e^{-\beta/x}/[\Gamma(\alpha)x^{\alpha+1}]$, $x>0$, 其期望为 $\beta/(\alpha-1)$.
+\end{exercise}
+\begin{solution}
+记 $S=\sum_{i=1}^nX_i^2$. 这里 $\theta$ 是方差参数, 不是标准差.
+\begin{enumerate}[label=\arabic*.]
+\item 对数似然为 $\ell_n(\theta)=-\frac n2\log(2\pi)-\frac n2\log\theta-\frac S{2\theta}$. 因而 $\ell_n'(\theta)=(S-n\theta)/(2\theta^2)$. 当 $S>0$ 时导数在 $S/n$ 左侧为正、右侧为负, 唯一极大值是 $\widehat\theta=S/n$. 若所有观测恰为零, 则似然随 $\theta\downarrow0$ 无界, 在开参数空间上没有极大值. 在真实的 $\theta>0$ 下该事件概率为零, 所以 $S/n$ 是几乎处处定义的 MLE.
+\item 对 $X\sim N(0,\theta)$, 写 $X=\sqrt\theta Z$, $Z\sim N(0,1)$. 标准正态积分的分部积分给出 $\E Z^2=1$, $\E Z^4=3$（递推式为 $\E Z^{2r}=(2r-1)\E Z^{2r-2}$）, 所以 $\E X^2=\theta$, $\Var(X^2)=3\theta^2-\theta^2=2\theta^2$. 对独立同分布的 $X_i^2$ 应用中心极限定理,
+\[
+\sqrt n(\widehat\theta-\theta)\dto N(0,2\theta^2).
+\]
+故渐近方差按 $\sqrt n$ 归一化的约定为 $2\theta^2$; 原估计量的方差恰为 $2\theta^2/n$.
+\item
+\begin{enumerate}[label=\alph*)]
+\item 单次观测的得分为 $s_\theta(X)=(X^2-\theta)/(2\theta^2)$. 其平方期望是 $I(\theta)=2\theta^2/(4\theta^4)=1/(2\theta^2)$. Jeffreys 先验密度正比于 $\sqrt{I(\theta)}$, 因而 $\pi(\theta)\propto1/\theta$, $\theta>0$. 其在 $(0,\infty)$ 上的积分发散, 无法归一化, 所以是不正常先验. 使用全样本信息只会多一个与 $\theta$ 无关的因子 $\sqrt n$, 不改变先验.
+\item 似然乘先验给出后验核 $\theta^{-n/2-1}\exp[-S/(2\theta)]$. 对 $S>0$, 用代换 $u=S/(2\theta)$ 可算得
+\[
+\int_0^\infty\theta^{-n/2-1}e^{-S/(2\theta)}\dd\theta
+=\left(\frac S2\right)^{-n/2}\Gamma(n/2).
+\]
+所以后验为 $\operatorname{InvGamma}(n/2,S/2)$, 密度是
+\[
+\pi(\theta\mid X)=\frac{(S/2)^{n/2}}{\Gamma(n/2)}
+\theta^{-n/2-1}e^{-S/(2\theta)},\qquad\theta>0.
+\]
+任何 $n\ge1$ 时, $n/2>0$, 该密度都可归一化. 不正常先验并不阻止这里的后验成为概率分布. 但若 $S=0$, 后验核在零附近不可积, 所以该异常样本下后验未定义.
+\item 按平方损失理解贝叶斯估计时, 后验均值是
+\[
+\widehat\theta_B=\E[\theta\mid X]
+=\frac{S/2}{n/2-1}=\frac S{n-2},\qquad n>2.
+\]
+可直接对后验密度乘 $\theta$ 后积分核验: 同一代换给出 $\E[\theta\mid X]=(S/2)\Gamma(n/2-1)/\Gamma(n/2)$, 并利用 $\Gamma(z+1)=z\Gamma(z)$. 若 $n\le2$, 尾部的均值积分与 $\int^\infty\theta^{-n/2}\dd\theta$ 同阶而发散, 后验均值不存在有限值.
+
+还须区分“后验均值存在”与“后验平方风险有限”: $n>4$ 时二阶矩有限, 此时对任意决策 $a$ 有 $\E[(\theta-a)^2\mid X]=\Var(\theta\mid X)+(a-\E[\theta\mid X])^2$, 唯一最小值在上述均值. 对 $n=3,4$, 均值虽然有限, 但所有有限 $a$ 的后验平方损失期望均为无穷大, 因而若严格用有限后验平方风险的最优决策定义, 还需 $n>4$; 通常作业所指的后验均值仍按 $n>2$ 的公式报告.
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+\begin{remark}
+原题未对第 3(c) 问给出样本量限制, 也未显式指定损失函数. 上述解答明确采用后验均值的通常平方损失约定, 补出均值存在所需的 $n>2$. 提示中的逆 Gamma 密度其实对所有 $\alpha>0$ 都能定义; $\alpha>1$ 是均值有限的条件.
+\end{remark}
+
+\begin{exercise}\label{ps10:p02}
+原作业第2题. 贝叶斯估计与线性回归.
+设 $X_1,\ldots,X_n$ 为 $\R^p$ 中的确定向量, $X$ 为第 $i$ 行等于 $X_i'$ 的 $n\times p$ 矩阵. 给定某个 $p$ 维随机向量 $\beta$ 后, $Y_1,\ldots,Y_n$ 条件独立, 且 $Y_i-X_i'\beta\sim N(0,\sigma^2)$, $\sigma^2>0$ 为给定值. 记 $Y=(Y_1,\ldots,Y_n)'$.
+\begin{enumerate}[label=\arabic*.]
+\item 给定 $\beta$, $Y$ 的分布是什么?
+\item 假设 $\beta$ 的先验为 $N_p(0,\tau^2 I_p)$, 其中 $\tau^2>0$ 给定.
+\begin{enumerate}[label=\alph*)]
+\item 证明后验密度正比于 $\exp\{-\frac1{2\sigma^2}[\norm{Y-X\beta}^2+\lambda\norm\beta^2]\}$, 并确定 $\lambda$.
+\item 推出后验是高斯分布, 并确定参数. 提示: 均值 $\mu$、协方差 $\Sigma$ 的高斯密度为 $[(2\pi)^{p/2}\sqrt{\det\Sigma}]^{-1}\exp\{-\frac12(\beta-\mu)'\Sigma^{-1}(\beta-\mu)\}$.
+\item $\beta$ 的后验均值是什么?
+\end{enumerate}
+\item 考虑频率学派方法: $Y_i=X_i'\beta+\varepsilon_i$, 未知固定参数 $\beta\in\R^p$, $\varepsilon_i\iid N(0,\sigma^2)$, $\sigma^2>0$. 原题定义 Ridge 估计为
+\[
+\widehat\beta^{(R)}\in\argmin_{t\in\R^S}
+\{\norm{Y-Xt}^2+\lambda\norm t^2\},
+\]
+其中 $\lambda$ 是统计学家选择的调节参数. 与 BIC 或 Lasso 估计类似, Ridge 最小化加惩罚的残差平方和.
+\begin{enumerate}[label=\alph*)]
+\item 计算 Ridge 估计.
+\item 证明存在 $\tau^2$ 使它等于先验 $N_p(0,\tau^2 I_p)$ 对应的贝叶斯估计.
+\item $\widehat\beta^{(R)}$ 的分布是什么?
+\item 以 $X,\lambda,\beta$ 表示 $\widehat\beta^{(R)}$ 的二次风险.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{remark}
+原 PDF 在第 3 问将最小化域印为 $\R^S$, 而 $X$ 有 $p$ 列, 此处只有取 $S=p$ 才使 $Xt$ 有定义. 后续按 $\R^p$ 解释. 原题未限制 $\lambda$; 为保证唯一 Ridge 解和第 3(b) 问所需的有限正常高斯先验, 下列解答取 $\lambda>0$. $\lambda=0$ 的最小二乘和负 $\lambda$ 的情形另在解答末说明.
+\end{remark}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item 条件独立的高斯分量的均值是 $X_i'\beta$, 方差均为 $\sigma^2$, 所以 $Y\mid\beta\sim N_n(X\beta,\sigma^2 I_n)$.
+\item
+\begin{enumerate}[label=\alph*)]
+\item 似然核是 $\exp[-\norm{Y-X\beta}^2/(2\sigma^2)]$, 先验核是 $\exp[-\norm\beta^2/(2\tau^2)]$. 相乘并提出 $1/(2\sigma^2)$ 得到题给形式, 且 $\lambda=\sigma^2/\tau^2>0$.
+\item 令 $A=X'X+\lambda I_p$. 对任何非零 $u$, $u'Au=\norm{Xu}^2+\lambda\norm u^2>0$, 所以 $A$ 正定可逆, 无须 $X$ 满列秩. 令 $m=A^{-1}X'Y$. 配方给出
+\[
+\norm{Y-X\beta}^2+\lambda\norm\beta^2
+=(\beta-m)'A(\beta-m)+Y'Y-m'Am.
+\]
+最后两项不依赖 $\beta$, 可并入归一化常数. 对照高斯密度, 后验为 $N_p(m,\sigma^2 A^{-1})$.
+\item 高斯分布的一阶矩有限, 后验均值就是 $m=(X'X+\sigma^2\tau^{-2}I_p)^{-1}X'Y$. 在平方欧氏损失下, 后验期望误差分解为 $\E[\norm{\beta-a}^2\mid Y]=\tr(\sigma^2A^{-1})+\norm{m-a}^2$, 也说明它是唯一贝叶斯估计.
+\end{enumerate}
+\item 以下的 $\beta$ 是固定真参数, 与上问的随机先验参数角色不同.
+\begin{enumerate}[label=\alph*)]
+\item 目标对 $t$ 的梯度为 $2At-2X'Y$, Hessian 为正定矩阵 $2A$. 所以唯一最小值为 $\widehat\beta^{(R)}=A^{-1}X'Y$.
+\item 对任何给定 $\lambda>0$, 取 $\tau^2=\sigma^2/\lambda$, 则第 2 问的后验均值与 Ridge 公式相同. 这说明相同估计公式可以有两种解释, 并不把频率风险中的固定参数改成随机参数.
+\item 由 $Y=X\beta+\varepsilon$, $\varepsilon\sim N_n(0,\sigma^2I_n)$,
+\[
+\widehat\beta^{(R)}=A^{-1}X'X\beta+A^{-1}X'\varepsilon
+\sim N_p\left(A^{-1}X'X\beta,\ \sigma^2A^{-1}X'XA^{-1}\right).
+\]
+若 $X$ 不满列秩, 此高斯分布的协方差可奇异; 写 $N_p$ 仍表示可能退化的高斯随机向量, 并不声称存在全维 Lebesgue 密度.
+\item 由于 $A^{-1}X'X=I_p-\lambda A^{-1}$, 估计的偏差是 $-\lambda A^{-1}\beta$. 中心化随机误差的均值为零, 其平方范数期望等于协方差矩阵的迹. 因此
+\[
+\E_\beta\norm{\widehat\beta^{(R)}-\beta}^2
+=\lambda^2\beta'A^{-2}\beta+
+\sigma^2\tr(A^{-1}X'XA^{-1}).
+\]
+若 $X'X=U\diag(d_1,\ldots,d_p)U'$ 且 $\gamma=U'\beta$, 其中 $d_j\ge0$, 上式也等于 $\sum_{j=1}^p[\lambda^2\gamma_j^2+\sigma^2d_j]/(d_j+\lambda)^2$. 零特征值方向的方差为零, 偏差平方为 $\gamma_j^2$, 与数据完全无法识别这些方向的事实一致.
+\end{enumerate}
+\end{enumerate}
+若 $\lambda=0$ 且 $X$ 满列秩, 解为普通最小二乘 $(X'X)^{-1}X'Y$, 但不对应任何有限 $\tau^2>0$ 的上述先验. 若 $X$ 不满列秩, 最小二乘解不唯一. 若允许 $\lambda<0$, 例如 $X=0$, 目标为 $\norm Y^2+\lambda\norm t^2$, 向无穷远发散到负无穷, 无最小值. 这些例子解释了为何第 3 问的整组结论需要正调节参数.
+\end{solution}
+
+\begin{exercise}\label{ps10:p03}
+原作业第3题. 协方差矩阵.
+\begin{enumerate}[label=\arabic*.]
+\item 回顾 $p$ 维随机向量 $X=(X_1,\ldots,X_p)'$ 的协方差矩阵定义. 它的维数是什么?
+\item 给定 $n$ 个 $p$ 维随机向量的样本 $X_1,\ldots,X_n$, 回顾样本协方差矩阵的定义.
+\item 证明随机向量的协方差矩阵半正定.
+\item 证明样本协方差矩阵半正定.
+\item 设 $X$ 为 $p$ 维随机向量, 协方差为 $\Sigma$, $A$ 为 $q\times p$ 矩阵.
+\begin{enumerate}[label=\alph*)]
+\item $AX$ 的协方差是什么? 证明之.
+\item 若 $q>p$, $AX$ 的协方差能否可逆? 为什么?
+\item 对 $u\in\R^p$, $u'X$ 的方差是什么?
+\end{enumerate}
+\item 设 $X_1,\ldots,X_n$ 为 $p$ 维随机向量, 相应样本协方差为 $\widehat\Sigma$.
+\begin{enumerate}[label=\alph*)]
+\item 对 $q\times p$ 矩阵 $B$, 样本 $BX_1,\ldots,BX_n$ 的样本协方差是什么? 证明之.
+\item 对 $u\in\R^p$, 样本 $u'X_1,\ldots,u'X_n$ 的样本协方差是什么?
+\end{enumerate}
+\item 设 $X$ 为均值 $\mu$、协方差 $\Sigma$ 的 $d$ 维随机向量, $A\in\R^{k\times d}$. 证明 $\E[X'A'AX]=\norm{A\mu}_2^2+\operatorname{Tr}(A\Sigma A')$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+以下总体协方差都假设各分量有有限二阶矩, 保证所用期望有定义. 样本向量也可视作已经观测的确定数据, 半正定性并不需要独立同分布条件.
+\begin{enumerate}[label=\arabic*.]
+\item 若 $\mu=\E X$, 则 $\Sigma=\E[(X-\mu)(X-\mu)']$, 第 $(j,k)$ 个元素是 $\Cov(X_j,X_k)=\E[(X_j-\mu_j)(X_k-\mu_k)]$. 因为列向量乘行向量是 $p\times p$ 矩阵, 协方差矩阵维数是 $p\times p$, 并且对称.
+\item 记 $\overline X=n^{-1}\sum_iX_i$, 则采用经验分布的约定 $\widehat\Sigma=n^{-1}\sum_i(X_i-\overline X)(X_i-\overline X)'$. 另一常见约定在 $n\ge2$ 时用分母 $n-1$, 得到独立同分布抽样下的无偏版本. 原题未指定分母; 本解答用前者, 以下所有线性变换及半正定结论对后者同样成立, 只需始终使用同一分母.
+\item 对任意 $u\in\R^p$, $u'\Sigma u=\E[(u'(X-\mu))^2]\ge0$. 结合对称性, 这正是半正定的定义. 当某非零方向 $u'X$ 几乎处处为常数时, 对应二次型为零, 所以不能一般升级为正定.
+\item 对任意 $u$, $u'\widehat\Sigma u=n^{-1}\sum_i[u'(X_i-\overline X)]^2\ge0$, 且每个外积对称, 所以样本协方差半正定.
+\item
+\begin{enumerate}[label=\alph*)]
+\item $\E[AX]=A\mu$, 因而
+\[
+\Cov(AX)=\E[A(X-\mu)(X-\mu)'A']=A\Sigma A'.
+\]
+矩阵 $A,A'$ 确定, 可移到期望外, 所得维数为 $q\times q$.
+\item 不可逆. 因为 $\operatorname{rank}(A\Sigma A')\le\operatorname{rank}(A)\le p<q$. 也可从 $A'$ 存在非零核向量 $v$ 看出 $A\Sigma A'v=0$, 从而协方差有零特征值.
+\item 将上一公式用于行矩阵 $A=u'$, 得 $\Var(u'X)=u'\Sigma u$. 它是 $1\times1$ 协方差, 即标量方差.
+\end{enumerate}
+\item
+\begin{enumerate}[label=\alph*)]
+\item 变换后样本均值是 $n^{-1}\sum_iBX_i=B\overline X$. 因此样本协方差等于
+\[
+\frac1n\sum_i(BX_i-B\overline X)(BX_i-B\overline X)'
+=B\left[\frac1n\sum_i(X_i-\overline X)(X_i-\overline X)'\right]B'
+=B\widehat\Sigma B'.
+\]
+\item 令 $B=u'$, 立即得到标量样本方差 $u'\widehat\Sigma u=n^{-1}\sum_i(u'X_i-u'\overline X)^2$. 对单个实数样本列, 原题所说的样本协方差就是其样本方差.
+\end{enumerate}
+\item 令 $W=X-\mu$, 则 $\E W=0$, $\E[WW']=\Sigma$. 展开二次型有
+\[
+\E[X'A'AX]=\mu'A'A\mu+\E[W'A'AW],
+\]
+两个交叉项因 $\E W=0$ 消失. 将后项按 $AW$ 的分量展开,
+\[
+\E[W'A'AW]=\sum_{j=1}^k\E[(AW)_j^2]
+=\sum_{j=1}^k(A\Sigma A')_{jj}=\tr(A\Sigma A').
+\]
+而 $\mu'A'A\mu=\norm{A\mu}_2^2$, 所以得到所需等式.
+\end{enumerate}
+\end{solution}

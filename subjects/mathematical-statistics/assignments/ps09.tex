@@ -1,0 +1,122 @@
+\originalchapter{作业九}\label{chap:ps09}
+本章对应 MIT 18.650 Fall 2016 的 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-9/}{Problem Set 9}. 原截止时间为 2016 年 11 月 18 日星期五中午 12 时. 题面译自官方原件, 解答为独立推导.
+
+\begin{exercise}\label{ps09:p01}
+原作业第1题. 固定设计的非参数回归（60 分）.
+在 $[0,1]$ 上取固定的等距设计 $x_i=i/n$, $i=0,\ldots,n$. 观测为 $Y_i=f(x_i)+\varepsilon_i$, 其中 $f$ 是 $[0,1]$ 上未知函数, $\varepsilon_0,\ldots,\varepsilon_n\iid N(0,\sigma^2)$, $\sigma^2>0$. 假设 $f$ 可微且对所有 $x\in[0,1]$ 有 $|f'(x)|\le L$, 其中 $L>0$. 目标是估计 $f$. 取整数 $1\le k\le n$, 定义 $I_i=\{j\in\{0,\ldots,n\}:|j-i|\le k\}$.
+\begin{enumerate}[label=\arabic*.]
+\item 对每个 $i\in\{0,\ldots,n\}$ 计算 $|I_i|$, 并证明 $k+1\le |I_i|\le2k+1$.
+\item 用 $\widehat f_i=|I_i|^{-1}\sum_{j\in I_i}Y_j$ 估计 $f(x_i)$.
+\begin{enumerate}[label=\alph*)]
+\item 计算 $\widehat f_i$ 的方差, 并证明 $\Var(\widehat f_i)\le\sigma^2/k$.
+\item 计算 $\E\widehat f_i$, 并证明其偏差 $b_i$ 满足 $|b_i|\le |I_i|^{-1}\sum_{j\in I_i}|f(x_j)-f(x_i)|$.
+\item 利用 $f$ 的条件证明 $b_i^2\le L^2k^2/n^2$.
+\item 证明二次风险满足 $\E[(\widehat f_i-f(x_i))^2]\le L^2k^2/n^2+\sigma^2/k$.
+\item 怎样选择 $k$ 能使上述风险上界最小?
+\item 对该选择, 二次风险趋于零的收敛速率是什么?
+\item 证明即使不知道 $L$ 与 $\sigma^2$, 仍可选择不依赖这两个量的 $k$, 使风险的阶仍为 $n^{-2/3}$.
+\end{enumerate}
+\item （选做）令 $\widehat f$ 是满足 $\widehat f(x_i)=\widehat f_i$ 的分段线性函数, 此处仍取任意整数 $1\le k\le n$. 定义积分二次风险
+\[
+R(\widehat f,f)=\E\left[\int_0^1(\widehat f(x)-f(x))^2\dd x\right].
+\]
+证明 $R(\widehat f,f)\le c_1k^2/n^2+c_2/k$, 其中正常数 $c_1,c_2$ 只依赖 $L,\sigma^2$. 推出存在一个 $k$ 的选择使风险以 $n^{-2/3}$ 的速率趋于零.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+局部平均减少噪声, 但也混入相邻位置的函数值. 计算中把这两种误差分别写成方差与偏差, 才能看出窗口宽度 $k$ 的取舍.
+\begin{enumerate}[label=\arabic*.]
+\item 可用的最小、最大下标分别是 $\max(0,i-k)$ 和 $\min(n,i+k)$, 故
+\[
+m_i:=|I_i|=\min(n,i+k)-\max(0,i-k)+1
+=1+\min(k,i)+\min(k,n-i).
+\]
+两个最小值均不超过 $k$, 因而 $m_i\le2k+1$. 下界不能只假设至少一侧有 $k$ 个点, 因为 $k$ 很大时两侧都可能不足. 若其中一侧不少于 $k$, 两项之和至少是 $k$; 若两侧均小于 $k$, 两项之和是 $i+(n-i)=n\ge k$. 所以总有 $m_i\ge k+1$.
+\item
+\begin{enumerate}[label=\alph*)]
+\item $f(x_j)$ 是常数, 噪声独立, 所以 $\Var(\widehat f_i)=m_i^{-2}\sum_{j\in I_i}\sigma^2=\sigma^2/m_i\le\sigma^2/(k+1)\le\sigma^2/k$.
+\item 零均值噪声给出 $\E\widehat f_i=m_i^{-1}\sum_{j\in I_i}f(x_j)$. 因此
+\[
+b_i=\E\widehat f_i-f(x_i)
+=\frac1{m_i}\sum_{j\in I_i}\bigl(f(x_j)-f(x_i)\bigr),
+\]
+取绝对值并用三角不等式即得所需上界.
+\item 由中值定理, $|f(x_j)-f(x_i)|\le L|x_j-x_i|=L|j-i|/n\le Lk/n$. 代入上问的平均后得 $|b_i|\le Lk/n$, 平方即为结论.
+\item 写成 $\widehat f_i-f(x_i)=(\widehat f_i-\E\widehat f_i)+b_i$. 第一项期望为零, 展开平方后的交叉项消失, 故风险等于 $\Var(\widehat f_i)+b_i^2$, 从而得到题给上界.
+\item 先把 $k$ 暂看成正实数, 记 $B(t)=L^2t^2/n^2+\sigma^2/t$. 则
+\[
+B'(t)=2L^2t/n^2-\sigma^2/t^2,\qquad
+B''(t)=2L^2/n^2+2\sigma^2/t^3>0.
+\]
+唯一无约束最小点为 $t_*=(\sigma^2n^2/(2L^2))^{1/3}$. 在区间 $[1,n]$ 上先截断为 $\widetilde t=\min(n,\max(1,t_*))$, 然后比较 $\lfloor\widetilde t\rfloor$ 和 $\lceil\widetilde t\rceil$ 中属于 $\{1,\ldots,n\}$ 的值, 取 $B$ 较小者. 严格凸性及最小点两侧的单调性保证这就是整数最优选择; 不能不加说明地把非整数 $t_*$ 当作窗口大小.
+\item 固定 $L,\sigma^2>0$, 当 $n$ 足够大时 $1<t_*<n$. 此时 $B(t_*)=3\cdot2^{-2/3}L^{2/3}(\sigma^2)^{2/3}n^{-2/3}$. 取整带来的相对改变量趋于零, 因此风险为 $O(n^{-2/3})$.
+\item 可取 $k=\lceil n^{2/3}\rceil$, 对整数 $n\ge1$ 有 $1\le k\le n$, 且 $n^{2/3}\le k\le2n^{2/3}$. 因此
+\[
+\E[(\widehat f_i-f(x_i))^2]
+\le(4L^2+\sigma^2)n^{-2/3}.
+\]
+常数可依赖未知的 $L,\sigma^2$, 但实施窗口选择不需知道它们.
+\end{enumerate}
+\item 对 $x\in[x_i,x_{i+1}]$, 记 $t=n(x-x_i)\in[0,1]$. 则 $\widehat f(x)=(1-t)\widehat f_i+t\widehat f_{i+1}$. 先对真实函数做同样插值 $f_\ell(x)=(1-t)f(x_i)+tf(x_{i+1})$. Lipschitz 条件给出
+\[
+|f_\ell(x)-f(x)|\le (1-t)Lt/n+tL(1-t)/n
+=2Lt(1-t)/n\le L/(2n).
+\]
+所以插值估计的偏差绝对值不超过 $(1-t)|b_i|+t|b_{i+1}|+L/(2n)\le L(k+1/2)/n\le3Lk/(2n)$. 相邻估计共享噪声, 不能假设它们独立. 由 Cauchy--Schwarz 不等式, 两者协方差的绝对值不超过其标准差之积, 因而
+\[
+\Var(\widehat f(x))\le
+\left((1-t)\sqrt{\Var(\widehat f_i)}+t\sqrt{\Var(\widehat f_{i+1})}\right)^2
+\le\sigma^2/k.
+\]
+于是每个 $x$ 的均方误差至多 $9L^2k^2/(4n^2)+\sigma^2/k$. 非负被积函数可由 Tonelli 定理交换积分和期望, 并且积分区间长度为 $1$, 故可取 $c_1=9L^2/4$, $c_2=\sigma^2$. 再取 $k=\lceil n^{2/3}\rceil$ 即得 $R(\widehat f,f)=O(n^{-2/3})$.
+\end{enumerate}
+\end{solution}
+\begin{remark}
+上面先证明了 $O(n^{-2/3})$ 上界. 对已选的 $k\asymp n^{2/3}$, 还可由 $\Var(\widehat f_i)=\sigma^2/|I_i|\ge\sigma^2/(2k+1)$ 得到匹配下界, 因此这个窗口选择下的节点风险对每个 $f$ 都是 $\Theta(n^{-2/3})$. 即使 $f$ 是常函数、偏差为零, 此方差下界仍成立. 这不等于证明该函数类上的 minimax 最优速率: 后者还需要对所有可能估计器的最坏情形风险作统一下界.
+\end{remark}
+
+\begin{exercise}\label{ps09:p02}
+原作业第2题. 密度的非参数估计（40 分）.
+设 $X_1,\ldots,X_n$ 独立同分布于 $[0,1]$, 未知密度为 $f$. 本题始终假设 $f$ 可微, 且 $|f(x)|\le L$, $|f'(x)|\le L$ 对所有 $x\in[0,1]$ 成立, $L>0$ 为固定常数. 对 $h>0$ 定义
+\[
+\widehat f(x)=\frac1{2nh}\sum_{i=1}^n\ind_{\{|X_i-x|\le h\}},\qquad x\in[0,1].
+\]
+以下取 $x\in(h,1-h)$.
+\begin{enumerate}[label=\arabic*.]
+\item 每个 $\ind_{\{|X_i-x|\le h\}}$ 的分布是什么?
+\item 记 $\widehat f(x)$ 的偏差为 $b(x)$、方差为 $\sigma^2(x)$. 回顾二次风险与二者的关系.
+\item 证明 $b(x)=[F(x+h)-F(x-h)-2hf(x)]/(2h)$, 其中 $F$ 是 $X_1$ 的分布函数.
+\item 利用 Taylor 公式证明 $|b(x)|\le Lh/2$.
+\item 证明 $\sigma^2(x)\le L/(2nh)$.
+\item 用前面各问给出二次风险上界.
+\item 证明即使不知道 $L$, 仍可选择窗口宽度 $h$, 使二次风险不超过 $Cn^{-2/3}$, 其中 $C>0$ 只依赖 $L$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item 指示变量只取 $0,1$, 所以服从 $\operatorname{Ber}(p_h(x))$, 其中 $p_h(x)=\PP(x-h\le X_i\le x+h)=F(x+h)-F(x-h)=\int_{x-h}^{x+h}f(u)\dd u$. 密度分布在端点没有原子, 因而闭区间或开区间不影响概率. 不同 $i$ 的指示变量仍独立同分布.
+\item 展开中心化误差的平方, 得 $\E[(\widehat f(x)-f(x))^2]=b(x)^2+\sigma^2(x)$.
+\item $\E\widehat f(x)=p_h(x)/(2h)$, 减去 $f(x)$ 即得题给等式.
+\item 也可把该等式写成 $b(x)=(2h)^{-1}\int_{-h}^h[f(x+u)-f(x)]\dd u$. 对每个 $u$ 用一阶 Taylor 的中值余项, 或等价的中值定理, 有 $|f(x+u)-f(x)|\le L|u|$. 不需要假设二阶导数存在. 因此
+\[
+|b(x)|\le\frac{L}{2h}\int_{-h}^h|u|\dd u
+=\frac{Lh}{2}.
+\]
+\item Bernoulli 方差为 $p_h(x)(1-p_h(x))$. 利用独立性,
+\[
+\sigma^2(x)=\frac{p_h(x)(1-p_h(x))}{4nh^2}
+\le\frac{p_h(x)}{4nh^2}.
+\]
+又因 $0\le f\le L$, 有 $p_h(x)\le2hL$, 所以 $\sigma^2(x)\le L/(2nh)$.
+\item 两个上界相加给出 $\E[(\widehat f(x)-f(x))^2]\le L^2h^2/4+L/(2nh)$.
+\item 取 $h=n^{-1/3}$, 对所有满足 $x\in(h,1-h)$ 的点,
+\[
+\E[(\widehat f(x)-f(x))^2]\le
+\left(\frac{L^2}{4}+\frac L2\right)n^{-2/3}.
+\]
+若先固定 $x\in(0,1)$, 则当 $n$ 足够大时 $n^{-1/3}<\min(x,1-x)$, 上述内部点条件自然成立. 因而这里的速率是内部点的渐近结论, 常数 $C=L^2/4+L/2$ 不依赖 $x$ 或未知密度的其他特征.
+\end{enumerate}
+\end{solution}
+\begin{remark}
+内部点条件不可删除. 例如均匀密度 $f\equiv1$ 在 $x=0$ 时给出 $\E\widehat f(0)=1/2$（$h\le1$）, 偏差恒为 $-1/2$. 原式未作边界修正, 因此不能由本题推出全区间的一致点态风险速率.
+\end{remark}

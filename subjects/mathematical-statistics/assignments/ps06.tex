@@ -1,0 +1,121 @@
+\originalchapter{作业六}\label{chap:ps06}
+本章译自 MIT 18.650, Fall 2016 官方 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-6/}{Problem Set 6}, 截止时间为 2016 年 10 月 21 日星期五中午 12 点. 原文件注明第2题第3问曾有勘误; 这里采用已下载的修订文件. 官方没有附答案, 以下为独立推导. 仍记 $z_u=\Phi^{-1}(u)$.
+
+\begin{exercise}\label{ps06:p01}
+原作业第1题. 设 $X_1,\ldots,X_n\iid\operatorname{Exp}(\lambda)$, 未知 $\lambda>0$, 给定 $\lambda_0>0$.
+\begin{enumerate}[label=\arabic*.]
+\item 对 $H_0:\lambda=\lambda_0$ 与 $H_1:\lambda\ne\lambda_0$, 构造任意 $\alpha\in(0,1)$ 的渐近水平 $\alpha$ 检验.
+\item 对 $H_0:\lambda\le\lambda_0$ 与 $H_1:\lambda>\lambda_0$, 构造渐近水平至多 $\alpha$ 的检验.
+\item 呼叫中心相邻来电的间隔建模为独立同分布指数变量. 雇主认为当 $\lambda\ge1$、即平均间隔至多一分钟时应增聘员工. 观察50次连续来电之间的间隔, 样本平均间隔为0.98分钟. 统计假设为 $H_0:\lambda\le1$, $H_1:\lambda>1$.
+\begin{enumerate}[label=\alph*)]
+\item 用上一问的检验, 是否应拒绝原假设?
+\item 求该检验的 $p$ 值.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+采用率参数约定 $f_\lambda(x)=\lambda e^{-\lambda x}\ind\{x\ge0\}$, 所以 $\E X=1/\lambda$, $\Var X=1/\lambda^2$.
+\begin{enumerate}[label=\arabic*.]
+\item 在 $H_0$ 下, 中心极限定理给出 $Z_n=\sqrt n(1-\lambda_0\bar X)\dto N(0,1)$. 因此当 $|Z_n|>z_{1-\alpha/2}$ 时拒绝, 极限拒绝概率恰为 $\alpha$. 在每个固定备择下 $1-\lambda_0\bar X\pto1-\lambda_0/\lambda\ne0$, 故检验一致.
+\item 率越大, 平均间隔越短, 因而应在 $Z_n$ 大时拒绝. 取 $\psi=\ind\{Z_n>z_{1-\alpha}\}$. 为核对整个复合原假设, 可将样本写成 $X_i=E_i/\lambda$, $E_i\iid\operatorname{Exp}(1)$. 对固定的正 $E_i$, $\sqrt n(1-\lambda_0\bar E/\lambda)$ 随 $\lambda$ 增加. 因而 $\sup_{0<\lambda\le\lambda_0}\PP_\lambda(\psi=1)=\PP_{\lambda_0}(\psi=1)\to\alpha$. 对严格内部 $\lambda<\lambda_0$, 拒绝概率趋于零; 对 $\lambda>\lambda_0$, 它趋于一.
+\item
+\begin{enumerate}[label=\alph*)]
+\item 按作业通常意图, 以下用 $n=50$ 个间隔观测计算, 观察值为 $Z=\sqrt{50}(1-0.98)=0.141421$. 若将题面的“50次连续来电”严格理解为49个间隔, 则 $Z=\sqrt{49}(1-0.98)=0.14$, $p\approx0.44433$, 下述5\%及10\%决定不变. 当 $\alpha$ 满足 $0.141421>z_{1-\alpha}$ 才拒绝. 原问没有给出显著性水平; 在通常的5\%或10\%水平都不拒绝, 不能仅凭平均间隔略小于1分钟就断言来电率显著超过1.
+\item 上尾渐近 $p$ 值为 $1-\Phi(0.141421)\approx0.44377$. 按拒绝规则的严格不等号约定, 在 $\alpha>p$ 时拒绝. 业务叙述把等号 $\lambda=1$ 也列为增聘情形, 统计假设却将其放入原假设; 这里遵循题面明确写出的统计假设.
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps06:p02}
+原作业第2题. 设 $X_1,\ldots,X_n\iid N(\mu,\sigma^2)$, $(\mu,\sigma^2)\in\R\times(0,\infty)$. 对给定 $\alpha\in(0,1)$, 要作 $H_0:\mu>0$ 与 $H_1:\mu\le0$ 的非渐近检验.
+\begin{enumerate}[label=\arabic*.]
+\item 写出 $(\mu,\sigma^2)$ 的极大似然估计 $(\hat\mu,\hat\sigma^2)$.
+\item 令 $S=\sqrt{n-1}(\hat\mu-\mu)/\sqrt{\hat\sigma^2}$. 证明 $S\sim t_{n-1}$.
+\item 构造非渐近水平 $\alpha$ 的检验并证明.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+取 $n\ge2$.
+\begin{enumerate}[label=\arabic*.]
+\item 正态似然给出 $\hat\mu=\bar X$, $\hat\sigma^2=n^{-1}\sum_i(X_i-\bar X)^2$.
+\item 令 $Z=\sqrt n(\bar X-\mu)/\sigma$ 和 $U=n\hat\sigma^2/\sigma^2$. 沿常数向量与残差空间的正交分解表明 $Z\sim N(0,1)$、$U\sim\chi^2_{n-1}$, 且二者独立. 所以
+\[
+S=\frac{Z}{\sqrt{U/(n-1)}}=\sqrt{n-1}\frac{\bar X-\mu}{\hat\sigma}\sim t_{n-1}.
+\]
+\item 可观察统计量为 $T=\sqrt{n-1}\bar X/\hat\sigma$. 当 $T<t_{n-1,\alpha}$ 时拒绝. 为控制 $\mu>0$ 下的错误率, 写 $X_i=\mu+\sigma Z_i$; 对同一标准正态样本, $\hat\sigma/\sigma$ 不依赖 $\mu$, 且
+\[
+T=\frac{\sqrt{n-1}(\bar Z+\mu/\sigma)}{\sqrt{n^{-1}\sum_i(Z_i-\bar Z)^2}}
+\]
+随 $\mu/\sigma$ 严格增加. 故每个 $\mu>0$ 的拒绝概率不大于 $\mu=0$ 时的概率 $\alpha$. 令 $\mu/\sigma\downarrow0$, 由连续性拒绝概率趋于 $\alpha$, 因而原假设上的上确界恰为 $\alpha$. 这是有限样本结论; 不需要中心极限定理. 此处相应的精确下尾 $p$ 值为 $F_{t_{n-1}}(T)$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps06:p03}
+原作业第3题. 设 $X,Y$ 是伯努利变量, $p=\PP(X=1)$, $q=\PP(Y=1)$, $r=\PP(X=1,Y=1)$.
+\begin{enumerate}[label=\arabic*.]
+\item 证明 $X,Y$ 独立当且仅当 $r=pq$.
+\item 给定 $(X,Y)$ 的 $n$ 个独立同分布副本 $(X_i,Y_i)$, 要检验 $r=pq$.
+\begin{enumerate}[label=\alph*)]
+\item 原文件定义 $\hat p=n^{-1}\sum_iX_i$, $\hat q=n^{-1}\sum_iX_i$, $\hat r=n^{-1}\sum_iX_iY_i$. 证明它们分别是 $p,q,r$ 的一致估计.
+\item 证明 $(\hat p,\hat q,\hat r)$ 渐近正态, 求渐近协方差矩阵.
+\item 利用 Delta 方法证明 $\sqrt n\{\hat r-\hat p\hat q-(r-pq)\}\dto N(0,V)$, 并求 $V$.
+\item 对 $H_0:X,Y\text{ 独立}$ 与 $H_1:X,Y\text{ 不独立}$, 在 $H_0$ 下证明 $V=pq(1-p)(1-q)$, 并构造 $V$ 的一致估计.
+\item 利用前两问, 给出任意 $\alpha\in(0,1)$ 的渐近水平 $\alpha$ 检验.
+\end{enumerate}
+\end{enumerate}
+为了解幸福与恋爱关系是否独立, 从某人群抽样1000名至少21岁的人, 询问“你认为自己幸福吗?”及“你正处于恋爱关系中吗?”. 结果如下:
+\begin{center}
+\begin{tabular}{lrr}\toprule
+ & 幸福 & 不幸福\\\midrule
+恋爱中 &205&301\\
+非恋爱中 &179&315\\\bottomrule
+\end{tabular}
+\end{center}
+在渐近5\%水平是否拒绝独立性? 计算 $p$ 值. 此数值应用在原件中没有另编号.
+\end{exercise}
+\begin{solution}
+原件 PDF 第2页的2(a)把 $\hat q$ 也印成 $X_i$ 的平均. 若照字面, 它收敛到 $p$ 而非一般的 $q$; 例如 $p=1/4,q=3/4$ 即否定原断言. 以下明确更正为 $\hat q=n^{-1}\sum_iY_i$.
+\begin{enumerate}[label=\arabic*.]
+\item 四个联合概率依次为
+\[
+\PP(1,1)=r,\quad\PP(1,0)=p-r,\quad\PP(0,1)=q-r,\quad\PP(0,0)=1-p-q+r.
+\]
+独立立即蕴含 $r=pq$. 反之代入 $r=pq$, 四个概率分别为 $pq,p(1-q),(1-p)q,(1-p)(1-q)$, 均等于对应边际概率的乘积, 即独立.
+\item
+\begin{enumerate}[label=\alph*)]
+\item $X_i,Y_i,X_iY_i$ 均有有限期望, 分别为 $p,q,r$. 对每个序列应用大数定律, 得 $(\hat p,\hat q,\hat r)\pto(p,q,r)$; 分量概率收敛蕴含有限维向量概率收敛.
+\item 令 $W_i=(X_i,Y_i,X_iY_i)'$. 它们独立同分布且有界, 多元中心极限定理给出 $\sqrt n(\bar W-\E W)\dto N_3(0,\Sigma)$, 其中
+\[
+\Sigma=\begin{pmatrix}
+p(1-p)&r-pq&r(1-p)\\
+r-pq&q(1-q)&r(1-q)\\
+r(1-p)&r(1-q)&r(1-r)
+\end{pmatrix}.
+\]
+这里 $\Cov(X,Y)=r-pq$; 又 $X^2Y=XY$ 给出 $\Cov(X,XY)=r-pr$, 类似地 $\Cov(Y,XY)=r-qr$.
+\item 对 $h(p,q,r)=r-pq$, 梯度为 $a=(-q,-p,1)'$. Delta 方法给出 $V=a'\Sigma a$, 即
+\begin{align*}
+V={}&q^2p(1-p)+p^2q(1-q)+r(1-r)\\
+ &+2pq(r-pq)-2qr(1-p)-2pr(1-q).
+\end{align*}
+它也等于 $\Var\{XY-qX-pY\}$, 因而必为非负. 渐近方差为零时, 极限 $N(0,0)$ 理解为退化分布.
+\item 当 $r=pq$ 时, 中心化影响量变成
+$XY-qX-pY+pq=(X-p)(Y-q)$. 由独立性,
+$V=\E[(X-p)^2]\E[(Y-q)^2]=p(1-p)q(1-q)$.
+连续映射定理给出一致估计
+$\hat V=\hat p(1-\hat p)\hat q(1-\hat q)$.
+\item 在非退化条件 $0<p,q<1$ 下, Slutsky 定理给出
+\[
+Z_n=\frac{\sqrt n(\hat r-\hat p\hat q)}{\sqrt{\hat V}}\dto N(0,1)
+\quad(H_0).
+\]
+当 $|Z_n|>z_{1-\alpha/2}$ 时拒绝, 渐近水平为 $\alpha$. 若样本导致 $\hat V=0$, 规定不拒绝; 在非退化模型下该事件概率趋零. 若 $p$ 或 $q$ 为0或1, 至少一个变量几乎处处为常数, 它与另一变量必独立, 样本也退化; 规定不拒绝给出水平0. 因此原题含边界时能统一保证渐近水平至多 $\alpha$, 不能声称在这些退化边界仍恰为 $\alpha$.
+\end{enumerate}
+\end{enumerate}
+数值应用取 $X$ 为幸福指示, $Y$ 为恋爱指示. 则 $\hat p=384/1000=0.384$, $\hat q=506/1000=0.506$, $\hat r=205/1000=0.205$, 故
+\[
+\hat r-\hat p\hat q=0.010696,\qquad
+\hat V=0.384(0.616)0.506(0.494)=0.0591275.
+\]
+于是 $Z\approx1.3910$, $p=2[1-\Phi(|Z|)]\approx0.16423$. 因 $|Z|<1.95996$, 在渐近5\%水平不拒绝独立性. 该结论只说明这份样本没有足够显著的关联证据.
+\end{solution}

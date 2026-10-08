@@ -1,0 +1,115 @@
+\originalchapter{作业三}\label{chap:ps03}
+本章对应 MIT 18.650 Fall 2016 的 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-3/}{Problem Set 3}, 原截止时间为 2016 年 9 月 30 日星期五中午 12 时. 题面位于原件物理页 1--2; 解答为 AI 独立推导. 极大似然是对实际参数空间求最大值, 因而须区分有限最大值与仅存在于边界的上确界.
+
+\begin{exercise}\label{ps03:p01}
+原作业第1题. 极大似然估计. 设 $X_1,\ldots,X_n$ 独立同分布, 相对于 Lebesgue 测度的密度为 $f_\theta$. 分别求下列模型中 $\theta$ 的极大似然估计量.
+\begin{enumerate}[label=\arabic*.]
+\item $f_\theta(x)=\theta\tau^\theta x^{-(\theta+1)}\ind_{\{x\ge\tau\}}$, $\theta>0$, 已知 $\tau>0$.
+\item $f_\theta(x)=\tau\theta^\tau x^{-(\tau+1)}\ind_{\{x\ge\theta\}}$, $\theta>0$, 已知 $\tau>0$.
+\item $f_\theta(x)=\sqrt\theta\,x^{\sqrt\theta-1}\ind_{\{0\le x\le1\}}$, $\theta>0$.
+\item $f_\theta(x)=(x/\theta^2)\exp[-x^2/(2\theta^2)]\ind_{\{x\ge0\}}$, $\theta>0$.
+\item $f_\theta(x)=\theta\tau x^{\tau-1}\exp(-\theta x^\tau)\ind_{\{x\ge0\}}$, $\theta>0$, 已知 $\tau>0$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+在各模型下, 样本几乎必然位于密度为正的内部; 先在这个概率一事件上求估计, 再说明特殊边界数据. 把与参数无关的有限项记为 $C$.
+\begin{enumerate}[label=\arabic*.]
+\item 所有 $x_i\ge\tau$, 令 $A=\sum_i\log(x_i/\tau)$. 对数似然为 $\ell(\theta)=n\log\theta-\theta A-\sum_i\log x_i$. 当 $A>0$, 有 $\ell'=n/\theta-A$, $\ell''=-n/\theta^2<0$, 唯一全局最大点为
+$\hat\theta=n/A$. 参数趋零或无穷时对数似然均趋负无穷. 若所有 $x_i=\tau$, 则 $A=0$, 似然随 $\theta$ 无界增加, 没有有限最大值; 连续模型下该样本事件概率为零. 若有 $x_i<\tau$, 则在整个参数空间似然为零, 这是模型不可能产生的数据, 不能使用上述式子.
+\item 支撑条件要求 $0<\theta\le m=\min_i x_i$. 在此范围, $L(\theta)=\tau^n\theta^{n\tau}\prod_i x_i^{-(\tau+1)}$ 严格递增, 故 $\hat\theta=m$. 当 $\theta>m$ 时似然为零, 所以必须把支撑条件纳入优化. 模型下 $m>0$ 几乎必然.
+\item 原件中的指数确为 $\sqrt\theta-1$. 令 $\alpha=\sqrt\theta>0$, 则 $\ell(\alpha)=n\log\alpha+(\alpha-1)\sum_i\log x_i$. 在 $0<x_i<1$ 上, $B=-\sum_i\log x_i>0$. 方程 $n/\alpha-B=0$ 给出 $\hat\alpha=n/B$, 且二阶导数为 $-n/\alpha^2<0$. 因为 $\theta\mapsto\sqrt\theta$ 是正半轴上的双射,
+\[
+\hat\theta=\left(\frac{-n}{\sum_i\log X_i}\right)^2.
+\]
+若所有 $x_i=1$, 似然随 $\alpha$ 增大而无界; $x_i=0$ 的密度值也涉及端点版本. 这些概率零数据上的取值不影响估计量的分布, 上述公式按内部样本定义.
+\item 令 $S_2=\sum_i x_i^2>0$. 有
+$\ell(\theta)=C-2n\log\theta-S_2/(2\theta^2)$,
+$\ell'(\theta)=(S_2-2n\theta^2)/\theta^3$.
+导数在 $\sqrt{S_2/(2n)}$ 左侧正、右侧负, 故
+$\hat\theta=\sqrt{\sum_iX_i^2/(2n)}$ 是唯一全局最大值. 在模型下 $x_i>0$ 几乎必然; 若用题给端点版本在某个 $x_i=0$ 上计算, 因子 $x_i$ 会使所有参数的似然均为零, 此时不能把该样本当作通常的内部样本.
+\item 令 $S_\tau=\sum_i x_i^\tau>0$. 有 $\ell(\theta)=C+n\log\theta-\theta S_\tau$, 导数为 $n/\theta-S_\tau$, 二阶导数为 $-n/\theta^2$. 唯一最大点为
+$\hat\theta=n/\sum_iX_i^\tau$. $x_i=0$ 是概率零的端点事件, 密度在该点可按不同 $\tau$ 为零、有限或无穷; 估计公式在模型几乎必然产生的正样本上定义, 不凭端点的密度版本声称存在通常的有限最大值.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps03:p02}
+原作业第2题. 极大似然估计的一致性. 设 $X_1,\ldots,X_n\iid N(\theta,\theta)$, 未知 $\theta>0$; 第二个参数表示方差. 求 $\theta$ 的极大似然估计, 并证明其一致性.
+\end{exercise}
+\begin{solution}
+均值和方差同时由 $\theta$ 决定. 展开平方可把对数似然化成
+\[
+\ell(\theta)=C-\frac n2\log\theta-\frac{\sum_i x_i^2}{2\theta}
++\sum_i x_i-\frac n2\theta.
+\]
+令 $m_2=n^{-1}\sum_i x_i^2$. 导数为
+$\ell'(\theta)=n(m_2-\theta-\theta^2)/(2\theta^2)$.
+当 $m_2>0$ 时, 分子在正半轴严格递减, 在零处为正而在无穷远为负. 因此唯一最大点为
+\[
+\hat\theta=\frac{\sqrt{1+4m_2}-1}{2}.
+\]
+若所有 $x_i=0$, 则 $m_2=0$, $\ell(\theta)$ 在 $\theta\downarrow0$ 时趋于正无穷, 没有正参数内的最大值; 这个事件在模型下概率为零.
+
+由于 $\E_\theta X_i^2=\Var(X_i)+(\E X_i)^2=\theta+\theta^2<\infty$, 大数定律给出 $m_2\pto\theta+\theta^2$. 连续映射定理于是给出
+\[
+\hat\theta\pto\frac{\sqrt{1+4\theta+4\theta^2}-1}{2}
+=\frac{(2\theta+1)-1}{2}=\theta.
+\]
+这里平方根取非负根, $\theta>0$ 保证 $2\theta+1>0$, 因而估计是一致的.
+\end{solution}
+
+\begin{exercise}\label{ps03:p03}
+原作业第3题. Kullback--Leibler 散度.
+\begin{enumerate}[label=\arabic*.]
+\item 对 $a,b\in\R$, $\sigma^2>0$, 计算 $P=N(a,\sigma^2)$ 与 $Q=N(b,\sigma^2)$ 之间的 KL 散度.
+\item 对 $a,b\in(0,1)$, 计算 $P=\operatorname{Ber}(a)$ 与 $Q=\operatorname{Ber}(b)$ 之间的 KL 散度.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+采用有方向的定义 $\KL(P\Vert Q)=\E_P\log(\dd P/\dd Q)$, 对连续密度是 $\int p\log(p/q)$, 对离散质量是相应求和.
+\begin{enumerate}[label=\arabic*.]
+\item 两个正态密度中的归一化常数相消, 所以
+\begin{align*}
+\KL(P\Vert Q)
+&=\frac1{2\sigma^2}\E_P[(X-b)^2-(X-a)^2]\\
+&=\frac{\sigma^2+(a-b)^2-\sigma^2}{2\sigma^2}
+=\frac{(a-b)^2}{2\sigma^2}.
+\end{align*}
+其中 $\E_P(X-a)=0$ 使展开后的混合项消失. 本题两方差相等, 此答案恰巧对交换 $a,b$ 对称, 但 KL 散度一般不对称.
+\item 在 $1,0$ 两点分别求和,
+\[
+\KL(P\Vert Q)=a\log\frac ab+(1-a)\log\frac{1-a}{1-b}.
+\]
+$a,b\in(0,1)$ 保证这两个比值与对数均有定义; 第一项权重是 $P(1)=a$, 第二项权重是 $P(0)=1-a$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps03:p04}
+原作业第4题. 全变差距离.
+\begin{enumerate}[label=\arabic*.]
+\item 对 $0<s\le t$, 计算 $U[0,s]$ 与 $U[0,t]$ 的全变差距离.
+\item 对 $p,q\in[0,1]$, 计算 $\operatorname{Ber}(p)$ 与 $\operatorname{Ber}(q)$ 的全变差距离.
+\item 若 $X_1,\ldots,X_n\iid\operatorname{Ber}(p)$, $p\in[0,1]$, $\bar X_n$ 为样本均值, 证明 $\operatorname{Ber}(\bar X_n)$ 与 $\operatorname{Ber}(p)$ 的全变差距离依概率趋零.
+\item 证明 $\operatorname{Pois}(1/n)$ 与零点 Dirac 分布的全变差距离趋零; 后者是恒等于零的变量的分布.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+采用 $d_{\mathrm{TV}}(P,Q)=\sup_A|P(A)-Q(A)|$. 若相对于同一测度有密度 $p,q$, 令 $h=p-q$, 因 $\int h=0$, 正负部分积分相等. 对任意 $A$, $|\int_Ah|\le\int h_+$, 等号在 $A=\{h\ge0\}$ 取得, 因而 $d_{\mathrm{TV}}=\frac12\int|p-q|$. 离散情形同样以求和取代积分.
+\begin{enumerate}[label=\arabic*.]
+\item 在 $[0,s]$ 上密度差为 $1/s-1/t\ge0$, 在 $(s,t]$ 上为 $-1/t$, 其他位置为零. 所以
+\[
+d_{\mathrm{TV}}=\frac12\left[s\left(\frac1s-\frac1t\right)+\frac{t-s}{t}\right]
+=1-\frac st.
+\]
+集合 $[0,s]$ 的概率差也是 $1-s/t$, 可直接验证上确界确实达到.
+\item 在 $0,1$ 两点质量差的绝对值均为 $|p-q|$, 故 $d_{\mathrm{TV}}=\frac12(2|p-q|)=|p-q|$, 包括端点 $0,1$.
+\item 条件于观测到的 $\bar X_n$, 第2问给出随机距离 $d_{\mathrm{TV}}(\operatorname{Ber}(\bar X_n),\operatorname{Ber}(p))=|\bar X_n-p|$. 对 $\varepsilon>0$, Chebyshev 不等式给出
+$\PP(|\bar X_n-p|>\varepsilon)\le p(1-p)/(n\varepsilon^2)\to0$. 当 $p=0,1$ 时距离恒为零.
+\item $P_n(0)=e^{-1/n}$, 而 $\delta_0(0)=1$. 因而
+\[
+d_{\mathrm{TV}}(P_n,\delta_0)
+=\frac12\left[1-e^{-1/n}+\sum_{k\ge1}P_n(k)\right]
+=1-e^{-1/n}\to0.
+\]
+这不仅说明依分布收敛, 还给出全变差收敛的精确距离.
+\end{enumerate}
+\end{solution}

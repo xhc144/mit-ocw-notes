@@ -1,0 +1,144 @@
+\originalchapter{作业一}\label{chap:ps01}
+本章对应 MIT 18.650 Fall 2016 的 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-1/}{Problem Set 1}, 原截止时间为 2016 年 9 月 16 日星期五中午 12 时. 题面译自官方原件物理页 1--3; 解答为 AI 独立推导, 不属于官方答案. 下文 $\Phi$ 表示标准正态分布函数.
+
+\begin{exercise}\label{ps01:p01}
+原作业第1题. 随机变量的收敛.
+\begin{enumerate}[label=\arabic*.]
+\item 对 $n\in\N^*$, 随机变量满足 $\PP(X_n=1/n)=1-1/n^2$, $\PP(X_n=n)=1/n^2$. 它是否依概率收敛? 是否在 $L^2$ 中收敛?
+\item 设 $(X_i)$ 独立同分布于 $\operatorname{Ber}(p)$, $p\in[0,1]$, 并令 $\bar X_n=n^{-1}\sum_{i=1}^nX_i$.
+\begin{enumerate}[label=(\alph*)]
+\item $n\bar X_n$ 服从什么分布?
+\item 证明 $\bar X_n$ 在 $L^2$ 中收敛于 $p$.
+\end{enumerate}
+\item 设 $X_n\sim\operatorname{Pois}(1/n)$.
+\begin{enumerate}[label=(\alph*)]
+\item 证明 $X_n\pto0$.
+\item 证明 $nX_n\pto0$.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item 原件在 $n=1$ 时把同一事件 $\{X_1=1\}$ 的概率分别写成 $0$ 和 $1$, 因而字面条件不相容. 收敛只取决于尾部, 以下保留原式并在 $n\ge2$ 上分析; $X_1$ 可任取一个平方可积变量.
+
+给定 $\varepsilon>0$, 当 $n>1/\varepsilon$ 时, $1/n<\varepsilon$, 从而 $\PP(|X_n|>\varepsilon)\le1/n^2\to0$. 所以 $X_n\pto0$. 但
+\[
+\E X_n^2=\frac1{n^2}\left(1-\frac1{n^2}\right)+n^2\frac1{n^2}
+=1+\frac1{n^2}-\frac1{n^4}\longrightarrow1.
+\]
+因此不在 $L^2$ 中收敛于 $0$. 它也不能在 $L^2$ 中收敛于任何其他变量: 若 $\E|X_n-X|^2\to0$, Markov 不等式给出 $X_n\pto X$; 依概率极限唯一, 故 $X=0$ 几乎处处, 与上式矛盾. 这里极限唯一性可由 $\PP(|X|>\varepsilon)\le\PP(|X-X_n|>\varepsilon/2)+\PP(|X_n|>\varepsilon/2)$ 直接验证.
+\item \begin{enumerate}[label=(\alph*)]
+\item $n\bar X_n=\sum_iX_i\sim\operatorname{Bin}(n,p)$, 因为任意恰有 $k$ 个成功的序列概率为 $p^k(1-p)^{n-k}$, 且这类序列有 $\binom nk$ 个.
+\item $\E\bar X_n=p$, 独立性使协方差为零, 因而
+$\E|\bar X_n-p|^2=\Var(\bar X_n)=p(1-p)/n\to0$. 当 $p=0,1$ 时样本恒定, 结论也成立.
+\end{enumerate}
+\item \begin{enumerate}[label=(\alph*)]
+\item $\PP(|X_n|>\varepsilon)\le\PP(X_n\ge1)=1-e^{-1/n}\to0$.
+\item 同样, $\{nX_n>\varepsilon\}\subseteq\{X_n\ge1\}$, 故其概率也趋于零. 尽管 $\E(nX_n)=1$, 非零值出现的概率趋零; 期望不趋零并不妨碍依概率收敛.
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps01:p02}
+原作业第2题. 判断下列说法的真假; 对假的说法给出反例.
+\begin{enumerate}[label=\arabic*.]
+\item 若 $X_n\to X$ 与 $Y_n\to Y$ 均几乎处处成立, 则 $X_n+Y_n\to X+Y$ 几乎处处成立.
+\item 若 $X_n\pto X$, $Y_n\pto Y$, 则 $X_n+Y_n\pto X+Y$.
+\item 若 $X_n\dto X$, $Y_n\dto Y$, 则 $X_n+Y_n\dto X+Y$.
+\item 一枚硬币以未知概率 $p$ 出现正面. 抛掷 100 次得到 43 次正面后, 未知参数 $p$ 以 $95\%$ 的概率位于区间 $[.33,.53]$ 中.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item 真. 两个收敛事件的交集仍有概率一; 在这个交集上对实数收敛序列逐点相加即可.
+\item 真. 三角不等式与并集界给出
+\[
+\PP(|X_n+Y_n-X-Y|>\varepsilon)
+\le\PP(|X_n-X|>\varepsilon/2)+\PP(|Y_n-Y|>\varepsilon/2)\to0.
+\]
+不需要 $X_n,Y_n$ 相互独立.
+\item 假. 取 $B\sim\operatorname{Ber}(1/2)$, 令 $X_n=B$, $Y_n=1-B$, 而指定极限变量 $X=Y=B$. 两个边际分布始终都是 $\operatorname{Ber}(1/2)$, 所以分别依分布收敛. 但 $X_n+Y_n=1$ 恒定, $X+Y=2B$ 则在 $0,2$ 各取概率 $1/2$. 例如在 $1/2$ 处两者分布函数分别为 $0,1/2$, 不能依分布收敛. 边际收敛没有确定联合依赖关系.
+\item 假. 在频率学派模型中 $p$ 是固定常数, 已观察区间也是固定的; 事件 $p\in[.33,.53]$ 的概率只能是 $0$ 或 $1$. 例如真实 $p=.8$ 时该事件为假, 而恰好观察到 43 次正面的概率 $\binom{100}{43}.8^{43}.2^{57}$ 严格为正. $95\%$ 描述的是重复抽样时随机区间覆盖固定参数的频率, 且这里的正态构造通常只具有近似覆盖率. 若要把给定数据后 $p$ 的概率解释为后验概率, 还须指定先验, 原题没有这样的条件.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps01:p03}
+原作业第3题. Bernoulli 参数的置信区间. 设 $X_1,\ldots,X_n\iid\operatorname{Ber}(p)$, $p\in(0,1)$ 未知, $\bar X_n=n^{-1}\sum_iX_i$.
+\begin{enumerate}[label=\arabic*.]
+\item 证明 $\sqrt n(\bar X_n-p)/\sqrt{p(1-p)}\dto Z\sim N(0,1)$.
+\item 对任意 $t>0$, 证明 $\PP(|Z|\le t)=2\PP(Z\le t)-1$.
+\item 定义 $I_t=[\bar X_n-t\sqrt{p(1-p)/n},\bar X_n+t\sqrt{p(1-p)/n}]$. 证明 $\PP(p\in I_t)\to2\Phi(t)-1$.
+\item 求使上述覆盖率趋于 $95\%$ 的 $t$, 记为 $t_0$. 提示: 标准正态的 $97.5\%$ 分位数约为 $1.96$. 下面三种方法将消除区间表达式中的未知 $p$.
+\item 保守方法.
+\begin{enumerate}[label=(\alph*)]
+\item 证明 $p(1-p)\le1/4$.
+\item 构造以 $\bar X_n$ 为中心、不依赖 $p$ 且大样本覆盖率至少 $95\%$ 的区间 $J_1$.
+\item 若事先知道 $p\le.3$, 能否得到比 $J_1$ 更小、仍有上述覆盖率的区间?
+\end{enumerate}
+\item 解不等式.
+\begin{enumerate}[label=(\alph*)]
+\item 将 $p\in I_{t_0}$ 写成关于 $p$ 的二次多项式不等式.
+\item 解该不等式.
+\item 据此构造不依赖 $p$ 且覆盖率趋于 $95\%$ 的区间 $J_2$.
+\end{enumerate}
+\item 将 $I_{t_0}$ 中的 $p$ 换成 $\bar X_n$, 得到 $J_3$. 证明其覆盖率趋于 $95\%$.
+\item 为预测原题所述 Hillary 与 Donald 的总统选举结果, 从登记选民中有放回地随机抽取 $n$ 人, 询问其投票意向. 令 $p$ 为总体打算投票给 Hillary 的比例, $\hat p$ 为样本对应比例.
+\begin{enumerate}[label=(\alph*)]
+\item 当 $n=10000$, $\hat p=.7341$ 时计算 $J_1,J_2,J_3$, 比较长度.
+\item 求为得到长度至多 $.05$、不依赖未知 $p$、近似覆盖概率至少 $95\%$ 的区间所需最小样本量.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+这里调用独立同分布、有限正方差变量的中心极限定理: $\sqrt n(\bar X_n-\E X_1)/\sqrt{\Var(X_1)}\dto N(0,1)$. 区间结论均为对每个固定 $p\in(0,1)$ 的渐近结论, 不是有限样本的精确保证.
+\begin{enumerate}[label=\arabic*.]
+\item Bernoulli 变量的均值是 $p$, 方差是 $p(1-p)>0$, 故正好符合上述定理.
+\item 标准正态密度关于零对称且没有原子, 所以 $\Phi(-t)=1-\Phi(t)$, 从而 $\PP(-t\le Z\le t)=\Phi(t)-\Phi(-t)=2\Phi(t)-1$.
+\item $p\in I_t$ 等价于 $|\sqrt n(\bar X_n-p)/\sqrt{p(1-p)}|\le t$. 标准正态在 $\pm t$ 没有原子, 依分布收敛因此给出该闭区间概率的收敛.
+\item 解 $2\Phi(t_0)-1=.95$, 得 $t_0=\Phi^{-1}(.975)\approx1.96$. $\Phi$ 严格递增, 因而这也是该对称构造达到此覆盖率的最小 $t$. 后面的数值按题给的 $1.96$ 计算.
+\item \begin{enumerate}[label=(\alph*)]
+\item $p(1-p)=1/4-(p-1/2)^2\le1/4$.
+\item 取 $J_1=[\bar X_n-t_0/(2\sqrt n),\bar X_n+t_0/(2\sqrt n)]$. 对任意样本都有 $I_{t_0}\subseteq J_1$, 故覆盖概率的下极限至少为 $.95$. 事实上其极限为 $2\Phi(t_0/(2\sqrt{p(1-p)}))-1\ge.95$.
+\item $p(1-p)$ 在 $[0,.3]$ 上递增, 最大值为 $.21$. 取 $[\bar X_n-t_0\sqrt{.21/n},\bar X_n+t_0\sqrt{.21/n}]$ 即可, 其半长严格小于 $J_1$ 的半长. 与已知参数集 $[0,.3]$ 相交还可缩短, 且不会损失覆盖.
+\end{enumerate}
+\item \begin{enumerate}[label=(\alph*)]
+\item 写 $x=\bar X_n$, $a=t_0^2/n>0$. 两边非负, 所以平方不改变等价性:
+\[
+|x-p|\le\sqrt{ap(1-p)}
+\iff (1+a)p^2-(2x+a)p+x^2\le0.
+\]
+\item 判别式为 $(2x+a)^2-4(1+a)x^2=a^2+4ax(1-x)$. 由于首项系数正, 解集是两根之间:
+\[
+p_-\le p\le p_+,\qquad
+p_\pm=\frac{x+a/2\pm\sqrt{ax(1-x)+a^2/4}}{1+a}.
+\]
+根在 $[0,1]$ 内: 不等式左端在 $p=0,1$ 的值分别为 $x^2,(1-x)^2$, 在 $p=x$ 时非正, 因而两根夹住 $x$ 且不越出这两个端点.
+\item 取 $J_2=[p_-,p_+]$. 这就是 Wilson 得分区间. 两个端点只依赖 $x,n,t_0$, 且事件 $p\in J_2$ 与 $p\in I_{t_0}$ 完全相同, 所以覆盖率趋于 $.95$.
+\end{enumerate}
+\item 大数定律给出 $\bar X_n\pto p$, 连续性给出 $\bar X_n(1-\bar X_n)\pto p(1-p)>0$. 因而 Slutsky 定理得到
+\[
+\frac{\sqrt n(\bar X_n-p)}{\sqrt{\bar X_n(1-\bar X_n)}}\dto N(0,1).
+\]
+这个比值在 $\bar X_n=0,1$ 上可任意定义, 因为这些事件的总概率 $(1-p)^n+p^n\to0$. 取
+$J_3=[\bar X_n-t_0\sqrt{\bar X_n(1-\bar X_n)/n},\bar X_n+t_0\sqrt{\bar X_n(1-\bar X_n)/n}]$;
+除去上述概率趋零的事件, 覆盖事件正是学生化比值的绝对值不超过 $t_0$, 故覆盖率趋于 $.95$.
+\item \begin{enumerate}[label=(\alph*)]
+\item 代入 $t_0=1.96$, $a=.00038416$, 得
+\begin{align*}
+J_1&=[.724300,.743900],& |J_1|&=.019600,\\
+J_2&=[.725352,.742668],& |J_2|&=.017317,\\
+J_3&=[.725440,.742760],& |J_3|&=.017319.
+\end{align*}
+端点四舍五入到六位小数. $J_1$ 最长; $J_2$ 略短于 $J_3$, 而且中心相对 $\hat p$ 向 $1/2$ 移动.
+\item 最小样本量必须相对于选定构造来说明. 用题目中的保守区间 $J_1$, 长度为 $t_0/\sqrt n$, 要求 $n\ge(1.96/.05)^2=1536.64$, 故最小整数为 $1537$. 这给出对全部未知 $p$ 都适用的设计.
+
+若允许使用本题已构造的 $J_2$, 还可略减样本量. 其长度
+\[
+L_2(x)=\frac{2\sqrt{ax(1-x)+a^2/4}}{1+a}
+\le\frac{t_0}{\sqrt{n+t_0^2}},
+\]
+最大值在 $x=1/2$ 取得. 连续比例范围上的保守要求为
+$n\ge(1.96/.05)^2-1.96^2=1532.7984$, 故 $1533$ 已足够. 对可实现的样本比例, $1532$ 为偶数, $x=1/2$ 可实现且长度大于 $.05$, 因此 $1533$ 也是 Wilson 构造的最小整数. $J_3$ 的最坏长度与 $J_1$ 相同, 对应 $1537$. 原题未指定区间族, 所以不能把 $1537$ 宣称为所有可能置信区间的无条件最优样本量; 这些数值均使用正态近似而非有限样本精确覆盖保证.
+\end{enumerate}
+\end{enumerate}
+\end{solution}

@@ -1,0 +1,170 @@
+\originalchapter{作业四}\label{chap:ps04}
+本章对应 MIT 18.650 Fall 2016 的 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-4/}{Problem Set 4}, 原截止时间为 2016 年 10 月 7 日星期五中午 12 时. 题面位于原件物理页 1--2. 原页注明曾有对数正态密度的排字错误; 本章照录当前官方 PDF 已修正的密度. 解答为 AI 独立推导.
+
+\begin{exercise}\label{ps04:p01}
+原作业第1题. 极大似然与 Fisher 信息. 基于 $n$ 个独立同分布观测, 对下列各分布求未知一维或二维参数的极大似然估计. 判断 Fisher 信息是否良定义; 若是, 计算它.
+\begin{enumerate}[label=\arabic*.]
+\item $\operatorname{Ber}(p)$, $0<p<1$.
+\item $\operatorname{Pois}(\lambda)$, $\lambda>0$, 概率质量 $P_\lambda(X=k)=e^{-\lambda}\lambda^k/k!$, $k\in\N$.
+\item 速率为 $\lambda>0$ 的指数分布, 密度 $f_\lambda(x)=\lambda e^{-\lambda x}$, $x>0$.
+\item 正态分布 $N(\mu,\sigma^2)$, $\mu\in\R$, $\sigma^2>0$; 注意第二参数是 $\sigma^2$, 而非 $\sigma$.
+\item 移位指数分布, 参数 $a\in\R$, $\lambda>0$, 密度 $f_{a,\lambda}(x)=\lambda e^{-\lambda(x-a)}\ind_{\{x\ge a\}}$, $x\in\R$.
+\item 对数正态分布, 参数 $\mu\in\R$, $\sigma^2>0$, 密度
+\[
+f_{\mu,\sigma^2}(x)=\frac1{x\sqrt{2\pi\sigma^2}}
+\exp\left[-\frac{(\log x-\mu)^2}{2\sigma^2}\right],\qquad x>0.
+\]
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+对支撑不随参数变化、可在积分下求导的模型, 单次观测得分为 $s_\eta(X)=\nabla_\eta\log f_\eta(X)$, 正则 Fisher 信息为
+$I_1(\eta)=\E_\eta[s_\eta s_\eta^{\mathsf T}]=-\E_\eta[\nabla_\eta^2\log f_\eta]$,
+且 $\E s_\eta=0$. 独立样本的总得分相加, 信息为 $I_n=nI_1$. 以下先报告单次信息, 同时说明开放参数空间上的边界样本.
+\begin{enumerate}[label=\arabic*.]
+\item 令 $k=\sum_i x_i$. $\ell(p)=k\log p+(n-k)\log(1-p)$, 导数为 $(k-np)/(p(1-p))$. 若 $0<k<n$, 它在 $p=k/n$ 左侧正、右侧负, 故 $\hat p=\bar X_n$. 若 $k=0$ 或 $n$, 原开放参数空间内没有最大值, 只有 $p\downarrow0$ 或 $p\uparrow1$ 时的上确界; 扩至闭区间 $[0,1]$ 才能把公式称为这些样本的 MLE.
+
+单次得分为 $s_p=(X-p)/(p(1-p))$, 均值零, 所以 $I_1(p)=\Var(X)/(p^2(1-p)^2)=1/(p(1-p))$, $I_n=n/(p(1-p))$.
+\item $\ell(\lambda)=-n\lambda+k\log\lambda+C$, 导数为 $-n+k/\lambda$. 若 $k>0$, 得唯一最大点 $\hat\lambda=k/n=\bar X_n$; 若 $k=0$, 似然在 $\lambda\downarrow0$ 取得上确界, $\lambda>0$ 内没有 MLE. 单次得分为 $X/\lambda-1$, 所以 $I_1(\lambda)=\lambda/\lambda^2=1/\lambda$, $I_n=n/\lambda$. 这里 $\lambda$ 是 Poisson 均值, 与指数分布的速率信息不同.
+\item 在模型几乎必然产生的正样本上,
+$\ell(\lambda)=n\log\lambda-\lambda\sum_ix_i$, 导数为 $n/\lambda-\sum_ix_i$, 二阶导数为 $-n/\lambda^2<0$. 故 $\hat\lambda=1/\bar X_n$. 单次得分为 $1/\lambda-X$, 均值零, 因 $\Var(X)=1/\lambda^2$, 有 $I_1(\lambda)=1/\lambda^2$, $I_n=n/\lambda^2$.
+\item 写 $v=\sigma^2$. 对数似然为 $\ell(\mu,v)=C-\frac n2\log v-\frac1{2v}\sum_i(x_i-\mu)^2$. 恒等式
+\[
+\sum_i(x_i-\mu)^2=\sum_i(x_i-\bar x)^2+n(\mu-\bar x)^2
+\]
+说明固定 $v$ 时唯一最大点是 $\hat\mu=\bar x$. 再对 $v$ 求导, 得 $\hat v=n^{-1}\sum_i(x_i-\bar x)^2$, 只要该和为正. 若所有样本相同, 令 $\mu$ 为共同值并令 $v\downarrow0$, 似然无界, 无有限 MLE; 特别是 $n=1$ 总是如此, 对 $n\ge2$ 此例外事件概率为零.
+
+单次得分为
+\[
+s_\mu=\frac{X-\mu}v,\qquad
+s_v=-\frac1{2v}+\frac{(X-\mu)^2}{2v^2}.
+\]
+正态中心矩满足 $\E(X-\mu)^2=v$, $\E(X-\mu)^3=0$, $\E(X-\mu)^4=3v^2$, 因而
+\[
+I_1(\mu,v)=\begin{pmatrix}1/v&0\\0&1/(2v^2)\end{pmatrix},\qquad I_n=nI_1.
+\]
+交叉项因三阶中心矩为零而消失; 右下项为 $(3v^2-v^2)/(4v^4)=1/(2v^2)$.
+\item 支撑条件要求 $a\le m=\min_i x_i$, 在此范围
+$\ell(a,\lambda)=n\log\lambda-\lambda(\sum_ix_i-na)$.
+固定 $\lambda>0$ 时, 对 $a$ 严格递增, 所以 $\hat a=m$. 令 $D=\sum_i(x_i-m)$. 当 $D>0$, 再优化 $n\log\lambda-\lambda D$ 得
+\[
+\hat a=\min_iX_i,\qquad
+\hat\lambda=\frac n{\sum_i(X_i-\min_jX_j)}.
+\]
+若 $D=0$, 似然随 $\lambda\to\infty$ 无界, 没有有限最大值; $n=1$ 必然如此, $n\ge2$ 时该事件概率为零.
+
+对于同时未知的 $(a,\lambda)$, 常规正则 Fisher 信息不良定义, 因为支撑边界随 $a$ 移动. 这不是得分二阶矩发散: 若忽略移动边界, 对 $x>a$ 求普通导数, 得形式得分
+$\widetilde s=(\lambda,\,1/\lambda-(X-a))^{\mathsf T}$,
+其二阶矩确实存在, 为
+\[
+\E(\widetilde s\widetilde s^{\mathsf T})
+=\begin{pmatrix}\lambda^2&0\\0&1/\lambda^2\end{pmatrix}.
+\]
+但 $\E\widetilde s_a=\lambda\ne0$, 而形式负 Hessian 的期望为
+$\left(\begin{smallmatrix}0&-1\\-1&1/\lambda^2\end{smallmatrix}\right)$,
+与前式不同且非半正定. 移动支撑产生的边界项不能省略, 所以不能把这一形式二阶矩当作满足正则信息恒等式的矩阵, 也不能套用通常的二维 MLE 渐近正态公式. 如果仅把 Fisher 信息定义为几乎处处普通得分的二阶矩, 上面已给出该量; 本题的正则性判断与该定义区别必须保留. 若 $a$ 已知、只估计 $\lambda$, 则它退化为普通指数模型, 信息为 $1/\lambda^2$.
+\item 令 $Y_i=\log X_i$, 则 $Y_i\iid N(\mu,v)$, $v=\sigma^2$. 似然相对于第4问多一个 $\prod_i x_i^{-1}$, 不依赖参数, 因而
+\[
+\hat\mu=\frac1n\sum_i\log X_i,\qquad
+\hat v=\frac1n\sum_i(\log X_i-\hat\mu)^2.
+\]
+需 $\hat v>0$; 所有 $x_i$ 相同时与正态模型一样没有有限 MLE. 得分为 $s_\mu=(\log X-\mu)/v$, $s_v=-1/(2v)+(\log X-\mu)^2/(2v^2)$, 故用 $\log X$ 的正态中心矩,
+$I_1(\mu,v)=\operatorname{diag}(1/v,1/(2v^2))$, $I_n=nI_1$.\qedhere
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps04:p02}
+原作业第2题. 矩估计. 对原作业第1题的每一个分布, 基于 $n$ 个独立同分布样本, 求未知参数的矩估计量. 本问未另设子问编号; 所指六种分布依次为 Bernoulli、Poisson、指数、正态、移位指数、对数正态.
+\end{exercise}
+\begin{solution}
+记 $m_1=n^{-1}\sum_iX_i$, $m_2=n^{-1}\sum_iX_i^2$, $s_n^2=m_2-m_1^2\ge0$. 矩估计把总体的一阶、二阶原点矩分别等同于这些经验矩. 为逐一保留原题交叉引用的六个模型, 以下依第1题的顺序计算.
+\begin{enumerate}[label=\arabic*.]
+\item Bernoulli: $\E X=p$, 所以 $\hat p_{\mathrm{MM}}=m_1$. 当全零或全一时矩方程解在开放参数空间之外; 若扩至 $[0,1]$, 解仍成立.
+\item Poisson: $\E X=\lambda$, 故 $\hat\lambda_{\mathrm{MM}}=m_1$. 全零数据给出 $\lambda=0$, 是边界而非原 $\lambda>0$ 中的解.
+\item 指数: 由积分 $\E X=\int_0^\infty x\lambda e^{-\lambda x}\dd x=1/\lambda$, 得 $\hat\lambda_{\mathrm{MM}}=1/m_1$. 模型下 $m_1>0$ 几乎必然, 所以解在参数空间内.
+\item 正态: 总体矩为 $\E X=\mu$, $\E X^2=\mu^2+v$. 解 $m_1=\mu$, $m_2=\mu^2+v$, 得 $\hat\mu_{\mathrm{MM}}=m_1$, $\hat v_{\mathrm{MM}}=s_n^2$. 当 $s_n^2=0$ 时第二参数落在禁止的零边界; $n\ge2$ 的非退化正态样本下此事件概率为零.
+\item 移位指数: 写 $X=a+Y$, $Y\sim\operatorname{Exp}(\lambda)$. 由 $\E Y=1/\lambda$, $\E Y^2=2/\lambda^2$, 有
+\[
+\E X=a+\frac1\lambda,\qquad
+\E X^2=a^2+\frac{2a}\lambda+\frac2{\lambda^2},\qquad
+\Var(X)=\frac1{\lambda^2}.
+\]
+因此当 $s_n^2>0$ 时,
+\[
+\hat\lambda_{\mathrm{MM}}=\frac1{\sqrt{s_n^2}},\qquad
+\hat a_{\mathrm{MM}}=m_1-\sqrt{s_n^2}.
+\]
+若 $s_n^2=0$, 无有限正 $\lambda$ 解. 矩估计只要求参数在 $\R\times(0,\infty)$ 内, 未必使样本位于估计分布的支撑. 例如样本 $(0,1,1)$ 给出 $\hat a=(2-\sqrt2)/3>0=\min X_i$, 所以它不能与支撑边界 MLE 混同.
+\item 对数正态: 若 $Y=\log X\sim N(\mu,v)$, 将正态指数中的平方配方, 可得 $\E e^{tY}=e^{t\mu+t^2v/2}$. 因而 $\E X=e^{\mu+v/2}$, $\E X^2=e^{2\mu+2v}$. 总体比值 $\E X^2/(\E X)^2=e^v$, 解原点矩方程得
+\[
+\hat v_{\mathrm{MM}}=\log\frac{m_2}{m_1^2},\qquad
+\hat\mu_{\mathrm{MM}}=\log m_1-\frac12\log\frac{m_2}{m_1^2}.
+\]
+正样本使 $m_1>0$; 若样本不全相同, $m_2>m_1^2$, 则 $\hat v>0$. 全相同样本只有 $v=0$ 边界解. 这些是用 $X$ 的矩得到的估计; 若改用 $\log X$ 的矩, 会得到第1题的另一组公式, 两种经验方程不能暗中混用.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps04:p03}
+原作业第3题. 删失数据. 从总体中有放回地随机抽取 $n$ 人, 只问工资是否超过固定阈值 $z$. 随机一人的工资假设服从速率为 $\lambda>0$ 的指数分布. 二元回答为 $X_i\in\{0,1\}$, 回答“是”记作 $1$. 原题说明这种询问可以增加回答意愿并减少数据错误. 令 $\bar X_n$ 为回答“是”的样本比例.
+\begin{enumerate}[label=\arabic*.]
+\item $X_i$ 服从什么分布?
+\item 证明 $\bar X_n$ 渐近正态, 并求渐近方差.
+\item 求函数 $f$, 使 $f(\bar X_n)$ 为 $\lambda$ 的一致估计.
+\item 证明 $f(\bar X_n)$ 渐近正态, 并求渐近方差.
+\item 为使第4问渐近方差最小, $z$ 必须满足什么方程? 写成 $g_\lambda(z)=z$, 其中 $g_\lambda$ 依赖未知 $\lambda$.
+\item 令 $Y_1,\ldots,Y_n$ 为实际工资.
+\begin{enumerate}[label=(\alph*)]
+\item 若能完整观察 $Y_1,\ldots,Y_n$, 统计模型是什么?
+\item 该模型的 Fisher 信息为多少? 记为 $I_Y(\lambda)$.
+\item 只观察固定阈值下的 $X_i$ 时 Fisher 信息为多少? 记为 $I_X(\lambda)$.
+\item 比较 $I_Y,I_X$ 的大小, 并解释.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+原题没有显式限制 $z$, 但以下估计问题须有 $z>0$. 若 $z\le0$, 非负指数工资几乎必然超过 $z$, 所有回答均为 $1$, 观测分布不依赖 $\lambda$, 所以不能一致估计 $\lambda$, Fisher 信息也为零. 以下在有信息的 $z>0$ 下作答.
+\begin{enumerate}[label=\arabic*.]
+\item 记 $p=e^{-\lambda z}\in(0,1)$. 由指数尾概率,
+$\PP(X_i=1)=\PP(Y_i>z)=\int_z^\infty\lambda e^{-\lambda y}\dd y=p$,
+所以 $X_i\iid\operatorname{Ber}(p)$.
+\item 中心极限定理给出
+\[
+\sqrt n(\bar X_n-p)\dto N(0,p(1-p)).
+\]
+以 $\sqrt n$ 为尺度的渐近方差为 $p(1-p)=e^{-\lambda z}(1-e^{-\lambda z})$; 样本均值本身的方差恰为该量除以 $n$.
+\item 反解 $p=e^{-\lambda z}$, 得 $f(x)=-\log x/z$ ($x>0$). 大数定律使 $\bar X_n\pto p>0$, 该函数在 $p$ 连续, 因而 $f(\bar X_n)\pto f(p)=\lambda$. 为使估计量在每个样本上是有限实数, 可定义 $f(0)=0$; $\PP(\bar X_n=0)=(1-p)^n\to0$, 这个任意约定不改变一致性. 在 $x=1$ 时 $f(1)=0$, 也只是有限样本边界值.
+\item 在 $p$ 附近 $f'(p)=-1/(zp)$. 一阶 Taylor 展开与 $\bar X_n-p=O_{\PP}(n^{-1/2})$ 给出
+\[
+\sqrt n(f(\bar X_n)-\lambda)
+=f'(p)\sqrt n(\bar X_n-p)+o_{\PP}(1)
+\dto N\left(0,\frac{1-p}{z^2p}\right).
+\]
+因此渐近方差为
+$V_\lambda(z)=(e^{\lambda z}-1)/z^2$; 估计量方差的一阶近似是 $V_\lambda(z)/n$. 在零点的约定不影响此极限, 因为落到该点的概率趋零.
+\item 对 $z>0$ 求导,
+\[
+V_\lambda'(z)=\frac{\lambda z e^{\lambda z}-2(e^{\lambda z}-1)}{z^3}.
+\]
+驻点满足 $\lambda z=2(1-e^{-\lambda z})$, 即
+\[
+g_\lambda(z)=\frac2\lambda(1-e^{-\lambda z})=z.
+\]
+要排除 $z=0$ 这一代数根, 因为那里模型没有信息, $V_\lambda$ 也未定义. 令 $u=\lambda z$, 分子为 $h(u)=e^u(u-2)+2$. 有 $h(0)=0$, $h'(u)=e^u(u-1)$, 所以 $h$ 在 $(0,1)$ 严格递减、在 $(1,\infty)$ 严格递增. 又 $h(1)=2-e<0$, $h(2)=2>0$, 故在 $(1,2)$ 恰有一个根 $u_*\approx1.593624$. 此前导数负、此后导数正, 而 $V_\lambda(z)\to\infty$ 在 $z\downarrow0$ 和 $z\to\infty$ 均成立, 所以 $z_*=u_*/\lambda$ 是唯一全局最小点. 方程依赖未知速率, 在实际调查中需先验设计值或先导样本才能选定相应阈值.
+\item \begin{enumerate}[label=(\alph*)]
+\item 完整数据模型为 $([0,\infty)^n,\{\operatorname{Exp}(\lambda)^{\otimes n}:\lambda>0\})$, 联合密度为 $\lambda^n\exp(-\lambda\sum_i y_i)\prod_i\ind_{\{y_i\ge0\}}$.
+\item 单次工资得分 $s_Y=1/\lambda-Y$, 信息为 $\Var(Y)=1/\lambda^2$. 因而若 $I_Y$ 指单次观测信息, $I_Y(\lambda)=1/\lambda^2$; 整个样本的信息为 $n/\lambda^2$.
+\item 二元模型的 $p(\lambda)=e^{-\lambda z}$, $p'(\lambda)=-zp$. 单次得分为
+$s_X=p'(\lambda)(X-p)/(p(1-p))$. 因此
+\[
+I_X(\lambda)=\frac{(p'(\lambda))^2}{p(1-p)}
+=\frac{z^2p}{1-p}=\frac{z^2}{e^{\lambda z}-1},
+\]
+整个样本的信息为 $nI_X$. 第4问的渐近方差正好为 $1/I_X$.
+\item 对 $u=\lambda z>0$, 信息比为 $I_X/I_Y=u^2/(e^u-1)$. 它严格小于 $1$: 令 $r(u)=e^u-1-u^2$, 有 $r(0)=0$, 且
+\[
+r'(u)=e^u-2u\ge1-u+\frac{u^2}2
+=\frac{(u-1)^2+1}{2}>0.
+\]
+故 $I_X<I_Y$. 两边都乘 $n$ 后大小关系不变. 二元回答是工资的确定函数, 舍弃了阈值两侧内部的实际工资差异; 在相同样本量且指数模型成立时, 参数信息因这种压缩而减少. 即使选最优阈值, 最大信息比也仅约为 $.647610$. 原题提及的回答意愿和记录错误可能影响现实数据质量, 但在本题固定 $n$、无回答错误的概率模型内, 它们不改变上述信息比较.
+\end{enumerate}
+\end{enumerate}
+\end{solution}

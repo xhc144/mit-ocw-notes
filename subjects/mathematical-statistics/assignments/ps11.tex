@@ -1,0 +1,168 @@
+\originalchapter{作业十一}\label{chap:ps11}
+本章对应 MIT 18.650 Fall 2016 的 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-11/}{Problem Set 11}. 原截止时间为 2016 年 12 月 9 日星期五中午 12 时. 原件开头注明第 3 题第 4 问的 logistic 函数定义曾有排印错误; 本章按当前官方原件中已更正的密度翻译. 解答为独立推导.
+
+\begin{exercise}\label{ps11:p01}
+原作业第1题. 指数族.
+判断下列各分布族是否为指数族:
+\begin{itemize}
+\item $\operatorname{Ber}(p)$, $p\in(0,1)$;
+\item $N(\mu,1)$, $\mu\in\R$;
+\item $N(\mu,\sigma^2)$, $\mu\in\R$, $\sigma^2>0$;
+\item $\operatorname{Exp}(\lambda)$, $\lambda>0$;
+\item $U([0,\vartheta])$, $\vartheta>0$;
+\item $\Gamma(\alpha,\beta)$, $\alpha>0$, $\beta>0$;
+\item $\operatorname{Poiss}(\lambda)$, $\lambda>0$.
+\end{itemize}
+原题提示: Gamma 分布密度为 $f(x)=\beta^\alpha x^{\alpha-1}e^{-\beta x}/\Gamma(\alpha)$, $x>0$, 其中 $\Gamma$ 为 Gamma 函数.
+\end{exercise}
+\begin{solution}
+这里采用具有参数无关支撑的通常指数族定义: 对一个固定支配测度, 密度可以写为 $h(x)\exp\{\eta' T(x)-A(\eta)\}$, 其中 $h,T$ 不依赖参数, $A$ 是使积分或求和等于 $1$ 的对数归一化函数. 离散分布用计数测度, 连续分布用 Lebesgue 测度. 原题的七条是无编号列表, 以下逐条保持相同次序.
+\begin{itemize}
+\item Bernoulli 族是指数族. 在固定支撑 $\{0,1\}$ 上,
+\[
+p^x(1-p)^{1-x}=\exp\{x\log[p/(1-p)]+\log(1-p)\}.
+\]
+取 $h(x)=1$, $T(x)=x$, $\eta=\log[p/(1-p)]\in\R$, $A(\eta)=\log(1+e^\eta)$. 核的求和为 $1+e^\eta$, 除以它即归一化; 反解 $p=e^\eta/(1+e^\eta)$ 与原概率一致.
+\item 均值未知、方差 $1$ 的正态族是指数族. 展开平方,
+\[
+\frac1{\sqrt{2\pi}}e^{-(x-\mu)^2/2}
+=\left(\frac1{\sqrt{2\pi}}e^{-x^2/2}\right)e^{\mu x-\mu^2/2}.
+\]
+因此 $h(x)=(2\pi)^{-1/2}e^{-x^2/2}$, $T(x)=x$, $\eta=\mu\in\R$, $A(\eta)=\eta^2/2$. 配方 $-x^2/2+\eta x=-(x-\eta)^2/2+\eta^2/2$ 给出 $\int_\R h(x)e^{\eta x}\dd x=e^{\eta^2/2}$, 验证该 $A$.
+\item 均值、方差均未知的正态族是二参数指数族. 取 $h(x)=1$, $T(x)=(x,x^2)'$, $\eta_1=\mu/\sigma^2$, $\eta_2=-1/(2\sigma^2)<0$. 配方积分为
+\[
+\int_\R e^{\eta_1x+\eta_2x^2}\dd x
+=\sqrt{\frac\pi{-\eta_2}}\exp\left(-\frac{\eta_1^2}{4\eta_2}\right).
+\]
+故 $A(\eta)=\frac12\log[\pi/(-\eta_2)]-\eta_1^2/(4\eta_2)$, 自然参数域为 $\R\times(-\infty,0)$. 代回原参数, $A=\frac12\log(2\pi\sigma^2)+\mu^2/(2\sigma^2)$, 恰好补出正态密度的归一化因子与常数项. 反解为 $\sigma^2=-1/(2\eta_2)>0$, $\mu=-\eta_1/(2\eta_2)$.
+\item 指数分布族是指数族. 在固定支撑 $(0,\infty)$ 上, $f_\lambda(x)=\lambda e^{-\lambda x}$. 取 $h(x)=\ind_{\{x>0\}}$, $T(x)=x$, $\eta=-\lambda<0$, $A(\eta)=-\log(-\eta)$. 因为 $\int_0^\infty e^{\eta x}\dd x=-1/\eta$, 对数归一化函数确为 $A$; $e^{-A}=-\eta=\lambda$.
+\item 均匀族 $U([0,\vartheta])$ 不是上述意义的指数族. 密度为 $\vartheta^{-1}\ind_{\{0\le x\le\vartheta\}}$, 其支撑随参数变化. 例如 $\vartheta_1<\vartheta_2$, 在正测度区间 $(\vartheta_1,\vartheta_2)$ 上前一个密度为零、后一个严格为正. 若有上述表示且自然参数及 $A$ 有限, 指数因子处处严格为正, 所有参数下的密度只能在同一个集合 $\{h>0\}$ 为正, 与此矛盾. 不能把依赖 $\vartheta$ 的指示函数藏进 $h$ 来宣称它符合定义.
+\item Gamma 族是二参数指数族. 在 $(0,\infty)$ 上展开对数,
+\[
+\log f_{\alpha,\beta}(x)
+=(\alpha-1)\log x-\beta x+\alpha\log\beta-\log\Gamma(\alpha).
+\]
+取 $h(x)=\ind_{\{x>0\}}$, $T(x)=(\log x,x)'$, $\eta_1=\alpha-1>-1$, $\eta_2=-\beta<0$. 代换 $u=(-\eta_2)x$ 得
+\[
+\int_0^\infty x^{\eta_1}e^{\eta_2x}\dd x
+=\frac{\Gamma(\eta_1+1)}{(-\eta_2)^{\eta_1+1}}.
+\]
+因而 $A(\eta)=\log\Gamma(\eta_1+1)-(\eta_1+1)\log(-\eta_2)$. 在自然参数域 $(-1,\infty)\times(-\infty,0)$ 上积分有限, 反解 $\alpha=\eta_1+1$, $\beta=-\eta_2$ 得原密度. 特别注意 $\beta$ 是率参数, 不是尺度参数.
+\item Poisson 族是指数族. 对 $x\in\{0,1,\ldots\}$,
+\[
+\PP_\lambda(X=x)=\frac1{x!}\exp\{x\log\lambda-\lambda\}.
+\]
+取 $h(x)=1/x!$, $T(x)=x$, $\eta=\log\lambda\in\R$, $A(\eta)=e^\eta$. 指数级数给出 $\sum_{x=0}^\infty e^{\eta x}/x!=\exp(e^\eta)$, 其对数正是 $A$.
+\end{itemize}
+\end{solution}
+
+\begin{exercise}\label{ps11:p02}
+原作业第2题. 单参数典则指数族.
+设 $\Theta\subseteq\R$, 定义在样本空间 $\mathcal X\subseteq\R$ 上的密度族为 $f_\theta(x)=a(x)\exp[-\theta x+b(\theta)]$, $x\in\mathcal X$, 其中 $a$ 是 $\mathcal X$ 上的正函数, $b$ 是参数空间 $\Theta$ 上的函数. 对随机变量 $X$, 定义对数似然 $\ell(\theta)=\log f_\theta(X)$, $\theta\in\Theta$.
+\begin{enumerate}[label=\arabic*.]
+\item 若 $\theta\in\Theta$, $g$ 为 $\R$ 上函数, 用 $\E_\theta[g(X)]$ 和 $\Var_\theta[g(X)]$ 表示密度 $f_\theta$ 下的期望与方差.
+\begin{enumerate}[label=\alph*)]
+\item 为什么 $\int_\R f_\theta(x)\dd x=1$ 对每个 $\theta\in\Theta$ 都成立?
+\item 假设可以交换期望与对参数 $\theta$ 的求导, 证明:
+\begin{enumerate}[label=\arabic*.]
+\item $\E_\theta[\ell'(\theta)]=0$;
+\item $\Var_\theta[\ell'(\theta)]=-\E_\theta[\ell''(\theta)]$.
+\end{enumerate}
+\item 上一问的最后这个量叫什么?
+\end{enumerate}
+\item 以 $a,b$ 表示 $\ell'(\theta)$ 和 $\ell''(\theta)$.
+\item 利用以上结果求每个 $\theta\in\Theta$ 下的 $\E_\theta X$ 和 $\Var_\theta X$.
+\item 例子: $\Theta=(0,\infty)$, 对 $\theta>0$, $f_\theta$ 是参数为 $\alpha,\theta$ 的 Gamma 密度, 其中 $\alpha$ 是固定数.
+\begin{enumerate}[label=\alph*)]
+\item 样本空间 $\mathcal X$ 是什么?
+\item $a,b$ 是什么函数?
+\item 利用前面的结果求参数为 $\alpha,\beta>0$ 的 Gamma 分布的期望与方差.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+将 $f_\theta$ 在 $\mathcal X$ 外延拓为零后, 原题对 $\R$ 的积分就是对 $\mathcal X$ 的积分. 以下求导在参数空间的内点进行, 并使用题设允许的两次积分求导交换. 当参数空间本身不含区间或相应光滑性不成立时, 这些导数身份不能自动声称成立.
+\begin{enumerate}[label=\arabic*.]
+\item
+\begin{enumerate}[label=\alph*)]
+\item $f_\theta$ 被假设为概率密度, 总概率为 $1$ 正是密度的定义. 这同时约束 $b$: $e^{b(\theta)}\int_{\mathcal X}a(x)e^{-\theta x}\dd x=1$.
+\item 注意期望也依赖 $\theta$, 所以不能仅对得分的表达式求导后就把期望外的导数当作固定测度下的运算. 从归一化恒等式出发, 用乘积法则才会得到正确的二阶项.
+\begin{enumerate}[label=\arabic*.]
+\item 令 $s_\theta(x)=\partial_\theta\log f_\theta(x)$. 在固定支撑上 $\partial_\theta f_\theta(x)=f_\theta(x)s_\theta(x)$. 因而
+\[
+0=\partial_\theta\int f_\theta(x)\dd x
+=\int f_\theta(x)s_\theta(x)\dd x
+=\E_\theta[\ell'(\theta)].
+\]
+\item 再求一次导数, 得 $\partial_\theta^2 f_\theta(x)=f_\theta(x)[s_\theta(x)^2+\partial_\theta s_\theta(x)]$. 所以
+\[
+0=\partial_\theta^2\int f_\theta(x)\dd x
+=\E_\theta[(\ell'(\theta))^2+\ell''(\theta)].
+\]
+上小问已证明得分均值为零, 得分二阶矩就是其方差, 因而 $\Var_\theta[\ell'(\theta)]=-\E_\theta[\ell''(\theta)]$.
+\end{enumerate}
+\item 这是单次观测的 Fisher 信息 $I(\theta)$. 在上述正则性条件下, 可同时用得分方差或负对数似然二阶导数的期望表示它.
+\end{enumerate}
+\item 对数似然为 $\ell(\theta)=\log a(X)-\theta X+b(\theta)$. 观测 $X$ 固定后对参数求导, 得 $\ell'(\theta)=-X+b'(\theta)$, $\ell''(\theta)=b''(\theta)$. 前一式中的 $a(X)$ 因不依赖 $\theta$ 而消失.
+\item 得分均值为零给出 $-\E_\theta X+b'(\theta)=0$, 即 $\E_\theta X=b'(\theta)$. 又因为减去常数不改变方差, $\Var_\theta[\ell'(\theta)]=\Var_\theta X$, 而 $\ell''(\theta)=b''(\theta)$ 是非随机量, 故
+\[
+\Var_\theta X=-b''(\theta),\qquad I(\theta)=-b''(\theta).
+\]
+因此这里的 $b$ 是凹函数, 其符号与常见 $\eta x-A(\eta)$ 写法中的凸对数配分函数相反.
+\item
+\begin{enumerate}[label=\alph*)]
+\item 必须固定 $\alpha>0$. 样本空间为 $\mathcal X=(0,\infty)$; 对零点的取舍不影响 Lebesgue 密度所定义的概率.
+\item 原密度是 $\theta^\alpha x^{\alpha-1}e^{-\theta x}/\Gamma(\alpha)$. 可取 $a(x)=x^{\alpha-1}/\Gamma(\alpha)$, $b(\theta)=\alpha\log\theta$. 其中 $a$ 不依赖率参数 $\theta$; Gamma 积分 $\int_0^\infty x^{\alpha-1}e^{-\theta x}\dd x=\Gamma(\alpha)/\theta^\alpha$ 验证归一化.
+\item $b'(\theta)=\alpha/\theta$, $b''(\theta)=-\alpha/\theta^2$. 将率参数记回 $\beta$, 得 $\E X=\alpha/\beta$, $\Var X=\alpha/\beta^2$. 该例交换积分与求导也可直接核实: 在任意固定 $\theta_0>0$ 的小邻域取 $\theta\ge\theta_0/2$, 两次导数的绝对值受常数乘 $(1+x^2)x^{\alpha-1}e^{-\theta_0x/2}$ 控制. 这个函数在零附近因 $\alpha>0$ 可积, 在无穷远因指数衰减可积, 所以控制收敛定理允许上述求导交换.
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps11:p03}
+原作业第3题. 带潜变量的线性模型.
+考虑 $Y=X'\beta+\varepsilon$, 其中未知参数 $\beta\in\R^p$, 解释变量 $X\in\R^p$, 响应变量 $Y\in\R$, 误差 $\varepsilon\in\R$. 假设 $\varepsilon$ 与 $X$ 独立, 误差的分布函数为 $F$. 设 $(X_1,Y_1),\ldots,(X_n,Y_n)$ 是 $(X,Y)$ 的独立同分布副本. 每次观测能看到 $X_i$, 看不到 $Y_i$, 而只观察到 $Z_i=\ind_{\{Y_i\ge0\}}$. 未观测的 $Y_i$ 称为潜变量, 实际样本为 $(X_1,Z_1),\ldots,(X_n,Z_n)$.
+\begin{enumerate}[label=\arabic*.]
+\item 给定 $X_1$, $Z_1$ 的条件分布是什么?
+\item 用 $F$ 表示联系函数.
+\item 若误差为标准正态, 证明联系函数为 $\Phi^{-1}$, 其中 $\Phi$ 是 $N(0,1)$ 的分布函数. 这种模型叫什么?
+\item 假设误差的密度是 logistic 函数 $f(t)=e^{-t}/(1+e^{-t})^2$, $t\in\R$.
+\begin{enumerate}[label=\alph*)]
+\item 计算每个 $t\in\R$ 下的 $F(t)$.
+\item 计算联系函数.
+\item 这种模型叫什么?
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+联系函数将条件成功概率变换为线性预测量 $\eta=X'\beta$. 因此先求从 $\eta$ 到概率的映射, 然后检查这个映射是否可逆.
+\begin{enumerate}[label=\arabic*.]
+\item 给定 $X_1=x$, 独立性保证误差的条件分布仍为 $F$. 记 $F(t-)=\PP(\varepsilon<t)$, 则
+\[
+p(x):=\PP(Z_1=1\mid X_1=x)
+=\PP(\varepsilon\ge-x'\beta)
+=1-F(-x'\beta-).
+\]
+所以 $Z_1\mid X_1=x\sim\operatorname{Ber}(p(x))$. 左极限不可省掉: 事件的补集是 $\{\varepsilon<-x'\beta\}$, 而非小于等于. 若 $F$ 连续, 才能写为 $1-F(-x'\beta)$.
+\item 令 $G(\eta)=1-F(-\eta-)$. 成功概率满足 $p=G(\eta)$. 若 $G$ 在所讨论的预测量范围上严格递增、从而可逆, 联系函数是 $g=G^{-1}$, 满足 $g(p(x))=x'\beta$. 特别地, 若 $F$ 连续且在 $\R$ 上严格递增, 其值域为 $(0,1)$, 那么
+\[
+g(p)=-F^{-1}(1-p),\qquad 0<p<1.
+\]
+这是把 $1-p=F(-\eta)$ 解出 $\eta$ 的结果. 只有进一步满足零点对称性 $F(-t)=1-F(t)$ 时, 才有 $G(\eta)=F(\eta)$, 因而可直接写 $g=F^{-1}$.
+
+一般分布函数未必有单值的可逆联系函数. 例如 $\varepsilon\equiv0$, 则 $G(\eta)=\ind_{\{\eta\ge0\}}$, 同一个概率对应整段预测量, 无法由 $p$ 唯一恢复 $\eta$. 这里 $\eta=0$ 的真实成功概率为 $1$, 而误用 $1-F(0)$ 会给出 $0$. 再如误差服从率为 $1$ 的指数分布, 对 $\eta<0$ 有 $p=e^\eta$, 在该范围的联系函数是 $\log p$, 而不是正值的 $F^{-1}(p)=-\log(1-p)$. 这些反例说明原题一般情形需要左极限及可逆性条件.
+\item 标准正态密度 $\phi(t)=(2\pi)^{-1/2}e^{-t^2/2}$ 关于零点对称. 代换 $u=-t$ 得 $1-\Phi(-\eta)=\Phi(\eta)$. 又因 $\phi$ 处处为正, $\Phi$ 连续严格递增, 所以 $p(x)=\Phi(x'\beta)$, $g(p)=\Phi^{-1}(p)$. 这叫 probit 模型（概率单位模型）.
+\item
+\begin{enumerate}[label=\alph*)]
+\item 对 $H(t)=1/(1+e^{-t})$ 求导, 得 $H'(t)=e^{-t}/(1+e^{-t})^2=f(t)$. 同时 $H(-\infty)=0$, $H(+\infty)=1$, 所以密度归一化且 $F(t)=\int_{-\infty}^t f(u)\dd u=1/(1+e^{-t})$.
+\item $F$ 连续严格递增, 且 $F(-t)=1-F(t)$. 因此
+\[
+p(x)=F(x'\beta)=\frac{e^{x'\beta}}{1+e^{x'\beta}}.
+\]
+从 $p=e^\eta/(1+e^\eta)$ 得 $p/(1-p)=e^\eta$, 因而 $g(p)=\log[p/(1-p)]$, $0<p<1$.
+\item 这叫 logistic 回归模型, 也称 logit 模型. 潜变量误差是 logistic 分布, 而观察变量给定 $X$ 后为 Bernoulli 分布, 两者的分布角色不同.
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+\begin{remark}
+第 3 题的题面只给一般分布函数 $F$, 没有声明它连续、对称或可逆. 解答保留该一般性, 在第 1 问使用 $F(t-)$, 在第 2 问明确说明何时能定义可逆联系函数. 第 3、4 问的标准正态与 logistic 分布均满足所需条件, 因而各自的原结论成立.
+\end{remark}

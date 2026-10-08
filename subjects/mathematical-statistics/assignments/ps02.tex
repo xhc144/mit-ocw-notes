@@ -1,0 +1,134 @@
+\originalchapter{作业二}\label{chap:ps02}
+本章对应 MIT 18.650 Fall 2016 的 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-2/}{Problem Set 2}, 原截止时间为 2016 年 9 月 23 日星期五中午 12 时. 题面位于原件物理页 1--2; 下列解答均为 AI 独立推导. 指数分布的参数 $\lambda$ 均指速率, 即密度为 $\lambda e^{-\lambda x}\ind_{\{x\ge0\}}$.
+
+\begin{exercise}\label{ps02:p01}
+原作业第1题. 有偏与无偏估计. 设 $X_1,\ldots,X_n\iid\operatorname{Ber}(p)$, 未知 $p\in(0,1)$, 目标为估计共同方差.
+\begin{enumerate}[label=\arabic*.]
+\item 证明 $\Var(X_i)=p(1-p)$.
+\item 令 $\bar X_n$ 为样本均值, 证明 $\bar X_n(1-\bar X_n)$ 是 $p(1-p)$ 的一致估计量.
+\item 计算该估计量的偏差.
+\item 据此构造无偏估计量.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item 因 $X_i^2=X_i$, 有 $\E X_i^2=p$, 所以 $\Var(X_i)=\E X_i^2-(\E X_i)^2=p-p^2$.
+\item 大数定律给出 $\bar X_n\pto p$. 函数 $x\mapsto x(1-x)$ 连续, 故 $\bar X_n(1-\bar X_n)\pto p(1-p)$.
+\item 用 $\E\bar X_n=p$ 和 $\Var(\bar X_n)=p(1-p)/n$,
+\begin{align*}
+\E[\bar X_n(1-\bar X_n)]
+&=\E\bar X_n-\E\bar X_n^2\\
+&=p-p^2-\frac{p(1-p)}n
+=\frac{n-1}n p(1-p).
+\end{align*}
+按 $\operatorname{Bias}(T)=\E T-p(1-p)$ 定义, 偏差为 $-p(1-p)/n$.
+\item 当 $n\ge2$ 时, $T_n=\frac n{n-1}\bar X_n(1-\bar X_n)$ 无偏. 由于
+$\sum_i(X_i-\bar X_n)^2=\sum_iX_i-n\bar X_n^2=n\bar X_n(1-\bar X_n)$,
+它也是通常的样本方差 $\sum_i(X_i-\bar X_n)^2/(n-1)$. 当 $n=1$ 时没有仅依赖单次 Bernoulli 观测的无偏估计量: 任意统计量 $T(X_1)$ 的期望为 $T(0)(1-p)+T(1)p$, 是 $p$ 的一次函数, 不可能对全部 $p\in(0,1)$ 等于二次函数 $p-p^2$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps02:p02}
+原作业第2题. 统计模型与可辨识性. 对每个实验建立统计模型, 并判断所关心的参数是否可辨识.
+\begin{enumerate}[label=\arabic*.]
+\item 观察 $n$ 个独立同分布的 Poisson 变量, 参数 $\lambda$ 未知.
+\item 观察 $n$ 个独立同分布的指数变量, 未知速率 $\lambda$ 事先已知不超过 $10$.
+\item 观察 $n$ 个独立同分布于 $[0,\theta]$ 的均匀变量, $\theta$ 未知.
+\item 观察 $n$ 个独立同分布的正态变量, $\mu,\sigma^2$ 未知.
+\item 只观察 $n$ 个独立同分布正态变量的符号, $\mu,\sigma^2$ 未知.
+\item StatGen 在校准良好时输出随机细胞中活跃基因的随机比例. 为估计该比例的分布, 取 $n$ 个独立同分布的细胞, 获得 $X_1,\ldots,X_n\iid U[0,\theta]$, $\theta$ 未知.
+\item 美国人口普查局希望估计波士顿居民平均通勤时间. 从在波士顿地区居住并工作的人中有放回地随机选取 $n$ 人, 仅询问通勤时间是否至少为 $20$ 分钟. 随机一人的通勤时间假设服从指数分布.
+\item Willy Wonka 工厂有 $67$ 台相同机器, 每台寿命为速率 $\lambda$ 未知的指数变量. 在 $T=500$ 天时, 已观察到所有在 $T$ 之前失效的机器的寿命. 目标参数为 $\lambda$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+统计模型是样本空间及其上的概率族. 可辨识要求不同目标参数不能产生同一个观测分布. 对独立样本, 只须验证单次观测的参数映射是否单射. 下文用 $P^{\otimes n}$ 表示 $n$ 个独立 $P$ 分布组成的联合分布.
+\begin{enumerate}[label=\arabic*.]
+\item 模型为 $(\N^n,\{\operatorname{Pois}(\lambda)^{\otimes n}:\lambda>0\})$. 因 $\PP_\lambda(X_i=0)=e^{-\lambda}$ 严格递减, $\lambda$ 可辨识. 若允许 $\lambda=0$ 的退化分布, 仍是可辨识的.
+\item 模型为 $([0,\infty)^n,\{\operatorname{Exp}(\lambda)^{\otimes n}:0<\lambda\le10\})$. 对任意固定 $t>0$, $\PP_\lambda(X_i>t)=e^{-\lambda t}$ 严格递减, 故可辨识. 上界只限制参数空间, 不改变这一结论.
+\item 模型为 $([0,\infty)^n,\{U[0,\theta]^{\otimes n}:\theta>0\})$. 若 $0<\theta_1<\theta_2$, 在第一分布下 $\PP(X_i>\theta_1)=0$, 在第二分布下该概率为 $1-\theta_1/\theta_2>0$, 故可辨识.
+\item 模型为 $(\R^n,\{N(\mu,v)^{\otimes n}:\mu\in\R,v=\sigma^2>0\})$. 同一分布必有相同均值与方差, 所以参数对 $(\mu,v)$ 可辨识.
+\item 由于 $v>0$, 恰好等于零的概率为零. 用 $S_i=\ind_{\{X_i>0\}}$ 编码符号, 有
+$S_i\iid\operatorname{Ber}(\Phi(\mu/\sqrt v))$.
+模型的样本空间为 $\{0,1\}^n$. 参数对不可辨识: $(\mu,v)$ 和 $(c\mu,c^2v)$ 对任意 $c>0$ 产生同一符号分布; 例如 $(1,1)$ 与 $(2,4)$ 不可区分. 能辨识的是比值 $\mu/\sqrt v$, 因为 $\Phi$ 严格递增.
+\item 观测是比例, 参数须符合 $0<\theta\le1$, 因而模型为 $([0,1]^n,\{U[0,\theta]^{\otimes n}:0<\theta\le1\})$. 与第3问一样, 右端点可辨识, 因而整个位于该族中的比例分布可辨识. 若把完全没有活跃基因的情况也纳入, 可补上 $\theta=0$ 的 Dirac 分布; 不能在该点仍用 $1/\theta$ 写密度, 但它和所有正 $\theta$ 也可区分.
+\item 设实际通勤时间 $Y_i\iid\operatorname{Exp}(\lambda)$, 观察 $B_i=\ind_{\{Y_i\ge20\}}$. 模型为
+$(\{0,1\}^n,\{\operatorname{Ber}(e^{-20\lambda})^{\otimes n}:\lambda>0\})$.
+若关心平均时间 $m=1/\lambda$, 则成功概率为 $e^{-20/m}$, 对 $m>0$ 严格递增. 因此 $\lambda$ 与平均通勤时间 $m$ 都可辨识, 尽管数据只记录一个二元事件.
+\item 按原题仅规定各台指数寿命, 没有明说机器之间独立. 为给出通常的乘积模型, 以下明确采用相互独立这一建模假设; 若不采用, 还须另行规定寿命的联合分布.
+
+每台观测为 $(W_i,D_i)=(\min(Y_i,T),\ind_{\{Y_i<T\}})$: 已失效者有完整寿命, 未失效者贡献一个在 $T$ 的删失标记. 样本空间可写为 $([0,T)\cup\{\dagger\})^{67}$, 其中 $\dagger$ 表示仍在工作. 单次观测在 $[0,T)$ 的密度为 $\lambda e^{-\lambda y}$, 在 $\dagger$ 处的质量为 $e^{-\lambda T}$. 对 $k$ 台失效、寿命为 $y_1,\ldots,y_k$, 似然的参数部分为
+\[
+L(\lambda)=\lambda^k\exp\left[-\lambda\left(\sum_{j=1}^ky_j+(67-k)T\right)\right].
+\]
+若只列无序寿命, 会多一个与 $\lambda$ 无关的组合因子. 删失概率 $e^{-500\lambda}$ 严格递减, 所以 $\lambda$ 可辨识. 总台数已知, 未失效数也是观测信息; 不能把这些数值误当成固定数量的未删失指数样本.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps02:p03}
+原作业第3题. Poisson 分布的置信区间. 设 $X_1,\ldots,X_n\iid\operatorname{Pois}(\lambda)$, $\lambda>0$, $\bar X_n=n^{-1}\sum_iX_i$.
+\begin{enumerate}[label=\arabic*.]
+\item 求序列 $a_n,b_n$ 使 $a_n(\bar X_n-b_n)\dto Z\sim N(0,1)$.
+\item 对任意 $t>0$ 证明 $\PP(|Z|\le t)=2\PP(Z\le t)-1$.
+\item 求以 $\bar X_n$ 为中心的区间 $I$, 使 $\PP(\lambda\in I)\to.95$. 提示: 标准正态的 $97.5\%$ 分位数约为 $1.96$.
+\item 将 $I$ 改成不依赖 $\lambda$ 的区间 $J$, 允许不以 $\bar X_n$ 为中心, 并保证 $\PP(\lambda\in J)\to.95$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item Poisson 变量的均值与方差都是 $\lambda$. 中心极限定理给出 $a_n=\sqrt{n/\lambda}$, $b_n=\lambda$.
+\item 正态对称性给出 $\Phi(-t)=1-\Phi(t)$, 且端点无原子, 所以 $\PP(|Z|\le t)=\Phi(t)-\Phi(-t)=2\Phi(t)-1$.
+\item 写 $z=\Phi^{-1}(.975)\approx1.96$. 取 $I=[\bar X_n-z\sqrt{\lambda/n},\bar X_n+z\sqrt{\lambda/n}]$. 覆盖事件等价于 $|\sqrt{n/\lambda}(\bar X_n-\lambda)|\le z$, 因此由第1、2问得到覆盖率的极限为 $.95$.
+\item 用反解消去 $\lambda$. 令 $x=\bar X_n$, $a=z^2/n$. 由于 $\lambda\ge0$, 有
+\[
+\lambda\in I\iff(x-\lambda)^2\le a\lambda
+\iff\lambda^2-(2x+a)\lambda+x^2\le0.
+\]
+两根为 $x+a/2\pm\sqrt{ax+a^2/4}$, 故可取
+\[
+J=\left[x+\frac a2-\sqrt{ax+\frac{a^2}4},\quad
+x+\frac a2+\sqrt{ax+\frac{a^2}4}\right].
+\]
+下端点非负, 因为 $(x+a/2)^2-(ax+a^2/4)=x^2\ge0$. 事件与原覆盖事件相同, 所以渐近覆盖率保持 $.95$. 这也解释了为何新中心变成 $x+a/2$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps02:p04}
+原作业第4题. 均匀分布的置信区间. 设 $X_1,\ldots,X_n\iid U[0,\theta]$, $\theta>0$, 并令 $M_n=\max_iX_i$.
+\begin{enumerate}[label=\arabic*.]
+\item 证明 $M_n\pto\theta$.
+\item 计算 $n(1-M_n/\theta)$ 的分布函数, 并证明它依分布收敛于速率为 $1$ 的指数变量.
+\item 用上一问构造形如 $I=[M_n,M_n+c]$、不依赖 $\theta$ 且 $\PP(\theta\in I)\to.95$ 的区间. 提示: $\theta\ge M_n$.
+\item $M_n$ 是否无偏?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item 对 $0\le m\le\theta$, 独立性给出 $\PP(M_n\le m)=(m/\theta)^n$. 若 $0<\varepsilon<\theta$, 则 $M_n\le\theta$ 几乎处处, 且
+$\PP(|M_n-\theta|>\varepsilon)=(1-\varepsilon/\theta)^n\to0$;
+当 $\varepsilon\ge\theta$ 时该概率为零.
+\item 令 $V_n=n(1-M_n/\theta)$. 它取值于 $[0,n]$, 分布函数为
+\[
+F_n(v)=\begin{cases}
+0,&v<0,\\
+1-(1-v/n)^n,&0\le v\le n,\\
+1,&v>n.
+\end{cases}
+\]
+固定 $v\ge0$, 对足够大 $n$ 有 $n\log(1-v/n)\to-v$, 所以 $F_n(v)\to1-e^{-v}$; $v<0$ 时极限为零. 这在指数分布函数的每个连续点成立, 故 $V_n\dto\operatorname{Exp}(1)$.
+\item 指数变量的 $.95$ 分位数为 $q=-\log(.05)\approx2.995732$. 当 $n>q$ 时取
+\[
+I=\left[M_n,\frac{M_n}{1-q/n}\right],\qquad
+c=\frac{qM_n}{n-q}.
+\]
+由 $M_n\le\theta$, 覆盖事件等价于 $M_n/\theta\ge1-q/n$, 即 $V_n\le q$, 概率趋于 $1-e^{-q}=.95$. 为在所有 $n$ 上定义渐近序列, 对有限个 $n\le q$ 可任取不依赖 $\theta$ 的区间, 不影响极限.
+
+这里原题的 $c$ 须理解为可依赖样本与 $n$ 的宽度. 若要求 $c>0$ 为固定常数, 第1问会使覆盖概率趋于 $1$, 不能得到题目要求的 $.95$. 还可以用精确分位数改善构造: $[M_n,M_n/.05^{1/n}]$ 的覆盖概率恰为 $1-(.05^{1/n})^n=.95$, 对任意 $\theta>0,n\ge1$ 都成立.
+\item 对分布函数求导, $M_n$ 的密度为 $nm^{n-1}/\theta^n$ ($0<m<\theta$). 所以
+\[
+\E M_n=\frac n{\theta^n}\int_0^\theta m^n\dd m
+=\frac n{n+1}\theta,
+\]
+偏差为 $-\theta/(n+1)$, 故它一致但不无偏. 乘以 $(n+1)/n$ 可以得到无偏估计量.
+\end{enumerate}
+\end{solution}

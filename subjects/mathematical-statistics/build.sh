@@ -7,8 +7,8 @@ export SOURCE_DATE_EPOCH=1791417600
 export FORCE_SOURCE_DATE=1
 STATISTICS_BUILD=$(mktemp -d /tmp/mit-statistics-build.XXXXXX)
 trap 'rm -rf -- "$STATISTICS_BUILD"' EXIT
-cp main.tex references.tex "$STATISTICS_BUILD/"
-cp -R chapters "$STATISTICS_BUILD/"
+cp main.tex references.tex course-information.tex "$STATISTICS_BUILD/"
+cp -R chapters assignments "$STATISTICS_BUILD/"
 cd -- "$STATISTICS_BUILD"
 for STATISTICS_PASS in 1 2 3; do
   xelatex -no-shell-escape -interaction=nonstopmode -halt-on-error main.tex > "pass-${STATISTICS_PASS}.txt"

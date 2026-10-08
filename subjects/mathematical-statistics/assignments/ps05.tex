@@ -1,0 +1,94 @@
+\originalchapter{作业五}\label{chap:ps05}
+本章题面译自 MIT 18.650 Statistics for Applications, Fall 2016 的官方 \href{https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/problem-set-5/}{Problem Set 5}, 截止时间为 2016 年 10 月 14 日星期五中午 12 点. 官方文件只提供题目; 以下解答为本整理本独立推导. 记 $\Phi$ 为标准正态分布函数, $z_u=\Phi^{-1}(u)$.
+
+\begin{exercise}\label{ps05:p01}
+原作业第1题. 设 $X_1,\ldots,X_n\iid\operatorname{Poiss}(\lambda)$, 未知参数 $\lambda>0$.
+\begin{enumerate}[label=\arabic*.]
+\item 对给定 $\alpha\in(0,1)$, 根据样本构造 $\lambda$ 的渐近置信水平 $1-\alpha$ 的置信区间 $I$, 并证明.
+\item 给定 $\lambda_0>0$, 考虑 $H_0:\lambda=\lambda_0$ 与 $H_1:\lambda\ne\lambda_0$. 利用 $I$ 构造渐近水平 $\alpha$ 的检验.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item 令 $\bar X=n^{-1}\sum_iX_i$. 泊松分布满足 $\E X_i=\Var(X_i)=\lambda$. 大数定律给出 $\bar X\pto\lambda$, 中心极限定理给出 $\sqrt n(\bar X-\lambda)/\sqrt\lambda\dto N(0,1)$. 因为 $\lambda>0$, Slutsky 定理允许用 $\sqrt{\bar X}$ 代替 $\sqrt\lambda$. 取
+\[
+ I=\left[\bar X-z_{1-\alpha/2}\sqrt{\bar X/n},\ \bar X+z_{1-\alpha/2}\sqrt{\bar X/n}\right]\cap[0,\infty).
+\]
+在 $\bar X=0$ 时按此式取 $I=\{0\}$; 该事件概率为 $e^{-n\lambda}\to0$, 不影响极限. 在其余事件上, $\lambda\in I$ 等价于 $|\sqrt n(\bar X-\lambda)/\sqrt{\bar X}|\le z_{1-\alpha/2}$. 标准正态分布在两个端点没有原子, 故覆盖概率趋于 $2\Phi(z_{1-\alpha/2})-1=1-\alpha$. 与非负半轴求交不改变正参数的覆盖事件.
+\item 取拒绝规则 $\psi=\ind\{\lambda_0\notin I\}$. 在 $H_0$ 下, 上问直接给出 $\PP_{\lambda_0}(\psi=1)\to\alpha$. 对任意固定 $\lambda\ne\lambda_0$, 区间中心趋于 $\lambda$, 半宽趋于零, 因而拒绝概率趋于一. 此检验既有给定渐近水平, 又能识别固定备择.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps05:p02}
+原作业第2题. 工程师要比较两台测量电磁波强度的仪器是否校准相同. 第一台对同一波作 $n_1$ 次测量, 第二台作 $n_2$ 次测量; 次数可因成本或速度不同而不相等. 仪器的内在缺陷产生误差, 两台仪器精度可能不同. 假定两个样本相互独立且
+$X_1,\ldots,X_{n_1}\iid N(\mu_1,\sigma_1^2)$,
+$Y_1,\ldots,Y_{n_2}\iid N(\mu_2,\sigma_2^2)$,
+其中 $\mu_1,\mu_2\in\R$, $\sigma_1^2,\sigma_2^2>0$. 目标是检验 $\mu_1=\mu_2$.
+\begin{enumerate}[label=\arabic*.]
+\item 写出两个样本的极大似然估计, 分别记为 $(\hat\mu_1,\hat\sigma_1^2)$ 和 $(\hat\mu_2,\hat\sigma_2^2)$.
+\item 写出 $n_1\hat\sigma_1^2/\sigma_1^2$ 与 $n_2\hat\sigma_2^2/\sigma_2^2$ 的分布.
+\item 求这两个随机变量之和的分布.
+\item 令 $\Delta=\hat\mu_1-\hat\mu_2$, 求其分布.
+\item 原文件印为 $H_0:\mu_1=\mu_2$ 与 $H_0:\mu_1=\mu_2$. 本问及下一问假定 $\sigma_1^2=\sigma_2^2$. 根据前面的结果, 构造 $H_0$ 对 $H_1$ 的非渐近水平 $\alpha\in(0,1)$ 的检验.
+\item 两台仪器各测量 10 次. 第一台样本均值为 8.43, 样本方差为 0.22; 第二台样本均值为 8.07, 样本方差为 0.17. 在 5\% 水平能否认为两台仪器校准显著相同? 检验的近似 $p$ 值是多少?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+第5问原件 PDF 第2页把左右均印为 $H_0$ 且均用等号. 结合本题检验均值相等的目标, 以下明确采用 $H_0:\mu_1=\mu_2$, $H_1:\mu_1\ne\mu_2$ 的数学版本. 取 $n_1,n_2\ge2$, 以便样本方差可用于学生化.
+\begin{enumerate}[label=\arabic*.]
+\item 对第一个样本, 对数似然中与参数有关的部分为 $-n_1\log(\sigma_1^2)/2-\sum_i(X_i-\mu_1)^2/(2\sigma_1^2)$. 用恒等式
+$\sum_i(X_i-\mu)^2=\sum_i(X_i-\bar X)^2+n_1(\bar X-\mu)^2$
+先极大化均值参数, 再对方差求导, 得
+\[
+\hat\mu_1=\bar X,\quad \hat\sigma_1^2=\frac1{n_1}\sum_i(X_i-\bar X)^2;
+\qquad
+\hat\mu_2=\bar Y,\quad \hat\sigma_2^2=\frac1{n_2}\sum_j(Y_j-\bar Y)^2.
+\]
+注意极大似然方差的分母是样本量, 而无偏样本方差的分母是样本量减一. 此结论用于残差平方和正的样本, 在非退化正态模型且样本量至少2时该事件概率为一. 全部观测相等时, 方差趋于零使似然无有限最大值; 该零概率事件上的检验值可任意定义.
+\item 把标准化正态样本沿常数向量与其正交补作正交变换. 正交变换保持标准正态向量各坐标的独立性, 残差平方和是 $n_1-1$ 个独立标准正态平方之和. 因而
+$U_1=n_1\hat\sigma_1^2/\sigma_1^2\sim\chi^2_{n_1-1}$,
+$U_2=n_2\hat\sigma_2^2/\sigma_2^2\sim\chi^2_{n_2-1}$.
+同一分解也证明每个样本均值与本样本残差平方和独立.
+\item 两个样本独立, 故 $U_1,U_2$ 独立. 将两组标准正态平方合并, 得 $U_1+U_2\sim\chi^2_{n_1+n_2-2}$.
+\item 样本均值分别服从 $N(\mu_1,\sigma_1^2/n_1)$ 和 $N(\mu_2,\sigma_2^2/n_2)$, 且相互独立. 正态变量的线性组合仍为正态, 所以
+\[
+\Delta\sim N\left(\mu_1-\mu_2,\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}\right).
+\]
+\item 记共同方差为 $\sigma^2$, $\nu=n_1+n_2-2$, 并令
+\[
+s_p^2=\frac{n_1\hat\sigma_1^2+n_2\hat\sigma_2^2}{\nu},\qquad
+T=\frac{\bar X-\bar Y}{s_p\sqrt{1/n_1+1/n_2}}.
+\]
+在 $H_0$ 下, 分子除以 $\sigma\sqrt{1/n_1+1/n_2}$ 为标准正态, $\nu s_p^2/\sigma^2\sim\chi^2_\nu$, 二者独立. 因此 $T\sim t_\nu$. 设 $t_{\nu,u}$ 为 $t_\nu$ 的 $u$ 分位数, 当 $|T|>t_{\nu,1-\alpha/2}$ 时拒绝. 由分布的连续性和对称性, 拒绝概率恰为 $\alpha$, 这里没有使用大样本近似.
+\item 若题中样本方差按前面 $\hat\sigma_k^2$ 的分母 $10$ 理解, 则
+\[
+s_p^2=\frac{10(0.22+0.17)}{18}=0.216667,\qquad
+T=\frac{8.43-8.07}{\sqrt{0.216667(1/10+1/10)}}\approx1.7294.
+\]
+自由度为18, 双侧 5\% 临界值约为2.1009; 不拒绝均值相等. $p=2[1-F_{t_{18}}(1.7294)]\approx0.10085$.
+若“样本方差”指分母9的无偏方差, 则 $s_p^2=(0.22+0.17)/2=0.195$, $T\approx1.8229$, $p\approx0.0850$, 在5\%水平仍不拒绝. 不拒绝表示本数据不足以发现均值不同, 不能推出已证明“显著相同”; 若要肯定误差在可接受范围内, 须另给容许差并作等效性检验.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ps05:p03}
+原作业第3题. 根据均值 $\mu$、方差 $\sigma^2$ 的独立同分布正态样本 $X_1,\ldots,X_n$, 构造 $H_0:\mu>\sigma$ 对 $H_1:\mu\le\sigma$ 的渐近水平5\%检验. 样本量100、样本均值2.41、样本方差5.20时, $p$ 值是多少? 样本量100、样本均值3.28、样本方差15.95时又是多少? 后一种情况下, 在5\%和10\%水平是否拒绝 $H_0$?
+\end{exercise}
+\begin{solution}
+解答采用非退化正态模型 $\sigma^2>0$ 和 $n\ge2$. 这里原假设是严格不等式, 水平按原假设中拒绝概率的上确界理解; 最不利点是其闭包中的边界 $\mu=\sigma$. 令 $\hat\mu=\bar X$, $\hat v=n^{-1}\sum_i(X_i-\bar X)^2$, $\hat\sigma=\sqrt{\hat v}$. 正态样本均值与方差独立, 且
+\[
+\sqrt n\begin{pmatrix}\hat\mu-\mu\\\hat v-\sigma^2\end{pmatrix}
+\dto N_2\left(0,\begin{pmatrix}\sigma^2&0\\0&2\sigma^4\end{pmatrix}\right).
+\]
+第二个极限也可由 $\hat v=n^{-1}\sum_i(X_i-\mu)^2-(\bar X-\mu)^2$ 导出: 最后一项乘 $\sqrt n$ 趋于零, 而正态四阶矩给出 $\Var((X_i-\mu)^2)=2\sigma^4$. 对 $h(u,v)=u-\sqrt v$ 用 Delta 方法, 梯度为 $(1,-1/(2\sigma))$, 故
+\[
+\sqrt n\{(\hat\mu-\hat\sigma)-(\mu-\sigma)\}\dto N(0,3\sigma^2/2).
+\]
+因此取 $Z_n=\sqrt n(\hat\mu-\hat\sigma)/(\hat\sigma\sqrt{3/2})$, 当 $Z_n<z_{0.05}\approx-1.64485$ 时拒绝. 在边界上 $Z_n\dto N(0,1)$. 对每个固定 $\mu>\sigma$, $Z_n\pto+\infty$, 故拒绝概率趋于零. 更准确地, 给定正态标准化样本, $Z_n$ 随比值 $\mu/\sigma$ 单调增加; 原假设上的拒绝概率上确界等于边界的拒绝概率, 其极限为5\%. 对 $\mu<\sigma$, 检验一致; 在边界备择 $\mu=\sigma$ 的功效则为5\%, 这是这种开原假设造成的边界限制.
+
+下尾近似 $p$ 值为 $\Phi(Z_n)$. 第一组数据给出
+\[
+Z_n=\frac{10(2.41-\sqrt{5.20})}{\sqrt{(3/2)5.20}}\approx0.46422,
+\qquad p\approx0.67875.
+\]
+第二组给出 $Z_n\approx-1.459$, $p\approx0.0723$. 因而第二组在5\%水平不拒绝, 在10\%水平拒绝. 若题中方差用分母 $n-1$ 定义, 可直接用该一致估计替换 $\hat v$ 来构造同一渐近检验; 上述数值按照题给方差直接代入, 不把渐近计算说成精确检验.
+\end{solution}
