@@ -1,0 +1,324 @@
+\originalchapter{插值}
+\label{ch:interpolation}
+
+插值是通过一组给定点构造光滑曲线的问题, 曲线通常是一个函数的图像. 插值至少用于数据分析、工业设计、信号处理中的数字到模拟转换, 以及数值分析. 它是应用数学中反复出现的重要概念. 本章将立即用插值构造高阶求积公式和微分公式. 原文把插值称为一种回归; 更准确地说, 插值要求精确经过给定点, 而通常的回归允许残差.
+
+\originalsection{多项式插值}
+
+给定 $N+1$ 个互不相同的实数节点 $x_j$, $0\leq j\leq N$, 以及函数的采样值 $y_j=f(x_j)$, 多项式插值问题是找一个次数至多为 $N$ 的多项式 $p_N$, 使 $p_N(x_j)=y_j$ ($j=0,\ldots,N$). 换言之, 它的图像要经过所有点 $(x_j,y_j)$.
+
+可写 $p_N(x)=\sum_{n=0}^{N}a_nx^n$. 这个多项式有 $N+1$ 个系数作为自由度, 与插值条件数相同. 若次数严格低于 $N$, 一般就不能通过所有给定点. 仍可以按“最佳近似”的方式拟合一个多项式, 如一条直线, 但那是逼近问题. 原文预告在最小二乘专题中再讨论它; 本书所据七份讲义未包含单独的最小二乘章节.
+
+先看直接的数值解法. 将多项式代入条件, 得线性方程组
+\[
+\sum_{n=0}^{N}a_nx_j^n=y_j,\qquad j=0,\ldots,N,
+\]
+未知量是 $a_0,\ldots,a_N$. 写成 $Va=y$, 其中 $V_{jn}=x_j^n$, 即 Vandermonde 矩阵
+\[
+V=\begin{pmatrix}
+1&x_0&\cdots&x_0^N\\
+1&x_1&\cdots&x_1^N\\
+\vdots&\vdots&&\vdots\\
+1&x_N&\cdots&x_N^N
+\end{pmatrix}.
+\]
+例如在 Matlab 中建立节点向量、右端值向量和矩阵 $V$, 再用 \texttt{a = V\textbackslash y} 求解, 得到插值多项式的系数. 然后在更细网格上计算多项式并绘图, 就可显示节点之间的插值曲线.
+
+历史上 Lagrange 和 Newton 等数学家没有计算机, 因而寻找了明确而优美的插值公式. 这些公式不仅简化计算, 也帮助理解插值误差 $f(x)-p_N(x)$. 当时的重要应用包括拟合天体轨迹. 以下回顾这种构造.
+
+在节点已经排序为 $x_0<\cdots<x_N$ 时, 以一致范数或 $L^\infty$ 范数衡量误差:
+\[
+\norm{f-p_N}_\infty=\max_{x\in[x_0,x_N]}|f(x)-p_N(x)|.
+\]
+记 $\mathcal P_N=\{\sum_{n=0}^{N}a_nx^n:a_n\in\R\}$ 为次数至多 $N$ 的实多项式空间. 整理注: 原文多处写“$N$ 次”, 其线性空间定义实际包括次数低于 $N$ 的多项式, 这里统一为“至多 $N$ 次”.
+
+\begin{lemma}[Lagrange 基本多项式]\label{lem:lagrange-basis}
+给定互不相同的实数 $x_0,\ldots,x_N$. 对每个 $k=0,\ldots,N$, 存在唯一的 $L_k\in\mathcal P_N$, 满足 $L_k(x_j)=\delta_{jk}$, 其中 $\delta_{jk}=1$ ($j=k$), $\delta_{jk}=0$ ($j\neq k$). 其公式为
+\[
+L_k(x)=\prod_{\substack{0\leq j\leq N\\j\neq k}}\frac{x-x_j}{x_k-x_j}.
+\]
+\end{lemma}
+\begin{proof}
+固定 $k$. 由于 $L_k$ 在每个 $x_j$ ($j\neq k$) 处为零, 它必须具有形式 $L_k(x)=C\prod_{j\neq k}(x-x_j)$. 这里可逐次应用多项式除法: 除以 $x-x_j$ 的余数为常数, 在 $x_j$ 处求值可知余数为零, 所以 $x-x_j$ 是因子. 共 $N$ 个互不相同的根耗尽次数, 只剩一个乘法常数. 在 $x_k$ 处求值, 有 $1=C\prod_{j\neq k}(x_k-x_j)$, 而各分母都非零, 所以唯一可能的表达式就是所示公式. 该表达式也确实具有要求的节点值.
+\end{proof}
+
+这些基本多项式构成插值多项式空间的一组基.
+
+\begin{theorem}[Lagrange 插值定理]\label{thm:lagrange-interpolation}
+给定互不相同的实数 $x_0,\ldots,x_N$ 及实数 $y_0,\ldots,y_N$. 存在唯一的 $p_N\in\mathcal P_N$, 满足 $p_N(x_j)=y_j$. 它为
+\begin{equation}\label{eq:lagrange-interpolant}
+p_N(x)=\sum_{k=0}^{N}y_kL_k(x).
+\end{equation}
+\end{theorem}
+\begin{proof}
+在 $x_j$ 处, $p_N(x_j)=\sum_{k=0}^{N}y_k\delta_{jk}=y_j$, 所以式 \eqref{eq:lagrange-interpolant} 确实插值. 若 $p_N,q_N$ 都满足条件, 则 $r_N=p_N-q_N$ 是次数至多 $N$ 的多项式, 却在 $N+1$ 个互不相同的节点处为零. 非零的至多 $N$ 次多项式不可能有超过 $N$ 个互异根, 所以 $r_N$ 恒为零, 得到唯一性. 原文以代数基本定理说明根数上界; 这里也可直接使用因子定理.
+\end{proof}
+
+取 $y_k=f(x_k)$ 时, $p_N(x)=\sum_{k=0}^{N}f(x_k)L_k(x)$ 称为 $f$ 在这些节点上的 Lagrange 插值多项式.
+
+\begin{example}\label{ex:linear-interpolation}
+经过 $(x_1,y_1)$ 与 $(x_2,y_2)$ 的线性插值, 其中 $x_1\neq x_2$.
+\end{example}
+\begin{solution}
+基本多项式为 $L_1(x)=(x-x_2)/(x_1-x_2)$, $L_2(x)=(x-x_1)/(x_2-x_1)$. 因而
+\begin{align*}
+p_1(x)&=y_1L_1(x)+y_2L_2(x)\\
+&=\frac{y_2-y_1}{x_2-x_1}x+\frac{y_1x_2-y_2x_1}{x_2-x_1}\\
+&=y_1+\frac{y_2-y_1}{x_2-x_1}(x-x_1).
+\end{align*}
+这就是连接两个点的直线.
+\end{solution}
+
+\begin{example}\label{ex:exp-interpolation}
+原文引自 Süli--Mayers 的例 6.1. 取 $f(x)=\ee^x$, 在 $x_0=-1$, $x_1=0$, $x_2=1$ 的三个采样值上作二次插值.
+\end{example}
+\begin{solution}
+基本多项式为
+\[
+L_0(x)=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}=\frac12x(x-1),\quad
+L_1(x)=1-x^2,\quad L_2(x)=\frac12x(x+1).
+\]
+于是
+\begin{align*}
+p_2(x)&=\ee^{-1}L_0(x)+\ee^0L_1(x)+\ee L_2(x)\\
+&=1+\sinh(1)x+(\cosh(1)-1)x^2\\
+&\simeq1+1.1752x+0.5431x^2.
+\end{align*}
+另一个在 $[-1,1]$ 上较好地逼近 $\ee^x$ 的二次多项式是零点处的 Taylor 截断 $t_2(x)=1+x+x^2/2$. 两者并不十分不同, 但构造条件不同: 前者匹配三个采样值, 后者匹配零点的前三个导数数据.
+\end{solution}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.75\textwidth,height=5cm,xmin=-1,xmax=1,ymin=0,ymax=3,axis lines=left,xlabel={$x$},legend pos=north west]
+\addplot[thick,color=structurecolor,domain=-1:1,samples=80]{exp(x)};\addlegendentry{$\ee^x$}
+\addplot[dashed,thick,color=main,domain=-1:1,samples=80]{1+sinh(1)*x+(cosh(1)-1)*x^2};\addlegendentry{$p_2$}
+\addplot[dotted,thick,domain=-1:1,samples=80]{1+x+x^2/2};\addlegendentry{$t_2$}
+\end{axis}
+\end{tikzpicture}
+\par 图: 整理补图, 比较插值与 Taylor 截断.
+\end{center}
+
+下面给出光滑函数插值误差的主要结论.
+
+\begin{theorem}\label{thm:interpolation-remainder}
+设 $f\in C^{N+1}[a,b]$, $N\geq1$, 且 $x_0,\ldots,x_N\in[a,b]$ 互不相同. 令 $p_N$ 为相应 Lagrange 插值多项式, $\pi_{N+1}(x)=\prod_{j=0}^{N}(x-x_j)$. 对每个 $x\in[a,b]$, 存在 $\xi(x)\in[a,b]$, 使
+\begin{equation}\label{eq:interpolation-remainder}
+f(x)-p_N(x)=\frac{f^{(N+1)}(\xi(x))}{(N+1)!}\pi_{N+1}(x).
+\end{equation}
+\end{theorem}
+\begin{proof}
+\textbf{整理补证.} 原文只指向 Süli--Mayers 第 6 章, 未给证明. 若 $x$ 是节点, 误差为零, 公式成立. 否则令 $c=[f(x)-p_N(x)]/\pi_{N+1}(x)$, 并在变量 $t$ 上考虑
+\[
+F(t)=f(t)-p_N(t)-c\pi_{N+1}(t).
+\]
+$F$ 在所有 $N+1$ 个节点以及 $x$ 处为零, 共 $N+2$ 个互异零点. 连续应用 Rolle 定理 $N+1$ 次, 存在中间点 $\xi$, 使 $F^{(N+1)}(\xi)=0$. 因为 $p_N^{(N+1)}=0$, 而首一多项式 $\pi_{N+1}$ 的 $N+1$ 阶导数为 $(N+1)!$, 故 $c=f^{(N+1)}(\xi)/(N+1)!$. 代回 $c$ 的定义即得结论. 原文节点积的指标误写为 $j=1,\ldots,N+1$, 此处与前面的 $j=0,\ldots,N$ 统一.
+\end{proof}
+
+令 $M_{N+1}=\max_{x\in[a,b]}|f^{(N+1)}(x)|$. 该最大值存在, 因为导数在紧区间上连续. 立即得到
+\[
+|f(x)-p_N(x)|\leq\frac{M_{N+1}}{(N+1)!}|\pi_{N+1}(x)|.
+\]
+在节点处误差为零, 正如插值条件所要求的. 这个公式显示误差同时受三方面影响: 通过高阶导数依赖函数的光滑性; 包含快速减小的 $1/(N+1)!$; 与节点积 $\pi_{N+1}(x)$ 成正比, 因而不同位置的误差可能很不同.
+
+自然的问题是: 当 $N\to\infty$ 时, 插值一定收敛吗? 阶乘一定能压过另外两个因子吗? 一般而言答案是否定的. 即使函数非常光滑, 甚至解析, 等距节点的多项式插值也可能在区间端点附近发散. 这称为 Runge 现象.
+
+\begin{example}\label{ex:runge}
+原文的例 9 考虑 $[-5,5]$ 上的函数 $f$, 在 $x_j=10j/N$ ($j=-N/2,\ldots,N/2$, $N$ 为偶数) 的等距节点插值, 并指出插值在端点附近随 $N$ 增大会发散. 原文没有写出 $f$ 的具体表达式, 只说明原点附近有一个凸起, 并引向 Trefethen 的书第 44 页的 Runge 现象插图.
+
+整理补充的明确演示函数取 $f(x)=1/(1+x^2)$. 这是一种标准 Runge 函数; 它用来补足可重现实验的对象, 不声称恢复了原文未写出的公式.
+\end{example}
+
+\input{figures/runge.tex}
+
+原文还指出: 对同样的函数, 若把实验区间缩为 $[-1,1]$, 插值会收敛. 这说明区间尺寸重要. 直观上, 当区间比函数的特征长度尺度, 如原点附近凸起的宽度, 大得多时, 等距插值就可能出现发散. 更深的原因涉及函数在复平面的奇点位置, 不是只根据实轴上的区间大小就能给任意函数作普遍判断.
+
+从误差式看, 节点积 $\pi_{N+1}(x)$ 远离中心时可能很大, 而在中心较小. 这是等距网格固有的问题之一. 后面讨论 Chebyshev 插值时会更定量地分析, 并用非等距节点作改进. 因此低次多项式或小区间上的插值可以表现很好, 但不能无条件期待在大区间增加次数便收敛.
+
+\originalsection{多项式积分公式}
+
+再次考虑用加权采样和近似 $\int_a^b u(x)\dd x$, 即构造求积公式. 方法是先形成数据的插值多项式, 再积分这个多项式, 从而得到采样值的权重. 理论上可形成任意高阶的公式, 但常用的低阶复合多项式公式在实际中很少超出四阶.
+
+平移坐标, 先在原点附近取 $x_{-1}=-h$, $x_0=0$, $x_1=h$. 原文将矩形法排除在这节之外, 说它不由插值得到. 整理注: 它实际也可看成每个区间内对左端值作零次常数插值再积分; 此处只是重点讨论一次及以上的插值.
+
+\textbf{梯形公式.} 在 $[0,h]$ 上用连接 $(0,u(0))$ 与 $(h,u(h))$ 的直线. 由二阶可微性控制误差:
+\[
+u(x)=p_1(x)+\frac{u''(\xi(x))}{2}x(x-h),\qquad
+p_1(x)=u(0)L_0(x)+u(h)L_1(x),
+\]
+其中 $L_0(x)=(h-x)/h$, $L_1(x)=x/h$. 两个基本多项式的积分都是三角形面积 $h/2$. 又
+\[
+\int_0^h\left|\frac{u''(\xi(x))}{2}x(x-h)\right|\dd x
+\leq C\max|u''|h^3,
+\]
+所以 $\int_0^h u(x)\dd x=h[u(0)+u(h)]/2+O(h^3)$. 在 $[0,1]$ 累加即得
+\[
+\int_0^1u(x)\dd x=\frac h2u(x_0)+h\sum_{j=1}^{N-1}u(x_j)+\frac h2u(x_N)+O(h^2).
+\]
+整理注: 原文内部和的项误写成 $u(x_{j-1})$, 此处修为内部节点 $x_1,\ldots,x_{N-1}$.
+
+\textbf{Simpson 公式.} 在 $[-h,h]$ 上, 用通过 $(-h,u(-h))$, $(0,u(0))$, $(h,u(h))$ 的抛物线. 三阶可微时,
+\[
+u(x)=p_2(x)+\frac{u'''(\xi(x))}{6}(x+h)x(x-h),
+\]
+其中 $p_2(x)=u(-h)L_{-1}(x)+u(0)L_0(x)+u(h)L_1(x)$, 且
+\[
+L_{-1}(x)=\frac{x(x-h)}{2h^2},\quad
+L_0(x)=\frac{(x+h)(x-h)}{-h^2},\quad
+L_1(x)=\frac{(x+h)x}{2h^2}.
+\]
+直接积分得 $\int_{-h}^{h}L_{-1}\dd x=\int_{-h}^{h}L_1\dd x=h/3$, $\int_{-h}^{h}L_0\dd x=4h/3$. 对余项绝对值积分, 有
+\[
+\int_{-h}^{h}\left|\frac{u'''(\xi(x))}{6}(x+h)x(x-h)\right|\dd x
+\leq C\max|u'''|h^4.
+\]
+因此至少有
+\[
+\int_{-h}^{h}u(x)\dd x=\frac h3\bigl[u(-h)+4u(0)+u(h)\bigr]+O(h^4).
+\]
+在 $[0,2h]$, $[2h,4h]$, $\ldots$, $[1-2h,1]$ 上使用这个公式并相加, 假设 $N$ 为偶数, 得到复合 Simpson 公式
+\begin{equation}\label{eq:composite-simpson}
+\begin{split}
+\int_0^1u(x)\dd x={}&\frac h3\left[u(x_0)+4\sum_{\substack{1\leq j\leq N-1\\j\text{ 为奇数}}}u(x_j)
++2\sum_{\substack{2\leq j\leq N-2\\j\text{ 为偶数}}}u(x_j)+u(x_N)\right]\\
+&+O(h^4),\qquad u\in C^4[0,1].
+\end{split}
+\end{equation}
+也就是说, 权重依次为 $1,4,2,4,2,\ldots,4,1$. 内部的偶数节点在相邻两段中各出现一次.
+
+原文进一步指出, 用对称性或逐项 Taylor 相消可将单段误差改善为 $O(h^5)$, 全区间为 $O(h^4)$, 这需要四阶导数. 整理补充: 在零点展开到三次, Simpson 公式与积分都精确地处理 $1,x,x^2,x^3$, 而函数的四阶余项由 $C\max|u^{(4)}||x|^4$ 控制. 单段余项积分和求积权重乘余项都为 $O(h^5)$, 累加 $O(1/h)$ 段后即为四阶. 上面式 \eqref{eq:composite-simpson} 已把这一较强光滑条件对应的精度写出, 没有把三阶可微的初步估计混同于四阶结论.
+
+这些多项式公式的高阶版本称为 Newton--Cotes 公式. 原文认为它们不太有吸引力, 因为高阶等距插值又受 Runge 现象影响, 而权重可能变为负值, 在采样有误差时放大误差. 负权重的风险可以从误差界 $|\sum_jw_j\delta u_j|\leq\max_j|\delta u_j|\sum_j|w_j|$ 看出: 消去正负权重时, $\sum|w_j|$ 可能远大于 $|\sum w_j|$.
+
+原文也不推荐未指定两个剩余自由度的分段三次样条作为求积的直接选择, 因为边界条件的任意选择会影响精度. 整理注: 这说明必须明确样条边界条件, 不能泛化为“一切样条求积都不适用”. 样条在后面一节讨论. 任意高阶且有用的积分公式, 将在谱方法的框架下再介绍.
+
+\originalsection{多项式微分公式}
+
+推导高阶有限差分的一种系统方法, 是用 $x_j$ 附近少量节点构造多项式插值, 然后求导. 仍以 $-h,0,h$ 为参考点.
+
+向前差分由通过 $(0,u(0))$, $(h,u(h))$ 的直线得到. 该直线为 $p_1(x)=u(0)(h-x)/h+u(h)x/h$, 所以 $p_1'(0)=[u(h)-u(0)]/h$, 已知 $u'(0)-p_1'(0)=O(h)$.
+
+中心差分可由连接 $(-h,u(-h))$ 与 $(h,u(h))$ 的直线求导得到, 这是一个简单练习. 它也等于前面的三点二次插值在零点的导数. 事实上,
+\begin{align*}
+p_2'(x)&=u(-h)\frac{2x-h}{2h^2}-u(0)\frac{2x}{h^2}+u(h)\frac{2x+h}{2h^2},\\
+p_2'(0)&=\frac{u(h)-u(-h)}{2h}.
+\end{align*}
+已知 $u'(0)-p_2'(0)=O(h^2)$. 还可考虑中心二阶差分和单边一阶导数的三点公式. 原文列出系数 $(-1,2,-1)$ 与 $(-3,4,-1)$. 整理注: 前一组实际对应负的二阶导数; 若近似 $u''$, 应用 $(1,-2,1)/h^2$. 后一组近似 $u'(0)$ 时还要除以 $2h$, 即 $[-3u(0)+4u(h)-u(2h)]/(2h)$.
+
+对单边插值多项式求导, 是获得计算区间边界差分公式的好办法. 下面的结论说明一阶导数近似的误差阶与多项式次数的关系.
+
+\begin{theorem}\label{thm:derivative-interpolation-error}
+设 $f\in C^{N+1}[a,b]$, $a\leq x_0<\cdots<x_N\leq b$, $p_N$ 为相应插值多项式. 存在 $\eta_j\in(x_{j-1},x_j)$, $j=1,\ldots,N$, 使对每个 $x\in[a,b]$, 存在 $\xi\in[a,b]$ 满足
+\[
+f'(x)-p_N'(x)=\frac{f^{(N+1)}(\xi)}{N!}\pi_N^*(x),\qquad
+\pi_N^*(x)=\prod_{j=1}^{N}(x-\eta_j).
+\]
+\end{theorem}
+\begin{proof}
+\textbf{整理补证.} 令 $e=f-p_N$. 它在每个 $x_j$ 为零, 因而 Rolle 定理在相邻节点间给出 $e'(\eta_j)=0$. 对函数 $e'$ 在这 $N$ 个节点上作次数至多 $N-1$ 的插值, 插值多项式为零. 应用定理 \ref{thm:interpolation-remainder} 的同一余项证明, 得
+$e'(x)=e^{(N+1)}(\xi)\prod_{j=1}^{N}(x-\eta_j)/N!$. 又 $p_N^{(N+1)}=0$, 所以 $e^{(N+1)}=f^{(N+1)}$. 原文省略证明, 但特别提醒: 不能简单对式 \eqref{eq:interpolation-remainder} 求导, 因为未知中间点 $\xi(x)$ 不保证可微.
+\end{proof}
+
+若参与构造的整个局部区间直径为 $O(h)$, $N$ 固定, 则节点积为 $O(h^N)$, 导数误差于是为 $O(h^N)$. 原文还提出一个经验观察: 在构造插值的区间中心评估导数时, Runge 现象不明显. 这不是对所有函数、任意次数增长和任意节点的无条件稳定性定理.
+
+\originalsection{分段多项式插值}
+
+分段多项式插值, 也称样条插值, 把 $[a,b]$ 分成许多小区间 $[x_{j-1},x_j]$, 每段用低次多项式. 这有助于避免高阶等距插值的 Runge 现象. 代价是全局函数通常不再属于 $C^\infty$: 在各段拼接节点处失去若干阶光滑性.
+
+若每段次数至多为 $n$, 则每段内部是 $C^\infty$, 全局通常只要求 $C^k$, $k\leq n-1$. 若要求在节点上连 $n$ 阶导数也连续, 则相邻两段的全部 Taylor 系数相同, 各段多项式就相同, 失去了真正的分段自由度. 以下讨论一次和三次两种情形; 原文说作业中已讨论二次选择的困难, 但此处不另造未提供的作业题.
+
+\textbf{线性样条.} 设 $f$ 连续, 节点不必等距, 且 $x_0=a$, $x_N=b$. 连接每两个相邻数据点, 得
+\begin{equation}\label{eq:linear-spline}
+s_L(x)=\frac{x_j-x}{x_j-x_{j-1}}f(x_{j-1})
++\frac{x-x_{j-1}}{x_j-x_{j-1}}f(x_j),\quad x\in[x_{j-1},x_j].
+\end{equation}
+函数连续, 但节点处导数一般不连续. 整理注: 原文第一项分子误写为 $x_{j-1}-x$, 不满足左端的插值条件; 此处修为 $x_j-x$. 若函数至少二阶连续可微, 则线性样条有二阶精度.
+
+\begin{theorem}\label{thm:linear-spline-error}
+设 $f\in C^2[a,b]$, 记网格最大间距 $h=\max_{1\leq j\leq N}(x_j-x_{j-1})$. 则
+\[
+\norm{f-s_L}_{L^\infty[a,b]}\leq\frac{h^2}{8}\norm{f''}_{L^\infty[a,b]}.
+\]
+\end{theorem}
+\begin{proof}
+对 $x\in[x_{j-1},x_j]$, 一次插值余项给出
+$f(x)-s_L(x)=f''(\xi)(x-x_{j-1})(x-x_j)/2$, 其中 $\xi\in[x_{j-1},x_j]$. 令 $h_j=x_j-x_{j-1}$. 此乘积的绝对值在中点最大, 值为 $h_j^2/4$, 因而
+\[
+|f(x)-s_L(x)|\leq\frac{h_j^2}{8}\max_{\xi\in[x_{j-1},x_j]}|f''(\xi)|.
+\]
+对所有区间取最大值即可. 原文说“乘积的最大值”为 $h_j^2/4$; 乘积本身非正, 正确说法是其绝对值的最大值.
+\end{proof}
+
+任意线性样条都可写成帐篷形基函数的叠加 $s_L(x)=\sum_kc_k\varphi_k(x)$, 其中 $\varphi_k(x_j)=\delta_{jk}$. 对等距无限网格 $x_k=kh$, 令 $x_+=\max(x,0)$, 并定义
+\[
+S^{(1)}(x)=x_+-2(x-h)_++(x-2h)_+.
+\]
+该函数的支撑为 $[0,2h]$, 在 $h$ 处取峰值 $h$, 因而以 $x_k$ 为中心的帐篷为 $\varphi_k(x)=S^{(1)}(x-x_{k-1})/h$. 原文误将平移量写成 $x_k$, 会将峰值右移一个节点; 上式作了修正. 直接取 $c_k=f(x_k)$ 即满足插值条件. 有限区间的端点帽函数是这个构造在区间上的相应限制. 高阶样条的系数就不这样简单了.
+
+\textbf{三次样条.} 现在每段用至多三次的多项式, 并要求函数值、一阶导数、二阶导数在节点处连续.
+
+\begin{definition}[插值三次样条]\label{def:cubic-spline}
+设 $f\in C[a,b]$, $a=x_0<\cdots<x_N=b$. 插值三次样条是函数 $s$, 满足:
+\begin{enumerate}
+\item $s(x_j)=f(x_j)$;
+\item 在每个 $[x_{j-1},x_j]$ 上, $s$ 是次数至多 $3$ 的多项式;
+\item $s$ 全局为 $C^2$, 即内部节点处 $s(x_j^-)=s(x_j^+)$, $s'(x_j^-)=s'(x_j^+)$, $s''(x_j^-)=s''(x_j^+)$.
+\end{enumerate}
+这里 $-$ 与 $+$ 分别表示左极限和右极限.
+\end{definition}
+
+先数自由度. 每个三次多项式有四个系数, 共 $N$ 段, 所以共有 $4N$ 个未知量. 每段左右端插值给出 $2N$ 个条件, 也自动保证函数值连续. 内部 $N-1$ 个节点上的一阶和二阶导数连续, 再给出 $2(N-1)$ 个条件. 总共 $4N-2$ 个条件, 还差两个自由度. 因而上面说“一个”三次样条, 没有在边界条件未定时称其为唯一的样条.
+
+最常用的三种补充条件为:
+\begin{enumerate}
+\item 自然样条: $s''(x_0)=s''(x_N)=0$.
+\item 夹持样条: $s'(x_0)=p_0$, $s'(x_N)=p_N$, 两端斜率由应用给定. 若位移曲线的斜率为零, 可对应水平方向的夹持条件.
+\item 周期样条: 先要求端点值相同, 再要求 $s'(x_0)=s'(x_N)$, $s''(x_0)=s''(x_N)$.
+\end{enumerate}
+原文把自然样条的二阶导数为零解释为梁的自由端. 整理注: 在标准 Euler--Bernoulli 梁模型中, 二阶导数为零表示弯矩为零; 完整的自由端通常还要求剪力条件. 样条边界条件的数学定义本身不依赖这个物理类比.
+
+下面解释计算自然三次样条的常用算法. 与直接求全部 $4N$ 个系数相比, 先求节点处的二阶导数更有利. 记 $\sigma_j=s''(x_j)$, $h_j=x_j-x_{j-1}>0$. 因为 $s$ 分段三次, $s''$ 分段一次, 故
+\[
+s''(x)=\frac{x_j-x}{h_j}\sigma_{j-1}+\frac{x-x_{j-1}}{h_j}\sigma_j,
+\qquad x\in[x_{j-1},x_j].
+\]
+积分两次, 可写
+\begin{equation}\label{eq:cubic-spline-piece}
+s(x)=\frac{(x_j-x)^3}{6h_j}\sigma_{j-1}
++\frac{(x-x_{j-1})^3}{6h_j}\sigma_j
++\alpha_j(x-x_{j-1})+\beta_j(x_j-x).
+\end{equation}
+积分常数也可以写成 $Ax+B$, 但这里的形式使后续代数更简单. 插值条件分别给出
+\[
+f(x_{j-1})=\frac{\sigma_{j-1}h_j^2}{6}+h_j\beta_j,\qquad
+f(x_j)=\frac{\sigma_jh_j^2}{6}+h_j\alpha_j,
+\]
+所以 $\alpha_j=f(x_j)/h_j-\sigma_jh_j/6$, $\beta_j=f(x_{j-1})/h_j-\sigma_{j-1}h_j/6$. 代回式 \eqref{eq:cubic-spline-piece}, 再让节点两侧的一阶导数相等. 对内部 $j=1,\ldots,N-1$, 得
+\begin{equation}\label{eq:spline-tridiagonal}
+\begin{split}
+h_j\sigma_{j-1}+2(h_j+h_{j+1})\sigma_j+h_{j+1}\sigma_{j+1}
+=6\left[\frac{f(x_{j+1})-f(x_j)}{h_{j+1}}
+-\frac{f(x_j)-f(x_{j-1})}{h_j}\right].
+\end{split}
+\end{equation}
+自然边界条件是 $\sigma_0=\sigma_N=0$, 所以实际未知量为 $\sigma_1,\ldots,\sigma_{N-1}$. 整理注: 原文一处把未知指标写至 $\sigma_N$, 与“$N-1$ 个未知量”不一致; 上面明确剔除了两端.
+
+这是一个三对角系统. 可用高斯消元高效求解, 得到双对角的 $L,U$ 因子. 不同于线性样条, 三次样条一般必须求解一个线性系统. 对角元素 $2(h_j+h_{j+1})$ 严格大于该行非对角元素绝对值之和, 因而矩阵严格对角占优, 一定可逆. 整理补充: 若齐次系统有非零解, 取绝对值最大的分量, 其行的等式会要求对角贡献不超过非对角贡献, 与严格占优矛盾.
+
+原文指出, 远离端点的三次样条插值误差可达到 $O(h^4)$, 但所需分析超出讲义范围. 整理注: 该阶还依赖函数的四阶光滑性、网格条件以及边界条件; 自然边界条件不匹配原函数的端点二阶导数时, 不能无条件宣称整个闭区间都有四阶误差.
+
+最后讨论三次样条的基函数表示 $s(x)=\sum_kc_k\varphi_k(x)$. 基可以有多种选择; 原文要求支撑尽可能小、具有与 $s$ 相同的 $C^2$ 光滑性、在等距网格上互为平移. 满足这些要求的标准局部构造是三次 B 样条. 在内部节点 $x_k$ 附近, 它支撑在 $[x_{k-2},x_{k+2}]$, 按原文的峰值归一化为
+\[
+\varphi_k(x)=\frac1{4h^3}S^{(3)}(x-x_{k-2}),
+\]
+其中
+\begin{equation*}
+\begin{split}
+S^{(3)}(x)={}&x_+^3-4(x-h)_+^3+6(x-2h)_+^3\\
+&-4(x-3h)_+^3+(x-4h)_+^3.
+\end{split}
+\end{equation*}
+可检验 $\varphi_k(x_k)=1$, $\varphi_k(x_{k\pm1})=1/4$, 在支撑外为零, 各拼接处为 $C^2$, 整体形如钟形. 归一化固定之前, 基函数还有常数倍自由度; 原文所说“唯一”应按这些选择及归一化理解.
+
+一个有趣的练习是验证, 三次 B 样条可以由两个帐篷函数卷积得到: $S^{(3)}=c\,S^{(1)}*S^{(1)}$, 其中 $c$ 是常数, 卷积定义为 $(f*g)(x)=\int_\R f(y)g(x-y)\dd y$.
+
+由于现在 $\varphi_k(x_j)\neq\delta_{jk}$, 不能再简单取 $c_k=f(x_k)$. 系数须由线性系统求出. 因而若一个数据值改变, 或加入一个数据点, 通常需要重新计算整个插值. 一点的变化会在整个区间产生连锁影响; 这种全局耦合最终来自三次基函数较线性帐篷函数更大范围的重叠.

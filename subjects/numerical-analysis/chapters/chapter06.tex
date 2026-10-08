@@ -1,0 +1,633 @@
+% 原讲义 Chapter 6, Fourier analysis, 正文第 1--18 页.
+\originalchapter{傅里叶分析}\label{chap:fourier}
+
+\textbf{历史引入.} 原讲义在这里提示以方形薄板或区间上的热方程作历史介绍. 十九世纪, 傅里叶分析在把某些很简单的常微分方程和偏微分方程的解展开为级数方面取得了巨大成功. 本课程还将说明, 到了二十世纪, 对于一般得多、没有显式解公式的常微分方程和偏微分方程, 傅里叶分析也已经成为数值计算的核心工具.
+
+\originalsection{傅里叶变换}\label{sec:fourier-transform}
+我们考虑一个实变量 $x\in\R$ 的可积函数的傅里叶变换.
+
+% 原定义 13.
+\begin{definition}[可积性]
+若函数 $f$ 满足
+\[
+\int_{-\infty}^{\infty}|f(x)|\dd x<\infty,
+\]
+其中积分按勒贝格意义理解, 则称 $f$ 可积, 或绝对可积. 可积函数所组成的空间记为 $L^1(\R)$.
+\end{definition}
+
+物理变量记为 $x$. 当这个变量表示时间, 并且需要强调这一点时, 也常记为 $t$. 频率变量, 或波数变量, 记为 $k$. 其他常见记号包括工程中使用的 $\omega$, 数学中使用的 $\xi$, 以及物理中使用的 $p$.
+
+% 原定义 14, 原式 (6.1)--(6.2).
+\begin{definition}[傅里叶变换]
+可积函数 $f(x)$ 的傅里叶变换 (FT) 定义为
+\begin{equation}\label{eq:ft}
+\widehat f(k)=\int_{-\infty}^{\infty}\ee^{-\ii kx}f(x)\dd x.
+\end{equation}
+若 $\widehat f(k)$ 也可积, 则可以通过逆傅里叶变换 (IFT) 恢复 $f$:
+\begin{equation}\label{eq:ift}
+f(x)=\frac1{2\pi}\int_{-\infty}^{\infty}\ee^{\ii kx}\widehat f(k)\dd k.
+\end{equation}
+\end{definition}
+\begin{remark}
+整理注: 对一般的 $L^1$ 函数, 逆变换公式恢复的是几乎处处相等的函数. 当 $\widehat f\in L^1$ 时, 右侧给出一个连续代表; 若原来的 $f$ 连续, 则在每一点成立. 单独改变 $f$ 在一点的值不会改变其傅里叶变换.
+\end{remark}
+
+直观上, $\widehat f(k)$ 是 $f$ 在频率 $k$ 处的振幅密度. 恢复 $f$ 的公式把它分解成构成它的各个波. 逆变换公式的严格论证属于实分析课程的内容, 与近似恒等算子的概念有关. 在下一节讨论傅里叶级数时, 我们会对 \eqref{eq:ift} 的形式作一个启发式解释.
+
+要求可积, 是为了能够按通常的勒贝格意义理解这些积分. 在这个框架下, 对无穷区间积分没有问题. 若把 \eqref{eq:ft} 和 \eqref{eq:ift} 理解为有限区间积分的极限, 那么上下限以什么方式分别趋于 $-\infty$ 和 $+\infty$, 都不影响结果.
+
+事实上, 傅里叶变换和逆变换的公式可以推广到比可积函数大得多的对象类, 即分布, 但这也超出了本课程的范围. 通常我们不会过分纠缠这些问题, 不过应当知道界限在哪里: 可积函数是基本情形, 超出这个范围时, 就需要谨慎并采用合适的推广. 在其他课程或语境中看到不同的傅里叶变换公式, 不必惊讶; 原讲义指出, 维基百科列举了这些不同约定.
+
+以下是傅里叶变换的两个重要性质.
+\begin{itemize}
+\item \textbf{微分.} $\widehat{f'}(k)=\ii k\widehat f(k)$. 其依据是在傅里叶变换的积分中分部积分.
+\item \textbf{平移.} 若 $g(x)=f(x+a)$, 则 $\widehat g(k)=\ee^{\ii ka}\widehat f(k)$. 其依据是在傅里叶变换的积分中换元.
+\end{itemize}
+\begin{remark}
+整理注: 微分公式需要使积分和边界项有意义的假设, 例如 $f$ 绝对连续且 $f,f'\in L^1(\R)$. 此时 $f$ 在两端趋于零, 分部积分的边界项消失. 在分布意义下, 也有相应的微分公式.
+\end{remark}
+
+下面看几个傅里叶变换的例子.
+
+% 原例 17.
+\begin{example}\label{ex:rectangle-ft}
+设 $a>0$, 并令
+\[
+f(x)=\frac1{2a}\chi_{[-a,a]}(x)=
+\begin{cases}
+\dfrac1{2a},&x\in[-a,a],\\
+0,&\text{其他情形}.
+\end{cases}
+\]
+计算它的傅里叶变换.
+\end{example}
+\begin{solution}
+直接积分得到
+\[
+\widehat f(k)=\frac1{2a}\int_{-a}^{a}\ee^{-\ii kx}\dd x
+=\frac{\sin(ka)}{ka}.
+\]
+这是 sinc 函数的一个缩放版本, 其中
+\[
+\operatorname{sinc}(k)=\frac{\sin k}{k}.
+\]
+用洛必达法则很容易验证, 连续延拓后的值为 $\operatorname{sinc}(0)=1$. 当 $k\to\infty$ 时, sinc 的包络按 $1/k$ 衰减, 但函数值在正负之间交替. 验证 sinc 并不绝对可积是一个很好的练习. 即便如此, 仍可为它定义傅里叶变换, 所以不可积并不意味着完全无法处理这个函数.
+\end{solution}
+
+% 原例 18.
+\begin{example}\label{ex:gaussian-ft}
+考虑高斯函数 $f(x)=\ee^{-x^2/2}$. 求其傅里叶变换.
+\end{example}
+\begin{solution}
+通过配方, 并在复平面中适当改变积分路径, 可以证明
+\[
+\widehat f(k)=\sqrt{2\pi}\,\ee^{-k^2/2}.
+\]
+这里涉及的复积分论证不属于本课程的教学内容.
+\end{solution}
+
+% 原例 19.
+\begin{example}
+狄拉克 $\delta$ 的傅里叶变换等于 $1$. 为什么?
+\end{example}
+\begin{solution}
+整理补充: 按 $\delta$ 的取值作用, $\widehat\delta(k)=\langle\delta,\ee^{-\ii kx}\rangle=\ee^0=1$. 这里的 $\delta$ 是分布, 不是前面定义中的 $L^1$ 函数.
+\end{solution}
+
+傅里叶变换的另一个基本性质是卷积定理.
+
+% 原定理 11.
+\begin{theorem}[卷积定理]\label{thm:convolution}
+设 $f,g\in L^1(\R)$, 并以
+\[
+(f\star g)(x)=\int_{-\infty}^{\infty}f(y)g(x-y)\dd y
+\]
+表示卷积. 则
+\[
+\widehat{f\star g}(k)=\widehat f(k)\widehat g(k).
+\]
+\end{theorem}
+\begin{proof}
+令 $h=f\star g$. 在函数可积的条件下, 可以应用富比尼定理交换下面的积分次序. 实际上, 双重积分的绝对值积分不超过 $\norm f_1\norm g_1$. 于是
+\begin{align*}
+\widehat h(k)
+&=\int_{\R}\ee^{-\ii kx}\int_{\R}f(y)g(x-y)\dd y\dd x\\
+&=\int_{\R}\int_{\R}\ee^{-\ii ky}f(y)
+\ee^{-\ii k(x-y)}g(x-y)\dd y\dd x\\
+&=\left(\int_{\R}\ee^{-\ii ky}f(y)\dd y\right)
+\left(\int_{\R}\ee^{-\ii kx'}g(x')\dd x'\right)\\
+&=\widehat f(k)\widehat g(k).
+\end{align*}
+第三行使用了换元 $x'=x-y$.
+\end{proof}
+
+傅里叶变换是研究线性微分方程的重要工具, 因为它把微分问题变成代数问题. 例如, 考虑多项式 $P(z)=\sum_n a_nz^n$ 以及常微分方程
+\[
+P\!\left(\frac{\dd}{\dd x}\right)u(x)=f(x),\qquad x\in\R,
+\]
+也就是 $\sum_n a_n\dd^nu/\dd x^n=f$. 这种定义在整条实线上的方程, 在实际问题中并不十分常见. 作傅里叶变换后, 方程变为
+\[
+P(\ii k)\widehat u(k)=\widehat f(k),
+\]
+可以直接解为 $\widehat u(k)=\widehat f(k)/P(\ii k)$, 然后逆变换得到
+\[
+u(x)=\frac1{2\pi}\int_{-\infty}^{\infty}
+\ee^{\ii kx}\frac{\widehat f(k)}{P(\ii k)}\dd k.
+\]
+应用这个公式时, 必须留意 $P$ 的零点! 它们总有重要的物理解释, 例如可能表示机械系统的共振. 上述 $\widehat u$ 的公式也可以应用卷积定理: 设 $K(x)$ 是 $1/P(\ii k)$ 的逆傅里叶变换, 则
+\[
+u(x)=\int_{\R}K(x-y)f(y)\dd y.
+\]
+函数 $K$ 称为原常微分方程的格林函数. 若分母有零点或积分不收敛, 还需另行说明解的选择及广义函数的解释.
+
+\originalsection{采样与限制}\label{sec:sampling-restriction}
+我们希望用傅里叶变换理解: 将函数用网格上的有限个自由度表示并进行运算, 其精度如何. 我们也希望把适当离散化的傅里叶变换本身用作数值工具. 为此, 必须把 $x\in\R$ 和 $k\in\R$ 替换为有限网格上的 $x$ 与 $k$. 完全离散化包括采样和限制两个操作.
+
+先在 $x\in h\Z$ 上采样, 即考虑 $x_j=jh$, $j\in\Z$. 采样的一个重要后果是: 不同 $k$ 所对应的复指数波 $\ee^{\ii kx}$, 在网格 $x_j$ 上可能看起来完全相同. 在网格上无法区分的这种函数, 称为混叠函数.
+
+% 原定义 15.
+\begin{definition}[混叠]
+如果
+\[
+\ee^{\ii k_1x_j}=\ee^{\ii k_2x_j}\qquad\text{对所有 }j\in\Z,
+\]
+则称 $\ee^{\ii k_1x}$ 与 $\ee^{\ii k_2x}$ 在网格 $x_j=jh$ 上发生混叠.
+\end{definition}
+
+发生混叠, 等价于
+\[
+k_1jh=k_2jh+2\pi\times\text{一个依赖于 }j\text{ 的整数}.
+\]
+取 $j=1$, 把这个整数记为 $n$, 得到 $k_1-k_2=(2\pi/h)n$, 其中 $n\in\Z$. 反过来, 这个条件显然也保证所有整数 $j$ 处的指数相同. 因而, 两个波数如果相差 $2\pi/h$ 的整数倍, 就无法通过这个网格区分. 所以, 不失一般性, 把波数限制在
+\[
+k\in[-\pi/h,\pi/h].
+\]
+借用晶体学中的类似概念, 我们也称此区间为频率基本胞. 端点代表同一个周期类. 日常生活中的混叠例子包括: 电影中看起来倒转的车轮、电视画面中衣服出现的莫尔条纹, 以及频闪现象.
+
+网格上的合适傅里叶变换如下.
+
+% 原定义 16, 原式 (6.3)--(6.4).
+\begin{definition}[半离散傅里叶变换]
+设 $x_j=hj$, $f_j=f(x_j)$. 半离散傅里叶变换 (SFT) 为
+\begin{equation}\label{eq:sft}
+\widehat f(k)=h\sum_{j=-\infty}^{\infty}\ee^{-\ii kx_j}f_j,
+\qquad k\in[-\pi/h,\pi/h].
+\end{equation}
+其逆变换 (ISFT) 为
+\begin{equation}\label{eq:isft}
+f_j=\frac1{2\pi}\int_{-\pi/h}^{\pi/h}\ee^{\ii kx_j}\widehat f(k)\dd k.
+\end{equation}
+\end{definition}
+\begin{remark}
+整理注: 原逆变换式的指数写作 $\ee^{\ii kx}$, 在恢复第 $j$ 个样本时应取 $x=x_j$. 例如当 $\sum_j|f_j|<\infty$ 时, 上面的级数与积分可以直接处理; 对平方可和序列, 则采用 $L^2$ 意义的版本.
+\end{remark}
+
+正如前面看到的, $x$ 中的采样对应 $k$ 中的限制. 如果仍想观察基本胞之外的 SFT, 它只是周期性重复:
+\[
+\widehat f\!\left(k+\frac{2n\pi}{h}\right)=\widehat f(k),\qquad n\in\Z.
+\]
+为什么? 因为额外的指数因子 $\ee^{-2\pi\ii nj}$ 等于 $1$. 这正是把它限制在基本胞上的原因.
+
+现在考虑函数只在某个区间上给出时合适的傅里叶分析; 按惯例取区间 $[-\pi,\pi]$. 不出所料, 这时频率会被采样. 下面的公式与 SFT 的公式互为对偶.
+
+% 原定义 17, 原式 (6.5)--(6.6).
+\begin{definition}[傅里叶级数]
+傅里叶级数 (FS) 的系数为
+\begin{equation}\label{eq:fs}
+\widehat f_k=\int_{-\pi}^{\pi}\ee^{-\ii kx}f(x)\dd x,
+\qquad k\in\Z.
+\end{equation}
+逆傅里叶级数 (IFS) 写为
+\begin{equation}\label{eq:ifs}
+f(x)=\frac1{2\pi}\sum_{k=-\infty}^{\infty}\ee^{\ii kx}\widehat f_k,
+\qquad x\in[-\pi,\pi].
+\end{equation}
+\end{definition}
+
+若在预定区间之外使用 \eqref{eq:ifs}, 得到的函数便周期性重复: $f(x+2n\pi)=f(x)$. 同样, 这是因为整数频率上的指数因子不变. 级数的收敛方式需视 $f$ 的正则性而定, 不能对所有可积函数都不加条件地断言逐点恢复.
+
+这两个公式可以从内积的观点作直观说明. 表达式 $\int f(x)\overline{g(x)}\dd x$ 是函数上的内积. 容易验证, 复指数函数
+\[
+v_j(k)=\sqrt{\frac h{2\pi}}\,\ee^{-\ii kx_j}
+\]
+在 $[-\pi/h,\pi/h]$ 上组成一个正交归一函数族. 因而, 不计归一化常数, 取系数就是在正交基中进行分析, 而从系数重建函数就是合成. 要使这一点完全严格, 还需要了解无穷维线性代数的一些细节, 这些通常在实分析课程中讨论.
+\begin{remark}
+整理注: 原稿在解释 FS/IFS 时写出了 SFT/ISFT 所用的上述基. 对 FS/IFS 本身, 相应的正交归一基是 $\ee^{\ii kx}/\sqrt{2\pi}$, 定义区间为 $[-\pi,\pi]$. 两种解释互为对偶.
+\end{remark}
+
+下面给出 SFT 的一个例子.
+
+% 原例 20.
+\begin{example}\label{ex:discrete-sinc}
+设 $A=Mh$, 其中 $M$ 为正整数, 并考虑矩形样本
+\[
+f_j=\frac1{2A}\chi_{[-A,A]}(x_j).
+\]
+计算其半离散傅里叶变换.
+\end{example}
+\begin{solution}
+使用有限等比级数公式, 有
+\begin{align*}
+\widehat f(k)
+&=\frac h{2A}\sum_{j=-M}^{M}\ee^{-\ii kjh}
+=\frac h{2A}\ee^{\ii kMh}\sum_{j=0}^{2M}\ee^{-\ii kjh}\\
+&=\frac h{2A}\ee^{\ii kMh}
+\frac{(\ee^{-\ii kh})^{2M+1}-1}{\ee^{-\ii kh}-1}\\
+&=\frac h{2A}\frac{\sin(kh(M+1/2))}{\sin(kh/2)}.
+\end{align*}
+分母为零时, 按连续延拓解释最后一式. 这个函数称为离散 sinc. 它看起来像 sinc, 但把 $k=-\pi/h$ 和 $k=\pi/h$ 认同后, 它可以光滑地周期延拓.
+\end{solution}
+\begin{remark}
+整理注: 原稿同时把物理区间端点写成 $a$, 把求和范围写成 $j=-a,\ldots,a$, 因而混用了长度和整数索引. 上面区分 $A$ 与 $M=A/h$, 保留了同一等比级数推导; 原公式在 $h=1$、$a$ 为整数时与此一致.
+\end{remark}
+
+因此, 我们的第一条概括是: $x$ 中的采样对应 $k$ 中的限制或周期化, 而 $k$ 中的限制或周期化对应 $x$ 中的采样.
+
+\originalsection{离散傅里叶变换与快速算法}\label{sec:dft-fft}
+当空间和频率都被采样并限制在某个区间时, 剩下的就是离散傅里叶变换. 考虑
+\[
+x_j=jh,\qquad j=1,\ldots,N.
+\]
+由周期性, $j=0$ 与 $j=N$ 的点被认同, 所以网格不再另列 $j=0$. 若端点为 $x_0=0$ 和 $x_N=2\pi$, 则 $h=2\pi/N$, 因而 $\pi/h=N/2$. 以下先假设 $N$ 为偶数.
+
+在对偶的频率网格中, 取基本胞 $[-\pi/h,\pi/h]$ 中等距的 $N$ 个点. 结果是整数频率 $k=-N/2+1,\ldots,N/2$.
+
+% 原定义 18, 原式 (6.7)--(6.8).
+\begin{definition}[离散傅里叶变换]
+离散傅里叶变换 (DFT) 为
+\begin{equation}\label{eq:dft}
+\widehat f_k=h\sum_{j=1}^{N}\ee^{-\ii kjh}f_j,
+\qquad k=-\frac N2+1,\ldots,\frac N2.
+\end{equation}
+逆离散傅里叶变换 (IDFT) 为
+\begin{equation}\label{eq:idft}
+f_j=\frac1{2\pi}\sum_{k=-N/2+1}^{N/2}\ee^{\ii kjh}\widehat f_k,
+\qquad j=1,\ldots,N.
+\end{equation}
+\end{definition}
+\begin{remark}
+整理注: 原稿的 DFT 定义把 $k$ 写成 $-N/2,\ldots,N/2$, 共 $N+1$ 个索引, 而相邻正文和逆变换使用 $N$ 个索引. 这里统一为后者. 两个端点频率在网格上相同, 不能作为独立自由度重复计算.
+\end{remark}
+
+DFT 可以直接在计算机上实现公式 \eqref{eq:dft}. 其运算复杂度为 $O(N^2)$, 因为每个频率都要遍历 $N$ 个 $j$, 而又共有 $N$ 个频率.
+
+不过, 有一种巧妙的算法可以把所有 $\widehat f_k$ 的计算合并为 $O(N\log N)$ 的运算. 这就是快速傅里叶变换 (FFT). 按传统说法, 它归功于 1965 年的 Tukey 和 Cooley, 但此前也曾被数次发现: 1942 年的 Danielson 和 Lanczos, 以及 1805 年的 Gauss, 通常没有得到同样广泛的认可.
+
+FFT 的诀窍是把 $f$ 的样本分成偶数索引与奇数索引两组. 假设 $N$ 是 $2$ 的幂. 则
+\begin{align*}
+\widehat f_k
+&=h\sum_{j=1}^{N}\ee^{-\ii kjh}f_j\\
+&=h\sum_{j=1}^{N/2}\ee^{-\ii k(2j)h}f_{2j}
++h\sum_{j=1}^{N/2}\ee^{-\ii k(2j-1)h}f_{2j-1}\\
+&=h\sum_{j=1}^{N/2}\ee^{-\ii kj(2h)}f_{2j}
++h\ee^{\ii kh}\sum_{j=1}^{N/2}\ee^{-\ii kj(2h)}f_{2j-1}.
+\end{align*}
+最后一行的两个和式, 都是长度 $N/2$、网格间距 $2h$ 的 DFT 型和式: 第一个对应偶数样本, 第二个除一个乘法因子外对应奇数样本. 若按照 \eqref{eq:dft} 的归一化把它们记为 $E_k$ 和 $O_k$, 则
+\[
+E_k=2h\sum_{j=1}^{N/2}\ee^{-\ii kj(2h)}f_{2j},\qquad
+O_k=2h\sum_{j=1}^{N/2}\ee^{-\ii kj(2h)}f_{2j-1},
+\]
+以及 $\widehat f_k=(E_k+\ee^{\ii kh}O_k)/2$.
+\begin{remark}
+整理注: 原稿奇数组写为 $2j+1$, 随后却提出因子 $\ee^{\ii kh}$; 对该索引, 因子本应为 $\ee^{-\ii kh}$, 且需周期回绕. 这里用 $2j-1$ 避免回绕并使相位一致. 同时, 间距为 $2h$ 的规范 DFT 前有 $2h$, 所以上述合并公式显式保留了 $1/2$.
+\end{remark}
+
+较小的 DFT 通常只在 $k=-N/4+1,\ldots,N/4$ 上计算, 而我们需要 $k=-N/2+1,\ldots,N/2$ 上的值. 这不成问题: DFT 在标准频率范围外按周期延拓, 所以只需把已算出的值周期性复制.
+
+这一归约的优势已经显现: 一个规模为 $N$ 的问题, 实质上化成了两个规模为 $N/2$ 的问题. 更进一步, 奇偶分割可以递归进行, 直到 DFT 的长度为 $1$. 长度为 $1$ 时, DFT 只是乘以一个标量. 每一层合并这些和式需要 $O(N)$ 次运算, 总共有 $O(\log N)$ 层, 因而总复杂度为 $O(N\log N)$. 当 $N$ 不是 $2$ 的幂时, 也有相应的 FFT 变体.
+
+\originalsection{光滑性与截断}\label{sec:smoothness-truncation}
+本节研究把傅里叶变换截断到有限区间时的精度. 这个问题重要, 不仅因为实际数值傅里叶变换总在有限的 $k$ 区间中处理, 而且因为频率中的限制, 可以作为空间中采样的一个对应模型. 在下一章关于谱插值的讨论中, 我们会看到: 这里每个关于傅里叶变换截断的结论, 都与在网格上采样函数的精度有关, 即从 $f(x)$ 改为点 $x_j=jh$ 上的样本时损失了多少信息.
+\begin{remark}
+整理注: 原稿在这里交叉引用“第 2 章第 2.1 节”, 与整册实际内容不符; 对应内容在本册第 \ref{chap:spectral} 章的插值部分.
+\end{remark}
+
+我们将使用 $L^1$, $L^2$ 和 $L^\infty$ 空间. 前面已经遇到 $L^1$.
+
+% 原定义 19.
+\begin{definition}[$L^p$ 空间]
+设 $1\le p<\infty$. 若实变量函数 $f$ 满足
+\[
+\int_{-\infty}^{\infty}|f(x)|^p\dd x<\infty,
+\]
+则称 $f\in L^p(\R)$. 它在 $L^p(\R)$ 中的范数为
+\[
+\norm f_p=\left(\int_{-\infty}^{\infty}|f(x)|^p\dd x\right)^{1/p}.
+\]
+若 $\operatorname*{ess\,sup}_{x\in\R}|f(x)|<\infty$, 则称 $f\in L^\infty(\R)$, 其范数就是这个本质上确界.
+\end{definition}
+
+“本质上确界”指忽略零测集后得到的上确界, 即
+\[
+\operatorname*{ess\,sup}|f|
+=\inf_{\substack{X\subset\R\\|\R\setminus X|=0}}
+\sup_{x\in X}|f(x)|.
+\]
+上确界和下确界分别对应于未必能取到的最大值与最小值. 这些概念都属于实分析课程的内容. 对本课程而言, 可以启发式地把 $L^\infty$ 范数理解为函数模的最大值, 但允许忽略某些孤立间断点; 这些点不影响该范数. 把 $L^\infty$ 范数与 $p\to\infty$ 时的 $L^p$ 范数序列联系起来, 是一个有趣的练习.
+\begin{remark}
+整理注: 原稿把上式中的 $X$ 称为“稠密集”, 又将“稠密”解释为补集具有零测度. 通常的拓扑稠密并不等于这一条件; 此处应使用“满测集”. 忽略的也不限于孤立点, 而是任意零测集. 在无限测度空间 $\R$ 上讨论 $p\to\infty$ 的范数极限时, 还应保证相关 $L^p$ 范数存在.
+\end{remark}
+
+接下来需要两个很重要的恒等式: Parseval 恒等式和 Plancherel 恒等式. 它们表示从物理域到频率域的“能量守恒”.
+
+% 原定理 12.
+\begin{theorem}[Parseval 恒等式]\label{thm:parseval}
+设 $f,g\in L^1(\R)\cap L^2(\R)$. 则
+\[
+\int_{-\infty}^{\infty}f(x)\overline{g(x)}\dd x
+=\frac1{2\pi}\int_{-\infty}^{\infty}
+\widehat f(k)\overline{\widehat g(k)}\dd k.
+\]
+\end{theorem}
+\begin{proof}
+令 $h=f\star\widetilde g$, 其中 $\widetilde g(x)=\overline{g(-x)}$. 容易验证 $\widehat{\widetilde g}(k)=\overline{\widehat g(k)}$: 在变换积分中令 $y=-x$, 就得到 $\int\ee^{\ii ky}\overline{g(y)}\dd y$. 由卷积定理,
+\[
+\widehat h(k)=\widehat f(k)\overline{\widehat g(k)}.
+\]
+将此式对 $k\in\R$ 积分并除以 $2\pi$, 就得到 $x=0$ 处的逆傅里叶变换:
+\[
+h(0)=\frac1{2\pi}\int_{-\infty}^{\infty}
+\widehat f(k)\overline{\widehat g(k)}\dd k.
+\]
+另一方面,
+\[
+h(0)=\int_{-\infty}^{\infty}f(x)\overline{g(-(0-x))}\dd x
+=\int_{-\infty}^{\infty}f(x)\overline{g(x)}\dd x.
+\]
+两式比较即得结论.
+\end{proof}
+\begin{remark}
+整理注: 这是原稿的卷积证明路线. 为使逆变换一步不预先依赖尚未建立的 $L^2$ 理论, 可先对 Schwartz 函数完成上述证明, 再用同时在 $L^1$ 和 $L^2$ 中逼近的 Schwartz 函数推广. 对 Schwartz 函数, 取 $g=f$ 先得下述等距关系; 该关系使逼近序列的变换在 $L^2$ 中为柯西列. 又因 $L^1$ 收敛保证变换一致收敛, 这个 $L^2$ 极限与由积分定义的变换一致. 最后用柯西--施瓦茨不等式传递内积, 即得这里所列的完整适用范围. 原稿“卷积定理, 第 1.1 节”的引用也应指本章第 \ref{sec:fourier-transform} 节.
+\end{remark}
+
+% 原定理 13.
+\begin{theorem}[Plancherel 恒等式]\label{thm:plancherel}
+设 $f\in L^1(\R)\cap L^2(\R)$. 则
+\[
+\int_{-\infty}^{\infty}|f(x)|^2\dd x
+=\frac1{2\pi}\int_{-\infty}^{\infty}|\widehat f(k)|^2\dd k.
+\]
+\end{theorem}
+\begin{proof}
+在 Parseval 恒等式中取 $g=f$ 即可.
+\end{proof}
+
+借助这些公式, 事实上可以把傅里叶变换及上述恒等式推广到所有 $f,g\in L^2(\R)$, 而不限于 $L^1(\R)\cap L^2(\R)$. 这采用经典的稠密性论证, 许多优秀的分析教材都有介绍.
+
+在研究傅里叶变换的截断之前, 还需要全变差的概念. 原讲义在这里假定读者熟悉 $C^k(\R)$, 并在此把它约定为有界且 $k$ 次连续可微的函数空间.
+\begin{remark}
+整理注: 标准记号 $C^k(\R)$ 通常只要求 $k$ 次连续可微, 不自动包含有界性; 有界版本常另记为 $C_b^k$. 此处的有界性是原稿自己的约定, 后续傅里叶结论仍另需所说明的可积性条件.
+\end{remark}
+
+% 原定义 20, 原式 (6.9)--(6.10).
+\begin{definition}[全变差]
+若 $f\in C^1(\R)$, 则 $f$ 的全变差为
+\begin{equation}\label{eq:tv-smooth}
+\norm f_{\operatorname{TV}}=\int_{-\infty}^{\infty}|f'(x)|\dd x.
+\end{equation}
+对不属于 $C^1$ 的函数, 原讲义用以下两种更一般的表达式描述全变差:
+\begin{align}
+\norm f_{\operatorname{TV}}
+&=\lim_{h\to0}\int_{-\infty}^{\infty}
+\frac{|f(x)-f(x-h)|}{|h|}\dd x,\label{eq:tv-difference}\\
+\norm f_{\operatorname{TV}}
+&=\sup_{x_0<\cdots<x_m}\sum_{r=0}^{m-1}
+|f(x_{r+1})-f(x_r)|.\label{eq:tv-partition}
+\end{align}
+当 $f\in C^1(\R)$ 时, 它们化为 \eqref{eq:tv-smooth}. 全变差有限的函数称为有界变差函数, 所在空间记为 $\operatorname{BV}(\R)$.
+\end{definition}
+\begin{remark}
+整理注: 原分割公式未明写点的递增顺序, 已补上. 对任意逐点代表, \eqref{eq:tv-difference} 与 \eqref{eq:tv-partition} 并不自动相等: 改动单个点的值不会改变前者, 却可能改变后者. 若在 $L^1$ 等价类上使用 BV, 全变差通常指分布导数的总变差, 差商极限与之相等; 分割公式应取适当的 BV 代表, 例如跳跃点取左右极限之间的值. 此处后续傅里叶估计采用这一标准解释.
+\end{remark}
+
+分段常数函数的全变差, 就是各次跳跃大小的绝对值之和. 如果把更一般的函数看成分段常数函数的极限, 这一性质就给出了很有用的直观理解.
+
+傅里叶变换最重要的一条整体规律是: 大 $|k|$ 下的衰减, 对应于 $x$ 中的光滑性. 光滑程度和衰减速度都有不同层次, 因而这句话也有多种精确表述. 下面逐一讨论; 每项都说明“频率衰减推出空间光滑”或其逆向关系.
+\begin{itemize}
+\item 若 $\widehat f\in L^1(\R)$, 则逆变换给出的 $f$ 有界且连续. 因为 $|\ee^{\ii kx}|=1$, 所以
+\[
+|f(x)|\le\frac1{2\pi}\int_{\R}|\ee^{\ii kx}\widehat f(k)|\dd k
+=\frac1{2\pi}\int_{\R}|\widehat f(k)|\dd k.
+\]
+这证明有界性. 为证连续性, 取任意 $y_n\to0$, 并写成
+\[
+f(x-y_n)=\frac1{2\pi}\int_{\R}\ee^{\ii k(x-y_n)}\widehat f(k)\dd k.
+\]
+被积函数逐点趋于 $\ee^{\ii kx}\widehat f(k)$, 其模又被可积函数 $|\widehat f(k)|$ 一致控制. 因而勒贝格控制收敛定理适用, 得 $f(x-y_n)\to f(x)$.
+
+\item 若 $\widehat f(k)(1+|k|^p)\in L^1(\R)$, 其中 $p$ 为非负整数, 则 $f\in C^p$. $p=0$ 的情形已在上面证明, 一般情形类似. 对 $0\le n\le p$, 可以在积分号下求导, 得到
+\[
+f^{(n)}(x)=\frac1{2\pi}\int_{\R}\ee^{\ii kx}(\ii k)^n\widehat f(k)\dd k,
+\qquad
+|f^{(n)}(x)|\le\frac1{2\pi}\int_{\R}|k|^n|\widehat f(k)|\dd k.
+\]
+右侧有限, 因为 $|k|^n\le1+|k|^p$. $f^{(p)}$ 的连续性也按前项的方法证明. 整理注: 原稿末个估计遗漏了 $1/(2\pi)$, 已按本章的变换约定保留.
+
+\item 若 $f$ 是有界变差函数, 并且其傅里叶变换按前述框架存在, 则
+\[
+|\widehat f(k)|\le\norm f_{\operatorname{TV}}|k|^{-1},\qquad k\ne0.
+\]
+在 $f\in C^1\cap\operatorname{BV}(\R)$ 且具有所需可积性时, 由
+\[
+\ii k\widehat f(k)=\int_{\R}\ee^{-\ii kx}f'(x)\dd x
+\]
+取模, 就有
+\[
+|k|\,|\widehat f(k)|\le\int_{\R}|f'(x)|\dd x
+=\norm f_{\operatorname{TV}}<\infty.
+\]
+若 $f\in\operatorname{BV}$ 而 $f\notin C^1$, 就要改用 \eqref{eq:tv-difference} 或 \eqref{eq:tv-partition}. 利用差商公式写出修正证明并正确取极限, 是一个很好的练习.
+
+\item 若 $f^{(r)}\in L^2(\R)$ 对 $0\le r<p$ 成立, 且 $f^{(p)}\in\operatorname{BV}(\R)$, 则在这些导数和傅里叶变换具有相应弱导数解释的条件下, 存在 $C>0$ 使
+\[
+|\widehat f(k)|\le C|k|^{-p-1}.
+\]
+这个结论也见 Trefethen 的 \emph{Spectral Methods in MATLAB} 第 30 页定理 1 的 (a) 项. 若 $f\in C^{p+1}$, 且分部积分适用, 证明尤其简单:
+\[
+(\ii k)^{p+1}\widehat f(k)=\int_{\R}\ee^{-\ii kx}f^{(p+1)}(x)\dd x,
+\]
+所以
+\[
+|k|^{p+1}|\widehat f(k)|\le\int_{\R}|f^{(p+1)}(x)|\dd x
+=\norm{f^{(p)}}_{\operatorname{TV}}<\infty.
+\]
+同样, 试着把结论推广到不属于 $C^{p+1}$ 的函数, 也是有益的练习. 整理注: 原陈述右侧遗漏常数 $C$; 在只假定 $L^2$ 的情形, 变换和导数应按 $L^2$/分布理论理解, 不能直接把所有积分当作绝对收敛积分.
+
+\item 下文最常用的是同一证明所得的形式: 若 $f$ 有 $p$ 个 $L^1$ 导数, 则
+\[
+|\widehat f(k)|\le C|k|^{-p}.
+\]
+这里以 $f\in W^{p,1}(\R)$ 为一个明确的充分条件. 原稿这一项只留下“下文要用的就是这条; 证明同上”的提示, 随后的概括正是此式.
+\end{itemize}
+
+% 原例 21.
+\begin{example}\label{ex:b-splines}
+用 B 样条说明上述涉及有界变差的两条衰减结论. 从
+\[
+s(x)=\frac12\chi_{[-1,1]}(x)
+\]
+出发, 考虑它的反复自卷积.
+\end{example}
+\begin{solution}
+$s$ 是矩形指示函数的一半. 它属于 $\operatorname{BV}(\R)$, 但没有 $L^2(\R)$ 弱导数. 因此, 预期其傅里叶变换按 $|k|^{-1}$ 的包络衰减. 这与已经算出的 $\widehat s(k)=\sin k/k$ 一致.
+
+对 $s$ 作自卷积可以提高正则性. 例如 $s_2=s\star s$ 是一个三角形函数, 有一个 $L^2$ 导数, 且 $s_2'\in\operatorname{BV}(\R)$. 因而预期 $\widehat{s_2}$ 按 $|k|^{-2}$ 衰减. 卷积定理确实给出
+\[
+\widehat{s_2}(k)=(\widehat s(k))^2=\left(\frac{\sin k}{k}\right)^2.
+\]
+可以继续考虑任意多次自卷积 $s\star s\star\cdots\star s$; 这样得到的就是 B 样条族.
+\end{solution}
+
+空间光滑性与频率衰减之间的对应关系还远不止这些. 粗略地说, $x$ 中的 $p$ 阶导数对应 $k$ 中的负幂衰减 $|k|^{-p}$. 因此, 在各阶导数具有上述可积性或相应衰减条件时, $C^\infty$ 函数的变换具有所谓超代数衰减: 对每个 $p\ge0$, 都有相应的 $C_p|k|^{-p}$ 上界. 仅有 $C^\infty$ 而无无穷远控制, 不足以推出这个结论.
+
+比一般 $C^\infty$ 更精细的光滑层次, 还包括下列情形.
+\begin{itemize}
+\item 可解析延拓到复平面某个水平条带的函数, 例如 $f(x)=1/(1+x^2)$, 对应指数衰减的傅里叶变换; 本例为 $\widehat f(k)=\pi\ee^{-|k|}$. 这属于 Paley--Wiener 理论的范围, 具体细节不在本课程之内.
+\item 可解析延拓到整个复平面、且在复方向具有超指数增长的函数, 例如 $f(x)=\ee^{-x^2/2}$, 其变换可以比指数更快地衰减. 本例为 $\widehat f(k)=\sqrt{2\pi}\ee^{-k^2/2}$.
+\item 可解析延拓到整个复平面、且在无穷远具有指数型增长的函数, 例如 $f(x)=\sin x/x$, 其变换具有紧支集. 按本章的约定, 本例在分布意义下为 $\widehat f(k)=\pi\chi_{[-1,1]}(k)$, 区间端点的单点值不影响这一陈述. 这是反向的 Paley--Wiener 理论; 这类函数也称为带限函数.
+\end{itemize}
+关于这些内容, 可以参看 Trefethen 的书第 4 章.
+\begin{remark}
+整理注: 原稿第二项把高斯变换的常数写成 $\sqrt{\pi/2}$, 与原例 18 及本章约定不一致; 第三项把 sinc 的变换写成 $2\pi\chi_{[-1,1]}$, 也多了因子 $2$. 上面都已修正. 这些解析延拓与衰减的联系还需要适当的增长、可积性等条件, 原段落是说明性的层次介绍, 不是不加条件的普遍定理.
+\end{remark}
+
+傅里叶变换快速衰减的一个重要后果是: 可以把它截断到大区间 $k\in[-N,N]$, 代价是一个随 $N$ 很快减小的误差. $f$ 越光滑, $\widehat f$ 衰减越快, 截断到较大频率区间就越准确. 相反, 当 $f(x)$ 不光滑时, 可能出现收敛问题. 为定量讨论, 令
+\[
+\widehat f_N(k)=\chi_{[-N,N]}(k)\widehat f(k).
+\]
+因为
+\[
+\frac1{2\pi}\int_{-N}^{N}\ee^{\ii kx}\dd k=\frac{\sin(Nx)}{\pi x},
+\]
+由卷积定理,
+\[
+f_N(x)=\frac{\sin(Nx)}{\pi x}\star f(x).
+\]
+整理注: 原稿第一式把积分微元误写为 $\dd x$, 这里应为 $\dd k$.
+
+若 $f\in L^2(\R)$, 则 $N\to\infty$ 时总有 $f_N\to f$ 于 $L^2(\R)$. 因为 Plancherel 恒等式给出
+\begin{align*}
+\norm{f-f_N}_2^2
+&=\frac1{2\pi}\int_{-\infty}^{\infty}
+|\widehat f_N(k)-\widehat f(k)|^2\dd k\\
+&=\frac1{2\pi}\int_{|k|>N}|\widehat f(k)|^2\dd k.
+\end{align*}
+由于全实线上的 $|\widehat f|^2$ 积分有限, 其尾积分随 $N\to\infty$ 趋于零.
+
+但如果 $f$ 有间断点, 并且把收敛改为用 $L^\infty$ 而不是 $L^2$ 衡量, 情况就很不同. 一般来说, 此时 $L^\infty$ 收敛, 即这里所说的一致收敛, 不会成立. 这叫作 Gibbs 现象, 表现为用截断的傅里叶变换重建函数时出现波纹. 以 Heaviside 阶跃函数说明:
+\[
+u(x)=\begin{cases}1,&x\ge0,\\0,&x<0.\end{cases}
+\]
+它不属于 $L^2(\R)$, 但不影响这里的讨论; 乘上合适的窗函数, 就可以把例子改为 $L^2$ 函数. 由于 $u$ 不连续, 可以预期它的傅里叶变换衰减很慢. 考虑截断变换 $\widehat u_N(k)=\chi_{[-N,N]}(k)\widehat u(k)$. 回到空间域,
+\begin{align*}
+u_N(x)
+&=\frac{\sin(Nx)}{\pi x}\star u(x)
+=\int_0^{\infty}\frac{\sin(N(x-y))}{\pi(x-y)}\dd y\\
+&=\int_{-\infty}^{Nx}\frac{\sin y}{\pi y}\dd y
+\equiv s(Nx).
+\end{align*}
+这里的阶跃变换及相关振荡积分按广义函数或适当的广义积分解释.
+
+$s(Nx)$ 是一个从 $-\infty$ 处的 $0$ 过渡到 $+\infty$ 处的 $1$ 的 S 形函数, 经过 $s(0)=1/2$. 在 $x=-\pi/N$ 处取最小值约 $-0.08949$, 在 $x=\pi/N$ 处取最大值约 $1.08949$. 其振荡的相邻极值间距为 $\pi/N$. 参数 $N$ 只改变水平尺度, 不改变最小值和最大值. 即使 $N\to\infty$, 也不能一致趋于 Heaviside 阶跃; 始终有
+\[
+\norm{u-u_N}_\infty\ge0.08949\ldots.
+\]
+\begin{remark}
+整理注: 原稿给出的极值为约 $-0.045$ 和 $1.045$. 由 $s(t)=1/2+\operatorname{Si}(t)/\pi$, 在 $t=\pi$ 处实际得到 $1.089489\ldots$, 已据定义修正. 上式只用过冲提供一个不趋于零的下界; 阶跃点附近的误差还更大. 原稿此处标有“画图”, 未提供原图; 下图为按上述积分补绘的示意.
+\end{remark}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=.83\textwidth,height=5.2cm,axis lines=middle,xmin=-10,xmax=10,ymin=-.18,ymax=1.22,xlabel={$Nx$},ylabel={$u_N(x)$},xtick={-3.14159265,0,3.14159265},xticklabels={$-\pi$,$0$,$\pi$},ytick={0,.5,1},clip=false]
+\addplot[gray,dashed] coordinates {(-10,0)(0,0)};
+\addplot[gray,dashed] coordinates {(0,1)(10,1)};
+\addplot[structurecolor,thick,smooth] coordinates {(-10.00,-0.0278684) (-9.80,-0.0308039) (-9.60,-0.0325824) (-9.40,-0.0330829) (-9.20,-0.0322299) (-9.00,-0.0299987) (-8.80,-0.0264184) (-8.60,-0.0215729) (-8.40,-0.0156005) (-8.20,-0.0086906) (-8.00,-0.0010792) (-7.80,0.0069579) (-7.60,0.0151142) (-7.40,0.0230621) (-7.20,0.0304646) (-7.00,0.0369875) (-6.80,0.0423123) (-6.60,0.0461486) (-6.40,0.0482473) (-6.20,0.0484116) (-6.00,0.0465079) (-5.80,0.0424744) (-5.60,0.0363281) (-5.40,0.0281692) (-5.20,0.0181836) (-5.00,0.0066416) (-4.80,-0.0061048) (-4.60,-0.0196283) (-4.40,-0.0334345) (-4.20,-0.0469737) (-4.00,-0.0596534) (-3.80,-0.0708539) (-3.60,-0.0799441) (-3.40,-0.0862994) (-3.20,-0.0893192) (-3.00,-0.0884444) (-2.80,-0.0831745) (-2.60,-0.0730834) (-2.40,-0.0578335) (-2.20,-0.0371877) (-2.00,-0.0110188) (-1.80,0.0206836) (-1.60,0.0578101) (-1.40,0.1001306) (-1.20,0.1472976) (-1.00,0.1988524) (-0.80,0.2542343) (-0.60,0.3127928) (-0.40,0.3738024) (-0.20,0.4364793) (0.00,0.5000000) (0.20,0.5635207) (0.40,0.6261976) (0.60,0.6872072) (0.80,0.7457657) (1.00,0.8011476) (1.20,0.8527024) (1.40,0.8998694) (1.60,0.9421899) (1.80,0.9793164) (2.00,1.0110188) (2.20,1.0371877) (2.40,1.0578335) (2.60,1.0730834) (2.80,1.0831745) (3.00,1.0884444) (3.20,1.0893192) (3.40,1.0862994) (3.60,1.0799441) (3.80,1.0708539) (4.00,1.0596534) (4.20,1.0469737) (4.40,1.0334345) (4.60,1.0196283) (4.80,1.0061048) (5.00,0.9933584) (5.20,0.9818164) (5.40,0.9718308) (5.60,0.9636719) (5.80,0.9575256) (6.00,0.9534921) (6.20,0.9515884) (6.40,0.9517527) (6.60,0.9538514) (6.80,0.9576877) (7.00,0.9630125) (7.20,0.9695354) (7.40,0.9769379) (7.60,0.9848858) (7.80,0.9930421) (8.00,1.0010792) (8.20,1.0086906) (8.40,1.0156005) (8.60,1.0215729) (8.80,1.0264184) (9.00,1.0299987) (9.20,1.0322299) (9.40,1.0330829) (9.60,1.0325824) (9.80,1.0308039) (10.00,1.0278684)};
+\end{axis}
+\end{tikzpicture}
+\caption{整理补图: 截断阶跃的过冲与振荡. 横轴使用 $Nx$, 因而各个 $N$ 对应同一曲线.}
+\end{figure}
+
+这个 Gibbs 现象的例子说明: 对不光滑函数, 截断傅里叶展开可能是较差的数值近似. 不过, 对光滑函数, 情况就很好. 研究把傅里叶变换截断到 $[-N,N]$ 的近似误差, 令 $\eps_N^2=\norm{f-f_N}_2^2$. 再次应用 Plancherel 恒等式,
+\[
+\eps_N^2=\frac1{2\pi}\int_{|k|>N}|\widehat f(k)|^2\dd k.
+\]
+假定前面讨论过的衰减条件 $|\widehat f(k)|\le C|k|^{-p}$ 成立. 对 $p>1/2$, 有
+\[
+\eps_N^2\le\frac{C^2}{2\pi}\int_{|k|>N}|k|^{-2p}\dd k
+=\frac{C^2}{\pi(2p-1)}N^{-2p+1}.
+\]
+因此, 存在依赖于 $p$、但不依赖于 $N$ 的常数 $C'$, 使得
+\[
+\eps_N\le C'N^{-p+1/2}.
+\]
+$p$ 越大, $N\to\infty$ 时误差衰减越快. 当函数为 $C^\infty$, 且各阶导数满足前述可积性条件时, 可以对任意大的 $p$ 使用这一估计. 若函数解析, 且变换指数衰减, 则近似误差的衰减更快, 本身也是指数型的; 这是一个很好的练习. 在数值分析中, 这两种超过任何固定代数阶的精度都称为谱精度.
+\begin{remark}
+整理注: 原稿此处的 Plancherel 式漏写 $1/(2\pi)$, 衰减条件漏写模号, 尾积分也漏写积分微元. 已与本章前式统一. 由负幂尾积分推出上述估计需 $p>1/2$; 单独的 $C^\infty$ 光滑性也不能代替无穷远处的可积性条件.
+\end{remark}
+
+\originalsection{切比雪夫展开}\label{sec:chebyshev-expansion}
+\textbf{原讲义教学范围说明.} 切比雪夫展开、插值、微分和求积规则, 不属于 2012 年 MIT 18.330 的授课内容. 原讲义仍收录以下内容, 此处完整保留.
+
+在前面的各节, 我们已经看到实线上光滑函数的傅里叶变换衰减很快. 对有限区间上的傅里叶级数, 也有很相似的性质: 若函数在 $[-\pi,\pi]$ 上光滑, 并且在 $x=-\pi$ 与 $x=\pi$ 处可以光滑地周期衔接, 则其傅里叶系数 \eqref{eq:fs} 快速衰减.
+
+周期性是关键, 因为 $-\pi$ 与 $\pi$ 在 \eqref{eq:fs} 中并没有特别的地位; 积分界也可以改为 $0$ 与 $2\pi$. 因而, 若一个函数被称为光滑, 它在 $x=0$ 附近的光滑程度, 应与在由周期性认同的 $x=-\pi$ 和 $x=\pi$ 附近一样.
+
+例如, 若 $f$ 在区间内部光滑, 却有 $f(-\pi)\ne f(\pi)$, 则在讨论傅里叶级数收敛时, 它应视为一个不连续函数. 我们已经知道其后果: 出现 Gibbs 现象, 部分傅里叶和带有不希望看到的波纹, 且不在 $L^\infty$ 中收敛. 若 $f$ 光滑且周期, 则把上一节傅里叶变换的收敛结果推广到傅里叶级数, 是一个很好的练习.
+
+对于定义在 $[a,b]$ 上、不能光滑地周期衔接的光滑函数, 应当怎么办? 答案不唯一, 但数值分析中最常用的工具是切比雪夫多项式. 为简单起见, 设 $x\in[-1,1]$; 一般区间先作缩放. 给定一个 $[-1,1]$ 上非周期的 $C^k$ 函数 $f(x)$, 诀窍是考虑
+\[
+g(\theta)=f(\cos\theta).
+\]
+由于 $\cos[0,\pi]=\cos[\pi,2\pi]=[-1,1]$, 当 $\theta$ 遍历 $[0,2\pi]$ 时, $x\in[-1,1]$ 的各个值被覆盖两次. 由链式法则, $g$ 在每个点都继承 $f$ 的光滑性; 又因为 $\cos\theta$ 周期, $g$ 也是周期函数. 因而, $g$ 正是我们预期具有快速收敛傅里叶级数的那一类函数:
+\[
+\widehat g_k=\int_0^{2\pi}\ee^{-\ii k\theta}g(\theta)\dd\theta,
+\qquad
+g(\theta)=\frac1{2\pi}\sum_{k=-\infty}^{\infty}
+\ee^{\ii k\theta}\widehat g_k,\qquad k\in\Z.
+\]
+由于 $g$ 关于 $\theta$ 为偶函数, 可以去掉展开中的正弦项, 并把正负频率合并:
+\[
+\widehat g_k=\int_0^{2\pi}\cos(k\theta)g(\theta)\dd\theta,
+\qquad
+g(\theta)=\frac1{2\pi}\widehat g_0
++\frac1\pi\sum_{k=1}^{\infty}\cos(k\theta)\widehat g_k.
+\]
+回到 $f$, 得
+\begin{align*}
+\widehat g_k&=2\int_{-1}^{1}\cos(k\arccos x)f(x)
+\frac{\dd x}{\sqrt{1-x^2}},\\
+f(x)&=\frac1{2\pi}\widehat g_0
++\frac1\pi\sum_{k=1}^{\infty}\cos(k\arccos x)\widehat g_k.
+\end{align*}
+
+函数 $\cos(k\arccos x)$ 恰好是一个 $k$ 次多项式, 称为 $k$ 阶切比雪夫多项式. 按习惯改用字母 $n$:
+\[
+T_n(x)=\cos(n\arccos x),\qquad x\in[-1,1].
+\]
+最初几个切比雪夫多项式为 $T_0(x)=1$, $T_1(x)=x$, $T_2(x)=2x^2-1$. 利用三角恒等式证明它们满足递推关系
+\[
+T_{n+1}(x)=2xT_n(x)-T_{n-1}(x),\qquad n\ge1,
+\]
+是一个很好的练习. 整理补充: 这也直接说明每个 $T_n$ 的确是多项式, 而不只是一个含反三角函数的表达式.
+
+$T_n$ 在 $[-1,1]$ 上的正交性, 来自 $\cos(n\theta)$ 在 $[0,\pi]$ 上的正交性, 但必须留意特殊的积分权重:
+\[
+\int_{-1}^{1}T_m(x)T_n(x)\frac{\dd x}{\sqrt{1-x^2}}
+=c_n\delta_{mn},\qquad
+c_n=\begin{cases}\pi,&n=0,\\\pi/2,&n\ge1.\end{cases}
+\]
+因此, 若定义加权内积
+\[
+\inner{f}{T_n}=\int_{-1}^{1}T_n(x)f(x)\frac{\dd x}{\sqrt{1-x^2}},
+\]
+则 $f$ 的切比雪夫展开为
+\[
+f(x)=\frac1\pi\inner f{T_0}
++\frac2\pi\sum_{n=1}^{\infty}T_n(x)\inner f{T_n}.
+\]
+\begin{remark}
+整理注: 原稿把正交常数写成 $c_0=\pi/2$, $c_n=\pi$ ($n\ne0$), 恰好颠倒; 其后展开公式却使用了正确的倒数常数. 上面根据 $\int_0^\pi1\dd\theta=\pi$ 和 $\int_0^\pi\cos^2(n\theta)\dd\theta=\pi/2$ 明示修正.
+\end{remark}
+
+从本质上说, 这个展开是一个周期函数的傅里叶级数. 因而可以应用傅里叶级数与傅里叶变换的结果, 得到切比雪夫展开的快速衰减. 这样, 定义在区间上的非周期函数也恢复了谱精度.

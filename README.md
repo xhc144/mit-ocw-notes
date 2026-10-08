@@ -35,7 +35,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-仓库基础说明已建立。课程映射、原始资料归档及中文讲义均在整理中；本说明不表示已经完成下载、翻译或编译。
+首批三学科中，数值分析七章中文整理册已交付；数值代数、最优化等待最终发布。全站归档仍在分批进行，课程目录总量不能用作已交付讲义分母。
 
 官方站点地图清单登记了 2,587 个课程目录项。这是课程站点目录数量，不是讲义数量、已下载文件数量或可交付译文数量。数值分析、数值代数、最优化三科当前已交付的完整中文译编讲义为 0 册。详细目录及计数含义见 `manifests/metadata/`；实际文件归档进度由文件清单单独记录。
 
@@ -43,7 +43,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 | 学科 | 官方原讲义 | 中文整册 |
 |---|---|---|
-| 数值分析 | [18.330 原件](sources/18.330-spring-2012/)：7章、99页，原件已校验 | 整理中，未交付完整册 |
+| [数值分析](subjects/numerical-analysis/) | [18.330 原件](sources/18.330-spring-2012/)：7章、99页 | **59页** · [下载中文PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/numerical-analysis/dist/main.pdf) · [源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/numerical-analysis/dist/source.zip) |
 | 数值代数 | [18.335J 原讲义](sources/18.335j-spring-2019/)：25份PDF、227页；数值代数核心12份59页，另2份权利例外仅保留来源链接 | 整理中，未交付完整册 |
 | 最优化 | [6.253 原讲义 PDF](sources/6.253-spring-2012/MIT6_253S12_lec_comp.pdf)：25讲、340页；另有[线性规划补充](sources/15.053-spring-2013/)8份232页，原件已校验 | 整理中，未交付完整册 |
 

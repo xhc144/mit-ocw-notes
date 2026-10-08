@@ -1,0 +1,355 @@
+\originalchapter{常微分方程的数值方法}
+\label{ch:ode}
+
+\originalsection{初值问题}
+
+初值问题是在某个时刻, 如 $t=0$, 已完全知道解, 要求解其他时刻的常微分方程:
+\[
+y'(t)=f(t,y(t)),\qquad y(0)=y_0.
+\]
+本章先取标量 $y$, 相应构造可推广到常微分方程组. 我们既讨论存在、唯一等理论问题, 也讨论数值求解器. 称 $t$ 为时间, 是因为许多物理问题如此, 但它也可以表示空间变量.
+
+解是否存在, 是否唯一, 会不会在有限时间趋于无穷大而爆破? 这些并不是无关实际的细节. 如果方程选择不当, 问题会很快暴露出来.
+
+\begin{example}\label{ex:ode-nonunique}
+考虑 $y'=\sqrt y$, $y(0)=0$, 取 $t\geq0$.
+\end{example}
+\begin{solution}
+在 $y>0$ 的部分分离变量, 有 $\int\dd y/\sqrt y=\int\dd t$, 从而 $y(t)=(t+C)^2/4$; 还应限制 $t+C\geq0$, 以符合 $y'=\sqrt y$. 初值给出一个解 $y(t)=t^2/4$. 但 $y(t)=0$ 也是解, 所以不唯一. 实际上有无穷多个解: 任取 $t_*\geq0$, 可令
+\[
+y(t)=\begin{cases}0,&0\leq t\leq t_*,\\(t-t_*)^2/4,&t\geq t_*.
+\end{cases}
+\]
+它在 $t_*$ 两侧的一阶导数都趋于零, 因而确实满足方程. 分离变量时除以 $\sqrt y$ 会漏掉零解, 这也说明不能把该操作当成唯一性证明.
+\end{solution}
+
+\begin{example}\label{ex:ode-blowup}
+考虑 $y'=y^2$, $y(0)=1$.
+\end{example}
+\begin{solution}
+分离变量得 $\int y^{-2}\dd y=\int\dd t$, 所以 $y(t)=-1/(t+C)$. 初值给出 $C=-1$, 因而 $y(t)=1/(1-t)$. 在 $t=1$ 处有竖直渐近线, 解发生爆破. 它在包含零点且位于 $t<1$ 的有限时间区间上存在, 但不能作为有限的经典解延续到全部 $t\geq0$.
+\end{solution}
+
+爆破和不唯一在应用中通常不合物理要求, 但并非总如此. 原文脚注举例: 非线性光学中的激光脉冲塌缩可以在一定范围内由爆破模型描述, 只是模型在任意靠近奇点时未必仍真实. 存在唯一性及非爆破条件, 有助于建立有效的物理模型.
+
+\begin{theorem}[Picard 存在唯一性定理的一个充分条件版本]\label{thm:picard}
+给定 $T>0$, $C>0$, $y_0\in\R$, 令 $B=[0,T]\times[y_0-C,y_0+C]$. 假设 $f$ 在 $B$ 上连续, 且对 $(t,y)\in B$ 有 $|f(t,y)|\leq K$, 并满足关于第二变量的一致 Lipschitz 条件
+\[
+|f(t,u)-f(t,v)|\leq L|u-v|,
+\qquad(t,u),(t,v)\in B.
+\]
+若 $L>0$ 且 $C\geq(K/L)(\ee^{LT}-1)$, 则存在唯一的 $y\in C^1[0,T]$, 满足初值问题以及 $|y(t)-y_0|\leq C$. $L=0$ 时相应条件按极限理解为 $C\geq KT$.
+\end{theorem}
+\begin{proof}
+\textbf{整理补证.} 原文指向 Süli--Mayers 第 311 页的 Picard 迭代, 未展开证明. 令 $y^{(0)}(t)=y_0$, 逐次定义
+\[
+y^{(m+1)}(t)=y_0+\int_0^t f(s,y^{(m)}(s))\dd s.
+\]
+第一次差为 $|y^{(1)}-y^{(0)}|\leq Kt$. 利用 Lipschitz 条件归纳, 有
+\[
+|y^{(m+1)}(t)-y^{(m)}(t)|\leq\frac{KL^m t^{m+1}}{(m+1)!}.
+\]
+把前面各次差相加, 每个迭代与 $y_0$ 的距离不超过 $(K/L)(\ee^{Lt}-1)\leq C$, 所以迭代始终留在 $B$ 中, 也证明以上估计的归纳合法. 指数级数在 $[0,T]$ 上一致收敛, 故迭代列一致收敛到连续函数 $y$. Lipschitz 条件又使 $f(s,y^{(m)}(s))$ 一致收敛到 $f(s,y(s))$, 可以在有限区间积分中取极限, 得 $y(t)=y_0+\int_0^tf(s,y(s))\dd s$. 因而 $y\in C^1$, 并满足方程.
+
+若 $y,z$ 是两个留在盒内的解, 则 $|y(t)-z(t)|\leq L\int_0^t|y(s)-z(s)|\dd s$. 设两者差的最大值为 $D$, 反复代入得到 $|y(t)-z(t)|\leq D(Lt)^m/m!$ 对任意 $m$ 成立. 令 $m\to\infty$, 得到 $y=z$. 当 $L=0$ 时, $f$ 与第二变量无关, 一次积分即给出唯一解.
+\end{proof}
+
+方程 $y'=\sqrt y$ 在零点不满足 Lipschitz 条件, 因此不能用该定理排除不唯一. 原文说 $y'=y^2$ 不满足定理是因为 $y^2$ 不受常数 $K$ 控制. 整理注: 在每个有限盒内 $y^2$ 都有界且 Lipschitz, 因而它有局部唯一解. 问题是对跨过爆破时刻的指定 $T$, 不能找到保持解的盒及这些充分条件; 不能把“全局无界”误写成“任意有限盒内无界”.
+
+\originalsection{初值问题的数值方法}
+
+取 $t_n=nh$, 用 $y_n$ 表示 $y(t_n)$ 的近似. 以下概览常见方法.
+
+\begin{enumerate}
+\item 向前 Euler 法, 也称显式 Euler 法:
+\[
+y_{n+1}=y_n+hf(t_n,y_n).
+\]
+它在 $t_n$ 处用向前差分近似导数, 从已知的 $y_n$ 直接推进到 $y_{n+1}$.
+\item 向后 Euler 法, 也称隐式 Euler 法:
+\[
+y_{n+1}=y_n+hf(t_{n+1},y_{n+1}).
+\]
+它在 $t_{n+1}$ 用向后差分. 未知量也出现在右边, 一般须用 Newton 法等解一个非线性方程, 才完成一步时间推进.
+\item 隐式梯形法:
+\[
+y_{n+1}=y_n+\frac h2\bigl[f(t_n,y_n)+f(t_{n+1},y_{n+1})\bigr].
+\]
+可把左侧差商看成中点附近的斜率, 而右侧以两端斜率平均代替中点斜率. 这比单端斜率更均衡, 但仍需解 $y_{n+1}$. 整理注: 原文同时称它为 midpoint rule; 对一般非线性 $f$, 梯形法与真正的隐式中点法 $y_{n+1}=y_n+hf(t_n+h/2,(y_n+y_{n+1})/2)$ 是不同方法. 以下将原文对应公式统一称梯形法.
+\item 改进 Euler 法或二阶 Runge--Kutta 法, 此处指显式的 Heun 形式:
+\[
+\widetilde y_{n+1}=y_n+hf(t_n,y_n),\qquad
+y_{n+1}=y_n+\frac h2\bigl[f(t_n,y_n)+f(t_{n+1},\widetilde y_{n+1})\bigr].
+\]
+这是最简单的预测--校正方法之一. 先用显式 Euler 预测终点值, 再平均起点和预测终点的斜率; 最终未知量只出现在左边, 因而是显式方法.
+\item 经典四阶 Runge--Kutta 法, 即 RK4:
+\begin{align*}
+k_1&=f(t_n,y_n),&k_2&=f(t_n+h/2,y_n+hk_1/2),\\
+k_3&=f(t_n+h/2,y_n+hk_2/2),&k_4&=f(t_n+h,y_n+hk_3),\\
+y_{n+1}&=y_n+\frac h6(k_1+2k_2+2k_3+k_4).
+\end{align*}
+四个斜率按顺序计算. 整理注: 原件漏掉最终权重的 $1/6$; 原件中的 $h(k_1+2k_2+2k_3+k_4)$ 连常数导数都不能正确积分, 不是经典 RK4.
+\item 多步方法还使用 $y_{n-1},y_{n-2},\ldots$, 而不仅是最新的 $y_n$. 原文说它们通常不如单步法灵活, 因为需要固定 $h$. 整理注: 这适用于此处固定系数、固定步长的基本形式; 实际也有变步长多步方法, 不能把固定步长当成全部多步法的定义.
+\end{enumerate}
+
+选择求解器时有两个重要问题: 当 $h\to0$ 时数值解是否趋于真解, 速度如何? 改变初值为 $\widetilde y_0$ 后, 数值解是否保持 $|y_n-\widetilde y_n|\leq C|y_0-\widetilde y_0|$, 其中在固定时间区间有 $n=O(1/h)$, 而 $C$ 与 $h$ 无关?
+
+\textbf{收敛性.} 对单步方法, 写 $y_{n+1}=\Psi(t_n,y_n,h)$. 定义局部误差和全局误差为
+\[
+e_{n+1}(h)=\Psi(t_n,y(t_n),h)-y(t_{n+1}),\qquad
+E_n(h)=y_n-y(t_n).
+\]
+局部误差就是把真解代入数值格式后的一步缺陷, 尽管真解通常未知. 这种分析远比直接求全局误差容易; 反过来把一个未知的近似解代入精确方程, 并不方便. 收敛性研究全局误差, 一致性研究局部误差的适当衰减.
+
+\begin{definition}[一致性与阶]\label{def:ode-consistency-order}
+若在固定时间区间, $e_{n+1}(h)/h\to0$ 随 $h\to0$ 一致地对各步成立, 则称单步方法一致. 若局部误差一致满足 $e_{n+1}(h)=O(h^{p+1})$, 则称局部误差具有对应的 $p$ 阶. 在下面的稳定性条件下, 全局误差为 $O(h^p)$, 称求解器为 $p$ 阶方法.
+\end{definition}
+
+原文只写每个 $n$ 上的极限; 在到达固定终点时步数随 $h$ 增长, 因而需要能控制所有步的统一估计. 原文也不加证明地说单步法局部 $O(h^{p+1})$ 导致全局 $O(h^p)$, 而多步法另需稳定性. 整理补充: 单步法同样需要误差传播的适当 Lipschitz 控制, 不能只凭局部误差阶保证收敛.
+
+\begin{proposition}\label{prop:one-step-convergence}
+设 $|e_{n+1}(h)|\leq Ch^{p+1}$, 且 $\Psi$ 在相关解的邻域满足
+\[
+|\Psi(t,u,h)-\Psi(t,v,h)|\leq(1+Lh)|u-v|,
+\]
+其中 $C,L$ 不依赖步长或步号. 假设真解与数值迭代都留在所用邻域中, 且 $y_0=y(0)$, 则对 $nh\leq T$, 全局误差为 $O(h^p)$.
+\end{proposition}
+\begin{proof}
+\textbf{整理补证.} 相减得到 $|E_{n+1}|\leq(1+Lh)|E_n|+Ch^{p+1}$. 逐次迭代, 当 $L>0$ 时,
+\[
+|E_n|\leq Ch^{p+1}\sum_{j=0}^{n-1}(1+Lh)^j
+=\frac CLh^p\bigl[(1+Lh)^n-1\bigr]
+\leq\frac CLh^p(\ee^{LT}-1).
+\]
+当 $L=0$ 时上界为 $Cnh^{p+1}\leq CTh^p$. 这说明局部误差大致经过 $O(1/h)$ 步积累, 损失一阶; 它们并非简单相加, 但传播因子在固定时间内有统一控制.
+\end{proof}
+
+用基本 Taylor 展开验证显式与隐式 Euler 为一阶、梯形与改进 Euler 为二阶, 是很好的练习. RK4 为四阶, 但完整的高阶展开较繁, 原文不作证明.
+
+\textbf{稳定性.} 一致性与 $h\to0$ 的收敛不能说明一切. 实际中希望 $h$ 足够小又不至于使计算太低效, 在这个范围稳定性很关键. 一般的初值扰动估计较难, 先看线性化. 在参考值 $y_0$ 附近,
+\[
+\frac{\dd}{\dd t}(y(t)-y_0)=f(t,y_0)+\frac{\partial f}{\partial y}(t,y_0)(y(t)-y_0)+o(|y(t)-y_0|).
+\]
+线性项决定附近的指数增长或衰减. 因此研究代表性测试方程 $y'=\lambda y$, 其中 $\lambda$ 反映 $\partial f/\partial y$ 的局部值.
+
+\begin{definition}[线性绝对稳定性]\label{def:absolute-stability}
+把方法用于 $y'=\lambda y$, $\lambda\in\C$, 若对非零初值有 $y_n\to0$ 当 $n\to\infty$, 则称该方法对当前 $z=h\lambda$ 线性绝对稳定. 所有这样的 $z$ 构成绝对稳定区域.
+\end{definition}
+
+真解为 $y(0)\ee^{\lambda t}$, 因此 $\operatorname{Re}\lambda<0$ 时衰减. 我们要检查数值方法在相应条件下是否也衰减. 整理注: 原文脚注把线性稳定有时称为 A 稳定; 标准意义下 A 稳定是整个左半平面都包含在方法的稳定区域内, 是更强的性质. 线性化提供重要诊断, 但单看 $f_y$ 的范围并不无条件保证一般非线性问题的全局稳定.
+
+\begin{example}\label{ex:euler-explicit-stability}
+对 $y'=\lambda y$ 使用向前 Euler 法.
+\end{example}
+\begin{solution}
+$y_{n+1}=(1+h\lambda)y_n$. 因而衰减当且仅当 $|1+h\lambda|<1$. 写 $z=h\lambda=x+\ii y$, 条件为 $(1+x)^2+y^2<1$: 稳定区域是复平面中以 $-1$ 为中心、半径 $1$ 的开圆盘. 因而显式 Euler 条件稳定, 通常要同时有 $\operatorname{Re}\lambda<0$ 与足够小的 $h$.
+\end{solution}
+
+\begin{example}\label{ex:euler-implicit-stability}
+对 $y'=\lambda y$ 使用向后 Euler 法.
+\end{example}
+\begin{solution}
+$y_{n+1}=y_n+h\lambda y_{n+1}$, 所以 $y_{n+1}=y_n/(1-h\lambda)$. 稳定条件为 $|1-z|>1$, 即 $(x-1)^2+y^2>1$: 以 $+1$ 为中心、半径 $1$ 的圆盘外部. 整个左半平面都在其中, 与步长大小无关, 因而它是 A 稳定的, 也称在该测试意义下无条件稳定. 区域甚至包含某些右半平面点, 因而大步长也可能使本来增长的真解对应数值迭代衰减; 稳定不等于精确.
+\end{solution}
+
+\begin{example}\label{ex:trapezoid-stability}
+原文所称“中点法”的梯形格式用于 $y'=\lambda y$.
+\end{example}
+\begin{solution}
+有 $y_{n+1}=y_n+(h\lambda/2)(y_n+y_{n+1})$, 即
+\[
+y_{n+1}=\frac{1+z/2}{1-z/2}y_n.
+\]
+要求 $|(1+z/2)/(1-z/2)|<1$, 写 $z=x+\ii y$, 等价于
+$(1+x/2)^2+(y/2)^2<(1-x/2)^2+(y/2)^2$, 也就是 $x<0$. 因而稳定区域恰为左半平面, 它也 A 稳定. 真正的隐式中点法在这个线性测试方程上具有相同的稳定函数, 但一般非线性方程上两种格式不同.
+\end{solution}
+
+原文概括为显式方法通常条件稳定, 隐式方法无条件稳定. 整理注: 不能把第二句泛化为全部隐式法; 隐式性本身不保证 A 稳定. 此处已实际验证的是向后 Euler 和梯形法. 原文引向 Süli--Mayers 第 351 页的 Runge--Kutta 稳定区域图.
+
+对方程组 $y'=f(t,y)$, 线性化的 Jacobian 为 $A=\nabla_yf(t,y_0)$, 测试系统为 $y'=Ay$. 列向量约定下解为 $y(t)=\ee^{tA}y(0)$, 其中矩阵指数按幂级数定义. 原文写了相反的矩阵乘法顺序, 此处修正. 若 $A$ 的所有特征值实部为负, 真解最终衰减. 数值方法的线性测试要求每个 $h\lambda$ 位于相应稳定区域. 非正规矩阵还可能出现较大瞬态放大, 因而特征值判别不等于所有步上的扰动常数都很小.
+
+具有很大负实部特征值、含快速衰减尺度的问题称为刚性问题的典型情形. 物理上快速模态强烈稳定, 但显式方法的稳定区域沿负实轴延伸有限, 会被迫采用很小步长. 对这类问题, 合适的隐式方法通常有明显优势.
+
+\textbf{延迟校正.} 这是另一类自然设计高阶方法的途径. 在一小段等距时间网格 $t_j=jh$, $j=0,\ldots,m$, 上先用低阶方法得到 $y_j$, 包括精确初值 $y_0$. 令 $\pi_m$ 是通过这些数据的插值多项式, 设缺陷或误差 $\delta(t)=y(t)-\pi_m(t)$. 则
+\[
+\delta'(t)=f(t,y(t))-\pi_m'(t),\qquad\delta(0)=0.
+\]
+由于 $y=\pi_m+\delta$, 可写等价的校正方程; 仍用原来的或另一种低阶方法近似求得 $\widetilde\delta$:
+\[
+\widetilde\delta'(t)=f(t,\pi_m(t)+\widetilde\delta(t))-\pi_m'(t),
+\qquad\widetilde\delta(0)=0.
+\]
+然后令 $\widetilde y(t)=\pi_m(t)+\widetilde\delta(t)$. 重复若干次可改善精度, 实际的增阶还需相应求积及误差分析. 原文把这种版本归于 Dutt, Greengard, Rokhlin (2000). 整理注: 原文在节点数、次数和 $m,n$ 上不一致; 此处统一, 并明确 $\pi_m(0)=y_0$ 是零缺陷初值的前提.
+
+\originalsection{边值问题}
+
+边值问题是在一个区间的两端规定解的某些特征. 一个 $r$ 阶标量方程通常需要总共 $r$ 个独立条件, 但这并不把所有边值问题限定为二阶. 下面的基本二阶例子是
+\begin{align*}
+-u''(x)&=f(x),&u(0)&=a,&u(1)&=b&&\text{(Dirichlet)},\\
+-u''(x)&=f(x),&u'(0)&=a,&u'(1)&=b&&\text{(Neumann)},\\
+-u''(x)&=f(x),&u(0)&=u(1),&u'(0)&=u'(1)&&\text{(周期)}.
+\end{align*}
+整理注: 原文周期问题只写端点值相等, 还需端点导数相等, 才是这个二阶问题的完整周期条件.
+
+研究 $-u''=f$ 不只是为解方程本身; 它可通过两次积分及边界条件求常数直接求解. 研究它有两个作用. 一是它是连续弹性中最简单的模型之一: $u$ 可以表示弹性杆受重力后的纵向位移, $f$ 是外力密度, $u'$ 为伸长或应变. 给定位移表示端点固定, 零应变或相应零力条件表示自由端; 闭合弹性环可用周期条件描述. 二是它是最简单的数值边值问题, 包含许多更复杂问题也会遇到的特征. 例如 $-u''+\alpha(x)u=f$, $u(0)=a$, $u(1)=b$, 一般就没有简单的显式解.
+
+\textbf{打靶法.} 对 $-u''+\alpha(x)u=f$, 固定 $u(0)=a$, 猜测初始斜率 $s$, 解初值问题
+\[
+-u''(x;s)+\alpha(x)u(x;s)=f(x),\qquad u(0;s)=a,\quad u'(0;s)=s.
+\]
+通常 $u(1;s)$ 不等于 $b$, 但可以调整 $s$, 将边值问题化为求根 $u(1;s)-b=0$. 割线法只需不断计算 $u(1;s)$, 每次通过一个初值方程求出. Newton 法需要参数导数 $\partial u(1;s)/\partial s$. 原文提出练习: 对参数求导, 找到这个导数所满足的微分方程.
+
+整理补充: 令 $v(x;s)=\partial u(x;s)/\partial s$, 则 $-v''+\alpha(x)v=0$, $v(0;s)=0$, $v'(0;s)=1$. 与原方程一起积分可得到 $v(1;s)$, 再用于 Newton 步. 原文把参数 $s$ 的导数数处误写为 $t$ 导数, 此处统一. 打靶法直观, 但一般构造主要适用于常微分方程; 以下的有限差分思路也可推广到偏微分方程.
+
+先考虑 $-u''=f$, $u(0)=u(1)=0$. 取 $x_j=jh$, $j=0,\ldots,N$, $h=1/N$. 用通常的三点中心二阶差分:
+\begin{equation}\label{eq:dirichlet-fd}
+-\frac{U_{j+1}-2U_j+U_{j-1}}{h^2}=f(x_j),\qquad j=1,\ldots,N-1.
+\end{equation}
+大写 $U$ 表示数值解, 小写 $u$ 表示真解. 令 $U_0=U_N=0$, 内部值未知. 组成 $KU=F$, 其中
+\[
+K=\frac1{h^2}\begin{pmatrix}
+2&-1&&&\\-1&2&-1&&\\&\ddots&\ddots&\ddots&\\&&-1&2&-1\\&&&-1&2
+\end{pmatrix}_{(N-1)\times(N-1)},\qquad F_j=f(x_j).
+\]
+Matlab 中可用 \texttt{U = K\textbackslash F}. 若改为 $U_0=a$, $U_N=b$, 矩阵不变, 但第一和最后一个右端分量分别增加 $a/h^2$, $b/h^2$. 当只剩一个内部节点时, 两个贡献都加在该分量上. 这是原文留出的一个简单练习.
+
+矩阵 $K$ 必须可逆, 算法才有意义. 要证明收敛, 还需要 $K^{-1}$ 的适当范数不随网格细化爆增.
+
+\begin{definition}[局部截断误差与实际误差]\label{def:bvp-errors}
+对数值格式 $KU=F$, 将真解采样向量 $u=(u(x_j))$ 代入, 若 $Ku=F+\tau$, 则称 $\tau$ 为局部截断误差. 实际误差向量为 $e_j=u(x_j)-U_j$.
+\end{definition}
+
+对当前中心二阶差分, 若 $u\in C^4[0,1]$, 则
+\[
+-\frac{u(x_{j+1})-2u(x_j)+u(x_{j-1})}{h^2}=f(x_j)+O(h^2),
+\]
+因此每个局部截断误差为 $O(h^2)$. 将 $Ku=F+\tau$ 与 $KU=F$ 相减, 有 $Ke=\tau$, 即 $e=K^{-1}\tau$. 接下来的线性代数工具, 就是控制这个误差放大的大小.
+
+\textbf{矩阵范数与特征值.} 以下主要是线性代数回顾.
+
+\begin{definition}\label{def:spectral-norm}
+任意实矩形矩阵 $A$ 的谱范数或 $2$ 范数为 $\norm A_2=\max_{x\neq0}\norm{Ax}_2/\norm x_2$, 其中 $\norm x_2=(\sum_ix_i^2)^{1/2}$.
+\end{definition}
+它是矩阵作用后向量长度的最大伸缩倍数. 按定义, 对所有 $x$ 有 $\norm{Ax}_2\leq\norm A_2\norm x_2$, 可用来建立矩阵不等式.
+
+特征分解写成 $AV=V\Lambda$, 其中 $V$ 各列为特征向量, $\Lambda$ 为对应特征值构成的对角矩阵. 如果有完整的一组线性无关特征向量, 则 $A=V\Lambda V^{-1}$. 实对称矩阵可选完整的正交归一特征向量, 所以 $V^TV=VV^T=I$, 并有
+\[
+A=V\Lambda V^T=\sum_iv_i\lambda_i v_i^T.
+\]
+其特征值都是实数. 这里 $V$ 是正交矩阵; 原文把它称为 unitary 或旋转, 实数情况下“正交”更准确, 也允许反射.
+
+\begin{theorem}\label{thm:symmetric-norm}
+若 $A=A^T$, 则 $\norm A_2=\max_i|\lambda_i(A)|$.
+\end{theorem}
+\begin{proof}
+先注意正交变换不改变向量 $2$ 范数: $\norm{Vx}_2^2=x^TV^TVx=x^Tx=\norm x_2^2$. 令 $y=V^Tx$, 则
+\[
+\frac{\norm{Ax}_2^2}{\norm x_2^2}
+=\frac{\norm{V\Lambda V^Tx}_2^2}{\norm x_2^2}
+=\frac{\norm{\Lambda y}_2^2}{\norm y_2^2}
+=\frac{\sum_i\lambda_i^2y_i^2}{\sum_i y_i^2}
+\leq\max_i\lambda_i^2.
+\]
+取 $y$ 只在一个达到最大绝对值的特征值指标上为 $1$, 其他为零, 就取到等号. 开平方得到结论.
+\end{proof}
+
+非对称矩阵的 $2$ 范数一般不等于最大特征值的绝对值; 它等于最大奇异值, 这是重要概念, 但原文不在本课程展开. 若对称矩阵可逆, 则 $A^{-1}=V\Lambda^{-1}V^T$. 更一般地, 在谱分解意义下可定义 $g(A)=Vg(\Lambda)V^T$, 将标量函数 $g$ 逐个施于特征值. 特征向量不变, 特征值成为原特征值的函数.
+
+\begin{definition}\label{def:nullspace}
+任意实矩阵 $A$ 的零空间为 $\operatorname{Null}(A)=\{v:Av=0\}$. 对方阵, 非零的这些向量是零特征值的特征向量; 矩形矩阵一般不谈其特征值.
+\end{definition}
+零空间总含零向量. 对方阵, 以下等价: 不可逆; 零空间含非零向量; 零是特征值; 行列式为零; 行或列线性相关; 阶梯形消元不能得到完整的非零主元.
+
+\begin{theorem}\label{thm:symmetric-solvability}
+设 $A=A^T$, 考虑 $Ax=b$.
+\begin{enumerate}
+\item 若 $A$ 可逆, 解唯一且 $x=A^{-1}b$.
+\item 若 $\operatorname{Null}(A)=\operatorname{span}(v_1,\ldots,v_m)\neq\{0\}$, 且某个 $v_j^Tb\neq0$, 则无解.
+\item 若所有 $v_j^Tb=0$, 则有无穷多个解. 若 $x_0$ 为一个解, 所有解为 $x_0+\sum_{j=1}^{m}c_jv_j$, 其中 $c_j$ 任意.
+\end{enumerate}
+\end{theorem}
+
+用正交归一特征向量可以直接理解这个结论. 可逆时,
+\[
+x=\sum_{j=1}^{d}\frac1{\lambda_j}v_jv_j^Tb.
+\]
+若前 $m$ 个特征值为零, 且相应的 $v_j^Tb=0$, 则全部解为
+\[
+x=\sum_{j=m+1}^{d}\frac1{\lambda_j}v_jv_j^Tb+\sum_{j=1}^{m}c_jv_j.
+\]
+作用 $A$ 后, 任意零空间分量消失. 相反, 若零特征值方向的 $v_j^Tb\neq0$, 方程在这一方向要求 $0=v_j^Tb$, 不可能成立. 这也给出定理的证明; 原文以“除以零会无穷大”作直观说明, 这里使用直接投影避免把无穷大当成代数解.
+
+\textbf{矩阵 $K$ 的性质.} 由误差关系与范数不等式,
+\[
+\norm e_2\leq\norm{K^{-1}}_2\norm\tau_2,\qquad
+\norm{K^{-1}}_2=\frac1{\min_j|\lambda_j(K)|}.
+\]
+所以关键是证明最小特征值有与 $h$ 无关的正下界. 注意矩阵的尺寸和各元素都依赖 $h$.
+
+若各 $\tau_j=O(h^2)$, 由于约有 $1/h$ 个节点, 未加权范数 $\norm\tau_2=(\sum_j\tau_j^2)^{1/2}$ 只有 $O(h^{3/2})$. 为与连续 $L^2$ 范数对应, 定义加权范数 $\norm\tau_{2,h}=(h\sum_j\tau_j^2)^{1/2}$, 便有 $O(h^2)$. 这类似积分求积. 同时缩放向量范数不会改变诱导的矩阵范数, 所以前面的估计原样成立, 并期待 $\norm e_{2,h}=O(h^2)$. 原件在这个“期待”句中重复写了 $\tau$, 此处按实际误差目标修正.
+
+猜测特征向量的好办法是比较连续 Dirichlet 特征问题 $-v''=\lambda v$, $v(0)=v(1)=0$. 它有 $v_n(x)=\sin(n\pi x)$, $\lambda=n^2\pi^2$. 对矩阵 $K$, 恰好可以采样得到
+\[
+v_j^{(n)}=\sin(n\pi jh),\qquad j=1,\ldots,N-1,\quad n=1,\ldots,N-1.
+\]
+用 $\sin(\theta+\beta)+\sin(\theta-\beta)=2\sin\theta\cos\beta$ 直接代入, 得
+\[
+(Kv^{(n)})_j=\frac{2-2\cos(n\pi h)}{h^2}v_j^{(n)}
+=\lambda_nv_j^{(n)},\qquad
+\lambda_n=\frac4{h^2}\sin^2\left(\frac{n\pi h}{2}\right).
+\]
+各特征值为正且互不相同, 因而这些特征向量正交, 归一化后构成正交矩阵 $V$. 作用 $V^T$ 称为离散正弦变换 DST, 作用 $V$ 为其逆变换 IDST.
+
+\begin{remark}
+整理修正: 原文说最小值 $\lambda_1=\pi^2+O(h^2)$ 中的修正为正, 因而 $\lambda_1\geq\pi^2$. 实际展开为 $\lambda_1=\pi^2-\pi^4h^2/12+O(h^4)$, 修正为负. 例如 $N=2$ 时 $\lambda_1=8<\pi^2$. 对 $0<h\leq1$, 用 $\sin s\geq2s/\pi$ ($0\leq s\leq\pi/2$), 仍有正确的统一下界 $\lambda_1\geq4$. 所以 $\norm{K^{-1}}_2\leq1/4$; 原文的 $1/\pi^2$ 上界不能直接保留.
+\end{remark}
+
+因此矩阵 $K$ 可逆, 离散问题有唯一解, 且
+\[
+\norm e_{2,h}\leq\frac14\norm\tau_{2,h}=O(h^2).
+\]
+这证明了在真解四阶光滑等前述条件下, Dirichlet 边值问题的三点差分具有二阶误差. 先证明小局部截断误差, 再用稳定性把它传递到实际误差, 是数值分析中的常见逻辑: 一致性加稳定性得到收敛.
+
+\textbf{其他边界条件和方程.} 边界条件对问题至关重要: 改变边界条件, 解会改变, 截断误差和稳定性也可能改变. 回到 Neumann 问题 $-u''=f$, $u'(0)=a$, $u'(1)=b$. 内部差分与之前相同, 但现在端点值也成为未知量, 必须加入边界方程. 简单选择为 $(U_1-U_0)/h=a$, $(U_N-U_{N-1})/h=b$. 每端比原来增加一个未知值和一个方程. 单边导数只有 $O(h)$ 截断误差, 一般会破坏内部二阶格式所期待的整体精度.
+
+更准确的处理是在左端引入虚拟节点 $U_{-1}$, 用 $(U_1-U_{-1})/(2h)=a$, 再在端点也写方程:
+\[
+\frac{-U_1+2U_0-U_{-1}}{h^2}=f(x_0).
+\]
+右端以同样方式引入 $U_{N+1}$. 每端相对原内部系统增加两个未知量和两个方程. 原文提出将导数边界行乘以 $2/h$, 连右端一同缩放, 可让矩阵的元素尺度更平衡. 以 $U_{-1},U_0,U_1,\ldots$ 为顺序, 左端局部块的形式为
+\[
+T=\frac1{h^2}\begin{pmatrix}
+-1&0&1&&\\-1&2&-1&&\\&-1&2&-1&\\&&\ddots&\ddots&\ddots
+\end{pmatrix}.
+\]
+行缩放不改变等价方程组的解, 但会改变通常矩阵特征值及相应欧氏范数的数值. 这个未消元的块并不自动对称.
+
+Neumann 问题允许任意加常数, 常向量在齐次离散矩阵的零空间中. 原文直接以右零空间向量 $\boldsymbol1$ 推出 $\boldsymbol1^TF=0$, 并对一般 $a,b$ 写 $\int_0^1f=0$. 整理修正: 非对称矩阵应检查左零空间, 且非齐次边界条件必须包含右端边界贡献. 连续方程积分给出真正的相容条件
+\[
+\int_0^1f(x)\dd x=-u'(1)+u'(0)=a-b.
+\]
+仅当 $a=b$, 特别是齐次 Neumann 条件时, 右端才是零. 满足相容条件后, 解仍只确定到一个加法常数, 通常再指定均值.
+
+整理补充的对称离散形式可明确展示对应条件. 消去两个虚拟节点后, 左端行为 $2(U_0-U_1)/h^2=f(x_0)-2a/h$, 右端行为 $2(U_N-U_{N-1})/h^2=f(x_N)+2b/h$. 将这两行各除以二, 得对称矩阵, 两端对角为 $1/h^2$, 内部对角为 $2/h^2$, 相邻元素为 $-1/h^2$. 对应右端首末项为 $f(x_0)/2-a/h$, $f(x_N)/2+b/h$. 相容条件因此为
+\[
+h\left[\frac12f(x_0)+\sum_{j=1}^{N-1}f(x_j)+\frac12f(x_N)\right]=a-b.
+\]
+这正是连续条件的梯形离散. 只有在明确离散右端及行权重后, 才能使用对称矩阵的可解性定理.
+
+周期问题也很有意义. 取 $N$ 个独立值 $U_0,\ldots,U_{N-1}$, 按下标模 $N$ 连接相邻节点. 原 Dirichlet 三对角矩阵在两角补上周期连接, 得循环矩阵
+\[
+C=\frac1{h^2}\begin{pmatrix}
+2&-1&&&-1\\-1&2&-1&&\\&\ddots&\ddots&\ddots&\\&&-1&2&-1\\-1&&&-1&2
+\end{pmatrix}.
+\]
+对通常 $N\geq3$ 的网格按相邻连接理解; 极小网格需合并重合的邻项. 常向量在零空间, 故离散方程有解当且仅当 $\sum_{j=0}^{N-1}F_j=0$. 其特征向量为 Fourier 模态
+\[
+v_j^{(n)}=w^{jn}=\ee^{2\pi\ii jn/N},\qquad
+w=\ee^{2\pi\ii/N},\quad j,n=0,\ldots,N-1.
+\]
+除以 $\sqrt N$ 后组成酉矩阵. 因为向量有复分量, 内积与转置必须带复共轭:
+\[
+x^*y=\sum_j\overline{x_j}y_j,\qquad
+\norm x_2=\left(\sum_j|x_j|^2\right)^{1/2},\qquad V^*V=VV^*=I.
+\]
+这里 $*$ 表示共轭转置. 这也为下一章的 Fourier 分析建立了联系.

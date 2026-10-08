@@ -1,0 +1,629 @@
+% 原讲义 Chapter 7, Spectral Interpolation, Differentiation, Quadrature,
+% 正文第 1--17 页.
+\originalchapter{谱插值、微分与求积}\label{chap:spectral}
+
+\originalsection{插值}\label{sec:spectral-interpolation}
+\textbf{带限插值.} 如前面所见, 等距节点一般会给多项式插值带来问题; 但对于傅里叶变换的离散化, 等距节点却是自然的选择. 对 $x_j=jh$, $j\in\Z$ 上的数据, 回顾半离散傅里叶变换 (SFT) 及其逆变换 (ISFT):
+\[
+\widehat f(k)=h\sum_{j\in\Z}\ee^{-\ii kx_j}f_j,
+\qquad
+f_j=\frac1{2\pi}\int_{-\pi/h}^{\pi/h}\ee^{\ii kx_j}\widehat f(k)\dd k.
+\]
+谱插值, 或带限插值的想法, 就是在不属于采样网格的某个 $x$ 处计算上述逆变换公式.
+
+% 原定义 21.
+\begin{definition}[实线上的傅里叶插值、谱插值或带限插值]\label{def:bandlimited-interpolant}
+设 $x_j=jh$, $j\in\Z$. 给定 $f:\R\to\R$, 它在网格上的样本 $f_j=f(x_j)$, 以及样本的 SFT $\widehat f(k)$. 谱插值函数为
+\[
+p(x)=\frac1{2\pi}\int_{-\pi/h}^{\pi/h}\ee^{\ii kx}\widehat f(k)\dd k.
+\]
+\end{definition}
+
+这个公式可以看成某个紧支集函数的逆傅里叶变换: 在 $[-\pi/h,\pi/h]$ 内, 该函数等于 $\widehat f(k)$, 区间外为零. 一个函数若其傅里叶变换具有紧支集, 就称为带限函数; 这正是该插值方法名称的来源.
+
+% 原例 22.
+\begin{example}\label{ex:sinc-interpolation-kernel}
+设
+\[
+f_j=\delta_{0j}=\begin{cases}1,&j=0,\\0,&j\ne0.\end{cases}
+\]
+求带限插值函数.
+\end{example}
+\begin{solution}
+正如前面见到的, 在 $k\in[-\pi/h,\pi/h]$ 上, SFT 为 $\widehat f(k)=h$. 在区间之外把它延拓为零. 则
+\[
+p(x)=\frac h{2\pi}\int_{-\pi/h}^{\pi/h}\ee^{\ii kx}\dd k
+=\frac{\sin(\pi x/h)}{\pi x/h}
+=\operatorname{sinc}(\pi x/h).
+\]
+它在整数索引 $j\ne0$ 的所有点 $x_j=jh$ 处为零, 并在 $x=0$ 处取值 $1$.
+\end{solution}
+\begin{remark}
+整理注: 原稿还把这个函数称为 Dirichlet 核. 通常“Dirichlet 核”指周期傅里叶部分和中的有限指数和, 而这里是 sinc 型带限插值核. 两者的角色相近, 但名称不宜直接等同.
+\end{remark}
+
+% 原例 23.
+\begin{example}\label{ex:sinc-superposition}
+对一般样本序列, 写成 $f_j=\sum_{\ell\in\Z}\delta_{j\ell}f_\ell$. 表示其带限插值函数.
+\end{example}
+\begin{solution}
+由积分的线性性, 在允许交换和式与积分的条件下,
+\[
+p(x)=\sum_{\ell\in\Z}f_\ell
+\operatorname{sinc}\!\left(\frac{\pi(x-x_\ell)}h\right).
+\]
+所以, 插值函数是各个平移 sinc 函数的叠加, 权重正是样本值. 这里的 sinc 类似前面讨论过的拉格朗日基本多项式, 称为插值核. 因而带限插值也常称为傅里叶--sinc 插值.
+\end{solution}
+
+原稿在这里提示画一幅离散阶跃的插值图. 对间断函数进行插值时, 图像一般不会很好, 它受到前面已经遇到的 Gibbs 现象影响. 不过, 若样本来自一个更光滑的底层函数 $f(x)$, 则带限插值就更准确.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=.83\textwidth,height=5cm,axis lines=middle,xmin=-3.5,xmax=3.5,ymin=-.25,ymax=1.3,xlabel={$x/h$},ytick={0,1},xtick={-3,-2,-1,0,1,2,3}]
+\addplot[structurecolor,thick,smooth] coordinates {(-3.500,-0.056157) (-3.450,-0.056297) (-3.400,-0.055036) (-3.350,-0.052360) (-3.300,-0.048292) (-3.250,-0.042886) (-3.200,-0.036231) (-3.150,-0.028449) (-3.100,-0.019692) (-3.050,-0.010141) (-3.000,0.000000) (-2.950,0.010504) (-2.900,0.021127) (-2.850,0.031617) (-2.800,0.041713) (-2.750,0.051153) (-2.700,0.059684) (-2.650,0.067061) (-2.600,0.073059) (-2.550,0.077474) (-2.500,0.080133) (-2.450,0.080894) (-2.400,0.079654) (-2.350,0.076351) (-2.300,0.070968) (-2.250,0.063535) (-2.200,0.054129) (-2.150,0.042876) (-2.100,0.029950) (-2.050,0.015570) (-2.000,-0.000000) (-1.950,-0.016457) (-1.900,-0.033461) (-1.850,-0.050643) (-1.800,-0.067607) (-1.750,-0.083940) (-1.700,-0.099219) (-1.650,-0.113013) (-1.600,-0.124897) (-1.550,-0.134458) (-1.500,-0.141300) (-1.450,-0.145053) (-1.400,-0.145383) (-1.350,-0.141992) (-1.300,-0.134631) (-1.250,-0.123100) (-1.200,-0.107257) (-1.150,-0.087016) (-1.100,-0.062356) (-1.050,-0.033316) (-1.000,-0.000000) (-0.950,0.037425) (-0.900,0.078733) (-0.850,0.123638) (-0.800,0.171801) (-0.750,0.222834) (-0.700,0.276306) (-0.650,0.331748) (-0.600,0.388664) (-0.550,0.446533) (-0.500,0.504822) (-0.450,0.562992) (-0.400,0.620508) (-0.350,0.676844) (-0.300,0.731496) (-0.250,0.783985) (-0.200,0.833868) (-0.150,0.880741) (-0.100,0.924248) (-0.050,0.964084) (0.000,1.000000) (0.050,1.031807) (0.100,1.059375) (0.150,1.082636) (0.200,1.101586) (0.250,1.116278) (0.300,1.126824) (0.350,1.133394) (0.400,1.136204) (0.450,1.135521) (0.500,1.131647) (0.550,1.124924) (0.600,1.115715) (0.650,1.104410) (0.700,1.091407) (0.750,1.077112) (0.800,1.061930) (0.850,1.046257) (0.900,1.030476) (0.950,1.014945) (1.000,1.000000) (1.050,0.985942) (1.100,0.973037) (1.150,0.961513) (1.200,0.951555) (1.250,0.943303) (1.300,0.936857) (1.350,0.932269) (1.400,0.929548) (1.450,0.928664) (1.500,0.929546) (1.550,0.932087) (1.600,0.936150) (1.650,0.941568) (1.700,0.948153) (1.750,0.955698) (1.800,0.963983) (1.850,0.972783) (1.900,0.981868) (1.950,0.991013) (2.000,1.000000) (2.050,1.008623) (2.100,1.016694) (2.150,1.024043) (2.200,1.030524) (2.250,1.036019) (2.300,1.040433) (2.350,1.043703) (2.400,1.045793) (2.450,1.046696) (2.500,1.046433) (2.550,1.045053) (2.600,1.042626) (2.650,1.039248) (2.700,1.035031) (2.750,1.030104) (2.800,1.024609) (2.850,1.018695) (2.900,1.012519) (2.950,1.006236) (3.000,1.000000) (3.050,0.993960) (3.100,0.988253) (3.150,0.983008) (3.200,0.978335) (3.250,0.974330) (3.300,0.971068) (3.350,0.968607) (3.400,0.966982) (3.450,0.966207) (3.500,0.966278)};
+\addplot[only marks,mark=*,black] coordinates {(-3,0)(-2,0)(-1,0)(0,1)(1,1)(2,1)(3,1)};
+\end{axis}
+\end{tikzpicture}
+\caption{整理补图: 离散阶跃的 sinc 插值在跳跃附近的振荡. 为显示局部图形, 绘图使用 $j=0,\ldots,32$ 的有限 sinc 叠加, 不把有限作图当作无限级数的证明.}
+\end{figure}
+
+为了研究带限插值的近似误差, 必须回到 SFT 与 FT 的联系. $p(x)$ 与样本 $f_j$ 的关系是采样, 而样本的 SFT 与函数的 FT 的关系是周期化. 前面已经提到过这种对应, 现在把它说得更精确一些. 原稿在此提示补画“采样与周期化”的图, 下文以整理补图表示其频率端的含义.
+
+% 原定理 14, 原式 (7.1).
+\begin{theorem}[泊松求和公式, 傅里叶变换版本]\label{thm:poisson-ft}
+设 $u:\R\to\R$ 足够光滑, 并在无穷远处衰减得足够快. 令 $v_j=u(x_j)$, $x_j=jh$, $j\in\Z$, 以及
+\[
+\widehat u(k)=\int_{\R}\ee^{-\ii kx}u(x)\dd x,
+\qquad k\in\R,
+\]
+\[
+\widehat v(k)=h\sum_{j\in\Z}\ee^{-\ii kx_j}u(x_j),
+\qquad k\in[-\pi/h,\pi/h].
+\]
+则
+\begin{equation}\label{eq:poisson-ft}
+\widehat v(k)=\sum_{m\in\Z}
+\widehat u\!\left(k+m\frac{2\pi}h\right),
+\qquad k\in[-\pi/h,\pi/h].
+\end{equation}
+\end{theorem}
+\begin{remark}
+整理注: 原稿特意说明, 此处对“足够光滑”和“足够快”不作精确规定. 一个明确且足以支持下面全部交换运算的条件是 $u$ 为 Schwartz 函数. 也可以在更弱的条件下建立公式, 但必须说明收敛方式; 仅仅光滑不意味着可积.
+\end{remark}
+
+有些教材只把 $k=0$ 的特例写作泊松求和公式:
+\[
+h\sum_{j\in\Z}u(jh)=\sum_{m\in\Z}\widehat u\!\left(\frac{2\pi m}h\right).
+\]
+练习: 利用已经学过的平移和傅里叶变换性质, 说明这个等式推出, 从而等价于 \eqref{eq:poisson-ft}. 整理补充: 也可直接把零频率公式应用于 $\ee^{-\ii kx}u(x)$, 其变换是 $\widehat u(\xi+k)$.
+
+\begin{proof}
+把 \eqref{eq:poisson-ft} 的右侧记为
+\[
+\widehat\phi(k)=\sum_{m\in\Z}\widehat u\!\left(k+m\frac{2\pi}h\right),
+\qquad k\in[-\pi/h,\pi/h].
+\]
+只需证明 $\widehat\phi=\widehat v$, 或等价地证明它们的 ISFT 满足 $\phi_j=v_j$, $j\in\Z$. 逆变换为
+\[
+\phi_j=\frac1{2\pi}\int_{-\pi/h}^{\pi/h}
+\left[\sum_{m\in\Z}\widehat u\!\left(k+m\frac{2\pi}h\right)\right]
+\ee^{\ii kjh}\dd k.
+\]
+在所规定的光滑性和衰减条件下, $u$ 可积, 且对 $m$ 的和式快速收敛, 可以交换积分与求和:
+\[
+\phi_j=\frac1{2\pi}\sum_{m\in\Z}\int_{-\pi/h}^{\pi/h}
+\widehat u\!\left(k+m\frac{2\pi}h\right)\ee^{\ii kjh}\dd k.
+\]
+令 $k'=k+2\pi m/h$, 则
+\[
+\phi_j=\frac1{2\pi}\sum_{m\in\Z}
+\int_{-\pi/h+2\pi m/h}^{\pi/h+2\pi m/h}
+\widehat u(k')\ee^{\ii k'jh}\ee^{-2\pi\ii mj}\dd k'.
+\]
+因为 $m,j$ 都是整数, 额外的指数因子 $\ee^{-2\pi\ii mj}$ 等于 $1$. 这些长度为 $2\pi/h$ 的积分区间拼成整条实线, 因而
+\[
+\phi_j=\frac1{2\pi}\int_{\R}\widehat u(k')\ee^{\ii k'jh}\dd k'
+=u(x_j)=v_j.
+\]
+最后一个等式正是 $\widehat u$ 的逆傅里叶变换在 $x_j$ 处的值.
+\end{proof}
+\begin{remark}
+整理注: 原稿换元后的上下限写成 $\pm\pi/h-2\pi m/h$, 并遗漏额外相位中的 $m$. 由实际换元可见, 应为上述加号和 $\ee^{-2\pi\ii mj}$; 已明确修正.
+\end{remark}
+
+泊松求和公式说明: 以间距 $h$ 采样一个函数, 对应把它的频谱, 即傅里叶变换, 以周期 $2\pi/h$ 周期化. 因而采样, 以及随后带限插值所产生的误差, 与频谱周期化后的重叠有关.
+\begin{itemize}
+\item \textbf{情形 1.} 假定 $\operatorname{supp}\widehat u\subset[-\pi/h,\pi/h]$. 那么以间距 $h$ 采样并插值 $u$ 不会产生误差: 以 $2\pi/h$ 周期化后再截回基本胞, 不会改变原频谱. 即
+\[
+\widehat p(k)=\widehat u(k)\quad\Longrightarrow\quad p(x)=u(x).
+\]
+原稿在这里另提示画图; 下图上半部分表示无重叠的情形.
+\item \textbf{情形 2.} 若 $\widehat u$ 的支集不包含在基本胞中, 周期化一般会使频谱在基本胞内发生重叠. 这叫作混叠. 此时丢失了一些信息, 插值不再精确.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=.58cm,y=1.15cm]
+\draw[->] (-7,0)--(7,0) node[right] {$k$};
+\draw[dashed] (-2,-.1)--(-2,1.4);
+\draw[dashed] (2,-.1)--(2,1.4);
+\draw[structurecolor,thick] (-1.5,0)--(0,1)--(1.5,0);
+\draw[gray,thick] (-5.5,0)--(-4,1)--(-2.5,0);
+\draw[gray,thick] (2.5,0)--(4,1)--(5.5,0);
+\node at (0,1.4) {带限频谱: 周期副本不重叠};
+\node[below] at (-2,0) {$-\pi/h$};
+\node[below] at (2,0) {$\pi/h$};
+\begin{scope}[yshift=-3cm]
+\draw[->] (-7,0)--(7,0) node[right] {$k$};
+\draw[dashed] (-2,-.1)--(-2,1.4);
+\draw[dashed] (2,-.1)--(2,1.4);
+\draw[structurecolor,thick] plot[smooth,domain=-6:6,samples=61] (\x,{exp(-\x*\x/5)});
+\draw[gray] plot[smooth,domain=-7:3,samples=61] (\x,{exp(-((\x+4)*(\x+4))/5)});
+\draw[gray] plot[smooth,domain=-3:7,samples=61] (\x,{exp(-((\x-4)*(\x-4))/5)});
+\node at (0,1.4) {非带限频谱: 周期副本在基本胞内重叠};
+\node[below] at (-2,0) {$-\pi/h$};
+\node[below] at (2,0) {$\pi/h$};
+\end{scope}
+\end{tikzpicture}
+\caption{整理补图: 采样对应频谱周期化. 灰色曲线表示移位副本, 图中横向比例仅作示意.}
+\end{figure}
+
+情形 1 就是 Shannon 采样定理的内容: 在频率域中带限于 $[-\pi/h,\pi/h]$ 的函数, 可以由间距为 $h$ 或更小的网格进行带限插值而精确恢复. 在信号处理中, $x$ 表示时间; 通常把 $1/h$ 称为采样率. 不发生混叠的最小采样率称为 Nyquist 采样率, 相应的 $h$ 是允许的最大采样间隔.
+\begin{remark}
+整理注: 原稿把网格间距写成“$h$ 或更大”, 方向反了; 应为更小. 原稿还把间距 $h$ 直接称为采样率. 这里区分间隔 $h$ 和频率意义下的采样率 $1/h$. 当频谱恰在基本胞端点含有特殊成分时, 还需注意 Nyquist 端点的识别.
+\end{remark}
+
+更一般地, 插值精度与 $u(x)$ 的光滑性有关. 若频谱尾部很小, 而且 $h$ 很小, 就可以预期周期化和重叠造成的误差不大. 原稿这里写作“$h$ 很大”, 与基本胞宽度 $2\pi/h$ 的关系相反, 已改正. 下面的结论是泊松求和公式的推论.
+
+% 原定理 15.
+\begin{theorem}[带限插值的误差]\label{thm:bandlimited-interpolation-error}
+设 $u\in W^{r,1}(\R)$, 其中整数 $r>1$, 且泊松求和公式在所采用的解释下适用. 令 $v_j=u(x_j)$, $x_j=jh$, 并以 $p(x)$ 表示从 $v_j$ 构成的带限插值函数. 则当 $h\to0$ 时, 在基本胞中一致地有
+\[
+|\widehat u(k)-\widehat p(k)|=O(h^r),\qquad |k|\le\pi/h,
+\]
+并且 $\norm{u-p}_2=O(h^{r-1/2})$.
+\end{theorem}
+\begin{remark}
+整理注: 原定理把导数阶数记为 $p\ge1$, 与插值函数 $p(x)$ 重名. 这里改用 $r$. 原证明使用 $\sum_{m\ne0}|m|^{-r}<\infty$, 这要求 $r>1$; 因而上面给出原证明直接支持的版本. $r=1$ 的端点并未由该证明覆盖, 这不等于断言端点结论必然不成立.
+\end{remark}
+\begin{proof}
+用 $\widehat u$ 表示 $u$ 的 FT, 用 $\widehat v$ 表示样本的 SFT, 则在基本胞内 $\widehat p=\widehat v$. 由泊松求和公式,
+\[
+\widehat v(k)-\widehat u(k)=\sum_{m\ne0}
+\widehat u\!\left(k+m\frac{2\pi}h\right),\qquad |k|\le\pi/h.
+\]
+前一章的光滑性估计给出 $|\widehat u(k)|\le C|k|^{-r}$. 对 $m\ne0$ 和 $|k|\le\pi/h$, 有
+\[
+\left|k+\frac{2\pi m}h\right|
+\ge(2|m|-1)\frac\pi h\ge|m|\frac\pi h.
+\]
+因而
+\[
+\left|\widehat u\!\left(k+\frac{2\pi m}h\right)\right|
+\le C\left(\frac{|m|\pi}h\right)^{-r}.
+\]
+对 $m\ne0$ 求和, 得
+\[
+|\widehat v(k)-\widehat u(k)|
+\le C\left(\frac\pi h\right)^{-r}\sum_{m\ne0}|m|^{-r}
+\le C'h^r.
+\]
+这证明了频率域中的估计. 用 Plancherel 公式回到空间域:
+\[
+\norm{u-p}_2^2=\frac1{2\pi}\norm{\widehat u-\widehat p}_{L^2(\R)}^2.
+\]
+把右侧积分分成两部分.
+\begin{itemize}
+\item 在 $[-\pi/h,\pi/h]$ 内, 被积函数的平方为 $O(h^{2r})$, 而区间长为 $O(h^{-1})$, 所以积分为 $O(h^{2r-1})$.
+\item 在 $|k|>\pi/h$ 时, $\widehat p(k)=0$. 利用衰减估计,
+\[
+\int_{|k|>\pi/h}|\widehat u(k)|^2\dd k
+\le C^2\int_{|k|>\pi/h}|k|^{-2r}\dd k
+=O\bigl((\pi/h)^{-2r+1}\bigr)=O(h^{2r-1}).
+\]
+\end{itemize}
+最后取平方根, 两部分均得到 $O(h^{r-1/2})$.
+\end{proof}
+\begin{remark}
+整理注: 原稿在 Plancherel 式中把全实线上的 $\widehat p$ 写成了只在基本胞定义的 $\widehat v$, 并在尾积分中把 $(\pi/h)^{-2r+1}$ 的幂号写反. 上面均按实际积分改正.
+\end{remark}
+
+至此, 我们已经讨论了定义在实线上的函数插值. 最后指出, 对定义在区间上的函数, 特别是 $[-\pi,\pi]$ 或 $[0,2\pi]$ 上的函数, 也有类似概念. 这时波数是离散的, FT 由 FS 代替, SFT 由 DFT 代替. 在非网格点 $x$ 处计算逆 DFT 型和式, 可以得到
+\[
+\frac1{2\pi}\sum_{k=-N/2+1}^{N/2}\ee^{\ii kx}\widehat f_k.
+\]
+与 \eqref{eq:idft} 比较, 这几乎是我们想要的插值, 但还差一点: 最高频率 $k=N/2$ 被不对称地处理. 即使系数为实数且具有相应的偶对称性, 这一项也会在非网格点产生不自然的复数贡献.
+
+通常的修正是定义 $\widehat f_{-N/2}=\widehat f_{N/2}$, 把求和范围扩展为 $-N/2,\ldots,N/2$, 并把两个端点项都减半. 在和号后加双撇号 $\sum''$ 表示首尾项各取一半. 容易验证这不改变插值性质, 因为在网格点 $x_j=2\pi j/N$ 上, 两个端点指数都是 $(-1)^j$. 因而在区间上的带限插值定义如下.
+
+% 原定义 22.
+\begin{definition}[周期区间上的谱插值]\label{def:periodic-spectral-interpolation}
+设 $N$ 为偶数, $x_j=jh$, $j=0,\ldots,N-1$, $h=2\pi/N$. 给定 $f:[0,2\pi]\to\R$ 及其样本 $f_j=f(x_j)$, 以 $\widehat f_k$ 表示样本的 DFT, 并令 $\widehat f_{-N/2}=\widehat f_{N/2}$. 谱插值函数为
+\[
+p(x)=\frac1{2\pi}\sum_{k=-N/2}^{N/2}{}''
+\ee^{\ii kx}\widehat f_k.
+\]
+双撇号表示两端的 $k=\pm N/2$ 项各乘 $1/2$.
+\end{definition}
+\begin{remark}
+整理注: 原定义把 $h$ 误写为 $1/N$, 与区间 $[0,2\pi]$ 和本章其他公式不一致, 已改为 $2\pi/N$. 双端半权重的约定针对偶数 $N$; 奇数 $N$ 没有这个成对的 Nyquist 端点问题.
+\end{remark}
+
+因为 $p(x)$ 是整数 $k$ 所对应的“单项式” $\ee^{\ii kx}=(\ee^{\ii x})^k$ 的叠加, 我们称它为三角多项式. 在 $[0,2\pi]$ 内用三角多项式插值的理论, 与一般带限插值很相似. 唯一重要的修改是: 该区间按周期认同端点, 因而只有当函数在 $x=0$ 与 $x=2\pi$ 的衔接处也光滑时, 才算光滑函数. 泊松求和公式依然是核心工具, 它有傅里叶级数版本.
+
+% 原定理 16, 原式 (7.2).
+\begin{theorem}[泊松求和公式, 傅里叶级数版本]\label{thm:poisson-fs}
+设 $u:[0,2\pi]\to\R$ 是足够光滑的周期函数. 令 $v_j=u(\theta_j)$, $\theta_j=jh$, $j=1,\ldots,N$, $h=2\pi/N$, 并定义
+\[
+\widehat u_k=\int_0^{2\pi}\ee^{-\ii k\theta}u(\theta)\dd\theta,
+\qquad k\in\Z,
+\]
+\[
+\widehat v_k=h\sum_{j=1}^{N}\ee^{-\ii k\theta_j}u(\theta_j),
+\qquad k=-N/2,\ldots,N/2-1.
+\]
+则
+\begin{equation}\label{eq:poisson-fs}
+\widehat v_k=\sum_{m\in\Z}\widehat u_{k+mN},
+\qquad k=-N/2,\ldots,N/2-1.
+\end{equation}
+\end{theorem}
+由于 $N=2\pi/h$, 这个公式与 \eqref{eq:poisson-ft} 完全类似.
+\begin{remark}
+整理补充: 例如 $u\in C^2$ 且周期, 便足以使傅里叶系数绝对可和并支持下一段的证明.
+\end{remark}
+\begin{proof}
+整理补充: 原稿未给这一版本的证明. 将绝对收敛的级数
+$u(\theta)=(2\pi)^{-1}\sum_{\ell\in\Z}\widehat u_\ell\ee^{\ii\ell\theta}$
+代入 DFT, 并交换求和, 得
+\[
+\widehat v_k=\sum_{\ell\in\Z}\widehat u_\ell
+\left(\frac1N\sum_{j=1}^{N}\ee^{2\pi\ii(\ell-k)j/N}\right).
+\]
+括号中的有限等比和在 $\ell-k$ 是 $N$ 的整数倍时等于 $1$, 其他情形为 $0$. 因而只保留 $\ell=k+mN$, 即得 \eqref{eq:poisson-fs}.
+\end{proof}
+
+对我们而言, 重要后果是: 若 $u$ 在周期区间 $[0,2\pi]$ 上有 $r$ 个 $L^1$ 导数, 并具有前述估计所需的正则性, 则带限插值误差在频率域逐点为 $O(h^r)$, 在 $L^2$ 意义下为 $O(h^{r-1/2})$. 端点处也必须有这些导数, 即函数跨过周期回绕处时同样光滑. 否则, 例如 $u(2\pi-)\ne u(0+)$, 插值仍会出现 Gibbs 现象.
+
+\textbf{切比雪夫插值.} 现在考虑区间 $[-1,1]$ 内光滑、但不必周期的函数. 它的周期化可能在衔接处间断. 等距节点的多项式插值可能受 Runge 现象影响, 带限插值则可能受 Gibbs 现象影响. 一个好的策略, 就是上一章处理展开截断时使用的技巧: 作变量替换 $x=\cos\theta$.
+
+$x\in[-1,1]$ 对应 $\theta\in[0,\pi]$. 定义 $g(\theta)=f(\cos\theta)$, 并把它看成 $2\pi$ 周期的偶函数. 现在可以在覆盖 $[0,2\pi]$ 的等距网格上对 $g$ 作带限插值, 例如取
+\[
+\theta_j=\frac{\pi j}N,\qquad j=0,\ldots,2N-1.
+\]
+使用上一部分带双撇号的定义,
+\[
+q(\theta)=\frac1{2\pi}\sum_{k=-N}^{N}{}''\ee^{\ii k\theta}\widehat g_k,
+\qquad
+\widehat g_k=\frac\pi N\sum_{j=0}^{2N-1}\ee^{-\ii k\theta_j}g(\theta_j).
+\]
+由 $\theta$ 和 $k$ 上的偶对称性, 可以写为
+\[
+q(\theta)=\sum_{k=0}^{N}c_k\cos(k\theta),
+\]
+其中 $c_k$ 从样本 $g(\theta_j)$ 计算得到. 为什么有偶对称性? 样本满足 $g(\theta_j)=g(\theta_{2N-j})$, 正弦贡献成对抵消, 所以 $\widehat g_{-k}=\widehat g_k$. 明确地,
+\[
+c_0=\frac{\widehat g_0}{2\pi},\qquad
+c_k=\frac{\widehat g_k}{\pi}\ (1\le k<N),\qquad
+c_N=\frac{\widehat g_N}{2\pi}.
+\]
+整理注: 原稿在正文强调“双撇号”, 公式却只印了单撇号, 上面已统一. 原正文网格写作 $j=1,\ldots,2N$, 与变换中的 $j=0,\ldots,2N-1$ 是同一周期网格的两种编号, 这里采用后者.
+
+回到 $x$ 变量, 样本点为 $x_j=\cos\theta_j$. 它们称为切比雪夫节点. 这些点不再等距; 因为它们是单位圆上等距点在 $x$ 轴上的投影, 所以在区间两端较密集. 利用 $\theta$ 的对称性, 只剩 $j=0,\ldots,N$ 的 $N+1$ 个不同节点. 它们恰好是 $T_N(x)$ 的极值节点, 即 $T_N$ 在 $[-1,1]$ 上达到最大值或最小值的点.
+
+用 $x$ 表示插值函数,
+\[
+p(x)=q(\arccos x)=\sum_{n=0}^{N}c_nT_n(x),
+\qquad T_n(x)=\cos(n\arccos x).
+\]
+因为 $T_n$ 是 $n$ 次多项式, 且 $p$ 在这 $N+1$ 个非等距节点上插值 $f$, 所以它正是这些节点上的拉格朗日插值多项式!
+
+有趣之处不主要在于用 $T_n$ 写出了新公式, 而在于: 虽然得到的是多项式插值, 其误差分析却直接继承自傅里叶分析. 若 $f$ 光滑, 则 $g$ 光滑且周期, 而带限插值已经被证明会快速收敛. $f$ 的切比雪夫插值与 $g$ 的带限插值只差一个变量替换, 因而继承同样的精度. 例如, 若 $f$ 的 $r$ 阶导数具有所需有界变差性质, 则相应系数及其混叠误差可按 $O(N^{-r-1})$ 衰减.
+\begin{remark}
+整理注: 原稿明确把 $O(N^{-r-1})$ 放在“$k$ 或 $n$ 空间中的 $L^\infty$”意义下. 这是系数端的估计, 不能直接称为物理变量 $x$ 中的一致插值误差. 在绝对可和的情形, 对尾系数求和通常再损失一阶, 得到 $O(N^{-r})$ 型一致误差. 若函数无限光滑或具有适当解析延拓, 两种意义下均可获得谱精度.
+\end{remark}
+
+这样, 我们完全绕过了多项式插值误差的通常分析, 对光滑 $f$ 得到了收敛性. 原先在误差估计中造成问题的因子
+\[
+\pi_{N+1}(x)=\prod_{j=0}^{N}(x-x_j),
+\]
+由于切比雪夫节点 $x_j=\cos(\pi j/N)$ 的特殊选择, 不再引发同样的问题. 直观地说, 在两端加密节点使 $\pi_{N+1}$ 在整个区间上的大小更均匀, 从而减小两端的巨大误差.
+
+下面解释首一多项式 $\prod_{j=0}^{N}(x-x_j)$ 在等距节点和切比雪夫节点下为何表现不同, 并说明切比雪夫节点对于区间上光滑函数的插值为何接近理想选择. 这一讨论主要取自 Trefethen 的书第 43 页; 原讲义还提示, 作业 2 的最后一道题给出了另一种分析.
+
+把首一多项式延拓到复变量 $z\in\C$, 记为 $P_N(z)=\prod_{j=0}^{N}(z-x_j)$. 则
+\[
+\log|P_N(z)|=\sum_{j=0}^{N}\log|z-x_j|.
+\]
+令
+\[
+\phi_N(z)=\frac1{N+1}\sum_{j=0}^{N}\log|z-x_j|.
+\]
+$\phi_N$ 类似一个静电势: 在 $z=x_j$ 处放置电荷, 每个电荷贡献势 $(N+1)^{-1}\log|z-x_j|$. 从 $\phi_N$ 返回多项式的模很容易:
+\[
+|P_N(z)|=\ee^{(N+1)\phi_N(z)}.
+\]
+从这个公式已可看出, 势的微小变化会导致多项式大小的指数级差异, 尤其当 $N$ 较大时. 整理注: 原稿在上式左边写作 $p(z)$ 而未加模号, 但实值势只能恢复多项式的模, 不能恢复其相位; 此处也改用 $P_N$, 避免与插值函数重名.
+
+现在让 $N\to\infty$, 作一个不求完全严格的极限讨论. 切比雪夫节点最重要的是其密度: 它们是单位圆上等距点列在实轴上的投影. 若圆上的归一化密度为 $1/(2\pi)$, 垂直投影到 $[-1,1]$ 后的密度为
+\[
+\rho_{\mathrm{Cheb}}(x)=\frac1{\pi\sqrt{1-x^2}}.
+\]
+它在 $[-1,1]$ 上的积分等于 $1$. 所谓密度, 是指 $N\int_a^b\rho_{\mathrm{Cheb}}(x)\dd x$ 近似给出 $[a,b]$ 内的节点数. 相比之下, 等距分布的密度为 $\rho_{\mathrm{equi}}(x)=1/2$. 对任一给定密度, 相应的连续势为
+\[
+\phi(z)=\int_{-1}^{1}\rho(x)\log|z-x|\dd x.
+\]
+对于上面两种密度, 这个积分都可显式求出.
+\begin{itemize}
+\item 等距密度给出
+\[
+\phi_{\mathrm{equi}}(z)=-1+
+\frac12\operatorname{Re}\bigl((z+1)\log(z+1)-(z-1)\log(z-1)\bigr).
+\]
+沿相应的连续对数分支理解该式, 有 $\phi_{\mathrm{equi}}(0)=-1$,
+$\phi_{\mathrm{equi}}(\pm1)=-1+\log2$.
+\item 切比雪夫密度给出
+\[
+\phi_{\mathrm{Cheb}}(z)=\log\frac{|z+\sqrt{z^2-1}|}{2},
+\qquad z\notin[-1,1],
+\]
+其中平方根选择满足 $\sqrt{z^2-1}\sim z$ 的分支. 该函数在实区间上连续取边界值, 并满足 $\phi_{\mathrm{Cheb}}(x)=-\log2$ 对所有 $x\in[-1,1]$ 成立; 验证这一点是一个有趣的练习.
+\end{itemize}
+\begin{remark}
+整理注: 原稿在切比雪夫势中使用 $z-\sqrt{z^2-1}$, 但没有指定平方根分支. 若取相反的平方根分支, 这与上式相同. 这里选用无穷远满足 $\sqrt{z^2-1}\sim z$ 的常用分支, 因而写加号, 以保证势在无穷远像 $\log|z|$ 增长.
+\end{remark}
+
+两种势在复平面中的等势线, 见 Trefethen 的书第 47 页. 暂时忽略从离散势过渡到连续势的误差, 可以读出首一多项式大小的指数尺度:
+\[
+|P_{N,\mathrm{equi}}(z)|\simeq\ee^{(N+1)\phi_{\mathrm{equi}}(z)}
+\quad\text{具有尺度}\quad
+\begin{cases}(2/\ee)^N,&\text{靠近 }x=\pm1,\\
+(1/\ee)^N,&\text{靠近 }x=0,
+\end{cases}
+\]
+而
+\[
+|P_{N,\mathrm{Cheb}}(x)|\quad\text{的典型包络尺度为}\quad2^{-N},
+\qquad x\in[-1,1].
+\]
+等距情形在区间内部与两端附近会取到差别很大的值; 切比雪夫情形的包络则较均匀. 连续平衡势在区间上恒定的这一特征, 对应的归一化平衡密度正是 $\rho_{\mathrm{Cheb}}$. $(2/\ee)^N$ 与 $2^{-N}$ 的不同渐近尺度, 对 $N\to\infty$ 时的插值行为至关重要.
+\begin{remark}
+整理注: 原稿在切比雪夫估计中误写 $\phi_{\mathrm{equi}}$, 并在比较尺度时把 $(2/\ee)^N$ 写成 $(2/\ee)^{-N}$. 此处已更正. 这些连续势给出的式子是指数尺度的启发式描述, 不能当成逐点精确估计: 多项式在节点处为零, 两端也是节点. 对实际切比雪夫极值节点, 可写成
+\[
+P_{N,\mathrm{Cheb}}(x)=2^{1-N}(x^2-1)U_{N-1}(x),
+\]
+其中 $U_{N-1}(\cos\theta)=\sin(N\theta)/\sin\theta$. 因而
+$|P_{N,\mathrm{Cheb}}(\cos\theta)|=2^{1-N}|\sin\theta\sin(N\theta)|\le2^{1-N}$,
+这使“包络尺度”而非“每一点几乎相等”的含义更清楚.
+\end{remark}
+
+也许有人会指出, 两种多项式在 $N\to\infty$ 时都不爆炸. 不过, 可以练习验证: 如果插值区间从 $[-1,1]$ 改为 $[-a,a]$, 由齐次性, 含 $N+1$ 个因子的首一多项式大小会乘以 $a^{N+1}$; 忽略一个不影响指数阶的因子, 即原稿所说的 $a^N$ 尺度. 因而区间长度会改变绝对增长或衰减, 而两种节点间的相对差异仍存在.
+
+当 $N\to\infty$ 时, 极值节点并不是唯一趋于密度 $\rho_{\mathrm{Cheb}}$ 的节点族. 例如还有切比雪夫零点:
+\[
+\theta'_j=\frac\pi{2N}+\frac{\pi j}N,\qquad j=0,\ldots,2N-1.
+\]
+投影到 $x=\cos\theta'_j$ 后, 得到 $T_N(x)$ 的零点, 而不是极值点; 其中只有 $N$ 个不同的实节点. 它们同样具有很好的插值性质.
+
+最后指出, 理论还可以进一步发展. 解析函数的切比雪夫插值指数收敛率, 可以联系到复延拓 $f(z)$ 保持解析的区域以及该区域中势 $\phi(z)$ 的大小. 原稿把该区域称为条带; 更精细的讨论常使用由等势线给出的 Bernstein 椭圆. 本课程不再深入这一点.
+
+\originalsection{微分}\label{sec:spectral-differentiation}
+\textbf{带限微分.} 对插值函数求导来近似导数的思想, 还可以继续发展. 本节回到带限插值函数. 前面已经看到, 当函数光滑且周期时, 它极其准确; 所得到的微分方法也同样准确. 这种方法称为带限微分或谱微分.
+
+先考虑 $x\in\R$, $x_j=jh$, $j\in\Z$. 从 $u(x_j)$ 得到的带限或谱插值函数为
+\[
+p(x)=\frac1{2\pi}\int_{-\pi/h}^{\pi/h}\ee^{\ii kx}\widehat v(k)\dd k,
+\]
+其中 $\widehat v$ 是 $v_j=u(x_j)$ 的 SFT. 对 $p$ 求导, 只是在频率域乘以 $\ii k$; 再令 $x=x_j$, 就得到 $p'(x_j)$. 因而, 实线上的带限微分包含以下步骤:
+\begin{enumerate}
+\item 取得 $v_j=u(x_j)$ 的 SFT $\widehat v(k)$.
+\item 将 $\widehat v(k)$ 乘以 $\ii k$.
+\item 取得 $\widehat w(k)=\ii k\widehat v(k)$ 的 ISFT, 把结果记为 $w_j$.
+\end{enumerate}
+这些 $w_j$ 近似 $u'(x_j)$. 下面的结果量化了这一点. 整理注: 原稿在插值积分中写成 $\widehat u$, 但紧接着说明使用样本的 $\widehat v$; 上式已改为一致的记号.
+
+% 原定理 17.
+\begin{theorem}[带限微分的精度]\label{thm:bandlimited-differentiation}
+设 $u\in W^{r,1}(\R)$, 其中整数 $r>2$, 并满足前述泊松求和与插值估计的适用条件. 令 $v_j=u(x_j)$, $w_j=p'(x_j)$ 是带限微分结果. 则
+\[
+\sup_j|w_j-u'(x_j)|=O(h^{r-2}),
+\qquad
+\norm{u'-p'}_2=O(h^{r-3/2}).
+\]
+也可参见 Trefethen 的书中定理 4.
+\end{theorem}
+\begin{proof}
+原稿的证明要点是频率域误差 $|\widehat v(k)-\widehat u(k)|=O(h^r)$. 基本胞上 $|k|=O(h^{-1})$, 所以求导乘以 $\ii k$ 会损失一阶 $h$. 再回到空间域, $L^2$ 范数损失半阶, 一致范数损失一阶. 下面补出这些损失的积分计算.
+
+在 $|k|\le\pi/h$ 时,
+\[
+|\widehat{u'-p'}(k)|=|k|\,|\widehat u(k)-\widehat v(k)|
+\le C h^r|k|.
+\]
+而在 $|k|>\pi/h$ 时, $\widehat{p'}(k)=0$, 因而
+$|\widehat{u'-p'}(k)|=|k\widehat u(k)|\le C|k|^{1-r}$.
+由逆变换和三角不等式,
+\begin{align*}
+\sup_x|u'(x)-p'(x)|
+&\le\frac1{2\pi}\int_{\R}|\widehat{u'-p'}(k)|\dd k\\
+&\le C h^r\int_{|k|\le\pi/h}|k|\dd k
++C\int_{|k|>\pi/h}|k|^{1-r}\dd k\\
+&=O(h^{r-2}).
+\end{align*}
+这里尾积分收敛需要 $r>2$. 这个全空间的一致估计当然也适用于网格点. 另一方面, 由 Plancherel 恒等式,
+\begin{align*}
+\norm{u'-p'}_2^2
+&=\frac1{2\pi}\int_{\R}|\widehat{u'-p'}(k)|^2\dd k\\
+&\le C h^{2r}\int_{|k|\le\pi/h}|k|^2\dd k
++C\int_{|k|>\pi/h}|k|^{2-2r}\dd k\\
+&=O(h^{2r-3}).
+\end{align*}
+取平方根即得第二个估计. 对这一条尾积分, $r>3/2$ 就足够; 本定理统一采用支持两项结论的 $r>2$ 条件.
+\end{proof}
+\begin{remark}
+整理注: 原定理未限制导数阶数, 而原证明只提出阶数损失, 未解释积分收敛. 这里用 $r$ 避免与 $p(x)$ 重名, 明示上述直接证明所需条件, 并补足积分步骤. 不对未覆盖的低阶端点作无依据的断言.
+\end{remark}
+
+这个定理的重点是: 带限微分的阶数直接由函数的光滑程度决定, 可以任意高. 这就是谱精度. 进一步分析还可表明, 若函数具有适当的解析性及复域控制, 则 $w_j$ 向 $u'(x_j)$ 的收敛甚至为指数型或几何型. 原稿简称为“实解析”; 在实线问题中, 指数速率还需要足够的统一解析延拓和衰减条件.
+
+当然, 实际算法不会处理整条实线上的所有样本. 要得到可实现的算法, 而不仅是抽象步骤, 必须限制考察的区间. 周期区间 $[0,2\pi]$ 上的谱微分与前面一样, 只是用 DFT 代替 SFT. 对 $\theta\in[0,2\pi]$, 谱插值函数为
+\[
+p(\theta)=\frac1{2\pi}\sum_{k=-N/2}^{N/2}{}''\ee^{\ii k\theta}\widehat v_k.
+\]
+这里的双撇号很重要. 同样, 求导可以通过在频率域乘以 $\ii k$ 实现. 步骤与前面相似, 但现在可以真正称为“计算”, 而不是抽象地“取得”:
+\begin{enumerate}
+\item 计算 $v_j=u(\theta_j)$ 的 DFT $\widehat v_k$.
+\item 在频率域乘以 $\ii k$.
+\item 计算所得系数的 IDFT, 得到 $w_j$.
+\end{enumerate}
+精度结论与前面相似, 但 $u$ 不仅要在区间内部光滑, 周期延拓后也必须光滑. DFT 和 IDFT 可以使用 FFT, 从而得到 $O(N\log N)$ 的快速谱微分算法. 更高阶导数则相应乘以 $(\ii k)$ 的合适幂.
+\begin{remark}
+整理注: 偶数 $N$ 的最高频率须按双端半权重处理. 在网格上, 两个 Nyquist 端点的第一阶导数贡献互相抵消, 因而若实现采用仅存一端的 $N$ 个 DFT 系数, 应把该项的一阶微分乘子设为 $0$. 更一般地, 在节点处求奇数阶导数时也应如此; 偶数阶导数则使用两端平均后相应的 $(\ii k)^{2s}$ 乘子. 不能忽略双撇号, 直接把孤立端点当普通复频率处理.
+\end{remark}
+
+\textbf{切比雪夫微分.} 有了前面的内容, 切比雪夫微分的想法就很自然: 在切比雪夫节点处对切比雪夫插值多项式求导. 这特别适合在区间上光滑、但不能光滑周期延拓的函数.
+
+为与原稿本段记号一致, 这里把角变量中的带限插值记为 $p(\theta)$, 把切比雪夫插值记为 $q(x)=p(\arccos x)$. 注意, 对 $q(x)$ 求导并不等于对 $p(\theta)$ 求导. 由链式法则,
+\[
+q'(x)=-\frac1{\sqrt{1-x^2}}p'(\arccos x),\qquad -1<x<1.
+\]
+算法如下. 已知 $u(x_j)$, 其中 $x_j=\cos\theta_j$, $\theta_j=jh$, $h=\pi/N$, $j=0,\ldots,N$.
+\begin{enumerate}
+\item 对样本作偶延拓, 得到 $u(\cos\theta_j)$ 在 $j=-N+1,\ldots,N$ 上的值. 这样便有周期函数 $u(\cos\theta)$ 在整个周期上的等距样本, 而不只在半个周期 $[0,\pi]$ 上有样本. 负角网格与 $[0,2\pi]$ 网格按周期等价.
+\item 计算这些样本的 DFT, 记为 $\widehat v_k$.
+\item 乘以 $\ii k$, 并按前述规则处理 Nyquist 项.
+\item 对结果作 IDFT, 得到角变量导数的样本 $p'(\theta_j)$.
+\item 在内部节点乘以 $-1/\sqrt{1-x_j^2}$, 以实现链式法则. 对端点 $x_j=\pm1$, 则取专门的极限.
+\end{enumerate}
+原稿把端点值留给读者参看 Trefethen 的书. 整理补充: 从 $p(\theta)=q(\cos\theta)$ 求二阶导数可得
+\[
+p''(\theta)=-\cos\theta\,q'(\cos\theta)
++\sin^2\theta\,q''(\cos\theta),
+\]
+因此端点的正确值是
+\[
+q'(1)=-p''(0),\qquad q'(-1)=p''(\pi).
+\]
+若已经有 $q(x)=\sum_{n=0}^{N}a_nT_n(x)$ 的系数, 也可直接计算
+\[
+q'(1)=\sum_{n=1}^{N}n^2a_n,\qquad
+q'(-1)=\sum_{n=1}^{N}(-1)^{n-1}n^2a_n.
+\]
+\begin{remark}
+整理注: 原算法的起始索引 $j=1,\ldots,N$ 漏了 $x_0=1$ 的样本, 这里补为 $0,\ldots,N$. 原稿最后还把所求端点导数写作 $p'(-1)$ 与 $p(1)$, 与角变量、物理变量及导数阶数不一致; 上面明确给出 $q'(\pm1)$, 并将端点计算标为整理补充.
+\end{remark}
+
+由于 DFT 和 IDFT 都能使用 FFT, 这是一个快速算法. 切比雪夫微分与周期域傅里叶分析只差变量替换, 所以其高精度来自带限微分, 同样具有谱精度. 不过, 端点附近的链式法则因子不是一致有界的, 精确的全区间有限阶估计仍须分析端点, 不能只把某个角变量误差常数照搬过来.
+
+更高阶导数可以反复应用链式法则处理. 实际上, 当所有函数样本都需同时确定, 且可以自由选择采样节点时, 切比雪夫方法尤其适用于边值问题; 原稿提示后文将回到这一用途.
+
+\originalsection{积分}\label{sec:spectral-integration}
+\textbf{谱积分.} 为了超越固定有限阶的方法, 谱积分的想法是对带限插值函数积分. 当函数光滑且周期时, 这一策略具有很高的精度.
+
+考虑 $u(\theta)$, $\theta\in[0,2\pi]$. 样本为 $v_j=u(\theta_j)$, $\theta_j=jh$, $h=2\pi/N$, $j=1,\ldots,N$. 形成 DFT
+\[
+\widehat v_k=h\sum_{j=1}^{N}\ee^{-\ii k\theta_j}v_j,
+\]
+以及带限插值函数
+\[
+p(\theta)=\frac1{2\pi}\sum_{k=-N/2}^{N/2}{}''\ee^{\ii k\theta}\widehat v_k.
+\]
+对 $p$ 积分, 得到一个非常简单的结果:
+\[
+\int_0^{2\pi}p(\theta)\dd\theta
+=\widehat v_0=h\sum_{j=1}^{N}u(\theta_j).
+\]
+因为非零整数频率的指数在一整周期上的积分为零, 只留下零频率系数.
+
+我们又回到了梯形公式! 周期条件认同了两个端点 $\theta_0$ 与 $\theta_N$. 虽然前面已经遇到过这个求积规则, 现在却是从傅里叶分析推导出来的, 因而其精度性质也显得更丰富.
+
+具体地, 必须比较 $\widehat v_0$ 与 $\widehat u_0=\int_0^{2\pi}u(\theta)\dd\theta$, 其中 $\widehat u_k$ 是 $u$ 的傅里叶级数系数. 两者由泊松求和公式 \eqref{eq:poisson-fs} 联系:
+\[
+\widehat v_0=\sum_{m\in\Z}\widehat u_{mN},\qquad N=2\pi/h.
+\]
+其中最重要的是 $m=0$ 时的 $\widehat u_0$, 我们的任务仍是控制 $m\ne0$ 的其他项. 得到以下精度估计.
+
+% 原定理 18.
+\begin{theorem}[周期梯形公式的精度]\label{thm:periodic-trapezoid}
+设周期函数 $u$ 在 $[0,2\pi]$ 上有 $r>1$ 个 $L^1$ 弱导数, 其中 $r$ 为整数, 并在端点按周期衔接. 则
+\[
+\int_0^{2\pi}u(\theta)\dd\theta
+-h\sum_{j=1}^{N}u(\theta_j)=O(h^r).
+\]
+\end{theorem}
+\begin{proof}
+由泊松求和公式,
+\[
+\widehat u_0-\widehat v_0=-\sum_{m\ne0}\widehat u_{mN}.
+\]
+前面已见到, $u$ 的光滑性保证 $|\widehat u_k|\le C|k|^{-r}$. 因而
+\[
+|\widehat u_0-\widehat v_0|
+\le C\sum_{m\ne0}|mN|^{-r}
+=C N^{-r}\sum_{m\ne0}|m|^{-r}\le C'N^{-r}=O(h^r).
+\]
+这就是所要的估计.
+\end{proof}
+\begin{remark}
+整理注: 原稿误把 $\widehat u_0-\widehat v_0$ 写成正的尾和, 并把负整数 $m$ 的幂写成 $(mN)^{-r}$ 而未取模号. 已明确更正. 与原定理 15 的证明一样, 本段的绝对求和证明要求 $r>1$; 原稿未说明这一条件.
+\end{remark}
+
+因此, 对光滑且周期的 $C^\infty$ 函数, 梯形公式具有谱精度, 对每个 $r\ge0$ 都可以得到 $O(h^{r+1})$ 型误差. 若函数在区间内部为 $C^\infty$, 但周期延拓时出现间断, 就不能使用这种无限阶结论. 对通常的非周期复合梯形公式, 在其标准光滑条件下恢复的是熟悉的 $O(h^2)$ 精度. 原稿由此强调: 一般梯形公式之所以只有二阶而没有无限阶谱精度, 关键障碍在于边界.
+\begin{remark}
+整理注: 当 $u(0)\ne u(2\pi)$ 时, 本节周期求和 $h\sum_{j=1}^{N}u(\theta_j)$ 与非周期复合梯形公式
+\[
+T_h=h\left(\frac{u(0)+u(2\pi)}2+\sum_{j=1}^{N-1}u(\theta_j)\right)
+\]
+相差 $h(u(2\pi)-u(0))/2$. 因而, 若仍沿用未经端点半权修正的周期公式, 一般只有 $O(h)$; 原稿“退回 $O(h^2)$”的说法须理解为改用通常复合梯形公式之后. 边界也可能使某些特殊函数出现更高阶抵消, 所以这是一条解释一般行为的原则, 并非所有非周期函数必为二阶的断言.
+\end{remark}
+
+一个重要的光滑周期函数例子是: 把通常的 $C^\infty$ 函数乘以一个在 $[a,b]$ 两端光滑降至零的 $C^\infty$ 窗函数, 例如单位分解中的一个成员. 这在某些电磁计算中很重要, 例如用来计算散射体的雷达散射截面.
+
+\textbf{切比雪夫积分.} 与切比雪夫微分类似, 用 $\theta=\arccos x$ 的变量替换, 就能处理光滑但未必周期的函数. 对切比雪夫插值多项式积分, 得到切比雪夫积分, 也称为 Clenshaw--Curtis 求积.
+
+设 $f(x)$ 在 $[-1,1]$ 上给出; 其他区间先缩放 $x$. 从切比雪夫节点 $x_j=\cos\theta_j$ 上的值构造插值函数,
+\[
+p(x)=\sum_{n=0}^{N}a_nT_n(x).
+\]
+前面已经看到, $a_n$ 可以通过样本偶延拓后使用 FFT 并去掉正弦项来计算. 因而
+\[
+\int_{-1}^{1}p(x)\dd x
+=\sum_{n=0}^{N}a_n\int_{-1}^{1}T_n(x)\dd x.
+\]
+换元 $x=\cos\theta$ 得
+\[
+\int_{-1}^{1}T_n(x)\dd x=\int_0^\pi\cos(n\theta)\sin\theta\dd\theta.
+\]
+用正弦和余弦的复指数表达式, 可以很容易求出此积分; Trefethen 的书也用复函数给出了一种巧妙的捷径. 结果为
+\[
+\int_{-1}^{1}T_n(x)\dd x=
+\begin{cases}
+0,&n\text{ 为奇数},\\
+\dfrac2{1-n^2},&n\text{ 为偶数}.
+\end{cases}
+\]
+整理补充: 奇数 $n$ 时, $T_n$ 是奇函数, 积分为零. 偶数 $n$ 时, 使用
+$\sin\theta\cos(n\theta)=\bigl(\sin((n+1)\theta)+\sin((1-n)\theta)\bigr)/2$,
+积分得到 $1/(n+1)+1/(1-n)=2/(1-n^2)$; 也包括 $n=0$ 的值 $2$.
+
+切比雪夫积分算法因此只有两步:
+\begin{enumerate}
+\item 求出 $0\le n\le N$ 的系数 $a_n$.
+\item 形成加权和
+\[
+Q_N(f)=\sum_{\substack{0\le n\le N\\n\text{ 为偶数}}}
+\frac{2a_n}{1-n^2}.
+\]
+\end{enumerate}
+整理注: 原稿这里将“切比雪夫积分算法”误写为“切比雪夫微分算法”, 已按上下文改正.
+
+切比雪夫积分的高精度来源与带限积分相同, 但不要求原来的 $f$ 周期. 因而对光滑函数, 方法具有谱精度. 一个直接的整理补充是
+\[
+\left|\int_{-1}^{1}f(x)\dd x-Q_N(f)\right|
+=\left|\int_{-1}^{1}(f(x)-p(x))\dd x\right|
+\le2\norm{f-p}_\infty,
+\]
+所以插值的超代数或指数误差界也立即给出相应求积误差界; 具体有限阶估计仍要使用相应的插值正则性条件.
+
+与切比雪夫求积相关的另一重要方法是高斯求积. 它类似但有所不同, 对光滑函数也具有谱精度. 在无权积分的 Gauss--Legendre 情形, 使用的是勒让德多项式的零点, 而不是切比雪夫多项式的极值点或零点. 通常从正交多项式及其零点的性质直接推导, 而不通过傅里叶分析. 这个主题很有意思, 但再深入就超出本课程的范围了.

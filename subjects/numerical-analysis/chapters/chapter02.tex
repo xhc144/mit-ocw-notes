@@ -1,0 +1,198 @@
+\originalchapter{积分作求和, 导数作差分}
+\label{ch:quadrature-difference}
+
+现在转向最简单的一类方法: 仅从函数的采样值计算积分或导数. 仔细研究 Taylor 展开, 就能确定这些构造的精度.
+
+\originalsection{数值积分}
+
+先考虑函数 $f$; 所需的光滑性条件将在分析过程中说明. 把 $[0,1]$ 分成小区间 $[x_{j-1},x_j]$, 其中 $x_j=jh$, $h=1/N$, 且 $0=x_0<x_1<\cdots<x_N=1$. 这些点构成等距的 Cartesian 网格. 不作任何近似, 已有
+\[
+\int_0^1 f(x)\dd x=\sum_{j=1}^{N}\int_{x_{j-1}}^{x_j}f(x)\dd x.
+\]
+若用只依赖网格采样值 $f(x_j)$ 的数量近似积分, 就得到求积公式. 例如用高为 $f(x_{j-1})$, 宽为 $h$ 的矩形有向面积来近似一个小区间上的积分:
+\[
+\int_{x_{j-1}}^{x_j}f(x)\dd x\simeq hf(x_{j-1}).
+\]
+把各段重新相加, 得到矩形法 $\int_0^1f(x)\dd x\simeq h\sum_{j=1}^{N}f(x_{j-1})$.
+
+\begin{center}
+\begin{tikzpicture}[x=2cm,y=1.5cm]
+\draw[->](-.15,0)--(2.8,0) node[right]{$x$};\draw[->](0,-.1)--(0,1.9) node[above]{$y$};
+\foreach \j in {0,1,2,3,4}{\pgfmathsetmacro{\leftx}{.5*\j}\pgfmathsetmacro{\heightvalue}{.4+.18*\leftx^2}\draw[fill=main!10](\leftx,0) rectangle ({\leftx+.5},\heightvalue);}
+\draw[thick,domain=0:2.5,samples=60,color=structurecolor]plot(\x,{.4+.18*\x^2});
+\node[below]at(.5,0){$x_{j-1}$};\node[below]at(1,0){$x_j$};\node[above]at(1.8,1.15){$f$};
+\end{tikzpicture}
+\par 图: 整理补图. 左端点矩形法用采样值构成各小区间的近似面积.
+\end{center}
+
+要理解近似的精度, 先回顾 Taylor 展开. 对一个非常光滑的函数 $f$, 有时可以在 $a$ 附近展开为
+\begin{align*}
+f(x)&=f(a)+f'(a)(x-a)+\frac12f''(a)(x-a)^2+\frac1{3!}f'''(a)(x-a)^3+\cdots\\
+&=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n,
+\end{align*}
+其中 $n!=n(n-1)\cdots2\cdot1$ 是阶乘, 并约定 $0!=1$. “有时”很重要: 无穷展开要求函数无限次可微, 还需要检验级数收敛. 其收敛半径是使 $|x-a|<R$ 内级数收敛的最大半径 $R$.
+
+\begin{remark}
+整理注: 无限次可微以及 Taylor 级数收敛, 仍不自动保证级数的和等于原函数. 还须余项趋于零, 即函数在该处由自己的 Taylor 级数表示. 例如令 $f(0)=0$, $f(x)=\ee^{-1/x^2}$ ($x\neq0$), 则函数无限次可微, 零点处的 Taylor 系数全为零, 但函数在非零点为正. 后面的误差分析采用有限阶公式, 不需要把光滑误认为解析.
+\end{remark}
+
+还可以保留有限的 $N$ 项, 写成带 Lagrange 余项的 Taylor 公式:
+\begin{equation}\label{eq:finite-taylor}
+f(x)=\sum_{n=0}^{N-1}\frac{f^{(n)}(a)}{n!}(x-a)^n+\frac{f^{(N)}(y)}{N!}(x-a)^N,
+\end{equation}
+其中 $y$ 位于 $a$ 与 $x$ 之间. 公式不指明 $y$ 究竟是多少, 只保证存在这样的点, 使余项具有这个形式. 尽管 $y$ 未知, 有限阶公式通常更有用:
+\begin{enumerate}
+\item 我们常只关心余项的大小. 若 $I$ 是以 $a,x$ 为端点的区间, 则
+\[
+\left|\frac{f^{(N)}(y)}{N!}(x-a)^N\right|\leq\frac1{N!}\max_{z\in I}|f^{(N)}(z)|\,|x-a|^N.
+\]
+当导数有统一界时, 可简记余项为 $O(|x-a|^N)$; 常数都隐藏在 $O$ 中, 这里的极限是 $x-a\to0$.
+\item 这个有限公式只需要有限阶可微性, 不需要无限次可微; 即使无穷 Taylor 级数发散, 式 \eqref{eq:finite-taylor} 仍可成立. 本章为方便统一估计, 可采用 $f\in C^N(I)$ 这一充分条件.
+\end{enumerate}
+
+现在分析 $\int_{x_{j-1}}^{x_j}f(x)\dd x$. 在左端点作一阶展开:
+\[
+f(x)=f(x_{j-1})+f'(y(x))(x-x_{j-1}),\qquad y(x)\in[x_{j-1},x].
+\]
+写成 $y(x)$ 是为了强调中间点依赖 $x$. 两边积分, $f(x_{j-1})$ 对 $x$ 是常数, 所以
+\[
+\int_{x_{j-1}}^{x_j}f(x)\dd x
+=hf(x_{j-1})+\int_{x_{j-1}}^{x_j}f'(y(x))(x-x_{j-1})\dd x.
+\]
+我们不必知道中间点的位置. 若 $|f'|\leq M_1$, 则由点态误差的界直接得到
+\[
+\left|\int_{x_{j-1}}^{x_j}f(x)\dd x-hf(x_{j-1})\right|
+\leq M_1\int_{x_{j-1}}^{x_j}(x-x_{j-1})\dd x=\frac{M_1h^2}{2}.
+\]
+因此小区间误差为 $O(h^2)$. \textbf{整理注.} 原件在这段一阶展开中把 $x-x_{j-1}$ 误写为固定步长 $h$, 并将该式继续积分. 只有在 $x=x_j$ 时这两者才相等. 上面的修正保留了原来的分析路线, 并给出合法的点态余项估计; 不需要假设所选 $y(x)$ 可测.
+
+全区间共有 $N$ 项, 把误差相加, 得 $N O(h^2)=O(h)$, 因为 $Nh=1$. 所以
+\begin{equation}\label{eq:rectangle}
+\int_0^1 f(x)\dd x=h\sum_{j=1}^{N}f(x_{j-1})+O(h).
+\end{equation}
+误差与网格间距 $h$ 的一阶相同, 称为一阶精度方法.
+
+每个矩形的高都取左端点值, 看起来并不是最准确的选择. 若改取中点 $x_{j-1/2}=(j-1/2)h$ 的函数值, 就得到中点法. 当 $f$ 二阶连续可微时,
+\begin{equation}\label{eq:midpoint-quadrature}
+\int_0^1 f(x)\dd x=h\sum_{j=1}^{N}f(x_{j-1/2})+O(h^2).
+\end{equation}
+这里 $f''$ 的界隐藏在误差常数中. 当 $h\to0$ 时, $h^2$ 比 $h$ 小得多, 因而精度提高到二阶.
+
+\begin{remark}
+整理补充: 在中点 $m$ 展开 $f(x)=f(m)+f'(m)(x-m)+R(x)$, 其中 $|R(x)|\leq M_2(x-m)^2/2$. 对称区间上的一次项积分为零, 单区间误差于是至多 $M_2h^3/24$. 累加 $N$ 个区间, 得到式 \eqref{eq:midpoint-quadrature} 的二阶全局误差.
+\end{remark}
+
+另一种得到二阶精度的办法是用梯形代替矩形. 小区间上四点 $(x_{j-1},0)$, $(x_{j-1},f(x_{j-1}))$, $(x_j,f(x_j))$, $(x_j,0)$ 确定的梯形有向面积为 $h[f(x_{j-1})+f(x_j)]/2$. 这就是梯形法或梯形求积公式.
+
+\begin{center}
+\begin{tikzpicture}[x=2.5cm,y=2cm]
+\draw[->](-.1,0)--(2.25,0)node[right]{$x$};\draw[->](0,-.1)--(0,1.8)node[above]{$y$};
+\draw[fill=main!10](.4,0)--(.4,.5448)--(1.8,1.4072)--(1.8,0)--cycle;
+\draw[thick,color=structurecolor,domain=.4:1.8,samples=60]plot(\x,{.5+.28*\x^2});
+\node[below]at(.4,0){$x_{j-1}$};\node[below]at(1.8,0){$x_j$};
+\end{tikzpicture}
+\par 图: 整理补图. 用连接两个端点采样值的线段构造梯形.
+\end{center}
+
+比较梯形面积和精确积分. 有限阶 Taylor 展开给出
+\begin{align*}
+f(x)&=f(x_{j-1})+f'(x_{j-1})(x-x_{j-1})+O(h^2),\\
+f(x_j)&=f(x_{j-1})+f'(x_{j-1})h+O(h^2),
+\end{align*}
+其中 $f''$ 的界包含在 $O$ 中. 对第一式积分, 以及将第二式代入梯形面积, 分别得到
+\begin{align*}
+\int_{x_{j-1}}^{x_j}f(x)\dd x
+&=hf(x_{j-1})+\frac{h^2}{2}f'(x_{j-1})+O(h^3),\\
+\frac h2\bigl[f(x_{j-1})+f(x_j)\bigr]
+&=hf(x_{j-1})+\frac{h^2}{2}f'(x_{j-1})+O(h^3).
+\end{align*}
+两式的前两项相同, 三阶余项通常不同, 所以
+\[
+\int_{x_{j-1}}^{x_j}f(x)\dd x=\frac h2\bigl[f(x_{j-1})+f(x_j)\bigr]+O(h^3).
+\]
+对 $j$ 求和, 内部点出现两次, 两端点只出现一次, 得
+\begin{equation}\label{eq:trapezoid}
+\int_0^1 f(x)\dd x=\frac h2f(0)+h\sum_{j=1}^{N-1}f(x_j)+\frac h2f(1)+O(h^2).
+\end{equation}
+梯形法是二阶精度的. 只需调整矩形公式的端点项, 就将全局精度由 $O(h)$ 提高到 $O(h^2)$.
+
+\begin{example}\label{ex:quadrature-square}
+在 $[0,1]$ 上取 $f(x)=x^2$. 精确积分为 $1/3$. 用 $N=4$, $h=1/4$ 的矩形公式和梯形公式计算近似值.
+\end{example}
+\begin{solution}
+网格点为 $0,1/4,1/2,3/4,1$. 矩形法每项使用左端点:
+\[
+R_4=\frac14\left[0+\left(\frac14\right)^2+\left(\frac12\right)^2+\left(\frac34\right)^2\right]
+=\frac{14}{64}=0.21875.
+\]
+它离 $1/3$ 较远, 误差是一阶的. 梯形法把两端点权重减半, 也使用 $x=1$ 的函数值:
+\[
+T_4=\frac14\left[\frac12\cdot0+\left(\frac14\right)^2+\left(\frac12\right)^2+\left(\frac34\right)^2+\frac12\cdot1\right]
+=\frac{22}{64}=0.34375.
+\]
+这离 $1/3$ 近得多, 误差为二阶. 整理注: 原文第二个近似数前误用了精确等号; 此处将求积近似值记为 $T_4$, 不把它与精确积分等同.
+\end{solution}
+
+讲完多项式插值后, 我们会再次讨论数值积分.
+
+\originalsection{数值微分}
+
+若只知道函数 $u$ 在等距网格 $x_j=jh$ 上的采样值 $u_j=u(x_j)$, 用有限差商近似 $u'(x_j)$ 是最简单的办法. 自然的候选为单边的向前、向后差分, 以及双边的中心差分:
+\begin{align*}
+\Delta_+u_j&=\frac{u_{j+1}-u_j}{h},&
+\Delta_-u_j&=\frac{u_j-u_{j-1}}{h},&
+\Delta_0u_j&=\frac{u_{j+1}-u_{j-1}}{2h}.
+\end{align*}
+下面分析 $h\to0$ 时的精度; 结果取决于原函数的光滑性. 平移坐标后, 不妨设 $x_{j-1}=-h$, $x_j=0$, $x_{j+1}=h$.
+
+对向前差分, 在零点展开
+\[
+u(h)=u(0)+hu'(0)+\frac{h^2}{2}u''(\xi),\qquad \xi\in(0,h).
+\]
+希腊字母 $\xi$ 读作 xi. 代入差商即得
+\[
+\frac{u(h)-u(0)}h=u'(0)+\frac h2u''(\xi).
+\]
+若二阶导数在附近有界, 误差为 $O(h)$, 因而向前差分是一阶方法. 向后差分的分析完全类似.
+
+对中心差分, 把 $u(h)$ 与 $u(-h)$ 都展开到三阶余项:
+\[
+u(\pm h)=u(0)\pm hu'(0)+\frac{h^2}{2}u''(0)\pm\frac{h^3}{6}u'''(\xi_\pm),
+\]
+其中 $\xi_+\in(0,h)$, $\xi_-\in(-h,0)$. 相减后, 二阶项相消, 得
+\[
+\frac{u(h)-u(-h)}{2h}=u'(0)+\frac{h^2}{12}\bigl[u'''(\xi_+)+u'''(\xi_-)\bigr].
+\]
+若三阶导数连续, 还可把余项写为 $h^2u'''(\xi)/6$, 其中 $\xi\in(-h,h)$. 因此三阶导数有界时误差为 $O(h^2)$, 中心差分是二阶方法. \textbf{整理注.} 原文将两个中间点不加区分地都写为 $\xi$, 并将最终系数误写为 $h^2/3$; 正确系数为 $h^2/6$.
+
+近似二阶导数的最简单选择是中心二阶差分:
+\[
+\Delta_2u_j=\frac{u_{j+1}-2u_j+u_{j-1}}{h^2}.
+\]
+直接展开可验证 $\Delta_2=\Delta_+\Delta_-=\Delta_-\Delta_+$, 即先作向后再作向前差分, 或交换次序, 都得到这个三点公式. 它也具有二阶精度. 为证明这一点, 把零点处的展开写到四阶余项:
+\[
+u(\pm h)=u(0)\pm hu'(0)+\frac{h^2}{2}u''(0)\pm\frac{h^3}{6}u'''(0)+\frac{h^4}{24}u^{(4)}(\xi_\pm).
+\]
+计算二阶差分时, 奇数次项都相消, 留下
+\[
+\frac{u(h)-2u(0)+u(-h)}{h^2}
+=u''(0)+\frac{h^2}{24}\bigl[u^{(4)}(\xi_+)+u^{(4)}(\xi_-)\bigr].
+\]
+若四阶导数连续, 余项也可写为 $h^2u^{(4)}(\xi)/12$. 因而这个 $O(h^2)$ 的估计需要相应的四阶可微性与导数界.
+
+\begin{example}\label{ex:difference-square}
+再取 $f(x)=x^2$, 则 $f'(x)=2x$, $f''(x)=2$. 计算四种差分.
+\end{example}
+\begin{solution}
+\begin{align*}
+\Delta_+f(x)&=\frac{(x+h)^2-x^2}{h}=\frac{2xh+h^2}{h}=2x+h,\\
+\Delta_-f(x)&=\frac{x^2-(x-h)^2}{h}=\frac{2xh-h^2}{h}=2x-h,\\
+\Delta_0f(x)&=\frac{(x+h)^2-(x-h)^2}{2h}=\frac{4xh}{2h}=2x,\\
+\Delta_2f(x)&=\frac{(x+h)^2-2x^2+(x-h)^2}{h^2}=\frac{2h^2}{h^2}=2.
+\end{align*}
+向前差分误差为 $h$, 向后差分误差为 $-h$, 都是 $O(h)$. 中心差分和中心二阶差分在这个例子中误差恰好为零: 它们能精确微分二次多项式. 这只是特殊情形, 一般函数并不精确; 因为 $0=O(h^2)$, 也没有与精度结论矛盾.
+\end{solution}
+
+如果 $u$ 的可微阶数少于上述余项所需阶数, 差分格式就可能达不到所标称的阶. 某些微分方程的数值模拟确有这种情况, 例如流体动力学中相界面附近的解可能不连续.
+
+在网格边缘, $x_j$ 的左边或右边可能没有采样点, 这时应使用向前或向后等单边公式. 更高阶的一阶、二阶或更高阶导数的单边差分系数表可在公开资料中查到. 推导差分公式的系统方法是先构造多项式插值, 再对插值多项式求导. 下一章将从这个角度重新讨论积分和微分.

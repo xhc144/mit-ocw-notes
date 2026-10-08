@@ -1,0 +1,200 @@
+\originalchapter{级数与数列}
+\label{ch:series}
+
+在后面的讲义中, 我们会反复遇到 Taylor 级数和 Fourier 级数. 在正式讨论数值分析之前, 首先要弄清楚级数收敛的含义. 本章的讲解是自包含的; 进一步的参考资料是 Tao 的 \textit{Analysis I}, 以及 Dahlquist 和 Björck 的 \textit{Numerical Methods}.
+
+数列是按一定顺序排列的一列数, 可以有无限多项: $a_1,a_2,a_3,\ldots$. 级数则是一个可能含无限多项的和: $a_1+a_2+a_3+\cdots$. 本章暂时考虑实数. 推广到复数是一个很好的练习, 主要是把绝对值替换为复数的模.
+
+本章讨论四个问题: 无限和是什么意思? 这个意思会不会有歧义? 怎样证明收敛或发散? 有限和的通常运算法则, 在什么条件下能用于无限和?
+
+\originalsection{收敛与发散}
+
+我们把无限和看成部分和的极限. 由于部分和构成数列, 先回顾数列的收敛.
+
+\begin{definition}\label{def:sequence-limit}
+设 $(a_j)_{j=0}^{\infty}$ 是一个数列. 若存在 $N\geq0$, 使所有 $j\geq N$ 都满足 $|a_j-b|\leq\eps$, 则称该数列在尾部与 $b$ 相差不超过 $\eps$. 若对任意 $\eps>0$, 无论它多小, 上述条件都成立, 则称数列收敛到 $b$, 记作 $a_j\to b$ 或 $\lim_{j\to\infty}a_j=b$.
+\end{definition}
+
+不收敛的数列称为发散数列. 无界数列, 即绝对值能任意大的数列, 一定发散. 因此在本章的实数极限约定下, 不说“收敛到无穷大”, 但可以说“发散到无穷大”.
+
+例如, 当 $n\to\infty$ 时, $\ee^{-n}\to0$, 而且收敛很快; $n/(n+2)\to1$, 收敛较慢; $(-1)^n$ 有界但不收敛; $\log n\to\infty$, 所以数列发散. 为说明 $\log n$ 能任意大, 固定任意大的整数 $m$, 只要取 $n\geq\ee^m$, 就有 $\log n\geq m$.
+
+\begin{definition}\label{def:series-limit}
+设 $(a_j)_{j=0}^{\infty}$ 是数列. 它的第 $N$ 个部分和为
+\[
+S_N=a_0+a_1+\cdots+a_N=\sum_{j=0}^{N}a_j.
+\]
+若部分和数列 $S_N$ 当 $N\to\infty$ 时收敛到某个数 $b$, 则称级数 $\sum_j a_j$ 收敛, 并记 $\sum_{j=0}^{\infty}a_j=b$. 不收敛的级数称为发散级数.
+\end{definition}
+
+\begin{example}\label{ex:geometric-half}
+考虑级数 $\sum_{j=0}^{\infty}2^{-j}=1+1/2+1/4+1/8+\cdots$. 证明它的和为 $2$.
+\end{example}
+\begin{solution}
+设 $S_N=\sum_{j=0}^{N}2^{-j}$. 用归纳法证明 $S_N=2-2^{-N}$. 当 $N=0$ 时, 等式为 $1=2-1$, 成立. 假设对 $N$ 成立, 则
+\[
+S_{N+1}=S_N+2^{-(N+1)}=(2-2^{-N})+2^{-(N+1)}=2-2^{-(N+1)}.
+\]
+归纳完成. 因为 $2^{-N}\to0$, 所以 $S_N\to2$, 这正是该级数的和.
+\end{solution}
+
+\begin{example}\label{ex:geometric}
+上例是几何级数 $1+x+x^2+x^3+\cdots$ 在 $x=1/2$ 时的特殊情形.
+\end{example}
+\begin{solution}
+同样可以求出部分和. 对 $x\neq1$, 将 $S_N$ 与 $xS_N$ 相减得到 $(1-x)S_N=1-x^{N+1}$. 因而当 $|x|<1$ 时,
+\[
+\sum_{j=0}^{\infty}x^j=\frac{1}{1-x}.
+\]
+这也可看成 $1/(1-x)$ 在零点处的 Taylor 展开, 收敛半径为 $1$.
+\end{solution}
+
+\begin{example}\label{ex:harmonic}
+调和级数 $1+1/2+1/3+1/4+\cdots$ 发散.
+\end{example}
+\begin{solution}
+其部分和与 $\log N$ 的增长相当. 利用 $1/x$ 的单调性作积分比较,
+\[
+S_N=\sum_{j=1}^{N}\frac1j\geq\int_1^{N+1}\frac1x\dd x=\log(N+1).
+\]
+右端发散到无穷大, 部分和更大, 因而也发散.
+\end{solution}
+
+\begin{center}
+\begin{tikzpicture}[x=1.2cm,y=2cm]
+\draw[->] (0.7,0)--(5.8,0) node[right] {$x$};
+\draw[->] (1,-.05)--(1,1.2) node[above] {$y$};
+\foreach \j in {1,2,3,4,5}{\pgfmathsetmacro{\rectheight}{1/\j}\draw[fill=main!10] (\j,0) rectangle (\j+1,\rectheight);\node[below] at (\j,0) {$\j$};}
+\draw[domain=1:5.6,samples=60,thick,color=structurecolor] plot (\x,{1/\x});
+\node[above right] at (3.5,.3) {$y=1/x$};
+\end{tikzpicture}
+\par 图: 整理补图. 每个矩形的面积为 $1/j$, 大于其下方曲线的面积.
+\end{center}
+
+\begin{example}\label{ex:p-series}
+对 $q>0$, 考虑级数 $\sum_{j=1}^{\infty}j^{-q}$. 当 $q>1$ 时, 它定义 Riemann zeta 函数 $\zeta(q)$ 的级数表示; 这是数论中一个重要对象. 上例说明 $q=1$ 时级数发散. 同样的积分判别表明: $q>1$ 时收敛, $0<q\leq1$ 时发散.
+\end{example}
+\begin{solution}
+\textbf{整理补充.} 若 $q\neq1$, 则 $\int_1^M x^{-q}\dd x=(M^{1-q}-1)/(1-q)$. 对递减的正函数 $x^{-q}$, 部分和满足
+\[
+\int_1^{N+1}x^{-q}\dd x\leq\sum_{j=1}^{N}j^{-q}\leq1+\int_1^N x^{-q}\dd x.
+\]
+当 $q>1$ 时右端有统一有限上界, 正项部分和又单调递增, 所以收敛. 当 $0<q\leq1$ 时左端趋于无穷大, 所以发散. 原文在 $q\leq1$ 时也写“作为 $q$ 的函数是 $\zeta(q)$”; 此处区分级数定义的有效区间与 zeta 函数的其他延拓.
+\end{solution}
+
+下面进一步区分绝对收敛与条件收敛. 这种区别决定了哪些代数变形可对无限和进行.
+
+\begin{definition}\label{def:absolute-convergence}
+若 $\sum_{j=0}^{\infty}|a_j|$ 收敛, 则称级数 $\sum_{j=0}^{\infty}a_j$ 绝对收敛. 若一个级数收敛, 但不绝对收敛, 则称它条件收敛.
+\end{definition}
+
+条件收敛的微妙处在于, 交替出现的正、负号可能使相邻项相消, 从而导致收敛.
+
+\begin{example}\label{ex:alternating-harmonic}
+交错调和级数 $1-1/2+1/3-1/4+1/5-1/6+\cdots$ 不绝对收敛, 但条件收敛.
+\end{example}
+\begin{solution}
+各项取绝对值后得到调和级数, 所以不绝对收敛. 令 $S_N=\sum_{j=1}^{N}(-1)^{j-1}/j$. 当 $N=2m$ 时, 将相邻两项配对:
+\[
+S_{2m}=\sum_{k=1}^{m}\left(\frac{1}{2k-1}-\frac{1}{2k}\right)
+=\sum_{k=1}^{m}\frac{1}{(2k-1)2k}.
+\]
+一般地, $1/j-1/(j+1)=1/[j(j+1)]\leq1/j^2$. 因此 $S_{2m}$ 是单调递增且有界的数列, 因为它被收敛的 $\sum_{j\text{ 为奇数}}j^{-2}$ 的部分和控制. 所以偶数部分和收敛. 又 $S_{2m+1}=S_{2m}+1/(2m+1)$, 最后一项趋于零, 奇数部分和具有相同的极限. 全部部分和于是收敛.
+
+该级数的和为
+\[
+1-\frac12+\frac13-\frac14+\frac15-\frac16+\cdots=\log2.
+\]
+这是 $\log(1+x)$ 在 $x=0$ 处的 Taylor 展开在 $x=1$ 时的值. \textbf{整理注.} 原文的部分和式使用 $(-1)^j$ 而题面从正项开始, 另把奇数项末项写成 $1/(N+1)$. 上面统一指标, 并补出偶数部分和的单调性.
+
+整理补充: 这个和也可不依赖 Taylor 级数在边界的收敛定理而直接核验. 有限几何和给出
+\[
+S_N=\int_0^1\sum_{k=0}^{N-1}(-x)^k\dd x
+=\log2-\int_0^1\frac{(-x)^N}{1+x}\dd x.
+\]
+最后一个积分的绝对值不超过 $\int_0^1x^N\dd x=1/(N+1)$, 所以确实趋于 $\log2$.
+\end{solution}
+
+原文不加证明地给出下面这个常用判别法.
+
+\begin{theorem}[交错级数判别法]\label{thm:alternating-test}
+设 $a_j>0$, 且 $a_j$ 单调不增并趋于零. 则 $\sum_{j=0}^{\infty}(-1)^j a_j$ 收敛.
+\end{theorem}
+\begin{remark}
+整理注: 原文仅写 $a_j\to0$, 漏掉了单调性等能保证交错部分和收敛的条件; 单独的趋零条件不够. 例如取 $a_{2k}=1/(k+1)$, $a_{2k+1}=1/[2(k+1)]$, 则 $a_j\to0$, 但每对项之和为 $1/[2(k+1)]$, 因而级数发散. 本定理补入标准充分条件, 不是把错误陈述当成原作者已经证明的结论.
+\end{remark}
+
+\begin{proof}
+\textbf{整理补证.} 令 $S_N=\sum_{j=0}^{N}(-1)^ja_j$. 由 $a_j$ 单调不增, $S_{2m+1}$ 单调递增, $S_{2m}$ 单调递减, 且始终有 $S_{2m+1}\leq S_{2m}$. 两个数列有界, 分别收敛. 又 $S_{2m}-S_{2m+1}=a_{2m+1}\to0$, 两个极限相同, 所以整个部分和数列收敛.
+\end{proof}
+
+条件收敛级数的主要问题是, 重排各项后可能得到不同的和. 把无限和像有限和一样操作的安全范围, 是绝对收敛.
+
+\begin{theorem}\label{thm:rearrangement}
+设 $\phi:\Z_{\geq0}\to\Z_{\geq0}$ 是双射, 即非负整数的一种重排. 若 $\sum_{j=0}^{\infty}a_j$ 绝对收敛, 则
+\[
+\sum_{j=0}^{\infty}a_j=\sum_{j=0}^{\infty}a_{\phi(j)}.
+\]
+\end{theorem}
+
+\begin{proof}
+\textbf{整理补证.} 绝对收敛保证尾部绝对和趋于零, 从而原部分和为 Cauchy 列, 由实数完备性有极限 $S$. 给定 $\eps>0$, 取 $M$ 使 $\sum_{j>M}|a_j|<\eps$. 因 $\phi$ 为双射, 取足够大的 $N$, 重排前 $N+1$ 项就包含 $a_0,\ldots,a_M$. 将这有限集合中的项与原顺序比较, 重排部分和与 $S$ 的差, 只由指标大于 $M$ 的尾项组成, 绝对值不超过 $\eps$. 因而重排部分和也趋于 $S$.
+\end{proof}
+
+不满足绝对收敛条件时, 情形常如下例.
+
+\begin{example}\label{ex:rearrange-harmonic}
+再次考虑 $1/3-1/4+1/5-1/6+\cdots$. 由前面的计算, 它的和为 $\log2-(1-1/2)=\log2-1/2=0.193147\ldots$. 按每个正项后放两个负项的规则重排为
+\[
+\frac13-\frac14-\frac16+\frac15-\frac18-\frac1{10}+\frac17-\cdots.
+\]
+重排后的级数仍收敛, 但其和为 $(\log2-1)/2=-0.153426\ldots$.
+\end{example}
+\begin{solution}
+\textbf{整理补充.} 记 $H_m=\sum_{j=1}^{m}1/j$. 把前 $n$ 组相加, 得
+\begin{align*}
+T_{3n}
+&=\sum_{k=1}^{n}\left(\frac1{2k+1}-\frac1{4k}-\frac1{4k+2}\right)\\
+&=H_{2n+1}-\frac12H_n-1-\frac12(H_{2n+1}-1)\\
+&=\frac12(H_{2n+1}-H_n)-\frac12.
+\end{align*}
+用积分比较, $H_{2n+1}-H_n\to\log2$. 最后不足一组的至多两项趋于零, 所以所有部分和趋于 $(\log2-1)/2$. 上述变形只在每个有限部分和内进行, 没有提前对无限和使用重排规则.
+\end{solution}
+
+对绝对收敛级数, 还可把绝对值移入求和号内作估计, 以及交换求和顺序. 只有条件收敛时, 这些操作会出现问题; 反例可参阅 Tao 的 \textit{Analysis I}.
+
+\begin{theorem}\label{thm:absolute-operations}
+下面的运算对绝对收敛的级数合法:
+\begin{enumerate}
+\item 若 $\sum_j|a_j|<\infty$, 则 $\left|\sum_{j=0}^{\infty}a_j\right|\leq\sum_{j=0}^{\infty}|a_j|$.
+\item 若二重级数绝对收敛, 即 $\sum_{j=0}^{\infty}\sum_{k=0}^{\infty}|a_{j,k}|<\infty$, 则
+\[
+\sum_{j=0}^{\infty}\sum_{k=0}^{\infty}a_{j,k}=\sum_{k=0}^{\infty}\sum_{j=0}^{\infty}a_{j,k}.
+\]
+\end{enumerate}
+\end{theorem}
+
+对于无界被积函数或无界区域上的积分, 也有相应结论: 函数的绝对值可积时, 积分顺序的交换才由这个充分条件得到保证. 这是 Fubini 定理的内容. 缺少绝对可积性时, 存在交换后不成立的反例, 同样可参阅 Tao 的书. \textbf{整理注.} 对非负函数还可用 Tonelli 定理交换积分, 即使积分为无穷大; 因而这里的“需要绝对可积”应理解为本章所采用的保证有限积分可交换的充分条件, 不是一切特殊情形的必要条件.
+
+\originalsection{大 O 记号}
+
+下面介绍比较数列增长或衰减的几个记号: 大 $O$, 小 $o$, 以及大 $\Theta$. 数值分析最常用大 $O$, 特别是在比较截断误差的衰减阶和算法的运行时间时.
+
+\begin{definition}\label{def:asymptotic}
+设 $f_n,g_n$ 是数列, 且 $g_n$ 在所讨论的尾部非零.
+\begin{enumerate}
+\item 若存在 $C>0$ 和 $N$, 使所有 $n\geq N$ 满足 $|f_n|\leq C|g_n|$, 则记 $f_n=O(g_n)$.
+\item 若 $f_n/g_n\to0$, 则记 $f_n=o(g_n)$.
+\item 若 $f_n=O(g_n)$ 且 $g_n=O(f_n)$, 则记 $f_n=\Theta(g_n)$.
+\end{enumerate}
+\end{definition}
+
+整理注: 原文把序列设为非零, 且没有明确写“对充分大的 $n$”. 对渐近记号, 最关键的是正在考察的极限附近; 有限多个初始项不改变渐近阶.
+
+例如, $n^2=O(n^3)$ 且 $n^2=o(n^3)$, 但 $n^2\neq\Theta(n^3)$. 设 $f_n=n/(n+2)$, $g_n=n/(n-3)$, 忽略没有定义的有限个初始指标, 则 $f_n=O(g_n)$ 且 $f_n=\Theta(g_n)$, 但 $f_n\neq o(g_n)$. 指数增长总会超过多项式增长: 任意 $a,b>0$ 都有 $n^a=o(\ee^{bn})$; 相应地, $\ee^{-bn}=o(n^{-a})$.
+
+口头上可以把 $f_n=O(g_n)$ 读作“$f_n$ 的阶不超过 $g_n$ 的阶”. 同一套记号也适用于由趋于零的参数索引的量, 比如网格间距 $h$: 把定义中的 $n\to\infty$ 改成 $h\to0$ 即可.
+
+例如 $f(h)=h^2$, $g(h)=h^3$, 当 $h\to0$ 时, 有 $g(h)=O(f(h))$ 且 $g(h)=o(f(h))$. 任意 $a,b>0$ 都有 $\ee^{-a/h}=o(h^b)$, 其中取 $h\to0^+$. \textbf{整理注.} 原件这个指数的符号漏写了负号; 若写成 $\ee^{a/h}$, 它会增长而非衰减.
+
+同样也可比较连续变量函数在 $x\to\infty$ 或 $x\to0$ 时的行为. 每一次写 $O(\cdot)$ 或 $o(\cdot)$, 都应明确或能从上下文确定正在讨论哪个极限.
