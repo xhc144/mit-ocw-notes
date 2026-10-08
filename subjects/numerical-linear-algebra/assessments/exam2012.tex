@@ -1,0 +1,47 @@
+\originalchapter{2012 年秋季期中考试}
+题源: Fall 2012 历史试卷及官方答案, 三题各 25 分, 原卷未列具体时限. 解答为官方译审并补足收敛的泛性条件.
+\originalsection{特殊函数与输入表示}
+\begin{exercise}\label{e2012:q1}
+(a) 有人称 $\sin x$ 在 $x=0$ 附近可有小前向相对误差, 在 $x=2\pi$ 附近却不行, 虽然函数周期相同. 对吗, 为什么?
+(b) 为何单独提供 $\operatorname{log1p}(x)=\ln(1+x)$ 而不让用户先加 1 再取对数? 给可能的实现概要, 原因不应是速度.
+(c) $\Gamma(x)=\int_0^\infty e^{-t}t^{x-1}\dd t$ 满足 $\Gamma(n+1)=n!$. 为何另提供 $\operatorname{gammaln}(x)=\ln\Gamma(x)$, 原因不应是速度?
+\end{exercise}
+\begin{solution}
+(a) 对扰动的实数输入, 相对条件数 $|x\cot x|$ 在 $x\to0$ 时趋 1, 在 $x\to2\pi$ 时发散, 因此说法在包含输入舍入误差的意义下成立. 若把已经给出的浮点 $x$ 当作精确输入, 则仍可通过足够准确的范围约化计算 $\sin x$; 不能声称任何算法对精确浮点输入都必然不准确. 以粗略浮点常数代替 $2\pi$ 再相减会破坏约化精度.
+(b) 小 $x$ 时 $\operatorname{fl}(1+x)=1$ 会丢失整个小量, 而 $\ln(1+x)\sim x$ 本可准确表示. 一个可行概要: 当 $|x|\le1/2$ 用级数 $\sum_{k\ge1}(-1)^{k+1}x^k/k$, 每次跟踪下一项并以几何尾界 $|x|^{K+1}/[(K+1)(1-|x|)]\le u|s_K|$ 停止; 确定截断项数后从小项到大项反向累加, 几何衰减尾和控制舍入误差, 零输入直接返回零. 区间外在 $x>-1$ 下使用准确范围约化的对数. 实践中使用标准 \texttt{log1p}. 原答案四项 Taylor 多项式在 $|x|<10^{-3}$ 时的最坏相对截断误差约 $|x|^4/5\sim2\times10^{-13}$, 并非双精度机器精度; 本处改为有尾界的自适应截断.
+(c) 正的大 $x$ 下 $\Gamma(x)$ 极快增长, binary64 在约 $\Gamma(172)=171!$ 就上溢; 但它的对数仍可表示. 直接计算对数形式 (如相应的 Stirling 展开或专门近似) 避免先形成巨大值. 本问的积分定义为 $x>0$, 不混入非正整数的极点或复分支.
+\end{solution}
+\originalsection{两个输入的后向稳定性}
+\begin{exercise}\label{e2012:q2}
+对函数 $f(x,y)$ 考虑两种定义:
+第一种: 在向量对空间取范数, 需 $\widetilde f(x,y)=f(\widetilde x,\widetilde y)$ 且 $\norm{(\widetilde x-x,\widetilde y-y)}=O(u)\norm{(x,y)}$.
+第二种: 要分别满足 $\norm{\widetilde x-x}=O(u)\norm x$ 和 $\norm{\widetilde y-y}=O(u)\norm y$, 仍精确产生计算输出.
+(a) 给定 $x,y$ 各自范数, 举一个有效的向量对范数.
+(b) 两者之间有何蕴含, 为什么?
+(c) 按顺序逐项加 $x_1,\ldots,x_m,y_1,\ldots,y_n$, 在哪种意义下后向稳定? 若成立简证, 否则给反例.
+\end{exercise}
+\begin{solution}
+(a) 可用 $\norm{(x,y)}=\max(\norm x,\norm y)$; 正定、齐次与三角不等式由两分量继承.
+(b) 第二种蕴含第一种. 反向不成立: 取 $f(x,y)=x$, 标量算法 $\widetilde f(x,y)=x+uy$ (把 $u$ 视作误差参数). 取 $\widetilde x=x+uy,\widetilde y=y$ 即满足第一种; 对 $x=0,y=1$, 第二种要求 $\widetilde x=0$ 却输出 $u\ne0$, 不可能. 此例证明定义的严格差别, 不冒称某特定机器的实际加法错误.
+(c) 无溢出的逐项求和可写为 $\sum_i x_i(1+\theta_i)+\sum_j y_j(1+\phi_j)$, $|\theta_i|,|\phi_j|\le\gamma_{m+n}$. 取对应扰动输入, 在各自坐标 $p$ 范数中都有 $\norm{\Delta x}_p\le\gamma_{m+n}\norm x_p$、$\norm{\Delta y}_p\le\gamma_{m+n}\norm y_p$. 因而两种都成立, 常数依赖固定的 $m,n$, 不要求两组输入的尺度相当. 其他有限维范数再由等价性得到结论.
+\end{solution}
+\originalsection{QR 的 Schur 极限}
+\begin{exercise}\label{e2012:q3}
+$A=X\Lambda X^{-1}$ 可对角化, 单位特征向量 $x_i$ 的特征值模严格排序 $|\lambda_1|>\cdots>|\lambda_m|$. 精确算术中 $k$ 步 QR 产生 $A_k=Q^{(k)*}AQ^{(k)}$, 累积 $Q^{(k)}$ 等价于对 $A^k$ 作 QR. Hermitian 时预期趋于特征分解; 对一般非 Hermitian $A$, 证明极限给 Schur 分解. 提示: 研究前 $j$ 列的空间趋于 $\Span\{x_1,\ldots,x_j\}$. 原题把非 Hermitian 一律称为特征向量不正交, 这不是一般事实; 非 Hermitian 正规矩阵也可正交对角化.
+\end{exercise}
+\begin{solution}\label{sol:qr-flag}
+原题必须补一般初始位置条件和相位约定. 设 $C=X^{-1}$, 每个前导块 $C_{1:j,1:j}$ ($j<m$) 可逆. 对 $V_{k,j}=A^k(:,1:j)$ 有
+\[
+ V_{k,j}=X\begin{bmatrix}\Lambda_1^kC_1\\\Lambda_2^kC_2\end{bmatrix},
+\]
+其中 $\Lambda_1$ 为前 $j$ 个特征值, $C_1=C_{1:j,1:j}$. 右乘可逆矩阵 $C_1^{-1}\Lambda_1^{-k}$ 不改变列空间, 得
+\[
+ \range V_{k,j}=\range\!\left(X\begin{bmatrix}I\\
+ \Lambda_2^k C_2 C_1^{-1}\Lambda_1^{-k}\end{bmatrix}\right).
+\]
+下块各项含 $(\lambda_i/\lambda_\ell)^k$, $i>j\ge\ell$, 均趋零. 因而前 $j$ 列空间趋于 $\Span\{x_1,\ldots,x_j\}$. 前 $j$ 个特征值非零, 因模严格排序; 若末特征值为零, 最后一列只需补正交基, 不反演它.
+
+QR 保持这些嵌套列空间. 对特征向量按顺序正交化得到酉 $Q$, 每轮按列调整相位后有 $Q^{(k)}\to Q$. 子空间 $\Span\{x_1,\ldots,x_j\}$ 对 $A$ 不变, 因而 $Q^*AQ$ 第 $j$ 列在前 $j$ 行以外为零, 所以 $T=Q^*AQ$ 上三角. 对角是依模排序的特征值, 给出 Schur 分解.
+
+未固定相位时 $Q^{(k)}$ 可能符号交替或复相位旋转, 不能保证逐元素收敛; 需同步相位调整 $A_k$ 再谈极限. 没有前导块条件也不保证排序收敛, 如已对角但按反顺序排列的 $A$ 会保持原位置. 直接形成高次 $A^k$ 在浮点中会丢失次要方向; QR 迭代是避免显式高次幂的实现途径.
+\end{solution}

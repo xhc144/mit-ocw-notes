@@ -1,0 +1,44 @@
+\originalchapter{2010 年秋季期中考试}
+题源: Fall 2010 历史试卷与官方答案. 原卷限时两小时, 每题标题 30 分; 官方答案标题却印 20 分, 本册按试卷信息记载, 不把两者混合. 解答为官方译审及校正.
+\originalsection{SVD 稳定性与最小二乘}
+\begin{exercise}\label{e2010:q1}
+输入矩阵 $A$, 输出其 SVD 的三个因子 $(U,\Sigma,V)$.
+(a) 说明此计算若后向稳定意味着什么.
+(b) 为什么一般浮点实现不能满足这一严格后向稳定定义? 提示: $\widetilde U$ 必须具有什么性质?
+(c) 实用 SVD 算法仍可满足一般稳定性定义, 写出其含义.
+\end{exercise}
+\begin{solution}
+(a) 必须存在 $\norm{\Delta A}=O(u)\norm A$ 使三个输出恰好是 $A+\Delta A$ 的一组精确 SVD 因子; 比仅满足 $A+\Delta A=\widetilde U\widetilde\Sigma\widetilde V^*$ 更强.
+(b) 精确 SVD 因子的 $U,V$ 必须精确酉, 而普通浮点存储的输出一般只近似酉, 因而无法恰为任何输入的精确 SVD. 这不否定乘积重构的后向误差小, 也不否定特殊输入可恰好输出酉矩阵.
+(c) 混合稳定性要求有小输入扰动, 并存在 $A+\Delta A$ 的精确因子 $(U',\Sigma',V')$, 使计算输出与这些因子相差 $O(u)$ 的输出尺度. 对三元组范数 $\norm{(U,\Sigma,V)}_{\rm tri}=\max(\norm U_2,\norm\Sigma_2,\norm V_2)$, 条件是
+\[
+ \norm{\Delta A}_2\le Cu\norm A_2,\qquad
+ \norm{(\widetilde U-U',\widetilde\Sigma-\Sigma',\widetilde V-V')}_{\rm tri}
+ \le Cu\max(1,\norm A_2).
+\]
+原答案将 $\max(1,\norm A_2)$ 误简化为 $\norm A_2$. 通常还可用自然的分量尺度表达: 酉因子绝对误差 $O(u)$, 奇异值矩阵误差 $O(u)\norm A$. 重复奇异值须允许相应子空间内的基选择和相位, 不把一个不连续的固定特征基选择当作唯一输出.
+\end{solution}
+\begin{exercise}\label{e2010:q2}
+$B\in\C^{m\times m}$ 非奇异, $A\in\C^{m\times n}$ 满列秩, 求 $\min_x\norm{B^{-1}(Ax-b)}_2$.
+(a) 写出最优 $x$ 满足的加权正规方程.
+(b) 给稳定求解路径, 避免平方 $A$ 的条件数, 可调用课上分解作为子程序.
+\end{exercise}
+\begin{solution}
+(a) 令 $A'=B^{-1}A,b'=B^{-1}b$, 得
+\[
+ A^*B^{-*}B^{-1}Ax=A^*B^{-*}B^{-1}b.
+\]
+原答案右端误印 $x$, 应为 $b$.
+(b) 一次带主元 LU 分解 $PB=LU$, 用三角求解 $BA'=A,Bb'=b$, 不显式求逆. 再做 Householder $A'=\widehat QR$, 解 $Rx=\widehat Q^*b'$. 原答案写 $R^*x$ 是笔误. 不构造 $A'^*A'$, 因而不额外平方 $A'$ 的条件数; $B$ 的病态、主元增长和变换后问题本身仍影响误差. 可用广义 QR 作更系统的实现, 本问无需展开.
+\end{solution}
+\originalsection{幂法与内部特征值}
+\begin{exercise}\label{e2010:q3}
+(a) $A$ 可对角化, 幂法 $x_{n+1}=Ax_n/\norm{Ax_n}$ 试求最大模特征方向. 解释 $|\lambda_1|=|\lambda_2|$ 一般造成问题, 但 $\lambda_1=\lambda_2$ 不造成同一种问题.
+(b) 大型稀疏 Hermitian $A$, 移位 $\mu$ 在谱内部. 比较以下两法的收敛和计算成本: 对 $(A-\mu I)^2$ 用 Lanczos 求最小模特征值, 或对 $(A-\mu I)^{-1}$ 用 Lanczos 求最大模特征值.
+\end{exercise}
+\begin{solution}
+(a) 不同特征值同模时相对相位不消失, 如 $\lambda_2=-\lambda_1$ 时往复交替. 若两者相同且与其他模有间隔, 极限主项 $c_1v_1+c_2v_2$ 本身仍是该特征值的特征向量; 方向收敛到对应特征空间中的一个向量, 整体符号或复相位可以变化. 若还有不同但同模的其他特征值, 问题依然存在.
+(b) 平方算子的特征值为 $(\lambda_i-\mu)^2$, 每次作用只需两次稀疏矩阵向量乘法, 无需形成平方矩阵或填充. 但目标在谱的小端, 分辨率和收敛取决于间隔及谱分布; 等距的 $\mu\pm d$ 被映到同一特征值, 可能需要在其子空间内再作 $A$ 的 Ritz 提取. 平方还会加剧相关尺度比, 不能据此断言所有例子迭代次数恰好翻倍.
+
+逆算子的特征值为 $1/(\lambda_i-\mu)$, 将近移位特征值变为主端, 通常利于提取. 要求 $A-\mu I$ 可逆, 每步须解线性系统. 稀疏直接分解可一次完成后复用, 但填充可能使时间和内存昂贵; 用迭代内解则需控制解的精度与额外成本. 近奇异求解、有限精度正交损失及幽灵 Ritz 值仍需关注, 不能宣称逆法完全没有舍入问题. 两法均用特征残差验证结果, 选择依赖分解成本和目标谱结构.
+\end{solution}

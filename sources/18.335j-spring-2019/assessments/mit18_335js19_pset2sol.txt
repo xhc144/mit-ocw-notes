@@ -1,0 +1,323 @@
+18.335 Problem Set 2 Solutions
+Problem 1: (14+(10+5) points)
+ (a) Trefethen, exercise 15.1. In the following, I abbreviate machine = m , and I use the fact
+     (which follows trivially from the deﬁnition of continuity) that we can replace any Lipshitz-
+     continuous g(O()) with g(0) + g 0 (0)O(). I also assume that ﬂ(x) is deterministic—by a
+     stretch of Trefethen’s deﬁnitions, it could conceivably be nondeterministic in which case one
+     of the answers changes as noted below, but this seems crazy to me (and doesn’t correspond
+     to any real machine). Note also that, at the end of lecture 13, Trefethen points out that the
+     same axioms hold for complex ﬂoating-point arithmetic as for real ﬂoating-point arithmetic
+     (possibly with m increased by a constant factor), so we don’t need to do anything special
+     here for C vs. R.
+
+      (i) Backward stable. x ⊕ x = ﬂ(x) ⊕ ﬂ(x) = [x(1 + 1 ) + x(1 + 1 )](1 + 2 ) = 2x̃ for |i | ≤ m
+          and x̃ = x(1 + 1 + 2 + 21 2 ) = x[1 + O(m )].
+     (ii) Backward stable. √ x ⊗ x = ﬂ(x) ⊗ ﬂ(x) = [x(1 + 1 ) × x(1 + 1 )](1 + 2 ) = x̃2 for |i | ≤ m
+          and x̃ = x(1 + 1 ) 1 + 2 = x[1 + O(m )].
+     (iii) Stable but not backwards stable. x x = [ﬂ(x)/ ﬂ(x)](1 + ) = 1 +  (not including
+           x = 0 or ∞, which give NaN). This is actually forwards stable, but there is no x̃ such
+           that x/˜
+                ˜ x=6 1 so it is not backwards stable. (Under the stronger assumption of correctly
+           rounded arithmetic, this will give exactly 1, however.)
+     (iv) Backwards stable. x x = [ﬂ(x) − ﬂ(x)](1 + ) = 0. This is the correct answer for x̃ = x.
+          (In the crazy case where ﬂ is not deterministic, then it might give a nonzero answer, in
+          which case it is unstable.)
+     (v) Unstable. It is deﬁnitely not backwards stable, because there is no data (and hence
+         no way to choose x̃ to match the output). To be stable, it would have to be forwards
+         stable, but it isn’t because the errors decrease more slowly than O(m ). More explicitly,
+         1 ⊕ 12 ⊕ 61 ⊕ · · · summed from left to right will give ((1 + 21 )(1 + 1 ) + 61 )(1 + 2 ) · · · =
+         e + 32 1 + 10                                 2
+                     6 2 + · · · dropping terms of O( ), where the coeÿcients of the k factors
+         converge to e. The number of terms is n where n satisﬁes n! ≈ 1/m , which is a function
+         that grows very slowly with 1/m , and hence the error from the additions alone is bounded
+         above by ≈ nm . The key point is that the errors grow at least as fast as nm (not even
+         counting errors from truncation of the series, approximation of 1/k!, etcetera), which is
+         not O(m ) because n grows slowly with decreasing m .
+     (vi) Stable. As in (e), it is not backwards stable, so the only thing is to check forwards
+          stability. Again, there will be n terms in the series, where n is a slowly growing function
+          of 1/m (n! ≈ 1/m ). However, the summation errors no longer grow as n. From right
+                                        1       1                                  1      1
+          to left, we are summing n!      ⊕ (n−1)!  ⊕ · · · ⊕ 1. But this gives (( n! + (n−1)! )(1 + n−1 ) +
+             1
+          (n−2)! )(1 + n−2 ) · · · ,and the linear terms in the k are then bounded by
+
+                                                                    ⎡                 ⎤
+                    n−1         n                 n−1 n                        n−1
+                    X           X 1               XX        1         n −  1   X j
+                           k              ≤ m                = m ⎣        +        ⎦ ≈ m e = O(m ).
+                                      j!                    j!          n!     j=1
+                                                                                   j!
+                     k=1        j=k               k=1 j=k
+
+
+          The key point is that the coeÿcients of the k coeÿcients grow smaller and smaller
+          with k, rather than approaching e as for left-to-right summation, and the sum of the
+          coeÿcients converges. The truncation error is of O(m ), and we assume 1/k! can also be
+          calculated to within O(m ), e.g. via Stirling’s approximation for large k, so the overall
+          error is O(m ) and the algorithm is forwards stable.
+
+                                                             1
+   (vii) Forwards stable. Not backwards stable since no data, but what about forwards stability?
+         Supposing sin(x) is computed in a stable manner, then sin(x)
+                                                                   f     = sin(x + δ) · [1 + O(m )]
+         for |δ| = |x|O(m ). It follows that, in the vicinity of x = π, the sin
+                                                                             f function can only
+         change sign within |δ| = πO(m ) of x = π. Hence, checking for sin(x)f        f 0 ) ≤ 0,
+                                                                                    ⊗ sin(x
+                  0
+         where x is the ﬂoating-point successor to x (nextfloat(x) in Julia) yields π[1 + O(m )],
+         a forwards-stable result.
+
+
+
+(b) Trefethen, exercise 16.1. Note that we are free to switch norms as needed, by norm equivalence.
+    Notation: the ﬂoating-point algorithm for computing f (A) = QA will be denoted f˜(A) =
+    QA;
+    g I will assume that we simply use the obvious three-loop algorithm, i.e. computing the
+    row–column dot products with in-order (“recursive”) summation, allowing us to re-use the
+    summation error analysis from pset 1.
+
+
+
+     (i) We will proceed by induction on k: ﬁrst, we will prove the base case, that multiplying
+         A by a single Q is backwards stable, and then we will do the inductive step (assume it
+         is true for k, prove it for k + 1).
+
+         First, the base case: we need to ﬁnd a δA with kδAk = kAkO(machine ) such that
+         g = Q(A + δA). Since kδAk = kQ∗ QA
+         QA                                          g − Ak = kQ(Q∗ QA     g − A)k = kQA  g − QAk in the
+         L2 norm, however, this is equivalent to showing kQA − QAk = kAkO(machine ); that
+                                                                    g
+         is, we can look at the forwards error, which is a bit easier. It isPsuÿcient to look at the
+         error in the ij-th element of QA, i.e. the error in computing k qik akj . Assuming we
+         do this sum by a straightforward loop, the analysis is exactly the same as in problem 2,
+         except that there is an additional (1 + ) factor in each term for the error in the product
+         qik akj [or (1 + 2) if we include the rounding of P    qik to q̃ik = ﬂ(qik )]. Hence, the error in
+         the ij-th element is bounded by mO(machine ) k |qik akj |, and (using the unitarity    P          of
+         Q, which implies P  that  |q ik | ≤ 1) this in turn  is bounded
+                                                                       P     by mO(   machine )   k |akj | ≤
+         mO(machine ) kj |akj | ≤ mO(machine )kAk (since kj |akj | is just an L1 Frobenius
+         norm of A, which is within a constant factor of any other norm). Summing m2 of
+         these errors in the P individual elements of QA, again using norm equivalence, we obtain
+                                                            3
+         kQA
+           g − QAk = O(
+                                 ij |(QA − QA)ij |) = m O(machine )kAk. Thus, we have proved
+                                      g
+         backwards stability for multiplying by one unitary matrix (with a overly pessimistic m3
+         coeÿcient, but that doesn’t matter here).
+
+         Now, we will show by induction that multiplying by k unitary matrices is backwards
+         stable. Suppose we have proved it for k, and want to prove for k + 1. That, con-
+         sider QQk · · · Q1 A. By assumption, Qk · · · Q1 A is backwards stable, and hence B̃ =
+         Qk^· · · Q1 A = Qk · · · Q1 (A + δAk ) for some kδAk k = O(machine )kAk. Also, from above,
+         QB̃ = Q(B̃+δB̃) for some kδ Bk    ˜ = O(             ˜
+                                                     machine )kBk = kQk · · · Q1 (A+δAk )kO(machine ) =
+         g
+         kA + δAk kO(machine ) ≤ kAkO(machine ) + kδAk kO(machine ) = kAkO(machine ).
+         Hence, QQk^    · · · Q1 A = QB̃
+                                     g = Q[Q · · · Q (A + δA ) + δB̃] = QQ · · · Q (A + δA) where
+                                                 k     1        k               k    1
+                             ∗     ∗
+         δA = δAk + [Q1 · · · Qk ]δB̃ and kδAk ≤ kδAk k + kδ Bk   ˜ = O(
+                                                                           machine )kAk. Q.E.D.
+
+     (ii) Consider XA, where X is some rank-1 matrix xy ∗ and A has rank > 1. The product
+          XA has rank 1 in exact arithmetic, but after ﬂoating-point errors it is unlikely that XA
+                                                                                                g
+          will be exactly rank 1. Hence it is not backwards stable, because XÃ will be rank 1
+                        ˜ and thus is 6= XA.
+          regardless of A,               g (See also example 15.2 in the text.)
+
+
+                                                    2
+Problem 2: (10+10 points)
+ (a) Denote the rows of A by aT1 , . . . , aTm . Consider the unit ball in the L∞ norm, the set {x ∈
+     Cn : kxk∞ ≤ 1}. Any vector Ax in the image of this set satisﬁes:
+                                                X                       X
+               kAxk∞ = max |aTj x| = max                aj,k xk ≤ max           |aj,k | = max kaj k,
+                         j∈1:m          j∈1:m                   j∈1:m                   j∈1:m
+                                                k∈1:n                   k∈1:n
+
+     since |xk | ≤ 1 in the L∞ unit ball. Furthermore, this bound is achieved when xk = sign(aj,k )
+     where j = argmaxj kaj k. Hence kAk∞ = maxj kaj k, corresponding to (3.10). Q.E.D.
+
+     If we look in the Julia source code, we ﬁnd that this norm is computed by summing the
+     absolute values of each row of A and then takes the maximum, exactly as in (3.10).
+ (b) To obtain µ × ν submatrix B of the m × n matrix A by selecting a subset of the rows and
+     columns of A, we simply multiply A on the left and right by µ × m and n × ν matrices as
+     follows:                                         ⎛             ⎞
+                                ⎛                  ⎞
+                                   1                  ⎜ 1
+                                                      ⎜
+                                                                    ⎟
+                                                                    ⎟
+                            B=⎝
+                                ⎜         1        ⎠A⎜
+                                                   ⎟  ⎜      1      ⎟
+                                                                    ⎟
+                                              ..      ⎜         .. ⎟
+                                                 .    ⎝           . ⎠
+
+     where there are 1’s in the columns/rows to be selected. More precisely, if we want a subset R
+     of the rows of A and a subset C of the columns of A, then we compute B = DR ADCT , where
+     the “deletion matrix” for an ordered set S of indices is given by (DS )ij = 1 if j equals the i-th
+     element of S and (DS )ij = 0 otherwise; DR is µ × m and DC is ν × n .
+
+     From Trefethen, chapter 3, we have kBkp ≤ kAkp kDR kp kDC kp . So, we merely need to
+                                                                                       p 1/p
+                                                                            P          
+     show kDS kp ≤ 1 and the result follows. But this is trivial: kDS xkp =   i∈S |xi |      ≤
+              p 1/p
+      P
+     [ i |xi | ]    = kxkp , so kDS kp ≤ 1 and we obtain kBkp ≤ kAkp .
+
+     In Julia, we construct a random 10 × 7 A by A=randn(10,7), and an arbitrary 3 × 4 subset of
+     this matrix by B = A[[1,3,4],[2,3,5,6]]. Then norm(B) <= norm(A) (the p = 2 norm)
+     returns true. As a more careful test, we can also try computing thousands of such random
+     matrices and check that the maximum of norm(B)/norm(A) is < 1; a one-liner to do this
+     in Julia is maximum(Float64[let A=randn(10,7); norm(A[1:3,1:4])/norm(A); end for
+     i=1:10000]), which returns roughly 0.92. However, a quick check with a single matrix is
+     acceptable here—such numerical “spot checks” are extremely useful to catch gross errors, but
+     of course they aren’t a substitute for proof, only a supplement (or sometimes a suggestive
+     guide, if the numerical results precede the proof).
+
+Problem 3: (21 points)
+To get the condition number of g(A) = Ax, we ﬁrst need to to get the Jacobian. The most natural
+                              ∂gi
+deﬁnition would have entries ∂A jk
+                                   , but this would result in a 3-index object (a “3d matrix” or “rank
+3 tensor”), which would require us to involve techniques from multilinear algebra. Instead, we can
+use ordinary linear algebra with an ordinary Jacobian matrix if we treat the input A as a “1d”
+vector a of length mn:
+                                                 (A1,: )T
+                                              ⎛           ⎞
+                                              ⎜ (A2,: )T ⎟
+                                         a=⎜              ⎟,
+                                              ⎜           ⎟
+                                                    ..
+                                              ⎝      .    ⎠
+                                                 (Am,: )T
+
+                                                   3
+i.e. a consists of the rows of A (transposed to column vectors), one after the other, in sequence
+(i.e., row-major storage of A). (We could also stack the columns; this isomorphism is called the
+“vectorization” of A.) There are m outputs fi of Ax, each one of which dots one row of A with x.
+Hence, in terms of a, the m × (mn) Jacobian matrix looks like
+
+                                                   xT
+                                               ⎛                              ⎞
+                                            ⎜            xT                   ⎟
+                                         J =⎜                                 ⎟.
+                                            ⎜                                 ⎟
+                                                                ..
+                                            ⎝                        .        ⎠
+                                                                         xT
+
+Since this is block-diagonal, it is easy to ﬁgure out supz6=0 kJzk
+                                                               kzk , as long as we pick a norm of the
+inputs A that allows us to easily compute the corresponding norm of the “vector” z, and so it is
+convenient to choose the the Frobenius norm so that kAkF = kzk2 . To maximize kJzk     kzk , let’s write
+z as                                            ⎛       ⎞
+                                                    x1
+                                                ⎜ x2 ⎟
+                                             z=⎜ . ⎟
+                                                ⎜       ⎟
+                                                ⎝ .. ⎠
+                                                               xm
+in terms of vectors xk ∈ Cn . Then
+                                               s
+                                 kJzk2             |xT x1 |2 + |xT x2 |2 + · · · + |xT xm |2
+                          kJk2 =       =                                                     ,
+                                  kzk2                 x∗1 x1 + x2∗ x2 + · · · + xm
+                                                                                  ∗ x
+                                                                                      m
+
+
+                                                                              → |αk |2 kxk22 over
+which is clearly maximized when xk = αk x̄ (to maximize the dot products xT xkq
+                                                                                                    P      2
+all vectors xk of a given length) for some scalar αk ∈ C, giving kJk2 = kxk2                        P |αk |2   = kxk2 .
+                                                                                                      |αk |
+                                        kJk
+Hence, the condition number is κ(A) = kAxk/kAk = kxk2 kAkF
+                                                   kAxk2 , which is almost exactly the same the
+condition number for f (x) = Ax, except that we substitute kAkF for kAk2 . Due to the equivalence
+of norms, however, this means that the condition numbers di˙er only by at most a constant factor
+independent of A or x.
+
+(There are other possible choices of norm where this computation is reasonable to carry out, but
+in any case you should get something similar up to a constant factor.)
+
+
+Problem 4: (10+10+10 points)
+  (a) Trefethen, probem 4.5. It is suÿcient to show that the reduced SVD AV̂ = Û Σ̂ is real, since
+      the remaining columns of U and V are formed as a basis for the orthogonal complement
+      of the columns of Û and V̂ , and if the latter are real then their complement is obviously
+      also real. Furthermore, it is suÿcient to show that Û can be chosen real, since (from class)
+      A∗ ui /σi = vi for each column ui of Û and vi of Û , and A∗ is real. The columns ui are
+      eigenvectors of A∗ A = B, which is a real-symmetric matrix, i.e. Bui = σi2 ui . Suppose that
+      the ui are not real. Then the real and imaginary parts of ui are themselves eigenvectors (if
+      they are nonzero) with eigenvalue σi2 (proof: take the real and imaginary parts of Bui = σi2 ui ,
+      since B and σi2 are real). Hence, taking either the real or imaginary parts of the complex ui
+      (whichever is nonzero) and normalizing them to unit length, we obtain a new purely real Û .
+      Q.E.D.1
+  1 There is a slight wrinkle if there are repeated eigenvalues, e.g. σ = σ , because the real or imaginary parts of u
+                                                                       1   2                                           1
+and u2 might not be orthogonal. However, taken together, the real and imaginary parts of any multiple eigenvalues
+must span the same space, and hence we can ﬁnd a real orthonormal basis with Gram-Schmidt or whatever.
+
+
+                                                           4
+(b) Trefethen, problem 5.2. We just need to show that, for any A ∈ Cm×n with rank < n and for
+    any  > 0, we can ﬁnd sequence of full-rank matrices B that eventually satisﬁes kA − Bk2 < .
+    Form the SVD A = U ΣV ∗ with singular values σ1 , . . . , σr where r < n is the rank of A. Let
+    B = U Σ̃V ∗ where Σ̃ is the same as Σ except that it has n − r additional nonzero singular
+    values σk>r = /2. From equation 5.4 in the book, kB − Ak2 = σr+1 = /2 < , noting that
+    A = Br in the notation of the book. We can then make a sequence of such matrices e.g. by
+    letting  = σr 2−k for k = 1, 2, . . ..
+(c) Trefethen, problem 5.4. From A = U ΣV ∗ , recall that AV = U Σ and A∗ U = V Σ. Therefore,
+
+                         A∗                    ±A∗ U
+                                                                         
+                                   V                          VΣ              V
+                                        =              =±             =±            Σ
+                    A             ±U            AV           ±U Σ           ±U
+
+                                                     A∗
+                                                       
+    and hence (vi ; ±ui ) is an eigenvector of            with eigenvalue ±σi . Noting that these
+                                                 A
+                                                                                        √
+    vectors (vi ; ±ui ) are orthogonal by construction and only need to be divided by 2 to be
+    normalized, we immediately obtain the diagonalization
+
+                                          A∗
+                                                             
+                                                       +Σ
+                                                =Q                Q∗
+                                      A                    −Σ
+
+    for
+                                                              √
+                                                        
+                                               V    V
+                                      Q=                     / 2.
+                                               +U   −U
+
+
+
+
+                                               5
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

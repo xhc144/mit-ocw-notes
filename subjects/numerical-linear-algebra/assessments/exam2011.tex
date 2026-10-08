@@ -1,0 +1,45 @@
+\originalchapter{2011 年秋季期中考试}
+题源: Fall 2011 历史试卷和官方答案. 四题各 25 分, 原卷不注明两小时时限. 解答为官方译审, 重复数学任务保留完整题面并回指已审校推导.
+\originalsection{幂法与 GMRES 重启}
+\begin{exercise}\label{e2011:q1}
+$A$ 可对角化, 特征对 $(\lambda_k,v_k)$ 按模排序. 幂法重复 $x\leftarrow Ax/\norm{Ax}_2$.
+(a) 若 $|\lambda_1|=|\lambda_2|>|\lambda_3|$ 且 $\lambda_1\ne\lambda_2$, 解释一般不收敛.
+(b) 给简单修复以获得两个主特征值和特征向量; 不允许改用逆迭代、Arnoldi、QR 全矩阵算法或同时迭代等昂贵方法.
+\end{exercise}
+\begin{solution}
+(a) 两个主项的模比不衰减而相对相位改变, 与 PS4 第\ref{ps4:q2}题相同.
+(b) 保存连续两轮向量, 只对两列作正交化、构造 $2\times2$ 的 $Q^*AQ$, 提取 Ritz 对. 其正确性、所需两个非零主分量及残差检查已在解答\ref{sol:two-power}中给出. 这里调用的只是二维小特征问题, 并非被禁止的全矩阵 QR 或同时迭代.
+\end{solution}
+\begin{exercise}\label{e2011:q2}
+GMRES 用 $q_1=b/\norm b_2$ 的 Arnoldi 基 $Q_n$ 求 $\min_y\norm{\widetilde H_ny-\norm b_2e_1}_2$, 令 $x_0=Q_ny$. 做完 $n$ 步后从单个向量重启. 新的初始向量应是什么, 每步应在什么 Krylov 空间求何种最小残差问题, 从而改进 $x_0$? 必须得到小最小二乘问题, 不能留下 $m\times k$ 的大问题; 不需要多向量隐式重启.
+\end{exercise}
+\begin{solution}
+计算 $r_0=b-Ax_0$, 若为零则停止. 否则取 $\widetilde q_1=r_0/\norm{r_0}_2$, 由 Arnoldi 建立 $\mathcal K_k(A,r_0)$. 在仿射空间 $x_0+\mathcal K_k(A,r_0)$ 写 $x=x_0+V_ky$, 有
+\[
+ \norm{b-Ax}_2=\norm{r_0-AV_ky}_2
+ =\norm{\norm{r_0}_2 e_1-\widetilde H_ky}_2.
+\]
+解这个 $(k+1)\times k$ 问题, 返回 $x_0+V_ky$. 因 $y=0$ 可行, 新残差不大于重启时残差, 但不保证严格减小或一定收敛. 不应以 $x_0$ 作为新的右端方向: $b$ 一般不在由 $x_0$ 产生的 Arnoldi 空间, 无法直接得到上述小问题.
+\end{solution}
+\originalsection{条件数与浮点公式}
+\begin{exercise}\label{e2011:q3}
+(a)(i) $A\in\C^{m\times n}$ 满列秩, $B$ 为其前 $p$ 列, $1\le p\le n$, 证明 $\kappa(A)\ge\kappa(B)$.
+(a)(ii) 用多项式拟合含实验误差的数据时, 该结论说明增加数据点还是增加次数时的敏感性? 说明结论.
+(b) 若 $\kappa_2(A)=1$, 证明 $A=cQ$ 且 $Q^*Q=I$.
+\end{exercise}
+\begin{solution}
+(a)(i) 用零填充将 $B$ 的输入等距嵌入 $A$ 的输入, 两个上确界分别不增, 正如 2019 第\ref{e2019:q1}题.
+(a)(ii) 保持数据点、基底和缩放约定, 增加多项式次数是在 Vandermonde 设计矩阵中增加列, 所以该矩阵的条件数不减, 对系数误差的最坏放大界可能变坏. 增加数据点是加行, 不属于该结论. 更大的条件数不意味着每组实际噪声都使误差严格增大, 最小二乘还受残差角度等因素影响.
+(b) 有限条件数意味着满列秩. SVD $A=U\Sigma V^*$ 中全部奇异值都等于某 $c>0$, 因而 $A=cUV^*$. 置 $Q=UV^*$, 有 $Q^*Q=V(U^*U)V^*=I$. 若使用非零奇异值比而允许秩亏, 则原结论不成立; 本问用全输入空间的条件数定义.
+\end{solution}
+\begin{exercise}\label{e2011:q4}
+IEEE binary64 有 53 位二进制有效数字, 正常指数范围 $[-1022,1023]$.
+(a) 直接计算 $\sqrt{x^2+y^2}$ 可能返回 Inf, 尽管输入远在可表示范围内; 提出修复.
+(b) 对 $x^2+2bx+1=0$, 为什么公式 $-b\pm\sqrt{b^2-1}$ 可能不准确, 如何修复?
+(c) 已有对给定浮点输入正确舍入的正弦余弦, 如何准确算小 $|x|$ 时的 $1-\cos x$?
+\end{exercise}
+\begin{solution}
+(a) $s=\max(|x|,|y|)$, $s=0$ 返回零, 否则算 $s\sqrt{(x/s)^2+(y/s)^2}$. 中间平方在 $[0,1]$, 只在最终真实结果不再可表示时才需要溢出. 实际可调用 \texttt{hypot}.
+(b) 对实根 $|b|\ge1$, 大 $|b|$ 时小根发生消去. 先算 $q=-b-\operatorname{sign}(b)\sqrt{b^2-1}$ 的大模根, 小根用根乘积为 1 得 $1/q$. 为避免 $b^2$ 中间溢出, 可写 $\sqrt{b^2-1}=\sqrt{|b|-1}\sqrt{|b|+1}$ 或用 $|b|\sqrt{1-(1/|b|)^2}$, 并按最终可表示范围处理. 极大 $|b|$ 时应分别计算两根: 令 $s=\sqrt{1-(1/b)^2}$, 小根为 $-(1/b)/(1+s)$, 大根为 $-b(1+s)$; 即使只有大根上溢, 小根仍可准确返回, 不能用 $1/\mathrm{Inf}$ 代替它. 接近 $|b|=1$ 的重根问题本身敏感, 可用 $(|b|-1)(|b|+1)$ 保留准确输入的距离. 若 $|b|<1$, 根为复数, 需按所需底域另行计算.
+(c) 用恒等式 $1-\cos x=2\sin^2(x/2)$, 不做近似相等数相减. 脚本验证 $x=10^{-8}$ 的直接结果为零, 新式约 $5\times10^{-17}$. 极小值进入次正规或舍入为零的范围时, 不能要求统一的小相对误差.
+\end{solution}

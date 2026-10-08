@@ -1,0 +1,39 @@
+\originalchapter{2019 年春季期中考试}
+\label{ass:e2019}
+题源: MIT 18.335J Spring 2019 当期试卷及 Steven G. Johnson 官方答案. 解答为官方译审及必要数学校正. 此卷为带回家考试, 本地试卷不注明限时; 不沿用历史卷的两小时时限. Problem 0 要求抄写并签署声明: ``我完成本考试仅使用自己的 18.335 笔记、教材及已发布的 18.335 课程材料.'' 本册不填写或保存任何个人签名.
+\originalsection{条件数与矩阵平方根}
+\begin{exercise}\label{e2019:q1}
+若 $A$ 的列是矩阵 $B$ 的一部分, 证明 $\kappa(A)\le\kappa(B)$. $A$ 可以非方阵, 必须用 $\sup_{x\ne0}\norm{Ax}/\norm x$ 与 $\sup_{x\ne0}\norm x/\norm{Ax}$ 的乘积定义, 而非直接写 $\norm A\norm{A^{-1}}$.
+\end{exercise}
+\begin{solution}
+按共同的坐标 $p$ 范数 ($1\le p\le\infty$), 用等距零填充 $E$ 写 $A=BE$, $\norm{Ex}=\norm x$. 因而两个关于 $A$ 的上确界均不超过对应的 $B$ 上确界, 相乘即得结论. 满列秩时在 2 范数下就是 $\sigma_{\max}(A)/\sigma_{\min}(A)\le\sigma_{\max}(B)/\sigma_{\min}(B)$. 按此定义有非零核时条件数取 $\infty$; 若 $B$ 不满列秩, 不等式仍按这一约定成立, 不应改为只比较非零奇异值的比.
+\end{solution}
+\begin{exercise}\label{e2019:q2}
+对可对角化 $A=X\Lambda X^{-1}$, 矩阵平方根可写为 $A^{1/2}=X\Lambda^{1/2}X^{-1}$.
+(a) 用一句话说明一般矩阵中此公式为何可能不准确.
+(b) 某人的矩阵都不稀疏, 但她从外观就知道可以放心使用此公式; 给一个有效理由的例子.
+\end{exercise}
+\begin{solution}
+(a) $A$ 可能接近不可对角化矩阵, 使特征向量矩阵 $X$ 病态而放大舍入误差.
+(b) 例如稠密 Hermitian 正定矩阵; 它可取酉特征基, $X^{-1}=X^*$, $\kappa_2(X)=1$. 更一般正规矩阵也无特征向量基的病态放大. 这是对该计算路径的理由; 平方根函数在零或所选复平方根分支切口附近仍可能敏感, 正规性并不消除函数本身的条件数.
+\end{solution}
+\originalsection{指数和与行列式}
+\begin{exercise}\label{e2019:q3}
+给定非空向量 $x$ 的有限双精度元素, 计算 $f(x)=\log(\sum_i e^{x_i})$. 已有准确的 \texttt{exp} 和正数上的 \texttt{log}. 直接按定义计算对很多输入返回 Inf. 描述对任意此类输入给出合理精度的修复算法; 不必证明后向稳定.
+\end{exercise}
+\begin{solution}
+令 $M=\max_i x_i$, 选一个最大值位置 $j$, 计算 $t=\sum_{i\ne j}\exp(x_i-M)$, 返回 $M+\operatorname{log1p}(t)$. 所有指数的自变量非正, 且被省去的主项恰为 1; 微小尾项下溢只忽略可忽略贡献, 不会把对数自变量变成零. 可用成对求和或补偿求和累积 $t$. 最大值相等时只省略一个, 其余最大项仍贡献 1.
+
+必须使用准确的 $\operatorname{log1p}(t)$, 不能先把 $1+t$ 舍入再求对数. 例如 $x=(10^{-20},\log10^{-20})$, 仅减最大值而用 $\log(1+t)$ 会返回约 $10^{-20}$, 正确结果约 $2\times10^{-20}$. 脚本同时验证大正、大负以及该小量例子. 当最终 $M+\log(1+t)$ 本身接近零时, 输出的相对精度仍受问题条件数影响; 此算法避免不必要的中间上溢、下溢和尾和消去, 不保证病态输入的统一相对误差.
+\end{solution}
+\begin{exercise}\label{e2019:q4}
+对 $m\times m$ Hermitian 矩阵 $A$, 可从特征值初猜用 Newton 法求 $f(z)=\det(A-zI)$ 的根. 不要显式形成特征多项式系数 (根对系数误差敏感), 也不要每个 $z$ 做一次 $\Theta(m^3)$ 的 LU. 允许一次 $\Theta(m^3)$ 的精确算术预处理, 但不能是迭代对角化或 Schur 求解. 描述每次以 $O(m)$ 求 $f(z)$ 的伪代码. 不必给 $f'(z)$ 算法, 也不用考虑溢出; 实际 Newton 只需 $f/f'$.
+\end{exercise}
+\begin{solution}
+用有限步 Householder 相似变换约化为 Hermitian 三对角 $A=QTQ^*$, 其主对角为 $a_i$, 上副对角为 $b_i$. 不求特征值, 这符合精确算术预处理要求. 定义前 $k$ 阶主块的行列式 $p_k(z)$; 按末行展开得到
+\[
+ p_0=1,\quad p_1=a_1-z,\quad
+ p_k=(a_k-z)p_{k-1}-|b_{k-1}|^2p_{k-2}\quad(k\ge2).
+\]
+伪代码为先保存 $(p_{\rm old},p)=(1,a_1-z)$, 对 $k=2,\ldots,m$ 置 $p_{\rm new}=(a_k-z)p-|b_{k-1}|^2p_{\rm old}$, 再同时置 $(p_{\rm old},p)=(p,p_{\rm new})$, 返回 $p$. 因 $\det(A-zI)=\det(T-zI)$, 返回即为所求. 共 $O(m)$ 运算、$O(1)$ 附加空间. 此递推无除法, 即使某中间主块行列式为零也不会除零, 比直接使用三角分解的主元递推更稳妥.
+\end{solution}

@@ -1,0 +1,71 @@
+\originalchapter{2008 年秋季期中考试}
+题源: 2019 OCW 历史考试栏所收 Fall 2008 试卷及答案. 原卷限时两小时, 声称各题同权重 (同时各题标题印 20 分); 保留这一历史卷自身的信息, 不用于 2019 课历. 以下为官方答案译审, 校正维度与稳定性论证.
+\originalsection{Sylvester 方程与残差}
+\begin{exercise}\label{e2008:q1}
+给定 $A\in\C^{m\times m},B\in\C^{n\times n},C\in\C^{m\times n}$, 求 $AX-XB=C$.
+(a) 已给两矩阵的 Schur 分解, 将方程化为 $A'X'-X'B'=C'$, $A',B'$ 上三角, 并说明恢复 $X$.
+(b) 给求 $X'$ 最后一行的算法.
+(c) 已求所有大于 $j$ 的行, 给第 $j$ 行的算法.
+(d) 不计 Schur 分解成本, 给整个算法关于 $m,n$ 的主阶运算量, 不必给常数.
+\end{exercise}
+\begin{solution}
+(a) 写 $A=Q_AU_AQ_A^*$、$B=Q_BU_BQ_B^*$, 置 $A'=U_A,B'=U_B,C'=Q_A^*CQ_B,X'=Q_A^*XQ_B$. 恢复为 $X=Q_AX'Q_B^*$.
+(b) 最后一行 $w=X'_{m,:}$ 满足 $w(a'_{mm}I-B')=C'_{m,:}$. 按列从左向右前代 (或转置成下三角列方程) 求 $w$.
+(c) 第 $j$ 行满足
+\[
+ X'_{j,:}(a'_{jj}I-B')=C'_{j,:}-\sum_{k>j}a'_{jk}X'_{k,:}.
+\]
+先构造右端, 再前代. 要求 $\sigma(A)\cap\sigma(B)=\varnothing$ 才有全部非零除数和唯一解; 原题未列此必要条件. 有共同特征值时可能无解或不唯一, 需作相容性分析, 不能继续除零.
+(d) 构造右端合计 $O(m^2n)$, 逐行三角求解 $O(mn^2)$, 两侧基变换也为同阶, 总量 $O(m^2n+mn^2)$.
+\end{solution}
+\begin{exercise}\label{e2008:q2}
+若求解 $Ax=b$ 的算法后向稳定, 对算出的 $\widetilde x$ 再在浮点中计算残差 $\widehat r=\operatorname{fl}(b-A\widetilde x)$, 残差大小有什么界? 请用 $u$ 及必要的范数、条件数表达.
+\end{exercise}
+\begin{solution}
+后向稳定指 $(A+E)\widetilde x=b+e$, $\norm E\le C u\norm A$, $\norm e\le C u\norm b$. 精确残差为 $r=b-A\widetilde x=E\widetilde x-e$, 因而 $\norm r\le C u(\norm A\norm{\widetilde x}+\norm b)$.
+
+朴素浮点矩阵向量乘法具有成分误差界 $|\operatorname{fl}(A\widetilde x)-A\widetilde x|\le\gamma_m|A||\widetilde x|$, 残差减法另增加 $O(u)(|b|+|A||\widetilde x|)$. 在固定维度的相容范数中合并为
+\[
+ \norm{\widehat r}\le C_m u(\norm A\norm{\widetilde x}+\norm b).
+\]
+此界直接可用, 不需要把一般矩阵向量乘法误称为对同一 $x$ 的后向稳定运算. 若 $Cu\kappa(A)<1$, 还可由扰动逆界得 $\norm{\widetilde x}\le(1+Cu)\norm{A^{-1}}\norm b/(1-Cu\kappa(A))$, 从而残差为 $O(u)(1+\kappa(A))\norm b$, 常数需包含该分母. 原答案以 $x$ 替代 $\widetilde x$ 且默认忽略扰动逆条件, 本处已修正.
+\end{solution}
+\originalsection{半正定 CG 与 Rayleigh 商}
+\begin{exercise}\label{e2008:q3}
+标准 CG 从 $x_0=0,r_0=b,d_0=r_0$ 开始, 更新
+\[
+ \alpha_k=\frac{r_{k-1}^*r_{k-1}}{d_{k-1}^*Ad_{k-1}},\quad
+ x_k=x_{k-1}+\alpha_kd_{k-1},\quad r_k=r_{k-1}-\alpha_kAd_{k-1},\quad
+ d_k=r_k+\frac{r_k^*r_k}{r_{k-1}^*r_{k-1}}d_{k-1}.
+\]
+现在 $A$ Hermitian 半正定, 部分特征值为零, 并假设 $b\in\range A$.
+(a) 在正交特征基中, 各次迭代如何改变 $x_k$ 的零特征方向系数?
+(b) 是否收敛, 收敛到什么, 速率由什么决定 (不能用无穷的 $\kappa(A)$)?
+(c) 换成随机 $x_0$, 同时 $r_0=b-Ax_0$, 会怎样?
+(d) 建议找 $\ker A$ 中向量的迭代算法; 提示 $b=0$.
+\end{exercise}
+\begin{solution}
+(a) $r_0$ 在 $\range A=(\ker A)^\perp$, 归纳每个残差和搜索方向都在该空间. 故 $x_k$ 的核分量不变, 从零开始就一直为零.
+(b) 若 $A=0$, 题设强迫 $b=0$, 初始即停止, 不定义正谱条件数. 其余情形在 $\range A$ 上 $A$ 正定, 标准 CG 适用, 精确算术至多 $\rank A$ 步得到最小欧氏范数解 $A^\dagger b$. 收敛界用正特征值的比 $\kappa_+=\lambda_{\max}/\lambda_{\min,+}$: $A$ 半范数误差界为 $2[(\sqrt{\kappa_+}-1)/(\sqrt{\kappa_+}+1)]^k$ 乘初始误差. 在残差为零时停止, 不继续计算 $0/0$.
+(c) 初始核投影保持不变, 收敛到 $A^\dagger b+P_{\ker A}x_0$, 范围分量仍按 $\kappa_+$ 控制. 初始残差仍在 $\range A$.
+(d) 取随机 $x_0$ 解 $Ax=0$, 按 CG 消去范围分量, 极限为 $P_{\ker A}x_0$. 若核非平凡, 连续随机初始化几乎必得非零核向量; 若初值无核分量则只得到零. 脚本验证核分量保存及 $\norm{Ax_k}\to0$.
+\end{solution}
+\begin{exercise}\label{e2008:q4}
+设 Hermitian $A=\begin{bmatrix}B&b\\b^*&\gamma\end{bmatrix}$, $\gamma\in\R$. 已知 Rayleigh 商落在矩阵最小与最大特征值之间. 证明 $\lambda_{\min}(B)\ge\lambda_{\min}(A)$.
+\end{exercise}
+\begin{solution}
+任意非零 $v$ 零填充为 $w=(v,0)^T$, 则 $w^*Aw/(w^*w)=v^*Bv/(v^*v)\ge\lambda_{\min}(A)$. 对 $v$ 取最小值得结论.
+\end{solution}
+\originalsection{块矩阵与加权最小二乘}
+\begin{exercise}\label{e2008:q5}
+令 $A=\begin{bmatrix}I&B\\B^*&I\end{bmatrix}$ 且 $\norm B_2<1$. 证明 $\kappa_2(A)=(1+\norm B_2)/(1-\norm B_2)$. 提示: 用 $B$ 的 SVD 构造特征向量及奇异值.
+\end{exercise}
+\begin{solution}
+$Bv_i=\sigma_i u_i$, $B^*u_i=\sigma_i v_i$ 时, $(u_i,\pm v_i)^T/\sqrt2$ 是 $A$ 的单位特征向量, 对应 $1\pm\sigma_i$. 两侧未配对零空间方向对应特征值 1. 这些向量组成正交基, 且全部特征值正, 所以奇异值等于这些特征值. 最大与最小分别为 $1+\norm B_2,1-\norm B_2$, 得到比值, 亦覆盖长方 $B$ 和 $B=0$.
+\end{solution}
+\begin{exercise}\label{e2008:q6}
+对满列秩 $A\in\C^{m\times n}$、$b\in\C^m$ 和 Hermitian 正定权矩阵 $W$, 在 $\norm y_W=\sqrt{y^*Wy}$ 下求 $\min_x\norm{Ax-b}_W$. 提出准确且合理高效的算法, 无需稳定性证明. 原卷把 $W$ 写成 $n\times n$、权范数空间写成 $\C^n$; 与残差维度不符, 此处明确校正为 $W\in\C^{m\times m}$、$y\in\C^m$.
+\end{exercise}
+\begin{solution}
+先做 $W=R_W^*R_W$ 的 Cholesky, 将问题转成 $\min_x\norm{R_WAx-R_Wb}_2$. 做 $R_WA=\widehat QR_A$ 的 Householder QR, 以回代解 $R_Ax=\widehat Q^*R_Wb$. 不构造 $A^*WA$ 的正规方程, 避免额外平方已变换矩阵的条件数. 稠密权矩阵 Cholesky 为 $O(m^3)$, 乘法为 $O(m^2n)$, QR 为 $O(mn^2)$; 若 $W$ 有结构可减少成本. 权矩阵自身病态仍会影响问题精度, 此算法不消除原问题的病态性.
+\end{solution}

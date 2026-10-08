@@ -1,0 +1,98 @@
+18.335 Problem Set 1 Solutions
+Problem 1: (10 points)
+The smallest integer that cannot be exactly represented is n = β t + 1 (for base-β with a t-digit
+mantissa). You might be tempted to think that β t cannot be represented, since a t-digit number,
+at ﬁrst glance, only goes up to β t − 1 (e.g. three base-10 digits can only represent up to 999, not
+1000). However, β t can be represented by β t−1 · β 1 , where the β 1 is absorbed in the exponent.
+
+In IEEE single and double precision, β = 2 and t = 24 and 53, respectively, giving 224 + 1 =
+16,777,217 and 253 + 1 = 9,007,199,254,740,993.
+
+Evidence that n = 253 + 1 is not exactly represented but that numbers less than that are can
+be presented in a variety of ways. In the pset1-solutions notebook, we check exactness by compar-
+ing to Julia’s Int64 (built-in integer) type, which exactly represents values up to 263 − 1.
+
+Problem 2: (10+10 points)
+See the pset1 solutions notebook for Julia code, results, and explanations.
+
+Problem 3: (10+10+10 points)
+See the pset1 solutions notebook for Julia code, results, and explanations.
+
+Problem 4: (10+5+10 points)
+                              Pn
+Here you will analyze f (x) = i=1 xi as in class, but this time you will compute f˜(x) in a di˙erent
+way. In particular, compute f˜(x) by a recursive divide-and-conquer approach known in the literature
+as pairwise summation, recursively dividing the set of values to be summed in two halves and
+then summing the halves:
+                                  ⎧
+                                  ⎪0
+                                  ⎨                                 if n = 0
+                           ˜
+                          f (x) = x1                                if n = 1 ,
+                                  ⎩˜
+                                  ⎪
+                                                    ˜
+                                    f (x1:bn/2c ) ⊕ f (xbn/2c+1:n ) if n > 1
+
+where byc denotes the greatest integer ≤ y (i.e. y rounded down). In exact arithmetic, this computes
+f (x) exactly, but in ﬂoating-point arithmetic this will have very di˙erent error characteristics than
+the simple sequential summation in class.
+
+ (a) Suppose n = 2m with m ≥ 1. We will ﬁrst show that
+                                                    n
+                                                    X          m
+                                                               Y
+                                          f˜(x) =         xi       (1 + i,k )
+                                                    i=1        k=1
+
+     where |i,k | ≤ machine . We prove the above relationship by induction. For n = 2 it follows
+     from the deﬁnition of ﬂoating-point arithmetic. Now, suppose it is true for n and we wish to
+     prove it for 2n. The sum of 2n number is ﬁrst summing the two halves recursively (which has
+     the above bound for each half since they are of length n) and then adding the two sums, for
+     a total result of
+                                   " n    m               2n     m
+                                                                              #
+                                    X Y                   X     Y
+                    f˜(x ∈ R2n ) =     xi   (1 + i,k ) +    xi    (1 + i,k ) (1 + )
+                                    i=1    k=1                     i=n+1     k=1
+
+
+                                                     1
+    for || < machine . The result follows by inspection, with i,m+1 = .
+                                               Qm
+    Then, we use the result from class that k=1 (1 + i,k ) = 1 + δi with |δi | ≤ mmachine +
+    O(2machine ). Since m = log2 (n), the desired result follows immediately.
+
+(b) Just enlarge the base case. Instead of recursively dividing the problem in two until n < 2,
+    divide the problem in two until n < N for some N , at which point we sum the < N numbers
+    with a simple loop as in problem 2. A little arithmetic reveals that this produces ∼ 2n/N
+    function calls—this is negligible compared to the n − 1 additions required as long as N is
+    suÿciently large (say, N = 200), and the eÿciency should be roughly that of a simple loop.
+    (See the pset1 Julia notebook for benchmarks and explanations.)
+
+    Using a simple loop has error bounds that grow as N as you showed above, but N is just
+    a constant, so this doesn’t change the overall logarithmic nature of the error growth with
+    n. A more careful analysisP analogous to above reveals that the worst-case error grows
+                                                                                        P as
+    [N + log2 (n/N )]machine i |xi |. Asymptotically, this is not only log2 (n)machine i |xi |
+    error growth, but with the same asymptotic constant factor (same coeÿcient of the log2 n
+    term)!
+(c) Instead of “if (n < 2),” just do (for example) “if (n < 200)”. See the notebook for code and
+    results.
+
+
+
+
+                                                2
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

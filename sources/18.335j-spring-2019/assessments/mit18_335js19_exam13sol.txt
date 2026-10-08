@@ -1,0 +1,200 @@
+18.335 Midterm Solutions, Fall 2013
+Problem 1: GMRES (20 points)
+  (a) We assume A is nonsingular, in which case An b 6= 0 (except in the trivial case b = 0, for which we
+      already have an exact solution x = 0 to Ax = b). Now, we are told to suppose An b ∈ Kn =⇒ An b =
+      ∑k<n ck Ak b for some coefficients ck . Let c` denote the first nonzero coefficient (i.e. c` 6= 0 and ck = 0
+                                                       n−1
+      for k < `; in most cases ` = 0). Then An b = ∑k=`    ck Ak b implies that we can solve for the A` b term as:
+                                                    !                    "                                    !#
+                   `  1         n               k                1              n−`−1                 k−`−1
+                 A b=         A b−     ∑ ck A b         =⇒ b = A               A         b−    ∑ ck A         b    .
+                      c`             `<k<n                       c`                           `<k<n
+
+      But we are solving b = Ax, and by inspection
+                                                                                     !
+                                         1
+                                      x=        A   n−`−1
+                                                            b−    ∑ ck A     k−`−1
+                                                                                     b   ∈ Kn ,
+                                         c`                      `<k<n
+
+      since 0 ≤ k − ` − 1 < n (since ` < k < n) and 0 ≤ n − ` − 1 < n (since 0 ≤ ` < n). But if the exact
+      solution x ∈ Kn , then we can obtain the exact solution from Qn and we don’t need to compute qn+1 .
+      We are done, so breakdown is a good thing.
+
+  (b) Suppose b is a linear combination of n of the eigenvectors of A. Then Ak b will still be a linear combi-
+      nation of those eigenvectors for all k, and hence the Krylov space can never have dimension > n. So,
+      we must break down on the n-th step, when breakdown must occur if we try to compute qn+1 .
+
+      Technically, we must find n eigenvectors with distinct eigenvalues in order for Ak b to be linearly
+      independent for k < n, i.e. for it to break down in exactly n steps.
+
+
+Problem 2: Conditioning (20 points)
+The following parts can be solved independently.
+
+  (a) We want to avoid squareing the condition number of A. So, we compute the reduced QR factorization
+      A = Q̂R̂ (Householder is the most efficient stable way), in which case A∗ A = R̂∗ R̂. Since A is full-rank,
+      R̂ is a nonsingular n × n matrix. Hence C = (R̂−1 )∗ R̂−1 , and Ci j = e∗i Ce j = (R̂−1 ei )∗ (R̂−1 e j ). Since R̂
+      is upper-triangular, we can compute xi = R̂−1 ei efficiently by solving R̂xi = ei via backsubstitution.
+
+  (b) From class, the condition number of f (x) = Ax is simply κ(x) = kAk2 kxk2 /kAxk2 , since the Jacobian
+      is A. (I told you to use kAkF for the norm of A, but that really applies when you have a choice of
+      norms, i.e. in the second part; in the condition-number formula you must use the induced norm of the
+      Jacobian matrix. However, the question was a bit confusing here.)
+
+      To get the condition number of f (A) = Ax, we first need to to get the Jacobian. Let’a define the
+      input A as a “1d” vector a of length mn:
+
+                                                   (A1,: )T
+                                                           
+                                                  (A2,: )T 
+                                               a=          ,
+                                                           
+                                                       ..
+                                                       .   
+                                                                 (Am,: )T
+
+      i.e. a consists of the rows of A (transposed to column vectors), one after the other, in sequence. (i.e.,
+      row-major storage of A.) There are m outputs fi of Ax, each one of which dots one row of A with x.
+
+
+                                                             1
+      Hence, in terms of a, the m × (mn) Jacobian matrix looks like
+
+
+                                                     xT
+                                                                                 
+                                                             xT                  
+                                            J=                                   .
+                                                                                 
+                                                                    ..
+                                                                        .        
+                                                                             xT
+
+
+      Since this is block-diagonal, it is easy to figure out supz6=0 kJzk
+                                                                     kzk . Let’s write z as
+
+
+                                                            
+                                                          x1
+                                                         x2 
+                                                      z= . 
+                                                            
+                                                         .. 
+                                                                   xm
+
+
+      in terms of vectors xk ∈ Cn . Note that, under the Frobenius norm, kAkF = kzk2 . Then
+
+                                                  s
+                                      kJzk2           |xT x1 |2 + |xT x2 |2 + · · · + |xT xm |2
+                               kJk2 =       =                                                   ,
+                                      kzk2                 x1∗ x1 + x2∗ x2 + · · · + xm
+                                                                                      ∗x
+                                                                                        m
+
+
+                                                                               T         2   2
+                                                                            rx xk → |αk | kxk2 over all
+      which is clearly maximized when xk = αk x̄ (to maximize the dot products
+                                                                                              ∑ |αk |2
+      vectors xk of a given length) for some scalar αk ∈ C, giving kJk2 = kxk2                ∑ |αk |2
+                                                                                                       = kxk2 . Hence, the
+                                     kJk
+      condition number is κ(A) = kAxk/kAk   = kxkkAxk
+                                                  2 kAkF
+                                                         , which is almost exactly the same the condition num-
+                                                      2
+      ber for f (x) = Ax above, except that we substitute kAkF for kAk2 . Due to the equivalence of norms,
+      however, this means that the condition numbers differ only by at most a constant factor independent
+      of A or x.
+
+      (I asked you to use the Frobenius norm largely because it made it eaasier to compute the induced
+      norm kJk2 in the second part. Otherwise you would have had to convert z back to a matrix and used
+      the induced L2 norm of that matrix for kzk in the denominator of the kJk2 formula. It’s possible to
+      work this out, but it seemed like an unnecessary amout of complexity to get something that differs
+      only by a constant factor. The usual principle here is that, because of the equivalence of norms, we
+      pick whatever norm is most convenient when we are discussing conditioning.)
+
+
+
+
+Problem 3: QR updating (20 points).
+
+Suppose you are given the QR factorization A = QR of an m × n matrix A (rank n < m). Describe an efficient
+O(m2 + n2 ) = O(m2 ) algorithm to compute the QR factorization of a rank-1 update to A, that is to factorize
+A + uv∗ = Q0 R0 for some vectors u ∈ Cm and v ∈ Cn , following these steps:
+
+
+  (a) (Note that this applies to the full QR factorization, where Q is an m × m unitary matrix, not to the
+      reduced QR factorization with an m × n Q̂!) Q0 R0 = A + uv∗ = QR + uv∗ = Q(R + zv∗ ) implies that
+      Qz = u or z = Q∗ u. Multiplying an m × m matrix Q∗ by the vector u costs Θ(m2 ) operations.
+
+
+                                                          2
+(b) The R + zv∗ matrix looks like this:
+                                               
+                                    × × × × ×
+                                
+                                       × × × × 
+                                                
+                                
+                                         × × × 
+                                                
+                                
+                                           × × 
+                                                
+                           ∗
+                                             ×                                        
+                     R + zv =                 +
+                                                               zv1   zv2   ···   zvn       .
+                                               
+                                               
+                                               
+                                               
+                                               
+                                               
+
+
+   This means that, below the diagonal of R, the entries in every column are multiples of the same vector
+   z. So, if we perform Givens rotations from the bottom up to introduce zeros into the first column, this
+   rotation will also introduce zeros in all the columns until the diagonal is reached.
+
+   More specifically, you were asked to apply the Givens rotations that rotate z into a multiple of e1 ,
+   from the bottom up. As explained above, this will introduce zeros into each column of R + zv∗ until
+   the diagonal is reached. In column k, this means it will introduce zeros until you get to the point of
+   rotating rows k and k + 1. Because the (k, k) entry contains Rk,k , the Givens rotation designed for z
+   will no longer work, and will leave both of these rows nonzero (and similarly for rows < k). Hence,
+   the resulting matrix is upper Hessenberg as desired (one nonzero below each diagonal).
+
+   There is Θ(m) work required to rotate z via m − 1 Givens rotations, and Θ(n2 ) work required to
+   apply these rotations to R + zv∗ starting from the diagonal rows. And hence Θ(m + n2 ) work overall;
+   I don’t mind if you ignore the Θ(m) term since it is negligible compared to the Θ(m2 ) term from part
+   (a). (Naively, these Givens rotations to introduce zeros into the first column will require Θ(mn) work
+   because of the cost of applying them to the other columns, but you don’t actually have to perform the
+   rotations of the other columns for rows > n since we know a priori that this will just introduce zeros.)
+(c) Given upper-Hessenberg form, we just need to apply one Givens rotation to each column (to rows k
+    and k + 1 for column k) to restore tridiagonal form. There are n columns, and on average Θ(n) work
+    per rotation (since the rotation has to apply to all the columns ≥ k), for Θ(n2 ) work overall.
+
+   (You solved a very similar problem for homework, in the context of the upper-Hessenberg GMRES
+   least-squares problem.)
+
+
+
+
+                                                   3
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

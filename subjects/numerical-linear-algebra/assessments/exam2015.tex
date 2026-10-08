@@ -1,0 +1,52 @@
+\originalchapter{2015 年春季期中考试}
+题源: Spring 2015 历史试卷与官方答案. 三题分值分别为 30、30、40 分, 原卷未注明具体时限. 以下为官方译审, 对极小值的退化性和 SR 的泛性条件补充说明.
+\originalsection{极小值与向量运算的稳定性}
+\begin{exercise}\label{e2015:q1}
+(a) 计算实解析、处处有定义且有下界的 $f(x)$, 算法满足 $|\widetilde f(x)-f(x)|=|f(x)|O(u)$. 假设有全局最小值 $f_{\min}>0$, 在 $x_{\min}$ 取得. 穷举全部浮点 $x$, 返回使 $\widetilde f(x)$ 最小的 $x$, 此定位程序是否稳定? 提示: 在极小值处 Taylor 展开.
+(b)(i) 已知逐项求和与固定向量的朴素内积对输入向量后向稳定. 有人说 $f(x)=Ax$ 的每个分量都是内积, 因而朴素逐行实现也必对 $x$ 后向稳定 ($m>1$). 错在哪里?
+(b)(ii) 给一个明确不后向稳定的 $A$ 例子.
+\end{exercise}
+\begin{solution}
+(a) 这些假设不能保证定位程序具有 $O(u)$ 的前向精度. 在非退化极小点,
+\[
+ f(x_{\min}+h)=f_{\min}+\tfrac12 f''(x_{\min})h^2+O(h^3),
+\]
+$O(uf_{\min})$ 的函数值误差可以把 $h=O(\sqrt u)$ 范围内不同位置的次序颠倒. 例如 $f(x)=1+(x-1)^2$ 的正确舍入值在 $x=1$ 附近存在宽度约 $\sqrt u$ 的相同最小值平台, 穷举后如何打破并列不受题设控制, 可能返回 $O(\sqrt u)$ 偏差. 没有输入可扰动, 此处讨论的是定位的前向稳定性.
+
+原题未假设 $f''(x_{\min})>0$. 若第一个非零 Taylor 项为 $a h^{2p}$, 局部不确定宽度为 $O(u^{1/(2p)})$; 恒定函数或多个最小点还涉及答案不唯一. 因此严谨结论是该程序一般不保证稳定, 而非每个满足题设的函数必恰好只有 $\sqrt u$ 精度.
+(b)(i) 每个分量可能要求不同的扰动 $\widetilde x_i$; 向量函数需要同一个 $\widetilde x$ 同时精确产生所有输出.
+(b)(ii) 取完全可表示的 $A=(1,3)^T$ 和 binary64 $x=1+2^{-52}$. 首分量恰为 $x$, 第二分量正确舍入为 $3+2^{-50}$, 而精确 $3x=3+3\cdot2^{-52}$. 如果存在共同 $\widetilde x$ 使 $A\widetilde x$ 等于计算输出, 首分量强迫 $\widetilde x=x$, 第二分量随即矛盾. 所以连任意大小的输入扰动都无法解释, 更不可能后向稳定. 原答案另用 $(1,\pi)^T$ 的精确固定常数反例; 本例避免常数表示的歧义. 对 $A$ 而非 $x$ 的后向稳定是另一个问题.
+\end{solution}
+\originalsection{增广 QR 的右端处理}
+\begin{exercise}\label{e2015:q2}
+对 $m\times n$ 满列秩矩阵 $A$, 用薄 QR $A=\widehat Q\widehat R$ 解最小二乘时, 右端为 $\widehat Q^*b$. 也可对 $\breve A=(A,b)$ 做 QR, 从最后一列的前 $n$ 个 $R$ 元素取得它. 原卷配图为 Persson 的 CGS/MGS 与 Householder 算法; 这里用文字保留图的算法含义: CGS 先计算所有 $q_i^*a_j$ 再减投影; MGS 每减一个投影便用更新的向量算下一内积; Householder 以保存的反射子逐次左作用于后续列. 比较增广路径和单独算 $\widehat Q^*b$ 的准确性:
+(a) CGS; (b) MGS; (c) Householder, 后者默认保存反射子而不显式形成完整 $Q$.
+\end{exercise}
+\begin{solution}
+(a) 假设两路径内积运算顺序相同, 增广 CGS 最后一列的前 $n$ 项就是直接 $q_i^*b$, 有相同舍入, 没有改进.
+(b) MGS 增广路径对 $b$ 依次更新: $w=b$, $r_i=q_i^*w$, $w\leftarrow w-q_ir_i$. 精确算术因正交性与直接内积相同, 浮点中则区别明显; 直接 $\widehat Q^*b$ 没有消除先前方向的影响. 标准满列秩、未发生数值中止、无溢出且维度常数的舍入界有效时, 将右端加入 MGS 可产生后向稳定的最小二乘求解, 尽管显式 $\widehat Q$ 本身可能失去正交性. 这是原官方答案调用的算法稳定性结果, 本题不要求其完整证明; 不应据此把直接 $\widehat Q^*b$ 的路径也一并称为稳定.
+(c) Householder 两路径都用同一组反射子依次作用于 $b$, 取前 $n$ 个坐标, 因此在同样实现顺序下相同, 增广无额外精度收益. 若软件先显式生成 $Q$ 再做乘法, 运算路径不同, 但本题已经排除这一实现前提. 脚本在近相关列的固定样本上比较 CGS/MGS 两种右端处理, 不把单一样本当作稳定性证明.
+\end{solution}
+\originalsection{广义 Hermitian 特征问题}
+\begin{exercise}\label{e2015:q3}
+$A=A^*,B=B^*>0$ 为 $m\times m$ 矩阵, 求 $Ax=\lambda Bx$, 等价于 $B^{-1}Ax=\lambda x$. 设 $|\lambda_1|>\cdots>|\lambda_m|$, 特征向量为 $x_i$.
+(a) 证明特征值实且 $x_i^*Bx_j=0$ ($i\ne j$).
+(b) 将 MGS 推广成 $B^{-1}A=SR$, 满足 $S^*BS=I$, 且计算仍为 $\Theta(m^3)$; 不能在最内层反复做稠密 $B$ 乘法.
+(c) 对 $(B^{-1}A)^k$ 的 SR 因子, 精确算术中 $S$ 随 $k\to\infty$ 趋向什么, 为什么? 原题给出一般初始位置的假设, 新稿明确其充分形式.
+\end{exercise}
+\begin{solution}
+(a) $\lambda=x^*Ax/(x^*Bx)$ 为实数. 由 $x_i^*Ax_j=\lambda_jx_i^*Bx_j$ 和 $x_i^*Ax_j=\lambda_i x_i^*Bx_j$ 得互异特征值下 $x_i^*Bx_j=0$. 可归一化使 $X^*BX=I$.
+(b) 先 Cholesky $B$ 并以三角解算 $V=B^{-1}A$, 同时初始化 $W=BV=A$. 对第 $j$ 列, 令 $r_{jj}=\sqrt{v_j^*w_j}$, $s_j=v_j/r_{jj}$、$t_j=w_j/r_{jj}=Bs_j$. 对每个后列 $\ell>j$ 计算并更新
+\[
+ r_{j\ell}=s_j^*w_\ell,\qquad
+ v_\ell\leftarrow v_\ell-s_jr_{j\ell},\qquad
+ w_\ell\leftarrow w_\ell-t_jr_{j\ell}.
+\]
+始终保持 $W=BV$, 并按 $B$ 内积投影. 每个内层更新 $O(m)$, 总共 $O(m^2)$ 次, 加一次 $O(m^3)$ 的分解与多右端求解, 仍 $\Theta(m^3)$.
+
+若某 $r_{jj}=0$, 不能归一化零列; 原题允许最小特征值为零. 精确算术中补一个与此前列 $B$ 正交的单位向量, 同时算 $t_j=Bs_j$, 将对应 $r_{jj}=0$, 继续对后列投影, 得完整 $S$ 和可能有零对角的 $R$. 等价稳健路径是 $B=LL^*$, 对 $L^{-1}A$ 作 QR 得 $QR$, 再解 $S=L^{-*}Q$, 也有 $S^*BS=I$ 和 $B^{-1}A=SR$.
+
+(c) 取 $X^*BX=I$, 则 $M=B^{-1}A=X\Lambda X^{-1}$ 且 $X^{-1}=X^*B$. 一个明确的泛性充分条件为 $X^{-1}$ 每个前导 $j\times j$ 块可逆 ($j<m$). 用第\ref{sol:qr-flag}处的嵌套列空间论证, $M^k$ 前 $j$ 列空间趋于 $\Span\{x_1,\ldots,x_j\}$. 这里使用 $B$ 正交化, 这些特征向量本身已 $B$ 正交, 所以按列调整符号或相位后 $S\to X$. 若末特征值为零, 最后零列取 $B$ 正交补, 不反演该零特征值. 未调整相位的 $S$ 可交替, 每个特征向量对单列非正交的口头假设也不能替代全部前导块条件.
+
+也可由 $B=LL^*$ 变换到 $L^{-1}AL^{-*}$ 的普通 Hermitian 问题理解这个极限. 若使用普通欧氏 QR, 非正交的 $x_i$ 会被重新正交化, 极限一般给 Schur 基, 并不直接给 $X$. 数值实现保留 $A,B$ 的 Hermitian 结构, 不建议显式形成高次 $M^k$.
+\end{solution}

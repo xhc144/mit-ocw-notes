@@ -1,0 +1,49 @@
+\originalchapter{2019 年作业二}
+\label{ass:ps2}
+题源: MIT 18.335J Spring 2019, PS2; 解答为官方答案译审, 涉及原答案笔误的地方另注明. 本章的外书题号均为原作业真实引用; 原教材题面未取得, 不把以下官方答案中的数学任务反写成教材全文.
+\originalsection{稳定性与范数}
+\begin{exercise}\label{ps2:q1}
+(a) 原纸引用 Trefethen/Bau 15.1, 并要求在教材 (e)、(f) 中假设 $1/k!$ 可算到 $O(u)$ 精度, 重点分析求和的误差积累.
+(b) 原纸引用 Trefethen/Bau 16.1. 两项完整教材题面未取得. 以下保留官方答案的实际论证对象和结论.
+\end{exercise}
+\begin{solution}
+(a) 官方答案讨论七种计算: $x\oplus x$、$x\otimes x$、$x\oslash x$、$x\ominus x$, 以及 $e$ 的正向/反向级数求和和用正弦符号变化定位 $\pi$. 输入舍入函数应是确定的. 在标准舍入误差模型下, 前两项分别等于 $2\widetilde x$、$\widetilde x^2$, $|\widetilde x-x|=|x|O(u)$, 后向稳定. 模型若允许 $x\oslash x=1+\eta\ne1$, 则前向稳定但不能解释为任何非零扰动输入的精确商; 在实际正确舍入 IEEE 运算中, 同一有限非零数除自身恰为 1, 此特殊算法是后向稳定的. 确定舍入使 $x\ominus x=0$, 也是后向稳定的. 原答案第一项展开中的交叉项系数写成 2, 正确为 $\eta_1\eta_2$; 不影响结论.
+
+对常数 $e=\sum_{k=0}^{\infty}1/k!$, 输入空间为空, 只能讨论前向误差. 设截断项数 $N=N(u)$ 随 $u\to0$ 缓慢增长, 截断误差为 $O(u)$. 正向求和的每一步部分和接近常数 $e$, 所以一般误差模型容许 $O(Nu)$ 的最坏积累, 不给出与 $N$ 无关的 $O(u)$ 界. 这不是声称每次实际 IEEE 求和都达到该最坏误差. 反向从小项加至大项, 各次舍入误差的系数为尾和; 其总和受 $\sum_{j\ge1}j/j!=e$ 控制, 得 $O(u)$ 前向界. 最后, 若稳定正弦求值在 $\pi$ 附近只在 $O(u)$ 邻域内误判符号, 以相邻浮点值的正弦符号变化定位 $\pi$ 可给 $O(u)$ 前向误差; 检查符号不要先乘两个极小值, 以免乘积下溢.
+
+(b) 对固定酉矩阵 $Q$, 朴素乘法的误差 $E=\operatorname{fl}(QA)-QA$ 满足 $\norm E_F\le C_m u\norm A_F$. 令 $\Delta A=Q^*E$, 则 $\operatorname{fl}(QA)=Q(A+\Delta A)$ 且 $\norm{\Delta A}_F=\norm E_F$. 对固定次数的酉矩阵连乘, 逐步误差可由先前酉变换拉回输入, 范数不放大, 后向误差为 $O(u)\norm A_F$ (常数依赖维度与次数). 一般矩阵不具此结论: 固定秩一矩阵 $X=ab^*$ 时, $X(A+\Delta A)$ 必为秩至多一, 而逐元素舍入的 $\operatorname{fl}(XA)$ 可以升秩, 从而不可能具有对 $A$ 单独的精确后向解释.
+\end{solution}
+\begin{exercise}\label{ps2:q2}
+(a) 推导教材式 (3.10), 并核对 Julia 的 \texttt{opnorm(A,Inf)} 在 \path{stdlib/LinearAlgebra/src/generic.jl} 中的实现. MIT 答案明确给出该式为诱导无穷范数的最大行绝对值和.
+(b) 原纸引用 Trefethen/Bau 3.4, 并要求用随机 $10\times7$ 矩阵及 \texttt{opnorm(A)} 检验. 教材完整题面未取得; 官方答案讨论取子矩阵不会增大诱导 $p$ 范数.
+\end{exercise}
+\begin{solution}
+(a) 对 $\norm x_\infty\le1$, 有 $\norm{Ax}_\infty\le\max_i\sum_j|a_{ij}|$. 取最大行 $i_0$, 令 $x_j=\overline{a_{i_0j}}/|a_{i_0j}|$ (零项任取模不超过 1 的数), 则 $(Ax)_{i_0}=\sum_j|a_{i_0j}|$, 达到上界. 因而
+\[
+ \norm A_\infty=\max_i\sum_j|a_{ij}|.
+\]
+复数时必须使用共轭相位; 官方答案的简单 \texttt{sign} 写法需作此解释. Julia v1.1.0 (2019 年发布)的 \texttt{opnormInf} 累加每行绝对值再取最大值, 与该式一致. 随附来源记录给出所核对版本, 不把当前版本地址冒称 2019 源码.
+
+(b) 写子矩阵 $B=P A E$, 其中 $P$ 删除行, $E$ 把所选列坐标零填充到原空间. 对 $1\le p\le\infty$, $\norm P_p\le1$, $\norm E_p=1$, 故 $\norm B_p\le\norm A_p$. 脚本固定种子构造 $10\times7$ 标准正态矩阵, 取行 $1,3,4$、列 $2,3,5,6$, 用最大奇异值计算诱导 2 范数验证. 官方旧答案示例使用的 \texttt{norm} 在现代 Julia 中可能是 Frobenius 范数; 本问应明确用 \texttt{opnorm}.
+\end{solution}
+\originalsection{条件数与 SVD}
+\begin{exercise}\label{ps2:q3}
+已知固定 $A$ 时 $f(x)=Ax$ 的 2 范数相对条件数为 $\norm A_2\norm x_2/\norm{Ax}_2$. 现在固定 $x$, 计算 $g(A)=Ax$ 的条件数, 可选便于计算的矩阵范数, 如 Frobenius 范数.
+\end{exercise}
+\begin{solution}
+假设 $x\ne0$, $Ax\ne0$. 微分为 $Dg(A)[E]=Ex$. 由 $\norm{Ex}_2\le\norm E_F\norm x_2$ 得算子范数至多 $\norm x_2$. 取任意单位向量 $v\in\C^m$ 及 $E=vx^*/\norm x_2$, 有 $\norm E_F=1$、$Ex=v\norm x_2$, 达到界. 因而
+\[
+ \kappa_F(g,A)=\frac{\norm A_F\norm x_2}{\norm{Ax}_2}.
+\]
+若矩阵扰动采用诱导 2 范数, 相同秩一 $E$ 仍达到界, 得 $\kappa_2(g,A)=\norm A_2\norm x_2/\norm{Ax}_2$, 恰与固定 $A$ 改变 $x$ 的条件数相同. Frobenius 版本至多多出 $\sqrt{\rank A}$ 因子. 输出为零时上述相对条件数不定义, 应转用绝对条件数.
+\end{solution}
+\begin{exercise}\label{ps2:q4}
+原纸依次引用 Trefethen/Bau (a) 4.5, (b) 5.2, (c) 5.4. 教材完整题面未取得; 以下是 MIT 官方答案支持的三个结论, 保留其来源而非补造原题.
+\end{exercise}
+\begin{solution}
+(a) 实矩阵可选实 SVD. 用实对称谱定理取 $A^TA$ 的实正交特征基 $v_i$. 对 $\sigma_i>0$, 定义 $u_i=Av_i/\sigma_i$, 则这些 $u_i$ 实且正交; 在零空间和余维空间补实正交基. 重复奇异值的整个特征空间需取正交基, 不能逐个任取实部后默认仍正交. 官方答案把左奇异向量误写为 $A^*A$ 的特征向量, 本处已校正.
+
+(b) 对 $m\ge n$, 满列秩矩阵在 $\C^{m\times n}$ 中稠密. 若 $A=U\Sigma V^*$ 秩为 $r<n$, 把零奇异值替换为 $t>0$, 得 $A_t=U\Sigma_tV^*$ 满列秩且 $\norm{A_t-A}_2=t\to0$. 零矩阵同样成立, 不使用以 $\sigma_r$ 为尺度而在 $r=0$ 失效的写法. 当 $m<n$, 满列秩不可能, 正确稠密结论应指最大秩 $\min(m,n)$.
+
+(c) 对 $A\in\C^{m\times n}$, Hermitian 矩阵 $M=\begin{bmatrix}0&A^*\\A&0\end{bmatrix}$ 有特征值 $\pm\sigma_i$ ($\sigma_i>0$), 特征向量为 $2^{-1/2}(v_i,\pm u_i)^T$. 其余零空间为 $\ker A\oplus\ker A^*$, 维度 $m+n-2r$. 直接相乘即得 $M(v_i,\pm u_i)^T=\pm\sigma_i(v_i,\pm u_i)^T$; 加上两侧零空间的正交基构成完整酉对角化. 官方答案的两个方阵拼接公式只直接适用于相同维度的配对情形; 此写法也涵盖长方矩阵及秩亏.
+\end{solution}

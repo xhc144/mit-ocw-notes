@@ -1,0 +1,79 @@
+18.335 Midterm, Fall 2013
+Each problem has equal weight. You have 1 hour and 55 minutes.
+
+Problem 1: GMRES (20 points)
+From class, the GMRES algorithm iteratively builds up an orthonormal basis Qn for the Krylov space Kn =
+spanhb, Ab, . . . , An−1 bi and then uses this basis to solve minx∈Kn kAx − bk2 .
+
+  (a) We normally assume that each iteration n gives us a linearly independent vector, i.e. that An b is not
+      in Kn . What happens if this is false, i.e. An b ∈ Kn (“breakdown”)? Show that in the (unlikely) event
+      that this occurs, it is a good thing, not a bad thing, for solving Ax = b.
+
+  (b) Given an m × m A (which you can assume to be diagonalizable), how would you (theoretically) con-
+      struct a b such that breakdown occurs after n < m steps (in exact arithmetic)?
+
+For reference, the GMRES algorithm is listed below.
+
+      q1 = b/kbk2
+      for n = 1, 2, . . .
+            v = Aqn
+            for j = 1, 2, . . . , n
+                 h jn = q∗j v
+                 v = v − h jn q j
+            hn+1,n = kvk2
+            qn+1 = v/hn+1,n
+            solve minx∈Kn kAx − bk2 =⇒ miny∈Cn H̃n y − e1 kbk2 2 =⇒ xn+1 = Qn y
+
+Problem 2: Conditioning (20 points)
+The following parts can be solved independently.
+
+  (a) Suppose that A is an m × n matrix (of rank n < m). In some applications, only certain elements Ci j of
+      C = (A∗ A)−1 are required. If you are given a few desired i and j, outline an efﬁcient, well-conditioned
+      algorithm to compute those Ci j . (You can use as subroutines any of the algorithms described in
+      class...you need not reproduce their details here.)
+
+  (b) Compare the condition numbers of f (x) = Ax and f (A) = Ax (for A ∈ Cm×n and x ∈ Cn ), using the L2
+      norm (and an L2 induced norm for matrices).
+
+         • Recall that, for a differentiable function g(z) mapping z ∈ C p to g(z) ∈ Cq , the condition number
+                         kJk
+           is κ(z) = kg(z)k/kzk where kJk is the induced norm (supz6=0 kJzk                                 ∂ gi
+                                                                        kzk ) of the Jacobian matrix Ji j = ∂ z j .
+
+
+Problem 3: QR updating (20 points).
+Suppose you are given the QR factorization A = QR of an m × n matrix A (rank n < m). Describe an efﬁcient
+O(m2 + n2 ) = O(m2 ) algorithm to compute the QR factorization of a rank-1 update to A, that is to factorize
+A + uv∗ = Q0 R0 for some vectors u ∈ Cm and v ∈ Cn , following these steps:
+
+  (a) Show that Q0 R0 = Q(R + zv∗ ) for some z that can be computed in O(m2 ) operations. Therefore, we
+      just need to ﬁnd a unitary matrix that (acting on the left) re-triangularizes R + zv∗ to get R0 (and Q0 ,
+      which may be stored implicitly in terms of a sequence of rotations).
+
+                                                        1
+(b) Every column of zv∗ is proportional to the same vector z. Using this fact, explain how we can apply
+    Givens rotations (from the bottom row to the top) which rotate z into a multiple of e1 , in order to
+    convert R + zv∗ into upper-Hessenberg form using      O(n2 )operations.
+                                                                           Recall from homework that a
+                                                             a           #
+    Givens rotation is a 2 × 2 unitary matrix that rotates         →          .
+                                                             b           0
+(c) From the upper-Hessenberg form in the previous part, explain how we can unitarily convert back to
+    upper-triangular form in O(n2 ) operations.
+
+
+
+
+                                                  2
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

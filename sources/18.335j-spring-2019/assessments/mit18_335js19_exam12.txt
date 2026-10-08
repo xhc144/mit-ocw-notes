@@ -1,0 +1,83 @@
+18.335 Midterm, Fall 2012                                            (b) Does First =⇒ Second, or Second =⇒ First,
+                                                                         or both, or neither? Why?
+Problem 1: (25 points)
+                                                                      (c) In class, we proved that summation of n
+ (a) Your friend Alyssa P. Hacker claims that the                         ﬂoating-point numbers, in some sequential or-
+     function f (x) = sin x can be computed accu-                         der, is backwards stable. Suppose we sum m + n
+     rately (small forward relative error) near x = 0,                    ﬂoating point numbers x ∈ Rm and y ∈ Rn by
+     but not near x = 2π, despite the fact that the                        f˜(x, y) = x1 ⊕ x2 ⊕ x3 ⊕ · · · ⊕ xm ⊕ y1 ⊕ y2 ⊕
+     function is periodic in exact arithmetic. True                       · · · ⊕ yn , doing the ﬂoating-point additions (⊕)
+     or false? Why?                                                       sequentially from left to right. Is this back-
+                                                                          wards stable in the First sense? In the Second
+(b) Matlab provides a function log1p(x) that com-                         sense? (No complicated proof required, but give
+    putes ln(1 + x). What is the point of providing                       a brief justiﬁcation if true and a counterexample
+    such a function, as opposed to just letting the                       if false.)
+    user compute ln(1 + x) herself? (Hint: not per-
+    formance.) Outline a possible implementation
+    of log1p(x) [rough pseudocode is ﬁne].                           Problem 3: (25 points)
+                                                                     Say A is an m × m diagonalizable matrix with eigen-
+ (c) Matlab provides a function gamma(x) that
+                                                                     vectors x1 , x2 , . . . , xm (normalized to kxk k2 = 1 for
+     computes the “Gamma” function Γ(x) =
+     R ∞ −t x−1                                                      convenience) and distinct-magnitude eigenvalues λk
+      0 e t      dt, which is a generalization of fac-
+                                                                     such that |λ1 | > |λ2 | > · · · > |λm |. In class, we
+     torials, since Γ(n + 1) = n!. Matlab also pro-
+                                                                     showed that n steps of the QR algorithm produce a
+     vides a function gammaln(x) that computes
+                                                                     matrix An = Q(n)∗ AQ(n) where Q(n) is equivalent (in
+     ln[Γ(x)]. What is the point of providing a sep-
+                                                                     exact arithmetic) to QR factorizing An = Q(n) R(n) .
+     arate gammaln function? (Hint: not perfor-
+                                                                     This proof was general for all A. For the spe-
+     mance.)
+                                                                     ciﬁc case of A = A∗ where the eigenvectors are or-
+                                                                     thonormal, we concluded that as n → ∞ we ob-
+Problem 2: (5+10+10 points)                                          tain Q(n) → eigenvectors (x1 · · · xm ) and An → Λ =
+                                                                     diag(λ1 , . . . , λm ).
+Recall that a ﬂoating-point implementation f˜(x) of
+                                                                        Show that if A 6= A∗ (so that the eigenvectors xk
+a function f (x) (between two normed vector spaces)
+                                                                     are no longer in generally orthogonal), the QR al-
+is said to be backwards stable if, for every x, there
+                                                                     gorithm approaches An → T and Q(n) → Q where
+exists some x̃ such that f˜(x) = f (x̃) for kx̃ − xk =
+                                                                     T = Q∗ AQ is the Schur factorization of A. (Hint:
+kxkO(εmachine ). Consider how you would apply
+                                                                     show that qk = Q(n) ek , the k-th column of Q(n) , is
+this deﬁnition to a function f (x, y) of two arguments
+                                                                     in the span hx1 , x2 , . . . , xk i as n → ∞, by considering
+x and y. Two possibilities are:
+                                                                     vk = An ek , the k-th column of An . Similar to class,
+  • First: The most direct application of the origi-                 think about the power method An ek , and what Gram-
+    nal deﬁnition would be to deﬁne a single vec-                    Schmidt does to this.)
+    tor space on pairs v = (x, y) in the obvious
+    way [(x1 , y1 ) + (x2 , y2 ) = (x1 + x2 , y1 + y2 ) and
+    α · (x, y) = (αx, αy)], with some norm k(x, y)k
+    on pairs. Then f˜ is backwards stable if for every
+    (x, y) there exist (x̃, ỹ) with f˜(x, y) = f (x̃, ỹ) and
+    k(x̃, ỹ) − (x, y)k = k(x, y)kO(εmachine ).
+
+  • Second: Alternatively, we could say f˜ is back-
+    wards stable if for every x, y there exist x̃, ỹ with
+    f˜(x, y) = f (x̃, ỹ) and kx̃−xk = kxkO(εmachine )
+    and kỹ − yk = kykO(εmachine ).
+
+(a) Given norms kxk and kyk on x and y, give an
+    example of a valid norm k(x, y)k on the vector
+    space of pairs (x, y).
+
+
+                                                                 1
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

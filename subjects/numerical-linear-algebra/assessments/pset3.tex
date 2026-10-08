@@ -1,0 +1,44 @@
+\originalchapter{2019 年作业三}
+题源: MIT 18.335J Spring 2019, PS3. 解答为官方答案译审. 原答案首节标题误写为 Problem 2, 本册按题面恢复为第 1 题.
+\originalsection{QR 与 Schur 分解}
+\begin{exercise}\label{ps3:q1}
+(a) 原纸引用 Trefethen/Bau 10.4; (c) 引用 28.2, 完整教材题面未取得.
+(b) 对方阵证明 $A=QR$ 与 $B=RQ$ 同谱. 在 Julia 中生成随机实对称 $5\times5$ 矩阵 $A=X^T+X$, 重复 $A\mapsto RQ$, 观察极限, 提出求特征值、特征向量的方法; 不要求证明一般收敛.
+\end{exercise}
+\begin{solution}
+(a) 官方答案讨论二维矩阵 $J=\begin{bmatrix}c&s\\-s&c\end{bmatrix}$、$F=\begin{bmatrix}-c&s\\s&c\end{bmatrix}$, $c=\cos\theta,s=\sin\theta$. $J$ 为顺时针旋转, $F$ 为关于方向角 $\pi/2-\theta/2$ 的直线反射. 要以 $J$ 消去 $(a,b)^T$ 的第二项, 取 $c=a/\sqrt{a^2+b^2}$、$s=b/\sqrt{a^2+b^2}$ (两者全零时无需旋转). 逐列自下向上施加 Givens 旋转可形成 QR. 一次旋转作用在两个数上需 4 次乘法、2 次加法, 稠密情形主项比 Householder 每行每列约 4 次运算多约 50\%; 对已为零的部分可跳过, 故适合稀疏结构. 官方答案的半角 $s_2$ 应为 $\sin(\theta/2)$, 不应与 $c_2$ 同写余弦.
+
+(b) $RQ=Q^*AQ$, 为酉相似变换, 无需 $A$ 可逆. 令 $A_{k+1}=R_kQ_k$, 累积 $U_k=Q_0\cdots Q_{k-1}$, 则 $A_k=U_k^TA_0U_k$. 典型实对称、模有间隔的随机样本中, 非对角元素趋零; 对角给特征值, $U_k$ 的列给特征向量. 脚本实际执行 1000 轮并检查非对角范数和特征残差. 不同符号但同模的特征值、特殊初始位置或有限精度会改变收敛, 原题只要求实验建议, 不保证所有实对称矩阵无移位迭代都收敛.
+
+(c) 官方答案讨论实对称 (更一般 Hermitian) 三对角矩阵的 QR. 非退化时 $Q$ 上 Hessenberg, $R$ 只有主对角和上两条副对角; 若出现零次对角则分块处理. $RQ=Q^*AQ$ 仍 Hermitian, 且上 Hessenberg, 所以仍三对角. 用相邻两行的 Givens 从上至下消去, 每次只更新当前附近三列中的元素, 不显式形成稠密 $Q$, 一轮 QR 可用 $O(m)$ 运算. 单纯复对称 $A^T=A$ 不足以保证这个结论.
+\end{solution}
+\begin{exercise}\label{ps3:q2}
+设 $A\in\C^{m\times m}$ 的 Schur 分解为 $A=QTQ^*$, $Q$ 酉、$T$ 上三角.
+(a) 若 $AA^*=A^*A$, 证明 $TT^*=T^*T$, 继而证明 $T$ 对角, 从而正规矩阵酉可对角化. 提示: 逐个比较对角元素.
+(b) 对一般 $A$, 假设特征值互异, 已给 Schur 分解, 描述求全部特征值与特征向量的算法, 运算量为 $Km^3+O(m^2)$, 求 $K$.
+\end{exercise}
+\begin{solution}
+(a) 在正规性等式两侧乘 $Q^*,Q$ 即得 $TT^*=T^*T$. 其 $(1,1)$ 元素分别为 $\sum_j|t_{1j}|^2$ 和 $|t_{11}|^2$, 因而第一行非对角元均为零. 假定前 $i-1$ 行已对角, 第 $i$ 列中 $i$ 以上的元为零, 比较 $(i,i)$ 元得 $\sum_{j\ge i}|t_{ij}|^2=|t_{ii}|^2$, 继而第 $i$ 行也对角. 归纳完成.
+
+(b) 特征值为 $\lambda_i=t_{ii}$. 令对应 $T$ 的特征向量 $z$ 满足 $z_i=1$、$z_{i+1:m}=0$, 回代求解
+\[
+ (T_{1:i-1,1:i-1}-\lambda_i I)z_{1:i-1}=-T_{1:i-1,i}.
+\]
+互异性使左矩阵可逆, 取 $Qz$ 即为 $A$ 的特征向量. 采用实标量乘加各计一次的惯例, 回代成本 $(i-1)^2+O(i)$, 利用尾零计算 $Qz$ 成本 $2mi+O(m)$; 总计 $\sum_i i^2+2m\sum_i i=\tfrac43m^3+O(m^2)$, 故 $K=4/3$. 这是给定 Schur 因子的附加成本; 复数运算若拆为实运算, 常数需随计数惯例更改.
+\end{solution}
+\originalsection{缓存与三角求解}
+\begin{exercise}\label{ps3:q3}
+上三角 $R\in\C^{m\times m}$, 普通回代逐行自底向顶解 $Rx=b$: $x_m=b_m/r_{mm}$, $x_j=(b_j-\sum_{k>j}r_{jk}x_k)/r_{jj}$.
+对 $m\times n$ 的 $B,X$, 解 $RX=B$.
+(a) 若按列依次对每个右端使用普通回代, 在容量 $Z$ 的理想缓存模型中给出渐近缺失数 $Q(m,n;Z)$.
+(b) 当 $m=n$, 提出分块或缓存无关算法改善复杂度, 是否能获得矩阵乘法同样的 $\sqrt Z$ 节省?
+\end{exercise}
+\begin{solution}
+(a) 在原答案所分析的 $m^2\gg Z$ 大矩阵区间, 每个右端都重新扫描 $\Theta(m^2)$ 个 $R$ 元素, 故 $Q=\Theta(m^2n)$, 缓存不能改善其阶数. 若 $R$ 及所需向量能驻留缓存, 则只需 $\Theta(m^2+mn)$ 次输入输出; 原答案的 $\Theta(m^2n)$ 不适用于所有 $Z$.
+
+(b) 选块宽 $b=\Theta(\sqrt Z)$, 使三块可同时容纳. 按块行自底向顶: 先解对角块 $R_{ii}X_{ij}=B'_{ij}$, 然后用 $B'_{kj}\leftarrow B'_{kj}-R_{ki}X_{ij}$ 更新其上方右端. 三块矩阵乘法一次搬运 $\Theta(b^2)$ 元素, 共有 $\Theta((m/b)^3)$ 个块更新, 加上输入输出和对角求解,
+\[
+ Q(m,m;Z)=\Theta(m^2+m^3/\sqrt Z).
+\]
+所以在大矩阵区间可获得 $\sqrt Z$ 节省. 也可递归二分, 先解下半、更新上半、再解上半, 在子问题能驻缓存时停止. 块三角法的每次更新保持与回代同样的依赖顺序, 不是把所有块当作可独立求解.
+\end{solution}

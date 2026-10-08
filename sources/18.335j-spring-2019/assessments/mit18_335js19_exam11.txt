@@ -1,0 +1,82 @@
+18.335 Midterm, Fall 2011                                        Problem 3: (15+10 points)
+                                                                 (a) The following two sub-parts can be solved inde-
+Problem 1: (10+15 points)                                            pendently (you can answer the second part even
+Suppose A is a diagonalizable matrix with eigenvec-                  if you fail to prove the ﬁrst part):
+tors vk and eigenvalues λk , in decreasing order |λ1 | ≥
+                                                                      (i) Suppose A is an m × n matrix with rank n
+|λ2 | ≥ · · · . Recall that the power method starts with a
+                                                                          (i.e., independent columns). Let B = A:,1:p
+random x and repeatedly computes x ← Ax/kAxk2 .
+                                                                          be the ﬁrst p (1 ≤ p ≤ n) columns of A.
+                                                                          Show that κ(A) ≥ κ(B). (Hint: recall
+ (a) Suppose |λ1 | = |λ2 | > |λ3 |, but λ1 6= λ2 . Ex-
+                                                                          that our hﬁrst way of deﬁning κ(A) wasi by
+     plain why the power method will not in general                                          kAxk
+                                                                                                  i h
+                                                                                                             kxk
+     converge.                                                            κ(A) = maxx6=0 kxk · maxx6=0 kAxk       .)
+                                                                      (ii) Suppose that we are doing least-square ﬁt-
+(b) Give a simple ﬁx to obtain λ1 and λ2 and v1 and                        ting of a bunch of data points (contain-
+    v2 from the power method or some small mod-                            ing some experimental errors) to a poly-
+    iﬁcation thereof. (No fair going to some much                          nomial. Does the κ(A) ≥ κ(B) result from
+    more complicated/expensive algorithm like in-                          the previous part tell you about what hap-
+    verse iteration, Arnoldi, QR, or simultaneous it-                      pens about the sensitivity to errors as you
+    eration!)                                                              increase the number of data points or as
+                                                                           you increase the degree of the polynomial,
+                                                                           and what does it tell you?
+Problem 2: (25 points)
+                                                        (b) Prove that if κ(A) = 1 then A = cQ where
+Review: We described GMRES as minimizing the
+                                                            Q∗ Q = I and c is some scalar. (The SVD deﬁ-
+norm krk2 of the residual r = b − Ax over all x ∈ Kn
+                                                            nition of κ might be easiest here: κ(A) = σσmax
+where Kn = spanhb, Ab, . . . , An−1 bi. This was done                                                     min
+                                                            when A has full column rank.)
+using Arnoldi (starting with q1 = b/kbk2 ) to build up
+an orthonormal basis Qn of A, where AQn = Qn+1 H̃n
+(H̃n being an (n + 1) × n upper-Hessenberg matrix), Problem 4: (8+8+9 points)
+in terms of which we wrote x = Qn y and solved the
+                                                       Recall that an IEEE double-precision binary ﬂoating-
+least-square problem miny kH̃n y − be1 k2 where b =
+                              T                        point number is of the form ±s · 2e where the sig-
+kbk2 and e1 = (1, 0, 0, . . .) (since b = Qn+1 be1 ).
+                                                       niﬁcand s = 1.xxxx . . . has 53 binary digits (about
+                                                                                            −16
+   • Suppose, after n steps, we want to restart GM- 16 decimal digits, εmachine ≈ 10 ) and the expo-
+      RES. That is, we want to restart our Arnoldi     nent e has  11  binary  digits (e ∈ [−1022, 1023] =⇒
+                                                       10 −308 . 2e . 10308 ).
+      process with one vector q̃1 based (somehow) on
+      the solution x0 = Qn y from the n-th step, and (a) Computing px2 + y2 by the obvious method,
+      build up a new Krylov space. What should q̃1          p
+                                                               (x ⊗ x) ⊕ (y ⊗ y) sometimes yields “∞” (Inf)
+      be, and what minimal-residual problem should          even when x and y are well within the repre-
+      we solve on each step of the new GMRES iter-          sentable range. Propose a solution.
+      ations, to obtain improved solutions x in some
+      Krylov space?                                     (b) Explain why solving x2 + 2bx + 1 = 0 √   for x by
+                                                            the usual quadratic formula x = −b ± b2 − 1
+(Note: if you’re remembering implicitly restarted           might be very inaccurate for some b, and pro-
+Lanczos now and panicking, relax: all the complex-          pose a solution.
+ity there was to restart with a subspace of dimension
+> 1, which doesn’t apply when we are restarting with (c) How might you compute 1−cos x accurately for
+only one vector. Think simpler.)                            small |x|? Assume you have ﬂoating-point sin   f
+   (Note: be sure to obtain a small least-squared           and cos
+                                                                 f functions that compute exactly rounded
+problem on each step. No m × n problems! This may           results,      f = ﬂ(sin x) and cosx
+                                                                     i.e. sinx                f = ﬂ(cos x).
+screw up the ﬁrst thing you try. Hint: think about
+residuals.)
+
+
+                                                             1
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

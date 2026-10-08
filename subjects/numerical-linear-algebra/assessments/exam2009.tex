@@ -1,0 +1,41 @@
+\originalchapter{2009 年秋季期中考试}
+题源: 2019 OCW 历史考试栏所收 Fall 2009 试卷, 三题各 30 分. 官方栏明确写 ``No Solutions'', 本章全部解答为 AI 补写, 经独立数学复审, 不标为官方解答译文. 原卷未给两小时时限.
+\originalsection{QR 的缓存复杂度}
+\begin{exercise}\label{e2009:q1}
+$m\times n$ 矩阵 $A$ 列独立, $n\le m$, 只需计算 QR 的正交列矩阵 $Q$. 原题列出的经典 Gram--Schmidt 为 $q_1=a_1/\norm{a_1}$, 对 $j=2,\ldots,n$ 置 $v_j=a_j-\sum_{i<j}q_i(q_i^*a_j)$、$q_j=v_j/\norm{v_j}$. 在容量 $Z$、无线条的理想缓存模型中, 直接实现于大矩阵区需 $\Theta(mn^2)$ 缺失. 已知矩阵乘法 $m\times n$ 乘 $n\times p$ 可用 $\Theta(mn+np+mp+mnp/\sqrt Z)$ 缺失, 矩阵加法为 $\Theta(mn)$.
+(1) 设 $n$ 为偶数, 前半、后半列分别已求出 $m\times(n/2)$ 的 $Q_1,Q_2$, 用它们合并求全体 $Q$, 给缺失数.
+(2) 给出比 $\Theta(mn^2)$ 更好的分块或缓存无关算法并分析复杂度, 可假定 $n$ 为 2 的幂.
+\end{exercise}
+\begin{solution}
+(1) 设 $C=Q_1^*Q_2$, $V=Q_2-Q_1C$, 则 $Q_1^*V=0$. 列独立保证 $V$ 满列秩. 算 $G=V^*V$, 分块 Cholesky $G=R^*R$, 右三角求解 $Q'_2R=V$, 得 $Q=[Q_1,Q'_2]$ 正交. 因原第二半列张成 $\range Q_2$, 与第一半合起来仍张成 $\range A$, 所以是有效 QR 正交基. 更具体地, 若 $A_1=Q_1R_1,A_2=Q_2R_2$, 则 $Q^*A=\begin{bmatrix}R_1&CR_2\\0&RR_2\end{bmatrix}$ 上三角, 保留原列顺序. 可取正对角 Cholesky 以固定列符号.
+
+几次大矩阵乘法及右三角求解缺失为 $\Theta(mn+mn^2/\sqrt Z)$; Cholesky 的 $\Theta(n^2+n^3/\sqrt Z)$ 也被它控制, 因 $n\le m$. 这里采用分块 Cholesky: 对角块分解、三角解和 Schur 补矩阵更新均用宽 $\Theta(\sqrt Z)$ 的块, 每次三块数据驻缓存, 得上述界. 正确性是精确算术的, 以 Gram 矩阵得到 $Q$ 对近线性相关列并非推荐的浮点稳定算法.
+
+(2) 一个直接的分块方案是先用缓存最优乘法形成 $G=A^*A$, 再分块 Cholesky $G=R^*R$, 最后按块右求解 $QR=A$. $G$ 正定, 且 $Q^*Q=R^{-*}GR^{-1}=I$, 所以该算法在精确算术得到同一个正对角约定的 QR. 分块右三角解可将 $A$ 以宽 $b=\Theta(\sqrt Z)$ 的行列块更新, 其缺失为 $\Theta(mn+mn^2/\sqrt Z)$; 形成 $G$、Cholesky 和输出 $Q$ 总共仍为
+\[
+ \Theta(mn+mn^2/\sqrt Z).
+\]
+在 $n$ 随问题增长且 $\sqrt Z$ 有效增加的大矩阵区, 获得 $\sqrt Z$ 节省; 当 $n\lesssim\sqrt Z$ 时主阶降为必需的输入输出 $\Theta(mn)$. 若 $Z$ 固定为常数, 当然不会凭分块改变关于 $m,n$ 的渐近阶. 原题的直接法 ``不依赖 $Z$'' 同样只应在数据不能驻留缓存的大矩阵区理解. 实际浮点实现建议用稳定的分块 Householder QR, 不把这里的精确算术复杂度证明当作 Gram 法的稳定性证明.
+\end{solution}
+\originalsection{Lanczos 与后向误差}
+\begin{exercise}\label{e2009:q2}
+Hermitian $A$ 有特征对 $(\lambda_i,\widehat q_i)$, 特征向量正交. Lanczos 从任意非零 $b$ 开始, $q_1=b/\norm b$, 更新 $v=Aq_n$, $\alpha_n=q_n^*v$, $v\leftarrow v-\beta_{n-1}q_{n-1}-\alpha_nq_n$, $\beta_n=\norm v$, $q_{n+1}=v/\beta_n$. 原卷内积误印 $q_n^T$, 对复 Hermitian 情形应为 $q_n^*$. 若 $b\perp\widehat q_i$, 且 $\lambda_i$ 是简单特征值, 解释精确算术中为何一定中止 ($\beta_n=0$), 且中止时 $T_n$ 没有特征值 $\lambda_i$.
+\end{exercise}
+\begin{solution}
+$\widehat q_i^*A^kb=\lambda_i^k\widehat q_i^*b=0$, 所有 Krylov 向量都在 $m-1$ 维不变空间 $\widehat q_i^\perp$. 精确 Lanczos 在没有中止时每次增加一个正交列, 不可能超过该维度, 故必在至多 $m-1$ 步中止. 此时 $AQ_n=Q_nT_n$. 若 $T_nz=\lambda_i z$、$z\ne0$, 则 $Q_nz$ 是 $A$ 的 $\lambda_i$ 特征向量, 又在 $\widehat q_i^\perp$; 简单性要求该特征空间只由 $\widehat q_i$ 张成, 矛盾. 重复特征值时正交于某一个特征向量并不能排除同一特征值, 所以原条件不可省.
+\end{solution}
+\begin{exercise}\label{e2009:q3}
+对可逆 $A\in\C^{m\times m}$、$b\in\C^m$, 求解算法 $\widetilde x$ 满足 $(A+E)\widetilde x=b+e$, $\norm E=\norm A\,O(u)$、$\norm e=\norm b\,O(u)$. 原题的 $b\in\C^n$ 与 $m\times m$ 不符, 此处校正. 证明算法也可解释为只对 $A$ 的后向稳定: 构造 $E'$ 使 $(A+E')\widetilde x=b$, $\norm{E'}=\norm A\,O(u)$. 可选方便的范数.
+\end{exercise}
+\begin{solution}
+取 2 范数. $\widetilde x\ne0$ 时令
+\[
+ E'=E-\frac{e\widetilde x^*}{\norm{\widetilde x}_2^2}.
+\]
+直接有 $(A+E')\widetilde x=b$. 若 $\norm e\le cu\norm b$, $cu<1$, 则
+\[
+ (1-cu)\norm b\le\norm{b+e}=\norm{(A+E)\widetilde x}
+ \le(1+cu)\norm A\norm{\widetilde x}.
+\]
+故 $\norm{E'}\le\norm E+\norm e/\norm{\widetilde x}\le[cu+cu(1+cu)/(1-cu)]\norm A=O(u)\norm A$. 无需 $\kappa(A)$ 小. 若 $\widetilde x=0$, 原等式及 $cu<1$ 强迫 $b=0$, 可取 $E'=0$. 这是输入右端扰动的吸收构造, 不宣称每种具体 Gaussian 算法对所有增长因子都满足原假设.
+\end{solution}

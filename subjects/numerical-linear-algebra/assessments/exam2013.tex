@@ -1,0 +1,40 @@
+\originalchapter{2013 年秋季期中考试}
+题源: Fall 2013 历史试卷与官方答案. 原卷限时 1 小时 55 分, 声称各题同权重且题标题各印 20 分. 解答为官方译审, 明确修正官方第 2 题中的逆因子顺序.
+\originalsection{GMRES 中止与条件数}
+\begin{exercise}\label{e2013:q1}
+GMRES 用 Arnoldi 基 $Q_n$ 在 $\mathcal K_n=\Span\{b,Ab,\ldots,A^{n-1}b\}$ 中最小化 $\norm{Ax-b}_2$.
+(a) 若通常所需的线性独立性失败, 即 $A^nb\in\mathcal K_n$, 为什么这是求解的好事?
+(b) 给定可对角化 $m\times m$ 的 $A$, 理论上怎样构造 $b$ 使精确算术在 $n<m$ 步中止? 原卷附的算法为: 置 $q_1=b/\norm b_2$; 每轮 $v=Aq_n$, 对 $j=1,\ldots,n$ 置 $h_{jn}=q_j^*v$、$v\leftarrow v-h_{jn}q_j$; 再置 $h_{n+1,n}=\norm v_2$, $q_{n+1}=v/h_{n+1,n}$; 解 $\min_y\norm{\widetilde H_ny-\norm b_2e_1}_2$, 返回 $x=Q_ny$. 问题正是其中分母为零时的处理.
+\end{exercise}
+\begin{solution}
+(a) 需按官方解答补充 $A$ 非奇异; 若 $b=0$ 已解出 $x=0$. 中止使 $\mathcal K_n$ 对 $A$ 不变, $A$ 在此有限维空间上的单射限制也是满射, 因而 $A^{-1}b\in\mathcal K_n$. GMRES 的最小残差恰为零, 无需构造下一列. 若 $A$ 奇异, 如 $A=0,b\ne0$, 第一步即中止却无解, 原题的无条件陈述不成立.
+(b) 取 $b$ 为 $n$ 个不同特征值的特征向量的线性组合, 每个系数非零. Krylov 空间至多 $n$ 维, 而前 $n$ 个幂的系数矩阵为可逆 Vandermonde, 所以恰在第 $n$ 步中止. 若所选特征值重复或某系数为零, 可更早中止; 只要求不晚于 $n$ 步时不必互异.
+\end{solution}
+\begin{exercise}\label{e2013:q2}
+(a) $A\in\C^{m\times n}$ 满列秩, $n<m$, 只需要 $C=(A^*A)^{-1}$ 的少数指定元素 $C_{ij}$. 给高效、尽量避免不必要病态放大的算法, 可调用课上分解.
+(b) 比较固定 $A$ 时 $f(x)=Ax$ 和固定 $x$ 时 $g(A)=Ax$ 的条件数, 使用向量 2 范数及矩阵诱导 2 范数. 可使用微分算子范数的相对条件数定义.
+\end{exercise}
+\begin{solution}
+(a) 做 Householder 薄 QR $A=\widehat QR$, 则
+\[
+ C=(R^*R)^{-1}=R^{-1}R^{-*}.
+\]
+求 $R^*y_i=e_i$、$R^*y_j=e_j$, 得 $C_{ij}=y_i^*y_j$. 缓存重复需要的 $y_i$, 每个三角解 $O(n^2)$, 每个元素内积 $O(n)$. 不形成 $A^*A$ 或整个逆, 但也不宣称 $C$ 这个函数本身没有平方的条件敏感性. 官方答案误写 $C=R^{-*}R^{-1}$ 并据此解 $Rx_i=e_i$; 这一般得到另一个矩阵的元素, 本处已校正, 随附非对角 $R$ 的数值检验明确区分两者.
+(b) 当 $x\ne0,Ax\ne0$, 两者都等于 $\norm A_2\norm x_2/\norm{Ax}_2$. 对前者微分为 $A$; 对后者微分 $E\mapsto Ex$ 的算子范数为 $\norm x_2$, 以秩一扰动达到, 见 PS2 第\ref{ps2:q3}题. 若改用矩阵 Frobenius 范数才得到 $\norm A_F$ 的版本. 原官方答案按 Frobenius 推导, 与本试卷印出的诱导范数要求不同, 此处按题面回答并说明差异.
+\end{solution}
+\originalsection{秩一 QR 更新}
+\begin{exercise}\label{e2013:q3}
+已给 $A=QR$, $A\in\C^{m\times n}$ 满列秩且 $n<m$. 对 $u\in\C^m,v\in\C^n$, 以 $O(m^2+n^2)$ 求 $A+uv^*=Q'R'$; 新 $Q'$ 可隐式保存旋转.
+(a) 写成 $Q(R+zv^*)$, 用 $O(m^2)$ 求 $z$.
+(b) 自底向顶用 Givens 将 $z$ 化为 $\alpha e_1$, 解释为何把 $R+zv^*$ 化为上 Hessenberg 可只用 $O(n^2)$ 主项成本.
+(c) 再以 $O(n^2)$ 将其恢复为上三角.
+\end{exercise}
+\begin{solution}
+(a) 必须使用完整 QR: $Q\in\C^{m\times m}$ 酉, $R\in\C^{m\times n}$ 的前 $n$ 行上三角、其余为零. 取 $z=Q^*u$, 成本 $O(m^2)$. 若只有薄 $Q$, 等式一般不成立, 须保有可作用完整 $Q$ 的反射子表示或补正交基.
+(b) 以相邻两行自底向顶旋转 $z$, 总共 $O(m)$ 标量工作, 记乘积为 $G$, 则
+\[
+ G(R+zv^*)=GR+\alpha e_1v^*.
+\]
+因为 $R$ 的前 $n$ 行上三角, 旋转到第 $k,k+1$ 行时最多在第 $k$ 列引入一个次对角元; $GR$ 是上 Hessenberg, 下于第 $n+1$ 行全零. 对 $k>n$, 两行的 $R$ 原为零, 不必对所有列真的做旋转, 只更新 $z$ 并记录旋转. 其余 $O(n)$ 次旋转每次作用于 $O(n)$ 列, 为 $O(n^2)$, 加 $O(m)$ 的记录及 $z$ 更新. 秩一项仅修改第一行, 不破坏 Hessenberg 结构. 所以原题的 $O(n^2)$ 忽略了必要的 $O(m)$ 读取, 更完整成本为 $O(m+n^2)$.
+(c) 对第 $k=1,\ldots,n$ 列在第 $k,k+1$ 行用一个 Givens 消去次对角, 并更新后续列, 形成上三角 $R'$. 总量 $O(n^2)$. 记这些旋转的乘积为 $F$, 则 $Q'=QG^*F^*$. 保留旋转序列即可隐式表示; 若显式更新完整 $Q$, 用右作用逐旋转更新列, 也只需 $O(m^2+mn)=O(m^2)$. 即使更新后秩亏, 三角化仍成立, 不对零主元做除法. 脚本实跑该流程并验证正交性、重构残差及 Hessenberg 结构.
+\end{solution}

@@ -1,6 +1,6 @@
 # Self-authored teaching experiments for real Float64 matrices.
 # Checked against official Julia 1.x LinearAlgebra/SparseArrays API names.
-# Not executed in the preparation environment (Julia is not installed).
+# Executed with Julia 1.10.10; results preserved in julia-results/base-experiments.txt.
 using LinearAlgebra, SparseArrays, Random
 Random.seed!(18335)
 
@@ -75,8 +75,8 @@ println((relative_residual=norm(r)/norm(b),
 A = Diagonal([4.0, 2.0, 1.0])
 v = ones(3)/sqrt(3.0)
 for k in 1:12
-    v = A*v
-    v /= norm(v)
+    global v = A*v
+    global v /= norm(v)
     theta = dot(v, A*v)
     println((k=k, angle_sine=norm(v[2:3]),
              eigen_error=abs(theta-4.0), residual=norm(A*v-theta*v)))

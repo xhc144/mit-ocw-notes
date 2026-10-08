@@ -1,0 +1,123 @@
+18.335 Problem Set 4 Solutions
+Problem 1: (10 points)
+This is a Galerkin method, very similar to the Rayleigh–Ritz method, and is known as the “FOM” algorithm
+(“full orthogonalization method”). There are some FOM references on the 18.335 lecture-summary page: in
+practice, it converges similarly to GMRES, but with some inconvenient quirks, so it is rarely used in practice.
+    We want to ﬁnd x ∈ Kn where b − Ax is ⊥ Kn . x ∈ Kn implies that x = Qn z for some z ∈ Cn , and
+b − Ax ⊥ Kn means Q∗n (b − Ax) = 0 = Qn∗ b − Qn∗ AQn z. From class (and the book), Q∗n AQn = Hn . So, we have
+the n × n system of equations
+                                                 Hn z = Q∗n b
+whose solution gives x = Qn z.
+    In the common case where our iterative method starts with the initial guess x1 = 0, then the ﬁrst vector
+in the Arnoldi iteration is q1 = b/kbk2 , and the above equation simplies further: Q∗n b = e1 kbk2 where e1 is
+the coordinate vector (1, 0, 0, . . .)T as usual, but this simpliﬁcation isn’t that vital.
+
+Problem 2: (5+10 points)
+Suppose A is a diagonalizable matrix with eigenvectors vk and eigenvalues λk , in decreasing order |λ1 | ≥
+|λ2 | ≥ · · · . Recall that the power method starts with a random x and repeatedly computes x ← Ax/kAxk2 .
+  (a) After many iterations of the power method, the λ1 and λ2 terms will dominate:
+
+                                                   x ≈ c1 v1 + c2 v2
+
+      forsome c1 and c2 .However, this is not an eigenvector. Multiplying this by A gives λ1 c1 v1 +λ2 c2 v2 =
+      λ1 c1 v1 + λλ2 c2 v2 , which is not a multiple of x and hence will be a different vector after normalizing,
+                   1
+      meaning that it does not converge to any ﬁxed vector.
+  (b) The key point is that if we look at the vectors x ≈ c1 v1 + c2 v2 and y ≈ λ1 c1 v1 + λ2 c2 v2 from two
+      subsequent iterations, then after many iterations these are linearly independent vectors that span
+      the two desired eigenvectors. We can then employ e.g. a Rayleigh–Ritz procedure to ﬁnd v1 and v2 :
+      use Gram–Schmidt to ﬁnd an orthonormal basis q1 = x/kxk2 and q2 = (y − q1 q∗1 y) /k · · · k2 , form the
+      matrix Q = (q1 , q2 ) and ﬁnd the 2 × 2 matrix A2 = Q∗ AQ. The eigenvalues of A2 (the Ritz values) will
+      then converge to the eigenvalues λ1 and λ2 and we obtain v1 and v2 (or some multiple thereof) from
+      the corresponding Ritz vectors. The key point is that AQ is in the span of q1 and q2 (in the limit of
+      many iterations so that other eigenvectors disappear), so the Ritz vectors are eigenvectors.
+
+      Of course, since we don’t know λ3 then we don’t know how many iterations to run, but we can do the
+      obvious convergence tests: every few iterations, ﬁnd the Ritz values from the last two iterations, and
+      stop when these Ritz values stop changing to our desired accuracy.
+
+      Alternatively, if we form the matrix X = (x, y) from the vectors of two subsequent iterations, then
+      we know that (after many iterations) the columns of AX are in C(X) = x, y. Therefore, the problem
+      AX = XS, where S is a 2 × 2 matrix, has an exact solution S. If we then diagonalize S = ZΛZ −1 and
+      multiply both sizes by Z, we obtain AXZ = XZΛ, and hence the columns of XZ are eigenvectors of A
+      and the eigenvalues diag Λ of S are the eigenvalues λ1 and λ2 of A. However, this is computationally
+      equivalent to the Rayleigh–Ritz procedure above, since to solve AX = XS for S we would ﬁrst do a QR
+      factorization X = QR, and then solve the normal equations X ∗ XS = X ∗ AX via RS = Q∗ AQR = A2 R.
+      Thus, S = R−1 A2 R: the S and A2 eigenproblems are similar; in exact arithmetic, the two approaches
+      will give exactly the same eigenvalues and exactly the same Ritz vectors.
+
+      [As yet another equivalent alternative, we could write AXZ = XZΛ as above, and then turn it into
+
+
+                                                       1
+        (X ∗ AX)Z = (X ∗ X)ZΛ, which is a 2 × 2 generalized eigenvalue problem, or (X ∗ X)−1 (X ∗ AX)Z = ZΛ,
+        which is an ordinary 2 × 2 eigenproblem.]
+
+Problem 3 (15 points)
+Trefethen, problem 27.5. The basic answer here is that their is a big roundoff error, but it is in the direc-
+tion of the eigenvector we want, so we don’t care (since overall scale factors are irrelevant to eigenvector
+computations).
+    In ﬁnite precision, instead of w = A−1 v, we will get w̃ = w + δ w where δ w = −(A + δ A)−1 δ A w (from
+the formula on page 95), where δ A = O(εmachine )kAk is the backwards error. [Note that we cannot use
+δ w ≈ −A−1 δ A w, which neglects the δ Aδ w terms, because in this case δ w is not small.] The key point,
+however, is to show that δ w is mostly parallel to q1 , the eigenvector corresponding to the smallest-magnitude
+eigenvalue λ1 (it is given that all other eigenvalues have magnitude ≥ |λ2 |  |λ1 |). Since w is also mostly
+parallel to q1 , this will mean that w̃/kw̃k2 ≈ q1 ≈ w/kwk2 .
+    First, exactly as in our analysis of the power method, note that w = A−1 v = α1 q1 [1 + O(λ1 /λ2 )], since
+  −1
+A ampliﬁes the q1 component of v by 1/|λ1 | which is much bigger than the inverse of all the other
+eigenvalues. Thus, w/kwk2 = q1 [1 + O(λ1 /λ2 )].
+    Second, if we Taylor-expand (A + δ A)−1 in powers of δ A, i.e. in powers of εmachine , we obtain:1
+(A + δ A)−1 = A−1 − A−1 δ A A−1 + O(εmachine2       ). Since all of the terms in this expansion are multiplied
+                   −1
+on the left by A , when multiplied by any vector they will again amplify the q1 component much more
+than any other component. In particular, the vector δ A w is a vector in a random direction (since δ A comes
+from roundoff and is essentially random) and hence will have some nonzero q1 component. Thus, δ w =
+−(A + δ A)−1 δ A w = β1 q1 [1 + O(λ1 /λ2 )] for some constant β1 .
+    Putting these things together, we see that w̃ = (α1 + β1 )q1 [1 + O(λ1 /λ2 )], and hence w̃/kw̃k2 = q1 [1 +
+                  w
+O(λ1 /λ2 )] = kwk    [1 + O(λ1 /λ2 )]. Q.E.D.
+                     2
+
+
+Problem 4 (5+5+5+5+5 pts):
+Trefethen, problem 33.2:
+
+  (a) In this case, the qn+1 vector is multiplied by a zero row in H̃n , and we can simplify 33.13 to AQn =
+      Qn Hn . If we consider the full Hessenberg reduction, H = Q∗ AQ, it must have a “block Schur” form:
+                                                                
+                                                        Hn B
+                                                H=                 ,
+                                                         0 H0
+
+        where H 0 is an (m − n) × (m − n) upper-Hessenberg matrix and B ∈ Cn×(m−n) . (It is not necessarily
+        the case that B = 0; this is only true if A is Hermitian.)
+
+  (b) Qn is a basis for Kn , so any vector x ∈ Kn can be written as x = Qn y for some y ∈ Cn . Hence, from
+      above, Ax = AQn y = Qn Hn y = Qn (Hn y) ∈ Kn . Q.E.D.
+  (c) The (n + 1) basis vector, An b, is equal to A(An−1 b) where An−1 b ∈ Kn . Hence, from above, An b ∈ Kn
+      and thus Kn+1 = Kn . By induction, K` = Kn for ` ≥ n.
+  (d) If Hn y = λ y, then AQn y = Qn Hn y = λ Qn y, and hence λ is an eigenvalue of A with eigenvector Qn y.
+  (e) If A is nonsingular, then Hn is nonsingular (if it had a zero eigenvalue, A would too from above).
+      Hence, noting that b is proportional to the ﬁrst column of Qn , we have: x = A−1 b = A−1 Qn e1 kbk =
+      A−1 Qn Hn Hn−1 e1 kbk = A−1 AQn Hn−1 e1 kbk = Qn Hn−1 e1 kbk ∈ Kn . Q.E.D.
+
+    1 Write (A + δ A)−1 = [A(I + A−1 δ A)]−1 = (I + A−1 δ A)−1 A−1 ≈ (I − A−1 δ A)A−1 = A−1 − A−1 δ A A−1 . Another approach is to let
+
+B = (A + δ A)−1 = B0 + B1 + · · · where Bk is the k-th order term in δ A, collect terms order-by-order in I = (B0 + B1 + · · · )(A + δ A) =
+B0 A + (B0 δ A + B1 A) + · · · , and you immediately ﬁnd that B0 = A−1 , B1 = −B0 δ A A−1 = −A−1 δ A A−1 , and so on.
+
+
+                                                                    2
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

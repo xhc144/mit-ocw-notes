@@ -1,0 +1,131 @@
+18.335 Problem Set 1                                      Problem 3: Newtonish methods
+You should sub-mit your problem set                       Newton’s method for a root of f (x) = 0 is to
+electronically on the 18.335 Stellar page.                iterate xn+1 = xn − f (xn )/f 0 (xn ) starting from
+Submit both a scan of any handwritten                     some initial guess x1 (which must be suÿciently
+solutions (I recommend an app like TinyScanner            close to the root to guarantee convergence in gen-
+or similar to create a good-quality black-and-            eral). Suppose that you are also given f 00 (x), the
+white “thresholded” scan) and also a PDF                  second derivative. In this problem, you will pro-
+printout of the Julia notebook of your com-puter          pose an iteration scheme that takes advantage of
+solutions. A template Julia notebook is                   this second-derivative information.
+posted in the 18.335 web site to help you get
+started.                                                  (a) Propose a Newton-like iteration that takes
+                                                              advantage of f , f 0 , and f 00 (assuming f is
+Problem 1: Floating point                                     analytic in the neighborhood of the root).
+                                                              (Hint: use a second-order Taylor approxi-
+Trefethen, probem 13.2. (For part c, you can                  mation of f .) If you solve a quadratic equa-
+use Julia, which employs IEEE double preci-                   tion ax2 + bx + c = 0, you might        want to
+                                                                                                 √
+sion by default. However, unlike Matlab, Julia                compute the two roots as       −b− b2 −4ac
+                                                                                                          and
+                                                                                                  2a
+distinguishes between integer and ﬂoating-point                   √2c     , assuming   b >   0, to  avoid dis-
+                                                                     2
+                                                              −b− b −4ac
+scalars. For example, 2^50 in Julia will produce
+                                                              astrous cancellation errors for |ac|  b2 .
+a 64-bit integer result; to get a 64-bit/double
+                                                              (Google “quadratic formula cancellation er-
+ﬂoating-point result, do e.g. 2.0^50 instead.)                ror.” In the event of a disaster, your method
+                                                              can fall back to an ordinary Newton step.)
+Problem 2: Funny functions
+(a) Write a function L4(x,y) in Julia to com-             (b) Analyze its asymptotic convergence rate: if
+    pute the L4 norm (|x|4 + |y|4 )1/4 of two                 x is an exact root, write xn = x(1 + δn )
+    scalars x and y. Does your code give                      as in class, and solve for δn+1 in terms of δn
+    an accurate answer for L4(1e-100,0.0)?                    assuming you are close to the root (δn  1).
+    What about L4(1e+100,0.0)? Without us-
+    ing arbitrary-precision (BigFloat) calcula-           (c) Modify the Julia Newton’s-method note-
+    tions, ﬁx your code so that it gives an an-               book from class to implement your method
+    swer whose relative error |computed−correct| is           to compute a root of f (x) = x3 − 1. In
+                                    |correct|
+    within a small multiple of eps() = machine               particular start with x1 = 2, so that your
+    (a few “ulps”, or “units in the last place”) of           scheme should(!) converge to x = 1, and
+    the exactly rounded answer for all double-                look at the error xn − 1. Demonstrate that
+    precision x and y. (You can test your code                it agrees with your predicted convergence
+    by comparing to L4(big(x),big(y)), i.e.                   rate from the previous part. [You should
+    arbitrary-precision calculation.)                         use arbitrary precision as in the notebook
+                                                              from class, so that you can watch the con-
+(b) Write a function cotdiff(x,y) that com-                   vergence rate for many digits. An approxi-
+    putes cot(x) − cot(x + y). Does your code                 mate number of accurate digits is given by
+    give an accurate answer for cotdiff(1.0,                  − log10 (xn − 1).]
+    1e-20)? Without using arbitrary-precision
+    (BigFloat) calculations, ﬁx your code so
+    that it gives an accurate Float64 answer              Problem 4: Addition, another way
+    (within a few ulps) even when |y|  |x|                                              Pn
+    (without hurting the accuracy when y and x            Here you will analyze f (x) = i=1 xi , but you
+    are comparable!). (Hint: one option would             will compute f˜(x) in a di˙erent way from the
+    be to switch over to Taylor expansion when            naive sum considered in class. In particular,
+    |y|/|x| is suÿciently small, but a simpler so-        compute f˜(x) by a recursive divide-and-conquer
+    lution is possible by applying some trigono-          approach, recursively dividing the set of values
+    metric identities.)                                   to be summed in two halves and then summing
+
+
+                                                      1
+the halves:
+        ⎧
+        ⎪0
+        ⎨                                 if n = 0
+ ˜
+f (x) = x1                                if n = 1 ,
+        ⎩˜
+          f (x1:bn/2c ) ⊕ f˜(xbn/2c+1:n ) if n > 1
+        ⎪
+
+
+where byc denotes the greatest integer ≤ y (i.e.
+y rounded down). In exact arithmetic, this com-
+putes f (x) exactly, but in ﬂoating-point arith-
+metic this will have very di˙erent error charac-
+teristics than the simple loop-based summation
+in class.
+
+(a) For simplicity, assume n is a power of 2
+    (so that the set of numbers to add di-
+    vides evenly in two at each stage of the
+                                ˜
+    recursion). ProvePnthat |f (x) −2 f (x)| ≤
+    machine log2 (n) i=1 |xi | + O(machine ).
+    That is, show that the worst-case error
+    bound grows logarithmically rather than lin-
+    early with n!
+
+(b) Pete R. Stunt, a Microsoft employee, com-
+    plains, “While doing this kind of recursion
+    may have nice error characteristics in the-
+    ory, it is ridiculous in the real world be-
+    cause it will be insanely slow—I’m proud
+    of my eÿcient software and can’t a˙ord
+    to have a function-call overhead for every
+    number I want to add!” Explain to Pete
+    how to implement a slight variation of this
+    algorithm with the same logarithmic error
+    bounds (possibly with a worse constant fac-
+    tor) but roughly the same performance as a
+    simple loop.
+
+(c) In the pset 1 Julia notebook, there
+    is a function “div2sum” that computes
+    f˜(x) =div2sum(x) in single precision by the
+    above algorithm. Modify it to not be hor-
+    rendously slow via your suggestion in (b),
+    and then plot its errors for random inputs
+    as a function of n with the help of the exam-
+    ple code in the Julia notebook (but with a
+    larger range of lengths n). Are your results
+    consistent with your error bounds above?
+
+
+
+
+                                                       2
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

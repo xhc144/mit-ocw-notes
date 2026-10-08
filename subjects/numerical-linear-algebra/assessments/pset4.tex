@@ -1,0 +1,44 @@
+\originalchapter{2019 年作业四}
+题源: MIT 18.335J Spring 2019, PS4; 解答为官方答案译审. 教材引用部分保留原题号, 以下论证只对应官方答案实际给出的内容.
+\originalsection{FOM 与等模幂法}
+\begin{exercise}\label{ps4:q1}
+Arnoldi 给出 $AQ_n=Q_nH_n+h_{n+1,n}q_{n+1}e_n^*=Q_{n+1}\widetilde H_n$, $Q_n$ 为 $\mathcal K_n=\Span\{b,Ab,\ldots,A^{n-1}b\}$ 的正交基. GMRES 在 $x\in\mathcal K_n$ 中最小化 $\norm{Ax-b}_2$, 化为关于 $\widetilde H_n$ 的 $(n+1)\times n$ 最小二乘. 若改为要求 $b-Ax\perp\mathcal K_n$, 推导一个 $n\times n$ 的小方程以求 $x$.
+\end{exercise}
+\begin{solution}
+本题与第 9 章习题\ref{nla:fom-exercise}相同, 复用其 FOM 推导. 写 $x=Q_ny$, 正交条件为 $Q_n^*(b-AQ_ny)=0$, 故 $H_ny=Q_n^*b$. 从 $q_1=b/\norm b_2$ 开始时右端为 $\norm b_2 e_1$. 解得 $x=Q_ny$. $H_n$ 可能奇异, 此时 FOM 小方程不一定有解; 第 9 章已给具体例子. 这与 GMRES 的最小二乘目标不同.
+\end{solution}
+\begin{exercise}\label{ps4:q2}
+$A$ 可对角化, 特征值按 $|\lambda_1|\ge|\lambda_2|\ge\cdots$ 排序, 特征向量为 $v_k$. 幂法反复计算 $x\leftarrow Ax/\norm{Ax}_2$.
+(a) 若 $|\lambda_1|=|\lambda_2|>|\lambda_3|$ 且 $\lambda_1\ne\lambda_2$, 解释为何一般不收敛.
+(b) 仅额外保存前一轮向量, 给出提取 $\lambda_1,\lambda_2,v_1,v_2$ 的方法.
+\end{exercise}
+\begin{solution}
+(a) 初始向量在两个主特征方向的系数都非零时, $A^kx$ 的两项为 $c_1\lambda_1^kv_1+c_2\lambda_2^kv_2$. 系数的模比不衰减, 相对相位 $(\lambda_2/\lambda_1)^k$ 却变化, 故方向一般不趋于单个特征向量.
+
+(b)\label{sol:two-power} 连续两个归一化向量张成二维空间, 在次要项衰减后趋于 $\Span\{v_1,v_2\}$. 两向量在主空间中的系数矩阵行列式与 $c_1c_2(\lambda_2-\lambda_1)$ 成比例, 因而非零. 对这两个向量正交化得到 $Q\in\C^{m\times2}$, 解 $2\times2$ 的 Rayleigh--Ritz 问题 $Q^*AQz=\theta z$, 输出 $\theta,Qz$. 在极限不变子空间中这是精确限制算子的特征问题. 用 $\norm{AQz-\theta Qz}$ 检查, 不能只看 Ritz 值是否不变. 若两个特征值很接近或某主系数很小, 正交化可能病态, 可提高精度或采用更稳健的子空间迭代. 脚本对 $\diag(2,-2,0.4)$ 复现普通向量的交替和二维提取的收敛.
+\end{solution}
+\originalsection{移位逆迭代与 Arnoldi 中止}
+\begin{exercise}\label{ps4:q3}
+原纸仅引用 Trefethen/Bau 27.5. 完整教材题面未取得. 官方答案解释逆迭代的线性求解可有很大前向误差, 但归一化特征向量仍可能准确.
+\end{exercise}
+\begin{solution}
+这一现象应按方向误差讨论. 对 Hermitian $A$ 的简单特征对 $(\lambda_1,q_1)$, 令 $\sigma$ 接近 $\lambda_1$, 其余移位特征值距零至少 $g>0$. 后向稳定求解产生 $\widetilde w$ 满足 $(A-\sigma I+E)\widetilde w=v$, $\norm E=O(u)\norm{A-\sigma I}$. 设 $P=q_1q_1^*$, $\widetilde w=a q_1+z$, $z\perp q_1$, 对方程投影得
+\[
+ ((I-P)(A-\sigma I)(I-P))z=(I-P)v-(I-P)E\widetilde w.
+\]
+故 $\norm z\le(\norm v+\norm E\norm{\widetilde w})/g$, 即
+\[
+ \frac{\norm z}{\norm{\widetilde w}}\le\frac{\norm v}{g\norm{\widetilde w}}+\frac{\norm E}{g}.
+\]
+当输入具有非零且不太小的目标分量, 近奇异解被放大、$\norm{\widetilde w}$ 很大, 且 $\norm E\ll g$, 归一化方向误差仍小. 这是带间隔和分量条件的结论, 不是所有病态线性解都自动准确. 原答案用 Neumann 展开且假定随机误差方向; 在 $\norm{(A-\sigma I)^{-1}E}\not<1$ 时该展开无效, 本处改用投影估计, 并明确新增的适用条件. 随附实验比较未归一化误差与方向夹角.
+\end{solution}
+\begin{exercise}\label{ps4:q4}
+原纸仅引用 Trefethen/Bau 33.2. 完整题面未取得. MIT 官方答案有五项论证: Arnoldi 的 $h_{n+1,n}=0$, 不变子空间, Krylov 空间不再增长, Ritz 特征对为精确特征对, 以及非奇异时精确解落在该空间中.
+\end{exercise}
+\begin{solution}
+若 $h_{n+1,n}=0$, Arnoldi 恒等式化为 $AQ_n=Q_nH_n$. 补全 $Q=(Q_n,Q_\perp)$ 后,
+\[
+ Q^*AQ=\begin{bmatrix}H_n&B\\0&H'\end{bmatrix}.
+\]
+一般 $B$ 不为零; 若 $A$ 为 Hermitian, 则由对称性使其为零. 任意 $x=Q_ny$ 满足 $Ax=Q_nH_ny\in\mathcal K_n$, 所以 $\mathcal K_n$ 不变. 由 $A^{n-1}b\in\mathcal K_n$ 得 $A^nb\in\mathcal K_n$, 归纳有所有后续空间均等于 $\mathcal K_n$. 若 $H_ny=\theta y$, 则 $A(Q_ny)=\theta Q_ny$, 是原矩阵的精确特征对. 最后若 $A$ 非奇异, 限制 $H_n$ 也非奇异; 因为其零特征向量会给 $A$ 的零特征向量. 因而 $x=Q_nH_n^{-1}(\norm b_2e_1)$ 正是 $Ax=b$ 的解, 位于当前空间. 分解中止此时是已完成求解的信号.
+\end{solution}

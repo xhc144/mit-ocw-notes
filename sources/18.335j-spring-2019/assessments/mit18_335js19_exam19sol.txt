@@ -1,0 +1,187 @@
+18.335 Midterm Exam Solutions: Spring 2019
+Problem 1: (10 points)
+The general formula for κ(A), from the book, is the supremum of the condition number kAk · kxk/kAxk for
+all x, i.e.
+                                                !               !             !
+                                            kxk            kAxk           kxk
+                        κ(A) = kAk sup             = sup            sup         .
+                                      x6=0 kAxk        x6=0 kxk     x6=0 kAxk
+
+                                                                                                                        0
+Since A (n columns) is a subset of the columns of B(n0 ≥ n columns), then for every x ∈ Cn there is an x0 ∈ Cn
+such that Ax = Bx0 — that is, x0 is simply x padded with zeros for the extra columns of B. Furthermore, in
+any of our L p norms we have kxk = kx0 k. So, if x∗ is a vector where kAxk
+                                                                       kxk achieves its supremum, there is an
+                         0
+x0 such that kAx ∗k   kBx k
+              kx∗ k = kx0 k , and hence
+                                                       kAxk         kBx0 k
+                                                   sup      ≤ sup      0
+                                                                           .
+                                                   x6=0 kxk   x0 6=0 kx k
+
+               kxk
+Similarly for kAxk . Hence κ(A) ≤ κ(B).
+
+
+Problem 2: (5+5 points)
+For a diagonalizable m × m matrix A = XΛX −1 , the matrix square root is
+                                               √                                                 
+                                                 λ1                    √
+                               1      1 −1
+                                                                       λ2                        
+                                                                                                   −1
+                             A 2 = XΛ 2 X = X                                                    X .
+                                              
+                                                                                   ..
+                                                                                        .
+                                                                                            √
+                                                                                                 
+                                                                                             λm
+
+  (a) A may be nearly defective, in which case X is badly conditioned and multiplying by X or X −1 will be
+      inaccurate. (Being exactly defective is exceedingly rare — a set of measure zero among all matrices,
+      so you might ignore this case, but you can’t ignore the possibility of being nearly defective.)
+
+  (b) One possible answer is that all her matrices are Hermitian (or anti-Hermitian/skew-Hermitian).
+                  1
+      For the XΛ 2 X −1 formula to be accurate, you need X to be well-conditioned, and the best case for this
+      is if A is normal (AA∗ = A∗ A), in which case X can be chosen unitary (condition number 1). The only
+      cases where you can typically see that A is normal by inspection are the Hermitian or anti-Hermitian
+      cases. (Another possibility would be diagonal matrices A, but you were told that the matrices were
+      non-sparse.)
+
+
+Problem 3: (10 points)
+If one of the xi values is sufficiently large and positive (& 710 in double precision), then exi will overflow
+and you will get +Inf. Alternatively, if all of the xi values are sufficiently large in magnitude and negative
+(. −745 in double precision), then exi will underflow to +0.0 and the log will give you −Inf. To start with,
+we want to avoid both of these cases.
+    8/10 points: A simple solution is to compute X = maxi xi , and then use the identity
+                                               !                               !                                !
+                                     n                            n                                n
+                                          xi                 X         xi −X                            xi −X
+                      f (x) = log   ∑e             = log e       ∑e                = X + log      ∑e                .
+                                    i=1                          i=1                              i=1
+
+
+                                                                 1
+This solves the overflow problem, because xi − X ≤ 0 and hence exi −X can only be small, not large. What
+about underflow? Without loss of generality, let’s suppose that X = x1 . Then we have
+                                                                   !
+                                                               n
+                                       f (x) = X + log 1 + ∑ exi −X      .
+                                                             i=2
+
+Notice that exi −X in the sum may underflow to zero, but we will never get zero as the argument of the log
+because we have 1 + · · · ≥ 1 . So we won’t get −Inf even if the xi are large negative numbers.
+   10/10 points: However, there is still a subtle problem: if ∑ni=2 exi −X  1, then in floating-point arithmetic
+we may get                                              !
+                                                 n
+                                 X + log 1 ⊕ ∑ exi −X       = X + log(1) = X,
+                                                i=2
+
+so the contribution of the ∑ni=2 exi −X is lost. Recall the Taylor expansion
+                                                       y2 y3
+                                        log(1 + y) = y − + −··· ,
+                                                       2    3
+so even if 0 < y  1, we are not supposed to get zero from the log. This can lead to an inaccurate result.
+For example, consider the case of n = 2 with x1 = 10−20 > x2 = log 10−20 ≈ −46.0517. Then the correct
+answer is
+                        x1 + log(1 + ex2 ) = 10−20 + log(1 + 10−20 ) ≈ 2 × 10−20 .
+but in floating-point arithmetic we will get x1 ⊕ log(1 ⊕ ex2 ) = x1 ⊕ log(1) = x1 ≈ 10−20 , which is off by a
+factor of 2! The solution is that we need to compute log1p(y) = log(1 + y) accurately even for very small
+y, and fortunately most math libraries (including Julia’s) provide a built-in “log1p” function that does just
+that. So, in summary, if we want an accurate result we really need to use a floating-point version of the
+expression:
+                                                               0
+                                         f (x) = X + log1p(∑ exi −X ),
+where ∑0 denotes the sum omitting a single term with xi = X = max j x j . If we want, we could implement
+this sum with pairwise summation or similar, for even more accuracy. If we didn’t have a “log1p” function
+available, to accurately compute log1p(y) = log(1 + y) , we could implement it ourselves using the Taylor
+series when |y| is sufficiently small (although it turns out that there are more clever ways to do it).
+
+Problem 4: (10 points)
+8/10: We can use the Hessenberg factorization A = QHQ∗ , which can be computed in Θ(m3 ) operations
+from class, and for which H is tridiagonal if A is Hermitian. Then
+  f (z) = det(A − zI) = det(QHQ∗ − zI) = det [Q(H − zI)Q∗ ] = det(Q) det(H − zI) det(Q∗ ) = det(H − zI)
+by elementary properties of determinants. Since H − zI is tridiagonal, as mentioned in class we can find
+its LU factorization in Θ(m) operations, from which the determinant is simply the product of the diagonal
+entries of U. A little care is needed for the case where H − zI is nearly singular, though.
+    10/10: Since in neither the book nor in class did we explicitly study the LU decomposition of tridiagonal
+matrices — I only stated in passing that it was Θ(m) — and some care is needed in the singular case, to get
+full marks on this problem you need to do a bit more work to convince me of how you would compute det H.
+In particular, there are lots of ways to derive nice explicit formulas here. (Outside of an exam you would just
+google “determinant tridiagonal matrix,” of course.) For example, if we write:
+                                                                          
+                                              a1 b1
+                                           b1 a2 b2                       
+                                                                          
+                                                              ..          
+                                    H =          b2  a 3        .        ,
+                                                                           
+                                                      . ..    . ..
+                                                                           
+                                                                    bm−1 
+                                                              bm−1    am
+
+                                                        2
+then each step of Gaussian elimination transforms the 2 × 2 diagonal block
+                                                                        !
+                                                       dk       bk
+                                            
+                                  dk     bk
+                                               −→                          ,
+                                  bk ak+1               0 ak+1 − bdk bk
+                                                                            k
+
+
+so that the diagonal entries satisfy the recurrence relation
+
+                                                 d1 = a1
+                                                                 |bk |2
+                                             dk+1 = ak+1 −              .
+                                                                  dk
+and once it is reduced to upper-triangular form then the determinant is simply the product of the pivots ∏ dk .
+This recurrence may look slightly dangerous at first — what if dk = 0? However, this division by zero goes
+away when you multiply the entries together — consider the term dk dk+1 — and after a little thought you
+can see that the the product
+                                                            k
+                                                   pk = ∏ dk
+                                                           i=1
+
+satisfies a simpler recurrence (called the “continuant” in linear algebra):
+
+                                       p0 = 1
+                                       p1 = a1
+                                    pk+1 = dk+1 pk = pk ak+1 − pk−1 |bk |2 ,
+
+which has no possibility of division by zero, giving det H = pm in Θ(m) operations. Finally, get det(H − zI),
+we simply modify this recurrence to subtract z from the diagonals:
+
+                                         p0 = 1
+                                         p1 = a1 − z
+                                       pk+1 = pk (ak+1 − z) − pk−1 |bk |2 .
+
+This recurrence can also be derived in other ways, e.g. by cofactor formulas. For the case of real bi (real-
+symmetric A and H), the same recurrence is given in equation (30.9) of the Trefethen & Bau textbook.
+   Another possible Θ(m) determinant algorithm is to do the QR factorization of H − zI, which can be
+accomplished in Θ(m) operations by Givens rotations as you showed in pset 3. Then the determinant is
+simply det R (since det Q = 1 for Givens rotations), which is the product of the diagonal entries of R.
+
+
+
+
+                                                        3
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

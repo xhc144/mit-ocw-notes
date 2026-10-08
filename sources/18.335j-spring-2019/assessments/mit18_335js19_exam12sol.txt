@@ -1,0 +1,191 @@
+18.335 Midterm Solutions, Fall 2012
+Problem 1: (25 points)
+Note that your solutions in this problem don’t require you to know how sin, ln, and Γ are calculated on a
+computer, because the answers rely on properties of the functions (and of ﬂoating-point arithmetic in general,
+of course), not of the algorithms to compute the functions. (Contrary to what many students assumed, Taylor
+series are not the only way to compute special functions like this, nor are they usually the best way except
+in limiting cases, nor should you generally use the same Taylor series for all x.)
+                                                                 f 0 (x)
+  (a) The condition number of f (x) = sin(x) is κ(x) =          f (x)/x    = x cos x
+                                                                               sin x . As x → 0, κ(x) → 1 (since
+      sin x
+        x → 1), so it is well conditioned near x = 0 and we should expect an accurate answer is possi-
+      ble even if there is a small (relative) rounding error in x. In particular, the Taylor expansion of sin x
+      near x = 0 clearly becomes more and more accurate as x → 0, in which limit sin x ≈ x and the function
+       f (x) = x can obviously be computed accurately (with the forward error approaching the relative error
+      in x). On the other hand, x → 2π, sinx x → 0 and hence κ(x) → ∞: the problem is ill-conditioned near
+      2π and a small forward error may not be possible, depending upon how we deﬁne the problem.
+
+      In particular, if x contains a small relative error, e.g. because it was rounded from a non-representable
+      real number, then we should not expect a small forward error near 2π: the large condition num-
+      ber means that a small error in x produces a large error in sin x. For example, for x = 2π + δ with
+      δ ∼ εmachine , a roundoff error to x̃ = 2π + δ + εmachine will roughly double the magnitude of
+      sin(x), giving a relative error of order 1.
+
+      If the input x is exactly computed in ﬂoating point, on the other hand then it is possible to com-
+      pute an accurate answer. Suppose that we computed sin(x) near x = 2π by ﬁrst computing y = x − 2π
+      and then computing sin y. If we naively computed y by y = x ﬂ(2π), we could easily get a large can-
+      cellation error in computing y since 2π is not exactly representable. However, if we instead computed
+      ﬂ(x − 2π) = (x − 2π)[1 + O(εmachine )], e.g. by performing the subtraction in a higher precision, then
+      we could obtain a small forward error in sin y = sin x.
+
+  (b) For |x| < εmachine , 1 + x will be rounded to 1 and hence log(1+x) would give 0 (a relative error of
+      1 for x 6= 0!). Therefore, we need a specialzed log1p(x) function if we wish to compute ln(1 + x)
+      accurately for small |x|.
+                                                                   1/y
+      Equivalently, the function ln(y) has a condition number ln(y)/y   that diverges as y → 1, making it
+      extraordinarily sensitive to rounding errors in computing the argument y = 1 + x, while the function
+                                                1/(1+x)
+      f (x) = ln(1 + x) has condition number ln(1+x)/x  → 1 as x → 0.
+                                                                                          2    3   4
+      A possible implementation might use the Taylor expansion ln(1 + x) = x − x2 + x3 − x4 + O(x5 ) for
+      small x, and compute ln(1 + x) directly for larger x. e.g.
+                                          ( �
+                                            x 1 − x 12 − x 31 − 4x     |x| < 10−3
+                                                     �      �      
+                             log1p(x) =                                           ,
+                                            log(1 + x)                 otherwise
+
+                                                    2       3   4
+      (where for extra niceness I evaluated x − x2 + x3 − x4 by Horner’s method). This four-term Taylor
+      series should be accurate to machine precision for |x| < 10−3 .
+
+      [The problem is not points near (slightly bigger than) x = −1. If you want to compute ln(1 + x)
+      for such x, there is no way around the fact that you need to know 1 + x accurately to know how close
+      the argument of the log is to zero, and cancellation errors will force you to lose a lot of signiﬁcant dig-
+      its in ﬁnding 1 + x if x is not exactly representable. A specialized log1p function won’t help. Note also
+
+                                                        1
+     that if ﬂ(x) > −1, we will obtain 1 ⊕ x > 0 in exactly rounded ﬂoating-point arithmetic, so rounding
+     won’t change the domain of the function.]
+ (c) The problem in this case is not roundoff errors, but overﬂow. Remember that ﬂoating-point uses a
+     ﬁxed number of digits for its exponent, so it cannot represent arbitrarily large numbers. (In double
+     precision, the maximum magnitude is ≈ 10308 ). The factorial function, and hence the Γ(x) function,
+     grows faster than exponentially with x, so for x & 172 it will overﬂow and simply give ∞. By deﬁn-
+     ing a separate gammaln(x) function, Matlab allows you to study the magnitude of the Γ function for
+     much larger x (up to x ≈ 10305 ).
+
+     Note that, if it weren’t for overﬂow, there wouldn’t necessarily be any severe accuracy problem with
+     computing ln Γ(x) by computing Γ(x) ﬁrst. ln(x) is well-conditioned for large x. The condition number
+     of Γ(x) does grow with x, but only relatively slowly (≈ x ln x), so it overﬂows long before it becomes
+     badly conditioned.
+
+Problem 2: (5+10+10 points)
+ (a) A simple example would be k(x,py)k+ = kxk + kyk. Another would be k(x, y)kmax = max(kxk, kyk).
+     More examples are k(x, y)k p = p kxk p + kyk p for any p ≥ 1. All of these clearly satisfy the positiv-
+     ity, scaling, and triangle properties of norms, inheriting those properties from the norms on x and y
+     (combined with the same properties of the L p norm).
+ (b) Second =⇒ First, but not the other way around. That is, the Second deﬁnition is a stronger require-
+     ment on f˜. [Note that, from class, equivalence of norms means that we only need to prove this for one
+     choice of k(x, y)k and it follows for all other choices of norm.]
+
+     Suppose that f˜ is backwards stable in the Second sense. Then, using e.g. k(x, y)kmax from above,
+     we have kx̃ − xk = kxkO(εmachine ) ≤ k(x, y)kmax O(εmachine ) and kỹ − yk = kykO(εmachine ) ≤
+     k(x, y)kmax O(εmachine ). Hence k(x̃, ỹ)−(x, y)kmax = max(kx̃−xk, kỹ−yk) = k(x, y)kmax O(εmachine ),
+     and First follows.
+
+     The converse is not true, essentially because we can have kxk arbitrarily small compared to k(x, y)k by
+     choosing kxk  kyk (or vice versa). From kx̃ − xk ≤ k(x̃, ỹ) − (x, y)kmax = k(x, y)kO(εmachine ), we
+     obtain kx̃ − xk = k(x,y)k
+                         kxk kxkO(εmachine ). However, it does not follow that kx˜ − xk = kxkO(εmachine ),
+     because the prefactor k(x,y)k
+                             kxk can be arbitrarily large, and we required the constants in O(εmachine ) to
+     be independent of x (uniform convergence).
+
+     More explicitly, let us construct a counterexample (not required). Consider f (x, A) = bx∗ + A for
+     x ∈ Cn , A ∈ Cn×n , and some ﬁxed b ∈ Cn . It is straightforward to show that this is backwards-
+     stable in the First sense, by letting x̃ = x and Ã = f˜(x, A) − bx∗ . i.e. Ãi j = (bi ⊗ x j ⊕ Ai j ) − bi x j =
+                                                                           2
+     [bi x j (1 + ε1 ) + Ai j ](1 + ε2 ) − bi x j = Ai j + bi x j [ε1 + O(εmachine )] + Ai j ε2 , where |ε1,2 | ≤ εmachine .
+     Hence |Ãi j − Ai j | ≤ (kxk∞ + kAk∞ )O(εmachine ) (where kAk∞ = maxi, j |Ai j |) and we have kÃ − Ak∞ =
+     k(x, A)k+ O(εmachine ). Hence it is backwards stable in the First sense. On the other hand, it is not
+     backwards stable in the Second sense. Consider inputs A = 0, in which case f (x̃, A) is rank 1 for any
+     x̃, but f˜(x, A) will not be rank 1 due to roundoff errors [similar to pset 2 problem 4(b)(ii)], and hence
+                                                                                          0                 0
+     we must have Ã 6= A in order to have f (x̃, Ã) = f˜(x, A). But then kÃ − 
+                                                                                 7k = kÃk > 
+                                                                                 A
+                                                                                            kA
+                                                                                               kO(εmachine ),
+                                                                                               >
+     and therefore it cannot satisfy the Second deﬁnition.
+ (c) Choose k(x, y)k = kxk1 + kyk1 , in which case both the norm and the algorithm f˜(x, y) are exactly
+     equivalent
+       to the summation studied and proved backwards stable in class, applied to a column vector
+        x
+             ∈ Rm+n . So, it is stable in the First sense.
+        y
+
+
+                                                            2
+       In fact, it is stable in the Second sense as well! Since it is stable in the First sense, construct (x̃, ỹ)
+       with f (x̃, ỹ) = f˜(x, y) and k(x̃, ỹ)−(x, y)k∞ = k(x, y)k∞ O(εmachine ) for k(x, y)k∞ = max(kxk∞ , kyk∞ ).
+       Suppose kxk∞ ≥ kyk∞ , then it follows that kx̃ − xk∞ ≤ k(x̃, ỹ) − (x, y)k∞ = kxk∞ O(εmachine ), and
+       we only need to prove the corresponding property for ỹ − y, but unfortunately this is not true if
+       kyk∞  kxk∞ . Instead, let us construct a new pair (x̃0 , ỹ0 ) with f (x̃0 , ỹ0 ) = f (x̃, ỹ) = f˜(x, y) by set-
+       ting ỹ0 = y, and x̃i0 = x̃i + ∑(ỹkm−yk ) for i = 1, . . . , m—that is, we have pushed all of the ỹ − y differences
+       into x̃0 , while keeping the sum the same. Then kỹ0 − yk = 0 = kykO(ε machine ) and kx˜0 − xk∞ ≤
+       kx̃ − xk∞ + ∑(ỹkm−yk ) ≤ kx̃ − xk∞ + kỹ − yk∞ ≤ 2k(x̃, ỹ) − (x, y)k∞ = kxk∞ O(εmachine ). Similarly if
+       kxk∞ ≤ kyk∞ , except that we push all the x̃ − x differences into ỹ0 . Hence it is backwards stable in the
+       Second sense.
+
+       You could also use the analysis from pset 2 (or similar) to explicitly construct x̃ and ỹ and thereby
+       prove stability in the Second (hence First) sense.
+
+Problem 3: (25 points)
+First, let us follow the hint and show that qk = Q(n) ek is in the span hx1 , x2 , . . . , xk i as n → ∞. We will proceed
+by induction on k. Let
+                                                                  m
+                                                vk = An ek = ∑ ci λin xi ,
+                                                                  i=1
+
+                                                                                                        6 0
+where we have expanded ek = ∑ ci xi in the basis of the eigenvectors; we can generically assume that ci =
+for all i, so that vk is dominated as n → ∞ by the terms with the biggest |λ |.
+    • For k = 1, q1 = v1 /kv1 k2 (via Gram-Schmidt), and since v1 ≈ c1 λ1n x1 as n → ∞ we have q1 → x1 .
+    • Suppose qi ∈ hx1 , . . . , xi i for i < k, and prove for k. For large n,
+
+                                                vk ≈ ∑ ci λin xi ∈ hx1 , . . . , xk i,
+                                                      i≤k
+
+       where we have discarded the i > k terms as negligible. We obtain qk from vk by Gram-Schmidt:
+
+                                                            vk − ∑i<k qi q∗i vk
+                                                    qk =                        .
+                                                                 k · · · k2
+
+       However, since all of the terms in the numerator are ∈ hx1 , . . . , xk i, the result follows. (Note that the
+       orthonormality of the q’s means that qk must contain a nonnegligible xk component, as otherwise it
+       would be in the span of the qi for i < k.)
+
+       It is instructive (but not strictly necessary!) to look at this more carefully. Since the qi for i < k,
+       being independent, necessarily form a basis for the (k − 1) subspace hx1 , . . . , xk−1 i, it follows that
+       (I − ∑i<k qi q∗i )x j = 0 for j < k (since we are projecting orthogonal to the whole hx1 , . . . , xk i subspace).
+       Hence,
+                                               ck λ
+                                                   n [x −
+                                                        k     ∑i<k qi q∗i xk ]
+                                         qk ≈  k                              ∈ hx1 , . . . , xk i.
+                                                          k · · · k2
+       So, like in class, qk still picks up contributions only from the λkn term in vk , as all of the larger |λ |
+       terms are cancelled by the projection. (At least, in exact arithmetic, but fortunately the QR iteration
+       gives us the same result without the ill-conditioning.) Unlike the Hermitian case in class, however,
+       q∗i xk 6= 0 in general, so qk generally has nonzero xi components for i < k.
+Now that we have proven this fact, the result is easy. Since qk ∈ hx1 , . . . , xk i, it immediately follows that
+Aqk ∈ hx1 , . . . , xk i = hq1 , . . . qk i, and thus Ti j = q∗i Aqk = 0 for i > k. Hence T = Q∗ AQ is upper triangular,
+and we have a Schur factorization of A.
+
+
+                                                              3
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

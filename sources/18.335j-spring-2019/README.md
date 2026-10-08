@@ -10,4 +10,6 @@
 
 逐周HTML已取week1–10，覆盖全部NLA L2–24。week11访问收到403 Forbidden，停止后续请求；不绕过。其后为非NLA优化/积分/FFT，无需作为本册正文来源。
 
-这是课程原件目录，中文整册仍在整理。[来源清单](../../manifests/numerical-algebra-sources.json)记录原始链接、页数、文件大小、SHA-256及权利说明。
+中文整册已在[数值线性代数目录](../../subjects/numerical-linear-algebra/)交付。原讲义[来源清单](../../manifests/numerical-algebra-sources.json)记录原始链接、页数、文件大小、SHA-256及权利说明。
+
+考核增补位于assessments/：23份官方PDF，包括四份作业与四份答案、八份期中试卷及七份答案。2009无官方答案。共15道作业大题与29道考试大题、60个考试显式子问；作业纸29个叶槽中11处仅引用外部教材，原教材完整题面未取得。逐题冻结见[question-inventory.json](assessments/question-inventory.json)，来源、原学期及哈希见[source-manifest.json](assessments/source-manifest.json)。PS1题2/3答案PDF指向官方notebook；外部MIT教师仓库原件未见独立根许可，仅保留链接与核对哈希，两个本地notebook由.gitignore排除。已取得的MIT OCW原PDF按上述许可及用户Public授权保留原署名公开；既有两份第三方权利保留PDF继续排除。

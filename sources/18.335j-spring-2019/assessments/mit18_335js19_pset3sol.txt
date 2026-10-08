@@ -1,0 +1,262 @@
+18.335 Problem Set 3 Solutions
+Problem 2: QR and orthogonal bases (10+(5+5+5) points)
+ (a) Trefethen, problem 10.4:
+
+       (i) e.g. consider θ = π/2 (c = 0, s = 1): Je1 = −e2 and Je2 = e1 , while Fe1 = e2 and Fe2 = e1 .
+           J rotates clockwise in the plane by θ . F is easier to interpret if we write it as J multiplied
+           on the right by [−1, 0; 0, 1]: i.e., F corresponds to a mirror reﬂection through the y (e2 ) axis
+           followed by clockwise rotation by θ . More subtly, F corresponds to reﬂection through a mirror
+           plane corresponding to the y axis rotated clockwise by θ /2. That is, let c2 = cos(θ /2) and
+           s2 = cos(θ /2), in which case (recalling the identities c22 − s22 = c, 2s2 c2 = s):
+                                                                                          
+               c 2 s2         −1 0           c2 −s2           −c2 s2            c2 −s2          −c s
+                                                         =                                    =         = F,
+              −s2 c2           0 1           s2 c2             s2 c2            s2 c2            s c
+
+          which shows that F is reﬂection through the y axis rotated by θ /2.
+      (ii) The key thing is to focus on how we perform elimination under a single column of A, which we
+           then repeat for each column. For Householder, this is done by a single Householder rotation.
+           Here, since we are using 2 × 2 rotations,
+                                                 we  have to eliminate
+                                                                        under
+                                                                               a column one number at a
+                                                   a                kxk2
+           time: given 2-component vector x =          into Jx =           , where J is clockwise rotation
+                                                   b                 0
+           by θ = tan−1 (b/a) [or, on a computer, atan2(b, a)]. Then we just do this working “bottom-up”
+           from the column: rotate the bottom two rows to introduce one zero, then the next two rows to
+           introduce a second zero, etc.
+     (iii) The ﬂops to compute the J matrix itself are asymptotically irrelevant, because once J is com-
+           puted it is applied to many columns (all columns from the current one to the right). To multiply
+           J by a single 2-component vector requires 4 multiplications and 2 additions, or 6 ﬂops. That
+           is, 6 ﬂops per row per column of the matrix. In contrast, Householder requires each column x
+           to be rotated via x = x − 2v(v∗ x). If x has m components, v∗ x requires m multiplications and
+           m − 1 additions, multiplication by 2v requires m more multiplications, and then subtraction from
+           x requires m more additions, for 4m − 1 ﬂops overall. That is, asymptotically 4 ﬂops per row per
+           column. The 6 ﬂops of Givens is 50% more than the 4 of Householder.
+
+          The reason that Givens is still considered interesting and useful is that (as we shall see in the
+          next problem set), it can be used to exploit sparsity: because it rotates only two elements at a
+          time in each column, from the bottom up, if a column ends in zeros then the zero portion of the
+          column can be skipped.
+
+ (b) If A = QR, then B = RQ = Q∗ AQ = Q−1 AQ is a similarity transformation, and hence has the same
+     eigenvalues as shown in the book. Numerically (and as explained in class and in lecture 28), doing
+     this repeatedly for a Hermitian A (the unshifted QR algorithm) converges to a diagonal matrix Λ
+     of the eigenvalues in descending order. To get the eigenvectors, we observe that if the Q matrices
+     from each step are Q1 , Q2 , and so on, then we are computing · · · Q∗2 Q∗1 AQ1 Q2 · · · = Λ, or A = QΛQ∗
+     where Q = Q1 Q2 · · · . By comparison to the formula for diagonalizing A, the columns of Q are the
+     eigenvectors.
+
+ (c) Trefethen, problem 28.2:
+
+       (i) In general, ri j is nonzero (for i < j) if column i is non-orthogonal to column j. For a tridiagonal
+           matrix A, only columns within two columns of one another are non-orthogonal (overlapping in
+           the nonzero entries), so R should only be nonzero (in general) for the diagonals and for two
+           entries above each diagonal; i.e. ri j is nonzero only for i = j, i = j − 1, and i = j − 2.
+
+                                                      1
+          Each column of the Q matrix involves a linear combination of all the previous columns, by
+          induction (i.e. q2 uses q1 , q3 uses q2 and q1 , q4 uses q3 and q2 , q5 uses q4 and q3 , and so on).
+          This means that an entry (i, j) of Q is zero (in general) only if ai,1: j = 0 (i.e., that entire row
+          of A is zero up to the j-th column). For the case of tridiagonal A, this means that Q will have
+          upper-Hessenberg form.
+      (ii) Note: In the problem, you are told that A is symmetric and tridiagonal. You must also assume
+           that A is real, or alternatively that A is Hermitian and tridiagonal. (The problem clearly intended
+           this, since tridiagonal matrices only arise in the QR method if the starting point is Hermitian.)
+           In contrast, if A is complex tridiagonal with AT = A, the stated result is not true (RQ is not in
+           general tridiagonal, as can easily be veriﬁed using a random tridiagonal complex A in Julia).
+
+          It is sufﬁcient to show that RQ is upper Hessenberg: since RQ = Q∗ AQ and A is Hermitian,
+          then RQ is Hermitian and upper-Hessenberg implies tridiagonal. To show that RQ is upper-
+          Hessenberg, all we need is the fact that R is upper-triangular and Q is upper-Hessenberg.
+
+          Consider the (i, j) entry of RQ, which is given by ∑k ri,k qk, j . ri,k = 0 if i > k since R is up-
+                                                                                                       6 0 only
+          per triangular, and qk, j = 0 if k > j + 1 since Q is upper-Hessenberg, and hence ri,k qk, j =
+          when i ≤ k ≤ j + 1, which is only true if i ≤ j + 1. Thus the (i, j) entry of RQ is zero if i > j + 1
+          and thus RQ is upper-Hessenberg.
+     (iii) Obviously, if A is tridiagonal (or even just upper-Hessenberg), most of each column is already
+           zero—we only need to introduce one zero into each column below the diagonal. Hence, for each
+           column k we only need to do one     2 × 2Givens
+                                                           rotation
+                                                                      or 2 × 2 Householder reﬂection of the
+                                                   ·         •
+           k-th and (k + 1)-st rows, rotating          →         . Each 2 × 2 rotation/reﬂection requires 6
+                                                   ·         0
+           ﬂops (multiping a 2-component vector by a 2 × 2 matrix), and we need to do it for all columns
+           starting from the k-th. However, actually we only need to do it for 3 columns for each k, since
+           from above the conversion from A to R only introduces one additional zero above each diagonal,
+           so most of the rotations in a given row are zero. That is, the process looks like
+           ⎛                     ⎞ ⎛                           ⎞ ⎛                           ⎞ ⎛                    ⎞
+               · ·                         • • •                         · · ·                      · · ·
+           ⎜ · · ·               ⎟ ⎜ 0 • •                     ⎟ ⎜ 0 • • •                   ⎟ ⎜ 0 · · ·            ⎟
+           ⎜                     ⎟ ⎜                           ⎟ ⎜                           ⎟ ⎜                    ⎟
+           ⎜
+           ⎜      ·   · ·        ⎟ ⎜
+                                 ⎟→⎜           ·   ·  ·        ⎟ ⎜
+                                                               ⎟→⎜          0   •   •        ⎟ ⎜
+                                                                                             ⎟→⎜        0   • • •   ⎟
+                                                                                                                    ⎟,
+           ⎜
+           ⎜          · ·   ·    ⎟ ⎜
+                                 ⎟ ⎜               ·  ·  ·     ⎟ ⎜
+                                                               ⎟ ⎜              ·   ·  ·     ⎟ ⎜
+                                                                                             ⎟ ⎜            0 • •   ⎟
+                                                                                                                    ⎟
+           ⎝            · · · ⎠ ⎝                     · · · ⎠ ⎝                     · · · ⎠ ⎝                 · · · ⎠
+                            · ·                          · ·                           · ·                      · ·
+
+          where • indicates the entries that change on each step. Notice that it gradually converts A to
+          R, with the two nonzero entries above each diagonal as explained above, and that each Givens
+          rotation need only operate on three columns. Hence, only O(m) ﬂops are required, compared to
+          O(m3 ) for ordinary QR! [Getting the exact number requires more care that I won’t bother with,
+          since we can no longer sweep under the rug the O(m) operations required to construct the 2 × 2
+          Givens or Householder matrix, etc.]
+
+
+Problem 2: Schur ﬁne (10+15 points)
+ (a) First, let us show that T is normal: substituting A = QT Q∗ into AA∗ = A∗ A yields QT Q∗ QT ∗ Q∗ =
+     QT ∗ Q∗ QT Q∗ and hence (cancelling the Qs) T T ∗ = T ∗ T .
+
+    The (1,1) entry of T ∗ T is the squared L2 norm (k · k22 ) of the ﬁrst column of T , i.e. |t1,1 |2 since
+    T is upper triangular, and the (1,1) entry of T T ∗ is the squared L2 norm of the ﬁrst row of T , i.e.
+    ∑i |t1,i |2 . For these to be equal, we must obviously have t1,i = 0 for i > 1, i.e. that the ﬁrst row is
+
+                                                     2
+       diagonal.
+
+       We proceed by induction. Suppose that the ﬁrst j − 1 rows of T are diagonal, and we want to prove
+       this of row j. The ( j, j) entry of T ∗ T is the squared norm of the j-th column, i.e. ∑i≤ j |ti, j |2 , but this
+       is just |t j, j |2 since ti, j = 0 for i < j by induction. The ( j, j) entry of T T ∗ is the squared norm of the
+        j-th row, i.e. ∑i≥ j |t j,i |2 . For this to equal |t j, j |2 , we must have t j,i = 0 for i > j, and hence the j-th
+       row is diagonal. Q.E.D.
+
+  (b) The eigenvalues are the roots of det(T − λ I) = ∏i (ti,i − λ ) = 0—since T is upper-triangular, the roots
+      are obviously therefore λ = ti,i for i = 1, . . . , m. To get the eigenvector for a given λ = ti,i , it sufﬁces
+      to compute the eigenvector x of T , since the corresponding eigenvector of A is Qx.
+
+       x satisﬁes                                                ⎛                 ⎞⎛     ⎞
+                                                                       T1   u   B      x1
+                                          0 = (T − ti,i I)x = ⎝             0   v∗ ⎠ ⎝ α ⎠ ,
+                                                                                T2     x2
+       where we have broken up T −ti,i I into the ﬁrst i − 1 rows (T1 u B), the i-th row (which has a zero on the
+       diagonal), and the last m − i rows T2 ; similarly, we have broken up x into the ﬁrst i − 1 rows x1 , the i-th
+       row α, and the last m − i rows x2 . Here, T1 ∈ C(i−1)×(i−1) and T2 ∈ C(m−i)×(m−i) are upper-triangular,
+       and are non-singular because by assumption there are no repeated eigenvalues and hence no other t j, j
+       equals ti,i . u ∈ Ci−1 , v ∈ Cm−i , and B ∈ C(i−1)×(m−i) come from the upper triangle of T and can be
+       anything. Taking the last m − i rows of the above equation, we have T2 x2 = 0, and hence x2 = 0 since
+       T2 is invertible. Furthermore, we can scale x arbitrarily, so we set α = 1. The ﬁrst i − 1 rows then give
+       us the equation T1 x1 + u = 0, which leads to an upper-triangular system T1 x1 = −u that we can solve
+       for x1 .
+
+       Now, let us count the number of operations. For the i-th eigenvalue ti,i , to solve for x1 requires
+       ∼ (i − 1)2 ∼ i2 ﬂops to do backsubstitution on an (i − 1) × (i − 1) system T1 x1 = −u. Then to compute
+       the eigenvector Qx of A (exploiting the m − i zeros in x) requires ∼ 2mi ﬂops. Adding these up for
+                                                       m−1                                           4 3
+       i = 1 . . . m, we obtain ∑m    2   3                       3
+                                 i=1 i ∼ m /3, and 2m ∑i=0 i ∼ m , and hence the overall cost is ∼ 3 m ﬂops
+       (K = 4/3).
+
+
+Problem 3: Caches and backsubstitution (5+15 points)
+  (a) For each column of X we get a cache miss to read each entry ri j of the matrix R, an there are roughly
+      m2 /2 of these. For large enough m, where m2  Z, these are no-longer in-cache when the next column
+      is processed (because the entire matrix R is read in for each column before re-using any ri j for the next
+      column) and hence incur new misses on each of the n columns. Hence there are at least m2 n/2, or
+      Θ(m2 n) misses. There are also Θ(m2 n) misses in reading X, but this only change the constant factor.
+      The Θ(mn) misses in reading B (each entry is used exactly once) are asymptotically negligible. [Since
+      Θ(m2 n) does not depend on Z there is no asymptotic beneﬁt from the cache: we have a pessimal
+      cache-oblivious algorithm that achieves the worst case independent of Z.]
+
+  (b) We can solve this problem in a cache-oblivious or cache-aware fashion. I ﬁnd the cache-oblivious
+      algorithm to be more beautiful, so let’s do that. We’ll divide R, X, and B into m2 × m2 blocks for
+      sufﬁciently large m:1
+                                                                        
+                                R11 R12          X11 X12           B11 B12
+                                                             =                 ,
+                                 0 R22           X21 X22           B21 B22
+                                                       m
+   1 If m is not even, then we round as needed: R is   × m2 , R12 is m2 × m2 , R21 is m2 × m2 , and R22 is m2 × m2 ; similarly
+                                                                                                             
+                                                 11     2
+for X and B. These bookkeeping details don’t change anything, though, so it is ﬁne to just assume that m is a power of 2 for simplicity.
+
+
+                                                                   3
+where R11 and R22 are upper-triangular. Now we solve this, analogous to backsubstitution, from
+bottom to top. First, for k = 1, 2, we solve
+
+                                             R22 X2k = B2k
+
+recursively for X2k . Then, for k = 1, 2 we solve
+
+                                        R11 X1k = B1k − R12 X2k
+
+recursively for X1k . We use a cache-optimal
+                                       √     algorithm (from class) for the dense matrix multiplies
+R12 X2k , which requires f (m) ∈ Θ(m3 / Z) misses for each m2 × m2 multiply. The number Q(m) of
+cache misses then satisﬁes the recurrence:
+
+                                  Q(m) = 4Q(m/2) + 2 f (m) + 4m2 ,
+
+where the 4Q(m/2) is for the four recursive backsubsitutions and the 4m2 is for the two matrix
+subtractions B1k − R12 X2k . This recurrence terminates when the problem ﬁts in cache, i.e. when
+2m2 + m2 /2 ≤ Z, at which point only ∼ 3m2 /2 misses are required. (Since we are only interested in
+the asymptotic Θ results, these little factors of 3 and 4 don’t matter much, and I’ll be dropping them
+soon.) Noting that f (m/2) ≈ f (m)/8 , we can solve this recurrence as in class by just plugging it in a
+few times and seeing the pattern:
+
+                Q(m) ≈ 4[4Q(m/4) + 2 f (m)/8 + 4m2 /4] + 2 f (m) + 4m2
+                                                         
+                                                        1
+                           = 42 Q(m/4) + 2 f (m) 1 +        + 4m2 [1 + 1]
+                                                        2
+                                                               
+                                                        1     1
+                           ≈ 43 Q(m/8) + 2 f (m) 1 + + 2 + 4m2 [1 + 1 + 1]
+                                                        2 2
+                           ≈ ···                                         
+                                                            1          1
+                           ≈ 4 Θ[(m/2 ) ] + 2 f (m) 1 + + · · · + k−1 + 4m2 [k]
+                                 k       k 2
+                                                            2        2
+                                    2         3
+                                                √          2
+                           ≈ Θ(m ) + Θ(m / Z) + Θ(m )k
+     h                      i
+where 1 + 12 + · · · + 2k−1
+                         1
+                              ≤ 2 and k is the number of times we have to divide the problem to ﬁt in
+cache, i.e. 3(m/2k )2 /2 ≈ Z so k is Θ[log(m2 /Z)]. Hence, for large m where the m3 term dominates
+over the m2 and m2 log m terms, we obtain
+                                                        √
+                                        Q(m; Z) = Θ(m3 / Z)
+
+and hence we can, indeed, achieve the same asymptotic cache complexity as for matrix multiplication.
+
+We could also get the same cache complexity in a√cache-aware fashion by blocking the problem
+into m/b blocks of size b × b, where b is some Θ( Z) size chosen so that pairwise operations on
+the individual blocks ﬁt in cache. Again, one would work on rows of blocks from bottom to top, and
+the algorithm would look much like the ordinary backsubstitution algorithm except that the numbers
+bi j etcetera are replaced by blocks. The number of misses is Θ(b2 ) = Θ(Z) per block, and there
+                                                   2                  √
+are Θ( mb × mb × nb ) block operations, hence Θ( mb3n × b2 ) = Θ(m2 n/ Z) misses. This is a perfectly
+acceptable answer, too.
+
+
+
+
+                                                4
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.335J Introduction to Numerical Methods
+Spring 2019
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
