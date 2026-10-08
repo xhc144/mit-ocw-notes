@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Finalize the reviewed official source inventory; no remote writes."""
+"""Historical 114-file lecture-only inventory builder; no remote writes."""
 from pathlib import Path
 import json,re,shutil,hashlib,fitz
 ROOT=Path(__file__).resolve().parents[3]; S=ROOT/'sources/ordinary-differential-equations'; Q=ROOT/'subjects/ordinary-differential-equations/review'
+if (S/'coursework/source-manifest.json').exists():
+ raise SystemExit('Historical lecture-only builder cannot overwrite the expanded coursework inventory; use the current verified source manifests.')
 x=json.loads((Q/'source-investigation.json').read_text());entries=[]
 notes={'g':'Graphical and Numerical Methods','c':'Complex Numbers','d':'Definite Integral Solutions','o':'Linear Differential Operators','s':'Stability','ir':'Input-Response Models','i':'Impulse Response and Convolution','lt':'Laplace Transform','ls1':'Review of Linear Algebra','ls2':'Homogeneous Linear Systems','ls3':'Complex and Repeated Eigenvalues','ls4':'Decoupling Systems','ls5':'Theory of Linear Systems','ls6':'Solution Matrices','gs':'Graphing ODE Systems','lc':'Limit Cycles'}
 for a in x['sources']:

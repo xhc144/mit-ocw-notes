@@ -42,7 +42,9 @@ with fitz.open(args.pdf) as doc:
             fonts.append({'name': name, 'embedded': bool(data), 'bytes': len(data)})
             if not data:
                 issues.append(f'Unembedded font: {name}')
-    first_body_page = toc[0][2] if toc else 1
+    first_body_page = next((page for level, label, page in toc
+                            if level == 1 and label.lstrip().startswith('1 ')),
+                           toc[0][2] if toc else 1)
     toc_links = [x for x in named_destinations if x['source_page'] < first_body_page]
     if len(toc_links) != len(toc) or [x['target_page'] for x in toc_links] != [x[2] for x in toc]:
         issues.append('Contents links do not match the complete outline destinations')
