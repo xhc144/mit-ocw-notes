@@ -13,6 +13,6 @@
 
 每件原 PDF 的实际页数、原始 URL、SHA256、作者及可见版权标记审查，每件官方 TeX ZIP 的成员与哈希，记录于 `source-manifest.json`。在所选原件文字、资源页及 TeX 包内未发现另外明确限制的单件声明；这不保证检测出未标注的所有权。原有图片不复用，原件不在中文源码 ZIP 内。
 
-Herstein 的 Abstract Algebra 与 Judson 的 Abstract Algebra: Theory and Applications 属外部教材。作业中的教材定位仅保留引用；未获取教材文件，未凭题号补造未公开题面，未复制教材页面。中文册仅重述官方作业单已经公开的数学条件并标注教材出处。
+Herstein 的 Abstract Algebra 与 Judson 的 Abstract Algebra: Theory and Applications 属外部教材。原47页中文册的作业教材定位仅保留引用，未凭题号补造未公开题面，未复制教材页面；中文册只重述官方作业单已经公开的数学条件并标注教材出处。Herstein教材仍未获取。后续历史题源核查从作者官方网站取得Judson2012、2013版，其原件只在来源目录，原件明确采用GFDL 1.2或后续版本，无不变章节及封面/封底文字，完整许可证随原PDF保留。它们不受本文件的CC BY-NC-SA条件约束，不在中文源码ZIP内。新版第49题与2012版不同，未将其猜作课程原题；四个稳定题的译题附录仍待确定符合GFDL的交付形式，未混入现47页PDF或改标为NC-SA。
 
 字体不随源码分发；重编所需字体与 TeX 软件分别遵循各自许可。

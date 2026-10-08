@@ -20,4 +20,4 @@ MIT 公开讲义中文重构本，最终 PDF **47 页**。正文定义、定理�
 
 解压源码 ZIP 后进入 `abstract-algebra/`，运行 `bash build.sh`。需要 XeLaTeX、ctex、amsmath、amsthm、fontspec、TikZ、booktabs、longtable 等常用 TeX Live 包，以及 Fandol 中文字体和 Computer Modern Unicode 字体（`cmunrm.otf` 等）。模板类嵌在 `main.tex` 中；不依赖仓库其他科目，不需要网络或 shell escape，不分发字体。脚本运行三轮，生成 `dist/main.pdf`。当前执行环境的本地 TeX 树和字体缓存通过环境变量提供，具体验证命令见 QA；这不是源码包对绝对路径的依赖。
 
-默认许可与署名见 [LICENSE.md](LICENSE.md)。外部 Herstein/Judson 教材未获取或打包，官网引用不构成其整本教材的授权。
+默认许可与署名见 [LICENSE.md](LICENSE.md)。Herstein 教材未获取或打包。初版未获取 Judson 教材；后续已从作者官网归档2012、2013历史版作题源核查，原件仅在 `sources/abstract-algebra/`，仍不在中文源码包内。五个 J 引用中四题跨版稳定，一题版本冲突；完整结果与GFDL交付边界见 [历史题源核查](qa/JUDSON-SOURCE-CHECK.md)。官网引用不构成替外部教材更换许可的授权，现有47页PDF未因题源核查改变。
