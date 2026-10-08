@@ -38,7 +38,7 @@ MIT OCW 默认许可为 **Creative Commons Attribution-NonCommercial-ShareAlike 
 - 官方法律文本：<https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.txt>，本地原样副本为 [CC-BY-NC-SA-4.0.txt](licenses/CC-BY-NC-SA-4.0.txt)。
 - OCW 使用条款：<https://ocw.mit.edu/pages/privacy-and-terms-of-use/>；实际网页快照保存于主课 `html/privacy-and-terms-of-use.html`。
 - 译编中的翻译、改写、重新排序、数学勘误、证明补全、题解、例子与考纲补充均在正文或研究记录中标明，中文改编部分采用相同的 CC BY-NC-SA 4.0 许可。
-- 私有仓库不免除署名、非商业、相同方式共享要求。MIT 名称仅用于来源署名，不使用 MIT 标志，也不暗示认证或认可。
+- 公开归档须继续满足署名、非商业、相同方式共享要求。MIT 名称仅用于来源署名，不使用 MIT 标志，也不暗示认证或认可。
 
 ## 第三方材料与明确范围
 
@@ -68,3 +68,11 @@ MIT OCW 默认许可为 **Creative Commons Attribution-NonCommercial-ShareAlike 
 连同18.901新增G，修订新增14份PDF共77物理页；原版13份PDF67页全部保留，总计27份PDF144页。归档范围与中文采用范围分别记录在[修订覆盖表](../research/revision-source-coverage.md)。原件图像仅保留在其官方PDF内；中文几何图由TikZ重新绘制，不复制原网站课程图片。
 
 本次实际读取的官方第三方材料FAQ：[How is “all rights reserved” content different from the rest of OCW content?](https://mitocw.zendesk.com/hc/en-us/articles/4414756181403-How-is-all-rights-reserved-content-different-from-the-rest-of-OCW-content)，快照位于`licenses/ocw-third-party-faq.html`及对应文本。FAQ区分 Used with permission（遵循OCW许可并按要求署名）与 All rights reserved（须另向权利人请求许可）。各新增PDF的完整可提取文本与官方资源说明核查未发现 All rights reserved 或单独排除下游重用的页图声明；这项核查不扩张为整个课程所有资源的许可保证。商业教材和未核外部文字、图片仍不归档。
+
+## 官方题面增强版新增原件
+
+- 18.900 所选六讲的CQ各2物理页，共12页，实际原号4+4+5+5+1+3=22题，原作者Paul Seidel；另取第6讲7物理页，只用于CQ31.5所依赖的(6.9)、(6.11)铺砌图，不扩张其他题范围。
+- 18.901 PS5共2物理页，课程James Munkres Fall2004；第一页说明、第二页6空间与3操作的14性质表。中文转录全126格，解答均为编者补充。PS0—4及weekly只有教材题号，未复制或推测商业教材题面。
+- 本次新归档8份PDF21物理页；连同旧原件，共35份PDF165物理页。官方各课Syllabus、可用Calendar、Assignments和必要署名页亦原样归档，课程安排互不合成。原件和许可保留；新题面、图形与解答的实际覆盖见research/assignment-source-coverage.md。
+- 新8份PDF的全部文本及题面/依赖图核查未发现单独的All rights reserved或第三方图署名排除声明；范围仅限列入清单的实际文件。几何图由自包含TikZ代码重绘，课程首页图片不复制。
+- 新源码ZIP按实际编译依赖只收中文TeX、必要图形代码和许可/来源清单；英文PDF、HTML、提取文本、审稿及成品PDF留仓库，均不重复装包。

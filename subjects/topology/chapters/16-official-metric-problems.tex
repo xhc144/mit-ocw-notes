@@ -1,0 +1,231 @@
+\originalchapter{度量空间原课程习题}\label{ch:official-metric}
+\emph{题面来自 Paige Bright, MIT OCW 18.S190 Introduction to Metric Spaces, IAP 2023 的三份 Problem Set. 每份原件为2页题目及1页OCW署名页. 以下保留24道原编号大题, 包括全部选做题和33个显式末级子问; 解答均为中文编者补充, 不是MIT发布的标准答案.}
+
+前15章的58道编者练习不计作原课程作业. 有些原题已在正文中完整证明, 此处给出中文题面、准确的证明链接及所需应用, 避免再抄一遍同一论证. 原件中的错误与记号歧义另作说明, 不把修正版冒充原题.
+
+\originalsection{第一份题单}
+\begin{exercise}\label{ps190:1:1}
+\textbf{PS1第1题.} 在$\R^2$上定义英国铁路距离: 若$x,y,0$共线, 令$d(x,y)=\norm{x-y}_2$; 否则令$d(x,y)=\norm{x}_2+\norm{y}_2$. 证明这是度量, 并解释名称. 原提示是画图并使用欧氏距离.
+\end{exercise}
+\begin{solution}
+距离有限非负、对称, 且$d(x,y)\ge\norm{x-y}_2$, 因而正定. 对三角不等式, 若$x,z,0$共线, 则$d(x,z)=\norm{x-z}_2\le\norm{x-y}_2+\norm{y-z}_2\le d(x,y)+d(y,z)$.
+
+若$x,z,0$不共线, 则$x,z$都非零. 若$y=0$, 三角不等式取等号. 若$y\ne0$, 它不可能同时与$x,0$及$z,0$共线. 两侧都不共线时, $d(x,y)+d(y,z)=\norm{x}_2+2\norm{y}_2+\norm{z}_2\ge d(x,z)$. 只有$x,y,0$共线时, 由$\norm{x}_2\le\norm{x-y}_2+\norm{y}_2$, 得同一不等式; 只有$y,z,0$共线时交换端点. 同一线路上的两点直接行走, 不同线路之间须经过原点这个枢纽, 由此得名.
+\end{solution}
+
+\begin{exercise}\label{ps190:1:2}
+\textbf{PS1第2题.} $d(f,g)=\sup_{x\in[0,1]}|f'(x)-g'(x)|$是否为$C^1([0,1])$上的度量? 若不是, 说明满足哪些公理、违反哪条公理.
+\end{exercise}
+\begin{solution}
+非负、有限、对称, $d(f,f)=0$, 且由逐点三角不等式再取上确界得$d(f,h)\le d(f,g)+d(g,h)$. 但$f=0,g=1$不同而距离为零, 故正定性失败. 更精确地, $d(f,g)=0$当且仅当$f-g$为常数, 这是中值定理的直接推论. 习题\ref{ch:metric:ex-c1}已证明加上$f(0)=0$的条件后, 导数上确界才给出范数.
+\end{solution}
+
+\begin{exercise}\label{ps190:1:3}
+\textbf{PS1第3题.} 证明$d(x,y)=|x-y|/(1+|x-y|)$是$\R$上的度量.
+\end{exercise}
+\begin{solution}
+这正是习题\ref{ch:metric:ex-bounded}对通常实数距离的应用. 该处已逐项核对公理, 关键为递增函数$h(t)=t/(1+t)$满足$h(a+b)\le h(a)+h(b)$; 因而$h(|x-z|)\le h(|x-y|)+h(|y-z|)$.
+\end{solution}
+
+\begin{exercise}\label{ps190:1:4}
+\textbf{PS1第4题.} 原课称半度量为满足非负性、对称性、三角不等式以及$d'(x,x)=0$的函数, 但允许不同点间距离为零. 证明一个度量$d$与一个半度量$d'$之和仍是度量.
+\end{exercise}
+\begin{solution}
+和有限非负且对称, 对角线上为零. 若$x\ne y$, 则$d(x,y)+d'(x,y)\ge d(x,y)>0$. 两个三角不等式相加, 即得$(d+d')(x,z)\le(d+d')(x,y)+(d+d')(y,z)$. 本题的半度量也常称伪度量; 不采用其他文献中不同的同名定义.
+\end{solution}
+
+\begin{exercise}\label{ps190:1:5}
+\textbf{PS1第5题.} 原题写作: 证明$I_t:C^0([a,b])\to C^1([a,b])$连续, 其中$I_t(f)=\int_a^t f(x)\dd x$, $t\in[a,b]$. 原提示说证明与课堂例子相似, 需要调整$\varepsilon$和$\delta$.
+\end{exercise}
+\begin{solution}
+固定$t$时右端是一个实数, 与所写值域不符. 按积分算子的含义, 应理解为$(If)(t)=\int_a^t f(x)\dd x$, 定义域取上确界度量, 值域取$C^1$度量. 习题\ref{ch:metric:ex-integration}已完整证明$If\in C^1$及$\norm{If-Ig}_{C^1}\le(1+b-a)\norm{f-g}_\infty$. 对给定$\varepsilon>0$, 取$\delta=\varepsilon/(1+b-a)$即得连续性. 若确实固定$t$并把值域改为$\R$, 则$|I_t(f)-I_t(g)|\le(b-a)\norm{f-g}_\infty$, 也连续. 两种解释的对象与值域须分别说明.
+\end{solution}
+
+\begin{exercise}\label{ps190:1:6}
+\textbf{PS1第6题(选做).} 设$a_k,b_k\in\R$, $1\le k\le n$.
+\begin{enumerate}[label=(\alph*)]
+\item 当$1<p<\infty$, $1/p+1/q=1$时, 证明H\"older不等式$\sum_k|a_kb_k|\le(\sum_k|a_k|^p)^{1/p}(\sum_k|b_k|^q)^{1/q}$. 原提示是先证$A^tB^{1-t}\le tA+(1-t)B$.
+\item 当$1\le p<\infty$时, 原件实际把左端印为括号内含比较符号的下式:
+\[
+ \left(\sum_k|a_k+b_k|^p\le\sum_k|a_k+b_k|^p\right)^{1/p}
+ \le\left(\sum_k|a_k|^p\right)^{1/p}
+   +\left(\sum_k|b_k|^p\right)^{1/p}.
+\]
+原提示为将$\sum_k|a_k+b_k|^p$控制为$\sum_k|a_k||a_k+b_k|^{p-1}+\sum_k|b_k||a_k+b_k|^{p-1}$, 再用(a).
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 固定$A,B>0$及$0<t<1$, 函数$F(x)=tx+(1-t)B-x^tB^{1-t}$的导数为$t[1-(B/x)^{1-t}]$. 在$x<B$时为负, $x>B$时为正, 故$F(x)\ge F(B)=0$. 取$x=A$即得提示中的不等式; 其中一个数为零时由非负性直接成立.
+
+令$A_0=(\sum|a_k|^p)^{1/p}$, $B_0=(\sum|b_k|^q)^{1/q}$. 若一个为零, 相应全体坐标为零, 所需式成立. 否则对$u_k=|a_k|/A_0$, $v_k=|b_k|/B_0$, 用刚证的式子取$t=1/p$, $A=u_k^p$, $B=v_k^q$, 得$u_kv_k\le u_k^p/p+v_k^q/q$. 求和得$\sum u_kv_k\le1/p+1/q=1$, 乘回$A_0B_0$即得H\"older不等式.
+
+(b) 原式括号内多了一段重复求和与比较符号, 左端并非正常的数值表达式, 属于排印错误. 若按抽取文字把它读作$\sum|a_k+b_k|^p\le(\sum|a_k+b_k|^p)^{1/p}$, 也一般不成立: $n=1,p=2,a_1=2,b_1=0$会给$4\le2$. 正确的Minkowski式应只保留左端的$p$次根, 再与右端两范数之和比较. $p=1$时直接对$|a_k+b_k|\le|a_k|+|b_k|$求和. $p>1$时令$S=(\sum|a_k+b_k|^p)^{1/p}$. 若$S=0$, 结论成立. 否则由原提示和(a), 注意$(p-1)q=p$, 有
+\[
+ S^p\le
+ \left[\left(\sum|a_k|^p\right)^{1/p}
+ +\left(\sum|b_k|^p\right)^{1/p}\right]S^{p-1}.
+\]
+除以$S^{p-1}$即得正确结论. 正定性和齐次性直接由求和式得到, 所以$\ell^p$范数及其诱导距离确实成立; 这补上了第1章明确暂未证明的一般$p$情形.
+\end{solution}
+
+\begin{exercise}\label{ps190:1:7}
+\textbf{PS1第7题(选做).} 对$f,g\in C^\infty([a,b])$, 定义$d_n(f,g)=\sup_{x\in[a,b]}|f^{(n)}(x)-g^{(n)}(x)|$, 其中$f^{(0)}=f$. $n\ge1$时$d_n$是半度量, $d_0$是度量. 证明$d(f,g)=\sum_{n=0}^\infty 2^{-n}d_n(f,g)/(1+d_n(f,g))$是度量. 原课指出这与Fr\'echet空间有关.
+\end{exercise}
+\begin{solution}
+每个导数在闭区间上连续有界, 所以各$d_n$有限. 每项非负且小于$2^{-n}$, 故级数收敛并不超过$2$. 对称性、对角线上为零显然. 若$f\ne g$, 则$d_0(f,g)>0$, 第零项正, 从而$d(f,g)>0$. 习题\ref{ch:metric:ex-bounded}的$h(t)=t/(1+t)$证明只用非负性、单调性和三角不等式, 因而对第三个函数$u$, 有$h(d_n(f,u))\le h(d_n(f,g))+h(d_n(g,u))$, 对半度量也成立. 乘$2^{-n}$, 对有限部分和求和再令截断指标趋于无穷, 得$d$的三角不等式. 此处不进一步声称已证明整个Fr\'echet空间理论.
+\end{solution}
+
+\originalsection{第二份题单}
+本份题单统一设$(X,d)$为度量空间. 原预备说明的$C^0([a,b])$距离为$\max|f-g|$, 范数具有正定性、齐次性与三角不等式, $K\Subset X$表示$K$为紧子集. 若非空实数集$A$有有限上确界$a$, 则对每个$n\ge1$可取$x_n\in A$使$a-1/n<x_n\le a$.
+
+\begin{exercise}\label{ps190:2:1}
+\textbf{PS2第1题.} (1) 若$x_n\to x$, $y_n\to y$, 证明$d(x_n,y_n)\to d(x,y)$. (2) 若$(x_n)$与$(y_n)$都是$X$中的Cauchy序列, 证明实数列$d(x_n,y_n)$收敛, 不得假设两点列已在$X$中收敛. 原提示误写为$|d(a,b)+d(a',b')|\le d(a,a')+d(b,b')$.
+\end{exercise}
+\begin{solution}
+(1) 定理\ref{ch:seq:basic-limits}已证明, 所需估计为$|d(x_n,y_n)-d(x,y)|\le d(x_n,x)+d(y_n,y)\to0$. (2) 命题\ref{ch:seq:cauchy-distance}的完整证明使用$|d(x_n,y_n)-d(x_m,y_m)|\le d(x_n,x_m)+d(y_n,y_m)$: 右端随$m,n$充分大而任意小, 实数完备性给出收敛. 这不要求$X$完备. 原提示的加号应改为减号; 例如$a=a'\ne b=b'$时原左端正而右端为零, 原式不成立.
+\end{solution}
+
+\begin{exercise}\label{ps190:2:2}
+\textbf{PS2第2题.} 证明$A\subseteq X$闭当且仅当$A$中每个在$X$中收敛的序列, 其极限仍属于$A$.
+\end{exercise}
+\begin{solution}
+这是定理\ref{ch:seq:closure-sequences}的闭集判据, 该处已证明双向. 其中逆向的关键是对$x\in\overline A$逐次选$x_n\in A\cap B(x,1/n)$; 点列趋于$x$, 题设给$x\in A$. “在$X$中收敛”须保留, 本题并未断言$A$中的所有序列都收敛.
+\end{solution}
+
+\begin{exercise}\label{ps190:2:3}
+\textbf{PS2第3题.} 设$(f_n)$是$C^0([0,1])$上确界距离下的Cauchy序列.
+\begin{enumerate}[label=(\alph*)]
+\item 固定$x_0\in[0,1]$, 证明$\lim_n f_n(x_0)$存在.
+\item 定义$f(x)=\lim_n f_n(x)$. 证明对每个$\varepsilon>0$, 存在同一个$N$, 使所有$x\in[0,1]$及$n\ge N$满足$|f_n(x)-f(x)|\le\varepsilon$.
+\item 证明$f$在$[0,1]$连续. 原提示插入$f_n(x)$与$f_n(x_0)$, 将差拆为三项.
+\item 用(a)--(c)说明$f_n$作为函数空间中的序列收敛于$f$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+这四步已包含在定理\ref{thm:cb-complete}及推论\ref{cor:c-interval-complete}中, 逐问对应如下. (a) $|f_n(x_0)-f_m(x_0)|\le\norm{f_n-f_m}_\infty$, 故实数列Cauchy, 由$\R$完备得极限. (b) 先取$N$使$m,n\ge N$时$\norm{f_n-f_m}_\infty<\varepsilon$. 固定$n\ge N,x$, 令$m\to\infty$, 得$|f_n(x)-f(x)|\le\varepsilon$; 同一$N$适合全部$x$.
+
+(c) 给定$x_0$与$\varepsilon>0$, 用(b)取某个$n$使$\norm{f-f_n}_\infty\le\varepsilon/4$. 由$f_n$在$x_0$连续, 当$|x-x_0|$足够小时$|f_n(x)-f_n(x_0)|<\varepsilon/4$. 三角不等式给$|f(x)-f(x_0)|<3\varepsilon/4<\varepsilon$. 端点采用相对邻域. (d) 已有$f\in C^0([0,1])$, 对(b)取上确界并令$\varepsilon$任意, 得$\norm{f_n-f}_\infty\to0$. 极限在原空间中, 因而该空间完备.
+\end{solution}
+
+\begin{exercise}\label{ps190:2:4}
+\textbf{PS2第4题.} 设$V$为实赋范空间, $d(x,y)=\norm{x-y}$.
+\begin{enumerate}[label=(\alph*)]
+\item 证明$d(\lambda x,\lambda y)=|\lambda|d(x,y)$.
+\item 证明平移不变性$d(x+z,y+z)=d(x,y)$.
+\item 证明$d$为$V$上的度量, 称为范数诱导的度量.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) $\norm{\lambda x-\lambda y}=\norm{\lambda(x-y)}=|\lambda|\norm{x-y}$. (b) $(x+z)-(y+z)=x-y$, 取范数即得. (c) 完整公理证明见命题\ref{ch:metric:norm-metric}; 正定性来自$x-y=0$当且仅当$x=y$, 对称性用$\norm{-v}=\norm v$, 三角不等式用$x-z=(x-y)+(y-z)$.
+\end{solution}
+
+\begin{exercise}\label{ps190:2:5}
+\textbf{PS2第5题.} 证明度量空间中的开集$U$可表示为任意多个开球的并.
+\end{exercise}
+\begin{solution}
+命题\ref{ch:seq:union-balls}已完整证明此结论: 对每个$x\in U$选$r_x>0$使$B(x,r_x)\subseteq U$, 则$U=\bigcup_{x\in U}B(x,r_x)$. 原文的“任意多个”表示允许无限指标族, 不表示任意预先指定的球族都能覆盖$U$. 空集对应空并.
+\end{solution}
+
+\begin{exercise}\label{ps190:2:6}
+\textbf{PS2第6题(选做).} (a) 原题: 若$K\Subset\R$, 证明$K$有最大值与最小值. (b) 将$\R$上的Heine--Borel定理推广到$\R^n$. 原提示说此证明与课堂证明相似.
+\end{exercise}
+\begin{solution}
+(a) 原题须增加$K\ne\varnothing$: 空集紧却没有最大值或最小值. 对非空紧集, 定理\ref{ch:compact:extreme-values}应用于恒等实函数即得两极值. 也可由紧集闭且有界, 取$s=\sup K$, 用$x_n\in K$且$s-1/n<x_n\le s$, 得$x_n\to s$; 闭性给$s\in K$. 下确界同理. (b) 定理\ref{ch:eucompact:heine-borel}已完整证明$K\subseteq\R^n$紧当且仅当在$\R^n$中闭且有界. 必要性见定理\ref{ch:eucompact:compact-closed-bounded}; 充分性把有界集放进紧闭方盒, 再用命题\ref{ch:eucompact:closed-subset}. 不把这一结论推广到任意度量空间.
+\end{solution}
+
+\begin{exercise}\label{ps190:2:7}
+\textbf{PS2第7题(选做).} 对度量空间之间的映射$f:X\to Y$, 证明$f$连续当且仅当每个$Y$中开集$U$的逆像$f^{-1}(U)$在$X$中开.
+\end{exercise}
+\begin{solution}
+这是定理\ref{ch:seq:preimage}, 该处已给双向完整证明. 正向在$x\in f^{-1}(U)$处取像点周围的小球, 再用连续性取$x$周围映入它的小球; 逆向对$B_Y(f(x),\varepsilon)$的开逆像取包含$x$的小球, 即得$\varepsilon$--$\delta$条件.
+\end{solution}
+
+\begin{exercise}\label{ps190:2:8}
+\textbf{PS2第8题(选做).} 两范数等价指存在常数$C_1>0,C_2$使$C_1\norm{x}_1\le\norm{x}_2\le C_2\norm{x}_1$. 在$\R^n$证明
+\[
+ \norm{x}_\infty\le\norm{x}_2\le\norm{x}_1
+ \le\sqrt n\norm{x}_2\le n\norm{x}_\infty,
+\]
+并说明为何三个范数两两等价. 此处下标$1,2$也分别表示$\ell^1,\ell^2$范数.
+\end{exercise}
+\begin{solution}
+命题\ref{ch:metric:three-norms}已证明前三段以及$\norm{x}_1\le\sqrt n\norm{x}_2$. 最后一段补用$\norm{x}_2^2=\sum_i|x_i|^2\le n\norm{x}_\infty^2$, 开平方并乘$\sqrt n$即可. 特别地, $\norm{x}_\infty\le\norm{x}_2\le\sqrt n\norm{x}_\infty$, $\norm{x}_\infty\le\norm{x}_1\le n\norm{x}_\infty$, $\norm{x}_2\le\norm{x}_1\le\sqrt n\norm{x}_2$. 每一对均有正的有限双边常数, 因而两两等价. 对非零向量, 原定义中的双边式也自动迫使$C_2>0$.
+\end{solution}
+
+\begin{exercise}\label{ps190:2:9}
+\textbf{PS2第9题(选做).} 对任意映射$f:X\to Y$, 若$A\subseteq B\subseteq X$, 证明$f(A)\subseteq f(B)$. 原题末尾另链一个站外讨论, 不是本题的附加题单.
+\end{exercise}
+\begin{solution}
+若$y\in f(A)$, 则存在$a\in A$使$y=f(a)$. 因$a\in B$, 有$y\in f(B)$. 这不需要连续性、单射性或满射性.
+\end{solution}
+
+\originalsection{第三份题单}
+原预备说明定义$A+B=\{a+b:a\in A,b\in B\}$, 以及$\ell^p=\{a=(a_k)_{k\ge1}:\sum_k|a_k|^p<\infty\}$, $1\le p<\infty$, 配范数$\norm{a}_p=(\sum_k|a_k|^p)^{1/p}$. 将习题\ref{ps190:1:6}(b)应用于有限截断再取极限, 得$\norm{a+b}_p\le\norm a_p+\norm b_p$; 这也保证加法留在$\ell^p$中. 正定性、齐次性由级数直接得到, 所以确为赋范空间.
+
+\begin{exercise}\label{ps190:3:1}
+\textbf{PS3第1题.} 若$A\subseteq\R^n$闭, $B\subseteq\R^n$紧, 证明$A+B$闭. 原提示用序列判据; 原课另指出可推广到拓扑向量空间, 此处不要求该推广.
+\end{exercise}
+\begin{solution}
+若有一个集合为空, 和为空, 已闭. 否则设$z_m=a_m+b_m\to z$, $a_m\in A,b_m\in B$. 紧性给子列$b_{m_j}\to b\in B$, 于是$a_{m_j}=z_{m_j}-b_{m_j}\to z-b$. $A$闭给$z-b\in A$, 所以$z=(z-b)+b\in A+B$. 闭集序列判据给结论. 抽子列必须与$z_m$使用同一组下标.
+\end{solution}
+
+\begin{exercise}\label{ps190:3:2}
+\textbf{PS3第2题.} 设$S\subseteq X$, $x\in S$. 称$x$是孤立点, 如果某个$\varepsilon>0$满足$B(x,\varepsilon)\cap S=\{x\}$. 证明$x$孤立当且仅当每个在$S$中趋于$x$的序列$(a_n)$最终恒等于$x$.
+\end{exercise}
+\begin{solution}
+若$x$孤立, 收敛使$a_n$最终落入上述球中, 因而只能等于$x$. 若$x$不孤立, 对每个$n$取$a_n\in B(x,1/n)\cap(S\setminus\{x\})$. 则$a_n\to x$, 却没有一项等于$x$, 与最终恒等条件矛盾. 这是正文聚点序列判据的直接补充, 不是断言一般拓扑空间也有同一序列刻画.
+\end{solution}
+
+\begin{exercise}\label{ps190:3:3}
+\textbf{PS3第3题.} 证明度量空间$X$中有限多个紧子集的并紧.
+\end{exercise}
+\begin{solution}
+这与习题\ref{ch:eucompact:ex-finite-union}的第一问完全相同, 该处有限子覆盖的证明直接适用: 分别给每个紧子集取有限子覆盖, 再合并有限多个有限族. 无需再增加闭性或欧氏空间条件.
+\end{solution}
+
+\begin{exercise}\label{ps190:3:4}
+\textbf{PS3第4题.} 对$1\le p<\infty$, 令$S=\{a\in\ell^p:\norm a_p\le1\}$. 说明$S$闭且有界, 并证明它不紧. 原提示取标准单位向量$e_n=(\delta_{kn})_{k\ge1}$, 说明它没有收敛子列, 再解释与紧性的关系.
+\end{exercise}
+\begin{solution}
+反三角不等式$|\norm a_p-\norm b_p|\le\norm{a-b}_p$说明范数连续, 故$S$为闭区间$[0,1]$的逆像, 是闭集. 每个点到$0$的距离不超过$1$, 所以有界. 又$\norm{e_n}_p=1$, 且$m\ne n$时$\norm{e_n-e_m}_p=2^{1/p}$. 因而任何子列都不Cauchy, 不能收敛. 定理\ref{ch:compact:compact-to-sequential}说明紧度量空间中的每个序列有收敛子列, 故$S$不紧. 第4章的$\ell^2$反例是$p=2$的特例, 不足以单独代替本题全部$p$的证明.
+\end{solution}
+
+\begin{exercise}\label{ps190:3:5}
+\textbf{PS3第5题.} 在上确界度量下, 证明$S=\{f\in C^0([0,1]):\norm f_\infty\le1\}$不紧. 原提示取$f_n(x)=x^n$.
+\end{exercise}
+\begin{solution}
+该反例及完整证明已用于\hyperlink{exercise.8.1}{习题8.1的第二问}; 那里额外要求$f(0)=0$, 这里的同一序列仍全部属于$S$. 若$S$紧, 则$(x^n)$有在上确界距离下收敛的子列$f_{n_j}\to f\in C^0([0,1])$. 逐点极限只能是$0$在$[0,1)$、$1$在$x=1$的函数, 它不连续, 矛盾. 因而$S$不紧. 两题的集合不同, 此处复用的是同一反例与论证.
+\end{solution}
+
+\begin{exercise}\label{ps190:3:6}
+\textbf{PS3第6题.} 对$0<k<1,b\in\R$, 设$f(x)=kx+b$. 证明$f:\R\to\R$是压缩映射, 求不动点并直接证明唯一性.
+\end{exercise}
+\begin{solution}
+$|f(x)-f(y)|=k|x-y|$, 故压缩常数为$k<1$. 方程$x=kx+b$等价于$(1-k)x=b$, 所以唯一解为$x_*=b/(1-k)$. 代入确为不动点, 任何不动点都必须满足同一线性方程, 因而唯一; 不需要借助不动点定理代替本题要求的直接论证.
+\end{solution}
+
+\begin{exercise}\label{ps190:3:7}
+\textbf{PS3第7题(选做, 保留原命题).} 在$\ell^2$中, 原题要求证明$A=\{a=(a_k):|a_k|<k^{-3}\text{ 对每个 }k\ge1\}$是紧子集.
+\end{exercise}
+\begin{solution}
+\textbf{原命题不成立.} 对$m\ge2$, 取$a^{(m)}=(1-1/m)e_1$. 每个坐标均满足严格不等式, 故$a^{(m)}\in A$, 但$\norm{a^{(m)}-e_1}_2=1/m\to0$, 而$e_1\notin A$. 因而$A$在$\ell^2$中不闭, 由紧集必闭知它不紧.
+
+\textbf{编者修正版.} 把每个$<$改为$\le$, 令$\widehat A=\{a\in\ell^2:|a_k|\le k^{-3}\text{ 对每个 }k\ge1\}$, 则$\widehat A$紧. 为完整证明, 取其中任意序列$(a^{(m)})$. 每个固定坐标都在紧区间$[-k^{-3},k^{-3}]$中, 逐坐标抽子列, 再取对角子列$a^{(m_j)}$, 使每个坐标趋于$a_k$, 仍有$|a_k|\le k^{-3}$. 因$\sum k^{-6}<\infty$, 有$a\in\ell^2$且$a\in\widehat A$.
+
+给定$\varepsilon>0$, 先取$N$使$4\sum_{k>N}k^{-6}<\varepsilon^2/2$. 对充分大的$j$, 前$N$个坐标的差平方和小于$\varepsilon^2/2$. 尾部利用$|a_k^{(m_j)}-a_k|\le2k^{-3}$, 得$\norm{a^{(m_j)}-a}_2^2<\varepsilon^2$. 所以对角子列在$\ell^2$中收敛, $\widehat A$序列紧, 由定理\ref{ch:compact:sequential-to-compact}得紧. 只给各坐标有界不能完成论证, 统一尾部控制是关键.
+\end{solution}
+
+\begin{exercise}\label{ps190:3:8}
+\textbf{PS3第8题(选做, 保留原命题).} 考虑形如$\sum_n a_ne^{inx}$的函数, 其中$|a_n|<(1+|n|)^{-2}$. (a) 证明每个函数属于$C^0([0,2\pi])$. (b) 原题要求证明这个函数集在$C^0([0,2\pi])$中紧.
+\end{exercise}
+\begin{solution}
+原件未标求和指标的范围, 又使用复指数. 以下明确采用$n\in\mathbb Z$和复值连续函数的通常解释, 配上确界距离. 若只取$n\ge0$, 同一证明仍适用; 若要求实值, 需加$a_{-n}=\overline{a_n}$, 以下反例及修正也仍适用. 这是解释题面所需的记号说明, 不是将它悄悄改成另一题.
+
+(a) 令$M_n=(1+|n|)^{-2}$. 因$\sum_{n\in\mathbb Z}M_n<\infty$, 对称有限部分和的任意尾部的上确界不超过相应$\sum M_n$的尾部. 因而级数一致收敛: 逐点在完备的$\mathbb C$中取得极限后, 同一尾部估计给一致收敛. 有限和连续, 一致极限仍连续, 可分别对实部、虚部应用第5章的一致极限证明. 所得函数还以$2\pi$为周期.
+
+(b) \textbf{严格不等式下不紧.} 常数函数$f_m=1-1/m$, $m\ge2$, 取$a_0=1-1/m$, 其余系数为零, 全部满足原条件. 它们一致趋于常数$1$, 但$1$不在原函数集. 为避免假定级数表示天然唯一, 对任一满足系数界的表示, 利用一致收敛逐项积分得$a_0=(2\pi)^{-1}\int_0^{2\pi}f(x)\dd x$, 因非零整频率的积分为零. 若$f=1$, 必有$a_0=1$, 违反$|a_0|<1$. 所以原集不闭, 从而不紧.
+
+\textbf{编者修正版.} 令$\widehat S$为满足$|a_n|\le M_n$的同类级数全体. 每个级数由(a)连续. 给定$\widehat S$中的函数序列$f_m$, 为每个选取一组满足界的系数$a_n^{(m)}$. 枚举可数集$\mathbb Z$, 在每个系数的紧复圆盘中逐次抽子列并取对角子列, 得$a_n^{(m_j)}\to a_n$对每个$n$成立, 且$|a_n|\le M_n$. 令$g=\sum_n a_ne^{inx}\in\widehat S$.
+
+给定$\varepsilon>0$, 先取$N$使$2\sum_{|n|>N}M_n<\varepsilon/2$. 再取$j$充分大, 使有限和$\sum_{|n|\le N}|a_n^{(m_j)}-a_n|<\varepsilon/2$. 则$\norm{f_{m_j}-g}_\infty\le\sum_{|n|\le N}|a_n^{(m_j)}-a_n|+2\sum_{|n|>N}M_n<\varepsilon$. 因而$\widehat S$序列紧, 再用度量空间序列紧与紧的等价得紧. 实值情形的共轭对称条件在逐坐标极限下保持, 所以同样成立.
+\end{solution}
