@@ -1,0 +1,310 @@
+                       18.S190: Introduction to Metric Spaces
+                                              Lecturer: Paige Bright
+
+                                                        IAP 2023
+
+
+
+5      January 24, 2023
+
+Complete Metric Spaces
+
+1. The Banach Fixed Point Theorem
+In this section of the notes, we focus on examples and theorems that are related to complete metric spaces. These
+topics are very useful to know with very useful applications. Some of the most insightful examples, involve "Lipschitz
+functions".
+
+  Definition 1 (Lipschitz)
+  Let (X, dX ) and (Y, dY ) be metric spaces. A function f : X → Y is called Lipschitz or K-Lipschitz if there exists
+  a K ∈ R such that
+                                    dY (f (x), f (y )) ≤ KdX (x, y )   for all x, y ∈ X.
+
+
+    These functions are sometimes called Lipschitz continuous functions. Why? Well, consider a K-Lipschitz function
+for some K > 0, and let ϵ > 0. Then, choose δ = Kϵ . Hence, when dX (p, q) < δ, we have that
+
+                                            dY (f (p), f (q)) ≤ KdX (p, q) < ϵ.
+
+Therefore, f is continuous. The same is immediately true when K ≤ 0, simply choose δ = 1 and use positive
+definiteness of dY .
+    Lipschitz functions are a key motivator for uniformly continuous functions.
+
+  Definition 2 (Uniform continuity)
+  Let (X, dX ) and (Y, dY ) be metric spaces. Then, f : X → Y is uniformly continuous if for every ϵ > 0 there
+  exists a δ > 0 such that whenever dX (x, y ) < δ, we have dY (f (x), f (y )) < ϵ.
+
+
+Remark 3. You may be wondering what the difference is between uniform continuity and regular continuity. Well
+notice that in the definition of uniform continuity, δ only depends on ϵ and f . In other words, δ does not depend on
+x. We say a function is continuous if it is continuous at every x ∈ X, and thus δ depends on x. This is the difference
+between uniform continuity and regular continuity.
+
+    Notice that a uniformly continuous function is continuous, but the other direction is not necessarily true.
+
+
+                                                              1
+  Theorem 4
+  Let (X, dX ) and (Y, dY ) be metric spaces. Suppose f : X → Y is continuous and X is compact. Then, f is
+  uniformly continuous.
+
+
+Proof: Let ϵ > 0. For each c ∈ X, choose δc such that
+
+                                             dX (x, c) < δc =⇒ dY (f (x), f (c)) < ϵ/2.
+
+We know that such a δc exists as f is continuous. Furthermore, the balls B(c, δc ) cover X and the space X is compact.
+Then, by the Lebesgue Number Lemma, there exists a δ > 0 such that for all x ∈ X, there is a c ∈ X such that
+B(x, δ) ⊂ B(c, δc ).
+    If x, y ∈ X and dX (x, y ) < δ, choose a c ∈ X such that B(x, δ) ⊂ B(c, δc ). Then, y ∈ B(c, δc ) by assumption.
+Therefore, by the triangle inequality,
+                                                                                                    ϵ  ϵ
+                               dY (f (x), f (y )) ≤ dY (f (x), f (c)) + dY (f (c), f (y )) <          + = ϵ.
+                                                                                                    2 2
+
+
+    We discuss one more application of uniform continuity, and then we will move onto another useful application of
+Lipschitz functions.
+
+  Proposition 5
+  If f : [a, b] × [c, d] → R is a continuous function, then g : [c, d] → R defined by
+                                                                   Z b
+                                                         g(y ) =            f (x, y ) dx
+                                                                    a
+
+  is continuous.
+
+
+Proof: Let ϵ > 0. Fix y ∈ [c, d] and let {yn } be a sequence in [c, d] such that yn → y . As we have shown in Lecture
+2, g is continuous if and only if g(yn ) → g(y ). This is what we will show. Firstly, note that as f is continuous on
+[a, b] × [c, d] which is compact, f is uniformly continuous. I.e., there exists a δ > 0 such that given y ′ ∈ [c, d] and
+|y ′ − y | < δ, then |f (x, y ′ ) − f (x, y )| < ϵ for all x ∈ [a, b].
+    Let hn (x) = f (x, yn ) and h(x) = f (x, y ). We have thus shown that hn → h uniformly as n → ∞. Uniform
+convergence implies we can swap limits and integrals, obtaining
+                                   Z b                 Z b                     Z b
+                  lim g(yn ) = lim     f (x, yn ) dx =     lim f (x, yn ) dx =     f (x, y ) dx = g(y ).
+                      n→∞             n→∞    a                     a n→∞                        a
+
+Therefore, g is continuous.
+    We now return back to the usefulness of Lipschitz functions.
+
+  Definition 6 (Contraction)
+  Let (X, dX ) and (Y, dY ) be metric spaces. A mapping f : X → Y is said to be a contraction if it is a k−Lipschitz
+  map for some 0 ≤ k < 1. In other words, there exists a k < 1 such that
+
+                                          dY (f (x), f (y )) ≤ kdX (x, y )          for all x, y ∈ X.
+
+
+
+
+                                                                        2
+  Definition 7 (Fixed point)
+  If f : X → X is a map, x ∈ X is called a fixed point if f (x) = x.
+
+
+   We thus have a useful theorem that follows from these simple definitions.
+
+  Theorem 8 (Banach Fixed Point Theorem)
+  Let (X, d) be a nonempty complete metric space, and f : X → X be a contraction. Then, f has a unique fixed
+  point.
+
+
+Remark 9. Note that this is sometimes called the contraction mapping principle.
+
+Proof: Try to picture this!
+   We want to show that there exists an x ∈ X such that f (x) = x, and then we want to show x is unique. How can
+we find such an x though?
+   Pick some random x0 ∈ X, and define a sequence {xn } such that f (xn ) = xn+1 . Then, by definition, we have that
+
+                        d(xn+1 , xn ) = d(f (xn ), f (xn−1 )) ≤ kd(xn , xn−1 ) ≤ · · · ≤ k n d(x1 , x0 ).
+
+We will show that {xn } is a Cauchy sequence.
+
+Question 10. What good does this do? What property of the theorem will we use here?
+
+   Suppose m ≥ n. Then,
+                                                             m−1
+                                                             X
+                                             d(xm , xn ) ≤         d(xi+1 , xi )
+                                                             i=n
+                                                             m−1
+                                                             X
+                                                         ≤         k i d(x1 , x0 )
+                                                             i=n
+                                                                             m−n−1
+                                                                              X
+                                                         = k n d(x1 , x0 )                ki
+                                                                               i=0
+                                                                             ∞
+                                                                             X
+                                                         ≤ k n d(x1 , x0 )           ki
+                                                                             i=0
+                                                            kn
+                                                         =     d(x1 , x0 ).
+                                                           1−k
+Given 0 ≤ k < 1, as n → ∞, d(xm , xn ) → 0. Therefore, {xn } is a Cauchy sequence, and thus there exists an x such
+that xn → x. We claim that x is a fixed point:
+
+                                      x = f ( lim xn ) = lim f (xn ) = lim xn+1 = x.
+                                             n→∞          n→∞                 n→∞
+
+We also claim that x is unique. Suppose that y is also a fixed point of f . Then,
+
+                              d(x, y ) = d(f (x), f (y )) ≤ kd(x, y ) =⇒ (1 − k)d(x, y ) ≤ 0.
+
+Given 0 ≤ k < 1, it follows that d(x, y ) = 0 =⇒ x = y .
+   Note the following: as stated in Lebl’s book: "The proof is constructive. Not only do we know a unique fixed point
+exists. We also know how to find it" (7.6.1 page 268).
+   We can now consider one key application of the Banach fixed point theorem (that we will motivate afterwards).
+
+
+                                                                3
+  Example 11
+  Let λ ∈ R, f , g ∈ C 0 ([a, b]), and k ∈ C 0 ([a, b] × [a, b]). Then, consider the operator T : C 0 ([a, b]) → C 0 ([a, b])
+                                                                         Z b
+                                          T (f )(x) = g(x) + λ                 k(x, y )f (x) dx.
+                                                                          a
+
+  For which λ is T a contraction?
+
+
+Remark 12. T (f )(x) is continuous by Proposition 5.
+
+   Given that k is continuous on a compact set, k is bounded. Thus, there exists a c such that
+
+                                                 |k(x, y )| ≤ c ∀x, y ∈ [a, b].
+
+Then, we have
+
+                             d(T (f1 ), T (f2 )) = sup |T (f1 )(x) − T (f2 )(x)|
+                                                 x∈[a,b]
+                                                               Z b
+                                              = |λ| sup              k(x, y )(f1 (x) − f2 (x)) dx
+                                                     x∈[a,b]    a
+                                                               Z b
+                                              ≤ |λ| sup              |k(x, y )||f1 (x) − f2 (x)| dx
+                                                     x∈[a,b]    a
+                                                                                                 Z b
+                                              ≤ |λ| sup |f1 (x) − f2 (x)| sup                          |k(x, y )| dx
+                                                     x∈[a,b]                           x∈[a,b]    a
+
+                                              ≤ c|λ|(b − a)d(f1 , f2 ).
+
+                       1
+Therefore, if |λ| < c(b−a) , it follows that T is a contraction on a complete metric space. Thus, by the Banach fixed
+point theorem, there exists a unique f ∈ C 0 ([a, b]) such that
+                                                                               Z b
+                                      T (f )(x) = f (x) = g(x) + λ                   k(x, y )f (y ) dy .
+                                                                                a
+
+This occasionally arises from an initial value problem (a differential equation)! See Picard Iteration and Picard’s
+theorem from Lebl Section 7.6.2.
+   Notice that this is essentially the same as our motivating question– just, suppose that g(x) here is a constant. So
+we have seen how the contraction mapping principle implies nice results for the study of differential equations! Here,
+Cauchy completeness of C 0 ([a, b]) gives us that f is C 0 ([a, b]), and the contraction mapping principle above gives us
+that f is in fact C 1 ([a, b]) if g(x) ∈ C 1 ([a, b]), which allows us to know there exists a solution to (some) integral
+operators and thus (some) differential equations!
+
+Remark 13. Note that this same proof would work if k was a continuous function on [a, b] × [a, b]– i.e. k can depend
+on other parameters if we really wanted it to!
+
+Remark 14. 18.152 goes more into detail on some of these ideas. I’d highly recommend taking this class if you like
+this type of problem!
+
+
+
+
+                                                                     4
+2. Completions of Metric Spaces
+Let’s think back, for a minute, to where we started our study of real analysis: the rational numbers. In particular,
+the rational numbers had flaws. For instance, there were numbers that represented real life quantities that weren’t
+                                       √
+rational (i.e. the classical example of 2 being the hypotenuse of a 1 × 1 right triangle). To amend this, we simply
+defined the real numbers as filling in these "holes". You might’ve seen this a few ways:
+  1. through a rigorous study of Dedekind cuts (see Rudin’s Chapter 1 Appendix),
+
+  2. through the least upper bound property,
+
+  3. or through equivalence classes of Cauchy sequences.
+This last possibility will be the one I am interested in discussing today.
+
+  Definition 15
+  We call two Cauchy sequences in a metric space equivalent if the distance between them with respect to the
+  metric tends to zero.
+
+
+Remark 16. The fact that this is an equivalence relation I leave you to check.
+
+   By simply adding in the limit points of these Cauchy sequences, we fill in the holes in the metric space! When this
+came to the rational numbers, this led to the real numbers. However, completions of metric spaces always exist.
+
+  Theorem 17
+  Every metric space M with fixed metric has a unique metric space M (with respect to the metric) such that
+      •   M ⊂ M,
+
+      •   the metric on M restricts to the metric on M,
+
+      •   M is Cauchy complete, and the closure of M is M.
+  M is called the completion of M.
+
+
+   The proof of this fact is relatively short, but is powerful. First, I need to note the following Lemma:
+
+  Lemma 18
+  For any metric space M, the space of all bounded continuous functions
+
+                            C∞ (M) = {f : M → R | f is continuous and sup |f (m)| < ∞}
+                                                                             m∈M
+
+  is a metric space with metric
+                                             d ∞ (f , g) = sup |f (m) − g(m)|.
+                                                          m∈M
+
+  In fact, it is Cauchy complete.
+
+
+   The proof of this fact, I leave you to work out yourself. The proof that it is a metric is basically the same as for
+continuous functions on a bounded interval, simply noting that now we know the extreme value exists by boundedness.
+Furthermore, the proof of Cauchy completeness is basically the same as the proof on your second problemset.
+   The real interesting part is how we use this to prove the existence of the completion of a metric space.
+
+                                                             5
+Proof. We start by mapping M to a subset of C∞ (M). Choose a point m′ ∈ M and consider the map
+
+                                        M ∋ m 7→ gm (p) = d(p, m) − d(p, m′ ).
+
+Notice then that 1) this map is bijective and 2)
+
+                                 d(m1 , m2 ) = sup |gm1 (p) − gm2 (p)| = d ∞ (gm1 , gm2 ).
+                                               p∈M
+
+This means that the map is isometric (you can think of this as just preserving distances), and what this allows us to
+do is view M as a subset (say, M ′ ) of C∞ (M).
+   Now, we can consider the closure of M ′ . Recall that a closed subset of a complete metric space is complete itself,
+so the closure of M ′ (denoted M ′ ) is Cauchy complete! By the isometry described above, this implies that there exists
+the completion of the metric space M.
+
+   When we first discussed this notion in real analysis, we used the standard Euclidean distance from absolute values to
+define the Cauchy sequences tending to zero, but we can of course put other metrics on our spaces! For instance, there
+is a p-adic metric one can put on the rationals that leads to the p-adic numbers. For more, see here. Furthermore, we
+can complete normed spaces to end up with Banach spaces (Cauchy complete normed spaces), and similarly complete
+inner product spaces to end up with what is known as Hilbert spaces. We will talk more about these applications in
+the next lecture.
+
+
+
+
+                                                            6
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+18.S190 Introduction to Metric Spaces
+Independent Activities Period (IAP) 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

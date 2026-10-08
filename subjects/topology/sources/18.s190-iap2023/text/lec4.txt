@@ -1,0 +1,250 @@
+                       18.S190: Introduction to Metric Spaces
+                                               Lecturer: Paige Bright
+
+                                                         IAP 2023
+
+
+
+4      January 19, 2023
+
+Compact Metric Spaces
+Last time, we showed that a set in Rn is sequentially compact if and only if it is topologically compact, by showing
+                                                                        Heine-Borel
+                   sequentially compact ⇐⇒ closed and bounded             ⇐⇒          topologically compact.
+
+However, by the previous remark, we don’t have Heine-Borel for arbitrary metric spaces. Which begs the question: is
+sequentially compact the same as topologically compact in metric spaces? The answer is yes. To prove this, we first
+show a handful of preliminary results.
+
+  Lemma 1 (Lebesgue Number Lemma)
+  Let (X, d) be a sequentially compact metric space and {Ui }i∈I be an open cover of X. Then, there exists an r > 0
+  such that for each x ∈ X, Br (x) ⊆ Ui for some i ∈ I.
+
+
+Proof: Before proving this, try to visualize the result!
+    We prove this lemma through contradiction. Assume that for some r > 0 there exists an x ∈ X (possibly depending
+on r ) such that for each i ∈ I, Br (x) ̸⊆ Ui . Consider the sequence {xn }n in X such that B1/n (xn ) ̸⊆ Ui for all i ∈ I.
+    Given that X is sequentially compact, {xn } has a convergent subsequence {xnk }k . Let xnk → x ∈ X. Given that
+{Ui } is an open cover of X, there exists a Ui0 such that x ∈ Ui0 . Given Ui0 is open, it also follows that there exists an
+r0 such that Br0 (x) ⊆ Ui0 . Hence, choose N large enough such that d(x, xN ) < r20 and N1 < r20 . Then, if y ∈ B1/N (xN ),
+then
+                                           d(x, y ) ≤ d(x, xN ) + d(xN , y ) < r0 .
+
+Therefore, y ∈ Br0 (x) ⊆ Ui0 . Hence,
+                                                  B1/N (xN ) ⊆ Br0 (x) ⊆ Ui0
+
+which is a contradiction.
+    We call this r the Lebesgue number of the open cover of X, which is useful in other applications.
+
+  Definition 2
+  A metric space X it totally bounded if, for every ϵ > 0, there exists x1 , x2 , . . . , xk ∈ X with k finite such that
+  {Bϵ (xi ) | 1 ≤ i ≤ k} is an open cover of X.
+
+
+
+
+                                                              1
+  Lemma 3
+  A metric space X being sequentially compact implies that X is totally bounded.
+
+
+Proof: Assume that X is sequentially compact and not totally bounded. Therefore, there exists an ϵ > 0 such that
+X cannot be covered by a collection of open sets of only finitely many ϵ-balls. Hence, let x1 ∈ X, x2 ∈ X \ Bϵ (x1 ),
+then x3 ∈ X \ Bϵ (x1 ) \ Bϵ (x2 ) and so on. We know that there exists such xi by the previous statement. Hence, for
+all i ̸= j, d(xi , xj ) ≥ ϵ. Therefore, {xn }n has no convergent subsequence as if there was a convergent subsequence it
+would be Cauchy, and the previous line shows that no subsequence of {xn } will be Cauchy. This is a contradiction to
+X being sequentially compact.
+
+  Theorem 4
+  A metric space X is (topologically) compact if and only if X is sequentially compact.
+
+
+   Proof: We first show that sequentially compact implies topologically compact, applying the two lemmas developed
+thus far. Let X be sequentially compact and let {Ui }i∈I be an open cover of X. By the Lebesgue number lemma,
+there exists an r > 0 such that for each x ∈ X, Br (x) ⊂ Ui for some i ∈ I. Furthermore, by Lemma 5, X is totally
+bounded. Hence, there exists y1 , . . . , yk ∈ X such that
+
+                                                X ⊂ Br (y1 ) ∪ · · · ∪ Br (yk ).
+
+However, for each i ∈ I, we have Br (yi ) ⊂ Uj(i) for some j(i ) ∈ I. (This notation just means for each i , there exists a
+j ∈ I which depends on i such that Br (yi ) ⊆ Uj .) Thus, {Uj(1) , . . . , Uj(k) } is a finite subcover for X. Therefore, every
+open cover of X has a finite subcover, and thus sequentially compact implies topologically compact.
+   We now prove the other direction. Assume for the sake of contradiction there there exists a sequence {xn }n in X
+with no convergent subsequence. Notice that no term in the sequence can appear infinitely many times, as otherwise
+there would be a trivial subsequence of {xn }. Hence, we assume without loss of generality that xi ̸= xj if i ̸= j.
+Furthermore, notice then that for every n there exists an ϵn > 0 such that Bϵn (xn ) contains no other terms in the
+sequence. If this wasn’t the case, then there would again be a convergent subsequence of {xn }n . Therefore, for each
+i , there exists an open ball Ui centered at xi such that xj ∈
+                                                             / Ui for all i ̸= j.
+   Additionally, consider U0 = X \ {xn | n ∈ N}. U0 is open, as U0c = {xn | n ∈ N} is closed (it contains all of it’s limit
+points). Hence,
+                                                     U0 ∪ {Un | n ∈ N}
+
+is an open cover of X. However, this open cover has no finite subcover as any finite collection of the cover will fail to
+include infinitely many terms from the sequence {xn }n . This is a contradiction, and thus topologically compact implies
+sequentially compact.
+
+Remark 5. Notice that we technically could’ve used this proof in the previous lecture, but the Heine-Borel Theorem
+is so vastly important that I decided to do that proof before today’s lecture.
+
+   We will now start to look at some illuminating applications of compact sets to reach an even more powerful theorem.
+
+  Recall 6
+  Let X, Y be metric spaces and f : X → Y be a continuous function. Then, for all U open in Y , f −1 (U) is open in
+  X.
+
+
+
+                                                               2
+  Theorem 7
+  Let X, Y be metric spaces and f : X → Y be continuous. Given K ⋐ X, f (K) ⊂ Y is compact.
+
+
+Proof: Let {Ui }i∈I be an open cover of f (K). Then, define Vi = {f −1 (Ui )}i∈I , which is open as f is continuous.
+Therefore, {f −1 (Ui )}i∈I is an open cover of K. Hence, there exists a finite subcover {Vi1 , . . . Vik } of K as K is compact.
+Thus, {Ui1 , . . . Uik } = {f (Vi1 ), . . . , f (Vik )} is a finite subcover of f (K). Therefore, f (K) is compact.
+
+  Corollary 8
+  Let X be a metric space and K ⋐ X. Then, given a continuous function f : X → R, f obtains a maximum and
+  minimum finite value on K.
+
+
+Proof: The proof follows from the previous theorem, a problem on PSET 2.
+
+  Corollary 9
+  Sometimes in particular we want to study bounded continuous functions, and the previous corollary gives us a nice
+  property. Given a compact metric space X, every continuous function on f is bounded.
+
+
+Proof: Follows immediately.
+
+  Theorem 10 (Cantor’s Intersection Theorem)
+  If K1 ⊃ K2 ⊃ K3 ⊃ . . . is a decreasing sequence of nonempty sequentially compact subsets of Rn , then
+                                                                                                                      T
+                                                                                                                       i≥1 Ki
+  is non-empty.
+
+
+Proof: Choose a sequence {an }n such that an ∈ Kn for each n. We know that there exists such an an as each Kn
+is nonempty. Then, {an }n is a sequence in K1 , and thus there exists a convergent subsequence {ank }k such that
+ank → a ∈ K1 . Furthermore, {an }∞n=2 is a sequence in K2 , and thus contains a a convergent subsequence. Therefore,
+                                                                          T
+a ∈ K2 . Continuing this process, we get that a ∈ Ki for all i . Thus, a ∈ i≥1 Ki .
+
+  Definition 11 (Finite Intersection Property)
+  A collection of closed sets {Ci }i has the finite intersection property if every finite subcollection has a nonempty
+  intersection.
+
+
+    Given Lemma 3 and the Cantor Intersection Theorem, it is clear that there are some relations between compact
+sets, nonempty intersections of sets, and totally bounded sets. We hence show the following theorem.
+
+  Theorem 12
+  Given a metric space (X, d), the following are equivalent.
+    (1) X is compact.
+
+    (2) X is sequentially compact.
+
+    (3) X is Cauchy complete and totally bounded.
+
+    (4) Every collection of closed subsets of X with the finite intersection property has a non-empty intersection.
+
+
+
+                                                                  3
+We have shown (1) ⇐⇒ (2), and thus we show (1) ⇐⇒ (4) and (2) ⇐⇒ (3) to finish the proof.
+   Proof: (1) =⇒ (4): Assume for the sake of contradiction that there exists a collection of closed subsets {Ci }i∈I
+with the finite intersection property such that i∈I Ci = ∅. Given Ci is closed in X for all i , Ui = Cic is open in X for
+                                               T
+
+each i . Then,                                                                            !c
+                                              [            [                  \
+                                                    Ui =         Cic =               Ci          = ∅c = X.
+                                              i∈I          i∈I                 i∈I
+
+Hence, the Ui cover X. Given X is compact, there exists a finite subcover {Ui1 , . . . , Uik } of X. Thus,
+                                                    k                   k
+                                                                                     !c           k
+                                                                                                                !c
+                                                    [                   \                         \
+                                          X=              Uin =               Uicn         =              Cin        .
+                                                    n=1                 n=1                       n=1
+
+             Tk
+Therefore,    n=1 Cin = ∅ which is a contradiction with the finite intersection property.
+   (4) =⇒     (1): Suppose that {Ui }i∈I is an open cover of X, and let Ci = Uic for each i ∈ I. Assume for the sake of
+contradiction that no finite subset of the Ui covers X. We show that Ci has the finite intersection property. Assume
+for the sake of contradiction that {Cn1 , . . . , Cnk } satisfies Cn1 ∩ · · · ∩ Cnk = ∅. Then,
+                                        k                  k
+                                                                        !c           k
+                                                                                                 !c
+                                        [                  \                         \
+                                              Uni =              Unci        =             Cik        = ∅c = X.
+                                        i=1               i=1                        i=1
+
+This is a contradiction with the assumption that no subset of the Ui covers X. Hence, {Ci }i∈I satisfies the finite
+                                                                           T                  S
+intersection property. Therefore, {Ci }i∈I has non-empty intersection; i.e. i∈I Ci ̸= ∅. Then, i∈I Ui ̸= X, which is a
+contradiction to the Ui being an open cover for X. Thus, every open cover of X has a finite open subcover.
+   (2) =⇒ (3): We have already shown that X being sequentially compact implies totally bounded, and hence we
+only need show that sequentially compact implies Cauchy complete. Let {xn } be a Cauchy sequence in X. Given {xn }
+is a sequence in X, there exists a convergent subsequence {xnk } in X such that xnk → x ∈ X. Let ϵ > 0, and choose
+N such that d(xi , xj ) < ϵ/2 whenever i , j ≥ N. Next, choose nk > N such that d(xnk , x) < ϵ/2. Then,
+
+                                              d(x, xN ) ≤ d(x, xnk ) + d(xnk , xN ) < ϵ.
+
+Thus, xn → x ∈ X as n → ∞. Therefore, every Cauchy sequence in X converges to a point in X. Hence, X is Cauchy
+complete.
+   (3) =⇒ (2): This part of the proof is quite difficult. Consider a sequence {xn }n in X. Given X is totally bounded,
+for every n ∈ N, there exists a finite set of points {y1(n) , . . . , yr(n)
+                                                                                                 (n)               (n)
+                                                                         (n) } such that X ⊂ B (y1 ) ∪ · · · ∪ B (yr (n) ). Define
+                                                                                              1                 1
+                                                                                                                         n   n
+
+
+
+                                                           Sn = {y1(n) , . . . , yr(n)
+                                                                                    (n) }.
+
+
+We want to find a convergent subsequence of {xn }n . We do so by construction. Given S1 is finite, there exists a
+ (1)                      (1)
+yn(1) ∈ S1 such that B1 (yn(1) ) contains infinitely many points from {xn }n . Choose z1 from this ball. Then, given S2 is
+                    (2)                                                            (1)            (2)
+finite, there is a yn(2) such that infinitely many points from {xn }n are in B1 (yn(1) ) ∩ B1/2 (yn(2) ). Choose z2 from this
+                                                                    Tk         (k)
+set. Continue this procedure for each k > 1, selecting a zk from i=1 B 1 (yn(k) ). Then, we show {zn }n is Cauchy. Let
+                                                                                                      k
+
+ϵ > 0. Then, there exists an N ∈ N such that N1 < ϵ. Hence, for all n, m ≥ N,
+
+                                                                                     1
+                                                            d(zn , zm ) <              < ϵ.
+                                                                                     N
+Therefore, by the Cauchy completeness of X, {zn } converges to a point in X.
+
+Remark 13. Where do we use the fact that each ball has infinitely many points? We do in fact use this property in
+
+
+                                                                              4
+the proof. Try to figure out how!
+
+
+
+
+                                    5
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+18.S190 Introduction to Metric Spaces
+Independent Activities Period (IAP) 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

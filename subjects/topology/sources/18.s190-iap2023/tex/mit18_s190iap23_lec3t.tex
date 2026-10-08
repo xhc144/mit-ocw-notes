@@ -1,0 +1,243 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.S190 Introduction to Metric Spaces, Independent Activities Period (IAP) 2023
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\subsection*{Compact Sets in $\R^n$}
+Today, we will first discuss another useful concept tangentially related to metrics (norms), which will then motivate an important concept: compact sets.
+
+Have you heard of a norm in other contexts before? A classic place to first hear of a "norm" is in 18.02 with the \textbf{Euclidean norm}, which defines the length of a vector in $\R^n$. How does this definition fundamentally work? One way to understand the idea of a Euclidean norm, is to visualize it as the distance between a point in $\R^n$ and the origin. This gives a direct relationship between this word "norm" in this context, to a metric. Given this, we define a norm in a more general context.
+
+We first define a vector space.
+\begin{definition}[Vector Space]
+A \textbf{vector space} $V$ over a field $k$ is a set of vectors which come with addition ($+: V\times V \to V$) and scalar multiplication $(\cdot: k\times V\to V)$ along with some classic axioms: commutativity, associativity, identity, and inverse of addition, identity of multiplication, and distributivity.
+\end{definition}
+
+For our purposes in this class, we will only study vector spaces over the field $\R$. In essence, when we add two elements in the vector space, we stay in the vector space, and you can multiply an element in the space by a constant and stay in the space. The three key examples of a vector space, for our purposes, are $\R^n$, $\CC^n$, and $C^0([a,b])$ (or more generally, $C^n([a,b])$). We can now define a norm:
+\begin{definition}[Norm]
+A \textbf{norm} on a vector space $V$ over the real numbers is a function $\lVert \cdot\rVert:V\to [0,\infty)$ satisfying the following three properties:
+\begin{enumerate}
+    \item Positive Definite: $\lVert v\rVert \geq 0$ and $\lVert v\rVert = 0 \iff v = 0$.
+    \item Homogeneity: $\lVert \lambda v\rVert = |\lambda| \lVert v\rVert$ for all $v\in V$ and $\lambda \in \R$.
+    \item Triangle Inequality: $\lVert x+y\rVert \leq \lVert x\rVert + \lVert y\rVert$.
+\end{enumerate}
+A vector space with a norm on it is defined as a \textbf{normed space}.
+\end{definition}
+
+\begin{remark}
+In a vector space $V$, $0$ is always in $V$ (why?). In PSET 2, you will directly show how the norm can relate to metrics.
+\end{remark}
+We can thus view some of the metrics we have defined thus far in the class to be analogous to norms. 
+\begin{example}[Norm on Continuous Functions]
+Show that $\lVert \cdot\rVert: C^0([0,1])\to [0,\infty)$ defined by 
+\[
+\lVert f\rVert = \sup_{x\in [0,1]} |f(x)|
+\]
+is a norm.
+\end{example}
+\textbf{Proof}: Most of this proof will follow directly from the proof given by Example 10 in Lecture 1, but I will write the proof fully nonetheless.
+\begin{enumerate}
+    \item It is clear that $\lVert f\rVert \geq 0$ for all $f\in C^0([0,1])$ as absolute values are always non-negative, and $\lVert f\rVert = 0$ if and only if $\forall x\in [0,1]$, $f(x) = 0$.
+    \item Let $\lambda \in \R$. Then, \[\lVert \lambda f\rVert  = \sup_{x\in [0,1]}|\lambda f(x)| = \sup_{x\in [0,1]}|\lambda| |f(x)| = |\lambda |\sup_{x\in [0,1]}|f(x)| = |\lambda| \lVert f\rVert.\]
+    \item Let $f,g\in C^0([0,1])$. Then, 
+    \[
+    \lVert f + g\rVert = \sup_{x\in [0,1]} |f(x) + g(x)| \leq  \sup_{x\in [0,1]} |f(x) | +  \sup_{x\in [0,1]} |g(x)| = \lVert f\rVert + \lVert g\rVert
+    \]
+    by the triangle inequality we proved for the metric on the space of continuous functions.
+\end{enumerate}
+\qed 
+
+\begin{example}
+Show that $\lVert \cdot\rVert: C^0([0,1])\to [0,\infty)$ defined by 
+\[
+\lVert f\rVert  = \int_0^1 |f(x)|\,\mathrm dx
+\]
+is a norm.
+\end{example}
+\textbf{Proof}: This example is related to Example 20 in Lecture 1.
+\begin{enumerate}
+    \item It is clear that $\lVert f\rVert \geq 0$ for all $f\in C^0([0,1])$ as absolute values are always non-negative. Additionally, notice that $\lvert f\rVert = \mathcal I_1(f,0)$ where $\mathcal I_1$ which we discussed in that example. Hence, since $\mathcal I_1$ is positive definite, $\mathcal I_1(f,0) =\lVert f \rVert = 0$ if and only if $f = 0$, which implies the norm is positive definite.
+    \item Let $\lambda \in \R$. Then, \[\lVert \lambda f\rVert = \int_0^1 |\lambda f(x)|\,\mathrm dx = \int_0^1 |\lambda| | f(x)|\,\mathrm dx = |\lambda |\int_0^1|f(x)|\,\mathrm dx = |\lambda| \lVert f\rVert\] using the linearity of the integral.
+    
+    \item The triangle inequality we proved for the metric $I_1$ proves the triangle inequality here.
+\end{enumerate}
+\qed 
+
+Given that the concept of a norm is very clearly analogous to metrics in some respects, you may wonder why we study norms in particular. A few key remarks about this: firstly, 18.102 explores this concept much further. In essence, norms help us understand vector spaces better, and 18.102 studies infinite dimensional vector spaces. (Conceptually: infinite dimensional linear algebra.) Secondly, proving a given function is a norm is a similar process to proving a given function is a metric, which is a useful skill. 
+
+Finally, norms give us an intuition behind \textit{magnitude}. In $\R$, the magnitude is again related to absolute values, the very thing we used to motivate metrics. In our last example, we could conceptually consider a differentiable function $f$ to be large if $\lVert f\rVert$ is large (this is not official terminology). What, then, does $\lVert f'\rVert$ convey? This would measure "how large $f'$ is" or "how much change" $f$ goes through over the interval $[0,1]$. One could ask the question: How does $\lVert f'\rVert$ relate to $\lVert f\rVert$? This is a very interesting question, and becomes even more interesting in higher dimensions, but I digress.
+
+\begin{question}
+Why have we been studying metrics/norms on the space of continuous functions over intervals, $[a,b]$ or $[0,1]$, and not over $\R$?
+\end{question}
+Notice, that we want both norms and metrics to be finite. However, scattered throughout our proofs, we have been using the fact that continuous functions on bounded intervals are themselves bounded (the Extreme Value Theorem). What condition would we need to impose on the space of continuous functions to get the metrics and norms to be finite? 
+
+Let $f\in C^0(\R)$. When will $\int_{-\infty}^\infty |f(x)|\,\mathrm dx$
+be finite? It will be finite if outside of some bounded interval, $f = 0$. This space of functions is very useful to study, and even has its own name:
+\begin{definition}[Compact Support]
+A function $f\in C^0(\R)$ has \textbf{compact support} if $f = 0$ outside of some interval $[-n,n]$ for a finite $n.$
+\end{definition}
+
+\begin{definition}[Support]
+The \textbf{support} of a function $f\in C^0(\R)$ is the closure of the set 
+\[
+\{x\in \R \mid f(x) \neq 0\}.
+\]
+\end{definition}
+Let's dig into this a little deeper for a moment. Firstly, notice that the above set is the same as $f^{-1}(\{0\}^c)$. Given $\{0\}$ is closed as we showed last time, it follows that $\{0\}^c$ is open, and this $f^{-1}(\{0\}^c)$ is open (by the relationship between continuous functions and open sets we showed last time). Then, the closure of this set is simply the smallest closed set that contains the open set.
+
+A more general definition states that a function is compactly supported if it is zero outside of a \textbf{compact set}. Before we study compact sets, I want to quickly bring up three small lemmas to serve as a starting point. If you asked an analyst what intuition there is behind "compactness", many would say that compactness is a generalization of finiteness. Compact sets are to continuous functions as finite sets are to functions in general. Hence, recall the following three lemmas regarding finite sets.
+\begin{recall}
+Let $A$ be a finite set of a metric space $(X,d)$. Then, 
+\begin{itemize}
+    \item Every sequence in $A$ has a convergent subsequence.
+    \item $A$ is closed and bounded.
+    \item Given any function $f:A\to \R$, $f$ achieves a maximum and minimum on $A$, and $f$ is bounded.
+\end{itemize}
+\end{recall}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Let $\{x_n\}$ be a sequence in $A$. Then, there are only finitely many values $x_i$ can take on, as $A$ is finite. However, given that a sequence is infinitely long, there must exist some element $x\in A$ that is in the sequence $\{x_n\}$ infinitely many times. If this wasn't the case, the sequence $\{x_n\}$ wouldn't be infinitely long. Thus, take $x_{n_k} = x_i$ for $i\in I = \{n\in \NN \mid x_n = x\}.$ Then, $x_{n_k} \to x$ as $x_{n_k} = x$ for all $k$ by construction.
+    \item Well firstly, we know that $A$ is closed in $X$ by the previous lecture. Furthermore, we know that $A$ is bounded, as we can simply fix an $x\in A$, and let $B = \max_i \{d(x_i,x)\}$ for $x_i \in A$.
+    
+    \item To find the maximum and minimum, simply look at the image of $A$ under $f$. There are only finitely many elements in $A$, and then we can simply let 
+    \[
+    B_1 = \max_{i} \{f(x_i)\mid x_i \in A\} \hspace{.25cm} \text{and} \hspace{.25 cm} B_2 = \min_{i} \{f(x_i)\mid x_i \in A\}.
+    \]
+    We know $B_1$ and $B_2$ are achieved as there are only finitely many terms in $A$. It is then immediate to see then that every function is bounded.
+\end{enumerate}\qed 
+
+These are extremely nice properties! We will shortly see analogs of these lemmas with regards to compact sets, but first:
+\begin{definition}[Covers]
+Let $A\subset X$ where $X$ is a metric space. Then, $\{U_i\}_{i\in I}$ is an \textbf{open cover} of $A$ if $A = \bigcup_{i\in I} U_i$ and $U_i$ is open for each $i$. A \textbf{subcover} of an open cover is a subcollection of the sets $U_i$ that still cover $A$. A \textbf{finite subcover} of an open cover is a finite subcollection of the sets $U_i$ that still cover $A$.
+\end{definition}
+
+\begin{definition}[Compactness]
+Let $(X,d)$ be a metric space. A set $A\subset X$ is \textbf{sequentially compact} if and only if every sequence in $A$ has a convergent subsequence in $A$. A set $A\subset X$ is \textbf{compact} or \textit{topologically compact} if every open cover of $A$ has a finite subcover.
+\end{definition}
+
+\begin{notation}
+We say that $A\Subset X$ is $A$ is a compact subset of $X$.
+\end{notation}
+
+\begin{remark}
+Notice that the definition of sequential continuity is the same as the first lemma regarding finite sets we talked about a second ago.
+\end{remark}
+
+Conceptually, this idea can be kind of confusing, but let's look at some examples.
+\begin{example}
+$\R$ is not a compact subset of $\R$.
+\end{example}
+To see this, consider the open sets $U_j = (-j,j)$ for $j\in \NN$. It is clear that the union of all the $U_j$ will cover $\R$. However, is there a finite subcover? Assume for the sake of contradiction that there was a finite subcover. Then, 
+    \[
+    \R = \bigcup_{k=1}^n {U}_{j_k}. = (-j_k, j_k).
+    \]
+However, notice $j_k\in \R$ but $j_k \notin (-j_k, j_k)$. Hence, we have found an open cover of $\R$ that does not have a finite subcover.
+
+\begin{example}
+(0,1] is not compact or sequentially compact in $\R$.
+\end{example}
+Similarly, consider $U_j = (1/j, 2)$ for $j\in \NN$. To see why sequential compactness fails, consider the subsequences of the sequence $\left\{\frac{1}{n}\right\}$.
+
+\begin{example}
+$[0,1]$ \textit{is} a compact subset of $\R$.
+\end{example}
+
+\textbf{Proof}: We will prove this directly, though it will take some work. Ultimately, we will develop more theorems about compact sets that will make similar examples like this easier. Take an open cover of $[0,1]$
+\[
+[0,1] \subseteq \bigcup_{i\in I} U_i.
+\]
+Then, for every $x\in [0,1]$, we have that 
+\[
+[0,x] \subseteq \bigcup_{i\in I} U_i.
+\]
+Hence, let
+\[
+c = \sup \{x\in [0,1] \mid [0,x] \text{~is covered by finitely many elements in the open cover}\}.
+\]
+Clearly, $0\leq c < 1$, as the closed interval $[0,0] = \{0\}$ must be contained in one $U_i$. Hence, we want to show that $c = 1$, in order to show that $[0,1]$ has a finite subcover. Assume for the sake of contradiction that $c< 1].$ Then, it follows that $c$ is contained in some open set, and thus contained in some open interval $U_i$. This implies that there is an element $c'$ such that $c'>c$ and $c'\in U_i$. Thus, $[0,c']$ is covered by finitely many open sets from the cover, which is a contradiction. Therefore, $c = 1$. \qed 
+
+\begin{remark}
+Notice, that a similar proof will show that $[a,b]$ is compact in $\R.$ Also note, that a similar proof can show that $[a,b]\times [c,d]$ is compact in $\R^2$, and so on and so forth. This will be useful for an optional problem on PSET 2.
+\end{remark}
+
+We now want to prove some more general theorems regarding compact sets. Today, we will focus on compact sets in $\R^n$, and next time we will discuss compact subsets of general metric spaces.
+
+By the previous few examples, we have some insight as to what compact sets in $\R$ might look like. 
+\begin{theorem}
+Compacts sets in $\R$ are closed and bounded.
+\end{theorem}
+\textbf{Proof}: Assume that $A\Subset \R$. We want to take an open cover of $A$ that shows its bounded. Pick an arbitrary $p\in A$. Then, 
+\[
+A \subset \bigcup_{i=1}^\infty B(p,i) = \R.
+\]
+Given that $A$ is compact, and the right hand side is an open cover, there exists a finite subcover. Hence, 
+\[
+A \subset \bigcup_{k=1}^n B(p,i_k) = B(p, i_n).
+\]
+Therefore, $A$ is bounded, as given any $x\in A$, $d(x,p) \leq i_n <\infty$. 
+
+We now prove the set is closed. To do so, we want to show that $\R \setminus A$ is open. Let $p\in X\setminus A$. For arbitrary $q\in A$, define 
+\[
+V_q = B\left(p,\frac{d(p,q)}{2}\right) \hspace{.25cm}\text{and} \hspace{.25cm } W_q = B\left(q,\frac{d(p,q)}{2}\right).
+\]
+Notice that $V_q \cap W_q = \emptyset$ for all $q\in A$. Furthermore,
+$A \subset \bigcup_{q\in A} W_q.$
+Therefore, there exists a finite subcover of $A$, given by 
+$A\subset \bigcup_{k=1}^n W_{q_k}.$
+
+Thus, consider the sets $V_{q_1}, \dots, V_{q_k}$. Given that there are finitely many open sets, the intersection of them all is open. Furthermore, by construction, for all $q_k, W_{q_k} \not\subseteq V_{q_k}$. Therefore, $\bigcap_{k=1}^n V_{q_k}$ is a neighborhood of $p$, and $\bigcap_{k=1}^n V_{q_k} \cap A = \emptyset$. We know this last intersection is the emptyset, as if it weren't, then there would exist an element in $A$ in the intersection of the $V_q$s, and thus an element in a $W_{q_j}$ such that $W_{q_j} \cap V_{q_j} \neq \emptyset$, which is a contradiction. 
+
+Therefore, there exists a neighborhood of $p$ contained in $X\setminus A$. Thus, $X\setminus A$ is open, and hence $A$ is closed. \qed 
+
+Notice that this proof does not rely on the fact that we are looking at $\R$. In fact,
+\begin{lemma}
+A compact set in a metric space $(X,d)$ is closed and bounded.
+\end{lemma}
+
+Is the converse true? To see why it is true \textbf{in the case of} $\R$, we show a quick lemma.
+\begin{lemma}
+Let $K$ be a compact set in a metric space $(X,d)$, and let $F$ be a closed subset of $K$. Then, $F$ is a compact set.
+\end{lemma}
+\textbf{Proof}: Given that $F$ is closed, $F^c$ is open. Hence, let $\{U_i\}_{i\in I}$ be an open cover of $F$. Then, 
+\[
+F \subset K \subset F^c \cup \bigcup_{i\in I} U_i.
+\]
+Therefore, given $K$ is compact, there exists a finite subcover of $K$. Hence, there is a finite open subcover of $F$. \qed
+
+\begin{theorem}[Heine-Borel]
+Let $K$ be a subset of $\R$. Then, $K$ is compact if and only if $K$ is closed and bounded.
+\end{theorem}
+\textbf{Proof}: We know that compact implies closed and bounded, and we thus need to prove the other direction! Let $K$ be a closed and bounded subset of $\R$. Then, given $K$ is bounded, $K$ is contained in some closed interval $[a,b]$, which we have shown to be compact. Hence, $K$ is a closed subset of a compact set, and thus $K$ is compact.
+\qed 
+
+\begin{remark}
+The Heine-Borel theorem does not carry over to an arbitrary metric space. Here, we used the fact that $[a,b]$ is compact in $\R$. A metric space is said to have the Heine-Borel property if every closed and bounded set in $X$ is compact.
+\end{remark}
+
+At this point, you may be wondering why we mention the idea of sequential compactness, and how this actually relates to the idea of topological compactness. Firstly, recall the following theorem:
+\begin{theorem}[Bolzano-Weierstrass]
+Every bounded sequence in $\R^n$ has a convergent subsequence.
+\end{theorem}
+
+\begin{lemma}
+Consider $A\subset \R^n$ such that $A$ is closed and bounded. Then, $A$ is sequentially compact.
+\end{lemma}
+\textbf{Proof}: Let $\{x_n\}$ be a sequence in $A$. Then $\{x_n\}$ is bounded as $A$ is bounded, and thus by Bolzano-Weierstrass, there exists a convergent subsequence of $\{x_n\}$. How do we know that $\{x_n\}$ converges in $A$? This uses the fact that $A$ is closed. Therefore, every sequence in $A$ has a convergent subsequence in $A.$ \qed 
+
+Is the converse true? Yes!
+\begin{theorem}[Bolzano-Weierstrass]
+Let $K$ be a subset of $\R$. Show that $K$ is sequentially compact if and only if $K$ is closed and bounded.
+\end{theorem}
+\textbf{Proof}: We have shown the backwards direction, and we now show the forward direction. Let $K\subset \R$ be sequentialy compact. Let $\{x_n\}$ be a sequence in $K$ that converges to arbitrary $x\in \R$. Then, every subsequence of $\{x_n\}$ converges to $x$. Therefore, $x\in K$. Hence, $K$ contains all of its limit points, and is thus closed (see Problemset 2).
+
+Suppose for the sake of contradiction that $K$ is unbounded. Then, there is a sequence $\{x_n\}$ in $K$ such that $|x_n|\to \infty$ as $n\to \infty.$ Therefore, every subsequence of $\{x_n\}$ is unbounded and diverges, and thus $\{x_n\}$ has no convergent subsequence. This is a contradiction as $K$ is sequentially compact. \qed 
+
+\begin{remark}
+You can generalize this proof to $\R^n$; try to do so!
+\end{remark}
+
+\begin{corollary}
+Given $A\subset \R$, $A$ is sequentially compact if and only if $A$ is topologically compact.
+\end{corollary}
+In our next lecture, we will show this is true for all metric spaces! However, the proof will need to be different, as a closed and bounded set is not necessarily compact in a general metric space.

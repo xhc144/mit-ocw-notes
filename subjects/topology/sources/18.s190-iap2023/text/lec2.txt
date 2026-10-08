@@ -1,0 +1,389 @@
+                      18.S190: Introduction to Metric Spaces
+                                               Lecturer: Paige Bright
+
+                                                         IAP 2023
+
+
+
+2      January 12, 2023
+
+General Theory
+We now go into some of the general theory regarding metric spaces. Metric spaces are not only intuitively related to
+our understanding of Rn , but they also behave similarly. For our purposes, we want to study metric spaces as they act
+nicely, and we now show some ways in which they are "nice".
+
+Remark 1. Not every space (i.e. topological space) is as nice as a metric space! The fancy way to say this is "Not
+every topological space is metrizable." 18.901 explores spaces like this, but we will not do so in this class.
+
+    Let’s start with convergent sequences, just like we did when we first started studying the real numbers.
+
+  Proposition 2
+  Let (X, d) be a metric space and let xn be a convergent sequence in X such that xn → x. This limit is unique.
+
+
+Proof: Suppose there exists a y such that xn → y . We want to show that if this is the case, then x = y .
+
+Question 3. What property about metric spaces tells us when points are equal?
+
+    On the real line, x = y ⇐⇒ |x − y | = 0, which is how we proved this property in 18.100x. Here, on metric spaces,
+we similarly have x = y ⇐⇒ d(x, y ) = 0. Hence, we use that to our advantage. Notice that
+
+                                             0 ≤ d(x, y ) ≤ d(x, xn ) + d(xn , y ).
+
+Given that xn → x and xn → y , we can make the right hand side arbitrarily small. More formally, let ϵ > 0. Then,
+there exists an N such that for all n ≥ N,
+
+                                         0 ≤ d(x, y ) ≤ d(x, xn ) + d(xn , y ) < ϵ.
+
+This is true for all ϵ > 0, and thus d(x, y ) = 0 =⇒ x = y .
+
+  Proposition 4
+  Let xn → x. Then, ∀y ∈ X, d(xn , y ) → d(x, y ).
+
+
+In other words, when you have a convergent sequence in a metric space, the distance also behaves how one would
+hope. A similar way to think about this: fix y ∈ X. Then an = d(xn , y ) is a convergent sequence in the real numbers.
+
+                                                               1
+   Proof: Let y ∈ X. Firstly, note that given xn → x, d(xn , x) → 0. Hence, let ϵ > 0. Then, there exists an N such
+that for all n ≥ N,
+                                       d(xn , y ) ≤ d(x, xn ) + d(x, y ) < ϵ + d(x, y ).
+
+We now want a similar lower bound, which we obtain by the triangle inequality again:
+
+                            d(x, y ) ≤ d(x, xn ) + d(xn , y ) =⇒ d(x, y ) − d(xn , x) ≤ d(xn , y ).
+
+For n ≥ N, we have d(x, y ) − ϵ < d(xn , y ). Therefore, given ϵ > 0, there exists an N such that for all n ≥ N,
+
+                           d(x, y ) − ϵ < d(xn , y ) < d(x, y ) + ϵ =⇒ |d(xn , y ) − d(x, y )| < ϵ.
+
+Therefore, d(xn , y ) → d(x, y ).
+
+  Proposition 5
+  We can take this concept one step further, studying two convergent sequences at once. Let xn → x and yn → y .
+  Then, d(xn , yn ) → d(x, y ). Similarly, given {xn } and {yn } are Cauchy sequences, you can show that d(xn , yn )
+  converges (but you cannot assume the sequences have limit points!).
+
+
+This problem will be on your PSET!
+
+  Definition 6 (Bounded)
+  A sequence {xn } in (X, d) is bounded if and only if there exists a p ∈ X and a B ∈ R such that
+
+                                                   d(xn , p) ≤ B ∀n ∈ N.
+
+  Similarly, a subset A ⊆ X is bounded if and only if there exists a p ∈ X and a B ∈ R such that
+
+                                                   d(x, p) ≤ B ∀x ∈ A.
+
+
+
+  Proposition 7
+  Every convergent sequence in a metric space is bounded.
+
+
+Proof: Let xn → x and let ϵ = 1 > 0. Then, there exists an N such that for all n ≥ N, d(xn , x) < 1. Now this is
+almost exactly our definition of bounded with p = x and B = 1, but the issue is that so far this isn’t true for all n,
+only for all n ≥ N (which is still infinitely many!). We thus use a common and useful technique: let
+
+                                            B = max{d(xn , x), 1 | 1 ≤ n < N}.
+
+Is B finite? Yes; B is the maximum of finitely many finite elements and is thus finite. Furthermore, we now have that
+for all n ≥ N, d(xn , x) < 1 ≤ B, and for all n < N, d(xn , x) ≤ B. Hence, {xn } is bounded.
+   We will prove two more theorems about convergent sequences, and then we will shift our focus to open and closed
+sets.
+
+  Proposition 8
+  Every convergent sequence is a Cauchy sequence.
+
+
+
+                                                              2
+Proof: Let xn → x, and let ϵ > 0. Then, there exists an N such that for all n ≥ N, d(xn , x) < 2ϵ . Hence, for all
+n, m ≥ N,
+                                                                               ϵ  ϵ
+                                     d(xn , xm ) ≤ d(xn , x) + d(x, xm ) <       + = ϵ.
+                                                                               2 2
+
+
+   We showed this before for the real numbers! In fact, we showed that Cauchy sequences are convergent for the real
+line. However, this isn’t always true.
+
+  Definition 9 (Cauchy complete)
+  A metric space in which every Cauchy sequence is convergent is called Cauchy complete.
+
+
+Remark 10. You will show on PSET 2 that C 0 ([0, 1]) is Cauchy complete.
+
+
+  Proposition 11
+  Every subsequence of a convergent sequence is convergent.
+
+
+Proof: This proof will help give an example of why Cauchy sequences are useful. Let xn → x, and consider the
+subsequence {xnk }. We want to show that {xnk } is convergent, and to do so we will show that xnk → x. Firstly notice
+that
+                                            d(xnk , x) ≤ d(xnk , xn ) + d(xn , x).
+
+We know that xn → x, and thus for ϵ > 0 there exists an N1 such that for all n ≥ N1 , d(xn , x) < 2ϵ . In other words,
+we can make d(xn , x) arbitrarily small; but what can we do about d(xnk , xn )? Well we note that {xn } is a Cauchy
+sequence. Thus, there exists an N2 such that for all n, nk ≥ N, d(xnk , xn ) < 2ϵ . Hence, for all n ≥ max{N1 , N2 },
+                                                                               ϵ  ϵ
+                                     d(xnk , x) ≤ d(xnk , xn ) + d(xn , x) <     + = ϵ.
+                                                                               2 2
+
+
+   You may be wondering "Why don’t we have as many theorems for convergent sequences like we used to?" Well,
+notice that metric spaces are much more general than R. For instance, we can’t show sums of convergent sequences
+converge, because we don’t always have a notion of addition. Similarly, we don’t have a direct analog of the squeeze
+theorem, as we don’t always have a notion of "ordering" (i.e. what it means for one element to be bigger than
+another). Thus we have to study new tools, like open sets.
+
+  Recall (Open Set)
+  A set in A ⊂ X is open if and only if ∀x ∈ A, there exists an ϵ > 0 such that
+
+                                         B(x, ϵ) := {y ∈ X | d(x, y ) < ϵ} ⊂ A.
+
+  We say that B(x, ϵ) is a ball of radius epsilon centered at x.
+
+
+While it may seem out of left field, open sets prove very useful in understanding concepts of convergence and continuity.
+We will show this connection today, but let’s start with some useful and powerful propositions.
+
+
+
+
+                                                              3
+  Theorem 12 (Topological Properties of Open Sets)
+  Let X be a metric space, and let {Ai }i∈Λ be open sets in X. Then,
+     1. ∅ and X are open sets in X.
+        S
+     2. i∈I Ai is open in X. (I.e., the arbitrary union of open sets is open.)
+
+     3. ni=1 Ai is open in X. (I.e., the finite intersection of open sets is open.)
+        T
+
+
+
+Proof: All we can use so far is the definition given to us.
+  1. Consider ∅. It is vacuously true that ∀x ∈ ∅, there exists an ϵ > 0 such that B(x, ϵ) ⊂ ∅, as there are no
+      elements in the empty set. Now consider X. Recall the definition of B(x, ϵ):
+
+                                               B(x, ϵ) = {y ∈ X | d(x, y ) < ϵ}.
+
+     By definition, ∀x ∈ X and in fact for all ϵ > 0 (though we only need one), B(x, ϵ) ⊂ X. Thus, X is an open set.
+                         S
+  2. Consider some x ∈ i∈I Ai . Then, by assumption, there exists a λ ∈ Λ such that x ∈ Aλ . Furthermore, Aλ is an
+                                                                                                  S
+     open set, and thus there exists an ϵ > 0 such that B(x, ϵ) ⊂ Aλ . Notice though, that Aλ ⊂ i∈I Ai , and thus
+                S
+     B(x, ϵ) ⊂ i∈I Ai . Hence, the arbitrary union of open sets is open.
+
+  3. The proof for the intersection will act similarly, but let’s see why we can only consider a finite intersection. Let
+     x ∈ ni=1 Ai . Then, for each 1 ≤ i ≤ n, x ∈ Ai . Therefore, there exists an ϵi such that B(x, ϵi ) ⊂ Ai . The issue
+        T
+
+      though, is Ai is not automatically a subset of the intersection. However, we can take ϵ = min{ϵi } > 0. Thus,
+      B(x, ϵ) ⊆ B(x, ϵi ) ⊂ Ai for every i . Hence, B(x, ϵ) ⊂ ni=1 Ai .
+                                                             T
+
+
+Remark 13. These three properties can help us understand why open sets are so useful (at least conceptually). As we
+will see, open sets are directly related to convergence and continuity, and are yet so much more general. In point-set
+topology (18.901), you actually start with defining open sets abstractly using these three properties, and go from
+there. It’s very interesting, and leads to very interesting examples! We will discuss this more in Lecture 6.
+
+
+  Definition 14 (Closed Set)
+  Let A ⊂ X. We say that A is closed if X \ A := Ac is open in X. We call Ac the complement of A.
+
+
+   I want to note that a set being closed does not imply it is not open. Consider for instance, the emptyset ∅. The
+complement of the emptyset is X, which is open, and this ∅ is closed. However, by Theorem 12, ∅ is open!
+   This concept is deeply tied to the notion of connectedness.
+
+  Definition 15 (Disconnected and Connected)
+  A metric space X is disconnected if there exists two disjoint, non-empty, open sets U1 and U2 such that X =
+  U1 ∪ U2 .
+     The space is connected if it is not disconnected.
+
+
+
+  Proposition 16
+  A metric space X is connected if and only if the only open and closed sets are the emptyset and X itself.
+
+
+
+                                                              4
+Remark 17. This proposition will be outlined on your third PSET as an optional problem.
+
+   We now make develop some theory for closed sets.
+
+  Theorem 18
+  Let X be a metric space, and let {Ai }i∈Λ be closed sets in X. Then,
+     1. ∅ and X are closed sets in X.
+        T
+     2. i∈I Ai is closed in X. (I.e., the arbitrary intersection of closed sets is closed.)
+
+     3. ni=1 Ai is closed in X. (I.e., the finite union of closed sets is closed.)
+        S
+
+
+
+   To prove this, we use DeMorgan’s Law from set theory (which is proven in Lebl’s Theorem 0.3.5).
+
+  Proposition 19 (DeMorgan’s Law)
+  Consider the sets {Ui }i∈Λ . Then,
+                                                   !c                                        !c
+                                        [                   \                     \                   [
+                                              Ui        =         Uic    and            Ui        =         Uic .
+                                        i∈Λ                 i∈Λ                   i∈Λ                 i∈Λ
+
+  To put this into words, the complement of a union is the intersection of the complements, and the complement
+  of an intersection is the union of the complements.
+
+
+Proof:
+  1. Well firstly, notice ∅c = X and X c = ∅ in X. Hence, given ∅ and X are open sets, ∅ and X are closed sets.
+
+  2. Given Ai are closed, Aci is open. Hence, using DeMorgan’s Law,
+                                                          !c
+                                                     \         [
+                                                       Ai    =   Aci ,
+                                                                   i∈Λ             i∈Λ
+                                                                           T
+      and the arbitrary union of open sets is open. Hence,                     i∈Λ Ai is closed.
+
+  3. We use DeMorgan’s Law in exactly the same way to prove that the finite union of closed sets is closed.
+
+
+   Lets look at some useful examples:
+
+  Example 20
+  Let (X, d) be a metric space, and let x ∈ X. Then, for any ϵ > 0, B(x, ϵ) is open in X. In fact, this ball is
+  sometimes referred to as an open ball.
+
+
+Proof: Let y ∈ B(x, ϵ). If x = y then this is automatically true, just take ϵ′ = 2ϵ . Suppose that y ̸= 0, and let
+r = ϵ − d(x, y ) > 0. We want to show that B(y , r ) ⊂ B(x, ϵ). Let z ∈ B(y , r ). Then
+
+                                       d(x, z) ≤ d(x, y ) + d(y , z) < d(x, y ) + r = ϵ.
+
+Therefore, B(y , r ) ⊂ B(x, ϵ), and thus B(x, ϵ) is an open set.
+
+
+
+                                                                          5
+  Theorem 21
+  An open subset U in a metric space (X, d) can be written as a union of open balls in X. This is an optional
+  problem on PSET 2.
+
+
+Remark 22. Hence, sometimes we will reduce the problem to simply prove propositions.
+
+
+  Example 23
+  Let (X, d) be a metric space and x ∈ X. Then, {x} is a closed set in X.
+
+
+Proof: We want to show that for all y ∈ X \ {x}, there is an open ball around y such that x is not in the ball. Fix
+y ∈ X \ {x}; then, y ̸= x and thus d(x, y ) > 0. Let r = d(x,y )
+                                                           2 . Hence, consider B(y , r ). We know that x ∈
+                                                                                                         / B(y , r )
+as if this were the case, then d(x, y ) < r < d(x, y ) which is a contradiction. Hence, B(y , r ) ⊂ X \ {x}. Therefore,
+X \ {x} is an open set, and thus {x} is a closed set in X.
+
+Remark 24. One can similarly prove that any finite subset of a metric space is closed.
+
+   Let’s now see again how open sets relate to convergence and continuity. To do so, we first observe a fact about
+convergent sequences in R.
+
+  Proposition 25
+  Let {xn } be a sequence in R. Then, {xn } is convergent (and converges to x) if and only if ∀ϵ > 0, all but finitely
+  many terms in {xn } are in (x − ϵ, x + ϵ).
+
+
+Proof: Given xn → x, given ϵ > 0 there exists an N such that for all n ≥ N, |xn − x| < ϵ. Therefore, for all n ≥ N,
+xn ∈ (x − ϵ, x + ϵ). For the other direction, fix arbitrary ϵ > 0 and consider (x − ϵ, x + ϵ). Given that all but finitely
+many terms in {xn } are in (x − ϵ, x + ϵ), there exists an M such that for all n ≥ M, xn ∈ (x − ϵ, x + ϵ) = Bϵ (x).
+Therefore, xn is convergent.
+   The same can be generally said for metric spaces.
+
+  Definition 26 (Neighborhood)
+  Suppose that x ∈ U and U is open in X. Then we can U a neighborhood of x.
+
+
+
+  Theorem 27
+  Let {xn } be a sequence in the metric space (X, d). Then, xn is convergent and converges to x if and only if for
+  every neighborhood of x, all but finitely many terms in {xn } are not in the neighborhood of x.
+
+
+Proof: The proof is exactly the same as the proof of X = R, only changing to metric notation.
+
+Remark 28. Every closed set has the property that every convergent sequence converges in the set. This will be
+shown on PSET 2, and gives yet another connection between open/closed sets and convergence.
+
+   We now shift our focus to continuous functions.
+
+
+
+                                                             6
+  Recall (Continuous functions)
+  Let (X, dX ) and (Y, dY ) be metric spaces. Then, a function f : X ⊃ A → Y is continuous if and only if given
+  x ∈ A, ∀ϵ > 0 there exists a δ > 0 such that
+
+                                           dX (x, y ) ≤ δ =⇒ dY (f (x), f (y )) ≤ ϵ.
+
+
+   We will first show how continuity is related to convergence, and then how continuity is related to open sets.
+
+  Theorem 29
+  Let (X, dX ) and (Y, dY ) be metric spaces. Then, f : X → Y is continuous at c ∈ X if and only if for every
+  sequence {xn } in X with xn → c, we have that f (xn ) → f (c).
+
+
+Proof: Suppose that f is continuous at c. Let {xn } be a sequence in X converging to c. Given ϵ > 0, there exists
+a δ > 0 such that dX (x, c) < δ =⇒ dY (f (x), f (c)) < ϵ. Given xn → c, there exists an N such that for all n ≥ N,
+dX (xn , c) < δ. Therefore, dY (f (xn ), f (c)) < ϵ. Thus, f (xn ) → f (c).
+   Suppose that f is not continuous at c. Let ϵ > 0. Then, for all n ∈ N, there exists an xn such that d(xn , c) < n1
+but dY (f (xn ), f (c)) ≥ ϵ. Then, xn → c} but f (xn ) does not converge to f (c).
+
+  Lemma 30
+  Let (X, dX ) and (Y, dY ) be metric spaces. A function f : X → Y is continuous at c ∈ X if and only if for every
+  open neighborhood U of f (c) in Y , the set f −1 (U) contains an open neighborhood of c in X.
+
+
+Proof: Suppose that f is continuous at c. Let U be an open neighborhood of f (c) in Y . Then, BY (f (c), ϵ) ⊂ U for
+some ϵ > 0. By the continuity of f , there exists a δ > 0 such that dX (x, c) =⇒ dY (f (x), f (c)) < ϵ. Hence,
+
+                                          BX (c, δ) ⊂ f −1 (BY (f (c), ϵ)) ⊂ f −1 (U)
+
+and BX (c, δ) is an open neighborhood of c.
+   For the other direction, let ϵ > 0. If f −1 (BY (f (c), ϵ)) contains an open neighborhood V of c, then it contains a
+ball BX (c, δ) such that
+                                            BX (c, δ) ⊂ W ⊂ f −1 (BY (f (c), ϵ)).
+
+Therefore, if dX (x, c) < δ =⇒ dY (f (x), f (c)) < ϵ. Hence, f is continuous at c.
+
+Remark 31. In fact, one can deduce that a function f : X → Y is continuous if and only if given U ⊂ Y open, f −1 (U)
+is open in X. This is an optional problem on PSET 2. This idea is once again integral to 18.901.
+
+
+
+
+                                                               7
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+18.S190 Introduction to Metric Spaces
+Independent Activities Period (IAP) 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

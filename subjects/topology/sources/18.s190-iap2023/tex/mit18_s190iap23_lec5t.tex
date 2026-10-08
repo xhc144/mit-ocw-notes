@@ -1,0 +1,226 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.S190 Introduction to Metric Spaces, Independent Activities Period (IAP) 2023
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\subsection*{Complete Metric Spaces}
+
+\subsection*{1.  The Banach Fixed Point Theorem}
+
+In this section of the notes, we focus on examples and theorems that are related to complete metric spaces. These topics are \textit{very} useful to know with \textit{very} useful applications. Some of the most insightful examples, involve "Lipschitz functions".
+
+\begin{definition}[Lipschitz]
+Let $(X,d_X)$ and $(Y, d_Y)$ be metric spaces. A function $f: X\to Y$ is called \textbf{Lipschitz} or $K$-Lipschitz if there exists a $K\in \R$ such that 
+\[
+d_Y(f(x),f(y)) \leq Kd_X(x,y)\hspace{.5cm} \text{for all }x,y\in X.
+\]
+\end{definition}
+
+These functions are sometimes called \textit{Lipschitz continuous functions}. Why? Well, consider a $K$-Lipschitz function for some $K>0$, and let $\epsilon >0$. Then, choose $\delta = \frac{\epsilon}{K}$. Hence, when $d_X(p,q) < \delta$, we have that 
+\[
+d_Y(f(p),f(q)) \leq Kd_X(p,q) < \epsilon.
+\]
+Therefore, $f$ is continuous. The same is immediately true when $K\leq 0$, simply choose $\delta = 1$ and use positive definiteness of $d_Y$.
+
+Lipschitz functions are a key motivator for \textit{uniformly continuous functions}.
+
+\begin{definition}[Uniform continuity]
+Let $(X,d_X)$ and $(Y,d_Y)$ be metric spaces. Then, $f:X\to Y$ is \textbf{uniformly continuous} if for every $\epsilon>0$ there exists a $\delta >0$ such that whenever $d_X(x,y) < \delta$, we have $d_Y(f(x),f(y)) < \epsilon$.
+\end{definition}
+
+\begin{remark}
+You may be wondering what the difference is between uniform continuity and regular continuity. Well notice that in the definition of uniform continuity, $\delta$ \textit{only} depends on $\epsilon$ and $f.$ In other words, $\delta$ does not depend on $x$. We say a function is continuous if it is continuous at every $x\in X$, and thus $\delta$ depends on $x$. This is the difference between uniform continuity and regular continuity. 
+\end{remark}
+
+Notice that a uniformly continuous function is continuous, but the other direction is not necessarily true.
+
+\begin{theorem}
+Let $(X,d_X)$ and $(Y,d_Y)$ be metric spaces. Suppose $f:X\to Y$ is continuous and $X$ is compact. Then, $f$ is uniformly continuous.
+\end{theorem}
+\textbf{Proof}: Let $\epsilon>0$. For each $c\in X$, choose $\delta_c$ such that 
+\[
+d_X(x,c) < \delta_c \implies d_Y(f(x),f(c)) < \epsilon/2.
+\]
+We know that such a $\delta_c$ exists as $f$ is continuous. Furthermore, the balls $B(c, \delta_c)$ cover $X$ and the space $X$ is compact. Then, by the Lebesgue Number Lemma, there exists a $\delta>0$ such that for all $x\in X$, there is a $c\in X$ such that $B(x,\delta) \subset B(c,\delta_c)$. 
+
+If $x,y\in X$ and $d_X(x,y) < \delta$, choose a $c\in X$ such that $B(x,\delta) \subset B(c,\delta_c)$. Then, $y\in B(c,\delta_c)$ by assumption. Therefore, by the triangle inequality, 
+\[
+d_Y(f(x),f(y)) \leq d_Y(f(x), f(c)) + d_Y(f(c), f(y)) < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\]
+\qed 
+
+We discuss one more application of uniform continuity, and then we will move onto another useful application of Lipschitz functions. 
+\begin{proposition}\label{prop55}
+If $f:[a,b]\times [c,d]\to \R$ is a continuous function, then $g:[c,d] \to \R$ defined by 
+\[
+g(y) = \int_a^b f(x,y) \,\mathrm dx
+\]
+is continuous.
+\end{proposition}
+\textbf{Proof}: Let $\epsilon >0$. Fix $y\in [c,d]$ and let $\{y_n\}$ be a sequence in $[c,d]$ such that $y_n\to y$. As we have shown in Lecture 2, $g$ is continuous if and only if $g(y_n) \to g(y)$. This is what we will show. Firstly, note that as $f$ is continuous on $[a,b]\times [c,d]$ which is compact, $f$ is uniformly continuous. I.e., there exists a $\delta >0$ such that given $y'\in [c,d]$ and $|y'-y| < \delta$, then $|f(x,y') - f(x,y)|< \epsilon$ for all $x\in [a,b]$.
+
+Let $h_n(x) = f(x,y_n)$ and $h(x) = f(x,y)$. We have thus shown that $h_n \to h$ uniformly as $n\to \infty$. Uniform convergence implies we can swap limits and integrals, obtaining
+\[
+\lim_{n\to \infty}g(y_n) = \lim_{n\to \infty}\int_a^b f(x,y_n)\,\mathrm dx = \int_a^b \lim_{n\to \infty} f(x,y_n)\,\mathrm dx = \int_a^b f(x,y)\,\mathrm dx = g(y).
+\]
+Therefore, $g$ is continuous. \qed 
+
+We now return back to the usefulness of Lipschitz functions.
+\begin{definition}[Contraction]
+Let $(X,d_X)$ and $(Y,d_Y)$ be metric spaces. A mapping $f: X\to Y$ is said to be a \textbf{contraction} if it is a $k-$Lipschitz map for some $0 \leq k< 1$. In other words, there exists a $k< 1$ such that 
+\[
+d_Y(f(x),f(y)) \leq k d_X(x,y) \hspace{.5cm} \text{for all }x,y\in X.
+\]
+\end{definition}
+
+\begin{definition}[Fixed point]
+If $f: X\to X$ is a map, $x\in X$ is called a \textbf{fixed point} if $f(x) = x$.
+\end{definition}
+
+We thus have a useful theorem that follows from these simple definitions.
+\begin{theorem}[Banach Fixed Point Theorem]
+Let $(X,d)$ be a nonempty complete metric space, and $f:X\to X$ be a contraction. Then, $f$ has a unique fixed point.
+\end{theorem}
+
+\begin{remark}
+    Note that this is sometimes called the contraction mapping principle. 
+\end{remark}
+
+\noindent \textbf{Proof}: Try to picture this!
+
+We want to show that there exists an $x\in X$ such that $f(x) = x$, and then we want to show $x$ is unique. How can we find such an $x$ though?
+
+Pick some random $x_0\in X$, and define a sequence $\{x_n\}$ such that $f(x_n) = x_{n+1}$. Then, by definition, we have that 
+\[
+d(x_{n+1}, x_n) = d(f(x_n), f(x_{n-1})) \leq k d(x_{n}, x_{n-1}) \leq \dots \leq k^n d(x_1, x_0).
+\]
+We will show that $\{x_n\}$ is a Cauchy sequence.
+
+\begin{question}
+What good does this do? What property of the theorem will we use here?
+\end{question}
+
+Suppose $m\geq n$. Then, 
+\begin{align*}
+    d(x_m,x_n) &\leq \sum_{i=n}^{m-1} d(x_{i+1}, x_i) \\
+    &\leq \sum_{i=n}^{m-1} k^i d(x_1,x_0) \\
+    &= k^n d(x_1, x_0) \sum_{i=0}^{m-n-1}k^i \\
+    &\leq k^n d(x_1, x_0)\sum_{i=0}^\infty k^i\\
+    &= \frac{k^n}{1-k} d(x_1, x_0). 
+\end{align*}
+Given $0 \leq k < 1$, as $n\to \infty$, $d(x_m, x_n) \to 0.$ Therefore, $\{x_n\}$ is a Cauchy sequence, and thus there exists an $x$ such that $x_n \to x$. We claim that $x$ is a fixed point: 
+\[
+x = f(\lim_{n\to \infty}x_n) = \lim_{n\to \infty} f(x_n) = \lim_{n\to \infty} x_{n+1} = x.
+\]
+We also claim that $x$ is unique. Suppose that $y$ is also a fixed point of $f$. Then, 
+\[
+d(x,y) = d(f(x), f(y)) \leq k d(x,y)\implies (1-k)d(x,y) \leq 0.
+\]
+Given $0\leq k < 1$, it follows that $d(x,y) = 0 \implies x=y$. \qed 
+
+Note the following: as stated in Lebl's book: "The proof is constructive. Not only do we know a unique fixed point exists. We also know how to find it" (7.6.1 page 268). 
+
+We can now consider one key application of the Banach fixed point theorem (that we will motivate afterwards).
+
+\begin{example}
+Let $\lambda \in \R$, $f,g\in C^0([a,b])$, and $k \in C^0([a,b]\times [a,b])$. Then, consider the operator $T: C^0([a,b])\to C^0([a,b])$
+\[
+T(f)(x) = g(x) + \lambda \int_a^b k(x,y) f(x)\,\mathrm dx.
+\]
+For which $\lambda$ is $T$ a contraction?
+\end{example}
+
+\begin{remark}
+    $T(f)(x)$ is continuous by Proposition \ref{prop55}.
+\end{remark}
+Given that $k$ is continuous on a compact set, $k$ is bounded. Thus, there exists a $c$ such that 
+\[
+|k(x,y)| \leq c ~\forall x,y \in [a,b].
+\]
+Then, we have 
+\begin{align*}
+d(T(f_1), T(f_2)) &= \sup_{x\in [a,b]} |T(f_1)(x) - T(f_2)(x)| \\
+&= |\lambda| \sup_{x\in [a,b]} \left|\int_a^b k(x,y) (f_1(x)-f_2(x))\,\mathrm dx\right|  \\
+&\leq |\lambda| \sup_{x\in [a,b]} \int_a^b |k(x,y)| |f_1(x)-f_2(x)|\,\mathrm dx  \\
+&\leq |\lambda|\sup_{x\in [a,b]}|f_1(x) - f_2(x)|
+\sup_{x\in [a,b]} \int_a^b |k(x,y)|\,\mathrm dx \\
+&\leq c|\lambda|(b-a) d(f_1, f_2).
+\end{align*}
+Therefore, if $|\lambda| < \frac{1}{c(b-a)}$, it follows that $T$ is a contraction on a complete metric space. Thus, by the Banach fixed point theorem, there exists a unique $f\in C^0([a,b])$ such that 
+\[
+T(f)(x) = f(x) = g(x) + \lambda \int_a^b k(x,y)f(y)\,\mathrm dy.
+\]
+This occasionally arises from an initial value problem (a differential equation)! See \href{https://en.wikipedia.org/wiki/Picard%E2%80%93Lindel%C3%B6f_theorem#Example_of_Picard_iteration}{Picard Iteration} and Picard's theorem from Lebl Section 7.6.2.
+
+
+Notice that this is essentially the same as our motivating question-- just, suppose that $g(x)$ here is a constant. So we have seen how the contraction mapping principle implies nice results for the study of differential equations! Here, Cauchy completeness of $C^0([a,b])$ gives us that $f$ is $C^0([a,b])$, and the contraction mapping principle above gives us that $f$ is in fact $C^1([a,b])$ if $g(x)\in C^1([a,b])$, which allows us to know there exists a solution to (some) integral operators and thus (some) differential equations!
+
+\begin{remark}
+    Note that this same proof would work if $k$ was a continuous function on $[a,b]\times [a,b]$-- i.e. $k$ can depend on other parameters if we really wanted it to!
+\end{remark}
+
+\begin{remark}
+    18.152 goes more into detail on some of these ideas. I'd highly recommend taking this class if you like this type of problem!
+\end{remark}
+
+\subsection*{2. Completions of Metric Spaces}
+
+Let's think back, for a minute, to where we started our study of real analysis: the rational numbers. In particular, the rational numbers had flaws. For instance, there were numbers that represented \textit{real life} quantities that weren't rational (i.e. the classical example of $\sqrt{2}$ being the hypotenuse of a $1\times 1$ right triangle). To amend this, we simply defined the real numbers as filling in these "holes". You might've seen this a few ways:
+\begin{enumerate}
+    \item through a rigorous study of Dedekind cuts (see Rudin's Chapter 1 Appendix),
+    \item through the least upper bound property,
+    \item or through equivalence classes of Cauchy sequences.
+\end{enumerate}
+This last possibility will be the one I am interested in discussing today. 
+
+
+\begin{definition}
+    We call two Cauchy sequences in a metric space \textit{equivalent} if the distance between them with respect to the metric tends to zero. 
+\end{definition}
+\begin{remark}
+    The fact that this is an \href{https://en.wikipedia.org/wiki/Equivalence_relation}{equivalence relation} I leave you to check.
+\end{remark}
+
+By simply adding in the limit points of these Cauchy sequences, we fill in the holes in the metric space! When this came to the rational numbers, this led to the real numbers. However, completions of metric spaces \textit{always} exist.
+
+\begin{theorem}
+    Every metric space $M$ with fixed metric has a unique metric space $\overline{M}$ (with respect to the metric) such that 
+    \begin{itemize}
+        \item $M\subset \overline{M}$,
+        \item the metric on $\overline{M}$ restricts to the metric on $M$,
+        \item $\overline{M}$ is Cauchy complete, and the closure of $M$ is $\overline{M}$.
+    \end{itemize}
+    $\overline{M}$ is called the completion of $M$.
+\end{theorem}
+
+The proof of this fact is relatively short, but is \textit{powerful}. First, I need to note the following Lemma:
+\begin{lemma}
+For any metric space $M$, the space of all bounded continuous functions 
+\[
+C_\infty(M) = \{f: M\to \R \mid f \text{ is continuous and } \sup_{m\in M} |f(m)|<\infty\}
+\]
+is a metric space with metric 
+\[
+d^\infty(f,g) = \sup_{m\in M} |f(m) - g(m)|.
+\] In fact, it is Cauchy complete.
+\end{lemma}
+
+The proof of this fact, I leave you to work out yourself. The proof that it is a metric is basically the same as for continuous functions on a bounded interval, simply noting that now we know the extreme value exists by boundedness. Furthermore, the proof of Cauchy completeness is basically the same as the proof on your second problemset.
+
+The real interesting part is how we use this to prove the existence of the completion of a metric space.
+
+\begin{proof}
+We start by mapping $M$ to a subset of $C_\infty(M)$. Choose a point $m'\in M$ and consider the map
+\[
+M\ni m\mapsto g_m(p) = d(p,m) - d(p,m').
+\]
+Notice then that 1) this map is bijective and 2) 
+\[
+d(m_1, m_2) = \sup_{p\in M}|g_{m_1}(p) - g_{m_2} (p)| = d^\infty(g_{m_1}, g_{m_2}).
+\]
+This means that the map is \textit{isometric} (you can think of this as just preserving distances), and what this allows us to do is view $M$ as a subset (say, $M'$) of $C_\infty(M)$.
+
+Now, we can consider the closure of $M'$. Recall that a closed subset of a complete metric space is complete itself, so the closure of $M'$ (denoted $\overline{M'}$) is Cauchy complete! By the isometry described above, this implies that there exists the completion of the metric space $M$.
+\end{proof}
+
+When we first discussed this notion in real analysis, we used the standard Euclidean distance from absolute values to define the Cauchy sequences tending to zero, but we can of course put other metrics on our spaces! For instance, there is a \textit{p-adic} metric one can put on the rationals that leads to the \textit{p-adic numbers}. For more, see \href{https://en.wikipedia.org/wiki/P-adic_number}{here}. Furthermore, we can complete normed spaces to end up with \textit{Banach spaces} (Cauchy complete normed spaces), and similarly complete \textit{inner product spaces} to end up with what is known as \textit{Hilbert spaces}. We will talk more about these applications in the next lecture.

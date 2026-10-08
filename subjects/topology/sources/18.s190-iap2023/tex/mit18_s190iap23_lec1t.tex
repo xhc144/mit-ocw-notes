@@ -1,0 +1,256 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.S190 Introduction to Metric Spaces, Independent Activities Period (IAP) 2023
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\subsection*{Motivation, Intuition, and Examples}
+In today's lecture, I will give the definition of a metric space, give many many examples, and then relate this new concept back to vocabulary we use throughout 18.100A. Let's start with a key example that we use throughout 18.100A: the Euclidean distance.
+
+\begin{example}[Euclidean Distance]
+We define the \textbf{Euclidean distance} (or \textbf{metric}) between two points $x,y\in \R^n$ as 
+\[
+\left(\sum_{i=1}^n |x_i-y_i|^2\right)^{1/2}.
+\]
+\end{example}
+
+Conceptually, this is the magnitude of the shortest line segment connecting $x$ and $y$. We most commonly study this in $\R$ (where $n=1$). Then, the metric is defined as $|x-y|$ (as there is only one coordinate, and $(|x-y|^2)^{1/2} = |x-y|$). What are the most important features of the absolute value function? Given $x,y,z\in \R$ we have the following properties:
+\begin{enumerate}
+    \item Positive definite: $|x-y| \geq 0$, and $|x-y| = 0$ if and only if $x=y$.
+    \item Symmetric: $|x-y| = |y-x|$.
+    \item Triangle Inequality: $|x-z| \leq |x-y| + |y-z|$.
+\end{enumerate}
+To some extent, these properties may feel inherent at this point as this concept of absolute values is taught to us in elementary school. We are taught how to define a distance between two natural numbers, often times before we are taught what negative numbers are. But notice, we use absolute values to define nearly every term we use in 18.100A. Our goal is to redefine our real analysis vocabulary (which we will get to later) more abstractly. To do so, we define a metric space.
+
+\begin{definition}[Metric Space]
+A \textbf{metric space} is a set $X$ with a metric $d:X\times X \to [0,\infty)$ such that $\forall x,y,z\in X$, we have that $d$ satisfies the following properties: 
+\begin{enumerate}
+    \item Positive definite: $d(x,y) \geq 0$ and $d(x,y) = 0 \iff x=y$.
+    \item Symmetric: $d(x,y) = d(y,x)$.
+    \item Triangle Inequality: $d(x,z) \leq d(x,y) + d(y,z)$.
+\end{enumerate}
+\end{definition}
+
+We notice that these properties are exactly the same with how the absolute value function, which to some extent should make sense. We want to understand the distance between things (whether that be vectors or functions or weirder objects), and this idea of a distance comes with these properties. We don't talk about distances being negative, and it makes sense for the distance between me and you to be the same distance between you and I. Yet nonetheless, this new concept of metric spaces allows us to study more abstract concepts (which comes down to the idea that our set $X$ can be weirder).
+
+Here is the outline for the rest of the lecture:
+\begin{itemize}
+    \item We will define other metrics on $\R^n$.
+    \item We will \textit{redefine} the terminology we use in 18.100A.
+    \item Then, we will discuss metrics on some of these "weirder" spaces!
+\end{itemize}
+
+\begin{example}[Supremum Metric]
+Consider the following function: $d_\infty:\R^n\times \R^n \to [0,\infty)$, 
+\[
+d_\infty(x,y) = \max_{1\leq i\leq n} |x_i-y_i|.
+\]
+This metric is often called the \textbf{supremum metric} or supremum norm. We check that this is in fact a metric.
+\end{example}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Positive definite: It is clear that $d_\infty(x,y) \geq 0$ as $|x-y| \geq 0$ for all $x,y\in \R$. If $x=y$, then $x_i - y_i = 0$ for all $i$, and thus $d(x,y) = 0$. If $d(x,y) = 0$, then we want to show that $x = y$. Assume for the sake of contradiction that $x \neq y$. Then, there exists an $i$ such that $x_i \neq y_i$. Hence, $|x_i - y_i| >0$. Therefore, 
+    \[
+    0 < |x_i-y_i|\leq d_\infty(x,y) \implies 0< d_\infty(x,y) 
+    \]
+    which is a contradiction.
+    \item Symmetric: $d_\infty (x,y) = \max_i |x_i - y_i| = \max_i |y_i - x_i| = d_\infty(y,x)$. This uses the fact that absolute values are symmetric.
+    \item Triangle inequality: Often times, the triangle inequality is the hardest properties to prove. One common thing to do, however, is to consider \textit{one} term (sorry this advice is very general). Let $x,y,z\in \R^n$. Then, consider an arbitrary $1\leq i \leq n$. We know that 
+    \[
+    |x_i - z_i| \leq |x_i - y_i| + |y_i -z_i|
+    \]
+    as absolute values satisfy the triangle inequality. Then, taking the maximum of both sides, we get that 
+    \[
+    d_\infty(x,z) = \max_i |x_i - z_i| \leq \max_i |x_i-y_i| + \max_i |y_i - z_i| = d_\infty(x,y) + d_\infty (y,z).
+    \]
+\end{enumerate}
+\qed 
+
+\begin{example}[$\ell^1$ metric]
+Define $d_1:\R^n \times \R^n \to [0,\infty)$ such that 
+\[
+d_1(x,y) = \sum_{i=1}^n |x_i-y_i|.
+\]
+This is called the \textbf{$\ell^1$ metric}. We again check that this is a metric.
+\end{example}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Positive definite: it is clear that $d_1(x,y) \geq 0$ for all $x,y\in \R^n$. Further, if $x=y$ then $d_1(x,y) = 0$ as $x_i = y_i\forall i$. If $d_1(x,y) = 0$ then $x_i = y_i \forall i$, and thus $x=y$.
+    \item Symmetric: $d_1(x,y) = \sum_{i=1}^n |x_i-y_i| \sum_{i=1}^n |y_i-x_i| = d_1(y,x)$.
+    \item Triangle Inequality: This follows immediately from the triangle inequality for absolute values:
+    \[
+    d_1(x,z) = \sum_{i=1}^n |x_i-z_i| \leq \sum_{i=1}^n |x_i-y_i| + |y_i - z_i|= \sum_{i=1}^n |x_i-y_i| + \sum_{i=1}^n|y_i - z_i| = d_1(x,y) + d_1(y,z).
+    \]
+\end{enumerate}
+\qed 
+
+\begin{remark}
+Notice that the $\ell^1$ metric and the Euclidean metric take on the same form. In PSET 1, you will prove that $d_p:\R^n \times \R^n \to [0,\infty)$ given by 
+\[
+d_p(x,y) = \left(|x_i-y_i|^p \right)^{1/p}
+\]
+is a metric. It is called the $\ell^p$ metric.
+\end{remark}
+
+Now that we have went through three examples of metric spaces, let's relate this concept back to real analysis (after all, that is why we are studying this). What are the key definitions we used in 18.100A? We had convergent sequences, Cauchy sequences, and continuity. Let's write down these definitions in terms of 18.100A:
+
+\begin{itemize}
+    \item A sequence $\{a_n\}$ in $\R$ \textbf{converges} to $a\in \R$ if and only if $\forall \epsilon>0$ there exists an $N\in \NN$ such that $\forall n \geq N$, 
+    \[
+        |a_n - a| \leq \epsilon.
+    \]
+    \item A sequence $\{a_n\}$ in $\R$ is a \textbf{Cauchy sequence} if and only if $\forall \epsilon>0$ there exists an $N\in \NN$ such that $\forall n,m \geq N$, 
+    \[
+        |a_n - a_m| \leq \epsilon.
+    \]
+    \item A set $A \subset \R^n$ is \textbf{open} if and only if for all $x\in A$, there exists an $\epsilon >0$ such that $B(x,\epsilon) \subset A$.
+    \item A function $f:\R \supset A \to \R$ is \textbf{continuous} if and only if given $x\in A$, $\forall \epsilon >0$ there exists a $\delta >0$ such that 
+    \[
+        |x-y| \leq \delta\implies |f(x) - f(y)| \leq \epsilon.
+    \]
+\end{itemize}
+
+We thus have these (almost immediate) definitions for Metric Spaces:
+\begin{definition}[Convergent sequence]
+A sequence $\{x_n\}$ in a metric space $(X,d)$ \textbf{converges} to $x\in X$ if and only if $\forall \epsilon>0$ there exists an $N\in \NN$ such that $\forall n \geq N$, 
+\[
+d(x_n, x) \leq \epsilon.
+\]
+\end{definition}
+
+\begin{definition}[Cauchy sequence]
+A sequence $\{x_n\}$ in $(X,d)$ is a \textbf{Cauchy sequence} if and only if $\forall \epsilon>0$ there exists an $N\in \NN$ such that $\forall n,m \geq N$, 
+\[
+d(x_n, x_m) \leq \epsilon.
+\]
+\end{definition}
+
+\begin{definition}[Open Set]
+A set in $A\subseteq X$ is \textbf{open} if and only if $\forall x\in A$, there exists an $\epsilon >0$ such that 
+\[
+B(x,\epsilon) := \{y\in X \mid d(x,y) < \epsilon\} \subset A.
+\]
+We say that $B(x,\epsilon)$ is a ball of radius epsilon centered at $x$.
+\end{definition}
+
+Continuous functions however are a bit different. Normally, continuous functions map to $\R$, but here we can let them map to any other metric space, getting the following definition
+\begin{definition}[Continuous functions]
+Let $X$ and $Y$ be metric spaces with metrics $d_X,d_Y$ respectively. Then, a function $f: X \supset A \to Y$ is \textbf{continuous} if and only if given $x\in A$, $\forall \epsilon >0$ there exists a $\delta >0$ such that 
+\[
+d_X(x,y) \leq \delta \implies d_Y(f(x), f(y)) \leq \epsilon.
+\]
+\end{definition}
+
+The reason I bring these up now as opposed to later, is to point out how one-to-one the definitions between 18.100A and 18.100B are. All we are doing is making our definition a bit more general so we can study things other than $\R^n$. Speaking of which, lets consider some more metric spaces on sets that \textit{aren't} $\R^n$. As we do so, I will bring up useful examples of the above definitions that are great to picture/use as intuition.
+
+\begin{example}[Metric on Continuous Functions]
+We define $C^0([a,b])$ to be the set of functions (that map to the real numbers) that are continuous on the interval $[a,b]$. Show that $d:C^0([0,1]) \times C^0([0,1])\to [0,\infty)$ defined by 
+\[
+d(f,g) = \sup_{x\in [0,1]} |f(x) - g(x)|
+\]
+is a metric.
+\end{example}
+\textbf{Proof}: I leave you to prove positive definiteness and symmetry, but as usual the hard part comes down to proving the triangle inequality. Let $f,g,h \in C^0([0,1])$. First, lets evaluate what $d(f,h)$ is in terms of this metric.
+\[d(f,h) = \sup_{x\in [0,1]} |f(x) - h(x) |.\] Let $x_0$ be a point in the interval $[0,1]$ such that \[d(f,h) = \sup_{x\in [0,1]} |f(x) - h(x) | = |f(x_0) - h(x_0)|.\]
+
+\begin{remark}
+Why does such a point exist?
+\end{remark}
+
+Furthermore, note that for all $x\in [0,1]$, \[|f(x) - g(x)| \leq  \sup_{x\in [0,1]} |f(x) - g(x) |\hspace{.25cm} \text{and} \hspace{.25cm} |g(x) - h(x)| \leq  \sup_{x\in [0,1]} |g(x) - h(x) |.\] Thus,
+\begin{align*}
+    d(f,h) &= |f(x_0) - h(x_0)| \\
+    &\leq |f(x_0) - g(x_0)| + |g(x_0) - h(x_0)| \\
+    &\leq \sup_{x\in [0,1]} |f(x) - g(x) | + \sup_{x\in [0,1]} |g(x) - h(x) | \\
+    &= d(f,g) + d(g,h).
+\end{align*}
+Thus, \[d(f,h) \leq d(f,g) + d(g,h).\]
+\qed 
+
+\begin{question}
+Pick $f\in C^0([a,b])$. What does $B(f,\epsilon)$ look like in $C^0([a,b])$ ($\epsilon >0$)?
+\end{question}
+
+\begin{example}
+We can take this one step further. Define $C^1([0,1])$ as the space of continuously differentiable functions. In other words, functions that are continuous, and whose first derivative is continuous. Consider \\
+$d: C^1([0,1]) \times C^1([0,1]) \to [0,\infty)$ where
+\[
+d(f,g) = \sup_{x\in [0,1]} |f(x) - g(x)| + \sup_{x\in [0,1]} |f'(x) - g'(x)|.
+\]
+Show $d$ is a metric on the space.
+\end{example}
+\textbf{Proof}: I leave you again to check positive definiteness and symmetry, but to prove the triangle inequality we can use a nice trick. Firstly, note that if $f,g,h \in C^1([a,b])$ then they are all continuous (i.e. they are all in $C^0([a,b])$). Therefore, 
+\[
+\sup_{x\in [0,1]} |f(x)-h(x)| \leq \sup_{x\in [0,1]} |f(x) - g(x)| + \sup_{x\in [0,1]} |g(x) - h(x)|
+\]
+as we proved in the previous example. Similarly, $f',g',h'$ are continuous by assumption. Hence, 
+\[
+\sup_{x\in [0,1]} |f'(x)-h'(x)| \leq \sup_{x\in [0,1]} |f'(x) - g'(x)| + \sup_{x\in [0,1]} |g'(x) - h'(x)|.
+\]
+Adding these two inequalities together gives the desired inequality. \qed 
+
+\begin{question}
+Consider again $C^1([0,1])$. Is $d(f,g) = \sup_{x\in [0,1]} |f'(x) - g'(x)|$ a metric on $C^1([0,1])$? You will answer this on PSET 1.
+\end{question}
+
+While we will stop here with regards to continuous functions on a bounded interval, notice that we can easily continue this argument, and we can in fact define a metric on functions that are infinitely differentiable. However, we would have to be careful as we done want to take an infinite sum of things if the sum doesn't converge. There will be an optional problem discussing this on PSET 1.
+
+\begin{example}
+Show the map $\frac{\mathrm d}{\mathrm dx}: C^1([a,b]) \to C^0([a,b])$ is continuous.
+\end{example}
+\textbf{Proof}: Let $f,g \in C^1([a,b])$. We want to show that given $\epsilon >0$ there exists a $\delta >0$ such that if $d_{C^1}(f,g) < \delta$, then $d_{C^0}\left(\frac{\mathrm d}{\mathrm dx} f, \frac{\mathrm d}{\mathrm dx}g\right) < \epsilon$. To see this, calculate both equations:
+\begin{align*}
+    d_{C^1}(f,g) &= \sup_{x\in [a,b]} |f(x) - g(x)| + \sup_{x\in [a,b]} |f'(x) - g'(x)|. \\
+    d_{C^0}\left(\frac{\mathrm d}{\mathrm dx} f, \frac{\mathrm d}{\mathrm dx}g\right) &= \sup_{x\in [a,b]} |f'(x) -g'(x)|.
+\end{align*}
+Hence, notice that $d_{C^0}\left(\frac{\mathrm d}{\mathrm dx} f, \frac{\mathrm d}{\mathrm dx}g\right) \leq d_{C^1}(f,g)$. Thus, let $\delta = \epsilon.$ \qed 
+
+\begin{remark}
+On PSET 1, you will show that integration is continuous.
+\end{remark}
+
+So far, we have been studying metrics on vector spaces. In other words, the sum of two vectors in $\R^n$ is in $\R^n$, and the sum of two continuous functions is continuous, etc.. We will discuss the notion of a vector space more in Lecture 3. However, it is important to note that we don't need the set to be a vector space in order to define a metric on it. Consider the following two examples:
+
+\begin{example}[Geodesic]
+Consider the unit ball in $\R^3$. We can define two metrics on it. The first, immediately follows from the Euclidean metric on the ball. However, notice, that we can define a metric on the ball defined as the shortest "line segment" between two points that lie on the sphere. This concept is loosely defined as a "\underline{\href{https://en.wikipedia.org/wiki/Geodesic}{geodesic}}".
+\end{example}
+
+\begin{example}[Trivial Metric]
+We define the trivial metric. Pick a set $X$. Then, define 
+\[
+d(x,y) = \begin{cases}1 & x\neq y \\
+0 & x=y \end{cases}.
+\]
+Show $d$ is a metric.
+\end{example}
+\textbf{Proof}: It is clear that $d$ is positive definite and symmetric. We prove the triangle inequality. Consider $d(x,z)$. We split this into four cases. If $x=z$, then $d(x,z) =0$. If $y=x=z$, then $d(x,z) = d(x,y) + d(y,z) = 0$. If $y\neq x$ and thus $y\neq z$, then $0 = d(x,z) \leq d(x,y) + d(y,z) = 2$. If $x\neq z$, then $d(x,z) = 1$. If $x=y$, then $1= d(x,z) = d(x,y) + d(y,z) = 1$. If $y\neq x$ and $y\neq z$, then $1 = d(x,z) \leq d(x,y) + d(y,z) = 2.$ \qed 
+
+\begin{remark}
+On PSET 1, you will prove the British Railway metric is a metric (this is a similar example to the trivial metric one-- use case work!).
+\end{remark}
+
+We finish with one last example for the day.
+\begin{example}
+Once again consider the space $C^0([0,1])$. Define the function $\mathcal I_1: C^0([0,1]) \times C^0([0,1]) \to [0,\infty)$ where
+\[
+\mathcal I_1(f,g) = \int_0^1 |f(x) - g(x)| \,\mathrm dx.
+\]
+Show that $\mathcal I_1$ is a metric.
+\end{example}
+\textbf{Proof}: I leave you to prove positive definiteness and symmetry (note for positive definiteness, you need to use continuity of $f-g$). However, the loose proof of the triangle inequality isn't terribly bad this time! We simply notice that for all $x$, $|f(x) - h(x)| \leq |f(x) - g(x)| + |g(x) - h(x)|$. Hence, using properties of integration, we get (given $f,g,h\in C^0([0,1])$)
+\begin{align*}
+    \mathcal I_1(f,h) &= \int_0^1 |f(x) - h(x)| \,\mathrm dx \\
+    &\leq \int_0^1 |f(x) - g(x)| + |g(x) - h(x)| \,\mathrm dx \\
+    &= \int_0^1 |f(x) - g(x)|\, \mathrm dx + \int_0^1 |g(x) - h(x)| \,\mathrm dx \\
+    &= \mathcal I_1(f,g) + \mathcal I_1(g,h).
+\end{align*}
+\qed 
+
+We call this the $L^1$ metric. 
+
+\begin{remark}
+One can (similar to the proof of the $\ell^p$ metrics) prove that for $1\leq p < \infty$, 
+\[
+\mathcal I_p(f,g) = \left(\int_0^1 |f(x) - g(x)|^p \,\mathrm dx\right)^{1/p}
+\]
+defines a metric on $C^0([0,1])$ called the $L^p$ metric. This should make relative sense; the $\ell^p$ metric is a sum of (countable) many terms, while the integral is (the limit) of a sum of infinitely many terms (i.e. a Riemann sum).
+\end{remark}

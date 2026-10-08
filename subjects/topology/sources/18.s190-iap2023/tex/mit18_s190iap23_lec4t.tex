@@ -1,0 +1,138 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.S190 Introduction to Metric Spaces, Independent Activities Period (IAP) 2023
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\subsection*{Compact Metric Spaces}
+
+Last time, we showed that a set in $\R^n$ is sequentially compact if and only if it is topologically compact, by showing 
+\[
+\text{sequentially compact} \iff \text{closed and bounded} \stackrel{\text{Heine-Borel}}{\iff} \text{topologically compact}.
+\]
+However, by the previous remark, we don't have Heine-Borel for arbitrary metric spaces. Which begs the question: is sequentially compact the same as topologically compact in metric spaces? The answer is yes. To prove this, we first show a handful of preliminary results.
+
+\begin{lemma}[Lebesgue Number Lemma]
+Let $(X,d)$ be a sequentially compact metric space and $\{U_i\}_{i\in I}$ be an open cover of $X$. Then, there exists an $r>0$ such that for each $x\in X$, $B_r(x)\subseteq U_i$ for some $i\in I$.
+\end{lemma}
+\textbf{Proof}: Before proving this, try to visualize the result!
+
+We prove this lemma through contradiction. Assume that for some $r>0$ there exists an $x\in X$ (possibly depending on $r$) such that for each $i\in I$, $B_r(x)\not\subseteq U_i.$ Consider the sequence $\{x_n\}_n$ in $X$ such that $B_{1/n}(x_n) \not\subseteq U_i$ for all $i\in I.$
+
+Given that $X$ is sequentially compact, $\{x_n\}$ has a convergent subsequence $\{x_{n_k}\}_k$. Let $x_{n_k}\to x\in X$. Given that $\{U_i\}$ is an open cover of $X$, there exists a $U_{i_0}$ such that $x\in U_{i_0}$. Given $U_{i_0}$ is open, it also follows that there exists an $r_0$ such that $B_{r_0}(x) \subseteq U_{i_0}$. Hence, choose $N$ large enough such that $d(x,x_N) < \frac{r_0}{2}$ and $\frac{1}{N}< \frac{r_0}{2}$. Then, if $y\in B_{1/N}(x_N)$, then 
+\[d(x,y) \leq  d(x,x_N) + d(x_N, y) <r_0.\]
+Therefore, $y\in B_{r_0}(x) \subseteq U_{i_0}$. Hence,
+\[
+B_{1/N}(x_N) \subseteq B_{r_0} (x) \subseteq U_{i_0}
+\]
+which is a contradiction. \qed 
+
+We call this $r$ the \textbf{Lebesgue number} of the open cover of $X$, which is useful in other applications.
+
+\begin{definition}
+A metric space $X$ it \textbf{totally bounded} if, for every $\epsilon>0$, there exists $x_1,x_2,\dots, x_k\in X$ with $k$ finite such that $\{B_\epsilon(x_i) \mid 1 \leq i \leq k\}$ is an open cover of $X$.
+\end{definition}
+
+\begin{lemma}
+A metric space $X$ being sequentially compact implies that $X$ is totally bounded.
+\end{lemma}
+\textbf{Proof}: Assume that $X$ is sequentially compact and not totally bounded. Therefore, there exists an $\epsilon>0$ such that $X$ cannot be covered by a collection of open sets of only finitely many $\epsilon$-balls. Hence, let $x_1 \in X$, $x_2 \in X\setminus B_\epsilon(x_1)$, then $x_3 \in X\setminus B_\epsilon(x_1) \setminus B_\epsilon(x_2)$ and so on. We know that there exists such $x_i$ by the previous statement. Hence, for all $i\neq j$, $d(x_i, x_j) \geq \epsilon$. Therefore, $\{x_n\}_n$ has no convergent subsequence as if there was a convergent subsequence it would be Cauchy, and the previous line shows that no subsequence of $\{x_n\}$ will be Cauchy. This is a contradiction to $X$ being sequentially compact. \qed 
+
+\begin{theorem}
+A metric space $X$ is (topologically) compact if and only if $X$ is sequentially compact.
+\end{theorem}
+
+\textbf{Proof}:  We first show that sequentially compact implies topologically compact, applying the two lemmas developed thus far.  Let $X$ be sequentially compact and let $\{U_i\}_{i\in I}$ be an open cover of $X$. By the Lebesgue number lemma, there exists an $r>0$ such that for each $x\in X$, $B_r(x) \subset U_i$ for some $i\in I$. Furthermore, by Lemma 5, $X$ is totally bounded. Hence, there exists $y_1,\dots, y_k\in X$ such that 
+\[
+X\subset B_r(y_1) \cup \dots \cup B_r(y_k).
+\]
+However, for each $i\in I$, we have $B_r(y_i) \subset U_{j(i)}$ for some $j(i) \in I$. (This notation just means for each $i$, there exists a $j\in I$ which depends on $i$ such that $B_r(y_i) \subseteq U_{j}$.) Thus, $\{U_{j(1)},\dots, U_{j(k)}\}$ is a finite subcover for $X$. Therefore, every open cover of $X$ has a finite subcover, and thus sequentially compact implies topologically compact. 
+
+We now prove the other direction. Assume for the sake of contradiction there there exists a sequence $\{x_n\}_n$ in $X$ with no convergent subsequence. Notice that no term in the sequence can appear infinitely many times, as otherwise there would be a trivial subsequence of $\{x_n\}$. Hence, we assume without loss of generality that $x_i \neq x_j$ if $i\neq j$. Furthermore, notice then that for every $n$ there exists an $\epsilon_n>0$ such that $B_{\epsilon_n}(x_n)$ contains no other terms in the sequence. If this wasn't the case, then there would again be a convergent subsequence of $\{x_n\}_n$. Therefore, for each $i$, there exists an open ball $U_i$ centered at $x_i$ such that $x_j \notin U_i$ for all $i\neq j$.
+
+Additionally, consider $U_0 = X\setminus \{x_n\mid n\in \NN\}$. $U_0$ is open, as $U_0^c = \{x_n \mid n\in \NN\}$ is closed (it contains all of it's limit points). Hence,
+\[
+U_0 \cup \{U_n\mid n\in \NN\}
+\]
+is an open cover of $X$. However, this open cover has no finite subcover as any finite collection of the cover will fail to include infinitely many terms from the sequence $\{x_n\}_n$. This is a contradiction, and thus topologically compact implies sequentially compact. \qed 
+
+\begin{remark}
+Notice that we technically could've used this proof in the previous lecture, but the Heine-Borel Theorem is so vastly important that I decided to do that proof before today's lecture.
+\end{remark}
+
+We will now start to look at some illuminating applications of compact sets to reach an even more powerful theorem.
+
+\begin{recall}
+Let $X,Y$ be metric spaces and $f:X\to Y$ be a continuous function. Then, for all $U$ open in $Y$, $f^{-1}(U)$ is open in $X$.
+\end{recall}
+
+\begin{theorem}
+Let $X,Y$ be metric spaces and $f:X\to Y$ be continuous. Given $K\Subset X$, $f(K) \subset Y$ is compact.
+\end{theorem}
+\textbf{Proof}: Let $\{U_i\}_{i\in I}$ be an open cover of $f(K)$. Then, define $V_i = \{f^{-1}(U_i)\}_{i\in I}$, which is open as $f$ is continuous. Therefore, $\{f^{-1}(U_i)\}_{i\in I}$ is an open cover of $K$. Hence, there exists a finite subcover $\{V_{i_1}, \dots V_{i_k}\}$ of $K$ as $K$ is compact. Thus, $\{U_{i_1},\dots U_{i_k}\} = \{f(V_{i_1}), \dots, f(V_{i_k})\}$ is a finite subcover of $f(K)$. Therefore, $f(K)$ is compact. \qed 
+\begin{corollary}
+Let $X$ be a metric space and $K\Subset X$. Then, given a continuous function $f:X\to \R$, $f$ obtains a maximum and minimum finite value on $K$.
+\end{corollary}
+\textbf{Proof}: The proof follows from the previous theorem, a problem on PSET 2. \qed 
+
+\begin{corollary}
+Sometimes in particular we want to study bounded continuous functions, and the previous corollary gives us a nice property. Given a compact metric space $X$, every continuous function on $f$ is bounded.
+\end{corollary}
+\textbf{Proof}: Follows immediately. \qed 
+
+\begin{theorem}[Cantor's Intersection Theorem]
+If $K_1 \supset K_2\supset K_3\supset \dots$ is a decreasing sequence of nonempty sequentially compact subsets of $\R^n$, then $\bigcap_{i\geq 1}K_i$ is non-empty.
+\end{theorem}
+\textbf{Proof}: Choose a sequence $\{a_n\}_n$ such that $a_n \in K_n$ for each $n$. We know that there exists such an $a_n$ as each $K_n$ is nonempty. Then, $\{a_n\}_n$ is a sequence in $K_1$, and thus there exists a convergent subsequence $\{a_{n_k}\}_k$ such that $a_{n_k}\to a\in K_1$. Furthermore, $\{a_n\}_{n=2}^\infty$ is a sequence in $K_2$, and thus contains a a convergent subsequence. Therefore, $a\in K_2$. Continuing this process, we get that $a\in K_i$ for all $i$. Thus, $a\in \bigcap_{i\geq 1} K_i$. \qed 
+
+\begin{definition}[Finite Intersection Property]
+A collection of closed sets $\{C_i\}_i$ has the \textbf{finite intersection property} if every finite subcollection has a nonempty intersection.
+\end{definition}
+
+Given Lemma 3 and the Cantor Intersection Theorem, it is clear that there are some relations between compact sets, nonempty intersections of sets, and totally bounded sets. We hence show the following theorem.
+
+\begin{theorem}
+Given a metric space $(X,d)$, the following are equivalent. 
+\begin{enumerate}[label = (\arabic*)]
+    \item $X$ is compact.
+    \item $X$ is sequentially compact.
+    \item $X$ is Cauchy complete and totally bounded.
+    \item Every collection of closed subsets of $X$ with the finite intersection property has a non-empty intersection.
+\end{enumerate}
+\end{theorem}
+We have shown (1) $\iff$ (2), and thus we show  (1) $\iff$ (4) and (2) $\iff$ (3) to finish the proof.
+
+\textbf{Proof}: (1) $\implies$ (4): Assume for the sake of contradiction that there exists a collection of closed subsets $\{C_i\}_{i\in I}$ with the finite intersection property such that $\bigcap_{i\in I} C_i = \emptyset$. Given $C_i$ is closed in $X$ for all $i$, $U_i = C_i^c$ is open in $X$ for each $i.$ Then,
+\[
+\bigcup_{i\in I} U_i = \bigcup_{i\in I} C_i^c = \left(\bigcap_{i\in I} C_i\right)^c = \emptyset^c = X.
+\]
+Hence, the $U_i$ cover $X$. Given $X$ is compact, there exists a finite subcover $\{U_{i_1}, \dots, U_{i_k}\}$ of $X.$ Thus, 
+\[
+    X = \bigcup_{n=1}^k U_{i_n} = \left(\bigcap_{n=1}^k U_{i_n}^c\right)^c = \left(\bigcap_{n=1}^k C_{i_n}\right)^c.
+\]
+Therefore, $\bigcap_{n=1}^k C_{i_n}= \emptyset$ which is a contradiction with the finite intersection property.
+
+(4) $\implies$ (1): Suppose that $\{U_i\}_{i\in I}$ is an open cover of $X$, and let $C_i = U_i^c$ for each $i\in I$. Assume for the sake of contradiction that no finite subset of the $U_i$ covers $X$. We show that $C_i$ has the finite intersection property. Assume for the sake of contradiction that $\{C_{n_1}, \dots, C_{n_k}\}$ satisfies $C_{n_1} \cap \dots \cap C_{n_k} = \emptyset$. Then, 
+\[
+    \bigcup_{i=1}^k U_{n_i} = \left(\bigcap_{i=1}^k U_{n_i}^c\right)^c = \left(\bigcap_{i=1}^k C_{i_k}\right)^c = \emptyset^c = X.
+\]
+This is a contradiction with the assumption that no subset of the $U_i$ covers $X.$ Hence, $\{C_i\}_{i\in I}$ satisfies the finite intersection property. Therefore, $\{C_i\}_{i\in I}$ has non-empty intersection; i.e. $\bigcap_{i\in I} C_i \neq \emptyset$. Then, $\bigcup_{i\in I} U_i \neq X$, which is a contradiction to the $U_i$ being an open cover for $X$. Thus, every open cover of $X$ has a finite open subcover.
+
+(2) $\implies$ (3): We have already shown that $X$ being sequentially compact implies totally bounded, and hence we only need show that sequentially compact implies Cauchy complete. Let $\{x_n\}$ be a Cauchy sequence in $X$. Given $\{x_n\}$ is a sequence in $X$, there exists a convergent subsequence $\{x_{n_k}\}$ in $X$ such that $x_{n_k} \to x \in X$. Let $\epsilon>0$, and choose $N$ such that $d(x_i, x_j) < \epsilon/2$ whenever $i,j\geq N$. Next, choose $n_k>N$ such that $d(x_{n_k}, x) <\epsilon/2$. Then, 
+\[
+d(x,x_N) \leq d(x,x_{n_k}) + d(x_{n_k},x_N) < \epsilon.
+\]
+Thus, $x_n \to x\in X$ as $n\to \infty$. Therefore, every Cauchy sequence in $X$ converges to a point in $X$. Hence, $X$ is Cauchy complete. 
+
+(3) $\implies$ (2): This part of the proof is quite difficult. Consider a sequence $\{x_n\}_n$ in $X$. Given $X$ is totally bounded, for every $n\in \NN$, there exists a finite set of points $\{y_{1}^{(n)}, \dots, y_{r(n)}^{(n)}\}$ such that $X\subset B_{\frac 1n} (y_1^{(n)}) \cup \dots \cup B_{\frac 1n} (y_{r(n)}^{(n)})$. Define 
+\[
+S_n = \{y_1^{(n)}, \dots, y_{r(n)}^{(n)}\}.
+\]
+We want to find a convergent subsequence of $\{x_n\}_n$. We do so by construction. Given $S_1$ is finite, there exists a $y_{n(1)}^{(1)}\in S_1$ such that $B_1(y_{n(1)}^{(1)})$ contains infinitely many points from $\{x_n\}_n$. Choose $z_1$ from this ball. Then, given $S_2$ is finite, there is a $y_{n(2)}^{(2)}$ such that infinitely many points from $\{x_n\}_n$ are in $B_1(y_{n(1)}^{(1)}) \cap B_{1/2}(y_{n(2)}^{(2)})$. Choose $z_2$ from this set. Continue this procedure for each $k >1$, selecting a $z_k$ from $\bigcap_{i=1}^k B_{\frac 1k}(y_{n(k)}^{(k)})$. Then, we show $\{z_n\}_n$ is Cauchy. Let $\epsilon>0$. Then, there exists an $N\in \NN$ such that $\frac{1}{N} < \epsilon$. Hence, for all $n,m \geq N$, 
+\[
+d(z_n, z_m) <  \frac{1}{N}< \epsilon.
+\]
+Therefore, by the Cauchy completeness of $X$, $\{z_n\}$ converges to a point in $X$. \qed 
+
+\begin{remark}
+Where do we use the fact that each ball has infinitely many points? We do in fact use this property in the proof. Try to figure out how!
+\end{remark}

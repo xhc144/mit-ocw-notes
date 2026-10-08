@@ -1,0 +1,401 @@
+                        18.S190: Introduction to Metric Spaces
+                                                Lecturer: Paige Bright
+
+                                                          IAP 2023
+
+
+    At MIT, our real analysis class is split into four sections: 18.100A, 18.100B, 18.100P, and 18.100Q. Though,
+throughout these notes I will refer to these courses generally as 18.100x if the specific version doesn’t matter for my
+point. The key differences can be summarized using the following diagram:
+
+                                                                               Rn        Abstract
+                                   Non-Communication Intensive                 18.100A   18.100B
+                                   Communication Intensive                     18.100P   18.100Q
+
+    The goal of this class is to illuminate the key differences between studying the Euclidean space Rn and studying
+more abstract spaces. This is particularly done through the use of metric spaces.
+
+Remark 1. In this version of the course, I will conclude the lecture series with a discussion of completions of metric
+spaces. The examples discussed are deeply important for numerous fields of math. However, if you are interested in
+learning more about a direct application to differential equations, you may see last year’s version on OCW: 18.S097,
+IAP 2022.
+
+
+
+1       January 10, 2023
+
+Motivation, Intuition, and Examples
+In today’s lecture, I will give the definition of a metric space, give many many examples, and then relate this new
+concept back to vocabulary we use throughout 18.100A. Let’s start with a key example that we use throughout
+18.100A: the Euclidean distance.
+
+  Example 2 (Euclidean Distance)
+  We define the Euclidean distance (or metric) between two points x, y ∈ Rn as
+
+                                                       n
+                                                                              !1/2
+                                                       X
+                                                                          2
+                                                             |xi − yi |              .
+                                                       i=1
+
+
+
+    Conceptually, this is the magnitude of the shortest line segment connecting x and y . We most commonly study this
+in R (where n = 1). Then, the metric is defined as |x − y | (as there is only one coordinate, and (|x − y |2 )1/2 = |x − y |).
+What are the most important features of the absolute value function? Given x, y , z ∈ R we have the following
+properties:
+    1. Positive definite: |x − y | ≥ 0, and |x − y | = 0 if and only if x = y .
+
+                                                                 1
+  2. Symmetric: |x − y | = |y − x|.
+
+  3. Triangle Inequality: |x − z| ≤ |x − y | + |y − z|.
+To some extent, these properties may feel inherent at this point as this concept of absolute values is taught to us in
+elementary school. We are taught how to define a distance between two natural numbers, often times before we are
+taught what negative numbers are. But notice, we use absolute values to define nearly every term we use in 18.100A.
+Our goal is to redefine our real analysis vocabulary (which we will get to later) more abstractly. To do so, we define a
+metric space.
+
+  Definition 3 (Metric Space)
+  A metric space is a set X with a metric d : X × X → [0, ∞) such that ∀x, y , z ∈ X, we have that d satisfies the
+  following properties:
+        1. Positive definite: d(x, y ) ≥ 0 and d(x, y ) = 0 ⇐⇒ x = y .
+
+        2. Symmetric: d(x, y ) = d(y , x).
+
+        3. Triangle Inequality: d(x, z) ≤ d(x, y ) + d(y , z).
+
+
+   We notice that these properties are exactly the same with how the absolute value function, which to some extent
+should make sense. We want to understand the distance between things (whether that be vectors or functions or weirder
+objects), and this idea of a distance comes with these properties. We don’t talk about distances being negative, and
+it makes sense for the distance between me and you to be the same distance between you and I. Yet nonetheless, this
+new concept of metric spaces allows us to study more abstract concepts (which comes down to the idea that our set
+X can be weirder).
+   Here is the outline for the rest of the lecture:
+    •   We will define other metrics on Rn .
+
+    •   We will redefine the terminology we use in 18.100A.
+
+    •   Then, we will discuss metrics on some of these "weirder" spaces!
+
+
+  Example 4 (Supremum Metric)
+  Consider the following function: d∞ : Rn × Rn → [0, ∞),
+
+                                                   d∞ (x, y ) = max |xi − yi |.
+                                                                 1≤i≤n
+
+  This metric is often called the supremum metric or supremum norm. We check that this is in fact a metric.
+
+
+Proof:
+  1. Positive definite: It is clear that d∞ (x, y ) ≥ 0 as |x − y | ≥ 0 for all x, y ∈ R. If x = y , then xi − yi = 0 for all i ,
+        and thus d(x, y ) = 0. If d(x, y ) = 0, then we want to show that x = y . Assume for the sake of contradiction
+        that x ̸= y . Then, there exists an i such that xi ̸= yi . Hence, |xi − yi | > 0. Therefore,
+
+                                             0 < |xi − yi | ≤ d∞ (x, y ) =⇒ 0 < d∞ (x, y )
+
+        which is a contradiction.
+
+
+                                                                 2
+   2. Symmetric: d∞ (x, y ) = maxi |xi − yi | = maxi |yi − xi | = d∞ (y , x). This uses the fact that absolute values are
+        symmetric.
+
+   3. Triangle inequality: Often times, the triangle inequality is the hardest properties to prove. One common thing
+        to do, however, is to consider one term (sorry this advice is very general). Let x, y , z ∈ Rn . Then, consider an
+        arbitrary 1 ≤ i ≤ n. We know that
+                                                             |xi − zi | ≤ |xi − yi | + |yi − zi |
+
+        as absolute values satisfy the triangle inequality. Then, taking the maximum of both sides, we get that
+
+                        d∞ (x, z) = max |xi − zi | ≤ max |xi − yi | + max |yi − zi | = d∞ (x, y ) + d∞ (y , z).
+                                            i                     i                      i
+
+
+
+
+  Example 5 (ℓ1 metric)
+  Define d1 : Rn × Rn → [0, ∞) such that
+                                                                            n
+                                                                            X
+                                                             d1 (x, y ) =         |xi − yi |.
+                                                                            i=1
+
+  This is called the ℓ1 metric. We again check that this is a metric.
+
+
+Proof:
+   1. Positive definite: it is clear that d1 (x, y ) ≥ 0 for all x, y ∈ Rn . Further, if x = y then d1 (x, y ) = 0 as xi = yi ∀i .
+      If d1 (x, y ) = 0 then xi = yi ∀i , and thus x = y .
+
+   2. Symmetric: d1 (x, y ) = ni=1 |xi − yi | ni=1 |yi − xi | = d1 (y , x).
+                                P               P
+
+   3. Triangle Inequality: This follows immediately from the triangle inequality for absolute values:
+                            n
+                            X                    n
+                                                 X                                 n
+                                                                                   X                    n
+                                                                                                        X
+              d1 (x, z) =         |xi − zi | ≤         |xi − yi | + |yi − zi | =         |xi − yi | +         |yi − zi | = d1 (x, y ) + d1 (y , z).
+                            i=1                  i=1                               i=1                  i=1
+
+
+
+
+Remark 6. Notice that the ℓ1 metric and the Euclidean metric take on the same form. In PSET 1, you will prove
+that dp : Rn × Rn → [0, ∞) given by
+                                                            dp (x, y ) = (|xi − yi |p )1/p
+
+is a metric. It is called the ℓp metric.
+
+   Now that we have went through three examples of metric spaces, let’s relate this concept back to real analysis
+(after all, that is why we are studying this). What are the key definitions we used in 18.100A? We had convergent
+sequences, Cauchy sequences, and continuity. Let’s write down these definitions in terms of 18.100A:
+    •   A sequence {an } in R converges to a ∈ R if and only if ∀ϵ > 0 there exists an N ∈ N such that ∀n ≥ N,
+
+                                                                       |an − a| ≤ ϵ.
+
+    •   A sequence {an } in R is a Cauchy sequence if and only if ∀ϵ > 0 there exists an N ∈ N such that ∀n, m ≥ N,
+
+                                                                      |an − am | ≤ ϵ.
+
+                                                                            3
+    •   A set A ⊂ Rn is open if and only if for all x ∈ A, there exists an ϵ > 0 such that B(x, ϵ) ⊂ A.
+    •   A function f : R ⊃ A → R is continuous if and only if given x ∈ A, ∀ϵ > 0 there exists a δ > 0 such that
+
+                                              |x − y | ≤ δ =⇒ |f (x) − f (y )| ≤ ϵ.
+
+   We thus have these (almost immediate) definitions for Metric Spaces:
+
+  Definition 7 (Convergent sequence)
+  A sequence {xn } in a metric space (X, d) converges to x ∈ X if and only if ∀ϵ > 0 there exists an N ∈ N such
+  that ∀n ≥ N,
+                                                       d(xn , x) ≤ ϵ.
+
+
+  Definition 8 (Cauchy sequence)
+  A sequence {xn } in (X, d) is a Cauchy sequence if and only if ∀ϵ > 0 there exists an N ∈ N such that ∀n, m ≥ N,
+
+                                                       d(xn , xm ) ≤ ϵ.
+
+
+  Definition 9 (Open Set)
+  A set in A ⊆ X is open if and only if ∀x ∈ A, there exists an ϵ > 0 such that
+
+                                          B(x, ϵ) := {y ∈ X | d(x, y ) < ϵ} ⊂ A.
+
+  We say that B(x, ϵ) is a ball of radius epsilon centered at x.
+
+
+   Continuous functions however are a bit different. Normally, continuous functions map to R, but here we can let
+them map to any other metric space, getting the following definition
+
+  Definition 10 (Continuous functions)
+  Let X and Y be metric spaces with metrics dX , dY respectively. Then, a function f : X ⊃ A → Y is continuous
+  if and only if given x ∈ A, ∀ϵ > 0 there exists a δ > 0 such that
+
+                                         dX (x, y ) ≤ δ =⇒ dY (f (x), f (y )) ≤ ϵ.
+
+
+   The reason I bring these up now as opposed to later, is to point out how one-to-one the definitions between
+18.100A and 18.100B are. All we are doing is making our definition a bit more general so we can study things other
+than Rn . Speaking of which, lets consider some more metric spaces on sets that aren’t Rn . As we do so, I will bring
+up useful examples of the above definitions that are great to picture/use as intuition.
+
+  Example 11 (Metric on Continuous Functions)
+  We define C 0 ([a, b]) to be the set of functions (that map to the real numbers) that are continuous on the interval
+  [a, b]. Show that d : C 0 ([0, 1]) × C 0 ([0, 1]) → [0, ∞) defined by
+
+                                               d(f , g) = sup |f (x) − g(x)|
+                                                         x∈[0,1]
+
+  is a metric.
+
+
+
+                                                              4
+Proof: I leave you to prove positive definiteness and symmetry, but as usual the hard part comes down to proving the
+triangle inequality. Let f , g, h ∈ C 0 ([0, 1]). First, lets evaluate what d(f , h) is in terms of this metric.
+
+                                                      d(f , h) = sup |f (x) − h(x)|.
+                                                                        x∈[0,1]
+
+
+Let x0 be a point in the interval [0, 1] such that
+
+                                         d(f , h) = sup |f (x) − h(x)| = |f (x0 ) − h(x0 )|.
+                                                       x∈[0,1]
+
+Remark 12. Why does such a point exist?
+
+   Furthermore, note that for all x ∈ [0, 1],
+
+                     |f (x) − g(x)| ≤ sup |f (x) − g(x)| and |g(x) − h(x)| ≤ sup |g(x) − h(x)|.
+                                          x∈[0,1]                                                      x∈[0,1]
+
+Thus,
+
+                                       d(f , h) = |f (x0 ) − h(x0 )|
+                                                ≤ |f (x0 ) − g(x0 )| + |g(x0 ) − h(x0 )|
+                                                ≤ sup |f (x) − g(x)| + sup |g(x) − h(x)|
+                                                     x∈[0,1]                       x∈[0,1]
+
+                                                = d(f , g) + d(g, h).
+
+Thus,
+                                                       d(f , h) ≤ d(f , g) + d(g, h).
+
+
+
+Question 13. Pick f ∈ C 0 ([a, b]). What does B(f , ϵ) look like in C 0 ([a, b]) (ϵ > 0)?
+
+
+  Example 14
+  We can take this one step further. Define C 1 ([0, 1]) as the space of continuously differentiable functions. In other
+  words, functions that are continuous, and whose first derivative is continuous. Consider
+  d : C 1 ([0, 1]) × C 1 ([0, 1]) → [0, ∞) where
+
+                                     d(f , g) = sup |f (x) − g(x)| + sup |f ′ (x) − g ′ (x)|.
+                                                    x∈[0,1]                       x∈[0,1]
+
+  Show d is a metric on the space.
+
+
+Proof: I leave you again to check positive definiteness and symmetry, but to prove the triangle inequality we can
+use a nice trick. Firstly, note that if f , g, h ∈ C 1 ([a, b]) then they are all continuous (i.e. they are all in C 0 ([a, b])).
+Therefore,
+                               sup |f (x) − h(x)| ≤ sup |f (x) − g(x)| + sup |g(x) − h(x)|
+                             x∈[0,1]                           x∈[0,1]                       x∈[0,1]
+                                                               ′   ′      ′
+as we proved in the previous example. Similarly, f , g , h are continuous by assumption. Hence,
+
+                            sup |f ′ (x) − h′ (x)| ≤ sup |f ′ (x) − g ′ (x)| + sup |g ′ (x) − h′ (x)|.
+                           x∈[0,1]                            x∈[0,1]                        x∈[0,1]
+
+
+
+                                                                              5
+Adding these two inequalities together gives the desired inequality.
+
+Question 15. Consider again C 1 ([0, 1]). Is d(f , g) = supx∈[0,1] |f ′ (x) − g ′ (x)| a metric on C 1 ([0, 1])? You will answer
+this on PSET 1.
+
+   While we will stop here with regards to continuous functions on a bounded interval, notice that we can easily
+continue this argument, and we can in fact define a metric on functions that are infinitely differentiable. However, we
+would have to be careful as we done want to take an infinite sum of things if the sum doesn’t converge. There will be
+an optional problem discussing this on PSET 1.
+
+  Example 16
+                d
+  Show the map dx : C 1 ([a, b]) → C 0 ([a, b]) is continuous.
+
+
+Proof: Let f , g ∈ C 1 ([a, b]). We want to show that given ϵ > 0 there exists a δ > 0 such that if dC 1 (f , g) < δ, then
+      d      d
+                
+dC 0 dx f , dx g < ϵ. To see this, calculate both equations:
+
+                                            dC 1 (f , g) = sup |f (x) − g(x)| + sup |f ′ (x) − g ′ (x)|.
+                                                          x∈[a,b]                    x∈[a,b]
+                                                   
+                                         d   d
+                             dC 0          f, g         = sup |f ′ (x) − g ′ (x)|.
+                                        dx dx             x∈[a,b]
+
+                           d      d
+                                        
+Hence, notice that dC 0   dx f , dx g       ≤ dC 1 (f , g). Thus, let δ = ϵ.
+
+Remark 17. On PSET 1, you will show that integration is continuous.
+
+   So far, we have been studying metrics on vector spaces. In other words, the sum of two vectors in Rn is in Rn , and
+the sum of two continuous functions is continuous, etc.. We will discuss the notion of a vector space more in Lecture
+3. However, it is important to note that we don’t need the set to be a vector space in order to define a metric on it.
+Consider the following two examples:
+
+  Example 18 (Geodesic)
+  Consider the unit ball in R3 . We can define two metrics on it. The first, immediately follows from the Euclidean
+  metric on the ball. However, notice, that we can define a metric on the ball defined as the shortest "line segment"
+  between two points that lie on the sphere. This concept is loosely defined as a "geodesic".
+
+
+
+  Example 19 (Trivial Metric)
+  We define the trivial metric. Pick a set X. Then, define
+                                                          
+                                                          1                x ̸= y
+                                               d(x, y ) =                            .
+                                                          0                x =y
+
+  Show d is a metric.
+
+
+Proof: It is clear that d is positive definite and symmetric. We prove the triangle inequality. Consider d(x, z). We
+split this into four cases. If x = z, then d(x, z) = 0. If y = x = z, then d(x, z) = d(x, y ) + d(y , z) = 0. If
+y ̸= x and thus y ̸= z, then 0 = d(x, z) ≤ d(x, y ) + d(y , z) = 2. If x ̸= z, then d(x, z) = 1. If x = y , then
+1 = d(x, z) = d(x, y ) + d(y , z) = 1. If y ̸= x and y ̸= z, then 1 = d(x, z) ≤ d(x, y ) + d(y , z) = 2.
+
+                                                                      6
+Remark 20. On PSET 1, you will prove the British Railway metric is a metric (this is a similar example to the trivial
+metric one– use case work!).
+
+   We finish with one last example for the day.
+
+  Example 21
+  Once again consider the space C 0 ([0, 1]). Define the function I1 : C 0 ([0, 1]) × C 0 ([0, 1]) → [0, ∞) where
+                                                                Z 1
+                                                 I1 (f , g) =           |f (x) − g(x)| dx.
+                                                                    0
+
+  Show that I1 is a metric.
+
+
+Proof: I leave you to prove positive definiteness and symmetry (note for positive definiteness, you need to use continuity
+of f −g). However, the loose proof of the triangle inequality isn’t terribly bad this time! We simply notice that for all x,
+|f (x) − h(x)| ≤ |f (x) − g(x)| + |g(x) − h(x)|. Hence, using properties of integration, we get (given f , g, h ∈ C 0 ([0, 1]))
+                                                 Z 1
+                                  I1 (f , h) =         |f (x) − h(x)| dx
+                                                  0
+                                                 Z 1
+                                           ≤     |f (x) − g(x)| + |g(x) − h(x)| dx
+                                                  0
+                                             Z 1                     Z 1
+                                           =     |f (x) − g(x)| dx +     |g(x) − h(x)| dx
+                                                  0                              0
+
+                                           = I1 (f , g) + I1 (g, h).
+
+
+
+   We call this the L1 metric.
+
+Remark 22. One can (similar to the proof of the ℓp metrics) prove that for 1 ≤ p < ∞,
+                                                           Z 1                          1/p
+                                          Ip (f , g) =              |f (x) − g(x)|p dx
+                                                                0
+
+defines a metric on C 0 ([0, 1]) called the Lp metric. This should make relative sense; the ℓp metric is a sum of
+(countable) many terms, while the integral is (the limit) of a sum of infinitely many terms (i.e. a Riemann sum).
+
+
+
+
+                                                                        7
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+18.S190 Introduction to Metric Spaces
+Independent Activities Period (IAP) 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

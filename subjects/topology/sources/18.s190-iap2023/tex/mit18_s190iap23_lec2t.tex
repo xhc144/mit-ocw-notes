@@ -1,0 +1,279 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.S190 Introduction to Metric Spaces, Independent Activities Period (IAP) 2023
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\subsection*{General Theory}
+We now go into some of the general theory regarding metric spaces. Metric spaces are not only intuitively related to our understanding of $\R^n$, but they also behave similarly. For our purposes, we want to study metric spaces as they act nicely, and we now show some ways in which they are "nice".
+\begin{remark}
+Not every space (i.e. topological space) is as nice as a metric space! The fancy way to say this is "Not every topological space is metrizable." 18.901 explores spaces like this, but we will not do so in this class.
+\end{remark}
+
+Let's start with convergent sequences, just like we did when we first started studying the real numbers.
+\begin{proposition}
+Let $(X,d)$ be a metric space and let $x_n$ be a convergent sequence in $X$ such that $x_n\to x$. This limit is unique.
+\end{proposition}
+\textbf{Proof}: Suppose there exists a $y$ such that $x_n \to y$. We want to show that if this is the case, then $x=y$. 
+
+\begin{question}
+What property about metric spaces tells us when points are equal?
+\end{question}
+On the real line, $x=y \iff |x-y|=0$, which is how we proved this property in 18.100x. Here, on metric spaces, we similarly have $x=y \iff d(x,y) = 0$. Hence, we use that to our advantage. Notice that
+\[
+0 \leq d(x,y) \leq d(x, x_n) + d(x_n,y).
+\]
+Given that $x_n \to x$ and $x_n \to y$, we can make the right hand side arbitrarily small. More formally, let $\epsilon >0$. Then, there exists an $N$ such that for all $n\geq N$,
+\[
+0 \leq d(x,y) \leq d(x, x_n) + d(x_n,y)<\epsilon.
+\]
+This is true for all $\epsilon>0$, and thus $d(x,y) = 0 \implies x=y$. \qed 
+
+\begin{proposition}
+Let $x_n\to x$. Then, $\forall y\in X$, $d(x_n,y) \to d(x,y)$. 
+\end{proposition}
+In other words, when you have a convergent sequence in a metric space, the distance also behaves how one would hope. A similar way to think about this: fix $y\in X$. Then $a_n =d(x_n,y)$ is a convergent sequence in the real numbers.
+
+\textbf{Proof}: Let $y\in X$. Firstly, note that given $x_n\to x$, $d(x_n,x) \to 0$. Hence, let $\epsilon>0$. Then, there exists an $N$ such that for all $n\geq N$,
+\[
+d(x_n,y) \leq d(x,x_n) + d(x,y)< \epsilon + d(x,y).
+\]
+We now want a similar lower bound, which we obtain by the triangle inequality again:
+\[
+d(x,y)\leq d(x,x_n) + d(x_n,y)\implies d(x,y) - d(x_n,x) \leq d(x_n,y).
+\]
+For $n\geq N$, we have $d(x,y) - \epsilon < d(x_n,y)$. Therefore, given $\epsilon>0$, there exists an $N$ such that for all $n\geq N$, 
+\[
+d(x,y) -\epsilon < d(x_n,y) < d(x,y) + \epsilon \implies |d(x_n,y)-d(x,y)| < \epsilon.
+\]
+Therefore, $d(x_n,y)\to d(x,y).$ \qed
+
+\begin{proposition}
+We can take this concept one step further, studying two convergent sequences at once. Let $x_n\to x$ and $y_n \to y$. Then, $d(x_n,y_n) \to d(x,y)$. Similarly, given $\{x_n\}$ and $\{y_n\}$ are Cauchy sequences, you can show that $d(x_n,y_n)$ converges (but you cannot assume the sequences have limit points!).
+\end{proposition}
+This problem will be on your PSET!
+%\textbf{Proof}: The proof of this is done exactly the same. One can show that given $\epsilon >0$ there exists an $N$ such that for all $n\geq N$,
+%\[
+%d(x,y) - \epsilon < d(x,y) -d(x_n,x)-d(y_n,y) \leq d(x_n,y_n) \leq d(x_n,x) + d(x,y) + d(y,y_n) < d(x,y) + \epsilon,
+%\]
+%and thus $|d(x_n,y_n) - d(x,y)| < \epsilon.$
+%\qed 
+
+\begin{definition}[Bounded]
+A sequence $\{x_n\}$ in $(X,d)$ is bounded if and only if there exists a $p\in X$ and a $B\in \R$ such that 
+\[
+d(x_n,p) \leq B ~~\forall n\in \NN.
+\]
+Similarly, a subset $A\subseteq X$ is bounded if and only if there exists a $p\in X$ and a $B\in \R$ such that 
+\[
+d(x,p) \leq B ~~\forall x\in A.
+\]
+\end{definition}
+
+\begin{proposition}
+Every convergent sequence in a metric space is bounded.
+\end{proposition}
+\textbf{Proof}: Let $x_n\to x$ and let $\epsilon = 1 >0$. Then, there exists an $N$ such that for all $n\geq N$, $d(x_n,x) < 1.$ Now this is almost exactly our definition of bounded with $p=x$ and $B=1$, but the issue is that so far this isn't true for all $n$, only for all $n\geq N$ (which is still infinitely many!). We thus use a common and useful technique: let 
+\[
+B = \max \{d(x_n, x), 1 \mid 1\leq n < N\}.
+\]
+Is $B$ finite? Yes; $B$ is the maximum of finitely many finite elements and is thus finite. Furthermore, we now have that for all $n\geq N$, $d(x_n,x) < 1 \leq B$, and for all $n<N$, $d(x_n,x) \leq B$. Hence, $\{x_n\}$ is bounded. \qed
+
+We will prove two more theorems about convergent sequences, and then we will shift our focus to open and closed sets.
+\begin{proposition}
+Every convergent sequence is a Cauchy sequence.
+\end{proposition}
+\textbf{Proof}: Let $x_n \to x$, and let $\epsilon>0$. Then, there exists an $N$ such that for all $n\geq N$, $d(x_n,x) < \frac{\epsilon}{2}$. Hence, for all $n,m\geq N$, 
+\[
+d(x_n,x_m) \leq d(x_n,x) + d(x,x_m) < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\]
+\qed 
+
+We showed this before for the real numbers! In fact, we showed that Cauchy sequences are convergent for the real line. However, this isn't always true.
+
+\begin{definition}[Cauchy complete]
+    A metric space in which every Cauchy sequence is convergent is called \textbf{Cauchy complete}. 
+\end{definition}
+
+\begin{remark}
+You will show on PSET 2 that $C^0([0,1])$ is Cauchy complete.
+\end{remark}
+
+\begin{proposition}
+Every subsequence of a convergent sequence is convergent.
+\end{proposition}
+\textbf{Proof}: This proof will help give an example of why Cauchy sequences are useful. Let $x_n\to x$, and consider the subsequence $\{x_{n_k}\}$. We want to show that $\{x_{n_k}\}$ is convergent, and to do so we will show that $x_{n_k} \to x$. Firstly notice that 
+\[
+d(x_{n_k}, x) \leq d(x_{n_k},x_n) + d(x_n,x).
+\]
+We know that $x_n \to x$, and thus for $\epsilon>0$ there exists an $N_1$ such that for all $n\geq N_1$, $d(x_n,x) < \frac{\epsilon}{2}$. In other words, we can make $d(x_n,x)$ arbitrarily small; but what can we do about $d(x_{n_k},x_n)$? Well we note that $\{x_n\}$ is a Cauchy sequence. Thus, there exists an $N_2$ such that for all $n,n_k\geq N$, $d(x_{n_k}, x_n) < \frac{\epsilon}{2}$. Hence, for all $n\geq \max\{N_1, N_2\}$, 
+\[
+d(x_{n_k}, x) \leq d(x_{n_k},x_n) + d(x_n,x) < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\]
+\qed 
+
+You may be wondering "Why don't we have as many theorems for convergent sequences like we used to?" Well, notice that metric spaces are \textit{much} more general than $\R$. For instance, we can't show sums of convergent sequences converge, because we don't \textit{always} have a notion of addition. Similarly, we don't have a direct analog of the squeeze theorem, as we don't \textit{always} have a notion of "ordering" (i.e. what it means for one element to be bigger than another). Thus we have to study new tools, like open sets.
+
+\begin{recall*}[Open Set]
+A set in $A\subset X$ is \textbf{open} if and only if $\forall x\in A$, there exists an $\epsilon >0$ such that 
+\[
+B(x,\epsilon) := \{y\in X \mid d(x,y) < \epsilon\} \subset A.
+\]
+We say that $B(x,\epsilon)$ is a ball of radius epsilon centered at $x$.
+\end{recall*}
+While it may seem out of left field, open sets prove very useful in understanding concepts of convergence and continuity. We will show this connection today, but let's start with some useful and powerful propositions.
+
+\begin{theorem}[Topological Properties of Open Sets] \label{topological}
+Let $X$ be a metric space, and let $\{A_i\}_{i\in \Lambda}$ be open sets in $X$. Then,
+\begin{enumerate}
+    \item $\emptyset$ and $X$ are open sets in $X.$
+    \item $\bigcup_{i\in I} A_i$ is open in $X$. (I.e., the arbitrary union of open sets is open.)
+    \item $\bigcap_{i=1}^n A_i$ is open in $X$. (I.e., the finite intersection of open sets is open.)
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: All we can use so far is the definition given to us.
+\begin{enumerate}
+    \item Consider $\emptyset$. It is vacuously true that $\forall x\in \emptyset$, there exists an $\epsilon>0$ such that $B(x,\epsilon)\subset \emptyset$, as there are no elements in the empty set. Now consider $X$. Recall the definition of $B(x,\epsilon)$:
+    \[
+    B(x,\epsilon) = \{y\in X \mid d(x,y) <\epsilon\}.
+    \]
+    By definition, $\forall x\in X$ and in fact for all $\epsilon >0$ (though we only need one), $B(x,\epsilon) \subset X$. Thus, $X$ is an open set.
+    \item Consider some $x\in \bigcup_{i\in I} A_i$. Then, by assumption, there exists a $\lambda\in \Lambda$ such that $x\in A_{\lambda}$. Furthermore, $A_{\lambda}$ is an open set, and thus there exists an $\epsilon>0$ such that $B(x,\epsilon) \subset A_{\lambda}$. Notice though, that $A_\lambda \subset \bigcup_{i\in I} A_i$, and thus $B(x,\epsilon) \subset \bigcup_{i\in I} A_i$. Hence, the arbitrary union of open sets is open.
+    
+    \item The proof for the intersection will act similarly, but let's see why we can only consider a finite intersection. Let $x\in \bigcap_{i=1}^n A_i$. Then, for each $1\leq i \leq n$, $x\in A_i$. Therefore, there exists an $\epsilon_i$ such that $B(x,\epsilon_i) \subset A_i$. The issue though, is $A_i$ is not automatically a subset of the intersection. However, we can take $\epsilon = \min\{\epsilon_i\}>0.$
+    Thus, $B(x,\epsilon) \subseteq B(x,\epsilon_i) \subset A_i$ for every $i$. Hence, $B(x,\epsilon) \subset \bigcap_{i=1}^n A_i$. \qed
+\end{enumerate}
+
+\begin{remark}
+These three properties can help us understand why open sets are so useful (at least conceptually). As we will see, open sets are directly related to convergence and continuity, and are yet so much more general. In point-set topology (18.901), you actually \textbf{start} with defining open sets abstractly using these three properties, and go from there. It's very interesting, and leads to very interesting examples! We will discuss this more in Lecture 6.
+\end{remark}
+
+\begin{definition}[Closed Set]
+Let $A\subset X$. We say that $A$ is \textbf{closed} if $X\setminus A := A^c$ is open in $X$. We call $A^c$ the \textbf{complement} of $A$.
+\end{definition}
+
+I want to note that a set being closed \textit{does not} imply it is not open. Consider for instance, the emptyset $\emptyset$. The complement of the emptyset is $X$, which is open, and this $\emptyset$ is closed. However, by Theorem \ref{topological}, $\emptyset$ is open!
+
+This concept is deeply tied to the notion of connectedness.
+
+\begin{definition}[Disconnected and Connected]
+    A metric space $X$ is \textbf{disconnected} if there exists two disjoint, non-empty, open sets $U_1$ and $U_2$ such that $X = U_1 \cup U_2$.
+
+    The space is \textbf{connected} if it is not disconnected.
+\end{definition}
+
+\begin{proposition}
+    A metric space $X$ is connected if and only if the only open and closed sets are the emptyset and $X$ itself.
+\end{proposition}
+
+\begin{remark}
+    This proposition will be outlined on your third PSET as an optional problem.
+\end{remark}
+
+We now make develop some theory for closed sets.
+
+\begin{theorem}
+Let $X$ be a metric space, and let $\{A_i\}_{i\in \Lambda}$ be closed sets in $X$. Then,
+\begin{enumerate}
+    \item $\emptyset$ and $X$ are closed sets in $X.$
+    \item $\bigcap_{i\in I} A_i$ is closed in $X$. (I.e., the arbitrary intersection of closed sets is closed.)
+    \item $\bigcup_{i=1}^n A_i$ is closed in $X$. (I.e., the finite union of closed sets is closed.)
+\end{enumerate}
+\end{theorem}
+
+To prove this, we use DeMorgan's Law from set theory (which is proven in Lebl's Theorem 0.3.5).
+\begin{proposition}[DeMorgan's Law]
+Consider the sets $\{U_i\}_{i\in \Lambda}$. Then,
+\[
+\left(\bigcup_{i\in \Lambda}U_i \right)^c = \bigcap_{i\in \Lambda}U_i^c \hspace{.25cm} \text{and} \hspace{.25cm} \left(\bigcap_{i\in \Lambda}U_i \right)^c = \bigcup_{i\in \Lambda}U_i^c.
+\]
+To put this into words, the complement of a union is the intersection of the complements, and the complement of an intersection is the union of the complements.
+\end{proposition}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Well firstly, notice $\emptyset^c = X$ and $X^c = \emptyset$ in $X$. Hence, given $\emptyset$ and $X$ are open sets, $\emptyset$ and $X$ are closed sets.
+    \item Given $A_i$ are closed, $A_i^c$ is open. Hence, using DeMorgan's Law, 
+    \[
+    \left(\bigcap_{i\in \Lambda}A_i \right)^c = \bigcup_{i\in \Lambda}A_i^c,
+    \]
+    and the arbitrary union of open sets is open. Hence, $\bigcap_{i\in \Lambda}A_i$ is closed.
+    \item We use DeMorgan's Law in exactly the same way to prove that the finite union of closed sets is closed.
+\end{enumerate}
+\qed 
+
+Lets look at some useful examples:
+\begin{example}
+Let $(X,d)$ be a metric space, and let $x\in X$. Then, for any $\epsilon>0$, $B(x,\epsilon)$ is open in $X$. In fact, this ball is sometimes referred to as an \textit{open ball}.
+\end{example}
+\textbf{Proof}: Let $y\in B(x,\epsilon)$. If $x = y$ then this is automatically true, just take $\epsilon' = \frac{\epsilon}{2}$. Suppose that $y\neq 0$, and let $r = \epsilon - d(x,y)>0$. We want to show that $B(y,r) \subset B(x,\epsilon).$ Let $z\in B(y,r).$ Then \[d(x,z) \leq d(x,y) + d(y,z) < d(x,y) + r = \epsilon.\] Therefore, $B(y,r) \subset B(x,\epsilon)$, and thus $B(x,\epsilon)$ is an open set. \qed 
+
+\begin{theorem}
+An open subset $U$ in a metric space $(X,d)$ can be written as a union of open balls in $X$. This is an optional problem on PSET 2.
+\end{theorem}
+
+\begin{remark}
+    Hence, sometimes we will reduce the problem to simply prove propositions.
+\end{remark}
+
+
+\begin{example}
+Let $(X,d)$ be a metric space and $x\in X$. Then, $\{x\}$ is a closed set in $X$.
+\end{example}
+\textbf{Proof}: We want to show that for all $y \in X\setminus \{x\}$, there is an open ball around $y$ such that $x$ is not in the ball. Fix $y\in X\setminus \{x\}$; then, $y\neq x$ and thus $d(x,y) >0$. Let $r = \frac{d(x,y)}{2}.$ Hence, consider $B(y,r)$. We know that $x\notin B(y,r)$ as if this were the case, then $d(x,y) < r< d(x,y)$ which is a contradiction. Hence, $B(y,r) \subset X\setminus \{x\}$. Therefore, $X\setminus \{x\}$ is an open set, and thus $\{x\}$ is a closed set in $X$. \qed 
+
+\begin{remark}
+One can similarly prove that any finite subset of a metric space is closed.
+\end{remark}
+
+Let's now see again how open sets relate to convergence and continuity. To do so, we first observe a fact about convergent sequences in $\R$.
+\begin{proposition}
+Let $\{x_n\}$ be a sequence in $\R$. Then, $\{x_n\}$ is convergent (and converges to $x$) if and only if $\forall \epsilon>0$, all but finitely many terms in $\{x_n\}$ are in $(x-\epsilon, x+\epsilon).$
+\end{proposition}
+\textbf{Proof}: Given $x_n\to x$, given $\epsilon>0$ there exists an $N$ such that for all $n\geq N$, $|x_n-x| < \epsilon$. Therefore, for all $n\geq N$, $x_n \in (x-\epsilon, x+\epsilon).$ For the other direction, fix arbitrary $\epsilon >0$ and consider $(x-\epsilon, x+\epsilon)$. Given that all but finitely many terms in $\{x_n\}$ are in $(x-\epsilon, x+\epsilon)$, there exists an $M$ such that for all $n\geq M$, $x_n \in (x-\epsilon, x+\epsilon) = B_\epsilon(x)$. Therefore, $x_n$ is convergent. \qed 
+
+The same can be generally said for metric spaces.
+\begin{definition}[Neighborhood]
+Suppose that $x\in U$ and $U$ is open in $X$. Then we can $U$ a \textbf{neighborhood} of $x$.
+\end{definition}
+\begin{theorem}
+Let $\{x_n\}$ be a sequence in the metric space $(X,d)$. Then, $x_n$ is convergent and converges to $x$ if and only if for every neighborhood of $x$, all but finitely many terms in $\{x_n\}$ are not in the neighborhood of $x.$
+\end{theorem}
+\textbf{Proof}: The proof is exactly the same as the proof of $X = \R$, only changing to metric notation. \qed 
+
+\begin{remark}
+Every closed set has the property that every convergent sequence converges in the set. This will be shown on PSET 2, and gives yet another connection between open/closed sets and convergence.
+\end{remark}
+
+We now shift our focus to continuous functions. 
+\begin{recall*}[Continuous functions]
+Let $(X,d_X)$ and $(Y,d_Y)$ be metric spaces. Then, a function $f: X \supset A \to Y$ is \textbf{continuous} if and only if given $x\in A$, $\forall \epsilon >0$ there exists a $\delta >0$ such that 
+\[
+d_X(x,y) \leq \delta \implies d_Y(f(x), f(y)) \leq \epsilon.
+\]
+\end{recall*}
+
+We will first show how continuity is related to convergence, and then how continuity is related to open sets.
+\begin{theorem}
+Let $(X,d_X)$ and $(Y, d_Y)$ be metric spaces. Then, $f:X\to Y$ is continuous at $c\in X$ if and only if for every sequence $\{x_n\}$ in $X$ with $x_n \to c$, we have that $f(x_n) \to f(c)$.
+\end{theorem}
+\textbf{Proof}: Suppose that $f$ is continuous at $c$. Let $\{x_n\}$ be a sequence in $X$ converging to $c$. Given $\epsilon>0$, there exists a $\delta>0$ such that $d_X(x,c) <\delta \implies d_Y(f(x),f(c))<\epsilon$. Given $x_n\to c$, there exists an $N$ such that for all $n\geq N$, $d_X(x_n, c) <\delta$. Therefore, $d_Y(f(x_n), f(c))<\epsilon$. Thus, $f(x_n) \to f(c)$. 
+
+Suppose that $f$ is not continuous at $c$. Let $\epsilon>0.$ Then, for all $n\in \NN$, there exists an $x_n$ such that $d(x_n,c) < \frac{1}{n}$ but $d_Y(f(x_n),f(c))\geq \epsilon$. Then, $x_n\to c\}$ but $f(x_n)$ does not converge to $f(c).$ \qed 
+
+\begin{lemma}
+Let $(X,d_X)$ and $(Y,d_Y)$ be metric spaces. A function $f: X\to Y$ is continuous at $c\in X$ if and only if for every open neighborhood $U$ of $f(c)$ in $Y$, the set $f^{-1}(U)$ contains an open neighborhood of $c$ in $X$.
+\end{lemma}
+\textbf{Proof}: Suppose that $f$ is continuous at $c$. Let $U$ be an open neighborhood of $f(c)$ in $Y$. Then, $B_Y(f(c),\epsilon) \subset U$ for some $\epsilon>0$. By the continuity of $f$, there exists a $\delta >0$ such that $d_X(x,c) \implies d_Y(f(x),f(c)) <\epsilon$. Hence, 
+\[
+B_X(c,\delta) \subset f^{-1}(B_Y(f(c),\epsilon)) \subset f^{-1}(U)
+\]
+and $B_X(c,\delta)$ is an open neighborhood of $c$.
+
+For the other direction, let $\epsilon>0$. If $f^{-1}(B_Y(f(c),\epsilon))$ contains an open neighborhood $V$ of $c$, then it contains a ball $B_X(c,\delta)$ such that 
+\[
+B_X(c,\delta) \subset W\subset  f^{-1}(B_Y(f(c),\epsilon)).
+\]
+Therefore, if $d_X(x,c) <\delta \implies d_Y(f(x),f(c))<\epsilon$. Hence, $f$ is continuous at $c$. \qed 
+
+\begin{remark}
+In fact, one can deduce that a function $f:X\to Y$ is continuous if and only if given $U\subset Y$ open, $f^{-1}(U)$ is open in $X$. This is an optional problem on PSET 2. This idea is once again integral to 18.901.
+\end{remark}

@@ -1,0 +1,387 @@
+                       18.S190: Introduction to Metric Spaces
+                                               Lecturer: Paige Bright
+
+                                                         IAP 2023
+
+
+
+3      January 17, 2023
+
+Compact Sets in Rn
+Today, we will first discuss another useful concept tangentially related to metrics (norms), which will then motivate
+an important concept: compact sets.
+    Have you heard of a norm in other contexts before? A classic place to first hear of a "norm" is in 18.02 with the
+Euclidean norm, which defines the length of a vector in Rn . How does this definition fundamentally work? One way
+to understand the idea of a Euclidean norm, is to visualize it as the distance between a point in Rn and the origin.
+This gives a direct relationship between this word "norm" in this context, to a metric. Given this, we define a norm
+in a more general context.
+    We first define a vector space.
+
+  Definition 1 (Vector Space)
+  A vector space V over a field k is a set of vectors which come with addition (+ : V × V → V ) and scalar
+  multiplication (· : k × V → V ) along with some classic axioms: commutativity, associativity, identity, and inverse
+  of addition, identity of multiplication, and distributivity.
+
+
+    For our purposes in this class, we will only study vector spaces over the field R. In essence, when we add two
+elements in the vector space, we stay in the vector space, and you can multiply an element in the space by a constant
+and stay in the space. The three key examples of a vector space, for our purposes, are Rn , Cn , and C 0 ([a, b]) (or more
+generally, C n ([a, b])). We can now define a norm:
+
+  Definition 2 (Norm)
+  A norm on a vector space V over the real numbers is a function ∥·∥ : V → [0, ∞) satisfying the following three
+  properties:
+     1. Positive Definite: ∥v ∥ ≥ 0 and ∥v ∥ = 0 ⇐⇒ v = 0.
+
+     2. Homogeneity: ∥λv ∥ = |λ|∥v ∥ for all v ∈ V and λ ∈ R.
+
+     3. Triangle Inequality: ∥x + y ∥ ≤ ∥x∥ + ∥y ∥.
+  A vector space with a norm on it is defined as a normed space.
+
+
+
+
+                                                                 1
+Remark 3. In a vector space V , 0 is always in V (why?). In PSET 2, you will directly show how the norm can relate
+to metrics.
+
+   We can thus view some of the metrics we have defined thus far in the class to be analogous to norms.
+
+  Example 4 (Norm on Continuous Functions)
+  Show that ∥·∥ : C 0 ([0, 1]) → [0, ∞) defined by
+
+                                                       ∥f ∥ = sup |f (x)|
+                                                                   x∈[0,1]
+
+  is a norm.
+
+
+Proof: Most of this proof will follow directly from the proof given by Example 10 in Lecture 1, but I will write the
+proof fully nonetheless.
+  1. It is clear that ∥f ∥ ≥ 0 for all f ∈ C 0 ([0, 1]) as absolute values are always non-negative, and ∥f ∥ = 0 if and only
+      if ∀x ∈ [0, 1], f (x) = 0.
+
+  2. Let λ ∈ R. Then,
+
+                              ∥λf ∥ = sup |λf (x)| = sup |λ||f (x)| = |λ| sup |f (x)| = |λ|∥f ∥.
+                                       x∈[0,1]               x∈[0,1]                     x∈[0,1]
+
+
+  3. Let f , g ∈ C 0 ([0, 1]). Then,
+
+                           ∥f + g∥ = sup |f (x) + g(x)| ≤ sup |f (x)| + sup |g(x)| = ∥f ∥ + ∥g∥
+                                       x∈[0,1]                          x∈[0,1]          x∈[0,1]
+
+      by the triangle inequality we proved for the metric on the space of continuous functions.
+
+
+
+  Example 5
+  Show that ∥·∥ : C 0 ([0, 1]) → [0, ∞) defined by
+                                                                   Z 1
+                                                       ∥f ∥ =               |f (x)| dx
+                                                                    0
+
+  is a norm.
+
+
+Proof: This example is related to Example 20 in Lecture 1.
+  1. It is clear that ∥f ∥ ≥ 0 for all f ∈ C 0 ([0, 1]) as absolute values are always non-negative. Additionally, notice
+      that |f ∥ = I1 (f , 0) where I1 which we discussed in that example. Hence, since I1 is positive definite, I1 (f , 0) =
+      ∥f ∥ = 0 if and only if f = 0, which implies the norm is positive definite.
+
+  2. Let λ ∈ R. Then,
+                                       Z 1                   Z 1                          Z 1
+                             ∥λf ∥ =         |λf (x)| dx =         |λ||f (x)| dx = |λ|          |f (x)| dx = |λ|∥f ∥
+                                        0                     0                            0
+
+      using the linearity of the integral.
+
+  3. The triangle inequality we proved for the metric I1 proves the triangle inequality here.
+
+
+                                                                        2
+   Given that the concept of a norm is very clearly analogous to metrics in some respects, you may wonder why we
+study norms in particular. A few key remarks about this: firstly, 18.102 explores this concept much further. In essence,
+norms help us understand vector spaces better, and 18.102 studies infinite dimensional vector spaces. (Conceptually:
+infinite dimensional linear algebra.) Secondly, proving a given function is a norm is a similar process to proving a given
+function is a metric, which is a useful skill.
+   Finally, norms give us an intuition behind magnitude. In R, the magnitude is again related to absolute values, the
+very thing we used to motivate metrics. In our last example, we could conceptually consider a differentiable function f
+to be large if ∥f ∥ is large (this is not official terminology). What, then, does ∥f ′ ∥ convey? This would measure "how
+large f ′ is" or "how much change" f goes through over the interval [0, 1]. One could ask the question: How does
+∥f ′ ∥ relate to ∥f ∥? This is a very interesting question, and becomes even more interesting in higher dimensions, but I
+digress.
+
+Question 6. Why have we been studying metrics/norms on the space of continuous functions over intervals, [a, b] or
+[0, 1], and not over R?
+
+   Notice, that we want both norms and metrics to be finite. However, scattered throughout our proofs, we have been
+using the fact that continuous functions on bounded intervals are themselves bounded (the Extreme Value Theorem).
+What condition would we need to impose on the space of continuous functions to get the metrics and norms to be
+finite?
+                                R∞
+   Let f ∈ C 0 (R). When will     −∞ |f (x)| dx be finite? It will be finite if outside of some bounded interval, f   = 0. This
+space of functions is very useful to study, and even has its own name:
+
+  Definition 7 (Compact Support)
+  A function f ∈ C 0 (R) has compact support if f = 0 outside of some interval [−n, n] for a finite n.
+
+
+
+  Definition 8 (Support)
+  The support of a function f ∈ C 0 (R) is the closure of the set
+
+                                                    {x ∈ R | f (x) ̸= 0}.
+
+
+Let’s dig into this a little deeper for a moment. Firstly, notice that the above set is the same as f −1 ({0}c ). Given {0}
+is closed as we showed last time, it follows that {0}c is open, and this f −1 ({0}c ) is open (by the relationship between
+continuous functions and open sets we showed last time). Then, the closure of this set is simply the smallest closed
+set that contains the open set.
+   A more general definition states that a function is compactly supported if it is zero outside of a compact set.
+Before we study compact sets, I want to quickly bring up three small lemmas to serve as a starting point. If you
+asked an analyst what intuition there is behind "compactness", many would say that compactness is a generalization
+of finiteness. Compact sets are to continuous functions as finite sets are to functions in general. Hence, recall the
+following three lemmas regarding finite sets.
+
+
+
+
+                                                              3
+  Recall 9
+  Let A be a finite set of a metric space (X, d). Then,
+       •   Every sequence in A has a convergent subsequence.
+
+       •   A is closed and bounded.
+
+       •   Given any function f : A → R, f achieves a maximum and minimum on A, and f is bounded.
+
+
+Proof:
+   1. Let {xn } be a sequence in A. Then, there are only finitely many values xi can take on, as A is finite. However,
+      given that a sequence is infinitely long, there must exist some element x ∈ A that is in the sequence {xn }
+      infinitely many times. If this wasn’t the case, the sequence {xn } wouldn’t be infinitely long. Thus, take xnk = xi
+      for i ∈ I = {n ∈ N | xn = x}. Then, xnk → x as xnk = x for all k by construction.
+
+   2. Well firstly, we know that A is closed in X by the previous lecture. Furthermore, we know that A is bounded, as
+      we can simply fix an x ∈ A, and let B = maxi {d(xi , x)} for xi ∈ A.
+
+   3. To find the maximum and minimum, simply look at the image of A under f . There are only finitely many
+      elements in A, and then we can simply let
+
+                                  B1 = max{f (xi ) | xi ∈ A} and B2 = min{f (xi ) | xi ∈ A}.
+                                          i                                 i
+
+      We know B1 and B2 are achieved as there are only finitely many terms in A. It is then immediate to see then
+      that every function is bounded.
+
+
+    These are extremely nice properties! We will shortly see analogs of these lemmas with regards to compact sets,
+but first:
+
+  Definition 10 (Covers)
+                                                                                           S
+  Let A ⊂ X where X is a metric space. Then, {Ui }i∈I is an open cover of A if A =             i∈I Ui   and Ui is open for
+  each i . A subcover of an open cover is a subcollection of the sets Ui that still cover A. A finite subcover of an
+  open cover is a finite subcollection of the sets Ui that still cover A.
+
+
+
+  Definition 11 (Compactness)
+  Let (X, d) be a metric space. A set A ⊂ X is sequentially compact if and only if every sequence in A has a
+  convergent subsequence in A. A set A ⊂ X is compact or topologically compact if every open cover of A has a
+  finite subcover.
+
+
+  Notation 12
+  We say that A ⋐ X is A is a compact subset of X.
+
+
+Remark 13. Notice that the definition of sequential continuity is the same as the first lemma regarding finite sets we
+talked about a second ago.
+
+    Conceptually, this idea can be kind of confusing, but let’s look at some examples.
+
+
+                                                            4
+  Example 14
+  R is not a compact subset of R.
+
+
+To see this, consider the open sets Uj = (−j, j) for j ∈ N. It is clear that the union of all the Uj will cover R. However,
+is there a finite subcover? Assume for the sake of contradiction that there was a finite subcover. Then,
+                                                      n
+                                                      [
+                                                R=         Ujk . = (−jk , jk ).
+                                                     k=1
+
+However, notice jk ∈ R but jk ∈
+                              / (−jk , jk ). Hence, we have found an open cover of R that does not have a finite
+subcover.
+
+  Example 15
+  (0,1] is not compact or sequentially compact in R.
+
+
+Similarly, consider Uj = (1/j, 2) for j ∈ N. To see why sequential compactness fails, consider the subsequences of the
+sequence n1 .
+           
+
+
+  Example 16
+  [0, 1] is a compact subset of R.
+
+
+   Proof: We will prove this directly, though it will take some work. Ultimately, we will develop more theorems about
+compact sets that will make similar examples like this easier. Take an open cover of [0, 1]
+                                                                  [
+                                                      [0, 1] ⊆          Ui .
+                                                                  i∈I
+
+Then, for every x ∈ [0, 1], we have that
+                                                                  [
+                                                      [0, x] ⊆          Ui .
+                                                                  i∈I
+
+Hence, let
+                  c = sup{x ∈ [0, 1] | [0, x] is covered by finitely many elements in the open cover}.
+
+Clearly, 0 ≤ c < 1, as the closed interval [0, 0] = {0} must be contained in one Ui . Hence, we want to show that
+c = 1, in order to show that [0, 1] has a finite subcover. Assume for the sake of contradiction that c < 1]. Then, it
+follows that c is contained in some open set, and thus contained in some open interval Ui . This implies that there is
+an element c ′ such that c ′ > c and c ′ ∈ Ui . Thus, [0, c ′ ] is covered by finitely many open sets from the cover, which
+is a contradiction. Therefore, c = 1.
+
+Remark 17. Notice, that a similar proof will show that [a, b] is compact in R. Also note, that a similar proof can show
+that [a, b] × [c, d] is compact in R2 , and so on and so forth. This will be useful for an optional problem on PSET 2.
+
+   We now want to prove some more general theorems regarding compact sets. Today, we will focus on compact sets
+in Rn , and next time we will discuss compact subsets of general metric spaces.
+   By the previous few examples, we have some insight as to what compact sets in R might look like.
+
+  Theorem 18
+  Compacts sets in R are closed and bounded.
+
+
+
+                                                              5
+Proof: Assume that A ⋐ R. We want to take an open cover of A that shows its bounded. Pick an arbitrary p ∈ A.
+Then,
+                                                         ∞
+                                                         [
+                                                  A⊂           B(p, i ) = R.
+                                                         i=1
+
+Given that A is compact, and the right hand side is an open cover, there exists a finite subcover. Hence,
+                                                   n
+                                                   [
+                                              A⊂         B(p, ik ) = B(p, in ).
+                                                   k=1
+
+Therefore, A is bounded, as given any x ∈ A, d(x, p) ≤ in < ∞.
+   We now prove the set is closed. To do so, we want to show that R \ A is open. Let p ∈ X \ A. For arbitrary q ∈ A,
+define                                                                  
+                                          d(p, q)                  d(p, q)
+                                Vq = B p,            and Wq = B q,            .
+                                             2                         2
+                                                        S
+Notice that Vq ∩ Wq = ∅ for all q ∈ A. Furthermore, A ⊂ q∈A Wq . Therefore, there exists a finite subcover of A,
+given by A ⊂ nk=1 Wqk .
+             S
+
+    Thus, consider the sets Vq1 , . . . , Vqk . Given that there are finitely many open sets, the intersection of them all
+is open. Furthermore, by construction, for all qk , Wqk ̸⊆ Vqk . Therefore, nk=1 Vqk is a neighborhood of p, and
+                                                                                   T
+Tn
+  k=1 Vqk ∩ A = ∅. We know this last intersection is the emptyset, as if it weren’t, then there would exist an element
+in A in the intersection of the Vq s, and thus an element in a Wqj such that Wqj ∩ Vqj ̸= ∅, which is a contradiction.
+   Therefore, there exists a neighborhood of p contained in X \ A. Thus, X \ A is open, and hence A is closed.
+   Notice that this proof does not rely on the fact that we are looking at R. In fact,
+
+  Lemma 19
+  A compact set in a metric space (X, d) is closed and bounded.
+
+
+   Is the converse true? To see why it is true in the case of R, we show a quick lemma.
+
+  Lemma 20
+  Let K be a compact set in a metric space (X, d), and let F be a closed subset of K. Then, F is a compact set.
+
+
+Proof: Given that F is closed, F c is open. Hence, let {Ui }i∈I be an open cover of F . Then,
+                                                                      [
+                                                 F ⊂ K ⊂ Fc ∪               Ui .
+                                                                      i∈I
+
+Therefore, given K is compact, there exists a finite subcover of K. Hence, there is a finite open subcover of F .
+
+  Theorem 21 (Heine-Borel)
+  Let K be a subset of R. Then, K is compact if and only if K is closed and bounded.
+
+
+Proof: We know that compact implies closed and bounded, and we thus need to prove the other direction! Let K be
+a closed and bounded subset of R. Then, given K is bounded, K is contained in some closed interval [a, b], which we
+have shown to be compact. Hence, K is a closed subset of a compact set, and thus K is compact.
+
+Remark 22. The Heine-Borel theorem does not carry over to an arbitrary metric space. Here, we used the fact that
+[a, b] is compact in R. A metric space is said to have the Heine-Borel property if every closed and bounded set in X
+is compact.
+
+                                                                6
+   At this point, you may be wondering why we mention the idea of sequential compactness, and how this actually
+relates to the idea of topological compactness. Firstly, recall the following theorem:
+
+  Theorem 23 (Bolzano-Weierstrass)
+  Every bounded sequence in Rn has a convergent subsequence.
+
+
+
+  Lemma 24
+  Consider A ⊂ Rn such that A is closed and bounded. Then, A is sequentially compact.
+
+
+Proof: Let {xn } be a sequence in A. Then {xn } is bounded as A is bounded, and thus by Bolzano-Weierstrass, there
+exists a convergent subsequence of {xn }. How do we know that {xn } converges in A? This uses the fact that A is
+closed. Therefore, every sequence in A has a convergent subsequence in A.
+   Is the converse true? Yes!
+
+  Theorem 25 (Bolzano-Weierstrass)
+  Let K be a subset of R. Show that K is sequentially compact if and only if K is closed and bounded.
+
+
+Proof: We have shown the backwards direction, and we now show the forward direction. Let K ⊂ R be sequentialy
+compact. Let {xn } be a sequence in K that converges to arbitrary x ∈ R. Then, every subsequence of {xn } converges
+to x. Therefore, x ∈ K. Hence, K contains all of its limit points, and is thus closed (see Problemset 2).
+   Suppose for the sake of contradiction that K is unbounded. Then, there is a sequence {xn } in K such that
+|xn | → ∞ as n → ∞. Therefore, every subsequence of {xn } is unbounded and diverges, and thus {xn } has no
+convergent subsequence. This is a contradiction as K is sequentially compact.
+
+Remark 26. You can generalize this proof to Rn ; try to do so!
+
+
+  Corollary 27
+  Given A ⊂ R, A is sequentially compact if and only if A is topologically compact.
+
+
+In our next lecture, we will show this is true for all metric spaces! However, the proof will need to be different, as a
+closed and bounded set is not necessarily compact in a general metric space.
+
+
+
+
+                                                           7
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+18.S190 Introduction to Metric Spaces
+Independent Activities Period (IAP) 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

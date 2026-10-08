@@ -1,0 +1,263 @@
+                       18.S190: Introduction to Metric Spaces
+                                              Lecturer: Paige Bright
+
+                                                        IAP 2023
+
+
+
+6      January 26, 2023
+
+Where We Go From Here
+In this section of the notes (the final one for this class!), we will discuss a bit of the history of metric spaces, and give
+a preview of how concepts learned here apply to future classes (i.e. 18.901, 18.102, etc.).
+    History: In the early 1900s, the usual approach to mathematics was far less abstract and axiomatic. Hence, at the
+time, various spaces that mathematicians studied (such as function spaces as we have studied a bit of in this class)
+had different, ununified, notions of convergence. Each space has it’s own notion of the word, which was studied in its
+own respect. There were some similarities between these notions, but there was no general understanding of the term.
+    Then, in 1906, Fréchet introduced the idea of metric spaces in his Ph.D. Dissertation. This allowed him (and many
+other mathematicians) to prove a result for a metric space, and have it be applicable to all other specific examples.
+This was the highlight of Lecture 2 of our class– the General Theory of metric spaces.
+
+Remark 1. Fréchet, however, did not coin the term "Metric Space"; the term was coined by Felix Hausdorff.
+
+    In this class, we discussed normed spaces, and saw how such spaces were in fact metric spaces under the metric
+induced by the norm. In this way, metric spaces are a generalization of normed spaces.
+
+Question 2. Is there a generalization of metric spaces?
+
+    Yes, there is: Topological spaces.
+    18.901: Introduction to Topology: Topological spaces were first defined by Hausdorff in 1914 in his book
+"Principles of Set Theory". His book increased the popularity of metric spaces as a mathematical tool.
+
+  Definition 3 (Topology)
+  A topology on a set X is a collection T of subsets of X having the following properties:
+     1. ∅ and X are in T .
+
+     2. The union of the elements of any subcollection of T is in T .
+
+     3. The intersection of the elements of any finite subcollection of T is in T .
+  A set X for which a topology T has been specified is called a topological space.
+
+
+Question 4. Where has we seem properties like this before?
+
+    We saw these properties when we defined open sets! In fact,
+
+
+                                                             1
+  Definition 5 (Open Set)
+  Let (X, T ) be a topological space. Then, U ⊂ X is called an open set if U ∈ T . In other words, we define the
+  set in T as open sets. Similarly, V ⊂ X is a closed set if X \ V ∈ T .
+
+
+Given a metric space (X, d), there is a topology induced by the metric. Intuitively, the topology is defined as the
+collection of unions of ϵ-balls for all ϵ > 0. This intuitive definition follows from what we have discussed about metric
+spaces: an open set in a metric space is the union of (arbitrarily many) open balls.
+
+Remark 6. To rigorously define the topology induced by the metric: ϵ-balls form a basis for the topology on X.
+
+
+  Definition 7 (Metrizable)
+  We say that a topological space X is metrizable if there exists a metric d on X such that the topology on X is
+  the topology induced by d.
+
+
+Remark 8. I briefly mentioned this on the second day, but again, not every topological space is metrizable!
+
+   At first, the definition of a topology can feel too general to particularly seem useful, but then again the definition
+of metric spaces can feel the same way at first. Given a topological space X, we can define notions of neighborhoods,
+convergence, and continuity that align with what we have proven for metric spaces.
+
+  Definition 9
+  Let (X, TX ) and (Y, TY ) be topological spaces. Then,
+     1. A neighborhood U of a point x ∈ X is an open set (i.e. U ∈ TX ) such that x ∈ U.
+
+     2. A sequence {xn } in X converges to x ∈ X if for every neighborhood U of x, there is an N such that xn ∈ U
+        for all n ≥ N.
+
+     3. A function f : X → Y is said to be continuous if for each open set V ∈ TY , f −1 (V ) ∈ TX .
+
+
+This definition may feel very abstract, but as we have shown throughout this class, these definitions are related to our
+understanding of convergence and continuity in metric space.
+   One may ask, given that topological spaces are a generalization of metric spaces, why we study metric spaces.
+To this, I say: why do we study calculus before we study real analysis? In theory, we could prove calculus using real
+analysis without having actually taken 18.01 or 18.02. And yet, taking these pre-requisites give us an intuition for
+why certain theorems should be true, and in some cases give us an intuition of how to approach proofs. Even more
+generally, calculus gives us an intuition for how derivatives of functions "should" look for nice enough functions. Even
+if we study weirder functions (or analogously weirder spaces that aren’t metric spaces), having the intuition allows us
+to play with abstract objects.
+   This is why throughout this class I have tried to draw diagrams when possible to describe what a theorem is actually
+saying, or to visualize an example. This technique of drawing an entire "space" as a blob on a chalkboard or on paper
+is very useful when trying to approach a problem, which you can see more of if you decide to take a class like 18.901.
+   That being said, there is a lot more we can know about metric spaces than we can about topological spaces, just
+in the same way we can know more about normed spaces than metric spaces. We have already seen this to a certain
+extent. One can show that given a normed space (X, ∥·∥), and two convergent sequences xn → x and yn → y , then
+
+                                                           2
+xn + yn → x + y . We cannot say the same about a general metric space, as we don’t inherently have always have a
+notion of addition in a metric space. So metric spaces are still an interesting area to study even after someone learns
+about topological spaces. In fact, metric spaces are currently an active area of research, even though most research
+has ended for topological spaces.
+   So so far, we have talked about topological spaces which are more general than metric spaces. Is there a space
+that is more specific than a metric space that is useful to study? Yes, and we have already discussed it briefly: normed
+spaces.
+   18.102: Introduction to Functional Analysis: In Lecture 3 for this class, as a way to motivate the usefulness of
+compact sets, we defined normed spaces.
+
+  Recall 10
+  A vector space with a norm on it is defined as a normed space.
+
+
+   And as you showed in PSET 2, a normed space is in fact a metric space, by defining d(x, y ) = ∥x − y ∥: the metric
+induced by the norm. In fact, using our concept of convergence, Cauchy sequences, and open sets for metric spaces,
+we can define these ideas once again for normed spaces.
+
+  Definition 11
+  Let (X, ∥·∥) be a normed space and {xn } be a sequence in X. Let d be the metric induced by the norm. Then,
+     1. xn converges to x if and only if for all ϵ > 0, there exists an N such that for all n ≥ N,
+
+                                                    d(xn , x) = ∥xn − x∥ < ϵ.
+
+     2. {xn } is a Cauchy sequence if and only if for all ϵ > 0, there exists an N such that for all n, m ≥ N,
+
+                                                   d(xn , xm ) = ∥xn − xm ∥ < ϵ.
+
+     3. A set A is open in X if for all x ∈ A, there exists an ϵ > 0 such that
+
+                                      Bϵ (x) = {y ∈ X | d(x, y ) = ∥x − y ∥ < ϵ} ⊂ A.
+
+
+   We similarly have a definition of Cauchy completeness in a normed space (i.e. a space is Cauchy complete if
+every Cauchy sequence converges in the space). To be honest, when I first learned about Cauchy sequences real
+analysis, Cauchy sequences did not seem all that useful. So, I found it somewhat shocking that Cauchy sequences
+were extremely important in functional analysis.
+
+  Definition 12 (Banach Space)
+  A Banach space is a normed space that is Cauchy complete with respect to the norm.
+
+
+Banach spaces are named after Stefan Banach who studied the spaces in 1920-1922.
+
+Remark 13. Fun fact: The term "Banach space" was coined by Fréchet, and the term "Fréchet space" (which we
+did not cover in this class) was coined by Banach.
+
+
+
+
+                                                             3
+  Example 14
+  As we have shown (either in 18.100A/P or in this class), Rn , Cn , and C 0 ([a, b]) are Banach spaces. In fact, one
+  can show that the space
+                                  C∞ (X) = {f : X → C | f continuous and bounded}
+
+  is a Banach space with respect to the uniform norm on metric spaces.
+
+
+
+  Definition 15 (Functional)
+  Let (V, ∥·∥) be a normed space. A functional is a bounded linear map from f : V → K where K = R or C
+  depending on the context.
+
+
+   This term is directly related to why 18.102 is called functional analysis! As it turns out, studying normed spaces
+is heavily related to studying functionals on those spaces. If you have taken linear algebra, this idea is similar to how
+studying a vector space is heavily related to studying the dual space of that vector space, but I digress.
+
+  Example 16
+  One can show, which some work, that the set of functionals, T , are Cauchy complete under the operator norm,
+  given by
+                                           ∥T ∥op = sup v ∈ V ; ∥v ∥ = 1|T v |.
+
+  One can similarly define this operator norm for bounded linear maps between normed spaces.
+
+
+Remark 17. 18.102 is also heavily related to quantum mechanics, so if you are someone interested in physics/this
+concept, a class like functional analysis may be interesting to take.
+
+   18.101: Analysis and Manifolds I briefly want to mention how this class relates to (smooth) manifold theory.
+You can loosely think of a manifold as a smooth enough blob out in space that is locally flat (i.e. close up to the blob,
+it looks like Euclidean space). Some classic examples of manifolds include the sphere and open subsets of Euclidean
+space.
+   In the rigorous definition of a manifold, we suppose that the space is metrizable! We don’t often directly use the
+metric itself, but rather we use the fact that ϵ-balls are open sets on the manifold. From this concept, you can develop
+the theory of/study smooth functions, integration, vector fields, and much much more on manifolds. Essentially,
+the idea is to develop a concept of multivariable calculus that is compatible to calculus on Euclidean space, but for
+manifolds!
+   18.152: Introduction to Partial Differential Equations: I can’t say too much about this class as I haven’t taken
+it myself, but just to bring it up again, the Banach fixed point theorem is very useful for proofs in this class regarding
+differential equations as we have seen.
+   On that note, I want to discuss one specific problem in partial differential equations that actually motivated the
+development of material in 18.100x classes: the Dirichlet problem. Consider some subset Ω ⊂ R2 , and picture this
+set as a metal plate. Suppose I heated the plate with a blowtorch for a certain amount of time. After a long period
+of time, the plate will reach thermal equilibrium. This is represented by the steady-state heat equation:
+
+                                                     ∂2u    ∂2u
+                                                          +      =0
+                                                     ∂x 2   ∂y 2
+
+
+                                                            4
+where u(x, y ) is the temperature at point (x, y ). This differential operator is so important, we abbreviate it with ∆,
+referred to as the Laplace operator or Laplacian. Suppose that I also knew the temperature on the boundary of this
+plate (denoted ∂Ω). Let u = f on ∂Ω (i.e. f is the temperature on the boundary of the plate).
+
+Question 18. Can we find the temperature distribution on Ω? Is this temperature distribution unique?
+
+   This question is known as the Dirichlet problem (in R2 ). To restate the question, we want to solve the differential
+equation                                           
+                                                   ∆u = 0      on Ω
+                                                   u   =f
+                                                       ∂Ω
+
+for some u ∈ C 2 (R2 ) and f ∈ C 0 (R2 ).
+   Early on, mathematicians studied this problem by studying the "Dirichlet energy" of u, given by the function
+                                                        Z
+                                                      1
+                                              E(u) =       |∇u|2 dA.
+                                                      2 Ω
+
+They considered the set of all the C 2 (Ω) with the given boundary condition and let Einf be the infimal energy of
+functions in this set. Dirichlet and others showed that if Einf is the energy of a function u ∈ C 2 with the given
+boundary condition, then ∆u = 0. Thus, u would be a solution to the Dirichlet problem! However, this raises the
+question:
+Question 19 (Question 1). Does there exist a C 2 function u with the given boundary condition, such that E(u) = Einf ?
+   If the answer is yes, then we have solved the problem! How might we approach finding such a function u? We
+could take a sequence of functions un such that E(un ) → E(u)! However, this raises yet another question:
+Question 20 (Question 2). Does un converge in C 2 to a limit function u?
+   If this is true, then we can easily show that E(u) = Einf and then we have solve the problem! In fact, if un converges
+in C 1 to u, then E(u) = Einf . This raises the following question again:
+Question 21 (Question 3). Consider the set of functions u ∈ C 2 with the given boundary data, with E(u) at most
+E0 > 0. Is this set of functions compact in C 2 or C 1 ?
+   If this is true, then we have sequential compactness, which means we can find a subsequence unk converging to a
+limit u with E(u) = Einf .
+   The answer to question 3, is no. This set of functions it not compact in either C 1 or C 2 . This ruins this entire,
+arguably very intuitive approach to the problem. Even though this idea didn’t solve the problem though, it did highlight
+some key issues at play. In fact, the ideas of convergence and compactness in a metric space were developed partly to
+see if this approach to the Dirichlet problem works or not. It turns out, this approach doesn’t work.
+   The answer to question 2 is also no. We can in fact build a sequence of C 2 functions un with the given boundary
+condition such that E(un ) → Einf , and yet un fails to converge in C 1 (let alone C 2 ). One can show that a function
+with zero boundary data and very small Dirichlet energy can still have a large C 1 norm.
+   However, the answer to question 1 is yes. Eventually, mathematicians were able to solve the Dirichlet problem,
+using techniques beyond the scope of this class. While we won’t discuss the solution, this rich history highlights how
+mathematical concepts were/are developed to solve problems like this. This topic is sometimes talked about more in
+18.102, and in some graduate level classes.
+   Thank you for taking this class with me this IAP. It has been a fun time developing the material and teaching
+the class. Please feel free to send me any feedback by emailing me or talking to me after class. Have a great spring
+semester!
+
+                                                            5
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+18.S190 Introduction to Metric Spaces
+Independent Activities Period (IAP) 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
