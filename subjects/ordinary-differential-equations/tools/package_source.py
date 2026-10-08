@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Package a clean, checksummed editable book plus unchanged official originals."""
+"""Package the clean editable Chinese book; English originals remain in sources/."""
 import argparse, hashlib, json, zipfile
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--originals', type=Path, default=root.parents[1] / 'sources/ordinary-differential-equations')
 parser.add_argument('--output', type=Path, default=root / 'ordinary-differential-equations-source.zip')
 args = parser.parse_args()
 excluded_dirs = {'build', '.runtime', '__pycache__', '.git', 'source-visual'}
@@ -14,7 +13,7 @@ excluded_names = {'ordinary-differential-equations.pdf', 'elegantbook-original-a
     'zip-rebuild.json', 'artifact-checksums.json', 'source-investigation.json',
     'investigate_sources.py', 'finalize_sources.py'}
 members = []
-for base, prefix in [(root, ''), (args.originals, 'originals/')]:
+for base, prefix in [(root, '')]:
     for path in sorted(base.rglob('*')):
         relative = path.relative_to(base)
         if any(x in excluded_dirs for x in relative.parts) or path.name in excluded_names or path.suffix in excluded_suffixes:

@@ -3,7 +3,7 @@
 完整简体中文原生 LaTeX 讲义，共38个 PDF 页面（4页前置部分、34页正文），含13章数学内容、来源覆盖章及参考文献。沿用 `subjects/probability/main.tex` 的锁定王者模板，包含29个例题和26道自设习题及解答。
 
 - [完整 PDF](ordinary-differential-equations.pdf)
-- [自足源码 ZIP](ordinary-differential-equations-source.zip)：含正文、真实模板、构建工具、审阅记录及60份原件。
+- [自足源码 ZIP](ordinary-differential-equations-source.zip)：仅含可编辑中文正文、真实模板、构建工具、来源清单及审阅记录。英文原件只存于仓库的 `sources/` 出处档案。
 - [逐文件来源清单](source-manifest.json)与[原件归档说明](../../sources/ordinary-differential-equations/README.md)
 - [前六章数学复核](review/independent-early.md)、[后七章数学复核](review/independent-late.md)
 - [逐页视觉记录](review/visual-review.json)、[目录及链接检查](review/pdf-audit.json)、[ZIP 重编证据](review/zip-rebuild.json)、[成品校验值](review/artifact-checksums.json)
@@ -16,16 +16,15 @@ Hartman–Grobman、Poincaré–Bendixson 和所用 Liénard 定理版本明确�
 
 ## 重编
 
-需要 Python 3.11+、XeLaTeX、常规 TeX Live 宏包（PGF/TikZ、hyperref、booktabs、longtable 等）及模板校验脚本的 Python 依赖。ZIP 解压目录中的 `originals/` 已含全部归档原件，重编正文无须下载任何课程材料。
+需要 Python 3.11+、XeLaTeX、常规 TeX Live 宏包（PGF/TikZ、hyperref、booktabs、longtable 等）及模板校验脚本的 Python 依赖。源码 ZIP 不含英文讲义原件；中文正文为原生 LaTeX，重编无须下载或嵌入任何课程材料。
 
 ```bash
 python -m pip install -r vendor/math-latex-typesetting/requirements.txt
 python tools/bootstrap_tex.py --texmf-dir .runtime/texmf --cache-dir .runtime/downloads
 TEXMFHOME="$PWD/.runtime/texmf" bash tools/build.sh
-python tools/verify_sources.py
 ```
 
-已有 Fandol 与 CM Unicode 的环境可设置相应 `TEXMFHOME`，直接执行构建。字体不随 ZIP 分发；引导脚本下载固定版本并验证哈希。构建生成 `build/` 中间文件及根目录 PDF，自动检查与人工审阅记录各自陈述实际范围。
+已有 Fandol 与 CM Unicode 的环境可设置相应 `TEXMFHOME`，直接执行构建。字体不随 ZIP 分发；引导脚本下载固定版本并验证哈希。构建生成 `build/` 中间文件及根目录 PDF，自动检查与人工审阅记录各自陈述实际范围。仓库内另执行 `python tools/verify_sources.py` 核查60份出处原件；ZIP 使用者如另行持有档案，可用 `--originals /path/to/archive` 检查，正文重编不依赖该步骤。
 
 `investigate_sources.py` 和 `finalize_sources.py` 是本次仓库来源调查脚本，需仓库目录与调查缓存；不属于 ZIP 内离线重编的依赖。源码 ZIP 排除这些调查脚本、临时调查表、渲染图片、运行缓存和已生成 PDF。
 
