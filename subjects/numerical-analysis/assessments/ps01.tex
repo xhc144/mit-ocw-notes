@@ -1,0 +1,69 @@
+\originalchapter{作业 1}
+\label{chapter-ps1}
+MIT 18.330, Spring 2012. 原件: Homework 1, Due February 23. 以下解答均为 AI 编写, 非官方答案.
+
+\begin{exercise}\label{ps1-q1}
+(原题 1, 3 分) 考虑收敛级数
+$\pi/4=1-1/3+1/5-1/7+\cdots$.
+\begin{enumerate}[label=(\alph*)]
+\item 此级数绝对收敛还是条件收敛? 给出严格论证.
+\item 编写一个短程序 (例如 MATLAB) 计算部分和. 得到 $\pi/4$ 的 3 位正确数字需要多少项?
+\end{enumerate}
+原件脚注: 交错级数判别法给出收敛; 将 $\arctan$ 在 $0$ 处的 Taylor 级数代入 $x=1$, 可核对其和为 $\pi/4$.
+\end{exercise}
+\begin{solution}
+(a) $1/(2n+1)$ 单调趋零, 故交错级数收敛. 其绝对值级数满足 $1/(2n+1)\ge 1/[2(n+1)]$, 被发散的调和级数从下方控制, 所以不绝对收敛, 而是条件收敛.
+
+(b) 原题未约定“3 位”的误差准则. 采用保留三位小数的通常绝对精度 $|S-\pi/4|\le 0.5\times10^{-3}$, 实际逐项求和的首次达标项数为 $m=500$, $S=0.7848981639$. 这里 $m$ 是项数, 最后项指标为 $m-1$. 交错余项估计 $|S-\pi/4|\le1/(2m+1)$ 给出保守充分值 $m=1000$, 并不等于实际最少项数. “舍入后恰巧相同”是另一准则, 不能混为误差保证. 核心程序为
+\begin{verbatim}
+s = 0.0
+for m in range(1, 2001):
+    s += (-1.0)**(m-1)/(2*m-1)
+    if abs(s - math.pi/4) <= 0.0005:
+        break
+\end{verbatim}
+\end{solution}
+
+\begin{exercise}\label{ps1-q2}
+(原题 2, 3 分) 考虑几何级数 $1+x+x^2+\cdots$ 及部分和 $S_N=\sum_{n=0}^N x^n$.
+\begin{enumerate}[label=(\alph*)]
+\item 当 $x\ne1$ 时, 用归纳法证明 $S_N=(1-x^{N+1})/(1-x)$.
+\item 该公式虽对所有 $x\ne1$ 成立, 却只在 $|x|<1$ 时给出收敛极限 $1/(1-x)$. 解释为何 $|x|>1$ 时级数必发散.
+\item 求 $x=1$ 时 $S_N$ 的公式.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) $N=0$ 时等式为 $1=1$. 若对 $N$ 成立, 则
+$S_{N+1}=(1-x^{N+1})/(1-x)+x^{N+1}=(1-x^{N+2})/(1-x)$, 完成归纳.
+(b) 级数收敛必使通项 $x^n=S_n-S_{n-1}\to0$. 当 $|x|>1$ 时 $|x^n|\to\infty$, 所以发散.
+(c) 每项都是 $1$, 共 $N+1$ 项, 故 $S_N=N+1$.
+\end{solution}
+
+\begin{exercise}\label{ps1-q3}
+(原题 3, 4 分) 考虑 $\sum_{n=1}^{\infty}1/n^q$.
+\begin{enumerate}[label=(\alph*)]
+\item 用积分比较严格证明 $q>1$ 时收敛.
+\item 用积分比较严格证明 $0<q<1$ 时发散.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+对 $q>0$, 函数 $x^{-q}$ 为正且递减, 因而
+\[
+\int_1^{N+1}x^{-q}\dd x\le\sum_{n=1}^N n^{-q}
+\le1+\int_1^N x^{-q}\dd x.
+\]
+(a) 若 $q>1$, 右端不超过 $1+1/(q-1)$; 部分和递增且有界, 故收敛.
+(b) 若 $0<q<1$, 左端为 $[(N+1)^{1-q}-1]/(1-q)\to\infty$, 所以部分和发散到 $+\infty$.
+\end{solution}
+
+\begin{exercise}\label{ps1-q4}
+(原题 4, 附加 1 分; 附加问不能使总成绩超过 $10/10$.) 级数
+$\ee^x=\sum_{n=0}^{\infty}x^n/n!$ 对所有实数 $x$ 收敛, 其中
+$n!=n(n-1)\cdots2\cdot1$.
+编程计算 $x=-25$ 时不同 $N$ 的部分和 $S_N$. 为何不论如何选 $N$, 所得答案都不接近 $\ee^{-25}$?
+\end{exercise}
+\begin{solution}
+用 $t_0=1$, $t_n=(-25/n)t_{n-1}$ 递推, 避免重复计算幂与阶乘. 双精度逐项累加在 $N\ge100$ 后停留在约 $8.18\times10^{-7}$, 而真值为 $1.3887943865\times10^{-11}$. 这是大数相消: 各项绝对值之和为 $\ee^{25}$, 与结果相比的比例为 $\ee^{50}\approx5.18\times10^{21}$. 双精度约 $10^{-16}$ 的相对舍入量, 相对最终结果可能已放大到约 $10^5$.
+
+整理注: 原题中的“从不接近”描述普通有限精度实验, 不是数学上的不收敛断言. 90 位精度的同一算法在 $N=150$ 时实际得到上述真值; 精确算术下部分和必收敛. 稳健的替代是先求 $\ee^{25}$ 再取倒数, 或调用经过范围约化的指数函数. 完整代码及不同 $N$ 的双精度/高精度对照见 \texttt{experiments/run\_experiments.py} 和 \texttt{ps1\_cancellation.csv}.
+\end{solution}

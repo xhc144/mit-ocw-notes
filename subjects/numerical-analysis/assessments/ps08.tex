@@ -1,0 +1,130 @@
+\originalchapter{作业 8}
+MIT 18.330, Spring 2012. 原件: Homework 8, Not due; Fourier exercises (05/15). 本份为不需提交的练习, 原件各题均无分值. 以下解答均为 AI 编写, 非官方答案.
+
+\begin{exercise}\label{ps8-q1}
+(原题 1) 证明 $C^p$ 周期函数 ($p\ge1$) 的 Fourier 级数系数按 $|k|^{-p}$ 衰减.
+\end{exercise}
+\begin{solution}
+取周期 $2\pi$, $c_k=(2\pi)^{-1}\int_0^{2\pi}f(x)\ee^{-\ii kx}\dd x$; 一般周期只改变常数. 对非零 $k$ 分部积分 $p$ 次, 因函数及其前 $p-1$ 阶导数在两端衔接, 每次边界项均为零, 故
+\[
+c_k=\frac1{(\ii k)^p}\frac1{2\pi}
+\int_0^{2\pi}f^{(p)}(x)\ee^{-\ii kx}\dd x,
+\qquad |c_k|\le\frac{\|f^{(p)}\|_{L^1}}{2\pi|k|^p}.
+\]
+这里 $p$ 为整数; $C^p$ 是周期意义下的光滑性, 不是仅在闭区间内部有 $p$ 阶导数. 对 $k=0$ 不作衰减断言.
+\end{solution}
+
+\begin{exercise}\label{ps8-q2}
+(原题 2) 证明用梯形法积分 $C^p$ 周期函数的误差为 $O(h^p)$.
+\end{exercise}
+\begin{solution}
+设 $h=2\pi/L$, 周期梯形法为 $Q_h=h\sum_{j=0}^{L-1}f(jh)$, 两端不重复.
+当 $p\ge2$ 时, 上题的系数绝对可和, 可逐项代入求和. 根单位恒等式给出
+$Q_h=2\pi\sum_{\ell\in\Z}c_{\ell L}$, 而真积分为 $2\pi c_0$.
+于是 $|Q_h-\int f|\le C L^{-p}\sum_{\ell\ne0}|\ell|^{-p}=O(h^p)$.
+
+当 $p=1$ 时, 不能引用发散的 $\sum |\ell|^{-1}$ 作上界. 直接逐格比较: $f\in C^1$ 有 $|f(x)-f(jh)|\le\|f'\|_\infty h$,
+每格积分误差至多 $\|f'\|_\infty h^2/2$, 共 $L$ 格, 所以误差 $O(h)$, 完成端点情形. 非周期函数端点未衔接时, 此谱收敛推理不适用.
+\end{solution}
+
+\begin{exercise}\label{ps8-q3}
+(原题 3) 证明 $C^p$ 周期函数的带限微分的 $L^2$ 误差为 $O(h^{p-3/2})$.
+\end{exercise}
+\begin{solution}
+明确采用等距采样后的三角插值微分. 取奇数点数 $L=2M+1$, $h=2\pi/L$, 以免偶数网格的 Nyquist 单模约定影响陈述. 设连续 Fourier 系数为 $c_k$, 插值系数为
+$a_k=\sum_{\ell\in\Z}c_{k+\ell L}$ ($|k|\le M$).
+带限微分为 $D_hf=\sum_{|k|\le M}\ii k a_k\ee^{\ii kx}$.
+当 $p\ge2$ 时绝对求和合法, 上题的衰减估计给出
+$|a_k-c_k|\le C L^{-p}$, 因 $|k+\ell L|\ge (|\ell|-1/2)L$.
+由 Parseval,
+\[
+\begin{split}
+\|f'-D_hf\|_2^2
+&=2\pi\sum_{|k|>M}k^2|c_k|^2
++2\pi\sum_{|k|\le M}k^2|a_k-c_k|^2\\
+&\le C\sum_{k>M}k^{2-2p}+CL^{-2p}\sum_{|k|\le M}k^2
+\le C M^{3-2p}.
+\end{split}
+\]
+开方后即 $O(h^{p-3/2})$. 第一项为截断误差, 第二项为混叠误差; 若采用最佳带限投影后求导, 只需第一项.
+
+整理注: 对 $p=1$ 题给幂为 $h^{-1/2}$, 并不保证误差趋零. 此时可用 $f\in H^1$ 的更强信息证明 $\|f'-D_hf\|_2=O(1)$, 从而也满足原问的较弱界. 具体地, $\sum n^2|c_n|^2<\infty$ 还保证 $\sum |c_n|<\infty$, 混叠式仍合法. 对 $|k|\le M$ 的非主频项, Cauchy--Schwarz 给出
+\[
+|a_k-c_k|^2\le
+\left(\sum_{\ell\ne0}|k+\ell L|^2|c_{k+\ell L}|^2\right)
+\left(\sum_{\ell\ne0}|k+\ell L|^{-2}\right),
+\]
+第二因子至多 $C/L^2$, 再乘 $k^2\le M^2$ 并对 $k$ 求和, 得不超过 $C\sum n^2|c_n|^2$, 与高频尾项一同给出一致有界性. 不能用不收敛的 $\sum k^0$ 假证 $p=1$ 的速率.
+\end{solution}
+
+\begin{exercise}\label{ps8-q4}
+(原题 4) 设 $f(x)=1/(1+x^2)$, 已知 $\widehat f(k)=\pi\ee^{-|k|}$. 本题在全实线上讨论 $x,k\in\R$, 没有边界.
+\begin{enumerate}[label=\textbullet]
+\item 求最佳带限逼近 $f_N$ (其 Fourier 变换支撑于 $[-N,N]$) 的误差 $\|f-f_N\|_2$ 关于 $N$ 的衰减率.
+\item 对样本 $x_j=jh$ 的带限插值 $p_h$, 求 $\|f-p_h\|_2$ 关于 $h$ 的衰减率.
+\item 同样求带限微分误差及梯形法误差的衰减率.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+第一项. $L^2$ 最佳逼近是 Fourier 变换截断:
+$\widehat f_N=\widehat f\mathbf1_{[-N,N]}$. 由 Plancherel,
+\[
+\|f-f_N\|_2^2=\frac1{2\pi}\int_{|k|>N}\pi^2\ee^{-2|k|}\dd k
+=\frac\pi2\ee^{-2N},\qquad
+\|f-f_N\|_2=\sqrt{\pi/2}\ee^{-N}.
+\]
+
+第二项. 令 $K=\pi/h$, 带限插值采用 sinc 采样重建
+$p_h(x)=\sum_{j\in\Z} f(jh)\operatorname{sinc}(\pi(x/h-j))$.
+其变换在 $|k|\le K$ 上等于 $\sum_{\ell\in\Z}\widehat f(k+2K\ell)$, 区间外为零. 本题衰减足够快, 泊松求和与重建均可应用. 在主带内的混叠量恰为
+\[
+A(k)=\frac{2\pi\ee^{-2K}}{1-\ee^{-2K}}\cosh k.
+\]
+带外误差与带内混叠支撑互不相交, 所以
+\[
+\|f-p_h\|_2^2=\frac\pi2\ee^{-2K}
++\frac{2\pi\ee^{-4K}}{(1-\ee^{-2K})^2}
+\left(K+\frac{\sinh2K}{2}\right)
+\sim\pi\ee^{-2K}.
+\]
+故 $\|f-p_h\|_2\sim\sqrt\pi\ee^{-\pi/h}$, 即指数衰减, 不能把混叠误差当作零.
+
+第三项的微分. 将上述两段变换误差各乘 $\ii k$. 带外平方误差为
+\[
+\pi\int_K^\infty k^2\ee^{-2k}\dd k
+=\pi\ee^{-2K}\left(\frac{K^2}{2}+\frac K2+\frac14\right).
+\]
+带内平方误差为 $(2\pi)^{-1}\int_{-K}^Kk^2A(k)^2\dd k$, 渐近等于 $(\pi/2)K^2\ee^{-2K}$; 可由 $\cosh^2k=(1+\cosh2k)/2$ 积分或分部积分得到. 合并后
+$\|f'-p_h'\|_2\sim\sqrt\pi K\ee^{-K}$,
+即 $\Theta(h^{-1}\ee^{-\pi/h})$. 若只求最佳投影的导数, 常数变为 $\sqrt{\pi/2}$, 指数和多项式因子相同.
+
+第三项的求积. 无边界梯形法为 $Q_h=h\sum_{j\in\Z}f(jh)$, 真积分为 $\widehat f(0)=\pi$. 泊松求和给出
+\[
+Q_h=\sum_{\ell\in\Z}\pi\ee^{-|2\pi\ell/h|}
+=\pi+\frac{2\pi}{\ee^{2\pi/h}-1}.
+\]
+因此求积误差为 $\Theta(\ee^{-2\pi/h})$, 比插值误差的指数更快. 这是零频率混叠量的特性, 不能把所有谱方法误差都写成同一个指数.
+\end{solution}
+
+\begin{exercise}\label{ps8-q5}
+(原题 5) 陈述并证明离散卷积定理.
+\end{exercise}
+\begin{solution}
+先固定归一化约定. 对长度 $L$ 的周期序列,
+$\widehat a_k=\sum_{j=0}^{L-1}a_j\ee^{-2\pi\ii jk/L}$,
+$a_j=L^{-1}\sum_{k=0}^{L-1}\widehat a_k\ee^{2\pi\ii jk/L}$.
+循环卷积定义为 $(a*b)_j=\sum_{m=0}^{L-1}a_m b_{(j-m)\bmod L}$.
+定理是 $\widehat{a*b}_k=\widehat a_k\widehat b_k$.
+证明仅需有限和换序及换元 $r=(j-m)\bmod L$:
+\[
+\begin{split}
+\widehat{a*b}_k
+&=\sum_{m=0}^{L-1}a_m\sum_{j=0}^{L-1}b_{j-m}\ee^{-2\pi\ii jk/L}\\
+&=\left(\sum_m a_m\ee^{-2\pi\ii mk/L}\right)
+\left(\sum_r b_r\ee^{-2\pi\ii rk/L}\right).
+\end{split}
+\]
+每个求和指标均按模 $L$ 解释, 指数的周期性保证换元合法. 同理点乘对应
+$\widehat{ab}_k=L^{-1}\sum_m\widehat a_m\widehat b_{k-m}$.
+若改用带 $1/L$ 的卷积或其他 DFT 归一化, 常数必须相应改变; 非循环线性卷积需先补零, 避免绕回混叠.
+\end{solution}

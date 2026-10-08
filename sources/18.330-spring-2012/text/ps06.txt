@@ -1,0 +1,68 @@
+           18.330 :: Homework 6 :: Spring 2012 :: Due Thursday April 26
+
+
+1. (7pts) Consider the mixed Neumann-Dirichlet boundary-value problem
+                            −u00 = f,      x ∈ [0, 1],       u0 (0) = 0,       u(1) = 0.
+     a) Find the eigenvalues and eigenfunctions for this problem, i.e., find all the possible λn and vn (x)
+        such that
+                                 −vn00 = λn vn ,   vn0 (0) = 0,     vn (1) = 0.
+        Draw (by hand) the first three eigenfunctions. [Hint: the vj are sines or cosines. The boundary
+        conditions determine which ones to consider.]
+     b) Consider the basic finite-difference discretization of the second derivative on the grid xj = jh
+        with h = 1/N , and j = 0, . . . , N − 1. For simplicity discretize the Neumann condition as
+                                                    U1 − U0
+                                                            = 0.
+                                                       h
+        Write down the matrix that arises in the discretized system, and show code that creates it in
+        Matlab. We’ll call this matrix T .
+     c) Use Matlab’s eig command to find the eigenvalues and eigenvectors of the matrix T for some
+        reasonably large value of N (larger than 100). Plot the first three eigenvectors. Do they match
+        your theoretical prediction in the continuous case? [Hint: the eigenvalues obtained from eig may
+        not be sorted in increasing order. Make sure you sort the eigenvalues and eigenvectors the same
+        way.]
+     d) Use f (x) = 1 as right-hand side, and discretize it as Fj = 1. Solve for U in T U = F (using
+        Matlab’s backslash) for various values of N , and document the order of accuracy by plotting the
+        error in a log-log plot. To measure the error e = u − U , use the quadratic norm
+                                     v
+                                     u N −1
+                                     u X
+                         ku − U k = th      (u(xj ) − Uj )2 ,   (notice the presence of h.)
+                                        j=0
+
+        [Hint: As reference solution, use the U that you obtain form a very fine grid. In order to compare
+        solutions defined on different grids, make sure that those grids are nested.]
+     e) The local truncation error, as measured in the quadratic norm above, is O(h) because the bound-
+        ary condition is only first-order accurate. What property of T is needed to justify that the overall
+        error is also O(h) in the same norm?
+
+2. (2pts) Consider the Neumann problem
+                                          
+                          d             du
+                       −      (1 + x2 )      = f,        x ∈ [0, 1],       u0 (0) = u0 (1) = 0.
+                         dx             dx
+     a) Prove that if f = 1, then this equation cannot have a solution. [Hint: integrate both sides of the
+        equation.]
+     b) Find a condition on f which guarantees that the equation has a solution.
+
+3. (1pt) Consider the matrix                            
+                                                     2 a
+                                                 A=
+                                                     1 0
+
+     a) For what values of a is the matrix invertible?
+     b) Without computing the eigenvalues and eigenvectors, find the value of a for which A has an
+        orthonormal basis of eigenvectors. Explain your answer.
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+18.330 Introduction to Numerical Analysis
+Spring 2012
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+
