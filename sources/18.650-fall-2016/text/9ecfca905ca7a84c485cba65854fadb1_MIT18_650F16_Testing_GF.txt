@@ -1,0 +1,483 @@
+    Statistics for Applications
+
+
+Chapter 6: Testing goodness of ﬁt
+
+
+
+
+                                    1/25
+Goodness of ﬁt tests
+
+
+   Let X be a r.v. Given i.i.d copies of X we want to answer the
+   following types of questions:
+     ◮ Does X have distribution N (0, 1)? (Cf. Student’s T
+       distribution)
+     ◮ Does X have distribution U ([0, 1])? (Cf p-value under H0 )
+
+     ◮ Does X have PMF p1 = 0.3,     p2 = 0.5, p3 = 0.2
+
+   These are all goodness of ﬁt tests: we want to know if the
+   hypothesized distribution is a good ﬁt for the data.
+
+   Key characteristic of GoF tests: no parametric modeling.
+
+
+
+                                                                     2/25
+Cdf and empirical cdf (1)
+   Let X1 , . . . , Xn be i.i.d. real random variables. Recall the cdf of
+   X1 is deﬁned as:
+
+
+                      F (t) = IP[X1 ≤ t],      ∀t ∈ IR.
+
+
+   It completely characterizes the distribution of X1 .
+
+   Deﬁnition
+   The empirical cdf of the sample X1 , . . . , Xn is deﬁned as:
+                           n
+                       1L
+              Fn (t) =    1{Xi ≤ t}
+                       n
+                          i=1
+                      #{i = 1, . . . , n : Xi ≤ t}
+                    =                              ,      ∀t ∈ IR.
+                                   n
+
+                                                                            3/25
+Cdf and empirical cdf (2)
+
+   By the LLN, for all t ∈ IR,
+                                    a.s.
+                             Fn (t) −−−→ F (t).
+                                   n→∞
+
+
+
+
+   Glivenko-Cantelli Theorem (Fundamental theorem of
+   statistics)
+                                            a.s.
+                      sup |Fn (t) − F (t)| −−−→ 0.
+                      t∈IR                 n→∞
+
+
+
+
+                                                       4/25
+Cdf and empirical cdf (3)
+
+   By the CLT, for all t ∈ IR,
+           √                       (d)  (                    )
+               n (Fn (t) − F (t)) −−−→ N 0, F (t) (1 − F (t)) .
+                                 n→∞
+
+
+
+
+   Donsker’s Theorem
+   If F is continuous, then
+                √                        (d)
+                 n sup |Fn (t) − F (t)| −−−→ sup |B(t)|,
+                     t∈IR                n→∞ 0≤t≤1
+
+
+   where B is a Brownian bridge on [0, 1].
+
+
+                                                                  5/25
+Kolmogorov-Smirnov test (1)
+
+
+
+    ◮ Let X1 , . . . , Xn be i.i.d. real random variables with unknown
+      cdf F and let F 0 be a continuous cdf.
+
+    ◮ Consider the two hypotheses:
+
+
+                     H0 : F = F 0      v.s.   H1 : F = F 0 .
+
+    ◮ Let Fn be the empirical cdf of the sample X1 , . . . , Xn .
+
+
+    ◮ If F = F 0 , then Fn (t) ≈ F 0 (t), for all t ∈ [0, 1].
+
+
+
+
+                                                                         6/25
+Kolmogorov-Smirnov test (2)
+
+                      √
+    ◮ Let Tn = sup        n Fn (t) − F 0 (t) .
+               t∈IR
+
+
+                                                    (d)
+    ◮ By Donsker’s theorem, if H0 is true, then Tn −−−→ Z,
+                                                   n→∞
+      where Z has a known distribution (supremum of a Brownian
+      bridge).
+
+    ◮ KS test with asymptotic level α:
+
+
+                               δαKS = 1{Tn > qα },
+
+      where qα is the (1 − α)-quantile of Z (obtained in tables).
+
+    ◮ p-value of KS test: IP[Z > Tn |Tn ].
+
+
+
+                                                                    7/25
+Kolmogorov-Smirnov test (3)
+
+   Remarks:
+    ◮ In practice, how to compute Tn ?
+
+
+    ◮ F 0 is non decreasing, Fn is piecewise constant, with jumps at
+      ti = Xi , i = 1, . . . , n.
+
+    ◮ Let X(1) ≤ X(2) ≤ . . . ≤ X(n) be the reordered sample.
+
+
+    ◮ The expression for Tn reduces to the following practical
+      formula:
+
+              √                {         i−1                 i                 }
+      Tn =        n max            max       − F 0 (X(i) ) ,   − F 0 (X(i) )    .
+                   i=1,...,n              n                  n
+
+
+                                                                                    8/25
+Kolmogorov-Smirnov test (4)
+
+    ◮ Tn is called a pivotal statistic: If H0 is true, the distribution
+
+      of Tn does not depend on the distribution of the Xi ’s and it is
+      easy to reproduce it in simulations.
+
+
+
+    ◮ Indeed, let Ui = F 0 (Xi ), i = 1, . . . , n and let Gn be the
+
+      empirical cdf of U1 , . . . , Un .
+
+
+                                            i.i.d.
+    ◮ If H0 is true, then U1 , . . . , Un    ∼ U ([0.1])
+                          √
+      and Tn = sup            n |Gn (x) − x|.
+                  0≤x≤1
+
+
+                                                                          9/25
+Kolmogorov-Smirnov test (5)
+
+    ◮ For some large integer M :
+        ◮   Simulate M i.i.d. copies Tn1 , . . . , TnM of Tn ;
+
+                                                (n)
+        ◮   Estimate the (1 − α)-quantile qα of Tn by taking the sample
+                               (n,M)
+            (1 − α)-quantile q̂α     of Tn1 , . . . , TnM .
+
+    ◮ Test with approximate level α:
+
+
+                               δα = 1{Tn > q̂α(n,M ) }.
+
+    ◮ Approximate p-value of this test:
+
+
+                                 #{j = 1, . . . , M : Tnj > Tn }
+                   p-value ≈                                     .
+                                                M
+
+
+                                                                          10/25
+Kolmogorov-Smirnov test (6)
+   These quantiles are often precomputed in a table.
+
+
+
+
+                                                       11/25
+Other goodness of ﬁt tests
+
+   We want to measure the distance between two functions: Fn (t)
+   and F (t). There are other ways, leading to other tests:
+     ◮ Kolmogorov-Smirnov:
+
+
+                      d(Fn , F ) = sup |Fn (t) − F (t)|
+                                     t∈IR
+
+     ◮ Cramér-Von Mises:
+                                     �
+                    d2 (Fn , F ) =            [Fn (t) − F (t)]2 dt
+                                         IR
+
+     ◮ Anderson-Darling:
+
+
+                                     [Fn (t) − F (t)]2
+                                     �
+                      2
+                    d (Fn , F ) =                      dt
+                                  IR F (t)(1 − F (t))
+
+
+
+                                                                     12/25
+Composite goodness of ﬁt tests
+
+
+   What if I want to test: ”Does X have Gaussian distribution?” but
+   I don’t know the parameters?
+   Simple idea: plug-in
+
+                           sup Fn (t) − Φµ,ˆ
+                                         ˆ σ2 (t)
+                           t∈IR
+
+   where
+                                ¯n ,
+                           µ̂ = X             ˆ 2 = Sn2
+                                              σ
+                                        2
+        ˆ σ2 (t) is the cdf of N (µ̂, σ̂ ).
+   and Φµ,ˆ
+
+   In this case Donsker’s theorem is no longer valid. This is a
+   common and serious mistake!
+
+
+
+                                                                      13/25
+Kolmogorov-Lilliefors test (1)
+
+
+
+
+   Instead, we compute the quantiles for the test statistic:
+
+                         sup Fn (t) − Φµ,ˆ
+                                       ˆ σ2 (t)
+                          t∈IR
+
+   They do not depend on unknown parameters!
+
+   This is the Kolmogorov-Lilliefors test.
+
+
+
+
+                                                               14/25
+Kolmogorov-Lilliefors test (2)
+   These quantiles are often precomputed in a table.
+
+
+
+
+                                                       15/25
+Quantile-Quantile (QQ) plots (1)
+     ◮ Provide a visual way to perform GoF tests
+
+     ◮ Not formal test but quick and easy check to see if a
+        distribution is plausible.
+     ◮ Main idea: we want to check visually if the plot of Fn is close
+       to that of F or equivalently if the plot of Fn−1 is close to that
+       of F −1 .
+     ◮ More convenient to check if the points
+
+ ( −1 1        1 ) (      2         2 )                 n−1           n−1 )
+  F ( ), Fn−1 ( ) , F −1 ( ), Fn−1 ( ) , . . . , F −1 (     ), Fn−1 (
+                                                (
+                                                                         )
+      n        n          n         n                    n             n
+        are near the line y = x.
+     ◮ Fn is not technically invertible but we deﬁne
+
+
+                                Fn−1 (i/n) = X(i) ,
+
+        the ith largest observation.
+                                                                           16/25
+χ2 goodness-of-ﬁt test, ﬁnite case (1)
+
+     ◮ Let X1 , . . . , Xn be i.i.d. random variables on some ﬁnite
+       space E = {a1 , . . . , aK }, with some probability measure IP.
+
+     ◮ Let (IPθ )
+                 θ∈Θ be a parametric family of probability
+       distributions on E.
+
+     ◮ Example: On E = {1, . . . , K}, consider the family of binomial
+       distributions (Bin(K, p))p∈(0,1) .
+
+     ◮ For j = 1, . . . , K and θ ∈ Θ, set
+
+
+                    pj (θ) = IPθ [Y = aj ],   where Y ∼ IPθ
+
+       and
+                               pj = IP[X1 = aj ].
+
+                                                                         19/25
+χ2 goodness-of-ﬁt test, ﬁnite case (2)
+
+     ◮ Consider the two hypotheses:
+
+
+                H0 : IP ∈ (IPθ )θ∈Θ    v.s.   H1 : IP ∈
+                                                      / (IPθ )θ∈Θ .
+
+     ◮ Testing H0 means testing whether the statistical model
+       (               )
+           E, (IPθ )θ∈Θ ﬁts the data (e.g., whether the data are indeed
+       from a binomial distribution).
+
+
+     ◮ H0 is equivalent to:
+
+
+                 pj = pj (θ),   ∀j = 1, . . . , K, for some θ ∈ Θ.
+
+
+
+                                                                          20/25
+χ2 goodness-of-ﬁt test, ﬁnite case (3)
+
+     ◮ Let θ̂ be the MLE of θ when assuming H0 is true.
+
+
+     ◮ Let
+                 n
+               1L               #{i : Xi = aj }
+       p̂j =      1{Xi = aj } =                 ,         j = 1, . . . , K.
+               n                      n
+                 i=1
+
+
+     ◮ Idea: If H0 is true, then pj = pj (θ) so both p̂j and pj (θ̂) are
+
+       good estimators or pj . Hence, p̂j ≈ pj (θ̂), ∀j = 1, . . . , K.
+
+                                                   �             �2
+                                             K
+                                             L      p̂j − pj (θ̂)
+     ◮ Deﬁne the test statistic:    Tn = n                            .
+                                                            ˆ
+                                                        pj (θ)
+                                             j=1
+
+
+
+                                                                              21/25
+χ2 goodness-of-ﬁt test, ﬁnite case (4)
+
+     ◮ Under some technical assumptions, if H0 is true, then
+
+                                  (d)
+                             Tn −−−→ χ2K−d−1,
+                                 n→∞
+
+       where d is the size of the parameter θ (Θ ⊆ IRd and
+       d < K − 1).
+
+     ◮ Test with asymptotic level α ∈ (0, 1):
+
+
+                             δα = 1{Tn > qα },
+
+       where qα is the (1 − α)-quantile of χ2K−d−1 .
+
+     ◮ p-value: IP[Z > Tn |Tn ], where Z ∼ χ2
+                                            K−d−1 and Z ⊥
+                                                        ⊥ Tn .
+
+
+                                                                 22/25
+χ2 goodness-of-ﬁt test, inﬁnite case (1)
+
+     ◮ If E is inﬁnite (e.g. E = IN, E = IR, ...):
+
+
+     ◮ Partition E into K disjoint bins:
+
+
+                                 E = A1 ∪ . . . ∪ AK .
+     ◮ Deﬁne, for θ ∈ Θ and j = 1, . . . , K:
+
+          ◮   pj (θ) = IPθ [Y ∈ Aj ], for Y ∼ IPθ ,
+          ◮   pj = IP[X1 ∈ Aj ],
+                         n
+                      1L                  #{i : Xi ∈ Aj }
+          ◮   p̂j =         1{Xi ∈ Aj } =                 ,
+                      n i=1                      n
+
+          ◮   θ̂: same as in the previous case.
+
+
+                                                              23/25
+χ2 goodness-of-ﬁt test, inﬁnite case (2)
+                                     �             �2
+                                   K
+                                   L  p̂j − pj (θ̂)
+     ◮ As previously, let Tn = n                        .
+                                   j=1     pj (θ̂)
+
+     ◮ Under some technical assumptions, if H0 is true, then
+
+                                    (d)
+                             Tn −−−→ χ2K−d−1,
+                                   n→∞
+
+       where d is the size of the parameter θ (Θ ⊆ IRd and
+       d < K − 1).
+
+     ◮ Test with asymptotic level α ∈ (0, 1):
+
+
+                             δα = 1{Tn > qα },
+
+       where qα is the (1 − α)-quantile of χ2K−d−1 .
+
+                                                               24/25
+χ2 goodness-of-ﬁt test, inﬁnite case (3)
+     ◮ Practical issues:
+
+          ◮   Choice of K ?
+          ◮   Choice of the bins A1 , . . . , AK ?
+          ◮   Computation of pj (θ) ?
+
+     ◮ Example 1: Let E = IN and H0 : IP ∈ (Poiss(λ))
+                                                        λ>0 .
+
+
+     ◮ If one expects λ to be no larger than some λmax , one can
+
+       choose A1 = {0}, A2 = {1}, . . . , AK−1 = {K − 2}, AK =
+       {K − 1, K, K + 1, . . .}, with K large enough such that
+       pK (λmax ) ≈ 0.
+
+
+                                                                   25/25
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.650 / 18.6501 Statistics for Applications
+Fall 2016
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

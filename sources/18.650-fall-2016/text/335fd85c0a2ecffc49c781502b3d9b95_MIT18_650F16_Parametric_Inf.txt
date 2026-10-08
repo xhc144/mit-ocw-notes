@@ -1,0 +1,235 @@
+             18.650
+   Statistics for Applications
+
+
+
+Chapter 2: Parametric Inference
+
+
+
+
+                                  1/11
+The rationale behind statistical modeling
+     ◮ Let X1 , . . . , Xn be n independent copies of X.
+
+     ◮ The goal of statistics is to learn the distribution of X.
+
+     ◮ If X ∈ {0, 1}, easy! It’s Ber(p) and we only have to learn the
+       parameter p of the Bernoulli distribution.
+     ◮ Can be more complicated. For example, here is a (partial)
+       dataset with number of siblings (including self) that were
+       collected from college students a few years back: 2, 3, 2, 4, 1,
+       3, 1, 1, 1, 1, 1, 2, 2, 3, 2, 2, 2, 3, 2, 1, 3, 1, 2, 3, . . .
+     ◮ We could make no assumption and try to learn the pmf:
+
+
+                       x 1 2 3 4 5 6        ≥7
+                                           L
+               IP(X = x) p1 p2 p3 p4 p5 p6   i≥7 pi
+
+       That’s 7 parameters to learn.
+     ◮ Or we could assume that X ∼ Poiss(λ). That’s 1 parameter
+       to learn!
+                                                                          2/11
+Statistical model (1)
+
+   Formal deﬁnition
+
+   Let the observed outcome of a statistical experiment be a sample
+   X1 , . . . , Xn of n i.i.d. random variables in some measurable space
+   E (usually E ⊆ IR) and denote by IP their common distribution. A
+   statistical model associated to that statistical experiment is a pair
+
+                              (E, (IPθ )θ∈Θ ) ,
+
+   where:
+
+     ◮ E is sample space;
+
+
+     ◮ (IPθ )θ∈Θ is a family of probability measures on E;
+
+
+     ◮ Θ is any set, called parameter set.
+
+
+                                                                           3/11
+Statistical model (2)
+
+
+     ◮ Usually, we will assume that the statistical model is well
+       speciﬁed, i.e., deﬁned such that IP = IPθ , for some θ ∈ Θ.
+
+     ◮ This particular θ is called the true parameter, and is unknown:
+       The aim of the statistical experiment is to estimate θ, or
+       check it’s properties when they have a special meaning
+       (θ > 2?, θ = 1/2?, . . . )
+
+     ◮ For now, we will always assume that Θ ⊆ IRd for some d ≥ 1:
+       The model is called parametric.
+
+
+
+
+                                                                         4/11
+Statistical model (3)
+   Examples
+    1. For n Bernoulli trials:
+                          (                        )
+                            {0, 1}, (Ber(p))p∈(0,1) .
+
+                      iid
+    2. If X1 , . . . , Xn ∼ Exp(λ), for some unknown λ > 0:
+                               ( ∗               )
+                                IR+ , (Exp(λ))λ>0 .
+
+                      iid
+    3. If X1 , . . . , Xn ∼ Poiss(λ), for some unknown λ > 0:
+                                (                  )
+                                  IN, (Poiss(λ))λ>0 .
+
+                      iid
+    4. If X1 , . . . , Xn ∼ N (µ, σ 2 ), for some unknown µ ∈ IR and
+       σ 2 > 0:            ( (                            )
+                            IR, N (µ, σ 2 ) (µ,σ2 )∈IR×IR∗ .
+                                            )
+                                                    +
+
+                                                                       5/11
+Identiﬁcation
+
+
+   The parameter θ is called identiﬁed iﬀ the map θ ∈ Θ → IPθ is
+   injective, i.e.,
+                          θ = θ ′ ⇒ IPθ = IPθ′ .
+
+
+   Examples
+
+    1. In all four previous examples, the parameter was identiﬁed.
+
+                                          iid
+    2. If Xi = 1IYi ≥0 , where Y1 , . . . , Yn ∼ N (µ, σ 2 ), for some
+       unknown µ ∈ IR and σ 2 > 0, are unobserved: µ and σ 2 are
+       not identiﬁed (but θ = µ/σ is).
+
+
+
+                                                                         6/11
+Parameter estimation (1)
+   Idea: Given an observed sample X1 , . . . , Xn and a statistical
+   model (E, (IPθ )θ∈Θ ), one wants to estimate the parameter θ.
+
+
+   Deﬁnitions
+     ◮ Statistic: Any measurable1 function of the sample, e.g.,
+          X̄n , max Xi , X1 + log(1 + |Xn |), sample variance, etc...
+            i
+     ◮ Estimator of θ: Any statistic whose expression does not
+          depend on θ.
+     ◮ An estimator θ̂n of θ is weakly (resp. strongly ) consistent iﬀ
+
+
+                             IP (resp. a.s.)
+                         θ̂n −−−−−−−−−→ θ        (w.r.t. IPθ ).
+                                 n→∞
+
+
+      1
+       Rule of thumb: if you can compute it exactly once given data, it is
+   measurable. You may have some issues with things that are implicitly deﬁned
+   such as sup or inf but not in this class                                      7/11
+Parameter estimation (2)
+
+
+
+    ◮ Bias of an estimator θ̂n of θ:
+                                   � �
+                                 IE θˆn − θ.
+
+    ◮ Risk (or quadratic risk) of an estimator θ̂n :
+
+                                 �          �
+                               IE |θ̂n − θ|2 .
+
+
+   Remark: If Θ ⊆ IR,
+
+                 ”Quadratic risk = bias2 + variance”.
+
+
+
+                                                        8/11
+Conﬁdence intervals (1)
+   Let (E, (IPθ )θ∈Θ ) be a statistical model based on observations
+   X1 , . . . , Xn , and assume Θ ⊆ IR.
+
+   Deﬁnition
+   Let α ∈ (0, 1).
+     ◮ Conﬁdence interval (C.I.) of level 1 − α for θ: Any random
+       (i.e., depending on X1 , . . . , Xn ) interval I whose boundaries
+       do not depend on θ and such that:
+
+                       IPθ [I ∋ θ] ≥ 1 − α,     ∀θ ∈ Θ.
+     ◮ C.I. of asymptotic level 1 − α for θ: Any random interval I
+       whose boundaries do not depend on θ and such that:
+
+                     lim IPθ [I ∋ θ] ≥ 1 − α,      ∀θ ∈ Θ.
+                     n→∞
+
+
+                                                                           9/11
+Conﬁdence intervals (2)
+                              iid
+   Example: Let X1 , . . . , Xn ∼ Ber(p), for some unknown
+   p ∈ (0, 1).
+
+     ◮ LLN: The sample average X̄n is a strongly consistent
+       estimator of p.
+
+                          α
+     ◮ Let qα/2 be the (1 − )-quantile of N (0, 1) and
+                          2
+                          J                       J
+                      qα/2 p(1 − p)          qα/2 p(1 − p)
+            I = X̄n −       √          ¯n +
+                                      ,X            √      .
+                              n                       n
+
+     ◮ CLT:      lim IPp [I ∋ p] = 1 − α,   ∀p ∈ (0, 1).
+                n→∞
+
+     ◮ Problem: I depends on p !
+
+
+                                                               10/11
+Conﬁdence intervals (3)
+
+
+
+
+   Two solutions:
+
+
+    ◮ Replace p(1 − p) with 1/4 in I (since p(1 − p) ≤ 1/4).
+
+
+
+                     ¯ n in I and use Slutsky’s theorem.
+    ◮ Replace p with X
+
+
+
+
+                                                               11/11
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.650 / 18.6501 Statistics for Applications
+Fall 2016
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

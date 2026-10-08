@@ -1,0 +1,917 @@
+          18.650
+Statistics for Applications
+
+
+
+Chapter 1: Introduction
+
+
+
+
+                              1/43
+Goals
+
+   Goals:
+     ▶ To give you a solid introduction to the mathematical theory
+        behind statistical methods;
+     ▶ To provide theoretical guarantees for the statistical methods
+        that you may use for certain applications.
+   At the end of this class, you will be able to
+    1. From a real-life situation, formulate a statistical problem in
+       mathematical terms
+    2. Select appropriate statistical methods for your problem
+    3. Understand the implications and limitations of various
+       methods
+
+
+                                                                        2/43
+Instructors
+
+     ▶ Instructor: Philippe Rigollet
+       Associate Prof. of Applied Mathematics; IDSS; MIT Center
+       for Statistics and Data Science.
+
+     ▶ Teaching Assistant: Victor-Emmanuel Brunel
+       Instructor in Applied Mathematics; IDSS; MIT Center for
+       Statistics and Data Science.
+
+
+
+
+                                                                  3/43
+Logistics
+
+
+
+     ▶ Lectures: Tuesdays & Thursdays 1:00 -2:30am
+
+     ▶ Optional Recitation: TBD.
+
+     ▶ Homework: weekly. Total 11, 10 best kept (30%).
+
+     ▶ Midterm: Nov. 8, in class, 1 hours and 20 minutes (30 %).
+       Closed books closed notes. Cheatsheet.
+     ▶ Final: TBD, 2 hours (40%). Open books, open notes.
+
+
+
+
+                                                                   4/43
+Miscellaneous
+
+
+
+     ▶ Prerequisites: Probability (18.600 or 6.041), Calculus 2,
+         notions of linear algebra (matrix, vector, multiplication,
+         orthogonality,…)
+     ▶ Reading: There is no required textbook
+
+     ▶ Slides are posted on course website
+    https://ocw.mit.edu/courses/mathematics/18-650-statistics-for-applications-fall-2016/lecture-slides
+
+     ▶ Videolectures: Each lecture is recorded and posted online.
+         Attendance is still recommended.
+
+
+
+
+                                                                                                      5/43
+Why statistics?
+
+
+
+
+                  6/43
+Not only in the press
+
+
+     Hydrology Netherlands, 10th century, building dams and dykes
+               Should be high enough for most floods Should not be
+               too expensive (high)
+
+
+      Insurance Given your driving record, car information, coverage.
+                What is a fair premium?
+
+
+   Clinical trials A drug is tested on 100 patients; 56 were cured and
+                   44 showed no improvement. Is the drug effective?
+
+
+
+
+                                                                         8/43
+Randomness
+
+
+
+  What is common to all these examples?
+
+
+
+
+                                          9/43
+Randomness
+
+
+
+  What is common to all these examples?
+
+                         RANDOMNESS
+
+
+
+
+                                          9/43
+Randomness
+
+
+
+  What is common to all these examples?
+
+                            RANDOMNESS
+
+  Associated questions:
+    ▶ Notion of average (“fair premium”, …)
+
+    ▶ Quantifying chance (“most of the floods”, …)
+
+    ▶ Significance, variability, …
+
+
+
+
+                                                     9/43
+Probability
+     ▶ Probability studies randomness (hence the prerequisite)
+     ▶ Sometimes, the physical process is completely known: dice,
+       cards, roulette, fair coins, …
+
+                                 Examples
+
+   Rolling 1 die:
+     ▶ Alice gets $1 if # of dots  3
+     ▶ Bob gets $2 if # of dots   2
+   Who do you want to be: Alice or Bob?
+   Rolling 2 dice:
+     ▶ Choose a number between 2 and 12
+     ▶ Win $100 if you chose the sum of the 2 dice
+
+   Which number do you choose?
+   Well known random process from physics: 1/6 chance of each side,
+   dice are independent. We can deduce the probability of outcomes,
+   and expected $ amounts. This is probability.                       10/43
+Probability
+     ▶ Probability studies randomness (hence the prerequisite)
+     ▶ Sometimes, the physical process is completely known: dice,
+       cards, roulette, fair coins, …
+
+                                 Examples
+
+   Rolling 1 die:
+     ▶ Alice gets $1 if # of dots  3
+     ▶ Bob gets $2 if # of dots   2
+   Who do you want to be: Alice or Bob?
+   Rolling 2 dice:
+     ▶ Choose a number between 2 and 12
+     ▶ Win $100 if you chose the sum of the 2 dice
+
+   Which number do you choose?
+   Well known random process from physics: 1/6 chance of each side,
+   dice are independent. We can deduce the probability of outcomes,
+   and expected $ amounts. This is probability.                       10/43
+Probability
+     ▶ Probability studies randomness (hence the prerequisite)
+     ▶ Sometimes, the physical process is completely known: dice,
+       cards, roulette, fair coins, …
+
+                                 Examples
+
+   Rolling 1 die:
+     ▶ Alice gets $1 if # of dots  3
+     ▶ Bob gets $2 if # of dots   2
+   Who do you want to be: Alice or Bob?
+   Rolling 2 dice:
+     ▶ Choose a number between 2 and 12
+     ▶ Win $100 if you chose the sum of the 2 dice
+
+   Which number do you choose?
+   Well known random process from physics: 1/6 chance of each side,
+   dice are independent. We can deduce the probability of outcomes,
+   and expected $ amounts. This is probability.                       10/43
+Probability
+     ▶ Probability studies randomness (hence the prerequisite)
+     ▶ Sometimes, the physical process is completely known: dice,
+       cards, roulette, fair coins, …
+
+                                 Examples
+
+   Rolling 1 die:
+     ▶ Alice gets $1 if # of dots  3
+     ▶ Bob gets $2 if # of dots   2
+   Who do you want to be: Alice or Bob?
+   Rolling 2 dice:
+     ▶ Choose a number between 2 and 12
+     ▶ Win $100 if you chose the sum of the 2 dice
+
+   Which number do you choose?
+   Well known random process from physics: 1/6 chance of each side,
+   dice are independent. We can deduce the probability of outcomes,
+   and expected $ amounts. This is probability.                       10/43
+Statistics and modeling
+
+
+
+     ▶ How about more complicated processes? Need to estimate
+       parameters from data. This is statistics
+     ▶ Sometimes real randomness (random student, biased coin,
+       measurement error, …)
+     ▶ Sometimes deterministic but too complex phenomenon:
+       statistical modeling
+         Complicated process “=” Simple process + random noise
+     ▶ (good) Modeling consists in choosing (plausible) simple
+       process and noise distribution.
+
+
+
+
+                                                                 11/43
+Statistics vs. probability
+
+
+
+     Probability Previous studies showed that the drug was 80%
+                 effective. Then we can anticipate that for a study on
+                 100 patients, in average 80 will be cured and at least
+                 65 will be cured with 99.99% chances.
+
+
+      Statistics Observe that 78/100 patients were cured. We (will
+                 be able to) conclude that we are 95% confident that
+                 for other studies the drug will be effective on between
+                 69.88% and 86.11% of patients
+
+
+
+
+                                                                           13/43
+18.650
+
+
+   What this course is about
+     ▶ Understand mathematics behind statistical methods
+
+     ▶ Justify quantitive statements given modeling assumptions
+
+     ▶ Describe interesting mathematics arising in statistics
+
+     ▶ Provide a math toolbox to extend to other models.
+
+
+
+
+   What this course is not about
+     ▶ Statistical thinking/modeling (applied stats, e.g. IDS.012)
+
+     ▶ Implementation (computational stats, e.g. IDS.012)
+
+     ▶ Laundry list of methods (boring stats, e.g. AP stats)
+
+
+
+
+                                                                     14/43
+18.650
+
+
+   What this course is about
+     ▶ Understand mathematics behind statistical methods
+
+     ▶ Justify quantitive statements given modeling assumptions
+
+     ▶ Describe interesting mathematics arising in statistics
+
+     ▶ Provide a math toolbox to extend to other models.
+
+
+
+
+   What this course is not about
+     ▶ Statistical thinking/modeling (applied stats, e.g. IDS.012)
+
+     ▶ Implementation (computational stats, e.g. IDS.012)
+
+     ▶ Laundry list of methods (boring stats, e.g. AP stats)
+
+
+
+
+                                                                     14/43
+Let’s do some statistics
+
+
+
+
+                           15/43
+Heuristics (1)
+
+       “A neonatal right-side preference makes a surprising
+       romantic reappearance later in life.”
+
+     ▶ Let p denote the proportion of couples that turn their head to
+       the right when kissing.
+     ▶ Let us design a statistical experiment and analyze its outcome.
+
+     ▶ Observe n kissing couples times and collect the value of each
+       outcome (say 1 for RIGHT and 0 for LEFT);
+     ▶ Estimate p with the proportion p̂ of RIGHT.
+
+     ▶ Study: “Human behaviour: Adult persistence of head-turning
+       asymmetry” (Nature, 2003): n = 124, 80 to the right so
+                                     80
+                             p̂ =       = 64.5%
+                                    124
+
+
+                                                                         17/43
+Heuristics (2)
+
+
+   Back to the data:
+     ▶ 64.5% is much larger than 50% so there seems to be a
+       preference for turning right.
+     ▶ What if our data was RIGHT, RIGHT, LEFT (n = 3). That’s
+       66.7% to the right. Even better?
+     ▶ Intuitively, we need a large enough sample size n to make a
+       call. How large?
+
+
+           We need mathematical modeling to understand
+                   the accuracy of this procedure?
+
+
+
+
+                                                                     18/43
+Heuristics (3)
+
+
+   Formally, this procedure consists of doing the following:
+     ▶ For i = 1, . . . , n, define Ri = 1 if the ith couple turns to the
+       right RIGHT, Ri = 0 otherwise.
+     ▶ The estimator of p is the sample average
+
+                                            ∑
+                                            n
+                                   ¯n = 1
+                              p̂ = R              Ri .
+                                        n
+                                            i=1
+
+   What is the accuracy of this estimator ?
+
+   In order to answer this question, we propose a statistical model
+   that describes/approximates well the experiment.
+
+
+
+                                                                            19/43
+Heuristics (4)
+
+
+
+   Coming up with a model consists of making assumptions on the
+   observations Ri , i = 1, . . . , n in order to draw statistical
+   conclusions. Here are the assumptions we make:
+
+
+    1. Each Ri is a random variable.
+
+    2. Each of the r.v. Ri is Bernoulli with parameter p.
+
+    3. R1 , . . . , Rn are mutually independent.
+
+
+
+
+                                                                     20/43
+Heuristics (5)
+   Let us discuss these assumptions.
+
+
+    1. Randomness is a way of modeling lack of information; with
+       perfect information about the conditions of kissing (including
+       what goes in the kissers’ mind), physics or sociology would
+       allow us to predict the outcome.
+
+    2. Hence, the Ri ’s are necessarily Bernoulli r.v. since
+       Ri → {0, 1}. They could still have a different parameter
+       Ri " Ber(pi ) for each couple but we don’t have enough
+       information with the data estimate the pi ’s accurately. So we
+       simply assume that our observations come from the same
+       process: pi = p for all i
+
+    3. Independence is reasonable (people were observed at different
+       locations and different times).
+
+                                                                        21/43
+Two important tools: LLN & CLT
+
+  Let X, X1 , X2 , . . . , Xn be i.i.d. r.v., µ = IE[X] and α 2 = V[X].
+
+
+    ▶ Laws of large numbers (weak and strong):
+
+
+                                 1∑
+                                      n
+                                       IP, a.s.
+                          X̄n :=    Xi −−−−≥ µ.
+                                 n      n-≥
+                                     i=1
+
+    ▶ Central limit theorem:
+
+                         ∈ X̄n − µ (d)
+                          n       −−−≥ N (0, 1).
+                              α    n-≥
+
+                                 ∈             (d)
+                (Equivalently,       ¯ n − µ) −−
+                                  n (X          −≥ N (0, α 2 ).)
+                                               n-≥
+
+
+
+                                                                          22/43
+Consequences (1)
+
+
+
+    ▶ The LLN’s tell us that
+
+                                   IP, a.s.
+                               R̄n −−−−≥ p.
+                                   n-≥
+
+                                                              ¯n
+    ▶ Hence, when the size n of the experiment becomes large, R
+      is a good (say ”consistent”) estimator of p.
+
+    ▶ The CLT refines this by quantifying how good this estimate is.
+
+
+
+
+                                                                       23/43
+Consequences (2)
+
+
+
+   <(x): cdf of N (0, 1);
+
+                    ∈     R̄n − p
+   <n (x): cdf of       n√          .
+                           p(1 − p)
+
+   CLT: <n (x) ≤ <(x) when n becomes large. Hence, for all x > 0,
+                                (      (      ∈      ))
+              [             ]               x n
+            IP |R̄n − p| 2 x ≤ 2 1 − < √                .
+                                            p(1 − p)
+
+
+
+
+                                                                    24/43
+Consequences (3)
+
+
+   Consequences:
+
+
+                           ¯ n concentrates around p;
+    ▶ Approximation on how R
+
+
+
+    ▶ For a fixed o → (0, 1), if qa/2 is the (1 − o/2)-quantile of
+      N (0, 1), then with probability ≤ 1 − o (if n is large enough !),
+                   [         √                    √            ]
+                        qa/2 p(1 − p)        qa/2 p(1 − p)
+            R̄n → p −         ∈         ,p +        ∈            .
+                                n                      n
+
+
+
+
+                                                                          25/43
+Consequences (4)
+    ▶ Note that no matter the (unknown) value of p,
+
+                              p(1 − p)    1/4.
+    ▶ Hence, roughly with probability at least 1 − o,
+                            [                ]
+                                qa/2    qa/2
+                       R̄n → p − ∈ , p + ∈ .
+                                2 n     2 n
+    ▶ In other words, when n becomes large, the interval
+      [                          ]
+              qa/2          qa/2
+       R̄n − ∈ , R̄n + ∈           contains p with probability 2 1 − o.
+              2 n           2 n
+    ▶ This interval is called an asymptotic confidence interval for p.
+    ▶ In the kiss example, we get
+                      [            1.96 ]
+                        0.645 ± ∈         = [0.56, 0.73]
+                                 2 124
+      If the extreme (n = 3 case) we would have [0.10, 1.23] but
+      CLT is not valid! Actually we can make exact computations!
+                                                                          26/43
+Another useful tool: Hoeffding’s inequality
+   What if n is not so large ?
+   Hoeffding’s inequality (i.i.d. case)
+   Let n be a positive integer and X, X1 , . . . , Xn be i.i.d. r.v. such
+   that X → [a, b] a.s. (a < b are given numbers). Let µ = IE[X].
+   Then, for all λ > 0,
+                                                       2
+                                                  − 2n� 2
+                       IP[|X̄n − µ| 2 λ]     2e    (b−a)    .
+
+   Consequence:
+     ▶ For o → (0, 1), with probability 2 1 − o,
+
+                          √                           √
+                              log(2/o)                      log(2/o)
+                  R̄n −                  p   ¯n +
+                                             R                       .
+                                 2n                            2n
+     ▶ This holds even for small sample sizes n.
+
+                                                                            27/43
+Review of different types of convergence (1)
+
+
+   Let (Tn )n?1 a sequence of r.v. and T a r.v. (T may be
+   deterministic).
+     ▶ Almost surely (a.s.) convergence:
+
+                                    [{                     }]
+               a.s.
+           Tn −−−≥ T     iff   IP     θ : Tn (θ) −−−≥ T (θ) = 1.
+               n-≥                             n-≥
+
+     ▶ Convergence in probability:
+
+                IP
+           Tn −−−≥ T     iff   IP [|Tn − T | 2 λ] −−−≥ 0, ⇒λ > 0.
+              n-≥                               n-≥
+
+
+
+
+                                                                    28/43
+Review of different types of convergence (2)
+
+     ▶ Convergence in Lp (p 2 1):
+
+                          Lp
+                 Tn −−−≥ T           iff   IE [|Tn − T |p ] −−−≥ 0.
+                     n-≥                                  n-≥
+
+     ▶ Convergence in distribution:
+
+                    (d)
+               Tn −−−≥ T       iff     IP[Tn     x] −−−≥ IP[T         x],
+                  n-≥                               n-≥
+
+       for all x → IR at which the cdf of T is continuous.
+
+   Remark
+   These definitions extend to random vectors (i.e., random variables
+   in IRd for some d 2 2).
+
+
+                                                                            29/43
+Review of different types of convergence (3)
+
+
+   Important characterizations of convergence in distribution
+
+   The following propositions are equivalent:
+
+                     (d)
+             (i) Tn −−−≥ T ;
+                    n-≥
+
+            (ii) IE[f (Tn )] −−−≥ IE[f (T )], for all continuous and
+                           n-≥
+
+                bounded function f ;
+                   [     ]       [    ]
+           (iii) IE eixTn −−−≥ IE eixT , for all x → IR.
+                           n-≥
+
+
+
+
+                                                                       30/43
+Review of different types of convergence (4)
+
+   Important properties
+     ▶ If (Tn )n?1 converges a.s., then it also converges in probability,
+       and the two limits are equal a.s.
+
+     ▶ If (Tn )n?1 converges in Lp , then it also converges in Lq for all
+       q    p and in probability, and the limits are equal a.s.
+
+     ▶ If (Tn )n?1 converges in probability, then it also converges in
+       distribution
+
+     ▶ If f is a continuous function:
+
+                   a.s./IP/(d)                   a.s./IP/(d)
+               Tn −−−−−−−≥ T       ≈    f (Tn ) −−−−−−−≥ f (T ).
+                      n-≥                         n-≥
+
+
+
+                                                                            31/43
+Review of different types of convergence (6)
+
+   Limits and operations
+
+   One can add, multiply, ... limits almost surely and in probability. If
+       a.s./IP           a.s./IP
+   Un −−−−≥ U and Vn −−−−≥ V , then:
+       n-≥                 n-≥
+                a.s./IP
+     ▶ Un + Vn −−−−≥ U + V ,
+                  n-≥
+              a.s./IP
+     ▶ Un Vn −−−−≥ U V ,
+               n-≥
+                                           Un a.s./IP U
+     ▶ If in addition, V ̸= 0 a.s., then      −−−−≥ .
+                                           Vn n-≥ V
+
+
+   �          In general, these rules do not apply to convergence in
+   distribution unless the pair (Un , Vn ) converges in distribution to
+   (U, V ).
+
+                                                                            33/43
+Another example (1)
+
+
+
+    ▶ You observe the times between arrivals of the T at Kendall:
+      T1 , . . . , Tn .
+
+    ▶ You assume that these times are:
+
+         ▶   Mutually independent
+         ▶   Exponential random variables with common parameter , > 0.
+
+    ▶ You want to estimate the value of ,, based on the observed
+      arrival times.
+
+
+
+
+                                                                         34/43
+Another example (2)
+
+   Discussion of the assumptions:
+
+
+    ▶ Mutual independence of T1 , . . . , Tn : plausible but not
+       completely justified (often the case with independence).
+
+    ▶ T1 , . . . , Tn are exponential r.v.: lack of memory of the
+       exponential distribution:
+
+              IP[T1 > t + s|T1 > t] = IP[T1 > s],      ⇒s, t 2 0.
+
+       Also, Ti > 0 almost surely!
+    ▶ The exponential distributions of T1 , . . . , Tn have the same
+       parameter: in average all the same inter-arrival time. True
+       only for limited period (rush hour ̸= 11pm).
+
+
+                                                                       35/43
+Another example (3)
+
+    ▶ Density of T1 :
+                         f (t) = ,e− t ,       ⇒t 2 0.
+                  1
+    ▶ IE[T1 ] =     .
+                  ,
+
+                                     1
+    ▶ Hence, a natural estimate of     is
+                                     ,
+
+                                    1∑
+                                           n
+                             T̄n :=    Ti .
+                                    n
+                                        i=1
+
+    ▶ A natural estimator of , is
+
+
+                                 ˆ := 1 .
+                                 ,
+                                      T̄n
+
+
+                                                         36/43
+Another example (4)
+
+
+    ▶ By the LLN’s,
+                                           a.s./IP 1
+                                      T̄n −−−−≥
+                                           n-≥ ,
+    ▶ Hence,
+                                      ˆ−a.s./IP
+                                      , −−−≥ ,.
+                                            n-≥
+    ▶ By the CLT,
+                              (             )
+                      ∈                 1        (d)
+                          n       T̄n −         −−−≥ N (0, ,−2 ).
+                                        ,       n-≥
+
+                                   ˆ ? How to find an asymptotic
+    ▶ How does the CLT transfer to ,
+      confidence interval for , ?
+
+
+
+                                                                    37/43
+The Delta method
+
+  Let (Zn )n?1 sequence of r.v. that satisfies
+                       ∈               (d)
+                           n(Zn − e) −−−≥ N (0, α 2 ),
+                                      n-≥
+
+  for some e → IR and α 2 > 0 (the sequence (Zn )n?1 is said to be
+  asymptotically normal around e).
+
+  Let g : IR ≥ IR be continuously differentiable at the point e.
+  Then,
+    ▶ (g(Zn ))
+              n?1 is also asymptotically normal;
+    ▶ More precisely,
+
+                 ∈                           (d)
+                     n (g(Zn ) − g(e)) −−−≥ N (0, g ′ (e)2 α 2 ).
+                                        n-≥
+
+
+
+                                                                     38/43
+Consequence of the Delta method (1)
+
+        ∈       (      ) (d)
+    ▶       n    ,ˆ − , −−−≥ N (0, ,2 ).
+                         n-≥
+
+    ▶ Hence, for o → (0, 1) and when n is large enough,
+
+                                           qa/2 ,
+                                 ˆ − ,|
+                                |,          ∈ .
+                                              n
+             [                      ]
+                  q ,          q ,
+    ▶ Can     ,ˆ − a/2
+                    ∈ ,,  ˆ + a/2
+                                ∈     be used as an asymptotic
+                      n           n
+        confidence interval for , ?
+
+    ▶ No ! It depends on ,...
+
+
+
+
+                                                                 39/43
+Consequence of the Delta method (2)
+
+   Two ways to overcome this issue:
+    ▶ In this case, we can solve for ,:
+                                  (         )        (          )
+                 qa/2 ,                qa/2                qa/2
+        ˆ − ,|
+       |,          ∈     ∼≈ , 1 − ∈             , , 1+ ∈
+                                                ˆ
+                     n                   n                   n
+                                  (         )−1         (         )
+                                       qa/2                  qa/2 −1
+                         ∼≈ , 1 + ∈
+                               ˆ                  , , 1− ∈
+                                                      ˆ              .
+                                         n                      n
+              [ (            )       (         ) ]
+                        qa/2 −1            qa/2 −1
+       Hence, , ˆ 1+ ∈            ,,ˆ 1− ∈         is an asymptotic
+                           n                 n
+       confidence interval for ,.
+
+    ▶ A systematic way: Slutsky’s theorem.
+
+
+
+
+                                                                         40/43
+Slutsky’s theorem
+   Slutsky’s theorem
+   Let (Xn ), (Yn ) be two sequences of r.v., such that:
+                       (d)
+              (i) Xn −−−≥ X;
+                     n-≥
+                      IP
+             (ii) Yn −−−≥ c,
+                     n-≥
+   where X is a r.v. and c is a given real number. Then,
+                                        (d)
+                             (Xn , Yn ) −−−≥ (X, c).
+                                      n-≥
+
+   In particular,
+                                        (d)
+                             Xn + Yn −−−≥ X + c,
+                                      n-≥
+                                        (d)
+                               Xn Yn −−−≥ cX,
+                                      n-≥
+                                       ...
+                                                           41/43
+Consequence of Slutsky’s theorem (1)
+    ▶ Thanks to the Delta method, we know that
+
+
+                        ∈ ,ˆ − , (d)
+                         n      −−−≥ N (0, 1).
+                             ,   n-≥
+
+    ▶ By the weak LLN,
+                               ˆ −−IP−≥ ,.
+                               ,
+                                  n-≥
+    ▶ Hence, by Slutsky’s theorem,
+
+
+                        ∈ ,ˆ − , (d)
+                         n      −−−≥ N (0, 1).
+                             ˆ
+                             ,   n-≥
+
+    ▶ Another asymptotic confidence interval for , is
+                         [                  ]
+                                 ˆ
+                            qa/2 ,        ˆ
+                                     qa/2 ,
+                         ˆ − ∈ ,,
+                         ,         ˆ+ ∈       .
+                               n        n
+
+                                                        42/43
+Consequence of Slutsky’s theorem (2)
+
+
+   Remark:
+
+
+    ▶ In the first example (kisses), we used a problem dependent
+      trick: “p(1 − p)   1/4”.
+
+    ▶ We could have used Slutsky’s theorem and get the asymptotic
+      confidence interval
+         [           √                         √              ]
+                 qa/2 R ¯ n (1 − R
+                                 ¯n)       qa/2 R¯ n (1 − R
+                                                          ¯n)
+           R¯n −          ∈           ¯n +
+                                     ,R          ∈              .
+                            n                        n
+
+
+
+
+                                                                    43/43
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.650 / 18.6501 Statistics for Applications
+Fall 2016
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

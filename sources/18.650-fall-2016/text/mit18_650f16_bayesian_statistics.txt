@@ -1,0 +1,354 @@
+  Statistics for Applications
+
+
+Chapter 8: Bayesian Statistics
+
+
+
+
+                                 1/17
+The Bayesian approach (1)
+
+    ◮ So far, we have studied the frequentist approach of statistics.
+
+
+    ◮ The frequentist approach:
+
+         ◮   Observe data
+         ◮   These data were generated randomly (by Nature, by
+             measurements, by designing a survey, etc...)
+         ◮   We made assumptions on the generating process (e.g., i.i.d.,
+             Gaussian data, smooth density, linear regression function,
+             etc...)
+         ◮   The generating process was associated to some object of
+             interest (e.g., a parameter, a density, etc...)
+         ◮   This object was unknown but fixed and we wanted to find it:
+             we either estimated it or tested a hypothesis about this object,
+             etc...
+
+                                                                                2/17
+The Bayesian approach (2)
+
+
+
+    ◮ Now, we still observe data, assumed to be randomly generated
+      by some process. Under some assumptions (e.g., parametric
+      distribution), this process is associated with some fixed object.
+
+
+    ◮ We have a prior belief about it.
+
+
+    ◮ Using the data, we want to update that belief and transform
+      it into a posterior belief.
+
+
+
+
+                                                                          3/17
+The Bayesian approach (3)
+   Example
+    ◮ Let p be the proportion of woman in the population.
+
+
+    ◮ Sample n people randomly with replacement in the population
+      and denote by X1 , . . . , Xn their gender (1 for woman, 0
+      otherwise).
+
+    ◮ In the frequentist approach, we estimated p (using the MLE),
+      we constructed some confidence interval for p, we did
+      hypothesis testing (e.g., H0 : p = .5 v.s. H1 : p 6= .5).
+
+    ◮ Before analyzing the data, we may believe that p is likely to
+      be close to 1/2.
+
+    ◮ The Bayesian approach is a tool to:
+        1. include mathematically our prior belief in statistical procedures.
+        2. update our prior belief using the data.
+                                                                                4/17
+The Bayesian approach (4)
+   Example (continued)
+
+    ◮ Our prior belief about p can be quantified:
+
+
+    ◮ E.g., we are 90% sure that p is between .4 and .6, 95% that it
+      is between .3 and .8, etc...
+
+    ◮ Hence, we can model our prior belief using a distribution for
+      p, as if p was random.
+
+    ◮ In reality, the true parameter is not random ! However, the
+      Bayesian approach is a way of modeling our belief about the
+      parameter by doing as if it was random.
+
+    ◮ E.g., p ∼ B(a, a) (Beta distribution) for some a > 0.
+
+
+    ◮ This distribution is called the prior distribution.
+                                                                       5/17
+The Bayesian approach (5)
+   Example (continued)
+
+    ◮ In our statistical experiment, X1 , . . . , Xn are assumed to be
+      i.i.d. Bernoulli r.v. with parameter p conditionally on p.
+
+    ◮ After observing the available sample X1 , . . . , Xn , we can
+      update our belief about p by taking its distribution
+      conditionally on the data.
+
+    ◮ The distribution of p conditionally on the data is called the
+      posterior distribution.
+
+    ◮ Here, the posterior distribution is
+
+                                n                    n
+                                                                !
+                                X                    X
+                     B a+             Xi , a + n −         Xi       .
+                                i=1                  i=1
+
+                                                                         6/17
+The Bayes rule and the posterior distribution (1)
+
+     ◮ Consider a probability distribution on a parameter space Θ
+       with some pdf π(·): the prior distribution.
+
+     ◮ Let X1 , . . . , Xn be a sample of n random variables.
+
+
+     ◮ Denote by pn (·|θ) the joint pdf of X1 , . . . , Xn conditionally
+       on θ, where θ ∼ π.
+
+     ◮ Usually, one assumes that X1 , . . . , Xn are i.i.d. conditionally
+       on θ.
+
+     ◮ The conditional distribution of θ given X1 , . . . , Xn is called
+       the posterior distribution. Denote by π(·|X1 , . . . , Xn ) its pdf.
+
+
+                                                                              7/17
+The Bayes rule and the posterior distribution (2)
+
+
+     ◮ Bayes’ formula states that:
+
+
+           π(θ|X1 , . . . , Xn ) ∝ π(θ)pn (X1 , . . . , Xn |θ),          ∀θ ∈ Θ.
+
+
+
+
+     ◮ The constant does not depend on θ:
+
+                                      π(θ)pn (X1 , . . . , Xn |θ)
+         π(θ|X1 , . . . , Xn ) = R                                   ,     ∀θ ∈ Θ.
+                                     Θ pn (X1 , . . . , Xn |t) dπ(t)
+
+
+
+
+                                                                                     8/17
+The Bayes rule and the posterior distribution (3)
+   In the previous example:
+
+     ◮ π(p) ∝ pa−1 (1 − p)a−1 , p ∈ (0, 1).
+
+
+                                  i.i.d.
+     ◮ Given p, X1 , . . . , Xn    ∼ Ber(p), so
+                                              Pn                      Pn
+                pn (X1 , . . . , Xn |θ) = p     i=1 Xi   (1 − p)n−            i=1 Xi   .
+
+     ◮ Hence,
+                                             Pn                                 Pn
+           π(θ|X1 , . . . , Xn ) ∝ pa−1+        i=1 Xi   (1 − p)a−1+n−             i=1 Xi   .
+
+     ◮ The posterior distribution is
+
+                                   n                      n
+                                                                      !
+                                   X                      X
+                        B a+               Xi , a + n −          Xi       .
+                                    i=1                    i=1
+
+                                                                                                9/17
+Non informative priors (1)
+
+     ◮ Idea: In case of ignorance, or of lack of prior information, one
+       may want to use a prior that is as little informative as
+       possible.
+
+     ◮ Good candidate: π(θ) ∝ 1, i.e., constant pdf on Θ.
+
+
+     ◮ If Θ is bounded, this is the uniform prior on Θ.
+
+
+     ◮ If Θ is unbounded, this does not define a proper pdf on Θ !
+
+
+     ◮ An improper prior on Θ is a measurable, nonnegative function
+       π(·) defined on Θ that is not integrable.
+
+     ◮ In general, one can still define a posterior distribution using an
+       improper prior, using Bayes’ formula.
+
+                                                                            10/17
+Non informative priors (2)
+   Examples:
+
+                                                   i.i.d.
+     ◮ If p ∼ U (0, 1) and given p, X1 , . . . , Xn ∼ Ber(p) :
+                                        Pn                Pn
+               π(p|X1 , . . . , Xn ) ∝ p i=1 Xi (1 − p)n− i=1 Xi ,
+       i.e., the posterior distribution is
+                               n                     n
+                                                                !
+                               X                     X
+                       B 1+           Xi , 1 + n −         Xi       .
+                                i=1                  i=1
+                                                                i.i.d.
+     ◮ If π(θ) = 1, ∀θ ∈ IR and given θ, X1 , . . . , Xn         ∼ N (θ, 1):
+                                                     n
+                                                                   !
+                                                1X
+                π(θ|X1 , . . . , Xn ) ∝ exp −     (Xi − θ)2 ,
+                                                2
+                                                     i=1
+       i.e., the posterior distribution is
+                                            
+                                           1
+                                  N X̄n ,      .
+                                           n
+                                                                               11/17
+Non informative priors (3)
+
+
+     ◮ Jeffreys prior:
+                                            p
+                                πJ (θ) ∝        det I(θ),
+       where I(θ) is the Fisher information matrix of the statistical
+       model associated with X1 , . . . , Xn in the frequentist approach
+       (provided it exists).
+
+     ◮ In the previous examples:
+
+          ◮   Ex. 1: πJ (p) ∝ √ 1        , p ∈ (0, 1): the prior is B(1/2, 1/2).
+                                p(1−p)
+
+          ◮   Ex. 2: πJ (θ) ∝ 1, θ ∈ IR is an improper prior.
+
+
+
+
+                                                                                   12/17
+Non informative priors (4)
+
+
+
+     ◮ Jeffreys prior satisfies a reparametrization invariance principle:
+       If η is a reparametrization of θ (i.e., η = φ(θ) for some
+       one-to-one map φ), then the pdf π̃(·) of η satisfies:
+                                      q
+                                              ˜
+                              π̃(η) ∝ det I(η),
+
+             ˜
+       where I(η) is the Fisher information of the statistical model
+       parametrized by η instead of θ.
+
+
+
+
+                                                                            13/17
+Bayesian confidence regions
+
+
+
+    ◮ For α ∈ (0, 1), a Bayesian confidence region with level α is a
+      random subset R of the parameter space Θ, which depends
+      on the sample X1 , . . . , Xn , such that:
+
+                      IP[θ ∈ R|X1 , . . . , Xn ] = 1 − α.
+
+    ◮ Note that R depends on the prior π(·).
+
+
+    ◮ ”Bayesian confidence region” and ”confidence interval” are
+      two distinct notions.
+
+
+
+
+                                                                       14/17
+Bayesian estimation (1)
+    ◮ The Bayesian framework can also be used to estimate the true
+      underlying parameter (hence, in a frequentist approach).
+
+    ◮ In this case, the prior distribution does not reflect a prior
+      belief: It is just an artificial tool used in order to define a new
+      class of estimators.
+
+    ◮ Back to the frequentist approach:            The sample
+      X1 , . . . , Xn is associated with a statistical model
+      (E, (IPθ )θ∈Θ ).
+
+    ◮ Define a distribution (that can be improper) with pdf π on
+      the parameter space Θ.
+
+    ◮ Compute the posterior pdf π(·|X1 , . . . , Xn ) associated with π,
+      seen as a prior distribution.
+                                                                            15/17
+Bayesian estimation (2)
+
+
+
+    ◮ Bayes estimator:
+                                    Z
+                          (π)
+                     θ̂         =           θ dπ(θ|X1 , . . . , Xn ) :
+                                        Θ
+
+      This is the posterior mean.
+
+    ◮ The Bayesian estimator depends on the choice of the prior
+      distribution π (hence the superscript π).
+
+
+
+
+                                                                         16/17
+Bayesian estimation (3)
+    ◮ In the previous examples:
+
+        ◮   Ex. 1 with prior B(a, a) (a > 0):
+                                      Pn
+                            (π)  a + i=1 Xi     a/n + X̄n
+                          p̂ =                =           .
+                                     2a + n     2a/n + 1
+
+            In particular, for a = 1/2 (Jeffreys prior),
+
+                                                 1/(2n) + X̄n
+                                     p̂(πJ ) =                .
+                                                   1/n + 1
+
+        ◮   Ex. 2: θ̂(πJ ) = X̄n .
+    ◮ In each of these examples, the Bayes estimator is consistent
+      and asymptotically normal.
+
+    ◮ In general, the asymptotic properties of the Bayes estimator
+      do not depend on the choice of the prior.
+                                                                     17/17
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.650 / 18.6501 Statistics for Applications
+Fall 2016
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

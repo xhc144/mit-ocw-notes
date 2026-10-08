@@ -1,0 +1,1281 @@
+Statistics for Applications
+
+
+ Chapter 7: Regression
+
+
+
+
+                              1/43
+Heuristics of the linear regression (1)
+   Consider a cloud of i.i.d. random points (Xi , Yi ), i = 1, . . . , n :
+
+
+
+
+                                                                             2/43
+Heuristics of the linear regression (2)
+
+
+     I Idea: Fit the best line ﬁtting the data.
+
+
+     I Approximation: Yi ⇡ a + bXi , i = 1, . . . , n, for some
+       (unknown) a, b 2 IR.
+
+            ˆ ˆb that approach a and b.
+     I Find a,
+
+
+     I More generally: Yi 2 IR, Xi 2 IRd ,
+
+
+                       Yi ⇡ a + Xi> b, a 2 IR, b 2 IRd .
+
+     I Goal:    Write a rigorous model and estimate a and b.
+
+
+
+                                                                  3/43
+Heuristics of the linear regression (3)
+
+
+
+   Examples:
+       Economics: Demand and price,
+
+                        Di ⇡ a + bpi , i = 1, . . . , n.
+
+       Ideal gas law: P V = nRT ,
+
+               log Pi ⇡ a + b log Vi + c log Ti , i = 1, . . . , n.
+
+
+
+
+                                                                      4/43
+Linear regression of a r.v. Y on a r.v. X (1)
+
+       Let X and Y be two real r.v. (non necessarily independent)
+       with two moments and such that V ar(X) 6= 0.
+
+       The theoretical linear regression of Y on X is the best
+       approximation in quadratic means of Y by a linear function of
+       X, i.e. the r.v. a + bX,h where a and b iare the two real
+       numbers minimizing IE (Y − a − bX)2 .
+
+       By some simple algebra:
+                  cov(X, Y )
+         I   b=              ,
+                   V ar(X)
+                                              cov(X, Y )
+         I   a = IE[Y ] − bIE[X] = IE[Y ] −              IE[X].
+                                               V ar(X)
+
+
+
+                                                                       5/43
+Linear regression of a r.v. Y on a r.v. X (2)
+
+
+       If " = Y − (a + bX), then
+
+                             Y = a + bX + ",
+
+       with IE["] = 0 and cov(X, ") = 0.
+
+       Conversely: Assume that Y = a + bX + " for some a, b 2 IR
+       and some centered r.v. " that satisﬁes cov(X, ") = 0.
+
+       E.g., if X ?? " or if IE["|X] = 0, then cov(X, ") = 0.
+
+       Then, a + bX is the theoretical linear regression of Y on X.
+
+
+
+                                                                      6/43
+Linear regression of a r.v. Y on a r.v. X (3)
+       A sample of n i.i.d. random pairs (X1 , . . . , Xn ) with same
+       distribution as (X, Y ) is available.
+
+       We want to estimate a and b.
+
+
+
+
+                                                                        7/43
+Linear regression of a r.v. Y on a r.v. X (3)
+       A sample of n i.i.d. random pairs (X1 , . . . , Xn ) with same
+       distribution as (X, Y ) is available.
+
+       We want to estimate a and b.
+
+
+
+
+                                                                        8/43
+Linear regression of a r.v. Y on a r.v. X (3)
+       A sample of n i.i.d. random pairs (X1 , . . . , Xn ) with same
+       distribution as (X, Y ) is available.
+
+       We want to estimate a and b.
+
+
+
+
+                                                                        9/43
+Linear regression of a r.v. Y on a r.v. X (3)
+       A sample of n i.i.d. random pairs (X1 , . . . , Xn ) with same
+       distribution as (X, Y ) is available.
+
+       We want to estimate a and b.
+
+
+
+
+                                                                        10/43
+Linear regression of a r.v. Y on a r.v. X (3)
+       A sample of n i.i.d. random pairs (X1 , Y1 ), . . . , (Xn , Yn ) with
+       same distribution as (X, Y ) is available.
+
+       We want to estimate a and b.
+
+
+
+
+                                                                               11/43
+Linear regression of a r.v. Y on a r.v. X (4)
+
+
+   Deﬁnition
+   The least squared error (LSE) estimator of (a, b) is the minimizer
+   of the sum of squared errors:
+                          n
+                          X
+                                (Yi − a − bXi )2 .
+                          i=1
+
+
+   (â, b̂) is given by
+                                 XY − X̄ Y¯
+                            b̂ =            ,
+                                   2
+                                 X −X  ¯ 2
+
+                                â = Y¯ − ˆbX.
+                                            ¯
+
+
+
+
+                                                                        12/43
+Linear regression of a r.v. Y on a r.v. X (5)
+
+
+
+
+                                                13/43
+Multivariate case (1)
+
+                     Yi = Xi β + "i ,       i = 1, . . . , n.
+
+       Vector of explanatory variables or covariates: Xi 2 IRp (wlog,
+       assume its ﬁrst coordinate is 1).
+
+       Dependent variable: Yi .
+
+       β = (a, b ) ; β1 (= a) is called the intercept.
+
+       {"i }i=1,...,n : noise terms satisfying cov(Xi , "i ) = 0.
+   Deﬁnition
+   The least squared error (LSE) estimator of β is the minimizer of
+   the sum of square errors:
+                                      n
+                                      X
+                      β̂ = argmin           (Yi − Xi t)2
+                             t2IRp    i=1
+                                                                        14/43
+Multivariate case (2)
+
+   LSE in matrix form
+       Let Y = (Y1 , . . . , Yn ) 2 IRn .
+
+       Let X be the n ⇥ p matrix whose rows are X1 , . . . , Xn (X is
+       called the design).
+
+       Let " = ("1 , . . . , "n ) 2 IRn (unobserved noise)
+
+       Y = Xβ + ".
+
+       The LSE β̂ satisfies:
+
+                           β̂ = argmin kY − Xtk22 .
+                                  t2IRp
+
+
+
+                                                                        15/43
+Multivariate case (3)
+
+       Assume that rank(X) = p.
+
+       Analytic computation of the LSE:
+
+                          β̂ = (X X)−1 X Y.
+
+       Geometric interpretation of the LSE
+
+       Xβ̂ is the orthogonal projection of Y onto the subspace
+       spanned by the columns of X:
+
+                               Xβ̂ = P Y,
+
+       where P = X(X X)−1 X .
+
+
+                                                                 16/43
+Linear regression with deterministic design and Gaussian
+noise (1)
+
+
+   Assumptions:
+
+
+       The design matrix X is deterministic and rank(X) = p.
+
+       The model is homoscedastic: "1 , . . . , "n are i.i.d.
+
+       The noise vector " is Gaussian:
+
+                               " ⇠ Nn (0, σ 2 In ),
+
+       for some known or unknown σ 2 > 0.
+
+
+
+                                                                17/43
+Linear regression with deterministic design and Gaussian
+noise (2)
+                                        ⇣                            ⌘
+       LSE = MLE:          ˆ ⇠ Np β, σ (X X)
+                           β                       2            −1
+                                                                         .
+                                             h                  i                ⇣        ⌘
+                                                                                     −1
+       Quadratic risk of β̂:            IE       kβ̂ − βk22                  2
+                                                                    = σ tr (X X)           .
+                                    h                       i
+       Prediction error:       IE       kY − Xβ̂k22             = σ 2 (n − p).
+
+                                                             1
+       Unbiased estimator of σ 2 :                 σ̂ 2 =       kY − Xβ̂k22 .
+                                                            n−p
+
+   Theorem
+              σ̂ 2
+       (n − p) 2 ⇠ χ2n−p .
+              σ
+
+       β̂ ?? σ̂ 2 .
+                                                                                               18/43
+Significance tests (1)
+       Test whether the j-th explanatory variable is significant in the
+       linear regression (1  j  p).
+
+       H0 : βj = 0 v.s. H1 : βj = 0.
+
+       If γj is the j-th diagonal coefficient of (X X)−1 (γj > 0):
+
+                                 β̂j − βj
+                                 p         ⇠ tn−p .
+                                       2
+                                     σ̂ γj
+
+                    β̂j
+       Let Tn(j) = p         .
+                     σ̂ 2 γj
+
+       Test with non asymptotic level ↵ 2 (0, 1):
+
+                          δ↵(j) = 1{|Tn(j) | > q ↵2 (tn−p )},
+
+       where q ↵2 (tn−p ) is the (1 − ↵/2)-quantile of tn−p .
+                                                                          19/43
+Significance tests (2)
+
+
+
+       Test whether a group of explanatory variables is significant in
+       the linear regression.
+
+       H0 : βj = 0, 8j 2 S v.s. H1 : 9j 2 S, βj = 0, where
+       S ✓ {1, . . . , p}.
+
+                                      (j)
+       Bonferroni’s test: δ↵B = max δ↵/k , where k = |S|.
+                                j2S
+
+
+       δ↵ has non asymptotic level at most ↵.
+
+
+
+
+                                                                         20/43
+More tests (1)
+
+   Let G be a k ⇥ p matrix with rank(G) = k (k  p) and λ 2 IRk .
+       Consider the hypotheses:
+
+                           H0 : Gβ = λ v.s. H1 : Gβ = λ.
+
+       The setup of the previous slide is a particular case.
+
+       If H0 is true, then:
+
+                         Gβ̂ − λ ⇠ Nk 0, σ 2 G(X X)−1 G          ,
+
+       and
+                                                    −1
+                 −2                        −1
+             σ        (Gβ̂ − λ)   G(X X)        G        (Gβ − λ) ⇠ χ2k .
+
+
+                                                                            21/43
+More tests (2)
+                                 �                �−1
+                   1 (Gβ̂ − λ)    G(X    X)−1 G         (Gβ − λ)
+       Let Sn =                                                    .
+                  σ̂ 2                    k
+
+       If H0 is true, then Sn ⇠ Fk,n−p .
+       Test with non asymptotic level ↵ 2 (0, 1):
+
+                         δ↵ = 1{Sn > q↵ (Fk,n−p )},
+
+       where q↵ (Fk,n−p ) is the (1 − ↵)-quantile of Fk,n−p .
+
+
+   Definition
+   The Fisher distribution with p and q degrees of freedom, denoted
+                                    U/p
+   by Fp,q , is the distribution of      , where:
+                                    V /q
+       U ⇠ χ2p , V ⇠ χ2q ,
+
+       U ?? V .
+                                                                       22/43
+Concluding remarks
+
+
+
+      Linear regression exhibits correlations, NOT causality
+
+      Normality of the noise: One can use goodness of fit tests to
+      test whether the residuals "ˆi = Yi − Xi β̂ are Gaussian.
+
+      Deterministic design: If X is not deterministic, all the above
+      can be understood conditionally on X, if the noise is assumed
+      to be Gaussian, conditionally on X.
+
+
+
+
+                                                                       23/43
+Linear regression and lack of identifiability (1)
+   Consider the following model:
+
+                               Y = Xβ + ",
+
+   with:
+     1. Y 2 IRn (dependent variables), X 2 IRn⇥p (deterministic
+        design) ;
+     2. β 2 IRp , unknown;
+     3. " ⇠ Nn (0, σ 2 In ).
+
+        Previously, we assumed that X had rank p, so we could invert
+        X X.
+
+        What if X is not of rank p ? E.g., if p > n ?
+
+        β would no longer be identified: estimation of β is vain
+        (unless we add more structure).
+                                                                       24/43
+Linear regression and lack of identifiability (2)
+
+       What about prediction ? Xβ is still identified.
+
+       Ŷ: orthogonal projection of Y onto the linear span of the
+       columns of X.
+
+       Ŷ = Xβ̂ = X(X X)† XY, where A† stands for the
+       (Moore-Penrose) pseudo inverse of a matrix A.
+
+       Similarly as before, if k = rank(X):
+
+            kŶ − Yk22
+                  2
+                       ⇠ χ2n k ,
+                σ
+
+           kŶ − Yk22 ?? Ŷ.
+
+
+                                                                    25/43
+Linear regression and lack of identifiability (3)
+
+
+
+       In particular:
+
+                        IE[kŶ − Yk22 ] = (n − k)σ 2 .
+
+
+
+
+       Unbiased estimator of the variance:
+                                    1
+                          σ̂ 2 =       kŶ − Yk22 .
+                                   n−k
+
+
+
+
+                                                         26/43
+Linear regression in high dimension (1)
+   Consider again the following model:
+
+                             Y = Xβ + ",
+
+   with:
+    1. Y 2 IRn (dependent variables), X 2 IRn⇥p (deterministic
+        design) ;
+    2. β 2 IRp , unknown: to be estimated;
+    3. " ⇠ Nn (0, σ 2 In ).
+       For each i, Xi 2 IRp is the vector of covariates of the i-th
+       individual.
+
+       If p is too large (p > n), there are too many parameters to be
+       estimated (overfitting model), although some covariates may
+       be irrelevant.
+
+       Solution: Reduction of the dimension.
+                                                                        27/43
+Linear regression in high dimension (2)
+
+
+       Idea: Assume that only a few coordinates of β are nonzero
+       (but we do not know which ones).
+
+       Based on the sample, select a subset of covariates and
+       estimate the corresponding coordinates of β.
+
+       For S ✓ {1, . . . , p}, let
+
+                           β̂ S 2 argmin kY − XS tk2 ,
+                                     t2IRS
+
+       where XS is the submatrix of X obtained by keeping only the
+       covariates indexed in S.
+
+
+
+                                                                     28/43
+Linear regression in high dimension (3)
+
+
+
+       Select a subset S that minimizes the prediction error
+       penalized by the complexity (or size) of the model:
+                                     ˆ k2 + λ|S|,
+                             kY − XS β S
+
+       where λ > 0 is a tuning parameter.
+
+       If λ = 2σ̂ 2 , this is the Mallow’s Cp or AIC criterion.
+
+       If λ = σ̂ 2 log n, this is the BIC criterion.
+
+
+
+
+                                                                  29/43
+Linear regression in high dimension (4)
+       Each of these criteria is equivalent to finding β 2 IRp that
+       minimizes:
+                            kY − Xbk22 + λkbk0 ,
+       where kbk0 is the number of nonzero coefficients of b.
+
+       This is a computationally hard problem: nonconvex and
+       requires to compute 2n estimators (all the β̂ S , for
+       S ✓ {1, . . . , p}).
+
+       Lasso estimator:
+                          p
+                          X                                 p
+                                                            X � �
+        replacekbk0 =           1I{bj = 0}   with    kbk1 =   �bj �
+                          j=1                                j=1
+
+       and the problem becomes convex.
+                     L
+                    β̂ 2 argmin kY − Xbk2 + λkbk1 ,
+                            b2IRp
+       where λ > 0 is a tuning parameter.
+                                                                      30/43
+Linear regression in high dimension (5)
+
+
+
+       How to choose λ ?
+
+       This is a difficult question (see grad course 18.657:
+       ”High-dimensional statistics” in Spring 2017).
+
+       A good choice of λ with lead to an estimator β̂ that is very
+       close to β and will allow to recover the subset S ⇤ of all
+       j 2 {1, . . . , p} for which β j = 0, with high probability.
+
+
+
+
+                                                                      31/43
+Linear regression in high dimension (6)
+
+
+
+
+                                          32/43
+Nonparametric regression (1)
+
+
+      In the linear setup, we assumed that Yi = Xi β + "i , where
+      Xi are deterministic.
+
+      This has to be understood as working conditionally on the
+      design.
+
+      This is to assume that IE[Yi |Xi ] is a linear function of Xi ,
+      which is not true in general.
+
+      Let f (x) = IE[Yi |Xi = x], x 2 IRp : How to estimate the
+      function f ?
+
+
+
+
+                                                                        33/43
+Nonparametric regression (2)
+
+   Let p = 1 in the sequel.
+       One can make a parametric assumption on f .
+
+       E.g., f (x) = a + bx, f (x) = a + bx + cx2 , f (x) = ea+bx , ...
+
+       The problem reduces to the estimation of a finite number of
+       parameters.
+
+       LSE, MLE, all the previous theory for the linear case could be
+       adapted.
+
+       What if we do not make any such parametric assumption on f
+       ?
+
+
+                                                                          34/43
+Nonparametric regression (3)
+
+
+      Assume f is smooth enough: f can be well approximated by a
+      piecewise constant function.
+
+      Idea: Local averages.
+
+      For x 2 IR: f (t) ⇡ f (x) for t close to x.
+
+      For all i such that Xi is close enough to x,
+
+                              Yi ⇡ f (x) + "i .
+
+      Estimate f (x) by the average of all Yi ’s for which Xi is close
+      enough to x.
+
+
+                                                                         35/43
+Nonparametric regression (4)
+
+
+
+      Let h > 0: the window’s size (or bandwidth).
+
+      Let Ix = {i = 1, . . . , n : |Xi − x| < h}.
+
+      Let fˆn,h (x) be the average of {Yi : i 2 Ix }.
+                  8
+                  >  1 X
+                  >
+                  < |I |      Yi if Ix = ;
+                      x
+      fˆn,h (x) =        i2Ix
+                  >
+                  >
+                  :
+                    0 otherwise.
+
+
+
+
+                                                        36/43
+Nonparametric regression (5)
+       0.5
+
+
+
+
+                                                          ●
+       0.4
+
+
+
+
+                                          ●
+                                      ●                           ●                                          ●
+                                                                                      ●●
+       0.3
+
+
+
+
+                                                                                            ●    ●
+                                                                                      ●
+                                  ●                           ●
+                                                                  ●                          ●   ●
+                                              ●
+                                                                          ●   ●
+                                      ●
+                                              ●
+                      ●
+                                                                          ●                              ●
+       0.2
+
+
+
+
+                                                              ●
+                                                                      ●
+                                                                                  ●
+
+                                              ●
+                                                                      ●                     ●●
+                                                      ●
+                                                                                                     ●                   ●
+                              ●
+                                                                                                             ●
+   Y
+
+
+
+
+                                                  ●                                                              ●
+       0.1
+
+
+
+
+                                      ●
+                                                                                                             ●
+
+
+                                                                                                                     ●
+                                                                                                                                     ●
+                  ●
+              ●
+                                                              ●                                                              ●
+       0.0
+
+
+
+
+                          ●
+                                                                                                                             ●
+
+
+
+
+                                                                                                                                 ●
+
+                                                                                                                                          ●
+       −0.2
+
+
+
+
+              ●
+
+
+
+
+                                  0.2                     0.4                         0.6                0.8                             1.0
+
+                                                                                  X
+
+                                                                                                                                               37/43
+Nonparametric regression (6)
+       0.5
+
+
+
+
+                                                                  l
+       0.4
+
+
+
+
+                                              l
+                                      l                                               l                                                            l
+
+                                                                                                                    ll ll
+                                                                                                                             ll      ll
+       0.3
+
+
+
+
+                                                                                                                    ll
+                                  l                                       l
+
+                                                  l                               l                                               ll ll
+                                                                                                  l       ll
+                                          l
+                                                      l
+                      l
+                                                                                                      l                                        l
+       0.2
+
+
+
+
+                                                                              l
+                                                                                          l
+                                                                                                               ll
+                                                      l
+                                                              l
+                                                                                              l
+                                                                                                                            ll ll
+                              l                                                                                                           ll                     l
+                                                                                                                                                   l
+   Y
+
+
+
+
+                                                          l                                                                                            l
+       0.1
+
+
+
+
+                                      l
+                                                                                                                                                   l
+
+
+                                                                                                                                                             l
+                                                                                                                                                                                 l
+                  l
+              l
+                                                                      l                                                                                              l
+       0.0
+
+
+
+
+                          l
+                                                                                                                                                                         l
+
+
+
+
+                                                                                                                                                           x  0.6           l
+
+                                                                                                                                                                                      l
+
+
+
+                                                                                                                                                           h  0.1
+                                                                                                                                                           ^
+       −0.2
+
+
+
+
+              l                                                                                                                                            f x  0.27
+
+                                  0.2                             0.4                                               0.6                            0.8                               1.0
+
+                                                                                                               X
+
+                                                                                                                                                                                           38/43
+Nonparametric regression (7)
+
+
+
+
+   How to choose h ?
+
+      If h ! 0: overfitting the data;
+
+      If h ! 1: underfitting, fˆn,h (x) = Y¯n .
+
+
+
+
+                                                  39/43
+Nonparametric regression (8)
+   Example:
+      n = 100, f (x) = x(1 − x),
+      h = .005.
+       0.4
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   ^
+                                                                                                                                                                                                                                          l
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   f nh
+                                                                                                                                                                                                                                                      l
+                                                                                                                                                                                                                                          l
+
+
+
+                                                                                                                                                                              l
+                                                                                                          l                                                               l
+
+
+
+
+                                                                                                                                                              l                                                                                                                                                l
+                                                                                                                                                                                                                                                                   l
+       0.3
+
+
+
+
+                                                                                                                                                                                                                                  l                                        l
+                                                                                                                                                                                              l
+                                                                                                                                                                                                                                              l
+                                                                                                                                                                                                      l
+                                                                                                                                                                  l
+
+                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                                          l                   l
+                                                                                                                                                                                                                                      l
+                                                                                                                                                                                                                                                                                       l
+                                                                                                                          l
+                                                                                                                                                                                                                                                                                                                                                               l
+                                                                                          l
+                                                                                                                                                                                          l
+                                                                                                                                                  l                                                           l
+                                                                                                                                                                                                      l
+                                                          l
+                                                                                                                                                                                                                                                              ll
+                                                                                                                                                                                                                                                                                                       l
+                                                                                                                                                                                      l           l                                               l
+                                                                                                  l                                                       l
+                                                                                                                                                                                                                      l
+       0.2
+
+
+
+
+                                                                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                  l                                                               l
+                                                                                                                                                                                                                                                                                                                           l
+                                                                                  l                                           l                   l
+
+                                                                                                      l                                                                                                                                                                                    l       l
+                                  l                                                                                                                                   l
+                                                                                                                      l                                                                                                                                                                                                l
+                                                                                                                                                                                                                                                                                   l                                                           l
+                                                                                                                                                                                                                                                                                                                                                   l
+                                                                                                              l                                       l                                                                                                                                                    l
+   Y
+
+
+
+
+                                                                                                                  l                       l
+                                                              l                                                                               l                                                                                                                                                                            l
+                                                                                                                                                                                                                                                          l
+
+
+
+                                                                                                  l                               l                                                                                                                                                                                l
+                              l           l                                                                                           l
+
+                                                                                                          l
+       0.1
+
+
+
+
+                                          l                       l                                                                                                                                               l                                                                                                                                                        l
+                                                                  l
+                                                                                                                                                                                                                                                                                                                                       l
+                      l
+                                                                      l
+                                                                                                                                                                                                                                                                                                                                                           l
+                                                                                                                                                                                                                                                                                                                                                       l
+                                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                                                                                                                                                                           l
+                  l
+
+                                                      l                       l
+
+                                                                          l
+                                                                                                                                                                                                                                                                       l
+
+                                                                                              l
+
+                                      l           l
+       0.0
+
+
+
+
+                                                                                      l                                                                                                                                                                                                                                            l
+
+                                                                                                                                                                                                                          l
+
+                                                                                                                                                                                                                                                                                                                                                                       l
+
+
+
+
+                          l
+                                              l
+              l                                       l                                                                                                                                                                                                                                                                                                                        l
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   l
+
+
+
+
+             0.0                                                                  0.2                                                                 0.4                                                                 0.6                                                                              0.8                                                         1.0
+
+                                                                                                                                                                                          X
+                                                                                                                                                                                                                                                                                                                                                                                   40/43
+Nonparametric regression (9)
+   Example:
+      n = 100, f (x) = x(1 − x),
+      h = 1.
+       0.4
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   ^
+                                                                                                                                                                                                                                          l
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   f nh
+                                                                                                                                                                                                                                                      l
+                                                                                                                                                                                                                                          l
+
+
+
+                                                                                                                                                                              l
+                                                                                                          l                                                               l
+
+
+
+
+                                                                                                                                                              l                                                                                                                                                l
+                                                                                                                                                                                                                                                                   l
+       0.3
+
+
+
+
+                                                                                                                                                                                                                                  l                                        l
+                                                                                                                                                                                              l
+                                                                                                                                                                                                                                              l
+                                                                                                                                                                                                      l
+                                                                                                                                                                  l
+
+                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                                          l                   l
+                                                                                                                                                                                                                                      l
+                                                                                                                                                                                                                                                                                       l
+                                                                                                                          l
+                                                                                                                                                                                                                                                                                                                                                               l
+                                                                                          l
+                                                                                                                                                                                          l
+                                                                                                                                                  l                                                           l
+                                                                                                                                                                                                      l
+                                                          l
+                                                                                                                                                                                                                                                              ll
+                                                                                                                                                                                                                                                                                                       l
+                                                                                                                                                                                      l           l                                               l
+                                                                                                  l                                                       l
+                                                                                                                                                                                                                      l
+       0.2
+
+
+
+
+                                                                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                  l                                                               l
+                                                                                                                                                                                                                                                                                                                           l
+                                                                                  l                                           l                   l
+
+                                                                                                      l                                                                                                                                                                                    l       l
+                                  l                                                                                                                                   l
+                                                                                                                      l                                                                                                                                                                                                l
+                                                                                                                                                                                                                                                                                   l                                                           l
+                                                                                                                                                                                                                                                                                                                                                   l
+                                                                                                              l                                       l                                                                                                                                                    l
+   Y
+
+
+
+
+                                                                                                                  l                       l
+                                                              l                                                                               l                                                                                                                                                                            l
+                                                                                                                                                                                                                                                          l
+
+
+
+                                                                                                  l                               l                                                                                                                                                                                l
+                              l           l                                                                                           l
+
+                                                                                                          l
+       0.1
+
+
+
+
+                                          l                       l                                                                                                                                               l                                                                                                                                                        l
+                                                                  l
+                                                                                                                                                                                                                                                                                                                                       l
+                      l
+                                                                      l
+                                                                                                                                                                                                                                                                                                                                                           l
+                                                                                                                                                                                                                                                                                                                                                       l
+                                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                                                                                                                                                                           l
+                  l
+
+                                                      l                       l
+
+                                                                          l
+                                                                                                                                                                                                                                                                       l
+
+                                                                                              l
+
+                                      l           l
+       0.0
+
+
+
+
+                                                                                      l                                                                                                                                                                                                                                            l
+
+                                                                                                                                                                                                                          l
+
+                                                                                                                                                                                                                                                                                                                                                                       l
+
+
+
+
+                          l
+                                              l
+              l                                       l                                                                                                                                                                                                                                                                                                                        l
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   l
+
+
+
+
+             0.0                                                                  0.2                                                                 0.4                                                                 0.6                                                                              0.8                                                         1.0
+
+                                                                                                                                                                                          X
+                                                                                                                                                                                                                                                                                                                                                                                   41/43
+Nonparametric regression (10)
+   Example:
+      n = 100, f (x) = x(1 − x),
+      h = .2.
+       0.4
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   ^
+                                                                                                                                                                                                                                          l
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   f nh
+                                                                                                                                                                                                                                                      l
+                                                                                                                                                                                                                                          l
+
+
+
+                                                                                                                                                                              l
+                                                                                                          l                                                               l
+
+
+
+
+                                                                                                                                                              l                                                                                                                                                l
+                                                                                                                                                                                                                                                                   l
+       0.3
+
+
+
+
+                                                                                                                                                                                                                                  l                                        l
+                                                                                                                                                                                              l
+                                                                                                                                                                                                                                              l
+                                                                                                                                                                                                      l
+                                                                                                                                                                  l
+
+                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                                          l                   l
+                                                                                                                                                                                                                                      l
+                                                                                                                                                                                                                                                                                       l
+                                                                                                                          l
+                                                                                                                                                                                                                                                                                                                                                               l
+                                                                                          l
+                                                                                                                                                                                          l
+                                                                                                                                                  l                                                           l
+                                                                                                                                                                                                      l
+                                                          l
+                                                                                                                                                                                                                                                              ll
+                                                                                                                                                                                                                                                                                                       l
+                                                                                                                                                                                      l           l                                               l
+                                                                                                  l                                                       l
+                                                                                                                                                                                                                      l
+       0.2
+
+
+
+
+                                                                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                  l                                                               l
+                                                                                                                                                                                                                                                                                                                           l
+                                                                                  l                                           l                   l
+
+                                                                                                      l                                                                                                                                                                                    l       l
+                                  l                                                                                                                                   l
+                                                                                                                      l                                                                                                                                                                                                l
+                                                                                                                                                                                                                                                                                   l                                                           l
+                                                                                                                                                                                                                                                                                                                                                   l
+                                                                                                              l                                       l                                                                                                                                                    l
+   Y
+
+
+
+
+                                                                                                                  l                       l
+                                                              l                                                                               l                                                                                                                                                                            l
+                                                                                                                                                                                                                                                          l
+
+
+
+                                                                                                  l                               l                                                                                                                                                                                l
+                              l           l                                                                                           l
+
+                                                                                                          l
+       0.1
+
+
+
+
+                                          l                       l                                                                                                                                               l                                                                                                                                                        l
+                                                                  l
+                                                                                                                                                                                                                                                                                                                                       l
+                      l
+                                                                      l
+                                                                                                                                                                                                                                                                                                                                                           l
+                                                                                                                                                                                                                                                                                                                                                       l
+                                                                                                                                                                                                                                                                                               l
+                                                                                                                                                                                                                                                                                                                                           l
+                  l
+
+                                                      l                       l
+
+                                                                          l
+                                                                                                                                                                                                                                                                       l
+
+                                                                                              l
+
+                                      l           l
+       0.0
+
+
+
+
+                                                                                      l                                                                                                                                                                                                                                            l
+
+                                                                                                                                                                                                                          l
+
+                                                                                                                                                                                                                                                                                                                                                                       l
+
+
+
+
+                          l
+                                              l
+              l                                       l                                                                                                                                                                                                                                                                                                                        l
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                   l
+
+
+
+
+             0.0                                                                  0.2                                                                 0.4                                                                 0.6                                                                              0.8                                                         1.0
+
+                                                                                                                                                                                          X
+                                                                                                                                                                                                                                                                                                                                                                                   42/43
+Nonparametric regression (11)
+
+
+
+   Choice of h ?
+
+       If the smoothness of f is known (i.e., quality of local
+       approximation of f by piecewise constant functions): There is
+       a good choice of h depending on that smoothness
+
+       If the smoothness of f is unknown: Other techniques, e.g.
+       cross validation.
+
+
+
+
+                                                                       43/43
+0,72SHQ&RXUVH:DUH
+KWWSVRFZPLWHGX
+
+
+
+6WDWLVWLFVIRU$SSOLFDWLRQV
+)DOO 
+
+
+)RULQIRUPDWLRQDERXWFLWLQJWKHVHPDWHULDOVRURXU7HUPVRI8VHYLVLWKWWSVRFZPLWHGXWHUPV
+

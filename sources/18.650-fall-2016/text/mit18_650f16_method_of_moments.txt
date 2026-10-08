@@ -1,0 +1,345 @@
+              18.650
+    Statistics for Applications
+
+
+
+Chapter 4: The Method of Moments
+
+
+
+
+                                   1/14
+Weierstrass Approximation Theorem (WAT)
+
+
+
+  Theorem
+  Let f be a continuous function on the interval [a, b], then, for any
+  ε > 0, there exists a0 , a1 , . . . , ad ∈ IR such that
+                                    d
+                                    X
+                      max f (x) −         ak x k < ε .
+                     x∈[a,b]
+                                    k=0
+
+
+  In word: “continuous functions can be arbitrarily well approximated
+  by polynomials”
+
+
+
+
+                                                                         2/14
+Statistical application of the WAT (1)
+     ◮ Let X1 , . . . , Xn be an i.i.d. sample associated with a
+       (identified) statistical model E, {IPθ }θ∈Θ . Write θ ∗ for the
+                                                     
+
+       true parameter.
+     ◮ Assume that for all θ, the distribution IPθ has a density fθ .
+
+     ◮ If we find θ such that
+                     Z                     Z
+                         h(x)f (x)dx =
+                                θ∗             h(x)fθ (x)dx
+
+       for all (bounded continuous) functions h, then θ = θ ∗ .
+     ◮ Replace expectations by averages: find estimator θ̂ such that
+
+                           n
+                         1X
+                                       Z
+                            h(Xi ) =       h(x)fθ̂ (x)dx
+                         n
+                          i=1
+
+       for all (bounded continuous) functions h. There is an infinity
+       of such functions: not doable!
+                                                                         3/14
+Statistical application of the WAT (2)
+     ◮ By the WAT, it is enough to consider polynomials:
+
+             n   d             d
+         1 XX
+                             Z X
+              ak Xik =                   ak xk fθ̂ (x)dx ,   ∀a0 , . . . , ad ∈ IR
+         n
+            i=1 k=0                k=0
+
+       Still an infinity of equations!
+     ◮ In turn, enough to consider
+
+                      n
+                  1X k
+                               Z
+                    Xi =            xk fθ̂ (x)dx ,     ∀k = 1, . . . , d
+                  n
+                      i=1
+
+       (only d + 1 equations)
+                                   Z
+     ◮ The quantity mk (θ) :=          xk fθ (x)dx is the kth moment of
+       IPθ . Can also be written as
+
+                               mk (θ) = IEθ [X k ] .
+                                                                                     4/14
+Gaussian quadrature (1)
+    ◮ The Weierstrass approximation theorem has limitations:
+        1. works only for continuous functions (not really a problem!)
+        2. works only on intervals [a, b]
+        3. Does not tell us what d (# of moments) should be
+    ◮ What if E is discrete: no PDF but PMF p(·)?
+
+    ◮ Assume that E = {x1 , x2 , . . . , xr } is finite with r possible
+      values. The PMF has r − 1 parameters:
+
+                              p(x1 ), . . . , p(xr−1 )
+                                              r−1
+                                              X
+      because the last one: p(xr ) = 1 −            p(xj ) is given by the
+                                              j=1
+      first r − 1.
+    ◮ Hopefully, we do not need much more than d = r − 1
+      moments to recover the PMF p(·).
+
+                                                                             5/14
+Gaussian quadrature (2)
+    ◮ Note that for any k = 1, . . . , r1 ,
+
+                                              r
+                                              X
+                                        k
+                          mk = IE[X ] =             p(xj )xkj
+                                              j=1
+
+      and
+                                  r
+                                  X
+                                        p(xj ) = 1
+                                  j=1
+
+      This is a system of linear equations with unknowns
+      p(x1 ), . . . , p(xr ).
+    ◮ We can write it in a compact form:
+
+           x11         x12 · · ·     x1r
+                                                          
+                                               p(x1 )      m1
+       x2             x22 · · ·     x2r 
+                                           p(x2 )   m2 
+                                                            
+             1
+       ..                            ..  ·    ..     .. 
+      
+                               ..                     = . 
+       .                         .    .        .
+       r−1            r−1           r−1
+                                                           
+       x1            x2      · · · xr     p(xr−1 )   mr−1 
+            1          1      ···    1         p(xr )      1
+                                                                   6/14
+Gaussian quadrature (2)
+    ◮ Check if matrix is invertible: Vandermonde determinant
+
+                x11       x12           x1r
+                                             
+                                ···
+               x21       x22   ···     x2r 
+                 ..                      ..
+                                           
+                                ..
+                                                 Y
+        det                       .        =         (xj − xk ) 6= 0
+                                           
+             r−1 .                       .
+                  x2r−1 · · ·           r−1
+                                            
+             x1                       xr     1<j<k<r
+
+               1    1   ···             1
+
+    ◮ So given m1 , . . . , mr−1 , there is a unique PMF that has these
+      moments. It is given by
+                                                           −1 
+                                x11    x12           x1r
+                                                                      
+           p(x1 )                             ···                  m1
+          p(x2 )             x21    x22    ···    x2r         m2
+             ..                  ..                   ..            ..
+                                                                
+                 =                          ..
+                                                 .
+                                                                
+             .                   .                    .           .
+                                                                     
+       p(xr−1 )   x1r−1 xr−1
+                                                   r−1
+                                                                   
+                            2   ···                  xr       mr−1 
+         p(xr )        1    1   ···                    1         1
+                                                                             7/14
+Conclusion from WAT and Gaussian quadrature
+
+
+    ◮ Moments contain important information to recover the PDF
+      or the PMF
+
+    ◮ If we can estimate these moments accurately, we may be able
+      to recover the distribution
+
+    ◮ In a parametric setting, where knowing the distribution IPθ
+      amounts to knowing θ, it is often the case that even less
+      moments are needed to recover θ. This is on a case-by-case
+      basis.
+
+    ◮ Rule of thumb if θ ∈ Θ ⊂ IRd , we need d moments.
+
+
+
+
+                                                                    8/14
+Method of moments (1)
+
+
+  Let X1 , . . . , Xn be an
+                          i.i.d. sample associated with a statistical
+                                                d
+  model E, (IPθ )θ∈Θ . Assume that Θ ⊆ IR , for some d ≥ 1.
+
+    ◮ Population moments: Let mk (θ) = IEθ [X k ],      1 ≤ k ≤ d.
+                                             1
+
+                                                   n
+                                    k =
+                                                1X k
+    ◮ Empirical moments: Let m̂k = Xn             Xi ,       1 ≤ k ≤ d.
+                                                n
+                                                  i=1
+
+
+    ◮ Let
+                 ψ : Θ ⊂ IRd → IRd
+                        θ    7→ (m1 (θ), . . . , md (θ)) .
+
+
+
+
+                                                                          9/14
+Method of moments (2)
+
+
+  Assume ψ is one to one:
+
+                        θ = ψ −1 (m1 (θ), . . . , md (θ)).
+
+
+
+
+  Definition
+
+  Moments estimator of θ:
+
+                         θ̂nM M = ψ −1 (m̂1 , . . . , m̂d ),
+
+  provided it exists.
+
+
+
+                                                               10/14
+Method of moments (3)
+
+
+  Analysis of θ̂nM M
+
+
+    ◮ Let M (θ) = (m1 (θ), . . . , md (θ));
+
+
+    ◮ Let M̂ = (m̂1 , . . . , m̂d ).
+
+
+    ◮ Let Σ(θ) = Vθ (X, X 2 , . . . , X d ) be the covariance matrix of
+      the random vector (X, X 2 , . . . , X d ), where X ∼ IPθ .
+
+    ◮ Assume ψ −1 is continuously differentiable at M (θ). Write
+      ∇ψ −1 M (θ) for the d × d gradient matrix at this point.
+
+
+
+
+                                                                          11/14
+Method of moments (4)
+
+             M M is weakly/strongly consistent.
+    ◮ LLN: θ̂n
+
+    ◮ CLT:
+
+            √            (d)
+             n M̂ − M (θ) −−−→ N (0, Σ(θ))           (w.r.t. IPθ ).
+                              n→∞
+
+  Hence, by the Delta method (see next slide):
+
+  Theorem
+          √  MM     (d)
+           n θ̂n − θ −−−→ N (0, Γ(θ))             (w.r.t. IPθ ),
+                           n→∞
+
+                          ⊤
+  where Γ(θ) = ∇ψ −1 M (θ) Σ(θ) ∇ψ −1 M (θ) .
+                                         
+
+
+
+                                                                      12/14
+Multivariate Delta method
+   Let (Tn )n≥1 sequence of random vectors in IRp (p ≥ 1) that
+   satisfies
+                      √            (d)
+                        n(Tn − θ) −−−→ N (0, Σ),
+                                              n→∞
+
+   for some θ ∈ IRp and some symmetric positive semidefinite matrix
+   Σ ∈ IRp×p.
+
+   Let g : IRp → IRk (k ≥ 1) be continuously differentiable at θ.
+   Then,
+            √                           (d)
+                n (g(Tn ) − g(θ)) −−−→ N (0, ∇g(θ)⊤ Σ∇g(θ)),
+                                      n→∞
+
+                             
+                        ∂gj
+   where ∇g(θ) =                                ∈ IRk×d .
+                        ∂θi       1≤i≤d,1≤j≤k
+
+                                                                      13/14
+MLE vs. Moment estimator
+
+
+
+    ◮ Comparison of the quadratic risks: In general, the MLE is
+      more accurate.
+    ◮ Computational issues: Sometimes, the MLE is intractable.
+
+    ◮ If likelihood is concave, we can use optimization algorithms
+      (Interior point method, gradient descent, etc.)
+    ◮ If likelihood is not concave: only heuristics. Local maxima.
+      (Expectation-Maximization, etc.)
+
+
+
+
+                                                                     14/14
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.650 / 18.6501 Statistics for Applications
+Fall 2016
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

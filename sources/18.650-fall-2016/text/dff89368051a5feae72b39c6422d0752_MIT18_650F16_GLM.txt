@@ -1,0 +1,1149 @@
+          Statistics for Applications
+
+
+Chapter 10: Generalized Linear Models (GLMs)
+
+
+
+
+                                               1/52
+Linear model
+
+
+
+
+   A linear model assumes
+
+                       Y |X ∼ N (µ(X), σ 2 I),
+
+   And
+                      IE(Y |X) = µ(X) = X ⊤ β,
+
+
+
+
+                                                 2/52
+Components of a linear model
+
+
+
+
+   The two components (that we are going to relax) are
+    1. Random component: the response variable Y |X is continuous
+       and normally distributed with mean µ = µ(X) = IE(Y |X).
+
+    2. Link: between the random and covariates
+       X = (X (1) , X (2) , · · · , X (p) )⊤ : µ(X) = X ⊤ β.
+
+
+
+
+                                                                    3/52
+Generalization
+
+
+   A generalized linear model (GLM) generalizes normal linear
+   regression models in the following directions.
+    1. Random component:
+
+                 Y ∼ some exponential family distribution
+
+    2. Link: between the random and covariates:
+
+                            g µ(X) = X ⊤ β
+                             �     �
+
+
+       where g called link function and µ = IE(Y |X).
+
+
+
+
+                                                                4/52
+Example 1: Disease Occuring Rate
+
+   In the early stages of a disease epidemic, the rate at which new
+   cases occur can often increase exponentially through time. Hence,
+   if µi is the expected number of new cases on day ti , a model of the
+   form
+                              µi = γ exp(δti )
+   seems appropriate.
+     ◮ Such a model can be turned into GLM form, by using a log
+       link so that
+
+                      log(µi ) = log(γ) + δti = β0 + β1 ti .
+
+     ◮ Since this is a count, the Poisson distribution (with expected
+       value µi ) is probably a reasonable distribution to try.
+
+
+                                                                          5/52
+Example 2: Prey Capture Rate(1)
+
+
+
+   The rate of capture of preys, yi , by a hunting animal, tends to
+   increase with increasing density of prey, xi , but to eventually level
+   oﬀ, when the predator is catching as much as it can cope with.
+   A suitable model for this situation might be
+                                       αxi
+                               µi =          ,
+                                      h + xi
+   where α represents the maximum capture rate, and h represents
+   the prey density at which the capture rate is half the maximum
+   rate.
+
+
+
+
+                                                                            6/52
+Example 2: Prey Capture Rate (2)
+
+
+
+         0.6
+         0.5
+         0.4
+         0.3
+         0.2
+         0.1
+         0.0
+
+
+
+
+               0.0   0.2   0.4   0.6   0.8   1.0
+
+
+
+
+                                                   7/52
+Example 2: Prey Capture Rate (3)
+
+
+
+    ◮ Obviously this model is non-linear in its parameters, but, by
+      using a reciprocal link, the right-hand side can be made linear
+      in the parameters,
+
+                             1   1  h 1          1
+                  g(µi ) =      = +     = β0 + β1 .
+                             µi  α α xi          xi
+    ◮ The standard deviation of capture rate might be
+      approximately proportional to the mean rate, suggesting the
+      use of a Gamma distribution for the response.
+
+
+
+
+                                                                        8/52
+Example 3: Kyphosis Data
+
+   The Kyphosis data consist of measurements on 81 children
+   following corrective spinal surgery. The binary response variable,
+   Kyphosis, indicates the presence or absence of a postoperative
+   deforming. The three covariates are, Age of the child in month,
+   Number of the vertebrae involved in the operation, and the Start
+   of the range of the vertebrae involved.
+     ◮ The response variable is binary so there is no choice: Y |X is
+       Bernoulli with expected value µ(X) ∈ (0, 1).
+     ◮ We cannot write
+                                µ(X) = X ⊤ β
+       because the right-hand side ranges through IR.
+     ◮ We need an invertible function f such that f (X ⊤ β) ∈ (0, 1)
+
+
+
+
+                                                                        9/52
+GLM: motivation
+
+
+
+    ◮ clearly, normal LM is not appropriate for these examples;
+
+    ◮ need a more general regression framework to account for
+      various types of response data
+        ◮   Exponential family distributions
+    ◮ develop methods for model ﬁtting and inferences in this
+      framework
+        ◮   Maximum Likelihood estimation.
+
+
+
+
+                                                                  10/52
+Exponential Family
+
+
+   A family of distribution {Pθ : θ ∈ Θ}, Θ ⊂ IRk is said to be a
+   k-parameter exponential family on IRq , if there exist real valued
+   functions:
+     ◮ η1 , η2 , · · · , ηk and B of θ,
+
+
+     ◮ T1 , T2 , · · · , Tk , and h of x ∈ IRq such that the density
+        function (pmf or pdf) of Pθ can be written as
+
+                                  Lk
+                     pθ (x) = exp[   ηi (θ)Ti (x) − B(θ)]h(x)
+                                    i=1
+
+
+
+
+                                                                        11/52
+Normal distribution example
+    ◮ Consider X ∼ N (µ, σ 2 ), θ = (µ, σ 2 ). The density is
+
+                               (µ           1 2      µ2 ) 1
+                pθ (x) = exp        2
+                                      x−        x −       √ ,
+                                σ          2σ 2     2σ 2 σ 2π
+
+      which forms a two-parameter exponential family with
+                      µ            1
+              η1 =      2
+                          , η2 = − 2 , T1 (x) = x, T2 (x) = x2 ,
+                      σ           2σ
+                               µ2         √
+                     B(θ) =      2
+                                   + log(σ 2π), h(x) = 1.
+                              2σ
+    ◮ When σ 2 is known, it becomes a one-parameter exponential
+      family on IR:
+                                                           x2
+              µ                     µ2        e− 2σ2
+          η = 2 , T (x) = x, B(θ) = 2 , h(x) = √ .
+             σ                     2σ         σ 2π
+                                                                   12/52
+Examples of discrete distributions
+
+
+
+
+   The following distributions form discrete exponential families of
+   distributions with pmf
+
+     ◮ Bernoulli(p):     px (1 − p)1−x , x ∈ {0, 1}
+
+                       λx −λ
+     ◮ Poisson(λ):        e , x = 0, 1, . . . .
+                       x!
+
+
+
+
+                                                                       13/52
+Examples of Continuous distributions
+   The following distributions form continuous exponential families of
+   distributions with pdf:
+                           1           x
+     ◮ Gamma(a, b):
+                             a
+                               xa−1 e− b ;
+                       Γ(a)b
+          ◮   above: a: shape parameter, b: scale parameter
+          ◮   reparametrize: µ = ab: mean parameter
+                                      ( )a
+                                   1    a
+                                             xa−1 e− µ .
+                                                     ax
+
+                                 Γ(a) µ
+
+                                  β α −α−1 −β/x
+     ◮ Inverse Gamma(α, β):           x   e     .
+                                 Γ(α)
+                                               2     2
+                                       σ 2 −σ 2µ(x−µ)
+     ◮ Inverse Gaussian(µ, σ 2 ):          e     2x
+                                                      .
+                                      2πx3
+   Others: Chi-square, Beta, Binomial, Negative binomial
+   distributions.
+                                                                         14/52
+Components of GLM
+
+
+
+   1. Random component:
+
+               Y ∼ some exponential family distribution
+
+   2. Link: between the random and covariates:
+
+                           g µ(X) = X ⊤ β
+                            �     �
+
+
+     where g called link function and µ(X) = IE(Y |X).
+
+
+
+
+                                                          15/52
+One-parameter canonical exponential family
+
+
+    ◮ Canonical exponential family for k = 1, y ∈ IR
+
+                                   ( yθ − b(θ)            )
+                    fθ (y) = exp                 + c(y, φ)
+                                        φ
+
+      for some known functions b(·) and c(·, ·) .
+
+    ◮ If φ is known, this is a one-parameter exponential family with
+      θ being the canonical parameter .
+    ◮ If φ is unknown, this may/may not be a two-parameter
+      exponential family. φ is called dispersion parameter.
+    ◮ In this class, we always assume that φ is known.
+
+
+
+
+                                                                       16/52
+Normal distribution example
+
+
+    ◮ Consider the following Normal density function with known
+      variance σ 2 ,
+                          1      (y−µ)2
+            fθ (y) =     √ e− 2σ2
+                       σ 2π
+                              yµ − 12 µ2   1 y2
+                            �               (              )�
+                                                         2
+                   =   exp               −      + log(2πσ )   ,
+                                 σ2        2 σ2
+                                            2
+    ◮ Therefore θ = µ, φ = σ 2 , , b(θ) = θ , and
+                                           2
+
+                                  1 y2
+                       c(y, φ) = − ( + log(2πφ)).
+                                  2 φ
+
+
+
+
+                                                                  17/52
+Other distributions
+
+
+
+
+                         Table 1: Exponential Family
+                    Normal                   Poisson    Bernoulli
+        Notation    N (µ, σ 2 )              P(µ)       B(p)
+       Range of y   (−∞, ∞)                  [0, −∞)    {0, 1}
+            φ       σ2                       1          1
+                    θ2
+          b(θ)      2                        eθ         log(1 + eθ )
+                            2
+         c(y, φ)    − 21 ( yφ + log(2πφ))    − log y!   1
+
+
+
+
+                                                                       18/52
+Likelihood
+
+
+   Let ℓ(θ) = log fθ (Y ) denote the log-likelihood function.
+   The mean IE(Y ) and the variance var(Y ) can be derived from the
+   following identities
+     ◮ First identity
+                                           ∂ℓ
+                                     IE(      ) = 0,
+                                           ∂θ
+     ◮ Second identity
+
+
+                                   ∂2ℓ         ∂ℓ
+                             IE(      2
+                                        ) + IE( )2 = 0.
+                                   ∂θ          ∂θ
+                         �
+       Obtained from         fθ (y)dy ≡ 1 .
+
+
+
+
+                                                                      19/52
+Expected value
+
+
+   Note that
+                               Y θ − b(θ
+                     ℓ(θ) =              + c(Y ; φ),
+                                   φ
+   Therefore
+                          ∂ℓ   Y − b′ (θ)
+                             =
+                          ∂θ      φ
+   It yields
+                              ∂ℓ    IE(Y ) − b′ (θ))
+                    0 = IE(      )=                  ,
+                              ∂θ           φ
+   which leads to
+                         IE(Y ) = µ = b′ (θ).
+
+
+
+
+                                                         20/52
+Variance
+
+   On the other hand we have we have
+                ∂2ℓ      ∂ℓ 2     b′′ (θ) ( Y − b′ (θ) )2
+                     + (    ) = −        +
+                ∂θ 2     ∂θ          φ         φ
+   and from the previous result,
+
+                         Y − b′ (θ)   Y − IE(Y )
+                                    =
+                            φ             φ
+   Together, with the second identity, this yields
+
+                                b′′ (θ) var(Y )
+                         0=−           +        ,
+                                   φ      φ2
+   which leads to
+                        var(Y ) = V (Y ) = b′′ (θ)φ.
+
+                                                            21/52
+Example: Poisson distribution
+
+
+   Example: Consider a Poisson likelihood,
+                             µy −µ
+                   f (y) =      e = ey log µ−µ−log(y!) ,
+                             y!
+   Thus,
+              θ = log µ,     b(θ) = µ,   c(y, φ) = − log(y!),
+                                   φ = 1,
+                                  µ = eθ ,
+                                 b(θ) = eθ ,
+                              b′′ (θ) = eθ = µ,
+
+
+
+                                                                22/52
+Link function
+
+
+
+     ◮ β is the parameter of interest, and needs to appear somehow
+       in the likelihood function to use maximum likelihood.
+     ◮ A link function g relates the linear predictor X ⊤ β to the mean
+       parameter µ,
+                                X ⊤ β = g(µ).
+     ◮ g is required to be monotone increasing and diﬀerentiable
+
+
+                               µ = g−1 (X ⊤ β).
+
+
+
+
+                                                                          23/52
+Examples of link functions
+
+     ◮ For LM, g(·) = identity.
+
+     ◮ Poisson data. Suppose Y |X ∼ Poisson(µ(X)).
+
+         ◮ µ(X) > 0;
+         ◮ log(µ(X)) = X ⊤ β;
+         ◮ In general, a link function for the count data should map
+
+           (0, +∞) to IR.
+         ◮ The log link is a natural one.
+
+     ◮ Bernoulli/Binomial data.
+         ◮ 0 < µ < 1;
+         ◮ g should map (0, 1) to IR:
+         ◮ 3 choices:
+                        (        )
+                                  µ(X)
+               1. logit: log     1−µ(X)
+                                          = X ⊤ β;
+               2. probit: Φ (µ(X)) = X ⊤ β where Φ(·) is the normal cdf;
+                               −1
+
+               3. complementary log-log: log(− log(1 − µ(X))) = X ⊤ β
+         ◮   The logit link is the natural choice.
+
+                                                                           24/52
+Examples of link functions for Bernoulli response (1)
+           1
+
+
+
+          0.9
+
+
+
+          0.8
+
+
+
+          0.7
+
+
+
+          0.6
+
+
+
+          0.5
+
+
+
+          0.4
+
+
+
+          0.3
+
+
+
+          0.2
+
+
+
+          0.1
+
+
+
+           0
+            -5   -4   -3   -2   -1   0   1    2   3   4   5
+
+
+
+
+                           ex
+     ◮ in blue: f1 (x) =
+                         1 + ex
+     ◮ in red: f2 (x) = Φ(x) (Gaussian CDF)
+                                                              25/52
+Examples of link functions for Bernoulli response (2)
+  5
+
+
+
+
+  4
+
+
+
+
+  3
+
+
+
+
+  2
+                                                                    ◮ in blue:
+  1                                                                   g1 (x) = f1−1 (x) =
+                                                                          � x �
+                                                                      log           (logit link)
+  0
+                                                                           1−x
+                                                                    ◮ in red:
+ -1
+
+
+                                                                      g2 (x) = f2−1 (x) = Φ−1 (x)
+ -2
+                                                                      (probit link)
+ -3
+
+
+
+
+ -4
+
+
+
+
+ -5
+      0   0.1   0.2   0.3   0.4   0.5   0.6   0.7   0.8   0.9   1
+
+
+
+
+                                                                                                    26/52
+Canonical Link
+
+
+    ◮ The function g that links the mean µ to the canonical
+      parameter θ is called Canonical Link:
+
+                                   g(µ) = θ
+
+    ◮ Since µ = b′ (θ), the canonical link is given by
+
+
+                              g(µ) = (b′ )−1 (µ) .
+
+    ◮ If φ > 0, the canonical link function is strictly increasing.
+      Why?
+
+
+
+
+                                                                      27/52
+Example: the Bernoulli distribution
+
+
+
+     ◮ We can check that
+
+
+                              b(θ) = log(1 + eθ )
+
+     ◮ Hence we solve
+                                                              (         )
+               ′     exp(θ)                                        µ
+           b (θ) =            =µ          ⇔         θ = log
+                   1 + exp(θ)                                     1−µ
+     ◮ The canonical link for the Bernoulli distribution is the logit
+       link.
+
+
+
+
+                                                                            28/52
+Other examples
+
+
+
+
+                                 b(θ)         g(µ)
+                  Normal         θ 2 /2         µ
+                 Poisson       exp(θ)         log µ
+                                                   µ
+                 Bernoulli   log(1 + eθ )   log 1−µ
+                 Gamma        − log(−θ)        − µ1
+
+
+
+
+                                                       29/52
+Model and notation
+
+    ◮ Let (Xi , Yi ) ∈ IRp × IR, i = 1, . . . , n be independent random
+       pairs such that the conditional distribution of Yi given
+       Xi = xi has density in the canonical exponential family:
+                                       � yi θi − b(θi )            �
+                     fθi (yi ) = exp                    + c(yi , φ) .
+                                               φ
+
+    ◮ Y = (Y1 , . . . , Yn )⊤ , X = (X ⊤ , . . . , Xn
+                                                    ⊤ )⊤
+                                      1
+    ◮ Here the mean µi is related to the canonical parameter θi via
+
+
+                                       µi = b′ (θi )
+
+    ◮ and µi depends linearly on the covariates through a link
+       function g:
+                                   g(µi ) = Xi⊤ β .
+
+                                                                          30/52
+Back to β
+
+
+    ◮ Given a link function g, note the following relationship
+      between β and θ:
+
+                  θi = (b′ )−1 (µi )
+                      = (b′ )−1 (g −1 (Xi⊤ β)) ≡ h(Xi⊤ β),
+
+      where h is deﬁned as
+
+                       h = (b′ )−1 ◦ g −1 = (g ◦ b′ )−1 .
+
+    ◮ Remark: if g is the canonical link function, h is identity.
+
+
+
+
+                                                                    31/52
+Log-likelihood
+
+     ◮ The log-likelihood is given by
+
+                                 L Yi θi − b(θi )
+               ℓn (β; Y, X) =
+                                            φ
+                                  i
+                                 L Yi h(X ⊤ β) − b(h(X ⊤ β))
+                                             i               i
+                             =
+                                                     φ
+                                  i
+
+       up to a constant term.
+     ◮ Note that when we use the canonical link function, we obtain
+       the simpler expression
+                                      L Yi X ⊤ β − b(X ⊤ β)
+                                                 i       i
+                  ℓn (β, φ; Y, X) =
+                                                     φ
+                                        i
+
+
+
+                                                                      32/52
+Strict concavity
+
+
+
+
+     ◮ The log-likelihood ℓ(θ) is strictly concave using the canonical
+       function when φ > 0. Why?
+     ◮ As a consequence the maximum likelihood estimator is unique.
+
+     ◮ On the other hand, if another parameterization is used, the
+       likelihood function may not be strictly concave leading to
+       several local maxima.
+
+
+
+
+                                                                         33/52
+Optimization Methods
+
+
+
+   Given a function f (x) deﬁned on X ⊂ IRm , ﬁnd x∗ such that
+   f (x∗ ) ≥ f (x) for all x ∈ X .
+
+
+   We will describe the following three methods,
+     ◮ Newton-Raphson Method
+
+     ◮ Fisher-scoring Method
+
+     ◮ Iteratively Re-weighted Least Squares.
+
+
+
+
+                                                                 34/52
+Gradient and Hessian
+    ◮ Suppose f : IRm → IR has two continuous derivatives.
+
+    ◮ Deﬁne the Gradient of f at point x0 , ∇f = ∇f (x0 ), as
+
+
+                    (∇f ) = (∂f /∂x1 , . . . , ∂f /∂xm )⊤ .
+
+    ◮ Deﬁne the Hessian (matrix) of f at point x0 , Hf = Hf (x0 ),
+      as
+                                            ∂2f
+                               (Hf )ij =           .
+                                           ∂xi ∂xj
+    ◮ For smooth functions, the Hessian is symmetric. If f is strictly
+      concave, then Hf (x) is negative deﬁnite.
+    ◮ The continuous function:
+
+
+                                  x �→ Hf (x)
+
+      is called Hessian map.
+                                                                         35/52
+Quadratic approximation
+
+    ◮ Suppose f has a continuous Hessian map at x0 . Then we can
+      approximate f quadratically in a neighborhood of x0 using
+                                             1
+        f (x) ≈ f (x0 ) + ∇⊤                           ⊤
+                           f (x0 )(x − x0 ) + (x − x0 ) Hf (x0 )(x − x0 ).
+                                             2
+    ◮ This leads to the following approximation to the gradient:
+
+
+                    ∇f (x) ≈ ∇f (x0 ) + Hf (x0 )(x − x0 ).
+
+    ◮ If x∗ is maximum, we have
+
+
+                                  ∇f (x∗ ) = 0
+
+    ◮ We can solve for it by plugging in x∗ , which gives us
+
+
+                        x∗ = x0 − Hf (x0 )−1 ∇f (x0 ).
+
+                                                                             36/52
+Newton-Raphson method
+
+
+
+    ◮ The Newton-Raphson method for multidimensional
+      optimization uses such approximations sequentially
+    ◮ We can deﬁne a sequence of iterations starting at an arbitrary
+      value x0 , and update using the rule,
+
+                  x(k+1) = x(k) − Hf (x(k) )−1 ∇f (x(k) ).
+
+    ◮ The Newton-Raphson algorithm is globally convergent at
+      quadratic rate whenever f is concave and has two continuous
+      derivatives.
+
+
+
+
+                                                                       37/52
+Fisher-scoring method (1)
+
+
+    ◮ Newton-Raphson works for a deterministic case, which does
+      not have to involve random data.
+    ◮ Sometimes, calculation of the Hessian matrix is quite
+      complicated (we will see an example)
+    ◮ Goal: use directly the fact that we are minimizing the KL
+      divergence                   [               ]
+                       KL“ = ” − IE log-likelihood
+    ◮ Idea: replace the Hessian with its expected value. Recall that
+
+
+                          IEθ (Hℓn (θ)) = −I(θ)
+
+      is the Fisher Information
+
+
+
+                                                                       38/52
+Fisher-scoring method (2)
+
+
+
+    ◮ The Fisher Information matrix is positive deﬁnite, and can
+      serve as a stand-in for the Hessian in the Newton-Raphson
+      algorithm, giving the update:
+
+                   θ (k+1) = θ (k) + I(θ (k) )−1 ∇ℓn (θ (k) ).
+
+      This is the Fisher-scoring algorithm.
+    ◮ It has essentially the same convergence properties as
+      Newton-Raphson, but it is often easier to compute I than
+      H ℓn .
+
+
+
+
+                                                                   39/52
+Example: Logistic Regression (1)
+
+
+    ◮ Suppose Yi ∼ Bernoulli(pi ), i = 1, . . . , n, are independent
+      0/1 indicator responses, and Xi is a p × 1 vector of predictors
+      for individual i.
+    ◮ The log-likelihood is as follows:
+
+                               n (
+                               L             (       ))
+                 ℓn (θ|Y, X) =    Yi θi − log 1 + eθi .
+                                i=1
+
+    ◮ Under the canonical link,
+                                   (            )
+                                         pi
+                        θi = log                    = Xi⊤ β.
+                                       1 − pi
+
+
+
+                                                                        40/52
+Example: Logistic Regression (2)
+    ◮ Thus, we have
+
+                              n (                  (         ))
+                                                          ⊤
+                              L
+             ℓn (β|Y, X) =           Yi Xi⊤ β − log 1 + eXi β .
+                              i=1
+
+    ◮ The gradient is
+
+                              n
+                                    �                   ⊤
+                                                                     �
+                              L                       eXi β
+                  ∇ℓn (β) =             Yi Xi −             ⊤
+                                                                Xi       .
+                              i=1                 1 + eXi β
+    ◮ The Hessian is
+
+                                    n             ⊤
+                                    L        eXi β               ⊤
+                   Hℓn (β) = −                   ) Xi Xi .
+                                               ⊤β 2
+                                       (
+                                    i=1 1 + eX i
+
+
+
+    ◮ As a result, the updating rule is
+
+
+                  β (k+1) = β (k) − Hℓn (β (k) )−1 ∇ℓn (β (k) ).
+                                                                             41/52
+Example: Logistic Regression (3)
+
+
+    ◮ The score function is a linear combination of the Xi , and the
+      Hessian or Information matrix is a linear combination of
+      Xi Xi⊤ . This is typical in exponential family regression models
+      (i.e. GLM).
+    ◮ The Hessian is negative deﬁnite, so there is a unique local
+      maximizer, which is also the global maximizer.
+    ◮ Finally, note that that the Yi does not appear in Hℓn (β),
+      which yields
+                                  [       ]
+                      Hℓn (β) = IE Hℓn (β) = −I(β)
+
+      .
+
+
+
+                                                                         42/52
+Iteratively Re-weighted Least Squares
+
+     ◮ IRLS is an algorithm for ﬁtting GLM obtained by
+       Newton-Raphson/Fisher-scoring.
+     ◮ Suppose Yi |Xi has a distribution from an exponential family
+       with the following log-likelihood function,
+                             n
+                             L Yi θi − b(θi )
+                        ℓ=                      + c(Yi , φ).
+                                       φ
+                             i=1
+
+     ◮ Observe that
+
+                                                dµi    ′′
+               µi = b′ (θi ), Xi⊤ β = g(µi ),       = b (θi ) ≡ Vi .
+                                                dθi
+
+                      θi = (b′ )−1 ◦ g −1 (Xi⊤ β) := h(Xi⊤ β)
+
+
+                                                                       43/52
+Chain rule
+
+
+     ◮ According to the chain rule, we have
+
+                             n
+                ∂ℓn   L ∂ℓi ∂θi
+                    =
+                ∂βj       ∂θi ∂βj
+                      i=1
+                L Yi − µi
+              =           h′ (Xi⊤ β)Xij
+                      φ
+                     i
+                                                (        ( ′ ⊤ ))
+                                                          h (Xi β)
+                 (Ỹi − µ̃i )Wi Xij
+                L
+              =                                     Wi ≡             .
+                                                           g′ (µi )φ
+                     i
+
+     ◮ Where Ỹ = (g ′ (µ1 )Y1 , . . . g ′ (µn )Yn )⊤ and
+       µ̃ = (g ′ (µ1 )µ1 , . . . g′ (µn )µn )⊤
+
+
+
+                                                                         44/52
+Gradient
+
+
+
+
+    ◮ Deﬁne
+                        W = diag{W1 , . . . , Wn },
+    ◮ Then, the gradient is
+
+
+                        ∇ℓn (β) = X⊤ W (Ỹ − µ̃)
+
+
+
+
+                                                      45/52
+Hessian
+    ◮ For the Hessian, we have
+
+                ∂2ℓ          L Yi − µi
+                        =                        h′′ (Xi⊤ β)Xij Xij
+              ∂βj ∂βk                    φ
+                              i
+                                                  (         )
+                                      1L              ∂µi
+                                    −                           h′ (Xi⊤ β)Xij
+                                      φ               ∂βk
+                                             i
+
+    ◮ Note that
+
+           ∂µi   ∂b′ (θi )   ∂b′ (h(Xi⊤ β))
+               =           =                = b′′ (θi )h′ (Xi⊤ β)Xik
+           ∂βk    ∂βk              ∂βk
+      It yields
+                                  1 L ′′               ]2
+                                     b (θi ) h′ (Xi⊤ β) Xi Xi⊤
+                                            [
+              IE(Hℓn (β)) = −
+                                  φ
+                                     i
+
+                                                                                46/52
+Fisher information
+     ◮ Note that g −1 (·) = b′ ◦ h(·) yields
+
+                                                          1
+                         b′′ ◦ h(·) · h′ (·) =
+                                                 g′ ◦ g−1 (·)
+
+       Recall that θi = h(Xi⊤ β) and µi = g −1 (Xi⊤ β), we obtain
+                                                          1
+                           b′′ (θi )h′ (Xi⊤ β) =
+                                                    g ′ (µi )
+     ◮ As a result
+
+                                        L h′ (X ⊤ β)
+                                                      i
+                     IE(Hℓn (β)) = −                          Xi Xi⊤
+                                                 g ′ (µi )φ
+                                          i
+
+     ◮ Therefore,
+
+                                                                           ( h′ (X ⊤ β) )
+                                                                                   i
+       I(β) = −IE(Hℓn (β)) = X⊤ W X                where        W = diag
+                                                                              g ′ (µi )
+                                                                                          47/52
+Fisher-scoring updates
+
+
+
+     ◮ According to Fisher-scoring, we can update an initial estimate
+       β (k) to β (k+1) using
+
+                    β (k+1) = β (k) + I(β (k) )−1 ∇ℓn (β (k) ) ,
+
+     ◮ which is equivalent to
+
+
+              β (k+1) = β (k) + (X⊤ W X)−1 X⊤ W (Ỹ − µ̃)
+                        = (X⊤ W X)−1 X⊤ W (Ỹ − µ̃ + Xβ (k) )
+
+
+
+
+                                                                        48/52
+Weighted least squares (1)
+   Let us open a parenthesis to talk about Weighted Least Squares.
+     ◮ Assume the linear model Y = Xβ + ε, where
+       ε ∼ Nn (0, W −1 ), where W −1 is a n × n diagonal matrix.
+       When variances are diﬀerent, the regression is said to be
+       heteroskedastic.
+     ◮ The maximum likelihood estimator is given by the solution to
+
+
+                        min(Y − Xβ)⊤ W (Y − Xβ)
+                         β
+
+       This is a Weighted Least Squares problem
+     ◮ The solution is given by
+
+
+                        (X⊤ W X)−1 X⊤ W (X⊤ W X)Y
+
+     ◮ Routinely implemented in statistical software.
+
+
+                                                                      49/52
+Weighted least squares (2)
+
+
+
+   Back to our problem.
+   Recall that
+                                        ˜ −µ
+             β (k+1) = (X⊤ W X)−1 X⊤ W (Y  ˜ + Xβ (k) )
+
+     ◮ This reminds us of Weighted Least Squares with
+         1. W = W (β (k) ) being the weight matrix,
+         2. Ỹ − µ̃ + Xβ (k) being the response.
+       So we can obtain β (k+1) using any system for WLS.
+
+
+
+
+                                                            50/52
+IRLS procedure (1)
+   Iteratively Reweighed Least Squares is an iterative procedure to
+   compute the MLE in GLMs using weighted least squares.
+   We show how to go from β (k) to β (k+1)
+                      (k)
+    1. Fix β (k) and µi     = g−1 (Xi⊤ β (k) );
+    2. Calculate the adjusted dependent responses
+                      (k)                         (k)    (k)
+                    Zi      = Xi⊤ β (k) + g ′ (µi )(Yi − µi );
+
+    3. Compute the weights W (k) = W (β (k) )
+                                  �                 �
+                                    h′ (X ⊤ β (k) )
+                     W (k) = diag         i
+                                           (k)
+                                       ′
+                                     g (µi )φ
+
+    4. Regress Z(k) on the design matrix X with weight W (k) to
+       derive a new estimate β (k+1) ;
+   We can repeat this procedure until convergence.
+                                                                      51/52
+IRLS procedure (2)
+
+
+
+    ◮ For this procedure, we only need to know X, Y, the link
+                                                         ′′
+      function g(·) and the variance function V (µ) = b (θ).
+    ◮ A possible starting value is to let µ(0) = Y.
+
+    ◮ If the canonical link is used, then Fisher scoring is the same as
+      Newton-Raphson.
+                              IE (Hℓn ) = Hℓn .
+      There is no random component (Y) in the Hessian matrix.
+
+
+
+
+                                                                          52/52
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+18.650 / 18.6501 Statistics for Applications
+Fall 2016
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

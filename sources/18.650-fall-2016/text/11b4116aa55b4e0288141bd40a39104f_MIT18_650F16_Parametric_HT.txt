@@ -1,0 +1,821 @@
+                 18.650
+       Statistics for Applications
+
+
+
+Chapter 5: Parametric hypothesis testing
+
+
+
+
+                                           1/37
+Cherry Blossom run (1)
+
+
+
+     ◮ The credit union Cherry Blossom Run is a 10 mile race that
+       takes place every year in D.C.
+     ◮ In 2009 there were 14974 participants
+
+     ◮ Average running time was 103.5 minutes.
+
+
+                    Were runners faster in 2012?
+
+   To answer this question, select n runners from the 2012 race at
+   random and denote by X1 , . . . , Xn their running time.
+
+
+
+
+                                                                     2/37
+Cherry Blossom run (2)
+
+
+   We can see from past data that the running time has Gaussian
+   distribution.
+
+
+
+
+   The variance was 373.
+
+
+
+
+                                                                  3/37
+Cherry Blossom run (3)
+
+
+
+    ◮ We are given i.i.d r.v X1 , . . . , Xn and we want to know if
+      X1 ∼ N (103.5, 373)
+    ◮ This is a hypothesis testing problem.
+    ◮ There are many ways this could be false:
+        1. IE[X1 ] = 103.5
+        2. var[X1 ] = 373
+        3. X1 may not even be Gaussian.
+    ◮ We are interested in a very speciﬁc question: is
+      IE[X1 ] < 103.5?
+
+
+
+
+                                                                      4/37
+Cherry Blossom run (4)
+
+    ◮ We make the following assumptions:
+        1. var[X1 ] = 373 (variance is the same between 2009 and 2012)
+        2. X1 is Gaussian.
+    ◮ The only thing that we did not ﬁx is IE[X1 ] = µ.
+
+    ◮ Now we want to test (only): “Is µ = 103.5 or is µ < 103.5”?
+
+    ◮ By making modeling assumptions, we have reduced the
+      number of ways the hypothesis X1 ∼ N (103.5, 373) may be
+      rejected.
+    ◮ The only way it can be rejected is if X1 ∼ N (µ, 373) for some
+      µ < 103.5.
+    ◮ We compare an expected value to a ﬁxed reference number
+      (103.5).
+
+
+                                                                         5/37
+Cherry Blossom run (5)
+
+   Simple heuristic:
+
+                           ¯ n < 103.5, then µ < 103.5”
+                       “If X
+
+
+   This could go wrong if I randomly pick only fast runners in my
+   sample X1 , . . . , Xn .
+
+   Better heuristic:
+          ¯ n < 103.5−(something that −−−→ 0), then µ < 103.5”
+      “If X
+                                          n→∞
+
+
+   To make this intuition more precise, we need to take the size of the
+   random ﬂuctuations of X ¯ n into account!
+
+
+                                                                          6/37
+Clinical trials (1)
+
+
+     ◮ Pharmaceutical companies use hypothesis testing to test if a
+        new drug is eﬃcient.
+     ◮ To do so, they administer a drug to a group of patients (test
+        group) and a placebo to another group (control group).
+     ◮ Assume that the drug is a cough syrup.
+
+     ◮ Let µcontrol denote the expected number of expectorations per
+        hour after a patient has used the placebo.
+     ◮ Let µdrug denote the expected number of expectorations per
+        hour after a patient has used the syrup.
+     ◮ We want to know if µdrug < µcontrol
+
+     ◮ We compare two expected values. No reference number.
+
+
+
+
+                                                                       7/37
+Clinical trials (2)
+
+
+     ◮ Let X1 , . . . , Xn             denote ndrug i.i.d r.v. with distribution
+                              drug
+        Poiss(µdrug )
+     ◮ Let Y1 , . . . , Yn             denote ncontrol i.i.d r.v. with distribution
+                             control
+        Poiss(µcontrol )
+     ◮ We want to test if µdrug < µcontrol .
+
+   Heuristic:
+
+       ¯ drug < X
+   “If X        ¯ control −(something that −−−−−−−→ 0), then
+                                            n   →∞      drug
+                                                      ncontrol →∞
+   conclude that µdrug < µcontrol ”
+
+
+
+                                                                                      8/37
+Heuristics (1)
+   Example 1: A coin is tossed 80 times, and Heads are obtained 54
+   times. Can we conclude that the coin is signiﬁcantly unfair ?
+
+                               iid
+     ◮ n = 80, X1 , . . . , Xn ∼ Ber(p);
+       ¯ n = 54/80 = .68
+     ◮ X
+
+     ◮ If it was true that p = .5: By CLT+Slutsky’s theorem,
+
+                         √  X̄n − .5
+                          nJ            ≈ N (0, 1).
+                             .5(1 − .5)
+
+         √  X̄n − .5
+     ◮   nJ             ≈ 3.22
+            .̄5(1 − .5)
+     ◮ Conclusion: It seems quite reasonable to reject the
+       hypothesis p = .5.
+
+                                                                     9/37
+Heuristics (2)
+   Example 2: A coin is tossed 30 times, and Heads are obtained 13
+   times. Can we conclude that the coin is signiﬁcantly unfair ?
+
+                               iid
+     ◮ n = 30, X1 , . . . , Xn ∼ Ber(p);
+       ¯ n = 13/30 ≈ .43
+     ◮ X
+
+     ◮ If it was true that p = .5: By CLT+Slutsky’s theorem,
+
+                          √  X̄n − .5
+                           nJ            ≈ N (0, 1).
+                              .5(1 − .5)
+
+                        √  X¯n − .5
+     ◮ Our data gives  nJ              ≈ −.77
+                           .5(1 − .5)
+     ◮ The number .77 is a plausible realization of a random variable
+       Z ∼ N (0, 1).
+     ◮ Conclusion: our data does not suggest that the coin is unfair.
+
+                                                                        10/37
+Statistical formulation (1)
+     ◮ Consider a sample X1 , . . . , Xn of i.i.d. random variables and a
+       statistical model (E, (IPθ )θ∈Θ ).
+
+     ◮ Let Θ0 and Θ1 be disjoint subsets of Θ.
+
+                                    �
+                                     H0 : θ ∈ Θ0
+     ◮ Consider the two hypotheses:
+                                     H1 : θ ∈ Θ1
+
+     ◮ H0 is the null hypothesis, H1 is the alternative hypothesis.
+
+
+     ◮ If we believe that the true θ is either in Θ0 or in Θ1 , we may
+       want to test H0 against H1 .
+
+     ◮ We want to decide whether to reject H0 (look for evidence
+       against H0 in the data).
+                                                                            11/37
+Statistical formulation (2)
+
+     ◮ H0 and H1 do not play a symmetric role: the data is is only
+       used to try to disprove H0
+     ◮ In particular lack of evidence, does not mean that H0 is true
+       (“innocent until proven guilty”)
+
+     ◮ A test is a statistic ψ ∈ {0, 1} such that:
+          ◮   If ψ = 0, H0 is not rejected;
+          ◮   If ψ = 1, H0 is rejected.
+
+     ◮ Coin example: H0 : p = 1/2 vs. H1 : p = 1/2.
+
+                {√     X̄n − .5       }
+     ◮ ψ = 1I        nJ            > C , for some C > 0.
+                        .5(1 − .5)
+
+     ◮ How to choose the threshold C ?
+
+                                                                       12/37
+Statistical formulation (3)
+     ◮ Rejection region of a test ψ:
+
+
+                         Rψ = {x ∈ E n : ψ(x) = 1}.
+
+     ◮ Type 1 error of a test ψ (rejecting H0 when it is actually
+       true):
+                         αψ : Θ0 → IR
+                              θ �→ IPθ [ψ = 1].
+     ◮ Type 2 error of a test ψ (not rejecting H0 although H1 is
+       actually true):
+
+                         βψ : Θ1 → IR
+                              θ �→ IPθ [ψ = 0].
+
+     ◮ Power of a test ψ:
+
+
+                            πψ = inf (1 − βψ (θ)) .
+                                 θ∈Θ1
+                                                                    13/37
+Statistical formulation (4)
+
+     ◮ A test ψ has level α if
+
+
+                           αψ (θ) ≤ α,     ∀θ ∈ Θ0 .
+
+     ◮ A test ψ has asymptotic level α if
+
+
+                         lim αψ (θ) ≤ α,      ∀θ ∈ Θ0 .
+                         n→∞
+
+     ◮ In general, a test has the form
+
+
+                                 ψ = 1I{Tn > c},
+
+       for some statistic Tn and threshold c ∈ IR.
+
+     ◮ Tn is called the test statistic. The rejection region is
+       Rψ = {Tn > c}.
+
+                                                                  14/37
+Example (1)
+
+                          iid
+    ◮ Let X1 , . . . , Xn ∼ Ber(p), for some unknown p ∈ (0, 1).
+
+    ◮ We want to test:
+
+                        H0 : p = 1/2 vs. H1 : p = 1/2
+
+      with asymptotic level α ∈ (0, 1).
+
+                 √      p̂n − 0.5
+    ◮ Let Tn =       n J            , where p̂n is the MLE.
+                         .5(1 − .5)
+
+    ◮ If H0 is true, then by CLT and Slutsky’s theorem,
+
+
+                          IP[Tn > qα/2 ] −−−→ 0.05
+                                          n→∞
+
+    ◮ Let ψα = 1I{Tn > qα/2 }.
+
+
+
+                                                                   15/37
+Example (2)
+
+
+   Coming back to the two previous coin examples: For α = 5%,
+   qα/2 = 1.96, so:
+
+
+     ◮ In Example 1, H0 is rejected at the asymptotic level 5% by
+       the test ψ5% ;
+
+     ◮ In Example 2, H0 is not rejected at the asymptotic level 5%
+       by the test ψ5% .
+
+
+   Question: In Example 1, for what level α would ψα not reject H0
+   ? And in Example 2, at which level α would ψα reject H0 ?
+
+
+
+                                                                     16/37
+p-value
+   Deﬁnition
+
+   The (asymptotic) p-value of a test ψα is the smallest (asymptotic)
+   level α at which ψα rejects H0 . It is random, it depends on the
+   sample.
+
+
+   Golden rule
+
+   p-value ≤ α ⇔ H0 is rejected by ψα , at the (asymptotic) level α.
+
+
+   The smaller the p-value, the more conﬁdently one can reject
+   H0 .
+
+     ◮ Example 1: p-value = IP[|Z| > 3.21] ≪ .01.
+
+     ◮ Example 2: p-value = IP[|Z| > .77] ≈ .44.
+                                                                        17/37
+Neyman-Pearson’s paradigm
+
+
+
+  Idea: For given hypotheses, among all tests of level/asymptotic
+  level α, is it possible to ﬁnd one that has maximal power ?
+
+  Example: The trivial test ψ = 0 that never rejects H0 has a
+  perfect level (α = 0) but poor power (πψ = 0).
+
+  Neyman-Pearson’s theory provides (the most) powerful tests
+  with given level. In 18.650, we only study several cases.
+
+
+
+
+                                                                    18/37
+The χ2 distributions
+   Deﬁnition
+   For a positive integer d, the χ2 (pronounced “Kai-squared”)
+   distribution with d degrees of freedom is the law of the random
+                                                            iid
+   variable Z12 + Z22 + . . . + Zd2 , where Z1 , . . . , Zd ∼ N (0, 1).
+
+   Examples:
+     ◮ If Z ∼ Nd (0, Id ), then IZI2    2
+                                   2 ∼ χd .
+
+     ◮ Recall that the sample variance is given by
+                 n                    n
+             1n                    1n 2
+       Sn =         (Xi − X̄n )2 =       Xi − (X̄n )2
+             n                     n
+                i=1                  i=1
+                                                          iid
+     ◮ Cochran’s theorem implies that for X1 , . . . , Xn ∼ N (µ, σ 2 ), if
+        Sn is the sample variance, then
+                                  nSn
+                                      ∼ χ2n−1 .
+                                   σ2
+     ◮ χ2 = Exp(1/2).
+        2                                                                     19/37
+Student’s T distributions
+
+   Deﬁnition
+   For a positive integer d, the Student’s T distribution with d
+   degrees of freedom (denoted by td ) is the law of the random
+              Z
+   variable J      , where Z ∼ N (0, 1), V ∼ χ2d and Z ⊥⊥ V (Z is
+              V /d
+   independent of V ).
+
+   Example:
+                                                          iid
+     ◮ Cochran’s theorem implies that for X1 , . . . , Xn ∼ N (µ, σ 2 ), if
+       Sn is the sample variance, then
+                           √         X̄n − µ
+                               n−1    √      ∼ tn−1 .
+                                         Sn
+
+
+                                                                              20/37
+Wald’s test (1)
+
+     ◮ Consider an i.i.d. sample X1 , . . . , Xn with statistical model
+       (E, (IPθ )θ∈Θ ), where Θ ⊆ IRd (d ≥ 1) and let θ0 ∈ Θ be ﬁxed
+       and given.
+     ◮ Consider the following hypotheses:
+                               �
+                                H0 : θ = θ0
+                                H1 : θ = θ0 .
+
+           ˆM LE be the MLE. Assume the MLE technical conditions
+     ◮ Let θ
+       are satisﬁed.
+
+     ◮ If H0 is true, then
+
+       √                   �            � (d)
+           n I(θ̂ M LE )1/2 θ̂nM LE − θ0 −−−→ Nd (0, Id )   w.r.t. IPθ0 .
+                                         n→∞
+
+
+                                                                            21/37
+Wald’s test (2)
+
+     ◮ Hence,
+
+         �           �⊤         �            � (d)
+       n θ̂nM LE − θ0 I(θˆM LE ) θ̂nM LE − θ0 −−−→ χd2         w.r.t. IPθ0 .
+       �                ��                   � n→∞
+                           Tn
+
+     ◮ Wald’s test with asymptotic level α ∈ (0, 1):
+
+
+                                ψ = 1I{Tn > qα },
+
+       where qα is the (1 − α)-quantile of χ2d (see tables).
+
+     ◮ Remark: Wald’s test is also valid if H1 has the form “θ > θ0 ”
+       or “θ < θ0 ” or “θ = θ1 ”...
+
+
+                                                                           22/37
+Likelihood ratio test (1)
+
+     ◮ Consider an i.i.d. sample X1 , . . . , Xn with statistical model
+       (E, (IPθ )θ∈Θ ), where Θ ⊆ IRd (d ≥ 1).
+
+     ◮ Suppose the null hypothesis has the form
+
+                                                   (0)           (0)
+                    H0 : (θr+1 , . . . , θd ) = (θr+1 , . . . , θd ),
+
+                                                  (0)         (0)
+       for some ﬁxed and given numbers θr+1 , . . . , θd .
+
+     ◮ Let
+                         θ̂n = argmax ℓn (θ)             (MLE)
+                                   θ∈Θ
+
+       and
+                 θ̂nc = argmax ℓn (θ)        (“constrained MLE”)
+                         θ∈Θ0
+
+
+                                                                          23/37
+Likelihood ratio test (2)
+
+     ◮ Test statistic:
+                                 �                      �
+                           Tn = 2 ℓn (θ̂n ) − ℓn (θ̂nc ) .
+
+ ◮ Theorem
+   Assume H0 is true and the MLE technical conditions are satisﬁed.
+   Then,
+                             (d)
+                         Tn −−−→ χ2d−r       w.r.t. IPθ .
+                            n→∞
+
+     ◮ Likelihood ratio test with asymptotic level α ∈ (0, 1):
+
+
+                                   ψ = 1I{Tn > qα },
+
+       where qα is the (1 − α)-quantile of χ2d−r (see tables).
+
+                                                                      24/37
+Testing implicit hypotheses (1)
+
+     ◮ Let X1 , . . . , Xn be i.i.d. random variables and let θ ∈ IRd be
+       a parameter associated with the distribution of X1 (e.g. a
+       moment, the parameter of a statistical model, etc...)
+
+     ◮ Let g : IRd → IRk be continuously diﬀerentiable (with k < d).
+
+
+     ◮ Consider the following hypotheses:
+                              �
+                               H0 : g(θ) = 0
+                               H1 : g(θ) = 0.
+
+     ◮ E.g. g(θ) = (θ1 , θ2 ) (k = 2), or g(θ) = θ1 − θ2 (k = 1), or...
+
+
+
+
+                                                                           25/37
+Testing implicit hypotheses (2)
+
+     ◮ Suppose an asymptotically normal estimator θ̂n is available:
+
+                        √ �       � (d)
+                         n θˆn − θ −−−→ Nd (0, Σ(θ)).
+                                     n→∞
+
+     ◮ Delta method:
+
+                    √ �              � (d)
+                     n g(θ̂n ) − g(θ) −−−→ Nk (0, Γ(θ)) ,
+                                        n→∞
+
+       where Γ(θ) = ∇g(θ)⊤ Σ(θ)∇g(θ) ∈ IRk×k .
+
+     ◮ Assume Σ(θ) is invertible and ∇g(θ) has rank k. So, Γ(θ) is
+       invertible and
+               √             �              � (d)
+                   n Γ(θ)−1/2 g(θ̂n ) − g(θ) −−−→ Nk (0, Ik ) .
+                                              n→∞
+
+
+                                                                      26/37
+Testing implicit hypotheses (3)
+
+     ◮ Then, by Slutsky’s theorem, if Γ(θ) is continuous in θ,
+
+              √                �              � (d)
+                  n Γ(θ̂n )−1/2 g(θ̂n ) − g(θ) −−−→ Nk (0, Ik ) .
+                                                  n→∞
+
+     ◮ Hence, if H0 is true, i.e., g(θ) = 0,
+
+                                                    (d)
+                       ng(θ̂n )⊤ Γ−1 (θˆn )g(θˆn ) −−−→ χ2k .
+                       �          ��            �  n→∞
+                                  Tn
+
+     ◮ Test with asymptotic level α:
+
+
+                               ψ = 1I{Tn > qα },
+
+       where qα is the (1 − α)-quantile of χ2k (see tables).
+
+
+                                                                    27/37
+The multinomial case: χ2 test (1)
+
+
+   Let E = {a1 , . . . , aK } be a ﬁnite space and (IPp )p∈ΔK be the
+   family of all probability distributions on E:
+
+                                                                   
+                                                       K
+                                                        n           
+     ◮ ΔK =        p = (p1 , . . . , pK ) ∈ (0, 1)K :         pj = 1 .
+                                                                   
+                                                        j=1
+
+     ◮ For p ∈ ΔK and X ∼ IPp ,
+
+
+                        IPp [X = aj ] = pj ,      j = 1, . . . , K.
+
+
+
+
+                                                                         28/37
+The multinomial case: χ2 test (2)
+
+
+                          iid
+    ◮ Let X1 , . . . , Xn ∼ IPp , for some unknown p ∈ ΔK , and let
+      p0 ∈ ΔK be ﬁxed.
+
+    ◮ We want to test:
+
+                       H0 : p = p0 vs. H1 : p = p0
+
+      with asymptotic level α ∈ (0, 1).
+
+    ◮ Example: If p0 = (1/K, 1/K, . . . , 1/K), we are testing
+      whether IPp is the uniform distribution on E.
+
+
+
+
+                                                                      29/37
+The multinomial case: χ2 test (3)
+
+    ◮ Likelihood of the model:
+
+                                                           NK
+                   Ln (X1 , . . . , Xn , p) = pN 1 N2
+                                               1 p2 . . . pK ,
+
+       where Nj = #{i = 1, . . . , n : Xi = aj }.
+
+    ◮ Let p̂ be the MLE:
+
+                                 Nj
+                         p̂j =      ,     j = 1, . . . , K.
+                                 n
+   �     p̂ maximizes log Ln (X1 , . . . , Xn , p) under the constraint
+                                 K
+                                 n
+                                       pj = 1.
+                                 j=1
+
+
+
+                                                                          30/37
+The multinomial case: χ2 test (4)
+                             √
+    ◮ If H0 is true, then        n(p̂ − p0 ) is asymptotically normal, and
+      the following holds.
+
+   Theorem
+                         �           �2
+                       K
+                       n   p̂j − pj0          (d)
+                   n                         −−−→ χ2K−1.
+                       j=1
+                                   pj0       n→∞
+                   �         ��          �
+                             Tn
+
+    ◮ χ2 test with asymptotic level α:     ψα = 1I{Tn > qα },
+      where qα is the (1 − α)-quantile of χ2K−1 .
+    ◮ Asymptotic p-value of this test: p − value = IP [Z > Tn |Tn ],
+      where Z ∼ χ2K−1 and Z ⊥⊥ Tn .
+
+                                                                             31/37
+The Gaussian case: Student’s test (1)
+
+                          iid
+    ◮ Let X1 , . . . , Xn ∼ N (µ, σ 2 ), for some unknown
+      µ ∈ IR, σ 2 > 0 and let µ0 ∈ IR be ﬁxed, given.
+
+    ◮ We want to test:
+
+                         H0 : µ = µ0 vs. H1 : µ = µ0
+
+      with asymptotic level α ∈ (0, 1).
+
+                                  √       X̄n − µ0
+    ◮ If σ 2 is known: Let Tn =       n            . Then, Tn ∼ N (0, 1)
+                                              σ
+      and
+                            ψα = 1I{|Tn | > qα/2 }
+      is a test with (non asymptotic) level α.
+
+
+                                                                           32/37
+The Gaussian case: Student’s test (2)
+
+   If σ 2 is unknown:
+
+
+                  √          X̄n − µ0
+           Tn =
+     ◮ Let T          n−1      √      , where Sn is the sample variance.
+                                 Sn
+
+     ◮ Cochran’s theorem:
+
+         ◮   ¯ n ⊥⊥ Sn ;
+             X
+             nSn
+         ◮       ∼ χ2n−1 .
+              σ2
+
+              Tn ∼ tn−1 : Student’s distribution with n − 1 degrees
+     ◮ Hence, T
+       of freedom.
+
+
+                                                                           33/37
+The Gaussian case: Student’s test (3)
+    ◮ Student’s test with (non asymptotic) level α ∈ (0, 1):
+
+
+                            ψα = 1I{|Tn | > qα/2 },
+
+      where qα/2 is the (1 − α/2)-quantile of tn−1 .
+
+    ◮ If H1 is µ > µ0 , Student’s test with level α ∈ (0, 1) is:
+
+
+                              ψα′ = 1I{Tn > qα },
+
+      where qα is the (1 − α)-quantile of tn−1 .
+
+    ◮ Advantage of Student’s test:
+         ◮   Non asymptotic
+         ◮   Can be run on small samples
+
+    ◮ Drawback of Student’s test: It relies on the assumption that
+      the sample is Gaussian.
+                                                                     34/37
+Two-sample test: large sample case (1)
+    ◮ Consider two samples: X1 , . . . , Xn and Y1 , . . . , Ym , of
+      independent random variables such that
+
+                         IE[X1 ] = · · · = IE[Xn ] = µX
+
+      , and
+                          IE[Y1 ] = · · · = IE[Ym ] = µY
+
+
+    ◮ Assume that the variances of are known so assume (without
+      loss of generality) that
+
+         var(X1 ) = · · · = var(Xn ) = var(Y1 ) = · · · = var(Ym ) = 1
+
+    ◮ We want to test:
+
+                       H0 : µX = µY vs. H1 : µX = µY
+
+      with asymptotic level α ∈ (0, 1).
+                                                                         35/37
+Two-sample test: large sample case (2)
+   From CLT:
+                    √                 (d)
+                           ¯n − µX ) −−
+                         n(X           −→ N (0, 1)
+                                      n→∞
+   and
+   √               (d)                      √                (d)
+     m(Ȳm −µY ) −−−−→ N (0, 1)      ⇒          n(Ȳm −µY ) −n→∞
+                                                             −−−→ N (0, γ)
+                   m→∞
+                                                            m→∞
+                                                            m
+                                                            n
+                                                              →γ
+
+   Moreover, the two samples are independent so
+         √                  √
+           n(X ¯ n − Y¯m ) + n(µX − µY ) −−(d)
+                                           −−→ N (0, 1 + γ)
+                                          n→∞
+                                                m→∞
+                                                m
+                                                n
+                                                  →γ
+
+   Under H0 : µX = µY :
+                  √ X̄n − Ȳm     (d)
+                    nJ          −n→∞
+                                 −−−→ N (0, 1)
+                        1 + m/n m→∞
+                                      m
+                                      n
+                                        →γ
+                                     {√    X¯n − Y¯m        }
+           Test:           ψα = 1I        nJ         > qα/2
+                                             1 + m/n                         36/37
+Two-sample T-test
+    ◮ If the variances are unknown but we know that
+      Xi ∼ N (µX , σX 2 ), Y ∼ N (µ , σ 2 ).
+                            i      Y   Y
+    ◮ Then
+                                 (           2     2 )
+                   X¯ n − Y¯m ∼ N µX − µY , σX + σY
+                                                n        m
+    ◮ Under H0 :
+                           ¯ n − Y¯m
+                           X
+                      J                     ∼ N (0, 1)
+                           2 /n + σ 2 /m
+                          σX       Y
+
+    ◮ For unknown variance:
+
+                               ¯ n − Y¯m
+                               X
+                          J                    ∼ tN
+                               2 /n + S 2 /m
+                              SX       Y
+
+      where                     ( 2             )2
+                                 SX /n + SY2 /m
+                        N=          4
+                                   SX          S4
+                                 2
+                                n (n−1)
+                                          + m2 (m−1)
+                                                Y
+
+                                                             37/37
+MIT OpenCourseWare
+http://ocw.mit.edu
+
+
+
+
+18.650 / 18.6501 Statistics for Applications
+Fall 2016
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms.
+

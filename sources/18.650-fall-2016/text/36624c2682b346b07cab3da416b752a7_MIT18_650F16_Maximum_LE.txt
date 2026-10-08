@@ -1,0 +1,529 @@
+                  18.650
+        Statistics for Applications
+
+
+
+Chapter 3: Maximum Likelihood Estimation
+
+
+
+
+                                           1/23
+Total variation distance (1)
+        (              )
+   Let E, (IPθ )θ∈Θ be a statistical model associated with a sample
+   of i.i.d. r.v. X1 , . . . , Xn . Assume that there exists θ ∗ ∈ Θ such
+   that X1 ∼ IPθ∗ : θ ∗ is the true parameter.
+
+   Statistician’s goal: given X1 , . . . , Xn , ﬁnd an estimator
+   θˆ = θ(X
+        ˆ 1 , . . . , Xn ) such that IP ˆ is close to IPθ∗ for the true
+                                       θ
+   parameter θ ∗ .
+   This means: IPθˆ(A) − IPθ∗ (A) is small for all A ⊂ E.
+   Deﬁnition
+   The total variation distance between two probability measures IPθ
+   and IPθ′ is deﬁned by
+
+                 TV(IPθ , IPθ′ ) = max IPθ (A) − IPθ′ (A) .
+                                   A⊂E
+
+
+
+                                                                            2/23
+Total variation distance (2)
+
+   Assume that E is discrete (i.e., ﬁnite or countable). This includes
+   Bernoulli, Binomial, Poisson, . . .
+
+   Therefore X has a PMF (probability mass function):
+   IPθ (X = x) = pθ (x) for all x ∈ E,
+                                    L
+                      pθ (x) ≥ 0,      pθ (x) = 1 .
+                                       x∈E
+
+
+   The total variation distance between IPθ and IPθ′ is a simple
+   function of the PMF’s pθ and pθ′ :
+                                     1L
+                 TV(IPθ , IPθ′ ) =      pθ (x) − pθ′ (x) .
+                                     2
+                                      x∈E
+
+
+
+
+                                                                         3/23
+Total variation distance (3)
+
+
+   Assume that E is continuous. This includes Gaussian, Exponential,
+   ...
+                                               J
+   Assume that X has a density IPθ (X ∈ A) = A fθ (x)dx for all
+   A ⊂ E.                        l
+                    fθ (x) ≥ 0,      fθ (x)dx = 1 .
+                                    E
+
+   The total variation distance between IPθ and IPθ′ is a simple
+   function of the densities fθ and fθ′ :
+                                    l
+                                  1
+                TV(IPθ , IPθ′ ) =       fθ (x) − fθ′ (x) dx .
+                                  2 E
+
+
+
+
+                                                                       4/23
+Total variation distance (4)
+
+
+   Properties of Total variation:
+
+     ◮ TV(IPθ , IPθ ′ ) = TV(IPθ ′ , IPθ ) (symmetric)
+
+     ◮ TV(IPθ , IPθ ′ ) ≥ 0
+
+     ◮ If TV(IPθ , IPθ ′ ) = 0 then IPθ = IPθ ′ (deﬁnite)
+
+     ◮ TV(IPθ , IPθ ′ ) ≤ TV(IPθ , IPθ ′′ ) + TV(IPθ ′′ , IPθ ′ ) (triangle
+        inequality)
+
+   These imply that the total variation is a distance between
+   probability distributions.
+
+
+
+
+                                                                              5/23
+Total variation distance (5)
+                                                T θ , IPθ∗ ) for all
+   An estimation strategy: Build an estimator TV(IP
+                                                      T θ , IPθ∗ ).
+   θ ∈ Θ. Then ﬁnd θˆ that minimizes the function θ → TV(IP
+
+
+
+
+                                                                       6/23
+Total variation distance (5)
+                                                T θ , IPθ∗ ) for all
+   An estimation strategy: Build an estimator TV(IP
+                                                      T θ , IPθ∗ ).
+   θ ∈ Θ. Then ﬁnd θˆ that minimizes the function θ → TV(IP
+
+
+
+
+                                 T θ , IPθ∗ )!
+   problem: Unclear how to build TV(IP
+                                                                       6/23
+Kullback-Leibler (KL) divergence (1)
+
+   There are many distances between probability measures to replace
+   total variation. Let us choose one that is more convenient.
+
+   Deﬁnition
+   The Kullback-Leibler (KL) divergence between two probability
+   measures IPθ and IPθ′ is deﬁned by
+                     
+                     
+                     
+                     
+                      L               ( p (x) )
+                     
+                                           θ
+                     
+                          pθ (x) log               if E is discrete
+                                         pθ′ (x)
+    KL(IPθ , IPθ ) =
+                ′      x∈E
+                     
+                      l
+                     
+                                     ( f (x) )
+                     
+                                         θ
+                     
+                         f θ (x) log            dx if E is continuous
+                         E             θf ′ (x)
+
+
+
+                                                                         7/23
+Kullback-Leibler (KL) divergence (2)
+
+
+   Properties of KL-divergence:
+
+     ◮ KL(IPθ , IPθ ′ ) = KL(IPθ ′ , IPθ ) in general
+
+     ◮ KL(IPθ , IPθ ′ ) ≥ 0
+
+     ◮ If KL(IPθ , IPθ ′ ) = 0 then IPθ = IPθ ′ (deﬁnite)
+
+     ◮ KL(IPθ , IPθ ′ ) i KL(IPθ , IPθ ′′ ) + KL(IPθ ′′ , IPθ ′ ) in general
+
+
+   Not a distance.
+
+   This is is called a divergence.
+
+   Asymmetry is the key to our ability to estimate it!
+
+
+
+                                                                               8/23
+Kullback-Leibler (KL) divergence (3)
+                                [    ( p ∗ (X) )]
+                                        θ
+          KL(IPθ∗ , IPθ ) = IEθ∗ log
+                                       pθ (X)
+
+                               [           ]      [          ]
+                         = IEθ∗ log pθ∗ (X) − IEθ∗ log pθ (X)
+
+
+
+
+   So the function θ [→ KL(IPθ∗ ], IPθ ) is of the form:
+   “constant” − IEθ∗ log pθ (X)
+                                           n
+                                   1L
+   Can be estimated: IEθ∗ [h(X)] -    h(Xi ) (by LLN)
+                                   n
+                                          i=1
+                                                 n
+                                                 L
+              T θ∗ , IPθ ) = “constant” − 1
+              KL(IP                                    log pθ (Xi )
+                                          n
+                                                 i=1
+                                                                      9/23
+Kullback-Leibler (KL) divergence (4)
+                                            n
+                                            L
+            T θ∗ , IPθ ) = “constant” − 1
+            KL(IP                                    log pθ (Xi )
+                                        n
+                                            i=1
+
+
+                                                 n
+               T θ∗ , IPθ )                1L
+           min KL(IP          ⇔    min −      log pθ (Xi )
+           θ∈Θ                      θ∈Θ    n
+                                            i=1
+                                            n
+                                            L
+                                        1
+                              ⇔    max               log pθ (Xi )
+                                    θ∈Θ n
+                                            i=1
+                                          n
+                                          L
+                              ⇔    max          log pθ (Xi )
+                                    θ∈Θ
+                                          i=1
+                                          n
+                                          n
+                              ⇔    max          pθ (Xi )
+                                    θ∈Θ
+                                          i=1
+
+
+   This is the maximum likelihood principle.
+                                                                    10/23
+Interlude: maximizing/minimizing functions (1)
+
+   Note that
+                       min −h(θ)    ⇔    max h(θ)
+                       θ∈Θ               θ∈Θ
+
+   In this class, we focus on maximization.
+
+   Maximization of arbitrary functions can be diﬃcult:
+
+
+
+
+                  �n
+   Example: θ →     i=1 (θ − Xi )
+
+
+                                                         11/23
+Interlude: maximizing/minimizing functions (2)
+   Deﬁnition
+   A function twice diﬀerentiable function h : Θ ⊂ IR → IR is said to
+   be concave if its second derivative satisﬁes
+
+                          h′′ (θ) ≤ 0 ,     ∀θ∈Θ
+
+   It is said to be strictly concave if the inequality is strict: h′′ (θ) < 0
+
+   Moreover, h is said to be (strictly) convex if −h is (strictly)
+   concave, i.e. h′′ (θ) ≥ 0 (h′′ (θ) > 0).
+   Examples:
+     ◮ Θ = IR, h(θ) = −θ 2 ,
+                               √
+     ◮ Θ = (0, ∞), h(θ) =          θ,
+     ◮ Θ = (0, ∞), h(θ) = log θ,
+
+     ◮ Θ = [0, π], h(θ) = sin(θ)
+
+     ◮ Θ = IR, h(θ) = 2θ − 3
+                                                                                12/23
+Interlude: maximizing/minimizing functions (3)
+   More generally for a multivariate function: h : Θ ⊂ IRd → IR,
+   d ≥ 2, deﬁne the
+                                   ∂h        
+                                      ∂θ1 (θ)
+                                        ..   
+     ◮ gradient vector: ∇h(θ) =          .    ∈ IRd
+                                          ∂h
+                                          ∂θd (θ)
+     ◮ Hessian matrix:
+                                                        
+                        ∂2h                 ∂2h
+                               ···
+                       ∂θ1 ∂θ1 (θ)         ∂θ1 ∂θd (θ)
+                               ..                       
+         2       
+        ∇ h(θ) =                  .                      ∈ IRd×d
+                                                         
+                    ∂2h                     ∂2h
+                   ∂θd ∂θd (θ) · · ·       ∂θd ∂θd (θ)
+
+   h is concave    ⇔       x⊤ ∇2 h(θ)x ≤ 0 ∀x ∈ IRd , θ ∈ Θ.
+   h is strictly concave    ⇔        x⊤ ∇2 h(θ)x < 0 ∀x ∈ IRd , θ ∈ Θ.
+   Examples:
+     ◮ Θ = IR2 , h(θ) = −θ 2 − 2θ 2 or h(θ) = −(θ1 − θ2 )2
+                          1      2
+     ◮ Θ = (0, ∞), h(θ) = log(θ1 + θ2 ),
+                                                                         13/23
+Interlude: maximizing/minimizing functions (4)
+
+
+   Strictly concave functions are easy to maximize: if they have a
+   maximum, then it is unique. It is the unique solution to
+
+                                  h′ (θ) = 0 ,
+
+   or, in the multivariate case
+
+                            ∇h(θ) = 0 ∈ IRd .
+
+
+   There are may algorithms to ﬁnd it numerically: this is the theory
+   of “convex optimization”. In this class, often a closed form
+   formula for the maximum.
+
+
+
+
+                                                                        14/23
+Likelihood, Discrete case (1)
+
+        (              )
+   Let E, (IPθ )θ∈Θ be a statistical model associated with a sample
+   of i.i.d. r.v. X1 , . . . , Xn . Assume that E is discrete (i.e., ﬁnite or
+   countable).
+
+
+   Deﬁnition
+
+   The likelihood of the model is the map Ln (or just L) deﬁned as:
+
+
+        Ln :        En × Θ             → IR
+                 (x1 , . . . , xn , θ) → IPθ [X1 = x1 , . . . , Xn = xn ].
+
+
+
+
+                                                                                15/23
+Likelihood, Discrete case (2)
+                                                                   iid
+   Example 1 (Bernoulli trials): If X1 , . . . , Xn ∼ Ber(p) for some
+   p ∈ (0, 1):
+
+     ◮ E = {0, 1};
+
+     ◮ Θ = (0, 1);
+
+     ◮ ∀(x1 , . . . , xn ) ∈ {0, 1}n ,   ∀p ∈ (0, 1),
+                                              n
+                                              n
+                   L(x1 , . . . , xn , p) =         IPp [Xi = xi ]
+                                              i=1
+                                              nn
+                                         =          pxi (1 − p)1−xi
+                                              i=1
+                                               �n                        �n
+                                         =p         i=1 xi   (1 − p)n−    i=1 xi   .
+
+
+                                                                                       16/23
+Likelihood, Discrete case (3)
+   Example 2 (Poisson model):
+                    iid
+   If X1 , . . . , Xn ∼ Poiss(λ) for some λ > 0:
+
+     ◮ E = IN;
+
+     ◮ Θ = (0, ∞);
+
+     ◮ ∀(x1 , . . . , xn ) ∈ INn ,    ∀λ > 0,
+                                                     n
+                                                     n
+                          L(x1 , . . . , xn , p) =         IPλ [Xi = xi ]
+                                                     i=1
+                                                     nn
+                                                                 λxi
+                                               =           e−λ
+                                                                 xi !
+                                                     i=1
+                                                                 �n
+                                                       λ i=1 xi
+                                               = e−nλ                 .
+                                                      x1 ! . . . xn !
+
+                                                                            17/23
+Likelihood, Continuous case (1)
+
+
+        (              )
+   Let E, (IPθ )θ∈Θ be a statistical model associated with a sample
+   of i.i.d. r.v. X1 , . . . , Xn . Assume that all the IPθ have density fθ .
+
+
+   Deﬁnition
+
+   The likelihood of the model is the map L deﬁned as:
+
+                 L :        En × Θ             → �
+                                                 IR
+                                                    n
+                         (x1 , . . . , xn , θ) →    i=1 fθ (xi ).
+
+
+
+
+                                                                                18/23
+Likelihood, Continuous case (2)
+
+
+                                                           iid
+   Example 1 (Gaussian model): If X1 , . . . , Xn ∼ N (µ, σ 2 ), for
+   some µ ∈ IR, σ 2 > 0:
+
+     ◮ E = IR;
+
+     ◮ Θ = IR × (0, ∞)
+
+     ◮ ∀(x1 , . . . , xn ) ∈ IRn ,   ∀(µ, σ 2 ) ∈ IR × (0, ∞),
+                                                          n
+                                            1          1 L
+        L(x1 , . . . , xn , µ, σ 2 ) =     √     exp − 2     (xi − µ)2   .
+                                         (σ 2π)n      2σ
+                                                         i=1
+
+
+
+
+                                                                             19/23
+Maximum likelihood estimator (1)
+
+   Let X1(, . . . , Xn be )an i.i.d. sample associated with a statistical
+   model E, (IPθ )θ∈Θ and let L be the corresponding likelihood.
+
+
+   Deﬁnition
+   The likelihood estimator of θ is deﬁned as:
+
+                    θ̂nM LE = argmax L(X1 , . . . , Xn , θ),
+                                θ∈Θ
+
+   provided it exists.
+
+   Remark (log-likelihood estimator): In practice, we use the fact
+   that
+              θ̂nM LE = argmax log L(X1 , . . . , Xn , θ).
+                              θ∈Θ
+
+
+                                                                            20/23
+Maximum likelihood estimator (2)
+
+
+
+   Examples
+
+    ◮ Bernoulli trials: p̂M
+                          n
+                            LE  ¯n.
+                               =X
+
+                     ˆ M LE = X
+    ◮ Poisson model: λ        ¯n.
+                       n
+
+                        (          ) (         )
+    ◮ Gaussian model:    µ̂n , σ̂n2 = X̄n , Ŝn .
+
+
+
+
+                                                    21/23
+Maximum likelihood estimator (3)
+
+   Deﬁnition: Fisher information
+   Deﬁne the log-likelihood for one observation as:
+
+                  ℓ(θ) = log L1 (X, θ),   θ ∈ Θ ⊂ IRd
+
+   Assume that ℓ is a.s. twice diﬀerentiable. Under some regularity
+   conditions, the Fisher information of the statistical model is
+   deﬁned as:
+            [               ]    [       ] [       ]⊤        [      ]
+   I(θ) = IE ∇ℓ(θ)∇ℓ(θ)⊤ − IE ∇ℓ(θ) IE ∇ℓ(θ) = −IE ∇2 ℓ(θ) .
+
+     If Θ ⊂ IR, we get:
+                              [      ]     [       ]
+                    I(θ) = var ℓ′ (θ) = −IE ℓ′′ (θ)
+
+
+                                                                        22/23
+Maximum likelihood estimator (4)
+
+   Theorem
+
+   Let θ ∗ ∈ Θ (the true parameter). Assume the following:
+    1. The model is identiﬁed.
+    2. For all θ ∈ Θ, the support of IPθ does not depend on θ;
+    3. θ ∗ is not on the boundary of Θ;
+    4. I(θ) is invertible in a neighborhood of θ ∗ ;
+    5. A few more technical conditions.
+
+   Then, θˆnM LE satisﬁes:
+
+       ˆM LE −−IP−→ θ ∗
+     ◮ θ                   w.r.t. IPθ∗ ;
+         n   n→∞
+       √  (             ) (d)      (         )
+     ◮   n θ̂nM LE − θ ∗ −−−→ N 0, I(θ ∗ )−1           w.r.t. IPθ∗ .
+                             n→∞
+
+                                                                       23/23
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+18.650 / 18.6501 Statistics for Applications
+Fall 2016
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
