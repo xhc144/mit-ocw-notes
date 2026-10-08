@@ -1,0 +1,238 @@
+  
+ 
+ 
+18.212: Algebraic Combinatorics 
+Andrew Lin 
+Spring 2019 
+This class is being taught by Professor Postnikov. 
+April 5, 2019 
+n−2 
+Recall that we started talking about the Cayley formula last week: the number of labeled trees on n vertices is n 
+. We 
+gave a proof last time, and we’ll review it in more detail today. 
+Consider the polynomial 
+n 
+X
+Y 
+deg(i)−1 
+Fn(x1, · · · , xn) = 
+xi 
+. 
+T tree on [n] i=1 
+The degree of a vertex in any graph is the number of edges adjacent to that vertex. Then we wish to show the following 
+result: 
+Theorem 1 
+)n−2 
+Fn = (x1 + · · · + xn 
+. 
+Proof. We want to show that Rn = Fn − (x1 + · · · + xn)n−2 is identically zero. We do this by induction: this is true for 
+n = 1, 2. 
+First of all, Rn is either a homogeneous polynomial in our variables x1, · · · , xn of degree n − 2 or zero. This is because 
+P 
+each monomial in the sum has total degree 
+(deg(i)) − n, which is (2n − 2) − n = n − 2. 
+Now, if we pick any 1 ≤ i ≤ n and evaluate Rn at xi = 0, then we have 
+Rn−1(x1, · · · , xi−1, xi+1, · · · , n)(x1 + · · · + xi−1 + xi+1 + · · · + xn). 
+(we can denote this “skipping” of xi as xˆi as well). This is because all terms disappear except those where i has degree 1, so 
+it’s a leaf: this can be constructed by having a labeled tree on the other n − 1 vertices and then adding the leaf anywhere! 
+But the right hand side is 0 by induction, so that means that f when evaluated at xi = 0 is always 0. Now assume 
+a1 
+an 
+that our polynomial f is not equal to zero: then it contains at least one monomial of the form x · · · x . Since the 
+1 
+n 
+polynomial Rn has degree n − 2, a1 + · · · + an ≤ n − 1: this means there exists an i with ai = 0 in that monomial. But 
+when we evaluate this at xi = 0, that monomial survives, and therefore Rn 6= 0: contradiction! So Rn must just be the 
+zero polynomial, which yields what we want. 
+(Alternatively, xi is a factor for all i, so Rn must contain a factor x1x2 · · · xn, which has degree larger than Rn unless 
+Rn = 0.) 
+1 
+
+
+Corollary 2 
+n−2 
+Setting all xi = 1, the number of trees on n vertices is n 
+. 
+We have barely used any properties of trees here, so it’s a bit hard to believe! In combinatorics, we like to give a bijective 
+proof, so let’s try to construct a bijection between trees and objects whose object is nn−2 . 
+There are several bijective proofs that exist: let’s go through a few of them. 
+Proof by Prufer, 1918. We’re going to set up a bijection between trees T on n vertices and sequences (c1, · · · , cn−2), 
+where all ci ∈ [n]! Clearly the latter has nn−2 possible elements. This sequence is called the Prufer code. 
+We’ll write out the procedure and then do an example. 
+• Find the leaf (vertex with degree 1) v with the minimal possible label. Any tree with at least 1 vertex contains a leaf. 
+• Record (in the code) the label that v is attached to in our tree. 
+• Remove v (and the adjacent edge) from T . 
+• Repeat these three steps a total of n − 2 times! 
+As an example, consider the following tree: 
+1 
+2 
+3 
+7 
+8 
+4 
+5 
+6 
+Initially, the smallest leaf has label 2, and it is attached to 8, so we write down 8 : now we erase label 2. 
+1 
+3 
+7 
+8 
+4 
+5 
+6 
+Now, the minimal leaf is 3, and it is attached to 1, so we write down 1 . 
+1 
+7 
+8 
+4 
+5 
+6 
+Next, the minimal leaf is 4, and it is attached to 5 : 
+2 
+
+
+1 
+7 
+8 
+5 
+6 
+1 
+7 
+8 
+5 
+6 is attached to 5 : 
+5 is attached to 1 : 
+1 
+7 
+8 
+7 
+8 
+Finally, 1 is attached to 8 : 
+and now we’re done: our Prufer code is (8, 1, 5, 5, 1, 8) . To show this is actually a bijection, we need to be able to 
+invert our construction! 
+Notice that our vertex 5 has degree 3 originally: it appears twice in the code. Similarly, 1 has degree 3 and appears 
+twice in the code. 
+Fact 3 
+Basically, every vertex appears deg(v) − 1 times in our code! 
+This is because every time we erase an edge to i, we record i down, except when i is a leaf: then it is removed and its 
+neighbor is recorded instead. 
+So the labels that don’t show up in the Prufer code are exactly the leaves in our tree! Here’s the decoding process: let’s 
+say we’re given (c1, · · · , cn−2) as our initial Prufer code. 
+• Initially, set (c1, · · · , cn−2) to be our Code, and set Labels to be {1, 2, · · · , n}. 
+• Find the minimal leaf by ﬁnding the smallest element ` of Labels that is not in Code. Connect ` to the ﬁrst element 
+c of Code (because this was the ﬁrst step of our coding process: we removed the smallest leaf and recorded its 
+neighbor). 
+• Remove ` from Labels and c from Code. 
+• Repeat these steps a total of n − 2 times until Code is empty. Now we’ve connected everything except our ﬁnal 
+edge. 
+• There are now two labels left: connect them! 
+3 
+
+
+So let’s try doing this in reverse: we start with our Prufer Code (8, 1, 5, 5, 1, 8) and Labels {1, 2, 3, 4, 5, 6, 7, 8}. The 
+minimal element that doesn’t appear is 2, so connect 2 to 8. 
+1 
+2 
+3 
+7 
+8 
+4 
+5 
+6 
+Now Code is (1, 5, 5, 1, 8) and Labels is {1, 3, 4, 5, 6, 7, 8}. Now connect 3 to 1: 
+1 
+2 
+3 
+7 
+8 
+4 
+5 
+6 
+Now just continue this process! We connect 4 to 5, and then 6 to 5, and now 5 is connected to 1, 1 is connected to 8, 
+and we ﬁnish by connecting 8 and 7. This constructs our original tree, as desired! 
+Notice that this gives us more than just the bijection. 
+Proposition 4 
+If we ﬁx d1, · · · , dn ≥ 1, then the number of labeled trees on n vertices with degrees d1, · · · , dn for vertices 1, 2, · · · , n 
+is the number of codes where i appears di times: 
+
+ 
+n − 2 
+, 
+(d1 − 1), (d2 − 1), · · · , (dn − 1) 
+as long as d1 + · · · + dn = 2n − 2. 
+There are a lot of other combinatorial proofs: here’s one more. 
+Proof by Eˆgecioˆglu-Remmel, 1986, based on Joyal 1981. Let’s assume that node 1 is the “root of the tree:” orient all 
+edges of our graph towards the root. Let’s use this tree as an example: 
+1 
+7 
+3 
+8 
+13 
+4 
+10 
+15 
+9 
+12 
+2 
+11 
+5 
+14 
+6 
+4 
+
+
+The path from our maximal element 15 to 1 is a partial permutation 
+P = 15, 10, 4, 13, 8, 3, 7, 1. 
+Mark all left-to-right minima: this is 15, 10, 4, 3, 1, and now we’ll break up our partial permutation into cycles: 
+P = (15)(10)(4, 13, 8)(3, 7)(1). 
+Now erase our path, and replace it with a cycle! So our path now becomes a loop at 15, a loop at 10, a cycle between 
+4, 13, 8, a cycle between 3 and 7, and a loop at 1. 
+Notice that we will always have a loop at 1 and a loop at 15. Now notice that there’s still exactly one edge coming out 
+of each vertex, so now we can deﬁne a function f such that f (i) = j if i points to j. This is a map from [n] to [n] that 
+ﬁxes 1 and n, so there are exactly nn−2 such functions. 
+Turns out this is a bijection between all trees on n nodes and all maps f ! This is a lot like transforming cycle notation 
+to one-line notation and vice versa: we’ll discuss this a bit more next time. 
+5 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+MIT OpenCourseWare 
+https://ocw.mit.edu 
+18.212 Algebraic Combinatorics 
+Spring 2019 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

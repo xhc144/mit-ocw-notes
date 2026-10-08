@@ -1,0 +1,228 @@
+18.433 Combinatorial Optimization
+Flow Duality and algorithms
+
+Sept 25, 30 Lecturer: Santosh Vempala
+1 Introduction
+A directed graph is a graph in which every edge has a direction. A capacity is the maximum
+flow allowed on an edge, and is represented by ¢j,j, where the edge connects the vertices i
+and j in the direction from i to j.
+Given a directed graph G = (V, £), a flow is a collection of paths from a source s € V toa
+sink t € V. The set of edge disjoint paths is the collection of all paths from s to t such that
+no edge appears in more than one path.
+Suppose S is a set of vertices containing s but not containing ¢. Then § = V - $ is the
+compliment of set $. The size of a cut ($,8) is the number of edges from $ to 5.
+Theorem 1. (Menger) A graph G=(V,E) has k edge disjoint paths from s to t <=> k is
+the size of the minimum directed s —t cut.
+Proof.
+(=) This direction is trivial.
+(<=) Assume this is false. Take the smallest counter example G. So G has minimum cut size
+k but does not contain k edge disjoint paths from s to t. Since G is minimal the removal
+of any edge will induce a graph with a smaller minimum cut. In particular, G contains no
+edges into the source s or out of the sink t as these arcs are not present in any s — ¢ cut.
+We can divide our problem into two cases:
+(i) de € E that is not incident to s or t. Now, by the minimality of G, ¢ is contained in
+some minimum cut ($,3). The contraction of the set 5 gives a graph G’ with a minimum
+cut of at least &. Similarly the contraction of the set $ gives a graph G" with a minimum
+cut of at least k. Since G was the smallest counterexample, G’ has k disjoint paths from s
+to the contracted vertex 5 whilst G” has k disjoint paths from the contracted vertex S to t.
+‘These two sets of k edge disjoint paths only coincide on edges within the cut ($, 5). Hence
+they may be merged to form k edge disjoint paths from s to t in G. A contradiction.
+
+1
+
+
+(ii) Every edge is incident to s or t. Arrange the middle vertices (all vertices except s and
+t) into the following two groups:
+
+1. All vertices who have more edges going in than out, and s.
+
+2. All vertices who have more edges going out than in, and t.
+Observe that, by definition, the set of edges that go from the first group to the second group
+must contain k edges. It then follows easily that we may find a collection of k edge disjoint
+paths from s to t.. 0
+2 The Maximum Flow-Minimum Cut Theorem
+‘The capacity of a cut ($,5), denoted c($, 3), is equal to the sum of the capacities of each
+edge in the cut whose direction is from §. Let f be a flow from s to t. We will abuse our
+notation and also denote by f the value of the flow.
+Lemma 2. Let (5,5) be any s—t cut in the graph G. Then f < (8,5).
+Proof. We know that f(s,V) — f(V,s) =f. We also know that f(e,V) — f(V,2) =0 for
+all € V —{s,t}. Using this, we can see that f($,V) - f(V, 8) = f. We also know that V
+is equal to the union of $ and 5. Thus we have f($,5) — f(§,8) = f. In conclusion
+
+f= F(S,8) — (8,8) < 1(8,8) < (8,5) 0
+
+Ina finite graph there is always a maximum possible flow. Finding this maximum value and
+the flow that attains it can be a very important part of many graph and network problems.
+Suppose we have a graph G = (V,E), where s,¢ € V are the source and sink, respectively.
+Take a flow f from s to t. Is it the maximum flow? If we look again at Lemma 2, we can
+see that the value of the maximum flow is at most the value of the minimum capacity cut.
+So one way to see if f is maximum is to look for the minimum cut, find it’s capacity, and
+compare the values. A better way is to attempt to find an augmenting path for f. Given
+our graph, with source s and sink t, an augmenting path for f is a path {up,ui,..., ur}
+where:
+
+Lu =s.
+
+2. If (uj, uiy1) is an edge then fiiy1 < ciip1-
+
+2
+
+
+3. If (ujsi, uj) is an edge then fi.1 4 > 0.
+We can see that for each vertex in the path, with the exception of s and t, the net flow must
+equal 0. If u, = t, then our augmenting path is a flow augmenting path or f-augmenting
+path, and can be used to increase flow value.
+‘This leads us to an algorithm for finding max flow that is very similar to the one we used
+to find maximum matching in a graph.
+ALGorirEM I
+{
+1) Pind an f-augmenting path.
+2) Augment the original flow.
+3) Repeat.
+}
+This algorithm leaves us with a few questions. What is the best way to find an augmenting
+path? Is this process bounded? Is f maximum when an augmenting path does not exist?
+We will answer these questions is reverse order.
+Theorem 3. A flow f is mazimum <=> there are no flow augmenting paths.
+Proof.
+(+) Clearly if there is a flow augmenting path then f can not be a maximum flow.
+(<) Take the set of vertices Ay = {u € V : 3 an augmenting path from s to u.}. Note that
+t ¢ Ay as we have no flow augmenting path. Consider the cut (Ay, Ay). Take an edge (i,j),
+where i € Ay and j € Ay. Note that for this edge fi; = ¢i,j otherwise we could grow Ay.
+Similarly f;; = 0. This gives us the the flow across the cut is) ¢;,j — 0. We can’t send
+anymore than the capacity of the cut, so therefore the flow is maximum if t ¢ Ay. O
+Theorem 4. (Mar Flow-Min Cut) The marimum flow is equal to the minimum capacity
+cut.
+Proof. Suppose f is the maximum flow value. Therefore the flow f has no augmenting
+paths. Since it has no augmenting paths, the graph contains a cut, given by Ay, of capacity
+J. Since no cut can have a capacity less than f the result follows. 0.
+
+3
+
+
+# \.
+. H /
+s
+4
+Figure 1: The initial flow.
+3 Algorithmic Efficiency
+‘The second question to be answered is whether or not the algorithm for finding an aug-
+menting path is bounded. The answer is, not necessarily. If we look at the Figure 1, finding
+the wrong set of augmenting paths will lead to an infinite number of augmentation whose
+auginentation leads to a flow with value less than the maximum flow. The edges have
+extremely large capacities and the initial flow, of value 1 + @ + a where @ is the root of
+1—a-—a* =0, is shown in Figure 1.
+To find an augmenting path in this graph, pick a path that starts at s and proceeds to t.
+Find the lowest current flow value on this path, counting only the edges whose direction
+goes against the direction of your path. We do not worry about the edges going in the
+direction of our path, since the capacities of all edges are extremely large. Augment by this
+value.
+For an example, see Figure 2. We may augment this flow by a value a. In the subsequent
+step the situation is similar except that we may find an augmenting path with capacity
+a”. In the next step we may augment along a path of capacity a3. Observe that we have
+an infinite process. In addition, the limit of the value of the flow obtained is bounded
+(L+a+a?+¥,,, 0") whereas the maximum flow can be any value.
+4
+
+
+Figure 2: Augmentation by alpha.
+_
+Figure 3: Residual Graph
+4 A Weakly Polynomial Algorithm
+‘There are better ways to find an augmenting path than by picking a random flow and
+trying to augment it. We can try making a residual graph. A residual graph takes each
+edge and makes it two different edges, Take the edge (i,j), with capacity ¢;; and flow
+fig. The residual graph Res(@) would have two edges between i and j, each with opposite
+directions. Edge (i,j) has a capacity on it equal to ¢;,j — fij, while the capacity on edge
+(j,i) is fij. I either of the capacities is zero the we will omit the edge from Res(G). If
+there are already two edges of opposite direction connecting the two vertices, then forming
+the residual graph becomes a little more complicated (see figure 3).
+Claim 1. An augmenting path in G corresponds to a directed s - ¢ path in Res(G), and
+therefore and augmenting path in G corresponds to a directed path from s to ¢ in Res(@).
+a
+This leads us to a new algorithm, similar to the one we were using before.
+AvcoriTHM II
+5
+
+
+{
+
+1) Find an s ~ ¢ path in Res(G)
+
+2) Augment the flow.
+
+3) Repeat.
+
+}
+
+‘The problem with this, as with before, is that it depends on picking a good original path to
+
+augment. How do we make a good choice of path? A good place to start would be to pick
+
+the path with the maximum capacity. This is a bounded search, a proof of this is asked for
+
+in the homework.
+
+Claim 2. A flow f can be decomposed into at most m paths from s to t, excluding cycles.
+
+Proof of Claim. Every time you create a path, remove the restraining edge in that path
+
+from the graph. The restraining edge is that whose flow capacity is filled, and thereby holds
+
+you back from sending any more flow down this path. We can easily induce that there can
+
+be no more than m paths. 0
+
+Theorem 5. There is a path P with (P) > “=, where f is the current flow value and
+
+f° is the optimal flow value.
+
+Proof. Take a graph G, and let f* be the max flow, and f be the current flow. In Res(@)
+
+you should be able to send f* — f as your max flow. Therefore there exists a path P in
+
+Res(@) where e(P) > Z=£, 0.
+
+Now let us examine the running time of the algorithm. We can find a maximum capacity
+
+path in O(m) time. Consider the set of augmentations, each with a capacity of at least
+
+F=! There are at most 2m such augmentations. After these augmentations, the remaining
+
+flow is at most 42, since after the augmentations the current maximum capacity path has
+
+capacity below =£, We can see that the flow remaining halves at most every 2m steps,
+
+and from this get that the total number of augmentations is at most 2m log(nU). We then
+
+have a weakly polynomial running time of O(m? log(nU)).
+
+5 A Strongly Polynomial Algorithm
+
+Another way to pick which path to start with when looking for an augmenting path is to
+
+look for the shortest augmenting path. Start at the source, and look at everything you can
+
+get to in one step. That is to say, every vertex that is only one edge away. We will call
+6
+
+
+these depth 1. Now find depths 2,3,... in similar fashion. Find the lowest depth to touch
+the sink, and send on it as much as you can send. Now take d(i) to be the level of depth
+of node i. Note that on an edge (i,j) in shortest path from s to t we have d(j) = d(i) + L.
+The following observation is left as an exercise.
+Observation. The shortest path lengths are non-decreasing in the course of this algorithm.
+Lemma 6. The total number of times an edge can be the minimum capacity edge is O(n).
+Proof. Suppose the edge (i,j) with capacity 8 is the minimum capacity edge along the
+augmenting path. Augment by 3. Now Res(G) no longer contains the edge (i,j). Before
+the augmentation, at time r say, we had d(j) = d(i) +1 since we used a shortest path.
+Now, the next time this edge is used the edge (i, j) must again be in Res(@). For this to be
+the case we must, in the meantime have augmented along some path containing the edge
+(j,i). At this point, say at time 7’, we have d'(i) = d'(j) +1. Hence a'(i) > d(i) +2. The
+maximum value of d(i) is n and the theorem follows. Observe also that the total increase
+of d(i)’s over all vertices is less than n”, and therefore the total number of augmentations
+is O(n). O
+Since it takes O(m) time to find a shortest path the running time of this algorithm is
+O(mn?), a strongly polynomial bound.
+
+7

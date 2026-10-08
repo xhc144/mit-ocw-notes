@@ -1,0 +1,77 @@
+\originalchapter{极值图论}\label{ch:extremal}
+\sourceof{18.315 L25、L27; 18.217 第2章 Mantel、Turán、二部禁图指定段落}
+\originalsection{禁图问题}
+给定简单图 $H$, $\operatorname{ex}(n,H)$ 是不含 $H$ 子图的 $n$ 点简单图最大边数. 子图不要求诱导: 多余边可以删除. 极值问题同时需要上界证明与达到或逼近它的构造, 只给一个不等式还未说明答案是否准确.
+\begin{theorem}[Mantel]\label{thm:mantel}
+$\operatorname{ex}(n,K_3)=\lfloor n^2/4\rfloor$, 平衡完全二部图达到它.
+\end{theorem}
+\begin{proof}
+无三角形图中, 每条边 $uv$ 的邻点集不交, 否则共同邻点构成三角形. 所以 $d(u)+d(v)\le n$. 沿全部边求和, 左边为 $\sum_vd(v)^2$, 右边为 $nm$. Cauchy--Schwarz 给 $\sum_vd(v)^2\ge(2m)^2/n$ ($n>0$), 因而 $m\le n^2/4$; $m=0$ 或 $n=0$ 直接成立. 边数取整数得上界. 大小 $\lfloor n/2\rfloor,\lceil n/2\rceil$ 的完全二部图无三角形, 有乘积 $\lfloor n^2/4\rfloor$ 条边.
+\end{proof}
+\originalsection{Turán 的精确界}
+令 $T_r(n)$ 为把 $n$ 点分成 $r$ 个尽量均衡部分的完全多部图, 允许空部分. 写 $n=qr+s$, $0\le s<r$, 则 $s$ 部大小 $q+1$, 其余大小 $q$, 边数为
+\[
+t_r(n)=\frac12\bigl(n^2-s(q+1)^2-(r-s)q^2\bigr).
+\]
+\begin{theorem}[Turán]\label{thm:turan}
+对整数 $r\ge1,n\ge0$, 有 $\operatorname{ex}(n,K_{r+1})=t_r(n)$.
+\end{theorem}
+\begin{proof}
+构造 $T_r(n)$ 的团每部至多取一点, 所以不含 $K_{r+1}$, 给下界. 为证明上界, 在禁 $K_{r+1}$ 图中选边数最多者, 再在其中选使孪生类大小平方和最大的图. 两点称孪生, 指它们有相同开邻点集; 不同孪生点必不邻接, 此关系分成若干独立类.
+
+任意非邻接点 $u,v$ 度数相等. 否则删除低度点的全部邻边, 使它成为高度点的孪生, 可增加边数. 操作不产生禁团: 含新点的团换成其孪生点便是原图的同大小团.
+
+若两个不同孪生类 $A,B$ 有一对非邻接点, 两类间所有点均不邻接, 两类公共邻点各自相同, 且两类点度相等. 将 $A$ 全体改成 $B$ 中任一点的孪生, 边数不变, 因 $A$ 独立、原来与 $B$ 无边, 每个被改点仍有原度. 禁团仍不出现, 因新团至多含一个改点, 可换成 $B$ 中点. 原来其他孪生类不会被拆开: 各点对 $A$ 的新邻接关系完全一致. $A,B$ 合成一类, 大小平方和至少增加 $2|A||B|>0$, 与选择矛盾.
+
+所以不同孪生类间全部邻接, 极值图是完全 $k$ 部图. 若 $k>r$, 各选一点产生禁团, 故 $k\le r$. 用空部补成 $r$ 部, 边数为 $(n^2-\sum_i a_i^2)/2$. 若两部大小相差至少2, 从大部移一点到小部, 平方和严格下降, 边数增加. 因而最多边在尽量均衡时取得, 恰为 $t_r(n)$.
+\end{proof}
+平方和的二级选择使对称化真正结束在极值结构, 避免把“不断复制邻点”当作未经证明会终止的算法. 精确整数式也比直接写 $\lfloor(1-1/r)n^2/2\rfloor$ 更可靠, 后式对一般 $r$ 并非总是准确.
+\begin{example}
+求10点无 $K_4$ 图的最大边数, 并给达到图.
+\end{example}
+\begin{solution}
+取 $r=3$, $10=3\cdot3+1$, 部分大小4、3、3. 边数为 $4\cdot3+4\cdot3+3\cdot3=33$. 任何无 $K_4$ 图边数至多33, 该完全三部图达到它.
+\end{solution}
+\originalsection{二部禁图的双计数}
+\begin{theorem}[Kővári--Sós--Turán 上界]\label{thm:kst}
+设整数 $s,t\ge2$. 若 $n$ 点简单图不含 $K_{s,t}$, 则
+\[
+m\le\frac12(t-1)^{1/s}n^{2-1/s}+\frac12(s-1)n.
+\]
+\end{theorem}
+\begin{proof}
+计数点 $v$ 与其邻点中的 $s$ 元子集 $S$. 同一个 $S$ 的公共邻点至多 $t-1$, 否则得到 $K_{s,t}$; 公共邻点不在 $S$, 因无自环. 所以
+\[
+\sum_v\binom{d(v)}s\le(t-1)\binom ns\le\frac{t-1}{s!}n^s.
+\]
+对整数 $d$, $\binom ds\ge(d-s+1)_+^s/s!$, 其中 $x_+=\max(x,0)$. 函数 $(x-s+1)_+^s$ 凸, Jensen 不等式给
+\[
+\frac n{s!}(2m/n-s+1)_+^s\le\sum_v\binom{d(v)}s.
+\]
+若平均度至多 $s-1$, 所述界直接成立; 否则取 $s$ 次方根并整理得界. $n=0$ 单独显然.
+\end{proof}
+取 $s=t=2$, 得无四圈图 $m\le n^{3/2}/2+n/2$. 这个指数与 Turán 的二次边数不同: 禁一个二部图会迫使密度随 $n$ 增大而下降.
+\originalsection{无四圈的有限域构造}
+取素数 $q$, 在模 $q$ 的域中构造二部图. 一侧为点 $(x,y)\in\mathbb F_q^2$, 另一侧为非竖直线的参数 $(a,b)\in\mathbb F_q^2$, 当 $y=ax+b$ 时邻接. 图有 $2q^2$ 点, 每条线恰过 $q$ 点, 所以有 $q^3$ 边.
+\begin{proposition}\label{prop:finitefield}
+上述关联图不含四圈, 从而沿 $n=2q^2$ 有 $\operatorname{ex}(n,C_4)\ge n^{3/2}/(2\sqrt2)$.
+\end{proposition}
+\begin{proof}
+四圈意味着两个不同点同时落在两条不同线. 若两点横坐标不同, 两式相减唯一确定斜率 $a=(y_1-y_2)/(x_1-x_2)$, 再唯一确定截距; 域中非零数可除. 若横坐标相同而纵坐标不同, 无同一条非竖直线经过二点. 因而两个不同点至多有一个共同邻线, 排除四圈. 代入顶点数得到边数.
+\end{proof}
+这是双计数上界的数量级证据, 没有宣称最优常数或每个 $n$ 都直接达到该式. 这里只用素数模运算, 不要求先构造一般素数幂有限域.
+\originalsection{习题与解答}
+\begin{exercise}\label{ex:ext1}
+证明任何 $n$ 点 $m$ 边简单图有一个至少 $m/2$ 条边的二部子图. 能否据此把无三角形等同于二部图?
+\end{exercise}
+\begin{exercise}\label{ex:ext2}
+对 $n\ge1$ 点无 $C_4$ 图直接计数两点的共同邻点, 导出平均度 $\bar d$ 的 $\bar d(\bar d-1)\le n-1$.
+\end{exercise}
+习题\ref{ex:ext1}的解答.
+\begin{solution}
+每点独立等概率分到两侧, 每条边跨侧概率 $1/2$, 故跨侧边数期望 $m/2$, 至少一分法不小于期望. 保留跨侧边就是二部子图. 原图本身未必二部: $C_5$ 无三角形但含奇圈, 不能二染色.
+\end{solution}
+习题\ref{ex:ext2}的解答.
+\begin{solution}
+任意两点至多一个共同邻点, 所以 $\sum_v\binom{d(v)}2\le\binom n2$. 利用 $\sum_vd(v)^2\ge n\bar d^2$, 左边至少 $n\bar d(\bar d-1)/2$, 得界 ($n>0$). 因而 $m\le n(1+\sqrt{4n-3})/4$, 比直接把一般 KST 式代入略精确.
+\end{solution}

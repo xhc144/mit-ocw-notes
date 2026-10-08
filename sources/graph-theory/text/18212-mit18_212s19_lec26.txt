@@ -1,0 +1,306 @@
+  
+ 
+ 
+18.212: Algebraic Combinatorics 
+Andrew Lin 
+Spring 2019 
+This class is being taught by Professor Postnikov. 
+April 12, 2019 
+Today, we’re going to start talking about the matrix tree theorem. Recall, that if we have a graph G = (V, E) with 
+no loops but potentially multiple edges, we deﬁne a spanning tree to be a subgraph T = (V, E0) (taking some subset 
+E0 ⊂ E) which is a tree on all |V | vertices. Let T (G) be the number of possible spanning trees: for example, there are 12 
+of this graph: 
+3 
+4 
+1 
+2 
+d 
+c 
+a 
+b 
+e 
+f 
+There are several matrices we can associate with a graph: let’s talk about some of them! For simplicity, let’s say we 
+have |E| = m edges, and let’s say the vertices are numbered from 1 to n. 
+Deﬁnition 1 
+The incidence matrix of a graph G is 
+C = (cie ), 
+which is an n × m matrix. cie = 1 if i is incident to e and 0 otherwise. 
+For example, the incidence matrix of the graph above can be (letting the columns correspond to edges a, b, c, d, e, f ) 
+0 
+1 
+1 1 0 0 0 0 
+1 0 1 1 1 0 
+B
+B
+@ 
+C
+C
+A 
+C = 
+0
+1
+1
+1
+0
+0 
+0
+0
+0
+0
+1
+1 
+Deﬁnition 2 
+The adjacency matrix of a graph G is 
+A = (aij ), 
+an n × n matrix, where aij is the number of edges connecting i to j. 
+1 
+
+
+Note that the diagonal entries are always 0, because we assume we have no loops. In the graph above, 
+0
+1
+1
+0 
+1
+0
+2
+0 
+1 
+0 
+B
+B
+@ 
+C
+C
+A 
+A = 
+. 
+1
+2
+0
+1 
+0
+1
+1
+0 
+The next deﬁnition is the one we really care about: 
+Deﬁnition 3 
+The Laplacian matrix of a graph G is an n × n matrix 
+L = D − A, 
+where D is a diagonal matrix with di = degG (i). 
+For example, in our matrix above, 
+1 
+0 
+L = 
+B
+B
+@ 
+2 
+−1 −1
+0 
+−1
+4 
+−2
+0 
+−1 −2
+4
+1 
+0 
+−1 −1
+2 
+C
+C
+A . 
+Notice that by deﬁnition, we have undirected graphs, so both the Laplacian and adjacency matrices are symmetric. 
+Fact 4 
+All row sums of L are 0, and this means that the determinant of L is 0. 
+This is because each edge counts once for the degree of any vertex, but also once negatively in the negative adjacency 
+matrix! 
+Now we’re ready to formulate the main result. 
+Theorem 5 (Matrix Tree Theorem) 
+Fix i ∈ [n], and deﬁne 
+˜L = Li = L with the ith row and column removed. 
+This is known as the reduced Laplacian matrix. Then the number of spanning trees of G is just the determinant 
+det L˜. 
+In particular, all of those determinants are the same! This is actually a general fact about matrices: 
+Fact 6 
+For any symmetric matrix n × n matrix B with row sums 0, the determinants of Bi and Bj are always equal. 
+These are called principal cofactors of our matrix B. Moreover, if our eigenvalues are µ1, · · · , µn−1, µn = 0 (we have 
+one zero because of the zero row sum), then this value is actually just 
+µ1 · · · µn−1 
+det(Bi ) = 
+. 
+n 
+This theorem is also called Kirchho˙’s theorem, and it is related to Kirchho˙’s laws of electricity (found in 1847). But the 
+matrix tree theorem (MTT) was ﬁrst proved by Borcherdt in 1860, and it’s closely related to the work of Sylvester in 
+1857. Let’s do some examples! 
+2 
+
+
+Example 7 
+Let’s take the graph G above. 
+Then the second cofactor (removing the second row and column) of the Laplacian matrix is 
+2 
+−1
+0 1 
+0 
+˜L = @ −1
+4 
+−1 A 
+0 
+−1
+2 
+which has determinant 16 − 2 − 2 = 12, as we expect! Basically, in general it’s best to remove a row and column with lots 
+of edges coming out of it: that’s why we prefer to remove vertex number 2 in the example above. 
+Fact 8 
+The eigenvalues of our adjacency matrix A(G) are called the spectrum of the graph G. Spectral graph theory 
+studies properties in terms of this spectrum! But don’t confuse the eigenvalues λi of the adjacency matrix with the 
+1 
+eigenvalues µi of the Laplacian matrix. There’s only one speciﬁc case where we can say something important: if G is 
+d-regular (so all degrees are the same), then L = dI − A, so the eigenvalues are all pretty simple: µi = d − λi . 
+By the way, we can get Cayley’s formula from the matrix tree theorem! Remember that if G = Kn, the complete graph 
+on n vertices, the Laplacian matrix has all degrees n − 1 and adjacency matrix all non-diagonal entries 1, so 
+0 
+L = 
+B
+B
+B
+B
+@ 
+n − 1 −1 · · · 
+−1 
+. 
+. 
+−1 
+. . 
+. . 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+−1 
+−1 · · · 
+n − 1 
+C
+C
+C
+C
+A 
+. 
+Now we just want the determinant of L˜, which just has n − 1 on the diagonal entries and −1 everywhere else. 
+Fact 9 
+Notice that L˜ − nIn−1 has all entries −1, so it has rank 1. Thus all eigenvalues of the matrix but one are equal to 0, 
+and the trace of the matrix is 1 − n, so the last eigenvalue is 1 − n. 
+So if L˜ − nIn−1 has eigenvalues 0, 0, · · · , 0, −n + 1, where there are n − 2 zeros, then L˜ has eigenvalues n, n, · · · , n, 1, 
+n−2 
+and thus the determinant is just the product of the eigenvalues, which is n 
+, as desired! 
+In general, the matrix tree theorem doesn’t tell us that there will be a nice formula, but we actually get a nice closed 
+form pretty often: here’s a related idea to that. Let’s say G is a graph on n vertices without multiple edges, and G+ is 
+obtained from G by adding an extra vertex 0 (thinking of this as a root). Assume that 0 is connected to all other vertices: 
+note that it’s possible, for example, that G+ is connected but G isn’t. 
+So now deﬁne a monomial for our graph G: 
+X 
+degT (0)−1 
+FG (x) = 
+x
+. 
+T spanning 
+tree of G+ 
+The number of spanning trees of G is exactly FG (0) , because plugging in x = 0 only keeps the trees T where 0 is a root, 
+n 
+and then there are n ways to attach 0: this is very similar to the Cayley formula proof! Now we can use the following 
+useful fact: 
+3 
+
+
+Theorem 10 (Reciprocity Theorem (Bedrosian, 1964)) 
+Let G be the complementary graph to G: we take (V, E), including an edge between two vertices in G if and only if it 
+is not included in G. Then 
+FG (x) = (−1)n−1F (−x − n). 
+G 
+This will be left as an exercise! One way is to express this polynomial in terms of the matrix tree theorem: we then just 
+need to show that two determinants are equal. There’s also a combinatorial proof. Well, let’s try to use this theorem! 
+First of all, we’ll prove Cayley’s formula again. 
+Proof. Let On be the empty graph on n vertices. It has no spanning trees (or even edges), but O+ now has an extra 
+n 
+vertex 0 connected to each of 1, 2, 3, · · · , n: this has exactly one spanning tree, so 
+FOn (x) = x n−1 . 
+By the reciprocity theorem, 
+FKn (x) = (−1)n−1(−x − n)n−1 = (x + n)n−1 
+and now plug in x = 0: our answer is 
+n−1 
+n 
+n−2 
+= n
+. 
+n 
+But we can do more! Let’s consider the disjoint union of two graphs Km ∪ Kn: this means we have m nodes in a clique, 
+all disconnected from another n nodes in a clique. But adding a new vertex 0 connects the two parts: how many trees do 
+we have here? We need to pick a tree of Km and a tree of Kn, which will be connected our vertex 0. Then 0 gets the 
+factor of −1 twice, so we just correct for it: 
+FKm ∪Kn (x) = FKm (x) · FKn (x) · x 2−1 = x(x + m)m−1(x + n)n−1 . 
+The complement of this graph is the complete bipartite graph Km,n, and we have a graph on m + n vertices where there 
+are m vertices on the left and n vertices on the right: there are only mn edges between the vertices on the left and right 
+and nothing else. 
+Now by the reciprocity theorem, we have to replace x with −x − m − n, so if we do math 
+(x) = (x + n)m−1(x + m)n−1(x + m + n). 
+FKm,n 
+Calculating the constant term and dividing by the number of vertices, we get the following: 
+Corollary 11 
+The number of spanning trees of the complete bipartite graph Km,n is 
+n−1 m−1 
+m
+n 
+. 
+As an exercise, try to prove this combinatorially! 
+4 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+MIT OpenCourseWare 
+https://ocw.mit.edu 
+18.212 Algebraic Combinatorics 
+Spring 2019 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

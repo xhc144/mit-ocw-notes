@@ -1,0 +1,187 @@
+  
+ 
+ 
+18.212: Algebraic Combinatorics 
+Andrew Lin 
+Spring 2019 
+This class is being taught by Professor Postnikov. 
+April 24, 2019 
+Recall from last class that we thought about the weighted matrix tree theorem: we have variables xij for 1 ≤ i, j ≤ n, 
+where xii = 0 (since we have no loops). Then we deﬁned the Laplacian matrix
+8P
+< 
+(Lout)ij 
+k6=i xik 
+i = j 
+= :−xij 
+i =6 
+j. 
+We could then formulate a general statement: 
+Theorem 1 
+The cofactor (Lout)rr is the sum over all spanning in-trees 
+X 
+weight(T ), 
+T in-tree 
+rooted at r 
+where the weight of a tree is the product of its edges. 
+We will always have nn−2 terms on the right hand side, because we can take any undirected tree on n vertices and then 
+direct everything towards the root! Then take the product of all xij , where there is an edge in our tree from i to j. 
+Let’s show an interesting method for the proof. 
+Proof. Without loss of generality, let r = n. By deﬁnition, the cofactor (Lout)nn is just a sum over permutations 
+n−1 
+X
+Y 
+(Lout)iwi 
+(−1) `(w) 
+. 
+w ∈Sn−1 
+i=1 
+where `(w ) is the sign of the permutation w . Permutations break into cycles, so we can instead write this as a product 
+over the individual cycles: 
+0
+1 0
+1 
+X 
+B
+Y
+C 
+Y
+X 
+± B 
+xij A
+C · @ 
+xf j A . 
+@ 
+subdivision of [n] 
+i→j edge of 
+f ﬁxed point j6=f 
+into disjoint cycles 
+some Cj 
+C1∪C2 ···Cm ∪{ﬁxed points} 
+Basically, this just writes our terms out in terms of the xij s by the deﬁnition of the Laplacian matrix! 
+Question 2. What do we know about the ±? 
+1 
+
+
+Claim 2.1. For a permutation σ with a single cycle of size c, 
+(−1) `(σ) = (−1)c−1 . 
+For example, we get a −1 from a transposition, 1 from a 3-cycle, and so on. But we also get an additional contribution 
+of (−1)c , because our Laplacian matrix has entries equal to −xij ! This means that every cycle contributes a −1, and 
+therefore we get a (−1)m at the front if we have m cycles. 
+How do we write this down combinatorially? Every cycle looks like some union of ﬁxed points and cycles on the numbers 
+P 
+1 through n − 1: let’s say the cycles are colored in red. To represent the 
+xf j term, we pick an arbitrary green edge out 
+from a ﬁxed point into other vertices, potentially including n. So then we are summing over directed graphs H on the 
+vertices {1, 2, · · · , n} with n − 1 edges colored in red or green with the following conditions: 
+• For all vertices i = 1, · · · , n − 1, the outdegree is 1. 
+• The red edges form a disjoint union of cycles. 
+This means we can rewrite the sum as 
+X
+Y 
+(−1)number of red cycles 
+xij 
+graphs H
+i→j edge 
+This looks a lot like what we want in the theorem. In-trees rooted at n exactly correspond to digraphs without cycles with 
+n − 1 edges, such that the outdegree of every non-root vertex is 1! Now the in-trees have zero red cycles, and basically 
+our goal is for the sum of all the other terms! So our goal is to show a weight-preserving, sign-reversing involution ω on 
+graphs H with at least one cycle. 
+That’s not hard to create: ﬁrst of all, ﬁx a total ordering of edges i → j. (We can just do this lexicographically.) Thus, 
+we can also order all possible cycles lexicographically. Now ﬁnd the ﬁrst cycle in H and switch its color between green and 
+red! 
+So our resulting graph has the same edges but a di˙erent parity of the number of red cycles, so those terms always 
+cancel out. Thus our sum only leaves the contributions from in-trees, and we’re done! 
+Remember that we did this with the Euler’s pentagonal number theorem as well, and we’ll see it later on as well. This is 
+called the involution principle. 
+Our next topic is about electrical networks, and this is related to the matrix tree theorem! Let’s start by something we 
+may have learned in physics class. 
+Given a graph G, think of edges as resistors - that’s the only circuit element that we’ll use today. Select two vertices A 
+and B to be connected to some source of electricity. 
+Some current will then be generated through the edges: our goal is to ﬁnd the voltages, currents, and so on. 
+To talk about this rigorously, we’ll ﬁx the orientation of edges. (The current is just negated if we ﬂip the orientation, so 
+the actual direction isn’t particularly important.) Then for any edge e from vertices u to v, we have three numbers: 
+• A current Ie through the edge 
+• A potential di˙erence or voltage Ve across the edge 
+• A resistance Re which is a positive real number. 
+If we were physicists, we would mention units, but because this is mathematics, we don’t need them. 
+Theorem 3 (First Kirchho˙’s law) 
+2 
+
+
+The sum of the in-currents of any vertex is the same as the sum of the out-currents. In other words, for any vertex v, 
+X
+X 
+Ie = 
+Ie0 . 
+e:u→v
+e0v→w 
+The ﬁrst Kirchho˙’s law can be thought of as a “conservation of charge” statement. 
+Theorem 4 (Second Kirchho˙’s law) 
+For any cycle C in our graph with edges e1, · · · , em, the sum of the voltages is 0 if we direct all the signs. Speciﬁcally, 
+m
+X 
+±Vei = 0 
+i=1 
+where we ﬁx the orientation of our cycle, and we have a − exactly when an edge disagrees with the orientation of the 
+cycle. 
+Fact 5 
+The second law is equivalent to the existence of a potential function 
+U : {vertices} → R 
+such that for any edge e : u → v, Ve = U(v ) − U(u). 
+Speciﬁcally, this means we can “ground” one vertex at voltage 0, and then we can iteratively ﬁgure out the voltages of 
+the whole graph by following edges arbitrarily. The second law then tells us that there aren’t any contradictions, since two 
+paths will always have the same voltage! 
+Theorem 6 (Ohm’s law) 
+For any edge e, 
+Ve = Ie Re . 
+This is really a statement that deﬁnes resistance, so it doesn’t really warrant a proof: it explains the setup of why we 
+have resistances, currents, and voltages. 
+A typical problem is of the form “given all resistances, ﬁnd all the currents and voltages.” Basically, we can write a 
+bunch of linear equations, and we can use those to calculate the answer. It turns out we can represent this as a Kirchho˙ 
+matrix: it’s actually the same thing as the Laplacian matrix! Our weights will basically look like the conductances, which 
+are inversely proportional to the resistances. 
+3 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+MIT OpenCourseWare 
+https://ocw.mit.edu 
+18.212 Algebraic Combinatorics 
+Spring 2019 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

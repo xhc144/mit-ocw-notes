@@ -1,0 +1,94 @@
+18.433 Combinatorial Optimization
+Minimum Cuts
+
+October 2 Lecturer: Santosh Vempala
+Finding minimum cuts in graphs is an interesting problem and has many applications in
+some areas such as network design. This problem has two variants: (1) finding a minimum
+set of edges whose removal disconnects a particular vertex s from a particular vertex t
+(we call this version the minimum s-t cut problem), (2) finding a minimum set of edges
+whose removal disconnects the graph (we call this version the minimum cut problem). Both
+versions apply to directed or undirected graphs.
+The minimum s-t cut problem for directed graphs can be solved by using the Max flow-Min
+cut theorem which says the maximum flow in the graph is equal to the minimum cut in
+the graph. In fact, a minimum cut (5,3) can be obtained by choosing those vertices of G
+to which there exist directed paths from s in the residual graph as $ and the rest of the
+vertices as S. We can also solve the minimum s-t cut problem in undirected graphs using
+the algorithm for directed ones (the solution is left as an exercise).
+One naive way to solve the minimum cut problem is to choose every pair of vertices as s and
+t and then use the algorithm for the minimum s-t cut problem. The running time of this
+algorithm is (5) times of that of the maximum flow algorithm. We can reduce the factor
+(5) to n —1 by considering the fact that each minimum cut separates a fixed vertex s from
+at least one other vertex ¢ (we have n — 1 ways to choose t).
+Below, we give a randomized approach for finding a minimum cut in undirected graphs. We
+also analyze the running time of the algorithm carefully.
+Randomized minimum cut algorithm
+
+1. While there exist more than two vertices in the graph
+
+(a) Pick an edge e at random.
+(b) Contract ¢ to a single vertex to get a multigraph (we keep multiple edges).
+
+2. Report the edges between the two remaining super-vertices as a minimum cut.
+One can observe that the running time of contracting an edge is in O(n) and the number
+of iterations of the main loop is n — 2. Thus the overall running time is in O(n”). Later in
+
+1
+
+
+this lecture, we use some tricks to reduce the running time from O(n) time to O(m) time
+(m is the number of edges).
+We now compute the chance of reporting a minimum cut. One can see that the number of
+cuts in a graph is exponential (2") and thus the chance of getting a minimum cut from a
+random process might be very low, i.e. 4. However, we show in Lemma 1 that this chance
+in not small in our case.
+Lemma 1. Any particular minimum cut will be the output of the algorithm with probability
+at least wD aS.
+Proof. Suppose a minimum cut C = ($,5) has c edges. Thus the degree of each vertex in
+the graph is at least c and the number of edges is at least ¢. If the algorithm does not
+pick any edge from C;, then our final cut will be C.
+, ec _2
+Prob(picking an edge from C) < ==
+ca
+and thus >
+Prob(not picking any edge from C) >1—=
+n
+Using the same reasoning, we can observe that the chance of not picking any edge from C
+after contracting the first edge is 1 - 2; and so on. Therefore
+2 2 21
+Prob( finding cut C) > (L= 7) -(L= S) (= 3) = ion
+o
+Thus the chance of succeed in our randomized algorithm is at least zy. We can improve
+our chance by iterating this algorithm more than one time and choosing the best cut as our
+final result. We have
+Prob(succeed in k attempts) = 1—Prob(fail in all attempts)
+= 1 = Prob(F\)Prob(P,) ++» Prob( Fx)
+= 1-Prob(F,)*
+1
+= 1-(-7)"
+()
+For example, after k = (3) iterations of the algorithm, we have at least 1 — chance and
+by k = 2(3) Inn iterations, we have at least 1 — Jy chance of success.
+2
+
+
+It is worth mentioning that using Lemma 1, we can obtain the upper bound (5) for the
+maximum number of minimum cuts in a graph. In fact, each minimum cut can be obtained
+uniquely by the above algorithm with probability at least o and thus the number of
+minimum cuts can not be more that the aforementioned upper bound.
+
+As stated earlier, the running time of the algorithm is O(n”). We now improve the running
+time to O(m). Suppose we pick a random permutation ¢1,¢2,-++ em of all edges and
+contract each edge in this order that we can until we have two vertices left in the graph. We
+can observe that this algorithm has the same output as our first algorithm. Now, consider
+this binary search approach: first contract edges e1,€2,+-- ,erg] in O(m). If the number
+of vertices after contracting is two, then we report the edges between these vertices as
+a minimum cut, if the number is one we recurse on the first half of edges, otherwise we
+continue the algorithm for the second half of edges. The running time of this algorithm
+is in O(mlogm). However still there is some room for improvement. If the number of
+remaining vertices is more than two, the new obtained graph G’ has at most [4] edges
+(we contracted the first half of edges before) and if the mumber of remaining vertices is 1
+then we can discard the second half of edges. In both cases, we have at most 4 edges left.
+‘Thus, the second iteration takes time proportional to m/2. Similarly, the third iteration
+takes time propotional to m/4 and so on. Thus the overall running time is in O(m).
+
+3

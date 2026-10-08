@@ -1,0 +1,294 @@
+  
+ 
+ 
+>
+>
+>
+>
+18.212: Algebraic Combinatorics 
+Andrew Lin 
+Spring 2019 
+This class is being taught by Professor Postnikov. 
+April 26, 2019 
+Today we will continue with high school physics! Just to recap, let G be a connected digraph - directions don’t actually 
+matter, but they are used for convenience, and we select two vertices A and B to be connected to a battery. Then we 
+have some current I through the battery, and our goal is to ﬁnd all the relevant currents and voltages Ie , Ve given the 
+resistances Re for each edge. Alternatively, how can we ﬁnd the resistance of the whole electrical network RAB ? 
+First of all, remember that we have three laws that govern electricity. Let’s try to write them out as matrix laws! 
+• Kirchho˙’s second law says that we can deﬁne a potential function U on the vertices of our graph such that 
+Ve = Uv − Uu 
+for any edge e : u → v . 
+• Ohm’s law gives us a proportionality relationship: 
+Ie = Ve 
+Re 
+= Uv − Uu . 
+Re 
+• For any vertex v , the in-current is equal to the out-current. For example, if e1 : v1 → v and e2 : v2 → v lead into v, 
+and e3, e4, e5 lead out of v (from v to v3, v4, v5 respectively), we can write that as 
+Uv − Uv1 
+Uv − Uv2 
+Uv3 − Uv 
+Uv4 − Uv 
+Uv5 − Uv 
++
+=
++
++ 
+. 
+R1 
+R2 
+R3 
+R4 
+R5 
+For this last bullet point, let’s instead move all terms to the left hand side: now we get the nice symmetric form 
+X 
+Uv − Uvi = 0. 
+Ri 
+i neighbor 
+This isn’t quite true always, though: we get some additional current if we’re at A or B. We can instead write this as 
+8 
+0 
+v =6 
+A, B 
+
+ 
+d 
+> 
+< 
+X 
+1
+1 
+1 
++ · · · + 
+Uv − 
+Uvi = 
+−I
+v = A 
+R1 
+Rd 
+Ri 
+i=1 
+>
+:I
+v = B 
+Now let’s label our vertices with the integers from 1 to n, such that A = 1 is the ﬁrst one and B = n is the last one. 
+1 
+Denote Rij to be the resistance of edge (i, j), and since we have reciprocals in our equation, deﬁne Cij to be Rij if (i, j) is 
+an edge of our graph and 0 otherwise. (Think of this as non-edges having inﬁnite resistance!) 
+1 
+
+
+Deﬁnition 1 
+The Kirchho˙ matrix K is an n × n matrix whose entries are equal to 
+8
+< P 
+` 
+i = j 
+`6=i ci 
+Kij = : −cij 
+i 6= j 
+3 
+2 
+64 
+U1 
+. . . 
+UN 
+75 
+Now we can write all three electrical laws in terms of this matrix! Speciﬁcally, if 
+is the vector of potentials, 
+u~ = 
+we have 
+3 
+2 
+666664 
+−I 
+0 
+. . . 
+0 
+I 
+777775 
+(1) 
+KU = 
+. 
+3 
+Notice that the Kirchho˙ matrix is really just the Laplacian matrix for graphs whose edge-weights are conductances! 
+2 
+Note that this system has many solutions, since all rows of our Kirchho˙ matrix add to 0. But that makes sense: our 
+3 
+potential functions can be shifted up and down by a constant! This is because K, our Laplacian or Kirchho˙ matrix, has 
+rank
+if
+is connected
+this
+that
+have
+least
+spanning
+by the matrix
+theorem, 
+all 
+− 1 
+G 
+at
+tree
+tree
+-
+means
+we 
+one
+so 
+n 
+2 
+cofactors have to be nonzero. 
+Fact 2 
+In general, the rank of the matrix is n minus the number of connected components of our graph. 
+In particular, can we use this to calculate the resistance between A and B 
+Un − U1 
+RAB(G) = 
+? 
+I 
+Let’s try to calculate this more explicitly. Note that we can simultaneously rescale the U vector and I in our equation 
+(1) above without changing K: let’s assume I = 1, and then we can also assume by adding our constant that U1 = 0 (by 
+grounding the ﬁrst vertex). Then the resistance of the whole circuit is just Un. (1) then becomes 
+U2 
+0 
+K(1) 64 
+75 = 64 75 . 
+. . 
+. . 
+. 
+. 
+3 
+2 
+Un 
+1 
+where K(1) denotes the (n − 1) × (n − 1) matrix obtained by removing the ﬁrst row and column of K. 
+This is a matrix equation, and we should use Cramer’s rule (despite professor Strang in 18.06 saying to never do so)! 
+Since our goal is to calculate Un, 
+K˜(1) 
+det 
+RAB(G) = Un = 
+, 
+det K(1) 
+0 
+where K˜(1) is obtained by replacing the last column with the vector 64 . . . 
+1 
+75 . Notice that expanding this determinant along 
+the last column is actually just going to give us the determinant of the upper left (n − 2) × (n − 2) square of K(1)! Denote 
+this as K(1,n), where we remove the ﬁrst and last rows and columns of our matrix. 
+The bottom line is that we get the following: 
+2 
+
+
+Theorem 3 
+The overall resistance of our graph G 
+P 
+weight(T˜) 
+T˜ spanning 
+det K(1,n)
+˜ 
+tree of G 
+RAB (G) = 
+= P 
+, 
+det K(1) 
+T spanning weight(T ) 
+tree of G 
+where the weight of a tree is the product of the conductances 
+Y 
+1 
+weight(T ) = 
+, 
+Re 
+e edge of T 
+and G˜ is obtained by gluing edges A and B together (or by connecting the two with an edge of inﬁnite conductance). 
+Equivalently, we can think of the numerator a little di˙erently: a spanning tree T˜ of G˜ is a forest of two components, 
+such that A and B are in di˙erent components, so that the two are joined together when A and B are glued together. 
+Let’s do an example! 
+Example 4 
+Consider a graph with three vertices A, B, C, where the resistances are R1 between A and C, R2 between B and C, 
+and R3 between A and B. 
+Then our theorem says that the total resistance between A and B is governed by spanning trees! G˜ makes A and B the 
+same edge, so it only contains the edges R1 and R2: either of those is a spanning tree, so 
+(R1)−1 + (R2)−1 
+RAB(G) = 
+. 
+(R1R2)−1 + (R1R3)−1 + (R2R3)−1 
+We could have also done this by using series and parallel connections: 
+Proposition 5 (Series connection) 
+If we have two graphs G1 and G2, only connected by one vertex C, and A ∈ G1, B ∈ G2, then 
+RAB = RAC + RBC ; 
+this can be also stated as R(G1 + G2) = R(G1) + R(G2). 
+Proposition 6 (Parallel connection) 
+If we have two graphs G1 and G2 that are disjoint but share two vertices A and B, then 
+R(G1 k G2)−1 = R(G1)−1 + R(G2)−1 . 
+Using these two processes, we can generate many graphs, but not all of them! 
+Fact 7 
+The smallest graph that doesn’t work is the Wheatstone bridge: this is a 4-cycle with one diagonal. Then ﬁnding 
+the resistance between the two other vertices can’t be directly found by series and parallel connections. 
+That’s an example where the general formula helps! By the way, we can easily deduce the series and parallel laws from 
+the electrical network theorem, but we might come back to that later. 
+3 
+
+
+Now let’s look at something a bit di˙erent: this time, if we’re trying to work with our graph from A to B, rescale the 
+currents and potentials so that UA = 0, UB = 1: all other vertices have potentials between 0 and 1. Can we phrase this as 
+a probability?! 
+Proposition 8 
+Consider a random walk on the vertices of G, where the probability of us jumping from u to v is 
+1 
+Pr(u, v ) = P Ruv 
+, 
+1 
+w6=u Ruw 
+where the denominator is a normalizing factor. Then the probability that a random walk starting at vertex v hits B 
+before it hits A is Uv . 
+This should look a lot like the drunk man problem from the ﬁrst class! We can think of A as the point x = 0, B as the 
+house at x = N, and then U is the probability that the man survives. 
+Proof. Let PV be the probability of survival: writing out the linear equations for the random walk gives you the same 
+equations as Kirchho˙’s law! 
+We’ll continue with the best theorem next time. 
+4 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+MIT OpenCourseWare 
+https://ocw.mit.edu 
+18.212 Algebraic Combinatorics 
+Spring 2019 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

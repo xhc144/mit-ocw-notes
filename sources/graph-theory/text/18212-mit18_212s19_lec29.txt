@@ -1,0 +1,221 @@
+  
+ 
+ 
+18.212: Algebraic Combinatorics 
+Andrew Lin 
+Spring 2019 
+This class is being taught by Professor Postnikov. 
+April 22, 2019 
+Last time, we mentioned the directed version of the matrix tree theorem. We’re going to prove this theorem today! As a 
+reminder, here’s the statement: given a directed graph G on n vertices (with no loops), A = (aij ) is the adjacency matrix 
+which tracks the number of edges from i to j. (This is a matrix with nonnegative integer entries, particularly zero on the 
+diagonal.) 
+We also have two diagonal matrices Din and Dout: the former is the diagonal matrix with entries equal to indegrees of 
+the vertices, and the latter is the diagonal matrix with entries equal to outdegrees. 
+Then we have two Laplacian matrices: 
+Lin 
+= Dout − A. 
+= Din − A, Lout 
+We also deﬁned the cofactors of a matrix L 
+Lij = (−1)i+j det(L without the ith row and jth column). 
+Theorem 1 (Directed matrix tree theorem) 
+Fixing a root r, the number of in-trees rooted at r (that is, all edges point toward the root) is (Lout)rk , where k is 
+an arbitrary vertex. 
+Meanwhile, the number of out-trees rooted at r (all edges growing out of the root) is (Lin)kr , where k is an 
+arbitrary index. 
+By the way, this implies the undirected version, since in-degree and out-degrees are equal, and Lin = Lout becomes the 
+usual Laplacian matrix. Also, these two statements are obtained by reversing all directions of a graph, so we just need to 
+prove one of them! 
+Example 2 
+Consider the graph 
+1 
+
+
+1 
+2 
+3 
+1 to 3, 2 edges 1 to 2, 2 to 3, 3 to 2. 
+Its adjacency matrix is 
+0
+1 
+0
+2
+1 
+A = @0
+0
+1A , 
+0
+1
+0 
+and we have the Laplacian matrices 
+0 
+1
+0 
+1 
+3 −2 −1
+0 −2 −1 
+Lout = @0
+1 
+−1A , Lin = @0
+3 
+−1A . 
+0 −1
+1 
+0
+01
+2 
+Since 
+
+ 
+−1 
+(Lout)1,1 
+1 
+= det 
+= 0, 
+−1
+1 
+there are no intrees rooted at 1 (which makes sense because no edges are entering 1 anyway). Similarly , 
+
+ 
+(Lout)2,1 
+−2 −1 
+= − det 
+= 3, 
+−1
+1 
+and indeed there are 3 in-trees rooted at 2 here. Finally, 
+
+ 
+−1 
+(Lin)2,1 
+−2 
+= − det 
+= 5 : 
+−1
+2 
+indeed there are 5 out-trees with root 1. 
+Let’s prove this more general version: it turns out this is easier, just like in the Cayley formula proof! Again, this is 
+doable because our induction hypothesis is stronger. 
+Proof. We’ll do induction on the number of edges from i → j of G, where i is not the root r of our graph. In other words, 
+this is the number of edges that don’t come from the root! 
+Denote Inr (G) to be the number of in-trees of G rooted at r. Our goal is to show that this is the cofactor (Lout)rk . 
+Our base case is where G is the graph where there are no edges out of non-root vertices: then there are no in-trees, 
+since nothing goes into r anyway. Then Lout has all nonzero entries except for possibly the row corresponding to r: any 
+cofactor (Lout)rk is zero, because it must remove the rth row. 
+So now for the induction step: pick any edge e from i to j, where i is not the root. We construct two other graphs: G1 
+is the graph G with edge e removed, and G2 is G with all edges e0 from i to j0 except e (this is all edges with the same 
+source as e). 
+Fact 3 
+We can deﬁne in-trees rooted at r to be all trees T such that the outdegree of any vertex is 1 (except the root, whose 
+outdegree is 0). 
+To use the inductive step, note that 
+Inr (G) = Inr (G1) + Inr (G2), 
+because vertex i has to use either edge e or one of the other ones through vertex i. 
+2 
+
+
+Fact 4 
+By the way, if there’s only one edge from vertex i, we can just contract it, and the proof continues to work! 
+Now by induction, if we look at the Laplacian matrices, the ith row of Lout(G) has some entries (a1, · · · , an). Lout looks 
+almost identical, except that one edge is removed: in particular, this means in row i, we decrease ai by one and increase 
+aj by one. On the other hand, Lout(G2) also looks identical to Lout(G) except in row i: then we have all 0s, except a 1 in 
+the ith column and a −1 in the jth column. 
+In particular, the sum of the ith rows of Lout(G1) and Lout(G2) add up to the ith row of Lout(G). By linearity of 
+determinants, this just means that whenever we don’t remove the ith row, 
+(Lout(G))rk = (Lout(G1))rk + (Lout(G2))rk , 
+and we’re done by induction, since the right hand side counts the number of in-trees for graph G1 and G2 separately! 
+But often it’s better to do a combinatorial proof: for example, why do we need to use Lout for in-trees and vice 
+versa? Let’s see another proof based on the involution principle (which we used for Euler’s pentagonal number theorem)! 
+Remember that last time we did this, we tried to construct Young diagrams for partitions. 
+Slightly less general proof. Assign a weight xij to each i → j: now the adjacency matrix just has entries xij , where xii = 0. 
+Think of xij as multiplicity of the directed edges from i to j. Since the diagonal entry (Dout)ii is supposed to count the 
+outdegree, we deﬁne it to be 
+X 
+xij . 
+j6=i 
+Our goal is to show that the cofactors for Lout do count the number of in-trees! We’re going to prove the directed matrix 
+tree theorem for k = r only: this will make things a bit simpler. Now our goal is to show that 
+X 
+(Lout)rr = 
+weight(T ). 
+in-trees rooted at r 
+For simplicity, let’s look at n = 3, r = 3: then our Laplacian martix is 
+0
+1 
+x12 + x13 
+−x12 
+−x13 
+@
+A 
+−x21 
+x21 + x23 
+−x23 
+. 
+−x31 
+−x32 
+x31 + x32 
+Then removing the last row and last column yields a cofactor of 
+(x12 + x13)(x21 + x23) − x12x21 = x12x23 + x13x21 + x13x23, 
+which is basically all paths we can take to make an in-tree rooted at vertex 3. We claim this works in general! We’ll do 
+this next time, but here’s the main point: open up the determinant as a sum over all permutations, and we’ll get collection 
+of monomials that correspond to graphs. We can then construct a sign-reversing involution which preserves weights but 
+changes + signs to − signs, so the only remaining terms are those coming from trees. 
+Also, as a problem in the next problem set: we can use the directed matrix tree theorem to prove lots of identities. In 
+particular, 
+Proposition 5 (Abel’s Identity) 
+We have (for any z) 
+n   
+X 
+n 
+(x + y )n = 
+y(y + kz)k−1(x − kz)n−k . 
+k 
+k=0 
+3 
+
+
+When z = 0, this is just the binomial theorem. 
+4 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+MIT OpenCourseWare 
+https://ocw.mit.edu 
+18.212 Algebraic Combinatorics 
+Spring 2019 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

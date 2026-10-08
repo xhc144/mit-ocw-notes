@@ -1,0 +1,149 @@
+\originalchapter{Ramsey、概率方法与偏序}\label{ch:ramsey}
+\sourceof{18.315 L3、L22--25、L27 的指定图论主题; 概率证明与偏序算法衔接补全}
+\originalsection{Ramsey 数}
+\begin{definition}
+$R(s,t)$ 为使每张 $n$ 点简单图都有 $s$ 点团或 $t$ 点独立集的最小整数 $n$. 等价地, 给 $K_n$ 每边染红或蓝, 必出现红 $K_s$ 或蓝 $K_t$. 边染色在这里不要求相邻边异色, 与第\ref{ch:edgecolor}章的正常边染色不同.
+\end{definition}
+\begin{theorem}\label{thm:ramseyrec}
+对 $s,t\ge2$, $R(s,t)\le R(s-1,t)+R(s,t-1)$, 因而 $R(s,t)\le\binom{s+t-2}{s-1}$. 边界 $R(1,t)=R(s,1)=1$.
+\end{theorem}
+\begin{proof}
+取 $n=R(s-1,t)+R(s,t-1)$ 并固定点 $v$. 其邻点和非邻点共有 $n-1$ 点, 故邻点至少 $R(s-1,t)$ 或非邻点至少 $R(s,t-1)$, 否则两者和至多 $n-2$. 前一情况在邻点中得到独立 $t$ 集或 $s-1$ 团; 后者加 $v$ 成 $s$ 团. 后一情况得到 $s$ 团或独立 $t-1$ 集; 后者加 $v$ 成独立 $t$ 集. 二项式界由 Pascal 恒等式与边界归纳得到, 同时证明数值有限存在.
+\end{proof}
+\begin{example}
+证明 $R(3,3)=6$.
+\end{example}
+\begin{solution}
+在6点图中, 固定点的5个其他点中至少3个与它邻接, 或至少3个与它不邻接. 前3点若有边, 与固定点成三角形; 无边则为独立3集. 后3点若不全邻接, 一对非邻点与固定点成独立3集; 全邻接则成三角形. 所以6给上界. $C_5$ 及其补图均为五圈, 无三角形, 故 $C_5$ 无3点团或3点独立集, 给下界6.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+\foreach \i in {1,...,5}{\node[vertex](v\i) at({90+72*(\i-1)}:1.25){$\i$};}
+\foreach \i/\j in {1/2,2/3,3/4,4/5,5/1}{\draw[edge](v\i)--(v\j);}
+\end{tikzpicture}
+\end{center}
+\originalsection{随机构造 Ramsey 下界}
+\begin{theorem}\label{thm:ramseylower}
+对整数 $k\ge3$, 有 $R(k,k)>\lfloor2^{k/2}\rfloor$.
+\end{theorem}
+\begin{proof}
+令 $n=\lfloor2^{k/2}\rfloor$, 每条完全图边独立等概率染红或蓝. 一个指定 $k$ 点集为单色的概率是 $2\cdot2^{-\binom k2}$. 单色 $k$ 集总数 $X$ 的期望
+\[
+\E X=2\binom nk2^{-\binom k2}\le\frac{2^{1+k/2}}{k!}<1.
+\]
+最后不等式在 $k=3$ 时成立, 此后右边随 $k$ 增大乘 $\sqrt2/(k+1)<1$. 非负整数随机量期望小于1, 必有一次取值为0, 得无单色 $k$ 团的染色. 若 $n<k$, 也直接无 $k$ 集.
+\end{proof}
+概率证明给存在性, 未必给高效确定构造. 这里先数坏对象而不是计算“所有对象都好”的概率, 因期望可逐项相加, 不要求各坏对象独立.
+\originalsection{随机次序的独立集界}
+\begin{theorem}[Caro--Wei]\label{thm:carowei}
+任意非空简单图满足 $\alpha(G)\ge\sum_v1/(d(v)+1)\ge n/(\bar d+1)$, 其中 $\bar d=2m/n$.
+\end{theorem}
+\begin{proof}
+均匀随机排列顶点, 取在其闭邻点集 $\{v\}\cup N(v)$ 中最早出现的点. 两个相邻点不可能同时入选, 因各自都要求先于对方, 所选集独立. 点 $v$ 入选概率为 $1/(d(v)+1)$, 期望大小为所述求和, 某一次至少达到期望. 对正数应用 Cauchy--Schwarz, $\sum1/(d(v)+1)\ge n^2/\sum(d(v)+1)=n/(\bar d+1)$.
+\end{proof}
+这一界与最大度贪心的 $n/(\Delta+1)$ 不同, 它能利用度数分布. 对孤立点贡献恰为1, 符合每个最大独立集可以包含它的事实.
+\originalsection{大围长与大染色数}
+围长为最短圈长度, 森林的围长记为无限. 奇圈阻止二染色, 但去掉所有短圈也不能统一限制染色数.
+\begin{theorem}[Erdős 存在性]\label{thm:highgirth}
+对任意整数 $g\ge3,r\ge1$, 存在有限简单图围长大于 $g$, 染色数大于 $r$.
+\end{theorem}
+\begin{proof}
+取很大的 $n$, 在 $n$ 点上各边独立以 $p=n^{-1+1/(2g)}$ 出现. 令 $X$ 为长度3到 $g$ 的圈数. 长 $\ell$ 圈候选至多 $n^\ell/(2\ell)$, 所以
+\[
+\E X\le\sum_{\ell=3}^g\frac{n^\ell p^\ell}{2\ell}=O_g(n^{1/2}).
+\]
+Markov 不等式给 $\Prob(X\ge n/4)=O_g(n^{-1/2})\to0$.
+
+令 $t=\lceil n/(2r)\rceil$, 任一指定 $t$ 集独立的概率为 $(1-p)^{\binom t2}\le\exp(-p\binom t2)$. 存在独立 $t$ 集的概率由联合界至多 $2^n\exp(-p\binom t2)$, 趋于0, 因指数中负项数量级为 $n^{1+1/(2g)}$, 超过正项 $n\log2$. 所以足够大 $n$ 时可同时有 $X<n/4$ 且 $\alpha<t$.
+
+在这张图中, 对每个短圈挑一个顶点删除, 共删少于 $n/4$ 点. 新图不出现新圈, 原短圈均被打破, 围长大于 $g$, 保留 $N>3n/4$ 点且独立数至多 $t-1<n/(2r)$. 任何染色的每类都是独立集, 故 $\chi\ge N/\alpha>3r/2>r$.
+\end{proof}
+删去坏对象的少量支撑而保留全局性质, 称为修改法. 这里删点保持独立数上界; 若只删边, 可能增加独立集, 不能直接沿用结论.
+\originalsection{局部引理与超图二染色}
+超图的每条边可包含多个顶点. 正常顶点二染色要求每条超边都有两种颜色, 并不要求超边内部两两异色.
+\begin{theorem}[对称局部引理]\label{thm:lll}
+设坏事件 $A_1,\ldots,A_N$ 各概率至多 $p$. 有依赖图最大度 $D$, 使每个事件与所有非邻事件共同生成的事件族独立. 若某个 $x\in(0,1)$ 满足 $p\le x(1-x)^D$, 则 $\Prob(\bigcap_i\overline A_i)>0$. 特别地, $D\ge1$ 且 $ep(D+1)\le1$ 时成立.
+\end{theorem}
+\begin{proof}
+归纳证明对不含 $i$ 的任意指标集 $S$, 条件概率 $\Prob(A_i\mid\bigcap_{j\in S}\overline A_j)\le x$, 且所用条件事件有正概率. $S$ 为空时由 $p\le x$ 成立. 假设较小集合结论成立, 先按条件概率连乘, 避开 $S$ 的概率至少 $(1-x)^{|S|}>0$.
+
+把 $S$ 分为 $i$ 的邻事件指标 $R$ 与非邻指标 $Q$. 在已避开 $Q$ 的条件下, 分子 $\Prob(A_i\cap\bigcap_{j\in R}\overline A_j\mid\bigcap_{j\in Q}\overline A_j)$ 至多 $\Prob(A_i)=p$, 用了联合独立性. 分母为避开 $R$ 的条件概率; 依次加入 $R$ 指标, 每一步所条件的指标数小于 $|S|$, 由归纳至少 $1-x$. 所以所求概率至多 $p/(1-x)^{|R|}\le p/(1-x)^D\le x$. 全部事件按次序避开, 总概率至少 $(1-x)^N>0$.
+
+最后取 $x=1/(D+1)$. 因 $(D/(D+1))^D\ge e^{-1}$, 有 $x(1-x)^D\ge1/(e(D+1))$. $D=0$ 时事件联合独立, $p<1$ 即保证全部避开概率正.
+\end{proof}
+\begin{corollary}\label{cor:hypergraph}
+有限 $k$ 均匀超图中, 若每条超边至多与 $D$ 条其他超边相交, 且 $e(D+1)\le2^{k-1}$, 则存在正常顶点二染色.
+\end{corollary}
+\begin{proof}
+每点独立等概率染两色, 每条边单色概率 $2^{1-k}$. 不相交超边的坏事件依赖于互不相交的独立顶点变量, 满足所需联合独立性. 应用局部引理, 可避开全部单色超边. 若 $D=0$, 用独立情形即可.
+\end{proof}
+只说每两事件独立不够; 局部引理需要事件与整组非邻事件的联合独立. 模型中底层独立变量及其相交关系明确给出了这个条件.
+\originalsection{偏序的链与反链}
+有限偏序集的链是两两可比较的子集, 反链是两两不可比较的子集. 最长反链大小记 $a$, 最长链大小记 $h$.
+\begin{theorem}[Dilworth]\label{thm:dilworth}
+有限偏序集可分成 $a$ 条链, 且更少的链不能覆盖全部元素.
+\end{theorem}
+\begin{proof}
+为每个元素造左右两个副本 $x_L,x_R$, 当 $x<y$ 时加边 $x_Ly_R$. 最大匹配大小记 $\nu$. 匹配边在原元素上构成每点入出度至多1的有向链, 不能成圈, 因偏序严格增加. 共 $n-\nu$ 条链, 覆盖全部点. 反过来任一 $k$ 链划分, 给每条链的相邻元素加匹配边, 共 $n-k$ 条, 所以最少链数为 $n-\nu$.
+
+由 König 定理, 该二部图有大小 $\nu$ 的顶点覆盖 $C$. 取左右副本都不在 $C$ 的原元素组成 $U$. 被 $C$ 排除的原元素至多 $\nu$ 个, 故 $|U|\ge n-\nu$. $U$ 内若有 $x<y$, 边 $x_Ly_R$ 未被覆盖, 矛盾, 所以 $U$ 是反链. 任一反链与一条链至多交一点, 因而 $a\le n-\nu\le|U|\le a$, 全部取等.
+\end{proof}
+\begin{theorem}[Mirsky]\label{thm:mirsky}
+有限偏序集可分成 $h$ 个反链, 且更少的反链不能覆盖全部元素.
+\end{theorem}
+\begin{proof}
+给 $x$ 赋以 $x$ 为最大元素的最长链长度 $\ell(x)$. 若 $x<y$, 可在该链后添 $y$, 所以 $\ell(y)>\ell(x)$. 同一数值层无可比较点, 是反链; 数值在1到 $h$ 间, 得至多 $h$ 层. 最长链与每个反链至多交一点, 至少需 $h$ 层. 空集有 $h=a=0$, 结论按空划分成立.
+\end{proof}
+\begin{corollary}[Erdős--Szekeres]\label{cor:es}
+任意 $rs+1$ 个互不相同实数的序列, 有长 $r+1$ 的递增子序列或长 $s+1$ 的递减子序列, $r,s\ge1$.
+\end{corollary}
+\begin{proof}
+给第 $i$ 项记两个数: 以它结尾的最长递增长度 $p_i$, 最长递减长度 $q_i$. 若两种目标均没有, 每对 $(p_i,q_i)$ 在 $\{1,\ldots,r\}\times\{1,\ldots,s\}$ 内. 对 $i<j$, 若第 $i$ 项较小则 $p_j\ge p_i+1$, 较大则 $q_j\ge q_i+1$. 所以数对全部不同, 但有 $rs+1$ 对而仅 $rs$ 个位置, 矛盾.
+\end{proof}
+\begin{theorem}[Sperner]\label{thm:sperner}
+集合 $\{1,\ldots,n\}$ 的子集组成包含关系偏序. 任一反链 $\mathcal A$ 满足
+\[
+\sum_{S\in\mathcal A}\frac1{\binom n{|S|}}\le1,\qquad
+|\mathcal A|\le\binom n{\lfloor n/2\rfloor}.
+\]
+全部中间大小的子集达到第二界.
+\end{theorem}
+\begin{proof}
+每个顶点排列给一条从空集到全集的链, 依次加入排列元素. 反链与它至多交一次. 对固定 $k$ 元集 $S$, 恰有 $k!(n-k)!$ 个排列在该链上经过 $S$. 对排列与所遇反链元素双计数, 得 $\sum_{S\in\mathcal A}|S|!(n-|S|)!\le n!$, 即第一式. 相邻二项式系数比为 $(n-k)/(k+1)$, 所以最大值在中间. 每个求和项至少为该最大系数的倒数, 得第二式. 同大小不同子集互不包含, 中间层确为反链. $n=0$ 时唯一空集也符合.
+\end{proof}
+\originalsection{连通性保证 Hamilton 圈}
+\begin{theorem}[Chvátal--Erdős]\label{thm:chvatalerdos}
+至少3点的简单图若顶点连通度 $\kappa(G)\ge\alpha(G)$, 则有 Hamilton 圈.
+\end{theorem}
+\begin{proof}
+若 $\alpha=1$, 图完全, 结论显然. 否则 $k=\kappa\ge\alpha\ge2$. 最小度至少 $k$, 图中有长至少 $k+1$ 的圈: 取最长路, 末点所有邻点都在路中, 至少 $k$ 个邻点保证它与最早的邻点围成至少 $k+1$ 的圈. 取最长圈 $C$, 若未覆盖全部点, 取圈外点 $v$.
+
+存在从 $v$ 到 $C$ 的 $k$ 条内部不相交路, 各路在不同的 $x_1,\ldots,x_k$ 首次进入 $C$. 这一扇形形式由 Menger 拆点法得出: 沿用第\ref{ch:connectivity}章的拆点网络, 源点 $v$ 不拆, 圈上点也容量1, 圈外非源点容量1, 圈上点接新汇, 原边对应弧与接汇弧容量均取 $n+1$; 若少于 $k$ 条路, 相应不到 $k$ 个点的割会把 $v$ 与剩余非空 $C$ 分开, 违反 $k$ 连通. 路可在首次入圈处截断.
+
+沿同一方向记 $x_i^+$ 为圈上后继. $v$ 不邻接任何 $x_i^+$, 否则用扇路从 $x_i$ 经 $v$ 到 $x_i^+$ 替换圈的一条边, 得更长圈. 不同后继 $x_i^+,x_j^+$ 也不邻接: 用两条扇路连 $x_i,x_j$, 加该后继边, 再沿原圈两段反向和正向连接, 得覆盖全部原圈点及圈外点的更长圈. 具体是从 $x_i$ 经圈外路到 $x_j$, 沿圈反向到 $x_i^+$, 跨到 $x_j^+$, 再沿圈正向回 $x_i$. 各段内部不交. 因而 $\{v,x_1^+,\ldots,x_k^+\}$ 为大小 $k+1$ 独立集, 与 $\alpha\le k$ 矛盾. 最长圈必须覆盖全部点.
+\end{proof}
+这与 Dirac 度数条件互补: 这里比较全局连通度与独立数, 并用内部不相交路把局部插点失败转化成过大的独立集.
+\originalsection{递增边标号的长迹}
+\begin{proposition}[Graham--Kleitman 的平均度界]\label{prop:increasingtrail}
+简单图 $n\ge1$ 的每条边赋不同实数标号, 则有一条沿边标号严格递增的迹, 长度至少 $2m/n$. 迹可重复顶点, 不能重复边; 完全图因而有长至少 $n-1$ 的递增迹.
+\end{proposition}
+\begin{proof}
+按标号递增处理边, 初始每点记录以该点结尾的最长递增迹长度0. 处理 $uv$ 前记录为 $a,b$, 同时更新为 $a'=\max(a,b+1)$, $b'=\max(b,a+1)$. 用当前新边延长另一端已有迹, 合法, 因旧迹边标号都更小; 两次更新必须使用旧值. 反过来以当前边结束的递增迹之前只能使用旧边, 所以记录仍是确切最长长度.
+
+每次两端长度总增至少2: $a=b$ 时各增1; 若 $a\ge b+1$, $a$ 不变而 $b$ 升到 $a+1$, 增量至少2; 另一情况对称. 最后所有记录和至少 $2m$, 故某个记录至少平均数 $2m/n$, 对应一条所求迹. 这并未证明同样长的递增简单路, 重复顶点在此允许.
+\end{proof}
+\originalsection{习题与解答}
+\begin{exercise}\label{ex:prob1}
+对5点路径的自然偏序 $1<2<3<4<5$, 和仅有关系 $1<3,2<3,2<4$ 的4点偏序, 分别求最少链划分数及反链划分数.
+\end{exercise}
+\begin{exercise}\label{ex:prob2}
+若 $k$ 均匀超图共有 $M$ 条边, 证明 $M<2^{k-1}$ 足以二染色. 比较这一条件与局部引理的用途.
+\end{exercise}
+习题\ref{ex:prob1}的解答.
+\begin{solution}
+全序为一条链, 最长反链1, 链划分数1; 最长链5, 反链划分数5. 第二个偏序分成链 $\{1,3\},\{2,4\}$, 最少链数2, 因 $\{1,2\}$ 为反链. 最长链2, 反链层可取 $\{1,2\},\{3,4\}$, 最少反链划分数2. 这里列出的关系已经传递封闭, 没有隐含更长链.
+\end{solution}
+习题\ref{ex:prob2}的解答.
+\begin{solution}
+随机二染色下单色边数期望为 $M2^{1-k}<1$, 故有0条坏边的染色. 条件控制总边数; 局部引理控制每条边相交的其他边数, 即使 $M$ 很大也可能适用. 两个方法分别利用坏对象少和依赖稀疏, 不能把局部度 $D$ 错换为无条件的全图顶点度.
+\end{solution}

@@ -1,0 +1,181 @@
+% !TeX program = xelatex
+% 数学 LaTeX 排版 Skill v4.0.0；版式保持 v3 金标准. XeLaTeX 编译至少两次. 不分发字体.
+% WZ-LOCKED-CLASS-BEGIN
+\begin{filecontents*}[overwrite]{elegantbook-original-adapter.cls}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{elegantbook-original-adapter}[2026/09/23 v3.0 fixed mathematical book environments]
+\LoadClass[10pt,letterpaper,oneside]{book}
+\RequirePackage[UTF8,scheme=plain,fontset=fandol]{ctex}
+\RequirePackage{fontspec}
+\setmainfont{cmunrm.otf}[BoldFont=cmunbx.otf,ItalicFont=cmunti.otf,BoldItalicFont=cmunbi.otf]
+\setCJKfamilyfont{sourceheader}[ItalicFont=FandolKai-Regular.otf]{FandolKai-Regular.otf}
+\RequirePackage{amsmath,amssymb,mathrsfs}
+\RequirePackage{amsthm,etoolbox}
+\RequirePackage{xcolor,geometry,setspace,fancyhdr,enumitem,needspace,xurl}
+\definecolor{structurecolor}{HTML}{880E4F}
+\definecolor{main}{HTML}{9C27B0}
+\geometry{paperwidth=612bp,paperheight=792bp,left=20mm,right=20mm,top=95.04bp,bottom=20mm,headheight=12pt,headsep=25pt,footskip=30pt}
+\setstretch{1.6}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlist{nosep,leftmargin=2em}
+\AtBeginDocument{\setlength{\abovedisplayskip}{4pt plus 1pt minus 1pt}\setlength{\belowdisplayskip}{4pt plus 1pt minus 1pt}\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{3pt}}
+\fancyhf{}
+\fancyhead[L]{{\itshape\CJKfamily{sourceheader}\rightmark}}
+\fancyhead[R]{{\itshape\CJKfamily{sourceheader}\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{structurecolor}\hrule height\headrulewidth width\headwidth\vskip-\headrulewidth}}
+\pagestyle{fancy}
+\fancypagestyle{cover}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}\renewcommand{\headrule}{}}
+\RequirePackage{hyperref}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=structurecolor,urlcolor=structurecolor,citecolor=structurecolor,linktoc=section,bookmarksnumbered=true,bookmarksopen=true,pdfborder={0 0 0},pdfstartview=FitH}
+\setcounter{tocdepth}{1}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.4em}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\newcommand{\originalchapter}[1]{\par\addvspace{14pt}\Needspace{5\baselineskip}\refstepcounter{chapter}\setcounter{section}{0}\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}\markboth{\thechapter\quad #1}{}\begingroup\centering\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\thechapter\quad #1\par\endgroup\nobreak\vspace{8pt}}
+\newcommand{\originalsection}[1]{\par\addvspace{9pt}\Needspace{4\baselineskip}\refstepcounter{section}\addcontentsline{toc}{section}{\protect\hspace*{1.5em}\protect\numberline{\protect\textcolor{structurecolor}{\thesection}}#1}\markright{\thesection\quad #1}\noindent{\fontsize{12}{17}\selectfont\color{structurecolor}\thesection\quad}{\bfseries\fontsize{12}{17}\selectfont #1}\par\nobreak\vspace{4pt}}
+
+% Semantic environments are registered once here, not re-designed in manuscripts.
+\newtheoremstyle{wzstatement}{6pt}{5pt}
+  {\normalfont\kaishu}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzdefinition}{6pt}{5pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzproblem}{7pt}{5pt}
+  {\normalfont\songti}{2em}{\normalfont\bfseries\color{main}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}}
+\newtheoremstyle{wzremark}{4pt}{4pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries}
+  {}{.7em}{\thmname{#1}}
+\theoremstyle{wzstatement}
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{wzdefinition}
+\newtheorem{definition}[theorem]{定义}
+\theoremstyle{wzproblem}
+\newtheorem{example}{例题}[chapter]
+\newtheorem{exercise}{习题}[chapter]
+\theoremstyle{wzremark}
+\newtheorem*{remark}{注}
+\renewcommand{\proofname}{证明}
+% Retain the native amsthm QED stack; only adjust the fixed typography.
+\expandafter\patchcmd\csname\string\proof\endcsname{\normalfont \topsep6\p@\@plus6\p@\relax}
+  {\normalfont\songti \topsep5\p@\@plus1\p@\relax}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof spacing}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\itshape}{\normalfont\bfseries}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof heading}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\ignorespaces}
+  {\setlength{\parindent}{2em}\ignorespaces}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof paragraphs}{Check the amsthm version.}}
+\AtBeginEnvironment{proof}{\par\Needspace{3\baselineskip}}
+\renewcommand{\qedsymbol}{\ensuremath{\square}}
+\newenvironment{solution}{\begin{proof}[解答]}{\end{proof}}
+\newcommand{\wzcheckchapter}{\ifnum\value{chapter}<1
+  \ClassError{elegantbook-original-adapter}{Numbered mathematics before chapter 1}{Move it after the first originalchapter.}\fi}
+
+\newcommand{\wzregisterguard}[1]{\AtBeginEnvironment{#1}{\wzcheckchapter\par\Needspace{3\baselineskip}}}
+\forcsvlist{\wzregisterguard}{theorem,lemma,proposition,corollary,definition,example,exercise}
+% Front matter and bibliography are not numbered mathematical chapters.
+\newcommand{\originalpreface}{\par\addvspace{10pt}\Needspace{5\baselineskip}
+  \noindent{\bfseries\fontsize{12}{17}\selectfont 前言}\par\nobreak\vspace{4pt}}
+\newcommand{\originalcontents}{\par\addvspace{14pt}
+  \begin{center}{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont 目录}\end{center}
+  \vspace{-10pt}\@starttoc{toc}}
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]{
+  \par\addvspace{12pt}\Needspace{3\baselineskip}\phantomsection
+  \addcontentsline{toc}{chapter}{\bibname}
+  \markboth{\bibname}{}
+  \noindent{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\bibname}\par\nobreak\vspace{6pt}
+  \list{\@biblabel{\@arabic\c@enumiv}}
+    {\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth
+     \advance\leftmargin\labelsep\usecounter{enumiv}
+     \let\p@enumiv\@empty\renewcommand\theenumiv{\@arabic\c@enumiv}
+     \setlength{\itemsep}{3pt}\setlength{\parsep}{0pt}}
+  \sloppy\clubpenalty4000\widowpenalty4000\sfcode`\.=1000\relax
+}{\def\@noitemerr{\@latex@warning{Empty bibliography}}\endlist}
+
+\numberwithin{equation}{chapter}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+\allowdisplaybreaks[2]
+\emergencystretch=2em
+\clubpenalty=6000
+\widowpenalty=6000
+\raggedbottom
+\endinput
+\end{filecontents*}
+% WZ-LOCKED-CLASS-END
+\documentclass{elegantbook-original-adapter}
+% ===== 元数据内容槽 =====
+\newcommand{\BookTitle}{图论: 结构、染色与网络算法}
+\newcommand{\BookAuthor}{MIT OCW 多课程资料; 中文重构与补证}
+\newcommand{\BookDate}{18.315 Spring 2005 图论主干及指定补充}
+\hypersetup{pdftitle={图论: 结构、染色与网络算法},pdfauthor={MIT OCW 原课程作者; 中文整理}}
+\usepackage{tikz,booktabs,longtable}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\sourceof}[1]{\par\noindent\textit{来源定位: #1.}\par}
+\tikzset{vertex/.style={circle,draw,fill=white,inner sep=1.5pt,minimum size=5mm},edge/.style={thick},arc/.style={-{Stealth[length=2mm]},thick}}
+\begin{document}
+\frontmatter
+\begin{center}
+{\color{structurecolor}\bfseries\fontsize{18}{25}\selectfont\BookTitle\par}
+{\bfseries MIT OpenCourseWare 中文重构本\par}
+\BookAuthor\par
+\BookDate\par
+\end{center}
+\originalpreface
+图用顶点和边记录对象之间的关系. 一条边的局部限制, 可以决定整个网络是否连通、是否存在匹配、需要多少种颜色, 以及信息和流量能否经过网络. 本书面向掌握集合、归纳法和基本线性代数的读者. 前十二章不预设图论知识; 矩阵树定理、电网络与谱方法需要实对称矩阵的特征值和行列式, 所用补充在相应位置交代. 概率方法只用有限样本空间、期望和条件概率.
+
+主源为 Igor Pak 讲授、Amanda Redlich 记录的 \href{https://ocw.mit.edu/courses/18-315-combinatorial-theory-introduction-to-graph-theory-extremal-and-enumerative-combinatorics-spring-2005/pages/lecture-notes/}{18.315, Spring 2005} 中的图论主干. 原稿是手写课堂记录, 常把困难步骤交给作业或外部书籍; 本书按数学依赖重新组织, 在本地补齐核心证明. 基础和初等平面图来自 Lehman、Leighton、Meyer 的 6.042J Spring 2015 开放教材指定部分; 匹配与流算法补用 Santosh Vempala 的 18.433 Fall 2003; 树计数、电网络和有向 Euler 圈补用 Alexander Postnikov 讲授、Andrew Lin 记录的 18.212 Spring 2019; 极值与谱工具补用 Yufei Zhao 及该班学生的 18.217 Fall 2019 指定段落. 各来源重复定义与定理在正文合并.
+
+这里的完整性指已声明的图论学习主线, 不指对上述整门组合课程逐讲全译. 连通性、树、Euler 与 Hamilton、匹配、顶点染色、边染色、平面图、多项式、搜索与最短路、最小生成树、网络流、矩阵树、电网络、谱方法、极值与 Ramsey 均形成从定义到证明和应用的连续单元. 逻辑、一般计数、一般概率、Young 表、分拆、纽结、加法组合和研究级图极限不属于本册. 四色定理、Kuratowski 判据及四连通平面图的 Hamilton 性只作为有明确边界的外部结果提及, 不冒称给出了其长篇证明. 书末来源对应表逐项区分采用、补证、选读和范围外内容.
+
+中文正文为重新组织的数学改编, 不是原作者的逐字译稿. 例题和练习是经典数学问题的重新表述或本稿设置的模型, 未核实最初题源时不宣称原创. 图形均为针对本稿对象的原生 TikZ, 不复制外书图形、照片或受限题面. 第三方或权利不清的材料只保留链接. MIT 18.225 Fall 2023 的新版作者书稿因含独立版权及图片许可说明, 此次仅登记链接与核查元数据, 不打包其正文或插图.
+
+中文改编依 \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0} 供非商业使用及相同方式共享. MIT OCW 默认条款见 \href{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}{官方使用条款}; 6.042 原件明示 CC BY-NC-SA 3.0, 原件保留原许可, 改编依其第4(b)条采用同要素后续版本. 原作者与 MIT 均未为本项目背书. 逐文件页数、作者、年份、SHA-256 与版权核查记录见源码附带来源清单. 版本日期: 2026-10-08.
+\clearpage
+\originalcontents
+\clearpage
+\mainmatter
+\input{chapters/ch01.tex}
+\input{chapters/ch02.tex}
+\input{chapters/ch03.tex}
+\input{chapters/ch04.tex}
+\input{chapters/ch05.tex}
+\input{chapters/ch06.tex}
+\input{chapters/ch07.tex}
+\input{chapters/ch08.tex}
+\input{chapters/ch09.tex}
+\input{chapters/ch10.tex}
+\input{chapters/ch11.tex}
+\input{chapters/ch12.tex}
+\Needspace{8\baselineskip}
+\input{chapters/ch13.tex}
+\input{chapters/ch14.tex}
+\input{chapters/ch15.tex}
+\input{chapters/ch16.tex}
+\input{chapters/ch17.tex}
+\input{chapters/source-map.tex}
+\begin{thebibliography}{9}
+\bibitem{pak} Igor Pak (授课), Amanda Redlich (记录). \textit{18.315 Combinatorial Theory, Spring 2005}. MIT OCW. 图论主干19份课堂记录; \href{https://ocw.mit.edu/courses/18-315-combinatorial-theory-introduction-to-graph-theory-extremal-and-enumerative-combinatorics-spring-2005/pages/lecture-notes/}{官方目录}.
+\bibitem{mcs} Eric Lehman, F. Thomson Leighton, Albert R. Meyer. \textit{Mathematics for Computer Science}. 修订版2015-05-18, 6.042J Spring 2015, MIT OCW. 指定使用第9、11、12章相关部分; \href{https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/resources/mit6_042js15_textbook/}{原件}.
+\bibitem{vempala} Santosh Vempala. \textit{18.433 Combinatorial Optimization, Fall 2003}. MIT OCW. L1--3、L7--8、L9; \href{https://ocw.mit.edu/courses/18-433-combinatorial-optimization-fall-2003/pages/lecture-notes/}{官方目录}.
+\bibitem{postnikov} Alexander Postnikov (授课), Andrew Lin (记录). \textit{18.212 Algebraic Combinatorics, Spring 2019}. MIT OCW. L22--23、L26--32指定图论内容; \href{https://ocw.mit.edu/courses/18-212-algebraic-combinatorics-spring-2019/pages/lecture-notes/}{官方目录}.
+\bibitem{zhao} Yufei Zhao (授课及编辑), MIT 18.217 Fall 2019 班级学生 (记录). \textit{Graph Theory and Additive Combinatorics}. MIT OCW. 选第2章极值基础及第4章谱工具; \href{https://ocw.mit.edu/courses/18-217-graph-theory-and-additive-combinatorics-fall-2019/pages/lecture-notes/}{官方目录}.
+\bibitem{terms} MIT OpenCourseWare. \href{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}{使用条款}. 原件单独许可优先; 改编许可 \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}.
+\end{thebibliography}
+\end{document}

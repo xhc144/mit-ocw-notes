@@ -1,0 +1,1555 @@
+2
+Forbidding subgraphs
+2.1
+Mantel’s theorem: forbidding a triangle
+We begin our discussion of extremal graph theory with the following
+basic question.
+Question 2.1. What is the maximum number of edges in an n-vertex
+graph that does not contain a triangle?
+Bipartite graphs are always triangle-free. A complete bipartite
+graph, where the vertex set is split equally into two parts (or differing
+by one vertex, in case n is odd), has
+
+n2/4
+
+edges. Mantel’s theorem
+states that we cannot obtain a better bound:
+Theorem 2.2 (Mantel).
+Every triangle-free graph on n vertices has at
+W. Mantel, "Problem 28 (Solution by H.
+Gouwentak, W. Mantel, J. Teixeira de
+Mattes, F. Schuh and W. A. Wythoff).
+Wiskundige Opgaven 10, 60 —61, 1907.
+most ⌊n2/4⌋edges.
+We will give two proofs of Theorem 2.2.
+Proof 1. Let G = (V, E) a triangle-free graph with n vertices and m
+edges. Observe that for distinct x, y ∈V such that xy ∈E, x and y
+must not share neighbors by triangle-freeness.
+x
+y
+N(x)
+N(y)
+Adjacent vertices have disjoint neigh-
+borhoods in a triangle-free graph.
+Therefore, d(x) + d(y) ≤n, which implies that
+∑
+x∈V
+d(x)2 = ∑
+xy∈E
+(d(x) + d(y)) ≤mn.
+On the other hand, by the handshake lemma, ∑x∈V d(x) = 2m. Now
+by the Cauchy–Schwarz inequality and the equation above,
+4m2 =
+ 
+∑
+x∈V
+d(x)
+!2
+≤n
+ 
+∑
+x∈V
+d(x)2
+!
+≤mn2;
+hence m ≤n2/4. Since m is an integer, this gives m ≤⌊n2/4⌋.
+Proof 2. Let G = (V, E) be as before. Since G is triangle-free, the
+neighborhood N(x) of every vertex x ∈V is an independent set.
+x
+y
+z
+An edge within N(x) creates a triangle
+Graph Theory and Additive Combinatorics
+Lecturer: Prof. Yufei Zhao
+
+
+24
+turán’s theorem: forbidding a clique
+Let A ⊆V be a maximum independent set. Then d(x) ≤|A| for
+all x ∈V. Let B = V \ A. Since A contains no edges, every edge of G
+intersects B. Therefore,
+e(G) ≤∑
+x∈B
+d(x) ≤|A||B|
+≤
+AM-GM
+$|A| + |B|
+2
+2%
+=
+n2
+4
+
+.
+Remark 2.3. For equality to occur in Mantel’s theorem, in the above
+proof, we must have
+• e(G) = ∑x∈B d(x), which implies that no edges are strictly in B.
+• ∑x∈B d(x) = |A||B|, which implies that every vertex in B is com-
+plete in A.
+• The equality case in AM-GM must hold (or almost hold, when n is
+odd), hence ||A| −|B|| ≤1.
+Thus a triangle-free graph on n vertices has exactly
+
+n2/4
+
+edges if
+and only if it is the complete bipartite graph K⌊n/2⌋,⌈n/2⌉.
+2.2
+Turán’s theorem: forbidding a clique
+Motivated by Theorem 2.2, we turn to the following more general
+question.
+Question 2.4. What is the maximum number of edges in a Kr+1-free
+graph on n vertices?
+Extending the bipartite construction earlier, we see that an r-partite
+graph does not contain any copy of Kr+1.
+Deﬁnition 2.5. The Turán graph Tn,r is deﬁned to be the complete,
+n-vertex, r-partite graph, with part sizes either
+ n
+r
+
+or
+ n
+r
+
+.
+The Turán graph T10,3
+In this section, we prove that Tn,r does, in fact, maximize the num-
+ber of edges in a Kr-free graph:
+Theorem 2.6 (Turán).
+If G is an n-vertex Kr+1-free graph, then e(G) ≤
+P. Turán, On an extremal problem in
+graph theory. Math. Fiz. Lapok 48, 436
+—452, 1941.
+e(Tn,r).
+When r = 2, this is simply Theorem 2.2.
+We now give three proofs of Theorem 2.6. The ﬁrst two are in the
+same spirit as the proofs of Theorem 2.2.
+
+
+forbidding subgraphs
+25
+Proof 1. Fix r. We proceed by induction on n. Observe that the state-
+ment is trivial if n ≤r, as Kn is Kr+1-free. Now, assume that n > r
+and that Turán’s theorem holds for all graphs on fewer than n ver-
+tices. Let G be an n-vertex, Kr+1-free graph with the maximum pos-
+sible number of edges. Note that G must contain Kr as a subgraph,
+or else we could add an edge in G and still be Kr+1-free. Let A be the
+vertex set of an r-clique in G, and let B := V\A. Since G is Kr+1-free,
+every v ∈B has at most r −1 neighbors in A. Therefore
+e(G) ≤
+r
+2
+
++ (r −1)|B| + e(B)
+≤
+r
+2
+
++ (r −1)(n −r) + e(Tn−r,r)
+= e(Tn,r).
+The ﬁrst inequality follows from counting the edges in A, B, and
+everything in between. The second inequality follows from the in-
+ductive hypothesis. The last equality follows by noting removing
+one vertex from each of the r parts in Tn,r would remove a total of
+(r
+2) + (r −1)(n −r) edges.
+Proof 2 (Zykov symmetrization). As before, let G be an n-vertex, Kr+1-
+free graph with the maximum possible number of edges.
+We claim that the non-edges of G form an equivalence relation;
+that is, if xy, yz /∈E, then xz /∈E. Symmetry and reﬂexivity are easy
+to check. To check transitivity, Assume for purpose of contradiction
+that there exists x, y, z ∈V for which xy, yz /∈E but xz ∈E.
+If d(y) < d(x), we may replace y with a “clone” of x. That is, we
+delete y and add a new vertex x′ whose neighbors are precisely the
+as the neighbors of x (and no edge between x and x′). (See ﬁgure on
+the right.)
+x
+x′
+x and its clone x′
+Then, the resulting graph G′ is also Kr+1-free since x was not in
+any Kr+1. On the other hand, G′ has more edges than G, contradict-
+ing maximality.
+Therefore we have that d(y) ≥d(x) for all xy /∈E. Similarly,
+d(y) ≥d(z). Now, replace both x and z by “clones” of y. The new
+graph G′ is Kr+1-free since y was not in any Kr+1, and
+e(G′) = e(G) −(d(x) + d(z) −1) + 2d(y) > e(G),
+contradicting maximality of e(G). Therefore such a triple (x, y, z)
+cannot exist in G, and transitivity holds.
+The equivalence relation shows that the complement of G is a
+union of cliques. Therefore G is a complete multipartite graph with
+at most r parts. One checks that increasing the number of parts in-
+creases the number of edges in G. Similarly, one checks that if the
+
+
+26
+hypergraph turán problem
+number of vertices in two parts differ by more than 1, moving one
+vertex from the larger part to the smaller part increases the number
+of edges in G. It follows that the graph that achieves the maximum
+number of edges is Tn,r.
+Our third and ﬁnal proof uses a technique called the probabilistic
+method. In this method, one introduces randomness to a determinis-
+tic problem in a clever way to obtain deterministic results.
+Proof 3. Let G = (V, E) be an n-vertex, Kr+1-free graph. Consider a
+uniform random ordering σ of the vertices. Let
+X = {v ∈V : v is adjacent to all earlier vertices in σ}.
+Observe that the set of vertices in X form a clique. Since the permuta-
+tion was chosen uniformly at random, we have
+P(v ∈X) = P(v appears before all non-neighbors) =
+1
+n −d(v).
+Therefore,
+r ≥E|X| = ∑
+v∈V
+P(v ∈X) = ∑
+v∈V
+1
+n −d(v)
+convexity
+≥
+n
+n −2m/n.
+Rearranging gives m ≤
+
+1 −1
+r
+
+n2
+2 (a bound that is already good for
+most purposes). Note that if n is divisible by r, then the bound imme-
+diately gives a proof of Turán’s theorem. When n is not divisible by
+r, one needs to a bit more work and use convexity to argue that the
+d(v) should be as close as possible. We omit the details.
+2.3
+Hypergraph Turán problem
+The short proofs given in the previous sections make problems in
+extremal graph theory seem deceptively simple. In reality, many
+generalizations of what we just discussed remain wide open.
+Here we discuss one notorous open problem that is a hypergraph
+generalization of Mantel/Turán.
+An r-uniform hypergraph consists of a vertex set V and an edge
+set, where every edge is now an r-element subset of V. Graphs corre-
+spond to r = 2.
+Question 2.7. What is the maximum number of triples in an n vertex
+3-uniform hypergraph without a tetrahedron?
+Turán proposed the following construction, which is conjectured to
+be optimal.
+
+
+forbidding subgraphs
+27
+Example 2.8 (Turán). Let V be a set of n vertices. Partition V into
+3 (roughly) equal sets V1, V2, V3. Add a triple {x, y, z} to e(G) if it
+satisﬁes one of the four following conditions:
+• x, y, z are in different partitions
+• x, y ∈V1 and z ∈V2
+• x, y ∈V2 and z ∈V3
+• x, y ∈V3 and z ∈V1
+where we consider x, y, z up to permutation (See Example 2.8). One
+checks that the 3-uniform hypergraph constructed is tetrahedron-free,
+and that it has edge density 5/9.
+Turán’s construction of a tetrahedron-
+free 3-uniform hypergraph
+On the other hand, the best known upper bound is approximately
+0.562 , obtained recently using the technique of ﬂag algebras.
+Keevash (2011)
+Baber and Talbot (2011)
+Razborov (2010)
+2.4
+Erd˝os–Stone–Simonovits theorem (statement): forbidding a
+general subgraph
+One might also wonder what happens if Kr+1 in Theorem 2.6 were
+replaced with an arbitrary graph H:
+Question 2.9. Fix some graph H. If G is an n vertex graph in which
+H does not appear as a subgraph, what is the maximum possible
+number of edges in G?
+Notice that we only require H to be a
+subgraph, not necessarily an induced
+subgraph. An induced subgraph H′
+of G must contain all edges present
+between the vertices of H′, while there
+is no such restriction for arbitrary
+subgraphs.
+Deﬁnition 2.10. For a graph H and n ∈N, deﬁne ex(n, H) to be the
+maximum number of edges in an n-vertex H-free graph.
+For example, Theorem 2.6 tells us that for any given r,
+ex(n, Kr+1) = e(Tn,r) =
+
+1 −1
+r + o(1)
+ n
+2
+
+where o(1) represents some quantity that goes to zero as n →∞.
+At a ﬁrst glance, one might not expect a clean answer to Ques-
+tion 2.9. Indeed, the solution would seem to depend on various char-
+acteristics of H (for example, its diameter or maximum degree). Sur-
+prisingly, it turns out that a single parameter, the chromatic number
+of H, governs the growth of ex(n, H).
+Deﬁnition 2.11. The chromatic number of a graph G, denoted χ(G),
+is the minimal number of colors needed to color the vertices of G
+such that no two adjacent vertices have the same color.
+Example 2.12. χ(Kr+1) = r + 1 and χ(Tn,r) = r.
+
+
+28
+k ˝ovári–sós–turán theorem: forbidding a complete bipartite graph
+Observe that if H ⊆G, then χ(H) ≤χ(G). Indeed, any proper
+coloring of G restricts to a proper coloring of H. From this, we gather
+that if χ(H) = r + 1, then Tn,r is H-free. Therefore,
+ex(n, H) ≥e(Tn,r) =
+
+1 −1
+r + o(1)
+ n
+2
+
+.
+Is this the best we can do? The answer turns out to be afﬁrmative.
+Theorem 2.13 (Erd˝os–Stone–Simonovits). For all graphs H, we have
+Erd˝os and Stone (1946)
+Erd˝os and Simonovits (1966)
+lim
+n→∞
+ex(n, H)
+(n
+2)
+= 1 −
+1
+χ(H) −1.
+We’ll skip the proof for now.
+Remark 2.14. Later in the book we will show how to deduce Theo-
+rem 2.13 from Theorem 2.6 using the Szemerédi regularity lemma.
+Example 2.15. When H = K3, Theorem 2.13 tells us that
+lim
+n→∞
+ex(n, H)
+(n
+2)
+= 1
+2,
+in agreement with Theorem 2.6.
+When H = K4, we get
+lim
+n→∞
+ex(n, H)
+(n
+2)
+= 2
+3,
+also in agreement with Theorem 2.6.
+When H is the Peterson graph, Theorem 2.13 tells us that
+lim
+n→∞
+ex(n, H)
+(n
+2)
+= 1
+2,
+which is the same answer as for H = K3! This is surprising since the
+Peterson graph seems much more complicated than the triangle.
+1
+2
+3
+1
+3
+2
+2
+3
+2
+1
+2.5
+K˝ovári–Sós–Turán theorem: forbidding a complete bipartite
+graph
+The Peterson graph with a proper 
+3-coloring.
+The Erd˝os–Stone–Simonovits Theorem (Theorem 2.13) gives a ﬁrst-
+order approximation of ex(n, H) when χ(H) > 2. Unfortunately,
+Theorem 2.13 does not tell us the whole story. When χ(H) = 2, i.e.
+H is bipartite, the theorem implies that ex(n, H) = o(n2), which com-
+pels us to ask if we may obtain more precise bounds. For example, if
+we write ex(n, H) as a function of n, what its growth with respect to
+n? This is an open problem for most bipartite graphs (for example,
+K4,4) and the focus of the remainder of the chapter.
+Let Ks,t be the complete bipartite graph where the two parts of the
+bipartite graph have s and t vertices respectively. In this section, we
+consider ex(n, Ks,t), and seek to answer the following main question:
+An example of a complete bipartite
+graph K3,5.
+
+
+forbidding subgraphs
+29
+Question 2.16 (Zarankiewicz problem). For some r, s ≥1, what is
+the maximum number of edges in an n-vertex graph which does not
+contain Ks,t as a subgraph.
+Every bipartite graph H is a subgraph of some complete bipartite
+graph Ks,t. If H ⊆Ks,t, then ex(n, H) ≤ex(n, Ks,t). Therefore, by
+understanding the upper bound on the extremal number of complete
+bipartite graphs, we obtain an upper bound on the extremal number
+of general bipartite graphs as well. Later, we will give improved
+bounds for several speciﬁc biparite graphs.
+K˝ovári, Sós and Turán gave an upper bound on Ks,t:
+Theorem 2.17 (K˝ovári–Sós–Turán). For every integers 1 ≤s ≤t, there
+K˝ovári, Sós, and Turán (1954)
+exists some constant C, such that
+ex(n, Ks,t) ≤Cn2−1
+s .
+There is an easy way to remember
+the name of this theorem: “KST”, the
+initials of the authors, is also the letters
+for the complete bipartite graph Ks,t.
+Proof. Let G be a Ks,t-free n-vertex graph with m edges.
+First, we repeatedly remove all vertices v ∈V(G) where d(v) <
+s −1. Since we only remove at most (s −2)n edges this way, it sufﬁces
+to prove the theorem assuming that all vertices have degree at least
+s −1.
+We denote the number of copies of Ks,1 in G as #Ks,1. The proof
+establishes an upper bound and a lower bound on #Ks,1, and then
+gets a bound on m by combining the upper bound and the lower
+bound.
+Since Ks,1 is a complete bipartite graph, we can call the side with s
+vertices the ‘left side‘, and the side with 1 vertices the ‘right side‘.
+On the one hand, we can count #Ks,1 by enumerating the ‘left side‘.
+For any subset of s vertices, the number of Ks,1 where these s vertices
+form the ‘left side‘ is exactly the number of common neighbors of
+these s vertices. Since G is Ks,t-free, the number of common neigh-
+bors of any subset of s vertices is at most t −1. Thus, we establish
+that #Ks,1 ≤(n
+s)(t −1).
+On the other hand, for each vertex v ∈V(G), the number of copies
+of Ks,1 where v is the ‘right side‘ is exactly (d(v)
+s ). Therefore,
+Here we regard (x
+s) as a degree s poly-
+nomial in x, so it makes sense for x to
+be non-integers. The function (x
+s) is
+convex when x ≥s −1.
+#Ks,1 =
+∑
+v∈V(G)
+d(v)
+s
+
+≥n
+ 1
+n ∑v∈V(G) d(v)
+s
+
+= n
+2m/n
+s
+
+,
+where the inequality step uses the convextiy of x 7→(x
+s).
+Combining the upper bound and lower bound of #Ks,1, we obtain
+that n(2m/n
+s ) ≤(n
+s)(t −1). For constant s, we can use (x
+s) = (1 +
+o(1)) ns
+s! to get n
+  2m
+n
+s ≤(1 + o(1))ns(t −1). The above inequality
+simpliﬁes to
+m ≤
+1
+2 + o(1)
+
+(t −1)1/sn2−1
+s .
+
+
+30
+k ˝ovári–sós–turán theorem: forbidding a complete bipartite graph
+Let us discuss a geometric application of Theorem 2.17.
+Question 2.18 (Unit distance problem).
+What is the maximum num-
+Erd˝os (1946)
+ber of unit distances formed by n points in R2?
+For small values of n, we precisely know the answer to the unit
+distance problem. The best conﬁgurations are listed in Figure 2.1.
+n = 3
+n = 4
+n = 5
+n = 6
+n = 7
+Figure 2.1: The conﬁgurations of points
+for small values of n with maximum
+number of unit distances. The edges
+between vertices mean that the distance
+is 1. These constructions are unique up
+to isomorphism except when n = 6.
+It is possible to generalize some of these constructions to arbitrary
+n.
+• A line graph has (n −1) unit distances.
+· · ·
+• A chain of triangles has (2n −3) unit distances for n ≥3.
+· · ·
+P
+P′
+1
+• There is also a recursive construction. Given a conﬁguration P
+with n/2 points that have f (n/2) unit distances, we can copy P
+and translate it by an arbitrary unit vector to get P′. The conﬁgu-
+ration P ∪P′ have at least 2f (n/2) + n/2 unit distances. We can
+solve the recursion to get f (n) = Ω(n log n).
+The current best lower bound on the maximum number of unit dis-
+tances is given by Erd˝os.
+Proposition 2.19.
+There exists a set of n points in R2 that have at least
+Erd˝os (1946)
+n1+c/ log log n unit distances for some constant c.
+Figure 2.2: An example grid graph
+where n = 25 and r = 10.
+Proof sketch. Consider a square grid with ⌊√n⌋× ⌊√n⌋vertices. We
+can scale the graph arbitrarily so that √r becomes the unit distance
+for some integer r. We can pick r so that r can be represented as a
+sum of two squares in many different ways. One candidate of such
+r is a product of many primes that are congruent to 1 module 4. We
+can use some number-theoretical theorems to analyze the best r, and
+get the n1+c/ log log n bound.
+Theorem 2.17 can be used to prove an upper bound on the number
+of unit distances.
+Theorem 2.20. Every set of n points in R2 has at most O(n3/2) unit
+distances.
+Proof. Given any set of points S ⊂R2, we can create the unit distance
+graph G as follows:
+• The vertex set of G is S,
+• For any point p, q where d(p, q) = 1, we add an edge between p
+and q.
+
+
+forbidding subgraphs 31
+p
+q
+r = 1
+Figure 2.3: Two vertices p, q can have at
+most two common neighbors in the unit
+distance graph.
+The graph G is K2,3-free since for every pair of points p, q, there are at
+most 2 points that have unit distances to both of them. By applying
+Theorem 2.17, we obtain that e(G) = O(n3/2).
+Remark 2.21.
+The best known upper bound on the number of unit
+Spencer, Szemerédi and Trotter (1984)
+distances is O(n4/3). The proof is a nice application of the crossing
+number inequality which will be introduced later in this book.
+Here is another problem that is strongly related to the unit dis-
+tance problem:
+Question 2.22 (Distinct distance problem). What is the minimum
+number of distinct distances formed by n points in R2?
+Example 2.23. Consider n points on the x-axis where the i-th point
+has coordinate (i, 0). The number of distinct distances for these
+points is n −1.
+The current best construction for minimum number of distinct
+distances is also the grid graph. Consider a square grid with ⌊√n⌋×
+⌊√n⌋vertices. Possible distances between two vertices are numbers
+that can be expressed as a sum of the squares of two numbers that
+are at most ⌊√n⌋. Using number-theoretical methods, we can obtain
+that the number of such distances: Θ(n/
+p
+log n).
+The maximum number of unit distances is also the maximum
+number that each distance can occur. Therefore, we have the follow-
+ing relationship between distinct distances and unit distances:
+#distinct distances ≥
+(n
+2)
+max #unit distances.
+If we apply Theorem 2.20 to the above inequality, we immediately get
+an Ω(n0.5) lower bound for the number of distinct distances. Many
+mathematicians successively improved the exponent in this lower
+bound over the span of seven decades. Recently, Guth and Katz gave
+the following celebrated theorem, which almost matches the upper
+bound (only off by an O(
+p
+log n)) factor).
+Theorem 2.24 (Guth–Katz).
+Every set of n points in R2 has at least
+Guth and Katz (2015)
+cn/ log n distinct distances for some constant c.
+The proof of Theorem 2.24 is quite sophisticated: it uses tools
+ranging from polynomial method to algebraic geometry. We won’t
+cover it in this book.
+2.6
+Lower bounds: randomized constructions
+It is conjectured that the bound proven in Theorem 2.17 is tight. In
+other words, ex(n, Ks,t) = Θ(n2−1/s). Although this still remains
+
+
+32
+lower bounds: randomized constructions
+open for arbitrary Ks,t, it is already proven for a few small cases,
+and in cases where t is way larger than s. In this and the next two
+sections, we will show techniques for constructing H-free graphs.
+Here are the three main types of constructions that we will cover:
+• Randomized construction. This method is powerful and general,
+but introducing randomness means that the constructions are
+usually not tight.
+• Algebraic construction. This method uses tools in number theory
+or algebra to assist construction. It gives tighter results, but they
+are usually ‘magical’, and only works in a small set of cases.
+• Randomized algebraic construction. This method is the hybrid of
+the two methods above and combines the advantages of both.
+This section will focus on randomized constructions. We start with a
+general lower bound for extremal numbers.
+Theorem 2.25. For any graph H with at least 2 edges, there exists a con-
+stant c > 0, such that for any n ∈N, there exists an H-free graph on n
+vertices with at least cn2−v(H)−2
+e(H)−1 edges. In other words,
+ex(n, H) ≥cn2−v(H)−2
+e(H)−1 .
+Proof. The idea is to use the alteration method: we can construct a
+graph that has few copies of H in it, and delete one edge from each
+copy to eliminate the occurrences of H.
+The random graph G(n, p) is called
+the Erd˝os–Rényi random graph, which
+appears in many randomized construc-
+tions.
+Consider G = G(n, p) as a random graph with n vertices where
+each edge appears with probability p (p to be determined). Let #H be
+the number of copies of H in G. Then,
+E[#H] = n(n −1) · · · (n −v(H) + 1)
+| Aut(H)|
+pe(H) ≤pe(H)nv(H),
+where Aut(H) is the automorphism group of graph H, and
+E[e(G)] = p
+n
+2
+
+.
+Let p = 1
+2n−v(H)−2
+e(H)−1 , chosen so that
+E[#H] ≤1
+2E[e(G)],
+which further implies
+E[e(G) −#H] ≥1
+2 p
+n
+2
+
+≥1
+16n2−v(H)−2
+e(H)−1 .
+Thus, there exists a graph G, such that the value of (e(G) −#H) is
+at least the expectation. Remove one edge from each copy of H in G,
+and we get an H-free graph with enough edges.
+
+
+forbidding subgraphs
+33
+Remark 2.26. For example, if H is the following graph
+then applying Theorem 2.25 directly gives
+ex(n, H) ≳n11/7.
+However, if we forbid H’s subgraph K4 instead (forbidding a sub-
+graph will automatically forbid the original graph), Theorem 2.25
+actually gives us a better bound:
+ex(n, H) ≥ex(n, K4) ≳n8/5.
+For a general H, we apply Theorem 2.25 to the subgraph of H with
+the maximum (e −1)/(v −2) value. For this purpose, deﬁne the
+2-density of H as
+m2(H) :=
+max
+H′⊆H
+v(H′)≥3
+e(H′) −1
+v(H′) −2.
+We have the following corollary.
+Corollary 2.27. For any graph H with at least two edges, there exists
+constant c = cH > 0 such that
+ex(n, H) ≥cn2−1/m2(H).
+Example 2.28. We present some speciﬁc examples of Theorem 2.25.
+This lower bound, combined with the upper bound from the K˝ovári–
+Sós–Turán theorem (Theorem 2.17), gives that for every 2 ≤s ≤t,
+n2−s+t−2
+st−1 ≲ex(n, Ks,t) ≲n2−1/s.
+When t is large compared to s, the exponents in the two bounds
+above are close to each other (but never equal).
+When t = s, the above bounds specialize to
+n2−
+2
+s+1 ≲n2−s+t−2
+st−1 ≲≲n2−1/s.
+In particular, for s = 2, we obtain
+n4/3 ≲ex(n, K2,2) ≲n3/2.
+It turns out what the upper bound is close to tight, as we show next a
+different, algebraic, construction of a K2,2-free graph.
+
+
+34
+lower bounds: algebraic constructions
+2.7
+Lower bounds: algebraic constructions
+In this section, we use algebraic constructions to ﬁnd Ks,t-free graphs,
+for various values of (s, t), that match the upper bound in the K˝ovári–
+Sós–Turán theorem (Theorem 2.17) up to a constant factor.
+The simplest example of such an algebraic construction is the
+following construction of K2,2-free graphs with many edges.
+Theorem 2.29 (Erd˝os–Rényi–Sós).
+Erd˝os, Rényi and Sós (1966)
+ex(n, K2,2) ≥
+1
+2 −o(1)
+
+n3/2.
+Proof. Suppose n = p2 −1 where p is a prime. Consider the following
+graph G (called polarity graph):
+Why is it called a polarity graph? It
+may be helpful to ﬁrst think about
+the partite version of the construction,
+where one vertex set is the set of points
+of of a (projective) plane over Fp, and
+the other vertex set is the set of lines in
+the same plane, and one has an edge
+between point p and line ℓif p ∈ℓ.
+This graph is C4-free since no two lines
+intersect in two distinct points.
+The construction in the proof of
+Theorem 2.29 has one vertex set that
+identiﬁes points with lines. This duality
+pairing between points and lines
+is known in projective geometry a
+polarity.
+• V(G) = F2
+p \ {(0, 0)},
+• E(G) = {(x, y) ∼(a, b)|ax + by = 1 in Fp}.
+For any two distinct vertices (a, b) ̸= (a′, b′) ∈V(G), there is at
+most one solution (common neighbour) (x, y) ∈V(G) satisfying both
+ax + by = 1 and a′x + b′y = 1. Therefore, G is K2,2-free.
+Most vertices have degree p because
+the equation ax + by = 1 has exactly p
+solutions (x, y). Sometimes we have to
+subtract 1 because one of the solutions
+might be (a, b) itself, which forms a
+self-loop.
+Moreover, every vertex has degree p or p −1, so the total number
+of edges
+e(G) =
+1
+2 −o(1)
+
+p3 =
+1
+2 −o(1)
+
+n3/2,
+which concludes our proof.
+If n does not have the form p2 −1 for some prime, then we let p
+be the largest prime such that p2 −1 ≤n. Then p = (1 −o(1)n
+and constructing the same graph Gp2−1 with n −p2 + 1 isolated
+Here we use that the smallest prime
+greater than n has size n + o(n). The
+best result of this form says that there
+exists a prime in the interval [n −
+n0.525, n] for every sufﬁciently large n.
+Baker, Harman and Pintz (2001)
+vertices.
+A natural question to ask here is whether the construction above
+can be generalized. The next construction gives us a construction for
+K3,3-free graphs.
+Theorem 2.30 (Brown).
+Brown (1966)
+It is known that the constant 1/2 in
+Theorem 2.30 is the best constant
+possible.
+ex(n, K3,3) ≥
+1
+2 −o(1)
+
+n5/3
+Proof sketch. Let n = p3 where p is a prime. Consider the following
+graph G:
+• V(G) = F3
+p
+• E(G) = {(x, y, z) ∼(a, b, c)|(a −x)2 + (b −y)2 + (c −z)2 =
+u in Fp}, where u is some carefully-chosen ﬁxed nonzero element
+in Fp
+
+
+forbidding subgraphs
+35
+One needs to check that it is possible to choose u so that the above
+graph is K3,3. We omit the proof but give some intuition. Had we
+used points in R3 instead of F3
+p, the K3,3-freeness is equivalent to the
+statement that three unit spheres have at most two common points.
+This statement about unit spheres in R3, and it can be proved rigor-
+ously by some algebraic manipulation. One would carry out a similar
+algebraic manipulation over Fp to verify that the graph above is K3,3-
+free.
+Moreover, each vertex has degree around p2 since the distribution
+of (a −x)2 + (b −y)2 + (c −z)2 is almost uniform across Fp as (x, y, z)
+varies randomly over F3
+p, and so we expect roughly a 1/p fraction of
+(x, y, z) to have (a −x)2 + (b −y)2 + (c −z)2 = u. Again we omit the
+details.
+Although the case of K2,2 and K3,3 are fully solved, the correspond-
+ing problem for K4,4 is a central open problem in extremal graph
+theory.
+Open problem 2.31. What is the order of growth of ex(n, K4,4)? Is it
+Θ(n7/4), matching the upper bound in Theorem 2.17?
+We have obtained the K˝ovári–Sós–Turán bound up to a constant
+factor for K2,2 and K3,3. Now we present a construction that matches
+the K˝ovári–Sós–Turán bound for Ks,t whenever t is sufﬁciently large
+compared to s.
+Theorem 2.32 (Alon, Kollár, Rónyai, Szabó). If t ≥(s −1)! + 1 then
+Kollár, Rónyai, and Szabó (1996)
+Alon, Rónyai, and Szabó (1999)
+ex(n, Ks,t) = Θ(n2−1
+s ).
+We begin by proving a weaker version for t ≥s! + 1. This will be
+similar in spirit and later we will make an adjustment to achieve the
+desired bound. Take a prime p and n = ps with s ≥2. Consider the
+Notice that we said the image of N
+lies in Fp rather than Fps. We can
+easily check this is indeed the case as
+N(x)p = N(x).
+norm map N : Fps →Fp deﬁned by
+N(x) = x · xp · xp2 · · · xps−1 = x
+ps−1
+p−1 .
+Deﬁne the graph NormGraphp,s = (V, E) with
+V = Fps and E = {{a, b}|a ̸= b, N(a + b) = 1}.
+Proposition 2.33. In NormGraphp,s deﬁned as above, letting n = ps be the
+number of vertices,
+|E| ≥1
+2n2−1
+s .
+Proof. Since F×
+ps is a cyclic group of order ps −1 we know that
+|{x ∈Fps|N(x) = 1}| = ps −1
+p −1 .
+
+
+36
+lower bounds: algebraic constructions
+Thus for every vertex x (the minus one accounts for vertices with
+N(x + x) = 1)
+deg(x) ≥ps −1
+p −1 −1 ≥ps−1 = n1−1
+s .
+This gives us the desired lower bound on the number of edges.
+Proposition 2.34. NormGraphp,s is Ks,s!+1-free.
+We wish to upper bound the number of common neighbors to a
+set of s vertices. We quote without proof the following result, which
+can be proved using algebraic geometry.
+Theorem 2.35. Let F be any ﬁeld and aij, bi ∈F such that aij ̸= ai′j for all
+Kollár, Rónyai, and Szabó (1996)
+i ̸= i′. Then the system of equations
+(x1 −a11)(x2 −a12) · · · (xs −a1s) = b1
+(x1 −a21)(x2 −a22) · · · (xs −a2s) = b2
+...
+(x1 −as1)(x2 −as2) · · · (xs −ass) = bs
+has at most s! solutions in Fs.
+Remark 2.36. Consider the special case when all the bi are 0. In this
+case, since the aij are distinct for a ﬁxed j, we are picking an ij for
+which xj = aijj. Since all the ij are distinct, this is equivalent to
+picking a permutation on [s]. Therefore there are exactly s! solutions.
+We can now prove Proposition 2.34.
+Proof of Proposition 2.34. Consider distinct y1, y2, . . . , ys ∈Fps. We
+wish to bound the number of common neighbors x. We can use the
+fact that in a ﬁeld with characteristic p we have (x + y)p = xp + yp to
+obtain
+1 = N(x + yi) = (x + yi)(x + yi)p . . . (x + yi)ps−1
+= (x + yi)(xp + yp
+i ) . . . (xps−1 + yps−1
+i
+)
+for all 1 ≤i ≤s. By Theorem 2.35 these s equations have at most
+s! solutions in x. Notice we do in fact satisfy the hypothesis since
+yp
+i = yp
+j if and only if yi = yj in our ﬁeld.
+Now we introduce the adjustment to achieve the bound t ≥(s −
+1)! + 1 in Theorem 2.32. We deﬁne the graph ProjNormGraphp,s =
+(V, E) with V = Fps−1 × F×
+p for s ≥3. Here n = (p −1)ps−1. Deﬁne
+the edge relation as (X, x) ∼(Y, y) if and only if
+N(X + Y) = xy.
+
+
+forbidding subgraphs
+37
+Proposition 2.37. In ProjNormGraphp,s deﬁned as above, letting n =
+(p −1)ps−1 denote the number of vertices,
+|E| =
+1
+2 −o(1)
+
+n2−1
+s .
+Proof. It follows from that every vertex (X, x) has degree ps−1 −1 =
+(1 −o(1))n1−1/s since its neighbors are (Y, N(X + Y)/x) as Y ranges
+over elements of Fps−1 over than −X.
+Now that we know we have a sufﬁcient amount of edges we just
+need our graph to be Ks,(s−1)!+1-free.
+Proposition 2.38. ProjNormGraphp,s is Ks,(s−1)!+1-free.
+Proof. Once again we ﬁx distinct (Yi, yi) ∈V for 1 ≤i ≤s and we
+wish to ﬁnd all common neighbors (X, x). Then
+N(X + Yi) = xyi.
+Assume this system has at least one solution. Then if Yi = Yj with i ̸=
+j we must have that yi = yj. Therefore all the Yi are distinct. For each
+i < s we can take N(X + Yi) = xyi and divide by N(X + Ys) = xys to
+obtain
+N
+ X + Yi
+X + Ys
+
+= yi
+ys
+.
+Dividing both sides by N(Yi −Ys) we obtain
+N
+
+1
+X + Ys
++
+1
+Yi −Ys
+
+=
+yi
+N(Yi −Ys)ys
+for all 1 ≤i ≤s −1. Now applying Theorem 2.35 there are at most
+(s −1)! choices for X, which also determines x = N(X + Y1)/y1.
+Thus there are at most (s −1)! common neighbors.
+Now we are ready to prove Theorem 2.32.
+Proof of Theorem 2.32. By Proposition 2.37 and Proposition 2.38 we
+know that ProjNormGraphp,s is Ks,(s−1)!+1-free and therefore Ks,t-free
+and has
+
+1
+2 −o(1)
+
+n2−1
+s edges as desired.
+2.8
+Lower bounds: randomized algebraic constructions
+So far we have seen both constructions using random graphs and
+algebraic constructions. In this section we present an alternative
+construction of Ks,t-free graphs due to Bukh with Θ(n2−1
+s ) edges pro-
+Bukh (2015)
+vided t > t0(s) for some function t0. This is an algebraic construction
+with some randomness added to it.
+
+
+38
+lower bounds: randomized algebraic constructions
+First ﬁx s ≥4 and take a prime power q. Let d = s2 −s + 2 and
+f ∈Fq[x1, x2, . . . , xs, y1, y2, . . . , ys] be a polynomial chosen uniformly
+at random among all polynomials with degree at most d in each
+of X = (x1, x2, . . . , xs) and Y = (y1, y2, . . . , ys). Take G bipartite
+with vertex parts n = L = R = Fs
+q and deﬁne the edge relation as
+(X, Y) ∈L × R when f (X, Y) = 0.
+Lemma 2.39. For all u, v ∈Fs
+q and f chosen randomly as above
+P[ f (u, v) = 0] = 1
+q.
+Proof. Notice that if g is a uniformly random constant in Fq, then
+f (u, v) and f (u, v) + g are identically distributed. Hence each of the q
+possibilities are equally likely to the probability is 1/q.
+Now the expected number of edges is the order we want as
+E[e(G)] = n2
+q . All that we need is for the number of copies of Ks,t
+to be relatively low. In order to do so, we must answer the follow-
+ing question. For a set of vertices in L of size s, how many common
+neighbors can it have?
+Lemma 2.40. Suppose r, s ≤min(√q, d) and U, V ⊂Fs
+q with |U| = s
+and |V| = r. Furthermore let f ∈Fq[x1, x2, . . . , xs, y1, y2, . . . , ys] be a
+polynomial chosen uniformly at random among all polynomials with degree
+at most d in each of X = (x1, x2, . . . , xs) and Y = (y1, y2, . . . , ys). Then
+P[ f (u, v) = 0 for all u ∈U, v ∈V] = q−sr.
+Proof. First let us consider the special case where the ﬁrst coordinates
+of points in U and V are all distinct. Deﬁne
+g(X1, Y1) =
+∑
+0≤i≤s−1
+0≤j≤r−1
+aijXi
+1Yj
+1
+with aij each uniform iid random variables over Fq. We know that
+f and f + g have the same distribution, so it sufﬁces to show for
+all buv ∈Fq where u ∈U and v ∈V there exists aij for which
+g(u, v) = buv for all u ∈U, v ∈V. The idea is to apply Lagrange
+Interpolation twice. First for all u ∈U we can ﬁnd a single variable
+polynomial gu(Y1) with degree at most r −1 such that gu(v) = buv
+for all v ∈V. Then we can view g(X1, Y1) as a polynomial in Y1 with
+coefﬁcients being polynomials in X1, i.e.,
+g(X1, Y1) =
+∑
+0≤j≤r−1
+aj(X1)Yj
+1.
+Applying the Lagrange interpolation theorem for a second time
+we can ﬁnd polynomials a0, a1, . . . , ar−1 such that for all u ∈U,
+g(u, Y1) = gu(Y1) as polynomials in Y1.
+
+
+forbidding subgraphs
+39
+Now suppose the ﬁrst coordinates are not necessarily distinct. It
+sufﬁces to ﬁnd linear maps T, S: Fs
+q →Fs
+q such that TU and SV have
+all their ﬁrst coordinates different. Let us prove that such a map T
+exists. If we ﬁnd a linear map T1 : Fs
+q →Fq that sends the elements of
+U to distinct elements, then we can extend T1 to T by using T1 for the
+ﬁrst coordinate. To ﬁnd T1 pick T1 uniformly among all linear maps.
+Then for every pair in U the probability of collision is 1
+q. So by union
+bounding we have the probability of success is at least 1 −(|U|
+2 ) 1
+q > 0,
+so such a map T exists. Similarly S exists.
+Fix U ⊂Fs
+q with |U| = s. We wish to upper bound the number
+of instances of U having many common neighbors. In order to do
+this, we will use the method of moments. Let I(v) represent the
+indicator variable which is 1 exactly when v is a common neighbor
+of U and set X to be the number of common neighbors of U. Then
+using Lemma 2.40,
+E[Xd] = E[( ∑
+v∈Fsq
+I(v))d] =
+∑
+v1,...,vd∈Fsq
+E[I(v1) · · · I(vd)]
+= ∑
+r≤d
+qs
+r
+
+q−rsMr ≤∑
+r≤d
+Mr = M,
+where Mr is deﬁned as the number of surjections from [d] to [r] and
+M = ∑r≤d Mr. Using Markov’s inequality we get
+P(X ≥λ) ≤E[Xd]
+λd
+≤M
+λd .
+Now even if the expectation of X is low, we cannot be certain that
+the probability of X being large is low. For example if we took the
+random graph with p = n−1
+s then X will have low expectation but
+a long, smooth-decaying tail and therefore it is likely that X will be
+large for some U.
+It turns out what algebraic geometry prevents the number of com-
+mon neighbors X from taking arbitrary values. The common neigh-
+bors are determined by the zeros of a set of polynomial equations,
+and hence form an algebraic variety. The intuition is that either we
+are in a “zero-dimensional” case where X is very small or a “positive
+dimensional” case where X is at least on the order of q.
+Lemma 2.41. For all s, d there exists a constant C such that if f1(Y), . . . , fs(Y) Bukh (2015)
+are polynomials on Fs
+q of degree at most d then
+{y ∈Fs
+q| f1(y) = . . . fs(y) = 0}
+has size either at most C at least q −C√q.
+
+
+40
+forbidding a sparse bipartite graph
+The lemma can be deduced from the following important result
+from algebraic geometry known as the Lang–Weil bound, which says
+that the number of points of an r-dimensional algebraic variety in Fs
+q
+is roughly qr, as long as certain irreducibility hypotheses are satisﬁed.
+Theorem 2.42 (Lang–Weil bound).
+If V = {y ∈Fs
+q|g1(y) = g2(y) =
+Lang and Weil (1954)
+. . . = gm(y)} is irreducible and gi has degree at most d, then
+|V ∩Fs
+q| = qdim V(1 + Os,m,d(q−1
+2 )).
+Now we can use our bound from Markov’s Inequality along with
+Lemma 2.41. Let the s polynomials f1(Y), . . . , fs(Y) in Lemma 2.41 be
+the s polynomials f (u, Y) as u ranges over the s elements of U. Then
+for large enough q there exists a constant C from Lemma 2.41 such
+that having X > C would imply X ≥q −C√q > q/2, so that
+P(X > C) = P
+
+X > q
+2
+
+≤
+M
+(q/2)d .
+Thus the number of subsets of L or R with size s and more than C
+common neighbors is at most
+2
+n
+s
+
+M
+(q/2)d = O(qs−2)
+in expectation. Take G and remove a vertex from every such subset to
+create G′. First we have that G′ is Ks,C+1-free. Then
+E[e(G′)] ≥n2
+q −O(nqs−2) = (1 −o(1))n2
+q = (1 −o(1))n2−1
+s
+and v(G′) ≤2n. So there exists an instance of G′ that obtains the
+desired bound.
+2.9
+Forbidding a sparse bipartite graph
+For any bipartite graph H, it is always contained in Ks,t for some s, t.
+Therefore by Theorem 2.17,
+ex(n, H) ≤ex(n, Ks,t) ≲n2−1
+s .
+The ﬁrst inequality is not tight in general when H is some sparse
+bipartite graph. In this section, we will see some techniques that give
+a better upper bound on ex(n, H) for sparse bipartite graphs H.
+The ﬁrst result we are going to see is an upper bound on ex(n, H)
+when H is bipartite and the degrees of vertices in one part are
+bounded above.
+
+
+forbidding subgraphs
+41
+Theorem 2.43. Let H be a bipartite graph whose vertex set is A ∪B such
+Füredi (1991)
+Alon, Krivelevich and Sudakov (2003)
+that every vertex in A has degree at most r. Then there exists a constant
+C = CH such that
+ex(n, H) ≤Cn2−1
+r
+Remark 2.44. Theorem 2.32 shows that the exponent 2 −1
+r is the
+best possible as function of r since we can take H = Kr,t for some
+t ≤(r −1)! + 1.
+To show this result, we introduce the following powerful proba-
+bilistic technique called dependent random choice. The main idea of
+this lemma is the following: if G has many edges, then there exists
+a large subset U of V(G) such that all small subsets of vertices in U
+have many common neighbors.
+Lemma 2.45 (Dependent random choice). Let u, n, r, m, t ∈N, α > 0 be
+Alon, Krivelevich and Sudakov (2003)
+numbers that satisfy the inequality
+nαt −
+n
+r
+ m
+n
+t
+≥u.
+Then every graph G with n vertices and at least αn2/2 edges contains a
+subset U of vertices with size at least u such that every r-element subset S of
+U has at least m common neighbors.
+Proof. Let T be a list of t vertices chosen uniformly at random from
+V(G) with replacement (allowing repetition). Let A be the common
+neighborhood of T. The expected value of |A| is
+E|A| = ∑
+v∈V
+P(v ∈A)
+= ∑
+v∈V
+P(T ⊆N(v))
+= ∑
+v∈V
+d(v)
+n
+t
+≥n
+ 
+1
+n ∑
+v∈V
+d(v)
+n
+!t
+(convexity)
+≥nαt.
+For every r-element subset S of V, the event of A containing S oc-
+curs if and only if T is contained in the common neighborhood of S,
+which occurs with probability
+#common neighbors of S
+n
+t
+.
+Call a set S bad if it has less than m common neighbors. Then each
+bad r-element subset S ⊂V is contained in A with probability less
+
+
+42
+forbidding a sparse bipartite graph
+than (m/n)t. Therefore by linearity of expectation,
+E[the number bad r-element subset of A] <
+n
+r
+ m
+n
+t
+.
+To make sure that there are no bad subsets, we can get rid of one
+element in each bad subset. The number of remaining elements is at
+least |A| −(#bad r-element subset of A), whose expected value is at
+least
+nαt −
+n
+r
+ m
+n
+t
+≥u.
+Consequently, there exists a T such that there are at least u elements
+in A remaining after getting rid of all bad r-element subsets. The set
+U of the remaining u elements satisﬁes the desired properties.
+Setting the parameters of Lemma 2.45 to what we need for proving
+Theorem 2.43, we get the following corollary.
+Corollary 2.46. For any bipartite graph H with vertex set A ∪B where
+each vertex in A has degree at most r, there exists C such that the following
+holds: Every graph with at least Cn2−1
+r edges contains a vertex subset U
+with |U| = |B| such that every r-element subset in U has at least |A| + |B|
+common neighbors.
+Proof. By Lemma 2.45 with u = |B|, m = |A| + |B|, and t = r, it
+sufﬁces to check that there exists C so that
+n
+
+2Cn−1
+r
+r
+−
+n
+r
+ |A| + |B|
+n
+r
+≥|B|.
+The ﬁrst term evaluates to (2C)r, and the second term is OH(1).
+Therefore we can choose C large enough to make this inequality
+hold.
+Now we are ready to show Theorem 2.43.
+Proof of Theorem 2.43. Let G be a graph with n vertices and at least
+Cn2−1
+r edges, where C is chosen as in Corollary 2.46. First embed
+B into V(G) using U from Corollary 2.46. The plan is to extend this
+embedding furthermore to A ∪B ,−→V(G). To do this, assume that
+we have an embedding φ : A′ ∪B ,−→V(G) already where A′ ⊆A,
+and we want to extend φ to an arbitrary v ∈A\A′. We have to make
+sure that φ(v) is a common neighbor of φ(N(v)) in G. Note that by
+assumption, |φ(N(v))| = |N(v)| ≤r, and so by the choice of B,
+the set φ(N(v)) has at least |A| + |B| common neighbors. φ(v) can
+then be any of those common neighbors, with an exception that φ(v)
+cannot be the same as φ(u) for any other u ∈A′ ∪B. This eliminates
+|A′| + |B| ≤|A| + |B| −1 possibilities for φ(v). Since there are at least
+|A| + |B| vertices to choose from, we can just extend φ by setting φ(v)
+
+
+forbidding subgraphs
+43
+to be one of the remaining choices. With this process, we can extend
+the embedding to A ∪B ,−→V(G), which shows that there is a copy of
+H in G.
+This is a general result that can be applied to all bipartite graphs.
+However, for some speciﬁc bipartite graph H, there could be room
+for improvement. For example, from this technique, the bound we
+get for C6 is the same as C4, which is O(n3/2). This is nonetheless not
+tight.
+Theorem 2.47 (Even cycles). For all integer k ≥2, there exists a constant
+Bondy and Simonovits (1974)
+C so that
+ex(n, C2k) ≤Cn1+ 1
+k .
+Remark 2.48.
+It is known that ex(n, C2k) = Θ
+
+n1+1/k
+for k = 2, 3, 5.
+Benson (1966)
+However, it is open whether the same holds for other values of k.
+Instead of this theorem, we will show a weaker result:
+Theorem 2.49. For any integer k ≥2, there exists a constant C so that
+every graph G with n vertices and at least Cn1+1/k edges contains an even
+cycle of length at most 2k.
+To show this theorem, we will ﬁrst “clean up" the graph so that
+the minimum degree of the graph is large enough, and also the graph
+is bipartite. The following two lemmas will allow us to focus on a
+subgraph of G that satisﬁes those nice properties.
+Lemma 2.50. Let t ∈R and G a graph with average degree 2t. Then G
+contains a subgraph with minimum degree greater than r.
+Proof. We have e(G) = v(G)t. Removing a vertex of degree at most
+t cannot decrease the average degree. We can keep removing vertices
+of degree at most t until every vertex has degree more than t. This
+algorithm must terminate before reaching the empty subgraph since
+every graph with at most 2t vertices has average degree less than 2t.
+The remaining subgraph when the algorithm terminates is then a
+subgraph whose minimum degree is more than t.
+Lemma 2.51. Every G has a bipartite subgraph with at least e(G)/2 edges.
+Proof. Color every vertex with one of two colors uniformly at ran-
+dom. Then the expected value of non-monochromatic edges is
+e(G)/2. Hence there exists a coloring that has at least e(G)/2 non-
+monochromatic edges.
+Proof of Theorem 2.49. Suppose that G contains no even cycles of
+length at most 2k. By Lemma 2.50 and Lemma 2.51 there exists a
+bipartite subgraph G′ with minimum degree at least δ := Cn1/k/2.
+
+
+44
+forbidding a sparse bipartite graph
+Let A0 = {u} where u is an arbitrary vertex in V(G′). Let Ai+1 =
+NG′(Ai)\Ai−1. Then Ai is the set of vertices that are distance exactly i
+away from the starting vertex u since G′ is bipartite.
+A0
+A1
+A2
+A3
+· · ·
+At
+Figure 2.4: Diagram for Proof of Theo-
+rem 2.49
+Now for every two different vertices v, v′ in Ai−1 for some 1 ≤
+i ≤k, if they have a common neighbor w in Ai, then there are two
+different shortest paths from u to w. The union two distinct paths
+(even if they overlap) contains an even-cycle of length at most 2i ≤
+2k, which is a contradiction. Therefore the common neighbors of any
+two vertices in Ai−1 can only lie in Ai−2, which implies that |Ai| ≥
+(δ −1)|Ai−1|. Hence |Ak| ≥(δ −1)k ≥(Cn1/k −1)k. If C is chosen
+large enough then we get |Ak| > n, which is a contradiction.
+If H is a bipartite graph with vertex set A ∪B and each vertex in
+A has degree at most 2, then ex(n, H) = O(n3/2). The exponent 3/2
+is optimal since ex(n, K2,2) = Θ(n3/2) and hence the same holds
+whenever H contains K2,2. It turns out that this exponent can be
+improved whenever H does not contain any copy of K2,2.
+Theorem 2.52. Let H be a bipartite graph with vertex bipartition A ∪B
+Colon and Lee (2019+)
+such that each vertex in A has degree at most 2, and H does not contain
+K2,2. Then there exist c, C > 0 dependent on H such that
+ex(n, H) ≤Cn
+3
+2 −c.
+To prove this theorem, we show an equivalent statement for-
+mulated using the notion of subdivisons. For a graph H, the 1-
+subdivision H1-sub of H is obtained by adding an extra vertex in the
+middle of every edge in H. Notice that every H in the setting of The-
+orem 2.52 is a subgraph of some K1-sub
+t
+. Therefore we can consider
+the following alternative formulation of Theorem 2.52.
+K4
+−→
+K1-sub
+4
+Figure 2.5: 1-subdivision of K4
+Theorem 2.53. For all t ≥3, there exists ct > 0 such that
+ex(n, K1-sub
+t
+) = O(n
+3
+2 −ct).
+Now we present a proof of Theorem 2.53 by Janzer. As in The-
+Janzer (2018)
+orem 2.49, it is helpful to pass the entire argument to a subgraph
+where we have a better control of the degrees of the vertices. To do
+so, we are going to use the following lemma (proof omitted) to ﬁnd
+an almost regular subgraph.
+Lemma 2.54. For all 0 < α < 1, there exist constants β, k > 0 such that
+Colon and Lee (2019+)
+for all C > 0, n sufﬁciently large, every n-vertex graph G with ≥Cn1+α
+edges has a subgraph G′ such that
+(a) v(G′) ≥nβ,
+(b) e(G′) ≥1
+10Cv(G′)1+α,
+
+
+forbidding subgraphs
+45
+(c) max deg(G′) ≤K min deg(G′),
+(d) G′ is bipartite with two parts of sizes differing by factor ≤2.
+From now on, we treat t as a constant. For any two vertices u, v ∈
+A, we say that the pair uv is light if the number of common neighbors
+of u and v is at least 1 and less than (t
+2); moreover, we say that the
+pair uv is heavy if the number of common neighbors of u and v is at
+least (t
+2). Note that pairs u, v ∈A without any common neighbors are
+neither light nor heavy. The following lemma gives a lower bound on
+the number of light pairs.
+Lemma 2.55. Let G be a K1-sub
+t
+-free bipartite graph with bipartition U ∪B,
+d(x) ≥δ for all x ∈U, and |U| ≥4|B|t/δ. Then there exists u ∈U in
+Ω(δ2|U|/|B|) light pairs in U.
+Proof. Let S be the set of {({u, v}, x)|u, v ∈U, x ∈B} where {u, v}
+is an unordered pair of vertices in U and x is a common neighbor of
+{u, v}. We can count this by choosing x ∈B ﬁrst:
+|S| = ∑
+x∈B
+d(x)
+2
+
+≥|B|
+e(G)/|B|
+2
+
+≥|B|
+4
+δ|U|
+|B|
+2
+= δ2|U|2
+4|B| .
+Notice that the low-degree vertices in B contributes very little since
+∑
+x∈B
+d(x)<2t
+d(x)
+2
+
+≤2t2|B| ≤δ2|U|2
+8|B| .
+Therefore
+∑
+x∈B
+d(x)≥2t
+d(x)
+2
+
+≥δ2|U|2
+8|B| .
+Note that if there are t mutually heavy vertices in U, then we can
+choose a common neighbor uij for every pair {vi, vj} with i < j. Since
+there are at least (t
+2) such neighbors for each pair {vi, vj}, one can
+make choices so that all uij are distinct. This then produces a K1-sub
+t
+subgraph, which is a contradiction. Therefore there do not exist t
+mutually heavy vertices in U, and by Turán’s Theorem, the number
+of heavy pairs in N(x) for x ∈B is at most e(Td(x),t−1). Since any two
+vertices in N(x) have at least one common neighbor x, they either
+form a light pair or a heavy pair. This shows that there are at least
+
+
+46
+forbidding a sparse bipartite graph
+(d(x)
+2 ) −e(Td(x),t−1) light pairs among N(x). If d(x) ≥2t, then
+d(x)
+2
+
+−e(Td(x),t−1)
+≥
+d(x)
+2
+
+−
+t −1
+2
+  d(x)
+t −1
+2
+=
+1
+2(t −1)d(x)2 −1
+2d(x)
+≳d(x)2.
+If we sum over x ∈B, then each light pair is only going to be counted
+for at most (t
+2) times according to the deﬁnition. This is constant
+since we view t as a constant. Therefore
+#light pairs in U ≳∑
+x∈B
+d(x)2 ≳|S| ≳δ2|U|2
+|B|
+,
+and by pigeon hole principle there exists a vertex u ∈U that is in
+Ω(δ2|U|/|B|) light pairs.
+With these lemmas, we are ready to prove Theorem 2.53.
+Proof of Theorem 2.53. Let G be any K1-sub
+t
+-free graph. First pick G′ by
+Lemma 2.54 with α = (t −2)/(2t −3), and say that the two parts
+are A and B. Set δ to be the minimum degree of G′. We will prove
+that δ ≤Cv(G′)(t−2)/(2t−3) for some sufﬁciently large constant C by
+contradiction. Suppose that δ > Cv(G′)(t−2)/(2t−3). Our plan is to
+pick v1, v2, . . . , vt such that vivj are light for all i < j, and no three
+of v1, . . . , vt have common neighbors. This will give us a K1-sub
+t
+and
+hence a contradiction.
+We will do so by repeatedly using Lemma 2.55 and induction on a
+stronger hypothesis: For each 1 ≤i ≤t, there exists A = U1 ⊇U2 ⊇
+· · · ⊇Ui and vj ∈Uj such that
+(a) vj is in at least Θ(δ2|Uj|/v(G′)) light pairs in Uj for all 1 ≤j ≤
+i −1,
+(b) vj is light to all vertices in Uj+1 for all 1 ≤j ≤i −1.
+(c) no three of v1, . . . , vi have common neighbors,
+(d) |Uj+1| ≳δ2|Uj|/v(G′) for all 1 ≤j ≤i −1,
+v1
+v2
+v3
+U1
+U2
+U3
+Figure 2.6: Repeatedly applying
+Lemma 2.55 to obtain vi’s and Ui’s
+This statement clearly holds when i = 1 by choosing v1 to be the
+vertex found by Lemma 2.55. Now suppose that we have constructed
+A = U1 ⊇· · · ⊇Ui−1 with vj ∈Uj for all j = 1, . . . , i −1. To construct
+Ui, let U′
+i be the set of vertices that form light pairs with vi−1. Then
+|U′
+i| ≳δ2|Ui−1|/v(G′) by the inductive hypothesis (a). Now we get
+rid of all the vertices in U′
+i that violate (c) to get Ui. It sufﬁces to look
+
+
+forbidding subgraphs
+47
+at each pair vjvk, look at their common neighbors u and delete all
+the neighbors of u from U′
+i. There are (i−1
+2 ) choices vjvk, and they
+have at most (t
+2) common neighbors since they form a light pair, and
+each such neighbors has degree at most Kδ. Therefore the number of
+vertices removed is at most
+i −1
+2
+t
+2
+
+Kδ = O(δ)
+since t and K are constants. Therefore after this alteration, (d) will
+still hold as long as |U′
+i| = Ω(δ) and C is chosen sufﬁciently large.
+This is true since
+|U′
+i| ≳
+
+δ2
+V(G′)
+i−1
+|A| ≳δ2t−2V(G′)t−2 = Θ(δ)
+given that i ≤t. Therefore (d) holds for i, and we just need to choose
+a vertex vi from Lemma 2.55 in Ui and (a), (b), (c) follow directly.
+Therefore by induction, this also holds for i = t. Now by (b) and (c),
+there exists a copy of K1-sub
+t
+in G′, which is a contradiction.
+The above argument shows that δ ≤Cv(G′)(t−2)/(2t−3), and so
+the maximum degree is at most KCv(G′)(t−2)/(2t−3). Hence e(G′) ≤
+KCv(G′)1+α, and by the choice of G′, we know that e(G) ≤10KCn1+α,
+as desired.
+
+
+ 
+ 
+ 
+MIT OpenCourseWare
+https://ocw.mit.edu 
+18.217 Graph Theory and Additive Combinatorics 
+Fall 2019 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

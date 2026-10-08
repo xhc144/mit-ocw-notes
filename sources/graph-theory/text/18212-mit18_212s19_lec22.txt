@@ -1,0 +1,228 @@
+  
+ 
+ 
+18.212: Algebraic Combinatorics 
+Andrew Lin 
+Spring 2019 
+This class is being taught by Professor Postnikov. 
+April 3, 2019 
+Recall that last lecture, we formulated the Jacobi Triple Product identity, which can be written equivalently in the following 
+form: 
+∞ 
+Y
+Y 
+X
+Y 
+−1 
+r
+r (r+1)/2 
+(1 + zq n) 
+(1 + z
+q n−1) = 
+z q 
+1 
+. 
+1 − qn 
+n≥1 
+n≥1 
+r =−∞ 
+n≥1 
+Let’s do a combinatorial proof of this identity! Each of the products has a combinatorial interpretation in terms of certain 
+partitions. 
+a 
+Proof. First of all, the ﬁrst product’s coeÿcient of z is 
+X 
+|µ| 
+q
+, 
+µ partition 
+with a distinct parts 
+and the second product’s coeÿcient of z−b is 
+X 
+|ν|−b| 
+q
+, 
+ν partition 
+with b distinct parts 
+since the power is n − 1, not n. Finally, the product on the right is the usual generating function for all partitions: somehow 
+we want to combine di˙erent partitions together. So we want a bijection between 
+(a, b, µ, ν) → (r, λ). 
+where µ has a distinct parts and ν has b distinct parts. We also need to make sure the monomials match up: looking at 
+r (r + 1) 
+powers of z, a − b = r , and looking at powers of q, |µ| + |ν| − b =
++ |λ| . 
+2 
+Since µ and ν have distinct parts, we can represent them with shifted Young diagrams instead! For example, if 
+µ = (7, 6, 4, 3, 1) and ν = (6, 5, 3), then our Young diagrams look like 
+˜µ = · 
+· 
+· 
+· 
+· 
+, ˜ν = · 
+· 
+· 
+. 
+1 
+
+
+We’re going to transpose ν˜ and remove its b diagonal boxes: 
+˜ν0 = 
+Now, take µ˜ and ν˜0 and glue their last dots together! This now looks like 
+· 
+· 
+· 
+· 
+· 
+. 
+With this, we can now chop o˙ the ﬁrst two columns o˙: our partition λ is now 
+λ = 
+= (5, 5, 4, 4, 3, 3, 3, 2). 
+We claim that this is the bijection that we want! The number of columns we chop o˙ is a − b = r , and counting the total 
+number of boxes, we started with |µ| + |ν| boxes, but then we removed all b diagonal boxes from ν: this yields the left 
+hand side. That left us with |λ| + 1 + 2 + · · · + r boxes, which is the desired right hand side! 
+We might not be convinced: what if a < b? We have to make a small edit, and we’ll do that by construction. If 
+µ = (5, 4, 2) and ν = (9, 8, 7, 4, 3, 1), then our shifted Young diagrams look like 
+˜µ = · 
+· 
+· 
+, ˜ν = · 
+· 
+· 
+· 
+· 
+· 
+. 
+2 
+
+
+Transposing and removing boxes, we have 
+and after gluing, our shape is 
+˜ν0 = 
+which yields (after chopping) 
+λ = 
+= (8, 8, 7, 5, 3, 3). 
+We need to make sure the identity still works: the total number of boxes here is |µ| + |ν| − b, but now the size of the 
+triangle is b − a − 1 (since our triangle is now below the dots)! So we have a small triangle that we chopped o˙, which is 
+(−r −1)(−r ) 
+r (r +1) 
+= 
+squares, so the same identity holds. 
+2
+2 
+Why is this a bijection? We need to know how to invert this from λ and r : attach a small triangle to the left or top of 
+λ based on the sign of r , and then we chop along the diagonal. This gives us µ˜ and ν˜0 , which can give us µ and ν, which 
+tells us our original partitions and a and b as well! 
+Let’s move on to the next topic of this class. We’ve been talking about Young diagrams and partitions a lot so far - in 
+this second half, we’ll start to discuss graphs, networks, and trees! (Graphs are objects with vertices and edges.) 
+Deﬁnition 1 
+A labeled tree is a connected graph on n nodes with no cycles, where the nodes are labeled 1, 2, · · · , n. Unlabeled 
+trees are the analogous object where the nodes are not labeled. 
+Example 2 
+There are 3 labeled trees on 3 vertices: put 1, 2, 3 at the vertices of an equilateral triangle, and remove one of the 
+3 
+
+
+edges. However, there is only 1 unlabeled tree on 3 vertices: it is a path. 
+Turns out we have an explicit formula for the number of trees: 
+Theorem 3 (Cayley’s formula) 
+The number of labeled trees on n nodes is nn−2 . 
+n−2 
+These numbers n 
+also appear pretty often! This is probably the next most famous set of numbers after Catalan 
+numbers, and there are many combinatorial interpretations. 
+Fact 4 
+In mathematics, there’s a law that mathematical formulas are never named after the person who discovered it. Cayley 
+wrote a paper in 1889, but the same result was given by Borchord in 1860 and Sylvester in 1857. 
+Cayley didn’t actually give a complete proof: it’s not a very trivial formula, but Professor Postnikov wants to show his 
+favorite proof, which is probably the shortest one! 
+Proof by Rényi, 1967. We’re going to use induction (?!?!). It’s kind of hard to get nn−2 from smaller versions of itself, 
+though... let’s do a generalization! Let’s prove the more general result: 
+Deﬁnition 5 
+T 
+deg(1)−1 deg(2)−1 
+deg(n)−1 
+Deﬁne the weight of a tree T to be a monomial x ≡ x
+x 
+· · · xn 
+. 
+1
+2 
+Notice that leaves have exponent 0. Now deﬁne 
+X 
+Fn(x1, · · · , xn) = 
+x T . 
+labeled trees on 
+n vertices 
+)n−2 
+We claim that this quantity is equal to (x1 + · · · xn 
+, and notice that Cayley’s formula follows by setting all xi = 1. The 
+idea is that the inductive hypothesis is now stronger, so we can actually use induction! Deﬁne Rn = Fn − (x1 + · · · + xn)n−2; 
+our goal is to show that Rn = 0. 
+This is easy to check for base cases n = 1, 2. Now let’s make some observations: 
+• Rn is a polynomial in x1, · · · , xn of degree ≤ n − 2. This is because the second term has degree n − 2, and every 
+monomial has degree n − 2: there are n − 1 edges, and each one contributes to 2 exponents (the endpoints of the 
+T 
+edge), and the −1s in the deﬁnition of x subtract n, for a total degree of 2(n − 1) − n = n − 2. 
+• For any i = 1, 2, · · · , n, if we initialize xi = 0, Rn evaluates to 0. To prove this, we can assume i = n by symmetry: 
+T 
+set xn = 0, and now all x die except for those where the degree of n is 1: that is, n is a leaf! So Fn evaluated at 
+xn = 0 is 
+X
+X 
+T
+T 0 
+x = 
+x (x1 + x2 + · · · + xn−1) 
+T :n leaf 
+T 0 with n−1 nodes 
+since there are n − 1 ways to connect n to one of the other vertices. 
+By the induction hypothesis, this is 
+Fn−1(x1 + · · · + xn−1), so Rn|xn =0 = Rn−1(x1 + · · · + xn−1) = 0. 
+• But now we’re done: if f (x1, · · · , xn) is a polynomial on n variables of degree at most n − 1, and x1, x2, · · · , xn are 
+all factors, then the polynomial must be 0. 
+This almost feels like cheating! We used almost no properties of trees at all. We’ll talk a bit more about this next time! 
+4 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+MIT OpenCourseWare 
+https://ocw.mit.edu 
+18.212 Algebraic Combinatorics 
+Spring 2019 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

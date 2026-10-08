@@ -1,0 +1,106 @@
+\originalchapter{谱方法、扩张与混合}\label{ch:spectral}
+\sourceof{18.217 第4章指定谱段落; 正则图限制版与 Cheeger、惰性游走推导为编者补充}
+\originalsection{邻接矩阵的谱}
+本章邻接谱部分默认顶点数 $n\ge2$. 有限无向简单图的邻接矩阵 $A$ 是实对称矩阵, $A_{uv}=1$ 当且仅当 $uv$ 为边. 由矩阵乘法归纳, $(A^k)_{uv}$ 计数从 $u$ 到 $v$ 的长度 $k$ 行走, 因而 $\operatorname{tr}A^k$ 计数带指定起点的闭行走. 实对称矩阵有一组标准正交特征向量, 全部特征值为实数; 这是本章使用的线性代数前提.
+
+若图为 $d$ 正则, 常向量为特征值 $d$ 的向量. 对任意 $x$, 由 $2|x_ux_v|\le x_u^2+x_v^2$ 得 $|x^{\mathsf T}Ax|\le d\|x\|^2$, 所以全部特征值在 $[-d,d]$ 内. 选常向量为第一特征向量, 其余特征值记 $\lambda_2,\ldots,\lambda_n$, 令 $\lambda_* =\max_{i\ge2}|\lambda_i|$. 图不连通时 $d$ 可能重复, 二部图还可能有 $-d$; 这些都应计入 $\lambda_*$, 不能只看第二大正特征值.
+\originalsection{扩张混合引理}
+对顶点集 $S,T$, 令 $e(S,T)=\sum_{u\in S,v\in T}A_{uv}$. 这是有序端点计数: 当 $S=T$, 内部每边计两次; 相交集合也依此定义.
+\begin{theorem}[扩张混合]\label{thm:mixing}
+$n$ 点 $d$ 正则图满足
+\[
+\left|e(S,T)-\frac{d|S||T|}{n}\right|
+\le\lambda_*\sqrt{|S|(1-|S|/n)|T|(1-|T|/n)}.
+\]
+\end{theorem}
+\begin{proof}
+把指示向量写为 $\mathbf1_S=(|S|/n)\mathbf1+x$, $x\perp\mathbf1$, 同理 $\mathbf1_T=(|T|/n)\mathbf1+y$. 常向量与正交部分的交叉项为0, 所以差等于 $x^{\mathsf T}Ay$. 在常向量的正交补上, $A$ 的算子范数为 $\lambda_*$, Cauchy--Schwarz 给绝对值不超过 $\lambda_*\|x\|\|y\|$. 直接计算 $\|x\|^2=|S|-|S|^2/n$, 得结论.
+\end{proof}
+当 $\lambda_*\ll d$, 大集合之间的边数接近按密度均匀分布的预测. 这个结论不是说每一对顶点都接近随机, 而是控制集合总偏差; 小集合仍可能有特殊结构.
+\begin{theorem}[Hoffman 独立数界]\label{thm:hoffman}
+设 $n\ge2,d>0$, 图为 $d$ 正则, 最小邻接特征值为 $\tau<0$. 则
+\[
+\alpha(G)\le\frac{-\tau}{d-\tau}n,\qquad \chi(G)\ge1-\frac d\tau.
+\]
+\end{theorem}
+\begin{proof}
+由于 $\operatorname{tr}A=0$ 而有正特征值 $d$, 最小值确实为负. 独立集 $S$ 的大小记 $a$, 用上面的分解得 $0=\mathbf1_S^{\mathsf T}A\mathbf1_S=da^2/n+x^{\mathsf T}Ax\ge da^2/n+\tau(a-a^2/n)$. 若 $a>0$, 整理得界; $a=0$ 显然. 每个颜色类独立, 故 $n\le\chi\alpha$, 得染色下界.
+\end{proof}
+\begin{example}
+用最小特征值证明奇圈 $C_5$ 至少需3种颜色.
+\end{example}
+\begin{solution}
+圈的特征向量由五次单位根得到, 特征值为 $2\cos(2\pi j/5)$, $j=0,\ldots,4$. 最小值 $\tau=-(1+\sqrt5)/2$, 所以 $\chi\ge1+4/(1+\sqrt5)=\sqrt5>2$. 染色数为整数, 至少3. 按圈顺次使用颜色 $1,2,1,2,3$ 又给上界3.
+\end{solution}
+\originalsection{稠密正则图的四步计数}
+\begin{proposition}\label{prop:regularquasi}
+设 $G_n$ 为 $n$ 点简单正则图, $d_n/n\to p\in(0,1)$. 下列两条件等价: $\lambda_*(G_n)=o(n)$; 带标号四步闭行走数 $\operatorname{tr}A_n^4=p^4n^4+o(n^4)$. 两者均推出对所有 $S,T$ 一致的 $e(S,T)=p|S||T|+o(n^2)$.
+\end{proposition}
+\begin{proof}
+谱展开给 $\operatorname{tr}A^4=d^4+\sum_{i\ge2}\lambda_i^4$, 以及 $\sum_i\lambda_i^2=\operatorname{tr}A^2=nd$. 若 $\lambda_*=o(n)$, 后一求和至多 $\lambda_*^2 nd=o(n^4)$, 且 $d^4=p^4n^4+o(n^4)$. 反之, 从四步计数条件减去 $d^4$, 得非负数和 $\sum_{i\ge2}\lambda_i^4=o(n^4)$, 所以最大项也为 $o(n^4)$, 即 $\lambda_*=o(n)$. 集合偏差由混合引理至多 $\lambda_* n=o(n^2)$, 把 $d/n$ 换为 $p$ 仍产生一致 $o(n^2)$ 误差.
+\end{proof}
+这里计数允许顶点重复, 等于 $C_4$ 的图同态数; 单射四圈计数仅相差 $O(n^3)$, 但无标号四圈还需除以8. 原课程讨论更一般的不正则拟随机图等价条件; 本命题仅声明正则情形, 不把本证明推广到未控制度序列的图.
+\originalsection{归一化 Laplace 矩阵}
+现在允许连通无向正电导图, 至少两点, 不含自环. 令 $D=\operatorname{diag}(d_v)$, $L=D-C$, $\mathcal L=D^{-1/2}LD^{-1/2}$. 其特征值按 $0=\mu_1<\mu_2\le\cdots\le\mu_n\le2$ 排列. 下界与核由能量式得到; 上界因为 $\sum_{uv}c_{uv}(f_u-f_v)^2\le2\sum_vd_v f_v^2$. 最小正特征值的变分式为
+\[
+\mu_2=\min_{f\ne0,\ \sum_vd_vf_v=0}
+\frac{\sum_{uv}c_{uv}(f_u-f_v)^2}{\sum_vd_v f_v^2}.
+\]
+记 $\vol(S)=\sum_{v\in S}d_v$, $c(\partial S)=\sum_{u\in S,v\notin S}c_{uv}$, $\mathcal V=\vol(V)$. 电导扩张常数为
+\[
+h=\min_{0<\vol(S)\le\mathcal V/2}\frac{c(\partial S)}{\vol(S)}.
+\]
+\begin{theorem}[Cheeger 不等式]\label{thm:cheeger}
+上述连通加权图满足 $\mu_2/2\le h\le\sqrt{2\mu_2}$.
+\end{theorem}
+\begin{proof}
+先取集合 $S$ 的函数 $f=\mathbf1_S-\vol(S)/\mathcal V$, 加权均值为0. 分子为 $c(\partial S)$, 分母为 $\vol(S)(1-\vol(S)/\mathcal V)\ge\vol(S)/2$. 因而 $\mu_2\le2c(\partial S)/\vol(S)$, 对最小集合取界.
+
+反向取 $Lf=\mu_2 Df$ 且加权均值0的特征函数. 正负支撑中至少一侧体积不超过 $\mathcal V/2$, 必有一侧非空; 改符号后令 $g=f_+=\max(f,0)$ 取那侧. 对任意两数, 正部截断满足 $(g_u-g_v)^2\le(f_u-f_v)(g_u-g_v)$. 沿边求和得到
+\[
+\sum_{uv}c_{uv}(g_u-g_v)^2\le g^{\mathsf T}Lf
+=\mu_2\sum_vd_vg_v^2.
+\]
+每个非空水平集 $S_t=\{v:g_v^2>t\}$ 体积不超过一半. 把每边经过的水平区间长度积分, 有
+\[
+h\sum_vd_vg_v^2\le\int_0^\infty c(\partial S_t)\,dt
+=\sum_{uv}c_{uv}|g_u^2-g_v^2|.
+\]
+对右边应用 Cauchy--Schwarz, 不超过
+\[
+\left(\sum_{uv}c_{uv}(g_u-g_v)^2\right)^{1/2}
+\left(\sum_{uv}c_{uv}(g_u+g_v)^2\right)^{1/2}
+\le\sqrt{2\mu_2}\sum_vd_vg_v^2.
+\]
+最后一步用了 $(g_u+g_v)^2\le2(g_u^2+g_v^2)$. 非零 $g$ 允许约掉正分母, 得上界.
+\end{proof}
+证明也给找割的方法: 按特征函数正部数值排序, 检查相邻数值之间的水平集, 其中必有边界比不超过 $\sqrt{2\mu_2}$ 的集合. 无需枚举所有 $2^n$ 个集合.
+\originalsection{惰性随机游走的混合}
+令 $Q=(I+D^{-1}C)/2$, 每步一半概率停留, 一半按电导走边. 平稳分布仍为 $\pi(v)=d_v/\mathcal V$. 与 $Q$ 相似的实对称矩阵为 $I-\mathcal L/2$, 所以特征值为 $1-\mu_i/2\in[0,1]$; 加入停留消去了负特征值造成的周期振荡.
+\begin{theorem}\label{thm:lazymix}
+对非负整数 $t$, 从顶点 $s$ 出发, $t$ 步分布 $q_t$ 的全变差距离满足
+\[
+\frac12\sum_v|q_t(v)-\pi(v)|
+\le\frac12\sqrt{\frac1{\pi(s)}-1}\,(1-\mu_2/2)^t.
+\]
+当 $t=0$ 时, 幂因子按1计.
+\end{theorem}
+\begin{proof}
+分布相对于 $\pi$ 的密度 $a_t(v)=q_t(v)/\pi(v)$ 在加权内积 $\langle f,g\rangle_\pi=\sum_v\pi(v)f(v)g(v)$ 下演化为 $a_{t+1}=Qa_t$, 因细致平衡把转移公式换向. $Q$ 在该内积自伴, 常向量为特征值1. $a_t-1$ 均值0, 范数至多 $(1-\mu_2/2)^t\|a_0-1\|_\pi$, 而初始范数平方为 $1/\pi(s)-1$. Cauchy--Schwarz 给 $\sum_v\pi(v)|a_t(v)-1|\le\|a_t-1\|_\pi$, 即结论.
+\end{proof}
+扩张、谱隙与混合因此形成同一条链: 小边界产生低能量试探函数, 小谱隙意味着慢衰减; Cheeger 反向保证低能量又能找到小边界. 各公式中的邻接谱与归一化 Laplace 谱须分别辨认.
+\originalsection{习题与解答}
+\begin{exercise}\label{ex:spec1}
+求 $K_n$, $n\ge2$, 的邻接特征值, 用 Hoffman 界恢复独立数与染色数.
+\end{exercise}
+\begin{exercise}\label{ex:spec2}
+在连通、$n\ge2,d>0$ 的无权 $d$ 正则图中, 把 Cheeger 下界写为邻接第二大特征值的形式; 说明为何普通二部游走仍不收敛.
+\end{exercise}
+习题\ref{ex:spec1}的解答.
+\begin{solution}
+$A=J-I$, 常向量特征值 $n-1$, 其正交补全为 $-1$. 因而 $\alpha\le n/(n-1+1)=1$, $\chi\ge1+(n-1)=n$, 两者由单顶点集与每点独用颜色取等.
+\end{solution}
+习题\ref{ex:spec2}的解答.
+\begin{solution}
+连通正则图有 $\mathcal L=I-A/d$, 故 $\mu_2=1-\lambda_2/d$, 这里 $\lambda_2$ 按代数大小排, 不是绝对值. 所以 $h\ge(d-\lambda_2)/(2d)$. 二部图有邻接特征值 $-d$, 普通转移矩阵有 $-1$, 分布在两侧交替; 即使 $\lambda_2$ 较小也不消除此周期. 惰性矩阵把 $-1$ 变成0.
+\end{solution}

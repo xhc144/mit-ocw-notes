@@ -1,0 +1,87 @@
+\originalchapter{矩阵树定理与有向计数}\label{ch:matrixtree}
+\sourceof{18.212 L26--32; 行列式展开与最后出边双射补全}
+\originalsection{关联矩阵与 Laplace 矩阵}
+\begin{definition}
+对无向无自环多重图, 临时任意给各边定向. 关联矩阵 $B$ 每列对应一条边 $u\to v$, 在 $u$ 行为1, $v$ 行为 $-1$, 其他为0. 令 $W=\operatorname{diag}(w_e)$, $w_e>0$ 为边权. 加权 Laplace 矩阵 $L=BWB^{\mathsf T}$, 即 $L_{vv}=\sum_{e\ni v}w_e$, $L_{uv}=-\sum_{e:uv}w_e$.
+\end{definition}
+定向只是计算辅助, 改一列的符号不改变 $BWB^{\mathsf T}$. 对任意向量 $x$, 有
+\begin{equation}\label{eq:lapenergy}
+x^{\mathsf T}Lx=\sum_{e=uv}w_e(x_u-x_v)^2.
+\end{equation}
+所以 $L$ 实对称、半正定, 常向量在核中. 核中向量必须沿每条正权边相等, 因而在每个分支上常值. 连通图的核恰为一维, 这既保证电势在加常数后唯一, 也解释为什么树计数要删一行一列.
+\originalsection{无向矩阵树定理}
+\begin{theorem}[加权矩阵树]\label{thm:matrix-tree}
+连通加权图的 $L$ 删去任一顶点 $r$ 对应行列所得矩阵 $L^{(r)}$ 满足
+\[
+\det L^{(r)}=\sum_{T\text{ 生成树}}\prod_{e\in T}w_e.
+\]
+无权时各 $w_e=1$, 行列式就是生成树数. 单顶点图的空行列式和空树积均为1.
+\end{theorem}
+\begin{proof}
+删去 $B$ 的 $r$ 行得 $\widetilde B$, 则 $L^{(r)}=\widetilde B W\widetilde B^{\mathsf T}$. Cauchy--Binet 恒等式为: 若 $A$ 为 $k\times m$, $C$ 为 $m\times k$, 则 $\det(AC)=\sum_{|S|=k}\det A_{[:,S]}\det C_{[S,:]}$. 它由行列式的多线性展开得到: 选择重复列索引的项因反对称性相消, 对不同索引的排列求和恰形成两行列式乘积. 用它得到
+\[
+\det L^{(r)}=\sum_{|S|=n-1}\det(\widetilde B_S)^2\prod_{e\in S}w_e.
+\]
+若 $S$ 含圈, 圈上各列按方向加减和为0, 所以行列式为0. 若不连通, 取不含 $r$ 的分支, 其顶点行之和在选定列上为零, 同样为0. 若 $S$ 为生成树, 取不为 $r$ 的叶子, 它的行仅有一个 $\pm1$, 沿此行展开, 删除叶子和其边后继续归纳, 得行列式绝对值1. 因而只有生成树项保留.
+\end{proof}
+\begin{example}
+用矩阵树定理求 $K_n$ 和 $K_{a,b}$ 的生成树数.
+\end{example}
+\begin{solution}
+$n\ge2$ 时, $K_n$ 的余子式为 $nI_{n-1}-J_{n-1}$, $J$ 为全1矩阵. 常向量的特征值为1, 与它正交的 $n-2$ 维空间中特征值为 $n$, 得 $n^{n-2}$, 与 Prüfer 计数一致. $n=1$ 时只有空树, 按空行列式约定计数1.
+
+对 $a,b\ge2$, 从大小 $b$ 侧删一点, 余子式为
+\[
+\begin{pmatrix}bI_a&-J_{a,b-1}\\-J_{b-1,a}&aI_{b-1}\end{pmatrix}.
+\]
+用第一块消去下左块, 行列式为 $b^a\det(aI_{b-1}-(a/b)J_{b-1})$. 后一矩阵在常向量上的特征值为 $a/b$, 其余 $b-2$ 个特征值为 $a$, 得 $a^{b-1}b^{a-1}$. 若某侧大小1, 图是星, 树数1, 公式也成立.
+\end{solution}
+\originalsection{有向矩阵树定理}
+\begin{definition}
+有向加权多重图的出度 Laplace 矩阵满足 $L_{ii}=\sum_{j\ne i}w_{ij}$, $L_{ij}=-w_{ij}$ ($i\ne j$), 其中 $w_{ij}$ 为从 $i$ 到 $j$ 各弧权之和. 指向根 $r$ 的生成树要求每个非根点恰有一条出弧, 根无出弧, 顺着它们最终到达根. 自环不参与树, 因而从矩阵中忽略.
+\end{definition}
+\begin{theorem}\label{thm:directedmatrix-tree}
+删去出度 Laplace 矩阵根行列后的行列式, 等于指向该根的有向生成树权积之和.
+\end{theorem}
+\begin{proof}
+把每个非根行写为出弧贡献之和 $\sum_{e:i\to j}w_e(e_i^{\mathsf T}-e_j^{\mathsf T})$, 删根列时 $e_r$ 视为0. 按行多线性展开, 一项相当于为每个非根点选择一条出弧, 系数为弧权积, 行矩阵由这些差向量组成.
+
+若选择的弧含一个不经过根的有向圈, 圈中行向量之和为0, 行列式为0. 若没有这种圈, 每点沿其唯一出弧必须到达根, 否则有限追踪会陷入圈. 所选弧即指向根的树. 按从叶子向根消元, 或按距根递减排序行列, 该矩阵的行列式为1: 每行在自身列为1, 出弧指向更后位置, 因而为对角全1的三角矩阵. 同时置换行与列不改变行列式符号. 所以恰得到树的权积之和.
+\end{proof}
+若要计数从根向外的树, 对反图使用 $L^{\mathrm{rev}}_{ii}=\sum_{j\ne i}w_{ji}$, $L^{\mathrm{rev}}_{ij}=-w_{ji}$ ($i\ne j$), 再删根行列. 这同时反转弧和重算对角度数, 不是直接转置原出度矩阵; 单纯转置并不改变余子式行列式. 因此矩阵对角采用入度还是出度、所计树朝向根还是远离根, 必须同时说明, 不能只写“有向版本类似”.
+\originalsection{BEST 定理}
+\begin{theorem}[BEST]\label{thm:best}
+设有限强连通有向多重图各点满足 $d^+(v)=d^-(v)=d(v)\ge1$, 弧有独立标号. 固定从根 $r$ 发出的首弧 $e_0$. 从 $r$ 开始且首弧为 $e_0$ 的 Euler 弧序列数为
+\[
+t_r\prod_{v\in V}(d(v)-1)!,
+\]
+其中 $t_r$ 为指向 $r$ 的生成树数. 这里不再按循环旋转或图自同构识别序列.
+\end{theorem}
+\begin{proof}
+从 Euler 序列中, 对每个 $v\ne r$ 取最后一次离开 $v$ 的弧. 这些弧不能成有向圈: 若成圈, 选圈上最后离开时间最晚的点, 它沿所选弧到达下一点后, 下一点仍需离开, 与该点的最后离开时间更早矛盾. 每个非根一点有一个出弧, 无圈保证最终到根, 所以得到指根树.
+
+反向固定这样一棵树. 对每个非根点, 把树弧排在全部出弧次序最后, 其余 $d(v)-1$ 弧任意排列; 在根处把 $e_0$ 排第一, 其余任排. 从根出发, 每次使用当前位置尚未用的第一条出弧. 平衡性保证不能先停在非根点, 因为那里已用入弧会比全部出弧多1, 不可能. 所以先停在根, 所走为闭迹.
+
+若仍有未用弧, 对所有点闭迹已用入出数相等, 未用入出数也相等. 取一个有未用出弧的非根点; 它的树弧排最后, 必还未用. 沿树弧到下一点, 该点有未用入弧, 因而也有未用出弧. 沿树追到根, 推出根有未用出弧, 与停下矛盾. 若原先有未用出弧点就是根, 已直接矛盾. 因而全部弧被使用, 得 Euler 序列. 最后出边与局部次序从序列中唯一恢复, 这是一一对应. 每棵树对应所列阶乘数量, 得公式.
+\end{proof}
+\begin{example}
+两个顶点 $a,b$ 之间各有两条独立标号的反向弧, 从 $a$ 出发固定首弧. 求 Euler 序列数.
+\end{example}
+\begin{solution}
+指向 $a$ 的树需从 $b$ 选一条弧, 有2种, 各点度2, 阶乘积为1, 所以共有2条序列. 固定首弧后, 在 $b$ 首次回 $a$ 的弧有两选择, 其余弧顺序随之确定. 这也核对了根处阶乘因子, 不能误多乘一个 $d(a)$.
+\end{solution}
+\originalsection{习题与解答}
+\begin{exercise}\label{ex:matrix1}
+求三角形三条边权为 $a,b,c>0$ 时的生成树权和.
+\end{exercise}
+\begin{exercise}\label{ex:matrix2}
+有向图为三顶点有向圈, 每条弧再复制为两条独立标号平行弧. 求固定根与首弧的 Euler 序列数.
+\end{exercise}
+习题\ref{ex:matrix1}的解答.
+\begin{solution}
+删去一个根后的余子式可写为 $\left(\begin{smallmatrix}a+b&-b\\-b&b+c\end{smallmatrix}\right)$, 行列式为 $(a+b)(b+c)-b^2=ab+ac+bc$. 恰好对应三种删去一条边的树权积.
+\end{solution}
+习题\ref{ex:matrix2}的解答.
+\begin{solution}
+对两个非根点, 其树弧各有2种选择, 所以 $t_r=4$. 各点出度2, 阶乘积1, 得4. 按局部出弧次序也可验证: 根首弧已固定, 两个非根点各可任选哪条出弧放最后, 共有4种.
+\end{solution}

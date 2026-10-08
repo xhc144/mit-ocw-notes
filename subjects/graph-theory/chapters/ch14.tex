@@ -1,0 +1,91 @@
+\originalchapter{电网络与随机游走}\label{ch:electrical}
+\sourceof{18.212 L30--31; 能量原理与通勤时间恒等式为编者补充}
+\originalsection{电势与 Kirchhoff 方程}
+本章考虑有限连通无自环无向图, 至少两点. 每边电导 $c_{uv}>0$, 电阻为 $1/c_{uv}$. 平行边可把电导相加, 因而本章用对称权 $c_{uv}=c_{vu}$. 顶点电势为 $\phi_v$, 从 $u$ 到 $v$ 的电流为 $I_{uv}=c_{uv}(\phi_u-\phi_v)$, 反向电流取负. 各点净流出电流组成向量 $b$, 守恒给 $L\phi=b$, 其中 $L$ 为加权 Laplace 矩阵.
+\begin{proposition}\label{prop:potential}
+若 $\sum_v b_v=0$, 方程 $L\phi=b$ 有解, 解在加常向量的意义下唯一. 固定一点电势为0后唯一.
+\end{proposition}
+\begin{proof}
+第\ref{ch:matrixtree}章已知连通图的 $\ker L$ 为常向量. 实对称矩阵的像为核的正交补, 故和为0的 $b$ 在像中. 两解之差在核中, 即只差常数. 也可直接删根行列求解; 余子式由能量式正定, 因而可逆, 未列的根方程由总和0自动满足.
+\end{proof}
+若电势在非空边界 $A$ 上固定, 非边界点不注入电流, 则 $\phi_v=\sum_u c_{vu}\phi_u/d_v$, $d_v=\sum_u c_{vu}$. 这是邻点电势的加权平均, 称为调和条件. 固定边界后, 内部主子矩阵正定: 零边界扰动的能量若为0, 沿连通边处处常值并在边界为0, 所以全为0. 因而内部线性系统可逆, 延拓存在. 最大值原理保证解唯一: 两解之差边界为0, 若内部有正最大值, 加权平均迫使所有邻点同样达到它, 沿连通路径传到边界产生矛盾; 负最小值同理.
+\originalsection{能量与有效电阻}
+\begin{definition}
+对不同顶点 $a,b$, 从 $a$ 注入单位电流, 在 $b$ 提取单位电流, 即 $L\phi=\mathbf e_a-\mathbf e_b$. 有效电阻定义为 $R_{ab}=\phi_a-\phi_b$, 与电势加常数无关.
+\end{definition}
+由能量式, $R_{ab}=\phi^{\mathsf T}L\phi=\sum_{uv}c_{uv}(\phi_u-\phi_v)^2>0$ ($a\ne b$). 严格性因为单位电流要求电势不常值. 边上的电流能量为 $\sum_{uv}I_{uv}^2/c_{uv}$, 与上式相等, 这里每无向边只计一次.
+\begin{theorem}[Thomson 原理]\label{thm:thomson}
+在所有净流出为 $\mathbf e_a-\mathbf e_b$ 的反对称单位流中, 由电势给出的电流唯一地最小化能量, 最小值为 $R_{ab}$.
+\end{theorem}
+\begin{proof}
+固定每边一个方向, 任意另一单位流写为 $I+J$, 则 $J$ 在每点净流出为0. 能量展开的交叉项为
+\[
+\sum_{u\to v}\frac{I_{uv}J_{uv}}{c_{uv}}=\sum_{u\to v}(\phi_u-\phi_v)J_{uv}=\sum_u\phi_u\operatorname{div}J(u)=0.
+\]
+因此 $\mathcal E(I+J)=\mathcal E(I)+\sum J_{uv}^2/c_{uv}\ge\mathcal E(I)$, 等号仅在每边 $J=0$ 时成立.
+\end{proof}
+对应的 Dirichlet 原理是: 在所有满足 $f(a)=1,f(b)=0$ 的电势函数中, 调和延拓唯一最小化 $\sum c_{uv}(f_u-f_v)^2$, 最小值为有效电导 $1/R_{ab}$. 证明把任意函数写为调和函数加边界为0的扰动, 交叉项为 $h^{\mathsf T}Lf=0$, 因内部 $Lf=0$ 而边界 $h=0$. 电压差为1时的总注入电流 $C$ 满足能量 $C$, 单位电流缩放使 $R=1/C$.
+\begin{example}
+三角形每边电阻为1. 求两点之间有效电阻, 并用能量检查.
+\end{example}
+\begin{solution}
+对端点电势设为1、0, 第三点由平均关系为 $1/2$. 从电势1点流出的电流为 $1+(1-1/2)=3/2$, 所以有效电导 $3/2$, 电阻 $2/3$. 电势能量为 $1^2+(1/2)^2+(1/2)^2=3/2$, 与总电流一致. 等价地, 直接1欧姆支路与两条串联共2欧姆支路并联, 得 $1/(1+1/2)=2/3$.
+\end{solution}
+\originalsection{树计数与有效电阻}
+记 $\tau=\sum_T\prod_{e\in T}c_e$ 为生成树权和, $F_{ab}$ 为恰有两个分支、$a,b$ 分属不同分支的生成森林权和. 此处权重都是电导, 不是电阻.
+\begin{theorem}\label{thm:forestresistance}
+对不同顶点 $a,b$, 有 $R_{ab}=F_{ab}/\tau$. 若随机生成树按权积比例选取, 独立标号边 $e=ab$ 被选中的概率为 $c_eR_{ab}$.
+\end{theorem}
+\begin{proof}
+把 $b$ 电势固定为0, 单位电流方程的非根部分为 $L^{(b)}\phi=\mathbf e_a$. 逆矩阵的第 $aa$ 项由余子式给出, 故
+\[
+R_{ab}=\phi_a=\frac{\det L^{(a,b)}}{\det L^{(b)}}.
+\]
+分母是矩阵树定理的 $\tau$. 对分子, 删关联矩阵的 $a,b$ 两行并用 Cauchy--Binet, 每项选择 $n-2$ 条边. 含圈时列相关, 行列式为0. 无圈时恰有两个分支; 若某分支不含删去的根, 其顶点行和为0, 仍消失. 只有两根分属两分支的森林保留, 在每棵树中沿非根叶子逐次展开, 行列式绝对值1. 因而分子为 $F_{ab}$. $n=2$ 时分子为空行列式1, 同样正确.
+
+每棵包含指定边 $e$ 的生成树删去 $e$, 唯一得到把其端点分开的两分支生成森林; 反过来给这样的森林加入 $e$ 唯一得到树. 权积乘上 $c_e$, 所以包含 $e$ 的树权和为 $c_eF_{ab}$, 除以总权和得到概率. 平行边以独立编号处理, 双射仍成立.
+\end{proof}
+该式把确定性的电势差与随机树的边出现概率联系起来. 例如单位三角形每边 $R=2/3$, 每边在三棵等概率生成树中恰出现两次.
+\originalsection{随机游走的平稳分布}
+\begin{definition}
+连通加权图至少两点, 随机游走在 $v$ 处以概率 $P(v,u)=c_{vu}/d_v$ 走到邻点 $u$. 记总加权度 $\mathcal V=\sum_v d_v=2\sum_e c_e$, $\pi(v)=d_v/\mathcal V$.
+\end{definition}
+\begin{proposition}
+$\pi$ 为平稳分布, 且满足细致平衡 $\pi(v)P(v,u)=\pi(u)P(u,v)$.
+\end{proposition}
+\begin{proof}
+两边都等于 $c_{uv}/\mathcal V$. 对 $v$ 求和, 得 $\sum_v\pi(v)P(v,u)=\sum_v c_{vu}/\mathcal V=d_u/\mathcal V=\pi(u)$.
+\end{proof}
+平稳不等于任意初始分布立即收敛. 二部图上游走每步换侧, 存在周期2, 初始单点分布一般不收敛到 $\pi$. 第\ref{ch:spectral}章采用每步以一半概率原地不动的惰性游走, 才给出统一收敛界.
+\originalsection{命中概率与命中时间}
+设 $a,b$ 为不同顶点. 从 $v$ 出发先到 $a$ 而后到 $b$ 的概率应准确写为“在第一次到达集合 $\{a,b\}$ 时命中 $a$ 的概率”, 记 $h(v)$. 有 $h(a)=1,h(b)=0$, 内部条件一步得到 $h(v)=\sum_uP(v,u)h(u)$. 因而命中概率恰等于边界电压为1、0的调和电势. 有限连通性保证最终命中: 任一点有长度至多 $n-1$ 的正概率路到边界, 有限点数使在这种时间窗口内命中概率有统一正下界, 尾概率按几何速度下降.
+
+记 $H_{vb}$ 为从 $v$ 首次到 $b$ 的期望步数, $H_{bb}=0$. 同一窗口论证保证期望有限. 一步分解为 $H_{vb}=1+\sum_uP(v,u)H_{ub}$ ($v\ne b$). 记向量 $h^{(b)}_v=H_{vb}$. 乘 $d_v$ 后, $Lh^{(b)}$ 在非目标点为 $d_v$; 因 $L$ 每列和0, 在目标点为 $d_b-\mathcal V$. 所以
+\[
+Lh^{(b)}=d-\mathcal V\mathbf e_b,
+\]
+其中 $d$ 为加权度向量.
+\begin{theorem}[通勤时间]\label{thm:commute}
+$H_{ab}+H_{ba}=\mathcal V R_{ab}$.
+\end{theorem}
+\begin{proof}
+由两个目标对应的方程相减,
+$L(h^{(b)}-h^{(a)})=\mathcal V(\mathbf e_a-\mathbf e_b)$.
+因此电势向量 $h^{(b)}-h^{(a)}$ 与单位电流电势的 $\mathcal V$ 倍只差常数. 两端相减时常数抵消, 左边为 $(H_{ab}-0)-(0-H_{ba})$, 右边为 $\mathcal V R_{ab}$.
+\end{proof}
+无权图中 $\mathcal V=2m$. 单位电阻三角形有 $m=3,R=2/3$, 通勤时间为4; 实际每方向期望命中步数为2. 命中时间有方向性, 通勤时间把两方向相加才对应对称电阻.
+\originalsection{习题与解答}
+\begin{exercise}\label{ex:elec1}
+证明增大某些边电导或增加新边不会增大两固定点间有效电阻.
+\end{exercise}
+\begin{exercise}\label{ex:elec2}
+无权路径 $P_n$, $n\ge2$, 的两个端点之间, 求有效电阻与通勤时间.
+\end{exercise}
+习题\ref{ex:elec1}的解答.
+\begin{solution}
+使用 Thomson 原理. 旧单位流在新增边取0后仍可行, 对旧边增大电导会使同一流的能量 $I_e^2/c_e$ 不增加. 新网络能量最小值不大于该旧流能量, 因而有效电阻不增加. 无需先求新电势.
+\end{solution}
+习题\ref{ex:elec2}的解答.
+\begin{solution}
+每条边是分开两端的桥, 单位流必须在每条边通过1, 能量为 $n-1$, 故电阻 $n-1$. 总度为 $2(n-1)$, 通勤时间为 $2(n-1)^2$. 由左右对称性, 每方向的命中时间均为 $(n-1)^2$.
+\end{solution}

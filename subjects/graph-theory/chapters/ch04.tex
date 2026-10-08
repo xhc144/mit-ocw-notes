@@ -1,0 +1,98 @@
+\originalchapter{Euler 迹与 Hamilton 圈}\label{ch:eulerhamilton}
+\sourceof{18.315 L19--22; Euler 先修补全及证明细节为编者补充}
+\originalsection{一次走完所有边}
+Euler 问题要求每条边恰走一次, Hamilton 问题要求每个顶点恰访问一次. 两者看似相近, 但控制对象不同. Euler 性由度数与连通性决定, Hamilton 性通常不能由一个同样简单的局部条件决定.
+\begin{theorem}[无向 Euler 判据]\label{thm:euler}
+有限无向多重图若至少有一条边, 存在使用全部边的闭迹当且仅当所有正度顶点处于同一分支且所有顶点度数为偶数. 存在端点不同的 Euler 迹当且仅当正度顶点处于同一分支且恰有两个奇度顶点; 这两个顶点就是端点.
+\end{theorem}
+\begin{proof}
+闭迹每次进入一个顶点后都要离开, 在该点的关联边成对使用, 所以度数为偶数. 开迹只有两个端点各多一次进入或离开. 一条迹经过的所有边当然位于同一分支.
+
+反向先考虑偶度情形. 从任一正度顶点出发, 不断沿未用边行走, 直到无边可走. 若停在不同于起点的顶点, 已用关联边数为奇数, 而原度为偶数, 仍应有未用边, 矛盾. 因而得到闭迹. 如果还有边没用, 正度部分的连通性保证闭迹上有顶点关联未用边: 可沿原图从未用边端点走向已有闭迹, 取首次接触点. 剩余未用边子图仍为偶度, 从该点再作闭迹, 将新闭迹插入旧迹. 每次用掉更多边, 有限次后用完全部边. 这就是 Hierholzer 构造. 恰有两奇点时, 在它们之间添加一条辅助边, 得到偶度图; 对闭迹删去辅助边并从该处切开, 得到所求开迹.
+\end{proof}
+孤立顶点不影响“走完所有边”. 若要求同时访问全部顶点, 就必须单独排除孤立点. 无边图则可把单顶点处的零长闭迹当作退化 Euler 迹, 与上面有边的判据区分.
+\begin{theorem}[有向 Euler 判据]\label{thm:directedeuler}
+有限有向多重图至少有一条弧, 且所有非零度顶点在忽略方向后连通. 若每点满足 $d^+=d^-$, 则有有向 Euler 闭迹. 若两点 $s,t$ 分别满足 $d^+(s)=d^-(s)+1$, $d^-(t)=d^+(t)+1$, 其余点平衡, 则有从 $s$ 到 $t$ 的有向 Euler 迹. 这些条件也都必要.
+\end{theorem}
+\begin{proof}
+必要性由沿迹的进出计数得到. 平衡时沿未用出弧行走, 除起点外任何停点都有“已用入弧比出弧多1”, 与总入出度相等矛盾; 所以先得到闭迹. 剩余弧仍平衡. 若未用部分与已有闭迹相邻, 连接弧可以是入弧或出弧; 闭迹顶点的剩余入出度相等, 有任一未用入弧也必有未用出弧. 因而仍可在该顶点开始拼接新的有向闭迹. 弱连通性保证能找到这样的接触点. 非平衡情形添加 $t\to s$, 再切开闭迹.
+\end{proof}
+\originalsection{访问所有顶点}
+\begin{definition}
+经过图中所有顶点恰一次的圈称为 Hamilton 圈; 经过所有顶点恰一次的路称为 Hamilton 路. 只有至少三个顶点的简单图可能有 Hamilton 圈.
+\end{definition}
+\begin{proposition}\label{prop:ham-cut}
+若 $G$ 有 Hamilton 圈, 则对任何非空 $S\subseteq V$, 图 $G-S$ 的分支数至多 $|S|$.
+\end{proposition}
+\begin{proof}
+从 Hamilton 圈删除 $S$, 剩余部分至多为 $|S|$ 段路, 每段在 $G-S$ 中仍连通. 添加原图其余边只能合并分支, 不能增加分支. 若删去所有顶点, 分支数为0, 仍满足结论.
+\end{proof}
+\begin{example}
+一个连通图有两个三角形只在一顶点相交. 它有 Euler 闭迹吗? 有 Hamilton 圈吗?
+\end{example}
+\begin{solution}
+共有顶点度4, 其余顶点度2, 所以有 Euler 闭迹, 可顺次绕两个三角形. 但删共有顶点后有两个分支, 大于所删顶点数1, 故没有 Hamilton 圈. 在 Euler 迹中重复访问顶点是允许的.
+\end{solution}
+\begin{lemma}[闭包引理]\label{lem:closure}
+简单图 $G$ 有 $n\ge3$ 个顶点. 若非相邻点 $u,v$ 满足 $d(u)+d(v)\ge n$, 则 $G$ 有 Hamilton 圈当且仅当 $G+uv$ 有 Hamilton 圈.
+\end{lemma}
+\begin{proof}
+正向由加边立即成立. 反向若新增边未被 Hamilton 圈使用, 原圈就在 $G$ 中. 若被使用, 去掉它得 Hamilton 路 $x_1=u,x_2,\ldots,x_n=v$. 在索引集 $\{1,\ldots,n-1\}$ 中令
+\[
+A=\{i:ux_{i+1}\in E\},\qquad B=\{i:vx_i\in E\}.
+\]
+因为 $u,v$ 不相邻, 所有邻点都在路的内部, 有 $|A|=d(u)$、$|B|=d(v)$. 索引集只有 $n-1$ 项, $|A|+|B|\ge n$ 使两集合相交. 对相交索引 $i$, 圈 $u,x_2,\ldots,x_i,v,x_{n-1},\ldots,x_{i+1},u$ 使用全部顶点且所有边都在原图中.
+\end{proof}
+\begin{theorem}[Ore 与 Dirac]\label{thm:dirac}
+若简单图 $G$ 有 $n\ge3$ 个顶点, 且每对非相邻顶点都满足 $d(u)+d(v)\ge n$, 则 $G$ 有 Hamilton 圈. 特别地, $\delta(G)\ge n/2$ 足够保证 Hamilton 性.
+\end{theorem}
+\begin{proof}
+不断添加缺失边. 已有顶点的度只能增加, 因而闭包引理在每一步都可用. 最后得到有 Hamilton 圈的完全图 $K_n$, 再逐步反推原图也有. 最小度条件保证每对非相邻点的度数和至少为 $n$.
+\end{proof}
+这两个条件是充分条件, 并非必要条件. 圈图 $C_n$ 在 $n\ge5$ 时最小度2小于 $n/2$, 却本身就是 Hamilton 圈. 另一方面, 把两个大小尽可能均衡的团用一个割点粘合, 可以得到最小度接近 $n/2$ 而无 Hamilton 圈的图, 说明度数门槛的量级有实际意义.
+\originalsection{平面图中的 Grinberg 必要条件}
+\begin{theorem}[Grinberg 条件]\label{thm:grinberg}
+设有限连通平面嵌入图有 Hamilton 圈 $C$. 记圈内、圈外边界长度为 $k$ 的面数分别为 $f_k^+,f_k^-$. 面的边界按行走计重数. 则
+\[
+\sum_{k\ge3}(k-2)(f_k^+-f_k^-)=0
+\]
+对简单二连通嵌入成立.
+\end{theorem}
+\begin{proof}
+Hamilton 圈包含全部 $n$ 个顶点. 设内部弦数为 $e_+$, 内部面数为 $f_+$. 把圆盘外部当作一个面, 第\ref{ch:planar}章的 Euler 公式给 $n-(n+e_+)+(f_++1)=2$, 即 $f_+=e_++1$. 内部面边界长度总和为 $n+2e_+$: 圈边计一次, 弦计两次. 因而 $\sum(k-2)f_k^+=n+2e_+-2(e_++1)=n-2$. 外部区域在球面上也是圆盘, 完全同理得到 $\sum(k-2)f_k^-=n-2$. 相减即得.
+\end{proof}
+公式只能排除某些 Hamilton 圈, 满足它不意味着圈存在. 若图存在桥或重复面边界, 必须先检查 Hamilton 假设已排除这些障碍, 不能只凭一张画图机械代入.
+\originalsection{奇度图的 Hamilton 圈奇偶性}
+\begin{theorem}[奇度图的奇偶性]\label{thm:smith}
+有限简单图中若每个顶点度数为奇数, 则每条固定边属于偶数个 Hamilton 圈. 特别地, 三正则图若有 Hamilton 圈, 就至少有三个不同的 Hamilton 圈.
+\end{theorem}
+\begin{proof}
+若 $n\le2$, 没有 Hamilton 圈, 结论成立. 以下设 $n\ge3$, 固定边 $uv$, 此时 Hamilton 路的末点前驱与 $u$ 不同. 考虑所有以有序前缀 $(u,v)$ 开始的 Hamilton 路, 每条写作 $P=(u,v,x_3,\ldots,x_n)$. 构造辅助图, 它们为顶点. 若末点 $x_n$ 邻接 $x_i$ 且 $2\le i\le n-2$, 将路尾旋转为
+\[
+(u,v,\ldots,x_i,x_n,x_{n-1},\ldots,x_{i+1}).
+\]
+这是另一条保留前缀的 Hamilton 路, 旋转可逆; 不同的 $i$ 产生不同的新末点, 所以辅助图的度数就是可旋转索引数. 末点与前驱必相邻, 与 $u$ 的邻接不能拿来旋转, 故其辅助度为 $d_G(x_n)-1-\mathbf1_{ux_n\in E}$. 因原度为奇数, 辅助度为奇数当且仅当 $ux_n\in E$.
+
+辅助图握手引理说明奇度顶点数为偶数. 它们正好对应把末点连回 $u$ 所得、包含 $uv$ 的 Hamilton 圈. 固定前缀确定了圈的走向, 每个无向圈恰对应一条这样的路, 所以圈数为偶数.
+
+三正则图的一个 Hamilton 圈包含边 $e$, 因奇偶性还有另一个包含 $e$ 的圈. 两圈不同, 原圈中有边 $f$ 不在第二圈中. 再对 $f$ 用奇偶性, 得到第三个不同的圈.
+\end{proof}
+\originalsection{置换图的构造}
+18.315 的后续例子把 Hamilton 性放在 Cayley 图中讨论. 这里保留一个能够从头构造的实例. 以 $S_n$ 的置换为顶点, 两置换若交换相邻位置即可互相得到就连边. 对 $n\ge3$, 这张图有 Hamilton 圈.
+
+归纳列举全部置换: 已有 $(n-1)$ 阶置换的相邻交换列表时, 对第一项把 $n$ 从最右位置依次向左移动, 对第二项从最左位置向右移动, 如此交替. 一个块内相邻项只交换 $n$ 与其邻居; 两块之间 $n$ 在同一端, 其余项按旧列表交换相邻位置. 每个置换恰好属于一个块. 当 $n\ge3$ 时 $(n-1)!$ 为偶数, 最后一块与第一块中的 $n$ 都在最右端, 首尾其余置换可由一次相邻交换连接. 归纳基点 $n=3$ 的列表为 $123,132,312,321,231,213$, 首尾也相邻. 这是 Hamilton 圈的实际构造, 不依赖仅有连通性的判断.
+\originalsection{习题与解答}
+\begin{exercise}\label{ex:euler1}
+给 $K_{a,b}$ 判断 Euler 闭迹与 Hamilton 圈的存在条件, $a,b\ge1$.
+\end{exercise}
+\begin{exercise}\label{ex:euler2}
+证明若简单图 $G$ 有 $n\ge2$ 个顶点且 $\delta(G)\ge(n-1)/2$, 则有 Hamilton 路.
+\end{exercise}
+习题\ref{ex:euler1}的解答.
+\begin{solution}
+图连通, 大小为 $a$ 的一侧顶点度 $b$, 另一侧顶点度 $a$, 因而 Euler 闭迹当且仅当 $a,b$ 都为偶数. Hamilton 圈在两侧交替, 必须 $a=b$, 且简单圈要求 $a=b\ge2$; 此时依次交替使用各侧顶点即可构造.
+\end{solution}
+习题\ref{ex:euler2}的解答.
+\begin{solution}
+加一个与所有原顶点相邻的新顶点. 新图有 $n+1$ 个顶点, 原顶点度至少 $(n+1)/2$, 新点度 $n\ge(n+1)/2$. 用 Dirac 得 Hamilton 圈, 再删新点及其两条圈边, 留下原图的 Hamilton 路.
+\end{solution}
