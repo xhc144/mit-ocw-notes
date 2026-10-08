@@ -318,6 +318,23 @@ class UpgradeIntegration(unittest.TestCase):
         self.assertNotIn(secret, result.stdout + result.stderr)
         self.assertEqual(json.loads(result.stdout)['code'], 'SECRET_CONTENT_REJECTED')
 
+    def test_checkpoint_fifo_refused_without_blocking(self):
+        self.make_manifest(); self.call()
+        saved = self.base / 'checkpoint' / 'snapshots' / '0'
+        saved.unlink(); os.mkfifo(saved)
+        result = subprocess.run([sys.executable, str(Path(batch.__file__)), str(self.manifest), '--source-root', str(self.source), '--checkpoint', str(self.base / 'checkpoint'), '--verify-only', '--test-only-local-remote', str(self.remote)], capture_output=True, text=True, timeout=2)
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(json.loads(result.stdout)['code'], 'CHECKPOINT_NONREGULAR')
+        self.assertEqual(self.remote_head(), self.head)
+
+    def test_restored_snapshot_obvious_secret_is_blocked_even_with_matching_hash(self):
+        value = b'ghp_' + b'x' * 36
+        saved = self.base / 'restored-cache'; saved.write_bytes(value)
+        f = {'path': 'notes.txt', 'sha256': hashlib.sha256(value).hexdigest()}
+        with self.assertRaises(batch.Stop) as caught:
+            batch.validate_snapshot(saved, f)
+        self.assertEqual(caught.exception.code, 'SECRET_CONTENT_REJECTED')
+
     def test_verify_only_never_pushes_and_requires_remote_content(self):
         self.make_manifest()
         self.stop('REMOTE_CONTENT_NOT_COMPLETE', verify_only=True)

@@ -1,4 +1,4 @@
-# GitHub 批量上传 Skill 2.0
+# GitHub 批量上传 Skill 2.0.1
 
 在已验证的 `lecture-notes/tools/github-batch-upload` 上升级，复用 `a170d65a5646eafb0798f12c741f1cc9b7efbbba`，保留原 53 项回归测试。完整目录可以交给其他 AI；无需第三方 Python 包。
 

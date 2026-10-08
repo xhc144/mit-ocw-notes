@@ -172,10 +172,18 @@ def validate_snapshot(path, f):
     if path.is_symlink():
         raise Stop("CHECKPOINT_SYMLINK")
     digest, size, tail = hashlib.sha256(), 0, b""
-    with path.open("rb") as stream:
+    # Refuse FIFOs before blocking, and anchor the cache entry to an opened directory.
+    parent_fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        fd = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent_fd)
+    finally:
+        os.close(parent_fd)
+    with os.fdopen(fd, "rb") as stream:
         if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
             raise Stop("CHECKPOINT_NONREGULAR")
         while chunk := stream.read(1024 * 1024):
+            scan_secret_bytes(tail + chunk, f["path"])
+            tail = chunk[-8192:]
             digest.update(chunk); size += len(chunk)
     if digest.hexdigest() != f["sha256"]:
         raise Stop("CHECKPOINT_HASH_MISMATCH", path=f["path"])
