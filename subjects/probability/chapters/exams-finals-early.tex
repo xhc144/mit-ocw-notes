@@ -1,0 +1,909 @@
+\originalchapter{2011至2016年期末考试}
+本章保留四份原卷的题号和最细子问编号. 题面译自 MIT 官方试卷, 解答依据同卷官方解答重新计算并重构; 官方只给提示的部分另行补足, 原稿误印在相应解答中说明. 对数乘积、矩母函数及其计算使用自然对数 $\ln$; 熵中的 $\log$ 统一以 $2$ 为底, 所有熵数值均以比特计量. 若改用底数 $b>1$, 须将本章所有熵数值统一乘以换底因子 $1/\log_2 b$, 不能直接沿用以比特计量的数值. 鞅判断采用增量历史产生的过滤, 停止时间允许取 $\infty$.
+
+\originalsection{2011年春季期末考试}
+原卷为 18.440 Final Exam, 满分 100 分. 请清楚展示每题的计算过程, 不写技术上不成立的论断, 并将最终计算结果框出. 本章解答统一在原生解答环境中呈现.
+题源: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_final_2011/}{官方题卷}, \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_final_2011_soln/}{官方解答}.
+
+\begin{exercise}\label{ex:fe2011q1}
+2011 春 Q1 (10 分). $X$ 是一枚标准骰子的点数, 即 $1,2,3,4,5,6$ 各有相同概率; $Y$ 是另一次独立标准骰子的点数. 记 $Z=X+Y$.
+\begin{enumerate}[label=\arabic*.]
+\item\label{ex:fe2011q1-1} 求条件概率 $\Prob(X=4\mid Z=6)$.
+\item\label{ex:fe2011q1-2} 将条件期望 $\E(Z\mid Y)$ 表示成 $Y$ 的函数.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=\arabic*.]
+\item\label{sol:fe2011q1-1} 给定和为 $6$, 可能的有序点数对恰为 $(1,5),(2,4),(3,3),(4,2),(5,1)$. 原来每对概率均为 $1/36$, 条件化后各概率为 $1/5$. 其中只有 $(4,2)$ 满足 $X=4$, 故所求为 $1/5$.
+\item\label{sol:fe2011q1-2} 给定 $Y$, 它本身已知, 而独立性使 $\E(X\mid Y)=\E X=(1+2+3+4+5+6)/6=7/2$. 因此 $\E(Z\mid Y)=Y+7/2$.\qedhere
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q2}
+2011 春 Q2 (10 分). Janet 在时刻零站在室外, 此时开始下小雨. 雨滴击中她的时刻构成强度 $\lambda=2$ 的泊松点过程, 即每秒期望击中她 $2$ 滴.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q2-a} 第一次被击中前的等待时间期望是多少?
+\item\label{ex:fe2011q2-b} 前 $2$ 秒恰好被 $4$ 滴雨击中的概率是多少?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q2-a} 若首滴时间为 $T$, 则 $\Prob(T>t)=\Prob(N(t)=0)=\ee^{-2t}$ ($t\ge0$). 所以 $T\sim\Exp(2)$, $\E T=\int_0^\infty\ee^{-2t}\dd t=1/2$ 秒.
+\item\label{sol:fe2011q2-b} $N(2)\sim\Pois(2\lambda)=\Pois(4)$, 因而 $\Prob(N(2)=4)=\ee^{-4}4^4/4!$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q3}
+2011 春 Q3 (10 分). 随机变量 $X$ 的密度、分布函数、方差和均值分别为 $f,F,V,M$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q3-a} 用 $V,M$ 表示 $3X+3$ 的均值和方差.
+\item\label{ex:fe2011q3-b} 若 $X_1,\ldots,X_n$ 是 $X$ 的独立副本, 用 $F$ 表示其中最大值的分布函数.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q3-a} 线性性给出 $\E(3X+3)=3M+3$. 中心化后 $3X+3-(3M+3)=3(X-M)$, 因而方差为 $9\E[(X-M)^2]=9V$.
+\item\label{sol:fe2011q3-b} 对任何 $a\in\R$, 最大值不超过 $a$ 等价于每个 $X_i$ 都不超过 $a$. 独立性于是给出
+\[
+ \Prob(\max_iX_i\le a)=\prod_{i=1}^n\Prob(X_i\le a)=F(a)^n.
+\]
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q4}\label{ex:fe2011q4-root}
+2011 春 Q4 (10 分). $X_i$ 独立同分布, 每个在 $[0,1]$ 上均匀分布. 求 $\sum_{i=1}^nX_i$ 的矩母函数.
+\end{exercise}
+\begin{solution}\label{sol:fe2011q4-root}
+先计算单变量的矩母函数. 对 $t\ne0$,
+\[
+ M_X(t)=\E[\ee^{tX}]=\int_0^1\ee^{tx}\dd x=\frac{\ee^t-1}{t}.
+\]
+$t=0$ 时定义本身给出 $M_X(0)=1$, 也与上式的极限一致. 由于指数把和变成乘积, 再用独立性,
+\[
+ M_{\sum_iX_i}(t)=\E\prod_{i=1}^n\ee^{tX_i}
+ =\prod_{i=1}^n M_{X_i}(t)
+ =\begin{cases}((\ee^t-1)/t)^n,&t\ne0,\\1,&t=0.\end{cases}
+\]
+有限区间上的随机变量使所有实数 $t$ 的矩母函数均存在.
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q5}
+2011 春 Q5 (10 分). $X,Y$ 是独立标准骰子的点数, 各在 $\{1,2,3,4,5,6\}$ 上均匀分布, $Z=X+Y$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q5-a} 求熵 $H(X),H(Y)$.
+\item\label{ex:fe2011q5-b} 求 $H(X,Z)$.
+\item\label{ex:fe2011q5-c} 求 $H(10X+Y)$.
+\item\label{ex:fe2011q5-d} 求 $H(Z)+H_Z(Y)$. 提示: 不需要额外计算. 这里 $H_Z(Y)=H(Y\mid Z)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q5-a} 六个等概率值各贡献 $-(1/6)\log(1/6)$, 故两者均为 $\log6$.
+\item\label{sol:fe2011q5-b} $(X,Y)\mapsto(X,X+Y)$ 可逆, 逆映射为 $Y=Z-X$. 因此只是把原来的 $36$ 个等概率结果重命名, $H(X,Z)=\log36=2\log6$.
+\item\label{sol:fe2011q5-c} 若 $10x+y=10x'+y'$, 则 $10(x-x')=y'-y$. 右侧绝对值至多 $5$, 故两边只能为零, 从而 $x=x',y=y'$. 因此 $10X+Y$ 也有 $36$ 个等概率值, 熵为 $\log36$.
+\item\label{sol:fe2011q5-d} 熵的链式法则给出 $H(Z)+H(Y\mid Z)=H(Z,Y)$. 映射 $(X,Y)\mapsto(Z,Y)$ 同样可逆, 所以此值仍为 $\log36$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q6}
+2011 春 Q6 (10 分). Elaine 的旧车有三种状态: 在她手中但已损坏 $B$, 在她手中且能工作 $W$, 在修理厂 $S$.
+\begin{enumerate}[label=(\roman*)]
+\item 某天早晨为 $B$ 时, 次日早晨以 $0.5$ 概率仍为 $B$, 以 $0.5$ 概率变成 $S$.
+\item 某天早晨为 $W$ 时, 次日早晨以 $0.5$ 概率仍为 $W$, 以 $0.5$ 概率变成 $B$.
+\item 某天早晨为 $S$ 时, 次日早晨以 $0.5$ 概率仍为 $S$, 以 $0.5$ 概率变成 $W$.
+\end{enumerate}
+回答:
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q6-a} 写出三阶马尔可夫转移矩阵.
+\item\label{ex:fe2011q6-b} 若某天早晨为 $B$, 两天后早晨仍为 $B$ 的概率是多少?
+\item\label{ex:fe2011q6-c} 长期而言, 早晨处于 $B,S,W$ 各状态的比例是多少?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q6-a} 按 $B,W,S$ 的顺序排列行列, 行为当前状态, 列为次日状态, 得
+\[
+ P=\begin{pmatrix}1/2&0&1/2\\1/2&1/2&0\\0&1/2&1/2\end{pmatrix}.
+\]
+\item\label{sol:fe2011q6-b} 从 $B$ 出发两步回 $B$ 只有路径 $B\to B\to B$, 因为 $S$ 不能一步到 $B$. 概率为 $(1/2)^2=1/4$.
+\item\label{sol:fe2011q6-c} 令平稳分布为 $(b,w,s)$. 方程 $\pi P=\pi$ 给出 $b=(b+w)/2$, $w=(w+s)/2$, $s=(b+s)/2$, 故 $b=w=s$. 归一化后各为 $1/3$. 该有限链不可约, 且每个状态有自环, 因此平稳分布唯一, 长期访问比例为所求的三个 $1/3$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q7}
+2011 春 Q7. $X_1,X_2,\ldots$ 独立, 每个以 $1/3$ 概率取 $2$, 以 $2/3$ 概率取 $0.5$. 令 $Y_0=1$, $Y_n=\prod_{i=1}^nX_i$ ($n\ge1$).
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q7-a} 在首次到达 $1/8$ 之前先到达 $8$ 的概率是多少?
+\item\label{ex:fe2011q7-b} 求 $\ln Y_{10000}$ 的均值和方差.
+\item\label{ex:fe2011q7-c} 用中心极限定理近似 $\ln Y_{10000}$ (因而也包括 $Y_{10000}$) 大于其中位数的概率.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q7-a} $\E X_i=2/3+(1/2)(2/3)=1$, 所以独立因子之积 $Y_n$ 是鞅. 令 $T=\inf\{n:Y_n\in\{1/8,8\}\}$. 指数 $\ln Y_n/\ln2$ 在整数上每步移动 $\pm1$, 被止于 $-3,3$. 从任何内部位置连续六步向下都会出界, 这类事件的概率至少 $(2/3)^6>0$, 因而 $\Prob(T>6k)\le(1-(2/3)^6)^k\to0$. 在停下前后 $1/8\le Y_{n\wedge T}\le8$, 可对有界停时先用鞅恒等式, 再由控制收敛得 $\E Y_T=1$. 若上边界先到概率为 $p$, 则
+\[
+ 1=8p+\frac18(1-p),\qquad p=\frac{7}{63}=\frac19.
+\]
+\item\label{sol:fe2011q7-b} 此问官方只指示“先算 $\ln Y_1$, 再乘 $10000$”, 未给最终值; 以下由 AI 补足计算. 写 $L_i=\ln X_i$, 则它以 $1/3,2/3$ 概率分别取 $\ln2,-\ln2$. 因而
+\[
+ \E L_i=-\frac{\ln2}{3},\quad \E L_i^2=(\ln2)^2,\quad
+ \Var(L_i)=(\ln2)^2-\frac{(\ln2)^2}{9}=\frac89(\ln2)^2.
+\]
+$\ln Y_{10000}=\sum_{i=1}^{10000}L_i$ 是独立和, 所以均值为 $-10000\ln2/3$, 方差为 $80000(\ln2)^2/9$.
+\item\label{sol:fe2011q7-c} 标准化的对数和近似 $\Normal(0,1)$, 其近似中位数等于均值. 因此超过近似中位数的概率约为 $1-\Phi(0)=1/2$. 这是原卷所要求的中心极限定理近似, 并非离散分布的精确等式: 实际中位数处可有正点质量. 指数函数严格递增, 若 $m$ 为对数变量的中位数, 则 $\ee^m$ 为乘积的中位数, 两个“严格大于”事件完全相同.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q8}
+2011 春 Q8 (10 分). 八个人把帽子投入箱中, 再随机分给他们, $8!$ 个排列等可能. 令 $N$ 为拿回自己帽子的人数.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q8-a} 求 $\E N$.
+\item\label{ex:fe2011q8-b} 求 $\Var(N)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q8-a} 令 $I_i$ 表示第 $i$ 人拿回自己的帽子. $\Prob(I_i=1)=1/8$, 而 $N=\sum_{i=1}^8I_i$, 所以 $\E N=8(1/8)=1$.
+\item\label{sol:fe2011q8-b} 两个指定的人都拿回帽子的概率是 $6!/8!=1/(8\cdot7)$. 用 $I_i^2=I_i$ 展开,
+\[
+ \E N^2=\sum_i\E I_i+\sum_{i\ne j}\E(I_iI_j)
+ =1+8\cdot7\frac1{8\cdot7}=2.
+\]
+所以 $\Var(N)=\E N^2-(\E N)^2=2-1=1$. 此计算不把彼此相关的 $I_i$ 当作独立变量.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q9}
+2011 春 Q9 (10 分). $X$ 为均值 $\mu$, 方差 $\sigma^2$ 的正态变量.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q9-a} 求 $\E[\ee^X]$.
+\item\label{ex:fe2011q9-b} 已知 $\sigma^2=3$ 且 $\E[\ee^X]=1$, 求 $\mu$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q9-a} 将密度积分配方:
+\[
+ x-\frac{(x-\mu)^2}{2\sigma^2}
+ =-\frac{(x-\mu-\sigma^2)^2}{2\sigma^2}+\mu+\frac{\sigma^2}{2}.
+\]
+于是 $\E[\ee^X]=\ee^{\mu+\sigma^2/2}$, 因为剩余正态密度在全实线上积分为 $1$. 若 $\sigma^2=0$, $X=\mu$ 几乎必然, 结论仍成立.
+\item\label{sol:fe2011q9-b} $\ee^{\mu+3/2}=1$ 蕴含 $\mu+3/2=0$, 故 $\mu=-3/2$. 官方印作 $-9/2$, 与其上一行 $\mu+\sigma^2/2=0$ 不符; 代入 $\sigma^2=3$ 即得此修正.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2011q10}
+2011 春 Q10 (10 分).
+\begin{enumerate}[label=\arabic*.]
+\item $X_1,X_2,\ldots$ 独立, 每个以 $1/2$ 概率取 $1,-1$. 下列哪些 $Y_n$ 是鞅? 只需圈出对应字母.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q10-1-a} $Y_n=X_n$.
+\item\label{ex:fe2011q10-1-b} $Y_n=1+X_n$.
+\item\label{ex:fe2011q10-1-c} $Y_n=7$.
+\item\label{ex:fe2011q10-1-d} $Y_n=\sum_{i=1}^n iX_i$.
+\item\label{ex:fe2011q10-1-e} $Y_n=\prod_{i=1}^n(1+X_i)$.
+\end{enumerate}
+\item 令 $Y_n=\sum_{i=1}^nX_i$. 下列哪些必为 $Y_n$ 的停止时间?
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2011q10-2-a} 满足 $|Y_n|=5$ 的最小 $n$.
+\item\label{ex:fe2011q10-2-b} 满足 $Y_n=12$ 且 $n<100$ 的最大 $n$.
+\item\label{ex:fe2011q10-2-c} 满足 $n>100$ 且 $Y_n=12$ 的最小 $n$.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+使用 $\mathcal F_n=\sigma(X_1,\ldots,X_n)$. 所有固定时刻的变量均可积.
+\begin{enumerate}[label=\arabic*.]
+\item
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q10-1-a} 否. $\E(X_{n+1}\mid\mathcal F_n)=0$, 而当前 $X_n=\pm1$, 不相等.
+\item\label{sol:fe2011q10-1-b} 否. 下一值条件期望为 $1$, 当前值为 $0$ 或 $2$.
+\item\label{sol:fe2011q10-1-c} 是. 常数 $7$ 的条件期望仍是 $7$.
+\item\label{sol:fe2011q10-1-d} 是. 增量为 $(n+1)X_{n+1}$, 独立于历史且均值为零, 因此下一值条件期望等于当前值.
+\item\label{sol:fe2011q10-1-e} 是. $\E(1+X_{n+1})=1$, 独立性给出 $\E(Y_{n+1}\mid\mathcal F_n)=Y_n$. 取空积 $Y_0=1$ 即可包括起始时刻.
+\end{enumerate}
+\item
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2011q10-2-a} 是. 事件 $\{T\le n\}$ 是 $\bigcup_{k=0}^n\{|Y_k|=5\}$, 可由当前历史判断.
+\item\label{sol:fe2011q10-2-b} 否. 即使某时刻到达 $12$, 也不能仅从当前历史知道在 $100$ 之前是否还会回来. 例如取某条前 $12$ 步全为 $+1$ 的历史; 其后一路向上与其后先 $+1$ 再 $-1$ 的两条延续有相同的时刻 $12$ 信息, 却使最后一次到达 $12$ 的时刻分别为 $12$ 和至少 $14$. 因而 $\{T=12\}$ 不可由时刻 $12$ 信息判定. 若从未到达, 对空集的额外约定也不能消除这个反例.
+\item\label{sol:fe2011q10-2-c} 是. $n\le100$ 时 $\{T\le n\}$ 为空, $n>100$ 时它为 $\bigcup_{k=101}^n\{Y_k=12\}$, 仍是 $\mathcal F_n$ 中的事件.
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+
+\originalsection{2012年秋季期末考试}
+原卷为 Fall 2012 18.440 Final Exam, 满分 100 分, 每题 10 分. 请清楚展示计算, 不写技术上不成立的论断, 将最终计算结果框出.
+题源: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_final_2012/}{官方题卷}, \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_final_2012_soln/}{官方解答}.
+
+\begin{exercise}\label{ex:fe2012q1}
+2012 秋 Q1 (10 分). Lisa 的卡车有三种状态: 在她手中但已损坏 $B$, 在她手中且能工作 $W$, 在修理厂 $S$.
+\begin{enumerate}[label=(\roman*)]
+\item 某早晨为 $B$, 次日早晨以 $1/2$ 概率仍为 $B$, 以 $1/2$ 概率变成 $S$.
+\item 某早晨为 $W$, 次日早晨以 $9/10$ 概率仍为 $W$, 以 $1/10$ 概率变成 $B$.
+\item 某早晨为 $S$, 次日早晨以 $1/2$ 概率仍为 $S$, 以 $1/2$ 概率变成 $W$.
+\end{enumerate}
+回答:
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q1-a} 写出三阶马尔可夫转移矩阵.
+\item\label{ex:fe2012q1-b} 若某早晨为 $W$, 两天后早晨为 $B$ 的概率是多少?
+\item\label{ex:fe2012q1-c} 长期而言, 早晨处于 $B,S,W$ 各状态的比例是多少?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q1-a} 行列均按 $B,W,S$ 排列, 转移矩阵为
+\[
+ P=\begin{pmatrix}1/2&0&1/2\\1/10&9/10&0\\0&1/2&1/2\end{pmatrix}.
+\]
+\item\label{sol:fe2012q1-b} 两步的中间状态只可能是 $W$ 或 $B$. 所求为
+$P_{WW}P_{WB}+P_{WB}P_{BB}=(9/10)(1/10)+(1/10)(1/2)=7/50=0.14$.
+\item\label{sol:fe2012q1-c} 令平稳分布按 $B,W,S$ 排列为 $(b,w,s)$. 第一、第三列的平衡方程为 $b=b/2+w/10$, $s=b/2+s/2$, 所以 $w=5b$, $s=b$. 由总和 $1$ 得 $(b,w,s)=(1/7,5/7,1/7)$. 此链有限、不可约且有自环, 因而长期比例存在并等于平稳分布. 按题问的 $B,S,W$ 次序分别为 $1/7,1/7,5/7$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q2}
+2012 秋 Q2 (10 分). $X_1,X_2,\ldots$ 独立, 每个以 $1/2$ 概率取 $1,-1$. 记 $Y_n=\sum_{i=1}^nX_i$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q2-a} 在首次到达 $-30$ 之前先到达 $10$ 的概率是多少?
+\item 下列哪些 $Z_n$ 是鞅? 只需圈出对应罗马序号.
+\begin{enumerate}[label=(\roman*)]
+\item\label{ex:fe2012q2-b-i} $Z_n=X_n+Y_n$.
+\item\label{ex:fe2012q2-b-ii} $Z_n=\prod_{i=1}^n(2X_i+1)$.
+\item\label{ex:fe2012q2-b-iii} $Z_n=\prod_{i=1}^n(-X_i+1)$.
+\item\label{ex:fe2012q2-b-iv} $Z_n=\sum_{i=1}^nY_i$.
+\item\label{ex:fe2012q2-b-v} $Z_n=\sum_{i=2}^nX_iX_{i-1}$.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+以 $\mathcal F_n=\sigma(X_1,\ldots,X_n)$ 表示已知历史.
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q2-a} $Y_0=0$, 独立零均值增量使 $Y_n$ 成为鞅. 令 $T$ 为到达 $-30,10$ 中任一者的首时刻. 停止过程被夹在 $[-30,10]$ 中. 从任一内部位置连续 $40$ 步向上必到边界, 概率 $2^{-40}$, 所以 $T<\infty$ 几乎必然. 对 $Y_{T\wedge n}$ 用鞅恒等式再取有界收敛, 得 $\E Y_T=0$. 若 $p=\Prob(Y_T=10)$, 则 $0=10p-30(1-p)$, 所以 $p=3/4$.
+\item
+\begin{enumerate}[label=(\roman*)]
+\item\label{sol:fe2012q2-b-i} 不是. $Z_{n+1}=Y_n+2X_{n+1}$, 所以条件期望为 $Y_n$, 而当前值是 $Y_n+X_n$, 两者不同.
+\item\label{sol:fe2012q2-b-ii} 是. 独立新因子的均值 $\E(2X_{n+1}+1)=1$, 因此下一乘积的条件期望等于当前乘积. 因子可以为负, 这不妨碍鞅性质; 每个有限乘积均可积.
+\item\label{sol:fe2012q2-b-iii} 是. 新因子 $1-X_{n+1}$ 同样独立且均值为 $1$, 所以满足同一条件期望恒等式.
+\item\label{sol:fe2012q2-b-iv} 不是. 增量为 $Y_{n+1}$, 条件期望为 $Y_n$, 它并非恒为零. 故 $\E(Z_{n+1}\mid\mathcal F_n)=Z_n+Y_n$ 不总等于 $Z_n$.
+\item\label{sol:fe2012q2-b-v} 是. 增量为 $X_{n+1}X_n$, 其中 $X_n$ 已知, $X_{n+1}$ 独立且均值零, 所以增量条件期望为 $X_n\E X_{n+1}=0$. 取空和为零即可包含 $n=1$.
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q3}
+2012 秋 Q3 (10 分). 十个人将帽子投入箱中, 再随机分回, 每人恰得一顶, $10!$ 个排列等可能. 令 $N$ 为拿回自己帽子的人数.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q3-a} 求 $\E[N^2]$.
+\item\label{ex:fe2012q3-b} 求 $\Prob(N=8)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q3-a} 写 $N=\sum_{i=1}^{10}I_i$, 其中 $I_i$ 是第 $i$ 人拿回帽子的指标. 每个 $\E I_i=1/10$, $i\ne j$ 时 $\E(I_iI_j)=8!/10!=1/90$. 展开平方得
+\[
+ \E N^2=10\frac1{10}+10\cdot9\frac1{90}=2.
+\]
+\item\label{sol:fe2012q3-b} 恰有八人拿回帽子时, 剩下两人必须交换帽子. 每选定一对未拿回帽子的人就唯一确定一个排列, 故符合的排列数为 $\binom{10}{2}=45$. 因此概率为 $45/10!=1/80640$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q4}
+2012 秋 Q4 (10 分). Harry 的手机开机时, 短信到达构成强度 $\lambda_T=3$/分钟的泊松过程, 邮件到达构成独立的强度 $\lambda_E=1$/分钟的泊松过程. Facebook 私信到达又是独立的强度 $\lambda_F=2$/分钟的泊松过程.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q4-a} 某早晨查看完已有消息后, Harry 开始等新消息. 令 $X$ 为收到第一条短信前的等待分钟数, 写出它的密度.
+\item\label{ex:fe2012q4-b} 求开始等待后的前两分钟总共收到 $10$ 条新消息 (包括邮件、短信和 Facebook 私信) 的概率.
+\item\label{ex:fe2012q4-c} 令 $Y$ 为第三封邮件到达前经过的时间, 求 $\Var(Y)$.
+\item\label{ex:fe2012q4-d} 求前五分钟没有任何一种新消息的概率.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q4-a} $\Prob(X>x)=\Prob(N_T(x)=0)=\ee^{-3x}$ ($x\ge0$), 所以密度为 $f_X(x)=3\ee^{-3x}$ ($x>0$), 在 $x<0$ 为零.
+\item\label{sol:fe2012q4-b} 三个独立泊松计数相加仍为泊松计数, 两分钟参数为 $2(3+1+2)=12$. 因此所求为 $\ee^{-12}12^{10}/10!$.
+\item\label{sol:fe2012q4-c} 邮件相邻到达的三个间隔独立同分布为 $\Exp(1)$; $Y$ 为其和, 故 $\Var(Y)=3\cdot1/1^2=3$ 分钟平方. 官方末句印作 $\Var(S)=3$, 所求对象实际为 $Y$, 数值不需改动.
+\item\label{sol:fe2012q4-d} 五分钟的三类计数独立, 同时为零的概率是 $\ee^{-15}\ee^{-5}\ee^{-10}=\ee^{-30}$, 也可直接用合并强度 $6$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q5}
+2012 秋 Q5 (10 分). $X,Y$ 的联合密度为
+\[
+ f(x,y)=\begin{cases}1/\pi,&x^2+y^2<1,\\0,&x^2+y^2\ge1.\end{cases}
+\]
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q5-a} 求 $X$ 的边缘密度 $f_X$.
+\item\label{ex:fe2012q5-b} 将 $\E[\sin(XY)]$ 写成二重积分, 无需显式求值.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q5-a} 固定 $|x|<1$, 圆盘的竖截线为 $-\sqrt{1-x^2}<y<\sqrt{1-x^2}$. 沿它积分得
+\[
+ f_X(x)=\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}}\frac1\pi\dd y
+ =\frac2\pi\sqrt{1-x^2}\quad(|x|<1),
+\]
+在其外取零. 端点密度可取零. 官方解答的非零区间印作 $-1\le x\le-1$, 右端应为 $1$; 圆盘投影为 $[-1,1]$ 直接核实此修正. 系数是 $2/\pi$, 而非抽取文本可能造成的 $1/(2\pi)$.
+\item\label{sol:fe2012q5-b} 按同一圆盘截线,
+\[
+ \E[\sin(XY)]=\int_{-1}^1\int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}}
+ \frac1\pi\sin(xy)\dd y\dd x.
+\]
+这已满足题意. 因被积函数关于 $y$ 为奇函数, 若进一步计算其值则为零; 有界函数在有限面积圆盘上可积, 对称积分合法.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q6}
+2012 秋 Q6 (10 分). $X,Y$ 为两次独立标准骰子的点数, 各在 $\{1,2,3,4,5,6\}$ 上等可能, $Z=X+Y$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q6-a} 求 $\Prob(X=6\mid Z=8)$.
+\item\label{ex:fe2012q6-b} 对 $Z\in\{2,3,\ldots,12\}$, 将 $\E(Y\mid Z)$ 表示成 $Z$ 的函数.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q6-a} 和为 $8$ 的有序点数对是 $(2,6),(3,5),(4,4),(5,3),(6,2)$, 条件下等可能. 只有最后一对满足 $X=6$, 故概率 $1/5$.
+\item\label{sol:fe2012q6-b} 交换 $X,Y$ 不改变联合分布, 给定其和后仍具有交换对称性, 因而 $\E(X\mid Z)=\E(Y\mid Z)$. 又由线性性两者之和为 $\E(X+Y\mid Z)=Z$, 所以 $\E(Y\mid Z)=Z/2$. 题给的每个 $Z$ 值都有正概率, 条件期望在这些值上均有此确定公式.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q7}
+2012 秋 Q7 (10 分). $X_i$ 独立同分布, 各以 $1/3$ 概率取 $-1,0,1$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q7-a} 求 $X_1$ 的矩母函数.
+\item\label{ex:fe2012q7-b} 求 $\sum_{i=1}^nX_i$ 的矩母函数.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q7-a} 按三个取值直接求期望得 $M_{X_1}(t)=(\ee^{-t}+1+\ee^t)/3$, 对所有 $t\in\R$ 成立.
+\item\label{sol:fe2012q7-b} 独立性给出 $\E\prod_i\ee^{tX_i}=\prod_i\E\ee^{tX_i}$, 所以
+$M_{\sum_iX_i}(t)=((\ee^{-t}+1+\ee^t)/3)^n$. 在 $t=0$ 为 $1$, 无需另作连续延拓.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q8}
+2012 秋 Q8 (10 分). $X,Y$ 独立, $X$ 在 $\{1,2\}$ 上均匀分布, $Y$ 在 $\{1,2,3,4\}$ 上均匀分布. 令 $Z=X+Y$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q8-a} 求 $H(X),H(Y)$.
+\item\label{ex:fe2012q8-b} 求 $H(X,Z)$.
+\item\label{ex:fe2012q8-c} 求 $H(X+Y)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q8-a} 两个均匀值的熵为 $\log2=1$, 四个均匀值的熵为 $\log4=2$.
+\item\label{sol:fe2012q8-b} $(X,Z)$ 唯一确定 $(X,Y)$, 所以联合熵不变. 原来的八个有序对等可能, 因而 $H(X,Z)=\log8=3$.
+\item\label{sol:fe2012q8-c} 八个有序对给出和 $2,3,4,5,6$ 的次数依次为 $1,2,2,2,1$. 因此
+\[
+ H(X+Y)=-2\frac18\log\frac18-3\frac14\log\frac14
+ =\frac{6}{8}+\frac{6}{4}=\frac94.
+\]
+其中端点和的概率为 $1/8$, 内部三个和的概率为 $1/4$, 故不是五个值上的均匀分布.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q9}
+2012 秋 Q9 (10 分). $X$ 为均值 $0$, 方差 $1$ 的正态变量.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q9-a} 求 $\E[\ee^X]$.
+\item\label{ex:fe2012q9-b} 求 $\E[\ee^X\ind_{\{X>0\}}]$.
+\item\label{ex:fe2012q9-c} 求 $\E[X^2+2X-5]$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q9-a} 配方 $x-x^2/2=-(x-1)^2/2+1/2$, 得
+\[
+ \E[\ee^X]=\frac1{\sqrt{2\pi}}\int_{-\infty}^{\infty}\ee^{x-x^2/2}\dd x
+ =\ee^{1/2}\frac1{\sqrt{2\pi}}\int_{-\infty}^{\infty}\ee^{-(x-1)^2/2}\dd x=\ee^{1/2}.
+\]
+\item\label{sol:fe2012q9-b} 指示函数将积分限为正半轴. 用同一配方并令 $u=x-1$, 得
+\[
+ \E[\ee^X\ind_{\{X>0\}}]
+ =\ee^{1/2}\frac1{\sqrt{2\pi}}\int_{-1}^{\infty}\ee^{-u^2/2}\dd u
+ =\ee^{1/2}[1-\Phi(-1)]=\ee^{1/2}\Phi(1).
+\]
+这里 $\Phi(a)=(2\pi)^{-1/2}\int_{-\infty}^a\ee^{-u^2/2}\dd u$. 此量未除以 $\Prob(X>0)$, 因此不是 $\E(\ee^X\mid X>0)$.
+\item\label{sol:fe2012q9-c} $\E X=0$, $\E X^2=\Var(X)+(\E X)^2=1$, 所以所求为 $1+0-5=-4$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2012q10}
+2012 秋 Q10 (10 分). $X$ 在 $[0,1]$ 上均匀分布.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2012q10-a} 求 $X$ 的方差.
+\item\label{ex:fe2012q10-b} 求 $3X+5$ 的方差.
+\item\label{ex:fe2012q10-c} 若 $X_1,\ldots,X_n$ 是 $X$ 的独立副本, $Z=\max\{X_1,\ldots,X_n\}$, 求 $F_Z$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2012q10-a} $\E X=\int_0^1x\dd x=1/2$, $\E X^2=\int_0^1x^2\dd x=1/3$, 故 $\Var(X)=1/3-1/4=1/12$.
+\item\label{sol:fe2012q10-b} 平移不改变方差, 乘以 $3$ 则方差乘以 $9$, 所以 $\Var(3X+5)=9/12=3/4$.
+\item\label{sol:fe2012q10-c} 当 $0\le a\le1$, 所有 $X_i\le a$ 的概率为独立概率之积 $a^n$. 考虑支持之外的两侧,
+\[
+ F_Z(a)=\begin{cases}0,&a<0,\\a^n,&0\le a\le1,\\1,&a>1.\end{cases}
+\]
+两端与内部公式衔接, 故确为分布函数.
+\end{enumerate}
+\end{solution}
+
+\originalsection{2014年春季期末考试}
+原卷为 Spring 2014 18.440 Final Exam, 满分 100 分, 每题 10 分. 请清楚展示计算, 不写技术上不成立的论断, 将最终计算结果框出.
+题源: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_final_2014/}{官方题卷}, \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_final_2014_soln/}{官方解答}.
+
+\begin{exercise}\label{ex:fe2014q1}
+2014 春 Q1 (10 分). $X$ 在 $[-1,1]$ 上均匀分布.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q1-a} 求 $X^2$ 的方差.
+\item\label{ex:fe2014q1-b} 若 $X_1,\ldots,X_n$ 是 $X$ 的独立副本, $Z=\max\{X_1,\ldots,X_n\}$, 求 $F_Z$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q1-a} 密度为 $1/2$, 故 $\E X^2=\frac12\int_{-1}^1x^2\dd x=1/3$, $\E X^4=\frac12\int_{-1}^1x^4\dd x=1/5$. 所求是平方变量的方差, 因此 $\Var(X^2)=\E X^4-(\E X^2)^2=1/5-1/9=4/45$.
+\item\label{sol:fe2014q1-b} $X$ 在区间内的分布函数为 $(a+1)/2$. 最大值不超过 $a$ 要求每个变量都不超过 $a$, 因而
+\[
+ F_Z(a)=\begin{cases}0,&a<-1,\\((a+1)/2)^n,&-1\le a\le1,\\1,&a>1.\end{cases}
+\]
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q2}
+2014 春 Q2 (10 分). 公园里有一张最多坐两人的长椅. 游人独行或成双, 但没人会坐到陌生人旁边. 入座的一个人或一对人至少停留一分钟, 平均停留四分钟. 状态每分钟转移如下:
+\begin{enumerate}[label=(\roman*)]
+\item 长椅为空时, 下一分钟以 $1/2$ 概率仍空, 以 $1/4$ 概率坐一人, 以 $1/4$ 概率坐两人.
+\item 已坐一人时, 下一分钟以 $1/4$ 概率为空, 以 $3/4$ 概率仍坐一人.
+\item 已坐两人时, 下一分钟以 $1/4$ 概率为空, 以 $3/4$ 概率仍坐两人.
+\end{enumerate}
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q2-a} 以 $E,S,D$ 依次表示空椅、一人、两人状态. 写出三阶转移矩阵, 并标明行列的状态.
+\item\label{ex:fe2014q2-b} 若长椅目前为空, 两分钟后仍空的概率是多少?
+\item\label{ex:fe2014q2-c} 长期而言, 长椅处于各状态的时间比例是多少?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q2-a} 行为当前、列为下一分钟, 均按 $E,S,D$ 排列:
+\[
+ P=\begin{pmatrix}1/2&1/4&1/4\\1/4&3/4&0\\1/4&0&3/4\end{pmatrix}.
+\]
+\item\label{sol:fe2014q2-b} 按中间状态 $E,S,D$ 分类, 得 $(P^2)_{EE}=(1/2)^2+(1/4)^2+(1/4)^2=3/8$.
+\item\label{sol:fe2014q2-c} 写平稳分布为 $(e,s,d)$. 平衡式 $s=e/4+3s/4$, $d=e/4+3d/4$ 分别给出 $s=e,d=e$, 加上和为 $1$, 得三者皆 $1/3$. 状态可经空椅互达且各有自环, 故链不可约且非周期, 长期比例就是这些值.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q3}
+2014 春 Q3 (10 分). 八个人将帽子投入箱中, 再随机分回, 每人恰得一顶, $8!$ 个排列等可能. 令 $N$ 为拿回自己帽子的人数.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q3-a} 求 $\E N$.
+\item\label{ex:fe2014q3-b} 求 $\Prob(N=7)$.
+\item\label{ex:fe2014q3-c} 求 $\Prob(N=0)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q3-a} 本子问与习题~\ref{ex:fe2011q8} 的 (a) 条件及所问完全相同, 完整指标变量计算见该题解答的 (a). 由八个指标各有均值 $1/8$, 得 $\E N=1$.
+\item\label{sol:fe2014q3-b} 若已有七人拿回自己的帽子, 剩下的唯一帽子必属于第八人, 他也拿回自己的帽子. 所以恰有七人的事件不可能, 概率为零.
+\item\label{sol:fe2014q3-c} 令 $A_i$ 为第 $i$ 人拿回帽子的事件. 对任意指定的 $k$ 个人, 同时拿回帽子的排列数为 $(8-k)!$, 概率为 $(8-k)!/8!$. 容斥公式于是给出
+\[
+ \Prob(N=0)=\sum_{k=0}^8(-1)^k\binom8k\frac{(8-k)!}{8!}
+ =\sum_{k=0}^8\frac{(-1)^k}{k!}
+ =\frac{14833}{40320}.
+\]
+其末项为 $+1/8!$, 因为 $8$ 为偶数. 官方最后一行印作 $-1/8!$, 会破坏容斥的交替符号, 故需更正. 数值约为 $0.367882$, 接近 $1/\ee$, 但有限人数时不等于 $1/\ee$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q4}
+2014 春 Q4 (10 分). $X_1,X_2,\ldots$ 独立, 各以 $1/2$ 概率取 $5,-5$. 记 $Y_n=\sum_{i=1}^nX_i$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q4-a} 在首次到达 $-15$ 之前先到达 $65$ 的概率是多少?
+\item 下列哪些 $Z_n$ 是鞅? 只需圈出对应罗马序号.
+\begin{enumerate}[label=(\roman*)]
+\item\label{ex:fe2014q4-b-i} $Z_n=5X_n$.
+\item\label{ex:fe2014q4-b-ii} $Z_n=5^{-n}\prod_{i=1}^nX_i$.
+\item\label{ex:fe2014q4-b-iii} $Z_n=\prod_{i=1}^nX_i^2$.
+\item\label{ex:fe2014q4-b-iv} $Z_n=17$.
+\item\label{ex:fe2014q4-b-v} $Z_n=X_n-4$.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q4-a} 除以 $5$ 后是从 $0$ 出发、边界为 $-3,13$ 的对称单位步长随机游走. 首次到边界的时间 $T$ 几乎必然有限: 连续 $16$ 个向上增量以概率 $2^{-16}$ 使任何内部位置出界, 分块可控制未停概率. 原过程 $Y_{n\wedge T}$ 有界, 故 $\E Y_T=Y_0=0$. 若先到 $65$ 的概率为 $p$, 则 $0=65p-15(1-p)$, 得 $p=15/80=3/16$. 官方停时说明中先印 $Y_0=1$, 随后却使用正确的 $Y_0=0$; 空和起点为 $0$, 所以错误只在那一行.
+\item 令 $\mathcal F_n=\sigma(X_1,\ldots,X_n)$.
+\begin{enumerate}[label=(\roman*)]
+\item\label{sol:fe2014q4-b-i} 不是. 下一值条件期望为 $5\E X_{n+1}=0$, 当前值却为 $25$ 或 $-25$.
+\item\label{sol:fe2014q4-b-ii} 不是. 下一值是当前值乘以 $X_{n+1}/5$, 该新因子均值为零, 所以条件期望为零; 当前值总为 $1$ 或 $-1$.
+\item\label{sol:fe2014q4-b-iii} 不是. 由于 $X_i^2=25$, $Z_n=25^n$ 是严格增长的确定数列, 下一值条件期望为 $25^{n+1}\ne25^n$.
+\item\label{sol:fe2014q4-b-iv} 是. 常数 $17$ 的条件期望保持为 $17$.
+\item\label{sol:fe2014q4-b-v} 不是. 下一值条件期望为 $-4$, 当前值为 $1$ 或 $-9$.
+\end{enumerate}
+因此只有 (iv).
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q5}
+2014 春 Q5 (10 分). $X,Y$ 独立, 均为参数 $\lambda=2$ 的指数变量. 记 $Z=\min\{X,Y\}$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q5-a} 求 $Z$ 的密度.
+\item\label{ex:fe2014q5-b} 将 $\E[\cos(X^2Y^3)]$ 写成二重积分, 无需显式求值.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q5-a} 对 $t\ge0$, 独立性给出 $\Prob(Z>t)=\Prob(X>t)\Prob(Y>t)=\ee^{-4t}$. 所以 $F_Z(t)=1-\ee^{-4t}$, 对其求导得 $f_Z(t)=4\ee^{-4t}$ ($t>0$), $t<0$ 时密度零. 官方把密度 $4\ee^{-4t}$ 写成 $F_Z(t)$; 其内容是密度, 大写记号应改为小写 $f_Z$.
+\item\label{sol:fe2014q5-b} 独立联合密度为 $4\ee^{-2x-2y}$, 支持在正象限, 因而
+\[
+ \E[\cos(X^2Y^3)]=\int_0^\infty\int_0^\infty
+ \cos(x^2y^3)\,4\ee^{-2x-2y}\dd y\dd x.
+\]
+余弦绝对值至多 $1$, 联合密度积分为 $1$, 所以该期望与积分均绝对收敛.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q6}
+2014 春 Q6 (10 分). $X_1,X_2,X_3$ 为三次独立标准骰子的点数, 各在 $\{1,2,3,4,5,6\}$ 上等可能. 记 $Z=X_1+X_2+X_3$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q6-a} 求 $\Prob(X_1=6\mid Z=16)$.
+\item\label{ex:fe2014q6-b} 对 $Z\in\{3,4,\ldots,18\}$, 将 $\E(X_2\mid Z)$ 表示成 $Z$ 的函数.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q6-a} 令缺口 $d_i=6-X_i\ge0$, 和为 $16$ 等价于 $d_1+d_2+d_3=2$. 因而可能三元组只有 $(4,6,6)$ 的三个排列及 $(5,5,6)$ 的三个排列. 六个三元组等可能, 其中第一坐标为 $6$ 的有 $(6,4,6),(6,6,4),(6,5,5)$, 共三个. 所求为 $3/6=1/2$.
+\item\label{sol:fe2014q6-b} 三个条件期望因交换对称性相等, 且和为 $\E(Z\mid Z)=Z$, 所以每个为 $Z/3$, 特别是 $\E(X_2\mid Z)=Z/3$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q7}
+2014 春 Q7 (10 分). $X_i$ 独立同分布, 各在 $[0,1]$ 上均匀分布.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q7-a} 求 $X_1$ 的矩母函数.
+\item\label{ex:fe2014q7-b} 求 $\sum_{i=1}^nX_i$ 的矩母函数.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q7-a} 按均匀密度积分, $t\ne0$ 时 $\E[\ee^{tX_1}]=\int_0^1\ee^{tx}\dd x=(\ee^t-1)/t$. 在 $t=0$ 为 $1$, 也是此商的极限.
+\item\label{sol:fe2014q7-b} 此子问与习题~\ref{ex:fe2011q4} 完全相同, 独立乘积的完整计算及零点处理见该题解答. 所求为 $((\ee^t-1)/t)^n$ ($t\ne0$), 在 $t=0$ 为 $1$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q8}
+2014 春 Q8 (10 分). $X$ 为均值 $0$, 方差 $5$ 的正态变量.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q8-a} 求 $\E[\ee^X]$.
+\item\label{ex:fe2014q8-b} 求 $\E[X^9+X^3-50X+7]$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q8-a} 用密度配方,
+\[
+ \E[\ee^X]=\frac1{\sqrt{10\pi}}\int_{-\infty}^\infty\ee^{x-x^2/10}\dd x
+ =\ee^{5/2}\frac1{\sqrt{10\pi}}\int_{-\infty}^\infty\ee^{-(x-5)^2/10}\dd x=\ee^{5/2}.
+\]
+官方该行写 $\E[\ee^{tX}]$, 被积因子又印作 $\ee^{-x}$, 应分别为本问的 $\E[\ee^X]$ 与 $\ee^x$. 均值为零的对称性使负号碰巧仍给相同期望, 但不能将误印当作一般矩母函数公式.
+\item\label{sol:fe2014q8-b} 正态密度是偶函数, 所有阶绝对矩有限, 故积分中的奇函数 $x^9,x^3,x$ 各给零. 期望线性性给出 $0+0-0+7=7$. 官方解释列出 $\E X^7=0$, 与题面的 $X^3$ 不符; 正确应列 $\E X^3=0$, 结论仍为 $7$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q9}
+2014 春 Q9 (10 分). $X,Y$ 独立, $X$ 在 $\{1,2\}$ 上均匀分布, $Y$ 在 $\{1,2,3\}$ 上均匀分布. 记 $Z=X+Y$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q9-a} 求 $H(X),H(Y)$.
+\item\label{ex:fe2014q9-b} 求 $H(X,Z)$.
+\item\label{ex:fe2014q9-c} 求 $H(2^X3^Y)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q9-a} 对均匀的 $m$ 个值, 熵为 $-m(1/m)\log(1/m)=\log m$. 故 $H(X)=\log2$, $H(Y)=\log3$.
+\item\label{sol:fe2014q9-b} $(X,Z)$ 可逆地确定 $(X,Y)$, 因此保留了六个等概率有序对, $H(X,Z)=\log6$.
+\item\label{sol:fe2014q9-c} 素因数分解唯一性保证 $2^x3^y=2^{x'}3^{y'}$ 只有 $x=x',y=y'$ 才成立. 六个有序对给六个不同等概率值, 所以 $H(2^X3^Y)=\log6$. 这里原题是幂乘积, 不是 $2X+3Y$.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2014q10}
+2014 春 Q10 (10 分). $X_1,X_2,\ldots$ 独立, 各以 $1/3$ 概率取 $2$, 以 $2/3$ 概率取 $0.5$. 令 $Y_0=1$, $Y_n=\prod_{i=1}^nX_i$ ($n\ge1$).
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2014q10-a} 在首次到达 $1/64$ 之前先到达 $4$ 的概率是多少?
+\item\label{ex:fe2014q10-b} 求 $\ln Y_{400}$ 的均值和方差.
+\item\label{ex:fe2014q10-c} 求 $\E Y_{100}$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2014q10-a} 独立因子的均值为 $1$, 故 $Y_n$ 为鞅. 其二进制指数每步移动 $\pm1$, 目标指数为 $-6,2$. 令 $T$ 为首达两边界的时间. 从内部连续八步向下必到下边界, 概率至少 $(2/3)^8$, 因而 $T$ 几乎必然有限. 又 $1/64\le Y_{T\wedge n}\le4$, 所以对有界停止过程取极限得 $\E Y_T=1$. 若上边界先到概率为 $p$,
+\[
+ 1=4p+\frac1{64}(1-p),\quad64=256p+1-p,\quad p=\frac{63}{255}=\frac{21}{85}.
+\]
+\item\label{sol:fe2014q10-b} $L_i=\ln X_i$ 以 $1/3,2/3$ 概率取 $\ln2,-\ln2$, 所以
+\[
+ \E L_i=-\frac{\ln2}{3},\qquad
+ \Var(L_i)=(\ln2)^2-\frac{(\ln2)^2}{9}=\frac89(\ln2)^2.
+\]
+独立和 $\ln Y_{400}=\sum_{i=1}^{400}L_i$ 因而有均值 $-400\ln2/3$, 方差 $3200(\ln2)^2/9$. 官方中间一行将 $\Var(\ln X_1)$ 印作 $\Var(X_1)$, 实际被平方及中心化的是对数, 所以必须改正对象; 最终值正确.
+\item\label{sol:fe2014q10-c} 可积独立变量乘积的期望等于期望乘积. 故 $\E Y_{100}=\prod_{i=1}^{100}\E X_i=1^{100}=1$. 也可由鞅在确定时刻保持均值得到, 此处无需使用可选停止.
+\end{enumerate}
+\end{solution}
+
+\originalsection{2016年春季期末考试}
+原卷为 Spring 2016 18.600 Final Exam, 满分 100 分. 请清楚展示计算, 不写技术上不成立的论断, 将最终计算结果框出. 原卷 Q3、Q4 未在题首另标分值, 本译文保留这一结构.
+题源: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_final_2016/}{官方题卷}, \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_final_2016_soln/}{官方解答}.
+
+\begin{exercise}\label{ex:fe2016q1}
+2016 春 Q1 (10 分). $X_1,X_2,\ldots$ 独立同分布, 每个为均值 $1$, 方差 $1$ 的正态变量.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q1-a} 求 $Y=X_1-2X_2+3X_3-4X_4$ 的均值和方差.
+\item\label{ex:fe2016q1-b} 求 $Y$ 的密度.
+\item\label{ex:fe2016q1-c} 用函数 $\Phi(a)=\int_{-\infty}^a(2\pi)^{-1/2}\ee^{-x^2/2}\dd x$ 表示 $\Prob(Y>0)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q1-a} 期望的线性性给出 $\E Y=1-2+3-4=-2$. 独立性消去所有交叉协方差, 所以 $\Var(Y)=1^2+(-2)^2+3^2+(-4)^2=30$.
+\item\label{sol:fe2016q1-b} 独立正态变量的线性组合仍为正态变量. 例如各变量的矩母函数为 $\exp(t+t^2/2)$, 按系数缩放后相乘得到 $\exp(-2t+15t^2)$, 正是 $\Normal(-2,30)$ 的矩母函数. 因此对 $y\in\R$,
+\[
+ f_Y(y)=\frac1{\sqrt{60\pi}}\exp\left(-\frac{(y+2)^2}{60}\right).
+\]
+\item\label{sol:fe2016q1-c} 标准化变量 $(Y+2)/\sqrt{30}$ 服从标准正态分布. 事件 $Y>0$ 等价于该变量大于 $2/\sqrt{30}$, 所以
+$\Prob(Y>0)=1-\Phi(2/\sqrt{30})=\Phi(-2/\sqrt{30})$, 最后一个等号来自标准正态密度的对称性.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q2}
+2016 春 Q2 (10 分). $X_1,X_2,\ldots$ 是独立同分布的正态变量, 这次每个均值 $0$, 方差 $1$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q2-a} 记 $Y_n=\sum_{i=1}^nX_i$. $Y_n$ 是鞅吗?
+\item\label{ex:fe2016q2-b} 记 $Z_n=Y_n^2-n$. 求 $\E(Z_n-Z_{n-1}\mid X_1,\ldots,X_{n-1})$. 可以从下面原卷给出的展开开始:
+\begin{align*}
+ Z_n-Z_{n-1}&=(Y_n^2-n)-(Y_{n-1}^2-(n-1))\\
+ &=Y_n^2-Y_{n-1}^2-1\\
+ &=(Y_{n-1}+X_n)^2-Y_{n-1}^2-1\\
+ &=2Y_{n-1}X_n+X_n^2-1.
+\end{align*}
+\item\label{ex:fe2016q2-c} $Z_n$ 是鞅吗?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+令 $\mathcal F_n=\sigma(X_1,\ldots,X_n)$, 并取 $Y_0=Z_0=0$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q2-a} 是. $Y_n$ 适应且可积, $X_n$ 独立于过去且均值为零, 因而 $\E(Y_n\mid\mathcal F_{n-1})=Y_{n-1}+\E X_n=Y_{n-1}$. $Y$ 的自然历史和增量历史产生相同的过滤, 因为 $X_n=Y_n-Y_{n-1}$.
+\item\label{sol:fe2016q2-b} 给定历史后 $Y_{n-1}$ 已知. 独立性给出 $\E(X_n\mid\mathcal F_{n-1})=0$, $\E(X_n^2\mid\mathcal F_{n-1})=1$. 因而
+\[
+ \E(Z_n-Z_{n-1}\mid\mathcal F_{n-1})
+ =2Y_{n-1}\cdot0+1-1=0.
+\]
+条件期望中的乘积可积: 独立性和有限一阶矩给出 $\E|Y_{n-1}X_n|=\E|Y_{n-1}|\E|X_n|<\infty$.
+\item\label{sol:fe2016q2-c} 是. $Z_n$ 对 $\mathcal F_n$ 适应, 且 $\E|Z_n|\le\E Y_n^2+n=2n<\infty$, (b) 给出所需条件期望恒等式. 若只以 $Z$ 的自身历史 $\mathcal G_n=\sigma(Z_0,\ldots,Z_n)$ 为过滤, 仍有 $\mathcal G_{n-1}\subseteq\mathcal F_{n-1}$, 塔式法则给出
+\[
+ \E(Z_n\mid\mathcal G_{n-1})
+ =\E[\E(Z_n\mid\mathcal F_{n-1})\mid\mathcal G_{n-1}]
+ =\E(Z_{n-1}\mid\mathcal G_{n-1})=Z_{n-1}.
+\]
+这样不必假设从 $Z$ 的历史可以恢复 $Y_{n-1}$ 的符号.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q3}
+2016 春 Q3. $X_1,X_2,\ldots$ 独立同分布, 都是标准柯西变量, 密度为 $1/[\pi(1+x^2)]$. $W$ 是与它们独立的均值零、方差一的正态变量.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q3-a} 记 $S=X_1+X_2+X_3+X_4+X_5$, 写出 $S$ 密度 $f_S$ 的显式公式.
+\item\label{ex:fe2016q3-b} 写出 $A=X_1+W$ 的密度. 答案可含无需显式求值的积分.
+\item\label{ex:fe2016q3-c} 求 $\Prob(X_1+X_2>X_3+3)$, 答案须为明确的有理数. 提示: 回忆旋转手电筒的故事.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+这里使用课程中柯西分布的稳定性: 独立标准柯西变量之和除以项数仍为标准柯西变量. 这一结论也可由课程的特征函数公式 $\E\ee^{\ii tX}=\ee^{-|t|}$ 验证: 独立和的特征函数相乘, $m$ 项和的特征函数为 $\ee^{-m|t|}$, 等于 $mX$ 的特征函数; 对称性还允许把任何一项换成其负值.
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q3-a} 令 $T=S/5$, 则 $T$ 标准柯西. 缩放变量的密度需要雅可比因子 $1/5$, 所以
+\[
+ f_S(s)=\frac15f_T(s/5)=\frac1{5\pi(1+(s/5)^2)}=\frac5{\pi(s^2+25)},\quad s\in\R.
+\]
+不能把柯西的不存在均值误当作零均值, 此处用的是分布稳定性, 而非方差相加.
+\item\label{sol:fe2016q3-b} 按独立联合密度, 和变量密度是卷积:
+\[
+ f_A(a)=\int_{-\infty}^{\infty}f_{X_1}(x)f_W(a-x)\dd x
+ =\int_{-\infty}^{\infty}\frac1{\pi(1+x^2)}
+ \frac1{\sqrt{2\pi}}\ee^{-(a-x)^2/2}\dd x.
+\]
+该式对 $a\in\R$ 成立, 非负并在全实线上积分为一; 非负积分交换由 Tonelli 定理保证.
+\item\label{sol:fe2016q3-c} $-X_3$ 与前两项独立, 且仍标准柯西. 所以 $B=(X_1+X_2-X_3)/3$ 标准柯西. 所求为 $\Prob(B>1)$, 由密度直接积分,
+\[
+ \Prob(B>1)=\frac1\pi\int_1^\infty\frac1{1+b^2}\dd b
+ =\frac1\pi\left(\frac\pi2-\arctan1\right)=\frac14.
+\]
+这也对应旋转手电筒中四分之一角度的范围.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q4}
+2016 春 Q4. $n$ 人把鞋投入箱中, 每人一只左鞋、一只右鞋, 共 $2n$ 只鞋. 将鞋随机打乱后分回, 每人得到两只, 各种分配等可能. 令 $B$ 为拿到一只左鞋和一只右鞋的人数, 无论鞋是否来自同一双.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q4-a} 求 $\E B$.
+\item\label{ex:fe2016q4-b} 求 $\E[B^2]$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+把各只鞋视为不同物件, 可将分配实现为先将 $2n$ 只鞋均匀随机排列, 再每两只分给一人. 每种无序成对分配有相同的 $2^n$ 个排列表示, 所以这与题意相符. 令 $I_i$ 为第 $i$ 人获得一左一右的指标.
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q4-a} 无论第一只鞋为左还是右, 剩下 $2n-1$ 只鞋中恰有 $n$ 只与它相反. 因而 $p=\E I_i=n/(2n-1)$, $B=\sum_iI_i$ 给出
+\[
+ \E B=np=\frac{n^2}{2n-1}.
+\]
+官方在正确叙述概率 $n/(2n-1)$ 之后, 两次把 $\E I_i$ 印成 $2/(2n-1)$. 分子是异类鞋数 $n$, 所以应改为 $n$; 官方最终 $n^2/(2n-1)$ 已正确.
+\item\label{sol:fe2016q4-b} 当 $n\ge2$, 两个指定的人 $i,j$ 都配平的概率可逐人计算. 条件在 $I_i=1$ 上后, 余下 $2n-2$ 只鞋有 $n-1$ 左、$n-1$ 右, 均匀分给其他人. 第 $j$ 人配平的条件概率为 $(n-1)/(2n-3)$. 因此
+\[
+ \E(I_iI_j)=\frac{n}{2n-1}\frac{n-1}{2n-3}\quad(i\ne j).
+\]
+展开 $B^2$, 对角项 $I_i^2=I_i$ 有 $n$ 个, 有序非对角项有 $n(n-1)$ 个, 得
+\begin{align*}
+ \E B^2&=n\frac{n}{2n-1}
+ +n(n-1)\frac{n}{2n-1}\frac{n-1}{2n-3}\\
+ &=\frac{n^2(n^2-2)}{(2n-1)(2n-3)}\qquad(n\ge2).
+\end{align*}
+$n=1$ 时两只鞋必为一左一右, $B=1$, 故 $\E B^2=1$. 上面的简化有理式代入 $n=1$ 也得 $1$, 但“两位不同的人”的条件概率推导只在 $n\ge2$ 时有意义.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q5}
+2016 春 Q5 (10 分). $(X,Y)$ 在三角形 $\{(x,y):x\ge0,\ y\ge0,\ x+y\le1\}$ 上均匀分布.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q5-a} 求联合密度 $f_{X,Y}(x,y)$.
+\item\label{ex:fe2016q5-b} 将 $\E(X\mid Y)$ 表示成 $Y$ 的函数.
+\item\label{ex:fe2016q5-c} 求 $\E X$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q5-a} 三角形面积为 $1/2$. 均匀密度须常数乘面积等于 $1$, 因而 $f_{X,Y}(x,y)=2$ 在题给三角形上, 其外为零. 边界取值不影响概率.
+\item\label{sol:fe2016q5-b} 对 $0<y<1$, 边缘密度为 $f_Y(y)=\int_0^{1-y}2\dd x=2(1-y)$. 所以 $X$ 给定 $Y=y$ 的密度为 $1/(1-y)$, 支持区间为 $[0,1-y]$, 是该区间上的均匀分布. 因此
+\[
+ \E(X\mid Y=y)=\int_0^{1-y}\frac{x}{1-y}\dd x=\frac{1-y}{2}.
+\]
+故 $\E(X\mid Y)=(1-Y)/2$ 几乎必然. 在零概率端点 $y=1$ 不需要用零分母定义条件密度, 可将此条件期望公式连续延拓为零.
+\item\label{sol:fe2016q5-c} 直接按三角形积分,
+\[
+ \E X=\int_0^1\int_0^{1-y}2x\dd x\dd y
+ =\int_0^1(1-y)^2\dd y=\frac13.
+\]
+这也符合三角形形心的横坐标.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q6}
+2016 春 Q6 (10 分). $X,Y$ 独立且都在 $[0,1]$ 上均匀分布.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q6-a} 求 $Z=X+Y$ 的矩母函数.
+\item\label{ex:fe2016q6-b} 求 $W=X^3$ 的密度.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q6-a} 对 $t\ne0$, 单变量积分给出 $M_X(t)=M_Y(t)=(\ee^t-1)/t$. 独立性使两者相乘, 故 $M_Z(t)=(\ee^t-1)^2/t^2$. 当 $t=0$, $M_Z(0)=\E1=1$, 与商的连续极限相符.
+\item\label{sol:fe2016q6-b} 此子问与习题\ref{ps5-b2}完全相同, 以下保留本卷的推导. 立方函数在 $[0,1]$ 单调, 所以 $0\le w\le1$ 时 $F_W(w)=\Prob(X\le w^{1/3})=w^{1/3}$. 完整分布函数在 $w<0$ 为零、$w>1$ 为一. 对内部求导得
+\[
+ f_W(w)=\begin{cases}\dfrac13 w^{-2/3},&0<w<1,\\0,&w<0\text{ 或 }w>1.\end{cases}
+\]
+零点处密度发散, 但 $\int_0^1(1/3)w^{-2/3}\dd w=1$, 因而不是零点有原子质量. 端点的单点密度取值可任意指定.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q7}
+2016 春 Q7 (10 分). $X,Y,Z$ 独立同分布, 都在 $[0,5]$ 上均匀分布.
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q7-a} 令 $A=\min\{X,Y,Z\}$, 求密度 $f_A$.
+\item\label{ex:fe2016q7-b} 令 $B$ 是 $\{X,Y,Z\}$ 中第二大的值, 求 $\E B$.
+\item\label{ex:fe2016q7-c} 令 $C=\max\{X,Y,Z\}$, 求 $\Prob(1<C<4)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q7-a} 当 $0<a<5$, 最小值大于 $a$ 要求三者全大于 $a$, 故
+\[
+ \Prob(A>a)=\left(\frac{5-a}{5}\right)^3,\qquad
+ F_A(a)=1-\left(\frac{5-a}{5}\right)^3.
+\]
+求导得 $f_A(a)=\frac35((5-a)/5)^2=3(5-a)^2/125$ ($0<a<5$), 其外为零. 官方这一行把概率阈值四次印作 $5$, 即 $\Prob(A>5)$ 及 $\Prob(X>5,Y>5,Z>5)$, 却接上随 $a$ 变化的公式. 正确阈值全部是 $a$; $A>5$ 本应概率零.
+\item\label{sol:fe2016q7-b} 将三者同时变换成 $5-X,5-Y,5-Z$, 联合分布不变, 大小顺序反转, 中间值因而从 $B$ 变成 $5-B$. $B$ 有界可积, 所以 $\E B=\E(5-B)=5-\E B$, 得 $\E B=5/2$.
+\item\label{sol:fe2016q7-c} $0\le c\le5$ 时 $\Prob(C\le c)=(c/5)^3$. 各变量连续, 端点无点质量, 因此
+\[
+ \Prob(1<C<4)=F_C(4)-F_C(1)=\left(\frac45\right)^3-\left(\frac15\right)^3=\frac{63}{125}.
+\]
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q8}
+2016 春 Q8 (10 分).
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q8-a} 三枚公平硬币独立抛掷, $X$ 为正面数, 求 $H(X)$.
+\item $X,Y$ 各取值于 $\{1,2,3,4,5,6\}$, 不要求独立或同分布. 下列哪些必成立? 只需圈出对应罗马序号.
+\begin{enumerate}[label=(\roman*)]
+\item\label{ex:fe2016q8-b-i} $H(X,Y)\ge H(X)+H(Y)$.
+\item\label{ex:fe2016q8-b-ii} $H(X,Y)=H(X)+H(Y)$.
+\item\label{ex:fe2016q8-b-iii} $H(X)\le H(X,Y)$.
+\item\label{ex:fe2016q8-b-iv} $H(X+Y)\le\log(11)$.
+\item\label{ex:fe2016q8-b-v} $H(X-Y)\ge0$.
+\end{enumerate}
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q8-a} $X\sim\Bin(3,1/2)$, 各值 $0,1,2,3$ 的概率为 $1/8,3/8,3/8,1/8$. 故
+\[
+ H(X)=-2\frac18\log\frac18-2\frac38\log\frac38
+ =3-\frac34\log3.
+\]
+这约为 $1.81128$ 比特, 小于三枚硬币完整有序结果的熵 $3$.
+\item
+\begin{enumerate}[label=(\roman*)]
+\item\label{sol:fe2016q8-b-i} 不必成立. 取 $X$ 在六个值上均匀, 并令 $Y=X$. 此时 $H(X,Y)=\log6$, 而 $H(X)+H(Y)=2\log6$, 严格更大. 一般成立的方向是 $H(X,Y)\le H(X)+H(Y)$.
+\item\label{sol:fe2016q8-b-ii} 不必成立. 同一个反例给出严格不等, 因此题目未假设独立时不能断定相等.
+\item\label{sol:fe2016q8-b-iii} 必成立. 链式法则 $H(X,Y)=H(X)+H(Y\mid X)$ 中, 条件熵是各条件离散熵的概率平均, 每项非负, 因而联合熵不少于 $H(X)$.
+\item\label{sol:fe2016q8-b-iv} 必成立. 和最多取 $2,3,\ldots,12$ 共 $11$ 个值. 若其概率为 $p_j$, 熵上界可从对数的凹性得到:
+\[
+ \sum_{p_j>0}p_j\log\frac1{p_j}
+ \le\log\left(\sum_{p_j>0}p_j\frac1{p_j}\right)
+ =\log|\{j:p_j>0\}|\le\log11.
+\]
+并不需要 $X,Y$ 独立.
+\item\label{sol:fe2016q8-b-v} 必成立. $X-Y$ 有限取值, 每个非零概率 $p\le1$ 贡献 $-p\log p\ge0$, 零概率项约定为零, 所以熵非负.
+\end{enumerate}
+故必成立的是 (iii)、(iv)、(v).
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q9}
+2016 春 Q9 (10 分). 某国领导人分为自由派 $L$、保守派 $C$ 和疯狂派 $I$ 三种, 每四年选出下一位领导人.
+\begin{enumerate}[label=(\roman*)]
+\item 当前为自由派时, 下届以 $2/3$ 概率仍为自由派, 以 $1/4$ 概率为保守派, 以 $1/12$ 概率为疯狂派.
+\item 当前为保守派时, 下届以 $2/3$ 概率仍为保守派, 以 $1/4$ 概率为自由派, 以 $1/12$ 概率为疯狂派.
+\item 当前为疯狂派时, 下届以 $1/2$ 概率为保守派, 以 $1/2$ 概率为自由派; 不允许连续两届为疯狂派.
+\end{enumerate}
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q9-a} 以 $L,C,I$ 标注行列, 写出三阶马尔可夫转移矩阵.
+\item\label{ex:fe2016q9-b} 若当前为疯狂派, 两次选举后再次为疯狂派的概率是多少?
+\item\label{ex:fe2016q9-c} 长期而言, 国家在三类领导人执政下各花多少比例的时间?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q9-a} 行为当前、列为下一届, 两者次序均为 $L,C,I$:
+\[
+ P=\begin{pmatrix}2/3&1/4&1/12\\1/4&2/3&1/12\\1/2&1/2&0\end{pmatrix}.
+\]
+每行和为 $1$, 且 $P_{II}=0$ 正好表达不可连任.
+\item\label{sol:fe2016q9-b} 第一届只能是 $L$ 或 $C$, 两者下一届转到 $I$ 的概率皆 $1/12$. 所求为 $(1/2)(1/12)+(1/2)(1/12)=1/12$.
+\item\label{sol:fe2016q9-c} 令平稳分布为 $(l,c,i)$. 两个第一类平衡式相减得
+$l-c=(2/3-1/4)(l-c)=\frac5{12}(l-c)$, 所以 $l=c$. 第三列给出 $i=(l+c)/12$. 加上 $l+c+i=1$ 得 $i=1/13$, $l=c=6/13$. 该链有限且不可约, $L,C$ 的自环也使其非周期, 因而长期状态比例为 $(6/13,6/13,1/13)$. 每届时长相同, 选举时刻的比例等于实际执政时间比例.
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:fe2016q10}
+2016 春 Q10 (10 分). 某镇气候恒定, 过去一个世纪平均每年有一场住宅火灾. 某年开始时 Jill 搬到镇上, 该年却发生六场住宅火灾. 人们举行审判, 判断火灾增加是否因为 Jill 是女巫. 法官请数学专家回答:
+\begin{enumerate}[label=(\alph*)]
+\item\label{ex:fe2016q10-a} 假设住宅火灾时刻是强度 $\lambda=1$/年的泊松点过程. 令 $p$ 为一个指定年份恰好发生六场火灾的概率, 求 $p$.
+\item\label{ex:fe2016q10-b} 在同一假设下, 一个世纪中至少有一个日历年恰好发生六场火灾的概率是多少? 用 (a) 中的 $p$ 表示.
+\end{enumerate}
+Jill 刚搬来时, Nora 认为她是女巫的概率为 $1/100$. Nora 还认为: 若 Jill 不是女巫, 当年火灾数为参数 $1$ 的泊松变量; 若她是女巫, 当年火灾数以概率 $1$ 等于 $6$. 在这个故事中, 纵火女巫会安排每年恰有六场火灾.
+\begin{enumerate}[label=(\alph*),start=3]
+\item\label{ex:fe2016q10-c} 已观察到 Jill 来镇上的第一年有六场火灾, Nora 应判断 Jill 是女巫的条件概率是多少? 用 (a) 中的 $p$ 表示.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[label=(\alph*)]
+\item\label{sol:fe2016q10-a} 指定一年内计数为 $\Pois(1)$, 所以 $p=\ee^{-1}1^6/6!=\ee^{-1}/720$.
+\item\label{sol:fe2016q10-b} 不同日历年的计数是泊松过程不相交区间的独立增量. 每年“不恰为六场”的概率为 $1-p$, 一百年都如此的概率为 $(1-p)^{100}$. 取补集得 $1-(1-p)^{100}$. 这是观察一个世纪后才挑出异常年份的概率, 与一个预先指定年份的 $p$ 不同.
+\item\label{sol:fe2016q10-c} 令 $W$ 为 Jill 是女巫, $F$ 为第一年恰有六场火灾. 题给先验及似然为
+$\Prob(W)=1/100$, $\Prob(F\mid W)=1$, $\Prob(F\mid W^c)=p$. 全概率及贝叶斯公式给出
+\[
+ \Prob(W\mid F)
+ =\frac{\Prob(W)\Prob(F\mid W)}{\Prob(W)\Prob(F\mid W)+\Prob(W^c)\Prob(F\mid W^c)}
+ =\frac{1}{1+99p}.
+\]
+在题设模型中此值约为 $0.952$, 是使用给定先验与两种计数模型后的后验, 不能直接把小的无女巫概率 $p$ 当作有女巫的概率. 原官方解答另作现实类比: Jill 可以换成排污工业设施, 住宅火灾可以换成被怀疑与污染相关的健康问题; 这一类比不改变本题的概率计算.
+\end{enumerate}
+\end{solution}

@@ -1,0 +1,794 @@
+\originalchapter{作业六至十与鞅补充题}
+\label{chap:assignments-late}
+本章保留原作业自设题的字母组、数字题号与子问. 下列解答均为本整理本补充的 AI 解答, 不是 MIT 官方作业答案. A 组只登记 Ross 教材题号, 不复制题面. 教材为 Sheldon Ross, \textit{A First Course in Probability}, 第8版, Pearson Prentice Hall, 2009, ISBN 9780136033134. 实地采集任务仍须读者亲自完成; 自设示例只说明计算方法.
+
+\originalsection{作业六: 指数分布与正态近似}
+原件: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_pset6/}{18.600 Problem Set 6}.
+\par\noindent\textbf{A. 教材题号.}\label{part:P6.A.1} 第5章 Theoretical Exercise 30. 原件已有完整题面, 本书依范围限制不重抄.
+
+\begin{exercise}\label{ex:P6.B}
+\textbf{原 B.} 时刻0, 一只细菌立即分裂为两只. 每只新细菌从出生到分裂的时间独立服从速率1的指数分布; 分裂后以两只新细菌取代原细菌. 设 $T_n$ 为数量首次达到 $n$ 的时刻.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P6.B.1} 求 $\E T_n$.
+\item\label{part:P6.B.2} 求 $\Var(T_n)$.
+\item\label{part:P6.B.3} 上述两量是否都随 $n$ 无界增长? 粗略估算 $n=10^{30}$ 时的值.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P6.B}
+(1) 数量为 $k$ 时, 下次分裂是 $k$ 个独立速率1指数时钟的最早响铃. 无记忆性使尚未响铃的时钟仍有原分布, 因而相邻分裂的等待时间 $W_k$ 相互独立, 且 $W_k\sim\Exp(k)$. 初始已是两只, 所以 $T_2=0$, 对 $n\ge2$,
+\[
+ T_n=\sum_{k=2}^{n-1}W_k,\qquad
+ \E T_n=\sum_{k=2}^{n-1}\frac1k=H_{n-1}-1.
+\]
+这里 $H_m=\sum_{k=1}^m1/k$. 若把和式从1开始, 就错误地给时刻0之前的分裂加上随机等待.
+
+(2) $\Var(W_k)=1/k^2$, 独立性给出 $\Var(T_n)=\sum_{k=2}^{n-1}k^{-2}$. (3) 调和和无界, 而平方倒数和收敛. 具体地,
+\[
+ \E T_n=\log n+\gamma-1+o(1),\qquad
+ \Var(T_n)\longrightarrow\frac{\pi^2}{6}-1.
+\]
+故 $n=10^{30}$ 时期望约为 $30\log10+0.577216-1\approx68.6548$, 方差约为 $0.644934$. 期望增长缓慢, 方差却始终有界. 时间单位是单只细菌分裂等待时间的均值.
+\end{solution}
+
+\begin{exercise}\label{ex:P6.C}
+\textbf{原 C.} Diaconis、Holmes 与 Montgomery 的2007年论文讨论抛起并用手接住的硬币保持原朝向的偏差. 原题采用保持朝向概率约 $.508$ 的模型. 查阅该论文及 Berkeley 的 \textit{40,000 coin tosses yield ambiguous evidence for dynamical bias}; 该实验有20245次保持原朝向.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P6.C.1} 若40000次抛币独立公平, 头数的标准差是多少? 用正态近似估算头比例大于 $.506$ 的概率.
+\item\label{part:P6.C.2} $X_i$ 独立取 $0,1$, 概率各为 $1/2$; $\widetilde X_i$ 独立取 $1$ 的概率为 $.508$. 设 $Y=\sum_{i=1}^N X_i$, $\widetilde Y=\sum_{i=1}^N\widetilde X_i$. 证明均值差是 $Y$ 标准差的 $.016\sqrt N$ 倍.
+\item\label{part:P6.C.3} 若 $N=10^6$, 均值相隔多少个标准差? 能否有信心区分一次 $Y$ 观测与一次 $\widetilde Y$ 观测?
+\end{enumerate}
+原题另请查阅 Cohen's $d$ 的精确定义.
+\end{exercise}
+\begin{solution}\label{sol:P6.C}
+(1) $H\sim\Bin(40000,1/2)$, 均值20000, 标准差 $\sqrt{40000/4}=100$. 事件为 $H>20240$. 不作连续性修正时, 标准化门槛是 $2.4$, 概率约 $1-\Phi(2.4)=0.00820$. 使用 $20240.5$ 作为连续性修正门槛则约 $1-\Phi(2.405)=0.00809$. 两者都约为 $0.81\%$.
+
+(2) 均值差 $.008N$, 而 $\operatorname{SD}(Y)=\sqrt N/2$, 所以比值为 $.016\sqrt N$. 偏币的标准差为 $\sqrt{N(.508)(.492)}$, 与 $\sqrt N/2$ 很接近. $N=40000$ 时比值为3.2. (3) $N=10^6$ 时比值为16. 若事先两模型等可能并按均值中点分类, 公平模型下错误需向上偏8个标准差, 偏币模型下也约需向下偏8个标准差. 正态近似下错误概率极小, 因而该理想独立模型中可以非常有信心地区分. 这不自动证明现实抛币协议完全符合模型.
+
+查阅说明: \href{https://www.stat.berkeley.edu/~aldous/Real-World/coin_tosses.html}{David Aldous 的实验报告}给出两位参与者各20000次的结果10231和10014, 合计20245; 它特别指出抛币方式、参与者差异和少量转动偏差使物理解释不能只靠一个显著性数值决定. 论文 \textit{Dynamical Bias in the Coin Toss}, SIAM Review 49(2), 2007, 211--235, 的数学对象是初始运动参数造成的朝向记忆, 不是两面花纹本身的公平性. 原题 $.508$ 是这里比较的历史模型参数.
+
+查阅可参看 Daniël Lakens 的 \href{https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2013.00863/full}{2013年效应量说明}中独立组标准化均值差的定义. Cohen's $d$ 是两个均值差除以选定的共同标准差. 两个独立样本常用
+\[
+ d=\frac{\bar x_1-\bar x_2}{s_p},\qquad
+ s_p^2=\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}.
+\]
+总体共同方差 $\sigma^2$ 已知时相应参数是 $(\mu_1-\mu_2)/\sigma$. 本题以公平单次抛币标准差 $.5$ 为分母, 得到 $.016$; 两个方差不完全相同时, 需说明采用哪一种标准化约定. $\sqrt N$ 放大的是总量的均值位移相对于总量噪声的比例.
+\end{solution}
+
+\begin{exercise}\label{ex:P6.D}
+\textbf{原 D.} 一个开放初选制度中, 两党候选人分别为 $A_1,A_2$ 和 $B_1,B_2$. 你只能参加一党的初选. 若 $A_i$ 对阵 $B_j$, $A_i$ 赢大选的概率为 $P_{ij}$. 你给候选人效用 $V(A_i),V(B_j)$, 唯一目标是最大化最终胜者 $W$ 的 $\E V(W)$. 除你之外, 每场初选均有偶数名投票者; 平局用公平币处理.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P6.D.1} 验证 $V(A_i,B_j):=P_{ij}V(A_i)+(1-P_{ij})V(B_j)$ 是给定两党提名人的条件期望效用.
+\item\label{part:P6.D.2} 设 $p_j$ 是“第二党由 $B_j$ 赢初选且第一党其他票平局”的联合概率. 证明投 $A_1$ 相对于不投的期望价值为
+$\frac12\sum_{j=1}^2p_j[V(A_1,B_j)-V(A_2,B_j)]$, 并解释 $1/2$.
+\item\label{part:P6.D.3} 证明投 $A_2$ 的价值是投 $A_1$ 价值的相反数; 对 $B_1,B_2$ 也如此.
+\item\label{part:P6.D.4} 把 $V$ 换成 $-V$, 为何最佳初选场次不变, 所投候选人反转?
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P6.D}
+(1) 给定提名人后只剩两个大选结果, 按其概率加权即得到公式. (2) 你的一票只在其他票平局时改变提名: 原本两名候选人各有一半概率获胜, 投 $A_1$ 后 $A_1$ 必获提名. 条件增益为 $V(A_1,B_j)-\frac12[V(A_1,B_j)+V(A_2,B_j)]$, 即题给差值的一半. 非平局时其他票的差至少为2, 一票改变不了胜者. 将平局与第二党胜者的联合事件加权, 得到所需和式; 不必假设两个初选相互独立.
+
+(3) 投 $A_2$ 把平局的选择改为另一个端点, 条件增益正好取负. 用第二党平局事件作相同条件化, 也得到 $B_2$ 与 $B_1$ 票值相反. (4) 记 $A_1$、$B_1$ 票值为 $a,b$. 四个选项价值是 $a,-a,b,-b$, 最优值为 $\max(|a|,|b|)$. 效用反号使它们成为 $-a,a,-b,b$, 两场初选的最大绝对价值仍分别为 $|a|,|b|$, 所以选择场次不变, 在同场内选对立候选人. 若 $|a|=|b|$ 或某个票值为零, 最优选择可能不唯一; 结论是最优场次集合保持不变, 可以选一个对应反转的最优候选人.
+\end{solution}
+
+\begin{exercise}\label{ex:P6.E}
+\textbf{原 E.} Harper 与 Heloise 每周各尝试一宗交易. 一人的独立成交概率为 $.6$, 另一人为 $.5$, 但不知道谁较强. 观察 $N$ 周后聘用成交数领先者. 设较强者成交数 $X_N$, 较弱者成交数 $Y_N$, 两人的结果独立, $S_N=X_N-Y_N$.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P6.E.1} 求 $S_N$ 的均值与方差.
+\item\label{part:P6.E.2} 求零比均值低多少个标准差, 即 $\E S_N/\operatorname{SD}(S_N)$.
+\item\label{part:P6.E.3} 用同均值、同方差的正态变量 $Z_N$ 近似 $S_N$. 估算 $N=143$ 时 $\Prob(Z_N>0)$, 并说明143为何约为所需95\%识别率的周数. 可用 $\Phi(1.7)\approx.95$, $\sqrt{143}/7\approx1.7$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P6.E}
+(1) 二项分布给出 $\E S_N=(.6-.5)N=.1N$. 由于独立, 减法仍把两个方差相加, 得 $\Var(S_N)=[.6(.4)+.5(.5)]N=.49N$. (2) 标准差为 $.7\sqrt N$, 标准化距离为 $\sqrt N/7$.
+
+(3) 标准化正态变量,
+\[
+ \Prob(Z_N>0)=\Phi\left(\frac{.1N}{.7\sqrt N}\right)
+ =\Phi(\sqrt N/7).
+\]
+$N=143$ 时 $\sqrt{143}/7\approx1.7083$, 所以概率约 $.9562$, 按原题粗略表值记为 $.95$. 由精确的 $.95$ 正态分位数1.64485求门槛, 会得到 $N\approx(7\cdot1.64485)^2=132.6$; 因而143是原题采用1.7作近似得到的粗略答案, 并非严格最小整数. 这里算的是严格领先事件; 若回到离散成交数、加连续性修正或规定平局聘用规则, 数值还会稍有改变. 观察年数长, 原因是均值优势为 $.1N$ 而比较噪声为 $.7\sqrt N$.
+\end{solution}
+
+\begin{exercise}\label{ex:P6.F}
+\textbf{原 F.} 简化篮球赛恰好投中101球, 每球2分. 第 $n$ 球归第一队的指示变量 $X_n$ 独立, $\Prob(X_n=1)=.52$.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P6.F.1} 数值求第一队单场胜率.
+\item\label{part:P6.F.2} 七场独立比赛组成系列赛, 数值求第一队至少赢四场的概率.
+\item\label{part:P6.F.3} 若改以七场累计球数判胜, 数值求第一队在707球中至少得354球的概率. 它高于还是低于前一答案? 解释差别.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P6.F}
+(1) $H=\sum_{n=1}^{101}X_n\sim\Bin(101,.52)$, 胜需 $H\ge51$. 数值计算有限和得
+\[
+ p=\sum_{k=51}^{101}\binom{101}{k}(.52)^k(.48)^{101-k}
+ \approx0.6565821.
+\]
+(2) 胜场数 $G\sim\Bin(7,p)$, 所以 $\Prob(G\ge4)=\sum_{j=4}^7\binom7j p^j(1-p)^{7-j}\approx0.8108619$.
+
+(3) 所有707个独立球合起来仍是 $\Bin(707,.52)$, 故概率
+$\sum_{k=354}^{707}\binom{707}{k}(.52)^k(.48)^{707-k}\approx0.8564219$, 高于按胜场计数的 $.8108619$. 胜场规则把赢一球和大比分获胜都压成一场胜利, 丢弃了得分差的信息; 强队在大胜场中的优势不能补偿其他场的一球惜败. 总球数规则保留每球的信息, 在本题独立同分布模型下更稳定地反映 $.52$ 的优势. 这是指定模型的解释, 不是对真实篮球战术的经验结论.
+\end{solution}
+
+\originalsection{作业七: Cauchy、Beta 与 Gamma 分布}
+原件: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_pset7/}{18.600 Problem Set 7}.
+\par\noindent\textbf{A. 教材题号.}\label{part:P7.A} 第5章 Theoretical Exercise 26. 不复制教材题面.
+
+\begin{exercise}\label{ex:P7.B}
+\textbf{原 B.} 先从 $[0,1]$ 上的密度 $f$ 抽取 $p$, 再在给定 $p$ 下独立掷 $k$ 次 $p$ 币, 第 $i$ 次结果为 $X_i\in\{H,T\}$.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P7.B.1} 另取相互独立且独立于 $p$ 的 $Y_i\sim U[0,1]$, 定义 $X_i=H$ 当 $Y_i\le p$, 否则为 $T$. 解释为何两种构造的 $(p,X_1,\ldots,X_k)$ 联合律相同.
+\item\label{part:P7.B.2} 写出 $(p,Y_1)$ 在单位正方形上的联合密度, 并证明 $\Prob(X_1=H)=\E p$.
+\item\label{part:P7.B.3} 求 $\Prob(p\le a\mid X_1=H)$ 及其关于 $a$ 的导数. 说明导数是给定一次头后的后验密度, 且与 $xf(x)$ 成比例. 用一句话解释这项更新.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P7.B}
+(1) 给定 $p=u$, 每个 $Y_i\le u$ 的概率为 $u$, 且这些事件独立. 因此任何含 $h$ 个头、$t$ 个尾的指定序列的条件概率均是 $u^h(1-u)^t$, 正是原构造的条件律. 再用同一个 $f(u)\dd u$ 混合, 联合律相同. 无条件的 $X_i$ 一般不独立, 因为它们共享随机的 $p$.
+
+(2) 独立性给出联合密度 $f_{p,Y_1}(u,y)=f(u)$, $0\le u,y\le1$. 头事件对应三角形 $0\le y\le u$, 所以
+\[
+ \Prob(X_1=H)=\int_0^1\int_0^u f(u)\dd y\dd u
+ =\int_0^1u f(u)\dd u=\E p.
+\]
+(3) 假定 $m=\E p>0$, 才有正概率的头事件可供条件化. 对 $0\le a\le1$,
+\[
+ \Prob(p\le a\mid X_1=H)=\frac{\int_0^a u f(u)\dd u}{m}.
+\]
+在 $f$ 的连续点求导, 一般则几乎处处求导, 得后验密度 $f_H(a)=af(a)/m$. $a<0$ 时条件分布函数为0, $a>1$ 时为1. 看到头, 大 $p$ 模型更容易产生这个观测, 因此其权重按产生头的概率 $p$ 放大; 最后除以 $m$ 使总质量为1. 原PDF在这一条件概率中漏印竖线, 下文的“given that”明确了这里应作条件化.
+\end{solution}
+
+\begin{exercise}\label{ex:P7.C}\label{part:P7.C}
+\textbf{原 C.} $p$ 表示 MIT 学生中回答“喜欢 Marvel 电影”的比例, 先验取 $U[0,1]$. 请实际逐个询问三位同学, 要求明确 yes/no. 模型假定这些受访者是从大群体均匀抽取, 给定 $p$ 后回答独立. 在询问前及每次询问后, 写出累计 $(\#\mathrm{yes},\#\mathrm{no})$, 画出后验密度草图, 写出积分为1的多项式表达式及条件均值. 共应有四轮记录.
+\end{exercise}
+\begin{solution}\label{sol:P7.C}
+真实任务须亲自完成三次询问并保存回答; 本解答没有采集任何学生回答. 先给适用于任意记录的公式. 第 $k$ 轮观察到 $s$ 个 yes 和 $k-s$ 个 no, $k=0,1,2,3$. 指定回答序列的似然为 $p^s(1-p)^{k-s}$, 因而
+\[
+ f_{k,s}(p)=\frac{(k+1)!}{s!(k-s)!}p^s(1-p)^{k-s},\quad0\le p\le1.
+\]
+规范化使用 $\int_0^1p^s(1-p)^{k-s}\dd p=s!(k-s)!/(k+1)!$, 可由分部积分逐次得到. 再多乘一个 $p$ 积分,
+\[
+ \E[p\mid\hbox{记录}]=\frac{\int_0^1p^{s+1}(1-p)^{k-s}\dd p}
+ {\int_0^1p^s(1-p)^{k-s}\dd p}=\frac{s+1}{k+2}.
+\]
+此式来自密度积分, 不需要重抄 A 组教材题面.
+
+下面\textbf{自设}回答序列 yes, no, yes, 仅作方法演示, 不可当作真实采访结果提交. 对应四轮记录如下:
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+轮数 $k$ & 累计 $(s,k-s)$ & 密度 $f_{k,s}(p)$ & 条件均值\\
+\midrule
+0 & $(0,0)$ & $1$ & $1/2$\\
+1 & $(1,0)$ & $2p$ & $2/3$\\
+2 & $(1,1)$ & $6p(1-p)$ & $1/2$\\
+3 & $(2,1)$ & $12p^2(1-p)$ & $3/5$\\
+\bottomrule
+\end{tabular}
+\end{center}
+四个函数在 $[0,1]$ 外都为零. 各图的横轴是 $p$, 纵轴是密度, 面积而非某一点的高度表示概率.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.43\textwidth,height=4.2cm,xmin=0,xmax=1,ymin=0,ymax=2.1,xlabel={$p$},ylabel={密度},title={询问前: $(0,0)$},samples=81,domain=0:1]
+\addplot[structurecolor,thick]{1};
+\end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+\begin{axis}[width=.43\textwidth,height=4.2cm,xmin=0,xmax=1,ymin=0,ymax=2.1,xlabel={$p$},ylabel={密度},title={第1轮: $(1,0)$},samples=81,domain=0:1]
+\addplot[structurecolor,thick]{2*x};
+\end{axis}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\begin{axis}[width=.43\textwidth,height=4.2cm,xmin=0,xmax=1,ymin=0,ymax=2.1,xlabel={$p$},ylabel={密度},title={第2轮: $(1,1)$},samples=81,domain=0:1]
+\addplot[structurecolor,thick]{6*x*(1-x)};
+\end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+\begin{axis}[width=.43\textwidth,height=4.2cm,xmin=0,xmax=1,ymin=0,ymax=2.1,xlabel={$p$},ylabel={密度},title={第3轮: $(2,1)$},samples=81,domain=0:1]
+\addplot[structurecolor,thick]{12*x^2*(1-x)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+真正的四轮图应以实际 $s_k$ 替换本例的 $0,1,1,2$. 密度的更新由回答决定, 受访者是否真为随机独立样本则是模型假设, 不能由这三次回答自动验证.
+\end{solution}
+
+\begin{exercise}\label{ex:P7.D}
+\textbf{原 D.} $X\sim\operatorname{Gamma}(n,1)$, 其中形状 $n$ 为正整数、速率为1. 用两种方法求 $\E X^k$; 在多项式展开法中 $k$ 是非负整数.
+\begin{enumerate}[label=\arabic*.]
+\item $X$ 与 $X_1+\cdots+X_n$ 同分布, 其中 $X_i$ 独立且服从 $\Exp(1)$. 展开 $(X_1+\cdots+X_n)^k$, 设 $a_j$ 是一项中下标 $j$ 出现的次数, 所以 $\sum_j a_j=k$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P7.D.1.a} 用隔板法求可能的 $(a_1,\ldots,a_n)$ 数量.
+\item\label{part:P7.D.1.b} 求对应固定次数序列的有序乘积项数 $A$.
+\item\label{part:P7.D.1.c} 求其中单项的期望 $B$, 并计算 $AB$.
+\item\label{part:P7.D.1.d} 对全部次数序列累加 $AB$.
+\end{enumerate}
+\item\label{part:P7.D.2} 写出 $X$ 的密度, 直接积分求 $\E X^k$, 核对两法一致.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P7.D}
+(1a) 非负整数方程 $a_1+\cdots+a_n=k$ 的解数为 $\binom{k+n-1}{n-1}$. (1b) 在 $k$ 个位置放入各下标的次数, 多项式系数为 $A=k!/(a_1!\cdots a_n!)$.
+
+(1c) 独立性使乘积期望分解. 对指数变量, 反复分部积分给 $\E X_j^r=\int_0^\infty x^r\ee^{-x}\dd x=r!$, 所以 $B=\prod_j a_j!$. 于是 $AB=k!$, 居然与具体次数序列无关. (1d) 因为所有序列贡献相同,
+\[
+ \E X^k=k!\binom{k+n-1}{n-1}=\frac{(n+k-1)!}{(n-1)!}.
+\]
+(2) 密度是 $f_X(x)=x^{n-1}\ee^{-x}/(n-1)!$ 对 $x>0$, 其他处为0. 因而
+\[
+ \E X^k=\frac1{(n-1)!}\int_0^\infty x^{n+k-1}\ee^{-x}\dd x
+ =\frac{(n+k-1)!}{(n-1)!}.
+\]
+两法完全一致, $k=0$ 时也给1. 若推广到实数 $k>-n$, 积分法仍给 $\Gamma(n+k)/\Gamma(n)$, 但原来的有限多项式展开不适用于非整数幂.
+\end{solution}
+
+\begin{exercise}\label{ex:P7.E}
+\textbf{原 E.} Alice 与 Bob 的永久特征决定每周期 IVF 成功概率 $p$, 未知的 $p$ 先验服从 $U[0,1]$. 给定 $p$, 各周期独立且同成功率.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P7.E.a} 直观解释第一周期成功率为何为 $.5$.
+\item\label{part:P7.E.b} 前 $k-1$ 周期均失败后, $p$ 的后验密度是什么?
+\item\label{part:P7.E.c} 显式计算这一后验的 $\E p$, 并解释它为何是第 $k$ 周期的条件成功概率.
+\item\label{part:P7.E.d} 另取独立 $U[0,1]$ 变量 $X_0,X_1,\ldots,X_k$, 设 $p=X_0$, 第 $j$ 周期成功当且仅当 $X_j<X_0$. 证明此模型等价, 并用所有秩次排列等可能说明在 $X_0$ 为前 $k$ 个变量的最小值时, $X_k<X_0$ 的条件概率为 $1/(k+1)$.
+\item\label{part:P7.E.e} 改先验为 $f(p)=2-2p$, 求前 $k-1$ 周期失败后第 $k$ 周期的条件成功率.
+\end{enumerate}
+原题的背景另请读者查阅 NY Times 的 \textit{With in vitro fertilization, persistence pays off}; 这里的随机 $p$ 模型不把真实临床人群当作已知分布.
+\end{exercise}
+\begin{solution}\label{sol:P7.E}
+(a) 每个固定 $p$ 的夫妇第一周期成功率为 $p$, 把未知 $p$ 的可能值平均, 得 $\int_0^1p\dd p=1/2$. (b) 失败似然为 $(1-p)^{k-1}$, 积分为 $1/k$, 故后验密度为 $k(1-p)^{k-1}$, 即 $\operatorname{Beta}(1,k)$.
+
+(c) 后验均值直接计算为
+\[
+ \int_0^1p\,k(1-p)^{k-1}\dd p
+ =k\left(\frac1k-\frac1{k+1}\right)=\frac1{k+1}.
+\]
+给定 $p$ 和过去, 下一周期成功概率仍是 $p$, 用塔式法则再对后验取平均, 就是所求预测概率. 下降是得知失败后筛选了原本 $p$ 较低的可能性, 本模型并没有让同一夫妇的固定 $p$ 随周期下降.
+
+(d) 给定 $X_0=p$, 独立变量 $X_j$ 各以概率 $p$ 小于它, 所以确与原模型相同. 连续变量无平局, $(k+1)!$ 种排序等可能. 前 $k-1$ 次失败意味着 $X_0$ 在 $X_0,\ldots,X_{k-1}$ 中最小. 在该条件下插入 $X_k$, 它的 $k+1$ 个秩位置均等可能; 只有插在 $X_0$ 前面的一种位置会成功, 所以概率为 $1/(k+1)$.
+
+(e) 新先验为 $\operatorname{Beta}(1,2)$. 乘失败似然得 $2(1-p)^k$, 积分为 $2/(k+1)$, 后验密度为 $(k+1)(1-p)^k$. 其均值 $1/(k+2)$ 就是下一周期成功率. 实际报道中参与者特征、停止治疗和选择进入后续周期均可能影响统计; 这些不能由本题的公式代替实证验证. 背景出处为原题指定的 NY Times 报道 \textit{With in vitro fertilization, persistence pays off}; 本解答的数值来自题设模型, 不复用外部文章引文.
+\end{solution}
+
+\begin{exercise}\label{ex:P7.F}\label{part:P7.F}
+\textbf{原 F.} $X_1,\ldots,X_{10}$ 是独立标准 Cauchy 变量. 求
+$\Prob(\sum_{i=1}^5X_i<10+\sum_{i=6}^{10}X_i)$.
+\end{exercise}
+\begin{solution}\label{sol:P7.F}
+把第二个和移到左边. Cauchy 分布关于0对称, 所以 $-X_6,\ldots,-X_{10}$ 仍是独立标准 Cauchy 变量, 且独立于前五个. 使用本题允许的稳定性性质, 十个独立标准 Cauchy 的平均仍标准 Cauchy. 于是左侧差值 $D$ 的尺度为10, $D/10$ 标准 Cauchy. 其分布函数为 $F(t)=1/2+\arctan(t)/\pi$, 因而
+\[
+ \Prob(D<10)=F(1)=\frac12+\frac14=\frac34.
+\]
+这里的“标准”补明原题的课程约定; 若位置或尺度不指定, 单说 Cauchy 分布不足以唯一决定数值.
+\end{solution}
+
+\begin{exercise}\label{ex:P7.G}
+\textbf{原 G.} Planet A 上, 一部电影有质量参数 $p$. 各评论在给定 $p$ 后独立, 以概率 $p$ 给 fresh, 否则 rotten. Tomatometer 是 fresh 的百分比; 强大数律给出长期值 $100p$.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P7.G.1} 两电影参数分别 $.5,.6$, 各143条评论. 用正态近似估计较低质量电影得分反而更高的概率.
+\item\label{part:P7.G.2} 对参数 $.8,.9$ 且各100条评论重做上述计算.
+\item\label{part:P7.G.3} 若电影的 $p$ 先验均匀, 已见 $f$ 条 fresh、$r$ 条 rotten, 求 $p$ 的后验密度.
+\item\label{part:P7.G.4} 论证下一条为 fresh 的预测概率为 $(f+1)/(f+r+2)$, 再求头四条依次 fresh, rotten, fresh, fresh 的概率.
+\end{enumerate}
+Planet B 上, 先放入一条 fresh 和一条 rotten. 每位后来者独立均匀选一条已有评论并复制其类型. 设 $F_n$ 是前 $n$ 条评论的 fresh 比例, 包含两条启动评论.
+\begin{enumerate}[label=\arabic*.,start=5]
+\item\label{part:P7.G.5} 启动后前四条为 fresh, rotten, fresh, fresh 的概率是多少? 是否与 Planet A 相同? 任意有限指定序列是否也相同?
+\item\label{part:P7.G.6} 比较两星球, 说明 Planet B 的极限 $\lim_{n\to\infty}100F_n$ 在 $[0,100]$ 上均匀.
+\item\label{part:P7.G.7} 若启动时为 $a$ 条 fresh、$b$ 条 rotten, $a,b$ 为正整数, 证明极限为100倍的 Beta 变量, 并明确参数. 查阅 Pólya's urn.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P7.G}
+(1) 设两个 fresh 数为 $U,V$, 对应成功率 $.5,.6$, 评论数143. 差 $U-V$ 均值 $-14.3$, 方差 $143(.25+.24)=70.07$. 正态近似给
+$\Prob(U>V)\approx1-\Phi(14.3/\sqrt{70.07})=\Phi(-\sqrt{143}/7)\approx.0438$, 按原题的粗表值可记约 $.05$. 相同比例排序等价于相同评论数下的数量排序. (2) 均值差为 $-10$, 方差为 $100[.8(.2)+.9(.1)]=25$, 所以概率约 $\Phi(-2)=.02275$.
+
+(3) 一段指定序列的似然为 $p^f(1-p)^r$. 均匀先验给
+\[
+ f(p\mid\hbox{评论})=\frac{(f+r+1)!}{f!r!}p^f(1-p)^r,
+ \qquad0\le p\le1,
+\]
+即 $\operatorname{Beta}(f+1,r+1)$. (4) 与 IVF 题同理, 预测概率为后验均值; 用两个 Beta 积分之比算得 $(f+1)/(f+r+2)$. 四条指定顺序 FRFF 的链式概率为
+\[
+ \frac12\cdot\frac13\cdot\frac24\cdot\frac35=\frac1{20}.
+\]
+不能额外乘二项系数, 因为这里要求指定顺序.
+
+(5) Planet B 在启动后已增加 $f$ 条 fresh、$r$ 条 rotten 时, 已有评论数为 $f+r+2$, 其中 fresh 为 $f+1$. 均匀复制的条件概率正好也是 $(f+1)/(f+r+2)$. 因此 FRFF 概率仍为 $1/20$. 对任意有限序列逐项使用链式乘法, 两个星球在每一前缀下都有相同的下一步概率, 故全部有限序列概率相同.
+
+(6) 从有限序列相同推出极限相同, 不能略过无限事件这一步. 给无限新增序列 $I_1,I_2,\ldots$ 定义 $Q_n=n^{-1}\sum_{j=1}^n I_j$. 收敛事件可写为
+\[
+ \bigcap_{r=1}^\infty\bigcup_{m=1}^\infty
+ \bigcap_{n,\ell\ge m}\{|Q_n-Q_\ell|\le1/r\}.
+\]
+对固定 $r,m$, 把最内层交集先限为 $m\le n,\ell\le L$. 这是有限前缀事件, 两星球概率相同. 令 $L\to\infty$, 事件递减, 由概率对递减事件的连续性保留相同概率; 再令 $m\to\infty$, 事件递增, 最后令 $r\to\infty$ 作递减交集, 两次连续性又保留相同概率. 因而收敛事件概率相同. 对任意实数 $x$, 在收敛事件上“极限不超过 $x$”可写成
+\[
+ \bigcap_{r=1}^\infty\bigcup_{m=1}^\infty
+ \bigcap_{n\ge m}\{Q_n\le x+1/r\}.
+\]
+同样先把 $n$ 限在有限区间再依次取极限, 即知极限的分布函数也相同. 这只用有限前缀概率和概率的上下连续性, 无需调用一个未说明的鞅极限定理.
+
+在 Planet A 的混合构造中先抽 $P\sim U[0,1]$, 再条件独立生成评论. 对每个固定 $p$, 强大数律使 fresh 比例几乎必然趋于 $p$. 对 $p$ 积分后, 这仍是概率1事件, 极限等于 $P$. Planet B 多出来的固定两条启动评论对比例的影响至多 $2/n\to0$, 所以极限也存在且为均匀 $[0,1]$ 变量, 百分制即均匀 $[0,100]$. 这里只用已学强大数律及概率的上下连续性, 没有把有限维分布相同未经说明地当作极限结论.
+
+(7) 一般启动 $a,b$ 时, 一段指定新增序列若含 $f$ 个 fresh、$r$ 个 rotten, 各分母累积为 $(a+b)(a+b+1)\cdots(a+b+f+r-1)$, fresh 分子积为 $a(a+1)\cdots(a+f-1)$, rotten 分子积为 $b(b+1)\cdots(b+r-1)$. 因而其概率为
+\[
+ \frac{(a)_f(b)_r}{(a+b)_{f+r}},\qquad
+ (c)_m:=\prod_{j=0}^{m-1}(c+j),\quad(c)_0=1.
+\]
+另先抽 $P\sim\operatorname{Beta}(a,b)$, 密度为 $p^{a-1}(1-p)^{b-1}/B(a,b)$, 再独立掷 $P$ 币. 同一指定序列的混合概率是
+\[
+ \int_0^1p^f(1-p)^r\frac{p^{a-1}(1-p)^{b-1}}{B(a,b)}\dd p
+ =\frac{B(a+f,b+r)}{B(a,b)}
+ =\frac{(a)_f(b)_r}{(a+b)_{f+r}}.
+\]
+最后等式由 $B(u,v)=\Gamma(u)\Gamma(v)/\Gamma(u+v)$ 和 Gamma 递推得到. 由与(6)相同的有限前缀事件极限论证及强大数律, 新增 fresh 比例几乎必然收敛为此 $P$; 固定的 $a+b$ 条启动评论仍不影响极限. 因此极限确为 $100\operatorname{Beta}(a,b)$, 参数就是 $a,b$.
+
+查阅出处可参看 Kyle Siegrist 的 \href{https://www.randomservices.org/random/urn/Polya.html}{Pólya's Urn Process} 中每次增加一球的 $c=1$ 模型. 这就是 Pólya urn 的经典“取一球、放回并再加一同色球”机制: 评论复制与球的增殖对应. 新评论有条件依赖, 却有一个与 Beta 混合独立模型相同的完整概率律; 上面的计算同时给出查阅问题所需的实质数学解释, 不依赖转引社会科学长段引文.
+\end{solution}
+
+\originalsection{作业八: 相关、回归与悖论}
+原件: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_pset8/}{18.600 Problem Set 8}.
+\par\noindent\textbf{A. 教材题号.}\label{part:P8.A.1} 第7章 Problem 51; \label{part:P8.A.2} 第7章 Theoretical Exercise 48. 两题只登记编号.
+
+\begin{exercise}\label{ex:P8.B}
+\textbf{原 B.} $\E X=\E Y=0$, $\Var(X)=\Var(Y)=1$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P8.B.a} 验证 $\rho(X,Y)=\E[XY]$.
+\item\label{part:P8.B.b} 令 $r$ 为使 $\E(Y-aX)^2$ 最小的实数 $a$. 证明 $r$ 只由 $\rho$ 决定并求出它.
+\item\label{part:P8.B.c} 对有限二阶矩的 $Z$, 证明使 $\E(Z-b)^2$ 最小的常数是 $b=\E Z$.
+\item\label{part:P8.B.d} 推出 $\E(Y-aX-b)^2$ 在 $a=r,b=0$ 时最小.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P8.B}
+(a) 协方差是 $\E[XY]-\E X\E Y=\E[XY]$, 两个标准差都是1, 因而相关等于这个乘积期望. 有限二阶矩经 Cauchy--Schwarz 保证 $XY$ 可积.
+
+(b) 展开再配方,
+\[
+ \E(Y-aX)^2=1-2a\rho+a^2=(a-\rho)^2+1-\rho^2.
+\]
+仅当 $a=\rho$ 时平方项为零, 所以唯一最优斜率 $r=\rho$. (c) 把 $Z-b=(Z-\E Z)+(\E Z-b)$, 中心化项均值为零, 得 $\E(Z-b)^2=\Var(Z)+(b-\E Z)^2$, 唯一最小值在 $b=\E Z$.
+
+(d) 对每个固定 $a$, $Y-aX$ 的均值为0, 由(c)最优常数为 $b=0$. 或者直接展开得到 $(a-\rho)^2+b^2+1-\rho^2$, 同时在 $a=\rho,b=0$ 处唯一最小. 最佳线性预测不表示每个人都满足 $Y=\rho X$; 剩余的平均平方误差是 $1-\rho^2$.
+\end{solution}
+
+\begin{exercise}\label{ex:P8.C}
+\textbf{原 C.} Smoker Planet 上每人在18岁用公平币决定是否终生吸烟. 不吸烟者每日烟数 $S=0$, 寿命 $L$ 的条件均值75、标准差10; 吸烟者 $S=20$, 寿命条件均值65、标准差10.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P8.C.a} 求 $\rho(S,L)$.
+\end{enumerate}
+Bad Celery Planet 上, 每人18至58岁间的40年中, 每年独立用公平币决定该年是否每日平均吃一根芹菜. 芹菜消费年数为 $K$, 所有人至少活到58岁, 58岁后消费无影响. 给定 $K$, 寿命条件均值为 $75-K/80$, 标准差10.
+\begin{enumerate}[label=(\alph*),start=2]
+\item\label{part:P8.C.b} 求 $\rho(K,L)$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P8.C}
+(a) $\E S=10$, $\Var(S)=100$, $\E L=(75+65)/2=70$. 条件均值相差10, 因而
+\[
+ \Var(L)=\Var(\E[L\mid S])+\E\Var(L\mid S)=25+100=125.
+\]
+乘积期望为 $\E[SL]=\frac12\cdot0\cdot75+\frac12\cdot20\cdot65=650$, 所以 $\Cov(S,L)=650-10\cdot70=-50$. 相关为 $-50/\sqrt{100\cdot125}=-1/\sqrt5\approx-.447214$.
+
+(b) $K\sim\Bin(40,1/2)$, $\E K=20$, $\Var(K)=10$, 因而 $\E L=75-20/80=74.75$,
+\[
+ \Var(L)=\frac{10}{80^2}+100,\qquad
+ \E[KL]=\E\bigl[K(75-K/80)\bigr].
+\]
+因 $\E K^2=10+400=410$, 乘积期望为 $1500-410/80=1494.875$, 而 $\E K\E L=1495$. 协方差为 $-.125=-\Var(K)/80$, 得
+\[
+ \rho(K,L)=\frac{-.125}{\sqrt{10(100+10/6400)}}\approx-.00395282.
+\]
+负相关来自暴露量改变条件均值. 第二模型中暴露差异很小, 而给定暴露后寿命仍有10年的噪声, 所以相关系数很小; 两个模型的单次危害类比不保证相同的群体相关强度.
+\end{solution}
+
+\begin{exercise}\label{ex:P8.D}
+\textbf{原 D.} $X\sim\Normal(\mu,\sigma_1^2)$, $Y\sim\Normal(0,\sigma_2^2)$, 二者独立. $\widetilde Y$ 与它们独立且同 $Y$ 分布. 设 $Z=X+Y$, $\widetilde Z=X+\widetilde Y$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P8.D.a} 求 $Z,\widetilde Z$ 的相关 $\rho$.
+\item\label{part:P8.D.b} 求 $\E[X\mid Z]$ 与 $\E[\widetilde Z\mid Z]$, 用 $\rho$ 表示.
+\item\label{part:P8.D.c} 一次罚球赛的实力 $X$ 正态, 均值 $\mu$, 方差2; 运气 $Y$ 正态, 均值0, 方差1. 求分数 $Z$ 的标准差. 若首轮高于均值两个标准差, 下轮 $\widetilde Z$ 的条件期望高于均值几个标准差?
+\item\label{part:P8.D.d} 九名队员的实力独立 $\Normal(0,1)$, 队伍实力为总和. 给定队伍总实力6, 随机一名队员的实力条件期望是多少?
+\item\label{part:P8.D.e} 药物真实效果 $X\sim\Normal(0,1)$, 每次试验独立噪声 $Y\sim\Normal(0,1)$. 已观察效果 $Z=2$, 同一药物第二次试验的期望观测效果是多少?
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P8.D}
+(a) 两个观测只有共同的 $X$ 贡献协方差, 所以 $\Cov(Z,\widetilde Z)=\sigma_1^2$, 两者方差均为 $v=\sigma_1^2+\sigma_2^2$. 若 $v>0$, 则 $\rho=\sigma_1^2/v$.
+
+(b) 先假定两个方差为正. 给定 $Z=z$ 的 $X$ 密度正比于
+\[
+ \exp\left(-\frac{(x-\mu)^2}{2\sigma_1^2}
+             -\frac{(z-x)^2}{2\sigma_2^2}\right).
+\]
+合并二次项, $x$ 的精度为 $1/\sigma_1^2+1/\sigma_2^2$, 其中心为
+\[
+ m(z)=\frac{\mu/\sigma_1^2+z/\sigma_2^2}
+ {1/\sigma_1^2+1/\sigma_2^2}
+ =\mu+\rho(z-\mu).
+\]
+配方后的密度是以 $m(z)$ 为均值、以 $\sigma_1^2\sigma_2^2/v$ 为方差的正态密度, 故 $\E[X\mid Z]=m(Z)$. $\widetilde Y$ 与 $Z$ 独立且均值0, 所以 $\E[\widetilde Z\mid Z]=m(Z)$ 也相同. 零方差的边界可直接从确定变量得到同一公式; 两方差皆零时相关系数没有定义.
+
+(c) $\operatorname{SD}(Z)=\sqrt3$, $\rho=2/3$. 首轮 $Z=\mu+2\sqrt3$, 则下轮条件均值为 $\mu+(2/3)2\sqrt3$, 高于均值 $4/3$ 个下轮的标准差. 两轮边际标准差相同, 不应把条件分布的标准差混作这里的衡量单位.
+
+(d) 对总和为6的条件, 九人对称, 所有条件均值相同, 而条件均值之和仍为6, 所以每人为 $6/9=2/3$. 这使用条件分布的对称性, 不是把个体能力与总能力当作独立.
+
+(e) $\rho=1/(1+1)=1/2$, 所以第二次试验的期望为 $(1/2)\cdot2=1$. 首次效果2兼含真实效果和随机噪声; 条件均值把一半归给真实效果, 新试验的独立噪声均值回到0.
+\end{solution}
+
+\begin{exercise}\label{ex:P8.E}
+\textbf{原 E.} Fancy College Country 有五所精英大学和40000名申请者, 每人申请全部五校. 申请者的共同实力 $X\sim\Normal(0,1)$; 每校评分 $S_j=X+Y_j$, 其中 $Y_j$ 独立标准正态, 也独立于 $X$. 每校只录取评分超过总体95百分位的申请者. 记 $\Phi$ 为标准正态分布函数, $C=\sqrt2\Phi^{-1}(.95)\approx2.326$. 下列历史近似数值按原题用 $C=2.326$ 计算.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P8.E.a} 给定 $X=x$, 求第一校录取概率.
+\item\label{part:P8.E.b} $X$ 多大时上述条件概率超过 $.05$? 超过 $.95$ 呢? 数值求 $X$ 超过这两个门槛的概率.
+\item\label{part:P8.E.c} 给定 $X=x$, 求至少一校录取的概率 $A(x)$.
+\item\label{part:P8.E.d} 论证整体至少一校录取和全部拒绝的概率分别由 $\int\phi(x)A(x)\dd x$ 与 $\int\phi(x)(1-A(x))\dd x$ 给出, 积分范围均为 $\R$.
+\item\label{part:P8.E.e} 用数值工具计算(d), 报告计算过程和结果.
+\item\label{part:P8.E.f} 解释原题结论: 至少一校录取概率约 $.166363$, 总录取学生约6655, 各校班级约1331, yield 约 $.67$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P8.E}
+(a) 条件录取为 $Y_1>C-x$, 概率 $1-\Phi(C-x)=\Phi(x-C)$. (b) 由于 $\Phi$ 严格递增, 概率超过 $u$ 等价于 $x>C+\Phi^{-1}(u)$. 所以两门槛分别约为 $.681146$ 和 $3.970854$. $X$ 为标准正态, 超过概率分别为 $1-\Phi(.681146)\approx.247889$ 和 $1-\Phi(3.970854)\approx.0000358078$. 很多人能作为小概率入围者, 但条件上近乎稳录者非常少.
+
+(c) 给定 $X=x$ 后五个校内评分噪声独立, 每校拒绝概率 $\Phi(C-x)$, 因而全部拒绝概率为 $\Phi(C-x)^5$, 得 $A(x)=1-\Phi(C-x)^5$. 无条件时五校决定有共同 $X$, 不能直接用 $.95^5$.
+
+(d) 全概率公式按共同实力的密度 $\phi(x)=(2\pi)^{-1/2}\ee^{-x^2/2}$ 混合, 给出
+\[
+ P_{\rm admit}=\int_{-\infty}^\infty\phi(x)[1-\Phi(C-x)^5]\dd x,
+ \quad P_{\rm reject}=\int_{-\infty}^\infty\phi(x)\Phi(C-x)^5\dd x.
+\]
+两积分相加为1, 可作计算检查. (e) 本解答用自适应数值积分计算 $\phi(x)[1-\Phi(2.326-x)^5]$, 在 $[-10,10]$ 上积分, 区间外贡献不超过 $\Prob(|X|>10)<1.6\times10^{-23}$. 实算结果为 $.1663630101$, 拒绝率为 $.8336369899$. 使用 $\Phi(t)=\frac12[1+\operatorname{erf}(t/\sqrt2)]$ 也可写出同样的被积函数; 这里无需依赖特定网站按钮. 误差检查包括两概率和为1, 以及扩大截断区间后数值稳定.
+
+(f) 故至少一校录取人数的期望为 $40000\cdot.1663630101\approx6654.52$, 原题四舍五入为6655. 要进一步解释入学人数, 需补明假设: 每位获至少一校录取者都在五校之一就读, 且择校规则对五校对称. 于是各校入学人数期望相同, 总和为6654.52, 每校约1330.90. 各校期望发出约 $40000\cdot.05=2000$ 份通知, 所以典型 yield 用期望数量的比值近似为 $1330.90/2000\approx.66545$. 这不是无条件证明“随机比值的期望等于期望比值”; 它是人数很大时的典型比例. 若有人全部放弃五校、偏好学校不对称, 这两项结论就需修改.
+\end{solution}
+
+\begin{exercise}\label{ex:P8.F}
+\textbf{原 F.} Harry 秘密掷公平币直到第一次尾. 若此前有 $n$ 个头, 在两个信封中分别放 $10^n$ 与 $10^{n+1}$ 美元, 其中 $\Prob(n=j)=2^{-j-1}$, $j\ge0$. 信封随机排列且外表不可区分. Jill 先选一个并打开, 可保留其钱或付1美元费用换取另一信封.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P8.F.1} 若首信封有100美元, 另一信封含1000和10美元的条件概率各是多少?
+\item\label{part:P8.F.2} 在此条件下, 不换和换后的净期望收益各是多少?
+\item\label{part:P8.F.3} 推广到首信封为 $10^m$ 美元, $m\ge0$.
+\item\label{part:P8.F.4} 计算似乎表明无论看到什么都该换. 若早知道永远换, 为何不直接先拿另一个信封, 省去1美元? 如何消解最大化期望收益的悖论?
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P8.F}
+(1) 首信封100有两种来源: $(100,1000)$ 中拿到小信封, 或 $(10,100)$ 中拿到大信封. 前者 $n=2$ 的先验概率 $1/8$, 后者 $n=1$ 的先验概率 $1/4$, 拿对应信封的概率均 $1/2$. 条件权重为 $1/16:1/8=1:2$, 所以另一信封1000的概率为 $1/3$, 10的概率为 $2/3$.
+
+(2) 不换收益确定为100; 换后净条件期望为 $1000/3+20/3-1=339$. (3) 对 $m\ge1$, 同样比较 $n=m$ 和 $n=m-1$, 权重仍为1:2. 因而另一信封为 $10^{m+1}$ 的概率 $1/3$, 为 $10^{m-1}$ 的概率 $2/3$. 不换的条件期望 $10^m$, 换后的净条件期望
+\[
+ \frac13 10^{m+1}+\frac23 10^{m-1}-1=\frac{17}{5}10^m-1.
+\]
+$m=0$ 要单列: 首信封只有1美元, 不可能是“大信封”, 另一个必为10美元; 不换1, 换后9. 所有可能首金额下, 换的条件期望都较高.
+
+(4) 设随机首金额为 $U$, 另一金额为 $V$. 两者同边际分布, 但都具有无限期望, 因为
+\[
+ \E U=\sum_{n=0}^\infty 2^{-n-1}\frac{10^n+10^{n+1}}2
+ =\frac{11}{4}\sum_{n=0}^\infty5^n=\infty.
+\]
+直接拿随机另一信封的期望也是 $\infty$, 恒换后的期望仍 $\infty$. 因而“以无条件期望最大化”为唯一准则, 无法在这些方案之间排出严格高低, 不能对 $\infty-\infty$ 作相减.
+
+还可检查净变化 $D=V-U-1$. 在给定 $n$ 时, 它等概率取 $9\cdot10^n-1$ 与 $-9\cdot10^n-1$. 对前者正部和后者负部分别按 $2^{-n-1}/2$ 加权, 两个和都发散. 所以 $\E D$ 根本未定义. 虽然每个 $U=u$ 的有限条件问题都能算出 $\E[D\mid U=u]>0$, 不能据此套用要求可积性或单侧可积性的塔式法则来构造一个全局有限增益.
+
+“先拿另一个并不付费”与“先拿第一个再恒换”的最终无费金额可以同分布比较, 但期望准则遇到无限值时已失去严格区分能力. 若限制 $n$ 上限, 无条件期望变有限, 最大金额处的后验不能再按无限模型的1:2比例计算, 恒换论证也随之失效. 这表明悖论的来源是无上限重尾分布与期望准则的适用边界, 不是条件概率计算出错.
+\end{solution}
+
+\originalsection{作业九: 中心极限定理与试验}
+原件: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_pset9/}{18.600 Problem Set 9}.
+\par\noindent\textbf{A. 教材题号.}\label{part:P9.A.1} Ross 第7章 Problem 67. 原题围绕 Kelly 策略, 此处只登记题号.
+\begin{remark}
+原 A 前的查阅提示可用一个独立推导解释. 若财富 $w>0$, 每次下注其 $f$ 比例, 以概率 $p>1/2$ 翻倍赢回所下注金额, 否则失去该金额, 则财富因子为 $1+f$ 或 $1-f$. 在 $0\le f<1$ 内, 期望对数财富的单步增量为 $L(f)=p\ln(1+f)+(1-p)\ln(1-f)$. 导数 $L'(f)=p/(1+f)-(1-p)/(1-f)$ 在 $f=2p-1$ 为零; $L''(f)<0$ 保证唯一最优. 这解释了 Kelly 比例与对数效用的关系, 与最大化算术均值财富是不同目标. 最初出处为 J. L. Kelly Jr., \textit{A New Interpretation of Information Rate}, Bell System Technical Journal 35, 1956, 917--926.
+\end{remark}
+
+\begin{exercise}\label{ex:P9.B}
+\textbf{原 B.} 本组把近似正态量的“95\%区间”定义为均值加减两倍标准差. 对下列各量求该区间. 这是随机量的典型波动区间, 而非已观察数据后对未知参数所作的精确置信区间.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P9.B.1} 大学录取600人, 每人独立以 $.6$ 概率接受录取; 求 yield 比率区间.
+\item\label{part:P9.B.2} 10000名患者的症状持续时间独立, 单人均值10天、标准差5天; 求平均持续时间区间.
+\item\label{part:P9.B.3} 100名毕业生十年后的收入独立, 单人均值150000美元、标准差50000美元; 求平均收入区间.
+\item\label{part:P9.B.4} Lisa 每次独立得到5分的概率 $.8$, 得4分的概率 $.2$. Laura 每次独立得到5分的概率 $.9$, 得1分的概率 $.1$. 求两人各100次后平均评分的区间.
+\item\label{part:P9.B.5} Alice 两次期中各占25\%, 期末占50\%. 各期中有25个关键点, 期末有50个关键点, 每个关键点独立以概率 $.8$ 掌握. 求总百分制成绩区间.
+\item\label{part:P9.B.6} 球队单场得分为 $X_1+2X_2+3X_3$, 独立 $X_i$ 为 Poisson, 参数分别15、30、10. 求得分区间.
+\item\label{part:P9.B.7} 基金每年作25项独立投资, 每项收益率均值5\%、标准差20\%. 求平均收益率区间.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P9.B}
+独立平均的标准差是单个标准差除以 $\sqrt N$, 独立加权和的方差是各方差乘权重平方后相加.
+
+(1) 接受人数 $U\sim\Bin(600,.6)$, yield $U/600$ 均值 $.6$, 标准差 $\sqrt{600(.6)(.4)}/600=.02$. 区间 $[.56,.64]$, 即56\%至64\%.
+
+(2) 平均天数标准差为 $5/\sqrt{10000}=.05$, 区间 $[9.9,10.1]$ 天. (3) 平均收入标准差为 $50000/\sqrt{100}=5000$, 区间为 $[140000,160000]$ 美元.
+
+(4) Lisa 的单次评分可写 $4+B$, $B\sim\operatorname{Bernoulli}(.8)$, 均值4.8, 方差 $.16$. 平均评分标准差 $.4/10=.04$, 区间 $[4.72,4.88]$. Laura 单次评分为 $1+4C$, $C\sim\operatorname{Bernoulli}(.9)$, 均值4.6, 方差 $16(.9)(.1)=1.44$. 平均标准差为 $1.2/10=.12$, 区间 $[4.36,4.84]$. 她的平均虽只低 $.2$, 标准差却是 Lisa 的三倍, 因为偶发低分远低于5分.
+
+(5) 在题设权重下, 每个关键点都贡献一个百分制分数: 期中 $25\%/25=1\%$, 期末 $50\%/50=1\%$. 总分服从 $\Bin(100,.8)$, 均值80, 方差16, 标准差4, 区间为 $[72,88]$.
+
+(6) Poisson 均值与方差同为参数, 因而得分均值为 $15+2\cdot30+3\cdot10=105$, 方差为 $15+4\cdot30+9\cdot10=225$, 标准差15, 区间 $[75,135]$. (7) 平均收益率标准差为 $20\%/5=4\%$, 区间 $[5\%-8\%,5\%+8\%]=[-3\%,13\%]$. 所有“95\%”均是正态近似的 $\Phi(2)-\Phi(-2)\approx95.45\%$, 不保证任意分布精确覆盖.
+\end{solution}
+
+\begin{exercise}\label{ex:P9.C}
+\textbf{原 C.} 修改 B 中模型, 得新量 $\widetilde N$. 各题求 $(\E\widetilde N-\E N)/\operatorname{SD}(N)$, 分母始终为原模型的标准差, 并讨论新旧独立观测是否很可能显出改善.
+\begin{enumerate}[label=\arabic*$'$.]
+\item\label{part:P9.C.1'} 更好资助使大学预期 yield 从60\%增至66\%.
+\item\label{part:P9.C.2'} 抗病毒药把预期症状持续时间从10天减至9天.
+\item\label{part:P9.C.3'} 学生学习18.600后预期收入提高5000美元.
+\item\label{part:P9.C.4'} 两司机提供免费瓶装水, 各自期望评分提高 $.08$.
+\item\label{part:P9.C.5'} Alice 不再学习, 掌握每个关键点的概率从 $.8$ 降至 $.08$.
+\item\label{part:P9.C.6'} Bob 改支持预期每场120分的球队.
+\item\label{part:P9.C.7'} 新分析师使基金预期收益率从5\%增至7\%.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P9.C}
+依次用上一组的原标准差作分母, 得
+\begin{align*}
+ 1':&\quad(.66-.60)/.02=3, &2':&\quad(9-10)/.05=-20,\\
+ 3':&\quad5000/5000=1, &4'\text{ Lisa}:&\quad.08/.04=2,\\
+ 4'\text{ Laura}:&\quad.08/.12=2/3, &5':&\quad(8-80)/4=-18,\\
+ 6':&\quad(120-105)/15=1, &7':&\quad(.07-.05)/.04=1/2.
+\end{align*}
+$2'$ 的负号表示时间缩短, 因而是改善; $5'$ 的负号表示成绩下降, 是恶化. 这两个变化相对原噪声都很大, 独立样本中会很容易显出方向.
+
+其余若近似同标准差 $s$, 新旧独立观测的差的标准差为 $\sqrt2s$, 所以“新的更大”概率约为 $\Phi(d/\sqrt2)$, 其中 $d$ 是上面算的位移. $1'$ 约为 $.983$, Lisa 的 $4'$ 约为 $.921$, Laura 的 $4'$ 约为 $.681$, $3',6'$ 各约 $.760$, $7'$ 约为 $.638$. 因而三倍标准差的资助效应很容易识别, Lisa 的改善常能看出但仍有明显失败机会; 另几项不能靠一对观测很有把握地识别. 这些概率用的是近似同方差比较, 不替代完整分布建模.
+
+特别地 $5'$ 将 Bernoulli 参数由 $.8$ 改成 $.08$, 新总分标准差变为 $\sqrt{100(.08)(.92)}\approx2.713$, 与旧值4并不近似相同. 题目指定的标准化位移仍是 $-18$, 但不能据此声称两分布方差不变. 用实际新旧方差, 成绩差标准差为 $\sqrt{16+7.36}\approx4.833$, 72分的均值下降依旧远大于噪声.
+\end{solution}
+
+\begin{exercise}\label{ex:P9.D}\label{part:P9.D}
+\textbf{原 D.} Blueberry Planet 上研究者选取两个各 $N$ 人的组. 控制组每人的六个月体能改善独立, 均值 $\mu$、方差 $\sigma^2$; 实验组每人的改善独立, 均值 $\mu+rb$、方差 $\sigma^2$, 其中每天每人吃 $b$ 粒蓝莓, $r$ 未知. 两组独立, 平均改善为 $A_1,A_2$, $N$ 足够大使均值近似正态. 蓝莓预算限制 $Nb$ 固定. 为估计 $r$, 应选大 $N$ 小 $b$, 还是小 $N$ 大 $b$? 解释.
+\end{exercise}
+\begin{solution}\label{sol:P9.D}
+差值 $D=A_2-A_1$ 消去未知基础均值, $\E D=rb$, $\Var(D)=2\sigma^2/N$. 自然无偏估计量为 $\widehat r=D/b$, 方差 $2\sigma^2/(Nb^2)$. 设固定预算为 $L=Nb$, 代入 $b=L/N$ 得
+\[
+ \Var(\widehat r)=\frac{2\sigma^2N}{L^2}.
+\]
+预算固定时, 该方差随 $N$ 增长, 所以题设线性剂量模型中宜选较小 $N$、较大 $b$. 增加剂量使信号线性变大, 增加人数只使均值噪声按平方根缩小. 这项结论受题设限制: $N$ 仍须足以支持近似, 单人方差仍取同一 $\sigma^2$, 剂量反应必须在线性范围内; 不能以本式无限增大现实剂量.
+\end{solution}
+
+\begin{exercise}\label{ex:P9.E}\label{part:P9.E}
+\textbf{原 E.} 原题采用单侧正态检验: 两组平均差 $D=A_2-A_1$ 的零假设均值为0, 已知标准差为 $s=\sigma\sqrt{2/N}$, 越负的差代表效果越好, 观测 $D=d$ 时 $p$ 值为 $\Phi(d/s)$. 解释 $p$ 值本身是随机变量, 并论证: 若效果使中位 $p$ 值为 $\Phi(-2)$, 在类似试验中将每组人数乘6.25后, 中位 $p$ 值变为 $\Phi(-5)$.
+\end{exercise}
+\begin{solution}\label{sol:P9.E}
+$p$ 值是数据 $D$ 的函数 $p(D)=\Phi(D/s)$, 重做试验数据改变, 所以该数值也随机. 它并不是“假设为假的后验概率”. 设真实效应均值为 $m<0$, 方差仍为 $s^2$, 则 $Z=D/s\sim\Normal(m/s,1)$. 其对称分布的中位数为 $m/s$. $\Phi$ 严格递增, 所以 $p$ 的中位数为 $\Phi(m/s)$. 给定中位 $p=\Phi(-2)$, 得 $m/s=-2$.
+
+保持同一个真实效果 $m$ 和单人方差, 人数乘6.25后平均差标准差除以 $\sqrt{6.25}=2.5$, 即 $s'=s/2.5$. 新的标准化均值为 $m/s'=-5$, 新中位 $p$ 为 $\Phi(-5)$. 这是题设单侧检验的结论; 若采用双侧 $2\Phi(-|Z|)$, 不能把同一单调中位数推导直接照搬.
+\end{solution}
+
+\begin{exercise}\label{ex:P9.F}
+\textbf{原 F.} Kevin 与 James 玩60题的简化 Jeopardy, 无 Daily Double 或 Final Jeopardy. $J_i$ 在 James 答对、答错、未答时分别为 $1,-1,0$, $K_i$ 对 Kevin 同样定义. 设 $\alpha_i=J_i-K_i$ 独立同分布, 均值 $.3$, 方差1. 题价为 $\beta_i$, 最后 James 相对 Kevin 的得分差是 $D=\sum_{i=1}^{60}\alpha_i\beta_i$. James 在 $D>0$ 时获胜.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P9.F.1} 每题价格900时, 求 $D$ 的均值、方差、标准差.
+\item\label{part:P9.F.2} 数列 $200,400,600,800,1000,400,800,1200,1600,2000$ 的每个位置均对应六道题, 重复金额照样累计. 求 $D$ 的均值、方差、标准差.
+\item\label{part:P9.F.3} 将两场景的 $D$ 近似为同均值方差的正态变量, 数值估算 Kevin 获胜概率.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P9.F}
+独立性给 $\E D=.3\sum_i\beta_i$, $\Var(D)=\sum_i\beta_i^2$. (1) 均值 $.3\cdot60\cdot900=16200$, 方差 $60\cdot900^2=48600000$, 标准差 $900\sqrt{60}\approx6971.3700$.
+
+(2) 题价总和为 $6(200+400)\sum_{j=1}^5j=54000$, 所以均值仍为16200. 方差是
+\[
+ 6(200^2+400^2)\sum_{j=1}^5j^2
+ =6\cdot200000\cdot55=66000000,
+\]
+标准差约 $8124.0384$. 因为按每个数列位置各六题计算, 400和800确实各出现十二题.
+
+(3) Kevin 获胜对应 $D<0$. 正态近似下, 第一场景为 $\Phi(-16200/6971.3700)\approx.0100684$, 第二场景为 $\Phi(-16200/8124.0384)\approx.0230715$. 无论严格负值还是把零算平局, 连续正态都给零点概率0; 若用真实离散比赛模型则应另外规定平局. 相同的平均优势在不同题价下承受更大方差, 所以爆冷概率提高.
+\end{solution}
+
+\begin{exercise}\label{ex:P9.G}
+\textbf{原 G.} 假设 $X$ 先验真、假各概率 $1/2$. 若真, 一次试验阳性概率 $.8$; 若假, 阳性概率 $.05$. 各组试验给定真伪后独立.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P9.G.a} Harry 只知道自己的试验阳性, 后验 $\Prob(X\hbox{真})$ 是多少?
+\item\label{part:P9.G.b} Sherry 知道共有十组做试验. 每组一旦阳性即投稿, 期刊 WOPPORMJ 只刊最先收到的阳性结果. 她看见期刊有文章, 因此知道至少一组阳性, 求后验.
+\item\label{part:P9.G.c} Sherry 看见文章作者为 Harry, 晚上两人见面交流全部相关信息. 两人最初都认为对方没有带来新信息. 最后如何更新、是否达成共同后验? 原题提示要求分别讨论两种完成顺序假设: (i) 十组顺序事先随机, 所有 $10!$ 排列等可能且独立于真伪和试验结果, Harry 不知道自己排第几; (ii) Harry 知道自己是最先完成试验的组.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P9.G}
+(a) Bayes 公式给 $16/17\approx.941176$; 即
+\[
+ \Prob(X\hbox{真}\mid H_+)\ =\frac{(.5)(.8)}{(.5)(.8)+(.5)(.05)}=\frac{16}{17}.
+\]
+(b) 记 $U$ 为至少一组阳性. $\Prob(U\mid X\hbox{真})=1-.2^{10}$, $\Prob(U\mid X\hbox{假})=1-.95^{10}$. 所以
+\[
+ \Prob(X\hbox{真}\mid U)=
+ \frac{1-.2^{10}}{(1-.2^{10})+(1-.95^{10})}
+ \approx.713642.
+\]
+一个十组中至少出现一次的阳性结果, 比预先固定的一组阳性提供的证据弱.
+
+(c)(i) 把 Harry 看作事先指定的一组, 设 $A_H$ 为他是被刊登的首个阳性组. 给定真伪, 所有组在结果和随机顺序上对称. $U$ 发生时恰有一个首阳性组, 每组的概率相同, 因而对单组阳性率 $q$,
+\[
+ \Prob(A_H\mid q)=\frac{1-(1-q)^{10}}{10}.
+\]
+$A_H$ 已蕴含 Harry 阳性. 把 $q=.8,.05$ 代入 Bayes, 因子 $1/10$ 抵消, 得合并后的后验正是 $.713642$, 与 Sherry 相同. Harry 从最初 $.941176$ 下调, 不是因为“有其他九组但没看结果”本身, 而是因为知道自己的结果在一个筛选发表机制中获选. 若他在(a)时已经完全知道十组机制且自己获刊登, 就不应仍只按单组阳性算 $.941176$; (a)是给定较少信息的判断.
+
+也可更直接解释这个筛选因子. 已知 Harry 阳性, 若其余阳性组共 $M$ 个, 随机顺序使他首发概率为 $1/(M+1)$. 真假模型对 $M$ 的分布不同, 所以获刊登事件确实提供额外信息. 它更容易在其他组阳性稀少的假模型下发生, 于是削弱对真模型的支持.
+
+(c)(ii) 若 Harry 确知自己最先完成, 且完成次序本身不另外携带有关真伪的证据, 则他阳性就足以保证其文章首发. 合并信息等价于预先指定的最先一组阳性, 后验为 $16/17$. Sherry 原先只用“至少一组阳性”所得 $.713642$, 会在得知 Harry 的顺序信息后上调. 两种场景都可达成共同后验, 但共同值不同. 原题不指定完成顺序与已知信息时, 不能唯一决定交流结论; 若完成快慢还取决于真伪或结果, 还需为该机制建模.
+\end{solution}
+
+\originalsection{作业十: 熵、鞅与金融}
+原件: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_pset10/}{18.600 Problem Set 10}.
+\par\noindent\textbf{A. 教材题号.} 第9章: \label{part:P10.A.1} 原件标作 Problem/Theoretical Exercises 7; \label{part:P10.A.2} Problem/Theoretical Exercises 9; \label{part:P10.A.3} Problem/Theoretical Exercise 13; \label{part:P10.A.4} Problem/Theoretical Exercise 17. 此处保留原件题型记法, 不复写教材题面.
+
+\begin{exercise}\label{ex:P10.B}\label{part:P10.B}
+\textbf{原 B.} 独立反复掷标准六面骰直到首次出现6. $X$ 是包括最后6在内的完整结果序列, 如 $(1,4,2,3,2,5,6)$ 或 $(6)$. 求 $H(X)$. 提示: 设长度为 $K$, 说明 $H(X)=H(X,K)$, 直接求几何变量 $K$ 的熵, 再用 $H(X,K)=H(K)+H(X\mid K)$.
+\end{exercise}
+\begin{solution}\label{sol:P10.B}
+本题熵取 $\log_2$, 单位为比特. $K$ 是 $X$ 的确定函数, 所以增加 $K$ 不增加不确定性: 每个可能 $X$ 与一对 $(X,K)$ 一一对应, 同概率, 得 $H(X,K)=H(X)$. 长度分布为 $\Prob(K=k)=\frac16(\frac56)^{k-1}$, $k\ge1$, $\E K=6$, $\E(K-1)=5$. 因而
+\begin{align*}
+ H(K)&=-\sum_{k\ge1}\frac16\left(\frac56\right)^{k-1}
+       \log_2\left[\frac16\left(\frac56\right)^{k-1}\right]\\
+ &=\log_2 6-5\log_2(5/6)=6\log_2 6-5\log_2 5.
+\end{align*}
+给定 $K=k$, 前 $k-1$ 个数只能为1至5, 共 $5^{k-1}$ 个序列且等可能; 末尾6确定, 所以 $H(X\mid K=k)=(k-1)\log_2 5$. 条件熵是对 $K$ 平均, 得 $H(X\mid K)=5\log_2 5$. 合并为
+\[
+ H(X)=6\log_2 6\approx15.5098\ \text{比特}.
+\]
+也可直接核对: 具体长度 $k$ 的停止序列概率是 $6^{-k}$, 信息量 $k\log_2 6$, 对长度取期望正好是 $6\log_2 6$. 几何尾保证这些和式有限.
+\end{solution}
+
+\begin{exercise}\label{ex:P10.C}
+\textbf{原 C.} 比赛有 $n$ 个结果, 我赋予概率 $p_1,\ldots,p_n$, 你赋予 $q_1,\ldots,q_n$. 结果为 $i$ 时, 我的“自得程度”为 $\ln(p_i/q_i)$, 你的为 $\ln(q_i/p_i)$; 每次总和为0. 本题明确用自然对数, 单位为 nat, 与比特相差因子 $\ln2$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P10.C.a} 证明我按自己概率计算的期望 $\sum_i p_i\ln(p_i/q_i)$ 非负, 且为0当且仅当所有 $p_i=q_i$.
+\item\label{part:P10.C.b} 你也认为自己的期望非负, 虽然我们每次收益零和. 用简短直观说明解释此事.
+\item\label{part:P10.C.c} 查阅 relative entropy, 解释与这里期望自得程度的关系.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P10.C}
+(a) 规定 $p_i=0$ 的项为0; 若 $p_i>0,q_i=0$, 该项为 $+\infty$, 结论显然非负且不可能为0. 其余情形令 $I=\{i:p_i>0\}$. 对 $t>0$, 函数 $t-1-\ln t$ 在 $t=1$ 最小为0, 所以 $-\ln t\ge1-t$, 仅 $t=1$ 取等. 取 $t=q_i/p_i$,
+\[
+ \sum_{i\in I}p_i\ln\frac{p_i}{q_i}
+ \ge\sum_{i\in I}(p_i-q_i)
+ =1-\sum_{i\in I}q_i\ge0.
+\]
+若最终为0, 每个 $i\in I$ 的严格性都必须消失, 故 $q_i=p_i$; 同时 $q$ 在 $I$ 外没有质量. 于是所有坐标相同. 反之 $p=q$ 时每个有效项为0, 期望当然为0.
+
+(b) 两人用不同的权重取平均. 我认为 $p_i$ 较大的结果更常发生, 这些通常给我较高收益; 你则按 $q_i$ 权重平均, 也把更支持自己预测的结果看得较常见. 固定一次结果的零和性, 不要求不同概率模型下的两个平均值相加为0. 若 $p\ne q$, 我按 $p$ 计算自己的平均严格为正, 也按 $p$ 计算你的平均严格为负; 你按 $q$ 做相反判断.
+
+(c) 相对熵, 又称 Kullback--Leibler divergence, 的离散定义就是 $D_{\rm KL}(p\Vert q)=\sum_i p_i\ln(p_i/q_i)$. 这里恰为我的预期自得程度; 你的为 $D_{\rm KL}(q\Vert p)$, 一般不等于前者. 它比较的是指定参考方向, 不具对称性, 不能视为通常的距离. 若使用 $\log_2$, 数值为本题 nat 数值除以 $\ln2$, 单位改成比特. 查阅出处可用 \href{https://statproofbook.github.io/D/kl.html}{The Book of Statistical Proofs 的定义条目}, 并可按其所列 David MacKay, \textit{Information Theory, Inference, and Learning Algorithms}, 2003, 第2.6节继续阅读. 本题非负性及零值条件已在(a)独立证明.
+\end{solution}
+
+\begin{exercise}\label{ex:P10.D}
+\textbf{原 D.} Harriet 从30美元开始, 每次在公平币上赌1美元, 财富到0或80即离开.
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:P10.D.1} 求离开时财富的期望和到80的概率.
+\item Harriet 说“我认为事件 $A$”的精确含义是: 以此刻已知信息条件化, $A$ 的概率至少 $.5$. 判断下列说法是否为真:
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P10.D.2.a} Harriet 认为自己会输.
+\item\label{part:P10.D.2.b} Harriet 认为将出现一个时刻, 届时她认为自己会赢.
+\item\label{part:P10.D.2.c} Harriet 认为财富会先到41, 随后在游戏结束前到20.
+\end{enumerate}
+\item\label{part:P10.D.3} 求离开前下注次数的期望. 提示: $F(k)$ 表示从 $k$ 出发的期望次数, $F(0)=F(80)=0$. 用首次投掷的条件化证明 $F(k)=1+[F(k+1)+F(k-1)]/2$, 猜出二次式并证明唯一性.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P10.D}
+记财富随机游走为 $S_n$, 停止时刻为 $T$. 停止财富 $S_{n\wedge T}\in[0,80]$ 是一致有界鞅. $T$ 几乎必然有限: 从任意未吸收状态, 后续连续80次头的概率为 $2^{-80}$, 且会使财富先到80; 独立分块给 $\Prob(T>80m)\le(1-2^{-80})^m$. 此估计也保证期望有限.
+
+(1) 可选停止给 $\E S_T=30$. 终值仅0或80, 所以胜率 $\Prob(S_T=80)=30/80=3/8$, 败率 $5/8$.
+
+(2a) 败率 $5/8\ge1/2$, 所以她现在确实认为自己会输. (2b) 在财富为 $k$ 的任一时刻, 条件胜率为 $k/80$. 她首次认为会赢是在财富到40时, 因为“至少”含相等. 从30先到40而非0的概率为 $30/40=3/4$. 因此她现在认为将有时认为自己会赢, 这句话为真. 这并不等于她现在认为自己会赢: “有机会达到一个乐观的中间判断”与“最终胜利”是不同事件.
+
+(2c) 先从30到41而非0的概率为 $30/41$. 到41后, 先到20而非80的概率为 $(80-41)/(80-20)=39/60$. 强马尔可夫性, 或在首次到41时使用未来独立投币, 给
+\[
+ \Prob(\hbox{先到41, 随后到20})=\frac{30}{41}\frac{39}{60}
+ =\frac{39}{82}\approx.475610<.5.
+\]
+所以这条“认为”是假的.
+
+(3) 因期望有限, 可按第一次赌局条件化, 得提示的递推. 整理为 $F(k+1)-2F(k)+F(k-1)=-2$. 二次式 $F(k)=-k^2+ak+b$ 的二阶差为 $-2$. 边界 $F(0)=F(80)=0$ 给 $b=0,a=80$, 所以候选为 $k(80-k)$.
+
+证明唯一性: 若另一个函数满足同样递推和边界, 两者差 $h$ 满足 $h(k)=[h(k-1)+h(k+1)]/2$, $h(0)=h(80)=0$. 若正最大值在内部取得, 相邻值都必须与最大值相同, 反复传播直到边界矛盾; 对负最小值同理. 故 $h\equiv0$. 因此 $F(30)=30\cdot50=1500$ 次.
+\end{solution}
+
+\begin{exercise}\label{ex:P10.E}\label{part:P10.E}
+\textbf{原 E.} 补完讲义中的欧洲看涨期权 Black--Scholes 计算: 设 $g(x)=\max(0,x-K)$, $N$ 为正态变量, 均值 $\mu=\ln X_0+(r-\sigma^2/2)T$, 显式求 $\ee^{-rT}\E[g(\ee^N)]$. 与本书第\ref{sec:bs}节“Black--Scholes 模型与公式”的风险中性模型一致, 本题补明原作业该段省略的方差为 $\sigma^2T$. 取 $X_0,K,T,\sigma>0$.
+\end{exercise}
+\begin{solution}\label{sol:P10.E}
+令 $v=\sigma^2T$, $k=\ln K$, 定义
+\[
+ d_2=\frac{\mu-k}{\sqrt v}
+ =\frac{\ln(X_0/K)+(r-\sigma^2/2)T}{\sigma\sqrt T},
+ \qquad d_1=d_2+\sigma\sqrt T.
+\]
+期权只有 $N>k$ 时支付. 将期望拆成一个指数截断矩和一个尾概率,
+\[
+ C_0=\ee^{-rT}\left(\E[\ee^N\ind_{\{N>k\}}]-K\Prob(N>k)\right).
+\]
+尾概率标准化为 $\Prob(N>k)=1-\Phi((k-\mu)/\sqrt v)=\Phi(d_2)$.
+
+指数截断矩的关键是把密度中额外的 $\ee^x$ 吸收入配方. 等式
+\[
+ x-\frac{(x-\mu)^2}{2v}
+ =\mu+\frac v2-\frac{(x-\mu-v)^2}{2v}
+\]
+将均值从 $\mu$ 移到 $\mu+v$, 因而
+\begin{align*}
+ \E[\ee^N\ind_{\{N>k\}}]
+ &=\frac1{\sqrt{2\pi v}}\int_k^\infty
+       \exp\left(x-\frac{(x-\mu)^2}{2v}\right)\dd x\\
+ &=\ee^{\mu+v/2}\frac1{\sqrt{2\pi v}}\int_k^\infty
+       \exp\left(-\frac{(x-\mu-v)^2}{2v}\right)\dd x\\
+ &=\ee^{\mu+v/2}\Phi\left(\frac{\mu+v-k}{\sqrt v}\right)
+ =X_0\ee^{rT}\Phi(d_1).
+\end{align*}
+代入得到
+\[
+ C_0=X_0\Phi(d_1)-K\ee^{-rT}\Phi(d_2).
+\]
+所有期望有限, 因为支付不超过 $\ee^N$, 而 $\E\ee^N=\ee^{\mu+v/2}=X_0\ee^{rT}$. 本题计算的是风险中性模型下的贴现支付, 没有把实际世界上涨概率或人的主观预期代入. 公式中的 $\Phi(d_2)$ 是风险中性行权概率, $\Phi(d_1)$ 来自股价加权后的积分. 若 $\sigma=0$ 或 $T=0$, 应直接用确定终值算价, 不代入含零分母的 $d_i$.
+\end{solution}
+
+\begin{exercise}\label{ex:P10.F}
+\textbf{原 F.} David Aldous 向授课者提出以下阈值计数问题. 一届美国总统选举中, 把各人最终当选的条件概率理想化为连续鞅. 一位候选人的概率若曾超过10\%, 就算曾达到该候选阈值. 终期恰有一人概率为1, 其余为0.
+\begin{enumerate}[label=(\alph*)]
+\item\label{part:P10.F.a} 早期各人概率 $p_i$ 都小于 $.1$, $\sum_i p_i=1$. 论证第 $i$ 人达到 $.1$ 阈值概率为 $10p_i$, 并求总人数期望.
+\item\label{part:P10.F.b} 赌徒在每人首次到 $.1$ 时花10美元买一份最终当选支付100美元的合约, 持有至终期. 用可选停止解释期望净收益为0, 并由终期必收100美元求期望支出及候选人数.
+\item\label{part:P10.F.c} 婚姻变式: 你终生至少结一次婚的概率为 $.85$. 旁观者给每个潜在首任配偶的概率按连续鞅更新. 若某人的概率曾超过 $.5$, 称其为“几乎首任配偶”. 求预期人数.
+\item\label{part:P10.F.d} 若“认真候选者”定义为概率曾超过 $.1$, 求预期人数.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:P10.F}
+先把使用条件写清楚: 在共同概率模型与过滤下, 各 $M_i(t)$ 是取值 $[0,1]$ 的连续鞅, $M_i(0)=p_i$, 在有限期限 $T$ 时 $M_i(T)=\ind_{\{i\text{为最终唯一获选者}\}}$. 潜在人选至多可数; 婚姻情形还允许无人获选, 对应终生未婚. 分析婚姻阈值 $h$ 时, 原题的简洁答案需要每个人初始 $p_i\le h$; 下文同时给没有此假设时的答案.
+
+(a) 设 $p_i<h$, $\tau_i$ 是首次到 $h$ 的时刻, 未达到则取 $T$. 连续性保证命中时价格恰为 $h$, 无跳越. 若终期为1, 路径从 $p_i<h$ 到1必先经过 $h$, 所以未命中时终值必为0. 可选停止给
+\[
+ p_i=\E M_i(\tau_i)=h\Prob(\hbox{命中 }h),
+ \qquad \Prob(\hbox{命中 }h)=p_i/h.
+\]
+这里的连续时间可选停止可从第12章的有限离散版本得到: 用 $T$ 的二进网格把 $\tau_i$ 向上取整为 $\tau_i^{(n)}$, 每个取整停止时间有限且适用于网格鞅; $\E M_i(\tau_i^{(n)})=p_i$. 连续路径使其几乎必然趋于 $M_i(\tau_i)$, 一致界1允许控制收敛, 故期望等式保留.
+
+原题混用“达到”和“超过”, 可进一步核对. 对任意 $h+\epsilon<1$, 命中该更高水平的概率为 $p_i/(h+\epsilon)$. 当 $\epsilon\downarrow0$, “曾超过 $h$”正是这些更高水平命中事件的递增并集, 所以概率也为 $p_i/h$. 因而取 $h=.1$, 用期望线性性或非负和的 Tonelli 定理,
+\[
+ \E\sum_i\ind_{\{\sup_tM_i(t)>.1\}}
+ =\sum_i10p_i=10.
+\]
+这无需候选人的命中事件独立.
+
+(b) 对每个人, 一份合约的期望支付是 $100\Prob(i\text{获选})=100p_i$; 只有命中 $.1$ 时买, 期望花费为 $10(10p_i)=100p_i$. 两者期望相同, 也可在买入停止时刻使用条件鞅等式解释公平价为10美元. 求和后期望支出为100美元. 获选者必经过 $.1$, 已被买入, 且无人能第二次获选, 所以终期支付确为100美元. 从而期望净收益为0, 期望购买份数 $100/10=10$. 非负期望和有限, 也保证实际购买份数几乎必然有限, 不必预设一条路径只出现有限个候选人.
+
+(c) 婚姻终值事件互斥且并集为至少结婚一次, 因此 $\sum_i p_i=.85$. 若所有初始概率不超过 $.5$, 同样计算得阈值人数期望 $.85/.5=1.7$. 对终生未婚者所有终值为0, 并不影响推导; 该期望是所有人生路径上的平均, 不是只在最终结婚的人群中取平均.
+
+(d) 若所有初始概率不超过 $.1$, 期望为 $.85/.1=8.5$. 此处要检查比(c)更强的初始限制. 如果原题未说明你开始观察人生时各潜在配偶概率多小, 这两个数不能无条件确定. 一般地, 初始 $p_i>h$ 的人已算超过阈值, 概率为1; 初始 $p_i=h$ 时, 对 $h+\epsilon$ 的命中概率 $h/(h+\epsilon)$ 趋于1, 也以概率1曾超过. 因而完整一般式是
+\[
+ \E N_h=\sum_i\min\left(1,\frac{p_i}{h}\right).
+\]
+当各 $p_i\le h$ 才化为 $.85/h$. 例如开始时已给一人 $.8$、另一人 $.05$, 则 $.5$ 阈值人数期望为 $1+.05/.5=1.1$, 而非1.7. 连续性、终期0/1和小初值分别在停止价格、未命中终值和线性阈值公式中发挥作用, 不能省去这些条件.
+\end{solution}
+
+\begin{exercise}\label{ex:P10.G}\label{part:P10.G}
+\textbf{原 G.} 现在1美元与1欧元等值. 事件 $R$ 为未来一年内欧元相对美元升至每欧元2美元. 一份合约在 $R$ 首次发生时立即支付1美元, 现价为 $P_d$ 美元; 另一份在同一时刻支付1欧元, 现价为 $P_e$ 欧元. 论证应有 $P_e=2P_d$.
+\end{exercise}
+\begin{solution}\label{sol:P10.G}
+在 $R$ 的支付时刻, 1欧元恰可换成2美元, 而未发生 $R$ 时两份合约都不支付. 所以欧元支付合约按美元计值的整个支付, 与两份美元支付合约相同, 支付时点也相同. 无交易摩擦、可即时兑换且无套利时, 两者当前美元价格必须相同. 当前1欧元等于1美元, 故 $P_e$ 欧元的当前美元成本就是 $P_e$, 得 $P_e=2P_d$.
+
+若假设无利息, 可分别把 $P_d,P_e$ 解读为相应计价单位下的风险中性 $R$ 概率. 两个数不同, 并不矛盾: 更换计价单位改变状态支付的价值, 也改变风险中性概率. 这正说明风险中性概率不一定是与货币单位无关的“所有人的主观共识概率”. 论证需要事件发生时兑换率确为2; 若价格跳越且支付时汇率不固定为2, 支付倍数应按实际约定重新计算.
+\end{solution}
+
+\originalsection{鞅补充题}
+原件: \href{https://ocw.mit.edu/courses/18-600-probability-and-random-variables-fall-2019/resources/mit18_600f19_pset_note/}{Doob's Optional Stopping Theorem}. 第12章已说明有界停止与一致有界过程两种可选停止条件. 这里保留原件的全部四题, 包括最后的往返概率题.
+
+\begin{exercise}\label{ex:Note.Problems}
+\begin{enumerate}[label=\arabic*.]
+\item\label{part:Note.Problems.1} Harriet 从7美元开始, 每次在公平币上赌1美元, 到0或50离开. 求离开财富的期望及到50的概率.
+\item\label{part:Note.Problems.2} 合约在有限时刻 $N$ 只可能值100或0. 价格 $S(n)$, $0\le n\le N$, 是鞅, $S(0)=47$. 求终值100的概率.
+\item\label{part:Note.Problems.3} Pedro 在时刻0买上一题的合约, 首次价格高于55或低于15即卖出, 时刻为 $T$. 求 $\E S(T)$.
+\item\label{part:Note.Problems.4} 设终值 $S(N)$ 几乎必然为100或0, $S(0)=50$. 若至少有60\%概率在 $N$ 前先低于40、随后高于60, 证明 $S(n)$ 不可能是鞅.
+\end{enumerate}
+\end{exercise}
+\begin{solution}\label{sol:Note.Problems}
+(1) 停止财富落在 $[0,50]$, 是有界停止鞅; 由与作业十 D 相同的独立分块吸收论证, 停止几乎必然有限. 可选停止给最终财富期望7, 终值只有0或50, 所以到50概率为 $7/50=.14$. 不能把未停止的全轴随机游走误称一致有界.
+
+(2) $\E S(N)=S(0)=47$, 而 $\E S(N)=100\Prob(S(N)=100)$, 得概率 $.47$. 此外鞅塔式法则给 $S(n)=\E[S(N)\mid\mathcal F_n]$, 所以每时刻价格自动在 $[0,100]$.
+
+(3) 终值0或100都在区间 $[15,55]$ 外, 故首次越出时间 $T\le N$, 是有界停止时间. 有限停止版本直接给 $\E S(T)=S(0)=47$. 价格可以跳过15或55, 本题只求期望; 不能因此声称卖价恰等于这两个门槛.
+
+(4) 反设 $S$ 是鞅. 如(2)得 $0\le S(n)\le100$. 令 $L$ 为在 $0\le n\le N$ 首次低于40的事件, $\tau$ 为首次低于40的时刻, 未发生时取 $N$. 记 $p=\Prob(L)$. 在 $L$ 上 $S(\tau)<40$; 在 $L^c$ 上终值不能为0, 所以 $S(\tau)=100$. 有限可选停止给
+\[
+ \E[S(\tau)\ind_L]=50-100(1-p)=100p-50.
+\]
+由于左侧不超过 $40p$, 得 $p\le5/6$.
+
+在发生 $L$ 后, 再等首次价格高于60, 若未高于则到 $N$ 停. 对此第二个停止时刻, 在 $\mathcal F_\tau$ 条件下使用可选停止; 价格非负, 在高于60的事件上价格至少60, 因而
+\[
+ \Prob(\hbox{之后到过高于60}\mid\mathcal F_\tau)
+ \le\frac{S(\tau)}{60}\quad\hbox{在 }L\hbox{ 上}.
+\]
+这里允许将 $N$ 也算入到达时刻, 只会扩大原题的“$N$前”事件, 因而仍是合法上界. 取期望,
+\begin{align*}
+ \Prob(\hbox{先低于40再高于60})
+ &\le\frac{\E[S(\tau)\ind_L]}{60}
+ =\frac{100p-50}{60}\\
+ &\le\frac{100(5/6)-50}{60}=\frac59<.6.
+\end{align*}
+这与至少60\%矛盾. 证明没有假定路径连续或恰好命中40、60; 非负性与跨阈值价格的单侧界已足够处理跳跃.
+\end{solution}
