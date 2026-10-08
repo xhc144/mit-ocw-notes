@@ -11,7 +11,7 @@
 | [数值分析](subjects/numerical-analysis/) | 级数与数列、数值积分与差分、插值、非线性方程、常微分方程数值方法、傅里叶分析与谱方法；保留7章，增补8份作业33题、68个末级单元的完整中文题面与AI解答，以及实际数值实验代码和结果。 | 79 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/numerical-analysis/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/numerical-analysis/dist/source.zip) · [内容与核验](subjects/numerical-analysis/README.md) |
 | [数值代数](subjects/numerical-linear-algebra/) | 浮点误差、条件数、SVD与最小二乘、正交分解、直接法、特征值迭代、迭代法与稀疏计算；扩编24章，增补4份作业15道大题位置及8份考试29道大题、60个显式子问；11处教材题面缺项另列。 | 90 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/numerical-linear-algebra/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/numerical-linear-algebra/dist/source.zip) · [内容与核验](subjects/numerical-linear-algebra/README.md) |
 | [最优化](subjects/optimization/) | 凸集与凸函数、分离与共轭、对偶、次梯度、锥规划、近端与内点方法、一阶算法；补充线性规划建模与单纯形法。 | 66 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/optimization/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/optimization/dist/source.zip) · [内容与核验](subjects/optimization/README.md) |
-| [数理统计](subjects/mathematical-statistics/) | 统计模型、极大似然与矩估计、假设检验、拟合优度、回归、贝叶斯、主成分分析与广义线性模型；10章。 | 66 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/mathematical-statistics/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/mathematical-statistics/dist/source.zip) · [内容与核验](subjects/mathematical-statistics/README.md) |
+| [数理统计](subjects/mathematical-statistics/) | 统计模型、极大似然与矩估计、假设检验、拟合优度、回归、贝叶斯、主成分分析与广义线性模型；保留10章，增补11份作业34个主问题的中文题解，含181个编号末级问及12个无编号要求。 | 110 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/mathematical-statistics/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/mathematical-statistics/dist/source.zip) · [内容与核验](subjects/mathematical-statistics/README.md) |
 | [拓扑](subjects/topology/) | 度量空间、一般拓扑、积与商、基本群、覆盖空间、曲面与流形入门；15章，含58道完整题解。微分几何另册，同调体系未完整纳入。 | 105 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/topology/topology.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/topology/topology-source.zip) · [内容与核验](subjects/topology/README.md) |
 | [概率论](subjects/probability/) | 计数、条件概率、分布、期望、极限定理、有限马尔可夫链、熵与鞅；保留12个理论章，增补117道可用作业题（169个正式末级子问）及27卷199题（582个末级子问）的题解。 | 237 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/probability/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/probability/dist/source.zip) · [内容与核验](subjects/probability/README.md) |
 | [实变](subjects/real-analysis/) | 测度、可测函数、勒贝格积分、收敛定理、乘积积分、函数空间、卷积与微分；9章，33道带解答练习。 | 72 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/real-analysis/real-analysis.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/real-analysis/real-analysis-source.zip) · [内容与核验](subjects/real-analysis/README.md) |
@@ -30,6 +30,7 @@
 
 - 数值分析：PS1–PS8共33道原编号题、68个末级单元完整收录，保留原题号、附加问、分值和原印日期；PS8标明“Not due”，无需提交。解答均为AI编写，不冒称官方答案，实际数值实验的[代码与结果](subjects/numerical-analysis/experiments/)随源码提供。[题号冻结清单](subjects/numerical-analysis/assessment-inventory.json)区分题数与末级单元。所选公开页面没有链接考试卷或官方作业答案；[课程来源记录](subjects/numerical-analysis/course-sources.json)只支持每周两次、每次1.5小时及讲义讲次范围，作业原日期另据原件，不制造逐日课历或考试时间。大纲中的最小二乘、主成分分析缺独立讲义来源，未标作补全。
 - 数值代数：增补4份作业15道大题、2019当期及7份历史期中共8卷29道大题／60个显式子问。作业纸29个题目或子问位置含18个MIT自定义任务和11处Trefethen/Bau教材引用；11处完整题面未取得，只保留准确引用及官方答案实际支持的结论，不猜题或计入隐藏子问。2009年的3道题无官方答案，明确标AI补写；其他题注明官方答案来源与勘误。卷首保留39讲课历，OCW按周课历与教师仓库具体日期分开登记。[来源与覆盖范围](subjects/numerical-linear-algebra/source-coverage.json)、[原题号清单](sources/18.335j-spring-2019/assessments/question-inventory.json)及[实验代码](subjects/numerical-linear-algebra/experiments/)记录细节；新增39项Julia与50项Python检查不代替一般证明。学习主线仍为选定数值代数主题，不声称整门39讲课程逐讲全译。
+- 数理统计：PS1–PS11完整中文题面和编者题解收录34个主问题；原印结构共203个层级节点，其中181个编号末级问，另有12个无编号要求，分别统计并保留原编号与截止日期。官方未公开作业答案，题解由本项目独立推导和复审；[作业冻结清单](subjects/mathematical-statistics/review/assignment-inventory.json)给出逐项口径。[课程元数据](sources/18.650-fall-2016/course-metadata.json)保留Syllabus与Intro中的评分、先修版本冲突，未发现公开考试PDF，不虚构考试题解。28组数值检查的[代码与结果](subjects/mathematical-statistics/experiments/)已实跑，有限验算不代替一般证明。PCA原件17页整份只留来源与版权记录，受限图未复制；PS7许可可追溯的QQ原图保留图号与坐标。
 - 概率论：作业及鞅补充共134道原顶层题，收录117道可用题、169个正式末级子问；另外17道Ross教材题面载于部分公开原件，因第三方教材复用边界不予复制。27份试卷收录199道原编号题、582个末级子问，题数与子问数分别计，完全重复的1道整题保留两处来源回指。10份混有Ross题面的作业原件整份仅留来源链接与校验记录；3项真实采访须读者实际执行，示例数据不冒充实测。详见[冻结计数与边界](subjects/probability/qa/assessment-inventory-frozen.json)及[交付范围](subjects/probability/README.md)。
 - 抽象代数：11份官方作业及3份模拟卷中的69个MIT公开题号、116个明确小问已覆盖；另据作者2012、2013历史版新增4道Judson题、8项解答任务，合计解答73个来源题号（72个不同题）。[原MIT题号清单](subjects/abstract-algebra/assessment-map.json)保留历史81条外书定位基数，[Judson增补映射](subjects/abstract-algebra/judson-assessment-map.json)记录实际恢复的4条；当前仍未恢复77条（76个不同定位）：76条Herstein引用尚未获取题面，J第3章#49两版冲突且课程版次未确定，不以候选题替代。所选课程页面未提供正式期中、期末卷或其答案。
 - 偏微分方程：已纳入11份作业、Bonus、期中和期末中的公开完整题面，共52道大题、114个细分要求。另有11条商业教材题号引用和1条阅读任务，原题面未公开；详见[来源与考核审查](subjects/partial-differential-equations/review/source-assessment-review.md)。
@@ -72,7 +73,7 @@
 | 数值分析 | [18.330 讲义、作业及课程来源](sources/18.330-spring-2012/)：7份讲义99页，新增8份作业16页，共15份PDF、115源页 |
 | 数值代数 | [18.335J 归档讲义](sources/18.335j-spring-2019/)：25份PDF、227页；核心12份59页。另有[4份作业、8份期中及答案来源](sources/18.335j-spring-2019/assessments/)；2份含第三方图像例外的讲义及外部notebook不打包 |
 | 最优化 | [6.253原稿](sources/6.253-spring-2012/)及[线性规划补充](sources/15.053-spring-2013/) |
-| 数理统计 | [18.650 原讲义与来源清单](sources/18.650-fall-2016/)：当前10份PDF、24讲、292源页；九份原件275页归档，PCA原件17页保留链接 |
+| 数理统计 | [18.650 讲义、作业与来源清单](sources/18.650-fall-2016/)：10份讲义、24讲、292页，加11份作业42页，共21份PDF、334源页；20份317页归档，PCA原件17页整份仅留链接 |
 | 拓扑 | [18.S190 度量空间及选读补充](subjects/topology/sources/)：主课六讲，另有原习题及18.901、18.102选读；范围见详情 |
 | 概率论 | [18.600 原讲义、考核及来源清单](sources/18.600-fall-2019/)：38份讲义2,413页，加55份可归档作业／考试补充368页，合计93份、2,781源页；10份混有Ross题面的原件仅留链接 |
 | 实变 | [官方来源与许可](sources/real-analysis/)：18.125 Fall 2003：24份讲义、95页 |
@@ -99,7 +100,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-截至2026-10-08，已核验并交付 **15册中文整书，共1250个PDF物理页**：数值分析79页、数值代数90页、最优化66页、数理统计66页、拓扑105页、概率论237页、实变72页、复变50页、泛函40页、微分几何46页、常微分方程与动力系统38页、抽象代数58页、偏微分方程49页、图论157页、群表示97页。上方中文阅读表提供PDF下载、源码包及各科学习范围；册数只统计已有实际成品并完成交付核验的学科，原件下载不计作中文讲义完成。
+截至2026-10-08，已核验并交付 **15册中文整书，共1294个PDF物理页**：数值分析79页、数值代数90页、最优化66页、数理统计110页、拓扑105页、概率论237页、实变72页、复变50页、泛函40页、微分几何46页、常微分方程与动力系统38页、抽象代数58页、偏微分方程49页、图论157页、群表示97页。上方中文阅读表提供PDF下载、源码包及各科学习范围；册数只统计已有实际成品并完成交付核验的学科，原件下载不计作中文讲义完成。
 
 首批数值分析、数值代数、最优化三科的原基础卷共192页；数值分析与数值代数增补后，当前三科中文册合计235页。首批对应的41份可归档原PDF已提交，6份有第三方权利例外的原文件保留来源链接；新增作业原件由各科来源清单单独记录。全站归档仍在分批进行，课程目录总量不能用作已交付讲义分母。
 
