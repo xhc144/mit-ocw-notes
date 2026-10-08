@@ -1,0 +1,112 @@
+\par\Needspace{13\baselineskip}
+\originalchapter{官方作业四}
+题面译自 Paul Seidel 的 MIT 18.950 Differential Geometry, Fall 2008,
+\href{https://ocw.mit.edu/courses/18-950-differential-geometry-fall-2008/resources/homework4/}{Homework 4}.
+原件前两题未标分值. 以下解答均为 AI 独立推导, 不是官方答案; 公开原题文件未附解答.
+
+\begin{exercise}\label{ps:4-1}
+原题 Problem 1, 未标分值. 证明: $\Lambda^2(L)=0$ 当且仅当线性映射 $L$ 的秩不超过 $1$.
+\end{exercise}
+\begin{solution}
+设 $L:V\to W$. 二阶外幂由 $u\wedge v$ 这类元素张成, 且按定义
+\[
+ \Lambda^2(L)(u\wedge v)=Lu\wedge Lv.
+\]
+两个向量的外积为零当且仅当它们线性相关: 相关时由交替性即得零; 不相关时可把它们扩充为一组基, 它们的外积是相应外幂基中的一个非零元素.
+
+若 $\operatorname{rank}L\le1$, 任意 $Lu,Lv$ 线性相关, 因而 $\Lambda^2(L)$ 在所有生成元上为零, 所以是零映射. 反之, 若秩至少为 $2$, 可在像空间中取两个线性无关向量 $Lu,Lv$. 此时 $Lu\wedge Lv\ne0$, 与 $\Lambda^2(L)=0$ 矛盾.
+\end{solution}
+
+\begin{exercise}\label{ps:4-2}
+原题 Problem 2, 未标分值. 设 $L:\R^3\to\R^3$ 是可逆线性映射. 证明: 适当选取 $\Lambda^2(\R^3)$ 的基后, 映射 $\Lambda^2(L)$ 的矩阵为 $(L^{-1})^{\mathsf T}\det L$.
+\end{exercise}
+\begin{solution}
+固定 $\R^3$ 的标准正向基 $e_1,e_2,e_3$, 记 $A$ 为 $L$ 在该基下的矩阵. 在二阶外幂中取循环排列的基
+\[
+ \beta_1=e_2\wedge e_3,\qquad
+ \beta_2=e_3\wedge e_1,\qquad
+ \beta_3=e_1\wedge e_2.
+\]
+这样排列的作用是让二向量同第三个向量的体积配对具有单位矩阵. 具体定义
+\[
+ B(u\wedge v,w)=\det(u,v,w),
+\]
+并对二向量线性延拓, 则 $B(\beta_j,e_k)=\delta_{jk}$.
+
+设 $C$ 是 $\Lambda^2(L)$ 在 $\beta_1,\beta_2,\beta_3$ 下的矩阵. 行列式的乘法公式给出
+\[
+ B(\Lambda^2(L)\beta_j,Le_k)=\det(A)B(\beta_j,e_k).
+\]
+将左边按两组基展开, 它等于 $\sum_i C_{ij}A_{ik}$. 因此
+\[
+ C^{\mathsf T}A=\det(A)\,\id,\qquad
+ C=\det(A)A^{-\mathsf T}.
+\]
+这正是所需矩阵. 若改用常见的基 $e_1\wedge e_2,e_1\wedge e_3,e_2\wedge e_3$, 则还需相应的换基矩阵; 循环基已经吸收了这些排列与符号.
+\end{solution}
+
+\begin{exercise}\label{ps:4-3}
+原题 Problem 3, $2$ 分. 求圆柱参数映射
+\[
+ f:\R^2\to\R^3,\qquad f(s,t)=(s,\cos t,\sin t)
+\]
+的第一、第二基本形式及主曲率.
+\end{exercise}
+\begin{solution}
+按照原课程的参数定向, Gauss 法向由 $f_s\times f_t$ 确定. 直接计算
+\[
+ f_s=(1,0,0),\qquad f_t=(0,-\sin t,\cos t),\qquad
+ \nu=(0,-\cos t,-\sin t).
+\]
+两切向量正交且均为单位向量, 所以 $\I=\dd s^2+\dd t^2$. 又有
+\[
+ f_{ss}=f_{st}=0,\qquad f_{tt}=(0,-\cos t,-\sin t)=\nu.
+\]
+利用命题\ref{prop:shape}中的 $h_{ij}=\langle f_{ij},\nu\rangle$ 与 $S=g^{-1}h$, 得
+\[
+ \II=\dd t^2,\qquad
+ [S]=\begin{pmatrix}0&0\\0&1\end{pmatrix}.
+\]
+故轴向和圆周方向分别是主方向, 主曲率为 $0,1$. 这里的 $\nu$ 指向圆柱内部; 若另取外法向, 第一基本形式不变, 第二基本形式为 $-\dd t^2$, 主曲率变为 $0,-1$.
+\end{solution}
+
+\begin{exercise}\label{ps:4-4}
+原题 Problem 4, $4$ 分. 设 $f$ 参数化标准单位球面的一部分, 其各点的单位法向量为 $\nu(x)=-f(x)$. 从这一事实推出所有主曲率均等于 $+1$.
+\end{exercise}
+\begin{solution}
+由 $\nu=-f$ 得 $D\nu=-Df$. 形算子的参数域表达满足 $D\nu=-Df\,S$, 这是命题\ref{prop:shape}的 Weingarten 关系. 因为 $Df$ 单射, 两式相比较给出 $S=\id$. 因而每个非零切向量都是主方向, 两个主曲率均为 $+1$. 若在一般维数的单位球面上作同样计算, 则所有 $n$ 个主曲率同样等于 $+1$.
+\end{solution}
+
+\begin{exercise}\label{ps:4-5}
+原题 Problem 5, $6$ 分. 对超曲面, 定义其在点 $x$ 的第三基本形式为
+\[
+ \mathrm{III}_x(X,Y)=\langle KX,Y\rangle,
+ \qquad k_{ij}(x)=\langle\partial_{x_i}\nu,\partial_{x_j}\nu\rangle,
+\]
+其中 $K$ 的矩阵系数为 $k_{ij}$. 证明
+\[
+ \mathrm{III}_x(X,Y)=\I_x(L^2X,Y).
+\]
+这里 $L$ 是原课程的形算子, 即本书记作 $S$ 的算子; $K$ 在本题中表示系数矩阵, 不是 Gauss 曲率.
+\end{exercise}
+\begin{solution}
+固定点 $x$, 将 $X,Y$ 看作参数域中的向量. 按 $k_{ij}$ 的定义及其对称性,
+\[
+ \mathrm{III}_x(X,Y)=\langle D\nu_x(X),D\nu_x(Y)\rangle.
+\]
+由 $D\nu=-Df\,L$ 和第一基本形式的定义,
+\[
+ \mathrm{III}_x(X,Y)
+ =\langle Df_x(LX),Df_x(LY)\rangle
+ =\I_x(LX,LY).
+\]
+形算子关于 $\I_x$ 自伴, 因为第二基本形式对称; 其证明见命题\ref{prop:shape}. 所以 $\I_x(LX,LY)=\I_x(L^2X,Y)$, 结论成立.
+
+\par\Needspace{6\baselineskip}
+同一结论也可逐矩阵核对. 若 $g$ 是第一基本形式矩阵, $h=gL$ 是第二基本形式矩阵, 则
+\[
+ (k_{ij})=(D\nu)^{\mathsf T}D\nu
+ =L^{\mathsf T}gL=gL^2=h g^{-1}h.
+\]
+这说明第三基本形式总是半正定, 即使第二基本形式不定, 也不会影响本题的恒等式.
+\end{solution}

@@ -1,0 +1,132 @@
+\par\Needspace{13\baselineskip}
+\originalchapter{官方作业七}
+题面译自 Paul Seidel 的 MIT 18.950 Differential Geometry, Fall 2008,
+\href{https://ocw.mit.edu/courses/18-950-differential-geometry-fall-2008/resources/homework7/}{Homework 7}.
+以下解答均为 AI 独立推导, 不是官方答案; 公开原题文件未附解答.
+本组题中的正常坐标依 Corollary 21.3 解释: 在指定点 $p$ 有 $g_{ij}(p)=\delta_{ij}$ 及 $\partial_k g_{ij}(p)=0$.
+这只是度量在该点的一阶归一化条件, 不附加指数坐标中径向直线为测地线的条件.
+
+\begin{exercise}\label{ps:7-1}
+原题第 $1$ 题, $10$ 分. 补全局部正常坐标存在性的证明, 即 Corollary 21.3.
+可以使用课堂已经勾勒的开头, 但在这种情况下须为阅卷者概述该开头; 也可以自行给出证明.
+\end{exercise}
+\begin{solution}
+下面直接构造坐标替换, 分别控制它的一阶和二阶导数. 设初始参数为 $x$, 待归一化的点为 $p$, 度量矩阵为 $g(x)$. 正则性使 $G=g(p)$ 正定. 取正定矩阵 $A=G^{-1/2}$, 首先令 $x=p+Au$. 第一基本形式按雅可比矩阵作合同变换, 与命题\ref{prop:metric-transform}的公式相同:
+\[
+ \bar g(u)=A^{\mathsf T}g(p+Au)A,\qquad \bar g(0)=\id.
+\]
+这里 $\det A>0$, 所以该线性变换保持参数定向. 它完成度量值的归一化, 还没有消除一阶导数.
+
+在 $u$ 坐标中计算 Christoffel 符号, 记
+\[
+ C^k_{ij}=\bar\Gamma^k_{ij}(0)
+ =\tfrac12\bigl(\partial_i\bar g_{jk}
+                 +\partial_j\bar g_{ik}
+                 -\partial_k\bar g_{ij}\bigr)(0).
+\]
+这是式\eqref{eq:christoffel}在 $\bar g(0)=\id$ 时的表达, 对任意 $n$ 维参数域同样由度量求导得出. 由于度量对称, $C^k_{ij}=C^k_{ji}$. 两个这样的表达相加可逐项消去交叉导数, 给出
+\[
+ \partial_\ell\bar g_{ij}(0)=C^j_{\ell i}+C^i_{\ell j}.
+\]
+这正说明应怎样选择二阶换元项来消掉度量的一阶项.
+
+定义从新参数 $y$ 到 $u$ 的映射
+\[
+ u^k=\Psi^k(y)=y^k-\frac12\sum_{i,j=1}^nC^k_{ij}y^iy^j.
+\]
+它满足 $\Psi(0)=0$, $D\Psi(0)=\id$ 及 $\partial_i\partial_j\Psi^k(0)=-C^k_{ij}$. 由逆函数定理, 缩小 $0$ 的邻域后, $\Psi$ 是光滑局部微分同胚; 再由行列式连续性可确保 $\det D\Psi>0$. 因此它确实给出合法的局部重新参数化.
+
+新度量为
+\[
+ \widetilde g_{ij}(y)
+ =\sum_{a,b}\bar g_{ab}(\Psi(y))\partial_i\Psi^a(y)\partial_j\Psi^b(y).
+\]
+在原点 $D\Psi=\id$, 所以 $\widetilde g_{ij}(0)=\delta_{ij}$. 对上式求一次导数, 在原点使用乘积法则得
+\[
+ \begin{aligned}
+ \partial_\ell\widetilde g_{ij}(0)
+ &=\partial_\ell\bar g_{ij}(0)
+   +\partial_\ell\partial_i\Psi^j(0)
+   +\partial_\ell\partial_j\Psi^i(0)\\
+ &=\partial_\ell\bar g_{ij}(0)-C^j_{\ell i}-C^i_{\ell j}=0.
+ \end{aligned}
+\]
+于是 $\widetilde f(y)=f(p+A\Psi(y))$ 的坐标满足全部所需条件. 证明只用了正定矩阵的平方根、度量换元公式和逆函数定理, 没有把点态的一阶条件强化为整个邻域内的平坦性.
+\end{solution}
+
+\begin{exercise}\label{ps:7-2}
+原题第 $2$ 题, $4$ 分. 设 $f:U\to\R^{n+1}$ 为超曲面参数片, $0\in U$, 并假设其``第二基本形式''满足
+\[
+ g_{ij}(x)=g_{ij}(-x).
+\]
+证明该点附近的度量处于正常坐标.
+\end{exercise}
+\begin{remark}
+原题印刷文字确实是 ``second fundamental form'', 同时使用 $g_{ij}$, 后者在本课程是第一基本形式的记号. 本题保留这个原文矛盾. 若条件指第二基本形式, 结论不成立; 若条件指第一基本形式, 可得到一阶导数为零, 但仍需常线性变换把 $g(0)$ 归一化为单位矩阵.
+\end{remark}
+\begin{solution}
+先按字面把条件解释为第二基本形式的系数是偶函数. 在 $U=(-1/4,1/4)^n$ 上取平面参数片
+\[
+ f(x_1,\ldots,x_n)=(x_1+x_1^2,x_2,\ldots,x_n,0).
+\]
+它的雅可比矩阵在前 $n$ 个分量中的行列式为 $1+2x_1>0$, 所以正则, Gauss 法向为恒定的 $e_{n+1}$. 第二基本形式恒为零, 当然满足偶对称. 然而第一基本形式为
+\[
+ g(x)=\operatorname{diag}\bigl((1+2x_1)^2,1,\ldots,1\bigr).
+\]
+虽然 $g(0)=\id$, 却有 $\partial_1g_{11}(0)=4\ne0$, 因而此坐标不是原题所指正常坐标. 这给出保留其他条件的平面反例.
+
+现在把条件理解为第一基本形式满足 $g(x)=g(-x)$. 若原域并非关于 $0$ 对称, 先限制到 $U\cap(-U)$ 的一个小邻域. 对偶对称恒等式在原点求导, 得
+\[
+ \partial_k g_{ij}(0)=-\partial_k g_{ij}(0),\qquad
+ \partial_k g_{ij}(0)=0.
+\]
+但这个条件没有指定 $g(0)$ 的值. 例如线性平面参数片
+$f(x)=(2x_1,x_2,\ldots,x_n,0)$ 的度量恒为 $\operatorname{diag}(4,1,\ldots,1)$, 仍为偶函数, 却没有 $g(0)=\id$.
+
+因此还需一项常线性归一化. 令 $G=g(0)$、$A=G^{-1/2}$, 取 $x=Ay$. 新度量满足
+\[
+ \widehat g(y)=A^{\mathsf T}g(Ay)A,\qquad \widehat g(0)=\id.
+\]
+它仍是偶函数, 且直接按链式法则得到
+\[
+ \partial_{y_k}\widehat g(0)
+ =A^{\mathsf T}\left(\sum_\ell A_{\ell k}\partial_{x_\ell}g(0)\right)A=0.
+\]
+故经这个常线性变换后, 坐标满足 Corollary 21.3 的正常条件. 若已经另有 $g(0)=\id$, 原坐标就已经正常. 这说明题意按第一基本形式理解时可成立的准确版本; 原句按第二基本形式理解, 或在没有归一化时声称原坐标已满足全部正常条件, 都不能证明.
+\end{solution}
+
+\begin{exercise}\label{ps:7-3}
+原题第 $3$ 题, $6$ 分. 设 $f:U\to\R^3$ 为曲面参数片, 其在 $x_0$ 处的坐标为正常坐标. 写出该点 Gauss 曲率的一个简单公式.
+\end{exercise}
+\begin{solution}
+下列全部导数都在 $x_0$ 处取值. 由于 $g_{ij}=\delta_{ij}$、$\partial_k g_{ij}=0$, 式\eqref{eq:christoffel}给出 $\Gamma^k_{ij}=0$. 对本书的曲率约定,
+\[
+ R(\partial_1,\partial_2)\partial_2
+ =\nabla_1\nabla_2\partial_2-\nabla_2\nabla_1\partial_2.
+\]
+坐标场的 Lie 括号为零. 在 $x_0$ 处, 展开上式时所有两个 Christoffel 符号的乘积都为零, 因而 $\partial_1$ 分量为
+\[
+ \partial_1\Gamma^1_{22}-\partial_2\Gamma^1_{12}.
+\]
+该点 $\partial_1,\partial_2$ 为单位正交标架, Gauss 方程\eqref{eq:gauss-eq}使这个分量恰好是 $K$.
+
+求 Christoffel 符号的导数时, 还要说明逆度量的导数为何消失. 因为 $\partial_k g=0$, 微分 $g^{-1}g=\id$ 给出 $\partial_k g^{-1}=0$. 所以对式\eqref{eq:christoffel}求导后, 在 $x_0$ 处有
+\[
+ \partial_1\Gamma^1_{22}
+ =\partial_1\partial_2g_{12}-\tfrac12\partial_1^2g_{22},\qquad
+ \partial_2\Gamma^1_{12}=\tfrac12\partial_2^2g_{11}.
+\]
+得到所求简式
+\[
+ \boxed{K(x_0)=
+ \left(\partial_1\partial_2g_{12}
+       -\tfrac12\partial_1^2g_{22}
+       -\tfrac12\partial_2^2g_{11}\right)(x_0).}
+\]
+例如对 $f(x,y)=(x,y,\phi(x,y))$, 若 $D\phi(0)=0$, 则图像坐标在原点满足正常条件. 由 $g_{ij}=\delta_{ij}+\phi_i\phi_j$ 可计算
+\[
+ \partial_1\partial_2g_{12}=\phi_{11}\phi_{22}+\phi_{12}^2,
+ \qquad \partial_1^2g_{22}=\partial_2^2g_{11}=2\phi_{12}^2
+\]
+均在原点取值. 代入得到 $K(0)=\phi_{11}\phi_{22}-\phi_{12}^2$, 与命题\ref{prop:graph-curvature}在 $D\phi(0)=0$ 时的公式相同, 核对了曲率符号和二分之一系数.
+\end{solution}

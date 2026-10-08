@@ -1,0 +1,150 @@
+\par\Needspace{13\baselineskip}
+\originalchapter{官方作业10}
+题面译自 MIT 18.950 Differential Geometry, Fall 2008 的 Homework 10, 属于 Paul Seidel 的原课程材料. 以下解答由 AI 独立推导, 并非 MIT 官方答案. 原题的讲次引用和角动量不等式保留在题面, 所需校正另作批注.
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:10-1}
+原题1 (6分). 核对第32讲中旋转曲面的测地线方程.
+\end{exercise}
+\begin{remark}
+原题确实写“第32讲”. 当前官方修订讲义的测地线坐标方程见第36讲命题36.4, 旋转曲面特例见第37讲例37.2. 下解按这两处实际公式核对. 例37.2第二式分母写作 $l_1(x_1)$, 沿曲线求值时应读作 $l_1(c_1(t))$.
+\end{remark}
+\begin{solution}
+取单位速度平面母线 $l(s)=(l_1(s),l_2(s))$, 即 $(l_1')^2+(l_2')^2=1$, 并在 $l_1(s)>0$ 的正则区域取参数
+\[
+ f(s,\theta)=(l_1(s)\cos\theta,l_1(s)\sin\theta,l_2(s)).
+\]
+微分得到 $\langle f_s,f_s\rangle=1$, $\langle f_s,f_\theta\rangle=0$, $\langle f_\theta,f_\theta\rangle=l_1^2$. 因而度量矩阵为 $g=\operatorname{diag}(1,l_1^2)$. 代入
+\[
+ \Gamma^k_{ij}=\frac12\sum_\ell g^{k\ell}
+ (\partial_i g_{j\ell}+\partial_j g_{i\ell}-\partial_\ell g_{ij})
+\]
+得到仅有的非零项
+\[
+ \Gamma^1_{22}=-l_1l_1',\qquad
+ \Gamma^2_{12}=\Gamma^2_{21}=\frac{l_1'}{l_1}.
+\]
+所以 $\gamma(t)=f(c_1(t),c_2(t))$ 为以仿射时间参数表示的测地线, 当且仅当
+\begin{align*}
+ c_1''-l_1(c_1)l_1'(c_1)(c_2')^2&=0,\\
+ c_2''+2\frac{l_1'(c_1)}{l_1(c_1)}c_1'c_2'&=0.
+\end{align*}
+这正是修订讲义第37讲的公式. 母线不以弧长参数表示时, 第一度量系数不再是1, 不能直接照用此式.
+\end{solution}
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:10-2}
+原题2 (6分). 仍考虑旋转曲面. 对 $c:I\to\R^2$, 定义角动量为 $\tau=l_1(c)^2c_2'$. 证明: 若 $\gamma=f(c)$ 为测地线, 则 $\tau$ 为常数.
+
+现在考虑将平面曲线 $\{x_1^2=1+x_2^2\}$ 旋转而成的双曲面. 以下只考虑单位速度测地线. 证明: 角动量 $<1$ 的测地线从双曲面的一端走到另一端, 而角动量 $>1$ 的测地线被限制在双曲面的一半.
+\end{exercise}
+\begin{remark}
+课程记号 $l_1(c)$ 表示 $l_1(c_1)$. 原题后半的不等式没有绝对值, 对允许负角动量的定义而言第一句不成立. 下解先给反例, 再证明正确的 $|\tau|<1$ 和 $|\tau|>1$ 版本, 并补出 $|\tau|=1$ 的行为. “走到两端”针对最大延拓的完整测地线轨迹; 任取短参数区间只会截出其中一段.
+\end{remark}
+\begin{solution}
+由上一题第二式,
+\[
+ \frac{\dd}{\dd t}\bigl(l_1(c_1)^2c_2'\bigr)
+ =2l_1l_1'c_1'c_2'+l_1^2c_2''=0,
+\]
+故 $\tau$ 为常数. 正负号记录环向运动方向, 没有理由预先把它限定为非负.
+
+取高度 $z=x_2$ 和角坐标 $\theta$, 双曲面参数化为
+\[
+ X(z,\theta)=(\sqrt{1+z^2}\cos\theta,\sqrt{1+z^2}\sin\theta,z).
+\]
+这是欧氏空间中的单叶双曲面. 第一基本形式及守恒量为
+\[
+ \I=A(z)\dd z^2+(1+z^2)\dd\theta^2,\quad
+ A(z)=\frac{1+2z^2}{1+z^2},\quad
+ \tau=(1+z^2)\dot\theta.
+\]
+高度不是母线弧长, 所以径向度量系数必须保留 $A(z)$. 单位速度给出
+\begin{equation}\label{eq:ps10-radial}
+ \dot z^2=\frac{1+z^2-\tau^2}{1+2z^2},\qquad
+ \dot\theta=\frac{\tau}{1+z^2}.
+\end{equation}
+所有这样的测地线都能延拓到 $t\in\R$: 将角坐标连续提升至实数, 有 $|\dot z|\le1$ 和 $|\dot\theta|\le|\tau|$, 所以有限时间内的坐标与速度留在紧集. 度量系数在所有有限 $z$ 处光滑且正定, 光滑测地线 ODE 因而不会在有限时间失去延拓.
+
+\textbf{原句的反例.} 取初值 $z(0)=\sqrt3$, $\dot z(0)=0$, $\dot\theta(0)=-1/2$. 初速度的长度平方为 $(1+3)/4=1$, 角动量为 $\tau=-2<1$. 光滑 ODE 给出唯一的完整测地线. 但式\eqref{eq:ps10-radial}强迫 $|z|\ge\sqrt3$; 由连续性, 它始终在 $z\ge\sqrt3$ 一侧, 不可能走到另一端. 这满足原题其他条件, 却否定其 $\tau<1$ 断言.
+
+\textbf{当 $|\tau|<1$.} 式\eqref{eq:ps10-radial}的右侧处处为正, 所以 $\dot z$ 从不为零且不变号. 更精确地,
+\[
+ |\dot z|\ge\sqrt{\min\{1-\tau^2,\,1/2\}}>0.
+\]
+这是因为 $(z^2+1-\tau^2)/(1+2z^2)$ 在 $z^2\ge0$ 上的下确界是 $\min\{1-\tau^2,1/2\}$. 在全实数时间上积分这个正下界, 得到 $z$ 在一个时间方向趋于 $+\infty$, 另一方向趋于 $-\infty$. 因而测地线确实连接两端.
+
+\textbf{当 $|\tau|>1$.} 非负的 $\dot z^2$ 强迫
+\[
+ |z|\ge\sqrt{\tau^2-1}>0.
+\]
+连续轨迹不能从正高度越到负高度, 因而始终限制在一个半面. 边界高度是转向点而非纬线测地线: 高度方程为
+\[
+ \ddot z+\frac{A'(z)}{2A(z)}\dot z^2
+ -\frac z{A(z)}\dot\theta^2=0.
+\]
+在 $\dot z=0$ 且 $z^2=\tau^2-1$ 处, 有 $\ddot z=z/(A(z)\tau^2)\ne0$.
+
+\textbf{当 $|\tau|=1$.} 腰圆 $z=0$, $\theta=\theta_0+\tau t$ 是单位速度测地线. 若其他测地线在某时刻达到 $z=0$, 则式\eqref{eq:ps10-radial}给出 $\dot z=0$, 唯一性迫使它就是腰圆. 所以非腰圆轨迹始终在某一半面, $\dot z$ 不为零, 并满足
+\[
+ |\dot z|=\frac{|z|}{\sqrt{1+2z^2}}.
+\]
+分离变量后, 时间差的绝对值为 $\bigl|\int \sqrt{1+2z^2}\,\dd z/z\bigr|$. 该积分在 $z\to0$ 时呈对数发散, 在 $|z|\to\infty$ 时也发散. 因而每条非腰圆轨迹在一个无限时间方向渐近腰圆, 在另一个方向走向同侧无穷远端, 仍不连接两端.
+\end{solution}
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:10-3}
+原题3 (8分). 在 $\R^n$ 中, 单位质量粒子受由势函数 $V:\R^n\to\R$ 给出的力作用时, 遵循牛顿方程 $\gamma''=-\nabla V(\gamma)$.
+
+现在设 $M\subset\R^{n+1}$ 为超曲面, $V:M\to\R$ 为光滑势函数, 研究被约束在 $M$ 上的单位质量粒子的运动.
+\begin{enumerate}[label=(\roman*)]
+\item $\gamma(t)\in M$ 应满足什么运动方程?
+\item 设 $f$ 为 $M$ 的一个局部参数化, $V^f(x)=V(f(x))$, 并写 $\gamma(t)=f(c(t))$. 求 $c(t)$ 的方程, 并检查该方程在更换参数化 (由一个 $f$ 换为另一个 $f$) 时确实不变.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{(i) 内蕴运动方程.} 定义切向梯度 $\grad_M V$ 为满足
+\[
+ \langle\grad_M V,Y\rangle=\dd V(Y),\qquad Y\in TM,
+\]
+的唯一切向量场. 势力是 $-\grad_M V$, 约束力只沿法向作用, 所以运动方程为
+\[
+ \nabla_{\dot\gamma}\dot\gamma=-\grad_M V(\gamma).
+\]
+等价地, 环境加速度的切向投影为 $-\grad_M V$. 若取任一局部光滑环境延拓 $\widetilde V$, 则 $\grad_M V=(\nabla\widetilde V)^\top$; 两个延拓之差在 $M$ 上为零, 其沿任意切向的导数为零, 所以投影与延拓选择无关. 按本书 $S=-\dd N$ 的约定, Gauss 分解还把完整环境方程写成
+\[
+ \gamma''=-\grad_M V+\II(\dot\gamma,\dot\gamma)N.
+\]
+最后一项就是维持曲面约束的法向加速度.
+
+\textbf{(ii) 坐标方程.} 记 $f_i=\partial_i f$, $g_{ij}=\langle f_i,f_j\rangle$, $(g^{ij})=(g_{ij})^{-1}$. 在本题中对重复上下指标求和. 由 $\langle\grad_M V,f_j\rangle=\partial_j V^f$, 得
+\[
+ \grad_M V=f_k g^{k\ell}\partial_\ell V^f.
+\]
+另一方面, $\gamma''=f_k\ddot c^k+f_{ij}\dot c^i\dot c^j$, 而 $f_{ij}$ 的切向分量为 $f_k\Gamma^k_{ij}$. 比较切向基 $f_k$ 的系数, 得
+\begin{equation}\label{eq:ps10-newton}
+ \ddot c^k+\Gamma^k_{ij}(c)\dot c^i\dot c^j
+ =-g^{k\ell}(c)\partial_\ell V^f(c),\qquad k=1,\ldots,n.
+\end{equation}
+这里 $\Gamma^k_{ij}=\tfrac12g^{k\ell}(\partial_i g_{j\ell}+\partial_j g_{i\ell}-\partial_\ell g_{ij})$.
+
+\textbf{换坐标核验.} 设新参数化为 $\widetilde f(u)=f(\psi(u))$, $\psi$ 为坐标域之间的光滑微分同胚, $J^i_a=\partial_a\psi^i$. 将 $c=\psi(d)$, 则新度量和势函数满足
+\[
+ \widetilde g_{ab}=g_{ij}J^i_aJ^j_b,\qquad
+ V^{\widetilde f}=V^f\circ\psi.
+\]
+对 $\widetilde f$ 二次微分并取切向分量, 得到连接系数变换式
+\[
+ \widetilde\Gamma^a_{bc}
+ =(J^{-1})^a_k\bigl(\Gamma^k_{ij}J^i_bJ^j_c
+ +\partial_b\partial_c\psi^k\bigr).
+\]
+链式法则于是给出
+\begin{align*}
+ \ddot c^k+\Gamma^k_{ij}\dot c^i\dot c^j
+ &=J^k_a\bigl(\ddot d^a+\widetilde\Gamma^a_{bc}\dot d^b\dot d^c\bigr),\\
+ \widetilde g^{ab}\partial_b V^{\widetilde f}
+ &=(J^{-1})^a_k g^{k\ell}\partial_\ell V^f.
+\end{align*}
+所有旧坐标系数在 $\psi(d)$ 求值, 新系数在 $d$ 求值. 将式\eqref{eq:ps10-newton}两侧左乘 $J^{-1}$, 正好得到新参数化中的同一运动方程. 因而该方程对曲面坐标变换不变, 所描述的轨迹与选用哪个局部参数化无关.
+\end{solution}

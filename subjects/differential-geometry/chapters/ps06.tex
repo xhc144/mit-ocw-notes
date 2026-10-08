@@ -1,0 +1,175 @@
+\par\Needspace{13\baselineskip}
+\originalchapter{官方作业六}
+题面译自 Paul Seidel 的 MIT 18.950 Differential Geometry, Fall 2008,
+\href{https://ocw.mit.edu/courses/18-950-differential-geometry-fall-2008/resources/homework6/}{Homework 6}.
+以下解答均为 AI 独立推导, 不是官方答案; 公开原题文件未附解答.
+
+\begin{exercise}\label{ps:6-1}
+原题第 $1$ 题, $6$ 分. 详细展开星期三课堂所讨论的 ``hump reversal'' 方法; 另参见教材第 $157$ 页, Remark 4.25(ii). 验证所得曲面确实具有相同的第一基本形式, 但一般具有不同的第二基本形式.
+\end{exercise}
+\begin{remark}
+原题所指课堂讨论的具体构造及教材该段未在本次提供的公开讲义中展开. 下面用两个光滑隆起的图像给出一个自足的独立实现, 实现题目要求的两种基本形式关系; 不将它称为对课堂或教材例子的复原.
+\end{remark}
+\begin{solution}
+图像曲面 $f(x,y)=(x,y,u(x,y))$ 的第一基本形式依赖梯度的二次乘积, 而第二基本形式依赖 Hessian. 因此在一块隆起上令 $u$ 变号会保持第一基本形式, 却改变第二基本形式. 为了能只翻转其中一块, 还需把隆起与周围平面光滑接起来.
+
+定义标准光滑函数
+\[
+ b(t)=\begin{cases}e^{-1/t},&t>0,\\0,&t\le0.\end{cases}
+\]
+在 $t>0$ 上的任意阶导数都是 $e^{-1/t}$ 乘以 $1/t$ 的某个多项式, 当 $t\to0^+$ 时均趋于零. 因而这个分段定义给出了光滑函数, 且 $b$ 在 $0$ 处的所有阶导数均为零.
+
+在平面中取两块支撑互不相交的隆起
+\[
+ u_-(x,y)=b\bigl(1-(x+2)^2-y^2\bigr),\qquad
+ u_+(x,y)=b\bigl(1-(x-2)^2-y^2\bigr).
+\]
+它们分别支撑在中心 $(-2,0)$、$(2,0)$ 的闭单位圆盘上, 两圆盘互不相交. 现在定义
+\[
+ u=u_-+u_+,\qquad v=-u_-+u_+,\qquad
+ f=(x,y,u),\quad \widetilde f=(x,y,v).
+\]
+两个映射都在整个 $\R^2$ 上光滑、单射且正则, 因为前两个分量就是参数坐标. $\widetilde f$ 将左侧隆起翻到平面下方, 同时保持右侧隆起不动.
+
+记 $x_1=x,x_2=y$. 对图像有 $g_{ij}=\delta_{ij}+u_i u_j$. 两块支撑不交, 所以在左侧圆盘上 $v_i=-u_i$, 在右侧圆盘上 $v_i=u_i$, 在两者外均为零. 圆盘边界上所有导数也为零. 因而逐点有
+\[
+ \widetilde g_{ij}=\delta_{ij}+v_i v_j
+ =\delta_{ij}+u_i u_j=g_{ij}.
+\]
+同一参数域上的恒等映射就是这两个曲面之间的等距对应, 所有曲线长度和夹角均相同.
+
+为比较第二基本形式, 两个曲面均取向上的法向
+\[
+ N_u=\frac{(-u_x,-u_y,1)}{\sqrt{1+|\nabla u|^2}},\qquad
+ N_v=\frac{(-v_x,-v_y,1)}{\sqrt{1+|\nabla v|^2}}.
+\]
+由命题\ref{prop:graph-curvature}, $h_{ij}=u_{ij}/\sqrt{1+|\nabla u|^2}$. 两个分母逐点相同, 而左侧圆盘上 $v_{ij}=-u_{ij}$、右侧圆盘上 $v_{ij}=u_{ij}$. 所以左侧的第二基本形式变号, 右侧的第二基本形式保持不变.
+
+这不是只有形式上的可能差异. 在左侧中心 $(-2,0)$, 梯度为零, 且 $b'(1)=e^{-1}$, 故
+\[
+ [h_f]_{(-2,0)}=-\frac2e\,\id,\qquad
+ [h_{\widetilde f}]_{(-2,0)}=\frac2e\,\id.
+\]
+在右侧中心 $(2,0)$, 两者均为 $-2\id/e$. 因而两曲面的第二基本形式确实不同, 并且不能用一个全局法向反转使它们在这个参数对应下相同. 光滑平坦的接合保证翻转边界处没有折痕, 这正是独立构造中必须核查的步骤.
+\end{solution}
+
+\begin{exercise}\label{ps:6-2}
+原题第 $2$ 题, $8$ 分. 设 $f:U\to\R^3$ 为曲面参数片, 第一基本形式满足
+\[
+ g_{12}(x)=0,\qquad g_{11}(x)=g_{22}(x)=e^{\psi(x)}.
+\]
+求其 Gauss 曲率. 再用形如 $f(x)=(f_1(x),f_2(x),0)$ 的曲面核对结果, 其中 $(f_1,f_2)$ 满足 Cauchy--Riemann 方程
+\[
+ \partial_1 f_1=\partial_2 f_2,\qquad
+ \partial_1 f_2=-\partial_2 f_1.
+\]
+\end{exercise}
+\begin{solution}
+原题的指数为 $\psi$, 不是 $2\psi$. 将命题\ref{prop:metric-K}中的共形因子写成 $\psi/2$, 可得
+\[
+ \boxed{K=-\tfrac12e^{-\psi}(\psi_{11}+\psi_{22}).}
+\]
+下面给出连接形式的计算, 以核对系数与符号. 取正向单位正交标架 $e_i=e^{-\psi/2}\partial_i$. 由式\eqref{eq:christoffel},
+\[
+ \Gamma^k_{ij}
+ =\tfrac12\bigl(\delta_{kj}\psi_i+\delta_{ki}\psi_j
+                 -\delta_{ij}\psi_k\bigr).
+\]
+代入 $\nabla e_1=\omega e_2$ 得
+\[
+ \omega=-\tfrac12\psi_2\dd x_1+\tfrac12\psi_1\dd x_2,
+ \qquad \dd\omega=\tfrac12(\psi_{11}+\psi_{22})\dd x_1\wedge\dd x_2.
+\]
+而定向面积形式为 $\dd A=e^\psi\dd x_1\wedge\dd x_2$. 由命题\ref{prop:connection-curvature}的 $\dd\omega=-K\dd A$, 正好得到上述公式.
+
+现在核对平面图像. 令 $a=\partial_1f_1=\partial_2f_2$, $b=\partial_1f_2=-\partial_2f_1$. 则
+\[
+ \partial_1f=(a,b,0),\qquad \partial_2f=(-b,a,0),
+ \qquad g_{11}=g_{22}=q:=a^2+b^2,\quad g_{12}=0.
+\]
+正则性要求 $q>0$, 因而 $\psi=\log q$ 定义良好. 对 Cauchy--Riemann 方程再求导, 得 $a_1=b_2$、$a_2=-b_1$, 以及 $\Delta a=\Delta b=0$. 于是
+\[
+ |\nabla a|^2=|\nabla b|^2,\qquad
+ \langle\nabla a,\nabla b\rangle=0.
+\]
+这两个关系给出
+\[
+ \Delta q=4|\nabla a|^2,\qquad
+ |\nabla q|^2=4q|\nabla a|^2,\qquad
+ \Delta\log q=\frac{q\Delta q-|\nabla q|^2}{q^2}=0.
+\]
+因此曲率公式得 $K=0$. 另一方面曲面像位于平面 $y_3=0$, 单位法向恒定, 形算子为零, Gauss 曲率也为零, 两种计算相符. 若 $q=0$, 映射不再是曲面参数片, 不能在该点套用此公式.
+\end{solution}
+
+\par\Needspace{8\baselineskip}
+\begin{exercise}\label{ps:6-3}
+原题第 $3$ 题, $3$ 分. 写出另一个旋转曲面, 除课堂讨论的伪球面之外, 使其各点的 Gauss 曲率均为 $-1$.
+\end{exercise}
+\begin{solution}
+对弧长母线的旋转曲面, 命题\ref{prop:rotation}给出 $K=-r''/r$. 因而可选一个满足 $r''=r$ 的正函数, 再保证它能成为欧氏平面中的弧长母线. 取
+\[
+ r(s)=\cosh s,\qquad
+ z(s)=\int_0^s\sqrt{1-\sinh^2 u}\dd u,
+ \qquad |s|<\log(1+\sqrt2).
+\]
+该区间内 $|\sinh s|<1$, 因而被积函数光滑、严格为正. 又有
+\[
+ r'(s)^2+z'(s)^2=\sinh^2s+1-\sinh^2s=1.
+\]
+所以 $s$ 确为母线弧长. 定义参数片
+\[
+ f(s,t)=(\cosh s\cos t,\cosh s\sin t,z(s)),
+ \qquad |s|<\log(1+\sqrt2),\quad -\pi<t<\pi.
+\]
+第一基本形式为 $\dd s^2+\cosh^2s\dd t^2$, 处处正定, 并且
+\[
+ K=-\frac{r''}{r}=-\frac{\cosh s}{\cosh s}=-1.
+\]
+这条母线在 $s=0$ 有内部腰部, $r'(0)=0$, 与伪球面常用母线 $r(s)=e^s$ 的单调半径不同. 所给区间是构造的正则范围; 题目只要求一个旋转曲面, 不要求它完备, 也没有由此构造得到整个双曲平面的全局实现.
+\end{solution}
+
+\begin{exercise}\label{ps:6-4}
+原题第 $4$ 题, $3$ 分. 给定超曲面参数片 $f$, 定义
+\[
+ \widetilde f(x_1,\ldots,x_n)=f(x_1,\ldots,x_{n-1},-x_n).
+\]
+$f$ 的平均曲率、标量曲率及 Gauss 曲率与 $\widetilde f$ 的对应曲率有什么关系?
+\end{exercise}
+\begin{solution}
+记 $P=\operatorname{diag}(1,\ldots,1,-1)$, 则 $\widetilde f=f\circ P$, 定义域为 $P^{-1}U$. 所有比较均在 $x$ 与 $Px$ 这对对应参数点之间进行.
+
+先采用原课程的 Gauss 法向约定
+\[
+ \det(f_1,\ldots,f_n,\nu)>0.
+\]
+因为 $\det P=-1$, 新参数定向反转. 用同一个环境空间定向重新选取 Gauss 法向, 必须取 $\widetilde\nu(x)=-\nu(Px)$. 因而
+\[
+ \widetilde g(x)=P^{\mathsf T}g(Px)P,\qquad
+ \widetilde h(x)=-P^{\mathsf T}h(Px)P,\qquad
+ \widetilde S(x)=-P^{-1}S(Px)P.
+\]
+前两式分别由一阶、二阶导数的链式法则得到; 第三式由 $S=g^{-1}h$ 得到. 因此新主曲率是原主曲率的相反数, 不计排列.
+
+原课程 Definition 14.4 采用
+\[
+ \kappa_{\mathrm{mean}}=\sum_i\lambda_i,\qquad
+ \kappa_{\mathrm{scalar}}=\sum_{i<j}\lambda_i\lambda_j,\qquad
+ \kappa_{\mathrm{gauss}}=\prod_i\lambda_i.
+\]
+每个二次乘积都保持不变, 每个一次因子则变号. 所以
+\[
+ \begin{aligned}
+ \widetilde\kappa_{\mathrm{mean}}(x)&=-\kappa_{\mathrm{mean}}(Px),\\
+ \widetilde\kappa_{\mathrm{scalar}}(x)&=\kappa_{\mathrm{scalar}}(Px),\\
+ \widetilde\kappa_{\mathrm{gauss}}(x)&=(-1)^n\kappa_{\mathrm{gauss}}(Px).
+ \end{aligned}
+\]
+特别在二维曲面上, 本书 $H=\kappa_{\mathrm{mean}}/2$ 也变号, 而 $K$ 不变. 原课程的标量曲率等于常见 Riemann 标量曲率的二分之一; 这个常数不影响此处的不变性.
+
+如果只作参数替换, 而在几何曲面上保持原先选定的法向, 则应取 $\widetilde N(x)=\nu(Px)$, 此时它不再是新参数定向下的 Gauss 法向. 相应地,
+\[
+ \widetilde h=P^{\mathsf T}h(Px)P,\qquad
+ \widetilde S=P^{-1}S(Px)P,
+\]
+全部主曲率以及题目列出的三种曲率都保持原值. 因此变号来自法向的反转, 不能把保持法向的坐标改写与重新按参数定向选法向混为一谈.
+\end{solution}

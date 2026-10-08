@@ -1,0 +1,103 @@
+\par\Needspace{13\baselineskip}
+\originalchapter{官方作业五}
+题面译自 Paul Seidel 的 MIT 18.950 Differential Geometry, Fall 2008,
+\href{https://ocw.mit.edu/courses/18-950-differential-geometry-fall-2008/resources/homework5/}{Homework 5}.
+以下解答均为 AI 独立推导, 不是官方答案; 公开原题文件未附解答.
+
+\begin{exercise}\label{ps:5-1}
+原题第 $1$ 题, $10$ 分. 设 $f$ 为超曲面参数片, 它的像位于半空间
+\[
+ \{y_{n+1}\ge0\}\subset\R^{n+1},
+\]
+且在参数点 $x=0$ 与超平面 $\{y_{n+1}=0\}$ 相切. 证明在 $x=0$ 处的主曲率满足 $\lambda_i\lambda_j\ge0$, 对所有 $i,j$ 均成立.
+\end{exercise}
+\begin{solution}
+令 $q(x)=f_{n+1}(x)$ 为高度函数. 题设给出 $q\ge0$、$q(0)=0$, 所以 $0$ 是这个光滑函数在开参数域内的极小点. 对任意 $X\in\R^n$, 将 $q$ 限制到直线 $t\mapsto tX$ 上, 得
+\[
+ Dq(0)=0,\qquad D^2q(0)[X,X]\ge0.
+\]
+相切条件表明法向为 $\nu(0)=\sigma e_{n+1}$, 其中 $\sigma=1$ 或 $-1$. 第二基本形式于是为
+\[
+ \II_0(X,X)
+ =\langle D^2f(0)[X,X],\nu(0)\rangle
+ =\sigma D^2q(0)[X,X].
+\]
+因此取 $\sigma=1$ 时它半正定, 取 $\sigma=-1$ 时它半负定.
+
+由于 $f$ 是正则参数片, 第一基本形式是正定内积. 形算子关于这个内积自伴, 可取 $\I_0$-单位主方向 $X_i$. 对应主曲率满足
+\[
+ \lambda_i=\I_0(SX_i,X_i)=\II_0(X_i,X_i).
+\]
+故全部主曲率同为非负或同为非正, 两两乘积均非负. 结论允许零主曲率, 也不要求事先选择向上的法向.
+\end{solution}
+
+\begin{exercise}\label{ps:5-2}
+原题第 $2$ 题, $3$ 分. 设超曲面参数片具有图像形式 $f(x)=(x,\phi(x))$, 其中 $\phi:U\to\R$. 假设在原点 $x=0$ 处 $\phi(0)=0$, $D\phi(0)=0$. 计算该点的 Christoffel 符号及它们的一阶导数.
+\end{exercise}
+\begin{solution}
+记 $\phi_i=\partial_i\phi$, $\phi_{ij}=\partial_i\partial_j\phi$, 并令
+\[
+ w=1+\sum_a\phi_a^2.
+\]
+图像的度量矩阵及其逆矩阵为
+\[
+ g_{ij}=\delta_{ij}+\phi_i\phi_j,\qquad
+ g^{ij}=\delta_{ij}-\frac{\phi_i\phi_j}{w}.
+\]
+逆矩阵公式可直接把右侧与 $g$ 相乘验证. 又因为 $f_{ij}=(0,\phi_{ij})$, 将 Gauss 分解取切向内积可得
+\[
+ \sum_k\Gamma^k_{ij}g_{k\ell}
+ =\langle f_{ij},f_\ell\rangle
+ =\phi_{ij}\phi_\ell.
+\]
+这与式\eqref{eq:christoffel}等价. 左乘逆度量, 得到在整个参数域内成立的简式
+\[
+ \Gamma^k_{ij}=\phi_{ij}\sum_\ell g^{k\ell}\phi_\ell
+ =\frac{\phi_k\phi_{ij}}{w}.
+\]
+在原点所有 $\phi_k$ 为零, 所以 $\Gamma^k_{ij}(0)=0$. 对上式求导, 为避免漏掉乘积项, 写为
+\[
+ \partial_m\Gamma^k_{ij}
+ =\frac{\phi_{km}\phi_{ij}+\phi_k\phi_{ijm}}{w}
+ -\frac{\phi_k\phi_{ij}\,\partial_m w}{w^2}.
+\]
+原点处 $w=1$, 凡含 $\phi_k$ 的项消失. 于是所求全部数值为
+\[
+ \boxed{\Gamma^k_{ij}(0)=0,\qquad
+ \partial_m\Gamma^k_{ij}(0)=\phi_{km}(0)\phi_{ij}(0).}
+\]
+Christoffel 符号在该点为零并不意味着其导数为零; 导数恰好记录 Hessian 的二次组合. 条件 $\phi(0)=0$ 固定图像点的位置, 对这两个计算结果不起作用.
+\end{solution}
+
+\begin{exercise}\label{ps:5-3}
+原题第 $3$ 题, $7$ 分. 设 $f:U\to\R^3$ 为曲面参数片, $\nu$ 为其 Gauss 法向量. 定义距离为 $\eps$ 的平行曲面
+\[
+ \widetilde f(s,t)=f(s,t)+\eps\nu(s,t).
+\]
+证明 $f$ 与 $\widetilde f$ 的主曲率满足
+\[
+ \widetilde\lambda_i=\frac{\lambda_i}{1-\eps\lambda_i},\qquad i=1,2.
+\]
+可以假设 $\eps$ 小到足以满足论证所需条件.
+\end{exercise}
+\begin{solution}
+先固定研究点, 必要时缩小其参数邻域, 再取足够小的 $\eps$. 这样可使邻域中 $1-\eps\lambda_i>0$. 这个局部选择由主曲率的连续性保证; 不能对曲率无界的任意非紧参数域未经说明地断言存在统一的 $\eps$.
+
+以 $S$ 表示 $f$ 的形算子在参数域上的矩阵. 由命题\ref{prop:shape}中的 $D\nu=-Df\,S$,
+\[
+ D\widetilde f=Df+\eps D\nu=Df(\id-\eps S).
+\]
+矩阵 $\id-\eps S$ 可逆, 所以 $D\widetilde f$ 单射, 平行曲面正则. 两者切空间相同, $\nu$ 仍是其单位法向. 又因为 $\det(\id-\eps S)>0$, 参数定向保持, 所以 $\widetilde f$ 的 Gauss 法向就是 $\widetilde\nu=\nu$.
+
+记其形算子矩阵为 $\widetilde S$. 对同一个法向场使用 Weingarten 关系,
+\[
+ -Df\,S=D\nu=D\widetilde\nu
+ =-D\widetilde f\,\widetilde S
+ =-Df(\id-\eps S)\widetilde S.
+\]
+利用 $Df$ 单射消去它, 得
+\[
+ \widetilde S=(\id-\eps S)^{-1}S.
+\]
+若 $SX_i=\lambda_iX_i$, 则 $\widetilde S X_i=\lambda_i(1-\eps\lambda_i)^{-1}X_i$, 这就给出了两条所求公式. 若 $1-\eps\lambda_i=0$, 相应主方向被 $D\widetilde f$ 消去, 因而该距离出现奇异点; 分母非零的条件正是几何上的正则性条件.
+\end{solution}

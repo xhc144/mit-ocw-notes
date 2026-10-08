@@ -1,0 +1,83 @@
+\par\Needspace{13\baselineskip}
+\originalchapter{官方作业8}
+题面译自 MIT 18.950 Differential Geometry, Fall 2008 的 Homework 8, 属于 Paul Seidel 的原课程材料. 以下解答由 AI 独立推导, 并非 MIT 官方答案.
+
+本章使用原课程第32--33讲的次数工具. 对紧致定向无边界 $n$ 维流形到标准定向球面的光滑映射 $F:M\to S^n$, 记球面体积形式为 $\omega$, 则
+\[
+ \deg F=\frac1{\operatorname{vol}(S^n)}\int_M F^*\omega.
+\]
+原课程定理32.5给出次数的整数性. 光滑同伦下, 被积形式连续依赖参数, 紧致性使积分连续, 故整数次数保持不变. 原课程定理33.3还给出正则值公式: 在任一正则值的有限个原像处, 把有向微分行列式的符号相加, 就得到次数. 后一结果作为本作业明确要求使用的进阶工具引用.
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:8-1}
+原题1 (10分). 设 $M\subset\R^{n+1}$ 为紧致超曲面, $p\in\R^{n+1}\setminus M$. 绕数定义为映射
+\[
+ F_p:M\longrightarrow S^n,\qquad F_p(y)=\frac{y-p}{\|y-p\|}
+\]
+的次数. 证明: 若绕数非零, 则每条满足 $c(0)=p$ 及 $\lim_{t\to\infty}\|c(t)\|=\infty$ 的光滑路径 $c:[0,\infty)\to\R^{n+1}$, 都必在某处与 $M$ 相交.
+\end{exercise}
+\begin{remark}
+次数在此按原课程的定向超曲面约定解释: $n\ge1$, $M$ 光滑、无边界并选定定向. 紧致超曲面不要求连通; 次数可对各分支相加. 这些是所用次数定义的条件, 原题没有逐一重写.
+\end{remark}
+\begin{solution}
+反设整条路径避开 $M$. 令 $R=\max_{y\in M}\|y\|$, 由逃向无穷的条件选 $T>0$, 使 $q=c(T)$ 满足 $\|q\|>R$. 两个紧集 $M$ 与 $c([0,T])$ 不相交, 因而
+\[
+ \delta=\min_{(y,t)\in M\times[0,T]}\|y-c(t)\|>0.
+\]
+这里最小值存在来自乘积的紧致性; 若最小值为0, 就会有 $y=c(t)$, 与避开假设矛盾. 因此
+\[
+ H(y,u)=\frac{y-c(uT)}{\|y-c(uT)\|},\qquad 0\le u\le1,
+\]
+是处处有定义的光滑同伦, 从 $F_p$ 连接到 $F_q$, 所以 $\deg F_p=\deg F_q$.
+
+令 $a=q/\|q\|$. 对所有 $y\in M$, 有
+\[
+ \langle y-q,a\rangle\le R-\|q\|<0.
+\]
+故 $F_q(M)$ 落在以 $-a$ 为中心的开半球内. 将这个映射显式收缩为常值映射:
+\[
+ G(y,u)=\frac{(1-u)F_q(y)-ua}{\|(1-u)F_q(y)-ua\|}.
+\]
+分子与 $a$ 的内积始终为负, 因而不可能为零. 这又是光滑同伦. 常值映射的微分为零, $n\ge1$ 时其次数为0, 得 $\deg F_p=\deg F_q=0$, 矛盾. 所以路径必与 $M$ 相交.
+\end{solution}
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:8-2}
+原题2 (10分). 求映射
+\[
+ \phi:S^2\longrightarrow S^2,\qquad
+ \phi(y_1,y_2,y_3)=
+ \frac{(y_1^2-y_2^2,\,2y_1y_2,\,y_3)}
+ {\sqrt{(y_1^2+y_2^2)^2+y_3^2}}
+\]
+的次数: (i) 通过实际计算积分 (原题强烈建议计算机辅助); (ii) 使用课堂中的更进阶结果.
+\end{exercise}
+\begin{solution}
+两球面都取外向定向. 分母平方在球面上等于 $1-y_3^2+y_3^4\ge3/4$, 所以映射光滑且处处有定义.
+
+\textbf{(i) 积分计算.} 用高度坐标
+\[
+ Q(\theta,z)=(\sqrt{1-z^2}\cos\theta,\sqrt{1-z^2}\sin\theta,z),
+ \quad 0\le\theta<2\pi,\ -1<z<1.
+\]
+有 $Q_\theta\times Q_z=Q$, 所以球面正向面积形式在此为 $\dd\theta\wedge\dd z$. 两极和角坐标切缝不影响面积积分. 记
+\[
+ D(z)=1-z^2+z^4,\qquad h(z)=\frac z{\sqrt{D(z)}}.
+\]
+直接代入原映射得到 $\phi\circ Q(\theta,z)=Q(2\theta,h(z))$. 因而
+\[
+ (\phi\circ Q)^*\omega=2h'(z)\dd\theta\wedge\dd z,
+ \qquad h'(z)=\frac{1-z^4}{(1-z^2+z^4)^{3/2}}.
+\]
+也可从行列式核对: $\det(Q_\theta,Q_z,Q)=1$, 角导数乘2, 高度导数乘 $h'(z)$. 于是实际积分为
+\begin{align*}
+ \int_{S^2}\phi^*\omega
+ &=\int_0^{2\pi}\int_{-1}^1
+ \frac{2(1-z^4)}{(1-z^2+z^4)^{3/2}}\dd z\dd\theta\\
+ &=4\pi\left[\frac z{\sqrt{1-z^2+z^4}}\right]_{-1}^{1}
+ =8\pi.
+\end{align*}
+除以目标球面的面积 $4\pi$, 得 $\deg\phi=2$. 这里积分已有显式原函数, 不需要数值近似.
+
+\textbf{(ii) 正则值计算.} 取目标点 $b=(1,0,0)$. 原像必须满足 $y_3=0$, $2y_1y_2=0$ 以及 $y_1^2-y_2^2>0$, 故恰为 $(1,0,0)$ 和 $(-1,0,0)$. 它们的高度坐标都是 $z=0$, 角坐标分别是0和 $\pi$. 在各自的局部角坐标分支中, 映射为 $(\theta,z)\mapsto(2\theta,h(z))$, 有向行列式是 $2h'(0)=2>0$. 因而 $b$ 是正则值, 两个原像各贡献 $+1$. 由原课程定理33.3, 次数同样是2.
+\end{solution}

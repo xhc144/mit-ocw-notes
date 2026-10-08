@@ -1,0 +1,89 @@
+\par\Needspace{13\baselineskip}
+\originalchapter{官方作业9}
+题面译自 MIT 18.950 Differential Geometry, Fall 2008 的 Homework 9, 属于 Paul Seidel 的原课程材料. 以下已给出的解答由 AI 独立推导, 并非 MIT 官方答案. 原题4只有引理编号, 当前公开修订讲义无法核定其待证陈述, 本章保留该题并明确注明解答缺失.
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:9-1}
+原题1 (4分). 证明环面不可能具有处处 $\ge0$ 的 Gauss 曲率 (可以使用第二次期中考试的解答).
+\end{exercise}
+\begin{remark}
+这里按课程上下文指 $\R^3$ 中的紧致光滑嵌入环面. 该嵌入条件不可省略: 抽象平坦环面 $\R^2/\Z^2$ 的 Gauss 曲率恒为0, 并不满足题中结论.
+\end{remark}
+\begin{solution}
+嵌入环面无边界且可定向, Euler 示性数为0. 由定理\ref{thm:global-gb}, $\int_MK\dd A=0$. 如果 $K\ge0$ 处处成立, 连续性迫使 $K\equiv0$: 否则某个开集上严格正, 积分就严格正.
+
+但任何非空紧致无边界嵌入曲面都有椭圆点. 为在本题中核实这个条件, 取 $a\notin M$, 令 $\|y-a\|$ 在 $p\in M$ 达最大值 $R>0$. 一阶导数给出 $p-a$ 垂直切平面. 取 $N(p)=(p-a)/R$, 对任意单位切向量 $Y$, 选曲面曲线 $\gamma$ 满足 $\gamma(0)=p$, $\gamma'(0)=Y$. 最大值处
+\[
+ 0\ge\tfrac12\left.\frac{\dd^2}{\dd t^2}\|\gamma(t)-a\|^2\right|_{t=0}
+ =1+R\II(Y,Y).
+\]
+于是两个主曲率都不大于 $-1/R$, 得 $K(p)\ge1/R^2>0$, 与 $K\equiv0$ 矛盾. 这个椭圆点论证使用环境欧氏空间, 因而不能套到抽象平坦环面上.
+\end{solution}
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:9-2}
+原题2 (6分). 令 $M=S^2$ 为标准球面. 显式求一个在 $M$ 上带奇点的移动标架, 使其 (i) 恰有两个重数为1的奇点; (ii) 恰有一个重数为2的奇点.
+\end{exercise}
+\begin{remark}
+重数取正向小圈上第一向量的绕数, 即相对于可平滑延伸的局部正标架, 角度净增加 $2\pi m$ 时记为 $m$. 这对应原讲义第34讲的矩阵约定 $X=\widetilde X\exp(m\theta J)$, $J=\left(\begin{smallmatrix}0&-1\\1&0\end{smallmatrix}\right)$. 修订讲义定义34.1的分量展开与紧接的矩阵式符号不一致; 下解按矩阵式及其 $\chi(S^2)=2$ 的约定核算.
+\end{remark}
+\begin{solution}
+球面取外向法向 $y$. 对任一非零切向量场 $W$, 令
+\[
+ E_1=\frac W{\|W\|},\qquad E_2=y\times E_1.
+\]
+两向量在 $W\ne0$ 处形成正向正交单位标架. 因此只需显式构造切向场并核对其零点和局部绕数.
+
+为精确计算, 取两个正向立体投影坐标
+\begin{align*}
+ F(u,v)&=\frac{(2u,-2v,u^2+v^2-1)}{1+u^2+v^2},\\
+ G(a,b)&=\frac{(2a,2b,1-a^2-b^2)}{1+a^2+b^2}.
+\end{align*}
+$F$ 的原点是南极, $G$ 的原点是北极. 直接微分得两图的度量分别为 $4(\dd u^2+\dd v^2)/(1+u^2+v^2)^2$ 和 $4(\dd a^2+\dd b^2)/(1+a^2+b^2)^2$. 它们在原点的切向基与外向法向相容, 由连续性在全图上相容. 因而各图的坐标切向量归一化后, 给出能平滑延伸到相应极点的局部正标架; 坐标分量的角度就是相对于这些标架的角度.
+
+\textbf{(i) 两个重数1奇点.} 取
+\[
+ W(y)=(-y_2,y_1,0).
+\]
+有 $\langle W,y\rangle=0$, 且 $W$ 仅在南北两极为零. 在北极图 $G$ 中, 场的坐标分量为 $(-b,a)$; 在南极图 $F$ 中, 分量为 $(v,-u)$. 分别沿正向小圈 $(a,b)=\rho(\cos\theta,\sin\theta)$ 与 $(u,v)=\rho(\cos\theta,\sin\theta)$, 第一向量的角度是 $\theta+\pi/2$ 与 $\theta-\pi/2$. 两者在一周内都增加 $2\pi$, 所以两奇点的重数都为1. 常数角度可吸收到平滑局部标架中, 也直接满足矩阵式的重数定义.
+
+\textbf{(ii) 一个重数2奇点.} 取全局光滑场
+\[
+ V(y)=\bigl(1-y_3-y_1^2,\,-y_1y_2,\,y_1(1-y_3)\bigr).
+\]
+利用 $y_1^2+y_2^2=1-y_3^2$, 直接展开得 $\langle V,y\rangle=0$ 和 $\|V(y)\|=1-y_3$. 因而它仅在北极为零. 在南极图中有 $V(F(u,v))=F_u(u,v)$, 这也给出其明确的构造来源: 把平面中固定方向的坐标场送到球面上.
+
+在两图重叠区域, 坐标关系为
+\[
+ a=\frac{u}{u^2+v^2},\qquad b=-\frac{v}{u^2+v^2}.
+\]
+对 $u$ 微分, 得 $V$ 在北极图中的分量为 $(b^2-a^2,-2ab)$. 沿正向小圈 $(a,b)=\rho(\cos\theta,\sin\theta)$, 这个分量向量等于 $-\rho^2(\cos2\theta,\sin2\theta)$. 归一化后角度为 $2\theta+\pi$, 一周增加 $4\pi$, 所以北极的重数为2. 常数 $\pi$ 同样可吸收到平滑局部标架中. 用 $V$ 代替 $W$ 定义 $E_1,E_2$, 即得只有这一处奇点的显式正标架.
+\end{solution}
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:9-3}
+原题3 (4分). 再取 $M=S^2$, 考虑函数 $\phi(y_1,y_2,y_3)=y_1^2$. 求
+\[
+ \int_{S^2}\phi(y)\dd\operatorname{vol}_y.
+\]
+\end{exercise}
+\begin{solution}
+旋转对称性使三个坐标平方的球面积分相等. 球面上 $y_1^2+y_2^2+y_3^2=1$, 球面面积为 $4\pi$, 故所求积分为 $4\pi/3$.
+
+直接积分也可核对: 写 $y_1=\sin\vartheta\cos\theta$, 面积元为 $\sin\vartheta\dd\vartheta\dd\theta$, 则
+\[
+ \int_{S^2}y_1^2\dd A
+ =\left(\int_0^{2\pi}\cos^2\theta\dd\theta\right)
+ \left(\int_0^\pi\sin^3\vartheta\dd\vartheta\right)
+ =\pi\cdot\frac43=\frac{4\pi}3.
+\]
+其中第二个积分令 $z=\cos\vartheta$, 化为 $\int_{-1}^1(1-z^2)\dd z=4/3$.
+\end{solution}
+
+\par\Needspace{7\baselineskip}
+\begin{exercise}\label{ps:9-4}
+原题4 (6分). 证明讲义中的引理28.3.
+\end{exercise}
+\begin{remark}
+\textbf{待证陈述未能核定, 本题暂无完整解答.} 原作业题面只有这个编号, 没有引理正文. 当前官方公开修订讲义的第28讲只有例28.1和定理28.2; 第29讲的29.3是局部参数化的定义, 也不是该引理. 因而不能仅凭编号把邻近某个结论认作本题. 这里完整保留原题引用, 待取得作业所指版本的引理正文后再补证明.
+\end{remark}

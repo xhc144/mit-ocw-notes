@@ -1,0 +1,45 @@
+\par\Needspace{10\baselineskip}
+\originalchapter{官方作业三}
+本章翻译18.950 Homework 3的三个原题, 共20分. 原PDF未载截止日, 新增解答为AI独立编写与复审. 第3题的一处旧命题编号无法在公开修订讲义中恢复, 下文逐项标明处理范围.
+
+\begin{exercise}\label{ps:3-1}
+原题PS3.1, 3分. 显式写出一条曲线 $c:[0,\infty)\to\R^2$, 使其曲率 $\kappa(t)$ 在 $t\to\infty$ 时趋于无穷大.
+\end{exercise}
+\begin{solution}\label{pssol:3-1}
+取 $c(t)=e^{-t}(\cos t,\sin t)$. 用复数写为 $e^{(-1+i)t}$, 有 $|c'|=\sqrt2e^{-t}>0$ 和 $\det(c',c'')=2e^{-2t}$. 因而曲线处处正则, 有向曲率为 $\kappa(t)=e^t/\sqrt2\to+\infty$. 这与第1章练习\ref{ex:1a}同属对数螺线计算, 但不是同一原题: 本题的半径趋于0, 原练习的半径趋于无穷大.
+\end{solution}
+
+\begin{exercise}\label{ps:3-2}
+原题PS3.2, 7分. 设 $c:\R\to\R^2$ 是周期为5的闭曲线, 并满足
+\[
+ c(t+1)=\begin{pmatrix}\cos\alpha&-\sin\alpha\\ \sin\alpha&\cos\alpha\end{pmatrix}c(t),
+ \qquad \alpha=2\pi/5.
+\]
+对 $c$ 的旋转数可以作怎样的判断?
+\end{exercise}
+\begin{solution}\label{pssol:3-2}
+原课程的闭曲线按定义正则. 微分上述等变式, 得单位切向量 $T(t+1)=R_\alpha T(t)$. 在实线上给 $T$ 选连续切角 $\theta$, 则
+\[
+ \theta(t+1)-\theta(t)-2\pi/5\in2\pi\Z.
+\]
+左侧连续, 故等于一个与 $t$ 无关的 $2\pi k$, $k\in\Z$. 累加五次得 $\theta(t+5)-\theta(t)=2\pi(1+5k)$, 所以旋转数必与1模5同余.
+
+所有 $m=1+5k$ 都能实现: 取 $c(t)=\bigl(\cos(2\pi mt/5),\sin(2\pi mt/5)\bigr)$. 因 $m\ne0$, 曲线正则, 满足指定周期5和原等变式, 旋转数恰为 $m$. 原题没有要求5是最小周期, 也没有要求简单闭曲线, 因而不能擅自把答案缩成旋转数1.
+\end{solution}
+
+\begin{exercise}\label{ps:3-3}
+原题PS3.3, 10分. 所谓折线是映射 $c:I\to\R^2$: 存在 $t_1<\cdots<t_m$, 使各段为仿射直线, 例如原件写作
+\[
+ c(t)=c_0t+v_0\ (t\le t_1),\qquad c(t)=c_1+tv_1\ (t_1\le t\le t_2),\quad\ldots
+\]
+其中 $c_i\in\R^2$, $v_i$ 为非零向量, 相邻 $v_i,v_{i+1}$ 不指向相反方向. 为折线定义合适的曲率, 并先定义闭折线, 再定义其总曲率. Hopf转角定理是否仍成立? 是否有课堂 Proposition 6.3 的对应版本? 后两个问题只需给证明概略.
+\end{exercise}
+\begin{solution}\label{pssol:3-3}
+原件首段 $c_0t+v_0$ 与随后各段 $c_i+tv_i$ 及“$v_i$ 非零”的约定不一致. 以下明确采用后一速度约定: 每段写为 $a_i+tv_i$, $v_i\ne0$, 相邻段在分点连续, 并排除反向速度. 若不要求连续, 函数可能跳跃, 则通常折线及其转角理论并不适用.
+
+闭折线可以定义为一条连续周期映射, 每个周期含有限条非零边, 首尾相接, 包括周期接缝的相邻边也不反向. 在顶点, 定义从前一条边单位方向到后一条边单位方向的有向主转角 $\beta_i\in(-\pi,\pi)$. 边内部曲率为0, 顶点曲率用角质量 $\beta_i$ 表示; 若用弧长坐标 $s$, 这是离散测度 $\sum_i\beta_i\delta_{s_i}$. 总有向曲率就是 $\sum_i\beta_i$.
+
+逐边选择切角, 在每个顶点沿上述短弧连接方向, 闭合后总切角增量为 $2\pi$ 的整数倍. 对简单闭折线, Hopf结论仍为 $\sum_i\beta_i=\pm2\pi$, 逆时针取正号. 如第2章转角定理的多边形证明, 将有 $q$ 个顶点的简单多边形三角剖分, 其内角和为 $(q-2)\pi$. 逆时针方向的有向外角为 $\beta_i=\pi-\alpha_i$, 在凹顶点该数为负, 所以 $\sum_i\beta_i=q\pi-(q-2)\pi=2\pi$. 反向遍历使所有转角变号. 一般自交闭折线只有整数倍结论, 不能直接套简单闭曲线的 $\pm2\pi$.
+
+最后一项指涉存在确切来源缺口: 现存官方 $\texttt{ch1\_revised.pdf}$ 第6讲列有 Theorem 6.1、Proposition 6.2、Example 6.3, 没有 Proposition 6.3. 因而不能据题号恢复原命题, 本项不冒称已经给出该命题的原题答案.
+\end{solution}

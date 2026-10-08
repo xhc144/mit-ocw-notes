@@ -3,7 +3,7 @@
 from pathlib import Path
 import hashlib, json, zipfile
 ROOT=Path(__file__).resolve().parents[1]
-files=[ROOT/'main.tex',ROOT/'build.sh',ROOT/'README.md',ROOT/'LICENSE.md',ROOT/'source-manifest.json']
+files=[ROOT/'main.tex',ROOT/'build.sh',ROOT/'README.md',ROOT/'LICENSE.md',ROOT/'source-manifest.json',ROOT/'assignment-inventory.json']
 files+=sorted((ROOT/'chapters').glob('*.tex'))
 files+=sorted((ROOT/'tools').glob('*.py'))
 for pkg in ['math-latex-typesetting','math-lecture-writing']:
