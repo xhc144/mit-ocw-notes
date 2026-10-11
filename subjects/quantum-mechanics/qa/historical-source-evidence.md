@@ -157,3 +157,6 @@ PDF路径：`sources/quantum-mechanics/8-06-quantum-physics-iii-spring-2018/pdf/
 明示跟随教材例题并引用图号；本PDF未包含该教材图。
 
 SHA256：`442714c3fcb5cb40e702f00cd7e92293bacc0e737ce9af9de15e19ac5b04f1a3`；PDF页数：8。
+
+
+本轮恢复更新：本表记录历史撤下事实，不能视为现行禁令。8.04作业6、7；8.05第3章及作业5、10、11；8.06作业6已按官方FAQ恢复。7份的逐项依据、署名、哈希及60页核验见 [恢复记录](rights-restoration-seven.md)。其他4份待分项审查；不作侵权结论。

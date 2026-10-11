@@ -7,3 +7,5 @@
 原件按 OCW 默认 CC BY-NC-SA 4.0 署名：MIT OpenCourseWare、Barton Zwiebach 及原文件内另署的贡献者。许可证：https://creativecommons.org/licenses/by-nc-sa/4.0/ ；OCW 条款：https://ocw.mit.edu/pages/privacy-and-terms-of-use/ 。没有 MIT 官方中文或认可的含义。
 
 明确引用/改编商业教材题目的混合 PDF 从当前目录排除；清单保留来源、校验事实和具体理由。二筛后撤的11份曾进入初批提交，正常删除没有重写Git历史，11份历史原件逐项路径、物理页证据和首次/撤下提交见[历史证据表](../../subjects/quantum-mechanics/qa/historical-source-evidence.md)。商业教材只保留书目信息，不下载或打包。8.06 的第5章和考试未公开，未伪造补齐。选定课程未取得官方答案，中文独立解答明确标记 AI 独立解答。
+
+许可复核更新：按照[OCW官方FAQ](https://mitocw.zendesk.com/hc/en-us/articles/4414756181403-How-is-all-rights-reserved-content-different-from-the-rest-of-OCW-content)，教材书名、题号、表号或参考讨论本身不是权利排除标记。7份原件已恢复，当前62份PDF、735页；另外16份正按具体条目审查，未作侵权认定。详见[逐项恢复记录](../../subjects/quantum-mechanics/qa/rights-restoration-seven.md)。原件只给教材题号的条目仍仅保留引用，中文册不会补造题面。

@@ -1,0 +1,1497 @@
+LINEAR ALGEBRA: VECTOR SPACES AND OPERATORS  
+B. Zwiebach 
+October 21, 2013 
+Contents 
+1 
+Vector spaces and dimensionality 
+1 
+2 
+Linear operators and matrices 
+5 
+3 
+Eigenvalues and eigenvectors 
+11 
+4 
+Inner products 
+14 
+5 
+Orthonormal basis and orthogonal projectors 
+18 
+6 
+Linear functionals and adjoint operators 
+20 
+7 
+Hermitian and Unitary operators 
+24 
+1 
+Vector spaces and dimensionality 
+In quantum mechanics the state of a physical system is a vector in a complex vector space. Observables 
+are linear operators, in fact, Hermitian operators acting on this complex vector space. The purpose 
+of this chapter is to learn the basics of vector spaces, the structures that can be built on those spaces, 
+and the operators that act on them. 
+Complex vector spaces are somewhat diﬀerent from the more familiar real vector spaces. I would 
+say they have more powerful properties. In order to understand more generally complex vector spaces 
+it is useful to compare them often to their real dimensional friends. We will follow here the discussion 
+of the book Linear algebra done right, by Sheldon Axler. 
+In a vector space one has vectors and numbers. We can add vectors to get vectors and we can 
+multiply vectors by numbers to get vectors. If the numbers we use are real, we have a real vector space. 
+If the numbers we use are complex, we have a complex vector space. More generally, the numbers 
+we use belong to what is called in mathematics a ‘ﬁeld’ and denoted by the letter F. We will discuss 
+just two cases, F = R, meaning that the numbers are real, and F = C, meaning that the numbers are 
+complex. 
+The deﬁnition of a vector space is the same for F being R or C. A vector space V is a set of vectors 
+with an operation of addition (+) that assigns an element u + v ∈ V to each u, v ∈ V . This means 
+that V is closed under addition. There is also a scalar multiplication by elements of F, with av ∈ V 
+1 
+
+for any a ∈ F and v ∈ V . This means the space V is closed under multiplication by numbers. These 
+operations must satisfy the following additional properties: 
+1. u + v = v + u ∈ V for all u, v ∈ V (addition is commutative). 
+2. u + (v + w) = (u + v) + w and (ab)u = a(bu) for any u, v, w ∈ V and a, b ∈ F (associativity). 
+3. There is a vector 0 ∈ V such that 0 + u = u for all u ∈ V (additive identity). 
+4. For each v ∈ V there is a u ∈ V such that v + u = 0 (additive inverse). 
+5. The element 1 ∈ F satisﬁes 1v = v for all v ∈ V (multiplicative identity). 
+6. a(u+v) = au +av and (a+b)v = av +bv for every u, v ∈ V and a, b ∈ F (distributive property). 
+This deﬁnition is very eﬃcient. Several familiar properties follow from it by short proofs (which 
+we will not give, but are not complicated and you may try to produce): 
+•  The additive identity is unique: any vector 0 ′ that acts like 0 is actually equal to 0. 
+•  0v = 0, for any v ∈ V , where the ﬁrst zero is a number and the second one is a vector. This 
+means that the number zero acts as expected when multiplying a vector. 
+•  a0 = 0, for any a ∈ F. Here both zeroes are vectors. This means that the zero vector multiplied 
+by any number is still the zero vector. 
+•  The additive inverse of any vector v ∈ V is unique. It is denoted by −v and in fact −v = (−1)v. 
+We must emphasize that while the numbers, in F are sometimes real or complex, we never speak 
+of the vectors themselves as real or complex. A vector multiplied by a complex number is not said to 
+be a complex vector, for example! The vectors in a real vector space are not themselves real, nor are 
+the vectors in a complex vector space complex. We have the following examples of vector spaces: 
+1. The set of N-component vectors 
+ 
+  
+
+
+
+  
+a1 
+a2 
+. . . 
+
+
+
+  ,
+ai ∈ R ,
+i = 1, 2, . . . N . 
+(1.1) 
+aN 
+form a real vector space. 
+2. The set of M × N matrices with complex entries 
+
+ a11 
+. . . 
+a1N 
+a21 
+. . . 
+a2N
+
+
+
+  
+
+
+
+  ,
+aij ∈ C , 
+(1.2) 
+.
+. 
+. 
+.
+. 
+. 
+.
+. 
+. 
+aM1 . . . 
+aMN 
+2 
+
+is a complex vector space. In here multiplication by a constant multiplies each entry of the 
+matrix by the constant. 
+3. We can have matrices with complex entries that naturally form a real vector space. The space 
+of two-by-two hermitian matrices deﬁne a real vector space. They do not form a complex vector 
+space since multiplication of a hermitian matrix by a complex number ruins the hermiticity. 
+4. The set P(F) of polynomials p(z). Here the variable z ∈ F and p(z) ∈ F. Each polynomial p(z) 
+has coeﬃcients a0, a1, . . . an also in F: 
+2 
+n 
+p(z) = a0 + a1z + a2z + . . . + anz . 
+(1.3) 
+By deﬁnition, the integer n is ﬁnite but it can take any nonnegative value. Addition of poly­
+nomials works as expected and multiplication by a constant is also the obvious multiplication. 
+The space P(F) of all polynomials so deﬁned form a vector space over F. 
+5. The set F∞ of inﬁnite sequences (x1, x2, . . .) of elements xi ∈ F. Here 
+(x1, x2, . . .) + (y1, y2, . . .) = (x1 + y1, x2 + y2, . . .) 
+(1.4) 
+a(x1, x2, . . .) = (ax1, ax2, . . .) 
+a ∈ F . 
+This is a vector space over F. 
+6. The set of complex functions on an interval x ∈ [0, L], form a vector space over C. 
+To better understand a vector space one can try to ﬁgure out its possible subspaces. A subspace 
+of a vector space V is a subset of V that is also a vector space. To verify that a subset U of V is a 
+subspace you must check that U contains the vector 0, and that U is closed under addition and scalar 
+multiplication. 
+Sometimes a vector space V can be described clearly in terms of collection U1, U2, . . . Um of sub-
+spaces of V . We say that the space V is the direct sum of the subspaces U1, U2, . . . Um and we 
+write 
+V 
+= U1 ⊕ U2 ⊕· · · ⊕ Um 
+(1.5) 
+if any vector in V can be written uniquely as the sum u1 + u2 + . . . + um, where ui ∈ Ui. To check 
+uniqueness one can, alternatively, verify that the only way to write 0 as a sum u1 + u2 + . . . + um with 
+ui ∈ Ui is by taking all ui’s equal to zero. For the case of two subspaces V = U ⊕ W, it suﬃces to 
+prove that any vector can be written as u + w with u ∈ U and w ∈ W and that U ∩ W = 0. 
+Given a vector space we can produce lists of vectors. A list (v1, v2, . . . , vn) of vectors in V contains, 
+by deﬁnition, a ﬁnite number of vectors. The number of vectors in the list is the length of the list. 
+The span of a list of vectors (v1, v2, · · · vn) in V , denoted as span(v1, v2, · · · , vn), is the set of all linear 
+combinations of these vectors 
+a1v1 + a2v2 + . . . anvn ,
+ai ∈ F 
+(1.6) 
+3 
+
+   
+!  
+A vector space V is spanned by a list (v1, v2, · · · vn) if V = span(v1, v2, · · · vn). 
+Now comes a very natural deﬁnition: A vector space V is said to be ﬁnite dimensional if it is 
+spanned by some list of vectors in V . If V is not ﬁnite dimensional, it is inﬁnite dimensional. In 
+such case, no list of vectors from V can span V . 
+Let us show that the vector space of all polynomials p(z) considered in Example 4 is an inﬁnite 
+dimensional vector space. Indeed, consider any list of polynomials. In this list there is a polynomial 
+of maximum degree (recall the list is ﬁnite). Thus polynomials of higher degree are not in the span of 
+the list. Since no list can span the space, it is inﬁnite dimensional. 
+For example 1, consider the list of vectors (e1, e2, . . . eN ) with 
+0
+
+  
+
+
+ 
+1 
+0 
+1 
+0
+0 
+1 
+This list spans the space (the vector displayed is a1e1 + a2e2 + . . . aN eN ). This vector space is ﬁnite 
+
+
+
+ 
+dimensional. 
+A list of vectors (v1, v2, . . . , vn), with vi ∈ V is said to be linearly independent if the equation 
+a1v1 + a2v2 + . . . + anvn = 0 , 
+(1.8) 
+only has the solution a1 = a2 = · · · = an = 0. One can show that the length of any linearly independent 
+list is shorter or equal to the length of any spanning list. This is reasonable, because spanning lists 
+can be arbitrarily long (adding vectors to a spanning list gives still a spanning list), but a linearly 
+independent list cannot be enlarged beyond a certain point. 
+Finally, we get to the concept of a basis for a vector space. A basis of V is a list of vectors 
+in V that both spans V and it is linearly independent. Mathematicians easily prove that any ﬁnite 
+dimensional vector space has a basis. Moreover, all bases of a ﬁnite dimensional vector space have the 
+same length. The dimension of a ﬁnite-dimensional vector space is given by the length of any list of 
+basis vectors. One can also show that for a ﬁnite dimensional vector space a list of vectors of length 
+dim V is a basis if it is linearly independent list or if it is a spanning list. 
+For example 1 we see that the list (e1, e2, . . . eN ) in (1.7) is not only a spanning list but a linearly 
+independent list (prove it!). Thus the dimensionality of this space is N. 
+For example 3, recall that the most general hermitian two-by-two matrix takes the form 
+0 
+0 
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+(1.7) 
+e1 = 
+, e2 = 
+, 
+. . . 
+eN = 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+a0 + a3 
+a1 − ia2 
+,
+a0, a1, a2, a3 ∈ R. 
+(1.9) 
+a1 + ia2 
+a0 − a3 
+Now consider the following list of four ‘vectors’ (1, σ1, σ2, σ3). All entries in this list are hermitian 
+matrices, so this is a list of vectors in the space. Moreover they span the space since the most general 
+hermitian matrix, as shown above, is simply a01+a1σ1 +a2σ2 +a3σ3. The list is linearly independent 
+4 
+
+ 
+!
+ 
+!
+as a01 + a1σ1 + a2σ2 + a3σ3 = 0 implies that 
+a0 + a3 
+a1 − ia2 
+0
+0 
+= 
+, 
+(1.10) 
+a1 + ia2 
+a0 − a3 
+0
+0 
+and you can quickly see that this implies a0, a1, a2, and a3 are zero. So the list is a basis and the space 
+in question is a four-dimensional real vector space. 
+Exercise. Explain why the vector space in example 2 has dimension M · N. 
+It seems pretty obvious that the vector space in example 5 is inﬁnite dimensional, but it actually 
+takes a bit of work to prove it. 
+2 
+Linear operators and matrices 
+A linear map refers in general to a certain kind of function from one vector space V to another vector 
+space W. When the linear map takes the vector space V to itself, we call the linear map a linear 
+operator. We will focus our attention on those operators. Let us then deﬁne a linear operator. 
+A linear operator T on a vector space V is a function that takes V to V with the properties: 
+1. T(u + v) = Tu + Tv, for all u, v ∈ V . 
+2. T(au) = aTu, for all a ∈ F and u ∈ V . 
+We call L(V ) the set of all linear operators that act on V . This can be a very interesting set, as we 
+will see below. Let us consider a few examples of linear operators. 
+1. Let V denote the space of real polynomials p(x) of a real variable x with real coeﬃcients. Here 
+are two linear operators: 
+′ 
+′
+′ 
+• Let T denote diﬀerentiation: Tp = p . This operator is linear because (p1 + p2) ′ = p + p
+1
+2 
+′ 
+and (ap) ′ = ap . 
+• Let S denote multiplication by x: Sp = xp. S is also a linear operator. 
+2. In the space F∞ of inﬁnite sequences deﬁne the left-shift operator L by 
+L(x1, x2, x3, . . .) = (x2, x3, . . .) . 
+(2.11) 
+We lose the ﬁrst entry, but that is perfectly consistent with linearity. We also have the right-shift 
+operator R that acts as follows: 
+R(x1, x2, . . .) = (0, x1, x2, . . .) . 
+(2.12) 
+Note that the ﬁrst entry in the result is zero. It could not be any other number because the zero 
+element (a sequence of all zeroes) should be mapped to itself (by linearity). 
+5 
+ 
+!
+ 
+!
+
+3. For any V , the zero map 0 such that 0v = 0. This map is linear and maps all elements of V to 
+the zero element. 
+4. For any V , the identity map I for which Iv = v for all v ∈ V . This map leaves all vectors 
+invariant. 
+Since operators on V can be added and can also be multiplied by numbers, the set L(V ) introduced 
+above is itself a vector space (the vectors being the operators!). Indeed for any two operators T, S ∈ 
+L(V ) we have the natural deﬁnition 
+(S + T)v = Sv + Tv , 
+(2.13) 
+(aS)v = a(Sv) . 
+The additive identity in the vector space L(V ) is the zero map of example 3. 
+In this vector space there is a surprising new structure: the vectors (the operators!) 
+can be 
+multiplied. There is a multiplication of linear operators that gives a linear operator. We just let one 
+operator act ﬁrst and the second later. So given S, T ∈L(V ) we deﬁne the operator ST as 
+(ST)v ≡ S(Tv) 
+(2.14) 
+You should convince yourself that ST is a linear operator. This product structure in the space of 
+linear operators is associative: S(TU) = (ST)U, for S, T, U, linear operators. Moreover it has an 
+identity element: the identity map of example 4. Most crucially this multiplication is, in general, 
+noncommutative. We can check this using the two operators T and S of example 1 acting on the 
+n
+polynomial p = x . Since T diﬀerentiates and S multiplies by x we get 
+n
+n+1)
+n
+n 
+n−1)
+n
+(TS)x = T(Sxn) = T(x 
+= (n + 1)x , 
+while 
+(ST)x 
+= S(Txn) = S(nx 
+= nx . 
+(2.15) 
+We can quantify this failure of commutativity by writing the diﬀerence 
+n 
+n
+n
+n
+(TS − ST)x = (n + 1)x n − nx = x = I x 
+(2.16) 
+where we inserted the identity operator at the last step. Since this relation is true for any xn, it would 
+also hold acting on any polynomial, namely on any element of the vector space. So we write 
+[ T , S ] = I . 
+(2.17) 
+where we introduced the commutator [·, ·] of two operators X, Y , deﬁned as [X, Y ] ≡ XY − Y X. 
+The most basic features of an operator are captured by two simple concepts: its null space and its 
+range. Given some linear operator T on V it is of interest to consider those elements of V that are 
+mapped to the zero element. The null space (or kernel) of T ∈L(V ) is the subset of vectors in V 
+that are mapped to zero by T: 
+null T = {v ∈ V ; Tv = 0} . 
+(2.18) 
+6 
+
+Actually null T is a subspace of V (The only nontrivial part of this proof is to show that T(0) = 0. 
+This follows from T(0) = T(0 + 0) = T(0) + T(0) and then adding to both sides of this equation the 
+additive inverse to T(0)). 
+A linear operator T : V → V is said to be injective if Tu = Tv, with u, v ∈ V , implies u = v. An 
+injective map is called a one-to-one map, because not two diﬀerent elements can be mapped to the 
+same one. In fact, physicist Sean Carroll has suggested that a better name would be two-to-two as 
+injectivity really means that two diﬀerent elements are mapped by T to two diﬀerent elements! We 
+leave for you as an exercise to prove the following important characterization of injective maps: 
+Exercise. Show that T is injective if and only if null T = {0}. 
+Given a linear operator T on V it is also of interest to consider the elements of V of the form Tv. 
+The linear operator may not produce by its action all of the elements of V . We deﬁne the range of 
+T as the image of V under the map T: 
+range T = {Tv; v ∈ V } . 
+(2.19) 
+Actually range T is a subspace of V (can you prove it?). The linear operator T is said to be surjective 
+if range T = V . That is, if the image of V under T is the complete V . 
+Since both the null space and the range of a linear operator T : V → V are subspaces of V , one 
+can assign a dimension to them, and the following theorem is nontrivial: 
+dim V 
+= dim (null T) + dim (range T) . 
+(2.20) 
+Example. Describe the null space and range of the operator 
+T = 
+(0 
+1) 
+(2.21) 
+0 
+0
+Let us now consider invertible linear operators. A linear operator T ∈L(V ) is invertible if there 
+exists another linear operator S ∈L(V ) such that ST and TS are identity maps (written as I). The 
+linear operator S is called the inverse of T. The inverse is actually unique. Say S and S ′ are inverses 
+of T. Then we have 
+S = SI = S(TS ′ ) = (ST)S ′ = IS ′ = S ′ . 
+(2.22) 
+Note that we required the inverse S to be an inverse acting from the left and acting from the right. 
+This is useful for inﬁnite dimensional vector spaces. For ﬁnite-dimensional vector spaces one suﬃces; 
+one can then show that ST = I if and only if TS = I. 
+It is useful to have a good characterization of invertible linear operators. For a ﬁnite-dimensional 
+vector space V the following three statements are equivalent! 
+Finite dimension: 
+T is invertible 
+←→ 
+T is injective 
+←→ 
+T is surjective 
+(2.23) 
+7 
+
+For inﬁnite dimensional vector spaces injectivity and surjectivity are not equivalent (each can fail 
+independently). In that case invertibility is equivalent to injectivity plus surjectivity: 
+Inﬁnite dimension: 
+T is invertible 
+←→  
+T is injective and surjective 
+(2.24) 
+The left shift operator L is not injective (maps (x1, 0, . . .) to zero) but it is surjective. The right shift 
+operator is not surjective although it is injective. 
+Now we consider the matrix associated to a linear operator T that acts on a vector space V . 
+This matrix will depend on the basis we choose for V . 
+Let us declare that our basis is the list 
+(v1, v2, . . . vn). It is clear that the full knowledge of the action of T on V is encoded in the action of 
+T on the basis vectors, that is on the values (Tv1, Tv2, . . . , Tvn). Since Tvj is in V , it can be written 
+as a linear combination of basis vectors. We then have 
+Tvj = T1 j v1 + T2 j v2 + . . . + Tn j vn , 
+(2.25) 
+where we introduced the constants Ti,j that are known if the operator T is known. As we will see, 
+these are the entries form the matrix representation of the operator T in the chosen basis. The above 
+relation can be written more brieﬂy as 
+L 
+n 
+Tvj = 
+Tij vi . 
+i=1 
+(2.26) 
+When we deal with diﬀerent bases it can be useful to use notation where we replace 
+Tij 
+→ 
+Tij ({v}) , 
+(2.27) 
+so that it makes clear that T is being represented using the v basis (v1, . . . , vn). 
+I want to make clear why (2.25) is reasonable before we show that it makes for a consistent 
+association between operator multiplication and matrix multiplication. The left-hand side, where we 
+have the action of the matrix for T on the j-th basis vector, can be viewed concretely as 
+  
+ 
+ 0 
+T11 
+· · · 
+T1 j 
+· · · 
+T1n 
+
+
+
+
+
+
+  
+. . . 
+1 
+. . . 
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+T21 
+· · · 
+T2 j 
+· · · 
+T2n 
+.
+.
+.
+.
+. 
+.
+.
+.
+.
+. 
+.
+.
+.
+.
+. 
+Tvj 
+←→ 
+j-th position 
+(2.28) 
+
+ 
+Tn1 · · · 
+Tn j 
+· · · 
+Tnn 
+0 
+where the column vector has zeroes everywhere except on the j-th entry. The product, by the usual 
+rule of matrix multiplication is the column vector 
+1
+0
+ 
+ 
+ 
+ 
+ 
+ 
+T1 j 
+0 
+
+
+
+ 
+
+
+
+ 
+0
+0 
+Tn j 
+0
+0 
+1 
+8 
+T2 j 
+1 
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  ←→ 
+T1 j v1 + . . . Tn j vn . 
+(2.29) 
+T1 j 
++ T2 j 
++ Tn j 
++ . . . 
+= 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+
+which we identify with the right-hand side of (2.25). So (2.25) is reasonable. 
+Exercise. Verify that the matrix representation of the identity operator is a diagonal matrix with an 
+entry of one at each element of the diagonal. This is true for any basis. 
+Let us now examine the product of two operators and their matrix representation. Consider the 
+operator TS acting on vj : 
+L
+L 
+L
+L 
+(TS)vj = T(Svj ) = T
+Spj vp = 
+Spj Tvp = 
+Spj 
+Tipvi 
+(2.30) 
+p
+p 
+p
+i 
+so that changing the order of the sums we ﬁnd 
+L(L 
+)
+(TS)vj = 
+TipSpj vi . 
+(2.31) 
+i
+p 
+Using the identiﬁcation implicit in (2.26) we see that the object in parenthesis is the i, j matrix element 
+of the matrix that represents TS. Therefore we found 
+L 
+(TS)ij = 
+TipSpj , 
+(2.32) 
+p 
+which is precisely the right formula for matrix multiplication. In other words, the matrix that repre­
+sents TS is the product of the matrix that represents T with the matrix that represents S, in that 
+order. 
+Changing basis 
+While matrix representations are very useful for concrete visualization, they are basis dependent. 
+It is a good idea to try to ﬁgure out if there are quantities that can be calculated using a matrix 
+representation that are, nevertheless, guaranteed to be basis independent. One such quantity is the 
+trace of the matrix representation of a linear operator. The trace is the sum of the matrix elements 
+in the diagonal. Remarkably, that sum is the same independent of the basis used. Consider a linear 
+operator T in L(V ) and two sets of basis vectors (v1, . . . , vn) and (u1, . . . , un) for V . Using the explicit 
+notation (2.27) for the matrix representation we state this property as 
+tr T({v}) = tr T({u}) . 
+(2.33) 
+We will establish this result below. On the other hand, if this trace is actually basis independent, there 
+should be a way to deﬁne the trace of the linear operator T without using its matrix representation. 
+This is actually possible, as we will see. Another basis independent quantity is the determinant of the 
+matrix representation of T. 
+Let us then consider the eﬀect of a change of basis on the matrix representation of an operator. 
+Consider a vector space V and a change of basis from (v1, . . . vn) to (u1, . . . un) deﬁned by the linear 
+operator A as follows: 
+A : vk → uk, for k = 1, . . . , n . 
+(2.34) 
+9 
+
+This can also be written as 
+Avk = uk 
+(2.35) 
+Since we know how A acts on every element of the basis we know, by linearity how it acts on any 
+vector. The operator A is clearly invertible because, letting B : uk → vk or 
+Buk = vk , 
+(2.36) 
+we have 
+BAvk = B(Avk) = Buk = vk 
+(2.37) 
+ABuk = A(Buk) = Avk = uk , 
+showing that BA = I and AB = I. Thus B is the inverse of A. 
+Using the deﬁnition of matrix 
+representation, the right-hand sides of the relations uk = Avk and vk = Buk can be written so that 
+the equations take the form 
+uk = Ajk vj ,
+vk = Bjk uj , 
+(2.38) 
+where we used the convention that repeated indices are summed over. Aij are the elements of the 
+matrix representation of A in the v basis and Bij are the elements of the matrix representation of B 
+in the u basis. Replacing the second relation on the ﬁrst, and then replacing the ﬁrst on the second 
+we get 
+uk = Ajk Bij ui = Bij Ajk ui 
+(2.39) 
+vk = Bjk Aij vi = Aij Bjk vi 
+Since the u’s and v’s are basis vectors we must have 
+Bij Ajk = δik 
+and 
+Aij Bjk = δik 
+(2.40) 
+which means that the B matrix is the inverse of the A matrix. We have thus learned that 
+vk = (A−1)jk uj . 
+(2.41) 
+We can now apply these preparatory results to the matrix representations of the operator T. We 
+have, by deﬁnition, 
+Tvk = Tik({v}) vi . 
+(2.42) 
+We now want to calculate T on uk so that we can read the formula for the matrix T on the u basis: 
+Tuk = Tik({u}) ui . 
+(2.43) 
+Computing the left-hand side, using the linearity of the operator T, we have 
+Tuk = T(Ajkvj ) = AjkTvj = AjkTpj ({v}) vp 
+(2.44) 
+10 
+
+3 
+and using (2.41) we get 
+(
+)
+(
+)
+Tuk = AjkTpj ({v}) (A−1)ip ui =
+(A−1)ip Tpj ({v}) Ajk ui = 
+A−1T({v})A
+ui . 
+(2.45) 
+ik 
+Comparing with (2.43) we get 
+(
+)
+Tij ({u}) = 
+A−1T({v})A
+→ 
+T({u}) = A−1T({v})A . 
+(2.46) 
+ij 
+This is the result we wanted to obtain. 
+The trace of a matrix Tij is given by Tii, where sum over i is understood. To show that the trace 
+of T is basis independent we write 
+tr(T({u})) = Tii({u}) = (A−1)ij Tjk({v})Aki 
+= Aki(A−1)ij Tjk({v}) 
+(2.47) 
+= δkj Tjk({v}) = Tjj ({v}) = tr(T({v})) . 
+For the determinant we recall that det(AB) = (detA)(detB). Therefore det(A) det(A−1) = 1. From 
+(2.46) we then get 
+detT({u}) = det(A−1) detT({v}) det A = detT({v}) . 
+(2.48) 
+Thus the determinant of the matrix that represents a linear operator is independent of the basis used. 
+Eigenvalues and eigenvectors 
+In quantum mechanics we need to consider eigenvalues and eigenstates of hermitian operators acting on 
+complex vector spaces. These operators are called observables and their eigenvalues represent possible 
+results of a measurement. In order to acquire a better perspective on these matters, we consider the 
+eigenvalue/eigenvector problem in more generality. 
+One way to understand the action of an operator T ∈L(V ) on a vector space V is to understand 
+how it acts on subspaces of V , as those are smaller than V and thus possibly simpler to deal with. Let 
+U denote a subspace of V . In general, the action of T may take elements of U outside U. We have a 
+noteworthy situation if T acting on any element of U gives an element of U. In this case U is said to 
+be invariant under T, and T is then a well-deﬁned linear operator on U. A very interesting situation 
+arises if a suitable list of invariant subspaces give the space V as a direct sum. 
+Of all subspaces, one-dimensional ones are the simplest. Given some vector u ∈ V one can consider 
+the one-dimensional subspace U spanned by u: 
+U = {cu : c ∈ F} . 
+(3.49) 
+11 
+
+We can ask if the one-dimensional subspace U is left invariant by the operator T. For this Tu must 
+be equal to a number times u, as this guarantees that Tu ∈ U. Calling the number λ, we write 
+T u = λ u . 
+(3.50) 
+This equation is so ubiquitous that names have been invented to label the objects involved. 
+The 
+number λ ∈ F is called an eigenvalue of the linear operator T if there is a nonzero vector u ∈ V 
+such that the equation above is satisﬁed. Suppose we ﬁnd for some speciﬁc λ a nonzero vector u 
+satisfying this equation. Then it follows that cu, for any c ∈ F also satisﬁes equation (3.50), so that 
+the solution space of the equation includes the subspace U, which is now said to be an invariant 
+subspace under T. It is convenient to call any vector that satisﬁes (3.50) for a given λ an eigenvector 
+of T corresponding to λ. In doing so we are including the zero vector as a solution and thus as an 
+eigenvector. It can often happen that for a given λ there are several linearly independent eigenvectors. 
+In this case the invariant subspace associated with the eigenvalue λ is higher dimensional. The set of 
+eigenvalues of T is called the spectrum of T. 
+Our equation above is equivalent to 
+(T − λI) u = 0 , 
+(3.51) 
+for some nonzero u. It is therefore the case that 
+λ is an eigenvalue 
+←→  
+(T − λI) 
+not injective. 
+(3.52) 
+Using (2.23) we conclude that λ is an eigenvalue also means that (T − λI) is not invertible, and not 
+surjective. We also note that 
+Set of eigenvectors of T corresponding to λ = null (T − λI) . 
+(3.53) 
+It should be emphasized that the eigenvalues of T and the invariant subspaces (or eigenvectors as­
+sociated with ﬁxed eigenvalues) are basis independent objects. Nowhere in our discussion we had to 
+invoke the use of a basis, nor we had to use any matrix representation. Below, we will discuss the 
+familiar calculation of eigenvalues and eigenvectors using a matrix representation of the operator T in 
+some particular basis. 
+Let us consider some examples. Take a real three-dimensional vector space V (our space to great 
+accuracy!). Consider the rotation operator T that rotates all vectors by a ﬁxed angle small about 
+the z axis. To ﬁnd eigenvalues and eigenvectors we just think of the invariant subspaces. We must 
+ask which are the vectors for which this rotation doesn’t change their direction and eﬀectively just 
+multiplies them by a number? Only the vectors along the z-direction do not change direction upon 
+this rotation. So the vector space spanned by ez is the invariant subspace, or the space of eigenvectors. 
+The eigenvectors are associated with the eigenvalue of one, as the vectors are not altered at all by the 
+rotation. 
+12 
+
+Consider now the case where T is a rotation by ninety degrees on a two-dimensional real vector 
+space V . Are there one-dimensional subspaces left invariant by T? No, all vectors are rotated, none 
+remains pointing in the same direction. Thus there are no eigenvalues, nor, of course, eigenvectors. 
+If you tried calculating the eigenvalues by the usual recipe, you will ﬁnd complex numbers. A complex 
+eigenvalue is meaningless in a real vector space. 
+Although we will not prove the following result, it follows from the facts we have introduced and 
+no extra machinery. It is of interest being completely general and valid for both real and complex 
+vector spaces: 
+Theorem: Let T ∈L(V ) and assume λ1, . . . λn are distinct eigenvalues of T and u1, . . . un are corre­
+sponding nonzero eigenvectors. Then (u1, . . . un) are linearly independent. 
+Note that we cannot ask if the eigenvectors are orthogonal to each other as we have not yet 
+introduced an inner product on the vector space V . In this theorem there may be more than one 
+linearly independent eigenvector associated with some eigenvalues. In that case any one eigenvector 
+will do. 
+Since an n-dimensional vector space V does not have more than n linearly independent 
+vectors, no linear operator on V can have more than n distinct eigenvalues. 
+We saw that some linear operators in real vector spaces can fail to have eigenvalues. Complex 
+vector spaces are nicer. In fact, every linear operator on a ﬁnite-dimensional complex vector space has 
+at least one eigenvalue. This is a fundamental result. It can be proven without using determinants 
+with an elegant argument, but the proof using determinants is quite short. 
+When λ is an eigenvalue, we have seen that T − λI is not an invertible operator. 
+This also 
+means that using any basis, the matrix representative of T − λI is non-invertible. The condition of 
+non-invertibility of a matrix is identical to the condition that its determinant vanish: 
+det(T − λ1) = 0 . 
+(3.54) 
+This condition, in an N-dimensional vector space looks like 
+ T11 − λ 
+T12 
+. . . 
+T1N 
+T21 
+T22 − λ 
+. . . 
+T2N 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+TN1 
+TN2 
+. . . 
+TNN − λ 
+  
+
+
+
+  
+
+
+
+  
+det 
+= 0 . 
+(3.55) 
+The left-hand side is a polynomial f(λ) in λ of degree N called the characteristic polynomial: 
+f(λ) = det(T − λ1) = (−λ)N + bN−1λN−1 + . . . b1λ + b0 , 
+(3.56) 
+where the bi are constants. We are interested in the equation f(λ) = 0, as this determines all possible 
+eigenvalues. If we are working on real vector spaces, the constants bi are real but there is no guarantee 
+of real roots for f(λ) = 0. With complex vector spaces, the constants bi will be complex, but a complex 
+solution for f(λ) = 0 always exists. Indeed, over the complex numbers we can factor the polynomial 
+f(λ) as follows 
+f(λ) = (−1)N (λ − λ1)(λ − λ2) . . . (λ − λN ) , 
+(3.57) 
+13 
+
+4 
+where the notation does not preclude the possibility that some of the λi’s may be equal. The λi’s 
+are the eigenvalues, since they lead to f(λ) = 0 for λ = λi. 
+If all eigenvalues of T are diﬀerent 
+the spectrum of T is said to be non-degenerate. If an eigenvalue appears k times it is said to be a 
+degenerate eigenvalue with of multiplicity k. Even in the most degenerate case we must have at least 
+one eigenvalue. The eigenvectors exist because (T − λI) non-invertible means it is not injective, and 
+therefore there are nonzero vectors that are mapped to zero by this operator. 
+Inner products 
+We have been able to go a long way without introducing extra structure on the vector spaces. We 
+have considered linear operators, matrix representations, traces, invariant subspaces, eigenvalues and 
+eigenvectors. It is now time to put some additional structure on the vector spaces. In this section 
+we consider a function called an inner product that allows us to construct numbers from vectors. A 
+vector space equipped with an inner product is called an inner-product space. 
+An inner product on a vector space V over F is a machine that takes an ordered pair of elements 
+of V , that is, a ﬁrst vector and a second vector, and yields a number in F. In order to motivate the 
+deﬁnition of an inner product we ﬁrst discuss the familiar way in which we associate a length to a 
+vector. 
+The length of a vector, or norm of a vector is a real number that is positive or zero, if the vector 
+is the zero vector. In Rn a vector a = (a1, . . . an) has norm |a| deﬁned by 
+ 
+2
+|a| =
+a + . . . a2 
+(4.58) 
+1 
+n 
+Squaring this one may think of |a|2 as the dot product of a with a: 
+2
+2
+|a|2 = a · a = a1 + . . . a 
+(4.59) 
+n 
+Based on this the dot product of any two vectors a and b is deﬁned by 
+a · b = a1b1 + . . . + anbn . 
+(4.60) 
+If we try to generalize this dot product we may require as needed properties the following 
+1. a · a ≥ 0, for all vectors a. 
+2. a · a = 0 if and only if a = 0. 
+3. a · (b1 + b2) = a · b1 + a · b2. Additivity in the second entry. 
+4. a · (α b) = α a · b, with α a number. 
+5. a · b = b · a. 
+14 
+
+Along with these axioms, the length |a| of a vector a is the positive or zero number deﬁned by relation 
+|a|2 = a · a . 
+(4.61) 
+These axioms are satisﬁed by the deﬁnition (4.60) but do not require it. A new dot product deﬁned 
+by a · b = c1a1b1 + . . . + cnanbn, with c1, . . . cn positive constants, would do equally well! So whatever 
+can be proven with these axioms holds true not only for the conventional dot product. 
+The above axioms guarantee that the Schwarz inequality holds: 
+|a · b | ≤| a | | b | . 
+(4.62) 
+To prove this consider two (nonzero) vectors a and b and then consider the shortest vector joining the 
+tip of a to the line deﬁned by the direction of b (see the ﬁgure below). This is the vector a⊥, given by 
+a · b 
+a⊥ ≡ a − 
+b . 
+(4.63) 
+b · b 
+The subscript ⊥ is there because the vector is perpendicular to b, namely a⊥ ·b = 0, as you can quickly 
+see. To write the above vector we subtracted from a the component of a parallel to b. Note that the 
+vector a⊥ is not changed as b → cb; it does not depend on the overall length of b. Moreover, as it 
+should, the vector a⊥ is zero if and only if the vectors a and b are parallel. All this is only motivation, 
+we could have just said “consider the following vector a⊥”. 
+Given axiom (1) we have that a⊥ · a⊥ ≥ 0 and therefore using (4.63) 
+(a · b)2 
+a⊥ · a⊥ = a · a −
+≥ 0 . 
+(4.64) 
+b · b 
+Since b is not the zero vector we then have 
+(a · b)2 ≤ (a · a)(b · b) . 
+(4.65) 
+Taking the square root of this relation we obtain the Schwarz inequality (4.62). The inequality becomes 
+an equality only if a⊥ = 0 or, as discussed above, when a = cb with c a real constant. 
+For complex vector spaces some modiﬁcation is necessary. Recall that the length |γ| of a complex 
+√ 
+number γ is given by |γ| = 
+γ∗γ, where the asterisk superscript denotes complex conjugation. It is 
+15 
+
+not hard to generalize this a bit. Let z = (z1, . . . , zn) be a vector in Cn . Then the length of the vector 
+|z| is a real number greater than zero given by 
+ ∗
+|z| =
+z z1 + . . . + z ∗ zn . 
+(4.66) 
+1 
+n
+We must use complex conjugates, denoted by the asterisk superscript, to produce a real number greater 
+than or equal to zero. Squaring this we have 
+∗
+∗ 
+|z|2 = z1 z1 + . . . + z zn . 
+(4.67) 
+n
+This suggests that for vectors z = (z1, . . . , zn) and w = (w1, . . . , wn) an inner product could be given 
+by 
+∗
+∗ 
+w1z1 + . . . + w zn , 
+(4.68) 
+n
+and we see that we are not treating the two vectors in an equivalent way. There is the ﬁrst vector, 
+in this case w whose components are conjugated and a second vector z whose components are not 
+conjugated. If the order of vectors is reversed, we get for the inner product the complex conjugate of 
+the original value. As it was mentioned at the beginning of the section, the inner product requires an 
+ordered pair of vectors. It certainly does for complex vector spaces. Moreover, one can deﬁne an inner 
+product in general in a way that applies both to complex and real vector spaces. 
+An inner product on a vector space V over F is a map from an ordered pair (u, v) of vectors 
+in V to a number (u, v) in F. The axioms for (u, v) are inspired by the axioms we listed for the dot 
+product. 
+1. (v , v) ≥ 0, for all vectors v ∈ V . 
+2. (v, v) = 0 if and only if v = 0. 
+3. (u , v1 + v2) = (u , v1) + (u , v2). Additivity in the second entry. 
+4. (u , α v) = α (u , v), with α ∈ F. Homogeneity in the second entry. 
+5. (u , v) = (v , u)∗ . Conjugate exchange symmetry. 
+This time the norm |v| of a vector v ∈ V is the positive or zero number deﬁned by relation 
+|v|2 = (v , v) . 
+(4.69) 
+From the axioms above, the only major diﬀerence is in number ﬁve, where we ﬁnd that the inner 
+product is not symmetric. We know what complex conjugation is in C. For the above axioms to 
+apply to vector spaces over R we just deﬁne the obvious: complex conjugation of a real number is a 
+real number. In a real vector space the ∗ conjugation does nothing and the inner product is strictly 
+symmetric in its inputs. 
+16 
+
+A few comments. One can use (3) with v2 = 0 to show that (u, 0) = 0 for all u ∈ V , and thus, by 
+(5) also (0, u) = 0. Properties (3) and (4) amount to full linearity in the second entry. It is important 
+to note that additivity holds for the ﬁrst entry as well: 
+(u1 + u2, v) = (v, u1 + u2) ∗ 
+= ((v, u1) + (v, u2)) ∗ 
+(4.70) 
+= (v, u1) ∗ + (v, u2) ∗ 
+= (u1, v) + (u2, v) . 
+Homogeneity works diﬀerently on the ﬁrst entry, however, 
+(α u , v)  = (v , α u) ∗ 
+= (α(v , u)) ∗ 
+(4.71) 
+= α ∗ (u , v) . 
+Thus we get conjugate homogeneity on the ﬁrst entry. This is a very important fact. Of course, 
+for a real vector space conjugate homogeneity is the same as just plain homogeneity. 
+Two vectors u, v ∈ V are said to be orthogonal if (u, v) = 0. This, of course, means that (v, u) = 0 
+as well. The zero vector is orthogonal to all vectors (including itself). Any vector orthogonal to all 
+vectors in the vector space must be equal to zero. Indeed, if x ∈ V is such that (x, v) = 0 for all v, 
+pick v = x, so that (x, x) = 0 implies x = 0 by axiom 2. This property is sometimes stated as the 
+non-degeneracy of the inner product. The “Pythagorean” identity holds for the norm-squared of 
+orthogonal vectors in an inner-product vector space. As you can quickly verify, 
+|u + v|2  = |u|2 + |v|2 , 
+for u, v ∈ V, orthogonal vectors. 
+(4.72) 
+The Schwarz inequality can be proven by an argument fairly analogous to the one we gave above 
+for dot products. The result now reads 
+Schwarz Inequality: 
+|(u , v)| ≤|u| |v| . 
+(4.73) 
+The inequality is saturated if and only if one vector is a multiple of the other. 
+Note that in the 
+left-hand side |...| denotes the norm of a complex number and on the right-hand side each |...| denotes 
+the norm of a vector. You will prove this identity in a slightly diﬀerent way in the homework. You 
+will also consider there the triangle inequality 
+|u + v| ≤|u| + |v| , 
+(4.74) 
+which is saturated when u = cv for c a real, positive constant. Our deﬁnition (4.69) of norm on a 
+vector space V is mathematically sound: a norm is required to satisfy the triangle inequality. Other 
+properties are required: (i) |v| ≥ 0 for all v, (ii) |v| = 0 if and only if v = 0, and (iii) |cv| = |c||a| for c 
+some constant. Our norm satisﬁes all of them. 
+17 
+
+5 
+A complex vector space with an inner product as we have deﬁned is a Hilbert space if it is ﬁnite 
+dimensional. If the vector space is inﬁnite dimensional, an extra completeness requirement must be 
+satisﬁed for the space to be a Hilbert space: all Cauchy sequences of vectors must converge to vectors 
+in the space. An inﬁnite sequence of vectors vi, with i = 1, 2, . . . , ∞ is a Cauchy sequence if for any 
+ǫ > 0 there is an N such that |vn − vm| < ǫ whenever n, m > N. 
+Orthonormal basis and orthogonal projectors 
+In an inner-product space we can demand that basis vectors have special properties. A list of vectors 
+is said to be orthonormal if all vectors have norm one and are pairwise orthogonal. Consider a list 
+(e1, . . . , en) of orthonormal vectors in V . Orthonormality means that 
+(ei, ej ) = δij . 
+(5.75) 
+We also have a simple expression for the norm of a1e1 + . . . + anen, with ai ∈ F: 
+(
+)
+|a1e1 + . . . + anen|2 = 
+a1e1 + . . . + anen , a1e1 + . . . + anen
+= (a1e1 , a1e1) + . . . + (anen , anen) 
+(5.76) 
+= |a1|2 + . . . + |an|2 . 
+This result implies the somewhat nontrivial fact that the vectors in any orthonormal list are linearly 
+independent. Indeed if a1e1 + . . . + anen = 0 then its norm is zero and so is |a1|2 + . . . + |an|2 . This 
+implies all ai = 0, thus proving the claim. 
+An orthonormal basis of V is a list of orthonormal vectors that is also a basis for V . 
+Let 
+(e1, . . . , en) denote an orthonormal basis. Then any vector v can be written as 
+v = a1e1 + . . . + anen , 
+(5.77) 
+for some constants ai that can be calculated as follows 
+(ei, v) = (ei , aiei) = ai , 
+( i not summed). 
+(5.78) 
+Therefore any vector v can be written as 
+v = (e1, v) e1 + . . . + (en , v) = (ei , v) ei . 
+(5.79) 
+To ﬁnd an orthonormal basis on an inner product space V we just need to start with a basis and 
+then use an algorithm to turn it into an orthogonal basis. In fact, a little more generally: 
+Gram-Schmidt: Given a list (v1, . . . , vn) of linearly independent vectors in V one can construct a 
+list (e1, . . . , en) of orthonormal vectors such that both lists span the same subspace of V . 
+The Gram-Schmidt algorithm goes as follows. You take e1 to be v1, normalized to have unit norm: 
+e1 = v1/|v1|. Then take v2 + αe1 and ﬁx the constant α so that this vector is orthogonal to e1. The 
+18 
+
+answer is clearly v2 −(e1, v2)e1. This vector, normalized by dividing it by its norm, is set equal to e2. 
+In fact we can write the general vector in a recursive fashion. If we know e1, e2, . . . , ej−1, we can write 
+ej as follows: 
+vj −(e1, vj )e1 − . . . −(ej−1, vj )ej−1 
+ej = 
+(5.80) 
+|vj −(e1, vj )e1 − . . . −(ej−1, vj )ej−1| 
+It should be clear to you by inspection that this vector is orthogonal to the vectors ei with i < j and 
+has unit norm. The Gram-Schmidt procedure is quite practical. 
+With an inner product we can construct interesting subspaces of a vector space V . Consider a 
+subset U of vectors in V (not necessarily a subspace). Then we can deﬁne a subspace U ⊥, called the 
+orthogonal complement of U as the set of all vectors orthogonal to the vectors in U: 
+U ⊥ = {v ∈ V |(v, u) = 0, for all u ∈ U} . 
+(5.81) 
+This is clearly a subspace of V . When U is a subspace, then U and U ⊥ actually give a direct sum 
+decomposition of the full space: 
+Theorem: If U is a subspace of V , then V = U ⊕ U ⊥ . 
+Proof: This is a fundamental result and is not hard to prove. Let (e1, . . . en) be an orthonormal basis 
+for U. We can clearly write any vector v in V as 
+v = ((e1, v)e1 + . . . + (en, v)en ) + ( v −(e1, v)e1 − . . . −(en, v)en ) . 
+(5.82) 
+On the right-hand side the ﬁrst vector in parenthesis is clearly in U as it is written as a linear 
+combination of U basis vectors. The second vector is clearly in U ⊥ as one can see that it is orthogonal 
+to any vector in U. To complete the proof one must show that there is no vector except the zero 
+vector in the intersection U ∩ U ⊥ (recall the comments below (1.5)). Let v ∈ U ∩ U ⊥ . Then v is in U 
+and in U ⊥ so it should satisfy (v, v) = 0. But then v = 0, completing the proof. 
+Given this decomposition any vector v ∈ V can be written uniquely as v = u + w where u ∈ U 
+and w ∈ U ⊥ . One can deﬁne a linear operator PU , called the orthogonal projection of V onto U, 
+that and that acting on v above gives the vector u. It is clear from this deﬁnition that: (i) the range 
+of PU is U. (ii) the null space of PU is U ⊥, (iii) that PU is not invertible and, (iv) acting on U, the 
+operator PU is the identity operator. The formula for the vector u can be read from (5.82) 
+PU v = (e1, v)e1 + . . . + (en, v)en . 
+(5.83) 
+It is a straightforward but a good exercise to verify that this formula is consistent with the fact that 
+acting on U, the operator PU is the identity operator. Thus if we act twice in succession with PU on 
+a vector, the second action has no eﬀect as it is already acting on a vector in U. It follows from this 
+that 
+P 2
+PU PU = I PU = PU 
+→ 
+= PU . 
+(5.84) 
+U 
+The eigenvalues and eigenvectors of PU are easy to describe. Since all vectors in U are left invariant by 
+the action of PU , an orthonormal basis of U provides a set of orthonormal eigenvectors of P all with 
+19 
+
+6 
+eigenvalue one. If we choose on U ⊥ an orthonormal basis, that basis provides orthonormal eigenvectors 
+of P all with eigenvalue zero. 
+In fact equation (5.84) implies that the eigenvalues of PU can only be one or zero. T he eigenvalues 
+of an operator satisfy whatever equation the operator satisﬁes (as shown by letting the equation act 
+on a presumed eigenvector) thus λ2 = λ is needed, and this gives λ(λ − 1) = 0, and λ = 0, 1, as the 
+only possibilities. 
+Consider a vector space V = U ⊕ U ⊥ that is (n + k)-dimensional, where U is n-dimensional and 
+U ⊥ is k-dimensional. Let (e1, . . . , en) be an orthonormal basis for U and (f1, . . . fk) an orthonormal 
+basis for U ⊥ . We then see that the list of vectors (g1, . . . gn+k) deﬁned by 
+(g1 , . . . , gn+k) = (e1, . . . , en, f1, . . . fk) is an orthonormal basis for V. 
+(5.85) 
+Exercise: Use PU ei = ei, for i = 1, . . . n and PU fi = 0, for i = 1, . . . , k, to show that in the above basis 
+the projector operator is represented by the diagonal matrix: 
+(
+PU = diag
+1, . . . 1 , 0, . . . , 0 ) . 
+(5.86) 
+' -v " 
+' -v " 
+n entries 
+k entries 
+We see that, as expected from its non-invertibility, det(PU ) = 0. But more interestingly we see that 
+the trace of the matrix PU is n. Therefore 
+tr PU = dim U . 
+(5.87) 
+The dimension of U is the rank of the projector PU . Rank one projectors are the most common 
+projectors. They project to one-dimensional subspaces of the vector space. 
+Projection operators are useful in quantum mechanics, where observables are described by opera­
+tors. The eﬀect of measuring an observable on a physical state vector is to turn this original vector 
+instantaneously into another vector. This resulting vector is the orthogonal projection of the original 
+vector down to some eigenspace of the operator associated with the observable. 
+Linear functionals and adjoint operators 
+When we consider a linear operator T on a vector space V that has an inner product, we can construct 
+a related linear operator T † on V called the adjoint of T. This is a very useful operator and is typically 
+diﬀerent from T. When the adjoint T † happens to be equal to T, the operator is said to be Hermitian. 
+To understand adjoints, we ﬁrst need to develop the concept of a linear functional. 
+A linear functional φ on the vector space V is a linear map from V to the numbers F: for v ∈ V , 
+φ(v) ∈ F. A linear functional has the following two properties: 
+1. φ(v1 + v2) = φ(v1) + φ(v2) , with v1, v2 ∈ V . 
+2. φ(av) = aφ(v) for v ∈ V and a ∈ F. 
+20 
+
+As an example, consider the three-dimensional real vector space R3 with inner product equal to the 
+familiar dot product. Writing a vector v as the triplet v = (v1, v2, v3), we take 
+φ(v) = 3v1 + 2v2 − 4v3 . 
+(6.1) 
+Linearity is clear as the right-hand side features the components v1, v2, v3 appearing linearly. We can 
+use a vector u = (3, 2, −4) to write the linear functional as an inner product. Indeed, one can readily 
+see that 
+φ(v) = (u, v). 
+(6.2) 
+This is no accident, in fact. We can prove that any linear functional φ(v) admits such representation 
+with some suitable choice of vector u. 
+Theorem: Let φ be a linear functional on V . There is a unique vector u ∈ V such that φ(v) = (u, v)  
+for all v ∈ V . 
+Proof: Consider an orthonormal basis, (e1, . . . , en) and write the vector v as 
+v = (e1, v)e1 + . . . + (en, v)en . 
+(6.3) 
+When φ acts on v we ﬁnd, ﬁrst by linearity and then by conjugate homogeneity 
+(
+)
+φ(v) = φ (e1, v)e1 + . . . + (en, v)en
+= (e1, v)φ(e1) + . . . + (en, v)φ(en) 
+(6.4) 
+= (φ(e1) ∗ e1, v) + . . . + (φ(en) ∗ en , v) 
+= 
+(
+φ(e1) ∗ e1 + . . . + φ(en) ∗ en , v) . 
+We have thus shown that, as claimed 
+φ(v) = (u, v) with 
+u = φ(e1) ∗ e1 + . . . + φ(en) ∗ en . 
+(6.5) 
+Next, we prove that this u is unique. If there exists another vector, u ′ , that also gives the correct 
+′ 
+′
+′ 
+result for all v, then (u , v) = (u, v), which implies (u − u , v) = 0 for all v. Taking v = u − u, we see 
+′
+′ 
+that this shows u − u = 0 or u = u, proving uniqueness.1 
+We can modify a bit the notation when needed, to write 
+φu(v) ≡(u, v) , 
+(6.6) 
+where the left-hand side makes it clear that this is a functional acting on v that depends on u. 
+We can now address the construction of the adjoint. Consider: φ(v) = (u, T v), which is clearly 
+a linear functional, whatever the operator T is. Since any linear functional can be written as (w, v), 
+with some suitable vector w, we write 
+(u, Tv) = (w , v) , 
+(6.7) 
+1This theorem holds for inﬁnite dimensional Hilbert spaces, for continuous linear functionals. 
+21 
+
+Of course, the vector w must depend on the vector u that appears on the left-hand side. Moreover, 
+it must have something to do with the operator T, who does not appear anymore on the right-hand 
+side. So we must look for some good notation here. We can think of w as a function of the vector u 
+and thus write w = T †u where T † denotes a map (not obviously linear) from V to V . So, we think of 
+T †u as the vector obtained by acting with some function T † on u. The above equation is written as 
+(u , Tv) = (T † u , v) , 
+(6.8) 
+Our next step is to show that, in fact, T † is a linear operator on V . The operator T † is called the 
+adjoint of T. Consider 
+(u1 + u2, Tv) = (T †(u1 + u2), v) , 
+(6.9) 
+and work on the left-hand side to get 
+(u1 + u2, Tv) = (u1, Tv) + (u2, Tv) 
+= (T † u1, v) + (T † u2, v) 
+(6.10) 
+(
+)
+= 
+T † u1 + T † u2 , v . 
+Comparing the right-hand sides of the last two equations we get the desired: 
+T †(u1 + u2) = T † u1 + T † u2 . 
+(6.11) 
+Having established linearity now we establish homogeneity. Consider 
+( au, Tv) = (T †(au) , v) . 
+(6.12) 
+The left hand side is 
+( au, Tv) = a ⋆ (u, Tv) = a ⋆ (T † u, v) = ( aT † u, v) . 
+(6.13) 
+This time we conclude that 
+T †(au) = aT † u . 
+(6.14) 
+This concludes the proof that T †, so deﬁned is a linear operator on V . 
+A couple of important properties are readily proven: 
+Claim: (ST)† = T †S† . We can show this as follows: (u, STv) = (S†u, Tv) = (T †S†u, v). 
+Claim: The adjoint of the adjoint is the original operator: (S†)† = S. We can show this as follows: 
+(u, S†v) = ((S†)†u, v). Now, additionally (u, S†v) = (S†v, u)∗ = (v, Su)∗ = (Su, v). Comparing with 
+the ﬁrst result, we have shown that (S†)†u = Su, for any u, which proves the claim 
+Example: Let v = (v1, v2, v3), with vi ∈ C denote a vector in the three-dimensional complex vector 
+space, C3 . Deﬁne a linear operator T that acts on v as follows: 
+T(v1, v2, v3) = ( 0v1 + 2v2 + iv3 , v1 − iv2 + 0v3 , 3iv1 + v2 + 7v3 ) . 
+(6.15) 
+22 
+
+Calculate the action of T † on a vector. 
+Give the matrix representations of T and T † using the 
+orthonormal basis e1 = (1, 0, 0), e2 = (0, 1, 0), e3 = (0, 0, 1). Assume the inner product is the standard 
+on on C3 . 
+Solution: We introduce a vector u = (u1, u2, u3) and will use the basic identity (u, Tv) = (T †u, v). 
+The left-hand side of the identity gives: 
+∗ 
+∗
+∗ 
+( u, Tv ) = u (2v2 + iv3) + u (v1 − iv2) + u (3iv1 + v2 + 7v3) . 
+(6.16) 
+1
+2
+3
+This is now rewritten by factoring the various vi’s 
+∗ 
+∗
+∗
+∗ 
+( u, Tv ) = (u + 3iu ∗ )v1 + (2u − iu 2 
+∗ + u )v2 + (iu ∗ + 7u )v3 . 
+(6.17) 
+2
+3
+1 
+3
+1
+3
+Identifying the right-hand side with (T †u, v) we now deduce that 
+T †(u1, u2, u3) = ( u2 − 3iu3 , 2u1 + iu2 + u3 , −iu1 + 7u3 ) . 
+(6.18) 
+This gives the action of T † . To ﬁnd the matrix representation we begin with T. Using basis vectors, 
+we have from (6.15) 
+Te1 = T(1, 0, 0) = (0, 1, 3i) = e2 + 3ie3 = T11e1 + T21e2 + T31e3 , 
+(6.19) 
+and deduce that T11 = 0, T21 = 1, T31 = 3i. This can be repeated, and the rule becomes clear quickly: 
+the coeﬃcients of vi read left to right ﬁt into the i-th column of the matrix. Thus, we have 
+ 0 
+2 
+i 
+ 0 
+1 
+−3i 
+T =  1 
+−i 
+0 
+and 
+T † =  2 
+i 
+1  . 
+(6.20) 
+3i 
+1 
+7 
+−i 
+0 
+7 
+These matrices are related: one is the transpose and complex conjugate of the other! This is not an 
+accident. 
+Let us reframe this using matrix notation. Let u = ei and v = ej where ei and ej are orthonormal 
+basis vectors. Then the deﬁnition (u, Tv) = (T †u, v) can be written as 
+(T † ei, ej ) = (ei, Tej ) 
+†
+(T ek, ej ) = (ei, Tkj ek)
+ki
+(6.21) 
+†
+(T ) ∗ δkj = Tjkδik 
+ki
+(T †) ∗ 
+= Tij 
+ji 
+Relabeling i and j and taking the complex conjugate we ﬁnd the familiar relation between a matrix 
+and its adjoint: 
+(T †)ij = (Tji) ∗ . 
+(6.22) 
+The adjoint matrix is the transpose and complex conjugate matrix only if we use an orthonormal basis. 
+If we did not, in the equation above the use of (ei, ej ) = δij would be replaced by (ei, ej ) = gij , where 
+gij is some constant matrix that would appear in the rule for the construction of the adjoint matrix. 
+23 
+
+7 
+Hermitian and Unitary operators 
+Before we begin looking at special kinds of operators let us consider a very surprising fact about 
+operators on complex vector spaces, as opposed to operators on real vector spaces. 
+Suppose we have an operator T that is such that for any vector v ∈ V the following inner product 
+vanishes 
+( v, Tv) = 0 
+for all v ∈ V. 
+(7.23) 
+What can we say about the operator T? The condition states that T is an operator that starting from 
+a vector gives a vector orthogonal to the original one. In a two-dimensional real vector space, this is 
+simply the operator that rotates any vector by ninety degrees! It is quite surprising and important 
+that for complex vector spaces the result is very strong: any such operator T necessarily vanishes. 
+This is a theorem: 
+Theorem: Let T be a linear operator in a complex vector space V : 
+If (v , Tv) = 0 for all v ∈ V, then T = 0. 
+(7.24) 
+Proof: 
+Any proof must be such that it fails to work for real vector space. Note that the result 
+follows if we could prove that (u, Tv) = 0, for all u, v ∈ V . Indeed, if this holds, then take u = Tv, 
+then (Tv, Tv) = 0 for all v implies that Tv = 0 for all v and therefore T = 0. 
+We will thus try to show that (u , Tv) = 0 for all u, v ∈ V . All we know is that objects of the form 
+(#, T#) vanish, whatever # is. So we must aim to form linear combinations of such terms in order 
+to reproduce (u , Tv). We begin by trying the following 
+(u + v, T(u + v)) −(u − v, T(u − v)) = 2(u, Tv) + 2(v, Tu) . 
+(7.25) 
+We see that the “diagonal” term vanished, but instead of getting just (u , Tv) we also got (v , Tu). 
+Here is where complex numbers help, we can get the same two terms but with opposite signs by trying, 
+(u + iv, T(u + iv)) −(u − iv, T(u − iv)) = 2i(u, Tv) − 2i (v, Tu) . 
+(7.26) 
+It follows from the last two relations that 
+1(
+1
+1 
+)
+(u , Tv) = 
+(u+v, T(u+v)) −(u−v, T(u−v))+ (u+iv, T(u+iv)) − (u−iv, T(u−iv)) . (7.27) 
+4
+i
+i
+The condition (v, Tv) = 0 for all v, implies that each term of the above right-hand side vanishes, thus 
+showing that (u , Tv) = 0 for all u, v ∈ V . As explained above this proves the result. 
+An operator T is said to be Hermitian if T † = T. Hermitian operators are pervasive in quantum 
+mechanics. The above theorem in fact helps us discover Hermitian operators. It is familiar that the 
+expectation value of a Hermitian operator, on any state, is real. It is also true, however, that any 
+operator whose expectation value is real for all states must be Hermitian: 
+24 
+
+T = T † if and only if (v, Tv) ∈ R for all v . 
+(7.28) 
+T † 
+(v, Tv) = (T † v, v) = (Tv, v) = (v, Tv) ∗ , 
+(7.29) 
+showing that (v, Tv) is real. To go from right to left ﬁrst note that the reality condition means that 
+(v, Tv) = (Tv, v) = (v, T † v) , 
+(7.30) 
+where the last equality follows because (T †)† = T. Now the leftmost and rightmost terms can be 
+combined to give (v, (T − T †)v) = 0, which holding for all v implies, by the theorem, that T = T † . 
+We can prove two additional results of Hermitian operators rather easily. We have discussed earlier 
+the fact that on a complex vector space any linear operator has at least one eigenvalue. Here we learn 
+that the eigenvalues of a hermitian operator are real numbers. Moreover, while we have noted that 
+eigenvectors corresponding to diﬀerent eigenvalues are linearly independent, for Hermitian operators 
+they are guaranteed to be orthogonal. Thus we have the following theorems 
+Theorem 1: The eigenvalues of Hermitian operators are real. 
+Theorem 2: Diﬀerent eigenvalues of a Hermitian operator correspond to orthogonal eigenfunctions. 
+To prove this ﬁrst go from left to right. If T = 
+Proof 1: Let v be a nonzero eigenvector of the Hermitian operator T with eigenvalue λ: Tv = λv. 
+Taking the inner product with v we have that 
+(v, Tv) = (v, λv) = λ(v, v) . 
+(7.31) 
+Since T is hermitian, we can also evaluate (v, Tv) as follows 
+(v, Tv) = (Tv, v) = (λv, v) = λ ∗ (v, v) . 
+(7.32) 
+The above equations give (λ−λ∗)(v, v) = 0 and since v is not the zero vector, we conclude that λ∗ = λ, 
+showing the reality of λ. 
+Proof 2: Let v1 and v2 be eigenvectors of the operator T: 
+Tv1 = λ1v1, 
+Tv2 = λ2v2 , 
+(7.33) 
+with λ1 and λ2 real (previous theorem) and diﬀerent from each other. Consider the inner product 
+(v2, Tv1) and evaluate it in two diﬀerent ways. First 
+(v2, Tv1) = (v2, λ1v1) = λ1(v2, v1) , 
+(7.34) 
+25 
+
+and second, using hermiticity of T, 
+(v2, Tv1) = (Tv2, v1) = (λ2v2, v1) = λ2(v2, v1) . 
+(7.35) 
+From these two evaluations we conclude that 
+(λ1 − λ2)(v1, v2) = 0 
+(7.36) 
+and the assumption λ1  
+λ2, leads to (v1, v2) =
+= 
+0, showing the orthogonality of the eigenvectors. 
+Let us now consider another important class of linear operators on a complex vector space, the so-
+called unitary operators. An operator U ∈L(V ) in a complex vector space V is said to be a unitary 
+operator if it is surjective and does not change the magnitude of the vector it acts upon: 
+|Uu| = |u| , for all u ∈ V . 
+(7.37) 
+We tailored the deﬁnition to be useful even for inﬁnite dimensional spaces. Note that U can only kill 
+vectors of zero length, and since the only such vector is the zero vector, null U = 0, and U is injective. 
+Since U is also assumed to be surjective, a unitary operator U is always invertible. 
+A simple example of a unitary operator is the operator λI with λ a complex number of unit-norm: 
+|λ| = 1. Indeed |λIu| = |λu| = |λ||u| = |u| for all u. Moreover, the operator is clearly surjective. 
+For another useful characterization of unitary operators we begin by squaring (7.37) 
+(Uu, Uu) = (u, u) 
+(7.38) 
+By the deﬁnition of adjoint 
+(u, U †U u) = (u, u)
+→
+(u , (U †U − I)u) = 0 for all u . 
+(7.39) 
+So by our theorem U †U = I, and since U is invertible this means U † is the inverse of U and we also 
+have UU † = I: 
+U †U = UU † = I . 
+(7.40) 
+Unitary operators preserve inner products in the following sense 
+( Uu , Uv) = (u , v) . 
+(7.41) 
+This follows immediately by moving the second U to act on the ﬁrst input and using U †U = I. 
+Assume the vector space V is ﬁnite dimensional and has an orthonormal basis (e1, . . . en). Consider 
+the new set of vectors (f1, . . . , fn) where the f’s are obtained from the e’s by the action of a unitary 
+operator U: 
+fi = U ei . 
+(7.42) 
+26 
+
+This also means that ei = U †fi. We readily see that the f’s are also a basis, because they are linearly 
+independent: Acting on a1f1 + . . . + anfn = 0 with U † we ﬁnd a1e1 + . . . + anen = 0, and thus ai = 0. 
+We now see that the new basis is also orthonormal: 
+(fi , fj ) = ( Uei , Uej ) = (ei , ej ) = δij . 
+(7.43) 
+The matrix elements of U in the e-basis are 
+Uki = (ek , Uei) . 
+(7.44) 
+′ 
+Let us compute the matrix elements U 
+of U in the f-basis 
+ki 
+′ 
+Uki = (fk , Ufi) = (Uek , Ufi) = (ek , fi) = (ek , Uei) = Uki 
+(7.45) 
+The matrix elements are the same! Can you ﬁnd an explanation for this result? 
+27 
+
+  
+ 
+ 
+ 
+ 
+ 
+MIT OpenCourseWare 
+http://ocw.mit.edu 
+8.05 Quantum Physics II  
+Fall 2013  
+For information about citing these materials or our Terms of Use, visit: http://ocw.mit.edu/terms. 

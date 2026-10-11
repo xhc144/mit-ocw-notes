@@ -1,0 +1,212 @@
+Quantum Physics I (8.04) Spring 2016
+Assignment 6
+MIT Physics Department
+Due Friday April 1, 2016
+March 17, 2016
+12:00 noon
+Reading: Griﬃths section 2.6. For the following week sections 2.5 and 2.3.
+Problem Set 6
+1. Particle in a square well.
+[10 points] A particle of mass m moves in an inﬁnite
+square well of width a. Its wavefunction at time t = 0 is
+1
+Ψ(x, 0) = √
+3
+r
+2
+a sin 2πx
+a
++
+r
+2
+3
+r
+2
+a sin 3πx .
+a
+(a) Is Ψ in an energy eigenstate? Find Ψ(x, t).
+(b) What are the probabilities that a measurement of the energy at time t gives
+each of the following values
+ℏ2π2
+2ma2 ,
+4ℏ2π2
+2ma2 ,
+9ℏ2π2
+.
+2ma2
+(c) What is the expectation value of x at time t?
+(d) What is the expectation value of p at time t ?
+2. Non-degeneracy of bound states in one dimension [10 points]
+Griﬃths Problem 2.45, p. 87.
+3. Inﬁnite rectangular well in the plane [10 points]
+Consider a particle of mass m moving in the x, y plane with potential that is zero
+inside the rectangular box comprised of all points (x, y) for which
+0 ≤x ≤Lx ,
+0 ≤y ≤Ly ,
+and is inﬁnite elsewhere.
+(a) Use the two-dimensional Schro¨dinger equation to ﬁnd the energy eigenstates.
+Give the energies and the normalized eigenfunctions.
+1
+
+Physics 8.04, Quantum Physics 1, Fall 2015
+2
+(b) Consider the case Lx = Ly = L. You will see that there are degeneracies in
+the energy spectrum. Some degeneracies have a simple symmetry explanation;
+identify them and state why they occur. Some degeneracies are accidental; they
+seem to be random. Display some examples. [Hint: 49+ 1 = 25 + 25].
+(c) Show that whenever (L
+2
+x/Ly) is irrational there are no degeneracies.
+4. An inﬁnite square well with a step [10 points]
+A particle of mass m is moving in one dimension, subject to the potential V (x):
+V (x) =
+
+∞,
+for x < 0,
+
+
+
+0,
+for 0 < x < a ,
+V
+(V
+
+0 ,
+for a < x < 2a ,
+0 > 0)
+∞,
+for x > 2a .
+(a) Find the equations tha
+
+
+t determine the stationary states with energies 0 < E <
+V0. For this we deﬁne
+k2
+2mE
+≡
+ℏ2
+,
+κ2 ≡2m(V0 −E)
+ℏ2
+,
+z2
+0 = 2ma2V0
+ℏ2
+,
+η ≡ka ,
+ξ ≡κa .
+(We use k for classically allowed regions and κ for classically forbidden re-
+gions).Your equations should be possible to write in terms of ξ, η, and z0.
+(b) As a numerical application, consider z0 = 2π. How many states do you get with
+E < V0? Find the possible values of the energy E in terms of V0 (use at least 4
+signiﬁcant digits).
+5. Shooting method and application [15 points]
+For a particle in a quartic potential V (x) ∼x4, after rescaling of x into a unit-free
+variable u, the Schro¨dinger equation takes the form
+1
+−2
+d2ψ
+4
+2 + (u
+ψ
+u
+−e)
+= 0 ,
+d
+where e is a unit-free measure of the energy eigenvalue. The Mathematica instructions
+that allow you to ﬁnd the values of e for the even solutions of this potential are given
+below. These instructions produce a plot for the solution ψ(u), for u ∈[0, 3.5] with
+some suitable initial conditions and for the chosen value of the energy e.
+Clear[e, psi]
+v[x_]:= x^4
+e=0.65;
+psi = psi/. NDSolve[{-(1/2)psi’’[u] + (v[u]-e)psi[u]==0, psi[0]==1,
+
+Physics 8.04, Quantum Physics 1, Fall 2015
+3
+psi’[0]==0}, psi, {u, 0, 3.5}][[1]];
+Plot[psi[u], {u, 0, 3.5}]
+After executing these instructions, if you write psi[0.5], for example, the program
+will return the value of ψ at u = 0.5.
+Play with this to familiarize yourself. The initial value of e set above is 0.65 but the
+ground state energy, as you can ﬁnd out by trial and error, is a little bit higher.
+We now revisit the previous problem: a particle of mass m on an inﬁnite square well
+with a step. Again, we take z0 = 2π. You found two bound states with E < V0:
+E1 = 0.##436 V0 ,
+E2 = 0.##747V0 .
+(a) Use x = au, with u ∈[0, 2] unit free, and write V = V0f(u) for a suitably deﬁned
+f(u) to obtain a diﬀerential equation for the energy eigenstates in which no units
+appear and the energy eigenvalue is encoded by the pure number e = E/V0.
+Test your diﬀerential equation with the shooting method to recover the above
+values of E1 and E2. Find the next two energy levels E3 and E4.
+(b) We discussed in lecture the fact that for slowly varying potentials the amplitude
+of the wavefunction is roughly proportional to the square root of the ‘local’ de
+Broglie wavelength. Our potential, having a step, is not really slowly varying,
+but we can still see numerically to what degree this property holds.
+Construct the energy eigenstate with 8 nodes (the eighth excited state) and
+determine its energy. Let AL and AR denote the amplitudes of your wavefunction
+on the left and right sides of the square well. Read the ratio AL/AR from your
+wavefunction and compare with the prediction for this ratio using the de Broglie
+wavelength.
+6. Hydrogen ion using the square well model. [10 points]
+Last time you modeled the hydrogen atom size and ground state energy
+ℏ2
+a0 = me2 ,
+E0 = −e2
+=
+.
+a0
+−13 6 eV,
+2
+using the square well potential
+V (x) =
+(
+−V0,
+for |x| < a0,
+V0 > 0 ,
+0 ,
+for |x| > a0 .
+You previously found that this well has
+z0 = 1.3192,
+and
+V0 = z2
+0|E0| = 1.7402|E0| = 23.67eV .
+The square well potential mimics the potential created by the proton and the ground
+state energy is the energy of the electron in this potential.
+
+Physics 8.04, Quantum Physics 1, Fall 2015
+4
+To simulate the hydrogen ion H+
+2 (2 protons 1 electron) we will construct an even
+potential with two identical square well models of hydrogen separated by a small
+distance 2γ a0 where γ is a small positive unit-free constant. The potential is therefore
+0
+for
+|x| < γa0 ,
+V (x) =
+
+
+
+−V0,
+for
+γa0 < |x| < (2 + γ)a0,
+V0 > 0 ,
+
+0 ,
+for
+|x| > (2 + γ)a0 .
+For deﬁniteness work w
+
+ith γ = 0.2 .
+(a) Use the shooting method to ﬁnd the energy of the lowest energy eigenstate,
+namely, the bound state energy of an electron shared by the two protons. Show
+the wavefunction of the electron from the plot of your solution.
+(b) The binding energy of the ion is obtained by adding the positive energy due to
+the repulsion of the two protons to the above ground state energy. What binding
+energy do you get? How does it compare with the experimental value?
+
+MIT OpenCourseWare
+https://ocw.mit.edu
+8.04 Quantum Physics I
+Spring 2016
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.

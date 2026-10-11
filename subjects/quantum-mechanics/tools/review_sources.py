@@ -5,17 +5,10 @@ import fitz
 ROOT=pathlib.Path(__file__).resolve().parents[3]
 p=ROOT/'manifests/quantum-mechanics-sources.json';m=json.loads(p.read_text())
 HOLD={
-'MIT8_04S16_ps6_2016.pdf':'Contains Griffiths Problem 2.45 reference without a supplied problem statement.',
-'MIT8_04S16_ps7_2016.pdf':'Contains Griffiths 2.47 and Problem 2.42.',
 'MIT8_05F13_ps1.pdf':'Variation on Griffiths 2.2, textbook-dependent square-well question, and problem-number-only 2.38.',
 'MIT8_05F13_ps3.pdf':'Contains question from Axler.',
-'MIT8_05F13_ps5.pdf':'Contains Griffiths 3.32 problem-number-only reference.',
-'MIT8_05F13_ps10.pdf':'Contains Griffiths Problem 4.57; lecture exercises also referenced rather than printed.',
-'MIT8_05F13_ps11.pdf':'Optional textbook table and solution references; no included textbook table identified. Conservative hold, not a confirmed rights exclusion.',
-'MIT8_06S18ps6.pdf':'Contains Griffiths 9.11 and 9.14 problem-number-only references.',
 'MIT8_06S18ps7.pdf':'Aharonov-Bohm question follows a Griffiths example and references Fig. 10.10; no copied figure identified. Conservative hold, not a confirmed rights exclusion.',
 'MIT8_05F13_Chap_01.pdf':'Contains example explicitly attributed to Griffiths.',
-'MIT8_05F13_Chap_03.pdf':'Text explicitly follows the discussion in Axler; separate adaptation permission not established.',
 'MIT8_04S16_ps3_2016.pdf':'Problem 5 attributed to Merzbacher; textbook-derived question redistribution not established.',
 'MIT8_04S16_ps8_2016.pdf':'Problem 5 based on Griffiths 2.33.',
 'MIT8_04S16_ps10_2016.pdf':'Problems 3 and 5 based on Ohanian.',
@@ -44,6 +37,10 @@ for i in m['resources']:
    f=ROOT/i[k]
    if f.exists():shutil.move(str(f),str(hold/f.name))
   i['download_path_not_distributed']=i.pop('path',original_path);i.pop('text_path',None)
+ elif i.get('license_review')=='OCW_default_restored_citation_not_exclusion':
+  f=ROOT/i['path'];b=f.read_bytes();d=fitz.open(f)
+  assert hashlib.sha256(b).hexdigest()==i['sha256'] and len(d)==i['pages']
+  i.update(archive_allowed=True,retained_in_repository=True)
  elif 'duplicate_of' in i:
   i.update(archive_allowed=False,license_review='duplicate_alias',retained_in_repository=False)
  else:
@@ -52,7 +49,7 @@ for i in m['resources']:
   assert all(p.get_text() is not None for p in d)
   i.update(archive_allowed=True,license_review='OCW_default_no_document_specific_exception_found_in_text',retained_in_repository=True)
   i['review_scope']='All PDF pages opened and extracted; document text scanned for credits, explicit textbook adaptations and rights notices. No claim that absence of a notice resolves all possible unmarked rights.'
-m['rights_policy']='OCW default CC BY-NC-SA 4.0 does not automatically cover separately identified third-party material. Citation or adaptation credit alone does not establish an explicit exclusion. Selected mixed files with incomplete textbook statements or unresolved adaptation credit are held conservatively, not labelled confirmed exceptions. No commercial textbook or external image is bundled.'
+m['rights_policy']='Follow official OCW FAQ: unmarked OCW material is CC BY-NC-SA; credit permitted third-party contributions; explicit All rights reserved material is excluded. Citation, textbook problem number, optional table reference or following a textbook discussion alone is not an exclusion. Seven overly broad holds restored; other mixed documents remain under item-level review, not classified as infringements. No textbook supplied only by reference is downloaded or invented.'
 m['known_gaps']=['8.06 Spring 2018 chapter 5 PDF not supplied on official lecture-notes page.','8.06 Spring 2018 exams expressly unavailable to OCW users.','8.06 syllabus mentions an ungraded last-week problem set; assignments page supplies only nine.','Official solutions not linked on the selected three OCW course pages; classroom website availability does not mean OCW availability.']
 p.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
 ret=[i for i in m['resources'] if i['retained_in_repository']]
