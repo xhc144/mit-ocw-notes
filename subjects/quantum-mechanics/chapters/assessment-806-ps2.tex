@@ -1,5 +1,5 @@
 \originalchapter{8.06 作业2：高阶微扰与环上极化}
-来源为Spring 2018 Assignment 2, 2018年2月14日发布, Barton Zwiebach. 本轮第1、2题完整中文转述与\textbf{AI独立解答}. 第3题署Schiff改编、第4题外书Feynman--Hellmann题、第5题署Griffiths变题, 各具体表达单核, 不整份禁入, 未计入本轮完成数. 一般微扰和氢Stark主题已有本册独立推导, 不冒称取得商业教材.
+来源为Spring 2018 Assignment 2, 2018年2月14日发布, Barton Zwiebach. 第1--5题完整中文转述与\textbf{AI独立解答}. 第3题署Schiff改编, 第4、5题署Griffiths改编, 以下保留署名并依MIT已给的任务独立推导. 一般微扰和氢Stark主题已有本册独立推导, 不冒称取得商业教材.
 \originalsection{第1题：高阶非简并微扰与归一化}
 \begin{exercise}
 $H=H_0+\lambda V$, 非简并$\ket n$, 采用中间归一$\braket n{n_\lambda}=1$. 求二阶态修正和三阶能修正. 展$Z_n$至$\lambda^2$, $Z_n^{-1}=\braket{n_\lambda}{n_\lambda}$, 新态测到旧$n$的概率是什么?
@@ -22,4 +22,53 @@ Hermitian时为实, 第一和的共轭可交换$k,l$核验. 中间归一各阶�
 \end{exercise}
 \begin{solution}
 令$v=q\epsilon a/2$, 矩阵元$V_{mn}=-v(\delta_{m,n+1}+\delta_{m,n-1})$, 简并内部一阶矩阵0. 外部中间态为$0,\pm2$, 对角二阶$v^2(1/E_1+1/(E_1-4E_1))=2v^2/(3E_1)$. 两态间只共用中间$0$, 非对角$v^2/E_1$. 所以二阶有效矩阵为$(v^2/E_1)\begin{pmatrix}2/3&1\\1&2/3\end{pmatrix}$. 好态$(\ket1+\ket{-1})/\sqrt2$为$\cos\phi/\sqrt\pi$, 位移$5v^2/(3E_1)$; $(\ket1-\ket{-1})/\sqrt2$到整体相位为$\sin\phi/\sqrt\pi$, 位移$-v^2/(3E_1)$. 对零阶简并态直接分别套非简并二阶公式会漏非对角耦合而得相同错位移.
+\end{solution}
+
+\originalsection{第3题：三维简并矩阵的明态与暗态}
+\begin{exercise}
+$H=\begin{pmatrix}E_1&0&\epsilon_1\\0&E_1&\epsilon_2\\\epsilon_1^*&\epsilon_2^*&E_2\end{pmatrix}$, $E_1\ne E_2$. (a)求精确本征值、至二阶能量和一阶态. (b)用简并/非简并微扰重新推出零阶好态与能移. 原件署adapted from Schiff.
+\end{exercise}
+\begin{solution}
+令$s^2=|\epsilon_1|^2+|\epsilon_2|^2$, $\Delta=E_1-E_2$, $s\ne0$. 子空间内取明态$b=(\epsilon_1,\epsilon_2,0)^{\mathsf T}/s$, 暗态$d=(\epsilon_2^*,-\epsilon_1^*,0)^{\mathsf T}/s$. 直接乘得$Hd=E_1d$, $Hb=E_1b+s\ket3$, $H\ket3=sb+E_2\ket3$. 因而精确谱为
+\[
+E_1,\qquad \frac{E_1+E_2\pm\sqrt{\Delta^2+4s^2}}2.
+\]
+按$s\to0$趋向的能量标记, 明态能量$E_1+s^2/\Delta+O(s^4)$, $\ket3$能量$E_2-s^2/\Delta+O(s^4)$, 一阶态分别$b+(s/\Delta)\ket3$, $\ket3-(s/\Delta)b$, 范数修正从二阶开始; 暗态精确不变. 若$\Delta<0$, 明态对应平方根的负支, 不把正支固定称“近$E_1$”.
+
+简并块一阶为0, 二阶为$\epsilon\epsilon^\dagger/\Delta$, 它在$b$上本征值$s^2/\Delta$, 在$d$上为0. 非简并$\ket3$的一阶态系数$\epsilon_i/(E_2-E_1)$和二阶和$-s^2/\Delta$重现上式. $s=0$时原简并基任取, 不使用除$s$的式子.
+\end{solution}
+\originalsection{第4题：用参数导数求氢的径向均值}
+\begin{exercise}
+径向$H=-\hbar^2\partial_r^2/(2m)+\hbar^2\ell(\ell+1)/(2mr^2)-e^2/r$, $E_n=-me^4/(2\hbar^2n^2)$, $n=N+\ell+1$. 以FH定理分别取参数$e^2$和连续延拓的$\ell$, 求$\langle r^{-1}\rangle,\langle r^{-2}\rangle$. 原件署Griffiths改编.
+\end{exercise}
+\begin{solution}
+归一本征式求导并左乘态, 两个态导数项由$\langle H\rangle=E$抵消, 得$\partial_\lambda E=\langle\partial_\lambda H\rangle$. 令$\lambda=e^2$, $E=-m\lambda^2/(2\hbar^2n^2)$, 所以$-\langle1/r\rangle=-m\lambda/(\hbar^2n^2)$, 即$\langle1/r\rangle=1/(a_0n^2)$.
+
+对$\ell$求导时固定径向节点数$N$, 而$n=N+\ell+1$会变. 因此$\partial_\ell E=me^4/(\hbar^2n^3)$, $\partial_\ell H=\hbar^2(2\ell+1)/(2mr^2)$, 给
+\[
+\langle r^{-2}\rangle=\frac1{a_0^2n^3(\ell+1/2)}.
+\]
+这以径向参数族作连续延拓, 不是说物理角动量读数连续; 若错固定$n$导数为0, 就丢掉了同一径向分支.
+\end{solution}
+\originalsection{第5题：Stark位移、上界与简并好态}
+\begin{exercise}
+忽略自旋时氢扰动$V'=e\mathcal E z$. (a)证$\int x^ay^bz^cf(r)\dd^3r$在任一指数为奇数时为0. (b)求1s一阶位移. (c)求$\sum_\alpha|\bra\alpha z\ket{100}|^2$（含连续谱）, 最负逆能隙及二阶位移界$\Delta E\ge-Ca_0^3\mathcal E^2$. (d)(e)求$n=2$一阶分裂、好态和偶极均值. (f)比较Stark和2S/2P精细结构的电场尺度. 原件署Griffiths改编.
+\end{exercise}
+\begin{solution}
+(a)若$a$奇, 作$x\mapsto-x$积分不变而被积函数反号, 所以为0; 对$y,z$同理, 假定积分存在. (b)1s偶宇称使$\langle z\rangle=0$.
+
+(c)插入含离散和连续部分的恒等分解, 总和为$\langle z^2\rangle=\langle r^2\rangle/3=a_0^2$. 由$\int_0^\infty r^4\e^{-2r/a_0}\dd r$直接得$\langle r^2\rangle=3a_0^2$. 最近能级$n=2$给$E_1-E_2=-3\mathrm{Ry}/4$, 所有非零耦合分母的逆均不小于$-4/(3\mathrm{Ry})$. 故
+\[
+\Delta E^{(2)}=e^2\mathcal E^2\sum_{\alpha\ne1}
+\frac{|\bra\alpha z\ket1|^2}{E_1-E_\alpha}
+\ge-\frac{4e^2a_0^2}{3\mathrm{Ry}}\mathcal E^2
+=-\frac83a_0^3\mathcal E^2.
+\]
+$\mathrm{Ry}=e^2/(2a_0)$为Gaussian单位, $C=8/3$. 正确物理极化率以$p=\alpha_{\rm pol}\mathcal E$定义, 感生过程能量为$-\alpha_{\rm pol}\mathcal E^2/2$, 因为$p=-\partial_{\mathcal E}E$. 原件讨论段少了$1/2$; 所引精确能量系数$9/4$对应$\alpha_{\rm pol}=9a_0^3/2$, 本界为$\alpha_{\rm pol}\le16a_0^3/3$.
+
+(d)宇称排除同宇称元, $z$又保留$m$, 只耦合$\ket{200},\ket{210}$. 用$R_{20}=(2-r/a_0)\e^{-r/(2a_0)}/(2\sqrt2a_0^{3/2})$, $R_{21}=(r/a_0)\e^{-r/(2a_0)}/(2\sqrt6a_0^{3/2})$及$\int Y_{00}^*\cos\theta Y_{10}\dd\Omega=1/\sqrt3$, 径向积分给$\bra{200}z\ket{210}=-3a_0$. 块为$-3ea_0\mathcal E\sigma_x$, 好态$(200\pm210)/\sqrt2$能移$\mp3ea_0\mathcal E$, 另两$m=\pm1$态为0, 三层的零层二重.
+
+(e)电子偶极$-e\boldsymbol r$, 两混合态的$z$均值$\mp3a_0$, 偶极$\pm3ea_0\hat z$; $x,y$均值0, 两未混合态偶极全0.
+
+(f)纯精细结构使2S$_{1/2}$与2P$_{1/2}$仍简并. 若比较2S$_{1/2}$与2P$_{3/2}$, $\Delta_{\rm fs}=mc^2\alpha_{\rm fs}^4/32\simeq4.53\times10^{-5}$eV, 与$3ea_0\mathcal E$相等在$\mathcal E\simeq2.85\times10^3$V/cm. 100V/cm较小, 对此劈裂精细结构占优; 不能据此断言全部2S/2P混合都消失. 要区别这仍简并的一对还需Lamb移位等题外物理输入.
 \end{solution}

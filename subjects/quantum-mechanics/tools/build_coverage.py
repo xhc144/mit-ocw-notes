@@ -30,51 +30,113 @@ for i,(course,nums) in enumerate(mapping,1):
        'scope':('Independent support chapter, not a translation of unavailable 8.06 chapter 5.' if not rs else 'Concepts and derivations organized by prerequisites; not a complete page-by-page translation.'),
        'original_additions':True})
 selected={'MIT8_04S16_ps1_2016.pdf': ('chapters/assessment-ps1.tex', 7), 'MIT8_04S16_Test1_Fall2015.pdf': ('chapters/assessment-test1.tex', 5), 'MIT8_05F13_ps6.pdf': ('chapters/assessment-ps6.tex', 6), 'MIT8_06S18ps1.pdf': ('chapters/assessment-advanced-ps1.tex', 5), 'MIT8_04S16_ps2_2016.pdf': ('chapters/assessment-804-ps2.tex', 5), 'MIT8_04S16_ps4_2016.pdf': ('chapters/assessment-804-ps4.tex', 7), 'MIT8_04S16_ps5_2016.pdf': ('chapters/assessment-804-ps5.tex', 8), 'MIT8_04S16_ps9_2016.pdf': ('chapters/assessment-804-ps9.tex', 6), 'MIT8_04S16_Test2_Fall2015.pdf': ('chapters/assessment-804-test2.tex', 5), 'MIT8_04S16_FinalTest_2015.pdf': ('chapters/assessment-804-final2015.tex', 6), 'MIT8_05F13_ps7.pdf': ('chapters/assessment-805-ps7.tex', 7), 'MIT8_05F13_ps9.pdf': ('chapters/assessment-805-ps9.tex', 6), 'MIT8_05F13_test_2011.pdf': ('chapters/assessment-805-test2011.tex', 5), 'MIT8_05F13_test_2012v4.pdf': ('chapters/assessment-805-test2012.tex', 5), 'MIT8_05F13_test_2013_v3.pdf': ('chapters/assessment-805-test2013.tex', 5), 'MIT8_05F13_final_2011.pdf': ('chapters/assessment-805-final2011.tex', 7), 'MIT8_05F13_final_2012.pdf': ('chapters/assessment-805-final2012.tex', 6), 'MIT8_05F13_final_2013.pdf': ('chapters/assessment-805-final2013.tex', 6), 'MIT8_06S18ps5.pdf': ('chapters/assessment-806-ps5.tex', 5)}
-for f,n in selected.values():
-    assert (SUB/f).is_file(), f
+
+# Per-document available MIT questions. Number-only external references remain explicit.
+addition_specs={
+ '804':{3:([1,2,3,4,5,6],[]),6:([1,3,4,5,6],[2]),7:([1,3,4,6],[2,5]),8:([1,2,3,4,5],[]),10:([1,2,3,4,5,6,7],[])},
+ '805':{1:([1,2,3,4,5,6],[7]),2:([1,2,3,4,5,6],[]),3:([1,2,3,4,5,6],[]),4:([1,2,3,4,5,7],[6]),5:([1,2,3,4,5,6,8,9],[7]),8:([1,2,3,4,5,6],[]),10:([1,2,3,5],[4]),11:([1,2,3,4,5,6,'practice1','practice2','practice3','practice4','practice5','practice6'],[])},
+ '806':{2:([1,2,3,4,5],[]),3:([1,2,3,4,5],[]),4:([1,2,3,4,6],[5]),6:([1,2,3],[4,5]),7:([1,2,3,4,5,6,7],[]),8:([1,2,3,4,5,6],[]),9:([1,2,3],[])}
+}
+added={}
+for course,sets in addition_specs.items():
+    for ps,(usable,omitted)in sets.items():
+        name=(f'MIT8_04S16_ps{ps}_2016.pdf'if course=='804'else f'MIT8_05F13_ps{ps}.pdf'if course=='805'else f'MIT8_06S18ps{ps}.pdf')
+        f=f'chapters/assessment-{course}-ps{ps}.tex'
+        selected[name]=(f,len(usable))
+        added[name]={'usable_questions':usable,'number_only_external_references':omitted,'all_subparts_of_usable_questions':True,'role_notes':[]}
+added['MIT8_05F13_ps10.pdf']['role_notes']=['Question 3 contains all seven exercises from MIT Chapter 9; counted once as a main question.']
+added['MIT8_05F13_ps11.pdf']['role_notes']=['Six regular and six practice main questions; practice originally not for submission.']
+added['MIT8_06S18ps9.pdf']['role_notes']=['Practice problem set.']
+added['MIT8_06S18ps3.pdf']['role_notes']=['Q1 expressly credited to Griffiths with modifications; independently rewritten Chinese mathematics, not labelled MIT original.']
+for course,ps in [('804',8),('806',7)]:
+    name=f'MIT8_04S16_ps{ps}_2016.pdf'if course=='804'else f'MIT8_06S18ps{ps}.pdf'
+    added[name]['role_notes'].append('Referenced commercial book figure/data not supplied; own generic model/figure explicitly labelled, no invented missing statement.')
+for i,(name,rs)in enumerate([
+ ('spectrum-variational-support.tex',[match('8.05',1)]),
+ ('time-dependent-support.tex',[match('8.06',4)])],18):
+    f=SUB/'chapters'/name
+    chapters.append({'number':i,'title':re.search(r'\\originalchapter\{([^}]+)\}',f.read_text())[1],
+      'file':str(f.relative_to(ROOT)),'status':'written_independent_review_completed',
+      'source_resources':[r['resource_page_url']for r in rs],'scope':'Omitted derivations and examples integrated as a supplement; no page-by-page translation claim.','original_additions':True})
+chapters[7]['source_resources'].append(match('8.05',3)['resource_page_url'])
+chapters[7]['supplement_file']='subjects/quantum-mechanics/chapters/linear-algebra-support.tex'
 assess=[]
 for r in m['resources']:
-    if r['category'] not in ['assignments','exams'] or 'duplicate_of' in r:continue
-    name=pathlib.Path(r.get('path',r.get('download_path_not_distributed'))).name[33:]
-    sel=selected.get(name)
-    status='full_chinese_statement_and_independent_solution' if sel else ('conservative_hold_or_incomplete_textbook_statement' if not r.get('retained_in_repository') else ('formula_sheet_archived' if 'Formula Sheet' in r['title'] else 'original_archived_chinese_solution_pending'))
-    assess.append({'course':r['course'],'title':r['title'],'hosting_term':r['term'],'document_term':r['document_term'],'source_url':r['url'],'resource_url':r['resource_page_url'],'sha256':r['sha256'],'retained_original':r['retained_in_repository'],'status':status,'chinese_file':'subjects/quantum-mechanics/'+sel[0] if sel else None,'question_count':sel[1] if sel else None,'all_subparts_in_selected_document':bool(sel),'solution_author':'AI independent' if sel else None,'official_solution_received':False})
-out={'schema_version':1,'date':'2026-10-11','edition':'Expanded continuous Chinese study book; all nineteen retained full-statement assessment documents solved','chinese_core_chapters':chapters,'assessments':assess,'fully_solved_assessment_documents':len(selected),'fully_solved_main_questions':sum(x[1] for x in selected.values()),
-'coverage_boundaries':['Selected course sequence organized conceptually; no claim to translate every lecture page.','Unpublished 8.06 exams and conservative source holds are not invented.','Airy contour deformation, nonterminating hypergeometric growth, low-energy Dirac effective terms and Runge–Lenz long commutator identities are explicitly cited mathematical/physical inputs; subsequent calculations are derived.','Relativistic quantum field theory, radiative corrections and all many-body theory are outside this introductory-to-advanced selection.'],
-'unavailable_or_withheld_sources':m['known_gaps'],'independent_solution_notice':'All Chinese assessment solutions are AI independent; no official solutions obtained for selected courses.'}
+    if r['category']not in ('assignments','exams')or'duplicate_of'in r:continue
+    name=pathlib.Path(r['path']).name[33:];sel=selected.get(name);info=added.get(name,{})
+    status='all_available_questions_chinese_statement_and_AI_solution'if sel else 'formula_sheet_archived'
+    a={'course':r['course'],'title':r['title'],'hosting_term':r['term'],'document_term':r['document_term'],
+       'source_url':r['url'],'resource_url':r['resource_page_url'],'sha256':r['sha256'],'retained_original':r['retained_in_repository'],
+       'status':status,'chinese_file':'subjects/quantum-mechanics/'+sel[0]if sel else None,'question_count':sel[1]if sel else 0,
+       'all_subparts_of_usable_questions':bool(sel),'all_subparts_in_selected_document':bool(sel)and not info.get('number_only_external_references'),
+       'solution_author':'AI independent'if sel else None,'official_solution_received':False,**info}
+    if sel and name not in added:a['usable_questions']=list(range(1,sel[1]+1));a['number_only_external_references']=[]
+    if sel:
+        f=SUB/sel[0];assert f.is_file()
+        # Prior audited chapters sometimes group adjacent original questions.
+        if name in added:
+            actual=len(re.findall(r'\\begin\{exercise\}',f.read_text()));assert actual==sel[1],(name,actual,sel[1])
+    assess.append(a)
+boundaries=['Course concepts organized by prerequisites; not a page-by-page translation.',
+ '10 number-only commercial-book questions in the 20 additions have no complete MIT statement and are not invented.',
+ '8.06 Chapter 5, exams and syllabus last-week problem set not supplied by OCW.',
+ 'No official assessment solutions received. All Chinese solutions are AI independent.',
+ 'Relativistic field theory, radiative corrections and full many-body theory outside this selection.']
+out={'schema_version':2,'date':'2026-10-11','edition':'Completed 23-source restoration additions',
+ 'chinese_core_chapters':chapters,'assessments':assess,
+ 'assessment_documents_with_all_usable_questions_solved':len(selected),
+ 'fully_solved_assessment_documents':sum(a['all_subparts_in_selected_document']for a in assess),
+ 'fully_solved_main_questions':sum(s[1]for s in selected.values()),
+ 'addition_assessment_documents':len(added),'addition_main_questions':sum(len(a['usable_questions'])for a in added.values()),
+ 'number_only_omitted_questions':sum(len(a['number_only_external_references'])for a in added.values()),
+ 'all_subparts_of_usable_questions_completed':True,'coverage_boundaries':boundaries,
+ 'unavailable_or_withheld_sources':m['known_gaps'],
+ 'source_review_reports':['qa/additions-804-independent.md','qa/additions-805-early-independent.md','qa/additions-805-late-independent.md','qa/additions-806-independent.md']}
 (SUB/'coverage.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
+for r in m['resources']:
+    if'duplicate_of'in r:continue
+    name=pathlib.Path(r['path']).name[33:]
+    if name in added:r['chinese_addition_coverage']=added[name]|{'file':'subjects/quantum-mechanics/'+selected[name][0],'solution_role':'AI independent'}
+for n,f in [('MIT8_05F13_Chap_01.pdf','spectrum-variational-support.tex'),('MIT8_05F13_Chap_03.pdf','linear-algebra-support.tex'),('MIT8_06S18ch4.pdf','time-dependent-support.tex')]:
+    r=next(r for r in m['resources']if r.get('path','').endswith(n))
+    r['chinese_addition_coverage']={'file':'subjects/quantum-mechanics/chapters/'+f,'role':'Independent Chinese explanations of all source sections, combined with previously written theory.'}
+mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
 def esc(s):return s.replace('&',r'\&').replace('_',r'\_').replace('%',r'\%')
-rows=[]
+text=r'''\originalchapter{来源对应与覆盖边界}
+本册按先修顺序中文重编, 不是逐页全文翻译. 原17理论章和19考核篇保留, 新增两理论章、在第8章接入Chapter 3线代补充, 并纳入20份作业的115道可用大题. 全册现有19理论章、39考核篇, 共227道大题. 8.05作业10第3题内部七个MIT讲义练习逐个解答, 计数仍为一大题; 作业11正式与练习各六题, 共12题.
+
+三课教师Barton Zwiebach. 8.04原讲义另署首版LaTeX转录者Sarah Geller、Andrew Turner, 原件和清单保留各人贡献, 中文新增解释与题解为AI独立整理. 改编或Inspired信用照实保留, 不称全部题目均为MIT原创. 官方课程页面未提供本册所选题目的官方解答.
+\begin{longtable}{p{.05\textwidth}p{.38\textwidth}p{.47\textwidth}}
+\toprule 章 & 内容 & 原件资源页链接\\\midrule\endhead
+'''
 for c in chapters:
     labels=[]
     for url in c['source_resources']:
-        r=next(r for r in m['resources'] if r['resource_page_url']==url)
-        labels.append(r'\href{'+url+'}{'+r['course']+' '+esc(pathlib.Path(r['path']).name[33:].replace('MIT8_04S16_','').replace('MIT8_05F13_','').replace('MIT8_06S18','').replace('.pdf',''))+'}')
-    rows.append(f"{c['number']} & {esc(c['title'])} & "+('; '.join(labels) if labels else '独立推导; 未冒称缺失原件翻译')+r'\\')
-text=r'''\originalchapter{来源对应与覆盖边界}
-本册正文为按先修顺序的中文重编, 不是逐页全文翻译. 下表给主要来源, 独立补充的证明和算例也在相应章内展开. 第15章含时微扰的基本公式为独立推导, 没有复制被暂缓打包的8.06第4章中的教材改编例题. 三门课程教师均为Barton Zwiebach. 8.04原讲义另署首版LaTeX转录者Sarah Geller、Andrew Turner; 第1、2、5、6、11、12、16、19讲署Geller, 第3、7、8、9、10、13、18讲署Turner, 第4、14--15、20--21、22讲署二人. 第17讲未另署转录者, 不代填姓名. 本册署名保留这些贡献者, 新增中文说明与题解为AI独立整理.
-\begin{longtable}{p{.05\textwidth}p{.38\textwidth}p{.47\textwidth}}
-\toprule 章 & 内容 & 原件资源页链接\\\midrule\endhead
-'''+ '\n'.join(rows)+r'''
-\bottomrule\end{longtable}
-\originalsection{考核覆盖}
-19份保留的完整题面考核共112道大题, 所有小问已在考核篇转述并独立解答. 本次选定课程页面没有取得官方解答, 全部解答为AI独立计算. 两张公式表作为原件提供, 不计入已解答试卷; 暂缓打包的混合文件只记录URL和校验事实, 不补造缺失的教材题面. 下表逐份列出作业与测试状态, 历史试卷年份按题面和网页分别记录. 公式表只作为原件归档, 不计为已解答试卷.
-\begin{longtable}{p{.10\textwidth}p{.47\textwidth}p{.33\textwidth}}
-\toprule 课程 & 文件资源页 & 中文处理状态\\\midrule\endhead
+        r=next(r for r in m['resources']if r['resource_page_url']==url)
+        name=pathlib.Path(r['path']).name[33:].replace('MIT8_04S16_','').replace('MIT8_05F13_','').replace('MIT8_06S18','').replace('.pdf','')
+        labels.append(r'\href{'+url+'}{'+r['course']+' '+esc(name)+'}')
+    text+=f"{c['number']} & {esc(c['title'])} & "+('; '.join(labels)if labels else '独立推导')+r'\\'+'\n'
+text+=r'''\bottomrule\end{longtable}
+\originalsection{逐份作业与考试覆盖}
+39份文档中所有可用题面的小问均中文重述和独立解答. 少数文档还有仅给商业书题号的对象, 下表明确列出, 不补造题面. 两张公式表只归档, 不计解答考核. 数值图全部自绘, 题面所引未附商业图片没有复制或假称已见.
+\begin{longtable}{p{.08\textwidth}p{.40\textwidth}p{.42\textwidth}}
+\toprule 课程 & 原件资源页 & 可用题及处理\\\midrule\endhead
 '''
 for a in assess:
-    status={'full_chinese_statement_and_independent_solution':'所有小问中文题面及独立解答','conservative_hold_or_incomplete_textbook_statement':'教材依赖或改编待核, 保守暂缓打包','formula_sheet_archived':'公式表原件已归档','original_archived_chinese_solution_pending':'原件已归档; 中文题解待补'}[a['status']]
-    label=a['title'].replace(' (PDF)','')
-    text+=a['course']+' & '+r'\href{'+a['resource_url']+'}{'+esc(label)+'} & '+status+r'\\'+'\n'
+    if a['question_count']:
+        status='完整可用题已解: '+','.join(str(q).replace('practice','练习')for q in a['usable_questions'])
+        if a['number_only_external_references']:status+='; 仅书号未编: '+','.join(map(str,a['number_only_external_references']))
+    else:status='公式表归档'
+    text+=a['course']+' & '+r'\href{'+a['resource_url']+'}{'+esc(a['title'].replace(' (PDF)',''))+'} & '+status+r'\\'+'\n'
 text+=r'''\bottomrule\end{longtable}
-\originalsection{覆盖边界与许可}
-正文已经补入打靶与节点排序、$\delta$势、相干与压缩、三种动力学表象、角动量合成、精细结构三项、含时跃迁与Berry相位、Airy连接推导、带电粒子、散射和全同粒子应用. 本册仍是按概念组织的选定课程学习册, 不是每页原讲义的全文翻译. 复路径变形、非终止超几何级数的增长结论、低能Dirac有效项及Runge--Lenz长算符恒等式明确作为进阶输入, 不假称已在本册从零证明. 没有包含场论、辐射修正或完整多体理论.
+\originalsection{许可与实际缺失边界}
+23份先前因商业书名、题号或改编信用而整份暂缓的OCW原件已逐件核对资源页并全部恢复, 当前78份唯一PDF、874页. \href{https://mitocw.zendesk.com/hc/en-us/articles/4414756181403-How-is-all-rights-reserved-content-different-from-the-rest-of-OCW-content}{OCW官方FAQ}解释未标例外内容及Used with permission的默认CC适用, 明确All rights reserved例外另论. 本次没有找到这23份资源的逐件相反声明. 商业教材本身没有打包, 仅书名、题号或参考表不意味着已取得外书题面或表格; 本册只处理MIT实际给出的完整任务和自写推导. 历史恢复、引用信用及具体逐题角色见覆盖清单和独审记录.
 
-8.06 Spring 2018第5章原件缺失, 两次考试明确不向OCW公开, 课纲述末周不计分作业也未在作业页提供. 没有补造题面. 默认许可证不自动覆盖商业教材; 对题面依赖和明确改编信用未充分确认的混合文件, 整份保守暂缓打包. 引用、书目或改编信用本身不等于已证实的版权排除, 逐项记录区分观察事实、权利不确定性与当前打包决定. URL、页数和SHA256仍记录在清单. 其中的数学物理事实可独立推导, 本册不复制该类题面或外站图片.
+8.06第5章原件、考试及课纲末周作业未提供, 不编造. 部分进阶物理输入（低能Dirac项、非终止超几何增长等）仍在原章明确注明; 新增Runge--Lenz练习现给出长算符恒等式的有序推导. 本册没有场论、辐射修正或完整多体论.
 
-课程入口: \href{https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/}{8.04 Spring 2016}, \href{https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/}{8.05 Fall 2013}, \href{https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/}{8.06 Spring 2018}. 每课页面的Syllabus、Calendar、Lecture Notes、Assignments和公开Exams栏目有本地检索快照. 逐文件清单保留直接PDF网址、标题、教师、实际题面年份、页数、字节数、SHA256、明确权利声明与保守暂缓理由.
+课程入口: \href{https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/}{8.04 Spring 2016}, \href{https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/}{8.05 Fall 2013}, \href{https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/}{8.06 Spring 2018}. 逐文件清单保存资源页、直接PDF网址、题面年份、页数、字节数、SHA256、许可与贡献者.
 
-原件及本中文改编按\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}署名、非商业、相同方式共享; 另参\href{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}{MIT OCW使用条款}. 本册没有MIT官方中文或官方认可的含义.
+原件及中文改编按\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}署名、非商业、相同方式共享, 另参\href{https://ocw.mit.edu/pages/privacy-and-terms-of-use/}{MIT OCW使用条款}. 本册为非官方中文整理.
 '''
 (SUB/'chapters/source-map.tex').write_text(text)
-print('Updated contributors, chapter/source coverage, assessment statuses, and source-map.tex')
+print('Updated 39 assessments / 227 main questions / 23-source coverage.')

@@ -13,4 +13,4 @@ python tools/check_pdf.py build/main.pdf --out build/pdf-links.json
 
 本次公开成品采用仓库已有数学 LaTeX 排版 Skill 的固定模板验证器编译，自动检查通过；独立内容与每页图文审查另存 `qa/`。SOURCE ZIP 可重建相同页面布局；PDF 的创建时间等元数据可能不同。
 
-数值图的TikZ坐标已经随`chapters/figure-*.tex`提供，普通编译不需联网或SciPy。若要独立重算数值证据，`python tools/assessment_numerics.py`另需NumPy与SciPy；计算结果保存在仓库`qa/assessment-numerics.json`。图的采样值不作为解析证明。
+数值图的TikZ坐标已经随`chapters/figure-*.tex`提供，普通编译不需联网或SciPy。若要独立重算数值证据，`python tools/assessment_numerics.py`重算原图，`python tools/addition_numerics.py`重算本次17个图表输入，二者另需NumPy与SciPy；计算结果保存在仓库`qa/assessment-numerics.json`和`qa/addition-numerics.json`。图的采样值不作为解析证明。

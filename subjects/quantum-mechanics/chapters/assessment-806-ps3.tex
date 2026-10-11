@@ -1,5 +1,35 @@
 \originalchapter{8.06 作业3：精细结构与向量算符}
-来源为Spring 2018 Assignment 3, 2018年2月21日发布. 本轮第3--5题有完整MIT内容, 中文转述及\textbf{AI独立解答}. 第1题明确打印Griffiths 6.15、p.270“minor modifications”题面, 第2题署Sakurai具体题, 单核真正复制对象; 不将两题恢复为独立MIT题. 原件已归档, 此局部状态不称确证侵权.
+来源为Spring 2018 Assignment 3, 2018年2月21日发布. 第1--5题均有完整题面, 以下独立中文表述及\textbf{AI独立解答}. 第1题明确信用Griffiths 6.15（minor modifications）, 不是声称MIT原创; 第2题署based on Sakurai. 保留具体来历, 数学推导为本册自写.
+\originalsection{第1题：径向动量的边界与分布项}
+\begin{exercise}
+依MIT印出的Griffiths 6.15变式, (a)在球对称氢态上分部积分核$p^2=-\hbar^2r^{-2}\partial_r(r^2\partial_r)$的Hermitian边界项. (b)核$\nabla^4\e^{-kr}$中的原点分布项, 用两指数态配对检查对称性.
+\end{exercise}
+\begin{solution}
+径向内积为$4\pi\int r^2f^*g\dd r$, 两次分部积分得
+\[
+\langle f,p^2g\rangle-\langle p^2f,g\rangle
+=-4\pi\hbar^2[r^2f^*g'-r^2(f^*)'g]_0^\infty.
+\]
+正规$nS$态原点函数和一阶导有限, $r^2$使该端为0, 无穷端指数尾亦为0. 这是这些态上的边界核验, 不是任意函数域上的自伴性证明.
+
+对$r>0$, $\nabla^2\e^{-kr}=(k^2-2k/r)\e^{-kr}$. 又$\nabla^2(\e^{-kr}/r)=k^2\e^{-kr}/r-4\pi\delta^3(\boldsymbol r)$, 所以
+\[
+\nabla^4\e^{-kr}=(k^4-4k^3/r)\e^{-kr}+8\pi k\delta^3(\boldsymbol r).
+\]
+令$s=k+k'$, $k,k'>0$, 与$\e^{-k'r}$配对得到$\hbar^4[8\pi k^4/s^3-16\pi k^3/s^2+8\pi k]$, 整理为
+$8\pi\hbar^4kk'(k^2+3kk'+k'^2)/s^3$, 对$k,k'$显式对称. 如果遗漏$\delta$便丢对称性. $p^4\e^{-kr}$含分布而不在$L^2$, 故上述按分布配对或$\langle p^2f,p^2g\rangle$二次型理解, 不假称这些指数都在$p^4$算符域.
+\end{solution}
+\originalsection{第2题：球对称态在原点的概率密度}
+\begin{exercise}
+中央势的$\ell=0$束缚态, 以径向方程证明$|\psi(0)|^2$与$\langle V'(r)\rangle$的关系, 确定系数, 再求氢$nS$态. 原件署based on Sakurai.
+\end{exercise}
+\begin{solution}
+取实归一径向$u$, $\psi=u/(\sqrt{4\pi}r)$, $\int u^2\dd r=1$, $u(0)=0$. 方程$u''=2m(V-E)u/\hbar^2$乘$u'$积分, 左侧$[u'^2/2]_0^\infty=-u'(0)^2/2$, 右侧分部积分为$-m\int V'u^2\dd r/\hbar^2$, 边界$(V-E)u^2$消失. 因此$u'(0)^2=2m\langle V'\rangle/\hbar^2$. 原点$u(r)=u'(0)r+o(r)$给
+\[
+|\psi(0)|^2=\frac{m}{2\pi\hbar^2}\langle V'\rangle.
+\]
+氢$V'=e^2/r^2$, 由上一作业FH结果$\langle r^{-2}\rangle=2/(a_0^2n^3)$, 得$|\psi_{n00}(0)|^2=1/(\pi a_0^3n^3)$, $n=1$与归一1s值相符. 奇异势使用本式要核端点与积分存在, 不能把上述边界消失当普遍公理.
+\end{solution}
 \originalsection{第3题：3P精细结构的磁场尺度}
 \begin{exercise}
 (i)求使自由电子Zeeman间距等于氢$3P_{1/2},3P_{3/2}$分裂的磁场. (ii)估计3P电子内部自旋轨道有效磁场.
@@ -26,12 +56,13 @@
 
 同一$n$有相同$m_\ell+2m_s$的简并仍需查扰动内部矩阵. 精细Hamilton算符与$L^2,J_z$对易; 不同$\ell$或不同$m_j=m_\ell+m_s$没有非对角元. 同一$\ell$下若Zeeman标签相同且$m_s$不同, $m_\ell$相差2, $m_j$相差1, 也不耦合; 若$m_s$相同则$m_\ell$同而为同一态. 因而该简并块在这些基矢间已对角, 可用对角期望, 不能仅说“强场所以非简并”.
 \end{solution}
+这里强场是相对精细结构而言, 仍须远弱于主要Coulomb能级尺度, 并忽略抗磁$B^2$项; 任意大磁场不能继续使用固定$n$近似.
 \originalsection{第5题：向量算符恒等式}
 \begin{exercise}
 若$[J_i,W_j]=\ii\hbar\epsilon_{ijk}W_k$, $W$称向量算符. (a)证位置对轨道$L$是向量. (b)证两向量叉积仍向量. (c)证$[J^2,W]=2\ii\hbar W\times J+2\hbar^2W$, 核$W=J$. (d)求常数$\alpha$使$[J^2,[J^2,V]]/\alpha=(V\cdot J)J-\{J^2,V\}/2$.
 \end{exercise}
 \begin{solution}
-(a)$[\epsilon_{iab}x_ap_b,x_j]=\epsilon_{iab}x_a(-\ii\hbar\delta_{bj})=\ii\hbar\epsilon_{ijk}x_k$. (b)用乘积对易规则, 两项$\epsilon$缩并与作业10练习6相同, 保持向量顺序, 得$[J_i,(U\times V)_j]=\ii\hbar\epsilon_{ijk}(U\times V)_k$.
+(a)$[\epsilon_{iab}x_ap_b,x_j]=\epsilon_{iab}x_a(-\ii\hbar\delta_{bj})=\ii\hbar\epsilon_{ijk}x_k$. (b)用乘积对易规则, 实际有$[J_i,\epsilon_{jab}U_aV_b]=\ii\hbar\epsilon_{jab}(\epsilon_{iak}U_kV_b+\epsilon_{ibk}U_aV_k)$. 两次缩并分别给$\ii\hbar(\delta_{ij}U_kV_k-U_jV_i)$和$\ii\hbar(U_iV_j-\delta_{ij}U_kV_k)$, 相加为$\ii\hbar(U_iV_j-U_jV_i)$, 保持全部算符原顺序, 得$[J_i,(U\times V)_j]=\ii\hbar\epsilon_{ijk}(U\times V)_k$.
 
 (c)$[J^2,W_j]=\sum_i(J_i[J_i,W_j]+[J_i,W_j]J_i)$. 将第一项$J_iW_k$换成$W_kJ_i+[J_i,W_k]$, 两个同序项给$2\ii\hbar(W\times J)_j$, 额外$\epsilon$缩并给$2\hbar^2W_j$. $W=J$时$J\times J=\ii\hbar J$, 两项正好抵消为0.
 
