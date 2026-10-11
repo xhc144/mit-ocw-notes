@@ -1,0 +1,97 @@
+\originalchapter{8.06 作业1：微扰的适用范围}
+来源为8.06 Spring 2018的Assignment 1, 发布日2018年2月7日. 以下完整转述五题各小问, 分值依次10、15、25、10、20分. 所有题解为\textbf{AI独立解答}, 没有取得官方答案. 只转述该公开作业自身给出的题面, 不复制其阅读书单中的商业教材.
+
+\originalsection{第1题：二阶厄米矩阵}
+\begin{exercise}
+(a)求$(\boldsymbol a\cdot\boldsymbol\sigma)^2$及其本征值, 用迹求$\boldsymbol a\cdot\boldsymbol\sigma$与$a_0I+\boldsymbol a\cdot\boldsymbol\sigma$的本征值. (b)令$\boldsymbol a=(\alpha,0,\beta)$, 求精确本征值; 分别在$|\alpha|\ll|\beta|$和$|\alpha|\gg|\beta|$时给主项与前两个修正项, 对照二阶微扰. (c)矩阵内积为$\langle A,B\rangle=\Tr(A^\dagger B)$, 对$A=(a_0I+\boldsymbol a\cdot\boldsymbol\sigma)/2$, 求厄米$Q_i$使$a_i=\langle A,Q_i\rangle$.
+\end{exercise}
+\begin{solution}
+Pauli乘法中的反对称项与$a_ia_j$收缩为0, 故平方为$|\boldsymbol a|^2I$, 两个平方本征值均为$|\boldsymbol a|^2$. 原矩阵厄米且迹为0, 本征值为$\pm|\boldsymbol a|$; 加$a_0I$平移为$a_0\pm|\boldsymbol a|$. $\boldsymbol a=0$时两者都为0.
+
+对(b), 精确值为$\pm\sqrt{\alpha^2+\beta^2}$. 小$\alpha$而$\beta\neq0$时,
+\[
+E_\pm=\pm\left(|\beta|+\frac{\alpha^2}{2|\beta|}-\frac{\alpha^4}{8|\beta|^3}+\cdots\right).
+\]
+以$\beta\sigma_z$为未扰动矩阵, $\alpha\sigma_x$只有非对角元, 一阶为0, 二阶为$\pm\alpha^2/(2|\beta|)$, 正好给前一修正项; 四阶项不能由二阶公式产生. 反过来以$\alpha\sigma_x$为主项, 小$\beta$的展开为$\pm(|\alpha|+\beta^2/(2|\alpha|)-\beta^4/(8|\alpha|^3)+\cdots)$, 其二阶结果同理. 两者都为0时不能套有非零能隙的非简并公式.
+
+$\Tr I^2=2$, $\Tr\sigma_i\sigma_j=2\delta_{ij}$, $\Tr\sigma_i=0$, 所以(c)取$Q_0=I$, $Q_i=\sigma_i$即可. 内积中的$A^\dagger$在此等于$A$.
+\end{solution}
+
+\originalsection{第2题：三次势的形式基态}
+\begin{exercise}
+令$d^2=\hbar/(m\omega)$,
+\[
+H=\frac{p^2}{2m}+\frac12m\omega^2x^2+\lambda\sqrt2\hbar\omega\frac{x^3}{d^3}.
+\]
+(a)求未扰动基态的一阶和二阶能量变化. (b)把一阶波函数写成谐振子态的和. (c)画小$\lambda$的势, 判断所得态是否为真正基态, 说明微扰遗漏的效应.
+\end{exercise}
+\begin{solution}
+$x=d(a+a^\dagger)/\sqrt2$, 所以扰动为$\lambda\hbar\omega(a+a^\dagger)^3/2$. 逐次作用给$(a+a^\dagger)^3\ket0=3\ket1+\sqrt6\ket3$, 不可把不对易的因子按普通二项式展开. 奇偶性使一阶能量为0, 而
+\[
+\Delta E^{(2)}=\frac{\lambda^2(\hbar\omega)^2}{4}
+\left(\frac9{-\hbar\omega}+\frac6{-3\hbar\omega}\right)
+=-\frac{11}{4}\lambda^2\hbar\omega.
+\]
+态为$\ket\psi=\ket0-(3\lambda/2)\ket1-(\sqrt6\lambda/6)\ket3+O(\lambda^2)$, 已在一阶归一化. 这是围绕局部阱的形式近似, 不能命名为实际全局基态.
+
+取$\lambda=0.08$仅作图, 横轴$s=x/d$, 纵轴$v=V/(\hbar\omega)=s^2/2+\sqrt2\lambda s^3$. 势在左端趋向$-\infty$, 原点只是局部最低点. 对任意非零$\lambda$都不存在最低能量: 把归一化波包平移到负无穷(正$\lambda$)可使势能任意低而保持固定动能. 图中的局部势垒使原点附近的态可能成为寿命较长的亚稳态; 穿过势垒逃逸的隧穿衰变不会被有限阶实能量微扰描述. 负$\lambda$时图左右镜像.
+\begin{center}\begin{tikzpicture}
+\begin{axis}[width=.65\textwidth,height=5cm,axis lines=middle,xmin=-5.5,xmax=3,ymin=-4,ymax=7,xlabel={$s=x/d$},ylabel={$v$},samples=180,domain=-5.5:3]
+\addplot[thick,structurecolor]{.5*x^2+sqrt(2)*.08*x^3};
+\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+
+\originalsection{第3题：三维谐振子的简并空间}
+\begin{exercise}
+$H_0=\boldsymbol p^2/(2m)+m\omega^2\boldsymbol x^2/2$, $\delta H=\lambda\omega L_2$, 其中$L_2=x_3p_1-x_1p_3$是$y$方向分量, 不是角动量平方. (a)定义三方向升降和数算符, 求$\ket{n_1,n_2,n_3}$能量及$5\hbar\omega/2$简并度. (b)用升降算符写$\delta H$. (c)求该简并空间的扰动矩阵. (d)求扰动和全$H$的本征值、态. (e)在扰动本征基中写全$H$矩阵, 解释任意小非零扰动对基的选择. (f)证明不同未扰动能级之间的扰动矩阵元为0, 给出相应算符结论, 说明何以本题可以不要求$\lambda$小.
+\end{exercise}
+\begin{solution}
+$a_j=\sqrt{m\omega/(2\hbar)}x_j+\ii p_j/\sqrt{2m\hbar\omega}$, $N_j=a_j^\dagger a_j$, 所以$H_0=\hbar\omega(N_1+N_2+N_3+3/2)$. $5\hbar\omega/2$的空间为$\ket{100},\ket{010},\ket{001}$三维. 直接代入得$L_2=\ii\hbar(a_1^\dagger a_3-a_3^\dagger a_1)$, 因而在此顺序中
+\[
+\delta H=\lambda\hbar\omega\begin{pmatrix}0&0&\ii\\0&0&0\\-\ii&0&0\end{pmatrix}.
+\]
+零本征值的态为$\ket{010}$, $+\lambda\hbar\omega$和$-\lambda\hbar\omega$分别对应$(\ket{100}-\ii\ket{001})/\sqrt2$和$(\ket{100}+\ii\ket{001})/\sqrt2$. 全能量在各扰动本征值上加$5\hbar\omega/2$. 按正、零、负的次序, (e)的矩阵是$\hbar\omega\operatorname{diag}(5/2+\lambda,5/2,5/2-\lambda)$. 无论非零$\lambda$多小, 选出的第一、第三态都含等幅的原基分量; 这种有限角度的基变换不随$\lambda$趋零而缩小. 在$\lambda=0$恰好重新有基选择自由.
+
+扰动中的每项保持总激发数, 故$[H_0,\delta H]=0$. 对$E_\varphi\neq E_\psi$, $(E_\varphi-E_\psi)\bra\varphi\delta H\ket\psi=\bra\varphi[H_0,\delta H]\ket\psi=0$. 因此各能级块互不混合, 本题对这个块的对角化是精确的, 不需忽略块外高阶修正. 一般扰动并不具有此性质. 这些块内谱式对所有实$\lambda$成立; 若还要求整个三维振子有受限的最低能量, 应注意圆偏振模的频率为$\omega(1\pm\lambda)$, 稳定束缚情形要求$|\lambda|<1$.
+\end{solution}
+
+\originalsection{第4题：圆周粒子的极化率与三重势}
+\begin{exercise}
+质量$m$的粒子在半径$a$圆周上运动, $\psi(\varphi+2\pi)=\psi(\varphi)$且$\int_0^{2\pi}|\psi|^2\dd\varphi=1$. (a)求$H_0=L_z^2/(2ma^2)$的本征态、能量和简并. (b)粒子电荷$q$, 沿$x$加电场$\varepsilon$, 扰动$-q\varepsilon a\cos\varphi$. 求基态一阶波函数、诱导偶极矩$\langle qx\rangle$及极化率. (c)撤去场, 用$b\cos3\varphi$模拟乙烷两端$\mathrm{CH}_3$基团的相对转动, 求一阶基态和二阶能量, 解释三重对称效应. 原题以$2ma^2$代替实际分子转动惯量系数, 本题保留该简化.
+\end{exercise}
+\begin{solution}
+周期边界使$u_n(\varphi)=\e^{\ii n\varphi}/\sqrt{2\pi}$, $n\in\mathbb Z$, $E_n=Bn^2$, 其中$B=\hbar^2/(2ma^2)$是能量尺度, 此处不是磁场. 基态$n=0$不简并, 非零$\pm n$成对. 因为$\cos\varphi=(\e^{\ii\varphi}+\e^{-\ii\varphi})/2$, 只有$n=\pm1$与0耦合. 两个一阶系数为$q\varepsilon a/(2B)$, 所以
+\[
+\psi(\varphi)=\frac1{\sqrt{2\pi}}\left(1+\frac{q\varepsilon a}{B}\cos\varphi\right)+O(\varepsilon^2),\qquad
+\langle qx\rangle=\frac{q^2a^2}{B}\varepsilon+O(\varepsilon^2).
+\]
+用了$\int_0^{2\pi}\cos^2\varphi\dd\varphi=\pi$. 极化率为$2mq^2a^4/\hbar^2$, 为正, 与电荷符号无关. 近似要求$|q\varepsilon a|\ll B$.
+
+三重势只耦合$0$与$\pm3$, 系数为$-b/(18B)$, 得
+\[
+\psi=\frac1{\sqrt{2\pi}}\left(1-\frac b{9B}\cos3\varphi\right)+O(b^2),\qquad
+E_0=0-\frac{b^2}{18B}+O(b^3).
+\]
+一阶能量为0. 二阶项来自两条相同的$|b/2|^2/(-9B)$路径. $b>0$时低势方向$\cos3\varphi=-1$的概率增加, 三个等价相对朝向出现; $b<0$时转过$\pi/3$. 能量下降反映基态通过调整分布集中到有利朝向, 而非粒子完全静止在经典最低点.
+\end{solution}
+
+\originalsection{第5题：有限核半径的能量修正}
+\begin{exercise}
+质子电荷均匀分布在半径$R$球内, 忽略氢精细结构、Lamb移和超精细分裂. 原题使用Gaussian单位, 球外势能为$-e^2/r$. (a)求所有$r$的电子势能并验证连续. (b)利用核内未扰动基态波函数几乎不变, 求最低阶能量位移; $R=10^{-13}\,\mathrm{cm}$时求其相对13.6eV结合能的大小. (c)解释为何$\ell=0$最显著, 估计$\ell=1$的额外抑制因子. (d)原题引述2010年缪子氢测量$R=0.84184(67)\times10^{-13}\,\mathrm{cm}$及当时CODATA值$0.8768(69)\times10^{-13}\,\mathrm{cm}$, 要求解释重206.8倍的缪子何以更敏感. 这些是原题的\textbf{历史数据}, 不是对当前常数或争议状态的断言.
+\end{exercise}
+\begin{solution}
+球内包围电荷为$e(r/R)^3$, Gauss定律给电场$er/R^3$, 球外$e/r^2$. 电子势能导数为$eE$, 用$V(\infty)=0$并在$R$连续匹配得
+\[
+V(r)=\begin{cases}-\dfrac{e^2}{2R}(3-r^2/R^2),&0\leq r<R,\\-e^2/r,&r\geq R.\end{cases}
+\]
+相对点核的改变量仅在球内, 为$\delta V=e^2(1/r-3/(2R)+r^2/(2R^3))$. 以$|\psi_{100}(0)|^2=1/(\pi a_0^3)$代替核内密度,
+\[
+\Delta E\simeq\frac{4e^2}{a_0^3}\int_0^R\left(r-\frac{3r^2}{2R}+\frac{r^4}{2R^3}\right)\dd r
+=\frac{2e^2R^2}{5a_0^3}.
+\]
+位移为正, 有限核减弱最深处吸引. 因为结合能大小为$e^2/(2a_0)$, 比例为$(4/5)(R/a_0)^2$. 用$a_0\simeq5.29\times10^4\,\mathrm{fm}$, $R=1\,\mathrm{fm}$, 得$2.86\times10^{-10}$, 即约$3.9\times10^{-9}\,\mathrm{eV}$. 略去密度随$r$变化的相对误差为$O(R/a_0)$.
+
+正则径向解在小$r$有$R_\ell(r)\propto r^\ell$, 所以$\ell=1$的核内密度相比同尺度的$s$态额外带$(R/a_0)^2$量级, 约$3.6\times10^{-10}$; 不同主量子数另有系数, 这里只是尺度估计. $s$态在原点有非零密度, 对有限核最敏感.
+
+Bohr长度实际用约化质量$\mu=m_{\rm lepton}m_p/(m_{\rm lepton}+m_p)$, 因而$\Delta E\propto a^{-3}\propto\mu^3$, 相对结合能的位移则正比$\mu^2$. 若把质子当无限重, 缪子使长度缩小206.8倍. 保留$m_p\simeq1836.15m_e$时, 缪子氢与普通氢的约化质量比约186, 仍使绝对有限核位移增强约$6.4\times10^6$倍. 这解释了半径灵敏度; 实际谱线提取还需原题暂时忽略的其他效应, 不能把本简化式当作完整实验分析.
+\end{solution}

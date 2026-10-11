@@ -1,0 +1,45 @@
+\originalchapter{动量表象与不确定性}
+\originalsection{傅里叶展开}
+局域波包由不同波数组成. 采用一致的变换约定,
+\[
+\psi(x)=\frac1{\sqrt{2\pi}}\int_\R\phi(k)\e^{\ii kx}\dd k,
+\qquad
+\phi(k)=\frac1{\sqrt{2\pi}}\int_\R\psi(x)\e^{-\ii kx}\dd x.
+\]
+对平方可积函数, Plancherel定理保证该变换在$L^2$意义下定义且保持范数: $\int|\psi|^2\dd x=\int|\phi|^2\dd k$. 这里调用标准傅里叶理论的$L^2$版本, 不把分布积分的形式运算当作它的证明. 本册Gaussian和光滑快速下降波包可直接核对所有积分.
+
+$|\phi(k)|^2\dd k$ 是波数在小区间中的概率. 若改用动量$p=\hbar k$, 概率幅必须是 $\widetilde\psi(p)=\phi(p/\hbar)/\sqrt\hbar$, 才有 $|\widetilde\psi(p)|^2\dd p=|\phi(k)|^2\dd k$. 不可以只把$k$写成$p$却忽略变量代换的 Jacobian.
+
+对光滑快速下降函数分部积分, 动量算符在$k$表象中变为乘以$\hbar k$, 位置算符变为$\ii\partial_k$. 从而 $\langle p\rangle=\int\hbar k|\phi(k)|^2\dd k$. 这解释了空间中快速的相位振荡为什么对应较大的动量.
+
+两条表象规则可直接复算. 记上述变换为 $\mathcal F$, 对边界项消失的光滑快速下降函数, 分部积分给
+$\mathcal F(\psi')=\ii k\phi$, 所以 $\mathcal F(-\ii\hbar\psi')=\hbar k\phi$. 对 $k$ 求导则有 $\phi'(k)=\mathcal F(-\ii x\psi)$, 因而 $\mathcal F(x\psi)=\ii\phi'$. 快速下降在这里表示函数及所需导数比任意倒数幂衰减得快; Gaussian满足这些条件. $L^2$收敛则指函数差的模方积分趋零, 未要求每一个点都收敛.
+
+对第2章Gaussian, 不需要复变量积分也可完成变换. 令 $I(k)=\int\e^{-x^2/(4a^2)}\e^{-\ii kx}\dd x$. Gaussian衰减允许微分进积分. 由 $x\e^{-x^2/(4a^2)}=-2a^2\partial_x\e^{-x^2/(4a^2)}$, 分部积分得 $I'(k)=-2a^2kI(k)$. 又 $I(0)=2a\sqrt\pi$, 故 $I(k)=2a\sqrt\pi\e^{-a^2k^2}$. 乘上变换归一系数得
+$\phi(k)=(2a^2/\pi)^{1/4}\e^{-a^2k^2}$. 它的密度仍是Gaussian, $\Delta k=1/(2a)$; 空间越窄, 波数分布越宽.
+
+
+\originalsection{厄米性与边界}
+观测量的期望值写为 $\langle A\rangle=\langle\psi,A\psi\rangle$. 在有限维, $A^\dagger=A$ 称为厄米, 等价于矩阵共轭转置不变. 对微分算符, 积分区间和定义域是算符的一部分. 例如
+\[
+\langle\phi,\hat p\psi\rangle-\langle\hat p\phi,\psi\rangle
+=-\ii\hbar[\phi^*(x)\psi(x)]_{a}^{b}.
+\]
+只有边界项为零, 才在所选定义域上有对称性. 自伴还要求伴随算符的定义域相同, 它比这个分部积分等式更强. 后文有限维矩阵没有此区别; 实线上的标准动量实现, 定义域可表述为函数与其弱导数都平方可积; 弱导数表示用对光滑试探函数的分部积分等式来定义导数. 本册计算先在光滑快速下降的子类上进行. 在有限区间, $\psi(b)=\e^{\ii\theta}\psi(a)$的一族边界给一阶动量的自伴实现. 硬墙的两端Dirichlet边界给二阶Hamilton算符的自伴实现, 却不能自动给同域的一阶动量自伴性. 每次形式对易计算限制在所需乘积都有意义的共同定义域上.
+
+自伴本征态 $Au=a u$ 的本征值实, 因为 $\langle u,Au\rangle=\langle Au,u\rangle$ 给出 $a\|u\|^2=a^*\|u\|^2$. 不同本征值的本征态正交: 若$Au=au$, $Av=bv$, 则 $(b-a)\langle u,v\rangle=0$. 两个结论不能反过来独立证明一个未指定边界的微分式自伴.
+
+\originalsection{不确定性关系的推导}
+归一态的方差定义为 $(\Delta A)^2=\|(A-\langle A\rangle)\psi\|^2$. 因为是范数平方, 它非负, 并且仅在$\psi$为$A$的本征态时为零. 记 $[A,B]=AB-BA$, 算符乘积按右边先作用. 假定 $A,B$自伴, 当前态在所需定义域中且方差有限. 令 $a=(A-\langle A\rangle)\psi$, $b=(B-\langle B\rangle)\psi$. Cauchy--Schwarz不等式可由范数非负得到: 当$a\ne0$时, 取 $c=\langle a,b\rangle/\|a\|^2$, 展开 $0\le\|b-ca\|^2$ 得 $|\langle a,b\rangle|^2\le\|a\|^2\|b\|^2$; $a=0$时结论直接成立. 所以
+\[
+(\Delta A)^2(\Delta B)^2\ge|\langle a,b\rangle|^2
+\ge|\operatorname{Im}\langle a,b\rangle|^2.
+\]
+在$AB\psi$和$BA\psi$都有意义且伴随交换合法时,
+$\langle a,b\rangle-\langle b,a\rangle=\langle\psi,(AB-BA)\psi\rangle$, 也就是 $2\ii\operatorname{Im}\langle a,b\rangle=\langle[A,B]\rangle$. 因而
+\begin{equation}\label{eq:uncertainty}
+\Delta A\,\Delta B\ge\frac12|\langle[A,B]\rangle|.
+\end{equation}
+对快速下降波包, $xp\psi-p(x\psi)=-\ii\hbar x\psi'+\ii\hbar(\psi+x\psi')=\ii\hbar\psi$, 得 $\Delta x\,\Delta p\ge\hbar/2$. 它描述同一个制备态的两种测量分布宽度, 不是一次测量仪器误差的简单相乘.
+
+对第2章的实Gaussian, $p\psi=\ii\hbar x\psi/(2a^2)$, 所以$\langle p\rangle=0$, $\Delta p=\hbar/(2a)$. 因而它饱和此不等式. 乘以$\e^{\ii p_0x/\hbar}$会把动量均值平移到$p_0$, 但两种标准差不变. 波包可以有任意大的平均动量同时保持同样的不确定性.

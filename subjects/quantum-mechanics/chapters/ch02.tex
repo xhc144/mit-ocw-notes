@@ -1,0 +1,38 @@
+\originalchapter{波函数与概率}
+\originalsection{概率密度和归一化}
+对一维无自旋粒子, 先研究能由单一复振幅描述的制备, 称为\textbf{纯态}; 它与对多个制备作经典随机混合的情形不同, 后者见第12章. \textbf{位置表象}是把每个位置$x$作为振幅的坐标, 用复函数$\psi(x,t)$表示态. 在时刻$t$做位置测量, 落入区间$[a,b]$的概率为$\int_a^b|\psi(x,t)|^2\dd x$. 这里$\rho=|\psi|^2$是\textbf{概率密度}, 不是概率本身. 在一维中$\rho$的量纲是长度的倒数, $\psi$的量纲是长度的负二分之一次方. 单个点的概率通常是零, 这不妨碍附近小区间有非零概率.
+
+\begin{definition}
+函数 $\psi$ 若满足 $\int_{\R}|\psi|^2\dd x<\infty$, 称为平方可积. 归一化态满足 $\int_{\R}|\psi|^2\dd x=1$. 若 $0<\|\psi\|<\infty$ 而范数不为1, 可除以其范数归一化; 零函数平方可积, 但不能表示归一化态.
+\end{definition}
+不能对任意函数进行这一步. 平面波的 $|\psi|$ 是常数, 在实线上的积分发散; 它是连续谱的广义本征态, 不是可归一化单粒子态. 后文散射中的单色波也有同样限制. 可以把它放在周期盒子中归一化, 或用平面波叠加成波包.
+
+\begin{example}
+设 $a>0$, $\psi(x)=N\exp[-x^2/(4a^2)]$. 求归一化系数、$\langle x\rangle$ 和 $\Delta x$.
+\end{example}
+\begin{solution}
+由 Gaussian积分 $\int_\R\e^{-x^2/(2a^2)}\dd x=\sqrt{2\pi}\,a$, 可取 $N=(2\pi)^{-1/4}a^{-1/2}$. 概率密度关于零对称, 所以 $\langle x\rangle=0$. 对Gaussian积分的参数求导, 或分部积分, 得 $\int_\R x^2\e^{-x^2/(2a^2)}\dd x=\sqrt{2\pi}\,a^3$. 除以归一化积分得 $\langle x^2\rangle=a^2$, 所以标准差 $\Delta x=a$.
+\end{solution}
+
+\originalsection{内积与叠加}
+函数也可以像向量一样比较. 定义 $\langle\phi,\psi\rangle=\int\phi^*(x)\psi(x)\dd x$. 它对第二项线性, 对第一项共轭线性, 满足 $\langle\phi,\psi\rangle=\langle\psi,\phi\rangle^*$. 范数为 $\|\psi\|=\sqrt{\langle\psi,\psi\rangle}$. 内积为零的态叫正交态.
+
+若 $u_1,u_2$ 是正交归一态, $\psi=c_1u_1+c_2u_2$ 的范数平方是 $|c_1|^2+|c_2|^2$, 因而归一化要求这个和为1. 若两个基函数不正交, 范数还包含 $c_1^*c_2\langle u_1,u_2\rangle$ 及其共轭. 不能在一般叠加中不检查正交性就把系数模方认作概率.
+
+对于离散非简并自伴观测量的正交本征基, 系数 $c_n=\langle u_n,\psi\rangle$, 测得第$n$个本征值的概率为 $|c_n|^2$. 若本征值简并, 概率须对整个本征子空间的系数模方求和; 连续谱的概率密度在第4章讨论. 这条测量规则不是说粒子在测量前已经随机选定某个基态. 同一个态在不同测量基中有不同展开, 干涉可以检验其相干性.
+
+\originalsection{概率、振幅和期望值}
+当对应一阶、二阶矩存在时, 位置的期望值是 $\langle x\rangle=\int x|\psi(x)|^2\dd x$. 它是相同制备下大量独立测量的平均, 一次测量无需等于平均. 方差 $\langle(x-\langle x\rangle)^2\rangle$ 非负, 标准差用来量化分布的宽度.
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=10cm,height=4.4cm,axis lines=middle,xlabel={$x/a$},ylabel={$a\rho$},xlabel style={at={(axis description cs:1,-.08)},anchor=north},ylabel style={at={(axis description cs:-.06,1)},anchor=south},xmin=-3.5,xmax=3.5,ymin=0,ymax=.48,xtick={-2,0,2},ytick={.2,.4},samples=120,domain=-3.4:3.4]
+\addplot[thick,structurecolor] {exp(-x*x/2)/sqrt(2*pi)};
+\draw[dashed] (axis cs:-1,0)--(axis cs:-1,.242);
+\draw[dashed] (axis cs:1,0)--(axis cs:1,.242);
+\end{axis}
+\end{tikzpicture}
+\par Gaussian概率密度; 虚线对应距离均值一个标准差, 不表示概率的硬边界.
+\end{center}
+
+$\psi$ 的正负和复相位不会直接显示在位置概率密度中. 但后续动力学或干涉测量可以显示相位差. 因而只给 $|\psi|^2$ 一般不能指定完整纯态. 例如同模的 $\psi$ 和 $\e^{\ii qx/\hbar}\psi$ 有相同位置分布, 若动量均值存在, 后者的动量均值比前者增加 $q$.

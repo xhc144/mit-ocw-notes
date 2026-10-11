@@ -1,0 +1,54 @@
+\originalchapter{反射、透射与隧穿}
+\originalsection{势阶与流量系数}
+取$V=0$于$x<0$, $V=V_0>0$于$x>0$. 先考虑$E>V_0$和从左入射. 左右波数为$k=\sqrt{2mE}/\hbar$, $q=\sqrt{2m(E-V_0)}/\hbar$. 设
+\[
+u(x)=\begin{cases}
+\e^{\ii kx}+r\e^{-\ii kx},&x<0,\\
+t\e^{\ii qx},&x>0.
+\end{cases}
+\]
+$1+r=t$及$k(1-r)=qt$来自两条边界连续条件. 解得$r=(k-q)/(k+q)$, $t=2k/(k+q)$. 左右速度不同, 因而透射概率必须取流量比:
+\[
+R=|r|^2,\qquad T=\frac qk|t|^2,
+\qquad R+T=1.
+\]
+入射流为$\hbar k/m$, 反射流为$-\hbar k|r|^2/m$, 透射流为$\hbar q|t|^2/m$. 把$T$直接写成$|t|^2$会违反流守恒. 单色$R,T$首先是流量比; 对归一化、窄能谱入射波包, 远离势后两部分充分分离, 总反射和透射概率近似为$R(E_0),T(E_0)$. 一般波包要按入射能量概率密度加权积分. 即使经典粒子有足够能量越过势阶, 量子波也可以部分反射.
+
+若$0<E<V_0$, 右侧只能取$t\e^{-\kappa x}$, $\kappa=\sqrt{2m(V_0-E)}/\hbar$. 该项流为零, 所以$T=0$, $R=1$, 但右侧密度非零. 单个半无限势阶没有远处透射流; 它与有限宽势垒的隧穿不同.
+
+\originalsection{矩形势垒的匹配}
+取$V=V_0$于$0<x<b$, 其他处为零, $0<E<V_0$. 中间波函数为$A\e^{\kappa x}+B\e^{-\kappa x}$, 两边分别为入射加反射和透射. 从右边界向左传播比较便于计算. 在$x=b$, $u(b)=t\e^{\ii kb}$, $u'(b)=\ii kt\e^{\ii kb}$. 先定义 $\cosh s=(\e^s+\e^{-s})/2$, $\sinh s=(\e^s-\e^{-s})/2$. 方程$u''=\kappa^2u$在$b$处给定函数与导数后的解是
+$u(x)=u(b)\cosh[\kappa(x-b)]+u'(b)\sinh[\kappa(x-b)]/\kappa$.
+代入$x=b$可以恢复两项初值, 再求二阶导数验证方程, 因而由常微分方程唯一性确定该解. 在$x=0$代入得到
+\begin{align*}
+u(0)&=t\e^{\ii kb}\left(\cosh\kappa b-\frac{\ii k}{\kappa}\sinh\kappa b\right),\\
+u'(0)&=t\e^{\ii kb}\left(-\kappa\sinh\kappa b+\ii k\cosh\kappa b\right).
+\end{align*}
+左侧 $u(0)=1+r$, $u'(0)=\ii k(1-r)$. 用 $u(0)+u'(0)/(\ii k)=2$ 消去$r$, 得
+\[
+t=\frac{\e^{-\ii kb}}
+{\cosh\kappa b+\frac{\ii}{2}(\kappa/k-k/\kappa)\sinh\kappa b}.
+\]
+两侧波数相同, 所以$T=|t|^2$. 利用$\cosh^2s=1+\sinh^2s$和$k^2+\kappa^2=2mV_0/\hbar^2$, 得
+\begin{equation}\label{eq:tunnel}
+T=\left[1+\frac{V_0^2\sinh^2(\kappa b)}{4E(V_0-E)}\right]^{-1}.
+\end{equation}
+它对有限$b$为正, $b\to0$时$T\to1$. 单独实指数的流为零, 但$A\e^{\kappa x}+B\e^{-\kappa x}$的交叉项给$J=-2\hbar\kappa\operatorname{Im}(A^*B)/m$, 可以承载与两侧相同的净流. 不能从禁止区的实波数变虚就断言势垒内部没有流. 厚势垒$\kappa b\gg1$下, $\sinh^2\kappa b\simeq\e^{2\kappa b}/4$, 因而$T\simeq16E(V_0-E)\e^{-2\kappa b}/V_0^2$. 指数依赖是隧穿对厚度特别敏感的原因.
+
+\begin{center}
+\begin{tikzpicture}[x=1.2cm,y=1cm]
+\draw[-{Stealth}] (-2.8,0)--(4.7,0) node[right]{$x$};
+\draw[-{Stealth}] (-2.3,-.15)--(-2.3,2.3) node[above]{$V$};
+\draw[thick] (-2,0)--(0,0)--(0,1.6)--(2.4,1.6)--(2.4,0)--(4.2,0);
+\draw[dashed] (-1.9,.8)--(4.1,.8);
+\node[above] at (1.2,1.6){$V_0$};
+\node[left] at (-2.3,.8){$E$};
+\node[below] at (0,0){$0$};\node[below] at (2.4,0){$b$};
+\draw[-{Stealth},structurecolor,thick] (-1.8,.35)--(-.6,.35);
+\draw[-{Stealth},structurecolor,thick] (3,.35)--(3.9,.35);
+\node[above] at (-1.2,.35){入射};\node[above] at (3.5,.35){透射};
+\end{tikzpicture}
+\par 矩形势垒示意; 图中长度和高度任取, 概率由匹配方程决定.
+\end{center}
+
+隧穿没有让粒子获得额外能量. 静态势中入射和透射有同一个$E$. 禁止区内不能沿用经典动能$mv^2/2$来给某条轨迹赋予负数; 波函数的指数解属于新的运动描述. 在$E>V_0$情形, 中间波数实, 相同匹配给含$\sin^2(qb)$的透射率, $qb=n\pi$时有完全透射, 这是共振而非能量从势垒中消失.

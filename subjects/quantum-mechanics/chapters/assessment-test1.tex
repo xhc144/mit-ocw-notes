@@ -1,0 +1,75 @@
+\originalchapter{8.04 2015秋测试1及独立解答}
+本章中文转写 \href{https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/mit8_04s16_test1_fall2015/}{Test 1, Fall 2015}, 原题日期2015年10月20日, 90分钟, 五题共100分, 禁止书籍、笔记和计算器. 它由2016春OCW课程页面发布, 不是2016春新试卷. 本章保留全部五题子问; 原件公式表随来源PDF保存, 本册此前已解释解题所需关系. 下列均为\textbf{AI独立解答}, 无官方答案身份.
+
+\begin{exercise}
+质子的电荷半径约0.9 fm. Compton波长与此尺度相比是“大得多、稍大、稍小、小得多”中的哪一种? （10分）
+\end{exercise}
+\begin{solution}
+原题公式表使用$\lambda_C=h/(mc)$, 不是约化波长$\bar\lambda_C=\hbar/(mc)$. 用$\hbar c=197.3\,\mathrm{MeV\,fm}$及$m_pc^2=938\,\mathrm{MeV}$, 得$\lambda_C=2\pi\times197.3/938\simeq1.32$ fm, 所以是“稍大”. 如果漏掉$2\pi$会算成0.210 fm并选错方向.
+\end{solution}
+
+\begin{exercise}
+相对论粒子满足$E^2=p^2c^2+m^2c^4$. 用$E=\hbar\omega$、$p=\hbar k$求群速度$\mathrm d\omega/\mathrm dk$, 用粒子速度$v$表示且不作近似. （10分）
+\end{exercise}
+\begin{solution}
+链式法则给$v_g=\mathrm dE/\mathrm dp=pc^2/E$. 因$p=\gamma mv$, $E=\gamma mc^2$, 比值恰为$v$. 这依赖群速度导数, 若拿$\omega/k=E/p=c^2/v$代替, 会得到相速度并误以为信息超光速.
+\end{solution}
+
+\begin{exercise}
+自由粒子质量$m$, 初始波函数$\psi(x,0)=\sin(k_0x)$, $k_0\in\R$.
+(a) 求初始概率流.
+(b) 测量动量可能得什么?
+(c) 求$\psi(x,t)$. （15分）
+\end{exercise}
+\begin{solution}
+(a)实函数使$\operatorname{Im}(\psi^*\psi')=0$, 所以$J=0$. (b)$\sin k_0x=(\e^{\ii k_0x}-\e^{-\ii k_0x})/(2\ii)$, 动量可能为$\pm\hbar k_0$. (c)两者都有自由能量$E=\hbar^2k_0^2/(2m)$, 所以$\psi(x,t)=\e^{-\ii\hbar k_0^2t/(2m)}\sin k_0x$. 此单色波在实线上不可普通归一化, 这些是原题的广义本征态计算; 周期盒子中可正规归一化. 原题允许$k_0=0$的形式值, 但此时给零函数, 不能代表物理态.
+\end{solution}
+
+\begin{exercise}
+改造干涉仪, 两个分束器相同. 反射和透射概率为$R,T$, $R+T=1$, 正振幅$r=\sqrt R$, $t=\sqrt T$. 分束器矩阵除右下角外全为正实, 光子从上方入射.
+(a) 构造$U$并验证幺正.
+(b) 下臂放失效理想吸收器, 求$D_0,D_1$概率.
+(c) 有效吸收器时, 求吸收、$D_0,D_1$概率.
+(d) 重复不确定结果, 求有效者未被吸收而得到认证的比例$f$及最大可能值. （35分）
+\end{exercise}
+\begin{solution}
+(a)从上入射反射留在上臂, 透射进入下臂, 两列因此为$(r,t)^{\mathsf T}$和$(t,-r)^{\mathsf T}$. 所以$U=\begin{pmatrix}r&t\\t&-r\end{pmatrix}$, 两列模为1且内积$rt-tr=0$, $U^\dagger U=I$. 此约定两个器件相同, 与上一作业不同.
+
+(b)失效时两臂畅通,$U^2=I$, 上方输入回到$D_0$, 所以$P_0=1$, $P_1=0$. (c)第一分束器后是$(r,t)$, 吸收概率$T$. 未吸收的\textbf{未归一化}振幅为$(r,0)$, 第二分束器给$(r^2,rt)$, 所以$P_0=R^2$, $P_1=RT$, 与吸收项相加为1. 若先把幸存态归一化再忘记幸存概率, 会误算总概率.
+
+(d)一次$D_0$不确定概率$R^2$, 取有效器件无限重试的理想极限, 认证比例
+$f=\sum_{j\ge0}(R^2)^jRT=RT/(1-R^2)=R/(1+R)$, $0<R<1$. 随$R$增大趋$1/2$. 这里$1/2$是上确界, 在$R=1$端点并不能认证: 光子永远不进下臂, $D_1$永不发生. 越接近此极限, 有效器件直至被吸收或由$D_1$认证的平均总试次$1/(1-R^2)$越大.
+\end{solution}
+
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth]
+\coordinate (B1) at (0,0);\coordinate (MU) at (2,1.3);\coordinate (ML) at (2,-1.3);\coordinate (B2) at (4,0);
+\draw[->] (-1,.6)--(B1);\draw[->] (B1)--(MU);\draw[->] (MU)--(B2);
+\draw[->] (B1)--(ML);\draw[->] (ML)--(B2);
+\draw[->] (B2)--(5.3,.7);\draw[->] (B2)--(5.3,-.7);
+\node[below left] at (B1){$U$};\node[above] at (MU){上臂};
+\node[below] at (ML){下臂, 理想吸收器};\node[above] at (B2){$U$};
+\node[right] at (5.3,.7){$D_0$};\node[right] at (5.3,-.7){$D_1$};
+\end{tikzpicture}
+\par 测试题拓扑重绘; 振幅基与原题一致, 臂长没有作为参数.
+\end{center}
+
+\begin{exercise}
+同一自由Hamilton算符下的两个态重叠不随时间变. 一个似乎矛盾的例子: 两个Gaussian在$t=0$位置重合, 以远大于动量不确定性的相反动量传播. 声称“初始重叠大, 中心分开几个位置标准差后重叠小”. 找出错误.
+令$\widehat\psi(x,0)=(2\pi)^{-1/4}a^{-1/2}\e^{-x^2/(4a^2)}$, $a>0$, $q\in\R$且量纲为动量, $\psi_1=\e^{\ii qx/\hbar}\widehat\psi$, $\psi_2=\e^{-\ii qx/\hbar}\widehat\psi$.
+(a)求$\widehat\psi$的动量均值及其是否变化.
+(b)求两个态动量均值及其是否变化.
+(c)求初始重叠$\gamma(0)=\int\psi_1^*\psi_2\dd x$.
+(d)用不等式表达平均动量大于不确定性, 判断例子的错误. （30分）
+\end{exercise}
+\begin{solution}
+(a)实Gaussian的平均动量为0, $[H,p]=0$所以不随时间变化. (b)求导相位给$\langle p\rangle_1=q$, $\langle p\rangle_2=-q$, 同样守恒. 两者标准差均为$\Delta p=\hbar/(2a)$.
+
+(c)初始内积的被积函数包含$\e^{-2\ii qx/\hbar}$, 不是仅两个密度相乘. 用前文Gaussian变换,
+\[
+\gamma(0)=\frac1{\sqrt{2\pi}a}\int
+\e^{-x^2/(2a^2)-2\ii qx/\hbar}\dd x
+=\e^{-2a^2q^2/\hbar^2}.
+\]
+(d)$|q|\gg\hbar/(2a)$表示平均动量大于标准差, 此时$\gamma(0)\ll1$, 初始位置密度重合也不意味着态内积大. 两态本来就因快速相对相位振荡而近正交, 后来内积保持这一小值. 错误在第一个声称, 不是幺正演化违反了重叠守恒.
+\end{solution}

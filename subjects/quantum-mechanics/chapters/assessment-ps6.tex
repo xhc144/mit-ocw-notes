@@ -1,0 +1,132 @@
+\originalchapter{8.05 作业6：演化速度与谐振子}
+来源为8.05 Fall 2013的Assignment 6, 2013年10月10日发布, 10月18日15时截止. 以下完整转述六道题的各小问; 保留题号, 答案均为\textbf{AI独立解答}, 未取得官方答案. 该作业共有65分, 前五题各10分, 第六题15分.
+
+\originalsection{第1题：初态重叠的短时变化}
+\begin{exercise}
+归一化态在不含时间的$H$下演化. 令$S(t)=|\braket{\psi(0)}{\psi(t)}|^2$. (a)说明它不能超过1, 并求初态为能量本征态时的值. (b)展开到$t^2$项, 用能量不确定性表达结果.
+\end{exercise}
+\begin{solution}
+Cauchy--Schwarz不等式给$S\leq\norm{\psi(0)}^2\norm{\psi(t)}^2=1$. 能量本征态仅获得相位$\e^{-\ii Et/\hbar}$, 故$S=1$. 对一般初态, 在有关能量矩存在而足以作下述展开时,
+\[
+\braket{\psi(0)}{\psi(t)}=1-\frac{\ii t}{\hbar}\langle H\rangle-\frac{t^2}{2\hbar^2}\langle H^2\rangle+O(t^3).
+\]
+乘以其复共轭, 一阶项相消, 得$S(t)=1-(\Delta H)^2t^2/\hbar^2+O(t^3)$. 这说明重叠的最初下降由能量分散控制, 与平均能量的整体相位无关. 有限维系统直接满足展开条件; 对无界$H$不能只凭归一化就假定任意阶矩存在.
+\end{solution}
+
+\originalsection{第2题：到达正交态需要多久}
+\begin{exercise}
+已知$\Delta H\Delta Q\geq(\hbar/2)|\mathrm d\langle Q\rangle/\mathrm dt|$, 且$\Delta H$不随时间变化. 取$Q=\ket{\psi(0)}\bra{\psi(0)}$, 写$S(t)=\cos^2\phi(t)$, $\phi(0)=0$, $0\leq\phi\leq\pi/2$. (a)证明$\dot\phi\leq\Delta H/\hbar$, 推出$\Delta Ht_\perp\geq h/4$. (b)证明在$t\leq\pi\hbar/(2\Delta H)$时, $S(t)\geq\cos^2(\Delta Ht/\hbar)$.
+\end{exercise}
+\begin{solution}
+$Q^2=Q$, 故$\langle Q\rangle=S$, $\Delta Q=\sqrt{S(1-S)}=\sin\phi\cos\phi$. 在$0<\phi<\pi/2$时代入不等式并约去该因子, 得更强的$|\dot\phi|\leq\Delta H/\hbar$. 端点处不能直接除以零, 但可由相邻内点积分和连续性得到同一角距离界. 因而$\phi(t)\leq\Delta Ht/\hbar$. 正交态要求$\phi=\pi/2$, 所以$t_\perp\geq\pi\hbar/(2\Delta H)=h/(4\Delta H)$. 在右侧角度不超过$\pi/2$的范围, $\cos^2$递减, 就得到(b). 若$\Delta H=0$, 态在单一能量子空间中仅变相位, 永不到达正交态; 此时$S=1$.
+\end{solution}
+
+\originalsection{第3题：自旋使时间下界取等号}
+\begin{exercise}
+自旋$1/2$粒子有$H=-\gamma B S_z$, 磁场沿$z$, 初态自旋沿正$x$. (a)求$S_z$基中的演化态并描述方向变化. (b)证明第2题的正交时间下界取等号.
+\end{exercise}
+\begin{solution}
+以$S_z$本征值$\pm\hbar/2$的态为$\ket{\pm}$, 初态为$(\ket{+}+\ket{-})/\sqrt2$. 演化为
+\[
+\ket{\psi(t)}=\frac{\e^{\ii\gamma Bt/2}\ket{+}+\e^{-\ii\gamma Bt/2}\ket{-}}{\sqrt2},\qquad
+\langle\boldsymbol S\rangle=\frac\hbar2(\cos\gamma Bt,-\sin\gamma Bt,0).
+\]
+因此自旋在赤道平面绕$z$以有向角速度$-\gamma B$进动. 重叠为$S(t)=\cos^2(\gamma Bt/2)$, $\Delta H=\hbar|\gamma B|/2$. 若$\gamma B\neq0$, 首次正交时间为$\pi/|\gamma B|$, 两者乘积正好是$\pi\hbar/2=h/4$. 无场或零耦合时不存在有限正交时间.
+\end{solution}
+
+\originalsection{第4题：求和规则与维里定理}
+\begin{exercise}
+$H=p^2/(2m)+V(x)$有离散完备能量基$\ket a$, $H\ket a=E_a\ket a$. (a)由双重对易子证明$\sum_{a'}|x_{aa'}|^2(E_{a'}-E_a)=\hbar^2/(2m)$. (b)证明$p_{aa'}=(\ii m/\hbar)(E_a-E_{a'})x_{aa'}$, 从而$\sum_{a'}|x_{aa'}|^2(E_a-E_{a'})^2=(\hbar^2/m^2)\langle a|p^2|a\rangle$. (c)推导定态的$2\langle T\rangle=\langle xV'(x)\rangle$, 并专门讨论$V=\alpha x^n$.
+\end{exercise}
+\begin{solution}
+这里还需有关态在对易运算的共同定义域中, 求和收敛, 且积分边界项消失. $[x,H]=\ii\hbar p/m$, 所以$[[x,H],x]=\hbar^2/m$. 另一方面, 插入完备基给
+\[
+\langle a|[[x,H],x]|a\rangle=2\sum_{a'}(E_{a'}-E_a)|x_{aa'}|^2,
+\]
+即(a)的Thomas--Reiche--Kuhn规则. $[H,x]=-\ii\hbar p/m$的矩阵元给(b)第一式; 再用$\sum_{a'}|p_{aa'}|^2=\langle p^2\rangle_a$即得第二式. 对(c), 定态中$\langle[xp,H]\rangle=0$, 而$[xp,H]=2\ii\hbar T-\ii\hbar xV'$, 得所求关系. 用对称的$(xp+px)/2$也得同样结果. 若$V=\alpha x^n$, 则$2\langle T\rangle=n\langle V\rangle$, 前提仍是所讨论束缚态和边界允许上述运算.
+\end{solution}
+
+\originalsection{第5题：谐振子的矩阵与截断}
+\begin{exercise}
+(a)由基态唯一性证明激发态不简并. (b)证明$[a,(a^\dagger)^n]=n(a^\dagger)^{n-1}$. (c)给$a,a^\dagger,x,p,x^2,p^2,N$的一般矩阵元及$m,n=0,1,2,3$的截断矩阵. (d)计算截断$x,p$的对易子, 解释它为何不是$\ii\hbar I$. (e)求$\ket n$的$\Delta x,\Delta p$, 判断是否取不确定性等号, 并比较同能量经典最大位移.
+\end{exercise}
+\begin{solution}
+若两个独立的第$n$激发态存在, $a^n$将它们映到基态子空间. 在该能量空间中$(a^\dagger)^na^n=n!I$, 故映射无核且保留线性独立, 与唯一基态矛盾. 对(b), 使用$[a,BC]=[a,B]C+B[a,C]$归纳, 每个因子贡献一次$(a^\dagger)^{n-1}$.
+
+设$c_x=\sqrt{\hbar/(2m\omega)}$, $c_p=\sqrt{m\hbar\omega/2}$. 完整无限矩阵的非零元素由
+\[
+\begin{aligned}
+a_{mn}&=\sqrt n\,\delta_{m,n-1},\\
+(a^\dagger)_{mn}&=\sqrt{n+1}\,\delta_{m,n+1},\qquad N_{mn}=n\delta_{mn},\\
+x_{mn}&=c_x\bigl(\sqrt n\,\delta_{m,n-1}+\sqrt{n+1}\,\delta_{m,n+1}\bigr),\\
+p_{mn}&=\ii c_p\bigl(\sqrt{n+1}\,\delta_{m,n+1}-\sqrt n\,\delta_{m,n-1}\bigr),\\
+(x^2)_{mn}&=c_x^2\bigl((2n+1)\delta_{mn}+\sqrt{n(n-1)}\delta_{m,n-2}\\
+&\hspace{3em}+\sqrt{(n+1)(n+2)}\delta_{m,n+2}\bigr),\\
+(p^2)_{mn}&=c_p^2\bigl((2n+1)\delta_{mn}-\sqrt{n(n-1)}\delta_{m,n-2}\\
+&\hspace{3em}-\sqrt{(n+1)(n+2)}\delta_{m,n+2}\bigr)
+\end{aligned}
+\]
+给出. 下标仍从0起. 四维截断令
+\[
+A=\begin{pmatrix}0&1&0&0\\0&0&\sqrt2&0\\0&0&0&\sqrt3\\0&0&0&0\end{pmatrix},
+\quad a_4=A,\quad a^\dagger_4=A^{\mathsf T},\quad
+X_4=c_x\begin{pmatrix}0&1&0&0\\1&0&\sqrt2&0\\0&\sqrt2&0&\sqrt3\\0&0&\sqrt3&0\end{pmatrix},
+\]
+\[
+P_4=\ii c_p\begin{pmatrix}0&-1&0&0\\1&0&-\sqrt2&0\\0&\sqrt2&0&-\sqrt3\\0&0&\sqrt3&0\end{pmatrix},\qquad N_4=\operatorname{diag}(0,1,2,3).
+\]
+完整$x^2,p^2$的四维截块则分别为
+\[
+(x^2)_4=c_x^2\begin{pmatrix}1&0&\sqrt2&0\\0&3&0&\sqrt6\\\sqrt2&0&5&0\\0&\sqrt6&0&7\end{pmatrix},\qquad
+(p^2)_4=c_p^2\begin{pmatrix}1&0&-\sqrt2&0\\0&3&0&-\sqrt6\\-\sqrt2&0&5&0\\0&-\sqrt6&0&7\end{pmatrix}.
+\]
+它们不等于$X_4^2,P_4^2$: 后两者丢失经$\ket4$返回$\ket3$的路径. 同理$[A,A^{\mathsf T}]=\operatorname{diag}(1,1,1,-3)$, 因此$[X_4,P_4]=\ii\hbar\operatorname{diag}(1,1,1,-3)$. 有限矩阵对易子的迹恒为0, 不可能等于有非零迹的$\ii\hbar I_4$.
+
+$\langle x\rangle=\langle p\rangle=0$, 故$\Delta x=\sqrt{\hbar(n+1/2)/(m\omega)}$, $\Delta p=\sqrt{m\hbar\omega(n+1/2)}$. 乘积$\hbar(n+1/2)$仅在$n=0$等于$\hbar/2$. 同能量经典运动的转折点为$x_{\max}=\sqrt{2E_n/(m\omega^2)}=\sqrt2\Delta x$; 均方宽度与最远位移本来就是不同量.
+\end{solution}
+
+\originalsection{第6题：二维各向异性谐振子}
+\begin{exercise}
+$H=(p_x^2+p_y^2)/(2m)+m(\omega_x^2x^2+\omega_y^2y^2)/2$. (a)定义两方向升降和数算符, 求本征态与能量. (b)对$\omega_x\approx\omega_y$, $\omega_x>\omega_y$, 画前三组能级并标$(n_x,n_y)$. (c)改用$N=N_x+N_y$, $n=N_x-N_y$, 写$E_{N,n}$并重新标图. 判断$\{N\}$、$\{N,n\}$、$\{N_x,N_y\}$、$\{H\}$是否是完备相容观测量组; 讨论等频和有理频率比. (d)等频时把$L_z=xp_y-yp_x$用升降算符表达并证明与$H$对易. (e)利用$a_L=(a_x+\ii a_y)/\sqrt2$, $a_R=(a_x-\ii a_y)/\sqrt2$求每个能级的角动量本征基, 证明$\{H,L_z\}$完备.
+\end{exercise}
+\begin{solution}
+对$j=x,y$, 定义$a_j=\sqrt{m\omega_j/(2\hbar)}x_j+\ii p_j/\sqrt{2m\hbar\omega_j}$, $N_j=a_j^\dagger a_j$. 两方向对易, 所以
+\[
+H=\hbar\omega_x(N_x+\tfrac12)+\hbar\omega_y(N_y+\tfrac12),\qquad
+\ket{n_x,n_y}=\frac{(a_x^\dagger)^{n_x}(a_y^\dagger)^{n_y}}{\sqrt{n_x!n_y!}}\ket{0,0}.
+\]
+$E=\hbar\omega_x(n_x+1/2)+\hbar\omega_y(n_y+1/2)$. 图取$\omega_x=1.1\omega_y$作原题近等频情形的示例. 纵轴减去基态能量$E_0=1.05\hbar\omega_y$, 横向错开只是为了标签可读, 没有额外量子数. 第一图标$(n_x,n_y)$, 第二图按(c)改标$(N,n)$.
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=2.2cm,>=Stealth]
+\draw[->](0,-.12)--(0,2.6)node[above]{$(E-E_0)/(\hbar\omega_y)$};
+\foreach \y/\n/\xx in {0/{(0,0)}/1,1/{(0,1)}/1,1.1/{(1,0)}/3,2/{(0,2)}/1,2.1/{(1,1)}/3,2.2/{(2,0)}/5}{
+\draw (\xx,\y)--++(.8,0);\node[right]at(\xx+.8,\y){$\n$};}
+\foreach \y in {0,1,2}{\draw(-.08,\y)--(.08,\y);\node[left]at(-.08,\y){$\y$};}
+\end{tikzpicture}
+\end{center}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=2.2cm,>=Stealth]
+\draw[->](0,-.12)--(0,2.6)node[above]{$(E-E_0)/(\hbar\omega_y)$};
+\foreach \y/\n/\xx in {0/{(0,0)}/1,1/{(1,-1)}/1,1.1/{(1,1)}/3,2/{(2,-2)}/1,2.1/{(2,0)}/3,2.2/{(2,2)}/5}{
+\draw (\xx,\y)--++(.8,0);\node[right]at(\xx+.8,\y){$\n$};}
+\foreach \y in {0,1,2}{\draw(-.08,\y)--(.08,\y);\node[left]at(-.08,\y){$\y$};}
+\end{tikzpicture}
+\end{center}
+\begin{center}\begin{tabular}{ccc}
+\toprule $(n_x,n_y)$ & $(N,n)$ & $(E-E_0)/(\hbar\omega_y)$\\\midrule
+$(0,0)$ & $(0,0)$ & $0$\\
+$(0,1)$, $(1,0)$ & $(1,-1)$, $(1,1)$ & $1$, $1.1$\\
+$(0,2)$, $(1,1)$, $(2,0)$ & $(2,-2)$, $(2,0)$, $(2,2)$ & $2$, $2.1$, $2.2$\\\bottomrule
+\end{tabular}\end{center}
+由于$n_x=(N+n)/2$, $n_y=(N-n)/2$, 允许的$n$为$-N,-N+2,\ldots,N$. 能量是
+\[
+E_{N,n}=\frac\hbar2\bigl[(\omega_x+\omega_y)(N+1)+(\omega_x-\omega_y)n\bigr].
+\]
+完备组要求联合本征值唯一标记一个态. $\{N\}$不能区分同一$N\geq1$中的多个态; $\{N,n\}$和$\{N_x,N_y\}$总是完备. $\{H\}$仅在$\omega_x/\omega_y$无理时完备: 若两态能量相同, 整数差满足$\omega_x\Delta n_x+\omega_y\Delta n_y=0$, 无理比迫使两个差均为0. 有理比存在不同整数态的简并, $H$单独不完备. 等频就是特殊的有理比, $H$只决定$N$, 简并度$N+1$; 前三组分别1、2、3重. 另外两套双算符组仍完备, $\{N\}$仍不完备.
+
+从此取等频. 代入$x_j=c_x(a_j+a_j^\dagger)$和$p_j=\ii c_p(a_j^\dagger-a_j)$, 交叉对易后得$L_z=\ii\hbar(a_y^\dagger a_x-a_x^\dagger a_y)$. 每项增减的总数抵消, 故$[N,L_z]=0$, 进而$[H,L_z]=0$. 新算符满足$[a_L,a_L^\dagger]=[a_R,a_R^\dagger]=1$, 交叉对易为0, 且
+\[
+H=\hbar\omega(N_L+N_R+1),\qquad L_z=\hbar(N_R-N_L).
+\]
+因此$\ket{n_L,n_R}=(a_L^\dagger)^{n_L}(a_R^\dagger)^{n_R}\ket{0,0}/\sqrt{n_L!n_R!}$为共同本征基. 固定$N=n_L+n_R$时角动量为$\hbar(-N,-N+2,\ldots,N)$, 每个值出现一次. 能量给总数, 角动量给差数, 唯一反解$n_L,n_R$, 所以$\{H,L_z\}$对整个空间完备.
+\end{solution}

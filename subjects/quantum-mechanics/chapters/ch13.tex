@@ -1,0 +1,47 @@
+\originalchapter{变分原理与非简并微扰}
+\originalsection{变分上界}
+许多势无法解析求解. 近似方法的目标是用已知可解模型得到有条件、可检验的估计. 若自伴$H$下界为离散基态$E_0$, 用完备本征基展开归一试探态$\psi=\sum_nc_nu_n$, 得 $\langle H\rangle=\sum_n|c_n|^2E_n\ge E_0\sum_n|c_n|^2=E_0$. 连续谱贡献也高于谱下界, 用谱测度可得到相同不等式. 因而试探态给\emph{基态能量的上界}; 试探族越小, 最优化结果未必越准确.
+
+取谐振子Hamilton算符和宽度为$a$的Gaussian试探态. 前文已算 $\langle x^2\rangle=a^2$, $\langle p^2\rangle=\hbar^2/(4a^2)$, 所以
+$E(a)=\hbar^2/(8ma^2)+m\omega^2a^2/2$. 求导令零给$a^2=\hbar/(2m\omega)$, 最小值$\hbar\omega/2$. 此次恰等于精确基态, 因为试探族包含真正基态; 对一般势并不保证取等.
+
+变分法的参数控制形状, 不是新的物理可观测量. 在实际问题中应先满足边界与归一化, 再优化; 不满足算符定义域的尖锐函数可能导致动能发散, 不能只算势能后报告一个很低的数.
+
+\originalsection{非简并微扰展开}
+设$H(\lambda)=H_0+\lambda W$, $W$厄米. 假定$E_n^{(0)}$是孤立非简并本征值, 且在所讨论$\lambda$邻域有足够光滑的本征对. 这是应用前提, 并非任意小系数都自动保证级数收敛. 写
+\[
+E_n=E_n^{(0)}+\lambda E_n^{(1)}+\lambda^2E_n^{(2)}+\cdots,
+\quad
+\ket n=\ket{n^{(0)}}+\lambda\ket{n^{(1)}}+\cdots.
+\]
+固定相位和尺度为中间归一化$\braket{n^{(0)}}n=1$, 因而$\braket{n^{(0)}}{n^{(1)}}=0$. 最后若计算概率须再归一化全态.
+
+比较本征方程的一阶系数:
+$(H_0-E_n^{(0)})\ket{n^{(1)}}=-(W-E_n^{(1)})\ket{n^{(0)}}$. 左乘$\bra{n^{(0)}}$给$E_n^{(1)}=W_{nn}$. 左乘不同$m$的本征bra, 得
+\[
+\ket{n^{(1)}}=\sum_{m\ne n}
+\frac{W_{mn}}{E_n^{(0)}-E_m^{(0)}}\ket{m^{(0)}}.
+\]
+这里$W_{mn}=\bra{m^{(0)}}W\ket{n^{(0)}}$. 二阶方程左乘$\bra{n^{(0)}}$后, 中间归一化消去一阶能量乘态修正项, 得
+\[
+E_n^{(2)}=\sum_{m\ne n}\frac{|W_{mn}|^2}{E_n^{(0)}-E_m^{(0)}}.
+\]
+有限维中求和自动有限; 无限维中需要求和收敛及相应算符条件, 有连续谱时还需积分. 对基态, 所有分母负, 二阶能量修正非正. 这为计算提供符号检查.
+
+\originalsection{扰动大小与一个算例}
+重要的单通道混合诊断是$|\lambda W_{mn}/(E_n^{(0)}-E_m^{(0)})|$, 不是仅看$|\lambda|$. 多通道时还应检查$\lambda^2\sum_{m\ne n}|W_{mn}|^2/(E_n^{(0)}-E_m^{(0)})^2\ll1$或相应连续谱积分; 每个小比值不自动保证总态修正小. 当两个能级很近, 很小的矩阵元也会造成大混合, 应使用下一章的简并或近简并处理.
+
+\begin{example}
+谐振子加上弱线性势$\lambda f x$, 求基态能量到二阶并与精确解比较.
+\end{example}
+\begin{solution}
+基态的$\langle x\rangle=0$, 一阶修正为零. $x=\sqrt{\hbar/(2m\omega)}(a+a^\dagger)$只把$\ket0$连到$\ket1$. 因而二阶修正为
+$|f\langle1|x|0\rangle|^2/(E_0^{(0)}-E_1^{(0)})=-f^2/(2m\omega^2)$.
+配方可得
+\[
+\frac12m\omega^2x^2+\lambda f x
+=\frac12m\omega^2\left(x+\frac{\lambda f}{m\omega^2}\right)^2
+-\frac{\lambda^2f^2}{2m\omega^2}.
+\]
+所以精确基态能量为$\hbar\omega/2-\lambda^2f^2/(2m\omega^2)$, 与微扰一致. 这里二阶以后能量修正为零, 因为势的变化只平移中心并加常数, 不是一般扰动都如此.
+\end{solution}
