@@ -4,23 +4,7 @@ import json,pathlib,re,hashlib,shutil,collections
 import fitz
 ROOT=pathlib.Path(__file__).resolve().parents[3]
 p=ROOT/'manifests/quantum-mechanics-sources.json';m=json.loads(p.read_text())
-HOLD={
-'MIT8_05F13_ps1.pdf':'Variation on Griffiths 2.2, textbook-dependent square-well question, and problem-number-only 2.38.',
-'MIT8_05F13_ps3.pdf':'Contains question from Axler.',
-'MIT8_06S18ps7.pdf':'Aharonov-Bohm question follows a Griffiths example and references Fig. 10.10; no copied figure identified. Conservative hold, not a confirmed rights exclusion.',
-'MIT8_05F13_Chap_01.pdf':'Contains example explicitly attributed to Griffiths.',
-'MIT8_04S16_ps3_2016.pdf':'Problem 5 attributed to Merzbacher; textbook-derived question redistribution not established.',
-'MIT8_04S16_ps8_2016.pdf':'Problem 5 based on Griffiths 2.33.',
-'MIT8_04S16_ps10_2016.pdf':'Problems 3 and 5 based on Ohanian.',
-'MIT8_05F13_ps2.pdf':'Exercise based on Shankar 5.2.2.',
-'MIT8_05F13_ps4.pdf':'Problems based on Griffiths, Shankar and Axler.',
-'MIT8_05F13_ps8.pdf':'Problem 5 based on Sakurai 2.9.',
-'MIT8_06S18ch4.pdf':'Contains example based on Griffiths Problem 9.3; whole PDF withheld conservatively.',
-'MIT8_06S18ps2.pdf':'Explicit adaptations from Schiff, textbook Feynman-Hellmann questions and Griffiths 6.36.',
-'MIT8_06S18ps3.pdf':'Contains problem based on Sakurai.',
-'MIT8_06S18ps4.pdf':'Contains problem loosely based on Griffiths 8.6.',
-'MIT8_06S18ps8.pdf':'Problem 6 based on Griffiths 11.16–11.18.',
-'MIT8_06S18ps9.pdf':'Problem 3 explicitly inspired by Cohen-Tannoudji; permission for source problem not established.'}
+HOLD={}
 hold=pathlib.Path('/tmp/quantum-rights-hold');hold.mkdir(exist_ok=True)
 for i in m['resources']:
  original_path=i.get('path',i.get('download_path_not_distributed'));name=pathlib.Path(original_path).name;orig=name[33:]
@@ -37,7 +21,7 @@ for i in m['resources']:
    f=ROOT/i[k]
    if f.exists():shutil.move(str(f),str(hold/f.name))
   i['download_path_not_distributed']=i.pop('path',original_path);i.pop('text_path',None)
- elif i.get('license_review')=='OCW_default_restored_citation_not_exclusion':
+ elif i.get('license_review','').startswith('OCW_default_restored'):
   f=ROOT/i['path'];b=f.read_bytes();d=fitz.open(f)
   assert hashlib.sha256(b).hexdigest()==i['sha256'] and len(d)==i['pages']
   i.update(archive_allowed=True,retained_in_repository=True)
@@ -49,7 +33,7 @@ for i in m['resources']:
   assert all(p.get_text() is not None for p in d)
   i.update(archive_allowed=True,license_review='OCW_default_no_document_specific_exception_found_in_text',retained_in_repository=True)
   i['review_scope']='All PDF pages opened and extracted; document text scanned for credits, explicit textbook adaptations and rights notices. No claim that absence of a notice resolves all possible unmarked rights.'
-m['rights_policy']='Follow official OCW FAQ: unmarked OCW material is CC BY-NC-SA; credit permitted third-party contributions; explicit All rights reserved material is excluded. Citation, textbook problem number, optional table reference or following a textbook discussion alone is not an exclusion. Seven overly broad holds restored; other mixed documents remain under item-level review, not classified as infringements. No textbook supplied only by reference is downloaded or invented.'
+m['rights_policy']='Official OCW default CC BY-NC-SA for unmarked documents, carrying instructor/contributor attribution. All 23 earlier overbroad whole-document holds restored following official FAQ and resource-page audit. Externally attributed copied statements/examples remain item-level review in Chinese coverage; number-only textbook references are not invented. No proven contrary rights marking was found in these 23 official documents. No Git history rewrite.'
 m['known_gaps']=['8.06 Spring 2018 chapter 5 PDF not supplied on official lecture-notes page.','8.06 Spring 2018 exams expressly unavailable to OCW users.','8.06 syllabus mentions an ungraded last-week problem set; assignments page supplies only nine.','Official solutions not linked on the selected three OCW course pages; classroom website availability does not mean OCW availability.']
 p.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
 ret=[i for i in m['resources'] if i['retained_in_repository']]
