@@ -2,7 +2,7 @@
 
 本仓库用于个人非商业学习，保存授权归档的 MIT OpenCourseWare 课程讲义及其中文原生 LaTeX 重编成果。仓库现已公开，供非商业学习与来源核对。
 
-[数学讲义：15册，1660页](#数学讲义) · [物理讲义：原件已收集，中文编写中](#物理讲义)
+[数学讲义：15册，1660页](#数学讲义) · [物理讲义：电动力学首版37页，另两科编写中](#物理讲义)
 
 ## 数学讲义
 
@@ -28,13 +28,15 @@
 
 ## 物理讲义
 
-电动力学、量子力学、理论力学的英文原件已收集并提交，三册中文讲义正在编写。下表简介介绍所选课程的学习主题；中文 PDF、源码包与实测页数在成品完成后提供。目前物理中文交付为 **0册**。
+电动力学中文首版已提供 PDF 与可编辑源码，共 **37页**，后续补充中；量子力学、理论力学仍在编写、编译与审核。目前物理已交付 **1册中文首版，37个PDF物理页**。
 
 | 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
 |---|---|---|---:|---|---|
-| 电动力学 | 8.07（Fall 2012，Alan Guth、Min Chen）为主，8.311（Spring 2004，Leonid Levitov）补充；从矢量分析、静电边值与多极展开进入介质、电磁波和辐射。 | 原件已收集，中文编写中 | 待核 | 待交付 | 待交付 |
+| [电动力学](subjects/electrodynamics/README.md) | 8.07（Fall 2012，Alan Guth、Min Chen）为主，8.311（Spring 2004，Leonid Levitov）选讲补充；矢量分析、静电边值、多极展开、介质、磁场、电磁波与辐射，含本科作业选题、Quiz及期末题解。 | 中文首版已交付，补充中 | 37 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh-source.zip) · [覆盖范围](subjects/electrodynamics/coverage.md) |
 | [量子力学](subjects/quantum-mechanics/README.md) | Barton Zwiebach 的 8.04 → 8.05 → 8.06；从波函数与概率、薛定谔方程、势阱和隧穿进入算符、自旋、角动量、近似方法与散射。 | 原件已收集，中文编写中 | 待核 | 待交付 | 待交付 |
 | 理论力学 | 8.09（Fall 2014，Iain W. Stewart）为主，8.223（January IAP 2017，Matthew Evans）补充；拉格朗日与哈密顿力学、刚体、振动、正则变换、微扰及非线性动力学。 | 原件已收集，中文编写中 | 待核 | 待交付 | 待交付 |
+
+电动力学首版的8.311十二套作业尚未逐题中文纳入，可读性复审正在进行；具体收录范围见该册说明。
 
 <details>
 <summary>展开物理英文原件、PDF下载与课程来源</summary>
@@ -142,7 +144,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-数学已交付 **15册中文整书，共1660个PDF物理页**；物理三科已提交英文原件，中文讲义编写中，尚未计入交付册数或中文页数。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理已交付 **电动力学中文首版1册，37页**，补充与可读性复审进行中。量子力学、理论力学仍编写中，尚未计入中文交付。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
 
 <details>
 <summary>展开数学交付历史与全站归档背景</summary>
