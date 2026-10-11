@@ -1,0 +1,396 @@
+(15) Hamiltonian Dynamics
+1
+Generalizing F = ma, Take 2
+You may recall that back in lecture 2, I said there are many ways to generalize, but
+few bear fruit. As were generalizing F = ma to ﬁnd the E-L equations, we took a
+couple of tricky steps which we justiﬁed by the resulting success (and the PLA).
+from lecture 2
+˙p = F = −∂U
+∂q (ok)
+˙p =
+d
+dt
+∂T
+∂˙q
+
+for T = 1
+2m ˙q2 (tricky)
+L(q, ˙q) = T( ˙q) −U(q)
+⇒
+d
+dt
+∂L
+∂˙q
+
+= ∂L
+∂q (just names?)
+OR we could have done this differently
+T = 1
+2mv2 ⇒T = p2
+2m ⇒∂T
+∂p = p
+m = ˙q
+(tricky)
+with
+H (p, q) = T (p) + U (q)
+(just names?)
+⇒
+˙q = ∂H
+∂p ,
+˙p = −∂H
+∂q
+If we now take these equations as fundamental, rather than F = ma, and allow
+H (p, q) = T (p, q) + U (p, q)
+⇒
+p ̸= m ˙q
+in general
+we break the relationship between momentum and velocity. This leaves us with
+two sets of N independent state variables rather than N coordinates and their time
+derivatives (less constrained, more ﬂexible, more complicated to use).
+1
+
+2
+Lagrangians vs Newtonian mechanics
+We started the course with an alternative formulation of mechanics, derived from
+the principle of least action and which results in the E-L equations, which are
+equivalent to Newton’s 2nd Law.
+PLA to E-L
+0 = δS = δ
+Z t2
+t1
+dtL (q, ˙q, t) ⇒d
+dt
+∂L
+∂˙qi
+
+= ∂L
+∂qi
+where we recognize the above as Newtonian 2nd order differential equations where
+L = L (q, ˙q, t) such that q = {q1, ..., qN} and ˙q = { ˙q1, ..., ˙qN}.
+Central to this formulation is the Lagrangian function, which in general is:
+L = T −U
+where T is the kinetic energy, and U is the potential energy.
+Simple
+General
+T = T ( ˙q)
+= T (q, ˙q, t)
+U = U (q)
+= U (q, ˙q, t)
+This description has advantages over Newtonian mechanics:
+1. We work with scalars T and U, rather than vectors.
+2. It’s easy to incorporate constraints, and we can avoid discussing force of
+constraint (tension, forces normal to surface, etc.)
+3. We always use the same formula independently of our coordinate choice
+(E-L equations do not depend on generalized coordinate choice)
+However, the Lagrangian formulation of mechanics presupposes that the me-
+chanical state of the system is described by specifying its generalized coordinates
+and velocities. However, this is not the only possible mode of description.
+2
+
+3
+Hamiltonian Mechanics
+In Hamiltonian mechanics, we describe the state of the system in terms of the
+generalized coordinates and momenta. (Unlike Lagrangian mechanics, the con-
+nection between coordinates and momenta is not obvious.) Lagrangian and Hamil-
+tonian mechanics are equivalent descriptions for many problems, and while the
+Lagrangian formulation often provides easier solutions to mechanics problems, the
+Hamiltonian description is a stepping stone to other areas of modern physics: phase
+space and Liouville’s theorem are useful in statistical mechanics, Poisson brack-
+ets and time-translation with the Hamiltonian have analogies in quantum mechan-
+ics, and Hamilton-Jacobi theory leads to a more general formulation of mechanics
+(8.09!).
+Lagrangian: L = L (q, ˙q, t)
+Hamiltonian: H = H (p, q, t)
+So we have to transform L (q, ˙q, t) →H (p, q, t) without losing any information!
+This passage from one set of independent variables to another is done by means of
+Legendre’s transformation.
+4
+Mathematics of the Legendre Transform
+Generally, a function expresses a relation between two parameters: an independent
+variable or control parameter (x) and a dependent variable or function F. This
+information is encoded in the functional form of F (x).
+In some circumstances, it is useful to encode the information encoded in F(x)
+in a different way.
+Two common examples are the Fourier transform and the
+Laplace transform. These express the function F as sums of exponentials to dis-
+play the information in F in terms of the amount of each component contained in
+the function rather than in terms of the value of the function.
+Given a function F(x), the LT provides a more convenient way of encoding
+the information in the function when two conditions are met:
+3
+
+1. The function is strictly convex (second derivative never
+changes sign or is zero and is smooth).
+2. It is easier to measure, control, or think about the
+derivative of F with respect to x than it is to measure
+or think about x itself.
+Because of condition 1, the derivative of F(x) with respect to x can serve as a
+stand-in for x, that is there’s a one-to-one mapping between x and dF
+dx . The LT
+shows how to create a function that contains the same information as F(x) but as
+a function of dF
+dx .
+Slope Function
+s(x) = dF(x)
+dx
+,
+x ⇐⇒s
+Because F(x) is convex, s(x) is a strictly monotonic function of x. In other words,
+there is a unique value of the slope s(x) for each x, and vice versa
+The Legendre’s Transform of F(x) is a function of x, namely:
+G(s(x)) = s(x) x −F(x)
+4
+
+Legendre Transform
+Furthermore, given the one-to-one relationship between x and s, we invert
+them and express x(s). In this way, we start with s as the independent variable.
+G(s) = s x(s) −F(x(s))
+or
+F(x) + G(s) = s x
+This symmetric expression makes it more natural to appreciate that F and G are
+equivalent, but we should be careful with this equation. In reality only one variable
+is independent, either s or x. So this should read either:
+5
+
+F(x) + G(s(x)) = s(x) x
+or
+F(x(s)) + G(s) = s x(s)
+Some properties of the LT
+The LT of G(s) is F(x)
+F(x(s)) = x(s) s −G(s)
+and
+x(s) = dG
+ds
+Let’s prove this. Take d
+ds of G(s):
+dG(s)
+ds
+= x(s) + sdx(s)
+ds
+−dF(x(s))
+ds
+= x(s) + sdx(s)
+ds
+−dF
+dx
+|{z}
+s
+dx(s)
+ds
+= x(s)
+For example:
+F(x) = 1
+2mx2 , s(x) = dF
+dx = mx ⇒x(s) = s
+m
+G(s) = s x(s) −F(x(s))
+= s s
+m −1
+2m
+ s
+m
+2
+= s2
+2m
+5
+Back to Physics
+Take the simple Lagrangian:
+6
+
+Simple Lagrangian
+L(q, ˙q) = 1
+2m ˙q2 −U(q)
+The Hamiltonian is the Legendre’s Transform of the Lagrangian:
+Hamiltonian
+H(p, q) = p ˙q(p) −L(q, ˙q(p))
+s(x) = dF(x)
+dx
+→p = ∂L(q, ˙q)
+∂˙q
+= m ˙q
+⇒˙q(p) =
+p
+m
+⇒L(q, ˙q(p)) = p2
+2m −U(q)
+H(p, q) = p2
+m −p2
+2m + U(q) = p2
+2m + U(q)
+In this simple case, H = T + U = E. As noted earlier in the course, this is
+not always the case. With a somewhat more general Lagrangian, we get
+L(q, ˙q) = 1
+2m(q) ˙q2 + TR(q) −U(q)
+H(p, q) =
+p2
+2m(q) −TR(q) + U(q)
+where H ̸= E. This sort of thing can happen in a rotating coordinate system (e.g.,
+the ﬂyball governor problem), where H is constant, but energy is not conserved.
+Generalizing to a system with N degrees of freedom:
+N DoF LT
+L(q1, q2, ..., qN, ˙q1, ..., ˙qN) →H(q1, ..., qN, p1, ..., pN)
+H(p, q)
+=
+X
+i
+pi ˙qi(p) −L(q, ˙q(p))
+We are ready now to follow Landau’s derivation of the Hamiltonian and canonical
+equations:
+7
+
+L = L (qi, ˙qi)
+dL =
+X
+i
+∂L
+∂qi
+dqi +
+X
+i
+∂L
+∂˙qi
+d ˙qi
+=
+X
+i
+˙pidqi +
+X
+i
+pid ˙qi
+since
+˙pi = ∂L
+∂qi
+and
+pi = ∂L
+∂˙qi
+by deﬁnition and by the E-L equations.
+product rule
+X
+pid ˙qi = d
+X
+pi ˙qi
+
+−
+X
+˙qidpi
+⇒d
+X
+pi ˙qi −L
+
+= −
+X
+˙pidqi +
+X
+˙qidpi
+The differential on the right is the Hamiltonian, and the above differential equation
+gives us Hamilton’s equations
+Canonical Eqns
+dH = −
+X
+˙pidqi +
+X
+˙qidpi
+⇒
+˙qi = ∂H
+∂pi
+,
+˙pi = −∂H
+∂qi
+also known as the “canonical equations”.
+These are 2N ﬁrst order differential equations for the 2N unknown function
+pi(t) and qi(t), i = 1, ..., N. By contrast, in the Lagrangian formulation we had
+N 2nd order differential equations. Note that the use of the Hamiltonian means
+putting on an equal footing the coordinates and generalized momenta. It also makes
+the energy the key quantity to worry about.
+Comment: In quantum mechanics, where the concept of velocity of a parti-
+cle is not well deﬁned, it is advantageous to work with momenta, which are well
+deﬁned.
+The total time derivative of the Hamiltonian is:
+8
+
+d
+dtH = ∂H
+∂t +
+X ∂H
+∂qi
+˙qi +
+X ∂H
+∂pi
+˙pi
+= ∂H
+∂t
+That is, if H is not an explicit function of time, then H is constant.
+As a ﬁnal sanity check, let’s make sure we recover F = ma for a simple
+problem.
+T
+=
+p2
+2m , H = p2
+2m + U(q)
+˙q = ∂H
+∂p = p
+m ,
+˙p = −∂H
+∂q = −∂U
+∂q
+m¨q = −∂U
+∂q
+⇒F = ma
+And let’s look at how we got the effective potential in the Kepler problem. We
+start by ﬁnding the Lagrangian from the Hamiltonian via the Legendre Transform.
+L(r, φ, ˙r, ˙φ) = pr ˙r + pφ ˙φ −H(pr, pφ, r, φ)
+H(pr, pφ, r, φ) =
+p2
+r
+2µ +
+p2
+φ
+2r2µ + U(r)
+⇒
+˙r = ∂H
+∂pr
+= pr
+µ ,
+˙φ = ∂H
+∂pφ
+= pφ
+r2µ
+H(r, φ, ˙r, ˙φ) = 1
+2µ ˙r2 + 1
+2µ(r ˙φ)2 + U(r)
+L(r, φ, ˙r, ˙φ) = (µ ˙r) ˙r + (µr2 ˙φ) ˙φ −H
+= 1
+2µ ˙r2 + 1
+2µ(r ˙φ)2 −U(r)
+Now, what happens if we only transform r, but leave pφ. This seems like a good
+idea because φ does not appear in H, so pφ must be constant.
+9
+
+H(r, ˙r, pφ) = 1
+2µ ˙r2 +
+p2
+φ
+2r2µ + U(r)
+L(r, ˙r) = (µ ˙r) ˙r −H
+= 1
+2µ ˙r2 −
+ 
+p2
+φ
+2r2µ + U(r)
+!
+= 1
+2µ ˙r2 −Ueﬀ(r)
+Thus the effective potential appears naturally when cyclic coordinates in H are not
+transformed to make L.
+So, we now have a new way of approaching problems in mechanics, a clear
+means of transforming from one approach to the other (e.g., from Lagrangian to
+Hamiltonian or vice versa with the Legendre Transform). Next, we will learn about
+the interesting features of the Hamiltonian formalism.
+10
+
+MIT OpenCourseWare 
+https://ocw.mit.edu 
+8.223 Classical Mechanics II 
+January IAP 2017 
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms. 

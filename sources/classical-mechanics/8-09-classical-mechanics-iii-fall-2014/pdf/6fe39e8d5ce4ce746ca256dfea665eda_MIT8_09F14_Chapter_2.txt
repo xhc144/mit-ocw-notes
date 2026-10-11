@@ -1,0 +1,1567 @@
+Chapter 2
+Rigid Body Dynamics
+2.1
+Coordinates of a Rigid Body
+A set of N particles forms a rigid body if the distance between any 2 particles is ﬁxed:
+rij ≡|ri −rj| = cij = constant.
+(2.1)
+Given these constraints, how many generalized coordinates are there?
+If we know 3 non-collinear points in the body, the remaing points are fully determined
+by triangulation. The ﬁrst point has 3 coordinates for translation in 3 dimensions. The
+second point has 2 coordinates for spherical rotation about the ﬁrst point, as r12 is ﬁxed.
+The third point has one coordinate for circular rotation about the axis of r12, as r13 and r23
+are ﬁxed. Hence, there are 6 independent coordinates, as represented in Fig. 2.1. This result
+is independent of N, so this also applies to a continuous body (in the limit of N →∞).
+Figure 2.1: 3 non-collinear points can be fully determined by using only 6 coordinates. Since
+the distances between any two other points are ﬁxed in the rigid body, any other point of
+the body is fully determined by the distance to these 3 points.
+29
+
+CHAPTER 2. RIGID BODY DYNAMICS
+The translations of the body require three spatial coordinates. These translations can
+be taken from any ﬁxed point in the body. Typically the ﬁxed point is the center of mass
+(CM), deﬁned as:
+1
+R =
+m
+M
+X
+iri,
+(2.2)
+i
+where mi is the mass of the i-th particle and ri the position of that particle with respect to
+a ﬁxed origin and set of axes (which will notationally be unprimed) as in Fig. 2.2. In the
+case of a continuous body, this deﬁnition generalizes as:
+1
+R =
+r
+M
+Z
+ρ(r) dV,
+(2.3)
+V
+where ρ(r) is the mass density at position r and we integrate over the volume V.
+Figure 2.2: The three translational coordinates correspond to the position of the Center of
+Mass, and the three rotational coordinates correspond to the three angles necessary to deﬁne
+the orientation of the axis ﬁxed with the body.
+Rotations of the body are taken by ﬁxing axes with respect to the body (we will denote
+these body ﬁxed axes with primes) and describing their orientation with respect to the
+unprimed axes by 3 angles (φ, θ, ψ).
+A particularly useful choice of angles are called Euler angles. The angle φ is taken as a
+rotation about the z-axis, forming new x˜- and y˜-axes while leaving the z-axis unchanged, as
+shown in Fig. 2.3. The angle θ is then taken as a rotation about the x˜-axis, forming new
+y˜′- and z′-axes while leaving the x˜-axis unchanged, as shown in Fig. 2.4. Finally, the angle
+ψ is taken as a rotation about the z′-axis, forming new x′- and y′-axes while leaving the
+z′-axis unchanged, as shown in Fig. 2.5. (The x˜-axis is called the line of nodes, as it is the
+intersection of the xy- and x˜y˜-planes.)
+30
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Figure 2.3: First rotation is
+by φ around the original z
+axis.
+Figure 2.4: Second rotation
+is by θ around the interme-
+diate x˜ axis.
+Figure 2.5: Final rotation
+is by ψ around the ﬁnal z′
+axis.
+Rotations can be described by 3 × 3 matrices U. This means each rotation step can be
+described as a matrix multiplication. Where r = (x, y, z), then
+cos(φ)
+sin(φ)
+0x
+˜r = Uφr =
+−sin(φ)
+cos(φ)
+0
+y
+0
+0
+1
+
+.
+(2.4)
+z
+Similar transformations can be written
+
+for the other terms:
+
+˜r′ = Uθ˜r
+,
+r′ = Uψ˜r′ = UψUθ˜r = UψUθUφr.
+Deﬁning the total transformation as U, it can be written as:
+U ≡UψUθUφ
+⇒
+r′ = Ur.
+(2.5)
+Care is required with the order of the terms since the matrices don’t commute. Writing U
+out explicitly:
+cos(ψ)
+sin(ψ)
+0
+1
+0
+0
+cos(φ)
+sin(φ)
+0
+U = −sin(ψ)
+cos(ψ)
+0
+
+0
+cos(θ)
+sin(θ)
+
+−sin(φ)
+cos(φ)
+0
+(2.6)
+0
+0
+1
+0
+−sin(θ)
+cos(θ)
+0
+0
+1
+
+.
+All rotation matrices, including U
+
+φ
+
+, Uθ, Uψ, and U are
+
+ortho
+
+gonal. Orthogonal
+
+matrices W
+satisfy
+W ⊤W = WW ⊤= 1
+⇔
+W ⊤= W −1,
+(2.7)
+where 1 refers to the identity matrix and ⊤to the transpose. This ensures that the length
+of a vector is invariant under rotations:
+r′2 = r⊤(W ⊤W)r = r2.
+(2.8)
+31
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Orthogonal matrices W have 9 entries but need to fulﬁll 6 conditions from orthogonality,
+leaving only 3 free parameters, corresponding to the 3 angles necessary to determine the
+rotation.
+We can also view r′ = Ur as a transformation from the vector r to the vector r′ in
+the same coordinate system. This is an active transformation, as opposed to the previous
+perspective which was a passive transformation.
+Finally, note that inversions like
+−1
+0
+0 
+1
+0
+0
+U = 0
+−1
+0
+−
+
+or
+U =
+0
+0
+1
+0
+1
+0
+0
+0
+
+(2.9)
+−1
+
+are not rotations. These have det(U) = −1, so they can be forbidden by demanding that
+det(U) = 1. All orthogonal matrices have det(W) = ±1 because det(W ⊤W) = (det(W))2 =
+1.
+In the language of group theory, the restriction to det(W) = 1 gives the special or-
+thogonal group SO(3) as opposed to simply O(3), the orthogonal group. We disregard the
+det(U) = −1 subset of transformations because it is impossible for the system to undergo
+these transformations continuously without the distance between the particles changing in
+the process, so it would no longer be a rigid body.
+Intuitively, we could rotate the coordinates (x, y, z) directly into the coordinates (x′, y′, z′)
+by picking the right axis of rotation. In fact, the Euler theorem states that a general dis-
+placement of a rigid body with one point ﬁxed is a rotation about some axis. This theorem
+will be true if a general rotation U leaves some axis ﬁxed, which is satisﬁed by
+Ur = r
+(2.10)
+for any point r on this axis. This is an eigenvalue equation for U with eigenvalue 1. To
+better understand this, we need to develop a little linear algebra.
+Although the notion of an eigenvalue equation generally holds for linear operators, for
+now the discussion will be restricted to orthogonal rotation matrices U. The eigenvalue
+equation is
+Uξ = λξ,
+(2.11)
+where ξ is an eigenvector and λ is the associated eigenvalue. Rewriting this as
+(U −λ1)ξ = 0
+(2.12)
+requires that det(U −λ1) = 0, so that U −λ1 is not invertible and the solution can be
+non-trivial, ξ ̸= 0. det(U −λ1) = 0 is a cubic equation in λ, which has 3 solutions, which
+are the eigenvalues λα for α ∈{1, 2, 3}. The associated eigenvectors are ξ(α) and satisfy
+Uξ(α) = λαξ(α),
+(2.13)
+32
+
+CHAPTER 2. RIGID BODY DYNAMICS
+where no implicit sum over repeated indices is taken. Forming a matrix from the resulting
+eigenvectors as columns:
+X =
+↑
+↑
+↑
+ξ(1)
+ξ(2)
+ξ(3)
+
+↓
+↓
+↓
+
+(2.14)
+then we can rewrite Eq.(2.13) as
+UX = X · diag(λ1, λ2, λ3) ⇒X−1UX = diag(λ1, λ2, λ3)
+(2.15)
+This means X diagonalizes U. Since U is orthogonal, the matrix X is unitary (X†X =
+XX† = 1). Note that ⊤indicates transposition whereas † indicates Hermitian conjugation
+(i.e. complex conjugation ⋆combined with transposition ⊤).
+Next we note that since det(U) = 1, then λ1λ2λ3 = 1. Additionally, |λα|2 = 1 for each α
+because:
+Uξ = λξ
+⇒
+ξ†U ⊤= λ⋆ξ†
+⇒
+ξ†ξ = ξ†U ⊤Uξ = |λ|2ξ†ξ .
+(2.16)
+Finally, if λ is an eigenvalue, then so is λ⋆:
+Uξ = λξ ⇒Uξ⋆= λ⋆ξ⋆
+(2.17)
+where ξ⋆is still a column vector but with its elements undergoing complex conjugation with
+respect to ξ. Without loss of generality, let us say for a rotation matrix U that λ2 = λ⋆
+3.
+Then 1 = λ1|λ
+2
+2| = λ1, so one of the eigenvalues is 1, giving Eq.(2.10), and thus proving
+Euler’s Theorem. The associated eigenvector ξ(1) to the eigenvalue λ1 = 1 is the rotation
+axis, and if λ2 = λ⋆
+iΦ
+3 = e
+then Φ is the rotation angle about that axis.
+In fact, we can make good use of our analysis of Euler’s theorem. Together the rotation
+axis and rotation angle can be used to deﬁne the instantaneous angular velocity ω(t) such
+that:
+|ω|
+˙
+= Φ
+and
+ω ∥ξ(1) .
+(2.18)
+The angular velocity will play an important role in our discussion of time dependence with
+rotating coordinates in the next section. If we consider several consecutive displacements of
+˙
+the rigid body, then each can have its own axis ξ(1) and its own Φ, so ω changes at each
+instance of time, and hence ω = ω(t) (for the entire rigid body).
+2.2
+Time Evolution with Rotating Coordinates
+Lets use unprimed axes (x, y, z) for the ﬁxed (inertial) axes, with ﬁxed basis vectors ei. We
+will also use primed axes (x′, y′, z′) for the body axes with basis vectors e′
+i.
+33
+
+CHAPTER 2. RIGID BODY DYNAMICS
+If we consider any vector then it can be decomposed
+with either set of basis vectors:
+b =
+X
+biei =
+bi
+′e′
+i .
+(2.19)
+i
+X
+i
+For ﬁxed axes basis vectors by deﬁnition e˙ i = 0, while
+for those in the body frame,
+e˙ ′
+i = ω(t) × e′
+i
+(2.20)
+meaning vectors of ﬁxed length undergo a rotation at
+a time t. The derivation of this result is shown in the
+ﬁgure on the right, by considering the change to the
+vector after an inﬁnitesimal time interval dt.
+Summing over repeated indices, this means:
+˙
+˙
+˙
+b = biei = b′
+ie′
+˙
+i + ω(t) × (b′
+ie′
+i) = b′
+ie′
+i + ω(t) × b
+d
+Deﬁning
+dR
+as the time evolution in the ﬁxed (F) frame and
+dt
+the time evolution in
+dt
+the rotating/body (R) frame, then vectors evolve in time according to
+db
+dRb
+=
+dt
++ ω
+dt
+× b.
+(2.21)
+As a mnemonic we have the operation “(d/dt) = dR/dt + ω×” which can act on any vector.
+Let us apply this to the position r of a particle of mass m, which gives
+dr
+dRr
+=
+dt
++ ω
+dt
+× r
+⇔
+vF = vR + ω × r.
+(2.22)
+Taking another time derivative gives us the analog for acceleration:
+F
+dvF
+=
+m
+dRvF
+=
+dt
++ ω
+dt
+× vF
+(2.23)
+dRvR
+=
+dRω
++
+dt
+d
+r
+dt
+×
++ ω ×
+Rr + ω
+dt
+× vR + ω × (ω × r) .
+As dRr = vR is the velocity within the rotating body frame and dRvR
+dt
+= aR is the acceleration
+dt
+within the body frame, then
+dRω
+maR = F −mω × (ω × r) −2mω × vR −m
+r
+dt
+×
+(2.24)
+gives the acceleration in the body frame with respect to the forces that seem to be present
+in that frame. The terms −mω × (ω × r) and −2mω × vR are, respectively, the centrifugal
+34
+
+CHAPTER 2. RIGID BODY DYNAMICS
+and Coriolis ﬁcticious forces respectively, while the last term −mdRω
+force
+dt × r is a ﬁcticious
+that arises from non-uniform rotational motion, so that there is angular acceleration within
+the body frame. The same result could also have been obtained with the Euler-Lagrange
+equations for L in the rotating coordinates:
+m
+L =
+(r˙ + ω
+2
+× r)2 −V ,
+(2.25)
+and you will explore this on a problem set.
+Note that the centrifugal term is radially outward and perpendicular to the rotation axis.
+To see this, decompose r into components parallel and perpendicular to ω, r = r + r , then
+∥
+⊥
+ω × r = ω × r , so −ω × (ω × r ) = w2r . This term is present for any rotating body.
+⊥
+⊥
+⊥
+On the other hand, the Coriolis force is nonzero when there is a nonzero velocity in the
+rotating/body frame: vR ̸= 0.
+Example: Consider the impact of the Coriolis force on projectile motion on the rotating
+Earth, where the angular velocity is ωEarth =
+2π
+7.3
+10
+5 s
+1. We work out the
+24
+−
+×3600 s ≈
+×
+−
+cross-product −ω × vr as shown in Fig. 2.6 for a particle in the northern hemisphere, where
+ω points to the north pole. Thus a projectile in the northern/southern hemisphere would be
+perturbed to the right/left relative to its velocity direction vr.
+Figure 2.6: For a projectile, in the Northern Hemisphere, the Coriolis pushes it to its right,
+relative to its direction of motion.
+Example: Consider a Foucault pendulum which hangs from a rigid rod, but is free to os-
+cillate in two angular directions, as shown in Fig. 2.2. For θ ≪1 and working to ﬁrst order
+˙
+in the small ω, the result derived from the Coriolis force gives φ ≈ωEarth sin(λ). Here λ is
+the latitude angle measured from equator. The precession is clockwise in the northern hemi-
+sphere, and is maximized at the north pole where λ = 90◦. (This is proven as a homework
+problem.)
+35
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Example: Consider the Coriolis deﬂection of a freely falling body on Earth in the northern
+hemisphere. We use the coordinate system shown below, where z is perpendicular to the
+surface of the earth and y is parallel to the earth’s surface and points towards the north
+pole.
+Working to ﬁrst order in the small ω gives us
+maR = mv˙ R = −mgzˆ −2mω × v,
+(2.26)
+where the centrifugal terms of order O(ω2) are dropped. As an initial condition we take
+v(t = 0) = v0zˆ. The term −ω × v points along xˆ, so:
+z¨ = −g + O(ω2)
+⇒
+vz = v0 −gt
+(2.27)
+Moreover implementing the boundary condition that x˙(t = 0) = 0:
+g
+x¨ = −2(ω × v)x = −2ω sin(θ)vz(t)
+⇒
+x˙ = −2ω sin(θ)
+
+v0t −
+t2
+.
+(2.28)
+2
+Taking also x(t = 0) = 0, and integrating one further time, the motion in the
+
+x direction is:
+0
+x(t) = −2ω
+θ)
+v
+sin(
+g
+t2
+2
+−
+t3
+6
+
+.
+(2.29)
+36
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Lets consider this eﬀect for a couple simple cases. If the mass m is dropped from a height
+z(t = 0) = hmax with zero velocity, v0 = 0, then:
+g
+z = hmax −
+t2
+(2.30)
+2
+and the mass reaches the ﬂoor at time
+t1 =
+s
+2hmax.
+(2.31)
+g
+From Eq.(2.28) we see that x˙ > 0 for all t, and that:
+8ω sin(θ)h3
+x(t = t1) =
+max > 0.
+3g2
+However, if the mass m is thrown up with an initial z˙(t = 0) = v0 > 0 from the ground
+(z = 0), then :
+g
+z(t) = v0t −
+t2 > 0.
+(2.32)
+2
+Here the particle rises to a maximum height z = v2
+0/(2g) at time t = v0/g, and then falls
+back to earth. Using Eq.(2.28) we see that x˙ < 0 for all t. If t1 is the time it reaches the
+ground again (t1 = 2v0), then:
+g
+4ω sin(θ)v3
+x(t = t1) = −
+0 < 0.
+(2.33)
+3g2
+2.3
+Kinetic Energy, Angular Momentum, and
+the Moment of Inertia Tensor for Rigid Bodies
+Returning to rigid bodies, consider one built out of N ﬁxed particles The kinetic energy
+is best expressed using CM coordinates, where R is the CM and we here take ri to be
+the displacement of particle i relative to the CM. Once again making sums over repeated
+subscripts as implicit, the kinetic energy (T) of the system is given by:
+1
+T =
+1
+˙
+MR2 +
+2
+mir˙2
+i .
+(2.34)
+2
+As the body is rigid, then points cannot translate relative to the body but can only rotate
+so that r˙i = ω × ri. The rotational kinetic energy is then
+1
+TR =
+1
+mir˙2
+2
+i =
+1
+mi(ω
+2
+× ri)2 =
+mi
+2
+
+ω2r2
+i −(ω · ri)2
+.
+(2.35)
+37
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Labeling Cartesian indices with a and b to reserve i and j for particle indices, then we
+can write out this result making the indicies all explict as
+1
+TR =
+m
+2
+2
+X
+i(δabri −riarib)ωaωb.
+(2.36)
+i,a,b
+It is convenient to separate out the parts in this formula that depend on the shape and
+ˆ
+distributions of masses in the body by deﬁning the moment of inertia tensor I for the discrete
+body as
+ˆIab ≡
+X
+m
+2
+i(δabri
+i
+−riarib) .
+(2.37)
+The analog for a continuous body of mass density ρ(r) is:
+ˆIab ≡
+Z
+(r2δab −rarb)ρ(r) dV.
+(2.38)
+V
+In terms of the moment of inertia tensor, the kinetic energy from rotation can now be
+written as:
+1
+TR =
+1
+ˆ
+2
+X
+Iabωaωb =
+a,b
+2
+· ˆ
+ω I · ω ,
+(2.39)
+where in the last step we adopt a convenient matrix multiplication notation.
+The moment of inertia tensor can be written with its components as a matrix in the form
+ˆ
+
+X
+y2
+i + z2
+i
+−x
+I =
+
+iyi
+−xizi
+mi
+−xiyi
+x2
+i + z2
+i
+i
+−yizi
+,
+(2.40)
+−xizi
+−y z
+2
+2
+i i
+xi + yi
+
+where the diagonal terms are the “moments of inertia” and the
+
+oﬀ-diagonal terms are the
+ˆ
+ˆ
+ˆ
+“products of inertia”. Note also that I is symmetric in any basis, so Iab = Iba.
+Special case: if the rotation happens about only one axis which can be deﬁned as the z-axis
+for convenience so that ω = (0, 0, ω), then TR = 1 ˆI
+2
+zzω
+which reproduces the simpler and
+2
+more familiar scalar form of the moment of inertia.
+Lets now let ri be measured from a stationary point in the rigid body, which need not
+necessarily be the CM. The angular momentum can be calculated about this ﬁxed point.
+Since vi = ω × ri, we can write the angular momentum as:
+L = mir
+2
+i × vi = miri × (ω × ri) = mi
+
+ri ω −(ω · ri)ri
+
+.
+(2.41)
+Writing out the components
+La =
+X
+ˆ
+m (r2ω −(ω · r )r ) =
+X
+ω m (δ r2
+i
+i
+a
+i
+ia
+b
+i
+ab i
+ib
+i,b
+−riar ) =
+i
+X
+Iabωb,
+(2.42)
+b
+38
+
+CHAPTER 2. RIGID BODY DYNAMICS
+which translates to the matrix equation:
+ˆ
+L = I · ω .
+(2.43)
+This allows us to write the corresponding rotational kinetic energy as:
+1
+TR =
+ω
+2
+· L.
+(2.44)
+Note that in general, L is not parallel to ω. We will see an explicit example of this below.
+ˆ
+Also note that the formula that we used for I in this case is the same as we gave above. We
+use these formulas whether or not ri is taken with respect to the CM.
+ˆ
+It is useful to pause to see what precisely the calculation of I depends on. Since it in-
+volves components of the vectors ri it depends on the choice of the origin for the rotation.
+ˆ
+Furthermore the entries of the matrix Iab obviously depend on the orientation of the axes
+used to deﬁne the components labeled by a and b. Given this, it is natural to ask whether
+ˆ
+given the result for Iab with one choice of axes and orientation, whether we can determine
+ˆ
+an I′a′b′ for a diﬀerent origin and axes orientation. This is always possible with the help of
+a couple of theorems.
+ˆ
+The parallel axis theorem: Given ICM
+ˆ
+about the CM, it is simple to ﬁnd IQ about a
+diﬀerent point Q with the same orientation for the axes. Referring to the ﬁgure below,
+we deﬁne r′
+i as the coordinate of a particle i in the rigid body with respect to point Q and
+ri to be the coordinate of that particle with respect to the CM, so that:
+r′
+i = R + ri .
+(2.45)
+By deﬁnition of the CM:
+X
+miri = 0
+and we let
+M =
+i
+X
+mi.
+(2.46)
+i
+39
+
+CHAPTER 2. RIGID BODY DYNAMICS
+The tensor of inertia around the new axis is then:
+ˆIQ
+ab = mi(δabr′2
+i −ria
+′ rib
+′ )
+(2.47)
+= mi(δab(r2
+i + 2ri · R + R2 −riarib −riaRb −Rarib −RaRb) ,
+(2.48)
+where the cross terms involving a single ri or single component ria sum up to zero by
+Eq.(2.46). The terms quadratic in r are recognized as giving the moment of inertia tensor
+about the CM. This gives the parallel axis theorem for translating the origin:
+ˆIQ
+ˆ
+ab = M(δabR2 −RaRb) + ICM
+ab ,
+(2.49)
+If we wish to carry out a translation between P and Q, neither of which is the CM, then
+we can simply use this formula twice. Another formula can be obtained by projecting the
+parallel axis onto a speciﬁc axis nˆ where nˆ2 = 1 (giving a result that may be familiar from
+an earlier classical mechanics course):
+nˆ · ˆIQ ·
+ˆ
+nˆ = M(
+2 −
+ˆ
+R
+(nˆ · R)2) + nˆ · ICM · nˆ = MR2[1 −cos2(θ)] + nˆ · ICM · nˆ
+ˆ
+= MR2 sin2(θ) + nˆ · ICM · nˆ
+(2.50)
+where nˆ · R ≡R cos(θ).
+ˆ
+Example: Lets consider an example of the calculation of I for a situation where L is not
+parallel to ω. Consider a dumbbell made of 2 identical point passes m attached by a massless
+rigid rod (but with diﬀerent separations r1 and r2 from the axis of rotation), spinning so
+that ω = ωzˆ and so that the rod makes an angle α with the axis of rotation, as shown
+We deﬁne body axes where the masses lie in the yz-plane. Here,
+r1 = (0, r1 sin α, r1 cos α) and r2 = (0, −r2 sin α, −r2 cos α).
+(2.51)
+40
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Then using the deﬁnition of the moment inertia tensor:
+I
+= m(x2 + y2) + m(x2 + y2
+2
+2
+2
+zz
+1
+1
+2
+2) = m(r1 + r2) sin α
+I
+= m(y2 + z2) + m(y2 + z2
+2
+xx
+1
+1
+2
+2) = m(r1 + r2
+2)
+I
+2
+2
+2
+yy = m(x1 + z1) + m(x2 + z2
+2) = m(r2
+1 + r2
+2) cos2 α
+(2.52)
+Ixy = Iyx = m(−x1y1 −x2y2) = 0
+Ixz = Izx = m(−x1z1 −x2z2) = 0
+Iyz = Izy = m(−y1z1 −y2z2) = −m(r2
+2
+1 + r2) sin α cos α
+ˆ
+Plugging these into L = I · ω, recalling that only ωz is non-zero, this gives
+L = (0, Iyzω, Izzω).
+(2.53)
+Thus in this example L is not parallel to ω.
+Next, instead of translating the axes in a parallel manner, let us keep the origin ﬁxed and
+rotate the axes according to an orthogonal rotation matrix U satisfying U ⊤U = UU ⊤= 1.
+Vectors are rotated as
+L′ = UL
+,
+ω′ = Uω
+and therefore
+ω = U ⊤ω′.
+(2.54)
+Putting these together
+L′
+ˆ
+= UI ·
+ˆ
+ω = (UIU ⊤
+ˆ
+) · ω′
+⇒
+I′
+ˆ
+= UIU ⊤,
+(2.55)
+ˆ
+where I′ is the new moment of inertia tensor. (The fact that it transforms this way deﬁnes
+it as a tensor.) This allows us to calculate the new moment of inertia tensor after a rotation.
+ˆ
+For a real symmetric tensor I, there always exists a rotation from an orthogonal matrix
+ˆ
+ˆ
+U that diagonalizes I giving a diagonal matrix I′:
+0
+ˆD =
+I
+
+1
+0
+I
+0
+I2
+0
+0
+0
+I3
+
+.
+(2.56)
+The entries of the diagonal moment of inertia tensor, Iα, are real and positive.
+This is
+just a special case of saying a Hermitian matrix can always be diagonalized by a unitary
+transformation (which is often derived in a Quantum Mechanics course as part of showing
+that a Hermitian matrix has real eigenvalues and orthogonal eigenvectors). The positivity
+of diagonal matrix follows immediately from the deﬁnition of the moment of inertia tensor
+for the situation with zero oﬀ-diagonal terms.
+41
+
+CHAPTER 2. RIGID BODY DYNAMICS
+ˆ
+The axes that make I diagonal are called the principal axes and the components Iα are
+the principal moments of inertia. We ﬁnd them by solving the eigenvalue problem
+ˆI · ξ = λ ξ,
+(2.57)
+where the 3 eigenvalues λ give the principal moments of inertia Iα, and are obtained from
+ˆ
+solving det(I −λ1) = 0.
+The
+
+corresponding 3 real orthogonal eigenvectors ξ(α) are the
+principal axes.
+Here U ⊤=
+ξ(1)
+ξ(2)
+ξ(3) , where the eigenvectors vectors ﬁll out the
+columns. Then, without summing over repeated
+
+indices:
+1
+Lα = Iαωα
+and
+T =
+Iα ω2
+2
+α ,
+(2.58)
+α
+where Lα and ωα are the components of L and ω, respectiv
+X
+ely, evaluated along the principal
+axes.
+To summarize, for any choice of origin for any rigid body, there is a choice of axes that
+ˆ
+diagonalizes I. For T to separate into translational and rotational parts, we must pick the
+origin to be the CM. Often, the principal axes can be identiﬁed by a symmetry of the body.
+Example: for a thin rectangle lying in the yz-plane with one edge coinciding with the z-axis,
+and the origin chosen as shown below, then Iyz = 0 as the body is symmetric under z ↔−z,
+while Ixz = Ixy = 0 as the body lies entirely within x = 0. Hence these are principal axes.
+Sometimes, symmetry allows multiple choices for the principal axes.
+Example: for a sphere, any orthogonal axes through the origin
+are principal axes.
+Example: for a cylinder whose central axis is
+aligned along the z-axis, because of rotational
+symmetry any choice of the x- and y-axes gives
+principal axes.
+42
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Example: Lets consider an example where the principal axes may not be apparent, which
+we can solve through the eigenvalue problem. Consider a uniform cube with sides of length
+a, mass m, and having the origin at one corner, as shown below.
+By symmetry we have
+m
+Ixx = Iyy = Izz =
+a
+a3
+Z
+0
+Z a
+0
+Z a
+(x2 + y2
+2
+) dx dy dz =
+0
+ma2,
+(2.59)
+3
+m
+Ixy = Iyz = Ixz =
+a
+a3
+Z
+0
+Z a
+0
+Z a
+1
+0
+−xz dx dy dz = −ma2.
+4
+Thus the matrix is
+ˆI = ma2
++2
+
+
+1
+3
+−
+1
+4
+−4
+−1
++2
+4
+1
+3
+−4
+−1
+1
+4
+−
++2
+4
+
+3
+
+.
+(2.60)
+The principal moments of inertia are found from
+ˆ
+det(I −λ1) =
+11
+2
+ma2
+12
+−λ
+ 1ma2
+6
+−λ
+
+= 0 .
+(2.61)
+This gives I1 = λ1 = 1ma2. Solving
+6
+ˆ
+(I −λ 1
+1 )ξ(1) = 0
+we ﬁnd
+ξ(1) = (1, 1, 1).
+(2.62)
+The remaining eigenvalues are degenerate:
+1
+I2 = I3 = λ2 = λ3 =
+ma2
+(2.63)
+12
+ˆ
+so there is some freedom in determining the corresponding principal axes from (I−λ 1
+2 )ξ(2,3) =
+0, though they still should be orthogonal to each other (and ξ(1)). One example of a solution
+is:
+ξ(2) = (1, −1, 0)
+and
+ξ(3) = (1, 1, −2)
+(2.64)
+43
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Using these principal axes and the same origin, the moment of inertia tensor becomes
+ma2
+ˆID =
+1
+6
+
+0
+0
+
+0
+1
+0
+2
+0
+0
+1
+
+2
+
+.
+(2.65)
+In contrast, if we had chosen the origin as the center of the cube, then one choice for the
+ˆ
+principal axes would have the same orientation, but with ICM = 1ma21. This result could
+6
+be obtained from Eq. (2.65) using the parallel axis theorem.
+2.4
+Euler Equations
+Consider the rotational motion of a rigid body about a ﬁxed point (which could be the CM
+but could also be another point). We aim to describe the motion of this rigid body by
+exploiting properties of the body frame. To simplify things as much as possible, for this
+ﬁxed point, we choose the principal axes ﬁxed in the body frame indexed by α ∈{1, 2, 3}.
+Using the relation between time derivatives in the inertial and rotating frames, the torque
+is then given by:
+dL
+τ =
+dRL
+=
+dt
++ ω
+dt
+× L
+(2.66)
+where ω = ω(t). For example:
+dRL1
+τ1 =
++ ω2L3 −ω3L2.
+(2.67)
+dt
+Not summing over repeated indices and using the formula for angular momentum along
+the principal axes gives Lα = Iαωα. Since we have ﬁxed moments of inertia within the
+body we have dRIα/dt = 0. Note that dω/dt = dRω/dt + ω × ω = dRω/dt, so its rotating
+and inertial time derivatives are the same, and we can write ω˙ α without possible cause of
+confusion. Thus dRLα/dt = Iαω˙ α. This yields the Euler equations:
+I1ω˙ 1 −(I2 −I3)ω2ω3 = τ1
+I2ω˙ 2 −(I3 −I1)ω3ω1 = τ2
+(2.68)
+I3ω˙ 3 −(I1 −I2)ω1ω2 = τ3
+where in all of these ω and τ are calculated in the rotating/body frame. This can also be
+written as
+τα = Iα ω˙ α + ϵαlk ωl ωk Ik ,
+(2.69)
+with α ﬁxed but a sum implied over the repeated l and k indicies. Here ϵabc is the fully
+antisymmetric Levi-Civita symbol.
+44
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Solving these equations gives ωα(t). Since the result is expressed in the body frame,
+rather than the inertial frame of the observer, this solution for ω(t) may not always make
+the physical motion transparent. To ﬁx this we can connect our solution to the Euler angles
+using the relations
+˙
+˙
+ω1 = ωx′ = φ sin θ sin ψ + θ cos ψ ,
+˙
+ω2 = ωy′ = φ sin θ cos ψ −˙θ sin ψ ,
+(2.70)
+˙
+˙
+ω3 = ωz′ = φ cos θ + ψ.
+These results should be derived as exercise for the student.
+Example: let us consider the stability of rigid-body free rotations (τ = 0). Is a rotation
+ω = ω1e1 about the principal axis e1 stable?
+Perturbations can be expressed by taking ω = ω1e1 +κ2e2 +κ3e3, where κ2 and κ3 are small
+and can be treated to 1st order. The Euler equations are:
+(I2
+)
+ω˙ 1
+−I3
+=
+κ2κ3 = O(κ2)
+I1
+≈0,
+(2.71)
+so ω1 is constant at this order, and
+(I3
+κ˙ 2 =
+−I1)
+(I1
+ω1 κ3
+and
+κ˙ 3 =
+−I2)
+I2
+ω1 κ2 .
+(2.72)
+I3
+Combining these two equations yields
+(I −I )(I −I )ω2
+3
+1
+1
+2
+κ¨ =
+1
+2
+2
+
+κ2.
+(2.73)
+I I3
+The terms in the square bracket are all constant, and is either negative = −w2 with an
+oscillating solution κ
+2
+2 ∝cos(wt + φ), or is positive = α with exponential solutions κ2 ∝
+aeαt + be−αt. If I1 < I2,3 or I2,3 < I1 then the constant prefactor is negative, yielding stable
+oscillatory solutions. If instead I2 < I1 < I3 or I3 < I1 < I2 then the constant prefactor
+is positive, yielding an unstable exponentially growing component to their solution! This
+behavior can be demonstrated by spinning almost any object that has three distinct principal
+moments of inertia.
+2.5
+Symmetric Top with One Point Fixed
+This section is devoted to a detailed analysis of a particular example that appears in many
+situations, the symmetric top with one point ﬁxed, acted upon by a constant force.
+45
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Labeling the body axes as (x, y, z) and the ﬁxed axes
+as (xI, yI, zI), as depicted in the right, symmetry implies
+that I1 = I2, and we will assume that I1,2 ̸= I3. The
+Euler angles are as usual (φ, θ, ψ). From the ﬁgure we
+˙
+see that ψ is the rotation rate of the top about the
+˙
+(body) z-axis, φ is the precession rate about the zI ﬁxed
+˙
+inertial axis, and θ is the nutation rate by which the
+top may move away or towards the zI axis. The Euler
+equations in this case are
+I1ω˙ 1 −(I2 −I3)ω2ω3 = τ1,
+I1ω˙ 2 −(I3 −I1)ω3ω1 = τ2,
+(2.74)
+I3ω˙ 3 = 0 = τ3 .
+Since the CM coordinate R is aligned along the z-axis there is no torque along z, τ3 = 0,
+leading to a constant ω3.
+There are two main cases that we will consider.
+˙
+Case: τ = 0 and θ = 0
+˙
+The ﬁrst case we will consider is when τ = 0 (so there is no gravity) and θ = 0 (so there
+is no nutation). Then
+dL = τ = 0
+dt
+⇒
+L = constant
+(2.75)
+Let us deﬁne the constant:
+I
+Ω≡
+3 −I1ω3 .
+(2.76)
+I1
+Then the Euler equations for this situation reduce to:
+ω˙ 1 + Ωω2 = 0
+and
+ω˙ 2 −Ωω1 = 0 .
+(2.77)
+The simplest solution correspond to ω1(t) = ω2(t) = 0, where we just have a rotation about
+the z-axis. Here:
+L = L3 e3
+where
+L3 = I3ω3
+˙
+˙
+˙
+ω1 = ω2 = 0
+⇒
+θ = φ = 0 and ψ = ω3 .
+(2.78)
+In this case L ∥ω. A more general situation is when L and ω are not necessarily parallel,
+and ω1 and ω2 do not vanish. In this case Eq. (2.77) is solved by:
+ω1 = C sin(Ωt + D)
+and
+ω2 = −C cos(Ωt + D).
+(2.79)
+46
+
+CHAPTER 2. RIGID BODY DYNAMICS
+The simple case corresponds to C = 0, so now we take
+C > 0 (since a sign can be accounted for by the constant
+phase D). This solution means ω precesses about the
+body z-axis at the rate Ω, as pictured on the right.
+Since ω2
+1 + ω2
+2 is constant, the full ω = |ω| is constant,
+and is given by ω2 = C2 + ω2
+3.
+The energy here is just rotational kinetic energy TR =
+1ω
+2
+· L which is constant too, since both ω and L are
+constant. Thus ω also precesses about L.
+We can picture this motion by thinking about a body cone that rolls around a cone in the
+ﬁxed coordinate system, where in the case pictured with a larger cone about L we have
+I1 = I2 > I3.
+To obtain more explicit results for the motion we can relate Eq.(2.79) to Euler angles. Since
+˙θ = 0, we take θ = θ0 to be constant. The other Euler angles come from:
+
+
+
+˙
+C sin(Ωt + D)
+sin(θ
+φ
+ω = −C cos(Ωt
+D)= 
+0) sin(ψ)
++
+˙
+sin(θ0) cos(ψ)φ
+ω3
+˙
+˙
+cos(θ0)φ + ψ
+
+Adding the squares of the 1st and 2nd components gives
+.
+(2.80)
+2
+2
+˙
+C = sin (θ0) φ2.
+(2.81)
+To be deﬁnite, take the positive square root of this equation to give
+C
+˙φ =
+C
+φ
+sin(θ0)
+⇒
+=
+t + φ0.
+(2.82)
+sin(θ0)
+The ﬁrst two equations in Eq. (2.80) are then fully solved by taking ψ = π −Ωt −D, so we
+ﬁnd that both φ and ψ have linear dependence on time. Finally the third equation gives a
+47
+
+CHAPTER 2. RIGID BODY DYNAMICS
+relation between various constants
+ω3 = C cot(θ0) −Ω.
+(2.83)
+˙
+˙
+˙
+Thus, we see that the solution has φ and ψ are constants with θ = 0. If we had picked the
+opposite sign when solving Eq. (2.81) then we would have found similar results:
+C
+˙φ = −
+and
+sin(
+⇒
+ψ =
+θ0)
+−Ωt −D
+ω3 = −C cot(θ0) −Ω.
+(2.84)
+Case: τ ̸
+˙
+= 0 and θ ̸= 0
+˙
+Now we consider the general case where τ ̸= 0 and θ ̸= 0. It is now more convenient to
+use the Lagrangian than the Euler equations directly. Since I1 = I2, using
+1
+T =
+˙
+˙
+sin(θ) sin(ψ)φ + cos(ψ)θ
+I (ω2 + ω2) + I ω2
+˙
+1
+3
+and
+ω =
+˙
+sin(θ) cos(ψ)φ
+sin(ψ)θ
+,
+(2.85)
+2
+1
+2
+3
+
+ 
+
+−
+˙
+˙
+
+cos(θ)φ + ψ
+
+gives us the kinetic energy
+
+I1
+T =
+I
+˙
+2
+
+θ2 + sin2
+˙
+θ φ2
+3
++
+2
+˙
+˙
+ψ + cos θ φ
+.
+(2.86)
+2
+Moreover, V = mgR cos(θ), so in the Lagrangian L =
+
+T
+
+−V the variables φ and ψ are cyclic.
+This means that the momenta
+∂L
+pφ =
+2
+˙
+= I
+θ)
+˙
+1 sin (θ) + I3 cos2
+˙
+(
+φ + I3 cos(θ)ψ
+(2.87)
+∂φ
+∂L
+p
+
+
+ψ =
+˙
+˙
+= I
+˙
+3(ψ + cos(θ)φ) = I3ω3
+(2.88)
+∂ψ
+are conserved (constant). Here pψ is same as the angular momentum L3 discussed in the case
+above. The torque is along the line of nodes, and pφ and pψ correspond to two projections
+of L that are perpendicular to this torque (i.e. along zˆI and zˆ). Additionally, the energy is
+given by
+I1
+E = T + V =
+I
+˙
+2
+
+θ2 + sin2
+˙
+(θ)φ2
+3
++
+2
+˙
+˙
+ψ + cos(θ)φ
++ mgR cos(θ)
+(2.89)
+2
+˙
+˙
+and is also conserved. Solving the momentum equations,
+
+Eq.
+
+(2.87), for φ and ψ gives
+p
+˙
+φ
+φ =
+−pψ cos(θ)
+(2.90)
+I1 sin2(θ)
+p
+˙
+ψ
+ψ =
+(p
+I3
+−
+φ −pψ cos(θ)) cos(θ) .
+I1 sin2(θ)
+48
+
+CHAPTER 2. RIGID BODY DYNAMICS
+Note that once we have a solution for θ(t) that these two equations then allow us to imme-
+diately obtain solutions for φ(t) and ψ(t) by integration. Eq. (2.90) can be plugged into the
+energy formula to give
+I1
+E =
+(
+˙θ2
+pφ
++
+−pψ cos(θ))2
+2
+p2
+ψ
++
+2I1 sin2(θ)
++ mgR cos(θ),
+(2.91)
+2I3
+which is a (nonlinear) diﬀerential equation for θ, since all other quantities that appear are
+simply constants. To simplify this result take u = cos(θ) so that:
+u˙ 2
+˙
+1 −u2 = sin2
+,
+u˙ = −
+˙
+(θ)
+sin(θ)θ ,
+θ2 =
+.
+(2.92)
+1 −u2
+Putting all this together gives:
+u˙ 2
+2
+=
+2
+ EI3 −p2
+ψ
+mgR
+2I1I3
+−
+1
+u
+I1
+  1 −u2
+−
+p
+2
+
+φ −pψu
+I
+2
+V
+1
+≡−
+eﬀ(u) ,
+(2.93)
+which is a cubic polynomial that we’ve deﬁned to be the eﬀective potential Veﬀ(u). The
+solution to this from
+du
+dt = ±p
+(2.94)
+−2Veﬀ(u)
+yields a complicated elliptic function, from which it is hard to get intuition for the motion.
+49
+
+CHAPTER 2. RIGID BODY DYNAMICS
+−1
+0
+f
+f
+e
+V
+u1
+u2
+u
+1
+θ =180 ◦
+θ =0 ◦
+Allowed region
+Figure 2.7: Allowed region for solutions for the top’s nutation angle θ that solve Eq. (2.95).
+Instead, we can look at the form of Veﬀ(u), because
+1u˙ 2 + Veﬀ(u) = 0
+(2.95)
+2
+is the equation for the energy of a particle of unit mass m = 1, kinetic energy u˙ 2/2, a
+potential Veﬀ(u), and with vanishing total energy. The cubic equation will have in general
+three roots where Veﬀ(u) = 0. Since the kinetic energy is always positive or zero, the potential
+energy must be negative or zero in the physical region, and hence the particle can not pass
+through any of the roots. The roots therefore serve as turning points. Furthermore, physical
+solutions are bounded by −1 ≤(u = cos θ) ≤1. While the precise values for the roots will
+depend on the initial conditions or values of E, pψ, and pφ, we can still describe the solutions
+in a fairly generic manner.
+Consider two roots u1 and u2 (corresponding respectively to some angles θ1 and θ2 as
+u = cos(θ)) satisfying Veﬀ(u1) = Veﬀ(u2) = 0, where Veﬀ(u) < 0 for u1 < u < u2; as shown
+in Fig. 2.7. We see that u1 and u2 correspond to the turning points of the motion. The
+region u1 < u < u2 corresponds to the region where the motion of our top lives and gives
+rise to a periodic nutation, where the solution bounces between the two turning points.
+Depending on the precise value of the various constants that appear in this Veff this gives
+rise to diﬀerent qualitative motions, with examples shown in Figs. 2.8–2.11. Recalling that
+˙
+˙
+φ = (pφ −pψu)/[I
+2
+1(1 −u )], we see that the possible signs for φ will depend on pφ and pψ.
+In Fig. 2.8 the top nutates between θ1 and θ2 while always precessing in the same direction
+50
+
+CHAPTER 2. RIGID BODY DYNAMICS
+˙
+Figure 2.8: φ > 0
+˙
+Figure 2.9: φ has both
+signs
+Figure 2.10:
+at θ2 we
+˙
+˙
+have φ = 0, θ = 0
+Figure 2.11: No nu-
+tation
+˙
+˙
+with φ > 0, whereas in Fig. 2.9 the precession is also in the backward direction, φ < 0, for
+˙
+part of the range of motion. In Fig. 2.10 the top has φ = 0 at θ2, before falling back down
+˙
+in the potential and gaining φ > 0 again. This ﬁgure also captures the case where we let go
+˙
+˙
+of a top at θ = θ2 ≥0 that initially has ψ > 0 but φ = 0. Finally in Fig. 2.11 we have the
+situation where there is no nutation oscillation because the two angles coincide, θ1 = θ2.
+51
+
+MIT OpenCourseWare
+https://ocw.mit.edu
+8.09 Classical Mechanics III
+Fall 2014
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.

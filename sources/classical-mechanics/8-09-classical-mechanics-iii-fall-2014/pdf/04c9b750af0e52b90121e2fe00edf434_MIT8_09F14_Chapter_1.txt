@@ -1,0 +1,2636 @@
+Chapter 1
+A Review of Analytical Mechanics
+1.1
+Introduction
+These lecture notes cover the third course in Classical Mechanics, taught at MIT since
+the Fall of 2012 by Professor Stewart to advanced undergraduates (course 8.09) as well as
+to graduate students (course 8.309). In the prerequisite classical mechanics II course the
+students are taught both Lagrangian and Hamiltonian dynamics, including Kepler bound
+motion and central force scattering, and the basic ideas of canonical transformations. This
+course brieﬂy reviews the needed concepts, but assumes some familiarity with these ideas.
+References used for this course include
+• Goldstein, Poole & Safko, Classical Mechanics, 3rd edition.
+• Landau and Lifshitz vol.6, Fluid Mechanics. Symon, Mechanics for reading material
+on non-viscous ﬂuids.
+• Strogatz, Nonlinear Dynamics and Chaos.
+• Review: Landau & Lifshitz vol.1, Mechanics.
+(Typically used for the prerequisite
+Classical Mechanics II course and hence useful here for review)
+1.2
+Lagrangian & Hamiltonian Mechanics
+Newtonian Mechanics
+In Newtonian mechanics, the dynamics of a system of N particles are determined by solving
+for their coordinate trajectories as a function of time. This can be done through the usual
+vector spatial coordinates ri(t) for i ∈{1, . . . , N}, or with generalized coordinates qi(t) for
+i ∈{1, . . . , 3N} in 3-dimensional space; generalized coordinates could be angles, et cetera.
+1
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Velocities are represented through vi ≡r˙i for spatial coordinates, or through q˙i for
+generalized coordinates. Note that dots above a symbol will always denote the total time
+derivative
+d . Momenta are likewise either Newtonian pi = mivi or generalized pi.
+dt
+For a ﬁxed set of masses m Newton’s 2nd
+i
+law can be expressed in 2 equivalent ways:
+1. It can be expressed as N second-order equations Fi =
+d (mir˙i) with 2N boundary
+dt
+conditions given in ri(0) and r˙i(0). The problem then becomes one of determining the
+N vector variables ri(t).
+2. It can also be expressed as an equivalent set of 2N 1st order equations Fi = p˙ i &
+pi/mi = r˙i with 2N boundary conditions given in ri(0) and pi(0). The problem then
+becomes one of determining the 2N vector variables ri(t) and pi(t).
+Note that F = ma holds in inertial frames. These are frames where the motion of a
+particle not subject to forces is in a straight line with constant velocity. The converse does not
+hold. Inertial frames describe time and space homogeneously (invariant to displacements),
+isotropically (invariant to rotations), and in a time independent manner. Noninertial frames
+also generically have ﬁctitious “forces”, such as the centrifugal and Coriolis eﬀects. (Inertial
+frames also play a key role in special relativity. In general relativity the concept of inertial
+frames is replaced by that of geodesic motion.)
+The existence of an inertial frame is a useful approximation for working out the dynam-
+ics of particles, and non-inertial terms can often be included as perturbative corrections.
+Examples of approximate inertial frames are that of a ﬁxed Earth, or better yet, of ﬁxed
+stars. We can still test for how noninertial we are by looking for ﬁctitious forces that (a) may
+point back to an origin with no source for the force or (b) behave in a non-standard fashion
+in diﬀerent frames (i.e. they transform in a strange manner when going between diﬀerent
+frames).
+We will use primes will denote coordinate transformations. If r is measured in an inertial
+frame S, and r′ is measured in frame S′ with relation to S by a transformation r′ = f(r, t),
+then S′ is inertial iﬀ¨r = 0 ↔¨r′ = 0. This is solved by the Galilean transformations,
+r′ = r + v0t
+t′ = t,
+which preserves the inertiality of frames, with F = m¨r and F′ = m¨r′ implying each other.
+Galilean transformations are the non-relativistic limit, v ≪c, of Lorentz transformations
+which preserve inertial frames in special relativity. A few examples related to the concepts
+of inertial frames are:
+1. In a rotating frame, the transformation
+
+is given by
+x′
+y′
+
+=
+ cos(θ)
+sin(θ)
+x
+−sin(θ)
+cos(θ)
+ 
+y
+
+If θ = ωt for some constant ω, then ¨r = 0 still gives ¨r′ ̸= 0, so the primed frame is
+noninertial.
+2
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Figure 1.1: Frame rotated by an angle θ
+2. In polar coordinates, r = rrˆ, gives
+drˆ
+ˆ
+dθ
+˙ˆ
+= θθ,
+dt
+˙
+= −θrˆ
+(1.1)
+dt
+and thus
+¨
+˙ˆ
+¨ˆ
+˙
+r = r¨rˆ + 2r˙θθ + r θθ −θ2rˆ
+.
+(1.2)
+Even if ¨
+¨
+r = 0 we can still have r¨ ̸= 0 and θ
+
+
+̸= 0, and we can not in general form
+a simple Newtonian force law equation mq¨ = Fq for each of these coordinates. This
+is diﬀerent than the ﬁrst example, since here we are picking coordinates rather than
+changing the reference frame, so to remind ourselves about their behavior we will call
+these ”non-inertial coordinates” (which we may for example decide to use in an inertial
+frame). In general, curvilinear coordinates are non-inertial.
+Lagrangian Mechanics
+In Lagrangian mechanics, the key function is the Lagrangian
+L = L(q, q˙, t).
+(1.3)
+Here, q = (q1, . . . , qN) and likewise q˙ = (q˙1, . . . , q˙N).
+We are now letting N denote the
+number of scalar (rather than vector) variables, and will often use the short form to denote
+dependence on these variables, as in Eq. (1.3). Typically we can write L = T −V where
+T is the kinetic energy and V is the potential energy. In the simplest cases, T = T(q˙)
+and V = V (q), but we also allow the more general possibility that T = T(q, q˙, t) and
+V = V (q, q˙, t). It turns out, as we will discuss later, that even this generalization does not
+describe all possible classical mechanics problems.
+The solution to a given mechanical problem is obtained by solving a set of N second-order
+diﬀerential equations known as Euler-Lagrange equations of motion,
+d
+∂
+dt
+ L
+∂
+∂q˙i
+
+L
+−
+= 0.
+(1.4)
+∂qi
+3
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+These equations involve q¨i, and reproduce the Newtonian equations F = ma. The principle
+of stationary action (Hamilton’s principle),
+t2
+δS = δ
+Z
+L(q, q˙, t) dt = 0,
+(1.5)
+t1
+is the starting point for deriving the Euler-Lagrange equations. Although you have covered
+the Calculus of Variations in an earlier course on Classical Mechanics, we will review the
+main ideas in Section 1.5.
+There are several advantages to working with the Lagrangian formulation, including
+1. It is easier to work with the scalars T and V rather than vectors like F.
+2. The same formula in equation (1.4) holds true regardless of the choice of coordinates.
+To demonstrate this, let us consider new coordinates
+Qi = Qi(q1, . . . , qN, t).
+(1.6)
+This particular sort of transformation is called a point transformation. Deﬁning the
+new Lagrangian by
+L′ = L′
+˙
+(Q, Q, t) = L(q, q˙, t),
+(1.7)
+we claim that the equations of motion are simply
+d
+∂
+dt
+ L′
+∂
+˙
+∂Qi
+
+L′
+−
+= 0.
+(1.8)
+∂Qi
+Proof: (for N = 1, since the generalization is straightforward)
+Given L′
+˙
+(Q, Q, t) = L(q, q˙, t) with Q = Q(q, t) then
+d
+˙Q =
+∂Q
+Q(q, t) =
+dt
+∂Q
+q˙ +
+∂q
+.
+(1.9)
+∂t
+Therefore
+˙
+∂Q
+∂Q
+=
+∂q˙
+,
+(1.10)
+∂q
+a result that we will use again in the future. Then
+∂L
+∂L′
+=
+∂q
+∂L′
+=
+∂q
+∂Q
+∂Q
+∂L′
++
+∂q
+˙
+∂Q
+˙
+∂Q
+,
+(1.11)
+∂q
+∂L
+∂L′
+=
+∂q˙
+∂L′
+=
+∂q˙
+˙
+∂Q
+˙
+∂Q
+∂L′
+=
+∂q˙
+∂Q
+˙
+∂Q
+.
+∂q
+4
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Since ∂Q
+′
+= 0 there is no term ∂L
+∂q˙
+∂Q
+∂Q
+in the last line.
+∂q˙
+Plugging these results into 0 = d
+∂
+dt
+
+L
+∂
+∂q˙
+
+−
+L gives
+∂q
+0 =
+ d ∂L′
+dt
+∂
+˙
+∂Q
+
+Q
+∂L′
++
+∂q
+d
+˙
+∂Q
+∂
+dt
+ Q
+∂
+∂q
+ 
+−
+ L′ ∂Q
+∂Q
+∂L′
++
+∂q
+˙
+∂Q
+˙
+∂Q
+
+∂q
+d
+
+=
+∂
+dt
+ L′
+∂
+˙
+∂Q
+
+L′
+−
+∂
+∂Q
+
+Q,
+(1.12)
+∂q
+since
+d ∂Q
+dt
+= (q˙ ∂
+∂q
++ ∂
+∂q
+)∂Q
+∂t
+=
+∂
+∂q
+(q˙ ∂
+∂q
++ ∂
+∂q
+˙
+)Q = ∂Q
+∂t
+so that the second and fourth terms
+∂q
+cancel. Finally for non-trivial transformation where ∂Q =
+∂q ̸
+0 we have, as expected,
+d
+0 =
+∂
+dt
+ L′
+∂
+˙
+∂Q
+
+L′
+−
+.
+(1.13)
+∂Q
+Note two things:
+• This implies we can freely use the Euler-Lagrange equations for noninertial coor-
+dinates.
+• We can formulate L in whatever coordinates are easiest, and then change to
+convenient variables that better describe the symmetry of a system (for example,
+Cartesian to spherical).
+3. Continuing our list of advantages for using L, we note that it is also easy to incorporate
+constraints. Examples include a mass constrained to a surface or a disk rolling without
+slipping. Often when using L we can avoid discussing forces of constraint (for example,
+the force normal to the surface).
+Lets discuss the last point in more detail (we will also continue to discuss it in the next
+section). The method for many problems with constraints is to simply make a good choice for
+the generalized coordinates to use for the Lagrangian, picking N −k independent variables
+qi for a system with k constraints.
+Example: For a bead on a helix as in Fig. 1.2 we only need one variable, q1 = z.
+Example: A mass m2 attached by a massless pendulum to a horizontally sliding mass m1
+as in Fig. 1.3, can be described with two variables q1 = x and q2 = θ.
+Example: As an example using non-inertial coordinates consider a potential V = V (r, θ)
+˙ˆ
+in polar coordinates for a ﬁxed mass m at position r = rrˆ. Since r˙ = r˙rˆ + rθθ we have
+T = mr˙2 = m
+2
+˙
+r˙
+2
+  2 + r2θ2
+, giving
+m
+L =
+˙
+r˙
+2
+
+2 + r2θ2
+−V (r, θ).
+(1.14)
+5
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Figure 1.2: Bead on a helix
+Figure 1.3: Pendulum of mass m2 hanging on a rigid bar of length ℓwhose support m1 is a
+frictionless horizontally sliding bead
+For r the Euler-Lagrange equation is
+d
+0 =
+∂
+dt
+ L
+∂
+∂r˙
+
+L
+−
+d
+=
+∂r
+∂
+˙
+(mr˙)
+dt
+−mrθ2
+V
++
+.
+(1.15)
+∂r
+This gives
+mr¨ −
+˙
+mrθ2
+∂V
+= −
+= Fr,
+(1.16)
+∂r
+from which we see that Fr ̸= mr¨. For θ the Euler-Lagrange equation is
+d
+0 =
+∂
+dt
+ L
+∂
+˙
+∂θ
+
+L
+−
+d
+=
+∂θ
+∂
+˙
+mr
+dt
+
+2θ
+
+V
++
+.
+(1.17)
+∂θ
+This gives
+d
+∂
+˙
+mr
+dt
+
+2θ
+
+V
+= −
+= Fθ,
+(1.18)
+∂θ
+which is equivalent to the relation between angular momentum and torque perpendicular to
+˙
+the plane, Lz = Fθ = τz. (Recall L = r × p and τ = r × F.)
+6
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Figure 1.4: Particle on the inside of a cone
+Example: Let us consider a particle rolling due to gravity in a frictionless cone, shown
+in
+p Fig. 1.4, whose opening angle α deﬁnes an equation for points on the cone tan(α) =
+x2 + y2/z. There are 4 steps which we can take to solve this problem (which are more
+general than this example):
+1. Formulate T and V by N = 3 generalized coordinates. Here it is most convenient to
+choose cylindrical coordinates denoted (r, θ, z), so that T = m
+˙
+r˙2 + r2θ2 + z˙2
+and
+2
+V = mgz.
+
+
+2. Reduce the problem to N −k = 2 independent coordinates and determine the new
+Lagrangian L = T −V . In this case we eliminate z = r cot(α) and z˙ = r˙ cot(α), so
+m
+L =
+˙
+1
+2
+h + cot2 α
+
+r˙2 + r2θ2i
+−mgr cot α.
+(1.19)
+3. Find the Euler-Lagrange equations. For r, 0 = d
+∂
+dt
+  L
+∂
+∂r˙
+
+−
+L, which here is
+∂r
+d
+0 =
+˙
+dt
+
+m
+ 1 + cot2 α
+
+r˙
+
+−mrθ2 + mg cot α
+(1.20)
+giving
+ 1 + cot2
+˙
+α
+
+r¨ −rθ2 + g cot α = 0.
+(1.21)
+For θ we have 0 = d
+∂
+dt
+
+L
+∂
+˙
+∂θ
+
+−
+L, so
+∂θ
+d
+0 =
+,
+dt
+
+mr2 ˙θ
+
+−0
+(1.22)
+giving
+˙
+¨
+(2r˙θ + rθ)r = 0.
+(1.23)
+4. Solve the system analytically or numerically, for example using Mathematica. Or we
+might be only interested in determining certain properties or characteristics of the
+motion without a full solution.
+7
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Hamiltonian Mechanics
+In Hamiltonian mechanics, the canonical momenta pi ≡
+∂L are promoted to coordinates
+∂q˙i
+on equal footing with the generalized coordinates qi. The coordinates (q, p) are canonical
+variables, and the space of canonical variables is known as phase space.
+The Euler-Lagrange equations say p˙i = ∂L. These need not equal the kinematic momenta
+∂qi
+miq˙i if V = V (q, q˙). Performing the Legendre transformation
+H(q, p, t) = q˙ipi −L(q, q˙, t)
+(1.24)
+(where for this equation, and henceforth, repeated indices will imply a sum unless otherwise
+speciﬁed) yields the Hamilton equations of motion
+∂H
+q˙i =
+(1.25)
+∂pi
+∂H
+p˙i = −∂qi
+which are 2N 1st order equations. We also have the result that
+∂H
+∂L
+=
+∂t
+−
+.
+(1.26)
+∂t
+Proof: (for N = 1) Consider
+∂H
+dH =
+∂H
+dq +
+∂q
+∂H
+dp +
+∂p
+dt
+(1.27)
+∂t
+=
+∂L
+pdq˙ + q˙dp −
+∂L   dq
+∂q
+−
+  ∂L
+dq˙
+∂q˙
+−
+dt .
+(1.28)
+∂t
+Since we are free to independently vary dq, dp, and dt this implies ∂L = p, ∂L
+∂q˙
+= p˙, and
+∂q
+∂H =
+∂t
+−∂L.
+∂t
+We can interpret the two Hamilton equations as follows:
+• q˙i = ∂H is an inversion of pi = ∂L
+∂pi
+= pi(q, q˙, t).
+∂q˙i
+• p˙i = −∂H provides the Newtonian dynamics.
+∂qi
+However, these two equation have an have equal footing in Hamiltonian mechanics, since
+the coordinates and momenta are treated on a common ground. We can use pi =
+∂L to
+∂q˙i
+construct H from L and then forget about L.
+8
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+As an example of the manner in which we will usually consider transformations between
+Lagrangians and Hamiltonians, consider again the variables relevant for the particle on a
+cone from Fig. 1.4:
+˙
+z=r cot α
+˙
+L(r, θ, z, r˙, θ, z˙)
+−→
+new L(r, θ, r˙, θ)
+−→
+Euler-Lagrange Eqtns.
+(1.29)
+↕
+↕
+↕
+not here
+H(r, θ, z, pr, pθ, pz)
+=⇒
+H(r, θ, pr, pθ)
+−→
+Hamilton Eqtns.
+Here we consider transforming between L and H either before or after removing the redun-
+dant coordinate z, but in this course we will only consider constraints imposed on Lagrangians
+and not in the Hamiltonian formalism (the step indicated by =⇒). For the curious, the topic
+of imposing constraints on Hamiltonians, including even more general constraints than those
+we will consider, is covered well in Dirac’s little book “Lectures on Quantum Mechanics”.
+Although Hamiltonian and Lagrangian mechanics provide equivalent formalisms, there is of-
+ten an advantage to using one or the other. In the case of Hamiltonian mechanics potential
+advantages include the language of phase space with Liouville’s Theorem, Poisson Brackets
+and the connection to quantum mechanics, as well as the Hamilton-Jacobi transformation
+theory (all to be covered later on).
+Special case: Let us consider a special case that is suﬃcient to imply that the Hamiltonian
+is equal to the energy, H = E ≡T + V . If we only have quadratic dependence on velocities
+in the kinetic energy, T = 1Tjk(q)q˙jq˙k, and V = V (q) with L = T
+V , then
+2
+−
+∂L
+q˙ipi = q˙i
+1
+=
+∂q˙i
+1
+q˙iTikq˙k +
+2
+q˙jTjiq˙i = 2T.
+(1.30)
+2
+Hence,
+H = q˙ipi −L = T + V = E
+(1.31)
+which is just the energy.
+Another Special case: Consider a class of Lagrangians given as
+1
+L(q, q˙, t) = L0 + ajq˙j +
+q˙jTjkq˙k
+(1.32)
+2
+where L0 = L0(q, t), aj = aj(q, t), and Tjk = Tkj = Tjk(q, t). We can write this in shorthand
+as
+1
+L = L0
+⃗a · ˙
++
+⃗q +
+˙⃗q
+2
+· ˆT · ˙⃗q .
+(1.33)
+Here the generalized coordinates, momenta, and coeﬃcients have been collapsed into vectors,
+like ⃗q (rather than the boldface that we reserve for Cartesian vectors), and dot products of
+9
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+vectors from the left imply transposition of that vector. Note that ⃗q is an unusual vector,
+since its components can have diﬀerent dimensions, eg. ⃗q = (x, θ), but nevertheless this
+notation is useful. To ﬁnd H,
+∂L
+pj =
+= aj + Tjkq˙k,
+(1.34)
+∂q˙j
+ˆ
+meaning p⃗= ⃗a + T · ˙
+˙
+ˆ
+⃗q. Inverting this gives ⃗q = T −1· (p⃗−
+ˆ
+⃗a), where T −1 will exist because
+ˆ
+of the positive-deﬁnite nature of kinetic energy, which implies that T is a postive deﬁnite
+˙
+matrix. Thus, H = ⃗q · p⃗−L yields
+1
+H =
+−
+ˆ
+(p⃗
+⃗a) · T −1· (p⃗−⃗a)
+2
+−L0(q, t)
+(1.35)
+ˆ
+as the Hamiltonian. So for any Lagrangian in the form of Eq. (1.32), we can ﬁnd T −1 and
+write down the Hamiltonian as in Eq. (1.35) immediately.
+Example: let us consider L = 1mv2 −eφ + eA · v, where e is the electric charge and SI
+2
+ˆ
+units are used. In Eq. (1.32), because the coordinates are Cartesian, a = eA, T = m1, and
+L0 = −eφ, so
+1
+H =
+(p
++
+m
+−eA)2
+eφ .
+(1.36)
+2
+As you have presumably seen in an earlier course, this Hamiltonian does indeed reproduce
+the Lorentz force equation e(E + v × B) = mv˙.
+A more detailed Example. Find L and H for the frictionless pendulum shown in Fig. 1.3.
+This system has two constraints, that m1 is restricted to lie on the x-axis sliding without
+friction, and that the rod between m1 and m2 is rigid, giving
+y1 = 0 ,
+(y1 −y2)2 + (x1 −x2)2 = ℓ2 .
+(1.37)
+Prior to imposing any constraints the Lagrangian is
+m
+L = T −
+1
+V =
+m
+x˙ 2
+2
+2
+1 +
+(x˙ 2
+2 + y˙2
+2) −m2gy2
+2
+−m1gy1 .
+(1.38)
+Lets choose to use x ≡x1 and the angle θ as the independent coordinates after imposing
+the constraints in Eq. (1.37).
+This allows us to eliminate y1 = 0, x2 = x + ℓsin θ and
+y2 = −
+˙
+˙
+ℓcos θ, together with x˙ 2 = x˙ + ℓcos θ θ, y˙2 = ℓsin θ θ, x˙ 1 = x˙. The Lagrangian with
+constraints imposed is
+m1
+L =
+m
+x˙ 2
+2
++
+2
+ x˙ 2
+˙
+˙
++ 2ℓcos θ x˙θ + ℓ2 cos2
+˙
+θ θ2 + ℓ2 sin2 θ θ2
+2
+
++ m2gℓcos θ .
+(1.39)
+Next we determine the Hamiltonian. First we ﬁnd
+∂L
+px =
+˙
+˙
+= m1x˙ + m2(x˙ + ℓcos θθ) = (m1 + m2)x˙ + m2ℓcos θ θ ,
+(1.40)
+∂x˙
+∂L
+pθ =
+˙
+= m
+˙
+2ℓcos θ x˙ + m2ℓ2θ .
+∂θ
+10
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Note that px isnotsimply proportional to x˙ here (actually px is the center-of-mass momen-
+px
+x˙
+ˆ
+tum). Writing
+= T
+pθ
+·
+˙θ
+
+gives
+ˆT =
+m1 + m2
+m2ℓcos θ
+,
+m2ℓcos θ
+m2ℓ2
+
+(1.41)
+1
+with L =
+x˙
+˙
+ˆ
+(x˙ θ)
+T
++ L0 where L0 = m
+˙
+2gℓcos θ. Computing
+2
+·
+·
+
+θ
+
+ˆT −1
+1
+=
+m
+m1m2ℓ2 + m2ℓ2 sin2 θ
+
+2ℓ2
+−m2ℓcos θ
+,
+(1.42)
+−m2ℓcos θ
+m1 + m2
+
+we can simply apply Eq. (1.35) to ﬁnd the corresponding Hamiltonian
+1
+H =
+p
+ˆ
+(px pθ)
+2
+·T −1·
+
+x
+pθ
+
+−m2gℓcos θ
+(1.43)
+1
+=
+m ℓ2
+2
+p2 + (m1 + m2)p2
+2m2ℓcos θpxpθ
+m2gℓcos θ .
+2m2ℓ2(m
+2
+x
+θ
+1 + m2 sin θ)
+h
+−
+i
+−
+Lets compute the Hamilton equations of motion for this system. First for (x, px) we ﬁnd
+∂H
+x˙ =
+px
+=
+∂px
+cos θ p
+m1 + m2 sin2 θ −
+θ
+,
+ℓ(m1 + m2 sin2
+(1.44)
+θ)
+∂H
+p˙x = −
+= 0 .
+∂x
+As we might expect, the CM momentum is time independent. Next for (θ, pθ):
+∂H
+˙θ =
+1
+=
+∂pθ
+(m1 + m2)pθ
+m2ℓcos θpx ,
+(1.45)
+m2ℓ2(m1 + m2 sin2 θ)
+h
+−
+∂H
+i
+p˙θ = −
+sin θ cos θ
+=
+∂θ
+m2ℓ2p2 + (m
+m2)p2
+1 +
+2m2ℓcos θpxpθ
+ℓ
+1 + m sin2 θ)2
+h
+x
+2(m
+θ
+2
+−
+sin θp
+−
+θ
+i
+m2gℓsin
+−
+xp
+θ
+.
+ℓ(m1 + m2 sin θ)
+These non-linear coupled equations are quite complicated, but could be solved in math-
+ematica or another numerical package. To test our results for these equations of motion
+analytically, we can take the small angle limit, approximating sin θ ≃θ, cos θ ≃1 to obtain
+px
+x˙ =
+p
+m1
+−
+θ
+1
+˙
+,
+p˙x = 0 ,
+θ =
+ℓm1
+(
+m1m2ℓ2
+h
+m1 + m2)pθ −m2ℓpx
+i
+,
+θ
+p˙θ =
+h
+θpxpθ
+m2ℓ2p2
+x + (m1 + m2)p2
+θ −2m2ℓcos θpxpθ
+ℓ2m2
+1
+i
+−
+m
+ℓm1
+−
+2gℓθ .
+(1.46)
+11
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+To simplify it further we can work in the CM frame, thus setting px = 0, and linearize the
+equations by noting that pθ ∼˙θ should be small for θ to remain small, and hence θp2
+θ is a
+higher order term. For the non-trivial equations this leaves
+p
+x˙ = −
+θ
+p
+˙
+θ
+,
+θ =
+ℓm1
+,
+p˙θ =
+µℓ2
+−m2gℓθ ,
+(1.47)
+¨
+where µ = m1m2/(m1 + m2) is the reduced mass for the two-body system.
+Thus θ =
+p˙θ/(µℓ2) = −m2 g θ as expected for simple harmonic motion.
+µ ℓ
+1.3
+Symmetry and Conservation Laws
+A cyclic coordinate is one which does not appear in the Lagrangian, or equivalently in the
+Hamiltonian. Because H(q, p, t) = q˙ipi −L(q, q˙, t), if qj is absent in L for some particular j,
+it will be absent in H as well. The absence of that qj corresponds with a symmetry in the
+dynamics.
+In this context, Noether’s theorem means that a symmetry implies a cyclic coordinate,
+which in turn produces a conservation law. If qj is a cyclic coordinate for some j, then
+we can change that coordinate without changing the dynamics given by the Lagrangian
+or Hamiltonian, and hence there is a symmetry. Furthermore the corresponding canonical
+momentum pj is conserved, meaning it is a constant through time.
+The proof is simple. If ∂L = 0 then p˙j =
+d
+∂qj
+∂L
+dt
+= ∂L
+∂q˙j
+= 0, or even more simply, ∂H
+∂qj
+= 0
+∂qj
+is equivalent to p˙j = 0, so pj is a constant in time.
+Special cases and examples of this abound. Lets consider a few important ones:
+1. Consider a system of N particles where no external or internal force acts on the center
+of mass (CM) coordinate R =
+1 miri, where the total mass M =
+M
+i mi. Then the
+CM momentum P is conserved. This is because
+P
+FR = −∇RV = 0
+(1.48)
+so V is independent of R. Meanwhile, T = 1
+m
+2
+i
+ir˙
+2
+i , which when using coordinates
+relative to the center of mass, r′
+i ≡ri −R, bec
+P
+omes
+1
+T =
+ 
+d
+˙
+m
+2
+X
+i
+i
+!
+R2
+˙
++R·
+ 
+1
+m
+dt
+X
+ir′
+i
+i
+!
++
+X
+1
+mir˙′2
+2
+i =
+i
+1
+˙
+MR2 +
+2
+(1.49)
+2
+X
+mir˙′2
+i .
+i
+Note that P
+i mir′
+i = 0 from the deﬁnitions of M, R, and r′
+i, so T splits into two
+terms, one for the CM motion and one for relative motion. We also observe that T is
+˙
+independent of R. This means that R is cyclic for the full Lagrangian L, so P = MR
+is a conserved quantity. In our study of rigid bodies we will also need the forms of M
+and R for a conRtinuous body with mass distribution ρ(r), which for a three dimensional
+body are M =
+d3r ρ(r) and R =
+1
+d
+M
+R
+3r ρ(r) r.
+12
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Note that P˙ = 0 is satisﬁed by having no total external force, so Fext =
+i Fext
+i
+=
+0, and by the internal forces obeying Newton’s 3rd law Fi→j = −Fj→i. Hence,
+P
+¨
+MR =
+X
+Fext
+i
++
+X
+Fi
+j = 0.
+(1.50)
+→
+i
+i,j
+2. Let us consider a system that is invariant with respect to rotations of angle φ about a
+symmetry axis. This has a conserved angular momentum. If we pick φ as a generalized
+coordinate, then L = T −V is independent of φ, so p˙φ = ∂L = 0 meaning pφ is constant.
+∂φ
+˙
+In particular, for a system where V is independent of the angular velocity φ we have
+∂T
+pφ =
+X
+∂r˙
+=
+mir˙i
+∂ϕ˙
+i
+·
+i
+∂
+=
+∂ϕ˙
+X
+r
+mivi
+i
+·
+i.
+(1.51)
+∂ϕ
+Simplifying further using the results in Fig. 2.2 yields
+pϕ =
+X
+mivi · (nˆ
+i
+× ri) = nˆ ·
+X
+ri
+i
+× mivi = nˆ · Ltotal.
+(1.52)
+Figure 1.5: Rotation about a symmetry axis
+Note
+P that L about the CM is conserved for systems with no external torque,
+τ ext =
+i ri×Fext
+i
+= 0 and internal forces that are all central. Deﬁning rij ≡ri−rj and
+its magnitude appropriately, this means Vij = Vij(rij). This implies that Fji = −∇iVij
+(no sum on the repeated index) is parallel to rij. Hence,
+dL =
+dt
+X
+ri
+i
+× p˙ i =
+X
+ri
+i
+× Fext
+i
++
+X
+ri
+i,j
+× Fji.
+(1.53)
+13
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+However, P
+i ri × Fext
+i
+= 0, so dL =
+X
+rij
+=
+i<j
+× Fji
+0.
+(1.54)
+dt
+3. One can also consider a scaling transformation. Suppose that under the transformation
+ri →λri the potential is homogeneous and transforms as V →λkV for some constant
+k. Letting T be quadratic in r˙i and taking time to transform as t
+λ1−k/2 t then
+gives r˙ →λk/2
+k
+→
+i
+r˙i. So by construction T →λ T also, and thus the full Lagrangian
+L →λkL. This overall factor does not change the Euler-Lagrange equations, and hence
+the transformation is a symmetry of the dynamics, only changing the overall scale or
+units of the coordinate and time variables, but not their dynamical relationship. This
+can be applied for several well known potentials:
+a) k = 2 for a harmonic oscillator. Here the scaling for time is given by 1 −k/2 = 0,
+so it does not change with λ. Thus, the frequency of the oscillator, which is a
+time variable, is independent of the amplitude.
+b) k = −1 for the Coulomb potential. Here 1−k/2 = 3/2 so there is a more intricate
+relation between coordinates and time. This power is consistent with the behavior
+of bound state orbits, where the period of the orbit T obeys T 2 ∝a3, for a the
+semi-major axis distance (Kepler’s 3rd law).
+c) k = 1 for a uniform gravitational ﬁeld.
+√
+Here 1 −k/2 = 1/2 so for a freely falling
+object, the time of free fall goes as
+h where h is the distance fallen.
+4. Consider the Lagrangian for a charge in electromagnetic ﬁelds, L = 1mr˙2 −eφ+eA·r˙.
+2
+As a concrete example, let us take φ and A to be independent of the Cartesian coor-
+dinate x. The canonical momentum is p = ∂L = mr˙ + eA, which is notably diﬀerent
+∂r˙
+from the kinetic momentum. Then x being cyclic means the canonical momentum px
+is conserved.
+5. Let us consider the conservation of energy and the relationship between energy and
+˙
+the Hamiltonian. Applying the time derivative gives H = ∂H q˙ + ∂H
+∂q
+p˙ + ∂H
+∂p
+. However,
+∂t
+q˙ = ∂H and p˙ =
+∂p
+−∂H . Thus
+∂q
+∂H
+˙H =
+∂L
+=
+∂t
+−
+.
+(1.55)
+∂t
+There are two things to consider.
+• If H (or L) has no explicit time dependence, then H = q˙ipi −L is conserved.
+•
+˙
+Energy is conserved if E = 0, where energy is deﬁned by E = T + V .
+If H = E then the two points are equivalent, but otherwise either of the two could be
+true while the other is false.
+14
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Example: Let us consider a system which provides an example where H = E but
+energy is not conserved, and where H ̸= E but H is conserved. The two situations
+will be obtained from the same example by exploiting a coordinate choice. Consider a
+system consisting of a mass m attached by a spring of constant k to a cart moving at a
+constant speed v0 in one dimension, as shown in Fig. 1.6. Let us call x the displacement
+Figure 1.6: Mass attached by a spring to a moving cart
+of m from the ﬁxed wall and x′ is its displacement from the center of the moving cart.
+Using x,
+m
+L(x, x˙) = T −V =
+k
+x˙ 2
+2
+−
+(x −v0t)2 ,
+(1.56)
+2
+where the kinetic term is quadratic in x˙ and the potential term is independent of x˙.
+This means that H falls in the special case considered in Eq. (1.31) so
+p2
+H = E = T + V =
+k
++
+2m
+(x
+2
+−v0t)2 ,
+(1.57)
+However ∂H
+the
+∂
+̸= 0 so the energy is not conserved. (Of course
+full energy would
+t
+be conserved, but we have not accounted for the energy needed to pull the cart at a
+constant velocity, treating that instead as external to our system. That is what led to
+the time dependent H.)
+If we instead choose to use the coordinate x′ = x −v0t, then
+m
+L′(x′, x˙ ′) =
+m
+x˙ ′2 + mv0x′ +
+2
+k
+v2
+2
+0 −
+x′2.
+(1.58)
+2
+Note that p′ = mx˙ ′+mv0 = mx˙ = p. This Lagrangian ﬁts the general form in equation
+(1.32) with a = mv
+2
+2
+0 and L0 = mv0/2 −kx′ /2. So
+1
+H′(x′, p′) = x˙ ′p′ −L′ =
+2
+k
+(p′
+2m
+−mv0) +
+m
+x′2
+2
+−
+v2
+2
+0,
+(1.59)
+15
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Here the last terms is a constant shift. The ﬁrst and second terms in this expression for
+H′ look kind of like the energy that we would calculate if we were sitting on the cart
+and did not know it was moving, which is not the same as the energy above. Hence,
+H′ ̸
+˙
+′
+= E, but H′ = 0 because ∂H = 0, so H
+ed.
+t
+′ is conserv
+∂
+1.4
+Constraints and Friction Forces
+So far, we’ve considered constraints to a surface or curve that are relationships between
+coordinates. These fall in the category of holonomic constraints. Such constraints take the
+form
+f(q1, . . . , qN, t) = 0
+(1.60)
+where explicit time dependence is allowed as a possibility. An example of holonomic constrain
+is mass in a cone (Figure 1.4), where the constrain is z−r cot α = 0. Constraints that violate
+the form in Eq. (1.60) are non-holonomic constraints.
+• An example of a non-holonomic constraint is a mass on the surface of a sphere. The
+Figure 1.7: Mass on a sphere
+constraint here is an inequality r2 −a2 ≥0 where r is the radial coordinate and a is
+the radius of the sphere.
+• Another example of a non-holonomic constraint is an object rolling on a surface with-
+out slipping. The point of contact is stationary, so the constraint is actually on the
+velocities.
+A simple example is a disk of radius a rolling down an inclined plane without slipping,
+˙
+as shown in Fig. 1.8. Here the condition on velocities, aθ = x˙ is simple enough that it can
+be integrated into a holonomic constraint.
+As a more sophisticated example, consider a vertical disk of radius a rolling on a horizontal
+plane, as shown in Fig. 1.9. The coordinates are (x, y, θ, φ), where (x, y) is the point of
+contact, φ is the rotation angle about its own axis, and θ is the angle of orientation along the
+xy-plane. We will assume that the ﬂat edge of the disk always remain parallel to z, so the
+16
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Figure 1.8: Disk rolling down an incline without slipping
+Figure 1.9: Vertical rolling disk on a two dimensional plane
+˙
+disk never tips over. The no-slip condition is v = aφ where v is the velocity of the center of
+the disk, and v = |
+˙
+v|. This means x˙ = v sin(θ) = a sin(θ)φ and y˙ = −
+˙
+v cos(θ) = −a cos(θ)φ,
+or in diﬀerential notation, dx −a sin(θ)dφ = 0 and dy + a cos(θ)dφ = 0.
+In general, constraints of the form
+X
+aj(q)dqj + at(q)dt = 0
+(1.61)
+j
+are not holonomic. We will call this a semi-holonomic constraint, following the terminology
+of Goldstein.
+Let us consider the special case of a holonomic constraint in diﬀerential form, f(q1, ..., q3N, t) =
+0. This means
+f
+f =
+X ∂
+d
+j
+∂f
+dqj +
+∂qj
+dt = 0,
+(1.62)
+∂t
+17
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+so aj = ∂f and at = ∂f
+∂qj
+. The symmetry of mixed partial derivatives means
+∂t
+∂aj
+∂ai
+=
+∂qi
+∂at
+,
+∂qj
+∂ai
+=
+∂qi
+.
+(1.63)
+∂t
+These conditions imply that a seemingly semi-holonomic constraint is in fact holonomic. (In
+math we would say that we have an exact diﬀerential form df for the holonomic case, but
+the diﬀerential form in Eq.(1.61) need not always be exact.)
+Example: To demonstrate that not all semiholonomic constrants are secretly holo-
+nomic, consider the constraint in the example of the vertical disk. Here there is no func-
+tion h(x, y, θ, φ) that we can multiply the constraint df = 0 by to make it holonomic.
+For the vertical disk from before, we could try (dx −a sin(θ) dφ)h = 0 with ax = h,
+aφ = −
+∂a
+a sin(θ)h, aθ = 0, and ay = 0 all for some function h. As we must have
+φ = ∂aθ
+∂θ
+,
+∂φ
+then 0 = −a cos(θ) −a sin(θ)∂h, so h =
+k
+∂θ
+. That said, ∂ax
+sin(θ)
+= ∂aθ
+∂θ
+gives ∂h
+∂x
+= 0 which is a
+∂θ
+contradiction for a non-trivial h with k ̸= 0.
+If the rolling is instead constrained to a line rather than a plane, then the constraint is
+holonomic. Take as an example θ = π
+˙
+for rolling along xˆ, then x˙ = aφ and y˙ = 0. Integrating
+2
+we have x = aϕ+x , y = y
+π
+0
+0, and θ =
+, which together form a set of holonomic constraints.
+2
+A useful concept for discussing constraints is that of the virtual displacement δri of
+particle i. There are a few properties to be noted of δri.
+• It is inﬁnitesimal.
+• It is consistent with the constraints.
+• It is carried out at a ﬁxed time (so time dependent constraints do not change its form).
+Example: let us consider a bead constrained to a moving wire. The wire is oriented along
+Figure 1.10: Bead on a moving wire
+the x-axis and is moving with coordinate y = v0t. Here the virtual displacement of the
+18
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+bead δr is always parallel to xˆ (since it is determined at a ﬁxed time), whereas the real
+displacement dr has a component along yˆ in a time interval dt.
+For a large number of constraints, the constraint force Zi is perpendicular to δri, meaning
+Zi · δri = 0, so the “virtual work” (in analogy to work W =
+F · dr) of a constraint force
+vanishes. More generally, there is no net work from constraints, so
+i Zi · δri = 0 (which
+holds for the actions of surfaces, rolling constraints, and similar
+R
+things). The Newtonian
+equation of motion is p˙ i = Fi + Zi, where Fi encapsulates other forces.
+P
+Vanishing virtual
+work gives
+X
+(p˙ i
+i
+−Fi) · δri = 0
+(1.64)
+which is the D’Alembert principle. This could be taken as the starting principal for classical
+mechanics instead of the Hamilton principle of stationary action.
+Of course Eq.(1.64) is not fully satisfactory since we are now used to the idea of working
+with generalized coordinates rather than the cartesian vector coordinates used there. So lets
+transform to generalized coordinates through r
+∂
+i = ri(q, t), so δri =
+ri δqj, where again we
+∂qj
+sum over repeated indicies (like j here). This means
+∂r
+Fi · δri = Fi ·
+i δqj
+∂qj
+≡Qjδqj
+(1.65)
+where we have deﬁned generalized forces
+∂r
+Qj ≡Fi ·
+i .
+(1.66)
+∂qj
+We can also transform the p˙ i · δri term using our earlier point transformation results as well
+as the fact that
+d
+∂
+dt
+
+ri
+2
+=
+∂qj
+
+∂ri
+2
++
+∂qj∂t
+P
+∂ri
+k
+q˙k = ∂vi
+∂qj∂qk
+. Writing out the index sums explicitly,
+∂qj
+this gives
+X
+·
+X
+∂r
+·
+i
+p˙ i δri =
+mi¨ri
+i
+i,j
+δqj
+∂qj
+=
+X
+i,j
+ d
+∂
+m
+dt
+
+r
+ir˙i ·
+i
+d
+m
+∂qj
+
+−
+ir˙i ·
+∂ri
+dt
+
+δqj
+∂qj
+=
+X
+i,j
+ d 
+∂v
+mivi
+dt
+·
+i
+∂
+m
+∂q˙j
+
+v
+−
+ivi ·
+i
+δ
+∂qj
+
+qj
+=
+X
+j
+ d
+∂
+dt
+ T
+∂
+∂q˙j
+
+T
+−
+
+δqj
+(1.67)
+∂qj
+for T = 1 P m
+2
+i
+iv2
+i . Together with the D’Alembert principle, we obtain the ﬁnal result
+X
+j
+ d
+∂
+dt
+ T
+∂
+∂q˙j
+
+T
+−
+Q
+∂qj
+−
+j
+
+δqj = 0.
+(1.68)
+19
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+We will see momentarily that this result is somewhat more general than the Euler-Lagrange
+equations, containing them as a special case.
+We will start by considering systems with only holonomic constraints, postponing other
+types of constraints to the next section. Here we can ﬁnd the independent coordinates qj
+with j = 1, . . . , N −k that satisfy the k constraints. This implies that the generalized virtual
+displacements δqj are independent, so that their coeﬃcients in Eq. (1.68) must vanish,
+d
+∂
+dt
+ T
+∂
+∂q˙j
+
+T
+−∂q −Qj = 0 .
+(1.69)
+j
+There are several special cases of this result, which we derived from the d’Alembert principle.
+1. For a conservative force Fi = −∇iV , then
+r
+Qj = −∇
+i
+(
+iV ) ·
+∂V
+=
+∂qj
+−
+(1.70)
+∂qj
+where we assume that the potential can be expressed in the generalized coordinates
+as V = V (q, t). Then using L = T −V , we see that Eq. (1.69) simply reproduces the
+Euler-Lagrange equations
+d
+∂
+dt
+
+L
+∂
+∂q˙j
+
+−
+L = 0.
+∂qj
+2. If Qj = −∂V + d
+∂qj
+∂
+dt
+
+V 
+for V = V (q, q˙, t), which is the case for velocity dependent
+∂q˙j
+forces derivable from a potential (like the electromagnetic Lorentz force), then the
+Euler-Lagrange equations
+d
+∂
+dt
+
+L
+∂
+∂q˙j
+
+−
+L = 0 are again reproduced.
+∂qj
+3. If Qj has forces obtainable from a potential as in case 2, as well as generalized forces
+Rj that cannot, then
+d
+∂
+dt
+ L
+∂
+∂q˙j
+
+L
+−
+= Rj
+(1.71)
+∂qj
+is the generalization of the Euler-Lagrange equations with non-conservative generalized
+forces.
+An important example of a nonconservative forces Rj is given by friction.
+• Static friction is Fs ≤F max
+s
+= µsFN for a normal force FN.
+• Sliding friction is F = −µF
+v
+N
+, so this is a constant force that is always opposite the
+v
+direction of motion (but vanishes when there is no motion).
+• Rolling friction is F = −µRF
+v
+N
+.
+v
+• Fluid friction at a low velocity is F = −bv v =
+v
+−bv.
+20
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+A general form for a friction force is Fi = −hi(vi)vi (where as a reminder there is no
+vi
+implicit sum on i here since we speciﬁed i on the right-hand-side). For this form
+Rj = −
+X
+vi
+hi
+i
+∂r
+vi
+·
+j
+v
+=
+∂qj
+−
+X
+i
+hi
+i
+∂v
+vi
+·
+i.
+(1.72)
+∂q˙j
+Simplifying further gives
+Rj = −
+X hi
+i
+∂
+2vi
+∂
+v
+∂q˙j
+ 2
+i
+
+= −
+X
+vi
+hi
+i
+∂
+=
+∂q˙j
+−
+X
+vi
+i
+∂
+∂q˙j
+v
+∂vi
+Z
+i
+∂
+dvi
+′hi(vi
+′) =
+0
+−
+v
+∂q˙j
+X
+i
+Z
+i
+dvi
+′hi(vi
+′)
+0
+∂
+=
+F
+−
+(1.73)
+∂q˙j
+where
+F =
+X Z vi
+dvi
+′ hi(vi
+′)
+(1.74)
+0
+i
+is the “dissipation function”. This is a scalar function like L so it is relatively easy to work
+with.
+Example: Consider a sphere of radius a and mass m falling in a viscous ﬂuid. Then
+T = 1m′y˙2 where m′ < m accounts for the mass of displaced ﬂuid (recall Archimedes princi-
+2
+ple that the buoyant force on a body is equal to the weight of ﬂuid the body displaces). Also
+V = m′gy, and L = T −V . Here h ∝y˙, so F = 3πηay˙2, where by the constant of proportion-
+ality is determined by the constant η, which is the viscosity. From this, d
+∂
+dt
+
+L
+∂
+∂y˙
+
+−
+L =
+∂y
+−∂F
+∂y˙
+gives the equation of motion m′y¨ + m′g = −6πηay˙. The friction force 6πηay˙ is known as
+Stokes Law. (We will derive this equation for the friction force from ﬁrst principles later
+on, in our discussion of ﬂuids.) This diﬀerential equation can be solved by adding a par-
+ticular solution yp(t) to a solution of the homogeneous equation m′y¨H + 6πηay˙H = 0. For
+the time derivatives the results are y˙p = −m′g/(6πηa) and y˙H = A exp(−6πηat/m′), where
+the constant A must be determined by an initial condition. The result y˙ = y˙H + y˙p can be
+integrated in time once more to obtain the full solution y(t) for the motion.
+Example: if we add sliding friction to the case of two masses on a plane connected by
+a spring (considered on problem set #1), then hi = µfmig for some friction coeﬃcient µf,
+and
+F = µfg(m1v1 + m2v2) = µfg
+
+m1
+q
+x˙ 2
+1 + y˙2
+1 + m2
+q
+x˙ 2
+2 + y˙2
+2
+.
+(1.75)
+If we switch to a suitable set of generalized coordinates qj that simplify
+
+the equations of
+motion without friction, and then compute the generalized friction forces Rj = −∂F , we can
+∂q˙j
+get the equations of motion including friction. Further details of how this friction complicates
+the equations of motion were provided in lecture.
+21
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+1.5
+Calculus of Variations & Lagrange Multipliers
+Calculus of Variations
+In the calculus of variations, we wish to ﬁnd a set of functions yi(s) between s1 and s2 that
+extremize the following functional (a function of functions),
+J[yi] =
+Z s2
+ds f(y1(s), . . . , yn(s), y˙1(s), . . . , y˙n(s), s) ,
+(1.76)
+s1
+where for this general discussion only we let y˙i ≡dyi rather than d
+ds
+. To consider the action of
+dt
+the functional under a variation we consider yi
+′(s) = yi(s) + ηi(s) where ηi(s1) = ηi(s2) = 0,
+meaning that while the two endpoints are ﬁxed during the variation δyi = ηi, the path in
+between is varied. Expanding the variation of the functional integral δJ = J[yi
+′] −J[yi] = 0
+to 1st order in δyi we have
+s2
+∂f
+0 = δJ =
+Z
+ds
+s1
+X
+i
+
+δyi
+∂f
++ δy˙i
+∂yi
+∂
+
+.
+(1.77)
+y˙i
+Using integration by parts on the second term, and theRvanishing
+P h
+of the variation at the
+s
+endpoints to remove the surface term, δJ vanishes when
+2
+∂f
+s1
+i
+d
+∂yi −
+∂
+ds
+
+f
+δyi(s) ds =
+∂y˙i
+0. For independent variations δyi (for example, after imposing holonomic constrain
+i
+ts), this
+can only occur if
+∂f
+d
+∂yi
+−
+ ∂f
+ds
+= 0 .
+(1.78)
+∂y˙i
+The scope of this calculus of variation result for
+
+extremizing the integral over f is more
+general than its application to classical mechanics.
+Example: Hamilton’s principle states that motion qi(t) extremizes the action, so in this
+case s = t, yi = qi, f = L, and J = S. Demanding δS = 0 then yields the Euler-Lagrange
+equations of motion from Eq. (1.78).
+Example: As an example outside of classical mechanics, consider showing that the shortest
+distance between points on aR sphere of radius a are great circles.
+This can be seen by
+s
+minimizing the distance J =
+2 ds where for a spherical surface,
+s1
+ds =
+p
+(dx)2 + (dy)2 + (dz)2 =
+q
+a2(dθ)2 + a2 sin2(θ)(dφ)2
+(1.79)
+since dr = 0. Taking s = θ and y = φ, then
+ds = a
+s
+dφ
+1 + sin2(θ)
+
+2
+dθ,
+(1.80)
+dθ
+22
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+so f =
+q
+˙
+1 + sin2(θ)φ2. The solution for the minimal path is given by solving d
+∂
+dθ
+
+f
+∂
+∂ϕ˙
+
+−
+f =
+∂ϕ
+0. After some algebra these are indeed found to be great circles, described by sin(φ −α) =
+β cot(θ) where α, β are constants.
+Example: Hamilton’s principle can also be used to yield the Hamilton equations of motion,
+by considering the variation of a path in phase space. In this case
+Z t2
+δJ[q, p] = δ
+dt
+h
+piq˙i −H(q, p, t)
+i
+= 0
+(1.81)
+t1
+must be solved with ﬁxed endpoints: δqi(t1) = δqi(t2) = 0 and δpi(t1) = δpi(t2) = 0. Here,
+the role of yi, of is played by the 2N variables (q1, . . . , qN, p1, . . . , pN). As f = piq˙i −H, then
+d
+∂
+dt
+ f
+∂
+∂q˙i
+
+f
+−
+∂H
+= 0
+=
+∂qi
+⇒
+p˙i = −
+,
+(1.82)
+∂qi
+d
+∂
+dt
+ f
+∂
+∂p˙i
+
+f
+−
+∂H
+= 0
+=
+∂pi
+⇒
+q˙i =
+,
+∂pi
+giving Hamilton’s equations as expected. Note that because f is independent of p˙i, the
+term (∂f/∂p˙i)δp˙i = 0, and it would seem that we do not really need the condition that
+δpi(t1) = δpi(t2) = 0 to remove the surface term. However, these conditions on the variations
+δpi are actually required in order to put qi and pi on the same footing (which we will exploit
+later in detail when discussing canonical transformations).
+It is interesting and useful to note that D’Alembert’s principle
+ d
+∂
+dt
+ L
+∂
+∂q˙j
+
+L
+−
+0
+∂
+−Rj
+=
+qj
+
+δqj
+(1.83)
+is a “diﬀerential” version of the equations that encode the classical dynamics, while Hamil-
+ton’s principle
+L
+δ
+=
+Z t2
+J
+dt
+1
+ ∂
+t
+d
+∂qj
+−
+∂
+dt
+ L
+0
+∂
+
+δqj =
+(1.84)
+q˙j
+(for Rj = 0 where all forces come from a potential) is an integrated version.
+Method of Lagrange Multipliers
+Next we will consider the method of Lagrange multipliers. For simplicity we will assume
+there are no generalized forces outside the potential, Rj = 0, until further notice.
+The
+method of Lagrange multipliers will be useful for two situations that we will encounter:
+1. When we actually want to study the forces of constraint that are holonomic.
+2. When we have semi-holonomic constraints.
+23
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Let us consider k constraints for n coordinates, with α ∈{1, . . . , k} being the index
+running over the constraints. These holonomic or semi-holonomic constraints take the form
+gα(q, q˙, t) = ajα(q, t)q˙j + atα(q, t) = 0
+(1.85)
+where again repeated indices are summed. Thus, gαdt = ajαdqj + atαdt = 0. For a virtual
+displacement δqj we have dt = 0, so
+X
+n
+ajαδqj = 0 ,
+(1.86)
+j=1
+which gives us k equations constraining the virtual displacements. For each equation we
+can multiply by a function λα(t) known as Lagrange multipliers, and sum over α, and the
+combination will still be zero. Adding this zero to D’Alembert’s principle yields
+ d
+∂
+dt
+ L
+∂
+∂q˙j
+
+L
+−
+=
+∂
+−λαajα
+j
+qj
+
+δq
+0
+(1.87)
+where the sums implicitly run over both α and j. Its clear that the Lagrange multiplier
+term is zero if we sum over j ﬁrst, but now we want to consider summing ﬁrst over α for
+a ﬁxed j. Our goal is make the term in square brackets zero. Only n −k of the virtual
+displacements δqj are independent, so for these values of j the square brackets must vanish.
+For the remaining k values of j we can simply choose the k Lagrange multipliers λα to force
+the k square bracketed equations to be satisﬁed. This is known as the method of Lagrange
+multipliers. Thus all square bracketed terms are zero, and we have the generalization of the
+Euler-Lagrange equations which includes terms for the constraints:
+d
+∂
+dt
+ L
+∂
+∂q˙j
+
+L
+−
+= λαajα .
+(1.88)
+∂qj
+This is n equations, for the n possible values of j, and on the right-hand-side we sum over α
+for each one of these equations. The sum λαajα can be interpreted as a generalized constraint
+force Qj. The Lagrange multipliers λα and generalized coordinates qj together form n + k
+parameters, and equation (1.88) in conjunction with gα = 0 for each α from (1.85) together
+form n + k equations to be solved.
+There are two important cases to be considered.
+˙
+1. In the holonomic case, f (q, t) = 0. Here, g
+= f
+= ∂fα
+α
+α
+α
+q˙j + ∂fα
+∂qj
+, so ajα = ∂fα
+∂t
+. This
+∂qj
+gives
+d
+∂
+dt
+ L
+∂
+∂q˙j
+
+L
+−
+X
+k
+∂fα
+=
+λα
+∂qj
+α=1
+(1.89)
+∂qj
+for holonomic constraints. The same result can be derived from a generalized Hamil-
+ton’s principle
+t2
+J[qj, λα] =
+Z
+(L + λαfα) dt
+(1.90)
+t1
+24
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+by demanding that δJ = 0. It is convenient to think of −λαfα as an extra potential
+energy that we add into L so that a particle does work if it leaves the surface deﬁned
+by fα = 0. Recall that given this potential, the Forceq = −∇q(−λαfα) = λα∇qfα,
+where the derivative ∇qfα gives a vector that is normal to the constraint surface of
+constant fα = 0. This agrees with the form of our generalized force above.
+2. In the semi-holonomic case, we just have gα = ajα(q, t)q˙j+atα(q, t) = 0, with a
+α
+α = ∂g
+j
+.
+∂q˙j
+This gives
+d
+∂
+dt
+ L
+∂
+∂q˙j
+
+L
+−
+X
+k
+∂gα
+=
+λα
+∂qj
+α=1
+(1.91)
+∂q˙j
+for semi-holonomic constraints. This result cannot be derived from Hamilton’s principle
+in general, justifying the time we spent discussing d’Alembert’s principle, which we
+have used to obtain (1.91). Recall that static friction imposes a no-slip constraint in
+the form of our equation gα = 0. For g ∝q˙, the form , ∂g, is consistent with the form
+∂q˙
+of generalized force we derived from our dissipation function, ∂F from our discussion
+∂q˙
+of friction.
+We end this chapter with several examples of the use of Lagrange multipliers.
+Example: Consider a particle of mass m at rest on the top of a sphere of radius a, as shown
+above in Fig. 1.7. The particle is given an inﬁnitesimal displacement θ = θ0 so that it slides
+down. At what angle does it leave the sphere?
+We use the coordinates (r, θ, φ) but set φ = 0 by symmetry as it is not important. The
+constraint r ≥a is non-holonomic, but while the particle is in contact with the sphere the
+constraint f = r −a = 0 is holonomic. To answer this question we will look for the point
+where the constraint force vanishes. Here T = m
+˙
+r˙2 + r2θ2
+and V = mgz = mgr cos(θ) so
+2
+that L = T −V , then
+d
+
+
+∂
+dt
+  L
+∂
+∂r˙
+
+−
+L = λ ∂f
+∂r
+gives
+∂r
+mr¨ −
+˙
+mrθ2 + mg cos(θ) = λ,
+(1.92)
+while
+d
+∂
+dt
+
+L
+∂
+˙
+∂θ
+
+−
+L = λ ∂f
+∂θ
+= 0 gives
+∂θ
+d
+.
+dt
+
+mr2 ˙θ
+
+−mgr sin(θ) = 0
+(1.93)
+This in conjunction with r = a gives 3 equations for the 3 variables (r, θ, λ). Putting them
+together gives r˙ = 0 so r¨ = 0. This means
+¨
+˙
+ma2θ = mga sin(θ),
+−maθ2 + mg cos(θ) = λ.
+˙
+˙
+Multiply the ﬁrst of these by θ and integrate over time, knowing that θ = 0 when θ = 0,
+˙
+gives θ2 = 2g (1
+a
+−cos(θ)). Thus,
+λ = mg(3 cos(θ) −2)
+(1.94)
+25
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+is the radial constraint force.
+The mass leaves the sphere when λ = 0 which is when
+cos(θ) = 2 (so θ ≈48o).
+3
+What if we instead imposed the constraint f ′ = r2 −a2 = 0? If we call its Lagrange
+multiplier λ′
+′
+we would get λ′ ∂f = 2aλ
+=
+r
+′ when r
+a, so 2aλ′ = λ is the constraint force from
+∂
+before. The meaning of λ′ is diﬀerent, and it has diﬀerent units, but we still have the same
+constraint force.
+What are the equations of motion for θ > arccos
+  2 ?
+3
+
+Now we no longer have the
+constraint so
+2
+d
+˙
+mr¨ −mrθ + mg cos(θ) = 0
+and
+˙
+mr
+dt
+
+2θ
+
+−mgr sin(θ) = 0.
+The initial conditions are r1 = a, θ1 = arccos
+  2
+˙
+,
+3
+
+r˙1 = 0, and θ2
+1 = 2g from before. Simpler
+3a
+coordinates are x = r sin(θ) and z = r cos(θ), giving
+m
+L =
+x˙ 2 + z˙2
+(1.95)
+2
+−mgz,
+so x¨ = 0 and z¨ =
+ 
+−g with initial conditions z1 = 2a
+√
+, x1 =
+3
+5a, and the initial velocities
+3
+simply left as z˙1 and x˙ 1 for simplicity in writing (though the actual values follow from
+˙
+z˙1 = −
+˙
+a sin θ1θ1 and x˙ 1 = a cos θ1θ1). This means
+x(t) = x˙ 1(t −t1) + x1,
+(1.96)
+g
+z(t) = −
+(t −t1)2 + z˙1(t
+2
+−t1) + z1,
+(1.97)
+where t1 is the time when the mass leaves the sphere. That can be found from
+˙θ2
+2g
+=
+4g
+(1
+a
+−cos(θ)) =
+θ
+sin2
+a
+ 
+,
+(1.98)
+2
+so t1 =
+q
+a
+arccos
+4g
+R
+( 2
+3)
+dθ
+θ0
+sin( θ
+where θ
+angula
+)
+0 is the small initial
+r displacement from the top
+2
+of the sphere.
+Example: Consider a hoop of radius a and mass m rolling down an inclined plane of angle
+φ without slipping as shown in Fig. 1.11, where we deﬁne the xˆ direction as being parallel to
+the ramp as shown. What is the friction force of constraint, and how does the acceleration
+compare to the case where the hoop is sliding rather than rolling?
+˙
+˙
+The no-slip constraint means aθ = x˙, so h = aθ −x˙ = a, which can be made holonomic
+but which we will treat as semi-holonomic. Then T = TCM + Trotation = 1
+2m ˙x2 + 1
+˙
+ma2θ2 as
+2
+Ihoop = ma2. Meanwhile, V = mg(l −x) sin(φ) so that V (x = l) = 0. This means
+m
+L = T −V =
+ma2
+x˙ 2 +
+2
+˙θ2 + mg(x
+2
+−l) sin(φ).
+(1.99)
+26
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+Figure 1.11: Hoop rolling on inclined plane
+The equations of motion from
+d
+dt
+  ∂L
+∂
+∂x˙
+
+−
+L = λ ∂h
+∂x
+and
+d
+∂x˙
+∂
+dt
+
+L
+∂
+˙
+∂θ
+−
+L = λ ∂h
+∂θ
+˙ are
+∂θ
+mx¨ −mg sin(φ) = λ
+and
+ma2¨θ = λa,
+(1.100)
+˙
+¨
+along with x˙ = aθ. Taking a time derivative of the constraint gives x¨ = aθ, so mx¨ = λ, and
+x¨ = g sin(φ). This is one-half of the acceleration of a sliding mass. Plugging this back in we
+2
+ﬁnd that
+1
+λ =
+mg sin(φ)
+(1.101)
+2
+is the friction force in the −
+¨
+xˆ direction for the no-sliding constraint, and also θ =
+g sin(φ).
+2a
+Example: Consider a wedge of mass m2 and angle α resting on ice and moving without
+friction. Let us also consider a mass m1 sliding without friction on the wedge and try to
+ﬁnd the equations of motion and constraint forces. The constraints are that y2 = 0 so the
+Figure 1.12: Wedge sliding on ice
+wedge is always sitting on ice, and y1−y2 = tan(α) so the point mass is always sitting on the
+x1−x2
+wedge. (We will ignore the constraint force for no rotation of the wedge, and only ask about
+these two.) The kinetic energy is simply T = m1 (x˙ 2
+2
+1 + y˙2
+1)+ m2 (x˙ 2
+2
+2 + y˙2
+2), while the potential
+27
+
+CHAPTER 1. A REVIEW OF ANALYTICAL MECHANICS
+energy is V = m1gy1 + m2g(y2 + y0), where y0 is the CM of the wedge taken from above its
+bottom. Then L = T −V , with the constraints f1 = (y1 −y2) −(x1 −x2) tan(α) = 0 and
+f2 = y2 = 0. The equations of motion from the Euler-Lagrange equations with holonomic
+constraints are
+d ∂L
+dt
+∂L
+∂x˙ 1
+−
+∂f1
+= λ1
+∂x1
+∂f2
++ λ2
+∂x1
+=
+∂x1
+⇒
+m1x¨1 = −λ1 tan(α),
+(1.102)
+d ∂L
+dt
+∂L
+∂y˙1
+−
+∂f1
+= λ1
+∂y1
+∂f2
++ λ2
+∂y1
+=
+∂y1
+⇒
+m1y¨1 + m1g = λ1,
+d ∂L
+dt
+∂L
+∂x˙ 2
+−
+∂f1
+= λ1
+∂x2
+∂f2
++ λ2
+∂x2
+=
+∂x2
+⇒
+m2x¨2 = λ1 tan(α),
+d ∂L
+dt ∂˙y2
+−∂L
+∂f1
+= λ1
+∂y2
+∂f2
++ λ2
+∂y2
+=
+2
+y2
+⇒
+m y¨2 + m2g =
+∂
+−λ1 + λ2,
+which in conjunction with y1 −y2 = (x1 −x2) tan(α) and y2 = 0 is six equations. We number
+them (1) to (6). Equation (6) gives y¨2 = 0 so (4) gives m2g = λ2 −λ1 where λ2 is the force
+of the ice on the wedge and λ1 is the vertical force (component) of the wedge on the point
+mass. Adding (1) and (3) gives m1x¨1 + m2x¨2 = 0 meaning that the CM of m1 and m2 has
+no overall force acting on it.
+Additionally, as (5) implies y¨1 = (x¨1 −x¨2) tan(α), then using (1), (2), and (3) we ﬁnd
+the constant force
+g
+λ1 =
+1
+2
++ tan (α)
+m1 cos2(α)
+.
+(1.103)
+m2
+With this result in hand we can use it in (1), (2), and (3) to solve for the trajectories. Since
+tan(α)
+x¨2 =
+λ1,
+(1.104)
+m2
+tan(α)
+x¨1 = −
+λ1,
+m1
+λ1
+y¨1 =
+g
+m1
+−,
+the accelerations are constant. As a check on our results, if m2 →∞, then x¨2 = 0 so indeed
+the wedge is ﬁxed; and for this case, x¨1 = −g sin(α) cos(α) and y¨1 = −g sin2(α) which both
+vanish as α →0 as expected (since in that limit the wedge disappears, ﬂattening onto the
+icy ﬂoor below it).
+28
+
+MIT OpenCourseWare
+https://ocw.mit.edu
+8.09 Classical Mechanics III
+Fall 2014
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.

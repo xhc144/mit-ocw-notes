@@ -1,0 +1,2872 @@
+Chapter 7
+Chaos and Non-Linear Dynamics
+By a deterministic systems of equations, we mean equations that given some initial conditions
+have a unique solution, like those of classical mechanics. In a deterministic system we will
+deﬁne chaos as aperiodic long-term behavior that exhibits sensitive dependence on initial
+conditions.
+• Here “aperiodic behavior” means that phase space trajectories do not converge to a
+point or a periodic orbit, they are irregular and undergo topological mixing (discussed
+below).
+• By “sensitive to initial conditions” we mean that trajectories that start nearby initially,
+separate exponentially fast. Deﬁning δ(t) as the diﬀerence between points on two such
+trajectories at time t, then this means that |δ(t)| ∝δ0eλt for some λ > 0, as depicted
+in Fig. 7.1.
+Figure 7.1:
+The diﬀerence in initial condition leads to diﬀerent orbits. Their diﬀerence is
+given by δ(t), which grows exponentially with time.
+This means that even though they are deterministic, chaotic systems are most often not
+predictable. In particular, there will always be a small diﬀerence δ0 between the true and
+measured initial conditions for the system (from statistical or systematic measurement error),
+which grows exponentially to yield inaccurate predictions for predictions far enough in the
+future.
+142
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+The sensitivity to initial conditions is important to chaos but does not itself diﬀerentiate
+from simple exponential growth, so the aperiodic behavior is also important. In the deﬁnition
+of this somewhat undescriptive phrase we include that the system should undergo Topological
+Mixing. This means that any points starting in a region (open set) of the phase space will
+evolve to overlap any other region of the phase space, so chaotic systems tend to explore a
+larger variety of regions of the phase space.1
+7.1
+Introduction to Chaos
+We will now explore some properties of non-linear dynamical systems, including methods to
+characterize solutions, and the study of solutions with chaotic behavior.
+7.1.1
+Evolution of the system by ﬁrst order diﬀerential equations
+The dynamical system can be deﬁned by a system of ﬁrst order diﬀerential equations:
+x˙ 1 = f1(x1, . . . , xn)
+x˙ 2 = f2(x1, . . . , xn)
+(7.1)
+...
+x˙ n = fn(x1, . . . , xn)
+where the quantities xi, for i ∈{1, . . . , n}, are any variables that evolve in time, which
+could be coordinates, velocities, momenta, or other quantities. For our applications in this
+chapter we will often assume that the xi equations are also chosen to be dimensionless, and
+the procedure for this type of conversion will be discussed further below.
+Example: the Hamilton equations of motion are 1st order equations in the canonical vari-
+ables, so they are an example of equation of the form in Eq. (7.1) with an even number of
+xi variables.
+Deterministic evolution from the existence and uniqueness theorem
+Assume that we have a set of diﬀerential equations in the form in Eq. (7.1), which we
+can write in a shorthand as
+˙
+⃗
+⃗x = f(⃗x) ,
+(7.2)
+∂f
+and that fj and
+j (for i, j
+xj
+∈{1, . . . , n
+∂
+}) are continuous in a connected region D ∈Rn.
+Then if we have an initial condition ⃗x(t = 0) = ⃗x0 ∈D, then the theorem states that there
+exists a unique solution ⃗x = ⃗x(t) on some interval (−τ, τ) about t = 0. Time evolution in
+such a system is therefore deterministic from this existence and uniqueness theorem.
+1For a dissipative chaotic system there are further restrictions on the choice of the open sets in this
+deﬁnition of topological mixing since it is otherwise obvious that we could pick a region that the system will
+not return to.
+143
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+For this chapter the damped nonlinear oscillator will be a good to base our discussion.
+In the case of a pendulum with damping and a periodic driving force, its evolution is given
+by the equation of motion:
+2¨
+˙
+ml θ + ml2γθ + mgl sin(θ) = A cos(ωDt) ,
+(7.3)
+where ℓis the length of the pendulum, θ is the oscillator angle, γ is the damping coeﬃcient,
+and A cos(ωDt) is the driving force. It is useful to turn this into a dimensionless equation.
+First we divide by mgl to make the third term dimensionless, deﬁning
+A
+a ≡
+,
+(7.4)
+mgl
+to give a dimensionless amplitude for the forcing term. This leaves
+l
+γl
+¨θ +
+g
+˙θ + sin θ = a cos(ωDt) .
+(7.5)
+g
+Next to make the ﬁrst term dimensionless we rescale the time derivatives so that they involve
+a dimensionless time t′, and change to a dimensionless frequency ωD
+′ for the forcing term via
+t′ ≡
+rgt ,
+ω′
+l
+D ≡
+s
+l
+du
+ωD ,
+u˙
+g
+≡
+du
+u˙
+dt
+⇒
+≡
+.
+(7.6)
+dt′
+As indicated we also now let dots indicate derivatives with respect to the dimensionless time.
+Finally we deﬁne
+1
+q ≡
+s
+l γ ,
+(7.7)
+g
+where q is the dimensionless quality factor for the damping term.
+Dropping the newly added primes, our ﬁnal diﬀerential equation is now fully dimension-
+less:
+1
+¨θ +
+˙θ + sin(θ) = a cos(ωDt)
+(7.8)
+q
+Here a, q, and ωD are all dimensionless constants. We can convert this into 1st order form by
+˙
+deﬁning ϕ ≡ωDt to get rid of the explicit time dependence in the forcing term, and θ ≡ω
+to eliminate the double time derivatives. This gives the system of three equations that are
+in the form in Eq. (7.1) with ⃗x = (θ, ω, ϕ):
+˙θ = ω ,
+1
+ω˙ = −ω
+q
+−sin(θ) + a cos(ϕ) ,
+(7.9)
+ϕ˙ = ωD .
+144
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+7.1.2
+Evolution of Phase Space
+Phase space trajectories never cross
+From the uniqueness theorem, phase space trajectories never cross. To prove this, note
+that any point ⃗x(t) on a trajectory could be used as an initial condition for a new trajectory.
+Since a point can only be part of one single trajectory, no crossings can occur.
+Figure 7.2: By the uniqueness theorem, no two trajectories can cross, only come arbirtrarily
+close.
+Evolution of phase space volume
+The phase space volume is given by:
+V =
+Z
+n
+V
+Y
+dxj
+(7.10)
+j=1
+Recall that for Hamiltonian systems, canonical transformations do not change volume ele-
+ments. If we view this transformation as a solution for motion (via the H-J equation), then
+˙
+it is clear that the motion generated by a Hamiltonian preserves the volume, so V = 0.
+What happens with damping/friction (which is not in our Hamiltonian formalism)? To
+determine the answer we can exploit an analogy with our results for changes in volume for
+ﬂuids:
+Z x˙ =
+(x)
+⇔
+˙
+⃗
+v
+⃗x = f(⃗x) ,
+(7.11)
+˙V =
+dV ∇· v
+⇒
+V˙ =
+Z
+dV ∇· ⃗f .
+where in the context of a general nonlinear system, ∇refers to derivatives with respect to
+⃗x. Thus we see that ∇· ⃗f determines the change to a volume of our phase space variables.
+For this reason we deﬁne ∇· ⃗f = 0 as a conservative system (whether or not a general
+Hamiltonian exists), while ∇· ⃗f < 0 is a dissipative system where the phase space volume
+shrinks.
+145
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+For our damped nonlinear driven oscillator example we have:
+∂ω
+∇· ⃗f = ∂θ + ∂
+1
+∂ω
+
+−
+∂
+ω
+q
+−sin(θ) + a cos(ϕ)
+
+ωD
++
+1
+=
+∂ϕ
+−
+< 0 ,
+(7.12)
+q
+as expected for a dissipative system.
+For the special case of q →∞and a = 0 (undamped and undriven system), then:
+˙θ = ω ,
+and
+ω˙ = −sin(θ) .
+(7.13)
+The corresponding trajectories in phase space are illustrated below:
+−5
+0
+5
+θ
+−3
+−2
+−1
+0
+1
+2
+3
+ω
+Figure 7.3:
+Phase space picture of the undamped, unforced oscillator. Filled circles are the
+stable ﬁxed points and empty circles are the saddle points which are ﬁxed points that are
+unstable in one direction and stable in another.
+7.1.3
+Fixed Points
+Of particular interest in a system are its ﬁxed points, ⃗x⋆, deﬁned as the locations where
+⃗f(⃗x⋆) = 0 .
+(7.14)
+At these points the state of the system is constant throughout time. Depending on the
+behavior of the trajectories nearby the ﬁxed point they can be characterized as:
+• Stable - nearby trajectories approach the stable point
+146
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+• Unstable - nearby trajectories move away from the ﬁxed point
+• Saddle Point - in diﬀerent directions trajectories can either approach or move away
+For the undriven, undamped oscillator (Eq.(7.13)), the system has ﬁxed points for ω = 0
+and θ = nπ for any integer n. For this pendulum, the ﬁxed point at the bottom θ = 2πn is
+stable, while the ﬁxed point at the top is unstable θ = π(2n + 1), as shown in Fig. 7.3. Note
+that this ﬁxed point at the top is not a crossing trajectory because we can only get to this
+point if E = 0 exactly, and in that case the trajectory would stop at this ﬁxed point. Any
+small perturbation knocks it oﬀthe unstable point at the top and determines which way it
+goes.
+If there is dissipation, then all trajectories in the neighborhood of a stable ﬁxed point
+converge upon it, so this region is called the basin of attraction and the ﬁxed point is an
+attractor; energy dissipates as motion decays to the attractor. In our example it occurs if
+q is ﬁnite, and the basins of attraction in this case are diagonal strips in phase space. The
+result for two trajectories in phase space are shown below.
+−4
+−2
+0
+2
+4
+θ
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+ω
+Figure 7.4: With ﬁnite damping (q = 5) in our oscillator example the trajectories converge
+to the stable ﬁxed points of the system with spiraling motion.
+Conditions for chaotic behavior
+In general, two necessary conditions for chaos are:
+• The equations of motion must be nonlinear. (For linear systems we already know the
+solutions, which are exponential or oscillating and hence not chaotic.)
+147
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+• There must be at least 3 variables, so if i ∈{1, . . . , n}, then n ≥3. (We will see why
+this is necessary later.)
+In our non-linear damped oscillator example, now including a non-zero forcing term gives
+rise to a wider range of qualitative behaviors. In particular for certain values of (a, q, ωD)
+the system can be chaotic.
+If we start instead with the linearized version of the forced damped oscillator then we
+have:
+1
+ω˙ = −ω −θ + a cos(ϕ)
+(7.15)
+q
+For this case the solution, which is non-chaotic, are well known and often studied in ele-
+mentary courses in classical mechanics or waves. The general solutions come in three cases,
+underdamped (q > 1/2), critically damped (q = 1/2), or overdamped (q < 1/2). For example
+the general underdamped solution is given by:
+t
+θ(t) = Be−2q cos
+
+t
+r
+1
+1 −
+a
++ ϕ0
+4q2
+
++
+ωD
+q
+cos(ωDt
+q−2 + (ωD
+−1 −ωD)2
+−δ) ,
+(7.16)
+where tan(δ) = ω
+2
+D/(q −qωD), and B and ϕ0 are constants that are determined by the initial
+conditions. The ﬁrst term in Eq. (7.16) is the transient that decays away exponentially,
+whereas the second term describes the steady state forced motion (whose amplitude exhibits
+resonant behavior at ωD = 1).
+A projection of the trajectories into the 2-dimensional θ–ω plane, as shown in Fig. 7.5
+shows that they converge onto ellipses after many cycles. This does not break the uniqueness
+theorem since ϕ = ωDt is increasing, so the trajectory never crosses itself when all three
+variables are plotted. If restrict ϕ ∈[0, 2π] then the trajectory converges to a closed orbit.
+Note that the nonlinear forcing term cos(ϕ) is important to ensure that this closed orbit is
+an isolated stable endpoint for the motion.
+148
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+φ
+0 5 10152025303540 45
+θ
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+ω
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+θ
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+ω
+Figure 7.5: Although the θ −ω projection of the system shows crossings, which would seem
+to violate the uniqueness theorem, plotting the 3 variables we see that no crossing occurs,
+and uniqueness is perserved. In the projection plot we also clearly see the system evolving
+to a closed orbit.
+An attractor that is a closed orbit rather than a single point is called a limit cycle.
+7.1.4
+Picturing Trajectories in Phase Space
+2-dim projections
+To solve the full nonlinear damped forced oscillator, described by the solution to Eq. (7.9),
+we use a computer. Note that we can examine chaos and sensitivity to initial conditions on
+a computer since the various phenomena, including the exponential growth of diﬀerences
+do to chosen initial conditions, occur much before the diﬀerences due to truncation errors
+associated with machine precision take over. In order to give a taste of what chaos looks
+like, we will ﬁrst simply examine some of the results especially as applied to the nonlinear
+oscillator.
+One way to see chaos is to do a projection of trajectories in the full n-dimensional space
+of variables to a lower dimension (usually down to 2 dimensions so we can plot results in a
+plane). For the nonlinear oscillator, this is typically the θ–ω plane where we project away
+ϕ (as in the right most images of Fig. 7.5). For chaotic motion this projection yields a two
+dimensional picture which in general gets quite messy, with the trajectory ﬁlling out a large
+area of the plane.
+Poincar´e Section (Poincar´e Map)
+To simplify things further we can can use a Poincar´e section (also called a Poincar´e map).
+Here we sample the trajectory periodically in ϕ say when ϕ = 2πn which is the periodicity
+of cos ϕ for our example, and plot only these values (θn, ωn) in the θ–ω plane. The results we
+149
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+track are then much like what we would observe by looking at the system with a stroboscope.
+For creating the Poincar´e section of any such system, we wait until the transients die out.
+For the nonlinear oscillator, this might be at ϕ = 2πn for integer n, yielding a sampling
+frequency of exactly ωD, so the map is a plot of only these values (θn, ωn). For example, we
+could take ωD = 2 and q = 2 while varying a as in Fig. 7.6; where we have waited for 30
+3
+cycles to ensure that the transients have died out.
+In ﬁgure Fig. 7.6 we show both 2-dimensional phase portraits and Poincar´e maps for
+various values of a. As a increases the plots show singly periodic long term behavior (a = 0.9),
+to doubly periodic (a = 1.07), to chaotic (a = 1.19), and ﬁnally to periodic again occurring
+amidst neighboring chaos (a = 1.35).
+150
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+=
+-π
+-π/2
+π/2
+π
+θ
+-3
+-2
+-1
+1
+2
+3
+θ/τ
+ 	
+-1.0
+-0.8
+-0.6
+-0.4
+-0.2
+0.0 θ
+1.85
+1.90
+1.95
+2.00
+ θ/τ
+
+	 	
+=
+-π
+-π/2
+π/2
+π
+θ
+-3
+-2
+-1
+1
+2
+3
+θ/τ
+ 	
+-1.0
+-0.8
+-0.6
+-0.4
+-0.2
+0.0 θ
+1.92
+1.94
+1.96
+1.98
+2.00
+ θ/τ
+
+	 	
+=
+-π
+-π/2
+π/2
+π
+θ
+-3
+-2
+-1
+1
+2
+3
+θ/τ
+ 	
+-2
+-1
+0
+1
+2
+3
+θ
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+ θ/τ
+
+	 	
+=
+-π
+-π/2
+π/2
+π
+θ
+-3
+-2
+-1
+1
+2
+3
+θ/τ
+ 	
+-1.0
+-0.8
+-0.6
+-0.4
+-0.2
+0.0 θ
+0.75
+0.80
+0.85
+0.90
+ θ/τ
+
+	 	
+Figure 7.6: Phase portraits and Poincar/’e sections for the nonlinear driven damped oscil-
+lator with ωD = 2/3, q = 2, and various values of a. The plots show singly periodic, doubly
+periodic, chaotic, and singly periodic behavior respectively. (Plots generated with the Math-
+ematica demonstration package, Chaotic Motion of a Damped Driven Pendulum, by Nasser
+Abbasi.)
+151
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Bifurcation Map
+Yet another way is through a bifurcation diagram, which takes the Poincar´e map results
+but plots one of the variables against one of the parameters of the system. This plot allows us
+to see the transitions between diﬀerent behaviors, in particular a change in the ﬁxed points
+of the system. For the nonlinear oscillator, this could be a plot of ω against a, as shown in
+Fig. 7.7.
+1.0
+1.2
+1.4
+1.6
+1.8
+
+-0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+ θ/τ
+	
+ 
+˙
+Figure 7.7: For the Driven damped nonlinear oscillator, plot of ω = θ values obtained from
+the Poincar´e map as a function of a with Q = 2 and ωD = 2/3 ﬁxed. This bifurcation plot
+show the qualitative transitions of the system, such as where period doubling/bifurcation oc-
+curs, and where chaos starts. (Plot generated with the Mathematica demonstration package,
+Chaotic Motion of a Damped Driven Pendulum, by Nasser Abbasi.)
+There are a few notable features in this bifurcation plot which we summarize in the following
+table:
+a
+Features
+1.0
+only a single ω
+1.07
+two values of ω from the same initial conditions (period doubling)
+1.15-1.28
+mostly chaos (some periodic windows)
+1.35
+periodic again
+Other parameter choices also lead to qualitatively similar bifurcation plots, with quantita-
+tively diﬀerent windows of periodic behavior and chaos. We can also obtain bifurcation plots
+which exhibit both periodic and chaotic windows by plotting ω against other parameters of
+the system, such as ωD.
+152
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+7.2
+Bifurcations
+In our analysis of the nonlinear damped forced oscillator, we tooks snapshots (θn, ωn) at
+ϕ = 2πn for integer n to form the Poincar´e map. When we changed the driving amplitude a,
+there were qualitative changes to the (θ, ω) projected trajectories (which are also generally
+called phase portraits) captured by the Poincar´e map results. In particular, we observed
+period doubling at certain values of a; period doubling is a particular example of a bifurcation
+(Fig.(7.7)).
+A simple example of an abrupt change is when the existence/type of ﬁxed points changes
+with the system’s parameters (or limit cycles, attractors, or so on) abruptly changes. These
+changes are generally known as bifurcations. Since bifurcations already occur in 1-dimensional
+systems, so we will start by studying these systems. We will later on ﬁnd out that many
+examples of bifurcations in higher-dimensions are simple generalizations of the 1D case.
+For a 1-dimensional system we study the equation:
+x˙ = f(x)
+(7.17)
+Trajectories in 1 dimension are pretty simple, we either have ﬂow to a ﬁnite ﬁxed point
+x →x∗or a divergence to x →±∞.
+Example: The system x˙ = x2 −1, pictured in Fig. 7.8, has a stable ﬁxed point at x⋆= −1
+and an unstable ﬁxed point at x⋆= 1. For one dimension the motion is simple enough
+that we can determine whether ﬁxed points are stable or unstable simply from this picture.
+Imagine a particle moving on the x-axis. For x < −1 the red curve of x2 −1 is above the
+x-axis, so x˙ > 0 and the particle moves to the right, as indicated by the blue arrow. For
+−1 < x < 1 the red curve is below, x˙ < 0, and the particle moves to the left. For x > 1
+the curve is again above, x˙ > 0 and the particle moves to the right. The left point is stable
+since the particle always moves towards it, while the right point is unstable and the particle
+moves away from it.
+153
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+x
+−1
+0
+1
+2
+3
+4
+˙x
+Figure 7.8: In this system there are two ﬁxed points, one stable (represented by a full circle)
+and one unstable (represented by the empty circle)
+Stability can also be determined by linearizing about a ﬁxed point. Although this is
+overkill for one variable, the general method remains applicable for analyzing situations
+with more variables, so its useful to discuss it here. Using x = x⋆+ η and expanding to
+O(η), then η˙ = x˙ = x2 −1 ≈2x⋆η, so for x⋆= −1, then η˙ = −2η which decays according to
+η ∝e−2t making the ﬁxed point stable, while for x⋆= 1, then η˙ = 2η which grows according
+to η ∝e2t and the ﬁxed point is unstable.
+To ﬁnd the stability of ﬁxed points in multiple dimensions, we would similarly set ⃗x =
+⃗x⋆+ ⃗η and expand, giving a linearized system of equations after dropping O(η2) terms:
+˙⃗η = M⃗η
+(7.18)
+Here M is a n × n matrix, whose eigenvalues and eigenvectors give us the solutions near the
+ﬁxed point, of the form ⃗η = ⃗aeλt. We will come back later on to discuss higher dimensional
+ﬁxed points in much more detail.
+First we will categorize several types of bifurcations in one dimension, by considering the
+equation
+x˙ = f(x, r) ,
+(7.19)
+where r is a parameter that we vary. The ﬁxed points x∗of f(x, r) are functions of r, and
+drawing them in the r −x-plane gives a bifurcation diagram.
+7.2.1
+Saddle-Node Bifurcation
+A saddle-node bifurcation is the basic mechanism by which ﬁxed points are created and
+destroyed. As we vary r two ﬁxed points can either appear or disappear (one stable and one
+unstable).
+154
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Example: Consider the equation
+x˙ = r + x2 ,
+(7.20)
+which exhibits a saddle-node bifurcation at r = 0. The two ﬁxed points disappear as we
+increase r from negative to positive values, as shown in the images below.
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+x
+−1
+0
+1
+2
+3
+4
+˙x
+Figure
+7.9:
+Two
+ﬁxed
+points, one stable and one
+unstable exist for r < 0
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+x
+−1
+0
+1
+2
+3
+4
+˙x
+Figure 7.10: A single semi-
+stable point exists for r = 0
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+x
+−1
+0
+1
+2
+3
+4
+˙x
+Figure 7.11: No ﬁxed points
+occur for r > 0
+This saddle-node bifurcation transition can be best pictured by the bifurcation diagram in
+Fig. 7.12 below, where the full lines correspond to the stable ﬁxed points and the dashed
+lines the unstable ones.
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+r
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+x
+Figure 7.12: Bifurcation diagram for the
+system x˙ = r + x2
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+r
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+x
+Figure 7.13: Bifurcation diagram for the
+system x˙ = r −x2
+For the analogous equation x˙ = r −x2 we can obtain the results by interchanging x →−x
+and r →−r. This gives the bifurcation diagram shown in Fig. 7.13.
+155
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Example: Some ﬂow equations like
+x˙ = r −x −e−x = f(x, r)
+(7.21)
+are hard to solve analytically for the ﬁxed points, which are given by the transcendental
+equation
+r −x⋆
+⋆
+= e−x
+(7.22)
+Here a graphical approach suﬃces, where we separately plot r −x and e−x and look for
+intersections of the curves to provide the position of the ﬁxed points, as displayed in Fig. 7.14.
+−3
+−2
+−1
+0
+1
+2
+3
+x
+−1
+0
+1
+2
+3
+4
+5
+˙x
+−3
+−2
+−1
+0
+1
+2
+3
+x
+−1
+0
+1
+2
+3
+4
+5
+˙x
+−3
+−2
+−1
+0
+1
+2
+3
+x
+−1
+0
+1
+2
+3
+4
+5
+˙x
+Figure 7.14: Fixed points of the system correspond to the intersections of the curves e−x
+and r −x for r = 1.5, r = 1.0, r = 0.5 respectively. As r is varied the position of the ﬁxed
+points varies and a Saddle-Node Bifurcation occurs.
+Examining which curve is larger also determines the direction of the one-dimensional ﬂow,
+and hence the stability of the ﬁxed points.
+Here the bifurcation occurs at r = rC, when the two curves are tangential and hence only
+touch once:
+∂f
+=
+∂
+
+0
+(7.23)
+x x=x⋆,r=rC
+This gives −1 = −exp(−x⋆) so x⋆(rC) =
+
+0. Plugging x⋆= 0 into Eq. (7.22) we ﬁnd that
+rC = 1.
+By a simple generalization, we can argue that the quadratic examples x˙ = r ± x2 are
+representative of all saddle-node bifurcations. Taylor expanding f(x, r) near the bifurcation
+point and ﬁxed point we have
+∂f
+x˙ = f(x, r) = f(x⋆, rC) + (x −x⋆)
+∂
++
+∂x
+
+f
+
+(r
+x⋆,rC
+−rC)
+(
++
+∂r
+
+x −x⋆)2
+
+x⋆,rC
+∂2f
+2
++
+∂x2
+
+. . .
+x⋆,rC
+= a(r −rC) + b(x
+
+−x⋆)2 + . . . ,
+
+(7.24)
+where we have kept the ﬁrst non-trivial dependence on r and x (noting that the partial
+derivatives are simply some constants a and b), and two terms have vanished due to the
+156
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+ﬁxed point and by the tangential bifurcation conditions:
+f(x⋆
+∂f
+; rC) = 0
+and
+
+= 0 .
+(7.25)
+∂x x=x⋆,r=rC
+Thus x˙ = r ± x2 is the normal form of a saddle-node bifurcation. This can be determined
+explicitly from Eq. (7.24) by making the change of variable r′ = a(r −rC) and x′ =
+p
+⋆
+|b|(x−
+x ) to obtain x˙ ′ = r′ ± x˙ ′ 2 where the ± sign is determined by the sign of b.
+7.2.2
+Transcritical Bifurcation
+In a transcritical bifurcation a ﬁxed point exists for all values of the parameter, but changes
+its stability as the parameter is varied.
+Example: Consider the equation
+x˙ = x(r −x) .
+(7.26)
+Here there are ﬁxed points at x⋆= 0 and x⋆= r. These ﬁxed points change their stability
+at r = 0 but never disappears as illustrated graphically in Fig. 7.15.
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+x
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+˙x
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+x
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+˙x
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+x
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+˙x
+Figure 7.15: Analysis of x˙ = x(r −x) for r = −1, r = 0 and r = 1 respectively. As r changes
+the same type of ﬁxed points remain, but the stability of the ﬁxed points is swapped.
+This gives us the following bifurcation diagram:
+157
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+r
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+x
+Figure 7.16: Bifurcation diagram for the system x˙ = x(r −x) which plots the position of
+the ﬁxed points, with a full and dashed line for the stable and unstable points respectively.
+Here the transcritical bifurcation at r = 0 becomes clear.
+In fact, the equation “x˙ = x(r−x)” is the normal form of a transcritical bifurcation obtained
+by expanding in a Taylor series near x = x⋆and r = rC.
+Example: Lets consider an example with physical content, namely a model for the threshold
+behavior of a laser. This can be modeled as:
+n˙ = GnN −Kn ,
+˙N = −GnN −fN + p .
+(7.27)
+where the variables are N the number of excited atoms and n the number of laser photons.
+The constant parameters include, f for the term governing the spontaneous emission decay
+rate, G for the stimulated emission gain coeﬃcient, K as the photon loss rate, and p as the
+pump strength. Since there are two equations this is in general a two dimensional system
+(which we will discuss how to analyze shortly). Here to make the equation one dimensional
+˙
+we will assume rapid relaxation so that N ≈0, this allows us to solve for N(t) from the
+second equation in Eq. (7.27) to give
+p
+N(t) =
+.
+(7.28)
+Gn(t) + f
+Plugging this back into the ﬁrst equation in Eq. (7.27) then gives
+n
+n˙ =
+pG
+Gn + f
+h
+−K(Gn + f)
+i
+≈n(r −x) + O(n3)
+(7.29)
+158
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Expanding this result near n = 0 we ﬁnd
+n˙ = n(r −bn) + O(n3)
+(7.30)
+where the constant coeﬃcients are
+pG
+r ≡
+G2p
+K
+f −
+,
+b ≡
+.
+(7.31)
+f 2
+Only n > 0 makes sense, so the critical parameter value is when r = 0, or when the pump
+strength p = Kf . For larger values of p this lamp turns into a laser, with a ﬁxed point at a
+G
+non-zero n = r as illustrated in Figs. 7.17 and 7.18. The ﬁxed point for p > Kf indicates
+G
+the coherent laser action.
+0.0
+0.5
+1.0
+1.5
+2.0
+n
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+˙n
+Figure 7.17: When p < Kf/G, the only
+stable point is when there are no photons.
+0.0
+0.5
+1.0
+1.5
+2.0
+n
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+˙n
+Figure 7.18: When p > Kf/G, the stable
+point of the system is with a non-zero num-
+ber of laser photons.
+7.2.3
+Supercritical Pitchfork Bifurcation
+A supercritical pitchfork bifurcation is a type of bifurcation common in problems with sym-
+metries such that ﬁxed points appear or disappear in pairs. In particular, as the parameter
+is varied, one ﬁxed point is always present but changes from being stable to being unstable
+at the same place where two stable ﬁxed points appear.
+Example: The normal form for this type of bifurcation is
+x˙ = rx −x3 .
+(7.32)
+This equation is invariant under x ↔−x, so the ﬁxed point x⋆= 0 is always present. On
+the other hand, the ﬁxed points at x⋆=
+√
+±
+r only appear when r crosses from negative to
+positive values. The diﬀerent cases that occur as we change r are plotted in Fig. 7.19.
+159
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+x
+−10
+−5
+0
+5
+10
+˙x
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+x
+−10
+−5
+0
+5
+10
+˙x
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+x
+−4
+−3
+−2
+−1
+0
+1
+2
+3
+4
+˙x
+Figure 7.19: Plots of x˙ = rx −x3 for r = −2, 0, +2 respectively. When r becomes positive
+the ﬁxed point at x = 0 looses its stability, and two new stable ﬁxed points appear in the
+system.
+This gives rise to the following bifurcation diagram:
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+r
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+x
+Figure 7.20: Diagram for the supercritical pitchfork bifurcation. The stability of the ﬁxed
+point at x = 0 changes while two new stable points appear.
+7.2.4
+Subcritical pitchfork bifurcation
+A subcritical pitchfork bifurcation essentially the opposite of a supercritical pitchfork bifur-
+cation in that if the parameter is varied, one ﬁxed point that is always present changes from
+unstable to stable, while two unstable ﬁxed points appear.
+Example As an example consider the normal form
+x˙ = rx + x3 ,
+(7.33)
+160
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+which again has a x →−x symmetry. Here the cubic term is destabilizing, so this exhibits
+a subcritical pitchfork bifurcation as depicted in Fig. 7.21.
+−2.0 −1.5 −1.0 −0.5 0.0
+0.5
+1.0
+1.5
+2.0
+r
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+x
+Figure 7.21: Bifurcation Diagram for the Subcritical Bifurcation x˙ = rx + x3. Here there is
+a change in the√stability of the ﬁxed point at x = 0 and the appearance of two new ﬁxed
+points at x = ±
+−r as r becomes negative.
+It is interesting to consider what happens if we add a higher order stabilizing term, such as
+in the equation
+x˙ = rx + x3 −x5 .
+(7.34)
+This equation supports ﬁve real solutions for a ﬁnite range of r values. This system supports
+hysterisis as we increase and decrease r as illustrated in Fig. 7.22. We can imagine a path
+where we start with a particle at x = 0 and r = −0.2 and then slowly increase r. When we
+get to r = 0 the x = 0 ﬁxed point becomes unstable and a small perturbation will push the
+particle to another branch, such as that at x > 0. Increasing r further the particle travels
+up this branch. If we then start to decrease r, the particle will travel back down this same
+branch, and continue on it even below r = 0, and thus not following the same path. Then
+suddenly at the critical rC < 0 where there is a saddle-node bifurcation, the particle will
+again loose its stability and will jump back down to x = 0, after which the process can be
+repeated.
+161
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Figure 7.22: Bifurcation Diagram of the system x˙ = rx + x3 −x5. The arrows show the
+motion of the sytem as we increase and decrease r; it undergoes hysterisis.
+Example: Lets consider a bead on a rotating hoop with friction, described by the equation
+of motion:
+¨
+˙
+maθ + bθ = m sin θ (aω2 cos θ −g) .
+(7.35)
+Here θ is the angle of the bead of mass m from the bottom of the hoop, a is the radius of the
+hoop, ω is the constant angular velocity for the rotation of the hoop (about an axis through
+the center of the hoop and two points on the hoop), and g is the coeﬃcient of gravity. Once
+again to turn this into a one-dimensional problem we consider the overdamped solution.
+¨
+Overdamping means we can take maθ →0. The ﬁxed points are then θ⋆= 0 which changes
+from being stable (when aω2 < g) to being unstable (when aω2 > g), while θ⋆= π is always
+present and unstable. Additionally, the stable ﬁxed points θ⋆= ± arccos
+  g
+app
+aω2
+ear when
+aω2 > g. This corresponds to a supercritical pitchfork bifurcation. The system’s
+
+bifurcation
+diagram is shown in Fig. 7.23.
+162
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+0
+1
+2
+3
+4
+5
+6
+aω2
+g
+−3
+−2
+−1
+0
+1
+2
+3
+θ
+Figure 7.23:
+When ω2 > g/a the bottom of the loop becomes and unstable ﬁxed point and
+two new stable ﬁxed points arise that move away from the bottom as the rotation speed is
+increased.
+Example: As another example, consider an overdamped pendulum driven by a constant
+torque described by:
+˙θ = τ −b sin(θ) ,
+(7.36)
+where τ > 0, b > 0, and θ ∈[−π, π]. For b > τ, the gravity beats the torque and there is
+one stable and one unstable ﬁxed points as shown in Fig. 7.24. For b < τ, there are no ﬁxed
+points as shown in Fig. 7.25, and here the torque wins resulting in a rotating solution. Even
+when b < τ, there is a remnant of the inﬂuence of the ﬁxed point in the slowing down of the
+pendulum as it goes through the “bottleneck” to overcome gravity. Combined this is thus a
+saddle-node bifurcation at τ = b as shown in Fig. 7.26.
+163
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+θ
+˙θ
+˙
+Figure 7.24: θ as a function
+of θ when τ < b. Gravity
+dominates torque and there
+is a stable ﬁxed point.
+θ
+˙θ
+˙
+Figure 7.25: θ as a function
+of θ when τ > b.
+Torque
+dominates gravity so there
+are no ﬁxed points.
+0.0 0.2 0.4 0.6 0.8 1.0 1.2 1.4
+τ/b
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+θ
+Figure 7.26:
+Bifurcation
+plot of the system as a func-
+tion of the applied torque
+(τ/b).
+7.3
+Fixed Points in Two-Dimensional Systems
+7.3.1
+Motion Near a Fixed Point
+General Categorization
+In 2-dimensions, to analyze the trajectories near a ﬁxed point ⃗x⋆= (x⋆, y⋆), we can
+again linearize the equations of the system. Therefore, we’ll start by analyzing a general
+2-dimensional linear system with ⃗x⋆= 0. This can be written as
+x˙ = ax + by ,
+y˙ = cx + dy ,
+(7.37)
+or
+a
+b
+˙⃗x = M⃗x
+where
+M =
+
+c
+d
+
+(7.38)
+and the matrix of coeﬃcients here has no restrictions.
+Example:
+Let us consider a system of equations that consists of two independent 1-
+dimensional ﬂows,
+x˙ = ax ,
+y˙ = −y .
+(7.39)
+We have the two independent solutions:
+x(t) = x0eat and y(t) = y0e−t
+(7.40)
+The parameter regions a < −1, a = −1, and −1 < a < 0 all produce a stable and
+attracting ﬁxed point ⃗x⋆= 0 in qualitatively diﬀerent ways, because the decay rate of x(t) is
+164
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+either larger, equal, or smaller than that of y(t). This is shown in Figs. 7.27, 7.28, and 7.29.
+If a = 0, then ⃗x⋆= 0 is no longer isolated as there is a line of ﬁxed points at y = 0 and for
+all values of x, see Fig. 7.30. If a > 0, then ⃗x⋆= 0 is a saddle point (with the y-axis being
+the “stable manifold” and the x-axis being the “unstable manifold”), see Fig. 7.31.
+Figure 7.27:
+Stable Node
+a < −1
+Figure 7.28:
+Stable Node
+a = −1
+Figure 7.29:
+Stable Node
+−1 < a < 0
+Figure 7.30:
+Non-isolated
+ﬁxed points a = 0
+Figure 7.31:
+Saddle Point
+a > 0
+In general in two dimensions there are more possibilities for the motion than in one-
+dimension and we should be more careful about our deﬁnition for when a ﬁxed point is
+stable. For a ﬁxed point ⃗x⋆we will say that
+• it is attracting if all trajectories starting in its neighborhood approach it as t →∞,
+• it is Lyapunov stable if all trajectories starting in its neighborhood remain in that
+neighborhood for all time,
+• it is stable if it is both attracting and Lyapunov stable.
+165
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Picking one ﬁxed point from Fig. 7.30, most trajectories will be Lyapunov stable but not
+attracting. If a ﬁxed point allows a trajectory to wander away but eventually return, then
+it may also be attracting but not Lyapunov stable.
+In the general case deﬁned in Eq.(7.38), we need to solve the eigenvalue problem for the
+linear system, and thus ﬁnd the eigenvalues and eigenvectors of M. Here we have
+˙⃗a = M⃗a = λ⃗a
+⇒
+⃗a(t) = a⃗0eλt
+(7.41)
+Therefore, as usual, we set det(M −λ1) = 0 where 1 is the identity matrix of the same
+dimension as M. From this, deﬁning
+∆≡det(M) = ac −bd ,
+τ ≡tr(M) = a + d,
+(7.42)
+then the eigenvalues are given by
+τ
+√
+λ
+=
+±
+±
+τ 2 −4∆.
+(7.43)
+2
+The corresponding eigenvectors are then ⃗a , and for a generic M they will not be orthogonal.
+±
+Assuming that two diﬀerent eigenvectors exist a general solution is by linearity given by
+⃗x(t) = Re
+h
+C+⃗a+eλ+t + C ⃗a eλ−t
+−
+−
+i
+(7.44)
+assuming for the moment that λ+ ̸= λ
+and taking the real part at the end if needed. There
+−
+are three main cases to consider.
+1. Real eigenvalues λ+, λ−∈R with λ+ ̸= λ . This is like the system in Eq.(7.40), but
+−
+with the x and y axes replaced by the directions deﬁned by ⃗a+ and ⃗a .
+−
+Example: Consider for example a solution where ⃗a+ = (1, 1) and ⃗a
+= (1,
+−
+−4),
+ignoring normalization.
+If λ
+< 0 < λ
+−
++, then growth occurs along ⃗a+ and decay
+occurs along ⃗a , so ⃗x⋆= 0 is a saddle point, as drawn in Fig. 7.32
+−
+If instead λ
+< λ+ < 0, then decay occurs slower with λ
+−
++ so it occurs ﬁrst onto ⃗a+,
+making ⃗x⋆= 0 a stable node, as drawn in Fig. 7.33
+166
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Figure 7.32:
+Saddle Point with ⃗a+ =
+(1, 1) and ⃗a
+= (1,
+−
+−4)
+Figure 7.33: Stable Node with ⃗a+ = (1, 1)
+and ⃗a
+= (1,
+−
+−4)
+2. Let us now consider when λ+ = λ
+= λ
+−
+∈R. In this situation there can either be two
+independent eigenvectors or only one. Two independent eigenvectors can only occur if
+M = λ1,
+(7.45)
+in which case the ﬁxed point is called a star, and is shown in Fig. 7.34.
+If instead there is only one independent eigenvector, then the ﬁxed point is called a
+degenerate node. An example of this is
+λ
+b
+M =
+0
+λ
+
+,
+where the eigenvalue is λ and which has ⃗a = (1, 0) as its only independent eigenvector.
+Here the phase space portrait is as given in Fig. 7.35, where the trajectory decays ﬁrst
+onto the eigenvalue direction and then down onto the ﬁxed point.
+167
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Figure 7.34: Unstable star with λ > 0.
+Figure 7.35: Degenerate Node with λ = −1
+and b = 2.
+3. The ﬁnal case to consider is when the eigenvalues have complex parts, λ
+= α
+iω
+±
+±
+for ω ̸= 0. If α < 0, the ﬁxed point is a stable spiral where the trajectories spiral into
+it, as in Fig. 7.36. If α = 0, the ﬁxed point is a center, with neighboring trajectories
+being closed orbits around it, as in Fig. 7.37. If α > 0, the ﬁxed point is an unstable
+spiral where trajectories spiral out from it, as in Fig. 7.38.
+Figure 7.36:
+Stable spiral
+with α > 0
+Figure 7.37:
+Trajectories
+about a center ﬁxed point
+Figure 7.38: Unstable Spi-
+ral with α < 0
+As a summary if ∆< 0 then the ﬁxed points are saddle points, while if ∆= 0 then the
+ﬁxed points are not isolated but form a continuous line of ﬁxed points. If ∆> 0, then there
+are a number of possibilities:
+• τ < −2
+√
+∆produces stable nodes;
+• τ > 2
+√
+∆produces unstable nodes;
+168
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+• −2
+√
+∆< τ < 0 produces stable spirals;
+• τ = 0 produces centers;
+• 0 < τ < 2
+√
+∆produces unstable spirals;
+• τ = ±2
+√
+∆produces stars or degenerate nodes.
+Note that all unstable ﬁxed points have τ > 0, while all stable ﬁxed points have τ < 0; this
+is true even for stars and degenerate nodes. This information can be summarized by the
+following diagram:
+Non-isolated Points
+Figure 7.39: Diagram determining the type of ﬁxed point given the determinant ∆and trace
+τ of the linearized system.
+This linearized analysis yields the correct classiﬁcation for saddle points, stable/unstable
+nodes, and stable/unstable spirals, but not necessarily for the borderline cases that occur
+on a line rather than in an area of the ∆–τ plane (centers, stars, degenerate nodes, or non-
+isolated ﬁxed points). Nonlinear terms can tip a borderline case to a nearby case in the ∆–τ
+plane. This implies nonlinear terms may only aﬀect the stability of centers.
+Analysis of a General 2-Dimensional System
+Consider a general 2-dimensional system:
+˙
+⃗
+⃗x = f(⃗x) =
+ fx(x, y), fy(x, y)
+
+,
+(7.46)
+169
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+which may have several ﬁxed points (x⋆, y⋆). We can analyze their types by linearizing about
+each one, deﬁning u = x −x⋆and v = y −y⋆and expanding about (u, v) = (0, 0). Deﬁning
+⃗u = (u, v), then this expansion yields
+∂f
+˙
+i
+⃗u = M⃗u
+where
+Mij =
+(7.47)
+∂xj
+
+⃗x=⃗x⋆
+⃗
+This is the same as a Taylor series about ⃗x = ⃗x⋆, where f(⃗x
+
+⋆) = 0.
+Example: Lets consider a population growth model where rabbits (x) compete with sheep
+(y). With one species, the model might look like x˙ = x(1 −x), where for small x there
+is population growth, but above x > 1 food resources become scarce and the population
+shrinks. For two species there can be coupling between the equations, so we could consider
+x˙ = x(3 −x −2y) ,
+y˙ = y(2 −y −x) .
+(7.48)
+which is called the Lotka-Volterra model. Here the parameters have been chosen to model
+the fact that rabbits produce faster (3 > 2 in the linear terms) and sheep compete better
+for resources (2 > 1 in the quadratic cross terms). To determine how solutions to these
+equations behave we can analyze the structure of the ﬁxed points.
+The ﬁxed points for this system are:
+⃗x ∈{(0, 0), (0, 2), (3, 0), (1, 1)}
+(7.49)
+For each one we carry out a linear analysis:
+• ⃗x⋆= (0, 0) simply gives x˙ = 3x and y˙ = 2y, so it is an unstable node.
+• ⃗x⋆= (0, 2). Here we deﬁne u = x and v = y −2 and the linear equations become
+u˙ = −u and v˙ = −2u −2v. Taking the trace and determinant we ﬁnd τ = −3 and
+∆= 2 giving λ+ = −1 and λ
+=
+−
+−2. This is a stable node.
+• ⃗x⋆= (2, 0) gives λ+ = −1 and λ
+=
+−
+−3, making it too a stable node.
+• ⃗x⋆= (1, 1) gives λ
+=
+±
+−1
+√
+±
+2, making it a saddle point.
+From knowing the behavior of trajectories near these ﬁxed points we can complete the picture
+for an approximate behavior of the entire system, as shown in Fig. 7.40. A diagonal line
+passing through the unstable node and saddle point divides the basins of attraction for the
+ﬁxed points where the sheep win (0, 2) or where the rabbits win (3, 0).
+170
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+3.5
+4.0
+Rabbits
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+Sheep
+Figure 7.40: Picture of the behavior of trajectories for the population growth model in
+Eq. (7.48).
+7.3.2
+Systems with a conserved E(⃗x)
+The mechanical systems of equations that we are most familiar with are those where the
+energy is constant along trajectories. We will generalize this slightly and say systems with
+˙
+any function E = E(⃗x) that is conserved (so E = 0) are conservative systems with E. To
+rule out taking a trivial constant value of E (which would work for any system), we demand
+˙
+that E(⃗x) must not be constant on any closed region in the space of ⃗x. Note that E = 0 is
+generally not equivalent to ∇· ⃗f = 0, and hence we do not simply call these conservative
+systems.
+Several results follow from considering conservative systems with an E:
+• Conservative systems with E do not have at-
+tracting ﬁxed points. We can prove this by con-
+tradiction, by imagining that such a point did
+exist. Since all the points in the basin of attrac-
+tion of that point must go to this single ﬁxed
+point, they must all share the same value of E,
+which contradicts E not being constant within
+a closed region.
+171
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+• From our experience in expanding about the minima of potentials, we also expect to
+ﬁnd stable centers for conservative systems with E. This result is achieved by the
+following theorem which we have essentially proven in our analysis in the chapter on
+vibrations:
+˙
+⃗
+For ⃗x = f(⃗x), where
+∂fi is continuous for all i, j, if E = E(⃗x) is conserved with an
+∂xj
+isolated ﬁxed point ⃗x⋆at the minimum of E, then all trajectories suﬃciently close are
+centers.
+•
+⃗
+In 2 dimensions the ∇· f = 0 deﬁnition of conservative is equivalent to having a
+conserved E = E(⃗x) along the systems trajectories.
+˙
+⃗
+Knowing that ⃗x = f(⃗x) and ∇· ⃗f = 0, then let us deﬁne:
+H(⃗x) =
+Z y
+x
+fx(x, y′) dy′ −
+Z
+fy(x′, y) dx′
+(7.50)
+∂H
+⇒
+x
+= fx(x, y)
+∂y
+−
+Z
+∂fy(x′, y)
+x
+dx′ = fx +
+∂y
+Z
+∂fx(x′, y) dx′
+∂x′
+∂H
+⇒
+y
+=
+∂x
+−fy(x, y) +
+Z
+∂fx(x, y′)
+y
+dy′ =
+∂x
+−fy −
+Z
+∂fy(x, y′) dy′
+∂y′
+Then ∂H
+f
+∂y ∈{ x, 2fx} and ∂H ∈{−fy, −2fy}. The ﬁrst case of each occurs if fx = fx(y)
+∂x
+and fy = fy(x), respectively. Thus x˙ = µ ∂H and y˙ =
+∂y
+−µ∂H for µ
+,
+x
+∈{1 2
+∂
+}. After a
+trivial rescaling, these are the Hamilton equations for a conserved Hamiltonian H(⃗x)
+(independent of t) which serves here as our function E(⃗x). Additionally, from the
+relations the critical points ⃗x⋆of H where ∇H|⃗x=⃗x⋆= 0 are identical to the ﬁxed
+⃗
+points where f(⃗x⋆) = 0.
+Example: Consider the one-dimensional classical mechanics motion given by:
+x¨ = ax −x2 ≡−U ′(x)
+(7.51)
+with a > 0. We ﬁrst turn this into one-dimensional form by writing
+x˙ = y = fx ,
+y˙ = ax −x2 = fy . ⇒
+(7.52)
+⃗
+Since here fx is independent of x, and fy is independent of y, we obviously have ∇· f = 0.
+We can deﬁne a conserved scalar quantity from fx and fy using Eq. (7.50) to give
+y2
+H =
+ax2
+2 −
+x3
++
+2
+= K(y) + U(x)
+(7.53)
+3
+where we have Hamilton’s equations
+∂H
+x˙ =
+∂K
+=
+∂y
+∂H
+and
+y˙ =
+∂y
+−
+∂U
+=
+∂x
+−
+.
+(7.54)
+∂x
+172
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+For this system the ﬁxed points occur at ⃗x⋆= (0, 0) and (a, 0), which are also the extremal
+points of H. For ⃗x⋆= (0, 0) we have
+∂2H
+∂2H
+=
+∂a2
+−a < 0
+,
+∂2H
+= 1 > 0
+, and
+∂y2
+= 0 ,
+(7.55)
+∂x∂y
+so the ﬁxed point is a saddle point. For ⃗x⋆= (a, 0) we have
+∂2H
+∂2H
+= a > 0
+,
+∂x2
+∂2H
+= 1 > 0
+, and
+∂y2
+= 0 ,
+(7.56)
+∂x∂y
+so the ﬁxed point is a center. These ﬁxed points and some representative trajectories are
+illustrated in Fig. 7.41. Here the bound trajectories have H < 0, while the unbound trajec-
+tories have H > 0. The dividing case with energy H = 0 is the trajectory is that would stop
+at the saddle point (0, 0).
+−3
+−2
+−1
+0
+1
+2
+3
+4
+x
+−3
+−2
+−1
+0
+1
+2
+3
+y
+Figure 7.41: Phase space picture of the system x¨ = ax −x2 with a = 2.
+7.4
+Limit Cycles and Bifurcations
+In two dimensions, we can have a new type of 2-dimensional attractor called a limit cycle,
+which is an isolated closed trajectory. For stable limit cycles trajectories nearby converge to
+it as in Fig. 7.42, while for unstable limit cycles the nearby trajectories diverge from it as in
+173
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Fig. 7.43. We could also imagine a semi-stable limit cycles, where the trajectories converge
+or diverge on opposite sides of the cycle (an example is shown in Fig. 7.44).
+Figure 7.42:
+Stable Limit
+Cycle
+Figure 7.43: Unstable limit
+Cycle
+Figure 7.44:
+Semi-stable
+Limit Cycle
+Note that a limit cycle is not like a center trajectory about a ﬁxed point, because a limit
+cycle is isolated from other closed trajectories, whereas around centers nearby tranjectories
+are also closed.
+Example: Lets consider a system of equations written with polar coordinates, x = r cos(θ)
+and y = r sin(θ) so that
+r˙ = r(1 −r2
+˙
+) ,
+θ = 1 ,
+(7.57)
+with r ≥0. Here the circle r⋆= 1 corresponds to a stable limit cycle, as in Fig. 7.42. Since
+only the radial coordinate matters for the stability of the limit cycle we can picture this in
+one dimension, as in Fig. 7.45.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+r
+−1.0
+−0.5
+0.0
+0.5
+1.0
+˙r
+Figure 7.45: Behavior of the radial component of the system. The stable point is at r = 1,
+meaning the system has a stable limit cycle of radius r = 1.
+174
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Example: Lets consider the van der Pol oscillator (ﬁrst studied in 1927 in electric circuits
+and found to exhibit chaotic “noise” when driven)
+x˙ = ω
+x¨ + µ(x2 −1)x˙ + x = 0 ⇒
+(
+(7.58)
+ω˙ = µ(1 −x2)ω −x
+If x2 > 1 then the term involving µ gives (nonlinear) positive damping, while if x2 < 1 then
+the term involving µ gives (nonlinear) negative damping, which is growth. For diﬀerent µ
+values the phase portrait is depicted in the ﬁgures below.
+Figure 7.46: Van Der Pol Oscillator with
+µ = 0.1
+Figure 7.47: Van Der Pol Oscillator with
+µ = 2
+There are several known methods for ruling out limit cycles, but we will instead focus on
+a method for showing they exist.
+7.4.1
+Poincar´e-Bendixson Theorem
+Take a 2-dimensional system x˙ = fx(x, y) and y˙ = fy(x, y) with continuous and diﬀerentiable
+⃗f. Let D be a closed, bounded region. Suppose there exists a trajectory C conﬁned inside
+D for all times t ≥0, then C either goes to a ﬁxed point or a limit cycle as t →∞.
+The proof requires the use of some topology, so we won’t study it. To understand how
+we can use this theorem, let us suppose we have determined that there are no ﬁxed points in
+a closed, bounded region D
+˙
+, and at the boundary’s surface the ⃗x points “inward” to trap the
+trajectory in D. An example of this situation is shown in Fig.(7.48). Then due to the theorem
+we must have a limit cycle in this region. Intuitively, the trajectory C wanders around D,
+but it cannot self intersect and it eventually runs out of room to wander. Therefore, it must
+converge to a ﬁxed point or a limit cycle. This implies that there is no chaos in 2 dimensions.
+175
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+In 3 or more dimensions, trajectories have “more room” to wander and can do so forever,
+allowing for chaos!
+Figure 7.48: If at the boundary, the ﬂow of a two-dimensional system pushes it into a region
+where there are no ﬁxed points, then the system has a stable limit cycle in that region.
+Example: Lets consider whether a limit cycle exists for
+(
+x˙ = x −y −x(x2 + 5y2)
+(7.59)
+y˙ = x + y −y(x2 + y2)
+Using polar coordinates
+rr˙ = xx˙ + yy˙
+⇒
+rr˙ = r2(1 −r2 −r2 sin2(2θ))
+(7.60)
+In particular, 1
+√
+−r2 −r2 sin2(2θ) > 0 for r < 1/
+√
+2, while 1 −r2 −r2 sin2(2θ) < 0 for r > 1.
+Since there are no ﬁxed points for 1/
+2 < r < 1 there must be a limit cycle.
+7.4.2
+Fixed Point Bifurcations Revisited and Hopf Bifurcations
+We can revisit bifurcations by adding a varying parameter to the discussion of ﬁxed points
+and limit cycles. In particular, we now include limit cycles popping in or out of existence in
+the range of things that can occur if we change a parameter.
+Saddle-node, transcritical, and pitchfork bifurcations for ﬁxed points can still occur here.
+Example: As a simple example consider a system of uncoupled equations
+x˙ = µ −x2 ,
+y˙ = −y .
+(7.61)
+which has a saddle-node bifurcation at µ = 0, as shown in the phase portraits below.
+176
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+−3
+−2
+−1
+0
+1
+2
+3
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+Figure 7.49:
+System with
+µ = 1 with two ﬁxed points
+−3
+−2
+−1
+0
+1
+2
+3
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+Figure 7.50:
+System with
+µ = 0 and one ﬁxed point
+−3
+−2
+−1
+0
+1
+2
+3
+−2.0
+−1.5
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+Figure 7.51:
+System with
+µ = −1 and no ﬁxed points
+More generally, we can think about determining the ﬁxed points by drawing the curves
+x˙ = fx(x, y) = 0 and y˙ = fy(x, y) = 0 separately. Fixed points require both equalities to be
+satisﬁed, so we look for crossings of these two curves. Varying a parameter of the system
+then leads the ﬁxed points to slide into one another, which corresponds to a 1-dimensional
+motion. This is why our study of the various types of bifurcation of ﬁxed points in one-
+dimension (saddle-node, transcritical, supercritical and subcritical pitchforks) immediately
+carry over to bifurcation of ﬁxed points in higher dimensional equations.
+Example: consider the system of equations
+x˙ = µx + y + sin(x) ,
+y˙ = x −y .
+(7.62)
+Note that these equations have a symmetry under x
+x and y
+y. This always has
+⃗x⋆
+→−
+→−
+= (0, 0) as a ﬁxed point. Linearizing for this ﬁxed point yields τ = µ and ∆= −(µ + 2).
+So the ﬁxed point is stable if µ < −2 or a saddle point if µ > −2.
+Do to the symmetry we might expect a pitchfork bifurcation. If so, then near µ = −2,
+there should be two more ﬁxed points. We would need x = y, so expanding and solving we
+write
+x3
+x˙ = (µ + 1)x + x −
++ . . . = 0 .
+(7.63)
+6
+Since we are studying points near x ≃0, but with µ ≃−2 the term with x3 can be equally
+imp
+portant, whereas the higher terms are subleading. This yields a solution where x⋆= y⋆=
+±
+6(µ + 2) for µ > −2, implying that there is a supercritical pitchfork bifurcation. This
+occurs when ∆= λ+λ
+= 0, which actually means λ
+−
++ = 0 ﬁrst. As we vary µ here the
+eigenvalue crosses from negative to positive values and the stability changes.
+Hopf Bifurcations
+A Hopf bifurcation occurs when a spiral trajectory changes stability when a parameter
+is varied, and this stability change is accompanied by the creation or destruction of limit
+177
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+cycles. A Hopf bifurcation is like a pitchfork bifurcation except that the limit cycle replaces
+the “fork” in the pitchfork. Both supercritical and subcritical Hopf bifurcations exist in
+analogy to pitchfork bifurcations. Here the transition of the eigenvalues of the linearized
+system is diﬀerent, with the real part of both eigenvalues switching sign simultaneously, as
+pictured below:
+Im λ
+Re λ
+Figure 7.52:
+Re(λ) < 0
+which gives us a stable spi-
+ral
+Im λ
+Re λ
+Figure 7.53: Re(λ) = 0
+Im λ
+Re λ
+Figure 7.54:
+Re(λ) > 0
+which gives us an unstable
+spiral
+Example: Consider in polar coordinates the system
+r˙ = µr −r3
+˙
+,
+θ = ω + br2 .
+(7.64)
+It has a stable spiral into r⋆= 0 for µ < 0 and no limit cycles. For µ > 0, then r⋆= √µ
+is a stable limit cycle, while the spiral from r⋆= 0 becomes unstable. Thus, µ = 0 is a
+supercritical Hopf bifurcation.
+If we look at the eigenvalues of the linearized system at r = 0 by setting x = r cos(θ)
+and y = r sin(θ), then x˙ ≈µx −ωy and y˙ ≈ωx + µy, so λ
+= µ ± iω which indeed hits
+±
+Re(λ) = 0 when µ = 0 as expected. The ﬂows for this Hopf bifurcation are depicted below.
+178
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Figure 7.55: System for µ = −0.5, b = 2
+and ω = 1
+Figure 7.56: System for µ = 1, b = 2 and
+ω = 1
+Example: Consider the following system of equations in polar coordinates:
+˙
+r˙ = µr + r3 −r5 ,
+θ = ω + br2 ,
+(7.65)
+which has a subcritical Hopf bifurcation at µ = 0.
+Figure 7.57: System for µ = −0.2, b =
+2 and ω = 1.
+One of the inner orbits
+converges to the center while the other
+converges to the outer limit cycle, there is
+an unstable limit cycle between the two.
+Figure 7.58: System for µ = 1, b = 2 and
+ω = 1.
+There is no longer an unstable
+limit cycle in the inner region of the phase
+space.
+Example: As a physics example with a limit cycle, lets consider a damped pendulum driven
+179
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+by a constant torque whose equation of motion is
+1
+¨θ +
+˙
+˙θ + sin(θ) = τ
+q
+⇒
+
+θ = ω
+
+1
+ω˙ = −
+(7.66)
+ω −sin(θ) + τ
+q
+For τ ≤1, the ﬁxed points are ω⋆= 0 and sin(θ⋆) = τ, for which there are two solutions
+given by the solutions to θ⋆= arcsin(τ). The graphical solution for the ﬁxed points is shown
+below where we compare sin θ to the constant τ and observe where they cross. One ﬁxed
+point is stable and the other is a saddle point.2
+−3
+−2
+−1
+0
+1
+2
+3
+θ
+−1.0
+−0.5
+0.0
+0.5
+1.0
+τ
+Figure 7.59: Graphical determination of the θ value of the ﬁxed points. We see that they
+cannot occur if τ > 1.
+What if τ > 1? It turns out that there is a unique stable limit cycle attractor. Consider
+1
+ω˙ = −
+(7.67)
+q
+h
+ω −q(τ −sin θ)
+i
+For τ > 1 there are no ﬁxed points, however for very negative ω, then ω˙ > 0 and for very
+positive ω, ω˙ < 0. There is thus a trapping region where the system has no ﬁxed points,
+which by the Poincar´e-Bendixson theorem implies the existence of a limit cycle. This limit
+2See also our earlier analysis of the overdamped oscillator in Eq. (7.35), which used a slightly diﬀerent
+deﬁnition for the constants (qτ →τ and q →b).
+180
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+cycle corresponding to rotations of the pendulum over the top. The motion of two trajectories
+with the same initial conditions, but with τ < 1 and τ > 1, are shown in Fig. 7.60.
+0
+2
+4
+6
+8
+θ
+−1.0
+−0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+ω
+Figure 7.60: Two trajectories shown from the same initial condition, one with τ < 1 (where
+the trajectory converges to stable point), and one with τ > 1 (where the trajectory continues
+indeﬁnitely).
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5 q
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+τ
+stable limit cycle
+stable fixed point
+both exist
+Figure 7.61: Stable attractors and bifurcation transitions for a pendulum with a constant
+applied torque.
+In fact for q > 1 the limit cycle also exists for a range of values τc < τ < 1. Since both
+the ﬁxed points and limit cycle exist for these parameter values the endpoint of the motion
+181
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+depends on the choice of initial conditions. Here τc is a constant that depends on q, and
+as q →1 then τc →1. For q ≤1 the limit cycle only exists for τ ≥1. The boundaries
+between these regions are sketched in Fig. 7.61. For the transition between the cycle and
+ﬁxed points shown as a solid (red) line, the saddle and stable node ﬁxed points are born on
+the cycle which then disappears (called an ∞-period bifurcation). The transition across the
+dashed (black) line is a saddle node bifurcation where the two ﬁxed points are born, but the
+saddle persists. Finally, for the transition across the dot-dashed (blue) line the saddle point
+collides with and destabilizes the cycle, so that it seeks to exist in the region to the left (this
+is called a homoclinic bifurcation). Although we have not tried to classify the full range of
+possible bifurcations for systems involving a limit cycle, this example has illustrated a few
+of the possibilities.
+7.5
+Chaos in Maps
+In nonlinear systems with 2 variables, we have obtained a qualitative analytic understanding
+of the motion by analyzing ﬁxed points and limit cycles. The analysis of 2 variables includes
+the possible motion for a 1-dimensional particle with two phase space variables. There is no
+chaos with 2 variables. We could study chaos with 3 variables, but is there a simpler way?
+Recall that chhaos in the Poincar´e map of the damped driven nonlinear oscillator could
+be found from
+(
+θN+1 = f1(θN, ωN)
+(7.68)
+ωN+1 = f2(θN, ωN)
+which are 2 discrete variables. Here we set ϕ = 2πN to be discrete with N an integer.
+Uniqueness for the 3 continuous variable solution implies the existence of f1 and f2. In fact,
+for general systems, we can go a step further. Chaos already exists in 1-dimensional maps
+xN+1 = f(xN) for a nonlinear function f.
+The example we will be using to illustrate chaos in maps is the logistic map:
+xn+1 = f(xn) = rxn(1 −xn)
+(7.69)
+which has a parameter r. If we take 0 < r ≤4, then the {xn} are bounded by 0 ≤x ≤1,
+since the maximum is f(1/2) = r/4. We can visualize this solution by a plot in the xn–xn+1
+plane:
+182
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+xn
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+xn +1
+r =1
+r =2
+r =4
+The ﬁxed points of a general map satisfy:
+x⋆= f(x⋆)
+(7.70)
+which is slightly diﬀerent from nonlinear diﬀerential equations, as these are now iterated
+diﬀerence equations. For our logistic map example this gives
+
+x⋆= 0
+for all r
+x⋆= rx⋆(1 −x⋆) ⇒x⋆
+1
+= 1 −
+(7.71)
+for r > 1
+r
+The stability of a ﬁxed point can be found by checking a small perturbation
+df
+xN = x⋆+ ηN ⇒xN+1 = x⋆+ ηN+1 = f(x⋆+ ηN) = f(x⋆) +
+
+ηN + O(η2)
+(7.72)
+dx x=x⋆
+to obtain
+df
+ηN+1 =
+
+ηN
+(7.73)
+dx x=x⋆
+Therefore if
+
+•  df
+
+
+< 1 ⇒lim ηN = 0: x⋆is stable.
+dx x=x⋆
+N→∞
+
+•  df
+
+
+> 1 ⇒lim ηN →∞: x⋆is unstable.
+dx x=x⋆
+N→∞
+
+•  df
+
+
+= 1, then x⋆is marginal (requiring an expansion beyond linear analysis).
+dx x=x⋆
+183
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+For the logistic map, Eq. (7.69) we have:
+df
+
+
+df
+
+
+= r −2rx ⇒
+dx
+
+
+
+
+
+= r
+x⋆= 0
+dx x=0
+df 
+= 2 −r
+x⋆= 1 −1
+dx x=x⋆
+(7.74)
+r
+The ﬁrst case is stable if r < 1, and the second is stable if 1 < r < 3 and unstable otherwise,
+which we show graphically in Fig. 7.62. Thus we ﬁnd that
+
+0
+r < 1
+lim xn =
+n
+
+1
+→∞
+1 −
+.
+(7.75)
+1 < r < 3
+r
+For r > 3, the limN
+xN is not well-deﬁned as a single number given by a ﬁxed point. So
+→∞
+what happens?
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+xn
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+xn +1
+r <1
+1 <r <3
+r >3
+Figure 7.62: Stability of ﬁxed points of the Logistic Map.
+To ﬁnd out, consider two iterations of the map:
+xn+2 = f(f(xn))
+(7.76)
+which makes xn+2 a 4th order polynomial of xn as shown in Fig. 7.63 on the right. Here there
+are three ﬁxed points of the double iterated map, two are stable (which we call p and q) and
+one is unstable. Furthermore we ﬁnd that p = f(q) and q = f(p), so the n →∞state of the
+184
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Logistic map is an oscillating 2-cycle as shown in Fig. 7.63 on the left. Thus the (discrete)
+period has doubled and we call this a pitchfork bifurcation of the map at r = 3.
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+xn
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+xn +1
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+xn
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+xn +2
+Figure 7.63: The logistic map for r > 3 has ﬁxed points for the double iterated mapping,
+which are a two-cycle for the original map.
+If we analyze the stability of p and q, we ﬁnd that more bifurcations occur for higher
+values of r. Since
+d
+df(p)
+(f(f(x))) |x=x⋆=
+dx
+df(q)
+dp
+(7.77)
+dq
+for
+
+x⋆= p or x⋆= q, this implies that p and q lose their stability simultaneously when
+ df(p)
+dp
+df(q) > 1. At this point the 2-cycle bifurcates into a 4-cycle. This pattern of period
+dq
+doubling continues, 2 →4 →8 →16 →32 →. . ., until r = 3.5699456 . . .. Beyond that
+point the map becomes chaotic. This behavior is shown in Fig. 7.64.
+185
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+1.0
+1.5
+2.0
+2.5
+3.0
+3.5
+4.0 r
+0.2
+0.4
+0.6
+0.8
+1.0
+x*
+Figure 7.64: Bifurcation plot for the Logistic Map, showing points that are part of the non-
+transient motion as a function of r. Below r = 3 there is a single ﬁxed point. The ﬁrst two
+√
+bifurcations occur for r = 3 and r = 1 +
+6. Each new bifurcation is closer to the previous,
+until we reach the chaotic regime. In the middle of the chaotic region there are non-chaotic
+regions, such as the one near r = 0.384 visible as a white stripe.
+This is called a period doubling road to chaos and is one common mechanism by which
+chaos emerges. Indeed, this phenomena also occurs in the nonlinear damped driven oscillator.
+But how do we know that it is chaos?
+If chaos occurs in a map, then we should have sensitivity to initial conditions. Examine
+x0 →x1 →x2 →. . .
+x0 + δ0 →x1 + δ1 →x2 + δ2 →. . .
+where δn is the separation between two initially neighboring trajectories after n iterations.
+As such we expect limn≫1 |δ
+λn
+n| ≈|δ0|e
+; there should be exponential separation with λ > 0
+for chaos to occur, where λ is called the Lyapunov exponent.
+For maps we can derive a formula for λ as follows. We know that:
+1
+λ = lim
+n→∞n ln
+
+δn
+δ0
+ = lim
+n→∞
+1
+n ln
+
+f n(x0 + δ0) −f n(x0)
+δ0
+
+(7.78)
+where f n(x) = f(f(f(. . . x)))
+|
+{z
+. Assuming that δ
+}
+0 is very small this implies
+n times
+1
+λ ≃lim
+n→∞n ln
+
+d
+
+f n(x0)
+1
+ = lim
+dx
+n
+0
+→∞n ln
+
+n−1
+Y
+j=0
+df(xj)
+dxj
+ ,
+(7.79)
+186
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+where the xj are the points along the map trajectory so far. This gives
+1
+λ = lim
+n→∞
+
+X
+n−1
+
+ln df(xj)
+
+n j=0
+
+(7.80)
+dxj
+as a formula we can use to compute the Lyapunov exponent by keeping track of this sum as
+we increase n. The result is shown in Fig. 7.65. In period doubling regions λ < 0, while in
+chaotic regions λ > 0. There may also be periodic windows with chaos on either side. For
+the logistic map, the largest such window is the 3-cycle near r ≈3.83. These windows are
+also clearly visible in the bifurcation diagram.
+3.2
+3.4
+3.6
+3.8
+4.0r
+-1.5
+-1.0
+-0.5
+0.5
+1.0
+λ
+Figure 7.65:
+Value of the Lyapunov Exponent as a function of r. The chaotic regimes
+correspond to λ > 0. (Finite sampling leads to the discrete points.)
+You may have noticed that period doubling occurs after progressively shorter intervals as
+the parameter r is increased in the case of the logistic map. In fact, for a wide class of maps
+(and nonlinear diﬀerential equations), this speed-up is characterized by a universal number.
+For a parameter r, denoting rα as the value where the αth period doubling occurs, then
+rα −rα
+1
+δF = lim
+−
+α→∞
+≈4.669201
+(7.81)
+rα+1 −rα
+is the Feigenbaum number. For the logistic map, it is easy to check that we are already
+pretty close to this number for small α. Given this, we can estimate where chaos starts as
+follows:
+√
+δ1 = r2 −r1 =
+δn
+6 −2
+and
+δn = rn+1 −rn =
+−1
+δF
+= . . . =
+δ1
+,
+δn−1
+(7.82)
+F
+187
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+so our estimate for where chaos starts is
+X
+∞
+X
+∞
+(n
+1)
+δ
+−
+−
+1
+r = lim rn = 3 +
+δn ≃3 + δ1
+δF
+= 3 +
+n→∞
+n=1
+n=1
+1 −1 = 3.572
+(7.83)
+δF
+which is fairly close to the real value of r = 3.5699456.
+You may be wondering how trajectories can diverge exponentially (initially) while still
+remaining bounded. The mechanism is by stretching and folding of trajectories. Think of
+a drop of food coloring on cookie dough which you then fold and knead. To see this more
+explicitly, lets once again returning to the logistic map in Eq.(7.69), but now we take r ≃4.
+Then:
+
+1
+xn ∈
+0,
+
+is sent to xn+1 ∈(0, 1)
+(7.84)
+2
+1
+xn ∈
+
+, 1
+is sent to xn+1 ∈(1, 0)
+(7.85)
+2
+so the two resulting intervals are the same however in opposite directions. Together the
+original (0, 1) interval is both stretched and bent. We then repeat this, with the phase space
+structure getting progressively more complicated as depicted below:
+Finally, there is a self-similarity property of the bifurcation diagram for the logistic map.
+When we zoom in on regions of smaller scales of r, we see the same picture again, including
+the periodic windows, chaotic regions, and period doubling. This is a property of fractals
+that we’ll see shortly.
+188
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+7.6
+Chaos in Diﬀerential Equations, Strange Attrac-
+tors, and Fractals
+7.6.1
+The Lorenz Equations
+The prototypical example of chaos in diﬀerential equations consists of the Lorenz equations
+
+
+x˙
+= σ(y −x)
+y˙
+= rx −y −xz
+(7.86)
+
+z˙
+= −bz + xy
+where the 3 parameters σ, r, and b are all positive. Note the symmetry under x →−x
+and y →−y. Lorenz discovered chaotic behavior in his study of atmospheric modeling,
+which he showed also appeared in these simpler three equations. This serves as a simpliﬁed
+model of a ﬂuid in a convection roll, with x being the average velocity in the loop, y being
+the temperature diﬀerence between the ﬂow on the two halves of the roll, and z being
+the temperature diﬀerence between the inside and outside of the roll. One can think of
+these equations as an approximation arising from the full Navier-Stokes and heat transfer
+equations.
+The ﬁxed points arepx⋆= y⋆= z⋆= 0 which is stable for r < 1 or a saddle point for
+r > 1, and x⋆= y⋆= ±
+b(r −1) and z⋆= r −1 which only exist for r > 1. At r = 1 their
+is a supercritical pitchfork bifurcation of the ﬁxed point. With some work, we can show that
+the r > 1 stable ﬁxed points only remain stable up to r = rH, and are unstable beyond that.
+At this point r = rH the stable ﬁxed point prongs each become unstable under subcritical
+Hopf bifurcations, which involve a collision with an unstable limit cycle that shrinks onto
+each of the ﬁxed points. This is shown in Fig. 7.66.
+Figure 7.66: Bifucation Diagram of the x coordinate of the Lorentz system
+189
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+⃗
+We also know that in this system the phase space volumes contract ∇·f = −(σ+b+1) < 0
+(so the system is dissipative). It can also be shown that trajectories are (eventually) bounded
+by a sphere x2 + y2 + (z −r −σ)2 = constant.
+In the Lorenz system, for r < rH the trajectories converge on a stable ﬁxed point. What
+happens for r > rH? The trajectories are bounded and the phase space volume shrinks, but
+there are no stable ﬁxed points or stable limit cycles to serve as attractors. Instead, we have
+chaos with a strange attractor, which is depicted in Fig. 7.67.
+-10
+-5
+5
+10
+x
+15
+20
+25
+30
+35
+40
+45
+z
+Figure 7.67: Strange attractor in the chaotic regime of the Lorenz equations, shown in the
+3-dimensional space as well as for the x–z projection.
+In a strange attractor, the trajectories still never cross (in the 3 dimensions), and the
+attractor trajectory exhibitsRexponential sensitivity to initial conditions. It also has zero
+˙
+⃗
+volume consistent with V =
+∇· f dV , but interestingly, it has inﬁnite surface area! There
+are inﬁnitely many surfaces traced out by cycles near the ﬁxed points, so the attractor is a
+fractal. For the Lorenz system, surfaces are diﬀerent after each pass from x > 0 to x < 0
+and vice versa; this attractor is a fractal with dimension 2 < D < 3. In fact D ≃2.05 in
+this case.
+How can we have exponential divergence of trajectories while the phase space volume
+shrinks? For the Lorenz system, we have 3 variables, so there are 3 directions in which
+trajectories can converge or diverge. (In general, these directions are more complicated than
+simply ﬁxed Cartesian axes. We must ﬁnd the principal axes at each time.) Thus there are
+in principal 3 exponents governing the trajectories:
+δ = δ
+eλjt for j ∈{1, 2, 3}
+⇒
+V (t) ≈V e(λ1+λ2+λ3)t
+j
+j0
+0
+(7.87)
+190
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+⃗
+For a case where ∇· f is constant this means that:
+Z
+˙
+⃗
+⃗
+V = (λ1 + λ2 + λ3)V (t) =
+∇· f dV = ∇· f V (t) < 0 .
+(7.88)
+Note that ∇· ⃗f = −(σ + b + 1) is constant for the Lorenz system. This means λ1 + λ2 +
+λ3 = ∇· ⃗f < 0, and the system is dissipative if the sum of the exponents is negative,
+indicating that the volume shrinks overall. But exponential sensitivity to initial conditions
+only requires λj > 0 for at least one value of j. Here, the Lyapunov exponent is deﬁned as
+λ ≡max(λ1, λ2, λ3).
+⃗
+For the nonlinear damped driven oscillator, we also have λ1 + λ2 + λ3 = ∇· f = −1 < 0.
+q
+Here, things are even simpler because ϕ = ωDt has λ3 = 0, so λ1 + λ2 = −1. For the
+q
+undamped case (q →∞), we can still have chaos with λ1 = −λ2 > 0. Thus we note that
+chaos can occur in both conservative and dissipative systems.
+We can think of an area in phase space as it gets stretched and contracted as pictured
+below. Here it is stretched by the exponent λ1 > 0 and contracted by λ2 < 0. If trajectories
+are bounded then it must also get folded.
+Figure 7.68: The action of the system leads to stretching and rotation of phase space volume.
+7.6.2
+Fractals and the Connection to Lyapunov Exponents
+Fractals are characterized by a nontrivial structure at arbitrarily small length scales. In
+particular, they are self-similar (in that they contain copies of themselves at arbitrarily
+small scales).
+Example: The Cantor set fractal is created by iteratively removing the middle 1 of a line
+3
+segment. If S0 is the line segment 0 ≤x ≤1, then S1 is formed by removing the middle 1
+3
+of S0, S2 is formed by removing the middle 1 of each piece of S1, and so on until the true
+3
+Cantor set emerges as S . This is pictured in Fig. 7.69. Here the number of separate pieces
+∞
+grows inﬁnitely large (and is in fact non-denumerable), while the total length of the pieces
+191
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+tends to zero. (This is the one dimensional analog of area →∞with volume →0 for the
+Lorentz equations strange attractor.) The Cantor set also has the self-similar property.
+Figure 7.69: Illustration of the iterative procedure that produces the Cantor Set.
+How do we deﬁne a non-integer dimension for fractals? Let us consider covering a line of
+length a0 with segments of length a. We would need N(a) = a0 segments. For a square of side
+a
+ length a0 covered by smaller squares of side length a, we would need N(a) =
+a02 squares.
+a
+In general, for a D-dimensional hypercube of side  length a0 covered by D-dimensional hy-
+percubes of side length a, we would need N(a) =
+a0D such hypercubes for integer D. This
+a
+can be generalized beyond integers to
+ln(N(a))
+dF = lim
+a→0
+ ln
+a0
+(7.89)
+a
+which is the Hausdorﬀdimension (also called the capacity dimension or the fractal dimen-
+sion).
+Example: in the Cantor set, after n steps, the number of segments is:
+N(a) = 2n
+(7.90)
+while the length of each segment goes as:
+a0
+an =
+(7.91)
+3n
+Thus the fractal dimension is given by:
+ln(2n)
+dF = lim
+n→∞
+ln(2)
+=
+ln(3n)
+≃0.6309
+(7.92)
+ln(3)
+indicating that it is less than a line with dF = 1 but more than a point with dF = 0.
+In general, fractal dimensions are not integers and are usually irrational.
+Example: The Koch curve is like the Cantor set, except that instead of deleting the middle
+1 of every segment, we replace it by an equilateral triangle on the other two sides, so segments
+3
+are overall added rather than removed. The Koch curve corresponds to one of the sides of
+the Koch Snowﬂake depicted below in Fig. 7.70. In this case:
+0
+N( ) = 4n
+a
+a
+and
+an =
+ln(4)
+⇒
+dF =
+3n
+≃1.262
+(7.93)
+ln(3)
+192
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+which satisﬁes 1 < dF < 2. This means the Koch curve has inﬁnite length (1-dimensional
+volume) but zero area (2-dimensional volume).
+Figure 7.70: The Koch Curve corresponds to starting with just one of the 3 sides of the
+triangle used to generate the Koch Snowﬂake shown here.
+We can connect the notion of a fractal dimension to Lyapunov exponents which govern
+the behavior of physical trajectories. For simplicity, let us consider an example with λ1 > 0,
+λ2 < 0, and λ3 = 0. The area of a square of phase space points evolves as:
+A(t = 0) = a2 →A (t) = a2 e(λ1+λ2)t
+0
+0
+0
+(7.94)
+while the squares covering it have area A(t) = a2 2
+0e λ2t, see Fig. 7.71. Therefore
+A0(t)
+N(t) =
+= e(λ1−λ2)t
+(7.95)
+A(t)
+This gives rise to a fractal dimension of:
+λ1
+dF = 1 +
+(7.96)
+|λ2|
+which is the Kaplan-Yorke relation. A ﬁxed point attractor has dF = 0, and a limit cycle
+attractor has dF = 1. By contrast, a strange attractor generally has a non-integer dF, and
+this dimension is related to the sensitivity to initial conditions (given by λ1) as well as to
+the contraction of phase space (given by λ2).
+193
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+Figure 7.71: As the system evolves the phase space volume changes, so our tiling volume
+changes as well.
+7.6.3
+Chaos in Fluids
+Chaos can occur in ﬂuids as well. If we take ∇· v = 0 and ρ to be constant and uniform,
+the Navier-Stokes equation says:
+∂v
+∇P
+= −v · ∇v −
+∂t
++ ν∇2v
+(7.97)
+ρ
+and this should be used in conjunction with the heat transfer equation. In the language
+we have been using in this chapter, the velocity ﬁeld v(x, t) corresponds to a continuum of
+variables (each labeled by x). One can also think of the terms involving ∇v as couplings
+between these variables, like ﬁnite diﬀerences, for example:
+∂vx
+vx(x + ϵ) −vx(x −ϵ)
+≈
+∂x
+(7.98)
+2ϵ
+In some cases (as in convection rolls per the Lorenz equations), we can have aperiodic
+time dependence but spatial regularity in x. Here, many of the ideas that we have studied
+(like, for example, the period doubling road to chaos) apply. In other cases, the spatial
+structure in x also becomes irregular.
+The regularity (or lack thereof) can also depend
+on initial conditions. This happens, for example, in fat convection rolls in shallow ﬂuids.
+Essentially there could be multiple attractors present. For the case with irregularity in x,
+the dimensionality of the attractor is proportional to the size of the system, which is very
+large! Here it makes more sense to speak of a “dimension density”.
+Strong turbulence in a ﬂuid falls in the category of being irregular in x with no charac-
+teristic size for features. This is certainly more advanced than our examples, and indeed a
+full formalism for turbulence remains to be invented. One thing we can do to characterize
+strong turbulence is apply dimensional analysis.
+194
+
+CHAPTER 7. CHAOS AND NON-LINEAR DYNAMICS
+There are several scaling laws for turbulence in 3 dimensions. Recall that vortices (eddies)
+appear at all length scales λ and are eﬃcient at transferring energy. Let us deﬁne L as the
+size of the ﬂuid container, λ0 as the scale where dissipation is important (for Reynolds
+number R ≈1), ϵ as the mean energy transfer per unit time per unit mass, and vλ as
+the velocity variation at length scale λ. Note that the dimensions [ν] = m2/s and [ϵ] =
+(kgm2/s2)(1/skg) = m2/s3. There are three scales to consider.
+v3
+1. At λ ≈L, there can be no dependence on ν, so ϵ ∝
+L. (This is the scale with the
+L
+most kinetic energy and the largest energy.)
+v3
+2. At λ
+λ
+0 ≪λ ≪L, there can still be no ν, so here ϵ ∝
+. Note that this is independent
+λ
+of the properties ρ, ν and the scale L of the ﬂuid!
+3. At λ ≈λ0, because R = v0λ0 ≈1, then v0 ≈
+ν
+ν
+. This is where the energy dissipation
+λ0
+occurs. Here we only have ν and λ0 present, so ϵ ∝ν3 .
+λ4
+0
+Rather than using λ and vλ, the universal result for the case λ0 ≪λ ≪L is often written
+1
+in terms of the wavenumber k ∝
+and kinetic energy per unit mass per unit wave number,
+λ
+E(k). The kinetic energy per unit mass can be written as E(k) dk. Here E(k) behaves as a
+rescaled version of the energy with slightly diﬀerent dimensions, [E(k)] = m3/s2. Analyzing
+its dimensions in relation to ϵ and k we note that m3/s2 = (m2/s3)2/3(1/m)−5/3 which yields
+2
+E(k) ∼ϵ
+5
+3k−3
+(7.99)
+This is the famous Kolmogorov scaling law for strong turbulence. It provides a mechanism
+by which we can make measurements and probe a universal property of turbulence in many
+systems.
+The End.
+195
+
+MIT OpenCourseWare
+https://ocw.mit.edu
+8.09 Classical Mechanics III
+Fall 2014
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
