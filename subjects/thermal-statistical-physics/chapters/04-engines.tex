@@ -1,0 +1,62 @@
+\originalchapter{热力学势、热机与第三定律}\label{ch:potentials}
+\originalsection{改变控制变量}
+实验常把温度或压强固定, 而内能自然变量是$S,V,N$. Legendre变换把不便控制的变量换成它的共轭量. 固定$N$时定义$F=U-TS$, $H=U+PV$, $G=U-TS+PV$, 直接求微分得到
+\[
+\begin{aligned}
+\dd F&=-S\dd T-P\dd V,&\dd H&=T\dd S+V\dd P,\\
+\dd G&=-S\dd T+V\dd P,&\dd U&=T\dd S-P\dd V.
+\end{aligned}
+\]
+例如$S=-(\partial F/\partial T)_V$和$P=-(\partial F/\partial V)_T$, 相等的混合二阶导数给Maxwell关系$(\partial S/\partial V)_T=(\partial P/\partial T)_V$. 另外三条为
+\[
+T_V|_S=-P_S|_V,\qquad T_P|_S=V_S|_P,\qquad S_P|_T=-V_T|_P.
+\]
+这些等式适用光滑单相区域; 相变线上要分别取各相的一侧导数.
+
+将$dS=C_V\dd T/T+[U_V|_T+P]\dd V/T$的混合导数匹配, 或用$F$的Maxwell关系, 得
+\[
+U_V|_T=T P_T|_V-P,\qquad
+C_P-C_V=\frac{TV\alpha^2}{\kappa_T},\qquad
+\frac{\kappa_T}{\kappa_S}=\frac{C_P}{C_V}.
+\]
+最后一式可由$\dd S=C_P\dd T/T-\alpha V\dd P$设$\dd S=0$, 再代入$\dd V=\alpha V\dd T-\kappa_TV\dd P$得到. 对理想气体$P_T|_V=P/T$, 因而$U_V|_T=0$; 这是第二律对状态方程施加的新信息, 不能单凭第一律推出.
+
+固定$T,V,N$时, 系统与热库合成孤立体系. 热库熵变为$-\Delta U/T$, 总熵增加等价于$\Delta F\le0$. 固定$T,P,N$且只做体积功时, 同理给$\Delta G\le0$. 平衡是在允许变化中相应势的最小值; 若边界条件改了, 最小化的势也要改.
+
+\begin{example}
+弹性杆满足张力$f=(a+bT)(L-L_0)$和定长热容$C_L=cT^3$. 求内能和熵, 并判断可逆绝热拉伸的温度变化.
+\end{example}
+\begin{solution}
+用$dU=T\dd S+f\dd L$, 定长有$S_T|_L=cT^2$. 对$U-TS$作微分得到$S_L|_T=-f_T|_L=-b(L-L_0)$. 相容积分给
+\[
+S=\frac c3T^3-\frac b2(L-L_0)^2+S_0,\qquad
+U=\frac c4T^4+\frac a2(L-L_0)^2+U_0.
+\]
+若$b>0$且杆已拉长, 等熵进一步拉伸要求$cT^2\dd T=b(L-L_0)\dd L$, 故升温. 恒张力下$L_T|_f=-b(L-L_0)/(a+bT)<0$, 所以负热膨胀并不违反机械稳定性$a+bT>0$.
+\end{solution}
+
+\originalsection{循环、热机与制冷}
+热机经过循环回到相同状态, 从高温热库吸热$Q_H>0$, 向低温热库放热$Q_C>0$, 输出功$W_{\rm out}=Q_H-Q_C$. 效率$\eta=W_{\rm out}/Q_H$. 两个热库的总熵变化为$-Q_H/T_H+Q_C/T_C\ge0$, 所以
+\[
+\eta\le1-\frac{T_C}{T_H}.
+\]
+等号要求全过程可逆. Carnot循环用两条可逆等温线和两条可逆绝热线, 熵坐标中的循环是长方形: 高温等温吸热$T_H\Delta S$, 低温等温放热$T_C\Delta S$. 它的效率与工作物质无关. 一般循环若热交换温度均在$[T_{\min},T_{\max}]$内, 同样的熵平衡给上界$1-T_{\min}/T_{\max}$, 不保证实际达到.
+
+\begin{center}
+\begin{tikzpicture}[x=1.0cm,y=.85cm,>=Stealth]
+\draw[->] (0,0)--(5,0) node[right]{$S$};\draw[->] (0,0)--(0,3.5) node[above]{$T$};
+\draw[thick,->] (1,2.8)--(3.5,2.8);\draw[thick,->] (3.5,2.8)--(3.5,1.2);
+\draw[thick,->] (3.5,1.2)--(1,1.2);\draw[thick,->] (1,1.2)--(1,2.8);
+\node[left] at (0,2.8){$T_H$};\node[left] at (0,1.2){$T_C$};
+\node[above] at (2.2,2.8){吸热};\node[below] at (2.2,1.2){放热};
+\node[below] at (1,0){$S_1$};\node[below] at (3.5,0){$S_2$};
+\end{tikzpicture}\par
+可逆Carnot循环在温度--熵平面上的示意图; 两条竖线等熵.
+\end{center}
+
+反向运行时输入功, 从低温端取热成为制冷机, 性能系数$Q_C/W_{\rm in}\le T_C/(T_H-T_C)$; 用高温端得到的热量供暖成为热泵, 性能系数$Q_H/W_{\rm in}\le T_H/(T_H-T_C)$. 性能系数可以大于1, 因为装置搬运热而非把全部输入功直接变成同等热量. 温差缩小有利于效率, 但实际传热需要有限温差与耗散, 因而性能低于可逆上界.
+
+\originalsection{低温与第三定律}
+若量子系统有与外参连续相容的非简并基态和离散激发能隙, $T\to0^+$时激发概率消失, 熵趋于0; 若基态简并度为$g_0$, 理想平衡熵趋于$\kb\ln g_0$. Nernst形式的第三律要求低温极限熵差不依赖连续控制外参. 残余简并、非平衡冻结和相变使简单版本的条件失效, 所以不能把“所有物质零温熵严格为零”当成无条件定理.
+
+在平滑的稳定低温相内, $S(T)-S(0)=\int_0^T C_x(T')\dd T'/T'$收敛, 常规热容趋于零; 这也要求对极限与导数使用合适的均匀性条件. Maxwell关系于是约束热膨胀率趋零. 制冷系数随$T_C\to0$下降, 每移走一单位冷端热所需功增加, 与有限操作不能达到绝对零度的不可达原理一致; 单凭Carnot公式本身还不是一般不可达性的数学证明.

@@ -1,0 +1,57 @@
+\originalchapter{作业三：从随机步到热力学功}
+\psource{8.044，2013 春，PS3，2 月 27 日截止。中文题面；据官方答案核对的 AI 独立解答。}
+\originalsection{1．清除杂质}
+\begin{exercise}
+激光与平行电场沿纳米线反复扫描。一次扫描位移密度为 $\delta(x)/3+2e^{-x/a}/(3a)$（$x\ge0$）。求经过 36 次扫描总位移 $d$ 的近似密度。
+\end{exercise}
+\begin{solution}
+须假定各扫描位移独立同分布。一次均值 $2a/3$，二阶矩 $4a^2/3$，方差 $8a^2/9$；总均值 $24a$、方差 $32a^2$。中心极限定理近似为 $p(d)\simeq e^{-(d-24a)^2/(64a^2)}/(8\sqrt\pi a)$。真实分布只在 $d\ge0$，且仍有权重 $3^{-36}$ 的原点原子；高斯近似不能精确描述这部分。
+\end{solution}
+\originalsection{2．微观与宏观能量}
+\begin{exercise}
+一立方厘米、$0^\circ$C、一大气压的稀薄原子气体；Loschmidt 数 $2.69\times10^{25}\,\mathrm{m}^{-3}$，能量全为动能。(a) 求单原子能量标准差/均值的数值；(b) 求全部原子总能量的同一比值。
+\end{exercise}
+\begin{solution}
+三维能量伽马分布给 $\avg E=3\kb T/2$、$\Var E=3(\kb T)^2/2$，故比值 $\sqrt{2/3}\simeq0.8165$。$N=2.69\times10^{19}$，独立能量相加给比值 $\sqrt{2/(3N)}\simeq1.574\times10^{-10}$。数值在附录脚本实际复现；宏观平稳不等于单粒子平稳。
+\end{solution}
+\originalsection{3．经验温度}
+\begin{exercise}
+顺磁盐 A 的坐标 $H,M$，盐 B 的坐标 $H',M'$，气体 C 的坐标 $P,V$。A 与 C 平衡时 $nRCH-MPV=0$；B 与 C 平衡时 $nR\Theta M'+nRC'H'-M'PV=0$，各大写常数已给。(a) 找出平衡时相等的三个函数；(b) 令它们等于理想气体温度 $T$，辨认状态方程。
+\end{exercise}
+\begin{solution}
+$CH/M=\Theta+C'H'/M'=PV/(nR)=T$，所以 $M=CH/T$（Curie 定律）、$M'=C'H'/(T-\Theta)$（Curie--Weiss 形式）、$PV=nRT$。比值只在相关分母非零且经验关系适用的区域使用。
+\end{solution}
+\originalsection{4．简单固体的三条路径}
+\begin{exercise}
+$dV=-V K_T\dd P+V\alpha\dd T$。体积变化很小，取 $V=V_1$，并取 $K_T,\alpha$ 为常数；从 $(T_1,P_1)$ 到 $(T_2,P_2)$ 的图中，a 先恒 $P_1$ 升温再恒 $T_2$ 升压，b 先恒 $T_1$ 升压再恒 $P_2$ 升温，c 为 $T$--$P$ 平面直线。分别求外界对固体做功。
+\end{exercise}
+\begin{solution}
+$\delta W=-P\dd V=V_1K_TP\dd P-V_1\alpha P\dd T$。令 $W_0=V_1K_T(P_2^2-P_1^2)/2$、$\Delta T=T_2-T_1$，则 $W_a=W_0-V_1\alpha P_1\Delta T$、$W_b=W_0-V_1\alpha P_2\Delta T$、$W_c=W_0-V_1\alpha(P_1+P_2)\Delta T/2$。功差就是路径围成面积乘相应系数。
+\end{solution}
+\originalsection{5．辐射场的功}
+\begin{exercise}
+腔内热平衡辐射压力 $P=\sigma T^4/3$，此处 $\sigma$ 是题中能量密度常数。初末状态 $(T_1,V_1)$、$(T_2,V_2)$：a 先恒 $T_1$ 从 $V_1$ 降到 $V_2$ 再恒 $V_2$ 升温；b 沿 $VT^3=V_1T_1^3=V_2T_2^3$。求外界对场做功。
+\end{exercise}
+\begin{solution}
+$W_a=-\sigma T_1^4(V_2-V_1)/3$。沿 b，$T^4=(V_1T_1^3)^{4/3}V^{-4/3}$，因此 $W_b=\sigma(V_2T_2^4-V_1T_1^4)$。压缩时两式皆正；b 为辐射可逆绝热路径，$W_b=\Delta U$。
+\end{solution}
+\originalsection{额外练习：全微分（原题注明不用交）}
+\begin{exercise}
+判断下列微分是否为 $S(x,y)$ 的全微分，若是求 $S$：
+(a) $2x(x^3+y^3)\dd x+3y^2(x^2+y^2)\dd y$；
+(b) $e^y\dd x+x(e^y+1)\dd y$；
+(c) $(y-x)e^x\dd x+(1+e^x)\dd y$。
+\end{exercise}
+\begin{solution}
+在整个平面检验混合偏导。(a) 两者均为 $6xy^2$，$S=(2x^5+5x^2y^3+3y^5)/5+C$。(b) 分别为 $e^y$ 与 $e^y+1$，故不存在。(c) 均为 $e^x$，$S=y+(1+y-x)e^x+C$。
+\end{solution}
+\originalsection{6．铁磁状态方程的相容性}
+\begin{exercise}
+零场自发磁化在 $T_c$ 以下从 $M_0$ 减至零。临近 $T_c$ 下方模型为
+\[\left(\frac{\partial M}{\partial H}\right)_T=\frac a{1-T/T_c}+3bH^2,\qquad
+\left(\frac{\partial M}{\partial T}\right)_H=\frac{f(H)}{T_c(1-T/T_c)^2}-\frac{M_0}{2T_c\sqrt{1-T/T_c}},\]
+且 $f(0)=0$。(a) 利用状态函数求 $f$；(b) 求 $M(H,T)$。
+\end{exercise}
+\begin{solution}
+混合偏导相等给 $f'(H)=a$，故 $f=aH$。对 $H$ 积分得 $M=aH/(1-T/T_c)+bH^3+g(T)$，与温度偏导比较得 $g=M_0\sqrt{1-T/T_c}+C$。题给零场在 $T_c$ 消失，故 $C=0$。这只是临界点下方的局部模型，不能外推到所有温度和场强。
+\end{solution}

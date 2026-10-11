@@ -1,0 +1,31 @@
+\originalchapter{量子密度矩阵与统计熵}\label{ch:density}
+\originalsection{纯态、混态与平均}
+一个量子纯态由归一化向量$\ket\psi$表示, 测量算符$A$的平均为$\bra\psi A\ket\psi$. 即使准备的态确定, 测量仍可有量子涨落. 若又不知道系统被准备为哪一个$\ket{\psi_a}$, 以概率$p_a$混合, 定义密度算符$\rho=\sum_ap_a\ket{\psi_a}\bra{\psi_a}$. 交换求和得$\avg A=\Tr(\rho A)$, 一个算符统一容纳准备概率和测量概率.
+
+$\rho$是Hermitian、正半定、迹为1. 正性来自$\bra\phi\rho\ket\phi=\sum_ap_a|\langle\phi|\psi_a\rangle|^2\ge0$, 所以特征值可为0而非必严格正. 纯态满足$\rho^2=\rho$, 反过来正半定迹1且幂等只能有一个特征值1. 等概率混合$\ket{\uparrow_z}$与$\ket{\downarrow_z}$给$\rho=I/2$, 与其相干叠加$\ket{\uparrow_x}$不同; 后者在$z$基底有非零非对角元, 两者虽有相同$z$测量分布, 对$x$测量的结果不同.
+
+Hamilton量时间无关时$U(t)=\e^{-\ii Ht/\hbar}$, $\rho(t)=U(t)\rho(0)U(t)^\dagger$, 所以$i\hbar\dot\rho=[H,\rho]$. 驻定要求$[H,\rho]=0$, $\rho=f(H)$是充分条件但非唯一条件, 还可依赖与$H$对易的守恒量. 微正则密度可精确写为能窗谱投影$\Pi_{[E,E+\Delta]}/\Tr\Pi$, 避免把离散谱的Dirac函数当成普通可归一化数值.
+
+\originalsection{熵最大原理与量子系综}
+量子统计熵$S=-\kb\Tr(\rho\ln\rho)=-\kb\sum_rp_r\ln p_r$, 其中$p_r$是特征值, 约定$0\ln0=0$. 幺正演化不改变特征值, 故孤立系统的精细von Neumann熵守恒. 热化中的宏观熵增加涉及忽略关联或环境, 不能把这个熵的守恒与第二律硬说为矛盾.
+
+在固定平均能$\Tr\rho H=E$、固定迹下对$-\Tr\rho\ln\rho-\alpha\Tr\rho-\beta\Tr\rho H$变分, 得$\ln\rho+I+\alpha I+\beta H=0$, 因而$\rho_\beta=\e^{-\beta H}/Z$, $Z=\Tr\e^{-\beta H}$. 这需要$Z$有限并满足能量约束; 有无限维且无收敛解时不能宣称总存在最大值. 严格最大性可由相对熵说明.
+
+\begin{proposition}
+有限维密度矩阵$\rho,\sigma$在$\rho$支持包含于$\sigma$支持时, $D(\rho\Vert\sigma)=\Tr\rho(\ln\rho-\ln\sigma)\ge0$, 等号当且仅当$\rho=\sigma$.
+\end{proposition}
+\begin{proof}
+在$\rho$本征基$\ket r$中, 谱分解$\sigma=\sum_ss_s\ket s\bra s$, 标量对数的凹性给$\bra r\ln\sigma\ket r\le\ln\bra r\sigma\ket r$. 记$q_r=\bra r\sigma\ket r$, 则$D\ge\sum_rp_r\ln(p_r/q_r)\ge0$, 最后一式用$\ln x\le x-1$或标量Gibbs不等式. 等号要求在所有$p_r>0$上对数凹性等号及$p_r=q_r$, 再由迹1消除剩余支持, 使$\sigma=\rho$.
+\end{proof}
+取$\sigma=\rho_\beta$得到$S(\rho)\le\kb(\ln Z+\beta E)$, 相同平均能下正则态达到最大值. 取参考正则态$\rho_0=\e^{-\beta H_0}/Z_0$而真实态为$\rho_\beta$, 由$D(\rho_0\Vert\rho_\beta)\ge0$得到$F\le F_0+\Tr\rho_0(H-H_0)$, 即上一章的量子变分界, 不要求$H,H_0$对易.
+
+允许粒子数变化时, Hilbert空间为不同$N$子空间的直和(Fock空间), 在$[H,N]=0$的守恒条件下$\rho=\e^{-\beta(H-\mu N)}/\Xi$. 对迹展开就是所有粒子数正则配分函数的和, 与第\ref{ch:grand}章相连. 置换对称的子空间选择见第\ref{ch:states}章, 正确迹应在实际Bose或Fermi子空间上计算.
+
+\originalsection{自由粒子的密度核}
+大盒周期边界中自由粒子平面波$\langle\vct r|\vct k\rangle=V^{-1/2}\e^{\ii\vct k\cdot\vct r}$, $z=V/\lambda_T^3$. 当盒尺寸远大于$\lambda_T$, 用连续Gaussian积分得
+\[
+\langle\vct r|\rho|\vct r'\rangle\simeq\frac1V\exp[-\pi|\vct r-\vct r'|^2/\lambda_T^2].
+\]
+对角元为$1/V$, 表示均匀位置概率; 非对角元在热波长尺度衰减, 表达量子相干. 有限周期盒的精确核需对周期镜像求和, 若$\lambda_T$与盒长相当就不能沿用无限空间近似.
+
+未归一化核$K_\beta=\e^{-\beta H}$满足$\partial_\beta K_\beta=(\hbar^2/2m)\nabla^2K_\beta$, 初值$K_0(\vct r,\vct r')=\delta(\vct r-\vct r')$. 归一化$\rho=K_\beta/Z$的初值不能被写成一个有限迹的无限空间恒等矩阵; 扩散方程作用的是$K_\beta$, 不是忽略$Z(\beta)$变化的$\rho$. Gaussian核的宽度从这一方程随$\sqrt\beta$增长, 给热波长的另一种解释.
