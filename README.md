@@ -2,7 +2,7 @@
 
 本仓库用于个人非商业学习，保存授权归档的 MIT OpenCourseWare 课程讲义及其中文原生 LaTeX 重编成果。仓库现已公开，供非商业学习与来源核对。
 
-[数学讲义：15册，1660页](#数学讲义) · [物理讲义：首版2册77页，理论力学编写中](#物理讲义)
+[数学讲义：15册，1660页](#数学讲义) · [物理讲义：首版3册126页，持续补充](#物理讲义)
 
 ## 数学讲义
 
@@ -28,15 +28,15 @@
 
 ## 物理讲义
 
-电动力学37页、量子力学40页的中文首版已提供 PDF 与可编辑源码，合计 **2册中文首版，77个PDF物理页**，两科继续补充；理论力学仍在编写、编译与审核。
+电动力学37页、量子力学40页、理论力学49页的中文首版均已提供 PDF 与可编辑源码，合计 **3册中文首版，126个PDF物理页**。三册按各自说明的范围交付，并持续补充。
 
 | 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
 |---|---|---|---:|---|---|
 | [电动力学](subjects/electrodynamics/README.md) | 8.07（Fall 2012，Alan Guth、Min Chen）为主，8.311（Spring 2004，Leonid Levitov）选讲补充；矢量分析、静电边值、多极展开、介质、磁场、电磁波与辐射，含本科作业选题、Quiz及期末题解。 | 中文首版已交付，补充中 | 37 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh-source.zip) · [覆盖范围](subjects/electrodynamics/coverage.md) |
 | [量子力学](subjects/quantum-mechanics/README.md) | Barton Zwiebach 的 8.04 → 8.05 → 8.06；波函数、薛定谔方程、势阱与隧穿、算符、自旋、角动量和近似方法；16章理论、4章考核含23道大题的中文题面与AI独立解答。 | 中文首版已交付，补充中 | 40 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-source.zip) · [覆盖清单](subjects/quantum-mechanics/coverage.json) |
-| 理论力学 | 8.09（Fall 2014，Iain W. Stewart）为主，8.223（January IAP 2017，Matthew Evans）补充；拉格朗日与哈密顿力学、刚体、振动、正则变换、微扰及非线性动力学。 | 原件已收集，中文编写中 | 待核 | 待交付 | 待交付 |
+| [理论力学](subjects/classical-mechanics/README.md) | 8.09（Fall 2014，Iain W. Stewart）为主，8.223（January IAP 2017，Matthew Evans）补充；拉格朗日与哈密顿力学、刚体、振动、正则变换、摄动、流体及非线性入门；10章正文，含56道作业题的中文题面、解答或数值复现及项目分析。 | 中文首版已交付，补充中 | 49 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/classical-mechanics/classical-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/classical-mechanics/classical-mechanics-source.zip) · [覆盖清单](subjects/classical-mechanics/source-coverage.json) |
 
-电动力学首版的8.311十二套作业尚未逐题中文纳入，可读性复审正在进行；量子力学另有15份考核及进阶内容待补。具体收录范围见各册说明。
+电动力学的8.311十二套作业、量子力学的15份考核及进阶内容、理论力学的部分高阶摄动与流体专题仍待补充；电动力学可读性复审进行中。具体收录范围见各册说明。
 
 <details>
 <summary>展开物理英文原件、PDF下载与课程来源</summary>
@@ -47,7 +47,7 @@
 |---|---|---|---|---|
 | 电动力学 | [原件目录](sources/electrodynamics/) · [课程与署名](sources/electrodynamics/README.md) | [向量分析，6源页](https://github.com/xhc144/mit-ocw-notes/raw/main/sources/electrodynamics/8-07-fall-2012/lecture-notes/mit8_07f12_ln1.pdf) | 61份，474源页 | [来源清单](manifests/electrodynamics-sources.json) |
 | 量子力学 | [原件目录](sources/quantum-mechanics/) · [课程与署名](sources/quantum-mechanics/README.md) | [量子力学基本特征，15源页](https://github.com/xhc144/mit-ocw-notes/raw/main/sources/quantum-mechanics/8-04-quantum-physics-i-spring-2016/pdf/7f930e013cef9cd7dec5aa88baa83f0a_MIT8_04S16_LecNotes1.pdf) | 55份，675源页 | [来源清单](manifests/quantum-mechanics-sources.json) |
-| 理论力学 | [原件目录](sources/classical-mechanics/) · [课程与署名](sources/classical-mechanics/README.md) | [8.09讲义合订本，199源页](https://github.com/xhc144/mit-ocw-notes/raw/main/sources/classical-mechanics/8-09-classical-mechanics-iii-fall-2014/pdf/d9bac33f6c60b304dc0398e99b327102_MIT8_09F14_full.pdf) | 35份，612源页（含重复） | [来源清单](manifests/classical-mechanics-sources.json) |
+| 理论力学 | [原件目录](sources/classical-mechanics/) · [课程与署名](sources/classical-mechanics/README.md) | [8.09讲义合订本，199源页](https://github.com/xhc144/mit-ocw-notes/raw/main/sources/classical-mechanics/8-09-classical-mechanics-iii-fall-2014/pdf/d9bac33f6c60b304dc0398e99b327102_MIT8_09F14_full.pdf) | 37份，624源页（含重复） | [来源清单](manifests/classical-mechanics-sources.json) |
 
 </details>
 
@@ -144,7 +144,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-数学已交付 **15册中文整书，共1660个PDF物理页**；物理已交付 **2册中文首版，共77页**（电动力学37页、量子力学40页），两科补充中，电动力学可读性复审进行中。理论力学仍编写中，尚未计入中文交付。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理已交付 **3册中文首版，共126页**（电动力学37页、量子力学40页、理论力学49页），三科补充中，电动力学可读性复审进行中。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
 
 <details>
 <summary>展开数学交付历史与全站归档背景</summary>
