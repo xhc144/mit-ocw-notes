@@ -1,0 +1,23 @@
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.85\textwidth,height=5.2cm,xlabel={$r$},ylabel={$x_n$},xmin=3,xmax=4,ymin=0,ymax=1]
+\addplot[only marks,mark=square*,mark size=.12pt,black]table[x=r,y=x,col sep=comma]{figures/logistic-bifurcation-plot.csv};
+\end{axis}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\begin{semilogyaxis}[width=.85\textwidth,height=5cm,xlabel={$n$},ylabel={$|x_n-x'_n|$},legend pos=north west,ymin=1e-17,ymax=1,grid=major]
+\addplot[no marks]table[x=n,y=delta,col sep=comma]{figures/map-sensitivity-periodic.csv};\addlegendentry{$r=3.2$}
+\addplot[dashed,no marks]table[x=n,y=delta,col sep=comma]{figures/map-sensitivity-chaotic.csv};\addlegendentry{$r=4$}
+\end{semilogyaxis}
+\end{tikzpicture}
+
+\foreach \name/\label in {cosine/$r\cos x$,cubic/$rx-x^3$,exponential/$e^{-rx}$}{
+\begin{tikzpicture}
+\begin{axis}[width=.85\textwidth,height=5cm,xlabel={$r$},ylabel={$x_n$},title={\label}]
+\addplot[only marks,mark=square*,mark size=.12pt,black]table[x=r,y=x,col sep=comma]{figures/\name-map-plot.csv};
+\end{axis}
+\end{tikzpicture}\par
+}
+\end{center}
+上面散点来自实际迭代, 绘图为清晰起见抽稀点集; 参数扫描与原始数据保留在源码. 指数映射只出现固定点和二周期, 与严格单调性的分析一致.

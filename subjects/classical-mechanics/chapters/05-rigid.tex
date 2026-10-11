@@ -1,0 +1,47 @@
+\originalchapter{刚体动力学}
+\originalsection{角速度与转动惯量}
+刚体各点的相对距离固定. 取参考点$O$, 其余点写为$\vect r=\vect R_O+A(t)\vect\rho$, $A^{\mathsf T}A=I$, $\det A=1$. 对$A^{\mathsf T}A=I$微分, $\dot A A^{\mathsf T}$为反对称矩阵, 所以存在唯一角速度$\vect\omega$满足$\dot A A^{\mathsf T}\vect v=\vect\omega\times\vect v$. 同一物理向量的惯性导数与刚体坐标导数满足
+\[
+\left(\frac{\dd\vect v}{\dd t}\right)_{\!I}
+=\left(\frac{\dd\vect v}{\dd t}\right)_{\!B}+\vect\omega\times\vect v.
+\]
+这来自将$\vect v=A\vect v_B$微分, 不是额外假设. 以下张量$I$与角速度的分量均取同一刚体坐标基, 即使用$\vect\omega_B=A^{\mathsf T}\vect\omega_I$, 并省略下标. 若$O$为质心, 速度平方的平移转动交叉项因$\sum_am_a\vect\rho_a=0$而消失, 得$T=M\dot{\vect R}^2/2+\vect\omega^{\mathsf T}I\vect\omega/2$, 其中
+\[
+I_{ij}=\sum_a m_a(\rho_a^2\delta_{ij}-\rho_{ai}\rho_{aj}).
+\]
+连续体时将求和换成密度积分. $I$是对称半正定矩阵, 因为对任意$\vect n$有$\vect n^{\mathsf T}I\vect n=\sum_am_a|\vect n\times\vect\rho_a|^2\ge0$. 其正交本征轴为主惯性轴. 关于质心的角动量为$\vect J=I\vect\omega$, 一般不与$\vect\omega$平行.
+
+若平行移动参考点距质心$\vect d$, 惯性张量变为$I_O=I_C+M(d^2I_3-\vect d\vect d^{\mathsf T})$. 证明是把$\vect\rho$替为$\vect\rho-\vect d$并使用质心一阶矩为零. 指定轴方向的标量版本为$I_O=I_C+Md_\perp^2$.
+
+\originalsection{Euler方程与自由转动}
+绕固定点或质心, 惯性系中$\dot{\vect J}_I=\vect\tau$. 刚体主轴系内$I_i$恒定, 运用导数变换得
+\begin{align*}
+I_1\dot\omega_1+(I_3-I_2)\omega_2\omega_3&=\tau_1,\\
+I_2\dot\omega_2+(I_1-I_3)\omega_3\omega_1&=\tau_2,\\
+I_3\dot\omega_3+(I_2-I_1)\omega_1\omega_2&=\tau_3.
+\end{align*}
+即使无力矩, $\vect\omega$的刚体分量也可随时间变化, 因为主轴本身在动. 无力矩时$T$和$J^2$守恒, 这是核查Euler方程解的两个独立量.
+
+设$I_1<I_2<I_3$. 围绕第二轴以$\omega_2=\Omega$转动, 令$\omega_1,\omega_3$很小. 线性化后$\ddot\omega_1=\Omega^2(I_3-I_2)(I_2-I_1)\omega_1/(I_1I_3)$, 系数为正, 出现指数增长. 围绕最大或最小惯性轴同样计算得到负系数, 产生有界振荡. 这给出中间轴不稳定, 但只是在小扰动与无力矩的条件下说明局部稳定性.
+
+\originalsection{对称重陀螺}
+固定点到质心沿对称轴距离$a$. 取$\theta$为对称轴与竖直向上的夹角, $\phi$为进动角, $\psi$为自转Euler角. 关于固定支点的主惯量$I_1=I_2=I_\perp$, $I_3=I_\parallel$, 不是直接使用质心惯量. 对选定的Euler角顺序, 角速度满足$\omega_1^2+\omega_2^2=\dot\theta^2+\dot\phi^2\sin^2\theta$, $\omega_3=\dot\psi+\dot\phi\cos\theta$. 所以
+\[
+L=\tfrac12I_\perp(\dot\theta^2+\dot\phi^2\sin^2\theta)
++\tfrac12I_\parallel(\dot\psi+\dot\phi\cos\theta)^2-Mga\cos\theta.
+\]
+$\psi,\phi$循环, $p_\psi=I_\parallel\omega_3$与$p_\phi=I_\perp\dot\phi\sin^2\theta+p_\psi\cos\theta$守恒. 消去两角速度, 能量为
+\[
+E=\tfrac12 I_\perp\dot\theta^2+
+\frac{(p_\phi-p_\psi\cos\theta)^2}{2I_\perp\sin^2\theta}
++Mga\cos\theta+\frac{p_\psi^2}{2I_\parallel}.
+\]
+因此章动可看作一个一维有效势运动. 表面在$\sin\theta=0$处的奇异, 需要检查$p_\phi\mp p_\psi$是否同时为零以及Euler角坐标本身是否失效, 不能将坐标极点直接当真实无限势垒.
+
+稳态进动$\theta=\theta_0$、$\dot\phi=\Omega$满足
+\[
+I_\perp\Omega^2\cos\theta_0-p_\psi\Omega+Mga=0.
+\]
+若$0<\theta_0<\pi/2$, 实根条件为$p_\psi^2\ge4I_\perp Mga\cos\theta_0$. 快自转时小根约为$\Omega\simeq Mga/p_\psi$, 大根为另一种快进动. 水平和向下的轴方向要直接看该方程, 不把除以$\cos\theta_0$后的表达式强行用于$\cos\theta_0=0$. 稳态的存在与稳定是两项不同检查, 稳定还需固定$p_\phi,p_\psi$后核对有效势的二阶导数.
+
+本章来源: 8.09第2章. 角度约定、惯性张量正定性、平行轴推导和稳定条件说明为中文补充.

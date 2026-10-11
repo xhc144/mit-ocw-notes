@@ -1,0 +1,114 @@
+\originalchapter{8.223作业二}
+题源: Exercises 2, 原题11--22, 题面PDF第1--4页; 解答依据官方Solutions 2中文改写并复算. 图16为原课调速器的几何重绘, 不引入新的结构参数.
+
+\begin{exercise}
+原题11. 对$L=m\vect v^2/2-U$, (a) 若$U=U(\vect x)$证明$E=T+U$恒定; (b) 若$U=U(\vect x,\dot{\vect x})$证明能量仍守恒, 但未必等于$T+U$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 两种情况都没有显含$t$, 故$E=\sum_ip_i\dot x_i-L$由$\dot E=-L_t$守恒. (a) $p_i=m\dot x_i$, 所以$E=T+U$. (b) $p_i=m\dot x_i-U_{\dot x_i}$, 给$E=T+U-\sum_i\dot x_iU_{\dot x_i}$. 例如$U=\lambda x\dot y$为一次速度项, 它在$U-\dot x\cdot U_{\dot x}$中抵消, 能量只含普通动能, 但广义动量仍受影响.
+\end{solution}
+
+\begin{exercise}
+原题12. 对$L=T_a+T_b-U(\vect x_a-\vect x_b)$证明$\vect P=\vect p_a+\vect p_b$守恒. 提示: 可用$\vect X=\vect x_a+\vect x_b$, $\vect x=\vect x_a-\vect x_b$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 修正原解个别中间式的力号. 因$U$只依赖差, $\dot{\vect p}_a=-\nabla U$, $\dot{\vect p}_b=+\nabla U$, 两者相加为零. 用提示坐标也可得$L$不依赖$\vect X$, 共轭动量为$\vect P/2$, 所以总动量守恒. 这是同时平移两粒子的对称性, 不要求两质量相等.
+\end{solution}
+
+\begin{exercise}
+原题13. 两体的质量和位置为$m_1,\vect x_1$与$m_2,\vect x_2$, 写出质心.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 由相对质心的一阶质量矩为零, $m_1(\vect x_1-\vect R)+m_2(\vect x_2-\vect R)=0$, 得$\vect R=(m_1\vect x_1+m_2\vect x_2)/(m_1+m_2)$.
+\end{solution}
+
+\begin{exercise}
+原题14. (a) 绕$\hat{\vect z}$作小角度$\phi$的主动转动, 证明$\delta\vect x=\vect x'-\vect x=(\phi\hat{\vect z})\times\vect x$至一阶. (b) 选做: 推广到任意单位轴$\hat{\vect b}$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 明确主动转动约定. $x'=x\cos\phi-y\sin\phi$, $y'=x\sin\phi+y\cos\phi$, $z'=z$. 一阶给$\delta\vect x=(-y\phi,x\phi,0)$, 正是叉积. 任意轴的Rodrigues公式为$\vect x'=\vect x\cos\phi+(\hat{\vect b}\times\vect x)\sin\phi+\hat{\vect b}(\hat{\vect b}\cdot\vect x)(1-\cos\phi)$, 一阶只留下叉积. 被动旋转坐标轴的变化符号相反, 不与本题混用.
+\end{solution}
+
+\begin{exercise}
+原题15（双倍权重）. 质量$M$的滑块在水平轨道无摩擦运动, 铰接长度$\ell$无质量杆, 末端质量$m$. 重力作用于各质量. (a) 求$L$与运动方程. (b) 初始摆竖直向下且全系统静止, 对摆锤施加水平瞬时冲量$\Delta P$. 求冲后$\dot\theta,\dot x$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 摆锤位置$(x+\ell\sin\theta,-\ell\cos\theta)$, 因而
+\[
+L=\tfrac12(M+m)\dot x^2+m\ell\dot x\dot\theta\cos\theta
++\tfrac12m\ell^2\dot\theta^2+mg\ell\cos\theta.
+\]
+方程为$(M+m)\ddot x+m\ell(\ddot\theta\cos\theta-\dot\theta^2\sin\theta)=0$, $\ell\ddot\theta+\ddot x\cos\theta+g\sin\theta=0$. 在冲量瞬间, 对$x$的广义冲量是$\Delta P$, 对$\theta$的是$\ell\Delta P$. 于$\theta=0$有$(M+m)\dot x+m\ell\dot\theta=\Delta P$, $m\ell\dot x+m\ell^2\dot\theta=\ell\Delta P$. 相减得$M\dot x=0$, 故$\dot x=0$, $\dot\theta=\Delta P/(m\ell)$. 这是刚好竖直且冲量水平的结果, 不适用于任意角度.
+\end{solution}
+
+\begin{exercise}
+原题16（双倍权重）. 飞球调速器有四根无质量杆, 各长$a$, 上端$A$固定, 两侧各有质量$m_1$, 下端质量$m_2$只能沿竖直轴移动. 全结构绕竖直轴以外加固定角速度$\Omega$转动. 重力向下. 取上杆与向下竖直的夹角为$\theta$, 求$L$和运动方程.
+\end{exercise}
+\begin{center}
+\begin{tikzpicture}[scale=1,>=Stealth]
+\coordinate(A) at(0,1.5);\coordinate(B) at(-1.1,0);\coordinate(C) at(1.1,0);\coordinate(D) at(0,-1.5);
+\draw[dashed] (0,-1.9)--(0,1.9);
+\draw[thick](A)--node[left]{$a$}(B)--node[left]{$a$}(D)--node[right]{$a$}(C)--node[right]{$a$}(A);
+\fill(A)circle(1.5pt)node[above left]{$A$};\fill(B)circle(2pt)node[left]{$m_1$};\fill(C)circle(2pt)node[right]{$m_1$};\fill(D)circle(2pt)node[below right]{$m_2$};
+\draw (0,1.05) arc[start angle=-90,end angle=-126.3,radius=.45];\node at(-.19,.8){$\theta$};
+\node[anchor=west] at(2,0){绕轴转速$\Omega$};
+\end{tikzpicture}
+\end{center}
+\begin{solution}
+官方解答中文改写. 两侧质量在半径$a\sin\theta$, 高度$-a\cos\theta$处, 各动能为$m_1a^2(\dot\theta^2+\Omega^2\sin^2\theta)/2$. 下端高度$-2a\cos\theta$, 动能$2m_2a^2\dot\theta^2\sin^2\theta$. 所以
+\[
+L=m_1a^2(\dot\theta^2+\Omega^2\sin^2\theta)
++2m_2a^2\dot\theta^2\sin^2\theta+2(m_1+m_2)ga\cos\theta.
+\]
+求导并除以2后得
+\[
+(m_1+2m_2\sin^2\theta)a^2\ddot\theta
++2m_2a^2\dot\theta^2\sin\theta\cos\theta
+-m_1a^2\Omega^2\sin\theta\cos\theta+(m_1+m_2)ga\sin\theta=0.
+\]
+$\Omega$由外部维持, 因此消去转角后的有效势含负离心项, 不可把这个系统误认为绕轴角动量守恒的自由装置.
+\end{solution}
+
+\begin{exercise}
+原题17（双倍权重）. 无摩擦质点从$A=(0,0,h)$静止出发, 沿平面曲线$z(x)$到$B=(X,0,0)$, 求最短时间路径. 提示: 使用守恒量; 相关积分可用平方正弦代换.
+\end{exercise}
+\begin{solution}
+官方驻定路径中文改写, 补充最短性核验. 设$X,h>0$, 允许路径除起点外位于$x>0,y=h-z>0$（边界接触用极限处理）. 令向下位移$y=h-z$, 能量给$v=\sqrt{2gy}$. 时间泛函为$\int_0^X\sqrt{(1+y'^2)/(2gy)}\dd x$. 积分函数不显含$x$, Beltrami恒等式给$y(1+y'^2)=2a$, $a>0$. 参数化$y=a(1-\cos u)$, $x=a(u-\sin u)$, 直接求$y'=\cot(u/2)$可核对方程. 端点条件为$X=a(u_f-\sin u_f)$, $h=a(1-\cos u_f)$, 取从第一尖点出发且$0<u_f<2\pi$的分支. 时间为$t_f=\sqrt{a/g}\,u_f$, 原高度$z=h-a(1-\cos u)$.
+
+为证明这条路径确给最短时间, 在$x>0,y>0$中以唯一第一拱摆线坐标$(a,u)$定义$V(x,y)=\sqrt{a/g}\,u$. 因$(u-\sin u)/(1-\cos u)$在$(0,2\pi)$严格增加, 坐标唯一. 微分$x=a(u-\sin u)$、$y=a(1-\cos u)$解出$\nabla V$, 得$V_x=1/(2\sqrt{ag})$, $V_y=\cot(u/2)/(2\sqrt{ag})$, 因而$|\nabla V|=1/\sqrt{2gy}$. 对任意同域分段光滑路径$\gamma$, Cauchy不等式给$\int_\gamma\dd s/\sqrt{2gy}\ge\int_\gamma\nabla V\cdot\dd\vect r=V(B)-V(A)$. 起点尖点用趋近极限处理, $V(A)=0$; 摆线路径切线正沿$\nabla V$, 达到等号. 这证明在该通常允许路径类中的全局最短性, 不把Euler--Lagrange驻定条件单独冒称最小值证明.
+\end{solution}
+
+\begin{exercise}
+原题18. 证明$\dd(\vect x\cdot\dot{\vect x})/\dd t=v^2+\vect x\cdot\ddot{\vect x}$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 乘积法则给$\dot{\vect x}\cdot\dot{\vect x}+\vect x\cdot\ddot{\vect x}$, 第一项就是$v^2$.
+\end{solution}
+
+\begin{exercise}
+原题19. 对$U=\kappa r^k$证明$\vect F=-k\kappa r^{k-1}\hat{\vect r}$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 在$r>0$处$\nabla r=\vect r/r=\hat{\vect r}$, 所以$\vect F=-\nabla U=-k\kappa r^{k-1}\hat{\vect r}$. 原点是否可延拓要按$k$及势的可微性另判.
+\end{solution}
+
+\begin{exercise}
+原题20. 对$U=-\alpha/r$, 完成中心力轨道积分（原题引用Landau式14.7）, 用$u=1/r$证明$u=(1+e\cos\phi)/p$, 用角动量$J$（原题记为$M$）、约化质量$\mu$、$\alpha,E$表示$p,e$. 提示: 可将分子分母乘$r^2$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 由第3章自行推导的轨道积分, $\dd\phi=-J\dd u/\sqrt{2\mu E+2\mu\alpha u-J^2u^2}$. 配方将根号写为$J\sqrt{e^2/p^2-(u-1/p)^2}$, 其中$p=J^2/(\mu\alpha)$, $e^2=1+2EJ^2/(\mu\alpha^2)$. 取$J$为正的角动量大小, 再以$u-1/p=(e/p)\cos\phi$完成积分. 方位原点选在近日点, $J\ne0$; 不需要复制教材方程页才能完成本题.
+\end{solution}
+
+\begin{exercise}
+原题21. 用$p/r=1+e\cos\phi$和原题20证明$E>0,E=0,E<0$分别对应双曲线、抛物线、椭圆.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 对$\alpha>0$, $J\ne0$, 能量关系将三情况对应到$e>1,e=1,0\le e<1$. 标准焦点极坐标式的这些偏心率给所述圆锥曲线; $e=0$是椭圆的圆形特例. $e>1$时须限制$1+e\cos\phi>0$的物理支.
+\end{solution}
+
+\begin{exercise}
+原题22. 无穷远速度$v_\infty$的一束小行星朝地球飞来. 将其质量视为远小于地球, 忽略空气, 求因地球引力而撞击的总截面. 讨论$v_\infty\to\infty$. 提示: 求最大瞄准距离$b_{\max}$, 然后$\sigma=\pi b_{\max}^2$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 临界近日点$R_\oplus$满足$v_\infty^2/2=v_\infty^2b_{\max}^2/(2R_\oplus^2)-GM_\oplus/R_\oplus$, 得$\sigma=\pi R_\oplus^2(1+2GM_\oplus/(R_\oplus v_\infty^2))$. 高速极限是几何截面$\pi R_\oplus^2$, 有限速度因引力聚焦而较大. 这里的截面来自平行入射束的面积定义, 不是地球球面面积$4\pi R^2$.
+\end{solution}

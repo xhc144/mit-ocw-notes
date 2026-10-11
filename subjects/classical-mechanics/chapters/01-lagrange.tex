@@ -1,0 +1,47 @@
+\originalchapter{约束与拉格朗日方程}
+\originalsection{广义坐标与虚位移}
+设系统由$N$个质点组成, 位置为$\vect r_a$, 质量为$m_a>0$. 在直角坐标中, 牛顿方程为$m_a\ddot{\vect r}_a=\vect F_a+\vect R_a$, 其中$\vect R_a$为约束反力. 直接求每个反力通常很费力, 而真实运动并不能任意占据$3N$维空间. 比如摆锤的杆长固定, 其位置只有角度一个自由度. 广义坐标的作用是先描述允许的位置, 再求运动.
+
+\begin{definition}
+能写成$f_\alpha(\vect r_1,\ldots,\vect r_N,t)=0$的约束称为完整约束. 若独立约束的Jacobi矩阵在所讨论区域有恒定秩, 可局部取$n$个独立坐标$q_i$, 使$\vect r_a=\vect r_a(q,t)$. 同一时刻允许的无穷小位置变化为$\delta\vect r_a=\sum_i(\partial\vect r_a/\partial q_i)\delta q_i$, 称虚位移.
+\end{definition}
+“同一时刻”意味着虚位移中没有$\partial\vect r_a/\partial t\,\delta t$. 实际速度却是$\dot{\vect r}_a=\sum_i(\partial\vect r_a/\partial q_i)\dot q_i+\partial\vect r_a/\partial t$, 因而移动约束能向系统输入能量. 本册先考虑理想约束: 反力对任意允许虚位移的总虚功为零, 即$\sum_a\vect R_a\cdot\delta\vect r_a=0$. 光滑固定面上的法向反力符合这一条件; 滑动摩擦通常不符合, 需保留为广义力.
+
+\originalsection{达朗贝尔原理}
+将牛顿方程乘虚位移后求和, 得$\sum_a(\vect F_a-m_a\ddot{\vect r}_a)\cdot\delta\vect r_a=0$. 定义广义力$Q_i=\sum_a\vect F_a\cdot\partial\vect r_a/\partial q_i$, 动能$T=\frac12\sum_am_a\dot{\vect r}_a^2$. 为把惯性项变为动能导数, 注意$\partial\dot{\vect r}_a/\partial\dot q_i=\partial\vect r_a/\partial q_i$, 且
+\[
+\frac{\dd}{\dd t}\pd{T}{\dot q_i}-\pd{T}{q_i}
+=\sum_a m_a\ddot{\vect r}_a\cdot\pd{\vect r_a}{q_i}.
+\]
+这里$\dd T_{\dot q_i}/\dd t$中的一项为$\sum_am_a\dot{\vect r}_a\cdot\dd(\partial\vect r_a/\partial q_i)/\dd t$, 它与$T_{q_i}=\sum_am_a\dot{\vect r}_a\cdot\partial\dot{\vect r}_a/\partial q_i$恰好抵消. 因为各$\delta q_i$独立, 达朗贝尔原理给出$\dd T_{\dot q_i}/\dd t-T_{q_i}=Q_i$. 若$\vect F_a=-\nabla_aU$, 则$Q_i=-U_{q_i}$, 取$L=T-U$后得到Euler--Lagrange方程
+\begin{equation}\label{eq:el}
+\frac{\dd}{\dd t}\pd{L}{\dot q_i}-\pd{L}{q_i}=0,\qquad i=1,\ldots,n.
+\end{equation}
+若另有非保守力, 右端换为$Q_i^{\rm nc}$. 这种推导说明方程适用的物理条件, 并不是任何约束都能简单消元.
+
+\originalsection{驻定作用量}
+\begin{definition}
+路径$q(t)$在固定时段$[t_1,t_2]$上的作用量为$S[q]=\int_{t_1}^{t_2}L(q,\dot q,t)\dd t$. 真实路径对固定端点的允许变分满足$\delta S=0$, 称Hamilton原理.
+\end{definition}
+取$q_i+\epsilon\eta_i$, 其中$\eta_i(t_1)=\eta_i(t_2)=0$, 分部积分得
+\[
+\left.\frac{\dd S[q+\epsilon\eta]}{\dd\epsilon}\right|_0
+=\sum_i\int_{t_1}^{t_2}\left(L_{q_i}-\frac{\dd}{\dd t}L_{\dot q_i}\right)\eta_i\dd t.
+\]
+若括号内连续, 且不在某点为零, 其在一个小区间内保持同号; 选支撑在该区间且同号的光滑$\eta_i$, 积分便不为零. 因此任意变分均为零强制得到\eqref{eq:el}. 这也是变分基本引理在此处的理由.
+
+作用量是驻定值, 不一定为最小值. 以谐振子为例, 二阶变分为$\int(m\dot\eta^2-k\eta^2)\dd t$; 当时间跨度超过半周期, 可取缓慢变化的端点零函数使它为负, 另有高频变分使它为正. 所以“最小作用量”这个传统名称不能代替驻定条件. 若$L'=L+\dd f(q,t)/\dd t$, 则$S'-S=f(q(t_2),t_2)-f(q(t_1),t_1)$, 固定端点使该差的变分为零, 方程不变.
+
+\originalsection{摆与约束反力}
+\begin{example}
+长度为$\ell$的无质量杆悬挂质量$m$的质点, 取$\theta=0$为竖直向下. 求运动方程和杆的拉力.
+\end{example}
+\begin{solution}
+固定杆长给$x=\ell\sin\theta$, $y=-\ell\cos\theta$, 其中$y$向上. 所以$T=m\ell^2\dot\theta^2/2$, $U=-mg\ell\cos\theta$, 由\eqref{eq:el}得$\ddot\theta+(g/\ell)\sin\theta=0$. 方程没有杆的拉力, 是因为拉力与切向虚位移正交. 若要恢复拉力$\mathcal T$, 径向牛顿方程为$mg\cos\theta-\mathcal T=-m\ell\dot\theta^2$, 故$\mathcal T=mg\cos\theta+m\ell\dot\theta^2$. 若用绳代替杆, 还必须核查$\mathcal T\ge0$; 负值说明绳会松弛, 固定长度模型已失效.
+\end{solution}
+对仍用冗余坐标的完整约束$f_\alpha(q,t)=0$, 可写$\dd L_{\dot q_i}/\dd t-L_{q_i}=\sum_\alpha\lambda_\alpha f_{\alpha,q_i}$. 这相当于对$L+\sum\lambda_\alpha f_\alpha$同时变分$q$和$\lambda$. 因为$f_\alpha$不依赖速度, 此写法不会出现额外的$\dot\lambda$项. 系数$\lambda$可用于求反力, 但需结合所用$f$的长度单位解释.
+
+\begin{remark}
+不能把任意速度约束$\sum_i a_i(q,t)\dot q_i+a_0(q,t)=0$直接加入作用量并宣称得到普通无滑动动力学. 非完整理想约束的达朗贝尔方程是$\dd L_{\dot q_i}/\dd t-L_{q_i}=\sum_\alpha\lambda_\alpha a_{\alpha i}$, 连同速度约束求解; 它与对速度约束直接变分所得的方程一般不同. 是否可积为位置约束必须另查. 本册不把非完整约束当完整坐标消元.
+\end{remark}
+本章来源: 8.223第1--4讲与8.09第1章. 理想约束、驻定而非最小值及非完整约束的条件说明为中文补充.

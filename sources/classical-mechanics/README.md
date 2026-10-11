@@ -2,7 +2,7 @@
 
 主课为 Iain W. Stewart 的 MIT 8.09 Classical Mechanics III, Fall 2014; 补充 Matthew Evans 的 MIT 8.223 Classical Mechanics II, January IAP 2017. 8.09 讲稿署名编辑 Francisco Machado、Thanawuth Thanathibodee、Prashanth S. Venkataram. 8.223 讲稿由听课学生整理, 原页面未逐一署名.
 
-2026-10-11 实际下载并校验44份 PDF、656页（含合本与分章重复）, 保留35份可再分发 PDF、612页. 9份8.09混合教材题作业不打包, 仅留 URL、哈希与页数; 7份 Mathematica 文件仅作字节核验后暂缓打包, 未执行. 详细记录见 `../../manifests/classical-mechanics-sources.json`. `.txt` 是相邻 PDF 的自动文本提取, 可能含公式错序, 不能替代原件核对.
+2026-10-11 实际下载并校验44份 PDF、656页（含合本与分章重复）, 保留37份可再分发 PDF、624页. 7份8.09混合教材题作业不打包, 仅留 URL、哈希与页数; 7份 Mathematica 文件仅作字节核验后暂缓打包, 未执行. 详细记录见 `../../manifests/classical-mechanics-sources.json`. `.txt` 是相邻 PDF 的自动文本提取, 可能含公式错序, 不能替代原件核对.
 
 本目录所打包 OCW 资源遵循 CC BY-NC-SA 4.0, 原件内的其他声明优先. 许可证: https://creativecommons.org/licenses/by-nc-sa/4.0/ ; MIT 条款: https://ocw.mit.edu/pages/privacy-and-terms-of-use/ . 未下载商业教材, 未复制课程封面中的第三方图片. 这不是 MIT 官方中文出版或认可.
 

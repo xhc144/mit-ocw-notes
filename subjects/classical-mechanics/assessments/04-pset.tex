@@ -1,0 +1,109 @@
+\originalchapter{8.223作业四}
+题源: Pset 4, 原题32--40, 题面PDF第1--3页. 解答依据官方Solutions 4中文改写并复算, 球坐标角速度分母与径向积分的符号按直接求导修正. 本册Poisson花括号为$\{q,p\}=1$, 原题方括号用$[p,q]=1$, 因而$[f,g]=-\{f,g\}$.
+
+\begin{exercise}
+原题32. 对$F(x_1,\ldots,x_n)$, 定义$s_i=\partial F/\partial x_i$, $G(s)=\sum_ix_is_i-F$. 证明$\partial G/\partial s_i=x_i$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 补充可逆条件. 要把$G$当$s$的函数, 先需局部从$s=\nabla F(x)$解出$x(s)$, 例如$F$的Hessian可逆. 在该区域$\dd F=\sum_is_i\dd x_i$, 所以$\dd G=\sum_i(s_i\dd x_i+x_i\dd s_i)-\dd F=\sum_ix_i\dd s_i$, 比较系数得结论. 仅定义$s_i$而映射不可逆时, 不一定有单值光滑的$G(s)$.
+\end{solution}
+
+\begin{exercise}
+原题33. 从$L=m\dot x^2/2-kx^2/2$求动量、$H(p,q)$与Hamilton方程.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 以$q=x$, $p=m\dot q$, 得$H=p\dot q-L=p^2/(2m)+kq^2/2$, 所以$\dot q=p/m$, $\dot p=-kq$.
+\end{solution}
+
+\begin{exercise}
+原题34. 继续原题33, 解Hamilton方程并绘典型相轨道.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. $q=q_0\cos\omega t+(p_0/(m\omega))\sin\omega t$, $p=p_0\cos\omega t-m\omega q_0\sin\omega t$, $\omega=\sqrt{k/m}$. 能量等值线$p^2/(2m)+kq^2/2=E$为椭圆, $q>0,p=0$处$\dot p<0$, 按下图顺时针运动. 图使用同尺度正则坐标$q\sqrt{m\omega}$与$p/\sqrt{m\omega}$, 两坐标均带有作用量平方根的单位, 图中任取相同单位尺度, 所以椭圆显示成圆.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}[>=Stealth]
+\draw[->](-2.5,0)--(2.5,0)node[right]{$q\sqrt{m\omega}$};
+\draw[->](0,-2.3)--(0,2.3)node[above]{$p/\sqrt{m\omega}$};
+\draw (0,0) circle(.7);\draw (0,0) circle(1.35);\draw (0,0) circle(1.95);
+\draw[->,thick](1.35,.18)arc[start angle=7.6,end angle=-22,radius=1.36];
+\node at(-2,-2.5){由内向外能量增大};
+\end{tikzpicture}
+\end{center}
+
+\begin{exercise}
+原题35. 三维势$U(r)=-\alpha/r$用球坐标写$H$, 求全部Hamilton方程及守恒动量. 选适当参考轴, 将问题减为$r,p_r$一对变量.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 修正原解$\dot\phi$分母漏掉的平方. 动量$p_r=\mu\dot r$, $p_\theta=\mu r^2\dot\theta$, $p_\phi=\mu r^2\sin^2\theta\dot\phi$, 所以
+\[
+H=\frac{p_r^2}{2\mu}+\frac{p_\theta^2}{2\mu r^2}
++\frac{p_\phi^2}{2\mu r^2\sin^2\theta}-\frac\alpha r.
+\]
+方程为$\dot r=p_r/\mu$, $\dot\theta=p_\theta/(\mu r^2)$, $\dot\phi=p_\phi/(\mu r^2\sin^2\theta)$, $\dot p_\phi=0$,
+\[
+\dot p_r=\frac{p_\theta^2+p_\phi^2/\sin^2\theta}{\mu r^3}-\frac\alpha{r^2},
+\qquad
+\dot p_\theta=\frac{p_\phi^2\cos\theta}{\mu r^2\sin^3\theta}.
+\]
+仅$p_\phi$作为一般球坐标动量直接循环守恒, $p_r,p_\theta$一般不守恒; 总角动量向量仍因旋转对称守恒. 令$z$轴沿非零$\vect J$, 初始$\theta=\pi/2,p_\theta=0$保持, 得$H_r=p_r^2/(2\mu)+J^2/(2\mu r^2)-\alpha/r$.
+\end{solution}
+
+\begin{exercise}
+原题36（选做）. 对原题35画$r,p_r$相图.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 按能量符号核验. $p_r=\pm\sqrt{2\mu(E+\alpha/r)-J^2/r^2}$. 圆轨道固定点$r_c=J^2/(\mu\alpha),p_r=0$有最低能量$E_c=-\mu\alpha^2/(2J^2)$. $E_c<E<0$为闭环, $E=0$与$E>0$为开放散射支. 图取$\mu=\alpha=J=1$作示意, 将闭环参数化为$r=(1-e\cos u)/(1-e^2)$、$p_r=e\sqrt{1-e^2}\sin u/(1-e\cos u)$, 等价于能量式; 选择$e=.4$和$.65$.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}[>=Stealth,xscale=1.2,yscale=1.3]
+\draw[->](0,0)--(5.4,0)node[right]{$r$};\draw[->](0,-1.5)--(0,1.5)node[above]{$p_r$};
+\foreach \ecc in {.4,.65}{\draw[domain=0:360,samples=150,smooth,variable=\u] plot ({(1-\ecc*cos(\u))/(1-\ecc*\ecc)},{\ecc*sin(\u)*sqrt(1-\ecc*\ecc)/(1-\ecc*cos(\u))});}
+\foreach \sgn in {-1,1}{
+\draw[dashed,domain=.501:5,samples=150,variable=\r] plot ({\r},{\sgn*sqrt(2/\r-1/(\r*\r))});
+\draw[dotted,domain=.4580399:5,samples=150,variable=\r] plot ({\r},{\sgn*sqrt(max(0,.4+2/\r-1/(\r*\r)))});}
+\fill(1,0)circle(1.5pt)node[below]{$r_c$};
+\node[align=center] at(2.6,-1.8){实线: $E<0$; 虚线: $E=0$; 点线: $E=.2$.};
+\end{tikzpicture}
+\end{center}
+
+\begin{exercise}
+原题37. 按原题方括号约定验证$[q_1,q_2]=[p_1,p_2]=[q_1,p_2]=0$, $[p_1,q_1]=1$, $[p_1^2,q_1]=2p_1$, $[p_1,q_1^2]=2q_1$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 原题定义$[f,g]=\sum_i(f_{p_i}g_{q_i}-f_{q_i}g_{p_i})$, 与正文花括号反号. 不同坐标的交叉偏导为零, 所以前三式为零. 后三式分别只剩$1\cdot1$, $2p_1\cdot1$, $1\cdot2q_1$. 换成正文约定便有$\{p_1,q_1\}=-1$, 没有物理矛盾.
+\end{solution}
+
+\begin{exercise}
+原题38. (a) 证明坐标变换$Q_i=Q_i(q)$诱导$P_i=\sum_jp_j\partial q_j/\partial Q_i$为正则变换. (b) 验证$Q=\log(\sin p/q)$, $P=q\cot p$为正则变换. (c) 求(b)的$F_4(p,P)$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 补充定义域. (a) 假定$Q(q)$局部光滑可逆. 链式法则给$\sum_iP_i\dd Q_i=\sum_jp_j\dd q_j$, 保持正则一形式, 所以正则. 也可用第6章辛条件或括号逐一检验.
+
+(b) 实数对数要求$\sin p/q>0$, 且$q\ne0,\sin p\ne0$. 求导给$Q_q=-1/q$, $Q_p=\cot p$, $P_q=\cot p$, $P_p=-q\csc^2p$. 因而$\{Q,P\}=\csc^2p-\cot^2p=1$.
+
+(c) 在额外$\cos p\ne0$的局部区域, $q=P\tan p$, $\cos p/P=\sin p/q>0$. 从$q=-F_{4,p}$积分得
+\[
+F_4=P\left[1+\log\left(\frac{\cos p}{P}\right)\right],
+\qquad F_{4,P}=\log(\cos p/P)=Q.
+\]
+若分别写$\log\cos p-\log P$会不必要地排除两者同时为负的合法区域, 因此保留正比值对数. $\cos p=0$处原正则变换可能仍可定义, 但$(p,P)$不能作这一型生成函数的独立坐标, 需换型.
+\end{solution}
+
+\begin{exercise}
+原题39. 水平面上固定圆盘半径$R$, 绳的一端钉在盘顶点$A$, 总长$\ell$, 另一端系质量$m$在光滑面上运动. 绳始终张紧, 缠绕或松绕圆盘, 接触离开点为$B$, 自由段长$s$. 原点在盘心, $OA$沿正$y$轴, $\theta$为$OA$向$OB$顺时针的角. (a) 写质点$x,y$, 用绳长约束得$L(s,\dot s)$. (b) 求$H$, Hamilton方程, 证明$p/s$恒定, 用初始$s_0$与能量求$s(t)$. (c) 令$Q=s^2$, $P=p/(\lambda s)$, 求正则常数$\lambda$与$H'$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 自由段沿切向$(\cos\theta,-\sin\theta)$, 所以$x=R\sin\theta+s\cos\theta$, $y=R\cos\theta-s\sin\theta$, $s+R\theta=\ell$（在图示固定缠绕支）. 对$\theta$求导时$s_\theta=-R$抵消盘半径项, 得$x_\theta=-s\sin\theta$, $y_\theta=-s\cos\theta$. 因$\dot\theta=-\dot s/R$, 速度平方为$s^2\dot s^2/R^2$, 所以$L=ms^2\dot s^2/(2R^2)$.
+
+$p=ms^2\dot s/R^2$, $H=R^2p^2/(2ms^2)$, $\dot s=R^2p/(ms^2)$, $\dot p=R^2p^2/(ms^3)$. 直接计算$\dd(p/s)/\dd t=\dot p/s-p\dot s/s^2=0$. 写$E=H$并保留初始运动方向$\varepsilon=\pm1$, 得$s^2=s_0^2+2\varepsilon R\sqrt{2E/m}\,t$. 根号须非负且$s>0$, 缠绕支和张紧条件变化时需重建模型.
+
+(c) $\{Q,P\}=2/\lambda$, 所以$\lambda=2$. 因$p/s=2P$, $H'=2R^2P^2/m$, 与$\dot Q=4R^2P/m$一致. 此变换仅在$s>0$局部可逆.
+\end{solution}
+
+\begin{exercise}
+原题40. 对速度依赖势的$L=m\dot x^2/2+m\dot y^2/2-\lambda y\dot x$, (a) 证明运动可写为$x=-R\cos(\lambda t/m+\phi)+x_0$, $y=R\sin(\lambda t/m+\phi)+y_0$. (b) 求共轭动量.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 明确$\lambda\ne0$条件. $p_x=m\dot x-\lambda y$, $p_y=m\dot y$. 方程$m\ddot x=\lambda\dot y$, $m\ddot y=-\lambda\dot x$. 令$w=\dot x+i\dot y$, 则$\dot w=-i(\lambda/m)w$, 积分得匀速圆周运动, 可按题面参数化; 代入可直接核对两个方程. $x_0,y_0$是圆心, $R\ge0$和$\phi$由初始速度确定, 另有零速度的静止解. $\lambda=0$时为任意匀速直线, 不能用固定有限半径的圆式描述. $p_x$循环守恒, $p_y$一般不守恒, 机械速度与共轭动量不同.
+\end{solution}

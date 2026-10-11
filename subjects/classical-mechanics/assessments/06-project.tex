@@ -1,0 +1,108 @@
+\originalchapter{8.223分析项目}
+题源: Project Analysis与Project Follow Through. 课程标2017 IAP, 项目网页标题标2016. 本章题目任务按实际PDF译写, 全部分析与数值例子为AI独立解答, OCW未提供官方标准解答. 图示与方程只作为理想力学课程模型; 数值例子没有实物试验, 不作为器械制作说明. 原课要求分析部分独立完成, 后续四个方向任选一个; 本册逐一说明可核验的解与开放部分的边界.
+
+\originalsection{固定支点的分析}
+\begin{exercise}
+项目Part 1原始假设: 配重$m_1$, 负载$m_2$, 杆质量$m_b$, 杆关于质心惯量$I_b$. 支点至配重、绳连接点的距离分别为$\ell_1,\ell_2$, 绳长$\ell_s$. 初始杆角$\phi_{b0}\simeq3\pi/4$, 绳角$\phi_{s0}\simeq\pi/2$, 两角均从向下竖直量起, 全系统静止. 绳无质量且始终张紧, 两端质量视为点.
+
+原题1. (a) 理想化地将配重势能$U_0\simeq m_1gh$全部给负载动能, 忽略负载势能、空气、发射高度, 求最大射程. (b) 在能量全给负载时, 释放瞬间的杆角及角速度是多少? (c) 计入均匀杆重力, 配重下降$h=\ell_1(1-\cos\phi_{b0})$, 求可用势能与射程上界, 仍忽略负载势能与高度.
+\end{exercise}
+\begin{solution}
+AI独立解答. (a) 负载速度平方$v^2=2U_0/m_2$, 同高度射程$v^2\sin2\vartheta/g$在$\vartheta=\pi/4$最大, 得$d_{\max}=2U_0/(m_2g)=2m_1h/m_2$. (b) 若其他质量无剩余动能且杆长非零, 必有$\dot\phi_b=0$. 若配重同时达到最低势能位置, 必有$\phi_b=0$模$2\pi$. 这两个条件只描述理想能量上界的等号条件, 不证明实际双角运动一定同时实现它们.
+
+(c) 令$c=(\ell_2-\ell_1)/2$为杆质心从支点朝长臂的有符号距离. 杆质心高度$c\cos\phi_b$, 从初态到$\phi_b=0$的可用势能为
+\[
+U_0=g(m_1\ell_1-m_bc)(1-\cos\phi_{b0}),\qquad
+ d_{\max}=\frac{2(m_1\ell_1-m_bc)(1-\cos\phi_{b0})}{m_2}.
+\]
+若$\ell_2\gg\ell_1$, 杆质心会抬升, 可用能量因杆重量而减少. 若右端非正, 这个下降过程不能作为正的重力驱动能量来源. 实际负载势能改变、释放高度和其他质量的动能都需在后续模型中恢复.
+\end{solution}
+
+\begin{exercise}
+Part 1原题2--4. 用配重、负载的直角坐标和杆角写$T,U$; 再只用$\phi_b,\phi_s$写$L$. 将运动方程化为$\ddot\phi_b=\alpha_b f(\phi_b-\phi_s,\dot\phi_s^2,\ddot\phi_s)-\omega_b^2\sin\phi_b$, $\ddot\phi_s=\alpha_s f(\phi_s-\phi_b,\dot\phi_b^2,\ddot\phi_b)-\omega_s^2\sin\phi_s$, 求$f$和常数. 原件公式排印有速度平方的位置不清, 本题按直接推导保留正确的二次速度维数.
+\end{exercise}
+\begin{solution}
+AI独立解答. 以支点为原点, $y$向上. 配重为$(\ell_1\sin\phi_b,-\ell_1\cos\phi_b)$; 绳连接点为$(-\ell_2\sin\phi_b,\ell_2\cos\phi_b)$; 负载为$(-\ell_2\sin\phi_b+\ell_s\sin\phi_s,\ell_2\cos\phi_b-\ell_s\cos\phi_s)$. 杆质心为$(-c\sin\phi_b,c\cos\phi_b)$.
+
+直角表达是$T=m_1(\dot x_1^2+\dot y_1^2)/2+m_2(\dot x_2^2+\dot y_2^2)/2+(I_b+m_bc^2)\dot\phi_b^2/2$, $U=g(m_1y_1+m_2y_2+m_bc\cos\phi_b)$. 定义
+\begin{align*}
+A&=m_1\ell_1^2+m_2\ell_2^2+I_b+m_bc^2,&B&=m_2\ell_s^2,&C&=m_2\ell_2\ell_s,\\
+D&=g(m_1\ell_1-m_2\ell_2-m_bc),&D_s&=m_2g\ell_s,&\Delta&=\phi_b-\phi_s.
+\end{align*}
+则$L=A\dot\phi_b^2/2+B\dot\phi_s^2/2-C\cos\Delta\dot\phi_b\dot\phi_s+D\cos\phi_b+D_s\cos\phi_s$. Euler--Lagrange方程给
+\begin{align*}
+A\ddot\phi_b-C\cos\Delta\ddot\phi_s-C\sin\Delta\dot\phi_s^2+D\sin\phi_b&=0,\\
+B\ddot\phi_s-C\cos\Delta\ddot\phi_b+C\sin\Delta\dot\phi_b^2+D_s\sin\phi_s&=0.
+\end{align*}
+因此$f(a,b,c)=b\sin a+c\cos a$, $\alpha_b=C/A$, $\alpha_s=C/B$, $\omega_b^2=D/A$, $\omega_s^2=D_s/B=g/\ell_s$. $\omega_b^2$可能为负, 此时不是稳定小振动频率. 实际积分时应同时解这两条耦合加速度, 系数矩阵行列式为$AB-C^2\cos^2\Delta>0$（非退化杆与配重情形）, 不依次把未知加速度当已知值.
+\end{solution}
+
+\begin{exercise}
+Part 1原题5. 令$\ell_2=0$, 对小$\phi_b,\phi_s$求运动. 原题说明这个退化装置不用于工作, 只用于解析检验.
+\end{exercise}
+\begin{solution}
+AI独立解答. 此时$C=0$, 绳悬于固定支点, 两角解耦. 若$D>0$, 有$\phi_b(t)=\phi_{b0}\cos(\sqrt{D/A}\,t)+(\dot\phi_{b0}/\sqrt{D/A})\sin(\sqrt{D/A}\,t)$, $\phi_s(t)=\phi_{s0}\cos(\sqrt{g/\ell_s}\,t)+(\dot\phi_{s0}/\sqrt{g/\ell_s})\sin(\sqrt{g/\ell_s}\,t)$. 小初值与原表的大初值不同, 不把$3\pi/4$塞进小角近似. 若$D\le0$, 杆角对应零频或不稳定指数, 按线性方程另解.
+\end{solution}
+
+\originalsection{后续四个方向}
+\begin{exercise}
+Part 2方向1: 实验. 原课要求制作约1m以内的小装置, 使用软球演示, 可最多4人合作并提交视频, 测射程与距离效率$\epsilon_d=d_{\rm measured}/d_{\max}$, 报告几何、质量、初始和释放角. 本PDF与项目网页对合作人数分别写4人及3人, 应保留两来源差异. 原评分$\min(200\epsilon_d,100)$, $\epsilon_d\ge0.5$为该部分满分.
+\end{exercise}
+\begin{solution}
+AI独立分析与验收方法, 无实测数据. 按方向1定义, 应先用Part 1明确的忽略项算$d_{\max}$, 再记录实际高度、软球运动和不确定度. 若水平落点为$d\pm\delta d$, 模型上界为$d_{\max}\pm\delta d_{\max}$, 独立误差的一阶传播为$\delta\epsilon_d/\epsilon_d\simeq\sqrt{(\delta d/d)^2+(\delta d_{\max}/d_{\max})^2}$. 由于真实释放高度可能非零, 与忽略高度的$d_{\max}$比较只是原题所定义评分指标, 不应把$\epsilon_d>1$自动解读为能量不守恒. 本册没有完成制作或视频, 因而不提供虚构的实验“解答数值”.
+\end{solution}
+
+\begin{exercise}
+Part 2方向2: 数值. 配重30kg、负载1kg, 均匀杆质量$m_b=\lambda\sqrt{m_1}(\ell_1+\ell_2)$, $\lambda=0.1\sqrt{\mathrm{kg}}/\mathrm m$, $I_b=m_b(\ell_1+\ell_2)^2/12$. 初始角可用原表且静止. 选$\ell_1,\ell_2,\ell_s$提高负载能量效率, 假定$v_{2x}=v_{2y}>0$时释放（向上45度）. 原题期望找到$\epsilon_E>0.5$与速度大于20m/s的参数, 并交角度、速度、轨迹图及代码.
+\end{exercise}
+\begin{solution}
+AI独立数值例子. 使用前节耦合方程, 以$v_y-v_x=0$为事件且要求两个速度均正, 不能把$t=0$静止也当释放. 一个实际算得的候选为$(\ell_1,\ell_2,\ell_s)=(1,4,5)\mathrm m$, 杆质量$2.7386\mathrm{kg}$, 在$t=1.35233\mathrm s$满足$v_x=v_y=17.60866\mathrm{m/s}$, 速度为$24.90240\mathrm{m/s}$. 为严谨比较能量, 取含负载势能的总初始储能$U_0=D(1-\cos\phi_{b0})+D_s(1-\cos\phi_{s0})=415.67049\mathrm J$, 得$\epsilon_E=0.74594$. 原Part 1(c)忽略负载势能的定义给另一近似分母, 不能混用.
+
+脚本检查释放前绳拉力不为负, 在该次采样中最小值约$10.19\mathrm N$. 绳张力由负载沿绳方向方程给
+\[
+\mathcal T=m_2\left[g\cos\phi_s-\ell_2\sin\Delta\ddot\phi_b
+-\ell_2\cos\Delta\dot\phi_b^2+\ell_s\dot\phi_s^2\right].
+\]
+以更严格容差和半步长复算, 释放速度差小于$10^{-7}\mathrm{m/s}$, 释放前相对能量漂移小于$10^{-9}$. 这验证该理想候选的数值一致性, 不证明所有时刻张力严格正, 也不证明全局最优或真实器械安全性能. 原题未给紧致参数域或长度上界, 因而单一搜索结果不能宣称数学上的全局最大值. 下图为本次实际积分到释放事件的数据, 代码与151点CSV随源码保存.
+\end{solution}
+\input{figures/project-plots.tex}
+
+\begin{exercise}
+Part 2方向3: 解析. 给定$m_1,m_2,\ell_1$, 初始角$3\pi/4,\pi/2$, 全系统静止, 杆质量仍按方向2公式. 用解析近似选择$\ell_s,\ell_2$尽量增大负载动能, 原题允许分阶段作三角函数近似并用数值复核.
+\end{exercise}
+\begin{solution}
+AI独立分析, 未声称完成全局最优设计. 上界是初始势相对最低势的差; 对固定支点且$D>0$, $E_2\le D(1-\cos\phi_{b0})+D_s(1-\cos\phi_{s0})$. 杆质量随总长增长, 所以长臂不能免费增加: $m_bc=\lambda\sqrt{m_1}(\ell_2^2-\ell_1^2)/2$. 配重与杆可用重力项$m_1\ell_1-m_bc$按$\ell_2^2$下降. 另一方面动能矩阵通过$C=m_2\ell_2\ell_s$交换能量; $\ell_2=0$时交换为零, 不能达成目标.
+
+小角线性近似给特征方程$(D-A\omega^2)(D_s-B\omega^2)-C^2\omega^4=0$, 可判断两模时间尺度, 但指定初始角很大, 用其直接预测释放速度没有受控误差. 因而本册以该方程作选择参数的局部诊断, 用方向2的实际非线性积分给一个满足原课程数值目标的候选. 此开放任务未完成解析全局最优证明, 覆盖清单保留这一限制, 不能把能量上界或候选伪称为“最优解析解”.
+\end{solution}
+
+\begin{exercise}
+Part 2方向4: 带轮与铰接配重. 车架质量$m_f$, 支点能无摩擦水平移动$X$, 轮理想; 配重经长$\ell_w$无质量杆铰接于短臂末端, 角$\phi_w$从向下竖直量, 初值约0; 其余参数同前, $X(0)=0$. (a) 结合动量与能量, 忽略摩擦且向上45度释放, 求能量效率上界. (b) 求$L$与运动方程.
+\end{exercise}
+\begin{solution}
+AI独立解答. (a) 设其余装置总质量$M_r=m_f+m_b+m_1$, 初始水平总动量零. 负载动能$E_2=m_2v^2/2$, 水平速度$v/\sqrt2$使其余装置需总水平动量$-m_2v/\sqrt2$. 固定总动量时, Cauchy不等式使其动能至少$m_2^2v^2/(4M_r)$, 所以
+\[
+\epsilon_E=\frac{E_2}{U_0}\le\frac{1}{1+m_2/(2M_r)}.
+\]
+等号要求其他全部质量共同水平平移、无内部动能、全部可用势能已释放. 此式为严格的理想上界, 实际多角轨道是否达到等号仍需解方程. 水平动量守恒, 竖直动量因轨道支持力不守恒.
+
+(b) 坐标为$\vect r_1=(X+\ell_1\sin b+\ell_w\sin w,-\ell_1\cos b-\ell_w\cos w)$, $\vect r_2=(X-\ell_2\sin b+\ell_s\sin s,\ell_2\cos b-\ell_s\cos s)$, 杆质心$\vect r_b=(X-c\sin b,c\cos b)$, 其中$b,s,w$分别为三角. 则
+\[
+L=\tfrac12m_f\dot X^2+\tfrac12m_1|\dot{\vect r}_1|^2
++\tfrac12m_2|\dot{\vect r}_2|^2+\tfrac12m_b|\dot{\vect r}_b|^2
++\tfrac12I_b\dot b^2-g(m_1y_1+m_2y_2+m_by_b).
+\]
+为给可实际求解的方程, 令$M_t=M_r+m_2$, $A=m_1\ell_1^2+m_2\ell_2^2+m_bc^2+I_b$, $B=m_2\ell_s^2$, $W=m_1\ell_w^2$, $h=m_1\ell_1-m_2\ell_2-m_bc$, $C=m_2\ell_2\ell_s$, $F=m_1\ell_1\ell_w$. 展开得到
+\begin{align*}
+0={}&M_t\ddot X+h(\cos b\ddot b-\sin b\dot b^2)
++m_2\ell_s(\cos s\ddot s-\sin s\dot s^2)\\
+&+m_1\ell_w(\cos w\ddot w-\sin w\dot w^2),\\
+0={}&A\ddot b+h\cos b\ddot X-C\cos(b-s)\ddot s-C\sin(b-s)\dot s^2\\
+&+F\cos(b-w)\ddot w+F\sin(b-w)\dot w^2+gh\sin b,\\
+0={}&B\ddot s+m_2\ell_s\cos s\ddot X-C\cos(b-s)\ddot b
++C\sin(b-s)\dot b^2+m_2g\ell_s\sin s,\\
+0={}&W\ddot w+m_1\ell_w\cos w\ddot X+F\cos(b-w)\ddot b
+-F\sin(b-w)\dot b^2+m_1g\ell_w\sin w.
+\end{align*}
+第一式是守恒水平动量的导数; 令$\ell_w=0$并固定$X$可回到前节双角方程, 为符号核验. 非退化几何时质量矩阵正定, 可同时解四个加速度; 不将实验轨迹或全局最优性从这些方程直接推断出来.
+\end{solution}

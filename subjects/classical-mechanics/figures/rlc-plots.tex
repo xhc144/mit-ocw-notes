@@ -1,0 +1,27 @@
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.85\textwidth,height=5cm,xlabel={$B$},ylabel={$x(nT_D)$},xmin=6,xmax=11]
+\addplot[only marks,mark=square*,mark size=.13pt,black]table[x=B,y=x,col sep=comma]{figures/rlc-bifurcation-plot.csv};
+\end{axis}
+\end{tikzpicture}
+
+\foreach \idx/\amp in {0/9.6,1/9.8667,2/7.9333,3/10.1833}{
+\begin{tikzpicture}
+\begin{axis}[width=.43\textwidth,height=4.6cm,xlabel={$x$},ylabel={$w$},title={截面 $B=\amp$}]
+\addplot[only marks,mark=*,mark size=.8pt]table[x=x,y=w,col sep=comma]{figures/rlc-section-\idx.csv};
+\end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+\begin{axis}[width=.43\textwidth,height=4.6cm,xlabel={$x$},ylabel={$w$},title={连续相图 $B=\amp$}]
+\addplot[no marks]table[x=x,y=w,col sep=comma]{figures/rlc-phase-\idx.csv};
+\end{axis}
+\end{tikzpicture}\par
+}
+
+\begin{tikzpicture}
+\begin{semilogyaxis}[width=.85\textwidth,height=5cm,xlabel={$t$},ylabel={两状态距离},grid=major,ymin=1e-10,ymax=10]
+\addplot[no marks]table[x=time,y=delta,col sep=comma]{figures/rlc-sensitivity.csv};
+\end{semilogyaxis}
+\end{tikzpicture}
+\end{center}
+Poincaré图只取相同驱动相位的点, 连续相图另取六个驱动周期. 初值敏感性图比较$(.2,0)$与$(.2+10^{-8},0)$, 初期差值微小, 随后进入宏观尺度; 图中回落不否定敏感性, 距离不会永久单调增大.

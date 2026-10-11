@@ -1,0 +1,39 @@
+\originalchapter{哈密顿力学与正则变换}
+\originalsection{Legendre变换}
+拉格朗日方程把位置与速度联系起来; 哈密顿形式改用位置与共轭动量, 将二阶方程变为相空间内的一阶方程. 这个改写有条件: 速度Hessian$W_{ij}=L_{\dot q_i\dot q_j}$必须在所讨论区域可逆, 才能局部从$p_i=L_{\dot q_i}$解出$\dot q_i=v_i(q,p,t)$. 约束电磁场等奇异拉格朗日系统需其他理论, 本册不把它们硬套入正则变换.
+
+定义$H(q,p,t)=\sum_ip_iv_i-L(q,v,t)$. 微分时$\sum_ip_i\dd v_i$与$\sum_iL_{v_i}\dd v_i$抵消, 故$\dd H=\sum_iv_i\dd p_i-\sum_iL_{q_i}\dd q_i-L_t\dd t$. 联合Euler--Lagrange方程得
+\begin{equation}\label{eq:ham}
+\dot q_i=H_{p_i},\qquad\dot p_i=-H_{q_i},\qquad H_t=-L_t.
+\end{equation}
+$H$是能量函数的相空间表达, 仅在通常固定约束及速度无关势时才自动等于$T+U$. 系统不显含时间时, 沿\eqref{eq:ham}有$\dot H=H_t=0$.
+
+\originalsection{Poisson括号}
+本册统一定义$\{f,g\}=\sum_i(f_{q_i}g_{p_i}-f_{p_i}g_{q_i})$, 所以$\{q_i,p_j\}=\delta_{ij}$, $\{p_i,q_j\}=-\delta_{ij}$. 两个相空间函数沿运动的演化为$\dot f=\{f,H\}+f_t$. 由乘积求导可逐项核对反对称性、线性和乘积法则. 展开二阶偏导并用混合偏导交换, 可核对Jacobi恒等式$\{f,\{g,h\}\}+\{g,\{h,f\}\}+\{h,\{f,g\}\}=0$. 因而两个不显含时间的守恒量$f,g$的括号也守恒: 由Jacobi式和$\{f,H\}=\{g,H\}=0$得$\{\{f,g\},H\}=0$.
+
+将坐标排序为$z=(q_1,\ldots,q_n,p_1,\ldots,p_n)^{\mathsf T}$, 定义$\mathbb J=\left(\begin{smallmatrix}0&I\\-I&0\end{smallmatrix}\right)$. 则$\dot z=\mathbb J\nabla H$, $\{f,g\}=\nabla f^{\mathsf T}\mathbb J\nabla g$. 若新坐标$Z=Z(z)$的Jacobi矩阵为$A$, 保持括号等价于$A\mathbb JA^{\mathsf T}=\mathbb J$, 称为辛条件. 取行列式只先得$(\det A)^2=1$; 辛变换实际保定向, 可由辛体积形式$\omega^n/n!$不变得$\det A=1$. 在连续接近恒等的变换上也可直接选正支.
+
+哈密顿流的散度为$\sum_i(H_{p_iq_i}-H_{q_ip_i})=0$. 体积元随流的Jacobi行列式满足$\dot D=(\operatorname{div}\dot z)D$, 因而$D=1$（初值为1）, 即Liouville定理. 它描述相体积, 并不意味着各坐标距离或各局部面积投影不变.
+
+\originalsection{生成函数}
+正则变换使作用量中的一形式之差为全微分:
+$\sum_ip_i\dd q_i-H\dd t=\sum_iP_i\dd Q_i-K\dd t+\dd F$. 若以$(q,P,t)$为独立变量并令$F_2=F+\sum_iQ_iP_i$, 比较系数得
+\[
+p_i=\pd{F_2}{q_i},\qquad Q_i=\pd{F_2}{P_i},\qquad
+K=H+\pd{F_2}{t}.
+\]
+$F_2=\sum_iq_iP_i$给恒等变换; 它说明生成函数的偏导分别承担新旧坐标的联系. 要真正定义局部可逆变换, 混合Hessian$F_{2,qP}$仍需可逆. 其他类型由Legendre变换得到:
+\begin{align*}
+F_1(q,Q):&\quad p=F_{1,q},\quad P=-F_{1,Q},\\
+F_3(p,Q):&\quad q=-F_{3,p},\quad P=-F_{3,Q},\\
+F_4(p,P):&\quad q=-F_{4,p},\quad Q=F_{4,P}.
+\end{align*}
+各型均有$K=H+F_{a,t}$, 其独立变量与可逆区域必须明确. 不能在$F_4$的偏导中把$q$也当独立变量.
+
+\begin{example}
+一维谐振子$H=p^2/(2m)+m\omega^2q^2/2$. 令$q=\sqrt{2I/(m\omega)}\sin\theta$, $p=\sqrt{2m\omega I}\cos\theta$. 求新方程.
+\end{example}
+\begin{solution}
+直接求导得到$\{\theta,I\}=1$, 所以$(\theta,I)$是正则对. 也可算$p\dd q=I\dd\theta+\dd(I\sin\theta\cos\theta)$: 将$p\dd q$展开为$2I\cos^2\theta\dd\theta+\sin\theta\cos\theta\dd I$, 与右端一致. 新哈密顿量为$K=\omega I$, 故$\dot I=0$, $\dot\theta=\omega$. 原相轨道为椭圆, 在新坐标中是固定$I$上的匀速角运动. $I=0$处相位无定义, 因此此图不能覆盖相空间原点.
+\end{solution}
+本章来源: 8.223第15--18讲与8.09第4章. 本册的括号方向与8.223作业4所用方括号相反, 作业译写处会说明, 不混用约定.

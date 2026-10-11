@@ -1,0 +1,52 @@
+\originalchapter{中心力与散射}
+\originalsection{有效势与轨道方程}
+相对运动的力若仅沿$\vect r$且仅依赖$r$, 则角动量$\vect J=\mu\vect r\times\dot{\vect r}$守恒. 当$J\ne0$时, $\vect r$始终垂直于固定$\vect J$, 轨道在固定平面内. 用平面极坐标得$L=\mu(\dot r^2+r^2\dot\phi^2)/2-U(r)$, $J=\mu r^2\dot\phi$. 能量可写为
+\begin{equation}\label{eq:ueff}
+E=\frac12\mu\dot r^2+U_{\rm eff}(r),\qquad
+U_{\rm eff}(r)=U(r)+\frac{J^2}{2\mu r^2}.
+\end{equation}
+这不是给势能随意加一个力; 第二项是消去角速度后保留的切向动能. 径向只在$E\ge U_{\rm eff}$区域允许运动, 等号为转向点. 圆轨道$r_c$要求$U'_{\rm eff}(r_c)=0$; 若$U''_{\rm eff}(r_c)>0$, 径向微扰满足$\ddot\eta+(U''_{\rm eff}(r_c)/\mu)\eta=0$, 所以稳定.
+
+设$u=1/r$, 用$\dot r=-(J/\mu)u'$（撇号对$\phi$）代入径向方程$\mu(\ddot r-r\dot\phi^2)=F(r)$, 可得Binet方程
+\[
+u''+u=-\frac{\mu}{J^2u^2}F(1/u).
+\]
+它把轨道形状与时间参数分开, 比直接同时解$r(t)$和$\phi(t)$简洁.
+
+\originalsection{Kepler轨道}
+对$U=-\alpha/r$, $\alpha>0$, Binet方程右端为$\mu\alpha/J^2$, 解为$u=(1+e\cos(\phi-\phi_0))/p$, 其中$p=J^2/(\mu\alpha)$. 将近日点处$\dot r=0$, $r=p/(1+e)$代入\eqref{eq:ueff}, 得
+\[
+e^2=1+\frac{2EJ^2}{\mu\alpha^2}.
+\]
+$E<0$给$0\le e<1$的椭圆（$e=0$为圆）, $E=0$给抛物线, $E>0$给双曲线. 这里假定$J\ne0$; $J=0$的径向碰撞不能靠这一极坐标角度解来判定.
+
+椭圆半长轴为$a=-\alpha/(2E)$, 半短轴$b=a\sqrt{1-e^2}$. 面积速度$\dot A=r^2\dot\phi/2=J/(2\mu)$恒定, 所以周期$\mathcal T=2\pi\mu ab/J$. 用$J^2=\mu\alpha a(1-e^2)$消去$J$, 得$\mathcal T^2=4\pi^2\mu a^3/\alpha$. 这分别给出Kepler轨道律、面积律与周期律, 并表明周期与偏心率无关.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0,>=Stealth]
+\draw[->] (-3,0)--(3,0) node[right]{$x$};
+\draw[->] (0,-1.8)--(0,1.8) node[above]{$y$};
+\draw[thick] (0,0) ellipse (2.4 and 1.44);
+\fill (-1.92,0) circle(1.5pt) node[below]{$F$};
+\fill (1.92,0) circle(1.5pt) node[below]{$F'$};
+\draw[dashed] (-1.92,0)--(1.2,1.247) node[midway,above left]{$r$};
+\node[align=center] at (0,-2.2){示意参数$a=2.4$, $e=0.8$; 力心为焦点$F$.};
+\end{tikzpicture}
+\end{center}
+图的焦距$ae=1.92$, 半短轴$a\sqrt{1-e^2}=1.44$, 端点$(1.2,1.247)$只用于示意近似位置, 不作为轨道证明.
+
+\originalsection{碰撞截面}
+从无穷远以速度$v_\infty$入射、瞄准距离为$b$的粒子有$E=\mu v_\infty^2/2$, $J=\mu v_\infty b$. 散射角由轨道转向点$r_{\min}$决定:
+\[
+\Theta=\pi-2\int_{r_{\min}}^\infty
+\frac{J\dd r}{r^2\sqrt{2\mu(E-U(r))-J^2/r^2}}.
+\]
+这个表达式的正负取决于角度定义, 物理散射可用偏折绝对值. 单调的$b(\Theta)$分支上, 入射环形面积$2\pi b\dd b$对应立体角$2\pi\sin\Theta\dd\Theta$, 因而$\dd\sigma/\dd\Omega=b|\dd b/\dd\Theta|/\sin\Theta$. 非单调时需将所有分支相加.
+
+\begin{example}
+半径$R$、质量$M$的球体吸引很小的入射质点. 忽略大气与球体自转, 求撞击总截面.
+\end{example}
+\begin{solution}
+取$U=-GMm/r$, $\mu\simeq m$. 临界轨道的近日点恰在$R$, 所以能量关系为$m v_\infty^2/2=m v_\infty^2b_{\max}^2/(2R^2)-GMm/R$. 得$b_{\max}^2=R^2(1+2GM/(Rv_\infty^2))$, 撞击截面为$\sigma=\pi R^2(1+v_{\rm esc}^2/v_\infty^2)$, $v_{\rm esc}^2=2GM/R$. 速度很大时回到几何面积$\pi R^2$; 有限速度时引力使原本瞄准球外的轨道也可能撞击, 称引力聚焦.
+\end{solution}
+本章来源: 8.223第8讲及作业2--3, 8.09第4章Kepler部分. 散射积分与截面条件为中文补充.

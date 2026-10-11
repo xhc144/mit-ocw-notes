@@ -1,0 +1,84 @@
+\originalchapter{8.223作业一}
+题源: MIT 8.223, January IAP 2017, Exercises 1, 原题1--10, 题面PDF第1--3页. 本章题面为中文译写; 解答依据官方Solutions 1中文改写并复算. 选做内容保留, 额外条件和修正另行注明.
+
+\begin{exercise}
+原题1. 地表附近只受地球引力的质点, 将$\vect F=-GM_\oplus m\hat{\vect r}/r^2$化为$-mg\hat{\vect z}$. (a) 用$G,M_\oplus,R_\oplus$表示$g$, 算SI数值. (b) 月球表面以速度$v_0$、仰角$\theta$发射, 求回到同高度的射程, 并重新计算月球$g$; 忽略空气.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 地表$r\simeq R_\oplus$, 所以$g=GM_\oplus/R_\oplus^2$. 用$G=6.6743\times10^{-11}\mathrm{m^3kg^{-1}s^{-2}}$, $M_\oplus=5.972\times10^{24}\mathrm{kg}$, $R_\oplus=6.371\times10^6\mathrm m$, 得$g\simeq9.82\mathrm{m/s^2}$. 月球取$M=7.342\times10^{22}\mathrm{kg}$、$R=1.7374\times10^6\mathrm m$得$g_M\simeq1.62\mathrm{m/s^2}$. 竖直位移$y=v_0\sin\theta\,t-g_Mt^2/2$的正零点为$t_f=2v_0\sin\theta/g_M$, 水平位移为$v_0\cos\theta\,t_f$, 故射程$d=v_0^2\sin2\theta/g_M$. 这是短距离、近似平坦表面与恒定$g$模型; 速度接近逃逸或射程与月球半径可比时需中心力轨道模型.
+\end{solution}
+
+\begin{exercise}
+原题2. 弹簧力$F=-kx$, 质量$m$在$t=0$的位置为$x_0$, 速度为$v_0$. 求$x(t)$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 令$\omega=\sqrt{k/m}$, 方程$\ddot x+\omega^2x=0$有$x=A\cos\omega t+B\sin\omega t$. 初值给$A=x_0$, $B=v_0/\omega$, 因而$x(t)=x_0\cos\omega t+(v_0/\omega)\sin\omega t$.
+\end{solution}
+
+\begin{exercise}
+原题3. (a) 写球坐标$(r,\theta,\phi)$与直角坐标的双向变换. (b) 写柱坐标$(\rho,\phi,z)$的双向变换. (c) 从原点沿固定方向$(\theta_0,\phi_0)$以速度$v_0$匀速出发, 将速度写成直角分量. (d) 选做: 从任意$\vect x_0$出发而保持(c)的同一速度, 将它写成球坐标分量, 并说明坐标的不足.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 取$\theta$为与正$z$轴夹角, $\phi$为方位角. 有$x=r\sin\theta\cos\phi$, $y=r\sin\theta\sin\phi$, $z=r\cos\theta$; 逆向为$r=\sqrt{x^2+y^2+z^2}$, $\theta=\arccos(z/r)$, $\phi=\operatorname{atan2}(y,x)$. 柱坐标为$x=\rho\cos\phi$, $y=\rho\sin\phi$, $z=z$, 逆向$\rho=\sqrt{x^2+y^2}$与同一方位角. 速度是$v_0(\sin\theta_0\cos\phi_0,\sin\theta_0\sin\phi_0,\cos\theta_0)$.
+
+(d) 在$\vect r(t)=\vect x_0+\vect v_0t$处建立单位基$\hat{\vect r},\hat{\vect\theta},\hat{\vect\phi}$, 则$v_r=\vect v_0\cdot\hat{\vect r}=\dot r$, $v_\theta=\vect v_0\cdot\hat{\vect\theta}=r\dot\theta$, $v_\phi=\vect v_0\cdot\hat{\vect\phi}=r\sin\theta\dot\phi$. 这三个物理分量随位置基变化, 尽管直角速度恒定. 原点的全部角度、极轴上的方位角均无定义, 所以在这些位置逆向坐标及速度表达失效; 不能硬除以$r$或$\sin\theta$.
+\end{solution}
+
+\begin{exercise}
+原题4. 摆角$\phi=0$沿重力方向, 杆约束为$x=\ell\sin\phi$, $y=\ell\cos\phi$（此处$y$向下）. (a) 用Euler--Lagrange方程推出$m\ell^2\ddot\phi=-mg\ell\sin\phi$. (b) 说明小振幅时$\sin\phi\simeq\phi$. (c) 求任意小初值的$\phi(t)$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 这里$U=-mgy=-mg\ell\cos\phi$, $L=m\ell^2\dot\phi^2/2+mg\ell\cos\phi$, 直接求导得到所求方程. Taylor展开$\sin\phi=\phi-\phi^3/6+O(\phi^5)$, 角以弧度计, 相对误差为$O(\phi^2)$. 令$\omega=\sqrt{g/\ell}$, 则$\phi(t)=\phi_0\cos\omega t+(\dot\phi_0/\omega)\sin\omega t$; 初值应小到整个解的振幅仍远小于1.
+\end{solution}
+
+\begin{exercise}
+原题5. 从驻定作用量出发, 对$N$个自由度的$L(q_1,\ldots,q_N,\dot q_1,\ldots,\dot q_N)$推出$N$条Euler--Lagrange方程.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. 取各端点为零的独立变分$\eta_i$, 有$\delta S=\sum_i\int(L_{q_i}\eta_i+L_{\dot q_i}\dot\eta_i)\dd t$. 分部积分去掉端点项, 得$\delta S=\sum_i\int(L_{q_i}-\dd L_{\dot q_i}/\dd t)\eta_i\dd t$. 任意独立$\eta_i$均令它为零, 所以每个系数为零. 完整性条件与变分基本引理见第1章, 不能仅以某一条试探路径得到全部方程.
+\end{solution}
+
+\begin{exercise}
+原题6. 参照Landau式2.8及其后作用量积分, (a) 说明$L$相差全时间导数为何使$S,S'$的差变分为零. (b) 给两个线性独立的$g(q,\dot q,t)$, 可写成$\dd f(q,t)/\dd t$. (c) 给两个线性独立、不能写成这种全导数的例子. 本题只引用课程题面的任务, 不复制商业教材原页.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 例子复算. (a) 两个作用量差为$f(q(t_2),t_2)-f(q(t_1),t_1)$, 固定端点和时刻使其变分为零. (b) 可取$g_1=2q\dot q=\dd(q^2)/\dd t$, $g_2=\dot q+t=\dd(q+t^2/2)/\dd t$. (c) 可取$g_3=\dot q^2$, $g_4=\dot q^3$. 因任意$f(q,t)$的全导数为$f_q\dot q+f_t$, 对独立速度变量至多一次, 不可能对所有$\dot q$等于二次或三次式. 这里问的是函数恒等式, 不是仅沿某一特定运动路径求一个时间原函数.
+\end{solution}
+
+\begin{exercise}
+原题7. 自由粒子$L=m\vect v^2/2$, 进行Galilei变换$\vect x'=\vect x-\vect u t$, $t'=t$. 证明两个参考系给相同自由运动方程, 从而若原系惯性, 匀速移动的新系也惯性.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. $\vect v'=\vect v-\vect u$, 因而$L'-L=-m\vect u\cdot\vect v+m u^2/2=\dd(-m\vect u\cdot\vect x+m u^2t/2)/\dd t$. 由原题6, 运动方程不变. 也可直接验证$\ddot{\vect x}'=\ddot{\vect x}=0$. 若$\vect u$随时间改变, 加速度出现额外项, 此结论不成立.
+\end{solution}
+
+\begin{exercise}
+原题8. 对$f(q,\dot q,t)$, 证明(a) $\partial_q\dot f=\dd(\partial_qf)/\dd t$; (b) $\partial_{\dot q}\dot f=\dd(\partial_{\dot q}f)/\dd t+\partial_qf$. 说明为何两个求导次序不同.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, 补正偏导的意义. 在扩展变量$(q,\dot q,\ddot q,t)$中分别独立求偏导, 总导数算子为$D=\partial_t+\dot q\partial_q+\ddot q\partial_{\dot q}$. $\partial_q$不作用在系数$\dot q,\ddot q$上, 因而$\partial_qDf=D\partial_qf$. $\partial_{\dot q}$却还会对$\dot q\partial_qf$的系数求导, 给$\partial_{\dot q}Df=D\partial_{\dot q}f+\partial_qf$. 这是独立变量空间中的算子关系; 不把某条轨道的$\dot q$错误当$q$的普通单值函数.
+\end{solution}
+
+\begin{exercise}
+原题9. 给$L=m\vect v^2/2-mgz$. (a) 求运动方程. (b) 取$\vect x(0)=0$, $\vect v(0)=\vect v_0$, $v_{0z}>0$, 求非零返回时刻$\tau$及$\vect x(\tau),\vect v(\tau)$.
+\end{exercise}
+\begin{solution}
+官方解答中文改写. $\ddot x=\ddot y=0$, $\ddot z=-g$, 所以$\vect x(t)=(v_{0x}t,v_{0y}t,v_{0z}t-gt^2/2)$. 非零零高度时刻$\tau=2v_{0z}/g$, 位置为$(2v_{0x}v_{0z}/g,2v_{0y}v_{0z}/g,0)$, 速度为$(v_{0x},v_{0y},-v_{0z})$.
+\end{solution}
+
+\begin{exercise}
+原题10. 质量$m$的质点限于旋转抛物面$z=a\rho^2$, $\rho=\sqrt{x^2+y^2}$, 势$U=mgz$. (a) 写未消去$z$的柱坐标$L$. (b) 消去$z$求方程. (c) 求$p_\rho,p_\phi$, 判断守恒. (d) 选做: 求运动解, 不必强求初等函数.
+\end{exercise}
+\begin{solution}
+官方解答中文改写, (d)补为积分形式. 未消元时$L=m(\dot z^2+\dot\rho^2+\rho^2\dot\phi^2)/2-mgz$. 用$\dot z=2a\rho\dot\rho$得$L=m[(1+4a^2\rho^2)\dot\rho^2+\rho^2\dot\phi^2]/2-mga\rho^2$. 方程为
+\[
+(1+4a^2\rho^2)\ddot\rho+4a^2\rho\dot\rho^2-\rho\dot\phi^2+2ga\rho=0,
+\qquad \frac{\dd}{\dd t}(m\rho^2\dot\phi)=0.
+\]
+$p_\rho=m(1+4a^2\rho^2)\dot\rho$一般不守恒, $p_\phi=J$守恒. 还守恒$E=m(1+4a^2\rho^2)\dot\rho^2/2+J^2/(2m\rho^2)+mga\rho^2$. 在每个单调径向分支,
+\[
+t-t_0=\pm\int_{\rho_0}^{\rho}\sqrt{\frac{m(1+4a^2s^2)}{2[E-mgas^2-J^2/(2ms^2)]}}\dd s,
+\qquad \phi-\phi_0=\int_{t_0}^t\frac{J}{m\rho(\tau)^2}\dd\tau.
+\]
+此二式给局部解, 转向点需要换正负支. $J=0$到轴心时柱坐标退化, 应回直角坐标延拓, 不将坐标奇异认作物理力发散.
+\end{solution}

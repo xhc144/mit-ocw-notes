@@ -1,0 +1,27 @@
+\begin{center}
+\foreach \name/\label/\xtspace in {pendulum-wide/{$.1\le a\le2$}/.5,pendulum-small/{$0\le a\le.1$}/.02}{
+\begin{tikzpicture}
+\begin{axis}[width=.85\textwidth,height=5cm,xlabel={$a$},ylabel={$\theta(nT_D)$},title={\label},xtick distance=\xtspace,scaled x ticks=false,xticklabel style={/pgf/number format/fixed,/pgf/number format/precision=2},ymin=-3.2,ymax=3.2]
+\addplot[only marks,mark=square*,mark size=.13pt,black]table[x=a,y=theta,col sep=comma]{figures/\name-bifurcation-plot.csv};
+\end{axis}
+\end{tikzpicture}\par
+}
+\foreach \idx in {0,1,2}{
+\begin{tikzpicture}
+\begin{axis}[width=.72\textwidth,height=4.8cm,xlabel={$\theta\pmod{2\pi}$},ylabel={$w$},title={独立复算案例 \idx},xmin=-3.2,xmax=3.2]
+\addplot[only marks,mark=*,mark size=.6pt]table[x=theta,y=w,col sep=comma]{figures/pendulum-section-\idx.csv};
+\end{axis}
+\end{tikzpicture}\par
+}
+\begin{tikzpicture}
+\begin{axis}[width=.44\textwidth,height=4.8cm,xlabel={$\theta$},ylabel={$w$},title={$a=.3$周期轨道}]
+\addplot[no marks]table[x=theta,y=w,col sep=comma]{figures/pendulum-periodic-orbit.csv};
+\end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+\begin{axis}[width=.44\textwidth,height=4.8cm,xlabel={$\theta-\theta_0$},ylabel={$w$},title={周期点邻近截面},scaled x ticks=false,xticklabel style={/pgf/number format/fixed,/pgf/number format/precision=3}]
+\addplot[only marks,mark=*,mark size=.55pt]table[x=theta_offset,y=w,col sep=comma]{figures/pendulum-periodic-island-offset.csv};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+截面将角度折回$[-\pi,\pi)$; 图边两侧点可能属于同一圆柱相空间轨道, 不能把折回产生的跳跃误当不连续动力学. 参数与有限时间诊断在题下及数值报告中逐项给出.

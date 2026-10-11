@@ -1,0 +1,39 @@
+\originalchapter{连续介质与流体}
+\originalsection{从离散到连续}
+连续介质用场变量代替有限个质点坐标. 密度$\rho(\vect x,t)$给单位体积质量, 速度$\vect v(\vect x,t)$给经过该位置的微小流体团速度. 固定空间区域描述称Euler描述, 跟随流体团描述称Lagrange描述. 场$f$随流体团的变化是物质导数$Df/Dt=\partial_tf+\vect v\cdot\nabla f$, 这是把$f(\vect x(t),t)$用链式法则求导所得.
+
+取固定体积$V$, 质量流出率为$\oint_{\partial V}\rho\vect v\cdot\vect n\dd A$, 因而$\dd\int_V\rho\dd V/\dd t=-\oint\rho\vect v\cdot\vect n\dd A$. 用散度定理, 任意体积给连续性方程$\partial_t\rho+\nabla\cdot(\rho\vect v)=0$. 若密度沿每个流体团不变, 即$D\rho/Dt=0$, 则$\nabla\cdot\vect v=0$. 不可压缩并不必然等于处处同一密度; 本册的定密度例子额外取$\rho$为常量.
+
+理想流体无剪切应力, 面力为$-p\vect n$. 牛顿第二定律与连续性方程给Euler方程
+\[
+\rho\frac{D\vect v}{Dt}=-\nabla p+\rho\vect f,
+\]
+其中$\vect f$为单位质量体力. 若$\vect f=-\nabla\Phi$, 定常、不可压缩、定密度且沿同一流线, 将方程点乘$\dd\vect x\parallel\vect v$并积分得Bernoulli关系$p/\rho+v^2/2+\Phi=C$. 若进一步无旋, 用$(\vect v\cdot\nabla)\vect v=\nabla(v^2/2)-\vect v\times(\nabla\times\vect v)$可知常数在同一连通流区相同. 有旋流的不同流线一般不能共用同一$C$.
+
+\originalsection{位势流与圆柱}
+不可压缩无旋流可局部写$\vect v=\nabla\phi$, 由连续性得$\nabla^2\phi=0$. 二维圆柱外的定常无环量流取远处$\vect v=U\hat{\vect x}$, 壁面法向速度为零. 与远处同样角依赖的Laplace解为$\phi=U(r+A/r)\cos\theta$. 在$r=R$令$\partial_r\phi=0$得$A=R^2$. 于是
+\[
+v_r=U(1-R^2/r^2)\cos\theta,\qquad
+v_\theta=-U(1+R^2/r^2)\sin\theta.
+\]
+壁面速度为$-2U\sin\theta\hat{\vect\theta}$, Bernoulli式给$p(R,\theta)=p_\infty+\rho U^2(1-4\sin^2\theta)/2$. 压力对圆柱前后对称, 合力阻力为零. 这不是现实流动没有阻力: 黏性、边界层分离和尾流都被理想位势模型排除了. 此模型也假定零环量; 多连通圆柱外区域可另加环量流, 其单值势条件不同.
+
+流函数为$\psi=U(r-R^2/r)\sin\theta=Uy(1-R^2/(x^2+y^2))$, 满足$v_r=r^{-1}\psi_\theta$, $v_\theta=-\psi_r$. 因$\vect v\cdot\nabla\psi=0$, $\psi$等值线就是流线. 壁面在$\psi=0$的一部分, 两个驻点在$x=\pm R,y=0$.
+
+\originalsection{声波}
+取静止均匀平衡$\rho_0,p_0$, 令$\rho=\rho_0+\rho'$, $p=p_0+p'$, $\vect v$为一阶小量. 绝热局部状态关系为$p'=c_s^2\rho'$, 其中$c_s^2=(\partial p/\partial\rho)_s>0$. 连续性和Euler方程线性化为$\partial_t\rho'+\rho_0\nabla\cdot\vect v=0$, $\rho_0\partial_t\vect v=-\nabla p'$. 前一式对时间再微分并代入后一式, 得$\partial_t^2p'-c_s^2\nabla^2p'=0$. 声速是状态方程导数, 并非任意加上的传播常数.
+
+对球对称标量, $\nabla^2p'=r^{-2}\partial_r(r^2\partial_rp')$. 令$w=rp'$, 在$r>0$有$\nabla^2p'=w_{rr}/r$, 所以出射球面波$p'=f(r-c_st)/r$满足方程. $1/r$衰减来自波面面积增长; $r=0$源点本身不在这段无源解的定义域.
+
+\originalsection{黏性与量纲}
+牛顿流体的黏性应力可写$\sigma_{ij}=-p\delta_{ij}+\eta(\partial_iv_j+\partial_jv_i)+(\zeta-2\eta/3)(\nabla\cdot\vect v)\delta_{ij}$. 定常物性、不可压缩时应力散度化为$-\nabla p+\eta\nabla^2\vect v$, 因而得到Navier--Stokes方程$\rho D\vect v/Dt=-\nabla p+\eta\nabla^2\vect v+\rho\vect f$. 此处$\eta$为动力黏度, $\nu=\eta/\rho$为运动黏度; 两者单位不同.
+
+\begin{example}
+半径$R$的长圆管内定常充分发展流, 速度为$v_z(r)$, 压强沿$z$均匀下降, 壁面无滑动. 求流量.
+\end{example}
+\begin{solution}
+对流项为零, $0=-\partial_zp+\eta r^{-1}(rv'_z)'$. 积分给$rv'_z=(\partial_zp)r^2/(2\eta)+C$; 轴心有限排除$C/r$项, 再由$v_z(R)=0$得$v_z=-(\partial_zp)(R^2-r^2)/(4\eta)$. 流量$Q=\int_0^R2\pi rv_z\dd r=-\pi R^4\partial_zp/(8\eta)$. 这是层流、充分发展、牛顿流体模型, 入口区和湍流不能直接套用.
+\end{solution}
+尺度化$\vect x=L\tilde{\vect x}$, $\vect v=U\tilde{\vect v}$后, 惯性项与黏性项比为$\mathrm{Re}=\rho UL/\eta=UL/\nu$. 小Re时惯性可忽略, 称Stokes近似; 大Re时黏性在大尺度内部可能较小, 却仍能在边界层内重要. 本册不推导球体Stokes阻力的完整边值解, 也不提供湍流闭合理论; 这些是原课程第6章后半的后续内容, 已保留原件, 中文首版只完成上述基础模型与所收六道流体作业.
+
+本章来源: 8.09第6章和作业8. 物质导数、积分守恒到局部方程、边界条件与模型限制为中文补充.

@@ -1,0 +1,81 @@
+\originalchapter{8.09流体作业}
+题源: MIT 8.09 Assignment 8, Fall 2014, due November 17, 2014, 第2--3页, 原题1--6. 题面中文译写, 本章全部解答为AI独立推导; OCW没有提供这份作业的官方答案. 相关商业教材仅作为原课阅读书目, 未复制其题面.
+
+\begin{exercise}
+原题1（12分, 每问4分）. 柱坐标定常理想位势流的速度势分别为(a) $\phi=Cr^2\cos2\theta$, (b) $\phi=Cr^4\cos4\theta$, (c) $\phi=Cr^{2/3}\cos(2\theta/3)$. 找与各流动相容的固定表面, 指出有限$r$的驻点, 粗画表面附近的流线.
+\end{exercise}
+\begin{solution}
+AI独立解答. 假定$C\ne0$; $C=0$为处处静止的退化情形. 统一取$\phi=Cr^n\cos n\theta$, 得$v_r=Cnr^{n-1}\cos n\theta$, $v_\theta=-Cnr^{n-1}\sin n\theta$, 流函数$\psi=Cr^n\sin n\theta$. 不透流固定表面必须是一条流线, 所以任意合适的$\psi=\psi_0$曲线均可, 题目并不唯一确定一个表面. 一个简单选择是$\psi=0$的两条射线$\theta=0$与$\pi/n$, 构成流体楔域: (a)开角$\pi/2$, (b)$\pi/4$, (c)$3\pi/2$.
+
+速度大小为$|Cn|r^{n-1}$, 在$r>0$没有驻点. (a)(b)原点是零速点; (c)原点速度发散, 不可称为驻点, 该顶点必须排除. 分数幂还需限定角的分支, 例如$0<\theta<3\pi/2$, 不能在绕原点一整圈后把多值势当全局单值. 正流函数支可参数化$r(\theta)=[\psi_0/(C\sin n\theta)]^{1/n}$, $0<\theta<\pi/n$, 它在两侧沿壁远去, 中间达到最小$r$. 下图自绘三种楔域示意, 曲线按该式选无量纲常数, 不是额外题设.
+\end{solution}
+\begin{center}
+\begin{tikzpicture}[scale=.72,>=Stealth]
+\begin{scope}
+\draw[thick](0,2.6)--(0,0)--(2.6,0);\node[below]at(1,0){$n=2$};
+\foreach \k in {.4,.8}{\draw[domain=8:82,samples=80,smooth,variable=\u]plot ({sqrt(\k/sin(2*\u))*cos(\u)},{sqrt(\k/sin(2*\u))*sin(\u)});}
+\end{scope}
+\begin{scope}[shift={(4,0)}]
+\draw[thick](2.0,2.0)--(0,0)--(3,0);\node[below]at(1,0){$n=4$};
+\foreach \k in {.5,1}{\draw[domain=2:43,samples=90,smooth,variable=\u]plot ({(\k/sin(4*\u))^.25*cos(\u)},{(\k/sin(4*\u))^.25*sin(\u)});}
+\end{scope}
+\begin{scope}[shift={(8.5,1.3)}]
+\draw[thick](2.4,0)--(0,0)--(0,-2.4);
+\node[right]at(.2,-2.0){$n=2/3$};
+\draw[domain=12:258,samples=150,smooth,variable=\u]plot ({(.22/sin(2*\u/3))^1.5*cos(\u)},{(.22/sin(2*\u/3))^1.5*sin(\u)});
+\draw[domain=17:253,samples=150,smooth,variable=\u]plot ({(.3/sin(2*\u/3))^1.5*cos(\u)},{(.3/sin(2*\u/3))^1.5*sin(\u)});
+\end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{exercise}
+原题2（16分）. 无限长固定圆柱半径$R$, 轴沿$z$, 浸于定密度$\rho$的不可压缩无旋理想流体; $x=-\infty$处速度$U\hat{\vect x}$. (a,6分) 解Laplace方程求满足边界的势与速度. (b,4分) 求柱面压强. (c,6分) 求流线微分方程并验证$x^2+y^2=R^2/(1-K/y)$, $K$为常量, 是其解.
+\end{exercise}
+\begin{solution}
+AI独立解答. 假定零环量、远处同一均匀流, 第9章推导给$\phi=U(r+R^2/r)\cos\theta$, $v_r=U(1-R^2/r^2)\cos\theta$, $v_\theta=-U(1+R^2/r^2)\sin\theta$. 远处$r\to\infty$恢复均匀流, 壁面$r=R$法向速度为零. 若只给无旋而未排除环量, 圆柱外多连通域可有额外环量项; 本题选无环量标准解.
+
+Bernoulli式给$p(R,\theta)=p_\infty+\rho U^2(1-4\sin^2\theta)/2$. 流线满足$\dd y/\dd x=v_y/v_x$, 其中
+\[
+v_x=U\left[1-\frac{R^2(x^2-y^2)}{(x^2+y^2)^2}\right],\qquad
+v_y=-\frac{2UR^2xy}{(x^2+y^2)^2}.
+\]
+因此微分方程为$\dd y/\dd x=-2R^2xy/[(x^2+y^2)^2-R^2(x^2-y^2)]$. 等价地流函数$\psi=Uy(1-R^2/(x^2+y^2))$恒定. 令$\psi=UK$并重排, 就是$x^2+y^2=R^2/(1-K/y)$. 这一重排在$y=0$处分母表达失效, 应回到隐式$\psi=UK$理解轴线和壁面; 壁面的两驻点处速度为零, 普通流线斜率公式也需极限处理.
+\end{solution}
+
+\begin{exercise}
+原题3（10分）. 点源在空气中产生球面声波. (a,3分) 直接验证$p'=f(r-c_st)/r$满足声波方程. (b,4分) 求对应径向速度, 可用$g(s)=\int^s f(u)\dd u$. (c,3分) 验证速度也满足波动方程. 已知径向向量的Laplace算子为$\nabla^2(v(r)\hat{\vect r})=(\nabla^2v-2v/r^2)\hat{\vect r}$. 原题说任意可微$f$, 经典二阶方程的逐点核验实际上需要$f\in C^2$; 本解明确采用该条件.
+\end{exercise}
+\begin{solution}
+AI独立解答. 在$r>0$, 令$s=r-c_st$, 有$p'_{tt}=c_s^2f''(s)/r$, $r^{-2}\partial_r(r^2p'_r)=f''(s)/r$, 所以满足方程. 动量方程$\rho_0\partial_tv_r=-\partial_rp'$给
+\[
+v_r=\frac1{\rho_0c_s}\left[\frac{f(s)}r-\frac{g(s)}{r^2}\right].
+\]
+时间微分确为$(-f'/r+f/r^2)/\rho_0$, 与$-p'_r/\rho_0$一致. 还核对连续性: $r^{-2}\partial_r(r^2v_r)=f'(s)/(\rho_0c_sr)$, 与$p'_t/c_s^2=-f'(s)/(c_sr)$相消. $g$的加法常量改变一个静态$1/r^2$无散度速度场, 可由源边界或初始条件确定; 动量方程单独不能固定它.
+
+取速度势$\Phi=g(s)/(\rho_0c_sr)$, 则$v_r=\partial_r\Phi$. $\Phi$满足标量波动方程, 对其取梯度并按题给向量Laplace公式交换算子, 就得$\partial_t^2\vect v=c_s^2\nabla^2\vect v$. 这也说明不能仅对$v_r$用标量径向Laplace算子而漏掉$-2v_r/r^2$项. 源点$r=0$需另给边界或分布源, 不在无源验证内.
+\end{solution}
+
+\begin{exercise}
+原题4（10分）. 两无限长同轴柱半径$R_1<R_2$, 内柱固定, 外柱沿轴以速度$U\hat{\vect z}$运动. 中间黏性流体定常, 无轴向压强梯度. 求速度剖面及各柱单位长度摩擦力.
+\end{exercise}
+\begin{solution}
+AI独立解答. 取无滑动壁面, 稳态速度只有$v_z(r)$. Navier--Stokes简化为$(rv'_z)'=0$, 所以$v_z=A\log r+B$. 用$v_z(R_1)=0,v_z(R_2)=U$得$v_z=U\log(r/R_1)/\log(R_2/R_1)$. 剪切应力$\eta v'_z=\eta U/[r\log(R_2/R_1)]$. 每个柱面的单位长面积为$2\pi r$, 因而流体对内柱力为$+2\pi\eta U/\log(R_2/R_1)$沿$z$, 对外柱力为同大小反向. 驱动外柱的外力与阻力平衡; 两力相反可由流体总轴向动量平衡再次检查.
+\end{solution}
+
+\begin{exercise}
+原题5（6分）. 风过圆柱烟囱的涡脱落频率$f$依赖直径$D$、长度$L$、风速$V$、运动黏度$\nu$. (a,3分) 用量纲分析求一般关系. (b,1分) 第二烟囱各长度减半, 相似条件要求风速怎样变? (c,2分) 相似条件下频率怎样变?
+\end{exercise}
+\begin{solution}
+AI独立解答. 四个长度时间量可组成$fD/V$, $L/D$, $VD/\nu$, 所以$f=(V/D)\mathcal F(L/D,\mathrm{Re})$, $\mathrm{Re}=VD/\nu$. 若同种空气且黏度不变, $D'=D/2,L'=L/2$要保持Re则$V'=2V$, 从而$f'=4f$. 量纲分析不决定$\mathcal F$数值, 也不保证各Re均存在相同涡脱落机制; 结论限定动力相似流态.
+\end{solution}
+
+\begin{exercise}
+原题6（6分）. 高尔夫球阻力$F_D$依赖速度$V$、直径$D$、自转角速度$\omega$、空气密度$\rho$、动力黏度$\eta$和声速$c_s$. (a,3分) 求量纲一般关系. (b,3分) 若声速不重要, 写关系; 同空气风洞改用$2V$时, 怎样取直径和自转率才能动力相似?
+\end{exercise}
+\begin{solution}
+AI独立解答. 取$\rho,V,D$为基本重复量, 得
+\[
+F_D=\rho V^2D^2\mathcal G\left(\frac{\rho VD}{\eta},\frac{\omega D}{V},\frac{V}{c_s}\right).
+\]
+角度按无量纲处理, 自转率单位为时间倒数. 若压缩性可忽略, 删除Mach数参数$V/c_s$. 为保持Re, $V'=2V$要求$D'=D/2$; 再保持$\omega D/V$, 要有$\omega'=4\omega$. 此时力尺度$\rho V'^2D'^2=\rho V^2D^2$相同, 但球的几何细节如凹坑比例也应相同, 原题默认该形状相似. 若Mach数也重要而声速固定, 改速度无法同时保持Mach, 不能声称仍完全相似.
+\end{solution}
