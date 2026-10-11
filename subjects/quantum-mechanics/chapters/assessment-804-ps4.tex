@@ -1,0 +1,63 @@
+\originalchapter{8.04 作业4：自由波包与概率流}
+来源为8.04 Spring 2016 Assignment 4, 2016年2月25日发布, 3月4日中午截止. 全部七题共65分, 解答为\textbf{AI独立解答}. 教材阅读条目仅为参考, 以下题面取自实际OCW作业PDF.
+\originalsection{第1题：波包展宽尺度（5分）}
+\begin{exercise}
+(a)估算自由质子宽度$10^{-10}$ m及1 cm的显著展宽时间. (b)若$\Delta x\Delta p\sim\hbar$, 证明$\Delta p\ll p$时波包通过固定位置期间不显著展宽.
+\end{exercise}
+\begin{solution}
+速度分散$\Delta v\sim\Delta p/m$, 展宽达到原宽度需要$t_s\sim\Delta x/\Delta v\sim m(\Delta x)^2/\hbar$. 质子质量$1.67262\times10^{-27}$ kg给$t_s\sim1.586\times10^{-13}$ s和$1.586\times10^3$ s（约26.4分钟）. 这里是量级估算; 按Gaussian宽度增大$\sqrt2$定义会有2的系数差. 通过时间$t_p\sim\Delta x/(p/m)$, 因而$t_p/t_s\sim\Delta p/p\ll1$.
+\end{solution}
+\originalsection{第2题：平面入射加球面散射（10分）}
+\begin{exercise}
+远场定态为$\psi=\e^{\ii kz}+f(\theta)\e^{\ii kr}/r$, 时间整体相位省略. (a)求入射流及其穿过大球的净通量. (b)求散射流径向分量及总通量. (c)保留$1/r$主阶求交叉流径向分量.
+\end{exercise}
+\begin{solution}
+用$\boldsymbol J=(\hbar/m)\operatorname{Im}(\psi^*\boldsymbol\nabla\psi)$. 入射$\boldsymbol J_1=(\hbar k/m)\hat z$; 径向分量乘$\cos\theta$, 在球面积分为0（有流入也有流出）. 球面波给$J_{2r}=\hbar k|f(\theta)|^2/(mr^2)$, 总向外通量为$(\hbar k/m)\int|f|^2\dd\Omega$. $f$只依赖角度, 对$r$求导时视为常数. 交叉项为
+\[
+J_{12,r}=\frac{\hbar k}{mr}\operatorname{Im}\!\left\{\ii\left[f\e^{\ii kr(1-\cos\theta)}+\cos\theta f^*\e^{-\ii kr(1-\cos\theta)}\right]\right\}+O(r^{-2}).
+\]
+它来自$\psi_1^*\partial_r\psi_2+\psi_2^*\partial_r\psi_1$, 用$\partial_r\psi_1=\ii k\cos\theta\psi_1$即可逐项核对. 不能把交叉项先逐点丢掉再算总球面通量; 前向小角区域贡献导致光学定理, 原题不要求完成该积分.
+\end{solution}
+\originalsection{第3题：Gaussian的精确演化（15分）}
+\begin{exercise}
+初态$\psi_a(x,0)=(2\pi)^{-1/4}a^{-1/2}\e^{-x^2/(4a^2)}$. (a)验证归一化. (b)以$1/\sqrt{2\pi}$的波数Fourier约定求$\Phi_a(k)$. (c)求自由演化, 令$\tau=2ma^2/\hbar$. (d)写时刻$t$的概率密度及宽度$a(t)$.
+\end{exercise}
+\begin{solution}
+$|\psi|^2=\e^{-x^2/(2a^2)}/(\sqrt{2\pi}a)$, 积分为1. 实Gaussian积分给$\Phi_a(k)=(2/\pi)^{1/4}\sqrt a\,\e^{-a^2k^2}$. 每个波数分量乘$\e^{-\ii\hbar k^2t/(2m)}$, 积分中$A=a^2+\ii\hbar t/(2m)$,$B=\ii x$, 代$\int\e^{-Ak^2+Bk}\dd k=\sqrt{\pi/A}\e^{B^2/(4A)}$（$\operatorname{Re}A>0$）得
+\[
+\psi_a(x,t)=\frac{\exp[-x^2/(4a^2(1+\ii t/\tau))]}{(2\pi)^{1/4}\sqrt a\sqrt{1+\ii t/\tau}},\quad
+a(t)=a\sqrt{1+(t/\tau)^2}.
+\]
+平方根从$t=0$的正值连续选取. 取模方利用$\operatorname{Re}(1/(1+\ii u))=1/(1+u^2)$, 定义$G(x;b)=\exp[-x^2/(2b^2)]/(\sqrt{2\pi}b)$, 得$|\psi_a(x,t)|^2=G(x;a(t))$. 总概率始终1, 相位中的$x^2$项记录位置与动量相关, 并非热扩散.
+\end{solution}
+\originalsection{第4题：概率在Fourier变换下保持（10分）}
+\begin{exercise}
+(a)证明一维及三维$\int|\psi|^2\dd x=\int|\phi|^2\dd p$. (b)氢基态$\psi=N\e^{-r/a_0}$, 动量态$\phi=N'/(1+a_0^2p^2/\hbar^2)^2$, 求两常数及$p>\hbar/a_0$的概率.
+\end{exercise}
+\begin{solution}
+在$d$维采用$\psi(x)=(2\pi\hbar)^{-d/2}\int\phi(p)\e^{\ii p\cdot x/\hbar}\dd^dp$. 展开模方后先保留两动量积分:
+\[
+\int|\psi(x)|^2\dd^dx=\frac1{(2\pi\hbar)^d}\int\dd^dp\,\dd^dq\,\phi(p)\phi(q)^*\int\e^{\ii(p-q)\cdot x/\hbar}\dd^dx.
+\]
+内层为$(2\pi\hbar)^d\delta^{(d)}(p-q)$, 对$q$积分留下$\int|\phi(p)|^2\dd^dp$. 可先对快速衰减函数证明再按平方范数连续推广, 不要求任意函数积分都绝对收敛.
+
+位置归一化$4\pi N^2\int_0^\infty r^2\e^{-2r/a_0}\dd r=\pi a_0^3N^2=1$, 所以$N=(\pi a_0^3)^{-1/2}$. 令$u=a_0p/\hbar$, 则$\int_0^\infty u^2/(1+u^2)^4\dd u=\pi/32$, 从而$N'=2\sqrt2\,a_0^{3/2}/(\pi\hbar^{3/2})$（整体相位可选）. 大动量概率为
+\[
+P=\frac{32}{\pi}\int_1^\infty\frac{u^2\dd u}{(1+u^2)^4}=\frac12-\frac2{3\pi}=0.28779.
+\]
+最后一步令$u=\tan\theta$, 积分变成$\sin^2\theta\cos^4\theta$在$[\pi/4,\pi/2]$上的积分, 即可不用数值软件求出.
+\end{solution}
+\originalsection{第5、6题：均值运动与动量宽度（各10、5分）}
+\begin{exercise}
+第5题: 对$H=p^2/(2m)+V(x)$证明$\mathrm d\langle x\rangle/\mathrm dt=\langle p\rangle/m$, $\mathrm d\langle p\rangle/\mathrm dt=-\langle V'\rangle$. 第6题: 证明自由波包的$\Delta p$不变.
+\end{exercise}
+\begin{solution}
+不显含时间的$A$满足$\dot{\langle A\rangle}=(\ii/\hbar)\langle[H,A]\rangle$. $[p^2,x]=-2\ii\hbar p$给第一式, $[V,p]=\ii\hbar V'$给第二式. 这不是通常的$-V'(\langle x\rangle)$: 只有力近似线性或分布足够窄时才能以均值代入. 自由时$[H,p]=[H,p^2]=0$, 所以$\langle p\rangle$和$\langle p^2\rangle$恒定, $\Delta p$亦恒定. 这些操作假定所需矩存在且边界允许分部积分.
+\end{solution}
+\originalsection{第7题：空间相位的可测作用（10分）}
+\begin{exercise}
+归一化$\psi_0$有均值$x_0,p_0$. 定义$(B_qf)(x)=\e^{\ii qx/\hbar}f(x)$, $q$为实动量, 新态$B_q\psi_0$. (a,b)求位置、动量均值. (c)解释该相位. (d)算$[p,B_q],[x,B_q]$.
+\end{exercise}
+\begin{solution}
+模方不变, 所以$\langle x\rangle=x_0$. 求导给$pB_qf=B_qpf+qB_qf$, 故$\langle p\rangle=p_0+q$, $[p,B_q]=qB_q$, $[x,B_q]=0$. 这使整个动量分布平移$q$, 是动量助推; 空间依赖相位有可测后果, 与所有位置都相同的整体相位不同.
+\end{solution}

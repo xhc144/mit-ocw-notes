@@ -1,0 +1,51 @@
+\originalchapter{8.05 作业9：自旋与分子模型}
+来源为8.05 Fall 2013 Assignment 9, 2013年11月8日发布, 11月15日15时截止, 六题共65分. 以下全部小问为\textbf{AI独立解答}.
+\originalsection{第1、2题：方向均值与旋转（各10分）}
+\begin{exercise}
+第1题: 对$\ket{\boldsymbol n;+}$,$\boldsymbol n=(\sin\theta_0\cos\phi_0,\sin\theta_0\sin\phi_0,\cos\theta_0)$, 求$\langle\boldsymbol S\rangle$及另一方向$\boldsymbol n'$上的均值. 第2题: $R_\alpha(\boldsymbol n)=\exp[-\ii\alpha\boldsymbol n\cdot\boldsymbol S/\hbar]$. (a)展开$R_\epsilon^\dagger\boldsymbol SR_\epsilon$到一阶. (b)用均值说明它主动旋转态方向.
+\end{exercise}
+\begin{solution}
+Pauli矩阵乘方向态直接给$\langle\boldsymbol S\rangle=(\hbar/2)\boldsymbol n$, 所以$\langle\boldsymbol S\cdot\boldsymbol n'\rangle=(\hbar/2)\boldsymbol n\cdot\boldsymbol n'$. 各分量算符不对易, 这个向量是三个分别进行的测量均值, 不表示一次测得三个确定分量.
+
+展开得到$R_\epsilon^\dagger\boldsymbol SR_\epsilon=\boldsymbol S+(\ii\epsilon/\hbar)[\boldsymbol n\cdot\boldsymbol S,\boldsymbol S]+O(\epsilon^2)=\boldsymbol S+\epsilon\boldsymbol n\times\boldsymbol S+O(\epsilon^2)$. 在初始$\ket{\boldsymbol n';+}$取均值得$(\hbar/2)(\boldsymbol n'+\epsilon\boldsymbol n\times\boldsymbol n')$, 正是右手规则绕$\boldsymbol n$主动转$\epsilon$. 大角由连续小旋转积累, 不把算符共轭方向与态主动旋转的符号混淆.
+\end{solution}
+\originalsection{第3题：氨分子的隧穿与电场（15分）}
+\begin{exercise}
+在氮原子位于氢平面上下的$\ket\uparrow,\ket\downarrow$基中,$H=\left(\begin{smallmatrix}\mu\varepsilon&-\Delta\\-\Delta&-\mu\varepsilon\end{smallmatrix}\right)$,$\Delta>0$. (a)写$H=-K\boldsymbol n\cdot\boldsymbol\sigma$. (b)求能量与态. (c)讨论$\mu\varepsilon\simeq0$、正强场$\mu\varepsilon\gg\Delta$. (d)画能量. (e)从零场下$\ket\downarrow$开始演化, 然后突然开强场, 描述进一步演化及上态概率.
+\end{exercise}
+\begin{solution}
+$K=\sqrt{\Delta^2+\mu^2\varepsilon^2}$,$\boldsymbol n=(\Delta/K,0,-\mu\varepsilon/K)$, 可取$\phi=0$,$\sin\theta=\Delta/K$,$\cos\theta=-\mu\varepsilon/K$. 基态能量$-K$, 态$\cos(\theta/2)\ket\uparrow+\sin(\theta/2)\ket\downarrow$; 激发态$+K$, 态$-\sin(\theta/2)\ket\uparrow+\cos(\theta/2)\ket\downarrow$. 零场$\theta=\pi/2$, 两态为对称/反对称叠加, 能量$\mp\Delta$. 正强场$\theta\to\pi$, 基态趋$\ket\downarrow$能量$-\mu\varepsilon$, 激发趋$-\ket\uparrow$能量$+\mu\varepsilon$; 负强场相反. 能量曲线在0处最小间隙$2\Delta$, 渐近直线$\pm|\mu\varepsilon|$.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.76\textwidth,height=4cm,xlabel={$\mu\varepsilon/\Delta$},ylabel={$E/\Delta$},xmin=-3,xmax=3,ymin=-3.6,ymax=3.6]
+\addplot[main,domain=-3:3,samples=80]{sqrt(1+x*x)};\addplot[main,domain=-3:3,samples=80]{-sqrt(1+x*x)};
+\addplot[dashed,domain=-3:3]{abs(x)};\addplot[dashed,domain=-3:3]{-abs(x)};
+\end{axis}\end{tikzpicture}\end{center}
+零场态$\ket{\psi(t)}=\cos(\Delta t/\hbar)\ket\downarrow+\ii\sin(\Delta t/\hbar)\ket\uparrow$, 等效绕$x$轴按角$-2\Delta t/\hbar$旋转初始$-z$. 设开场时刻$t_s$, 忽略$\Delta$后$H\simeq\mu\varepsilon\sigma_z$, 两分量只加相反相位, $P_\uparrow\simeq\sin^2(\Delta t_s/\hbar)$固定, 不会立刻跳为0或1. 有限强场仍有小幅变化, 上界由$\Delta/|\mu\varepsilon|$控制; 这是突然开场, 不是绝热追随能量基态.
+\end{solution}
+\originalsection{第4题：三态二氧化碳离子（15分）}
+\begin{exercise}
+电子可在左氧$\ket L$、碳$\ket C$、右氧$\ket R$间跳跃, 两氧能量$E_O$、碳$E_C$, 无直接氧氧跳跃. (a)引入跳跃能量参数求谱. (b)对$E_C=E_O$求态. (c)继续取$E_C=E_O$, 从$\ket L$出发求三处概率并绘图.
+\end{exercise}
+\begin{solution}
+选跳跃矩阵元$-\Delta$, $\Delta>0$, 则$H=\left(\begin{smallmatrix}E_O&-\Delta&0\\-\Delta&E_C&-\Delta\\0&-\Delta&E_O\end{smallmatrix}\right)$. 反对称氧态$\ket a=(\ket L-\ket R)/\sqrt2$能量$E_O$; 对称态$\ket s=(\ket L+\ket R)/\sqrt2$与碳耦合$-\sqrt2\Delta$, 另两能量为$(E_O+E_C)/2\pm\sqrt{(E_O-E_C)^2/4+2\Delta^2}$. 等能$E_O=E_C=E_*$时态为$\ket a$和$(\ket s\pm\ket C)/\sqrt2$, 后者能量分别$E_*\mp\sqrt2\Delta$.
+
+令$\Omega=\sqrt2\Delta/\hbar$, 省略整体相位, 初态演化$\ket\psi=[\ket a+\cos\Omega t\ket s+\ii\sin\Omega t\ket C]/\sqrt2$. 因而$P_L=(1+\cos\Omega t)^2/4$,$P_R=(1-\cos\Omega t)^2/4$,$P_C=\sin^2\Omega t/2$, 和为1. $t=\pi/\Omega$电子完全到右氧, 但碳的最大概率只1/2; 反对称态始终不参与碳跳跃.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\textwidth,height=4.5cm,xlabel={$\Omega t$},ylabel={概率},xmin=0,xmax=6.2832,ymin=0,ymax=1.1,legend pos=north east]
+\addplot[main,domain=0:6.2832,samples=100]{(1+cos(deg(x)))^2/4};\addlegendentry{$P_L$}
+\addplot[dashed,domain=0:6.2832,samples=100]{(1-cos(deg(x)))^2/4};\addlegendentry{$P_R$}
+\addplot[dotted,domain=0:6.2832,samples=100]{sin(deg(x))^2/2};\addlegendentry{$P_C$}
+\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+\originalsection{第5题：共振核磁自旋（5分）}
+\begin{exercise}
+$\boldsymbol B(t)=B_0\hat z+B_1(\hat x\cos\omega_0t-\hat y\sin\omega_0t)$,$\omega_0=\gamma B_0$, 初态$\ket+$. (a)求演化及方向角. (b)消去$t$写$\phi(\theta)$, 求首次到赤道的方向.
+\end{exercise}
+\begin{solution}
+令$\omega_1=\gamma B_1$, 转动框架消去$z$场, 得$U=\e^{\ii\omega_0t\sigma_z/2}\e^{\ii\omega_1t\sigma_x/2}$. 所以$\ket\psi=\e^{\ii\omega_0t/2}\cos(\omega_1t/2)\ket++\ii\e^{-\ii\omega_0t/2}\sin(\omega_1t/2)\ket-$. 若$\omega_1>0$且在首次北到南区间,$\theta=\omega_1t$, $\phi=\pi/2-\omega_0t$, 故$\phi=\pi/2-(B_0/B_1)\theta$. 首次赤道$t=\pi/(2\omega_1)$, 方向$(\sin(\pi B_0/(2B_1)),\cos(\pi B_0/(2B_1)),0)$. 任意符号或更晚时间应使用无歧义向量$\boldsymbol n=(\sin\omega_1t\sin\omega_0t,\sin\omega_1t\cos\omega_0t,\cos\omega_1t)$, 再求角; 不将$\theta$无限增长当成标准极角.
+\end{solution}
+\originalsection{第6题：两自旋单态不随共同旋转改变（10分）}
+\begin{exercise}
+$\ket\Psi=(\ket+\otimes\ket--\ket-\otimes\ket+)/\sqrt2$. 已知幺正旋转$R\ket+=\ket{\boldsymbol n;+}$, (a)说明$R\ket-$为反方向态到相位. (b)证明$(R\otimes R)\ket\Psi$仅差整体相位.
+\end{exercise}
+\begin{solution}
+幺正保持正交, 而二维中$\ket{\boldsymbol n;+}$的正交补只有一维, 所以$R\ket-=\e^{\ii\eta}\ket{\boldsymbol n;-}$. 更直接, 写$R$的列为$(a,c)^{\mathsf T},(b,d)^{\mathsf T}$, 张量展开交叉项消去, 得$(R\otimes R)\ket\Psi=(ad-bc)\ket\Psi=\det R\ket\Psi$. 一般幺正$|\det R|=1$; 物理自旋旋转$R\in SU(2)$的行列式1, 因而完全不变. 仅旋转其中一个自旋则通常改变关联, 本题是共同旋转.
+\end{solution}

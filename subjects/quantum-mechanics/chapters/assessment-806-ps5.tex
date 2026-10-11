@@ -1,0 +1,66 @@
+\originalchapter{8.06 作业5：隧穿电离与光的吸收}
+来源为8.06 Spring 2018 Assignment 5, 2018年3月9日发布, 五题共80分. 原件没有印独立截止日期, 不补造. 以下转述全部小问并给\textbf{AI独立解答}; 电场方向按题给$-e\mathcal E x$约定, $e>0$为强度参数.
+\originalsection{第1题：弱电场使束缚态成为亚稳态（15分）}
+\begin{exercise}
+电子（质量$m=m_e$）处于宽$d$深$V_0$的方阱加$-e\mathcal E x$, 假定$e\mathcal E d\ll\hbar^2/(2md^2)\ll V_0$. (a)用无限深阱估计基态距阱底能量, 解释实际值较低. (b)画倾斜势并解释失稳. (c)用WKB求穿透因子. (d)以经典撞壁频率求寿命. (e)$V_0=20$ eV,$d=2\times10^{-8}$ cm,$\mathcal E=7\times10^4$ V/cm, 估寿命并与宇宙年龄尺度比较. (f)说明$\exp(1/\mathcal E)$为何不能由有限阶电场微扰得到.
+\end{exercise}
+\begin{solution}
+无限阱给$\epsilon=\pi^2\hbar^2/(2md^2)$, 总能量$E_g\simeq-V_0+\epsilon=-I$. 有限墙允许波函数外伸, 约束较少, 故实际基态更低于无限阱的这个绝对能量（距底能量更小）. 加场后右外部势$-e\mathcal E x$最终低于$-I$, 存在通向无穷的允许区, 原束缚态可以隧穿, 不再是真正离散稳定基态.
+
+障碍从$d/2$到$x_t=I/(e\mathcal E)$, 其中$V-E_g=I-e\mathcal E x$. 题给小场条件允许忽略$e\mathcal E d/2$相对$I$, 得
+\[
+\mathcal T\simeq\exp\!\left[-\frac2\hbar\int_{d/2}^{I/(e\mathcal E)}\sqrt{2m(I-e\mathcal E x)}\dd x\right]
+\simeq\exp\!\left[-\frac{4\sqrt{2m}I^{3/2}}{3\hbar e\mathcal E}\right].
+\]
+阱内速度估为$v=\sqrt{2\epsilon/m}$, 每往返$2d$撞一次右壁, 尝试频率$\nu=v/(2d)$, 寿命$\tau\sim1/(\nu\mathcal T)$. 题给数值$d=0.2$ nm,$\mathcal E=7\times10^6$ V/m, 得$\epsilon=9.40075$ eV,$I=10.59925$ eV,$\nu=4.54618\times10^{15}$ s$^{-1}$, 指数$B=33673.77$, 故$\log_{10}(\tau/\mathrm s)\simeq14608.67$. 以通常宇宙年龄约$10^{18}$ s的量级作比较, 此模型寿命大得不可观测. 该巨大数字不是精密预测: 无限阱近似能量对给定数值仅有有限准确度, 指数对$I$极敏感, 但“远长于宇宙年龄”量级结论稳健.
+
+衰变率含$\exp(-C/\mathcal E)$,$C>0$. 在$\mathcal E\to0^+$所有Taylor系数都为0, 任何有限阶多项式微扰都不会给出非零衰变; 寿命相反按$\exp(C/\mathcal E)$增长. 微扰可描述实能量Stark位移, 不足以捕捉这个非解析的隧穿过程.
+\begin{center}\begin{tikzpicture}[x=1cm,y=.4cm,>=Stealth]
+\draw[->](-2.2,0)--(5,0)node[right]{$x$};\draw[->](0,-4)--(0,1)node[above]{$V$};
+\draw[main](-2, .4)--(-.7,.14)--(-.7,-3)--(.7,-3.28)--(.7,-.14)--(4.7,-.94);
+\draw[dashed](-2,-.8)--(4.7,-.8)node[right]{$E_g$};
+\node at(3,-1.8){右侧三角障碍（示意）};\node[below]at(-.7,-3){$-d/2$};\node[below]at(.7,-3.3){$d/2$};
+\end{tikzpicture}\end{center}
+\end{solution}
+\originalsection{第2题：一个含时两态系统（15分）}
+\begin{exercise}
+$H=\left(\begin{smallmatrix}E&v(t)\\v(t)&-E\end{smallmatrix}\right)$, $v$实且$\int|v|\dd t<\infty$, 初始$\ket2$在$-\infty$. (a)最低阶求$+\infty$时$\ket1$概率. (b)$E=0$时精确求概率, 比较微扰并给有效条件.
+\end{exercise}
+\begin{solution}
+相互作用表象第一阶$c_1=-(\ii/\hbar)\int_{-\infty}^\infty v(t)\e^{2\ii Et/\hbar}\dd t$, 所以$P_{2\to1}=\hbar^{-2}|\int v\e^{2\ii Et/\hbar}\dd t|^2+O(v^4)$. 零能时$H=v(t)\sigma_x$各时刻对易, $U=\exp(-\ii A\sigma_x)$,$A=\int v\dd t/\hbar$, 因而精确$P=\sin^2A$. 微扰给$A^2$, 充分有效条件$|A|\ll1$; 更稳健的全程小扰动条件为$\int|v|\dd t/\hbar\ll1$. 若不同时间正负脉冲抵消, 积分$A=0$仍给这个特殊可对易模型的精确零转移, 不能据此概括一般不对易脉冲.
+\end{solution}
+\originalsection{第3题：原子与单光场模（15分）}
+\begin{exercise}
+$H_0=\hbar\omega_a\sigma_z/2+\hbar\omega_p(a^\dagger a+1/2)$, 张量恒等算符省略, $\delta H=\alpha(\sigma_-+\sigma_+)(a+a^\dagger)$,$\sigma_+=\ket e\bra g$. (a)求相互作用表象$\widetilde{\delta H}(t)$. (b)在$\omega_a=\omega_p=\omega$积分$0$到$t$, 解释$t\gg1/\omega$可舍项及吸收/发射意义.
+\end{exercise}
+\begin{solution}
+由$[H_0,\sigma_+]=\hbar\omega_a\sigma_+$,$[H_0,a]=-\hbar\omega_pa$, 得
+\[
+\widetilde{\delta H}=\alpha[\sigma_+a\e^{\ii(\omega_a-\omega_p)t}+\sigma_-a^\dagger\e^{-\ii(\omega_a-\omega_p)t}
++\sigma_+a^\dagger\e^{\ii(\omega_a+\omega_p)t}+\sigma_-a\e^{-\ii(\omega_a+\omega_p)t}].
+\]
+共振时积分为$\alpha t(\sigma_+a+\sigma_-a^\dagger)+\alpha\sigma_+a^\dagger(\e^{2\ii\omega t}-1)/(2\ii\omega)+\alpha\sigma_-a(1-\e^{-2\ii\omega t})/(2\ii\omega)$. 后两项有界$O(\alpha/\omega)$, 相比随$t$增长的共振项较小. 旋转波近似还要求耦合频率$|\alpha|\sqrt{n+1}/\hbar\ll\omega$, 不能仅以$t$长证明任意强耦合下都可舍去. $\sigma_+a$消一个光子激发原子（吸收）; $\sigma_-a^\dagger$使原子降能并添光子, 振幅$\sqrt{n+1}$既含已有光子刺激也含真空$n=0$的自发发射. 单模可逆能量交换本身不是不可逆的连续谱自发衰变.
+\end{solution}
+\originalsection{第4题：Gaussian脉冲（10分）}
+\begin{exercise}
+$H_0\ket n=E_n\ket n$, $\delta H(t)=\e^{-t^2/(2\tau^2)}V/(\sqrt{2\pi}\tau)$,$V$时间无关Hermitian, $\tau>0$. 初态$\ket0$在$-\infty$, 求第一阶转移概率并讨论$\tau\to0,\infty$.
+\end{exercise}
+\begin{solution}
+对$n\neq0$,$c_n=-(\ii/\hbar)V_{n0}\e^{-\omega_{n0}^2\tau^2/2}$,$\omega_{n0}=(E_n-E_0)/\hbar$, 因而$P_n=|V_{n0}|^2\e^{-\omega_{n0}^2\tau^2}/\hbar^2$到最低非零阶. $V$在此量纲为作用量, 因脉冲系数为每时间; 不能按普通能量矩阵直接理解. 极短脉冲频谱宽, 结果趋$|V_{n0}|^2/\hbar^2$; 极慢脉冲对非零能隙指数抑制, 简并$E_n=E_0$不受该抑制, 应在简并空间整体处理. $n=0$第一阶振幅为$1-\ii V_{00}/\hbar$, 其平方不能作为到二阶的存活概率; 一致归一化到二阶应为$P_0=1-\sum_{n\neq0}P_n$（满足微扰小概率条件）. 对角项主要给相位.
+\end{solution}
+\originalsection{第5题：二氧化碳振动模与选择规则（25分）}
+\begin{exercise}
+三个等质量$m$的一维点质量按O--C--O以两根常数$k$弹簧连接,$H_0=\sum p_j^2/(2m)+k[(x_1-x_2)^2+(x_2-x_3)^2]/2$. (a)对角化$K=(k/2)\left(\begin{smallmatrix}1&-1&0\\-1&2&-1\\0&-1&1\end{smallmatrix}\right)=R\Lambda R^{\mathsf T}$, 按特征值降序, 解释零值. (b)写$y=R^{\mathsf T}x$的势. (c)变换动量$\pi=R^{\mathsf T}p$, 验证对易与动能. (d)化为两谐振子和一个自由模. (e)氧各$-q$、碳$2q$, 求电偶极与能吸收振动光的模.
+\end{exercise}
+\begin{solution}
+选正交列
+\[
+R=\begin{pmatrix}1/\sqrt6&1/\sqrt2&1/\sqrt3\\-2/\sqrt6&0&1/\sqrt3\\1/\sqrt6&-1/\sqrt2&1/\sqrt3\end{pmatrix},\qquad
+\Lambda=\operatorname{diag}(3k/2,k/2,0).
+\]
+零值列三粒子同位移, 是自由质心平移, 不拉伸弹簧. 势变为$3ky_1^2/2+ky_2^2/2$, 动能因正交保持为$\sum\pi_j^2/(2m)$. 对易$[y_i,\pi_j]=\sum_{ab}R_{ai}R_{bj}[x_a,p_b]=\ii\hbar(R^{\mathsf T}R)_{ij}=\ii\hbar\delta_{ij}$, 其余同类对易0. 频率$\omega_1=\sqrt{3k/m}$,$\omega_2=\sqrt{k/m}$, $a_i=\sqrt{m\omega_i/(2\hbar)}y_i+\ii\pi_i/\sqrt{2m\hbar\omega_i}$, 给
+\[
+H_0=\hbar\omega_1(a_1^\dagger a_1+1/2)+\hbar\omega_2(a_2^\dagger a_2+1/2)+\pi_3^2/(2m).
+\]
+两模升降独立满足题给对易. 偶极$\boldsymbol d=-q(x_1-2x_2+x_3)\hat x=-\sqrt6qy_1\hat x=-q\sqrt{3\hbar/(m\omega_1)}(a_1+a_1^\dagger)\hat x$. 只有模1与均匀电场耦合, 其$\Delta n_1=\pm1$, 模2与质心模不在此电偶极近似中吸收. 该结论按题给等质量、固定部分电荷和一维近似; 真实CO$_2$有弯曲模和不同核质量, 不能把简化模型的全部频率当成实验值.
+\end{solution}

@@ -6,4 +6,4 @@
 
 原件按 OCW 默认 CC BY-NC-SA 4.0 署名：MIT OpenCourseWare、Barton Zwiebach 及原文件内另署的贡献者。许可证：https://creativecommons.org/licenses/by-nc-sa/4.0/ ；OCW 条款：https://ocw.mit.edu/pages/privacy-and-terms-of-use/ 。没有 MIT 官方中文或认可的含义。
 
-明确引用/改编商业教材题目的混合 PDF 从当前目录排除；清单保留来源、校验事实和具体理由。二筛后撤的11份曾进入初批提交，正常删除没有重写Git历史，详见[历史边界](../../subjects/quantum-mechanics/qa/license-history-note.md)。商业教材只保留书目信息，不下载或打包。8.06 的第5章和考试未公开，未伪造补齐。选定课程未取得官方答案，中文独立解答明确标记 AI 独立解答。
+明确引用/改编商业教材题目的混合 PDF 从当前目录排除；清单保留来源、校验事实和具体理由。二筛后撤的11份曾进入初批提交，正常删除没有重写Git历史，11份历史原件逐项路径、物理页证据和首次/撤下提交见[历史证据表](../../subjects/quantum-mechanics/qa/historical-source-evidence.md)。商业教材只保留书目信息，不下载或打包。8.06 的第5章和考试未公开，未伪造补齐。选定课程未取得官方答案，中文独立解答明确标记 AI 独立解答。

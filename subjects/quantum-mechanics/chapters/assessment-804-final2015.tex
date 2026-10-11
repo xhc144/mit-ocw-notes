@@ -1,0 +1,79 @@
+\originalchapter{8.04 2015期末：量子模型的连接}
+原件为Fall 2015 Final Exam, 2015年12月18日13:30--16:30, 六题105分, 闭卷禁计算器, 发布于Spring 2016 OCW. PDF第2--6页公式表已保存. 以下逐题覆盖全部小问, 均为\textbf{AI独立解答}.
+\originalsection{第1题：一维维里定理（15分）}
+\begin{exercise}
+(a)解释能量本征态的任意$\langle[H,\Omega]\rangle=0$. (b)取$\Omega=xp$, 推出$\langle T\rangle$与$V'$关系. (c)应用于谐振子.
+\end{exercise}
+\begin{solution}
+在相关态属于运算定义域、矩收敛的条件下,$\langle H\Omega\rangle=E\langle\Omega\rangle=\langle\Omega H\rangle$. $[xp,H]=\ii\hbar(2T-xV')$, 所以$2\langle T\rangle=\langle xV'\rangle$. 对$V=m\omega^2x^2/2$, $xV'=2V$, 得$\langle T\rangle=\langle V\rangle=E/2$. “任意”算符仍需定义域条件, 对硬墙或奇异势的边界项须另查.
+\end{solution}
+\originalsection{第2题：氢原子的类圆轨道（15分）}
+\begin{exercise}
+固定$n$, $\ell=m=n-1$. (a)写波函数到无量纲归一常数. (b)求径向概率密度峰位置. (c)用$|Y_{\ell\ell}|^2\propto\sin^{2\ell}\theta$描述大$n$时电子最可能出现的区域.
+\end{exercise}
+\begin{solution}
+径向多项式次数$n-\ell-1=0$, 所以$\psi=N a_0^{-3/2}(r/a_0)^{n-1}\e^{-r/(na_0)}Y_{n-1,n-1}(\theta,\phi)$. 径向密度$P(r)\propto r^{2n}\e^{-2r/(na_0)}$含球壳体积$r^2$, 不是点密度; 对数导数$2n/r-2/(na_0)$给峰$r=n^2a_0$. 对大$\ell$, 令$\theta=\pi/2+\epsilon$, $\sin^{2\ell}\theta\simeq\e^{-\ell\epsilon^2}$, 集中在赤道而对$\phi$均匀. 径向相对宽度约$1/\sqrt{2n}$, 因而是薄圆环附近的概率分布, 不等于一个沿确定轨迹运动的点. $n=1$时$\ell=0$方向均匀, 不适用窄环描述.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.72\textwidth,height=4cm,xlabel={$\theta$},ylabel={相对角密度},xmin=0,xmax=3.14159,xtick={0,1.5708,3.14159},xticklabels={$0$,$\pi/2$,$\pi$},ymin=0,ymax=1.1]
+\addplot[main,domain=0:3.14159,samples=120]{sin(deg(x))^40};
+\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+\originalsection{第3题：出射波包（15分）}
+\begin{exercise}
+$x>R$定态$\psi=\e^{\ii\delta(k)}\sin(kx+\delta(k))$. (a)分为入射及出射波. (b)入射波包为
+\[
+\int_0^\infty f(k)\e^{-\ii kx-\ii E(k)t/\hbar}\dd k,
+\]
+写出射波包. (c)用驻定相位求其峰轨迹.
+\end{exercise}
+\begin{solution}
+$\psi=[\e^{2\ii\delta}\e^{\ii kx}-\e^{-\ii kx}]/(2\ii)$, 所以相对于所给入射振幅, 反射振幅为$-\e^{2\ii\delta}$. 出射为$-\int f(k)\e^{\ii kx+2\ii\delta(k)-\ii E(k)t/\hbar}\dd k$. 若$f=|f|\e^{\ii\chi}$在$k_0$附近窄且平滑, 定相位得$x=v_g t-2\delta'(k_0)-\chi'(k_0)$,$v_g=E'(k_0)/\hbar$. 原题常以$f$相位不变为基准, 则$x=v_gt-2\delta'$. 相比自由反射, 延迟$2\delta'/v_g=2\hbar\mathrm d\delta/\mathrm dE$. 必须保留$f$中可能的初始位置相位, 不能对任意复$f$都把初始峰假定在0.
+\end{solution}
+\originalsection{第4题：趋近完美的无损测弹（20分）}
+\begin{exercise}
+$U=\left(\begin{smallmatrix}\cos\alpha&\ii\sin\alpha\\\ii\sin\alpha&\cos\alpha\end{smallmatrix}\right)$,$\alpha=\pi/(2N)$, 两侧相等距离镜面使光子重复击中分束器, 初始在左侧. (a)求$U^k$. (b)求第$k$次后左右概率及$k=N$. (c)右侧加入每次吸收光子的探测器, 求$N$次后左侧概率及被探测概率. (d)大$N$估计. (e)右侧换为有效则吸收引爆、坏则透明的EV弹, 解释找到左侧光子的结论及$N=250$爆炸概率.
+\end{exercise}
+\begin{solution}
+记$\sigma_x=\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$, $\sigma_x^2=I$. 题给乘法公式或$U=\e^{\ii\alpha\sigma_x}$给$U^k=\cos(k\alpha)I+\ii\sin(k\alpha)\sigma_x$. 镜面对两支路相同的反射相位只形成整体相位. 无探测器时$p_L=\cos^2(k\alpha),p_R=\sin^2(k\alpha)$, $N$次后光子完全在右. 每次右侧吸收时, 留存左振幅乘$\cos\alpha$, 所以$P_L(N)=\cos^{2N}\alpha$, $P_D=1-P_L$. 大$N$有$P_L\simeq\exp[-\pi^2/(4N)]\simeq1-\pi^2/(4N)$, $P_D\simeq\pi^2/(4N)$.
+
+坏弹等同无探测器, 理想$N$次后不可能在左; 有效弹等同吸收器, 吸收就引爆. 因而未爆炸且找到左光子即可认证有效, 概率趋1. 爆炸概率$P_E=1-\cos^{2N}[\pi/(2N)]$. $N=250$精确约0.0098212, 首阶约0.0098696, 即约0.98\%. 极限通过多次弱分束及每次吸收条件抑制转移（量子Zeno效果）实现, 与仅把单次不对称MZ反射率推高的$1/2$上界是不同装置.
+\end{solution}
+\originalsection{第5题：小圆柱上的额外维度（20分）}
+\begin{exercise}
+粒子位于长$a$、周长$L$的圆柱表面, 用矩形坐标$0<x<a$, $0\leq y<L$且两条水平边识别. (a)分离方程及边界. (b)归一态、能量与量子数范围. (c)基态能量. (d)无偶然简并时哪些能量与一维段相同. (e)最低的新增能级. (f)$L=a/1000$, $\hbar^2/(2ma^2)=1$ eV时探测额外维度所需能量尺度.
+\end{exercise}
+\begin{solution}
+$\psi=X(x)Y(y)$给$-\hbar^2X''/(2m)=E_xX$, $-\hbar^2Y''/(2m)=E_yY$, $E=E_x+E_y$. $X(0)=X(a)=0$, $Y(y+L)=Y(y)$且导数也周期. 解为
+\[
+\psi_{n\ell}=\sqrt{\frac2{aL}}\sin\frac{n\pi x}a\,\e^{2\pi\ii\ell y/L},\qquad
+E_{n\ell}=\frac{\hbar^2}{2m}\left[\frac{n^2\pi^2}{a^2}+\frac{4\pi^2\ell^2}{L^2}\right],
+\]
+$n=1,2,\ldots$,$\ell\in\mathbb Z$. 基态$(1,0)$能量$\pi^2\hbar^2/(2ma^2)$. 与一维段相同的是全部$\ell=0$态; 最低新增能量$E_{1,\pm1}$二重, 为基态加$4\pi^2\hbar^2/(2mL^2)$. 额外方向激发差约$4\pi^2\times10^6$ eV$=39.48$ MeV, 加上约9.87 eV的基态能量可忽略. 这是给定非相对论模型的能量尺度, 若该值已不远小于粒子静能, 真正实验还须用相对论动力学修正.
+\end{solution}
+\originalsection{第6题：双\texorpdfstring{$\delta$}{δ}势的完全透射（20分）}
+\begin{exercise}
+$V=g\delta(x+a)+g\delta(x-a)$,$\lambda=mag/\hbar^2\geq0$. 左、中、右分别取$A\e^{\ii kx}+B\e^{-\ii kx}$,$C\e^{\ii kx}+D\e^{-\ii kx}$,$F\e^{\ii kx}$. (a)完全透射要求哪个系数0. (b)写四个匹配式. (c)给定共振条件$\xi\cot\xi=-2\lambda$,$\xi=2ka$, 画至$3\pi$, 求弱、强势根近似. (d)用$C/D=-1/\cos2ka$,$C=(1+\lambda/(\ii ka))A$, 求强势第一个共振的内波与概率密度图.
+\end{exercise}
+\begin{solution}
+无损散射同侧波数相同,$T=1$等价$B=0$. 写$u=ka$, 连续与跳导数给
+\[
+\begin{aligned}
+C+D\e^{2\ii u}&=A,& C+D\e^{-2\ii u}&=F,\\
+C-D\e^{2\ii u}&=(1+2\lambda/(\ii u))A,&
+C-D\e^{-2\ii u}&=(1-2\lambda/(\ii u))F.
+\end{aligned}
+\]
+第一个导数跳跃为内减外, 第二个为外减内, 因此符号不同. $\lambda>0$时每个$\xi$根在$((n+1/2)\pi,(n+1)\pi)$,$n=0,1,\ldots$. 弱势$u\simeq(2n+1)\pi/4$; 强势$u\simeq(n+1)\pi/2$（从下侧接近）. $\lambda=0$完全无势, 所有能量透射1, 不能仅取极限离散根说只有这些能量透射.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\textwidth,height=5cm,xlabel={$\xi$},ylabel={$\xi\cot\xi$},xmin=0,xmax=9.425,ymin=-14,ymax=8,restrict y to domain=-16:10,unbounded coords=jump]
+\addplot[main,domain=.001:3.13,samples=100]{x*cot(deg(x))};
+\addplot[main,domain=3.15:6.27,samples=100]{x*cot(deg(x))};
+\addplot[main,domain=6.3:9.41,samples=100]{x*cot(deg(x))};
+\addplot[dashed,domain=0:9.425]{-.2};\addplot[dotted,domain=0:9.425]{-10};
+\node at(axis cs:1,-.9){$-2\lambda=-0.2$};\node at(axis cs:2,-11){$-2\lambda=-10$};
+\end{axis}\end{tikzpicture}\end{center}
+强势首根$\xi\simeq\pi-\pi/(2\lambda)$, $u\simeq\pi/2-\pi/(4\lambda)$. $\cos2u\simeq-1$, $D\simeq C\simeq-\ii\lambda/u$, 所以内波$\psi\simeq-2\ii\lambda\cos(kx)/u$. 内区概率最大$4\lambda^2/u^2\simeq16\lambda^2/\pi^2$, 很大; 外面$|\psi|^2=|A|^2=|F|^2=1$. 内部大驻波和完全透射相容, 表示粒子在双障碍间长时间储存. 下图为强势首根的主阶示意, 边界附近需要保留次阶项才能精确连接外部1.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.78\textwidth,height=4cm,xlabel={$x/a$},ylabel={相对密度},xmin=-2,xmax=2,ymin=0,ymax=1.2]
+\addplot[main,domain=-1:1,samples=80]{cos(deg(pi*x/2))^2};
+\addplot[main,domain=-2:-1]{.02};\addplot[main,domain=1:2]{.02};
+\node at(axis cs:0,1.12){内部按峰值缩放；外部很小的常值};
+\end{axis}\end{tikzpicture}\end{center}
+\end{solution}

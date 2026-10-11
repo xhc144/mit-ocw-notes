@@ -11,9 +11,9 @@ HOLD={
 'MIT8_05F13_ps3.pdf':'Contains question from Axler.',
 'MIT8_05F13_ps5.pdf':'Contains Griffiths 3.32 problem-number-only reference.',
 'MIT8_05F13_ps10.pdf':'Contains Griffiths Problem 4.57; lecture exercises also referenced rather than printed.',
-'MIT8_05F13_ps11.pdf':'Mixed angular-momentum questions and textbook table/solution dependencies; held conservatively.',
+'MIT8_05F13_ps11.pdf':'Optional textbook table and solution references; no included textbook table identified. Conservative hold, not a confirmed rights exclusion.',
 'MIT8_06S18ps6.pdf':'Contains Griffiths 9.11 and 9.14 problem-number-only references.',
-'MIT8_06S18ps7.pdf':'Aharonov-Bohm question explicitly follows Griffiths example and diagram.',
+'MIT8_06S18ps7.pdf':'Aharonov-Bohm question follows a Griffiths example and references Fig. 10.10; no copied figure identified. Conservative hold, not a confirmed rights exclusion.',
 'MIT8_05F13_Chap_01.pdf':'Contains example explicitly attributed to Griffiths.',
 'MIT8_05F13_Chap_03.pdf':'Text explicitly follows the discussion in Axler; separate adaptation permission not established.',
 'MIT8_04S16_ps3_2016.pdf':'Problem 5 attributed to Merzbacher; textbook-derived question redistribution not established.',
@@ -31,14 +31,14 @@ HOLD={
 hold=pathlib.Path('/tmp/quantum-rights-hold');hold.mkdir(exist_ok=True)
 for i in m['resources']:
  original_path=i.get('path',i.get('download_path_not_distributed'));name=pathlib.Path(original_path).name;orig=name[33:]
- i['author']='Course instructor: Barton Zwiebach; individual PDF not separately signed unless identified in document.'
+ i.setdefault('author','Course instructor: Barton Zwiebach; individual PDF not separately signed unless identified in document.')
  i['license_reviewed_on']='2026-10-11';i['third_party_exceptions']=[]
  if i['course']=='8.04' and i['category']=='exams':i['document_term']='Fall 2015 (distributed on Spring 2016 OCW page)'
  elif i['course']=='8.05' and i['category']=='exams':
   match=re.search(r'201[123]',orig);i['document_term']=match.group(0) if match else 'course formula sheet'
  else:i['document_term']=i['term']
  if orig in HOLD:
-  i.update(archive_allowed=False,license_review='withheld_textbook_derived_content',third_party_exceptions=[HOLD[orig]],retained_in_repository=False)
+  i.update(archive_allowed=False,license_review='conservative_hold_not_confirmed_exception',third_party_exceptions=[],rights_uncertainties=[HOLD[orig]],explicit_document_rights_exclusion_found=False,retained_in_repository=False)
   for k in ['path','text_path']:
    if k not in i:continue
    f=ROOT/i[k]
@@ -52,9 +52,9 @@ for i in m['resources']:
   assert all(p.get_text() is not None for p in d)
   i.update(archive_allowed=True,license_review='OCW_default_no_document_specific_exception_found_in_text',retained_in_repository=True)
   i['review_scope']='All PDF pages opened and extracted; document text scanned for credits, explicit textbook adaptations and rights notices. No claim that absence of a notice resolves all possible unmarked rights.'
-m['rights_policy']='CC BY-NC-SA 4.0 is the OCW default, not a license for commercial textbooks or identified third-party adaptations. Entire mixed PDFs are withheld pending separate permission; reading references alone do not trigger withholding. No external textbook or site image is bundled.'
+m['rights_policy']='OCW default CC BY-NC-SA 4.0 does not automatically cover separately identified third-party material. Citation or adaptation credit alone does not establish an explicit exclusion. Selected mixed files with incomplete textbook statements or unresolved adaptation credit are held conservatively, not labelled confirmed exceptions. No commercial textbook or external image is bundled.'
 m['known_gaps']=['8.06 Spring 2018 chapter 5 PDF not supplied on official lecture-notes page.','8.06 Spring 2018 exams expressly unavailable to OCW users.','8.06 syllabus mentions an ungraded last-week problem set; assignments page supplies only nine.','Official solutions not linked on the selected three OCW course pages; classroom website availability does not mean OCW availability.']
 p.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
 ret=[i for i in m['resources'] if i['retained_in_repository']]
-q=dict(date='2026-10-11',downloaded_resource_links=len(m['resources']),unique_downloaded_pdfs=len({i['sha256'] for i in m['resources']}),downloaded_unique_pages=sum(i['pages'] for i in m['resources'] if 'duplicate_of' not in i),retained_pdfs=len(ret),retained_pdf_pages=sum(i['pages'] for i in ret),withheld_pdfs=sum(i['license_review']=='withheld_textbook_derived_content' and 'duplicate_of' not in i for i in m['resources']),courses={c:dict(pdf_count=sum(i['course']==c for i in ret),pdf_pages=sum(i['pages'] for i in ret if i['course']==c)) for c in ['8.04','8.05','8.06']},verification='PDF magic, PyMuPDF all-page opening, page count, SHA256 and size verified; no substitute course URL indexes.',rights_hold_publication=False)
+q=dict(date='2026-10-11',downloaded_resource_links=len(m['resources']),unique_downloaded_pdfs=len({i['sha256'] for i in m['resources']}),downloaded_unique_pages=sum(i['pages'] for i in m['resources'] if 'duplicate_of' not in i),retained_pdfs=len(ret),retained_pdf_pages=sum(i['pages'] for i in ret),withheld_pdfs=sum(i['license_review']=='conservative_hold_not_confirmed_exception' and 'duplicate_of' not in i for i in m['resources']),courses={c:dict(pdf_count=sum(i['course']==c for i in ret),pdf_pages=sum(i['pages'] for i in ret if i['course']==c)) for c in ['8.04','8.05','8.06']},verification='PDF magic, PyMuPDF all-page opening, page count, SHA256 and size verified; no substitute course URL indexes.',rights_hold_publication=False)
 (ROOT/'subjects/quantum-mechanics/qa/source-verification.json').write_text(json.dumps(q,ensure_ascii=False,indent=2)+'\n');print(json.dumps(q,ensure_ascii=False))

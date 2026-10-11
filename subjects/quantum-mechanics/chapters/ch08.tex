@@ -4,7 +4,9 @@
 
 位置波函数是态的一种表示. 态写为$\ket\psi$, 读作ket. 与它对应的$\bra\psi$读作bra, 是把任意输入态映到复数内积的规则, 称为\textbf{线性泛函}. 内积为$\braket\phi\psi$. $\bra\psi$对输入ket线性, 即保持加法和复数倍乘; 但从$\ket\psi$到$\bra\psi$的对应是共轭线性的, 标量倍乘会变成其共轭. $\ket\psi$可在不同基中表示为不同的系数列, 物理态不会因换坐标而改变. 外积$\ket u\bra v$是算符: 它作用于$\ket\psi$后得到$\ket u\braket v\psi$.
 
-先考虑有限维复内积空间, 避免无界定义域问题. 厄米矩阵有一个本征向量, 因为其特征多项式在复数域有根. 本征值为实, 如第4章所证. 若$u$是归一化本征向量, $u^\perp$在$A$下不变: 对$v\perp u$, $\braket u{Av}=\braket{Au}v=0$. 对维数归纳, 便得到正交归一本征基$\ket{u_n}$. 所以
+先算熟悉的两盒能级$\psi=c_1u_1+c_2u_2$, 系数列$(c_1,c_2)^{\mathsf T}$. 恒等$I$不改任何态. 投影$P_1$只留下第一分量,$P_1\psi=c_1u_1$, 矩阵$\operatorname{diag}(1,0)$; $P_2$同理为$\operatorname{diag}(0,1)$, $P_1+P_2=I$. 能量读数$E_1$概率$|c_1|^2$, 若非零, 测后为$u_1$到整体相位. 投影是在算什么由此可直接核对.
+
+下面的有限维谱证明作为进阶线代工具说明: 子空间是对加法和倍乘封闭的集合,$u^\perp$是全部与$u$正交的矢; 使用复多项式存在根的标准工具. 先考虑有限维复内积空间, 避免无界定义域问题. 厄米矩阵有一个本征向量, 因为其特征多项式在复数域有根. 本征值为实, 如第4章所证. 若$u$是归一化本征向量, $u^\perp$在$A$下不变: 对$v\perp u$, $\braket u{Av}=\braket{Au}v=0$. 对维数归纳, 便得到正交归一本征基$\ket{u_n}$. 所以
 \[
 I=\sum_n\ket{u_n}\bra{u_n},\qquad
 A=\sum_n a_n\ket{u_n}\bra{u_n}.
@@ -14,21 +16,33 @@ A=\sum_n a_n\ket{u_n}\bra{u_n}.
 对归一态, Born测量规则为$\Pr(A=a)=\bra\psi P_a\ket\psi=\|P_a\psi\|^2$. 理想投影测量后, 若结果$a$发生且概率非零, 条件态为$P_a\ket\psi/\|P_a\psi\|$. 简并时不指定简并子空间内某一个任意基向量; 测量$A$本身只确定子空间. 更一般的测量可以不同于投影测量, 本册这一节只使用理想投影模型.
 
 \originalsection{相容性与同时本征基}
-若$A,B$是对易的有限维厄米算符, 对$A$的本征子空间$V_a$, 有 $A(Bv)=B(Av)=aBv$, 所以$B$保持$V_a$. 在每个$V_a$内将$B$厄米对角化, 可得到同时本征基. 若$A$本征值不简并, $V_a$是一维, 所以每个$A$本征向量已是$B$本征向量.
+相容性问能否制备对两个读数都确定的态, 并用一套共同确定读数态展开. 两个对角测量例如盒的$H$和任意$f(H)$使用相同驻波, 所以读数可以同时明确. 不意味着任何具体装置的顺序实施都无额外扰动. 若$A,B$是对易的有限维厄米算符, 对$A$的本征子空间$V_a$, 有 $A(Bv)=B(Av)=aBv$, 所以$B$保持$V_a$. 在每个$V_a$内将$B$厄米对角化, 可得到同时本征基. 若$A$本征值不简并, $V_a$是一维, 所以每个$A$本征向量已是$B$本征向量.
 
 对易是\emph{存在}同时基的条件, 不等于任意两个给定本征向量都相同. 连续谱和无界算符的情形须使用适当的谱投影相容性, 不能仅凭某个稠密子域上的形式$[A,B]=0$断言强对易.
 
 \originalsection{幺正演化和期望值方程}
-有限维且$H$定常, 令$U(t)=\e^{-\ii Ht/\hbar}$. 逐本征态定义指数, 便有$U^\dagger U=I$, 所以演化保持内积和所有态的范数. 它也说明两个态若受同一Hamilton算符演化, 重叠$\braket{\phi(t)}{\psi(t)}$不变. 位置概率密度可能分离, 复内积仍可以保持不变.
+闭合系统演化保持总概率以及态之间的内积. 幺正就是$U^\dagger U=I$; 在能量基中每个$u_n$仅乘模1相位$\e^{-\ii E_nt/\hbar}$, 可逐项看到内积保持. 有限维且$H$定常, 令$U(t)=\e^{-\ii Ht/\hbar}$. 逐本征态定义指数, 便有$U^\dagger U=I$, 所以演化保持内积和所有态的范数. 它也说明两个态若受同一Hamilton算符演化, 重叠$\braket{\phi(t)}{\psi(t)}$不变. 位置概率密度可能分离, 复内积仍可以保持不变.
 
-对于显含时间的观测量$A(t)$,
+点号表示时间导数. 算符显含时间是测量规则本身随时间改变, 与态变化是两种不同来源. 对于显含时间的观测量$A(t)$,
 \begin{align*}
 \frac{\mathrm d}{\mathrm dt}\langle A\rangle
 &=\langle\dot\psi,A\psi\rangle+\langle\psi,\dot A\psi\rangle+\langle\psi,A\dot\psi\rangle\\
 &=\frac{\ii}{\hbar}\langle[H,A]\rangle+\left\langle\frac{\partial A}{\partial t}\right\rangle.
 \end{align*}
-对$p^2/(2m)+V(x)$和合适光滑态, $\frac{\mathrm d}{\mathrm dt}\langle x\rangle=\langle p\rangle/m$, $\frac{\mathrm d}{\mathrm dt}\langle p\rangle=-\langle V'(x)\rangle$. 这就是Ehrenfest关系. 一般$\langle V'(x)\rangle\ne V'(\langle x\rangle)$, 因而平均位置不总是精确满足经典轨道方程. 二次势因力为线性函数而使两者相同.
+上式代$\dot\psi=-\ii H\psi/\hbar$与其共轭, 两个态导数项分别给$\ii\langle HA\rangle/\hbar$及$-\ii\langle AH\rangle/\hbar$, 才得到对易子. 对$p^2/(2m)+V(x)$, 利用乘积对易式先算$[p^2,x]=p[p,x]+[p,x]p=-2\ii\hbar p$. 对试探函数$f$, $(Vp-pV)f=-\ii\hbar Vf\prime+\ii\hbar(V\prime f+Vf\prime)=\ii\hbar V\prime f$, 因而$[V,p]=\ii\hbar V\prime$, 对合适光滑态, $\frac{\mathrm d}{\mathrm dt}\langle x\rangle=\langle p\rangle/m$, $\frac{\mathrm d}{\mathrm dt}\langle p\rangle=-\langle V'(x)\rangle$. 这就是Ehrenfest关系. 一般$\langle V'(x)\rangle\ne V'(\langle x\rangle)$, 因而平均位置不总是精确满足经典轨道方程. 二次势因力为线性函数而使两者相同.
 
 \begin{remark}
 如果$H(t)$在不同时刻不对易, $U(t)$不能简单写成$\exp[-\ii\int_0^tH(s)\dd s/\hbar]$. 需要时间排序或直接解矩阵微分方程. 这条限制在驱动二态和含时微扰中会再次出现.
 \end{remark}
+
+\originalsection{Schrödinger、Heisenberg与相互作用表象}
+三种表象分配时间依赖不同, 实验概率相同. Schrödinger态$\ket{\psi_S(t)}=U(t)\ket{\psi_0}$, 固定观测量写$A_S$. Heisenberg态固定为$\ket{\psi_0}$, 算符$A_H=U^\dagger A_SU$. 将它放进均值$\bra{\psi_0}A_H\ket{\psi_0}$便恢复$\bra{\psi_S}A_S\ket{\psi_S}$. 乘积、对易子也在同一共轭下保持, 即便$A_S$显含时间也如此.
+
+例如自由粒子$\dot p_H=0,\dot x_H=p_H/m$, 因而$p_H=p,x_H=x+pt/m$. 恒力$V=gx$时$p_H=p-gt$, $x_H=x+pt/m-gt^2/(2m)$. 谐振子给$x_H=x\cos\omega t+p\sin\omega t/(m\omega)$,$p_H=p\cos\omega t-m\omega x\sin\omega t$. 这些是算符等式, 对任意合适初态取均值即可预测均值轨迹, 也可平方来计算宽度.
+
+若$H=H_0+V(t)$且$H_0$不含时间, 用已会解的$H_0$先除去快速演化: $\ket{\psi_I}=\e^{\ii H_0t/\hbar}\ket{\psi_S}$, $V_I=\e^{\ii H_0t/\hbar}V\e^{-\ii H_0t/\hbar}$, 直接求导给$\ii\hbar\dot\psi_I=-H_0\psi_I+(H_0+V_I)\psi_I=V_I\psi_I$, 显示两个$H_0$项如何抵消. 积分一次并把右侧态再代回, 产生
+\[
+U_I(t)=I-\frac\ii\hbar\int_0^tV_I(s)\dd s+
+\left(-\frac\ii\hbar\right)^2\int_0^t\dd s\int_0^s\dd s' V_I(s)V_I(s')+\cdots.
+\]
+早时刻算符在右, 积分只取$s'>0,s'<s$, 这就是时间排序的具体意义. 在弱驱动下截在第一阶, 得第15章的转移振幅; 并非先要求读者知道一个抽象时间排序符号.

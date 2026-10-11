@@ -1,0 +1,87 @@
+\originalchapter{8.04 作业9：相移、共振与角动量}
+来源为8.04 Spring 2016 Assignment 9, 2016年4月21日发布, 4月29日中午截止. 全部六题共65分. 以下题解、数值积分及重绘曲线为\textbf{AI独立解答}; 数值代码与记录随源码保存. 曲线展示所给模型, 不是证明的替代品.
+\originalsection{第1题：检验定相位法（10分）}
+\begin{exercise}
+令$f(\lambda)=\int_{-\infty}^\infty\e^{-100(x-2)^2}\e^{\ii\phi}\dd x$, $\phi=50(x-\lambda x^4/32)$,$0\leq\lambda\leq1$. (a)求Gaussian全半高宽并判断积分$[1,3]$截断. (b)在$x=2$令相位驻定, 求$\lambda_*$及二阶展开. (c)求半高区域相位变化, 忽略变化求积分. (d)保留二阶求积分. (e)数值绘制$|f|$, 比较临界点及实际最大值.
+\end{exercise}
+\begin{solution}
+半高条件$100(x-2)^2=\ln2$给全宽$\Delta=2\sqrt{\ln2}/10=0.16651$. $[1,3]$外包络至多$\e^{-100}$级, 截断误差绝对值由Gaussian尾积分控制, 足够安全. $\partial_x\phi|_2=50(1-\lambda)$给$\lambda_*=1$. 令$s=x-2$, 则$\phi(1,x)=75-37.5s^2+O(s^3)$. 半高区域相位主变化$37.5\ln2/100=0.25993$弧度, 为$0.08274\pi$. 若保留三四次项, 半高区精确最大变化约0.26722弧度, 二阶估计与它接近. 忽略变化给$f\simeq(\sqrt\pi/10)\e^{75\ii}$, 幅值0.177245. 保留二阶给
+\[
+f\simeq\sqrt{\frac\pi{100+37.5\ii}}\e^{75\ii}
+=\frac{\sqrt\pi}{(100^2+37.5^2)^{1/4}}\e^{\ii[75-\tfrac12\arctan(0.375)]}.
+\]
+幅值约0.17151. 直接积分$f(1)=0.14367073-0.09363253\ii$, 幅值0.17148857; 实际最大在$\lambda=0.99161278$, 幅值0.17155529. 驻定相位给峰位置的近似, 包络有有限宽度、相位有三四阶项, 不要求精确最大恰在1. 下图取$[1,3]$复积分分别对实虚部自适应积分, 绝对容差$10^{-12}$; 峰值另作一维极值搜索.
+\input{chapters/figure-ps9-integral.tex}
+\end{solution}
+\originalsection{第2题：半势阱的Levinson关系（10分）}
+\begin{exercise}
+半线硬墙加$0<x<a$的$-V_0$势阱, 令$z_0^2=2mV_0a^2/\hbar^2$, $u=ka$, $v=k\prime a=\sqrt{u^2+z_0^2}$. 给定$\tan\delta=(1-(k'/k)\cot(k'a)\tan ka)/(\tan ka+(k'/k)\cot(k'a))$. (a,b)讨论零能及高能极限. (c)写无量纲函数并连续选相移. (d)画$z_0=2,5,9$曲线, 终点分别15、20、30, 检验束缚态数.
+\end{exercise}
+\begin{solution}
+匹配本质为$k\cot(ka+\delta)=k'\cot(k'a)$, 更稳定地写
+\[
+f(u;z_0)=\frac{u\sin v\cos u-v\cos v\sin u}{u\sin v\sin u+v\cos v\cos u}.
+\]
+零能$v\to z_0$, 普通非阈值时$\tan\delta\sim u(\tan z_0/z_0-1)\to0$. 题中三例均可取$\delta(0)=0$. 若$z_0=(n+1/2)\pi$恰在零能共振阈值, 此结论需改为半束缚态版本, 不能忽略该例外. 高能$v=u+z_0^2/(2u)+O(u^{-3})$, 匹配与自由波差趋0, 所以$\tan\delta\to0$; 但相移自身可以趋整数倍$\pi$, 不是必须趋0.
+
+计算连续角度$\alpha(u)=\operatorname{unwrap}\arg[v\cos v+\ii u\sin v]$, 令$\delta=\alpha-u-\alpha(0)$, 即避免主值$\arctan$跳跃. 束缚态在$z_0>(n-1/2)\pi$时增加一个, 因此三例$N=1,2,3$. 所选分支应有$\delta(\infty)=-N\pi$, 满足$[\delta(0)-\delta(\infty)]/\pi=N$. 下图终点数值分别$-0.95647\pi,-1.80221\pi,-2.57827\pi$, 距极限仍有$0.04353\pi,0.19779\pi,0.42173\pi$, 大$z_0$需要更高能量才接近极限. 相移加任意固定整数$\pi$不改散射, 两端差不变.
+\input{chapters/figure-ps9-well-phase.tex}
+\end{solution}
+\originalsection{第3题：台阶与硬墙（10分）}
+\begin{exercise}
+半线$0<x<a$势$V_0>0$, $x>a$势0, 左端硬墙. (a)对$E>V_0$求$\cot\delta$. (b)对$E<V_0$求同式. (c)画$z_0=5$时从零能到高能的相移.
+\end{exercise}
+\begin{solution}
+外部取$\sin(kx+\delta)$, 内部高能取$A\sin(qx)$, $q=\sqrt{2m(E-V_0)}/\hbar$. 令$C=(q/k)\cot qa$, 匹配$\cot(u+\delta)=C$, 解得$\cot\delta=(1+C\cot u)/(\cot u-C)$. 低能内部取$A\sinh\kappa x$, 因而同式只需$C=(\kappa/k)\coth\kappa a$, $\kappa=\sqrt{2m(V_0-E)}/\hbar$. 在$E=V_0$内解为线性, 连续极限$C=1/u$. 绘图先取$u+\delta$的连续辐角再减$u$, 不把不同主值支路拼接. $\delta(0)=0$, 中间为负（排斥使外波等效向外平移）, $u\to\infty$时从负侧趋0, 无束缚态. 下图画至35; 无限区间的末段由$\delta\sim-z_0^2/(2u)$描述.
+\input{chapters/figure-ps9-barrier-phase.tex}
+\end{solution}
+\originalsection{第4题：\texorpdfstring{$\delta$}{δ}障碍与共振（15分）}
+\begin{exercise}
+硬墙$x\leq0$, $x>0$有$g\delta(x-a)$, $g>0$, 令$\lambda=mag/\hbar^2$. (a)求$\tan\delta=-\sin^2u/h(u;\lambda)$及内振幅$A$. (b)讨论$u\ll1$和$\lambda\to\infty$. (c)在$\lambda=5$, $0<u<10$画相移、$\mathrm d\delta/\mathrm du$及$|A|$, 识别共振并检查Levinson关系.
+\end{exercise}
+\begin{solution}
+令内波$A\sin kx$, 外波$\e^{\ii\delta}\sin(kx+\delta)$. 连续及导数跳跃$\psi\prime(a^+)-\psi\prime(a^-)=2mg\,\psi(a)/\hbar^2$给
+\[
+\cot(u+\delta)=\cot u+\frac{2\lambda}{u},\quad
+\tan\delta=-\frac{\sin^2u}{u/(2\lambda)+\sin u\cos u},\quad
+A=\e^{\ii\delta}\frac{\sin(u+\delta)}{\sin u}.
+\]
+零点处由连续极限解释最后一式. 小$u$时$\tan\delta\sim-[2\lambda/(1+2\lambda)]u$; 强障碍趋$-\tan u$, 对应外波像在$x=a$遇到硬墙, 共振附近极限不一致. 幅值可稳定计算为$|A|=[1+(2\lambda/u)\sin2u+(4\lambda^2/u^2)\sin^2u]^{-1/2}$. 下列曲线用连续$\delta=\operatorname{atan2}(-2\lambda\sin^2u,u+\lambda\sin2u)$, 其值在$[-\pi,0]$内. 在$|A|$峰处得到下表, 时间延迟峰位置略有不同, 不声称三种峰严格同点.
+\begin{center}\begin{tabular}{ccc}\toprule $u$（幅值峰）&$|A|$&$\mathrm d\delta/\mathrm du$\\\midrule
+2.87894&3.74007&14.12582\\5.84652&2.17045&3.95735\\8.88845&1.70956&2.01919\\\bottomrule\end{tabular}\end{center}
+\input{chapters/figure-ps9-delta-phase.tex}
+\input{chapters/figure-ps9-delta-delay.tex}
+\input{chapters/figure-ps9-delta-amplitude.tex}
+内区驻留增强与大正延迟标识共振, 但势全为非负, 没有负能束缚态. $\delta(0)=\delta(\infty)=0$, 满足$N=0$; 局部相移急升不等于新增束缚态.
+\end{solution}
+\originalsection{第5题：$z$角动量对易子（10分）}
+\begin{exercise}
+(a,b)求$L_z$与$x,y,z,p_x,p_y,p_z$的对易子. (c,d)证明$L_z$本征态中$x,y,p_x,p_y$均值为0.
+\end{exercise}
+\begin{solution}
+$L_z=xp_y-yp_x$给$[L_z,x]=\ii\hbar y$,$[L_z,y]=-\ii\hbar x$,$[L_z,z]=0$; 类似$[L_z,p_x]=\ii\hbar p_y$,$[L_z,p_y]=-\ii\hbar p_x$,$[L_z,p_z]=0$. 归一化本征态中$\langle[L_z,A]\rangle=0$, 因为左右$L_z$读数相同. 分别代入上述四个非零式就得到四个均值0, 前提是矩存在和共同定义域允许操作. 不是说这些测量没有分散或粒子停在轴线上.
+\end{solution}
+\originalsection{第6题：球坐标算符（10分）}
+\begin{exercise}
+(a)求$r,\theta,\phi$对$x,y,z$的九个导数. (b)写$L_x,L_y,L_z$. (c)分别展开平方并相加得到$L^2$.
+\end{exercise}
+\begin{solution}
+在坐标非奇点, 各行分别为$\nabla r,\nabla\theta,\nabla\phi$:
+\[
+\begin{pmatrix}
+\sin\theta\cos\phi&\sin\theta\sin\phi&\cos\theta\\
+\cos\theta\cos\phi/r&\cos\theta\sin\phi/r&-\sin\theta/r\\
+-\sin\phi/(r\sin\theta)&\cos\phi/(r\sin\theta)&0
+\end{pmatrix}.
+\]
+链式法则给$L_x=\ii\hbar(\sin\phi\,\partial_\theta+\cot\theta\cos\phi\,\partial_\phi)$,$L_y=\ii\hbar(-\cos\phi\,\partial_\theta+\cot\theta\sin\phi\,\partial_\phi)$,$L_z=-\ii\hbar\partial_\phi$. 为展示平方时对系数也要求导, 令$s=\sin\phi,c=\cos\phi,t=\cot\theta$, 写$L_x=\ii\hbar A,L_y=\ii\hbar B$:
+\[
+\begin{aligned}
+A^2&=s^2\partial_{\theta\theta}+2sct\partial_{\theta\phi}+c^2t^2\partial_{\phi\phi}
++tc^2\partial_\theta-sc(\csc^2\theta+t^2)\partial_\phi,\\
+B^2&=c^2\partial_{\theta\theta}-2sct\partial_{\theta\phi}+s^2t^2\partial_{\phi\phi}
++ts^2\partial_\theta+sc(\csc^2\theta+t^2)\partial_\phi.
+\end{aligned}
+\]
+$L_x^2=-\hbar^2A^2,L_y^2=-\hbar^2B^2,L_z^2=-\hbar^2\partial_{\phi\phi}$, 相加混合项抵消, 用$1+\cot^2\theta=\csc^2\theta$得到第10章的$L^2$表达. 轴上的坐标奇点需要正则球面函数解释, 不能直接代$r\sin\theta=0$到导数分式.
+\end{solution}

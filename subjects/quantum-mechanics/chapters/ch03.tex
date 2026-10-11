@@ -1,8 +1,12 @@
 \originalchapter{薛定谔方程与概率流}
 \originalsection{从平面波到线性方程}
+已知初始位置分布和相位后, 如何预测稍后的探测统计? 我们需要振幅的演化规律. 记$\partial_x$为固定时间对$x$求导, $\partial_t$为固定位置对$t$求导, 帽号标记作用于函数的算符. $\hat p^2\psi$指连续作用两次$\hat p$, 而非一个测量数的任意平方.
+
 对平面波 $\psi=\e^{\ii(kx-\omega t)}$, 求导会取出其波数或频率: $-\ii\hbar\partial_x\psi=\hbar k\psi$, $\ii\hbar\partial_t\psi=\hbar\omega\psi$. 因此动量算符取为 $\hat p=-\ii\hbar\partial_x$, 自由粒子的能量算符取为 $\hat p^2/(2m)=-\hbar^2\partial_x^2/(2m)$. 位置算符 $\hat x$ 的作用是乘以$x$: $(\hat x\psi)(x)=x\psi(x)$.
 
 算符的输入和输出都是函数. 例如 $\hat p\psi$ 不是测量得到的一个数, 而是新的函数. 只有当 $\hat p\psi=p\psi$ 时, $\psi$ 才是动量本征态, $p$ 才是它确定的动量本征值. 类比矩阵作用于向量, 本征向量方向不变, 只乘上本征值.
+
+每个自由平面波都满足$\ii\hbar\partial_t\psi_j=-\hbar^2\partial_x^2\psi_j/(2m)$; 因求导线性, 常系数$c_1\psi_1+c_2\psi_2$也满足同一方程. 连续Fourier叠加在允许微分进积分的条件下仍满足. 这一步从确定波数推广到局域自由波包, 加外势是进一步的物理输入.
 
 把外部实势能 $V(x,t)$ 作为乘法算符, 得到
 \begin{equation}\label{eq:sch}
@@ -15,7 +19,9 @@ $\hat H$ 是 Hamilton算符. 这是时间一阶、空间二阶的偏微分方程
 动量关系直接保证自由平面波满足此方程; 加势能是与实验相符的量子动力学规则, 不是把经典轨道强行改写为正弦. 对带磁场的粒子, Hamilton算符还需用机械动量与矢势, 不能无条件继续用仅含标量势的式\eqref{eq:sch}.
 
 \originalsection{连续性方程}
-假定 $V$ 实值且 $\psi$ 足够光滑. 用\eqref{eq:sch}和其共轭求 $\rho=\psi^*\psi$ 的时间导数, 势能两项恰好抵消:
+小区间概率的增加应该等于左边流入减右边流出. 一维$J$的量纲为每时间的概率, 正号指向正$x$. 以下用撇号表示对$x$求导, 并从演化方程找出这种流.
+
+假定 $V$ 实值且 $\psi$ 足够光滑. 先用乘积求导$\partial_t(\psi^*\psi)=\psi^*\partial_t\psi+\psi\partial_t\psi^*$, 再用\eqref{eq:sch}和其共轭求 $\rho=\psi^*\psi$ 的时间导数, 势能两项恰好抵消:
 \begin{align*}
 \partial_t\rho
 &=\frac{\ii\hbar}{2m}(\psi^*\psi''-\psi\psi^{*\prime\prime})\\
@@ -32,4 +38,4 @@ $\hat H$ 是 Hamilton算符. 这是时间一阶、空间二阶的偏微分方程
 第一种情形 $\psi^*\psi'=\ii k|A|^2$, 所以 $J=\hbar k|A|^2/m$. 流向随$k$正负变化. 第二种情形 $\psi^*\psi'$ 实值, 因而$J=0$. 正弦是等权反向平面波叠加, 两股流互相抵消. 两者在无限实线上都不能按普通积分归一化, 这些流是单色波的形式结果.
 \end{solution}
 
-三维中 $\rho=|\psi|^2$, $\boldsymbol J=(\hbar/m)\operatorname{Im}(\psi^*\nabla\psi)$, 满足 $\partial_t\rho+\nabla\cdot\boldsymbol J=0$. 这里密度量纲变为体积的倒数; 一个空间区域中的概率改变由其表面净流给出.
+推广到三维时,$\nabla=(\partial_x,\partial_y,\partial_z)$表示三个空间导数, $\nabla\cdot\boldsymbol J=\partial_xJ_x+\partial_yJ_y+\partial_zJ_z$称散度. 三维中 $\rho=|\psi|^2$, $\boldsymbol J=(\hbar/m)\operatorname{Im}(\psi^*\nabla\psi)$, 满足 $\partial_t\rho+\nabla\cdot\boldsymbol J=0$. 这里密度量纲变为体积的倒数; 一个空间区域中的概率改变由其表面净流给出.

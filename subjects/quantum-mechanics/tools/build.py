@@ -17,13 +17,16 @@ def main():
         previous=None;converged=False
         for passes in range(1,6):
             cp=subprocess.run(['xelatex','-no-shell-escape','-interaction=nonstopmode','-halt-on-error','-file-line-error','-recorder','main.tex'],cwd=work,env=env,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=120)
-            if cp.returncode:raise RuntimeError(cp.stdout[-4000:])
+            if cp.returncode:
+                (out/'failed-build.log').write_text(cp.stdout)
+                raise RuntimeError(cp.stdout[-4000:])
             current={x:sha(work/('main'+x))for x in ['.aux','.toc','.out']if(work/('main'+x)).exists()}
             log=(work/'main.log').read_text()
             if passes>=2 and current==previous and not re.search(r'Rerun to get|Label\(s\) may have changed|has changed\.\s*Rerun',log):converged=True;break
             previous=current
         if not converged:raise RuntimeError('References did not converge within five passes.')
         if initial!={str(p.relative_to(ROOT)):sha(p)for p in inputs}:raise RuntimeError('Source changed during build.')
+        shutil.copy2(work/'main.log',out/'main.log')
         if re.search(r'Overfull \\[hv]box|Missing character:|LaTeX Font Warning:',log):raise RuntimeError('Layout or font error; inspect main.log before publishing.')
         for ext in ['.pdf','.log']:shutil.copy2(work/('main'+ext),out/('main'+ext))
         (out/'standalone-build.json').write_text(json.dumps({'source_sha256':initial,'passes':passes,'pdf_sha256':sha(out/'main.pdf'),'engine':'XeLaTeX; no shell escape','visual_review':'not_performed_by_builder'},ensure_ascii=False,indent=2)+'\n')
