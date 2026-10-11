@@ -1,0 +1,42 @@
+\originalchapter{8.04 作业7：双点势与谐振子}
+来源为Spring 2016 Assignment 7, Barton Zwiebach. 原件第1、3、4、6题完整, 本篇中文转述与\textbf{AI独立解答}. 第2题Griffiths 2.47、p.87, 第5题Griffiths 2.42、p.86仅有题号, 不补造. 第2题附MIT建议将上一作业模型作数值检验, 已在作业6数值解中实施, 不宣称取得外书题面.
+\originalsection{第1题：双点势束缚与分裂}
+\begin{exercise}
+$V=-g[\delta(x-a)+\delta(x+a)]$,$g>0$, $\lambda=mag/\hbar^2$. 求偶、奇束缚态超越方程, 以$\hbar^2/(ma^2)$为能量单位作图; 大距离时求分裂.
+\end{exercise}
+\begin{solution}
+$E=-\hbar^2\kappa^2/(2m)$, 中间偶态为$C\cosh\kappa x$, 奇态为$C\sinh\kappa x$, 两端为衰减指数. $x=a$连续与导数跳跃$\psi'(a+)-\psi'(a-)=-2mg\psi(a)/\hbar^2$给$s=\lambda(1+\e^{-2s})$（偶）、$s=\lambda(1-\e^{-2s})$（奇）,$s=\kappa a$. 偶态任意$\lambda>0$都有一根, 奇态严格$\lambda>1/2$才有非零根, 其零根不能计为束缚. 能量为$-s^2/2$乘题给单位, 曲线见下图.
+
+令$\kappa_0=mg/\hbar^2$, 大$\lambda=\kappa_0a$时$\kappa_\pm\simeq\kappa_0(1\pm\e^{-2\kappa_0a})$. 因而$E_o-E_e\simeq2mg^2\e^{-2mga/\hbar^2}/\hbar^2$. 偶态更低, 分裂随两中心距离$2a$指数降低; 指数里不能再把$a$误当完整距离.
+\input{chapters/figure-804-ps7-double-delta.tex}
+\end{solution}
+\originalsection{第3题：单侧经典禁区概率}
+\begin{exercise}
+谐振子的$n=0,1,2$态, 求位置大于正的经典振幅$A_n$的概率.
+\end{exercise}
+\begin{solution}
+令$d=\sqrt{\hbar/(m\omega)}$, $\xi=x/d$, $A_n/d=\sqrt{2n+1}$. 分布$\rho_n(\xi)=H_n^2(\xi)\e^{-\xi^2}/(\sqrt\pi 2^n n!)$, 从正转折点积分到无穷. 令$z_n=\sqrt{2n+1}$, $\operatorname{erfc}z=2\int_z^\infty\e^{-u^2}\dd u/\sqrt\pi$, 得
+\[
+P_0=\tfrac12\operatorname{erfc}(1),\quad
+P_1=\tfrac12\operatorname{erfc}(\sqrt3)+\frac{\sqrt3\e^{-3}}{\sqrt\pi},\quad
+P_2=\tfrac12\operatorname{erfc}(\sqrt5)+\frac{\e^{-5}11\sqrt5}{2\sqrt\pi}.
+\]
+分部积分$\int_z^\infty u^{2r}\e^{-u^2}\dd u=z^{2r-1}\e^{-z^2}/2+(2r-1)\int_z^\infty u^{2r-2}\e^{-u^2}\dd u/2$可逐项核验. 数值分别0.0786496035、0.0558051125、0.0475347174. 这是题问的单侧; 若问$|x|>A_n$才加倍. 禁区概率非零不是经典转折点失效, 而是量子态没有确定经典轨道.
+\end{solution}
+\originalsection{第4题：四次矩与Hermite生成函数}
+\begin{exercise}
+(a)用升降算符求$\langle x^4\rangle_n$. (b)求$\Delta x\Delta p$. (c)从$\e^{-s^2+2s\xi}=\sum H_n(\xi)s^n/n!$证明最高次项与Hermite微分方程.
+\end{exercise}
+\begin{solution}
+$x=d(a+a^\dagger)/\sqrt2$. 为避免不对易展开, 先作用一次$x^2$:
+$x^2\ket n=(d^2/2)[\sqrt{n(n-1)}\ket{n-2}+(2n+1)\ket n+\sqrt{(n+1)(n+2)}\ket{n+2}]$. 取范数平方即$\langle x^4\rangle=3(d^2/2)^2(2n^2+2n+1)$. 两均值0,$\langle x^2\rangle=d^2(n+1/2)$,$\langle p^2\rangle=\hbar^2(n+1/2)/d^2$, 故$\Delta x\Delta p=\hbar(n+1/2)$, 仅基态饱和基本界.
+
+生成函数$G$中$s^n$最高$\xi$次项来自$\e^{2s\xi}$的$n$项, 乘$n!$得$(2\xi)^n$. 直接求导有$G_{\xi\xi}=4s^2G$, $G_\xi=2sG$, $G_s=(-2s+2\xi)G$, 故$G_{\xi\xi}-2\xi G_\xi+2sG_s=0$. 比较$s^n/n!$系数得$H_n''-2\xi H_n'+2nH_n=0$. 生成函数提供系数关系的证明, 不是只列已知多项式.
+\end{solution}
+\originalsection{第6题：两个能态的摆动}
+\begin{exercise}
+初态$(\varphi_0+\varphi_1)/\sqrt2$, 求时间波函数、密度、位置和动量均值. 一般谐振子叠加态的密度周期是什么?
+\end{exercise}
+\begin{solution}
+$\psi(t)=[\varphi_0\e^{-\ii\omega t/2}+\varphi_1\e^{-3\ii\omega t/2}]/\sqrt2$. 实的本征函数给$\rho=(\varphi_0^2+\varphi_1^2+2\varphi_0\varphi_1\cos\omega t)/2$. 因$\bra0x\ket1=d/\sqrt2$, 有$\langle x\rangle=d\cos\omega t/\sqrt2$, $\langle p\rangle=-\hbar\sin\omega t/(\sqrt2d)$, 与$\dot{\langle x\rangle}=\langle p\rangle/m$相合. 一般态各$n$在$T=2\pi/\omega$演化都乘$-1$, 所以密度周期为$T$或其约数; 单能態密度定常, 不能断言所有态的最小周期都恰为$T$.
+\end{solution}

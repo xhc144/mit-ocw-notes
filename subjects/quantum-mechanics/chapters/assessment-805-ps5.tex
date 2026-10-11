@@ -1,0 +1,68 @@
+\originalchapter{8.05 作业5：正交投影、相容性与不确定度}
+来源为Fall 2013 Assignment 5, Barton Zwiebach. 第1--6、8、9题有完整MIT题面, 以下中文转述并给\textbf{AI独立解答}. 第7题仅列Griffiths 3.32、p.126, 时间能量不确定关系主题引用, 不补造外书题面.
+\originalsection{第1题：位置与动量位移}
+\begin{exercise}
+$T_x=\e^{-\ii px/\hbar}$、$T_p=\e^{\ii p x_{\rm op}/\hbar}$, 第一式指数$p$为算符且$x$是位移量, 第二式$p$是位移量. 求共轭平移, 两算符何时对易?
+\end{exercise}
+\begin{solution}
+以$X,P$记算符避免同名:$T_x^\dagger XT_x=X+x$, $T_p^\dagger PT_p=P+p$. 因$[-\ii xP/\hbar,\ii pX/\hbar]=-\ii xp/\hbar$是中心对易子, BCH给$T_xT_p=\e^{-\ii xp/\hbar}T_pT_x$. 对易恰$xp=2\pi n\hbar$, 包括任一位移为0. 相位虽不改单次孤立态的射线, 两条操作路径的相对相位可影响干涉.
+\end{solution}
+\originalsection{第2题：两种连续表示}
+\begin{exercise}
+证明$\bra xP^n\ket\psi=(-\ii\hbar\partial_x)^n\psi(x)$; 推动量表示$X=\ii\hbar\partial_p$并核正则对易子.
+\end{exercise}
+\begin{solution}
+$n=1$为动量生成位移的定义, 归纳反复作用同一微分式即可. 取$\tilde\psi(p)=(2\pi\hbar)^{-1/2}\int\e^{-\ii px/\hbar}\psi(x)\dd x$, 对$p$微分把$-\ii x/\hbar$提出, 故$\widetilde{X\psi}=\ii\hbar\partial_p\tilde\psi$. 于是$[X,P]\tilde\psi=\ii\hbar\partial_p(p\tilde\psi)-p\ii\hbar\partial_p\tilde\psi=\ii\hbar\tilde\psi$. 边界衰减与可微域保证Fourier微分合法.
+\end{solution}
+\originalsection{第3题：二次型与Schur三角化}
+\begin{exercise}
+(a)实矩阵$S$若$u^{\mathsf T}Su=0$对所有实$u$, 能断言$S=0$吗? 若另对称呢? (b)复矩阵$T$若$v^\dagger Tv=0$对所有复$v$, 证$T=0$. (c)复矩阵为何可酉上三角化, 实矩阵能否总以实基上三角化?
+\end{exercise}
+\begin{solution}
+(a)取标准基使对角0, 再取$e_i+e_j$得$S_{ij}+S_{ji}=0$, 只推出反对称; 非零反对称矩阵确二次型全0. 另对称便全0. (b)标准基给$T_{ii}=0$, $e_i+e_j$给$T_{ij}+T_{ji}=0$, $e_i+\ii e_j$给$\ii T_{ij}-\ii T_{ji}=0$, 所以两格均0. 复探针恢复了实二次型看不到的反对称部分.
+
+(c)复特征多项式有根, 将相应单位本征矢放首列后第一列仅顶格非零. 剩余方块归纳酉上三角化, 合并块对角幺正换基即完成Schur分解. 实旋转$\begin{pmatrix}0&-1\\1&0\end{pmatrix}$本征值$\pm\ii$, 若可实上三角则对角实值须为本征值, 矛盾. 一般复矩阵三角化成立, 对角化须另条件.
+\end{solution}
+\originalsection{第4题：幂等与正交}
+\begin{exercise}
+$P^2=P$. 证空间为$\ker P\oplus\operatorname{im}P$; 若$P$Hermitian则两者正交; 反过来若$\norm{Pv}\le\norm v$对所有$v$, 证正交. 可用$u\perp v$当且仅当$\norm u\le\norm{u+av}$对任意标量$a$.
+\end{exercise}
+\begin{solution}
+每个$v=(v-Pv)+Pv$, 前者在核后者在像; 交集内$w=Pz$且$Pw=0$又$Pw=P^2z=Pz=w$, 故$w=0$. Hermitian时$(u,Pz)=(Pu,z)=0$. 给定引理由$\norm{u+av}^2=\norm u^2+2\operatorname{Re}[a(u,v)]+|a|^2\norm v^2$可证: 内积非零时选$a$反相且足够小使不等式失败.
+
+取$w$在像、$u$在核, 收缩性使$\norm w=\norm{P(w+au)}\le\norm{w+au}$对所有$a$, 引理给$w\perp u$, 于是正交投影. 非正交反例$P=\begin{pmatrix}1&1\\0&0\end{pmatrix}$满足幂等, 但不是Hermitian, 算符范数$\sqrt2>1$.
+\end{solution}
+\originalsection{第5题：三维共同本征基}
+\begin{exercise}
+$A_1=\begin{pmatrix}1&0&1\\0&0&0\\1&0&1\end{pmatrix}$,
+$A_2=\begin{pmatrix}2&1&1\\1&0&-1\\1&-1&2\end{pmatrix}$. 核对易并求共同正交本征基.
+\end{exercise}
+\begin{solution}
+$u_1=(1,0,1)^{\mathsf T}/\sqrt2$给$A_1$值2、$A_2$值3. $A_1$零空间取$u_2=(-1,0,1)^{\mathsf T}/\sqrt2,u_3=(0,1,0)^{\mathsf T}$, $A_2$限制矩阵$\begin{pmatrix}1&-\sqrt2\\-\sqrt2&0\end{pmatrix}$. 其值2、$-1$的单位矢分别$\sqrt{2/3}u_2-u_3/\sqrt3$及$u_2/\sqrt3+\sqrt{2/3}u_3$. 与$u_1$合为共同基, 两值对$(2,3),(0,2),(0,-1)$. 此分块也显示两个算符对易, 并说明简并空间内部须再对角化.
+\end{solution}
+\originalsection{第6题：最小不确定态}
+\begin{exercise}
+Gaussian$\psi=N\e^{\ii\bar p x/\hbar}\e^{-x^2/(2\Delta^2)}$为何饱和$x,p$不确定界? 求使$(P-\bar p)\psi=\ii\gamma(X-\bar x)\psi$的实参数.
+\end{exercise}
+\begin{solution}
+$\bar x=0$, $\Delta x=\Delta/\sqrt2$, $\Delta p=\hbar/(\sqrt2\Delta)$. 微分给$(P-\bar p)\psi=\ii\hbar x\psi/\Delta^2$, 所以$\gamma=\hbar/\Delta^2=\Delta p/\Delta x>0$, 两中心化算符作用后的矢恰成纯虚比例, Schwarz与取虚部两步同时饱和. 因而$\Delta x\Delta p=\hbar/2$, 改平均动量只乘线性相位不改方差.
+\end{solution}
+\originalsection{第8题：谐振子的上下界}
+\begin{exercise}
+对$H=P^2/(2m)+kX^2/2$, 用Gaussian变分上界和不确定关系下界求精确基态能.
+\end{exercise}
+\begin{solution}
+均值平方都是非负贡献, 故$\langle H\rangle\ge(\Delta p)^2/(2m)+k(\Delta x)^2/2\ge\hbar^2/[8m(\Delta x)^2]+k(\Delta x)^2/2$. 极小在$(\Delta x)^2=\hbar/(2\sqrt{mk})$, 值$\hbar\sqrt{k/m}/2$. Gaussian的两方差饱和界, 取$\Delta^2=\hbar/\sqrt{mk}$且两均值0便达该值, 变分上界和普遍下界相等, 证明精确基态. 仅求试函数最小本身不足以证明精确性, 是下界闭合了论证.
+\end{solution}
+\originalsection{第9题：四维共同酉基}
+\begin{exercise}
+$A_1=\begin{pmatrix}1&1&0&-1\\1&1&-1&0\\0&-1&1&1\\-1&0&1&1\end{pmatrix}$,
+$A_2=\begin{pmatrix}1&1/2&-1&1/2\\1/2&1&1/2&-1\\-1&1/2&1&1/2\\1/2&-1&1/2&1\end{pmatrix}$. 验对易, 构造共同幺正对角化并解释简并处理.
+\end{exercise}
+\begin{solution}
+原PDF物理第4页实际图核对后, 取
+\[
+U=\frac12\begin{pmatrix}1&1&1&1\\1&-1&1&-1\\1&1&-1&-1\\1&-1&-1&1\end{pmatrix}.
+\]
+各列范数1且两两内积0, $U^\dagger U=I$. 逐列乘矩阵得$U^\dagger A_1U=\operatorname{diag}(1,1,3,-1)$, $U^\dagger A_2U=\operatorname{diag}(1,-1,2,2)$, 两对角矩阵对易, 故原矩阵亦对易. $A_1$值1空间二维, 任取该空间基未必对角化$A_2$; 本选择在内部再取后者本征矢. 列顺序与整体相位可变, 两个对角阵必须随同一列顺序改变.
+\end{solution}
