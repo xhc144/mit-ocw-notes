@@ -11,6 +11,49 @@ $L=\int[\eps E^2/2-B^2/(2\mu_0)]\dd^3x$.
 于是 $\eps\int\vct f_\alpha\cdot\vct f_\beta=\delta_{\alpha\beta}$ 消去交叉项, 得 $L=\sum(\dot q_\alpha^2-\omega_\alpha^2q_\alpha^2)/2$.
 欧拉--拉格朗日方程为 $\ddot q_\alpha+\omega_\alpha^2q_\alpha=0$, $p_\alpha=\dot q_\alpha$, $H=\sum(p_\alpha^2+\omega_\alpha^2q_\alpha^2)/2$. 模态不是实际带电小球, 其“坐标”是场的展开振幅. 这一推导给研究生作业中的腔模正交及场量子化入口, 没有把规范纵向自由度当成额外物理振子.
 
+\originalsection{带源场作用量与因果模态解}
+8.311补充笔记\textit{Field Oscillators}第1--2页将自由场模态推广到带源场. 以下用SI制重新推导, 沿用上一节$\eps\int\vct f_\alpha\cdot\vct f_\beta\dd^3x=\delta_{\alpha\beta}$的归一, 不照搬原笔记高斯制中的$c$和$4\pi$系数. 先在全空间真空中取平滑局域源$\rho,\jj$, 满足$\partial_t\rho+\nabla\cdot\jj=0$, 场的远处衰减足以消去分部积分边界项. 带源拉格朗日量及作用量为
+\[
+L=\int\left[\frac{\eps}{2}E^2-\frac{B^2}{2\mu_0}+\jj\cdot\vct A-\rho V\right]\dd^3x,
+\qquad S=\int L\dd t.
+\]
+源在这里给定; 若同时求粒子轨道, 还须加入粒子的机械作用量. $\jj\cdot\vct A-\rho V$是源与势的耦合, 不能把自由场能量直接当成这一带源作用量.
+
+取库仑规范$\nabla\cdot\vct A=0$, $\ee=-\dot{\vct A}-\nabla V$. 电场平方的交叉项消失, 因为
+$\int\dot{\vct A}\cdot\nabla V\dd^3x=-\int V\nabla\cdot\dot{\vct A}\dd^3x=0$.
+关于$V$的变分因而为
+$\delta_VL=\int(-\eps\nabla^2V-\rho)\delta V\dd^3x$,
+给$\nabla^2V=-\rho/\eps$. $V$没有时间导数项, 是每个时刻由电荷约束确定的量, 不是额外的传播振子. 取$V\to0$的边界条件, 则
+$V(\rr,t)=(4\pi\eps)^{-1}\int\rho(\rr',t)/|\rr-\rr'|\dd^3x'$.
+
+把该约束解代回作用量, 必须同时保留纵向场能与$-\rho V$耦合. 分部积分给
+\[
+\frac{\eps}{2}\int|\nabla V|^2\dd^3x
+=-\frac{\eps}{2}\int V\nabla^2V\dd^3x
+=\frac12\int\rho V\dd^3x,
+\]
+所以约化结果为
+\begin{align*}
+L_{\rm red}&=\int\left[\frac{\eps}{2}|\dot{\vct A}|^2
+-\frac{|\nabla\times\vct A|^2}{2\mu_0}+\jj\cdot\vct A\right]\dd^3x-U_C(t),\\
+U_C(t)&=\frac12\int\rho V\dd^3x
+=\frac1{8\pi\eps}\iint\frac{\rho(\rr,t)\rho(\rr',t)}{|\rr-\rr'|}\dd^3x\dd^3x'.
+\end{align*}
+库仑项在拉格朗日量中是$-U_C$, 二分之一来自代回约束后的两项合并. 本式先对有限能量的平滑源成立; 点电荷的自身项发散, 不能把它直接算作有限相互作用能. 不同点荷的相互作用部分才是$\sum_{i<j}q_iq_j/(4\pi\eps r_{ij})$. 有界导体腔须将库仑核改成满足壁面条件的空间Green核. 此处同一时刻的$V$体现库仑规范的约束性质; 可观测电场还含$-\dot{\vct A}$, 不能仅据$V$判断信号传播.
+
+继续用横向模态展开$\vct A=\sum_\alpha q_\alpha\vct f_\alpha$. 取上一节的正交归一和边界条件（全空间可先作大盒离散化再取极限）, 定义$F_\alpha(t)=\int\jj(\rr,t)\cdot\vct f_\alpha(\rr)\dd^3x$. 模态只耦合电流的横向部分: 任意可消去边界项的梯度电流$\nabla\psi$与$\vct f_\alpha$的内积为零. 因而
+$L_{\rm red}=\sum_\alpha[\dot q_\alpha^2/2-\omega_\alpha^2q_\alpha^2/2+q_\alpha F_\alpha]-U_C$,
+对$q_\alpha$变分给$\ddot q_\alpha+\omega_\alpha^2q_\alpha=F_\alpha(t)$, 没有额外的$\eps$或$c$因子.
+
+对$\omega_\alpha>0$及连续驱动力, 在$t_0$取零初值$q_\alpha(t_0)=\dot q_\alpha(t_0)=0$. 因果Green函数为$G_\alpha(t-s)=\Theta(t-s)\sin[\omega_\alpha(t-s)]/\omega_\alpha$, 解为
+\[
+q_\alpha(t)=\int_{t_0}^{t}\frac{\sin[\omega_\alpha(t-s)]}{\omega_\alpha}F_\alpha(s)\dd s,
+\qquad t\ge t_0.
+\]
+它只用过去的驱动力. 在$t=t_0$积分为零; 对$t$求导时上端的正弦为零, 得$\dot q_\alpha=\int_{t_0}^t\cos[\omega_\alpha(t-s)]F_\alpha(s)\dd s$, 初始导数也为零. 再求导, 上端余弦为1, 故$\ddot q_\alpha=F_\alpha(t)-\omega_\alpha^2q_\alpha$, 验证了运动方程. 初值非零时另加$q_\alpha(t_0)\cos[\omega_\alpha(t-t_0)]+\dot q_\alpha(t_0)\sin[\omega_\alpha(t-t_0)]/\omega_\alpha$. 若边界允许零频模, 核的连续极限是$t-s$; 从$-\infty$写零入射解还需保证积分收敛, 或给出明确绝热极限.
+
+作为点源耦合的分布极限, $\jj=q\vct v(t)\delta^3(\rr-\rr_p(t))$给$F_\alpha=q\vct v\cdot\vct f_\alpha(\rr_p)$; 它不消除点源库仑自能的限制. 将正弦、余弦模的实际SI归一代入此式, 就得到后文运动电荷驱动场模及Frank--Tamm共振计算的入口. 因果卷积适用于一般时间驱动, 后文的余弦特解只是它的一个可显式积分的情形.
+
 \originalsection{由四势变换求电磁场变换}
 相对论先修只需这里的洛伦兹坐标变换和四矢量规则. 对沿 $+x$ 运动的新系, 四势 $(V/c,\vct A)$ 按四矢量变换:
 $V'=\gamma(V-vA_x)$、$A_x'=\gamma(A_x-vV/c^2)$, $A_y'=A_y$, $A_z'=A_z$.
