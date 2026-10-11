@@ -1,0 +1,61 @@
+\originalchapter{运动学}\label{ch:kin}
+\originalsection{直线运动与初值}
+把公路某一方向定为正向, 位置 $x(t)$ 是带符号的坐标, 速度 $v=\dot x$ 的符号说明沿哪个方向行驶. 加速度与速度同号时速率增大, 异号时速率减小. 不能由 $a<0$ 单独推出物体在减速.
+
+若加速度为常数 $a$, 两次积分分别给出
+\begin{align}
+v(t)&=v_0+a(t-t_0),\\
+x(t)&=x_0+v_0(t-t_0)+\tfrac12a(t-t_0)^2.
+\end{align}
+消去时间可得 $v^2-v_0^2=2a(x-x_0)$. 这一步也可由 $a=v\,\mathrm dv/\mathrm dx$ 积分得到, 但转向点附近 $x$ 不再是全程单调变量, 应分段理解. 以上公式只用于匀加速区间; 对分段力或阻力须重新积分.
+
+\begin{example}
+汽车以速度 $v_0>0$ 行驶, 驾驶员反应时间为 $t_r$, 随后产生大小为 $a_b>0$ 的恒定减速度. 求停车距离.
+\end{example}
+\begin{solution}
+反应期间假定仍匀速, 距离为 $v_0t_r$. 刹车后令 $a=-a_b$, 从 $0-v_0^2=-2a_b\Delta x$ 得刹车距离 $v_0^2/(2a_b)$. 总距离 $v_0t_r+v_0^2/(2a_b)$. 平方依赖解释了提高初速为何显著增加停车距离. 不继续使用负速度公式描述已经停住的车.
+\end{solution}
+
+\originalsection{平面抛射与相对运动}
+忽略空气阻力, 在地表附近取 $y$ 竖直向上, $\vct a=-g\uv y$, $g$ 为近似常数. 从原点以速率 $v_0$、仰角 $\theta$ 发射时,
+\begin{equation}
+x=v_0\cos\theta\,t,\qquad y=v_0\sin\theta\,t-\tfrac12gt^2.
+\end{equation}
+水平方向匀速与竖直方向匀加速共用同一时间. 若着地点与起点等高, 非零飞行时间为 $2v_0\sin\theta/g$, 射程为 $v_0^2\sin2\theta/g$. $45^\circ$ 使等高、无阻力射程最大; 改变着地高度或考虑阻力后结论一般改变.
+
+对两个物体, 相对位置 $\vct r_{A/B}=\vct r_A-\vct r_B$, 相对速度 $\vct v_{A/B}=\vct v_A-\vct v_B$. 比如瞄准树上的物体, 物体与子弹同时自由落体时二者有相同加速度, 故相对加速度为零, 初始瞄准方向保持碰撞条件. 还需子弹在碰撞前未落地、目标同时释放等条件. 地面速度与相对车厢速度不同, 计算动量时须在同一参考系中代入所有速度.
+
+\originalsection{极坐标与圆周运动}
+圆轨道用角度比用 $x,y$ 更方便. 平面极坐标 $r\ge0$, $\theta$ 从 $x$ 正向逆时针量, 单位向量为
+\begin{equation}
+\uv r=(\cos\theta,\sin\theta),\qquad
+\uv\theta=(-\sin\theta,\cos\theta).
+\end{equation}
+它们随位置转动, 故 $\dot{\uv r}=\dot\theta\uv\theta$, $\dot{\uv\theta}=-\dot\theta\uv r$. 对 $\vct r=r\uv r$ 用乘积法则,
+\begin{align}
+\vct v&=\dot r\uv r+r\dot\theta\uv\theta,\\
+\vct a&=(\ddot r-r\dot\theta^2)\uv r+(r\ddot\theta+2\dot r\dot\theta)\uv\theta.\label{eq:polar}
+\end{align}
+第二项中的 $2\dot r\dot\theta$ 一部分来自径向速度方向的变化, 一部分来自切向速度大小随 $r$ 变化. 漏掉单位向量的导数会漏掉向心加速度.
+
+定半径 $R$ 时, 角速度 $\omega=\dot\theta$, 角加速度 $\alpha=\ddot\theta$, $\vct v=R\omega\uv\theta$, $\vct a=-R\omega^2\uv r+R\alpha\uv\theta$. 匀速圆周运动的加速度大小 $v^2/R$, 方向指向圆心. 向心力是合力的径向分量, 不是要在受力图中另外添加的一种力.
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=1.1]
+\draw (0,0) circle(1.4);\fill (0,0) circle(1pt) node[below left]{$O$};
+\coordinate (P) at (40:1.4);\draw[->] (0,0)--(P) node[pos=.35,above left]{$R$};\fill (P) circle(2pt);
+\draw[->,thick] (P)--++(130:1.05) node[above]{$\vct v$};
+\draw[->,thick] (P)--++(220:.8);
+\node[right] at (1.35,.75) {$\vct a_r$};
+\draw[->] (.5,0) arc(0:40:.5) node[right]{$\theta$};
+\end{tikzpicture}
+\end{center}
+图示匀速逆时针圆周运动. 速度垂直半径, 加速度向内, 两个箭头表达不同的物理量.
+\originalsection{积分初值与轨道表达}
+平均加速度为 $[\vct v(t_2)-\vct v(t_1)]/(t_2-t_1)$, 瞬时加速度是此量在时间区间缩小后的极限. 对连续的一维速度, 积分平均值定理保证区间中某时刻速度等于平均速度, 但并不保证在时间中点. 对任意已给加速度,
+\begin{equation}
+v(t)=v_0+\int_{t_0}^{t}a(s)\dd s,\qquad
+x(t)=x_0+\int_{t_0}^{t}v(s)\dd s.
+\end{equation}
+例如 $a=A-Bt$, $t_0=0$ 时 $v=v_0+At-Bt^2/2$, $x=x_0+v_0t+At^2/2-Bt^3/6$. 由 $a$ 的单位检验 $[B]=L/T^3$, 由初值检验积分常数. 抛射消去时间给 $y=x\tan\theta-gx^2/(2v_0^2\cos^2\theta)$, $\cos\theta\ne0$. 竖直抛射不能用此消时形式, 仍可用参数式.
+
+匀速圆周完成一圈用时 $T$, 频率 $f=1/T$, $|\omega|=2\pi f=2\pi/T$. 角速度向量沿转轴按右手规则, $\vct v=\vct\omega\times\vct r$; 角加速度向量为角速度向量的时间导数, 转轴变化时不能仅对角速度大小求导. 对匀速平动新系 $\vct r'=\vct r-\vct Vt$, $\vct v'=\vct v-\vct V$, 但 $\vct a'=\vct a$. 若力只依赖相对位置及相对速度, 牛顿方程在两惯性系同形, 这就是伽利略相对性在本模型中的具体内容.
