@@ -1,0 +1,58 @@
+\originalchapter{8.05 作业4：算符指数与正交逼近}
+来源为Fall 2013 Assignment 4, 2013年9月27日发布, 10月4日15时截止. 原题第1题署Based on Griffiths, 第7题署based on Axler. 下文用MIT实际题面的算符恒等式与自定函数逼近任务中文重述, 保留这些参考信用, 不取得外书. 解答均为\textbf{AI独立解答}; 第6题只有Shankar 1.8.8、p.43引用, 不补造题面.
+\originalsection{第1题：对易子的导数规则}
+\begin{exercise}
+证乘积对易式与Jacobi恒等式, 从$[q,p]=\ii\hbar$求$[q^n,p]$与可展开函数$[f(q),p]$, 再在位置表示核验.
+\end{exercise}
+\begin{solution}
+展开$[A,B]C+B[A,C]$中间$BAC$抵消, 给$[A,BC]$. 三个$[[A,B],C]$循环项展开后十二项两两抵消. 归纳得$[q^n,p]=\ii\hbar nq^{n-1}$; 在收敛且共同定义域允许逐项运算的级数上,$[f(q),p]=\ii\hbar f'(q)$. 位置作用$[f(x),-\ii\hbar\partial_x]\psi=\ii\hbar f'(x)\psi$, 同号. 数学微分恒等式独立核算, 不把教材引用误读为缺失原件.
+\end{solution}
+\originalsection{第2题：指数微分和位移}
+\begin{exercise}
+证明$\partial_t\e^{t(A+B)}=(A+B)\e^{t(A+B)}=\e^{t(A+B)}(A+B)$. 若$[A,B]=cI$, 求$\e^AB\e^{-A}$. 对$T(a)=\e^{-\ii ap/\hbar}$, 求$T^\dagger xT$和位移后的波函数.
+\end{exercise}
+\begin{solution}
+单一矩阵$K=A+B$的幂总与$K$对易, 逐项微分指数便得第一式, 无需$A,B$彼此对易. 令$F(t)=\e^{tA}B\e^{-tA}$, $F'=\e^{tA}[A,B]\e^{-tA}=cI$, 所以$F(1)=B+cI$. 取$A=\ii ap/\hbar$及$B=x$, $[A,x]=aI$, 得$T^\dagger xT=x+a$. 位置表示$T=\e^{-a\partial_x}$, Taylor平移$T\psi(x)=\psi(x-a)$. 密度向右移$a$, 与均值加$a$一致.
+\end{solution}
+\originalsection{第3题：Hadamard展开}
+\begin{exercise}
+从$F(t)=\e^{tA}B\e^{-tA}$的各阶导数证$\e^AB\e^{-A}=\sum_{n\ge0}(\operatorname{ad}_A)^nB/n!$, $\operatorname{ad}_A(X)=[A,X]$.
+\end{exercise}
+\begin{solution}
+$F'=[A,F]$, 继续求导得$F''=[A,[A,F]]$, $F'''=[A,[A,[A,F]]]$. 因$A$不变, 归纳$F^{(n)}=\operatorname{ad}_A^nF$, $F^{(n)}(0)=\operatorname{ad}_A^nB$. Taylor在$t=1$给结论. 有限维矩阵级数绝对收敛; 无界算符只能在保证各嵌套作用与收敛的态上用, 不能只凭形式级数跨越定义域.
+\end{solution}
+\originalsection{第4题：中心对易子的BCH}
+\begin{exercise}
+$[A,B]=cI$, 用$G(t)=\e^{t(A+B)}\e^{-tA}$证$G^{-1}G'=B+ct$并求解, 推$\e^{A+B}=\e^B\e^A\e^{c/2}=\e^A\e^B\e^{-c/2}$.
+\end{exercise}
+\begin{solution}
+直接求导$G'=(A+B)G-GA$. 左乘逆得到$G^{-1}G'=\e^{tA}(A+B)\e^{-tA}-A=B+ctI$, 用上一题中心对易特例. 因$B$与$cI$对易,$G(t)=\e^{tB}\e^{ct^2/2}$且$G(0)=I$. $t=1$再右乘$\e^A$给第一式; 交换$A,B$使$c$变$-c$给第二式. 相位因子来自不对易, 不能将其忽略为一般的指数相加.
+\end{solution}
+\originalsection{第5题：bra、外积与秩}
+\begin{exercise}
+正交基$\ket1,\ket2,\ket3$中$\ket\psi=a\ket1-b\ket2+a\ket3$, $\ket\phi=b\ket1+a\ket2$. 求bra、相互内积与$A=\ket\phi\bra\psi$矩阵; $Q=\ket\psi\bra\psi+\ket\phi\bra\phi$是否Hermitian, 为何有零本征值?
+\end{exercise}
+\begin{solution}
+bra行分别$(a^*,-b^*,a^*)$及$(b^*,a^*,0)$, 所以$\braket\phi\psi=b^*a-a^*b$, 逆内积为其共轭. ket列为$(a,-b,a)^{\mathsf T}$与$(b,a,0)^{\mathsf T}$, 外积
+\[
+A=\begin{pmatrix}ba^*&-|b|^2&ba^*\\|a|^2&-ab^*&|a|^2\\0&0&0\end{pmatrix}.
+\]
+每个$\ket v\bra v$都等于自己的伴随且半正定, 故$Q$Hermitian. 它的像包含于$\operatorname{span}\{\psi,\phi\}$, 秩最多2, 三维空间的核至少1维; 与两矢都正交的非零矢被$Q$消去.
+\end{solution}
+\originalsection{第7题：投影与五次逼近}
+\begin{exercise}
+(a)证子空间$U$中的最佳近似为$P_Uv$. (b)$[-\pi,\pi]$实函数内积$\int fg$, 对$U=\operatorname{span}(1,x,\ldots,x^5)$求正交基. (c)求$\sin x,\cos x$在$U$的最佳多项式（精确与六位数）. (d)同图比较原函数、投影与Taylor截断.
+\end{exercise}
+\begin{solution}
+$v-u=(v-P_Uv)+(P_Uv-u)$两项正交, 故$\norm{v-u}^2=\norm{v-P_Uv}^2+\norm{P_Uv-u}^2$, 等号只在$u=P_Uv$. Gram--Schmidt给缩放Legendre多项式$e_{n+1}(x)=\sqrt{(2n+1)/(2\pi)}P_n(x/\pi)$,$0\le n\le5$, 其中$P_n(t)$依次为$1,t,(3t^2-1)/2,(5t^3-3t)/2,(35t^4-30t^2+3)/8,(63t^5-70t^3+15t)/8$. 从幂逐一减正交投影恰产生这些式, $\int_{-1}^1P_n^2=2/(2n+1)$给归一化.
+
+令$p_s=\sum_{j=0}^2a_jx^{2j+1}$, $p_c=\sum_{j=0}^2b_jx^{2j}$. 为避免长的展开式遮住来源, 给精确线性方程作为无歧义系数定义:
+\[
+\sum_{j=0}^2\frac{2\pi^{2(i+j)+3}}{2(i+j)+3}a_j
+=\int_{-\pi}^{\pi}x^{2i+1}\sin x\dd x,\qquad
+\sum_{j=0}^2\frac{2\pi^{2(i+j)+1}}{2(i+j)+1}b_j
+=\int_{-\pi}^{\pi}x^{2i}\cos x\dd x.
+\]
+两右端向量分别$(2\pi,2\pi^3-12\pi,2\pi^5-40\pi^3+240\pi)$与$(0,-4\pi,-8\pi^3+48\pi)$. 它们为正定Gram矩阵, 逆矩阵乘这些明确的$\pi$多项式就是精确答案. 展开及六位系数、比较图见下列自有计算图; 每个系数由上面线性系统产生, 非手调拟合. Taylor为$x-x^3/6+x^5/120$与$1-x^2/2+x^4/24$. 投影优化整个区间的平方误差, Taylor只匹配原点导数.
+\input{chapters/figure-805-ps4-projection.tex}
+\end{solution}

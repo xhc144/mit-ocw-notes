@@ -1,0 +1,43 @@
+\originalchapter{8.06 作业4：WKB、Airy与格点隧穿}
+来源为Spring 2018 Assignment 4, 2018年3月1日发布, Barton Zwiebach. 第1、2、4、6题中文转述并给\textbf{AI独立解答}. 第3题loose based on Griffiths的重力弹球具体题单核, 非确定权利禁令; 第5题仅Griffiths 8.15题号与MIT连接提示, 无完整教材题面, 不补造. 通用Airy连接已在正文独立展开.
+\originalsection{第1题：WKB到底解哪条方程}
+\begin{exercise}
+$-\hbar^2\psi''=p(x)^2\psi$, 近似$\psi_a=p^{-1/2}\exp[\ii\int^xp/\hbar]$. 求其精确满足的修正方程, 用de Broglie波长表达修正小的条件.
+\end{exercise}
+\begin{solution}
+先对数微分$\psi_a'/\psi_a=-p'/(2p)+\ii p/\hbar$, 再平方加导数, 交叉虚项抵消, 得$\psi_a''/\psi_a=-p^2/\hbar^2-p''/(2p)+3p'^2/(4p^2)$. 因而
+\[
+-\hbar^2\psi_a''=\left[p^2+\frac{\hbar^2p''}{2p}-\frac{3\hbar^2p'^2}{4p^2}\right]\psi_a.
+\]
+各修正与$p^2$相比须小, 而不是彼此抵消就无条件相信近似. 令$\lambda=2\pi\hbar/p$, 两相对量为$|2\lambda'^2-\lambda\lambda''|/(8\pi^2)$和$3\lambda'^2/(16\pi^2)$. 常用足够的局部尺度条件$|\lambda'|\ll2\pi$, $|\lambda\lambda''|\ll(2\pi)^2$; 在$p=0$转折点它们失效, 要用Airy连接. 局部残差小仍不自动保证整个区间累积相位误差小.
+\end{solution}
+\originalsection{第2题：线性势的精确Airy谱}
+\begin{exercise}
+$V=gx$于$x>0$, 原点硬墙,$g>0$. (a)$L^3=\hbar^2/(2mg)$, 化为$\psi''(u)=u\psi$. (b)Fourier变换并给Ai积分, 核$\operatorname{Ai}(1)$. (c)求前两零点与能量.
+\end{exercise}
+\begin{solution}
+令$\tilde u=x/L$, $\epsilon=E/(gL)$, 方程$\psi''=(\tilde u-\epsilon)\psi$, 再取$u=\tilde u-\epsilon$. Fourier约定$\tilde\psi(k)=\int\e^{-\ii ku}\psi(u)\dd u$使$-k^2\tilde\psi=\ii\partial_k\tilde\psi$, 所以$\tilde\psi=\e^{\ii k^3/3}$当$\tilde\psi(0)=1$. 逆变换将正负$k$配对给$\operatorname{Ai}(u)=\pi^{-1}\int_0^\infty\cos(k^3/3+ku)\dd k$, 振荡积分以合适截断/收敛因子理解. 数值$\operatorname{Ai}(1)=0.135292416313$, 与题给0.135292一致.
+
+正$u$不增长的支是Ai, 舍Bi. 原点边界$\operatorname{Ai}(-\epsilon)=0$, 前两个负零点$-2.338107410460,-4.087949444131$. 所以$E_1=2.338107410460(\hbar^2g^2/(2m))^{1/3}$,$E_2=4.087949444131$乘同尺度. 单个硬壁+单个软转折点不应套两软转折点的$n+1/2$量子化.
+\end{solution}
+\originalsection{第4题：四次势的半经典精度}
+\begin{exercise}
+$V=\alpha x^4$, $E_n=\gamma e_n$,$\gamma=(\hbar^4\alpha/m^2)^{1/3}$. 推转折点与两软端量子化, 得$\tilde e_n=\beta(n+\delta)^\epsilon$, 求$n=0$至5并与原数值$0.667986,2.39364,4.69680,7.33573,10.2443,13.3793$比较, 给0、2、5相对误差.
+\end{exercise}
+\begin{solution}
+$x_0=(E/\alpha)^{1/4}$, 内动量$\sqrt{2m(E-\alpha x^4)}$. 两软端各$\pi/4$连接相位给$\int_{-x_0}^{x_0}p\dd x=(n+1/2)\pi\hbar$, 不含硬壁. 令$x=x_0t$, 积分$2\sqrt{2m}E^{3/4}\alpha^{-1/4}I$, $I=\int_0^1\sqrt{1-t^4}\dd t=\sqrt\pi\Gamma(1/4)/[8\Gamma(7/4)]\simeq0.874019184764$. 因而$\beta=[\pi/(2\sqrt2I)]^{4/3}$,$\delta=1/2,\epsilon=4/3$. 自有数值表见下, 低态相对误差较大, 越高能逐渐改善, 并不把WKB声称为精确谱.
+\input{chapters/table-806-ps4-quartic.tex}
+\end{solution}
+\originalsection{第6题：高阶微扰怎样产生指数隧穿}
+\begin{exercise}
+格点$0,\ldots,N$两端势0、内部$V_0$, 最近邻跃迁$-\lambda$, $\lambda\ll V_0$. (a)原两端零能态何阶第一次分裂, 求间隙. (b)由步长$\ell$二阶差分动能求$\lambda$, 固定$\lambda/V_0=\varepsilon\ll1$、$\ell=W/N$消去$\ell$, 求间隙随$W,V_0$尺度. (c)只保两态, 初始$\ket0$首次完全到$\ket N$何时, 转移频率怎样与WKB比较?
+\end{exercise}
+\begin{solution}
+连两端最短路径要$N$跳, 更低阶只有相同对角位移, 不分裂. 唯一路径非对角有效元$t=(-\lambda)^N/(-V_0)^{N-1}=-\lambda^N/V_0^{N-1}$. 偶组合$g_+$低, 奇组合$g_-$高, 间隙$\Delta=2\lambda^N/V_0^{N-1}$至首个非零阶, 包括$N=1$直接耦合特例. 回程修正为更高阶.
+
+差分$-\hbar^2\partial_x^2/(2m)$的非对角系数$-\hbar^2/(2m\ell^2)$, 所以$\lambda=\hbar^2/(2m\ell^2)$. 忽略的对角项是共同常能位移, 不改变分裂, 但固定物理$V_0$时$\ell\to0$会使$\lambda/V_0$增大, 微扰失效. 设$\varepsilon$固定意味着$\ell^2V_0=\hbar^2/(2m\varepsilon)$固定, 这是同步变高障壁的尺度族, 不是固定势的连续极限. 消去给
+\[
+\Delta\simeq2V_0\exp\!\left[-\frac{W\sqrt{2mV_0}}\hbar\sqrt\varepsilon\log(1/\varepsilon)\right].
+\]
+两态演化从$\ket0=(g_++g_-)/\sqrt2$出发,$P_N(t)=\sin^2(\Delta t/(2\hbar))$. 首次完全转移$t_* =\pi\hbar/\Delta$, 若以$1/t_*$称“隧穿率”, 为$\Delta/(\pi\hbar)$且同指数. 这是相干首次转移频率, 概率不是恒定率的线性增长. WKB\emph{通量透射概率}$\exp[-2W\sqrt{2mV_0}/\hbar]$同样随$W\sqrt{V_0}$指数抑制, 但比较的是不同量且此固定$\varepsilon$近似系数为$\sqrt\varepsilon\log(1/\varepsilon)$, 不能把两数等同为精确连续结果.
+\end{solution}

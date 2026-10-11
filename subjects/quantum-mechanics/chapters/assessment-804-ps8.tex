@@ -1,0 +1,45 @@
+\originalchapter{8.04 作业8：相干态、模型键与反射延迟}
+来源为Spring 2016 Assignment 8, 2016年4月13日发布, 4月22日12时截止. 第1--4题中文转述与\textbf{AI独立解答}. 第5题给Griffiths 2.33、p.83引用并附MIT补充要求, 未提供完整外书题面, 仅保留引用; 本册矩形障壁独立推导可支持其一般主题, 不冒称已取得该原题.
+\originalsection{第1题：湮灭本征态与能量涨落}
+\begin{exercise}
+$\psi_\alpha=N\e^{\alpha a^\dagger}\varphi_0$, $\alpha$复. 求归一因子、湮灭本征值、能量均值与不确定度, 再由微分本征方程给归一位置波函数.
+\end{exercise}
+\begin{solution}
+指数展开$\sum\alpha^n\ket n/\sqrt{n!}$, 范数平方$\e^{|\alpha|^2}$, 可取$N=\e^{-|\alpha|^2/2}$. $a\ket n=\sqrt n\ket{n-1}$移求和指标给$a\psi_\alpha=\alpha\psi_\alpha$. Poisson分布均值及方差$|\alpha|^2$, 所以$\langle H\rangle=\hbar\omega(|\alpha|^2+1/2)$,$\Delta H=\hbar\omega|\alpha|$.
+
+位置表示$a=(x/d+d\partial_x)/\sqrt2$, $d=\sqrt{\hbar/(m\omega)}$, 一阶方程积分给$\psi=C\exp[-x^2/(2d^2)+\sqrt2\alpha x/d]$. 依题给Fock相位约定的归一常数为$C=(\pi d^2)^{-1/4}\exp[-\alpha^2/2-|\alpha|^2/2]$. 等价地令$x_0=\sqrt2d\operatorname{Re}\alpha,p_0=\sqrt2\hbar\operatorname{Im}\alpha/d$, 得$\psi=(\pi d^2)^{-1/4}\exp[-(x-x_0)^2/(2d^2)+\ii p_0(x-x_0/2)/\hbar]$. 常相位选取与题设位移一致.
+\end{solution}
+\originalsection{第2题：双点势与分子间距}
+\begin{exercise}
+双点势偶态方程$\xi=\lambda(1+\e^{-2\xi})$, $a_0=\hbar^2/(mg)$,$\lambda=a/a_0$,$E_\infty=mg^2/(2\hbar^2)>0$. 加原子间斥势$V_r(x)=\beta g/x$. (a)写电子能量并画其随$\lambda$变化及两端极限. (b)写$V_r(2a)$. (c)不同$\beta$画总能, $\beta=0.31$求稳定驻点.
+\end{exercise}
+\begin{solution}
+电子能$E=-E_\infty(\xi/\lambda)^2=-E_\infty(1+\e^{-2\xi})^2$. $\lambda\to0$两点合成强度$2g$单点,$E\to-4E_\infty$; $\lambda\to\infty$则$E\to-E_\infty$. 斥能$\beta g/(2a)=\beta E_\infty/\lambda$, 总无量纲能$F=-(\xi/\lambda)^2+\beta/\lambda$. 正$\beta$时小距离$F\to+\infty$, 大距离$F\to-1$（从上方）, 较小$\beta$有中间极小与后续极大.
+
+可用参数$\xi$避免超越隐式差分: $\lambda=\xi/(1+\e^{-2\xi})$, 对$F(\xi)$求导找零, 再以二阶导数判定. $\beta=.31$时稳定极小$\lambda=0.401295411652477$, $F=-1.02549451572266$; 还有$\lambda=1.80845855916$不稳定极大. 极小低于分离能$-1$, 才是本模型的稳定键, 与仅看负能量不同.
+\input{chapters/figure-804-ps8-bond.tex}
+\end{solution}
+\originalsection{第3题：无限深井极限的外侧动能}
+\begin{exercise}
+有限井$V=-V_0$于$|x|\le a$, 外0. 偶基态内$\cos kx/\sqrt a$, 外$A\e^{-\kappa|x|}/\sqrt a$. 大$z_0$时$ka\simeq(\pi/2)(1-1/z_0)$,$\kappa a\simeq z_0$,$A\simeq\pi\e^{z_0}/(2z_0)$. 求$x>a$的$\int\psi^*[-\hbar^2\partial_x^2/(2m)]\psi\dd x$, 是否产生奇异贡献?
+\end{exercise}
+\begin{solution}
+外指数二阶导数为$\kappa^2\psi$, 所以该\emph{局部未分部积分}动能项为$-\hbar^2\kappa A^2\e^{-2\kappa a}/(4ma)\simeq-\pi^2\hbar^2/(16ma^2z_0)$, 随$z_0\to\infty$趋0, 无奇异有限残项. 局部积分可为负, 因$-\partial_x^2$限制在此开区间后有边界项, 不同于全空间自伴动能的非负二次型$\hbar^2\int|\psi'|^2/(2m)$. 对整个态各区域边界项配合才恢复总动能非负; 无限硬墙极限亦必须使用正确算符域.
+\end{solution}
+\originalsection{第4题：阶势的Gaussian反射包}
+\begin{exercise}
+$x>0$势$V_0$, 左入射$\Psi_{\rm inc}=\sqrt a\int_0^{\hat k}\Phi(k)\e^{\ii kx-\ii E(k)t/\hbar}\dd k$, $a=\hbar/\sqrt{mV_0}$,$\hat k=\sqrt2/a$. 设$K=ak,u=x/a,\tau=V_0t/\hbar$, 由相移求全反射包、群速、方差与延迟. 原题最终积分为$\e^{-\beta^2(K-K_0)^2}$, 取$\beta=4,K_0=1$, 画$\tau=-20,-5,0,20$并从末次峰估计延迟.
+\end{exercise}
+\begin{solution}
+$E/V_0=K^2/2$, 右禁区衰减率$\sqrt{2-K^2}/a$. 接续反射幅$r=(K-\ii\sqrt{2-K^2})/(K+\ii\sqrt{2-K^2})=-w(K)$, $w=1-K^2+\ii K\sqrt{2-K^2}=\e^{2\ii\delta}$. 若$\delta=\arcsin(K/\sqrt2)$, $2\partial_{(E/V_0)}\delta=2/[K\sqrt{2-K^2}]$, 即$\Delta\tau$. 无量纲群速$\mathrm du/\mathrm d\tau=K_0$, $\Delta u\Delta K\ge1/2$.
+
+原件前页包络写$\e^{-\beta a^2(k-k_0)^2}$, 末页完整积分却写$\e^{-\beta^2(K-K_0)^2}$. 为满足末页指定$\beta=4$的实际数值任务, 本计算明确采用\textbf{末页}约定, 等于前页参数为16; 不静默混用. 完整左区为
+\[
+a^{1/2}\Psi(u,\tau)=\int_0^{\sqrt2}\e^{-\beta^2(K-K_0)^2}\e^{-\ii K^2\tau/2}
+[\e^{\ii Ku}-w(K)\e^{-\ii Ku}]\dd K.
+\]
+近完整Gaussian时$\Delta K=1/(2\beta)=.125$, 最小$\Delta u=\beta=4$, 解析延迟2. 包络越窄、初始空间包越宽; 自由展宽尺度约$2\beta^2=32$, 与绘图时间同阶, 因而不能假定永远不改形. 所列是完整Gaussian近似宽度. 精确硬截断谱在上端并非0, 位置尾部约为振荡$1/u$, 二阶位置矩发散, 不能把精确$\Delta u$当作有限小修正; 有效包络宽度仍可用于窄谱峰的近似分析.
+
+自有数值积分画全波密度见图. $\tau=20$的全波主峰$u=-17.9178323226106$, 自由理想反射峰$-20$, 群速1给$\Delta\tau=2.0821676773894$, 与2接近. 160至1280积分节点加密变化小于$10^{-12}$. 只算反射分量会给另一峰$-17.71779014$, 不能替换题问\emph{完整波函数}的密度峰.
+\input{chapters/figure-804-ps8-reflection.tex}
+\end{solution}

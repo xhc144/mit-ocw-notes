@@ -1,0 +1,156 @@
+\originalchapter{8.05 作业11：径向问题与角动量合成}
+来源为Fall 2013 Assignment 11, 2013年11月29日发布, 12月6日15时截止. 本篇纳入正式作业六题与PRACTICE六题; 后者原文明确“不提交”, 不混作有分正式考核. 以下均为\textbf{AI独立解答}. 原件建议参考外书CG表或Shankar解答, 此处自行推导, 未取得或打包外书. 题面称卷末有CG表, 实际PDF末页仅OCW声明, 不声称已核不存在的表.
+\originalsection{正式第1题：自旋1的连续测量}
+\begin{exercise}
+在$\ket{1,m}$按$m=1,0,-1$排序, 求$L^2,L_\pm,L_x,L_y,L_z$矩阵, 验$[L_x,L_y]=\ii\hbar L_z$, 求$L_x$三本征态. 从$x+$测$z$的分布为何? 若先得$z-$再测$x$、又得$x-$再测$z$, 每步给概率.
+\end{exercise}
+\begin{solution}
+$L^2=2\hbar^2I$, $L_z=\hbar\operatorname{diag}(1,0,-1)$,
+\[
+L_+=\sqrt2\hbar\begin{pmatrix}0&1&0\\0&0&1\\0&0&0\end{pmatrix},\quad L_-=L_+^\dagger,\quad
+L_x=\frac\hbar{\sqrt2}\begin{pmatrix}0&1&0\\1&0&1\\0&1&0\end{pmatrix},\quad
+L_y=\frac\hbar{\sqrt2}\begin{pmatrix}0&-\ii&0\\\ii&0&-\ii\\0&\ii&0\end{pmatrix}.
+\]
+直接乘$L_xL_y-L_yL_x$给$\ii\hbar^2\operatorname{diag}(1,0,-1)$. $x+$、$x0$、$x-$单位矢分别$(1,\sqrt2,1)/2$、$(1,0,-1)/\sqrt2$、$(1,-\sqrt2,1)/2$. $x+$测$z$结果$\hbar,0,-\hbar$概率$1/4,1/2,1/4$. 条件$z-$后测$x$仍$1/4,1/2,1/4$; 再条件$x-$后测$z$亦同. 每次理想测量条件态替换前态, 最后一组不是将之前概率再乘进去的条件概率; 若要原始束的联合链概率才相乘.
+\end{solution}
+\originalsection{正式第2题：氢Hamilton算符平方分解}
+\begin{exercise}
+将$H=p^2/(2m)-e^2/r$写为$\gamma+\sum_k(p_k+\ii\beta x_k/r)(p_k-\ii\beta x_k/r)/(2m)$, 求实$\beta,\gamma$, 证明能量下界并找饱和归一态.
+\end{exercise}
+\begin{solution}
+令$n_k=x_k/r$. 乘积展开为$p^2+\beta^2+\ii\beta\sum[n_k,p_k]=p^2+\beta^2-2\beta\hbar/r$, 因$\nabla\cdot\boldsymbol n=2/r$. 故$\beta=me^2/\hbar=\hbar/a_0$, $\gamma=-\beta^2/(2m)=-me^4/(2\hbar^2)$. 每个乘积是$Q_k^\dagger Q_k$, $Q_k=p_k-\ii\beta n_k$, 在适当Coulomb形式域均值非负, 所以$\langle H\rangle\ge\gamma$.
+
+饱和须$Q_k\psi=0$各$k$, 即$\partial_k\psi=-x_k\psi/(a_0r)$. 梯度平行径向, 解$\psi=C\e^{-r/a_0}$, $C=(\pi a_0^3)^{-1/2}$. 它归一且满足全部一阶方程, 达下界即基态. $e^2$沿原题Coulomb常数单位, SI要整体替为$e^2/(4\pi\epsilon_0)$.
+\end{solution}
+\originalsection{正式第3题：突然核电荷变化}
+\begin{exercise}
+氚基态电子遇瞬间$\beta$衰变, 核电荷从1变2且忽略约化质量变化. 求衰变后立刻处于He⁺基态的概率, 以及处于某个$\ell=0$态的总概率.
+\end{exercise}
+\begin{solution}
+突然近似使电子波函数来不及变化, 投影到新态. $Z$基态$\psi_Z=\sqrt{Z^3/(\pi a_0^3)}\e^{-Zr/a_0}$, 重叠$8(Z_1Z_2)^{3/2}/(Z_1+Z_2)^3$, $Z_1=1,Z_2=2$得$16\sqrt2/27$, 概率$512/729\simeq0.702332$. 初始球对称, 新中心势角动量基完整, 只含$\ell=0$径向态, 其总概率1; 包括连续谱的$s$波, 不意味剩下约30\%都在束缚激发态. 不将中性He的双电子态误套本题单电子He⁺.
+\end{solution}
+\originalsection{正式第4题：有限球井与三维点势调节}
+\begin{exercise}
+球井$r<a$势$-V_0$、外0, $V_0=v_0^2\hbar^2/(2ma^2)$. (a)(b)求$s$波束缚阈值与方程, 记$E=-\epsilon^2\hbar^2/(2ma^2)$. (c)作图分析大$v_0$低态能量及基态首修正. (d)以$V_a=-V_0(L/a)^3$于$r<a$调节$-4\pi V_0L^3\delta^3(r)/3$, 核积分、求$a\to0$能谱行为, 由量纲解释问题.
+\end{exercise}
+\begin{solution}
+$s$波$u(0)=0$, 内$u=A\sin(\eta r/a)$、外$B\e^{-\epsilon r/a}$, 其中$\eta^2+\epsilon^2=v_0^2$, 接续给$-\eta\cot\eta=\epsilon$. 第一正支在$\eta>\pi/2$, 故真实束缚需要$v_0>\pi/2$, 等号只是非归一阈值. 图为$\epsilon=-\eta\cot\eta$正支与半径$v_0$圆在第一象限交点. 低整数$n$、大$v_0$时$\eta_n=n\pi-\delta_n$, $\delta_n\simeq n\pi/v_0$, 所以
+\[
+E_n=-V_0+\frac{(n\pi)^2\hbar^2}{2ma^2}
+\left(1-\frac2{v_0}+O(v_0^{-2})\right).
+\]
+对$n=1$首修正负, 表示有限井渗透使有效宽度增加; 相比无限壁能级降低.
+\input{chapters/figure-805-ps11-spherical.tex}
+
+调节势体积分$-V_0(L/a)^3(4\pi a^3/3)=-4\pi V_0L^3/3$, 与点核一致. 但其$v_0(a)^2=2mV_0L^3/(\hbar^2a)$趋无穷, 基态$E_g\sim-V_0L^3/a^3+\pi^2\hbar^2/(2ma^2)$趋负无穷, 无独立于调节参数的有限极限. 裸点耦合$g_3=V_0L^3$的自然能量尺度为$\hbar^6/(m^3g_3^2)$, 随吸引增强反而减小, 与此普通吸引势基态随增强下降的变分单调性不符. 这诊断\emph{固定裸耦合}三维点势不良定义, 不是否定经重整化由散射长度定义的零程模型.
+\end{solution}
+\originalsection{正式第5题：Yukawa径向定性图}
+\begin{exercise}
+$V=-g\e^{-\alpha r}/r$. 用$x=\alpha r$化为$[-\partial_x^2+\ell(\ell+1)/x^2-g'\e^{-x}/x]u=\lambda u$, 求$g',\lambda$与有效势. 图示不同耦合可无或多束缚. 若$\ell=2$有四个不同束缚径向能级, 不数值解方程, 画第二低态的原点、远处、节点与振幅.
+\end{exercise}
+\begin{solution}
+乘方程$2m/(\hbar^2\alpha^2)$得$g'=2mg/(\hbar^2\alpha)$,$\lambda=2mE/(\hbar^2\alpha^2)$, 有效势题中两项. 对固定$\ell>0$, 若$g'\le e\ell(\ell+1)$, 因$x\e^{-x}\le1/e$, 有效势处处非负, 无负能束缚; 大$g'$在有限区间形成任意深负井, 可用多个不交叠支撑的试态与min--max原理证明负态数任意增大. 对$\ell=0$不能只靠势有负值判定存在束缚, 三维$s$波有$u(0)=0$且弱吸引可能不足. 在$0<x<1$,$-g'\e^{-x}/x\ge-g'/x$; 小耦合阈值需谱或变分下界另判断, 图中只示意固定$\ell=2$的足够条件.
+
+第二低径向态有一个内部节点; 近原点$u\sim Cx^{\ell+1}=Cx^3$, 小值且增长, 不是$1/x$奇解. 远处$u\sim D\e^{-\sqrt{-\lambda}x}$, 振幅下降; 中间允许区振荡且一处过零, 禁止区只指数尾. 选总体正相位时内瓣正、外瓣负. 图为满足这些特征的\emph{定性示意}, 未求方程, 瓣高度不能作为本题未知参数的精确预测.
+\input{chapters/figure-805-ps11-yukawa.tex}
+\end{solution}
+\originalsection{正式第6题：超精细加磁场}
+\begin{exercise}
+两自旋1/2, $H'=2\varepsilon S_{ez}/\hbar+4\varepsilon'\boldsymbol S_e\cdot\boldsymbol S_p/\hbar^2$, $\varepsilon=\mu_BB$, $\varepsilon'>0$. 在未耦合$(\uparrow\uparrow,\uparrow\downarrow,\downarrow\uparrow,\downarrow\downarrow)$及耦合$(1,1),(1,0),(1,-1),(0,0)$基求矩阵、本征对, 图能量随$B$, 给弱场一阶态及能量并判断两基适用性.
+\end{exercise}
+\begin{solution}
+未耦合矩阵端格为$\varepsilon'+\varepsilon,\varepsilon'-\varepsilon$, 中块$\begin{pmatrix}\varepsilon-\varepsilon'&2\varepsilon'\\2\varepsilon'&-\varepsilon-\varepsilon'\end{pmatrix}$. 耦合基同两端, 在$(T_0,S)$中块为$\begin{pmatrix}\varepsilon'&\varepsilon\\\varepsilon&-3\varepsilon'\end{pmatrix}$. 记$D=\sqrt{\varepsilon^2+4\varepsilon'^2}$, 能量两端$\varepsilon'\pm\varepsilon$, 中间$-\varepsilon'\pm D$. 令$\theta=\frac12\arctan[\varepsilon/(2\varepsilon')]$（连续取$|\theta|<\pi/4$）, 高态$\cos\theta T_0+\sin\theta S$, 低态$-\sin\theta T_0+\cos\theta S$. 将$T_0=(\uparrow\downarrow+\downarrow\uparrow)/\sqrt2,S=(\uparrow\downarrow-\downarrow\uparrow)/\sqrt2$代回即未耦合本征矢.
+
+弱场能量至一阶为$\varepsilon'\pm\varepsilon,\varepsilon',-3\varepsilon'$, 两混合态$T_0+\varepsilon S/(4\varepsilon')$及$S-\varepsilon T_0/(4\varepsilon')$, 此阶可不归一. 小场耦合基适合, 大$|\varepsilon|$时电子自旋分量决定能量, 未耦合基适合; 接近0的混合不是把两基任意轮换. 曲线下图按$\varepsilon'$归一, 交叉是否真实取决于本Hamilton算符守恒的总$m$, 不额外加入未给的耦合.
+\input{chapters/figure-805-ps11-hyperfine.tex}
+\end{solution}
+\originalsection{练习第1题：Runge--Lenz守恒的有序推导}
+\begin{exercise}
+$H_f=p^2/(2m)-f(r)$,$R_f=(p\times L-L\times p)/(2m)-f(r)r$. (a)求$[p^2,f(r)r]$并说明括号Hermitian. (b)求$[p\times L-L\times p,f(r)]$并用Hermitian形式写. (c)计算$[H_f,R_f]$并证明算符守恒恰要求$rf'=-f$, 解出$f$.
+\end{exercise}
+\begin{solution}
+以下在$r>0$共同光滑定义域, 不声称完成Coulomb奇点的全部自伴域分析. 令$q=\hbar/\ii$, $h=f'/r$, $T=p\times L-L\times p$. 从$[p_j,F]=q\partial_jF$与$\partial_j(fr_i)=f\delta_{ij}+hr_ir_j$得到
+\[
+[p^2,fr_i]=q\big[p_if+fp_i+(p\cdot r)r_ih+hr_i(r\cdot p)\big]\equiv qB_i.
+\]
+前两项互为伴随, 后两项也互为伴随, 所以$B_i$Hermitian, 乘纯虚$q$使对易子反Hermitian, 与两Hermitian量的对易相容.
+
+因为$[L_i,f]=0$, 直接展开叉积得$[T,f]=qhK$, $K=r\times L-L\times r$. 两个$\epsilon$缩并与$[L_i,r_j]$给
+\[
+K=2r(r\cdot p)-2r^2p-2\ii\hbar r
+=r(r\cdot p)+(p\cdot r)r-r^2p-pr^2.
+\]
+第二式成对伴随显出Hermitian; 径向$h$与$r,L$对易, 因而$hK$也Hermitian. 这里保留$p$与$r$次序, 不能用经典三重积删去$\hbar$项.
+
+$[p^2,T]=0$, 记$g=f+rf'$, 利用$[p\cdot r,h]=qrh'$整理$B-hK=2gp+q(f''+2f'/r)r=gp+pg$. 故$[H_f,R_f]=([T,f]-[p^2,fr])/(2m)=\ii\hbar\{g,p\}/(2m)$. $g=0$即守恒; 反向若一阶微分算符恒等为0, 它对任意测试函数的导数系数$2g$必须0, 故$(rf)'=0$, 唯一$f=c/r$, 含$c=0$. 氢$f=e^2/r$即此特例.
+\end{solution}
+\originalsection{练习第2题：Runge--Lenz长度的量子修正}
+\begin{exercise}
+本题改用无量纲$R=(p\times L-L\times p)/(2me^2)-r/r$. 核两种写法, 推$(L\times p)\cdot r=-L^2$、$\ii\hbar(p\cdot n-n\cdot p)=2\hbar^2/r$、$(L\times p)\cdot(p\times L)=-p^2L^2$, 再求$R^2$.
+\end{exercise}
+\begin{solution}
+记$n=r/r,C=p\times L,D=L\times p$. 正则对易给$D=-C+2\ii\hbar p$, 因而$R=(C-\ii\hbar p)/(me^2)-n=(-D+\ii\hbar p)/(me^2)-n$. 第一恒等式用$\epsilon_{ijk}L_jp_kr_i$, 交换$p_kr_i$的$\delta_{ki}$与$\epsilon$缩并为0, 余下为$-L^2$. 第二式$[p_i,n_i]=-\ii\hbar\nabla\cdot n=-2\ii\hbar/r$, 所以乘$\ii\hbar$得到\emph{正}的$2\hbar^2/r$. 第三式两$\epsilon$缩并给$(L\cdot p)(p\cdot L)-p^2L^2$, 而$L\cdot p=p\cdot L=0$, 得所需式.
+
+同理$D\cdot p=p\cdot C=0$, 所以$(-D+\ii\hbar p)\cdot(C-\ii\hbar p)=p^2(L^2+\hbar^2)$. 两交叉项用$D\cdot n=-L^2/r,n\cdot C=L^2/r$与上面的散度项, 得$(-D+\ii\hbar p)\cdot n+n\cdot(C-\ii\hbar p)=2(L^2+\hbar^2)/r$. 加$n^2=1$后
+\[
+R^2=1+\left[\frac{p^2}{m^2e^4}-\frac2{me^2r}\right](L^2+\hbar^2)
+=1+\frac{2H}{me^4}(L^2+\hbar^2).
+\]
+这也补齐正文曾作为进阶输入的长恒等式; $+\hbar^2$完全来自非对易和径向单位矢散度, 不能从经典平方直接猜掉.
+\end{solution}
+\originalsection{练习第3题：1与1/2的六个CG态}
+\begin{exercise}
+对$\ell=1,s=1/2$, 从最高态及$J_-=L_-+S_-$求全部耦合态, 用正交求下一多重态并核维数. 在$j=m=1/2$求$L_z,S_z$均值. 电子$H_B=\mu_BB(L_z+2S_z)/\hbar$, 求各耦合态能量均值, 并求$j=m=1/2$的磁能测量分布.
+\end{exercise}
+\begin{solution}
+记$\ket{m_\ell,\pm}$未耦合态. 最高$\ket{3/2,3/2}=\ket{1,+}$, 降一次除$\hbar\sqrt3$得到$\sqrt{2/3}\ket{0,+}+\ket{1,-}/\sqrt3$. 再降依次得到
+\[
+\ket{3/2,-1/2}=\ket{-1,+}/\sqrt3+\sqrt{2/3}\ket{0,-},\qquad
+\ket{3/2,-3/2}=\ket{-1,-}.
+\]
+在$M=1/2$二维空间取正交向量, 选最大$m_\ell$项正的相位, 得
+\[
+\ket{1/2,1/2}=\sqrt{2/3}\ket{1,-}-\ket{0,+}/\sqrt3,\quad
+\ket{1/2,-1/2}=\ket{0,-}/\sqrt3-\sqrt{2/3}\ket{-1,+}.
+\]
+降算符系数逐步核这些符号, 维数$4+2=6$, 无更低$j$. 未取得原题所谓卷末表, 以归一、正交及降算符作用独立核验代替.
+
+目标态$\langle L_z\rangle=2\hbar/3$, $\langle S_z\rangle=-\hbar/6$. 全六态$\langle H_B\rangle=\mu_BBg_jm$, $g_{3/2}=4/3,g_{1/2}=2/3$, 从各展开的$m_\ell+2m_s$加权可验证. 目标态测量磁能0概率2/3（$\ket{1,-}$）, $\mu_BB$概率1/3（$\ket{0,+}$）, 均值$\mu_BB/3$. 均值不代表耦合态是纯$H_B$能量本征态.
+\end{solution}
+\originalsection{练习第4题：一般j的最高两组}
+\begin{exercise}
+两粒子各角动量$j$, 求总$J=2j$及$2j-1$两多重态的最高、次高$M$归一态; 判定交换对称性并解释整组是否一致.
+\end{exercise}
+\begin{solution}
+用$\ket{m_1,m_2}$记未耦合态,$\ket{2j,2j}=\ket{j,j}$, $J_-$一次给$\ket{2j,2j-1}=(\ket{j,j-1}+\ket{j-1,j})/\sqrt2$. 正交的次组最高态$\ket{2j-1,2j-1}=(\ket{j,j-1}-\ket{j-1,j})/\sqrt2$. 再降一次,$\ket{j-1,j-1}$贡献消去, $\ket{2j-1,2j-2}=(\ket{j,j-2}-\ket{j-2,j})/\sqrt2$, 此式要求$j\ge1$. $j=1/2$时次组$J=0$仅一态, 无次高态; $j=0$无次组. 第一组对称、第二组反对称, 交换与$J_-$对易使各组全部保持同交换性, 不只最高态如此.
+\end{solution}
+\originalsection{练习第5题：一般轨道与自旋1/2}
+\begin{exercise}
+不靠重复升降, 用$J^2$求$\ket{j=\ell+1/2,m=M+1/2}$在未耦合基的展开, $-\ell-1\le M\le\ell$, 核两端.
+\end{exercise}
+\begin{solution}
+固定$m=M+1/2$的两基是$\ket{M,+}$和$\ket{M+1,-}$. 因$J^2=L^2+S^2+2L_zS_z+L_+S_-+L_-S_+$, 在此块$J^2/\hbar^2$为
+\[
+\begin{pmatrix}\ell(\ell+1)+3/4+M&\sqrt{(\ell-M)(\ell+M+1)}\\
+\sqrt{(\ell-M)(\ell+M+1)}&\ell(\ell+1)+3/4-(M+1)\end{pmatrix}.
+\]
+对本征值$(\ell+1/2)(\ell+3/2)$解两元比例并归一, 得
+\[
+\ket{\ell+1/2,M+1/2}=\sqrt{\frac{\ell+M+1}{2\ell+1}}\ket{M,+}
++\sqrt{\frac{\ell-M}{2\ell+1}}\ket{M+1,-}.
+\]
+$M=\ell$只第一项$\ket{\ell,+}$; $M=-\ell-1$只第二项$\ket{-\ell,-}$, 零系数对应的越界基不实际使用. 相位与上一练习最高组一致. 从固定$m$二阶矩阵求解避免对任意$M$长串降算符.
+\end{solution}
+\originalsection{练习第6题：三个自旋1的三角形}
+\begin{exercise}
+三可区分spin1, $H=\Delta(S_1\cdot S_2+S_2\cdot S_3+S_3\cdot S_1)/\hbar^2$, $\Delta>0$. 求空间维数、总自旋形式、全部能量与总简并. 在$M=0$七候选态中求唯一基态, 说明$\ket{000}$系数为何0.
+\end{exercise}
+\begin{solution}
+维数$3^3=27$, $H=\Delta(S^2/\hbar^2-6)/2$. 先$1\otimes1=0\oplus1\oplus2$, 各自再与1合成得$0\oplus3(1)\oplus2(2)\oplus3$. 总$S=0,1,2,3$能量分别$-3\Delta,-2\Delta,0,3\Delta$, 总简并$1,9,10,7$, 和27; 多重态重复数与$2S+1$都要计入.
+
+令基态七候选系数为$a\ket{+0-}+b\ket{+-0}+c\ket{0+-}+d\ket{0-+}+e\ket{-+0}+f\ket{-0+}+g\ket{000}$. $S_+$杀死总$S=0$态, 六输出系数给$a+c=b+d=e+f=0$及$a+b+g=c+e+g=d+f+g=0$. 解得$b=-a,c=-a,d=a,e=a,f=-a,g=0$. 归一化取$a=1/\sqrt6$, 所以
+\[
+\ket G=\frac{\ket{+0-}-\ket{+-0}-\ket{0+-}+\ket{0-+}+\ket{-+0}-\ket{-0+}}{\sqrt6}.
+\]
+$S_z\ket G=S_+\ket G=0$, 用$S^2=S_-S_++S_z^2+\hbar S_z$确证$S=0$. 只知$M=0$本身不足以断言基态.
+\end{solution}
