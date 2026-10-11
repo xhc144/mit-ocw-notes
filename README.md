@@ -2,7 +2,7 @@
 
 本仓库用于个人非商业学习，保存授权归档的 MIT OpenCourseWare 课程讲义及其中文原生 LaTeX 重编成果。仓库现已公开，供非商业学习与来源核对。
 
-[数学讲义：15册，1660页](#数学讲义) · [物理讲义：7册603页](#物理讲义)
+[数学讲义：15册，1660页](#数学讲义) · [物理讲义：7册605页](#物理讲义)
 
 ## 数学讲义
 
@@ -28,19 +28,19 @@
 
 ## 物理讲义
 
-下列七册均已提供中文 PDF 与可编辑源码，合计 **7册，603个PDF物理页**。电动力学与理论力学已通过独立终审，波动与光学、热学与统计物理、基础力学本轮选定范围已完成；量子力学增补完成、待增量复核，基础电磁学80页正文已扩编、正在内容复核。七科均有可读PDF，终审与完成范围仍按各册状态区分。
+下列七册均已提供中文 PDF 与可编辑源码，合计 **7册，605个PDF物理页**。电动力学与理论力学已通过独立终审，波动与光学、热学与统计物理、基础力学本轮选定范围已完成；量子力学增补完成、待增量复核，基础电磁学80页正文已扩编、正在内容复核。七科均有可读PDF，终审与完成范围仍按各册状态区分。
 
 | 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
 |---|---|---|---:|---|---|
 | [电动力学](subjects/electrodynamics/README.md) | 8.07（Fall 2012，Alan Guth、Min Chen）为主，8.311（Spring 2004，Leonid Levitov）补充；从电场、磁场、电磁波讲到辐射；29章、110个考核题解单元，含8.311十二套作业66道一级题及解答。 | 已交付，独立终审通过 | 74 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh-source.zip) · [覆盖范围](subjects/electrodynamics/coverage.md) |
-| [量子力学](subjects/quantum-mechanics/README.md) | Barton Zwiebach 的 8.04 → 8.05 → 8.06；从干涉、概率与波函数讲到算符、测量、角动量和近似方法；现版19章理论、39份考核题解，含227道可用大题的全部小问与AI独立解答；10道外书仅题号引用保留缺项。 | 增补完成，待增量复核 | 151 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-source.zip) · [覆盖清单](subjects/quantum-mechanics/coverage.json) |
+| [量子力学](subjects/quantum-mechanics/README.md) | Barton Zwiebach 的 8.04 → 8.05 → 8.06；从干涉、概率与波函数讲到算符、测量、角动量和近似方法；现版19章理论、39份考核题解，含227道可用大题的全部小问与AI独立解答；10道外书仅题号引用保留缺项。 | 增补完成，待增量复核 | 153 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-source.zip) · [覆盖清单](subjects/quantum-mechanics/coverage.json) |
 | [理论力学](subjects/classical-mechanics/README.md) | 8.09（Fall 2014，Iain W. Stewart）为主，8.223（January IAP 2017，Matthew Evans）补充；拉格朗日与哈密顿力学、刚体、振动、正则变换、摄动、流体及非线性入门；10章正文，含76道作业题的中文题面、解答或数值复现及项目分析，含Lorenz非零固定点局部稳定性补充。 | 独立终审通过，1小问部分完成 | 90 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/classical-mechanics/classical-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/classical-mechanics/classical-mechanics-source.zip) · [覆盖清单](subjects/classical-mechanics/source-coverage.json) |
 | [基础电磁学](subjects/introductory-electromagnetism/README.md) | 8.02（Spring 2007）；从电场、电势与电路讲到磁场、感应和电磁波；14章长篇主教材、附录及109个例题已整合，保留36份课堂摘要与11份习题课的34题组、169小问。 | 正文已扩编，内容复核中 | 80 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/introductory-electromagnetism/introductory-electromagnetism-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/introductory-electromagnetism/introductory-electromagnetism-zh-source.zip) · [覆盖清单](subjects/introductory-electromagnetism/coverage.json) |
 | [波动与光学](subjects/waves-and-optics/README.md) | Yen-Jie Lee 的8.03SC（Fall 2016）；振动、正常模、波的传播、色散、干涉与衍射；覆盖第1–23讲选定文字稿，13章理论、10套作业、5套练习考试及正式Exam1/2，共75道大题及原小问。 | 本轮选定课程范围完成 | 81 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/waves-and-optics/waves-and-optics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/waves-and-optics/waves-and-optics-source.zip) · [覆盖清单](subjects/waves-and-optics/qa/coverage.json) |
 | [热学与统计物理](subjects/thermal-statistical-physics/README.md) | 8.044（Spring 2013）冻结资料为主，补充8.333（Fall 2013）讲义15–22及PS5所选题目；从热平衡、熵与热力学势讲到系综、量子气体和相变；16章正文，86题、270个字母小问及2个嵌套小问。 | 本轮选定范围完成 | 69 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/thermal-statistical-physics/thermal-statistical-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/thermal-statistical-physics/thermal-statistical-physics-source.zip) · [覆盖清单](subjects/thermal-statistical-physics/qa/assessment-source-audit.json) |
 | [基础力学](subjects/introductory-mechanics/README.md) | 8.01SC（Fall 2016）第1–25、31章为主，补充8.012（Fall 2008）精选；14章主题重编，讲运动学、牛顿定律、动量与能量、碰撞、刚体、轨道和振动；含97题、235项叶级作答请求，流体与热学另科处理。 | 本轮选定范围完成 | 58 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/introductory-mechanics/introductory-mechanics.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/introductory-mechanics/introductory-mechanics-source.zip) · [覆盖范围](subjects/introductory-mechanics/qa/textbook-coverage-review.md) |
 
-电动力学现版仍有38组本科作业缺完整题面或依赖条件，另1题仅取得(c)，天线题的原比较图也未取得；完整8.311理论体系不在现版已选范围内。量子力学151页版已纳入恢复材料的可用题面与理论，外书仅题号引用及未公开原件仍留缺。理论力学PS10第3题(a)指定初值的周期窗口仍未复现；项目没有全局最优证明或实物演示。具体收录范围见各册说明。
+电动力学现版仍有38组本科作业缺完整题面或依赖条件，另1题仅取得(c)，天线题的原比较图也未取得；完整8.311理论体系不在现版已选范围内。量子力学153页版已纳入恢复材料的可用题面与理论，外书仅题号引用及未公开原件仍留缺。理论力学PS10第3题(a)指定初值的周期窗口仍未复现；项目没有全局最优证明或实物演示。具体收录范围见各册说明。
 
 基础电磁学184道教材课后题（65个概念题、119个自测题）目前仅归档，尚未逐题编入；波动与光学正式Exam1/2已补入并通过独立复核，实际期末题面未在已核官方索引找到。热学与统计物理的8.333补充限于讲义15–22及PS5所选题目。已提供PDF不代表整门课程全部完成。
 
@@ -158,7 +158,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-数学已交付 **15册中文整书，共1660个PDF物理页**；物理已提供 **7册中文讲义，共603页**（电动力学74页、量子力学151页、理论力学90页、基础电磁学80页、波动与光学81页、热学与统计物理69页、基础力学58页）。电动力学与理论力学独立终审通过，波动与光学、热学与统计物理、基础力学本轮选定范围完成；理论仍保留1个部分完成小问及项目边界，量子增补完成待增量复核，基础电磁正文已扩编、内容复核中，184道教材课后题未逐题编入。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理已提供 **7册中文讲义，共605页**（电动力学74页、量子力学153页、理论力学90页、基础电磁学80页、波动与光学81页、热学与统计物理69页、基础力学58页）。电动力学与理论力学独立终审通过，波动与光学、热学与统计物理、基础力学本轮选定范围完成；理论仍保留1个部分完成小问及项目边界，量子增补完成待增量复核，基础电磁正文已扩编、内容复核中，184道教材课后题未逐题编入。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
 
 <details>
 <summary>展开数学交付历史与全站归档背景</summary>
