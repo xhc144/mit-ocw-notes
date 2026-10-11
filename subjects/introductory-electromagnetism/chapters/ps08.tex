@@ -1,0 +1,45 @@
+\originalchapter{习题课八: 多支路RC电路}
+题源为\href{https://ocw.mit.edu/courses/8-02-physics-ii-electricity-and-magnetism-spring-2007/resources/solving08/}{Problem Solving 8}, PDF第1--6页(原页脚沿用Solving 9). 原件Q5缺号, 本稿不补造问题, 保留Q1--4、Q6--13及考试练习题全部小问. 所有解答为AI独立解答.
+
+\begin{exercise}
+主电路为正极朝$R_1$的电池$\mathcal E$、开关和$R_1$串联后, 接并联的电容$C$与电阻$R_2$. 开关先断开很久, 在$t=0$合上. $I_1$由电池经$R_1$流入节点, $I_2$通过$R_2$向下, $I_C$流入电容上极板为正, $q$为上极板电荷.
+Q1求$t=0^+$的$I_C$.
+Q2求初始$I_1,I_2$.
+Q3求$t=\infty$的$I_C$.
+Q4求最终$I_1,I_2$.
+Q6在$R_1=R_2=R$时, 只用$q$及其导数写闭合阶段的微分方程.
+Q7求充电时间常数.
+Q8求$q(t)$.
+经过很久在$t=T$断开:
+Q9求$T^+$的$I_C$.
+Q10求$T^+$的$I_1,I_2$.
+Q11在两电阻均为$R$时写断开阶段$q$方程.
+Q12求放电时间常数.
+Q13求$t>T$的$q(t)$.
+\end{exercise}
+\begin{solution}
+Q1--2. 初始电容已通过$R_2$放空, 电容电压连续为零. $I_C=I_1=\mathcal E/R_1$, $I_2=0$.
+Q3--4. 稳态电容开路, 两电阻串联, $I_C=0$, $I_1=I_2=\mathcal E/(R_1+R_2)$, $q_\infty=C\mathcal E R_2/(R_1+R_2)$.
+Q6. 任意时电容电压$q/C$, $I_2=q/(CR)$, $I_1=I_C+I_2$. 从电源到电容有$\mathcal E=RI_1+q/C$, 因而$R\dot q+2q/C=\mathcal E$.
+Q7--8. $\tau_{\rm on}=RC/2$, $q(t)=(C\mathcal E/2)(1-e^{-2t/(RC)})$. 等效电阻为两电阻并联, 不是$2R$.
+Q9--10. 对一般$R_1,R_2$, 断开瞬间$q$仍为$q_\infty$. 电池支路开路,$I_1=0$, $I_2=q_\infty/(CR_2)=\mathcal E/(R_1+R_2)$, $I_C=-I_2$. 两电阻均为$R$时分别为$0,\mathcal E/(2R),-\mathcal E/(2R)$.
+Q11--13. 电容只经$R_2=R$放电, $R\dot q+q/C=0$, $\tau_{\rm off}=RC$, $q(t)=(C\mathcal E/2)e^{-(t-T)/(RC)}$. 若$T$不够长, 指数前系数应为实际$q(T)$.
+\begin{center}\begin{tikzpicture}[>=Stealth]
+\draw (0,.4)--(0,.85);\draw(-.18,.85)--(.18,.85);\draw(-.3,1.05)--(.3,1.05);\node[left]at(-.3,1.05){$+$};\draw(0,1.05)--(0,2)--(1.2,2);\draw (1.2,1.85)rectangle(2.1,2.15);\node[above]at(1.65,2.15){$R_1$};\draw(2.1,2)--(4,2)--(4,1.3);\draw(3.85,.7)rectangle(4.15,1.3);\node[right]at(4.15,1){$R_2$};\draw(4,.7)--(4,0)--(.9,0);\draw(.2,0)--(0,0)--(0,.4);\draw(.2,0)--(.75,.3);\draw(.2,0)circle(1.5pt);\draw(.9,0)circle(1.5pt);
+\draw(2.8,2)--(2.8,1.15);\draw(2.5,1.15)--(3.1,1.15);\draw(2.5,.95)--(3.1,.95);\draw(2.8,.95)--(2.8,0);\node[right]at(2.9,1.05){$C$};
+\node[left]at(-.3,.7){$\mathcal E$};\node[below]at(.5,0){$S$};\fill(2.8,2)circle(1.4pt);
+\end{tikzpicture}\end{center}
+\end{solution}
+
+\begin{exercise}
+考试练习题. 三个电阻均为$R$. 顶部中央节点接左、右两电阻, 中间第三电阻连到共同底部节点. 左支路电池正极在下, 右支路电池正极在上, 两电池电动势均为$\mathcal E$. 左支路下端经电容$C$接底部, 电容左板$+Q$、右板$-Q$. 顶部左电阻电流$i_1$向左, 顶部右电阻$i_2$向左, 中电阻$i_3$向下.
+(a)写节点定律; (b)左圈逆时针写回路式; (c)右圈逆时针写回路式; (d)很久后$i_1$; (e)很久后$i_2,i_3$; (f)很久后电容电压.
+\end{exercise}
+\begin{solution}
+(a)$i_2=i_1+i_3$.
+(b)从底部沿中电阻向上, 再向左、沿左电池向下、经电容向右: $Ri_3-Ri_1+\mathcal E-Q/C=0$.
+(c)从底部向右、沿右电池向上、经右电阻向左、沿中电阻向下: $\mathcal E-Ri_2-Ri_3=0$.
+(d)稳态电容无电流, 所以$i_1=0$.
+(e)由(a)(c)$i_2=i_3=\mathcal E/(2R)$.
+(f)由(b)$Q/C=3\mathcal E/2$, 左板电势高. 若把左电池的极性照右电池抄写, 会得到另一电路; 这里极性已按原图逐一保留.
+\end{solution}

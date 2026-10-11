@@ -1,0 +1,45 @@
+\originalchapter{暂态、振荡与交流}\label{ch:ac}
+\originalsection{RL与自由振荡}
+串联$R,L$接恒定$\mathcal E$, 回路为$L\dot I+RI=\mathcal E$. 初始电流$I_0$时,
+\[
+I(t)=\frac{\mathcal E}R+\left(I_0-\frac{\mathcal E}R\right)e^{-tR/L}.
+\]
+时间常数为$L/R$. 有限电压不能使电感电流跳变. 所以初始无电流的电感在合闸瞬间可在求支路初值时当作开路, 恒定直流稳态的理想电感可当作短路. 若突然截断所有电流路径, 理想模型要求无限电压, 真实电路会通过寄生电容、火花或保护回路响应.
+
+无电阻LC回路令$I=\dot q$, 则$L\ddot q+q/C=0$. 解为$q=Q_0\cos(\omega_0t+\alpha)$, $\omega_0=1/\sqrt{LC}$. 电场能$q^2/(2C)$与磁场能$L\dot q^2/2$交替变化, 两者之和不变. 初始电容电荷最大时电流为零, 四分之一周期后电荷为零而电流最大.
+
+串入电阻后$L\ddot q+R\dot q+q/C=0$. 设$\gamma=R/(2L)$, 特征根为$-\gamma\pm\sqrt{\gamma^2-\omega_0^2}$. 当$\gamma<\omega_0$时是欠阻尼振荡, $q=e^{-\gamma t}(A\cos\omega_dt+B\sin\omega_dt)$、$\omega_d=\sqrt{\omega_0^2-\gamma^2}$. 临界阻尼时$q=(A+Bt)e^{-\gamma t}$; 过阻尼时为两种负实指数之和. 乘原方程以$\dot q$得$\dot U=-R\dot q^2$, 明确说明损失能量转为电阻热.
+
+RL解法与RC相同, 把$I-\mathcal E/R$记为$h(t)$, 则$\dot h=-(R/L)h$, 积分$\ln|h(t)/h(0)|=-tR/L$得到前式. 初值恰为稳态时$h=0$恒成立, 不需要对零取对数.
+
+LC与弹簧振子$m\ddot x+kx=0$对应: $x\leftrightarrow q$, $m\leftrightarrow L$, $k\leftrightarrow1/C$. 弹簧把位移恢复至零, 质量的惯性使它越过零; 电容电压把电荷释放, 电感维持电流使电容继续反向充电. 电阻$R$对应机械阻力系数. 阻尼根的来源是试代$q=e^{st}$, 得$Ls^2+Rs+1/C=0$; 两根不同可线性合成, 重根时第二解由直接代入验证为$te^{-\gamma t}$. 常数$A,B$由实际初始电荷与电流确定, 不是任意选一条曲线就满足同一开关条件.
+
+\originalsection{受迫响应与相位}
+串联RLC接$V(t)=V_0\sin\omega t$, 长时间稳态设$I(t)=I_0\sin(\omega t-\phi)$. 电阻电压与电流同相, 电感电压$L\dot I$领先电流$\pi/2$, 电容电压$q/C$落后电流$\pi/2$. 以共同的$I$相位合成, 得
+\[
+Z=\sqrt{R^2+(\omega L-1/\omega C)^2},\quad I_0=\frac{V_0}{Z},\quad
+\tan\phi=\frac{\omega L-1/\omega C}{R}.
+\]
+当$R>0$取$-\pi/2<\phi<\pi/2$. 电感项占优时电流落后电压, 电容项占优时领先. 纯电感$\phi=\pi/2$, 纯电容$\phi=-\pi/2$. 纯电阻可视为$L=0,C\to\infty$的串联极限, 而$C=0$意味着断路, 不是删去电容的办法.
+
+也可用复数相量表达: 选择$e^{i\omega t}$约定, 各元件阻抗为$R,i\omega L,1/(i\omega C)$, 串联相加. 最终可测电压电流是相量表达式的实部, 复数只负责同时记振幅与相位. 上式是稳定正弦受迫项, 实际开关过程还包含由初值决定的自由衰减项.
+
+将相位结果完整推导如下. 记$u=\omega t-\phi$, 则稳态$I=I_0\sin u$, $q=-I_0\cos u/\omega$; 后式只包含正弦稳态, 直流偏置另属初值响应. 各电压为
+\[
+V_R=RI_0\sin u,\quad V_L=\omega LI_0\cos u,\quad V_C=-\frac{I_0}{\omega C}\cos u.
+\]
+总电压$V_0\sin(u+\phi)=V_0\cos\phi\sin u+V_0\sin\phi\cos u$. 比较两个独立时间函数系数, 得$V_0\cos\phi=RI_0$、$V_0\sin\phi=XI_0$, 其中带符号净电抗$X=\omega L-1/\omega C$. 两式平方相加给$V_0^2=I_0^2(R^2+X^2)$, 相除给$\tan\phi=X/R$.
+
+这两个正交系数也可画在振幅平面: 水平是与电流同相分量$RI_0$, 竖直是正交分量$XI_0$, 合成长度$ZI_0$. 欧拉公式$e^{iu}=\cos u+i\sin u$用实部、虚部储存这对分量; 对$e^{i\omega t}$求导等于乘$i\omega$, 积分等于除$i\omega$, 因而产生复阻抗$\mathcal Z=R+iX$. 实电阻$R$、净电抗$X$、复阻抗$\mathcal Z$和阻抗模长$Z=|\mathcal Z|$是不同对象, 单位都为欧姆. 复数不是新增的可测电压, 最终取同一约定的实部或虚部还原实际波形.
+
+\originalsection{谐振与功率}
+当$\omega=\omega_0=1/\sqrt{LC}$, 感抗和容抗抵消, $Z=R$, 电流幅度达到$V_0/R$. 这是串联电流的谐振频率, 与有阻尼自由振荡频率$\omega_d$不同. 纯理想无电阻的恰好谐振驱动没有有界稳态, 不能把$R=0$代进稳态公式当成有限电流.
+
+每周期平均$\sin^2$为$1/2$, 平均$\sin\cos$为零. 展开$V(t)I(t)$得到$\langle P\rangle=V_0I_0\cos\phi/2=I_0^2R/2$. 有效值定义为$V_{\rm rms}=\sqrt{\langle V^2\rangle}=V_0/\sqrt2$, 所以$\langle P\rangle=V_{\rm rms}I_{\rm rms}\cos\phi$. 理想电容电感在一个周期中接收又返还能量, 平均消耗为零; “零平均功率”不意味着瞬时功率为零.
+
+对较小阻尼, 品质因数$Q_f=\omega_0L/R$比较储存能量与每周期损耗, 不能与电荷$Q$混为一谈. 电感阻抗随频率增大、电容阻抗随频率减小, 这使分压电路可作滤波器. 例如输出取RC串联电路电容两端, 幅度比为$1/\sqrt{1+(\omega RC)^2}$, 高频被压低, 截止角频率为$1/(RC)$.
+
+
+周期平均明确为$\langle P\rangle=T^{-1}\int_0^TP(t)\dd t$, $T=2\pi/\omega$. 用$\sin(u+\phi)\sin u=\cos\phi\sin^2u+\sin\phi\sin u\cos u$积分, 即得前述平均功率. $\cos\phi$称功率因数.
+
+弱阻尼时品质因数也可定义为$Q_f=2\pi U_{\rm stored}/\Delta U_{\rm loss,cycle}$. 在谐振附近,$U_{\rm stored}=LI_0^2/2$, 每周期损失近似$(I_0^2R/2)(2\pi/\omega_0)$, 相除得到$\omega_0L/R$. 实测半功率点满足$|\omega L-1/(\omega C)|=R$, 两个正频率相减为$\Delta\omega=R/L$, 故串联电流响应的$Q_f=\omega_0/\Delta\omega$. 峰窄表示频率选择性高, 并不意味着能量永远不衰减.
