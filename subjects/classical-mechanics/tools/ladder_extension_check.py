@@ -55,7 +55,7 @@ def main():
       r'xmin=0,ymin=0,legend pos=north east,legend style={font=\small},tick label style={font=\small}]'+'\n'+
       r'\addplot[blue,thick,no marks] table[x=t,y=theta,col sep=comma]{figures/ladder-release.csv};\addlegendentry{$\theta$}'+'\n'+
       r'\addplot[red!70!black,thick,no marks] table[x=t,y=top_height,col sep=comma]{figures/ladder-release.csv};\addlegendentry{梯顶高度}'+'\n'+
-      r'\draw[dashed] (axis cs:'+f'{report["release_time"]:.10f},0'+r')--(axis cs:'+f'{report["release_time"]:.10f},1.15'+r') node[above,font=\small]{离墙};'+'\n'+
+      r'\draw[dashed] (axis cs:'+f'{report["release_time"]:.10f},0'+r')--(axis cs:'+f'{report["release_time"]:.10f},.95'+r') node[above,font=\small]{离墙};'+'\n'+
       r'\end{axis}\end{tikzpicture}\end{center}'+'\n')
     (ROOT/'figures/ladder-release-plot.tex').write_text(text)
     report['scope']='Actual two-phase integration until theta=0; no impact or postimpact motion simulated. Dimensions fixed at L=M=g=1.'

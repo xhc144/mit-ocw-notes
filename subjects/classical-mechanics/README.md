@@ -2,7 +2,7 @@
 
 **[阅读中文合订 PDF](classical-mechanics-zh.pdf)** · **[下载可编辑源码 ZIP](classical-mechanics-source.zip)**
 
-一本连续的 **89 页**简体中文讲义：十章正文讲解约束与拉格朗日方程、对称守恒、中心力、小振动、刚体、哈密顿方程、正则变换、Hamilton–Jacobi、作用角及摄动，后接连续介质、完整Stokes球流推导与非线性动力学，并收录 **76 道实际作业原题的中文题面、解答或数值复现**及课程项目分析。采用用户已有的王者 LaTeX 模板；卷首先说明课程教师、学期、大纲、课历与考核方式。
+一本连续的 **90 页**简体中文讲义：十章正文讲解约束与拉格朗日方程、对称守恒、中心力、小振动、刚体、哈密顿方程、正则变换、Hamilton–Jacobi、作用角及摄动，后接连续介质、完整Stokes球流推导与非线性动力学，并收录 **76 道实际作业原题的中文题面、解答或数值复现**及课程项目分析，其中8.09作业10第3题(a)部分完成。采用用户已有的王者 LaTeX 模板；卷首先说明课程教师、学期、大纲、课历与考核方式。
 
 有官方答案的8.223作业逐题标明“官方解答中文改写”；新增推导、错误修正及8.09作业1–7选择的20题、作业8–10及项目答案标为AI独立内容。所有图与数值结果直接进入合订PDF，读正文无需另外打开一组英文原版。
 
@@ -26,7 +26,7 @@
 <details>
 <summary>审查证据与复现方法</summary>
 
-[首版独立内容审查](qa/independent-content-review.md)保留历史记录；扩编的[主干物理审查](qa/extension-physics-review.md)、[刚体与振动审查](qa/rotation-modes-independent-review.md)、[基础方法审查](qa/foundations-extension-independent-review.md)和[新增20题独立复核](qa/selected-assessment-independent-review.md)分别记录公式、条件、来源差异与修正闭环。89 页均已查看实际渲染：1–48页检查接触表并放大重点页，49–50页查看单页，51–89页由独立审查者逐张查看；两处返修页重编后实际复查，其余87页PNG字节相同。方法与逐页证据见 [前50页审查](qa/expanded-visual-review-1-50.md)、[后39页审查](qa/expanded-visual-review-51-89.md)及[汇总记录](qa/expanded-review-summary.json)。[发布检查](qa/release-evidence.json) 记录本次实际验证的111个目录书签、115个内部链接及嵌入字体。[覆盖清单](source-coverage.json) 将原题取得、中文编写、开放任务和未完成内容分开。
+[首版独立内容审查](qa/independent-content-review.md)保留历史记录；扩编的[主干物理审查](qa/extension-physics-review.md)、[刚体与振动审查](qa/rotation-modes-independent-review.md)、[基础方法审查](qa/foundations-extension-independent-review.md)和[新增20题独立复核](qa/selected-assessment-independent-review.md)分别记录公式、条件、来源差异与修正闭环。[终验小修复核](qa/final-three-fixes-review.md)核对作用量先定义后应用、自动章/节回指，以及新增的Lorenz非零固定点局部稳定性推导；没有把该推导冒称为原点作业的答案。90页版的实际渲染方法见 [前50页审查](qa/final-fixes-visual-review-1-50.md)、[后40页审查](qa/final-fixes-visual-review-51-90.md)及[最终汇总](qa/final-fixes-review-summary.json)。[发布检查](qa/release-evidence.json)记录本版实际目录书签、内部链接及嵌入字体。[覆盖清单](source-coverage.json)将原题取得、中文编写、开放任务和未完成内容分开。
 
 源码ZIP包含同版LaTeX、TikZ/PGFPlots、完整计算CSV、印刷抽稀CSV、Python脚本及说明；不附字体或商业教材。印刷抽稀保留全部参数网格，逐点检查见 [印刷数据检查](qa/printed-data-check.json)。源码ZIP足以编译中文PDF；`audit_release.py`校验原件时须在含sources与manifests的仓库中运行。
 
