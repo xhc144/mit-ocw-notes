@@ -1,0 +1,52 @@
+\originalchapter{傅里叶分析与波动不确定关系}\label{ch:fourier}
+\originalsection{脉冲的频谱}
+单色波容易处理, 讲话和音乐却包含许多频率. 傅里叶分析把时间信号分解为不同角频率的振动, 让我们逐个使用色散关系传播. 固定变换约定为
+\begin{equation}\label{eq:ft}
+f(t)=\int_{-\infty}^{\infty}C(\omega)\e^{-\ii\omega t}\dd\omega,
+\qquad C(\omega)=\frac1{2\pi}\int_{-\infty}^{\infty}f(t)\e^{\ii\omega t}\dd t.
+\end{equation}
+$f$ 为实信号时 $C(-\omega)=C(\omega)^*$. 波动部分此后使用负时间指数, 时间微分对应 $-\ii\omega$; 第\ref{ch:drive}章响应曾采用正时间指数, 两种约定取复共轭可互换, 实际物理结果相同.
+
+先在光滑快速衰减函数上使用反演与 Parseval 等式; 它们可延拓到平方可积信号的均方意义. 形式正交关系 $\int\e^{\ii(\omega-\omega')t}\dd t=2\pi\delta(\omega-\omega')$ 中的 $\delta$ 是分布, 通过 $\int\delta(s-s_0)h(s)\dd s=h(s_0)$ 定义, 不是在一点取“无穷大”而其他地方取零的普通可积函数. 这避免错误地丢掉 $2\pi$ 因子. 对有限观测时间, 频率正交也只有有限宽度的近似.
+
+例如 $f=\e^{-\gamma|t|}$, $\gamma>0$, 将积分拆成负、正半轴得
+\[
+C(\omega)=\frac1{2\pi}\left(\frac1{\gamma+\ii\omega}+\frac1{\gamma-\ii\omega}\right)
+=\frac{\gamma}{\pi(\gamma^2+\omega^2)}.
+\]
+时间信号越短, 频谱越宽. 又如 $f=\e^{-t^2/(2\tau^2)}$, 配方或高斯积分给 $C=\tau\e^{-\omega^2\tau^2/2}/\sqrt{2\pi}$. 此处“宽度”先是函数尺度, 若要严格比较需下节的强度加权方差.
+
+\originalsection{调幅信号的传播}
+在均匀介质内, 向右传播的谱分量有空间因子 $\e^{\ii k(\omega)x}$. 由边界 $\psi(0,t)=f(t)$ 得
+\[
+\psi(x,t)=\int C(\omega)\e^{\ii k(\omega)x-\ii\omega t}\dd\omega.
+\]
+无色散 $k=\omega/v$ 时正好为 $f(t-x/v)$; 一般介质中各频率累积不同相位, 波形会变.
+
+调幅取慢信号 $s(t)$ 乘载波 $\cos\omega_0t$. 一个信号频率 $\Omega$ 产生边带 $\omega_0\pm\Omega$, 因为 $\cos\Omega t\cos\omega_0t$ 等于两边带余弦之和的一半. 对复解析信号 $s(t)\e^{-\ii\omega_0t}$, 频谱集中在 $\omega_0$ 附近. 近似 $k(\omega)=k_0+(\omega-\omega_0)/v_g$, 在积分中换元 $\Omega=\omega-\omega_0$, 得
+\[
+\psi(x,t)\simeq\Rea\left[s(t-x/v_g)\e^{\ii(k_0x-\omega_0t)}\right].
+\]
+包络以 $v_g$ 前进, 载波相位以 $v_p=\omega_0/k_0$ 前进. 相速度不同于群速度时, 不能把载波也写成 $\e^{-\ii\omega_0(t-x/v_g)}$. 近似需 $|k''(\omega_0)|x(\Delta\omega)^2\ll1$, 不是仅说带宽小就永久不变形. 调幅不神奇地消除所有色散, 它把待传信号放到能够近似线性化色散曲线的窄频带.
+
+\originalsection{时间与频率的方差}
+对非零平方可积信号, 以 $|f(t)|^2$ 加权定义 $\bar t$, $(\Delta t)^2$, 以 $|C(\omega)|^2$ 加权定义 $\bar\omega$, $(\Delta\omega)^2$. 两种归一化分母分别为各自的积分. Parseval 等式在式 \eqref{eq:ft} 约定下为 $\int|f|^2\dd t=2\pi\int|C|^2\dd\omega$. 若 $f'$ 平方可积, 时间端的频率算子为 $\Omega=\ii\partial_t$, 因为 $\ii\partial_t\e^{-\ii\omega t}=\omega\e^{-\ii\omega t}$. 因而
+\[
+\bar\omega=\frac{\int f^*\ii f'\dd t}{\int|f|^2\dd t},\qquad
+(\Delta\omega)^2=\frac{\int|\ii f'-\bar\omega f|^2\dd t}{\int|f|^2\dd t}.
+\]
+为给出透明的证明, 可先把信号平移并去掉平均载频, 不改变方差, 令 $\bar t=\bar\omega=0$. 假设 $tf,f'$ 平方可积且分部积分边界 $t|f|^2\to0$. 则
+\[
+0=\int(t|f|^2)'\dd t=\int|f|^2\dd t+2\Rea\int t f^*f'\dd t.
+\]
+由 Cauchy--Schwarz 不等式,
+\[
+\frac12\int|f|^2\dd t
+\le\left|\int t f^*f'\dd t\right|
+\le\left(\int t^2|f|^2\dd t\right)^{1/2}
+\left(\int|f'|^2\dd t\right)^{1/2},
+\quad \Delta t\Delta\omega\ge\frac12.
+\]
+这说明在此方差意义下, 脉冲与频谱不能同时任意窄. 不是仪器不够精确, 而是函数及其傅里叶变换之间的结构. 高斯信号取等: 上例的 $|f|^2=\e^{-t^2/\tau^2}$ 给 $\Delta t=\tau/\sqrt2$, $|C|^2\propto\e^{-\omega^2\tau^2}$ 给 $\Delta\omega=1/(\sqrt2\tau)$. 指数脉冲则 $\Delta t=1/(\sqrt2\gamma)$, $\Delta\omega=\gamma$, 不取等. 无有限方差的信号不在这个乘积公式的有限数值版本内.
+
+空间变换同理给 $\Delta x\Delta k\ge1/2$. 在量子理论中 $p=\hbar k$ 将其化为 $\Delta x\Delta p\ge\hbar/2$; 概率与态的含义另见第\ref{ch:quantum}章及量子力学册. 频带的工程全宽、半高宽与标准差不是同一个量, 不能将任意公布的带宽不加换算地代入这个方差不等式.

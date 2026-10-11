@@ -1,0 +1,298 @@
+                                     8.03 Lecture 15
+Review: Fourier Transform and Narrow band signal transmission.
+                                         f (t) = fs (t) cos ω0 t
+In the small bandwidth approximation we have
+                                                                      carrier
+                                                                 z     }|      {
+                             ψ(x, t) ≈ Re fs (t − x/vg ) e−i(t−x/vg )ω0
+                                               |     {z       }
+                                                   envelope
+
+                                                                  dω
+Where the envelope is traveling at group velocity vg =                  and the carrier is traveling at phase
+                                                                  dk ω0
+            ω0
+velocity vp =
+            k0
+AM radio: typical ω0 : 0.3 − 30M Hz and ∆ω : 5kHz. We have ∆ω  ω0 Makes sense!
+
+Example:
+                                               f (t) = eΓ|t|
+What will be the corresponding C(ω)? From the previous lecture:
+                                  1 ∞
+                                     Z
+                         C(ω) =           dt e−Γ|t| eiωt
+                                 2π −∞
+                                    Z 0                   Z ∞
+                                  1
+                                                                           
+                                               +Γt iωt             −Γt iωt
+                               =           dt e e +            dt e e
+                                 2π −∞                      0
+                                  1      1           i
+                                                        
+                               =              +
+                                 2π Γ + iω Γ − iω
+                                  1     2Γ
+                               =
+                                 2π Γ + ω 2
+                                      2
+                                      Γ
+                               =
+                                 π(Γ + ω 2 )
+                                    2
+
+If we plot C(ω) as a function of ω
+Large Γ gives narrow pulse (f (t) narrow) but one will get wide C(ω)
+Small Gamma gives wide pulse (f (t) wide) but will get narrow C(ω)
+In your pset, you will work on another function form: the Gaussian wave. We can demonstrate
+this using a precie mathematical definition of the spread of the signal.
+
+
+  1. We define the intensity of the signal to be proportional to |f (t)|2
+
+  2. Average value of any function weighted with the signal’s intensity
+                                                  Z ∞
+                                                        dt g(t)|f (t)|2
+                                                  −∞
+                                       hg(t)i =    Z ∞
+                                                            dt |f (t)|2
+                                                       −∞
+
+
+  3. Spread of time:                                   Z ∞
+                                                                                  2
+                                                              dt (t − hti)f (t)
+                                                        −∞Z
+                               ∆t2 ≡ h[t − hti]2 i =           ∞
+                                                                   dt |f (t)|2
+                                                              −∞
+     mean square deviation from the average time. Similarly spread of the frequency spectrum
+
+                                           ∆ω 2 ≡ h[ω − hωi]2 i
+
+     We will prove
+                                              ∆ω · ∆t ≥ 1/2
+
+  4. We also realize that
+                              Z ∞
+                                                         ∂ ∞
+                                                              Z
+                                    dω ωC(ω)e−iωt = i           dω C(ω)e−iωt
+                               −∞                        ∂t −∞
+                                                         ∂
+                                                      = i f (t)
+                                                         ∂t
+
+                                                  2
+                                                               Z ∞
+                                                                                             ∂
+                                                                       dt f (t)∗ i              f (t)
+                                                                 −∞                          ∂t
+                                           ⇒ hωi =                Z    ∞
+                                                                                               2
+                                                                            dt f (t)
+                                                                      −∞
+                                                                     Z ∞                                    2
+                                                                                             ∂
+                                                                                                       
+                                                                            dt           i      − hωi f (t)
+                                                                     −∞                      ∂t
+                             ∆ω 2 ≡ h[ω − hωi]2 i =                          Z ∞
+                                                                                                        2
+                                                                                             dt f (t)
+                                                                                     −∞
+     Take home message:
+                                                                            ∂
+                                                               ω ←→ i
+                                                                            ∂t
+  5. We will use a trick which leads to Heisenberg Uncertainty principle in Quantum Mechanics:
+
+Consider a function γ(t)
+                                                        ∂
+                                                                                             
+                              γ(κ, t) ≡ [t − hti] − iκ i − hωi                                      f (t)
+                                                        ∂t
+                                      = (T − iκΩ)f (t)
+Where κ is a free parameter. Consider:
+                                                           Z ∞
+                                                                                     2
+                                                                     γ(κ, t) dt
+                                            R(κ) = Z−∞∞
+                                                                                 2
+                                                                      f (t) dt
+                                                               −∞
+
+Both the numerator and denominator are positive−→ R > 0
+                                     2
+                           γ(κ, t)       = (T − iκΩ)f (t) · (T + iκΩ∗ )f ∗
+                                                 2               2
+                                         = Tf        + Ωf            + iκ[T f Ω∗ f ∗ − Ωf T f ∗ ]
+Take the last term and simplify:
+                                      ∂     > f ∗ − i ∂ − hωi
+                                                                                                       
+                          iκ T f −i −    hωi
+                                                           > fTf∗
+                                                            
+                                     ∂t              ∂t 
+                                   ∂f ∗ ∂f ∗
+                                              
+                           = κT f       +    f
+                                    ∂t    ∂t
+                                ∂
+                           = κT (f f ∗ )
+                                ∂t
+Now integrate over all time:
+                                          Z ∞
+                                                           ∂
+                                     =           dt κT        (f f ∗ )
+                                           −∞              ∂t
+                                                       ∞
+                                                                     Z ∞
+                                                                                         ∂T
+                                     = κ Tff∗                  −κ           |f |2             dt
+                                            |    {z
+                                                       −∞
+                                                           }          −∞                  ∂t
+                                                                                         |{z}
+                                                  =0                                     =1
+                                                Z ∞
+                                                                 2
+                                     = −κ              dt |f |
+                                                 −∞
+
+
+                                                                3
+Where in the second step we have assumed f is localized such that f (t = ±∞) = 0
+
+
+(1):                                       Z ∞
+                                                                            2
+                                                   [t − hti]2 f (t) dt
+                                              −∞Z
+                                   ∆t2 =             ∞
+                                                                2
+                                                          f (t) dt
+                                                    −∞
+(2):
+                                              Z ∞                              2
+                                                       ∂
+                                                                        
+                                         κ2           i − hωi f (t) dt
+                                              −∞       ∂t
+                             κ2 ∆ω 2 =              Z ∞
+                                                                    2
+                                                            f (t) dt
+                                                     −∞
+(3.) using the result from above                    Z ∞
+                                               κ          |f (t)|2 dt
+                                     −κ =       Z −∞
+                                                  ∞
+                                                                2
+                                                          f (t) dt
+                                                    −∞
+
+                                 ⇒ R = ∆t + κ2 ∆ω 2 − κ > 0
+                                                2
+
+         dR                                        1
+We know      = 0. R(κ) minimize at κ = κmin =
+         dκ                                      2∆ω 2
+                                                        1
+                                ⇒ R(κmin ) = ∆t2 −          ≥0
+                                                      4∆ω 2
+Rearranging, we get the Uncertainty principle!!!
+                                                            1
+                                              ∆t∆ω ≥
+                                                            2
+
+
+AM station broadcast: Bandwidth:
+                                    ∆ω = 2π∆ν ≈ 3 × 104 s−1
+⇒ ∆t is a few ×10−5 seconds. This means we cannot tell signals apart when ∆t < O(10−5 s)
+
+
+
+
+Quantum Mechanics:
+We can rewrite Uncertainty as:
+                                         v∆t · ∆ω/v ≥ 1/2
+                                         ⇒ ∆x · ∆k ≥ 1/2
+
+
+                                                     4
+In quantum mechanics, p = ~k where Planck’s Constant ~ ≡ h/2π. ~ ≈ 6.6×10−10 eV·s or 1×10−34
+J·s. We can rewrite our uncertainty principle as:
+                                                        ~
+                                              ⇒ ∆x∆p ≥
+                                                        2
+This is the mathematical statement of the fact that the position and momentum of a particle cannot
+be specified simultaneously.
+
+
+
+
+Let’s move to two and three dimensional waves. In this example, we have a beaded mesh. Index:
+(jx , jy ) where each one runs from 1 to 4. First we consider an infinite system by removing the wall
+and use space translation symmetry:
+X direction: Eigenstate of M −1 k is eikx x
+Y direction: Eigenstate of M −1 k is eiky y
+
+
+                                          ψ(x, y) = Aeikx x eiky y
+                                                         ~
+                                                   = Aeik·~r
+
+Where ~k ≡ kx x̂ + ky ŷ and ~r ≡ xx̂ + y ŷ
+Time dependent displacement:
+                                                          ~
+                                                      h              i
+                                       ψ(x, y, t) = Re Aeik·~r e−iωt
+                                       4TH        kx aH     4TV      ky aV
+                                ω2 =        sin2        +       sin2
+                                      maH           2      maV         2
+Where kx an ky are arbitrary for the moment. In general the two dimensional problem can be
+infinitely hard!! (But in this special case it is solvable). Before introducing the boundary (infinitely
+long system)
+
+                                                     5
+  1. Normal mode in 1D: always two normal modes:
+
+                                                    e±ikx
+
+  2. But in 2D, in general, a fixed ω gives an infinite number of solutions (if we lower kx , we can
+     always increase ky to compensate!)
+
+
+Adding walls back in:
+Boundary conditions give:
+                                             nx π
+                                        kx =            LH = 5aH
+                                             LH
+                                             ny π
+                                        ky =            LV = 5aV
+                                             LV
+                                                        nx πx     ny πy
+                                                                       
+                            ψ(x, y)nx ,ny = Anx ,ny sin       sin
+                                                         LH        LV
+General solution: linear combination of ψnx ,ny
+
+
+
+
+                                                    6
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.03SC Physics III: Vibrations and Waves
+Fall 2016
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

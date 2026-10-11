@@ -1,0 +1,38 @@
+\originalchapter{纵波、声波与共鸣管}\label{ch:sound}
+\originalsection{压缩如何传播}
+声波传播时, 空气质点主要沿传播方向往返, 并不是一团空气从声源走到耳朵. 用 $\xi(x,t)$ 表示原本位于 $x$ 的质点的纵向位移. 截面积 $A$、原长 $\dd x$ 的薄层, 体积变化为 $A\xi_x\dd x$, 因此相对体积变化为 $\xi_x$. 若 $B$ 为体积模量, 小扰动压力 $p'=P-P_0$ 满足 $p'=-B\xi_x$: 压缩时 $\xi_x<0$, 压力增加.
+
+薄层两面的净压力为 $-A p'_x\dd x$, 质量为 $\rho_0A\dd x$. 牛顿定律给 $\rho_0\xi_{tt}=-p'_x=B\xi_{xx}$, 即
+\[
+\xi_{tt}=c_s^2\xi_{xx},\qquad c_s=\sqrt{B/\rho_0},\qquad
+p'=-B\xi_x,\quad v=\xi_t.
+\]
+这里 $v$ 是空气质点速度, $c_s$ 是声速, $\rho_0$ 是体密度, 与弦的线密度不同. 等效弹性长弹簧若总长 $L$、总劲度 $K$, 小段劲度为 $KL/\dd x$, 则纵向方程的有效弹性系数为 $KL$, 波速 $\sqrt{KL/\mu}$. 不能把整根弹簧的 $K$ 当每段的劲度.
+
+\originalsection{绝热气体的声速}
+声波变化通常比空气与外界充分交换热量更快, 适合近似为绝热压缩. 对一定量理想气体, 令内能 $U=\alpha nRT=\alpha PV$, $\alpha$ 是有效自由度数的一半. 绝热第一定律为 $\dd U=-P\dd V$, 所以 $\alpha V\dd P=-(\alpha+1)P\dd V$. 积分得 $PV^\gamma$ 为常数, $\gamma=(\alpha+1)/\alpha=C_P/C_V$, 因而 $B=-V(\partial P/\partial V)_S=\gamma P_0$.
+
+声速成为 $c_s=\sqrt{\gamma P_0/\rho_0}=\sqrt{\gamma RT/M_{\rm mol}}$, $M_{\rm mol}$ 是摩尔质量. 室温空气取 $\gamma\simeq1.4$, $P_0=10^5\,\mathrm{Pa}$, $\rho_0=1.2\,\mathrm{kg/m^3}$, 得约 $342\,\mathrm{m/s}$. 气体替换时密度、摩尔质量与 $\gamma$ 会一起变, 不能仅因单原子气体的 $\gamma=5/3$ 较大就断言它一定声速较大. 只有固定其他相关参数才可作单参数比较. 热交换足够快的低频极限可能更接近等温体积模量 $P_0$, 需重新判断模型.
+
+对右行 $\xi=\xi_0\cos(kx-\omega t)$, 压力与质点速度同相: $p'=\rho_0 c_s v$. 声阻抗 $Z_s=\rho_0c_s$ 的单位为 $\mathrm{Pa\,s/m}$, 平均声强 $I=\langle p'v\rangle=p_0^2/(2\rho_0c_s)$. 左行波的压力与速度有相反符号. 位移与压力之间却相差四分之一周期; 声压波与质点位移波不能画成同一相位.
+
+\originalsection{开口与封闭端的模态}
+管的刚性封闭端不允许空气穿过, 所以纵向位移 $\xi=0$, 对驻波是位移节点、压力腹. 理想开口与大气接触, 所以 $p'=0$, 即 $\xi_x=0$, 是压力节点、位移腹. 实际开口有端部修正与辐射损失, 下列频率忽略这些效应.
+
+两端封闭管的位移模形状为 $\sin(n\pi x/L)$; 两端开口管为 $\cos(n\pi x/L)$, 正频率均为 $f_n=nc_s/(2L)$, $n\ge1$. 开口管的均匀静态位移模不对应通常观测到的声压音调. 一端封闭、一端开口管的位移为 $\sin[(n-1/2)\pi x/L]$, 频率 $f_n=(2n-1)c_s/(4L)$, 只有基频的奇数倍. 对每个模, 压力由 $p'=-B\xi_x$ 求出, 所以位移节点与压力节点互相错开.
+
+\begin{center}
+\begin{tikzpicture}[x=1.2cm,y=1.0cm]
+\draw[thick] (0,-.7)--(0,.7);\draw (0,.7)--(5,.7);\draw (0,-.7)--(5,-.7);
+\draw[thick,structurecolor,domain=0:5,samples=80] plot (\x,{.48*sin(18*\x)});
+\draw[thick,dashed,domain=0:5,samples=80] plot (\x,{.48*cos(18*\x)});
+\node[below] at (0,-.7){封闭端};\node[below] at (5,-.7){开口端};
+\node[above,structurecolor] at (3,.75){实线: 位移模幅度};
+\node[above] at (3,1.1){虚线: 压力模幅度};
+\end{tikzpicture}\par
+一端封闭、一端开口管的基模空间幅度; 两条曲线分别归一, 不表示同一时刻的实际相位.
+\end{center}
+若 $\xi(0)=0$, $\xi(L)=D\cos\omega_dt$ 是被活塞强迫的位移, 在 $\sin(k_dL)\ne0$ 时特解为 $D\sin(k_dx)\cos\omega_dt/\sin(k_dL)$, 正频共振对应 $k_dL=n\pi$, $n\ge1$. 零频的 $0/0$ 是可去奇点, 连续静态极限为 $Dx/L$. 若另一端真为开口条件, 则应使用 $\xi_x(L)=0$ 并按具体驱动端求解. 不能把前者分母的零点误说成半整数 $\pi$ 的混合边界频率.
+
+\originalsection{运动声源与多普勒频移}
+声源向观察者以速度 $v_S$ 移动, 每周期向前走 $v_S/f_S$, 因而前方波长为 $(c_s-v_S)/f_S$. 若观察者迎着波以 $v_O$ 移动, 相对波峰通过速度为 $c_s+v_O$, 观测频率为 $f_O=f_S(c_s+v_O)/(c_s-v_S)$. 速度在介质静止参考系测量, 且这里假定声源亚声速、沿一条直线接近. 远离时按方向改变符号. 光的相对论多普勒效应没有静止物质介质, 不能将此声学公式直接替换 $c_s\to c$ 当作一般光学结论.

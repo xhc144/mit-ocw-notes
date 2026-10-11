@@ -1,0 +1,56 @@
+\originalchapter{弦上的驻波、行波与能流}\label{ch:string}
+\originalsection{边界与模态展开}
+弦被拨动以后, 各点上下运动, 但波形可以沿弦前进. 因此要区别物质点速度 $y_t$ 与扰动传播速度 $c$. 在张力恒定、线密度均匀、小斜率的近似下, 方程为 $y_{tt}=c^2y_{xx}$. 寻找驻波时设 $y=X(x)q(t)$. 在非零区间除以 $Xq$, 得 $q''/(c^2q)=X''/X$; 一边只依赖时间, 一边只依赖位置, 必须等于常数. 对振动取该常数为 $-k^2$, 所以 $X''+k^2X=0$, $q''+c^2k^2q=0$.
+
+长 $L$ 的两端固定弦要求 $y(0,t)=y(L,t)=0$. 非零模形状为 $\sin(k_nx)$, $k_n=n\pi/L$, $\omega_n=ck_n$, $n\ge1$. 若右端连着能无摩擦横向滑动的无质量环, 端点横向合力为零, 就应采用 $y_x(L,t)=0$, 而不是位移为零. 此时左端固定、右端自由给 $k_n=(n-1/2)\pi/L$. 两端自由还允许空间常量的零频模.
+
+以两端固定为例, 初始形状 $f(x)$ 与初始速度 $g(x)$ 通过
+\begin{equation}\label{eq:string-series}
+y(x,t)=\sum_{n=1}^{\infty}\left[a_n\cos\omega_nt+
+\frac{b_n}{\omega_n}\sin\omega_nt\right]\sin\frac{n\pi x}{L},
+\end{equation}
+\[
+a_n=\frac2L\int_0^Lf(x)\sin\frac{n\pi x}{L}\dd x,\qquad
+b_n=\frac2L\int_0^Lg(x)\sin\frac{n\pi x}{L}\dd x
+\]
+决定. 因 $\int_0^L\sin(n\pi x/L)\sin(m\pi x/L)\dd x$ 对 $n\ne m$ 为零、对 $n=m$ 为 $L/2$, 每个系数都能单独提取. 正交关系由积化和差后积分直接得到. 在平方可积初值下, 使用正弦系在 $L^2(0,L)$ 中的完备性; 若初值有足够光滑性且满足端点相容条件, 才能逐项求导得到经典解. 有折角的拨弦形状可按有限能量解解释, 不在折点强求经典二阶导数.
+
+\begin{example}
+两端固定弦在 $x=d$, $0<d<L$, 被拉到高度 $h$ 后由静止释放. 初始形状为两条直线. 求模态幅度.
+\end{example}
+\begin{solution}
+$f=hx/d$ 对 $0\le x\le d$, $f=h(L-x)/(L-d)$ 对 $d\le x\le L$, 且 $g=0$. 记 $k_n=n\pi/L$. 分段积分或两次分部积分可得
+\[
+\int_0^Lf(x)\sin k_nx\dd x
+=\frac{h}{k_n^2}\left(\frac1d+\frac1{L-d}\right)\sin k_nd,
+\quad
+ a_n=\frac{2hL^2}{n^2\pi^2d(L-d)}\sin\frac{n\pi d}{L}.
+\]
+第一次分部积分的端项因 $f(0)=f(L)=0$ 消失; 第二次只剩 $f'$ 在 $d$ 处的跳跃. 中点拨弦时偶数 $n$ 的幅度为零, 奇数 $n$ 的绝对幅度按 $1/n^2$ 下降. 这解释拨弦位置为什么改变音色, 而不改变理想弦的固有频率.
+\end{solution}
+
+\originalsection{行波与初值的另一种表达}
+若 $f$ 二次可微, $f(x-ct)$ 的二阶时间导数为 $c^2f''$, 二阶空间导数为 $f''$, 因而是右行波. 同理 $g(x+ct)$ 是左行波. 令特征坐标 $\xi=x-ct$, $\eta=x+ct$, 波方程化为 $y_{\xi\eta}=0$, 积分得一般解 $y=F(\xi)+G(\eta)$. 无限均匀弦上由初值 $f,g$ 得达朗贝尔公式
+\begin{equation}\label{eq:dalembert}
+y(x,t)=\frac{f(x-ct)+f(x+ct)}2+
+\frac1{2c}\int_{x-ct}^{x+ct}g(s)\dd s.
+\end{equation}
+求导检查 $t=0$ 的形状与速度即可验证. 静止释放的初始脉冲分裂成两个半幅脉冲. 两个相反脉冲相遇时, 位移可能抵消而速度未抵消; 系统状态由位移和速度共同决定, 所以抵消之后仍能分开. 对有限弦必须先按边界构造反射延拓, 不能把无限弦公式直接忽略端点地使用.
+
+\originalsection{能量密度与传播功率}
+小斜率使弦段额外长度为 $[\sqrt{1+y_x^2}-1]\dd x\simeq y_x^2\dd x/2$. 其势能为张力乘额外长度. 单位长度总能量和向右能流为
+\begin{equation}\label{eq:flux}
+u=\tfrac12\mu y_t^2+\tfrac12T y_x^2,\qquad P=-Ty_xy_t.
+\end{equation}
+直接微分得 $u_t=T\partial_x(y_xy_t)$, 即 $u_t+P_x=0$. 这是局部能量守恒: 小区间能量增加量等于流入减流出. 右行 $y=A\cos(kx-\omega t)$ 中 $\omega=ck$, 时间平均功率为 $\langle P\rangle=T k\omega A^2/2=Z\omega^2A^2/2$, 其中弦阻抗 $Z=T/c=\sqrt{T\mu}$. $Z$ 的单位是 $\mathrm{kg/s}$, 表示端点速度与所需横向力的比例.
+
+\originalsection{连接处的反射与透射}
+在 $x=0$ 用无质量结点连接两根弦, 两侧张力分别 $T_1,T_2$, 速度 $c_1,c_2$. 若 $T_1\ne T_2$, 结点须由无摩擦导向机构限制为仅能横向运动; 支撑承担水平张力差, 不作横向功. 若是平衡时共线的自由无质量结点, 水平力平衡还要求 $T_1=T_2$. 设频率相同的入射、反射、透射波的复位移幅度为 $A_i,A_r,A_t$. 连接处位移连续给 $A_i+A_r=A_t$. 横向合力为零给 $T_1y_x(0^-)=T_2y_x(0^+)$, 因而 $Z_1(A_i-A_r)=Z_2A_t$. 只有相同张力时才能把它简化为斜率连续. 解得
+\[
+r=\frac{A_r}{A_i}=\frac{Z_1-Z_2}{Z_1+Z_2},\qquad
+t=\frac{A_t}{A_i}=\frac{2Z_1}{Z_1+Z_2},\qquad
+R=|r|^2,\quad \mathcal T=\frac{Z_2}{Z_1}|t|^2.
+\]
+$R+\mathcal T=1$ 表示能量守恒. 振幅透射系数可能大于1, 功率透射系数仍不超过1. 相同张力而右弦密度为左弦四倍时 $Z_2=2Z_1$, 所以 $r=-1/3$, $t=2/3$, $R=1/9$, $\mathcal T=8/9$. 频率受时间连续性约束不变, 波长却因速度改变而改变.
+
+固定端要求 $y=0$, 反射 $r=-1$; 自由端要求 $y_x=0$, 反射 $r=1$. 对右端连接阻尼器 $b$, 设向右入射, 边界力平衡为 $Ty_x+b y_t=0$. 代入行波得 $r=(Z-b)/(Z+b)$. $b=Z$ 时无反射, 波能被阻尼器吸收. 若端点质量为 $M$, 应写 $-Ty_x-b y_t=M y_{tt}$, 端点惯性改变相位与频率响应. 这些条件由真实力学得来, 不是任意给偏微分方程添加的数学限制.
