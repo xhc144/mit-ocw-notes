@@ -1,0 +1,45 @@
+\originalsection{从角向微分方程理解球谐}
+球面上的角拉普拉斯为
+\[
+ \Delta_\Omega=\frac1{\sin\theta}\partial_\theta(\sin\theta\,\partial_\theta)
+ +\frac1{\sin^2\theta}\partial_\phi^2.
+\]
+令 $Y=\Theta(\theta)\Phi(\phi)$, $\Delta_\Omega Y=-\lambda Y$. $\phi$ 的周期性要求 $\Phi=e^{im\phi}$、$m\in\mathbb Z$. 用 $x=\cos\theta$, 剩下的方程为
+\[
+ \frac\dd{\dd x}\left[(1-x^2)\frac{\dd\Theta}{\dd x}\right]
+ +\left[\lambda-\frac{m^2}{1-x^2}\right]\Theta=0.
+\]
+要求南北极处的球面函数正则, 可取 $\Theta=(1-x^2)^{|m|/2}$ 乘一个多项式. 把多项式按幂代入, 最高次项要求 $\lambda=\ell(\ell+1)$, 且 $\ell\ge|m|$ 为整数; 其余系数由递推决定. 对 $m=0$ 就是勒让德方程, 取 $P_\ell(1)=1$. 对 $m\ge0$, 关联函数可定义为
+$P_\ell^m(x)=(-1)^m(1-x^2)^{m/2}\dd^mP_\ell/\dd x^m$.
+结合 $e^{im\phi}$ 并做单位球面归一化就得到本稿的 $Y_{\ell m}$. 因此 $m$ 是绕轴的角变化次数, $\ell$ 是角拉普拉斯本征值的标号; 它们并非随意引入的两个下标.
+
+径向幂次是角变化对空间延拓的约束. 在球内, $r^\ell$ 在原点正则; 在球外, $r^{-\ell-1}$ 对应相同角变化的远场衰减. 例如二极的 $\ell=1$ 模态由内场 $r\cos\theta=z$ 接到外势 $r^{-2}\cos\theta$, 四极的 $\ell=2$ 由二阶调和多项式接到 $r^{-3}P_2$. 这把边值问题和多极展开接在一起, 也帮助判断漏掉某阶后会丢掉怎样的场.
+
+\begin{example}
+二维矩形 $0<x<a,0<y<b$, 左右与底边接地, 顶边取常电势 $V_0$. 写出内部电势, 说明角点条件如何理解.
+\end{example}
+\begin{solution}
+先用左右零边界选 $\sin(n\pi x/a)$, 底边零边界选 $\sinh(n\pi y/a)$. 顶边常数的正弦系数为
+\[ f_n=\frac{2V_0}{a}\int_0^a\sin(n\pi x/a)\dd x=\frac{2V_0[1-(-1)^n]}{n\pi}. \]
+因此仅有奇数阶,
+\[
+ V=\frac{4V_0}{\pi}\sum_{j=0}^\infty
+ \frac{\sin[(2j+1)\pi x/a]}{2j+1}
+ \frac{\sinh[(2j+1)\pi y/a]}{\sinh[(2j+1)\pi b/a]}.
+\]
+内部每一项调和. 顶边开区间内级数收敛到 $V_0$, 侧边为零. 顶角同时被赋零与 $V_0$ 的两种边界值, 所以不要求角点处取同一个连续值; 物理上该理想尖角需要更细的电极连接模型. 这道例题是本稿的教学补充, 不冒充缺失的 Griffiths 3.15.
+\end{solution}
+
+\originalsection{带圆孔球壳：由面荷跳跃决定系数}
+8.07第7讲实际给出半径$R$球面在北极挖去锥角$\alpha$球帽的例子. 剩余面荷密度仍为$\sigma_0=Q/(4\pi R^2)$, $Q$表示未挖孔时电荷, 实际剩余电荷为$Q(1+\cos\alpha)/2$, 两者不可混同. 令$x=\cos\theta$, $\sigma(x)=\sigma_0$ ($-1<x<\cos\alpha$), 其余零.
+
+球内正则及球外衰减各选一支, 在$r=R$电势连续使它们同用系数$\widetilde A_\ell$:
+$V=\sum_{\ell\ge0}\widetilde A_\ell r_<^\ell r_>^{-\ell-1}P_\ell(x)$, $r_<=\min(r,R)$、$r_>=\max(r,R)$. 法向场差逐项给
+$\sum(2\ell+1)\widetilde A_\ell P_\ell=R^2\sigma/\eps$. 用$\int_{-1}^1P_\ell P_j\dd x=2\delta_{\ell j}/(2\ell+1)$投影,
+\[
+\widetilde A_\ell=\frac{R^2}{2\eps}\int_{-1}^1P_\ell(x)\sigma(x)\dd x
+=\frac{Q}{8\pi\eps}\int_{-1}^{\cos\alpha}P_\ell(x)\dd x.
+\]
+对于$\ell\ge1$, 恒等式$(2\ell+1)P_\ell=P'_{\ell+1}-P'_{\ell-1}$给
+$\widetilde A_\ell=Q[P_{\ell+1}(\cos\alpha)-P_{\ell-1}(\cos\alpha)]/[8\pi\eps(2\ell+1)]$.
+$\ell=0$另算$\widetilde A_0=Q(1+\cos\alpha)/(8\pi\eps)$, 不用人为矛盾的$P_{-1}$约定. 当$\alpha=0$无孔, 高阶系数全零、恢复均匀球壳; $\alpha=\pi$全挖去、全部系数零. 表面角边缘有理想面荷跳跃, 内部势解不要求边缘处场光滑. 这是按已取得MIT五页讲义重述的例子, 不是凭Jackson题号补造题面.

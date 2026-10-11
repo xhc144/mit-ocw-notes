@@ -16,7 +16,7 @@ for pi,p in enumerate(d):
  for k in p.get_links():
   if k['kind'] in (fitz.LINK_GOTO,fitz.LINK_NAMED):
    goto+=1
-   if pi in (2,3,4):toc_links+=1
+   if pi < d.get_toc()[0][2]-1:toc_links+=1
    if k.get('nameddest') and k['nameddest'] not in names:issues.append({'unresolved_named_destination':k['nameddest']})
    if not (0<=k['page']<len(d)):issues.append({'page':pi+1,'bad_destination':k})
    elif 'to' in k and not d[k['page']].rect.contains(k['to']):issues.append({'page':pi+1,'destination_outside_page':str(k['to'])})

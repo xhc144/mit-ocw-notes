@@ -1,0 +1,18 @@
+\originalsection{角分辨频谱与有限碰撞时间}
+8.311的两页手写讲义\texttt{power\_spec.pdf}把场模态能量与频谱相连. 以下统一用SI并重新推导系数. 取$\omega>0$, 傅里叶约定$\vct a_\omega=\int\vct a(t)e^{i\omega t}\dd t$. 非相对论远区每方向功率为$q^2|\nn\times\vct a|^2/(16\pi^2\eps c^3)$. Parseval恒等式$\int|\vct a|^2\dd t=(2\pi)^{-1}\int_{-\infty}^{\infty}|\vct a_\omega|^2\dd\omega$, 实加速度的正负谱相同, 所以
+\[
+\frac{\dd^2 W}{\dd\omega\dd\Omega}=\frac{q^2}{16\pi^3\eps c^3}|\nn\times\vct a_\omega|^2,\qquad \omega>0.
+\]
+这是正频率单边能量谱, 与平均周期功率不同. 空间相位不能忽略时, 由横向远势$\vct A_\perp=\mu_0q\vct v_\perp(t_r)/(4\pi r\kappa)$及观察时间$\dd t_{\rm obs}=\kappa\dd t_r$可得等价速度形式
+\[
+\frac{\dd^2W}{\dd\omega\dd\Omega}=\frac{q^2\omega^2}{16\pi^3\eps c^3}\left|\int\nn\times\vct v(t)e^{i\omega[t-\nn\cdot\rr(t)/c]}\dd t\right|^2.
+\]
+恒速尾部的振荡积分用绝热收敛因子定义, 不能把它当绝对收敛普通积分. 对一次速度从$\vct v_1$变到$\vct v_2$的短碰撞, $\omega\tau\ll1$时两恒速段积分给
+\[
+\frac{\dd^2W}{\dd\omega\dd\Omega}\simeq\frac{q^2}{16\pi^3\eps c^3}\left|\frac{\nn\times\vct v_2}{1-\nn\cdot\vct v_2/c}-\frac{\nn\times\vct v_1}{1-\nn\cdot\vct v_1/c}\right|^2.
+\]
+低速再得$q^2|\nn\times\Delta\vct v|^2/(16\pi^3\eps c^3)$: 低频谱由净速度跳变决定, 不由碰撞细节决定. 这正是研究生作业12题2、3的入口; 多粒子必须先加振幅再平方.
+
+在低速偶极近似（$|v_0|\ll c$, 主谱频率范围内忽略源位移空间相位）下, 原手写例取$\vct v=-\vct v_0$ ($t<-\tau$), $\vct v=\vct v_0t/\tau$ ($|t|<\tau$), $\vct v=\vct v_0$ ($t>\tau$). 加速度为有限方脉冲, $\vct a_\omega=2\vct v_0\sin(\omega\tau)/(\omega\tau)$, 因而谱为$q^2|\nn\times\vct v_0|^2[\sin(\omega\tau)/(\omega\tau)]^2/(4\pi^3\eps c^3)$. 低频常量、第一零点$\omega\tau=\pi$, 高频包络按$\omega^{-2}$下降. 若误把瞬时跳变的常谱推广至无限频率, 总辐射能发散; 有限时间在此提供实际截止. 光滑加速度可使高频更快下降.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4cm,xmin=0,xmax=12,ymin=0,ymax=1.05,xlabel={$\omega\tau$},ylabel={归一化角谱}]
+\addplot[blue,thick,domain=.0001:12,samples=200]{(sin(deg(x))/x)^2};\end{axis}\end{tikzpicture}\end{center}

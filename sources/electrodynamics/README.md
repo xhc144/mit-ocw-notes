@@ -9,3 +9,5 @@
 MIT 自编材料按 [MIT OCW 使用条款](https://ocw.mit.edu/pages/privacy-and-terms-of-use/)及 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 使用, 另列第三方例外保持原权利. 商业教材只是阅读参考, 未下载、未打包, 不推定其题面再发布权. 引用数学事实与独立推导不替代著作权许可.
 
 MIT 官方 FAQ 明确说明 `Courtesy of … Used with permission` 的第三方材料覆盖 CC 许可, 再发布须保留特别署名. 第13讲保留 Hongsheng Chen 和 Min Chen 署名, 8.311 作业解答保留 Chiyan Luo 署名. 第12讲保留 OCW 已清理的原版, 不恢复被移除的图. 教材题号、基于教材的 MIT 改编 sheet 与商业教材原题面分开处理.
+
+内容复核补注：8.311的solution7.pdf实际页眉与内容为作业8，保留原名和官方URL；12个命名解答文件不表示12套全部匹配。solution8.pdf另为PS8长解。中文十二套已纳入连续PDF，独立解答身份与官方勘误见其覆盖清单。

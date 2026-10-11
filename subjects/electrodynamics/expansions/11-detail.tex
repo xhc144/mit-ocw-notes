@@ -1,0 +1,48 @@
+\originalsection{场模态如何成为谐振子}
+先把分析力学的关系说明: 对坐标 $q_\alpha$, 拉格朗日量 $L(q,\dot q)$ 给 $p_\alpha=\partial L/\partial\dot q_\alpha$, 哈密顿量 $H=\sum p_\alpha\dot q_\alpha-L$. 自由电磁场在真空的拉格朗日量为
+$L=\int[\eps E^2/2-B^2/(2\mu_0)]\dd^3x$.
+这与能量 $U=\int[\eps E^2/2+B^2/(2\mu_0)]\dd^3x$ 的磁项符号不同; 前者产生运动方程, 后者衡量能量.
+
+在无静电背景的无源腔取 $V=0$, 用 $\vct A=\sum q_\alpha\vct f_\alpha$, 就有 $\ee=-\sum\dot q_\alpha\vct f_\alpha$、$\bb=\sum q_\alpha\nabla\times\vct f_\alpha$. 导体边界选择 $\nn\times\vct f_\alpha=0$, 模态横向且满足 $\nabla\times\nabla\times\vct f_\beta=\omega_\beta^2\vct f_\beta/c^2$. 叉积散度恒等式及边界条件给
+\[
+ \int(\nabla\times\vct f_\alpha)\cdot(\nabla\times\vct f_\beta)\dd^3x
+ =\frac{\omega_\beta^2}{c^2}\int\vct f_\alpha\cdot\vct f_\beta\dd^3x.
+\]
+于是 $\eps\int\vct f_\alpha\cdot\vct f_\beta=\delta_{\alpha\beta}$ 消去交叉项, 得 $L=\sum(\dot q_\alpha^2-\omega_\alpha^2q_\alpha^2)/2$.
+欧拉--拉格朗日方程为 $\ddot q_\alpha+\omega_\alpha^2q_\alpha=0$, $p_\alpha=\dot q_\alpha$, $H=\sum(p_\alpha^2+\omega_\alpha^2q_\alpha^2)/2$. 模态不是实际带电小球, 其“坐标”是场的展开振幅. 这一推导给研究生作业中的腔模正交及场量子化入口, 没有把规范纵向自由度当成额外物理振子.
+
+\originalsection{由四势变换求电磁场变换}
+相对论先修只需这里的洛伦兹坐标变换和四矢量规则. 对沿 $+x$ 运动的新系, 四势 $(V/c,\vct A)$ 按四矢量变换:
+$V'=\gamma(V-vA_x)$、$A_x'=\gamma(A_x-vV/c^2)$, $A_y'=A_y$, $A_z'=A_z$.
+逆坐标关系的链式法则给 $\partial_{t'}=\gamma(\partial_t+v\partial_x)$、$\partial_{x'}=\gamma(\partial_x+v\partial_t/c^2)$. 例如
+\begin{align*}
+ E_y'&=-\partial_yV'-\partial_{t'}A_y'
+ =\gamma[E_y+v(\partial_yA_x-\partial_xA_y)]
+ =\gamma(E_y-vB_z),\\
+ B_z'&=\partial_{x'}A_y'-\partial_yA_x'
+ =\gamma[B_z+(v/c^2)(\partial_tA_y+\partial_yV)]
+ =\gamma(B_z-vE_y/c^2).
+\end{align*}
+同样得到 $E_z'=\gamma(E_z+vB_y)$、$B_y'=\gamma(B_y+vE_z/c^2)$; 平行分量的两次 $\gamma$ 乘 $1-v^2/c^2$ 给 $E_x'=E_x$, $B_x'=B_x$. 这说明电磁场如何因更换观察系而混合, 并解释式中速度的符号由“新系相对旧系”决定.
+
+不变量也可代入验证, 无需只背结论. 例如
+$(E_y')^2-c^2(B_z')^2=\gamma^2(1-v^2/c^2)(E_y^2-c^2B_z^2)$,
+另一横向对相同, 平行分量不变, 所以 $E'^2-c^2B'^2=E^2-c^2B^2$.
+对点积, 两个横向对的混合项互相抵消, 得
+$E_y'B_y'+E_z'B_z'=\gamma^2(1-v^2/c^2)(E_yB_y+E_zB_z)$,
+加上 $E_xB_x$ 即得 $\ee'\cdot\bb'=\ee\cdot\bb$. 这给研究生作业9寻找纯电或纯磁参考系的工具, 但不意味着所有电磁场都能这样消去一种场; 特别是两不变量都为零的非零平面波没有静止系.
+
+\originalsection{介质中运动电荷的模态共振与Frank--Tamm谱}
+8.311的四页\texttt{charge\_mov.pdf}用受迫场振子解释切伦科夫与碰撞辐射. 先取透明、无色散、非磁介质$\varepsilon=\eps n^2$, $n>1$, 在体积$\mathcal V$的大盒中将横势按实正弦/余弦模展开. 模函数归一为$\vct f_{\vct k,s}=\sqrt{2/(\varepsilon\mathcal V)}\vct e_s\cos(\vct k\cdot\rr)$或正弦, $\vct e_s\perp\vct k$, 固有频率$\omega_k=ck/n$. 粒子耦合$q\vct v\cdot\vct A$使每模
+$\ddot Q_{ks}+\omega_k^2Q_{ks}=F_{ks}(t)$, $F_{ks}=q\vct v\cdot\vct f_{ks}(\rr_q(t))$.
+
+匀速$\rr_q=\vct vt$驱动力频率$\omega_f=kv\cos\theta$. 以余弦驱动$F_a\cos\omega_ft$且初始场模为零, 实解$Q=F_a(\cos\omega_ft-\cos\omega_kt)/(\omega_k^2-\omega_f^2)$. 共振附近累计能的增长率在长时间极限给$\pi F_a^2\delta(\omega_k-\omega_f)/4$, 由$\sin(\Delta t)/\Delta\to\pi\delta(\Delta)$得到. 正弦模贡献相同, 两横向偏振满足$\sum_s|\vct v\cdot\vct e_s|^2=v^2\sin^2\theta$. 实模只对独立半球波矢计数, 相反$\vct k$不是另一个实模式.
+
+以$\cos\theta\ge0$选半球, 模态密度$\mathcal V\dd^3k/(2\pi)^3$给
+\[
+P=\frac{q^2}{8\pi^2\varepsilon}\int_{\rm half}k^2\dd k\dd\Omega\,v^2\sin^2\theta\,\delta(ck/n-kv\cos\theta)
+=\frac{q^2v}{4\pi\varepsilon}\int k\dd k\left(1-\frac{c^2}{n^2v^2}\right).
+\]
+只有$nv>c$时delta根在角区内. 换$k=n\omega/c$得正频谱$\dd P/\dd\omega=q^2v\omega[1-c^2/(n^2v^2)]/(4\pi\eps c^2)$, 或每路径长$\dd^2W/(\dd x\dd\omega)=q^2\omega[1-c^2/(n^2v^2)]/(4\pi\eps c^2)$. 这是非磁透明介质的Frank--Tamm式, 不是匀速电荷在真空辐射; 在真空亚光速根根本不存在. 真实材料应按$n(\omega)$频带积分并检查吸收及色散储能, 不把常$n$谱无限外推.
+
+碰撞时切换速度的驱动模有两种频率, 连续匹配$Q,\dot Q$后留下自由振子辐射; 第10章的角谱推导已将它等价写成两端速度软因子. 分母$1-\nn\cdot\vct v/c$使高速度辐射集中于运动方向. 软谱趋常量所以低频辐射能可积, 但若另用量子能$\hbar\omega$计光子数, $\int(\dd W/\dd\omega)\dd\omega/(\hbar\omega)$形式上对数发散. 原笔记据此提到红外问题; 这里只解释经典能谱与光子计数的差别, 不冒称完成量子电动力学红外消除证明.

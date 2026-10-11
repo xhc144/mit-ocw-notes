@@ -1,0 +1,50 @@
+\originalchapter{研究生作业十一：开关场与天线}
+题面据8.311作业11全部3题, 解答为AI独立推导并与单页官方解答对照. 所用导体和天线模型及缺失教材图均在对应题下注明.
+\originalsection{瞬间开启的无限直线电流}
+\begin{exercise}
+原题1. 无限细中性直线电流$I(t)=I_0\Theta(t)$, 求推迟$\vct A,\ee,\bb$, (b) 核波前与晚时极限并画固定$s$的场时间变化; (c) 求半径$s$、长$L$同轴柱面的能流面积分并绘方向.
+\end{exercise}
+\begin{solution}
+线沿$z$, 距轴$s$, 标势取零. 推迟积分
+$A_z=\mu_0I_0(4\pi)^{-1}\int\Theta(t-\sqrt{s^2+z'^2}/c)\dd z'/\sqrt{s^2+z'^2}$.
+$t<s/c$无源点可因果到达, 场全零. $t>s/c$允许$|z'|<\sqrt{c^2t^2-s^2}$, 积分给$A_z=\mu_0I_0\operatorname{arcosh}(ct/s)/(2\pi)$. 在波前$A_z\to0$, 阶跃求导无有限系数delta势项, 场却有根式奇性:
+$E_z=-\mu_0I_0c/(2\pi\sqrt{c^2t^2-s^2})$,
+$B_\phi=\mu_0I_0ct/(2\pi s\sqrt{c^2t^2-s^2})$.
+
+晚时$B_\phi\to\mu_0I_0/(2\pi s)$、$E_z\sim-\mu_0I_0/(2\pi t)\to0$. $S_s=-E_zB_\phi/\mu_0=\mu_0I_0^2c^2t/[4\pi^2s(c^2t^2-s^2)]$沿径向向外, 正在填充线外磁场能. 柱面总外向功率$\Phi=2\pi sL S_s=\mu_0I_0^2c^2tL/[2\pi(c^2t^2-s^2)]$, 晚时$\Phi\sim\mu_0I_0^2L/(2\pi t)$. 图中的波前半径$ct$外场零, 内能流径向向外. 理想零开关时间与零线径导致前沿发散, 有限上升时间正则化; 不冒称实验导线会有无限场.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4cm,xmin=0,xmax=4,ymin=0,ymax=4,xlabel={$ct/s$},ylabel={归一化场幅},legend pos=north east]
+\addplot[blue,domain=0:.999,forget plot]{0};\addplot[blue,domain=1.032:4,samples=120]{1/sqrt(x*x-1)};\addlegendentry{$|E_z|/(\mu_0I_0c/(2\pi s))$}
+\addplot[red,dashed,domain=1.034:4,samples=120]{x/sqrt(x*x-1)};\addlegendentry{$B_\phi/(\mu_0I_0/(2\pi s))$}
+\addplot[black,dotted] coordinates{(1,0)(1,4)};\end{axis}\end{tikzpicture}\par
+固定距轴$s$; 前沿发散部分超出纵轴示意范围, 不用有限曲线替代无穷极限.
+\end{center}
+\begin{center}\begin{tikzpicture}[>=Stealth,scale=.8]
+\draw[dashed] (0,0) circle (1.7);\fill (0,0) circle(.08);\node[below right] at (.1,0) {导线};
+\foreach \a in {0,45,90,135,180,225,270,315}{\draw[->] (\a:.6)--(\a:1.4);}\node[right] at (1.8,0) {波前$s=ct$};\node at (3.2,1) {外部尚无场};\end{tikzpicture}\end{center}
+\end{solution}
+\originalsection{导体附近振荡偶极}
+\begin{exercise}
+原题2. 固定幅度简谐电偶极距理想导体面$h\ll\lambda$, 偶极与法线夹角$\theta$. 求与自由空间全功率之比并找增强/抑制角范围.
+\end{exercise}
+\begin{solution}
+像偶极平行部分反向, 法向部分同向: $\pp'= -\pp_\parallel+\pp_n$. 辐射远区两源相位差$2kh\cos\vartheta$, $kh\ll1$时首阶合成$\pp+\pp'=2\pp_n$. 仅上半空间有物理辐射, 因而$P/P_{\rm free}=\tfrac12\cdot4\cos^2\theta=2\cos^2\theta$. $|\cos\theta|>1/\sqrt2$增强, 小于则抑制, 45度为分界. 平行偶极首阶抵消, 有限$kh$还保留较小高阶项. 若$h$只是小于波长却非远小于, 须积分$\nn\times[\pp e^{-ikh\cos\vartheta}+\pp'e^{ikh\cos\vartheta}]$的模平方, 不能继续用常比值. 这里固定源偶极矩, 没有把环境引起的驱动幅度变化另算进去.
+\end{solution}
+\originalsection{半波与全波细天线}
+\begin{exercise}
+原题3. 中心馈电细线天线长$l$, 半波$kl=\pi$, 求角功率; 再求全波$kl=2\pi$并画图. 原卷要求与教材Fig.34.4比较, 该图未随原件提供, 本书不能声称完成实图比对.
+\end{exercise}
+\begin{solution}
+明确标准附加模型: $I(z)=I_a\sin[k(l/2-|z|)]$, $|z|<l/2$, 其余零, 共乘$e^{-i\omega t}$. 这是细线正弦驻波近似, 非任意天线电流的精确解. 设$L=l/2$, 远势$A_z=\mu_0e^{ikr}(4\pi r)^{-1}\int I(z)e^{-ikz\cos\vartheta}\dd z$. 利用偶性, 对$2\int_0^L\sin[k(L-z)]\cos(kz\cos\vartheta)\dd z$积分, 得
+$\int I e^{-ikz\cos\vartheta}\dd z=(2I_a/k)[\cos(kL\cos\vartheta)-\cos kL]/\sin^2\vartheta$.
+横场$E_\vartheta=i\omega A_z\sin\vartheta$（整体基矢正号不影响功率）, 所以
+\[
+\frac{\dd\langle P\rangle}{\dd\Omega}=\frac{Z_0|I_a|^2}{8\pi^2}\left[\frac{\cos(kL\cos\vartheta)-\cos kL}{\sin\vartheta}\right]^2.
+\]
+半波括号$\cos[(\pi/2)\cos\vartheta]/\sin\vartheta$, 全波括号$[1+\cos(\pi\cos\vartheta)]/\sin\vartheta$. 两者轴上用极限为零, 横向最大. 全波此电流模型的中心是节点$I(0)=0$, $I_a$是驻波反节点幅, 不能用零馈电流去定义有限辐射电阻; 真实馈点需有限阻抗和电流分布修正.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=7cm,height=6cm,axis equal image,xmin=-1.15,xmax=1.15,ymin=-1.15,ymax=1.15,xlabel={横向},ylabel={天线轴},legend style={at={(1.05,1)},anchor=north west,font=\small}]
+\addplot[blue,thick] table[x=xh,y=yh,col sep=comma]{figures/antenna-pattern.csv};\addlegendentry{半波归一化功率}
+\addplot[red,dashed,thick] table[x=xf,y=yf,col sep=comma]{figures/antenna-pattern.csv};\addlegendentry{全波归一化功率}
+\end{axis}\end{tikzpicture}\par
+本书自绘角功率极图, 各自峰值归一; 非缺失教材图的复制.
+\end{center}
+\end{solution}

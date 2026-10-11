@@ -1,0 +1,79 @@
+\originalchapter{研究生作业六：腔模与传输线}
+题面据8.311作业6全部6题, 解答为AI独立推导并与官方解答核对. 理想金属边界的时谐场排除独立静态背景.
+\originalsection{狭缝与立方体分离变量}
+\begin{exercise}
+原题1. (a) $0<x<a,y>0$狭缝两侧接地、底面电势$V$, 求势; (b) 底面改冻结常面电荷$\sigma_s$; (c) 边长$a$立方体一面$V$五面零, 求势及中心值.
+\end{exercise}
+\begin{solution}
+(a) 先投影$V=\sum v_n(y)\sin(k_nx)$到每个正弦, Laplace式给$v_n^{\prime\prime}-k_n^2v_n=0$. 其解$C_ne^{k_ny}+A_ne^{-k_ny}$, 远处衰减选$C_n=0$. 因而取$V(x,y)=\sum A_n\sin(k_nx)e^{-k_ny}$, $k_n=n\pi/a$; 侧边条件选正弦, 无穷远衰减排除增长项. 投影底面常量给$A_n=(2/a)\int_0^aV\sin(k_nx)\dd x=4V/(n\pi)$（奇$n$）, 偶$n$为零.
+
+(b) 冻结电荷不等于固定电势. 采用原官方解的单侧通量模型$-\partial_yV(x,0)=\sigma_s/\eps$, 则奇$n$的$A_n=4\sigma_sa/(\eps\pi^2n^2)$. 若底面另一侧亦有电场, 须由两侧$D_n$差决定而不能直接用此Neumann值; 题面未给另一侧几何, 此处把模型说清.
+
+(c) 把非零面取$z=a$, $\lambda_{mn}=\pi\sqrt{m^2+n^2}/a$, 则
+\[
+V(x,y,z)=\sum_{m,n\text{奇}}\frac{16V}{\pi^2mn}\sin\frac{m\pi x}a\sin\frac{n\pi y}a\frac{\sinh(\lambda_{mn}z)}{\sinh(\lambda_{mn}a)}.
+\] 二次正弦投影给系数, $z=0$的双曲正弦给接地. 六个分别只有一面$V$的解相加为常数$V$, 对称性使各解中心值相同, 故所求中心为$V/6$. 棱边同时指定不同值只影响边界奇点, 不改内部调和解.
+\end{solution}
+\originalsection{表面阻抗与理想导体极限}
+\begin{exercise}
+原题2. 平面欧姆导体, 法线$\nn$指向金属内部. 证明良导体$E_\parallel=\zeta(B_\parallel\times\nn)$的复系数, 并证理想极限$E_\parallel=0,B_n=0$.
+\end{exercise}
+\begin{solution}
+内部衰减波$k=(1+i)/\delta$, $\delta=\sqrt{2/(\mu_0\sigma\omega)}$. 从$\bb=(k/\omega)\nn\times\ee$得$\ee_\parallel=Z_s(\vct H_\parallel\times\nn)$, $Z_s=\omega\mu_0/k=(1-i)\sqrt{\omega\mu_0/(2\sigma)}$. 因而用$B$时$\zeta=Z_s/\mu_0$. 高频良导体条件是$\sigma\gg\eps\omega$, 与原高斯$\omega\ll\sigma_G$相对应. 理想$\sigma\to\infty$使$E_\parallel=0$. 对表面小环应用Faraday, 切向场零给$\partial_tB_n=0$, 非零频率相量遂有$B_n=0$. 不由此排除预先存在的静态磁通.
+\end{solution}
+\originalsection{矩形腔完整模态}
+\begin{exercise}
+原题3. 理想腔尺寸$L_x,L_y,L_z$. (a) 构造各电场分量并用Faraday求磁場, 核边界及振幅约束; (b) 求频谱并排除零场指标.
+\end{exercise}
+\begin{solution}
+$k_i=n_i\pi/L_i$, 取
+\[
+\begin{aligned}
+E_x&=A_x\cos(k_xx)\sin(k_yy)\sin(k_zz),\\
+E_y&=A_y\sin(k_xx)\cos(k_yy)\sin(k_zz),\\
+E_z&=A_z\sin(k_xx)\sin(k_yy)\cos(k_zz),
+\end{aligned}
+\]
+共乘$e^{-i\omega t}$. 各面切向分量为零. 散度要求$k_xA_x+k_yA_y+k_zA_z=0$. $\bb=\nabla\times\ee/(i\omega)$给
+\[
+\begin{aligned}
+B_x&=(k_yA_z-k_zA_y)\sin k_xx\cos k_yy\cos k_zz/(i\omega),\\
+B_y&=(k_zA_x-k_xA_z)\cos k_xx\sin k_yy\cos k_zz/(i\omega),\\
+B_z&=(k_xA_y-k_yA_x)\cos k_xx\cos k_yy\sin k_zz/(i\omega).
+\end{aligned}
+\]
+各面$B_n=0$. 波动方程给$\omega=c\sqrt{k_x^2+k_y^2+k_z^2}$. 三个正指标有两个独立横向偏振; 恰一个零指标、另两正时只剩零指标所对应的电场分量, 有一个偏振. 两个或三个零指标使整个电场为零, 不能列成腔模. 用$L_i$命名尺寸避免与光速$c$混淆.
+\end{solution}
+\originalsection{一般腔的等能与正交}
+\begin{exercise}
+原题4. 任意理想闭腔. (a) 证时均电磁能相等; (b) 证不同频率电模和磁模分别正交.
+\end{exercise}
+\begin{solution}
+复模采用共轭内积. 波动式$\nabla\times\nabla\times\ee=\omega^2\ee/c^2$乘$\ee^*$积分, 用$\nn\times\ee=0$消掉边界项, 得$\int|\nabla\times\ee|^2=(\omega^2/c^2)\int|\ee|^2$. $\bb=\nabla\times\ee/(i\omega)$使$\mu_0^{-1}\int|\bb|^2=\eps\int|\ee|^2$, 两边时均能各乘$1/4$仍相等.
+
+不同模$1,2$交换分部积分得$(\omega_1^2-\omega_2^2)\int\ee_2^*\cdot\ee_1=0$, 正频不同则电模正交. 磁内积$\int\bb_2^*\cdot\bb_1=(\omega_1\omega_2)^{-1}\int(\nabla\times\ee_2^*)\cdot(\nabla\times\ee_1)$, 再分部积分化为$\omega_1/(\omega_2c^2)$乘电内积, 亦零. 同频简并模可以选正交基, 但不同形状任意简并向量不自动正交.
+\end{solution}
+\originalsection{矩形波导的TE、TM与横场}
+\begin{exercise}
+原题5. 理想截面$a\times b$, 沿$z$传播. (a) 导纵场Helmholtz和TE Neumann、TM Dirichlet边界; (b) 求谱、截止及允许指标.
+\end{exercise}
+\begin{solution}
+设因子$e^{ik_zz-i\omega t}$, $k_\perp^2=\omega^2/c^2-k_z^2$. 纵场分别满足$(\nabla_\perp^2+k_\perp^2)E_z=0$及同式$H_z$. 第9章已从四个横向Maxwell分量实际解出
+$\ee_\perp=ik_z\nabla_\perp E_z/k_\perp^2-i\omega\mu_0\hat{\vct z}\times\nabla_\perp H_z/k_\perp^2$,
+$\vct H_\perp=ik_z\nabla_\perp H_z/k_\perp^2+i\omega\eps\hat{\vct z}\times\nabla_\perp E_z/k_\perp^2$.
+TM的$H_z=0$, 壁面纵$E_z$是切向量, 故$E_z=0$; 解$\sin(m\pi x/a)\sin(n\pi y/b)$、$m,n\ge1$. TE的$E_z=0$, 横电场切向投影要求$\partial_nH_z=0$; 解$\cos(m\pi x/a)\cos(n\pi y/b)$、$m,n\ge0$且不同时零. 两类$\omega_c=c\pi\sqrt{m^2/a^2+n^2/b^2}$, $k_z^2=(\omega^2-\omega_c^2)/c^2$. TE$_{00}$不能代入有$k_\perp$分母的重建式, 单导体空心波导亦无非零TEM. 例如TE$_{10}$的$H_z=H_0\cos(\pi x/a)$, $E_y=i\omega\mu_0H_0a\sin(\pi x/a)/\pi$, $H_x=-ik_zH_0a\sin(\pi x/a)/\pi$, $E_x=H_y=0$, 各壁边界可直接核.
+\end{solution}
+\originalsection{同轴TEM与阶跃反射}
+\begin{exercise}
+原题6. 外壳内半径$a$, 内线半径$b<a$. (a) 求同轴TEM及$\omega=ck$; (b) 长$L$线左端理想电池$V$开关闭合, 右端电阻$R$. 求负载电压随时间, 比较大、小$R$与集总电容并找匹配值.
+\end{exercise}
+\begin{solution}
+(a) 单位电压波$E_s=V(z,t)/[s\ln(a/b)]$, $B_\phi=\pm E_s/c$, $V=f(z\mp ct)$. 双导体横向静电势$\ln s$非平凡, 所以TEM存在, 相速$c$. 截面功率$VI$给$Z_c=V/I=Z_0\ln(a/b)/(2\pi)$, $C'=2\pi\eps/\ln(a/b)$, $L'=\mu_0\ln(a/b)/(2\pi)$.
+
+(b) 负载反射$r=(R-Z_c)/(R+Z_c)$, 电池端增量反射$-1$. 首个$V$阶跃在$t=L/c$到达, 首次负载值$V(1+r)$. 每次往返后新入射增量乘$-r$, 几何求和给
+$V_L(t)=0$ ($t<L/c$), $V_L(t)=V[1-(-r)^n]$ ($(2n-1)L/c<t<(2n+1)L/c$, $n\ge1$). 在阶跃瞬间取单侧值, 不声称不连续理想模型给唯一瞬时值.
+
+$R>Z_c$时$r>0$, 围绕$V$交替超调; $0<R<Z_c$时$r<0$, 单调阶梯趋近$V$; 匹配$R=Z_c$首次到达即$V$, 无往返振铃. 阶梯间隔$2L/c$, 对应更新率$c/(2L)$; 交替重复一周期为$4L/c$, 两者不能混称. 大$R$的$r\to1$使收敛慢, 开路极限理想无耗散则不收敛; 短路负载始终零. 集总线电容$C=C'L$抹去了首次延迟与场传播, 只有慢变化尺度才可使用.
+\begin{center}\begin{tikzpicture}[>=Stealth]
+\draw (0,1)--(5,1);\draw (0,0)--(5,0);\draw (0,0)--(0,.35);\draw (0,.65)--(0,1);\draw[thick] (-.18,.35)--(.18,.35);\draw[thick] (-.3,.65)--(.3,.65);\node[left] at (-.3,.5) {$V$};\draw (5,0)--(5,.3)--(4.8,.4)--(5.2,.6)--(5,.7)--(5,1);\node[right] at (5.2,.5) {$R$};\draw[<->] (.2,-.45)--(4.8,-.45) node[midway,below] {$L$};\draw[->] (1.5,.65)--(3.3,.65) node[midway,above] {入射};\draw[->] (3.3,.25)--(1.5,.25) node[midway,below] {反射};\end{tikzpicture}\hspace{1em}\qedhere\end{center}
+\end{solution}

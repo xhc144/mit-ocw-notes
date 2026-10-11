@@ -1,0 +1,60 @@
+\originalchapter{研究生作业八：时空与带电粒子}
+题面据8.311作业8全部7题. 官方\texttt{solution7.pdf}是本套的两页短解, \texttt{solution8.pdf}是四页较长解, 二者有数值冲突. 本章为AI独立推导, 并明确勘误. 统一被动boost: $x'=\gamma(x-vt)$、$t'=\gamma(t-vx/c^2)$, $K'$相对$K$沿$+x$运动.
+\originalsection{横向和纵向光钟}
+\begin{exercise}
+原题1. 发射/接收器与镜固有间距$d$, 静钟周期$2d/c$. (a) 钟沿垂直于光路方向运动; (b) 沿光路运动. 分别仅用光速不变与几何核时间膨胀.
+\end{exercise}
+\begin{solution}
+(a) 半程实验室时间$t_h$有$(ct_h)^2=d^2+(vt_h)^2$, 所以$t_h=\gamma d/c$, 周期$T=\gamma2d/c$. 横向距离$d$不收缩. (b) 纵向镜距实验室为$D=d/\gamma$, 去程追镜$t_+=D/(c-v)$, 返程迎接$t_-=D/(c+v)$, 和为$T=2Dc/(c^2-v^2)=\gamma2d/c$. 若误用实验室镜距$d$不收缩, 会多一个$\gamma$.
+\begin{center}\begin{tikzpicture}[>=Stealth,scale=.8]
+\draw[->] (0,0)--(3,0) node[right] {运动方向};\draw[dashed] (0,0)--(1.5,2)--(3,0);\draw (0,0)--(0,2) node[midway,left] {$d$};\draw[thick] (-.3,2)--(3.3,2);\node[above] at (1.5,2) {镜};\node[below] at (0,0) {发射};\node[below] at (3,0) {接收};\node at (4.5,1) {横向光钟的实验室光路};\end{tikzpicture}\end{center}
+\end{solution}
+\Needspace{9\baselineskip}
+\originalsection{两次boost的合成}
+\begin{exercise}
+原题2. 同方向两次Lorentz变换速度$v_1,v_2$, 证明等价单次变换并求合速度.
+\end{exercise}
+\begin{solution}
+$ct'=\gamma_1(ct-\beta_1x)$、$x'=\gamma_1(x-\beta_1ct)$再代入同形式第二次, 得$ct''=\gamma_1\gamma_2[(1+\beta_1\beta_2)ct-(\beta_1+\beta_2)x]$及互换$x,ct$的一式. 因而$\beta=(\beta_1+\beta_2)/(1+\beta_1\beta_2)$, $\gamma=\gamma_1\gamma_2(1+\beta_1\beta_2)$, 故$v=(v_1+v_2)/(1+v_1v_2/c^2)$. 快度$\eta=\operatorname{artanh}\beta$相加, 这将在恒固有加速度中直接使用.
+\end{solution}
+\originalsection{恒固有加速度的双胞胎旅行}
+\begin{exercise}
+原题3. 双胞胎2000年出生, 火箭2020年出发. 固有加速度大小$g$, 四段各自身5年, 先加速、减速到最远点、反向加速、减速回地球. 船上回归40岁. 求地球回归年份与最远距离.
+\end{exercise}
+\begin{solution}
+固有时间$\tau$满足$\dd\eta/\dd\tau=g/c$, $\dd t/\dd\tau=\cosh\eta$, $\dd x/\dd\tau=c\sinh\eta$. 第一段从静止出发, $t=(c/g)\sinh(g\tau/c)$, $x=(c^2/g)[\cosh(g\tau/c)-1]$. 四段快度端值依次$0\to u\to0\to-u\to0$, $u=g(5\text{年})/c$. 对称性给总地球时长$\Delta t=4(c/g)\sinh u$, 最远$x_{\max}=2(c^2/g)(\cosh u-1)$. 船上经过20年, 不把5年当每段实验室时间.
+
+明确采用$g=9.81\,\mathrm{m/s^2}$、年365.25日, 得$u=5.16324$, $\Delta t=338.400$年、$x_{\max}=167.274$光年, 约2358年回归. 两份官方解分别写2355/173及2316/158, 不与这一组常数同时相符; 本书给统一独算而不强行抄某一组. 数值对$g\tau/c$敏感, 年份是理想恒加速模型的约数.
+\end{solution}
+\originalsection{发令事件的同时性与真正时间差}
+\begin{exercise}
+原题4. 两跑道沿$x$, 沿$y$相距$d$, 两发令事件在$K$系时间差$T$. (a) 哪些$T$可找无让步系, 哪些有无法消去的时间让步? (b) 分别写所需变换、速度及事件位置, 并讨论边界.
+\end{exercise}
+\begin{solution}
+选事件1为$(t,x,y)=(0,0,0)$, 事件2为$(T,0,d)$. 沿$y$boost给$\Delta t'=\gamma(T-vd/c^2)$、$\Delta y'=\gamma(d-vT)$, $x$不变. 若$|cT|<d$, 选$v=c^2T/d$使两枪同时; 事件2成为$(0,0,\sqrt{d^2-c^2T^2})$, 事件1仍原点. 这种类空间间隔的时间先后可随系改变, 原时间差是同时性效应.
+
+若$|cT|>d$, 无亚光速boost可使$\Delta t'=0$. 选$v=d/T$使两枪同地点, 事件2为$(\operatorname{sgn}T\sqrt{T^2-d^2/c^2},0,0)$, 时间先后不变, 是类时间的不可消去让步. $|cT|=d\ne0$为类光, 两候选速度均$|v|=c$, 无惯性系使同时或同地点; 不能将等号纳入类空间情形. Boost沿跑道间隔方向$y$, 不沿$x$跑向. 两跑者在原系分别固定$y=0,d$, 变后横向世界线$y'_1=-vt'$、$y'_2=d/\gamma-vt'$. 沿$x$的跑速题面未给, 不据此编造额外$x(t)$; 两起跑事件的$x=0$已完整列出.
+\end{solution}
+\originalsection{非相对论辅助变量与正则动量}
+\begin{exercise}
+原题5. $L=\vct P\cdot(\dot{\rr}-\vct v)+mv^2/2-qV+q\vct v\cdot\vct A$, $\rr,\vct P,\vct v$独立. (a) 化为普通L并求运动; (b) 化为H并求运动; (c) 核等价.
+\end{exercise}
+\begin{solution}
+先变分$\vct P$给$\vct v=\dot{\rr}$, 消去它得题7.1普通L, 已逐分量导出Lorentz力. 变分$\vct v$则给$\vct P=m\vct v+q\vct A$. 消去$\vct v=(\vct P-q\vct A)/m$后$L=\vct P\cdot\dot{\rr}-H$, $H=(\vct P-q\vct A)^2/(2m)+qV$. 正则式给$\dot r_i=(P_i-qA_i)/m$, $\dot P_i=qv_j\partial_iA_j-q\partial_iV$. 对$P_i=mv_i+qA_i$沿轨迹求导, 又得$m\dot v_i=q(E_i+\epsilon_{ijk}v_jB_k)$. 两条消元路径等价; 初始$\vct P$不是机械动量$m\vct v$.
+\end{solution}
+\originalsection{相对论辅助变量与Hamilton方程}
+\begin{exercise}
+原题6. 将上一题$mv^2/2$替换为$-mc^2\sqrt{1-v^2/c^2}$, 分别从L及H导运动.
+\end{exercise}
+\begin{solution}
+(a) 消去$\vct P$给普通$L=-mc^2\sqrt{1-\dot r^2/c^2}+q\dot{\rr}\cdot\vct A-qV$. $\partial L/\partial v_i=\gamma mv_i+qA_i$, 与非相对论分量推导同样扣去沿轨迹的$A_i$导数, 得$\dd(\gamma m\vct v)/\dd t=q(\ee+\vct v\times\bb)$.
+
+(b) 变分辅助$\vct v$给$\vct P=\gamma m\vct v+q\vct A$. 设机械$\pp=\vct P-q\vct A$, $H=\sqrt{m^2c^4+c^2p^2}+qV$. 正则式给$\dot{\rr}=c^2\pp/\mathcal E$, $\dot P_i=qv_j\partial_iA_j-q\partial_iV$, $\mathcal E=\sqrt{m^2c^4+c^2p^2}$. 再减$q\dd A_i/\dd t$得到同一Lorentz力. 规范改变正则动量而不改变机械动量.
+\end{solution}
+\originalsection{匀强电场的双曲运动}
+\begin{exercise}
+原题7. (a) 无磁匀强电场中导$\dot{\pp}=q\ee$、$\dot{\rr}=c^2\pp/\mathcal E$; (b) 初速零时求位置与固有时关系. 原卷将$\mathcal E$称动能, 实际是总能量.
+\end{exercise}
+\begin{solution}
+(a) 在$\vct A=0,V=-\ee\cdot\rr$规范中Hamilton式立即给两式, 与上一题机械动量式一致. (b) 选带符号一维$a=qE/m$, 则$p=qEt$, $\mathcal E=mc^2\sqrt{1+(at/c)^2}$. 积分$\dot x=at/\sqrt{1+(at/c)^2}$给$x-x_0=(c^2/a)[\sqrt{1+(at/c)^2}-1]$, $a=0$用连续极限$x=x_0$. 固有时$\tau=(c/a)\operatorname{arsinh}(at/c)$, 所以$t=(c/a)\sinh(a\tau/c)$、$x-x_0=(c^2/a)[\cosh(a\tau/c)-1]$. 这满足$(x-x_0+c^2/a)^2-c^2t^2=c^4/a^2$, $|v|$趋$c$但有限$t$不达到$c$.
+\end{solution}

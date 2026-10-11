@@ -1,0 +1,53 @@
+\originalchapter{研究生作业一：场能与应力}\label{ch:gps1}
+本章据8.311作业1重述全部5题, 解答为AI独立推导并与官方解答对照. 后续十二套均统一用SI制, 电荷保留正负号, $c^{-2}=\eps\mu_0$. 原件使用高斯制, 电导率等量不能把原数字直接当SI数字. 官方解答作者为Chiyan Luo, 署名及许可见卷首. 官方解答并非每个子问都完整, 本书的补算不属于MIT官方解答.
+\originalsection{位移电流与充电球}
+\begin{exercise}
+原题1. (a) 证明总电流 $\jj+\jj_d$ 无散, $\jj_d=\eps\partial_t\ee$; (b) 细导线以恒流 $I$ 向球输送电荷 $q(t)$, 假定球面电荷对称分布, 求球外 $\ee,\jj_d$ 并核守恒; (c) 求轴对称磁场并核近导线极限.
+\end{exercise}
+\begin{solution}
+(a) 高斯定律与电荷连续性给 $\nabla\cdot\jj_d=\partial_t\rho=-\nabla\cdot\jj$. 所以安培定律的源无散, 即使传导电流在充电处中止也不矛盾.
+
+(b) 球外 $\ee=q\nn/(4\pi\eps r^2)$, $\jj_d=I\nn/(4\pi r^2)$. 任一包围球的闭面上位移电流通量为$I$, 正好抵消入线传导电流的外向通量$-I$. 此处采用径向电场、细入线及轴对称理想模型; 未指定接线附近球面电流, 不声称它是有限导体球附近的完整边值解.
+
+(c) 令入线在负$z$轴, 极角$\theta$从远离入线的正$z$轴算. 半径$r\sin\theta$的纬圈张成球帽, 位移电流通量为$I(1-\cos\theta)/2$. 环路积分给
+$2\pi r\sin\theta B_\phi=\mu_0 I(1-\cos\theta)/2$, 因而 $B_\phi=\mu_0I\tan(\theta/2)/(4\pi r)$. 近入线取$\theta=\pi-\delta$, 横距$s\simeq r\delta$, 则 $B_\phi\simeq\mu_0I/(2\pi s)$, 恢复直导线场.
+\end{solution}
+\originalsection{同轴与充电球的能流}
+\begin{exercise}
+原题2. (a) 同轴导体半径$a<b$, 外壳沿$+z$流$I$、线荷$\lambda$, 内柱返回$-I$、线荷$-\lambda$. 求间隙场、能流及截面积分, 接末端电阻后核焦耳功率; (b) 求上题充电模型的能流, 绘示流向并讨论能量收支.
+\end{exercise}
+\begin{solution}
+(a) $E_s=-\lambda/(2\pi\eps s)$, $B_\phi=-\mu_0 I/(2\pi s)$, 所以 $S_z=\lambda I/(4\pi^2\eps s^2)$. 外壳对内柱电压 $V=\lambda\ln(b/a)/(2\pi\eps)$, 故 $P=\int S_z2\pi s\dd s=VI$. 末端负载$V=RI$给$P=I^2R$. 两场各自的负号一起给正确的$+z$能流.
+
+(b) 两场均切换成上一节的球面表达式, 得 $S_\theta=-qI\tan(\theta/2)/(16\pi^2\eps r^3)$, $S_r=0$. 在源外
+$\nabla\cdot\vct S=-qI/(16\pi^2\eps r^4)=-\partial_t(\eps E^2/2)$, 所以能流在空间中收敛并转为电场能. 球半径$a$的外部电场能为$q^2/(8\pi\eps a)$, 球面电势$V=q/(4\pi\eps a)$, 变化率$VI=qI/(4\pi\eps a)$. 恒流磁场不变; 能量由入线邻近区域输送, 不是沿球的径向穿出. 图只表示$qI>0$时的方向, 入线奇点须由有限导线模型正则化. 此子问在官方解答中未展开.
+\begin{center}\begin{tikzpicture}[scale=.8,>=Stealth]
+\draw (0,0) circle (.6);\draw[thick] (0,-2.3)--(0,-.6);\draw[->] (0,-2.1)--(0,-1.5) node[right] {$I$};
+\draw[dashed] (0,0) circle (1.5);\draw[->,thick] (210:1.5) arc (210:155:1.5);\draw[->,thick] (-30:1.5) arc (-30:25:1.5);
+\node at (0,.05) {$q(t)$};\node[right] at (1.5,.7) {沿球面方向的能流};\draw[->] (0,.7)--(0,2) node[above] {$+z$};
+\end{tikzpicture}\end{center}
+\end{solution}
+\originalsection{欧姆导线侧面输入功率}
+\begin{exercise}
+原题3. 长圆柱导线半径$R$, 电导率$\sigma$, 稳恒均匀电流$I$. 求内外侧向坡印廷矢量, 比较半径$r$同轴柱面输入通量与焦耳热.
+\end{exercise}
+\begin{solution}
+取单位长度并忽略端效应, $J_z=I/(\pi R^2)$、$E_z=J_z/\sigma$. 导线表面的切向场连续, 外部局部稳恒模型亦用此$E_z$. 安培定律给 $B_\phi=\mu_0Ir/(2\pi R^2)$ ($r<R$), 外部为$\mu_0I/(2\pi r)$. $\vct S=\ee\times\bb/\mu_0$ 沿径向向内, 内部$S_r=-I^2r/(2\pi^2\sigma R^4)$, 外部$S_r=-I^2/(2\pi^2\sigma R^2r)$. 输入功率$-2\pi rS_r$在内部等于$J_z^2\pi r^2/\sigma$, 外部等于$I^2/(\sigma\pi R^2)$. 这分别是柱内焦耳热及全导线焦耳热; 源在轴向端部维持电场.
+\end{solution}
+\originalsection{导体压力与实心球半球力}
+\begin{exercise}
+原题4. (a) 用应力和逐电荷受力分别求导体表面静电压力; (b) 均匀体电荷实心球半径$R$、总电荷$Q$, 用应力及库仑合力求下半球对上半球的力.
+\end{exercise}
+\begin{solution}
+(a) 面外法场$E$、面内零场, 真空应力$T_{ij}=\eps(E_iE_j-E^2\delta_{ij}/2)$给$p=\eps E^2/2$. 微观算法用$\sigma=\eps E$, 去除该薄片自身场后外场是两侧平均$E/2$, 故$p=\sigma E/2$, 不能用$\sigma E$重复计算自身场.
+
+(b) $\rho=3Q/(4\pi R^3)$, 球内$\ee=\rho\rr/(3\eps)$. 上半球闭边界包括外半球及赤道切面: 外半球贡献$Q^2/(32\pi\eps R^2)$向上, 切面贡献
+$\eps\pi\int_0^R[Qs/(4\pi\eps R^3)]^2s\dd s=Q^2/(64\pi\eps R^2)$. 总力$F_z=3Q^2/(64\pi\eps R^2)$. 另直接积分$\int_{z>0}\rho E_z\dd^3x=\rho^2\pi R^4/(12\eps)$得同值. 上半球自身内部电荷的相互力成对抵消, 所以全场积分正好是下半球对它的力. 这里是实心球, 不替换成球壳.
+\end{solution}
+\originalsection{螺线管的磁压力}
+\begin{exercise}
+原题5. 长螺线管半径$r$, 单位长度$N$匝, 恒流$I$. (a) 用磁应力求线圈表面压力; (b) 用电流元受力核对平均场的二分之一.
+\end{exercise}
+\begin{solution}
+理想长管内$B=\mu_0NI$, 外部零场. 磁应力$T_{ij}=(B_iB_j-B^2\delta_{ij}/2)/\mu_0$的侧面法向牵引给向外压力$p=B^2/(2\mu_0)$. 面电流$K_\phi=NI$受到平均场$B\hat{\vct z}/2$, 故$\vct f_s=\vct K\times\bb_{\rm av}=NI B\hat{\vct r}/2$, 同样为$p\hat{\vct r}$. 膨胀趋势与磁场线沿轴的张力同时存在.
+\end{solution}

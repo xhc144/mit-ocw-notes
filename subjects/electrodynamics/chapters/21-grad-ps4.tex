@@ -1,0 +1,64 @@
+\originalchapter{研究生作业四：色散与表面波}
+题面据8.311作业4全部6题, 解答为AI独立推导并与官方解答核对. 相量约定$e^{-i\omega t}$, 除欧姆/Drude模型外均先取无损介质.
+\originalsection{线偏振与圆偏振}
+\begin{exercise}
+原题1. (a) 构造沿$z$传播的全部线偏振及圆偏振平面波; (b) 沿$x,y$偏振的两波在什么条件下合成线偏振或圆偏振?
+\end{exercise}
+\begin{solution}
+$k=\omega\sqrt{\varepsilon\mu}$, 任意横向常复矢量$\vct E_0$给$\ee=\operatorname{Re}(\vct E_0e^{ikz-i\omega t})$、$\bb=\operatorname{Re}[(k/\omega)\hat{\vct z}\times\vct E_0e^{ikz-i\omega t}]$. 线偏振的$\vct E_0=e^{i\delta}(A\hat{\vct x}+B\hat{\vct y})$, $A,B$实; 圆偏振的$\vct E_0=E_c e^{i\delta}(\hat{\vct x}\pm i\hat{\vct y})$. 这包括横平面任意方向与两种旋向. 对实场$E_x=A\cos\psi$, $E_y=B\cos(\psi+\Delta)$, 非零分量同相或反相（$\Delta=0,\pi$）为直线; $|A|=|B|$且$\Delta=\pm\pi/2$为圆; 其他非退化条件为椭圆. 不同频率或不同$k$的波一般没有固定偏振椭圆.
+\end{solution}
+\originalsection{Fresnel公式、全反射和Brewster角}
+\begin{exercise}
+原题2. 真空波斜入射非磁介质, 相对介电率$\varepsilon_r>0$. (a) 推Snell定律; (b) 求$s$偏振幅并分别画$\varepsilon_r>1,<1$的反射率; (c) 求$p$偏振幅和Brewster角.
+\end{exercise}
+\begin{solution}
+界面取$z=0$, 入射平面$xz$, $s$方向$y$, $p$在$xz$内. 频率和切向相位在边界必须逐点相同, 所以$k_{ix}=k_{rx}=k_{tx}$, 即$\sin\theta_i=n\sin\theta_t$, $n=\sqrt{\varepsilon_r}$. 切向电场及磁场连续给$(1+r)E_{i\parallel}=E_{t\parallel}$、$Y_i(1-r)=Y_t(1+r)$. 其中$s$导纳$Y_s=\cos\theta/Z$, $p$导纳$Y_p=1/(Z\cos\theta)$, 所以
+\[
+ r_s=\frac{\cos\theta_i-n\cos\theta_t}{\cos\theta_i+n\cos\theta_t},\quad
+ t_s=\frac{2\cos\theta_i}{\cos\theta_i+n\cos\theta_t},\quad
+ r_{p\parallel}=\frac{\cos\theta_t-n\cos\theta_i}{\cos\theta_t+n\cos\theta_i}.
+\]
+$p$的切向透幅$t_{p\parallel}=1+r_{p\parallel}$; 对总电场幅$t_p=2\cos\theta_i/(n\cos\theta_i+\cos\theta_t)$, 该等价式在临界角用连续极限解释. 反射$p$幅的正负依赖基矢约定, 这里入反射波使用同一切向正方向, 反射率不受影响. 无损传播时$R=|r|^2$, $T=(Y_t/Y_i)|1+r|^2$, 代入得$R+T=1$. $n<1$且$\sin\theta_i>n$时$\cos\theta_t$为虚数、$|r_s|=|r_p|=1$. $r_{p\parallel}=0$联立Snell给$\tan\theta_B=n$.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=10cm,height=4.2cm,xmin=0,xmax=89,ymin=0,ymax=1.05,xlabel={入射角（度）},ylabel={$R_s$},legend pos=north west]
+\addplot[blue,domain=0:89,samples=140]{((cos(x)-sqrt(2.25-sin(x)^2))/(cos(x)+sqrt(2.25-sin(x)^2)))^2};\addlegendentry{$n=1.5$}
+\addplot[red,samples at={0,1,...,41,41.5,41.9,42,42.05,42.06,42.0670648025}]{((cos(x)-sqrt(max(0,.4489-sin(x)^2)))/(cos(x)+sqrt(max(0,.4489-sin(x)^2))))^2};\addlegendentry{$n=0.67$}
+\addplot[red,domain=42.0670648025:89,forget plot]{1};\end{axis}\end{tikzpicture}\par
+自绘示意, 临界角$\arcsin0.67\simeq42.07^\circ$后全反射.
+\end{center}
+\end{solution}
+\originalsection{等离子体与电离层跳距}
+\begin{exercise}
+原题3. $\varepsilon_r=1-\omega_p^2/\omega^2$, $\omega_p^2=n_e e^2/(\eps m)$. (a) 求色散及截止; (b) 电离层为高$h$以上均匀等离子体, 证明两偏振的大角全反射; (c) 波长21m, 最小接收距离1000km, 有效层高300km, 估计$n_e$并与白天$2\times10^6\,\mathrm{cm}^{-3}$、夜间$(2\!\sim\!4)\times10^5\,\mathrm{cm}^{-3}$比较.
+\end{exercise}
+\begin{solution}
+(a) $\omega^2=\omega_p^2+c^2k^2$, $\omega<\omega_p$只有倏逝解. (b) $\omega>\omega_p$时$n_\omega<1$, Snell要求$\sin\theta_i\le n_\omega$才能传播, 否则两偏振均全反射. (c) 平地、单次反射模型给$D=2h\tan\theta_c$, 所以$\tan\theta_c=5/3$, $n_\omega^2=\sin^2\theta_c=25/34$, $\omega_p^2/\omega^2=9/34$. 取$f=c/(21\mathrm m)$, 得$n_e=\eps m(2\pi f)^2(9/34)/e^2\simeq6.69\times10^5\,\mathrm{cm}^{-3}$. 数值介于所给日夜值之间, 与傍晚条件一致. 不把该分层平地估计当真实电离层剖面反演; 地球曲率与层内梯度会改变数值.
+\end{solution}
+\originalsection{趋肤深度与Drude反射}
+\begin{exercise}
+原题4. (a) 正入射欧姆金属, 推复介电率、复波数、趋肤深度, 用原高斯$\sigma\sim10^{17}\,\mathrm s^{-1}$估计光频深度; (b) $n_e\sim10^{23}\,\mathrm{cm}^{-3}$, 估计$\omega_p$, 用Drude介电率求并画$R(\omega)$, 估计光频反射率.
+\end{exercise}
+\begin{solution}
+(a) $\jj=\sigma\ee$在$e^{-i\omega t}$下等价$\varepsilon_r=1+i\sigma/(\eps\omega)$, $k=(\omega/c)\sqrt{\varepsilon_r}$选$\operatorname{Im}k>0$. 良导体$\sigma\gg\eps\omega$时$k=(1+i)\sqrt{\mu_0\sigma\omega/2}$, 幅值按$e^{-z/\delta}$衰减, $\delta=\sqrt{2/(\mu_0\sigma\omega)}=1/\operatorname{Im}k$. 原高斯电导率转换$\sigma_{\rm SI}=4\pi\eps\sigma_{\rm G}\simeq1.11\times10^7\,\mathrm{S/m}$. 光频需指定频率, 取示例波长600nm, 得$\delta\simeq6.75$nm; 高频实际电导率有色散, 这是恒定欧姆模型估计.
+
+(b) 密度$10^{29}\,\mathrm m^{-3}$给$\omega_p\simeq1.78\times10^{16}\,\mathrm s^{-1}$. Drude式$\varepsilon_r=1-\omega_p^2/[\omega(\omega+i\gamma)]$, $N=\sqrt{\varepsilon_r}$取被动支, $R=|(1-N)/(1+N)|^2$. 令$\sigma_{\rm dc}=\eps\omega_p^2/\gamma$, 前述电导率给$\gamma\simeq2.53\times10^{14}\,\mathrm s^{-1}$, 600nm处$R\simeq0.972$. $\omega\ll\omega_p$大部反射, 越过等离子体边缘后下降, 高频趋透明.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4cm,xmin=.05,xmax=2.5,ymin=0,ymax=1.05,xlabel={$\omega/\omega_p$},ylabel={$R$}]
+\addplot[blue,thick] table[x=x,y=R,col sep=comma]{figures/drude-reflection.csv};\end{axis}\end{tikzpicture}\par
+自绘Drude曲线, $\gamma/\omega_p=0.02$; 采样图不承担解析证明.
+\end{center}
+\end{solution}
+\originalsection{高斯窄带包与群速度}
+\begin{exercise}
+原题5. (a) 写一维色散波的频率叠加; (b) 右行频幅$A(\omega)=A_0e^{-\tau_0^2(\omega-\omega_0)^2/2}$, 求$x=0$包; (c) 将$k(\omega)$线性展开, 求传播及包络变化.
+\end{exercise}
+\begin{solution}
+(a) 每个频率有左右两个解, 故$u=(2\pi)^{-1}\int[A(\omega)e^{ikx}+B(\omega)e^{-ikx}]e^{-i\omega t}\dd\omega$, $k=\omega n(\omega)/c$. 真实场由实部及负频率共轭配对得到. (b) 高斯积分给$u(0,t)=A_0e^{-t^2/(2\tau_0^2)}e^{-i\omega_0t}/(\sqrt{2\pi}\tau_0)$. (c) $k=k_0+(\omega-\omega_0)/v_g$后同一积分给
+$u(x,t)=A_0e^{-(t-x/v_g)^2/(2\tau_0^2)}e^{ik_0x-i\omega_0t}/(\sqrt{2\pi}\tau_0)$. 所以线性近似内包络以$v_g=(\dd k/\dd\omega)^{-1}$平移并保形; 更长传播必须核$|k''|x/\tau_0^2\ll1$, 否则二阶色散导致展宽, 吸收也会改形.
+\end{solution}
+\originalsection{负介电率界面的TM波}
+\begin{exercise}
+原题6. 平面$z=0$两侧$\varepsilon_1>0,\varepsilon_2<0$（相对量）, 磁导率$\mu_0$. 取$B_y\propto e^{ikx-\kappa_1z}$ ($z>0$)、$e^{ikx+\kappa_2z}$ ($z<0$). 求存在条件和色散, 并讨论真空–Drude金属.
+\end{exercise}
+\begin{solution}
+两侧$\kappa_j^2=k^2-\varepsilon_j\omega^2/c^2$, 均需实正. 安培定律给$E_x\propto\partial_zB_y/\varepsilon_j$, 切向$E_x$连续要求$\kappa_1/\varepsilon_1+\kappa_2/\varepsilon_2=0$. 平方并联立得$k^2=(\omega^2/c^2)\varepsilon_1\varepsilon_2/(\varepsilon_1+\varepsilon_2)$; 要同时衰减, 必须$|\varepsilon_2|>\varepsilon_1$, 而非仅$\varepsilon_2<0$. 真空$\varepsilon_1=1$, 无碰撞金属$\varepsilon_2=1-\omega_p^2/\omega^2$, 解得
+$\omega^2=[\omega_p^2+2c^2k^2-\sqrt{\omega_p^4+4c^4k^4}]/2$. 小$k$靠近光线$\omega=ck$, 大$k$趋$\omega_p/\sqrt2$. 另一代数支不满足该衰减条件, 不能一起称表面模; 加损耗后$k,\kappa$须复化.
+\end{solution}
