@@ -1,0 +1,44 @@
+\originalchapter{静电边值问题}
+\originalsection{镜像法}
+点电荷 $q$ 位于接地平面上方高度 $h$, 在平面下方对称位置放虚拟电荷 $-q$. 上半空间中的势为
+\[
+V=\frac q{4\pi\eps}\left[\frac1{\sqrt{s^2+(z-h)^2}}-\frac1{\sqrt{s^2+(z+h)^2}}\right].
+\]
+它在 $z=0$ 为零, 在上半空间只有真实点电荷的奇点, 且无穷远消失. 唯一性确保这是解. 镜像电荷只用于域内求解, 平面下半空间的镜像场不是导体内部物理场.
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=.8]
+\draw[thick] (-3,0)--(3,0);\node[right] at (3,0) {接地导体 $z=0$};
+\fill (0,1.7) circle(2pt);\node[right] at (.2,1.7) {$q$};
+\fill (0,-1.7) circle(2pt);\node[right] at (.2,-1.7) {$-q$ (虚拟)};
+\draw[dashed] (0,-1.5)--(0,1.5);\draw[<->] (-.7,0)--(-.7,1.7);\node[left] at (-.7,.85) {$h$};
+\end{tikzpicture}\par
+真实求解区域为上半空间; 图中长度为任取比例.
+\end{center}
+真实电荷受力为 $-q^2\hat{\vct z}/(16\pi\eps h^2)$. 相互作用势能却是 $\frac12qV_\mathrm{image}=-q^2/(16\pi\eps h)$, 其中一半来自感应电荷随真实电荷移动而改变. 对力直接用库仑定律时没有这个一半.
+
+半径 $a$ 的接地球外有点电荷 $q$, 距球心 $d>a$. 球内镜像为 $q'=-qa/d$, 位置距球心 $d'=a^2/d$, 与真实电荷同轴. 对球面任意点, 到两个电荷的距离满足 $R'=aR/d$, 因而两项势抵消. 若球孤立且总电荷为 $Q$, 再在球心加镜像 $Q-q'$, 保持球面等势且总感应电荷为 $Q$.
+
+\originalsection{分离变量与球谐函数}
+边界不是可用少量镜像表达的几何时, 应把拉普拉斯方程分解成与边界相容的模态. 例如矩形区域中两侧为零势, 顶边给定 $f(x)$, 取 $V=X(x)Y(y)$ 得 $X''/X=-Y''/Y=-k^2$. 零侧边要求 $X_n=\sin(n\pi x/a)$, 对应 $Y_n$ 是双曲函数. 在底边 $y=0$ 也接地的条带 $0<y<b$ 中,
+\[
+V(x,y)=\sum_{n=1}^\infty f_n\sin\frac{n\pi x}{a}\frac{\sinh(n\pi y/a)}{\sinh(n\pi b/a)},\quad
+f_n=\frac2a\int_0^af(x)\sin\frac{n\pi x}{a}\dd x.
+\]
+系数由正交性确定. 分段光滑边界的跳跃点须按适当极限解释, 不能要求级数在互相矛盾的角点同时取两个值.
+
+球坐标中 $\nabla^2=r^{-2}\partial_r(r^2\partial_r)+r^{-2}\Delta_\Omega$. 角算子的本征函数为 $\Delta_\Omega Y_{\ell m}=-\ell(\ell+1)Y_{\ell m}$, 其中 $\ell=0,1,2,\ldots$, $-\ell\le m\le\ell$, 采用 $\int Y_{\ell m}^*Y_{\ell'm'}\dd\Omega=\delta_{\ell\ell'}\delta_{mm'}$. 径向方程 $r^2R''+2rR'-\ell(\ell+1)R=0$ 给 $R=r^\ell$ 或 $r^{-\ell-1}$. 原点有界选择前者, 无穷远消失选择后者. 半径 $a$ 的球面给定 $f(\theta,\phi)$ 时, 内部解为
+\[
+V(r,\theta,\phi)=\sum_{\ell,m}f_{\ell m}(r/a)^\ell Y_{\ell m},\quad
+f_{\ell m}=\int Y_{\ell m}^*f\dd\Omega.
+\]
+最低阶函数为 $Y_{00}=1/\sqrt{4\pi}$、$Y_{10}=\sqrt{3/(4\pi)}\cos\theta$、$Y_{1,\pm1}=\mp\sqrt{3/(8\pi)}\sin\theta e^{\pm i\phi}$. 不同 $\ell$ 的正交来自角拉普拉斯的自伴性: 对球面积分分部, $\int Y^*\Delta_\Omega Z=\int(\Delta_\Omega Y)^*Z$, 球面没有边界, 两个不同本征值之差乘内积为零. 同阶不同 $m$ 则由 $e^{im\phi}$ 的正交性区分.
+
+轴对称时只需勒让德多项式 $P_\ell(\cos\theta)$, 不再有 $\phi$ 依赖. 令 $x=\cos\theta$, 标准归一化 $P_\ell(1)=1$ 给 $\int_{-1}^1P_\ell P_j\dd x=2\delta_{\ell j}/(2\ell+1)$, 所以 $f(x)=\sum a_\ell P_\ell(x)$ 的系数为 $a_\ell=(2\ell+1)\int_{-1}^1f(x)P_\ell(x)\dd x/2$. 例如 $x^2=P_0/3+2P_2/3$, 同一边界在球内延拓成 $V=1/3+(2/3)(r/a)^2P_2(\cos\theta)$, 常数模态不能误删.
+
+\begin{example}
+半径 $a$ 的接地导体球置于均匀外电场 $E_0\hat{\vct z}$. 求球外势及表面电荷.
+\end{example}
+\begin{solution}
+远处的势为 $-E_0r\cos\theta$, 是 $\ell=1$ 模态. 加入消失于无穷远的同阶项, 写 $V=(-E_0r+A/r^2)\cos\theta$. 在 $r=a$ 为零给 $A=E_0a^3$. 径向场在球面为 $3E_0\cos\theta$, 故 $\sigma=3\eps E_0\cos\theta$. 它的总电荷为零, 偶极矩为 $4\pi\eps a^3E_0\hat{\vct z}$.
+\end{solution}
+本章依据 8.07 第5、6讲; 球面边界一般式与作业4完整给出的球腔题对应.

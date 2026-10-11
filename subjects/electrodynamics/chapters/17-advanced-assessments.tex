@@ -1,0 +1,101 @@
+\originalchapter{进阶考核与资料定位}
+本章采用 8.311, Spring 2004 的实际期末试卷与四页手写官方解答. 原件使用高斯单位制; 下文统一改写为 SI, 对介电常数用相对量 $\varepsilon_r$, 磁导率取 $\mu_0$. 解答身份是\textbf{官方解答中文整理, 附单位换算和推导补充}. 这是向后进阶, 不把研究生考核混作 8.07 本科作业. 原考试日期为2004年5月13日, 时间9:30--11:00, 原试卷没有给各题分值.
+
+\originalsection{同轴传输线}
+\begin{exercise}
+题1. 同轴线内导体半径 $a$, 外导体内半径 $b$, $a<b$, 间隙由相对介电常数 $\varepsilon_r>0$ 的均匀无损各向同性介质填满. (a) 求 TEM 模态的空间场及色散关系; (b) 半无限传输线末端接电阻 $R_L$, 匹配端点电压电流求反射与入射电场振幅比; (c) 分别计算入射、反射能流和电阻焦耳功率, 核对能量平衡.
+\end{exercise}
+\begin{remark}
+原试卷第二句把内导体和外壳的半径称谓互换了; 上述中文按首句 $a<b$、介质域 $a<r<b$ 及官方解答作几何解释. 负载电阻记 $R_L$, 避免与观察距离混淆.
+\end{remark}
+\begin{solution}
+(a) TEM 要求 $E_z=B_z=0$. 横截面的电势是二维静电解, 由圆柱对称及 $\nabla\cdot\ee=0$ 得径向 $E_r=A/r$. 对沿 $+z$ 的复波,
+\[
+ \ee_i=\frac{A}{r}\hat{\vct r}e^{ikz-i\omega t},\quad
+ \bb_i=\frac{\sqrt{\varepsilon_r}}c\frac{A}{r}\hat{\vct\phi}e^{ikz-i\omega t},\quad
+ k=\frac{\sqrt{\varepsilon_r}\omega}{c}.
+\]
+其中沿线坐标为 $z$, $r$ 是到轴的径向距离. 两导体间电压振幅 $V_i=A\ln(b/a)$, 环路积分给总电流 $I_i=2\pi A/Z$, $Z=Z_0/\sqrt{\varepsilon_r}$. 因而传输线特性阻抗
+\[
+ Z_c=\frac{V_i}{I_i}=\frac{Z_0}{2\pi\sqrt{\varepsilon_r}}\ln\frac ba.
+\]
+这是线的电压电流阻抗, 与介质的波阻抗 $Z$ 不同. 它也等于第11章 $\sqrt{L'/C'}$.
+
+(b) 把负载放在 $z=0$, 线占 $z<0$. 反射电场为 $\ee_r=\eta A\hat{\vct r}e^{-ikz-i\omega t}/r$, 磁场为 $\bb_r=-\eta\sqrt{\varepsilon_r}A\hat{\vct\phi}e^{-ikz-i\omega t}/(cr)$, 负号来自传播方向反转. 负载处总电压 $V_L=V_i(1+\eta)$, 向负载的总电流 $I_L=V_i(1-\eta)/Z_c$. $V_L=R_LI_L$ 给
+\[
+ \eta=\frac{R_L-Z_c}{R_L+Z_c}.
+\]
+短路 $R_L=0$ 给电场反射反号, 开路极限给同号, 匹配 $R_L=Z_c$ 时无反射.
+
+(c) 振幅取峰值复振幅. 入射平均功率为
+\[
+ P_i=\int_a^b\frac{|A|^2}{2Zr^2}\,2\pi r\dd r
+ =\frac{|V_i|^2}{2Z_c};\qquad P_r=\eta^2P_i.
+\]
+净能流 $P_i-P_r=|V_i|^2(1-\eta^2)/(2Z_c)$. 负载的焦耳功率为 $P_L=|V_L|^2/(2R_L)$. 因
+$1-\eta^2=4R_LZ_c/(R_L+Z_c)^2$ 且 $1+\eta=2R_L/(R_L+Z_c)$, 两式相等. 在短路或开路极限, 两者皆趋零. 能流积分展示了电路功率其实由导体之间的电磁场输运.
+\end{solution}
+
+\originalsection{等离子体中的电磁波}
+\begin{exercise}
+题2. 无碰撞均匀等离子体满足 $\varepsilon_r(\omega)=1-\omega_p^2/\omega^2$, SI 下 $\omega_p^2=ne^2/(\eps m)$. (a) 求色散关系并证明 $\omega<\omega_p$ 时不存在体内传播平面波; (b) 求群速度; (c) 振幅 $E_0$ 的线偏振波从真空正入射到等离子体半空间, 分别在 $\omega>\omega_p$ 与 $0<\omega<\omega_p$ 时求内部波数和反射、透射振幅.
+\end{exercise}
+\begin{solution}
+(a) 横向波由 $k^2=\varepsilon_r\omega^2/c^2$ 给
+$\omega^2=\omega_p^2+c^2k^2$. 在 $\omega<\omega_p$ 时 $k^2<0$, 实数传播波矢不存在. 这并不表示边界内部的场必为零, 它可为倏逝场.
+
+(b) 对正频率传播支求导, $v_g=c^2k/\omega=c\sqrt{1-\omega_p^2/\omega^2}$. 近截止时趋零, 高频趋 $c$. 此结果是无碰撞局域模型的横向波, 不是所有等离子体模态的通式.
+
+(c) 取界面 $z=0$, 等离子体占 $z>0$. 令 $n_\omega=\sqrt{\varepsilon_r(\omega)}$, 选内部 $\operatorname{Im}k\ge0$ 的被动分支, $k=\omega n_\omega/c$. 界面两式为 $E_0+E_r=E_t$、$E_0-E_r=n_\omega E_t$, 所以
+\[
+ \frac{E_r}{E_0}=\frac{1-n_\omega}{1+n_\omega},\qquad
+ \frac{E_t}{E_0}=\frac2{1+n_\omega}.
+\]
+在 $\omega>\omega_p$ 时 $0<n_\omega<1$ 为实数, 功率系数 $R=|(1-n_\omega)/(1+n_\omega)|^2$, $T=n_\omega|2/(1+n_\omega)|^2$, $R+T=1$.
+
+在 $0<\omega<\omega_p$ 时 $n_\omega=i\kappa$, $\kappa=\sqrt{\omega_p^2/\omega^2-1}$, 内部振幅随 $z$ 按 $e^{-\omega\kappa z/c}$ 衰减. $|E_r/E_0|=1$, 透入的倏逝场不携带时间平均法向净能流, 因而全反射与非零 $E_t$ 可同时成立. 若加入碰撞耗散, 介电常数成为复数, 就需重新计入介质吸收, 不能继续令 $R=1$.
+\end{solution}
+
+\originalsection{磁场中的电子散射}
+\begin{exercise}
+题3. 非相对论电子处于恒磁场 $B_0\hat{\vct z}$, 被沿 $+z$ 传播的圆偏振电磁波驱动. 波电场幅值为 $E_0$. (a) 分别求两种旋向的受迫运动; (b) 用时间平均辐射功率除以波的时间平均能流求散射截面. 原题定义的截面是面积, 应与场强幅值无关.
+\end{exercise}
+\begin{solution}
+明确旋向比使用未约定观察方向的“左、右”名称更可靠. 写
+$\ee(t)=E_0(\cos\omega t\hat{\vct x}+s\sin\omega t\hat{\vct y})$, $s=\pm1$, $\omega>0$. 电子电荷为 $q=-e$, $e>0$, 记正回旋频率 $\omega_c=eB_0/m$ ($B_0>0$). 非相对论且波幅小, 只保留波的电驱动, 波的磁力相比电力小 $v/c$, 但恒磁场的磁力完整保留:
+\[
+ m\ddot{\rr}=q\ee+q\dot{\rr}\times B_0\hat{\vct z}.
+\]
+沿 $z$ 的自由运动不影响此受迫解. 在横向取特别解
+$\rr_\perp=A(\cos\omega t\hat{\vct x}+s\sin\omega t\hat{\vct y})$.
+因为 $\dot{\rr}\times\bb_0=s\omega B_0\rr_\perp$, 代入得
+$-m\omega^2A=qE_0+s q\omega B_0A$, 即
+\[
+ A=\frac{eE_0}{m\omega(\omega-s\omega_c)},\qquad
+ |\ddot{\rr}|^2=\frac{e^2E_0^2\omega^2}{m^2(\omega-s\omega_c)^2}.
+\]
+还可叠加由初值决定的自由回旋运动与位置常量; 这里求随驱动旋转的特解. $s=+1$ 的驱动与电子回旋旋向一致, 在 $\omega=\omega_c$ 共振; 无阻尼模型在该点没有有界的周期稳态, 上式不能当成有限响应. 讨论实际共振宽度要加入辐射阻尼或碰撞, 并检查运动仍为非相对论.
+
+圆周特解的加速度大小不随时间改变, 拉莫尔平均功率就是
+$\langle P\rangle=e^2|\ddot{\rr}|^2/(6\pi\eps c^3)$. 圆偏振场的 $E_0$ 是向量的恒定模长, 不是单一线偏振分量的均方根; 波的平均能流为 $\langle S\rangle=\eps cE_0^2$, 没有额外的 $1/2$. 所以
+\[
+ \sigma_s=\frac{\langle P\rangle}{\langle S\rangle}
+ =\sigma_T\frac{\omega^2}{(\omega-s\omega_c)^2},\qquad
+ \sigma_T=\frac{e^4}{6\pi\eps^2m^2c^4}=\frac{8\pi}3r_e^2,
+ \quad r_e=\frac{e^2}{4\pi\eps mc^2}.
+\]
+$B_0\to0$ 时恢复 Thomson 截面; 两种旋向远离回旋频率时渐趋相同. $E_0^2$ 约去验证了弱场线性模型下截面独立于强度. 官方高斯单位结果含 $8\pi e^4/(3m^2c^4)$, 换到 SI 正是上述 $\sigma_T$.
+\end{solution}
+
+\originalsection{研究生作业的后续入口}
+8.311 的12套原始作业与12份官方解答均已下载并校验. 作业官方解答由助教 Chiyan Luo 提供, 必须保留署名“Courtesy of Chiyan Luo. Used with permission.” 本版只把它们定位到原件, \textbf{尚未逐题中文重编这12套作业}, 不能据此把研究生课程标成完整中文讲义. 作业题与解答分别在仓库的 \nolinkurl{sources/electrodynamics/8-311-spring-2004/assignments/} 内; 独立条目的 URL、SHA256 和页数见来源清单.
+
+\begin{center}
+\begin{tabular}{lll}\toprule
+原作业 & 题面文件 & 官方解答文件\\\midrule
+1--4 & \texttt{ps1.pdf}--\texttt{ps4.pdf} & \texttt{solution1.pdf}--\texttt{solution4.pdf}\\
+5--8 & \texttt{ps5.pdf}--\texttt{ps8.pdf} & \texttt{solution5.pdf}--\texttt{solution8.pdf}\\
+9--12 & \texttt{ps9.pdf}--\texttt{ps12.pdf} & \texttt{solution9.pdf}--\texttt{solution12.pdf}\\\bottomrule
+\end{tabular}
+\end{center}
+其中有扫描手写页, 文件通过 PDF 解析校验不代表机器文字提取完整. 进阶课历还含同步辐射、辐射阻尼、相对论协变及 Noether 定理等内容, 本版只在有关章明示入口与证明范围. 对 8.312 尚未取得可核验的官方课程原件, 不据课程编号编造内容.

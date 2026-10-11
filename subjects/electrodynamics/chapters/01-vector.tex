@@ -1,0 +1,37 @@
+\originalchapter{矢量分析与点源}
+\originalsection{局部方程与积分方程}
+场是随位置及时间变化的量. 电势 $V(\rr)$ 是标量, 电场 $\ee(\rr)$ 是矢量; 电荷密度 $\rho$ 的 SI 单位为 $\mathrm{C/m^3}$, 电流密度 $\jj$ 为 $\mathrm{A/m^2}$. 梯度 $\nabla V$ 给出势增长最快的方向, 散度 $\nabla\cdot\ee$ 描述单位体积的净流出, 旋度 $\nabla\times\ee$ 描述微小环路的环流密度.
+
+对分段光滑区域 $\Omega$ 及其外向法线, 高斯定理为 $\int_\Omega\nabla\cdot\vct F\dd^3x=\oint_{\partial\Omega}\vct F\cdot\nn\dd a$. 对有定向的曲面 $S$, 斯托克斯定理为 $\int_S(\nabla\times\vct F)\cdot\nn\dd a=\oint_{\partial S}\vct F\cdot\dd\vct l$. 法线与边界方向按右手约定. 它们使局部方程能转成可测量的通量或环流, 也说明遇到面电荷、线电流时为何要先积分再缩小区域.
+
+令 $\partial_i=\partial/\partial x_i$, 重复指标从1到3求和. 克罗内克符号 $\delta_{ij}$ 是单位矩阵的分量, Levi--Civita 符号 $\epsilon_{ijk}$ 在偶排列时取1、奇排列时取$-1$、指标重复时为0. 于是 $(\vct A\times\vct B)_i=\epsilon_{ijk}A_jB_k$. 恒等式 $\epsilon_{ijk}\epsilon_{imn}=\delta_{jm}\delta_{kn}-\delta_{jn}\delta_{km}$ 来自对两种非零排列的比较, 给出
+\begin{align*}
+\vct A\times(\vct B\times\vct C)&=\vct B(\vct A\cdot\vct C)-\vct C(\vct A\cdot\vct B),\\
+\nabla\cdot(\vct A\times\vct B)&=\vct B\cdot(\nabla\times\vct A)-\vct A\cdot(\nabla\times\vct B).
+\end{align*}
+第二式需要对乘积中的两个场都求导. 把向量当常量移出微分是常见的错误.
+
+若坐标作转动 $x'_i=R_{ij}x_j$, 长度保持要求 $R^\mathsf T R=I$. 梯度的链式法则为 $\partial'_i V'=R_{ij}\partial_jV$, 所以梯度确实按矢量变换. 二阶张量的两个指标分别变换; 后文的应力张量不是三个互不相关的标量.
+
+\originalsection{狄拉克分布}
+点电荷不能用处处有限的普通密度表示. 对光滑紧支测试函数 $\varphi$, 三维狄拉克分布定义为 $\langle\delta^3(\rr),\varphi\rangle=\varphi(0)$. 分布导数定义为 $\langle\partial_iT,\varphi\rangle=-\langle T,\partial_i\varphi\rangle$, 它把分部积分作为定义保留下来. 一般分布是测试函数空间上的连续线性泛函, 并非任意线性映射.
+
+\begin{proposition}\label{prop:point}
+在分布意义下, $\nabla^2(1/r)=-4\pi\delta^3(\rr)$.
+\end{proposition}
+\begin{proof}
+$1/r$ 在原点附近局部可积, 故可定义相应分布. 挖去半径 $a$ 的小球, 在其外部 $\nabla^2(1/r)=0$. 格林第二恒等式把 $\int_{r>a}(1/r)\nabla^2\varphi\dd^3x$ 转成内边界上的
+\[
+\int_{r=a}\left[-\frac1a\partial_r\varphi-\frac{\varphi}{a^2}\right]\dd a.
+\]
+挖洞区域的外法线指向 $-\hat{\rr}$, 这决定第二项的负号. 第一项的绝对值为 $O(a)$, 第二项趋于 $-4\pi\varphi(0)$. 被挖去的小球中 $(1/r)\nabla^2\varphi$ 的积分为 $O(a^2)$, 因而不影响极限.
+\end{proof}
+对点电荷 $q$, $\rho=q\delta^3(\rr)$, 泊松方程便有解 $V=q/(4\pi\eps r)$. 在原点外验证拉普拉斯方程还不够: 小球通量给出原点处的电荷.
+
+\begin{example}
+总电荷 $Q$ 均匀分布在半径 $R$ 的球面上. 用体密度表示该分布.
+\end{example}
+\begin{solution}
+取 $\rho=Q\delta(r-R)/(4\pi R^2)$. 球坐标体元是 $r^2\sin\theta\dd r\dd\theta\dd\phi$, 因而积分得到 $Q$. 狄拉克分布的系数必须和坐标体元一起核对; $Q\delta(r-R)$ 本身不是正确体密度.
+\end{solution}
+本章依据 8.07 第1--3讲与作业1、2中完整给出的分布题, 并补足测试函数和内边界极限的说明.

@@ -1,0 +1,36 @@
+\originalchapter{静电势、唯一性与电容}
+\originalsection{泊松方程与边界条件}
+静电场满足 $\nabla\times\ee=0$ 及 $\nabla\cdot\ee=\rho/\eps$. 在单连通区域可写 $\ee=-\nabla V$, 因而 $\nabla^2V=-\rho/\eps$. 对局域电荷、以无穷远为零势,
+\[
+V(\rr)=\frac1{4\pi\eps}\int\frac{\rho(\rr')}{|\rr-\rr'|}\dd^3x'.
+\]
+该式由命题\ref{prop:point}作用于积分核得到. 它适于已知电荷的开放空间问题; 对导体边界, 表面电荷通常未知, 必须求满足边界条件的势.
+
+导体静电平衡时内部场为零, 故每个连通导体等势. 若法线由区域1指向区域2, 小药盒和小矩形环路给出 $\eps(E_{2n}-E_{1n})=\sigma$ 与 $\ee_{2t}=\ee_{1t}$. 导体外侧因而有 $E_n=\sigma/\eps$. 表面不能用自身全部外侧场计算受力: 薄层所受有效场是两侧平均场, 于是真空导体表面压力 $p=\sigma^2/(2\eps)$.
+
+\begin{theorem}[狄利克雷唯一性]
+有界连通区域内给定电荷密度和边界电势, 充分光滑的泊松方程解至多一个. 对外部区域还需指定无穷远行为, 使下述边界项消失.
+\end{theorem}
+\begin{proof}
+两解之差 $u$ 满足 $\nabla^2u=0$ 且边界上 $u=0$. 用 $\nabla\cdot(u\nabla u)=|\nabla u|^2+u\nabla^2u$ 积分, 得 $\int_\Omega|\nabla u|^2\dd^3x=0$. 因而 $\nabla u=0$, 连通性使 $u$ 为常数, 零边界使常数为零.
+\end{proof}
+唯一性是镜像法的依据. 找到一个满足源、边界及无穷远条件的解, 就确定了物理解; 无须先知道导体的实际表面电荷. 若指定的是法向导数, 还需通量相容条件, 且电势只确定到常数.
+
+\originalsection{场能与电容矩阵}
+逐次组装静态电荷时, 每对电荷相互作用只计一次, 得 $U=\frac12\int\rho V\dd^3x$. 将泊松方程代入并分部积分, 对边界项消失的全空间问题,
+\[
+U=\frac\eps2\int|\nabla V|^2\dd^3x=\frac\eps2\int E^2\dd^3x.
+\]
+点电荷自能在此模型中发散, 不能把无穷自能直接解释成有限相互作用能. 假定导体外没有给定自由体电荷或额外固定源, 以无穷远零势为参考. 对多个导体, 线性泊松问题给出 $Q_i=C_{ij}V_j$, 且 $U=\frac12 C_{ij}V_iV_j$.
+
+设 $u_i$ 为导体 $i$ 上取1、其他导体及无穷远取0的调和函数. 对任意电势, $V=\sum_iV_iu_i$. 分部积分给出 $C_{ij}=\eps\int\nabla u_i\cdot\nabla u_j\dd^3x$, 因而 $C_{ij}=C_{ji}$. 这也解释电容矩阵的互易性不是对几何对称性的猜测.
+
+\begin{example}
+同轴圆柱电容器内外半径为 $a,b$, 长度 $\ell\gg b$, 内导体电荷为 $q$, 忽略端部效应. 求电容.
+\end{example}
+\begin{solution}
+高斯柱面给 $E_s=q/(2\pi\eps\ell s)$, 方向由内向外. 内导体电势高于外导体, 差值为 $q\ln(b/a)/(2\pi\eps\ell)$, 故 $C=2\pi\eps\ell/\ln(b/a)$. 当间隙 $d=b-a\ll a$ 时 $\ln(b/a)\simeq d/a$, 得 $C\simeq\eps(2\pi a\ell)/d$, 与展开后的平行板一致.
+\end{solution}
+固定电荷时机械力 $F_x=-\partial_x[Q^2/(2C)]$. 固定电压时电源也做功: $\dd U_\mathrm{source}=-V\dd Q$. 电场与电源的合势为 $-CV^2/2$, 所以 $F_x=(V^2/2)\partial_xC$. 忽略电源会把介质吸入力或极板吸引力的符号算反.
+
+本章依据 8.07 第3、4讲、作业2、3; 场能与边界适用条件在中文重编中一并说明.
