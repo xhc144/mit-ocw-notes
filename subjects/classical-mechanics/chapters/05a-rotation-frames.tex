@@ -1,0 +1,108 @@
+\originalsection{有限转动与Euler角}
+刚体姿态矩阵$A\in SO(3)$把体坐标变成惯性坐标. 有限转动的轴并不等于某一段运动的瞬时角速度方向: 前者描述两个姿态的关系, 后者描述姿态的时间导数.
+\begin{theorem}[Euler轴角定理]
+任意$A\in SO(3)$都保持某条过原点的轴, 并在垂直于该轴的平面内作一个二维转动.
+\end{theorem}
+\begin{proof}
+实三阶矩阵至少有一个实本征值. 正交性使本征值模长为1, 实本征值只能为$\pm1$. 非实本征值成共轭对, 其乘积为1; 结合$\det A=1$, 至少有本征值$+1$. 取单位本征向量$\vect n$, 有$A\vect n=\vect n$. 若$\vect v\perp\vect n$, 则$(A\vect v)\cdot\vect n=\vect v\cdot A^{\mathsf T}\vect n=0$, 因而垂直平面不变. 该平面上的限制仍正交且行列式为1, 在一组定向正交基中即二维旋转矩阵. 所以可写
+\[
+A\vect v=\vect v\cos\gamma+(\vect n\times\vect v)\sin\gamma
++\vect n(\vect n\cdot\vect v)(1-\cos\gamma).
+\]
+最后一式把$\vect v$分为轴向与垂直分量而得. 恒等姿态的轴不唯一; $\gamma=\pi$时轴方向正负等价.
+\end{proof}
+
+本章采用主动、右手的$z$--$x$--$z$顺序: 先绕固定$z$轴转$\phi$, 再绕已转过的节点轴$\vect n$转$\theta$, 最后绕新的对称轴$\vect e_3$转$\psi$. 若$R_z,R_x$为通常主动右手转动矩阵, 则$A=R_z(\phi)R_x(\theta)R_z(\psi)$. 原8.09写的是从惯性分量到体分量的被动矩阵$U=A^{\mathsf T}$, 顺序和角度负号因此不能逐字混用.
+
+每一步瞬时转动都贡献角速度, 所以在惯性空间中
+$\vect\omega=\dot\phi\vect e_z+\dot\theta\vect n+\dot\psi\vect e_3$.
+用$A^{\mathsf T}$投影, 固定竖直在体轴上的分量为$(\sin\theta\sin\psi,\sin\theta\cos\psi,\cos\theta)$, 节点轴分量为$(\cos\psi,-\sin\psi,0)$. 因而
+\begin{align*}
+\omega_1&=\dot\phi\sin\theta\sin\psi+\dot\theta\cos\psi,\\
+\omega_2&=\dot\phi\sin\theta\cos\psi-\dot\theta\sin\psi,\\
+\omega_3&=\dot\phi\cos\theta+\dot\psi.
+\end{align*}
+这直接核实前面的陀螺动能公式. $\theta=0,\pi$处节点线不定, 三角速度到$\vect\omega$的映射失去秩; 这是Euler角的坐标退化, 不表示刚体真的少了转动自由度.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1,>=stealth]
+\draw[->] (0,0)--(3,0) node[right] {$\vect n$};
+\draw[->] (0,0)--(-1.4,-1) node[left] {$\vect m$};
+\draw[->] (0,0)--(0,3) node[above] {$\vect e_z$};
+\draw[->,thick] (0,0)--(1.2,2.6) node[right] {$\vect e_3$};
+\draw (0,1) arc[start angle=90,end angle=65.22,radius=1];
+\node at (.35,1.35) {$\theta$};
+\node[align=left] at (4.4,1.8) {节点轴 $\vect n$\quad 第二次转轴\\最终轴 $\vect e_3$\quad 第三次转轴};
+\end{tikzpicture}
+\caption{Euler角中间构架示意（透视投影, 非等比例）. $\vect m$是第一次转动后的横向轴; 第二次转动保持$\vect n$不变.}
+\end{figure}
+
+\originalsection{旋转参考系中的加速度}
+让旋转系原点在惯性空间的位置为$\vect R(t)$, 相对位置为$\vect r=A\vect\rho$. 用$D_R$表示只微分旋转系分量而保持其基矢的操作. 对任意向量$\vect b$, 已有$D_I\vect b=D_R\vect b+\vect\omega\times\vect b$. 于是$\vect v_I=\dot{\vect R}+\vect v_R+\vect\omega\times\vect r$, 其中$\vect v_R=D_R\vect r$. 再微分, 分别处理两项,
+\begin{align*}
+D_I\vect v_R&=\vect a_R+\vect\omega\times\vect v_R,\\
+D_I(\vect\omega\times\vect r)
+&=\dot{\vect\omega}\times\vect r+
+\vect\omega\times(\vect v_R+\vect\omega\times\vect r).
+\end{align*}
+由于$\vect\omega\times\vect\omega=0$, $D_I\vect\omega=D_R\vect\omega$, 此处$\dot{\vect\omega}$没有两种导数的歧义. 故
+\[
+\vect a_I=\ddot{\vect R}+\vect a_R+2\vect\omega\times\vect v_R
++\dot{\vect\omega}\times\vect r+\vect\omega\times(\vect\omega\times\vect r).
+\]
+将$m\vect a_I=\vect F$移项得到旋转系的Newton方程
+\begin{align*}
+m\vect a_R={}&\vect F-m\ddot{\vect R}
+-2m\vect\omega\times\vect v_R\\
+&-m\dot{\vect\omega}\times\vect r
+-m\vect\omega\times(\vect\omega\times\vect r).
+\end{align*}
+四个附加项依次为平移惯性力、Coriolis力、Euler力和离心力. 写在体分量中时, 所有向量都需同乘$A^{\mathsf T}$, 不能让一个项仍用惯性分量. 离心项沿离轴方向向外, 因为$-\vect\omega\times(\vect\omega\times\vect r)=\omega^2\vect r_\perp$. Coriolis项满足$\vect v_R\cdot(\vect\omega\times\vect v_R)=0$, 因而不直接改变相对运动动能, 却会改变运动方向.
+
+\begin{example}
+\textbf{自由落体向东偏转.} 
+地面纬度为$\lambda$, 局部轴$x$向东、$y$向北、$z$向上. 高度$h$处物体相对地面由静止释放. 忽略空气阻力, 在$h$远小于地球半径且$\Omega\sqrt{h/g}\ll1$时求落地偏转.
+\end{example}
+\begin{solution}
+地球角速度为$\vect\Omega=(0,\Omega\cos\lambda,\Omega\sin\lambda)$. 将地面原点平移加速度及静态离心修正吸收到实测局部重力$g$中, 忽略随高度改变的重力和$O(\Omega^2)$项. 零阶竖直运动为$z=h-gt^2/2$, $\dot z=-gt$, 落地时刻$t_f=\sqrt{2h/g}$. 代入Coriolis项,
+\[
+\ddot x=-2(\vect\Omega\times\vect v)_x
+=-2\Omega\cos\lambda\dot z=2\Omega g\cos\lambda\,t.
+\]
+以$x(0)=\dot x(0)=0$积分两次, 得
+\[
+x(t)=\frac13\Omega g\cos\lambda\,t^3,\qquad
+x(t_f)=\frac{2\sqrt2}{3}\frac{\Omega\cos\lambda}{\sqrt g}\,h^{3/2}.
+\]
+在非极区结果向东. $y$方向Coriolis加速度需用已经为$O(\Omega)$的$\dot x$, 因而在本阶为零. 用$h=100\,\mathrm m$, $\lambda=45^\circ$, $g=9.81\,\mathrm{m/s^2}$, $\Omega=7.292\times10^{-5}\,\mathrm{s^{-1}}$得东偏约$1.55\,\mathrm{cm}$. 这不是高空抛体的全轨道公式.
+\end{solution}
+8.09第2章第35页只概述Foucault摆进动率与方向, 将证明留为作业. 本节的完整二阶坐标推导及自由落体例对应第34--36页, 不把Foucault概述说成已完成的推导.
+
+\originalsection{角点立方体的主轴}
+\begin{example}
+均匀立方体质量$M$, 边长$a$, 角点为原点, 三边沿$x,y,z$正轴. 求关于角点的惯性张量及主轴.
+\end{example}
+\begin{solution}
+密度为$M/a^3$. 例如$I_{xx}=(M/a^3)\int_0^a\int_0^a\int_0^a(y^2+z^2)\dd x\dd y\dd z=2Ma^2/3$, 而$I_{xy}=-(M/a^3)\int xy\dd V=-Ma^2/4$. 循环交换各轴得到
+\[
+I_O=Ma^2\begin{pmatrix}2/3&-1/4&-1/4\\-1/4&2/3&-1/4\\-1/4&-1/4&2/3\end{pmatrix}
+=Ma^2\left(\frac{11}{12}I_3-\frac14\vect s\vect s^{\mathsf T}\right),\quad
+\vect s=(1,1,1)^{\mathsf T}.
+\]
+由于$\vect s\vect s^{\mathsf T}\vect s=3\vect s$, 对角线方向$\vect e_1=(1,1,1)/\sqrt3$的惯量是$Ma^2/6$. 对$\vect v\cdot\vect s=0$则外积项为零, 所以整个垂直平面的惯量都是$11Ma^2/12$. 可选$\vect e_2=(1,-1,0)/\sqrt2$、$\vect e_3=(1,1,-2)/\sqrt6$为另外两个主轴. 简并时主轴不是唯一的, 但三个主轴必须正交. 平行轴也给独立检查: $I_C=Ma^2I_3/6$, $\vect d=(a,a,a)/2$, 所以$I_O=I_C+M(d^2I_3-\vect d\vect d^{\mathsf T})$正好恢复上式. 原8.09第43页式(2.63)印作$Ma^2/12$, 与其矩阵及式(2.61)不符, 正确为$11Ma^2/12$.
+\end{solution}
+
+\originalsection{自由对称陀螺的两种进动}
+设$I_1=I_2=I$, $I_3\ne I$, 无外力矩. 第三条Euler方程使$\omega_3$恒定, 前两条变为$\dot\omega_1=-\Omega_B\omega_2$, $\dot\omega_2=\Omega_B\omega_1$, 其中$\Omega_B=(I_3-I)\omega_3/I$. 以$w=\omega_1+i\omega_2$合并, 有$\dot w=i\Omega_Bw$, 因而
+\[
+\omega_1=C\cos(\Omega_Bt+\delta),\qquad
+\omega_2=C\sin(\Omega_Bt+\delta),\qquad\omega_3=\text{常量}.
+\]
+这是$\vect\omega$的体分量绕体轴旋转, 频率$\Omega_B$可为负. 在惯性空间中$\vect J$恒定, 而$\vect e_3$与$\vect J$的夹角满足$\cos\theta=I_3\omega_3/J$, 所以也恒定. 将角动量写成空间向量$\vect J=I\vect\omega+(I_3-I)\omega_3\vect e_3$, 得
+\[
+\dot{\vect e}_3=\vect\omega\times\vect e_3
+=\frac{\vect J}{I}\times\vect e_3.
+\]
+因此对称轴绕固定$\vect J$匀速进动, 空间进动率是$J/I$, 并非$\Omega_B$. 取惯性$z$沿$\vect J$, 本章Euler角满足$\dot\phi=J/I$, $\dot\theta=0$, $\dot\psi=\omega_3-\dot\phi\cos\theta=-\Omega_B$. 体分量和Euler角中出现相反号是转动基矢所致. $C=0$为轴向自转; $I_3=I$时$\vect\omega$也在惯性空间中恒定, 退化为球形陀螺.
+

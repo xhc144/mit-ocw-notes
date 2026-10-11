@@ -1,0 +1,565 @@
+\originalchapter{8.09 作业 1--7：可分离课程题选解}
+本章保留原作业号和题号，以自写中文表述整理可分离的课程题，解答为 AI 独立推导，并非 MIT 官方中文材料或官方解答。原 PDF 混有明确引用、改编商业教材的其他题；本章不收录这些题，也不随本章分发混合 PDF。已逐页核查所用六份原 PDF 的正文、页脚与图注，候选题未发现对应的第三方例外声明，双摆、螺旋线、傅科摆及虹吸图的图注明确注明 MIT OpenCourseWare，圆盘与圆周三粒子图未见单独图注。本章据 OCW 默认 CC BY-NC-SA 4.0 整理；这项有限核查不等于确认所有潜在来源的绝对许可。各节链接给出原始来源。
+
+\originalsection{作业 1：拉格朗日形式与坐标选择}
+原件：\url{https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/0409acb80f5782daf4c91abc249eceb4_MIT8_09F14_pset1.pdf}。
+
+\begin{example}
+\textbf{原 PS1 第 1 题：均匀重力场中的两粒子.} 
+质量 $m_1,m_2$ 的粒子在三维空间彼此以万有引力吸引，另受沿 $-z$ 方向、加速度为 $g$ 的均匀重力场。(a) 用质心和相对位移写拉格朗日量，说明其分解的物理意义；(b) 用相对位移的球坐标写运动方程；(c) 求相对运动的哈密顿量及哈密顿方程。
+\end{example}
+\begin{solution}
+记 $M=m_1+m_2$、$\mu=m_1m_2/M$、$\kappa=Gm_1m_2$，取 $\vect r=\vect r_1-\vect r_2$，质心为 $\vect R$。由 $\vect r_1=\vect R+(m_2/M)\vect r$ 和 $\vect r_2=\vect R-(m_1/M)\vect r$，动能交叉项恰好相消，重力势能则只依赖质心高度 $Z$，所以
+\[
+ L=\left(\frac M2\dot{\vect R}^2-MgZ\right)
+ +\left(\frac\mu2\dot{\vect r}^2+\frac\kappa r\right).
+\]
+均匀外场使两粒子获得相同加速度，因而不影响相对运动；内力对质心的合力为零。质心作普通抛体运动，相对运动仍为开普勒问题。
+
+取 $\theta$ 为相对位移与正 $z$ 轴的夹角。相对拉格朗日量及方程为
+\begin{align*}
+ L_r&=\frac\mu2(\dot r^2+r^2\dot\theta^2+r^2\sin^2\theta\dot\phi^2)+\frac\kappa r,\\
+ \ddot r&=r\dot\theta^2+r\sin^2\theta\dot\phi^2-\frac\kappa{\mu r^2},\\
+ \frac{\mathrm d}{\mathrm dt}(r^2\dot\theta)&=r^2\sin\theta\cos\theta\dot\phi^2,\\
+ \frac{\mathrm d}{\mathrm dt}(r^2\sin^2\theta\dot\phi)&=0.
+\end{align*}
+由 $p_r=\mu\dot r$、$p_\theta=\mu r^2\dot\theta$、$p_\phi=\mu r^2\sin^2\theta\dot\phi$，勒让德变换给出
+\[
+ H_r=\frac{p_r^2}{2\mu}+\frac{p_\theta^2}{2\mu r^2}
+ +\frac{p_\phi^2}{2\mu r^2\sin^2\theta}-\frac\kappa r.
+\]
+哈密顿方程的坐标部分就是上述速度关系；动量部分为
+\[
+ \dot p_r=\frac{p_\theta^2+p_\phi^2/\sin^2\theta}{\mu r^3}-\frac\kappa{r^2},\qquad
+ \dot p_\theta=\frac{p_\phi^2\cos\theta}{\mu r^2\sin^3\theta},\qquad \dot p_\phi=0.
+\]
+球坐标极轴处的形式奇异是坐标奇异，不是力学奇异。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS1 第 2 题：平面双摆.} 
+固定上端，两根无质量刚杆长 $l_1,l_2$，杆末端分别有质量 $m_1,m_2$。两杆都以向下竖直线为角度零点，角度分别为 $\theta_1,\theta_2$。(a) 求拉格朗日量及运动方程；(b) 令 $m_1=m_2$，求哈密顿量与哈密顿方程。
+\end{example}
+\begin{solution}
+末端位置为 $\vect r_1=(l_1\sin\theta_1,-l_1\cos\theta_1)$、$\vect r_2=\vect r_1+(l_2\sin\theta_2,-l_2\cos\theta_2)$。写 $\Delta=\theta_1-\theta_2$，直接对位置求导得
+\begin{align*}
+ L={}&\frac12(m_1+m_2)l_1^2\dot\theta_1^2+\frac12m_2l_2^2\dot\theta_2^2
+ +m_2l_1l_2\cos\Delta\dot\theta_1\dot\theta_2\\
+ &+(m_1+m_2)gl_1\cos\theta_1+m_2gl_2\cos\theta_2.
+\end{align*}
+欧拉--拉格朗日方程中含 $\dot\theta_1\dot\theta_2$ 的部分相消，留下
+\begin{align*}
+ (m_1+m_2)l_1^2\ddot\theta_1+m_2l_1l_2\cos\Delta\ddot\theta_2
+ +m_2l_1l_2\sin\Delta\dot\theta_2^2+(m_1+m_2)gl_1\sin\theta_1&=0,\\
+ m_2l_2^2\ddot\theta_2+m_2l_1l_2\cos\Delta\ddot\theta_1
+ -m_2l_1l_2\sin\Delta\dot\theta_1^2+m_2gl_2\sin\theta_2&=0.
+\end{align*}
+等质量时记 $m_1=m_2=m$、$c=\cos\Delta$、$D=2-c^2$，动能矩阵是
+\[
+ A=m\begin{pmatrix}2l_1^2&l_1l_2c\\l_1l_2c&l_2^2\end{pmatrix},\qquad
+ A^{-1}=\frac1{mD}\begin{pmatrix}l_1^{-2}&-c/(l_1l_2)\\-c/(l_1l_2)&2l_2^{-2}\end{pmatrix}.
+\]
+因此 $p=A\dot\theta$，且
+\[
+ H=\frac{p_1^2/l_1^2-2cp_1p_2/(l_1l_2)+2p_2^2/l_2^2}{2mD}
+ -2mgl_1\cos\theta_1-mgl_2\cos\theta_2.
+\]
+为了明确给出全部哈密顿方程，令 $N=p_1^2/l_1^2-2cp_1p_2/(l_1l_2)+2p_2^2/l_2^2$，$B=p_1p_2/(l_1l_2)$。则
+\begin{align*}
+ \dot\theta_1&=\frac{p_1/l_1^2-cp_2/(l_1l_2)}{mD},&
+ \dot\theta_2&=\frac{2p_2/l_2^2-cp_1/(l_1l_2)}{mD},\\
+ C&=\frac{\sin\Delta(BD-cN)}{mD^2},&
+ \dot p_1&=-C-2mgl_1\sin\theta_1,\quad
+ \dot p_2=C-mgl_2\sin\theta_2.
+\end{align*}
+这里 $C=\partial H_{\rm kin}/\partial\Delta$，所以其在两个动量方程中符号相反。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS1 第 4 题：平面上的两质点弹簧.} 
+两质量 $m_1,m_2$ 由原长 $b$、劲度 $k$ 的无质量弹簧连接，在无摩擦水平桌面上运动。(a) 写笛卡尔坐标拉格朗日量；(b) 选择反映对称性的广义坐标并求方程；(c) 找循环坐标的守恒动量，说明只旋转而不振动的运动，以及转速增加后的变化。
+\end{example}
+\begin{solution}
+笛卡尔形式为 $L=\frac12m_1\dot{\vect r}_1^2+\frac12m_2\dot{\vect r}_2^2-\frac12k(|\vect r_1-\vect r_2|-b)^2$。仍用质心 $\vect R=(X,Y)$ 与相对极坐标 $(r,\phi)$，得
+\[
+ L=\frac M2(\dot X^2+\dot Y^2)+\frac\mu2(\dot r^2+r^2\dot\phi^2)-\frac k2(r-b)^2.
+\]
+于是 $\ddot X=\ddot Y=0$，$\mu\ddot r=\mu r\dot\phi^2-k(r-b)$，$\frac{\mathrm d}{\mathrm dt}(\mu r^2\dot\phi)=0$。三个循环坐标给出 $P_X=M\dot X$、$P_Y=M\dot Y$ 和 $j=\mu r^2\dot\phi$；另有能量守恒，但它不是循环坐标的动量。
+
+恒定半径 $r_*$、恒定转速 $\Omega$ 要满足 $k(r_*-b)=\mu r_*\Omega^2$，故 $r_*=kb/(k-\mu\Omega^2)$，要求 $|\Omega|<\sqrt{k/\mu}$。提高指定转速时弹簧越拉越长，趋近该上限时半径发散；上限以外没有有限正半径解。若控制的是角动量而非转速，则平衡条件是 $k(r_*-b)=j^2/(\mu r_*^3)$，每个 $|j|>0$ 都有唯一 $r_*>b$（$j=0$ 时 $r_*=b$），且半径随 $|j|$ 增大。固定 $j$ 的径向有效势二阶导数为 $k+3j^2/(\mu r_*^4)>0$，故圆运动对径向小扰动稳定。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS1 第 5 题：含加速度的变分.} 
+对 $L(q_i,\dot q_i,\ddot q_i,t)$，在端点同时固定 $q_i$ 和 $\dot q_i$，从哈密顿原理推导高阶欧拉--拉格朗日方程。
+\end{example}
+\begin{solution}
+取光滑变分 $\delta q_i$，其与 $\delta\dot q_i$ 在两端均为零。变分作用量是
+\[
+ \delta S=\sum_i\int\left(L_{q_i}\delta q_i+L_{\dot q_i}\delta\dot q_i+L_{\ddot q_i}\delta\ddot q_i\right)\dd t.
+\]
+第二项分部积分一次，第三项两次。边界项为 $[L_{\dot q_i}\delta q_i+L_{\ddot q_i}\delta\dot q_i-(\mathrm dL_{\ddot q_i}/\mathrm dt)\delta q_i]$，由端点条件消失。积分内每个 $\delta q_i$ 可独立选取，因此
+\[
+ \frac{\mathrm d^2}{\mathrm dt^2}\frac{\partial L}{\partial\ddot q_i}
+ -\frac{\mathrm d}{\mathrm dt}\frac{\partial L}{\partial\dot q_i}
+ +\frac{\partial L}{\partial q_i}=0.
+\]
+原题以三阶运动为动机，但一般的加速度拉格朗日量产生四阶方程；要恰好三阶，还需退化结构。这不影响所要求的变分恒等式。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS1 第 6 题，选做：等价拉格朗日量.} 
+证明对任意足够光滑的 $F(q,t)$，$L'=L+\mathrm dF/\mathrm dt$ 与 $L$ 给出相同欧拉--拉格朗日方程。
+\end{example}
+\begin{solution}
+两作用量相差 $F(q(t_2),t_2)-F(q(t_1),t_1)$，固定端点时其变分为零，所以驻定路径相同。也可直接核验：$\mathrm dF/\mathrm dt=F_q\dot q+F_t$，其对 $\dot q$ 的偏导为 $F_q$，时间导数为 $F_{qq}\dot q+F_{qt}$，恰与其对 $q$ 的偏导相同。多自由度时将 $F_q\dot q$ 换成 $\sum_i F_{q_i}\dot q_i$，混合偏导相等便给出同一结论。
+\end{solution}
+
+\originalsection{作业 2：耗散与约束反力}
+原件：\url{https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/9bd103e8a7b6517e5abc788490b65954_MIT8_09F14_pset2.pdf}。
+
+\begin{example}
+\textbf{原 PS2 第 1 题：有黏滞阻力的球摆.} 
+质量 $m$ 的球体连接长度 $l$ 的无质量杆，在重力场和黏性流体中低速运动，阻力服从斯托克斯定律。(a) 求瑞利耗散函数；(b) 求球摆的运动方程。
+\end{example}
+\begin{solution}
+设球半径为 $a$、动力黏度为 $\eta$，阻力系数 $c=6\pi\eta a$；原题没有给出 $a,\eta$，因此保留 $c$。用与向下竖直线的夹角 $\theta$ 和方位角 $\phi$，有 $v^2=l^2(\dot\theta^2+\sin^2\theta\dot\phi^2)$。所以
+\[
+ L=\frac{ml^2}2(\dot\theta^2+\sin^2\theta\dot\phi^2)+mgl\cos\theta,\qquad
+ \mathcal R=\frac{cl^2}2(\dot\theta^2+\sin^2\theta\dot\phi^2).
+\]
+将广义阻力 $Q_i=-\partial\mathcal R/\partial\dot q_i$ 代入方程，得
+\begin{align*}
+ \ddot\theta-\sin\theta\cos\theta\dot\phi^2+\frac gl\sin\theta&=-\frac cm\dot\theta,\\
+ \frac{\mathrm d}{\mathrm dt}(\sin^2\theta\dot\phi)&=-\frac cm\sin^2\theta\dot\phi.
+\end{align*}
+能量损失率为 $\dot E=-2\mathcal R=-cv^2$，这也检验了耗散项符号。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS2 第 2 题：锥形螺旋线上的珠子.} 
+珠子质量 $m$，被限制在柱坐标曲线 $r=bz$、$\theta=az$ 上，无重力。初始 $z=h$、$\dot z=v_0>0$。(a) 积分运动方程，求 $\dot z(z)$ 与绕轴约束力矩 $Z_\theta$；(b) 证明能量恒定，而角动量随高度增大而增加。
+\end{example}
+\begin{solution}
+沿曲线的速度平方为 $v^2=D(z)\dot z^2$，其中 $D(z)=1+b^2+a^2b^2z^2$，故 $L=\frac m2D\dot z^2$。方程 $D\ddot z+\frac12D'\dot z^2=0$ 等价于 $\mathrm d\log\dot z/\mathrm dz=-D'/(2D)$，积分并用初值得
+\[
+ \dot z=v_0\sqrt{\frac{D(h)}{D(z)}},\qquad
+ \ddot z=-\frac{a^2b^2z}{D}\dot z^2.
+\]
+约束力矩等于实际轴向角动量变化率：
+\begin{align*}
+ L_z&=mr^2\dot\theta=mab^2z^2\dot z,\\
+ Z_\theta&=mab^2(2z\dot z^2+z^2\ddot z)
+ =mab^2zv_0^2D(h)\frac{2(1+b^2)+a^2b^2z^2}{D(z)^2}.
+\end{align*}
+能量 $E=\frac m2D\dot z^2=\frac m2D(h)v_0^2$ 不变，因为理想约束反力垂直于运动方向。对于图示 $z>0$ 且 $a>0$，$\mathrm dL_z/\mathrm dz>0$；若改变螺旋手性 $a<0$，增加的是角动量的绝对值，带符号的 $L_z$ 则更负。若 $a=0$，角动量恒为零。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS2 第 5 题：倒下的梯子.} 
+长 $L$、质量 $M$ 的均匀梯子，一端在光滑地面，另一端靠光滑竖直墙，从与地面夹角 $\theta_0$ 静止释放。(a) 用质心 $(x,y)$ 和夹角 $\theta$ 写惯量、拉格朗日量和约束；(b) 用乘子求方程；(c) 以积分给出 $t(\theta)$；(d) 求离墙角及上端高度；(e) 写离墙后方程；(f) 证明梯子不离地，假定落平时不反弹；(g) 选做：数值求角度或上端高度随时间变化。
+\end{example}
+\begin{solution}
+以下取 $0<\theta_0<\pi/2$；恰好竖直且无扰动的初态是理想模型的静止特殊解。记 $l=L/2$。由 $I_{\rm CM}=\int_{-l}^l s^2(M/L)\dd s=ML^2/12=Ml^2/3$，得
+\[
+ L_0=\frac M2(\dot x^2+\dot y^2)+\frac{Ml^2}{6}\dot\theta^2-Mgy.
+\]
+两接触约束是 $f_w=x-l\cos\theta=0$ 和 $f_f=y-l\sin\theta=0$。用增广量 $L_0+\lambda_wf_w+\lambda_ff_f$，方程为
+\[
+ M\ddot x=\lambda_w,\quad M\ddot y=-Mg+\lambda_f,\quad
+ I_{\rm CM}\ddot\theta=l\lambda_w\sin\theta-l\lambda_f\cos\theta.
+\]
+乘子分别是墙和地面对梯子的法向力，接触有效时必须非负。
+
+代入两约束后，$T=ML^2\dot\theta^2/6$。能量守恒和角方程给出
+\[
+ \dot\theta^2=\frac{3g}{L}(\sin\theta_0-\sin\theta),\qquad
+ \ddot\theta=-\frac{3g}{2L}\cos\theta,
+\]
+取下落的负速度分支，因此
+\[
+ t(\theta)=\sqrt{\frac{L}{3g}}\int_\theta^{\theta_0}
+ \frac{\dd u}{\sqrt{\sin\theta_0-\sin u}}.
+\]
+由 $\ddot x=-l(\cos\theta\dot\theta^2+\sin\theta\ddot\theta)$，墙力是
+\[
+ \lambda_w=\frac{3Mg}{4}\cos\theta(3\sin\theta-2\sin\theta_0).
+\]
+故首次离墙发生在 $s_*:=\sin\theta_*=\frac23\sin\theta_0$，上端高度为 $L s_*$。此前地面力为 $Mg[1-\frac34\cos^2\theta-\frac32\sin\theta(\sin\theta_0-\sin\theta)]$。令 $s=\sin\theta$、$s_0=\sin\theta_0$，它等于 $Mg(1/4+9s^2/4-3ss_0/2)$；接触阶段 $s\ge2s_0/3$，括号随 $s$ 增加，并在离墙时等于 $1/4$，所以始终至少为 $Mg/4>0$。
+
+离墙后仅保留 $y=l\sin\theta$，并令 $\lambda_w=0$。此时 $\ddot x=0$，故质心水平速度等于离墙瞬间的值；角方程化为
+\[
+ D\ddot\theta-\sin\theta\cos\theta\dot\theta^2+\frac gl\cos\theta=0,
+ \qquad D=\cos^2\theta+\frac13.
+\]
+角运动能量为 $\frac12Ml^2D\dot\theta^2+Mgl\sin\theta$。用离墙瞬间的 $\dot\theta_*^2=3g s_*/(4l)$，对 $s=\sin\theta\in[0,s_*]$ 得
+\[
+ \dot\theta^2=\frac gl\frac{C-2s}{4/3-s^2},\qquad
+ C=3s_*-\frac34s_*^3.
+\]
+由地面力 $N=M(g+\ddot y)$ 和上述角方程，
+\[
+ \frac NM=\frac{g-ls\dot\theta^2}{3D}
+ =\frac g{3D^2}\left(\frac43+s^2-Cs\right).
+\]
+由于 $s_*\le2/3$，$C\le2$，括号不小于 $\frac43+s^2-2s=(s-1)^2+\frac13>0$。因而离墙后到落平前始终保持地面接触；落平后的不反弹假定完成最后一步。
+
+选做数值问取 $L=M=g=1$、$\theta_0=\pi/3$，实际积分两阶段方程，并以墙力降到零作为事件切换条件，保持位置和速度连续。离墙时刻为 $1.01802604$、离墙角为 $0.61547971$，落平时刻为 $1.51960928$。本例积分中能量最大误差约 $6.7\times10^{-14}$，离墙后间隙非负、地面法向力最小约 $0.20407>0$；将容差与步长再减小后，事件时刻差小于 $1.1\times10^{-14}$。高度为 $2l\sin\theta$，下图给实际数据；落平后的撞击或反弹未模拟。
+\input{figures/ladder-release-plot.tex}
+\end{solution}
+
+\originalsection{作业 3：转动与地球参考系}
+原件：\url{https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/d5fdb8fec0febc6ba799cc86e67af3ee_MIT8_09F14_pset3.pdf}。
+
+\begin{example}
+\textbf{原 PS3 第 1 题：欧拉转动定理中的转角.} 
+实正交转动矩阵 $U$ 有单位正交复特征向量 $\xi_1,\xi_2,\xi_3$，相应特征值为 $e^{i\Phi},e^{-i\Phi},1$，其中 $\xi_2=\xi_1^*$，$\xi_3$ 为实向量。令 $X=(\xi_1\ \xi_2\ \xi_3)$。(a) 构造两个实单位正交向量与 $\xi_3$ 组成实基；(b) 求从复特征基分量 $s$ 到实基分量 $u$ 的酉矩阵 $W$；(c) 将转动写成标准实转动矩阵，证明 $\Phi$ 的转角意义。
+\end{example}
+\begin{solution}
+取 $\xi_a=(\xi_1+\xi_2)/\sqrt2$、$\xi_b=i(\xi_1-\xi_2)/\sqrt2$。二者均为实向量。用特征向量的厄米正交性计算可得 $\xi_a^T\xi_a=\xi_b^T\xi_b=1$、$\xi_a^T\xi_b=0$，且它们与 $\xi_3$ 正交。它们作为列向量给出实正交矩阵 $Y$，并且
+\[
+ Y=XB,\quad B=\begin{pmatrix}1/\sqrt2&i/\sqrt2&0\\1/\sqrt2&-i/\sqrt2&0\\0&0&1\end{pmatrix}.
+\]
+由 $\vect r=Xs=Yu$，有 $u=B^\dagger s$，故
+\[
+ W=B^\dagger=\begin{pmatrix}1/\sqrt2&1/\sqrt2&0\\-i/\sqrt2&i/\sqrt2&0\\0&0&1\end{pmatrix},\qquad WW^\dagger=I.
+\]
+利用 $X^\dagger UX=\diag(e^{i\Phi},e^{-i\Phi},1)$，直接相乘得
+\[
+ u'=\bar Uu,\qquad
+ \bar U=W X^\dagger UXW^\dagger
+ =\begin{pmatrix}\cos\Phi&-\sin\Phi&0\\\sin\Phi&\cos\Phi&0\\0&0&1\end{pmatrix}.
+\]
+它在垂直 $\xi_3$ 的实二维平面内转过 $\Phi$，固定轴向分量。若选出的三基向量定向相反，可反转轴向单位向量来形成右手基，不改变固定轴所在直线；符号转角依赖基定向，而 $\operatorname{Tr}U=1+2\cos\Phi$ 给出不依赖基的转角余弦。重特征值情形如 $\Phi=\pi$ 仍可在该实平面选择正交基。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS3 第 2 题：傅科摆.} 
+长度 $l$ 的无质量杆连接质量 $m$，支点位于地球纬度 $\lambda$；地球角速度大小为 $\omega$、半径为 $R_e$。当地 $z$ 轴向上，$y$ 轴向北，取右手系的 $x$ 轴向东。以杆与向下竖直线的夹角为 $\theta$，方位角 $\phi$ 从北向东增加。(a) 从惯性速度 $\vect v+\vect\omega\times(\vect r+R_e\hat z)$ 的动能出发，只保留 $\omega$ 一阶项，求角运动方程；(b) 小角近似下说明摆动平面的进动率为 $\omega\sin\lambda$。
+\end{example}
+\begin{solution}
+上述方位角约定是绕当地正 $z$ 轴的顺时针角；这使题目所写进动率为正。若用通常的逆时针方位角，答案符号相反。当地 $\vect\omega=\omega(0,\cos\lambda,\sin\lambda)$，而 $\vect r=l(\sin\theta\sin\phi,\sin\theta\cos\phi,-\cos\theta)$。含 $R_e$ 的交叉项是 $m\vect v\cdot(\vect\omega\times R_e\hat z)$，等于某个固定向量与 $m\vect r$ 点积的全时间导数，可删去。余下动能交叉项为 $m\vect\omega\cdot(\vect r\times\dot{\vect r})$，于是
+\begin{align*}
+ \frac{L}{ml^2}={}&\frac12(\dot\theta^2+\sin^2\theta\dot\phi^2)+\frac gl\cos\theta\\
+ &-\omega\cos\lambda(\sin\phi\dot\theta+\sin\theta\cos\theta\cos\phi\dot\phi)
+ -\omega\sin\lambda\sin^2\theta\dot\phi+O(\omega^2).
+\end{align*}
+写 $L/(ml^2)=L_0+A_\theta\dot\theta+A_\phi\dot\phi$。速度线性项对角方程的贡献只取决于 $B=\partial_\theta A_\phi-\partial_\phi A_\theta$，即
+\[
+ B=2\omega\bigl(\cos\lambda\sin^2\theta\cos\phi-\sin\lambda\sin\theta\cos\theta\bigr).
+\]
+因此完整的一阶方程为
+\[
+ \ddot\theta-\sin\theta\cos\theta\dot\phi^2+\frac gl\sin\theta=B\dot\phi,\qquad
+ \frac{\mathrm d}{\mathrm dt}(\sin^2\theta\dot\phi)=-B\dot\theta.
+\]
+小角近似中，$B=-2\Omega\theta+O(\omega\theta^2)$，其中 $\Omega=\omega\sin\lambda$。转为平面位移 $x=l\theta\sin\phi$、$y=l\theta\cos\phi$ 可得
+\[
+ \ddot x+\frac gl x=2\Omega\dot y,\qquad
+ \ddot y+\frac gl y=-2\Omega\dot x.
+\]
+设 $w=x+iy$，则 $\ddot w+2i\Omega\dot w+(g/l)w=0$。代入 $w=e^{-i\Omega t}u$，得 $\ddot u+(g/l+\Omega^2)u=0$；在所保留阶数内 $u$ 是固定方向的简谐摆动，而 $e^{-i\Omega t}$ 使摆动平面顺时针转动，故所定义的平面方位角满足 $\dot\phi_{\rm plane}=\Omega$。这里指摆动平面的进动角；瞬时质点极角在穿越支点时未必有定义。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS3 第 4 题：圆盘边缘附加质点.} 
+薄均匀圆盘质量 $M$、半径 $R$，无重力。原图中 $A$ 为圆盘下缘、$B$ 为上缘，$y$ 轴沿 $AB$，$x$ 轴过 $A$ 向右，$z$ 轴垂直圆盘；质量 $m=3M/8$ 的质点在圆盘右缘，故相对 $A$ 的位置为 $(R,R,0)$。(a) 求圆盘中心惯量及整体关于 $A$ 的惯量张量；(b) 求主惯量和主轴；(c) 在 $A,B$ 支承下绕固定 $y$ 轴以角速度 $\omega$ 转动，求关于 $A$ 的角动量随时间变化。
+\end{example}
+\begin{solution}
+圆盘中心的张量为 $MR^2\diag(1/4,1/4,1/2)$。由中心到 $A$ 的平行轴修正是 $MR^2\diag(1,0,1)$。质点的贡献由 $m(r^2I-\vect r\vect r^T)$ 给出，因此整体为
+\[
+ I_A=\frac{MR^2}{8}\begin{pmatrix}13&-3&0\\-3&5&0\\0&0&18\end{pmatrix}.
+\]
+平面子块的特征多项式为 $(13-\lambda)(5-\lambda)-9=(\lambda-14)(\lambda-4)$，故三个主惯量是 $7MR^2/4$、$MR^2/2$、$9MR^2/4$，单位主轴可分别取 $(3,-1,0)/\sqrt{10}$、$(1,3,0)/\sqrt{10}$、$(0,0,1)$。
+
+取 $t=0$ 为题设平面位置，角速度为 $\vect\omega=\omega\hat y$。体轴分量的角动量是 $I_A\vect\omega=MR^2\omega(-3,5,0)/8$。将它绕固定 $y$ 轴主动转过 $\omega t$，得惯性分量
+\[
+ \vect L_A(t)=\frac{MR^2\omega}{8}
+ \bigl(-3\cos\omega t,\ 5,\ 3\sin\omega t\bigr).
+\]
+它通常不平行于转轴，也不恒定；支承提供改变横向角动量的力矩。$A$ 固定，故关于该点使用惯量张量无需额外平动项。
+\end{solution}
+
+\originalsection{作业 4：稳态进动与简正模}
+原件：\url{https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/4ffa078142eca4a96a4bcb7a90bf0a4c_MIT8_09F14_pset4.pdf}。
+
+\begin{example}
+\textbf{原 PS4 第 1 题：重对称陀螺.} 
+一端固定的重对称陀螺有 $I_1=I_2$，质量 $m$，质心距固定点 $R$，绕惯性竖直轴以恒定 $\Omega=\dot\phi$ 进动，$\dot\theta=0$。用标准欧拉角并记 $\omega_i=\dot\psi$。(a) 求体轴重力矩；(b) 写角速度分量并解释 $\omega_i$ 恒定；(c) 求允许稳态进动的最低自转条件，说明何类陀螺无需最低自转限制。
+\end{example}
+\begin{solution}
+采用标准 $z$--节点轴--$z'$ 欧拉角，惯性竖直单位向量在体轴中的分量为 $(\sin\theta\sin\psi,\sin\theta\cos\psi,\cos\theta)$。体轴 $3$ 沿固定点到质心，因此 $\vect\tau=R\hat e_3\times(-mg\hat z)$，分量为
+\[
+ \tau_1=mgR\sin\theta\cos\psi,\quad
+ \tau_2=-mgR\sin\theta\sin\psi,\quad\tau_3=0.
+\]
+角速度为 $\omega_1=\Omega\sin\theta\sin\psi$、$\omega_2=\Omega\sin\theta\cos\psi$、$\omega_3=\omega_i+\Omega\cos\theta$。由于 $\psi$ 循环，$p_\psi=I_3\omega_3$ 守恒；在 $\Omega,\theta$ 恒定条件下 $\omega_i$ 也恒定。
+
+取 $V=mgR\cos\theta$。$\theta$ 方程在 $\sin\theta\ne0$ 时成为 $I_1\Omega^2\cos\theta-I_3\Omega(\omega_i+\Omega\cos\theta)+mgR=0$，即
+\[
+ (I_1-I_3)\cos\theta\,\Omega^2-I_3\omega_i\Omega+mgR=0.
+\]
+若 $a=(I_1-I_3)\cos\theta>0$，实稳态进动要求 $|\omega_i|\ge2\sqrt{a\,mgR}/I_3$。若 $a<0$，判别式恒正，任意 $\omega_i$ 都允许实 $\Omega$；在通常陀螺轴向上倾斜的 $0<\theta<\pi/2$ 情形，这对应 $I_3>I_1$ 的扁陀螺。若 $a=0$，方程退化为线性，$\omega_i\ne0$ 时 $\Omega=mgR/(I_3\omega_i)$，但 $\omega_i=0$ 时无有限稳态解。因此不能把判别式为非负单独当成退化情形的充分条件。若要求所有倾角都成立，则应逐一按 $a$ 的符号判断；上下倾斜不能混同。完全竖直的 $\sin\theta=0$ 状态还需另行分析稳定性，不属于上述非竖直稳态进动推导。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS4 第 2 题：圆周上的三个等质量粒子.} 
+三个质量 $m$ 的粒子沿半径 $a$ 的圆运动，相邻有向角间隔为 $\alpha,\beta,\gamma$，其和为 $2\pi$。势能是 $V_0(e^{-2\alpha}+e^{-2\beta}+e^{-2\gamma})$，取 $V_0>0$，平衡间隔均为 $2\pi/3$。令各粒子离平衡角位移为 $\theta_j$。(a) 求小振动频率及单位正交模；(b) 求简正坐标和方程；(c) 描述各模的运动；(d) 当角位移初值均为零、角速度为 $(3,-2,-1)\omega_0$ 时求运动。
+\end{example}
+\begin{solution}
+角间隔的扰动可取 $\theta_2-\theta_1$、$\theta_3-\theta_2$、$\theta_1-\theta_3$。一阶势能项因三者相加为零而消失。记 $C=V_0e^{-4\pi/3}$，二阶能量为
+\[
+ T_2=\frac{ma^2}2\sum_j\dot\theta_j^2,\qquad
+ V_2=2C\sum_{\rm cyclic}(\theta_{j+1}-\theta_j)^2
+ =\frac12\theta^TK\theta,\quad
+ K=4C\begin{pmatrix}2&-1&-1\\-1&2&-1\\-1&-1&2\end{pmatrix}.
+\]
+矩阵括号中有特征值 $0,3,3$。选择正交单位模
+\[
+ e_0=\frac{(1,1,1)}{\sqrt3},\quad
+ e_1=\frac{(1,-1,0)}{\sqrt2},\quad
+ e_2=\frac{(1,1,-2)}{\sqrt6}.
+\]
+零频模是整体自由转动，另两模同频 $\omega_*^2=12C/(ma^2)$；简并空间内任意正交旋转后的基同样有效。取 $Q_j=e_j\cdot\theta$，则 $\ddot Q_0=0$、$\ddot Q_1+\omega_*^2Q_1=\ddot Q_2+\omega_*^2Q_2=0$。若要质量归一化，改用 $q_j=\sqrt{ma^2}Q_j$。
+
+$e_0$ 模中三个粒子同时同向移动，所有间隔不变；$e_1$ 模中前两粒子反向等幅，第三粒子不动；$e_2$ 模中前两粒子同向等幅，第三粒子反向两倍幅度。这些切向位移与所给向量一起完整指定了运动草图。
+\begin{center}
+\begin{tikzpicture}[scale=.8,>=Stealth]
+\foreach \shift/\name in {0/{整体转动},4/{反向模},8/{第三粒子反向}} {
+ \begin{scope}[xshift=\shift cm]
+ \draw[gray] (0,0) circle (1);
+ \node at (0,-1.65) {\name};
+ \foreach \a/\lab in {90/1,210/2,330/3} {
+  \fill (\a:1) circle (2pt);\node at (\a:1.3) {$\lab$};
+ }
+ \end{scope}
+}
+\begin{scope}
+ \foreach \a in {90,210,330} {\draw[->,thick] (\a:1) -- ++({-.4*sin(\a)},{.4*cos(\a)});}
+\end{scope}
+\begin{scope}[xshift=4cm]
+ \draw[->,thick] (90:1) -- ++(-.4,0);
+ \draw[->,thick] (210:1) -- ++(-.2,.346);
+ \node at (330:.65) {$0$};
+\end{scope}
+\begin{scope}[xshift=8cm]
+ \draw[->,thick] (90:1) -- ++(-.3,0);
+ \draw[->,thick] (210:1) -- ++(.15,-.26);
+ \draw[->,thick] (330:1) -- ++(-.3,-.52);
+\end{scope}
+\end{tikzpicture}
+\end{center}
+图中箭头表示某一相位的切向位移, 反向相位时全部箭头同时反转。
+
+
+给定速度向量总和为零，因此没有自由转动模。两振动模简并，故任意零和初始速度都以同一频率演化，直接得
+\[
+ (\theta_1,\theta_2,\theta_3)
+ =\frac{\omega_0}{\omega_*}(3,-2,-1)\sin(\omega_*t).
+\]
+这也由 $\dot Q_1(0)=5\omega_0/\sqrt2$、$\dot Q_2(0)=3\omega_0/\sqrt6$ 重构得到。这里题目初速中的 $\omega_0$ 与求出的模频率 $\omega_*$ 不应未经说明视为同一常数。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS4 第 3 题：不等质量双摆的小振动.} 
+沿用 PS1 第 2 题的双摆，令 $m_1=3m$、$m_2=m$，杆长仍为 $l_1,l_2$。(a) 求角度及角速度的二次能量；(b) 求频率并验证正性；(c) 求模向量并描述运动。
+\end{example}
+\begin{solution}
+在向下平衡处，$\cos(\theta_1-\theta_2)$ 的修正乘以两个速度后为四阶，可以舍去。删去势能常数后，
+\[
+ T_2=\frac12\dot\theta^TA\dot\theta,\quad
+ A=m\begin{pmatrix}4l_1^2&l_1l_2\\l_1l_2&l_2^2\end{pmatrix},\qquad
+ V_2=\frac12\theta^TK\theta,\quad
+ K=mg\begin{pmatrix}4l_1&0\\0&l_2\end{pmatrix}.
+\]
+求 $\det(K-\omega^2A)=0$，约去正因子得 $3l_1l_2\omega^4-4g(l_1+l_2)\omega^2+4g^2=0$。于是
+\[
+ \omega_\pm^2=\frac{2g}{3l_1l_2}
+ \left(l_1+l_2\pm\sqrt{l_1^2-l_1l_2+l_2^2}\right).
+\]
+根号严格小于 $l_1+l_2$，所以两频率平方都为正。模向量可取 $v_\pm=(1,r_\pm)$，其中
+\[
+ r_\pm=\frac{4(g-\omega_\pm^2l_1)}{\omega_\pm^2l_2}.
+\]
+若要求动能归一化，取 $e_\pm=v_\pm/\sqrt{v_\pm^TAv_\pm}$，则 $e_\pm^TAe_\pm=1$，且不同模 $A$ 正交。令 $\theta=e_-q_-+e_+q_+$，得到 $\ddot q_\pm+\omega_\pm^2q_\pm=0$。
+
+低频根满足 $\omega_-^2<g/l_1$，故 $r_->0$，两杆同向摆动；高频根满足 $\omega_+^2>g/l_1$，故 $r_+<0$，两杆反向。草图可按 $\theta_1=\varepsilon$、$\theta_2=r_\pm\varepsilon$ 标出杆的偏角；这里两角都是相对竖直线，而不是下杆相对上杆的折角。例如 $l_1=l_2=l$ 时频率平方为 $2g/(3l)$、$2g/l$，幅度比为 $2,-2$。
+\begin{center}
+\begin{tikzpicture}[scale=.85]
+\begin{scope}
+ \draw[dashed,gray] (0,0)--(0,-3.5);
+ \draw[thick] (0,0)--(.35,-1.65)--(1.05,-3.2);
+ \fill (0,0) circle(2pt);\fill (.35,-1.65) circle(3pt);\fill (1.05,-3.2) circle(2pt);
+ \node at (0,-4) {低频: 同向};
+ \node at (.8,-.8) {$\theta_1>0$};\node at (1.7,-2.5) {$\theta_2>0$};
+\end{scope}
+\begin{scope}[xshift=5cm]
+ \draw[dashed,gray] (0,0)--(0,-3.5);
+ \draw[thick] (0,0)--(.35,-1.65)--(-.35,-3.2);
+ \fill (0,0) circle(2pt);\fill (.35,-1.65) circle(3pt);\fill (-.35,-3.2) circle(2pt);
+ \node at (0,-4) {高频: 反向};
+ \node at (.8,-.8) {$\theta_1>0$};\node at (-1.35,-2.5) {$\theta_2<0$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+示意图取等杆长的幅度比作示例, 一般杆长应按 $r_\pm$ 调整角度, 不将图中比例当成额外假设。
+
+\end{solution}
+
+\originalsection{作业 5：正则变换与隐藏守恒量}
+原件：\url{https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/a55cb49d8706f671ccfdac7c6937cddc_MIT8_09F14_pset5.pdf}。
+
+\begin{example}
+\textbf{原 PS5 第 1 题：正则变换.} 
+(a) 给恒等变换 $Q_i=q_i$、$P_i=p_i$ 找两个生成函数；(b) 为 $Q=p/t$、$P=-qt$ 求第一类生成函数；(c) 判断 $Q=q^kp^\ell$、$P=q^mp^n$ 在何种参数下有第一类生成函数；(d) 带电粒子的哈密顿量为 $H=(\vect p-e\vect A)^2/(2M)+e\varphi$，规范变换 $\vect A'=\vect A+\nabla f$、$\varphi'=\varphi-\partial_tf$ 保持机械动量不变。证明它是正则变换并求第二类生成函数。此处以 $e,M$ 表示原题的电荷、质量，避免与坐标 $q$ 和幂指数 $m$ 混淆。
+\end{example}
+\begin{solution}
+采用 $p=\partial_qF_1$、$P=-\partial_QF_1$，以及 $p=\partial_qF_2$、$Q=\partial_PF_2$ 的约定。(a) $F_2=\sum_iq_iP_i$ 和 $F_3=-\sum_ip_iQ_i$ 都生成恒等变换。恒等变换的 $(q,Q)$ 并非独立坐标，因此不能要求它有普通的第一类生成函数。
+
+(b) 在 $t\ne0$ 的区间取 $F_1=tqQ$，即有 $p=tQ$、$P=-tq$。时间依赖的变换还应将哈密顿量变为 $K=H+\partial_tF_1=H+qQ$，再把旧变量代入新变量。
+
+(c) 在实幂均光滑的局部区域，例如 $q,p>0$，计算泊松括号得到
+\[
+ \{Q,P\}=(kn-\ell m)q^{k+m-1}p^{\ell+n-1}.
+\]
+它在一个开集内恒为 $1$，当且仅当 $k+m=1$、$\ell+n=1$、$kn-\ell m=1$，也就是 $k=\ell+1$、$m=-\ell$、$n=1-\ell$。要存在以 $(q,Q)$ 为独立变量的第一类函数，还需 $\partial Q/\partial p\ne0$，即 $\ell\ne0$。解出 $p=Q^{1/\ell}q^{-1-1/\ell}$ 后积分，得
+\[
+ F_1(q,Q)=-\ell\left(\frac Qq\right)^{1/\ell}.
+\]
+对 $q$ 求导正好是 $p$；对 $Q$ 求负导数是 $Q^{1/\ell-1}q^{-1/\ell}=q^{-\ell}p^{1-\ell}=P$。$\ell=0$ 时所得到的是恒等变换，它是正则的，但没有这一类非退化生成函数。跨过零点或采用非整数幂时需要另外检查实分支和局部可逆性。
+
+(d) 保持 $\vect p-e\vect A$ 不变，要求 $\vect P=\vect p+e\nabla f$、$\vect X=\vect x$。取
+\[
+ F_2(\vect x,\vect P,t)=\vect x\cdot\vect P-e f(\vect x,t).
+\]
+于是 $\vect p=\vect P-e\nabla f$，$\vect X=\vect x$，所以变换确为正则。同时
+\[
+ K=H+\partial_tF_2
+ =\frac{(\vect P-e\vect A')^2}{2M}+e\varphi',
+\]
+这说明生成函数的时间项也正确重现标量势变换；仅检查动量平移还不足以得到新哈密顿量。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS5 第 3 题：泊松括号和守恒量.} 
+两自由度系统的 $H=q_1p_1-q_2p_2+aq_1^2+bq_2^2$，其中 $a,b$ 为常量。证明 $u_1=(p_1+aq_1)/q_2$ 与 $u_2=q_1q_2$ 是运动常量。
+\end{example}
+\begin{solution}
+哈密顿方程给出 $\dot q_1=q_1$、$\dot q_2=-q_2$、$\dot p_1=-p_1-2aq_1$、$\dot p_2=p_2-2bq_2$。因此 $N=p_1+aq_1$ 满足 $\dot N=-N$，与 $q_2$ 有相同变化率，在 $q_2\ne0$ 的定义域内 $\dot u_1=(\dot Nq_2-N\dot q_2)/q_2^2=0$。另一方面 $\dot u_2=\dot q_1q_2+q_1\dot q_2=0$。这些时间导数就是 $\{u_j,H\}$，因为 $u_j$ 没有显含时间。若初始 $q_2=0$，其后恒为零，$u_1$ 的比值表达式没有定义，不能在这一特殊轨道声称它是有限守恒量；$u_2$ 仍恒为零。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS5 第 4 题：角动量与龙格--楞次矢量.} 
+(a) 对 $L_i=\epsilon_{ijk}x_jp_k$ 求 $\{x_i,L_j\}$、$\{p_i,L_j\}$、$\{L_i,L_j\}$、$\{L_i,\vect L^2\}$；(b) 在开普勒相对运动 $H=\vect p^2/(2\mu)-k/r$ 中证明 $\vect A=\vect p\times\vect L-\mu k\vect r/r$ 守恒；(c) 证明 $\vect A^2=\mu^2k^2+2\mu H\vect L^2$。
+\end{example}
+\begin{solution}
+取 $\{f,g\}=\sum_a(f_{x_a}g_{p_a}-f_{p_a}g_{x_a})$。先对 $L_j$ 求偏导即得
+\[
+ \{x_i,L_j\}=\epsilon_{ijk}x_k,\qquad
+ \{p_i,L_j\}=\epsilon_{ijk}p_k.
+\]
+用乘积法则作用到 $L_i=\epsilon_{iab}x_ap_b$，并用两个 $\epsilon$ 的缩并恒等式，可得 $\{L_i,L_j\}=\epsilon_{ijk}L_k$。因此 $\{L_i,\vect L^2\}=2\epsilon_{ijk}L_jL_k=0$，最后一步因对称乘积与反对称张量缩并而消失。
+
+开普勒方程是 $\dot{\vect r}=\vect p/\mu$、$\dot{\vect p}=-k\vect r/r^3$，且中心力使 $\dot{\vect L}=0$。三重积给出
+\[
+ \dot{\vect p}\times\vect L
+ =k\left(\frac{\vect p}{r}-\frac{\vect r(\vect r\cdot\vect p)}{r^3}\right),\qquad
+ \mu k\frac{\mathrm d}{\mathrm dt}\frac{\vect r}{r}
+ =k\left(\frac{\vect p}{r}-\frac{\vect r(\vect r\cdot\vect p)}{r^3}\right).
+\]
+两者相消，故 $\dot{\vect A}=0$。此推导有效于 $r>0$，不跨越碰撞奇点。
+
+因为 $\vect p\cdot\vect L=0$，有 $|\vect p\times\vect L|^2=p^2L^2$；又由循环三重积 $\vect r\cdot(\vect p\times\vect L)=\vect L\cdot(\vect r\times\vect p)=L^2$。展开平方，得到
+\[
+ A^2=p^2L^2-\frac{2\mu kL^2}{r}+\mu^2k^2
+ =2\mu\left(\frac{p^2}{2\mu}-\frac kr\right)L^2+\mu^2k^2.
+\]
+同时 $\vect L\cdot\vect A=0$，所以题中七个守恒分量之间至少有这两个约束，不能将它们视作七个独立积分常量。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS5 第 5 题：指数势.} 
+质量 $1/2$ 的粒子有 $H=p^2+e^x$，先考虑 $p>0$。(a) 求使新哈密顿量为 $K=P^2$ 的第二类生成函数；(b) 求 $P(x,p)$、$Q(x,p)$；(c) 求 $x(t),p(t)$；并讨论 $p<0$ 的情形。
+\end{example}
+\begin{solution}
+取 $P>0$。要求 $p=\partial_xF_2=\sqrt{P^2-e^x}$，所以必须在 $e^x<P^2$ 的转向前区域使用此分支。令 $u=\sqrt{P^2-e^x}$，则 $\dd x=-2u\dd u/(P^2-u^2)$，积分得到
+\[
+ F_2(x,P)=2u-2P\operatorname{artanh}(u/P),\qquad u=\sqrt{P^2-e^x}.
+\]
+可以加任意 $P$ 的函数，这里只选择零以固定 $Q$ 的原点。对 $P$ 求偏导时，含 $\partial_Pu$ 的项相消，于是
+\[
+ P=\sqrt{p^2+e^x},\qquad
+ Q=-2\operatorname{artanh}\left(\frac p{\sqrt{p^2+e^x}}\right).
+\]
+直接检验也有 $\{Q,P\}=1$。新方程是 $\dot P=0$、$\dot Q=2P$。写 $s(t)=Pt+Q_0/2$，反变换为
+\[
+ p(t)=-P\tanh s(t),\qquad
+ x(t)=\log P^2-2\log\cosh s(t).
+\]
+初值通过 $P=\sqrt{p_0^2+e^{x_0}}$ 和 $Q_0=-2\operatorname{artanh}(p_0/P)$ 固定。求导得 $\dot x=2p$、$\dot p=-P^2\operatorname{sech}^2s=-e^x$，并有 $p^2+e^x=P^2$，同时检验了时间解。
+
+若 $p_0>0$，$Q_0<0$；到 $t_*=-Q_0/(2P)$ 时 $p=0$，$x=\log P^2$，随后动量为负。上式时间解可以光滑延续，但最初生成函数的正平方根分支不能越过转向点继续使用。$p<0$ 区域应取 $p=-u$，生成函数改为 $-2u+2P\operatorname{artanh}(u/P)$，其 $Q=+2\operatorname{artanh}(u/P)>0$，与统一表达式 $Q=-2\operatorname{artanh}(p/P)$ 一致。以 $(x,P)$ 表示的生成函数分支图在 $p=0$ 处退化，但 $(x,p)\mapsto(Q,P)$ 的统一正则变换本身光滑。
+\end{solution}
+
+\originalsection{作业 7：虹吸与角动量流}
+原件：\url{https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/be840a46409997dabaa9fc37256c80dc_MIT8_09F14_pset7.pdf}。
+
+\begin{example}
+\textbf{原 PS7 第 3 题：虹吸产生的射流.} 
+恒截面积 $A_T$ 的管从无限大水库虹吸理想不可压缩水。出口在水面下 $H_1$，流速为 $v_e$，射流以仰角 $\theta$ 离开出口；管的最高点在水面上 $H_2$，大气压为 $p_a$。(a) 求出口速度；(b) 求管顶速度和压力；(c) 忽略射流竖向厚度，取流内 $\nabla\cdot\vect v=0$，求射流在高度 $y$ 的截面积；(d) 求射流高出出口的最大高度 $H_3$；(e) 求射流的流线 $y(x)$。原图中的 $y$ 以出口所在水平面为零。
+\end{example}
+\begin{solution}
+水库表面速度为零、压力为 $p_a$，出口自由射流压力同为 $p_a$。以出口为零势高度，伯努利方程给出 $gH_1=v_e^2/2$，因此 $v_e=\sqrt{2gH_1}$。稳态不可压缩流在等截面管内速度相同，故管顶速度也是 $v_e$；以水面为势高度零点，管顶压力满足
+\[
+ \frac{p_a}{\rho}=\frac{p_{\rm top}}{\rho}+\frac{v_e^2}{2}+gH_2,
+ \qquad p_{\rm top}=p_a-\rho g(H_1+H_2).
+\]
+理想模型允许这一压力公式；实际维持液柱还需压力不低到使流体汽化，这个物理适用条件不会改变所求理想关系。
+
+自由射流各截面压力近似为 $p_a$。各流线由同一水库流出，采用相同伯努利常数，故 $v(y)^2=v_e^2-2gy=2g(H_1-y)$。连续性要求 $A(y)v(y)=A_Tv_e$，其中截面积取垂直于局部速度的截面，而非水平截面。因此
+\[
+ A(y)=A_T\sqrt{\frac{H_1}{H_1-y}}.
+\]
+忽略横向压力梯度后，流体质点作抛体运动。取 $x$ 为出口沿水平射出方向的距离，$y$ 为高出出口的高度，有 $x=v_e\cos\theta\,t$、$y=v_e\sin\theta\,t-gt^2/2$，从而
+\[
+ y=x\tan\theta-\frac{gx^2}{2v_e^2\cos^2\theta}
+ =x\tan\theta-\frac{x^2}{4H_1\cos^2\theta},\qquad
+ H_3=\frac{v_e^2\sin^2\theta}{2g}=H_1\sin^2\theta.
+\]
+这里 $0\le\theta<\pi/2$；稳态下流线与质点轨迹重合。顶点速度并不为零，而是 $v_e\cos\theta$，所以一般射流顶点面积为 $A_T/\cos\theta$。若严格竖直射出，顶点处这一稳态细射流近似失效，不能把面积发散当作可靠几何预测。若换用相对水面高度 $Y=y-H_1$，则同一面积关系为 $A=A_T\sqrt{H_1/(-Y)}$；必须先交代高度零点。
+\end{solution}
+
+\begin{example}
+\textbf{原 PS7 第 4 题：流体角动量与无旋涡流.} 
+(a) 由理想流体线动量方程导出关于固定原点的角动量密度 $\vect\ell=\vect r\times(\rho\vect v)$ 的守恒式，包括重力、通量张量和外源；(b) 水平槽中心有小孔，孔外流动稳态、不可压缩、无旋，流体几乎作圆周运动并缓慢向孔内螺旋。用不跨越孔区的斯托克斯曲面证明角速度随 $r^{-2}$ 变化；(c) 在轴对称近似下，用 (a) 证明竖直角动量密度沿质点轨迹不变，并解释比例常数。
+\end{example}
+\begin{solution}
+理想流体动量方程为 $\partial_t(\rho v_i)+\partial_j\Pi_{ij}=\rho g_i$，其中 $\Pi_{ij}=\rho v_iv_j+p\delta_{ij}$。写 $\ell_i=\epsilon_{ikl}x_k\rho v_l$，用乘积法则得到
+\[
+ \partial_t\ell_i+\partial_jJ_{ij}=Q_i,\qquad
+ J_{ij}=\epsilon_{ikl}x_k\Pi_{lj},\qquad
+ Q_i=\epsilon_{ikl}x_k\rho g_l.
+\]
+对 $x_k$ 求导产生的 $\epsilon_{ijl}\Pi_{lj}$ 因 $\Pi$ 对称而为零。因此理想流体的内部压力和对流通量不留下体积力矩源；重力源就是 $\vect r\times\rho\vect g$。若加入非对称应力则须重新检查这一消项。
+
+在题目的近圆周、轴对称描述下，取半径 $r_1,r_2$ 的两圆之间的环形曲面，其内缘将孔区剔除；该曲面全部落在稳态无旋区域。斯托克斯定理给出两个圆的环量相同，即 $2\pi r_2v_\theta(r_2)=2\pi r_1v_\theta(r_1)=\Gamma$。所以
+\[
+ v_\theta(r)=\frac\Gamma{2\pi r},\qquad
+ \dot\theta=\frac{v_\theta}{r}=\frac\Gamma{2\pi r^2}.
+\]
+这里允许孔外环量非零；不能选择一个穿过孔区的圆盘，再从局部无旋错误推出 $\Gamma=0$。若不作轴对称近似，斯托克斯定理只约束环量积分，不能单独推出每一点都满足该径向速度分布。
+
+将 (a) 的压力通量项展开，配合质量守恒，得到比角动量 $h_i=\ell_i/\rho$ 的物质导数方程
+\[
+ \rho\frac{Dh_i}{Dt}
+ =-\bigl(\vect r\times\nabla p\bigr)_i
+ +\bigl(\vect r\times\rho\vect g\bigr)_i,
+ \qquad \frac D{Dt}=\partial_t+\vect v\cdot\nabla.
+\]
+竖直重力对 $z$ 方向没有力矩；轴对称压力给出 $(\vect r\times\nabla p)_z=\partial_\theta p=0$。所以 $Dh_z/Dt=0$，而不可压缩、恒密度水又使 $D\ell_z/Dt=0$。稳态只使欧拉时间偏导为零；这里更强的结论是螺旋运动的每个流体质点也保有同一竖直比角动量。由 $h_z=rv_\theta=r^2\dot\theta$，若某质点在参考半径 $r_0$ 的角速度为 $\Omega_0$，比例常数就是
+\[
+ r^2\dot\theta=h_z=r_0^2\Omega_0=\frac\Gamma{2\pi},\qquad
+ \ell_z=\rho r_0^2\Omega_0.
+\]
+题设未给初始旋转或环量的数值，故守恒定律只能给出以上初值表达式，不能产生唯一数值常量。
+\end{solution}

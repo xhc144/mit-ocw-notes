@@ -8,5 +8,5 @@ if __name__=='__main__':
  subprocess.run([sys.executable,str(HERE/'project_check.py')],check=True,cwd=HERE)
  from project_check import export_course_plot
  print(export_course_plot())
- for filename in ['nonlinear_check.py','verify_nonlinear_cases.py','periodic_orbit_scan.py','export_phase_plots.py','prepare_plot_data.py']:
+ for filename in ['nonlinear_check.py','verify_nonlinear_cases.py','periodic_orbit_scan.py','export_phase_plots.py','prepare_plot_data.py','flow_extension_check.py','fractal_constructions.py','ladder_extension_check.py','fixed_initial_period_check.py']:
   subprocess.run([sys.executable,str(HERE/filename)],check=True,cwd=HERE)

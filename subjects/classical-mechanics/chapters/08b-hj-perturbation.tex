@@ -1,0 +1,124 @@
+\originalsection{以已知HJ解消去未摄动运动}
+摄动的出发点不是把任意小量丢掉, 而是已有一个能解的系统$H_0$, 希望研究$H=H_0+\epsilon h$. $\epsilon$用于记阶; $h$可含位置、动量和时间. 设$S_0(q,\alpha,t)$是$H_0$的HJ完全积分, 满足$H_0(q,S_{0,q},t)+S_{0,t}=0$, 且混合二阶导数矩阵在所研究区域可逆. 用它作第二型生成函数,
+\[
+p_i=\frac{\partial S_0}{\partial q_i},\qquad
+\beta_i=\frac{\partial S_0}{\partial\alpha_i},\qquad
+(q,p)\longleftrightarrow(\beta,\alpha).
+\]
+新哈密顿量精确为
+\[
+K=H+\frac{\partial S_0}{\partial t}
+=\epsilon h(q(\alpha,\beta,t),p(\alpha,\beta,t),t)
+\equiv\epsilon\widetilde h(\alpha,\beta,t).
+\]
+因此$\dot\alpha_i=-\epsilon\widetilde h_{\beta_i}$, $\dot\beta_i=\epsilon\widetilde h_{\alpha_i}$. 对未摄动系统, $\alpha,\beta$原本是常数; 现在它们缓慢或有小幅变化, 而原来已知的快速运动仍由逆变换承担. 这解释为何应先寻找$S_0$: 新方程两侧的未摄动运动已完全消去, 一阶变化只需沿已知轨道作积分. 时间依赖必须保留; 不能在计算$K$时漏掉$S_{0,t}$而又把$\alpha,\beta$当常数.
+
+\originalsection{递推积分与阶数核对}
+将所有新变量合写为$z$, 方程为$\dot z=\epsilon f(z,t)$. 在相同初值下设$z=z_0+\epsilon z_1+\epsilon^2z_2+\cdots$, $z_0$为常数且$z_j(0)=0$（$j\ge1$）. 展开右端后, 前三阶给
+\[
+\begin{aligned}
+\dot z_1&=f(z_0,t),\\
+\dot z_2&=D_zf(z_0,t)z_1,\\
+\dot z_3&=D_zf(z_0,t)z_2+
+\tfrac12D_z^2f(z_0,t)[z_1,z_1].
+\end{aligned}
+\]
+每一式的右端只用先前已求出的量, 于是逐次从0积分到$t$. 对累计近似$z^{[k]}=\sum_{j=0}^k\epsilon^jz_j$, 可以把$z^{[k-1]}$放入右端后积分, 但仍须截去超过$\epsilon^k$的项. 不做这一步, 得到的是另一种迭代近似, 不能直接称作精确的第$k$阶系数. 初值也须按阶匹配, 否则可能在起点便偏离原问题.
+
+这些展开首先保证固定有限时间内的近似. 在光滑、有界导数且解留在同一区域的条件下, 可把截断解的残差代入误差方程并用Gronwall估计控制误差; 常数一般依赖时间区间. 出现$\epsilon t$、$\epsilon t^2$等长期项时, 不能不作额外分析便推到$t\sim1/\epsilon$.
+
+\begin{example}
+把弱谐振子$H=p^2/(2m)+\epsilon m\omega^2q^2/2$看成自由粒子的摄动. 初值$q(0)=0$, $p(0)=p_0$. 用HJ方法求到二阶.
+\end{example}
+\begin{solution}
+自由粒子的完全积分为$S_0=\alpha q-\alpha^2t/(2m)$, 所以$p=\alpha$, $q=\beta+\alpha t/m$. 新哈密顿量为$K=\epsilon m\omega^2(\beta+\alpha t/m)^2/2$, 给
+\[
+\dot\alpha=-\epsilon\omega^2(m\beta+\alpha t),\qquad
+\dot\beta=\epsilon\omega^2t(\beta+\alpha t/m).
+\]
+零阶取$\alpha_0=p_0$, $\beta_0=0$. 一阶直接积分得$\alpha_1=-p_0\omega^2t^2/2$, $\beta_1=p_0\omega^2t^3/(3m)$. 二阶则有
+\[
+\dot\alpha_2=-\omega^2(m\beta_1+t\alpha_1)
+=\frac{p_0\omega^4t^3}{6},\qquad
+\dot\beta_2=\omega^2t(\beta_1+t\alpha_1/m)
+=-\frac{p_0\omega^4t^4}{6m}.
+\]
+积分并变回原变量, 得
+\[
+\begin{aligned}
+p&=p_0\left(1-\frac{\epsilon\omega^2t^2}{2}
++\frac{\epsilon^2\omega^4t^4}{24}\right)+O(\epsilon^3),\\
+q&=\frac{p_0}{m}\left(t-\frac{\epsilon\omega^2t^3}{6}
++\frac{\epsilon^2\omega^4t^5}{120}\right)+O(\epsilon^3).
+\end{aligned}
+\]
+这恰是精确解$p=p_0\cos(\sqrt\epsilon\omega t)$, $q=p_0\sin(\sqrt\epsilon\omega t)/(m\sqrt\epsilon\omega)$的展开. 例子检验了递推、逆变换和初值三个环节. 保留少数项时要求$\sqrt\epsilon\omega t$小, 不能据多项式随$t$增大便认为真实振子振幅增大.
+\end{solution}
+
+\originalsection{摆的周期变化与长期相位}
+摆的转动惯量记为$\mathcal I=ml^2$, 小振动角频率$\omega_0=\sqrt{g/l}$. 扣除常势后, $H_0=p^2/(2\mathcal I)+\mathcal I\omega_0^2\theta^2/2$, 第一非线性项为$h=-\mathcal I\omega_0^2\theta^4/24$. 用谐振子作用与相位表示
+\[
+\theta=\sqrt{\frac{2I}{\mathcal I\omega_0}}\sin\chi,
+\qquad p=\sqrt{2\mathcal I\omega_0I}\cos\chi,
+\qquad \chi=\omega_0t+\beta.
+\]
+此时间依赖正则变换消去了$H_0$, 剩下$K=h=-I^2\sin^4\chi/(6\mathcal I)$. 将右端的$I,\beta$取零阶常数$I_0,\beta_0$, 一阶方程给
+\[
+\dot I=\frac{2I_0^2}{3\mathcal I}\sin^3\chi_0\cos\chi_0,
+\qquad \dot\beta=-\frac{I_0}{3\mathcal I}\sin^4\chi_0,
+\qquad \chi_0=\omega_0t+\beta_0.
+\]
+由于第一式是$\sin^4\chi_0$的导数,
+\[
+I(t)=I_0+\frac{I_0^2}{6\mathcal I\omega_0}
+\bigl(\sin^4\chi_0(t)-\sin^4\beta_0\bigr)
+\]
+在此阶只有周期修正, 没有每周期净增量. 相位用$\sin^4\chi=(3-4\cos2\chi+\cos4\chi)/8$积分得
+\[
+\beta(t)=\beta_0-\frac{I_0}{3\mathcal I}
+\left[\frac{3t}{8}-\frac{\sin2\chi_0(t)-\sin2\beta_0}{4\omega_0}
++\frac{\sin4\chi_0(t)-\sin4\beta_0}{32\omega_0}\right].
+\]
+这里既有周期项又有线性长期项. 周期平均给频移$\delta\omega=\langle\dot\beta\rangle=-I_0/(8\mathcal I)$. 若小振幅最大摆角为$A$, $I_0=\mathcal I\omega_0A^2/2+O(A^4)$, 因而$\omega=\omega_0(1-A^2/16+O(A^4))$. 这与下节直接消去共振项的方法一致. $I(t)$是用未摄动谐振子定义的标签, 不是完整非线性摆的精确作用量; 周期变化不违反完整系统能量守恒.
+
+\originalsection{用轨道平均计算近日点进动}
+取$U=-\alpha/r-\epsilon d/r^n$, $n\ge2$, $d$先视作与作用量无关的常数. 以未摄动Kepler的$\Lambda=\sqrt{\mu\alpha a}$和$J=\Lambda\sqrt{1-e^2}$为变量, 近日点角$\omega$与$J$共轭. 其首阶平均变化率为$\langle\dot\omega\rangle=\epsilon\partial_J\langle h\rangle$; 求导时固定$\Lambda$, 即固定$a$和未摄动周期$T$. 用面积律$\dd t=\mu r^2\dd\psi/J$得
+\[
+\langle h\rangle=-\frac{d\mu}{JT}\int_0^{2\pi}r^{2-n}\dd\psi,
+\qquad \frac1r=\frac{\mu\alpha}{J^2}(1+e\cos\psi).
+\]
+当$n=2$时积分为$2\pi$, 故$\Delta\omega=T\langle\dot\omega\rangle=2\pi\epsilon d\mu/J^2$. 当$n=3$时$\cos\psi$平均为零, 得$\langle h\rangle=-2\pi d\mu^2\alpha/(J^3T)$, 所以
+\[
+\Delta\omega=\frac{6\pi\epsilon d\mu^2\alpha}{J^4}.
+\]
+这一步显示为何须先指明固定哪个作用量: 若把周期也按$J$求导, 会引入不属于此正则方程的项. 扰动必须在整条轨道上小, 尤其要检查近日点, 不能只在平均半径上比较势能.
+
+\originalsection{相对论例子及其适用范围}
+原课以Schwarzschild测地线说明$r^{-3}$项的物理来源. 固定符号约定为
+\[
+\dd s^2=(1-r_s/r)c^2\dd t^2-(1-r_s/r)^{-1}\dd r^2
+-r^2(\dd\theta^2+\sin^2\theta\dd\phi^2),\qquad r_s=2GM/c^2.
+\]
+对有质量粒子用固有时$\tau$参数化, $\dd s^2=c^2\dd\tau^2$. 在赤道平面取每单位质量守恒量$\mathcal E=(1-r_s/r)c^2\dot t$, $j=r^2\dot\phi$, 其中本段点号对$\tau$. 代入度规归一条件可直接得
+\[
+\frac12\dot r^2-\frac{GM}{r}+\frac{j^2}{2r^2}
+-\frac{GMj^2}{c^2r^3}
+=\frac{\mathcal E^2/c^2-c^2}{2}.
+\]
+原课用此有效径向势与前面的$n=3$结果对照. 应注意: 有效势中$j$是已固定的守恒量, 不能未经说明把它当成完整二维正则哈密顿量再对$j$求偏导. 为独立核对进动系数, 令$u=1/r$并用$\dot\phi=ju^2$, 径向方程给
+\[
+u''+u=\frac{GM}{j^2}+\frac{3GM}{c^2}u^2,
+\]
+其中撇号对$\phi$. 把$u_0=(1+e\cos\phi)/p$, $p=j^2/(GM)$代入摄动项, 与$\cos\phi$同频的项为$6GMe\cos\phi/(c^2p^2)$. 因$(\phi\sin\phi)''+\phi\sin\phi=2\cos\phi$, 它引起的轨道相位为$\cos[(1-\delta)\phi]$, $\delta=3GM/(c^2p)$. 每一径向周期的进动是
+\[
+\Delta\omega=\frac{6\pi GM}{c^2a(1-e^2)}
++O\!\left((GM/(c^2p))^2\right).
+\]
+这里使用弱场、慢运动及小进动近似. 完整的测地线问题来自驻定固有时, 二次度规拉格朗日量要求仿射参数; 原稿称“最小”不应理解为所有允许轨道均为局部最小. 按原课给的水星参数$a=5.79\times10^7\,\mathrm{km}$, $e=0.2056$, $T=0.2409\,\mathrm{yr}$及$GM/c^2=1.4766\,\mathrm{km}$, 本公式给约$42.98$角秒每世纪. 这是该课的相对论修正示例, 不包括其他行星等对总观测进动的贡献.
+
+另一个原课例子改变的是动量项. 对一维谐振子, 展开$\sqrt{m^2c^4+c^2p^2}$并扣除静质量能, 得$H=H_0-p^4/(8m^3c^2)+O(p^6/(m^5c^4))$. 用$H_0=\omega_0I$及$p=\sqrt{2m\omega_0I}\cos\chi$, 摄动平均为$\langle h\rangle=-3\omega_0^2I^2/(16mc^2)$. 因而
+\[
+\delta\omega=\frac{\partial\langle h\rangle}{\partial I}
+=-\frac{3\omega_0^2I}{8mc^2}.
+\]
+振动频率降低, 而未摄动作用量的首阶净周期变化为零. 若以振幅$A$表示, $\delta\omega/\omega_0=-3\omega_0^2A^2/(16c^2)$; 要求最大速度$\omega_0A\ll c$. 该例说明HJ摄动既能处理位置势的改变, 也能处理速度或动量关系的改变.
