@@ -2,7 +2,9 @@
 
 本仓库用于个人非商业学习，保存授权归档的 MIT OpenCourseWare 课程讲义及其中文原生 LaTeX 重编成果。仓库现已公开，供非商业学习与来源核对。
 
-## 中文讲义阅读与下载
+[数学讲义：15册，1660页](#数学讲义) · [物理讲义：原件已收集，中文编写中](#物理讲义)
+
+## 数学讲义
 
 以下是已提交至主分支、用于中文学习的整册成品，可直接阅读与下载。各册的定义、推导、例题与解答用中文表述；数学记号、必要专名及文献原题可能保留原文。点击“下载中文 PDF”直接获取对应学科的中文主 PDF；英文原始讲义的入口集中放在下方“英文原始讲义（来源核对）”折叠区。
 
@@ -24,9 +26,35 @@
 | [图论](subjects/graph-theory/) | 树、连通、匹配、染色、平面图、网络算法、矩阵树、谱图、极值与Ramsey；17个理论章及34道编者练习，增补127个官方PDF原题（258个末端小问）与75个在线Q的中文题面及解答。 | 157 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/graph-theory/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/graph-theory/dist/source.zip) · [内容与核验](subjects/graph-theory/README.md) |
 | [群表示](subjects/group-representation/) | 有限群复表示、Schur与Maschke、特征标、群代数、张量与对偶、诱导与限制、Frobenius互反及Mackey分解；9章核心，含11次作业52题及期末4题的中文题面与编者解答。 | 97 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/group-representation/dist/main.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/group-representation/dist/group-representation-source.zip) · [内容与核验](subjects/group-representation/README.md) |
 
+## 物理讲义
+
+电动力学、量子力学、理论力学的英文原件已收集并提交，三册中文讲义正在编写。下表简介介绍所选课程的学习主题；中文 PDF、源码包与实测页数在成品完成后提供。目前物理中文交付为 **0册**。
+
+| 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
+|---|---|---|---:|---|---|
+| 电动力学 | 8.07（Fall 2012，Alan Guth、Min Chen）为主，8.311（Spring 2004，Leonid Levitov）补充；从矢量分析、静电边值与多极展开进入介质、电磁波和辐射。 | 原件已收集，中文编写中 | 待核 | 待交付 | 待交付 |
+| [量子力学](subjects/quantum-mechanics/README.md) | Barton Zwiebach 的 8.04 → 8.05 → 8.06；从波函数与概率、薛定谔方程、势阱和隧穿进入算符、自旋、角动量、近似方法与散射。 | 原件已收集，中文编写中 | 待核 | 待交付 | 待交付 |
+| 理论力学 | 8.09（Fall 2014，Iain W. Stewart）为主，8.223（January IAP 2017，Matthew Evans）补充；拉格朗日与哈密顿力学、刚体、振动、正则变换、微扰及非线性动力学。 | 原件已收集，中文编写中 | 待核 | 待交付 | 待交付 |
+
+<details>
+<summary>展开物理英文原件、PDF下载与课程来源</summary>
+
+可在原件目录选择文件，或直接下载下面的英文 PDF 示例。这里的数量和页数只统计已提交的英文原件，不计作中文成品；理论力学的合订本与分章有重复。暂缓公开的材料及具体边界沿用各科来源清单。
+
+| 学科 | 原件目录与课程说明 | 英文PDF直接下载（示例） | 已归档原PDF | 逐文件来源清单 |
+|---|---|---|---|---|
+| 电动力学 | [原件目录](sources/electrodynamics/) · [课程与署名](sources/electrodynamics/README.md) | [向量分析，6源页](https://github.com/xhc144/mit-ocw-notes/raw/main/sources/electrodynamics/8-07-fall-2012/lecture-notes/mit8_07f12_ln1.pdf) | 61份，474源页 | [来源清单](manifests/electrodynamics-sources.json) |
+| 量子力学 | [原件目录](sources/quantum-mechanics/) · [课程与署名](sources/quantum-mechanics/README.md) | [量子力学基本特征，15源页](https://github.com/xhc144/mit-ocw-notes/raw/main/sources/quantum-mechanics/8-04-quantum-physics-i-spring-2016/pdf/7f930e013cef9cd7dec5aa88baa83f0a_MIT8_04S16_LecNotes1.pdf) | 55份，675源页 | [来源清单](manifests/quantum-mechanics-sources.json) |
+| 理论力学 | [原件目录](sources/classical-mechanics/) · [课程与署名](sources/classical-mechanics/README.md) | [8.09讲义合订本，199源页](https://github.com/xhc144/mit-ocw-notes/raw/main/sources/classical-mechanics/8-09-classical-mechanics-iii-fall-2014/pdf/d9bac33f6c60b304dc0398e99b327102_MIT8_09F14_full.pdf) | 35份，612源页（含重复） | [来源清单](manifests/classical-mechanics-sources.json) |
+
+</details>
+
 ## 讲义交付与课程考核范围
 
-上表统计的是已交付的中文基础讲义及各册已纳入的增补，不代表对应课程的全部作业、考试、教材题或所有原件已经完整翻译。全课程考核补充须另行核对公开题面、原题号、解答、重复项和缺项，并以各科覆盖清单为准；不能仅凭基础卷交付或新增章节就标为全部题目覆盖。
+<details>
+<summary>展开数学15册的考核覆盖、缺项与交付边界</summary>
+
+数学阅读表统计的是已交付的中文基础讲义及各册已纳入的增补，不代表对应课程的全部作业、考试、教材题或所有原件已经完整翻译。全课程考核补充须另行核对公开题面、原题号、解答、重复项和缺项，并以各科覆盖清单为准；不能仅凭基础卷交付或新增章节就标为全部题目覆盖。
 
 - 数值分析：PS1–PS8共33道原编号题、68个末级单元完整收录，保留原题号、附加问、分值和原印日期；PS8标明“Not due”，无需提交。解答均为AI编写，不冒称官方答案，实际数值实验的[代码与结果](subjects/numerical-analysis/experiments/)随源码提供。[题号冻结清单](subjects/numerical-analysis/assessment-inventory.json)区分题数与末级单元。所选公开页面没有链接考试卷或官方作业答案；[课程来源记录](subjects/numerical-analysis/course-sources.json)只支持每周两次、每次1.5小时及讲义讲次范围，作业原日期另据原件，不制造逐日课历或考试时间。大纲中的最小二乘、主成分分析缺独立讲义来源，未标作补全。
 - 数值代数：增补4份作业15道大题、2019当期及7份历史期中共8卷29道大题／60个显式子问。作业纸29个题目或子问位置含18个MIT自定义任务和11处Trefethen/Bau教材引用；11处完整题面未取得，只保留准确引用及官方答案实际支持的结论，不猜题或计入隐藏子问。2009年的3道题无官方答案，明确标AI补写；其他题注明官方答案来源与勘误。卷首保留39讲课历，OCW按周课历与教师仓库具体日期分开登记。[来源与覆盖范围](subjects/numerical-linear-algebra/source-coverage.json)、[原题号清单](sources/18.335j-spring-2019/assessments/question-inventory.json)及[实验代码](subjects/numerical-linear-algebra/experiments/)记录细节；新增39项Julia与50项Python检查不代替一般证明。学习主线仍为选定数值代数主题，不声称整门39讲课程逐讲全译。
@@ -45,7 +73,12 @@
 - 图论：17个理论章保持原学习主线，增补选定的127个官方PDF原题、258个末端小问及36个公开在线页面的75个Q，均给中文题面和解答；[评测完成映射](subjects/graph-theory/assessment-completion.json)保留原题号、重复关系与官方答案有无。仅计已入选范围，不称五门课程的全部考核或全部研究级理论完成；5个主课作业块中的6条商业教材题号引用缺公开题面，另行登记。
 - 本轮范围：这15册已按各自选定课程现有公开材料和上述明示边界完成本轮增补。未取得的外书题面、未公开试卷、缺失课堂引用和未选专题仍按各科清单留缺；不把基础卷或选读交付说成MIT全部课程全译。后续修订继续在原路径保留版本历史。
 
+</details>
+
 ## 第一阶段
+
+<details>
+<summary>展开首批三科的交付历史</summary>
 
 首批已完成应用数学的三个具体学科，各自形成独立的中文 TeX 源文件与 PDF：
 
@@ -54,6 +87,8 @@
 3. 最优化
 
 同一学科可以参考多个 OCW 源课程。源课程逐门登记，不以课程数量代替学科成果数量。
+
+</details>
 
 ## 目录约定
 
@@ -73,7 +108,7 @@
 <details>
 <summary>展开英文原始讲义、官方来源与校验清单</summary>
 
-这里保存英文原件及来源登记，供核对课程、作者、原文、许可与文件校验。用于中文学习的整册成品见上方“中文讲义阅读与下载”。来源页数不计入中文成品页数。
+这里保存英文原件及来源登记，供核对课程、作者、原文、许可与文件校验。用于中文学习的整册成品见上方“数学讲义”。来源页数不计入中文成品页数。
 
 | 学科 | 英文原始讲义与来源登记 |
 |---|---|
@@ -107,6 +142,11 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理三科已提交英文原件，中文讲义编写中，尚未计入交付册数或中文页数。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
+
+<details>
+<summary>展开数学交付历史与全站归档背景</summary>
+
 截至2026-10-08，已核验并交付 **15册中文整书，共1660个PDF物理页**：数值分析79页、数值代数90页、最优化126页、数理统计110页、拓扑132页、概率论237页、实变75页、复变124页、泛函59页、微分几何71页、常微分方程与动力系统196页、抽象代数58页、偏微分方程49页、图论157页、群表示97页。上方中文阅读表提供PDF下载、源码包及各科学习范围；册数只统计已有实际成品并完成交付核验的学科，原件下载不计作中文讲义完成。
 
 这首批15册已按各自选定课程的现有公开范围完成本轮增补与交付；实变本轮为课程资料和教材题号索引，未取得的外书题面、未公开原卷、缺失课堂引用及未选专题仍按上方边界保留。这不表示MIT全部课程或全部教材题目已经完整翻译。
@@ -115,3 +155,4 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 官方站点地图清单登记了 2,587 个课程目录项。这是课程站点目录数量，不是讲义数量、已下载文件数量或可交付译文数量。详细目录及计数含义见 `manifests/metadata/`；实际文件归档进度由文件清单单独记录。
 
+</details>
