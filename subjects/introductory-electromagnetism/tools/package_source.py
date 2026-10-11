@@ -7,17 +7,14 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 root = Path(__file__).resolve().parents[1]
 target = root / 'introductory-electromagnetism-zh-source.zip'
 files = [root / name for name in (
-    'main.tex', 'course-info.tex', 'source-map.tex', 'README.md',
+    'main.tex', 'course-info.tex', 'source-map.tex', 'BUILDING.txt',
     'LICENSE.md', 'build.sh', 'coverage.json')]
-for directory in ('chapters', 'vendor', 'tools'):
+for directory in ('chapters', 'figures', 'vendor', 'tools'):
     files += [p for p in (root / directory).rglob('*')
               if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc']
-for name in ('source-review.md', 'assessment-review.md', 'theory-review.md',
-             'theory-recheck.md', 'theory-visual-review.md', 'visual-review.md',
-             'visual-pages.json', 'navigation.json', 'numerical-reproduction.json',
-             'validation-report.json'):
-    path = root / 'qa' / name
-    if path.is_file():
+for path in (root / 'qa').glob('*'):
+    if path.is_file() and path.suffix in ('.json', '.md', '.txt') and path.name not in (
+            'rebuild.json', 'remote-verification.json', 'release.json', 'handoff.md'):
         files.append(path)
 
 def put(archive, name, data, executable=False):

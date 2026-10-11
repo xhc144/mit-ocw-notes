@@ -1,0 +1,133 @@
+\originalsection{多支路RL的初末态与真实时间常数}\label{tb:rl-networks}
+含电感的回路有非保守感应场. 集总模型把磁通集中记作$L\dot I$, 电阻处仍满足局部欧姆压降. 沿一个选定回路积分法拉第关系后得到$\mathcal E-RI=L\dot I$; 这不是证明变化磁通中存在全空间单值静电势. 测量端电压还须固定引线走法, 避免额外链接明显的变化磁通.
+
+\begin{example}
+\textbf{原11.11.4: 三电阻与电感的开关.} 电池$\mathcal E$和开关、$R_1$串联, 后接两条并联支路$R_2$及$(R_3+L)$. 起初电感无电流. 求合闸即刻、长期合闸、随后开闸即刻及长期后的三个电阻电流. $I_1$流向分叉, $I_2,I_3$分别沿两支路流向返回点.
+\end{example}
+\begin{solution}
+合闸即刻$I_3=0$, $I_1=I_2=\mathcal E/(R_1+R_2)$. 长期电感电压为零, 定义$D=R_1R_2+R_1R_3+R_2R_3$, 有
+\[I_{1,\infty}=\frac{\mathcal E(R_2+R_3)}D,\quad
+I_{2,\infty}=\frac{\mathcal E R_3}D,\quad I_{3,\infty}=\frac{\mathcal E R_2}D.\]
+开闸瞬间源支路$I_1=0$, 电感电流保持$I_{3,\infty}$, 所以$I_2=-I_{3,\infty}$, 即$R_2$反向流回. 其后形成$R_2,R_3,L$单闭环,
+\[I_3(t)=I_{3,\infty}e^{-(R_2+R_3)t/L},\quad I_2=-I_3,\]
+最终全部零. 合闸阶段从电感端看$R_{\rm th}=R_3+(R_1\parallel R_2)$, 开闸阶段是$R_2+R_3$. 两个时间常数不同, 不能只看到图上某个$R$就写$L/R$. 原解末句把“开闸后很久”误写成“合闸后很久”, 此处按实际过程纠正.
+\end{solution}
+
+\begin{example}
+\textbf{原11.11.5: 双电阻并联电感.} 电池$\mathcal E$经过$R_1$接$R_2\parallel L$, 初始断开且电感无电流, $t=0$合闸. 求$I_L(t)$.
+\end{example}
+\begin{solution}
+记流过$R_2$为$I_2$, 电感电流$I$, 节点给$I_1=I_2+I$. 两条回路分别是
+\[\mathcal E-(I_2+I)R_1-I_2R_2=0,\quad
+\mathcal E-(I_2+I)R_1-L\dot I=0.\]
+相减$I_2R_2=L\dot I$, 代回得到
+\[L\dot I+R'I=\mathcal E',\quad R'=\frac{R_1R_2}{R_1+R_2},\quad
+\mathcal E'=\frac{\mathcal E R_2}{R_1+R_2}.\]
+因而$I=\mathcal E(1-e^{-tR'/L})/R_1$, $\tau=L/R'$. 初时$I_2=\mathcal E/(R_1+R_2)$, 末时$I_2=0$, 与电感初期开路、最终短路的图像一致. 先消元再识别Thevenin参数, 让等效网络有具体方程依据.
+\end{solution}
+
+串联RL建立电流时, 回路乘$I$给$\mathcal EI=I^2R+\dd(LI^2/2)/\dd t$. 断开电源而保留放电闭路时, $\int_0^\infty I_0^2R e^{-2Rt/L}\dd t=LI_0^2/2$. 电感保存的能量不是耗散掉的热; 它可以在放电阶段返还, 只是这条回路最终把它转成热.
+
+\originalsection{LC的实际切换与阻尼初值}\label{tb:rlc-initial}
+\begin{example}
+\textbf{原11.11.6: 先充电再接LC.} 开关先使电容$C$接电池$\mathcal E$很久, 随后切到无电阻的电感$L$构成闭环. 求频率、最大电荷、电流和总能量.
+\end{example}
+\begin{solution}
+定义原正极板电荷$q$, 并令$I=\dot q$流向该板为正. 切换时$q(0)=C\mathcal E$, $I(0)=0$. 解为
+\[q=C\mathcal E\cos\omega_0t,\quad I=-\mathcal E\sqrt{C/L}\sin\omega_0t,
+\quad \omega_0=1/\sqrt{LC}.\]
+所以$f=1/(2\pi\sqrt{LC})$, $Q_{\max}=C\mathcal E$, $|I|_{\max}=\mathcal E\sqrt{C/L}$, 总能量$U=C\mathcal E^2/2$. 电流刚开始为负, 表示放电离开原正板; 四分之一周期后电流仍在, 电感使电容反向充电. 原件某些图将放电电流定为正, 那时应改用$I=-\dot q$, 不能只改一条式的符号.
+\end{solution}
+
+自由RLC的相同初值$q(0)=q_0,I(0)=0$, 欠阻尼时必须取
+\[q(t)=q_0e^{-\gamma t}\left(\cos\omega_dt+\frac\gamma{\omega_d}\sin\omega_dt\right),\quad
+\gamma=\frac R{2L},\quad\omega_d=\sqrt{\omega_0^2-\gamma^2}.\]
+对$t=0$求导确为零. 只写$q_0e^{-\gamma t}\cos\omega_dt$的初始导数为$-\gamma q_0$, 不满足未放电初值; 原11.8附录的简化相位应据初值补全. 临界时$q=q_0(1+\gamma t)e^{-\gamma t}$. 过阻尼令$\eta=\sqrt{\gamma^2-\omega_0^2}$, 则$q=q_0e^{-\gamma t}[\cosh\eta t+(\gamma/\eta)\sinh\eta t]$. 三式均满足同一初值及方程, 不是随意比较三条不同幅值的曲线.
+
+精确瞬时总能量$U=q^2/(2C)+L\dot q^2/2$满足$\dot U=-RI^2$. 弱阻尼$\gamma\ll\omega_0$时, 一个周期内包络改变很小, 周期平均能量近似$\overline U\simeq U_0e^{-2\gamma t}$, $Q_f\simeq\omega_0/(2\gamma)$. 原瞬时能量有周期起伏, 并非对任何$R$都精确等于这一指数. 这与前章磁场建立/释放相连, 系统总能量在计入热后仍守恒.
+
+\originalsection{相量首先是一种时间记法}\label{tb:phasor-diagrams}
+选择$e^{i\omega t}$时, 实际电压是$\operatorname{Im}(\widetilde V e^{i\omega t})$可保持本书的正弦约定. 相量是固定在复平面的幅相数, 同乘旋转因子后投影才是瞬时值. 图上向上不是空间里的竖直电场, 而是时间领先$\pi/2$的分量.
+
+纯电阻$I=V_0\sin\omega t/R$. 纯电感由$L\dot I=V_0\sin\omega t$积分, 得$I=-V_0\cos\omega t/(\omega L)+I_{\rm dc}$, 即正弦项落后$\pi/2$. 无电阻时$I_{\rm dc}$不会自行衰减, 由初值决定. 纯电容$q=CV_0\sin\omega t$, $I=CV_0\omega\cos\omega t$, 正弦项领先$\pi/2$. $X_L=\omega L$, $X_C=1/(\omega C)$都定义为非负大小, 复阻抗中的电容项则是$-iX_C$.
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=.85]
+\draw[->] (0,0)--(4,0) node[right] {同相};\draw[->] (0,-1.5)--(0,2.5) node[above] {领先$\pi/2$};
+\draw[->,thick] (0,0)--(2.5,0) node[midway,below] {$V_{R0}$};
+\draw[->,thick] (2.5,0)--(2.5,2) node[midway,right] {$V_{L0}$};
+\draw[->,thick] (2.9,0)--(2.9,-.9) node[right] {$V_{C0}$};
+\draw[->,structurecolor,thick] (0,0)--(2.5,1.1) node[above] {$V_0$};
+\draw[dashed] (2.5,1.1)--(2.5,0);
+\end{tikzpicture}
+\end{center}
+串联电压图以共同电流作相位基准. 电感和电容竖向相反, 源峰值为$\sqrt{V_{R0}^2+(V_{L0}-V_{C0})^2}$, 不是三峰值之和. 电流稳态取$I=I_0\sin(\omega t-\phi)$, 电荷必须取$q=-I_0\cos(\omega t-\phi)/\omega$, 保证$I=\dot q$; 原12.3中电荷正号与负振幅混用的表述在本稿统一修正.
+
+\begin{example}
+\textbf{原12.9.1、12.9.2: 两组实际串联RLC.} (a)$R=40.0\,\Omega,L=160\,\mathrm{mH},C=100\,\mu\mathrm F$, $V=40.0\sin(200t)\,\mathrm V$, 求阻抗、电流振幅和相位. (b)$R=40.0\,\Omega,L=80.0\,\mathrm{mH},C=50.0\,\mu\mathrm F$, $V=150\sin(100t)\,\mathrm V$, 求各元件电压峰值及$L+C$组合峰值.
+\end{example}
+\begin{solution}
+(a)$X_L=32.0\,\Omega$, $X_C=50.0\,\Omega$, $Z=\sqrt{40^2+(-18)^2}=43.9\,\Omega$, $I_0=0.912\,\mathrm A$到三位有效数字; $\phi=\arctan(-18/40)=-24.2^\circ$, 所以电流领先. 原件先把$Z$舍入再除得到$0.911\,\mathrm A$, 两者的差来自中间舍入.
+
+(b)$X_L=8.00\,\Omega$, $X_C=200\,\Omega$, $Z=196.1\,\Omega$, $I_0=0.765\,\mathrm A$. 从而$V_{R0}=30.6\,\mathrm V$, $V_{L0}=6.12\,\mathrm V$, $V_{C0}=153\,\mathrm V$, $V_{LC,0}=|V_{L0}-V_{C0}|=147\,\mathrm V$. 电容峰值大于输入150V并不违背回路定律, 因为不同元件达到峰值的时刻不相同.
+\end{solution}
+
+\originalsection{谐振的电压放大、两个半功率根与调谐}\label{tb:resonance-design}
+谐振时$I_0=V_0/R$, 元件峰值$V_{L0}=\omega_0LI_0=Q_fV_0$, $V_{C0}=Q_fV_0$. 它们相位相反而在源端抵消; 大内部电压表示往返交换能量强, 并非输入的平均功率凭空变大. 真实元件需满足耐压和损耗限制.
+
+\begin{example}
+\textbf{原12.9.3: 高元件电压.} $L=10.0\,\mathrm{mH}$, $C=100\,\mathrm{nF}$, $R=20.0\,\Omega$, $V=200\sin\omega t\,\mathrm V$. 求谐振频率、电流、品质因数及电感电压.
+\end{example}
+\begin{solution}
+$\omega_0=1/\sqrt{LC}=3.162\times10^4\,\mathrm{s^{-1}}$, $f_0=5033\,\mathrm{Hz}$, $I_0=10.0\,\mathrm A$, $Q_f=15.8$, $V_{L0}=3.16\,\mathrm{kV}$. 电阻平均热功率$I_0^2R/2=1000\,\mathrm W$, 与$V_0I_0/2$一致. 理想给值算例并未检验实际器件可承受这些值.
+\end{solution}
+
+半功率要求$I_0$是谐振峰的$1/\sqrt2$, 即$(\omega L-1/\omega C)^2=R^2$. 两个正根是
+\[\omega_\pm=\sqrt{\omega_0^2+\left(\frac R{2L}\right)^2}\pm\frac R{2L},\quad
+\omega_+\omega_-=\omega_0^2,\quad \omega_+-\omega_-=\frac RL.\]
+原12.4两式根号内误印$(R/4L)^2$, 代回二次方程即可判定应为$(R/2L)^2$. 半电流峰则功率仅四分之一, 对应$|X|=\sqrt3R$, 与半功率条件不同.
+
+选台电路以$\omega_0$调在目标频率, 对邻台$\omega_1$希望电流不超过峰值的比例$\eta$, 必须满足
+\[\frac{R}{\sqrt{R^2+L^2(\omega_1-\omega_0^2/\omega_1)^2}}\le\eta,
+\quad L\ge\frac{R\sqrt{\eta^{-2}-1}}{|\omega_1-\omega_0^2/\omega_1|},\quad C=\frac1{\omega_0^2L}.\]
+这是原12.11调谐题所需设计链. 更窄频率选择通常提高$Q_f$和内部电压, 不能只凭“峰越窄越好”忽略元件损耗与信号本身带宽.
+
+\originalsection{并联交流: 共电压而非共电流}\label{tb:parallel-rlc}
+理想$R,L,C$并联在$V=V_0\sin\omega t$上, 纯正弦稳态三支路为
+\[I_R=\frac{V_0}R\sin\omega t,\quad
+I_L=-\frac{V_0}{\omega L}\cos\omega t,\quad
+I_C=V_0\omega C\cos\omega t.\]
+节点相加给
+\[I=\frac{V_0}R\sin\omega t+V_0\left(\omega C-\frac1{\omega L}\right)\cos\omega t.\]
+因此复导纳$\mathcal Y=1/R+i(\omega C-1/\omega L)$, $I_0=V_0|\mathcal Y|$. 保持$I=I_0\sin(\omega t-\phi)$, 有$\tan\phi=R[1/(\omega L)-\omega C]$. 感性时电流落后, 容性时领先; 这仍与串联的符号约定一致.
+
+在$\omega_0$两无功支路电流抵消, 源电流最小为$V_0/R$, 输入阻抗最大为$R$. 电感、电容的各自支流却不为零. 固定$V_0$下$\langle P\rangle=V_0^2/(2R)$与频率无关, 理想并联电阻的耗散并不在谐振形成与串联相同的峰. 实际有线圈电阻时谐振位置与曲线需重新求导纳, 不把这个理想结论无条件推广.
+
+\originalsection{滤波、实际线圈与开关稳态}\label{tb:ac-filters}
+串联RL输出跨$R$时$H_R=R/(R+i\omega L)$, 幅比$R/\sqrt{R^2+\omega^2L^2}$, 相位$-\arctan(\omega L/R)$, 是低通. 输出改跨$L$时$H_L=i\omega L/(R+i\omega L)$, 幅比$\omega L/\sqrt{R^2+\omega^2L^2}$, 相位$\pi/2-\arctan(\omega L/R)$, 是高通. 幅比为$1/\sqrt2$的截止角频率都是$R/L$. RC低通可从同样复分压得到$H_C=1/(1+i\omega RC)$.
+
+\begin{example}
+\textbf{原12.9.4及12.9.6: 两种RL滤波.} (a)外电阻$r$串联具有内阻$R$的线圈$L$, 输出跨整个线圈; $r=15.0\,\Omega,R=10.0\,\Omega,L=250\,\mathrm{mH}$, 求幅比及幅比$1/2$的频率. (b)理想$L=400\,\mathrm{mH}$与$R$串联, 输入$20.0\sin(200t)\,\mathrm V$, 输出跨$R$且落后$30.0^\circ$, 求$R$、幅比和交换位置后的滤波类型.
+\end{example}
+\begin{solution}
+(a)$H=(R+i\omega L)/(R+r+i\omega L)$, 所以
+\[|H|=\sqrt{\frac{R^2+\omega^2L^2}{(R+r)^2+\omega^2L^2}}.\]
+低频底值$R/(R+r)=0.4$并非零, 高频趋于1. 令平方为$1/4$得$(\omega L)^2=[(R+r)^2-4R^2]/3=75\,\Omega^2$, $f=\omega/(2\pi)=5.51\,\mathrm{Hz}$. 输出跨$R+L$, 不可用理想$L$单独的式替代.
+
+(b)$\tan30^\circ=\omega L/R$, 所以$R=138.6\,\Omega\simeq139\,\Omega$, 幅比$\cos30^\circ=0.866$, 输出峰值$17.3\,\mathrm V$, 是低通. 交换位置并按同一输出端测量, 输出变跨$L$而为高通; 在该频率幅比$\sin30^\circ=0.5$, 相位领先$60^\circ$.
+\end{solution}
+
+\begin{example}
+\textbf{原12.9.5: 依次取消L、C的短接旁路.} 串联RLC中$S_1$旁路$L$, $S_2$旁路$C$, 源$V_0\sin\omega t$. 题目都求长期正弦稳态: (a,b)两旁路闭合时的电流、平均功率; (c)只断开$S_1$后的电流; (d,e)两旁路断开且电流电压同相时$C$及阻抗; (f,g)两种最大储能; (h)源频率加倍后的相位; (i)$X_L=X_C/2$时的频率.
+\end{example}
+\begin{solution}
+(a,b)只有$R$起作用, $I=V_0\sin\omega t/R$, 平均功率$\langle P\rangle=V_0^2/(2R)$.
+(c)只断$S_1$是RL:
+\[I=\frac{V_0}{\sqrt{R^2+\omega^2L^2}}\sin\left[\omega t-\arctan\frac{\omega L}{R}\right].\]
+
+(d,e)同相表示串联谐振, 记当时频率$\omega_0$, $C=1/(\omega_0^2L)$, $Z=R$. (f,g)电感最大储能$LI_0^2/2=LV_0^2/(2R^2)$, 电容最大储能$I_0^2/(2\omega_0^2C)$同值. \emph{两最大值发生在不同瞬间}: 电流最大时$q=0$, 电容能量为零; 原解把电容能量称为在电流最大时最大, 本稿纠正.
+
+(h)$\omega=2\omega_0$给$X=3\sqrt{L/C}/2$, 所以$\phi=\arctan[3\sqrt{L/C}/(2R)]$. (i)$\omega L=1/(2\omega C)$, 故$\omega=\omega_0/\sqrt2$. 每次开关瞬间另有暂态, 题设忽略它不表示真实电流能任意跳变.
+\end{solution}
+
+理想变压器在交流稳态中由同一磁通得到电压匝数比, 外接电阻$R_L$在一次侧反映为$(N_1/N_2)^2R_L$. 电流反比来自忽略磁化电流与损耗的功率平衡. 恒定直流只在切换时有变磁通, 稳态不能像交流那样连续变压; 实际一次绕组还会发热或磁芯饱和. 功率因数$\cos\phi=1/2$既可能有$\phi=+60^\circ$也可能$-60^\circ$, 单靠平均功率不能判断电流超前还是落后.

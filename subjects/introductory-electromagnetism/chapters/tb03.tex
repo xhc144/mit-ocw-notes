@@ -1,0 +1,104 @@
+\originalsection{有限线源与电弧}\label{tb:finitesources}
+连续电荷题先画观察点和积分元, 再把$\dd q$、距离和方向写成同一积分变量. 势积分只需要距离; 场积分还需要方向投影. 两者在源外应由$\ee=-\nabla V$互相核对, 原点或带电面上则要检查公式的定义域和单侧极限.
+
+\begin{example}\label{ex:offaxisrod}
+对应原2.10及2.13.6, 均匀线电荷$\lambda$在$x$轴的$x_1\le x'\le x_2$, 观察点为$(0,y)$, $y\ne0$. 求两个场分量, 并比较对称与轴端情形.
+\end{example}
+\begin{solution}
+源到观察点的位移为$-x'\uv x+y\uv y$, $\dd q=\lambda\dd x'$, 所以
+\begin{align*}
+E_x&=-\kc\lambda\int_{x_1}^{x_2}\frac{x'\dd x'}{(x'^2+y^2)^{3/2}}
+=\kc\lambda\left[\frac1{\sqrt{x'^2+y^2}}\right]_{x_1}^{x_2},\\
+E_y&=\kc\lambda\int_{x_1}^{x_2}\frac{y\dd x'}{(x'^2+y^2)^{3/2}}
+=\frac{\kc\lambda}{y}\left[\frac{x'}{\sqrt{x'^2+y^2}}\right]_{x_1}^{x_2}.
+\end{align*}
+原函数可直接微分检查. 当$x_1=-L/2,x_2=L/2$, $E_x=0$, $E_y=\kc Q/[y\sqrt{y^2+(L/2)^2}]$, 与第14章线源计算衔接. 若两端并不关于观察点对称, 就不能先抹去$E_x$. 当线段在观察点右侧, 取$y\to0$且$x_1>0$, 有$E_x=\kc\lambda(1/x_2-1/x_1)<0$, $E_y\to0$.
+\end{solution}
+
+\begin{example}
+\textbf{原3.1: 有限棒中垂线的势.} 均匀棒总电荷$Q$, 长$\ell$, 放在$x'\in[-\ell/2,\ell/2]$. 求$(0,y)$的势和场, 并解释长棒极限, $y>0$.
+\end{example}
+\begin{solution}
+$\lambda=Q/\ell$, $V(\infty)=0$, 源到观察点距离$\sqrt{x'^2+y^2}$. 令$h=\ell/2$, 则
+\[V=\kc\lambda\int_{-h}^{h}\frac{\dd x'}{\sqrt{x'^2+y^2}}
+=\kc\lambda\ln\frac{\sqrt{h^2+y^2}+h}{\sqrt{h^2+y^2}-h}.\]
+微分得到$E_y=-\dd V/\dd y=\kc Q/[y\sqrt{y^2+h^2}]$, $E_x=0$, 与直接场积分一致. 远场$y\gg\ell$给$V\simeq\kc Q/y$. 长棒$\ell\gg y$给$V\simeq2\kc\lambda\ln(\ell/y)$. 固定$\lambda$令$\ell\to\infty$时势本身发散, 但有限两点的势差有极限, 因而无限棒需有限参考点. 不应因为场有良好极限就仍坚持无穷远零势.
+\end{solution}
+
+\begin{example}\label{ex:chargedarc}
+原2.13.5: 半径$R$的均匀电弧以$+x$轴为中心, 角范围$-\theta_0\le\theta\le\theta_0$, 求圆心场和势.
+\end{example}
+\begin{solution}
+$\dd q=\lambda R\dd\theta$, 对圆心的场沿$-(\cos\theta,\sin\theta)$. 奇的$y$分量积分为零, 得$\ee=-2\kc\lambda\sin\theta_0\uv x/R$. 全部电荷距圆心相同, 故$V=\kc Q/R=2\kc\lambda\theta_0$. 完整圆环$\theta_0=\pi$时场为零而势非零; 短弧极限在总电荷$Q=2\lambda R\theta_0$固定时回到距离$R$的点电荷. 第14章上半圆题只是旋转了这组几何关系, 不必重复推导.
+\end{solution}
+
+\originalsection{势积分、参考点与运动}\label{tb:potentialexamples}
+势是位置的标量函数, 势能还需要指明试探电荷$q$. 例如同一$V$上, 正负电荷的势能梯度方向相反. 沿路径积分$\ee\cdot\dd\rr$时, 若先按运动方向取长度为正, 要把场的投影符号保留; 不能把任意路径中的场强大小积分当势差. 对无限长线电荷, $E\propto1/s$, 到无穷远的积分对数发散, 因而应指定有限参考半径$s_0$:
+$V(s)-V(s_0)=-\lambda\ln(s/s_0)/(2\pi\eps)$.
+
+\begin{example}\label{ex:rodpotential}
+对应原3.8.4, 总电荷$Q>0$均匀分布在$z\in[-d,d]$. 求轴上$z>d$的势, 以及电子从静止$z=4d$移到$z=3d$的势能变化和速率.
+\end{example}
+\begin{solution}
+令$\lambda=Q/(2d)$, $V(\infty)=0$, 从源位置$z'$积分:
+\[
+V(z)=\kc\lambda\int_{-d}^d\frac{\dd z'}{z-z'}
+=\kc\lambda\ln\frac{z+d}{z-d}.
+\]
+积分界限是源线段$[-d,d]$, 不是直接把源到观察点的距离当$z'$界限. 微分得$E_z=2\kc\lambda d/(z^2-d^2)>0$, 从而电子受力向较小$z$.
+$V(3d)-V(4d)=\kc\lambda\ln(6/5)>0$, $\Delta U=-e\kc\lambda\ln(6/5)<0$. 能量守恒给$v=\sqrt{2e\kc\lambda\ln(6/5)/m_e}$. 若该速率不再远小于光速, 应用相对论动能, 不能继续使用此根式.
+\end{solution}
+
+\begin{example}\label{ex:annulus}
+原3.8.3: 半径$a$至$b$的均匀带电圆环面, 面密度$\sigma$, 求轴上势与场.
+\end{example}
+\begin{solution}
+用半径$s$、厚$\dd s$的同心小圆环, $\dd q=2\pi\sigma s\dd s$. 因此
+\begin{align*}
+V(z)&=2\pi\kc\sigma\int_a^b\frac{s\dd s}{\sqrt{s^2+z^2}}
+=\frac\sigma{2\eps}\left(\sqrt{b^2+z^2}-\sqrt{a^2+z^2}\right),\\
+E_z&=\frac{\sigma z}{2\eps}\left(\frac1{\sqrt{a^2+z^2}}-\frac1{\sqrt{b^2+z^2}}\right).
+\end{align*}
+$a\to0$给圆盘势$\sigma(\sqrt{b^2+z^2}-|z|)/(2\eps)$, 所以在盘面须区分单侧导数. 当$a>0$, 圆环中心没有电荷, 场可平滑过零. 大$|z|$时$V\simeq\kc\sigma\pi(b^2-a^2)/|z|$, 正确回到总电荷点源.
+\end{solution}
+
+\begin{example}\label{ex:dipoleaxis}
+原3.8.1和3.8.2: $+q$在$x=a$, $-q$在$x=-a$. 给出整个$x$轴上的势, 并解释其远场与场强.
+\end{example}
+\begin{solution}
+$V(x)=\kc q(1/|x-a|-1/|x+a|)$, 定义域排除$\pm a$. 原点势为零, 但$E_x(0)=-2\kc q/a^2$不为零. 由于绝对值, 必须按$x<-a,-a<x<a,x>a$分别微分; 不能在整条轴上用$1/(x-a)$替代$1/|x-a|$. 势是奇函数, 在$+a$附近趋于正无穷、在$-a$附近趋于负无穷. 当$|x|\gg a$, $V\simeq\kc(2qa)\operatorname{sgn}(x)/x^2$. 任意方向则为$V\simeq\kc\vct p\cdot\uv r/r^2$, 由球坐标梯度得到本章偶极场, 其大小为$\kc p\sqrt{1+3\cos^2\theta}/r^3$.
+\end{solution}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.85\linewidth,height=5cm,xlabel={$x/a$},ylabel={$Va/(\kc q)$},xmin=-4,xmax=4,ymin=-4,ymax=4,samples=201,unbounded coords=jump]
+\addplot[thick,structurecolor,domain=-4:-1.08] {1/abs(x-1)-1/abs(x+1)};
+\addplot[thick,structurecolor,domain=-.92:.92] {1/abs(x-1)-1/abs(x+1)};
+\addplot[thick,structurecolor,domain=1.08:4] {1/abs(x-1)-1/abs(x+1)};
+\draw[dashed] (axis cs:-1,-4)--(axis cs:-1,4);\draw[dashed] (axis cs:1,-4)--(axis cs:1,4);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+原3.8.1要求的轴上势图以上述无量纲变量绘制, 虚线标源点奇点; 图幅外仍继续发散, 并没有在虚线处赋有限值.
+
+\begin{example}
+\textbf{原3.4: 由给定势求三维场.} 
+给定$V(x,y,z)=Ax^2y^2+Bxyz$, 求电场. $A,B$为常数; 原文还列$C$, 但实际表达式中没有$C$项.
+\end{example}
+\begin{solution}
+逐分量取负偏导:
+\[\ee=-(2Axy^2+Byz)\uv x-(2Ax^2y+Bxz)\uv y-Bxy\uv z.\]
+这里$A$单位为V/m$^4$, $B$为V/m$^3$. 场一般不是径向. 进一步$\nabla^2V=2A(x^2+y^2)$, 所需体密度$\rho=-2\eps A(x^2+y^2)$; $Bxyz$项为谐函数. 任意给定势的局部导数都能计算, 但这个多项式全空间不衰减, 并不对应一组有限孤立电荷的无穷远零势.
+\end{solution}
+
+原2.13.4的偶极沿$+y$, 极角$\theta$从$+y$轴朝$+x$量, 故$\uv r=(\sin\theta,\cos\theta)$, $\uv\theta=(\cos\theta,-\sin\theta)$. 用$E_r=2\kc p\cos\theta/r^3$和$E_\theta=\kc p\sin\theta/r^3$合成, 明确原(a)要求的直角分量:
+\[E_x=\frac{3\kc p\sin\theta\cos\theta}{r^3},\qquad
+E_y=\frac{\kc p(3\cos^2\theta-1)}{r^3}.\]
+它们是$r\gg a$的首个非零阶, 不是两源附近的精确场. 点电荷体系相互作用能还可写$U=\tfrac12\sum_iq_iV_{\rm other}(\rr_i)$, 排除各点自己的奇异势, 因为每一对在求和中出现两次. 连续有限分布的$\tfrac12\int\rho V\dd\mathcal V$与它相接, 原点电荷的无限自能不能悄悄包含进有限配对式.
+
+原3.8.2还要求有限偶极的离轴精确势. 若$+q$在$y=a$、$-q$在$y=-a$, $\theta$从$+y$轴量, 两距离
+\[r_\pm=\sqrt{r^2+a^2\mp2ra\cos\theta},\qquad
+V(r,\theta)=\kc q\left(\frac1{r_+}-\frac1{r_-}\right).\]
+在$r\gg a$处展开, $1/r_\pm\simeq r^{-1}[1\pm(a/r)\cos\theta]$, 两个单极项抵消, 留$V\simeq\kc p\cos\theta/r^2$, $p=2qa$. 绕偶极轴的方位角不出现在势中, 所以$E_\phi=0$. 精确根式与远场式使用范围不同, 源点处根式仍有奇点.
+
+原例2.2棒在观察点右侧、近端距$x_0$, 长$\ell$, 以固定$Q,\ell$让$x_0\gg\ell$, 轴场$E_x=-\kc Q/[x_0(x_0+\ell)]\simeq-\kc Q/x_0^2$. 这是固定棒、观察点远移的远场, 与第14章练习固定观察点再令棒长趋零是不同参数极限, 虽都回到点源.
