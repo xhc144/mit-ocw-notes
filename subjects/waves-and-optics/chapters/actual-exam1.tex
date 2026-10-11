@@ -1,0 +1,226 @@
+\originalsection{实际期中考试一: Exam 1}
+本节对应原件封面明确标为 Physics 8.03 Fall 2016, Exam 1 的实际试卷, 与 Practice Exam 1 分开收录. 原卷要求闭卷, 答案写在白色答题册, 试卷上的作答不评分, 所有电子设备关闭. 全卷三道大题, 共100分. 当前取得的材料只有题卷及公式页, 没有匹配官方解答; 以下均为 AI 独立解答, 不借用练习卷答案代替. 原图中确切可读的连接、符号和曲线特征均写入题面, 示意图不用于估计原件未给出的参数.
+
+\begin{exercise}\label{exam:actual1.1}
+原题1 (30分). 回答下列短题, 每问5分.
+
+(A) 一位研究生研究只能沿 $x$ 方向运动的阻尼摆. 原图为相对平衡位置的位移随时间记录: 横轴时间 $0$ 至 $200\,\mathrm s$, 纵轴位置单位 cm, 标出的整数刻度从 $-2$ 至 $5$. 曲线从约 $5\,\mathrm{cm}$ 开始, 穿过零位移, 出现负极小值, 再出现正极大值, 如此正负交替, 振幅逐次减小并趋近零. 根据实验数据判定它是欠阻尼、过阻尼还是临界阻尼振子.
+
+(B) 同一弦上的两个振动为 $y_1(t)=A\cos(3\pi t)$ 和 $y_2(t)=A\cos(4\pi t)$, $t$ 以秒计, $A=0.01\,\mathrm{cm}$. 求叠加的拍周期.
+
+(C) 一个重摆在水下以角频率 $\omega_1$ 作欠阻尼振动. 若将整个系统移出水面, 振动频率增加、减小还是不变? 解释原因.
+
+(D) 三个质量沿直线排列并用弹簧连接, 系统具有镜像对称 $x_1\mapsto-x_3$, $x_3\mapsto-x_1$, $x_2\mapsto-x_2$. 写出对称矩阵 $S$.
+
+(E) 简要解释, 为什么受驱动欠阻尼振子在驱动刚开启时常出现较大、看似不规则的响应?
+
+(F) 质量 $m$、劲度 $k$ 的简单弹簧振子与电感 $L$、电容 $C$ 串联构成的单闭合回路具有等价的运动方程. 分别指出质量 $m$ 和弹簧劲度 $k$ 的电学对应量.
+\end{exercise}
+\begin{solution}
+本题为 AI 独立解答.
+
+(A) 是欠阻尼. 图中不是一次越过平衡后慢慢返回, 而是连续数次正负交替振动. 对线性自由振子 $\ddot x+\Gamma\dot x+\omega_0^2x=0$, 欠阻尼条件为 $0<\Gamma<2\omega_0$, 解为
+\[
+x(t)=\e^{-\Gamma t/2}(C\cos\Omega t+D\sin\Omega t),\qquad
+\Omega=\sqrt{\omega_0^2-\Gamma^2/4}.
+\]
+这产生衰减振荡. 临界或过阻尼解由实指数及其重根极限组成, 不会产生图中持续的交替振荡. 本问只要求类型; 不把图的近似刻度当作精确参数测量.
+
+(B) 用和差化积得
+\[
+y_1+y_2=2A\cos\!\left(\frac{\pi t}{2}\right)\cos\!\left(\frac{7\pi t}{2}\right).
+\]
+快速振动的非负包络为 $2A|\cos(\pi t/2)|$. 相邻包络极大出现在 $t=0,2,4,\ldots\,\mathrm s$, 所以拍周期为 $2\,\mathrm s$. 等价地, 普通频率为 $1.5$ 和 $2\,\mathrm{Hz}$, 拍频 $|f_2-f_1|=0.5\,\mathrm{Hz}$. 带符号的慢因子 $\cos(\pi t/2)$ 自身周期为4秒, 但其符号改变只是快速振动反相, 不应把它作为拍周期. $A$ 只决定包络峰高 $0.02\,\mathrm{cm}$.
+
+(C) 在本课程的线性阻力模型中, 移出水后阻力减小, 而重摆的惯性及小角度重力恢复系数近似不变. 水下观测频率为 $\omega_1=\sqrt{\omega_0^2-\Gamma_{\rm w}^2/4}$, 空气中为 $\sqrt{\omega_0^2-\Gamma_{\rm a}^2/4}$, $\Gamma_{\rm a}<\Gamma_{\rm w}$, 所以频率\textbf{增加}, 趋近无阻尼频率 $\omega_0$. 这里比较的是实际阻尼振动频率, 不是只由恢复系数和质量决定的无阻尼频率. 若把流体浮力和附加质量也计入, 还须说明摆体体积、浸没状态及流体模型; 题目未给这些参数. 对普通完全浸没且密度较大的重摆, 移出水还会消除削弱有效重力的浮力及水的附加惯性, 通常也使频率增大; 本问的定量理由采用上述已说明的阻尼近似.
+
+(D) 对列向量 $\boldsymbol x=(x_1,x_2,x_3)^{\mathsf T}$, 变换后的列向量为 $(-x_3,-x_2,-x_1)^{\mathsf T}$, 故
+\[
+S=\begin{pmatrix}0&0&-1\\0&-1&0\\-1&0&0\end{pmatrix}.
+\]
+$S^2=I$ 表示反射两次回到原状态. 负号源于反射还改变向右位移的方向, 不能只交换第1、3个分量.
+
+(E) 开启时的总解为稳态驱动项与自由瞬态之和:
+\[
+x(t)=X\cos(\omega_dt-\delta)+\e^{-\Gamma t/2}[C\cos\Omega t+D\sin\Omega t].
+\]
+后一项必须使总解满足开启时的位置和速度初值, 通常不为零. 小阻尼时它消失得慢; 两个频率相近便产生拍, 其他情况下也可因相位变化交替增强或抵消, 加上近共振稳态幅度大, 便呈现较大、看似不规则的启动响应. 这仍是确定的线性叠加, 不需要假设混沌. 经过数个振幅衰减时间 $2/\Gamma$ 后只剩稳态项.
+
+(F) 机械方程 $m\ddot x+kx=0$ 与电路方程 $L\ddot Q+Q/C=0$ 对应, 因而 $m\leftrightarrow L$, $k\leftrightarrow1/C$, 位移 $x\leftrightarrow Q$, 速度 $\dot x\leftrightarrow I$ (选择 $I=\dot Q$ 的参考方向). 电感储能 $LI^2/2$ 对应动能 $m\dot x^2/2$, 电容储能 $Q^2/(2C)$ 对应弹性势能 $kx^2/2$. 这也说明不能把 $k$ 直接对应电容 $C$.
+\end{solution}
+
+\begin{exercise}\label{exam:actual1.2}
+原题2 (30分). 精密测量常需要隔振桌. 原图中质量为 $m$ 的桌面由左右两根相同的理想弹簧并联支撑, 每根劲度为 $k=\tfrac12m\omega_0^2$. 桌面与地板之间还并联一个阻尼器, 其力为 $F=-m\Gamma v$, $v$ 指桌面相对于地板的速度, \textbf{不是桌面的绝对速度}. 每根弹簧和阻尼器的上下端都牢固连接桌面和地板. 系统欠阻尼. 地震使地板竖直振动 $y_g(t)=A\cos\omega_dt$.
+
+(a,10分) 以地震前桌面平衡位置为 $y=0$, 写出桌面位置 $y(t)$ 的运动方程.
+
+(b,10分) 求桌面稳态振动幅度关于地板振动角频率 $\omega_d$ 的函数.
+
+(c,10分) 画稳态幅度关于 $\omega_d$ 的草图, 标明 $\omega_d\sim0$ 和 $\omega_d\to\infty$ 时的幅度.
+\end{exercise}
+\begin{solution}
+本题为 AI 独立解答. 固定实验室参考系, 向上为正, $y$ 和 $y_g$ 都是相对各自地震前位置的增量; 所以两弹簧的变形增量由相对位移 $y-y_g$ 决定. 地震前重力已由静态弹力平衡.
+
+(a) 两弹簧总恢复力增量为 $-2k(y-y_g)$, 阻尼力为 $-m\Gamma(\dot y-\dot y_g)$. 由牛顿定律
+\begin{align*}
+m\ddot y&=-2k(y-y_g)-m\Gamma(\dot y-\dot y_g),\\
+\ddot y+\Gamma\dot y+\omega_0^2y
+&=\omega_0^2y_g+\Gamma\dot y_g\\
+&=A\omega_0^2\cos\omega_dt-A\Gamma\omega_d\sin\omega_dt.
+\end{align*}
+若另取桌面对地板的相对坐标 $u=y-y_g$, 则 $\ddot u+\Gamma\dot u+\omega_0^2u=-\ddot y_g$. 它是另一坐标的方程, 不能把相对振幅当作题目所求的桌面绝对振幅.
+
+(b) 采用 $y=\Rea(Y\e^{-\ii\omega_dt})$, $y_g=\Rea(A\e^{-\ii\omega_dt})$. 代入得到
+\[
+(\omega_0^2-\omega_d^2-\ii\Gamma\omega_d)Y
+=(\omega_0^2-\ii\Gamma\omega_d)A.
+\]
+故稳态幅度为
+\[
+B(\omega_d)=|Y|=A\sqrt{\frac{\omega_0^4+\Gamma^2\omega_d^2}{(\omega_0^2-\omega_d^2)^2+\Gamma^2\omega_d^2}}.
+\]
+分子的阻尼项体现移动地板同时通过阻尼器传递驱动力. 只采用固定外力振子的常数分子会漏掉这项.
+
+(c) 令 $r=\omega_d/\omega_0$, $h=\Gamma/\omega_0$; 欠阻尼且有损耗时 $0<h<2$. 归一化幅度为
+\[
+\mathcal H(r)=\frac BA=\sqrt{\frac{1+h^2r^2}{(1-r^2)^2+h^2r^2}}.
+\]
+因此 $\mathcal H(0)=1$, 即极慢地板运动时桌面跟随地板, $B\simeq A$. 高频有 $\mathcal H(r)\sim h/r$, 即 $B\sim A\Gamma/\omega_d\to0$; 阻尼器使高频尾部按 $1/\omega_d$ 衰减. 对严格无阻尼极限, 非共振高频则是 $B\sim A\omega_0^2/\omega_d^2$, 共振处无有界稳态.
+
+为使草图关键位置可核查, 对 $\mathcal H^2$ 用 $s=r^2$ 求导:
+\[
+\frac{\dd(\mathcal H^2)}{\dd s}
+=\frac{2-2s-h^2s^2}{[(1-s)^2+h^2s]^2}.
+\]
+唯一正峰位于
+\[
+r_{\max}^2=\frac{2}{1+\sqrt{1+2h^2}}<1.
+\]
+此外 $\mathcal H(\sqrt2)=1$, 超过此频率才有 $B<A$ 的隔振效果. 小阻尼使共振附近的峰更尖更高. 下图只用明确给出的示例 $h=0.3,1$ 展示这一曲线族, 不把示例值当作原题已知数值.
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.77\linewidth,height=5.0cm,xmin=0,xmax=3,ymin=0,ymax=4,
+ xlabel={$r=\omega_d/\omega_0$},ylabel={$B/A$},legend style={font=\small,at={(.98,.98)},anchor=north east},samples=180]
+\addplot[color=structurecolor,thick,domain=0:3]{sqrt((1+0.09*x^2)/((1-x^2)^2+0.09*x^2))};
+\addlegendentry{$\Gamma/\omega_0=0.3$}
+\addplot[black,dashed,thick,domain=0:3]{sqrt((1+x^2)/((1-x^2)^2+x^2))};
+\addlegendentry{$\Gamma/\omega_0=1$}
+\addplot[gray,dotted,domain=0:3]{1};
+\addplot[only marks,mark=*,mark size=1.5pt] coordinates {(0,1) (1.41421356,1)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+\begin{exercise}\label{exam:actual1.3}
+原题3 (40分). 原图是一刚性的倒 U 形框架, 总质量 $2m$, 第三坐标 $x_3$ 表示框架整体向右位移. 两个质量均为 $m$ 的小物块, 分别由长 $L$ 的无质量摆杆悬挂在框架上横梁. 左框架竖边经劲度 $K$ 的弹簧连接左物块, 左右物块之间用劲度 $\alpha K$ 的弹簧连接, 右物块再经劲度 $K$ 的弹簧连接框架右竖边. 三根弹簧在平衡时水平且自然伸展, 两摆杆竖直. $x_1,x_2$ 是两个小物块相对各自静态平衡位置的向右位移; 与 $x_3$ 都在实验室固定坐标中测量. 系统在地球上, 重力向下; 振幅很小, 无阻尼或摩擦, 可认为三个质量只作水平运动. 图中 $K,\alpha K,m,2m,L$ 均按这些标记保留.
+
+(a,6分) 起初框架固定在 $x_3=0$, 推导 $x_1,x_2$ 的耦合运动方程.
+
+(b,4分) 写出 $2\times2$ 的 $M^{-1}K$ 矩阵 (这里矩阵 $K$ 指总刚度矩阵, 不只是一根弹簧的劲度).
+
+(c,6分) 求两个简正模角频率.
+
+(d,8分) 求每个模的振幅比, 并用草图描述运动.
+
+(e,4分) 用两模频率和四个未知系数写两质量运动的一般表达式.
+
+(f,8分) 现在释放质量 $2m$ 的框架, 使其可沿 $x$ 自由运动. 推导 $x_1,x_2,x_3$ 的耦合方程, 无须求解.
+
+(g,4分) 不求解耦合方程, 用草图描述三个简正模的运动.
+\end{exercise}
+\begin{solution}
+本题为 AI 独立解答. 摆杆的倾角取决于物块相对于框架的位移, 而不是相对于实验室的位移. 记 $G=mg/L$, $\kappa=K+G$, 单位均为 $\mathrm{N/m}$. $\alpha K$ 是中间弹簧的劲度, 以下按理想弹簧 $K>0,\alpha\ge0$ 理解; 原图未给 $\alpha$ 的数值.
+
+(a) 框架固定时, 左摆重力产生的小角恢复力为 $-Gx_1$, 左外弹簧为 $-Kx_1$, 中间弹簧为 $\alpha K(x_2-x_1)$. 右摆对应受反向的中间弹簧力, 因而
+\begin{align*}
+m\ddot x_1&=-(\kappa+\alpha K)x_1+\alpha Kx_2,\\
+m\ddot x_2&=\alpha Kx_1-(\kappa+\alpha K)x_2.
+\end{align*}
+竖直摆杆的平衡张力是 $mg$, 所以线性水平分量为 $-mgx_i/L$. 垂直位移及张力变化对水平力的贡献在该近似中是高阶项.
+
+(b) 区分劲度标量 $K$ 和矩阵, 写
+\[
+\mathsf M=mI,\quad
+\mathsf K=\begin{pmatrix}\kappa+\alpha K&-\alpha K\\-\alpha K&\kappa+\alpha K\end{pmatrix},\quad
+\mathsf M^{-1}\mathsf K=\frac1m\begin{pmatrix}\kappa+\alpha K&-\alpha K\\-\alpha K&\kappa+\alpha K\end{pmatrix}.
+\]
+
+(c) 令 $x_i=A_i\cos\omega t$. 特征方程为
+\[
+(\kappa+\alpha K-m\omega^2)^2-(\alpha K)^2=0.
+\]
+两根给出
+\[
+\omega_{\rm s}^2=\frac\kappa m=\frac Km+\frac gL,\qquad
+\omega_{\rm a}^2=\frac{\kappa+2\alpha K}{m}=\frac{(1+2\alpha)K}{m}+\frac gL.
+\]
+下标 s、a 指两摆同向和反向, 不指空间反射矩阵的特征值正负.
+
+(d) 同向模 $A_1/A_2=1$, 两物块同向等幅, 中间弹簧不变长. 反向模 $A_1/A_2=-1$, 两物块反向等幅, 中间弹簧伸缩, 所以在 $\alpha>0$ 时频率更高. 每个箭头给某相位的位移, 半周期后全部反向. 以下图为幅度关系草图, 标作 $a$ 的两个箭头长度相同; 框架固定.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+\node at (1.8,1.2) {同向模};\node at (6.6,1.2) {反向模};
+\foreach \x in {1,2.7,5.8,7.5}{\draw[fill=gray!15] (\x-.24,-.24) rectangle (\x+.24,.24);\node at (\x,0) {$m$};}
+\draw[->,thick] (1,.55)--(1.65,.55) node[midway,above] {$a$};
+\draw[->,thick] (2.7,.55)--(3.35,.55) node[midway,above] {$a$};
+\draw[->,thick] (5.8,.55)--(6.45,.55) node[midway,above] {$a$};
+\draw[->,thick] (7.5,.55)--(6.85,.55) node[midway,above] {$a$};
+\end{tikzpicture}
+\end{center}
+当 $\alpha=0$ 时两模简并, 上述模基仍可采用, 但任意线性组合也可作为同频振型.
+
+(e) 不必指定初值, 取四个任意实系数 $C_{\rm s},D_{\rm s},C_{\rm a},D_{\rm a}$:
+\begin{align*}
+x_1&=C_{\rm s}\cos\omega_{\rm s}t+D_{\rm s}\sin\omega_{\rm s}t
++C_{\rm a}\cos\omega_{\rm a}t+D_{\rm a}\sin\omega_{\rm a}t,\\
+x_2&=C_{\rm s}\cos\omega_{\rm s}t+D_{\rm s}\sin\omega_{\rm s}t
+-C_{\rm a}\cos\omega_{\rm a}t-D_{\rm a}\sin\omega_{\rm a}t.
+\end{align*}
+四个系数由两个初位置和两个初速度决定. 例如 $C_{\rm s}=[x_1(0)+x_2(0)]/2$, $C_{\rm a}=[x_1(0)-x_2(0)]/2$, 两个 $D$ 则由同样的初速度和、差分别除以对应频率取得.
+
+(f) 释放框架后两摆角分别约为 $(x_i-x_3)/L$, 两根外弹簧的伸缩也分别取决于 $x_i-x_3$. 故
+\begin{align*}
+m\ddot x_1&=-\kappa(x_1-x_3)+\alpha K(x_2-x_1),\\
+m\ddot x_2&=-\kappa(x_2-x_3)+\alpha K(x_1-x_2),\\
+2m\ddot x_3&=\kappa(x_1-x_3)+\kappa(x_2-x_3).
+\end{align*}
+第三式包含两外弹簧和两摆杆对框架的水平反作用; 中间弹簧只连接两个小物块, 没有直接作用在框架上的力. 可写为
+\[
+\mathsf M=\operatorname{diag}(m,m,2m),\qquad
+\mathsf K=\begin{pmatrix}
+\kappa+\alpha K&-\alpha K&-\kappa\\
+-\alpha K&\kappa+\alpha K&-\kappa\\
+-\kappa&-\kappa&2\kappa
+\end{pmatrix},\qquad
+\mathsf M\ddot{\boldsymbol x}+\mathsf K\boldsymbol x=0.
+\]
+三式相加给 $m\ddot x_1+m\ddot x_2+2m\ddot x_3=0$, 验证无外水平力及动量守恒. 框架支点位移对摆恢复力的贡献不能漏掉.
+
+(g) 只用连接对称性与水平动量守恒, 无须解三阶特征方程, 即可构造三种独立运动:
+
+第一种, 所有物体等位移: $(A_1,A_2,A_3)\propto(1,1,1)$. 弹簧均不伸缩, 摆杆仍竖直, 没有恢复力. 这是整体平移零模, 可以静止偏移或匀速漂移, 不是非零频率振荡.
+
+第二种, 两小物块反向等幅, 框架不动: $(1,-1,0)$. 两摆杆和两外弹簧作用在框架上的水平力成对抵消, 因而固定框架的反向模仍可存在.
+
+第三种, 两小物块同向等幅, 框架反向: $(1,1,-1)$. 交换左右小物块的对称性使 $A_1=A_2=a$. 非零频率自由模的质心不能振荡, 所以 $ma+ma+2mA_3=0$, 给出 $A_3=-a$. 中间弹簧不伸缩, 而两摆与外弹簧相对框架的位移为 $2a$.
+
+三幅草图如下. 所有非零箭头均标 $a$, 表明框架质量虽为 $2m$, 其幅度与每个小物块相同; 这是由两个小物块的合质量也为 $2m$ 决定的.
+\begin{center}
+\begin{tikzpicture}[>=stealth]
+\foreach \row/\name in {0/{整体平移},-1.5/{反向两摆},-3/{同向两摆与框架反向}}{
+\node[anchor=east] at (-.25,\row) {\name};
+\node[draw,minimum width=9mm,minimum height=6mm] at (1,\row) {$m$};
+\node[draw,minimum width=9mm,minimum height=6mm] at (3,\row) {$m$};
+\node[draw,minimum width=11mm,minimum height=6mm] at (5,\row) {$2m$};}
+\foreach \x in {1,3,5}{\draw[->,thick] (\x,.48)--(\x+.65,.48) node[midway,above] {$a$};}
+\draw[->,thick] (1,-1.02)--(1.65,-1.02) node[midway,above] {$a$};
+\draw[->,thick] (3,-1.02)--(2.35,-1.02) node[midway,above] {$a$};
+\node at (5,-1.02) {$0$};
+\foreach \x in {1,3}{\draw[->,thick] (\x,-2.52)--(\x+.65,-2.52) node[midway,above] {$a$};}
+\draw[->,thick] (5,-2.52)--(4.35,-2.52) node[midway,above] {$a$};
+\end{tikzpicture}
+\end{center}
+对三种模式的直接受力检查也足够, 不需要违反题目要求求解完整特征问题. 若参数偶然使两个非零频率简并, 这些模式仍给出可用的独立振型基.
+\end{solution}
