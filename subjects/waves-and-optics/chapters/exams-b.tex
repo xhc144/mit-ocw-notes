@@ -1,0 +1,464 @@
+\originalchapter{期末练习卷二与三}
+本章依据 MIT OCW 8.03SC 所收录的 Practice Final Exam 2, Practice Final Exam 3 及各自官方解答整理. 每题解答均为\textbf{官方解答中文重编并补充推导}; 对原解答中的笔误或额外近似, 在相应位置标明\textbf{本稿校正}. 课程归档标记为 Fall 2016, 不据此认定这些试卷实际出题于2016年. 卷三手写解答页首另标 Spring 2014.
+
+\originalsection{期末练习卷二}
+原卷说明: 请在答题册内作答, 写在试卷上的内容不评分. 闭卷, 不允许电子设备, 手机、平板和电脑等须关机. 本卷总分100分. 原卷所附公式表与课程正文重合, 下列保留全部题目及小问.
+
+\begin{exercise}
+\textbf{第1题, 15分}. \label{exam:f2.1}
+分别回答以下五个短题, 每小题3分.
+\begin{enumerate}[label=1.\arabic*.]
+\item 质量为$m$的粒子仅沿$x$轴运动, 势能为$U(x)=A[1-\cos(\alpha x)]$, 其中$A>0$, $\alpha>0$. 粒子偏离平衡点后的小振幅振动周期是多少?
+\item 下述位置--时间记录来自受迫振子. 驱动力是正弦波, 此后的驱动力振幅不变. 原图横轴为时间$0$至$300\,\mathrm{s}$, 纵轴为位置, 单位$\mathrm{cm}$; 初期可见快速且逐渐衰减的振荡, 后期约$150$至$300\,\mathrm{s}$为振幅约$2\,\mathrm{cm}$、周期约$40\,\mathrm{s}$的慢正弦振荡. 初期快速分量的周期明显小于后期稳态周期. 以下哪些正确? 可多选: (a) 驱动频率大于系统自然共振频率; (b) 驱动频率小于系统自然共振频率; (c) 无阻尼; (d) 过阻尼; (e) 临界阻尼; (f) 欠阻尼.
+\item 大型强子对撞机的电子系统使用宽度$1\,\mathrm{ns}$的方脉冲. 传送这样短的脉冲需要多大的近似频率范围, 即带宽?
+\item 加热电子源使其发射电子, 电子通过双缝后到达探测屏. 原图为左侧单电子源、中间两个狭缝、右侧探测屏, 未设置路径探测器. 哪些说法正确? 可多选: (a) 源温度高、电子发射率高时, 探测器记录干涉图样; (b) 此时不记录干涉图样; (c) 温度低到每次只发射一个电子时, 不形成干涉图样; (d) 每次只发射一个电子时, 形成干涉图样.
+\item 一张弹性膜张紧在矩形框上, 四边固定. 原图的水平边和竖直边均标为$L$, 即正方形膜. 膜上波的相速度为$v$. 可激发的最低简正模角频率是多少?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+(1.1) 平衡点满足$U'(x)=A\alpha\sin(\alpha x)=0$. 稳定点还要求$U''(x)>0$, 因而为$x_*=2j\pi/\alpha$, $j\in\mathbb Z$. 令$x=x_*+\xi$, 则
+\[
+U(x)=\tfrac12 A\alpha^2\xi^2+O(\xi^4),\qquad
+m\ddot\xi=-A\alpha^2\xi+O(\xi^3).
+\]
+故$\omega_0=\alpha\sqrt{A/m}$, 小振幅周期
+\[
+T=2\pi\sqrt{\frac{m}{A\alpha^2}}.
+\]
+\textbf{本稿校正:} 官方解答把稳定点写成$2j\pi$, 漏掉因子$1/\alpha$; 其周期结果正确.
+
+(1.2) 选(b)、(f). 受迫振动分解为稳态分量与自由暂态分量. 图中慢振动在晚期仍保持有限振幅, 故其频率为驱动频率$\omega_d$. 初期快速分量的振幅逐渐消失, 说明存在阻尼; 它仍反复振荡, 说明为欠阻尼. 欠阻尼暂态频率$\omega_1=\sqrt{\omega_0^2-\Gamma^2/4}$, 图中$\omega_d<\omega_1<\omega_0$. 这里按原题与官方答案把自然频率理解为自由振动频率$\omega_0$; 有阻尼受迫振幅峰的精确位置还依赖阻尼大小, 单凭示意记录不作精确拟合.
+
+(1.3) 对持续时间$\tau$的矩形脉冲, 傅里叶振幅正比于$\tau\sin(\omega\tau/2)/(\omega\tau/2)$; 以普通频率$f$表示, 第一零点在$|f|=1/\tau$. 因此主要频谱宽度量级为
+\[
+\Delta f\sim\frac1{\Delta t}=10^9\,\mathrm{Hz}=1\,\mathrm{GHz}.
+\]
+理想方脉冲的陡直边缘需要无限高频, 此答案是传送主要脉冲形状所需带宽的量级.
+
+(1.4) 选(a)、(d). 未测量路径且保持双缝相干性时, 单个电子的概率振幅为$\psi_1+\psi_2$, 探测概率密度为
+\[
+|\psi_1+\psi_2|^2=|\psi_1|^2+|\psi_2|^2+2\Rea(\psi_1\psi_2^*).
+\]
+交叉项形成明暗条纹. 单个电子每次只给一个局部探测事件, 大量单电子事件长期累积仍形成干涉图样; 发射率改变积累所需时间, 不要求不同电子之间相互干涉.
+
+(1.5) 固定边界要求位移在$x=0,L$与$y=0,L$为零. 模态为
+\[
+\eta_{pq}(x,y,t)=C\sin\frac{p\pi x}{L}\sin\frac{q\pi y}{L}\cos(\omega_{pq}t+\phi),\quad p,q=1,2,\ldots.
+\]
+代入$\eta_{tt}=v^2(\eta_{xx}+\eta_{yy})$得到$\omega_{pq}^2=v^2\pi^2(p^2+q^2)/L^2$. 最小值取$p=q=1$, 故$\omega_{11}=\sqrt2\pi v/L$.
+\end{solution}
+
+\begin{exercise}
+\textbf{第2题, 15分}. \label{exam:f2.2}
+两颗质量相同的小珠$m_1=m_2=m$穿在长度$5L$的绷紧无质量弦上. 两端固定, 从左到右三段平衡长度依次为$2L,L,2L$, 小珠位于$x=2L,3L$. 张力$T$足够大, 可忽略重力. 令向上的小振幅位移为$y_1,y_2$.
+\begin{enumerate}[label=(\alph*)]
+\item 写出两珠沿$y$方向小振动的运动方程以及矩阵$M^{-1}K$. (5分)
+\item 求简正模形状及角频率. 可用对称性简化, 并解释理由. (5分)
+\item $t=0$时两珠静止, 第一珠处于平衡位置, 第二珠偏离平衡位置$A$. 写出最初在平衡位置的小珠位移$y_1(t)$. (5分)
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+(a) 小斜率近似下, 第一珠左段张力的竖直分量为$-Ty_1/(2L)$, 右段为$T(y_2-y_1)/L$. 同理第二珠的竖直分量为$T(y_1-y_2)/L-Ty_2/(2L)$. 因而
+\[
+m\ddot y_1=-\frac{3T}{2L}y_1+\frac TL y_2,\qquad
+m\ddot y_2=\frac TL y_1-\frac{3T}{2L}y_2,
+\]
+\[
+M=m\begin{pmatrix}1&0\\0&1\end{pmatrix},\quad
+K=\frac T{2L}\begin{pmatrix}3&-2\\-2&3\end{pmatrix},\quad
+M^{-1}K=\frac T{2mL}\begin{pmatrix}3&-2\\-2&3\end{pmatrix}.
+\]
+(b) 交换两颗珠不改变系统, 故运动矩阵与交换矩阵对易. 对称向量$(1,1)^{\mathsf T}$和反对称向量$(1,-1)^{\mathsf T}$分别保持各自的一维子空间. 直接相乘可得
+\[
+M^{-1}K\binom11=\frac T{2mL}\binom11,\qquad
+M^{-1}K\binom1{-1}=\frac{5T}{2mL}\binom1{-1}.
+\]
+所以同相等振幅模的频率为$\omega_+=\sqrt{T/(2mL)}$, 反相等振幅模为$\omega_-=\sqrt{5T/(2mL)}$. 同相时中间段没有斜率, 恢复力较小, 与低频结果一致.
+
+(c) 把初位移分解为
+\[
+\binom0A=\frac A2\binom11-\frac A2\binom1{-1}.
+\]
+初速度为零, 所以两个模的正弦时间项都为零. 因此
+\[
+\binom{y_1(t)}{y_2(t)}=
+\frac A2\binom11\cos\omega_+t-\frac A2\binom1{-1}\cos\omega_-t,
+\qquad y_1(t)=\frac A2(\cos\omega_+t-\cos\omega_-t).
+\]
+代入$t=0$同时恢复四个初条件.
+\end{solution}
+
+\begin{exercise}
+\textbf{第3题, 20分}. \label{exam:f2.3}
+一根充气管在$x=0$端与气体储库相通, 在$x=L$端封闭. 声速为$v$. 建立一个微小压强扰动后, 于$t=0$从静止释放. 扰动以$L/2$为中心, 宽度$L/3$, 扰动区内总压强为$P_1>P_0$, 区外为环境压强$P_0$. 即初始压强超额在$L/3<x<2L/3$为$P_1-P_0$, 其余为零.
+\begin{enumerate}[label=(\alph*)]
+\item $x=0,L$两端的边界条件是什么? (5分)
+\item 把$t>0$的压强扰动$P(x,t)$写成简正模之和. 明确各模的空间与时间变化、波数和角频率, 振幅暂留待定. (5分)
+\item 计算第$n$个简正模的振幅. (5分)
+\item 画出$t=2L/v$时管中压强示意图. 提示: 可通过仔细思考得到, 不必显式求和. (5分)
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+以下$P$专指相对于$P_0$的压强超额, 总压强为$P_0+P$.
+(a) 开口储库端压强固定, 所以$P(0,t)=0$. 封闭端气体纵向速度$u(L,t)=0$. 线性动量方程$\rho_0\partial_tu=-\partial_xP$给出$\partial_xP(L,t)=0$.
+
+(b) 令$P=X(x)T(t)$, 波动方程给出$X''+k^2X=0$, $T''+v^2k^2T=0$. 开口条件除去余弦空间项, 封闭条件要求$\cos kL=0$. 用从零起算的模态编号,
+\[
+k_n=\frac{(n+1/2)\pi}{L},\qquad \omega_n=vk_n,\qquad n=0,1,2,\ldots.
+\]
+从静止释放意味着初始$u=0$, 连续性方程遂给出$\partial_tP(x,0)=0$. 于是
+\[
+P(x,t)=\sum_{n=0}^{\infty}A_n\sin(k_nx)\cos(\omega_nt).
+\]
+(c) 这些正弦函数在$(0,L)$正交, 且平方积分为$L/2$. 乘以$\sin k_nx$积分, 得
+\begin{align*}
+A_n&=\frac2L\int_0^LP(x,0)\sin(k_nx)\,\dd x\\
+&=\frac{2(P_1-P_0)}{Lk_n}\left[\cos\frac{k_nL}{3}-\cos\frac{2k_nL}{3}\right]\\
+&=\frac{2(P_1-P_0)}{(n+1/2)\pi}
+\left[\cos\frac{(n+1/2)\pi}{3}-\cos\frac{2(n+1/2)\pi}{3}\right].
+\end{align*}
+矩形跳跃点处级数取左右极限平均值, 不影响各模振幅.
+
+(d) 此时$\omega_nt=(2n+1)\pi$, 每一模的时间因子都为$-1$. 因而$P(x,2L/v)=-P(x,0)$. 总压强在中央宽度$L/3$区间由$P_1$变为$P_0-(P_1-P_0)=2P_0-P_1$, 其余仍为$P_0$. 示意图如下, 竖线只表示理想化阶跃.
+\begin{center}
+\begin{tikzpicture}[x=7cm,y=1cm]
+\draw[->] (0,0)--(1.1,0) node[right]{$x$};
+\draw[->] (0,-1.3)--(0,.55) node[above]{总压强};
+\draw[dashed] (0,.2)--(1,.2) node[right]{$P_0$};
+\draw[thick] (0,.2)--(.3333,.2)--(.3333,-.8)--(.6667,-.8)--(.6667,.2)--(1,.2);
+\node[left] at (0,-.8) {$2P_0-P_1$};
+\node[below] at (.3333,-1) {$L/3$};\node[below] at (.6667,-1) {$2L/3$};\node[below] at (1,0) {$L$};
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+\begin{exercise}
+\textbf{第4题, 15分}. \label{exam:f2.4}
+点电荷$+q$原先以速率$w$沿直线运动, 直到$t=t_0$. 在短时间$t_0<t<t_0+\Delta t$内, 垂直于轨迹的力改变速度方向而不改变速率. 此后仍以速率$w$沿新直线运动, 新旧方向夹小角$\Delta\alpha$. 原图初始速度沿$+x$, 新速度向右下, 即顺时针转过$\Delta\alpha$, $+y$向上. 远处观测点$P_1,P_2$在轨迹平面内, 位于弯折点的左上方同一射线上, 且$P_2$距弯折点为$P_1$的两倍.
+\begin{enumerate}[label=(\alph*)]
+\item 用已知量表示电荷的平均加速度. (3分)
+\item 加速所产生的电场在$P_1$处指向何方? (3分)
+\item 加速电荷的辐射在哪个方向最强? (2分)
+\item 在哪里最弱? (2分)
+\item 电磁脉冲从$P_1$传到$P_2$时, 扰动的振幅减少了多少比例? (2分)
+\item 电荷辐射的总能量是多少? (3分)
+\end{enumerate}
+回答(b)、(c)、(d)时须作清楚的方向示意图.
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+采用原卷公式表的非相对论远场近似.
+(a) 初末速度为$\boldsymbol v_i=w\hat{\boldsymbol x}$和$\boldsymbol v_f=w(\cos\Delta\alpha\,\hat{\boldsymbol x}-\sin\Delta\alpha\,\hat{\boldsymbol y})$. 因而
+\[
+\langle\boldsymbol a\rangle=\frac w{\Delta t}
+[(\cos\Delta\alpha-1)\hat{\boldsymbol x}-\sin\Delta\alpha\hat{\boldsymbol y}]
+\simeq-\frac{w\Delta\alpha}{\Delta t}\hat{\boldsymbol y}.
+\]
+$x$分量是二阶小量, $y$分量是一阶小量; 平均加速度的精确大小为$2w\sin(\Delta\alpha/2)/\Delta t$.
+
+(b) 令$\hat{\boldsymbol r}$从弯折点指向$P_1$, 则
+\[
+\boldsymbol E_{\rm rad}=-\frac q{4\pi\epsilon_0rc^2}
+\{\boldsymbol a-\hat{\boldsymbol r}(\boldsymbol a\cdot\hat{\boldsymbol r})\}_{t-r/c}.
+\]
+原图$\hat{\boldsymbol r}$向左上. 加速度近似向下, 把它投影到与观察射线垂直的方向后向左下, 再乘$-q$使电场向右上. 图中箭头表明此横向关系, 不用图上线段长度作额外角度条件.
+
+(c)、(d) 若观察方向与加速度夹角为$\chi$, 则$|E_{\rm rad}|\propto a\sin\chi$, 强度$\propto\sin^2\chi$. 最大辐射出现在所有垂直于加速度的方向, 在轨迹平面内即近似$\pm x$方向. 沿加速度及其反向, 即近似$\pm y$方向, 辐射为零.
+\begin{center}
+\begin{tikzpicture}[scale=.9,>=Stealth]
+\draw[->] (-2,0)--(0,0)--(2,-.65) node[right]{末速度};
+\draw[dashed] (0,0)--(2,0);\draw (1,0) arc[start angle=0,end angle=-18,radius=1];
+\node at (1.45,-.16) {$\Delta\alpha$};
+\draw (0,0)--(-1.2,1.8);\fill (-.6,.9) circle(2pt) node[left]{$P_1$};
+\fill (-1.2,1.8) circle(2pt) node[left]{$P_2$};
+\draw[->,thick] (-.6,.9)--(.05,1.33) node[right]{$\boldsymbol E$};
+\draw[->,thick] (0,0)--(0,-1) node[below]{$\boldsymbol a$};
+\begin{scope}[xshift=6cm]
+\draw[->] (0,0)--(1.5,0) node[right]{最强};\draw[->] (0,0)--(-1.5,0) node[left]{最强};
+\draw[->] (0,0)--(0,1.3) node[above]{零};\draw[->] (0,0)--(0,-1.3) node[below]{零};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+(e) 电场和磁场远场振幅均正比于$1/r$, 所以$E_2/E_1=B_2/B_1=1/2$, 振幅减少$50\%$. 强度则降至$1/4$, 不能把这两个比例混同.
+
+(f) 拉莫尔公式给出精确的非相对论表达式
+\[
+E_{\rm rad}=\frac{q^2}{6\pi\epsilon_0c^3}\int_{t_0}^{t_0+\Delta t}|\boldsymbol a(t)|^2\,\dd t.
+\]
+\textbf{本稿校正:} 只给转向角与时间, 没有规定转向的时间历程, 一般不能唯一确定这个积分. 若采用官方解答隐含的均匀转向近似, 角速度为$\Delta\alpha/\Delta t$, 加速度大小为$w\Delta\alpha/\Delta t$, 就得到
+\[
+E_{\rm rad}\simeq\frac{q^2w^2(\Delta\alpha)^2}{6\pi\epsilon_0c^3\Delta t}.
+\]
+这不是无条件由平均加速度推出的等式. 例如令轨迹方向角为$\alpha(t)$, 则$a^2=w^2\dot\alpha^2$; 柯西--施瓦茨不等式给出$\int\dot\alpha^2\dd t\ge(\Delta\alpha)^2/\Delta t$, 等号要求均匀转向. 因而官方结果也是给定转角与时长、固定速率条件下的最小辐射能量.
+\end{solution}
+
+\begin{exercise}
+\textbf{第5题, 15分}. \label{exam:f2.5}
+三个理想线偏振片沿光具座按$A,B,C$次序排列, 光沿$+z$传播. 外侧两片透振轴相互垂直: $A$只透过水平$x$偏振, $C$只透过竖直$y$偏振. 中间片$B$的透振轴与水平$x$轴夹角$\theta$. 从左入射到$A$的非偏振光强度为$I_0$.
+\begin{enumerate}[label=(\alph*)]
+\item 求经过$A$的光强$I_A$与偏振状态. (5分)
+\item 求经过$B$的光强$I_B$与偏振状态, 以$I_0,\theta$表示, 并画出$I_B(\theta)$. (5分)
+\item 求经过$C$的光强$I_C$, 以$I_0,\theta$表示, 并画出$I_C(\theta)$. (5分)
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+(a) 非偏振光在任意横向方向的平均电场平方相等. 单轴偏振片只保留其中一分量, 故$I_A=I_0/2$, 出射光为$x$方向线偏振.
+
+(b) $A$后的电场投影到$B$轴, 电场振幅乘$\cos\theta$, 光强乘$\cos^2\theta$. 所以
+\[
+I_B=\frac{I_0}{2}\cos^2\theta,
+\qquad \hat{\boldsymbol e}_B=\cos\theta\hat{\boldsymbol x}+\sin\theta\hat{\boldsymbol y}.
+\]
+若强度为零, 无出射光, 无需给零场指定偏振状态. 此曲线周期$\pi$, 在$\theta=j\pi$取最大$I_0/2$, 在$\theta=\pi/2+j\pi$为零.
+
+(c) $B$轴与$C$轴夹角为$\pi/2-\theta$, 再投影一次,
+\[
+I_C=I_B\sin^2\theta=\frac{I_0}{2}\cos^2\theta\sin^2\theta
+=\frac{I_0}{8}\sin^2(2\theta).
+\]
+其周期$\pi/2$, 在$\theta=j\pi/2$为零, 在$\theta=\pi/4+j\pi/2$取最大$I_0/8$; 非零出射光为$y$线偏振.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=10cm,height=4.8cm,xmin=0,xmax=180,ymin=0,ymax=.55,xlabel={$\theta$ (度)},ylabel={$I/I_0$},xtick={0,45,90,135,180},legend style={at={(.5,1.04)},anchor=south,legend columns=2},samples=121]
+\addplot[thick,domain=0:180] {.5*cos(x)^2};\addlegendentry{$I_B/I_0$}
+\addplot[thick,dashed,domain=0:180] {.125*sin(2*x)^2};\addlegendentry{$I_C/I_0$}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+\begin{exercise}
+\textbf{第6题, 20分}. \label{exam:f2.6}
+波长$\lambda$的单色平面波照射四缝光栅. 四缝长度垂直纸面, 相邻缝中心间距为$d$, 各缝宽度为$D$. 光正入射, 远屏与光栅距离$z\gg d$, 观察方向与光栅法线夹角为$\psi$.
+\begin{enumerate}[label=(\alph*)]
+\item 先假定$D\ll d$, 单缝在屏上贡献的光强为$I_0$. 用$d,\lambda,\psi$写出屏上光强$I$. (4分)
+\item 画出四缝的$I$随$\sin\psi$变化的示意图, 明确干涉主极大与极小的位置. (4分)
+\item 挡住中间两缝, 写出新光强并画出其随$\sin\psi$的示意图. (4分)
+\item 与四缝图比较: 新极大与极小在哪里? 两种配置哪些主极大位置相同? 主极大强度改变多少? 两种配置每条开放缝的单独光强相同. (4分)
+\item 恢复全部四缝, 但不能忽略缝宽. 此时$d/D=5$. 单缝衍射会使某些干涉主极大消失, 即$I=0$. 最低的缺级干涉级数是多少? (4分)
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+(a) 相邻两缝到远处观察方向的路程差为$d\sin\psi$, 相位差$\delta=2\pi d\sin\psi/\lambda$. 每缝复振幅相同, 依次乘相位因子$1,\e^{\ii\delta},\e^{2\ii\delta},\e^{3\ii\delta}$. 几何级数给出
+\[
+\sum_{j=0}^3\e^{\ii j\delta}=
+\e^{3\ii\delta/2}\frac{\sin2\delta}{\sin(\delta/2)},\qquad
+I_4=I_0\left[\frac{\sin2\delta}{\sin(\delta/2)}\right]^2.
+\]
+在分母为零处取连续极限, 四个振幅同相叠加, 强度为$16I_0$.
+
+(b) 主极大满足$\delta=2\pi m$, 即$\sin\psi=m\lambda/d$, $m\in\mathbb Z$. 零点满足$\delta=j\pi/2$, 但$j$不能是4的倍数, 即
+\[
+\sin\psi=\frac{j\lambda}{4d},\qquad j\in\mathbb Z,\quad4\nmid j.
+\]
+相邻主峰之间有三个零点、两个较低的次峰. 所有位置还须满足$|\sin\psi|\le1$. 以下用$u=d\sin\psi/\lambda$作横轴, 可直接换回所求变量.
+
+(c) 外缝间距为$3d$, 挡中间两缝后场振幅为$1+\e^{3\ii\delta}$倍单缝振幅, 因此
+\[
+I_2=I_0|1+\e^{3\ii\delta}|^2=4I_0\cos^2\frac{3\delta}{2}
+=4I_0\cos^2\left(\frac{3\pi d}{\lambda}\sin\psi\right).
+\]
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=11cm,height=5cm,xmin=-1.05,xmax=1.05,ymin=0,ymax=17,xlabel={$u=d\sin\psi/\lambda$},ylabel={$I/I_0$},xtick={-1,-.75,-.5,-.25,0,.25,.5,.75,1},legend style={at={(.5,1.04)},anchor=south,legend columns=2},samples=251]
+\addplot[thick,domain=-1.05:1.05] {(2*cos(540*x)+2*cos(180*x))^2};\addlegendentry{四缝}
+\addplot[dashed,thick,domain=-1.05:1.05] {4*cos(540*x)^2};\addlegendentry{只留外侧两缝}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+(d) 双缝的极大在$\sin\psi=m\lambda/(3d)$, 强度$4I_0$; 极小在$\sin\psi=(m+1/2)\lambda/(3d)$. 原四缝的每个主极大$\sin\psi=j\lambda/d$都仍为双缝极大, 对应双缝$m=3j$. 主峰强度从$16I_0$降至$4I_0$, 是原来的$1/4$.
+
+(e) 有限宽缝再乘衍射包络:
+\[
+I=I_0\left[\frac{\sin2\delta}{\sin(\delta/2)}\right]^2
+\left(\frac{\sin\beta}{\beta}\right)^2,\qquad
+\beta=\frac{\pi D}{\lambda}\sin\psi.
+\]
+非中央衍射零点满足$D\sin\psi=p\lambda$, $p\ne0$为整数. 干涉主极大满足$d\sin\psi=m\lambda$. 两者重合要求$m=p(d/D)=5p$, 所以最低非零缺级为$|m|=5$. 如此方向超出$|\sin\psi|\le1$, 该级本就不在可观察角度范围内; 缺级的代数条件仍为五的倍数.
+\end{solution}
+
+\originalsection{期末练习卷三}
+原卷说明与卷二相同: 在答题册内作答, 闭卷且禁止电子设备. 本卷三大题总分100分. 第1题每小问5分; 第2题、第3题原题只给大题分值, 不另行分配小问分数.
+
+\begin{exercise}
+\textbf{第1题, 30分}. \label{exam:f3.1}
+分别回答下列概念问题, 每小问5分.
+\begin{enumerate}[label=(\alph*)]
+\item 强度$I_0$的圆偏振光入射到只透过一个线偏振方向的滤光片. 透射光强是多少?
+\item 大型强子对撞机的电子系统使用$1\,\mathrm{ns}$方脉冲. 传送这样的脉冲需要多大的近似带宽?
+\item 深水波色散关系为$\omega=\sqrt{gk}$. 相速度与群速度是什么? 在给定$k$处, 二者大小关系如何?
+\item 月球上的绿光激光器以$\lambda=500\,\mathrm{nm}$向地球发光. 月球处光束宽度为$1\,\mathrm m$, 月地距离为$380000\,\mathrm{km}$, 光束受衍射极限限制. 地表光斑近似有多大?
+\item 晴天在湖边沙滩上戴偏振太阳镜直坐, 镜片能有效挡眩光. 当侧躺、面朝湖面时, 太阳镜效果变差. 为什么?
+\item 单色光照射光栅. 若换成每厘米刻线更多的光栅, 主极大图样如何变化? 若保持光栅而换成长波长光, 主极大图样又如何变化?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+(a) 可令入射电场为$E_0[\hat{\boldsymbol x}\cos\phi+\hat{\boldsymbol y}\sin\phi]$. 总电场平方恒为$E_0^2$, 而任意单轴分量的平均平方为$E_0^2/2$. 理想线偏振片透过一个分量, 故$I=I_0/2$, 出射为该轴方向线偏振.
+
+(b) 方脉冲的主要频谱尺度由$\Delta f\Delta t\sim1$给出, 故$\Delta f\sim10^9\,\mathrm{Hz}=1\,\mathrm{GHz}$. 理想无限陡边沿不具有限带宽, 这里问的是近似传输尺度.
+
+(c) 对$k>0$,
+\[
+v_p=\frac\omega k=\sqrt{\frac gk},\qquad
+v_g=\frac{\dd\omega}{\dd k}=\frac12\sqrt{\frac gk}=\frac12v_p.
+\]
+波峰前进的相速度为波包包络速度的两倍, 并非二者相等的无色散情形.
+
+(d) 口径$D$产生的角扩散量级$\theta_{\rm dif}\sim\lambda/D$. 传播距离$R$后, 横向尺度
+\[
+r\sim\frac{\lambda R}{D}
+=\frac{5.00\times10^{-7}\times3.80\times10^8}{1}\,\mathrm m
+=190\,\mathrm m.
+\]
+所以光斑的特征半径为数百米, 直径也为数百米量级. \textbf{本稿校正与口径说明:} 原题只给光束宽度, 没有规定光束横向分布及光斑的测量定义. 若把$1\,\mathrm m$视为均匀圆孔直径, 艾里斑第一暗环半径为$1.22\lambda R/D\simeq232\,\mathrm m$, 对应直径约$464\,\mathrm m$. 官方解答的约$200\,\mathrm m$是量级估计的半径, 其较精确圆孔值约$230\,\mathrm m$也指半径.
+
+(e) 水面反射眩光主要沿水面水平方向线偏振. 直坐时太阳镜透振轴近似竖直, 因而压制水平偏振. 侧躺使镜片轴相对湖面旋转, 透振轴开始接近眩光偏振方向, 透过光增强. 接近旋转$90^\circ$时阻眩光作用最弱; 普通吸收作用仍在.
+
+(f) 主极大条件为$d\sin\psi=m\lambda$. 刻线密度增大意味着$d$减小, 同级峰的$|\sin\psi|=|m|\lambda/d$增大, 峰间距在$\sin\psi$坐标中增大, 可见级数可能减少. 换成长波长也使峰间距增大, 主峰远离中央峰, 高级峰可能移出可见范围. 若光栅总宽度固定、每缝贡献相同, 刻线变密还增加缝数$N$, 主峰在适当归一化下更窄; 题目关于峰位置的答案不需额外规定这些强度条件.
+\end{solution}
+
+\begin{exercise}
+\textbf{第2题, 30分}. \label{exam:f3.2}
+质量$m$、电荷$q$的粒子被限制为无摩擦地只沿$\hat{\boldsymbol x}$方向运动. 一列在开放空间传播的电磁平面波照射粒子, 磁场为
+\[
+\boldsymbol B_{\rm wave}(\boldsymbol r,t)=B_0(\hat{\boldsymbol y}+u\hat{\boldsymbol z})\cos(kz-\omega t),
+\]
+其中$B_0$为常数, $u$为未知常数.
+\begin{enumerate}[label=(\alph*)]
+\item 求$u$并说明理由.
+\item 写出入射波电场$\boldsymbol E_{\rm wave}(\boldsymbol r,t)$.
+\item 求电荷加速度$\boldsymbol a(t)$. 计算运动时可忽略任何能量损失.
+\item 推导电荷朝下列三个位置辐射的电场$\boldsymbol E_{\rm rad}(\boldsymbol r,t)$, 并说明各处偏振: (1) $\boldsymbol r=r\hat{\boldsymbol x}$; (2) $\boldsymbol r=r\hat{\boldsymbol y}$; (3) $\boldsymbol r=r\hat{\boldsymbol z}$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+(a) 真空平面波横向传播. 也可直接用$\boldsymbol\nabla\cdot\boldsymbol B=0$:
+\[
+\boldsymbol\nabla\cdot\boldsymbol B=-u k B_0\sin(kz-\omega t)=0
+\]
+须对所有$z,t$成立, 对非零频率的非零波即$u=0$.
+
+(b) 波沿$+z$传播且$\omega=ck$, 所以
+\[
+\boldsymbol E_{\rm wave}=c\boldsymbol B_{\rm wave}\times\hat{\boldsymbol z}
+=cB_0\hat{\boldsymbol x}\cos(kz-\omega t).
+\]
+叉乘$\boldsymbol E\times\boldsymbol B$沿$+z$, 与传播方向一致.
+
+(c) 沿$x$轴运动意味着粒子始终$y=z=0$, 因而受到的电场为$cB_0\cos\omega t\,\hat{\boldsymbol x}$. 磁力$q\boldsymbol v\times\boldsymbol B$沿$z$, 不含$x$分量, 由限制运动的约束力抵消; 约束力沿受限方向不做功. 所以
+\[
+m\ddot x=qcB_0\cos\omega t,\qquad
+\boldsymbol a(t)=\frac{qcB_0}{m}\cos\omega t\,\hat{\boldsymbol x}.
+\]
+如需恢复运动, 两次积分给出$x(t)=x(0)+\dot x(0)t+[qcB_0/(m\omega^2)](1-\cos\omega t)$; 辐射场只需加速度, 不需指定自由的初速度与初位置.
+
+(d) 采用题目公式表中的远区非相对论辐射场, 以源附近原点为参考, 忽略源位移相对$r$的修正. 定义$\hat{\boldsymbol n}=\boldsymbol r/r$及延迟时间$t_r=t-r/c$, 则
+\[
+\boldsymbol E_{\rm rad}=-\frac q{4\pi\epsilon_0rc^2}
+[\boldsymbol a(t_r)-\hat{\boldsymbol n}(\hat{\boldsymbol n}\cdot\boldsymbol a(t_r))].
+\]
+(1) 当$\hat{\boldsymbol n}=\hat{\boldsymbol x}$, 加速度完全纵向, 横向投影为零, 所以辐射电场为零. 该方向无辐射, 不指定偏振.
+
+(2) 当$\hat{\boldsymbol n}=\hat{\boldsymbol y}$, 加速度全为横向,
+\[
+\boldsymbol E_{\rm rad}(r\hat{\boldsymbol y},t)
+=-\frac{q^2B_0}{4\pi\epsilon_0mrc}\cos[\omega(t-r/c)]\hat{\boldsymbol x}.
+\]
+它是$x$方向线偏振; 相应磁场由$\boldsymbol B_{\rm rad}=\hat{\boldsymbol y}\times\boldsymbol E_{\rm rad}/c$得到.
+
+(3) 当$\hat{\boldsymbol n}=\hat{\boldsymbol z}$, 同样得到
+\[
+\boldsymbol E_{\rm rad}(r\hat{\boldsymbol z},t)
+=-\frac{q^2B_0}{4\pi\epsilon_0mrc}\cos[\omega(t-r/c)]\hat{\boldsymbol x},
+\]
+也为$x$方向线偏振, 但其辐射磁场方向与(2)不同.
+
+\textbf{本稿校正:} 官方手写辐射式漏写$m$, 余弦的参数亦须保留$\omega$, 代入式的整体负号也被漏掉; 将(c)加速度代入辐射公式即可检查这些项. 若约束粒子的速度或振幅大到不能忽略相对论与移动源延迟修正, 原卷给出的近似公式不再适用; 本题采用原卷预设的近似范围.
+\end{solution}
+
+\begin{exercise}
+\textbf{第3题, 40分}. \label{exam:f3.3}
+一个含五条长而窄狭缝的光栅贴在折射率为$n$的玻璃块表面. 单色平面波从玻璃内部照射光栅, 真空波长为$\lambda$. 狭缝长度垂直纸面, 相邻缝中心距为$d$; 缝宽远小于$d$和入射光波长, 屏到光栅的距离远大于$d$. 狭缝从上到下编号1至5, 光栅面竖直, 法线沿$+z$指向真空侧. 原图入射波从左下向右上传播, 与$+z$夹有符号角$\theta$, 观察方向在$+z$上方夹角$\psi$. 正$\theta$与正$\psi$均表示向上的波矢分量, 角的符号必须保留.
+\begin{enumerate}[label=(\alph*)]
+\item 先取$\theta=0$, 用简单示意图说明相邻缝射线在远处角度$\psi$方向上的相位差为$\delta=(2\pi d/\lambda)\sin\psi$.
+\item 对任意$\theta$, $\delta$是多少?
+\item 用$d,\theta,\lambda,\psi$写出屏上光强$I$.
+\item 画出$I$随$\sin\psi$的图样, 指明第一批干涉极大与极小的位置.
+\item 挡住最外侧两缝, 即1和5, 写出新光强.
+\item 画出新光强随$\sin\psi$的图样并与五缝比较. 新的第一批极大和极小在哪里? 极大强度改变多少?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\textbf{官方解答中文重编并补充推导.}
+以$I_0$表示一条开放狭缝在同一观察方向的光强, 并假定各开放缝复振幅相同. 挡缝前后$I_0$相同.
+
+(a) 两个相邻出射点的竖直间距为$d$. 远区观察射线近似平行, 把此间距投影到传播方向上, 得路程差大小$d\sin\psi$. 沿下缝到上缝取场相位差的相应符号约定, 出射传播部分贡献$\delta_{\rm out}=2\pi d\sin\psi/\lambda$. 图中两条斜线为相邻射线, 虚线为等相位面, 与射线垂直; 直角三角形的短边给出该投影.
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=1.05]
+\draw[thick] (0,-.5)--(0,2.1);\fill (0,0) circle(2pt) node[left]{下缝};\fill (0,1.5) circle(2pt) node[left]{上缝};
+\draw[->] (0,0)--(4,2);\draw[->] (0,1.5)--(4,3.5);
+\draw[dashed] (0,1.5)--(.6,.3);\draw[thick] (0,0)--(.6,.3);
+\node[below right] at (.3,.1) {$d\sin\psi$};
+\draw[dashed] (0,0)--(2,0);\draw (.8,0) arc[start angle=0,end angle=26.565,radius=.8];\node at (1.1,.24) {$\psi$};
+\draw[<->] (-1,0)--(-1,1.5) node[midway,left]{$d$};
+\end{tikzpicture}
+\end{center}
+(b) 玻璃中波长为$\lambda/n$, 波数为$2\pi n/\lambda$. 入射斜向传播使相邻缝的入射相位已有差别, 其大小为$(2\pi nd/\lambda)\sin\theta$. 对原图正角方向, 入射与出射投影贡献相减:
+\[
+\delta=\frac{2\pi d}{\lambda}(\sin\psi-n\sin\theta).
+\]
+整体改变$\delta$的正负不会改变等振幅光强, 但把括号内减号误写成加号会把峰中心放在错误方向. 当$\delta=0$, 中央相干方向满足$\sin\psi=n\sin\theta$, 与折射方向一致.
+
+(c) 五缝复振幅之和为
+\[
+\sum_{j=0}^4\e^{\ii j\delta}
+=\e^{2\ii\delta}\frac{\sin(5\delta/2)}{\sin(\delta/2)}.
+\]
+所以
+\[
+I_5=I_0\left[\frac{\sin(5\delta/2)}{\sin(\delta/2)}\right]^2,
+\qquad \delta=\frac{2\pi d}{\lambda}(\sin\psi-n\sin\theta).
+\]
+\textbf{本稿校正:} 官方手写(c)式在比值外又写$25I_0$, 与其随后注明$I_0$为单缝光强及主峰$25I_0$矛盾. 正确比值外仅为$I_0$, 因为比值在同相极限已经趋于5.
+
+(d) 主极大满足$\delta=2\pi m$, 所以
+\[
+\sin\psi=n\sin\theta+\frac{m\lambda}{d},\quad I_{5,\max}=25I_0.
+\]
+中央主峰$m=0$在$n\sin\theta$, 两个相邻一级主峰在$n\sin\theta\pm\lambda/d$. 零点为
+\[
+\sin\psi=n\sin\theta+\frac{j\lambda}{5d},\quad j\in\mathbb Z,\quad5\nmid j.
+\]
+中央峰最近的两个极小在$n\sin\theta\pm\lambda/(5d)$. 相邻主峰之间有四个极小和三个次极大. 若题目中的极大也包括次峰, 其位置由
+\[
+5\cot(5\delta/2)=\cot(\delta/2)
+\]
+在非零点、非主峰处求得; 不把这些次峰与等间隔主极大混同. 只有$|\sin\psi|\le1$内的位置可观察. 特别是$n\sin\theta$本身也可能超出观察范围, 此时不应画出不存在的中央主峰.
+
+(e) 挡住1和5后剩下2、3、4三条等距缝. 整体相位因子不影响光强, 故
+\[
+I_3=I_0\left[\frac{\sin(3\delta/2)}{\sin(\delta/2)}\right]^2.
+\]
+\textbf{本稿校正:} 官方手写(e)比值外的$9I_0$同样是重复计入同相增益, 应为$I_0$.
+
+(f) 三缝主极大仍在$\delta=2\pi m$, 因而与五缝主极大位置相同, 但强度从$25I_0$变为$9I_0$, 比值$9/25$. 三缝极小为
+\[
+\sin\psi=n\sin\theta+\frac{j\lambda}{3d},\quad3\nmid j;
+\]
+最近极小位于$n\sin\theta\pm\lambda/(3d)$, 比五缝的最近极小更远, 中央主峰更宽. 三缝相邻主峰之间只有两个零点及一个次峰, 次峰在$\delta=(2m+1)\pi$, 强度$I_0$. 以下用$u=(d/\lambda)(\sin\psi-n\sin\theta)$作横轴, 把共同的中央主峰移到零点; 换回$\sin\psi$时只须平移并缩放.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=11cm,height=5cm,xmin=-1.05,xmax=1.05,ymin=0,ymax=27,xlabel={$u=(d/\lambda)(\sin\psi-n\sin\theta)$},ylabel={$I/I_0$},xtick={-1,-.8,-.6,-.4,-.2,0,.2,.4,.6,.8,1},legend style={at={(.5,1.04)},anchor=south,legend columns=2},samples=301]
+\addplot[thick,domain=-1.05:1.05] {(1+2*cos(360*x)+2*cos(720*x))^2};\addlegendentry{五缝}
+\addplot[dashed,thick,domain=-1.05:1.05] {(1+2*cos(360*x))^2};\addlegendentry{保留中间三缝}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{solution}

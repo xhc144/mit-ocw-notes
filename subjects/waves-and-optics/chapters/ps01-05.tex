@@ -1,0 +1,473 @@
+\originalchapter{作业一至五：振动与离散波}
+本章依据 MIT 8.03SC Fall 2016 的五份原始作业逐题译写. 题号及分值沿用原件, 解答是本书独立推导, 不是 MIT 官方答案. 图中的连接关系以文字说明; 对初始形状和振型, 给出可直接重建图像的坐标或函数. 除特别说明外, 位移均相对静态平衡位置, 复表示取实部作为物理量.
+\originalsection{作业一}
+\begin{exercise}\label{ps:1.1}
+原题 1.1 (20 分). 将课堂讨论的质量块和弹簧系统 (Georgi, 式 (1.1)--(1.8)) 竖直悬挂在地球重力场中, 弹簧上端固定. 证明竖直振动的角频率仍为式 (1.5) 的结果, 并解释重力为何不影响角频率.
+\end{exercise}
+\begin{solution}
+设质量为 $m$, 弹簧劲度系数为 $k$, 从自然长度位置向下的伸长为 $z$. 牛顿定律给出 $m\ddot z=mg-kz$. 平衡伸长为 $z_e=mg/k$. 令 $x=z-z_e$, 则 $m\ddot x=-kx$, 所以 $\omega_0=\sqrt{k/m}$. 重力是一项与位移无关的恒力, 改变的是平衡位置, 而非恢复力的斜率 $-k$. 等价地, 势能 $kz^2/2-mgz=k(z-z_e)^2/2+\text{常数}$ 的曲率不变. 此结论要求弹簧保持线性, 且 $g$ 在振幅范围内近似恒定.
+\end{solution}
+\begin{exercise}\label{ps:1.2}
+原题 1.2 (20 分). 在 (a)--(c) 中, 位移、速度或加速度用复数给定. 分别求三种物理量的实表示 $\eta(t)=c\cos\omega t+d\sin\omega t$, 其中 $c,d$ 为实常数. $A,B,C,\tau$ 均为实数, 积分常数取零:
+\[
+\text{(a) }X=A\e^{-\ii(\omega t-\pi/2)},\quad
+\text{(b) }\dot X=B\ii\omega\tau\e^{-\ii(\omega t+\pi/6)},\quad
+\text{(c) }\ddot X=\frac{C}{1+\ii\omega\tau}\e^{-\ii\omega t}.
+\]
+在 (d)--(f) 中给定实表示, 求位移、速度、加速度各自的复表示 $Q(t)=Q\e^{-\ii(\omega t+\phi)}$, 其中 $Q,\phi$ 是实常数, $\alpha,\beta,\gamma,\delta$ 均为正实数:
+\[
+\text{(d) }x=\alpha\cos\omega t-\beta\sin\omega t,\quad
+\text{(e) }\dot x=-\gamma\sin(\omega t+\pi/3),\quad
+\text{(f) }\ddot x=\delta\cos(\omega t+\pi/6).
+\]
+\end{exercise}
+\begin{solution}
+以下假设 $\omega>0$, 并用 $x,v,a_x$ 区分位移、速度和加速度. 复指数求导等于乘以 $-\ii\omega$, 积分等于除以 $-\ii\omega$. 这同时确定了相位和单位.
+
+(a) $X=\ii A\e^{-\ii\omega t}$, 故
+\[
+x=A\sin\omega t,\quad v=A\omega\cos\omega t,\quad a_x=-A\omega^2\sin\omega t.
+\]
+(b) 积分得 $X=-B\tau\e^{-\ii(\omega t+\pi/6)}$. 展开三角函数可得
+\begin{align*}
+x&=-\frac{\sqrt3 B\tau}{2}\cos\omega t+\frac{B\tau}{2}\sin\omega t,\\
+v&=\frac{B\omega\tau}{2}\cos\omega t+\frac{\sqrt3 B\omega\tau}{2}\sin\omega t,\\
+a_x&=\frac{\sqrt3 B\omega^2\tau}{2}\cos\omega t-\frac{B\omega^2\tau}{2}\sin\omega t.
+\end{align*}
+(c) 令 $q=\omega\tau$, $D=1+q^2$. 由 $1/(1+\ii q)=(1-\ii q)/D$ 得
+\[
+a_x=\frac C D(\cos\omega t-q\sin\omega t),\quad
+v=\frac C{\omega D}(q\cos\omega t+\sin\omega t),\quad
+x=\frac C{\omega^2D}(-\cos\omega t+q\sin\omega t).
+\]
+直接求导可逐项检查符号.
+
+(d) 令 $r=\sqrt{\alpha^2+\beta^2}$, $\phi=\arctan(\beta/\alpha)$. 所求三个复表示依次为
+\[
+X=r\e^{-\ii(\omega t+\phi)},\quad
+\dot X=\omega r\e^{-\ii(\omega t+\phi+\pi/2)},\quad
+\ddot X=\omega^2r\e^{-\ii(\omega t+\phi+\pi)}.
+\]
+其原因是 $\Rea[(\alpha-\ii\beta)\e^{-\ii\omega t}]=\alpha\cos\omega t-\beta\sin\omega t$.
+
+(e) 因 $-\sin u=\cos(u+\pi/2)$, 可取
+\[
+X=\frac\gamma\omega\e^{-\ii(\omega t+\pi/3)},\quad
+\dot X=\gamma\e^{-\ii(\omega t+5\pi/6)},\quad
+\ddot X=\gamma\omega\e^{-\ii(\omega t+4\pi/3)}.
+\]
+(f) 两次积分等于乘以 $-1/\omega^2$, 因而
+\[
+X=\frac\delta{\omega^2}\e^{-\ii(\omega t+7\pi/6)},\quad
+\dot X=\frac\delta\omega\e^{-\ii(\omega t+5\pi/3)},\quad
+\ddot X=\delta\e^{-\ii(\omega t+\pi/6)}.
+\]
+相位可加任意 $2\pi$ 整数倍, 这些表示等价.
+\end{solution}
+\begin{exercise}\label{ps:1.3}
+原题 1.3 (20 分). 质量 $M$ 的物块在无摩擦轨道上, 左右分别通过劲度系数 $K$ 和 $2K$ 的弹簧连接固定墙, 只能沿弹簧轴线运动. (a) 求角频率. (b) 经过平衡位置时速度为 $v$, 求振幅. (c) 采用 (b) 的初始条件写出实位置函数 $x(t)$. (d) 写出同一运动的不可约单一复指数形式 $z(t)$.
+\end{exercise}
+\begin{solution}
+(a) 向右偏移 $x$ 时, 两根弹簧的恢复力都向左, 总增量为 $-3Kx$. 故 $\omega=\sqrt{3K/M}$. (b) 平衡位置动能全部转化为转折点弹性势能: $Mv^2/2=3KA^2/2$, 所以 $A=|v|/\omega$. (c) 取经过平衡位置为 $t=0$, 并把 $v$ 视为带符号的速度, 则 $x(0)=0$, $\dot x(0)=v$, 因而 $x(t)=(v/\omega)\sin\omega t$. (d) 可取 $z(t)=\ii(v/\omega)\e^{-\ii\omega t}$, 实部正是 (c). 当 $v>0$ 时也写作 $A\e^{-\ii(\omega t-\pi/2)}$; $v<0$ 则需相应增加 $\pi$ 相位.
+\end{solution}
+\begin{exercise}\label{ps:1.4}
+原题 1.4 (20 分). 质量 $m$ 的粒子在 $x$ 轴上运动, 原件印出的势能为
+\[
+V(x)=\frac{E_0}{a^4}x^4+4ax^3-8a^2x^2.
+\]
+(a) 求稳定平衡位置. (b) 求每个稳定平衡位置附近小振动的角频率. (c) 定量说明何谓小振动, 并对各平衡点分别回答.
+\end{exercise}
+\begin{solution}
+原页在 $E_0/a^4$ 后没有包围整项的括号. 若 $E_0$ 为能量、$a$ 为长度, 后两项与第一项的量纲不一致. 因而先忠实处理印刷式, 把系数记作 $c_4=E_0/a^4$, $c_3=4a$, $c_2=-8a^2$; 物理解读时各系数必须分别具有能量除以相应长度幂的单位. 假设 $c_4>0,c_2<0$.
+
+(a) $V'=x(4c_4x^2+3c_3x+2c_2)$. 除不稳定的 $x=0$ 外, 两个稳定点是
+\[
+x_\pm=\frac{-3c_3\pm\sqrt{9c_3^2-32c_4c_2}}{8c_4}.
+\]
+它们分处原点两侧. 设 $D=\sqrt{9c_3^2-32c_4c_2}$, 利用平衡条件可化简曲率为 $\kappa_\pm=V''(x_\pm)=x_\pm(8c_4x_\pm+3c_3)=\pm x_\pm D>0$.
+
+(b) 写 $x=x_\pm+\xi$, 线性化得 $m\ddot\xi=-\kappa_\pm\xi$, 所以 $\omega_\pm=\sqrt{\kappa_\pm/m}$.
+
+(c) 四次势能的恢复力展开是精确的:
+\[
+m\ddot\xi=-\kappa_\pm\xi-(12c_4x_\pm+3c_3)\xi^2-4c_4\xi^3.
+\]
+若 $|\xi|\le A$, 一个明确的相对误差准则是
+\[
+\frac{|12c_4x_\pm+3c_3|A+4c_4A^2}{\kappa_\pm}\le\varepsilon\ll1.
+\]
+分别代入 $x_+$ 或 $x_-$ 即得每个势阱的允许振幅. 这比只说 $A$ 很小更具体, 并保证非线性恢复力相对线性项小.
+
+若原题本意是常见的量纲一致形式 $V=(E_0/a^4)(x^4+4ax^3-8a^2x^2)$, 以下结果仅属于这一明确补充假设, 不能当作原件已有括号. 对 $E_0>0,a>0$, 稳定点为 $a,-4a$, 曲率分别为 $20E_0/a^2,80E_0/a^2$, 频率分别为 $\sqrt{20E_0/(ma^2)},\sqrt{80E_0/(ma^2)}$. 对应误差界分别为
+\[
+\frac65\frac A a+\frac15\frac{A^2}{a^2}\le\varepsilon,\qquad
+\frac9{20}\frac A a+\frac1{20}\frac{A^2}{a^2}\le\varepsilon.
+\]
+\end{solution}
+\begin{exercise}\label{ps:1.5}
+原题 1.5 (20 分). 质量为 $m$ 的质点由长 $L$ 的无质量绳悬于固定支点, 在竖直平面内摆动, 重力加速度为 $g$. 原图以最低平衡位置为直角坐标原点, $x$ 向右、$y$ 向上, $\theta$ 从向下的竖直方向量起. (a) 用 $\theta$ 参数化运动, 根据转矩定律求精确方程. (b) 小角度时求简谐近似方程. (c) 解释近似的有效角度范围, 求周期. (d) 求精确势能, 用泰勒展开复得 (b). (e) 用上述坐标的 $x$ 参数化, 根据牛顿定律求精确方程. (f) 小 $x$ 时求简谐方程. (g) 给出这一近似的有效 $x$ 范围.
+\end{exercise}
+\begin{solution}
+(a) $x=L\sin\theta$, $y=L(1-\cos\theta)$. 关于支点的转动惯量为 $mL^2$, 重力转矩为 $-mgL\sin\theta$, 因此 $\ddot\theta+(g/L)\sin\theta=0$.
+
+(b) 弧度制下 $\sin\theta=\theta-\theta^3/6+\cdots$, 故 $\ddot\theta+(g/L)\theta=0$. (c) 没有独立于精度要求的锐利边界. 若允许恢复力相对误差 $\varepsilon$, 可要求 $|\sin\theta/\theta-1|\le\varepsilon$, 小角下即 $\theta_{\max}^2/6\lesssim\varepsilon$. 例如 $1\%$ 的力误差给出约 $0.245$ 弧度 ($14^\circ$). 近似周期为 $2\pi\sqrt{L/g}$. 周期的首项相对修正为 $\theta_{\max}^2/16$, 不应把力误差和周期误差混为一谈.
+
+(d) 以最低点势能为零, $V=mgL(1-\cos\theta)=mgL\theta^2/2+O(\theta^4)$. 与动能 $mL^2\dot\theta^2/2$ 合用, 仍得到 $mL^2\ddot\theta=-mgL\theta$.
+
+(e) 在摆位于下半圆的区间 $|\theta|<\pi/2$, 写 $s=\sqrt{L^2-x^2}$, 则 $y=L-s$. 设绳张力为 $\mathcal T$, 牛顿定律为 $m\ddot x=-\mathcal T x/L$, $m\ddot y=\mathcal T s/L-mg$. 又
+\[
+\ddot y=\frac{x\ddot x}{s}+\frac{L^2\dot x^2}{s^3}.
+\]
+消去 $\mathcal T$ 得精确的单坐标方程
+\[
+\ddot x+\frac{x\dot x^2}{L^2-x^2}+\frac g{L^2}x\sqrt{L^2-x^2}=0.
+\]
+$x$ 不能在完整圆周上唯一确定摆的位置, 所以上式必须注明分支.
+
+(f) 忽略 $x^2/L^2$ 及振动速度的二阶量后, $\ddot x+(g/L)x=0$. (g) 需同时有 $|x|/L\ll1$ 和 $\dot x^2/(gL)\ll1$. 对振幅 $A$ 的自由小摆, $\dot x^2\lesssim(g/L)A^2$, 因而两条件统一为 $A/L\ll1$. 若沿近似简谐轨道估计, 非线性力相对误差不超过约 $3A^2/(2L^2)$; 这是保守的充分界. 也可用 (c) 的角度标准并取 $A=L\sin\theta_{\max}$ 确定允许范围.
+\end{solution}
+\originalsection{作业二}
+\begin{exercise}\label{ps:2.1}
+原题 2.1 (20 分). 一个串联 RLC 闭合回路, 左边电容上极板为正, 下极板为负; 电流箭头从上极板沿上方电感流向右侧电阻, 即顺时针. $C=2\,\mu\mathrm F$, $L=2\,\mathrm{mH}$, $R=20\,\Omega$. 初始 $V_C(0)=5\,\mathrm V$, $i(0)=0.5\,\mathrm A$. (a) 写出电容电荷 $Q(t)$ 的运动方程. (b) 判定无阻尼、欠阻尼、临界或过阻尼, 并解释. (c) 求所有 $t>0$ 的 $V_C(t)$.
+\end{exercise}
+\begin{solution}
+(a) $Q$ 指上极板电荷, 因电流流出该极板, $i=-\dot Q$, $V_C=Q/C$. 回路定律为 $L\dot i+Ri=V_C$, 即 $L\ddot Q+R\dot Q+Q/C=0$. 初值为 $Q(0)=10^{-5}\,\mathrm C$, $\dot Q(0)=-0.5\,\mathrm A$.
+
+(b) 衰减率 $\gamma=R/(2L)=5000\,\mathrm{s}^{-1}$, 无阻尼频率 $\omega_0=1/\sqrt{LC}=15811.39\,\mathrm{s}^{-1}$. 因 $\gamma<\omega_0$, 为欠阻尼, $\Omega=\sqrt{\omega_0^2-\gamma^2}=15000\,\mathrm{s}^{-1}$.
+
+(c) 令 $V_C=\e^{-\gamma t}(a\cos\Omega t+d\sin\Omega t)$. $a=5\,\mathrm V$, 而 $\dot V_C(0)=-i(0)/C=-250000\,\mathrm{V/s}$, 给出 $\Omega d-\gamma a=-250000\,\mathrm{V/s}$. 故
+\[
+V_C(t)=\e^{-(5000\,\mathrm{s}^{-1})t}\{5\cos[(15000\,\mathrm{s}^{-1})t]-15\sin[(15000\,\mathrm{s}^{-1})t]\}\,\mathrm V.
+\]
+负的正弦系数来自原图电流方向, 不能改用 $i=\dot Q$.
+\end{solution}
+\begin{exercise}\label{ps:2.2}
+原题 2.2 (20 分). 大型强子对撞机附近实验室内, 质量 $M$ 的精密晶体由四根无质量弹簧并联支撑于桌面, 每根劲度为 $k$. 移动桌子使桌面振动, 在桌面参考系产生有效竖直力 $MA_0\cos\omega_dt$. (a) 以晶体相对平衡位置的位移 $x$ 写出无阻力运动方程. (b) 假设极小损耗最终消去齐次运动, 求稳态振幅. (c) 已知 $k/M\gg\omega_d^2$, 怎样改变四根弹簧的长度使振幅降低十倍? 假设截面积不变, 劲度与截面积成正比、与长度成反比. (d) 在弹簧并联支撑之外增加无质量软垫, 只产生阻力 $-b\dot x$, 要使原振幅降为十分之一, 写出确定 $b$ 的方程并在上述低频条件下求解.
+\end{exercise}
+\begin{solution}
+(a) 并联劲度是 $4k$, 故 $M\ddot x+4kx=MA_0\cos\omega_dt$. (b) 非共振稳态振幅为 $X_0=MA_0/|4k-M\omega_d^2|$. 若恰好无阻尼共振, 不存在有限稳态, 极小损耗也不能直接设为零.
+
+(c) 低频下 $X_0\simeq MA_0/(4k)$. 每根新弹簧应有 $k'=10k$, 从而长度 $\ell'=\ell/10$. 若保留有限频率而两者均在刚度主导一侧, 精确条件是 $4k'-M\omega_d^2=10(4k-M\omega_d^2)$, 即 $k'=10k-9M\omega_d^2/4$.
+
+(d) 新方程 $M\ddot x+b\dot x+4kx=MA_0\cos\omega_dt$, 振幅为 $X_b=MA_0/\sqrt{(4k-M\omega_d^2)^2+(b\omega_d)^2}$. 条件 $X_b=X_0/10$ 给出
+\[
+(b\omega_d)^2=99(4k-M\omega_d^2)^2,\qquad
+b=\frac{\sqrt{99}|4k-M\omega_d^2|}{\omega_d}\simeq\frac{4\sqrt{99}k}{\omega_d}.
+\]
+$b$ 的单位为 $\mathrm{kg/s}$. 此方案依赖非零驱动频率; 纯静力不能用粘性阻尼削弱.
+\end{solution}
+\begin{exercise}\label{ps:2.3}
+原题 2.3 (20 分). 飓风中, 悬挂交通灯竖直振动, 可看作阻尼质量弹簧系统. 灯的振幅衰减至 $\e^{-1}$ 倍需 $4\,\mathrm s$. 突然下半部掉落, 剩余一半的平衡位置比原来高 $0.1\,\mathrm m$. (a) 求断裂后无阻尼固有频率, 单位 Hz. (b) 若耗散全部发生在悬挂系统, 求断裂后的振幅衰减时间. (c) 断裂时灯静止在原平衡位置, 求相对新平衡位置的位移 $y(t)$, 给所有常数的数值及单位.
+\end{exercise}
+\begin{solution}
+把原总质量记作 $2m$, 剩余为 $m$, 假定悬挂劲度 $k$ 和阻尼系数 $b$ 不变. 平衡位置变化为 $mg/k=0.1\,\mathrm m$. (a) $\omega_0=\sqrt{k/m}=\sqrt{g/(0.1\,\mathrm m)}=9.90\,\mathrm{s}^{-1}$, $f_0=\omega_0/(2\pi)=1.58\,\mathrm{Hz}$, 这里取 $g=9.8\,\mathrm{m/s^2}$.
+
+(b) 原衰减率为 $b/(4m)=1/(4\,\mathrm s)$, 所以断裂后 $\gamma=b/(2m)=0.5\,\mathrm{s}^{-1}$, 衰减时间为 $2\,\mathrm s$. (c) 向下为正, $y(0)=0.1\,\mathrm m$, $\dot y(0)=0$, 阻尼频率 $\Omega=\sqrt{98-0.25}=9.887\,\mathrm{s}^{-1}$. 因此
+\[
+y(t)=0.1\,\mathrm m\,\e^{-(0.5\,\mathrm{s}^{-1})t}\left[\cos(\Omega t)+\frac{0.5\,\mathrm{s}^{-1}}\Omega\sin(\Omega t)\right].
+\]
+正弦项使初速度恰为零; 只写衰减余弦会违反初值.
+\end{solution}
+\begin{exercise}\label{ps:2.4}
+原题 2.4 (20 分). 质量 $m$ 的物块在水平气垫轨道上, 左右各连一根劲度 $k$、自然长 $\ell_0$ 的弹簧. 左端固定, 右端电动机从 $t=0$ 开始按 $x_{\rm end}=\ell_0+\Delta\sin\omega t$ 运动. 原点取物块初始位置; 初始两弹簧自然伸展, $x(0)=\dot x(0)=0$. 物块受小空气阻力 $-b\dot x$. (a) 逐项列力并整理运动方程. (b) 不求系数, 写自由项加驱动项的完整解形式, 说明各常数由系统、外力或初值中何者决定. (c) 求稳态振幅、相位, 画出随驱动频率的趋势. (d) 求振幅最大的频率. (e) 用初值给出完整运动.
+\end{exercise}
+\begin{solution}
+(a) 左弹簧力为 $-kx$, 右弹簧伸长为 $\Delta\sin\omega t-x$, 所以
+\[
+m\ddot x+b\dot x+2kx=k\Delta\sin\omega t.
+\]
+自然长消掉是由于从自然伸展的初始状态量位移.
+
+(b) 定义 $\omega_0^2=2k/m$, $\gamma=b/(2m)$, $\Omega=\sqrt{\omega_0^2-\gamma^2}$ (小阻尼下为实数), 解的形式为
+\[
+x=\e^{-\gamma t}(C\cos\Omega t+D\sin\Omega t)+X\sin(\omega t-\delta).
+\]
+$\gamma,\Omega$ 只由振子决定; $X,\delta$ 由振子与驱动共同决定; $C,D$ 由初值及已经确定的驱动项决定.
+
+(c) 代入稳态项并匹配正弦、余弦可得
+\[
+X=\frac{k\Delta}{\sqrt{(2k-m\omega^2)^2+b^2\omega^2}},\qquad
+\delta=\operatorname{atan2}(b\omega,2k-m\omega^2).
+\]
+$X$ 是非负振幅, $\delta$ 是位移相对驱动力的滞后角. 供重建曲线的关键点为: $X(0)=\Delta/2$, 小阻尼时在 $\omega_0$ 附近有尖峰, $X\sim k\Delta/(m\omega^2)$ 随高频衰减; $\delta$ 从 $0$ 单调过渡到 $\pi$, 在 $\omega=\omega_0$ 为 $\pi/2$.
+
+(d) 对分母平方求导, 非零极小点满足 $\omega_{\max}^2=\omega_0^2-b^2/(2m^2)=\omega_0^2-2\gamma^2$. 只有右侧为正时有非零共振峰; 否则最大值在 $\omega=0$.
+
+(e) $x(0)=0$ 给出 $C=X\sin\delta$. 初速度条件给出 $-\gamma C+\Omega D+\omega X\cos\delta=0$, 因而
+\[
+x(t)=X\sin(\omega t-\delta)+X\e^{-\gamma t}\left[\sin\delta\cos\Omega t+\frac{\gamma\sin\delta-\omega\cos\delta}{\Omega}\sin\Omega t\right].
+\]
+在临界阻尼处应取 $\sin\Omega t/\Omega\to t$ 的极限, 而非除以零.
+\end{solution}
+\begin{exercise}\label{ps:2.5}
+原题 2.5 (20 分). 两物块只能竖直运动. 图的准确连接为: 顶板经弹簧 A 连上方物块 $m_2$, $m_2$ 经弹簧 B 连下方物块 $m_1$, 另有弹簧 C 从顶板直接连 $m_1$. $K_A=78$, $K_B=60$, $K_C=24$, 单位均为 $\mathrm{N/m}$; $m_1=4$, $m_2=12$, 单位均为 kg. 在地球上重力向下, 原文称 A、B 的自然长度等于 C 的自然长度, 未明确说明是否指 A、B 长度之和. 以下保留一般自然长 $\ell_A,\ell_B,\ell_C$, 此措辞不影响相对平衡位置的振动. (a) 定义坐标并列运动方程. (b) 写成矩阵形式, 明确给出 $M^{-1}K$. (c) 求简正模和角频率. (d) 起初 $m_1$ 从平衡位置向上移 $1\,\mathrm{cm}$, $m_2$ 保持平衡位置, 然后同时由静止释放, 求两物块运动.
+\end{exercise}
+\begin{solution}
+(a) 以顶板为零, 向下为正, 绝对坐标为 $z_1,z_2$. 牛顿定律是
+\begin{align*}
+m_1\ddot z_1&=m_1g-K_B(z_1-z_2-\ell_B)-K_C(z_1-\ell_C),\\
+m_2\ddot z_2&=m_2g-K_A(z_2-\ell_A)+K_B(z_1-z_2-\ell_B).
+\end{align*}
+静态解由左侧置零决定. 用 $q_i=z_i-z_{ie}$ 消去重力和自然长, 得 $m_1\ddot q_1=-84q_1+60q_2$, $m_2\ddot q_2=60q_1-138q_2$.
+
+(b) 按 $(q_1,q_2)$ 排列,
+\[
+M=\begin{pmatrix}4&0\\0&12\end{pmatrix},\quad K=\begin{pmatrix}84&-60\\-60&138\end{pmatrix},\quad
+M^{-1}K=\begin{pmatrix}21&-15\\-5&23/2\end{pmatrix}\,\mathrm{s}^{-2},\quad M\ddot{\boldsymbol q}+K\boldsymbol q=0.
+\]
+$M^{-1}K$ 不对称并不表示系统不保守, 真正的刚度矩阵 $K$ 是对称的.
+
+(c) 令 $\lambda=\omega^2$, 特征方程为 $\lambda^2-(65/2)\lambda+333/2=0$. 记 $s=\sqrt{1561}$, 则
+\[
+\lambda_\mp=\frac{65\mp s}{4}\,\mathrm{s}^{-2},\qquad
+\boldsymbol u_-=(r_-,1),\quad \boldsymbol u_+=(r_+,1),\quad
+r_-=\frac{s-19}{20},\quad r_+=-\frac{s+19}{20}.
+\]
+$\omega_-=2.524\,\mathrm{s}^{-1}$, $\omega_+=5.111\,\mathrm{s}^{-1}$. 低频两质量同向, 高频反向; 比值是 $q_1/q_2$, 不能交换质量顺序.
+
+(d) 初值 $\boldsymbol q(0)=(-0.01,0)\,\mathrm m$. 因两个初速度为零, 只需余弦. 展开 $\boldsymbol q=c_-\boldsymbol u_-\cos\omega_-t+c_+\boldsymbol u_+\cos\omega_+t$, 得 $c_+=-c_-$, $c_-=-0.1/s\,\mathrm m$. 所以
+\[
+q_1=-\frac{0.1}{s}\,\mathrm m\,[r_-\cos\omega_-t-r_+\cos\omega_+t],\qquad
+q_2=-\frac{0.1}{s}\,\mathrm m\,[\cos\omega_-t-\cos\omega_+t].
+\]
+相对平衡位移如上; 绝对位置需加 $z_{ie}$.
+\end{solution}
+\originalsection{作业三}
+\begin{exercise}\label{ps:3.1}
+原题 3.1 (20 分). 双摆的两根杆均为长 $L$ 的无质量刚杆. 第一杆连接固定原点和质量 $M_1$, 第二杆连接 $M_1$ 和 $M_2$. 两铰链无摩擦. 图中 $x$ 向右, $y$ 向下; 两杆分别与向下竖直方向夹角 $\theta_1,\theta_2$, 两质量水平坐标为 $X_1,X_2$. 重力向下, 所有振动角很小, 在运动方程中忽略角度的二阶及以上项. (a) 列两质量的运动方程. (b) 用 $\omega_0^2=g/L$, $\alpha=M_2/M_1$ 表示两简正频率, 不必求振幅比. (c) 求 $\alpha\to\infty$ 极限并解释. (d) 求 $\alpha\to0$ 极限并解释.
+\end{exercise}
+\begin{solution}
+(a) 小角下 $X_1=L\theta_1$, $X_2=L(\theta_1+\theta_2)$. 计算线性方程须在能量中保留二次项, 因求导会把它们变成一次恢复力. 动能和势能为
+\begin{align*}
+\mathcal K&=\tfrac12(M_1+M_2)L^2\dot\theta_1^2+M_2L^2\dot\theta_1\dot\theta_2+\tfrac12M_2L^2\dot\theta_2^2,\\
+V&=\tfrac12(M_1+M_2)gL\theta_1^2+\tfrac12M_2gL\theta_2^2.
+\end{align*}
+拉格朗日方程 (亦等价于切向牛顿方程) 给出
+\[
+(M_1+M_2)\ddot\theta_1+M_2\ddot\theta_2+(M_1+M_2)\omega_0^2\theta_1=0,\quad
+\ddot\theta_1+\ddot\theta_2+\omega_0^2\theta_2=0.
+\]
+若用题图水平坐标, 则 $M_1\ddot X_1=-(M_1+2M_2)\omega_0^2X_1+M_2\omega_0^2X_2$, $\ddot X_2=-\omega_0^2(X_2-X_1)$.
+
+(b) 代 $\theta_i=A_i\cos\omega t$, 令 $u=\omega^2/\omega_0^2$, 系数行列式给出 $(1+\alpha)(1-u)^2-\alpha u^2=0$, 即 $u^2-2(1+\alpha)u+1+\alpha=0$. 因而
+\[
+\omega_\pm=\omega_0\sqrt{1+\alpha\pm\sqrt{\alpha(1+\alpha)}}.
+\]
+(c) $\alpha\to\infty$ 时, $\omega_-\to\omega_0/\sqrt2=\sqrt{g/(2L)}$, $\omega_+\sim\omega_0\sqrt{2\alpha}\to\infty$. 低频是重质量如长 $2L$ 的摆整体摆动; 高频是极轻的中间质量在重物近似固定时快速运动. 这是质量比的奇异极限.
+
+(d) $\alpha\to0$ 时两频率均趋 $\omega_0$. 第一摆趋于独立单摆, 第二极轻摆受到第一摆运动的驱动, 而反馈趋零. 在严格 $M_2=0$ 时其惯性自由度消失, 因此不能把极限中的重合频率简单解释成两个普通、互不耦合且质量非零的摆.
+\end{solution}
+\begin{exercise}\label{ps:3.2}
+原题 3.2 (20 分). 两个相同的 LC 回路, 各有电容 $C$ 和自感 $L$, 两电感靠近后具有互感 $M$. 原图无电流箭头或同名端标记. (a) 求简正频率. (b) 描述每个模的电流关系, 说明能否由对称性发现它们.
+\end{exercise}
+\begin{solution}
+选择两个回路的正电流方向使互感项为 $+M$. 取相应电荷 $q_1,q_2$, 方程为
+\[
+L\ddot q_1+M\ddot q_2+q_1/C=0,\qquad
+M\ddot q_1+L\ddot q_2+q_2/C=0.
+\]
+(a) 相加、相减使 $q_+=q_1+q_2$, $q_-=q_1-q_2$ 解耦: $(L\pm M)\ddot q_\pm+q_\pm/C=0$. 所以 $\omega_+=1/\sqrt{C(L+M)}$, $\omega_-=1/\sqrt{C(L-M)}$, 需要 $|M|<L$ 使磁能正定.
+
+(b) 在这套正方向约定下, 两模分别满足 $i_1=i_2$ 和 $i_1=-i_2$. 交换两个回路不改变系统, 故可按交换对称性选取 $(1,1)$、$(1,-1)$ 作为振型. 原图没有绕线同名端, 因此不能无条件把某个频率称为图中顺时针同向电流的频率; 若改变一个回路正方向, 互感符号及同向/反向的名称一起交换, 两个实际频率的集合不变.
+\end{solution}
+\begin{exercise}\label{ps:3.3}
+原题 3.3 (20 分). 三个相同质量 $m$ 沿无摩擦大圆周运动, 相邻质量之间用劲度均为 $k$ 的三根弹簧连成闭环. 圆在水平面上, 可忽略重力和曲率效应. (a) 用相对平衡位置的小弧长位移列方程. (b) 求各模频率、相对振幅, 给出运动草图信息, 系统有几个不同频率? (c) 解释为何部分模不表示振荡运动.
+\end{exercise}
+\begin{solution}
+(a) 沿同一绕圈方向定义 $x_1,x_2,x_3$, 下标按模 3 循环. 每根弹簧的伸长增量为相邻位移之差, 因而
+\[
+m\ddot x_j=k(x_{j+1}+x_{j-1}-2x_j),\qquad
+K=k\begin{pmatrix}2&-1&-1\\-1&2&-1\\-1&-1&2\end{pmatrix}.
+\]
+(b) $(1,1,1)$ 的特征值为零. 在 $x_1+x_2+x_3=0$ 平面上, $K$ 等于 $3k$ 乘恒等映射. 可选实模 $(1,-1,0)$ 和 $(1,1,-2)$, 二者均有 $\omega=\sqrt{3k/m}$. 图可按三个圆周位置分别标箭头: 第一振型为一珠顺向、一珠反向、第三静止; 第二为两珠等幅顺向, 第三反向且幅度两倍. 半周期后箭头全部反向. 任意这两个振型的线性组合也是该频率的模. 共三个独立模, 两个不同的频率值 (计入零), 只有一个非零频率.
+
+(c) 全体等位移不会改变任何弹簧长度, 因此没有恢复力. 对应广义坐标满足 $\ddot X=0$, 解为 $X=X_0+Vt$, 表示静态整体转角或匀速绕圈, 而非周期振动.
+\end{solution}
+\begin{exercise}\label{ps:3.4}
+原题 3.4 (20 分). 两个相同质量 $m$ 竖直串挂: 移动支点经劲度 $k$ 的弹簧连上物块, 上物块再经另一根相同弹簧连下物块. 支点位移为 $h(t)=A\cos\omega t$, 忽略阻尼. (a) 求相对平衡位移 $y_1,y_2$ 的耦合方程, 用 $\omega_0^2=k/m$ 表示, 说明重力仅移平衡位置. (b) 求两质量稳态响应, 给出振幅随驱动频率的细致草图信息. (c) 从响应判断无驱动系统的简正频率和振幅比.
+\end{exercise}
+\begin{solution}
+(a) 对支点和物块统一取向下为正, 均从无驱动静态平衡量位移. 两弹簧伸长增量是 $y_1-h$ 和 $y_2-y_1$, 所以
+\[
+\ddot y_1+\omega_0^2(2y_1-y_2)=\omega_0^2h,\qquad
+\ddot y_2+\omega_0^2(y_2-y_1)=0.
+\]
+原静态重力已被弹簧静伸长抵消.
+
+(b) 设 $y_i=B_i\cos\omega t$, $u=\omega^2/\omega_0^2$. 代入得 $(2-u)B_1-B_2=A$, $-B_1+(1-u)B_2=0$. 因而
+\[
+B_1=A\frac{1-u}{u^2-3u+1},\qquad B_2=A\frac1{u^2-3u+1}.
+\]
+实际振幅为 $|B_i|$; $B_i<0$ 表示相对支点反相. 两条曲线从 $A$ 开始, 在 $u_-=(3-\sqrt5)/2$、$u_+=(3+\sqrt5)/2$ 有竖直渐近线. 上物块还在 $u=1$ 完全静止, 称为反共振; 下物块没有有限频率零点. 高频下 $|B_1|\sim A/u$, $|B_2|\sim A/u^2$. 用这些端点、两个极点和一个零点可完整重建振幅趋势. 无阻尼时齐次振动不会衰减, 这里的稳态是与驱动同频的特解; 在两个极点不存在有限振幅稳态.
+
+(c) 分母零点给 $\omega_\mp=\omega_0\sqrt{(3\mp\sqrt5)/2}$. 对应 $B_2/B_1=1/(1-u)$, 低频比值为 $(1+\sqrt5)/2$, 高频为 $(1-\sqrt5)/2$. 低频同相, 高频反相.
+\end{solution}
+\begin{exercise}\label{ps:3.5}
+原题 3.5 (20 分). 两个质量均为 $m$ 的珠子等间距穿在长 $3a$ 的无质量弦上, 弦位于无摩擦水平面. 原图从左到右是固定端、珠1、珠2、右端, 各间距 $a$, 弦张力始终为 $T$. 珠子作垂直于原弦方向的小振动. 起初右端也固定. (a) 写 $y_1,y_2$ 方程. (b) 求简正频率并给振型草图. 现令右端 $Y(t)=\Delta\cos\omega_dt$. (c) 求两珠稳态振幅关于 $\omega_d,\Delta$ 的函数.
+\end{exercise}
+\begin{solution}
+(a) 小斜率下每段弦的横向力是张力乘以斜率. 定义 $\Omega_0^2=T/(ma)$, 有
+\[
+\ddot y_1=\Omega_0^2(y_2-2y_1),\qquad
+\ddot y_2=\Omega_0^2(y_1-2y_2+Y).
+\]
+固定右端时 $Y=0$. (b) 模 $(1,1)$ 有 $\omega_1=\Omega_0$, 模 $(1,-1)$ 有 $\omega_2=\sqrt3\Omega_0$. 前者两珠同侧且等幅, 折线经过 $(0,0),(a,B),(2a,B),(3a,0)$; 后者经过 $(0,0),(a,B),(2a,-B),(3a,0)$. 这些坐标精确给出小振幅草图.
+
+(c) 令 $y_i=B_i\cos\omega_dt$, $u=\omega_d^2/\Omega_0^2$. 线性方程 $(2-u)B_1-B_2=0$, $-B_1+(2-u)B_2=\Delta$ 给出
+\[
+B_1=\frac{\Delta}{(1-u)(3-u)},\qquad
+B_2=\frac{(2-u)\Delta}{(1-u)(3-u)}.
+\]
+振幅为绝对值, 正负决定与右端的相位. $u=1,3$ 为共振, $u=2$ 时第二珠反共振而第一珠仍运动. 静态极限为 $B_1=\Delta/3$, $B_2=2\Delta/3$, 与一条倾斜直弦相符. 共振处不存在有界同频特解.
+\end{solution}
+\originalsection{作业四}
+\begin{exercise}\label{ps:4.1}
+原题 4.1 (25 分). 张力恒为 $T$ 的无质量弦上有 $N$ 个质量 $m$ 的珠子. 相邻珠间距 $a$, 最左及最右珠到各自固定墙的距离均为 $a/2$. 珠子只能在纸面内竖直小幅运动. (a) 证明可延伸成无限珠链并令 $A_1=-A_0$ 来包含左墙效应. (b) 求右墙相应边界条件. (c) 求有限系统的全部简正模及频率.
+\end{exercise}
+\begin{solution}
+(a) 内珠满足 $m\ddot y_j=(T/a)(y_{j-1}-2y_j+y_{j+1})$. 左珠受左段力 $-2Ty_1/a$, 右段力 $T(y_2-y_1)/a$, 合为 $(T/a)(y_2-3y_1)$. 与无限链公式比较, 虚珠须满足 $y_0=-y_1$, 因而模振幅 $A_0=-A_1$. (b) 同理 $A_{N+1}=-A_N$. 墙位于两个实虚珠的中点, 正是反对称延拓的零点.
+
+(c) 选 $A_j=C\sin[q(j-1/2)]$, 自动满足左边界. 右边界要求 $2\sin(qN)\cos(q/2)=0$. 给出 $N$ 个独立模
+\[
+q_r=\frac{r\pi}{N},\quad
+A_j^{(r)}=C_r\sin\!\left[\frac{r\pi}{N}(j-\tfrac12)\right],\quad
+\omega_r=2\sqrt{\frac T{ma}}\sin\frac{r\pi}{2N},\quad r=1,\ldots,N.
+\]
+$r=0$ 的正弦振型恒为零, 不能计入. $r=N$ 的振型是逐珠交替正负, 确实存在, 不能在除以 $\cos(q/2)$ 时误删. 离散系统只有 $N$ 个模, 而非无限多个.
+\end{solution}
+\begin{exercise}\label{ps:4.2}
+原题 4.2 (25 分). 两个耦合扭摆以相对平衡角 $\theta_1,\theta_2$ 描述. 已知相互作用矩阵 $D=M^{-1}K$ 与反射矩阵
+\[
+S=\begin{pmatrix}0&-1\\-1&0\end{pmatrix}
+\]
+对易, 即 $[S,D]=0$. (a) 有几个简正模? (b) 每个模的振幅比 $A_1/A_2$ 是什么?
+\end{exercise}
+\begin{solution}
+(a) 两个自由度给出两个独立模. (b) 写一般矩阵并计算对易条件, 可得 $D=\bigl(\begin{smallmatrix}d&e\\e&d\end{smallmatrix}\bigr)$. 因而可选 $(1,1)$ 和 $(1,-1)$ 作为共同特征向量, 振幅比分别为 $+1,-1$, 对应 $D$ 的特征值 $d+e,d-e$. 扭摆的反射包含角度符号反转, 所以 $(1,1)$ 的 $S$ 特征值是 $-1$, $(1,-1)$ 的是 $+1$. 若 $e=0$, 两频率简并, 任意非零向量都可当作模; 此时对称模基仍可选取, 但不能说每一个可能模的振幅比都只限于 $\pm1$. 对易条件本身也不保证频率平方为正, 稳定振荡需额外满足 $d\pm e>0$.
+\end{solution}
+\begin{exercise}\label{ps:4.3}
+原题 4.3 (25 分). 长 $L$、线密度 $\mu$ 的均匀细弦, 两端各通过无质量环连接竖直无摩擦杆, 环可自由上下滑动. 张力为 $T$. (a) 求小幅横振的简正模及频率. (b) 画前三个模形状. (c) 画角频率 $\omega$ 关于角波数 $k$ 的图.
+\end{exercise}
+\begin{solution}
+(a) 无质量环竖直方向无杆阻力, 因而弦端竖直张力为零: $y_x(0,t)=y_x(L,t)=0$. 波动方程为 $y_{tt}=v^2y_{xx}$, $v=\sqrt{T/\mu}$. 分离变量 $y=X(x)q(t)$, 有 $X''+k^2X=0$. 左端导数条件消去正弦项, 右端条件给出 $k_n=n\pi/L$. 所以 $X_n=\cos(n\pi x/L)$, $\omega_n=n\pi v/L$, $n=0,1,2,\ldots$.
+
+$n=0$ 是均匀平移零模, 时间因子 $q_0=a_0+b_0t$; 它不是有恢复力的振动. (b) 若按包含零模的顺序, 前三个为常数直线、$\cos(\pi x/L)$、$\cos(2\pi x/L)$. 若题意指前三个非零振动模, 则是 $n=1,2,3$: 两端分别处于波腹, 内节点依次为 $L/2$; $L/4,3L/4$; $L/6,L/2,5L/6$. 在这些位置画零点, 在端点与相邻节点中间画交替极值即可重建图形. (c) 色散关系 $\omega=v|k|$, 在取 $k\ge0$ 时为过原点斜率 $v$ 的直线; 本有限弦只在 $k_n$ 处取离散点.
+\end{solution}
+\begin{exercise}\label{ps:4.4}
+原题 4.4 (25 分). 线密度 $\mu$、张力 $T$ 的弦两端固定在 $x=-L,L$. 原图初始形状是依次连结 $(-L,0),(-L/2,A),(0,0),(L/2,-A),(L,0)$ 的折线, $A$ 很小. $t=0$ 从静止释放, 全弦初速度为零. (a) 系统有多少简正模? (b) 求初形的傅里叶系数 $A_m$, 写 $t>0$ 的完整级数 $y(x,t)$. (c) 画系数随 $m$ 的图, 必须说明所有可能模的系数.
+\end{exercise}
+\begin{solution}
+(a) 连续弦有可数无穷多个简正模. 采用统一基 $\phi_m(x)=\sin[m\pi(x+L)/(2L)]$, $m=1,2,\ldots$, 其范数平方积分为 $L$, 频率 $\omega_m=m\pi v/(2L)$, $v=\sqrt{T/\mu}$.
+
+(b) 初形是奇函数, 而 $m$ 为奇数时 $\phi_m$ 关于中心是偶函数, 所以 $A_{2r-1}=0$. 对偶数 $m=2n$, $\phi_{2n}=(-1)^n\sin(n\pi x/L)$. 在 $0\le x\le L/2$, 初形为 $-2Ax/L$; 在 $L/2\le x\le L$, 为 $2A(x-L)/L$. 由分段积分
+\begin{align*}
+b_n&=\frac2L\int_0^L y(x,0)\sin\frac{n\pi x}{L}\,\dd x\\
+&=-\frac{8A}{\pi^2n^2}\sin\frac{n\pi}{2},\qquad A_{2n}=(-1)^nb_n.
+\end{align*}
+只保留 $n=2r+1$ 后, 完整时间级数可写为
+\[
+y(x,t)=-\frac{8A}{\pi^2}\sum_{r=0}^\infty\frac{(-1)^r}{(2r+1)^2}\sin\frac{(2r+1)\pi x}{L}\cos\frac{(2r+1)\pi vt}{L}.
+\]
+余弦时间因子保证所有初速度为零. (c) 在统一编号下, $A_{4r+2}=8A(-1)^r/[\pi^2(2r+1)^2]$, 其余 $A_m$ 全为零. 即非零柱依次在 $m=2,6,10,\ldots$, 交替正负, 包络按 $m^{-2}$ 衰减. 不要把这个稀疏激发谱误当成系统只存在这些模.
+\end{solution}
+\originalsection{作业五}
+\begin{exercise}\label{ps:5.1}
+原题 5.1 (20 分). 一根长 $L$、两端固定的弦, 张力为 $T$, 总质量为 $M$. (a) 求第 $n$ 简正模以振幅 $A$ 振动时的总能量. 提示: 在弦瞬时为直线、振动势能为零时积分动能. (b) 若
+\[
+\psi(x,t)=A_1\sin\frac{\pi x}{L}\cos\omega_1t+A_3\sin\frac{3\pi x}{L}\cos(\omega_3t-\pi/4),
+\]
+求总能量. 可假设它是两模单独能量之和.
+\end{exercise}
+\begin{solution}
+(a) 线密度 $\mu=M/L$, 波速 $v=\sqrt{T/\mu}$, $\omega_n=n\pi v/L$. 写 $y=A\sin(n\pi x/L)\cos\omega_nt$. 在 $\cos\omega_nt=0$ 时弦直且速度幅度最大, 得
+\[
+E_n=\frac12\int_0^L\mu A^2\omega_n^2\sin^2\frac{n\pi x}{L}\,\dd x=\frac{MA^2\omega_n^2}{4}=\frac{Tn^2\pi^2A^2}{4L}.
+\]
+振幅指波腹位移, 并非全弦均匀位移. (b) 正弦模的空间正交使动能交叉积分为零; 导数后的余弦模也正交, 势能交叉积分亦为零. 所以能量与相对时间相位无关:
+\[
+E=\frac M4(A_1^2\omega_1^2+A_3^2\omega_3^2)=\frac{T\pi^2}{4L}(A_1^2+9A_3^2).
+\]
+\end{solution}
+\begin{exercise}\label{ps:5.2}
+原题 5.2 (20 分). 长 $L$、张力 $T$、线密度 $\rho_L$ 的弦两端固定, 仅竖直振动. 原图方脉冲以 $x=L/2$ 为中心、宽 $L/4$、高 $h$, 即在 $3L/8<x<5L/8$ 为 $h$, 其他位置为零. $t=0$ 小心从静止释放. (a) 求行波速度. (b) 按比例给出 $t=(L/4)\sqrt{\rho_L/T}$ 的弦形. (c) 按比例给出 $t=L\sqrt{\rho_L/T}$ 的弦形.
+\end{exercise}
+\begin{solution}
+(a) $v=\sqrt{T/\rho_L}$. 初形记作 $f(x)$, 零初速度使初始脉冲分为各高 $h/2$ 的左右行波. 将 $f$ 在两端作奇延拓并以 $2L$ 为周期, 则完整解为 $y(x,t)=[f_{\rm ext}(x-vt)+f_{\rm ext}(x+vt)]/2$.
+
+(b) $vt=L/4$, 此时未碰墙. 图形精确为
+\[
+y=\begin{cases}h/2,&L/8<x<3L/8\ \text{或}\ 5L/8<x<7L/8,\\0,&\text{其余位置}.\end{cases}
+\]
+两平台宽 $L/4$, 中间零区宽 $L/4$, 两端零区各宽 $L/8$, 据此可以按比例绘制.
+
+(c) $vt=L$, 两个脉冲均已在固定端反相反射, 回到中央重合. 弦形为 $-h$ 高的中央平台, 即 $3L/8<x<5L/8$ 上 $y=-h$, 其他为零. 从模展开也能验证: 中心对称初形仅含奇数模, 每个模在 $L/v$ 时乘以 $\cos(n\pi)=-1$. 跃变处的数学级数取左右极限平均; 理想方脉冲的无限斜率不满足有限弹性能的小斜率假设, 本题形状应理解为尖边光滑化的理想极限.
+\end{solution}
+\begin{exercise}\label{ps:5.3}
+原题 5.3 (20 分). 线密度 $\rho$、张力 $T$ 的弦上有向右行进的高斯脉冲
+\[
+y(x,t)=y_0\exp\!\left[-\frac12\left(\frac{x-vt}{\sigma}\right)^2\right].
+\]
+能量是全弦动能与形变势能之和. (a) 求某时刻的动能线密度, 描述关于 $x$ 的图. (b) 求势能线密度并比较. (c) 用 $T,y_0,\sigma$ 求总能量, 检查量纲和振幅平方依赖; 可用 $\int_{-\infty}^\infty x^2\e^{-ax^2}\dd x=\sqrt\pi/(2a^{3/2})$. (d) 求通过 $x=x_0$ 的功率随时间的函数, 描述图形.
+\end{exercise}
+\begin{solution}
+令 $\xi=x-vt$, $v=\sqrt{T/\rho}$. 小斜率波动理论要求 $|y_x|\ll1$, 此处足够条件是 $|y_0|/\sigma\ll1$. 导数为 $y_x=-\xi y/\sigma^2$, $y_t=v\xi y/\sigma^2$.
+
+(a) 动能线密度是
+\[
+u_K=\tfrac12\rho y_t^2=\frac{Ty_0^2}{2\sigma^4}\xi^2\e^{-\xi^2/\sigma^2}.
+\]
+曲线关于 $x=vt$ 对称, 中心为零, 两峰在 $x=vt\pm\sigma$, 峰值 $Ty_0^2/(2\e\sigma^2)$, 两端趋零. (b) 势能线密度 $u_V=Ty_x^2/2$ 与 $u_K$ 逐点相等; 这是纯行波的性质, 不只是全空间积分后相等.
+
+(c) 积分总密度 $u=u_K+u_V$ 得
+\[
+E=\frac{Ty_0^2}{\sigma^4}\int_{-\infty}^\infty\xi^2\e^{-\xi^2/\sigma^2}\,\dd\xi=\frac{\sqrt\pi Ty_0^2}{2\sigma}.
+\]
+单位为 $\mathrm N\cdot\mathrm m=\mathrm J$, 且正比于 $y_0^2$. 宽脉冲在固定高度下斜率更小, 能量按 $1/\sigma$ 降低.
+
+(d) 向右能流功率为 $P=-Ty_xy_t$, 因而
+\[
+P(x_0,t)=\frac{Tvy_0^2}{\sigma^4}(x_0-vt)^2\e^{-(x_0-vt)^2/\sigma^2}.
+\]
+始终非负, 两峰时间为 $(x_0\mp\sigma)/v$, 中心时间 $x_0/v$ 为零. 峰值为 $Tvy_0^2/(\e\sigma^2)$, 单位 W. 此功率等于 $vu$, 并满足 $\int_{-\infty}^\infty P(x_0,t)\dd t=E$.
+\end{solution}
+\begin{exercise}\label{ps:5.4}
+原题 5.4 (20 分). 同一线密度 $\rho_L$ 的弦在 $x=0$ 分成两半, 都连接能沿竖直杆无摩擦滑动的无质量环. 左弦向负 $x$ 方向拉紧, 张力 $T_L$; 右弦张力 $T_R$. 竖直杆的水平反力平衡两张力的水平差. 一列振幅 $A$ 的波从左入射. (a) 入射形为 $\alpha\cos(kx-\omega t)$, 写两侧总位移. (b) 写 $x=0$ 边界条件, 提示为无质量环总竖直力为零. (c) 求反射与透射系数. (d) 证明结点能量守恒. (e) 分别讨论 $T_R=T_L$, $T_R\gg T_L$, $T_R\ll T_L$, 并解释结果.
+\end{exercise}
+\begin{solution}
+避免把张力 $T$ 和透射系数混用, 将位移振幅比写成 $r,t_a$, 能量比写成 $\mathcal R,\mathcal T$. 定义 $v_j=\sqrt{T_j/\rho_L}$, $k_j=\omega/v_j$, 波阻抗 $Z_j=T_j/v_j=\sqrt{T_j\rho_L}$.
+
+(a) 以 $\alpha=A$ 为实入射振幅, 两侧可写
+\[
+\psi_L=A\cos(k_Lx-\omega t)+Ar\cos(k_Lx+\omega t),\qquad
+\psi_R=At_a\cos(k_Rx-\omega t).
+\]
+(b) 环的唯一竖直位置要求 $\psi_L(0,t)=\psi_R(0,t)$, 竖直力平衡要求 $T_R\psi_{R,x}(0,t)=T_L\psi_{L,x}(0,t)$. 后一式符号来自左弦对环的竖直力为 $-T_L\psi_{L,x}$, 右弦为 $+T_R\psi_{R,x}$.
+
+(c) 边界条件化为 $1+r=t_a$, $Z_L(1-r)=Z_Rt_a$, 从而
+\[
+r=\frac{Z_L-Z_R}{Z_L+Z_R},\qquad t_a=\frac{2Z_L}{Z_L+Z_R}.
+\]
+振幅反射系数可为负; 若题目使用能量系数, 则
+\[
+\mathcal R=r^2,\qquad\mathcal T=\frac{Z_R}{Z_L}t_a^2=\frac{4Z_LZ_R}{(Z_L+Z_R)^2}.
+\]
+(d) 正弦行波的平均功率为 $Z\omega^2A^2/2$. 因而反射功率与入射功率之比为 $\mathcal R$, 透射为 $\mathcal T$, 并且 $\mathcal R+\mathcal T=[(Z_L-Z_R)^2+4Z_LZ_R]/(Z_L+Z_R)^2=1$. 无质量环既无储能又无耗散, 符合此结果.
+
+(e) 等张力时 $r=0,t_a=1$, 全透射. $T_R\gg T_L$ 时 $Z_R\gg Z_L$, $r\to-1,t_a\to0$: 高阻抗右弦如固定端, 反射反相. $T_R\ll T_L$ 时 $r\to1,t_a\to2$: 低阻抗右弦如自由端, 反射不反相. 后两极限均有 $\mathcal R\to1,\mathcal T\to0$; 透射位移加倍并不等于透射能量加倍.
+\end{solution}
+\begin{exercise}\label{ps:5.5}
+原题 5.5 (20 分). 线密度 $\rho_L$、张力 $T$ 的弦位于竖直导线左侧, 右端由无质量环套在导线上. 导线涂粘性油脂, 环上下运动时受阻力 $F_y=-b\,\partial y/\partial t$. (a) 对环用牛顿定律, 将边界写成端点空间、时间偏导的关系; 注意张力、杆的法向力和竖直阻力三个力. (b) 证明入射 $f(t-x/v)$ 和反射 $g(t+x/v)$ 能满足边界, 求 $g$ 关于 $f$ 的表达. (c) 检验 $b\to0$ 自由滑动和 $b\to\infty$ 固定端极限.
+\end{exercise}
+\begin{solution}
+取环为 $x=0$, 弦在 $x<0$, $v=\sqrt{T/\rho_L}$, $Z=T/v$. (a) 杆的法向力只有水平分量; 左弦作用在环上的竖直力为 $-Ty_x(0,t)$. 无质量环的竖直合力为零, 因而
+\[
+Ty_x(0,t)+by_t(0,t)=0.
+\]
+(b) 两个行波的任意可微形状均满足波动方程. 在环处 $y_x=(-f'+g')/v$, $y_t=f'+g'$, 故 $(b-Z)f'+(b+Z)g'=0$. 积分得
+\[
+g(s)=\frac{Z-b}{Z+b}f(s)+C.
+\]
+若入射前弦无偏移, 或用同一平衡参考, 则 $C=0$. 反射脉冲形状保持, 振幅乘 $r_b=(Z-b)/(Z+b)$.
+
+(c) $b\to0$ 时 $r_b\to1$, 反射不反相且 $y_x=0$, 为自由端. $b\to\infty$ 时 $r_b\to-1$, 入射反射在端点抵消, $y(0,t)=0$, 为固定端. 还可检查 $b=Z$ 时无反射, 能量全部被油脂吸收. 对一般 $b\ge0$, 吸收比例为 $1-r_b^2=4Zb/(Z+b)^2\ge0$, 与非负耗散功率 $b y_t^2$ 一致.
+\end{solution}

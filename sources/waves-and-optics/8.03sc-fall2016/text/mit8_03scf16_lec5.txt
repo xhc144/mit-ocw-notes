@@ -1,0 +1,166 @@
+                                     8.03 Lecture 5
+
+We consider the highly idealized system:
+
+
+
+
+Where neither block is initially moving, but the second block is displaced at a small angle at t = 0.
+There is no drag force, the springs are ideal. We want to predict the motion at arbitrary times.
+Define the coordinate system where ~x1 and ~x2 are measured from the equilibrium position. The x̂
+direction is to the right and the ŷ direction is up.
+
+
+
+
+                                                  ŷ direction:
+                                                  mÿ1 = T1 cos θ1 − mg
+
+
+                                                  x̂ direction:
+                                                  mẍ1 = −T1 sin θ1 + k(x2 − x1 )
+
+
+
+
+Implementing the small angle approximation: ⇒       cos θ1 ≈ 1 sin θ1 ≈ θ1
+From the ŷ direction we get T1 = mg
+
+                                        mẍ1 = −T1 θ1 + k(x2 − x1 )
+                                                    x1
+                                             = −mg k(x2 − x1 )
+                                                  l
+                                                       mg
+                                                          
+                                        mẍ1 = − k +        x1 + kx2
+                                                        l
+                                                           mg
+                                                             
+                              Similarly mẍ2 = kx1 − k +        x2
+                                                            l
+Convert everything to matrix form (recall M Ẍ = −KX)
+                                     !                                              !                   !
+                                x1                       k + mg/l    −k                       m 0
+                      X=                       K=                                       M=
+                                x2                          −k    k + mg/l                    0 m
+                                                                                        !
+                                                 −1          k/m + g/l   −k/m
+                                             M        K=
+                                                               −k/m    k/m + g/l
+Our equation of motion is Ẍ = −M −1 KX. We need to solve the eigenvalue problem. This is
+easiest if we switch to complex notation, define: X =Re[Z] and Z = ei(ωt+φ) A. The equation of
+motion becomes
+                                         ω 2 A = M −1 KA
+and we need to solve
+                                                      det(M −1 K − ω 2 I)A = 0
+                                                                                                   !
+                                −1               2         g/l + k/m − ω 2      −k/m
+                            M        K −ω I =
+                                                                −k/m       g/l + k/m − ω 2
+
+                                               (g/l + k/m − ω 2 )2 − (k/m)2 = 0
+                                                      (g/l + k/m − ω 2 ) = ±(k/m)
+
+
+                                               g g 2k
+                                                  , +   ⇒ ω2 =
+                                                l  l    m
+                  2                  2
+Where we define ω1 as the first and ω2 as the second solution.
+First examine 1: ω 2 = gl
+                                                                       !        !                           !
+                      −1                 2             k/m −k/m            A1                 (1)       1
+                 (M        K − ω I)A =                                              =0 ⇒ A          =
+                                                       −k/m k/m            A2                           1
+Next examine 2: ω 2 = gl + 2k
+                           m
+                                                                       !        !                            !
+                      −1             2                −k/m −k/m            A1                (2)         1
+                 (M        K − ω I)A =                                              =0 ⇒ A         =
+                                                      −k/m −k/m            A2                           −1
+Go back to X: X =Re[Z]=Re[ei(ωt+φ) A]
+                                                      X (1) = cos (ω1 t + φ1 )A(1)
+                                                      X (2) = cos (ω2 t + φ2 )A(2)
+             p                           p
+Where ω1 ≡       g/l and ω2 ≡                g/l + 2k/m as above. The full solution is then:
+                                 x1 = α cos (ω1 t + φ1 ) + β cos (ω2 t + φ2 )
+                                 x2 = α cos (ω1 t + φ1 ) − β cos (ω2 t + φ2 )
+Where the initial conditions can be used to determine α, β, φ1 , φ2 . Implementing our initial condi-
+tions from above we find:
+
+                                             α = x0 /2      β = −x0 /2     φ1 = φ2 = 0
+
+                                                                   2
+Rewriting our full solution:
+                                         x0
+                                       x1 = (cos ω1 t − cos ω2 t)
+                                         2
+                                         x0
+                                   x2 =     (cos ω1 t + cos ω2 t)
+                                         2
+Or if we implement some trig identities:
+                                               ω1 + ω2         ω1 − ω2
+                                                                     
+                                x1 = −x0 sin           t sin            t
+                                                   2               2
+                                              ω1 + ω2         ω1 − ω2
+                                                                    
+                                x2 = x0 cos           t cos           t
+                                                 2               2
+If ω1 ≈ ω2 (e.g. ω1 = 0.9ω2 )
+                                 ω1 + ω2               ω1 − ω2
+                                         = .95ω2               = −0.05ω2
+                                    2                     2
+
+
+
+
+We get two distinct waves: a carrier (high frequency) and the “beat” (low frequency) with the
+periods as shown.                             !             !
+                                           U1       x1 + x2
+We can define a “normal coordinate:” U =        ≡
+                                           U2       x1 − x2
+
+                                         U1 = 2A cos (ωA t + φ1 )
+                                         U2 = 2B cos (ωB t + φ2 )
+
+                                                     mg
+                                                          
+                                 m(ẍ1 + ẍ2 ) = −       (x1 + x2 )
+                                                      l
+                                                     mg
+                                                           
+                                 m(ẍ1 − ẍ2 ) = −      + 2k (x1 − x2 )
+                                                      l
+
+                                                       3
+We’ve successfully decoupled the equations of motion!
+                                                 mg
+                                                     
+                                    ⇒ mÜ1 = −       U1
+                                                  l
+                                                 mg
+                                                       
+                                      mÜ2 = −      + 2k U2
+                                                  l
+
+Where U1 (and U2 ) are oscillating harmonically at ω1 (and ω2 )!!!!
+
+
+
+
+                                                 4
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.03SC Physics III: Vibrations and Waves
+Fall 2016
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+

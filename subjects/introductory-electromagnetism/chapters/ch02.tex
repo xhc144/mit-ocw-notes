@@ -1,0 +1,31 @@
+\originalchapter{坐标、积分与梯度}\label{ch:math}
+\originalsection{矢量与坐标}
+点用坐标定位, 矢量表示有方向的位移、力或场. 直角单位矢量$\uv x,\uv y,\uv z$在空间固定. 柱坐标$(s,\phi,z)$以轴距$s$和方位角$\phi$描述圆柱对称问题, 其单位矢量$\uv s=(\cos\phi,\sin\phi,0)$、$\uv\phi=(-\sin\phi,\cos\phi,0)$随位置转动. 球坐标$(r,\theta,\phi)$的$\theta$是从正$z$轴量起的极角, $\uv r=\rr/r$. 本册用$s$表示柱半径, $\rho$专用于体电荷密度, 避免同一符号同时表示两个对象.
+
+点积$\vct a\cdot\vct b=ab\cos\theta$给出一个标量, 常用于功和通量. 叉积$\vct a\times\vct b$垂直于两矢量, 大小$ab\sin\theta$, 方向依右手规则, 常用于力矩与磁力. 右手从第一矢量转向第二矢量, 拇指给出叉积方向; 交换顺序会变号.
+
+\originalsection{从小元到整体}
+总电荷的基本写法是$Q=\int\dd q$. 在线、面、体上分别写$\dd q=\lambda\dd\ell$、$\sigma\dd A$、$\rho\dd V$, 单位分别为C/m、C/m$^2$、C/m$^3$. 先确定小元是什么, 再写其大小和遍历范围, 比先猜一个积分公式可靠.
+
+直角体积元为$\dd x\dd y\dd z$. 柱坐标小块三条边为$\dd s,s\dd\phi,\dd z$, 所以$\dd V=s\dd s\dd\phi\dd z$; 球坐标小块的边为$\dd r,r\dd\theta,r\sin\theta\dd\phi$, 所以$\dd V=r^2\sin\theta\dd r\dd\theta\dd\phi$. 这些长度来自弧长等于半径乘以小角度, 角度用弧度. 在半径固定的球面上$\dd A=r^2\sin\theta\dd\theta\dd\phi$, 完整球壳积分给出$4\pi r^2\dd r$.
+
+曲线上的位移元$\dd\rr$含方向, 弧长元$\dd\ell=|\dd\rr|$没有方向. 沿路径$C$的功是$W=\int_C\vct F\cdot\dd\rr$. 对表面, 先选单位法向$\uv n$, 面积矢量元为$\dd\vct A=\uv n\dd A$, 场的通量为$\Phi=\int_S\ee\cdot\uv n\dd A$. 闭合曲面约定法向向外. 倾斜面上贡献的是场的法向分量, 不能直接写$EA$除非场处处垂直且大小恒定.
+
+标量线积分$\int_C f\dd\ell$把沿线的标量密度乘弧长相加, 例如细线总质量, 不含力方向投影. 对矢量功积分$\int_C\vct F\cdot\dd\rr$, 反向走路会变号; 标量弧长积分不因走向反转而变号. 闭合曲线起终点相同, 闭合曲面完整包围体积. 一个圆盘是有边界圆周的开曲面, 一整个球面是闭曲面. 当开曲面以闭曲线$C$为边界时, 法向和绕行方向须一致选择: 右拇指沿法向, 四指弯曲方向为正绕行. 这在感应定律中决定负号含义.
+
+\originalsection{梯度与局部变化}
+电势是标量场$V(x,y,z)$. 偏导数$\partial V/\partial x$是在保持$y,z$不变时沿$x$改变位置的变化率. 梯度把三个变化率组成矢量:
+\[
+\nabla V=\frac{\partial V}{\partial x}\uv x+\frac{\partial V}{\partial y}\uv y+\frac{\partial V}{\partial z}\uv z,
+\qquad \dd V=\nabla V\cdot\dd\rr.
+\]
+沿单位方向$\uv u$的变化率为$\nabla V\cdot\uv u$. 点积不超过$|\nabla V|$, 所以非零梯度指向最大增长方向. 若$V$只依赖球半径, 则$\nabla V=(\dd V/\dd r)\uv r$; 这来自沿切向不改变$r$, 而沿径向以单位速率改变$r$.
+
+\begin{example}
+对$V=\kc q/(x^2+y^2+z^2)^{1/2}$求梯度, 并说明其方向.
+\end{example}
+\begin{solution}
+在$r>0$处, 链式法则给出$\partial_xV=-\kc qx/r^3$, 另两分量将$x$换为$y,z$. 所以$\nabla V=-\kc q\uv r/r^2$. $q>0$时越靠近原点势越高, 梯度向内; $q<0$时势在向外运动时增长, 梯度向外. 原点有奇点, 此表达式不能在那里使用.
+\end{solution}
+
+散度$\nabla\cdot\ee$表示小体积单位体积的净向外通量, 旋度$\nabla\times\ee$表示小环路单位面积的环量. 本册将在麦克斯韦方程中用它们; 初等对称问题可全程采用积分形式, 不要求先掌握完整矢量分析课程.

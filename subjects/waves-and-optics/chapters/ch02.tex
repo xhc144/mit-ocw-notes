@@ -1,0 +1,62 @@
+\originalchapter{阻尼、驱动与共振}\label{ch:drive}
+\originalsection{能量耗散与自由衰减}
+真实摆不会永远以同一幅度运动. 在速度不大的范围内, 用阻力 $-b\dot x$ 描述耗散, $b\ge0$. 这是一种模型, 不是所有流体阻力都与速度成正比. 定义 $\Gamma=b/m$, 得
+\begin{equation}\label{eq:damp}
+\ddot x+\Gamma\dot x+\omega_0^2x=0,\qquad \dot E=-b\dot x^2\le0.
+\end{equation}
+用 $x=\e^{st}$ 寻找解, 因为指数的导数保持形状. 特征方程为 $s^2+\Gamma s+\omega_0^2=0$, 两根 $s=-\Gamma/2\pm\sqrt{\Gamma^2/4-\omega_0^2}$. 由根的类型得到三种运动.
+
+欠阻尼 $\Gamma<2\omega_0$ 时, 定义阻尼角频率 $\omega_r=\sqrt{\omega_0^2-\Gamma^2/4}$. 对初值 $x_0,v_0$, 解为
+\[
+x(t)=\e^{-\Gamma t/2}\left[x_0\cos\omega_rt+
+\frac{v_0+\Gamma x_0/2}{\omega_r}\sin\omega_rt\right].
+\]
+幅度包络的 $\e^{-1}$ 衰减时间是 $2/\Gamma$, 不是 $1/\Gamma$. 弱阻尼时每周期损失的相对能量较小, 平均能量近似按 $\e^{-\Gamma t}$ 衰减; 不能把这个平均近似当成任意阻尼时瞬时能量的精确表达式.
+
+临界阻尼 $\Gamma=2\omega_0$ 时重根只有一个指数解, 第二个独立解必须另找. 将 $x=u(t)\e^{-\Gamma t/2}$ 代入得 $\ddot u=0$, 因而 $x=[x_0+(v_0+\Gamma x_0/2)t]\e^{-\Gamma t/2}$. 同样可由 $\sin\omega_rt/\omega_r\to t$ 取得这个极限. 过阻尼 $\Gamma>2\omega_0$ 时, 两个负实根对应两种衰减速率; 解为 $A_+\e^{s_+t}+A_-\e^{s_-t}$, 由 $A_++A_-=x_0$, $s_+A_++s_-A_-=v_0$ 决定. 极大的阻尼反而使慢根 $s_+\simeq-\omega_0^2/\Gamma$ 很靠近零. 门闭合得不振荡, 并不自动意味着回到平衡很快.
+
+\originalsection{稳态响应与初始瞬态}
+周期驱动力为 $F_0\cos\omega_dt$, 用 $f_0=F_0/m$ 写成
+\begin{equation}\label{eq:driven}
+\ddot x+\Gamma\dot x+\omega_0^2x=f_0\cos\omega_dt.
+\end{equation}
+驱动频率 $\omega_d$ 由外界决定, $\omega_0$ 由系统自身决定, $\omega_r$ 是自由衰减中的振动频率. 三者不能混用. 令复特解 $z=H(\omega_d)f_0\e^{\ii\omega_dt}$, 代入得
+\begin{equation}\label{eq:response}
+H(\omega)=\frac1{\omega_0^2-\omega^2+\ii\Gamma\omega},\quad
+A(\omega)=\frac{f_0}{\sqrt{(\omega_0^2-\omega^2)^2+\Gamma^2\omega^2}},\quad
+x_s=A\cos(\omega_dt-\delta).
+\end{equation}
+其中 $\delta=\operatorname{atan2}(\Gamma\omega_d,\omega_0^2-\omega_d^2)$, 对 $\Gamma>0,\omega_d>0$ 位于 $0$ 与 $\pi$ 之间. 低频时位移跟随力; 高频时惯性项主导, 位移与力近乎反相. 高频的 $\tan\delta$ 趋于 $0$ 的负侧, 而 $\delta\to\pi$, 不能只取反正切主值.
+
+完整解是 $x=x_s+x_h$, $x_h$ 为上节自由解. 特解没有可由初值自由调整的常数, 初始条件必须交给 $x_h$. 欠阻尼时写 $x_h=\e^{-\Gamma t/2}(C\cos\omega_rt+D\sin\omega_rt)$, 则
+\[
+C=x(0)-x_s(0),\qquad
+D=\frac{\dot x(0)-\dot x_s(0)+\Gamma C/2}{\omega_r}.
+\]
+$\Gamma>0$ 才保证瞬态随时间消失. 无阻尼系统的非共振运动一般保留自由振动, 所谓稳态特解只是其中一部分.
+
+\originalsection{共振的两种判据}
+位移幅度最大对应响应分母的平方 $D(\omega)=(\omega_0^2-\omega^2)^2+\Gamma^2\omega^2$ 最小. 求导得 $D'=2\omega[2(\omega^2-\omega_0^2)+\Gamma^2]$. 因而当 $\Gamma<\sqrt2\omega_0$ 时, 非零幅度峰位于 $\omega_A=\sqrt{\omega_0^2-\Gamma^2/2}$; 阻尼再大则幅度从零频开始下降. $\omega_A$, $\omega_r$, $\omega_0$ 只在弱阻尼近似下相近.
+
+外力每秒传入的平均能量是平均功率. 利用同频正弦余弦一周期平均为零或 $1/2$, 有
+\[
+\langle P\rangle=\langle F\dot x_s\rangle
+=\frac12F_0A\omega_d\sin\delta
+=\frac12 b\omega_d^2A^2.
+\]
+对固定 $F_0,b>0$, 功率的最大值在 $\omega_d=\omega_0$, 此时力与速度同相. 这是能量共振, 与位移峰的位置不同. 定义品质因数 $Q=\omega_0/\Gamma$; 在 $Q\gg1$ 时, 半功率全宽近似为 $\Gamma$, 每周期能量损失约为总能量的 $2\pi/Q$. 这些带宽和每周期关系需要弱阻尼条件.
+
+在 $\Gamma=0$ 且 $\omega_d=\omega_0$ 时式 \eqref{eq:response} 的分母为零, 不能宣称位移立即无穷大. 应重新解方程: 零初值响应为 $x=f_0t\sin\omega_0t/(2\omega_0)$. 能量不断注入导致随时间增长; 真实非线性与损耗最终限制幅度.
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.77\linewidth,height=4.8cm,xlabel={$\omega_d/\omega_0$},ylabel={$A\omega_0^2/f_0$},xmin=0,xmax=2,ymin=0,ymax=5.3,domain=0:2,samples=160,legend style={at={(.98,.97)},anchor=north east,font=\small}]
+\addplot[thick,structurecolor]{1/sqrt((1-x^2)^2+.2^2*x^2)};\addlegendentry{$\Gamma/\omega_0=0.2$}
+\addplot[thick,dashed]{1/sqrt((1-x^2)^2+.7^2*x^2)};\addlegendentry{$\Gamma/\omega_0=0.7$}
+\end{axis}
+\end{tikzpicture}\par
+固定驱动力时的位移响应; 曲线由式 \eqref{eq:response} 绘制.
+\end{center}
+
+\originalsection{支点振动的物理建模}
+取摆球为点质量, 摆线无质量且不可伸长. $x$ 是实验室中相对原平衡点的横坐标, 小量是 $|x-d|/\ell$; 共振使响应角度变大时要重新检查此条件. 若摆的支点横向位移为 $d(t)=\Delta\sin\omega_dt$, 小角下摆球横坐标为 $x$, 相对支点偏移 $x-d$. 在实验室参考系, 竖直加速度是一阶之外的小量, 张力近似 $mg$. 若空气阻力相对静止空气为 $-b\dot x$, 水平方程是 $m\ddot x=-b\dot x-mg(x-d)/\ell$. 因而 $\omega_0^2=g/\ell$, 驱动加速度幅度为 $g\Delta/\ell$. 若阻尼来自支点处的相对运动, 阻力应写 $-b(\dot x-\dot d)$, 右边还会出现 $b\dot d$. 选择参考系并说明阻力相对谁测量, 是建立响应模型的一部分.
