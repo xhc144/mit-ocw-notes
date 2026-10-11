@@ -2,7 +2,7 @@
 
 本仓库用于个人非商业学习，保存授权归档的 MIT OpenCourseWare 课程讲义及其中文原生 LaTeX 重编成果。仓库现已公开，供非商业学习与来源核对。
 
-[数学讲义：15册，1660页](#数学讲义) · [物理讲义：3册162页，持续补充](#物理讲义)
+[数学讲义：15册，1660页](#数学讲义) · [物理讲义：3册252页](#物理讲义)
 
 ## 数学讲义
 
@@ -28,20 +28,22 @@
 
 ## 物理讲义
 
-电动力学扩充版73页、量子力学首版40页、理论力学首版49页，均提供中文 PDF 与可编辑源码，合计 **3册中文讲义，162个PDF物理页**。三册按各自说明的范围交付，并持续补充。
+电动力学74页、量子力学89页的本轮已选公开范围中文重编完成；理论力学89页扩充版已交付，部分任务仍在补充与复核。三册均提供中文 PDF 与可编辑源码，合计 **3册中文讲义，252个PDF物理页**。
 
 | 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
 |---|---|---|---:|---|---|
-| [电动力学](subjects/electrodynamics/README.md) | 8.07（Fall 2012，Alan Guth、Min Chen）为主，8.311（Spring 2004，Leonid Levitov）补充；从电场、磁场、电磁波讲到辐射；29章、110个考核题解单元，含8.311十二套作业66道一级题及解答。 | 中文扩充版已交付，补充中 | 73 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh-source.zip) · [覆盖范围](subjects/electrodynamics/coverage.md) |
-| [量子力学](subjects/quantum-mechanics/README.md) | Barton Zwiebach 的 8.04 → 8.05 → 8.06；波函数、薛定谔方程、势阱与隧穿、算符、自旋、角动量和近似方法；16章理论、4章考核含23道大题的中文题面与AI独立解答。 | 中文首版已交付，补充中 | 40 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-source.zip) · [覆盖清单](subjects/quantum-mechanics/coverage.json) |
-| [理论力学](subjects/classical-mechanics/README.md) | 8.09（Fall 2014，Iain W. Stewart）为主，8.223（January IAP 2017，Matthew Evans）补充；拉格朗日与哈密顿力学、刚体、振动、正则变换、摄动、流体及非线性入门；10章正文，含56道作业题的中文题面、解答或数值复现及项目分析。 | 中文首版已交付，补充中 | 49 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/classical-mechanics/classical-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/classical-mechanics/classical-mechanics-source.zip) · [覆盖清单](subjects/classical-mechanics/source-coverage.json) |
+| [电动力学](subjects/electrodynamics/README.md) | 8.07（Fall 2012，Alan Guth、Min Chen）为主，8.311（Spring 2004，Leonid Levitov）补充；从电场、磁场、电磁波讲到辐射；29章、110个考核题解单元，含8.311十二套作业66道一级题及解答。 | 已选公开范围重编完成 | 74 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/electrodynamics/electrodynamics-zh-source.zip) · [覆盖范围](subjects/electrodynamics/coverage.md) |
+| [量子力学](subjects/quantum-mechanics/README.md) | Barton Zwiebach 的 8.04 → 8.05 → 8.06；从干涉、概率与波函数讲到算符、测量、角动量和近似方法；17章理论，已保留的19份完整题面考核共112道大题，全部小问均有中文题面与AI独立解答。 | 已选公开范围重编完成 | 89 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-mechanics/quantum-mechanics-source.zip) · [覆盖清单](subjects/quantum-mechanics/coverage.json) |
+| [理论力学](subjects/classical-mechanics/README.md) | 8.09（Fall 2014，Iain W. Stewart）为主，8.223（January IAP 2017，Matthew Evans）补充；拉格朗日与哈密顿力学、刚体、振动、正则变换、摄动、流体及非线性入门；10章正文，含76道作业题的中文题面、解答或数值复现及项目分析，未完成小问另列。 | 中文扩充版已交付，补充与复核中 | 89 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/classical-mechanics/classical-mechanics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/classical-mechanics/classical-mechanics-source.zip) · [覆盖清单](subjects/classical-mechanics/source-coverage.json) |
 
-电动力学仍有38组本科作业缺完整题面或依赖条件，另1题仅取得(c)，天线题的原比较图也未取得；8.311理论体系仍待补充。量子力学15份考核及进阶内容、理论力学部分高阶摄动与流体专题继续补充。具体收录范围见各册说明。
+电动力学仍有38组本科作业缺完整题面或依赖条件，另1题仅取得(c)，天线题的原比较图也未取得；完整8.311理论体系不在本轮已选范围内。量子力学原件缺项与暂缓文件见下方折叠区；理论力学PS10第3题(a)指定初值的周期窗口仍未复现；项目没有全局最优证明或实物演示。具体收录范围见各册说明。
 
 <details>
 <summary>展开物理英文原件、PDF下载与课程来源</summary>
 
 可在原件目录选择文件，或直接下载下面的英文 PDF 示例。这里的数量和页数只统计已提交的英文原件，不计作中文成品；理论力学的合订本与分章有重复。暂缓公开的材料及具体边界沿用各科来源清单。
+
+量子力学23份教材相关混合材料仍保守暂缓打包；8.06第5章原件、考试及课纲所述末周不计分作业未公开，相关独立补充不标作缺失原件的翻译。
 
 | 学科 | 原件目录与课程说明 | 英文PDF直接下载（示例） | 已归档原PDF | 逐文件来源清单 |
 |---|---|---|---|---|
@@ -144,7 +146,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-数学已交付 **15册中文整书，共1660个PDF物理页**；物理已交付 **3册中文讲义，共162页**（电动力学扩充版73页、量子力学首版40页、理论力学首版49页），三科持续补充。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理已交付 **3册中文讲义，共252页**（电动力学74页、量子力学89页、理论力学89页）。电动力学与量子力学本轮已选公开范围重编完成，理论力学补充与复核中。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
 
 <details>
 <summary>展开数学交付历史与全站归档背景</summary>
