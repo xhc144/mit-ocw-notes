@@ -1,0 +1,87 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{自由谱与状态计数习题}
+本章五题为 AI 独立解答. 所用 GSO 投影和临界维数已在正文声明; 简并数由随源码的有限阶生成函数程序重新计算.
+
+\src{8.251 HW8.1, (a)--(b), 15 分.}
+\begin{exercise}
+闭弦只一横向坐标非零,
+\[
+X^2=\sqrt{2\alpha'}[a\sin(\tau-\sigma)+b\cos(\tau-\sigma)
++\bar a\sin(\tau+\sigma)+\bar b\cos(\tau+\sigma)],
+\]
+$\sigma\in[0,2\pi]$, $X^+=\alpha'p^+\tau$, 系数均实.
+(a) 计算 $X^-$ 并由闭弦周期推导四个常数的约束.
+(b) 令 $a=b=\bar a=\bar b=r$, 求 $X^-$ 与弦质量.
+\end{exercise}
+\begin{solution}
+取 $u=\tau-\sigma,v=\tau+\sigma$, 约束给 $\partial_uX^-=(2/p^+)(a\cos u-b\sin u)^2$, $\partial_vX^-=(2/p^+)(\bar a\cos v-\bar b\sin v)^2$. 每个右端的均值分别是 $(a^2+b^2)/p^+$ 与 $(\bar a^2+\bar b^2)/p^+$. $\sigma\to\sigma+2\pi$ 使 $u$ 减 $2\pi$、$v$ 增 $2\pi$, 因而 $X^-$ 周期要求 $a^2+b^2=\bar a^2+\bar b^2$, 即经典左右能量匹配.
+
+取四系数相同, 两平方均为 $r^2(1-\sin2u)$ 或 $r^2(1-\sin2v)$, 积分得
+$X^-=x^-+4r^2\tau/p^++2r^2\cos2\tau\cos2\sigma/p^+$.
+闭弦零模系数为 $\alpha'p^-$, 故 $p^-=4r^2/(\alpha'p^+)$, 横向总动量为零, $M^2=2p^+p^-=8r^2/\alpha'$. 质量不依自由选择的非零 $p^+$, 是对光锥重参数化一致性的检查.
+\end{solution}
+
+\src{8.251 HW11.2, (a)--(b), 10 分.}
+\begin{exercise}
+(a) 对 $k$ 个可交换振子 $a^i$, 计数二、三、四个振子的不同乘积.
+(b) 列出开玻色弦 $\alpha'M^2=3$ 层全部类型并计数, 与生成函数比较.
+\end{exercise}
+\begin{solution}
+交换性使每个乘积对应非负整数 $(n_1,\ldots,n_k)$, 和为 $r$. Stars-and-bars 给 $\binom{k+r-1}{r}$, 三种答案依次为 $k(k+1)/2$, $k(k+1)(k+2)/6$, $k(k+1)(k+2)(k+3)/24$.
+
+$\alpha'M^2=N-1$ 故此层 $N=4$, 横向维数 24. 按整数分拆, 五类态为 $\alpha_{-4}^i$ (24), $\alpha_{-3}^i\alpha_{-1}^j$ (576), $\alpha_{-2}^i\alpha_{-2}^j$ (300), $\alpha_{-2}^i\alpha_{-1}^j\alpha_{-1}^k$ ($24\binom{25}2=7200$), $\alpha_{-1}^i\alpha_{-1}^j\alpha_{-1}^k\alpha_{-1}^l$ ($\binom{27}4=17550$). 总数 $25650$, 等于 $q^4$ 在 $\prod_{n\ge1}(1-q^n)^{-24}$ 中的系数. 不同模式之间无需对称化指标交换, 同模式之间需避免重复.
+\end{solution}
+
+\src{8.251 HW11.3, 5 分.}
+\begin{exercise}
+从有定向开玻色弦的生成函数出发, 添加实现世界面定向反转投影的项, 求无定向开弦生成函数.
+\end{exercise}
+\begin{solution}
+取反转 $\Omega:\sigma\to\pi-\sigma$, 模 $\cos n\sigma$ 变为 $(-1)^n\cos n\sigma$. 若基本真空反转本征值为正且没有额外 Chan--Paton 标签, 总本征值为 $(-1)^N$. 投影为 $(1+\Omega)/2$, 所以以激发级数 $N$ 计的生成函数
+$G_{\rm unor}(q)=\frac12[\prod_{n\ge1}(1-q^n)^{-24}+\prod_{n\ge1}(1-(-q)^n)^{-24}]$.
+它保留偶数 $N$. 若以质量指数 $N-1$ 计, 再整体乘 $q^{-1}$. 有端点标签时定向反转还转置标签矩阵, 向量层可通过反对称标签保留; 因而本式不代表所有无定向 Chan--Paton 模型的完整谱.
+\end{solution}
+
+\src{8.251 HW11.4, (a)--(b), 10 分.}
+\begin{exercise}
+(a) 八个反交换变量 $b^i$, 忽略符号, 计数二、三、四个不同变量乘积.
+(b) 对开超弦 $\alpha'M^2=1,2$ 两层, 分别列出 NS 与 R 态类型并验证简并数相同.
+\end{exercise}
+\begin{solution}
+因 $(b^i)^2=0$, 每个乘积是不同指标子集, 三数为 $\binom82=28,\binom83=56,\binom84=70$.
+取八横向方向和标准 GSO 投影. 第一 massive NS 层 $N=3/2$ 的三类为 $b_{-3/2}^i$、$\alpha_{-1}^ib_{-1/2}^j$、$b_{-1/2}^{[i}b_{-1/2}^jb_{-1/2}^{k]}$, 数为 $8+64+56=128$. R 层 $N=1$ 有 $\alpha_{-1}^i|s\rangle$ 与 $b_{-1}^i|s'\rangle$, 各 $8\times8=64$. 偶、奇费米振子数分别配适当相反手征的八维零模态.
+
+第二 massive NS 层 $N=5/2$ 的类型与数为
+\begin{center}\begin{tabular}{lc}\toprule
+振子类型 & 数目\\\midrule
+$b_{-5/2}$ & 8\\
+$\alpha_{-2}b_{-1/2}$ &64\\
+$\alpha_{-1}b_{-3/2}$ &64\\
+$\alpha_{-1}^2b_{-1/2}$ &$36\cdot8=288$\\
+$b_{-3/2}b_{-1/2}^2$ &$8\cdot28=224$\\
+$\alpha_{-1}b_{-1/2}^3$ &$8\cdot56=448$\\
+$b_{-1/2}^5$ &56\\\bottomrule
+\end{tabular}\end{center}
+总数 1152. 此表的重复玻色指标取对称、重复费米模式取反对称. R 的 $N=2$ 有 $\alpha_{-2}$、$\alpha_{-1}^2$、$b_{-2}$、$b_{-1}^2$、$\alpha_{-1}b_{-1}$ 五类, 乘零模简并 8 后是 $64+288+64+224+512=1152$. 枚举与有限阶生成函数一致, 不以一句「超对称所以相等」替代计数.
+\end{solution}
+
+\src{8.251 HW11.5, (a)--(b), 10 分.}
+\begin{exercise}
+闭弦 $\alpha'M^2/2$ 等于左右相同质量贡献之和.
+(a) 给闭玻色弦前五质量层的 $\alpha'M^2/2$ 与简并数.
+(b) 给 Type II 闭超弦前五质量层, 分别列玻色与费米简并数.
+\end{exercise}
+\begin{solution}
+玻色弦左右级匹配 $N=\tilde N=0,1,2,3,4$, 每侧简并 $d_N=1,24,324,3200,25650$, 故:
+\begin{center}\begin{tabular}{c|rrrrr}
+$\alpha'M^2/2$&$-2$&0&2&4&6\\
+简并数&1&576&104976&10240000&657922500
+\end{tabular}\end{center}
+Type II 每侧物理质量激发 $n=0,1,2,3,4$ 的 NS 与 R 简并均为 $d_n=8,128,1152,7680,42112$. NS--NS 与 R--R 是两个玻色组合, 混合两个扇区是费米组合, 各有 $2d_n^2$:
+\begin{center}\begin{tabular}{c|rrrrr}
+$\alpha'M^2/2$&0&2&4&6&8\\
+玻色数&128&32768&2654208&117964800&3546841088\\
+费米数&128&32768&2654208&117964800&3546841088
+\end{tabular}\end{center}
+零模手征决定 IIA 与 IIB 的表示内容, 不改变上述总数. 此处没有加入紧致维度、动量、绕数或多弦 Fock 计数.
+\end{solution}

@@ -1,0 +1,132 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{AdS 几何与全息计算习题}
+本章前四题来自 PS4, 已核对官方解答; 后三题来自 PS5, 官方未给答案, 为 AI 独立推导. 计算采用标准量子化、欧氏内部正则性和明确的经典鞍点近似, 不把全部对偶猜想当作已证明.
+
+\src{8.821 PS4.1, (a)--(e), 20 分.}
+\begin{exercise}
+Poincaré AdS 度规 $\dd s^2=R^2(\dd z^2+\eta_{\mu\nu}\dd x^\mu\dd x^\nu)/z^2$.
+(a) 证明反演 $z'=z/q,x'^\mu=x^\mu/q$, $q=x^2+z^2$, 为等距变换.
+(b) 证明它与恒等不连续相连.
+(c) 取 $z\to0$ 证明诱导边界共形变换.
+(d) 反演、平移 $x^\mu\to x^\mu+b^\mu$、再反演, 求组合.
+(e) 写边界极限的特殊共形变换.
+\end{exercise}
+\begin{solution}
+用 $X^A=(x^\mu,z)$ 与扩展平直度规, Jacobian 为 $\partial_BX'^A=q^{-1}(\delta^A_B-2X^AX_B/q)$. 括号内为沿 $X$ 的反射, 保持内积, 所以 $\dd X'^2=\dd X^2/q^2$, 同时 $z'^2=z^2/q^2$, 两因子相消. 需 $q\ne0$; 若要求留在同一 $z>0$ patch, 还需 $q>0$.
+
+括号反射的行列式为 $-1$, 因而该域中反演逆转定向, 恒等分支保持定向, 不能连续相连. 边界度规变为 $\eta\dd x'^2=\eta\dd x^2/(x^2)^2$, 因而共形. 两次反演中间加平移的代数给
+\[
+z'=\frac zD,\qquad x'^\mu=\frac{x^\mu+b^\mu(x^2+z^2)}D,
+\quad D=1+2b\cdot x+b^2(x^2+z^2).
+\]
+令 $z=0$ 得 $(x^\mu+b^\mu x^2)/(1+2b\cdot x+b^2x^2)$. 当 $b\to0$ 且不跨分母零点, 组合连续趋于恒等. 这些公式在坐标奇异面上需换图, 不能把分母零点当成 AdS 的曲率奇点.
+\end{solution}
+
+\src{8.821 PS4.2, (a)--(b), 20 分.}
+\begin{exercise}
+全局 AdS 度规 $\dd s^2/R^2=-(1+r^2)\dd t^2+\dd r^2/(1+r^2)+r^2\dd\Omega^2$. 质量粒子从 $r=t=0$ 以能量 $E$ 沿径向向外.
+(a) 求最大 $r$; (b) 求首次返回中心的坐标时间.
+\end{exercise}
+\begin{solution}
+令 $s=\tau/R$, 以物理时钟 $Rt$ 定义每单位质量能量 $e=E/m$, 则 $e=(1+r^2)\dd t/\dd s$. 时向归一化给 $(\dd r/\dd s)^2=e^2-1-r^2$, 初始向外支要求 $e>1$. 因而 $r_{\max}=\sqrt{e^2-1}$, $r(s)=\sqrt{e^2-1}\sin s$ 在 $0\le s\le\pi$. 坐标返回时间
+$\Delta t=\int_0^\pi e\dd s/[1+(e^2-1)\sin^2s]=\pi$, 可分两半令 $u=\tan s$ 积分验证. 物理时间是 $\pi R$, 固有返回时间也是 $\pi R$. 若题面取单位质量, 直接把 $e$ 记为 $E$. $e=1$ 是静止中心解, 没有非零向外行程.
+\end{solution}
+
+\src{8.821 PS4.3, (a)--(c), 20 分.}
+\begin{exercise}
+AdS 嵌入 $X_{-1}^2+X_0^2-\sum_iX_i^2=R^2$, 嵌入度规有两个负号. 两点 $A,B$ 的弦长平方 $\sigma=(X_A-X_B)^2$, 测地线长度 $s$.
+取 $R=1$:
+(a) 类时连接时证明 $\cos s=1+\sigma/2$.
+(b) 类空连接时证明 $\cosh s=1+\sigma/2$.
+(c) 解释 $\sigma<-4$ 时发生什么.
+\end{exercise}
+\begin{solution}
+利用等距变换取 $A=(1,0,\ldots)$, 测地线是过原点二维平面与双曲面的交线. 在时间二维平面中, 类时代表为 $B=(\cos s,\sin s)$, 其他分量为零. 其单位切向模平方为 $-1$, 弦长直接为 $\sigma=2(\cos s-1)$. 类空代表 $B=(\cosh s,0,\sinh s,\ldots)$, 切向模平方为 $+1$, 得 $\sigma=2(\cosh s-1)$. 嵌入加速度正比位置法向, 因而它们确为诱导几何测地线, 不只是任意参数曲线.
+
+实类时连接允许 $-4\le\sigma\le0$, 实类空连接 $\sigma\ge0$. 当 $\sigma<-4$, 没有这类实测地线直接连接两点, 公式会给复测地长度. 这不能用作两点必然没有任何因果路径的证明: AdS 通常取时间覆盖空间, 嵌入位置也不足以分辨所有时间绕行信息. $\sigma=-4$ 的对跖情形还存在测地线非唯一性.
+\end{solution}
+
+\src{8.821 PS4.5, (a)--(c), 20 分.}
+\begin{exercise}
+IIB 在 AdS$_5\times S^5$, $G_5=G_{10}/V_5$, $16\pi G_{10}=(2\pi)^7g_s^2\alpha'^4$. 全息自由度估计 $\mathcal N=A/(4G_5)$.
+在 Poincaré patch 限空间三方向边长 $L$, 边界取 $z=\delta$, $A=R^3L^3/\delta^3$; 边界格点截止 $\epsilon\sim\delta$, 每格约 $c_0N^2$ 个自由度.
+(a) 验证两计数在常数因子内一致.
+(b) 对全局边界 $S^3$ 重做.
+(c) 全局空间截到 $r_c$, 证明 $V/(AR)$ 的无穷截止极限有限, 并解释为什么一致性仍有非平凡内容.
+\end{exercise}
+\begin{solution}
+$V_5=\pi^3R^5$, $R^4=4\pi g_sN\alpha'^2$, 消去弦参数得 $G_5=\pi R^3/(2N^2)$. 因此体计数 $A/(4G_5)=N^2L^3/(2\pi\delta^3)$, 边界格点计数约 $c_0N^2L^3/\epsilon^3$, 同样的 $N^2$ 和截止三次方. 未知 $c_0$ 与 UV/IR 换算系数使本题不确定精确比例.
+
+全局大 $r_c$ 面积 $A=2\pi^2R^3r_c^3$, 体计数 $\pi N^2r_c^3$. 单位边界球的紫外格距约 $1/r_c$, 格点数约 $2\pi^2r_c^3$, 仍吻合尺度. 空间体积为 $V=2\pi^2R^4\int_0^{r_c}r^3\dd r/\sqrt{1+r^2}$, 高半径积分近 $r_c^3/3$, 所以 $V/(AR)\to1/3$.
+
+AdS 的面积与体积在大截止时同阶, 并不能独自解释边界颜色自由度为什么恰随 $N^2$ 且系数用 $G_5$ 编码. 普通体局域场的自由度还取决于独立紫外截止, 不是直接 $V/R^4$; 参数映射与相同 cutoff 的比较仍提供实质检验. 本题是对猜想的计数一致性检查, 不是对偶一般证明.
+\end{solution}
+
+\src{8.821 PS5.1, (a)--(f), 30 分; 独立解答.}
+\begin{exercise}
+AdS$_{d+1}$ 中矢量作用量 $S=-\int\sqrt{-g}[F_{MN}F^{MN}/4+m^2A_MA^M/2]$, 边界对偶算符为 $J_\mu$.
+(a) $m=0$ 取 $A_z=0$, 求近边界行为.
+(b) 证明 conserved current 维数 $d-1$, 讨论用 $A^\mu$ 或 $A_\mu$ 是否改变结果.
+(c) $m\ne0$ 求 $A_M$ 行为; (d) 求 $J$ 维数; (e) 径向分量怎样处理? (f) 比较两情形.
+\end{exercise}
+\begin{solution}
+场方程 $\nabla_MF^{M\mu}=m^2A^\mu$. 忽略边界动量的领先径向项, 共变边界分量满足 $\partial_z(z^{3-d}\partial_zA_\mu)-m^2R^2z^{1-d}A_\mu=0$. 对 $A_\mu\sim z^s$, $s(s+2-d)=m^2R^2$. $m=0,d>2$ 得源 $a_\mu$ 与响应 $z^{d-2}b_\mu$, 规范不变源耦合 $\int a_\mu J^\mu$ 使 $J$ 维数 $d-1$, 响应满足守恒约束. $d=2$ 根重合, 有对数, 需另选边界处理.
+
+massive 情形定义 $\nu_v=\sqrt{(d-2)^2/4+m^2R^2}$, 根 $s_\pm=d/2-1\pm\nu_v$. 标准量子化把响应幂写成 $z^{\Delta-1}$, 得 $\Delta=d/2+\nu_v$, 因而
+$m^2R^2=(\Delta-1)(\Delta+1-d)$,
+$A_\mu=z^{d-\Delta-1}a_\mu+z^{\Delta-1}b_\mu+\cdots$.
+对 $m\ne0$, 取方程散度给 $\nabla_MA^M=0$, 即 $\partial_z(z^{1-d}A_z)+z^{1-d}\partial_\mu A^\mu_{\rm flat}=0$. 对某一支 $z^s a_\mu$, 径向场为 $A_z=-z^{s+1}\partial\cdot a/(s+2-d)$, 非退化根下由散度约束决定. 在例外指数或对数情形需重新展开; 不能将 massive $A_z$ 用不存在的 gauge 自由度删去.
+
+提高指标使 $A^\mu=(z^2/R^2)\eta^{\mu\nu}A_\nu$, 原始幂会多 2, 但源与算符的指标、边界度规和耦合测度也一并改变, 物理 $\Delta$ 不变. massless 具有规范自由度与边界守恒律, massive 一般没有此守恒且有纵向物理偏振. 不能只读裸幂而忽略它是什么类型的张量.
+\end{solution}
+
+\src{8.821 PS5.2, (a)--(d), 40 分; 独立解答.}
+\begin{exercise}
+欧氏 AdS 度规 $\dd s^2=R^2(\dd z^2+\dd x^2)/z^2$.
+(a) 证明 $z>0$ Poincaré 坐标覆盖全欧氏 AdS, 且任意有限 $x$ 的 $z\to\infty$ 对应同一边界点.
+(b) 对 massive 标量求边界到体核 $K$.
+(c) 令 $R=1$, 证明体到体 Green 函数的边界极限 $G_B(X;z',x')\sim z'^\Delta K(X;x')/(2\nu)$, $\nu=\Delta-d/2$.
+(d) 据此给边界 $n$ 点函数与体场关联的外腿极限关系. 可不用体到体核的显式闭式.
+\end{exercise}
+\begin{solution}
+欧氏 AdS 是双曲空间上半空间模型. 以坐标半球紧致化或球模型的 Cayley 映射, $z=0$ 的 $\mathbb R^d$ 加一个无穷点形成 $S^d$ 共形边界. 反演等距变换将有限 $x$、$z\to\infty$ 映为 $x'\to0,z'\to0$, 都到同一边界点. 其内部点一直是 $z>0$, 无 Lorentzian Poincaré 视界遗漏的区域; 边界无穷点不是额外有限距离的内部点.
+
+取标准量子化 $\Delta>d/2$, 动能规范化为 $1/2$, 正则核为式\eqref{eq:K}. 可通过直接微分验证 $(\Box-m^2)K=0$, $m^2R^2=\Delta(\Delta-d)$. 归一化条件 $\int\dd^dy(1+y^2)^{-\Delta}=\pi^{d/2}\Gamma(\Delta-d/2)/\Gamma(\Delta)$ 保证源的分布极限.
+
+为证明 (c), 令体 Green 函数按 $(-\Box+m^2)G_B=\delta/\sqrt g$ 归一化, 边界一支 $G_B\sim z'^\Delta B(X;x')$. 对源解 $\phi\sim z'^{d-\Delta}\phi_0$ 使用 Green 恒等式. 截止面法向导数为 $-z'\partial_{z'}$, 面测度 $z'^{-d}\dd^dx'$. 两幂的 Wronskian 给因子 $\Delta-(d-\Delta)=2\nu$, 从而 $\phi(X)=\int2\nu B(X;x')\phi_0(x')\dd^dx'$. 与核定义比较, $K=2\nu B$. 因此不需体核闭式也得所要求极限.
+
+树级 Witten 图将每条体外腿的 $G_B$ 换成 $K$, 得
+\[
+\langle\mathcal O_1(x_1)\cdots\mathcal O_n(x_n)\rangle
+=\lim_{z_i\to0}\prod_i(2\nu_i z_i^{-\Delta_i})
+\langle\phi_1(z_1,x_1)\cdots\phi_n(z_n,x_n)\rangle.
+\]
+需匹配体场规范化、选定标准边界条件, 并在分离点或已减去接触项的意义下理解. $\nu=0$ 根重合、替代量子化、混合算符及环修正不能直接照抄该形式.
+\end{solution}
+
+\src{8.821 PS5.3, 30 分; 独立解答.}
+\begin{exercise}
+有限温度 $\mathcal N=4$ SYM 中时间边长 $\mathcal T\gg L$ 的矩形 Wilson 环, 求其经典全息热期望值并证明远距离颜色屏蔽. 原题引用相关论文作进一步阅读; 本解用实际课程的黑膜与 Nambu--Goto 模型自行计算, 不复制论文全文.
+\end{exercise}
+\begin{solution}
+取 AdS$_5$ 黑膜 $f(z)=1-(z/z_h)^4$, $T=1/(\pi z_h)$. 令静态世界面 $z=z(x)$, 每时间作用量为\[\frac S{\mathcal T}=\frac{R^2}{2\pi\alpha'}\int\frac{\sqrt{f+z'^2}}{z^2}\dd x.\] 守恒的机械第一积分为 $f/[z^2\sqrt{f+z'^2}]=\sqrt{f_*}/z_*^2$, $a=z_*/z_h$. 于是
+\[
+\frac L{z_h}=2a\sqrt{1-a^4}\int_0^1
+\frac{y^2\dd y}{\sqrt{(1-y^4)(1-a^4y^4)}}.
+\]
+与两条从边界到视界的直弦用同一 cutoff 比较, 差自由能为
+\[
+\Delta F=\frac{R^2}{\pi\alpha'z_*}
+\left[\int_0^1\frac{\sqrt{(1-a^4y^4)/(1-y^4)}-1}{y^2}\dd y-1+a\right].
+\]
+括号中的 $-1$ 来自去掉连接弦的端点质量, $+a$ 来自直弦截止于视界, 两者不能遗漏. 无限端点质量若未减去, 两个面积都发散, 无法比较.
+
+实际数值积分给连接解最大 $LT=0.27665$, 自由能交叉在 $a=0.65632$、$LT=0.24004$. 对短距离选择低 $a$ 且 $\Delta F<0$ 的连接解; 较大距离断开直弦占优. 在以断开态自由能为零的减法下, $\langle W\rangle\sim\exp[-\mathcal T\min(\Delta F,0)]$, 大距离不再出现随 $L$ 增长的相互作用自由能, 是热颜色屏蔽. 绝对单夸克自由能随减法约定变, 连接与断开的差及本模型交叉点不变.
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\linewidth,height=5cm,xlabel={$LT$},ylabel={$\Delta F\,\pi\alpha'z_h/R^2$},xmin=.18,xmax=.29,ymin=-.5,ymax=.12]
+\addplot[structurecolor] table[x=L_times_T,y=free_dimensionless,col sep=comma]{qa/thermal-wilson.csv};
+\addplot[black,dashed,domain=.18:.29]{0};
+\addplot[only marks,mark=*,structurecolor] coordinates {(.240038,0)} node[above left]{自由能交叉};
+\end{axis}\end{tikzpicture}\end{center}
+曲线有两个连接分支, 回折点是连接解存在上限, 横轴零线交叉才是与断开解的比较点. 所有数值只验证所述经典、大 $N$、强耦合鞍点; 有限耦合与量子修正未计算.
+\end{solution}

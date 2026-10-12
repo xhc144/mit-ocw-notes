@@ -1,0 +1,258 @@
+% !TeX program = xelatex
+% 王者百题 v3.0.0. XeLaTeX 编译至少两次. 不分发字体.
+% WZ-LOCKED-CLASS-BEGIN
+\begin{filecontents*}[overwrite]{elegantbook-original-adapter.cls}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{elegantbook-original-adapter}[2026/09/23 v3.0 fixed mathematical book environments]
+\LoadClass[10pt,letterpaper,oneside]{book}
+\RequirePackage[UTF8,scheme=plain,fontset=fandol]{ctex}
+\RequirePackage{fontspec}
+\setmainfont{cmunrm.otf}[BoldFont=cmunbx.otf,ItalicFont=cmunti.otf,BoldItalicFont=cmunbi.otf]
+\setCJKfamilyfont{sourceheader}[ItalicFont=FandolKai-Regular.otf]{FandolKai-Regular.otf}
+\RequirePackage{amsmath,amssymb,mathrsfs}
+\RequirePackage{amsthm,etoolbox}
+\RequirePackage{xcolor,geometry,setspace,fancyhdr,enumitem,needspace,xurl}
+\definecolor{structurecolor}{HTML}{880E4F}
+\definecolor{main}{HTML}{9C27B0}
+\geometry{paperwidth=612bp,paperheight=792bp,left=20mm,right=20mm,top=95.04bp,bottom=20mm,headheight=12pt,headsep=25pt,footskip=30pt}
+\setstretch{1.6}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\setlist{nosep,leftmargin=2em}
+\AtBeginDocument{\setlength{\abovedisplayskip}{4pt plus 1pt minus 1pt}\setlength{\belowdisplayskip}{4pt plus 1pt minus 1pt}\setlength{\abovedisplayshortskip}{2pt}\setlength{\belowdisplayshortskip}{3pt}}
+\fancyhf{}
+\fancyhead[L]{{\itshape\CJKfamily{sourceheader}\rightmark}}
+\fancyhead[R]{{\itshape\CJKfamily{sourceheader}\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{structurecolor}\hrule height\headrulewidth width\headwidth\vskip-\headrulewidth}}
+\pagestyle{fancy}
+\fancypagestyle{cover}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}\renewcommand{\headrule}{}}
+\RequirePackage{hyperref}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=structurecolor,urlcolor=structurecolor,citecolor=structurecolor,linktoc=section,bookmarksnumbered=true,bookmarksopen=true,pdfborder={0 0 0},pdfstartview=FitH}
+\setcounter{tocdepth}{1}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.4em}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\newcommand{\originalchapter}[1]{\par\addvspace{14pt}\Needspace{5\baselineskip}\refstepcounter{chapter}\setcounter{section}{0}\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}\markboth{\thechapter\quad #1}{}\begingroup\centering\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\thechapter\quad #1\par\endgroup\nobreak\vspace{8pt}}
+\newcommand{\originalsection}[1]{\par\addvspace{9pt}\Needspace{4\baselineskip}\refstepcounter{section}\addcontentsline{toc}{section}{\protect\hspace*{1.5em}\protect\numberline{\protect\textcolor{structurecolor}{\thesection}}#1}\markright{\thesection\quad #1}\noindent{\fontsize{12}{17}\selectfont\color{structurecolor}\thesection\quad}{\bfseries\fontsize{12}{17}\selectfont #1}\par\nobreak\vspace{4pt}}
+
+% Semantic environments are registered once here, not re-designed in manuscripts.
+\newtheoremstyle{wzstatement}{6pt}{5pt}
+  {\normalfont\kaishu}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzdefinition}{6pt}{5pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries\color{structurecolor}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}\thmnote{\normalfont\ (#3)}}
+\newtheoremstyle{wzproblem}{7pt}{5pt}
+  {\normalfont\songti}{2em}{\normalfont\bfseries\color{main}}
+  {}{.7em}{\thmname{#1}\thmnumber{ #2}}
+\newtheoremstyle{wzremark}{4pt}{4pt}
+  {\normalfont\songti}{0pt}{\normalfont\bfseries}
+  {}{.7em}{\thmname{#1}}
+\theoremstyle{wzstatement}
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{wzdefinition}
+\newtheorem{definition}[theorem]{定义}
+\theoremstyle{wzproblem}
+\newtheorem{example}{例题}[chapter]
+\newtheorem{exercise}{习题}[chapter]
+\theoremstyle{wzremark}
+\newtheorem*{remark}{注}
+\renewcommand{\proofname}{证明}
+% Retain the native amsthm QED stack; only adjust the fixed typography.
+\expandafter\patchcmd\csname\string\proof\endcsname{\normalfont \topsep6\p@\@plus6\p@\relax}
+  {\normalfont\songti \topsep5\p@\@plus1\p@\relax}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof spacing}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\itshape}{\normalfont\bfseries}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof heading}{Check the amsthm version.}}
+\expandafter\patchcmd\csname\string\proof\endcsname{\ignorespaces}
+  {\setlength{\parindent}{2em}\ignorespaces}
+  {}{\ClassError{elegantbook-original-adapter}{Cannot patch proof paragraphs}{Check the amsthm version.}}
+\AtBeginEnvironment{proof}{\par\Needspace{3\baselineskip}}
+\renewcommand{\qedsymbol}{\ensuremath{\square}}
+\newenvironment{solution}{\begin{proof}[解答]}{\end{proof}}
+\newcommand{\wzcheckchapter}{\ifnum\value{chapter}<1
+  \ClassError{elegantbook-original-adapter}{Numbered mathematics before chapter 1}{Move it after the first originalchapter.}\fi}
+
+\newcommand{\wzregisterguard}[1]{\AtBeginEnvironment{#1}{\wzcheckchapter\par\Needspace{3\baselineskip}}}
+\forcsvlist{\wzregisterguard}{theorem,lemma,proposition,corollary,definition,example,exercise}
+% Front matter and bibliography are not numbered mathematical chapters.
+\newcommand{\originalpreface}{\par\addvspace{10pt}\Needspace{5\baselineskip}
+  \noindent{\bfseries\fontsize{12}{17}\selectfont 前言}\par\nobreak\vspace{4pt}}
+\newcommand{\originalcontents}{\par\addvspace{14pt}
+  \begin{center}{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont 目录}\end{center}
+  \vspace{-10pt}\@starttoc{toc}}
+\renewcommand{\bibname}{参考文献}
+\renewenvironment{thebibliography}[1]{
+  \par\addvspace{12pt}\Needspace{3\baselineskip}\phantomsection
+  \addcontentsline{toc}{chapter}{\bibname}
+  \markboth{\bibname}{}
+  \noindent{\color{structurecolor}\bfseries\fontsize{14.4}{20}\selectfont\bibname}\par\nobreak\vspace{6pt}
+  \list{\@biblabel{\@arabic\c@enumiv}}
+    {\settowidth\labelwidth{\@biblabel{#1}}\leftmargin\labelwidth
+     \advance\leftmargin\labelsep\usecounter{enumiv}
+     \let\p@enumiv\@empty\renewcommand\theenumiv{\@arabic\c@enumiv}
+     \setlength{\itemsep}{3pt}\setlength{\parsep}{0pt}}
+  \sloppy\clubpenalty4000\widowpenalty4000\sfcode`\.=1000\relax
+}{\def\@noitemerr{\@latex@warning{Empty bibliography}}\endlist}
+
+\numberwithin{equation}{chapter}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+\allowdisplaybreaks[2]
+\emergencystretch=2em
+\clubpenalty=6000
+\widowpenalty=6000
+\raggedbottom
+\endinput
+\end{filecontents*}
+% WZ-LOCKED-CLASS-END
+\documentclass{elegantbook-original-adapter}
+% ===== 元数据内容槽 =====
+\newcommand{\BookTitle}{内积与范数}
+\newcommand{\BookAuthor}{}
+\newcommand{\BookDate}{}
+\newcommand{\PDFTitle}{内积与范数}
+\newcommand{\PDFAuthor}{}
+\hypersetup{pdftitle={\PDFTitle},pdfauthor={\PDFAuthor}}
+% 数学记号可以增加；禁止重定义版式、环境或证毕符号.
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\R}{\mathbb R}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\inner}[2]{\langle #1,#2\rangle}
+\begin{document}
+\frontmatter
+\thispagestyle{cover}
+\vspace*{3.60pt}
+\begin{center}
+{\fontsize{17.28}{26}\selectfont \BookTitle\par}
+\ifdefempty{\BookAuthor}{}{\vspace{5.4pt}{\fontsize{12}{20}\selectfont \BookAuthor\par}}
+\ifdefempty{\BookDate}{}{\vspace{2pt}{\fontsize{12}{20}\selectfont \BookDate\par}}
+\end{center}
+% WZ-READER-CONTENT-BEGIN
+% 不需要前言时，删除下方 originalpreface 及紧随的前言段落；不要填模板话术.
+\originalpreface
+本文以实内积空间为背景, 讨论正交分解、范数估计和最小二乘.
+读者需熟悉向量空间、线性映射与矩阵乘法. 除特别说明外, 向量均按列书写.
+\originalcontents
+\mainmatter
+
+\originalchapter{内积}
+\originalsection{正交分解}
+\begin{definition}
+设 $V$ 为实向量空间. 映射 $\inner{\cdot}{\cdot}:V\times V\to\R$
+若具有双线性、对称性和正定性, 则称为 $V$ 上的内积.
+记 $\norm{x}=\sqrt{\inner{x}{x}}$. 当 $\inner{x}{y}=0$ 时, 称 $x$ 与 $y$ 正交.
+\end{definition}
+\begin{lemma}\label{lem:projection}
+设 $u,v\in V$ 且 $v\ne0$. 则存在唯一的实数 $c$ 及向量 $w$, 使
+$u=cv+w$ 且 $w\perp v$.
+\end{lemma}
+\begin{proof}
+等式两边与 $v$ 作内积, 得 $c=\inner{u}{v}/\norm{v}^{2}$.
+取 $w=u-cv$, 即有 $\inner{w}{v}=0$. 二者均由 $u,v$ 唯一确定.
+\end{proof}
+\begin{proposition}\label{prop:pythagoras}
+若 $x\perp y$, 则 $\norm{x+y}^{2}=\norm{x}^{2}+\norm{y}^{2}$.
+\end{proposition}
+\begin{proof}
+由双线性和对称性,
+\[
+\norm{x+y}^{2}=\norm{x}^{2}+2\inner{x}{y}+\norm{y}^{2}
+=\norm{x}^{2}+\norm{y}^{2}.\qedhere
+\]
+\end{proof}
+\originalsection{基本不等式}
+内积的基本估计可参见文献~\cite[第 6A 节]{axler}.
+\begin{theorem}[柯西--施瓦茨不等式]\label{thm:cs}
+对任意 $u,v\in V$, 有 $|\inner{u}{v}|\le\norm{u}\norm{v}$.
+等号成立当且仅当 $u,v$ 线性相关.
+\end{theorem}
+\begin{proof}
+若 $v=0$, 结论成立. 以下设 $v\ne0$, 并按引理~\ref{lem:projection} 写成 $u=cv+w$.
+由命题~\ref{prop:pythagoras},
+\[
+\norm{u}^{2}=c^{2}\norm{v}^{2}+\norm{w}^{2}
+=\frac{|\inner{u}{v}|^{2}}{\norm{v}^{2}}+\norm{w}^{2}
+\ge \frac{|\inner{u}{v}|^{2}}{\norm{v}^{2}}.
+\]
+两边乘以 $\norm{v}^{2}$ 后开平方, 即得结论.
+等号成立当且仅当 $w=0$, 也就是 $u$ 为 $v$ 的倍数.
+\end{proof}
+\begin{corollary}\label{cor:triangle}
+对任意 $u,v\in V$, 有 $\norm{u+v}\le\norm{u}+\norm{v}$.
+\end{corollary}
+\begin{proof}
+由定理~\ref{thm:cs},
+\begin{align*}
+\norm{u+v}^{2}
+ &=\inner{u}{u}+\inner{u}{v}+\inner{v}{u}+\inner{v}{v}\\
+ &\le\norm{u}^{2}+2\norm{u}\norm{v}+\norm{v}^{2}
+ =\bigl(\norm{u}+\norm{v}\bigr)^{2}.
+\end{align*}
+两边均非负, 开平方即得结论.
+\end{proof}
+\originalchapter{最小二乘}
+\originalsection{正交条件}
+给定 $A\in\R^{m\times n}$ 和 $b\in\R^m$, 考虑 $\norm{Ax-b}^{2}$ 的最小值.
+本章中的范数均为欧氏范数.
+\begin{theorem}\label{thm:normal}
+向量 $x_*$ 使 $\norm{Ax-b}^{2}$ 取到最小值, 当且仅当
+$A^{\mathsf T}(Ax_*-b)=0$.
+\end{theorem}
+\begin{proof}
+记 $r=Ax_*-b$. 对任意 $h\in\R^n$ 和 $t\in\R$, 有
+\[
+\norm{A(x_*+th)-b}^{2}
+=\norm{r}^{2}+2t\inner{r}{Ah}+t^{2}\norm{Ah}^{2}.
+\]
+若 $x_*$ 为极小点, 则上式作为 $t$ 的函数在 $t=0$ 处导数为零.
+因而对所有 $h$ 都有 $\inner{A^{\mathsf T}r}{h}=0$, 故 $A^{\mathsf T}r=0$.
+
+反之, 若 $A^{\mathsf T}r=0$, 则对任意 $h$ 都有
+\begin{align*}
+\norm{A(x_*+h)-b}^{2}
+ &=\norm{r}^{2}+2\inner{A^{\mathsf T}r}{h}+\norm{Ah}^{2}\\
+ &=\norm{r}^{2}+\norm{Ah}^{2}\ge\norm{r}^{2}.\qedhere
+\end{align*}
+\end{proof}
+\begin{remark}
+正规方程刻画极小点, 但不自动给出唯一性. 当 $A$ 的列向量线性无关时,
+$A^{\mathsf T}A$ 正定, 极小点才唯一.
+\end{remark}
+\begin{example}
+设
+\[
+A=\begin{pmatrix}1&0\\1&1\\1&2\end{pmatrix},\qquad
+b=\begin{pmatrix}1\\2\\2\end{pmatrix}.
+\]
+求使 $\norm{Ax-b}^{2}$ 最小的向量 $x$ 及最小值.
+\end{example}
+\begin{solution}
+由定理~\ref{thm:normal},
+\[
+\begin{pmatrix}3&3\\3&5\end{pmatrix}x
+=\begin{pmatrix}5\\6\end{pmatrix},\qquad
+x_* =\begin{pmatrix}7/6\\1/2\end{pmatrix}.
+\]
+此时 $Ax_*-b=(1/6,-1/3,1/6)^{\mathsf T}$, 故最小值为 $1/6$.
+由于 $A$ 的两列线性无关, 极小点唯一.
+\end{solution}
+\originalsection{习题}
+\begin{exercise}
+设 $x,y$ 为实内积空间中的向量. 证明
+$\bigl|\norm{x}-\norm{y}\bigr|\le\norm{x-y}$.
+\end{exercise}
+\begin{exercise}
+设 $A$ 的列向量线性无关. 证明 $A^{\mathsf T}A$ 可逆, 并求证矩阵
+$P=A(A^{\mathsf T}A)^{-1}A^{\mathsf T}$ 满足 $P^{\mathsf T}=P$ 和 $P^2=P$.
+\end{exercise}
+\begin{thebibliography}{9}
+\bibitem{axler} Sheldon Axler. \emph{Linear Algebra Done Right}. 第 4 版.
+Springer, 2024. 第 6A 节.
+\href{https://linear.axler.net/LADR4e.pdf}{作者公开版}.
+\end{thebibliography}
+% WZ-READER-CONTENT-END
+\end{document}
