@@ -28,11 +28,16 @@
 
 校正与条件限定：
 
+- 8.422 HW2 P1/P3: exponent versus printed mode transformation has a sign conflict; all answers consistently use the exponent. HW2 P3 also has r/2 versus r squeezing conventions, explicitly retained and distinguished.
+- 8.421 HW5 P1: probabilities use adiabatically established periodic response rather than an unstated sudden-switch model; a virtual-state diagram is supplied.
+- 8.421 Midterms 2012 P1 and 2014 P3: actual energy and allowed-transition diagrams are drawn in the revised body.
 - 8.422 HW2 P3: general LOCC does not preserve Schmidt rank; a fixed Schmidt-amplitude threshold is not monotone.
 - 8.422 HW3 P1: two-arm loss visibility depends on both transmissions, not only their angular difference.
 - 8.422 HW4 P1: stated Yurke state and number difference yield 1/n, not the printed sqrt(2)/n.
 - 8.422 HW6 P3: one fixed finite environment is not an exponential Markov channel without a reset/scaling limit.
 - 8.422 HW7 P1: short-time expansion also requires small detuning*time and decay*time.
+
+逐讲具体推导和原件段数见 [LECTURE-COVERAGE.md](LECTURE-COVERAGE.md) 与 [lecture-coverage.json](lecture-coverage.json)。
 
 完整来源索引：
 

@@ -1,16 +1,59 @@
 \Needspace{9\baselineskip}
 \originalchapter{纠缠、传态与非局域关联}
-\originalsection{Schmidt分解与熵}
-把纯双体态的系数看成矩阵$A$, SVD给$\ket\psi=\sum_i\sqrt{p_i}\ket{u_i}\ket{v_i}$,$p_i\ge0,\sum p_i=1$. 约化态两边有相同非零谱$p_i$, 纯态为直积当且仅当秩1. 局域幺正保持$p_i$, 一般局域测量可降低纠缠, 所以不能把LOCC说成保持所有纠缠量.
+18.435J第12讲从Bell对引出超密编码和传态, MAS.865J第17讲进一步把纠缠看作可消耗的物理资源. 本章先建立两端共同态与局部可读信息的区别, 再逐步算出协议的测量分支. 这里的“非局域”指相关性不能用指定的局域预定值模型解释, 不指局部测量可超光速传信.
 
-定义$S(\rho)=-\Tr\rho\log_2\rho$, 对纯双体态$E=S(\rho_A)=S(\rho_B)$. Bell对的$E=1$ ebit. $\sqrt{1-\epsilon}\ket{00}+\sqrt\epsilon\ket{11}$始终Schmidt秩2, 但$E=h_2(\epsilon)\to0$. 这说明秩不是好用的连续纠缠强度. 混态不能用$S(\rho_A)$直接量纠缠, 因经典相关也可使约化熵大.
+\originalsection{系数矩阵、约化谱与Schmidt分解}
+在两端正交基中写$\ket\psi=\sum_{ij}A_{ij}\ket i_A\ket j_B$. 对B取迹给$\rho_A=AA^\dagger$; 对A取迹给$\rho_B=A^T A^*$. 用奇异值分解$A=U\operatorname{diag}(\sqrt{p_k})V^\dagger$, 把U列与V共轭列作为局部基, 得
+\[\ket\psi=\sum_k\sqrt{p_k}\ket{u_k}\ket{v_k},\qquad p_k\ge0,\quad\sum_kp_k=1.\]
+两约化态有相同非零谱$p_k$. 若只有一个非零奇异值, A为列向量与行向量的外积, 态为直积; 若有两个以上, 不可能写成直积. 因而Schmidt秩判别\textbf{纯态}是否纠缠. 对混合态要问是否存在直积态的凸组合, 不能直接对某一种分解中的每个纯态下结论.
 
-\originalsection{传态与超密编码}
-未知态和Bell对可展开为$\frac12\sum_{ab}\ket{\Phi_{ab}}X^bZ^a\ket\psi$. Alice的Bell测量各结果概率$1/4$, Bob收到两个经典比特才知道逆Pauli. 此前Bob约化态$I/2$与$\psi$无关, 所以纠缠不发送超光速信息. 资源消耗是一个Bell对、两经典比特, 传输一个未知量子比特; 原输入测量后被消耗, 与不可克隆相容.
+\begin{example}$\ket\psi=\sqrt{1-\epsilon}\ket{00}+\sqrt\epsilon\ket{11}$在$0<\epsilon<1$时秩始终2. 但当$\epsilon\to0$, 态趋于直积, 所以秩不是连续的纠缠强度. 取$S(\rho)=-\Tr\rho\log_2\rho$, 纯态纠缠熵为$h_2(\epsilon)$, 它确随$\epsilon\to0$趋零. Bell对的两概率各1/2, 熵为1, 定义为一个ebit.\end{example}
 
-超密编码把方向倒过来: Alice在Bell对一半作四个Pauli之一, 发送这一比特, Bob联合Bell测量区分四正交态, 得两经典比特. 预共享纠缠必须计入资源, 不能说一条裸量子比特信道免费承载两比特. $d$维推广用$X\ket j=\ket{j+1\bmod d}$,$Z\ket j=\e^{2\pi\ii j/d}\ket j$, 共$d^2$个正交Bell态.
+局部幺正作用使$A\mapsto U_A A U_B^T$, 不改变奇异值. 局部测量的一个分支却把A左乘一个一般Kraus矩阵, 可以降低秩; 完整LOCC包含测量、经典通信和条件局部门, 因而不能说全部LOCC保持秩. 对已知纯态, Schmidt概率的majorization判据刻画确定性单副本转化; 多副本的可用率将在第11章通过具体浓缩构造说明.
 
-\originalsection{CHSH、GHZ与游戏}
-本地预定值$A_0,A_1,B_0,B_1\in\{\pm1\}$满足$|A_0(B_0+B_1)+A_1(B_0-B_1)|=2$, 平均后CHSH绝对值不超过2. Bell对选择$A_0=Z,A_1=X,B_{0,1}=(Z\pm X)/\sqrt2$给$2\sqrt2$. 二阶算符计算$\mathcal B^2=4I-[A_0,A_1][B_0,B_1]$与对易子范数上界给量子界$2\sqrt2$.
+\originalsection{局部混合与整体相关}
+Bell态$\ket{\Phi_+}=(\ket{00}+\ket{11})/\sqrt2$的任一局部态为$I/2$. 经典混合$\rho_c=(\ket{00}\bra{00}+\ket{11}\bra{11})/2$也有相同局部态, 但它没有纠缠. 两者在Z基都完美相关; 在X基, Bell态仍同号确定, 而经典混合的两结果独立. 区别藏在整体非对角项, 不是局部熵是否大.
 
-GHZ态$(000+111)/\sqrt2$有$XXX$期望$+1$,$XYY,YXY,YYX$均$-1$. 经典预定局域值使后三项的乘积等于第一项, 与量子符号矛盾. 这是承诺输入游戏中量子完胜而经典不能完胜的结构. 论证排除的是特定本地隐变量模型, 不是把任意概率模型都叫“非量子”. 量子游戏的优势需规定输入分布、通信限制和获胜条件.
+更一般地, 若Alice作任意局部保迹信道$\sum_mK_m(\cdot)K_m^\dagger$, Bob的未条件态不变. 对Bob任意算符B,
+\[\Tr[(I\otimes B)\rho']=\sum_m\Tr[(K_m^\dagger K_m\otimes B)\rho]=\Tr[(I\otimes B)\rho].\]
+所以Alice可以改变\textbf{按其测量结果筛选后的}Bob态, 却不能在不发送结果时改变Bob可见统计. 协议中的经典消息正是用来告诉Bob处在哪个条件分支.
+
+\originalsection{超密编码: 四个局部操作与四个整体标签}
+Alice与Bob先共享$\Phi_+$. Alice要发送$(a,b)\in\{0,1\}^2$, 在其半边施$X^bZ^a$. 得到
+\[\ket{\Phi_{ab}}=(X^bZ^a\otimes I)\ket{\Phi_+}.\]
+它们是$(00\pm11)/\sqrt2$和$(01\pm10)/\sqrt2$, 两两正交. Alice把其量子比特实际送给Bob后, Bob持有两位, 可以联合Bell测量辨四态, 读出两经典位. 一种解码是CNOT（第一位控制第二位）, 再H第一位: 四Bell态变成四计算基态. 分支相位不影响读出.
+
+资源账是一个预共享ebit加一次量子比特传输得到两经典比特. 若Bob还只有其半个Bell对, 四种消息下局部态都$I/2$, 可读信息为零. 所以这不违背一条裸量子比特信道可传最多一经典比特的Holevo限制: 协议额外使用了预先分布的纠缠.
+
+$d$维推广中, $X\ket j=\ket{j+1\bmod d}$, $Z\ket j=\e^{2\pi\ii j/d}\ket j$, 对最大纠缠态施$d^2$种$Z^aX^b$即可. 两种整体态的内积为$d^{-1}\Tr[(Z^aX^b)^\dagger Z^{a'}X^{b'}]$. 非零移位没有对角元, 零移位的非平凡相位和为0, 所以它们正交. 这一步复用上一章的有限角色求和.
+
+\originalsection{传态的每个分支怎样恢复}
+Alice有未知输入$\ket\psi=\alpha\ket0+\beta\ket1$, 另与Bob共享$\Phi_+$, 依次标三位为输入1、Alice资源2、Bob资源3. Alice施CNOT$_{1\to2}$及$H_1$, 直接展开得到
+\[\frac12\left[\ket{00}\ket\psi+\ket{01}X\ket\psi+
+\ket{10}Z\ket\psi+\ket{11}XZ\ket\psi\right].\]
+四分支范数均1/2, 因而两测量位各联合结果概率1/4, 与$\alpha,\beta$无关. 若结果为$(a,b)$, Bob态为$X^bZ^a\ket\psi$至整体相位, 按相反次序施$Z^aX^b$恢复. Alice发送两\textbf{经典}位, 不是未知态的全部连续参数. Bob的纠正程序依测量标签而定, 连续振幅已通过共享纠缠和联合测量进入其条件态.
+
+\begin{example}输入$\ket{+\ii}=(\ket0+\ii\ket1)/\sqrt2$, Alice测得10. Bob得到$(\ket0-\ii\ket1)/\sqrt2$, 是$Z\ket{+\ii}$. 施Z恢复. 在四标签尚未知时, 平均态是$\frac14\sum_{a,b}X^bZ^a\ket\psi\bra\psi Z^aX^b=I/2$, Bob不能由它读出输入.\end{example}
+
+传态消耗一个Bell对与两经典位. Alice原输入在测量后不再存在, 所以没有克隆. 线性恒等式对与第三方纠缠的输入也成立: 将$\alpha,\beta$换成第三方的未归一向量, 每分支仍执行同一Pauli, 纠正后保持输入与第三方的相关. 这比只检验若干单态更强, 是后面把传态用作门操作组件的依据.
+
+\originalsection{把门放进传态资源}
+如果离线资源为$(I\otimes U)\ket{\Phi_+}$, 传态后Bob得到$UP\ket\psi$, $P=X^bZ^a$. 想恢复$U\ket\psi$, 需补$UP^\dagger U^\dagger$. 当U是Clifford门, 这个补门仍为Pauli, 可只更新经典框架. 若U为一般门, 补门可能与U同样难实现. 因而“把门放在纠缠资源中”能把在线成本转到离线制备, 不自动使任意门免费.
+
+两位CZ资源和Fredkin传态作业正是这个公式的例子: 必须分别核算所有Bell测量标签, 不能把三次Bell测量的六经典位只数成八个完整分支. 非Clifford注入需说明补门族及资源态验证; 第8、9章再从容错和测量模型处理这些条件.
+
+\originalsection{CHSH上界与量子策略}
+Alice任选$x=0,1$, Bob任选$y=0,1$, 各输出$\pm1$. 局部预定值$A_0,A_1,B_0,B_1$满足
+\[C=A_0(B_0+B_1)+A_1(B_0-B_1)=\pm2,\]
+因为$B_0,B_1$同号时第二括号0, 异号时第一括号0. 对共享随机隐变量平均仍有$|\langle C\rangle|\le2$. 这里假定双方不通信且输入选择与共享变量独立.
+
+量子策略用$\Phi_+$, $A_0=Z,A_1=X,B_0=(Z+X)/\sqrt2,B_1=(Z-X)/\sqrt2$. Bell态的$ZZ,XX$期望均1, 交叉$ZX,XZ$均0, 所以$\langle C\rangle=2\sqrt2$. 这是可逐项复算的测量角度方案. 对任意平方为I的四个Hermitian测量, CHSH算符平方为$4I-[A_0,A_1]\otimes[B_0,B_1]$, 两对易子范数至多2, 因而$\|C\|\le2\sqrt2$, 此方案达量子上界.
+
+若写成输入均匀的游戏, 输出比特满足$a\oplus b=xy$才胜, 胜率$1/2+\langle C\rangle/8$. 经典最多3/4, 上述量子方案为$(2+\sqrt2)/4=\cos^2(\pi/8)$. 游戏优势依赖明确的规则与通信限制; 随意改变允许的策略集合就可能改变比较.
+
+\originalsection{GHZ的确定性矛盾与混合纠缠诊断}
+GHZ态$(000+111)/\sqrt2$满足$XXX=+1$及$XYY=YXY=YYX=-1$. 例如$Y\ket0=\ii\ket1,Y\ket1=-\ii\ket0$, 两Y给一个负号, 直接验证即可. 局部预定X、Y值中, 后三乘积等于第一, 因每个Y值出现两次. 量子四个确定符号的乘积却为$-1$. 这是一个全确定的局域模型矛盾, 主作业再列出各联合结果及概率.
+
+对混合态, 一个可用的必要判据是部分转置: 分离态$\sum_ip_i\rho_i\otimes\sigma_i$在B上转置后仍为正, 因每个$\sigma_i^T$为正. 所以部分转置若有负谱, 态必纠缠. $\Phi_+$的部分转置是SWAP/2, 在对称子空间有三个$+1/2$, 在反对称单态上为$-1/2$, 直接给纠缠见证. 一般高维中PPT并不保证可分; 本卷不把这个必要判据当所有维度的充分判据.
+
+本章三条连接应同时保留: Schmidt谱刻画纯态资源; 联合测量和经典标签使资源可用于协议; Bell或GHZ关联检验指定的局域模型. 它们有共同数学对象, 却回答不同的实验和计算问题.

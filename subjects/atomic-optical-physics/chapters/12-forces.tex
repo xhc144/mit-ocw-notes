@@ -19,3 +19,37 @@
 磁光阱用四极磁场使左右位置的Zeeman频移相反, 再用相应圆偏振使离中心的原子更吸收指向中心的光. 在小位移小速度下$F=-\kappa_xx-\beta v$. 磁场提供位置辨识而不是直接以磁力捕获所有原子. 高密度时再吸收荧光带来斥力, 形成密度限制.
 
 纯磁阱势为$U=m_Fg_F\mu_B|B|$. 低场寻求态可被磁场最小值捕获, 高场寻求态在静态源外磁场中通常不能形成三维稳定极大值. 四极阱零点可引起非绝热自旋翻转; 偏置场阱或光阱可以避免相应损失.
+
+\originalsection{缀饰力的随机切换与扩散系数}
+对位置相关$\Omega(x)$, 局域旋波Hamiltonian的两缀饰势为
+\[U_\pm(x)=\pm\frac{\hbar}{2}\sqrt{\Delta^2+\Omega(x)^2},\qquad
+ F_\pm=-\partial_xU_\pm.\]
+自发发射使原子在两支间随机跳跃. 设局域切换率$r_{+\to-},r_{-\to+}$, $R=r_{+\to-}+r_{-\to+}$, 稳态$\pi_+=r_{-\to+}/R$, $\pi_-=r_{+\to-}/R$. 在位置近固定的Markov两态模型中, 力的连接相关为
+\[\langle\delta F(t)\delta F(0)\rangle=
+ \pi_+\pi_-(F_+-F_-)^2\e^{-R|t|}.\]
+由$p(t)-\bar p(t)=\int_0^t\delta F(t')\dd t'$,
+$\operatorname{Var}p\simeq2t\int_0^\infty C_F(\tau)\dd\tau$, 对应本章Fokker--Planck约定的
+\[D_{\rm dip}=\int_0^\infty C_F(\tau)\dd\tau
+ =\frac{\pi_+\pi_-(F_+-F_-)^2}{R}.\]
+这是光移力涨落导致的扩散, 需再加吸收/发射反冲的$D_{\rm rec}$; 平均自发动量为零不等于扩散为零.
+
+移动原子的支布居$p_+$服从$\dot p_+=-R[p_+-\pi_+(x)]$. 若速度足够慢, $p_+\simeq\pi_+-(v/R)\partial_x\pi_+$, 于是
+\[F\simeq\bar F-\beta_{\rm dress}v,\qquad
+ \beta_{\rm dress}=\frac{F_+-F_-}{R}\partial_x\pi_+.\]
+布居滞后和不同势的斜率使能量一周期后可净损失, 也可能净加热; 符号需由失谐、矩阵元与泵浦率决定. 这个简化两态模型说明8.422缀饰冷却讨论中的摩擦和扩散来源, 在强驻波、节点或多能级处不能无条件替代完整Bloch力相关计算.
+
+\originalsection{一个具体的偏振梯度Sisyphus循环}
+多能级原子在两束反向、正交线偏振光中遇到随位置变化的局域椭圆偏振. 不同$m_g$的Clebsch--Gordan系数使AC势与抽运率不同. 以两个参与的基态为例, 去掉共同势常数后用
+\[U_1(x)=U_0\sin^2kx,\qquad U_2(x)=U_0\cos^2kx\]
+表示交错势. 原子在$x=0$处于态1的谷底, 向右走到$x=\pi/(2k)$, 动能转为光移能$U_0$. 此处光抽运偏好把它送到态2的谷底, 多出的能量通过散射光带走. 再走到$x=\pi/k$, 态2变成峰顶, 抽运回态1的谷底, 一空间周期净移除约$2U_0$. 抽运是耗散步骤, 若只在两个保守势中自由运动便不会持续冷却.
+
+\begin{center}\begin{tikzpicture}
+\begin{axis}[width=.9\linewidth,height=4cm,xlabel={$kx$},ylabel={$U/U_0$},
+ xmin=0,xmax=3.14159,ymin=-.1,ymax=1.18,xtick={0,1.5708,3.14159},
+ xticklabels={$0$,$\pi/2$,$\pi$},ytick={0,1},domain=0:3.14159,samples=81]
+\addplot[blue,thick]{sin(deg(x))^2};\addplot[red,dashed,thick]{cos(deg(x))^2};
+\draw[->,very thick] (axis cs:1.5708,.92)--(axis cs:1.5708,.08);
+\draw[->,very thick] (axis cs:3.08,.92)--(axis cs:3.08,.08);
+\node at(axis cs:.65,.92){态1};\node at(axis cs:2.35,.92){态2};
+\end{axis}\end{tikzpicture}\end{center}
+该图为上述两势模型的矢量重绘, 不代替真实原子的全部子能级. 低速度下抽运有时间响应位置, 高速度下还未上坡就穿过许多周期, 摩擦下降. 有效速度捕获尺度约$\Gamma_{\rm pump}/k$, 若抽运远过快则容易在爬坡前跳转, 远过慢则错过峰顶, 故冷却依爬坡与抽运时间匹配. 最终温度由净摩擦、反冲和光移力噪声共同决定; 缀饰两能级驻波Sisyphus与红失谐多能级偏振梯度机制应分别指定势和率, 不只借用同一个名字.

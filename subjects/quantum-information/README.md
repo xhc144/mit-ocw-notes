@@ -2,7 +2,9 @@
 
 [中文主 PDF](dist/quantum-information-zh.pdf) · [可编译源码 ZIP](dist/quantum-information-source.zip)
 
-本卷为 MIT 官方公开材料的中文主题重编，采用仓库已批准的王者模板。共 **33 页、93 个官方原题大编号**。其中92个原题号有答案；18.435J HW4.5的原图连边未能恢复，特定图证明未完成，正文给明确标注的替代构造。
+本卷为 MIT 官方公开材料的中文主题重编，采用仓库已批准的王者模板。共 **67 页、93 个官方原题大编号**。其中92个MIT原题号有答案，另有8个可读教材任务独立重述并解答；18.435J HW4.5的原PDF未含可恢复节点/边对象，特定图证明未完成，正文给明确标注的替代构造。
+
+修订版已实际扩写正文推导、协议和原题解答，并按逐讲文件列出内容位置。逐讲覆盖见 [LECTURE-COVERAGE.md](LECTURE-COVERAGE.md)。
 
 课程、题目实际年份、联列去重、逐件链接及未覆盖项见 [SOURCES.md](SOURCES.md)、[coverage.json](coverage.json) 和 [source-inventory.json](source-inventory.json)。没有把入口页、已下载的英文 PDF、教材引用题或研究计划计为中文交付。
 

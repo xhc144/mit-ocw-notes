@@ -1,6 +1,6 @@
 \Needspace{9\baselineskip}
 \originalchapter{补充题与两次测验}
-附加题原件有2.111J / 18.435J / ESD.79联列, PS3、4、7、8、9明确注明Fall 2004, 尽管被2003站点资源索引托管, 不冒称2003当年作业. 其余附加页未印年, 只保留托管版本. 以下按实际文件分组, 各编号要求均可对照原件; 原来的商业教材4.26、5.6等只留引用, 不转录其受限题面.
+附加题原件有2.111J / 18.435J / ESD.79联列, PS3、4、7、8、9明确注明Fall 2004, 尽管被2003站点资源索引托管, 不冒称2003当年作业. 其余附加页未印年, 只保留托管版本. 以下按实际文件分组, 各编号要求均可对照原件; 教材4.26只有题号而留作缺题面; 5.6所对应公开文件已给Fourier/相移加法任务, 本卷独立重述和解答, 不复刊原书段落.
 \originalsection{附加PS1、PS2: 可逆门与Pauli}
 \source{Optional PS1, 第1--3题, 第2题含加分.}
 \begin{exercise}(1) 用Fredkin及任意固定0、1工作位实现NOT、AND、fan-out, 证经典普适; (2) 用Toffoli建两个输入半加器, 加分含进位Z的全加器; (3) 验Pauli等价各轴$\pi$旋转、平方$I$、循环乘积$XY=\ii Z,YZ=\ii X,ZX=\ii Y$, 不同Pauli反对易.\end{exercise}
@@ -33,6 +33,12 @@
 \begin{solution}(1) 保留每位后的$b=\lceil\log_2(n/\epsilon)\rceil+O(1)$个受控小角旋转, 丢弃角和上界$O(n2^{-b})\le\epsilon$, 门$O(nb)$, 固定精度为$O(n\log n)$. (3) $\theta=\pi/6$, 一轮$\sin^2(3\theta)=1$. (4) 每对子控制a,b加工作0, 反极性Fredkin在a=0交换b和工作, 留原b位置值ab, 工作留$(1-a)b$. 因而可把各对子旗按二叉树合为全AND. n-1个工作, n-1个Fredkin, 一次由根控制U, 再逆树恢复所有输入和工作, 总$2n-1$门, 深度$2\log_2n+1$, 忽略每层可并行约定以外的连接开销.
 \end{solution}
 
+\source{Optional PS6第2题, 原页引用教材5.6并给出Fourier与相移实现加法的任务. 原句不逐字复刊, 以下按n位模$2^n$加法独立构造; 不把已有可读任务记成缺题面.}
+\begin{exercise}给定已知整数a, 对n位计算基实现$\ket x\mapsto\ket{x+a\bmod2^n}$; 另给寄存器$\ket a$时, 实现可逆双寄存器加法并保留a. 使用QFT及相位门.\end{exercise}
+\begin{solution}令$N=2^n$, $D_a\ket y=\e^{2\pi\ii ay/N}\ket y$. 则
+\[F_N^\dagger D_aF_N\ket x=N^{-1}\sum_{z,y}\e^{2\pi\ii y(x+a-z)/N}\ket z=\ket{x+a\bmod N}.\]
+已知a时,$D_a$按y二进制各位分解为单比特相位. 若a也为寄存器, 指数$ay/N$按两者各位的乘积展开, 使用两寄存器间受控相位, 并保留a; 对a叠加仍线性成立. 所有可能相位对最多$O(n^2)$, 加两次QFT亦为$O(n^2)$门. 若要普通整数和及进位, 先扩大足够位数避免模回绕; 本题选择的模加法条件已明确.\end{solution}
+
 \originalsection{附加PS7--PS10: 模拟、回波与纠错}
 \source{Optional PS7, 第1--5题.}
 \begin{exercise}Hermitian A,B: (1) 验Trotter误差$O(1/n)$; (2) 从ZZ耦合和任意单位Pauli Hamiltonian生成所有两位Pauli乘积; (3) 生成任意多位Pauli串; (4) 用单轴旋转及$\exp(\ii\theta ZZ)$建CNOT并讨论最少两体耦合; (5) $\sigma_\pm=(X\pm\ii Y)/2$: 验$\cos(\omega t)X-\sin(\omega t)Y=\e^{\ii\omega t}\sigma_++\e^{-\ii\omega t}\sigma_-$及$\e^{\pm\ii\omega t}\sigma_\pm\e^{\ii\omega tZ/2}=\e^{\ii\omega tZ/2}\sigma_\pm$.\end{exercise}
@@ -42,13 +48,15 @@
 (5) $\e^{\ii\phi Z/2}\sigma_+\e^{-\ii\phi Z/2}=\e^{\ii\phi}\sigma_+$, 由$[Z,\sigma_+]=2\sigma_+$得; 把cos、sin驱动写升降项便得到原旋转系式.
 \end{solution}
 \source{Optional PS8, 第1--3题.}
-\begin{exercise}(1) 写$U=\e^{-\ii\pi X_1/4}\e^{-\ii\pi Z_1Z_2/4}\e^{-\ii\pi X_1/4}$的$4\times4$矩阵, 比较CNOT并补单位旋转; (2) $H=(-\omega_1Z_1-\omega_2Z_2+JZ_1Z_2)/2$, 施第一位X的$\pi$脉冲回波两段, 证只演化第二位; (3) 三位所有Z及ZZ耦合, 设计解耦只留单位项.\end{exercise}
-\begin{solution}(1) 令$R=\e^{-\ii\pi X_1/4}$, 因$X_1$与$Z_1Z_2$反对易, $RZ_1Z_2R=Z_1Z_2$而$R^2=-\ii X_1$, 故
-\[U=-\frac{\ii}{\sqrt2}(X_1+Z_1Z_2)=-\frac{\ii}{\sqrt2}
-\begin{pmatrix}1&0&1&0\\0&-1&0&1\\1&0&-1&0\\0&1&0&1\end{pmatrix}.\]
-它不是计算基的CNOT置换. 令$D=\e^{\ii\pi Z_1/4}\e^{\ii\pi Z_2/4}$, 则
-\[\mathrm{CNOT}_{2\to1}=\e^{-\ii\pi/4}H_1DR^\dagger\,U\,R^\dagger H_1.\]
-因为两侧$R^\dagger$先恢复$\e^{-\ii\pi Z_1Z_2/4}$, 配D及整体相位成为CZ, 最后$H_1$把它转成以2控制1的CNOT. 这些补门均为单比特门, 源码实际核验矩阵.
+\begin{exercise}(1) 写$U=\e^{-\ii\pi X_1/4}\e^{-\ii\pi Z_1Z_2/4}\e^{-\ii\pi Y_1/4}$的$4\times4$矩阵, 比较CNOT并补单比特旋转; (2) $H=(-\omega_1Z_1-\omega_2Z_2+JZ_1Z_2)/2$, 施第一位X的$\pi$脉冲回波两段, 证只演化第二位; (3) 三位所有Z及ZZ耦合, 设计解耦只留单比特项.\end{exercise}
+\begin{solution}(1) 保留原题末门Y. 按$00,01,10,11$顺序, 先把三个指数分别写成$(I-\ii P)/\sqrt2$并依右到左相乘, 得
+\[U=\frac1{\sqrt2}\begin{pmatrix}
+1-\ii&0&0&0\\0&0&0&-1-\ii\\0&0&1+\ii&0\\0&1-\ii&0&0
+\end{pmatrix}.\]
+它与$\mathrm{CNOT}_{2\to1}$有同样的基态置换, 仅相位不同. 令$S=\operatorname{diag}(1,\ii)$, 按四列逐项比对得到
+\[U=\e^{-\ii\pi/4}(S_1\otimes S_2^\dagger)\mathrm{CNOT}_{2\to1},\qquad
+\mathrm{CNOT}_{2\to1}=\e^{\ii\pi/4}(S_1^\dagger\otimes S_2)U.\]
+因此两输出端分别补$S^\dagger,S$即可, 整体相位无物理作用. 这里的下标仅表示门所在位, 张量中的S都是$2\times2$矩阵. 上述X--ZZ--Y序列已对照原页及官方答案, 数值QA验证此矩阵与补门.
 (2) X1翻Z1及Z1Z2而不翻Z2, 各项对易, 两段各时长t相加只留$-\omega_2tZ_2$. 两个$\pi$脉冲自身给整体$-1$, 故$U=-\e^{\ii\omega_2tZ_2}$, 确只演化第二位. (3) 四段等时长的翻转符号选$+++,+--,-+-,--+$, 每对符号乘积总和0, 全ZZ抵消, 本地Z也总和0得到完整回波. 如要保留指定单位Z, 只平均另两位独立符号并保持指定一位正, 同样四段消相互作用和其他单位项. 给相邻符号差对应的X或Y $\pi$脉冲即可实现, 最后恢复原框架.
 \end{solution}
 \source{Optional PS9, 第1--6题.}

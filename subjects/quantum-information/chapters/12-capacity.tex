@@ -1,16 +1,105 @@
 \Needspace{9\baselineskip}
-\originalchapter{信道容量与资源互换}
-\originalsection{Holevo信息的含义}
-经典标签$X=i$以$p_i$制备$\rho_i$, 总态$\rho_{XB}=\sum_ip_i\ket i\bra i\otimes\rho_i$. 其互信息为$\chi=S(\sum_ip_i\rho_i)-\sum_ip_iS(\rho_i)$. Bob测量得到经典$Y$, 量子互信息在信道$B\to Y$下不增, 所以$I(X:Y)\le\chi$. 该数据处理定理可由量子相对熵单调性得出; 后者是本卷明确引用的高级熵定理, 不以经典log-sum不等式的标量证明冒充完整非对易证明.
+\originalchapter{测量、信道容量与资源互换}
+发送同一批非正交信号, 逐份检测和长块联合检测会给不同速率. 本章接续MAS第15--17讲: 先把检测器写成算符, 再用相对熵说明测量的信息上限, 最后明确无记忆信道的编码优化与辅助资源. 编码定理的可达性和反向界是高级结果; 本卷给其模型、主要中间量和可核算的例子, 不以一行公式冒充完整非对易打包证明.
+\originalsection{平方根测量与Gram矩阵}
+给纯态信号$\ket{\psi_i}$及先验$p_i$, 令列矩阵$\Phi=(\sqrt{p_1}\psi_1,\ldots,\sqrt{p_m}\psi_m)$, 平均态$S=\Phi\Phi^\dagger$, Gram矩阵$G=\Phi^\dagger\Phi$. 逆平方根只在$S$的支持上定义. 平方根测量为
+\[M_i=S^{-1/2}p_i\ket{\psi_i}\bra{\psi_i}S^{-1/2}.\]
+其和是支持投影, 可加$M_\perp=I-\Pi_{\operatorname{supp}S}$使之成为全空间POVM; 对这些信号此额外结果概率为0. 极分解给
+\[\Phi^\dagger S^{-1/2}\Phi=\sqrt G,\qquad
+ P_{\rm succ}=\sum_i\big|(\sqrt G)_{ii}\big|^2.\]
+因此检测问题可转为较小Gram矩阵的平方根. 它一般是易构造且有误差界的测量, 不对任意系综都最优; 对若干对称系综则可最优.
 
-同一比特的两正交纯态等权给$\chi=1$且可达. 不正交纯态等权则平均谱为$(1\pm|\langle\psi_0|\psi_1\rangle|)/2$, $\chi<1$. 单份最优可访问信息还可能严格低于$\chi$, 多份联合解码的HSW定理才说明对无记忆经典--量子信道以$\chi$为可达编码率. 平均态典型投影和条件典型投影给随机编码的打包, 检测器可采用平方根测量; 完整非对易打包误差证明作为来源中的高级定理引用, 本卷不虚称已逐行重证.
+\begin{example}两纯态等先验, 重叠经相位调整为$c\in[0,1]$. $G=\frac12\left(\begin{smallmatrix}1&c\\c&1\end{smallmatrix}\right)$本征值$(1\pm c)/2$. 其平方根对角元相等, 得$P_{\rm succ}=(1+\sqrt{1-c^2})/2$, 恰为此二元问题的Helstrom最优成功率. 若三信号不满足相同对称性, 不可照搬这个二元最优结论.\end{example}
 
-\originalsection{经典、量子与纠缠辅助容量}
-无记忆量子信道传经典信息的一般容量需$\chi$的多次使用正规化最大值, 单次最大$\chi$不总可加. 传量子信息的可达量以相干信息$I_c(\rho,\mathcal N)=S(B)-S(E)=-S(R|B)$组织, 其中$RBE$是输入净化经信道等距后的纯态. 一般量子容量也需正规化且可能有超可加性. 因而不能仅写一个单字母式就称所有信道容量已解决.
+\originalsection{相对熵、数据处理与Holevo界}
+对有限维密度矩阵定义
+\[D(\rho\Vert\sigma)=\Tr[\rho(\log\rho-\log\sigma)].\]
+若$\operatorname{supp}\rho\not\subseteq\operatorname{supp}\sigma$, 值为$+\infty$; 支持内以谱函数定义对数. Klein不等式给$D\ge0$, 等号当且仅当两态相同. 本章使用量子相对熵数据处理定理: 对同一CPTP映射$\mathcal N$,
+\[D(\mathcal N(\rho)\Vert\mathcal N(\sigma))\le D(\rho\Vert\sigma).\]
+确定性、完全正、迹保持和同一映射是这里的条件. 把迹减少的某个成功分支单独归一化并后选, 不能无条件套这个不等式. 非对易情形的完整单调性证明作为课程所用高级熵定理引用, 不把经典log-sum证明冒充它.
 
-预共享无限纠缠辅助传经典信息时,$C_E=\max_\rho I(R:B)$是单字母容量. 一个完美量子比特信道给2经典比特, 与超密编码一致; 一个完美经典比特信道不能仅靠纠缠传未知量子态, 还需传态的两经典比特和一个Bell对. 擦除信道以概率$\epsilon$把量子比特换成正交擦除旗, 可用纠缠与环境对称性得量子容量$\max(0,1-2\epsilon)$, 经典容量$1-\epsilon$, 纠缠辅助经典容量$2(1-\epsilon)$. 这些值依旗信息可见且无记忆的模型.
+若标签$X=i$制备$\rho_i$, $\bar\rho=\sum_ip_i\rho_i$, 则
+\begin{align*}
+ \chi&=\sum_ip_iD(\rho_i\Vert\bar\rho)
+ =S(\bar\rho)-\sum_ip_iS(\rho_i)\\
+ &=D(\rho_{XB}\Vert\rho_X\otimes\bar\rho)
+ =I(X:B).
+\end{align*}
+Bob的POVM是CPTP量子到经典信道, 数据处理给$I(X:Y)\le\chi$. 对$q$qubit, $S(\bar\rho)\le q$, 故可访问信息不超过$q$bit; 这与密度矩阵要许多实数描述并不矛盾.
 
-\originalsection{母协议、父协议与纠缠蒸馏}
-对纯$ABE$共享态, 量子状态合并与解耦可描述资源互换: 发送约$\tfrac12I(A:E)$量子比特并提取约$\tfrac12I(A:B)$ ebit是母协议的代表形式, 精确任务还需参考系统与转移方向. 父协议用$\tfrac12I(A:E)$预共享ebit辅助信道, 可传$\tfrac12I(A:B)$量子比特. 二者的核心是让环境与欲传系统解耦, 不仅保证Bob某个边缘态近似正确.
+等先验二纯态重叠$c$的$\chi=h_2((1+c)/2)$, 而单份最优检测的二元互信息为$1-h_2((1-\sqrt{1-c^2})/2)$. 例如$c=1/\sqrt2$, 二者约0.601与0.399bit. 差别说明允许长块联合检测会改善信息率, 不意味着一份测量违反Holevo界.
 
-混态可蒸馏纠缠与形成纠缠的成本一般不同, 有PPT束缚纠缠. LOCC不能从可分态制造纠缠; 对纯态熵的平均单调性不能直接延伸成混态$S(\rho_A)$单调性. 本章给资源变量和操作终点, 完整解耦定理、HSW及一般容量编码定理不在本卷的独立证明范围, 作为已核课程笔记结果引用.
+\originalsection{随机编码为什么出现典型投影}
+固定系综$\{p_x,\rho_x\}$通过无记忆信道后输出$\sigma_x=\mathcal N(\rho_x)$. 长度$n$随机码字来自$p^{\otimes n}$, 平均输出典型空间维数约$2^{nS(\bar\sigma)}$, 一个典型码字的条件典型空间维数约$2^{n\sum_xp_xS(\sigma_x)}$. 因而能打包的码字数指数率为两熵之差$\chi$. 这是一条有意义的维数估计, 还不是证明各子空间完全正交.
+
+实际构造先用平均典型投影压掉小概率尾部, 再为每个码字的条件典型投影构造平方根POVM. 高典型概率、温和测量扰动界及非对易打包误差估计保证$R<\chi$时平均解码错误趋0. HSW定理给此可达率, Holevo与数据处理组织反向界. 本卷保留这条证明路线及高级引理的身份, 不把“典型维数相除”称为完整证明.
+
+对一般无记忆量子信道, 定义
+\[\chi^*(\mathcal N)=\max_{\{p_x,\rho_x\}}
+ \left[S\!\left(\sum_xp_x\mathcal N(\rho_x)\right)
+       -\sum_xp_xS(\mathcal N(\rho_x))\right].\]
+无辅助经典容量为
+\[C(\mathcal N)=\sup_{n\ge1}\frac1n\chi^*(\mathcal N^{\otimes n}).\]
+第$n$次优化允许跨$n$输入的纠缠码字; 独立单份系综只给下界. 2006笔记当时把可加性列为问题; 本卷用正规化表达一般定理, 不把历史问题的旧状态写成今天已经证明的单字母公式.
+
+\originalsection{相干信息与擦除信道的完整计算}
+输入$\rho$用$R$净化, 信道等距$V:A'\to BE$后$RBE$纯. 相干信息为
+\[I_c(\rho,\mathcal N)=S(B)-S(E)=-S(R|B).\]
+无辅助量子容量的编码定理是
+\[Q(\mathcal N)=\sup_{n\ge1}\frac1n
+ \max_{\rho^{A'^n}}I_c(\rho,\mathcal N^{\otimes n}).\]
+纯输入给0, 所以优化已含不传的零率; 负的某个输入值不代表负容量. 解耦编码需要让参考$R$与环境$E$近似直积, 再由净化等价在Bob处解码. 只检验Bob边缘态相同, 无法证明未知态及其参考相关已传好.
+
+$d$维擦除信道以概率$\epsilon$输出正交旗$\ket e$, 否则传完输入. 一个等距模型是
+\[V\ket\psi=\sqrt{1-\epsilon}\ket\psi_B\ket e_E
+          +\sqrt\epsilon\ket e_B\ket\psi_E.\]
+旗使两支正交, 故
+\[S(B)=h_2(\epsilon)+(1-\epsilon)S(\rho),\quad
+ S(E)=h_2(\epsilon)+\epsilon S(\rho),\quad
+ I_c=(1-2\epsilon)S(\rho).\]
+$\epsilon\le1/2$时, Bob的未擦除支以概率$\epsilon/(1-\epsilon)$再保留, 其余擦掉, 就能模拟环境输出: 信道可降解. 可降解信道的相干信息可加定理遂给
+\[Q=(1-2\epsilon)\log d.\]
+$\epsilon\ge1/2$时环境反过来能模拟Bob, 属反可降解. 若Bob能高保真传任意未知态, 环境也可同样解码, 违反量子信息不可广播, 故$Q=0$. 完整结论为$Q=\max(0,1-2\epsilon)\log d$; 单独最大化上面的单份式而不解释可加性, 尚不能建立一般容量.
+
+经典系综输出$\chi_{\rm out}=(1-\epsilon)\chi_{\rm in}\le(1-\epsilon)\log d$. 用正交字母退化为经典擦除信道即达此率, 所以$C=(1-\epsilon)\log d$. 纠缠辅助时
+\[I(R:B)=S(R)+S(B)-S(E)=2(1-\epsilon)S(\rho),\]
+得$C_E=2(1-\epsilon)\log d$. 对$\epsilon=1/4,d=2$, 三率为$C=3/4,Q=1/2,C_E=3/2$. 正交旗、无记忆及无辅助/有辅助的区别都是这个例子的条件.
+
+\originalsection{父协议、母协议与系统归属}
+记$[q\to q]$为一个理想量子位通信, $[c\to c]$为经典位, $[qq]$为一个预共享ebit. 资源式按$n$份渐近、误差趋0理解, 不是一份信道的精确等式.
+
+父协议: Alice输入$A'$, 参考$R$净化它, 噪声信道$V:A'\to BE$使Bob得到$B$, 环境得到$E$. 对这一个输入态,
+\[\langle\mathcal N\rangle+\tfrac12I(R:E)[qq]
+ \ \ge\ \tfrac12I(R:B)[q\to q].\]
+左侧预共享纠缠弥补环境泄露, 终点是Alice编码的逻辑系统与参考的量子相关被Bob接收. 解耦定理与典型子空间证明这些系数, 本卷引用完整定理. 恒等信道有$I(R:E)=0,I(R:B)=2S(R)$, 恰得$S(R)$量子位/用. 对擦除信道和最大混合输入, 需$\epsilon\log d$ebit, 可传$(1-\epsilon)\log d$qubit; 这有额外纠缠, 与无辅助$Q$不同.
+
+母协议（全量子Slepian--Wolf）: 初始共享纯态$\ket\psi_{ABR}$, Alice拥有$A$, Bob拥有$B$, $R$不可访问. Alice发$\frac12I(A:R)$qubit给Bob, 让Bob最终拥有$A$与$B$的原联合态并保持与$R$的相关, 同时两人获得$\frac12I(A:B)$ebit:
+\[\langle\psi_{AB}\rangle+\tfrac12I(A:R)[q\to q]
+ \ \ge\ \tfrac12I(A:B)[qq]+\langle\psi_{B'BR}\rangle,\]
+其中$B'$在Bob处替代原$A$, 最后项表示完成转移的任务. 纯态恒等式
+\[I(A:R)+I(A:B)=2S(A)\]
+解释“发送”与“获得”的两份半互信息为何分割同一个$S(A)$. 例如$AB$是Bell态而$R$平凡, 不需通信, 只把原共享Bell对计为所得纠缠; 若$A$只与$R$纠缠且Bob无信息, 则须发$S(A)$qubit且不产纠缠.
+
+把发送的量子位用传态实现, 每位耗1ebit和2cbit, 母协议的净纠缠消耗为
+\[\tfrac12[I(A:R)-I(A:B)]=S(A|B).\]
+所以负条件熵的状态合并会产生纠缠. 这并不是混态局部熵都具有同样资源意义; 系统归属和保持参考相关是定理任务的一部分.
+
+\originalsection{混态纠缠、PPT与Bell噪声阈值}
+混态可分定义为$\rho_{AB}=\sum_ip_i\rho_i^A\otimes\rho_i^B$. 可分态部分转置
+\[\rho^{T_B}=\sum_ip_i\rho_i^A\otimes(\rho_i^B)^T\ge0,\]
+因为转置保正. 所以非正部分转置可证明纠缠, PPT一般仅是必要条件. 在$2\times2$和$2\times3$维, PPT也是充分条件（Peres--Horodecki定理引用）; 更高维存在PPT但不可分且不能LOCC蒸馏的束缚纠缠.
+
+以$\rho_\epsilon=(1-\epsilon)I_4/4+\epsilon\ket{\Phi^+}\bra{\Phi^+}$, $0\le\epsilon\le1$为例, 原谱为$(1+3\epsilon)/4$及三个$(1-\epsilon)/4$. 部分转置利用$(\Phi^+)^{T_B}=F_{\rm swap}/2$, 对称子空间三重本征值$(1+\epsilon)/4$, 反对称子空间为$(1-3\epsilon)/4$. 故$\epsilon>1/3$纠缠.
+
+阈值处还可直接构造可分分解: 对Bloch轴$n=x,y,z$与正负本征态$\ket{\pm n}$,
+\[\rho_{1/3}=\frac16\sum_{n=x,y,z}\sum_{\pm}
+ \ket{\pm n}\bra{\pm n}\otimes
+ \ket{(\pm n)^*}\bra{(\pm n)^*}.\]
+复共轭令Y相关负、X/Z相关正, 展开恰为$[I+(XX-YY+ZZ)/3]/4$. 更小$\epsilon$是它与$I/4$的凸组合, 所以可分. 这个证明也说明$S(\rho_A)=1$并不能区分$\epsilon=0$直积混合和$\epsilon=1$Bell态.
+
+\originalsection{非局域CNOT与SWAP的通信账}
+Alice拥有控制$A$, Bob拥有目标$B$, 预共享$\Phi^+_{ab}$. Alice作CNOT$_{A\to a}$, 测$a$的Z得到$m$, 发1cbit让Bob作$X_b^m$. 对一般输入（包括外部参考）, 中间态成为
+\[\sum_{j=0,1}\ket j_A\ket j_b\ket{\psi_j}_B.\]
+Bob作CNOT$_{b\to B}$, 再测$b$的X得到$\ell$, 发1cbit让Alice作$Z_A^\ell$. 副相位消掉, 剩$\sum_j\ket j_A X_B^j\ket{\psi_j}_B$, 正是CNOT. 耗1ebit, 两方向各1cbit. 输入$+\otimes0$会生成跨双方Bell态, 所以没有预共享纠缠的纯LOCC不可能完成此门.
+
+SWAP可把Alice量子位传态给Bob, 同时把Bob量子位传态给Alice: 耗2ebit、每方向2cbit. 若两位原各与各方本地参考成Bell对, SWAP后两对都跨双方, 因此精确LOCC实现至少需2ebit. 门的纠缠成本、传量子位的成本和单向信道容量由此有明确联系, 不应只列门名或Bell对数而没有协议终点.
