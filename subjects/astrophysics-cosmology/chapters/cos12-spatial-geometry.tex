@@ -1,0 +1,85 @@
+\originalchapter{常曲率空间的距离、体积与整体范围}
+本章对应8.286第10--13讲的非欧几何部分。原幻灯片中部分介绍页署名Mustafa Amin，部分历史图片和科研曲线有逐件例外；本卷只重写数学论证和自绘几何。微积分、点积和球坐标足以理解这里的构造。更一般的曲率张量与坐标变换见广义相对论卷，本章专注宇宙测距实际用到的空间结构。
+
+\originalsection{局部长度怎样定义曲面上的几何}
+地球两点之间的最短航程沿球面大圆，而不是穿过地心的直弦。描述内在几何，需要规定相邻坐标点之间的实际长度
+\[
+ \dd\ell^2=g_{ij}(x)\dd x^i\dd x^j.
+\]
+二维正定条件是$g_{xx}>0$、$g_{xx}g_{yy}-g_{xy}^2>0$。它确保非零位移长度为正。任一点附近可把这个二次型化成欧氏形式；这只说明\emph{局部}可以选正交标架，不说明一个有限区域内处处都能用同一坐标消掉曲率。
+
+半径$R$的二维球面参数为$(x,y,z)=R(\sin\theta\cos\varphi,\sin\theta\sin\varphi,\cos\theta)$。对$\theta,\varphi$求偏导，两向量互相正交，模长分别$R,R\sin\theta$，所以
+\[
+ \dd\ell^2=R^2(\dd\theta^2+\sin^2\theta\dd\varphi^2).
+\]
+经线与赤道构成的球面三角形可有三个直角，角和$3\pi/2$；这不违反平面几何，因为边是球面测地线。恒定Gaussian曲率$1/R^2$下，测地三角形面积$A$满足$A/R^2=\alpha+\beta+\gamma-\pi$。该式在此作为Gauss--Bonnet定理的球面特例，完整一般定理的证明不在本章范围。
+
+\begin{center}\begin{tikzpicture}[scale=1.05]
+\draw[structurecolor,thick] (0,0) circle (1.45);
+\draw[structurecolor] (-1.45,0) arc[start angle=180,end angle=360,x radius=1.45,y radius=.45];
+\draw[dashed] (-1.45,0) arc[start angle=180,end angle=0,x radius=1.45,y radius=.45];
+\draw[thick] (0,1.45) to[out=255,in=65] (-1.45,0);
+\draw[thick] (0,1.45) to[out=280,in=110] (0,-.45);
+\draw[thick] (-1.45,0) arc[start angle=180,end angle=270,x radius=1.45,y radius=.45];
+\node[above] at (0,1.45){北极};\node[left] at (-1.45,0){A};\node[below] at (0,-.45){B};
+\node[align=left] at (4,0){球面上的大圆边\\角和可大于$\pi$};
+\end{tikzpicture}\end{center}
+图为自绘透视示意，A、B沿赤道相差$\pi/2$；投影纸面角度不是球面内在角度。
+
+\originalsection{三维球面并非普通球的内部}
+正曲率三维空间可辅助嵌入四维欧氏空间，定义
+\[
+ X_1^2+X_2^2+X_3^2+X_4^2=R^2,\quad
+ (X_1,X_2,X_3)=R\sin\psi\,\mathbf n(\theta,\varphi),\quad X_4=R\cos\psi.
+\]
+这是三维\emph{表面}$S^3$，不是三维实心球。直接微分，$\mathbf n\cdot\dd\mathbf n=0$消掉混合项，得
+\[
+ \dd\ell^2=R^2[\dd\psi^2+\sin^2\psi(\dd\theta^2+\sin^2\theta\dd\varphi^2)],\quad0\leq\psi\leq\pi.
+\]
+四维旋转保持长度并可把任何一点送到极点，因此所有点等价：极点只是坐标选择。嵌入只是验证几何的手段，物理宇宙不必有一个可观测的第四空间方向。
+
+设径向弧长$\chi=R\psi$，距离$\chi$的二球面积为$4\pi R^2\sin^2(\chi/R)$。从极点到反极点距离$\pi R$，过赤道之后二球面积反而减小。整个空间体积为
+\[
+ V_{S^3}=4\pi R^3\int_0^\pi\sin^2\psi\dd\psi=2\pi^2R^3.
+\]
+若用$r=R\sin\psi$，可写$\dd\ell^2=\dd r^2/(1-r^2/R^2)+r^2\dd\Omega^2$，但同一个$r$对应赤道两侧的两个$\psi$。$r=R$处分母为零是坐标图失效，非几何奇点；需要第二张图或保留$\psi$，不能由此认定宇宙在赤道终止。
+
+\originalsection{负曲率的构造与均匀性}
+负曲率空间可辅助使用四维符号为$(-,+,+,+)$的平坦空间，取上支双曲面
+\[
+ -X_0^2+\mathbf X^2=-R^2,\quad X_0=R\cosh\psi,\quad
+ \mathbf X=R\sinh\psi\,\mathbf n,
+\]
+将环境空间的二次型限制到切向位移，得到正定空间度规
+\[
+ \dd\ell^2=R^2(\dd\psi^2+\sinh^2\psi\dd\Omega^2).
+\]
+这里辅助的$X_0$是构造坐标，不是宇宙时间。环境Lorentz型变换保持双曲面及其诱导长度，并可把任意上支点送到$(R,0,0,0)$，故负曲率空间也均匀；普通空间旋转则证明各向同性。
+
+令$\chi=R\psi$，面积$4\pi R^2\sinh^2(\chi/R)$比欧氏面积增长快，$\psi$从0到无穷。球内体积为
+\[
+ V(\chi)=\pi R^3[\sinh(2\chi/R)-2\chi/R].
+\]
+负曲率的二维Klein圆盘用有限坐标圆盘表示整个无限空间。若圆盘坐标$\mathbf q$满足$|\mathbf q|<1$，映回双曲面$X_0=R/\sqrt{1-q^2}$、$\mathbf X=R\mathbf q/\sqrt{1-q^2}$。两点的距离由环境内积得到
+\[
+ \cosh\frac{d_{12}}R=\frac{1-\mathbf q_1\cdot\mathbf q_2}{\sqrt{(1-q_1^2)(1-q_2^2)}}.
+\]
+径向从原点到$q$为$d=R\operatorname{artanh}q$，$q\to1$时距离发散。圆盘里画出的直弦是测地线，圆盘上的欧氏角却通常不是空间实际角。不能看见有限圆盘就判其体积有限。
+
+\originalsection{统一三种曲率并接到宇宙度规}
+本卷尺度因子$a$无量纲，共动曲率$K$单位为长度$^{-2}$，统一定义$S_K$后空间度规为
+\[
+ \dd\ell^2=a^2[\dd\chi^2+S_K^2(\chi)\dd\Omega^2].
+\]
+今天的曲率半径$R_{K0}=|K|^{-1/2}$，其他时刻实际半径为$aR_{K0}$。$K>0$时上文$R=aR_{K0}$，$\psi=\chi/R_{K0}$；$K<0$以双曲函数代替。极小距离时
+\[
+ S_K(\chi)=\chi-\frac{K\chi^3}{6}+O(K^2\chi^5),
+\]
+所以几何偏差是曲率乘以距离平方的量级。局部实验接近欧氏，不排除宇宙尺度可测的曲率。
+
+固定时间切片的体积元是$\dd V=a^3S_K^2(\chi)\dd\chi\dd\Omega$。距离章中的横向共动距离$D_M=S_K(\chi)$正是把实际面积$4\pi a^2D_M^2$写成欧氏形式时出现的量；它和径向弧长$\chi$只有平直时相同。加上共动钟测得的时间项$-c^2\dd t^2$便得到FLRW度规，而不是把三维球形图当作时空本身。
+
+\originalsection{曲率与拓扑、空间闭合与再坍缩}
+原第13讲在默认单连通模型下称正曲率有限、非正曲率无限。本卷明确这个默认：$S^3$是有限无边界，$\mathbb R^3$和$H^3$无限。但局部曲率零的三维环面也可有有限体积，负曲率空间也可取适当的紧致商。局部度规不唯一决定整体拓扑。
+
+“闭合空间”描述空间范围与拓扑，“再坍缩”描述时间演化。无压尘埃且$\Lambda=0$时二者有特殊对应；一般组分下必须从Friedmann方程求未来轨迹，不能由一张球面图替代动力学判断。本卷只使用单连通常曲率模型计算常规距离，非平凡拓扑的观测约束和分类保留为进阶范围。

@@ -1,0 +1,78 @@
+\originalchapter{尘埃宇宙的参数解与自由粒子的传播}
+本章对应8.286第9--15讲的解析演化与测地线应用。Friedmann式已经建立，本章先把可积模型真正解出来，再从局部自由运动推出宇宙中的动量红移。测地线的一般理论及黑洞时空详见广义相对论卷；这里计算的是课程所需的特定背景和相应时间定义。
+
+\originalsection{闭合尘埃模型的展开与收缩分支}
+取$\Lambda=p=0$且$K>0$，记实际曲率半径$R=a/\sqrt K$。因为$\rho R^3$不变，定义常长度
+\[
+ A=\frac{4\pi G\rho R^3}{3c^2}.
+\]
+Friedmann式化为$\dot R^2=c^2(2A/R-1)$。令$R=A(1-\cos\eta)$，则$\dd R=A\sin\eta\dd\eta$；在展开分支选择正根，$\dd t=(A/c)(1-\cos\eta)\dd\eta$。以大爆炸为$t=0$积分得
+\[
+ R=A(1-\cos\eta),\qquad ct=A(\eta-\sin\eta),\quad0<\eta<2\pi.
+\]
+此参数式平滑经过$\eta=\pi$的最大尺度$2A$，并继续到收缩；直接只取$\dot R>0$会漏掉后一分支。$\eta\ll1$时$R\simeq A\eta^2/2$、$ct\simeq A\eta^3/6$，恢复$R\propto t^{2/3}$。
+
+密度参数$\Omega=8\pi G\rho/(3H^2)$只含尘埃，代入得
+\[
+ \Omega=\frac2{1+\cos\eta},\qquad
+ Ht=\frac{\sin\eta(\eta-\sin\eta)}{(1-\cos\eta)^2}.
+\]
+同一个$\Omega>1$可对应展开或收缩，$H$的符号区分两者。若已知$H>0$，应取$\eta=\arccos(2/\Omega-1)\in(0,\pi)$；若$H<0$，取$2\pi-\arccos(2/\Omega-1)$。这样比含$\arcsin$的分象限表达更不易漏分支。最大尺度处$H=0$使$\Omega$发散，但密度、$R,t$有限；$\Omega$不是那个时刻的良好演化变量。
+
+\originalsection{开放与平直尘埃的年龄}
+对$K<0$用$R=a/\sqrt{-K}$与同一定义的$A$，有$\dot R^2=c^2(2A/R+1)$。令$R=A(\cosh\eta-1)$，类似积分得
+\[
+ R=A(\cosh\eta-1),\quad ct=A(\sinh\eta-\eta),\quad
+ \Omega=\frac2{1+\cosh\eta}.
+\]
+开放模型早期同样近尘埃平直解，晚期$R\simeq ct$，但它一直有物质，不能把晚期渐近性质说成所有时刻都为空的Milne模型。以$0<\Omega<1$表达年龄，得
+\[
+ Ht=\frac1{1-\Omega}-\frac{\Omega}{2(1-\Omega)^{3/2}}
+ \operatorname{arcosh}\left(\frac2\Omega-1\right).
+\]
+闭合展开分支则为
+\[
+ Ht=\frac{\Omega}{2(\Omega-1)^{3/2}}
+ \arccos\left(\frac2\Omega-1\right)-\frac1{\Omega-1}.
+\]
+两式$\Omega\to1$的极限都是$2/3$；数值计算近该点宜用级数或直接年龄积分，避免两个大数相减。$\Omega\to0$的开放极限为1。
+
+8.286第8--10讲用2013年例值$H_0\simeq67.3$ km/s/Mpc，平直纯尘埃给$t_0\simeq9.69$ Gyr。若另外的恒星年龄证据大于此值，冲突指向\emph{这一特定组分模型}，并非所有膨胀宇宙。正真空能延长相同今日$H_0$下的年龄，具体混合解见背景章。三条尘埃曲线也可独立比较：$K>0$回转，$K=0$永远减速，$K<0$逐渐近匀速。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\textwidth,height=4.8cm,xlabel={$ct/A$},ylabel={$R/A$},xmin=0,xmax=6.3,ymin=0,ymax=6,legend pos=north west]
+\addplot[structurecolor,domain=.001:359.9,samples=200,variable=\t] ({rad(\t)-sin(\t)},{1-cos(\t)});\addlegendentry{闭合尘埃}
+\addplot[black,dashed,domain=.001:2.9,samples=150,variable=\t] ({(exp(\t)-exp(-\t))/2-\t},{(exp(\t)+exp(-\t))/2-1});\addlegendentry{开放尘埃}
+\addplot[gray,domain=.001:6.3,samples=100] {(9/2)^(1/3)*x^(2/3)};\addlegendentry{平直尘埃}
+\end{axis}\end{tikzpicture}\end{center}
+平直曲线用$\dot R^2=2Ac^2/R$定义同一质量尺度$A$，不把不存在的有限曲率半径当作其半径。
+
+\originalsection{从驻值路径到有明确定义的参数}
+空间曲线长度是$\int\sqrt{g_{ij}\dot x^i\dot x^j}\dd\lambda$。改变路径而固定两端，积分分部后的Euler方程包含$1/\sqrt{g_{ij}\dot x^i\dot x^j}$。若用弧长作参数，这个因子成为常数，简化为
+\[
+ \frac{\dd}{\dd\lambda}(g_{\mu\nu}x'^\nu)
+ =\frac12\partial_\mu g_{\alpha\beta}x'^\alpha x'^\beta.
+\]
+对类时自由粒子用固有时$\tau$，满足$g_{\mu\nu}x'^\mu x'^\nu=-c^2$；对光则用仿射参数，不能用处处为零的固有时参数化。上式也由$L=g_{\mu\nu}x'^\mu x'^\nu/2$直接变分得出。展开导数并乘逆度规可得$x''^\mu+\Gamma^\mu_{\alpha\beta}x'^\alpha x'^\beta=0$。一般重参数化会增加沿切线的项；一个坐标加速度不能脱离参数定义比较。
+
+\originalsection{平直FLRW里物理动量为何随尺度因子衰减}
+取$\dd s^2=-c^2\dd t^2+a^2\delta_{ij}\dd x^i\dd x^j$。空间坐标不显含于度规，变分式的右侧为零，因此$a^2\dd x^i/\dd\tau=C_i$恒定。共动观察者测得粒子的本动速度为$v^i=a\dd x^i/\dd t$，$\dd t/\dd\tau=\gamma$，于是
+\[
+ p_{\hat i}=m\gamma v^i=\frac{mC_i}{a},\qquad
+ E=\sqrt{m^2c^4+p^2c^2}.
+\]
+因而无碰撞粒子的\emph{物理动量}随$a^{-1}$，是协变空间动量$p_i=ma^2x'^i$守恒的局部标架表达。光的仿射测地线也有同样的尺度律，$E=pc$给$1+z=a_o/a_s$。曲空间可用空间等距对称性作相同的局部推论；不能假定三个普通平移坐标在所有$K$都全局存在。
+
+重粒子非相对论时$v\simeq p/m\propto a^{-1}$；相对论时$v\simeq c$而不是同样按$a^{-1}$缩小。若存在碰撞、束缚引力或空间扰动，上述常量不再保留。星系内部的轨道和恒星半径不会因把背景$a$写进坐标就自动同步膨胀。
+
+\originalsection{黑洞径向落体为何看似牛顿式却有不同的钟}
+第15讲以Schwarzschild径向运动说明固有时和远处坐标时的区别；详细几何留给广义相对论卷。对外部真空取$f=1-r_s/r$，$r_s=2GM/c^2$，类时粒子有守恒$e=f\dd t/\dd\tau$。规范条件给
+\[
+ \left(\frac{\dd r}{\dd\tau}\right)^2=c^2(e^2-f),\qquad
+ \frac{\dd^2r}{\dd\tau^2}=-\frac{GM}{r^2}.
+\]
+第二式虽与牛顿形式相同，$r$是面积半径，$\tau$是落体自己的钟，不能据此否定相对论修正。由$r_0$处相对静止释放，$e^2=f(r_0)$，以$r=r_0\cos^2\theta$积分得
+\[
+ \tau=\sqrt{\frac{r_0^3}{2GM}}(\theta+\sin\theta\cos\theta),\quad
+ 0\leq\theta\leq\frac\pi2.
+\]
+到$r=0$的理想点粒子固有时有限，实际潮汐破坏和经典奇点处理论失效须另外讨论。接近$r_s$时$\dd t/\dd\tau=e/f$使Schwarzschild坐标时发散；这不等于落体自己的钟在视界停下。课程所需的具体轨道数值应用另见恒星与致密天体习题，不复制GR卷整套证明。
