@@ -30,6 +30,27 @@ Junior Lab光电效应实验用汞灯、窄带滤光片、光电管、可调反�
 $\lambda=2\Delta L/N=632.9\,\mathrm{nm}$，相对方差 $(u_\lambda/\lambda)^2=(u_L/\Delta L)^2+(u_N/N)^2$，得 $u_\lambda\simeq2.5\,\mathrm{nm}$。这个输入是明确的教学模拟读数；若 $\Delta L$ 与计数端点相关，还需协方差项。
 \end{solution}
 
+\originalsection{原手册的PZT、光电二极管与示波器读出}
+原Optical Interferometry手册的镜位移由压电换能器PZT驱动，微分头读数例题只用于说明几何关系，不能替代这套原测量链。函数发生器同时接PZT及示波器CH2，光电二极管的放大输出接CH1；CH2提供驱动电压 $V_{\rm PZT}(t)$，CH1提供强度的电压表示 $V_{\rm PD}(t)$。对齐两束光在二极管上的位置、使两臂长度接近并选择可用对比度，才能把干涉相位读出来。
+
+在选定扫描支路内采用独立标定 $x(V)=x_0+\kappa_V V$。手册举例器件标签为 $\kappa_V=(41.6\pm1.3)\,\mathrm{nm/V}$，这是手册的标定示例，不是本项目真实器件的测量结果。往返光程给
+\[
+ V_{\rm PD}=V_{\rm dark}+A[1+\mathcal V\cos(\phi_0+4\pi\kappa_V V_{\rm PZT}/\lambda)].
+\]
+函数发生器推荐起始设置为10 Hz、10 V峰峰值的正弦或三角波。应记录实际终端电压、示波器探头比例及负载条件，而不是只读发生器面板；信号的同一单调支路可避免把往返扫描中的同相点混为邻近条纹。PZT滞回、蠕变与非线性需要比较上升、下降支路，不能靠增加条纹数消去标定误差。
+
+相邻同相极值的驱动电压间隔为 $\Delta V_{\rm fringe}$，故 $\lambda=2\kappa_V\Delta V_{\rm fringe}$；若用相邻最大与最小，则相位差为 $\pi$，应为 $\lambda=4\kappa_V\Delta V_{\rm half}$。跨N个完整条纹用 $\lambda=2\kappa_V(V_{m+N}-V_m)/N$。也可对一组同相极值拟合 $V_m=V_*+m\Delta V_{\rm fringe}$，检查残差曲率。\emph{驱动电压的极值并不是光电电压的极值}，这两个通道必须按同一时刻配对。
+
+独立校准与间隔读数时，$u_\lambda^2=(2\Delta V_{\rm fringe})^2u_{\kappa_V}^2+(2\kappa_V)^2u_{\Delta V}^2$；共享探头增益或拟合相关性应补协方差项。取手册示例标签，并\emph{另设教学模拟}间隔 $(7.60\pm.03)$ V，实际计算给 $\lambda=632.32$ nm、$u_\lambda=19.92$ nm，主要误差来自PZT标签的独立标定。没有将此模拟读数称为原实验观测。
+
+手册分析题要求求可见度并解释非理想性、由电压校准推断波长。先减去暗电压后，$\mathcal V=(V_{\max}-V_{\min})/(V_{\max}+V_{\min}-2V_{\rm dark})$；两臂强度不等、偏振不一致、波前失配和相干长度限制都可降低它。记录极值时间、电压、支路方向和器件标签，保存原始双通道轨迹，才能分别追溯随机读数与共享校准误差。
+
+\begin{center}\begin{tikzpicture}[>=Stealth,node distance=1cm]
+\node[draw](g) at (0,0){函数发生器};\node[draw](p) at (3,0){PZT与镜};\node[draw](d) at (6,0){光电二极管};
+\draw[->](g)--node[above]{驱动电压}(p);\draw[->,dashed](p)--node[above]{干涉强度}(d);
+\node[draw](c2) at (0,-1.1){示波器CH2};\node[draw](c1) at (6,-1.1){示波器CH1};\draw[->](g)--(c2);\draw[->](d)--(c1);
+\end{tikzpicture}\end{center}
+
 \originalsection{光电截止点的推断及误差预算}
 发射电子通常具有动能分布而非都在最大能量处。理想一维示意中，反向势 $V$ 截走 $K<eV$ 的电子，$I(V)\propto\int_{eV}^{K_{\max}}f(K)\dd K$；真实光电管还包含角度接受与阴阳极几何。因此取电流零交点、尾部线性外推或某固定分数电流的方法会给不同系统偏移。手册要求保留实际曲线，是因为这个推断环节不能由爱因斯坦直线公式代替。
 

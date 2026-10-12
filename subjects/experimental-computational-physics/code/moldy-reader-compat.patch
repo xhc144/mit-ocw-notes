@@ -1,0 +1,80 @@
+diff --git a/src/dumpext.c b/src/dumpext.c
+index a3682d1..03de3a6 100644
+--- a/src/dumpext.c
++++ b/src/dumpext.c
+@@ -111,7 +111,7 @@ put(float *buf, int n, int bflg)
+ 
+ static
+ int read_dump_header(char *fname, FILE *dumpf, dump_mt *hdr_p, boolean *xdr_write,
+-		     size_mt sysinfo_size, dump_sysinfo_mt *dump_sysinfo)
++		     size_mt sysinfo_size, dump_sysinfo_mt *dump_sysinfo, int full_sysinfo)
+ {
+    int      errflg = true;	/* Provisionally !!   */
+    char     vbuf[sizeof hdr_p->vsn + 1];
+@@ -163,7 +163,7 @@ int read_dump_header(char *fname, FILE *dumpf, dump_mt *hdr_p, boolean *xdr_writ
+    
+    if( dump_sysinfo == 0)
+       return errflg;
+-   else if ( sysinfo_size == sizeof(dump_sysinfo_mt) )
++   else if ( !full_sysinfo )
+    {
+       /*
+        * Now check for sysinfo and read fixed part of it.  This is needed to
+@@ -258,7 +258,7 @@ extract(char *dump_name, int cpt_mask, list_mt *molecules, cpt_mt *cpt, int ncpt
+ #endif
+          
+    if( read_dump_header(dump_name, dump_file, &header, &xdr, 
+-			sysinfo_size, dump_sysinfo) 
++			sysinfo_size, dump_sysinfo, 1) 
+        || ferror(dump_file) || feof(dump_file) )
+    {
+       fprintf(stderr, "Failed to read dump header \"%s\"\n", dump_name);
+@@ -564,7 +564,7 @@ main(int argc, char **argv)
+       sysinfo_size = sizeof(dump_sysinfo_mt);
+       dump_sysinfo = (dump_sysinfo_mt*)malloc(sysinfo_size);
+       if( read_dump_header(dump_name, dump_file, &header, &xdr, 
+-			   sysinfo_size, dump_sysinfo) 
++			   sysinfo_size, dump_sysinfo, 0) 
+ 	                       || ferror(dump_file) || feof(dump_file) )
+       {
+ 	 fprintf(stderr, "Failed to read dump header \"%s\"\n", dump_name);
+@@ -601,7 +601,7 @@ main(int argc, char **argv)
+       */
+       (void)rewind_dump(dump_file, xdr);
+       if( read_dump_header(dump_name, dump_file, &header, &xdr, 
+-        sysinfo_size, dump_sysinfo) 
++        sysinfo_size, dump_sysinfo, 1) 
+           || ferror(dump_file) || feof(dump_file) )
+       {
+ 	fprintf(stderr, "Failed to read dump header \"%s\"\n", dump_name);
+diff --git a/src/msd.c b/src/msd.c
+index 64fc3b2..2a9dd01 100644
+--- a/src/msd.c
++++ b/src/msd.c
+@@ -455,7 +455,7 @@ main(int argc, char **argv)
+ 
+    if( verbose ) message(NULLI, NULLP, INFO, HEADER);
+ 
+-#if defined (HAS_POPEN) 
++#if defined (HAVE_POPEN) 
+    pclose(Hp);
+ #else
+    fclose(Hp);
+@@ -609,7 +609,7 @@ main(int argc, char **argv)
+    }
+    xfree(dump_buf);
+ 
+-#if defined (HAS_POPEN) 
++#if defined (HAVE_POPEN) 
+    pclose(Dp);
+ #else
+    fclose(Dp);
+diff --git a/src/utlsup.c b/src/utlsup.c
+index d2657a8..7e0da6b 100644
+--- a/src/utlsup.c
++++ b/src/utlsup.c
+@@ -1,3 +1,4 @@
++#include <ctype.h>
+ #include "defs.h"
+ #include <stdarg.h>
+ #include <errno.h>
