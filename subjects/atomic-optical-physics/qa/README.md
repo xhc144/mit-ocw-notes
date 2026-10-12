@@ -6,7 +6,7 @@
 - 全页 130 dpi 渲染；编者逐页查看标题、公式、表格、图、图注、页眉页脚及留白。`visual-audit.json` 对应最终 PDF 哈希及每页渲染哈希。相同像素哈希的最终页沿用实际看过的页面；改版页重新查看。
 - 无未定义引用、缺字或 overfull 报错。仅有 underfull 提示；已查看对应来源表/图注。目录末页和书目留白是自然分页，没有空白占位章。
 - `compilation-record.json` 记录编译输入哈希；`all-pages-render-record.json` 记录所有页。渲染缓存 PNG 不加入公开仓库。
-- 源码 ZIP 解压到全新临时目录，实际再次 XeLaTeX 编译并核对页数、PDF 提取文本、ZIP CRC 和所有输入文件哈希；见 `clean-rebuild.json`。构建机补齐 TeX Live 的 ctex、xeCJK、Fandol 与 CMU 依赖，字体文件不再分发。
+- 源码 ZIP 解压到全新临时目录，实际再次 XeLaTeX 编译并核对页数、PDF 提取文本、ZIP CRC 和所有输入文件哈希；见仓库同目录的 [`clean-rebuild.json`](https://github.com/xhc144/mit-ocw-notes/blob/main/subjects/atomic-optical-physics/qa/clean-rebuild.json)（该发布后验收记录不装入源码ZIP，以免形成循环哈希）。构建机补齐 TeX Live 的 ctex、xeCJK、Fandol 与 CMU 依赖，字体文件不再分发。
 
 数学与题面核对：
 
@@ -17,3 +17,5 @@
 原件与出版边界见 `../SOURCES.md` 和 `../LICENSE.md`；正式包不含原版 PDF、原页截图、OCR文本、商业教材或外部字体。
 
 修订版补入Welton领先对数、Casimir模式和、Mollow相干/非相干谱及权重/半宽、缀饰力噪声与Sisyphus循环、蒸发效率与runaway、愈合长度/TF/耗尽/Mott平均场、Cooper与BCS、Cirac–Zoller三脉冲。revision-math-results.json 核验固定B/P端口正号、严格阈值边界、耗尽积分、平均场尖点及离子CZ脉冲；考试所需两组能级/跃迁图和光散射虚态图实际绘制。严格QED、多体临界及硬件噪声不在这些有限检查的证明范围。新版独立数学接收仍由父任务抽查。
+
+父任务最后有限清单的正文位置与修正见 `parent-final-closure.json`。旧版已经通过的内容保留，新版机械验证及独立定点接收分开记录。

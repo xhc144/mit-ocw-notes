@@ -19,8 +19,24 @@ integrand=q*q/(2*D*(q*q+1+D))/(1-t)**2
 integ=float(np.trapezoid(integrand,t));expected=1/(3*math.sqrt(2));assert abs(integ-expected)<1e-6
 out['Bogoliubov_depletion_integral']={'numeric':integ,'analytic':expected,'residual':abs(integ-expected)}
 x=math.sqrt(2)-1;tip=x*(1-x)/(x+1);out['Mott_MF_n1_tip_zJ_over_U']=tip;assert abs(tip-(math.sqrt(2)-1)**2)<1e-12
-out['evaporation_example']={'eta':8,'kappa_approx':1,'alpha':2,'fixed_omega_efficiency':5,'fixed_omega_elastic_N_exponent':-1,
- 'lowered_optical_omega_T_power':.5,'optical_efficiency':2,'optical_elastic_N_exponent':2}
+alpha0=(8+1-3)/3;nu=.5;alpha=alpha0/(1-nu)
+assert alpha==4 and 3*(1-nu)*alpha-1==5 and 1+(3*nu-1)*alpha==3
+out['evaporation_example']={'eta':8,'kappa_approx':1,'fixed_omega_alpha0':alpha0,'fixed_omega_efficiency':5,'fixed_omega_elastic_N_exponent':-1,
+ 'lowered_optical_omega_T_power':nu,'optical_alpha_total':alpha,'optical_efficiency':5,'optical_elastic_N_exponent':3,
+ 'N_half_fixed_T_ratio':.5**alpha0,'N_half_optical_T_ratio':.5**alpha,'PSD_gain_both_models':32,
+ 'runaway_fixed_frequency_R_min_over_lambda':1/(alpha0-1),'optical_runaway_A':(1-3*nu)*alpha}
+# Finite-difference energy balance includes mechanical work, not fixed-trap cooling.
+for nu0 in [0,.25,.5]:
+ a=alpha0/(1-nu0);dlnN=-1e-6;N1=math.exp(dlnN);T1=math.exp(a*dlnN);w1=math.exp(nu0*a*dlnN)
+ lhs=3*(N1*T1-1);rhs=9*dlnN+3*math.log(w1)
+ assert abs(lhs-rhs)<1e-9
+# Actual BCS pairing block eigenvector agrees with the variational formulas.
+out['BCS_pairing_blocks']=[]
+for xi in [-2,-.3,0,.3,2]:
+ delta=.7;E=math.sqrt(xi*xi+delta*delta);u=math.sqrt((1+xi/E)/2);v=math.sqrt((1-xi/E)/2)
+ H=np.array([[0,-delta],[-delta,2*xi]])
+ residual=float(np.max(abs(H@np.array([u,v])-(xi-E)*np.array([u,v]))));assert residual<1e-12
+ out['BCS_pairing_blocks'].append({'xi':xi,'delta':delta,'eigen_residual':residual})
 # Cirac-Zoller control red pi, target auxiliary red 2pi, inverse control pi.
 def ix(c,t,n):return c*6+t*2+n
 Uc=np.eye(12,dtype=complex);Ut=np.eye(12,dtype=complex)
