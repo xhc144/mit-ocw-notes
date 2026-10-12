@@ -1,6 +1,6 @@
 # 凝聚态与量子多体
 
-中文主卷：[condensed-matter-zh.pdf](condensed-matter-zh.pdf)；独立源码：[condensed-matter-source.zip](condensed-matter-source.zip)。64个PDF物理页（6页前置目录、58页正文与参考文献），18章理论、9章作业、1章来源说明。正文使用仓库已批准的中文XeLaTeX模板，公式为TeX，图为TikZ/PGFPlots；没有原PDF整页背景。
+中文主卷：[condensed-matter-zh.pdf](condensed-matter-zh.pdf)；独立源码：[condensed-matter-source.zip](condensed-matter-source.zip)。66个PDF物理页（6页前置目录、60页正文与参考文献），18章理论、9章作业、1章来源说明。正文使用仓库已批准的中文XeLaTeX模板，公式为TeX，图为TikZ/PGFPlots；没有原PDF整页背景。
 
 | 课程版本 | 实际公开材料 | 本卷位置 |
 |---|---|---|

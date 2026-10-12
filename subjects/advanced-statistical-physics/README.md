@@ -1,13 +1,13 @@
 # 高级统计力学与统计场论
 
-中文主卷：[advanced-statistical-physics-zh.pdf](advanced-statistical-physics-zh.pdf)；可独立编译的源码：[advanced-statistical-physics-source.zip](advanced-statistical-physics-source.zip)。主卷为84个PDF物理页（6页前置内容、78页正文及参考文献），含19章理论、19章作业与复习题，以及1章来源和证明范围说明。两门课程合成一卷，理论按先修关系贯通，原编号保留在练习标题和来源清单中。
+中文主卷：[advanced-statistical-physics-zh.pdf](advanced-statistical-physics-zh.pdf)；可独立编译的源码：[advanced-statistical-physics-source.zip](advanced-statistical-physics-source.zip)。主卷为88个PDF物理页（6页前置内容、82页正文及参考文献），含19章理论、19章作业与复习题，以及1章来源和证明范围说明。两门课程合成一卷，理论按先修关系贯通，原编号保留在练习标题和来源清单中。
 
 | 课程版本 | 官方站实际公开材料 | 本卷位置 |
 |---|---|---|
 | [8.333 Fall 2013](https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/)，Mehran Kardar | 26份讲义、6套作业、3套阶段复习题与对应官方答案、1套期末复习包与答案；讲义注明来自较早版本，确切原稿年份不明 | 理论1–7章、作业与复习题20–29章 |
 | [8.334 Spring 2014](https://ocw.mit.edu/courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014/)，Mehran Kardar | 26份讲义、6套作业、3套阶段复习题与对应官方答案；讲义注明来自较早版本，确切原稿年份不明 | 理论8–19章、作业与复习题30–38章 |
 
-两门课合计98份实际取得的PDF、1226个源PDF物理页，其中包含题目与答案重叠页面；另保存官方日历、大纲、52条视频链接和20份公开文字视频参考的元数据。本卷没有冒称逐字翻译52场视频。逐文件URL、名称、字节数、SHA-256、页数和例外见 [source-manifest.json](sources/source-manifest.json)；编写前冻结的范围见 [coverage-frozen.json](sources/coverage-frozen.json)，52节官方日历主题与中文小节的对应见 [coverage.json](coverage.json)。原PDF和网页只在本地核查，公开包不重分发。
+两门课合计取得78份讲义、作业及复习PDF，另有20份公开文字视频参考PDF；共98份、1226个源PDF物理页，其中包含题目与答案重叠页面。还保存官方日历、大纲及52条视频链接的元数据。本卷没有冒称逐字翻译52场视频，也没有把文字视频参考算作课程题集。逐文件URL、名称、字节数、SHA-256、页数和例外见 [source-manifest.json](sources/source-manifest.json)；编写前冻结的范围见 [coverage-frozen.json](sources/coverage-frozen.json)，52节官方日历主题与中文小节的对应见 [coverage.json](coverage.json)。原PDF和网页只在本地核查，公开包不重分发。
 
 按原卷顶层编号，8.333有56个作业位置和47个复习位置，8.334有29个作业位置和32个复习位置，共164个原位置。本卷新写138个位置，合并同源的三维与二维Dirac题为137个习题环境；10个完整重复位置指向本卷已有解，16个位置指向已公开热统卷的12道习题及4次历史重复引用。因此164不是164道不同的新题。原题全部明确公开的小问均有答案或精确到现有解答的引用；[assessment-inventory.json](qa/assessment-inventory.json)逐套列明。官方有解答的复习包与本卷独立推导的中文解答分别标明，并在题内保留可核对的差异。
 

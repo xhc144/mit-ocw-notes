@@ -103,7 +103,7 @@ H=-\frac K4\int\Tr(\nabla\pi)^2+\frac K8\int\Tr[(\pi\nabla\pi)^2+\pi^2(\nabla\pi
 \end{equation}
 两个四阶项因矩阵不对易不能合成标量单项。$\pi_{ij}=-\pi_{ji}$有$N(N-1)/2$个独立实模，$H_0=K\sum_{i<j}\int(\nabla\pi_{ij})^2/2$，所以$\avg{\pi_{ij}(q)\pi_{kl}(q')}=(2\pi)^d\delta(q+q')(\delta_{ik}\delta_{jl}-\delta_{il}\delta_{jk})/(Kq^2)$。
 
-$\avg{\pi^2}_>=-(N-1)I,I_N/K$，故$\avg{\Tr\sigma}_>=N[1-(N-1)I/(2K)]$、$\zeta=1-(N-1)I/(2K)$为\textbf{平均}长度/迹的恢复因子。官方旁注说正交矩阵本征值全$\pm1$、近$I$的迹恒$N$，这是错误的：二维转动本征$\e^{\pm\ii\theta}$、迹$2\cos\theta$即反例。本推导不使用该旁注，也不将每个涨落矩阵的迹强行固定$N$。
+$\avg{\pi^2}_>=-[(N-1)I/K]I_N$，故$\avg{\Tr\sigma}_>=N[1-(N-1)I/(2K)]$、$\zeta=1-(N-1)I/(2K)$为\textbf{平均}长度/迹的恢复因子。官方旁注说正交矩阵本征值全$\pm1$、近$I$的迹恒$N$，这是错误的：二维转动本征$\e^{\pm\ii\theta}$、迹$2\cos\theta$即反例。本推导不使用该旁注，也不将每个涨落矩阵的迹强行固定$N$。
 
 (g)写慢梯度$A=\nabla\pi_<$、快矩阵$B=\pi_>$，两直接梯度收缩分别$\avg{\Tr(BABA)}=-(I/K)\Tr A^2$、$\avg{\Tr(B^2A^2)}=-(N-1)(I/K)\Tr A^2$，来自上述两Kronecker项逐索引求和。四阶系数$K/8$合成$-NI\Tr A^2/8$，与二次$-K\Tr A^2/4$比较即$\widetilde K=K+NI/2$。快速梯度收缩只移局域/测度相关项，不在此直接动能投影中重复计数。
 
@@ -121,9 +121,26 @@ $h'=b^d\zeta h$，临界$y_h=d-(N-1)\epsilon/(N-2)=2-\epsilon/(N-2)$。SO(3)局�
 \begin{equation}
 \frac{\delta G_k}{G_k^0}=\frac{y^2}{4a^4}\int\dd^2x\dd^2y\,(a/|x-y|)^{p^2/(2\pi K)}[\cosh(kpD/K)-1]+O(y^4).
 \end{equation}
-减1正是分母配分的断连扣除。小偶极$r_d=x-y$有$D\simeq r_d\cdot[\nabla C(r-x)-\nabla C(x)]$，角平均与中心积分$\int|\nabla C(r-x)-\nabla C(x)|^2=2C(r)$给$\delta K=(\pi p^2/4)y^2\int_a^\infty(r_d^3\dd r_d/a^4)(a/r_d)^{p^2/(2\pi K)}$。该积分在$K\ge\pi/2$IR发散，指示锁定相关。
+减1正是分母配分的断连扣除。为区分完整Green函数与一次RG壳，写$C(r)=C_<(r)+C_>(r)$，其中
+\begin{equation}
+C_>(r)=\int_{\Lambda\e^{-\dd\ell}<|q|<\Lambda}\frac{\dd^2q}{(2\pi)^2}
+\frac{1-\cos(q\cdot r)}{q^2}
+=\frac{\dd\ell}{2\pi}[1-J_0(\Lambda r)]+O((\dd\ell)^2).
+\end{equation}
+它用于重整顶点$y'=b^2\e^{-p^2\langle h_>^2\rangle/2}y$；计算长距响应中的中心积分则要保留低动量Green函数。小偶极$s=x-y$有$D\simeq s\cdot F(R)$，$F(R)=\nabla C(r-R)-\nabla C(R)$。对$R$做分部积分（边界以相同UV/IR截断处理），用$\nabla^2C(R)=\delta(R)$，或等价地用Parseval，可逐步得
+\begin{equation}
+\int\dd^2R\,|F(R)|^2
+=2\int\frac{\dd^2q}{(2\pi)^2}\frac{1-\cos(q\cdot r)}{q^2}
+=2C(r).
+\end{equation}
+相对位移的角积分$\int\dd\varphi(s\cdot F)^2=\pi s^2|F|^2$，代回上式的$y^2/(4a^4)$并与$G_k=\exp[-k^2C/K_{\rm eff}]$对照，得到
+\begin{equation}
+\delta K=\frac{\pi p^2}{4}y^2\int_a^\infty\frac{s^3\dd s}{a^4}
+\left(\frac as\right)^{p^2/(2\pi K)}.
+\end{equation}
+该积分在$K\ge\pi/2$（$p=2\pi$）IR发散，指示锁定相关。它不是把全部$s$一口气改成RG增量；只有$a<s<a\e^{\dd\ell}$一壳给$\dot K=\pi p^2y^2/4$。
 
-以此显写的$y/a^2$及圆形相对位移截断归一化，$\dot y=(2-\pi/K)y$、$\dot K=\pi^3y^2$；重定义$y$可改变二阶系数，作业6的$h_p$沿官方系数约定，线性顶点维与$K_c$不变。$K_R<\pi/2$且逸度流0为粗糙对数相；较大刚度锁到整数高度，为平相；边界类BKT，有限裸逸度使裸临界线偏离单一$\pi/2$。
+以此显写的字面$y/a^2$及圆形相对位移截断，$\dot y=(2-\pi/K)y$、$\dot K=\pi^3y^2$。作业6原题把二阶流写为$\dot K=\pi p^2h_p^2/2$；对同一个$p=2\pi$余弦顶点，本文圆壳的字面系数$y$与该题二阶规范的振幅关系为$y=\sqrt2h_p$。两种逸度的线性尺度维相同，改变二阶规范不改$K_c$；不可在一个方程里混用$y$的字面定义和$h_p$的二阶系数。$K_R<\pi/2$且逸度流0为粗糙对数相；较大刚度锁到整数高度，为平相；边界类BKT，有限裸逸度使裸临界线偏离单一$\pi/2$。
 
 粗糙侧临界重整化刚度$K_R=\pi/2$，长距方差领先$[2/\pi^2]\log(r/a)$；平相长距饱和。因此普适跃变是
 \begin{equation}

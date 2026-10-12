@@ -1,6 +1,6 @@
 \originalchapter{级数、闭环与对偶}
 \label{ch:duality}
-\source{8.334 L15--L17。}
+\source{8.334 L15--L18；L17的无约束闭游走是近似，L18的转角求和给二维精确计数。}
 \originalsection{高温展开与低温畴壁}
 Ising键$\e^{Ks_is_j}=\cosh K(1+s_is_j\tanh K)$，逐键相乘后对所有自旋求和，任何顶点若有奇数入边则该自旋求和为0。故$Z=2^N(\cosh K)^{N_b}\sum_{\rm even\ graphs}(\tanh K)^{|G|}$，图在每顶点偶度，在二维可分成闭环但交叉与重叠的计数须保留。
 
@@ -16,4 +16,56 @@ Ising键$\e^{Ks_is_j}=\cosh K(1+s_is_j\tanh K)$，逐键相乘后对所有自旋
 \originalsection{随机游走生成与phantom环}
 Gaussian格点场的二次矩阵写$A=I-w\mathsf J$，$\mathsf J$为邻接矩阵，则$\log Z=-\frac12\log\det A+\mathrm{const}=\frac12\sum_{l\ge1}w^l\Tr\mathsf J^l/l+\mathrm{const}$。$\Tr\mathsf J^l$计起点相同的闭游走，$1/l$除去起点重复，$1/2$与无向或实场计数相联。这些游走可自交、重复走边，故称phantom环。
 
-它可总结高温图的Gaussian近似，解释高维临界的均场结构，但不是把每个Ising偶图精确计一次。二维精确求和还需转角相位，使交叉路径的过计数抵消（Kac--Ward/Pfaffian形式）。图的权重与符号结构不能只用“所有闭环都有同样权”替代。
+具体把一次走步定义为邻接矩阵$\mathsf J_{rr'}=1$（最近邻）或0，长$\ell$的游走矩阵便是$W(\ell)=\mathsf J^\ell$。平移不变的$d$维超立方晶格上$|q\rangle$为本征向量，$\lambda(q)=2\sum_{\alpha=1}^d\cos q_\alpha$。同一phantom近似中，两点相关由所有开放游走求和为
+\begin{equation}
+G_{\rm ph}(r)=\sum_{\ell\ge0}t^\ell\langle r|\mathsf J^\ell|0\rangle
+=\int_{[-\pi,\pi]^d}\frac{\dd^dq}{(2\pi)^d}
+\frac{\e^{\ii q\cdot r}}{1-2t\sum_\alpha\cos q_\alpha}.
+\end{equation}
+当$t<1/(2d)$，小$q$分母为$1-2dt+tq^2+O(q^4)$，故$\xi_{\rm ph}^2=t/(1-2dt)$，近伪临界$t_c^{\rm ph}=1/(2d)$时$\xi\propto(t_c^{\rm ph}-t)^{-1/2}$。闭游走的迹和则给每站$\log S' /N=-\frac12\int\dd^dq/(2\pi)^d\log[1-2t\sum_\alpha\cos q_\alpha]$，其奇异部分按$\xi^{-d}$缩放。由此直接得到Gaussian $\nu=1/2,\eta=0$；随机游走分形维数2，两条游走在$d<4$易相交，说明四维以下忽略交叉并不自洽。这里的$G_{\rm ph}$和$\xi_{\rm ph}$是\emph{近似}结果，二维实际Ising临界$t_c=\sqrt2-1$，不可把伪临界$1/4$误作精确值。
+
+它可总结高温图的Gaussian近似，解释高维临界的均场结构，但不是把每个Ising偶图精确计一次。二维精确求和需要如下局域转角相位，而非让所有闭环带相同权。
+
+\originalsection{从偶图到带符号的有向闭环}
+记$t=\tanh K$。原Ising偶图在每条边上只取0或1次；Gaussian的$\exp(\text{单环和})$却允许边重复。方格四度顶点有三种把四条边接成路径的方式：两种不自交、一种自交。令自交方式带负号，三种权重和为$1+1-1=1$，恰还原原偶图该顶点的单一权重。若一条边被两条路径占用，可交换路径在这条边两侧的接法；交换前后自交奇偶相反，贡献相消。立刻沿原边折返的U形转弯不能如此配对，故必须禁止反向一步。这两项是原讲义L18的消重规则，不是Gaussian近似自动具有的性质。
+
+对无立即折返的平面有向闭路径$\gamma$，令$n_\times$为自交次数，$\Theta=\sum_j\theta_j$为切向量的总转角。平面Whitney奇偶关系给
+\begin{equation}
+(-1)^{n_\times}=-\exp(\ii\Theta/2)
+=-\prod_j\exp(\ii\theta_j/2).
+\end{equation}
+简单方环转角$\Theta=\pm2\pi$，权重为正；一次自交把奇偶号翻转。右转、左转、直行的局域因子分别为$\e^{-\ii\pi/4},\e^{\ii\pi/4},1$，反向因子为0。全路径看似非局域的交叉号由此变成可逐步相乘的权。闭路径有两种取向，指定起点的$\ell$个选择还须除以$\ell$。
+
+\originalsection{四方向矩阵与精确行列式}
+把出发方向按右、上、左、下排为$\mu=1,2,3,4$。在Fourier空间，无折返的有向一步矩阵写为$T_*(q)=D(q)C$，其中
+\begin{equation}
+D(q)=\operatorname{diag}(\e^{-\ii q_x},\e^{-\ii q_y},
+\e^{\ii q_x},\e^{\ii q_y}),\qquad
+C=\begin{pmatrix}
+1&z&0&z^{-1}\\
+z^{-1}&1&z&0\\
+0&z^{-1}&1&z\\
+z&0&z^{-1}&1
+\end{pmatrix},\quad z=\e^{\ii\pi/4}.
+\end{equation}
+例如第一行的0排除从左到达后立即向右折返；$z$与$z^{-1}$记录左、右转。对单连通平面区域，先在$t$小的收敛域逐阶展开，交叉与重边相消后可解析延续：
+\begin{equation}
+S_{\rm even}
+=\exp\!\left[-\frac12\sum_{\ell\ge1}\frac{t^\ell}{\ell}
+\operatorname{Tr}T_*^\ell\right]
+=\det(I-tT_*)^{1/2}.
+\end{equation}
+负号来自$(-1)^{n_\times}=-\e^{\ii\Theta/2}$；$1/2$除去闭路径的两个方向。最先的四步方环在$\operatorname{Tr}T_*^4$中带负号，代入负半迹后给每个方格$+t^4$，与原高温展开核对。有限环面有绕圈拓扑扇区，不能把上式的单个行列式当成全部有限尺寸配分函数；以下Fourier式取体自由能极限。
+
+对上面的显式$4\times4$矩阵直接展开行列式，得到
+\begin{equation}
+\det[I-tT_*(q)]=(1+t^2)^2
+-2t(1-t^2)(\cos q_x+\cos q_y).
+\end{equation}
+因此方格体自由能满足
+\begin{equation}
+-\beta f=\log(2\cosh^2K)+\frac12\int_{[-\pi,\pi]^2}
+\frac{\dd^2q}{(2\pi)^2}
+\log\!\left[(1+t^2)^2-2t(1-t^2)(\cos q_x+\cos q_y)\right].
+\end{equation}
+在$q=0$行列式首次为0的条件是$1-2t-t^2=0$，故$t_c=\sqrt2-1$。原L17的无符号闭游走矩阵只给$1-2t(\cos q_x+\cos q_y)$，其伪临界$t=1/4$及奇异形式均不同。这里的转角相位和消重正是使结果精确的步骤；第\ref{ch:ising2}章给同一自由能的费米传递矩阵核对。
