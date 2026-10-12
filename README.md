@@ -28,7 +28,7 @@
 
 ## 物理讲义
 
-下列九科均已提供中文 PDF 与可编辑源码，合计 **9册，862个PDF物理页**。新增量子场论148页、广义相对论109页，本轮选定材料已发布；量子场论有界独立抽查通过，广义相对论独立抽查中；此前七科共605页，验收状态及正文、考核与未收录范围见表格和各册说明。
+下列九科均已提供中文 PDF 与可编辑源码，合计 **9册，862个PDF物理页**。新增量子场论148页、广义相对论109页，本轮选定材料已发布；两科有界独立抽查通过；此前七科共605页，验收状态及正文、考核与未收录范围见表格和各册说明。
 
 | 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
 |---|---|---|---:|---|---|
@@ -40,7 +40,7 @@
 | [热学与统计物理](subjects/thermal-statistical-physics/README.md) | 8.044（Spring 2013）冻结资料为主，补充8.333（Fall 2013）讲义15–22及PS5所选题目；从热平衡、熵与热力学势讲到系综、量子气体和相变；16章正文，86题、270个字母小问及2个嵌套小问。 | 本轮选定范围完成 | 69 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/thermal-statistical-physics/thermal-statistical-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/thermal-statistical-physics/thermal-statistical-physics-source.zip) · [覆盖清单](subjects/thermal-statistical-physics/qa/assessment-source-audit.json) |
 | [基础力学](subjects/introductory-mechanics/README.md) | 8.01SC（Fall 2016）第1–25、31章为主，补充8.012（Fall 2008）精选；14章主题重编，讲运动学、牛顿定律、动量与能量、碰撞、刚体、轨道和振动；含97题、235项叶级作答请求，流体与热学另科处理。 | 本轮选定范围完成 | 58 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/introductory-mechanics/introductory-mechanics.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/introductory-mechanics/introductory-mechanics-source.zip) · [覆盖范围](subjects/introductory-mechanics/qa/textbook-coverage-review.md) |
 | [量子场论](subjects/quantum-field-theory/README.md) | Hong Liu 的8.323（Spring 2023）与8.324（Fall 2010）；从局域场、传播子和路径积分讲到QED、非Abel规范场及重整化群；19章理论、19套作业，收录63道大题题解及2道混合题的公开子问。 | 本轮选定材料已发布，独立抽查通过 | 148 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-field-theory/quantum-field-theory-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-field-theory/quantum-field-theory-source.zip) · [覆盖范围](subjects/quantum-field-theory/coverage.md) |
-| [广义相对论](subjects/general-relativity/README.md) | Scott A. Hughes 的8.962（Spring 2020）第1–25讲主题，配公开的Spring 2006作业；从狭义相对论与张量讲到曲率、爱因斯坦方程、引力波、宇宙学和黑洞；55个原题编号中51题已有中文题解、4题缺题面。 | 本轮选定材料已发布，独立抽查中 | 109 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/general-relativity/dist/general-relativity-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/general-relativity/dist/general-relativity-source.zip) · [来源与缺口](subjects/general-relativity/SOURCES.md) |
+| [广义相对论](subjects/general-relativity/README.md) | Scott A. Hughes 的8.962（Spring 2020）第1–25讲主题，配公开的Spring 2006作业；从狭义相对论与张量讲到曲率、爱因斯坦方程、引力波、宇宙学和黑洞；55个原题编号中51题已有中文题解、4题缺题面。 | 本轮选定材料已发布，独立抽查通过 | 109 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/general-relativity/dist/general-relativity-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/general-relativity/dist/general-relativity-source.zip) · [来源与缺口](subjects/general-relativity/SOURCES.md) |
 
 电动力学现版仍有38组本科作业缺完整题面或依赖条件，另1题仅取得(c)，天线题的原比较图也未取得；完整8.311理论体系不在现版已选范围内。量子力学153页版已纳入恢复材料的可用题面与理论，外书仅题号引用及未公开原件仍留缺。理论力学PS10第3题(a)指定初值的周期窗口仍未复现；项目没有全局最优证明或实物演示。具体收录范围见各册说明。
 
@@ -164,7 +164,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-数学已交付 **15册中文整书，共1660个PDF物理页**；物理已提供 **9册中文讲义，共862页**（电动力学74页、量子力学153页、理论力学90页、基础电磁学80页、波动与光学81页、热学与统计物理69页、基础力学58页、量子场论148页、广义相对论109页）。电动力学与理论力学独立终审通过，量子力学与基础电磁学本轮选定正文与考核范围完成，波动与光学、热学与统计物理、基础力学本轮选定范围完成；新增量子场论与广义相对论本轮选定材料已发布；量子场论有界独立抽查通过，广义相对论独立抽查中。理论仍保留1个部分完成小问及项目边界，基础电磁184道教材课后题未逐题编入，量子10道商业书仅题号引用仍为题面缺项；近似条件及各科未收录范围沿用上方说明。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理已提供 **9册中文讲义，共862页**（电动力学74页、量子力学153页、理论力学90页、基础电磁学80页、波动与光学81页、热学与统计物理69页、基础力学58页、量子场论148页、广义相对论109页）。电动力学与理论力学独立终审通过，量子力学与基础电磁学本轮选定正文与考核范围完成，波动与光学、热学与统计物理、基础力学本轮选定范围完成；新增量子场论与广义相对论本轮选定材料已发布；两科有界独立抽查通过。理论仍保留1个部分完成小问及项目边界，基础电磁184道教材课后题未逐题编入，量子10道商业书仅题号引用仍为题面缺项；近似条件及各科未收录范围沿用上方说明。物理进度与本次核对的提交见[物理进度清单](manifests/physics-progress.json)。
 
 <details>
 <summary>展开数学交付历史与全站归档背景</summary>
