@@ -1,0 +1,24 @@
+\Needspace{8\baselineskip}\originalchapter{2006 作业八: 冷波传播图}
+题源: 21 Nov 2006, due 30 Nov. 图形由实际冷流体方程采样, 不作稳定性证明.
+\begin{exercise}\label{ex:06-8-1}
+原题1. 用绘图软件准确画传播/截止区域, 坐标log10 nref\ensuremath{{}^{2}}对log10(\ensuremath{\omega}/\ensuremath{\Omega}ci), 两套C-Mod参数: (a)ne=$2\times10^{20}$m$^{-3}$,B=5.5T; (b)ne=$5\times10^{20}$m$^{-3}$,B=5.5T; 氘离子. 横范围\ensuremath{-}2..4, 纵\ensuremath{-}2..3.
+\end{exercise}
+\begin{solution}
+原题未指定传播角, 折射率并非单值. 本解分别画平行R/L及垂直O/X四支, 假定完全电离D、ni=ne, mi\ensuremath{\simeq}2mp. 按章\ref{ch:cold}的带符号\ensuremath{\Omega}求R/L/P/S, O=P,X=RL/S. 只画正n\ensuremath{{}^{2}}且在题给纵范围内的段, 负段为空而不取abs, 共振和截止不连线. 普通支截止\ensuremath{\omega}\ensuremath{{}^{2}}=\ensuremath{\omega}pe\ensuremath{{}^{2}}+\ensuremath{\omega}pi\ensuremath{{}^{2}}; R/L零点和S零点分别定X截止/共振. 若要斜传播, 需另给角后解介电行列式.
+\input{chapters/cold-curves.tex}
+样本数每密度每支2401点, 先检验符号再取log, 在非正值或出视野处以nan分段. 精确边界由解析零点方程定义, 图上采样误差不作为边界证明. 可重现脚本位于\texttt{tools/cold\_wave\_plots.py}.
+\end{solution}
+\begin{exercise}\label{ex:06-8-2}
+原题2. 平面波从真空入射x向密度坡, y/z均匀、$n=n_0x/\ell$, k\ensuremath{\ell}\ensuremath{\gg}1, Bz=B0, $\omega_{pe}(n_0)=\Omega_{ce}$, 只电子响应. (a)在x/\ensuremath{\ell}\ensuremath{\le}4画O传播区; (b)画X传播区; (c)\ensuremath{\omega}<\ensuremath{\Omega}ce时X最大传播深度.
+\end{exercise}
+\begin{solution}
+令u=x/\ensuremath{\ell}、w=\ensuremath{\omega}/\ensuremath{\Omega}ce>0. O:P=1\ensuremath{-}u/w\ensuremath{{}^{2}}, 传播0\ensuremath{\le}u<w\ensuremath{{}^{2}}. X按章\ref{ch:cold}:
+$R=1-u/[w(w-1)]$, $L=1-u/[w(w+1)]$, $S=1-u/(w^2-1)$, $n_X^2=RL/S$. w<1只有uL=w(w+1)正截止, 0\ensuremath{\le}u<uL传播, 所以最大深度上确界2\ensuremath{\ell}在w\ensuremath{\to}1\ensuremath{-}. w>1的顺序uR=w(w\ensuremath{-}1)<uH=w\ensuremath{{}^{2}}\ensuremath{-}1<uL=w(w+1), 两传播带为u<uR与uH<u<uL. 真空来波先在uR截止, 第二带需隧穿或模转换才能到达.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.75\textwidth,height=5cm,xlabel={$u=x/\ell$},ylabel={$w=\omega/\Omega_{ce}$},xmin=0,xmax=4,ymin=0,ymax=3,legend style={font=\small,at={(1.02,1)},anchor=north west}]
+\addplot[thick,structurecolor,domain=0:4,samples=70]{sqrt(x)};\addlegendentry{O截止}
+\addplot[thick,dashed,domain=0:4,samples=70]{(1+sqrt(1+4*x))/2};\addlegendentry{R截止}
+\addplot[thick,dotted,domain=0:4,samples=70]{sqrt(1+x)};\addlegendentry{X共振}
+\addplot[thick,dashdotted,domain=0:4,samples=70]{(-1+sqrt(1+4*x))/2};\addlegendentry{L截止}
+\end{axis}\end{tikzpicture}\end{center}
+图线和上述不等式一起确定区域: O在线上方; X对固定w按u的两区间取值. w=1是冷电子回旋奇点, 不能直接在R分母代零当有限区.
+\end{solution}

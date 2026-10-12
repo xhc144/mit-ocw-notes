@@ -1,0 +1,52 @@
+\Needspace{12\baselineskip}
+\originalchapter{连续介质公开题解}
+题面来自Chiang C. Mei的1.63 Fall 2002公开作业。全部解答为编者独立推导；原PDF中可定位的量纲或排印问题会在解答中说明，不把修正后的式子伪称未改原文。
+\originalsection{机械能与斜压涡量}
+\begin{exercise}
+（\texttt{3Menergy.pdf}）不可压缩Newton流体。(1)由动量方程证明局部机械能式 $\rho D(u_iu_i/2)/Dt=\rho f_iu_i+\partial_j(\sigma_{ij}u_i)-\sigma_{ij}\partial_j u_i$；(2)解释各项；(3)写二维流的耗散 $\Phi$ 并讨论符号；(4)无体力固定封闭容器中证明总动能减少等于耗散；(5)厚度 $h$、坡角 $\theta$ 的稳态均匀自由层求速度与耗散。采用总应力 $\sigma=-pI+\tau$，原题的应力称谓需据此统一。
+\end{exercise}
+\begin{solution}
+动量 $\rho Du_i/Dt=\partial_j\sigma_{ij}+\rho f_i$ 点乘 $u_i$，乘积求导 $u_i\partial_j\sigma_{ij}=\partial_j(u_i\sigma_{ij})-\sigma_{ij}\partial_j u_i$ 即得。左侧是单位体积动能的物质变化，右侧分别为体力功、表面牵引携带的功通量和内能耗散。压力收缩项 $-p\partial_i u_i=0$，黏性部分为 $2\mu e_{ij}e_{ij}$。
+
+二维 $u(x,y),v(x,y)$ 时 $\Phi=2\mu(u_x^2+v_y^2)+\mu(u_y+v_x)^2\ge0$。固定无滑移壁上功通量为零，又无穿透对流通量，故 $\dd\int_V\rho u^2/2\dd V/\dd t=-\int_V\Phi\dd V$。若按单位质量写能量，右侧相应要除以 $\rho$；遗漏这一因子会造成量纲错误。
+
+(5)设 $y$ 从底面向自由面，$\mu u''=-\rho g\sin\theta$，$u(0)=0,u'(h)=0$，得 $u=(\rho g\sin\theta/\mu)(hy-y^2/2)$，$\Phi=\mu(u')^2=(\rho^2g^2\sin^2\theta/\mu)(h-y)^2$。这一流有重力持续输入，所以总耗散不意味着稳态速度必须降到零。
+\end{solution}
+
+\begin{exercise}
+（\texttt{11vorinhom.pdf}）非均匀密度流体，密度和压力梯度不平行。(1)原图(a)的等压线近水平、压力向上降低，密度在固定高度向右增大，求所产生涡量方向；(2)不可压缩、稳态二维流证明密度沿流线不变；(3)稳定分层气流越过二维山脉，上风侧抬升，解释下风侧先下降再上升、形成山后波。
+\end{exercise}
+\begin{solution}
+取 $x$ 向右、$y$ 向上、$z$ 指向纸外。斜压涡量源 $S_z=(\rho_xp_y-\rho_yp_x)/\rho^2$。原图近似 $p_x=0,p_y<0,\rho_x>0$，所以 $S_z<0$，指向纸内，对应顺时针涡量。示意图只画这一明确的梯度关系，并非描摹原手绘图。
+\begin{center}\begin{tikzpicture}[>=Stealth]\draw[->](0,0)--(4,0) node[right]{$x$};\draw[->](0,0)--(0,2) node[above]{$y$};\draw[->,thick,main](1.5,1)--(2.8,1) node[right]{$\nabla\rho$};\draw[->,thick,blue](1.5,1)--(1.5,.15) node[below]{$\nabla p$};\node at (3.3,1.7){$\boldsymbol\omega$ 指向纸内};\end{tikzpicture}\end{center}
+
+(2)质量方程和不可压缩给 $D\rho/Dt=0$，稳态为 $\mathbf u\cdot\nabla\rho=0$。流函数的等值曲线标记流线，在连通且可由同一标签描述的流区内可写 $\rho=\rho(\psi)$；不连通的相同流函数值不自动具有同一密度。
+
+(3)来自低处的流体抬升后比周围同高度流体更重，浮力向下；越过平衡高度时又变得较轻，浮力向上。局部近似 $\ddot\zeta+N_b^2\zeta=0$，若平均水平速度 $U$，物质时间 $t\simeq x/U$，位移沿下风方向振荡，波长尺度 $2\pi U/N_b$。凝结能显示波纹，但实际山后波还受风剪切、湿度和地形谱影响。
+\end{solution}
+
+\originalsection{空腔塌缩和薄隙黏附}
+\begin{exercise}
+（\texttt{cavity.pdf}）不可压缩无黏液体密度 $\rho$，球形空腔初始半径 $R_0$，内压 $p_0<p_\infty$ 为常数，初始静止，忽略表面张力与可压缩性。由连续和径向动量求 $R(t)$ 的方程、首次积分、塌缩时间，并以Gamma函数求积分。
+\end{exercise}
+\begin{solution}
+连续性 $r^2u=R^2\dot R$，令 $A=R^2\dot R$。径向动量从 $R$ 积到无穷，$\int_R^\infty u_t\dd r=\dot A/R$、$\int_R^\infty uu_r\dd r=-\dot R^2/2$，故
+\[
+R\ddot R+\tfrac32\dot R^2=-\Delta p/\rho,\qquad \Delta p=p_\infty-p_0.
+\]
+乘 $R^2\dot R$ 积分，初始条件给 $\dot R^2=(2\Delta p/3\rho)[(R_0/R)^3-1]$，收缩支取负根。因此
+\[
+T=R_0\sqrt{\frac{3\rho}{2\Delta p}}\int_0^1\frac{y^{3/2}}{\sqrt{1-y^3}}\dd y
+=R_0\sqrt{\frac{3\rho}{2\Delta p}}\frac{\Gamma(5/6)\Gamma(1/2)}{3\Gamma(4/3)}.
+\]
+实际积分与特殊函数表达核验给 $T\simeq.914681 R_0\sqrt{\rho/\Delta p}$。原PDF的中间式有平方、压力差及半径幂次排印不一致，本解从两条明确守恒方程重导，修正记录另列QA。最后阶段速度发散提示无黏不可压缩近似失效，不能据此推出现实中无限冲击速度。
+\end{solution}
+
+\begin{exercise}
+（\texttt{mt\_adhesion.pdf}）宽度 $L$ 的二维平板原距固定光滑平面 $h_0\ll L$，隙中流体黏度 $\mu$、密度 $\rho$。从 $t=0$ 用竖直力 $F$ 拉起，求分离速度；另求平板在重力 $W$ 下下降的结果。$F,W$ 按单位出平面长度计，边缘与环境压力连通。
+\end{exercise}
+\begin{solution}
+忽略跨隙惯性并取上下无滑移，$q=-h^3p_x/(12\mu)$，质量守恒 $q_x=-\dot h$，所以 $p_{xx}=12\mu\dot h/h^3$。$x=\pm L/2$ 的表压为零，给 $p=6\mu\dot h(x^2-L^2/4)/h^3$。积分向下阻力 $-\int p\dd x=\mu L^3\dot h/h^3$，准静态力平衡得 $\dot h=Fh^3/(\mu L^3)$。
+
+恒力分离 $h=h_0[1-2Fh_0^2t/(\mu L^3)]^{-1/2}$，数学式的有限时间发散超出 $h\ll L$ 近似。下降时 $\dot h=-Wh^3/(\mu L^3)$，$h=h_0[1+2Wh_0^2t/(\mu L^3)]^{-1/2}$，理想连续模型渐近接近接触，实际粗糙度改变终点。拉起时负表压还可能发生空化，压力不能无限低；这个限制不是靠多算几个小数能消除的。
+\end{solution}

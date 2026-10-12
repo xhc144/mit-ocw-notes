@@ -1,0 +1,86 @@
+\Needspace{9\baselineskip}
+\originalchapter{隐藏子群、表示与相位筛法}
+本章把Simon、阶查找和离散对数放进一个共同结构: 查询把函数值相同的群元素相干地保留, Fourier变换把这种平移对称性变成测量约束. MAS第12、13讲随后讨论实数周期和非Abel群; 这些推广需要额外的数论表示与测量设计, 不能只把“做一次QFT”当成算法.
+\originalsection{Abel陪集采样的振幅与恢复}
+有限Abel群$G$用加法记, $f$在未知子群$H$的陪集内恒定, 在不同陪集取不同值. 均匀输入查询并测函数寄存器, 得
+\[\ket{g+H}=|H|^{-1/2}\sum_{h\in H}\ket{g+h}.\]
+群角色是同态$\chi:G\to U(1)$, QFT把$\ket g$映为$|G|^{-1/2}\sum_\chi\chi(g)\ket\chi$. 一个角色的振幅为
+\[\frac{\chi(g)}{\sqrt{|G||H|}}\sum_{h\in H}\chi(h).\]
+若存在$h_0$使$\chi(h_0)\ne1$, 平移求和给$S=\chi(h_0)S$, 所以$S=0$. 若对所有$h$角色皆为1, 则$S=|H|$. 因而样本均匀落在
+\[H^\perp=\{\chi:\chi(h)=1\text{ 对所有 }h\in H\},\qquad
+ |H^\perp|=|G|/|H|.\]
+随机样本逐步生成$H^\perp$. 若已生成真子群, 下一次落在它外的概率至少$1/2$; 生成子群每扩展一次规模至少倍增, 所以$O(\log|G|+\log(1/\epsilon))$样本足够以高概率生成. 再求湮没子群恢复$H$. 这需要可用的群分解与经典模线性代数, 以及高效的群表示、运算、查询和QFT; 不能把抽象存在性直接等同任意输入编码下的高效运行.
+
+\originalsection{离散对数的显式隐藏函数}
+已知循环群生成元$g$, 阶$q$, 以及$h=g^s$, 要求$s\pmod q$. 取$G=\mathbb Z_q^2$,
+\[f(a,b)=g^a h^b=g^{a+sb},\qquad
+ H=\{(-sb,b):b\in\mathbb Z_q\}.\]
+一次函数计算用可逆模乘和重复平方完成. 角色$\chi_{u,v}(a,b)=\exp[2\pi\ii(ua+vb)/q]$在$H$上恒定1当且仅当
+\[v=us\pmod q.\]
+故QFT样本为均匀$u$及$v=us$. 若$u$可逆, $s=v u^{-1}\pmod q$. 若$q$为素数, 只有$u=0$失败. 合数$q$时, 一个不可逆$u$仅给模$q/\gcd(u,q)$约束; 可重复采样并合并约束, 或对$q$的素数幂因子分别恢复. 求逆前必须检查最大公因数, 最终用$g^s=h$检验答案.
+\begin{example}$p=7$, $g=3$的阶为6, $h=2=3^2\bmod7$. 采到$(u,v)=(5,4)$, $5^{-1}=5\bmod6$, 得$s=20=2\bmod6$. 若只采$(2,4)$, 则$2s=4\bmod6$仅给$s=2\bmod3$, 候选2或5; 再查询检验可排除5.\end{example}
+
+\originalsection{Pell方程为何变成实数周期}
+对非平方正整数$d$, $x^2-dy^2=1$的正解满足$x+y\sqrt d=(x_1+y_1\sqrt d)^k$. 定义基本解的对数
+\[R=\log(x_1+y_1\sqrt d).\]
+这里$R$采用范数+1单位的对数; $d=2$时基本解$(3,2)$, $R=\log(3+2\sqrt2)$. 难点是基本整数解可能有指数多位, 所以“多项式算法”应说明输出为$R$的所需精度或紧凑表示, 不能许诺总能在输入长度的多项式时间打印所有整数位.
+
+MAS第12讲的Hallgren路线把实二次域中的约化主理想排成循环, 给每个理想配上沿循环的对数距离. 循环的基本单位周期记$R_0$. 数论基本单位可能范数为$-1$, 此时Pell范数+1的$R=2R_0$; 若基本单位范数+1, 则$R=R_0$. 对$d=2$, $R_0=\log(1+\sqrt2)$而前述$R=2R_0$. 对实数$x$计算距离不超过$x$的相邻约化理想及剩余距离, 得到周期为$R_0$的函数. 约化理想和距离可借连分数、整数运算及有限精度对数计算, 无需先写出巨大基本解. 于是流程为
+\[\text{可逆理想/距离计算}\ \longrightarrow\
+ \text{等函数值的距离叠加}\ \longrightarrow\
+ \text{Fourier峰近 }k/R_0\ \longrightarrow\
+ \text{多样本恢复 }R_0.\]
+这里$R_0$通常不是整数, 函数还分段变化. 实现须在足够长的区间细网格采样, 控制边界舍入与函数平台的误差; 这不是把Shor整数周期代码原封不动换一个名字. 精确精度选择、稳健Fourier估计及主理想判定的多项式时间定理引用Hallgren原论文, 本卷建立问题、周期对象和计算链, 不把未重证的代数数论误差界标成初等推导. 补充原始研究链接为\url{https://www.cse.psu.edu/~sjh26/pell.pdf}; 只引用结果, 不打包非OCW论文.
+
+\originalsection{非AbelFourier变换的矩阵指标}
+表示是满足$\rho(gh)=\rho(g)\rho(h)$的幺正矩阵映射. 不存在同时不变真子空间的叫不可约表示, 维数记$d_\rho$. Schur正交关系为
+\[\sum_{g\in G}\rho(g)_{ij}\sigma(g)_{kl}^{*}
+ =\frac{|G|}{d_\rho}\delta_{\rho\sigma}\delta_{ik}\delta_{jl},\qquad
+ \sum_\rho d_\rho^2=|G|.\]
+因此下面确为幺正换基:
+\[F_G\ket g=\sum_\rho\sqrt{\frac{d_\rho}{|G|}}
+ \sum_{i,j=1}^{d_\rho}\rho(g)_{ij}\ket{\rho,i,j}.\]
+Abel情形$d_\rho=1$, 才退化成上一节的角色. 对左陪集$gH$, 求和矩阵为
+\[\sum_{h\in H}\rho(gh)=|H|\rho(g)P_H^\rho,\qquad
+ P_H^\rho=\frac1{|H|}\sum_{h\in H}\rho(h).\]
+由群封闭与幺正性可验$P^2=P=P^\dagger$, 即投影到$H$不变子空间. 只测表示名的概率为
+\[p(\rho)=\frac{d_\rho|H|}{|G|}\operatorname{rank}P_H^\rho.\]
+这只看到不变空间的维数, 看不到它的方向; 行列指标或多陪集联合测量可能正携带被抹掉的信息. 查询复杂度很低仍可能需要指数长的解码, 两种成本必须分开.
+
+\originalsection{二面体相位态与筛法的局部步骤}
+写$D_N$元素为$(x,b)$, 乘法$(x,b)(y,c)=(x+(-1)^by,b+c)$; 隐藏反射为$H_r=\{(0,0),(r,1)\}$. 选$b=0$的陪集代表, 陪集态为
+\[\frac{\ket{x,0}+\ket{x+r,1}}{\sqrt2}.\]
+仅对$x$作循环Fourier变换并测得均匀$k$, 去掉共同相位后留下
+\[\ket{\phi_k}=\frac{\ket0+\e^{2\pi\ii kr/N}\ket1}{\sqrt2}.\]
+已知标签$k$, 未知相位由$r$编码. 两态$\phi_k,\phi_l$施第一位控制的CNOT, 测第二位, 结果0给$\phi_{k+l}$, 结果1给$\phi_{k-l}$, 每个概率$1/2$. 这是直接把四项振幅分组的计算, 无需知道$r$.
+
+当$N=2^n$, 把标签低$b$位相同的态配对并保留差支路, 新标签就被$2^b$整除. 多层配对逐步消掉低位, 最后$k=2^{n-1}$的态为$(\ket0+(-1)^r\ket1)/\sqrt2$, X测量读出$r$的最低位. 再更新问题逐位恢复. 每层有测量淘汰和匹配消耗, 选择$b$与层数在$\sqrt n$量级平衡, 原筛法的整体资源定理为$2^{O(\sqrt{\log N})}$, 不是多项式. 本卷推导相位态及合成步骤, 完整分桶成功率与存储分析引用Kuperberg原工作\url{https://arxiv.org/abs/quant-ph/0302112}. 图同构对应的对称群还没有从这些局部操作直接得到通用快速算法.
+
+\originalsection{图同构与格问题的归约实例}
+第12讲第4页把图同构接到对称群HSP. 给两个$n$顶点图$G_0,G_1$, 令$\Gamma=G_0\sqcup G_1$, 作用群取$W=(S_n\times S_n)\rtimes\mathbb Z_2$: 前者分别重标两块, 后者交换整块. 这避免非连通图的部分连通分量任意混合. 定义$f(g)$为带标签邻接矩阵$g\Gamma$, $H=\{h\in W:h\Gamma=\Gamma\}$是该作用的自同构群. 由
+\[f(g)=f(g')\ \Longleftrightarrow\ g^{-1}g'\in H
+ \ \Longleftrightarrow\ gH=g'H,\]
+它确为高效可计算的隐藏函数. $H$含交换块元素当且仅当$G_0\cong G_1$. 若HSP求解器给生成元, 检查有无块交换生成元即可判同构: 全部不交换时任意乘积也不交换.
+例如$G_0$边为$\{12,23\}$, $G_1$边为$\{13,23\}$; $(23)$把前者变成后者, 两块各施此置换再交换整块给$H$的跨块元素. 若后者换三角形, 两图边数不同, 便无此元素. 归约没有给出$W$的快速HSP解码器; 弱采样的表示标签通常不足.
+
+第12讲第5页的格为$L=B\mathbb Z^n$, 输入是有效表示的满秩基矩阵$B$. 唯一最短向量承诺: 最短非零$u$仅差正负号, 不平行向量长至少$g(n)\|u\|$. Regev归约经基约化、长度估计与随机空间分割, 制造多个两点寄存器
+\[\frac{\ket{0,a}+\ket{1,a'}}{\sqrt2},\qquad
+ a,a'\in\{0,\ldots,M-1\}^n,\quad a'-a=\Delta\text{固定}.\]
+正确分割使差向量编码最短方向; 边界或坏分割有失败率, 并非任意小立方体天然恰有两点. 两点到二面体陪集的接口可完整写出: 取$Q=2M$, $F(a)=\sum_ja_jQ^{j-1}$, $N=Q^n$, 可逆地换为整数标签, 得
+\[\frac{\ket{0,F(a)}+\ket{1,F(a)+d\bmod N}}{\sqrt2},\qquad
+ d=\sum_j\Delta_jQ^{j-1}\pmod N.\]
+这就是二面体陪集输入. 求$d$后加$C=M\sum_jQ^{j-1}$并取模$N$; 因$1\le\Delta_j+M\le2M-1$, $d+C$的$Q$进制数字正是$\Delta_j+M$, 各减$M$即恢复$\Delta$, 无进位歧义.
+\begin{example}$M=8$, $a=(1,4),a'=(2,4)$时$F(a)=65,F(a')=66$, $N=256,d=1$. $C=136$, $d+C=137=9+8\cdot16$, 得$\Delta=(1,0)$. 格基$\operatorname{diag}(1,100)$中它对应最短向量$(1,0)$, 不平行格向量长至少100. 此例核算接口, 不冒充随机分割的一般成功率证明.\end{example}
+Regev定理1.1、推论1.2和第3.1节引理3.2给完整条件: 多项式样本的二面体陪集解码能力及坏样本容忍度推出某多项式间隙的unique-SVP算法, 不是任意最短向量问题已获多项式算法. \emph{Quantum Computation and Lattice Problems}, PDF第2、5--12页, \url{https://arxiv.org/abs/cs/0304005}. 几何概率界按该定理引用.
+
+\originalsection{Heisenberg群的可计算例子}
+取奇素数$p$, 元素$(x,y,z)\in\mathbb F_p^3$, 乘法
+\[(x,y,z)(x',y',z')=(x+x',y+y',z+z'+yx').\]
+令$\omega=\e^{2\pi\ii/p}$. 有$p^2$个一维表示$\chi_{a,b}=\omega^{ax+by}$及$p-1$个$p$维表示
+\[\rho_k(x,y,z)\ket t=\omega^{k(z+yt)}\ket{t+x},\qquad k\ne0.\]
+代入乘法可逐项验证相位中的$yx'$; 移位与相位两算符生成全矩阵代数, 故后者不可约. 维数平方和为$p^2+(p-1)p^2=p^3$, 恰好完备.
+
+考虑特定子群$H_s=\{(x,0,sx):x\in\mathbb F_p\}$. 令$\ket{\widetilde m}=p^{-1/2}\sum_t\omega^{mt}\ket t$, 移位$T_x$的本征值为$\omega^{-mx}$. 因而
+\[P_{H_s}^{\rho_k}=\frac1p\sum_x\omega^{ksx}T_x
+ =\ket{\widetilde{ks}}\bra{\widetilde{ks}}.\]
+弱采样只看到秩1, 无法区分$s$. 在$p$维表示的右指标用相应共轭Fourier基测量, 却读到$m=ks$, 随即得到$s=m/k$. 右指标在原矩阵振幅中是复共轭向量, 基的共轭须与前述$F_G$约定匹配. 例如$p=5,k=2,s=3$, 得$m=1$. 这展示矩阵方向如何携带隐藏信息; 它是此子群族的完整例子, 不声称解决一切非AbelHSP.

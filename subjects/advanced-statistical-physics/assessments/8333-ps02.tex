@@ -1,0 +1,64 @@
+\originalchapter{8.333作业2：概率与涨落}
+\psource{Mehran Kardar，8.333 Fall 2013，PS2。}
+\begin{exercise}[原题1(a)--(b)]\label{p:333-2-1}
+独立各列沉积金原子，平均每秒$d$层。(a)时间$t$后某位置有$m$原子的概率、未覆盖比例。(b)厚度方差。
+\end{exercise}
+\begin{solution}
+若各小时间段独立且单次到达率$d$，Poisson参数$\lambda=dt$，$P(m)=\e^{-\lambda}\lambda^m/m!$，未覆盖比例$\e^{-dt}$，均值与方差皆$dt$；原子层实际高度为$a$时厚度方差$a^2dt$。只给平均率却不假定独立Poisson到达不能唯一确定分布，题目的独立沉积模型在此明确采用。
+\end{solution}
+\begin{exercise}[原题2(a)--(d)]\label{p:333-2-2}
+二维链$N$段$t_i$、$|t_i|=a$，能$H=-\kappa\sum t_i\cdot t_{i+1}=-\kappa a^2\sum\cos\phi_i$，$R=\sum t_i$。(a)求$\avg{t_m\cdot t_n}$指数相关及持久长。(b)$N\gg1$求$\avg{R^2}$。(c)求大$N$端点分布。(d)拉力$F$使权重乘$\e^{\beta F\cdot R}$，求$\avg R=K^{-1}F+O(F^3)$与弹簧常数。
+\end{exercise}
+\begin{solution}
+相邻转角独立且密度$\propto\e^{u\cos\phi}$、$u=\beta\kappa a^2$。$c=\avg{\cos\phi}=I_1(u)/I_0(u)$，$\avg{\sin\phi}=0$，迭代给$\avg{t_m\cdot t_n}=a^2c^{|m-n|}$，$\xi=-1/\log c,\ell_p=a\xi$（$\kappa>0$；反向偏好需含振荡符号）。双和
+\begin{equation}
+\avg{R^2}=a^2\left[N+2\sum_{s=1}^{N-1}(N-s)c^s\right]\simeq Na^2\frac{1+c}{1-c}
+\end{equation}
+要求$N\gg\xi$，不仅$N\gg1$。中央极限给$P(R)\simeq[\pi\avg{R^2}]^{-1}\e^{-R^2/\avg{R^2}}$，两坐标方差各一半。对拉力展开配分，$\avg{R_i}=\beta\avg{R_iR_j}F_j=\beta\avg{R^2}F_i/2$，$K=2\kb T/\avg{R^2}$。大拉力伸展到$aN$附近Gaussian与线性Hooke律失效。
+\end{solution}
+\begin{exercise}[原题3(a)--(b)]\label{p:333-2-3}
+二维随机觅食从巢原点扩散，系数$D$。(a)离巢$t$时距$r$分布。(b)每段寻找时间独立指数平均$\tau$，返回与停留可忽略，长时间后的空间分布及大$r$鞍点渐近。
+\end{exercise}
+\begin{solution}
+向量密度$P(\vct r,t)=(4\pi Dt)^{-1}\e^{-r^2/(4Dt)}$，径向密度$p_r(r,t)=2\pi rP$，二者的单位不同。指数重置的平稳年龄密度$\tau^{-1}\e^{-t/\tau}$，所以
+\begin{equation}
+P_\infty(r)=\frac1{4\pi D\tau}\int_0^\infty\frac{\dd t}{t}\e^{-t/\tau-r^2/(4Dt)}=\frac1{2\pi D\tau}K_0(r/\sqrt{D\tau}).
+\end{equation}
+指数的鞍点$t_*=r\sqrt{\tau/(4D)}$，作用$r/\sqrt{D\tau}$，Gaussian宽度给$K_0(z)\sim\sqrt{\pi/(2z)}\e^{-z}$。向量密度$\propto r^{-1/2}\e^{-r/\sqrt{D\tau}}$，径向密度$\propto r^{1/2}\e^{-r/\sqrt{D\tau}}$。原点的对数峰可积，不是有限概率点质量，因为停巢时间被取零。
+\end{solution}
+\begin{exercise}[原题4(a)--(b)]\label{p:333-2-4}
+(a)由凸函数切线下界证明Jensen不等式。(b)以它证明$D(p\Vert q)=\int p\log(p/q)\dd x\ge0$，说明零概率条件。
+\end{exercise}
+\begin{solution}
+在$y=\avg X$取$f(x)\ge f(y)+f'(y)(x-y)$并平均，线性项0，故$\avg{f(X)}\ge f(\avg X)$；非可微凸函数用支撑线同理。取$f=-\log$、随机量$q/p$且按$p$平均，$D\ge-\log\int_{p>0}q\ge0$。若$p>0$而$q=0$，相对熵$+\infty$；若都是归一且支撑相同、函数严格凸，等号要求$q/p$恒定即$p=q$。
+\end{solution}
+\begin{exercise}[原题5(a)--(e)，(e)选做]\label{p:333-2-5}
+IID序列$x_n$，$x_n$大于此前全部值时记录指标$R_n=1$，$R_1=1$。(a)求记录率与分布形式的关系。(b)记录总数$S_N$期望及大$N$，每年尝试数翻倍时增长。(c)证明不同记录指标协方差0。(d)给所有矩与前三累积量，判断中心极限。(e)已知第三记录$n_3=9$，求第二记录$n_2$与第四$n_4$期望。采用连续分布或随机打破平局；有原子概率时原题的分布无关结论须修改。
+\end{exercise}
+\begin{solution}
+无平局时前$n$个次序均等，每个位置成为最大概率$1/n$，所以$P(R_n=1)=1/n$。$\avg S_N=H_N\sim\log N+\gamma_E$，若$N=N_02^t$，记录均数约$t\log2+\log N_0+\gamma_E$。随机排列的“新元素在前$n$中排名”依次独立且均匀，故记录指标独立，特别$\avg{R_mR_n}=1/(mn)$。
+
+矩母函数$M(t)=\prod_{n=1}^N[1+(\e^t-1)/n]=\Gamma(N+\e^t)/[\Gamma(\e^t)N!]$，所有$r$阶矩由$M^{(r)}(0)$给出，也可写$\avg{S_N^r}=\sum_k k^r c(N,k)/N!$，$c(N,k)$为第一类无符号Stirling数。前三累积量$\kappa_1=H_N$、$\kappa_2=H_N-H_N^{(2)}$、$\kappa_3=H_N-3H_N^{(2)}+2H_N^{(3)}$。独立非同分布的有界指标满足Lindeberg条件，方差$\sim\log N\to\infty$，故标准化后趋Gaussian，不能说IID中心极限直接适用于原$R_n$。
+
+(e)条件$n_3=9$要求2--8只有一个记录，位置$r$相对权重$[1/r]/[1-1/r]=1/(r-1)$，所以$P(n_2=r|n_3=9)=1/[(r-1)H_7]$、$\avg{n_2}=1+7/H_7\simeq3.6997$。已出现9记录后，下一记录在$m>9$的概率$9/[m(m-1)]$，均值$9\sum_{m>9}1/(m-1)=+\infty$。中位等待有限却均值发散，不能把$\avg{n_4}$猜成18。
+\end{solution}
+\begin{exercise}[原题6(a)--(d)]\label{p:333-2-6}
+系统初始正则平衡，按协议做外功$W$，Hamilton微观态经一一且体积保持的演化到新$H'$；正反协议初态各为对应平衡。(a)证明$P_f(W)/P_b(-W)=\e^{\beta(W-\Delta F)}$。(b)推Jarzynski$\avg{\e^{-\beta W}}=\e^{-\beta\Delta F}$。(c)推$\avg W\ge\Delta F$。(d)循环若净抽出功$\omega>0$，给违例概率上界。题页净功符号文字有歧义，此处规定$W$为输入系统的功。
+\end{exercise}
+\begin{solution}
+对应路径的初态权重比$[\e^{-\beta H}/Z]/[\e^{-\beta H'}/Z']=\e^{\beta(W-\Delta F)}$。时间反演给反路径，Liouville的单位Jacobian使按相同$W$积分后仍得(a)；仅“确定性”不保证Jacobian1，题中需Hamilton或等价微观可逆过程。
+
+乘$P_f\e^{-\beta W}=P_b(-W)\e^{-\beta\Delta F}$积分得(b)。Jensen给$\e^{-\beta\avg W}\le\avg\e^{-\beta W}$，得(c)。循环$\Delta F=0$，以非负变量$Y=\e^{-\beta W}$、$\avg Y=1$用Markov不等式，$P(W\le-\omega)=P(Y\ge\e^{\beta\omega})\le\e^{-\beta\omega}$。稀有轨迹可抽功，平均仍服从第二律；用有限样本估计指数均值时罕见事件的重要性不可忽略。
+\end{solution}
+\begin{exercise}[原题7(a)--(b)，选做]\label{p:333-2-7}
+仅知骰子6面概率为1面的两倍。(a)求除此约束外最大熵的“无偏”概率。(b)这条信息相对公平骰子减少多少比特熵？
+\end{exercise}
+\begin{solution}
+令约束$p_6-2p_1=0$，最大$-\sum p_i\log p_i$的乘子给$p_1=q2^{-2/3},p_6=q2^{1/3},p_2=\cdots=p_5=q$，$q=[4+2^{-2/3}+2^{1/3}]^{-1}$。若将“其他面与1相同”另作假设会得1/7与2/7，但那是新增约束，不是本题最大熵。记$Z=1/q$，约束使熵中乘子项相消，$H=\log_2Z$，信息量$I=\log_26-H=\log_2(6/Z)$，约0.0267 bit。
+\end{solution}
+\begin{exercise}[原题8(a)--(d)，选做]\label{p:333-2-8}
+平衡涨落变量$x_i$，$C_{ij}(t)=\avg{x_i(t)x_j(0)}$。(a)用时间平移与反演得互易关系。(b)若分布$P\propto\exp[-x^TKx/2]$、$K$正定，求$C(0)$。(c)共轭力$J=-\nabla\log P$证明$\avg{J_ix_j}=\delta_{ij}$。(d)平均松弛$\dot x=-\mu Kx$，由$\dot C(0)$推出Onsager$\mu$对称，说明变量的时间反演奇偶条件。
+\end{exercise}
+\begin{solution}
+平稳是同时平移两时刻，$C_{ij}(t)=C_{ji}(-t)$；不是把时间差任意移仍相同。若$x_i$皆时间反演偶，反演又给$C_{ji}(-t)=C_{ji}(t)$。Gaussian完成平方得$C(0)=K^{-1}$，$J_i=K_{ij}x_j$，所以(c)$KC=I$。$\dot C(0^+)=-\mu KC(0)=-\mu$，互易$C(t)=C(t)^T$令$\mu=\mu^T$。奇变量时应为Onsager--Casimir带奇偶符号关系，不能强行对称。真正平稳随机松弛还需FDT噪声；所给确定性方程描述平均线性响应，噪声对这个右导数与过去初态无相关贡献。
+\end{solution}

@@ -1,0 +1,40 @@
+\Needspace{8\baselineskip}\originalchapter{理想磁流体与磁通冻结}\label{ch:ideal}
+\originalsection{从两流体到单流体}
+当长度远大于离子惯性长度、时间远长于离子回旋时间, 准中性使电子和离子数密度近似相等, 质量主要由离子承担. 将两物种动量方程相加, 电场力抵消而磁力保留为 $\mathbf J\times\mathbf B$. 忽略电子惯性、Hall 和电阻, 得闭合系统
+\begin{align}
+ &\partial_t\rho+\nabla\cdot(\rho\mathbf V)=0,\qquad
+ \rho\frac{D\mathbf V}{Dt}=-\nabla p+\mathbf J\times\mathbf B,\\
+ &\partial_t\mathbf B=\nabla\times(\mathbf V\times\mathbf B),\quad
+ \mu_0\mathbf J=\nabla\times\mathbf B,\quad\nabla\cdot\mathbf B=0,\quad
+ D(p\rho^{-\gamma})/Dt=0.
+\end{align}
+这里不使用位移电流, 要求典型流速远小于光速. 压力闭合还要求热传导、碰撞各向异性在所研究过程可忽略. MHD 描述质量和磁场的共同演化, 并不解决每个电子的轨道.
+
+利用向量恒等式, $\mathbf J\times\mathbf B=-(\nabla B^2)/(2\mu_0)+(\mathbf B\cdot\nabla)\mathbf B/\mu_0$. 第一项为磁压梯度, 第二项为磁张力. 若 $\mathbf b=\mathbf B/B$, 曲率 $\boldsymbol\kappa=\mathbf b\cdot\nabla\mathbf b$, 垂直张力为 $B^2\boldsymbol\kappa/\mu_0$. 将磁力全部看作向内压强会遗漏这一项, 在 z pinch 中尤其会得到错误平衡.
+
+\originalsection{磁通随流体守恒}
+对随速度 V 移动的曲面 S, Reynolds 输运与 Stokes 定理给
+\begin{equation}
+ \frac{\dd}{\dd t}\int_{S(t)}\mathbf B\cdot\dd\mathbf S
+ =-\oint_{\partial S(t)}(\mathbf E+\mathbf V\times\mathbf B)\cdot\dd\boldsymbol\ell=0.
+\end{equation}
+理想 Ohm 定律使每条物质闭曲线包围的磁通保持. 因而在光滑、单值速度场中原先相连的磁力线保持连接. 若存在电阻层、奇点或电子尺度非理想项, 前提不再成立, 不能用冻结定理排除重联.
+
+动能方程由 V 点乘动量得到, 磁能方程由 $\mathbf E\cdot\mathbf J$ 和 Poynting 定理得到. 压强功 $p\nabla\cdot\mathbf V$ 与内能 $p/(\gamma-1)$ 抵消, 封闭系统总能量密度为
+\begin{equation}
+ \mathcal E=\tfrac12\rho V^2+\frac{p}{\gamma-1}+\frac{B^2}{2\mu_0}.
+\end{equation}
+这一守恒关系可用来检查数值程序, 也解释为什么压强和磁场能为流动提供能量.
+
+\originalsection{柱形平衡与边界}
+静态平衡满足 $\nabla p=\mathbf J\times\mathbf B$. 令 $\mathbf B=B_\theta(r)\mathbf e_\theta+B_z(r)\mathbf e_z$, 得
+\begin{equation}\label{eq:cylbalance}
+ \frac{\dd}{\dd r}\left(p+\frac{B_\theta^2+B_z^2}{2\mu_0}\right)
+ =-\frac{B_\theta^2}{\mu_0r},\quad
+ J_z=\frac1{\mu_0r}(rB_\theta)',\quad J_\theta=-\frac{B_z'}{\mu_0}.
+\end{equation}
+$\theta$ pinch 只有 $B_z$, 故总压力常数; z pinch 只有 $B_\theta$, 右端是箍缩张力. 真空区 p=0, 若无表面电流磁场连续; 有表面电流则切向磁场跳跃, 但自由界面的总法向应力仍须平衡. 圆柱核心电流可令 $B_\theta\propto1/r$, 该区局部 J=0却仍有磁能, 不能把``无体电流''误作``无磁场''.
+
+\begin{example}
+均匀 $J_z=J_0$ 的半径 a 柱, $B_\theta=\mu_0J_0r/2$. 代平衡得 $p(r)=\mu_0J_0^2(a^2-r^2)/4$ (取 p(a)=0). 这同时满足安培方程和压强梯度; 只给 p 的抛物线而不核对 J、B 是不完整的平衡.
+\end{example}

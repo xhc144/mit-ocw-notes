@@ -1,0 +1,66 @@
+\Needspace{9\baselineskip}
+\originalchapter{18.435J五份主作业}
+本章保留实际MIT自设题, HW1引用教材的七个数学任务在公开题页可辨读, 以下独立中文重述其数学条件并补推导, 不逐字转载原书表达. HW3第4题5.20与HW5第6题10.27仅有题号, 留作真缺题面. HW1原件直接转载的教材段落也不复制. 本章解答为编者补推导; 官方解答可作核对, 未逐条照译.
+\originalsection{作业一: 可读教材任务的独立数学重述}
+\source{HW1第1页引用Nielsen--Chuang 2.29--2.32（作业任选二）, 2.59--2.61. 本节不转载原书段落, 独立表述数学事实与证明; 七个任务另计, 不称MIT自设题.}
+\begin{exercise}(1--4) 两有限维算符各自为幺正、Hermitian、正半定或正交投影时, 分别验证其张量积仍具有相同性质. (5) 初态$\ket0$测Pauli X, 求平均及标准差. (6) 实单位向量$\mathbf n$, 求$A=n_xX+n_yY+n_zZ$的本征值及对应投影. (7) 初态$\ket0$测A, 求+1概率及该结果后的归一态.\end{exercise}
+\begin{solution}(1) $(U\otimes V)^\dagger(U\otimes V)=U^\dagger U\otimes V^\dagger V=I$. (2) 共轭转置逐因子作用, $A^\dagger=A,B^\dagger=B$给张量积自伴. (3) 各作正谱分解, 张量本征向量为两本征向量的积, 本征值$\lambda_i\mu_j\ge0$; 亦可用$A=C^\dagger C,B=D^\dagger D$验证. (4) 张量积自伴, 平方为$P^2\otimes Q^2=P\otimes Q$, 因而是正交投影.
+(5) $\langle X\rangle=0$, $X^2=I$, 方差1, 标准差1. (6) Pauli乘法使$A^2=|\mathbf n|^2I=I$, A迹0, 因而谱为$\pm1$, 投影$P_\pm=(I\pm A)/2$; 可直接验证幂等、正交及和I. (7) $p_+=(1+n_z)/2$. 当$p_+>0$, 后态
+\[\frac{P_+\ket0}{\sqrt{p_+}}=\frac{(1+n_z)\ket0+(n_x+\ii n_y)\ket1}{\sqrt{2(1+n_z)}}.\]
+若$n_z=-1$, +1事件概率0, 没有可定义的该条件后态. 若用球角$n_z=\cos\theta,n_x+\ii n_y=\e^{\ii\phi}\sin\theta$, 上式为$\cos(\theta/2)0+\e^{\ii\phi}\sin(\theta/2)1$.\end{solution}
+
+\originalsection{作业一: GHZ论证}
+\source{Homework 1, MIT自设第1--3题.}
+\begin{exercise}GHZ态$(000+111)/\sqrt2$. (1) 三个比特均测X基时所有联合结果及概率; 第一比特测X、后两测Y时所有联合结果及概率; 求$XXX,XYY$期望. (2) 经典$f_i:\{x,y\}\to\{\pm1\}$, $A_1=f_1(x)f_2(x)f_3(x)$,$A_2=f_1(y)f_2(y)f_3(x)$,$A_3=f_1(y)f_2(x)f_3(y)$,$A_4=f_1(x)f_2(y)f_3(y)$. 证$A_1=-1$或后三项至少一个$+1$. (3) 合并排除本地预定值模型.\end{exercise}
+\begin{solution}(1) GHZ是$XXX$的$+1$本征态, 所以$+++,+--,-+-,--+$各概率$1/4$; 展开每个$X$基重叠可直接得其余为零. 对$XYY$是$-1$本征态, $++-,+-+,-++,---$各$1/4$. 两期望为$+1,-1$. (2) 后三项乘积等于$A_1$, 因每个$f_i(y)$出现两次. 若后三项均$-1$, 则$A_1=-1$. (3) 量子预言第一项确定$+1$, 后三确定$-1$, 每个隐变量样本都与(2)矛盾. 这是全确定性的GHZ版本, 不需统计CHSH界.
+\end{solution}
+
+\originalsection{作业二: 守恒门与Fourier乘积}
+\source{Homework 2, 第1题.}
+\begin{exercise}经典门须可逆且保持1的个数. 列一、二比特的所有此类门, 证明它们不能组成Fredkin. 本作业Fredkin控制为第三比特, 控制1时交换前两位.\end{exercise}
+\begin{solution}一位仅恒等, 两位固定00,11, 在01,10上仅恒等或SWAP. 因此任何电路只是固定线路置换, 与数据控制值无关. Fredkin的线路交换依第三位而变, 不能由固定置换组成; 允许制备固定工作比特也不使交换依输入值而变.
+\end{solution}
+\source{Homework 2, 第2--3题.}
+\begin{exercise}找比对角门和SWAP更大的二比特守恒量子门族及$\sqrt{\rm SWAP}$. 再用二比特守恒门构造与Fredkin同基态置换、但可有相位的$F$, 说明可用某个三比特对角门修正成准确Fredkin.\end{exercise}
+\begin{solution}所有门在重量0、1、2块上为$\operatorname{diag}(\e^{\ii\alpha},V_2,\e^{\ii\beta})$, $V_2\in U(2)$. 例如$\sqrt{\rm SWAP}=(I+\ii\,\mathrm{SWAP})/(1+\ii)$, 因SWAP平方为$I$, 此门平方为SWAP. 为构造$F$, 用目标1、2的$A=(X_1X_2+Y_1Y_2)/2$,$V=\exp(-\ii\pi A/4)$及$C=\mathrm{CZ}_{13}$. 因$CAC=(-1)^{n_3}A$, $F=VCV^\dagger C$在$n_3=0$为$I$, $n_3=1$为$\exp(-\ii\pi A/2)$, 即交换01、10并各附$-\ii$, 00、11不变. $D$在重量2且第三位1的两态给$+\ii$, 其余为1, 则$DF$是Fredkin. $D$是三比特对角门, 此步尚未证明能由二比特守恒门做出.
+\end{solution}
+\source{Homework 2, 第4--6题及原作者撤回通知.}
+\begin{exercise}二比特对角门能合成哪些三比特对角门? 加$D_\theta=\operatorname{diag}(1,1,\e^{\ii\theta},1,\e^{\ii\theta},1,1,1)$后证可合成任意对角门. 原件更正两指数必须同号, 并明确撤回第5题. 第6题询问最少二比特守恒门数, 没有作者给定答案.\end{exercise}
+\begin{solution}把对角相位写成布尔多项式$\phi(n_1,n_2,n_3)$, 任意两位对角门与单位置相只生成常数、一次与二次项, 缺$n_1n_2n_3$. $D_\theta$的相位为$\theta(n_1+n_2-2n_1n_2)(1-n_3)$, 含$2\theta n_1n_2n_3$, 因而配二次以下门补掉其他项就能生成任意三次系数. 两指数反号则该关键三次项消失, 解释原更正.
+
+撤回第5题不作为未答题. 对无辅助比特的第6题可给严格障碍: 任意三位二比特守恒门在重量$w=0,1,2,3$块的行列式相位满足$\phi_0-\phi_1+\phi_2-\phi_3=0\pmod{2\pi}$, 因其两位块相位依次为$\alpha,\delta+\alpha,\delta+\beta,\beta$. 相乘仍满足. Fredkin只有重量2块一个交换, 行列式相位$\pi$, 其余0, 违反该不变量. 因而在本题无额外寄存器的严格守恒条件下不存在有限门数的精确实现. 这不排除增加可恢复辅助寄存器或放宽守恒门条件的实现; 原题的开放口吻不要求虚构最优有限数.
+\end{solution}
+\source{Homework 2, 第7题.}
+\begin{exercise}已能高效实现两个不同大素数$p,q$上的QFT, 如何构成$F_{pq}$? 黑盒只保证在合法小于$p$或$q$标签上的行为, 超范围任意.\end{exercise}
+\begin{solution}中国剩余映射$x\mapsto(x_p=x\bmod p,x_q=x\bmod q)$是合法标签间的可逆置换. 写$x=qx_pa+px_qb\pmod{pq}$, $a=q^{-1}\pmod p,b=p^{-1}\pmod q$. Fourier角色$\e^{2\pi\ii xy/(pq)}$分解为$\e^{2\pi\ii ax_py_p/p}\e^{2\pi\ii bx_qy_q/q}$. 因而输入先CRT, 各做$F_p,F_q$, 再把输出指标分别乘逆比例以匹配这个角色, 最后逆CRT合回. 全程只访问各合法维空间, 不依超范围黑盒. CRT与模逆、模乘的经典可逆成本为$\log(pq)$的多项式.
+\end{solution}
+
+\originalsection{作业三: 阶、周期与精确搜索}
+\source{Homework 3, 第1--3题.}
+\begin{exercise}模乘阶分解: (1) $N=15,63$时互素$1\le y<N$中成功比例; (2) $N=p^a$素数幂时问题; (3) 忘查互素, 用非单位$y$时会怎样?\end{exercise}
+\begin{solution}(1) 15的单位为1,2,4,7,8,11,13,14. 1阶奇,14平方根$-1$失败, 其余6成功, 比$3/4$. 63用$\mathbb Z_9^\times\times\mathbb Z_7^\times\simeq C_6\times C_6$. 每因素阶的2进估值只有0或1, 各一半; 两因素不同时为0且不同时为1才有非平凡平方根, 成功比例$1/2$, 即18/36. (2) 奇素数幂单位群循环, 偶阶的中点只能为$-1$, 无非平凡平方根, 先经典检完美幂. 2的幂也可直接处理. (3) 非互素的模乘不是整个空间的置换, 不能直接当幺正, 相位估计基础失效; 计算gcd本来已经给非平凡因子, 应先利用它.
+\end{solution}
+\source{Homework 3, 第5题; 第4题为商业教材5.20引用.}
+\begin{exercise}周期算法作用$f(x)=1$当$r|x$, 否则0. 约以什么概率学到$r$?\end{exercise}
+\begin{solution}若域长度为$r$的多倍, 测到1概率$1/r$, 该条件态为$r$间隔梳状态, Fourier样本有效. 测到0概率$(r-1)/r$, 其非零频率谐波总概率约$1/r$, 其余集中零频. 两条件合计得到非零周期谐波概率约$2/r$; 若仅算测到1的“好分支”则为$1/r$. 真正恢复$r$还乘抽到与$r$互素的谐波比例$\varphi(r)/r$及有限QFT近似成功概率. 因此稀疏指标函数不像一一周期函数那样常概率返回充分信息.
+\end{solution}
+\source{Homework 3, 第6--7题.}
+\begin{exercise}目标比例$a=M/N$. (6) 常规Grover一轮以概率1成功, $a$能有哪些值? (7) oracle目标相位$\e^{\ii\varphi}$, 迭代$G=H^{\otimes n}[(1-\e^{\ii\varphi})\ket0\bra0-I]H^{\otimes n}O$, 如何选$\varphi$精确一轮成功, 哪些$a$存在解?\end{exercise}
+\begin{solution}(6) $\sin^2(3\theta)=1$, $\theta\in(0,\pi/2]$, 得$\theta=\pi/6$或$\pi/2$, 即$a=1/4$或1. (7) 直接在$G,B$平面计算非目标幅度, 置零得$\cos\varphi=1-1/(2a)$, 有解当$a\ge1/4$, $a=1$无需oracle. 这条式子须采用题给匹配同号相位, 仅改变oracle相位而不改扩散门通常不能精确成功.
+\end{solution}
+
+\originalsection{作业四: 传态与图态}
+\source{Homework 4, 第1--4题.}
+\begin{exercise}(1) 传态两个经典结果的分布为何与输入无关? (2) 共享$(0000+0101+1010-1111)/2$, Alice持前两位, 对各输入与各共享位测Bell, 给Bob恢复CZ作用输入的条件修正; (3) qutrit EPR态$(00+11+22)/\sqrt3$, 给9个超密编码操作并证正交; (4) AC和BD各共享同一个未知Bell态, AB另共享单态, 怎样让CD最终得到确定单态?\end{exercise}
+\begin{solution}(1) Bell展开各分支范数$1/2$, 概率全$1/4$. (2) 资源态为$(I\otimes CZ)\ket{\Phi_+}^{\otimes2}$. Bell结果Pauli$P=X_1^{b_1}Z_1^{a_1}X_2^{b_2}Z_2^{a_2}$, Bob态$CZP\ket\psi$, 修正$CZP^\dagger CZ$. 由$X_1\mapsto X_1Z_2,X_2\mapsto Z_1X_2$, Z不变, 可写全部16种修正而无需列表: $[X_1Z_2]^{b_1}Z_1^{a_1}[Z_1X_2]^{b_2}Z_2^{a_2}$, 相位无关. (3) $X\ket j=\ket{j+1},Z\ket j=\omega^j\ket j$, 9个$Z^aX^b$, 两Bell态内积$\Tr[(Z^aX^b)^\dagger Z^{a'}X^{b'}]/3=\delta_{aa'}\delta_{bb'}$. (4) Alice把单态一半传给Cathy, Bob把另一半传给David. 未知共享Bell标签等价于两端施同一未知Pauli$Q$, 修正已知测量Pauli后仍为$(Q\otimes Q)\ket{\Psi_-}$, 单态对相同旋转仅获整体相位, 故CD确定为单态.
+\end{solution}
+\source{Homework 4, 第5题, extra credit.}
+\begin{exercise}在两条图态传输链相邻的三列加连接边, 测内部比特X, 原件图示实现SWAP. 解释这类测量模式为何可能交换两条逻辑线.\end{exercise}
+\begin{solution}取得的原PDF该图区域只有$\sigma_x$字样, 未含可恢复节点和边图形对象, 并非仅OCR失效. 本卷不猜边集, 因而此特定图的逐测量证明留为已明确的未覆盖项. 可复核替代构造为三个CNOT $C_{12}C_{21}C_{12}$, 每个用第9章图态门模拟并追踪Pauli前馈; 它严格SWAP, 但不冒充原件的最小图模式解答.
+\end{solution}
+
+\originalsection{作业五: 信道}
+\source{Homework 5, 第1--5题.}
+\begin{exercise}(1) 等概率混合$0$, $-0/2+\sqrt3\,1/2$, $-0/2-\sqrt3\,1/2$, 求态; (2) $(00+01+10)/\sqrt3$对第二位取迹; (3) 环境$\sqrt3\,0/2+1/2$, 与系统做CZ后取迹, 求Kraus; (4) 相位翻转$p$再幅度阻尼$q$, 把4个乘积Kraus缩为3个; (5) 去极化$(1-p)\rho+(p/3)\sum_{X,Y,Z}a\rho a$, $p<3/4$, 证输出最小可能本征值$2p/3$.\end{exercise}
+\begin{solution}(1) 非对角互消, 对角均$1/2$, 为$I/2$. (2) $\rho_A=\bigl(\begin{smallmatrix}2&1\\1&1\end{smallmatrix}\bigr)/3$. (3) $K_0=\sqrt3I/2,K_1=Z/2$. (4) 两个无跳跃Kraus$\sqrt{1-p}\operatorname{diag}(1,\sqrt{1-q})$和$\sqrt p\operatorname{diag}(1,-\sqrt{1-q})$, 两个跳跃矩阵正比同一个$\ket0\bra1$, 可合成$K_2=\sqrt q\ket0\bra1$. (5) 用$\sum a\rho a=2I-\rho$, 输出$(1-4p/3)\rho+(2p/3)I$. $p<3/4$时系数非负, 输入最小谱至少0, 最小输出至少$2p/3$, 纯输入取等.
+\end{solution}

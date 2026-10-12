@@ -1,0 +1,30 @@
+\originalchapter{实空间RG与Monte Carlo}
+\label{ch:realrg}
+\source{8.334 L13--L14与课程大纲中的格点模拟。}
+\originalsection{一维Ising精确消元}
+一维零场$\mathcal H=-K\sum_i s_is_{i+1}$，$s_i=\pm1$。积分每个偶站使$\sum_{s_2}\e^{K(s_1s_2+s_2s_3)}=2\cosh[K(s_1+s_3)]=A\e^{K's_1s_3}$。比较$s_1=s_3$与$s_1=-s_3$，得$K'=\frac12\log\cosh2K$、$A=2\sqrt{\cosh2K}$。有限$K>0$有$K'<K$，流向高温无序点；$K=\infty$为零温临界端点。
+
+精确相关$\avg{s_0s_r}=(\tanh K)^r$给$\xi^{-1}=-\log\tanh K$。低温定义热缺陷逸度$t=\e^{-2K}$，$\xi\simeq1/(2t)$，消元$t'\simeq2t$给$y_t=1$。此$t$不是线性$T-T_c$，所以不能写一维$\xi\propto T^{-1}$；它随$\e^{2J/\kb T}$增长。
+\originalsection{块自旋与累积近似}
+高维选择块变量$S_B$并保持原自旋与块变量的条件权重，$\e^{-\mathcal H'[S]}=\sum_sP(S|s)\e^{-\mathcal H[s]}$。精确变换会产生更多邻距、多体和场耦合，一般不是只剩一个$K'$。
+
+Niemeijer--van Leeuwen做法将块内$H_0$精确处理、块间$V$按连接累积展开：$\mathcal H'=-\log Z_0+\avg V_0-\avg{V^2}_{0,c}/2+\cdots$。块内条件分布由所选块自旋定义决定，$\avg s_i$与$\avg{s_is_j}_c$构成重整化系数。截断阶数与舍弃生成耦合必须明示，它不是高维Ising的精确消元。
+
+Migdal--Kadanoff近似用移键与消元改变连通结构。先串联消元再并联的一种$b$倍次序给
+\begin{equation}
+K'=b^{d-1}\operatorname{atanh}[(\tanh K)^b].
+\end{equation}
+$d=1$时是精确串联，$d>1$改变图的连通结构。$d=2,b=2$有$K'=\log\cosh2K$，临界不动点约0.609，而方格精确值为0.4407。线性化$\nu=\log b/\log R'(K_c)$可检查估计精度。本卷官方复习题采用另一种先移键后消元次序，数值另列；两种都属近似，不能混用。近似仍保留两个流域与临界相关方向，物理结构可比数值更可靠。
+\originalsection{详细平衡与采样误差}
+对构型$s$取目标$\pi(s)=\e^{-\mathcal H(s)}/Z$。对称提议翻一自旋，接受$P_{\mathrm{acc}}=\min(1,\e^{-\Delta\mathcal H})$。两态概率比恰为$\e^{-\Delta\mathcal H}$，故详细平衡$\pi(s)P(s\to s')=\pi(s')P(s'\to s)$。加可达性与非周期性保证有限状态Markov链趋目标分布；详细平衡本身不保证混合快。
+
+能量或磁化的连续采样相关。定义积分自相关时间
+\begin{equation}
+\tau_{\mathrm{int}}=\frac12+\sum_{t>0}\frac{C(t)}{C(0)},\qquad
+\operatorname{Var}(\overline A)\simeq\frac{2\tau_{\mathrm{int}}}{N_{\mathrm{samples}}}\operatorname{Var}(A).
+\end{equation}
+热化前样本应舍去；跨临界慢化时必须用更长轨迹、块平均或簇算法，不能把每一步当独立样本制造过小误差。
+\originalsection{临界模拟的可复核对象}
+周期$L\times L$方格的能量$E=-J\sum_{\avg{ij}}s_is_j$，翻自旋的$\Delta E=2Js_i\sum_{j\sim i}s_j$。测$C=\beta^2(\avg{E^2}-\avg E^2)/L^2$、$\chi=\beta L^2(\avg{m^2}-\avg m^2)$和Binder比，用多个$L$检查标度。有限零场系统对称性常使$\avg m=0$，报告$|m|$作为序参量时磁化率定义仍要小心，不能未经说明把$\avg m^2-\avg{|m|}^2$当严格线性响应。
+
+本卷数值附档以固定种子执行短规模模拟并对照一维精确结果、Gaussian积分与RG固定点。它验证程序与计算步骤，不以少量样品替代热力学极限证明。作业需要的具体图、误差与有限尺度范围另按题登记。

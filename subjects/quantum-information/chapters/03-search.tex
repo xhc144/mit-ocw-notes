@@ -1,0 +1,89 @@
+\Needspace{9\baselineskip}
+\originalchapter{振幅放大、量子行走与元素互异}
+本章以18.435J第11讲和MAS.865J第11讲为主. Grover证明“两个反射构成旋转”; 量子行走进一步利用候选之间的邻接结构, 避免每次从头构造候选. 元素互异是这一思想的具体应用: 缓存一个子集的函数值, 只查询被替换的一个元素, 把初始化成本与搜索成本一起优化.
+
+\originalsection{Grover的二维闭合空间}
+$N$个标签中有$M$个目标. 定义目标均匀态$\ket G$、非目标均匀态$\ket B$, 初态
+\[\ket s=\sin\theta\ket G+\cos\theta\ket B,\qquad \sin^2\theta=M/N.\]
+相位oracle $O=I-2\ket G\bra G$在这个二维空间翻转目标分量, 扩散$D=2\ket s\bra s-I$关于初态轴反射. 在$G,B$基下相乘得
+\[DO=\begin{pmatrix}\cos2\theta&\sin2\theta\\-\sin2\theta&\cos2\theta\end{pmatrix}.\]
+因此$k$轮后$\ket{\psi_k}=\sin[(2k+1)\theta]\ket G+\cos[(2k+1)\theta]\ket B$, 成功率为其第一项的模平方. 所有非目标标签始终等幅, 所有目标也等幅, 所以整个指数维态真正闭合在二维空间; 这是可分析性的来源.
+
+当$M\ll N$, $\theta\simeq\sqrt{M/N}$, 第一峰在$k\simeq\pi/(4\theta)-1/2$, 查询$O(\sqrt{N/M})$. 继续迭代会越过目标轴, 概率下降; 因而“把迭代做更多次总有帮助”不成立. 最后得到的候选还须调用一次验证oracle. 在一般可逆验证程序中, 目标相位门的实现包含计算判据、相位反冲及清垃圾, 其门成本不能忽略.
+
+\begin{example}$N=4,M=1$, $\theta=\pi/6$, 一轮后的角为$\pi/2$, 成功概率1. 从四个幅度$1/2$直接检查: 目标翻成$-1/2$, 平均幅度$1/4$, 关于均值的反射$a\mapsto2\bar a-a$使目标为1, 其余为0. 这是二维旋转公式和“关于均值反演”的同一个计算.\end{example}
+
+\originalsection{未知目标数、计数与查询下界}
+若$M$未知, 固定按$M=1$选迭代数可能反复越峰. 可取$k$在$0,\ldots,m-1$随机, 均成功率
+\[\frac1m\sum_{k=0}^{m-1}\sin^2[(2k+1)\theta]
+=\frac12-\frac{\sin4m\theta}{4m\sin2\theta}.\]
+当$m$达到$\Theta(1/\sin2\theta)$时, 第二项的绝对值有常数上界小于$1/2$. 将$m$按固定比例逐步增大, 每阶段试验并验证候选, 可在$O(\sqrt{N/M})$期望查询找到目标. 这条平均式解释了随机步数为何避免一个错误步数反复给零成功率.
+
+反过来, Grover迭代的本征值为$\e^{\pm2\ii\theta}$. 对它作相位估计即可估$\theta$, 再由$M=N\sin^2\theta$计数. 若相位误差$\delta\theta$, 一阶误差$\delta M\simeq N\sin2\theta\,\delta\theta$. 对稀疏目标, 相对误差为$O(\sqrt{N/M}\,\delta\theta)$. 相位估计用了$K$次受控迭代时分辨率$O(1/K)$, 因而相对精度$\epsilon$需要约$\sqrt{N/M}/\epsilon$查询. 输出近似计数和找到一个目标是不同任务.
+
+为什么无结构搜索不能再取得指数查询加速? 比较一个目标$x$的oracle与恒等oracle. 在无目标的第$t$次查询前, 令$x$幅度为$a_{x,t}$. 一次替换只改变该分量, 差向量范数至多$2|a_{x,t}|$. 逐次替换oracle并用幺正保持范数, 得末态距离
+\[D_x\le2\sum_{t=1}^q|a_{x,t}|,\qquad
+\sum_xD_x^2\le4q\sum_t\sum_x|a_{x,t}|^2=4q^2.\]
+后一式使用Cauchy--Schwarz. 如果算法对所有$x$都以常数概率输出$x$, 对至少一半$x$, 无目标程序输出$x$的概率仅$O(1/N)$, 两种输出分布必须相差常数, 因而$D_x$至少常数. 左端于是$\Omega(N)$, 得$q=\Omega(\sqrt N)$. 下界属于黑盒查询模型; 有额外函数结构时应重新分析, 不能一概用它限制所有算法.
+
+\originalsection{连续搜索与图上行走}
+令$\alpha=1/\sqrt N$, $\ket x$为目标, $\ket s=\alpha\ket x+\sqrt{1-\alpha^2}\ket y$. 连续搜索Hamiltonian $H=E(\ket x\bra x+\ket s\bra s)$在$x,y$基去掉$EI$后为$E\alpha[\alpha Z+\sqrt{1-\alpha^2}X]$. 中括号是单位方向Pauli, 平方I, 所以指数可直接写为cos与sin. 时间$t=\pi\hbar/(2E\alpha)$时态转到目标, 只差整体相位. 这恢复$\Theta(\sqrt N)$尺度. 将两项按短时间交替演化是Trotter近似, 每步误差由它们的对易子控制; 两个投影的相位各为$\pi$时则回到反射模型.
+
+图上量子行走把Hamiltonian取为邻接矩阵或图Laplacian. 振幅沿边传播并相干相加, 不同于经典随机概率递推. 在无限一维均匀链, $H=-\gamma\sum_j(\ket{j+1}\bra j+\hc)$, Fourier波$\e^{\ii kj}$有色散$-2\gamma\cos k$, 群速度$2\gamma\sin k/\hbar$. 波包尺度可线性随时间扩展, 而经典无偏随机游走的均方位移随时间线性, 宽度仅$\sqrt t$. 但命中某目标的概率还依赖边界、初态及测量方式, 不能由传播速度直接宣布任意图搜索都快.
+
+\originalsection{3-SAT验证与空间搜索的模型}
+对$n$个布尔变量的3-SAT公式$C=\bigwedge_{a=1}^m C_a$, 一个赋值$x\in\{0,1\}^n$可逐子句验证. 将三个文字的或、再将$m$个结果的与可逆计算到辅助位, 作目标相位反冲, 逆转验证器清除辅助. 例如$C_1=x_1\lor\neg x_2\lor x_3$仅在$(x_1,x_2,x_3)=(0,1,0)$违背, 违反标志是$(1-x_1)x_2(1-x_3)$. 若满足赋值数$M>0$, Grover查询为$O(\sqrt{2^n/M})$, 每次另有$\operatorname{poly}(n,m)$验证门成本; 一般唯一解仍需指数$O(2^{n/2})$. 原第10讲的绝热版本以每个违背模式的投影罚项构造$H_C=\sum_a\Pi_{\neg C_a}$, 本例$\Pi_{\neg C_1}=(I+Z_1)(I-Z_2)(I+Z_3)/8$. 某基态能量为0当且仅当它满足所有子句. 正确编码并不保证插值Hamiltonian的最小隙足够大; 两条路线都没有从快速验证推出通用多项式3-SAT算法.
+
+MAS第11讲第2页的空间搜索把$N=L^d$个标签安放在$d$维边长$L$的网格: 每步只可移到邻点, 并查询当前位置是否标记. 任意全局扩散矩阵不再是免费的一次门; 还存在$\Omega(L)$局域传播下界. 加上查询下界, 时间至少$\Omega(\max\{\sqrt N,N^{1/d}\})$. 抽象Grover查询数因此不直接等于空间搜索时间.
+
+带币离散行走用$2d$个方向$c$, 取$C=2\ket{s_c}\bra{s_c}-I$, $\ket{s_c}=(2d)^{-1/2}\sum_c\ket c$, 翻转移位$S\ket{v,c}=\ket{v+e_c,-c}$, 一步$U=S(I\otimes C)$. 搜索修改标记点的币或反射. 周期网格每个动量$k$对应小币块, 相关相位满足$\cos\theta_k=d^{-1}\sum_j\cos k_j$, 小$k$时$\theta_k^2\simeq|k|^2/d$. 谱和$N^{-1}\sum_{k\ne0}(1-\cos\theta_k)^{-1}$的红外部分如$\int_{1/L}^1k^{d-3}\dd k$: $d=2$有$\log L$修正, $d\ge3$有限. 这说明维度的作用, 积分本身尚不证明完整搜索成功率.
+
+对单标记周期网格, 原课引用的带币算法在$d=2$用$O(\sqrt{N\log N})$步得到$\Omega(1/\log N)$成功率, 再放大给总时间$O(\sqrt N\log N)$; $d\ge3$有常数成功率与$O(\sqrt N)$总时间. 一维仍受$\Omega(N)$传播限制. 这些结果属于指定局域门/网格模型, 不可与无币连续行走或任意图混用. 完整证明见Ambainis--Kempe--Rivosh, \emph{Coins Make Quantum Walks Faster}, 主证明第6节、技术引理第7节, \url{https://arxiv.org/abs/quant-ph/0402107}.
+
+\originalsection{元素互异: 为什么缓存子集}
+给$f:[N]\to[\mathcal M]$, 判断是否有$i\ne j$使$f(i)=f(j)$. MAS第11讲为解释算法, 先假定恰有一对冲突, 把该对固定叫1、2. 原始经典算法读全部$N$个值, 之后排序比较, 查询$O(N)$、一般比较时间$O(N\log N)$. 如果量子程序每次挑一个$r$元子集从头读$r$个值, 单次检查就花$r$查询, 搜索优势会被浪费.
+
+取所有$r$元集合$S$, 并缓存$\{f(i):i\in S\}$. 标记规则是\textbf{S内}已经有冲突. 一个随机S包含1、2的概率
+\[\varepsilon=\frac{\binom{N-2}{r-2}}{\binom Nr}=
+\frac{r(r-1)}{N(N-1)}.\]
+标记的振幅尺度$\alpha=\sqrt\varepsilon\simeq r/N$. 如果能用廉价步子在子集间移动, 就有机会花$O(1/\alpha)$个搜索宏步, 每宏步再付行走混合成本.
+
+为具体描述行走, 使用有向包含边$\ket{S,y}$, $|S|=r,y\notin S$, 连同S与y的函数缓存. 同一$S$有$N-r$个可加元素; 同一个$T=S\cup\{y\}$有$r+1$种指定“外来元素y”的方法. 两个反射定义为
+\[A: \text{固定S, 关于 }(N-r)^{-1/2}\sum_{y\notin S}\ket{S,y}\text{ 反射},\]
+\[B: \text{固定T, 关于 }(r+1)^{-1/2}\sum_{y\in T}\ket{T\setminus y,y}\text{ 反射}.
+\]
+B只把已知的$r+1$个缓存值重新标记为哪一个在外部, 不需新查询. A更换外部元素时, 可逆擦除旧$f(y)$并查询新$f(y)$, 只需常数次oracle. 数据结构的排序与相位判据需要额外门; 本节先证明查询复杂度, 不把这些门都称一次查询.
+
+\originalsection{五维不变空间及行走相位}
+虽然边空间巨大, 在唯一冲突假设下, 可按$i=|S\cap\{1,2\}|$和$b=\mathbf1_{y\in\{1,2\}}$分类. 仅有
+\[(i,b)=(0,0),(0,1),(1,0),(1,1),(2,0).\]
+令$\ket{i,b}$为每类所有边的归一均匀和. A、B及标记相位对1、2互换和其余标签置换对称, 所以把类内等幅态映到类内等幅态, 这五个向量的空间严格不变. 标记向量就是$\ket g=\ket{2,0}$.
+
+各块矩阵可完全由组合计数复现. 固定i时, A在$b=0,1$块为$2u_i u_i^T-I$, 其中
+\[u_i=\begin{pmatrix}\sqrt{(N-r-2+i)/(N-r)}\\\sqrt{(2-i)/(N-r)}\end{pmatrix},\quad i=0,1;
+\qquad A\ket{2,0}=\ket{2,0}.\]
+固定$m=i+b$时, B在$\ket{m,0},\ket{m-1,1}$块为$2v_mv_m^T-I$,
+\[v_m=\begin{pmatrix}\sqrt{(r+1-m)/(r+1)}\\\sqrt{m/(r+1)}\end{pmatrix},\quad m=1,2;
+\qquad B\ket{0,0}=\ket{0,0}.\]
+这给出了实际可乘的两个五维矩阵, 而不只是声称“五维”. 初始所有边均匀态$\ket s$被两反射固定. 每类边数是$\binom2i\binom{N-2}{r-i}$再乘相应外部元素数, 除总数$\binom Nr(N-r)$就给初态每类概率; 目标概率仍为上式$\varepsilon$.
+
+直接相乘并因式分解特征多项式, $W=BA$的五个本征值为$1,\e^{\pm\ii\theta_1},\e^{\pm\ii\theta_2}$, 满足
+\[\cos\theta_j=1-\frac{2j(N+1-j)}{(r+1)(N-r)},\qquad j=1,2.\]
+当$1\ll r\ll N$, $\theta_1\simeq2/\sqrt r$, $\theta_2\simeq2\sqrt{2/r}$. 因而要把这些很小的行走相位变成常数角, 需$t=\Theta(\sqrt r)$个微步. 例如选接近$\sqrt r/2$的整数t, 两相位在渐近区间接近1与$\sqrt2$, 均远离0模$2\pi$; 这不是每次从头检查r个值的成本.
+
+\originalsection{从行走相位到搜索次数}
+现在令$U=W^t$, $R_g=I-2\ket g\bra g$, 反复作用$UR_g$. U固定$\ket s$, 在其余四维有离开0的成对相位. 为看出次数为何是$\Theta(1/\alpha)$, 把$\ket g$在这些本征向量中展开. 实矩阵和实$\ket g$保证共轭对上的权重相等; 写$\alpha=\langle g|s\rangle$, 一对的总权重为$\beta_j^2$, $\alpha^2+\sum_j\beta_j^2=1$. 一个特征相位$\lambda$满足反射秩一更新的世俗方程
+\[\alpha^2\cot\frac\lambda2+
+\sum_{j=1}^2\frac{\beta_j^2}2
+\left[\cot\frac{\lambda-\vartheta_j}2+\cot\frac{\lambda+\vartheta_j}2\right]=0,
+\quad\vartheta_j=t\theta_j\pmod{2\pi}.\]
+这条式子由$(U-\e^{\ii\lambda})\ket v=2U\ket g\langle g|v\rangle$逐本征分量求解并代回$\langle g|v\rangle$得到. 对小$\lambda$, 第一项约$2\alpha^2/\lambda$, 每一成对cot括号约$-\lambda\csc^2(\vartheta_j/2)$, 外面仍乘$\beta_j^2/2$. 因此靠近0的两根满足
+\[\lambda\simeq\pm\frac{2\alpha}{\sqrt{\sum_j\beta_j^2\csc^2(\vartheta_j/2)}}=\Theta(\alpha).\]
+分母有与N无关的上下界, 正因为所有$\vartheta_j$离0有常数距离. 两根的特征向量在初态与目标上均有常数尺度的有效重叠; 它们的相对相位在$O(1/\alpha)$轮积累到常数, 给常数命中概率. 这与Grover的二维旋转是同一机制, 但在这里允许目标态还有其他本征分量, 所以只保证常数成功率, 不保证第一峰必为1. 独立重复并验证即可放大.
+
+\originalsection{查询预算与最优子集尺度}
+初始缓存需要$O(r)$查询. 搜索宏步数$O(N/r)$, 每宏步行走$O(\sqrt r)$个微步、每微步常数查询, 标记S只用现存数据. 总查询
+\[Q(r)=O\left(r+\frac Nr\sqrt r\right)=O\left(r+\frac N{\sqrt r}\right).\]
+平衡两项$r\asymp N/\sqrt r$给$r\asymp N^{2/3}$, 总$O(N^{2/3})$. 对连续成本$r+N r^{-1/2}$求导, 最优常数满足$r^{3/2}=N/2$; 复杂度只保留阶. r太小, 初始化便宜却标记概率太低; r太大, 搜索轮数少却先读太多数据. 优化必须同时含这两项.
+
+原课用唯一冲突对来证明五维闭合, 本卷亦明确这一假设. 一般多冲突实例的完整Ambainis算法与最优下界在原课列为更广结果; 不把上述五类直接冒用到任意冲突结构. 可迁移的设计方法是: 选择候选数据结构, 缓存局部信息, 证明更新廉价, 找到对称不变空间或谱隙, 最后同时优化准备与搜索成本. 单独写一个“N的三分之二次方”并不能说明算法为何成立.

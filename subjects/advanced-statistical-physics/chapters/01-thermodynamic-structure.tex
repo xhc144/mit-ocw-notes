@@ -1,0 +1,33 @@
+\originalchapter{热力学稳定性与概率结构}
+\label{ch:thermo}
+\source{8.333早期讲义对应L1--L6；本科定律仅作必要连接，重点为稳定性、累积量与大数尺度。}
+\originalsection{势函数与稳定性}
+平衡态熵$S(U,V,N)$满足$\dd S=T^{-1}\dd U+(p/T)\dd V-(\mu/T)\dd N$。两个可交换能量的子系统在总$U$固定时使$S_1(U_1)+S_2(U-U_1)$极大，一阶条件$T_1=T_2$，二阶条件要求相应熵曲率非正。用$\partial_U^2S=-1/(T^2C_V)$，局部稳定且$C_V$有限时$C_V>0$。稳定性来自允许的涨落方向；若约束改变，要在实际允许子空间判断Hessian，不是随便对某个变量求二阶导数。
+
+Legendre变换把不便固定的广延量换成热库的强度量。$F=U-TS$有$\dd F=-S\dd T-p\dd V+\mu\dd N$；$G=F+pV$有$\dd G=-S\dd T+V\dd p+\mu\dd N$。混合偏导相等给Maxwell关系，例如$\partial_VS|_T=\partial_Tp|_V$。它们要求处于可微的同一热力学相，跨一阶跃迁的尖点不能无解释地交换偏导。
+
+设$\kappa_T=-V^{-1}\partial_pV|_T>0$、$\alpha=V^{-1}\partial_TV|_p$。以$\dd S=(C_V/T)\dd T+(\partial_Tp)_V\dd V$，在定压路径$\dd V=\alpha V\dd T$，再由链式关系$(\partial_Tp)_V=\alpha/\kappa_T$，得
+\begin{equation}
+C_p-C_V=\frac{TV\alpha^2}{\kappa_T}\ge0.
+\end{equation}
+这不仅给不等式，还表明两种热容差测量热膨胀与可压缩性的耦合。相稳定的局部条件不能替代全局自由能最低条件；亚稳态可有正热容、正压缩率却不是全局平衡。
+
+第三定律给完美晶体的非简并平衡基态$S\to0$，存在有限简并时可剩$\kb\log g_0$。无序冻结的残余熵和未达平衡的玻璃状态需要另作物理判断，不能靠选择熵零点去掉实际状态计数。
+\originalsection{联合分布、累积量与相关}
+随机变量$X$的特征函数$\varphi(t)=\avg{\e^{\ii tX}}$总存在，矩母函数$M(t)=\avg{\e^{tX}}$可能只在有限区间存在。定义$K(t)=\log M(t)$，累积量$\kappa_n=K^{(n)}(0)$。前几项$\kappa_1=\avg X$、$\kappa_2=\avg{X^2}-\avg X^2$、$\kappa_3=\avg{(X-\avg X)^3}$、$\kappa_4=\avg{(X-\avg X)^4}-3\kappa_2^2$。累积量把不可约相关与由低阶矩乘积产生的部分分开。
+
+独立和$S_N=\sum_iX_i$有$M_{S_N}=\prod M_i$，所以$K_{S_N}=\sum K_i$，所有累积量相加。对联合变量，$K(t_1,\ldots,t_n)$的混合导数给连接相关。例如$\avg{XYZ}_c=\avg{XYZ}-\avg X\avg{YZ}-\avg Y\avg{XZ}-\avg Z\avg{XY}+2\avg X\avg Y\avg Z$。独立两组间的混合累积量为0；反过来若只知道二阶相关为0，不能断言独立，除非已知联合高斯等附加条件。
+
+对Gaussian变量$K=\mu t+\sigma^2t^2/2$，高阶累积量全0。正则配分函数的参数导数也生成累积量：$\partial_\beta\log Z=-\avg H$、$\partial_\beta^2\log Z=\avg{H^2}_c$，所以$C_V=\kb\beta^2\operatorname{Var}H$。统计涨落不仅“很小”，还定量控制响应。
+\originalsection{中心极限定理与大偏差}
+对独立同分布且有限方差的变量，$Y_N=(S_N-N\mu)/(\sigma\sqrt N)$的特征累积量展开为$\log\varphi_{Y_N}(t)=-t^2/2+O(N^{-1/2})$，各$n>2$阶缩为$N^{1-n/2}$（若所需高阶矩存在）。更一般仅有限二阶矩也可用小$t$的$o(t^2)$余项建立Gaussian极限。重尾无有限方差时此结论失效，稳定分布可替代Gaussian。
+
+中心极限定理只描述均值附近$O(\sqrt N)$涨落。对$S_N/N\simeq x$、$x-\mu=O(1)$，若矩母函数在0附近存在，Laplace鞍点给$P\sim\e^{-NI(x)}$，$I(x)=\sup_t[tx-K(t)]$。例如Bernoulli成功率$p$，$K=\log(1-p+p\e^t)$，最优$\e^t=x(1-p)/[p(1-x)]$，故
+\begin{equation}
+I(x)=x\log\frac xp+(1-x)\log\frac{1-x}{1-p}.
+\end{equation}
+近$x=p$展开为$(x-p)^2/[2p(1-p)]$，接回中心极限；靠近0或1的罕见事件不能直接用同一二次抛物线估计。
+\originalsection{信息熵与估计}
+离散熵$H=-\sum p_i\log p_i$是无量纲信息量，物理熵为$\kb H$加与相空间基准有关的常数。连续微分熵依变量的单位与坐标变换，不能单独看它的绝对值评价热力学熵。相对熵$D(p\Vert q)=\sum p_i\log(p_i/q_i)\ge0$由$\log x\le x-1$证明，等号仅$p=q$。
+
+最大熵在归一与$\avg E=U$约束下变分，$p_i\propto\e^{-\beta E_i}$，$\beta$是能量约束的乘子；其物理温度意义还需与热库平衡条件相接。Fisher信息$I(\theta)=\avg{(\partial_\theta\log p)^2}$量化参数变化的可分辨度；在可微、积分与导数可交换、支撑不随参数突变等正则条件下，无偏估计的方差$\ge1/[NI(\theta)]$。它不是不加条件的所有统计估计精度定理。

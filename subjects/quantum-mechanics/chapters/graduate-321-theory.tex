@@ -1,0 +1,140 @@
+\originalchapter{研究生量子理论一：结构、传播与对称性}
+\label{ch:graduate321}
+Senthil Todadri的8.321（Fall 2017）从量子理论的结构重新建立动力学。本分编假定读者已掌握本册本科篇的态、算符、谐振子和角动量；需要增加的是如何严密区分定义域、如何用传播核和规范组织计算，以及如何从复合态和反幺正对称性读出物理。本章中文重编依据24份实际讲义和4份习题课笔记，重复的本科推导以明确回指衔接，新增推导为自主整理。第16、17讲官方没有公开，不能以本章复合系统补充冒称其翻译。
+
+\originalsection{课程安排与实际讲次}
+授课教师Senthil Todadri，学期Fall 2017，课程为两学期研究生量子理论的第一学期，强调原理。官方大纲列基础概念、动力学、复合系统、对称性和近似方法；推荐Sakurai与Napolitano的\textit{Modern Quantum Mechanics}，本册不附教材。大纲说总评完全依据作业，考试页面另外公开2016、2017年各一份期中和期末，二者分别记出处，不能反推考试权重。没有独立Calendar页面；讲义页给出实际日期和讲次，可作为课历参考。
+\begin{longtable}{p{.16\textwidth}p{.74\textwidth}}
+\toprule 讲次 & 公开内容及本册衔接\\\midrule\endhead
+1--5 & 测量、Hilbert空间、矩阵、伴随/幺正、共同本征基、自旋过滤、连续谱与平移；本科第8章及本章定义域说明，作业1--3。\\
+6--9 & Schrödinger/Heisenberg/相互作用绘景、恒电场、谐振子、旋转磁场和Rabi；本科动力学篇及本章时序传播，作业3--4。\\
+10--12 & 传播核、路径积分、驻相、势与规范；本章完整时间切片与二次作用量，作业5。\\
+13--15 & AB、磁单极、Landau/导引中心、张量积和纠缠；本科第17章及本章补充，作业6--8。\\
+16--17 & 官方标明讲义未提供。复合系统题解来自实际作业，不冒称缺失讲稿。\\
+18--23 & 连续/离散对称、SO(3)/SU(2)、角动量合成、宇称和时间反演、Kramers与中心势；本科角动量篇及本章，作业9--10。\\
+24--26 & 非简并/简并/含时微扰、Stark、van der Waals、谐波驱动和光电效应；本科近似方法及含时辐射章，作业11--12。\\
+习题课1/2/3/5 & 共同对角化及自伴域；delta与Gaussian积分；二味中微子振荡；规范联络。其余编号未在公开页提供。\\
+\bottomrule
+\end{longtable}
+
+\originalsection{完备性、自伴算符与连续谱}
+Hilbert空间是内积所诱导范数下完备的向量空间；Cauchy序列在空间内有极限。这允许合理定义极限态与连续线性泛函。有限维中Hermitian矩阵和自伴算符等价，可酉对角化；无穷维中算符还包含定义域$D(A)$。对称性是$\braket{u}{Av}=\braket{Au}{v}$对$u,v\in D(A)$成立；自伴还要求$D(A)=D(A^\dagger)$，不能只看微分表达式相同。
+
+区间$[0,L]$上的$p=-i\hbar\partial_x$给边界型
+$\braket{u}{pv}-\braket{pu}{v}=-i\hbar[u^*v]_0^L$。
+取$D(p)=H^1_0([0,L])$使对称，却有$D(p^\dagger)=H^1([0,L])$，故不自伴。取$D(p_\alpha)=\{f\in H^1:f(L)=e^{i\alpha}f(0)\}$，边界型消失，伴随要求相同边界，才得到自伴扩张；其谱$p_n=\hbar(2\pi n+\alpha)/L$、归一态$L^{-1/2}e^{ip_nx/\hbar}$。这修正习题课1用“二次可微”描述一阶算符域的不精确措辞：正确自然闭域是Sobolev一阶域，不是任意逐点二阶可微函数集。
+
+全直线的位置/动量本征矢是广义本征矢，$\braket{x}{x'}=\delta(x-x')$，不能当成范数1的普通向量。取$\braket{x}{p}=e^{ipx/\hbar}/\sqrt{2\pi\hbar}$，完备式给Fourier变换及Parseval。delta是分布；$\delta(ax)=\delta(x)/|a|$，简单根的$\delta(f(x))=\sum_i\delta(x-x_i)/|f'(x_i)|$，$\int g\delta'=-g'(0)$。Gaussian积分$\int e^{-ax^2+bx}\dd x=\sqrt{\pi/a}\,e^{b^2/(4a)}$在$\operatorname{Re}a>0$成立，纯振荡边界按$a\to a+0^+$定义，平方根分支连续选择；不能把$a=0$写成收敛普通积分。习题课2标明沿Townsend讨论的信用在此保留，具体函数推导为自写。
+
+本科第8章已经证明Hermitian矩阵的正交性、完备基和交换算符共同对角化：$[A,B]=0$使每个$A$本征空间在$B$作用下不变，再在每个块内对角化。无界算符的形式对易不自动保证谱投影强对易，本文连续谱计算须用明确共同域及边界，不把有限维论证无限外推。
+
+\originalsection{时序、相互作用绘景与旋转参考系}
+含时Hamiltonian满足$i\hbar\partial_tU(t,t_0)=H(t)U$、$U(t_0,t_0)=1$。其积分方程迭代给
+\[
+ U=1+\sum_{n\ge1}\left(-\frac i\hbar\right)^n
+ \int_{t_0}^t\dd t_1\int_{t_0}^{t_1}\dd t_2\cdots
+ \int_{t_0}^{t_{n-1}}\dd t_n\,H(t_1)\cdots H(t_n).
+\]
+积分有序域表达较晚的Hamiltonian放左；只有不同时间的$H$交换时才化为普通指数。写$H=H_0+V$，$\ket{\psi_I}=e^{iH_0(t-t_0)/\hbar}\ket{\psi_S}$给$i\hbar\partial_t\ket{\psi_I}=V_I\ket{\psi_I}$。一阶幅度和二阶有序幅度分别为
+\[
+ c_f^{(1)}=-\frac i\hbar\int V_{fi}(t)e^{i\omega_{fi}t}\dd t,
+ \quad c_f^{(2)}=-\frac1{\hbar^2}\sum_n\int\dd t_1\int^{t_1}\dd t_2
+ V_{fn}(t_1)V_{ni}(t_2)e^{i\omega_{fn}t_1+i\omega_{ni}t_2}.
+\]
+初时下限须一致。长时谐波场取连续末态密度后给Fermi黄金规则；本科含时辐射章已给sinc窗口到delta和光电离的体积归一，不能把有限离散二能级直接套成不可逆恒定速率。
+
+对$H=-\gamma[B_0S_z+B_1(\cos\omega tS_x+\sin\omega tS_y)]$，取$R=e^{-i\omega tS_z/\hbar}$、$\ket\psi=R\ket\chi$。逐项微分得$H_{\rm rot}=-\gamma B_1S_x-(\gamma B_0+\omega)S_z$，故$U=R\exp[-iH_{\rm rot}t/\hbar]$。本约定正旋转驱动的共振是$\omega=-\gamma B_0$，若改磁场旋向或Hamiltonian正号则共振号随之改变。对自旋$1/2$，$\Omega_R=\sqrt{(\gamma B_1)^2+(\gamma B_0+\omega)^2}$，初$+z$翻转概率为$(\gamma B_1/\Omega_R)^2\sin^2(\Omega_Rt/2)$。它来自精确旋转变换，此处没有使用线偏振场的旋转波近似。
+
+习题课3的二味中微子例子：$\ket{\nu_e}=\cos\theta\ket{\nu_1}-\sin\theta\ket{\nu_2}$、$\ket{\nu_\mu}=\sin\theta\ket{\nu_1}+\cos\theta\ket{\nu_2}$。时间演化仅给质量态不同相位，故$P_{e\to\mu}=\sin^22\theta\sin^2[(E_1-E_2)t/(2\hbar)]$。固定动量高能近似$E_i\simeq pc+m_i^2c^3/(2p)$、$L\simeq ct$给$\sin^2[\Delta m^2c^4L/(4E\hbar c)]$。这只是二味真空模型，不含三味、物质效应或CP相位。原笔记展开中两处将$\sin\theta$误印为$\cos\theta$，最终概率正确；这里按正交混合矩阵重新推导。
+
+\originalsection{传播核与时间切片路径积分}
+传播核$K(x_f,t_f;x_i,t_i)=\bra{x_f}U\ket{x_i}$满足组合律$K_{fi}=\int K_{fm}K_{mi}\dd x_m$和短时极限$K\to\delta(x_f-x_i)$。对$H=p^2/(2m)+V(x)$，取$N$片$\epsilon=T/N$，Trotter分解的每片误差在适当域上为$O(\epsilon^2)$，插入位置、动量完备式并作动量Gaussian积分，得
+\[
+ K=\lim_{N\to\infty}\left(\frac m{2\pi i\hbar\epsilon}\right)^{N/2}
+ \int\prod_{j=1}^{N-1}\dd x_j\,
+ \exp\left\{\frac i\hbar\sum_{j=0}^{N-1}
+ \left[\frac{m(x_{j+1}-x_j)^2}{2\epsilon}-\epsilon V(x_j)\right]\right\}.
+\]
+归一因子来自每片动量积分，不能仅写“所有路径等权求和”而丢失测度。实时间积分须有$T-i0$收敛处方；取不同时间切片约定时，对位置相关算符的排序也必须相容。
+
+下面把8.321第11讲的切片测度实际用于作业5要求的二次作用量计算。对谐振子，先写$x=x_{\rm cl}+\eta$、$\eta(0)=\eta(T)=0$。交叉项为
+$m\int(\dot x_{\rm cl}\dot\eta-\omega^2x_{\rm cl}\eta)\dd t$
+，分部积分后的边界为0，体项是$-m\int(\ddot x_{\rm cl}+\omega^2x_{\rm cl})\eta\dd t=0$；所以$S=S_{\rm cl}+S_2[\eta]$。经典路径与端点导数为
+\[
+ x_{\rm cl}(t)=\frac{x_i\sin\omega(T-t)+x_f\sin\omega t}{\sin\omega T},\quad
+ \dot x_{\rm cl}(0)=\frac{\omega(x_f-x_i\cos\omega T)}{\sin\omega T},\quad
+ \dot x_{\rm cl}(T)=\frac{\omega(x_f\cos\omega T-x_i)}{\sin\omega T}.
+\]
+沿这条路径，$\frac{\dd}{\dd t}(x\dot x)=\dot x^2-\omega^2x^2$，因此不用再做三角积分，$S_{\rm cl}=m[x\dot x]_0^T/2$，代入端点即得
+\[
+ S_{\rm cl}=\frac{m\omega}{2\sin\omega T}
+ [(x_i^2+x_f^2)\cos\omega T-2x_ix_f].
+\]
+这只确定核的端点相位，尚未确定其归一因子；归一不能由一句“取短时极限”跳过。取$N$片、$\epsilon=T/N$，在上述左端势能切片中，$N-1$个涨落积分的二次型是
+\[
+ S_{2,N}=\frac m{2\epsilon}\boldsymbol\eta^TA_N\boldsymbol\eta,\qquad
+ A_N=\begin{pmatrix}
+ d&-1&&0\\-1&d&\ddots&\\&\ddots&\ddots&-1\\0&&-1&d
+ \end{pmatrix},\quad d=2-\omega^2\epsilon^2.
+\]
+这里$A_N$的大小为$N-1$，端点涨落不积分；测度仍带每一片的$m/(2\pi i\hbar\epsilon)$平方根。有限$N$应先围绕离散作用量的驻定路径平移，才能确实消去有限维线性项。它满足
+\[
+ x_{j+1}-(2-\omega^2\epsilon^2)x_j+x_{j-1}=0,\quad
+ x_{{\rm cl},j}=\frac{x_i\sin[(N-j)\vartheta]+x_f\sin(j\vartheta)}{\sin(N\vartheta)},
+\]
+其中$2\cos\vartheta=2-\omega^2\epsilon^2$。它在连续极限趋前述$x_{\rm cl}(t)$，离散经典作用量也趋$S_{\rm cl}$；不能把连续轨道直接塞入有限切片就称交叉项已精确为0。先在$0<T<\pi/\omega$及足够大$N$下，二次型正定，可逐个正交本征方向作Fresnel积分：
+\[
+ \int_{\mathbb R^{N-1}}\exp\!\left(\frac{im}{2\hbar\epsilon}\boldsymbol\eta^TA_N\boldsymbol\eta\right)
+ \prod_{j=1}^{N-1}\dd\eta_j
+ =\left(\frac{2\pi i\hbar\epsilon}m\right)^{(N-1)/2}(\det A_N)^{-1/2}.
+\]
+收敛以原切片的$T-i0$定义。设同类$M\times M$三对角行列式为$D_M$，沿第一行展开给$D_M=dD_{M-1}-D_{M-2}$、$D_0=1,D_1=d$。置$d=2\cos\vartheta$，这与正弦递推同式，故
+\[
+ D_M=\frac{\sin[(M+1)\vartheta]}{\sin\vartheta},\qquad
+ \cos\vartheta=1-\frac{\omega^2\epsilon^2}{2}.
+\]
+于是切片涨落因子不是未知常量，而是
+\[
+ F_N(T)=\left(\frac m{2\pi i\hbar\epsilon}\right)^{N/2}
+ \left(\frac{2\pi i\hbar\epsilon}m\right)^{(N-1)/2}D_{N-1}^{-1/2}
+ =\sqrt{\frac m{2\pi i\hbar\epsilon}\frac{\sin\vartheta}{\sin N\vartheta}}.
+\]
+$\vartheta=\omega\epsilon+O(\epsilon^3)$，$N\vartheta\to\omega T$、$\sin\vartheta/\epsilon\to\omega$，所以实际算得
+\[
+ F(T)=\sqrt{\frac{m\omega}{2\pi i\hbar\sin\omega T}},\qquad
+ K=F(T)e^{iS_{\rm cl}/\hbar}.
+\]
+自由粒子可在同一有限切片计算中取$\omega=0$：$d=2$，递推给$D_{N-1}=N$，所以$F_N=\sqrt{m/(2\pi i\hbar N\epsilon)}$，而$S_{\rm cl}=m(x_f-x_i)^2/(2T)$。这才由切片积分得到完整自由核，且自然满足delta短时极限；没有通过量子能谱倒推未知归一因子。
+
+矩阵本征值$\lambda_j=d-2\cos(j\pi/N)$（$j=1,\ldots,N-1$）也说明焦散：$T$增加穿过$\pi/\omega$时，第一个涨落方向的特征值过零。Fresnel相位从正特征值的$e^{i\pi/4}$变为负特征值的$e^{-i\pi/4}$，每次过零相对多$e^{-i\pi/2}$，给连续传播所需Maslov相位。一般时间用这一分支连续延拓，而不是每次把平方根重取主值。
+
+平方根必须按连续演化跨越焦散时选择相位。$\sin\omega T=0$处不是有限普通函数，而是分布核：$T=\pi/\omega$给$e^{-i\pi/2}\delta(x_f+x_i)$，$T=2\pi/\omega$给$-\delta(x_f-x_i)$。因此原作业所说“与经典周期相同”只能指位置映射或概率；量子核经过经典一周期多一个负号。
+
+Gaussian驻相的一般局部式是$\int e^{i\lambda f(x)}g(x)\dd x\sim g(x_0)e^{i\lambda f(x_0)+i\pi\operatorname{sgn}f''(x_0)/4}\sqrt{2\pi/(\lambda|f''(x_0)|)}$，需孤立非退化驻点、合适端点和大$\lambda$。路径积分里的二次情形恰好没有高阶涨落，才从近似变成精确；一般势仍有高阶修正。
+
+\originalsection{规范、磁单极与导引中心}
+本科第17章已在SI制证明最小耦合、AB环谱与Landau谱，本节连接路径积分和习题课5的联络视角。SI作用量$S=\int[mv^2/2+q\vct A\cdot\vct v-q\phi]\dd t$在$\vct A' =\vct A+\nabla\chi$、$\phi'=\phi-\dot\chi$下增加$q[\chi_f-\chi_i]$，故$K'=e^{iq\chi_f/\hbar}Ke^{-iq\chi_i/\hbar}$。作用量不严格不变而方程与概率不变。局部相位$\psi'=e^{iq\chi/\hbar}\psi$要求用协变导数$D_i=\partial_i-iqA_i/\hbar$比较邻点相位；其曲率$[D_i,D_j]=-iq(\partial_iA_j-\partial_jA_i)/\hbar$就是磁场。全局可有非零回路相位，即使局部曲率为零。
+
+为避免磁荷SI定义的多种约定，此段明确沿8.321原件使用高斯制：单极$\vct B=g\hat r/r^2$，北/南片势为$A_{N,\varphi}=g(1-\cos\theta)/(r\sin\theta)$、$A_{S,\varphi}=-g(1+\cos\theta)/(r\sin\theta)$。各片避开一极，重叠区$\vct A_N-\vct A_S=\nabla(2g\varphi)$。过渡函数$\psi_N=e^{2iqg\varphi/(\hbar c)}\psi_S$须在$\varphi\to\varphi+2\pi$单值，给$2qg/(\hbar c)\in\mathbb Z$。量子化条件来自片间单值相容，不是单独一条磁场散度恒等式。假想单极尚非本章实验事实；原笔记提到场角动量$qg/c$的类比，这里不以类比代替上述证明。
+
+回到SI，均匀$B$中$[\Pi_x,\Pi_y]=iq\hbar B$。定义$R_x=x+\Pi_y/(qB)$、$R_y=y-\Pi_x/(qB)$，则$[R_i,\Pi_j]=0$、$[R_x,R_y]=-i\hbar/(qB)$。回旋变量和导引中心变量分离，所以任何只依赖$\Pi$的Hamiltonian都保留中心简并。每面积态数仍为$|qB|/(2\pi\hbar)$，修改径向色散只改回旋能，不改中心态密度。边缘态及有限样品限制另行处理。
+
+\originalsection{复合态、Schmidt与反幺正对称性}
+复合系统的空间是$\mathcal H_A\otimes\mathcal H_B$。纯态系数矩阵的奇异值分解给$\ket\psi=\sum_j\sqrt{\lambda_j}\ket{a_j}\ket{b_j}$，$\lambda_j\ge0$且和为1。偏迹$\rho_A=\sum_j\lambda_j\ket{a_j}\bra{a_j}$，$\rho_B$有相同非零谱；一个子系统混合不意味着整体不是纯态。Schmidt秩1才可分，$S_A=-\sum\lambda_j\ln\lambda_j$度量这一纯态纠缠。密度矩阵须Hermitian、非负、迹1；测量概率为$\Tr(\rho P)$，演化为$U\rho U^\dagger$。熵的凹性与次可加性的证明在研究生作业8展开。
+
+保持转移概率的射线对称可由幺正或反幺正算符实现。这里使用Wigner结论作为一般射线定理；作业9按原题已假设线性/反线性的较具体版本证明。连续连到恒等的对称使用幺正$U=e^{-iaG/\hbar}$；若$UHU^\dagger=H$，则$[G,H]=0$，给守恒生成元。平移生成$p$、转动生成$J$；本册角动量篇已由阶梯正性给$j=0,1/2,1,\ldots$及$J_\pm$矩阵元。SU(2)双覆SO(3)，半整数自旋转$2\pi$为负号，密度与独立态射线不变；相对相位可在干涉中显现。
+
+宇称$P$把$x,p$反号而$L=x\times p$不变。时间反演$\Theta$反线性，$\Theta i\Theta^{-1}=-i$，把$x$保持、$p,L,S$反号。自旋$1/2$取$\Theta=-i\sigma_yK$，$\Theta^2=-1$。若$[\Theta,H]=0$，$\Theta\ket n$与$\ket n$同能；利用$\braket{\Theta u}{\Theta v}=\braket v u$和$\Theta^2=-1$得$\braket n{\Theta n}=0$，所以每个离散能级至少双重简并。反幺正算符不是Hermitian观测量，没有与连续生成元相同的Noether守恒量。自旋0且非简并的时间反演不变态可选实，时间反演奇的观测量期望为0。对称中心势的径向约化、双井宇称与Stark选择定则，分别由本科径向篇和微扰篇完整连接。
+
+\originalsection{微扰应用与长程相互作用}
+非简并微扰的$E_n^{(1)}=V_{nn}$、$\ket{n^{(1)}}=\sum_{m\ne n}V_{mn}\ket m/(E_n-E_m)$、$E_n^{(2)}=\sum_{m\ne n}|V_{mn}|^2/(E_n-E_m)$已在本科近似篇推导。简并空间先对角化$PVP$，不能挑一条未对角化的基态直接除以零分母。谐振子线性场可平移中心精确解，氢的线性Stark来自$n=2$偶/奇简并态混合，二阶Stark来自异宇称虚中间态。
+
+对两个中性非退化原子，远距$R$的电偶极耦合为
+$V_{dd}=[\vct d_A\cdot\vct d_B-3(\vct d_A\cdot\hat R)(\vct d_B\cdot\hat R)]/(4\pi\varepsilon_0R^3)$。
+无永久偶极的基态一阶平均为0，二阶和为
+\[
+ \Delta E=-\frac1{(4\pi\varepsilon_0)^2R^6}
+ \sum_{a,b\ne0}\frac{|\bra{a,b}\vct d_A\cdot\vct d_B-3(\vct d_A\cdot\hat R)(\vct d_B\cdot\hat R)\ket{0,0}|^2}
+ {E_a-E_0+E_b-E_0}=-\frac{C_6}{R^6}.
+\]
+分母正，所以非延迟van der Waals基态相互作用吸引。需$R$大于原子尺寸而小于相应跃迁波长；更远处的延迟相互作用不能仍用这一瞬时偶极Hamiltonian。8.321末讲光电效应与8.06已写的电离章衔接，辐射场量子化继续见研究生理论二。

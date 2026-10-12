@@ -1,0 +1,91 @@
+\Needspace{9\baselineskip}
+\originalchapter{MAS.865J作业三与四}
+本章题面取公开PS3、PS4. 官方s3的P1无实质解答, 本卷该题补写; 其他题参考官方答案并逐项复算. 研究探索问的构造与最优性分开.
+\originalsection{作业三: 子系统码与门模拟}
+\source{PS3 P1, Bacon--Shor.}
+\begin{exercise}九位稳定子$XXXXXXIII,IIIXXXXXX,ZZIZZIZZI,IZZIZZIZZ$. 四规范对$(Z_j,X_j)$为
+\[\begin{array}{ll}
+(ZZIIIIIII,XIIIIIXII),&(IZZIIIIII,IIXIIIIIX),\\
+(IIIZZIIII,IIIXIIXII),&(IIIIZZIII,IIIIIXIIX).
+\end{array}\] 逻辑$Z=Z^{\otimes9},X=X^{\otimes9}$. (a) 忽略规范错误, 给可纠/忽略的一、二位置Pauli错集合; (b) 容错X,Z,H,S及两块CNOT, 单故障不能传播成块内不可容忍错误; (c) 可用最多一错的猫态, 画稳定子提取电路; (d) 估恶性故障计数和阈值; (e) 给更简单测量方案.\end{exercise}
+\begin{solution}(a) 把位置排成3乘3格: 1,2,3为首行. 规范由同行ZZ、同列XX生成. 使用分离X、Z综合征并每类最多一条错误行/列的标准恢复: 全部27个单位置非平凡Pauli可纠. 两位置错误中, XX在同列、ZZ在同行可忽略; XZ或ZX任意不同位置可纠; XY或YX须两位置同列; ZY或YZ须同行; YY在不同位置不满足这两条件. 共126个两位置Pauli模式属于此保证集合. 条件来自X错误按列奇偶、Z错误按行奇偶的重复码综合征; 若两个不同列的X, 综合征会伪装成第三列, 恢复后成为逻辑X. 不把126模式与全部324模式混称任意两错可纠.
+
+(b) 逻辑X,Z可逐位施Pauli. H逐位交换X,Z再转置3乘3格, 保持稳定子与规范类; 转置在可单独寻址的门模型中用控制地址重新编号实现: 旧$1,4,7$作新首行、旧$2,5,8$作新次行、旧$3,6,9$作新末行, 后续门与综合征按此地址表调用, 不用块内SWAP链搬动态. 单位物理H的一错只留一位置; 若硬件仅允许固定近邻耦合, 还须另给容错路由, 本题模型不据此宣称已完成那种布局. 两块同位置横向CNOT, X从控制传目标、Z从目标传控制, 一次故障每块仍至多一个位置.
+逻辑S采用第8章实际验证的$Y_{L,+}$辅助, 数据控制、辅助目标作横向CNOT, 测辅助逻辑Z得m, 补数据$Z_L^m$. $m=0$分支是$S\psi/\sqrt2$, $m=1$是$\ii S^\dagger\psi/\sqrt2$, 因$ZS^\dagger=S$, 两者均恢复$S\psi$. 辅助准备不是另授黑盒: 投影四码稳定子、四对易规范Z及$Y^{\otimes9}$至共同+1, 后选择, 再用整组新验证猫复核九检查. 单故障在准备时被无故障复核投影或拒绝; 单故障在复核时只引入一个数据位置错. 辅助Z读出取三个\textbf{列奇偶的多数}, 避免单读出错误触发错误逻辑补门. 猫的相邻ZZ验证电路与证明见第8章, 包含在本构造的门和验证成本内.
+
+(c) 每个实际六体稳定子使用\textbf{新且已验证}猫. 辅助$c_i$仅控制图中一条数据$d_j$, 靶为X或Z, 最后测六辅助X并取乘积. 四个检查按原码明确为$X_{123456},X_{456789},Z_{124578},Z_{235689}$:
+\newcommand{\BaconCatDiagram}[3]{\begin{tikzpicture}[scale=.78,>=Stealth]
+\node at(1.6,.65){$#1$};
+\foreach[count=\i] \j in {#2}{
+\draw (0,-.8*\i+.22)--(3.2,-.8*\i+.22);\draw (0,-.8*\i-.22)--(3.2,-.8*\i-.22);
+\node[left]at(0,-.8*\i+.22){$c_{\i}$};\node[left]at(0,-.8*\i-.22){$d_{\j}$};
+\fill(1.2,-.8*\i+.22)circle(1.4pt);\draw(1.2,-.8*\i+.22)--(1.2,-.8*\i-.22);
+\node[draw,fill=white,inner sep=1.5pt]at(1.2,-.8*\i-.22){$#3$};
+\node[right]at(3.2,-.8*\i+.22){测$X$};}
+\end{tikzpicture}}
+\begin{center}\begin{minipage}{.47\linewidth}\centering\BaconCatDiagram{S_1}{1,2,3,4,5,6}{X}\end{minipage}
+\begin{minipage}{.47\linewidth}\centering\BaconCatDiagram{S_2}{4,5,6,7,8,9}{X}\end{minipage}\end{center}
+\begin{center}\begin{minipage}{.47\linewidth}\centering\BaconCatDiagram{S_3}{1,2,4,5,7,8}{Z}\end{minipage}
+\begin{minipage}{.47\linewidth}\centering\BaconCatDiagram{S_4}{2,3,5,6,8,9}{Z}\end{minipage}\end{center}
+每次准备猫后以新验证位测相邻$Z_{c_i}Z_{c_{i+1}}$, 仅接受全+1. 猫至多一个危险X错, 所以仅传播一个位置; 猫phase错可能损坏综合征位, 因而必须重复\textbf{完整四检查轮}. 至多取四轮, 当两相邻轮四位标签完全一致时停止并恢复. 单故障发生在一轮中途, 后两无故障轮给最终真实标签, 故前一无故障轮、故障混合轮、两最终轮的最坏情况需要四轮; 若故障在已一致第二轮最后相关测量之后, 至多留一个可纠残错. 不凭一轮坏标签立刻补另一个位置. Z检查两位$(S_3,S_4)$以−1记1: $00\to I,10\to$第1列X,$11\to$第2列X,$01\to$第3列X; X检查$(S_1,S_2)$同表定位第1、2、3行Z. 任选该行/列标准位置纠正, 其他等效位置只差规范. 多故障时四轮无一致应报告失败或重新诊断, 不称该有限规则能纠任意噪声.
+
+(d) 一轮4个六体检查, 若计每辅助准备、耦合、测量至少3位置, 约72位置, 示意三轮约216（并非上述完整最坏四轮协议）. 极粗所有二故障对上界$A\le\binom{216}{2}=23220$, $p_{\rm th}$量级$1/A\simeq4.3\times10^{-5}$. 这只是指定计数模型的教学估计, 不含猫态验证、存储和逻辑门扩展矩形, 不是可发表设备阈值. (e) 测同行邻接ZZ和同列邻接XX的12个二体规范, 按乘积推断四稳定子. 它减少每次耦合权重, 但非对易规范需分组、多轮和时间序列解码. 未完成全噪声恶性对计数之前只称较简单候选方案, 不虚报新的严格更高阈值.
+\end{solution}
+\source{PS3 P2, Fredkin传态.}
+\begin{exercise}Fredkin控制第一位, 交换后两位. (a) 原题称$H$,CNOT,Fredkin可逼近任意幺正, 检查准确意义; (b) 对$IIX,IXI,IXX,XII,XIX,XXI,XXX$及同样Z串求$U_FgU_F^\dagger$, 表为Clifford门积; (c) 归一六位资源$\chi=8^{-1/2}\sum_{x=0}^7\ket x\otimes U_F\ket x$, 三Bell测量后给全部条件校正.\end{exercise}
+\begin{solution}(a) 所有给定门为实矩阵, 在固定$n$复Hilbert空间不可能逼近任意含相对虚相位的幺正, 所以原题字面表述错误. Fredkin与CNOT可配固定辅助比特实现Toffoli, 加H可作实量子计算的普适集; 用额外rebit编码实部虚部可模拟一般量子计算, 属计算普适性, 不等于原空间直接复幺正普适性.
+
+(b) 记$C_{ij}$为CNOT,$D_{ij}$为CZ,$W=\mathrm{SWAP}_{23}$, 六个生成像为
+\[X_1\mapsto X_1W,\quad X_2\mapsto X_2C_{12}C_{13},\quad X_3\mapsto X_3C_{12}C_{13},\]
+\[Z_1\mapsto Z_1,\quad Z_2\mapsto Z_2D_{12}D_{13},\quad Z_3\mapsto Z_3D_{12}D_{13}.\]
+对控制0/1逐基检验可得, W由三个CNOT实现. 所列7种X串、7种Z串分别取对应生成像的乘积, 顺序与原串固定, 即给全部14项; 例如$X_2X_3$和$Z_2Z_3$均保持, $X_1X_2X_3\mapsto X_1X_2X_3W$. 共轭像是Clifford而未必Pauli, 所以Fredkin不属于Clifford.
+
+(c) 测量有6个经典比特, 不是只有8种完整结果; 原题“eight operations”可理解为8种X类与8种Z类的组合. 对每结果$\mathbf a,\mathbf b$, Bob态$U_FP\psi$, $P=\prod_iX_i^{b_i}Z_i^{a_i}$. 条件恢复$U_FP^\dagger U_F^\dagger$, 用(b)六生成像按比特控制相乘即可列出64种, 每种都是Clifford. 资源态准备须有相应容错验证, 仅理想传态恒等式不保证未验证辅助态的单故障性质.
+\end{solution}
+\source{PS3 P3, 三位QFT的测量图模拟.}
+\begin{exercise}三位QFT为3个H、受控相位$\pi/2,\pi/4,\pi/2$与输出首尾SWAP. (a) 按门代换估初始图态比特数; (b) 标图与测量/前馈序列; (c) 效率及是否可能更小.\end{exercise}
+\begin{solution}给一种可展开的明确构造, 不采用官方示例中不一致的30、34与67点计数. 定义三个局部图模块: H在输入与新输出间连边并测输入X; $R_z(\theta)$用两条连续边, 依次测角$-\theta$和X, 并按已有Pauli框架翻角; CZ把两当前输入加一条竖边, 两线上各接两条横边, 测四个旧/中间点X, 留两个新输出. 两次传态的H乘积抵消, 实现CZ及可追踪Pauli. 每模块的边和测角已经唯一指定完整图; CNOT用目标H、CZ、目标H, 需6个新点.
+
+受控相位$CP(\theta)$可用控制$R_z(\theta/2)$、目标$R_z(\theta/2)$、CNOT、目标$R_z(-\theta/2)$、CNOT, 差整体相位. 每个CP需$3\times2+2\times6=18$新点. 三H需3, 三CP需54, SWAP三CNOT需18, 加3输入, 初始图总78点. 编号规则为输入$0,1,2$, 按QFT门的从左到右顺序逐模块追加最小未用整数, 每次以模块新输出更新当前端口; 这提供所有78点(0至77)的可复现标号, 源码同时保存逐边列表. 测量顺序是模块拓扑顺序, 每结果更新X,Z框架, 非零角按框架的X比特反号.
+
+\begin{center}\begin{tikzpicture}[scale=1.1]
+\foreach \y in {0,1}{\foreach \x in {0,1,2}{\fill (\x,\y)circle(2pt);\node[above]at(\x,\y){$v_{\y,\x}$};}\draw(0,\y)--(2,\y);}
+\draw(0,0)--(0,1);\node[below]at(.5,0){测$X$};\node[right]at(2, .5){输出};
+\end{tikzpicture}\end{center}
+图为上述CZ模块, 端口旧点0列与中间1列被测, 2列留输出. 78点构造给上界而非最优; 融合邻近H、直接受控相位模式、用输出重新标号省SWAP都可减少点. 没有最优性证明便不报“最小”.
+\end{solution}
+
+\originalsection{作业四: 相位反馈、搜索与典型性}
+\source{PS4 P1, 十小问.}
+\begin{exercise}模乘$U\ket m=\ket{my\bmod N}$, $r$为$y$阶. (a) 证$\lambda_k=r^{-1/2}\sum_l\e^{2\pi\ii lk/r}\ket{y^l}$的本征值$\e^{-2\pi\ii k/r}$; (b) 辅助H、受控U、H测0概率, 系统是否可复用; (c,d) 初始$1$的等权本征态和经一、$t$轮的联合态; (e) 给$n_0$次0的$k,n_0$分布; (f) 检查原题$p(n_0)\simeq1/2$、条件分布两峰宽$O(1/t)$; (g) $N=143,y=5,r=20$作图; (h) 辅助相位$\operatorname{diag}(1,\e^{2\pi\ii\theta})$, 求概率且$\theta=k/r$时0确定; (i) 构造并实际评估Bayes反馈; (j) 可选: 改善估计并联系半经典QFT, 不要求虚称全局最优.\end{exercise}
+\begin{solution}(a) $l\mapsto l+1$使系数获$\e^{-2\pi\ii k/r}$, 回绕因$r$周期正确. (b) 辅助态$\eta_k=[(1+\e^{-2\pi\ii k/r})0+(1-\e^{-2\pi\ii k/r})1]/2$, $p_0=\cos^2(\pi k/r)$, 系统本征态不变. (c,d) 一轮$r^{-1/2}\sum_k\eta_k\otimes\lambda_k$, $t$轮$r^{-1/2}\sum_k\eta_k^{\otimes t}\otimes\lambda_k$; 测量后是按记录的条件纯态而非均匀混合. (e) $p(k,n_0)=r^{-1}\binom t{n_0}q_k^{n_0}(1-q_k)^{t-n_0}$,$q_k=\cos^2(\pi k/r)$.
+
+(f) 正确后验$w_k=q_k^{n_0}(1-q_k)^{t-n_0}/\sum_jq_j^{n_0}(1-q_j)^{t-n_0}$. $p(n_0)$是对k求和, 不是一般$1/2$; 当$n_0/t$远离0,1且近连续相位, 两峰位于$q_k=n_0/t$, 对数似然二阶展开给相位宽$O(t^{-1/2})$, 非$O(1/t)$. 固定有限r时最终成为两个离散标签$k,r-k$, 单用cos统计无法区分. (g) 绘图按真实离散20点与精确归一, 数值脚本输出$t=10,50,200$,$n_0$取约$0.7t$的后验.
+
+(h) $p_0(k|\theta)=\cos^2[\pi(k/r-\theta)]$, 猜对时0确定. (i) 维护20点先验$w_k$, 每次观测$m$后乘$p_m(k|\theta)$再归一, 完全不使用错误的常数分母. 选择$\theta$使两个候选族的预计结果尽量不同, 或最大化下一测量预期信息增益$h_2(\sum_kw_kq_k)-\sum_kw_kh_2(q_k)$, 在$\theta\in[0,1)$网格上实际最大化. 这也指出原题“低输出熵总是高信息”不成立: 已知标签低熵测量没有新信息. 固定随机种子的试验与记录保存QA, 只验证该有限实例, 不冒充普遍最优.
+
+(j) 用受控$U^{2^j}$及按已测低位反馈相位, 从高幂向低幂执行, 可实现逆QFT的半经典测量. 在剩余辅助只需经典读出的情况下, 把受控相位改成由已测比特控制的单比特相位不改变统计. 这给与相位估计相同分布的构造; “全最优Kalman滤波”没有在本卷证明.
+\end{solution}
+\source{PS4 P2, 连续搜索的离散模拟.}
+\begin{exercise}$H=\ket x\bra x+\ket\psi\bra\psi$, 目标未知,$\langle x|\psi\rangle=\alpha=1/\sqrt N$. 可调用$U_x(t)=\e^{-\ii t\ket x\bra x}$及已知$U_\psi(t)$. (a) 用Bloch向量求乘积$U_\psi(t)U_x(t)$; (b) $t=\pi$联系Grover; (c) 选$t$使$O(\sqrt N)$查询后精确目标.\end{exercise}
+\begin{solution}(a) 记$c=\cos(t/2),s=\sin(t/2)$, 去掉整体$\e^{-\ii t}$后乘积为$[c^2-s^2\mathbf n_\psi\cdot\hat z]I-\ii[cs(\mathbf n_\psi+\hat z)+s^2(\mathbf n_\psi\times\hat z)]\cdot\boldsymbol\sigma$. 由$(\mathbf a\cdot\sigma)(\mathbf b\cdot\sigma)=\mathbf a\cdot\mathbf b I+\ii(\mathbf a\times\mathbf b)\cdot\sigma$直接得. (b) 两个投影指数为反射, 乘积与常规Grover仅整体负号. (c) 取整数$k\ge\pi/[4\arcsin\alpha]-1/2$, 设置$t=2\arcsin[\sin(\pi/(4k+2))/\alpha]$, 在匹配两投影相位的一致次序下使$k$轮非目标幅度零. 一般递推如下. 在$\ket x,\ket y$基取$\ket\psi=(\alpha,\beta)^T$, $\beta=\sqrt{1-\alpha^2}$, $z=\e^{-\ii t}$, 去整体相位后$W=z^{-1}U_\psi(t)U_x(t)$:
+\[W=\begin{pmatrix}
+ \beta^2+z\alpha^2&(1-z^{-1})\alpha\beta\\
+ (z-1)\alpha\beta&\beta^2+z^{-1}\alpha^2
+ \end{pmatrix},\quad \det W=1,\quad
+ \cos\vartheta=\tfrac12\Tr W=1-2\alpha^2\sin^2(t/2).\]
+Cayley--Hamilton给$W^{j+2}=2\cos\vartheta W^{j+1}-W^j$. 因而非目标幅度$b_j=\bra yW^j\ket\psi$满足
+\[b_{j+2}=2\cos\vartheta b_{j+1}-b_j,\quad
+ b_0=\beta,\quad b_1=\beta(2\cos\vartheta-1),\]
+\[b_j=\beta\frac{\sin((j+1)\vartheta)-\sin(j\vartheta)}{\sin\vartheta}
+ =\beta\frac{\cos((j+1/2)\vartheta)}{\cos(\vartheta/2)}.\]
+对$0<\alpha<1$, 选上述$t$使$\vartheta=\pi/(2k+1)$, 则$b_k=0$; 幺正性保证目标幅度模1, 原整体$z^k$只改全局相位. $k$下界确保$\sin[\pi/(4k+2)]\le\alpha$, 所以$t$真实可选. $\alpha=1$初态已是目标, $\alpha=0$则两投影操作不能产生目标幅度. 数值QA另核算矩阵幂与这条一般递推. $k=O(\sqrt N)$, 此精确性要求已知目标比例与相位可连续控制, 不代表有限门集无误差实现.
+\end{solution}
+\source{PS4 P3, 纯态纠缠.}
+\begin{exercise}证明Schmidt数1等价直积, 局域幺正与仅经典消息不改变它; 求$(00+11+22)/\sqrt3$, $(00+01+10+11)/2$, $(00+01+10-11)/2$, $(00+01+11)/\sqrt3$的数. 检查任意LOCC不变的题干.\end{exercise}
+\begin{solution}系数矩阵秩1等价外积, 局域幺正左右乘保持秩; 仅发经典消息不作用量子态当然保持. 四数为3,1,2,2. 任意LOCC包括测量可降低秩, 题干不变性应更正为适当纠缠量平均不能增加; 原子卷8.422 HW2有同题但只保留各课程来源, 本章不把它算新物理主题.
+\end{solution}
+\source{PS4 P4, 典型序列计算.}
+\begin{exercise}独立源$a,b,c$概率0.8,0.1,0.1. (a) 熵率; (b) 用弱典型$|-(1/n)\log p(x^n)-H|\le\epsilon$求$a$次数$n_a$界; (c,d) $n=100,\epsilon=0.1$, 求典型概率、典型串数和最少表示比特.\end{exercise}
+\begin{solution}(a) $H=-0.8\log_20.8-0.2\log_20.1=0.921928095$ bit. (b) 自信息率$\log_210-3n_a/n$, 所以$|n_a-0.8n|\le\epsilon n/3$. (c) $n_a=77,\ldots,83$, 概率$\sum_{j=77}^{83}\binom{100}j0.8^j0.2^{100-j}$, 实算约0.618575. (d) 每确定$a$位置, 剩余处可任取b或c, 数$K=\sum_{j=77}^{83}\binom{100}j2^{100-j}$, 所需定长比特$\lceil\log_2K\rceil$, 实算98位. 这个定义不同于只限制$a$频率在$0.8\pm0.1$的强频率典型集, 两者不能共用数值.
+\end{solution}

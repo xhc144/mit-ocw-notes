@@ -1,3 +1,4 @@
+\Needspace{12\baselineskip}
 \originalchapter{搜索、增长与马达题解}
 \originalsection{PS7：蛋白与DNA}
 \begin{exercise}
@@ -36,7 +37,7 @@ F(X)=\frac{m^2\kappa\theta_0^4}{16(L-X)^2}.
 （PS8.1）丝长 $\ell=1,2,\ldots$，末端以速率 $a$ 加单体、以速率 $b$ 减单体，但长度1禁止再减。(a)写主方程；(b)求归一化稳态；(c)给存在条件和平均长度；(d)若 $a>b$、初始皆为单体，求时间依赖均值和方差，并给近似分布。
 \end{exercise}
 \begin{solution}
-$\dot p_1=bp_2-ap_1$，$\ell\ge2$ 时 $\dot p_\ell=ap_{\ell-1}+bp_{\ell+1}-(a+b)p_\ell$。稳态零流给 $p_\ell=(1-r)r^{\ell-1}$，$r=a/b$，仅 $r<1$ 可归一化，平均长度 $1/(1-r)$；$a=b$ 也不存在归一化稳态。
+$\dot p_1=bp_2-ap_1$，$\ell\ge2$ 时 $\dot p_\ell=ap_{\ell-1}+bp_{\ell+1}-(a+b)p_\ell$。以下取 $a,b>0$。稳态零流给 $p_\ell=(1-r)r^{\ell-1}$，$r=a/b$，仅 $r<1$ 可归一化，平均长度 $1/(1-r)$；$a=b$ 也不存在归一化稳态。
 
 (d)不能把半直线边界删除后直接宣称 $(a-b)t$ 是所有时刻的精确均值。令 $n=\ell-1$，$P_0(t)=p_1(t)$，$m=\avg n$、$q=\avg{n^2}$。由方程求矩得
 \[
@@ -48,7 +49,31 @@ r(s)=\frac{s+a+b-\sqrt{(s+a+b)^2-4ab}}{2b},
 \]
 则 $\widetilde p_{n+1}=(1-r)r^n/s$，$\widetilde m=r/[s(1-r)]$、$\widetilde q=r(1+r)/[s(1-r)^2]$；逆Laplace即精确时刻答案。它来自空间递推的有界根，$\sum_n\widetilde p_{n+1}=1/s$ 核查归一化。
 
+退化的 $b=0$ 情形则是纯出生过程，$p_{\ell}(t)=\e^{-at}(at)^{\ell-1}/(\ell-1)!$，均值 $1+at$、方差 $at$；无需使用含b分母的根式。
+
 大时间 $a>b$ 时，$m=(a-b)t+b/(a-b)+o(1)$，方差 $=(a+b)t+O(1)$。中心远离边界后，正态近似均值 $1+m$、方差 $q-m^2$ 在集中区间有效，负长度尾部是近似误差；要求严格非负分布时可从上述递推计算离散概率，不能把未归一化截断高斯冒称精确分布。
+
+给一个可执行的有限时刻算例：教学参数 $a=2\,\mathrm{s^{-1}},b=1\,\mathrm{s^{-1}}$，初始 $p_1=1$。附带程序按上述主方程构造生成元并计算 $p(t)=\e^{Qt}p(0)$；长度上限256与512的矩差小于 $8\times10^{-12}$，前者最远端概率低于 $10^{-87}$，所以显示时段内的上端截断不影响这些数字。它是模型的实际数值解，不是细胞实验测量。
+\[
+\begin{array}{c|rrrr}
+t\ (\mathrm s)&.1&1&10&30\\\hline
+\avg\ell&1.19092&2.50812&11.97485&31.99974\\
+\operatorname{Var}\ell&.19202&1.83586&24.78427&84.01898
+\end{array}
+\]
+小时间均值斜率为a，因为单体不能再减；大时间才趋于 $a-b$，且均值的边界修正常数不消失。下图给准确模型均值与两种长时/无边界表达的比较。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.75\linewidth,height=4.6cm,xlabel={$t$（秒）},ylabel={平均丝长},legend style={font=\small}]
+\addplot[main,thick] table[x=t,y=mean_ell,col sep=comma]{data/filament-transient-moments.csv};\addlegendentry{反射边界数值解}
+\addplot[blue,dashed] table[x=t,y=free_boundary_mean,col sep=comma]{data/filament-transient-moments.csv};\addlegendentry{$1+(a-b)t$}
+\addplot[black,dotted] table[x=t,y=large_t_mean,col sep=comma]{data/filament-transient-moments.csv};\addlegendentry{长时含边界常数}
+\end{axis}\end{tikzpicture}\end{center}
+
+在 $t=30$秒，用实际计算的均值31.99974、方差84.01898构造集中区正态密度，与离散主方程概率比较如下。曲线是每单位丝长的密度近似，不是重新归一化后声称精确的离散分布；在短时或边界附近应直接使用离散解。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.75\linewidth,height=4.5cm,xlabel={$\ell$},ylabel={概率/单位长度},xmin=1,xmax=70,legend style={font=\small}]
+\addplot[main,only marks,mark=*,mark size=.7pt] table[x=ell,y=exact_t30,col sep=comma]{data/filament-transient-distribution.csv};\addlegendentry{离散概率}
+\addplot[blue] table[x=ell,y=Gaussian_central_approximation,col sep=comma]{data/filament-transient-distribution.csv};\addlegendentry{集中区Gaussian近似}
+\end{axis}\end{tikzpicture}\end{center}
+
 \end{solution}
 
 \begin{exercise}

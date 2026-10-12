@@ -1,0 +1,43 @@
+\originalchapter{交换、密度泛函与Mott绝缘体}
+\label{ch:interaction}
+\source{8.511第15--18讲。}
+\originalsection{二次量子化与Slater行列式}
+对于正交单粒子基$\phi_i(\vct r)$，用$c_i^\dagger$创建一个费米子，满足$\{c_i,c_j^\dagger\}=\delta_{ij}$、$\{c_i,c_j\}=0$。占据态$c_{i_1}^\dagger\cdots c_{i_N}^\dagger\ket0$自动实现反对称性。单体与双体算符成为
+\begin{equation}
+H=\sum_{ij}h_{ij}c_i^\dagger c_j+\frac12\sum_{ijkl}V_{ij;kl}c_i^\dagger c_j^\dagger c_lc_k,
+\end{equation}
+其中$V_{ij;kl}=\iint\phi_i^*(r)\phi_j^*(r')v(r-r')\phi_k(r)\phi_l(r')\dd r\dd r'$，自旋坐标包含在指标内。$1/2$避免双计粒子对。玻色子改用对易关系，不能把费米子的交换符号直接搬过去。
+
+在一个Slater态中，$\avg{c_i^\dagger c_j^\dagger c_lc_k}=\rho_{ki}\rho_{lj}-\rho_{li}\rho_{kj}$。第二项是交换项，来自反对称性而非额外的经典相互作用。在占据轨道表象，能量为$E=\sum_i h_{ii}+\frac12\sum_{ij}(J_{ij}-K_{ij})$。对轨道变分并以拉格朗日乘子保持正交，得到Hartree--Fock方程
+\begin{align}
+\left[h_0+\sum_j\int v(r-r')|\phi_j(r')|^2\dd r'\right]\phi_i(r)
+-\sum_j\phi_j(r)\int v(r-r')\phi_j^*(r')\phi_i(r')\dd r'=\epsilon_i\phi_i(r).
+\end{align}
+交换势非局域且只在相同自旋之间出现。乘以$\phi_i^*$积分并求和，$\sum_i\epsilon_i$把粒子对算了两遍；故总能量不是本征值之和。冻结其他轨道时删去轨道$i$使能量差等于$\epsilon_i$，这才是Koopmans关系的适用条件；真实电离后的弛豫与关联会改变它。
+\originalsection{均匀电子气的交换能}
+均匀正背景抵消Hartree项，平面波仍为HF本征态。暂用库仑形式$v_q=4\pi e_*^2/q^2$，其中$e_*^2=e^2/(4\pi\epsilon_0)$。每自旋交换自能为
+\begin{equation}
+\Sigma_x(k)=-\int_{p<k_F}\frac{\dd^3p}{(2\pi)^3}\frac{4\pi e_*^2}{|\vct k-\vct p|^2}
+=-\frac{e_*^2k_F}{\pi}\left[1+\frac{k_F^2-k^2}{2kk_F}\log\left|\frac{k+k_F}{k-k_F}\right|\right].
+\end{equation}
+第二式先取极轴沿$\vct k$，角积分给$\log|(k+p)/(k-p)|/(kp)$，再积分$p$。$k=0$极限为$-2e_*^2k_F/\pi$，$k=k_F$为$-e_*^2k_F/\pi$。把自能按已占据态积分并除以2，交换能每电子为$E_x/N=-3e_*^2k_F/(4\pi)$；动能每电子$3E_F/5$。HF在费米面给出对数发散的$\dd\Sigma_x/\dd k$，不是可信的真实费米速度：长程势的屏蔽及相关修正被漏掉了。
+
+交换孔也可从对关联看出。对同自旋粒子，$g_{\uparrow\uparrow}(r)=1-[3j_1(k_Fr)/(k_Fr)]^2$，$g_{\uparrow\uparrow}(0)=0$。反自旋在无关联Slater态中没有交换孔。高$r_s$下电子可因库仑作用形成Wigner晶体，但从均匀HF能量的一个极小值不能证明该相的存在或转变点。
+\originalsection{Hohenberg--Kohn与Kohn--Sham}
+固定粒子数和电子间作用，非简并基态密度决定外势至多相差常数。证明用反证：若不同外势$v,v'$有相同密度$n$却不同基态，则严格变分原理给$E_v<E_{v'}+\int(v-v')n$及$E_{v'}<E_v+\int(v'-v)n$，相加矛盾。严格不等式依赖不同基态；含简并情形须使用更一般的密度泛函表述，本稿不把此简短反证当作所有数学情形的存在定理。
+
+定义普适泛函$F[n]$，总能量$E_v[n]=F[n]+\int vn$在可表示密度上极小。Kohn--Sham把$F[n]=T_s[n]+E_H[n]+E_{xc}[n]$，$T_s$由具有相同密度的辅助非相互作用轨道计算。变分得到
+\begin{equation}
+\left[-\frac{\hbar^2\nabla^2}{2m}+v(r)+\int\frac{e_*^2 n(r')}{|r-r'|}\dd r'+v_{xc}(r)\right]\phi_i=\epsilon_i\phi_i,\qquad n=\sum_{i\in\mathrm{occ}}|\phi_i|^2.
+\end{equation}
+$E_{xc}$包含交换、关联以及真实动能与$T_s$之差。LDA用$E_{xc}=\int n(r)\epsilon_{xc}(n(r))\dd r$，故$v_{xc}=\dd[n\epsilon_{xc}(n)]/\dd n$。总能量可写成
+\begin{equation}
+E=\sum_i\epsilon_i-E_H+E_{xc}-\int nv_{xc}\dd r.
+\end{equation}
+两个扣除项去掉本征值中重复算入的平均场。LDA的局域性适于密度变化缓慢区域，不保证正确带隙、强关联或弱范德华结合。Kohn--Sham本征值是辅助系统量，一般不能直接当作所有真实加减电子激发能。
+\originalsection{Hubbard模型的强耦合极限}
+把局域轨道上的主要作用压为同站排斥，得到$H=-t\sum_{\avg{ij},\sigma}(c_{i\sigma}^\dagger c_{j\sigma}+\mathrm{h.c.})+U\sum_i n_{i\uparrow}n_{i\downarrow}$。半填充且$U\gg t$时，每站一个电子。一次跳跃产生双占据与空站，代价$U$，再跳回才回到低能子空间。二阶简并微扰$H_{\rm eff}=-PH_tQH_tP/U$给
+\begin{equation}
+H_{\rm eff}=\sum_{\avg{ij}}\frac{4t^2}{U}\left(\vct S_i\cdot\vct S_j-\frac14n_in_j\right).
+\end{equation}
+两站平行自旋因Pauli原理无法虚跃迁；单重态可降低能量$4t^2/U$，因此交换反铁磁。电荷激发有$U$尺度的隙，低能自旋仍可运动。这说明一个按非相互作用填充本应金属的体系如何成为Mott绝缘体。它不同于晶格周期势在半填充处直接打开的带隙，且强耦合展开要求$|t|/U$小；近转变区域不能只用最低阶Heisenberg模型。

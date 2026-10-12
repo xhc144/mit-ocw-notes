@@ -1,0 +1,39 @@
+\originalchapter{流体方程与输运系数}
+\label{ch:hydro}
+\source{8.333 L10--L11：守恒律、零阶与一阶流体。}
+\originalsection{由动量矩得到守恒方程}
+定义$n=\int f\dd p$、$nu=\int(p/m)f\dd p$，局部相对速度$c=p/m-u$。将Boltzmann方程依次乘$1,p_i,p^2/(2m)$并积分，用碰撞不变量，得到
+\begin{align}
+&\partial_tn+\nabla\cdot(nu)=0,\\
+&mn(\partial_t+u\cdot\nabla)u_i=-\partial_jP_{ij}+nF_i,\\
+&\partial_te+\nabla\cdot[(e+P)u+q+\pi\cdot u]=nu\cdot F.
+\end{align}
+这里$P_{ij}=m\int c_ic_jf\dd p$，分成标量压强$P$与偏应力$\pi_{ij}$；$q_i=\frac m2\int c^2c_if\dd p$是相对局域流速的热流，$e$含流动动能和内能。不能把实验总能流全部称为“热流”，对流项应分开。
+
+局域Maxwell分布给$P_{ij}=n\kb T\delta_{ij}$、$q=0$，能量闭合为理想Euler方程，$D_tT=-(2/d)T\nabla\cdot u$。局域平衡只给无耗散零阶方程，黏性和热导来自$f$偏离此分布的一阶梯度。
+\originalsection{线性化碰撞算符与零模}
+写$f=f_{\mathrm{le}}(1+\phi)$，线性化$C[f]=-f_{\mathrm{le}}\mathcal L\phi$。加权内积$(a,b)=\int f_{\mathrm{le}}ab\dd p$下，微观可逆性使$\mathcal L$半正，其二次型为碰撞中$[\phi_1+\phi_2-\phi_1'-\phi_2']^2$的非负积分。$1,p_i,p^2$是零模，对应守恒量。求$\phi$时需选择与这些零模正交，保证$n,u,T$由$f_{\mathrm{le}}$本身定义；否则把同一个局域平衡改变算两次。
+
+一阶输运方程为$\mathcal L\phi=-(\partial_t+v\cdot\nabla+F\cdot\nabla_p)\log f_{\mathrm{le}}$，右侧用零阶Euler关系消掉时间导数，剩温度梯度与速度剪切源。对无内自由度理想气，标量膨胀源在该近似下与守恒量结合而不产生独立体黏性；有内弛豫的分子气体则可有体黏性。
+\originalsection{弛豫时间中的显式计算}
+用满足守恒匹配的简化BGK碰撞$C=-(f-f_{\mathrm{le}})/\tau$，则三维一阶偏离可写
+\begin{equation}
+\phi=-\tau\left[\frac{m}{\kb T}c_ic_j\mathcal E_{ij}+\frac{c\cdot\nabla T}{T}\left(\frac{mc^2}{2\kb T}-\frac52\right)\right],\quad\mathcal E_{ij}=\frac{\partial_iu_j+\partial_ju_i}2-\frac13\delta_{ij}\nabla\cdot u.
+\end{equation}
+$5/2$使热流源与动量零模正交，而非随意选常数。所需的Gaussian速度矩为
+\begin{equation}
+\avg{c_ic_j}=\frac{\kb T}{m}\delta_{ij},\qquad
+\avg{c_ic_jc_lc_m}=\left(\frac{\kb T}{m}\right)^2
+(\delta_{ij}\delta_{lm}+\delta_{il}\delta_{jm}+\delta_{im}\delta_{jl}).
+\end{equation}
+代入应力和热流定义可得
+\begin{equation}
+\pi_{ij}=-2\eta\mathcal E_{ij},\qquad\eta=n\kb T\tau,\qquad q=-\kappa\nabla T,\qquad\kappa=\frac52\frac{n\kb^2T\tau}{m}.
+\end{equation}
+热导需六阶Gaussian矩；展开$c^2c_ic_j[mc^2/(2\kb T)-5/2]$并用球对称径向矩，可核对系数$5/2$。BGK预测Prandtl数1，而真实单原子稀薄气接近$2/3$，所以一个共同$\tau$只提供结构与量级，不是精确碰撞截面解。
+
+动量扩散$\eta/(mn)$与热扩散$\kappa/(nc_p)$通常近$\bar v\ell$，$\ell=\bar v\tau$。稀薄气碰撞率$\tau^{-1}\sim n\sigma\bar v$，$\eta\sim m\bar v/\sigma$近乎与$n$无关：载流粒子更多但平均自由程更短，这解释一个看似反常的密度取消。
+\originalsection{熵产生与声模}
+局域熵平衡可整理为$\partial_ts+\nabla\cdot(su+q/T)=\kappa(\nabla T)^2/T^2+2\eta\mathcal E_{ij}\mathcal E_{ij}/T+\zeta(\nabla\cdot u)^2/T\ge0$。正黏性与热导源于线性化碰撞算符半正，任意设负系数会违反近平衡稳定性。
+
+在线性均匀背景，横向速度模$\omega=-\ii\eta q^2/(mn)$、热扩散模$\omega=-\ii D_Tq^2$，纵向密度与温度耦合产生$\omega=\pm c_sq-\ii\Gamma_sq^2$，$c_s^2=(\partial p/\partial\rho)_s$。它们是流体尺度的集体模式，成立条件$q\ell\ll1,\omega\tau\ll1$；在无碰撞窗口需回到动力学方程，不能把同一声速外推任意$q$。

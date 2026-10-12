@@ -54,3 +54,22 @@ for mu in np.linspace(.5,5,91):
  rows.append(f'{mu:.8f},{lam:.10f}')
 (ROOT/'data'/'alignment-lambda.csv').write_text('\n'.join(rows)+'\n')
 print('Numerical identities and alignment matrices checked.')
+
+# Reproduce all additional public-data analyses from the same clean source package.
+import runpy
+runpy.run_path(str(ROOT/'code/public_analysis.py'),run_name='__main__')
+
+# Independent RNA critical-point product check for original P and R conventions.
+from scipy.special import zeta
+A_rna,f_rna,g_rna=.2,4.,1.
+hc2=6*np.log(f_rna/(g_rna*(1+A_rna*zeta(1.5))))
+qc=g_rna*np.exp(hc2/6)
+pole=(qc/f_rna)/(1-qc/f_rna)*A_rna*zeta(1.5)
+assert abs(pole-1)<1e-12
+(ROOT/'qa/rna-critical-check.json').write_text(json.dumps({'A':A_rna,'f':f_rna,'g':g_rna,'dimensionless_hc_squared':float(hc2),'Ptilde_times_Rtilde_at_z_1_over_f':float(pole),'residual':float(abs(pole-1))},indent=2))
+
+runpy.run_path(str(ROOT/'code/structure_analysis.py'),run_name='__main__')
+
+runpy.run_path(str(ROOT/'code/foundation_checks.py'),run_name='__main__')
+
+runpy.run_path(str(ROOT/'code/remaining_task_checks.py'),run_name='__main__')

@@ -1,0 +1,61 @@
+\Needspace{12\baselineskip}
+\originalchapter{连续介质与守恒方程}
+\originalsection{物质导数和控制体}
+流体中的同一个粒子会不断改变位置，而测量装置常固定在空间中。Lagrange描述追踪粒子，Euler描述以 $\mathbf u(\mathbf x,t)$ 表示固定位置的速度。沿粒子轨迹 $\dot{\mathbf x}=\mathbf u$，某场量 $f$ 的变化由链式法则给出 $Df/Dt=\partial_tf+\mathbf u\cdot\nabla f$；对流项来自描述坐标的改变，不是额外添加的神秘力。
+
+对随流体运动的体积 $V(t)$，输运定理为 $\dd\int_{V(t)}f\dd V/\dd t=\int_{V(t)}[\partial_tf+\nabla\cdot(f\mathbf u)]\dd V$。可先在小时间内计算边界扫过体积的通量，再用散度定理。质量守恒由此给出 $\partial_t\rho+\nabla\cdot(\rho\mathbf u)=0$，等价于 $D\rho/Dt+\rho\nabla\cdot\mathbf u=0$。不可压缩指物质体积近似保持，$\nabla\cdot\mathbf u=0$；密度有不同成分或温度依赖时，它不必在空间处处相同。
+
+\originalsection{应力、黏性与动量}
+面法向 $\mathbf n$ 上的牵引力是 $\boldsymbol\sigma\mathbf n$。应力分为各向同性压力和偏应力，$\sigma_{ij}=-p\delta_{ij}+\tau_{ij}$。各向同性Newton流体的本构关系 $\tau_{ij}=2\mu e_{ij}+\lambda(\nabla\cdot\mathbf u)\delta_{ij}$，$e_{ij}=(\partial_i u_j+\partial_j u_i)/2$。速度梯度的反对称部分表示局部刚性旋转，不直接产生这种黏性耗散。
+
+把动量平衡对任意物质体积局部化，得 $\rho D\mathbf u/Dt=\nabla\cdot\boldsymbol\sigma+\rho\mathbf f$。不可压缩、常黏度情形化为
+\begin{equation}\label{eq:ns}
+\partial_t\mathbf u+\mathbf u\cdot\nabla\mathbf u=-\frac{\nabla p}\rho+\nu\nabla^2\mathbf u+\mathbf f,
+\quad\nabla\cdot\mathbf u=0,
+\end{equation}
+其中 $\nu=\mu/\rho$。压力在不可压缩模型中用来满足体积约束，不能独立指定一个任意压力场又要求任意速度场都成立。
+
+无滑移边界令流体速度等于固体速度；自由表面还需运动学条件及法向、切向应力条件。表面张力给出曲率相关压力跳，若忽略它必须说明尺度。边界条件比方程名称更能决定一个具体实验问题。
+
+\originalsection{涡量与能量}
+定义涡量 $\boldsymbol\omega=\nabla\times\mathbf u$。常密度不可压缩流体取旋度得 $D\boldsymbol\omega/Dt=(\boldsymbol\omega\cdot\nabla)\mathbf u+\nu\nabla^2\boldsymbol\omega+\nabla\times\mathbf f$。三维伸展项可放大涡量，二维平面流没有相同机制。变密度时另有斜压项 $\nabla\rho\times\nabla p/\rho^2$，密度与压力等值面不平行可以产生涡量。
+
+用速度点乘动量方程，压力项改写成通量，黏性项分成通量与耗散。常黏度不可压缩流体的耗散率 $\Phi=2\mu e_{ij}e_{ij}\ge0$。固定无滑移封闭容器、无体力时，总动能的下降等于体积积分耗散；存在移动边界或压力驱动时，还会有输入功。不能把“黏性流体能量必下降”套到有外界持续做功的管流上。
+
+\originalsection{量纲参数与近似}
+选长度 $L$、速度 $U$，惯性与黏性之比为 $Re=UL/\nu$；浮力或自由表面问题还有 $Fr=U/\sqrt{gL}$，旋转问题有 $Ro=U/(fL)$，热输运有 $Pe=UL/\kappa$。这些数指出项的相对量级，但局部边界层会采用比整体尺度短的长度。整体 $Re\gg1$ 不表示任何位置都能删除黏性。
+
+\originalsection{速度梯度怎样改变流体微团}
+两个邻近粒子的分离 $\delta\mathbf x$ 满足 $\dd\delta x_i/\dd t=(\partial_j u_i)\delta x_j$。将梯度分成对称 $e_{ij}$ 与反对称 $a_{ij}$，前者使微团伸缩和剪切，后者只转向。对角和为 $\nabla\cdot\mathbf u$，表示相对体积变化率。这给连续介质运动学一个具体图像：不可压缩仍允许强烈拉长，只要求各方向体积改变总和为零。
+
+在稳态场中，流线解 $\dd\mathbf x/\dd s\parallel\mathbf u$，迹线解 $\dot{\mathbf x}=\mathbf u(\mathbf x,t)$；非稳态时二者一般不同。实验染料一次性注入形成迹线，固定点持续注入形成脉线，不能凭一张照片就默认是瞬时流线。二维不可压流可用 $u=\psi_y,v=-\psi_x$；三维无同样的单一标量流函数。
+
+\originalsection{Reynolds输运与固定控制体的动量}
+物质体积的边界随流速移动，固定控制体的边界不动。对固定 $V$，动量平衡为
+\[
+\frac{\dd}{\dd t}\int_V\rho\mathbf u\dd V
++\int_{\partial V}\rho\mathbf u(\mathbf u\cdot\mathbf n)\dd S
+=\int_{\partial V}\boldsymbol\sigma\mathbf n\dd S+\int_V\rho\mathbf f\dd V.
+\]
+第二项是物质携带动量跨边界的净通量，不是表面应力。喷口推力、弯管反力和射流撞墙都可从此式得到，但需要入口/出口压力及速度分布。把平均速度平方替代速度平方的截面平均，会漏掉动量校正系数。
+
+Newton应力的线性本构来自各向同性：反对称刚转不能产生耗散，最一般线性对称关系只有 $2\mu e_{ij}+\lambda\operatorname{tr}(e)\delta_{ij}$。不可压时第二项消失，$\mu\ge0$ 保证耗散非负。非Newton泥流、粘弹性和湍流平均应力不由这个分子黏性常数直接描述；后续源题中的“黏性泥”仍按明确Newton假设求解。
+
+\originalsection{机械能、Bernoulli与压力边界}
+常密度、无黏、有势体力 $\mathbf f=-\nabla\Phi$ 时，恒等式 $\mathbf u\cdot\nabla\mathbf u=\nabla(u^2/2)-\mathbf u\times\boldsymbol\omega$ 给
+\[
+\partial_t\mathbf u+\nabla(u^2/2+p/\rho+\Phi)=\mathbf u\times\boldsymbol\omega.
+\]
+稳态沿一条流线点乘 $\mathbf u$，括号内为常数；若又无旋，所有连通流域中同一常数。若无旋但非稳态 $\mathbf u=\nabla\phi$，则 $\phi_t+u^2/2+p/\rho+\Phi=C(t)$。这三个版本条件不同，不能把稳态沿线式直接用到加速塌缩的气泡。
+
+自由表面 $z=\eta(x,y,t)$ 的运动学式为 $\eta_t+u\eta_x+v\eta_y=w$，动力学式为法向应力与外压/曲率平衡。无黏只去掉黏性应力，并不去掉压力条件。壁面无穿透与无滑移也不同：无黏外流满足前者，黏性壁层补回后者，构成高Re问题的尺度分层。
+
+\originalsection{涡管、斜压和环量}
+常密度无黏且体力有势时，随体曲线的环量 $\Gamma=\oint\mathbf u\cdot\dd\mathbf l$ 保持。由 $\dd\dd\mathbf l/\dd t=(\dd\mathbf l\cdot\nabla)\mathbf u$ 展开，速度变化与曲线伸展中的梯度项互相整理为闭合线积分的全梯度，因而为零。涡管随流运动且涡通量守恒，细管被拉长时截面积缩小、涡量增大。
+
+变密度时压力力 $-\nabla p/\rho$ 的旋度为 $\nabla\rho\times\nabla p/\rho^2$；密度与压力梯度不平行产生涡量。二维密度分层题的旋转方向应实际计算叉积，本文所选原题重画梯度方向核对。黏性和非保守体力也使Kelvin条件失败。
+
+\originalsection{缩放和相似解的寻找方法}
+先由守恒约束找积分量，再估导数尺度，才决定相似变量。比如固定体积黏性重力流轴对称铺展，$H R^2$ 常量；通量尺度 $q\sim gH^4/(\nu R)$，连续式给 $H/t\sim gH^4/(\nu R^2)$。合并得 $R\propto t^{1/8},H\propto t^{-1/4}$。原题再把形状ODE和体积积分写完整，指数不是仅凭一个总量纲数“猜到”。
+
+近似还要回代检查：薄层要求 $H/R\ll1$，惯性相对黏性要求相关局部Re小，接触线附近坡度可能不小。一个自相似解在主体区成立，不代表前沿奇点的微观接触模型也已解决。

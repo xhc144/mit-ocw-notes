@@ -1,3 +1,4 @@
+\Needspace{12\baselineskip}
 \originalchapter{概率、固定与序列题解}
 以下题面来自8.592J Spring 2011公开作业的已冻结题号，全部解答由编者独立推导。未找到可下载的官方作业答案；课纲提及会提供解答不能替代实际文件。
 \originalsection{PS1：概率}
@@ -17,6 +18,8 @@
 M=\begin{pmatrix}d&q&p&p\\q&d&p&p\\p&p&d&q\\p&p&q&d\end{pmatrix},\quad d=1-q-2p.
 \]
 归一化要求 $p,q\ge0,q+2p\le1$。四个正交特征向量可取 $(1,1,1,1),(1,1,-1,-1),(1,-1,0,0),(0,0,1,-1)$，对应特征值 $1,1-4p,1-2p-2q,1-2p-2q$。将归一化向量写成 $v_j$，则 $M^t=\sum_j\lambda_j^tv_jv_j^T$。(d)若非平凡模绝对值均小于1，稳态为均匀分布；慢弛豫时间 $\tau=-1/\ln\max(|1-4p|,|1-2p-2q|)$。小概率时约由 $\min(4p,2p+2q)^{-1}$ 决定；$p=0$ 等非遍历边界不保证唯一稳态。
+
+一般地，若每对正反转移概率相等，矩阵对称且列和为一，则行和也为一，故 $M(1,1,1,1)^T/4=(1,1,1,1)^T/4$，均匀分布是稳态。若还不可约且非周期，则它是唯一吸引稳态；断开或周期模型不能仅凭对称性声称任意初态收敛。
 
 (e)新矩阵为
 \[
@@ -47,7 +50,7 @@ $A\to B$使 $n$ 减1，率 $an$；逆向使 $n$ 加1，率 $b(N-n)$。故
 \[
 T(\mathbf y)=-2N\sum_{i=1}^{s+1}(1-y_i)\ln(1-y_i).
 \]
-对完整约束频率使用同一个生成元，每项二阶导为 $-1/(1-y_i)$，其扩散贡献 $-y_i/(2N)$；全部频率之和为1，所以 $\mathcal LT=-1$。在顶点 $T=0$，在面上零频率项消失，恰好退化为同一低维表达式。两等位时恢复第1章公式。源文(d)的“loss or mutation”并没有给突变率，这里按所给纯抽样模型求吸收时间。
+对完整约束频率使用同一个生成元，每项二阶导为 $-2N/(1-y_i)$，其扩散贡献 $-y_i$；全部频率之和为1，所以 $\mathcal LT=-1$。在顶点 $T=0$，在面上零频率项消失，恰好退化为同一低维表达式。两等位时恢复第1章公式。源文(d)的“loss or mutation”并没有给突变率，这里按所给纯抽样模型求吸收时间。
 \end{solution}
 
 \begin{exercise}
@@ -83,7 +86,7 @@ C=\frac{R_0R_1(R_0+R_1)}{6D}.
 （PS3.1）$N$ 个独立 $\mathcal N(0,\sigma^2)$ 变量最大值为 $x$。(a)求 $P(x\le X)$；(b)说明最可能值在大 $N$ 时可由 $\overline F(x_*)\simeq1/N$ 或 $p_1'(x_*)+Np_1(x_*)^2\simeq0$ 定位，并求主渐近；(c)在此附近展开得到Gumbel分布及其参数。
 \end{exercise}
 \begin{solution}
-(a)为 $F(X)^N$。最大值密度 $Np_1F^{N-1}$ 的驻点满足 $p_1'F+(N-1)p_1^2=0$；$F\to1$ 时得到题面第二式。利用高斯尾 $\overline F\sim\sigma^2p_1/x$，第二式给 $N\overline F\simeq1$，所以两个表达式是同阶渐近而不是有限 $N$ 的精确等式。主尺度 $x_*\sim\sigma\sqrt{2\ln N}$。取 $b_N$ 为 $N\overline F(b_N)=1$ 的解，$a_N=\sigma^2/b_N$，累计分布近似为 $\exp\{-\exp[-(X-b_N)/a_N]\}$；密度为 $a_N^{-1}\exp[-z-\e^{-z}]$。位置和尺度的次阶修正需保留高斯尾的前因子。
+(a)为 $F(X)^N$。最大值密度 $Np_1F^{N-1}$ 的驻点满足 $p_1'F+(N-1)p_1^2=0$；$F\to1$ 时得到题面第二式。利用高斯尾 $\overline F\sim\sigma^2p_1/x$，第二式给 $N\overline F\simeq1$，所以两个表达式是同阶渐近而不是有限 $N$ 的精确等式。主尺度 $x_*\sim\sigma\sqrt{2\ln N}$。取 $b_N$ 为 $N\overline F(b_N)=1$ 的解，$a_N=\sigma^2/b_N$，累计分布近似为 $\exp\{-\exp[-(X-b_N)/a_N]\}$；密度为 $a_N^{-1}\exp[-z-\e^{-z}]$。具体展开：令 $X=b_N+a_Nz$，高斯尾比值 $\overline F(X)/\overline F(b_N)\simeq\exp[-b_Na_Nz/\sigma^2]=\e^{-z}$，其中平方的二阶项与尾前因子相对变化在大 $N$ 下趋零。于是 $F(X)^N=[1-\overline F(X)]^N\simeq\exp[-N\overline F(X)]=\exp(-\e^{-z})$，再对 $X$ 求导得到上述密度。位置和尺度的次阶修正需保留高斯尾的前因子。
 \end{solution}
 
 \begin{exercise}

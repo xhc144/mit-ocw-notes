@@ -1,0 +1,44 @@
+\originalchapter{Bloch态与能带计算}
+\label{ch:bands}
+\source{8.511第5--10讲主题；主推导补写。}
+\originalsection{平移对称与Bloch定理}
+考虑$H=\vct p^2/(2m)+V(\vct r)$，$V(\vct r+\vct R)=V(\vct r)$。定义$T_{\vct R}\psi(\vct r)=\psi(\vct r+\vct R)$。所有$T_{\vct R}$与$H$对易，且平移彼此对易，可以在每个能量子空间内选共同本征态。因$T_{\vct R}T_{\vct R'}=T_{\vct R+\vct R'}$，本征值是群的字符$\e^{\ii\vct k\cdot\vct R}$。因此
+\begin{equation}
+\psi_{n\vct k}(\vct r)=\e^{\ii\vct k\cdot\vct r}u_{n\vct k}(\vct r),\qquad u_{n\vct k}(\vct r+\vct R)=u_{n\vct k}(\vct r).
+\end{equation}
+$\vct k$与$\vct k+\vct G$表示同一个平移字符，故晶体动量只定义到倒格矢。把边长含$N_i$个原胞的周期边界代入，$\vct k\cdot N_i\vct a_i=2\pi n_i$；第一Brillouin区内恰有$N_1N_2N_3=N_c$个$\vct k$。每条不计自旋能带含$N_c$态，每条计双自旋能带含$2N_c$态。完全填满的带可绝缘，部分填充的带通常导电，但多体Mott态不受这个单粒子计数结论保证。
+
+把$V$与$u$作倒格傅里叶展开，Schrödinger方程化为矩阵
+\begin{equation}
+\sum_{\vct G'}\left[\frac{\hbar^2|\vct k+\vct G|^2}{2m}\delta_{\vct G\vct G'}+V_{\vct G-\vct G'}\right]c_{\vct G'}=E_{n\vct k}c_{\vct G}.
+\end{equation}
+这既是另一种Bloch证明，也是平面波能带计算的起点。有限截断是近似，应通过增加截断动能检查收敛；不能把截断后矩阵的维数当成真实能带总数。
+\originalsection{Bragg简并与能隙}
+在$\vct k$与$\vct k-\vct G$自由能近简并处，普通非简并微扰出现小分母，必须先对角化两态子空间。能量为
+\begin{equation}
+E_\pm=\frac{\epsilon_{\vct k}+\epsilon_{\vct k-\vct G}}2\pm\sqrt{\left(\frac{\epsilon_{\vct k}-\epsilon_{\vct k-\vct G}}2\right)^2+|V_{\vct G}|^2}.
+\end{equation}
+在Bragg面恰有劈裂$2|V_{\vct G}|$。两个驻波分别把电子密度集中于势能低区与高区，故能隙的物理来源是周期势对两种干涉图样的区别。几个Bragg面相交时必须保留全部简并波，不能逐个独立套两态公式。
+
+若势无磁性且忽略自旋轨道耦合，复共轭把$\vct k$态映到$-\vct k$态，$E_n(\vct k)=E_n(-\vct k)$；若有反演，对应结论也由空间对称得到。含自旋的时间反演满足$\Theta^2=-1$，Kramers配对只保证在时间反演不变动量的简并，不能在任意动量不加条件地称双重简并。
+\originalsection{芯态正交与赝势}
+真实离子势在核附近很深，价电子为正交于芯态而快速振荡，平面波需要很大截断。令正交芯轨道$\ket{\phi_c}$能量为$E_c$，把光滑试验态投影为$\ket\psi=(1-\sum_c\ket{\phi_c}\bra{\phi_c})\ket\varphi$。将$H\ket\psi=E\ket\psi$代回，得到
+\begin{equation}
+\left[H+\sum_c(E-E_c)\ket{\phi_c}\bra{\phi_c}\right]\ket\varphi=E\ket\varphi.
+\end{equation}
+正交化产生排斥的非局域项，部分抵消强吸引芯势。这说明赝势为何可以较弱，也说明它通常依赖能量、角动量且不唯一。可靠赝势应保持所需价电子散射相移或外区对数导数，不是任意削掉深势井。
+
+APW把空间分成原子球与间隙区：球内使用给定能量的径向方程解乘球谐函数，球外使用平面波，并在球面匹配函数。球内径向函数依赖未知能量，使本征方程通常为非线性。线性化方法在参考能量附近同时保留径向函数及其能量导数。OPW降低价电子的振荡负担，APW则把振荡交给适合核附近的基组，两者解决的是同一数值瓶颈的不同方面。
+\originalsection{紧束缚与态密度}
+若原子轨道空间上局域，先用$\ket{\alpha\vct R}$作基组，构造$\ket{\alpha\vct k}=N_c^{-1/2}\sum_{\vct R}\e^{\ii\vct k\cdot(\vct R+\vct d_\alpha)}\ket{\alpha\vct R}$。非正交基需解$H(\vct k)c=ES(\vct k)c$，不能无声明地令重叠矩阵$S=1$。一维单轨道最近邻且已正交时$E(k)=\epsilon_0-2t\cos ka$，带宽$4|t|$；两个轨道的杂化将交叉变为避免交叉，除非对称性禁止该矩阵元。
+
+一般态密度$D(E)=\int_{\mathrm{BZ}}\dd^dk\,\delta(E-E(\vct k))/(2\pi)^d$。等能面换元给$D(E)=\int_{E(\vct k)=E}\dd S_k/[(2\pi)^d|\nabla_kE|]$，梯度为零的驻点能使态密度奇异。二维鞍点局部$E-E_s=\alpha k_x^2-\beta k_y^2$，令$u=\sqrt\alpha k_x+\sqrt\beta k_y$、$v=\sqrt\alpha k_x-\sqrt\beta k_y$，能量成为$uv$。先用$\delta(E-E_s-uv)$积分$v$，剩余$\int\dd u/|u|$，得到$D(E)\propto\log(\Lambda/|E-E_s|)$。对数来自鞍点附近双曲线的相空间，不是任何极值都具有的形式。
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=10cm,height=4.5cm,xlabel={$ka$},ylabel={$E/t$},xmin=-3.1416,xmax=3.1416,ymin=-2.4,ymax=2.4,xtick={-3.1416,0,3.1416},xticklabels={$-\pi$,0,$\pi$},axis lines=middle]
+\addplot[structurecolor,thick,domain=-3.1416:3.1416,samples=150]{-2*cos(deg(x))};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+比热、自旋磁化率测低能态密度；光吸收还取决于初末态的联合态密度与跃迁矩阵元；光电子谱测被占据态的谱函数而非单纯能带曲线。周期表中$s,p,d$轨道的不同局域程度决定不同带宽，但完整材料预测还需晶体结构、填充及电子关联，不能用一条自由电子抛物线概括所有元素。

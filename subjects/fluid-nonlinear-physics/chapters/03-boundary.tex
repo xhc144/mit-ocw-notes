@@ -1,0 +1,63 @@
+\Needspace{12\baselineskip}
+\originalchapter{高Reynolds数与边界层}
+\originalsection{外流与内层}
+外流在适当条件下可由Euler方程近似，沿稳态无旋流有Bernoulli关系 $p/\rho+u^2/2+gz=\text{常数}$。无旋性、稳态与密度条件不可丢失；有涡稳流通常只沿同一条流线保持相同Bernoulli常数。
+
+固壁无滑移仍要求速度从零升到外流 $U$。对二维薄层 $\delta\ll x$，连续方程 $u_x+v_y=0$，流向动量 $uu_x+vu_y=U U_x+\nu u_{yy}$，法向压力近似由外流决定。平板零压力梯度时，$U^2/x\sim\nu U/\delta^2$，得 $\delta\sim\sqrt{\nu x/U}$。
+
+引入 $\eta=y\sqrt{U/(\nu x)}$、流函数 $\psi=\sqrt{\nu Ux}\,f(\eta)$，连续方程自动满足，速度 $u=Uf'$。代入动量得到Blasius方程 $f'''+ff''/2=0$，边界 $f(0)=f'(0)=0$、$f'(\infty)=1$。这一边值问题的数值求解给层形状，不是由尺度分析已确定全部剖面。壁剪切由 $\mu U\sqrt{U/(\nu x)}f''(0)$ 给出。
+
+\originalsection{积分法与分离}
+定义位移厚度 $\delta^*=\int_0^\infty(1-u/U)\dd y$ 和动量厚度 $\theta=\int_0^\infty(u/U)(1-u/U)\dd y$。积分边界层动量，并用外流关系消去压力梯度，可得
+\[
+\frac{\dd\theta}{\dd x}+\frac{2\theta+\delta^*}{U}\frac{\dd U}{\dd x}=\frac{\tau_w}{\rho U^2}.
+\]
+给定一个满足边界的近似速度剖面，就能把积分量写成层厚并求近似发展。这减少了自由度，但剖面假设是额外近似，不是完整PDE解。
+
+逆压梯度 $U_x<0$ 使近壁低动量流更容易停止并反流，分离点通常与壁剪切趋零相关。薄层近似在强分离区域本身变差；此处继续外推积分法可能失效。自由射流的质量通量会因卷吸增加，而没有外力时其流向动量通量可保持，这两个守恒口径不同。
+
+\originalsection{启动与振荡黏性层}
+平板突然以 $U$ 运动，静止流体满足 $u_t=\nu u_{yy}$，初始 $u(y,0)=0$，$u(0,t)=U$、$u(\infty,t)=0$。相似变量 $y/(2\sqrt{\nu t})$ 给 $u=U\operatorname{erfc}[y/(2\sqrt{\nu t})]$，涡量从壁面按 $\sqrt{\nu t}$ 深度扩散。
+
+若壁速为 $\Re(U\e^{\ii\omega t})$，解 $u=\Re[U\e^{\ii\omega t-(1+\ii)y/\delta}]$，$\delta=\sqrt{2\nu/\omega}$。幅度指数衰减、相位随深度滞后，壁剪切有实虚两部分。取时间平均速度为零，并不表示二阶非线性流一定为零；振荡边界附近可形成稳态streaming，但需要实际二阶推导，本版未把未做的油膜漂移题列为已解。
+
+\originalsection{边界层方程和匹配}
+平板外流 $U_e(x)$，纵向尺度 $L$、层厚 $\delta$。连续式给 $v/U=O(\delta/L)$；惯性 $U^2/L$ 与横向黏性 $\nu U/\delta^2$ 平衡，$\delta/L\sim Re_L^{-1/2}$。领先阶垂向压力常量，外流Euler式给 $-p_x/\rho=U_eU_e'$，边界层为
+\[
+uu_x+vu_y=U_eU_e'+\nu u_{yy},\qquad u_x+v_y=0,
+\]
+壁面 $u=v=0$，外缘 $u\to U_e$。它删除纵向黏性而保留横向黏性，是一个有边界匹配的近似，不能仅说高Re“黏性为零”。
+
+\originalsection{Blasius相似解和壁阻力}
+零压梯度常外速 $U$，流函数 $\psi=\sqrt{\nu Ux}\,f(\eta)$、$\eta=y\sqrt{U/(\nu x)}$。由 $u=\psi_y,v=-\psi_x$ 代入，$f'''+ff''/2=0$，边界 $f(0)=f'(0)=0,f'(\infty)=1$。附带边值计算得到 $f''(0)=.332057336$。壁剪切 $\tau_w=\mu U\sqrt{U/(\nu x)}f''(0)$，局部摩阻系数 $C_{f,x}=2\tau_w/(\rho U^2)=.6641/\sqrt{Re_x}$。
+
+位移厚度 $\delta^*=\int_0^\infty(1-u/U)\dd y$ 记录边界层使外流流量减少的效果；动量厚度 $\theta=\int(u/U)(1-u/U)\dd y$ 记录动量缺损。两者不是常规肉眼厚度，比较数值时须声明定义。99\%速度厚度在该相似解约 $5\sqrt{\nu x/U}$，不能与 $\delta^*$ 的系数混用。
+
+\originalsection{动量积分、压梯度与分离}
+把边界层动量沿法向积分、利用连续式得到von K\'arm\'an关系
+\[
+\frac{\dd\theta}{\dd x}+\frac{2\theta+\delta^*}{U_e}\frac{\dd U_e}{\dd x}
+=\frac{\tau_w}{\rho U_e^2}.
+\]
+它精确约束边界层近似中的剖面，但还需速度剖面的闭合来求 $\theta$。顺压梯度 $U_e'>0$ 加速，逆压梯度 $U_e'<0$ 更易使近壁低动量流减速。壁剪切降到零并随后反向是分离信号；仅由外流速度降低不能无条件断定分离位置。
+
+取 $U_e\propto x^m$ 可构造Falkner--Skan相似族，将压力梯度编码在ODE参数中。某些逆压参数下单调附着解消失。这里只使用其物理参数关系；真实分离后的回流区不由附着边界层方程完整描述。
+
+\originalsection{层流射流和卷吸}
+二维平面射流远下游，沿程动量通量 $M=\rho\int u^2\dd y$ 近守恒，特征宽度 $\delta$ 与中心速 $U_c$ 满足 $U_c^2\delta\sim M/\rho$。边界层平衡 $U_c^2/x\sim\nu U_c/\delta^2$，合并给 $U_c\propto x^{-1/3}$、$\delta\propto x^{2/3}$。体积通量 $U_c\delta\propto x^{1/3}$ 增长，必须卷吸外部流体。
+
+轴对称层流射流动量尺度 $U_c^2\delta^2$ 守恒，结合同一黏性平衡给 $U_c\propto x^{-1}$、$\delta\propto x$。平面/轴对称的维数改变指数，不能将两种解互换。自相似剖面要由ODE及总动量归一化确定，源作业的喷流题可利用这条方法链。
+
+湍流射流常也出现宽度近线性增长，但其有效横向输运机制不同；单看 $\delta\propto x$ 不足以证明流动为层流或湍流。湍流闭合/卷吸系数需另给观测或模型。
+
+\originalsection{突然启动与振荡壁层}
+半空间 $y>0$，平板突然以 $U$ 启动，$u_t=\nu u_{yy}$、$u(0,t)=U,u(\infty,t)=0$，相似解为 $u/U=\operatorname{erfc}[y/(2\sqrt{\nu t})]$。壁剪切幅值 $\mu U/\sqrt{\pi\nu t}$ 在 $t\to0$ 发散，反映理想瞬时加速；有限机械启动消去真实奇点。
+
+平板以 $U\cos\omega t$ 振荡，设 $u=\Re[\hat u(y)\e^{i\omega t}]$，得到 $\hat u=U\exp[-(1+i)y/\delta_s]$，$\delta_s=\sqrt{2\nu/\omega}$。速度随深度既衰减又延迟相位，壁剪切相对速度有 $45^\circ$ 相位。单把它当静态薄层黏性阻力会漏掉储存/释放动量的一部分。
+
+脉冲体力驱动的非稳态扩散可由Gaussian核卷积求解。共同的物理是动量在横向扩散距离 $\sqrt{\nu t}$，而非被一个固定宽度立刻平均。源课突然/周期/冲动流主题因此形成同一方法组。
+
+\originalsection{湍流平均的闭合问题}
+令 $u_i=\bar u_i+u_i'$，时间平均NS会出现 $-\partial_j\avg{u_i'u_j'}$，Reynolds应力不是已知的分子黏性。将它取为涡黏性 $\nu_t(\partial_j\bar u_i+\partial_i\bar u_j)$ 是模型假设，需适用区域与参数；近壁、分离或强各向异性可失败。
+
+壁摩擦速度 $u_\tau=\sqrt{\tau_w/\rho}$，黏性长 $\nu/u_\tau$；在非常近壁区 $u^+=y^+$。对数层 $u^+=(1/\kappa_v)\ln y^++B$ 依赖近壁惯性平衡和经验常数，不从简单维数分析推出数值。这里只建立尺度与平均方程，不捏造源课程之外的实验曲线。

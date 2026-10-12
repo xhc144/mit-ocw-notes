@@ -1,0 +1,41 @@
+\Needspace{12\baselineskip}
+\originalchapter{模拟数据中的参数识别}
+\originalsection{光电直线的可复算示例}
+附带程序 \texttt{code/experiments.py} 用固定种子生成六个频率的模拟截止电压，真实输入斜率设为已定义的 $h/e$，截距设为 $-1.60$ V，每点独立噪声标准差 $.012$ V。程序保存原始模拟CSV、拟合参数、参数协方差和残差。这个数据集只说明拟合流程；由于生成模型已经指定斜率，贴合不构成对光电规律的独立实验验证。
+
+用第1章带权最小二乘复算斜率和截距，并将频率缩放为 $10^{14}$ Hz 以改善数值尺度，最终换回 $\mathrm{V\,s}$。误差条表示所设定的测量噪声，拟合自由度为 $N-2$。增加一个共享零点偏差只会移动截距，而一个频率相关偏差可以改变斜率；模拟也可用来检查这种参数混淆。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=10cm,height=4.8cm,xlabel={频率 / $10^{14}\,\mathrm{Hz}$},ylabel={截止电压 / V},grid=major]\addplot[only marks,main] table[x=freq_scaled,y=voltage,col sep=comma]{data/photoelectric.csv};\addplot[thick,structurecolor] table[x=freq_scaled,y=fit,col sep=comma]{data/photoelectric.csv};\end{axis}\end{tikzpicture}\end{center}
+
+\originalsection{计数样本和本底}
+程序分别模拟均值1、5、10、100的Poisson计数，各取10000个等时段，报告样本均值、样本方差和理论值。有限样本不会使两者完全相等。使用多组独立复现可以检查估计器的涨落范围；不能要求某一次数据的方差必须精确等于均值。
+
+死时间演示从指数等待时间生成真实事件，再按非延长型失效窗口筛选，比较真实率、记录率和 $R/(1+R\tau_d)$。在样本足够长时，它验证筛选程序对模型的实现，而非证明所有探测器都服从这个死时间模型。
+
+\originalsection{光阱的原理解读}
+这里是编者独立的数据分析模型，与本卷九份选定手册的对应关系分开。局部谐势光阱内的小球在过阻尼极限满足 $\gamma\dot x=-kx+\xi(t)$，$\avg{\xi(t)\xi(t')}=2\kb T\gamma\delta(t-t')$。Stokes阻力 $\gamma=6\pi\eta a$，关联时间 $\tau=\gamma/k$，平衡方差 $\avg{x^2}=\kb T/k$。Fourier变换给一侧谱
+\[
+S_x(f)=\frac{4\kb T\gamma}{k^2+(2\pi f\gamma)^2},\qquad f_c=\frac{k}{2\pi\gamma}.
+\]
+谱积分等于方差，提供对归一化的独立核查。若读出电压 $V=\alpha x$，必须另标定位置灵敏度 $\alpha$；仅凭一个电压谱不能在不知道黏性阻力与灵敏度时唯一确定所有参数。
+
+程序用Ornstein--Uhlenbeck过程的精确离散转移 $x_{n+1}=\rho x_n+\sqrt{(\kb T/k)(1-\rho^2)}\,\eta_n$，$\rho=\e^{-\Delta t/\tau}$，生成明确标注的模拟轨迹。它避免用过大步长改变平衡方差。PSD分析还需考虑采样混叠、相机曝光平均、有限记录长度与检测噪声；本示例只实现理想点采样及Welch平均，不冒称已校准真实光阱。
+
+\originalsection{位移标定、采样和有限曝光}
+光学陷阱中的四象限光电二极管常输出左右/上下光强差而非直接位移。在线性小位移区取 $V=\alpha x+b$，需独立求比例 $\alpha$；在远离中心时响应不线性。视频定位又有像素尺寸、曝光模糊与定位噪声，不能把每一帧质心当作瞬时真实位置。
+
+过阻尼方程 $\gamma\dot x=-kx+\xi$、$\avg{\xi(t)\xi(t')}=2\gamma\kb T\delta(t-t')$ 的相关 $C_x(t)=(\kb T/k)\e^{-|t|/\tau}$，$\tau=\gamma/k$。在采样间隔 $\Delta t$ 上，其\emph{精确}更新为
+\[
+x_{n+1}=a x_n+\sqrt{\frac{\kb T}k(1-a^2)}\,\eta_n,
+\qquad a=\e^{-\Delta t/\tau},\quad\eta_n\sim\mathcal N(0,1).
+\]
+这使离散模拟在任意步长下保持正确平衡方差，优于把过粗Euler步进产生的偏差误当物理涨落。附带光阱模拟采用此式。
+
+若检测增加独立定位噪声方差 $u_{
+m loc}^2$，零时方差多该项，非零时相关不多。若一帧平均曝光 $t_e$，快速涨落又被低通抹平，测得方差下降。两个误差方向相反，不能只用等分配调刚度而忽略检测模型。
+
+\originalsection{方差、功率谱与拖曳法的交叉核对}
+等分配给 $k=\kb T/\avg{x^2}$，单侧位移谱为 $S_x(f)=4\kb T\gamma/[k^2+(2\pi f\gamma)^2]$，积分恢复 $\kb T/k$。拐角频率 $f_c=k/(2\pi\gamma)$。若介质黏度、球半径已知，谱形可独立给 $k$；若靠近壁面，$\gamma=6\pi\eta a$ 需修正，不能拿体相阻力解释所有样品。
+
+拖曳平衡 $kx=\gamma v$ 提供另一种校准，要求稳定匀速、线性势区和无额外流场。三种方法都共享温度或位移标定等误差，彼此吻合不能完全独立排除共享系统偏差。实际合成程序在131072点、$\Delta t=10^{-4}$ s的OU轨迹上得 $k_{
+m variance}\simeq1.9436\times10^{-6}$ N/m，对应真值 $2\times10^{-6}$ N/m；有限时长和相关使一个实现有抽样偏差。公开QA保存了相关时间和谱积分，未将它们标作真实光阱测量。

@@ -1,0 +1,61 @@
+\Needspace{8\baselineskip}\originalchapter{线性稳定性与能量原理}\label{ch:energy}
+\originalsection{从位移到力算符}
+静态理想平衡上, 令位移 \ensuremath{\xi}, 质量、压力和磁场扰动为
+\begin{equation}
+ \rho_1=-\nabla\cdot(\rho\boldsymbol\xi),\quad
+ p_1=-\boldsymbol\xi\cdot\nabla p-\gamma p\nabla\cdot\boldsymbol\xi,\quad
+ \mathbf Q=\mathbf B_1=\nabla\times(\boldsymbol\xi\times\mathbf B).
+\end{equation}
+代线性动量得 $\rho\ddot{\boldsymbol\xi}=\mathcal F[\boldsymbol\xi]$, 其中
+$\mathcal F=-\nabla p_1+\mu_0^{-1}(\nabla\times\mathbf Q)\times\mathbf B+\mathbf J\times\mathbf Q$.
+给合适边界后积分分部使 $\int\boldsymbol\eta^*\cdot\mathcal F[\boldsymbol\xi]$ 对 \ensuremath{\xi}、\ensuremath{\eta} 共轭交换对称. 自伴性依赖静态平衡、理想条件与边界; 有平衡流或耗散不直接套用.
+
+\originalsection{势能泛函与必要量词}
+定义 $\delta W=-\tfrac12\operatorname{Re}\int\boldsymbol\xi^*\cdot\mathcal F[\boldsymbol\xi]\dd V$. 固定导体边界的流体项写为
+\begin{equation}\label{eq:energy}
+ \delta W_F=\frac12\operatorname{Re}\int\left[
+ \frac{|\mathbf Q|^2}{\mu_0}-\boldsymbol\xi^*\cdot(\mathbf J\times\mathbf Q)
+ +\gamma p|\nabla\cdot\boldsymbol\xi|^2
+ +(\boldsymbol\xi\cdot\nabla p)(\nabla\cdot\boldsymbol\xi^*)\right]\dd V.
+\end{equation}
+自由界面还要加表面项与真空磁能 $\int_V|B_1|^2/(2\mu_0)$. 真空扰动满足 curl=div=0, 壁上法向扰动零, 等离子体界面满足随动磁通条件. 漏掉真空能会改变外 kink 阈值.
+
+若\textbf{所有}可允许位移 \ensuremath{\delta}W\ensuremath{\ge}0则理想线性稳定; 找到一个 \ensuremath{\delta}W<0 的试探位移即足以证明不稳定. 找不到负值只表示所选试探空间未发现不稳定, 不能把几个系数的正定判成全MHD稳定. 对正规模 $\omega^2=\delta W/K$, $K=\tfrac12\int\rho|\xi|^2\dd V>0$; 负势能对应指数增长.
+
+\originalsection{自由能怎样进入}
+将式\eqref{eq:energy}改写可辨磁线弯曲、磁压缩、气体压缩的非负项, 以及压力梯度与曲率的耦合 $-2(\xi_\perp\cdot\nabla p)(\kappa\cdot\xi_\perp^*)$ 和平行电流耦合. 压力由高压向外驱动, 磁场曲率若向高压侧为坏曲率; 线弯曲和剪切可恢复. 这给 interchange、ballooning 与 current-driven kink 的物理区分. 平行位移可降低压缩能, 但在 $\mathbf k\cdot\mathbf B=0$ 的共振面其形式可能奇异, 必须检验可允许性而不能无条件设 div\ensuremath{\xi}=0.
+
+\originalsection{有限谐波变分计算}
+取满足轴心、壁及散度条件的基函数 $\xi=\sum_jc_j\xi_j$, 得 $\delta W=\tfrac12c^\dagger Wc$. 矩阵需 Hermitian, 实基可为实对称. 若要增长率还需质量矩阵 K 作广义特征值问题. 仅判断势能符号时最小 W 特征值足够, 基的缩放改变特征值大小但不改惯性指数. 增加基数可发现先前遗漏的负方向, 而数值求积收敛与基空间收敛是两种检查.
+
+\originalsection{自由边界、真空匹配与五项能量}
+前面的$\delta W_F$只把流体内积分写出，MIT 22.615 Lecture 16第3--6页还说明自由界面不能任意丢掉边界积分。将$-\frac12\int\xi^*\cdot\mathcal F(\xi)\dd V$分部积分，会产生
+\begin{align}
+\delta W&=\delta W_F+\delta W_S+\delta W_V,\nonumber\\
+\delta W_S&=\frac12\int_{S_p}|\xi_n|^2\,\mathbf n\cdot
+\left[\nabla\!\left(\frac{B_v^2}{2\mu_0}\right)
+-\nabla\!\left(p+\frac{B_p^2}{2\mu_0}\right)\right]\dd S,\label{eq:free-surface-jump}\\
+\delta W_V&=\frac1{2\mu_0}\int_{V_{\rm vac}}|\mathbf B_{1v}|^2\dd V .\nonumber
+\end{align}
+这里$\mathbf n$从等离子体指向真空、$\xi_n=\mathbf n\cdot\xi$，$v,p$分别表示真空侧和等离子体侧的平衡场。Lecture 16第4页先令界面两侧的随动总压扰动连续：各侧的一阶Euler扰动还要加$\xi_n\mathbf n\cdot\nabla(p+B^2/2\mu_0)$；将真空侧减去流体侧，界面剩余项正是上式的外侧减内侧梯度跳跃，不能只保留流体侧。若反选法向，须同时反转两侧差的次序。固定边界$\xi_n=0$时表面项消失；只有两侧总压法向梯度相等的光滑匹配才使它为零，单凭平衡总压值连续不能删除。
+
+允许位移须满足流体侧随动磁通条件；真空$\nabla\times\mathbf B_{1v}=\nabla\cdot\mathbf B_{1v}=0$，等离子体面满足
+$\mathbf n\cdot\mathbf B_{1v}=\mathbf n\cdot\nabla\times(\xi\times\mathbf B)$，理想外壁满足$\mathbf n\cdot\mathbf B_{1v}=0$。真空矢势的表面积分接回流体分部积分遗下的$\mathbf B\cdot\mathbf B_{1v}$项，于是总能量有上述正的真空平方项。总压扰动连续性是这一变分形式的自然边界条件，由驻值时导出；任取试探函数时无需先强制它。
+
+令$\mathbf b=\mathbf B/B$、$\boldsymbol\kappa=\mathbf b\cdot\nabla\mathbf b$、$\xi=\xi_\perp+\xi_\parallel\mathbf b$、$\mathbf Q_\perp=\mathbf Q-\mathbf b(\mathbf b\cdot\mathbf Q)$、$J_\parallel=\mathbf J\cdot\mathbf b$。用平衡$\mathbf J\times\mathbf B=\nabla p$和
+$\mathbf b\cdot\mathbf Q=-B(\nabla\cdot\xi_\perp+2\xi_\perp\cdot\boldsymbol\kappa)
++\mu_0(\xi_\perp\cdot\nabla p)/B$，将流体能量完成平方，得到Lecture 16第6页的五类项：
+\begin{equation}
+\begin{split}
+\delta W_F=\frac12\int_{V_p}\Bigg\{&
+\frac{|\mathbf Q_\perp|^2}{\mu_0}
++\frac{B^2}{\mu_0}\left|\nabla\cdot\xi_\perp
++2\xi_\perp\cdot\boldsymbol\kappa\right|^2
++\gamma p|\nabla\cdot\xi|^2\\
+&-2\operatorname{Re}\!\left[
+(\xi_\perp^*\cdot\nabla p)(\boldsymbol\kappa\cdot\xi_\perp)\right]
+-J_\parallel\operatorname{Re}\!\left[
+(\xi_\perp^*\times\mathbf b)\cdot\mathbf Q_\perp\right]\Bigg\}\dd V .
+\end{split}
+\end{equation}
+依次是磁线弯曲、磁压缩、气体压缩、压力与曲率耦合、平行电流驱动。前三项非负，后两项可随剖面和位移改变符号。最小化$\xi_\parallel$常能消掉气体压缩，但在特殊对称或$\mathbf B\cdot\nabla$有核空间时不能保证处处$\nabla\cdot\xi=0$；Lecture 16第7页专门保留这个例外。此五项式与边界、真空项相加才是自由边界判据，且只适用于静态理想MHD平衡。

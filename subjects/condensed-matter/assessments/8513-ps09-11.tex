@@ -1,0 +1,65 @@
+\originalchapter{8.513作业9--11：边缘谱与拓扑质量}
+\psource{Xiao-Gang Wen，8.513 Fall 2021，公开作业9--11。}
+\originalsection{作业9}
+\begin{exercise}[原题1(a)--(c)]
+石墨烯两谷手性相反。普通亚格势使两谷质量同号，Haldane质量使两谷分别$\pm\sqrt3t'$；只使K'质量跨过0可构造平凡与Chern绝缘体界面。循环置换Pauli矩阵后取$\hbar v=1,m(y)=y$，
+\begin{equation}
+H=-\ii(\sigma_z\partial_x-\sigma_y\partial_y)+y\sigma_x=\begin{pmatrix}-\ii\partial_x&\partial_y+y\\-\partial_y+y&\ii\partial_x\end{pmatrix}.
+\end{equation}
+(a)取$\Psi=\e^{\ii kx}\Psi_k(y)$，分别找只有上或下分量、Gaussian形式的解，去掉不可归一支。(b)求可归一边缘色散。(c)求并画其余带。
+\end{exercise}
+\begin{solution}
+(a)只有上分量时$(-\partial_y+y)\psi_1=0$，$\psi_1\propto\e^{y^2/2}$不可归一，形式能$E=k$；只有下分量时$(\partial_y+y)\psi_2=0$，$\psi_2=\pi^{-1/4}\e^{-y^2/2}$可归一，(b)$E_0(k)=-k$。因此只有一支物理手性低能态。
+
+(c)平方$H_k$得两对角$k^2-\partial_y^2+y^2+1$与$k^2-\partial_y^2+y^2-1$。上分量的振子$n-1$与下分量$n$配对，$n\ge1$时$E_{n,\pm}(k)=\pm\sqrt{k^2+2n}$。最低下分量$n=0$没有可归一上分量伙伴，故不组成$\pm|k|$两支。向量图如下，坐标为本题无量纲单位。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=10cm,height=5cm,axis lines=middle,xlabel={$k$},ylabel={$E$},xmin=-2.5,xmax=2.5,ymin=-3.2,ymax=3.2]
+\addplot[structurecolor,thick,domain=-2.5:2.5]{-x};
+\foreach \n in {1,2}{\addplot[gray,domain=-2.5:2.5,samples=80]{sqrt(x*x+2*\n)};\addplot[gray,domain=-2.5:2.5,samples=80]{-sqrt(x*x+2*\n)};}
+\end{axis}\end{tikzpicture}\end{center}
+线性质量无限增大是便于精确计算的模型，真实界面质量饱和时高能束缚带数及连续谱不同，但净低能手性仍受体拓扑差保护。
+\end{solution}
+\originalsection{作业10}
+\begin{exercise}[原题1(a)--(c)]
+开链Majorana模型$H=\ii J\sum_{i=1}^{L-1}\lambda_i^y\lambda_{i+1}^x+\ii h\sum_{i=1}^L\lambda_i^x\lambda_i^y$，$\{\lambda_i^\alpha,\lambda_j^\beta\}=2\delta_{ij}\delta_{\alpha\beta}$，$c_i=(\lambda_i^x+\ii\lambda_i^y)/2$。(a)$J=0,h\ne0$证明多体基态不简并。(b)$h=0,J\ne0$证明二重简并。(c)一般$J,h$求单粒子级，并核对两个极限。原题提示普通正弦波可用于部分边界处理，须核对真实Majorana开链端点。
+\end{exercise}
+\begin{solution}
+(a)$\ii\lambda_i^x\lambda_i^y=2n_i-1$，每站独立，$h>0$全部空、$h<0$全部满，基态唯一，激发代价$2|h|$；$J=h=0$是另一个全空间简并点。(b)用$\widetilde c_i=(\lambda_i^y+\ii\lambda_{i+1}^x)/2$配对$L-1$个键，余$\lambda_1^x,\lambda_L^y$形成零能复费米子，所以两种占据同能。若物理设置固定总费米宇称，只可选其中一个，二重是在允许两宇称的多体空间中陈述。
+
+(c)写$H=\ii\sum_{ij}a_iD_{ij}b_j$，$a_i=\lambda_i^x,b_i=\lambda_i^y$，$D_{ij}=h\delta_{ij}-J\delta_{i,j+1}$。正准粒子能$\epsilon_n=2s_n(D)$，$s_n$为奇异值。这给所有参数与有限$L$的完整、稳定计算法。$D^TD$对角前$L-1$个为$h^2+J^2$、最后为$h^2$，邻对角$-hJ$。对$hJ\ne0$，内部解$f_j=\sin kj$、
+\begin{equation}
+\epsilon(k)=2\sqrt{h^2+J^2-2hJ\cos k},\qquad h\sin[(L+1)k]=J\sin(Lk).
+\end{equation}
+因此一般$k$并非$n\pi/(L+1)$，这类简单正弦格点会漏掉末站特殊边界及拓扑端模。所有实根连同必要的虚$k=\ii\kappa$或$\pi+\ii\kappa$给恰$L$个正能（零模极限取连续）。$h=0$有一零奇异值、其余$|J|$，$J=0$全部$|h|$，与(a)(b)匹配。$|h/J|<1$大链最低能$\epsilon_0\simeq2|J|[1-(h/J)^2]|h/J|^L$，故一般有限链并非精确二重，而是指数近简并；无限链在$|h|=|J|$闭体隙。
+\end{solution}
+\originalsection{作业11}
+\begin{exercise}[原题1(a)--(d)]
+三维粒子数守恒、$T^2=-1$的自由费米体系，$M(k)=v(k)\cdot\sigma$在两零点$k_R,k_L$附近分别为$\delta k\cdot\sigma$与$-\delta k\cdot\sigma$。(a)写四分量连续Dirac哈密顿量。(b)转为实Majorana基，令$\varepsilon=\ii\sigma_2=\left(\begin{smallmatrix}0&1\\-1&0\end{smallmatrix}\right)$，
+\begin{equation}
+\gamma_1=\sigma_0\otimes\sigma_1\otimes\sigma_3,\quad\gamma_2=\varepsilon\otimes\varepsilon\otimes\sigma_3,\quad\gamma_3=\sigma_0\otimes\sigma_3\otimes\sigma_3,
+\end{equation}
+$Q=\varepsilon\otimes\sigma_0\otimes\sigma_0$、$T=\sigma_3\otimes\varepsilon\otimes\sigma_0$，找实反对称质量$A$满足$\{A,\gamma_i\}=\{A,T\}=0,[A,Q]=0$（$TQ$关系随之）。(c)解释加入空间动能与对称生成元后的Clifford扩张如何约为题页所用$R_0^1$质量空间。(d)若$A^2=-I$、$\{A,\rho\}=0$、$\rho=\operatorname{diag}(I_n,-I_n)$，证明$A=\left(\begin{smallmatrix}0&-O^T\\O&0\end{smallmatrix}\right)$、$O\in O(n)$，从而有两个连通分支。源题为稳定自由费米分类，不能用此直接分类任意相互作用相。
+\end{exercise}
+\begin{solution}
+(a)以最后指标区分两谷，按原题Fourier$i\partial\leftrightarrow k$约定$H=\sigma_1\otimes\sigma_3\ii\partial_x+\sigma_2\otimes\sigma_3\ii\partial_y+\sigma_3\otimes\sigma_3\ii\partial_z$。若使用$\e^{\ii kx}$定义，$i\partial\leftrightarrow-k$且两谷标签相应反换，谱与分类不变。
+
+(b)先把虚数显式提出，$\sigma_2=-\ii\varepsilon$，再在实化新增第一指标上将$-\ii$换为$\varepsilon$、实1换$\sigma_0$，得到原题三个实对称$\gamma_i$。直接Pauli乘法给$\{\gamma_i,\gamma_j\}=2\delta_{ij}$，$Q^2=T^2=-I,QT=-TQ$。把$A$展开在$\{I,\sigma_1,\sigma_3,\varepsilon\}^{\otimes3}$的64个实独立矩阵中，逐个施加反对称、$Q$对易及四个反对易条件，只剩
+\begin{equation}
+A=m\,\varepsilon\otimes\sigma_0\otimes\sigma_1.
+\end{equation}
+每个条件的矩阵积仍是该正交基的一个带符号元素，故不存在靠不同基元相消而遗漏的线性组合。可直接核对这个$A$的全部条件及$A^2=-m^2I$；随卷矩阵脚本又从64维线性条件独立核对零空间维数1。
+
+(c)先固定记号，课程第16--19讲第29页的$R_q^p$是满足$A^T=-A,A^2=-I$的实质量矩阵空间；它与$p$个平方$+I$、$q$个平方$-I$的两两反对易正交生成元$\rho_i$逐个反对易。正平方生成元为$\gamma_1,\gamma_2,\gamma_3$，负平方生成元为$T,TQ$：从$Q^2=T^2=-I$、$QT=-TQ$可验$(TQ)^2=-I,\{T,TQ\}=0$。$\gamma_i$与$Q$对易、与$T$反对易，因此也与$TQ$反对易。条件$[A,Q]=0,\{A,T\}=0$推出$\{A,TQ\}=0$。故归一质量的扩张确实是$R_2^3$，并非把$Q$错计为第三个负平方生成元。
+
+说明两次约化的具体矩阵操作。设$(\widetilde A,\widetilde\rho_1,\ldots)$代表$R_q^p$，令$\varepsilon=\left(\begin{smallmatrix}0&1\\-1&0\end{smallmatrix}\right)$，则
+\begin{equation}
+A=\widetilde A\otimes\sigma_3,\quad
+\rho_i=\widetilde\rho_i\otimes\sigma_3,\quad
+\rho_+=I\otimes\sigma_1,\quad
+\rho_-=I\otimes\varepsilon
+\end{equation}
+定义$R_{q+1}^{p+1}$中的一组矩阵：$\rho_+^2=I,\rho_-^2=-I$，$\sigma_3$与$\sigma_1,\varepsilon$均反对易，故所有要求逐条保持。反过来，在稳定扩带后把指定的一正一负生成元选为$\rho_+,\rho_-$的标准实表示，其余生成元和$A$必有$\widetilde X\otimes\sigma_3$的形式；这样移去这一正一负对。第一次从$R_2^3$移到$R_1^2$，第二次从$R_1^2$移到$R_0^1$。最后只余一个正平方$\rho$与实反对称$A$，正是(d)的问题，$R_2^3\simeq R_1^2\simeq R_0^1$。这里$\simeq$指稳定质量空间等价，允许增加平凡带，并不声称原8维矩阵空间本身等于任意$n$的$O(n)$；也没有借此宣称证明一般Bott周期性。
+
+(d)反对易使$A$对角块为0，反对称使两个非对角块互为负转置，写$A=\left(\begin{smallmatrix}0&-O^T\\O&0\end{smallmatrix}\right)$。$A^2=-\operatorname{diag}(O^TO,OO^T)=-I$要求$O$正交，反之每个正交矩阵均给合法$A$。$\det O=\pm1$沿连续路不变；各定号分支均连通（$n\ge2$可分解连续平面旋转，$n=1$各是单点），所以$\pi_0=\mathbb Z_2$。这给三维AII强拓扑的两个稳定自由相；仅用未正则化Dirac质量的正负不能判断哪一支是某个晶格模型的绝对平凡相，须给完整紫外晶格参照。
+\end{solution}
+\originalsection{学期论文的公开要求}
+作业8及作业页说明论文约四页，可为短综述或一个实际研究问题，主题示例包括磁序、自旋波、Berry输运、Chern绝缘体、石墨烯、Weyl半金属、分数量子Hall、共形场、Haldane链、Majorana与量子临界。公开底稿给12月9日截止、建议11月30日前提交草稿，这是2021课的历史安排。论文选题属于开放任务，未公开标准答案，本册不把编者虚构论文计入原课程交付题数，也不代学生发送邮件或上传Canvas。

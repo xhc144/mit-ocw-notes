@@ -1,0 +1,63 @@
+\Needspace{9\baselineskip}
+\originalchapter{测量式与绝热量子计算}
+电路把计算写成时间上的门序列. 本章换两个视角: 先制备空间中的纠缠图, 再以局部测量推进计算; 或把答案编码成基态, 缓慢改变Hamiltonian. 必须分别追踪测量的随机副产物和绝热路径的谱隙, 才能判断这两种表示是否真的实现同一个任务. 本章以MAS第8--10讲的公开笔记与18.435第14讲可得笔记为依据.
+\originalsection{一步传态与适应性测量}
+设输入$\ket\psi=a\ket0+b\ket1$, 邻点为$\ket+=(\ket0+\ket1)/\sqrt2$. CZ后
+\[\ket\Psi=a\ket0\ket+ +b\ket1\ket-,\qquad
+ \ket{\pm_\theta}=\frac{\ket0\pm\e^{\ii\theta}\ket1}{\sqrt2}.\]
+在第一点测上述基, 记录$m=0,1$, 第二点未归一态为
+\[\frac{a\ket+ +(-1)^m b\e^{-\ii\theta}\ket-}{\sqrt2}
+ =\frac{\e^{-\ii\theta/2}}{\sqrt2}X^mH R_z(-\theta)\ket\psi.\]
+两个结果概率各$1/2$. 测量消耗了第一点, 把信息和一个已知Pauli随机量移到第二点; 测量结果本身没有泄露$a,b$. 特别地$\theta=0$实现$X^mH$, 不是简单的恒等传态.
+
+若第一步后有$X^m$, 下一步遇到$R_z(\alpha)$就用$R_z(\alpha)X=XR_z(-\alpha)$翻转角度. 用$HX=ZH$把副产物向输出推, 最终只需依已知结果作Pauli校正. 两个这样的步骤实现$R_x(\beta)R_z(\alpha)$, 三次旋转可组成一般Euler单比特门. 对非Clifford角, 前一步的结果会改变后一步的角; 因而经典前馈是计算的一部分.
+
+\begin{example}输入$\ket0$, 测$\theta=\pi/4$. 输出为$X^m\ket+$, 两结果实际上给同一物理态. 输入$\ket+$时输出变成$X^mH R_z(-\pi/4)\ket+$, 这个副产物必须保留. 检查这两个输入可以避免把全局相位与随机Pauli混为一谈.\end{example}
+
+\originalsection{图态与可重现的计算模式}
+图$G=(V,E)$的资源态为$\ket G=\prod_{(u,v)\in E}CZ_{uv}\ket+^{\otimes |V|}$. 由$CZ(X_v)CZ=X_vZ_u$可得稳定子
+\[K_v=X_v\prod_{u\sim v}Z_u.\]
+所有$K_v$对易, 且独立, 唯一确定$\ket G$. 链上逐点测量就是上述一步传态的重复. 测Z会删除该点并给邻点已知Z副产物; 所以大资源图中可选出需要的线和连接.
+
+\begin{center}\begin{tikzpicture}[>=Stealth,scale=.9]
+\foreach \x in {0,1,2,3,4}{\foreach \y in {0,1}{\node[circle,draw,minimum size=5mm] (p\x\y) at (1.2*\x,1.25*\y) {};}}
+\foreach \x/\z in {0/1,1/2,2/3,3/4}{\foreach \y in {0,1}{\draw(p\x\y)--(p\z\y);}}
+\draw(p21)--(p20);\node[left] at(p01){输入};\node[left] at(p00){输入};
+\node[right] at(p41){输出};\node[right] at(p40){输出};
+\node[below] at(2.4,-.3){链测量角依前序结果更新; 竖边提供CZ连接};
+\end{tikzpicture}\end{center}
+图是资源连接的示意, 不是宣称五列便是任意门的最短模式. 一个可复现的模式应列出输入点、图边、测量顺序、角度、前馈规则及输出Pauli. 普适构造把电路先分解成单比特Euler旋转和CZ, 每段旋转用链式传态替换, 两条线的CZ连接在传播之前加入. 因CZ属于Clifford, 推过它的Pauli只会更新两线上的Pauli框架. 原电路若有多项式个门, 这一逐门替换使用多项式个图点与测量; 这才是测量模型模拟电路的资源论证.
+
+\originalsection{绝热条件与搜索的二能级隙}
+设$H(s)$有非简并基态$\ket{0(s)}$, 隙$\Delta_m(s)=E_m-E_0>0$, $s=t/T$. 微分本征方程并左乘$\bra m$得
+\[\braket{m}{\partial_s0}=
+ -\frac{\bra m\partial_sH\ket0}{\Delta_m}.
+\]
+把这一非绝热耦合代入含快速相位$\exp(\ii T\int\Delta_m\dd s/\hbar)$的跃迁积分, 一次分部积分出现$\hbar\langle m|\partial_sH|0\rangle/(T\Delta_m^2)$. 完整误差界还含端点、导数、整个路径的积分和简并条件; 只背$T\sim\Delta_{\min}^{-2}$并不构成任意路径的定理. 以下搜索模型可以直接算清这些量.
+
+取$\ket s=N^{-1/2}\sum_x\ket x$, 唯一标记$\ket w$, $H_0=I-\ket s\bra s$, $H_1=I-\ket w\bra w$. 在$\ket w,\ket{w_\perp}$基下
+\[H(s)=\begin{pmatrix}(1-s)(1-1/N)&-(1-s)\sqrt{N-1}/N\\
+ -(1-s)\sqrt{N-1}/N&s+(1-s)/N\end{pmatrix},\]
+其迹为1, 两本征值相差
+\[\Delta(s)=\sqrt{1-4(1-1/N)s(1-s)},\qquad \Delta(1/2)=N^{-1/2}.\]
+若均匀扫$s=t/T$, 中点的局部小跃迁条件需要$T$达到$N$量级才能保持给定小误差. 改用局域调度$\dd s/\dd t=\varepsilon\Delta(s)^2/\hbar$（以Hamiltonian能量尺度为1）, 则
+\[T=\frac{\hbar}{\varepsilon}\int_0^1\frac{\dd s}{\Delta(s)^2}
+ =\frac{\hbar N}{\varepsilon\sqrt{N-1}}\arctan\sqrt{N-1}
+ =O(\sqrt N/\varepsilon).\]
+这个式子解释了“在小隙附近减速”, 并与Grover尺度一致; 精确误差常数需对该二能级演化或相应绝热界核对. 一般SAT可把每个违背子句的布尔态投影作为$H_1$罚项, 但沿途最小隙可能指数小, 不能据此宣称多项式解NP难题.
+
+\originalsection{历史态Hamiltonian的具体构造}
+给电路$U_1,\ldots,U_L$, 定义$\ket{\psi_t}=U_t\cdots U_1\ket{\psi_0}$与
+\[\ket\eta=\frac1{\sqrt{L+1}}\sum_{t=0}^L\ket{\psi_t}\ket t.\]
+钟寄存器把不同时刻正交地记下来. 传播项
+\begin{align*}H_t=\frac12\big[&I\otimes(\ket t\bra t+\ket{t-1}\bra{t-1})\\
+ &-U_t\otimes\ket t\bra{t-1}-U_t^\dagger\otimes\ket{t-1}\bra t\big]
+\end{align*}
+为正半定, 因对一段振幅$a\ket{\psi_{t-1},t-1}+b\ket{\psi_t,t}$的期望等于$|a-b|^2/2$. 故$H_{\rm prop}=\sum_tH_t$湮灭等幅历史态. 还需$H_{\rm input}$在$t=0$惩罚错误的输入和辅助位, 以及$H_{\rm clock}$排除非法钟态; 只写传播项会留下所有输入的简并历史态.
+
+用$W=\sum_t(U_t\cdots U_1)\otimes\ket t\bra t$作换基, 有$W^\dagger H_{\rm prop}W=I\otimes L_{\rm path}/2$. 路径图拉普拉斯的本征值为$1-\cos[k\pi/(L+1)]$, $k=0,\ldots,L$, 最小非零隙为$\Theta(L^{-2})$. 这一步把电路的复杂门序列从传播谱中消去了. 输入罚项与传播项合并后的隙仍需额外的子空间夹角估计, 不能把上面单项隙直接当全Hamiltonian隙. 公开第10讲所述电路--绝热多项式等价在这里作为已有完整证明的结果引用.
+
+二进制钟虽省位, 转移$\ket t\bra{t-1}$可能作用于许多位. 改用合法一元钟$\ket{1^t0^{L-t}}$, 加罚非法$01$相邻模式, 每次合法转移只改变局部钟位. 一个双比特电路门连同附近三个钟位构成最多5局部项. 要读到最终输出, 可以在末尾附加$L$个恒等门, 使测钟落在“计算已完成”的区间概率至少约$1/2$. 这说明模拟的输出也需要处理, 不是只制备一个难以读出的基态.
+
+\originalsection{能量保护的范围}
+纠错码稳定子可加入$H_{\rm pen}=-\Delta\sum_jg_j$. 若每个单比特Pauli都反对易至少一个$g_j$, 单误差把态送到能量高于码空间的扇区, 因而低频弱耦合噪声的直接跃迁受抑制. 例如四比特$g_1=XXXX,g_2=ZZZZ$码中$P E_iP=0$对每个非平凡单比特Pauli成立, 是一阶误差检测条件. 但二阶虚跃迁、有限温度、退相位谱与执行逻辑门时的隙仍须分析. 惩罚能量和主动容错解决的是相关但不同的问题, 不可用这个例子替代上一章的阈值论证.

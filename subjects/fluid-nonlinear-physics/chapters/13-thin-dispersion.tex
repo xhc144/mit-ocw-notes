@@ -1,0 +1,51 @@
+\Needspace{12\baselineskip}
+\originalchapter{薄膜、相似解与有效扩散题解}
+\originalsection{雨膜和熔岩}
+\begin{exercise}
+（\texttt{12radome.pdf}）半径 $R$ 的球形雷达罩，降雨率 $P$，雨滴竖向动量忽略，水膜 $h\ll R$ 且层流。用倾斜平面近似求远离顶部的膜厚 $h(\theta)$；$\theta$ 是从顶部算的极角。取 $R=100$ m、$P=.2$ cm/h，求赤道膜厚；数值估计另外采用水 $\nu=10^{-6}\,\mathrm{m^2/s}$。
+\end{exercise}
+\begin{solution}
+局部重力沿面分量 $g\sin\theta$，单位周长通量 $q=g\sin\theta\,h^3/(3\nu)$。题面没有明确雨率按水平投影面积还是按罩面面积定义，两个约定必须区别。
+
+若常规降雨率指水平投影面积，顶部到 $\theta$ 的流入为 $\pi R^2P\sin^2\theta$，通过该纬圈 $2\pi R\sin\theta\,q$，故 $q=PR\sin\theta/2$，$h=(3\nu PR/2g)^{1/3}$，在本近似下与 $\theta$ 无关，赤道约 $.204$ mm。若将 $P$ 定义为每单位罩面面积均匀入流，流入为 $2\pi R^2P(1-\cos\theta)$，则 $h^3=3\nu PR/[g(1+\cos\theta)]$，赤道约 $.257$ mm。
+
+常规垂直雨在球面上的单位面积输入为 $P\cos\theta$，把它误当均匀罩面输入会改变答案。顶部附近切向重力趋零，局部均匀坡面和膜厚缓变近似都应复核，题设也明确排除顶部区。本题数值是模型估算，非实测雷达罩数据。
+\end{solution}
+
+\begin{exercise}
+（\texttt{13Huppert.pdf}）固定体积 $V$ 的熔岩在水平面轴对称缓慢扩展，给局部径向速度 $u=-g h_r z(2h-z)/(2\nu)$。用质量守恒证明 $h_t=(g/3\nu)r^{-1}(rh^3h_r)_r$，证明体积保持；在边界 $h(R(t),t)=0,h_r(0,t)=0$ 下求 $h=A t^{-1/4}f(Crt^{-1/8})$ 的方程、归一化和解析形状。
+\end{exercise}
+\begin{solution}
+深度积分 $q=\int_0^h u\dd z=-gh^3h_r/(3\nu)$，连续 $h_t+r^{-1}(rq)_r=0$ 即得。$V=2\pi\int_0^{R(t)}rh\dd r$ 的导数变成边界通量，前沿厚度零且通量零时守恒。设 $K=g/(3\nu)$、$h\sim t^{-a},R\sim t^b$，体积给 $a=2b$，方程给 $a+1=4a+2b$，故 $a=1/4,b=1/8$。
+
+取 $KA^3C^2=1$，$\eta=Crt^{-1/8}$，相似方程
+\[
+-\tfrac14f-\tfrac18\eta f'=\eta^{-1}(\eta f^3f')'.
+\]
+乘 $\eta$ 积分、中心正则性令积分常数零，得 $f^3f'=-\eta f/8$，正厚度区 $f^2f'=-\eta/8$。将前沿定为 $\eta_R=1$，有 $f=[3(1-\eta^2)/16]^{1/3}$。体积积分 $I=\int_0^1\eta f\dd\eta=\tfrac38(3/16)^{1/3}$，所以 $A=[V/(2\pi KI)]^{1/4}$、$C=(KA^3)^{-1/2}$，$R(t)=C^{-1}t^{1/8}$。数值积分独立核验 $I$，图显示归一化形状。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=8cm,height=4cm,xlabel={$\eta$},ylabel={$f$},xmin=0,xmax=1,ymin=0,grid=major]\addplot[main,thick] table[x=eta,y=f,col sep=comma]{data/lava.csv};\end{axis}\end{tikzpicture}\end{center}
+前沿处坡度发散，这个弱解可描述整体体积和扩展尺度，局部接触线需要表面张力、润湿等更细模型。
+\end{solution}
+
+\originalsection{明渠色散和薄隙类比}
+\begin{exercise}
+（\texttt{dispchan.pdf}）宽倾斜明渠深度 $h$，均匀自由层表面速度 $U_0$、横向分子扩散 $D$。证明长期剪切增强扩散 $E=8U_0^2h^2/(945D)$。
+\end{exercise}
+\begin{solution}
+令 $\eta=y/h$，自由表面无切应力剖面 $u=U_0(2\eta-\eta^2)$、$\bar U=2U_0/3$。胞问题 $D\chi_{yy}=u-\bar U$，无通量 $\chi_y(0)=\chi_y(h)=0$。积分一次得
+\[
+\chi_y=\frac{U_0h}{D}\left(\eta^2-\frac{\eta^3}3-\frac{2\eta}3\right).
+\]
+增强 $E=D\avg{\chi_y^2}=(U_0^2h^2/D)\int_0^1(\eta^2-\eta^3/3-2\eta/3)^2\dd\eta=8U_0^2h^2/(945D)$。附带程序积分核验系数。总有效扩散是 $D+E$，$U_0$ 在这里是表面速度；若把它定义成平均速度，系数应转换。需要 $t\gg h^2/D$ 的横向混合条件。
+\end{solution}
+
+\begin{exercise}
+（\texttt{19heleshaw.pdf}）竖直薄隙宽 $b$，平面坐标 $x,y$、跨隙 $z$，$y$ 向上，Stokes方程 $\mu u_{zz}=p_x$、$\mu v_{zz}=p_y+\rho g$，两板 $z=0,b$ 无滑移。(1)求速度；(2)深度平均得到等效渗透率；(3)平均连续、跨隙刚性圆柱的边界；(4)总结与二维渗流的等效；(5)讨论用此装置模拟土壤中加热圆柱，分别考虑两板绝热和规定板温。
+\end{exercise}
+\begin{solution}
+$u=p_xz(z-b)/(2\mu)$，$v=(p_y+\rho g)z(z-b)/(2\mu)$，平均 $\bar u=-b^2p_x/(12\mu)$、$\bar v=-b^2(p_y+\rho g)/(12\mu)$，等效 $K=b^2/12$。将连续积分并用板面无穿透，得 $\bar u_x+\bar v_y=0$。跨隙不可穿透障碍的宏观边界是 $\bar{\mathbf u}\cdot\mathbf n=0$；微观无滑移的切向边界层不被Darcy方程直接解析。
+
+这给出等温、同样密度与黏度、相同压力和不透边界条件下的二维平均流类比。(5)温度变化小且Boussinesq近似成立时，绝热板没有持续的跨板热流；若跨隙热扩散足够快、跨隙温差可忽略，平均温度方程可近似成由平均流输运的二维方程，从而建立有限条件的热渗流类比。还须匹配热扩散率、孔隙储热、Darcy速度与实际孔内速度的定义。
+
+规定板温时板面通常向流体输入或抽走热，平均能量方程出现 $(\kappa/b)[T_z(b)-T_z(0)]$ 项，并可能造成跨隙温度与浮力剖面变化。若目标多孔介质没有对应分布热源或散热项，就不存在同一简单等效。只有板温与流体解恰好相容或专门加入匹配热交换时才可近似类比。等温渗透率相同不能保证非等温方程也完全相同。
+\end{solution}

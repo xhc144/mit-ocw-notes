@@ -1,0 +1,71 @@
+\originalchapter{8.701 作业三:螺旋度与电流}
+题源: Fall 2020 Problem Set 3, 2020年10月7日. 为避免原题与官方解答的 muon 电荷标签交换, 本章严格采用原题 $\mu^+$ 方位角为 $0$, $\mu^-$ 为 $\pi$. 旋量相位使用第 \ref{ch:spinor} 章约定. 原题文字中的 $s$ 应是 $4E^2$.
+
+\begin{exercise}\label{ex:8701-3-1}
+原题 1. 为 $e^+e^-\to\mu^+\mu^-$ 截面列出全部初态螺旋度组合, 一共有多少组合?
+\end{exercise}
+\begin{solution}
+官方解答重编. 每个初态两种, 共 $RR,RL,LR,LL$ 四种. 加末态两粒子的四种组合, 振幅共有 $16$ 种初末态配置. 在无质量向量流极限中只有初、末每对都为相反物理螺旋度的四种振幅非零.
+\begin{center}\begin{tikzpicture}[x=0.8cm,y=0.65cm]
+\foreach\x/\y/\tag/\se/\sp in{0/0/RR/1/-1,6/0/RL/1/1,0/-3/LR/-1/-1,6/-3/LL/-1/1}{
+\node at(\x+1.5,\y+1){$\tag$};
+\draw[->](\x,\y)--(\x+1,\y)node[midway,above]{$e^-$};\draw[->](\x+3,\y)--(\x+2,\y)node[midway,above]{$e^+$};
+\draw[->,structurecolor](\x+0.5-0.35*\se,\y-0.6)--(\x+0.5+0.35*\se,\y-0.6);
+\draw[->,structurecolor](\x+2.5-0.35*\sp,\y-0.6)--(\x+2.5+0.35*\sp,\y-0.6);}
+\end{tikzpicture}\end{center}
+黑箭头为相向动量, 紫红箭头为自旋, 每组左标签为电子、右标签为正电子的物理螺旋度.
+\end{solution}
+\begin{exercise}\label{ex:8701-3-2}
+原题 2. 忽略全部质量, 写初、末四动量; 取 $\mu^+$、$\mu^-$ 方位角分别 $0,\pi$, 给全部旋量并注明螺旋度.
+\end{exercise}
+\begin{solution}
+官方方法重编并统一标签. 令 $\mu^+$ 极角为 $\theta$, $c=\cos(\theta/2)$, $s_\theta=\sin(\theta/2)$. 四动量为
+$p_{e^-}=E(1,0,0,1)$, $p_{e^+}=E(1,0,0,-1)$,
+$p_{\mu^+}=E(1,\sin\theta,0,\cos\theta)$,
+$p_{\mu^-}=E(1,-\sin\theta,0,-\cos\theta)$. 为保持公式紧凑, 以下各列均除以 $\sqrt E$:
+\begin{align*}
+ u_{e^-,+}&=(1,0,1,0)^T,&u_{e^-,-}&=(0,1,0,-1)^T,\\
+ v_{e^+,+}&=(1,0,-1,0)^T,&v_{e^+,-}&=(0,1,0,1)^T,\\
+ u_{\mu^-,+}&=(s_\theta,-c,s_\theta,-c)^T,
+ &u_{\mu^-,-}&=(c,s_\theta,-c,-s_\theta)^T,\\
+ v_{\mu^+,+}&=(s_\theta,-c,-s_\theta,c)^T,
+ &v_{\mu^+,-}&=(c,s_\theta,c,s_\theta)^T.
+\end{align*}
+$+$ 表示物理 R, $-$ 表示 L. 前两个正电子旋量采用其方位角 $0$ 的约定; 整体相位同其他表可不同. 检查 $u^\dagger u=v^\dagger v=2E$, 并满足各自无质量 Dirac 方程.
+\end{solution}
+\begin{exercise}\label{ex:8701-3-3}
+原题 3. 给每种配置计算 $j_\mu^\nu=\bar u_{\mu^-}\gamma^\nu v_{\mu^+}$ 的四分量并确定哪些非零; 对电子流 $j_e^\nu=\bar v_{e^+}\gamma^\nu u_{e^-}$ 重复. 振幅为 $\mathcal M=-e^2j_e\cdot j_\mu/s$, $s=4E^2$.
+\end{exercise}
+\begin{solution}
+编者独立分量复算, 与官方非零配置一致. 对每对按粒子、反粒子次序标记 R/L, 得
+\begin{align*}
+ j_{\mu,RL}&=2E(0,-\cos\theta,-\ii,\sin\theta),\\
+ j_{\mu,LR}&=2E(0,\cos\theta,-\ii,-\sin\theta),\\
+ j_{e,RL}&=2E(0,1,\ii,0),\qquad j_{e,LR}=2E(0,-1,\ii,0),
+\end{align*}
+RR、LL 都为零. 以 $j_\mu^x$ 为例, 在 RL 配置中两个 Pauli 旋量为 $(s_\theta,-c)^T$ 与 $(c,s_\theta)^T$, 相乘得 $2E(s_\theta^2-c^2)=-2E\cos\theta$; $\sigma_y$ 给 $-2\ii E$, $\sigma_z$ 给 $2E\sin\theta$, 时间分量为零. 因流守恒, 与总四动量 $(2E,0,0,0)$ 收缩应为零, 此处确实如此.
+
+四种非零收缩给幅度模 $e^2|1\pm\cos\theta|$. 初态平均、末态求和后得到 $e^4(1+\cos^2\theta)$, 与第 \ref{ch:qed} 章迹计算一致. 旋量相位会改变单个电流的整体相位, 但不改变这些可观测组合.
+\end{solution}
+\begin{exercise}\label{ex:8701-3-4}
+原题 4. 以入射电子方向为 z 轴, 非零振幅中电子正电子的合自旋是什么? 把 muon 对自旋态写成 $S_z$ 本征态的组合.
+\end{exercise}
+\begin{solution}
+官方方法重编. 相反螺旋度而反向运动的初态自旋沿同一空间方向, 合自旋 $S=1$, $m_z=\pm1$. 末态同样是沿一方向极化的三重态. 对指向 $\mathbf n=(\sin\theta,0,\cos\theta)$ 的量子化轴, 标准转动约定给
+\begin{align*}
+ |1,+1\rangle_{\mathbf n}&=c^2|1,+1\rangle_z+\frac{\sin\theta}{\sqrt2}|1,0\rangle_z+s_\theta^2|1,-1\rangle_z,\\
+ |1,-1\rangle_{\mathbf n}&=s_\theta^2|1,+1\rangle_z-\frac{\sin\theta}{\sqrt2}|1,0\rangle_z+c^2|1,-1\rangle_z.
+\end{align*}
+若以 $\mu^-$ 方向 $-\mathbf n$ 为轴, 则交换正负态并按约定调整相位. 系数来自两个自旋 $1/2$ 旋转态的张量积; $\theta=0$ 时必须还原 $z$ 本征态, 这是核查官方表的便捷极限.
+\end{solution}
+\begin{exercise}\label{ex:8701-3-5}
+原题 5. 对 $e^+e^-\to\gamma\gamma$ 写四动量运动学, 讨论自旋配置和光子流.
+\end{exercise}
+\begin{solution}
+编者独立解答及官方答案限制纠正. 在质心系入射为 $(E,0,0,\pm p)$, $E^2=p^2+m_e^2$, 两光子为
+\begin{equation*}
+ k_1=E(1,\sin\theta,0,\cos\theta),\quad k_2=E(1,-\sin\theta,0,-\cos\theta).
+\end{equation*} 每个实光子有两个横向螺旋度, 两体末态还可能有轨道角动量. 因而不能仅把两个光子的自旋向量相加就推断任意能量的初态只能是 $S=0$. 接近阈值的 S 波 positronium 中, $C$ 和角动量规则选择单重态两光子衰变; 高能散射则有更多部分波, 不能沿用该限制.
+
+不存在 QED 基本三光子顶点, 所以没有单个虚光子经树级 $\gamma\gamma\gamma$ 顶点产生两光子的图. 过程实际由两张电子交换图产生, 光子用偏振矢量而非 $\bar u\gamma v$ 类型的费米子电流表示. 若限定中间态是壳上自旋一粒子, Landau--Yang 规则排除它衰变为两个相同实光子; 这不能排除整个 $e^+e^-\to\gamma\gamma$ 过程. 官方此题的纯自旋相加论证遗漏轨道角动量, 本稿明确其阈值适用范围.
+\end{solution}

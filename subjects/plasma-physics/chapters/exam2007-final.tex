@@ -1,0 +1,124 @@
+\Needspace{8\baselineskip}\originalchapter{2007 期末: 高压平衡与外 ballooning-kink}
+题源: 22.615 Spring 2007 Final Part1与Part2. 两个公开文件分别含平衡8步、稳定6步; 按两道综合题计. 官方答案未取得, 以下为独立推导、可执行参考解及模型范围说明.
+\begin{exercise}\label{ex:07-final-eq}
+第一部分. 大长径比高beta排序, 圆核心半径a\ensuremath{{}^{\prime}}、近恒电流, 外围零电流无力等离子体, 再外真空至无穷. 核心/外区公开磁通为
+\begin{align}
+ \frac{\Psi_c}{a'^2B_0}&=\frac{r^2/a'^2-1+\nu'(r^3/a'^3-r/a')\cos\theta}{2q^{*\prime}},\\
+ \frac{\Psi_o}{a'^2B_0}&=\frac{\ln(r/a')+\tfrac{\nu'}2(r/a'-a'/r)\cos\theta}{q^{*\prime}}.
+\end{align}
+选分离面内一条外磁面为真实等离子体边缘, 左半径a1、右a2, a=(a1+a2)/2. 输入\ensuremath{\zeta}1=a1/a>1, \ensuremath{\alpha}=a\ensuremath{{}^{\prime}}/a\ensuremath{\in}(0,1),轴$q_0=1.05$固定以避免内部m=n1锯齿. (1)求\ensuremath{\nu}\ensuremath{{}^{\prime}}(\ensuremath{\zeta}1,\ensuremath{\alpha}); (2)分离面触外边的关系; (3)画\ensuremath{\nu}\ensuremath{{}^{\prime}}/\ensuremath{\zeta}1及\ensuremath{\alpha}/\ensuremath{\zeta}1边界, 求1<\ensuremath{\zeta}crit<2; (4)写子程序求归一截面Ahat=A/(\ensuremath{\pi}a\ensuremath{{}^{2}}); (5)求\ensuremath{\nu}\ensuremath{{}^{\prime}}、$q^{*\prime}=2\pi a'^2B_0/(\mu_0R_0I)$、\ensuremath{\beta}t\ensuremath{{}^{\prime}}/\ensuremath{\epsilon}\ensuremath{{}^{\prime}}、$q_*=2AB_0/(\mu_0R_0I)$、\ensuremath{\beta}t/\ensuremath{\epsilon}、\ensuremath{\nu}=\ensuremath{\beta}tq*\ensuremath{{}^{2}}/\ensuremath{\epsilon}, \ensuremath{\beta}的平均分别核心圆和全外边区域, \ensuremath{\epsilon}\ensuremath{{}^{\prime}}=a\ensuremath{{}^{\prime}}/R0、\ensuremath{\epsilon}=a/R0; (6)画分离面约束在\ensuremath{\beta}t/\ensuremath{\epsilon}对1/q*边界; (7)外面缩到核心时另求边界并叠图形成闭允许域; (8)一般磁面q积分, 明算核心边qa\ensuremath{{}^{\prime}}并编程算qa. 不收录受限书本图, 以上公式与条件均在公开试卷印出.
+\end{exercise}
+\begin{solution}
+\originalsection{外边界与两条平衡限制}
+用s=r/a\ensuremath{{}^{\prime}}、L=\ensuremath{\zeta}1/\ensuremath{\alpha}、U=(2\ensuremath{-}\ensuremath{\zeta}1)/\ensuremath{\alpha}. 左\ensuremath{\theta}\ensuremath{\pi}、右\ensuremath{\theta}0在同一磁面, $\ln L-\nu'(L-L^{-1})/2=\ln U+\nu'(U-U^{-1})/2$, 故
+\begin{equation}
+ \nu'=\frac{\alpha\ln[\zeta_1/(2-\zeta_1)]}{1-\alpha^2/[\zeta_1(2-\zeta_1)]}.
+\end{equation}
+X点在\ensuremath{\theta}\ensuremath{\pi}, 外磁通径向导数零给\ensuremath{\nu}\ensuremath{{}^{\prime}}=2L/(L\ensuremath{{}^{2}}+1). 消\ensuremath{\nu}\ensuremath{{}^{\prime}}得到
+\begin{equation}
+ \alpha_{sep}^2=\frac{\zeta_1\{2-\zeta_1\ln[\zeta_1/(2-\zeta_1)]\}}
+ {\ln[\zeta_1/(2-\zeta_1)]+2/(2-\zeta_1)}.
+\end{equation}
+需\ensuremath{\alpha}sep\ensuremath{{}^{2}}正, 端点$\zeta_{crit}$满足$\zeta_{crit}\ln[\zeta_{crit}/(2-\zeta_{crit})]=2$, 根1.56437658856. 分离面边界曲线如下, \ensuremath{\nu}\ensuremath{{}^{\prime}}由上两式计算.
+\input{chapters/equilibrium-limits.tex}
+可取1<\ensuremath{\zeta}1<\ensuremath{\zeta}crit,0<\ensuremath{\alpha}<\ensuremath{\alpha}sep; 等号分离面qa发散, 不是普通有限闭面. 另一限制外面=核心即$\alpha=1$, 应取解析极限而非将\ensuremath{\zeta}1=1代入0/0.
+
+\originalsection{面积与 q 的实际积分}
+定义\ensuremath{\chi}(s,\ensuremath{\theta})=lns+\ensuremath{\nu}\ensuremath{{}^{\prime}}(s\ensuremath{-}1/s)cos\ensuremath{\theta}/2. 外面满足$\chi(s_b,\theta)=\chi(L,\pi)$. 每角在[1,L]二分取最内侧闭合根, 避免X点外分支, 得 $\widehat A=\alpha^2\int s_b^2\dd\theta/(2\pi)$. 一般高beta q为 $q= B_0\oint dl_p/(2\pi R_0B_p)$; 按磁面径向微分也可用 $q=(B_0/(2\pi))\dd A/\dd\Psi$ 的一致归一, 正负通量方向取正绕行比. 核心磁轴从x方向二次方程得 $s_{axis}=(\eta-1)/(3\nu')$, $\eta=\sqrt{1+3\nu^{\prime2}}$; 磁通Hessian主值比给
+\begin{equation}
+ q'=q^{*\prime}=q_0\sqrt{\frac{\eta(2+\eta)}3},\quad
+ q_{a'}=\frac{q'}{\sqrt{1-\nu'^2}},\quad
+ q_a=\frac{q'}{2\pi}\int_0^{2\pi}\frac{s_b^2\dd\theta}{1+\nu'(s_b+s_b^{-1})\cos\theta/2}.
+\end{equation}
+$\nu^{\prime}=0$轴值连续取q\ensuremath{{}^{\prime}}=q0. 外无力区压强与核心边相同为0, 所以总压力积分等于核心压力积分, 而平均面积改变. 因此
+\begin{align}
+ \frac{\beta_t'}{\epsilon'}&=\frac{\nu'}{q'^2},\qquad
+ q_*=q'\frac{\widehat A}{\alpha^2},\\
+ \frac{\beta_t}{\epsilon}&=\frac{\nu'\alpha^3}{q'^2\widehat A},\qquad
+ \nu=\frac{\beta_tq_*^2}{\epsilon}=\nu'\frac{\widehat A}{\alpha}.
+\end{align}
+$\alpha=1$给q*=q\ensuremath{{}^{\prime}},\ensuremath{\beta}t/\ensuremath{\epsilon}=\ensuremath{\nu}\ensuremath{{}^{\prime}}/q\ensuremath{{}^{\prime}}\ensuremath{{}^{2}}, 是另一平衡边界. 后面的稳定空间图同时包含两边界.
+
+\originalsection{可复算样例}
+取$\zeta_1=1.1,\alpha=.6$, 实际积分为
+\begin{align}
+ \nu'&=.1892037986,& \widehat A&=.9783468345,& q'&=1.0864752481,\\
+ q_*&=2.9526378327,&q_{a'}&=1.1064603107,&q_a&=3.1066847943,\\
+ \beta_t/\epsilon&=.0353875980.&&&&
+\end{align}
+ 用128至1024 Gauss角点比较四个非奇异样例, 面积/q/最低能量在约 $10^{-12}$内一致. \ensuremath{\theta}\ensuremath{\pi}处分段以解析分离面附近尖峰; 精确分离面上只画允许域边界, 不报有限qa.
+\begin{center}\includegraphics[width=.65\textwidth]{figures/final_flux.pdf}\end{center}
+图为实际核心及外闭磁面; 内外中平面距离不等, a按左右半径均值定义, 不把圆核心面积替代真实外面积.
+\end{solution}
+\begin{exercise}\label{ex:07-final-stable}
+第二部分. $n=1$最危险外ballooning-kink, 用高beta排序的能量原理. 原件说明最不稳可取不可压, 磁压缩最高阶正能需div\ensuremath{\xi}\ensuremath{\perp}0=0, 一阶校正取div\ensuremath{\xi}\ensuremath{\perp}1=\ensuremath{-}2\ensuremath{\xi}\ensuremath{\perp}0·\ensuremath{\kappa}以消正磁压缩. (1)核查各项阶数, 以二维\ensuremath{\xi}r/\ensuremath{\xi}\ensuremath{\theta},Qr/Q\ensuremath{\theta}写剩余能量; 由核心\ensuremath{\Psi}求Br/B\ensuremath{\theta}, Br须用试卷勘误正号. (2)对m\ensuremath{\ge}2取 $\xi_r=c_{m-1}\rho^{m-2}\e^{\ii(m-1)\theta}+c_m\rho^{m-1}\e^{\ii m\theta}+c_{m+1}\rho^m\e^{\ii(m+1)\theta}$、\ensuremath{\rho}=r/a\ensuremath{{}^{\prime}}, 求\ensuremath{\xi}\ensuremath{\theta},Qr,Q\ensuremath{\theta}. (3)算\ensuremath{\delta}WF=c†WFc, 实对称3\ensuremath{\times}3. (4)先把核心外当真空$\mathbf B_1=\nabla\Phi,\nabla^2\Phi=0$, 求核心界面条件、\ensuremath{\Phi}有几谐波; 每\ensuremath{\ell}谐波有圆同心理想壁b\ensuremath{\ell}, 求壁条件. (5)解\ensuremath{\Phi}、不用Bessel、算WV. (6)扫\ensuremath{\zeta}1/\ensuremath{\alpha}及几个m, W=WF+WV最低特征值零求边界, 叠平衡域, 找最高稳定\ensuremath{\beta}t/\ensuremath{\epsilon}、q*, 比Troyon.
+
+等效壁按题规定: qa\ensuremath{{}^{\prime}}<qa<\ensuremath{\ell}取无穷; qa\ensuremath{{}^{\prime}}<\ensuremath{\ell}<qa则二次q(r)=qa\ensuremath{{}^{\prime}}+(qa\ensuremath{-}qa\ensuremath{{}^{\prime}})(r\ensuremath{{}^{2}}\ensuremath{-}a\ensuremath{{}^{\prime}}\ensuremath{{}^{2}})/(a\ensuremath{{}^{2}}\ensuremath{-}a\ensuremath{{}^{\prime}}\ensuremath{{}^{2}}), $b_\ell^2=a'^2+(a^2-a'^2)(\ell-q_{a'})/(q_a-q_{a'})$; \ensuremath{\ell}<qa\ensuremath{{}^{\prime}}<qa仍取无穷且不改核心试函数. 这是指定的外无力区近似, 不是真实外区全MHD求解.
+\end{exercise}
+\begin{solution}
+\originalsection{阶数、方向和流体能量}
+Bp/B0=O(\ensuremath{\epsilon}), \ensuremath{\xi}\ensuremath{\perp}尺度a\ensuremath{{}^{\prime}}, 未约束的磁压缩 $B_0^2(\nabla\cdot\xi_\perp)^2$最大. 线弯曲与压强-曲率项小\ensuremath{\epsilon}\ensuremath{{}^{2}}, 要发现负能先极小化最高阶正项; 题给两阶散度条件消掉它. 保留章\ref{ch:energy}的SI量纲, 将R--Z极角与环向的左手关系改用右手z=\ensuremath{-}R0\ensuremath{\phi}, Bz=\ensuremath{-}B0, 模态e$^{i(j\ensuremath{\theta}+z/R_0)}$. 这样沿场相位仍j/q\ensuremath{-}1. 磁场以K=B0a\ensuremath{{}^{\prime}}/R0归一, r以下无量纲\ensuremath{\rho}:
+\begin{equation}
+ \widehat B_r=\frac{\nu'}{2q'}(r^2-1)\sin\theta,\quad
+ \widehat B_\theta=\frac{r+\tfrac{\nu'}2(3r^2-1)\cos\theta}{q'},\quad
+ \widehat J_z=\frac2{q'}(1+2\nu'r\cos\theta).
+\end{equation}
+Br正号使$\nabla\cdot\mathbf B=0$. 原试卷简化行含J\ensuremath{\phi}/B, 不能直接当SI系数; 从原叉乘能量改为分量, B相消且标架方向同步, 能量密度采用
+\begin{equation}
+ |Q_r|^2+|Q_\theta|^2-\mu_0J_z(\xi_\theta^*Q_r-\xi_r^*Q_\theta)
+ -2\mu_0(\xi\cdot\nabla p)(\kappa\cdot\xi^*).
+\end{equation}
+归一化进一步定义$\widehat B=B/K$, $\widehat J_z=\mu_0a'J_z/K$, $Q=(K/a')\sum_jc_j\widehat Q_j$, $c_j$为有长度量纲的位移振幅. 核心压强及领先曲率为
+\begin{equation}
+ \mu_0p=\beta_t'B_0^2(1-\rho^2)(1+\nu'\rho\cos\theta),\quad
+ \boldsymbol\kappa=-\frac{\cos\theta\mathbf e_r-\sin\theta\mathbf e_\theta}{R_0}.
+\end{equation}
+用$\beta_t'/\epsilon'=\nu'/q'^2$及这些输入即可复算矩阵. 整体公共正因子不影响零点. 所有输出WF/WV均同一归一, 不混用不同系数掩盖符号.
+
+\originalsection{位移和磁扰动的显式形式}
+单谐波 $u_j=r^{j-1}\e^{ij\theta}$, 不可压 $(ru_j)'/r+ijv_j/r=0$给$v_j=\ii u_j$. $D_j=j/q'-1$, 定义
+\begin{align}
+ A_j&=(j-3)r-(j-1)/r,& B_j&=(3j-1)r-(j-1)/r,\\
+ C_j&=-(3j+3)r+(j-1)/r,& E_j&=(j+1)r-(j-1)/r.
+\end{align}
+用极坐标基矢的导数计算Q=(B·\ensuremath{\nabla})\ensuremath{\xi}\ensuremath{-}(\ensuremath{\xi}·\ensuremath{\nabla})B, 得
+\begin{equation}
+ \widehat Q_{rj}=u_j\left[iD_j+\frac{\nu'}{2q'}(A_j\sin\theta+iB_j\cos\theta)\right],\quad
+ \widehat Q_{\theta j}=u_j\left[-D_j+\frac{\nu'}{2q'}(C_j\cos\theta+iE_j\sin\theta)\right].
+\end{equation}
+j1时1/r系数为0, 无真实轴奇性; 各基函数满足轴正规.
+
+\originalsection{显式流体矩阵}
+将前式代能量, \ensuremath{\theta} Fourier正交及径向单项式积分, 按j=m\ensuremath{-}1,m,m+1排矩阵. 元素为
+\begin{align}
+ (W_F/\pi)_{jj}&=\frac{2(j-2)}{q'^2}-\frac{4(j-1)}{jq'}+\frac2j+\frac{\nu'^2j(j-3)}{(j+1)q'^2},\\
+ (W_F/\pi)_{j,j+1}&=\nu'\left[\frac{2j-5}{q'^2}-\frac{2(j-1)}{(j+1)q'}\right],\\
+ (W_F/\pi)_{j,j+2}&=\frac{\nu'^2(j-3)}{2q'^2}.
+\end{align}
+对称位置相同. $\nu^{\prime}=0$退化 $2\pi(j/q'-1)((j-2)/q'-1)/j$的对角矩阵, 独立二维积分核验误差 $2.83\times10^{-13}$. m2..16三组参数共45次显式/原分量积分比较最大差 $3.52\times10^{-12}$. 这给真正可使用的3\ensuremath{\times}3式, 不停在``请数值积分''.
+
+\originalsection{真空五谐波和壁能量}
+在$\rho=1$, $\widehat Q_{rj}=i[(j/q'-1)e^{ij\theta}+\nu'((j+1)e^{i(j+1)\theta}+(j-1)e^{i(j-1)\theta})/(2q')]$. 三位移谐波产生\ensuremath{\ell}=m\ensuremath{-}2..m+2至多五真空谐波, m2的\ensuremath{\ell}0系数为0所以非零仅四. 设边界振幅iC c, $C_{\ell j}=(j/q'-1)\delta_{\ell j}+\nu'\ell(\delta_{\ell,j-1}+\delta_{\ell,j+1})/(2q')$.
+
+高beta阶数令真空每谐波\ensuremath{\Phi}\ensuremath{\ell}=$A_\ell r^\ell+B_\ell r^{-\ell}$, 无需Bessel. 核心$\partial_\rho\Phi=iK(Cc)_\ell$, 壁$\partial_\rho\Phi(\rho=b_\ell/a^{\prime})=0$; 无穷壁只留衰减r$^{-\ell}$. 求系数并以Green边界能量积分得
+\begin{equation}
+ W_V=2\pi C^T\operatorname{diag}(\Lambda_\ell/\ell)C,\quad
+ \Lambda_\ell=\frac{1+(a'/b_\ell)^{2\ell}}{1-(a'/b_\ell)^{2\ell}}.
+\end{equation}
+\ensuremath{\ell}\ensuremath{\ge}1, 无穷壁$\Lambda_\ell=1$. WV实对称且非负, 越近壁越加强恢复; 壁规则按原题而非任意挑最稳定者.
+
+\originalsection{实际扫描和可确认的稳定范围}
+101个\ensuremath{\zeta}1、151个\ensuremath{\alpha}/\ensuremath{\alpha}sep共15,251平衡, 逐点m2..8; 相变加密确认52个 $|\lambda_{min}|<10^{-7}$真实零点、122个跨整数qa或qa\ensuremath{{}^{\prime}}的等效壁切换. 未解决根记录为0, 但有限网格不能证明没有遗漏稳定岛. \ensuremath{\theta}\ensuremath{\pi}分段Gauss必要时加至8192点, 不把求积误差当壁跳变.
+\begin{center}\includegraphics[width=.82\textwidth]{figures/final_stability_space.pdf}\end{center}
+图叠两平衡边界, 真零点与分支切换分别标记. 原壁规则在qa\ensuremath{{}^{\prime}}跨整数时会把近壁突然改无穷, 因而部分稳定边界有真实模型跳变, 不能跨跳变求根伪造 $\delta W=0$.
+
+额外薄外环序列逐点检查$m=2,\ldots,16$, 一个实际稳定点为
+\begin{align}
+ \alpha&=.99999,& \zeta_1&=1.000008513877288,&\nu'&=.8513865575,\\
+ q_{a'}&=2.99997788<3,&q_a&=3.00003788,&q_*&=1.57362124,\\
+ \beta_t/\epsilon&=.34381640,&\lambda_{\min}&=.6147131\quad(m=2).&&
+\end{align}
+ 该序列一侧趋qa\ensuremath{{}^{\prime}}\ensuremath{\to}3\ensuremath{-}、\ensuremath{\alpha}\ensuremath{\to}1\ensuremath{-}, 候选上确界.34382343、q*1.57360660, 严格端点壁规则变, 所以上确界并非已取到的稳定点. 其远高于题给圆截面Troyon .14/q*\ensuremath{\simeq}.0889676, 差异反映三谐波与等效壁模型, 不是实验反证.
+
+本解完成指定有限空间的实际计算、解析矩阵与扫描, 但不宣称已证明任意m/任意位移和真实全环平衡的全局最高稳定\ensuremath{\beta}. 更多谐波可增负方向, 试探空间正定的量词必须保留. 所有复现代码、扫描、真正零点及壁跳变CSV随源码交付.
+\end{solution}

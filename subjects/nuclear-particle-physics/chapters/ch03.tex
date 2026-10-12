@@ -1,0 +1,50 @@
+\originalchapter{散射、隧穿与阿尔法衰变}\label{ch:tunnel}
+\originalsection{振幅与概率流}
+时间依赖 Schrödinger 方程与其共轭相减, 得到连续性方程 $\partial_t|\psi|^2+\nabla\cdot\mathbf j=0$, 其中 $\mathbf j=(\hbar/m)\operatorname{Im}(\psi^*\nabla\psi)$. 对平面波 $A\e^{\ii kx}$, $j=\hbar k|A|^2/m$. 因而透射概率等于透射流与入射流之比, 在两侧波数不同的时候不能只写振幅模平方之比.
+
+半无限台阶 $V(x)=0$ ($x<0$)、$V_H$ ($x>0$). 对 $0<E<V_H$, 设左侧 $\psi=\e^{\ii kx}+r\e^{-\ii kx}$, 右侧 $\psi=t\e^{-\kappa x}$, $k=\sqrt{2mE}/\hbar$, $\kappa=\sqrt{2m(V_H-E)}/\hbar$. 波函数及导数连续给出
+$r=(k-\ii\kappa)/(k+\ii\kappa)$, $t=2k/(k+\ii\kappa)$. 有 $|r|=1$, 右侧的概率流为零, 但 $|\psi|^2=|t|^2\e^{-2\kappa x}$ 不为零. 指数尾部是穿透深度, 并不是有持续传播的中子流.
+
+\originalsection{有限方势垒}
+势垒位于 $0<x<L$, $V=V_H$, 两侧势为零. 中间解为 $A\e^{\kappa x}+B\e^{-\kappa x}$. 四个连续条件把边界向量 $(\psi,\psi')$ 从 $0$ 传到 $L$:
+\begin{equation}
+ \begin{pmatrix}\psi(L)\\\psi'(L)\end{pmatrix}=
+ \begin{pmatrix}\cosh\kappa L&\sinh\kappa L/\kappa\\\kappa\sinh\kappa L&\cosh\kappa L\end{pmatrix}
+ \begin{pmatrix}\psi(0)\\\psi'(0)\end{pmatrix}.
+\end{equation}
+令右侧只有向右出射波并消去反射振幅, 得
+\begin{equation}\label{eq:barrier}
+ T=\left[1+\frac{V_H^2\sinh^2(\kappa L)}{4E(V_H-E)}\right]^{-1}.
+\end{equation}
+厚势垒 $\kappa L\gg1$ 时, $T\simeq16E(V_H-E)V_H^{-2}\e^{-2\kappa L}$. 只有在 $E=V_H/2$ 时前因子才是 $4$. 在势垒上方, $\kappa\to\ii k'$ 后双曲正弦变成正弦, 可出现透射共振; 几何上的``高墙''不会保证所有波都被反射.
+
+\originalsection{库仑势垒与衰变寿命}
+核内吸引把 $\alpha$ 粒子束缚在有效势阱中; 核外近似 $V(r)=C/r$, $C=2Z_de^2/(4\pi\epsilon_0)$, $Z_d$ 为子核电荷数. 若释放能为 $Q$, 外转折点 $b=C/Q$. 在 $R<r<b$ 采用 WKB,
+\begin{equation}
+ P_{\rm tun}\simeq\exp\left[-2\int_R^b\frac{\sqrt{2\mu(C/r-Q)}}{\hbar}\dd r\right].
+\end{equation}
+置 $r=b\sin^2\theta$ 并记 $x=R/b$, 指数可显式写为
+\begin{equation}
+ -\log P_{\rm tun}=\frac{2b\sqrt{2\mu Q}}{\hbar}
+ \left[\arccos\sqrt{x}-\sqrt{x(1-x)}\right].
+\end{equation}
+当 $x\ll1$ 时主项正比 $Z_d/\sqrt Q$, 解释 Geiger--Nuttall 关系中寿命对能量的强烈敏感. 衰变常数近似 $\lambda=P_\alpha f_{\rm assault}P_{\rm tun}$, $f_{\rm assault}\sim v/(2R)$ 为撞击频率, $P_\alpha$ 为核内预形成概率. 仅算库仑势垒不能精确预测跨越各种核素的绝对半衰期, 因为预形成和角动量势垒会改变结果.
+
+\begin{center}
+\begin{tikzpicture}[x=0.62cm,y=0.11cm]
+\draw[->](0,0)--(11,0)node[right]{$r$};\draw[->](0,-20)--(0,45)node[above]{$V$};
+\draw[thick](0,-15)--(2,-15)--(2,38);\draw[domain=2:10,samples=80,thick]plot(\x,{76/\x});
+\draw[dashed,structurecolor](0,12)--(10,12)node[right]{$Q$};
+\node[below]at(2,0){$R$};\node[below]at(6.333,0){$b$};
+\node at(4.2,15){禁阻区};\node at(1,-10){核内};
+\end{tikzpicture}
+\end{center}
+这是有效径向势的示意图, 不表示某一核素的精确势能. 衰变产物满足相反且等大的动量, 非相对论下 $T_\alpha=Q M_d/(M_d+m_\alpha)$, $T_d=Qm_\alpha/(M_d+m_\alpha)$. 子核较重所以反冲较小, 但不能在由 $\alpha$ 能量倒推原子质量时遗漏它.
+
+\originalsection{截面与核反应的量子描述}
+远场散射态 $\psi\sim\e^{\ii kz}+f(\theta)\e^{\ii kr}/r$ 的出射球面流给 $\dd\sigma/\dd\Omega=|f|^2$. 中心势中用各部分波 $l$ 的相移表示
+\begin{equation}
+ f(\theta)=\frac1k\sum_{l=0}^\infty(2l+1)\e^{\ii\delta_l}\sin\delta_l\,P_l(\cos\theta),
+ \quad \sigma=\frac{4\pi}{k^2}\sum_l(2l+1)\sin^2\delta_l.
+\end{equation}
+低能且力程短时常由 $s$ 波支配, 散射长度 $a$ 给 $f\simeq-a/(1+\ii ka)$. 共振意味着某部分波相移迅速经过 $\pi/2$, 它与暂时形成复合核相关. 截面可以超过核的几何面积, 因为它度量相干波的反应概率而非坚硬球的投影.
