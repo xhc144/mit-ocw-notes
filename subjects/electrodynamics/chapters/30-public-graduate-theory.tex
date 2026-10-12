@@ -1,0 +1,167 @@
+\originalchapter{研究生公开理论：波导、场模态与辐射谱}
+\label{ch:gradpublic}
+Leonid Levitov 的8.311（Spring 2004）公开理论材料是四份补充笔记，共15页。本章将其余尚未展开的计算接入同一册；已有的带源作用量、库仑约束、横场重建和Frank--Tamm系数推导仍保留在前文。原件用高斯制，本册统一用SI制。以下是中文重编及自主补充推导，不能称作官方答案或未公开讲课稿的翻译。原件页码到正文的逐页对应列在本章末。
+
+\originalsection{波导色散、阻抗与能量速度}
+理想导体波导填充静止、无损、无色散的均匀介质，令$u=(\mu\varepsilon)^{-1/2}$。取相量$e^{ik_zz-i\omega t}$，截面本征值$\kappa^2>0$。纵场满足$(\nabla_\perp^2+\kappa^2)\psi=0$；TM模式取$\psi=E_z$、壁面$\psi=0$，TE模式取$\psi=H_z$、壁面$\partial_n\psi=0$。横场由第9章的Maxwell分量消元给出。截面谱与纵向传播的关系为
+\[
+ \omega^2=u^2(k_z^2+\kappa^2),\qquad
+ \omega_c=u\kappa,\qquad
+ v_{\rm ph}=\frac\omega{k_z},\quad
+ v_g=\frac{\dd\omega}{\dd k_z}=\frac{u^2k_z}\omega.
+\]
+当$\omega>\omega_c$，$k_z$为实数，$v_{\rm ph}>u$而$v_g<u$，乘积为$u^2$。相速度描述等相位面，并不单独给出信号速度。当$\omega<\omega_c$，$k_z=i\alpha$、$\alpha=\sqrt{\kappa^2-\omega^2/u^2}$，场沿导管指数衰减；这不是可以带入实传播功率公式的另一根实波矢。
+
+横场的比例可直接由重建式核对。对沿$+z$传播的实$k_z>0$，有$\vct H_\perp=Z^{-1}\hat{\vct z}\times\ee_\perp$，其中
+\[
+ Z_{\rm TE}=\frac{\omega\mu}{k_z},\qquad
+ Z_{\rm TM}=\frac{k_z}{\omega\varepsilon}.
+\]
+TE临近截止时阻抗趋于无穷，TM趋于零；高频二者均趋于$\sqrt{\mu/\varepsilon}$。这是场阻抗，不能与未指定电压和电流定义的任意传输线阻抗混称。
+
+能量速度可以不用猜测群速度。设TM纵场$E_z=\psi$，令$C=\int_A|\psi|^2\dd A$。Dirichlet边界分部积分给$\int_A|\nabla_\perp\psi|^2\dd A=\kappa^2C$。横场为$\ee_\perp=ik_z\nabla_\perp\psi/\kappa^2$、$\vct H_\perp=i\omega\varepsilon\hat{\vct z}\times\nabla_\perp\psi/\kappa^2$。于是单位长度平均能量及轴向功率分别为
+\[
+ U'=\frac14\int_A(\varepsilon|\ee|^2+\mu|\vct H|^2)\dd A
+ =\frac{\varepsilon\omega^2}{2u^2\kappa^2}C,
+ \qquad
+ P=\frac12\operatorname{Re}\int_A(\ee\times\vct H^*)_z\dd A
+ =\frac{k_z\omega\varepsilon}{2\kappa^2}C.
+\]
+所以$P/U'=u^2k_z/\omega=v_g$。TE的Neumann条件同样消去边界项，交换电磁量即可得到相同的比值。这个结论用了无色散能量密度；色散介质的储能还含$\partial_\omega(\omega\varepsilon)$等项，不能只把$u$换成频率函数便宣称此证明仍适用。
+
+TEM须另行处理，因为$\kappa=0$使横场重建式的分母失效。横电场是二维静电场。单连通空心导管只有一个导体边界，整个边界电势相同，唯一性迫使横场为零；同轴的内外两个导体可有电势差，故存在非零TEM。矩形空心导管的TE指标$m,n\ge0$但不能同时为零，TM指标$m,n\ge1$；其截止谱为$\omega_c=u\pi\sqrt{m^2/a^2+n^2/b^2}$。这里的指标限制和第23章的显式场一致。
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.68\textwidth,height=4.8cm,xlabel={$uk_z/\omega_c$},ylabel={$\omega/\omega_c$},xmin=0,xmax=3,ymin=0,ymax=3.5,domain=0:3,samples=80,legend pos=north west]
+\addplot[thick,structurecolor]{sqrt(1+x*x)};\addlegendentry{TE/TM}
+\addplot[dashed]{x};\addlegendentry{TEM}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+图为上式的自主绘制，非原件扫描。有限导电率的表面阻抗来自良导体趋肤场；第23章已用指向金属内部的法线给$Z_s=(1-i)\sqrt{\omega\mu/(2\sigma)}$。改变法线或时间约定必须相应改变叉积与虚部符号。
+
+\originalsection{实模、复模与场动量}
+第11章已经从带源作用量消去标势，并得到$\ddot q_\alpha+\omega_\alpha^2q_\alpha=F_\alpha$。为了把模态能量和真实辐射联系起来，先在体积$\mathcal V$的周期盒内取真空横向实模。对于一组独立的$\vct k,-\vct k$配对及单位偏振$\vct e_s\perp\vct k$，写
+\[
+ \vct A=\sqrt{\frac2{\eps\mathcal V}}\vct e_s
+ [q_c(t)\cos(\vct k\cdot\rr)+q_s(t)\sin(\vct k\cdot\rr)],
+ \qquad\omega_k=c|\vct k|.
+\]
+正弦和余弦是两个独立实振子，波矢只取半空间。也可以对全空间用复指数，但实场约束要求$Q_{-\vct k,s}=Q_{\vct k,s}^*$；这时不能把每个复系数的实虚部和负波矢再独立计数。偏振有两个，纵向规范自由度不计入这两个物理偏振。
+
+空间正交使这一模对的场能量为$U_k=(\dot q_c^2+\dot q_s^2+\omega_k^2q_c^2+\omega_k^2q_s^2)/2$。场动量为$\vct P=\eps\int\ee\times\bb\dd^3x$。用$\ee=-\dot{\vct A}$、$\bb=\nabla\times\vct A$，同一模对的贡献为
+\[
+ \vct P_k=\vct k(q_c\dot q_s-q_s\dot q_c).
+\]
+其符号可用行波核对：$q_c=Q\cos\omega_kt$、$q_s=Q\sin\omega_kt$给$\vct A\propto\cos(\vct k\cdot\rr-\omega_kt)$，$U_k=\omega_k^2Q^2$，$\vct P_k=(\vct k/\omega_k)U_k$，能量沿$+\vct k$运动。站波取$q_s=0$，动量为零而能量非零。对不同波矢的交叉项，周期盒空间正交使其消失。
+
+若驱动力在有限区间$[t_a,t_b]$内存在，零入射初值的因果解在$t>t_b$成为自由振子。令
+$C_\alpha=\int_{t_a}^{t_b}F_\alpha(s)\cos\omega_\alpha s\dd s$、
+$S_\alpha=\int_{t_a}^{t_b}F_\alpha(s)\sin\omega_\alpha s\dd s$，则
+$q_\alpha(t)=[C_\alpha\sin\omega_\alpha t-S_\alpha\cos\omega_\alpha t]/\omega_\alpha$，故
+\[
+ U_\alpha=\frac12(C_\alpha^2+S_\alpha^2)
+ =\frac12\left|\int F_\alpha(s)e^{i\omega_\alpha s}\dd s\right|^2.
+\]
+能量只由驱动力在固有频率上的傅里叶分量决定。这一式还可由$\dot U_\alpha=F_\alpha\dot q_\alpha$积分得到，表明驱动力做功和场能增加相等。它并未同时解粒子在自场下的运动；给定轨道近似忽略辐射反作用，适用于辐射耗能相对轨道能量较小时。
+
+\originalsection{从模态功到Larmor辐射}
+对真空中非相对论点荷$q$的微小谐振运动$\rr_q=a\hat{\vct z}\sin\omega_0t$，$a\omega_0\ll c$。辐射模$k\simeq\omega_0/c$满足$ka\ll1$，可在驱动力中取$\cos(\vct k\cdot\rr_q)\simeq1$。余弦空间模受
+$F(t)=F_0\cos\omega_0t$驱动，$F_0=qa\omega_0\sqrt{2/(\eps\mathcal V)}\vct e_s\cdot\hat{\vct z}$。从$t=0$开场、初值零时，非共振模解为
+\[
+ q_k(t)=\frac{F_0}{\omega_k^2-\omega_0^2}
+ (\cos\omega_0t-\cos\omega_kt).
+\]
+共振处取极限得$q_k=F_0t\sin\omega_0t/(2\omega_0)$；这个线性增长来自持续供能，不是静态场能发散。长时间辐射的累积主要来自窄共振窗口。由前一节的傅里叶能量式，保留正频共振项可写
+\[
+ U_k^{\rm res}=\frac{F_0^2}{4}
+ \frac{1-\cos[(\omega_k-\omega_0)t]}{(\omega_k-\omega_0)^2}.
+\]
+这里使用分布极限$[1-\cos(xt)]/x^2\to\pi t\delta(x)$：将左边除$t$乘连续测试函数积分，换$y=xt$，用$\int_{-\infty}^\infty(1-\cos y)y^{-2}\dd y=\pi$即可核验。非共振项及有界干涉项不贡献稳态线性增长率。
+
+实余弦模波矢取半空间，所以积分全球角度时密度为$\mathcal V\dd^3k/[2(2\pi)^3]$。两偏振满足$\sum_s|\vct e_s\cdot\hat{\vct z}|^2=\sin^2\theta$。将$\omega_k=ck$代入共振delta并积分$k$，得到
+\[
+ \frac{\dd P}{\dd\Omega}=\frac{q^2a^2\omega_0^4}{32\pi^2\eps c^3}\sin^2\theta,
+ \qquad P=\frac{q^2a^2\omega_0^4}{12\pi\eps c^3}.
+\]
+这正是瞬时Larmor式$q^2\ddot{\rr}^{\,2}/(6\pi\eps c^3)$的周期平均，因为$\langle\ddot{\rr}^{\,2}\rangle=a^2\omega_0^4/2$。开场暂态中的总场能含随源振荡的束缚场部分；上面的长时间系数才对应持续向外输出的辐射。
+
+\originalsection{一般轨道的谱与软碰撞极限}
+令$I_s(\vct k)=\int\vct e_s\cdot\vct v(t)\exp[i\omega t-i\vct k\cdot\rr(t)]\dd t$，$\omega=c|\vct k|>0$。实模配对的能量式转换为全空间复波矢后为
+$W=q^2\sum_{\vct k,s}|I_s|^2/(2\eps\mathcal V)$。盒极限$\sum_{\vct k}\to\mathcal V\int\dd^3k/(2\pi)^3$和$k^2\dd k=\omega^2\dd\omega/c^3$给出正频单边谱
+\[
+ \frac{\dd^2W}{\dd\omega\dd\Omega}
+ =\frac{q^2\omega^2}{16\pi^3\eps c^3}
+ \left|\int\nn\times\vct v(t)
+ e^{i\omega[t-\nn\cdot\rr(t)/c]}\dd t\right|^2.
+\]
+偏振求和用了$\sum_s|\vct e_s\cdot\vct a|^2=|\nn\times\vct a|^2$。源初末静止且加速度有有限持续时间时积分直接良定；初末匀速时须按绝热收敛或分布理解，以去除不产生辐射的永久匀速背景。
+
+把速度积分改成加速度形式可以清楚隔离这些背景。记$\phi=t-\nn\cdot\rr/c$，则$\dot\phi=1-\nn\cdot\vct v/c>0$。分部积分给
+\[
+ \omega\int\nn\times\vct v\,e^{i\omega\phi}\dd t
+ =i\int\frac{\dd}{\dd t}
+ \left(\frac{\nn\times\vct v}{1-\nn\cdot\vct v/c}\right)
+ e^{i\omega\phi}\dd t,
+\]
+在边界项按上述绝热方式消去时成立。若碰撞时长$\tau$满足$\omega\tau\ll1$，碰撞期间的相位差也小，可以将指数取共同相位。由微分积分直接得到
+\[
+ \frac{\dd^2W}{\dd\omega\dd\Omega}
+ \longrightarrow\frac{q^2}{16\pi^3\eps c^3}
+ \left|\frac{\nn\times\vct v_2}{1-\nn\cdot\vct v_2/c}
+ -\frac{\nn\times\vct v_1}{1-\nn\cdot\vct v_1/c}\right|^2.
+\]
+这解释为什么低频谱只看初末速度。原件\textit{Charge Moving in a Dielectric}第3页对每个正弦、余弦驱动分别匹配位移和速度；其两个匹配系数为
+\[
+ q_c=\frac{f_1}{\omega^2-\omega_1^2}-\frac{f_2}{\omega^2-\omega_2^2},\quad
+ q_s=\frac{\omega_1f_1}{\omega(\omega^2-\omega_1^2)}
+ -\frac{\omega_2f_2}{\omega(\omega^2-\omega_2^2)},
+ \qquad\omega_i=\vct k\cdot\vct v_i.
+\]
+两系数的自由场能为$\omega^2(q_c^2+q_s^2)/2$；再把$\vct k$与$-\vct k$合并，所得正频角谱与上式相同。这种写法展示束缚场特解如何在速度改变时留下自由辐射模，而不是把匀速特解本身计成辐射。
+
+非相对论极限的分母趋于1。若$\vct v$在$[-\tau,\tau]$从$-v\hat{\vct z}$线性变到$+v\hat{\vct z}$，加速度在区间内为$v\hat{\vct z}/\tau$，则
+\[
+ \frac{\dd^2W}{\dd\omega\dd\Omega}
+ =\frac{q^2v^2\sin^2\theta}{4\pi^3\eps c^3}
+ \left(\frac{\sin\omega\tau}{\omega\tau}\right)^2.
+\]
+低频趋常数，高频受有限碰撞时间抑制。角积分用$\int\sin^2\theta\dd\Omega=8\pi/3$，频积分用$\int_0^\infty(\sin x/x)^2\dd x=\pi/2$，得到$W=q^2v^2/(3\pi\eps c^3\tau)$。这等于直接对Larmor功率积分$2\tau\,q^2(v/\tau)^2/(6\pi\eps c^3)$，检验了单边频谱的全部系数。真实碰撞的平滑端点会改变高频尾部，低频极限则保持相同。
+
+高速末态的分母在观察方向接近速度方向时很小，所以辐射前向集中。对于$\beta\simeq1$及小夹角$\theta$，$1-\beta\cos\theta\simeq(\gamma^{-2}+\theta^2)/2$，特征角尺度为$1/\gamma$。单粒子变向可有两个方向的瓣，不能无条件称单一窄锥。
+
+\originalsection{介质共振、能量损失与红外边界}
+第11章已经依据\textit{Charge Moving in a Dielectric}第1--2页推得非磁透明介质的Frank--Tamm谱。它与真空软碰撞的物理机制不同：匀速轨道给驱动频率$\omega_f=kv\cos\theta$，介质横模固有频率为$\omega_k=ck/n$。长时共振只有在$nv>c$时出现，$\cos\theta=c/(nv)$，故
+\[
+ \frac{\dd^2W}{\dd x\dd\omega}
+ =\frac{q^2\omega}{4\pi\eps c^2}
+ \left(1-\frac{c^2}{n^2(\omega)v^2}\right)
+\]
+只在透明、满足阈值的频带使用。真实介质的有限频带及吸收决定总耗能，常折射率理想模型不能积分至无限频率。原笔记提到形式上的真空超光速源产生类似共振；那是数学延伸，不是本册允许有质量粒子在真空超过$c$的物理假设。
+
+原件最后的“红外灾难”指另把低频经典谱除以单个量子能量$\hbar\omega$时，光子数形式上出现$\int_0\dd\omega/\omega$。经典总辐射能$\int_0(\dd W/\dd\omega)\dd\omega$在低频有限；两者并不矛盾。量子场论中可测包容概率、虚光子及软光子重求和不在这四份经典补充笔记的推导内。本册只保留这一边界，不把它写成已证明的红外消除定理。
+
+\originalsection{公开原件逐页对应与课程边界}
+原件入口均为\href{https://ocw.mit.edu/courses/8-311-electromagnetic-theory-spring-2004/pages/lecture-notes/}{MIT OCW 8.311 Lecture Notes}，课程大纲和课历仍见卷首。以下覆盖的是四份实际可取得的理论原件，非整门课每次讲授。
+\begin{longtable}{p{.25\textwidth}p{.66\textwidth}}
+\toprule 原件页码 & 中文内容位置及处理\\\midrule\endhead
+Wave Guides 1 & 第9章横向本征值；第23章表面阻抗；本章传播/倏逝与SI约定。\\
+Wave Guides 2 & 第9章Maxwell横场消元；第23章同轴TEM；本章静电唯一性与截面拓扑。\\
+Wave Guides 3 & 第9、23章TE/TM边界与截止；本章一般截面谱。\\
+Wave Guides 4 & 本章TE/TM阻抗、色散、相速、群速与能量速度的推导及自主图。\\
+Wave Guides 5 & 第23章矩形模式、指标排除与显式TE$_{10}$；本章截止谱汇总。\\
+Field Oscillators 1 & 第11章带源SI作用量、库仑规范、标势消元；本章实/复模计数。\\
+Field Oscillators 2 & 第11章归一、源投影、因果Green核；本章有限脉冲模态能量。\\
+Field Oscillators 3 & 本章场能量和动量、谐振点荷驱动力、忽略反作用的条件。\\
+Field Oscillators 4 & 本章共振分布极限、角功率及Larmor平均；非共振暂态分开。\\
+Power Spectrum 1 & 本章从模态功、偏振求和和盒密度得到单边角谱；第10章原有远区Parseval路线保留。\\
+Power Spectrum 2 & 本章速度跃变、加速度傅里叶式及有限时线性碰撞的sinc谱；第29章相关题解。\\
+Charge Moving 1 & 第11章介质场模、驱动频率、切伦科夫相位条件。\\
+Charge Moving 2 & 第11章Frank--Tamm完整系数；本章阈值、频带与形式延伸的边界。\\
+Charge Moving 3 & 本章正弦/余弦模式在碰撞点的连续匹配和自由辐射能。\\
+Charge Moving 4 & 本章波矢配对、软谱、前向瓣与光子数红外说明；第29章应用。\\
+\bottomrule
+\end{longtable}
+
+四份原件的公式、示意图和段落已逐页读取；图形均自主重绘，不拼接英文页面。原件署名Leonid Levitov / MIT OpenCourseWare，改编遵循CC BY-NC-SA 4.0及逐件例外。十二套研究生作业与期末题解保持原文，官方作业7缺匹配解、PS11 Q3缺商业教材比较图仍保留。本科38组缺项和PS5 Q5的(a)(b)缺失没有关闭。Noether、完整协变作用量、同步辐射与反作用虽在课历出现，但未提供相应讲课原件，也未因本章补齐四份公开笔记而宣称这些全套理论已经完成。
