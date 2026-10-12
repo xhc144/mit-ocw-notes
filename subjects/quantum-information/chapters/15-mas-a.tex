@@ -1,6 +1,6 @@
 \Needspace{9\baselineskip}
 \originalchapter{MAS.865J作业一与二}
-题源为MIT 6.443J / 8.371J / 18.409 / MAS.865 Spring 2006. 本章参考官方s1、s2解答重编, 以本卷平方保真度约定独立复算, 更正另说明.
+题源为MIT 6.443J / 8.371J / 18.409 / MAS.865 Spring 2006. 本章参考官方s1、s2解答重编. PS1 P3保留题面根保真度$F=\sqrt{\bra\psi\rho\ket\psi}$, 平方保真度仅作明确注明的数值对照; 其他更正另说明.
 \originalsection{作业一: 信道与Steane}
 \source{PS1 P1, 量子门复习.}
 \begin{exercise}(a) Pauli归一本征态与Bloch位置; (b) CNOT怎样重排一般$c_{jk}$密度元; (c) 只用CZ和H由00制Bell; (d) 制备$(000+111)^{\otimes3}/\sqrt8$; (e) CNOT共轭$X_1,X_2,Z_1,Z_2$; (f) 用X,Y轴旋转合成任意$R_z(\theta)$.\end{exercise}
@@ -11,12 +11,29 @@
 \begin{solution}(a) $W$是$d^2$维矩阵向量的Gram矩阵, Hermitian且秩至多$d^2$. 若$uWu^\dagger$对角, 取$F_j=\sum_ku_{jk}^*E_k$, 其Hilbert--Schmidt范数平方为对应本征值, 零值的$F$就是零矩阵可删; 幺正混合不改信道. (b) 两者均对非对角乘$\sqrt{1-\lambda}$, 对角不变. 变换为$\bigl(\begin{smallmatrix}\sqrt a&\sqrt{1-a}\\\sqrt{1-a}&-\sqrt a\end{smallmatrix}\bigr)$乘原$E$列表, 代入$\lambda=4a(1-a)$可逐项验证. (c) Kraus为$I/2,X/2,Y/2,Z/2$, 因Pauli twirl把Bloch向量四项和为零. 不能用$I/4$等作为Kraus, 否则迹不保持.
 \end{solution}
 \source{PS1 P3, 两位幅度阻尼检测码.}
-\begin{exercise}$\gamma=1-\e^{-t/T_1}$, 单比特幅度阻尼. (a) $+$态的平方保真度曲线; (b) 每时刻最差输入与最差保真度; (c,d) $0_L=01,1_L=10$, 两位各独立阻尼后的态及最差保真度; (e) 投影到00正交空间后保留成功事件, 状态、保真度、成功率; (f) 加分: Shor九位码按常规综合征解码后对幅度阻尼的保真度随$\gamma$如何?\end{exercise}
-\begin{solution}(a) $F_+=(1+\sqrt{1-\gamma})/2=(1+\e^{-t/(2T_1)})/2$. (b) 设激发概率$b=|\beta|^2$, $F=|1-b+b\sqrt{1-\gamma}|^2+\gamma b(1-b)$. 它对$b\in[0,1]$的最小在$b=1$, 值$1-\gamma=\e^{-t/T_1}$. (c,d) 所有码态恰有一激发, $\rho'=(1-\gamma)\ket\psi\bra\psi+\gamma\ket{00}\bra{00}$, 所有输入平方保真度均$1-\gamma$. (e) 成功概率$1-\gamma$, 成功态精确原$\psi$, 条件保真度1. 不保留成功率就会误把后选择当确定性纠错. 官方s1在本题混用了平方根保真度, 还出现$\e^{-t/(2T)}$的指数, 本卷统一按题给$F=\langle\psi|\rho|\psi\rangle$计算.
+\begin{exercise}$\gamma=1-\e^{-t/T_1}$, 单比特幅度阻尼, 原题定义根保真度$F=\sqrt{\bra\psi\rho\ket\psi}$. (a) $+$态的保真度曲线; (b) 每时刻最差输入与最差保真度; (c,d) $0_L=01,1_L=10$, 两位各独立阻尼后的态及最差保真度; (e) 投影到00正交空间后保留成功事件, 状态、保真度、成功率; (f) 加分: Shor九位码按常规综合征解码后对幅度阻尼的保真度随$\gamma$如何?\end{exercise}
+\begin{solution}(a) 对$\ket+=(\ket0+\ket1)/\sqrt2$, 阻尼后$\rho_{01}=\sqrt{1-\gamma}/2$, 两对角元相加为1, 所以
+\[F_+(t)=\sqrt{\bra+\rho(t)\ket+}=\sqrt{\frac{1+\sqrt{1-\gamma}}2}=\sqrt{\frac{1+\e^{-t/(2T_1)}}2}.\]
+(b) 设输入$\alpha\ket0+\beta\ket1$, $b=|\beta|^2$. 两Kraus分支与原态的重叠平方相加给
+\[F^2=|1-b+b\sqrt{1-\gamma}|^2+\gamma b(1-b).\]
+写$q=\sqrt{1-\gamma}$后为$1-b(1-q)^2-2b^2q(1-q)$, 对$b\in[0,1]$递减. 最差输入为$\ket1$, 根保真度$F_{\min}=\sqrt{1-\gamma}=\e^{-t/(2T_1)}$.
+(c,d) 所有码态恰有一激发, 无跳跃分支为$\sqrt{1-\gamma}\ket\psi$, 两跳跃分支都落$\ket{00}$, 合计权重$\gamma$. 因此$\rho'=(1-\gamma)\ket\psi\bra\psi+\gamma\ket{00}\bra{00}$, 所有输入根保真度均$F_{\rm dual}=\sqrt{1-\gamma}$.
+(e) 成功概率$1-\gamma$, 成功态精确原$\psi$, 条件保真度1. 不保留成功率就会误把后选择当确定性纠错. 第18章另画平方对照量$G=F^2$: 对$+$为$(1+\e^{-t/(2T_1)})/2$, 对最差单比特与双轨为$\e^{-t/T_1}$. 原题和官方解答使用根保真度; 本卷不再把这一定义差异误称官方错误.
 
-(f) 高阶结果依解码器; 固定以下标准Pauli综合征恢复后可精确计算. Shor码$\ket{0_L}=(000+111)^{\otimes3}/\sqrt8$, $\ket{1_L}=(000-111)^{\otimes3}/\sqrt8$, $V$为编码等距. 测六个块内Z对校验与两个块间X六体校验, 在每块按多数纠X, 再按块间综合征在块1、2或3的第一个位置纠Z, 给256个恢复$R_s$和投影$P_s$. 对512个阻尼Kraus$E_e=\bigotimes_iK_{e_i}$, 完整逻辑Kraus为$L_{se}=V^\dagger R_sP_sE_eV$, 精确保真度函数为
-\[F_\psi(\gamma)=\sum_{s\in\{0,1\}^8}\sum_{e\in\{0,1\}^9}|\bra\psi L_{se}(\gamma)\ket\psi|^2.\]
-各矩阵元只是$\gamma^{w/2}(1-\gamma)^{k/2}$的有限和, 可实际求值, 不含未定义恢复器. 一阶误差被纠正, $F=1-O(\gamma^2)$; 该高阶曲线的完整数值计算与绘图作为本卷QA脚本, 不声称所有其他解码器给同一函数.
+(f) 高阶结果依解码器; 固定以下标准Pauli综合征恢复后可精确计算. Shor码$\ket{0_L}=(000+111)^{\otimes3}/\sqrt8$, $\ket{1_L}=(000-111)^{\otimes3}/\sqrt8$, $V$为编码等距. 测六个块内Z对校验与两个块间X六体校验, 在每块按多数纠X, 再按块间综合征在块1、2或3的第一个位置纠Z, 给256个恢复$R_s$和投影$P_s$. 对512个阻尼Kraus$E_e=\bigotimes_iK_{e_i}$, 完整逻辑Kraus为$L_{se}=V^\dagger R_sP_sE_eV$, 精确平方保真度函数为
+\[F_\psi(\gamma)^2=\sum_{s\in\{0,1\}^8}\sum_{e\in\{0,1\}^9}|\bra\psi L_{se}(\gamma)\ket\psi|^2.\]
+各矩阵元只是$\gamma^{w/2}(1-\gamma)^{k/2}$的有限和. 还可以化成可直接手算的闭式, 说明数值曲线从哪里来.
+
+先看一个三位bit重复块$000,111$. 111损失至少两激发才被多数恢复成000, 所以有效损失概率$a=3\gamma^2-2\gamma^3$, 保留概率$b=1-a$; 000--111相干只由无跳跃支保持, 系数$c=(1-\gamma)^{3/2}$. 有效块信道的Bloch变换为$(x,y,z)\mapsto(cx,cy,a+bz)$. 外层在三个块的X基重复, 用H换到计算基后, 每块变为$(x,y,z)\mapsto(a+bx,cy,cz)$.
+
+对外层三个bit, 对角输入的多数结果期望为$(3c-c^3)/2$, 互补串的相干由四个综合征子空间相加. 令$u=(b+c)/2,v=(b-c)/2$, 输入$|0\rangle\langle1|$在输出的正反相干系数分别是$u^3+3u^2v$与$v^3+3v^2u$. 两者和为$b^3$, 差为$c(3b^2-c^2)/2$. 对角输入还产生共同X分量$a^3$. 因而完整恢复逻辑信道为
+\[(x,y,z)\longmapsto
+ \left(a^3+b^3x,\ \frac{c(3b^2-c^2)}2y,\ \frac{c(3-c^2)}2z\right).\]
+纯输入$x^2+y^2+z^2=1$的平方保真度即
+\[F_\psi^2=\frac12\left[1+a^3x+b^3x^2+
+ \frac{c(3b^2-c^2)}2y^2+\frac{c(3-c^2)}2z^2\right],\qquad
+ F_\psi=\sqrt{F_\psi^2}.\]
+例如$\gamma=1/2$时$F_{0,1}^2\simeq0.7541165,F_+^2=0.625,F_{y+}^2\simeq0.5552427$, 与全256综合征/512阻尼分支计算逐点一致. 最差输入也可由这二次式求: Z系数不小于Y系数, 可取$z=0$, 然后最小化$a^3x+Kx^2$, $K=b^3-c(3b^2-c^2)/2=(b-c)^2(2b+c)/2\ge0$, 在$[-1,1]$截断$x=-a^3/(2K)$. $K=0$时直接按线性项取端点. 这给定了解码器、任意输入和最差值, 不把一条特殊态曲线冒充所有输入相同的答案.
 \end{solution}
 \source{PS1 P4, CSS与Steane的十小问.}
 \begin{exercise}在$\mathbb F_2$中,$G$七行依次1000,0100,0010,0001,0111,1011,1101; $H$三行0001111,0110011,1010101. (a) 给16码字; (b) 证$HG=0$; (c) 单比特误差综合征为位置二进制; (d) 最小距离; (e) $C^\perp$生成$H^T$、校验$G^T$, 维数与包含; (f) 证$\sum_{y\in C}(-1)^{x\cdot y}$为$|C|$或0; (g) 显式$\psi(0),\psi(1111111)$, $\psi(x)=\sum_{y\in C^\perp}\ket{x+y}/\sqrt8$; (h) 各至多一bit、phase错后的态; (i) 全CNOT求$H$综合征并恢复bit; (j) 对所有位Hadamard后的态及phase恢复.\end{exercise}

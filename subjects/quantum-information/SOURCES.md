@@ -4,14 +4,14 @@
 
 | 官方课程 | 实际公开文件（SHA 去重） | 中文层级 |
 |---|---:|---|
-| [18.435J / 2.111 Fall 2003](https://ocw.mit.edu/courses/8-371x-quantum-information-science-ii-spring-2018/) | 课程入口核查 | Core algorithm, circuit, noise and QEC themes; available main and extra self-contained assessment files. Only part of the original lecture notes is publicly available. |
+| [18.435J / 2.111 Fall 2003](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/) | 45 | Core algorithm, circuit, noise and QEC themes; available main and extra self-contained assessment files. Only part of the original lecture notes is publicly available. |
 | [MAS.865J Spring 2006](https://ocw.mit.edu/courses/mas-865j-quantum-information-science-spring-2006/) | 29 | 20 theoretical lecture topics reconstructed thematically; lecture 18 alternative notes count as the same session. All 15 published PS problem numbers, with original subquestions. Last six calendar entries are project meetings/presentations. |
 | [8.370x Spring 2018](https://ocw.mit.edu/courses/8-370x-quantum-information-science-i-spring-2018/) | 课程入口核查 | OCW syllabus/about and Open Learning Library public about access checked only; no locally recovered full assessment bank or whole-course transcript claim. |
 | [8.371x Spring 2018](https://ocw.mit.edu/courses/8-371x-quantum-information-science-ii-spring-2018/) | 课程入口核查 | OCW syllabus/about entry checked only; not merged with MAS.865J 2006 8.371J merely because of the number. |
 
 题数以原题大编号计；多道基础题在排版中合并到一个 `exercise`，不把排版环境数量冒充原题数。
-本卷登记 **93** 个原题号；**92** 个给出所述条件下的答案。
-- 部分完成 18.435J HW4.5：The downloaded figure does not yield a legible unique edge set. The official solutions4 PDF explicitly defers this extra-credit solution. A clearly identified three-CNOT alternative is given, not a proof of that specific figure.
+本卷登记 **93** 个MIT原题号；**92** 个给出所述条件下的答案。另有 **8** 个公开题页已给出数学条件的教材任务，独立中文重述并证明，分别列账。
+- 部分完成 18.435J HW4.5：The original PDF figure region contains sigma_x labels and no recoverable node/edge objects, confirmed by vector-object inspection. The official solutions4 PDF explicitly defers this extra-credit solution. A clearly identified three-CNOT alternative is given, not a proof of that specific figure.
 
 版本与考核分组：
 
@@ -22,24 +22,26 @@
 
 未覆盖及边界：
 
-- Commercial Nielsen–Chuang textbook-only problem references are not transcribed or solved as recovered original statements.
-- Book passages directly reproduced inside HW1 are excluded.
+- Only N&C 5.20, 10.27 and 4.26 lack actual mathematical statements in the obtained MIT files. Eight readable tasks are independently restated and solved, counted separately from MIT-authored numbered problems; original book paragraphs are not reprinted.
+- Original book paragraphs reproduced inside HW1 are excluded; their readable mathematical conditions are independently formulated with proofs.
 - HW2.5 is withdrawn by the author.
 - Research projects, global minimum graph/estimator proofs and a device-specific rigorous threshold were not completed.
 - General HSW, full decoupling, full adiabatic equivalence, non-Abelian algorithms and majorization theorem proofs are cited advanced results; the Chinese volume derives the stated elementary models rather than claiming full reproof.
 - Finite numeric checks are not a proof for all inputs or all decoders.
 
-未取得可再出版题面的商业教材定位：2.29, 2.30, 2.31, 2.32, 2.59, 2.60, 2.61, 5.20, 10.27, 4.26, 5.6；共11个不同编号。
+实际公开文件只有题号、未取得完整数学条件的教材定位：5.20, 10.27, 4.26；共3个不同编号。
 
 校正与条件限定：
 
-- MAS PS1: use squared fidelity consistently, fix Steane Fourier support and check matrix indices.
+- MAS PS1: original root fidelity is retained; squared G=F^2 is identified separately in plots. Correct formulas for plus/worst/dual-rail are given; Steane Fourier support and matrix indices are checked.
 - MAS PS2: ZIZ is harmless for both indicated Clifford implementations, contradicting a claim in the original problem.
 - MAS PS3: real gates cannot densely generate all complex unitaries on a fixed Hilbert space; computational universality via an extra rebit is distinguished.
 - MAS PS4: normalize Bayesian posteriors over labels; nondegenerate posterior width scales as t^(-1/2), not t^(-1).
 - MAS PS4: all LOCC does not preserve Schmidt rank.
 - Additional PS5.4: F2 tensor F3 is not related to F6 by the same input/output permutation; diagonal entries give a counterexample.
-- Old encoded PDF text needed visual verification: extra PS2 uses Y/X, AC Bell+ with B+, and a bra+ contraction; PS8 has the same negative X rotation on both sides.
+- Old encoded PDF text needed visual verification: extra PS2 uses Y/X, AC Bell+ with B+, and a bra+ contraction; PS8 original sequence is negative X, ZZ, then Y; the final X transcription in the first edition was wrong and has been restored to Y.
+
+逐讲实际内容/真缺文件见 [LECTURE-COVERAGE.md](LECTURE-COVERAGE.md) 和 [lecture-coverage.json](lecture-coverage.json)。MAS第12、13讲客座教师为 Sean Hallgren。补充原始论文只链接引用结果，不作为再分发原件：Hallgren Pell、Kuperberg 二面体筛法、Gottesman–Chuang 签名、Chen–Hogg–Beausoleil 公共品，链接在对应中文章内。
 
 完整来源索引：
 
@@ -94,7 +96,6 @@
 | c95a265dc90e89f2323d84be985fd322_qc_lec19.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/qc_lec19/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/c95a265dc90e89f2323d84be985fd322_qc_lec19.pdf) | `b678608cd7819c4c4d5f21682c7379c3e78b3053666b0cb81b4e9023c110807f` | 4 |
 | d43f1dff422e9519bfab3d63a339a1a4_qc_lec05.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/qc_lec05/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/d43f1dff422e9519bfab3d63a339a1a4_qc_lec05.pdf) | `ee900e722ac0f1cbc1eaf53d8fc640541b4c07bcb93d3e2c9d404d816eb5f28f` | 5 |
 | d49b06b61dc668e133aa12cb58146459_qc_lec13.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/qc_lec13/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/d49b06b61dc668e133aa12cb58146459_qc_lec13.pdf) | `bd8c18c13a7c408914b699696144810e2140d81331a6b61eff5b537cfb023f0a` | 4 |
-| 9fc93f31b1e8e859465f9be795cbeaf0_midterm.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/midterm/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/9fc93f31b1e8e859465f9be795cbeaf0_midterm.pdf) | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | 1 |
 | 1e142c280d88e46689a462d3c90525df_ps8sol.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/ps8sol/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/1e142c280d88e46689a462d3c90525df_ps8sol.pdf) | `b62e7433aa26cc241a8f4369542c7b58ba140b71b1d3d8d5f5b5dec0694ddd7f` | 4 |
 | 24567c3ec025d2989b77bc3ba1ad668d_ps4sol.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/ps4sol/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/24567c3ec025d2989b77bc3ba1ad668d_ps4sol.pdf) | `ee4b7529b9633512c00cca4f157f4e5b0b5dae408ac9b8a864f7ab86acbe7d82` | 6 |
 | 31cc813800cbd8e19859c7f151bf3e7c_ps6sol.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/ps6sol/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/31cc813800cbd8e19859c7f151bf3e7c_ps6sol.pdf) | `85f77b0fdc0ad4a49d3d5cd80d3a14444be6fcb3033520ed117d3286a442b5c8` | 4 |

@@ -1,11 +1,74 @@
 \Needspace{9\baselineskip}
 \originalchapter{典型子空间、压缩与纠缠集中}
-\originalsection{典型序列的三个界}
-独立源概率$p_i$, 长度$n$序列概率$p(x^n)=\prod_jp_{x_j}$. 弱典型定义为$|-(1/n)\log_2p(x^n)-H(p)|\le\delta$. 大数定律使典型概率趋1. 每个典型序列概率在$2^{-n(H+\delta)}$与$2^{-n(H-\delta)}$间, 因而数量至多$2^{n(H+\delta)}$, 并至少$(1-\epsilon_n)2^{n(H-\delta)}$. 要证明压缩同时需高概率与维数界, 单说“多数序列典型”不足.
+信息论把“多数情况”变成可控误差和资源率. MAS第14讲从经典源、噪声信道转向量子压缩, 第17讲再把相同类型计数用于纠缠. 本章所有对数取底2, 熵以bit计; 量子通信维数$2^m$对应$m$qubit, 纠缠以Bell对的ebit计.
+\originalsection{熵、条件熵与二元对称信道}
+有限分布$p$的熵为$H(X)=-\sum_xp_x\log p_x$, $0\log0=0$. 联合分布给$H(X,Y)$, 条件熵$H(Y|X)=\sum_xp_xH(Y|X=x)$, 展开联合概率得链式法则$H(X,Y)=H(X)+H(Y|X)$. 互信息
+\[I(X:Y)=H(Y)-H(Y|X)=H(X)+H(Y)-H(X,Y)\]
+衡量输出消除了多少输入不确定性, 不是输出字母总位数. 一个总发同一符号的信道可以有随机输出, 却不传输入信息.
 
-对$\rho=\sum_ip_i\ket i\bra i$, $\rho^{\otimes n}$的谱概率就是上述独立源, 典型投影$\Pi_{n,\delta}$具有迹$\Tr\rho^{\otimes n}\Pi\ge1-\epsilon_n$及维数上界$2^{n(S+\delta)}$. 投影不测量典型内部的每个标签, 才能保留其叠加. 把典型空间等距编码进约$n(S+\delta)$比特, 失败子空间输出任意固定态, 纠缠保真度至少$(1-\epsilon_n)^2$. 这构成Schumacher可达压缩的明确构造; 最优反向界需谱大数与维数占据界, 非任何维数更小的空间都能捕获高概率.
+二元对称信道BSC把输入以概率$q$翻转, 写$Y=X\oplus Z$, $Z$独立Bernoulli$(q)$. 不论输入分布如何, $H(Y|X)=h_2(q)$, 其中$h_2(q)=-q\log q-(1-q)\log(1-q)$. 又$H(Y)\le1$, 故
+\[C=\max_{p_X}I(X:Y)=1-h_2(q),\]
+等概率输入使输出均匀, 达到上界. $q=0$给1bit, $q=1/2$给0; $q>1/2$可先把输出翻转, 容量与$1-q$相同. Shannon编码定理说明无记忆条件下任意$R<C$有长度$n$的纠错码使块错误趋0, $R>C$则不能如此; 其随机码打包思想将在量子信道中重现. 这个定理不表示逐位直接判决也达到容量.
 
-\originalsection{纯态纠缠集中}
-$n$份$\sum_i\sqrt{p_i}\ket{ii}$按局域Schmidt基标签的类型分组. Alice测类型而不测具体序列, Bob具有相同类型; 条件态为该类型集合上的最大纠缠态, Schmidt数约$2^{nH(p)}$. 把它转成Bell对可得到每份$H(p)$ ebit, 大数控制失败概率. 反过程纠缠稀释也以渐近同率制备纯态, 因而纯态纠缠熵有操作意义.
+\originalsection{弱典型与强典型不能混用}
+独立源的序列概率$p(x^n)=\prod_jp_{x_j}$. 弱典型集合为
+\[T_{n,\delta}^{\rm w}=\left\{x^n:\left|-\frac1n\log p(x^n)-H(p)\right|\le\delta\right\}.\]
+随机量$-\log p(X)$平均为$H(p)$, 大数定律给$P(T^{\rm w})=1-\epsilon_n\to1$. 典型串各自满足
+\[2^{-n(H+\delta)}\le p(x^n)\le2^{-n(H-\delta)},\]
+于是
+\[(1-\epsilon_n)2^{n(H-\delta)}\le |T^{\rm w}|
+ \le2^{n(H+\delta)}.\]
+压缩既需高概率也需数量上界; 只有“大多数典型”还不知道要几位来编号.
 
-单份确定性LOCC转换$\psi\to\phi$满足Schmidt概率向量$p_\psi\prec p_\phi$. 均匀分布被更尖的分布主序, 所以最大纠缠可降为直积而非反向. 必要性来自局域测量的平均混合与Schmidt谱, 充分性可分解为二元素混合的测量与条件局域置换. 本卷给出该判据的使用和方向, 不把它与只计非零数的秩判据混同.
+强典型要求每个频率$N_i/n$接近$p_i$, 且$p_i=0$的字母绝不出现. 有限字母且支持概率为正时, 由
+\[-\frac1n\log p(x^n)-H(p)
+ =-\sum_i(N_i/n-p_i)\log p_i\]
+可见强典型蕴含适当参数的弱典型. 反向一般不成立: 对均匀源所有串弱典型, 其中却可有全为同一字母的串. 第14讲的逐频率定义属于强典型; 作业中的对数概率定义属于弱典型. 零概率字母和参数换算也必须随定义注明.
+
+固定类型$\nu_i=N_i/n$含有
+\[D_\nu=\frac{n!}{\prod_iN_i!}\]
+条串. Stirling公式给$\log D_\nu=nH(\nu)+O(\log n)$（字母数固定）, 类型总数至多$(n+1)^d$. 这是把频率估计转为指数维数的桥梁; 多项式类型数在每份资源率中消失.
+
+\originalsection{量子典型投影与CPTP压缩器}
+源以$p_a$输出可能不正交的纯态$\ket{\phi_a}$, 平均态$\rho=\sum_ap_a\ket{\phi_a}\bra{\phi_a}$. 对谱分解$\rho=\sum_ir_i\ket i\bra i$, $\rho^{\otimes n}$本征值为$\prod_jr_{i_j}$. 定义由谱标签弱典型串张成的投影$\Pi$,
+\[\Tr(\rho^{\otimes n}\Pi)=p_{\rm typ}\ge1-\epsilon_n,\qquad
+ d_T=\Tr\Pi\le2^{n(S(\rho)+\delta)},\]
+其中$S(\rho)=-\Tr\rho\log\rho=H(r)$. 这是谱标签的概率论构造, 不意味着原始非正交信号本身可逐个测出.
+
+取等距映射$V:\Pi\mathcal H\to\mathcal C_T$, 再加一个正交失败旗$\ket f$到压缩空间. 对 atypical 基$\ket{q_j}$, 编码器Kraus算符为
+\[E_0=V\Pi,\qquad E_j=\ket f\bra{q_j},\qquad
+ \sum_\alpha E_\alpha^\dagger E_\alpha=I.\]
+解码器在$\mathcal C_T$用$V^\dagger$, 在旗上输出固定$\ket{\phi_0}$. 完整编码--解码是CPTP, 其一个Kraus算符为$\Pi$, 其他为$\ket{\phi_0}\bra{q_j}$. 失败旗避免把“投影成功后的归一态”误当确定性信道. 内部典型标签不测量, 所以叠加仍保留.
+
+若$R$净化输入$\rho^{\otimes n}$, 纠缠保真度的平方定义为
+\[F_e=\bra\Psi(I_R\otimes\mathcal D\mathcal E)(\ket\Psi\bra\Psi)\ket\Psi
+ =\sum_\alpha|\Tr(\rho^{\otimes n}K_\alpha)|^2
+ \ge p_{\rm typ}^2\ge(1-\epsilon_n)^2.\]
+根保真度则是$\sqrt{F_e}$. 同一公式也由Cauchy--Schwarz给源的平均纯态保真度平方不小于$p_{\rm typ}^2$. 需$m=\lceil\log(d_T+1)\rceil$qubit, 所以每份率趋$S(\rho)$.
+
+\begin{example}等概率输出$\ket0,\ket+$, 两态重叠$1/\sqrt2$. 平均态谱为$(1\pm1/\sqrt2)/2$, 熵约0.601bit. 原字母标签熵为1bit, 但量子源可渐近压到约0.601qubit/份, 因任务是保存信号的量子态及其参考相关, 不是辨出原字母.\end{example}
+对任意秩$M$投影$P$, 谱典型界给
+\[\Tr(\rho^{\otimes n}P)\le\epsilon_n+M2^{-n(S-\delta)}.\]
+所以$M=2^{nR}$且$R<S-\delta$时, 任何这样的接收子空间不能捕获高概率. Schumacher一般编码器的反向定理还需把维数瓶颈与保真度严格连接; 本卷将其作为第14讲引用的完整编码定理, 上式展示它的谱计数核心.
+
+\originalsection{纠缠集中中的概率与条件维数}
+已知纯双边态$\ket\psi=\sum_i\sqrt{p_i}\ket{i}_A\ket{i}_B$. $n$份展开为
+\[\ket\psi^{\otimes n}=\sum_{i^n}\sqrt{\prod_jp_{i_j}}\ket{i^n}_A\ket{i^n}_B.\]
+Alice测“类型”$\boldsymbol N$, 不测每个序列, Bob自动在相同类型空间. 该结果概率及归一条件态分别为
+\[P(\boldsymbol N)=D_{\boldsymbol N}\prod_ip_i^{N_i},\qquad
+ \ket{\Phi_{\boldsymbol N}}=\frac1{\sqrt{D_{\boldsymbol N}}}
+ \sum_{\operatorname{type}(i^n)=\boldsymbol N}\ket{i^n}_A\ket{i^n}_B.\]
+同类型各振幅相等, 所以条件态是$D_{\boldsymbol N}$维最大纠缠. 局域排序把标签改为$1,\ldots,D_{\boldsymbol N}$, 然后LOCC可确定性降到$2^{\lfloor\log D_{\boldsymbol N}\rfloor}$维Bell态; 不必把不整齐的余数硬说成完整Bell对. 强典型类型概率趋1, 且$\log D_{\boldsymbol N}/n\to H(p)$, 得渐近$H(p)$ebit/份.
+\begin{example}二项Schmidt概率$(0.8,0.2)$, $n=10$, 出现第二标签两次的类型维数为$\binom{10}{2}=45$, 概率$45(0.8)^8(0.2)^2=0.301989888$. 该分支可得5个Bell对; 它不是所有分支平均产量. 大样本极限每份产量为$h_2(0.2)\simeq0.722$.\end{example}
+逆向纠缠稀释用约$nH(p)$Bell对制备高保真$\psi^{\otimes n}$, 完整渐近协议需压缩、传态和经典通信的资源账. 纯态纠缠熵因集中与稀释同率而有操作意义; 混态并不自动可逆.
+
+\originalsection{主序的定义、方向与一份转换}
+概率向量补零并降序排列. 定义$p\prec q$当
+\[\sum_{i=1}^kp_i^\downarrow\le\sum_{i=1}^kq_i^\downarrow
+ \quad(1\le k<d),\qquad \sum_ip_i=\sum_iq_i=1.\]
+均匀向量被更尖锐的向量主序. Nielsen判据为确定性纯态LOCC $\psi\to\phi$当且仅当$p_\psi\prec p_\phi$. 因而Bell态可降为直积, 直积不能确定性制造Bell态; Schmidt秩只给较弱的必要条件.
+
+充分性可写成可执行测量. 主序等价于$p=\sum_\alpha\lambda_\alpha P_\alpha q$, 其中$P_\alpha$为置换, $\lambda_\alpha\ge0$, 和为1. 在$p_i>0$支持上Alice用对角测量
+\[M_\alpha=\sum_i\sqrt{\frac{\lambda_\alpha(P_\alpha q)_i}{p_i}}\ket i\bra i.\]
+总$M_\alpha^\dagger M_\alpha=I$, 结果$\alpha$概率为$\lambda_\alpha$, 之后两边作同一逆置换便得$\phi$. 必要性用Schmidt尾和在局域测量下的平均单调性得到; 可从正矩阵小本征值和的凹性和Bob条件态的加权平均证明, 因而连续LOCC也不能增这些尾和.
+\begin{example}Bell态转成$\sqrt{0.8}\ket{00}+\sqrt{0.2}\ket{11}$: Alice用$M_0=\operatorname{diag}(\sqrt{0.8},\sqrt{0.2})$, $M_1=\operatorname{diag}(\sqrt{0.2},\sqrt{0.8})$. 两结果各$1/2$, 第二结果两边都施X, 即得到同一目标态. 把方向倒过来则主序第一项$0.8\le0.5$失败.\end{example}

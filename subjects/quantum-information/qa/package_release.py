@@ -9,7 +9,7 @@ def pdftext(p):
 p=argparse.ArgumentParser();p.add_argument('subject',type=Path);p.add_argument('--zip',type=Path);args=p.parse_args();r=args.subject.resolve();slug=r.name
 canonical=r/'dist'/f'{slug}-zh.pdf';archive=args.zip.resolve() if args.zip else r/'dist'/f'{slug}-source.zip'
 if not args.zip:
- fixed=['.gitignore','main.tex','course-info.tex','README.md','LICENSE.md','SOURCES.md','source-inventory.json','coverage-frozen.json','coverage.json']
+ fixed=['.gitignore','main.tex','course-info.tex','README.md','LICENSE.md','SOURCES.md','source-inventory.json','coverage-frozen.json','coverage.json','LECTURE-COVERAGE.md','lecture-coverage.json']
  files=[r/x for x in fixed]
  for name in ['chapters','figures','vendor']:files.extend(x for x in (r/name).rglob('*') if x.is_file() and '__pycache__' not in x.parts)
  files.extend(x for x in (r/'qa').glob('*') if x.is_file() and x.suffix in ['.json','.py','.md'] and x.name not in ['clean-rebuild.json','source-package-manifest.json','remote-verification.json'])

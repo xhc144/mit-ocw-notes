@@ -1,15 +1,74 @@
 \Needspace{9\baselineskip}
-\originalchapter{量子信道、完全正性与距离}
-\originalsection{Kraus与环境模型}
-未条件化的物理信道是完全正保迹映射$\mathcal E(\rho)=\sum_aK_a\rho K_a^\dagger$, $\sum K_a^\dagger K_a=I$. “完全正”要求对任意辅助系统$R$,$\mathcal E\otimes I_R$保持正性. 仅正不足: 转置对单态正, 但Bell态局部转置有负本征值.
+\originalchapter{量子信道、完全正性与可区分性}
+MAS.865J第1讲从部分迹建立算符和表示, 第14讲又把它用于有噪声的通信. 本章连接这两端: 忽略环境为何产生混合态, 什么矩阵映射才可用于任意纠缠输入, 又怎样用可操作的距离比较噪声前后的信息. 全部系统取有限维; 连续变量和Markov主方程的物理推导见原子光物理卷.
 
-环境初态$0$时$K_a=\bra aU\ket0$, 取部分迹即得算符和. 反过来$V\ket\psi=\sum_aK_a\ket\psi\ket a$因保迹为等距, 可补完成更大空间幺正. 由此说明任意信道可由环境耦合实现, 但并不唯一. $L_b=\sum_au_{ba}K_a$的等距混合给同信道; 不同长度列表可先补零, 不能直接要求两个不同大小矩阵都是方阵幺正.
+\originalsection{同一个密度矩阵可以有不同制备}
+$\rho=\sum_ip_i\ket{\psi_i}\bra{\psi_i}$描述一个没有保留制备标签的系综. 对任何测量$M_m$, 概率为$\Tr\rho M_m^\dagger M_m$, 因此两个制备若给同一$\rho$, 所有只作用在本系统的测量都无法区别它们. 例如等概率$0,1$和等概率$+,-$都为$I/2$. 不能把某一种系综分解当系统必然“实际处在”的唯一隐状态.
 
-Choi矩阵$J(\mathcal E)=(\mathcal E\otimes I)(\ket\Omega\bra\Omega)$, 未归一$\ket\Omega=\sum_i\ket{ii}$. 它正当且仅当映射完全正, 其谱分解把每个本征向量重排成Kraus矩阵, 最少Kraus数为$\operatorname{rank}J\le d_{
-m out}d_{
-m in}$. 保迹等价于输出部分迹为输入单位阵. 这是检查学生笔记公式的可靠有限维方法.
+复合纯态也可给局部混合. $a\ket{00}+b\ket{11}$对环境取迹得到$|a|^2\ket0\bra0+|b|^2\ket1\bra1$. 两个环境标签正交消去交叉项. 如果两个环境态只有重叠$\eta$, 相干项则乘$\eta$而非必为零; 退相干的强度来自环境可分辨度.
 
-\originalsection{常见噪声与可区分性}
-幅度阻尼$K_0=\operatorname{diag}(1,\sqrt{1-\gamma})$,$K_1=\sqrt\gamma\ket0\bra1$使激发态衰减, 相干乘$\sqrt{1-\gamma}$. 相位翻转$(1-p)\rho+pZ\rho Z$不改布居、相干乘$1-2p$. 去极化$(1-p)\rho+(p/3)\sum_{a=X,Y,Z}a\rho a$使Bloch向量乘$1-4p/3$; $p=3/4$才完全随机化, 不能把所有去极化参数约定混成$p=1$.
+\originalsection{从环境幺正推导Kraus表示}
+设环境初态已知为$\ket0_E$, 系统环境做幺正U. 在环境基$\ket\mu$插入单位分解:
+\[\mathcal E(\rho)=\Tr_E U(\rho\otimes\ket0\bra0)U^\dagger
+=\sum_\mu K_\mu\rho K_\mu^\dagger,\qquad K_\mu={}_E\bra\mu U\ket0_E.\]
+U保内积给$\sum_\mu K_\mu^\dagger K_\mu=I$, 因而输出迹等于输入迹. 每项正, 所以输出正. 同一公式对系统再附任意参考R也成立: 使用$K_\mu\otimes I_R$. 这解释了为什么物理信道必须\textbf{完全正}, 而不只在单独系统上正.
 
-迹距离$D(\rho,\sigma)=\|\rho-\sigma\|_1/2$决定等先验最优二态区分成功率$(1+D)/2$. 证明取差矩阵正负本征空间作测量, 最大化$\Tr M(\rho-\sigma)$. 信道后距离不增, 因输出测量拉回为输入的合法POVM. 本卷保真度用平方约定$F=(\Tr\sqrt{\sqrt\rho\sigma\sqrt\rho})^2$, 纯态时$F=\bra\psi\sigma\ket\psi$. 其他讲义若用平方根保真度, 数值需换算.
+反过来, 若给一组满足完备关系的$K_\mu$, 定义$V\ket\psi=\sum_\mu K_\mu\ket\psi\ket\mu$. 有$V^\dagger V=I$, 是等距嵌入. 把它的正交列补成完整环境大空间的一组正交基, 即可扩成幺正U. 所以算符和不是一个猜测的经验表达, 它与“加入环境、幺正演化、忘记环境”在有限维中等价.
+
+环境若初始混合, 把它先纯化到更大环境即可沿用. 系统与环境初始已相关时, 却不能无条件用一个只依系统$\rho$的统一信道描述所有制备; 两个有相同局部态但不同相关的初态可能给不同输出. 每次建信道模型都要说明初始环境及相关假设.
+
+\originalsection{测量分支与未条件演化}
+一个记录测量结果m的分支为$\mathcal E_m(\rho)=K_m\rho K_m^\dagger$, 迹$p_m$就是结果概率. 条件态除以$p_m$. 这一步归一是非线性的, 但整体未条件映射$\sum_m\mathcal E_m$仍线性且保迹. 若事后只保留成功事件, 必须同时报告成功概率, 不能仅看到成功态完美就宣称确定性纠错.
+
+\begin{example}幅度阻尼取
+\[K_0=\begin{pmatrix}1&0\\0&\sqrt{1-\gamma}\end{pmatrix},\qquad
+K_1=\sqrt\gamma\ket0\bra1.\]
+环境未观测时,
+\[\rho\longmapsto\begin{pmatrix}\rho_{00}+\gamma\rho_{11}&\sqrt{1-\gamma}\rho_{01}\\\sqrt{1-\gamma}\rho_{10}&(1-\gamma)\rho_{11}\end{pmatrix}.\]
+$K_1$表示能量落到环境的分支. 无跳跃的$K_0$也改变两个分量的相对模长, 因为“没有看到跳跃”本身提供信息. 对双轨一激发编码, 无跳跃才恰好只乘共同因子, 这是PS1 P3后选择恢复的依据.\end{example}
+
+Kraus列表不唯一. 若$L_a=\sum_bu_{ab}K_b$且u在原Kraus列空间上等距, 则$\sum_aL_a\rho L_a^\dagger=\sum_bK_b\rho K_b^\dagger$. 不同环境基产生这种混合. 因而不能把一个Kraus列表中的单项都当唯一真实噪声事件; 只有指定环境测量后, 那些分支才对应指定记录.
+
+\originalsection{正映射为何不够, Choi怎样检验}
+矩阵转置T把单系统正矩阵映到正矩阵且保迹, 但它不是完全正. 对$\Phi_+$的一端转置, 第4章已得到SWAP/2, 存在$-1/2$本征值. 若物理设备能够对任意输入实现转置, 这个纠缠输入就会给负概率, 矛盾.
+
+使用未归一$\ket\Omega=\sum_{i=1}^d\ket i\ket i$, 定义
+\[J(\mathcal E)=(\mathcal E\otimes I)(\ket\Omega\bra\Omega)
+=\sum_{ij}\mathcal E(\ket i\bra j)\otimes\ket i\bra j.\]
+Kraus表示给$J=\sum_a\ket{K_a}\!\rangle\langle\!\bra{K_a}$, 其中向量化$\ket K\!\rangle=\sum_iK\ket i\otimes\ket i$, 所以J正. 反过来, 对正J作谱分解, 把每个$\sqrt{\lambda_a}\ket{v_a}$按同样顺序重排成矩阵$K_a$. 各$ij$块一致就重建$\mathcal E(X)=\sum_aK_aXK_a^\dagger$, 因而完全正. 保迹条件为$\Tr_{\rm output}J=I_{\rm input}$. 最小Kraus数等于$\operatorname{rank}J$, 至多$d_{\rm out}d_{\rm in}$.
+
+这是实际验证任意候选信道的方法: 固定输入输出端序, 求每个矩阵单位$\mathcal E(\ket i\bra j)$, 排出J, 检查正谱和输出偏迹. 用归一Bell态时J整体除以d, 偏迹也相应为$I/d$; 混用这两约定会造成假的不保迹结论.
+
+\originalsection{常见噪声的Bloch作用}
+写$\rho=(I+xX+yY+zZ)/2$. 幅度阻尼给$x,y\mapsto\sqrt{1-\gamma}(x,y)$及$z\mapsto(1-\gamma)z+\gamma$, 球被平移并压缩, 基态$z=1$为固定点. 相位翻转$\mathcal P_p(\rho)=(1-p)\rho+pZ\rho Z$给$x,y\mapsto(1-2p)(x,y)$, z不变. bit翻转则保x而缩y,z. 这些都是由Pauli共轭逐分量计算, 不需另背三种公式.
+
+去极化的参数尤需区别. 如果定义$\mathcal D_p(\rho)=(1-p)\rho+(p/3)(X\rho X+Y\rho Y+Z\rho Z)$, 则Bloch缩放$1-4p/3$, 完全混合发生在$p=3/4$, 不是$p=1$. 利用$\sum_{X,Y,Z}a\rho a=2I-\rho$, 可改写成$(1-q)\rho+qI/2$且$q=4p/3$. 比较两个文献或答案前应先转换参数.
+
+令$\gamma=1-\e^{-t/T_1}$, 幅度阻尼相干衰减率为$1/(2T_1)$. 若另有独立纯相位噪声$\e^{-t/T_\phi}$, 两相干因子相乘, 得$1/T_2=1/(2T_1)+1/T_\phi$. 一个固定单环境碰撞不一定产生指数律; 原子卷详细讨论重置与连续极限, 不把Markov时间常数泛用于任意有限环境.
+
+\originalsection{迹距离是一项最优判别实验}
+等先验的两态$\rho,\sigma$用二元POVM$M,I-M$判别. 成功率为
+\[p_{\rm succ}=\frac12+\frac12\Tr[M(\rho-\sigma)].\]
+把$\Delta=\rho-\sigma$按正负谱分解. $0\le M\le I$下最大值是所有正特征值之和; 因$\Tr\Delta=0$, 它等于$\|\Delta\|_1/2$. 定义$D(\rho,\sigma)=\|\rho-\sigma\|_1/2$, 则$p_{\rm succ}^{\max}=(1+D)/2$. 最优M是正谱投影. 对$0,1$有D=1, 对同态D=0.
+
+信道不能增加D: 输出判别POVM反拉到输入为$\mathcal E^\dagger(M)$, 仍在0和I之间, 所以输出的每个判别策略都是某个合法输入策略. 这个证明给出了数据处理的操作意义, 也说明为什么一个“噪声映射”若增加了某些输入的可区分性, 至少需要重新检查是否在事后选择或引入了额外标签.
+
+\originalsection{根保真度、平方对照与纯化}
+本卷采用与MAS PS1 P3题面一致的\textbf{根保真度}
+\[F(\rho,\sigma)=\Tr\sqrt{\sqrt\rho\,\sigma\sqrt\rho},\qquad
+F(\ket\psi,\rho)=\sqrt{\bra\psi\rho\ket\psi}.\]
+另记$G=F^2$为平方对照量. 两纯态根保真度$|\langle\psi|\phi\rangle|$, 所以不能把G的衰减指数直接当F. 数值图若画G, 图注明确声明.
+
+根保真度也等于两态纯化最大重叠. 用固定基上的标准纯化$\ket{\Psi_\rho}=(\sqrt\rho\otimes I)\ket\Omega$, 改另一纯化的环境基为幺正W, 重叠是$\Tr(\sqrt\rho\sqrt\sigma W)$. 对矩阵作奇异值分解, 选择W补齐左右奇异向量, 最大模为奇异值之和, 即上述F. 这一步是有限维Uhlmann公式的构造证明. 将信道共同实现为环境幺正再取迹, 取迹允许更多纯化环境选择, 因而F在保迹信道下不减.
+
+对接近某纯态的输出, 若$F^2\ge1-\epsilon$, 则“在目标态投影上失败”的概率至多$\epsilon$. 但一个目标上的高F不等于信道对所有输入可靠; 还应看最坏输入、参考系统相关和成功概率. 双轨后选择、Shor幅度阻尼曲线与量子密钥安全的熵界分别使用这些不同层级, 后文会逐项标明.
+
+\originalsection{保单位信道并不总是随机幺正}
+第14讲问: $\mathcal N(I/d)=I/d$是否意味着$\mathcal N(\rho)=\sum_jp_jU_j\rho U_j^\dagger$? 对单qubit答案为是, 但高维不能照搬. 一个三维反例用
+\[A_{ij}=\frac{\ket i\bra j-\ket j\bra i}{\sqrt2},\qquad 0\le i<j\le2.\]
+有$\sum A_{ij}^\dagger A_{ij}=I=\sum A_{ij}A_{ij}^\dagger$, 且逐矩阵元计算
+\[\mathcal N(\rho)=\sum_{i<j}A_{ij}\rho A_{ij}^\dagger
+ =\frac{I\Tr\rho-\rho^T}{2}.\]
+这是CPTP和保单位, 尽管单独转置不是完全正. 假设它是随机幺正混合. 对任何纯输入$\psi$,
+\[\bra{\psi^*}\mathcal N(\ket\psi\bra\psi)\ket{\psi^*}=0.\]
+各混合项为非负$p_j|\psi^TU_j\psi|^2$, 所以每个正概率$U_j$对所有$\psi$都满足$\psi^TU_j\psi=0$. 先取基向量、再取两基向量和, 得$U_j^T=-U_j$. 奇维反对称矩阵行列式为零, 不可能幺正, 矛盾. 这个例子把“保持最大混合态”“CP信道”和“随机幺正”三个条件明确分开.

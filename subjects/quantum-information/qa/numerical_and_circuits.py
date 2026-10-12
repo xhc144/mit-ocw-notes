@@ -14,11 +14,12 @@ def kron(ps):
 def gate(n,which,m):return kron([m if j==which else I for j in range(n)])
 def controlled(n,c,t,m):
  ps=[I]*n;ps[c]=np.diag([1,0]);a=kron(ps);ps[c]=np.diag([0,1]);ps[t]=m;return a+kron(ps)
-# Optional PS8 source uses the same negative X rotation on both sides.
-R=gate(2,0,(I-1j*X)/math.sqrt(2));ZZ=kron([Z,Z]);E=(np.eye(4)-1j*ZZ)/math.sqrt(2)
-U8=R@E@R;D=kron([(I+1j*Z)/math.sqrt(2)]*2);H1=gate(2,0,H)
-report['optional_PS8_matrix_residual']=float(np.max(np.abs(U8+1j*(gate(2,0,X)+ZZ)/math.sqrt(2))))
-report['optional_PS8_CNOT_residual']=float(np.max(np.abs(np.exp(-1j*math.pi/4)*H1@D@R.conj().T@U8@R.conj().T@H1-controlled(2,1,0,X))))
+# Optional PS8 original first page: negative X, ZZ, then negative Y.
+RX=gate(2,0,(I-1j*X)/math.sqrt(2));RY=gate(2,0,(I-1j*Y)/math.sqrt(2));ZZ=kron([Z,Z]);E=(np.eye(4)-1j*ZZ)/math.sqrt(2)
+U8=RX@E@RY;S=np.diag([1,1j]);expected=np.array([[1-1j,0,0,0],[0,0,0,-1-1j],[0,0,1+1j,0],[0,1-1j,0,0]],complex)/math.sqrt(2)
+report['optional_PS8_original_gate_sequence']='exp(-i*pi*X1/4) exp(-i*pi*Z1Z2/4) exp(-i*pi*Y1/4); visually verified from original PDF, final Y corrected after independent reader review'
+report['optional_PS8_matrix_residual']=float(np.max(np.abs(U8-expected)))
+report['optional_PS8_CNOT_residual']=float(np.max(np.abs(np.exp(1j*math.pi/4)*kron([S.conj().T,S])@U8-controlled(2,1,0,X))))
 assert report['optional_PS8_matrix_residual']<1e-12
 assert report['optional_PS8_CNOT_residual']<1e-12
 U=np.eye(8);U[[5,6]]=U[[6,5]]
