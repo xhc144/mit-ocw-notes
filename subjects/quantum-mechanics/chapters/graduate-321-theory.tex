@@ -57,12 +57,57 @@ $\braket{u}{pv}-\braket{pu}{v}=-i\hbar[u^*v]_0^L$。
 \]
 归一因子来自每片动量积分，不能仅写“所有路径等权求和”而丢失测度。实时间积分须有$T-i0$收敛处方；取不同时间切片约定时，对位置相关算符的排序也必须相容。
 
-自由核是$K_0=\sqrt{m/(2\pi i\hbar T)}\exp[im(x_f-x_i)^2/(2\hbar T)]$。对二次作用量，写$x=x_{\rm cl}+\eta$、$\eta(0)=\eta(T)=0$；驻定条件消去线性项，二次涨落算符不依赖端点，故端点依赖精确为$e^{iS_{\rm cl}/\hbar}$。谐振子经典路径$x_{\rm cl}(s)=[x_i\sin\omega(T-s)+x_f\sin\omega s]/\sin\omega T$，积分$L$得到
+下面把8.321第11讲的切片测度实际用于作业5要求的二次作用量计算。对谐振子，先写$x=x_{\rm cl}+\eta$、$\eta(0)=\eta(T)=0$。交叉项为
+$m\int(\dot x_{\rm cl}\dot\eta-\omega^2x_{\rm cl}\eta)\dd t$
+，分部积分后的边界为0，体项是$-m\int(\ddot x_{\rm cl}+\omega^2x_{\rm cl})\eta\dd t=0$；所以$S=S_{\rm cl}+S_2[\eta]$。经典路径与端点导数为
+\[
+ x_{\rm cl}(t)=\frac{x_i\sin\omega(T-t)+x_f\sin\omega t}{\sin\omega T},\quad
+ \dot x_{\rm cl}(0)=\frac{\omega(x_f-x_i\cos\omega T)}{\sin\omega T},\quad
+ \dot x_{\rm cl}(T)=\frac{\omega(x_f\cos\omega T-x_i)}{\sin\omega T}.
+\]
+沿这条路径，$\frac{\dd}{\dd t}(x\dot x)=\dot x^2-\omega^2x^2$，因此不用再做三角积分，$S_{\rm cl}=m[x\dot x]_0^T/2$，代入端点即得
 \[
  S_{\rm cl}=\frac{m\omega}{2\sin\omega T}
- [(x_i^2+x_f^2)\cos\omega T-2x_ix_f],\quad
- K=\sqrt{\frac{m\omega}{2\pi i\hbar\sin\omega T}}e^{iS_{\rm cl}/\hbar}.
+ [(x_i^2+x_f^2)\cos\omega T-2x_ix_f].
 \]
+这只确定核的端点相位，尚未确定其归一因子；归一不能由一句“取短时极限”跳过。取$N$片、$\epsilon=T/N$，在上述左端势能切片中，$N-1$个涨落积分的二次型是
+\[
+ S_{2,N}=\frac m{2\epsilon}\boldsymbol\eta^TA_N\boldsymbol\eta,\qquad
+ A_N=\begin{pmatrix}
+ d&-1&&0\\-1&d&\ddots&\\&\ddots&\ddots&-1\\0&&-1&d
+ \end{pmatrix},\quad d=2-\omega^2\epsilon^2.
+\]
+这里$A_N$的大小为$N-1$，端点涨落不积分；测度仍带每一片的$m/(2\pi i\hbar\epsilon)$平方根。有限$N$应先围绕离散作用量的驻定路径平移，才能确实消去有限维线性项。它满足
+\[
+ x_{j+1}-(2-\omega^2\epsilon^2)x_j+x_{j-1}=0,\quad
+ x_{{\rm cl},j}=\frac{x_i\sin[(N-j)\vartheta]+x_f\sin(j\vartheta)}{\sin(N\vartheta)},
+\]
+其中$2\cos\vartheta=2-\omega^2\epsilon^2$。它在连续极限趋前述$x_{\rm cl}(t)$，离散经典作用量也趋$S_{\rm cl}$；不能把连续轨道直接塞入有限切片就称交叉项已精确为0。先在$0<T<\pi/\omega$及足够大$N$下，二次型正定，可逐个正交本征方向作Fresnel积分：
+\[
+ \int_{\mathbb R^{N-1}}\exp\!\left(\frac{im}{2\hbar\epsilon}\boldsymbol\eta^TA_N\boldsymbol\eta\right)
+ \prod_{j=1}^{N-1}\dd\eta_j
+ =\left(\frac{2\pi i\hbar\epsilon}m\right)^{(N-1)/2}(\det A_N)^{-1/2}.
+\]
+收敛以原切片的$T-i0$定义。设同类$M\times M$三对角行列式为$D_M$，沿第一行展开给$D_M=dD_{M-1}-D_{M-2}$、$D_0=1,D_1=d$。置$d=2\cos\vartheta$，这与正弦递推同式，故
+\[
+ D_M=\frac{\sin[(M+1)\vartheta]}{\sin\vartheta},\qquad
+ \cos\vartheta=1-\frac{\omega^2\epsilon^2}{2}.
+\]
+于是切片涨落因子不是未知常量，而是
+\[
+ F_N(T)=\left(\frac m{2\pi i\hbar\epsilon}\right)^{N/2}
+ \left(\frac{2\pi i\hbar\epsilon}m\right)^{(N-1)/2}D_{N-1}^{-1/2}
+ =\sqrt{\frac m{2\pi i\hbar\epsilon}\frac{\sin\vartheta}{\sin N\vartheta}}.
+\]
+$\vartheta=\omega\epsilon+O(\epsilon^3)$，$N\vartheta\to\omega T$、$\sin\vartheta/\epsilon\to\omega$，所以实际算得
+\[
+ F(T)=\sqrt{\frac{m\omega}{2\pi i\hbar\sin\omega T}},\qquad
+ K=F(T)e^{iS_{\rm cl}/\hbar}.
+\]
+自由粒子可在同一有限切片计算中取$\omega=0$：$d=2$，递推给$D_{N-1}=N$，所以$F_N=\sqrt{m/(2\pi i\hbar N\epsilon)}$，而$S_{\rm cl}=m(x_f-x_i)^2/(2T)$。这才由切片积分得到完整自由核，且自然满足delta短时极限；没有通过量子能谱倒推未知归一因子。
+
+矩阵本征值$\lambda_j=d-2\cos(j\pi/N)$（$j=1,\ldots,N-1$）也说明焦散：$T$增加穿过$\pi/\omega$时，第一个涨落方向的特征值过零。Fresnel相位从正特征值的$e^{i\pi/4}$变为负特征值的$e^{-i\pi/4}$，每次过零相对多$e^{-i\pi/2}$，给连续传播所需Maslov相位。一般时间用这一分支连续延拓，而不是每次把平方根重取主值。
+
 平方根必须按连续演化跨越焦散时选择相位。$\sin\omega T=0$处不是有限普通函数，而是分布核：$T=\pi/\omega$给$e^{-i\pi/2}\delta(x_f+x_i)$，$T=2\pi/\omega$给$-\delta(x_f-x_i)$。因此原作业所说“与经典周期相同”只能指位置映射或概率；量子核经过经典一周期多一个负号。
 
 Gaussian驻相的一般局部式是$\int e^{i\lambda f(x)}g(x)\dd x\sim g(x_0)e^{i\lambda f(x_0)+i\pi\operatorname{sgn}f''(x_0)/4}\sqrt{2\pi/(\lambda|f''(x_0)|)}$，需孤立非退化驻点、合适端点和大$\lambda$。路径积分里的二次情形恰好没有高阶涨落，才从近似变成精确；一般势仍有高阶修正。
