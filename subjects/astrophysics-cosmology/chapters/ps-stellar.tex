@@ -1,0 +1,118 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{恒星与气体习题}
+本章均为 AI 独立推导. 题目采用原题参数; 未指定组成或燃料比例时, 解答列出所用假设. 原题的质量半径系数与物理常数近似另作说明.
+
+\src{8.901, Spring 2006, PS2.1, (a)--(d).}
+\begin{exercise}
+给定 $B_\nu=2h\nu^3/[c^2(\ee^{h\nu/\kb T}-1)]$.
+(a) 从频率谱推导波长谱 $B_\lambda$.
+(b) 积分推导 $F=\sigma T^4$, 可用 $\int_0^\infty x^3/(\ee^x-1)\dd x=\pi^4/15$, 核查 $\sigma=5.67\times10^{-5}\,\mathrm{erg\,cm^{-2}s^{-1}K^{-4}}$.
+(c) 求 $B_\lambda$ 峰值的 Wien 位移规律, 数值求解 $5(1-\ee^{-x})=x$.
+(d) 求 $B_\nu$ 峰值与温度的关系; 两种峰对应的光子能量应否相同?
+\end{exercise}
+\begin{solution}
+(a) 因 $\nu=c/\lambda$, 保留 Jacobian 得
+$B_\lambda=B_\nu(c/\lambda)c/\lambda^2=2hc^2/[\lambda^5(\ee^{hc/\lambda\kb T}-1)]$.
+(b) 半球角积分是 $\pi$, 换元 $x=h\nu/\kb T$ 得 $F=2\pi(\kb T)^4\int x^3/(\ee^x-1)\dd x/(h^3c^2)$, 所以 $\sigma=2\pi^5\kb^4/(15h^3c^2)$, 实算 $5.6703744\times10^{-5}$, 单位如题面.
+(c) 对 $\lambda^{-5}/(\ee^{A/\lambda}-1)$ 求对数导数, 驻点满足 $5(1-\ee^{-x})=x$. 非零根 $x=4.9651142$, 故 $T\lambda_{\max}=hc/(\kb x)=0.289777\,\mathrm{cm\,K}$.
+(d) 对频率谱同理得 $3(1-\ee^{-x})=x$, 根 $x=2.8214394$, $\nu_{\max}/T=5.87893\times10^{10}\,\mathrm{Hz\,K^{-1}}$. 两峰对应不同光子能量; 它们最大化的是两个不同横轴的密度, Jacobian 不是常数.
+\end{solution}
+
+\src{8.901 PS2.2, (a)--(c).}
+\begin{exercise}
+纯氢气体密度和温度固定, 电离能 $13.6\,\mathrm{eV}$, 原子与离子均取基态.
+(a) 写出中性与电离氢的 Saha 方程并合理选配分函数.
+(b) 用电中性 $n_e=n_1$ 与总核数 $n=n_0+n_1$ 消去密度, 以 $x=n_1/n$ 表示, 检查温度极限.
+(c) 取 $n=\rho N_A$, $N_A=6.023\times10^{23}\,\mathrm{g^{-1}}$, 求 $x=1/2$ 的密度温度路径并在 $10^{-10}$--$10^{-2}\,\mathrm{g\,cm^{-3}}$ 作双对数图.
+\end{exercise}
+\begin{solution}
+取氢基态电子简并 $U_0=2$, 裸质子内部权重 $U_1=1$, 核自旋共同因子约去, 定义\[S(T)=\left(\frac{2\pi m_e\kb T}{h^2}\right)^{3/2}\ee^{-\chi/\kb T}.\] 方程为 $n_en_1/n_0=S$. 代约束得 $x^2/(1-x)=S/n$. 令 $q=S/n$, 正根可稳定写为 $x=2q/[q+\sqrt{q^2+4q}]$. $T\to0$ 时 $q\to0$, $x\to0$; 模型形式上的 $T\to\infty$ 给 $x\to1$, 但极高温时非相对论假设需更新.
+
+半电离时 $S=n/2$, 所以 $\rho=2S(T)/N_A$. 本图按题面 $N_A$ 作图; 数值脚本另使用 $n=\rho/m_p$ 的现代近似, 端点温度相差约千分之几, 不把两种常数定义混为同一次实算. 路径单调: 降低密度使电离所需温度降低.
+\begin{center}\begin{tikzpicture}\begin{loglogaxis}[width=.75\linewidth,height=5cm,xlabel={$T\ (\mathrm K)$},ylabel={$\rho\ (\mathrm{g\,cm^{-3}})$},xmin=7000,xmax=80000,ymin=1e-10,ymax=1e-2]
+\addplot[structurecolor,domain=8700:63000,samples=120] {2*2.41468e15*x^1.5*exp(-157821.4/x)/6.023e23};
+\end{loglogaxis}\end{tikzpicture}\end{center}
+\end{solution}
+
+\src{8.901 PS5.1, (a)--(b).}
+\begin{exercise}
+主序低端 $M=0.085\Ms$, $\log_{10}T_e=3.438$, $\log_{10}(L/\Ls)=-3.297$; 高端 $M=90\Ms$, 对应为 $4.722,6.045$.
+(a) 估计两者氢燃烧寿命. 低质量星完全对流, 可用全部氢; 高质量星只用内部约 $10\%$.
+(b) 求两者半径.
+\end{exercise}
+\begin{solution}
+题面未给氢丰度, 保留 $X$ 再以 $X=0.7$ 示例. 寿命 $0.007fXM c^2/L$ 在低端 $f=1$ 给 $1.22\times10^{13}\,\mathrm{yr}$, 高端 $f=0.1$ 给 $5.88\times10^5\,\mathrm{yr}$. 这些是把当前端点光度固定后的燃料估计, 不是完整演化年龄; 低端远大于宇宙年龄并不矛盾. 由 $L=4\pi R^2\sigma T_e^4$, $R/\Rs=\sqrt{L/\Ls}(5772\,\mathrm K/T_e)^2$, 依次为 $0.0996$ 与 $12.62$.
+\end{solution}
+
+\src{8.901 PS5.5, (a)--(c).}
+\begin{exercise}
+多方星 $P=K\rho^{1+1/n}$ 满足 Lane--Emden 方程, $R=\alpha\xi_1$, $M=4\pi\alpha^3\rho_c[-\xi_1^2\theta'(\xi_1)]$, $\alpha^2=(n+1)K\rho_c^{(1-n)/n}/(4\pi G)$.
+(a) 消去 $\rho_c$ 推导质量半径关系.
+(b) 对非相对论白矮星 $n=3/2$, 核查原题系数 $R=1.122\times10^4\,\mathrm{km}(\rho_c/10^6\,\mathrm{g\,cm^{-3}})^{-1/6}(\mu_e/2)^{-5/6}$、$M=0.4964\Ms(\rho_c/10^6)^{1/2}(\mu_e/2)^{-5/2}=0.7011\Ms(R/10^4\,\mathrm{km})^{-3}(\mu_e/2)^{-5}$.
+(c) 对相对论白矮星 $n=3$, 核查 $R=3.347\times10^4\,\mathrm{km}(\rho_c/10^6)^{-1/3}(\mu_e/2)^{-2/3}$、$M=1.457\Ms(\mu_e/2)^{-2}$. 原题取 $n_e=\rho/(\mu_em_p)$、$\mu_e\simeq A/Z$.
+\end{exercise}
+\begin{solution}
+令 $C=(n+1)K/(4\pi G)$、$w_n=-\xi_1^2\theta'(\xi_1)$. 当 $n\ne1$, 从 $R=\sqrt C\rho_c^{(1-n)/(2n)}\xi_1$ 解出 $\rho_c=(R/(\sqrt C\xi_1))^{2n/(1-n)}$. 代入质量得到
+\[
+M=4\pi C^{n/(n-1)}R^{(3-n)/(1-n)}\xi_1^{(n-3)/(1-n)}w_n.
+\]
+由动量积分得 $K_{\rm NR}=(3\pi^2)^{2/3}\hbar^2/[5m_e(\mu_em_b)^{5/3}]$、$K_{\rm R}=(3\pi^2)^{1/3}\hbar c/[4(\mu_em_b)^{4/3}]$. $m_b$ 是每核子质量近似. 数值积分给 $(\xi_1,w_n)=(3.653754,2.714055)$ 与 $(6.896849,2.018236)$. 于是分别有 $R\propto\rho_c^{-1/6}\mu_e^{-5/6}$、$M\propto\rho_c^{1/2}\mu_e^{-5/2}$, 和 $R\propto\rho_c^{-1/3}\mu_e^{-2/3}$、$M\propto\mu_e^{-2}$, 均符合题面尺度律.
+
+原题印刷系数使用历史常数与每核子质量近似. 严格按现代 $m_b=m_p$ 实算, 非相对论组为 $11148\,\mathrm{km}$ 与 $0.4872\Ms$, 相对论组为 $33297\,\mathrm{km}$ 与 $1.4353\Ms$, 与原题差约百分之一至二. 若用 $m_b=m_u$ 并使 $\mu_e=A/Z$, 质量约为 $0.4961\Ms$、$1.4562\Ms$, 更接近原题. 不能同时要求现代质子质量的精确代入与印刷近似系数逐位相等. $n=3$ 的极限质量表示相对论简并支撑的尺度, 不是完整稳定性分析.
+\end{solution}
+
+\src{8.901 PS10.1, (a)--(c), 原作业不提交、不评分.}
+\begin{exercise}
+质量 $M_1,M_2$ 的圆轨道双星在共转坐标中的 Roche 势为 $\Phi=-GM_1/|\boldsymbol r-\boldsymbol r_1|-GM_2/|\boldsymbol r-\boldsymbol r_2|-|\boldsymbol\Omega\times\boldsymbol r|^2/2$. 星 2 经 $L_1=(x_L,0,0)$ 溢出.
+(a) 用 $\nabla\Phi(L_1)=0$ 证明横向势增量数量级为 $\Omega^2(\Delta y)^2$.
+(b) 用能量说明溢出斑块半径 $\Delta y\sim c_s/\Omega$.
+(c) 推导 $-\dot M_2\sim\rho c_s^3P_{\rm orb}^2/(4\pi)$, 并说明深入恒星内部时流率为何增加.
+\end{exercise}
+\begin{solution}
+应估计势\textbf{差}, 势零点可任意选择. 一阶 Taylor 项为零, 二阶横向系数为 $GM_1/d_1^3+GM_2/d_2^3-\Omega^2$, 与轨道 $\Omega^2$ 同阶, 故 $\Phi(x_L,\Delta y,0)-\Phi(L_1)\sim\Omega^2(\Delta y)^2$. 热能每单位质量约 $c_s^2$, 能越过势垒的横向范围满足 $\Omega^2(\Delta y)^2\lesssim c_s^2$. 穿流速度约 $c_s$, 面积约 $\pi(c_s/\Omega)^2$, 故 $-\dot M_2\sim\pi\rho c_s^3/\Omega^2=\rho c_s^3P_{\rm orb}^2/(4\pi)$. 系数仅为数量级. 深处 $\rho,T$ 增加, $c_s\propto T^{1/2}$, 流率随 $\rho T^{3/2}$ 增加.
+\end{solution}
+
+\src{8.901 PS10.2, (a)--(c).}
+\begin{exercise}
+中心星质量 $M$, 薄吸积盘在 $z=0$ 平面, 半径 $r$ 处半厚度 $H\ll r$, 盘自引力忽略.
+(a) 写垂直静水平衡式.
+(b) 证明 $H\simeq(c_s/v_K)r$, $c_s\simeq\sqrt{P/\rho}$.
+(c) 解释薄盘条件与超声速轨道运动的等价性.
+\end{exercise}
+\begin{solution}
+精确垂直重力为 $-GMz/(r^2+z^2)^{3/2}$, 在 $z\ll r$ 时 $\partial_zP=-\rho\Omega_K^2z$. 若等温, $P=c_s^2\rho$, 积分得 $\rho(z)=\rho(0)\exp[-z^2/(2H^2)]$, $H=c_s/\Omega_K=c_sr/v_K$. 非等温盘中这是尺度估计. 所以 $H/r=c_s/v_K$, 薄盘要求轨道速度远大于声速. 原题 (b) 的大写 $R$ 按上下文指当地半径 $r$.
+\end{solution}
+
+\src{8.901 PS10.3, (a)--(c).}
+\begin{exercise}
+均匀分子云 $T=150\,\mathrm K$、粒子数密度 $10^8\,\mathrm{cm^{-3}}$, 边缘压强近零. 径向运动方程 $\rho\ddot r=-GM_r\rho/r^2-\dd P/\dd r$.
+(a) 用理想气体估计起始 $|\dd P/\dd r|\sim P_c/R_J$, 取 Jeans 质量与半径.
+(b) 验证压强与引力在数量级上相当.
+(c) 说明等温收缩后压强相对重力变弱.
+\end{exercise}
+\begin{solution}
+假设分子为纯 ${\rm H}_2$, $\mu=2$; 题面未指定组成, 其他选择改变系数. 依第\ref{ch:compact}章的约定, $\rho=2m_pn$, $c_s^2=\kb T/(2m_p)$, 得 $R_J=986\,\mathrm{AU}$、$M_J=2.265\Ms$. $P_c/R_J\simeq1.40\times10^{-21}\,\mathrm{Pa\,m^{-1}}$, $GM_J\rho/R_J^2\simeq4.62\times10^{-21}\,\mathrm{N\,m^{-3}}$, 比值约 $0.30$, 在粗估精度内相当.
+
+收缩后同一质量 $M$ 固定, $\rho\propto R^{-3}$. 等温时压强梯度 $P/R\propto R^{-4}$, 引力力密度 $GM\rho/R^2\propto R^{-5}$, 前者与后者比值正比于 $R$. 一旦引力胜过压力, 后续等温缩小不会单靠压力恢复平衡.
+\end{solution}
+
+\src{8.901 PS10.4.}
+\begin{exercise}
+对上一题的 Jeans 云估计引力势能每单位体积, 与 $B=10\,\mu\mathrm G$ 的磁能密度比较, 判断磁场是否显著影响该模型的坍缩.
+\end{exercise}
+\begin{solution}
+均匀球 $|W|=3GM^2/(5R)$, 除体积得 $u_G=4.09\times10^{-7}\,\mathrm{J\,m^{-3}}$. $10\,\mu\mathrm G=10^{-9}\,\mathrm T$, SI 磁能密度 $u_B=B^2/(2\mu_0)=3.98\times10^{-13}\,\mathrm{J\,m^{-3}}$, 比值约 $9.7\times10^{-7}$. 对所给弱场和致密均匀云, 初始磁能很小. 结论不包括磁通冻结后的场增长、磁支撑的方向性和其他云参数.
+\end{solution}
+
+\src{8.901 PS10.5, (a)--(d).}
+\begin{exercise}
+(a) 写含固定轴旋转的云径向自由落体式. 初始径向速度零, $r_f\ll r_0$, 以角动量守恒证明停转向半径 $r_f\simeq\omega_0^2r_0^4/(2GM_r)$. 原题允许全程刚体转动这一不准确假设.
+(b) $M=1\Ms,r_0=0.5\,\mathrm{pc},r_f=100\,\mathrm{AU}$, 求初始角速度与边缘线速度.
+(c) 初始均匀球、末态均匀盘, 以总角动量守恒求末态边缘旋转速度.
+(d) 求末态公转时间并与 Kepler 周期比较, 解释差异.
+\end{exercise}
+\begin{solution}
+对无转矩质量元 $j=\omega_0r_0^2$, $\ddot r=-GM_r/r^2+j^2/r^3$. 乘 $\dot r$ 积分, 得 $\dot r^2/2-GM_r/r+j^2/(2r^2)=-GM_r/r_0+j^2/(2r_0^2)$. 若右侧相对转向点各项可忽略, 得 $r_f=j^2/(2GM_r)$. 这是偏心轨道的近日点估计, 不是圆化半径 $j^2/(GM_r)$.
+
+代入给定量得 $\omega_0=2.6473\times10^{-16}\,\mathrm{s^{-1}}$, $v_0=408.4\,\mathrm{cm\,s^{-1}}$. (c) 使用总惯量 $I_0=2Mr_0^2/5$、$I_f=Mr_f^2/2$, 因而 $\omega_f=(4/5)\omega_0(r_0/r_f)^2$, $v_f=3.370\,\mathrm{km\,s^{-1}}$. 周期为 $884\,\mathrm{yr}$, Kepler 周期约 $1000\,\mathrm{yr}$. 末速是 $(4/5)\sqrt2$ 倍 Kepler 速度. (a) 保持单元 $j$, (c) 改用全体惯量并改变形状, 两者不构成严格自洽的单一刚体流体解; 也没有耗散圆化过程, 因此两周期不应精确相同. 这一差异不能被误写成稳定盘可以任意超 Kepler 转动.
+\end{solution}

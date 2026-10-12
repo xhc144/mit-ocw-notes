@@ -1,0 +1,167 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{星系动力学与宇宙结构习题}
+本章均为 AI 独立解答. 8.902 官方没有公开作业答案. 原题缺少唯一数值所需的参数时, 给出参数表达式, 再以明确假设算例; 算例不冒充源文件的数据测量.
+
+\src{8.902 Fall 2023, PS2.1, 三倍权重.}
+\begin{exercise}
+球对称势 $\Phi=v_c^2\ln(r/r_{\rm ref})$ 中一恒星在远心点速度为 $v_c/2$. 数值积分并画轨道平面位置, 取绘图间隔约为径向周期的 $1/50$, 展示 50--100 个轨道周期, 同时给连续曲线与反映停留概率的点图, 简述结果. 数值步长可比绘图间隔小; 给出方程与代码.
+\end{exercise}
+\begin{solution}
+取远心距 $r_a$ 为长度单位、$r_a/v_c$ 为时间单位, 平面方程为 $\ddot{\boldsymbol r}=-\boldsymbol r/r^2$, 初值 $(x,y,\dot x,\dot y)=(1,0,0,1/2)$. 能量 $E=1/8$, 角动量 $\ell=1/2$. 非平凡近日点满足 $\ln r+1/(8r^2)=1/8$, 得 $r_p=0.310885$. 径向周期积分为
+\[
+T_r=2\int_{r_p}^1\frac{\dd r}{\sqrt{2[1/8-\ln r-1/(8r^2)]}}=2.984886.
+\]
+代码使用 DOP853, 内步长最多 $T_r/150$, 相对容差 $10^{-11}$, 积分 75 个径向周期, 按 $T_r/50$ 采样 3750 点. 能量最大误差 $6.9\times10^{-13}$, 角动量误差 $4.9\times10^{-14}$; 已实际运行, 但有限误差检查不证明任意时间的数值稳定性.
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.48\linewidth,height=5.5cm,axis equal image,xlabel={$x/r_a$},ylabel={$y/r_a$},xmin=-1.1,xmax=1.1,ymin=-1.1,ymax=1.1]
+\addplot[structurecolor,thin] table[x=x,y=y,col sep=comma]{qa/logarithmic-orbit.csv};
+\end{axis}\end{tikzpicture}\hfill
+\begin{tikzpicture}\begin{axis}[width=.48\linewidth,height=5.5cm,axis equal image,xlabel={$x/r_a$},ylabel={$y/r_a$},xmin=-1.1,xmax=1.1,ymin=-1.1,ymax=1.1]
+\addplot[only marks,mark=*,mark size=.22pt,structurecolor] table[x=x,y=y,col sep=comma]{qa/logarithmic-orbit.csv};
+\end{axis}\end{tikzpicture}\end{center}
+轨道进动而形成玫瑰线; 等时间点在远心处较密, 因为径向和角运动都慢. 「75 周期」指径向周期, 不把不闭合轨道称为 75 个相同椭圆. 完整代码和采样点位于源码包 \texttt{scripts/} 和 \texttt{qa/}.
+\end{solution}
+
+\src{8.902 PS2.2, (A)--(C).}
+\begin{exercise}
+Mestel 盘势 $\Phi=v_c^2[\ln(r/r_{\rm ref})+\ln((1+|\cos\theta|)/2)]$.
+(A) 证明盘面旋转曲线平坦.
+(B) 证明质量密度在 $z\ne0$ 时为零, 盘面上呈无限薄集中.
+(C) 对 $z$ 积分证明有限面密度 $\Sigma(R)=v_c^2/(2\pi GR)$.
+\end{exercise}
+\begin{solution}
+用柱半径 $R$, 球半径 $r=\sqrt{R^2+z^2}$, 势写成 $v_c^2\ln[(r+|z|)/(2r_{\rm ref})]$. 在 $z=0$ 有 $R\partial_R\Phi=v_c^2$, 故圆速恒定. 对 $z>0$, $\partial_z\Phi=v_c^2/r$, $\partial_R\Phi=v_c^2R/[r(r+z)]$, 代柱坐标 Laplacian 可验证 $\nabla^2\Phi=0$; 下半空间由对称性相同. 跨盘面 $\partial_z\Phi$ 从 $-v_c^2/R$ 跳至 $+v_c^2/R$, 所以分布意义下 $\partial_z^2\Phi$ 有 $2v_c^2\delta(z)/R$ 项. 由 Poisson 方程, $\rho=\Sigma(R)\delta(z)$, $\Sigma=v_c^2/(2\pi GR)$. 「无穷密度」应理解为 delta 分布, 不是一个可当普通函数代入的无穷数. 未截断模型总质量发散, 实际盘须有限范围.
+\end{solution}
+
+\src{8.902 PS3.1, (A)--(E).}
+\begin{exercise}
+无限薄差分旋转盘圆速 $v_c(R)$, 附近恒星与太阳距离 $d\ll R_0$, 银经 $l$.
+(A) 证明相对视向与横向速度 $v_r=Ad\sin2l$, $v_T=d(A\cos2l+B)$, $A=(v_c/R-v_c')/2$, $B=-(v_c/R+v_c')/2$.
+取 $A=14.82\pm0.84,B=-12.37\pm0.64$ 单位 $\mathrm{km\,s^{-1}kpc^{-1}}$, $R_0=8.5\,\mathrm{kpc}$, 只用中心值:
+(B) 求圆速与太阳公转周期; (C) 求局部剪切 $v_c'$; (D) 求本轮频率; (E) 求每次公转中的本轮次数.
+\end{exercise}
+\begin{solution}
+用精确的局部观测几何式 $v_r=[R_0\Omega(R)-v_0]\sin l$, $v_T=R_0[\Omega(R)-\Omega_0]\cos l-\Omega(R)d$. 由 $R-R_0=-d\cos l+O(d^2/R_0)$ 及 $R_0\Omega'_0=v_c'-v_0/R_0=-2A$, 一阶给 $v_r=2Ad\cos l\sin l=Ad\sin2l$. 横向分量为 $2Ad\cos^2l-\Omega_0d=d[A\cos2l+(A-\Omega_0)]$. 使用 $A-\Omega_0=B$ 得题面式. 横向正向与银经增加方向一致; 改变正向会使整式变号.
+
+$\Omega_0=A-B=27.19$, $v_0=R_0(A-B)=231.115\,\mathrm{km\,s^{-1}}$, $2\pi/\Omega_0=225.95\,\mathrm{Myr}$. 剪切 $v_c'=-(A+B)=-2.45\,\mathrm{km\,s^{-1}kpc^{-1}}$. 由式\eqref{eq:epicycle}, $\kappa=\sqrt{-4B(A-B)}=36.679\,\mathrm{km\,s^{-1}kpc^{-1}}$, 每个引导中心周期内 $\kappa/\Omega_0=1.349$ 次本轮振荡.
+\end{solution}
+
+\src{8.902 PS4.1, (A)--(C).}
+\begin{exercise}
+默认 $\Omega_m=0.3,\Omega_\Lambda=0.7,H_0=71\,\mathrm{km\,s^{-1}Mpc^{-1}}$. 两个 Hubble 流吸收星系的 Si$^{++}$ 线静止波长 $1206$ 埃, 观测波长 $4711,4836$ 埃.
+(A) 求两星系共动视向距离; (B) 较近星系在其吸收光时刻看较远星系的红移是多少?
+(C) 对小红移间隔, 用早期 $H(z)$ 建立 (A)、(B) 的近似关系并估计距离.
+\end{exercise}
+\begin{solution}
+$z_1=2.906302,z_2=3.009950$, 共动间距 $\Delta\chi=(c/H_0)\int_{z_1}^{z_2}\dd z/E(z)=99.621\,\mathrm{Mpc}$. 同一段光线在近星系时波长相对远处发射波长增加 $a_1/a_2$, 故 $1+z_{21}=(1+z_2)/(1+z_1)$, $z_{21}=0.026534$. 小间隔下 $\Delta\chi\simeq c\Delta z/H(z_1)=c(1+z_1)z_{21}/H(z_1)$, $H(z)=H_0\sqrt{0.3(1+z)^3+0.7}$, 给约 $101.5\,\mathrm{Mpc}$. 若用中点 $H$ 则更接近精确积分. 对应近星系吸收时的实际间距须再除 $1+z_1$.
+\end{solution}
+
+\src{8.902 PS4.2, (A)--(B).}
+\begin{exercise}
+吸收体随机分布, 共动数密度 $n$ 恒定、吸收截面 $\sigma$ 恒定.
+(A) 求平均视线每红移吸收体数, 判断随红移增减.
+(B) 在 $z\sim1.5$--$2.5$, 观测 $\dd N/\dd z\sim2$, 典型亮星系 $n\sim0.001\,\mathrm{Mpc^{-3}}$, 求 $z\sim2$ 所需截面.
+\end{exercise}
+\begin{solution}
+将恒定截面理解为\textbf{实际}面积, 式\eqref{eq:absorber}给 $\dd N/\dd z=nc\sigma(1+z)^2/H(z)$. 对题面的物质和真空模型, $\dd\ln[(1+z)^2/H]/\dd\ln(1+z)=2-3\Omega_m(z)/2>0$, 故增加. $z=2$ 给 $\sigma=0.1561\,\mathrm{Mpc^2}$, 圆形吸收半径 $\sqrt{\sigma/\pi}=0.223\,\mathrm{Mpc}$. 若截面指固定共动面积, 上式红移因子不同, 答案也改变; 本解没有把两种约定混用.
+\end{solution}
+
+\src{8.902 PS4.3, (A)--(D).}
+\begin{exercise}
+(A) 求复合面上包含一个星系质量的球区域张角.
+(B) 求直径 $200$ 共动 Mpc 区域在复合面的张角.
+(C) 求复合时粒子视界内总质量.
+(D) 求宇宙刚进入物质主导时视界内总质量. 视界是自宇宙起始至该时刻的实际光传播距离.
+\end{exercise}
+\begin{solution}
+原题未指定星系质量、复合红移与辐射密度, 因而不能唯一给四个数值. 令 $M_g,z_*,\Omega_{r0}$ 为参数. 共动球半径 $R_c=(3M_g/(4\pi\rho_{m0}))^{1/3}$, (A) 的直径张角为 $2R_c/\chi(z_*)$, (B) 为 $200\,\mathrm{Mpc}/\chi(z_*)$. 粒子视界共动半径
+$\chi_p(a)=cH_0^{-1}\int_0^a\dd x/\sqrt{\Omega_{r0}+\Omega_{m0}x+\Omega_{\Lambda0}x^4}$,
+实际半径为 $a\chi_p$. 物质质量是 $M_m=4\pi\rho_{m0}\chi_p^3/3$; 若「总质量」含辐射能的等效质量, 应为 $M_{\rm tot}=M_m[1+\Omega_{r0}/(\Omega_{m0}a)+\Omega_{\Lambda0}a^3/\Omega_{m0}]$. 真空项在本题早期极小.
+
+示例明确取 $M_g=10^{12}\Ms,z_*=1100,\Omega_{r0}=8.5\times10^{-5}$. (A) 约 $0.914$ 角分, (B) 约 $0.8535^\circ$. (C) 物质质量 $3.565\times10^{18}\Ms$, 含辐射的总等效质量约 $4.68\times10^{18}\Ms$. (D) 等密度时 $a_{\rm eq}=\Omega_{r0}/\Omega_{m0}$, 物质质量 $2.184\times10^{17}\Ms$, 总等效质量约 $4.368\times10^{17}\Ms$. 仅含物质与真空且设 $\Omega_r=0$ 的模型没有辐射到物质的转折, 不能用于 (D).
+\end{solution}
+
+\src{8.902 PS5.1, (A)--(E).}
+\begin{exercise}
+银河与 M31 当前间距 $700\,\mathrm{kpc}$, 相对径向速度 $-121\,\mathrm{km\,s^{-1}}$, 宇宙年龄取 $13.7\times10^9\,\mathrm{yr}$. 理想径向两体模型 $r=A(1-\cos\eta),t=B(\eta-\sin\eta)$.
+(A) 推导 $v=(r/t)\sin\eta(\eta-\sin\eta)/(1-\cos\eta)^2$.
+(B) 用 Newton 方程证明 $GM_T=A^3/B^2=r^3(\eta-\sin\eta)^2/[t^2(1-\cos\eta)^3]$.
+(C) 求当前 $\eta$; (D) 求总质量, 总光度 $3\times10^{10}\Ls$ 时的质量光度比.
+(E) 若两星系等质量、银河圆速合理取值, 暗晕需延伸多远? 原题印有 $M(<R)=v_c^2R/(2G)$.
+\end{exercise}
+\begin{solution}
+参数微分给 $v=(A/B)\sin\eta/(1-\cos\eta)$, 用 $A=r/(1-\cos\eta)$、$B=t/(\eta-\sin\eta)$ 得 (A). 再求加速度 $\ddot r=-A/[B^2(1-\cos\eta)^2]=-A^3/(B^2r^2)$, 与两体方程比较得 (B). 收缩支取 $\pi<\eta<2\pi$, 数值根 $\eta=4.297242$. 总质量 $3.994\times10^{12}\Ms$, 质量光度比 $133.1\,\Ms/\Ls$.
+
+球对称圆轨道力平衡应为 $M(<R)=v_c^2R/G$, 原题分母的 2 与圆速定义不相容, 此处明示修正. 取 $v_c=220\,\mathrm{km\,s^{-1}}$、银河为总质量的一半, $R=177.4\,\mathrm{kpc}$. 按印刷式会得 $354.9\,\mathrm{kpc}$, 但它不满足同一模型的力平衡. 此 timing 模型忽略横向速度、质量增长、潮汐与真空力, Birkhoff 定理也不能把任意有限星系对精确变成均匀闭宇宙; 因此质量为理想化估计.
+\end{solution}
+
+\src{8.902 PS6.1, (A)--(D).}
+\begin{exercise}
+EdS 球顶帽在 $z=8$ 达到最大半径.
+(A) 求动力学自由落体时间, 可引用转向密度比.
+(B) 假设引力势能用于加热理想气体, 求维里化后温度随 $M$ 的关系, 按 $10^{12}\Ms$ 归一化.
+(C) 重子质量占 $5\%$, 无冷却以外的机制, $\Lambda(T)=10^{-23}\,\mathrm{erg\,cm^3s^{-1}}$, 求冷却时间.
+(D) 比较冷却和动力学时间, 估计能形成星系的最大特征质量. 原题未指定气体平均粒子质量或精确能量分配.
+\end{exercise}
+\begin{solution}
+以 $\Omega_{m0}=0.3,H_0=71$ 作为早期 EdS 背景归一化, $\rho_{\rm ta}=(9\pi^2/16)\rho_{m0}(1+8)^3$. 由均匀球从静止坍缩时间 $t_{\rm ff}=\sqrt{3\pi/(32G\rho_{\rm ta})}$ 得 $621\,\mathrm{Myr}$. 维里半径 $R_v=R_{\rm ta}/2$, 晕密度 $8\rho_{\rm ta}$, $M=10^{12}\Ms$ 时 $R_v=56.0\,\mathrm{kpc}$.
+
+先给能量守恒且满足维里关系的标准解释: 平均单位质量热能对应 $|W|/(2M)$, 理想气体得\[T_v=\frac{\mu m_pGM}{5\kb R_v}\propto M^{2/3}.\] 若按题面「全部引力势能」的字面取 $|W|/M$ 而不是维里热能, 系数应加倍, 且不能同时声称已满足同一个封闭体系的维里能量预算. 以下使用标准维里解释, $\mu=1$ 给 $T_v=1.861\times10^6(M/10^{12}\Ms)^{2/3}\,\mathrm K$; 完全电离纯氢有 $\mu=1/2$, 温度减半.
+
+取冷却曲线定义为 $\mathcal L=n_en_p\Lambda$, 纯氢 $n_p=0.05\rho_v/m_p$, 储热为 $3n_p\kb T$ (含电子和质子), 得 $t_c=3\kb T/(n_p\Lambda)$. 若用 $\mu=1$ 温度尺度作数量级归一化, $t_c=888\,\mathrm{Myr}(M/10^{12}\Ms)^{2/3}$, 最大质量 $5.84\times10^{11}\Ms$. 完全电离且 $\mu=1/2$ 的自洽选取给 $t_c=444\,\mathrm{Myr}$、$M_{\max}=1.65\times10^{12}\Ms$. 两种系数约定及原题热能措辞说明本题只支持数量级 $10^{12}\Ms$, 不能伪造唯一精确质量. 真实冷却曲线并非在整个质量范围恒定.
+\end{solution}
+
+\src{8.902 PS6.2, (A)--(B).}
+\begin{exercise}
+(A) 积分 Press--Schechter 的原始体积分数, 证明只计入一半质量.
+(B) 说明 excursion-set / extended Press--Schechter 的基本思想, 它怎样消除因子 2 问题. 原题引用 Bond 等人 1991 年工作作为阅读方向, 不要求复录论文.
+\end{exercise}
+\begin{solution}
+以零均值 Gaussian 密度对比、方差 $S$ 为起点, $F=\int_{\delta_c}^\infty\exp[-\delta^2/(2S)]\dd\delta/\sqrt{2\pi S}=\frac12\operatorname{erfc}(\delta_c/\sqrt{2S})$. 从大质量 $S\to0$ 至小质量 $S\to\infty$, 总分数只能增加到 $1/2$. 漏计来源是某尺度上的低密度点仍可能属于更大尺度已经坍缩的区域, 即 cloud-in-cloud 问题.
+
+锐波数滤波在独立 Gaussian 模假设下使增量独立, 分布满足 $\partial_SP=\frac12\partial_\delta^2P$. 在 $\delta_c$ 设吸收壁, 镜像法给 $P=[\ee^{-\delta^2/(2S)}-\ee^{-(2\delta_c-\delta)^2/(2S)}]/\sqrt{2\pi S}$, $\delta<\delta_c$. 首过壁概率流为 $f(S)=\delta_c\ee^{-\delta_c^2/(2S)}/(\sqrt{2\pi}S^{3/2})$. 换元 $u=\delta_c/\sqrt S$ 得 $\int_0^\infty f(S)\dd S=1$. 通过「第一次过壁」给每个质量元指定最大归属尺度, 不再重复或漏掉嵌套区域. 对非 Markov 滤波或非 Gaussian 场, 这一简单镜像结果不普遍成立.
+\end{solution}
+
+\src{8.902 期中题组 Q2, (A)--(B), 按作业计分.}
+\begin{exercise}
+封闭箱化学模型 $Z=-y\ln\mu$, 产额 $y$ 恒定, 当前气体金属丰度 $Z_0$.
+(A) 推导归一化恒星累积分布 $M_s(<Z)=(1-\ee^{-Z/y})/(1-\ee^{-Z_0/y})$, 并用物理解释支持公式.
+(B) 求 $\dd M_s/\dd\log_{10}Z$, 作示意并求峰位置.
+\end{exercise}
+\begin{solution}
+充分混合使在某时刻形成的恒星继承当时气体丰度. 随气体分数由 1 降至 $\mu$, 锁入恒星的质量为 $M_T(1-\mu)$, 而 $\mu=\ee^{-Z/y}$. 以今天全部恒星质量 $M_T(1-\ee^{-Z_0/y})$ 归一化即得 (A). 它适用 $0\le Z\le Z_0$, 超出上界累积为 1.
+
+微分得 $\dd M_s/\dd\log_{10}Z=(\ln10)Z\ee^{-Z/y}/[y(1-\ee^{-Z_0/y})]$. 无截断曲线在 $Z=y$ 达峰; 若 $Z_0<y$, 可观测区间峰在右端 $Z_0$. 图取示意 $Z_0=3y$, 横轴 $x=\log_{10}(Z/y)$:
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.65\linewidth,height=4.5cm,xlabel={$\log_{10}(Z/y)$},ylabel={每对数丰度区间的恒星分数},xmin=-2,xmax=.48]
+\addplot[structurecolor,domain=-2:.477,samples=100]{ln(10)*10^x*exp(-10^x)/(1-exp(-3))};
+\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+
+\src{8.902 期中题组 Q3.}
+\begin{exercise}
+只考虑二体弛豫, 总质量相同的星系若由各为 $10^6\Ms$ 的球状星团构成, 比由单个恒星构成的星系弛豫更快还是更慢? 给定量关系与直觉解释.
+\end{exercise}
+\begin{solution}
+固定宏观密度与速度, $t_{\rm rel}\propto1/(m\ln\Lambda)$. 若单星质量取 $1\Ms$, 则 $t_{\rm cluster}/t_{\rm star}\simeq10^{-6}\ln\Lambda_{\rm star}/\ln\Lambda_{\rm cluster}$. $b_{\min}$ 和星团有限尺度会改变 Coulomb 对数, 所以不应把比例精确写死为 $10^{-6}$. 较重散射体造成的单次冲量大, 即使数目减少, $m^2n=m\rho$ 仍增大, 故弛豫较快. 这只用于星团可近似为离散散射中心的模型.
+\end{solution}
+
+\src{8.902 期中题组 Q4.}
+\begin{exercise}
+用维里定理推导银河中恒星的典型速度.
+\end{exercise}
+\begin{solution}
+设势能为 $W=-C GM^2/R$, $K=M\langle v^2\rangle/2$, 稳态维里关系给 $\sqrt{\langle v^2\rangle}=\sqrt{CGM/R}$. 题面未给 $M,R$ 与结构系数, 只能先给此表达式. 取代表性内部质量 $M=10^{11}\Ms$, $R=10\,\mathrm{kpc}$、$C\sim1$, 得 $v\sim207\,\mathrm{km\,s^{-1}}$. 若均匀球 $C=3/5$ 则约 $161\,\mathrm{km\,s^{-1}}$. 视向一维弥散在各向同性下再除 $\sqrt3$, 不可将其与三维速度混称.
+\end{solution}
+
+\src{8.902 期中题组 Short Answer, (A)--(D), 原每项 5 分.}
+\begin{exercise}
+(A) 什么是 NFW 密度曲线?
+(B) 什么是暴烈弛豫, 怎样发生, 为什么重要?
+(C) 写无碰撞 Boltzmann 方程并说明如何导出 Jeans 方程.
+(D) 银河中两恒星发生强遭遇的可能性如何?
+\end{exercise}
+\begin{solution}
+(A) $\rho=\rho_s/[x(1+x)^2]$, 内部近 $r^{-1}$、外部近 $r^{-3}$, 为暗晕模拟常用拟合, 未截断质量对数发散.
+(B) 体系快速形成或并合时 $\Phi(\boldsymbol x,t)$ 改变, 单星能量沿轨道满足 $\dd E/\dd t=\partial_t\Phi$, 轨道因而交换能量并发生相混合. 它在动力学时间内改变粗粒化分布, 不等于微观 $f$ 违反 Liouville 定理, 也不保证达到唯一 Maxwell 分布.
+(C) 式\eqref{eq:cbe}沿轨道守恒. 乘 $v_i$ 积分, 用速度边界项消失和分部积分 $\int v_i\partial_{v_j}f\dd^3v=-\delta_{ij}\rho$, 得 $\partial_t(\rho\bar v_i)+\partial_j(\rho\overline{v_iv_j})=-\rho\partial_i\Phi$. 二阶矩未知, 仍需闭合或分布模型.
+(D) 强偏转需要 $b\lesssim G(m_1+m_2)/v^2$. 取 $m_1=m_2=\Ms,v=200\,\mathrm{km\,s^{-1}}$, $b_{90}\sim0.044\,\mathrm{AU}$. 本地星数密度 $0.1\,\mathrm{pc^{-3}}$ 的示例遭遇率 $n\pi b_{90}^2v$ 约 $3\times10^{-18}\,\mathrm{yr^{-1}}$, 极低. 此数密度是解答的示例假设; 密集星团或银河中心须另估, 物理碰撞截面也不同于强引力偏转截面.
+\end{solution}
