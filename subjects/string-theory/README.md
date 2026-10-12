@@ -2,7 +2,7 @@
 
 本卷已从选讲扩写为两门实际公开课程材料的合订稿：8.251 Spring 2007 的 26 讲、8.821 OCW Fall 2014 的 24 讲，正文与题解为可编辑中文 LaTeX，自绘 TikZ/矢量图。原笔记的作者、学期差异与逐件许可保留；原 PDF 不作整页背景或替代交付。
 
-当前已通过机械编译的工作稿为 **126 页**，包含 **67 道完整独立题及一题公开补充式**，对应 68 个已完整编写的原编号（其中 HW4.5/HW5.1 同题重发）。本次为完整公开材料对应稿的审阅检查点，尚待独立内容复核。源码 ZIP 已进行隔离重编译；编译与远端核对回执单列，不能将机械检查当作学术终审。
+当前已通过机械编译的工作稿为 **126 页**，包含 **67 道完整独立题及一题公开补充式**，对应 68 个已完整编写的原编号（其中 HW4.5/HW5.1 同题重发）。本次为完整公开材料对应稿的审阅检查点，已完成总协调者的有限独立内容复核，三处反馈均已修正；范围见 qa/parent-review-feedback.json。源码 ZIP 已进行隔离重编译；编译与远端核对回执单列，不能将机械检查当作学术终审。
 
 - [126 页中文 PDF](dist/string-theory-zh.pdf)
 - [可独立编译的源码 ZIP](dist/string-theory-source.zip)
@@ -12,7 +12,7 @@
 - [当前扩写与核验进度](qa/expansion-progress.json)
 - [逐文件官方来源、页数、SHA-256、权利声明](sources/resource-inventory.json)
 
-dist/ 已更新为上述 126 页完整对应稿，保留每卷一个主 PDF。旧 qa/build/、review.json、visual-review.json 等回执仅对应历史 28 页精选稿；当前编译见 expanded-working-validation.json，干净重编译见 clean-rebuild.json。整卷视觉自查完成；独立内容验收仍待完成。
+dist/ 已更新为上述 126 页完整对应稿，保留每卷一个主 PDF。旧 qa/build/、review.json、visual-review.json 等回执仅对应历史 28 页精选稿；当前编译见 expanded-working-validation.json，干净重编译见 clean-rebuild.json。整卷视觉自查完成；有限独立内容审阅已完成，三处修正均已复核；高阶待补证明保留原有边界。
 
 ## 实际覆盖
 
