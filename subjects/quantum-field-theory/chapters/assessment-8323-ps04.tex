@@ -1,0 +1,75 @@
+\originalchapter{8.323 作业4题解}
+本章据 MIT OCW 8.323(2023 春)\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset04.pdf}{作业4}及\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset_04sol.pdf}{官方解}中文重编并补充推导,不是官方中文版.原题2注明改编自 Peskin--Schroeder 第32页例子及习题4.1;这里采用 MIT 作业实际给出的完整题面.改用 $(+---)$,$p\cdot x=p^0t-\mathbf p\cdot\mathbf x$.
+本章格林函数不额外乘 $\ii$:$G_+=\bra0\phi(x)\phi^\dagger(y)\ket0$,$\Delta=\bra0[\phi(x),\phi^\dagger(y)]\ket0$,$G_R=\theta(x^0-y^0)\Delta$,$G_A=-\theta(y^0-x^0)\Delta$,$G_F=\bra0T\phi(x)\phi^\dagger(y)\ket0$.因此 $(\Box+m^2)G_{R,F}=-\ii\delta^{(4)}$.
+
+\originalsection{原题1}
+\begin{exercise}
+(a) 对自由标量场,从 $Ua_kU^\dagger=\sqrt{\omega_{\Lambda k}/\omega_k}a_{\Lambda k}$ 及创造算符的同一变换证明 $U_\Lambda\phi(x)U_\Lambda^\dagger=\phi(\Lambda x)$;(b) 以下允许相互作用,不再使用自由模展开.由 $U_y\phi(x)U_y^\dagger=\phi(x+y)$ 及真空平移不变性证明 $G_+(x,y)=G_+(x-y)$;(c) 再用洛伦兹及真空不变性证明
+\[
+G_+(x,y)=\theta(t-t')G((x-y)^2)+\theta(t'-t)G^*((x-y)^2),
+\]
+其中在本书度规下类空参数 $s<0$ 时 $G(s)=G^*(s)$(原稿写 $s>0$);(d) 对实场证明 $G_F(x,y)=G((x-y)^2)$,其中 $G$ 与(c)相同.上述函数在光锥上的表达应理解为分布的边界值.
+\end{exercise}
+\begin{solution}
+(a) 将场展开写成 $\phi(x)=\int\dd^3k\sqrt{2\omega_k}(a_k\e^{-\ii k\cdot x}+a_k^\dagger\e^{\ii k\cdot x})/[(2\pi)^3 2\omega_k]$.算符变换把 $\sqrt{2\omega_k}$ 改为 $\sqrt{2\omega_{\Lambda k}}$.令 $q=\Lambda k$,壳测度不变且 $k\cdot x=q\cdot\Lambda x$,得到 $\phi(\Lambda x)$.复场两种粒子的算符分别作同一变换.
+(b) 在两场之间插入 $U_y^\dagger U_y$,真空不变性给出 $G_+(x,y)=G_+(x+a,y+a)$.取 $a=-y$ 即得.
+(c) 同样得到 $G_+(z)=G_+(\Lambda z)$.非零类时向量按 $z^2$ 及时间方向分成两个洛伦兹轨道;类空向量固定 $z^2$ 后只有一个轨道,$z$ 和 $-z$ 可由适当洛伦兹变换连接.厄米共轭并作平移给出 $G_+(z)^*=G_+(-z)$.因此未来类时分支定义 $G(z^2)$,过去分支是其共轭,类空分支则为实.这里时间符号在类空区域并非不变量,但两分支一致,所以阶跃表示仍成立.
+(d) 对实场 $\phi^\dagger=\phi$,$G_F(z)=\theta(z^0)G_+(z)+\theta(-z^0)G_+(-z)$.未来分支直接为 $G$,过去分支中的 $-z$ 又落在未来轨道,仍为 $G$;类空两分支本来就一致.由此得所求式.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+考虑固定实外源 $J(x)$ 下的实标量场
+\[
+\Lag=\tfrac12\partial_\mu\phi\partial^\mu\phi-\tfrac12m^2\phi^2+J(x)\phi=\Lag_0+J\phi.
+\]
+设 $J\to0$ 当 $t\to\pm\infty$ 或 $|\mathbf x|\to\infty$,且傅里叶变换对复频率解析.保留原稿傅里叶数值的本书写法是 $J(p)=\int\dd^4x\,\e^{\ii p\cdot x}J(x)$,故 $J(-p)=J(p)^*$.
+过去、未来渐近自由场分别用 $a_{\rm in/out}$ 展开,$[a_{\rm in},a_{\rm in}^\dagger]=(2\pi)^3\delta^{(3)}$;归一真空由相应湮灭算符定义.$n$ 粒子态为 $\prod_{i=1}^n\sqrt{2\omega_i}a_{\rm in/out}^\dagger(k_i)\ket{0,\mp\infty}$.系统初态为 $\ket{0,-\infty}$.
+(a) 解经典方程,写成 $\phi=\phi_0+\ii\int\dd^4y\,G(x-y)J(y)$,其中 $(\Box+m^2)\phi_0=0$、$(\Box+m^2)G=-\ii\delta^{(4)}$,说明用哪个格林函数;(b) 量子化后证明 $\phi_0=\phi_{\rm in}$;(c) 在未来比较模展开求 $a_{\rm out}$ 与 $a_{\rm in}$;(d) 证明产生粒子数的均值为 $\lambda=\int\dd^3k\,|J(k)|^2/[(2\pi)^3 2\omega_k]$;(e) 证明 $a_{\rm out}=S^\dagger a_{\rm in}S$,$S=\e^{\ii B}$、$B=\int\dd^4x\,J\phi_{\rm in}$;(f) 选择真空相位证明 $S\ket{0,+\infty}=\ket{0,-\infty}$ 及 $S\ket{k_1,\ldots,k_n,+\infty}=\ket{k_1,\ldots,k_n,-\infty}$,从而 $S_{\beta\alpha}=\bra{\beta,-\infty}S\ket{\alpha,-\infty}$;(g) 证明
+\[
+S=\e^F\e^G\e^{-\lambda/2},\quad
+F=\ii\int\frac{\dd^3k}{(2\pi)^3\sqrt{2\omega_k}}J(k)a_{\rm in}^\dagger(k),\quad
+G=\ii\int\frac{\dd^3k}{(2\pi)^3\sqrt{2\omega_k}}J(-k)a_{\rm in}(k);
+\]
+(h) 求无粒子产生概率 $P_0$. (i) 证明
+\[
+\bra{k_1,\ldots,k_n,+\infty}0,-\infty\rangle
+=\ii^n\prod_iJ(k_i)\e^{-\lambda/2}.
+\]
+(j) 利用微分概率
+\[
+\dd P=|\bra{k_1,\ldots,k_n,+\infty}0,-\infty\rangle|^2
+\prod_i\frac{\dd^3k_i}{(2\pi)^3 2\omega_i},
+\]
+求恰好 $n$ 个粒子的总概率并解释全相空间积分中的相同粒子计数.
+\end{exercise}
+\begin{solution}
+(a) 欧拉--拉格朗日方程是 $(\Box+m^2)\phi=J$.对题设卷积作用这个算符得到 $\ii(-\ii)J=J$,所以确为解.过去给定初态而源随后开启,要求解只依赖过去的源,故采用推迟格林函数
+\[
+G_R(x)=\theta(t)\intp\frac{\e^{-\ii\omega_pt+\ii\mathbf p\cdot\mathbf x}-\e^{\ii\omega_pt-\ii\mathbf p\cdot\mathbf x}}{2\omega_p}.
+\]
+其零时刻导数跳跃为 $-\ii\delta^{(3)}(\mathbf x)$,可直接检查格林方程.
+(b) 过去源贡献趋零,因此场的过去边界条件由 $\phi_0$ 承担.它是以过去自由模作全时齐次延拓的 $\phi_{\rm in}$;不是说全时相互作用场等于自由场.
+(c) 未来推迟阶跃可取1.卷积展开为
+\[
+\ii\int\dd^4y\,G_R(x-y)J(y)
+=\ii\int\frac{\mathrm d^3k}{(2\pi)^3}\frac{J(k)\e^{-\ii k\cdot x}-J(-k)\e^{\ii k\cdot x}}{2\omega_k}.
+\]
+比较每个独立平面波系数,得到
+\[
+a_{\rm out}(k)=a_{\rm in}(k)+\frac{\ii J(k)}{\sqrt{2\omega_k}},\qquad
+a_{\rm out}^\dagger=a_{\rm in}^\dagger-\frac{\ii J(k)^*}{\sqrt{2\omega_k}}.
+\]
+(d) 展开 $\bra{0,\rm in}\intp a^\dagger_{\rm out}a_{\rm out}\ket{0,\rm in}$,含 $a_{\rm in}$ 或 $a_{\rm in}^\dagger$ 的项全消失,只剩 $\int\frac{\mathrm d^3k}{(2\pi)^3}|J(k)|^2/(2\omega_k)=\lambda$.
+(e) $B$ 厄米,故 $S$ 幺正.$[B,a_{\rm in}(k)]=-J(k)/\sqrt{2\omega_k}$ 是数,二重以上对易子全为零.因此 $S^\dagger aS=a-\ii[B,a]=a+\ii J/\sqrt{2\omega}$.
+(f) $a_{\rm in}S\ket{0,\rm out}=Sa_{\rm out}\ket{0,\rm out}=0$,且态范数为1,所以只与入真空相差相位.固定该相位为1,并依次使用 $Sa_{\rm out}^\dagger=a_{\rm in}^\dagger S$,即得所有 $n$ 粒子态关系.取共轭后 $\bra{\beta,\rm out}=\bra{\beta,\rm in}S$.
+(g) 模展开给出 $F+G=\ii B$,$[F,G]=\lambda\mathbf1$.中心对易子版本 BCH 是 $\e^F\e^G=\exp(F+G+\tfrac12[F,G])$,所以得到题设正规序分解.
+(h) $G$ 在右真空上为零,$F$ 在左真空上为零,故真空振幅为 $\e^{-\lambda/2}$,$P_0=\e^{-\lambda}$.
+(i) $S\ket{0,\rm in}=\e^{-\lambda/2}\e^F\ket{0,\rm in}$.投影到 $n$ 粒子态只留指数的 $F^n/n!$ 项.每个湮灭算符满足 $[a(k),F]=\ii J(k)/\sqrt{2\omega_k}$;将它逐个穿过 $F^n$ 得到 $n!$ 种配对,抵消 $1/n!$.态的 $\sqrt{2\omega_i}$ 抵消对易子分母,给出所求振幅.
+(j) 若积分遍历全部有序动量,完全相同的 $n$ 粒子配置被数 $n!$ 次.因此
+\[
+P_n=\frac{\e^{-\lambda}}{n!}\prod_{i=1}^n\int\frac{\dd^3k_i}{(2\pi)^3 2\omega_i}|J(k_i)|^2
+=\e^{-\lambda}\frac{\lambda^n}{n!}.
+\]
+$\sum_nP_n=1$ 且 $\sum_n nP_n=\lambda$.源只通过正能量壳上的傅里叶分量产生粒子;对于有质量场,缓慢开关源的低频分量不足以达到质量壳,产生受到抑制.精确 Dyson 演化与本题所选位移算符可相差仅依赖源的整体相位,这不影响任何上述概率.
+\end{solution}

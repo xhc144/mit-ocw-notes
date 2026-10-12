@@ -1,0 +1,252 @@
+% 8.324 Fall 2010, Hong Liu, Lectures 1--4;按本书(+---)度规重编.
+\originalchapter{李群、表示与非阿贝尔规范场}
+\label{chap:nonabelian}
+
+电磁场的局域相位变换只有一个参数.若几个等质量的物质场可以彼此混合,连续对称性就可以由矩阵而非单个相位表示;矩阵一般不交换.要把这种对称性逐点局域化,便需要一种带有多个内部指标、而且能够自相互作用的矢量场.本章从这个具体问题出发,建立 Yang--Mills 理论.以下内部群取紧致群,物质场取其有限维酉表示;这保证可以使用正定的内部内积.规范群的全局拓扑与其无穷小代数并不等同,二者在需要时会明确区分.
+
+\originalsection{从等质量多重态到李代数}
+设 $\Psi=(\psi_1,\ldots,\psi_n)^T$ 是 $n$ 个 Dirac 场组成的列向量,旋量指标仍省略.若质量全部相同,则
+\[
+ \Lag_0=\overline\Psi(\ii\gamma^\mu\partial_\mu-m)\Psi
+\]
+在常数酉矩阵变换 $\Psi\mapsto U\Psi$ 下不变,因为 $U$ 只作用于内部空间,与 $\gamma^\mu$ 交换,且 $U^\dagger U=1$.若质量矩阵为 $M=\diag(m_1,\ldots,m_n)$,不变条件则是 $U^\dagger MU=M$;只有相同质量的子空间可以任意混合.这说明对称群取决于动力学,而不是看到几个场便能任意指定一个群.
+
+\begin{definition}[李群与生成元]
+李群是同时具有光滑流形结构的群,其乘法与取逆映射光滑.对矩阵李群,在单位元附近可写
+\[
+ U(\epsilon)=1+\ii\epsilon^aT_a+\order(\epsilon^2).
+\]
+$T_a$ 是生成元;若 $U$ 酉,则一阶酉性给出 $T_a^\dagger=T_a$.生成元张成的实向量空间及其由矩阵交换子诱导的括号称为李代数.本书用厄米基写作
+\begin{equation}\label{eq:lie-bracket}
+ [T_a,T_b]=\ii f_{ab}{}^cT_c.
+\end{equation}
+这里 $a=1,\ldots,\dim G$,$f_{ab}{}^c$ 为实结构常数.
+\end{definition}
+
+为什么交换子仍落在生成元张成的空间中？考察四个无穷小变换组成的群交换子:
+\[
+ \e^{\ii\epsilon T_a}\e^{\ii\eta T_b}
+ \e^{-\ii\epsilon T_a}\e^{-\ii\eta T_b}
+ =1-\epsilon\eta[T_a,T_b]+\order(\epsilon^2\eta,\epsilon\eta^2).
+\]
+它仍是群中靠近单位元的元素,所以其第一个非零变化必沿单位元的切空间.由此得到交换子的封闭性.矩阵乘法结合律又给出
+\[
+ [T_a,[T_b,T_c]]+[T_b,[T_c,T_a]]+[T_c,[T_a,T_b]]=0,
+\]
+即 Jacobi 恒等式;代入\eqref{eq:lie-bracket}就得到结构常数的二次恒等式.后面协变导数的相容性、伴随表示和 BRST 幂零性都依赖同一个恒等式.
+
+$U(n)$ 是 $n\times n$ 酉矩阵群,$SU(n)$ 再要求行列式为一.由 $\det\e^{\ii\epsilon^aT_a}=\e^{\ii\epsilon^a\Tr T_a}$,$SU(n)$ 的生成元无迹;故其维数为 $n^2-1$.在李代数层次,$\mathfrak u(n)=\mathfrak{su}(n)\oplus\mathfrak u(1)$.群层次则应更精确地写
+\[
+ U(n)\simeq\bigl(SU(n)\times U(1)\bigr)/\mathbb Z_n.
+\]
+映射 $(S,z)\mapsto zS$ 的核为 $(z^{-1}1,z)$,其中 $z^n=1$;这些不同的配对给出同一个酉矩阵.把群直接写成无商的直积会丢掉这个离散识别.
+
+\begin{example}
+说明 $SU(2)$ 的生成元及其与空间旋转群的关系.
+\end{example}
+\begin{solution}
+取 $T_a=\sigma_a/2$,其中 $\sigma_a$ 为 Pauli 矩阵.由
+$\sigma_a\sigma_b=\delta_{ab}1+\ii\epsilon_{abc}\sigma_c$ 得
+$[T_a,T_b]=\ii\epsilon_{abc}T_c$.一般群元可写成
+\[
+ U=a_0 1+\ii a_k\sigma_k,\qquad a_0^2+\boldsymbol a^2=1,
+\]
+故 $SU(2)$ 作为流形为三维球面 $S^3$.它对 $X=x_k\sigma_k$ 的作用 $X\mapsto UXU^\dagger$ 保持 $\Tr X^2=2\boldsymbol x^2$,诱导三维旋转.$U$ 与 $-U$ 诱导同一个旋转,因此 $SO(3)\simeq SU(2)/\mathbb Z_2$.二者有相同李代数,却允许不同的群表示:半整数自旋表示是 $SU(2)$ 的表示,不能单值地下沉为 $SO(3)$ 的表示.
+\end{solution}
+
+一个子代数 $\mathfrak h$ 若满足 $[\mathfrak g,\mathfrak h]\subset\mathfrak h$,称为理想;非阿贝尔且无非平凡理想的李代数称为单李代数.紧致单李代数的分类给出经典系列 $\mathfrak{su}(n)$、$\mathfrak{so}(2n+1)$、$\mathfrak{sp}(n)$、$\mathfrak{so}(2n)$,以及例外代数 $E_6,E_7,E_8,F_4,G_2$(低维系列有重合,$\mathfrak{so}(4)$ 不是单代数).这里把分类定理仅作为辨认规范群的外部工具,不在本章证明.物理计算所需的实际结构,是紧致群允许选取不变的正定内积;在正交基中可把内部指标用 $\delta_{ab}$ 升降,使 $f_{abc}$ 全反对称.例如对厄米矩阵取 $\Tr(T_aT_b)=T(R)\delta_{ab}$,迹的循环性给出
+\[
+ \Tr([T_a,T_b]T_c)=\Tr(T_a[T_b,T_c]),
+\]
+所以 $f_{abc}=f_{bca}$,再结合前两指标反对称便得到全反对称.对紧致群存在不变内积可由把任意内积在群上用归一化 Haar 测度平均得到;这里调用紧致群的 Haar 测度存在定理,而不展开其一般证明.
+
+\originalsection{表示、荷与伴随作用}
+\begin{definition}[表示]
+群 $G$ 在向量空间 $V_R$ 上的表示是映射 $R:G\to GL(V_R)$,满足 $R(g_1g_2)=R(g_1)R(g_2)$.其导出李代数表示由矩阵 $T_a^{(R)}$ 给出,满足与抽象代数相同的交换关系
+\[
+ [T_a^{(R)},T_b^{(R)}]=\ii f_{abc}T_c^{(R)}.
+\]
+表示空间的维数与群的维数是不同的数.例如 $SU(n)$ 基本表示的维数为 $n$,而其伴随表示的维数为 $n^2-1$.
+\end{definition}
+
+沿 $U(t)=\e^{\ii t\alpha^aT_a}$ 取导数即可由群表示得到代数表示.反过来,代数表示总可积分为单连通覆盖群的表示,能否再下沉到原群取决于离散中心的作用;上一节的半整数自旋正说明不能无条件宣称二者一一对应.
+
+若物质场有全局变换 $\delta\Psi=\ii\epsilon^aT_a^{(R)}\Psi$,将参数暂时改为函数时,自由拉氏量的变化为
+\[
+ \delta\Lag_0=-(\partial_\mu\epsilon^a)\overline\Psi\gamma^\mu T_a^{(R)}\Psi.
+\]
+因此可选 Noether 流 $j_a^\mu=\overline\Psi\gamma^\mu T_a^{(R)}\Psi$,场方程使其散度为零.荷 $Q_a=\int\dd^3x\,\Psi^\dagger T_a^{(R)}\Psi$ 满足
+$[Q_a,\Psi]=-T_a^{(R)}\Psi$;这由等时反对易关系直接得出.于是 $\e^{-\ii\epsilon^aQ_a}\Psi\e^{\ii\epsilon^aQ_a}=\e^{\ii\epsilon^aT_a^{(R)}}\Psi$.把同一反对易关系用于两个二次型荷,得到
+\[
+ [Q_a,Q_b]=\int\dd^3x\,\Psi^\dagger[T_a^{(R)},T_b^{(R)}]\Psi
+ =\ii f_{abc}Q_c.
+\]
+量子流可能需要正规序和正则化;这里陈述的是无异常的矢量内部对称性.
+
+伴随表示的空间就是李代数本身.群作用为 $X\mapsto UXU^{-1}$;无穷小作用为 $X\mapsto X+\ii\epsilon^a[T_a,X]$.若 $X=X^bT_b$,则
+\[
+ (T_a^{\mathrm{adj}})_{cb}=\ii f_{abc}=-\ii f_{acb}.
+\]
+这些矩阵确实构成表示,因为
+\[
+ [T_a,[T_b,X]]-[T_b,[T_a,X]]=[[T_a,T_b],X]
+\]
+恰是 Jacobi 恒等式.这也是规范玻色子为什么带有群指标的代数原因:它们在伴随表示中变换.
+
+对单紧致群的不可约表示,常用两个不同常数
+\[
+ \Tr_R(T_a^{(R)}T_b^{(R)})=T(R)\delta_{ab},\qquad
+ \sum_aT_a^{(R)}T_a^{(R)}=C_2(R)1.
+\]
+第二个矩阵与每个生成元交换:展开交换子后,$f_{abc}$ 的反对称性与 $T_aT_b+T_bT_a$ 的对称性相消.不可约性通过 Schur 引理使它为常数倍单位矩阵:在复数域上取它的一个特征值,特征子空间因交换性而对全部生成元不变,不可约性使这个子空间等于整个表示空间.取迹得 $C_2(R)\dim R=T(R)\dim G$.对多个单因子的直积,应分别定义这些常数;对含平凡子表示的可约表示,不能把所有块的 $C_2$ 强行写成一个数.
+
+\originalsection{局域比较与协变导数}
+让 $\Psi(x)\mapsto V(x)\Psi(x)$.普通导数出现多余项
+\[
+ \partial_\mu(V\Psi)=V\partial_\mu\Psi+(\partial_\mu V)\Psi,
+\]
+所以在两个点之间相减之前,需要先把内部基准从一点搬到另一点.令 $U(y,x)$ 为这样的平行移动,要求
+$U(y,x)\mapsto V(y)U(y,x)V^{-1}(x)$.于是 $\Psi(y)-U(y,x)\Psi(x)$ 的两个项都在 $y$ 的同一内部基准下变换.
+
+\begin{definition}[本章的规范约定]\label{def:gauge-convention}
+全部生成元厄米,$[T_a,T_b]=\ii f_{abc}T_c$.取实耦合常数 $g$,定义
+\begin{equation}\label{eq:gauge-D}
+ A_\mu=A_\mu^aT_a,\qquad D_\mu=\partial_\mu-\ii gA_\mu,
+ \qquad U(x+\epsilon n,x)=1+\ii g\epsilon n^\mu A_\mu(x)+\order(\epsilon^2).
+\end{equation}
+物质场使用所属表示的生成元;以下省略表示上标.这与第十章采用的 $D_\mu=\partial_\mu+\ii eA_\mu$ 约定不同.若比较同一 Abelian 连接与同一生成元,须作 $g=-e$;所有含奇数个耦合的公式,包括物质源的符号,必须一起转换.
+\end{definition}
+
+取 $[\Psi(x+\epsilon n)-U(x+\epsilon n,x)\Psi(x)]/\epsilon$ 的极限即得\eqref{eq:gauge-D}.要求 $D'_\mu\Psi'=VD_\mu\Psi$,展开并消去 $V\partial_\mu\Psi$ 后得到
+\begin{equation}\label{eq:gauge-A-transform}
+ A'_\mu=VA_\mu V^{-1}-\frac{\ii}{g}(\partial_\mu V)V^{-1}.
+\end{equation}
+$U(1)$ 时 $V=\e^{\ii\alpha}$,故 $A'_\mu=A_\mu+g^{-1}\partial_\mu\alpha$.非阿贝尔时取 $V=\e^{\ii g\omega^aT_a}$,其无穷小形式为
+\begin{equation}\label{eq:inf-gauge}
+ \delta A_\mu=D_\mu^{\mathrm{adj}}\omega
+ =\partial_\mu\omega-\ii g[A_\mu,\omega],\qquad
+ \delta A_\mu^a=\partial_\mu\omega^a+gf_{abc}A_\mu^b\omega^c.
+\end{equation}
+非齐次的导数项使 $A_\mu$ 不能像普通物质场那样仅靠酉共轭变换.它是连接,负责不同点的比较.
+
+\originalsection{曲率、规范不变作用量与 Wilson 环}
+为了给 $A_\mu$ 自身提供动力学,需要由它构造协变对象.两个协变导数的交换子正测量两次移动的次序差异.直接作用于任意 $\Psi$,一阶导数项相消,留下
+\[
+ [D_\mu,D_\nu]\Psi=-\ii g(\partial_\mu A_\nu-\partial_\nu A_\mu-\ii g[A_\mu,A_\nu])\Psi.
+\]
+因此定义
+\begin{equation}\label{eq:ym-F}
+ F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu-\ii g[A_\mu,A_\nu],\qquad
+ F_{\mu\nu}^a=\partial_\mu A_\nu^a-\partial_\nu A_\mu^a+gf_{abc}A_\mu^bA_\nu^c.
+\end{equation}
+第二式的加号来自 $-\ii[T_b,T_c]=f_{bca}T_a$,不应凭记忆从另一协变导数约定抄入.由 $D'=VDV^{-1}$ 有
+$[D'_\mu,D'_\nu]=V[D_\mu,D_\nu]V^{-1}$,故
+\[
+ F'_{\mu\nu}=VF_{\mu\nu}V^{-1}.
+\]
+阿贝尔场强不变,非阿贝尔场强协变;取迹才能消去其内部基准依赖.
+
+选任一忠实表示并用 $\Tr(T_aT_b)=T(R)\delta_{ab}$,规范场的规范归一化为
+\begin{equation}\label{eq:ym-action}
+ \Lag_{\mathrm{YM}}=-\frac1{4T(R)}\Tr(F_{\mu\nu}F^{\mu\nu})
+ =-\frac14F_{\mu\nu}^aF^{a\mu\nu}.
+\end{equation}
+在 $(+---)$ 度规下,这给出电场能与磁场能的正和.表示的选择并未改变这个作用量,因为归一化常数已经除去.加上 $\overline\Psi(\ii\gamma^\mu D_\mu-m)\Psi$ 或复标量的 $(D_\mu\Phi)^\dagger D^\mu\Phi-m^2\Phi^\dagger\Phi$,即可得到相应物质理论.
+
+裸的 $M^2 A_\mu^aA^{a\mu}/2$ 不具有局域不变性,因为\eqref{eq:gauge-A-transform}含 $\partial V$;这里的无质量结论针对未引入 Higgs 或 Stueckelberg 场的 Yang--Mills 拉氏量.局域规范不变性本身也不唯一决定所有相互作用.例如四维中的 $(\Tr F^2)^2$ 是允许的高维算符,但属于有效理论的高维相互作用.$\Tr(F_{\mu\nu}\widetilde F^{\mu\nu})$,其中 $\widetilde F^{\mu\nu}=\epsilon^{\mu\nu\rho\sigma}F_{\rho\sigma}/2$,在局域上是全导数,却可能因边界或非平凡拓扑产生效应.本章不把局域全导数等同于一切场构形上积分都为零.
+
+沿曲线 $z(s)$,$z(0)=x,z(1)=y$,移动矩阵解满足
+\[
+ \frac{\dd U(s,0)}{\dd s}=\ii g\dot z^\mu(s)A_\mu(z(s))U(s,0),\qquad U(0,0)=1.
+\]
+把右侧迭代代入,得到
+\begin{align*}
+ U(1,0)={}&1+\ii g\int_0^1\dd s_1\,\dot z_1^\mu A_\mu(z_1)\\
+ &+(\ii g)^2\int_0^1\dd s_1\int_0^{s_1}\dd s_2\,
+ \dot z_1^\mu A_\mu(z_1)\dot z_2^\nu A_\nu(z_2)+\cdots.
+\end{align*}
+这定义了路径有序指数 $U_\gamma(y,x)=\mathcal P\exp(\ii g\int_\gamma A_\mu\dd z^\mu)$;较晚的参数放在左边.普通指数会把矩阵次序平均掉,通常得不到微分方程的解.令 $\widetilde U(s)=V(z(s))U(s,0)V^{-1}(x)$,对它求导并用\eqref{eq:gauge-A-transform},可见它满足变换后连接的同一初值问题;线性常微分方程的唯一性便证明端点变换律.
+
+闭曲线的起点与终点相同,所以 $W_\gamma=\Tr U_\gamma(x,x)$ 规范不变,称为 Wilson 环.对于先沿 $+\mu$ 再沿 $+\nu$ 的小矩形,边长 $a,b$,把四条边的移动矩阵乘起来并保留 $ab$ 阶,得
+\[
+ U_\square=1+\ii gab(\partial_\mu A_\nu-\partial_\nu A_\mu-\ii g[A_\mu,A_\nu])+\order(a^2b,ab^2)
+ =1+\ii gabF_{\mu\nu}+\cdots.
+\]
+沿反向绕行则变号.这把代数定义的场强与移动次序的几何差异联系起来.一般闭曲线的移动依赖路径;这里只证明了小环公式,并未调用一个未经说明的全局非阿贝尔 Stokes 公式.
+
+\originalsection{场方程、协变守恒与规范场自身的荷}
+对任意 $\delta A_\mu$,\eqref{eq:ym-F}给出
+\[
+ \delta F_{\mu\nu}=D_\mu^{\mathrm{adj}}\delta A_\nu-D_\nu^{\mathrm{adj}}\delta A_\mu.
+\]
+利用反对称性以及不变内积的分部积分,忽略具有规定边界条件的表面项,有
+\[
+ \delta S_{\mathrm{YM}}=-\int\dd^4x\,F^{a\mu\nu}(D_\mu\delta A_\nu)^a
+ =\int\dd^4x\,(D_\mu F^{\mu\nu})^a\delta A_\nu^a.
+\]
+定义物质源 $J^{a\nu}=-\partial\Lag_{\mathrm{matter}}/\partial A_\nu^a$,则完整方程是
+\begin{equation}\label{eq:ym-eom}
+ (D_\mu F^{\mu\nu})^a=J^{a\nu},\qquad
+ D_\mu X=\partial_\mu X-\ii g[A_\mu,X].
+\end{equation}
+例如本章 $D=\partial-\ii gA$ 的 Dirac 拉氏量含 $+g\overline\Psi\gamma^\mu A_\mu\Psi$,故 $J^{a\mu}=-g\overline\Psi\gamma^\mu T_a\Psi$;若把电荷定义为 $+g$,须同时改用 $D=\partial+\ii gA$.源的符号与耦合的符号是一件事.
+
+\begin{proposition}[协变守恒]
+场方程\eqref{eq:ym-eom}蕴涵 $D_\nu J^\nu=0$.
+\end{proposition}
+\begin{proof}
+因为 $F^{\mu\nu}$ 反对称,
+\[
+ D_\nu D_\mu F^{\mu\nu}=\frac12[D_\nu,D_\mu]F^{\mu\nu}
+ =-\frac{\ii g}{2}[F_{\nu\mu},F^{\mu\nu}]=0.
+\]
+最后的等式不是假设所有场强彼此交换.用不变度规作缩并,系数 $F_{\nu\mu}^aF^{b\mu\nu}$ 对 $a,b$ 对称,而 $[T_a,T_b]$ 对 $a,b$ 反对称,两者缩并为零.代入场方程即得结论.
+\end{proof}
+
+把方程写成普通散度,
+\[
+ \partial_\mu F^{a\mu\nu}=j^{a\nu},\qquad
+ j^{a\nu}=J^{a\nu}-gf_{abc}A_\mu^bF^{c\mu\nu},\qquad
+ \partial_\nu j^{a\nu}=0.
+\]
+第二项是规范场自身的贡献.$J$ 仅协变守恒,$j$ 普通守恒却没有简单的局域规范变换律;不要把内部颜色指标的电流误认为直接可观测的局域规范不变量.在阿贝尔极限 $f_{abc}=0$,这两种守恒退化成同一个电荷守恒;非阿贝尔纯规范理论即使 $J=0$ 仍是非线性的.
+
+\originalsection{三点与四点规范顶点从哪里产生}
+记 $f_{\mu\nu}^a=\partial_\mu A_\nu^a-\partial_\nu A_\mu^a$,把 $F=f+gAA$ 代入\eqref{eq:ym-action},可分成
+\begin{align}\label{eq:ym-cubic-quartic}
+ \Lag_2&=-\frac14f_{\mu\nu}^af^{a\mu\nu},\notag\\
+ \Lag_3&=-gf_{abc}(\partial_\mu A_\nu^a)A^{b\mu}A^{c\nu},\\
+ \Lag_4&=-\frac{g^2}{4}f_{eab}f_{ecd}A_\mu^aA_\nu^bA^{c\mu}A^{d\nu}.\notag
+\end{align}
+三次项中的两个导数项相等:交换 $\mu,\nu$ 后再交换 $b,c$,两个反对称号相消.因此交叉项的 $1/2$ 消去,得到所写系数.四次项则直接来自非线性场强的平方,不能独立于三次项另选耦合.
+
+约定 $A(x)=\int\dd^4p/(2\pi)^4\,\e^{-\ii px}A(p)$,所有顶点动量流入;顶点因子是作用量系数乘 $\ii$ 并对各外场求导.对 $(a,\mu,p),(b,\nu,q),(c,\rho,r)$ 三条腿,三次作用量中六种分配给出 $\ii gf_{abc}$ 乘
+\[
+ p_\nu\eta_{\mu\rho}-p_\rho\eta_{\mu\nu}
+ -q_\mu\eta_{\nu\rho}+q_\rho\eta_{\mu\nu}
+ +r_\mu\eta_{\rho\nu}-r_\nu\eta_{\rho\mu}.
+\]
+乘上额外的 $\ii$ 并按度规分组,即得
+\begin{equation}\label{eq:ym-three-vertex}
+ V^{abc}_{\mu\nu\rho}(p,q,r)=gf_{abc}
+ \bigl[\eta_{\mu\nu}(p-q)_\rho+\eta_{\nu\rho}(q-r)_\mu
+ +\eta_{\rho\mu}(r-p)_\nu\bigr],\qquad p+q+r=0.
+\end{equation}
+交换两条完整的腿同时改变颜色反对称号与动量张量反对称号,所以总顶点具有玻色对称性.
+
+四次项不含导数,故四点顶点不含动量.为了追踪系数,可以先写它的完整置换形式.记四条腿为 $(a_i,\mu_i)$,则
+\[
+ V_4=-\frac{\ii g^2}{4}\sum_{\pi\in S_4}
+ f_{e a_{\pi(1)}a_{\pi(2)}}f_{e a_{\pi(3)}a_{\pi(4)}}
+ \eta_{\mu_{\pi(1)}\mu_{\pi(3)}}\eta_{\mu_{\pi(2)}\mu_{\pi(4)}}.
+\]
+将 $24$ 项按三种颜色配对归类,每一类的八项利用 $f$ 的反对称性合并,得到
+\begin{align}\label{eq:ym-four-vertex}
+ V^{abcd}_{\mu\nu\rho\sigma}=-\ii g^2\bigl\{&
+ f_{abe}f_{cde}(\eta_{\mu\rho}\eta_{\nu\sigma}-\eta_{\mu\sigma}\eta_{\nu\rho})\notag\\
+ &+f_{ace}f_{bde}(\eta_{\mu\nu}\eta_{\rho\sigma}-\eta_{\mu\sigma}\eta_{\nu\rho})\\
+ &+f_{ade}f_{bce}(\eta_{\mu\nu}\eta_{\rho\sigma}-\eta_{\mu\rho}\eta_{\nu\sigma})\bigr\}.\notag
+\end{align}
+例如固定配对 $ab|cd$,在每个反对称对中交换两腿会把相应两种度规连接相减;再交换两个颜色对不改变结果,正好消去原来的 $1/4$.置换形式也提供了逐项检查这个公式的方法.
+
+二次项仍有规范零模,因而现在还不能把它直接求逆作为传播子.三点、四点项已揭示自相互作用的全部经典起源;下一章将说明如何同时获得可逆的二次算符和正确的量子态空间.

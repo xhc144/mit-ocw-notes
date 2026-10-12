@@ -1,0 +1,308 @@
+                                                Recitation 5
+                                                    Wentao Cui
+
+                                                March 17, 2023
+
+
+1     Path Integrals in QFT
+1.1    Bridge: to Infnite Degrees of Freedom
+As we’ve discussed, the path-integral formulation of QFT is tantamount to Gaussian integrals with a
+infnite number of degrees of freedom. It is thus important to discuss how calculus and linear algebra
+change when we go from a fnite number of degrees of freedom to an infnite number, often in a continuous
+domain. In this section we establish a dictionary between them.
+
+Degrees of freedom:
+    • Finite vector → continuous function,     i.e. ϕi → ϕ(x)
+      When working with Gaussians, we had degrees of freedom ϕi . For i continuous, like a space or a
+      time, this becomes a function ϕ(x). For our QFT purposes this will be a feld depending on space
+      and time. Often we might want both continuous and discrete labels, such as a vector feld Ai (x).
+      One can also view QM as a 0 + 1-dimensional QFT. Here the degree of freedom is time, and the
+      ‘felds’ are the positions Xi .
+Basic operations:
+    • Sums → integrals,
+                                     P     R
+                              i.e.   i →       dx
+    • Functions → functionals,       i.e. f (ϕi ) → F [ϕ(x)]
+      The functionals of our interest include things like the action or Lagrangian. Generally they will be
+      an integral of some function of ϕ(x), and can also be functions of other points x′ :
+                                      Z                                Z
+                          F [ϕ(x)] = dxf (ϕ(x)),          Hx′ [ϕ(x)] =   dxh(x, x′ )ϕ(x)
+                                                                       R
+
+Calculus:
+                                                               ∂        δ
+    • (Partial) derivatives → functional derivatives,       i.e.   →
+                                                              ∂ϕi     δϕ(x)
+      A normal derivative measures how much a function changes with respect to a fnite degree of freedom.
+      A functional derivative measures how much a functional changes with respect to a function (infnite
+      degree of freedom). This can be made explicit for some F [ϕ(x)] by perturbing by some test function
+      η(x), and seeing how much F varies:
+                                            F [ϕ(x) + ϵη(x)] − F [ϕ(x)]
+                                                                          Z
+                                                                                    δF
+                      ∆F [ϕ(x), η(x)] = lim                             = dxη(x)
+                                        ϵ→0              ϵ                         δϕ(x)
+      It is instructive to compare this to a directional derivative, which we have for discrete ϕi , where we
+      have some vector-perturbation ni .
+                                                    f (xi + ϵni ) − f (xi ) X ∂f
+                                ∆f (xi , ni ) = lim                        = ni
+                                                ϵ→0           ϵ                 ∂xi
+                                                                           i
+
+
+                                                        1
+     We recover the partial derivative in the j-direction for ni = δij , and similarly we recover the
+     functional derivative in the x0 -th direction for η(x) = δ(x − x0 ). This measures the change in F
+     when we add a small perturbation at x0 . [DRAW FIGURE]
+   • Integrals → path integrals,
+                                            RQ         R
+                                       i.e.    i dϕi →   Dϕ(x)
+     This is more intuitive. One has infnite degrees of freedom, so we have to integrate over each. One
+     can think of integrating over the values of a feld each each point in spacetime.
+Linear algebra:
+   • Matrices → operators,       i.e. Aij → K(x, x′ )
+     This should be familiar from quantum mechanics. A matrix is just a fnite dimensional operator.
+     In the continuous case the vector space on which the operator acts is infnite-dimensional and each
+     index becomes a continuous variable.
+     The identity operator 1ij becomes the Dirac-delta, δ(x − x′ ). We can also have diferential operators
+     like ∂x , which don’t have a relevant fnite analog (it would look something like ∆ϕi = ϕi − ϕi−1 ,
+     which generically does not have any meaning).
+   • Matrix products: → operator products,           i.e. Aij Bjk ϕk → dx′ dx′′ A(x, x′ )B(x′ , x′′ )ϕ(x′′ )
+                                                                       R
+
+     Index sums become integrals. We can confrm that the Dirac-delta is the identity, since
+                                      Z
+                                         dx′ A(x, x′ )δ(x − x′′ ) = A(x, x′′ )
+
+   • Matrix inverses → Green’s functions, i.e. A−  1
+                                                 ij → GK (x, x )
+                                                                ′
+
+     The matrix inverse is defned as the operator that, when multiplied with the original operator, yields
+     the identity:
+                                              X
+                                                        −1
+                                                   Aij Ajk = δik
+                                                    j
+
+     Using the above we take the continuous analog:
+                                  Z
+                                     dx′ K(x, x′ )K −1 (x′ , x′′ ) = δ(x − x′′ )
+
+     We recognize this as the Green’s function for the operator K. For instance for the Klein-Gordon
+     operator we have
+      Z
+        dx′ δ (4) (x − x′ )(−∂x2′ + m2 )G(x′ , x′′ ) = δ (4) (x − x′′ ) ⇐⇒ (−∂x2 + m2 )G(x, x′′ ) = δ (4) (x − x′′ )
+
+   • Eigendecompositions:
+     These are defned in the same way
+                              X                Z
+                                 Aij vj − λvj → dx′ K(x, x′ )f (x′ ) = λf (x)
+                                   i
+
+     While the eigenvalues stay numbers, eigenvectors now become functions. This should be familiar
+     from quantum mechanics: the eigenvectors of the derivative operator K(x, x′ ) = δ(x − x′ ) dx
+                                                                                                 d
+                                                                                                   are
+     just the exponential functions eλx with eigenvalues λ ∈ R:
+                                    Z
+                                                     d  ′    d λx
+                                      dx′ δ(x − x′ ) eλx =     e = λeλx
+                                                    dx      dx
+   • Determinants and traces:
+     These are defned as usual: as the sum/product of the operator’s eigenvalues. In the continuous
+     case, we will have an infnite sum (i.e. integral) or product. Often these will be infnite, but taking
+     ratios of determinants or traces of operators gives something fnite.
+
+                                                        2
+1.2     Path-Integrals for Free Theories
+Note: for this section I would recommend opening the notes from the previous recitation and compare
+this to what I’ll be doing today. You will see that the procedure is almost identical.
+
+1.2.1    The Distribution
+All the hard work is behind us. We can use the same techniques we had for computing correlators of
+fnite Gaussian integrals to path-integrals. In particular, the Wick contractions we saw last week will give
+rise to Feynman diagrams.
+
+The path-integral for a feld theory in n dimensions is based on the following distribution:
+                                                    1 iS[ϕ]
+                                        p[ϕ(x)] =      e    ,       ϕ ∈ R1,n−1
+                                                    Z0
+where we defne the partition function Z0 , for now thought of as a normalization constant
+                                               Z
+                                       Z0 = D[ϕ(x)]eiS[ϕ(x)]
+
+By free feld theory, we mean that the action is quadratic:
+                 Z                                     Z
+                     4      i          µ      2 2      1
+            iS = d x (−∂µ ϕ∂ ϕ − m ϕ ) =                     d4 xϕ(∂ 2 − m2 )ϕ
+                           2                           2
+                   Z                                        
+                 i
+               =      d4 xd4 y ϕ(y) δ (4) (x − y)(∂x2 − m2 ) ϕ(x)
+                 2
+                   Z                                               
+                 i      4 4                4 (4)           2      2
+               =      d¯ pd¯ q ϕ(q) (2π) δ (p − q)(−p − m ) ϕ(p)
+                 2
+                     Z
+                   1
+               =−        d¯4 pd¯4 q ϕ(q)K(q, p)ϕ(p),           K(q, p) = i(2π)4 δ (4) (p − q)(p2 + m2 )
+                   2
+In the last line I write this in momentum space. This looks almost identical to a fnite Gaussian integral,
+where instead of ϕi Aij ϕj we have ϕ(p)K(p, q)ϕ(q). In momentum space K is particularly simple, with no
+derivatives. Note that the δ (4) (p − q) makes this operator diagonal: we have no mixing between ϕ(p) and
+ϕ(q) unless p = q. If you made me write this as a fnite dimensional operator, it would morally be
+
+                 Ajk = i(k 2 + m2 )δjk = i diag(· · · , 4 + m2 , 1 + m2 , m2 , 1 + m2 , 4 + m2 , · · · )
+
+This way of viewing makes the Green’s function, or matrix inverse, particularly clear. Proceeding with
+the matrix analogy, the inverse is
+                                                                                       
+                −1       −i                        −i     −i    −i   −i       −i
+              Ajk = 2         δjk = diag · · · ,       ,      ,    ,      ,        ,···
+                      k + m2                     4 + m2 1 + m2 m2 1 + m2 4 + m2
+We thus can immediately write down the Green’s function,
+                                                                  −i
+                                             G(q, p) = δ(p − q) 2
+                                                               p + m2
+
+1.2.2    Correlators
+We seek to compute correlation functions of operators with respect to this ‘probability distribution’:
+                                                           Z
+                                            ˆ           1
+                    Gn := ⟨0|Tϕ̂(xn ) · · · ϕ(x1 )|0⟩ =      DϕeiS[ϕ] ϕ(xn ) · · · ϕ(x1 )
+                                                        Z0
+
+                                                           3
+Note that on the left, ϕ̂’s are operators acting on a Hilbert space, while on the right the ϕ’s are functions.
+These correlators give us information about fuctuations of the feld around the vacuum state.
+
+To compute these objects we introduce the generating functional
+                         Z          Z                               Z              
+                                     i     4 4                          4
+                 Z[J] = Dϕ exp           d¯ pd¯ q ϕ(q)K(q, p)ϕ(p) + i d¯ p J(p)ϕ(p)
+                                     2
+                                      Z                             
+                            C          i      4 4        −1
+                      =√         exp        d¯ pd¯ qJ(q)K (q, p)J(p)
+                           det K       2
+In the last line we have completed the square to perform the functional integral. This technique is almost
+identical to what we did for matrices. The factor of C is the product of all the 2π factors which follow
+from the Gaussian integral.
+
+From last week’s discussion we can immediately write down the formula for computing correlators:
+                                                                                   
+                                             1            ∂                       ∂
+                    ⟨ϕ(pn ) · · · ϕ(p1 )⟩ =       −i                 · · · −i              Z(J)
+                                            Z(0)     ∂J(pn )                   ∂J(p1 ) J=0
+                                            X
+                                          =    K −1 (pa , pb ) · · · K −1 (pc , pd )
+                                           Wick
+
+In the frst line we have obligatory factors of −i for each derivative due to our convention to have an i
+in front of J(p) in the integral. In the last line, we sum over all Wick contractions of {p1 , p2 , . . . , pn },
+best thought of as indices in parallel with the matrix case. If at any point you get confused about this,
+I suggest rephrasing your question in terms of Gaussian integrals. Note that here I work in momentum
+space, where K −1 is particularly simple, acting without derivatives. This is what is conventionally done
+in QFT. If you insisted I work in position space, the same process goes through, the only diference being
+the form of K −1 (y, x) compared to K −1 (q, p). To go back to position space, you can also just take the
+Fourier transform of the correlation function with respect to each of the momenta.
+
+Most important is the 2-point function, for which there is a single Wick contraction to consider. We
+collect all our results:
+                                                                  −i
+                   K −1 (q, p) = GF (q, p) = ⟨0|Tϕ(q)ϕ(p)|0⟩ = 2          δ(p − q)
+                                                              p + m2 − iϵ
+                                                                        −i
+                                                               Z
+                   K −1 (x, y) = GF (x, y) = ⟨0|Tϕ(x)ϕ(y)|0⟩ = d¯4 k 2           eik·(x−y)
+                                                                    k + m2 − iϵ
+That is, the inverse of the kinetic term, the Feynman Green’s function, and the 2-point correlator are all
+identical. We call this object the propagator.
+
+Example: let us compute the 4-point function of a free scalar theory. We can copy the Wick contractions
+almost verbatim from last week’s example:
+
+⟨ϕ(x1 )ϕ(x2 )ϕ(x3 )ϕ(x4 )⟩ = ⟨ϕ(x1 )ϕ(x2 )ϕ(x3 )ϕ(x4 )⟩ + ⟨ϕ(x1 )ϕ(x2 )ϕ(x3 )ϕ(x4 )⟩ + ⟨ϕ(x1 )ϕ(x2 )ϕ(x3 )ϕ(x4 )⟩
+                          = K −1 (x1 , x2 )K −1 (x3 , x4 ) + K −1 (x1 , x3 )K −1 (x2 , x4 ) + K −1 (x1 , x4 )K −1 (x2 , x3 )
+[DRAW DIAGRAMMATICALLY]
+
+
+2     Interactions and The Feynman Calculus
+2.1   Adding Interactions
+Everything we have done is for a free theory, where we have only a quadratic term in our feld ϕ. Free
+theories lead to Gaussian path-integrals, which is one of the very few cases where we can perform the
+
+                                                           4
+path-integral explicitly. We saw this above. Adding interactions will lead to 2 major difculties:
+
+   • More complicated Lagrangians. Generically, an action will have cubic and higher-order terms, such
+     as a ϕ4 theory:
+
+                                         L = −∂µ ϕ∂ µ ϕ − m2 ϕ2 + λϕ4
+
+     For generic cases like this, we can only compute the path-integral perturbatively, expanding around
+     a free theory assuming small λ. The convergence of this series is a tricky business.
+
+   • A diferent vacuum. We denote the vacuum of a free theory by |0⟩, and the interacting theory by
+     |Ω⟩. These are diferent states: adding terms to the Lagrangian changes the vacuum. Since free
+     theories are exactly solvable, we understand |0⟩ much better than |Ω⟩. Perturbation theory will
+     allow us to understand fuctuations about |Ω⟩ in terms of those about |0⟩.
+
+Now we turn to the evaluation of the correlator of an interacting theory:
+
+                                      Gn := ⟨Ω|Tϕ(x1 ) · · · ϕ(xn )|Ω⟩
+
+We will do this in perturbation theory, in principle to an arbitrary order. Again the key ingredient will
+be Wick’s theorem. Nothing about what we do is unique to feld theories: the same process holds for
+matrix theories, if we add higher order terms to our Gaussian integrals.
+
+To do this, we split our action into a free and interaction piece:
+                                                     Z                    
+                                                         4     1   µ 1 2 2
+                        S = S0 + SI ,          S0 = d x − ∂µ ϕ∂ ϕ − m ϕ
+                                                               2     2
+
+From class, we have the central ‘magic formula’ of Gell-Mann and Low which relates correlators about
+the interaction vacuum to those about the free vacuum:
+                             ⟨0|Tϕ(x1 ) · · · ϕ(xn )eiSI |0⟩
+                                                                     Z
+                       Gn =                                  , SI = − dtHI
+                                    ⟨0|TeiSI |0⟩
+
+Perturbation theory, then, is the process of expanding the eiSI exponential to a given order and computing
+correlators. By now, you know 2 methods to compute these correlators, which give us 2 ways of doing
+perturbation theory. They amount to doing the same thing, which are Wick contractions.
+
+  1. Hamiltonian framework: using the free-feld expansions of ϕ into creation and annihilation operators
+
+  2. Path-integral framework: view these as correlators of a Gaussian density, and perform the Gaussian
+     integrals explicitly.
+
+This formula contains all the physics, and is something all of you should remember. The rest is just
+combinatorics, and will be handled in the next recitation.
+
+
+
+
+                                                     5
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.323 Relativistic Quantum Field Theory I
+Spring 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+
+
+
+                                                       4
+

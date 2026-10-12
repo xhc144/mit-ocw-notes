@@ -1,0 +1,333 @@
+                                                    Recitation 3
+                                                     Wentao Cui
+
+                                                   February 24, 2023
+
+
+1     Contour Integration
+1.1    The Residue Theorem
+It’s commonly said in math that the shortest path between 2 points in the real domain passes through
+the complex plane. One such path is contour integration, a powerful technique using the tools of complex
+analysis that can be applied to evaluate difcult real integrals. It has incredible importance in QFT for
+reasons I’ll discuss, so I’d like to start by reviewing it.
+
+Simple Poles
+First, consider a function f , holomorphic in some region D ⊂ C with C = ∂D. Draw fgure. Then
+Cauchy’s integral theorem tells us that
+                                             I
+                                                dzf (z) = 0
+                                                      C
+
+This is a corollary of Green’s theorem in the plane, combined with the Cauchy-Riemann equations.
+
+                                                     f (z)
+We take something more interesting, take g(z) =            , where f (z) is holomorphic. There are 2 cases.
+                                                    z − z0
+    1. z0 ̸∈ D. Then g is holomorphic on D, so by Cauchy’s theorem above the integral vanishes
+    2. z0 ∈ D. Draw fgure. By Cauchy the integral only picks up a contribution at the pole. Here
+       the numerator is regular, and we can compute the integral of the denominator using the curve
+       z(t) = z0 + ϵeit . We then have
+                                       I
+                                            f (z)
+                                                  = 2πif (z0 ) =: 2πiResg (z0 )
+                                         C z − z0
+
+      The story is very similar if there are many poles in D: we can split up the domain of integration
+      and evaluate each pole using the technique above. Draw fgure. For instance,
+
+                            f (z)                1             f (z)                1                   1
+         h(z) :=                             =                                  =        Resh (z0 ) =        Resh (zk )
+                   (z − z0 ) · · · (z − zn )   z − z0 (z − z1 ) · · · (z − zn )   z − z0              z − zk
+
+                                               I                   X
+                                                    dzh(z) = 2πi        Resh (zk )
+                                                C                   k
+
+The way to intuitively understand the residue of a function at some point zi is what you get when you
+block out the pole at zi , and evaluate the rest of the function there.
+
+Higher Order Poles
+
+
+
+                                                            1
+Technically this is only true for simple poles; for higher order poles (e.g. 1/(z − z0 )2 ), the story is a bit
+more complicated. For an nth-order pole, one has the formula
+
+                                                 1          dn−1
+                              Res(f, z0 ) =             lim        ((z − z0 )n f (z))
+                                              (n − 1)! z→z0 dz n−1
+For simple poles n = 1 this gives what we expect,
+
+                                       Res(f, z0 ) = lim (z − z0 )f (z)
+                                                        z→z0
+
+What does this mean? One can expand a function f in terms of a Laurent series about a pole of order n.
+This is just a Taylor series with negative exponents, to account for the singular structure.
+                                                   X       ak
+                                           f (z) =
+                                                       (z − z0 )n
+                                                      k≥−n
+
+Then, the residue of f is the coefcient of the (z − z0 )−1 term–again, it’s what happens when you block
+out the pole at zi . One can now make sense of this formula. Say f has a pole of order n–how do we
+isolate the −1 term of the Laurent series when there are terms more singular? There is a trick: multiply
+the series by (z − z0 )n , so we have no more singularities. Then, diferentiate the regular series n − 1
+times so that terms corresponding to higher singular behavior vanish. The constant term is now just the
+coefcient of the −1 coefcient (with some combinatorial factor). Finally, one evaluates at z = z0 to kill
+of every other regular term, isolating a−1 .
+Usually you will only have to work with simple poles, but this formula is good to know.
+
+Now, we can state the residue theorem in its full generality. Let h(z) be some function, analytic except
+at a discrete collection of poles. Pick some closed curve C bounding a region D. One has
+                                        I               X
+                                          dzh(z) = 2πi      Resh (zj )
+                                         C                    zj ∈D
+
+
+1.2   Applications
+Example 1
+Let’s do an example. Consider the following real integral. The trick is to write this as a complex integral.
+
+                                           eix                 eix
+                                      Z             Z
+                                 I=       2
+                                                 =     dx
+                                       R x +1        R    (x + i)(x − i)
+
+This has poles at x = ±i, with residues ±e 1 /2i.
+
+We want to use the residue theorem. However, right now we can’t because this requires a closed path of
+integration. There is a trick to get it of this form, known as closing the contour.
+   • We consider the semicircle of radius R ≫ 1 in the upper half plane, going counterclockwise, C =
+     LR ∪ CR . Draw fgure. By the residue theorem,
+
+                                                  eiz
+                                     I
+                                                                    π
+                                              dz 2    = 2πiRes(i) =
+                                       LR ∪CR   z +1                e
+
+   • We now take R → ∞:
+                                             eiz
+                                  I                     I                     Z
+                                                                                              π
+                            lim          dz 2    =            dzf (z) + lim       dzf (z) =
+                           R→∞    LR ∪CR   z +1           R            R→∞ CR                 e
+
+
+                                                         2
+     This is almost what we want, but the presence of this second term is annoying. Let’s study it. for
+     f (z) = eix /(x2 + 1), the integrand is exponentially suppressed along this contour, and vanishes:
+
+                                                                   e−R
+                                           Z
+                                       lim      dzf (z) ∼ lim (πR) 2 = 0
+                                      R→∞ CR             R→∞        R
+     This is why we closed the contour upwards: if we closed in the other direction, the integrand would
+     have been exponentially amplifed, making our method useless.
+We have recovered I = π/e.
+                                                        R
+We can summarize this 3-step procedure for integrals R . First, identify the poles and residues. Next,
+identify if closing upwards or downwards will give a vanishing contribution. Lastly, close in this direction
+and use the residue theorem.
+
+Example 2
+Now let’s do an integral in QFT which is extremely important:
+
+                                                       eip·(x−y)
+                                               Z
+                                  Π(x − y) = i d¯4 p 2
+                                                     p + m2 − iϵ
+Here ϵ > 0 is a generic, arbitrarily small number. In particular, we’ll see why this iϵ is so important in
+QFT. Let’s look for the poles of the integrand. We have
+
+        p2 + m2 − iϵ = −(p0 )2 + p2 − iϵ = −(p0 )2 + ωp2 − iϵ = (p0 + ωp − iϵ)(−p0 + ωp − iϵ) = 0
+
+Where in the last step we don’t care about quadratic terms, and renamed 2ωp ϵ → ϵ. It is important when
+doing this that ωp > 0: the positive sign of ϵ is sacred. Therefore, the poles are located at p0 = ±ω iϵ.
+Draw fgure.
+                                                                     0 0  0
+                                                                e−ip (x −y )
+                                     Z
+                      Π(x − y) = −i d¯3 peip·(x·y) d¯p0 0
+                                                        (p + ωp − iϵ)(−p0 + ωp − iϵ)
+                                         1 1 iωp (x0 −y0 )                           1 1 −iωp (x0 −y0 )
+The dp0 integrand f has Resf (−ωp + iϵ) =       e          , and Resf (ωp − iϵ) =          e
+                                        2π 2ωp                                      2π 2ωp
+                                                            0 0  0
+Now we close the contour. We want exponential decay in e−ip (x −y ) , so the half-plane we pick actually
+depends on sign(x0 − y 0 ).
+  1. x0 > y 0 . We close down, picking up the pole at ωp − iϵ:
+                                                   1 1 −iωp (x0 −y0 )    i −iωp (x0 −y0 )
+                             I(x0 − y 0 ) = 2πi          e            =     e
+                                                  2π 2ωp                2ωp
+
+  2. x0 < y 0 . We close up, picking up the pole at −ωp + iϵ. A similar calculation shows
+                                                              i −iωp (y0 −x0 )
+                                          I(x0 − y 0 ) =         e
+                                                             2ωp
+
+Finally, we can substitute this into Π(x − y) to get our result:
+                                        Z 3
+                                         d¯ p ip·(x−y)
+                                                e       |p0 =ωp ,       x0 − y 0 > 0
+                                             2ωp
+                                        
+                            Π(x − y) =
+                                         d¯3 p ip·(y−x)
+                                          Z
+                                        
+                                                e       |p0 =ωp ,       x0 − y 0 < 0
+                                             2ωp
+We will shortly see how this is equivalent to the time-ordered 2-point function, ⟨0|T ϕ(x)ϕ(y)|0⟩.
+
+                                                         3
+2     Green’s Functions
+When learning QFT, it can be difcult to grasp the true value of Green’s functions. I’d like to make
+this very clear in the following statement, which we’ll spend some time trying to understand. Vacuum
+expectation values of products of free feld operators can be written in terms of Green’s functions of the
+wave equation (equation of motion). Today I’d like to give you some intuition playing around with these
+things, and relate them to the contour integrals we just talked about.
+
+There are a lot of Green’s-adjacent functions we can write down, and here are some of them. Note that
+these expressions depend on 4-vectors x and x′ , which can have diferent time components.
+
+    • Wightman functions                   G+ (x, x′ ) = ⟨0|ϕ(x)ϕ(x′ )|0⟩,       G− (x, x′ ) = ⟨0|ϕ(x′ )ϕ(x)|0⟩
+
+    • Schwinger/Hadamard functions iG(x, x′ ) = ⟨0|[ϕ(x), ϕ(x′ )]|0⟩,            G(1) (x, x′ ) = ⟨0|{ϕ(x), ϕ(x′ )}|0⟩
+
+    • Feynman (T -ordered) function        iGF (x, x′ ) = ⟨0|T ϕ(x)ϕ(x′ )|0⟩ = θ(t − t′ )G+ + θ(t′ − t)G−
+
+    • Retarded/advanced function           GR (x, x′ ) = −θ(t − t′ )G(x, x′ ),   GA (x, x′ ) = θ(t − t′ )G(x, x′ )
+
+The fact that there are so many of basically the same thing, and that all of them have the names of some
+of the most important fgures in QFT, should tell you how important these are.
+
+Using the Klein-Gordon equation (∂ 2 + m2 )ϕ(x) = 0, we can see that G± , and consequentially G, G(1)
+satisfy the homogenous equation
+
+                                             (∂x2 + m2 )G (x, x′ ) = 0
+
+We can also evaluate the Klein-Gordon operator on the Feynman Green’s function:
+
+                 (∂x2 + m2 )GF (x, x′ ) = (∂x2 + m2 )(θ(t − t′ )G+ (x, x′ ) + θ(t′ − t)G− (x, x′ ))
+
+It is very instructive to do this calculation. On each term, the derivative can act in 3 ways by the product
+rule. If both ∂x act on G+ or G− , the term added to the m2 term vanishes by the equation of motion.
+The other terms can be evaluated by ∂t θ(t − t′ ) = δ(t − t′ ) and the equal time commutation relations
+to fnd the Feynman Green’s function solves the inhomogenous Klein-Gordon equation with δ-function
+source.
+
+                      (∂x2 + m2 )GF (x, x′ ) = −δ (4) (x − x′ )
+                      (∂x2 + m2 )GR,A (x, x′ ) = δ (4) (x − x′ )    (similar computation)
+
+In this way the Feynman, retarded, and advanced functions are ‘true’ Green’s functions, while the Wight-
+man, Schwinder, and Hadamard functions are not, being solutions of the homogenous equation of motion.
+In the general way we can build general solutions to the inhomogenous equations of motion out of these
+Green’s functions.
+
+2.1   Boundary Conditions
+This begs the question: what is the diference between all of these Green’s functions? The answer lies in
+the boundary condition.
+
+Observe that due to the presence of the θ(t − t′ ), the retarded function GR (x, x′ ) = −θ(t − t′ )(G+ − G− )
+vanishes unless t > t′ . Looking at the equation of motion, the Green’s function measures the response to
+a δ-function which stimulates the feld at t = t′ . We could have instead chosen time to run backwards: the
+
+
+                                                          4
+Klein-Gordon equation is agnostic, since it is invariant under t → −t. Doing so gives you the advanced
+Green’s function: instead of everything travelling forwards in time, the feld disturbances travel backwards.
+
+The Feynman function is an average of the retarded and advanced solution. In QFT this is the right
+thing to do because the positive and negative frequency solutions to the equations of motion are on equal
+footing. That is, we have particles AND antiparticles, which can be mathematically treated as particles
+travelling backwards in time. Causality must be imposed on both. If I disturb my particle feld at time
+t, the response at time t′ will be zero until t′ > t. For the antiparticle, the reverse is true.
+
+To summarize: the Feynman, retarded, and advanced functions describe the propagation of feld distur-
+bances subject to certain boundary conditions. In QFT, causality, along with the existence of antiparticles,
+make the Feynman Green’s function the right one to use.
+
+2.2   Integral Representations
+Integral representations for Green’s functions can be obtained by substituting the mode decomposition
+of ϕ(x) and ϕ(x′ ) into the defnitions, and using properties of creation and annihilation operators. Let’s
+do this for the Feynman Green’s function, frst for t > t′ .
+                                               Z
+                                                              1                            ′ ′ ′
+        G (x, x )|t>t′ = ⟨0|ϕ(x)ϕ(x )|0⟩ = d¯3 kd¯3 k′
+          +     ′                   ′
+                                                                   1/2
+                                                                       e−iωk t+ik·x eiωk′ t ik ·x ⟨0|ak ak† ′ |0⟩
+                                                        (2ωk 2ωk′ )
+                         Z 3
+                            d¯ k −ik·(x−x′ )
+                       =        e            ,   k 0 = ωk
+                            2ωk
+                         Z 3
+          +     ′           d¯ k −ik·(x′ −x)
+        G (x, x )|t<t′ =        e            ,   k 0 = ωk
+                            2ωk
+But this should be familiar! In fact, this was the answer of something we computed earlier! We thus have
+
+                                                                        eip·(x−y)
+                                                            Z
+                                        ′
+                                GF (x, x ) = Π(x − y) = i       d¯4 p 2
+                                                                     p + m2 − iϵ
+To the Feynman Greens function we have associated a very specifc integration contour, specifed by the
+iϵ prescription. Note that because iϵ is so small, we can either deform the contour away from the real
+line and keep the poles real, or deform the poles away from the real line and integrate over R.
+
+We can do the exact same thing for the advanced and retarded Greens functions, and compare them to
+                    eip·(x−y)
+              Z
+the value of i d¯4 p 2        with diferent choices of integration contour. To summarize: we can obtain
+                    p + m2
+each Greens function by performing some contour integral, with a specifc choice of integration contour
+specifying the boundary condition of our theory. They are given below. Draw fgure.
+
+
+
+
+                                                       5
+We may have done something quite peculiar to you today. We started with certain objects we like to
+study, these 2-point correlators, that are initially real-valued in position coordinates. But the choice of
+boundary conditions has imposed a specifc complex (or pole) structure in our theory, and so we add
+complex analysis to our QFT toolbox. By considering analytic continuations, these objects have a very
+profound analytic structure universal to all QFTs. This is an incredibly deep rabbit hole that has birthed
+entire felds, none of which we’ll have the time for.
+
+I will mention one mindblowing (to me) application. We’ve discussed that in QFT, the Feynman Green’s
+function is the right one to use. By the residue theorem, no integrals change if we deform our contour,
+so long as we don’t cross any poles. We can therefore deform the contour from the real plane to the
+imaginary plane, and therefore compute integrals like the ones we’ve seen by integrating over purely
+imaginary time. If time is imaginary, then our metric becomes (−i2 , +, +, +) = (+, +, +, +) which is now
+Euclidean. This is known as a Wick rotation. In this way, we can compute quantities in a Minkowski
+theory by converting to a theory in Euclidean space, which is essentially just a statistical feld theory
+at zero-temperature. That last part requires more explanation, which I’ll provide next week when you
+start talking about path-integrals. I emphasize this is only possible with the Feynman iϵ prescription: if
+we used a retarded or advanced contour, then the poles obstruct us from deforming our contour to the
+imaginary axis.
+
+                                                    6
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.323 Relativistic Quantum Field Theory I
+Spring 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+
+
+
+                                                       4
+

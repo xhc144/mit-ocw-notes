@@ -1,0 +1,126 @@
+\originalchapter{8.323 作业1题解}
+本章据 MIT OCW 8.323(2023 春)\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset01.pdf}{作业1}及\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset_01sol.pdf}{官方解}中文重编,补充独立推导;不是 MIT 官方中文版.原稿用 $\eta=\diag(-1,1,1,1)$,这里统一为 $g=\diag(1,-1,-1,-1)$:原稿的 $-\partial_\mu\phi^*\partial^\mu\phi$ 改为 $\partial_\mu\phi^*\partial^\mu\phi$,质量壳改为 $k^2=m^2$.取 $c=\hbar=1$.
+
+\originalsection{原题1}
+\begin{exercise}
+单位质量、频率 $\omega>0$ 的量子谐振子有 $H=\tfrac12(\hat p^2+\omega^2\hat x^2)$.海森堡算符满足 $[\hat x(t),\hat p(t)]=\ii$.
+(a) 求 $\hat x(t),\hat p(t)$ 的海森堡演化方程;(b) 在 $\hat x(0)=\hat x,\hat p(0)=\hat p$ 下求解;(c) 定义
+\[
+\hat x(t)=\frac{\hat a(t)+\hat a^\dagger(t)}{\sqrt{2\omega}},\qquad
+\hat p(t)=-\ii\sqrt{\frac\omega2}\,[\hat a(t)-\hat a^\dagger(t)],
+\]
+证明 $[\hat a(t),\hat a^\dagger(t)]=1$;(d) 用这两个算符表示 $H$;(e) 求它们的演化方程;(f) 在 $\hat a(0)=\hat a,\hat a^\dagger(0)=\hat a^\dagger$ 下求解;(g) 用初始 $\hat a,\hat a^\dagger$ 表示 $\hat x(t),\hat p(t),H$.
+\end{exercise}
+\begin{solution}
+(a) 无显含时间的算符满足 $\dot O=\ii[H,O]$.利用 $[AB,C]=A[B,C]+[A,C]B$,得 $[\hat p^2,\hat x]=-2\ii\hat p$、$[\hat x^2,\hat p]=2\ii\hat x$,所以 $\dot{\hat x}=\hat p$、$\dot{\hat p}=-\omega^2\hat x$.
+(b) 二阶方程 $\ddot{\hat x}=-\omega^2\hat x$ 与初值给出
+\[
+\hat x(t)=\hat x\cos\omega t+\frac{\hat p}{\omega}\sin\omega t,\qquad
+\hat p(t)=\hat p\cos\omega t-\omega\hat x\sin\omega t.
+\]
+(c) 反解为 $\hat a=\sqrt{\omega/2}\hat x+\ii\hat p/\sqrt{2\omega}$、$\hat a^\dagger=\sqrt{\omega/2}\hat x-\ii\hat p/\sqrt{2\omega}$,故
+$[\hat a,\hat a^\dagger]=-\ii[\hat x,\hat p]/2+\ii[\hat p,\hat x]/2=1$.本计算在任意同一时刻成立.
+(d) 展开时必须保留算符顺序:
+\[
+H=\frac\omega4\{(\hat a+\hat a^\dagger)^2-(\hat a-\hat a^\dagger)^2\}
+=\frac\omega2(\hat a\hat a^\dagger+\hat a^\dagger\hat a)
+=\omega(\hat a^\dagger\hat a+\tfrac12).
+\]
+(e) $[\hat a^\dagger\hat a,\hat a]=-\hat a$、$[\hat a^\dagger\hat a,\hat a^\dagger]=\hat a^\dagger$,故 $\dot{\hat a}=-\ii\omega\hat a$、$\dot{\hat a}^\dagger=\ii\omega\hat a^\dagger$.
+(f) $\hat a(t)=\e^{-\ii\omega t}\hat a$、$\hat a^\dagger(t)=\e^{\ii\omega t}\hat a^\dagger$.
+(g) 因而
+\[
+\hat x(t)=\frac{\hat a\e^{-\ii\omega t}+\hat a^\dagger\e^{\ii\omega t}}{\sqrt{2\omega}},\quad
+\hat p(t)=-\ii\sqrt{\frac\omega2}(\hat a\e^{-\ii\omega t}-\hat a^\dagger\e^{\ii\omega t}),\quad
+H=\omega(\hat a^\dagger\hat a+\tfrac12).
+\]
+数算符的两个相位相消,说明 $H$ 不随海森堡时间变化.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+(a) 证明 $\delta^{(4)}(p)=\prod_{\mu=0}^3\delta(p^\mu)$ 在洛伦兹变换 $\widetilde p=\Lambda p$ 下不变.
+(b) 设 $k_a=(\omega_a,\mathbf k_a)$($a=1,2$)位于同一质量 $m$ 的正能量壳上,证明同一个洛伦兹变换下
+$\omega_1\delta^{(3)}(\mathbf k_1-\mathbf k_2)=\omega'_1\delta^{(3)}(\mathbf k'_1-\mathbf k'_2)$.
+(c) 对适当可积函数 $f$,证明
+\[
+\int_{\R^3}\frac{\dd^3k}{(2\pi)^3 2\omega_{\mathbf k}}f(k)
+=\int_{\R^3}\frac{\dd^3k}{(2\pi)^3 2\omega_{\mathbf k}}f(\Lambda k),\qquad
+\omega_{\mathbf k}=\sqrt{\mathbf k^2+m^2}.
+\]
+(b)(c) 的正能量壳不变性应限于保持时间方向的洛伦兹变换.
+\end{exercise}
+\begin{solution}
+(a) $\Lambda^Tg\Lambda=g$ 给出 $(\det\Lambda)^2=1$.多维分布换元律是 $\delta^{(4)}(\Lambda p)=|\det\Lambda|^{-1}\delta^{(4)}(p)$,因此结论成立,也允许离散洛伦兹变换.
+(c) 先建立壳测度,这也使(b)的证明避免对分布相除.由一维恒等式 $\delta(F(s))=\sum_{F(s_a)=0}\delta(s-s_a)/|F'(s_a)|$,
+\[
+\theta(k^0)\delta(k^2-m^2)=\frac{\delta(k^0-\omega_{\mathbf k})}{2\omega_{\mathbf k}},\qquad
+\int\frac{\dd^3k}{(2\pi)^3 2\omega_{\mathbf k}}f(k)
+=\int\frac{\dd^4k}{(2\pi)^3}\theta(k^0)\delta(k^2-m^2)f(k).
+\]
+右端的四维测度、质量壳和正能量条件均不变.作 $k=\Lambda q$ 即得(c).这里不要求 $f$ 本身为标量函数,而是说明把其自变量统一变换,整个积分不变.
+(b) 由不变壳测度,壳上的空间坐标换元雅可比满足
+$|\partial\mathbf k'/\partial\mathbf k|=\omega'/\omega$.
+于是以 $\mathbf k_2$ 为固定点,三维 $\delta$ 的换元律给出
+\[
+\delta^{(3)}(\mathbf k'_1-\mathbf k'_2)
+=\frac{\omega_2}{\omega'_2}\delta^{(3)}(\mathbf k_1-\mathbf k_2).
+\]
+在 $\delta$ 支持上 $\omega_1=\omega_2,\omega'_1=\omega'_2$,乘以 $\omega'_1$ 得到所求式.原官方解中“能量不变”的措辞应理解为“能量的正负号不变”;能量数值会随 boost 改变.
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+复标量场的作用量(已换为本书度规)为
+\[
+S=\int_{\R^{1,3}}\dd^4x\,[\partial_\mu\phi^*\partial^\mu\phi-V(|\phi|^2)],\qquad |\phi|^2=\phi^*\phi.
+\]
+把 $\phi,\phi^*$ 当独立变分变量.(a) 检查洛伦兹不变性并求运动方程;(b) 求两场的共轭动量及哈密顿量;(c) 常数相位变换 $\phi\mapsto\e^{\ii\alpha}\phi,\phi^*\mapsto\e^{-\ii\alpha}\phi^*$ 不改变作用量,利用诺特定理求守恒流 $j^\mu$ 和荷 $Q$;(d) 用(a)的方程直接检查流守恒.
+\end{exercise}
+\begin{solution}
+(a) 场满足 $\phi'(x')=\phi(x)$;导数为协向量,所以 $\partial_\mu\phi^*\partial^\mu\phi$ 与 $|\phi|^2$ 为标量,且 $\dd^4x'=\dd^4x$.若 $u=\phi^*\phi$,则 $\partial V/\partial\phi^*=V'(u)\phi$.欧拉--拉格朗日方程为
+\[
+\Box\phi+V'(u)\phi=0,\qquad \Box\phi^*+V'(u)\phi^*=0,\qquad
+\Box=\partial_t^2-\nabla^2.
+\]
+(b) $\Lag=\dot\phi^*\dot\phi-\nabla\phi^*\cdot\nabla\phi-V$,于是
+\[
+\pi_\phi=\dot\phi^*,\quad\pi_{\phi^*}=\dot\phi,\qquad
+H=\int\dd^3x\,[\pi_\phi\pi_{\phi^*}+\nabla\phi^*\cdot\nabla\phi+V].
+\]
+两个速度项在勒让德变换中出现两次,减去 $\Lag$ 后剩下一次.
+(c) 从变分中去掉共同参数 $\alpha$,$\delta\phi/\alpha=\ii\phi$、$\delta\phi^*/\alpha=-\ii\phi^*$,且 $\delta\Lag=0$,得
+\[
+j^\mu=\ii(\phi\partial^\mu\phi^*-\phi^*\partial^\mu\phi),\qquad
+Q=\int\dd^3x\,\ii(\phi\dot\phi^*-\phi^*\dot\phi).
+\]
+这是与所给相位变换配套的实荷;整体反号对应反号的群参数.不能只删去 $\ii$ 而仍把流当成实可观测量.
+(d) 一阶导数乘积相消后,
+$\partial_\mu j^\mu=\ii(\phi\Box\phi^*-\phi^*\Box\phi)=0$.再假设无穷远的空间流通量消失,则 $\dot Q=-\int\dd^3x\,\nabla\cdot\mathbf j=0$.
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+继续研究原题3.(a) 时空平移 $x'^\mu=x^\mu+a^\mu$ 下 $\phi'(x')=\phi(x)$,证明以固定坐标写成 $\phi(x)\mapsto\phi'(x)$ 后作用量不变;(b) 写出无穷小平移下 $\phi,\phi^*$ 的变化,并由诺特定理求 $T^{\mu\nu}$;(c) 写出 $H=\int\dd^3x\,T^{00}$ 和 $P^i=\int\dd^3x\,T^{0i}$,比较 $H$ 与原题3(b);(d) 直接检查 $T^{\mu\nu}$ 守恒.
+\end{exercise}
+\begin{solution}
+(a) 固定坐标的场为 $\phi'(x)=\phi(x-a)$.在 $S[\phi']$ 中令 $y=x-a$,导数及积分测度保持不变,故 $S[\phi']=S[\phi]$.
+(b) $\delta\phi=-a^\nu\partial_\nu\phi$、$\delta\phi^*=-a^\nu\partial_\nu\phi^*$,而 $\delta\Lag=-a^\nu\partial_\nu\Lag$ 为全散度.从平移参数的系数抽取通常的能动张量,
+\[
+T^{\mu\nu}=\partial^\mu\phi^*\partial^\nu\phi+\partial^\mu\phi\partial^\nu\phi^*-g^{\mu\nu}\Lag.
+\]
+它在此已经对称,无须额外改进.
+(c) $\partial^0=\partial_t$、$\partial^i=-\partial_i$,所以
+\[
+H=\int\dd^3x\,[|\dot\phi|^2+|\nabla\phi|^2+V],\qquad
+P^i=-\int\dd^3x\,(\dot\phi^*\partial_i\phi+\dot\phi\partial_i\phi^*).
+\]
+$H$ 与勒让德变换所得完全一致.空间负号来自抬起空间指标.
+(d) 对 $T^{\mu\nu}$ 求散度,二阶混合导数项与 $\partial^\nu(\partial_\rho\phi^*\partial^\rho\phi)$ 相消,余下
+\[
+\partial_\mu T^{\mu\nu}
+=(\Box\phi^*)\partial^\nu\phi+(\Box\phi)\partial^\nu\phi^*+\partial^\nu V
+=-V'(u)(\phi^*\partial^\nu\phi+\phi\partial^\nu\phi^*)+V'(u)\partial^\nu u=0.
+\]
+边界通量为零时,积分后的能量及动量守恒.
+\end{solution}

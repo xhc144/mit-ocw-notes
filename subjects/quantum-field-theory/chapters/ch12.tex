@@ -1,0 +1,207 @@
+\originalchapter{一圈量子修正与重整化的入口}
+\label{ch:renormalization-entry}
+
+树图已经给出了非平凡的相对论散射,却还不是完整量子理论.相互作用可以让粒子短暂地进入中间多粒子态,且内部动量没有固定值;对所有可能动量求和便出现环积分.高动量部分经常发散,这说明拉格朗日量中写下的参数不能未经说明就等同于测量值.本章先用量纲和最简单的 $\lambda\phi^4$ 图算清这一问题,再建立正规化、反项和重整化条件的联系,作为进入系统重整化理论的桥梁.标量一圈的具体计算是本书为衔接后续内容而展开的推导.
+
+\originalsection{量纲与环图的表面发散度}
+
+在 $\hbar=c=1$ 的单位中,作用量无量纲,$[x]=-1$、$[\partial]=1$,四维拉格朗日密度量纲为四.这里 $[X]$ 表示量 $X$ 的质量量纲指数,而不是它的数值单位.由动能项可得
+\begin{equation}
+ [\phi]=1,\qquad[\psi]=\frac32,\qquad[A_\mu]=1,
+ \qquad[m]=1,\qquad[\lambda]=[e]=0.
+\end{equation}
+例如 $\bar\psi\slashed\partial\psi$ 的量纲是 $2[\psi]+1=4$;$\phi^4$ 已有量纲四,所以它的系数无量纲.一般 $d$ 维时,$[\phi]=(d-2)/2$、$[\psi]=(d-1)/2$、$[\lambda]=4-d$.
+
+对四维标量 $\phi^4$ 的连通图,设 $L$ 为独立环数,$I$ 为内线数,$V$ 为四价顶点数,$E$ 为外腿数.每个环积分给四个动量幂,每条高动量传播子给 $k^{-2}$,故整体高动量缩放的\emph{表面发散度}为 $D=4L-2I$.图连通给出 $L=I-V+1$,端点计数给出 $4V=2I+E$,所以
+\begin{equation}
+ D=4-E.
+ \label{eq:phi4-power-count}
+\end{equation}
+两点图可能二次发散,四点图可能对数发散,六点及以上整体表面收敛.但这个计数还没有检查子图:整体收敛的图仍可能包含发散的两点或四点子图.对称性也可能使表面允许的高次发散抵消.因而量纲用于定位需要检查的局部结构,不是已证明的全阶收敛定理.
+
+\originalsection{蝌蚪图与质量修正}
+
+考虑与前文相同的理论
+\begin{equation}
+ \Lag=\frac12(\partial\phi)^2-\frac12m^2\phi^2-\frac\lambda{4!}\phi^4.
+\end{equation}
+一顶点两点图把两条腿接到外点,其余两条在同一顶点收缩成环.选两条有序外腿共有 $4\times3$ 种,除以 $4!=24$,故对称因子为 $1/2$.定义一粒子不可约两点插入为 $-\ii\Sigma(p^2)$,则
+\begin{equation}
+ -\ii\Sigma_{\rm tad}
+ =\frac{-\ii\lambda}{2}\int\frac{\dd^4k}{(2\pi)^4}\frac{\ii}{k^2-m^2+\ii0}.
+\end{equation}
+这张图没有外动量进入环,所以 $\Sigma_{\rm tad}$ 与 $p$ 无关.经 Feynman 极点处方允许的 Wick 转动 $k^0=\ii k_E^0$,用 Euclidean 四球截断 $k_E^2\leq\Lambda^2$ 得到
+\begin{equation}
+ \Sigma_{\rm tad}(\Lambda)=\frac\lambda2
+ \int_{k_E^2\leq\Lambda^2}\frac{\dd^4k_E}{(2\pi)^4}\frac1{k_E^2+m^2}.
+\end{equation}
+Euclidean 四维球面面积为 $2\pi^2$.径向积分为
+\begin{align}
+ \int_{k_E^2\leq\Lambda^2}\frac{\dd^4k_E}{(2\pi)^4}\frac1{k_E^2+m^2}
+ &=\frac1{8\pi^2}\int_0^\Lambda\frac{k^3\dd k}{k^2+m^2}\\
+ &=\frac1{16\pi^2}\left[\Lambda^2-m^2\ln\left(1+\frac{\Lambda^2}{m^2}\right)\right],\\
+ \Sigma_{\rm tad}(\Lambda)&=\frac\lambda{32\pi^2}
+ \left[\Lambda^2-m^2\ln\left(1+\frac{\Lambda^2}{m^2}\right)\right].
+ \label{eq:tadpole-cutoff}
+\end{align}
+变量 $\Lambda$ 是正规化的高动量截断,不是 Lorentz 变换矩阵;本章上下文中二者不会同时使用.公式展示了二次发散和次领先对数项,且它们都乘在与原质量项相同的局部结构上.
+
+为何称它为质量修正？把一粒子不可约插入反复接到自由传播子 $D_0(p)=\ii/(p^2-m^2+\ii0)$ 上,得到几何级数
+\begin{equation}
+ D=D_0+D_0(-\ii\Sigma)D_0+\cdots
+ =\frac{\ii}{p^2-m^2-\Sigma(p^2)+\ii0}.
+ \label{eq:dyson-scalar}
+\end{equation}
+粒子的物理质量由传播子极点确定,而不是只读裸拉格朗日量的 $m$.一圈蝌蚪改变极点位置,不改变动量依赖,因此在这个模型的一圈两点函数中没有场强重整化;两圈日落图才会产生新的 $p^2$ 依赖.正规序若预先删去蝌蚪,相当于在特定约定中处理这类局部项,并不消除四点环或一般重整化问题.
+
+\originalsection{四点泡图、Feynman 参数与阈值}
+
+二顶点四点函数共有 $s,t,u$ 三道泡图,每道对称因子 $1/2$.以 $P=p_1+p_2$、$P^2=s$ 的 $s$ 道为例,
+\begin{equation}
+ \ii\mathcal M_s^{(1)}
+ =\frac{(-\ii\lambda)^2}{2}\int\frac{\dd^4\ell}{(2\pi)^4}
+ \frac{\ii}{\ell^2-m^2+\ii0}
+ \frac{\ii}{(\ell+P)^2-m^2+\ii0}.
+ \label{eq:bubble-minkowski}
+\end{equation}
+有两个分母时,直接分别作径向积分不方便.使用恒等式
+\begin{equation}
+ \frac1{ab}=\int_0^1\frac{\dd x}{[xa+(1-x)b]^2},
+\end{equation}
+它可由对 $x$ 积分直接验证;当 $a=b$ 时由连续性成立.配方并平移动量后分母为 $[q^2-\Delta_s(x)+\ii0]^2$,其中
+\begin{equation}
+ \Delta_s(x)=m^2-x(1-x)s.
+\end{equation}
+先在 $s<4m^2$ 区域作 Wick 转动,随后用 $-\ii0$ 解析延拓.对平移后的 Euclidean $q$ 作球截断,径向积分给出
+\begin{align}
+ J(\Delta)&=\int_{q_E^2\leq\Lambda^2}\frac{\dd^4q_E}{(2\pi)^4}
+ \frac1{(q_E^2+\Delta)^2}\\
+ &=\frac1{16\pi^2}\left[
+ \ln\left(1+\frac{\Lambda^2}{\Delta}\right)
+ +\frac{\Delta}{\Lambda^2+\Delta}-1\right].
+\end{align}
+于是忽略随 $\Lambda\to\infty$ 消失的项,
+\begin{equation}
+ \mathcal M_s^{(1)}
+ =\frac{\lambda^2}{32\pi^2}\int_0^1\dd x
+ \left[\ln\frac{\Lambda^2}{m^2-x(1-x)s-\ii0}-1\right].
+ \label{eq:bubble-cutoff}
+\end{equation}
+这里把截断明确施加于\emph{平移后的}积分变量.硬截断并不严格保持任意动量平移;不同施加顺序可能改变有限局部项.因此这个公式定义了当前的一圈正规化约定,其通用对数发散系数才是我们马上使用的量,不能据此随意平移更高阶发散积分.
+
+当 $s>4m^2$ 时,一部分 $x$ 使 $\Delta_s<0$,因为 $x(1-x)$ 最大值为 $1/4$.由 $\ln(-a-\ii0)=\ln a-\ii\pi$,振幅出现虚部,这与两个内部粒子同时达到壳上的阈值一致.满足 $\Delta_s<0$ 的区间长度为 $\sqrt{1-4m^2/s}$,故
+\begin{equation}
+ \operatorname{Im}\mathcal M_s^{(1)}
+ =\frac{\lambda^2}{32\pi}\sqrt{1-\frac{4m^2}{s}}.
+\end{equation}
+它与树振幅平方所决定的二体相空间相配:在这里 $2\operatorname{Im}\mathcal M$ 等于二体中间态积分,带相同粒子 $1/2!$.实部的高动量发散可以用局部反项处理;由物理阈值产生的非局部虚部不能用一个实常数质量或耦合反项删掉.
+
+\originalsection{反项与可测参数}
+
+正规化把发散表达式暂时变成依赖 $\Lambda$ 的有限表达式;重整化则用实验或指定条件定义参数,并调整裸参数使这些条件在去除正规化后仍成立.二者不是同一步.写裸场 $\phi_0=Z_\phi^{1/2}\phi_R$,并把裸作用量分成
+\begin{equation}
+ \Lag=\frac12(\partial\phi_R)^2-\frac12m_R^2\phi_R^2
+ -\frac{\lambda_R}{4!}\phi_R^4
+ +\frac{\delta Z}{2}(\partial\phi_R)^2
+ -\frac{\delta m^2}{2}\phi_R^2-\frac{\delta\lambda}{4!}\phi_R^4.
+ \label{eq:scalar-counterterms}
+\end{equation}
+这些系数满足 $Z_\phi m_0^2=m_R^2+\delta m^2$、$Z_\phi^2\lambda_0=\lambda_R+\delta\lambda$.反项是同一裸理论的参数重写,不是为了每张图临时增添一个新的任意作用.
+
+两点反项插入为 $\ii\delta Z\,p^2-\ii\delta m^2$,所以完整逆传播子的实部为
+\begin{equation}
+ p^2-m_R^2-\Sigma_{\rm loop}(p^2)+\delta Zp^2-\delta m^2.
+\end{equation}
+若采用壳上方案,要求极点位于 $p^2=m_R^2$ 且留数为一,则
+\begin{equation}
+ \delta Z=\Sigma'_{\rm loop}(m_R^2),
+ \qquad\delta m^2=m_R^2\delta Z-\Sigma_{\rm loop}(m_R^2).
+\end{equation}
+一圈蝌蚪没有导数,故 $\delta Z=0$、$\delta m^2=-\Sigma_{\rm tad}$.其符号与前面选择插入 $-\ii\Sigma$ 的约定直接相连:总插入是 $-\ii(\Sigma_{\rm tad}+\delta m^2)$,二者抵消.裸质量随截断改变,而指定的物理极点保持不变.
+
+四点函数中树振幅为 $-\lambda_R$,反项为 $-\delta\lambda$,三道泡图的共同发散为
+$3\lambda_R^2\ln\Lambda^2/(32\pi^2)$.为具体定义耦合,取一个 Euclidean 非壳上对称减除点,四条入射外动量满足 $p_i^2=-\mu^2$、$p_i\cdot p_j=\mu^2/3$,因此三道不变量都为 $s_0=t_0=u_0=-4\mu^2/3$.要求该点的截肢四点顶角为 $-\lambda_R$,则取
+\begin{equation}
+ \delta\lambda=\frac{\lambda_R^2}{32\pi^2}
+ \sum_{r=s,t,u}\int_0^1\dd x
+ \left[\ln\frac{\Lambda^2}{m_R^2-x(1-x)r_0}-1\right].
+\end{equation}
+相减后其他外动量处的一圈振幅成为
+\begin{equation}
+ \mathcal M_R=-\lambda_R+
+ \frac{\lambda_R^2}{32\pi^2}\sum_{r=s,t,u}\int_0^1\dd x\,
+ \ln\frac{m_R^2-x(1-x)r_0}{m_R^2-x(1-x)r-\ii0}
+ +\order(\lambda_R^3).
+ \label{eq:phi4-subtracted}
+\end{equation}
+截断在可预测的差值中消失.Euclidean 减除点是参数定义,不是可直接准备的壳上散射状态;应先以一个实验观测量固定 $\lambda_R$,再用本式预测其他运动学点.方案改变会重新命名有限参数,但一致地换算后物理振幅不变.
+
+\originalsection{维数正规化与尺度依赖}
+
+硬截断让高动量来源直观,协变计算则常用维数正规化.取 $d=4-2\epsilon$,把积分和 gamma 函数对 $d$ 解析延拓;$\epsilon$ 不是小物理维度,而是暂时的数学参数.对正 $\Delta$,利用
+$(q_E^2+\Delta)^{-2}=\int_0^\infty\dd t\,t\e^{-t(q_E^2+\Delta)}$,先作 Gaussian 动量积分,再作 $t$ 积分,得到
+\begin{equation}
+ \mu^{2\epsilon}\int\frac{\dd^dq_E}{(2\pi)^d}
+ \frac1{(q_E^2+\Delta)^2}
+ =\frac{\mu^{2\epsilon}}{(4\pi)^{d/2}}
+ \Gamma\left(2-\frac d2\right)\Delta^{d/2-2}.
+\end{equation}
+这个推导起初在积分收敛的维度区间成立,再作解析延拓.展开 $\Gamma(\epsilon)=1/\epsilon-\gamma_E+\order(\epsilon)$,有
+\begin{equation}
+ J_d(\Delta)=\frac1{16\pi^2}
+ \left[\frac1{\bar\epsilon}-\ln\frac\Delta{\mu^2}+\order(\epsilon)\right],
+ \qquad\frac1{\bar\epsilon}=\frac1\epsilon-\gamma_E+\ln4\pi.
+\end{equation}
+$\mu$ 是补偿耦合量纲的任意质量尺度,$\gamma_E$ 为 Euler 常数.最小减除的改进版本 $\overline{\mathrm{MS}}$ 减去 $1/\bar\epsilon$.三道泡图给出裸耦合关系
+\begin{equation}
+ \lambda_0=\mu^{2\epsilon}
+ \left[\lambda_R+\frac{3\lambda_R^2}{32\pi^2\bar\epsilon}
+ +\order(\lambda_R^3)\right],
+ \label{eq:bare-lambda-dr}
+\end{equation}
+这里一圈场强重整化为零.
+
+裸耦合不随参数命名尺度 $\mu$ 改变.令
+$\beta(\lambda_R)=\mu\,\dd\lambda_R/\dd\mu\vert_{\lambda_0}$,对式 \eqref{eq:bare-lambda-dr} 求导.记 $a=3/(32\pi^2)$,保留 $\lambda_R^2$,代入 $\beta=-2\epsilon\lambda_R+b\lambda_R^2$,得到
+\begin{equation}
+ 0=2\epsilon\lambda_R+2a\lambda_R^2
+ +(-2\epsilon\lambda_R+b\lambda_R^2)
+ \left(1+\frac{2a\lambda_R}{\epsilon}\right)+\order(\lambda_R^3),
+ \qquad b=2a.
+\end{equation}
+于是四维极限中
+\begin{equation}
+ \beta(\lambda_R)=\frac{3\lambda_R^2}{16\pi^2}+\order(\lambda_R^3).
+ \label{eq:phi4-beta-first}
+\end{equation}
+有限常数 $-\gamma_E+\ln4\pi$ 不影响这一级系数.积分最低阶方程可得
+\begin{equation}
+ \frac1{\lambda_R(\mu)}=\frac1{\lambda_R(\mu_0)}
+ -\frac3{16\pi^2}\ln\frac\mu{\mu_0}.
+\end{equation}
+它表明尺度增大时弱正耦合增长,但当耦合不再小或大对数使截断微扰不可靠时,不能把这个一圈式的形式极点当成已证明的真实理论奇点.后续的重整化群理论将系统说明怎样把参数尺度变化与物理振幅尺度不变组织起来.
+
+\originalsection{QED 一圈结构与非相对论磁矩}
+
+标量例子已经说明两点插入移动极点、四点插入改变有效耦合.QED 中相应的三个基本一圈结构是电子自能、光子真空极化和电子光子顶角修正.电子自能是带一个内部电子和一个光子的两点图,改变电子极点和留数.真空极化是闭合电子圈,带费米圈负号,修正光子传播;保持规范不变性的正规化和反项使它具有横向结构
+\begin{equation}
+ \Pi^{\mu\nu}(q)=(q^\mu q^\nu-q^2\eta^{\mu\nu})\Pi(q^2).
+\end{equation}
+这个结构可由 $q_\mu\Pi^{\mu\nu}=0$ 和 Lorentz 协变性确定,但横向条件本身来自量子 Ward 恒等式.本章只在树级直接验证了该恒等式的实例,不在此假称完成全阶证明.顶角修正则引入随动量转移变化的形式因子.它们不能被理解成三个互不关联的任意调参:规范对称联系电子和顶角的重整化.
+
+在尚未计算顶角圈之前,自由最小耦合 Dirac 方程已预测自旋磁矩.取慢变外势,写 $\psi=\e^{-\ii mt}(\varphi,\chi)^T$,令 $\boldsymbol\pi=-\ii\nabla-e\mathbf A$.Dirac 方程成为
+\begin{equation}
+ \ii\dot\varphi=eA^0\varphi+\boldsymbol\sigma\cdot\boldsymbol\pi\,\chi,
+ \qquad
+ \ii\dot\chi=(eA^0-2m)\chi+\boldsymbol\sigma\cdot\boldsymbol\pi\,\varphi.
+\end{equation}
+对所研究的正能量波包,要求典型协变动量 $|\boldsymbol\pi|\ll m$、动力学剩余能量 $|\ii\partial_t-eA^0|\ll m$,并取外场变化频率远小于 $m$、场强满足 $|e\mathbf E|,|e\mathbf B|\ll m^2$.这些条件保证正能量的非相对论弱场展开,单有“慢变”并不足以排除强场效应.此时第二式中 $2m\chi$ 主导,因此 $\chi=\boldsymbol\sigma\cdot\boldsymbol\pi\,\varphi/(2m)$ 至最低阶.利用 $[\pi_i,\pi_j]=\ii e\epsilon_{ijk}B_k$ 和 Pauli 乘法,
+\begin{equation}
+ (\boldsymbol\sigma\cdot\boldsymbol\pi)^2
+ =\boldsymbol\pi^2-e\boldsymbol\sigma\cdot\mathbf B,
+ \qquad
+ \ii\dot\varphi=
+ \left[eA^0+\frac{\boldsymbol\pi^2}{2m}
+ -\frac e{2m}\boldsymbol\sigma\cdot\mathbf B\right]\varphi.
+\end{equation}
+因为自旋为 $\mathbf S=\boldsymbol\sigma/2$,磁矩耦合 $-\boldsymbol\mu\cdot\mathbf B$ 对应 $\boldsymbol\mu=g e\mathbf S/(2m)$、$g=2$.量子顶角修正可以偏离这个值;具体异常磁矩积分和真空极化的函数计算留到后续 QED 一圈专题.至此,环图既有需要重定义的局部参数,也有可预测的阈值、动量依赖和磁矩修正.下一阶段的目标是证明这些结构怎样在一致的正规化与对称性条件下系统保留.

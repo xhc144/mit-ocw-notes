@@ -1,0 +1,75 @@
+\originalchapter{作用量、正则结构与守恒律}\label{ch:classical-field}
+\originalsection{场的变分}
+经典场论中的动力学变量是整幅场形状, 所以作用量是函数的函数, 即泛函. 对一组实场 $\phi_a(x)$ 定义 $S[\phi]=\int\mathrm d^4x\,\Lag(\phi_a,\partial_\mu\phi_a,x)$. 此处 $a$ 是场的种类, 与时空指标不同. 局域拉格朗日量只依赖该点的场及有限阶导数; 这使相邻区域之间的耦合可以通过偏微分方程表达.
+
+取边界上为零的变化 $\delta\phi_a$, 一阶变分为
+\begin{align*}
+\delta S&=\int\mathrm d^4x\left[\frac{\partial\Lag}{\partial\phi_a}\delta\phi_a+
+\frac{\partial\Lag}{\partial(\partial_\mu\phi_a)}\partial_\mu\delta\phi_a\right]\\
+&=\int\mathrm d^4x\left[\frac{\partial\Lag}{\partial\phi_a}-\partial_\mu\frac{\partial\Lag}{\partial(\partial_\mu\phi_a)}\right]\delta\phi_a.
+\end{align*}
+第二行通过分部积分, 且边界项确实由所取变化消失. 因每个内部位置的 $\delta\phi_a$ 可独立选择, 场的 Euler--Lagrange 方程是 $\partial_\mu[\partial\Lag/\partial(\partial_\mu\phi_a)]-\partial\Lag/\partial\phi_a=0$. 这里的驻定作用量不必是最小值, 所以不把它称为对所有场构型均成立的最小作用量不等式.
+
+\begin{example}
+对 $\Lag=\frac12\partial_\mu\phi\partial^\mu\phi-V(\phi)$ 推出运动方程, 并说明势的正性与稳定性关系.
+\end{example}
+\begin{solution}
+有 $\partial\Lag/\partial(\partial_\mu\phi)=\partial^\mu\phi$, $\partial\Lag/\partial\phi=-V'(\phi)$, 所以 $\Box\phi+V'(\phi)=0$. 若 $V=\frac12m^2\phi^2$, 就是 Klein--Gordon 方程. 若 $V$ 在 $\phi=v$ 处有极小值, 写 $\phi=v+\eta$ 得线性小扰动质量平方 $V''(v)$; $V''(v)<0$ 表示在该点附近的长波扰动指数增长, 不是稳定粒子的负质量. 全局稳定还要求势在大场区不向下无界, 不能仅由某一驻点的正二阶导数推出.
+\end{solution}
+
+\originalsection{哈密顿量与泊松括号}
+在某个惯性系选择等时切片, 共轭动量密度定义为 $\pi_a(\mathbf x,t)=\partial\Lag/\partial\dot\phi_a$. 若速度关于动量可反解, 定义 $\mathcal H=\pi_a\dot\phi_a-\Lag$, $H=\int\mathrm d^3x\,\mathcal H$. 实标量场给 $\pi=\dot\phi$ 和
+\[
+H=\int\mathrm d^3x\left[\frac12\pi^2+\frac12(\boldsymbol\nabla\phi)^2+V(\phi)\right].
+\]
+梯度能为正, 来源是所选度规下拉格朗日量空间项的负号. 正则结构用泛函导数表述:
+\[
+\{F,G\}=\int\mathrm d^3x\left(
+\frac{\delta F}{\delta\phi_a(\mathbf x)}\frac{\delta G}{\delta\pi_a(\mathbf x)}-
+\frac{\delta F}{\delta\pi_a(\mathbf x)}\frac{\delta G}{\delta\phi_a(\mathbf x)}\right).
+\]
+泛函导数由 $\delta F=\int\mathrm d^3x\,[\delta F/\delta\phi_a(\mathbf x)]\delta\phi_a(\mathbf x)$ 定义. 基本括号是 $\{\phi_a(\mathbf x),\pi_b(\mathbf y)\}=\delta_{ab}\delta^{(3)}(\mathbf x-\mathbf y)$. 由 $\dot F=\{F,H\}$ 得 $\dot\phi=\pi$, $\dot\pi=\nabla^2\phi-V'(\phi)$, 合并恢复场方程. 定义哈密顿量不是更换动力学, 而是把二阶方程改写成两套一阶方程, 为量子化提供坐标和动量的交换关系.
+
+电磁势是重要例外: $\dot A_0$ 不出现在 Maxwell 拉格朗日量中, 所以其共轭动量为零, 速度不能全部反解. 这是约束结构, 要通过规范选择或约束量子化处理; 不能把标量场的无约束步骤原封不动用于所有场.
+
+\originalsection{Noether 定理}
+\begin{proposition}\label{prop:noether-current}
+设 $\delta\phi_a=\epsilon\Delta_a$ 是常参数 $\epsilon$ 的无穷小连续变换, 在固定坐标下使 $\delta\Lag=\epsilon\partial_\mu K^\mu$. 则满足运动方程的场具有守恒流
+\[
+j^\mu=\frac{\partial\Lag}{\partial(\partial_\mu\phi_a)}\Delta_a-K^\mu,\qquad \partial_\mu j^\mu=0.
+\]
+\end{proposition}
+\begin{proof}
+不先使用运动方程, 而把一阶变分写成
+\[
+\delta\Lag=\left[\frac{\partial\Lag}{\partial\phi_a}-\partial_\mu\frac{\partial\Lag}{\partial(\partial_\mu\phi_a)}\right]\delta\phi_a+
+\partial_\mu\left[\frac{\partial\Lag}{\partial(\partial_\mu\phi_a)}\delta\phi_a\right].
+\]
+将括号中的 Euler--Lagrange 表达式设为零, 再与假设的全导数比较, 除以 $\epsilon$ 即得结论. 若空间无穷远的流通量为零, 对时间分量积分得 $Q=\int\mathrm d^3x\,j^0$, 且 $\mathrm dQ/\mathrm dt=-\int\mathrm d^3x\,\boldsymbol\nabla\cdot\mathbf j=0$. 有边界通量时, 区域内电荷可以改变, 仍与局域连续性方程一致.
+\end{proof}
+定理把场方程与连续对称性联系起来. 两个流相差 $\partial_\nu B^{[\nu\mu]}$ 时散度相同, 因为对称的双导数乘反对称张量为零. 在合适边界条件下它们给相同电荷; 这解释能动张量的改进自由度.
+
+\originalsection{平移、角动量与复标量电荷}
+平移后 $\phi'(x)=\phi(x-a)$, 故 $\delta\phi=-a^\nu\partial_\nu\phi$ 和 $\delta\Lag=-a^\nu\partial_\nu\Lag$. 取流的整体符号使电荷直接生成平移, 得正则能动张量
+\[
+T^\mu{}_{\nu}=\frac{\partial\Lag}{\partial(\partial_\mu\phi_a)}\partial_\nu\phi_a-\delta^\mu{}_{\nu}\Lag,
+\qquad \partial_\mu T^\mu{}_{\nu}=0.
+\]
+对于实标量, $T^{\mu\nu}=\partial^\mu\phi\partial^\nu\phi-\eta^{\mu\nu}\Lag$. 它是对称的, $T^{00}=\mathcal H$, $T^{0i}=-\dot\phi\partial_i\phi$. 所以能量是 $P^0=H$, 空间动量是 $P^i=\int\mathrm d^3x\,T^{0i}$. 负号常被误抄, 但对右行平面波和下一章的占据数形式都会给正向动量.
+
+洛伦兹变换的守恒流对标量场为 $M^{\lambda\mu\nu}=x^\mu T^{\lambda\nu}-x^\nu T^{\lambda\mu}$. 其散度含 $T^{\mu\nu}-T^{\nu\mu}$ 和 $x$ 乘能动张量散度, 均为零. 对具有内部洛伦兹指标的矢量或旋量还要加入自旋流; 这里不提前把标量的表达式冒称所有场的最终形式.
+
+复场 $\phi=(\phi_1+\ii\phi_2)/\sqrt2$ 等价于两个实场. 计算变分时把 $\phi$ 与 $\phi^*$ 当作独立变量, 取
+\[
+\Lag=\partial_\mu\phi^*\partial^\mu\phi-V(\phi^*\phi),\qquad
+\pi_\phi=\dot\phi^*,\quad\pi_{\phi^*}=\dot\phi.
+\]
+相位变换取 $\phi\mapsto\e^{-\ii\alpha}\phi$, $\phi^*\mapsto\e^{\ii\alpha}\phi^*$. 这与选择反号相位仅相差电荷符号约定. Noether 流为
+\[
+j^\mu=\ii(\phi^*\partial^\mu\phi-\partial^\mu\phi^*\,\phi),\qquad
+Q=\int\mathrm d^3x\,j^0.
+\]
+对它求散度得 $\ii(\phi^*\Box\phi-\phi\Box\phi^*)$, 由 $\Box\phi+V'(|\phi|^2)\phi=0$ 及共轭方程立即为零. 此流是电荷流, 并非处处非负的概率流. 量子化后粒子和反粒子对 $Q$ 贡献相反, 对 $H$ 贡献同号.
+
+\originalsection{量纲与有效描述}
+作用量以 $\hbar$ 为单位后无量纲, $\mathrm d^dx$ 的质量量纲是 $-d$, 所以 $[\Lag]=d$. 在 $d$ 维标量动能中每个导数量纲为1, 得 $[\phi]=(d-2)/2$. 四维有 $[\phi]=1$, $[m]=1$, $[\lambda]=0$ 对应 $\lambda\phi^4/4!$ 相互作用; $g_6\phi^6$ 的系数量纲是 $-2$. 后一个系数常写成 $c_6/\Lambda^2$, 提示该作用量在能标远低于 $\Lambda$ 时作为展开使用. 量纲分析说明哪些相互作用可能在高能增强, 但不替代实际的一圈重整化计算; Wilson 章将证明量纲分类与尺度流的联系.

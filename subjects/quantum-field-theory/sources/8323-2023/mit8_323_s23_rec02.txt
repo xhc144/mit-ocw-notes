@@ -1,0 +1,300 @@
+                                                 Recitation 2
+                                                     Wentao Cui
+
+                                               February 17, 2023
+
+
+1     Quantization in Quantum Mechanics
+1.1    First, there was Hamilton
+Let us review classical mechanics, in the Hamiltonian formalism:
+   • States: given by a point in phase space M = R2d with coordinates (qj , pj ) for 1 ≤ j ≤ d
+   • Observables: functions on phase space, F (M )
+   • Dynamics: states evolve according to Hamilton’s equations, q̇j = ∂p
+                                                                      ∂H
+                                                                        j
+                                                                                    ∂H
+                                                                          , ṗj = − ∂q j
+
+
+We can capture the dynamics by defning the Poisson bracket
+                                                                                                 ∂f1 ∂f2 ∂f1 ∂f2
+            {·, ·} : F (M ) × F (M ) → F (M ),                    (f1 , f2 ) 7→ {f1 , f2 } =             −
+                                                                                                 ∂qi ∂pi   ∂pi ∂qi
+
+    • Mathematically, it gives F (M ) a group structure (more precisely, a Lie algebra structure, due to
+      antisymmetry + Jacobi identity)
+    • The Poisson bracket generates time translations: an observable evolves in time
+                                   dA   ∂A        ∂A        ∂A            ∂A
+                                      =     q̇i +     ṗi +    = {A, H} +
+                                   dt   ∂qi       ∂pi       ∂t            ∂t
+      where the second term vanishes if A does not explicitly depend on time
+    • Observe: this looks a lot like the equations of motion for operators in the Heisenberg picture
+                                                  dO              ∂O
+                                                     = −i[O, H] +
+                                                  dt              ∂t
+
+1.2    Quantization
+Quantization: the procedure of turning a classical theory into a valid quantum theory
+   • Many quantization schemes in QM: Dirac quantization, path-integral quantization, deformation
+     quantization, geometric quantization, etc. Can generalize each of these to QFT.
+Axiom: whenever a group G acts on a classical system, in the corresponding quantum theory, the Hilbert
+       space H carries a unitary representation of G (have ‘operators’)
+
+Dirac quantization: promote each classical observable f to an self-adjoint operator Ôf acting on a Hilbert
+                    space H such that O                     ˆg ]
+                                       ˆ {f,g} = − i [Ôf , O            (replace P.B. with commutators)
+                                                   ℏ
+   • If we view F (M ) as a group with operation given by the Poisson bracket, quantization gives a
+     unitary representation on H
+   • For positions and momenta, we have:
+
+                                       [q̂i , q̂j ] = [p̂i , p̂j ] = 0,      [q̂i , p̂j ] = iℏ
+
+
+                                                              1
+      We can try continue this prescription to more complicated functions of q and p, but this breaks down
+      for polynomials of degree ≥ 3 (Groenewold’s theorem). In particular, operator ordering ambiguities
+      generate corrections of higher-order in h. To second order in q and p said ordering ambiguities are
+      not fatal, making quantities like the Hamiltonian well-defned.
+
+Usually, we only care about restricting quantization to linear (sometimes quadratic) polynomials in x, p
+   • In classical mechanics, linear functions in q and p are closed under taking Poisson brackets, gener-
+     ating the Heisenberg group
+   • In quantum mechanics, we want operators satisfying (taking ℏ = 1)
+
+                                        [q̂i , q̂j ] = [p̂i , p̂j ] = 0,   [q̂i , p̂j ] = i
+
+     Existence and uniqueness: given by the Stone-von Neumann theorem
+The Stone-von Neumann theorem:
+  1. There are no fnite dimensional representations of the Heisenberg group
+     I.e. x̂ and p̂ cannot be fnite dimensional matrices                                  (proof: take trace)
+  2. All (irreducible) representations of x̂ and p̂ are unitarily equivalent, and act on the Hilbert space of
+     square-integrable functions L2 (R)
+
+This is the most important theorem in quantum mechanics. In particular (2) proves that the following
+are all equivalent.
+    • Position-space representation:                         ∂
+                                            x̂ → x, p̂ = −i ∂x
+    • Momentum-space representation: x̂ → i ∂x    ∂
+                                                    , p̂ = p                   related by Fourier (unitary!)
+   • We have a representation at every t. Time evolution, then, relates representations at diferent times,
+      (x̂(t), p̂(t), H(t)). By Stone-von Neumann all representations of x̂ and p̂ are unitarily equivalent, so
+      time-evolution must be unitary. There is an inherent ambiguity: we can either evolve the operators
+      (active), the states (passive), or something in-between, but all these are fundamentally the same.
+      This demonstrates the equivalence of the Heisenberg and Schrödinger pictures of QM.
+
+In practice, to quantize a Lagrangian system we do the following.
+   1. Identify the generalized coordinates (degrees of freedom) qi of a classical system
+   2. Derive the conjugate generalized momenta pi from the Lagrangian.
+   3. Promote (qi , pi ) into operators (q̂i , p̂i ), which satisfy the canonical commutation relations
+
+                                               [q̂i , p̂j ] = iℏ{qi , pj } = iℏδij
+
+Example: the classical harmonic oscillator, L = 21 ẋ2 − 12 ω 2 x2                      (e.o.m. ẍ − ω 2 x = 0)
+   • Conjugate momentum: p = ẋ,                                 1 2
+                                            Hamiltonian H = 2 p + 2 ω x1 2 2
+
+   • We can introduce ‘normal coordinates’ a = √12ω (ωx + ip), a∗ = √12ω (ωx − ip), H = ωaa∗
+   • Quantization: can promote (x, p) to operators, or (a, a∗ ) to operators. Suppose we do the latter.
+                    the commutator is given by the Poisson bracket
+
+                                                       ∂a ∂a∗ ∂a ∂a∗
+                                                                        
+                                 ∗           ∗
+                          [â, â ] = iℏ{a, a } = iℏ            −          = iℏ(−i) = 1
+                                                       ∂x ∂p       ∂p ∂x
+
+   • The operators â, â† naturally act on the Bargmann-Fock space of square-integrable holomorphic
+     (complex diferentiable) functions. By Stone-von Neumann, there must be a unitary map between
+     this and L2 (R) in the position representation. Indeed there is, you should think of this map as just a
+     change of basis. This map identifes Bargmann-Fock as the space of coherent states. Mathematically,
+     it’s nice to work in the basis of coherent states, because unlike with delta-functions and plane waves,
+     I never encounter any problems with infnities or normalizability.
+
+
+                                                              2
+2     Quantization in QFT
+2.1   Classical Field Theory
+We review some basic feld theory. We work in Minkowski space, with a scalar feld ϕ. Everything in this
+discussion can be extended to vector, tensor, and spinor felds with some efort (sometimes, with a lot of
+efort), which will be the subject of much of this course.
+
+The starting point is the action. This is the time-integral of the Lagrangian L, or the spacetime-integral
+of the Lagrangian density L.
+                                           Z           Z
+                                   S[ϕ] = dtL[ϕ] = d4 xL(ϕ, ∂µ ϕ)
+
+What it means for ϕ to be a Lorentz scalar is that under a Lorentz transformation Λ, the feld transforms
+as ϕ → ϕ′ , such that ϕ′ (Λx) = ϕ(x). This is a confusing point, so I’ll elaborate. [draw picture]
+
+The principle of least action leads to the Euler-Lagrange equations of motion, which governs the time-
+evolution of ϕ.
+                                                       
+                                                  ∂L        ∂L
+                                           ∂µ             =
+                                                ∂(∂µ ϕ)     ∂ϕ
+
+Symmetries and Noether’s theorem. Ask class if they want to go over an example. Use 2-component
+scalar feld ϕa with SO(2) symmetry. Angular momentum.
+
+To prepare for quantization, let us pick a specifc model. Namely, we work with a free (zero potential)
+real scalar feld of mass m, with Lagrangian and equation of motion given by
+                                1
+                           L = − (∂ϕ)2 − m2 ϕ2 ,                  (∂ 2 − m2 )ϕ(x) = 0
+                                2
+                                          ˙ The Hamiltonian density is thus
+The conjugate momentum to ϕ is π = ∂t ϕ = ϕ.
+                                           1     1       1
+                                        H = π 2 + (∇ϕ)2 + m2 ϕ2
+                                           2     2       2
+In order to determine the degrees of freedom of our system, let us examine the equations of motion, which
+we write in Fourier (momentum) space ϕ(t,˜ k):
+
+                                            (−∂t2 + ωk2 )ϕ̃(t, k) = 0
+
+Here ωk2 = k2 + m2 , and k a free parameter. The equation of motion for our feld has now been decoupled
+into its momentum components. For each k ∈ R3 we have such an equation, which is precisely the equation
+of motion for a harmonic oscillator of frequency ωk . The moral is that now we can immediately read of
+our system’s degrees of freedom: for each (continuous) momentum value we get a harmonic oscillator.
+This is a generic feature of free QFTs.
+
+2.2   Canonical Quantization
+We are ready to quantize our theory, and in fact we can immediately quote our results from earlier for a
+                                                                  ˆ
+single harmonic oscillator. The mode ϕ̃(t, k) becomes an operator ϕ̃(t, k) given by
+
+                       ˆ           1                           1
+                      ϕ˜(t, k) = √    (âk (t) + âk† (t)) = √    (âk e−iωk t + â†k eiωk t )
+                                  2ωk                         2ωk
+
+
+                                                         3
+To get back to position space we take a Fourier transform to yield a mode expansion:
+
+                                       d3 k
+                                    Z
+                                               1
+                          ˆ
+                          ϕ(t, x) =        3
+                                             √    (âk e−iωk t+ik·x + â†k eiωk t−ik·x )
+                                      (2π) 2ωk
+
+This is an important equation in QFT. We can also compute the canonical momentum:
+
+                                                 d3 k
+                                              Z        r
+                                                         ωk
+                  π̂(t, x) = ∂t ϕ̂(t, x) = −i        3
+                                                            (âk e−iωk t+ik·x − â†k eiωk t−ik·x )
+                                                (2π)      2
+
+Finally, quantization. There are two ways we can do this.
+
+   1. Demanding the canonical commutation relations for a generalized coordinate and conjugate mo-
+      menta, in this case the pair ϕ and π:
+
+                   [ϕ̂(t, x), ϕ̂(t, x′ )] = [π̂(t, x), π̂(t, x′ )] = 0,            [ϕ̂(t, x), π̂(t, x′ )] = iδ (3) (x − x′ )
+
+   2. Using the above insight where we have a continuum of harmonic oscillators we want to quantize:
+
+                               [âk , âk′ ] = [â†k , âk† ′ ] = 0,       [âk , â†k′ ] = (2π)3 δ (3) (k − k′ )
+
+      The prefactor (2π)3 is not important, since it can always be removed by rescaling operators. How-
+      ever, it is necessary so that (1) and (2) are consistent, as one can check using the mode expansions
+      for ϕ̂(xµ ) and π̂(xµ ). In fact, (1) and (2) are equivalent in that imposing each commutator implies
+      the other, serving as a good consistency check of our theory.
+
+By imposing the necessary canonical commutation relations, we have thus quantized a classical feld
+theory, paving the way for quantum feld theory.
+
+It remains to discuss the Hilbert space of our theory, and again we draw from our knowledge of the
+quantum harmonic oscillator. H is generated by acting creation operators âk on some vacuum state |0⟩.
+There is an important diference: in QM creation operators create one unit of energy quanta. In QFT, a
+creation operator â†k creates a bona fde particle of momentum k. The total Hilbert space is thus
+
+                                                                   Hn = span{â†k1 · · · âk† n |0⟩}
+                                        M
+                                 H=           Hn ,
+                                        n≥0
+
+where Hn is the n-particle sector, and |0⟩ is the vacuum state (Note that H0 = {|0⟩}). When we do
+quantum mechanics without QFT, we are locked into working in a particular sector Hn . On the other
+hand, QFT provides a natural way to move between sectors: particle creation and annihilation are intrinsic
+to the theory.
+
+A last note. In quantum mechanics, we have position operators x̂, but no time operator t. In quantum
+mechanics time serves a privileged role as a parameter. Special relativity tells us that space and time are
+intimately related, and so in QFT we demote position to the same status as time, from an operator to
+just a parameter. Indeed, felds take values in both position and time. There is another way to approach
+particle physics. Namely, we could have also promoted time to an operator and retain position operators
+so they are again on equal footing. Doing so, one encounters several problems. For instance, owing to the
+−1 in the Minkowski metric, the Hilbert space no longer has a positive defnite inner product. This is
+very bad, but not fatal–the theory can be remedied by restricting to a ‘physical’ Hilbert space. One can
+proceed to get a consistent quantum theory, but this is hard, less intuitive, and not particularly insightful
+for us. However, the approach of promoting time to an operator is how string theory is formulated, at
+least perturbatively.
+
+
+                                                                       4
+2.3   The Role of Time in Quantization
+I just told you that time and space should be treated equally, since they are part of the same entity we
+call spacetime. I will proceed to tell you why the opposite is true: even in QFT, time has a very privileged
+role to play.
+Let us return to our scalar equation of motion,
+
+                                           (−∂t2 + ωk2 )ϕ̃(t, k) = 0
+
+                                                                      ˜ k) ∝ e±iωk t . One has positive
+This is a second order ODE, so for a given ωk this has 2 solutions: ϕ(t,
+frequency, and the other negative frequencies: it is this which demarcates particles from antiparticles.
+To be more precise, it is this ∂t operator whose eigenvalues separates modes into positive and negative
+frequency. In the language of general relativity, this separation depends on the existence of a global
+timelike Killing vector, which is a coordinate transformation which preserves the metric. In special
+relativity we work in Minkowski space, where ∂t fulflls this role.
+
+More generally, we can quantize a feld theory in curved spacetimes that lack a timelike Killing vector.
+There is thus no natural decomposition of ϕ into positive and negative frequencies, into particles and
+antiparticles, into creation and annihilation operators. In fact, the notion of a particle in curved space
+does not have universal signifcance, and is observer-dependent. A state where one observer observes no
+particles, another observer might see them. Because the creation and annihilation operators are crucial
+to defning the vacuum of the theory, diferent observers will have diferent vacua. Generically, such vacua
+are no longer devoid of particles, even if an observer is free-falling. In Minkowski space we don’t have this
+problem because the vacuum state we defned earlier today is the agreed vacuum for all inertial observers,
+as both are invariant under the Poincaré group.
+
+Let me end of today with 2 experimental consequences of formulating QFT in curved space.
+
+  1. Consider 2 observers in Minkowski space, with a scalar feld. The frst is inertial, and the second
+     is uniformly accelerating at a. Suppose the feld is in the vacuum state for the inertial observer,
+     which is just the |0⟩ state we wrote above. Then, the accelerating observer will see a thermal bath
+     of particles, at temperature T ∝ a. This phenomenon is called Unruh radiation, with T the Unruh
+     temperature.
+
+  2. Consider a scalar feld in a universe that is asymptotically Minkowski at early and late times, but
+     undergoes a period of infation from t1 to t2 . Then, even if the feld ϕ is prepared in the vacuum
+     state at time t = −∞, an inertial observer at late times will see particles: this is the phenomenon
+     of particle creation is cosmological spacetimes.
+
+
+
+
+                                                      5
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.323 Relativistic Quantum Field Theory I
+Spring 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+
+
+
+                                                       4
+

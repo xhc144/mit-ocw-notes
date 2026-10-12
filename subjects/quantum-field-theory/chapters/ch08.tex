@@ -1,0 +1,135 @@
+\originalchapter{Dirac 场的量子化与手征结构}
+\label{ch:dirac-quantization}
+
+经典 Dirac 方程给出正、负频率解,却还没有告诉我们这些解怎样对应实际粒子.标量场的经验提示,应把场展开系数变成产生与湮灭算符.不过这里若原样照搬对易关系,负频率部分会使能量没有下界.我们将从这一障碍确定正确的算符代数,再核查它是否与局域性相容.最后重新组织四分量,区分 Dirac、Weyl 与 Majorana 场的物理自由度.
+
+\originalsection{一阶作用量与等时反对易关系}
+
+自由拉格朗日量可写为 $\Lag_D=\ii\psi^\dagger\dot\psi-\psi^\dagger H_D\psi$,其中 $H_D$ 是上一章的一粒子微分算符.因此与 $\psi_\alpha$ 对应的形式共轭动量是 $\pi_\alpha=\ii\psi_\alpha^\dagger$,而 $\psi^\dagger$ 没有独立时间导数.这是一阶作用量的约束结构.若把 $\psi,\psi^\dagger$ 视为完全独立的普通正则坐标,并分别强加两套对易关系,就会重复计算自由度.这里直接给出与约束约化一致的等时量子代数,并用运动方程、能量和局域性检查它:
+\begin{equation}
+ \{\psi_\alpha(t,\mathbf x),\psi_\beta^\dagger(t,\mathbf y)\}
+ =\delta_{\alpha\beta}\delta^3(\mathbf x-\mathbf y),
+ \qquad \{\psi_\alpha,\psi_\beta\}=0.
+ \label{eq:dirac-etcr}
+\end{equation}
+$\alpha,\beta=1,\ldots,4$ 是旋量分量指标.完整的约束 Dirac 括号方法属于更一般的 Hamilton 理论;本章不把该方法当成已证明的普遍量子化定理.
+
+场展开为
+\begin{equation}
+ \psi(x)=\sum_{s=1}^2\intp\frac{1}{\sqrt{2E_{\mathbf p}}}
+ [b_s(\mathbf p)u_s(p)\e^{-\ii p\cdot x}
+   +d_s^\dagger(\mathbf p)v_s(p)\e^{+\ii p\cdot x}].
+ \label{eq:dirac-field-expansion}
+\end{equation}
+这里 $b$ 湮灭粒子,$d$ 湮灭反粒子,$p^0=E_{\mathbf p}>0$,自旋基采用上一章的归一化.规定
+\begin{equation}
+ \{b_r(\mathbf p),b_s^\dagger(\mathbf q)\}
+ =\{d_r(\mathbf p),d_s^\dagger(\mathbf q)\}
+ =(2\pi)^3\delta_{rs}\delta^3(\mathbf p-\mathbf q),
+ \label{eq:dirac-mode-car}
+\end{equation}
+其余反对易子均为零,包括 $b$ 与 $d$ 之间的反对易子.真空满足 $b\ket0=d\ket0=0$.
+
+为什么这些模关系产生单位矩阵,而不产生 $\gamma^0$？把展开代入等时反对易子,在 $v$ 项中换变量 $\mathbf p\mapsto-\mathbf p$,得到矩阵系数
+\begin{equation}
+ \frac{1}{2E}\sum_s[u_s(E,\mathbf p)u_s^\dagger(E,\mathbf p)
+   +v_s(E,-\mathbf p)v_s^\dagger(E,-\mathbf p)]=I_4.
+\end{equation}
+这由上一章的两个自旋求和右乘 $\gamma^0$ 得到:空间动量项和质量项互相消去,留下 $2EI_4$.其 Fourier 积分就是 $\delta^3(\mathbf x-\mathbf y)$.
+
+\originalsection{能量正定、反粒子与排斥原理}
+
+能量算符由 $H=\int\dd^3x\,\psi^\dagger H_D\psi$ 给出.平面波的空间积分使模动量一致,正负能量本征向量的正交性消去混合项,因而
+\begin{equation}
+ H=\sum_s\intp E_{\mathbf p}
+ [b_s^\dagger(\mathbf p)b_s(\mathbf p)
+       -d_s(\mathbf p)d_s^\dagger(\mathbf p)].
+\end{equation}
+连续模中的无穷常数可先在有限盒中解释.利用 $dd^\dagger=1-d^\dagger d$,减掉真空常数后,正规序能量是
+\begin{equation}
+ :H:=\sum_s\intp E_{\mathbf p}(b_s^\dagger b_s+d_s^\dagger d_s).
+ \label{eq:dirac-positive-energy}
+\end{equation}
+粒子和反粒子具有同样的正能量.若改用 $[d,d^\dagger]=1$,则重排得到 $-d^\dagger d$,任意多的反粒子会不断降低能量.若为修复能量改取 $[d,d^\dagger]=-1$,一反粒子态的范数又为负.正范数与正能量共同排除了这一普通对易量子化.
+
+相位对称的正规序荷为
+\begin{equation}
+ Q=\int\dd^3x:\psi^\dagger\psi:
+ =\sum_s\intp(b_s^\dagger b_s-d_s^\dagger d_s).
+\end{equation}
+因此 $b^\dagger$ 和 $d^\dagger$ 产生相反的 $Q$.实际电荷还须乘上选定的单位电荷;$Q$ 本身计数粒子数减反粒子数.对归一的单个离散模,$\{b^\dagger,b^\dagger\}=0$ 意味着 $(b^\dagger)^2=0$,所以同一模不能占据两次.对两个不同模,交换产生算符使态变号,这给出费米统计和 Pauli 排斥原理.
+
+\originalsection{局域反对易子与费米传播子}
+
+能量检查还不能代替因果性检查.定义上一章标量场已有的 Pauli--Jordan 分布
+\begin{equation}
+ \Delta(x)=\intp\frac{\e^{-\ii p\cdot x}-\e^{+\ii p\cdot x}}{2E_{\mathbf p}}.
+\end{equation}
+注意它在这里定义为标量场对易子本身,不额外除以 $\ii$.场展开和自旋求和给出
+\begin{equation}
+ \{\psi_\alpha(x),\bar\psi_\beta(y)\}
+ =[ (\ii\slashed{\partial}_x+m)\Delta(x-y)]_{\alpha\beta}.
+ \label{eq:dirac-locality}
+\end{equation}
+负频率项的矩阵为 $\slashed p-m$;它恰好等于 $(\ii\slashed\partial+m)$ 作用在 $-\e^{+\ii p\cdot(x-y)}$ 上.这一相对负号解释了为何标量的因果分布会出现在这里.
+
+当 $x-y$ 类空时,可变到等时参考系,$\Delta$ 的两个积分经 $\mathbf p\mapsto-\mathbf p$ 抵消.分布在整个类空开集上为零,故其导数也为零,于是旋量反对易子为零.可观测的局域密度含偶数个费米场.对于两处类空分离的双线性 $\bar\psi\Gamma\psi$,把一处的两个费米因子移过另一处的两个因子共需四次交换,最终符号是正的,所以双线性可观测量相互对易.因果要求施加在可观测量上,与费米场本身反对易相容.
+
+如果强行用普通对易关系,负频率贡献会改成同号的标量频率和,它在类空分离一般不为零.结合上一节的能量和范数问题,这给出\emph{自由 Dirac 场}的自旋统计局部论证.一般相互作用相对论理论的自旋统计定理还需要正定 Hilbert 空间、谱条件、Lorentz 协变和局域性等假设;本书不把这个自由场计算冒充其完整证明.
+
+\begin{definition}[费米时间排序]
+对两个费米奇算符,定义
+\begin{equation}
+ T\psi_\alpha(x)\bar\psi_\beta(y)=
+ \theta(x^0-y^0)\psi_\alpha(x)\bar\psi_\beta(y)
+ -\theta(y^0-x^0)\bar\psi_\beta(y)\psi_\alpha(x).
+\end{equation}
+一般情形先按时间降序排列,每交换一对费米奇算符乘以 $-1$.
+\end{definition}
+
+由模展开分别计算两个时间区域,得到
+\begin{equation}
+ S_F(x-y)=\bra0T\psi(x)\bar\psi(y)\ket0
+ =\intfourp\frac{\ii(\slashed p+m)\e^{-\ii p\cdot(x-y)}}{p^2-m^2+\ii0}.
+ \label{eq:dirac-feynman}
+\end{equation}
+它也等于 $(\ii\slashed\partial_x+m)\Delta_F(x-y)$,其中 $\Delta_F$ 是含分子 $\ii$ 的标量 Feynman 传播子.因为 $(\slashed p-m)(\slashed p+m)=p^2-m^2$,可检查
+$(\ii\slashed\partial_x-m)S_F(x-y)=\ii I_4\delta^4(x-y)$.分子编码自旋,分母与标量场相同,极点的 Feynman 绕行规则则编码真空边界条件.
+
+\originalsection{左右手征与螺旋度}
+
+$\gamma^5$ 的本征值为 $\pm1$,于是可定义投影 $P_L=(1-\gamma^5)/2$、$P_R=(1+\gamma^5)/2$.它们满足 $P_L+P_R=I_4$、$P_LP_R=0$,把四分量分为两组二分量.选择 Weyl 表象
+\begin{equation}
+ \gamma^0=\begin{pmatrix}0&I_2\\I_2&0\end{pmatrix},
+ \quad \gamma^i=\begin{pmatrix}0&\sigma^i\\-\sigma^i&0\end{pmatrix},
+ \quad \gamma^5=\begin{pmatrix}-I_2&0\\0&I_2\end{pmatrix},
+ \quad \psi=\begin{pmatrix}\chi_L\\\chi_R\end{pmatrix}.
+\end{equation}
+令 $\sigma^\mu=(I_2,\boldsymbol\sigma)$、$\bar\sigma^\mu=(I_2,-\boldsymbol\sigma)$,则
+\begin{equation}
+ \Lag_D=\ii\chi_L^\dagger\bar\sigma^\mu\partial_\mu\chi_L
+ +\ii\chi_R^\dagger\sigma^\mu\partial_\mu\chi_R
+ -m(\chi_L^\dagger\chi_R+\chi_R^\dagger\chi_L).
+ \label{eq:weyl-dirac-lagrangian}
+\end{equation}
+旋转对左右两块都作用为 $\exp(-\ii\boldsymbol\theta\cdot\boldsymbol\sigma/2)$,boost 则分别是 $\exp(-\boldsymbol\zeta\cdot\boldsymbol\sigma/2)$ 与 $\exp(+\boldsymbol\zeta\cdot\boldsymbol\sigma/2)$.这说明两个二分量对象是不同 Lorentz 表示,而质量项恰好把它们耦合.
+
+$m=0$ 时左右方程解耦,单独一个二分量场便可构成 Weyl 理论.螺旋度是自旋沿动量方向的投影 $h=\boldsymbol\Sigma\cdot\widehat{\mathbf p}/2$,$\boldsymbol\Sigma=\diag(\boldsymbol\sigma,\boldsymbol\sigma)$;它不是 $\gamma^5$ 的定义.对正能量无质量左手粒子,$\bar\sigma^\mu p_\mu\chi_L=(E+\boldsymbol\sigma\cdot\mathbf p)\chi_L=0$,故 $h=-1/2$;右手粒子 $h=+1/2$.同一左手 Weyl 场产生的反粒子螺旋度为 $+1/2$.有质量时 boost 可追过粒子使动量反向,螺旋度不再是不依赖参考系的左右标记;质量项也使手征分量持续混合.
+
+\originalsection{Majorana 条件与质量项}
+
+带电 Dirac 场需要独立粒子和反粒子模.如果粒子中性,可问能否把两者认作同一种粒子.这个问题要用\emph{电荷共轭}而非随意要求四个分量都是实数来表述.
+
+\begin{definition}[电荷共轭与 Majorana 场]
+取矩阵 $C$ 满足 $C(\gamma^\mu)^TC^{-1}=-\gamma^\mu$,定义 $\psi^c=C\bar\psi^T$.在上述两种常用表象都可取 $C=\ii\gamma^2\gamma^0$,因而 $\psi^c=\ii\gamma^2\psi^*$.满足 $\psi=\psi^c$ 的场称为 Majorana 场.
+\end{definition}
+
+对 Dirac 方程取共轭,并用 $\ii\gamma^2(\gamma^\mu)^*=-\gamma^\mu\ii\gamma^2$,可知 $\psi^c$ 满足相同的自由方程.如果场带非零电荷,电荷共轭却反转电荷,故该条件不能保留电磁 $U(1)$ 电荷.Majorana 条件在算符展开中把 $d$ 与 $b$ 联系,留下两个自旋态,粒子就是自己的反粒子.
+
+Weyl 表象中令 $\varepsilon=\ii\sigma^2=\left(\begin{smallmatrix}0&1\\-1&0\end{smallmatrix}\right)$.条件等价于 $\chi_R=-\varepsilon\chi_L^*$,所以只需一个二分量场.Lorentz 二分量变换矩阵 $M$ 的行列式为一;对任意二乘二矩阵可直接验证 $M^T\varepsilon M=(\det M)\varepsilon$.因此 $\chi_L^T\varepsilon\chi_L$ 是 Lorentz 标量,可写
+\begin{equation}
+ \Lag_M=\ii\chi_L^\dagger\bar\sigma^\mu\partial_\mu\chi_L
+ -\frac12\bigl(m_M\chi_L^T\varepsilon\chi_L
+                +\text{Hermite 共轭}\bigr).
+\end{equation}
+$m_M$ 可为复数,单个自由场可用相位重定义把它变实.若 $\chi_L$ 是普通可交换数,两项 $\chi_1\chi_2-\chi_2\chi_1$ 抵消;对反对易场则等于 $2\chi_1\chi_2$,并不消失.$1/2$ 恰好避免在变分时把这两个等价项重复计数.相位变换使这个二次项乘上 $\e^{-2\ii\alpha}$,故连续粒子数 $U(1)$ 被破坏.Dirac 质量连接独立左右场,Majorana 质量连接一个场与其共轭,这两个概念不应只按矩阵是否为实数来区分.

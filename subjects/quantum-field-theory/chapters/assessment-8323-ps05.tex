@@ -1,0 +1,119 @@
+\originalchapter{8.323 作业5题解}
+题面来自 MIT OCW 8.323(2023 春)\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset05.pdf}{作业5},解答据\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset_05sol.pdf}{官方解}中文重编并补充高斯矩、归纳及有限维行列式计算,不是官方中文版.本套是一维非相对论路径积分,$\hbar=1$、$m>0$、$t_a>t_b$.
+定义 $H=p^2/(2m)+V(x)$、$K(x_a,t_a;x_b,t_b)=\bra{x_a}\e^{-\ii H(t_a-t_b)}\ket{x_b}$.令 $\epsilon=(t_a-t_b)/N$、$x_0=x_b,x_N=x_a$,配置空间路径积分的定义是
+\[
+K=\lim_{N\to\infty}\left(\frac{m}{2\pi\ii\epsilon}\right)^{N/2}
+\int_{\R^{N-1}}\prod_{j=1}^{N-1}\dd x_j\,
+\exp\left[\ii\sum_{j=0}^{N-1}\left(\frac{m(x_{j+1}-x_j)^2}{2\epsilon}-\epsilon V(x_j)\right)\right].
+\]
+振荡高斯积分均以 $\epsilon\to\epsilon-\ii0$ 的边界值规定分支;这与短时间核趋于 $\delta$ 的条件配套.
+
+\originalsection{原题1}
+\begin{exercise}
+(a) 证明
+\begin{align*}
+\bra{x_{j+1}}\e^{-\ii\hat p^2\epsilon/(2m)}\e^{-\ii\epsilon V(\hat x)}\ket{x_j}
+&=\int_\R\frac{\dd p_j}{2\pi}\exp\left[-\ii\epsilon\frac{p_j^2}{2m}-\ii\epsilon V(x_j)+\ii p_j(x_{j+1}-x_j)\right]\\
+&=\sqrt{\frac{m}{2\pi\ii\epsilon}}\exp\left[\frac{\ii m(x_{j+1}-x_j)^2}{2\epsilon}-\ii\epsilon V(x_j)\right].
+\end{align*}
+(b) 利用第一式导出相空间路径积分
+\[
+K=\int_{x(t_b)=x_b}^{x(t_a)=x_a}\mathcal Dx\mathcal Dp\,
+\exp\left[\ii\int_{t_b}^{t_a}(p\dot x-H)\dd t\right],
+\]
+并明确测度是
+\[
+\lim_{N\to\infty}\int\prod_{j=1}^{N-1}\dd x_j\prod_{j=0}^{N-1}\frac{\dd p_j}{2\pi}.
+\]
+\end{exercise}
+\begin{solution}
+(a) 采用 $\braket{x}{p}=\e^{\ii px}$、$\braket{p}{q}=2\pi\delta(p-q)$、$\int\dd p\ket p\bra p/(2\pi)=1$.插入动量单位算符,势指数在位置本征态上给出 $\e^{-\ii\epsilon V(x_j)}$,动能指数在动量态上给出 $\e^{-\ii\epsilon p_j^2/(2m)}$,两端重叠相乘为 $\e^{\ii p_j(x_{j+1}-x_j)}$,从而得到第一式.
+令 $d=x_{j+1}-x_j$,配方
+\[
+-\frac{\ii\epsilon}{2m}p^2+\ii pd
+=-\frac{\ii\epsilon}{2m}\left(p-\frac{md}{\epsilon}\right)^2+\frac{\ii md^2}{2\epsilon}.
+\]
+对 $\Re a>0$ 的高斯式 $\int\e^{-ap^2}\dd p=\sqrt{\pi/a}$ 作解析延拓到 $a=\ii\epsilon/(2m)+0^+$,得到 $\int\dd p\,\e^{-\ii\epsilon p^2/(2m)}/(2\pi)=\sqrt{m/(2\pi\ii\epsilon)}$,即第二式.
+(b) 在演化算符的 $N$ 个时间段之间插入 $N-1$ 个位置单位算符.Trotter 乘积给出
+$\e^{-\ii H\epsilon}=\e^{-\ii\hat p^2\epsilon/(2m)}\e^{-\ii V\epsilon}+\order(\epsilon^2)$;在通常使乘积公式成立的自伴哈密顿量条件下,极限收敛到精确演化.将(a)第一式逐段代入,指数为
+\[
+\ii\sum_{j=0}^{N-1}\epsilon\left[p_j\frac{x_{j+1}-x_j}{\epsilon}-\frac{p_j^2}{2m}-V(x_j)\right].
+\]
+这正是题设 $\int(p\dot x-H)\dd t$ 的左端点离散定义;位置端点固定而所有 $p_j$ 独立积分,因此测度及积分数目为题设所给.连续路径一般不可微,$\dot x$ 记号应通过该离散极限解释.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+波函数由 $\psi(t,x)=\int_\R\dd y\,K(x,t;y,t_0)\psi(t_0,y)$ 演化.利用短时间核
+\[
+K(x,t+\epsilon;y,t)=\sqrt{\frac{m}{2\pi\ii\epsilon}}
+\exp\left[\frac{\ii m(x-y)^2}{2\epsilon}-\ii\epsilon V(y)\right]
+\]
+推导 $\ii\partial_t\psi=-\partial_x^2\psi/(2m)+V\psi$.需要小心分析 $\epsilon\to0$ 时新波函数与旧波函数之差.
+\end{exercise}
+\begin{solution}
+令 $\eta=y-x$,记归一振荡高斯 $w_\epsilon(\eta)=\sqrt{m/(2\pi\ii\epsilon)}\e^{\ii m\eta^2/(2\epsilon)}$.通过对高斯参数求导可得
+\[
+\int w_\epsilon\dd\eta=1,\quad \int\eta w_\epsilon\dd\eta=0,\quad
+\int\eta^2w_\epsilon\dd\eta=\frac{\ii\epsilon}{m}.
+\]
+例如 $\partial_m\int\e^{\ii m\eta^2/(2\epsilon)}\dd\eta=-\tfrac1{2m}\int\e^{\ii m\eta^2/(2\epsilon)}\dd\eta$,与积分内求导比较即可求出第二矩.有效尺度 $\eta\sim\sqrt\epsilon$,故在光滑波函数及势的条件下
+\[
+\e^{-\ii\epsilon V(x+\eta)}\psi(t,x+\eta)
+=\psi+\eta\psi_x+\frac{\eta^2}{2}\psi_{xx}-\ii\epsilon V(x)\psi+\text{高阶项}.
+\]
+势的线性变化乘 $\epsilon\eta$ 为奇项,二次变化只贡献 $\order(\epsilon^2)$;同样第四高斯矩为 $\order(\epsilon^2)$.利用调节后的积分或驻相展开,
+$\psi(t+\epsilon,x)=\psi(t,x)+\ii\epsilon\psi_{xx}/(2m)-\ii\epsilon V\psi+o(\epsilon)$.与左端时间泰勒式比较并乘 $\ii$,即得所求薛定谔方程.这里不能将 $\eta^2$ 项略去:它虽来自空间二阶项,却是时间一阶项.
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+对 $V=0$,显式完成配置空间离散积分中的 $x_1,\ldots,x_{N-1}$ 积分,证明
+\[
+K(x_a,t_a;x_b,t_b)=\sqrt{\frac{m}{2\pi\ii(t_a-t_b)}}
+\exp\left[\frac{\ii m(x_a-x_b)^2}{2(t_a-t_b)}\right].
+\]
+可以先积分 $x_1$,寻找重复结构.
+\end{exercise}
+\begin{solution}
+第一次配方为
+$(x_2-x_1)^2+(x_1-x_0)^2=2[x_1-(x_0+x_2)/2]^2+(x_2-x_0)^2/2$.
+积分 $x_1$ 得因子 $\sqrt{\pi\ii\epsilon/m}$,且两个时间段合并为时长 $2\epsilon$ 的核.
+一般地,已合并的 $j$ 段与下一段满足
+\[
+\frac{(y-x_0)^2}{j}+(z-y)^2
+=\frac{j+1}{j}\left(y-\frac{x_0+jz}{j+1}\right)^2+\frac{(z-x_0)^2}{j+1}.
+\]
+因此归一因子
+$\sqrt{m/(2\pi\ii j\epsilon)}\sqrt{m/(2\pi\ii\epsilon)}$ 乘积分因子 $\sqrt{2\pi\ii\epsilon j/[m(j+1)]}$ 后,成为 $\sqrt{m/[2\pi\ii(j+1)\epsilon]}$.指数中的端点作用量也同时变为 $m(z-x_0)^2/[2(j+1)\epsilon]$.
+由 $j=1$ 归纳至 $j=N$,完成所有积分得到
+$K_N=\sqrt{m/(2\pi\ii N\epsilon)}\e^{\ii m(x_N-x_0)^2/(2N\epsilon)}$.由于 $N\epsilon=t_a-t_b$,结果已经与 $N$ 无关,取极限即为题设式.
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+固定 $x(0)=x(T)=0$,自由传播子写成高斯泛函积分
+\[
+K(0,T;0,0)=\int\mathcal Dx\,\exp\left[\frac{\ii}{2}\int_0^T\dd t\int_0^T\dd t'\,x(t)A(t,t')x(t')\right].
+\]
+(a) 求 $A$;(b) 求所有本征值并写出形式行列式 $\det A=\prod_{n=1}^\infty mn^2\pi^2/T^2$;(c) 由高斯积分写成 $C/\sqrt{\det A}$,与原题3比较,证明 $C/\sqrt{\det A}=\sqrt{m/(2\pi\ii T)}$,也即 $C\prod_{n\ge1}T/(\sqrt m\pi n)=\sqrt{m/(2\pi\ii T)}$.原题提醒:该无穷乘积式必须连同离散测度归一一起理解.
+\end{exercise}
+\begin{solution}
+(a) 端点为零,分部积分没有边界项:
+$S=\tfrac m2\int_0^T\dot x^2\dd t=-\tfrac m2\int_0^Tx\ddot x\dd t$.
+所以 $A=-m\partial_t^2$,带 Dirichlet 边界条件;核可写为 $A(t,t')=-m\partial_t^2\delta(t-t')$.
+(b) 解 $-mf''=\lambda f$ 及 $f(0)=f(T)=0$.非零解只在 $\lambda_n=m(n\pi/T)^2$,$n=1,2,\ldots$;归一本征函数为 $f_n=\sqrt{2/T}\sin(n\pi t/T)$.负本征值的双曲函数及零本征值的线性函数均不能满足两端零条件,故没有遗漏.正弦基完备,将 $x$ 展成 $\sum_n c_nf_n$ 即使二次型对角化为 $\sum_n\lambda_nc_n^2$,形式行列式为所求乘积.
+(c) 比较原题3在零端点的答案立即得到题设一致性关系.它不是两个各自收敛的量的普通等式:$C$ 包括无限多个积分测度和 Fresnel 相位.
+可用有限离散矩阵明确复核.$\epsilon=T/N$,内点向量 $X=(x_1,\ldots,x_{N-1})^T$ 的作用量为 $\tfrac12X^TA_NX$,
+\[
+A_N=\frac m\epsilon\begin{pmatrix}2&-1&0&\cdots\\-1&2&-1&\cdots\\0&-1&2&\cdots\\\vdots&\vdots&\vdots&\ddots\end{pmatrix}.
+\]
+其本征值是 $\mu_r=(m/\epsilon)[2-2\cos(r\pi/N)]$,$r=1,\ldots,N-1$.设三对角矩阵阶数 $n$ 的行列式为 $d_n$,沿首行展开得 $d_n=2d_{n-1}-d_{n-2}$,$d_0=1,d_1=2$,故 $d_n=n+1$,从而 $\det A_N=(m/\epsilon)^{N-1}N$.
+有限高斯积分与路径测度合起来是
+\[
+\left(\frac{m}{2\pi\ii\epsilon}\right)^{N/2}
+\frac{(2\pi\ii)^{(N-1)/2}}{\sqrt{\det A_N}}
+=\sqrt{\frac{m}{2\pi\ii N\epsilon}}=\sqrt{\frac{m}{2\pi\ii T}}.
+\]
+这同时证明归一和行列式方法相容.连续算符本征值与离散矩阵本征值相差网格内积的因子:$\mu_r/\epsilon\to m(r\pi/T)^2$;这个因子也必须包含在测度中,不能把一个形式无穷乘积脱离测度直接赋值.
+\end{solution}

@@ -1,0 +1,198 @@
+\originalchapter{8.324 作业3题解}
+本章是 MIT OCW 8.324(2010年秋)Assignment 3 与官方解答的中文重编,补充相空间积分、谱矩阵与不稳定极点的解释.原资料的 $p^2$ 采用 $(-,+,+,+)$,本章改用 $(+,-,-,-)$ 并记 $s=p^2$;因此原资料的 $p^2=-M^2$ 对应本章 $s=M^2$.一粒子态采用协变归一化 $\braket{\mathbf p}{\mathbf q}=2E_{\mathbf p}(2\pi)^{d-1}\delta^{d-1}(\mathbf p-\mathbf q)$.
+
+\originalsection{原题1}
+\begin{exercise}
+(a) 证明 $\delta^{(4)}(p)=\delta(p^0)\delta(p^1)\delta(p^2)\delta(p^3)$ 为 Lorentz 不变量;(b) 对任意 $f$,证明正能质量壳积分 $\int\frac{\dd^3p}{(2\pi)^3\,2\omega_{\mathbf p}}f(p)$ 在 Lorentz 变换下不变,其中 $\omega_{\mathbf p}=\sqrt{\mathbf p^2+m^2}$;(c) 对标量场与质量 $m$ 的一粒子态,证明 $Z=|\bra0\phi(0)\ket k|^2$ 与壳上 $k$ 无关.原题15分.
+\end{exercise}
+\begin{solution}
+(a) $\Lambda^T\eta\Lambda=\eta$ 给出 $|\det\Lambda|=1$.多元分布的变换公式为 $\delta^{(4)}(\Lambda p)=\delta^{(4)}(p)/|\det\Lambda|$,所以所需不变性成立.这个公式也可以通过任意测试函数的积分换元验证,不能把四个一维 $\delta$ 各自误认为标量.
+
+(b) 正能质量壳测度可重写为
+\[
+\int\frac{\dd^3p}{(2\pi)^3\,2\omega_{\mathbf p}}f(p)
+=\int\frac{\dd^4p}{(2\pi)^3}\theta(p^0)\delta(p^2-m^2)f(p).
+\]
+因为 $\delta((p^0)^2-\omega^2)=\bigl[\delta(p^0-\omega)+\delta(p^0+\omega)\bigr]/(2\omega)$,$p^0$ 积分恰给左式.$\dd^4p$、$p^2$ 不变,而正能条件在正时向 Lorentz 群下保持,于是对 $p'=\Lambda p$ 换元便有 $\int\dd\Pi_p f(p)=\int\dd\Pi_p f(\Lambda p)$.此结论的准确范围是保持正能支的 Lorentz 变换;时间反演会交换正、负能支,不能原样保留 $\theta(p^0)$.
+
+(c) 取将 $k$ 变成静止动量 $k_*=(m,\mathbf0)$ 的 boost $U$.真空不变,原点处标量满足 $U\phi(0)U^{-1}=\phi(0)$,协变归一化的无自旋态满足 $U\ket k=\ket{k_*}$,可能的相位在绝对值中消失.因此
+\[
+|\bra0\phi(0)\ket k|^2
+=|\bra0U^{-1}\phi(0)U\ket k|^2
+=|\bra0\phi(0)\ket{k_*}|^2.
+\]
+协变归一化很重要;若取 $\braket{\mathbf p}{\mathbf q}=(2\pi)^3\delta^3(\mathbf p-\mathbf q)$,相应态为 $\ket p_{\delta^3}=\ket p_{\rm cov}/\sqrt{2E_{\mathbf p}}$,矩阵元因而比协变态多一个 $1/\sqrt{2E_{\mathbf p}}$ 的能量依赖因子.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+用 $\Gamma=\frac1{2p^0}\int\dd\Phi_n\,|\mathcal M|^2$ 计算衰变率,每组 $k$ 个相同末态粒子另除以 $k!$.(a) $\phi,\chi$ 两标量的质量分别为 $M,m$,耦合 $\Lag_{\rm int}=g\phi\chi^2/2$,$M>2m$,求最低阶 $\phi$ 衰变率;(b) $A$ 的质量为 $m$,$B,C,D$ 无质量,$\Lag_{\rm int}=-gABCD$,求最低阶 $A$ 衰变率,并比较改为 $-gAB^3$ 时的结果.原题25分.
+\end{exercise}
+\begin{solution}
+(a) 顶点中的 $1/2$ 与两条相同 $\chi$ 的 $2!$ 收缩抵消,故 $|\mathcal M|^2=g^2$.在 $\phi$ 静止系,令 $k_*=\sqrt{M^2/4-m^2}$,相空间积分为
+\begin{align*}
+\Phi_2&=\int\frac{\dd^3k_1}{(2\pi)^3\,2E_1}
+\frac{\dd^3k_2}{(2\pi)^3\,2E_2}(2\pi)^4
+\delta^3(\mathbf k_1+\mathbf k_2)\delta(M-E_1-E_2)\\
+&=\frac1{(2\pi)^2}\int_0^\infty
+\frac{4\pi k^2\dd k}{4E_k^2}\delta(M-2E_k)
+=\frac{k_*}{4\pi M}
+=\frac1{8\pi}\sqrt{1-\frac{4m^2}{M^2}}.
+\end{align*}
+第二步用 $\dd(2E_k)/\dd k=2k/E_k$.末态是两个相同粒子,所以
+\[
+\Gamma_{\phi\to\chi\chi}
+=\frac1{2M}\frac1{2!}g^2\Phi_2
+=\frac{g^2}{32\pi M}\sqrt{1-\frac{4m^2}{M^2}}.
+\]
+阈值处相空间关闭;这处 $1/2!$ 不能因顶点已有 $1/2$ 而再次省略,它们处理的是不同的重复计数.
+
+(b) 不同种的三个末态没有对称因子,振幅模平方仍为 $g^2$.引入 $q=k_C+k_D$、$s_{CD}=q^2$,相空间的递推分解为
+\[
+\Phi_3(m;0,0,0)=\int_0^{m^2}\frac{\dd s_{CD}}{2\pi}
+\Phi_2(m;0,\sqrt{s_{CD}})\Phi_2(\sqrt{s_{CD}};0,0).
+\]
+分解来自在原相空间插入 $\int\dd^4q\,\delta^4(q-k_C-k_D)$ 并将 $q^0$ 按正能质量壳积分;额外的质量平方积分携带 $1/(2\pi)$.因两因子依次为 $(1-s_{CD}/m^2)/(8\pi)$ 和 $1/(8\pi)$,
+\[
+\Phi_3=\frac1{128\pi^3}\int_0^{m^2}
+\left(1-\frac{s_{CD}}{m^2}\right)\dd s_{CD}
+=\frac{m^2}{256\pi^3},
+\qquad \Gamma_{A\to BCD}=\frac{g^2m}{512\pi^3}.
+\]
+若相互作用写成 $-gAB^3$ 而没有 $1/3!$,振幅变为 $6g$,但相同三粒子的相空间应除以 $3!=6$.所以 $\Gamma_{A\to BBB}=36\Gamma/6=6\Gamma=3g^2m/(256\pi^3)$.若另将耦合定义成 $-gAB^3/3!$,结果当然不同,不能混用归一化.
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+为旋量场的真空二点函数 $D_F(x,y)=\bra0T\{\psi(x)\psi^\dagger(y)\}\ket0$ 导出谱表示.假设只有一组质量 $m$ 的单粒子态,将单粒子部分与多粒子部分分开.原题30分.
+\end{exercise}
+\begin{solution}
+先对协变对象 $S_F(x-y)=\bra0T\{\psi(x)\bar\psi(y)\}\ket0$ 做分解;最后由 $\psi^\dagger=\bar\psi\gamma^0$ 得到 $D_F=S_F\gamma^0$.费米时间排序在交换两场时有负号,
+\[
+S_F(z)=\theta(z^0)\bra0\psi(z)\bar\psi(0)\ket0
+-\theta(-z^0)\bra0\bar\psi(0)\psi(z)\ket0,
+\]
+第二项的旋量指标按原顺序排列.
+
+在第一项插入能动量本征态.定义矩阵谱密度 $\mathcal R(p)$,使
+\[
+\bra0\psi(z)\bar\psi(0)\ket0
+=\int\frac{\dd^4p}{(2\pi)^4}\e^{-\ii pz}
+2\pi\theta(p^0)\mathcal R(p),
+\]
+其中每个质量 $s$ 的贡献来自
+$\delta(p^2-s)\sum_\lambda\bra0\psi(0)\ket{p,\lambda}
+\bra{p,\lambda}\bar\psi(0)\ket0$.Lorentz 协变性约束它的矩阵结构.对于宇称不变的通常 Dirac 理论,只剩 $\slashed p$ 与单位矩阵,故
+\[
+\mathcal R(p)=\rho_1(p^2)\slashed p+\rho_2(p^2).
+\]
+反粒子完备集给出负时项;在时间变量中傅里叶变换,用
+\[
+\frac1{p^2-s+\ii0}
+=\frac1{2E_s}\left(\frac1{p^0-E_s+\ii0}
+-\frac1{p^0+E_s-\ii0}\right),
+\qquad E_s=\sqrt{\mathbf p^2+s},
+\]
+便得到两极点的 Feynman 处方,而非两个同向处方.合并为
+\[
+S_F(p)=\ii\int_0^\infty\dd s\,
+\frac{\rho_1(s)\slashed p+\rho_2(s)}{p^2-s+\ii0}.
+\]
+这个积分表示在必要时按分布和重整化意义理解.
+
+宇称不变时,单粒子矩阵元可取 $\bra0\psi(0)\ket{p,r}=\sqrt Z\,u_r(p)$,利用 $\sum_r u_r\bar u_r=\slashed p+m$ 得
+\[
+\rho_1(s)=Z\delta(s-m^2)+\rho_{1,c}(s),
+\qquad \rho_2(s)=Zm\delta(s-m^2)+\rho_{2,c}(s),
+\]
+所以所求分解为
+\[
+D_F(p)=\left[
+\frac{\ii Z(\slashed p+m)}{p^2-m^2+\ii0}
++\ii\int_{s_{\rm th}}^\infty\dd s\,
+\frac{\rho_{1,c}(s)\slashed p+\rho_{2,c}(s)}{p^2-s+\ii0}
+\right]\gamma^0.
+\]
+连续谱阈值 $s_{\rm th}$ 由具体允许的多粒子态决定;只有“一个单粒子质量”并不能自动推出阈值是 $4m^2$.
+
+题单本身没有明说宇称不变.官方解为化简谱矩阵额外假定了离散对称性;若不加入这个条件,应允许 $\ii\rho_P(s)\gamma^5$ 与 $\rho_A(s)\slashed p\gamma^5$,将分子换成
+\[
+\rho_V(s)\slashed p+\rho_S(s)
++\ii\rho_P(s)\gamma^5+\rho_A(s)\slashed p\gamma^5.
+\]
+它们是仅有一个四动量时的全部 Lorentz 协变 Dirac 结构.此时单粒子部分的最一般写法是
+\[
+S_{F,1}(p)=\frac{\ii R(\slashed p+m)\bar R}{p^2-m^2+\ii0},
+\quad R=a+b\gamma^5,\quad
+\bar R=\gamma^0R^\dagger\gamma^0=a^*-b^*\gamma^5.
+\]
+直接展开可见其向量系数 $|a|^2+|b|^2$、标量系数 $m(|a|^2-|b|^2)$、轴向量系数 $-2\Re(ab^*)$、赝标量系数 $2m\Im(ba^*)$.连续谱仍按同样矩阵形式积分.取 $b=0,a=\sqrt Z$ 即退化为上面的通常表示,因此既给出课程常用答案,也没有把官方解的额外假设冒充原题条件.
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+在六维时空中,$\phi,\chi$ 质量为 $M,m$,$\Lag_{\rm int}=g\phi\chi^2/2$,$M>2m$.(a) 将内部传播子置于壳上,计算 $\phi$ 一圈自能的虚部并与直接积分比较;(b) 在物理壳上验证它等于质量乘衰变率(题单写为 $m\Gamma$);(c) 在实部及其实部导数于物理壳上为零的减除条件下,求极点近似及 $\order(g^2)$ 的留数;(d) 对极点近似做 $\omega$ 傅里叶积分,求 $t>0$ 衰减并解释与 $\Gamma^{-1}$ 的关系.原题30分.
+\end{exercise}
+\begin{solution}
+记 $I(s)$ 为正的吸收部分,并选传播子分母为 $s-M^2+\Re\Sigma_R(s)+\ii I(s)$;源资料使用相反度规,其分母写为 $p_{\rm source}^2+M^2-\Pi_R(p_{\rm source}^2)$.这个定义把符号变化与物理正衰变率分开.
+
+(a) 两条相同 $\chi$ 内线的对称因子为 $1/2$,光学定理的 $2\Im$ 再带 $1/2$,因此
+\[
+I(s)=\frac{g^2}{4}\Phi_2^{(6)}(\sqrt s;m,m).
+\]
+将传播子换成 $2\pi\theta(k^0)\delta(k^2-m^2)$,正好得到这个两体相空间.六维的空间为五维,单位四球面积 $\Omega_4=8\pi^2/3$.在总动量静止系,
+\begin{align*}
+\Phi_2^{(6)}&=\frac1{(2\pi)^4}\int_0^\infty
+\frac{\Omega_4k^4\dd k}{4E_k^2}\delta(\sqrt s-2E_k)\\
+&=\frac{s}{192\pi^2}\left(1-\frac{4m^2}{s}\right)^{3/2}
+\theta(s-4m^2),\\
+I(s)&=\frac{g^2s}{768\pi^2}\left(1-\frac{4m^2}{s}\right)^{3/2}
+\theta(s-4m^2).
+\end{align*}
+切割后动量被固定在有限质量壳区域,所以这一虚部没有紫外发散.
+
+还可与参数积分直接比.令 $\alpha=g^2/(4\pi)^3$,$\Delta(x)=m^2-sx(1-x)-\ii0$.只有 $x_-<x<x_+$ 时对数有虚部,其中 $x_\pm=(1\pm v)/2$、$v=\sqrt{1-4m^2/s}$.直接积分的吸收部分为
+\[
+I(s)=\frac{\alpha\pi}{2}\int_{x_-}^{x_+}
+\bigl(sx(1-x)-m^2\bigr)\dd x.
+\]
+令 $x=\frac12+u$,括号成为 $s(v^2/4-u^2)$,$u\in[-v/2,v/2]$,其积分为 $sv^3/6$.所以 $I(s)=\alpha\pi sv^3/12$,与切割结果完全相同.
+
+(b) 同一个相空间给出
+\[
+\Gamma=\frac{g^2}{4M}\Phi_2^{(6)}(M;m,m)
+=\frac{g^2M}{768\pi^2}\left(1-\frac{4m^2}{M^2}\right)^{3/2},
+\qquad I(M^2)=M\Gamma.
+\]
+因此题单中的 $m\Gamma$ 应为 $M\Gamma$:被衰变粒子是 $\phi$,质量是 $M$,官方解也采用 $M$.保留并说明这处字母错误,不把它变成错误的物理等式.
+
+(c) 令 $\Re\Sigma_R(M^2)=\Re\Sigma_R'(M^2)=0$.在 $s=M^2$ 附近展开,分母为
+\[
+(s-M^2)(1+\ii I'(M^2))+\ii M\Gamma+\order((s-M^2)^2).
+\]
+因 $I',\Gamma$ 均为 $\order(g^2)$,丢去它们的乘积,得到
+\[
+\Delta_F(p)\simeq\frac{\ii Z}{p^2-M^2+\ii M\Gamma},\qquad
+Z=1-\ii I'(M^2)+\order(g^4).
+\]
+对(a)中的表达式求导,在阈值以上
+\[
+I'(s)=\frac{\alpha\pi}{12}\sqrt{1-\frac{4m^2}{s}}
+\left(1+\frac{2m^2}{s}\right),
+\quad
+Z=1-\frac{\ii\alpha\pi}{12}
+\sqrt{1-\frac{4m^2}{M^2}}
+\left(1+\frac{2m^2}{M^2}\right)+\order(g^4).
+\]
+不稳定极点的留数可以是复数,不能在求导后凭直觉去掉 $\ii$.接近阈值时,远离阈值的窄宽度展开还需保证极点与分支点充分分离.
+
+(d) 设 $E_{\mathbf p}=\sqrt{\mathbf p^2+M^2}$,$\Omega=\sqrt{E_{\mathbf p}^2-\ii M\Gamma}=E_{\mathbf p}-\ii M\Gamma/(2E_{\mathbf p})+\order(g^4)$.正能极点位于下半平面,负能极点位于上半平面.$t>0$ 时向下闭合轮廓,得到
+\[
+\int\frac{\dd\omega}{2\pi}\e^{-\ii\omega t}
+\frac{\ii Z}{\omega^2-\Omega^2}
+=\frac{Z}{2\Omega}\e^{-\ii\Omega t}
+\simeq\frac{Z}{2E_{\mathbf p}}\e^{-\ii E_{\mathbf p}t}
+\e^{-M\Gamma t/(2E_{\mathbf p})}.
+\]
+振幅的模按 $\e^{-M\Gamma t/(2E)}$ 衰减,存活概率则是模平方,按 $\e^{-M\Gamma t/E}$ 衰减.在静止系概率寿命为 $\Gamma^{-1}$,运动系为 $(E/M)\Gamma^{-1}$,正是时间膨胀.不能把振幅的 $2/\Gamma$ 当概率寿命.题目允许忽略连续谱项;在极长时间,完整传播子的阈值分支切割可能给幂律尾巴,所以纯指数是窄宽度的极点近似,而非全时间严格等式.
+\end{solution}

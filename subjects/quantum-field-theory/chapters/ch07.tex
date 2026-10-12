@@ -1,0 +1,170 @@
+\originalchapter{Dirac 方程与 Lorentz 旋量}
+\label{ch:dirac-classical}
+
+前面用标量场描述了自旋为零的粒子.电子却有两个自旋态;只在标量场旁边添一个二值标签,并不能保证这个标签在运动参考系中按正确方式变换.我们需要同时解决两个问题:场方程要满足相对论色散关系,场的分量又要携带自旋.这正是 Dirac 方程及旋量变换共同解决的问题.本章先把它们作为经典线性方程研究;负频率解怎样获得物理解释,将由下一章的量子化回答.
+
+\originalsection{把相对论能量关系线性化}
+
+设 $\psi(t,\mathbf x)$ 是一个有 $N$ 个复分量的列向量.仿照 Schrödinger 方程,尝试写
+\begin{equation}
+ \ii\partial_t\psi=H_D\psi,
+ \qquad H_D=-\ii\alpha^i\partial_i+\beta m,
+ \label{eq:dirac-hamiltonian}
+\end{equation}
+其中 $\alpha^i,\beta$ 是尚待确定的常矩阵,重复的空间指标 $i=1,2,3$ 求和.希望每个分量都满足 $(\partial_t^2-\nabla^2+m^2)\psi=0$.对方程再作用一次 $\ii\partial_t$,并用空间导数相互交换,得到必要且充分的矩阵条件
+\begin{equation}
+ \{\alpha^i,\alpha^j\}=2\delta^{ij}I_N,
+ \qquad \{\alpha^i,\beta\}=0,\qquad \beta^2=I_N.
+\end{equation}
+这里 $\{A,B\}=AB+BA$ 是反对易子.这不是预先假定粒子遵守反对易量子化;此处只是普通矩阵的代数关系.要求 $H_D$ 为 Hermite 算符,还需各 $\alpha^i,\beta$ 为 Hermite 矩阵.
+
+一维复数不可能满足这些关系.二维也不够:任一与另外一个可逆矩阵反对易的矩阵迹为零;二维无迹 Hermite 矩阵可写成 $\mathbf a\cdot\boldsymbol\sigma$,其中 $\sigma^i$ 为 Pauli 矩阵.由于 $\{\mathbf a\cdot\boldsymbol\sigma,\mathbf b\cdot\boldsymbol\sigma\}=2\mathbf a\cdot\mathbf b\,I_2$,四个相互反对易且平方为 $I_2$ 的矩阵需要四个相互正交的三维实向量,这是不可能的.又因 $\beta^2=I_N$,$\beta$ 的本征值为 $\pm1$;它与可逆的 $\alpha^i$ 反对易,所以 $\tr\beta=0$,两种本征值重数相同,$N$ 必为偶数,也排除了三维.四维有一个明确的构造:
+\begin{equation}
+ \beta=\begin{pmatrix}I_2&0\\0&-I_2\end{pmatrix},
+ \qquad
+ \alpha^i=\begin{pmatrix}0&\sigma^i\\\sigma^i&0\end{pmatrix}.
+\end{equation}
+因此四分量并不是四种独立电子;它们将组织成两个粒子自旋态和两个反粒子自旋态.
+
+\begin{definition}[Clifford 代数与 Dirac 方程]
+定义 $\gamma^0=\beta$、$\gamma^i=\beta\alpha^i$.在度规 $\eta=\diag(1,-1,-1,-1)$ 下,它们满足
+\begin{equation}
+ \{\gamma^\mu,\gamma^\nu\}=2\eta^{\mu\nu}I_4,
+ \qquad (\gamma^\mu)^\dagger=\gamma^0\gamma^\mu\gamma^0.
+ \label{eq:clifford}
+\end{equation}
+这一组关系称为 Clifford 代数.记 $\slashed{\partial}=\gamma^\mu\partial_\mu$、$\slashed p=\gamma^\mu p_\mu$,则 Dirac 方程是
+\begin{equation}
+ (\ii\slashed{\partial}-m)\psi=0.
+ \label{eq:dirac-equation}
+\end{equation}
+\end{definition}
+
+在上述 Dirac 表象中,$\gamma^0=\diag(I_2,-I_2)$,$\gamma^i=\left(\begin{smallmatrix}0&\sigma^i\\-\sigma^i&0\end{smallmatrix}\right)$.由 Clifford 关系,$(\ii\slashed{\partial}+m)(\ii\slashed{\partial}-m)=-(\Box+m^2)I_4$,所以 Dirac 解一定是 Klein--Gordon 解.反过来并不成立:一阶方程对四分量之间增加了约束.
+
+\originalsection{协变性为何需要旋量变换}
+
+Lorentz 变换同时改变坐标和场.设 $x'^\mu=\Lambda^\mu{}_{\nu}x^\nu$,尝试令
+\begin{equation}
+ \psi'(x')=S(\Lambda)\psi(x).
+ \label{eq:spinor-transform}
+\end{equation}
+$S$ 是作用在四分量上的矩阵,不能直接等同于作用在时空指标上的 $\Lambda$.代入方程,并用 $\partial'_\mu=(\Lambda^{-1})^\nu{}_{\mu}\partial_\nu$,发现方程保持原形的条件为
+\begin{equation}
+ S^{-1}\gamma^\mu S=\Lambda^\mu{}_{\nu}\gamma^\nu.
+ \label{eq:spinor-covariance}
+\end{equation}
+这里 $\gamma^\mu$ 是固定矩阵;协变性并不是把每个矩阵元素当成四矢量分量来变换.
+
+取 $\Lambda^\mu{}_{\nu}=\delta^\mu{}_{\nu}+\omega^\mu{}_{\nu}+\order(\omega^2)$,其中 $\omega_{\mu\nu}=-\omega_{\nu\mu}$.Clifford 代数给出
+\begin{equation}
+ \Sigma^{\mu\nu}=\frac{\ii}{4}[\gamma^\mu,\gamma^\nu],
+ \qquad
+ [\Sigma^{\mu\nu},\gamma^\rho]
+ =\ii(\eta^{\nu\rho}\gamma^\mu-\eta^{\mu\rho}\gamma^\nu).
+\end{equation}
+把 $S=I_4-\frac{\ii}{2}\omega_{\mu\nu}\Sigma^{\mu\nu}+\order(\omega^2)$ 代入左边,线性项恰好成为 $\omega^\rho{}_{\nu}\gamma^\nu$.沿同一生成元指数化便得到连通于单位元的变换
+\begin{equation}
+ S=\exp\!\left(-\frac{\ii}{2}\omega_{\mu\nu}\Sigma^{\mu\nu}\right).
+\end{equation}
+对多个不交换的变换按顺序相乘即可;上式中的 $\omega$ 是相应的 Lie 代数参数,不是一般有限 $\Lambda-I$.
+
+绕 $z$ 轴转角 $\theta$ 时,$S=\exp[-\ii\theta\diag(\sigma^3,\sigma^3)/2]$,因此 $2\pi$ 旋转使旋量变号,$4\pi$ 旋转才回到原值.旋量是 Lorentz 群双覆盖的表示.场的整体变号不改变双线性可观测量,这使半整数自旋与普通空间旋转相容.沿 $z$ 方向、$x'^0=\cosh\zeta\,x^0+\sinh\zeta\,x^3$ 的 boost 则有 $S=\exp(\zeta\gamma^0\gamma^3/2)$.它通常不是酉矩阵;有限维 Lorentz 旋量分量空间不等于具有正定内积的粒子 Hilbert 空间.
+
+\originalsection{伴随旋量、作用量与守恒流}
+
+普通 Hermite 共轭 $\psi^\dagger$ 在 boost 下不足以构造标量.由生成元的 Hermite 性质可得
+\begin{equation}
+ S^\dagger\gamma^0S=\gamma^0.
+\end{equation}
+例如对 boost,生成元 $\gamma^0\gamma^3$ 为 Hermite,且与 $\gamma^0$ 反对易,所以 $\e^{\zeta\gamma^0\gamma^3/2}\gamma^0=\gamma^0\e^{-\zeta\gamma^0\gamma^3/2}$.旋转生成元则与 $\gamma^0$ 交换且指数酉;一般变换由二者乘积生成.
+
+\begin{definition}[Dirac 伴随]
+定义行旋量 $\bar\psi=\psi^\dagger\gamma^0$.它变换为 $\bar\psi'(x')=\bar\psi(x)S^{-1}$.于是 $\bar\psi\psi$ 是 Lorentz 标量,$\bar\psi\gamma^\mu\psi$ 是四矢量.
+\end{definition}
+
+自由作用量取为
+\begin{equation}
+ S_D=\int\dd^4x\,\bar\psi(\ii\slashed{\partial}-m)\psi.
+\end{equation}
+在变分时暂把 $\psi,\bar\psi$ 当成独立变量.对 $\bar\psi$ 变分得到 Dirac 方程;对 $\psi$ 变分并分部积分得到伴随方程
+\begin{equation}
+ \ii(\partial_\mu\bar\psi)\gamma^\mu+m\bar\psi=0.
+\end{equation}
+边界项在场或变分于边界消失时不影响运动方程.两条方程相加消去质量项,得到
+\begin{equation}
+ \partial_\mu j^\mu=0,
+ \qquad j^\mu=\bar\psi\gamma^\mu\psi,
+ \qquad j^0=\psi^\dagger\psi\geq0.
+\end{equation}
+$j^\mu$ 正是整体相位变换 $\psi\mapsto\e^{-\ii\alpha}\psi$ 对应的 Noether 流.对经典波函数,$j^0$ 可作正定密度;量子场的正规序电荷密度却不再处处为正,因为反粒子带相反电荷.不能把经典密度的性质直接移到量子电荷上.
+
+\originalsection{正、负频率平面波与自旋求和}
+
+令 $p^0=E_{\mathbf p}=\sqrt{\mathbf p^2+m^2}>0$.写正频率解 $u_s(p)\e^{-\ii p\cdot x}$,负频率解 $v_s(p)\e^{+\ii p\cdot x}$,则
+\begin{equation}
+ (\slashed p-m)u_s(p)=0,
+ \qquad (\slashed p+m)v_s(p)=0.
+\end{equation}
+以下先设 $m>0$,用静止系选择基.设 $\chi_s,\xi_s$ 是两组满足 $\chi_r^\dagger\chi_s=\xi_r^\dagger\xi_s=\delta_{rs}$ 的二分量基,$s=1,2$.在 Dirac 表象,把 $u$ 写成上下两个二分量块,方程成为
+\begin{equation}
+ (E-m)u_{\rm up}=(\boldsymbol\sigma\cdot\mathbf p)u_{\rm low},
+ \qquad (E+m)u_{\rm low}=(\boldsymbol\sigma\cdot\mathbf p)u_{\rm up}.
+\end{equation}
+用 $(\boldsymbol\sigma\cdot\mathbf p)^2=\mathbf p^2 I_2$ 可解得
+\begin{equation}
+ u_s(p)=\sqrt{E+m}\begin{pmatrix}\chi_s\\
+ \dfrac{\boldsymbol\sigma\cdot\mathbf p}{E+m}\chi_s\end{pmatrix},
+ \qquad
+ v_s(p)=\sqrt{E+m}\begin{pmatrix}
+ \dfrac{\boldsymbol\sigma\cdot\mathbf p}{E+m}\xi_s\\\xi_s\end{pmatrix}.
+ \label{eq:uv-explicit}
+\end{equation}
+$v$ 的负频率解在波指数中具有空间动量 $-\mathbf p$;量子化后对应的反粒子标签仍取正能量四动量 $p$.这个区分能避免在等时完备关系中放错动量符号.
+
+直接计算给出 $u_r^\dagger u_s=v_r^\dagger v_s=2E\delta_{rs}$,$\bar u_ru_s=2m\delta_{rs}$,$\bar v_rv_s=-2m\delta_{rs}$.例如 $\bar u u=(E+m)[1-\mathbf p^2/(E+m)^2]=2m$.正、负能量 $H_D(\mathbf p)$ 本征向量的等时正交性是 $u_r^\dagger(p)v_s(E,-\mathbf p)=0$;不是一般的 $u_r^\dagger(p)v_s(p)=0$.
+
+\begin{proposition}[完备关系]
+采用上述归一化,
+\begin{equation}
+ \sum_su_s(p)\bar u_s(p)=\slashed p+m,
+ \qquad \sum_sv_s(p)\bar v_s(p)=\slashed p-m.
+ \label{eq:dirac-spin-sums}
+\end{equation}
+\end{proposition}
+\begin{proof}
+利用 $\sum_s\chi_s\chi_s^\dagger=I_2$,$u$ 的外积之和为
+\[
+ \begin{pmatrix}
+ E+m&-\boldsymbol\sigma\cdot\mathbf p\\
+ \boldsymbol\sigma\cdot\mathbf p&-(E-m)
+ \end{pmatrix}=\gamma^0E-\gamma^i p^i+mI_4.
+\]
+$v$ 的外积同样等于 $\left(\begin{smallmatrix}E-m&-\boldsymbol\sigma\cdot\mathbf p\\\boldsymbol\sigma\cdot\mathbf p&-(E+m)\end{smallmatrix}\right)$,即 $\slashed p-m$.两边在基变换下同时共轭,因此结论不依赖选取的 gamma 表象或自旋基.
+\end{proof}
+
+\originalsection{为散射计算准备迹恒等式}
+
+自旋求和会把旋量链变成 gamma 矩阵的迹.无需每次代入四乘四矩阵:循环性和 Clifford 代数已足够.由于每个 $\gamma^\mu$ 都与某个可逆 gamma 矩阵反对易,其迹为零.进一步有
+\begin{align}
+ \tr(\gamma^\mu\gamma^\nu)&=4\eta^{\mu\nu},\\
+ \tr(\gamma^\mu\gamma^\nu\gamma^\rho\gamma^\sigma)
+ &=4(\eta^{\mu\nu}\eta^{\rho\sigma}-\eta^{\mu\rho}\eta^{\nu\sigma}
+       +\eta^{\mu\sigma}\eta^{\nu\rho}).
+ \label{eq:four-gamma-trace}
+\end{align}
+第一式由两项反对易后取迹得到.第二式可把第一矩阵依次移过其后三个矩阵:每移动一步产生一个 $2\eta$ 项,最后的四矩阵项用迹循环性回到原式另一侧,于是四矩阵迹等于三个二矩阵迹的线性组合.
+
+定义 $\gamma^5=\ii\gamma^0\gamma^1\gamma^2\gamma^3$,则 $(\gamma^5)^2=I_4$,$(\gamma^5)^\dagger=\gamma^5$,$\{\gamma^5,\gamma^\mu\}=0$.在一个含奇数 gamma 的乘积两侧插入 $\gamma^5\gamma^5=I_4$,循环移动后迹变为自身的负值,故所有不含 $\gamma^5$ 的奇数 gamma 迹为零.还常用 $\gamma^\mu\slashed a\gamma_\mu=-2\slashed a$;它来自 $\gamma^\mu\gamma^\nu\gamma_\mu=2\gamma^\nu-4\gamma^\nu$.这些关系是后面 QED 计算的主工具,且明确限定在四维;维数正规化中某些系数须随维数改变.
+
+\begin{example}
+求未指定自旋的矢量流乘积 $\sum_{r,s}[\bar u_r(k)\gamma^\mu u_s(p)][\bar u_r(k)\gamma^\nu u_s(p)]^*$.
+\end{example}
+\begin{solution}
+由 gamma 矩阵的 Hermite 性质,共轭的第二个因子等于 $\bar u_s(p)\gamma^\nu u_r(k)$.按矩阵索引闭合旋量链并用完备关系,所得量是
+\[
+ \tr[(\slashed k+m)\gamma^\mu(\slashed p+m)\gamma^\nu]
+ =4[k^\mu p^\nu+k^\nu p^\mu-(k\cdot p-m^2)\eta^{\mu\nu}].
+\]
+两个含三矩阵的交叉项为零,四矩阵项与质量平方项分别由前面的迹公式得到.这个例子说明:求和应在振幅乘上共轭振幅之后进行,不能先把振幅中的自旋态平均掉.
+\end{solution}

@@ -1,0 +1,139 @@
+\originalchapter{8.323 作业9题解}
+题源:MIT OCW,8.323,2023年春季,2023年4月11日发布.\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset09.pdf}{原作业PDF};\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset_09sol.pdf}{官方解PDF}.以下为官方解中文重编与独立补充,并非MIT官方中文版;MIT OCW来源,CC BY-NC-SA 4.0.
+
+原约定与本书的对应为$\widehat\eta=-\eta$,$\Gamma^\mu=\ii\gamma^\mu$,$\bar\psi_{\rm o}=\ii\bar\psi$,$\widehat\Sigma=-\Sigma$.本套选
+\[
+ \gamma^0=\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad
+ \gamma^i=\begin{pmatrix}0&-\sigma^i\\\sigma^i&0\end{pmatrix},\quad
+ \psi=\begin{pmatrix}\psi_L\\\psi_R\end{pmatrix},\quad
+ \sigma^\mu=(1,\boldsymbol\sigma),\quad\bar\sigma^\mu=(1,-\boldsymbol\sigma).
+\]
+这是与原资料的$\Gamma$一致的手征块标记.保持原$\omega$参数方向时,空间旋转为$\exp(+\ii\boldsymbol\theta\cdot\boldsymbol\sigma/2)$;不用它和另一种主动旋转参数符号混用.自旋器归一化为$\bar u_ru_s=2m\delta_{rs}$、$\bar v_rv_s=-2m\delta_{rs}$,自旋和$\sum_su_s\bar u_s=\slashed p+m$、$\sum_sv_s\bar v_s=\slashed p-m$,$p^0=E_p>0$.
+
+\originalsection{原题1}
+\begin{exercise}
+定义$\gamma^5=\ii\gamma^0\gamma^1\gamma^2\gamma^3$(原$\Gamma^5$与它相同).证明:(a) $(\gamma^5)^\dagger=\gamma^5$及$(\gamma^5)^2=1$;(b) $\{\gamma^5,\gamma^\mu\}=0$及$\Tr\gamma^5=0$.
+\end{exercise}
+\begin{solution}
+(a) 本书$\gamma^0$Hermitian、$\gamma^i$反Hermitian.取共轭时$\ii$贡献负号,三个空间矩阵贡献$(-1)^3$,再将四个矩阵逆序排列需六次交换,故总符号为$(-1)(-1)^3(-1)^6=+1$.平方时将第二组矩阵移到同指标旁也需六次交换,
+\[
+ (\gamma^5)^2=\ii^2(-1)^6(\gamma^0)^2(\gamma^1)^2(\gamma^2)^2(\gamma^3)^2
+ =-1\cdot1\cdot1\cdot(-1)^3=1.
+\]
+原官方解最后误写为$-1$,与题面及前一行不符,此处纠正.
+
+(b) 把$\gamma^\mu$越过另外三个不同指标矩阵引入$(-1)^3$,同指标因子用$(\gamma^\mu)^2=\eta^{\mu\mu}$消去,即得反对易.于是$\gamma^0\gamma^5\gamma^0=-\gamma^5$;取迹并用循环性得$\Tr\gamma^5=-\Tr\gamma^5$,故为零.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+证明同质量自由Dirac场的Feynman Green函数满足(已从原$\ii(\Gamma\cdot\partial+m)$转换)
+\[
+ S_{F,\alpha\beta}(x-y)=\bra0T\psi_\alpha(x)\bar\psi_\beta(y)\ket0
+ =(\ii\slashed\partial_x+m)_{\alpha\beta}G_F(x-y),
+\]
+其中$G_F$为自由复标量传播子.
+\end{exercise}
+\begin{solution}
+记$z=x-y$,$G^+(z)=\int\dd^3p/[(2\pi)^3 2E_p]\e^{-\ii p\cdot z}$.由$a$、$c$反对易关系和自旋和可直接收缩得到
+\[
+ \bra0\psi_\alpha(x)\bar\psi_\beta(y)\ket0
+ =\int\frac{\dd^3p}{(2\pi)^3 2E_p}(\slashed p+m)_{\alpha\beta}\e^{-\ii pz}
+ =(\ii\slashed\partial+m)_{\alpha\beta}G^+(z),
+\]
+\[
+ \bra0\bar\psi_\beta(y)\psi_\alpha(x)\ket0
+ =\int\frac{\dd^3p}{(2\pi)^3 2E_p}(\slashed p-m)_{\alpha\beta}\e^{\ii pz}
+ =-(\ii\slashed\partial+m)_{\alpha\beta}G^+(-z).
+\]
+费米时间排序在$z^0<0$有额外负号,因此
+$S_F=\theta(z^0)(\ii\slashed\partial+m)G^+(z)+\theta(-z^0)(\ii\slashed\partial+m)G^+(-z)$.
+将微分移到$\theta$之外时可能出现
+$\ii\gamma^0\delta(z^0)[G^+(z)-G^+(-z)]$;但在等时用$\mathbf p\mapsto-\mathbf p$可见两函数相同,接触项为零.故题面成立.等价动量表达是
+\[
+ S_F(z)=\int\frac{\dd^4p}{(2\pi)^4}\frac{\ii(\slashed p+m)}{p^2-m^2+\ii0}\e^{-\ii pz},
+ \qquad(\ii\slashed\partial-m)S_F=\ii\delta^{(4)}(z).
+\]
+这一步也检查了$i0$和整体$\ii$,不能只把Dirac算符的代数逆当作时间排序传播子.
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+在本套指定手征表示中:
+\begin{enumerate}[label=(\alph*)]
+\item 证明原参数$\omega_{ij}=\epsilon_{ijk}\theta_k$的旋转使$\psi'_{L,R}(x')=\e^{\ii\boldsymbol\theta\cdot\boldsymbol\sigma/2}\psi_{L,R}(x)$.
+\item 证明原参数$\omega_{0i}=\beta_i$的boost使$\psi'_L=\e^{-\boldsymbol\beta\cdot\boldsymbol\sigma/2}\psi_L$、$\psi'_R=\e^{+\boldsymbol\beta\cdot\boldsymbol\sigma/2}\psi_R$.
+\item 证明Dirac质量项$-m(\psi_L^\dagger\psi_R+\psi_R^\dagger\psi_L)$Lorentz不变,而$m\psi_L^\dagger\psi_L$、$m\psi_R^\dagger\psi_R$不变性失败.原题的$\ii m\bar\psi_{\rm o}\psi$展开式有因子笔误,已按矩阵定义转换.
+\item 证明$\sigma^2\boldsymbol\sigma\sigma^2=-\boldsymbol\sigma^*$,由此证明$\sigma^2\psi_L^*$按$\psi_R$变换.
+\item 只用$\psi_L$构造实的Lorentz不变质量项.证明普通可交换分量使它恒零,反对易分量则可非零.
+\item 写只用$\psi_L$、含动能和质量的完整Lorentz不变作用量及运动方程.
+\item 此理论是否有守恒电荷？说明它只能描述中性粒子,不能描述电子.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a),(b) 直接乘块矩阵得原约定
+\[
+ \widehat\Sigma^{ij}=-\frac12\epsilon_{ijk}
+ \begin{pmatrix}\sigma^k&0\\0&\sigma^k\end{pmatrix},\qquad
+ \widehat\Sigma^{0i}=-\frac\ii2\begin{pmatrix}\sigma^i&0\\0&-\sigma^i\end{pmatrix}.
+\]
+将它们代入$S=\exp(-\ii\omega_{\mu\nu}\widehat\Sigma^{\mu\nu}/2)$.空间收缩$\epsilon_{ijk}\epsilon_{ij\ell}=2\delta_{k\ell}$,时间空间收缩须包括$0i,i0$两项,故分别得到题面的旋转和boost指数.旋转两个块相同而boost符号相反,说明两种二维手征表示不同.
+
+(c) 旋转矩阵$R$满足$R^\dagger R=1$,故交叉质量项不变.boost记$B=\exp(-\boldsymbol\beta\cdot\boldsymbol\sigma/2)$,左场乘$B$、右场乘$B^{-1}$;$B$Hermitian,所以$\psi_L^\dagger\psi_R\mapsto\psi_L^\dagger B^\dagger B^{-1}\psi_R=\psi_L^\dagger\psi_R$.相反,$\psi_L^\dagger\psi_L\mapsto\psi_L^\dagger\e^{-\boldsymbol\beta\cdot\boldsymbol\sigma}\psi_L$,通常不同,右场同理.
+
+(d) 对$i=1,3$,$\sigma^2$与$\sigma^i$反对易而$\sigma^{1,3}$为实;对$i=2$,$(\sigma^2)^*=-\sigma^2$.这证明三式.逐项展开矩阵指数便得
+\[
+ \sigma^2R^*\sigma^2=R,\qquad
+ \sigma^2B^*\sigma^2=B^{-1}.
+\]
+所以$\sigma^2\psi_L^*$的旋转与右场相同,boost也与右场相同.
+
+(e) 置$\chi=\psi_L$,$A=\chi^\dagger\sigma^2\chi^*$,$B=\chi^T\sigma^2\chi$.由(d)和(c),$A$为Lorentz标量,$B=A^\dagger$;对实$m$可取
+\[
+ \Lag_m=-\frac m2(A+B).
+\]
+因$(\sigma^2)^T=-\sigma^2$,可交换分量满足$\chi^T\sigma^2\chi=-\chi^T\sigma^2\chi=0$.若$\chi=(\chi_1,\chi_2)^T$为Grassmann分量,则$B=-\ii\chi_1\chi_2+\ii\chi_2\chi_1=-2\ii\chi_1\chi_2$,一般不零.交换符号抵消矩阵反对称符号,正是Majorana质量项能够存在的原因.
+
+(f) 与本套手征块对应的作用量为
+\[
+ S_L=\int\dd^4x\left[\ii\chi^\dagger\sigma^\mu\partial_\mu\chi
+ -\frac m2(\chi^T\sigma^2\chi+\chi^\dagger\sigma^2\chi^*)\right].
+\]
+动能来自四分量Dirac动能的左块,因此Lorentz不变.变分时把$\chi,\chi^*$当独立Grassmann变量,并固定左变分顺序.反对易性使质量两份相同贡献,抵消$1/2$;分部积分并令边界变分为零得
+\[
+ \ii\sigma^\mu\partial_\mu\chi-m\sigma^2\chi^*=0,
+ \qquad-\ii\partial_\mu\chi^\dagger\sigma^\mu-m\chi^T\sigma^2=0.
+\]
+第二式是第一式Hermitian共轭;这里应是同一个$\sigma^\mu$,官方解一处写成$\bar\sigma^\mu$的笔误不能照搬.
+
+(g) 动能允许$\chi\mapsto\e^{\ii\alpha}\chi$,质量两项却分别乘$\e^{2\ii\alpha}$与$\e^{-2\ii\alpha}$,$m\ne0$时没有这一连续$U(1)$,只剩$\chi\mapsto-\chi$离散对称性.若赋予非零电荷$Q$,$\chi\chi$项带$2Q$,破坏电荷守恒,故单个这样的场只能中性.它仍有平移和Lorentz对称性的能动量、角动量守恒;“无守恒电荷”专指粒子数或电磁$U(1)$,不否定这些时空守恒量.$m=0$时$U(1)$恢复,须区分这个例外.
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+在原约定的Majorana表示中$\Gamma^\mu$为实,可令$\psi$为实;量子化后粒子为自身反粒子.任意表示可通过$B\Gamma^\mu B^{-1}=(\Gamma^\mu)^*$和条件$\psi^*=B\psi$定义它.
+(a) 在本套手征表示可取$B=\Gamma^2=\ii\gamma^2$,解Majorana条件并只用$\psi_L$表示$\psi$.
+(b) 代入Dirac作用量,证明得到原题3(f)的作用量.
+\end{exercise}
+\begin{solution}
+(a) 条件按块写为
+$\psi_L^*=-\ii\sigma^2\psi_R$、$\psi_R^*=\ii\sigma^2\psi_L$.因$(\sigma^2)^*=-\sigma^2$,两式相容且给
+\[
+ \psi=\begin{pmatrix}\chi\\\ii\sigma^2\chi^*\end{pmatrix}.
+\]
+$B^*B=1$保证重复共轭得到原场.在本书$(+---)$约定,原$B\Gamma B^{-1}=\Gamma^*$变为$B\gamma B^{-1}=-\gamma^*$;这一负号不可遗漏,否则与$\ii\slashed\partial-m$不相容.
+
+(b) 将结果代入$\Lag_D=\ii\psi_L^\dagger\sigma^\mu\partial_\mu\psi_L+\ii\psi_R^\dagger\bar\sigma^\mu\partial_\mu\psi_R-m(\psi_L^\dagger\psi_R+\psi_R^\dagger\psi_L)$,得到
+\[
+ \Lag_D=\ii\chi^\dagger\sigma^\mu\partial_\mu\chi
+ +\ii\chi^T\sigma^2\bar\sigma^\mu\sigma^2\partial_\mu\chi^*
+ -\ii m(\chi^\dagger\sigma^2\chi^*-\chi^T\sigma^2\chi).
+\]
+第二个动能项分部积分给$-\ii(\partial_\mu\chi^T)K^\mu\chi^*$;把两个Grassmann场交换后为$+\ii\chi^\dagger(K^\mu)^T\partial_\mu\chi$.由$(\sigma^2\bar\sigma^\mu\sigma^2)^T=\sigma^\mu$,它等于第一个动能项(差全导数).因此
+\[
+ \Lag_D\simeq2\ii\chi^\dagger\sigma^\mu\partial_\mu\chi
+ -\ii m(A-B).
+\]
+令$\chi'=\sqrt2\e^{-\ii\pi/4}\chi$,则$A=-\ii A'/2$、$B=\ii B'/2$,恰得
+$\Lag_D\simeq\ii\chi'^\dagger\sigma^\mu\partial_\mu\chi'-\frac m2(A'+B')$.这说明要包括场归一化及相位调整,不能声称直接代入后系数已经相同.等价地,以通常含$1/2$的四分量Majorana作用量开始可先消去重复计数,再调质量相位.
+\end{solution}

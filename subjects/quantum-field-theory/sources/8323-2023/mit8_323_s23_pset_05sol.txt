@@ -1,0 +1,338 @@
+                                   8.323 Problem Set 5 Solutions
+
+
+                                                       March 14, 2023
+
+
+Question 1: A Useful Formula, and the Path Integral in Phase Space (20 points)
+(a) Derive the following equations:
+
+                                                              p2i
+                                           Z                                                   
+                       p̂2
+                    −i 2m  ∆t −i∆tV (x̂)
+             xi+1 e          e           xi = d¯pi exp −i∆t       − i∆tV (xi ) + ipi (xi+1 − xi )
+                                                              2m
+                                                          "                                   #
+                                                            im∆t xi+1 − xi 2
+                                              r                              
+                                                  m
+                                            =         exp                        − i∆tV (xi )
+                                                2πi∆t         2       ∆t
+
+We start by deriving the first equation:
+                                          Z
+                      p̂2                                    p̂2
+                   −i 2m  ∆t −i∆tV (x̂)
+            xi+1 e          e           xi = dpi ⟨xi+1 |e−i 2m ∆t |pi ⟩⟨pi |e−i∆tV (x̂) |xi ⟩
+                                                      p2
+                                            Z
+                                                       i
+                                           = dpi e−i 2m ∆t e−i∆tV (xi ) ⟨xi+1 |pi ⟩⟨pi |xi ⟩
+                                                      p2
+                                            Z
+                                                       i
+                                           = d¯pi e−i 2m ∆t e−i∆tV (xi ) eipi xi+1 e−ipi xi
+
+                                                                 p2i
+                                            Z                                                       
+                                           = d¯pi exp −i∆t           − i∆tV (xi ) + ipi (xi+1 − xi )
+                                                                 2m
+
+To get the second equation from  this, we complete
+                                           p 2 the square and compute the Gaussian integral, or
+                                     2
+equivalently use the identity dxe−ax +bx = πa eb /4a . Hence,
+                             R
+
+                                                  r
+                                                                 (xi+1 − xi )2 −i∆tV (xi )
+                                                                           
+                       p̂2
+                    −i 2m  ∆t −i∆tV (x̂)        1    2πm
+              xi+1 e         e           xi =            exp −                  e
+                                               2π i∆t              2i∆t/m
+                                                            "                                   #
+                                                              im∆t xi+1 − xi 2
+                                               r                                
+                                                    m
+                                             =          exp                        − i∆tV (xi )
+                                                  2πi∆t         2        ∆t
+
+
+(b) Use the first equation in (a) to derive the following:
+                                                Z x(ta )=xa                  Z t            
+                        ⟨xa , ta |xb , tb ⟩ =                 Dx(t)Dp(t) exp i    dt(pẋ − H)
+                                                 x(tb )=xb                            t′
+
+    The integration in this expression should be understood as
+                    Z x(ta )=xa                                Z         Z                 Z
+                                                                   dp0       dx1 dp1           dxN −1 dpN −1
+                                  Dx(t)Dp(t) = lim                                   ···
+                      x(tb )=xb                       N →∞         2π          2π                   2π
+
+    where we again divide the interval [tb , ta ] into N segments, with t0 = tb , tN = ta .
+
+
+                                                                   1
+We denote the left-hand side of the equation in (a) by Mi . Now we do the same trick from class to derive
+the path-integral:
+
+     ⟨xa , ta |xb , tb ⟩ = ⟨xa |e−iĤ(ta −tb ) |xb ⟩ = ⟨xa |(e−iĤ∆t )N |xb ⟩
+                           Z
+                         = dx1 · · · dxN −1 ⟨xa |e−iĤ∆t |xN −1 ⟩⟨xN −1 | · · · |x1 ⟩⟨x1 |e−iĤ∆t |xb ⟩
+                           Z
+                         = dx1 · · · dxN −1 MN −1 · · · M0
+                                                              N −1
+                                                                           p2
+                        Z                                     Y                                            
+                     = dx1 · · · dxN −1 d¯p0 · · · d¯pN −1     exp −i∆t i − i∆tV (xi ) + ipi (xi+1 − xi )
+                                                                           2m
+                                                           i=0
+                                                         N −1
+                       Z x(ta )=xa                    "                                        #
+                                                                                  p2i
+                                                                 
+                                                          X           xi+1 − xi
+                     =             Dx(t)Dp(t) exp i           ∆t pi             −     − V (xi )
+                        x(tb )=xb                                        ∆t       2m
+                                                          i=0
+                       Z x(ta )=xa                     Z ta              
+                     =             Dx(t)Dp(t) exp i           dt(pẋ − H)
+                          x(tb )=xb                           tb
+
+In the second line we insert the identity N − 1 times, so that we can use the formula from (a) for each
+matrix element in the 4th line. In the 5th line the product of exponentials becomes a sum of exponents,
+which in the continuum case reduces to the integral in the last line.
+
+
+
+
+                                                               2
+Question 2: The Schrödinger Equation, Rederived (20 points)
+The wavefunction ψ(t, x) for a system at time t can be obtained from that at time t′ by
+                                            Z
+                                  ψ(t, x) = dx′ K(x, t; x′ , t′ )ψ(x′ , t′ )
+
+for the propagator given by
+                                                          Z x(ta )=xa             Z t            
+                              ′   ′             ′   ′
+                    K(x, t; x , t ) = ⟨x, t|x , t ⟩ =                   Dx(t) exp i    dtL(ẋ, x)
+                                                           x(tb )=xb                  t′
+
+Show that ψ(t, x) satisfies the Schrödinger equation,
+                                                         1 2
+                                      i∂t ψ(t, x) = −     ∂ ψ(t, x) + V (x)ψ(t, x)
+                                                        2m x
+We therefore consider the wavefunction after an infinitesimal time step δt:
+                                             Z
+                              ψ(t + δt, x) = dyK(t + δt, x; t, y)ψ(t, y)
+
+Equating both sides of this equation to order δ will lead to the Schrödinger equation.
+The left hand side is simple:
+
+                            LHS = ψ(t + δt, x) = ψ(t, x) + δt∂t ψ(t, x) + O(δt2 )
+
+To expand the right hand side, note for an infinitesimal δt that the propagator K(t + δt, x; t, y) can be
+written as a single infinitesimal time step:
+                                                      "                          !#
+                                                             m x−y 2
+                                           m 1/2                    
+                     K(t + δt, x; t, y) =          exp iδt               − V (y)
+                                           2πiδt             2     δt
+
+Therefore we expand:
+             Z
+     RHS = dyK(t + δt, x; t, y)ψ(t, y)
+                                        x−y 2
+              m 1/2 Z                            
+                                iδt m2 ( δt )
+                                              −V (y)
+           =                dye                       ψ(t, y)
+               2πiδt
+              m 1/2  Z
+                                m 2
+                                               √               √
+           =              duei( 2 u −δtV (x+u δt)) ψ(t, x + u δt)
+               2πi
+                                                                √
+              m 1/2 Z                                                                 
+                               m 2                                         δt
+           =              duei 2 u (1 − δtV (x)) ψ(t, x) + δt∂x ψ(t, x)u + ∂ 2 xψ(t, u)u2 + O(δt2 )
+               2πi                                                         2
+                                                             
+                                                 i 2
+           = ψ(t, x) + δt −iV (x)ψ(t, x) +          ∂ ψ(t, x) + O(δt2 )
+                                               2m x
+                                                        √
+In the third line we have made the substitution u δt = y − x, and in the 4th line we expand each term
+to order δt, neglecting higher order terms. In the subsequent line we perform the Gaussian integrals over
+u, noting that the order (δt)1/2 term becauyse the integral is odd.
+
+Setting the 2 sides equal, we have the Schrödinger equation as desired:
+                                                               
+                                                   1 2
+                                 i∂t ψ(t, x) = −      ∂x + V (x) ψ(t, x)
+                                                  2m
+
+
+                                                             3
+Question 3: The Free Particle (20 points)
+For a free particle, i.e. V (x) = 0, perform explicitly the integrals over xi , i = 1, . . . , N − 1 to show that
+                                                                              1/2
+                                                                                         im(xa − xb )2
+                                                                                                       
+                                                                   m
+                                K(xa , ta ; xb , tb ) =                              exp
+                                                              2πi(ta − tb )                2(ta − tb )
+
+We evaluate the integrals in order, starting with the one over x1 . We denote x0 = xb and xN = xa .
+                                 m N/2 Z                                m                2               2          2
+K(xa , ta ; xb , tb ) = lim                         dx1 · · · dxN −1 ei 2∆t ((xN −xN −1 ) +···+(x2 −x1 ) +(x1 −x0 ) )
+                        N →∞ 2πi∆t
+                                 m N/2  iπ∆t 1/2 Z                                     m               2              2 1           2
+                      = lim                                           dx2 · · · dxN −1 ei 2∆t ((xN −xN −1 ) +···+(x3 −x2 ) + 2 (x2 −x0 ) )
+                        N →∞ 2πi∆t                   m
+                                 m  N −1 1 Z                                   m               2              2 1           2
+                                                           dx2 · · · dxN −1 ei 2∆t ((xN −xN −1 ) +···+(x3 −x2 ) + 2 (x2 −x0 ) )
+                                             2
+                      = lim                       √
+                        N →∞ 2πi∆t                  2
+                                 m  N −1 2  iπ∆t 1/2 Z                                       m               2      1         2
+                                                                           dx3 · · · dxN −1 ei 2∆t ((xN −xN −1 ) +···+ 3 (x3 −x0 ) )
+                                             2
+                      = lim                       √
+                        N →∞ 2πi∆t                  2      3m
+                                 m  N −2 1 Z                                   m               2              2 1           2
+                                                           dx3 · · · dxN −1 ei 2∆t ((xN −xN −1 ) +···+(x4 −x3 ) + 3 (x3 −x0 ) )
+                                             2
+                      = lim                       √
+                        N →∞ 2πi∆t                  3
+                                       m 1/2                 m              2
+                      = · · · = lim                        ei 2N ∆t (xa −xb )
+                                N →∞ 2πiN ∆t
+                                                  (xa −xb )2
+                        r
+                                   m           im   ta −tb
+                      =                      e  2
+                             2πiN (ta − tb )
+
+
+
+
+                                                                      4
+Question 4: The Path Integral for a Free Particle, Revisited (20 points)
+In this problem we evaluate the path integral for a free particle using a different method than Problem
+3. For simplicity, take xa = xb = 0, tb = 0, ta = T . As discussed in class, K is a Gaussian path-integral of
+form:
+                                        Z x(T )=0            Z                        
+                                                             i       ′          ′    ′
+                       K(0, T ; 0, 0) =           Dx(t) exp      dtdt x(t)A(t, t )x(t )
+                                         x(0)=0              2
+
+for some differential operator A.
+(a) Write down the explicit expression for A.
+The action for a free particle is given by
+                          Z                          Z                 Z
+                               m                  m                 m
+                S[x(t)] = dt ∂t x∂t x = −                   2
+                                                        dtx∂t x = −        dtdt′ x(t′ )δ(t − t′ )∂t2 x(t)
+                                2                 2                 2
+                            Z
+                          1
+                        =      dtdt′ x(t′ )A(t′ , t)x(t),         A(t′ , t) = −mδ(t − t′ )∂t2
+                          2
+Then, we write the propagator as
+                                  Z x(T )=0                  Z x(T )=0           Z T                       
+                                                   iS                            i        ′   ′    ′
+               K(0, T ; 0, 0) =               Dxe        =               Dx exp       dtdt x(t )A(t , t)x(t)
+                                   x(0)=0                     x(0)=0             2 0
+
+for the differential operator A(t′ , t) = −mδ(t − t)∂t2 .
+
+(b) Find all the eigenvalues of A. Show that the determinant of A can be written as
+                                                                  ∞
+                                                                  Y         n2 π 2
+                                                        det A =         m
+                                                                             T2
+                                                                  n=1
+
+The eigenvectors of a second order derivative operator are precisely exponentials, x(t) = fλ (t) = eiλt . We
+further need our eigenvectors to satisfy the boundary conditions x(0) = x(T ) = 0, since the endpoints of
+our trajectory are fixed. Hence, a complete set of eigenvectors are given by sine functions, with momenta
+integer multiples of π/T . Without loss of generality we can restrict to n > 0.
+                                                   r            
+                                                     2       nπt
+                                         fλn (t) =     sin
+                                                     T        T
+
+Furthermore,
+                                                        r                                       r
+                                                                                       n2 π 2
+       Z                              Z                                                                            
+                ′                                   ′       2 2            nπt                      2           nπt
+           dtA(t , t)fλn (t) = −m         dtδ(t − t )        ∂ sin                   =m 2             sin                 = λn fλn (t)
+                                                            T t             T           T           T            T
+                                2 2                                                             2 2
+for the eigenvalue λn = m nTπ2 . In this basis A is diagonal: Amn = m nTπ2 δnm . Finally, the determinant
+of an operator is obtained by multiplying all of its eigenvalues, giving us the desired expression:
+                                                                  ∞
+                                                                  Y         n2 π 2
+                                                        det A =         m
+                                                                             T2
+                                                                  n=1
+
+
+
+(c) Since our propagator is Gaussian, it can be evaluated as
+
+                                                                              C
+                                                  K(0, T ; 0, 0) = √
+                                                                             det A
+
+                                                                  5
+   where C is some constant. By comparing this equation with the solution to Problem 3, show that the
+   consistency of the 2 approaches requires
+
+                                                  C       m 1/2
+                                             √         =
+                                                 det A    2πiT
+
+We substitute xa = xb = 0, ta = T, tb = 0 into the result in Problem 3:
+
+                                                            im02
+                                           m 1/2               
+                                                                        m 1/2
+                         K(0, T ; 0, 0) =             exp         =
+                                            2πiT             2T       2πiT
+
+It therefore follows immediately from our work in (b) that
+                                              m 1/2               ∞
+                                                          C      CT Y 1
+                          K(0, T ; 0, 0) =            =√       = √
+                                              2πiT       det A  π m   n
+                                                                        n=1
+
+
+
+
+                                                       6
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.323 Relativistic Quantum Field Theory I
+Spring 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+
+
+
+                                                       4
+

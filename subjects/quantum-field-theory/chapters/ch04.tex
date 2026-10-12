@@ -1,0 +1,67 @@
+\originalchapter{关联函数、传播子与因果性}\label{ch:propagators}
+\originalsection{Wightman 函数与微因果性}
+两点关联函数 $D^+(x-y)=\bra0\phi(x)\phi(y)\ket0$ 描述真空中两次场作用的相关. 利用上一章的模展开, 只有 $a_{\mathbf p}a^\dagger_{\mathbf q}$ 的真空矩阵元非零, 因此
+\begin{equation}\label{eq:wightman}
+D^+(x-y)=\intp\frac{\e^{-\ii p\cdot(x-y)}}{2E_{\mathbf p}}.
+\end{equation}
+它不是概率, 也不是尚未指定边界条件的经典响应函数. 场的交换子是数值分布,
+\[
+C(x-y)=[\phi(x),\phi(y)]=D^+(x-y)-D^+(y-x).
+\]
+质量壳测度和正能支在固有正时洛伦兹变换下保持, 所以 $C$ 是标量分布. 若 $x-y$ 类空, 可以选一个惯性系使 $x^0=y^0$. 此时两指数的空间积分通过 $\mathbf p\mapsto-\mathbf p$ 相等, 故 $C(x-y)=0$. 这证明自由实标量场的微因果性. 对由场构成、在不相交局域支持上定义的玻色可观测量, 此零交换子也保证操作次序不影响另一处的测量分布. 对复场同样得到类空 $[\phi(x),\phi^\dagger(y)]=0$; 自旋场将在后文采用适当的反交换结构.
+
+值得区分的是 $D^+$ 本身在类空分离并不为零. 等时相距 $r>0$, 它可以写成
+\[
+D^+(0,\mathbf r)=\frac1{16\pi^2}\int_0^\infty\frac{\mathrm ds}{s^2}\,
+\e^{-m^2s-r^2/(4s)}=\frac m{4\pi^2r}K_1(mr).
+\]
+第一式可从等时三维 Fourier 积分引入高斯参数得到; 最后一式用 $K_\nu(z)=\frac12(z/2)^\nu\int_0^\infty \mathrm du\,u^{-\nu-1}\e^{-u-z^2/(4u)}$ 的定义. 当 $m\to0$ 得 $1/(4\pi^2r^2)$, 有质量时远距离指数衰减. 真空具有相关不等于能发送超光速信号, 因为局域响应由交换子控制, 两点函数的对称部分不会单独成为信号.
+
+\originalsection{时间排序与 Feynman 边界条件}
+散射微扰按时间安排相互作用, 所以要引入时间排序 $T$. 对两个玻色场,
+\[
+D_F(x-y)=\bra0T\phi(x)\phi(y)\ket0
+=\theta(x^0-y^0)D^+(x-y)+\theta(y^0-x^0)D^+(y-x).
+\]
+傅里叶表示为
+\begin{equation}\label{eq:feynman-scalar}
+D_F(x)=\intfourp\frac{\ii\e^{-\ii p\cdot x}}{p^2-m^2+\ii0}.
+\end{equation}
+记号 $\ii0$ 表示先取 $\epsilon>0$, 最后在分布意义取 $\epsilon\downarrow0$. 对固定 $\mathbf p$, 两极点分别在 $p^0=+E_{\mathbf p}-\ii0$ 与 $-E_{\mathbf p}+\ii0$. 若 $t>0$, 因指数 $\e^{-\ii p^0t}$ 在下半平面衰减, 轮廓顺时针闭合, 只取正能极点. 其留数乘 $-\ii$ 得 $\e^{-\ii Et}/(2E)$. 若 $t<0$ 向上闭合, 取负能极点, 得 $\e^{\ii Et}/(2E)$. 这完整恢复时间排序, 因而 $\ii0$ 不是对发散积分随意补上的小数, 而是选择真空与传播边界条件的规则.
+
+作用微分算符可得 $(\Box+m^2)D_F(x)=-\ii\delta^{(4)}(x)$. 也可直接对时间排序求导: 第一次导数中因等时 $[\phi,\phi]=0$ 没有 delta, 第二次导数出现 $\delta(t)[\dot\phi(t,\mathbf x),\phi(0)]$; 这个交换子为 $-\ii\delta^{(3)}(\mathbf x)$, 正好给右端. 这种推导帮助检查传播子的 $\ii$ 与整体符号.
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=0.85]
+\draw[->] (-3.6,0)--(3.6,0) node[right] {$\operatorname{Re}p^0$};
+\draw[->] (0,-1.5)--(0,1.5) node[above] {$\operatorname{Im}p^0$};
+\fill[structurecolor] (2,-0.35) circle(2pt) node[below] {$E-\ii0$};
+\fill[structurecolor] (-2,0.35) circle(2pt) node[above] {$-E+\ii0$};
+\node at (2,1) {$t<0$: 上闭合};\node at (-2,-1) {$t>0$: 下闭合};
+\end{tikzpicture}
+\end{center}
+图中虚部只是示意, 实际极点位移在极限中趋于零. 轮廓方向与指数中的负号必须一起核对.
+
+\originalsection{推迟与超前 Green 函数}
+经典源满足 $(\Box+m^2)\phi=J$. 如果激发前没有场响应, 应取推迟 Green 函数 $G_R$, 定义为 $(\Box+m^2)G_R=\delta^{(4)}$, $G_R(t<0)=0$. 按本书交换子约定,
+\begin{align*}
+G_R(x)&=\ii\theta(t)C(x)
+=\theta(t)\intp\e^{\ii\mathbf p\cdot\mathbf x}\frac{\sin(E_{\mathbf p}t)}{E_{\mathbf p}},\\
+\phi(x)&=\int\mathrm d^4y\,G_R(x-y)J(y).
+\end{align*}
+因为 $G_R(0)=0$, $\partial_tG_R(0^+)=\delta^{(3)}(\mathbf x)$, 方程右端归一正确. 它的频域形式为
+\[
+G_R(x)=\intfourp\frac{\e^{-\ii p\cdot x}}{E_{\mathbf p}^2-(p^0+\ii0)^2},
+\]
+两极点都在下半平面, 所以对 $t<0$ 上闭合不给贡献. 超前函数为 $G_A=-\ii\theta(-t)C$, 两极点在上半平面, 只有 $t\le0$ 支持. 自由场微因果性进一步保证 $G_R$ 在未来光锥之外也为零, 因而源的响应不会超光速传播.
+
+三者虽然都能反演同一个微分算符, 却具有不同右端归一和边界条件. $D_F$ 给量子真空时间排序, $G_R$ 给因果响应, $G_A$ 给反向边界值问题. 不能因中文都称为传播子而互换使用. 对外源的一阶 Heisenberg 响应, 相互作用 Hamiltonian $H_I=-\int\mathrm d^3y\,J\phi$ 给
+\[
+\delta\langle\phi(x)\rangle=
+\ii\int_{y^0<x^0}\mathrm d^4y\,J(y)\langle[\phi(x),\phi(y)]\rangle
+=\int\mathrm d^4y\,G_R(x-y)J(y),
+\]
+直接显示可传送的响应由交换子而非 $D^+$ 的单一部分决定.
+
+\originalsection{零距离乘积与正则化}
+式\eqref{eq:wightman}在 $x=y$ 时给 $\intp1/(2E_{\mathbf p})$, 四维有二次紫外发散. 自由场也已经存在短距离奇性, 并非只在相互作用后才出现. 格点截止、平滑涂抹、点分裂和维数正规化是不同的定义或计算工具. 例如 $\phi(f)$ 的二点矩阵元含 $|\widetilde f(p)|^2$, 光滑且足够衰减的 $f$ 可以压低高动量. 若计算局域复合算符 $\phi^2(x)$, 则需要单独规定其减法, 自由场可先用 $:\phi^2:$ 去除真空收缩. 相互作用下复合算符会进一步混合, 在一般重整化章讨论. 本书中把 $\phi(x)$ 当分布, 是为了在这些地方准确说明操作意义, 不是在初学阶段回避具体模积分.

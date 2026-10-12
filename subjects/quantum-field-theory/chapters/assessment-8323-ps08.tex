@@ -1,0 +1,139 @@
+\originalchapter{8.323 作业8题解}
+题源:MIT OCW,8.323,2023年春季,2023年4月4日发布.\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset08.pdf}{原作业PDF};\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset_08sol.pdf}{官方解PDF}.正文为官方解的中文重编与独立补充,并非MIT官方中文版;MIT OCW来源,CC BY-NC-SA 4.0.
+
+为忠实保留本套题的Lorentz参数方向,下文帽号专指原$(-+++)$约定:$\widehat\eta=-\eta$,$\Gamma^\mu=\ii\gamma^\mu$,$\bar\psi_{\rm o}=\ii\bar\psi$,$\widehat\Sigma^{\mu\nu}=\ii[\Gamma^\mu,\Gamma^\nu]/4=-\Sigma^{\mu\nu}$.因此原$-\ii\bar\psi_{\rm o}(\Gamma^\mu\partial_\mu-m)\psi$就是本书$\bar\psi(\ii\slashed\partial-m)\psi$.正能量原相位$\e^{\ii k\cdot_{\rm o}x}$等于本书$\e^{-\ii k\cdot x}$;$k^0=E_k=\sqrt{\mathbf k^2+m^2}>0$.给定归一化
+\[
+ \bar u_{{\rm o}r}u_s=2\ii m\delta_{rs},\quad
+ \bar v_{{\rm o}r}v_s=-2\ii m\delta_{rs},\quad
+ u_r^\dagger u_s=v_r^\dagger v_s=2E_k\delta_{rs},\quad
+ u_r^\dagger(\mathbf k)v_s(-\mathbf k)=0.
+\]
+量子场展开为
+\[
+ \psi(x)=\sum_{s=1}^2\int\frac{\mathrm d^3k}{(2\pi)^3}\frac{a_s(\mathbf k)u_s(\mathbf k)\e^{-\ii k\cdot x}+c_s^\dagger(\mathbf k)v_s(\mathbf k)\e^{\ii k\cdot x}}{\sqrt{2E_k}},
+\]
+其中积分变量取$\mathbf k$;$\{a_r(\mathbf k),a_s^\dagger(\mathbf q)\}=\{c_r(\mathbf k),c_s^\dagger(\mathbf q)\}=\delta_{rs}(2\pi)^3\delta^{(3)}(\mathbf k-\mathbf q)$,其余反对易子为零.
+
+\originalsection{原题1}
+\begin{exercise}
+令$\widehat J^{\lambda\rho}$满足$(\widehat J^{\lambda\rho})^\mu{}_{\nu}=\ii(\widehat\eta^{\lambda\mu}\delta^\rho_\nu-\widehat\eta^{\rho\mu}\delta^\lambda_\nu)$,
+$\Lambda=\exp(-\ii\omega_{\lambda\rho}\widehat J^{\lambda\rho}/2)$,$S=\exp(-\ii\omega_{\lambda\rho}\widehat\Sigma^{\lambda\rho}/2)$.
+(a) 利用$[\widehat\Sigma^{\lambda\rho},\Gamma^\mu]=-(\widehat J^{\lambda\rho})^\mu{}_{\nu}\Gamma^\nu$证明有限变换$S\Gamma^\mu S^{-1}=(\Lambda^{-1})^\mu{}_{\nu}\Gamma^\nu$,不能只证明无穷小版本.
+(b) 证明$S^\dagger=-\Gamma^0S^{-1}\Gamma^0$.
+(c) 由$\psi'(x')=S\psi(x)$证明$\bar\psi\psi$为标量、$\bar\psi\gamma^\mu\psi$为矢量.
+\end{exercise}
+\begin{solution}
+(a) 置$A=-\ii\omega_{\lambda\rho}\widehat\Sigma^{\lambda\rho}/2$和$B^\mu{}_{\nu}=\ii\omega_{\lambda\rho}(\widehat J^{\lambda\rho})^\mu{}_{\nu}/2$.给定交换子表明$[A,\Gamma^\mu]=B^\mu{}_{\nu}\Gamma^\nu$.因$B$是作用在Lorentz指标上的数值矩阵,与旋量矩阵$A$可交换,归纳得到
+$\operatorname{ad}_A^n\Gamma^\mu=(B^n)^\mu{}_{\nu}\Gamma^\nu$.有限维矩阵指数级数绝对收敛,所以
+\[
+ \e^A\Gamma^\mu\e^{-A}=\sum_{n=0}^\infty\frac{(B^n)^\mu{}_{\nu}}{n!}\Gamma^\nu
+ =(\e^B)^\mu{}_{\nu}\Gamma^\nu=(\Lambda^{-1})^\mu{}_{\nu}\Gamma^\nu.
+\]
+这是连通于单位元的有限proper Lorentz变换;离散空间反演不是这里参数指数的范围.
+
+(b) 用$(\Gamma^\mu)^\dagger=\Gamma^0\Gamma^\mu\Gamma^0$和$(\Gamma^0)^2=-1$得到
+$(\widehat\Sigma^{\mu\nu})^\dagger=-\Gamma^0\widehat\Sigma^{\mu\nu}\Gamma^0$.因此
+$S^\dagger=\exp(-\Gamma^0(\ii\omega\widehat\Sigma/2)\Gamma^0)=-\Gamma^0\exp(\ii\omega\widehat\Sigma/2)\Gamma^0$.
+这里$-\Gamma^0X\Gamma^0$是相似变换;连常数项也正确地变成1.换回本书即$S^\dagger=\gamma^0S^{-1}\gamma^0$.
+
+(c) $\bar\psi'_{\rm o}(x')=\psi^\dagger(x)S^\dagger\Gamma^0=\bar\psi_{\rm o}(x)S^{-1}$,故标量中的$S^{-1}S$抵消.矢量则满足
+$\bar\psi'_{\rm o}\Gamma^\mu\psi'=\bar\psi_{\rm o}S^{-1}\Gamma^\mu S\psi=\Lambda^\mu{}_{\nu}\bar\psi_{\rm o}\Gamma^\nu\psi$;原流与本书流只差整体负号,不改变变换性质.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+不用$u_s,v_s$的显式表达,证明下列关系之一(本解同时证明两式):
+$u_r^\dagger u_s=-(\ii E/m)\bar u_{{\rm o}r}u_s$,
+$v_r^\dagger v_s=(\ii E/m)\bar v_{{\rm o}r}v_s$.
+\end{exercise}
+\begin{solution}
+换成本书约定,$\slashed k u_s=mu_s$,$\bar u_r\slashed k=m\bar u_r$,$\slashed k v_s=-mv_s$,$\bar v_r\slashed k=-m\bar v_r$.对$u$,把同一个双线性式左右各插入一次方程:
+\[
+ u_r^\dagger u_s=\bar u_r\gamma^0u_s
+ =\frac1{2m}\bar u_r(\slashed k\gamma^0+\gamma^0\slashed k)u_s
+ =\frac{E}{m}\bar u_ru_s=2E\delta_{rs}.
+\]
+对$v$同样得到$v_r^\dagger v_s=-\frac{E}{m}\bar v_rv_s=2E\delta_{rs}$.乘$\bar u_{\rm o}=\ii\bar u$、$\bar v_{\rm o}=\ii\bar v$即可恢复题面.这里$m>0$;含$1/m$的证明不能直接用于无质量极限,后者须改用独立的能量归一化.
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+(a) 对平移不变Dirac作用量用Noether法构造能动张量$\Theta^{\mu\nu}$,证明原约定$\Theta^{00}=\mathcal H=\ii\bar\psi_{\rm o}(\Gamma^i\partial_i-m)\psi$.
+(b) 用方程证明$H=\ii\int\dd^3x\,\psi^\dagger\partial_t\psi$,再用本套的$a,c$算符表达$H$.
+(c) 求真空能量密度(可保留积分),与标量场比较.
+\end{exercise}
+\begin{solution}
+(a) 在本书约定$\Lag=\ii\bar\psi\gamma^\rho\partial_\rho\psi-m\bar\psi\psi$,$\partial\Lag/\partial(\partial_\mu\psi)=\ii\bar\psi\gamma^\mu$.平移$\delta\psi=-\epsilon^\nu\partial_\nu\psi$,$\delta\Lag=-\epsilon^\nu\partial_\nu\Lag$,提取平移流的参数得到
+\[
+ \Theta^{\mu\nu}=\ii\bar\psi\gamma^\mu\partial^\nu\psi-\eta^{\mu\nu}\Lag,
+ \quad\partial_\mu\Theta^{\mu\nu}=0.
+\]
+守恒用两条Euler--Lagrange方程,场须满足适当边界条件以免积分通量泄漏.这里采用正则张量,未作Belinfante改良.
+$\Theta^{00}=\ii\psi^\dagger\partial_t\psi-\Lag=-\ii\bar\psi\gamma^i\partial_i\psi+m\bar\psi\psi$,是正则Legendre变换的密度;原约定正是题面所写表达.
+
+(b) 在解上$\Lag=0$,故$\Theta^{00}=\ii\psi^\dagger\partial_t\psi$.代入模式展开,空间积分使同号频率两项的动量相等,使异号频率两项的动量相反.异号项由$u_r^\dagger(\mathbf k)v_s(-\mathbf k)=0$消掉,同号项由$u^\dagger u=v^\dagger v=2E$给出
+\[
+ H=\sum_{s=1}^2\int\frac{\dd^3k}{(2\pi)^3}
+ E_k\big[a_s^\dagger(\mathbf k)a_s(\mathbf k)-c_s(\mathbf k)c_s^\dagger(\mathbf k)\big].
+\]
+负号来自$\ii\partial_t\e^{+\ii Et}=-E\e^{+\ii Et}$.使用反对易关系,而不是玻色对易关系,得到
+\[
+ H=\sum_s\int\frac{\dd^3k}{(2\pi)^3}E_k(a_s^\dagger a_s+c_s^\dagger c_s)+E_0,
+ \quad E_0=-2V\int\frac{\dd^3k}{(2\pi)^3}E_k,
+\]
+其中$V=(2\pi)^3\delta^{(3)}(0)$是在大盒子中定义的空间体积.
+
+(c) $\epsilon_{0,D}=-2\int\dd^3k/(2\pi)^3\,E_k$.每个独立费米模式贡献$-E_k/2$,Dirac粒子两自旋、反粒子两自旋,共四模式.实标量每动量一个模式,$\epsilon_{0,R}=+\frac12\int E_k$;复标量两个模式,$\epsilon_{0,C}=+\int E_k$(均用相同测度).相同质量的一个Dirac场与两个复标量场零点能相消.以上裸积分UV发散;正规序把自由真空常数减去,并非证明它在引力或边界问题中永远不可观测.官方解的解释句交换了玻色、费米正负号和实、复自由度,本解按前面的算符计算纠正.
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+Dirac作用量Lorentz不变.
+(a) 写$\psi$的无穷小Lorentz变换.
+(b) 用Noether法构造守恒荷$M^{\mu\nu}=S^{\mu\nu}+L^{\mu\nu}$,其中原约定
+$L^{\mu\nu}=\int\dd^3x(x^\mu\Theta^{0\nu}-x^\nu\Theta^{0\mu})$,
+$S^{\mu\nu}=-\int\dd^3x\,\psi^\dagger\widehat\Sigma^{\mu\nu}\psi$.
+(c) 用$a,c$算符表达$S^{\mu\nu}$.
+(d) 保留$S^{ij}$中不随时间变化的部分$\widetilde S^{ij}$,令$\mathbf J^2=\widetilde S^{ij}\widetilde S_{ij}/2$,证明静止单粒子态$a_s^\dagger(\mathbf0)\ket0$、$c_s^\dagger(\mathbf0)\ket0$有自旋$1/2$的本征值.原题指出$S^{ij}$的时间变化被$L^{ij}$抵消;只有$M^{ij}$守恒.必须取静止系,$S^{ij}$本身不是Lorentz协变量.
+\end{exercise}
+\begin{solution}
+(a) 按原参数定义,在同一个坐标点比较字段,
+\[
+ \delta\psi(x)=-\frac\ii2\omega_{\rho\sigma}\widehat\Sigma^{\rho\sigma}\psi(x)
+ -\omega_{\rho\sigma}x^\sigma\widehat\partial^\rho\psi(x).
+\]
+第一项改变旋量分量,第二项来自$\psi(\Lambda^{-1}x)$的Taylor展开;共轭的自旋项符号相反.
+
+(b) 在原约定$\delta\Lag=-\omega_{\mu\nu}\widehat\partial^\mu(x^\nu\Lag)$;$\omega$反对称使$\widehat\partial^\mu x^\nu$的收缩为零.代入$j^\rho=-\ii\bar\psi_{\rm o}\Gamma^\rho\delta\psi-F^\rho$,取$\omega_{\mu\nu}$的反对称系数得
+\[
+ J^{\rho\mu\nu}=\bar\psi_{\rm o}\Gamma^\rho\widehat\Sigma^{\mu\nu}\psi
+ +x^\mu\Theta^{\rho\nu}-x^\nu\Theta^{\rho\mu}.
+\]
+$\partial_\rho J^{\rho\mu\nu}=0$是Noether结论;直接核对时,轨道部分的散度$\Theta^{\mu\nu}-\Theta^{\nu\mu}$由自旋部分的散度抵消.取$\rho=0$,$\bar\psi_{\rm o}\Gamma^0=-\psi^\dagger$,恢复两项要求.换成本书自旋矩阵,$S^{\mu\nu}=+\int\dd^3x\psi^\dagger\Sigma^{\mu\nu}\psi$.
+
+(c) 下式统一用本书$\Sigma$,对应原式整体负号与$\widehat\Sigma$互相抵消;重复自旋指标求和:
+\begin{align*}
+ S^{\mu\nu}=\int\frac{\dd^3k}{(2\pi)^3\,2E_k}\big[&
+ a_r^\dagger a_su_r^\dagger(\mathbf k)\Sigma^{\mu\nu}u_s(\mathbf k)
+ +c_rc_s^\dagger v_r^\dagger(\mathbf k)\Sigma^{\mu\nu}v_s(\mathbf k)\\
+ &+\e^{2\ii E_kt}a_r^\dagger(\mathbf k)c_s^\dagger(-\mathbf k)
+ u_r^\dagger(\mathbf k)\Sigma^{\mu\nu}v_s(-\mathbf k)\\
+ &+\e^{-2\ii E_kt}c_r(\mathbf k)a_s(-\mathbf k)
+ v_r^\dagger(\mathbf k)\Sigma^{\mu\nu}u_s(-\mathbf k)\big].
+\end{align*}
+前两项来自$\delta^{(3)}(\mathbf k-\mathbf q)$,后两项来自$\delta^{(3)}(\mathbf k+\mathbf q)$,这也解释时间相位.去掉最后两项并正规序后
+\[
+ \widetilde S^{ij}=\int\frac{\dd^3k}{(2\pi)^3\,2E_k}
+ \big[a_r^\dagger a_su_r^\dagger\Sigma^{ij}u_s
+ -c_s^\dagger c_rv_r^\dagger\Sigma^{ij}v_s\big].
+\]
+(d) 静止时$\slashed k=m\gamma^0$,所以$u$、$v$分别位于$\gamma^0$的$+1,-1$二维本征空间.$[\Sigma^{ij},\gamma^0]=0$保证自旋作用保持这些空间.由Clifford关系
+$\frac12\sum_{ij}\Sigma^{ij}\Sigma^{ij}=\frac34\,1$:三个独立$\Sigma^{12},\Sigma^{23},\Sigma^{31}$的平方各为$1/4$.$u_r^\dagger u_s=v_r^\dagger v_s=2m\delta_{rs}$使$1/(2m)$正好把它们的矩阵元变成正交归一基上的自旋矩阵;因此在粒子子空间
+\[
+ \mathbf J^2 a_t^\dagger(\mathbf0)\ket0
+ =\frac1{2(2m)^2}a_r^\dagger(\mathbf0)\ket0
+ \sum_{ij,s}(u_r^\dagger\Sigma^{ij}u_s)(u_s^\dagger\Sigma^{ij}u_t)
+ =\frac34a_t^\dagger(\mathbf0)\ket0.
+\]
+反粒子空间用$v$替代$u$并转置自旋指标;正规序负号在平方中消失,同得$3/4=s(s+1)$.精确动量态是delta归一化分布态;可先在盒中取$\mathbf k=0$,再取连续极限以避免平方delta.
+\end{solution}

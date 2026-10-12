@@ -1,0 +1,494 @@
+                                8.323 Problem Set 1 Solutions
+
+
+                                                 February 15, 2023
+
+
+Question 1: Quantum harmonic oscillator in the Heisenberg picture (25 points)
+Consider the Hamiltonian for a unit mass harmonic oscillator with frequency ω,
+                                                    1
+                                                 H = (p̂2 + ω 2 x̂2 )
+                                                    2
+In the Heisenberg picture p̂(t) and x̂(t) are dynamical variables which evolve with time. They obey the
+equal-time commutation relation
+
+                                                    [x̂(t), p̂(t)] = i
+
+Here and below we set ℏ = 1.
+
+(a) Obtain the Heisenberg evolution equations for x̂(t) and p̂(t).
+We use Heisenberg’s equations of motion for x̂(t) and p̂(t):
+
+                                dx̂(t)                             dp̂(t)
+                                       = i[H, x̂(t)]                      = i[H, p̂(t)]
+                                  dt                                dt
+The right hand sides can be computed using H = 12 (p̂2 + ω 2 x̂2 ), the commutator [x̂, p̂] = i, and the
+Heisenberg time evolution O(t) = eiHt Oe−iHt . For instance:
+
+                  [H, x̂(t)] = [H, eiHt x̂e−iHt ] = eiHt [H, x̂]e−iHt = −ieiHt p̂e−iHt = −ip̂(t)
+
+Hence, we have:
+
+                                    dx̂(t)                      dp̂(t)
+                                           = p̂(t)                     = −ω 2 x̂(t)
+                                      dt                         dt
+
+(b) Suppose the initial conditions at t = 0 are given by
+
+                                             x̂(0) = x̂            p̂(0) = p̂
+
+   Find x̂(t) and p̂(t).
+We can decouple the system by converting to second order equations:
+                                    ¨ = −ω 2 x̂(t)
+                                    x̂                           ¨ = −ω 2 p̂(t)
+                                                                 p̂(t)
+
+Solving with the initial conditions x̂(0) = x̂ and p̂(0) = p̂, we find
+                                             1
+                       x̂(t) = x̂ cos ωt +     p̂ sin ωt           p̂(t) = p̂ cos ωt − ωx̂ sin ωt
+                                             ω
+
+
+
+                                                            1
+(c) It is convenient to introduce operators â(t) and â† (t) defined by:
+                              r                                         r
+                                 1            †                           ω
+                      x̂(t) =      (â(t) + â (t)),         p̂(t) = −i     (â(t) − â† (t))
+                                2ω                                        2
+
+   Show that â(t) and â† (t) satisfy the equal-time commutation relation
+
+                                                    [â(t), â† (t)] = 1
+
+We solve for â(t) and â† (t) in terms of x̂(t) and p̂(t):
+                             r             r                                   r              r
+                                ω             1                      †             ω             1
+                    â(t) =       x̂(t) + i     p̂(t),              â (t) =         x̂(t) − i     p̂(t)
+                                2            2ω                                    2            2ω
+Using the commutation relations between position and momentum operators, we have
+                                                    i                i
+                                [â(t), â† (t)] = − [x̂(t), p̂(t)] + [p̂(t), x̂(t)] = 1
+                                                    2                2
+(d) Express the Hamiltonian in terms of â(t) and â† (t).
+                                           1
+               H = H(t) = eiHt He−iHt = (p̂(t)2 + ω 2 x̂(t)2 )
+                                           2
+                          ω                                           ω
+                        = (−(â(t) − â (t))2 + (â(t) − â† (t))2 ) = (â(t)â† (t) + â† (t)â(t))
+                                         †
+                          4                                       2
+                                           1                   1
+                        = ω â† (t)â(t) +     = ω N (t) +
+                                           2                   2
+
+where in the last equality we define the number operator, N (t) = â† (t)â(t).
+
+(e) Obtain the Heisenberg equations for â(t) and â† (t).
+Using the results in parts (c) and (d), we have
+                               dâ(t)
+                                       = i[H, â(t)] = iω[â† (t)â(t), â(t)] = −iωâ(t)
+                                 dt
+                              dâ† (t)
+                                       = i[H, â† (t)] = iω[â† (t)â(t), â† (t)] = iωâ† (t)
+                                dt
+(f) Suppose the initial conditions at t = 0 are given by
+
+                                           â(0) = â,             â† (0) = â†
+
+  Find â(t) and â† (t).
+The equations in (e) are decoupled, and first-order linear. We immediately have
+
+                                      â(t) = âe−iωt ,             â† (t) = â† eiωt
+
+(g) Express x̂(t), p̂(t), and the Hamiltonian H in terms of â and â† .
+We substitute the expressions obtained in (f) into parts (c) and (d).
+                                                r
+                                                   1
+                                        x̂(t) =      (âe−iωt + â† eiωt )
+                                                  2ω
+                                                   r
+                                                     ω
+                                        p̂(t) = −i     (âe−iωt − â† eiωt )
+                                                     2
+                                                               1
+                                      H(t) = H = ω(â† â + )
+                                                               2
+
+
+                                                             2
+Question 2: Lorentz transformations (15 points)
+(a) Probe that the 4-dimensional δ-function
+
+                                            δ (4) (p) = δ(p0 )δ(p1 )δ(p2 )δ(p3 )
+
+    is Lorentz invariant, i.e.
+
+                                                      δ (4) (p) = δ (4) (p̃)
+
+   where p̃µ is a Lorentz transformation of pµ .
+We express the δ-function in integral form, and use that p · x is a Lorentz scalar, i.e. Λp · Λx = p · x.
+                                            Z                    Z
+                             (4)         1       4 ip·x      1
+                            δ (p) =            d xe     =           d4 xeiΛp·Λx
+                                      (2π)4               (2π)4
+Now we make the change of variables x̃ = Λx. Note that d4 x̃ = d4 x. To see this we use ΛT ηΛ = η, which
+implies 1 = det(ΛT ) det(Λ) = (det Λ)2 . Hence, the Jacobian J = | det Λ| = 1. One thus has
+                                        Z                   Z
+                        (4)        1       4 iΛp·x̃     1
+                       δ (p) =            d x̃e     =         d4 xeiΛp·x = δ (4) (Λp)
+                                (2π)4                 (2π)4
+
+(b) Show that
+
+                                                       ω1 δ (3) (⃗k1 − ⃗k2 )
+
+    is Lorentz invariant, i.e.
+
+                                          ω1 δ (3) (⃗k1 − ⃗k2 ) = ω1′ δ (3) (⃗k1′ − ⃗k2′ )
+
+    Here ⃗k1 and ⃗k2 are respectively the spatial part of four-vectors k1µ = (ω1 , ⃗k1 ) and k2µ = (ω2 , ⃗k2 ) which
+    satisfy the on-shell condition
+
+                                                      k12 + k22 = −m2
+
+    and k1′µ = (ω1′ , ⃗k1′ ), k2′µ = (ω2′ , ⃗k2′ ) are related to k1µ , k2µ by the same Lorentz transformation.
+We consider the expression δ(k 2 + m2 ) which imposes the mass-shell constraint. We can simplify this
+                                                          X             1
+using the δ-function identity δ(f (x)) =                              ′
+                                                                             δ(x − xi ).
+                                                                   |f (xi )|
+                                               xi s.t. f (xi )=0
+
+                                                                         1
+                   δ(k 2 + m2 ) = δ(−k02 + ⃗k 2 + m2 ) =
+                                                                                                              
+                                                                               δ(k0 − |ω⃗k |) + δ(k0 + |ω⃗k |)    (1)
+                                                                       2|ω⃗k |
+We will assume ω⃗k1 , ω⃗k2 > 0, as is the case for physical 4-momenta.
+We can pick out the k10 = ω⃗k1 enforcing δ-function in (1) by multiplying both sides by θ(ω⃗k1 ).
+
+                                                   1                              1
+                       θ(ω⃗k1 )δ(k12 + m2 ) =           δ(k10 − ω⃗k1 )θ(ω⃗k1 ) =       δ(k10 − ω⃗k1 )             (2)
+                                                  2ω⃗k1                          2ω⃗k1
+
+Now we multiply both sides by δ (3) (⃗k1 − ⃗k2 ):
+
+                       θ(ω⃗k1 )δ(k12 + m2 ) · 2ω⃗k1 δ (3) (⃗k1 − ⃗k2 ) = δ(k10 − ω⃗k1 )δ (3) (⃗k1 − ⃗k2 )
+                                                                            = δ(k10 − ω⃗k2 )δ (3) (⃗k1 − ⃗k2 )
+                                                                            = δ(k10 − k20 )δ (3) (⃗k1 − ⃗k2 )
+                       θ(ω⃗k1 )δ(k12 + m2 ) · 2ω⃗k1 δ (3) (⃗k1 − ⃗k2 ) = δ (4) (k1µ − k2µ )                       (3)
+
+
+                                                                   3
+In the second equality, we use that the δ (3) (⃗k1 − ⃗k2 ) allows us to replace ω⃗k1 with ω⃗k2 . For this step, it is
+crucial that sign(ω⃗k1 ) = sign(ω⃗k2 ), which is true since both are positive.
+
+Finally, let us study (3). The right-hand side is Lorentz invariant by part (a). On the left-hand side,
+δ(k12 + m2 ) is Lorentz invariant since k12 is a Lorentz scalar, and θ(ωk⃗1 ) is Lorentz invariant because the
+energy of a particle does not change under a (proper, orthochronous) Lorentz transformation. It then
+follows that ω⃗k1 δ (3) (⃗k1 − ⃗k2 ) is Lorentz invariant.
+
+(c) For any function f (k) = f (k 0 , k 1 , k 2 , k 3 ), prove that
+
+                                             d3⃗k 1
+                                        Z                                       q
+                                                       f (k),           ω⃗k =    k⃗2 + m2
+                                            (2π)3 2ω⃗k
+
+    is Lorentz invariant, in the sense that
+
+                                             d3⃗k 1                       d3⃗k 1
+                                        Z                           Z
+                                                       f (k) =                      f (k̃)
+                                            (2π)3 2ω⃗k                   (2π)3 2ω⃗k
+
+   where k̃ µ = Λµ ν k ν is a Lorentz transformation of k µ .
+Since the momentum is on the mass-shell, we write f (k) = f (ω⃗k , ⃗k).
+By introducing another δ-function, we may write this expression as a integral over 4-dimensions:
+
+                    d3⃗k 1                 d3⃗k 1
+               Z                        Z                                 Z
+                                                               ⃗      1            1
+                              f (k) =                 f (ω⃗k , k) =          d4 k      δ(k 0 − ω⃗k )f (k 0 , ⃗k)
+                   (2π)3 2ω⃗k                  3
+                                          (2π) 2ω⃗k                 (2π)3         2ω⃗k
+                                              Z
+                                         1
+                                     =           d4 k θ(ω⃗k )δ(k 2 + m2 )f (k µ )                                  (4)
+                                       (2π)3
+
+where in the last equality we have used (2).
+Now we make a change of variables, k = Λk ′ , for Λ an arbitrary (proper, orthochronous) Lorentz trans-
+formation. In parts (a)-(b), we showed that d4 k = d4 k ′ , θ(ω⃗k ) = θ(ω⃗k′ ), and δ(k 2 + m2 ) = δ(k ′2 + m2 ).
+Hence,
+                    Z                                            Z
+                1                                           1
+                      d 4
+                          k θ(ω⃗k )δ(k 2
+                                         + m2
+                                              )f (k µ
+                                                      ) =          d4 k ′ θ(ω⃗k′ )δ(k ′2 + m2 )f ((Λk ′ )µ )
+              (2π)3                                       (2π)3
+                                                              d3⃗k 1
+                                                          Z
+                                                        =                f (Λk)
+                                                             (2π)3 2ω⃗k
+
+where the last equality is obtained using the reverse sequence of operations that led to (4).
+Putting everything together, we have the desired result,
+
+                                             d3⃗k 1                      d3⃗k 1
+                                        Z                           Z
+                                                       f (k) =                     f (Λk)
+                                            (2π)3 2ω⃗k                  (2π)3 2ω⃗k
+
+
+
+
+                                                                4
+Question 3: A complex scalar field (20 points)
+Consider the field theory of a complex valued scalar field ϕ(x) with action
+                                Z
+                            S = d4 x − ∂µ ϕ∗ ∂ µ ϕ − V (|ϕ|2 ) ,    |ϕ|2 = ϕ∗ ϕ
+                                                              
+
+
+One could either consider the real and imaginary parts of ϕ, or ϕ and ϕ∗ as independent dynamical
+variables. The latter is more convenient in most situations.
+(a) Check that the action is Lorentz invariant, and find the equations of motion.
+A Lorentz transformation acts as ϕ → ϕ′ , such that ϕ′ (x) = ϕ(Λ−1 x). The action transforms as:
+                                Z
+                       S → S = d4 x − ∂µ ϕ′∗ (x)∂ µ ϕ′ (x) − V (|ϕ′ (x)|2 )
+                             ′
+                                                                            
+
+                                Z
+                               = d4 x − ∂µ ϕ∗ (Λ−1 x)∂ µ ϕ(Λ−1 x) − V (|ϕ(Λ−1 x)|2 )
+                                                                                    
+
+
+Now we make the change of variable x′ = Λ−1 x. We showed in 2(a) that d4 x = d4 x′ . Furthermore, by
+the chain rule we have ∂µ = (Λ−1 )µ ν ∂ν′ . Here ∂µ and ∂µ′ denote differentiation with respect to x and x′ .
+                          Z
+                     S ′ = d4 x′ − (Λ−1 )µ ν ∂ν′ ϕ∗ (x′ ) (Λ−1 )µ ρ ∂ ′ρ ϕ(x′ ) − V (|ϕ(x′ )|2
+                                                                                               
+
+                          Z
+                         = d4 x′ − δρν ∂ν′ ϕ∗ (x′ )∂ ′ρ ϕ(x′ ) − V (|ϕ(x′ )|2
+                                                                              
+
+                          Z
+                         = d4 x′ − ∂ν′ ϕ∗ (x′ )∂ ′ν ϕ(x′ ) − V (|ϕ(x′ )|2 = S
+                                                                          
+
+
+where in the second line we use
+
+                       (Λ−1 )µ ν (Λ−1 )µ ρ = ((Λ−1 )T )ν µ (Λ−1 )µ ρ = (Λ)ν µ (Λ−1 )µ ρ = δρν
+
+
+To find the equations of motion, we use the Euler-Lagrange equations, treating ϕ and ϕ∗ as independent:
+                                       ∂L      ∂L                     ∂L       ∂L
+                                ∂µ           =    ,            ∂µ         ∗
+                                                                             =
+                                     ∂(∂µ ϕ)   ∂ϕ                   ∂(∂µ ϕ )   ∂ϕ∗
+The left-hand side can be confusing to evaluate due to the contracted indices, so we do one calculation
+very explicitly:
+                                                         
+                          ∂L             ∂
+                     ∂µ         = ∂µ                 ∗ ν
+                                               (−∂ν ϕ ∂ ϕ) = ∂µ [−∂ν ϕ∗ δµν ] = −∂ 2 ϕ∗
+                        ∂(∂µ ϕ)        ∂(∂µ ϕ)
+Hence, the equations of motion are
+
+                           ∂ 2 ϕ∗ − V ′ (|ϕ|2 )ϕ∗ = 0,           ∂ 2 ϕ − V ′ (|ϕ|2 )ϕ = 0
+
+Note that these are conjugate equations, as expected.
+
+(b) Find the canonical conjugate momenta for ϕ and ϕ∗ , and the Hamiltonian H.
+We write the Lagrangian density as
+
+                                       L = ∂t ϕ∗ ∂t ϕ − ∇ϕ
+                                                        ⃗ ∗ · ∇ϕ
+                                                              ⃗ − V (|ϕ|2 )
+
+The conjugate momenta are thus
+                                      ∂L                                  ∂L
+                            π :=             = ∂t ϕ∗ ,         π ∗ :=             = ∂t ϕ
+                                     ∂(∂t ϕ)                            ∂(∂t ϕ∗ )
+
+                                                         5
+The Hamiltonian is given by
+                       Z                      Z
+                 H = d x(π∂t ϕ + π ∂t ϕ − L) = d3 x(π ∗ π + ∇ϕ
+                          3       ∗                         ⃗ ∗ · ∇ϕ
+                                                                  ⃗ + V (|ϕ|2 ))
+
+
+(c) The action is invariant under the transformation
+
+                                      ϕ → eiα ϕ,                ϕ∗ → e−iα ϕ∗
+
+   for arbitrary constant α. When α is small, i.e. for an infinitesimal transformation, this becomes
+
+                                      δϕ = iαϕ,                 δϕ∗ = −iαϕ∗
+
+   Use Noether’s theorem to find the corresponding conserved current j µ and conserved charge Q.
+By Noether’s theorem, the conserved current is given by
+                                       ∂L
+                              jµ =             δΦa − F µ ,               δL = ∂µ F µ
+                                     ∂(∂µ Φa )
+
+In this case, δϕ = iαϕ, δϕ∗ = −iαϕ∗ , and δL = 0. We find
+
+                         j µ = −∂ µ ϕ∗ (iαϕ) − ∂ µ ϕ(−iαϕ∗ ) = iα(ϕ∗ ∂ µ ϕ − ϕ∂ µ ϕ∗ )
+
+One may remove the proportionality constant if desired, to get
+
+                                             j µ = ϕ∗ ∂ µ ϕ − ϕ∂ µ ϕ∗
+
+The corresponding charge is then
+                                        Z               Z
+                                  Q=        d3 xj 0 =       d3 x(ϕ∗ ∂t ϕ − ϕ∂t ϕ∗ )
+
+(d) Use the equations of motion from part (a) to verify directly that j µ is conserved.
+We compute:
+
+                              ∂µ j µ = ∂µ (ϕ∗ ∂ µ ϕ − ϕ∂ µ ϕ∗ ) = ϕ∗ ∂ 2 ϕ − ϕ∂ 2 ϕ∗
+                                     = V ′ (|ϕ|2 )ϕ∗ ϕ − V ′ (|ϕ|2 )ϕ∗ ϕ = 0
+
+where in the second line we use the equations of motion from part (a).
+
+
+
+
+                                                            6
+Question 4: The energy-momentum tensor (20 points)
+In this problem we work out the energy-momentum tensor of the complex scalar theory in Question 3.
+(a) Under a spacetime translation
+
+                                              xµ → x′µ = xµ + aµ
+
+   a scalar field transforms as
+
+                                                  ϕ′ (x′ ) = ϕ(x)
+
+   Show that the action is invariant under the transformation ϕ(x) → ϕ′ (x).
+Under the transformation, the scalar field satisfies ϕ′ (x) = ϕ(x − a). The action transforms as:
+                               Z
+                    S → S = d4 x − ∂µ ϕ′∗ (x)∂ µ ϕ′ (x) − V (|ϕ′ (x)|2 )
+                            ′
+                                                                          
+
+                               Z
+                              = d4 x − ∂µ ϕ∗ (x − a)∂ µ ϕ(x − a) − V (|ϕ(x − a)|2 )
+                                                                                    
+
+                               Z
+                              = d4 x − ∂µ ϕ∗ (x)∂ µ ϕ(x) − V (|ϕ(x)|2 ) = S
+                                                                        
+
+
+where in the last line we change variables from xµ → xµ + aµ , which does not change the integration
+measure.
+
+(b) Write down the transformation of the scalar fields ϕ and ϕ∗ for an infinitesimal translation, and use
+    Noether’s theorem to find the corresponding conserved currents T µν .
+An infinitesimal translation acts on the fields as:
+
+                          δϕ = ϕ′ (x) − ϕ(x) = ϕ(x − a) − ϕ(x) = −aµ ∂µ ϕ(x)
+                         δϕ∗ = ϕ′∗ (x) − ϕ∗ (x) = ϕ∗ (x − a) − ϕ∗ (x) = −aµ ∂µ ϕ∗ (x)
+
+We also need the change in the Lagrangian density under translations:
+
+        δL = L′ − L = −∂ν (ϕ∗ (x) − aµ ∂µ ϕ∗ (x)) ∂ ν (ϕ(x) − aµ ∂µ ϕ(x))
+                      − V (ϕ∗ (x) − aµ ∂µ ϕ∗ (x))(ϕ(x) − aµ ∂µ ϕ(x)) − L
+                                                                       
+
+           = aµ (∂ν ∂µ ϕ∗ (x)∂ ν ϕ(x) + ∂ν ϕ∗ (x)∂ ν ∂µ ϕ(x)) + aµ V ′ (ϕ∗ ϕ) ∂µ ϕ∗ ϕ + ϕ∗ ∂µ ϕ + O(aµ aν )
+                                                                                               
+
+           = −aµ ∂µ L = aµ ∂ν (−η µν L) := (aµ ∂ν )F µν
+
+The translations are parameterized by a 4-vector aµ , and we have a Noether current (itself a 4-vector) for
+each. Hence, we can encode the conserved currents from translations into a rank-2 tensor, T µν . In the
+following, we let the first index pick out the direction of the translation aµ .
+
+The Noether current is
+                                             ∂L                 ∂L
+                          T µν := (j µ )ν =        (δϕ)µ +             (δϕ∗ )µ − F µν
+                                           ∂(∂ν ϕ)           ∂(∂ν ϕ∗ )
+                               = −∂ ν ϕ∗ (−∂ µ ϕ) − ∂ ν ϕ(−∂ µ ϕ∗ ) + η µν L
+                               = ∂ µ ϕ∗ ∂ ν ϕ + ∂ ν ϕ∗ ∂ µ ϕ − η µν ∂ρ ϕ∗ ∂ ρ ϕ + V (|ϕ|2 )
+                                                                                              
+
+
+(c) The conserved charge for a time translation
+                                                        Z
+                                                 H=         d3 xT 00
+
+
+                                                            7
+   should be identified with the total energy of the system, while that for a spatial translation
+                                                   Z
+                                             P = d3 xT 0i
+                                               i
+
+
+
+  is identified with the total momentum. Thus T µν is referred to as the energy-momentum tensor.
+  Write down the explict expressions for H and P i . Compare H obtained here with the Hamiltonian in
+  problem 3(b).
+We compute:
+                   Z            Z                                                         
+              H = d3 xT 00 = d3 x 2∂ t ϕ∗ ∂ t ϕ + (−∂ t ϕ∗ ∂ t ϕ + ∇ϕ
+                                                                    ⃗ ∗ · ∇ϕ
+                                                                          ⃗ + V (|ϕ|2 ))
+                   Z                                          
+                  = d3 x ∂t ϕ∗ ∂t ϕ + ∇ϕ
+                                      ⃗ ∗ · ∇ϕ
+                                            ⃗ + V (|ϕ|2 ))
+                   Z            Z                                  Z
+              P i = d3 xT 0i = d3 x ∂ t ϕ∗ ∂ i ϕ + ∂ i ϕ∗ ∂ t ϕ = − d3 x (∂t ϕ∗ ∂i ϕ + ∂i ϕ∗ ∂t ϕ)
+                                                               
+
+
+The expression for the Hamiltonian is equal to the Hamiltonian obtained in problem 3(b).
+
+(d) Use the equations of motion of problem 3(a) to verify directly that T µν is conserved.
+Recall that the first index of T µν picks out the direction of the translation aµ , so formally Noether
+conservation should tell us ∂ν T µν = 0. However, from part (c) it can be seen that T µν is symmetric, so
+we can contract the derivative with respect to either index.
+
+We compute:
+
+           ∂µ T µν = ∂µ (∂ µ ϕ∗ ∂ ν ϕ + ∂ ν ϕ∗ ∂ µ ϕ) − ∂ ν (∂ρ ϕ∗ ∂ ρ ϕ) − ∂ ν V (|ϕ|2 )
+                   = ∂ 2 ϕ∗ ∂ ν ϕ + ∂ ν ϕ∗ ∂ 2 ϕ − ∂ ν V (|ϕ|2 )
+                   = ϕ∗ ∂ ν ϕ V ′ (|ϕ|2 ) + ϕ∂ ν ϕ∗ V ′ (|ϕ|2 ) − ϕ∗ ∂ ν ϕ V ′ (|ϕ|2 ) − ϕ∂ ν ϕ∗ V ′ (|ϕ|2 ) = 0
+
+where we use the equations of motion in the 3rd equality. Thus the Noether currents are conserved.
+
+
+
+
+                                                             8
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.323 Relativistic Quantum Field Theory I
+Spring 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+
+
+
+                                                       4
+

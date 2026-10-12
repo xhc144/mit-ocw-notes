@@ -1,0 +1,85 @@
+\originalchapter{8.324 作业4题解}
+本章根据 MIT OCW 8.324(2010年秋)Assignment 4 和官方解答中文重编,并补足参数积分与紫外收敛条件.原资料使用 $(-,+,+,+)$,本章用 $(+,-,-,-)$,故原资料 $k_i^2$ 改写为 $-s_i$,$s_i=k_i^2$.原题1仅列商书题号;原题2五个子问的完整题面公开.
+
+\originalsection{原题1}
+\begin{exercise}
+有质量玻色子的物理,原题50分:Peskin--Schroeder 5.5.MIT 题单没有给出商书题面的具体子问及条件.
+\end{exercise}
+\begin{solution}
+本次仅保留该定位.官方解虽出现湮灭、衰变及辐射过程的计算,但不据此倒推商书题面;该题完整原题与中文全解不计入本次已覆盖项目.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+考虑 $d$ 维 $\phi^3$ 理论
+\[
+\Lag=\frac12(\partial\phi)^2-\frac12m^2\phi^2+\frac g6\phi^3+\Lag_{\rm ct},
+\qquad
+\Lag_{\rm ct}=\frac A2(\partial\phi)^2-\frac{Bm^2}{2}\phi^2+\frac{Cg}{6}\phi^3,
+\]
+其中 $A,B,C=\order(g^2)$.将三外线、全部入射且 $k_1+k_2+k_3=0$ 的一粒子不可约顶点记为 $V_3$,以 $V_3(0,0,0)=g$ 定义耦合.
+(a) 列出到 $\order(g^3)$ 的贡献图;(b) 用 Feynman 参数与 Wick 转动算完动量积分,保留参数积分;(c) 判定紫外有限的时空维数;(d) 取 $d=6$,用维数正规化和减除条件求 $C$;(e) 在 $|s_3|\gg m^2,|s_1|,|s_2|$ 下求有限顶点的高能行为并评论.原题50分.
+\end{exercise}
+\begin{solution}
+(a) 贡献是树级三线顶点 $g$、三条内部标量线组成的一圈三角图,以及三线反项 $Cg$.外腿自能插入不是三点一粒子不可约图,因此不加入 $V_3$;$A,B$ 插入环图也高于当前阶数.
+
+(b) 取三个分母分别为 $\ell^2-m^2+\ii0$、$(\ell-k_1)^2-m^2+\ii0$、$(\ell+k_2)^2-m^2+\ii0$.利用
+\[
+\frac1{abc}=2\int_0^1\dd x\dd y\dd z\,
+\frac{\delta(x+y+z-1)}{(xa+yb+zc)^3},
+\]
+平移动量消去线性项,得到有效质量
+\[
+\Delta=m^2-xy s_1-xz s_2-yz s_3-\ii0.
+\]
+这里按前述分母顺序使用 $xa+yb+zc$,平移为 $q=\ell-yk_1+zk_2$,并用 $2k_1\cdot k_2=s_3-s_1-s_2$,故每条边与不变量的配对确定如上.Wick 转到 Euclidean 动量后需算
+\[
+I_d(\Delta)=\int\frac{\dd^dq_E}{(2\pi)^d}\frac1{(q_E^2+\Delta)^3}.
+\]
+为补齐积分链,插入 $1/a^3=\frac12\int_0^\infty t^2\e^{-ta}\dd t$,并用高斯积分 $\int\frac{\dd^dq_E}{(2\pi)^d}\e^{-tq_E^2}=(4\pi t)^{-d/2}$,得
+\[
+I_d(\Delta)=\frac1{2(4\pi)^{d/2}}
+\int_0^\infty t^{2-d/2}\e^{-t\Delta}\dd t
+=\frac{\Gamma(3-d/2)}{2(4\pi)^{d/2}}\Delta^{d/2-3}.
+\]
+树、反项和三角图合并为
+\[
+V_3=g(1+C)+\frac{g^3\Gamma(3-d/2)}{(4\pi)^{d/2}}
+\int_{x,y,z\ge0}\dd x\dd y\dd z\,
+\delta(x+y+z-1)\Delta^{d/2-3}+\order(g^5).
+\]
+先在 Euclidean 非异常动量下计算,再用 $-\ii0$ 做解析延拓;阈值处不能直接交换 Wick 转动与极点穿越.
+
+(c) 大 $q_E$ 下径向积分为 $\int^\infty q^{d-7}\dd q$,所以仅当 $d<6$ 紫外收敛,$d=6$ 对数发散,$d>6$ 幂发散.质量 $m>0$ 且 Euclidean 动量保证此处没有红外混淆.维数正规化中 $\Gamma(3-d/2)$ 的极点只出现在 $d=6,8,10,\ldots$,这并不表示 $d=7,9,\ldots$ 的原积分收敛:解析延拓可以给幂发散积分有限值,但不能代替(c)问的紫外收敛判断.官方解在这点将 Gamma 极点与收敛性混写,本章按实际径向积分作区分.
+
+(d) 取 $d=6-\epsilon$,写耦合 $g\mu^{\epsilon/2}$,并令 $\alpha=g^2/(4\pi)^3$.由 $\Gamma(\epsilon/2)=2/\epsilon-\gamma_E+\order(\epsilon)$,
+\[
+\frac{V_3}{g\mu^{\epsilon/2}}
+=1+C+\alpha\int\dd x\dd y\dd z\,\delta(x+y+z-1)
+\left[\frac2\epsilon-\gamma_E+\log\frac{4\pi\mu^2}{\Delta}\right]+\order(\alpha^2).
+\]
+在零外动量 $\Delta=m^2$,而单位三角形的面积为 $1/2$,由减除条件得到
+\[
+C=-\alpha\left[\frac1\epsilon+
+\frac12\left(\log\frac{4\pi\mu^2}{m^2}-\gamma_E\right)\right]+\order(\alpha^2).
+\]
+这是按零动量定义耦合的方案,含指定有限项;并非只减极点的 MS.代回后发散及 $\mu$ 显式项相消,$\epsilon\to0$ 给
+\[
+V_3=g\left[1-\alpha\int\dd x\dd y\dd z\,
+\delta(x+y+z-1)\log\frac{\Delta}{m^2}\right]+\order(g^5).
+\]
+
+(e) 先取安全的空间样不变量 $s_3=-Q^2$、$Q^2\gg m^2,|s_1|,|s_2|$.除了趋于边界的薄区,$\Delta\sim yzQ^2$;$\log y,\log z$ 可积,边界区只贡献随 $m^2/Q^2$ 消失的修正.直接计算
+\[
+\int_{x+y\le1}\dd x\dd y=\frac12,
+\qquad
+\int_{x+y\le1}\log x\dd x\dd y
+=\int_0^1(1-x)\log x\dd x=-\frac34,
+\]
+得到
+\[
+V_3=g\left[1-\frac\alpha2\log\frac{Q^2}{m^2}
++\frac{3\alpha}{2}+o(\alpha)\right]+\order(g^5).
+\]
+对时间样大 $s_3>0$,将 $\log Q^2$ 延拓为 $\log(-s_3-\ii0)=\log s_3-\ii\pi$,即同时产生相应吸收部分.结论是高能时出现大对数;在空间样区、$g>0$ 时本阶修正随 $Q$ 增大为负,不能把官方解末句的“increases”当作与公式一致的结论.当 $\alpha\log(Q^2/m^2)$ 达到一时,截断的一圈展开失效,应使用重整化群组织大对数.三点顶点与物理运行耦合的关系还涉及波函数重整化,不能仅以此顶点的系数取代完整 $\beta$ 函数.
+\end{solution}

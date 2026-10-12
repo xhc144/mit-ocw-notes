@@ -1,0 +1,178 @@
+\originalchapter{8.324 作业6题解}
+本章根据 MIT OCW 8.324(2010年秋)Assignment 6 及官方解答中文重编,补充重整化群子问与有质量阿贝尔矢量场的对称性判断.题单封面是 Assignment 6,内文旧标题误留为 Problem Set 5;本章按官方文件序号归档.除原题3明确使用 Euclidean 度规外,统一用正文 $(+,-,-,-)$.原资料部分公式使用相反度规;矢量质量项在本章为 $+m^2A_\mu A^\mu/2$.
+
+\originalsection{原题1}
+\begin{exercise}
+Furry 定理,原题20分.(a) 利用电荷共轭不变性证明任意奇数个电磁场与／或电磁流的时间排序真空期望值为零;(b) 直接验证光子一点与三点函数的一圈贡献为零.
+\end{exercise}
+\begin{solution}
+(a) QED 中 $CA_\mu C^{-1}=-A_\mu$、$Cj_\mu C^{-1}=-j_\mu$,且取电荷共轭不破缺的真空 $C\ket0=\ket0$.$C$ 不翻转时间,故可穿过时间排序.对 $2n+1$ 个这样的算符 $X_i$,插入 $C^{-1}C$ 得
+\[
+G=\bra0T(X_1\cdots X_{2n+1})\ket0
+=(-1)^{2n+1}\bra0T(X_1\cdots X_{2n+1})\ket0=-G,
+\]
+所以 $G=0$.真空和理论的电荷共轭不变性是实际使用的条件;在带外部电荷背景或破坏该对称性的介质中不能无条件照用.
+
+(b) 一点图是电子闭环与一条光子外腿.略去不影响零值的常因子,其积分为
+\[
+\int\frac{\dd^dk}{(2\pi)^d}
+\frac{\tr\bigl(\gamma^\mu(\slashed k+m)\bigr)}{k^2-m^2+\ii0}
+=4\int\frac{\dd^dk}{(2\pi)^d}\frac{k^\mu}{k^2-m^2+\ii0}=0.
+\]
+这里使用保持 $k\mapsto-k$ 与平移对称的正规化.三点图要同时计入闭环两个方向,不能只取其中之一.第一方向的分子可记为
+\[
+N=\tr\bigl[(\slashed q_1+m)\gamma^{\mu_1}
+(\slashed q_2+m)\gamma^{\mu_2}(\slashed q_3+m)\gamma^{\mu_3}\bigr].
+\]
+反向环在重新标记环动量并用迹的循环性后,分子相当于 $q_i\mapsto-q_i$.迹中本有三个外腿 $\gamma$;非零项的 $\gamma$ 总数必须为偶,故只能含奇数个 $\slashed q_i$.每个非零项在同时反转 $q_i$ 后恰变号,分母不变,两方向相消.更一般地,用 $C_D\gamma^{\mu T}C_D^{-1}=-\gamma^\mu$ 对电子环迹转置,$N$ 条光子腿带因子 $(-1)^N$,亦得到奇数外腿的消失.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+考虑有质量阿贝尔矢量场与 Dirac 场
+\[
+\Lag=-\frac14F_{\mu\nu}F^{\mu\nu}+\frac12m^2A_\mu A^\mu
++\bar\psi(\ii\slashed\partial-m)\psi-eA_\mu\bar\psi\gamma^\mu\psi.
+\]
+(a) 求矢量传播子;(b) 证明大动量下为 $\order(1)$,并按动量计数将矢量场有效维数视为2;(c) 对 $E_\psi$ 条外费米线、$E_A$ 条外矢量线与 $V$ 个顶点的图求表面发散度;(d) 与有效维数分析核对;(e) 判断理论是否可重整化并说明原因.原题30分.
+\end{exercise}
+\begin{solution}
+(a) 二次算符 $K^{\mu\nu}=-(k^2-m^2)\eta^{\mu\nu}+k^\mu k^\nu$.令 $P_T=\eta-kk/k^2$、$P_L=kk/k^2$,则 $K=-(k^2-m^2)P_T+m^2P_L$.两投影正交,所以求逆给出
+\[
+D_{\mu\nu}(k)=\frac{-\ii}{k^2-m^2+\ii0}
+\left(\eta_{\mu\nu}-\frac{k_\mu k_\nu}{m^2}\right).
+\]
+纵向分量的代数逆为 $\ii P_L/m^2$,与此式一致;$\ii0$ 在无物理极点的代数项中只作形式延拓.
+
+(b) 固定非零 $k$ 缩放 $k\mapsto\lambda k$,传播子的 $\eta$ 项为 $\order(\lambda^{-2})$,但 $kk/m^2$ 项给
+\[
+D_{\mu\nu}(\lambda k)\longrightarrow
+\frac{\ii k_\mu k_\nu}{m^2k^2}.
+\]
+所以朴素计数中内部矢量线不压低动量幂次.通常四维场的传播子在有效计数中按 $k^{2\Delta-d}$ 标度,由此 $\Delta_A=2$;这只是用于当前表面计数的有效维数,不是更改了 Maxwell 场的工程维数.
+
+(c) 记内部费米线、矢量线为 $I_\psi,I_A$,环数为 $L$.四维每圈给四幂,费米传播子给负一幂,因此 $\mathcal D=4L-I_\psi$.连通图的拓扑恒等式为
+\[
+L=I_\psi+I_A-V+1,
+\qquad 2I_\psi+E_\psi=2V,
+\qquad 2I_A+E_A=V.
+\]
+代入即
+\[
+\mathcal D=4+V-\frac32E_\psi-2E_A.
+\]
+这里 $I_\psi$ 是内部费米线,不能沿用官方解中的一次文字笔误,将它误称内部光子线.
+
+(d) $\Delta_\psi=3/2$、$\Delta_A=2$ 时,顶点的有效总维数为 $2\Delta_\psi+\Delta_A=5$,所以有效耦合维数是 $[e]_{\rm eff}=4-5=-1$.一般式 $\mathcal D=4-\Delta_\psi E_\psi-\Delta_AE_A-[e]_{\rm eff}V$ 正好复现(c).
+
+(e) 上式会朴素提示不可重整化,但这个特定阿贝尔理论耦合的是守恒矢量流,不能仅靠表面度数下结论.它实际可重整化.为给出明确理由,引入 Stückelberg 标量 $\sigma$,将质量项写成
+\[
+\frac12m^2\left(A_\mu-\frac1m\partial_\mu\sigma\right)^2.
+\]
+在 $A_\mu\mapsto A_\mu+\partial_\mu\alpha$、$\sigma\mapsto\sigma+m\alpha$、$\psi\mapsto\e^{-\ii e\alpha}\psi$ 下,连同 $\bar\psi\ii\gamma^\mu(\partial_\mu+\ii eA_\mu)\psi$ 一起规范不变.取规范 $\sigma=0$ 就返回原 Proca 作用量;因此没有改变其物理横向与纵向三个极化.
+
+更适于计数的规范是加入 $-(\partial\cdot A+\xi m\sigma)^2/(2\xi)$.分部积分后质量项的混合 $m\sigma\partial\cdot A$ 与规范固定项抵消;$\sigma$ 只剩自由作用量,阿贝尔鬼场也为自由场.此时
+\[
+D_{\mu\nu}^{(\xi)}(k)=\frac{-\ii}{k^2-m^2+\ii0}
+\left[\eta_{\mu\nu}-(1-\xi)\frac{k_\mu k_\nu}{k^2-\xi m^2+\ii0}\right],
+\]
+整体按 $k^{-2}$ 衰减,相互作用顶点仍只有维数4的 $eA_\mu\bar\psi\gamma^\mu\psi$.通常 QED 的有限反项集合与 Ward 恒等式因此足够;矢量流无异常,恒等式保证这个规范描述与原规范的物理振幅一致.图语言中,纵向 $k_\mu$ 收缩利用 $k_\mu\gamma^\mu=S^{-1}(p+k)-S^{-1}(p)$,在相关图的和里望远镜式抵消,故朴素最坏发散并未真正出现.官方解也在(e)指出“朴素不可重整化”之后的这一修正;本章不将朴素计数答案当成最终判断.
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+Euclidean 四维自由实标量场的作用量为 $\frac12\int\dd^4x[(\partial\phi)^2+m^2\phi^2]$.(a) 将 $\phi^4(x)$ 写成正规序算符;(b) 令 $O(x)=:\phi^4(x):$,在 $|x|\to0$ 的 OPE $O(x)O(0)=\sum_nC_n(x)O_n(0)$ 中求所有工程维数 $\Delta_n\le4$ 的局域正规序算符系数.原题20分.
+\end{exercise}
+\begin{solution}
+(a) 点上的复合算符必须先正规化.对同一点收缩采用一个共同的正规化传播子 $C_\epsilon=D_\epsilon(0)$,Wick 定理给
+\[
+\phi_\epsilon^4=:\phi_\epsilon^4:
++6C_\epsilon:\phi_\epsilon^2:+3C_\epsilon^2\mathbf1.
+\]
+一对收缩有 $\binom42=6$ 种,完全两对配对有3种.$C_\epsilon$ 随正规化发散;这不是宣称未定义的 $D(0)$ 为有限数.官方解使用特殊四点分裂 $x\pm\epsilon,x\pm3\epsilon$,因各对距离不同会有另一组依赖分裂方式的系数;若不指定这种处方,就不应把那组数值冒充唯一的点上算符恒等式.
+
+(b) 设 $r=|x|$,非零距离的 Euclidean 传播子为 $D(x)=mK_1(mr)/(4\pi^2r)$,无质量极限为 $1/(4\pi^2r^2)$.两个正规序块之间只能做跨块收缩.做 $k$ 对收缩的种数是 $\binom4k^2k!$,所以
+\[
+O(x)O(0)=\sum_{k=0}^4\binom4k^2k!D(x)^k
+:\phi^{4-k}(x)\phi^{4-k}(0):.
+\]
+剩余场数为 $8-2k$,所以 $k=0,1$ 的最低维数已大于4.其余项的系数依次为
+\[
+24D^4\mathbf1+96D^3:\phi(x)\phi(0):
++72D^2:\phi^2(x)\phi^2(0):.
+\]
+第二项保留 $x$ 的二阶 Taylor 项,第三项只须零阶:
+\begin{align*}
+O(x)O(0)={}&24D(x)^4\mathbf1+96D(x)^3:\phi^2:
++96D(x)^3x^\mu:\phi\partial_\mu\phi:\\
+&+48D(x)^3x^\mu x^\nu:\phi\partial_\mu\partial_\nu\phi:
++72D(x)^2:\phi^4:+(\Delta>4).
+\end{align*}
+全部局域算符均在0点.为给出包含导数算符的明确系数表,可改用下列未按运动方程约简的完备冗余基:
+\[
+\begin{array}{c|c|c}
+O_n&\Delta_n&C_n(x)\\\hline
+\mathbf1&0&24D^4\\
+:\phi^2:&2&96D^3\\
+\partial_\mu:\phi^2:&3&48x^\mu D^3\\
+\partial_\mu\partial_\nu:\phi^2:&4&24x^\mu x^\nu D^3\\
+:\partial_\mu\phi\partial_\nu\phi:&4&-48x^\mu x^\nu D^3\\
+:\phi^4:&4&72D^2
+\end{array}
+\]
+因为 $\partial_\mu\partial_\nu:\phi^2:
+=2:\phi\partial_\mu\partial_\nu\phi:+2:\partial_\mu\phi\partial_\nu\phi:$,表格与 Taylor 形式完全等价.所有奇数场的算符系数由 $\phi\mapsto-\phi$ 对称性为零;这包括 $\phi$、$\phi^3$ 和相应导数.在平直空间没有额外只由坐标组成的局域算符;若按自由运动方程约简迹 $:\phi\partial^2\phi:=m^2:\phi^2:$,系数应同步合并.保留完整 $D(x)$ 使质量对各系数的次领先短距修正也得到保留.
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+(a) 对可逆耦合坐标变换 $\bar\lambda=\bar\lambda(\lambda)$,求 $\beta$ 变换规律并确定张量类型;(b) 设 $\beta=b_2\lambda^2+b_3\lambda^3+b_4\lambda^4+\cdots$,$\bar\lambda=\lambda+a_2\lambda^2+a_3\lambda^3+\cdots$,计算 $\bar b_2,\bar b_3,\bar b_4$,讨论前两系数不变、第三系数可变,以及固定点与固定点导数;(c) 解 $\mu\,\dd g/\dd\mu=-bg^2-cg^3-dg^4-\cdots$ 的弱耦合渐近式 $\log(\mu/\Lambda)=1/(bg)+(c/b^2)\log(bg)+\order(g)$,说明 $\Lambda$ 的 RG 不变性;(d) 对没有别的有量纲参数且只有一个无量纲耦合的理论,证明维度转化 $g(\mu)=f(\log(\mu/\Lambda))$.原题30分.本题在第7套原题1重复出现.
+\end{exercise}
+\begin{solution}
+(a) 由 $\beta(\lambda)=\dd\lambda/\dd\log\mu$,链式法则直接给
+\[
+\bar\beta(\bar\lambda)=\frac{\dd\bar\lambda}{\dd\lambda}\beta(\lambda).
+\]
+它是耦合空间上一维逆变向量,即流的切向量.多耦合情形的变换为 $\bar\beta^i=(\partial\bar\lambda^i/\partial\lambda^j)\beta^j$.
+
+(b) 先按旧坐标展开:
+\[
+\bar\beta=b_2\lambda^2+(b_3+2a_2b_2)\lambda^3
++(b_4+2a_2b_3+3a_3b_2)\lambda^4+\order(\lambda^5).
+\]
+另一方面 $\bar\lambda^2=\lambda^2+2a_2\lambda^3+(a_2^2+2a_3)\lambda^4+\cdots$,$\bar\lambda^3=\lambda^3+3a_2\lambda^4+\cdots$.逐幂比较得到
+\[
+\bar b_2=b_2,\qquad \bar b_3=b_3,\qquad
+\bar b_4=b_4-a_2b_3+(a_3-a_2^2)b_2.
+\]
+当 $b_2\ne0$ 时调节 $a_3$ 可令 $\bar b_4$ 任取;若 $b_2=0,b_3\ne0$,调节 $a_2$ 也可.若 $b_2=b_3=0$,$b_4$ 是首个非零系数,不能以这种近恒等坐标变换随意改变它;原题关于任意取值的说法需要这个非退化条件.
+
+对 $\beta(\lambda_F)=0$,只要 $f'=\dd\bar\lambda/\dd\lambda$ 在固定点有限非零,就有 $\bar\beta(f(\lambda_F))=0$,且
+\[
+\frac{\dd\bar\beta}{\dd\bar\lambda}
+=\beta'(\lambda)+\beta(\lambda)\frac{f''(\lambda)}{f'(\lambda)}
+\quad\Longrightarrow\quad
+\bar\beta'(\bar\lambda_F)=\beta'(\lambda_F).
+\]
+固定点坐标依方案而变,线性稳定指数却不变.
+
+(c) 在 $b\ne0$、弱耦合且 $bg>0$ 的分支,展开方程的逆,
+\[
+\frac{\dd\log\mu}{\dd g}
+=\frac1{-bg^2-cg^3-dg^4-\cdots}
+=-\frac1{bg^2}+\frac c{b^2g}+\order(1).
+\]
+积分得
+\[
+\log\frac\mu\Lambda=\frac1{bg(\mu)}+
+\frac c{b^2}\log(bg(\mu))+\order(g(\mu)).
+\]
+因 $\log b$ 是常数,已经吸收入 $\Lambda$;其他实分支使用 $\log|bg|$.更准确地令 $F'(g)=1/\beta(g)$,定义 $\Lambda=\mu\e^{-F(g(\mu))}$,则
+\[
+\frac{\dd\log\Lambda}{\dd\log\mu}
+=1-F'(g)\beta(g)=0.
+\]
+截断渐近式下不变性只成立到保留阶数,精确积分常数的定义才严格不变.
+
+(d) 无其他尺度且使用不含质量的方案时 $\beta$ 仅依赖 $g$,在 $\beta\ne0$ 的一个流分支上 $F(g)=\int^g\dd u/\beta(u)$,方程给 $F(g(\mu))=\log(\mu/\Lambda)$.该分支局部可逆,因此 $g(\mu)=F^{-1}(\log(\mu/\Lambda))$.原来的一个无量纲积分常数由一个有量纲尺度 $\Lambda$ 取代,这就是维度转化.固定点常数解应单独处理;它不产生一个可由该逆函数定义的有限特征尺度.多耦合时还会有额外无量纲轨道参数,本题的单耦合条件不能省略.
+\end{solution}

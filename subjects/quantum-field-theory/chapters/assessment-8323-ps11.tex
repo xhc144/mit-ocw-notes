@@ -1,0 +1,133 @@
+\originalchapter{8.323 作业11题解}
+题源:MIT OCW,8.323,2023年春季,2023年4月25日发布.\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset11.pdf}{原作业PDF};\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset_11sol.pdf}{官方解PDF}.以下为官方解中文重编与独立补充,并非MIT官方中文版;MIT OCW来源,CC BY-NC-SA 4.0.公式统一为$(+---)$,原资料为$(-+++)$.
+
+\originalsection{原题1}
+\begin{exercise}
+在Lorenz规范(原文称Lorentz gauge)中取
+\[
+ \Lag=-\frac14F_{\mu\nu}F^{\mu\nu}-\frac\xi2(\partial_\mu A^\mu)^2,
+\]
+其中$\xi$为任意实规范参数;取$\xi=1$后差一个全导数可写$\Lag=-\frac12\partial_\mu A_\nu\partial^\mu A^\nu$.一般自由算符解为
+\[
+ A_\mu(x)=\sum_{\alpha=0}^3\int\frac{\dd^3k}{(2\pi)^3\sqrt{2\omega_k}}
+ [E_\mu^{(\alpha)}a_\alpha(\mathbf k)\e^{-\ii kx}
+ +E_\mu^{(\alpha)*}a_\alpha^\dagger(\mathbf k)\e^{\ii kx}],\quad\omega_k=|\mathbf k|,
+\]
+取$E_\mu^{(0)}=(1,\mathbf0)$、$E_\mu^{(3)}=(0,\mathbf k/|\mathbf k|)$、$E_\mu^{(1,2)}=(0,\boldsymbol\epsilon_{1,2})$,两个$\boldsymbol\epsilon$为彼此正交且垂直于$\mathbf k$的单位向量.本书共轭动量为$\pi^\mu=-\partial_0A^\mu$,$[A_\mu(t,\mathbf x),\pi^\nu(t,\mathbf y)]=\ii\delta_\mu^\nu\delta^{(3)}(\mathbf x-\mathbf y)$,因而
+\[
+ [a_\alpha(\mathbf k),a_\beta^\dagger(\mathbf q)]
+ =-\eta^{\alpha\beta}(2\pi)^3\delta^{(3)}(\mathbf k-\mathbf q),
+\]
+其余对易子为零;这等于原$\widehat\eta^{\alpha\beta}$.令$a_\alpha\ket0=0$,由全部四种产生算符生成$\mathcal H_{\rm big}$,它包含负范数态.
+\begin{enumerate}[label=(\alph*)]
+\item 计算$[A_0(t,\mathbf x),\partial_\mu A^\mu(t,\mathbf y)]$,解释不能把$\partial_\mu A^\mu=0$当算符恒等式.
+\item 全条件$\partial_\mu A^\mu\ket\psi=0$排除了真空,所以只要求湮灭部分$\partial^\mu A_\mu^{(-)}\ket\psi=0$,定义$\mathcal H_{\rm small}$;证明它无负范数态.
+\item 证明$\bra{\psi'}\partial_\mu A^\mu\ket\psi=0$,对所有$\psi,\psi'\in\mathcal H_{\rm small}$成立.
+\item 定义$b_\pm=(a_3\pm a_0)/\sqrt2$,证明物理条件等价于每动量$b_+(\mathbf k)\ket\psi=0$.
+\item 求$[b_+,b_+^\dagger]$、$[b_-,b_-^\dagger]$、$[b_+,b_-^\dagger]$、$[b_-,b_+^\dagger]$,证明$\mathcal H_{\rm small}$恰由$a_1^\dagger,a_2^\dagger,b_+^\dagger$生成,不含$b_-^\dagger$激发.
+\item 证明含非零$b_+^\dagger$激发的纯激发项范数为零且与全部$\mathcal H_{\rm small}$正交,称它们为零态.
+\item 证明任意非零范数态可写$\ket\psi=\ket{\psi_T}+\ket\chi$,$\psi_T$只含横向激发,$\chi$为零态.将相差零态者视为等价,得到与Coulomb规范相同的物理空间.
+\item 定义单零光子$\ket{\mathbf k,+}=\sqrt{2\omega_k}\,b_+^\dagger(\mathbf k)\ket0$及波函数$\chi_\mu(x)=\bra0A_\mu(x)\ket{\mathbf k,+}$.证明$\chi_\mu=\partial_\mu\lambda$且$\Box\lambda=0$,解释它为从真空作残余规范变换.
+\item 对任意波包$\ket f=\int\dd^3k\,f(\mathbf k)\ket{\mathbf k,+}$证明同一结论.
+\end{enumerate}
+原题强调经典Lorenz条件在规范固定方程中是初边条件;量子理论不能强加同一算符等式,必须采用上述较弱的态条件.
+\end{exercise}
+\begin{solution}
+以下先在有限盒子、有限粒子多项式空间证明,再用光滑动量波包完成连续极限,以避免把分布算符逐点相乘.
+
+(a) $\partial_\mu A^\mu=\partial_0A_0-\partial_iA_i$,空间场项与$A_0$等时对易.由$\pi^0=-\partial_0A_0$得
+\[
+ [A_0(t,\mathbf x),\partial_\mu A^\mu(t,\mathbf y)]
+ =-\ii\delta^{(3)}(\mathbf x-\mathbf y).
+\]
+非零对易子与算符恒等于零不相容.原约定相应是$+\ii\delta^{(3)}$;官方解末行多写$(2\pi)^3$,正确Fourier恒等式为\[\int\frac{\dd^3k}{(2\pi)^3}\e^{\ii\mathbf k\cdot\mathbf x}=\delta^{(3)}(\mathbf x),\]没有额外因子.
+
+(d) 为直接求整个空间结构,先算湮灭部分.因$k^\mu E_\mu^{(0)}=k^\mu E_\mu^{(3)}=\omega_k$、横向收缩为零,
+\[
+ \partial^\mu A_\mu^{(-)}(x)=-\ii\int\frac{\dd^3k}{(2\pi)^3}
+ \sqrt{\frac{\omega_k}{2}}(a_0+a_3)\e^{-\ii kx}
+ =-\ii\int\frac{\dd^3k}{(2\pi)^3}\sqrt{\omega_k}\,b_+(\mathbf k)\e^{-\ii kx}.
+\]
+对空间坐标作Fourier变换,除去非零$\sqrt{\omega_k}$,条件等价于每$\mathbf k$的$b_+\ket\psi=0$;零动量不在单个传播光子模式的参数化中,波包可避开它.
+
+(e) 记$D_{kq}=(2\pi)^3\delta^{(3)}(\mathbf k-\mathbf q)$,用$a_3$范数$+1$、$a_0$范数$-1$得
+\[
+ [b_+(\mathbf k),b_+^\dagger(\mathbf q)]=[b_-(\mathbf k),b_-^\dagger(\mathbf q)]=0,
+ \quad[b_+(\mathbf k),b_-^\dagger(\mathbf q)]=[b_-(\mathbf k),b_+^\dagger(\mathbf q)]=D_{kq}.
+\]
+任意有限粒子态是产生算符多项式$P(a_1^\dagger,a_2^\dagger,b_+^\dagger,b_-^\dagger)\ket0$;$b_+$作用等价于对$b_-^\dagger$求导.所有动量的导数均为零,当且仅当$P$与$b_-^\dagger$无关.因此得到所要求的生成描述,这也处理了任意线性组合,避免只检验一个负范数基向量的不足.
+
+(f),(g),(b) 把$P$分成不含$b_+^\dagger$的部分与每项至少含一个$b_+^\dagger$的部分,分别定义$\psi_T$与$\chi$.对任意物理bra,其湮灭算符只含$a_{1,2},b_+$.$b_+^\dagger$与这些均对易,所以可以移到bra最左边,$\bra0b_+^\dagger=0$,故$\braket{\psi'}\chi=0$,特别$\braket\chi\chi=0$.于是
+\[
+ \braket\psi\psi=\braket{\psi_T}{\psi_T}\geq0.
+\]
+横向振子具有普通正内积,所以横向非零态范数严格正,完成(b).含横向项与零项的叠加态一般仍有正范数;原(f)应理解为全由含零光子项组成的态,不能把“叠加里至少一项有零光子”误读成整体范数为零.
+物理空间精确说是$\mathcal H_{\rm small}/\mathcal N$,$\mathcal N$为这些与全部物理态正交的零态子空间;可用横向Fock空间作为等价类代表.
+
+(c) 全散度$\partial A=C+C^\dagger$,其中$C=\partial A^{(-)}$.$C\ket\psi=0$且$\bra{\psi'}C^\dagger=(C\ket{\psi'})^\dagger=0$,故矩阵元为零.取共轭时必须连$\ii$一起共轭,不能把Hermitian散度误认为反Hermitian.
+
+(h) 单光子收缩只保留$a_0,a_3$两项:
+\[
+ \chi_\mu(x)=\frac{E_\mu^{(3)}-E_\mu^{(0)}}{\sqrt2}\e^{-\ii kx}
+ =-\frac{k_\mu}{\sqrt2\,\omega_k}\e^{-\ii kx}
+ =\partial_\mu\left[-\frac\ii{\sqrt2\,\omega_k}\e^{-\ii kx}\right].
+\]
+$k^2=0$使$\Box\lambda=0$.因此$A_\mu=\partial_\mu\lambda$的场强$F_{\mu\nu}=0$,它只是Lorenz条件允许的残余规范自由度,不是额外物理偏振.
+
+(i) 对足够光滑、可积分的波包,线性性给
+\[
+ \lambda_f(x)=-\ii\int\frac{\dd^3k}{\sqrt2\,\omega_k}f(\mathbf k)\e^{-\ii kx},
+ \qquad\bra0A_\mu(x)\ket f=\partial_\mu\lambda_f(x),\quad\Box\lambda_f=0.
+\]
+若只给分布波包,等式按分布定义,仍逐模式成立;不要求零范数态拥有普通的概率波函数解释.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+用一维无质量实标量模拟Casimir效应,$S=\frac12\int\dd t\dd x\,\partial_\mu\phi\partial^\mu\phi$.先令空间为周长$L\gg a$的圆,$\phi(x+L,t)=\phi(x,t)$,无板零点能为$E_0$.在$x=0,a$放置两板,要求$\phi(0,t)=\phi(a,t)=0$,圆被分成长度$a$和$L-a$的Dirichlet区间,板间势能为$U(a)=E(a)-E_0$.
+(a) 写无板模式展开和$E_0=\frac12\sum_n\omega_n$,明确频率与求和域;
+(b) 写$[0,a]$的模式展开及$\varepsilon(a)=\frac12\sum_n\widetilde\omega_n$,总能$E(a)=\varepsilon(a)+\varepsilon(L-a)$;
+(c) 用同一UV能量截止$\Lambda$,分别将求和项乘$\e^{-\omega/\Lambda}$并求有限$\Lambda$下的精确和;
+(d) 展开$\Lambda\to\infty$,保留发散项与有限项;
+(e) 先作同截止能量差,再令$\Lambda\to\infty$与$L\to\infty$,求势能及力.无穷量不能未经正则化直接相减.
+\end{exercise}
+\begin{solution}
+(a) 非零振荡模式$k_n=2\pi n/L$、$\omega_n=2\pi|n|/L$,$n\in\mathbb Z\setminus\{0\}$:
+\[
+ \phi(x,t)=\phi_0(t)+\sum_{n\ne0}\frac{a_n\e^{-\ii\omega_nt+\ii k_nx}+a_n^\dagger\e^{\ii\omega_nt-\ii k_nx}}{\sqrt{2L\omega_n}},
+ \quad[a_n,a_m^\dagger]=\delta_{nm}.
+\]
+零模$\phi_0=q_0+p_0t/L$是自由粒子而非频率零的谐振子,不能代入$1/\sqrt{\omega_0}$;其能量$H_0=p_0^2/(2L)$没有振子零点项.可先给微小质量再取极限,或固定$p_0=0$扇区以讨论非零模Casimir能差.原官方解直接把$n=0$放入振子展开是不完整的.
+其余$H=\sum_{n\ne0}\omega_n(a_n^\dagger a_n+1/2)$,故
+$E_0=\frac12\sum_{n\ne0}\frac{2\pi|n|}{L}=\frac{2\pi}{L}\sum_{n=1}^\infty n$.
+
+(b) 归一化空间基$\sqrt{2/a}\sin(n\pi x/a)$满足端点零值,$n=1,2,\ldots$,频率$\widetilde\omega_n=\pi n/a$.因此
+\[
+ \phi(x,t)=\sum_{n=1}^\infty\frac{\sin(n\pi x/a)}{\sqrt{a\widetilde\omega_n}}
+ (a_n\e^{-\ii\widetilde\omega_nt}+a_n^\dagger\e^{\ii\widetilde\omega_nt}),
+ \quad\varepsilon(a)=\frac\pi{2a}\sum_{n=1}^\infty n.
+\]
+另一区间只需$a\mapsto L-a$,两组振子独立,所以能量相加.
+
+(c) 从几何级数$\sum_{n\ge1}r^n=r/(1-r)$求$r\partial_r$,得到
+$\sum_{n\ge1}n\e^{-bn}=\e^{-b}/(1-\e^{-b})^2=[4\sinh^2(b/2)]^{-1}$.两个有限和是
+\[
+ E_{0,\Lambda}=\frac\pi{2L\sinh^2(\pi/(L\Lambda))},\qquad
+ \varepsilon_\Lambda(a)=\frac\pi{8a\sinh^2(\pi/(2a\Lambda))}.
+\]
+须按频率使用同一$\Lambda$,不能把两个不同长度区间按相同最大模序号截断.
+
+(d) $\sinh z=z+z^3/6+\order(z^5)$,故$\sinh^{-2}z=z^{-2}-1/3+\order(z^2)$;从而
+\[
+ E_{0,\Lambda}=\frac{L\Lambda^2}{2\pi}-\frac\pi{6L}+\order(\Lambda^{-2}),
+ \qquad\varepsilon_\Lambda(a)=\frac{a\Lambda^2}{2\pi}-\frac\pi{24a}+\order(\Lambda^{-2}).
+\]
+官方解此处有限项有排印错误;后面势能所用负号才与精确和一致.
+
+(e) 因$a+(L-a)=L$,体积UV项严格消去,故在固定$L,a$下先取截止极限得到
+\[
+ U_L(a)=\frac\pi{6L}-\frac\pi{24a}-\frac\pi{24(L-a)}.
+\]
+再取$L\to\infty$,$U(a)=-\pi/(24a)$,
+$F(a)=-\dd U/\dd a=-\pi/(24a^2)$,负号表示吸引.这是一个实无质量标量在一维的力;不能把它的系数直接用于三维真实电磁双偏振板问题.
+\end{solution}

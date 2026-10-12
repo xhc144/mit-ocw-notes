@@ -1,0 +1,110 @@
+\originalchapter{8.323 作业2题解}
+题面来自 MIT OCW 8.323(2023 春)\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset02.pdf}{作业2},解答按\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset_02sol.pdf}{官方解}中文重编并补充推导,不是 MIT 官方中文版.原稿 $(-+++)$ 改为本书 $(+---)$.使用
+$\widetilde\phi(\mathbf k)=\int\dd^3x\,\e^{-\ii\mathbf k\cdot\mathbf x}\phi(\mathbf x)$,逆变换带 $(2\pi)^{-3}$;四维变换为 $\widetilde\phi(\mathbf k,\omega)=\int\dd t\dd^3x\,\e^{\ii\omega t-\ii\mathbf k\cdot\mathbf x}\phi$.单粒子态约定 $\ket{k}=\sqrt{2\omega_{\mathbf k}}a^\dagger_{\mathbf k}\ket0$.
+
+\originalsection{原题1}
+\begin{exercise}
+自由非相对论粒子满足 $\ii\partial_t\psi=-\nabla^2\psi/(2m)$,相对论推广为 $(\partial_t^2-\nabla^2+m^2)\psi=0$;此处 $\psi$ 是位置变量的波函数,尚不是动力学场.
+(a) 从薛定谔方程导出 $\partial_t\rho+\nabla\cdot\mathbf J=0$,其中 $\rho=|\psi|^2$、$\mathbf J=-\ii(\psi^*\nabla\psi-\psi\nabla\psi^*)/(2m)$;(b) 对 $\psi\propto\e^{\ii\mathbf k\cdot\mathbf x}$ 求 Klein--Gordon 方程的解;(c) 证明 KG 方程同样给出连续性方程,但密度改为 $\rho=\ii(\psi^*\partial_t\psi-\psi\partial_t\psi^*)/(2m)$,空间流不变;(d) 说明该密度不能作为概率密度.
+\end{exercise}
+\begin{solution}
+(a) 方程及其共轭给出
+\[
+\partial_t|\psi|^2=\frac{\ii}{2m}(\psi^*\nabla^2\psi-\psi\nabla^2\psi^*)
+=\frac{\ii}{2m}\nabla\cdot(\psi^*\nabla\psi-\psi\nabla\psi^*)=-\nabla\cdot\mathbf J.
+\]
+(b) 写 $\psi=\e^{\ii\mathbf k\cdot\mathbf x}f(t)$,则 $\ddot f+\omega_{\mathbf k}^2f=0$,所以
+$\psi=\e^{\ii\mathbf k\cdot\mathbf x}(A\e^{-\ii\omega_{\mathbf k}t}+B\e^{\ii\omega_{\mathbf k}t})$,$\omega_{\mathbf k}=\sqrt{\mathbf k^2+m^2}$.
+(c) 对新的 $\rho$ 求导,一阶时间导数相消;用 $\ddot\psi=\nabla^2\psi-m^2\psi$ 后质量项也相消,得
+$\partial_t\rho=\ii(\psi^*\nabla^2\psi-\psi\nabla^2\psi^*)/(2m)=-\nabla\cdot\mathbf J$.
+(d) 纯正频率波有 $\rho=\omega_{\mathbf k}|A|^2/m$,纯负频率波有 $\rho=-\omega_{\mathbf k}|B|^2/m$.守恒不保证非负,故不能把它当作所有 KG 解的概率密度.场论会把这一类流解释为带符号的荷流.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+自由实标量场 $\Lag=\tfrac12\partial_\mu\phi\partial^\mu\phi-\tfrac12m^2\phi^2$ 的展开为
+\[
+\phi(\mathbf x,t)=\intp\frac{a_{\mathbf p}\e^{-\ii\omega_{\mathbf p}t+\ii\mathbf p\cdot\mathbf x}+a^\dagger_{\mathbf p}\e^{\ii\omega_{\mathbf p}t-\ii\mathbf p\cdot\mathbf x}}{\sqrt{2\omega_{\mathbf p}}},\qquad \pi=\dot\phi.
+\]
+正则关系为 $[\phi(\mathbf x,t),\phi(\mathbf y,t)]=[\pi(\mathbf x,t),\pi(\mathbf y,t)]=0$、$[\phi(\mathbf x,t),\pi(\mathbf y,t)]=\ii\delta^{(3)}(\mathbf x-\mathbf y)$.
+(a) 证明仅在 $t=0$ 施加这些关系就够了,并说明此论证适用于任意 $V(\phi)$;(b) 用零时刻 $\widetilde\phi(\mathbf k),\widetilde\pi(\mathbf k)$ 表示 $a_{\mathbf k},a^\dagger_{\mathbf k}$;(c) 由正则关系导出三个 $a,a^\dagger$ 对易子.
+\end{exercise}
+\begin{solution}
+(a) 同一个幺正演化 $U=\e^{\ii Ht}$ 给出 $[UAU^\dagger,UBU^\dagger]=U[A,B]U^\dagger$.初始对易子的右端为零或恒等算符乘 $\delta$,与 $U$ 对易,因此在所有时刻保持.这一论证不使用势的二次形式.
+(b) 空间傅里叶积分给出
+\[
+\widetilde\phi(\mathbf k)=\frac{a_{\mathbf k}+a^\dagger_{-\mathbf k}}{\sqrt{2\omega_{\mathbf k}}},\quad
+\widetilde\pi(\mathbf k)=-\ii\sqrt{\frac{\omega_{\mathbf k}}2}(a_{\mathbf k}-a^\dagger_{-\mathbf k}).
+\]
+相加相减即得
+\[
+a_{\mathbf k}=\sqrt{\frac{\omega_{\mathbf k}}2}\widetilde\phi(\mathbf k)+\frac{\ii}{\sqrt{2\omega_{\mathbf k}}}\widetilde\pi(\mathbf k),\quad
+a^\dagger_{\mathbf k}=\sqrt{\frac{\omega_{\mathbf k}}2}\widetilde\phi(-\mathbf k)-\frac{\ii}{\sqrt{2\omega_{\mathbf k}}}\widetilde\pi(-\mathbf k).
+\]
+(c) 注意两次采用相同的傅里叶核,故 $[\widetilde\phi(\mathbf k),\widetilde\pi(\mathbf q)]=\ii(2\pi)^3\delta^{(3)}(\mathbf k+\mathbf q)$,其余为零.代入(b),$[a_{\mathbf k},a_{\mathbf q}]$ 中两交叉项在 $\mathbf q=-\mathbf k$ 上相消;两个创造算符也一样.混合对易子中的两项相加,给出
+\[
+[a_{\mathbf k},a_{\mathbf q}]=[a^\dagger_{\mathbf k},a^\dagger_{\mathbf q}]=0,\qquad
+[a_{\mathbf k},a^\dagger_{\mathbf q}]=(2\pi)^3\delta^{(3)}(\mathbf k-\mathbf q).
+\]
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+(a) 用 $a,a^\dagger$ 表示自由实场的 $H$;(b) 同样表示平移荷 $P^i$;(c) 从
+$\phi(0,0)=\intp(a_{\mathbf p}+a^\dagger_{\mathbf p})/\sqrt{2\omega_{\mathbf p}}$ 出发证明
+$\phi(\mathbf x,t)=\e^{\ii Ht-\ii\mathbf P\cdot\mathbf x}\phi(0,0)\e^{-\ii Ht+\ii\mathbf P\cdot\mathbf x}$.
+可用谐振子恒等式 $\e^{\ii\alpha N}a\e^{-\ii\alpha N}=\e^{-\ii\alpha}a$.
+\end{exercise}
+\begin{solution}
+(a) 先以傅里叶变换消除空间积分:
+\[
+H=\frac12\intp[\widetilde\pi(\mathbf p)\widetilde\pi(-\mathbf p)+\omega_{\mathbf p}^2\widetilde\phi(\mathbf p)\widetilde\phi(-\mathbf p)]
+=\frac12\intp\omega_{\mathbf p}(a_{\mathbf p}a^\dagger_{\mathbf p}+a^\dagger_{\mathbf p}a_{\mathbf p}).
+\]
+两个 $aa$ 及 $a^\dagger a^\dagger$ 项从 $\pi^2$ 与 $\omega^2\phi^2$ 中抵消.正则排序后
+$H=\intp\omega_{\mathbf p}a^\dagger_{\mathbf p}a_{\mathbf p}+E_0$,
+$E_0=\tfrac12(2\pi)^3\delta^{(3)}(0)\intp\omega_{\mathbf p}$.有限盒中 $(2\pi)^3\delta^{(3)}(0)$ 就是空间体积.
+(b) 从 $P^i=-\int\dd^3x\,\pi\partial_i\phi$ 得
+\[
+P^i=\frac12\intp p^i(a_{\mathbf p}a^\dagger_{\mathbf p}+a^\dagger_{\mathbf p}a_{\mathbf p})
+=\intp p^ia^\dagger_{\mathbf p}a_{\mathbf p}.
+\]
+成对产生或湮灭项关于 $\mathbf p\mapsto-\mathbf p$ 为奇函数而积分为零;真空项也为奇函数.此处使用旋转对称的调节.
+(c) 令 $A=\ii(Ht-\mathbf P\cdot\mathbf x)$,则
+$[A,a_{\mathbf p}]=-\ii(\omega_{\mathbf p}t-\mathbf p\cdot\mathbf x)a_{\mathbf p}$,创造算符的符号相反.BCH 的每一重对易子只再乘同一个数,级数求和为相位.将
+$\e^Aa_{\mathbf p}\e^{-A}=\e^{-\ii\omega_{\mathbf p}t+\ii\mathbf p\cdot\mathbf x}a_{\mathbf p}$ 及其共轭代入零点展开,即得到完整场展开.$E_0$ 为常数,已在共轭作用中消去.
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+(a) 设 $\Lambda^\mu{}_\nu=\delta^\mu{}_\nu+\omega^\mu{}_\nu$,$\omega_{\mu\nu}=-\omega_{\nu\mu}$,验证洛伦兹条件到一阶成立;(b) 写出标量场的无穷小变换,并证明诺特流可写成 $J^{\mu\lambda\nu}=x^\lambda T^{\mu\nu}-x^\nu T^{\mu\lambda}$;(c) 由能动张量守恒直接证明 $\partial_\mu J^{\mu\lambda\nu}=0$;(d) 加分题:将 $M^{\lambda\nu}=\int\dd^3x\,J^{0\lambda\nu}$ 用 $a,a^\dagger$ 表示,包括旋转及 boost.
+\end{exercise}
+\begin{solution}
+(a) $\Lambda^Tg\Lambda=g+\omega^Tg+g\omega+\order(\omega^2)$,一阶项的分量为 $\omega_{\nu\mu}+\omega_{\mu\nu}=0$.
+(b) 固定坐标的变化为 $\delta\phi=-\omega^\lambda{}_\nu x^\nu\partial_\lambda\phi$.因为 $\Lag$ 为标量,$\delta\Lag=-\partial_\mu(\omega^\mu{}_\nu x^\nu\Lag)$,这里 $\omega^\mu{}_\mu=0$.用 $T^{\mu\nu}=\partial^\mu\phi\partial^\nu\phi-g^{\mu\nu}\Lag$,诺特流为
+$-\omega_{\lambda\nu}x^\nu T^{\mu\lambda}=\tfrac12\omega_{\lambda\nu}J^{\mu\lambda\nu}$,由反对称化得到题设 $J$.
+(c) 乘积求导给出
+$\partial_\mu J^{\mu\lambda\nu}=T^{\lambda\nu}-T^{\nu\lambda}+x^\lambda\partial_\mu T^{\mu\nu}-x^\nu\partial_\mu T^{\mu\lambda}=0$.既用到了守恒,又用到了实标量能动张量的对称性.
+(d) 荷守恒,可在 $t=0$ 算.采用对称排序,或先加盒子和动量截止再去掉真空常数.关键积分为
+\[
+\int\dd^3x\,x^i f(\mathbf x)g(\mathbf x)
+=\ii\intp(\partial_{p_i}\widetilde f(\mathbf p))\widetilde g(-\mathbf p),
+\]
+它来自 $\int\dd^3x\,x^i\e^{\ii(\mathbf p+\mathbf q)\cdot\mathbf x}=-\ii(2\pi)^3\partial_{p_i}\delta^{(3)}(\mathbf p+\mathbf q)$ 以及分部积分.代入原题2(b),两种导数所需展开为
+\[
+\partial_i(\sqrt\omega\,a)=\sqrt\omega\,\partial_i a+\frac{p_i}{2\omega^{3/2}}a,\qquad
+\partial_i(a/\sqrt\omega)=\frac{\partial_i a}{\sqrt\omega}-\frac{p_i}{2\omega^{5/2}}a.
+\]
+在 $M^{0i}=-\tfrac12\int\dd^3x\,x^i[\pi^2+(\nabla\phi)^2+m^2\phi^2]$ 中,相同产生数的交叉项抵消;将剩余 $a a^\dagger$ 换序并令 $\mathbf p\mapsto-\mathbf p$,得到
+\[
+M^{0i}=-\frac{\ii}{2}\intp\omega_{\mathbf p}
+[a^\dagger_{\mathbf p}\partial_{p_i}a_{\mathbf p}-(\partial_{p_i}a^\dagger_{\mathbf p})a_{\mathbf p}]
+=-\ii\intp a^\dagger_{\mathbf p}\left(\omega_{\mathbf p}\partial_{p_i}+\frac{p_i}{2\omega_{\mathbf p}}\right)a_{\mathbf p}.
+\]
+第二式由分部积分得到,因此 boost 的 $p_i/(2\omega)$ 项不能漏掉.旋转荷同理由
+$M^{ij}=-\int\dd^3x\,(x^i\pi\partial_j\phi-x^j\pi\partial_i\phi)$ 得
+\[
+M^{ij}=-\ii\intp a^\dagger_{\mathbf p}(p_i\partial_{p_j}-p_j\partial_{p_i})a_{\mathbf p},\qquad M^{i0}=-M^{0i}.
+\]
+为检查系数,可把这两个一粒子微分算符的厄米性直接用分部积分验证:boost 的半散度项恰好补偿 $\partial_i\omega$;旋转向量场的散度为零.原官方解中旋转展开的中间系数有不一致处,本式用定义 $M^{ij}=\int(x^iT^{0j}-x^jT^{0i})$ 重新推导.
+\end{solution}

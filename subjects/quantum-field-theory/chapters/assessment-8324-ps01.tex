@@ -1,0 +1,123 @@
+\originalchapter{8.324 作业1题解}
+本章对应 MIT OCW 8.324(2010年秋)Assignment 1,题单与官方解答的中文重编,并补充符号核查与中间推导.原资料采用 $(-,+,+,+)$;本章统一用正文的 $(+,-,-,-)$,标量作用量与狄拉克作用量相应写成通常的正时向形式.规范约定为 $D_\mu=\partial_\mu-\ii gA_\mu$,$F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu-\ii g[A_\mu,A_\nu]$.题源定位:\url{https://ocw.mit.edu/courses/8-324-relativistic-quantum-field-theory-ii-fall-2010/pages/assignments/},官方题单与解答第1套.纯教材题号不补造题面.
+
+\originalsection{原题1}
+\begin{exercise}
+令 $\Psi=(\psi_1,\psi_2)^T$ 为两个等质量狄拉克场组成的双重态,$\Lag=\bar\Psi(\ii\gamma^\mu\partial_\mu-m)\Psi$,$T_a=\sigma_a/2$.
+(a) 证明常参数变换 $\delta\Psi=\ii\epsilon^aT_a\Psi$ 下作用量不变;(b) 求守恒流;(c) 求守恒荷并使 $\delta\Psi=\ii[\epsilon^aQ_a,\Psi]$;(d) 用正则反对易关系求荷代数;(e) 令 $\widehat U=\exp(\ii\Lambda^aQ_a)$、$U=\exp(\ii\Lambda^aT_a)$,证明 $\widehat U\Psi\widehat U^\dagger=U\Psi$.原题30分.
+\end{exercise}
+\begin{solution}
+(a) $T_a$ 作用于味指标,$\gamma^\mu$ 作用于旋量指标,所以它们对易.又因 $T_a$ 厄米,$\delta\bar\Psi=-\ii\epsilon^a\bar\Psi T_a$,于是
+\[
+\delta\Lag=-\ii\epsilon^a\bar\Psi T_a(\ii\slashed\partial-m)\Psi
++\ii\epsilon^a\bar\Psi(\ii\slashed\partial-m)T_a\Psi=0.
+\]
+这里相同质量十分必要:一般味质量矩阵必须与所有 $T_a$ 对易.
+
+(b) 先将 $\epsilon^a$ 临时改成局域函数,可以直接读出 $\delta\Lag=-\bar\Psi\gamma^\mu T_a\Psi\,\partial_\mu\epsilon^a$.因此 $j_a^\mu=\bar\Psi\gamma^\mu T_a\Psi$ 守恒.整体反号也是守恒流;为了严格实现原题(c)、(e)指定的算符作用方向,本章取
+\[
+J_a^\mu=-j_a^\mu,
+\qquad Q_a=\int\dd^3x\,J_a^0=-\int\dd^3x\,:\Psi^\dagger T_a\Psi:.
+\]
+用 $(\ii\slashed\partial-m)\Psi=0$ 与共轭方程 $\ii(\partial_\mu\bar\Psi)\gamma^\mu=-m\bar\Psi$,可得 $\partial_\mu j_a^\mu=0$.空间无穷远无通量时 $Q_a$ 与时间无关.
+
+(c) 同时刻的正则关系为 $\{\Psi_i(\mathbf x),\Psi_j^\dagger(\mathbf y)\}=\delta_{ij}\delta^3(\mathbf x-\mathbf y)$,旋量指标也带单位矩阵.设 $N(M)=\int\dd^3x:\Psi^\dagger M\Psi:$.费米场的双线性算符满足
+\[
+[AB,C]=A\{B,C\}-\{A,C\}B,
+\qquad [N(M),\Psi]=-M\Psi.
+\]
+例如分量计算给出
+\[
+[N(T_a),\Psi_k(\mathbf x)]
+=-\int\dd^3y\,\delta^3(\mathbf y-\mathbf x)(T_a)_{kj}\Psi_j(\mathbf y)
+=-(T_a\Psi)_k.
+\]
+所以 $[Q_a,\Psi]=T_a\Psi$,得到指定的 $\ii[\epsilon^aQ_a,\Psi]=\ii\epsilon^aT_a\Psi$.
+
+(d) 再用双线性算符对易式,直接积分收缩可得
+\[
+[N(M),N(N)]=N([M,N]).
+\]
+由于 $[T_a,T_b]=\ii\epsilon_{abc}T_c$,在本章选取的荷符号下
+\[
+[Q_a,Q_b]=\ii\epsilon_{abc}N(T_c)=-\ii\epsilon_{abc}Q_c.
+\]
+若选常见的正号荷 $Q_a^{\rm std}=N(T_a)$,其代数则为 $[Q_a^{\rm std},Q_b^{\rm std}]=\ii\epsilon_{abc}Q_c^{\rm std}$,但(c)必须改为 $\delta\Psi=-\ii[\epsilon^aQ_a^{\rm std},\Psi]$.
+
+(e) 令 $X=\ii\Lambda^aQ_a$,$M=\Lambda^aT_a$.由(c)知 $[X,\Psi]=\ii M\Psi$,而 $M$ 是数值矩阵,故逐次对易得到 $\operatorname{ad}_X^n\Psi=(\ii M)^n\Psi$.指数展开给出
+\[
+\e^X\Psi\e^{-X}
+=\sum_{n=0}^\infty\frac{\operatorname{ad}_X^n\Psi}{n!}
+=\e^{\ii M}\Psi=U\Psi.
+\]
+官方解答采用正号荷,实际在(c)算出 $-\delta\Psi$,在(e)证明了 $\widehat U^\dagger\Psi\widehat U=U\Psi$,与题单指定方向相反.本章显式调整荷的整体符号,并同步调整荷代数,避免把这处符号冲突隐藏在计算中.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+以 $x$ 为一顶点,$a^\mu,b^\mu$ 为两边作小平行四边形回路 $C$.分别在 $U(1)$ 与非阿贝尔理论中,将沿回路平行输运 $U_C(x,x)$ 写成场强表达式,并说明对任意小闭回路的推广.原题20分.
+\end{exercise}
+\begin{solution}
+选定顺序 $x\to x+a\to x+a+b\to x+b\to x$;反向走回路会改变面积的符号.令两边均为 $\order(\ell)$.阿贝尔情形无需路径排序,四段中点展开得到
+\[
+\oint_C A_\mu\dd x^\mu
+=a^\mu b^\nu(\partial_\mu A_\nu-\partial_\nu A_\mu)(x)+\order(\ell^3).
+\]
+例如沿第二段的增量为 $b^\nu a^\mu\partial_\mu A_\nu$,沿第三段的相反增量为 $-a^\mu b^\nu\partial_\nu A_\mu$;零阶项及同一边的二阶项两两抵消.因此
+\[
+U_C=\exp\!\left(\ii e\oint_C A\right)
+=1+\ii e\,a^\mu b^\nu F_{\mu\nu}(x)+\order(\ell^3).
+\]
+闭回路积分本身已是二阶量,其指数平方要到四阶才贡献.
+
+非阿贝尔输运满足 $\dot V=\ii g\dot x^\mu A_\mu V$,较晚的矩阵在左.将四段输运相乘,线性积分仍贡献上述导数差.矩阵乘积另外产生对易子:先忽略 $A$ 的位置变化,令 $X=\ii g a\cdot A$、$Y=\ii g b\cdot A$,则
+\[
+\e^{-Y}\e^{-X}\e^Y\e^X
+=1-[X,Y]+\order(\ell^3)
+=1+g^2a^\mu b^\nu[A_\mu,A_\nu]+\order(\ell^3).
+\]
+导数项与此项合并正好给出
+\[
+U_C=1+\ii g\,a^\mu b^\nu F_{\mu\nu}(x)+\order(\ell^3).
+\]
+对固定形状、按 $\ell$ 缩小的任意小回路,定义有向面积双矢量
+\[
+\Sigma^{\mu\nu}=\frac12\oint_C
+\bigl((z-x)^\mu\dd z^\nu-(z-x)^\nu\dd z^\mu\bigr).
+\]
+平行四边形时它等于 $a^\mu b^\nu-a^\nu b^\mu$,一般结果为 $U_C=1+\frac{\ii g}{2}F_{\mu\nu}(x)\Sigma^{\mu\nu}+\order(\ell^3)$.这里只是小面积首项;有限非阿贝尔回路不能忽略输运和排序,直接写普通的 $\exp(\ii g\int F)$.
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+验证非阿贝尔 Bianchi 恒等式 $D_\mu F_{\nu\lambda}+D_\lambda F_{\mu\nu}+D_\nu F_{\lambda\mu}=0$,其中 $D_\mu F_{\nu\lambda}=\partial_\mu F_{\nu\lambda}-\ii g[A_\mu,F_{\nu\lambda}]$.原题15分.
+\end{exercise}
+\begin{solution}
+关键是把场强理解为两次协变微分不对易的量:对任意测试场 $v$,$[D_\nu,D_\lambda]v=-\ii gF_{\nu\lambda}v$.再观察矩阵场 $F$ 与微分算符 $D$ 的对易:
+\[
+[D_\mu,F]v=D_\mu(Fv)-FD_\mu v
+=(\partial_\mu F-\ii g[A_\mu,F])v.
+\]
+算符对易子的 Jacobi 恒等式遂给出
+\begin{align*}
+0&=[D_\mu,[D_\nu,D_\lambda]]
++[D_\lambda,[D_\mu,D_\nu]]+[D_\nu,[D_\lambda,D_\mu]]\\
+&=-\ii g\bigl(D_\mu F_{\nu\lambda}+D_\lambda F_{\mu\nu}+D_\nu F_{\lambda\mu}\bigr).
+\end{align*}
+等式作用于任意 $v$ 都成立,故括号内矩阵为零.$g=0$ 时则直接由普通偏导交换得到阿贝尔恒等式.这里 $D_\mu F$ 是伴随表示的协变导数,不能误写成 $\partial_\mu F-\ii gA_\mu F$.
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+规范理论中的标量传播子,原题35分.(a)、(b)、(d) 分别仅指向 Peskin--Schroeder 15.4(a)、15.4(b)、15.4(c),没有公开完整题面.(c) 给定同质量 $m$ 的 $n$ 个复标量组成 $\Phi=(\phi_1,\ldots,\phi_n)^T$,写出没有标量自相互作用的 $U(n)$ 规范不变拉格朗日量.
+\end{exercise}
+\begin{solution}
+可由 MIT 题单完整确定的子问是(c).取 $A_\mu=A_\mu^aT_a$,$\Tr(T_aT_b)=\delta_{ab}/2$,包括 $U(1)$ 生成元,则
+\[
+\Lag=-\frac12\Tr(F_{\mu\nu}F^{\mu\nu})
++(D_\mu\Phi)^\dagger D^\mu\Phi-m^2\Phi^\dagger\Phi.
+\]
+局域变换 $\Phi'=U\Phi$、$A_\mu'=UA_\mu U^{-1}-\frac{\ii}{g}(\partial_\mu U)U^{-1}$ 下,直接代入得 $D_\mu'\Phi'=UD_\mu\Phi$ 与 $F_{\mu\nu}'=UF_{\mu\nu}U^{-1}$.$U$ 的酉性保证标量动能及质量项不变,迹的循环性保证规范动能不变.不添加 $(\Phi^\dagger\Phi)^2$,即实现题设的无自相互作用.
+
+(a)、(b)、(d) 的商书题面没有出现在本次冻结的公开来源中.官方解答虽讨论固有时与背景场传播子,但不能倒推它们的具体要求再称作 MIT 公开原题;本章保留书题定位,不补造这些子问,也不宣称本题四个子问已全部获得.
+\end{solution}

@@ -1,0 +1,78 @@
+\originalchapter{微扰展开、Feynman 图与散射}\label{ch:perturbation}
+\originalsection{相互作用图景与 Dyson 展开}
+取 $H=H_0+H_I$, 相互作用图景把已能精确求解的 $H_0$ 放入算符, 把其余时间变化放入态. 演化算符满足 $\ii\partial_tU_I(t,t_0)=H_I(t)U_I(t,t_0)$, $U_I(t_0,t_0)=1$. 将方程积分再递归代入, 第二阶产生 $t_1>t_2$ 的有序区域; 用时间排序覆盖整个正方形, 得
+\[
+U_I(t,t_0)=T\exp\left[-\ii\int_{t_0}^{t}\mathrm dt'\,H_I(t')\right]
+=\sum_{n=0}^\infty\frac{(-\ii)^n}{n!}\int_{t_0}^{t}\mathrm dt_1\cdots\mathrm dt_n\,
+T[H_I(t_1)\cdots H_I(t_n)].
+\]
+因为 $H_I(t_1)$ 通常不与 $H_I(t_2)$ 交换, 普通指数不能替代 $T$ 指数. 本书将此级数作为给定正则化下的微扰展开; 量子场论微扰级数一般是渐近级数, 不因写成求和符号就宣称收敛.
+
+对 $\Lag_I=-\lambda\phi^4/4!$, $H_I=\int\mathrm d^3x\,\lambda\phi_I^4/4!$. 若无导数耦合, 可以把演化写成 $T\exp(\ii\int\Lag_I)$. 含导数耦合时 $H_I=-\int\Lag_I$ 未必成立, 要从共轭动量重新作 Legendre 变换. 假定真空通过绝热开启和 $\ii0$ 选择关联到自由真空, 归一真空关联函数写为
+\begin{equation}\label{eq:GM-low}
+\langle T\phi(x_1)\cdots\phi(x_n)\rangle
+=\frac{\bra0T\phi_I(x_1)\cdots\phi_I(x_n)\exp(\ii\int\Lag_I)\ket0}
+{\bra0T\exp(\ii\int\Lag_I)\ket0}.
+\end{equation}
+该式的用途是以自由场收缩计算相互作用相关函数. 无质量红外问题、简并真空及非微扰相变可能使简单绝热假设失效, 这些情况下需要额外定义, 不由本章证明处理.
+
+\originalsection{Wick 定理与图的组合系数}
+自由场分成湮灭部分与产生部分. 通过把每个产生算符移到左侧, 每次交换都会出现数值交换子; 在时间排序下正好形成 $D_F$. 因而任意时间排序乘积可写成正规序乘积加所有收缩项. 其真空期望仅留下完全收缩. 路径积分高斯配对给出了同一结果, 是可以独立核对组合系数的另一种方法.
+
+图把每个场插入画成顶点或外点, 每个收缩画成连线. 对四点函数的一阶项, 四个外场都与同一个 $z$ 点的四个场收缩, 有 $4!$ 种配对, 正好消去相互作用中的 $4!$. 连通贡献为
+\[
+G^{(4)}_{c,\mathrm{tree}}(x_1,x_2,x_3,x_4)
+=-\ii\lambda\int\mathrm d^4z\prod_{j=1}^4D_F(x_j-z).
+\]
+这是树图顶点因子 $-\ii\lambda$ 的推导. 二点函数的一阶项中, 选择哪个 $z$ 场接 $x$ 有4种, 接 $y$ 有3种, 余下两场互相收缩, 给 $12/4!=1/2$. 因而
+\[
+\delta G^{(2)}(x,y)=-\frac{\ii\lambda}2\int\mathrm d^4z\,
+D_F(x-z)D_F(0)D_F(z-y).
+\]
+这条闭合于同一顶点的线称为 tadpole. $D_F(0)$ 需要正则化, 所以哪怕外点分离, 内部局域收缩仍产生发散.
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth,scale=0.9]
+\draw (-1.1,-.8)--(0,0)--(-1.1,.8);
+\draw (1.1,-.8)--(0,0)--(1.1,.8);
+\fill[structurecolor] (0,0) circle(2pt);
+\node at (0,-1.2) {四点树图};
+\draw (3,-.2)--(4,0)--(5,-.2);\draw (4,.6) circle(.6);
+\fill[structurecolor] (4,0) circle(2pt);
+\node at (4,-1.2) {二点 tadpole};
+\end{tikzpicture}
+\end{center}
+图中各线代表数学收缩, 不是能直接拍摄的粒子轨迹. 闭圈对应独立内动量积分, 即使示意图画成圆, 积分不限制粒子在空间走圆形路径.
+
+\originalsection{真空图、连通图与对称因子}
+不接任何外点的部分称为真空图. 在分子展开中, 任意与外点连接的图都可以乘任意真空图; 真空图按其连通分量指数化. 式\eqref{eq:GM-low}的分母恰好消去这一公共乘数, 因而归一相关函数不含独立真空气泡. 但分母不会删除把两个外点连起来的真实圈修正.
+
+Feynman 图对称因子不是把看到的线随意除以阶乘. 它来自: 微扰第 $V$ 阶的 $1/V!$, 每个相同场顶点的 $1/4!$, 以及把带标号场进行同一拓扑收缩的实际数目. 一圈四点图在指定 $s$ 道中有两个相同内线可互换, 给因子 $1/2$; 三个 $s,t,u$ 道分别相加, 不能再除以3. 一个连接图的圈数是 $L=I-V+1$, 其中 $I$ 是内线数, $V$ 是相互作用顶点数. 证明可先取连接全部顶点的树, 它有 $V-1$ 条边, 每加一条余边就产生一个独立闭回路, 总数为 $I-(V-1)$.
+
+\originalsection{动量空间规则}
+对每条标量内线赋四动量 $k$, 给因子 $\ii/(k^2-m^2+\ii0)$. 每个 $\phi^4$ 顶点给 $-\ii\lambda$ 和流入动量和的 $(2\pi)^4\delta^{(4)}$. 对独立内动量作 $\int\mathrm d^4k/(2\pi)^4$, 除以从收缩得到的对称因子. 最后留下整个图的动量守恒 delta. 这些规则由把各传播子的 Fourier 表达代入位置积分直接得到: 对每个顶点 $z$ 积分 $\e^{-\ii(\sum k)\cdot z}$, 就产生该顶点的 delta.
+
+例如 amputated 四点树振幅定义为 $\ii\mathcal M=-\ii\lambda$, 所以 $\mathcal M=-\lambda$. 一圈 $s$ 道贡献为
+\[
+\ii\mathcal M_s^{(1)}=\frac{(-\ii\lambda)^2}{2}
+\int\frac{\mathrm d^4k}{(2\pi)^4}
+\frac\ii{k^2-m^2+\ii0}\frac\ii{(k+p_1+p_2)^2-m^2+\ii0}.
+\]
+先用 $1/(AB)=\int_0^1\mathrm dx/[xA+(1-x)B]^2$, 再平移 $\ell=k+(1-x)(p_1+p_2)$, 分母化为 $[\ell^2-m^2+x(1-x)s+\ii0]^2$, $s=(p_1+p_2)^2$. 这说明积分在大 $\ell$ 下为 $\int\mathrm d^4\ell/\ell^4$, 有对数发散. 具体正则化、有限项和反项在一圈及重整化章完成; 本章已经给出实际积分与发散来源, 不把画出图形当作计算结束.
+
+\originalsection{散射态与截面的连接}
+散射矩阵把相距很远、可用自由粒子描述的入态映射为出态. 用上一章的相对论归一, 定义
+\[
+\bra f S-1\ket i=\ii(2\pi)^4\delta^{(4)}(P_f-P_i)\mathcal M_{fi}.
+\]
+这里的1是无散射恒等演化. 对稳定粒子, 外腿极点经约化后给振幅 $\mathcal M$; 本册 LSZ 章推导这一外腿截除与波函数因子的精确含义. 在最低阶 $\phi^4$ 例中, 用外模与相互作用顶点收缩就直接得到 $\mathcal M=-\lambda$, 已足够展示散射规则.
+
+截面是单位入射流量下进入指定末态相空间的跃迁概率. 对两个入射粒子和 $n$ 个末粒子,
+\[
+\mathrm d\sigma=\frac{|\mathcal M|^2}{4\sqrt{(p_1\cdot p_2)^2-m_1^2m_2^2}}\,
+(2\pi)^4\delta^{(4)}\!\left(p_1+p_2-\sum_jk_j\right)
+\prod_{j=1}^n\frac{\mathrm d^3k_j}{(2\pi)^32E_j}.
+\]
+若末态有相同粒子, 对不区分它们标签的全相空间积分还要除以相应阶乘; 若只在避免重复计数的区域积分, 则不重复除. 自旋非分辨实验要对末态求和、对入态平均. QED 章将从有限体积与有限时间的态归一推导这些因子, 并完成实际角分布.
+
+对于相同质量的标量二体散射, 在质心系 $|\mathbf k_f|=|\mathbf p_i|$, 有 $\mathrm d\sigma/\mathrm d\Omega=|\mathcal M|^2/(64\pi^2s)$, 这是先标号的末态公式. 若对整球积分且两末粒子相同, 再乘 $1/2$, 得 $\sigma_{\mathrm{tree}}=\lambda^2/(32\pi s)$. 该低阶结果只适用于耦合足够小且更高阶与阈值效应可控制的范围; 幺正性对高能部分波的限制会在光学定理处进一步说明.

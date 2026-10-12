@@ -1,0 +1,428 @@
+% 8.324 Fall 2010, Hong Liu, Lectures 7--11;谱表示、反项、共振、LSZ及光学定理.
+\originalchapter{谱表示、物理极点与 LSZ 约化}
+\label{chap:spectral-lsz}
+
+拉氏量中的场不是一个与实验粒子一一对应的标签.相互作用场作用于真空时,通常同时产生单粒子和多粒子成分;拉氏量中的质量也不必等于传播的真实粒子质量.要把关联函数转成散射振幅,必须先辨认稳定单粒子在关联函数中的特征.本章先用完备物理态推导谱表示,再用一圈计算说明极点如何移动、留数如何改变,最后从长时间单粒子传播推出 LSZ 公式.对于不稳定粒子,单粒子极点会变成第二张解析页上的共振极点,这时不能照搬稳定外腿的约化.
+
+以下谱论部分假定存在正定的物理 Hilbert 空间、唯一的平移不变真空、能谱位于未来光锥,以及一个厄米的局域 Lorentz 标量算符 $\phi$.已从 $\phi$ 中减去真空期望值,$\bra0\phi\ket0=0$.这些条件对一个良好定义的标量理论或规范不变标量算符适用;不能未经处理直接把正谱结论用于上一章不定内积空间中的 $A_\mu$ 或 ghost.
+
+\originalsection{完备态展开与 Källén--Lehmann 谱表示}
+定义 Wightman 函数与时间序函数
+\[
+ W(x-y)=\bra0\phi(x)\phi(y)\ket0,\qquad
+ G_F(x-y)=\bra0T\{\phi(x)\phi(y)\}\ket0.
+\]
+本章 Fourier 约定为 $G_F(p)=\int\dd^4x\,\e^{\ii px}G_F(x)$,反变换用 $\e^{-\ii px}$.平移协变性给出 $\phi(x)=\e^{\ii P\cdot x}\phi(0)\e^{-\ii P\cdot x}$,故插入完备态后
+\begin{equation}\label{eq:spectral-completeness}
+ W(x)=\sum_n\e^{-\ii p_nx}|\bra0\phi(0)\ket n|^2,
+ \qquad \widetilde W(p)=(2\pi)^4\sum_n\delta^{(4)}(p-p_n)|\bra0\phi(0)\ket n|^2.
+\end{equation}
+$\sum_n$ 包含连续动量积分和多粒子态积分.正定内积使每个权重非负,谱条件使支集落在 $p^0\geq0,p^2\geq0$.Lorentz 不变性说明除去正能量方向后,其余依赖只能通过不变质量平方.
+
+\begin{definition}[谱密度]
+定义非负测度 $\rho(s)$,$s\geq0$,使
+\begin{equation}\label{eq:rho-definition}
+ \widetilde W(p)=2\pi\theta(p^0)\rho(p^2).
+\end{equation}
+允许 $\rho$ 含 delta 函数,不把它强行当作处处光滑的函数.于是
+\[
+ W(x)=\int_0^\infty\dd\mu^2\,\rho(\mu^2)
+ \int\frac{\dd^3\boldsymbol k}{(2\pi)^3\,2E_{\boldsymbol k,\mu}}
+ \e^{-\ii E_{\boldsymbol k,\mu}x^0+\ii\boldsymbol k\cdot\boldsymbol x},
+ \qquad E_{\boldsymbol k,\mu}=\sqrt{\boldsymbol k^2+\mu^2}.
+\]
+\end{definition}
+
+这个式子把相互作用函数表示成不同质量自由 Wightman 函数的加权叠加.时间排序仅按 $x^0$ 的符号分别选取 $W(x)$ 与 $W(-x)$,因此同一谱测度也给出
+\begin{equation}\label{eq:KL}
+ G_F(p)=\int_0^\infty\dd\mu^2\,\rho(\mu^2)
+ \frac{\ii}{p^2-\mu^2+\ii0}.
+\end{equation}
+这就是 Källén--Lehmann 谱表示.推导在分布意义下进行;若复合算符的高能谱增长使积分不收敛,需要适当减除,时间序乘积还可有局域接触项.它们是动量多项式,不改变下面的孤立极点及连续谱不连续性.对需要减除的算符,本章不把未减除积分的收敛性作为默认事实.
+
+因果响应使用的是交换子,而不是仅把 $W$ 乘一个阶跃函数.若定义 $G_R(x)=-\ii\theta(x^0)\bra0[\phi(x),\phi(0)]\ket0$,同样得到
+\[
+ G_R(p)=\int_0^\infty\dd\mu^2\,\frac{\rho(\mu^2)}{(p^0+\ii0)^2-\boldsymbol p^2-\mu^2}.
+\]
+正负频率极点都位于下半平面,因而响应在负时间消失.Feynman 与 retarded 函数使用同一个物理谱,但边界值处方不同.
+
+\originalsection{单粒子权重、阈值与场强归一化}
+采用稳定单粒子态归一化
+\[
+ \braket{\boldsymbol k,j}{\boldsymbol p,i}
+ =2E_{\boldsymbol p,i}(2\pi)^3\delta_{ij}\delta^{(3)}(\boldsymbol k-\boldsymbol p).
+\]
+对于标量粒子,Lorentz 协变性使 $\bra0\phi(0)\ket{\boldsymbol p,j}$ 在同一质量壳上为常数.调整态的相位,写成 $\sqrt{Z_j}$,$Z_j\geq0$.完备态的单粒子部分为
+\[
+ 1_{\mathrm{one}}=\sum_j\int\frac{\dd^3\boldsymbol p}{(2\pi)^3\,2E_{\boldsymbol p,j}}
+ \ket{\boldsymbol p,j}\bra{\boldsymbol p,j}.
+\]
+代入\eqref{eq:spectral-completeness},直接得到
+\begin{equation}\label{eq:rho-pole-continuum}
+ \rho(s)=\sum_jZ_j\delta(s-m_j^2)+\rho_{\mathrm{cont}}(s),\qquad
+ G_F(p)=\sum_j\frac{\ii Z_j}{p^2-m_j^2+\ii0}
+ +\int_{s_0}^\infty\dd s\,\frac{\ii\rho_{\mathrm{cont}}(s)}{p^2-s+\ii0}.
+\end{equation}
+若算符与某个粒子的重叠为零,$Z_j=0$,该粒子不会在这个算符的关联函数中出现;可以改选具有相应量子数的插值算符.束缚态也可贡献稳定极点,并不要求它已经作为基本场写在拉氏量中.
+
+连续谱阈值 $s_0$ 由算符能够产生的最低多粒子态决定.两粒子的质心能量为
+\[
+ \sqrt{s}=\sqrt{\boldsymbol k^2+m_1^2}+\sqrt{\boldsymbol k^2+m_2^2}
+ \geq m_1+m_2,
+\]
+所以允许的两粒子通道从 $(m_1+m_2)^2$ 开始.若离散对称性禁止该通道,阈值可能更高,例如 $\mathbb Z_2$ 奇标量不能从真空产生两个同种奇粒子,最低允许连续态可能是三粒子.因此 $s_0=4m^2$ 是有允许两粒子通道时的例子,不是每个相互作用标量理论的普遍结论.
+
+令 $d(z)=G_F(z)/\ii$,对不在谱支集上的复数 $z$,
+\[
+ d(z)=\sum_j\frac{Z_j}{z-m_j^2}+\int_{s_0}^\infty\dd s\,\frac{\rho_{\mathrm{cont}}(s)}{z-s}.
+\]
+由 $1/(x+\ii0)=\operatorname{PV}(1/x)-\ii\pi\delta(x)$,
+\begin{equation}\label{eq:spectral-discontinuity}
+ \operatorname{Disc}d(s)=-2\pi\ii\rho(s),\qquad
+ \rho(s)=-\frac1\pi\operatorname{Im}d(s+\ii0)
+ =\frac1\pi\operatorname{Im}\bigl(\ii G_F(s)\bigr).
+\end{equation}
+这里极点处的等式按分布解释.解析函数的孤立极点表示稳定单粒子;切口表示连续可达的不变质量.
+
+若 $m^2$ 是与连续谱分离的一个极点,定义物理质量为该极点的位置,场强权重为其留数 $Z$.归一化插值场为
+\[
+ \phi_{\mathrm{phys}}=\frac{\phi}{\sqrt Z},\qquad
+ \bra0\phi_{\mathrm{phys}}(0)\ket{\boldsymbol p}=1.
+\]
+这里必须除以 $\sqrt Z$.$Z$ 不是粒子存在概率的普遍数值定义,而是特定场与粒子的重叠;改变场归一化会改变它.质量和留数的变化可在紫外有限的理论中发生,因此“质量重整化”或“场强重整化”首先描述物理极点的改变,并不天然等同于取消无穷大.
+
+对于具有有限正则化、并以 $[\phi(t,\boldsymbol x),\dot\phi(t,\boldsymbol y)]=\ii\delta^{(3)}(\boldsymbol x-\boldsymbol y)$ 规范归一的基本场,把谱表示代入等时交换子,每个自由质量分量给出相同的 $\ii\delta^{(3)}$,故
+\[
+ \int_0^\infty\dd s\,\rho(s)=1.
+\]
+这时非负性推出 $\sum_jZ_j\leq1$.去掉正则化后,此积分可能涉及紫外发散;对任意重标度的重整化场、复合算符或不定内积规范场,不能无条件断言 $Z\leq1$.
+
+\originalsection{一粒子不可约自能与 Dyson 求和}
+为了用微扰计算极点,取形式标量模型
+\[
+ \Lag=\frac12(\partial\phi)^2-\frac12m_0^2\phi^2-\frac g{3!}\phi^3.
+\]
+纯实 $\phi^3$ 势能在全局上无下界,本节把它作为局部真空附近的形式微扰例子,正如课程中的一圈示范;不据此主张一个非微扰稳定真空已经存在.可以在稳定的有效理论中使用同一三次耦合所产生的图.先平移场并加入线性反项,使 $\bra0\phi\ket0=0$,从而消去 tadpole 子图.
+
+\begin{definition}[自能与本章符号]
+一粒子不可约图(1PI 图)是不能通过切断一条内部传播线分成两个连通部分的图.两点 1PI 插入之和定义为 $\ii\Sigma(s)$,$s=p^2$;自由传播子为 $G_0(p)=\ii/(s-m_0^2+\ii0)$.第十二章将两点插入定义为 $-\ii\Sigma$;若比较同一个两点插入,本章的 $\Sigma$ 等于第十二章同名量的负值,Dyson 分母与反项符号也须同时转换.
+\end{definition}
+
+一般连通两点图沿传播链由 1PI 块组成,所以
+\begin{align*}
+ G_F&=G_0+G_0(\ii\Sigma)G_0+G_0(\ii\Sigma)G_0(\ii\Sigma)G_0+\cdots\\
+ &=\frac{G_0}{1-\ii\Sigma G_0}
+ =\frac{\ii}{s-m_0^2+\Sigma(s)+\ii0}.
+\end{align*}
+这个分母中的加号由插入定义直接得出.若另把 1PI 插入定义为 $-\ii\Pi$,就应写 $s-m_0^2-\Pi$;不能只改一个位置的符号.在阈值以下 $\Sigma$ 为实函数.孤立物理极点满足
+\begin{equation}\label{eq:pole-mass-Z}
+ m^2-m_0^2+\Sigma(m^2)=0,\qquad
+ Z^{-1}=1+\Sigma'(m^2).
+\end{equation}
+第二式由把分母在 $m^2$ 附近展开得到,不需要另外猜测一个外腿归一化.它也说明一个普通 Taylor 展开不能在共振附近随意截去所有自能插入:当自由分母很小时,整条链的每项可能同阶.
+
+\originalsection{一圈泡图的完整积分与有限例子}
+三次顶点为 $-\ii g$.两条相同内线的交换给出对称因子 $1/2$,故在 $d$ 维
+\begin{equation}\label{eq:bubble-start}
+ \ii\Sigma_1(s)=\frac12(-\ii g)^2\int\frac{\dd^dq}{(2\pi)^d}
+ \frac{\ii}{q^2-m_0^2+\ii0}\frac{\ii}{(q+p)^2-m_0^2+\ii0}.
+\end{equation}
+Feynman 参数恒等式 $1/(ab)=\int_0^1\dd x\,[xa+(1-x)b]^{-2}$ 可直接对 $x$ 积分核对.平移 $\ell=q+xp$,把分母变成 $[\ell^2-D(x,s)+\ii0]^2$,其中
+\[
+ D(x,s)=m_0^2-x(1-x)s.
+\]
+先在类空外动量或阈值以下作 Wick 旋转 $\ell^0=\ii\ell_E^0$,Feynman 极点不阻挡旋转;所得结果再解析延拓.测度产生 $\ii$,两个分母的负号相乘为正,从而
+\[
+ \Sigma_1(s)=\frac{g^2}{2}\int_0^1\dd x
+ \int\frac{\dd^d\ell_E}{(2\pi)^d}\frac1{(\ell_E^2+D-\ii0)^2}.
+\]
+利用 $a^{-2}=\int_0^\infty\dd t\,t\e^{-ta}$,并逐维作 Gaussian 积分,
+\begin{align*}
+ \int\frac{\dd^d\ell_E}{(2\pi)^d}(\ell_E^2+D)^{-2}
+ &=\frac1{(4\pi)^{d/2}}\int_0^\infty\dd t\,t^{1-d/2}\e^{-tD}\\
+ &=\frac{\Gamma(2-d/2)}{(4\pi)^{d/2}}D^{d/2-2}.
+\end{align*}
+积分先在 $\operatorname{Re}d<4$、$\operatorname{Re}D>0$ 成立,再通过 Gamma 函数亚纯延拓.因此
+\begin{equation}\label{eq:bubble-d-general}
+ \Sigma_1(s)=\frac{g^2\Gamma(2-d/2)}{2(4\pi)^{d/2}}
+ \int_0^1\dd x\,[m_0^2-x(1-x)s-\ii0]^{d/2-2}.
+\end{equation}
+每一步都保留同一个边界值,所以阈值上的虚部符号也已经确定.
+
+\begin{example}
+在 $d=3$ 中计算一圈质量位移与场强留数.
+\end{example}
+\begin{solution}
+$\Gamma(1/2)=\sqrt\pi$ 给出
+\[
+ \Sigma_1(s)=\frac{g^2}{16\pi}\int_0^1\frac{\dd x}{\sqrt{m_0^2-x(1-x)s-\ii0}}.
+\]
+因为 $\Sigma_1=\order(g^2)$,极点方程到这一阶可用 $s=m_0^2$ 代入,
+\[
+ m^2=m_0^2-\frac{g^2}{16\pi m_0}
+ \int_0^1\frac{\dd x}{\sqrt{1-x(1-x)}}+\order(g^4)
+ =m_0^2-\frac{g^2}{16\pi m_0}\log3+\order(g^4).
+\]
+最后的积分令 $u=2x-1$,变成 $2\operatorname{arsinh}(1/\sqrt3)=\log3$.对 $s$ 求导,
+\[
+ \Sigma_1'(m_0^2)=\frac{g^2}{32\pi m_0^3}
+ \int_0^1\frac{x(1-x)\dd x}{[1-x(1-x)]^{3/2}}
+ =\frac{g^2}{32\pi m_0^3}\left(\frac43-\log3\right).
+\]
+核对后一积分时,同一代换给出
+$2\int_0^1(1-u^2)(3+u^2)^{-3/2}\dd u$;把分子写成 $4-(3+u^2)$,分别积分为 $4/3$ 与 $\log3$.于是
+\[
+ Z=1-\frac{g^2}{32\pi m_0^3}\left(\frac43-\log3\right)+\order(g^4).
+\]
+$4/3-\log3>0$,留数小于一,与有正连续谱权重的规范归一场一致.这一圈积分紫外有限,仍产生质量和留数的变化.
+\end{solution}
+
+当 $s>4m_0^2$,存在一段 $x$ 使 $D<0$,其端点为 $x_\pm=(1\pm\sqrt{1-4m_0^2/s})/2$.平方根通过 $D-\ii0$ 延拓,在这一段产生正的 $\operatorname{Im}\Sigma$.因此自能从 $s=4m_0^2$ 起有切口,恰与两条内线同时在壳的两粒子阈值一致.这把完整态的谱推导与具体 Feynman 图联系起来.
+
+\originalsection{紫外发散的局域性与在壳反项}
+在 $d$ 维,$[\phi]=(d-2)/2$、$[g]=(6-d)/2$.$d=6$ 的三次耦合无量纲,泡图有紫外发散.令 $d=6-\epsilon$,写 $g_d=\mu^{\epsilon/2}g$,其中 $\mu$ 是为保持量纲引入的质量尺度.记 $\alpha=g^2/(4\pi)^3$,则\eqref{eq:bubble-d-general}含
+\[
+ \Gamma(-1+\epsilon/2)=-\frac2\epsilon+\gamma_E-1+\order(\epsilon).
+\]
+展开 $D^{1-\epsilon/2}$ 后,发散部分为
+\begin{equation}\label{eq:bubble-divergence}
+ \Sigma_{1,\mathrm{div}}(s)=-\frac\alpha\epsilon\int_0^1D(x,s)\dd x
+ =-\frac\alpha\epsilon\left(m^2-\frac s6\right).
+\end{equation}
+这里把内线质量换成在壳质量 $m$ 只改变更高阶项.发散是外动量的一次多项式;它能由局域质量项和动能项吸收,而不是需要一个任意的非局域函数.
+
+将拉氏量用重整化场与参数书写,
+\[
+ \Lag=\frac12(\partial\phi)^2-\frac12m^2\phi^2-\frac g{3!}\phi^3
+ +\frac{\delta Z_\phi}{2}(\partial\phi)^2-\frac{\delta m^2}{2}\phi^2
+ -\frac{\delta g}{3!}\phi^3-\delta t\phi.
+\]
+$\delta t$ 固定真空期望值为零,$\delta g$ 由一个指定三点函数的归一化条件决定;本节实际计算的是两点反项.裸场关系可写 $\phi_B=\sqrt{1+\delta Z_\phi}\,\phi$,裸质量与裸耦合再由其系数匹配.$1+\delta Z_\phi$ 是连接裸场与重整化场的反项参数,不能与任意原场的有限物理极点权重 $Z$ 不加区别地混用.
+
+二点反项的顶点因子为 $\ii(\delta Z_\phi s-\delta m^2)$,因此
+\[
+ \Sigma_R(s)=\Sigma_1(s)+\delta Z_\phi s-\delta m^2.
+\]
+要求重整化场在 $s=m^2$ 的极点质量为 $m$、留数为一,即
+$\Sigma_R(m^2)=\Sigma_R'(m^2)=0$,给出
+\[
+ \delta Z_\phi=-\Sigma_1'(m^2),\qquad
+ \delta m^2=\Sigma_1(m^2)-m^2\Sigma_1'(m^2).
+\]
+这些等式在去掉正则化前定义,既减去发散部分也固定有限部分.组合后
+\begin{equation}\label{eq:on-shell-subtraction}
+ \Sigma_R(s)=\Sigma_1(s)-\Sigma_1(m^2)-(s-m^2)\Sigma_1'(m^2).
+\end{equation}
+\eqref{eq:bubble-divergence}是一次多项式,故两次减除恰把它消去;这不是把无穷大直接当普通数相减,而是对有限 $\epsilon$ 的同一积分组合后再取极限.
+
+设 $D=m^2-x(1-x)s-\ii0$、$D_0=m^2[1-x(1-x)]$,六维的有限答案为
+\begin{equation}\label{eq:renormalized-bubble-six}
+ \Sigma_R(s)=\frac\alpha2\int_0^1\dd x\,D\log\frac D{D_0}
+ +\frac\alpha{12}(s-m^2)+\order(g^4).
+\end{equation}
+推导时,未减除有限部分中的 $D\log(D/\mu^2)$ 保留下来,而乘 $D$ 的所有常数项在\eqref{eq:on-shell-subtraction}中消失.对 $D\log D$ 的导数为 $-x(1-x)(\log D+1)$,所以减除还产生 $(s-m^2)\int_0^1x(1-x)\dd x=(s-m^2)/6$,即上式最后一项.直接令 $s=m^2$ 或求导,分别得到零与零,核对了两个归一化条件.这个在壳两点结果不依赖任意的 $\mu$;别的重整化方案会把尺度依赖转移到参数及运行耦合中.大外动量下出现 $\alpha s\log(-s/m^2)$,当对数很大时固定阶微扰失效,后面的重整化群将处理这类问题.
+
+\originalsection{不稳定粒子、第二张解析页与共振}
+稳定极点必须对应 Hilbert 空间中的真正单粒子态.若一个重场能衰变成更轻粒子,真实轴上的孤立单粒子谱权重通常消失,代之以连续谱的峰.考虑相互作用
+\[
+ \Lag_{\mathrm{int}}=-\frac g2\Phi\chi^2,
+\]
+其中 $\chi$ 稳定、质量为 $m_\chi$,$\Phi$ 的共振质量为 $M>2m_\chi$.是否可以衰变还要求量子数和耦合允许;仅有一个几何阈值不能排除被对称性保护的稳定粒子.
+
+其两点函数的自能同样含两条 $\chi$ 内线,故在 $s>4m_\chi^2$ 有 $\operatorname{Im}\Sigma(s)>0$.实的质量及动能反项不能同时把自能的实部和虚部减为零,否则会破坏厄米性.可选实轴归一化条件 $\operatorname{Re}\Sigma(M^2)=0$、$\operatorname{Re}\Sigma'(M^2)=0$,并在窄共振且远离阈值时近似
+\[
+ G_F(s)\simeq\frac{\ii Z_{\mathrm{res}}}{s-M^2+\ii M\Gamma},\qquad
+ M\Gamma=\operatorname{Im}\Sigma(M^2),
+\]
+这里把实部斜率归一化的有限因子包含在 $Z_{\mathrm{res}}$ 中;若未令该斜率为一,宽度也须除以它.$Z_{\mathrm{res}}$ 不是一个稳定单粒子 delta 权重.
+
+按\eqref{eq:spectral-discontinuity},峰附近
+\begin{equation}\label{eq:BW}
+ \rho_{\mathrm{res}}(s)\simeq\frac{Z_{\mathrm{res}}}{\pi}
+ \frac{M\Gamma}{(s-M^2)^2+M^2\Gamma^2}.
+\end{equation}
+这称为 Breit--Wigner 线形.它是峰附近的近似,不能把这个 Lorentz 峰无条件延伸到负 $s$ 或物理阈值以下;实际谱的支集和阈值形状仍由完整谱决定.严格的共振参数由跨过两粒子切口后的解析延拓定义,第二张解析页上有
+\[
+ s_\star=M_{\mathrm{pole}}^2-\ii M_{\mathrm{pole}}\Gamma_{\mathrm{pole}}+\order(\Gamma^2).
+\]
+物理页的谱表示没有这样的下半平面孤立稳定极点;把实轴上方的近似分母延续到切口下方,已经进入第二页.实轴峰的位置、实轴归一化质量与复极点质量在更高阶可不同.
+
+\begin{example}
+核对四维 $\Phi\to\chi\chi$ 宽度与泡图虚部.
+\end{example}
+\begin{solution}
+树级衰变振幅为 $\mathcal M=-g$.定义 Lorentz 不变两体相空间
+\[
+ \dd\Phi_2=(2\pi)^4\delta^{(4)}(P-k_1-k_2)
+ \prod_{j=1}^2\frac{\dd^3\boldsymbol k_j}{(2\pi)^3\,2E_j}.
+\]
+在 $P=(M,\boldsymbol0)$ 系中用空间 delta 积分掉第二动量,再对 $\delta(M-2E_k)$ 作径向积分,得到
+\[
+ \Phi_2=\frac1{8\pi}\sqrt{1-\frac{4m_\chi^2}{M^2}}=\frac\beta{8\pi}.
+\]
+相同末态有 $1/2!$,所以
+\[
+ \Gamma=\frac1{2M}\frac1{2!}\int\dd\Phi_2\,|\mathcal M|^2
+ =\frac{g^2}{32\pi M}\beta.
+\]
+另一方面,四维泡图的非多项式有限项为
+$-g^2/(32\pi^2)\int_0^1\log(D-\ii0)\dd x$.在 $x_-<x<x_+$ 有 $D<0$,$\operatorname{Im}\log(D-\ii0)=-\pi$,区间长度为 $\beta$,故
+\[
+ \operatorname{Im}\Sigma(M^2)=\frac{g^2}{32\pi}\beta=M\Gamma.
+\]
+同一个在壳中间态同时决定衰变率和传播子虚部.六维课程例子也可直接核对.由 $\Omega_4=8\pi^2/3$ 得
+\[
+\Phi_2=\frac{M^2\beta^3}{192\pi^2},\qquad
+\Gamma=\frac{g^2M\beta^3}{768\pi^2}=\frac{\pi\alpha M\beta^3}{12}.
+\]
+从六维自能中 $D\log(D-\ii0)$ 的虚部积分亦得到 $\operatorname{Im}\Sigma=\pi\alpha M^2\beta^3/12$.不同维数的阈值幂不能混用.
+\end{solution}
+
+固定空间动量 $\boldsymbol p$,窄宽度极点的正能量为
+\[
+ E_\star=\sqrt{\boldsymbol p^2+M^2-\ii M\Gamma}
+ \simeq E_{\boldsymbol p}-\ii\frac{M\Gamma}{2E_{\boldsymbol p}}.
+\]
+对 $t>0$ 关闭下半平面轮廓,传播振幅含
+$\e^{-\ii E_{\boldsymbol p}t}\e^{-M\Gamma t/(2E_{\boldsymbol p})}$;概率因此按 $\e^{-t/\tau(\boldsymbol p)}$ 衰减,
+$\tau(\boldsymbol p)=E_{\boldsymbol p}/(M\Gamma)$,静止寿命为 $1/\Gamma$.切口贡献会在极早或极晚时间修正纯指数形式,这里证明的是窄共振主导的时间区间.
+
+\originalsection{长时间传播产生外腿极点}
+现在设 $\phi$ 与一个稳定标量粒子有非零重叠 $\sqrt Z$,其质量壳与同量子数连续谱隔离.取其他场的插入时刻都位于有限区间 $[T_-,T_+]$ 内,记
+\[
+ X=T\{\phi(y_1)\cdots\phi(y_{n-1})\},\qquad
+ H(q;y)=\int\dd^4x\,\e^{\ii qx}\bra0T\{\phi(x)X\}\ket0.
+\]
+把 $t=x^0$ 积分分成 $t>T_+$、$T_-<t<T_+$ 和 $t<T_-$ 三段.为了避免平面波的分布问题,先把其余插入与动量用光滑波包涂抹;有限时间区间的 Fourier 变换对 $q^0$ 无单粒子极点.
+
+在后时段插入单粒子完备态,
+\[
+ \bra0\phi(x)X\ket0\supset
+ \sqrt Z\int\frac{\dd^3\boldsymbol k}{(2\pi)^3\,2E_{\boldsymbol k}}
+ \e^{-\ii E_{\boldsymbol k}t+\ii\boldsymbol k\cdot\boldsymbol x}
+ \bra{\boldsymbol k}X\ket0.
+\]
+空间积分令 $\boldsymbol k=\boldsymbol q$.加上收敛因子 $\e^{-\epsilon t}$,时间积分为
+\[
+ \int_{T_+}^\infty\dd t\,\e^{\ii(q^0-E_{\boldsymbol q})t-\epsilon t}
+ \longrightarrow\frac{\ii\e^{\ii(q^0-E_{\boldsymbol q})T_+}}{q^0-E_{\boldsymbol q}+\ii0}.
+\]
+在 $q^0\to E_{\boldsymbol q}$,指数趋于一,且
+$q^2-m^2=(q^0-E_{\boldsymbol q})(q^0+E_{\boldsymbol q})$,于是
+\begin{equation}\label{eq:external-pole-out}
+ H(q;y)\underset{q^0\to E_{\boldsymbol q}}{=}
+ \frac{\ii\sqrt Z}{q^2-m^2+\ii0}\bra{\boldsymbol q}X\ket0
+ +\text{在该极点较不奇异的项}.
+\end{equation}
+关键的 $2E_{\boldsymbol q}$ 来自完备态测度,它恰与二次分母的线性化匹配;外腿的极点留数因此为 $\sqrt Z$ 乘一个含单粒子态的矩阵元,而不是 $Z$.
+
+在前时段 $\phi(x)$ 排在最右.插入同样的完备态有
+\[
+ \bra0X\phi(x)\ket0\supset
+ \sqrt Z\int\frac{\dd^3\boldsymbol k}{(2\pi)^3\,2E_{\boldsymbol k}}
+ \bra0X\ket{\boldsymbol k}\e^{+\ii E_{\boldsymbol k}t-\ii\boldsymbol k\cdot\boldsymbol x}.
+\]
+空间积分令 $\boldsymbol k=-\boldsymbol q$,而
+\[
+ \int_{-\infty}^{T_-}\dd t\,\e^{\ii(q^0+E_{\boldsymbol q})t+\epsilon t}
+ \longrightarrow\frac{-\ii\e^{\ii(q^0+E_{\boldsymbol q})T_-}}{q^0+E_{\boldsymbol q}-\ii0}.
+\]
+在负能量壳附近,$q^2-m^2\simeq-2E_{\boldsymbol q}(q^0+E_{\boldsymbol q})$,所以
+\begin{equation}\label{eq:external-pole-in}
+ H(q;y)\underset{q^0\to-E_{\boldsymbol q}}{=}
+ \frac{\ii\sqrt Z}{q^2-m^2+\ii0}\bra0X\ket{-\boldsymbol q}
+ +\text{在该极点较不奇异的项}.
+\end{equation}
+这条外腿对应正能量为 $-q^0$、空间动量为 $-\boldsymbol q$ 的入射粒子.多粒子连续态给出切口;极点与阈值的分离使它们不能冒充这里的单粒子极点.这个论证依赖稳定粒子,却不依赖 $g$ 很小.
+
+同样机制还解释内部通道的极点因子化.把若干插入组成左块,其余组成右块,固定每块内部的相对坐标,再把左块整体平移 $X$.当 $X^0$ 足够大时,两块间有确定的时间排序;插入完备态并对 $X$ 作 Fourier 变换,空间积分固定中间动量 $P$,长时间积分产生 $\ii/(P^2-m_j^2+\ii0)$.再对块内相对坐标变换,得到
+\[
+ \widetilde G\big|_{P^2\simeq m_j^2}
+ =(2\pi)^4\delta^{(4)}\left(\sum_iq_i\right)
+ \frac{\ii}{P^2-m_j^2+\ii0}\,\mathcal A_{L,j}\mathcal A_{R,j}
+ +\text{较不奇异项}.
+\]
+$\mathcal A_{L,j}$ 与 $\mathcal A_{R,j}$ 是两块分别与归一化单粒子态的 Fourier 矩阵元;它们各自包含算符的实际重叠,不能再任意额外乘一个基本场的 $Z$.较短的块间时间给解析背景,多粒子中间态给通道切口.这也适用于复合插值算符与束缚态.
+
+\originalsection{渐近场、约化算符与 LSZ 公式}
+把多个外腿的极点一起取出,需要说明极点矩阵元为何成为入射与出射态之间的散射矩阵元.这里调用稳定、隔离质量壳的散射态构造:对局域场用解自由 Klein--Gordon 方程的波包涂抹,长时间极限定义入射、出射产生与湮灭算符.该渐近极限是弱的或波包意义的极限,并非声称相互作用场在每个点作为算符强收敛为一个自由场;其严格存在性属于 Haag--Ruelle 散射论,在本章作为已声明的工具输入.仅为了所用散射通道,不要求整个 Hilbert 空间已证明渐近完备.
+
+令 $f$ 为正频率自由波包,$(\Box+m^2)f=0$,定义
+\[
+ a_t(f)=\frac{\ii}{\sqrt Z}\int\dd^3\boldsymbol x\,
+ f^*(t,\boldsymbol x)\overleftrightarrow{\partial_t}\phi(t,\boldsymbol x).
+\]
+对于自由场此式正给出湮灭算符.对它求导,空间分部积分并利用 $f$ 的方程,得到实际相互作用场恒等式
+\begin{equation}\label{eq:LSZ-boundary}
+ a_{\mathrm{out}}(f)-a_{\mathrm{in}}(f)
+ =\frac{\ii}{\sqrt Z}\int\dd^4x\,f^*(x)(\Box+m^2)\phi(x).
+\end{equation}
+推导中的边界项是两个时间端的 $a_t$,不是被无理由删除的表面项.$1/\sqrt Z$ 使稳定单粒子在长时间的贡献归一化为一;连续谱在隔离质量壳的波包极限中不产生同一个非振荡单粒子项.
+
+约化一个出射粒子时,把 $a_{\mathrm{out}}$ 用\eqref{eq:LSZ-boundary}改写成 $a_{\mathrm{in}}$ 加时空积分.把 $a_{\mathrm{in}}$ 移过入射产生算符,交换子产生一粒子直穿的 delta 项;它属于散射矩阵中的恒等部分或其他非连通部分.剩下的积分就是一个 $\phi$ 插入与 $\ii(\Box+m^2)/\sqrt Z$.对入射粒子使用其伴随边界式,同样产生 $\e^{-\ii px}$ 的插入.在多个场中作此操作时,时间导数作用于排序阶跃函数会产生等时交换子的接触项;这些项正与移过渐近算符时的直穿项相配.对连通、具有真正相互作用的散射部分,取每条外腿的单粒子极点便自动排除这些非连通项.
+
+设入射正能量动量为 $p_1,\ldots,p_r$,出射为 $k_1,\ldots,k_s$,$n=r+s$.给全部外腿统一定义流出动量
+$q_i=-p_i$(入射),$q_{r+j}=k_j$(出射).令
+\[
+ \widetilde G_{F,c}(q_1,\ldots,q_n)=\int\prod_{\ell=1}^n\dd^4x_\ell\,
+ \e^{\ii\sum_\ell q_\ell x_\ell}
+ \bra0T\{\phi(x_1)\cdots\phi(x_n)\}\ket0_c.
+\]
+由于 $\int\dd^4x\,\e^{\ii qx}(\Box+m^2)G=-(q^2-m^2)\widetilde G$,每个边界积分对应 $(q^2-m^2)/(\ii\sqrt Z)$.依次约化全部腿得到
+\begin{proposition}[标量 LSZ 约化]\label{prop:LSZ}
+对稳定、孤立的单粒子外态,若各插值场的单粒子重叠为 $\sqrt{Z_\ell}\ne0$,则连通散射矩阵元为
+\begin{equation}\label{eq:LSZ-momentum}
+ \bra{k_1,\ldots,k_s;\mathrm{out}}p_1,\ldots,p_r;\mathrm{in}\rangle_c
+ =\left.\prod_{\ell=1}^n\frac{q_\ell^2-m_\ell^2}{\ii\sqrt{Z_\ell}}
+ \widetilde G_{F,c}(q_1,\ldots,q_n)\right|_{\mathrm{external\ poles}}.
+\end{equation}
+右侧表示先取具有规定正、负能量方向的外腿极点系数,再取在壳极限;不是把 $q^2=m^2$ 直接代入未消去的无穷大传播子.
+\end{proposition}
+
+上面的长时间积分\eqref{eq:external-pole-out}、\eqref{eq:external-pole-in}证明每约化一条腿除去 $\ii\sqrt Z/(q^2-m^2+\ii0)$,同时把相应场替换成一个归一化渐近粒子态.边界算符式证明这些替换依次产生的正是 out--in 矩阵元.因此该公式的主推导并不依赖把整个结论当作图形规则先接受.
+
+平移不变性给出总体 $(2\pi)^4\delta^{(4)}(\sum q_\ell)$.定义不变振幅 $\mathcal M$ 为
+\[
+ \bra fS\ket i_c=\ii(2\pi)^4\delta^{(4)}(P_f-P_i)\mathcal M(i\to f).
+\]
+于是 LSZ 取极点后的剩余系数就是 $\ii\mathcal M$.若用完整传播子把每条外腿截去,写 $\widetilde G_c=(\prod_\ell G_{F,\ell})\widetilde\Gamma_{\mathrm{amp}}$,由于 $G_{F,\ell}\sim\ii Z_\ell/(q_\ell^2-m_\ell^2)$,得到
+\[
+ \bra fS\ket i_c=\left(\prod_\ell\sqrt{Z_\ell}\right)\widetilde\Gamma_{\mathrm{amp}}\big|_{\mathrm{on\ shell}}.
+\]
+这解释了“完整外腿截去以后再乘 $\sqrt Z$”与 LSZ 中“每条腿除以 $\sqrt Z$”并不矛盾:完整外腿原来包含 $Z$.采用在壳归一化场时 $Z_\ell=1$,但反项仍须计入图的内部.
+
+\begin{example}
+用树级 $\lambda\phi^4$ 散射核对 LSZ 的相位和外腿因子.
+\end{example}
+\begin{solution}
+取 $\Lag_{\mathrm{int}}=-\lambda\phi^4/4!$.树级连通四点函数为
+\[
+ \widetilde G_{4,c}=(2\pi)^4\delta^{(4)}\left(\sum_iq_i\right)
+ (-\ii\lambda)\prod_{i=1}^4\frac{\ii}{q_i^2-m^2+\ii0}.
+\]
+树级 $Z=1$,每个 LSZ 因子消去一个 $\ii/(q_i^2-m^2)$,留下 $-\ii\lambda$ 乘总体 delta.因此 $\mathcal M=-\lambda$.若对有自能修正的外腿重复这个核对,就会保留每条完整外腿的 $\sqrt Z$;省去它会把场的任意归一化误当成实验振幅的变化.
+\end{solution}
+
+微扰计算常在相互作用中引入缓慢开关及 $\ii0$,投影真空并定义时间积分.LSZ 的物理用法是把已存在的渐近波包态与这些边界值联系起来,绝热开关不是所有理论中都存在的非微扰酉映射.对没有隔离质量壳的带电红外态,普通 Fock 外态与上述公式可能失效,需要包容软辐射或采用适当的修饰态.对不稳定的 $\Phi$,没有可插入的归一化渐近单粒子态,也不能把复极点当作普通 LSZ 外腿;它出现在稳定外粒子的内部通道中.旋量外腿需投影到相应 $u,v$ 自旋子,规范玻色子需投影到 BRST 物理横向极化,核心仍是物理单粒子极点.
+
+\originalsection{光学定理与中间态的正谱权重}
+$S$ 矩阵幺正性是谱虚部与实际反应概率之间的桥梁.写 $S=1+\ii T$,由 $S^\dagger S=1$ 得
+\[
+ -\ii(T-T^\dagger)=T^\dagger T.
+\]
+在正定物理空间中插入完备态,
+\[
+ -\ii\bigl(\bra{b}T\ket{a}-\bra{a}T\ket{b}^*\bigr)
+ =\sum_n\bra{n}T\ket{b}^*\bra{n}T\ket{a}.
+\]
+当 $a\ne b$,右侧是两个不同振幅的乘积,不能写成单一绝对值平方.取 $a=b$,才得到
+\begin{equation}\label{eq:optical-theorem}
+ 2\operatorname{Im}\mathcal M(a\to a)
+ =\sum_n\frac1{S_n}\int\dd\Phi_n\,|\mathcal M(a\to n)|^2,
+\end{equation}
+其中总体动量 delta 已抽出,$S_n$ 是相同末态粒子的置换因子,
+$\dd\Phi_n=(2\pi)^4\delta^{(4)}(P_a-\sum k_j)\prod_j\dd^3\boldsymbol k_j/[(2\pi)^3\,2E_j]$.波包或有限体积的中间处理消去总体 delta 的形式平方.对两粒子入射,右侧除以通量 $4\sqrt{(p_1\cdot p_2)^2-m_1^2m_2^2}$ 就是总截面.
+
+这个关系可逐阶展开.若某个通道的树级反应振幅为 $\order(g)$,则其概率为 $\order(g^2)$,必须对应前向振幅的一圈虚部.在泡图中,把两条内线同时放到正能量质量壳,正得到两体相空间积分;上一节的 $\operatorname{Im}\Sigma=M\Gamma$ 是它的两点版本.对规范理论,完备态在 BRST 正定物理空间上取,ghost 与非物理极化只负责协变计算中实现这一限制,不能作为物理末态加入概率和.
+
+由此,谱密度的非负性、稳定极点的留数、共振的正宽度与散射矩阵的幺正性都以同一正定物理态完备性为基础.实际计算的步骤也相互衔接:确定质量壳与重叠,计算并重整化关联函数,取稳定外腿的极点系数,再用物理中间态核对虚部.

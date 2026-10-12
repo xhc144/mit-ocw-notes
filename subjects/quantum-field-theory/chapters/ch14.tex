@@ -1,0 +1,211 @@
+% 8.324 Fall 2010, Hong Liu, Lectures 5--6;BRST采用离壳辅助场.
+\originalchapter{规范约束、Faddeev--Popov 方法与物理态}
+\label{chap:brst}
+
+Yang--Mills 场的四个时空分量不能都代表独立的粒子极化.质量为零、自旋为一的粒子只有两个横向极化,而 $A_\mu^a$ 每个内部指标却有四个分量.规范变换正是在这个多余的描述中识别同一物理构形.本章要解决两个相关问题:怎样从带有零模的作用量定义微扰积分,以及怎样在保留协变形式的同时排除非物理态.前一问题引出 Faddeev--Popov 行列式,后一问题引出 BRST 上同调.这里的量子论以真空附近的微扰展开为范围;全局规范固定的限制在最后单独讨论.
+
+\originalsection{零模、Gauss 约束与规范轨道}
+自由二次作用量可在分部积分后写作
+\[
+ S_2=\frac12\int\dd^4x\,A_\mu^a
+ K^{\mu\nu}A_\nu^a,\qquad
+ K^{\mu\nu}=\eta^{\mu\nu}\Box-\partial^\mu\partial^\nu.
+\]
+对任意满足边界条件的函数 $\alpha$,$K^{\mu\nu}\partial_\nu\alpha=0$.因此求解 $K\Delta=1$ 没有唯一解:纯梯度方向是规范轨道的切向方向,在二次作用量中没有恢复力.非阿贝尔场的二次项与阿贝尔场相同;把 $g$ 设为零并不能消去这个困难.
+
+从 Hamilton 观点也可看到同一约束.$F_{00}=0$,作用量不含 $\dot A_0^a$,故其共轭动量 $\pi^{a0}=0$ 是初级约束.空间分量的共轭动量为 $\pi^{ai}=F^{ai0}$.$A_0$ 的场方程不是一个决定 $\ddot A_0$ 的演化方程,而是
+\[
+ (D_i\pi^i)^a=J^{a0},
+\]
+即 Gauss 约束.要求初级约束在时间演化下保持,恰好产生这个次级约束.它们的 Poisson 括号在约束面上封闭,产生\eqref{eq:inf-gauge}的规范变换,属于第一类约束.每个第一类约束移去一个约束方向及其一个规范方向;每个内部指标的八维相空间由这两个第一类约束减少到四维,即两个独立的构形自由度.
+
+这个计数仅在约束独立的局域区域成立,但已经说明 $A_0$ 与纵向分量为什么不能当作普通粒子独立量子化.非协变规范可以直接挑出两个横向自由度;协变方法则保留四分量,同时安排非物理贡献相消.路径积分中一个构形 $A$ 的所有 $A^V$ 构成规范轨道,物理积分原则上应在轨道的商空间上进行,而不是给每个同一物理点乘一个无限的轨道体积.
+
+\begin{example}
+对只依赖 $r=\sqrt{x^2+y^2}$ 的函数 $h(r)$,说明轨道体积与截面 Jacobian 的区别.
+\end{example}
+\begin{solution}
+旋转把同一圆上的点识别为一条轨道,故
+\[
+ \int_{\R^2}\dd x\dd y\,h(r)=2\pi\int_0^\infty r\dd r\,h(r).
+\]
+$2\pi$ 是轨道的角度体积,$r$ 是从笛卡尔坐标改为轨道坐标与径向坐标的 Jacobian.若以 $y=0,x>0$ 为截面,旋转参数 $\theta$ 的变化给出 $\partial y^\theta/\partial\theta|_{y=0}=x=r$;插入 $\delta(y)$ 时,恰需这个行列式才能恢复 $r\dd r$.只删除角积分而忘掉 Jacobian 会改变物理测度.若不要求 $x>0$,一条圆与截面相交两次,还必须修正重复计数.这两个问题分别预示规范行列式和全局规范副本.
+\end{solution}
+
+\originalsection{Faddeev--Popov 恒等式的局域推导}
+选取每个内部指标一个规范条件 $f^a[A](x)=0$.先限制到一个局域区域:每条规范轨道与该条件截面恰交一次,且沿轨道的微分可逆.定义算符核
+\begin{equation}\label{eq:FP-M}
+ M^{ab}(x,y;A)=\left.\frac{\delta f^a[A^\omega](x)}{\delta\omega^b(y)}\right|_{\omega=0},
+\end{equation}
+其中 $\omega$ 的归一化固定为\eqref{eq:inf-gauge}.有限维的变量替换公式 $\int\dd\omega\,\delta(f(A^\omega))|\det M|=1$ 在这个区域逐模推广为
+\[
+ 1=\Delta_{\mathrm{FP}}[A]\int\mathcal D\omega\,
+ \delta[f(A^\omega)],\qquad \Delta_{\mathrm{FP}}[A]=\det M[A].
+\]
+在真空附近选择固定行列式取向时,绝对值与行列式的差别只是一个固定符号;这正是微扰 Faddeev--Popov 公式的适用条件,并非任意构形上的全局恒等式.
+
+把这个一插入 $\int\mathcal DA\,\e^{\ii S[A]}$,再对每个 $\omega$ 改变量 $A\mapsto A^{\omega}$.规范不变作用量与规范不变测度使轨道积分成为整体常数 $\operatorname{Vol}(\mathcal G)$.除去它后,真空生成泛函为
+\begin{equation}\label{eq:FP-delta}
+ \mathcal Z=\int\mathcal DA\,\delta[f(A)]\det M[A]\,\e^{\ii S[A]}.
+\end{equation}
+规范不变算符的插入与同一个改变量相容,因而也可在这个泛函中计算.一般非规范不变的场关联函数则依赖所选规范;这不妨碍它们作为构造散射振幅的中间工具.
+
+轴向规范 $n^\mu A_\mu^a=0$ 给出 $M=n^\mu D_\mu^{\mathrm{adj}}$.在截面上,$n\cdot A=0$,所以 $M=n\cdot\partial$,行列式不依赖 $A$.这使 ghost 与规范场脱耦,但要求排除 $n\cdot\partial$ 的残余零模,并规定轴向传播子在 $n\cdot p=0$ 的处方;不能由行列式简单就宣称一切边界困难都已解决.
+
+Lorenz 规范取 $f^a=\partial^\mu A_\mu^a$.由\eqref{eq:inf-gauge}可直接得到
+\begin{equation}\label{eq:FP-lorenz}
+ (M\omega)^a=\partial^\mu(D_\mu^{\mathrm{adj}}\omega)^a,
+ \qquad M^{ab}=\partial^\mu\bigl(\delta^{ab}\partial_\mu+gf_{acb}A_\mu^c\bigr).
+\end{equation}
+矩阵元素中的指标次序可由 $(D_\mu\omega)^a=\partial_\mu\omega^a+gf_{acb}A_\mu^c\omega^b$ 核对.非阿贝尔情形的 Jacobian 依赖场,不能吸收入归一化常数.
+
+\originalsection{Grassmann 行列式、ghost 与协变传播子}
+\begin{definition}[Faddeev--Popov ghost]
+引入相互独立的 Grassmann 奇标量场 $c^a(x),\bar c^a(x)$,均带伴随指标.它们称为 ghost 与 antighost,用来表示规范固定的行列式;$\bar c$ 在路径积分中不是 $c$ 的普通复共轭.它们没有旋量指标,也不对应物理外线粒子.
+\end{definition}
+
+有限维 Grassmann 高斯积分展开指数时,只有含所有 $\bar c_i,c_i$ 的最高次项能够被积分保留.这个系数正是按排列带符号求和的行列式,故
+\[
+ \int\prod_i\dd\bar c_i\dd c_i\,\e^{\ii\bar c_iM_{ij}c_j}
+ =\text{常数}\times\det M.
+\]
+无关整体相位由测度约定吸收.函数空间版本同样给出行列式的局域作用量.为使下节 BRST 公式简洁,本书选 ghost 拉氏量 $-\bar c^aM^{ab}c^b$;$\det(-M)$ 与 $\det M$ 的场无关因子吸入归一化.
+
+把硬条件 $f=0$ 改为 $f=w$,其中 $w(x)$ 是给定函数,再对 $w$ 按权重 $\exp[-\ii\int w^2/(2\xi)]$ 积分.局域截面公式对每个 $w$ 都成立,因此此平均只是改变规范代表的选取方式.使用 delta 函数完成 $w$ 积分,得到
+\begin{equation}\label{eq:gf-ghost-L}
+ \Lag_{\mathrm{eff}}=\Lag_{\mathrm{YM}}-\frac1{2\xi}(\partial^\mu A_\mu^a)^2
+ -\bar c^a\partial^\mu(D_\mu c)^a.
+\end{equation}
+$\xi=1$ 称 Feynman 规范,$\xi\to0$ 的极限称 Landau 规范.分部积分后 ghost 部分为
+\[
+ \Lag_{\mathrm{gh}}=(\partial^\mu\bar c^a)(\partial_\mu c^a)
+ +gf_{abc}(\partial^\mu\bar c^a)A_\mu^b c^c.
+\]
+因此 ghost 与规范场有一个导数三点耦合.在 $U(1)$ 理论中 $f=0$,行列式及 ghost 泛函独立于 $A$,可完全除去;在非阿贝尔理论中,ghost 环必须参与振幅.
+
+动量空间的规范场二次算符变为
+\[
+ K^{\mu\nu}_\xi=-p^2\eta^{\mu\nu}+(1-\xi^{-1})p^\mu p^\nu.
+\]
+把它在横向投影 $P_T^{\mu\nu}=\eta^{\mu\nu}-p^\mu p^\nu/p^2$ 与纵向投影 $P_L^{\mu\nu}=p^\mu p^\nu/p^2$ 上分开,有 $K_\xi=-p^2P_T-(p^2/\xi)P_L$,所以其逆给出
+\begin{equation}\label{eq:ym-propagator}
+ \Delta_{\mu\nu}^{ab}(p)=\frac{-\ii\delta^{ab}}{p^2+\ii0}
+ \left[\eta_{\mu\nu}-(1-\xi)\frac{p_\mu p_\nu}{p^2+\ii0}\right].
+\end{equation}
+这里纵向双极点按同一 Feynman 处方理解.ghost 的自由算符是 $p^2$,故有定向传播子 $\langle c^a\bar c^b\rangle(p)=\ii\delta^{ab}/(p^2+\ii0)$.按上一章的傅里叶约定,三点作用量的系数为 $-\ii gf_{abc}k_\mu$,其中 $k$ 是流入 antighost 腿的动量;乘 $\ii$ 后顶点因子为 $gf_{abc}k_\mu$.闭 ghost 环额外带 Grassmann 负号.这个负号来自反交换积分而不是一种可产生于实验末态的负概率粒子;自旋--统计定理的正定物理 Hilbert 空间假设不适用于这些辅助场.
+
+\originalsection{离壳 BRST 变换及其幂零性}
+规范固定破坏了原来的局域变换,但有效作用量仍保留一种全局、Grassmann 奇的变换.它将规范参数换成 ghost,并同时变换 ghost,使连续两次作用为零.为了让这个零不依赖场方程,引入实的辅助场 $b^a$,其没有导数项.
+
+\begin{definition}[BRST 微分]
+令 $s$ 为奇导子,满足分次乘法法则
+\[
+ s(XY)=(sX)Y+(-1)^{|X|}X(sY),
+\]
+其中 $|X|=0,1$ 分别表示 Grassmann 偶、奇.定义
+\begin{equation}\label{eq:brst-rules}
+ sA_\mu^a=(D_\mu c)^a,\qquad
+ sc^a=-\frac g2 f_{abc}c^bc^c,\qquad
+ s\bar c^a=b^a,\qquad sb^a=0.
+\end{equation}
+实际无穷小变换为 $\delta_B X=\eta sX$,$\eta$ 是时空常数的 Grassmann 奇参数.ghost 数是另一整数分次:$\mathrm{gh}(c)=1$、$\mathrm{gh}(\bar c)=-1$、$\mathrm{gh}(A)=\mathrm{gh}(b)=0$,而 $s$ 使 ghost 数增加一.
+\end{definition}
+
+这里 $sc$ 不是额外任意指定的相互作用.$sA=Dc$ 连续作用时,会产生非阿贝尔代数的交换子;$sc=-gc\times c/2$ 恰用来抵消它.下面完整核对这一点.对具有 Grassmann 分次的伴随场定义 $(X\times Y)^a=f_{abc}X^bY^c$,则
+\[
+ X\times Y=-(-1)^{|X||Y|}Y\times X.
+\]
+两个奇场的叉积因此是对称的,尽管普通数系数的 $f$ 反对称.协变导数为偶导子,故
+\[
+ D_\mu(c\times c)=(D_\mu c)\times c+c\times(D_\mu c)
+ =2(D_\mu c)\times c.
+\]
+于是
+\[
+ s^2A_\mu=D_\mu(sc)+g(sA_\mu)\times c
+ =-\frac g2D_\mu(c\times c)+g(D_\mu c)\times c=0.
+\]
+对 ghost,使用奇导子的负号而不能使用普通乘法法则:
+\[
+ s^2c=-\frac g2\bigl((sc)\times c-c\times(sc)\bigr)
+ =\frac{g^2}{2}(c\times c)\times c.
+\]
+最后这个三次表达式为零,因为
+\[
+ ((c\times c)\times c)^a=f_{abc}f_{bde}c^dc^ec^c.
+\]
+乘积 $c^dc^ec^c$ 完全反对称;把 $c,d,e$ 作三次循环后乘积不变,故系数可替换为三个循环系数的平均.它们的和正是结构常数的 Jacobi 恒等式,因而为零.显然 $s^2\bar c=sb=0$、$s^2b=0$.由分次乘法法则,交叉项相消,任何由这些场构成的局域多项式也满足 $s^2=0$.
+
+若有物质场,令 $C=c^aT_a^{(R)}$,取 $s\Psi=\ii gC\Psi$.则
+\[
+ s^2\Psi=\ii g(sc^aT_a)\Psi+g^2C^2\Psi=0,
+ \qquad C^2=\frac12c^ac^b[T_a,T_b]=\frac\ii2 f_{abc}c^ac^bT_c.
+\]
+第一项正与第二项相消.这验证了同一 ghost 代数同时适用于所有物质表示.
+
+定义奇的规范固定泛函(规范费米子)
+\[
+ \mathcal\Psi_{\mathrm{gf}}=\int\dd^4x\,\bar c^a
+ \left(f^a[A]+\frac\xi2 b^a\right).
+\]
+对它作用 $s$ 得
+\begin{equation}\label{eq:brst-exact-action}
+ S_{\mathrm{eff}}=S_{\mathrm{inv}}+s\mathcal\Psi_{\mathrm{gf}}
+ =S_{\mathrm{inv}}+\int\dd^4x\left(b^af^a+\frac\xi2 b^ab^a-\bar c^a s f^a\right).
+\end{equation}
+$s f^a=(Mc)^a$ 正是沿规范轨道的微分\eqref{eq:FP-M},不是新算符.积分掉 $b$,或解代数方程 $b=-f/\xi$,就恢复\eqref{eq:gf-ghost-L}.因为 $S_{\mathrm{inv}}$ 规范不变,$sS_{\mathrm{inv}}=0$;又因 $s^2=0$,有 $sS_{\mathrm{eff}}=0$.若先消去 $b$,则 $s\bar c=-f/\xi$,继续作用一般只能借助 ghost 场方程得到零.因此证明幂零性时保留 $b$ 有实际作用,不能混淆离壳与在壳版本.
+
+\originalsection{BRST 荷、零态与物理上同调}
+在规范固定作用量与测度均保持 BRST 的无异常正则化中,Noether 定理给出守恒的奇荷 $Q_B$,其作用约定为
+\[
+ sX=\ii[Q_B,X]_{\mathrm{gr}}.
+\]
+偶算符使用交换子,奇算符使用反交换子.对所有场 $s^2=0$ 蕴涵 $[Q_B^2,X]=0$;在无中心异常的表示中,且 $Q_B^2$ 具有 ghost 数二,不存在这样的非零常数中心项,所以 $Q_B^2=0$.这里假定 BRST 在量子层面无异常;经典幂零性本身不能保证有异常的手征规范理论也能量子化.
+
+协变量子化的大态空间 $\mathcal H_{\mathrm{big}}$ 包含四分量规范场和 ghost,内积尚非正定.$Q_B$ 对这一内积自伴,且幂零;这不与谱定理冲突,因为大空间的内积不正定.把满足 $Q_B\ket\psi=0$ 的态称为闭态.若 $\ket\psi=Q_B\ket\chi$,则它是恰态,也自动闭合.对于任何闭态 $\ket\varphi$,
+\[
+ \braket{\varphi}{Q_B\chi}=\braket{Q_B\varphi}{\chi}=0.
+\]
+因此恰态对所有闭态的矩阵元为零,自身也为零范数.真正的物理态应把这个冗余识别掉:
+\begin{definition}[物理态空间]
+取 ghost 数零的 BRST 上同调
+\[
+ \mathcal H_{\mathrm{phys}}
+ =\left.\frac{\ker Q_B}{\operatorname{im}Q_B}\right|_{\mathrm{gh}=0}.
+\]
+也就是说,物理态是闭态的等价类,$\ket\psi\sim\ket\psi+Q_B\ket\chi$.物理算符应与 $Q_B$ 分次交换,且相差 BRST 恰算符的两个代表具有相同物理矩阵元.
+\end{definition}
+
+\begin{example}
+在自由 $U(1)$ 理论中用 BRST 上同调恢复两个横向极化.
+\end{example}
+\begin{solution}
+自由变换为 $sA_\mu=\partial_\mu c$、$sc=0$.对动量 $p^2=0$ 的规范场单粒子态 $\ket{e,p}$,荷的作用与 $e\cdot p\ket{c,p}$ 成正比,所以闭合条件为 $e\cdot p=0$.antighost 的像由 $s\bar c=b$ 及 $b=-\partial\cdot A/\xi$ 给出,正是极化沿 $p_\mu$ 的态.因此 $e_\mu$ 与 $e_\mu+\lambda p_\mu$ 属同一等价类.
+
+取 $p^\mu=(E,0,0,E)$,$e\cdot p=0$ 给出 $e^0=e^3$.再用 $e\mapsto e+\lambda p$ 令这两个分量同时为零,留下 $(0,e^1,e^2,0)$.规范场的一粒子内积为 $-e^*\cdot e=|e^1|^2+|e^2|^2$,故商空间正定.纵向、时间极化和 ghost 不生成额外物理粒子.
+\end{solution}
+
+单粒子例子还不足以证明任意多粒子态正定.自由 Fock 空间中,非物理产生算符组织为 BRST 双子:某个 $u$ 的像为 $v$,$Q_Bu=v$、$Q_Bv=0$,并与共轭双子构成四重态.代数上可在这些多项式上定义奇的收缩算符 $h=u\,\partial/\partial v$,与 $q=v\,\partial/\partial u$ 配合,使
+\[
+ \{q,h\}=N_{uv},
+\]
+其中 $N_{uv}$ 数出双子中的激发数;对所有非物理双子求和得到 $\{Q_B,h\}=N_{\mathrm{unphys}}$,常数归一化吸入 $h$.若闭态满足 $N_{\mathrm{unphys}}\ket\psi=n\ket\psi$、$n>0$,则
+\[
+ \ket\psi=\frac1n(Q_Bh+hQ_B)\ket\psi
+ =Q_B\left(\frac1n h\ket\psi\right).
+\]
+所以它是恰态.只有不含非物理激发的横向 Fock 态及相应物质态留在上同调中.这给出了自由微扰渐近空间的正定性,而不是只凭一句“ghost 会抵消”作推断.
+
+\originalsection{规范独立性、微扰幺正性与全局边界}
+考虑规范条件或 $\xi$ 的小变化.由\eqref{eq:brst-exact-action},$\delta S=s(\delta\mathcal\Psi_{\mathrm{gf}})$.在路径积分中作 BRST 改变量,若测度无异常且边界项为零,便得 Ward 恒等式 $\langle sX\rangle=0$.对 BRST 闭的物理插入 $O_1\cdots O_n$,其规范变化为
+\[
+ \delta\langle O_1\cdots O_n\rangle
+ =\ii\langle O_1\cdots O_n\,s(\delta\mathcal\Psi_{\mathrm{gf}})\rangle_{\mathrm{connected}}=0.
+\]
+最后的零来自把 $s$ 移到整个乘积上:插入本身的 $s$ 为零,剩余项就是一个 BRST 恰期望值.等价地,对闭初末态,插入 $\{Q_B,\delta\mathcal\Psi_{\mathrm{gf}}\}$ 的矩阵元为零,因为荷可分别移到两端.这个论证解释了为何选择 $\ker Q_B$,但不能倒过来单靠一次规范变化就证明所有物理空间的正定性;正定性还需要上一节的四重态结构.
+
+微扰演化保持 BRST,故 $[S,Q_B]=0$;它把闭态映为闭态,把恰态映为恰态,因而下沉为商空间上的算符.协变量子化在大空间保持相应不定内积,$S^\dagger S=1$ 的伴随按该内积理解.任取两个物理代表,演化前后内积相等,而更换代表只增加与闭态正交的恰态.因此在正定的渐近上同调上诱导出幺正 $S$ 矩阵;逆演化也与 $Q_B$ 交换,保证不仅是等距映射而且是满射.等价的图像是,割开中间传播线时,时间、纵向极化与 ghost 的贡献按 BRST 恒等式成组相消,最后只留下物理极化.
+
+这些陈述要求无规范异常、适当的红外处理和可定义的微扰渐近态.尤其在纯 Yang--Mills 理论中,横向带颜色胶子的微扰 Fock 态并不自动等同于非微扰禁闭理论中的可观测渐近粒子;本章没有由 BRST 推导禁闭,也没有证明完整非微扰 Hilbert 空间的构造.
+
+最后回到 Faddeev--Popov 恒等式的假设.非阿贝尔理论在较大构形空间中可能有两个不同的规范变换把同一轨道送到同一个 $f=0$ 截面,这称为 Gribov 副本.某些构形处 $M$ 出现零模,$\det M=0$;这类边界称为 Gribov 界.此时“每条轨道恰交一次且 Jacobian 可逆”的局域假设失效,不能继续把全空间积分简单写成\eqref{eq:FP-delta}而假装无重复计数.真空附近的形式微扰展开选择一个局域截面,适用于本章的传播子、顶点和 BRST 散射论;全局商空间、拓扑扇区及在其边界上的 BRST 实现需要额外分析.这一边界限定了已证明结论的范围.

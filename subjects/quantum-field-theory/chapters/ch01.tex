@@ -1,0 +1,59 @@
+\originalchapter{相对论、局域性与场的自由度}\label{ch:qft-prerequisites}
+\originalsection{从单粒子波函数到场}
+非相对论量子力学把粒子数固定, 用 $N$ 个位置变量上的波函数描述状态. 这在能量不足以产生新粒子的条件下很有效. 但碰撞能量若超过静质量阈值, 同一初态可能演变为不同粒子数的末态. 希尔伯特空间就不能只保留一个固定 $N$ 的子空间. 本册所需的量子力学先修是态矢量、算符、谐振子和含时微扰; 这些在本仓库的量子力学卷已经建立. 场论中新的工作是建立允许粒子产生与湮灭、同时保持相对论局域性的动力学.
+
+场是给每个时空点赋值的对象. 经典实标量场 $\phi(x)$ 在每点给一个实数; 量子场 $\hat\phi(x)$ 在每点给一个作用于态空间的算符分布. 后一个限定很重要: 场在一个点的乘积可能发散, 因而先用平滑试验函数 $f$ 定义 $\hat\phi(f)=\int \mathrm d^4x\,f(x)\hat\phi(x)$. 普通点值公式是这种分布记号的简写. 场并不是把某一粒子的波函数换了名字: 量子场作用于真空时可以产生一粒子态, 连续作用可以产生多粒子态.
+
+为什么不直接把薛定谔方程改成相对论方程? 对自由粒子取 $E^2=\mathbf p^2+m^2$ 得到 Klein--Gordon 方程 $(\partial_t^2-\nabla^2+m^2)\psi=0$. 它允许 $\exp(\mp\ii E_{\mathbf p}t+\ii\mathbf p\cdot\mathbf x)$ 两支解. 把方程乘 $\psi^*$ 再减去其共轭可得连续性方程, 但其密度为 $\rho=\ii(\psi^*\dot\psi-\dot\psi^*\psi)/(2m)$. 正频解给正密度, 负频解给负密度. 这不适合作为一般单粒子概率密度. 把该守恒量理解成可正可负的电荷, 再把两支模量子化为粒子与反粒子, 才同时得到能量非负和合理的电荷解释. 这条论证指出固定粒子数解释的障碍, 不声称仅凭这一例就证明了全部量子场论公理.
+
+局域性给另一条限制. 相隔很远的仪器不应因为对同一数学波函数作不同分解而即时传递信息. 相对论要求类空分离的局域可观测量可交换. 其精确自由场实现将在传播子章证明; 在本章先把它视为要满足的物理目标. 同一场论语言也适用于凝聚态, 其中声子等粒子是连续介质的正常模激发, 光速并不一定是有效理论的传播速度.
+
+\originalsection{四维记号与光锥}
+本册统一取 $c=\hbar=1$, 即时间与长度具有相同量纲, 能量与质量具有相同量纲. 四维坐标为 $x^\mu=(t,\mathbf x)$, 四动量为 $p^\mu=(E,\mathbf p)$, 希腊指标遍历 $0,1,2,3$, 拉丁空间指标遍历 $1,2,3$. 重复的一个上指标和一个下指标表示求和. 度规取 $\eta_{\mu\nu}=\operatorname{diag}(1,-1,-1,-1)$; 降指标得到 $x_\mu=(t,-\mathbf x)$, 所以 $p\cdot x=Et-\mathbf p\cdot\mathbf x$ 和 $p^2=E^2-\mathbf p^2$. 对坐标的导数是 $\partial_\mu=\partial/\partial x^\mu=(\partial_t,\boldsymbol\nabla)$, 而 $\partial^\mu=(\partial_t,-\boldsymbol\nabla)$, 因而 $\Box=\partial_\mu\partial^\mu=\partial_t^2-\nabla^2$.
+
+两事件之差满足 $(x-y)^2>0$, $=0$, $<0$ 时分别称为类时、类光、类空. 有质量自由粒子的质量壳为 $p^2=m^2$, 正能支 $E_{\mathbf p}=\sqrt{\mathbf p^2+m^2}$. MIT 所选原件通常采用相反的度规 $(-+++)$. 因而原件里的 $p^2=-m^2$ 转为本书的 $p^2=m^2$; 物理能量、空间动量及平面波 $\e^{-\ii Et+\ii\mathbf p\cdot\mathbf x}$ 不变. 不能只替换质量壳而不同时替换拉格朗日量、Clifford 代数等相关符号.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9,>=Stealth]
+\draw[->] (-2.7,0)--(2.9,0) node[right] {$x$};
+\draw[->] (0,-2.3)--(0,2.7) node[above] {$t$};
+\draw[structurecolor] (-2.2,-2.2)--(2.2,2.2);
+\draw[structurecolor] (-2.2,2.2)--(2.2,-2.2);
+\node at (0,1.7) {未来类时}; \node at (0,-1.7) {过去类时};
+\node at (2,0.7) {类空};\node at (-2,0.7) {类空};
+\node[below left] at (0,0) {$O$};
+\end{tikzpicture}
+\end{center}
+图示是一个空间方向上的光锥截面. 斜线表示 $|x|=|t|$, 不是粒子的确定轨迹; 斜线外的事件不能由原点发出的亚光速信号到达.
+
+\originalsection{洛伦兹变换与不变量}
+\begin{definition}
+洛伦兹变换是满足 $\Lambda^{\mathsf T}\eta\Lambda=\eta$ 的实矩阵, 作用为 $x'^\mu=\Lambda^\mu{}_{\nu}x^\nu$. 本册讨论的连续变换属于固有正时分支 $\det\Lambda=1$, $\Lambda^0{}_0\ge1$; 宇称、时间反演另外处理.
+\end{definition}
+沿 $x$ 方向速度 $v$ 的被动变换为 $t'=\gamma(t-vx)$, $x'=\gamma(x-vt)$, 其中 $\gamma=(1-v^2)^{-1/2}$. 代入得 $t'^2-x'^2=t^2-x^2$. 写 $v=\tanh\chi$ 后, $\gamma=\cosh\chi$, $\gamma v=\sinh\chi$; 快度 $\chi$ 在同方向 boost 下相加, 因为双曲旋转矩阵直接相乘. 空间转动同样属于洛伦兹变换, 但欧氏角与快度具有不同符号的二次型.
+
+标量场在两套坐标中描述同一物理值: $\phi'(x')=\phi(x)$, 等价于 $\phi'(x)=\phi(\Lambda^{-1}x)$. 矢量场还变换其分量, $A'^\mu(x')=\Lambda^\mu{}_{\nu}A^\nu(x)$. 所以 $\partial_\mu\phi\partial^\mu\phi$ 和 $A_\mu A^\mu$ 是标量. 坐标体积元变为 $\mathrm d^4x'=|\det\Lambda|\mathrm d^4x=\mathrm d^4x$; 因此积分一个标量拉格朗日密度可以构造洛伦兹不变作用量. 无穷小变换写作 $\Lambda^\mu{}_{\nu}=\delta^\mu{}_{\nu}+\omega^\mu{}_{\nu}$, 矩阵条件的一阶项要求 $\omega_{\mu\nu}=-\omega_{\nu\mu}$, 正好有六个独立参数.
+
+\begin{proposition}\label{prop:mass-shell-measure}
+在固有正时洛伦兹变换下, 正能质量壳上的测度 $\mathrm d^3p/(2E_{\mathbf p})$ 不变.
+\end{proposition}
+\begin{proof}
+先用四维写法保留质量壳条件:
+\[
+\int \mathrm d^4p\,\theta(p^0)\delta(p^2-m^2)F(p)
+=\int\frac{\mathrm d^3p}{2E_{\mathbf p}}F(E_{\mathbf p},\mathbf p).
+\]
+这由 $\delta((p^0)^2-E_{\mathbf p}^2)=[\delta(p^0-E_{\mathbf p})+\delta(p^0+E_{\mathbf p})]/(2E_{\mathbf p})$ 及正能限制得到. 左式的体积元、$p^2$ 和正能支分别保持, 因而右式测度保持. 对测试函数的等式说明是测度协变; 若 $F$ 本身也是标量, 积分才是标量数值. 同理, 三维 delta 分布的雅可比给 $E_{\mathbf p}\delta^{(3)}(\mathbf p-\mathbf q)$ 不变. 这里比较的是同一个质量壳上的两点, 不把任意离壳三维 delta 当作四维标量.
+\end{proof}
+
+\originalsection{连续介质的最短场论入口}
+取一维链, 格距 $a$, 第 $n$ 个质量块位移 $q_n(t)$, 拉格朗日量为
+\[
+L_a=\sum_n\left[\frac{\rho a}{2}\dot q_n^2-\frac{T}{2a}(q_{n+1}-q_n)^2-\frac{\rho a\Omega^2}{2}q_n^2\right].
+\]
+$\rho$ 是单位长度质量, $T$ 是拉伸能的系数, $\Omega$ 是局部恢复频率. 对波长远大于 $a$ 的位移令 $q_n=\phi(na,t)$, 有 $q_{n+1}-q_n=a\partial_x\phi+\order(a^2)$, $\sum_n a\to\int\mathrm dx$. 因而
+\[
+L=\int\mathrm dx\,\left[\frac\rho2\dot\phi^2-\frac T2(\partial_x\phi)^2-\frac{\rho\Omega^2}{2}\phi^2\right],\qquad
+\omega_k^2=\Omega^2+\frac T\rho k^2.
+\]
+最后的色散关系由场方程对 $\e^{-\ii\omega t+\ii kx}$ 代入得到. 若先对有限链作离散 Fourier 变换, 每个 $k$ 模就是谐振子, 再取连续极限就得到下一章所需的场的正则坐标与动量. 场的无限自由度来自把 $n$ 的离散标签换成连续空间, 而量子化仍以谐振子为基础. 格距作为有效理论的紫外截止, 不能把长波近似延伸到 $|k|a\sim1$ 而仍称其精确.

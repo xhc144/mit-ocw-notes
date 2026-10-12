@@ -1,0 +1,362 @@
+\originalchapter{量子电动力学的重整化与可观测修正}
+\label{ch:qed-renormalization}
+
+前面的一圈图已经表明,传播子和顶角并不保持自由理论的形式.本章要解决的不是把一个无穷大的积分改成某个有限数,而是说明:哪些参数由实验定义,哪些局域反项能把图的发散吸收,以及对称性怎样使这些定义彼此相容.随后我们用同一套规则计算两个可观测效应:电子的异常磁矩和电荷的屏蔽.全章采用 $g_{\mu\nu}=\diag(1,-1,-1,-1)$,$D_\mu=\partial_\mu+\ii eA_\mu$,所以相互作用为 $-e\bar\psi\gamma^\mu\psi A_\mu$.这里 $e$ 是带符号的电荷参数;涉及强度的结果只依赖 $\alpha=e^2/(4\pi)$.
+
+\originalsection{裸量、极点与反项}
+
+裸拉格朗日量是正则化后路径积分的输入.它的参数带下标 $B$,不是实验直接测到的量.把裸场和重整化场联系起来,写成
+\begin{equation}
+ \psi_B=Z_2^{1/2}\psi,\qquad A_{B\mu}=Z_3^{1/2}A_\mu,
+ \qquad e_B=\mu^{\epsilon/2}\frac{Z_1}{Z_2Z_3^{1/2}}e,
+ \qquad d=4-\epsilon .
+ \label{eq:qed-bare-ren}
+\end{equation}
+$\mu$ 有质量量纲,使 $e$ 在延拓后的维数中仍无量纲.$Z_1$ 是顶角的重整化常数,$Z_2$ 和 $Z_3$ 分别对应费米子和光子的动能.质量反项暂用一个独立记号 $\delta m_L$,定义
+\begin{equation}
+ Z_2m_B=m+\delta m_L .
+ \label{eq:qed-mass-ct-definition}
+\end{equation}
+这使质量反项的符号可以直接从拉格朗日量辨认,而不会与 $m_B-m$ 混淆.
+
+代入裸作用量并令 $\delta Z_i=Z_i-1$,便得到
+\begin{align}
+ \Lag_0&=\bar\psi(\ii\slashed{\partial}-m)\psi
+              -\frac14F_{\mu\nu}F^{\mu\nu}
+              -\frac1{2\xi}(\partial_\mu A^\mu)^2,\notag\\
+ \Lag_I&=-\mu^{\epsilon/2}e\bar\psi\gamma^\mu\psi A_\mu,\notag\\
+ \Lag_{\rm ct}&=\delta Z_2\bar\psi\ii\slashed{\partial}\psi
+       -\delta m_L\bar\psi\psi
+       -\frac{\delta Z_3}{4}F_{\mu\nu}F^{\mu\nu}
+       -\mu^{\epsilon/2}e\delta Z_1\bar\psi\gamma^\mu\psi A_\mu .
+ \label{eq:qed-ct-lagrangian}
+\end{align}
+取 $\xi_B=Z_3\xi$ 后,规范固定项保持所写的形式.它不引入独立的物理反项.费米子二点反项的费曼顶角是 $\ii(\delta Z_2\slashed p-\delta m_L)$,三点反项是 $-\ii e\delta Z_1\gamma^\mu$;每个符号都可以由 $\ii\Lag_{\rm ct}$ 恢复.
+
+定义一粒子不可约电子自能的插入为 $-\ii\Sigma(p)$.自由传播子与自能插入组成几何级数,因此
+\begin{equation}
+ S(p)=\frac{\ii}{\slashed p-m-\Sigma_R(p)+\ii0},\qquad
+ \Sigma_R=\Sigma_{\rm loop}-\delta Z_2\slashed p+\delta m_L.
+ \label{eq:qed-electron-full-propagator}
+\end{equation}
+这里分母表示自旋空间矩阵的逆.洛伦兹不变性和宇称给出 $\Sigma(p)=A(p^2)\slashed p+B(p^2)m$.在壳方案选 $m$ 为物理极点质量,并把极点留数归一成一,要求
+\begin{equation}
+ \Sigma_R(\slashed p=m)=0,\qquad
+ \left.\frac{\dd\Sigma_R}{\dd\slashed p}\right|_{\slashed p=m}=0.
+ \label{eq:qed-os-conditions}
+\end{equation}
+导数是沿 $p^2=(\slashed p)^2$ 所定义的矩阵函数展开,而不是在固定 $p^2$ 时只对显式的 $\slashed p$ 求导.于是 $\delta Z_2=\Sigma'_{\rm loop}(m)$,$\delta m_L=m\delta Z_2-\Sigma_{\rm loop}(m)$.这种写法也说明质量反项和场反项分别控制极点位置与留数.
+
+\begin{remark}
+有质量电子仍能发出任意软的光子,严格的无红外截断 QED 中,带电场的二点函数不具有简单的孤立粒子极点.本章的在壳留数条件是在逐阶微扰论中,保持红外调节器时使用的条件;去掉调节器要与可观测量中的实软光子贡献合并.不能把这一微扰构造当作带电粒子严格非微扰谱的证明.
+\end{remark}
+
+\originalsection{电子自能的一圈参数积分}
+
+为了辨认反项,先在 Feynman 规范 $\xi=1$ 下计算.给光子引入质量参数 $\rho$,仅用于追踪软区;规范恒等式与紫外反项应在保持规范不变的正则化中定义,$\rho\to0$ 只在红外有限的结果中取.环积分为
+\begin{equation}
+ -\ii\Sigma_1(p)=(-\ii e)^2\mu^\epsilon
+ \int\frac{\dd^dk}{(2\pi)^d}
+ \gamma^\mu\frac{\ii(\slashed p-\slashed k+m)}{(p-k)^2-m^2+\ii0}
+ \gamma^\nu\frac{-\ii g_{\mu\nu}}{k^2-\rho^2+\ii0}.
+ \label{eq:qed-self-loop}
+\end{equation}
+先把分母合并,再处理分子,能使紫外结构一目了然.给电子分母权重 $x$,令 $\ell=k-xp$,则
+\begin{equation}
+ \frac1{[k^2-\rho^2][(p-k)^2-m^2]}
+ =\int_0^1\frac{\dd x}{(\ell^2-\Delta+\ii0)^2},\qquad
+ \Delta=xm^2+(1-x)\rho^2-x(1-x)p^2.
+ \label{eq:qed-self-delta}
+\end{equation}
+在 $d$ 维中,$\gamma^\mu\gamma^\alpha\gamma_\mu=(2-d)\gamma^\alpha$,$\gamma^\mu\gamma_\mu=d$.对称积分消去 $\slashed\ell$,所以分子成为
+\begin{equation}
+ N_d=(2-d)(1-x)\slashed p+dm.
+\end{equation}
+由 Wick 转动后的高斯积分,得到一个保留所有 $d$ 维有限项的表达式
+\begin{equation}
+ \Sigma_1(p)=\frac{e^2\mu^\epsilon}{(4\pi)^{d/2}}
+ \Gamma(2-d/2)\int_0^1\dd x\,N_d
+ (\Delta-\ii0)^{d/2-2}.
+ \label{eq:qed-self-parameter}
+\end{equation}
+$\Gamma(2-d/2)=\Gamma(\epsilon/2)$,因此本书的发散因子是
+\begin{equation}
+ \mathcal D_\epsilon=\frac2\epsilon-\gamma_E+\log4\pi,
+ \qquad
+ \Sigma_1=\frac{e^2}{16\pi^2}\int_0^1\dd x\,
+ \left[(-2(1-x)\slashed p+4m)
+ \left(\mathcal D_\epsilon-\log\frac{\Delta-\ii0}{\mu^2}\right)
+ +2(1-x)\slashed p-2m\right]+\order(\epsilon).
+ \label{eq:qed-self-expanded}
+\end{equation}
+最后两项来自 $N_d$ 的 $\epsilon$ 部分乘以 $2/\epsilon$,不能为了只用四维伽马矩阵而提前删掉.$\Sigma$ 有质量量纲一,参数积分的对数是无量纲量,因而公式的量纲也得到检查.
+
+只取极点部分,积分 $\int_0^1(1-x)\dd x=1/2$ 给出
+\begin{equation}
+ \Sigma_{1,\rm div}=\frac{e^2}{16\pi^2}\mathcal D_\epsilon
+                 (-\slashed p+4m).
+\end{equation}
+相应的 $\overline{\rm MS}$ 反项为
+\begin{equation}
+ \delta Z_2=-\frac{e^2}{16\pi^2}\mathcal D_\epsilon,
+ \qquad \delta m_L=-\frac{4e^2m}{16\pi^2}\mathcal D_\epsilon,
+ \qquad Z_m\equiv\frac{m_B}{m}
+       =1-\frac{3e^2}{16\pi^2}\mathcal D_\epsilon+\order(e^4).
+ \label{eq:qed-one-loop-z2-zm}
+\end{equation}
+在壳方案还有由条件 \eqref{eq:qed-os-conditions} 决定的有限项,不能把这里的 $\overline{\rm MS}$ 常数当成在壳常数.尤其在 $p^2=m^2$ 时 $\Delta\to x^2m^2$,对自能求导会在端点产生 $\int\dd x/x$;这是红外发散,不是新紫外反项的证据.
+
+\originalsection{Ward 恒等式与电荷的普适性}
+
+定义去掉整体 $-\ii e$ 的完整一粒子不可约顶角为 $\Gamma^\mu(p',p)$,使树图 $\Gamma^\mu=\gamma^\mu$;设 $q=p'-p$.也定义去掉传播子整体 $\ii$ 的逆核 $\mathcal S^{-1}(p)=\slashed p-m-\Sigma(p)$.规范不变性对它们施加
+\begin{equation}
+ q_\mu\Gamma^\mu(p',p)=\mathcal S^{-1}(p')-\mathcal S^{-1}(p).
+ \label{eq:ward-takahashi-qed}
+\end{equation}
+要理解右侧为什么不是零,需要保留离壳外腿.一个光子插在带电线中间,收缩其动量后,相当于比较这条线上两个端点的电荷变化;只有在外腿满足运动方程后端点才消失.
+
+这个结论可以直接由路径积分得到.无穷小变换
+\begin{equation}
+ \delta A_\mu=\partial_\mu\chi,\qquad
+ \delta\psi=-\ii e\chi\psi,\qquad
+ \delta\bar\psi=\ii e\chi\bar\psi
+\end{equation}
+不改变规范不变作用量与矢量 QED 的积分测度.规范固定项变分为
+$-\xi^{-1}\int(\partial\cdot A)\Box\chi$;源项的变分则在费米子插入点产生电荷接触项.对费米子源各求一次导数,分部积分,再 Fourier 变换,这些接触项分别给出 $S(p)$ 与 $S(p')$.三点函数有分解
+$G^\mu=D^{\mu\nu}(q)S(p')(-\ii e\Gamma_\nu)S(p)$.
+利用规范固定项确定的纵向光子传播子,并从左、右乘以电子逆传播子,即得 \eqref{eq:ward-takahashi-qed}.这一过程要求调节器和反项保持矢量规范对称性;任意截去一个发散积分的高动量部分,未必满足它.
+
+还可以在一圈层面复核.对内部电子线使用
+\begin{equation}
+ \slashed q=[\slashed p'-\slashed k-m]-[\slashed p-\slashed k-m],
+\end{equation}
+于是夹在两个电子传播核之间的 $\slashed q$ 把两条分母约去一条.顶角图的收缩正好成为两个自能图之差.因此若 $\Gamma=\gamma+\Lambda$,则
+$q_\mu\Lambda^\mu=-\Sigma(p')+\Sigma(p)$,与一般恒等式一致.
+
+令 $q\to0$,可得
+\begin{equation}
+ \Gamma^\mu(p,p)=\gamma^\mu-\frac{\partial\Sigma(p)}{\partial p_\mu}.
+ \label{eq:ward-zero-transfer}
+\end{equation}
+局域动能反项的导数为 $\delta Z_2\gamma^\mu$,顶角反项为 $\delta Z_1\gamma^\mu$;两个式子相容的条件是
+\begin{equation}
+ Z_1=Z_2,\qquad e_B=\mu^{\epsilon/2}Z_3^{-1/2}e.
+ \label{eq:qed-z1-z2}
+\end{equation}
+这是逐阶的等式,不只是一圈恰巧相等.它解释了电荷重整化为什么只由光子场的重整化决定:不同粒子的质量和自能可以差别很大,却不因此改变相同裸电荷之间的比例.若电荷是 $Q_ie$,各物种的顶角与动能 Ward 恒等式都消去它自己的 $Z_{2i}$,剩下同一个 $Z_3$.
+
+对更多外腿重复源微分,会得到一般 Ward 恒等式:光子动量收缩等于对每条带电外腿的动量平移之差.将带电腿在壳并做截肢后,右侧为零.因此振幅满足 $q_\mu\mathcal M^\mu=0$,外光子的 $\varepsilon_\mu\to\varepsilon_\mu+cq_\mu$ 不改变结果.中性外腿可以保持离壳;真正需要消去接触项的是带电外腿.
+
+\originalsection{光子自能的横向结构}
+
+光子的纵向部分首先由规范固定决定.定义
+\begin{equation}
+ P_T^{\mu\nu}=g^{\mu\nu}-\frac{q^\mu q^\nu}{q^2},\qquad
+ P_L^{\mu\nu}=\frac{q^\mu q^\nu}{q^2}.
+\end{equation}
+它们满足 $P_T^2=P_T$,$P_L^2=P_L$,$P_TP_L=0$.对光子源求两次导数的 Ward 恒等式要求
+$q_\mu D^{\mu\nu}(q)=-\ii\xi q^\nu/(q^2+\ii0)$,因此自能必须横向.我们采用以下自能标量的符号定义:
+\begin{equation}
+ \ii\Pi^{\mu\nu}(q)=\ii(q^2g^{\mu\nu}-q^\mu q^\nu)\Pi(q^2),\qquad
+ D^{\mu\nu}(q)=\frac{-\ii}{q^2+\ii0}
+  \left(\frac{P_T^{\mu\nu}}{1-\Pi(q^2)}+\xi P_L^{\mu\nu}\right).
+ \label{eq:qed-photon-dyson-sign}
+\end{equation}
+这个定义约定了 $\Pi$ 的符号;另一些教材把张量前因子取反,相应的标量与分母也必须同时取反.
+
+在四维有质量电子的真空中,$\Pi(q^2)$ 在 $q^2=0$ 附近无 $1/q^2$ 奇点,因而横向逆传播子仍含整体 $q^2$,不产生光子质量.这里的正则性是假设的重要部分:单独的横向性不能排除 $\Pi\sim1/q^2$.二维 Schwinger 模型、Higgs 相或介质中的集体激发,不能由这段论证排除.在壳光子场归一化条件是 $\Pi_R(0)=0$.
+
+\originalsection{形状因子与异常磁矩}
+
+现在让两个电子外腿在壳,$p'^2=p^2=m^2$.宇称守恒的电磁顶角,在夹于在壳旋量之间后,只需要两个独立形状因子:
+\begin{equation}
+ \bar u(p')\Gamma^\mu(p',p)u(p)
+ =\bar u(p')\left[\gamma^\mu F_1(q^2)
+       +\frac{\ii\sigma^{\mu\nu}q_\nu}{2m}F_2(q^2)\right]u(p),
+ \qquad \sigma^{\mu\nu}=\frac{\ii}{2}[\gamma^\mu,\gamma^\nu].
+ \label{eq:qed-form-factors}
+\end{equation}
+为什么是两个？洛伦兹协变性允许 $\gamma^\mu$、$(p'+p)^\mu$、$q^\mu$ 等结构;在壳 Dirac 方程把其余 $\slashed p$ 和 $\slashed p'$ 化为 $m$.电流守恒消去一般 $q^\mu$ 项,而 Gordon 恒等式将 $(p'+p)^\mu$ 与 $\sigma^{\mu\nu}q_\nu$ 联系起来.
+
+\begin{proposition}[Gordon 恒等式]
+若 $(\slashed p-m)u(p)=0$,$\bar u(p')(\slashed p'-m)=0$,则
+\begin{equation}
+ 2m\bar u(p')\gamma^\mu u(p)
+ =\bar u(p')\left[(p'+p)^\mu+\ii\sigma^{\mu\nu}q_\nu\right]u(p).
+\end{equation}
+\end{proposition}
+\begin{proof}
+把左侧写成 $\bar u(\slashed p'\gamma^\mu+\gamma^\mu\slashed p)u$.
+分解 $p'$ 与 $p$ 为半和、半差,再用
+$\{\gamma^\mu,\gamma^\nu\}=2g^{\mu\nu}$,便得到
+$(p'+p)^\mu+\tfrac12q_\nu[\gamma^\nu,\gamma^\mu]$.
+由 $\sigma^{\mu\nu}=\ii[\gamma^\mu,\gamma^\nu]/2$,第二项正好是 $\ii\sigma^{\mu\nu}q_\nu$.
+\end{proof}
+
+$F_1(0)=1$ 表达电荷的实验定义和 Ward 恒等式,$F_2(0)$ 描述 Dirac 最小耦合之外的自旋响应.在缓慢变化的背景场中,第二项等效于 Pauli 项
+\begin{equation}
+ \Lag_{\rm Pauli}=-\frac{eF_2(0)}{4m}
+       \bar\psi\sigma^{\mu\nu}\psi F_{\mu\nu}.
+ \label{eq:qed-pauli-term}
+\end{equation}
+其算符维数为五,系数维数为 $-1$.它作为低能有效作用中的有限项出现,并不要求四维可重整 QED 增加一个任意的裸参数.
+
+为了看到它测量什么,在 Dirac 基底写
+$\psi=\e^{-\ii mt}(\Phi,X)^T$,令 $\boldsymbol\pi=-\ii\nabla-e\boldsymbol A$.低速时小分量满足
+$X=(\boldsymbol\sigma\cdot\boldsymbol\pi)\Phi/(2m)+\order(v^2)$.
+又有
+\begin{equation}
+ [\pi_i,\pi_j]=\ii e\epsilon_{ijk}B_k,\qquad
+ (\boldsymbol\sigma\cdot\boldsymbol\pi)^2
+       =\boldsymbol\pi^2-e\boldsymbol\sigma\cdot\boldsymbol B.
+\end{equation}
+把小分量代回大分量方程,加上 \eqref{eq:qed-pauli-term},得到
+\begin{equation}
+ \ii\partial_t\Phi=
+ \left[\frac{\boldsymbol\pi^2}{2m}+eA_0
+ -\frac{e}{2m}(1+F_2(0))\boldsymbol\sigma\cdot\boldsymbol B\right]\Phi
+ +\order(v^3).
+ \label{eq:qed-pauli-hamiltonian}
+\end{equation}
+故 $\boldsymbol\mu=g\,e\boldsymbol S/(2m)$,$\boldsymbol S=\boldsymbol\sigma/2$,并且
+\begin{equation}
+ g=2[1+F_2(0)],\qquad a\equiv\frac{g-2}{2}=F_2(0).
+\end{equation}
+对于电子,带符号电荷为负,磁矩方向也随之反向,而 $a$ 的数值仍为正.
+
+一圈顶角包含两个电子分母和一个光子分母.给它们参数 $x,y,z$,$x+y+z=1$,并平移环动量以完成平方,在壳时统一分母为
+\begin{equation}
+ (\ell^2-\Delta_v+\ii0)^3,\qquad
+ \Delta_v=m^2(x+y)^2+\rho^2z-xyq^2.
+\end{equation}
+分子是 $\gamma^\alpha(\slashed p'-\slashed k+m)
+\gamma^\mu(\slashed p-\slashed k+m)\gamma_\alpha$.
+含 $\ell$ 的奇次项积分为零;含 $\ell^2$ 的对称部分只乘 $\gamma^\mu$,影响 $F_1$.对余下部分使用在壳方程与 Gordon 恒等式,$(p+p')^\mu$ 的系数正比于 $2m(x+y)z$.这里不能一开始就令 $p'=p$:那会把需要提取的 $q$ 线性自旋项一起删掉.先分离这项,再用
+\begin{equation}
+ \int\frac{\dd^4\ell_E}{(2\pi)^4}
+       \frac1{(\ell_E^2+\Delta_v)^3}=\frac1{32\pi^2\Delta_v},
+\end{equation}
+得到有限的参数积分
+\begin{equation}
+ F_2(q^2)=\frac{e^2}{4\pi^2}
+ \int_0^1\dd z\int_0^{1-z}\dd x\,
+ \frac{m^2z(1-z)}{m^2(1-z)^2+\rho^2z-x(1-z-x)q^2}
+ +\order(e^4).
+ \label{eq:qed-schwinger-parameter}
+\end{equation}
+这个双重积分本身给出可复核的归一化:$F_2$ 无量纲,紫外有限;当 $q^2=0$,$\rho\to0$,分子分母约去后,内积分区间长度为 $1-z$,所以
+\begin{equation}
+ F_2(0)=\frac{e^2}{4\pi^2}\int_0^1z\dd z
+       =\frac{e^2}{8\pi^2}=\frac\alpha{2\pi},\qquad
+ g=2+\frac\alpha\pi+\order(\alpha^2).
+ \label{eq:qed-schwinger-result}
+\end{equation}
+这就是 Schwinger 的一圈异常磁矩.这里计算的是最低阶系数;高阶 QED、电弱和强相互作用修正都超出本次一圈推导.
+
+\originalsection{软光子与包容截面}
+
+$F_2(0)$ 有限,并不意味着整个在壳顶角红外有限.当环中光子动量 $k\to0$,两个在壳电子分母都线性趋于零,光子分母二次趋于零,积分有 $\int\dd^4k/k^4$ 的对数发散.探测器却不能把能量低于分辨率 $\Delta E$ 的光子与没有光子的末态区分开.因此实验对应
+\begin{equation}
+ \sigma_{\rm incl}(\Delta E)
+  =\sigma_{\rm virtual}(a\to b)
+   +\sigma_{\rm real}(a\to b+\gamma,\ E_\gamma<\Delta E)
+\end{equation}
+至相同微扰阶数,而不是单独的排他截面.
+
+其抵消机制可以从软因子看出.若各带电外腿电荷为 $eQ_i$,$\eta_i=+1$ 表示出射、$-1$ 表示入射,软发射振幅的主项为
+\begin{equation}
+ \mathcal M_{\rm soft}(k,\varepsilon)
+   =e\mathcal M_0\sum_i\eta_iQ_i
+          \frac{p_i\cdot\varepsilon^*}{p_i\cdot k}.
+ \label{eq:qed-soft-factor}
+\end{equation}
+因为相邻外腿传播子的分母是 $2p_i\cdot k$,而在壳分子给出 $2p_i^\mu$,这个因子可由外腿图直接恢复.电荷守恒 $\sum_i\eta_iQ_i=0$ 保证它对 $\varepsilon\to\varepsilon+ck$ 不变.平方后积分相空间 $\dd^3k/[(2\pi)^3 2\omega_k]$,径向部分为 $\int_\rho^{\Delta E}\dd\omega/\omega$.虚软光子环带来相同角向系数、相反符号的 $\log\rho$,于是调节器消去而留下 $\Delta E$ 的真实依赖.本段说明一圈软抵消的结构;对一般退化初末态的全阶包容性结论需要更完整的红外定理,不能把这一因子演算当作全阶证明.
+
+\originalsection{真空极化与电荷屏蔽}
+
+光子的一圈图是闭合电子环,包含额外的费米环负号:
+\begin{equation}
+ \ii\Pi^{\mu\nu}_1(q)=(-1)(-\ii e)^2\mu^\epsilon
+ \int\frac{\dd^dk}{(2\pi)^d}
+ \tr\left[\gamma^\mu\frac{\ii(\slashed k+m)}{k^2-m^2+\ii0}
+ \gamma^\nu\frac{\ii(\slashed k+\slashed q+m)}{(k+q)^2-m^2+\ii0}\right].
+ \label{eq:qed-vacuum-polarization-loop}
+\end{equation}
+用 $\tr(\gamma^\mu\gamma^\nu)=4g^{\mu\nu}$ 与四伽马迹,合并分母并令 $\ell=k+xq$.分母参数是
+$\Delta_\gamma=m^2-x(1-x)q^2$.
+张量积分必须在 $d$ 维中使用
+$\int\ell^\mu\ell^\nu f(\ell^2)=g^{\mu\nu}\int\ell^2f(\ell^2)/d$,不能对一个发散积分提前写成 $1/4$.Wick 转动后,高斯积分或分部积分给出
+\begin{equation}
+ \left(1-\frac2d\right)
+ \int\frac{\dd^d\ell_E}{(2\pi)^d}
+ \frac{\ell_E^2}{(\ell_E^2+\Delta_\gamma)^2}
+ =-\Delta_\gamma\int\frac{\dd^d\ell_E}{(2\pi)^d}
+       \frac1{(\ell_E^2+\Delta_\gamma)^2}.
+ \label{eq:qed-vacpol-transverse-integral}
+\end{equation}
+例如把 $\ell_E^2$ 写成 $(\ell_E^2+\Delta_\gamma)-\Delta_\gamma$,再代入 Gamma 函数积分即可验证此式.看似二次发散的 $g^{\mu\nu}$ 项由此与质量项组合,最后只剩横向张量.依照 \eqref{eq:qed-photon-dyson-sign} 的符号约定,标量是
+\begin{equation}
+ \Pi_R(q^2)=-\frac{e^2}{2\pi^2}\int_0^1\dd x\,x(1-x)
+ \left[\mathcal D_\epsilon-\log\frac{m^2-x(1-x)q^2-\ii0}{\mu^2}\right]
+ -\delta Z_3+\order(e^4).
+ \label{eq:qed-pi-unsubtracted}
+\end{equation}
+所以 $\delta Z_3=-e^2\mathcal D_\epsilon/(12\pi^2)$ 消去紫外极点.在壳条件 $\Pi_R(0)=0$ 则给出
+\begin{equation}
+ \Pi_{\rm OS}(q^2)=\frac{e^2}{2\pi^2}\int_0^1\dd x\,x(1-x)
+       \log\frac{m^2-x(1-x)q^2-\ii0}{m^2}.
+ \label{eq:qed-pi-os}
+\end{equation}
+当时间样动量 $q^2>4m^2$ 时,对数越过割线而有虚部,表示光子源能产生真实电子正电子对.对空间样动量 $q^2=-Q^2$,此式为正.两个守恒电流之间的纵向传播子消失,横向交换的强度可写成
+\begin{equation}
+ \alpha_{\rm eff}(Q)=\frac{\alpha}{1-\Pi_{\rm OS}(-Q^2)}.
+ \label{eq:qed-effective-charge-os}
+\end{equation}
+在 $Q\gg m$ 区间,参数积分给出
+\begin{equation}
+ \Pi_{\rm OS}(-Q^2)
+ =\frac\alpha{3\pi}\left[\log\frac{Q^2}{m^2}-\frac53\right]
+       +\order\left(\frac{m^2}{Q^2}\log\frac{Q^2}{m^2}\right).
+ \label{eq:qed-pi-large-q}
+\end{equation}
+其中 $\int x(1-x)\dd x=1/6$,$\int x(1-x)\log[x(1-x)]\dd x=-5/18$.短距离的有效电荷更大:在大距离测量时,虚电子正电子对产生的极化云屏蔽了一部分电荷.
+
+\begin{example}
+求低动量真空极化对静电势的首项,并解释它为什么不是远距离 $1/r$ 的改变.
+\end{example}
+\begin{solution}
+将 \eqref{eq:qed-pi-os} 中的对数在 $Q^2/m^2\ll1$ 展开,得
+\begin{equation}
+ \Pi_{\rm OS}(-Q^2)=\frac{e^2Q^2}{2\pi^2m^2}
+        \int_0^1x^2(1-x)^2\dd x+\order(Q^4/m^4)
+       =\frac\alpha{15\pi}\frac{Q^2}{m^2}+\order(Q^4/m^4).
+\end{equation}
+静态交换核为 $\widetilde V(\boldsymbol Q)
+=e_1e_2[1+\Pi_{\rm OS}(-Q^2)]/Q^2$.
+首项 $1/Q^2$ Fourier 变换为 $e_1e_2/(4\pi r)$;修正首项是常数,故在分布意义下是
+$\delta V=e_1e_2\alpha\delta^{(3)}(\boldsymbol r)/(15\pi m^2)$.
+高阶项是接触项的导数.这是适用于低能波函数矩阵元的导数展开;它不表示真实势在所有 $r$ 上都是一个 delta 函数.
+\end{solution}
+
+若保留完整动量依赖,$r>0$ 的修正为 Uehling 势
+\begin{equation}
+ V(r)=\frac{e_1e_2}{4\pi r}\left[1+
+ \frac{2\alpha}{3\pi}\int_1^\infty\dd u\,
+ \e^{-2mru}\left(1+\frac1{2u^2}\right)
+ \frac{\sqrt{u^2-1}}{u^2}\right]+\order(\alpha^2).
+ \label{eq:qed-uehling}
+\end{equation}
+可从动量核的谱表示导出它:参数对数的割线起点是 $Q^2=-4m^2$,其不连续量给出权重
+$(1+2m^2/s)\sqrt{1-4m^2/s}$;减去 $Q=0$ 的值后,$\Pi(-Q^2)/Q^2$ 是权重乘 $1/[s(s+Q^2)]$ 的积分.使用
+$\int\dd^3Q\,\e^{\ii\boldsymbol Q\cdot\boldsymbol r}/[(2\pi)^3(Q^2+s)]
+=\e^{-\sqrt s r}/(4\pi r)$,令 $\sqrt s=2mu$,就得到 \eqref{eq:qed-uehling}.
+这样既保留 $1/r$ 的量纲,也显示屏蔽云的尺度约为 $1/(2m)$.
+
+对 $mr\gg1$,令 $u=1+v$,权重主项为 $\tfrac32\sqrt{2v}$,Laplace 积分给出
+\begin{equation}
+ \frac{\delta V}{V_0}
+ \sim\frac\alpha{4\sqrt\pi}\frac{\e^{-2mr}}{(mr)^{3/2}}.
+\end{equation}
+对 $mr\ll1$,大 $u$ 权重为 $1/u$,故主项是
+$\delta V/V_0\sim 2\alpha\log[1/(mr)]/(3\pi)$.
+大对数表明固定阶展开终会失效.把这类对数组织成尺度依赖的耦合,是重整化群要完成的下一步,而不是把此式外推至任意短距离.

@@ -1,0 +1,255 @@
+                                            Recitation 4-5
+                                                 Wentao Cui
+
+                                               March 10, 2023
+
+
+1     The Path-Integral in Quantum Mechanics
+1.1    Introduction and Interpretation
+Before talking about QFT, we’ll discuss the path-integral in QM, which is no more than a d = 0 + 1
+dimensional QFT. The path-integral formulation of quantum mechanics generalizes the principle of least
+action. It takes in an action S from a classical theory, and it gives you a quantum theory. This idea is
+known as path-integral quantization, and alongside canonical quantization it’s one of the ways we can
+bridge the classical and quantum worlds. By and far, I think the path-integral is the most intuitive.
+
+The path-integral can be broken down into 2 fundamental parts.
+    1. The sole ingredient we feed the path-integral is an action. This is a functional, meaning for each
+       function it returns a number, S : x(t) → R. Now consider the object eiS[x(t)]/ℏ . This is another
+       functional which maps each path to a (now complex) number. The path-integral formulation tells
+       us this is actually a probability density, which associates to each path a weight.
+
+    2. With this probability density, we can compute probabilities. Here one has the formula
+                                             Z x(tb )=xb                     Z tb
+                                                                  iS/ℏ
+                     ⟨xb , tb |A|xa , ta ⟩ =             D[x(t)]Ae     , S=       dτ L(q, q̇)
+                                          x(ta )=xa                               ta
+
+      In particular we can take A = 1 to recover what we call the path-integral.
+                                                             Z x(tb )=xb
+                                  Z := ⟨xb , tb |xa , ta ⟩ =             D[x(t)]eiS/ℏ
+                                                           x(ta )=xa
+
+      That is, to calculate the probability of starting with an initial state at ta and ending up in some fnal
+      state at tb , we have to sum every single possible path from xa to xb , weighted by our density. One
+      may say that the particle takes ‘every path’, and the weights of diferent paths difer by a phase.
+      Note that ‘all possible paths’ includes paths which are not continuous, or those where the particle
+      travels faster than light. This may be eyebrow raising, but is in principle fne–no observables violate
+      causality.
+I’d like to emphasize that the crux of the physics lies in point 1, interpreting the object eiS/ℏ as a
+probability weight. Once you have this, point 2 and everything else is just math, applying the tools of
+probability theory to do calculations.
+
+You’ve all seen this idea before, namely in statistical mechanics. In the canonical ensemble one has the
+Boltzmann weight e−βH , and the partition function is akin to the path integral. Again, we have is a prob-
+ability density associating to each confguration of your system a weight. Both quantum mechanics/feld
+theory and statistical mechanics/feld theory are probabilistic approaches towards doing physics, and the
+very same tools are used in both. Nevertheless, there are 2 major diferences.
+
+                                                      1
+   1. Statistical mechanics takes a deterministic (classical) theory, and uses probabilities to simplify the
+      system so we can compute things. In quantum mechanics probabilities are inherently fundamental
+      to the system.
+   2. In statistical mechanics, the Boltzmann factor is well-damped for confgurations with large energies,
+      and the partition function is convergent. In quantum mechanics the −1 is replaced by an i, which
+      means instead of damping we have phases. The contribution of each path has the same magnitude,
+      meaning the only way to enhance or suppress a confgurations are through superposition of phases:
+      constructive and destructive interference.
+      Having no exponential suppression is problematic due to convergence issues. However, we may fx
+      this via analytic continuation, by adding a small negative real part to the exponential:
+                                            Z
+                                        Z = D[x(t)] exp ((1 + iϵ)iS/ℏ)
+
+      This is akin to the Boltzmann weight in statistical physics. It is by no coincidence that I called this
+      iϵ: it is the same as the iϵ in the Feynman Green’s function, and this is how it manifests in the
+      path-integral formalism.
+
+1.2    The Classical Limit
+We know that quantum mechanics in the limit of ℏ → 0 gives us classical mechanics. Let us see how this
+happens in the path-integral formalism, where we expect to recover the principle of least action. This will
+give us intuition of what it means for a system to be ‘quantum’, as just how ‘quantum’ it can be. Our
+starting point is
+                                               Z
+                                           Z = D[x(t)]eiS/ℏ
+
+As ℏ → 0, the argument of the exponential blows up. The integrand becomes highly oscillatory with
+respect to the choice of path (the integration variable), and one expects no contribution from most points
+of the region of integration, where destructive interference is generic. However, there are stationary points
+where we can have non-trivial contributions.
+
+To see this very explicitly, we consider a toy model that is much simpler. Here the ‘path-integral’ is a
+single integral, and we still have an ℏ factor we can toggle.
+                                                  Z
+                                              z=     dxeif (x)/ℏ
+                                                        R
+
+For instance, we can have f (x) = (x − 2)2 , and consider the integrand as ℏ → 0.                       [DRAW THIS] In a
+general small region x ∈ [a, a + δ], f will oscillate rapidly, and the integral over the region will vanish.
+The exception is if f doesn’t change much near a point, i.e. f ′ (x0 ) = 0. This is called a stationary
+point, and in this case all contributions of points near x0 will interfere constructively. Because f is almost
+constant at x0 , there is enough space for eif /ℏ to contribute before the destructive interference washes it
+out. We can make this explicit by Taylor expanding near x0 , using that the linear term vanishes:
+                                1
+            f (x) = f (x0 ) + (x − x0 )2 f ′′ (x0 ) + · · ·
+                     Z          2                                       
+                                   i               1          2
+                z = dx exp             (f (x0 ) + (x − x0 ) + · · · )
+                                   ℏ               2
+                                Z                                                                              
+                                                 i                            i 1
+                  = eif (x0 )/ℏ dx exp             (x − x0 )2 f ′′ (x0 )   1+      (x − x0 )3 f ′′′ (x0 ) + · · ·
+                                                2ℏ                            ℏ 3!
+                                s
+                                   2πiℏ
+                  = eif (x0 )/ℏ              (1 + higher order)
+                                  f ′′ (x0 )
+
+
+                                                            2
+This is non-zero, and scales inversely with the second derivative at x0 , which measures how quickly f ′ (x)
+stops being zero and destructive interference kicks in. In the last step we have performed a Gaussian
+integral and neglected higher-order terms. This is precisely a saddle-point approximation you might have
+used in statistical mechanics. If there is more than 1 extremum of the action (can be a minima, maxima,
+or saddle), one must sum over all these contributions to obtain the path-integral.
+
+In the path-integral where we integrate over paths (infnitely many degrees of freedom), this works the
+same way. But instead of extremizing f , we are extremizing the action S. In the limit as ℏ → 0 we only
+pick up contributions from paths xc (t) where the functional derivative vanishes,
+                                                      δS
+                                                              =0
+                                                     δx(t) xc
+Much more on functional derivatives later. This equation says that taking the classical limit, the only
+contributing paths are those which don’t vary the action at frst order. This statement is precisely the
+principle of least action.
+
+With this in mind, we can now interpret ℏ. When ℏ is small but non-zero, the dominant trajectories are
+still those extremizing S, but now we have non-negligible contributions from generic paths. Our perfectly
+deterministic principle of least action has now been smeared by quantum fuctuations, giving rise to a
+probabilistic picture. In the opposite limit where ℏ → ∞ the exponential is just 1 for every path: every
+path interferes constructively with every other, and quantum fuctuations wash out all classical order.
+A very general way to think about quantum efects are the fuctuations which smear the determinism
+of classical mechanics, made necessary by all paths contributing to the path-integral. The strength of
+these fuctuations is controlled by ℏ, a constant intrinsic to the theory. This is exactly like in statistical
+mechanics, where the analogous object to ℏ is kB T . At T = 0 your system is in a state which minimizes
+the energy with probability 1. Finite temperatures induce thermal fuctuations which smear out this
+order, and as T → ∞ each microstate has the same contribution to the partition funcition: thermal
+fuctuations wash out all order, and your system has maximal entropy.
+
+
+2     Gaussian Integrals
+In the above, we have used a saddle point approximation to explicitly compute a ‘path-integral’ with a
+single variable of integration. Of critical importance was the Gaussian integrand, which allowed us to
+perform the integral in the frst place. Generically in quantum mechanics and QFT, the path-integrals
+of all free theories can be reduced to computing an infnite number of Gaussian integrals. Even when we
+include interactions, we Taylor expand the theory around a free theory, which gives us again Gaussian
+integrals everywhere. Both here and in SFT the role of the Gaussian integral cannot be overemphasized
+(see: https://en.wikipedia.org/wiki/Common integrals in quantum field theory), so in prepara-
+tion we build up the tools for computing them in fnite dimensions. In fact, you can think of fnite
+dimensional Gaussian integrals as free 0 + 0-dimensional QFTs. These are often called matrix models.
+
+2.1   Gaussian Integrals in 1 Dimension
+The Gaussian distribution in 1 dimension is given by the probability density
+                                                   r
+                                                       a −aϕ2 /2
+                                       p(ϕ ∈ R) =        e
+                                                      2π
+The nth moment is
+                                              2                                            r
+                                    dϕϕn e−aϕ /2
+                                R                                      Z
+                                                                             −aϕ2 /2           2π
+                      ⟨ϕn ⟩ =                    ,           Z(a) :=       dxe         =
+                                      Z(a)                                                      a
+
+                                                         3
+One can think of Z as a primitive partition function or path-integral, but all it does now is act as a
+normalization. In QFT, these moments will correspond to correlation functions. Odd moments vanish
+because the integral is odd. We can compute even moments by diferentiating the normalization integral
+with respect to a:
+                                    ∂n             (−2)n ∂ n               (2n − 1)!!
+                                                             Z
+                              1                                      2
+                       2n
+                    ⟨ϕ ⟩ =                  I(a) =             dϕe−aϕ /2 =
+                             I(a) ∂(− a2 )n         I(a) ∂an                  an
+
+Alternatively we can make use of the generating functional approach, which generalizes nicely to higher
+(and infnite) dimensions. We introduce the generating functional
+                                        r
+                                                                           ∂n
+                      Z
+                           −aϕ2 /2+Jϕ     2π J 2 /2a                  1
+              Z(J) = dϕe              =      e       ,       ⟨xn ⟩ =               Z(J)
+                                           a                         Z(0) ∂J n J=0
+We can explicitly compute J by completing the square (a very important tool when working with path-
+integrals). In the other equation, each J-derivative brings a power of x down into the integrand: taking
+n derivatives and setting J = 0, we recover the n-th moment.
+Now we compute the 2nth moment using the expression for J. The frst J-derivative of Z brings down a
+power of J/a. Since we set J = 0 at the end of the computation, one of the remaining 2n − 1 derivatives
+must hit the factor of J. This gives the recursion relation
+                                       2n − 1 2(n−1)                             (n − 1)!!
+                            ⟨ϕ2n ⟩ =         ⟨ϕ      ⟩        ⇒        ⟨ϕn ⟩ =
+                                         a                                          a
+
+2.2    Gaussian Integrals in n Dimensions
+The Gaussian distribution in n dimensions is given by the probability density
+                                                det A n/2 − 1 ϕi Aij ϕj
+                                                    
+                                     n
+                           p(ϕi ∈ R ) =                    e 2           ,     A⊺ = A
+                                                 2π
+                                            � a n/2 − 1 ϕ ϕ
+For instance, if A = a1 we have p(ϕ) = 2π            e 2 i i . To compute moments we defne the generating
+functional
+                    Z
+                            1                                               1    ∂        ∂
+           Z(J) = dn ϕe− 2 ϕi Aij ϕj +Ji ϕi ,          ⟨ϕi1 · · · ϕik ⟩ =            ···          Z(J)
+                                                                           Z(0) ∂Ji1     ∂Jik J=0
+We can compute the generating functional by completing the square for matrices:
+          1                      1
+         − ϕi Aij ϕj + Ji ϕi = − (ϕi Aij ϕj − 2Ji ϕi ) = (ϕ − A−1 J)i Aij (ϕ − A−1 J)j − Ji A−     1
+                                                                                                 ij Jj
+          2                      2
+                               Z         
+                                             1                       (2π)n 1 −1
+                                                               −1
+                                   n
+                      Z(J) = d ϕ exp − ϕi Aij ϕj − Ji Aij Jj              =        e 2 Ji Aij Jj
+                                             2                               det A
+This is a useful trick. Now we can proceed as the 1D case to calculate correlators. The frst derivative
+ ∂
+∂Jik brings down Aik j Jj , using that A is symmetric. One of the remaining derivatives must eliminate the
+Jj term. Summing over all possibilities one has
+                                               X                           X
+                            ⟨ϕi1 · · · ϕik ⟩ =   ⟨ϕa ϕb ⟩ · · · ⟨ϕc ϕd ⟩ =   A−1        −1
+                                                                              ab · · · Acd
+                                            Wick                       Wick
+The sum is over Wick constractions of the indices {i1 , . . . , ik }. This is the set of all pairs we can form out
+of the indices. A pair is often denoted by a connector, for instance:
+
+         ⟨ϕ1 ϕ2 ϕ3 ϕ4 ⟩ = ⟨ϕ1 ϕ2 ϕ3 ϕ4 ⟩ + ⟨ϕ1 ϕ2 ϕ3 ϕ4 ⟩ + ⟨ϕ1 ϕ2 ϕ3 ϕ4 ⟩ = A−1  −1    −1 −1     −1 −1
+                                                                              12 A34 + A13 A24 + A14 A23
+                                                               1
+For instance, if our Gaussian has A = a1, i.e. p(x) ∝ e− 2 xi xi , then
+                                   ⟨ϕ1 ϕ2 ϕ3 ϕ4 ⟩ = a(δ12 δ34 + δ13 δ24 + δ14 δ23 )
+
+
+                                                          4
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.323 Relativistic Quantum Field Theory I
+Spring 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+
+
+
+                                                       4
+

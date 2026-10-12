@@ -1,0 +1,79 @@
+\originalchapter{路径积分与生成泛函}\label{ch:path-integral}
+\originalsection{从时间切片得到路径积分}
+量子力学中从 $q_i$ 到 $q_f$ 的传播振幅为 $K(q_f,t_f;q_i,t_i)=\bra{q_f}\e^{-\ii H(t_f-t_i)}\ket{q_i}$. 路径积分把这一算符矩阵元改写为对中间位置的多重积分, 并不另设一种动力学. 先取 $H=p^2/(2M)+V(q)$, 把总时间 $T$ 分成 $N$ 段 $\epsilon=T/N$, 在每段之间插入位置完备关系. 在时间切片极限中, 对满足 Trotter 乘积公式条件的自伴 Hamiltonian 分解传播. 在共同光滑核上且短时交换子可控制时, 形式展开写为
+\[
+\e^{-\ii H\epsilon}=\e^{-\ii p^2\epsilon/(2M)}\e^{-\ii V(q)\epsilon}+\order(\epsilon^2).
+\]
+在位置矩阵元中插入 $\int\mathrm dp\ket p\bra p/(2\pi)$, $\braket qp=\e^{\ii pq}$, 得
+\begin{align*}
+\bra{q_{j+1}}\e^{-\ii H\epsilon}\ket{q_j}
+&=\int\frac{\mathrm dp}{2\pi}\,
+\e^{\ii p(q_{j+1}-q_j)-\ii\epsilon p^2/(2M)-\ii\epsilon V(q_j)}+\order(\epsilon^2)\\
+&=\left(\frac M{2\pi\ii\epsilon}\right)^{1/2}
+\exp\left\{\ii\epsilon\left[\frac M2\left(\frac{q_{j+1}-q_j}{\epsilon}\right)^2-V(q_j)\right]\right\}
++\order(\epsilon^2).
+\end{align*}
+振荡高斯积分取与短时幺正传播相容的解析延拓分支. 因此路径积分的具体定义首先是
+\[
+K=\lim_{N\to\infty}\left(\frac M{2\pi\ii\epsilon}\right)^{N/2}
+\int\prod_{j=1}^{N-1}\mathrm dq_j\,
+\exp\left\{\ii\sum_{j=0}^{N-1}\epsilon\left[\frac M2\left(\frac{q_{j+1}-q_j}{\epsilon}\right)^2-V(q_j)\right]\right\},
+\]
+其中 $q_0=q_i$, $q_N=q_f$. 上面的 $\order(\epsilon^2)$ 是此短时核展开的记号, 不由自伴性单独保证算符范数误差; 乘积极限需要相应定义域与收敛条件. 简写为 $\int_{q_i}^{q_f}\mathcal Dq\,\e^{\ii S[q]}$ 时, $\mathcal Dq$ 包含前面不可省略的归一因子. 对一般未限制的势, 这不是已证明存在的普通函数空间 Lebesgue 测度; 本书计算先有时间切片或有限维正则化, 再在可控条件下取极限.
+
+自由粒子 $V=0$ 的多次高斯卷积给 $K_0=\sqrt{M/(2\pi\ii T)}\exp[\ii M(q_f-q_i)^2/(2T)]$. 它对中间位置满足 $K(T_1+T_2)=\int\mathrm dq\,K(T_2)K(T_1)$, 并在 $T\downarrow0$ 分布收敛到 $\delta(q_f-q_i)$. 这两个检验分别核对传播的组合律和归一.
+
+经典极限在暂时恢复 $\hbar$ 后由 $\e^{\ii S/\hbar}$ 的驻相描述. 对普通有限维积分 $\int\mathrm dx\,\e^{\ii f(x)/\hbar}$, 在非退化驻点 $f'(x_c)=0$ 附近展开 $f=f(x_c)+f''(x_c)(x-x_c)^2/2+\cdots$, 得局部贡献 $\e^{\ii f(x_c)/\hbar}\sqrt{2\pi\hbar/|f''(x_c)|}\e^{\ii\pi\operatorname{sgn}f''/4}$. 路径积分中的相应驻点是 $\delta S/\delta q=0$, 即经典运动方程. 这里权重是复振幅, 不是每条路径的非负概率密度; 真实概率由振幅相加后取模平方得到.
+
+\originalsection{高斯积分与 Wick 配对}
+\begin{proposition}\label{prop:gaussian-source}
+设 $A$ 为实对称正定 $n\times n$ 矩阵, $J\in\R^n$. 则
+\[
+Z(J)=\int\mathrm d^nx\,\e^{-x^{\mathsf T}Ax/2+J^{\mathsf T}x}
+=\frac{(2\pi)^{n/2}}{\sqrt{\det A}}\e^{J^{\mathsf T}A^{-1}J/2}.
+\]
+归一高斯平均满足 $\langle x_ix_j\rangle=(A^{-1})_{ij}$, 奇数阶平均为零, 偶数阶平均等于全部两两配对的协方差乘积之和.
+\end{proposition}
+\begin{proof}
+完成平方, $x^{\mathsf T}Ax-2J^{\mathsf T}x=(x-A^{-1}J)^{\mathsf T}A(x-A^{-1}J)-J^{\mathsf T}A^{-1}J$. 对 $A$ 作正交对角化, 每个正本征值 $a_k$ 的一维积分为 $\sqrt{2\pi/a_k}$, 乘积给行列式因子. 每次 $J_i$ 求导在积分内插入 $x_i$, 所以相关函数来自 $Z$ 的导数. 指数只含二次项, 在 $J=0$ 保留下来的导数必须两两作用于同一个 $J$ 对, 于是每个配对产生一个 $(A^{-1})_{ij}$. 例如
+\[
+\langle x_ix_jx_kx_l\rangle
+=(A^{-1})_{ij}(A^{-1})_{kl}+(A^{-1})_{ik}(A^{-1})_{jl}+(A^{-1})_{il}(A^{-1})_{jk}.
+\]
+对 $2r$ 个标号, 第一个可与 $2r-1$ 个中的任一个配对, 余下递归配对, 共 $(2r-1)!!$ 项. 这也是 Wick 规则的有限维证明.
+\end{proof}
+“收缩”只是把一对变量替换成它们的两点函数的简写. 在场论中位置代替有限的标号, 而每条收缩线对应一个传播子. 不是任何分布都服从 Wick 规则: 它依赖自由理论的高斯性质, 相互作用通过微扰展开引入额外插入.
+
+\originalsection{标量场路径积分与真空选择}
+先在有限空间格点上把每个场值当作量子力学坐标, 对全部坐标作上述时间切片. 相空间形式的权重为 $\exp\{\ii\int\mathrm dt\mathrm d^3x[\pi\dot\phi-\mathcal H]\}$. 对 $\pi$ 作高斯积分后恢复 $\exp(\ii S[\phi])$. 这建立正则量子化与场路径积分的连接; 格点与时间切片在公式推导中提供有限维定义.
+
+真空相关函数不同于固定端点的振幅. 在足够早与足够晚的时间投影到真空, 可以把时间演化稍作虚部倾斜, 使激发态相对基态衰减. 对自由场相应地把二次核记为 $K=-(\Box+m^2)+\ii0$, 其动量表达为 $p^2-m^2+\ii0$. 取归一生成泛函
+\begin{equation}\label{eq:Z0-source}
+Z_0[J]=\frac{\int\mathcal D\phi\,\e^{\ii S_0[\phi]+\ii\int J\phi}}
+{\int\mathcal D\phi\,\e^{\ii S_0[\phi]}}
+=\exp\left[-\frac12\int\mathrm d^4x\mathrm d^4y\,J(x)D_F(x-y)J(y)\right].
+\end{equation}
+完成平方给指数 $-\ii JK^{-1}J/2$, 而 $D_F=\ii K^{-1}$, 所以右端的符号与因子已确定. 相关函数由
+\[
+\bra0T\phi(x_1)\cdots\phi(x_n)\ket0
+=\left.\frac1{\ii^n}\frac{\delta^nZ_0[J]}{\delta J(x_1)\cdots\delta J(x_n)}\right|_{J=0}
+\]
+给出. 两次导数给 $-D_F$, 再乘 $1/\ii^2=-1$, 恢复 $D_F$. 四次导数给三种配对, 与高斯命题相同. 对自由场这种关系是由明确的有限维高斯计算得到; 相互作用的无限维构造不由该简写自动保证.
+
+\originalsection{欧氏延拓与统计物理}
+对满足所需解析性、没有在轮廓变形中穿过极点的自由关联函数, 令 $t=-\ii\tau$, 得欧氏作用量
+\[
+S_E=\int\mathrm d\tau\mathrm d^3x\left[\frac12(\partial_\tau\phi)^2+
+\frac12(\nabla\phi)^2+\frac12m^2\phi^2+\frac\lambda{4!}\phi^4\right].
+\]
+当 $m^2>0$, $\lambda\ge0$ 且有有限维正则化时, 权重 $\e^{-S_E}$ 非负并在大场区衰减, 计算比 Minkowski 振荡积分更直接. 无质量且无相互作用的周期场有常数零模, 其积分不衰减; 此时必须先固定或去除零模、选择没有零模的边界条件, 或保留红外调节器. 欧氏自由核是 $K_E=-\partial_E^2+m^2$, 传播子 $G_E(k)=1/(k_E^2+m^2)$. 完成平方给 $Z_E[J]=\exp(JG_EJ/2)$, 与式\eqref{eq:Z0-source}的源约定不同; 不应混用两种指数.
+
+量子统计配分函数 $\Tr\e^{-\beta H}$ 要把欧氏时间做成长度 $\beta=1/T$ 的圆. 玻色场是周期边界, $\phi(\tau+\beta)=\phi(\tau)$, 故频率离散为 $\omega_n=2\pi nT$. 费米子采用反周期边界, 后文给 Grassmann 推导. 温度像逆时间长度, 而四维零温真空极限对应 $\beta\to\infty$. 这些联系为 Wilson 方法提供直觉, 但非相对论凝聚态系统可能具有不同的空间和时间缩放, 不能统一假设动态指数为1.
+
+\originalsection{连通函数与有效作用量}
+令 $Z[J]=\e^{\ii W[J]}$, 即 $W=-\ii\log Z$. 对归一真空期望有 $\phi_c(x)=\delta W/\delta J(x)=\langle\phi(x)\rangle_J$. 第二次导数满足
+\[
+\frac{\delta^2W}{\delta J(x)\delta J(y)}
+=\ii\big(\langle T\phi(x)\phi(y)\rangle_J-\langle\phi(x)\rangle_J\langle\phi(y)\rangle_J\big).
+\]
+右端减去两次独立平均, 所以 $W$ 生成连通函数. 这可以从普通概率的累积量类比理解, 但这里仍是时间排序振幅. 对可局部反解 $J\leftrightarrow\phi_c$ 的范围定义 Legendre 变换 $\Gamma[\phi_c]=W[J]-\int J\phi_c$, 于是 $\delta\Gamma/\delta\phi_c=-J$. 源为零时量子平均场满足 $\delta\Gamma/\delta\phi_c=0$. 自由场给 $\Gamma=S_0$, 相互作用会给圈修正. 一粒子不可约图生成 $\Gamma$ 的图论理由是: 连通图中由一条内线连接的部分已经由 $W$ 的传播结构产生, Legendre 变换把这些可分解连接扣除. 本册后文以二点和四点的具体例子使用此结构, 不将形式 Legendre 变换视为任意量子场模型的非微扰存在定理.

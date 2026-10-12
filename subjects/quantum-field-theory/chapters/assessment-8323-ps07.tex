@@ -1,0 +1,129 @@
+\originalchapter{8.323 作业7题解}
+题源:MIT OCW,8.323,2023年春季,2023年3月21日发布.\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset07.pdf}{原作业PDF};\href{https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/mit8_323_s23_pset_07sol.pdf}{官方解PDF}.以下为官方解的中文重编与独立补充,并非MIT官方中文版;保留MIT OCW来源,适用CC BY-NC-SA 4.0.
+
+原资料用$(-+++)$,本书用$(+---)$.记原量为帽号,则$\widehat\eta=-\eta$,$\widehat\gamma^\mu=\ii\gamma^\mu$,$\widehat{\bar\psi}=\ii\bar\psi$;原方程$(\widehat\gamma^\mu\partial_\mu-m)\psi=0$变为$(\ii\slashed\partial-m)\psi=0$.原标量动能$-\partial\phi\partial\phi^*$变为$+\partial\phi\partial\phi^*$.以下题面公式已经统一转换,$\hbar=c=1$.
+
+\originalsection{原题1}
+\begin{exercise}
+考虑实标量$\phi$的平移不变相互作用理论,令$\ket\Omega$为平移不变真空,
+\[
+ G_n(x_1,\ldots,x_n)=\bra\Omega T\phi(x_1)\cdots\phi(x_n)\ket\Omega,
+ \quad \widetilde G_n=\int\prod_{j=1}^n\dd^4x_j\,
+ \e^{-\ii\sum_jp_j\cdot x_j}G_n(x_1,\ldots,x_n).
+\]
+证明$\widetilde G_n\propto(2\pi)^4\delta^{(4)}(\sum_jp_j)$.课堂所用$G_n(p_1,\ldots,p_n)$指剥去这一整体动量守恒因子的函数.
+\end{exercise}
+\begin{solution}
+平移不变性给出$G_n(x_1,\ldots,x_n)=G_n(0,x_2-x_1,\ldots,x_n-x_1)$.置$y_j=x_j-x_1$,$j\geq2$,此线性变换Jacobian为1.于是
+\begin{align*}
+ \widetilde G_n&=\int\dd^4x_1\,\e^{-\ii x_1\cdot\sum_jp_j}
+ \int\prod_{j=2}^n\dd^4y_j\,\e^{-\ii\sum_{j=2}^np_j\cdot y_j}G_n(0,y_2,\ldots,y_n)\\
+ &=(2\pi)^4\delta^{(4)}\!\left(\sum_jp_j\right)
+ \int\prod_{j=2}^n\dd^4y_j\,\e^{-\ii\sum_{j=2}^np_j\cdot y_j}G_n(0,y_2,\ldots,y_n).
+\end{align*}
+等式按分布理解:对光滑测试函数积分后成立.总动量delta来自共同平移坐标,和是否作微扰展开无关.
+\end{solution}
+
+\originalsection{原题2}
+\begin{exercise}
+复标量的粒子与反粒子不同,以有向实线表示电荷流:初态粒子的箭头离开外端点,末态粒子的箭头指向外端点,反粒子相反.电荷箭头由守恒决定,不能像动量箭头一样任意选择;可把动量方向选为同向以免混淆.
+\begin{enumerate}[label=(\alph*)]
+\item 对$\Lag=\partial_\mu\phi\partial^\mu\phi^*-m^2\phi^*\phi-\frac\lambda4(\phi^*\phi)^2$写出动量空间Feynman规则.
+\item 画出$\phi+\bar\phi\to\phi+\bar\phi$至$\order(\lambda^2)$的连通图,只须画图.
+\item 加入质量$M$的自由实场$\chi$和原资料相互作用$\lambda'\chi\widehat\partial^\mu\phi^*\partial_\mu\phi$,在本书约定即$\Lag_I=-\lambda'\chi\partial^\mu\phi^*\partial_\mu\phi$.以虚线表示$\chi$,写出完整规则.
+\item 若$\lambda,\lambda'\sim\order(\epsilon)$,画出$\chi\to\phi+\bar\phi$至$\order(\epsilon^2)$的全部连通图.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 唯一非零自由收缩是$\phi\phi^*$,有向传播子$\ii/(p^2-m^2+\ii0)$;每个顶点两条箭头进入、两条离开,因$2!2!$种收缩抵消$1/4$,顶点为$-\ii\lambda$.每个顶点附$(2\pi)^4\delta^{(4)}(\sum p)$,独立内部动量积分$\int\dd^4\ell/(2\pi)^4$,图还须除自同构对称因子.
+
+(b) 下图是截肢四点函数的树图及三个泡图.上下外腿分别为初、末态的粒子和反粒子;改变两端外腿配对得到$s,t,u$三个道,内部箭头必须保持每顶点二入二出.
+\begin{center}
+\begin{tikzpicture}[scale=.7,>=Stealth]
+\draw[->](-1,1)--(0,0);\draw[->](0,0)--(-1,-1);\draw[->](0,0)--(1,1);\draw[->](1,-1)--(0,0);\node at(0,-1.6){$\lambda$};
+\draw[->](2.2,1)node[left]{$p_1$}--(3,0);\draw[->](3,0)--(2.2,-1)node[left]{$p_2$};
+\draw[->](5,0)--(5.8,1)node[right]{$k_1$};\draw[->](5.8,-1)node[right]{$k_2$}--(5,0);
+\draw[->](3,0)to[bend left=65](5,0);\draw[->](5,0)to[bend left=65](3,0);\node at(4,-1.6){$s$道};
+\draw[->](6.2,1.5)node[left]{$p_1$}--(8,.8);\draw[->](8,.8)--(9.8,1.5)node[right]{$k_1$};
+\draw[->](8,-.8)--(6.2,-1.5)node[left]{$p_2$};\draw[->](9.8,-1.5)node[right]{$k_2$}--(8,-.8);
+\draw[->](8,.8)to[bend right=60](8,-.8);\draw[->](8,-.8)to[bend right=60](8,.8);\node at(8,-2){$t$道};
+\draw[->](10.2,1)node[left]{$p_1$}--(11,0);\draw[->](13.8,-1)node[right]{$k_2$}to[out=180,in=-30](11,0);
+\draw[->](13,0)--(13.8,1)node[right]{$k_1$};\draw[->](13,0)to[out=210,in=0](10.2,-1)node[left]{$p_2$};
+\draw[->](11,0)to[bend left=65](13,0);\draw[->](11,0)to[bend right=65](13,0);\node at(12,-1.6){$u$道};
+\end{tikzpicture}
+\end{center}
+图中的外腿配对为:$s$端点配$(p_1,p_2)$和$(k_1,k_2)$,$t$配$(p_1,k_1)$和$(p_2,k_2)$,$u$配$(p_1,k_2)$和$(p_2,k_1)$;$u$道的两内部箭头同向,两端外腿分别均入与均出.另有四张外腿tadpole插入图,下面画其中一条,另三张依次把插入移到剩余三条外腿.它们属于连通Green函数,官方解讨论散射振幅时按截肢规则去掉.
+\begin{center}\begin{tikzpicture}[>=Stealth,scale=.7]
+\draw[->](-3,1)--(-1.5,.5);\draw[->](-1.5,.5)--(0,0);\draw[->](0,0)--(-2,-1);\draw[->](0,0)--(2,1);\draw[->](2,-1)--(0,0);
+\draw[->](-1.5,.5) to[out=80,in=180](-.9,1.6) to[out=0,in=20](-1.5,.5);
+\end{tikzpicture}\end{center}
+
+(c) 加入虚线传播子$\ii/(q^2-M^2+\ii0)$.以两个带电腿的动量$p_1,p_2$都流入顶点计算,$\partial\phi\mapsto-\ii p\phi$,故新顶点为$+\ii\lambda' p_1\cdot p_2$;这是原$-\ii\lambda'\widehat p_1\cdot\widehat p_2$的转换.若把其中一条动量改为流出,要同时把它换成负值,不能只改变箭头图形.
+
+(d) 截肢连通图有一个$\lambda'$树顶点和一个$\lambda\lambda'$泡修正:
+\begin{center}\begin{tikzpicture}[>=Stealth,scale=.85]
+\draw[dashed](-2,0)--(0,0);\draw[->](0,0)--(1,1);\draw[->](1,-1)--(0,0);
+\draw[dashed](3,0)--(4,0);\draw[->](4,0)to[bend left=65](6,0);\draw[->](6,0)to[bend left=65](4,0);\draw[->](6,0)--(7,1);\draw[->](7,-1)--(6,0);
+\node at(0,-1.5){$\lambda'$};\node at(5,-1.5){$\lambda\lambda'$};
+\end{tikzpicture}\end{center}
+若按未截肢连通图计,还要把(b)的tadpole插入分别移到两条末态带电腿,得到两张$\lambda\lambda'$外腿图.两个$\lambda'$顶点总共带两个$\chi$端点,内部收缩只能成对消掉,因此不可能留下恰好一个外部$\chi$;这排除了$\lambda'^2$的三点图.真实衰变需$M>2m$,否则这些三点函数仍存在,但实粒子两体相空间为空.
+\end{solution}
+
+\originalsection{原题3}
+\begin{exercise}
+考虑标准模型的标量玩具版本:实胶子场$g$用波浪线、复夸克场$q$用有向实线、实Higgs场$H$用虚线,$\Lag_I=\lambda_1gq^\dagger q+\lambda_2Hq^\dagger q$.没有直接$gH$耦合;两个小耦合大小相当.
+(a) 画胶子融合$g+g\to H$的最低阶图.
+(b) 加分题:画$g+g\to H+q+\bar q$的最低阶图.
+\end{exercise}
+\begin{solution}
+(a) 三个外部中性场各占一个顶点;内部$q$线必须闭合,所以最低阶是$\lambda_1^2\lambda_2$的两个电荷流方向相反的三角图.该模型为标量环,没有费米闭环的额外负号.
+\begin{center}\begin{tikzpicture}[>=Stealth,scale=.9]
+\foreach \x/\sgn in {0/1,5/-1}{
+\coordinate(A)at(\x-1,0);\coordinate(B)at(\x+1,0);\coordinate(C)at(\x,1.6);
+\ifnum\sgn=1 \draw[->](A)--(B);\draw[->](B)--(C);\draw[->](C)--(A);
+\else \draw[->](B)--(A);\draw[->](C)--(B);\draw[->](A)--(C);\fi
+\draw[decorate,decoration={snake,amplitude=1.5pt,segment length=5pt}](\x-2,0)--(A);
+\draw[decorate,decoration={snake,amplitude=1.5pt,segment length=5pt}](B)--(\x+2,0);
+\draw[dashed](C)--(\x,2.5)node[above]{$H$};\node at(\x-2,-.3){$g_1$};\node at(\x+2,-.3){$g_2$};}
+\end{tikzpicture}\end{center}
+(b) 现在$q$线开口,从末态$\bar q$连到$q$;沿线插入$g_1,g_2,H$,三个标签的$3!=6$种次序给出全部最低阶树图,均为$\lambda_1^2\lambda_2$.下图每框上方列出沿箭头所见的次序;$g$以波浪线向下接入,$H$以虚线向上接出.
+\begin{center}\begin{tikzpicture}[>=Stealth,scale=.65]
+\foreach \x/\y/\a/\b/\c in {0/0/H/g_1/g_2,6/0/g_1/H/g_2,12/0/g_1/g_2/H,0/-4/H/g_2/g_1,6/-4/g_2/H/g_1,12/-4/g_2/g_1/H}{
+\draw[->](\x,\y)--(\x+1,\y);\draw[->](\x+1,\y)--(\x+2,\y);\draw[->](\x+2,\y)--(\x+3,\y);\draw[->](\x+3,\y)--(\x+4,\y);
+\node[left]at(\x,\y){$\bar q$};\node[right]at(\x+4,\y){$q$};
+\foreach \k/\lab in {1/\a,2/\b,3/\c}{
+\edef\tmp{\lab}\def\higgs{H}
+\ifx\tmp\higgs\draw[dashed](\x+\k,\y)--(\x+\k,\y+1.3)node[above]{$\lab$};
+\else\draw[decorate,decoration={snake,amplitude=1.5pt,segment length=5pt}](\x+\k,\y-1.3)node[below]{$\lab$}--(\x+\k,\y);\fi}}
+\end{tikzpicture}\end{center}
+\end{solution}
+
+\originalsection{原题4}
+\begin{exercise}
+不用特定矩阵表示证明:(a) $\Tr\gamma^\mu=0$;(b) $\Tr(\gamma^\mu\gamma^\nu)=4\eta^{\mu\nu}$;(c) $\Tr(\gamma^\mu\gamma^\nu\gamma^\lambda)=0$;(d) $\slashed p\slashed q=2p\cdot q-\slashed q\slashed p=p\cdot q-2\ii\Sigma^{\mu\nu}p_\mu q_\nu$;(e) $\gamma^\mu\slashed p\gamma_\mu=-2\slashed p$.其中$\Sigma^{\mu\nu}=\frac\ii4[\gamma^\mu,\gamma^\nu]$.
+\end{exercise}
+\begin{solution}
+(a),(c) 在四维置$\gamma^5=\ii\gamma^0\gamma^1\gamma^2\gamma^3$,利用反对易关系得$(\gamma^5)^2=1$及$\gamma^5\gamma^\mu=-\gamma^\mu\gamma^5$.故任意含奇数个gamma的积$X$满足
+$\Tr X=\Tr(\gamma^5X\gamma^5)=-\Tr X$,由特征零得迹为零.这里不需要选择任何表示.
+
+(b) 迹的循环性给$2\Tr(\gamma^\mu\gamma^\nu)=\Tr\{\gamma^\mu,\gamma^\nu\}=2\eta^{\mu\nu}\Tr1=8\eta^{\mu\nu}$,用了Dirac表示维数4.
+
+(d) 将Clifford关系乘$p_\mu q_\nu$便得第一式;再用$\gamma^\mu\gamma^\nu=\eta^{\mu\nu}+\frac12[\gamma^\mu,\gamma^\nu]=\eta^{\mu\nu}-2\ii\Sigma^{\mu\nu}$得第二式.
+
+(e) $\gamma^\mu\gamma_\mu=4$,所以
+$\gamma^\mu\gamma^\nu\gamma_\mu=\gamma^\mu(2\delta^\nu_\mu-\gamma_\mu\gamma^\nu)=2\gamma^\nu-4\gamma^\nu=-2\gamma^\nu$;收缩$p_\nu$即得.原官方解定义$\gamma^5$处多写一个$\gamma^4$,四维只应有$0,1,2,3$四因子.
+\end{solution}
+
+\originalsection{原题5}
+\begin{exercise}
+从Dirac方程出发:(a) 构造满足$\partial_\mu j^\mu=0$的流;(b) 证明它为实;(c) 选择整体符号使$\rho=j^0$正定.
+\end{exercise}
+\begin{solution}
+由$(\ii\slashed\partial-m)\psi=0$及$(\gamma^\mu)^\dagger=\gamma^0\gamma^\mu\gamma^0$,取Hermitian共轭后右乘$\gamma^0$得到
+$\ii(\partial_\mu\bar\psi)\gamma^\mu+m\bar\psi=0$.令$j^\mu=\bar\psi\gamma^\mu\psi$,乘积法则给
+\[
+ \partial_\mu j^\mu=(\partial_\mu\bar\psi)\gamma^\mu\psi+\bar\psi\gamma^\mu\partial_\mu\psi
+ =\ii m\bar\psi\psi-\ii m\bar\psi\psi=0.
+\]
+矩阵$\gamma^0\gamma^\mu$为Hermitian,所以$(j^\mu)^*=\psi^\dagger(\gamma^0\gamma^\mu)^\dagger\psi=j^\mu$.又$j^0=\psi^\dagger\psi=\sum_{\alpha=1}^4|\psi_\alpha|^2\geq0$,当且仅当$\psi=0$取零.此正性是经典复数波函数的概率密度陈述;量子场正规序电荷密度含反粒子的相反电荷,不能据此把它也称为正算符.原约定$\widehat{\bar\psi}\widehat\gamma^\mu\psi=-j^\mu$,故原题要求选择负的整体符号.
+\end{solution}

@@ -1,0 +1,124 @@
+\originalchapter{Maxwell 场的约束与量子电动力学}
+\label{ch:qed}
+
+标量场和 Dirac 场的自由模量子化都从独立振子开始.电磁势 $A_\mu$ 有四个分量,却只有两种可传播的光子偏振.如果把四个分量都当作普通正范数振子,会得到错误的自由度和能量结构.原因是势含有规范冗余,且 $A^0$ 不具有独立的动力学时间导数.本章先在 Coulomb 规范中只保留物理模,再解释为何协变规范仍可用于散射振幅计算.
+
+\originalsection{规范冗余与 Gauss 约束}
+
+定义 $F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu$,自由作用量为
+\begin{equation}
+ S_M=-\frac14\int\dd^4x\,F_{\mu\nu}F^{\mu\nu}.
+\end{equation}
+令 $A^\mu=(A^0,\mathbf A)$,则 $\mathbf E=-\nabla A^0-\dot{\mathbf A}$、$\mathbf B=\nabla\times\mathbf A$,$\Lag_M=(\mathbf E^2-\mathbf B^2)/2$.势变换 $A_\mu\mapsto A_\mu+\partial_\mu\alpha$ 不改变 $F$,因而不同的势可代表同一个电磁场.这里 $\alpha(x)$ 是任意光滑实函数,并须服从所选边界条件.
+
+加入守恒源 $J^\mu=(\rho,\mathbf J)$,$\Lag=\Lag_M-J^\mu A_\mu$.对 $A_\nu$ 变分并分部积分得到
+\begin{equation}
+ \partial_\mu F^{\mu\nu}=J^\nu.
+ \label{eq:maxwell-source}
+\end{equation}
+取散度,左边因反对称性恒为零,所以源必须满足 $\partial_\mu J^\mu=0$.$\nu=0$ 分量即 $\nabla\cdot\mathbf E=\rho$,它是 Gauss 定律.
+
+以物理空间矢量 $A^i$ 为正则坐标,其共轭动量为 $\Pi^i=\partial\Lag/\partial\dot A^i=-E^i$,而 $\Pi^0=0$.Legendre 变换给出,忽略边界项,
+\begin{equation}
+ H=\int\dd^3x\left[\frac12(\mathbf E^2+\mathbf B^2)
+  +A^0(\rho-\nabla\cdot\mathbf E)-\mathbf J\cdot\mathbf A\right].
+\end{equation}
+$A^0$ 是实施约束的乘子,而非第四个振子;$\Pi^0=0$ 也说明普通的无约束 Legendre 变换不可逆.规范变换造成的零方向,与 Gauss 约束是一件事情在 Lagrange 和 Hamilton 描述中的两个方面.
+
+\originalsection{Coulomb 规范与两个横向模}
+
+取 Coulomb 规范 $\nabla\cdot\mathbf A=0$.在空间无穷远衰减的条件下,Gauss 方程化为
+\begin{equation}
+ -\nabla^2A^0=\rho,
+ \qquad
+ A^0(t,\mathbf x)=\int\dd^3y\,
+ \frac{\rho(t,\mathbf y)}{4\pi|\mathbf x-\mathbf y|}.
+ \label{eq:coulomb-potential}
+\end{equation}
+此处使用 $-\nabla^2(1/4\pi r)=\delta^3(\mathbf r)$;可在原点外直接求导,在小球上用 Gauss 定理核对分布系数.设 $\mathbf E=\mathbf E_T-\nabla A^0$,$\nabla\cdot\mathbf E_T=0$.分部积分使两部分能量交叉项消失,纵向能量为
+\begin{equation}
+ \frac12\int\dd^3x(\nabla A^0)^2
+ =\frac12\int\dd^3x\dd^3y\,
+ \frac{\rho(\mathbf x)\rho(\mathbf y)}{4\pi|\mathbf x-\mathbf y|}.
+\end{equation}
+它是由约束解出的 Coulomb 相互作用.对点电荷,其同点自能仍需另行处理;这里没有把它当作有限量.
+
+自由场 $\rho=0$ 且采用上述边界条件时,$A^0=0$.只剩 $\mathbf A_T$,其自由方程是 $\Box\mathbf A_T=0$.对每个非零 $\mathbf k$ 取两个单位偏振矢量 $\boldsymbol\epsilon_\lambda(\mathbf k)$,满足
+\begin{equation}
+ \mathbf k\cdot\boldsymbol\epsilon_\lambda=0,
+ \quad\boldsymbol\epsilon_\lambda^*\cdot\boldsymbol\epsilon_{\lambda'}=\delta_{\lambda\lambda'},
+ \quad\sum_{\lambda=1}^2\epsilon_\lambda^i\epsilon_\lambda^{j*}
+ =\delta^{ij}-\frac{k^ik^j}{\mathbf k^2}.
+\end{equation}
+展开
+\begin{equation}
+ \mathbf A_T(x)=\sum_{\lambda=1}^2\int\frac{\dd^3k}{(2\pi)^3\sqrt{2|\mathbf k|}}
+ [\boldsymbol\epsilon_\lambda(\mathbf k)a_\lambda(\mathbf k)\e^{-\ii k\cdot x}
+ +\boldsymbol\epsilon_\lambda^*(\mathbf k)a_\lambda^\dagger(\mathbf k)\e^{+\ii k\cdot x}],
+\end{equation}
+并规定 $[a_\lambda(\mathbf k),a_{\lambda'}^\dagger(\mathbf q)]=(2\pi)^3\delta_{\lambda\lambda'}\delta^3(\mathbf k-\mathbf q)$.正规序自由能量是 $\sum_\lambda\int\dd^3k/(2\pi)^3\,|\mathbf k|a_\lambda^\dagger a_\lambda$,只有两个正能量偏振.等时正则关系相应约化为
+\begin{equation}
+ [A_T^i(t,\mathbf x),\Pi_T^j(t,\mathbf y)]
+ =\ii\int\frac{\dd^3k}{(2\pi)^3}
+ \left(\delta^{ij}-\frac{k^ik^j}{\mathbf k^2}\right)
+ \e^{\ii\mathbf k\cdot(\mathbf x-\mathbf y)}.
+\end{equation}
+右边是横向投影核,不能用 $\ii\delta^{ij}\delta^3$ 替代;后者会重新加入已经消去的纵向自由度.
+
+\originalsection{协变规范、传播子与物理态}
+
+Coulomb 规范的物理意义清楚,却把时间和空间分开.协变微扰计算通常取 Lorenz 条件 $\partial_\mu A^\mu=0$.自由二次型在动量空间含零方向 $A_\mu\propto k_\mu$,所以在未固定规范之前不存在普通逆矩阵.加入规范固定项
+\begin{equation}
+ \Lag_{\rm gf}=-\frac{1}{2\xi}(\partial_\mu A^\mu)^2
+\end{equation}
+后,二次核变为 $-k^2\eta^{\mu\nu}+(1-\xi^{-1})k^\mu k^\nu$.把矩阵分解为横向投影 $\eta_{\mu\nu}-k_\mu k_\nu/k^2$ 和纵向投影 $k_\mu k_\nu/k^2$,分别求逆,得到
+\begin{equation}
+ D_{F\mu\nu}(k)=\frac{-\ii}{k^2+\ii0}
+ \left[\eta_{\mu\nu}-(1-\xi)\frac{k_\mu k_\nu}{k^2+\ii0}\right].
+ \label{eq:photon-covariant-propagator}
+\end{equation}
+$\xi=1$ 是 Feynman 规范,$D_{F\mu\nu}=-\ii\eta_{\mu\nu}/(k^2+\ii0)$;$\xi\to0$ 为 Landau 规范.$\xi$ 改变势的相关函数,不能改变物理散射概率.
+
+为何四分量协变传播子没有制造四种物理光子？在 Feynman 规范中,形式模代数可写 $[a_\mu,a_\nu^\dagger]=-\eta_{\mu\nu}(2\pi)^3\delta^3$;时间样模由此具有负范数.它们只存在于辅助的不定内积空间.Gupta--Bleuler 方法要求物理态满足
+\begin{equation}
+ (\partial_\mu A^\mu)^{(+)}\ket{\mathrm{phys}}=0,
+\end{equation}
+其中 $(+)$ 只包含湮灭算符部分.不能同时要求完整场算符严格为零,因为其产生部分会与正则关系冲突.该条件使时间样、纵向激发组合成为零范数方向;先在盒中取一个归一化离散模,以 Feynman 规范中 $k^\mu=(\omega,0,0,\omega)$ 为例,取带上指标的模 $a^\mu$,条件为 $(a^0-a^3)\ket{\mathrm{phys}}=0$.写一光子态为 $(c^0a^{0\dagger}-c^3a^{3\dagger}+\text{横向项})\ket0$;这里纵向产生算符前的负号来自下指标偏振与上指标模的缩并.利用 $[a^0,a^{0\dagger}]=-1$、$[a^3,a^{3\dagger}]=1$,条件迫使 $c^0=c^3$.其范数贡献 $-|c^0|^2+|c^3|^2=0$,只留下两项横向正范数.这个沿 $k^\mu$ 的零范数组合与所有满足条件的态正交,故将相差这种组合的态识别为同一物理态.商掉这些方向以后,剩下与 Coulomb 规范相同的两个横向偏振.这里说明了自由 Abelian 理论的结构;一般非 Abelian 理论需要更系统的 BRST 构造,留待后续课程.
+
+路径积分也必须除去规范轨道体积.对 Abelian 条件 $G[A]=\partial\cdot A$,插入 $\delta(G[A^\alpha])$ 时的 Jacobian 是 $\det\Box$,与 $A$ 无关,可吸收到归一化;对规范条件作 Gaussian 平均即产生上述规范固定项.因此 QED 的协变树图无需与光子相互作用的 ghost 线.这个结论依赖 Abelian 规范变换的线性性,不能直接推广到 Yang--Mills 场.
+
+\originalsection{从局域相位不变性得到 QED}
+
+自由 Dirac 场在常数相位变换下不变.若相位随 $x$ 改变,普通导数会多出相位导数项.定义
+\begin{equation}
+ D_\mu=\partial_\mu+\ii eA_\mu,
+ \qquad\psi\mapsto\e^{-\ii e\alpha(x)}\psi,
+ \qquad A_\mu\mapsto A_\mu+\partial_\mu\alpha,
+\end{equation}
+便有 $D_\mu\psi\mapsto\e^{-\ii e\alpha}D_\mu\psi$.最小耦合理论是
+\begin{equation}
+ \Lag_{\rm QED}=\bar\psi(\ii\slashed D-m)\psi
+ -\frac14F_{\mu\nu}F^{\mu\nu}
+ =\Lag_D+\Lag_M-e\bar\psi\gamma^\mu\psi A_\mu.
+ \label{eq:qed-lagrangian}
+\end{equation}
+$e$ 在这里是带符号的耦合;若把 $\psi$ 的粒子指定为负电荷电子,可取 $e=-|e|$.后面的截面只依赖 $e^2$ 和 $\alpha=e^2/(4\pi)$,但源方程的符号应始终由这条拉格朗日量决定.Maxwell 方程的源为 $J^\mu=e\bar\psi\gamma^\mu\psi$.
+
+规范不变性还给出 $[D_\mu,D_\nu]=\ii eF_{\mu\nu}$,表明场强衡量两个方向协变微分不交换的程度.这里所谓规范对称是同一物理状态的冗余描述;整体相位产生的荷守恒与任意局域函数的规范冗余虽有关联,却不能作为两个独立粒子数对称重复计数.
+
+\originalsection{QED 图规则与树级 Ward 检查}
+
+由相互作用指数 $\exp[-\ii e\int\bar\psi\gamma^\mu\psi A_\mu]$,顶点因子是 $-\ii e\gamma^\mu$.内费米线为 $\ii(\slashed p+m)/(p^2-m^2+\ii0)$,内光子线采用式 \eqref{eq:photon-covariant-propagator}.每个顶点保留四动量守恒,独立环动量积分为 $\int\dd^4\ell/(2\pi)^4$.沿费米箭头的旋量链按矩阵乘法顺序书写;箭头记录粒子荷流,不必与图上人为指定的动量箭头一致.每个闭合费米圈带额外 $-1$;交换相同外费米子还要加入反对称化的相对负号.
+
+非协变产生算符仍采用前文的 $(2\pi)^3\delta^3$ 归一.散射公式通常改用 $\ket{p,s}_{\rm cov}=\sqrt{2E_{\mathbf p}}\,b_s^\dagger(\mathbf p)\ket0$,使内积成为 $2E_{\mathbf p}(2\pi)^3\delta^3(\mathbf p-\mathbf q)\delta_{sr}$.在这套外态约定下,入射粒子给 $u_s(p)$,出射粒子给 $\bar u_s(p)$,入射反粒子给 $\bar v_s(p)$,出射反粒子给 $v_s(p)$;入射光子给 $\epsilon_\mu(k)$,出射光子给 $\epsilon_\mu^*(k)$.这些因子已包含与协变态相配的归一化,不能再额外乘一次 $\sqrt{2E}$.
+
+最直接的规范检查是看外光子偏振替换 $\epsilon_\mu\mapsto k_\mu$ 后振幅是否为零.对一个壳上费米流,$k=p'-p$ 时
+\begin{equation}
+ k_\mu\bar u(p')\gamma^\mu u(p)
+ =\bar u(p')(\slashed p'-\slashed p)u(p)=0,
+\end{equation}
+因为左右 Dirac 方程分别给出质量 $m$.内部光子传播子的规范相关项与两个流的散度成正比,因而在这样的树图中消失.多图过程中一般必须把所有图相加才能使检查成立;Compton 散射就是下一章的具体例子.
+
+\begin{remark}
+物理外光子只有两种横向偏振.若振幅对每条光子满足 Ward 检查,则在未观测偏振的求和中可用 $-\eta_{\mu\nu}$ 替代物理偏振投影:两者之差由含 $k_\mu$ 或 $k_\nu$ 的规范项组成,与振幅相乘为零.若只取一张不满足该检查的图,就不能作此替代.
+\end{remark}

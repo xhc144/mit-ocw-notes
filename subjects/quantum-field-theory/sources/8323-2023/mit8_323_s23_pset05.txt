@@ -1,0 +1,191 @@
+    Quantum Field Theory I (8.323) Spring 2023
+                  Assignment 5
+Mar. 7, 2023
+
+
+   • Please remember to put your name at the top of your paper.
+
+
+Readings
+
+   • Peskin & Schroeder Chap. 4.1 – 4.4
+
+   • Peskin & Schroeder Chap. 9.1–9.2
+
+
+Notes:
+
+
+  1. Path integral is a subject covered by graduate quantum mechanics class. In
+     lectures I tried to give a self-contained exposition of the essential ideas, but
+     have not time to be comprehensive. If you have not done path integral before
+     you should consult standard quantum mechanics textbooks on this subject. A
+     very nice, and detailed discussion of the formalism with many examples and
+     applications is the classic book by Feynman and Hibbs “Quantum Mechanics
+     and Path Integrals.”
+     The problems in this pset are aimed to remind you of the subject (or familiarize
+     it if you have not done it before).
+
+  2. For a non-relativistic particle moving in one-dimension with a Hamiltonian
+
+                                                   p2
+                                              H=      + V (x)                                      (1)
+                                                   2m
+     we have, in the path integral formalism,
+
+           K(xa , ta ; xb , tb ) = hxa , ta |xb , tb i                                                   (2)
+                                                            "    N −1                       2           !#
+                  m  N2 Z ∞                                    X      m
+                                                                            
+                                                                                xi+1 − xi
+         = lim                          dx1 · · · dxN −1 exp i∆t                                 − V (xi )
+           N →∞ 2πi∆t              −∞                                   2          ∆t
+                                                                 i=0
+           Z x(ta )=xa                Z t                
+         ≡             Dx(t) exp i             dt L(ẋ, x)                                                   (3)
+              x(tb )=xb                  t0
+
+
+     where L = 12 mẋ2 − V (x) is the Lagrangian and N ∆t = ta − tb .
+
+
+                                                   1
+Problem Set 5
+
+1. A useful formula and path integral in phase space (20 points)
+
+   (a) Derive equations (4) and (5) below.
+                                                    
+                                p̂2
+                             −i 2m  ∆t −i∆tV (x̂)
+                       xi+1 e         e           xi
+                                           p2i
+                     Z                                                        
+                        dpi
+                 =          exp −i∆t           − i∆tV (xi ) + ipi (xi+1 − xi )     (4)
+                         2π               2m
+                     r               "                  2               #
+                          m            im∆t xi+1 − xi
+                 =            exp                            − i∆tV (xi )          (5)
+                        2πi∆t            2          ∆t
+
+       Equation (5) was used in lecture to derive (3).
+   (b) Using (4) to derive an alternative expression of (2):
+                                 Z x(ta )=xa                Z t             
+           hxa , ta |xb , tb i =             Dx(t)Dp(t) exp i    dt (pẋ − H) .    (6)
+                              x(tb )=xb                        t0
+                        R x(t )=x
+       The integration x(tba)=xba Dx(t)Dp(t) in the above expression should be
+       understood as
+         Z x(ta )=xa                    Z     Z              Z
+                                          dp0    dx1 dp1       dxN −1 dpN −1
+                     Dx(t)Dp(t) ≡ lim                    ···                 (7)
+          x(tb )=xb                N →∞   2π       2π               2π
+
+       where we again divide the interval [t0 , t] into N segments with t0 = t0 , tN =
+       t.
+
+
+2. Schrodinger equation rederived (20 points)
+  Using the propagator introduced in (3), the wave function ψ(x, t) for a system
+  at time t can be obtained from that at time t0 by
+                                Z
+                      ψ(t, x) = dx0 K(x, t; x0 , t0 ) ψ(x0 , t0 ) .           (8)
+
+  Show that ψ(t, x) satisfies the Schrodinger equation
+                                           1 2
+                      i∂t ψ(t, x) = −       ∂ ψ(t, x) + V (x)ψ(t, x) .             (9)
+                                          2m x
+
+  [Hint:] We can write the wave function at time t + δt from that at time t by:
+                                Z
+                  ψ(t + δt, x) = dy K(t + δt, x; t, y) ψ(t, y) .           (10)
+
+                                             2
+  With δt small, K(t + δt, x; t, y) can be written as a single infinitesimal step
+  of (3), i.e.
+                                        "               2         !#
+                             m  12             
+                                              m x−y
+       K(t + δt, x; t, y) =          exp iδt               − V (y)      .    (11)
+                             2πiδt            2     δt
+
+  Proving (9) then amounts to a careful analysis of the δt → 0 limit of the
+  difference between (10) and ψ(t, x).
+
+3. Free particle (20 points)
+  For a free particle, i.e. V (x) = 0, perform explicitly the integrals over xi , i =
+  1, · · · N − 1 in (3) and show that
+                                                            12
+                                                                      im(xa − xb )2
+                                                                                    
+                                                m
+             K(xa , ta ; xb , tb ) =                              exp                     .   (12)
+                                           2πi(ta − tb )               2(ta − tb )
+
+  [Hint:] First do the integral for x1 and try to find a pattern.
+
+4. Path integral for a free particle revisited (20 points)
+  In this problem we evaluate the path integral for a free particle using a different
+  method from Prob. 3. For simplicity we take xa = xb = 0 and tb = 0 and
+  ta = T . As discussed in lecture K is a Gaussian path integral of the form
+                            Z x(T )=0            Z                       
+                                                 i       0          0   0
+           K(0, T ; 0, 0) =           Dx(t) exp     dtdt x(t)A(t, t )x(t )       (13)
+                             x(0)=0              2
+
+  for some differential operator A.
+
+   (a) Write down the explicit expression for A.
+   (b) Find all the eigenvalues of A. Show that the determinant of A can be
+       written as                         ∞
+                                         Y    n2 π 2
+                                 det A =     m 2 .                     (14)
+                                         n=1
+                                               T
+
+   (c) Since (13) is Gaussian, it can be evaluated as
+                                                                    C
+                                       K(0, T ; 0, 0) = √                                     (15)
+                                                                   det A
+       where C is some constant. By comparing the above equation with (12)
+       show that consistency of the two approaches requires
+                                              C       m  21
+                                           √       =                                          (16)
+                                             det A    2πiT
+
+                                                3
+i.e.                       ∞
+                           Y    T 1  m  21
+                       C       √      =      .                        (17)
+                           n=1
+                                 mπ n   2πiT
+
+Note: While the above equation looks rather bizarre, it can in fact be
+shown explicitly by discretizing the path integral as in the second line
+of (3), carefully calculating C, and then taking N → ∞ (after discretizing,
+A becomes a finite matrix).
+
+
+
+
+                               4
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.323 Relativistic Quantum Field Theory I
+Spring 2023
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+
+
+
+                                                       4
+
