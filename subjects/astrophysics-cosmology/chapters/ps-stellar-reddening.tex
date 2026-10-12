@@ -1,0 +1,52 @@
+\originalchapter{近红外颜色、消光与恒星分类的可解边界}
+\src{8.901 PS10.6，(a)--(c)。}
+\begin{exercise}
+朝银心方向的一颗星，观测$J=19.21\pm0.05,H=16.16\pm0.05,K=14.69\pm0.05$。消光律$A_J=0.282A_V,A_H=0.175A_V,A_K=0.112A_V$。
+(a)用$m_\lambda=m_{\lambda,0}+A_\lambda$消去$A_V$，推导本征$J-H$与$H-K$关系并传播测量不确定度；在$15<A_V<25$画允许色带。
+(b)用主序V、巨星III、超巨星I的本征颜色表确定每类可能的光谱型与消光；
+(c)结合绝对星等表给每种候选的距离，以消光和天区方向排除不合理者，判最可能光度级／谱型。原题推荐受限的Allen/Cox(2000)表7.6--7.8及15.7。
+\end{exercise}
+\begin{solution}
+本卷没有取得并获准使用这些书本表，也没有取得三光度级在相同测光系统下的替代表。因此(a)全部完成，(b)、(c)给出可复现判据及条件距离，保留依赖范围；不杜撰表中颜色、绝对星等或唯一谱型。
+
+记$x=(H-K)_0,y=(J-H)_0$，则
+\[
+ x=1.47-0.063A_V,\qquad y=3.05-0.107A_V.
+\]
+消去$A_V$得$y=kx+b$，$k=0.107/0.063=1.698413$、$b=0.553333$。$A_V=15,25$分别给$(x,y)=(0.525,1.445),(-0.105,0.375)$，红化越强，去红化后的本征颜色越蓝。
+
+若三星等误差独立，则$\sigma_{J-H}^2=\sigma_{H-K}^2=0.005$，但两颜色共享$H$，协方差$\operatorname{Cov}(J-H,H-K)=-0.0025$。截距由$C=J-(1+k)H+kK$估计，故
+\[
+ \sigma_C^2=\sigma_J^2+(1+k)^2\sigma_H^2+k^2\sigma_K^2,\qquad
+ C=0.5533\pm0.1671 .
+\]
+忽略共享$H$的负协方差会低估此误差。下图的上下边界为固定消光律、测量误差下的$1\sigma$截距带，垂直于线的宽度为$\sigma_C/\sqrt{1+k^2}=0.0848$；它不是每种候选都拥有同一独立矩形误差的意思。消光律本身误差未由题面给出。
+\begin{center}
+\begin{tikzpicture}\begin{axis}[width=.7\textwidth,height=5cm,xlabel={$(H-K)_0$},ylabel={$(J-H)_0$},xmin=-.2,xmax=.65,ymin=.1,ymax=1.9]
+\addplot[draw=none,fill=structurecolor!15] coordinates {(-.105,.2079) (.525,1.2779) (.525,1.6121) (-.105,.5421)} \closedcycle;
+\addplot[structurecolor,thick] coordinates {(-.105,.375) (.525,1.445)};
+\addplot[only marks,black] coordinates {(-.105,.375) (.525,1.445)};
+\node[anchor=south west] at (axis cs:-.105,.375) {$A_V=25$};
+\node[anchor=south east] at (axis cs:.525,1.445) {$A_V=15$};
+\end{axis}\end{tikzpicture}
+\end{center}
+
+给任一真实表中的候选$(x_*,y_*,M_V,(V-K)_0)$，先检查$|y_*-kx_*-b|\lesssim\sigma_C$，并由两颜色分别推
+\[
+ A_V^{(HK)}=\frac{1.47-x_*}{.063},\qquad
+ A_V^{(JH)}=\frac{3.05-y_*}{.107}.
+\]
+必须在颜色协方差下联合拟合；不能把两估计当独立结果。设$\boldsymbol d=(3.05-y_*,1.47-x_*)$、$\boldsymbol a=(.107,.063)$，颜色协方差矩阵
+\[
+ \Sigma=\begin{pmatrix}.005&-.0025\\-.0025&.005\end{pmatrix},\qquad
+ \widehat A_V=\frac{\boldsymbol a^T\Sigma^{-1}\boldsymbol d}
+ {\boldsymbol a^T\Sigma^{-1}\boldsymbol a}.
+\]
+最小残差$\chi^2=(\boldsymbol d-\boldsymbol a\widehat A_V)^T\Sigma^{-1}(\boldsymbol d-\boldsymbol a\widehat A_V)$才是联合颜色一致性的量。若表值本身有散布，还要加入其协方差。
+
+通过颜色检查后，$M_K=M_V-(V-K)_0$，距离模数给
+\[
+ D=10^{[14.69-.112A_V-M_K+5]/5}\ {\rm pc}.
+\]
+题设消光区间使去消光$K_0$为11.89--13.01。同一颜色候选若属于更亮的光度级，距离就更远；朝银心的方向和很大消光可以参与合理性判断，但仅凭方向不能自动把距离设为银心距离。独立消光随距离分布、不同测光系统变换及真实本征颜色表才可完成(b)、(c)的具体分类。此处保留完整公开问题和算法，没有把这些依赖伪装成已观测的巨星结论。
+\end{solution}

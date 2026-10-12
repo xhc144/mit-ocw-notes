@@ -1,0 +1,132 @@
+\originalchapter{双星爆发、质量转移与引力波习题}
+本章对应8.901 PS9全部四题。前两题的共同入口是选对参考系与明确守恒量。磁层题的幂次可由给定关系推出，但原数值系数与立体角定义存在歧义，下面保留原式并显式比较。引力波使用弱场、慢动、远区四极矩公式；其GR推导引用本仓库GR卷。
+
+\src{8.901 PS9.1，瞬时对称超新星失质量。}
+\begin{exercise}
+质量$m_1,m_2$两星原为圆轨道，星1在远短于周期的时间内在自身静止系球对称抛掉$\Delta m$。爆发瞬间两星位置、速度不变，忽略额外踢速。用新质心系的能量证明存活束缚轨道要求$\Delta m<(m_1+m_2)/2$。
+\end{exercise}
+\begin{solution}
+令初总质量$M=m_1+m_2$、初间距$a$，相对速度由圆轨道$v_{\rm rel}^2=GM/a$。爆发后$M'=M-\Delta m$，约化质量$\mu'=(m_1-\Delta m)m_2/M'$。新质心速度一般已变，不能继续把旧质心系的总动能直接作为轨道能；新系的轨道动能恰为$\tfrac12\mu'v_{\rm rel}^2$。故
+\[
+ E'=\frac12\mu'\frac{GM}{a}-\frac{G\mu'M'}a
+ =\frac{G\mu'}a\left(\Delta m-\frac M2\right).
+\]
+在残余两质量为正时，$E'<0$等价于所求。等号为边界抛物轨道，更大失质量为无界轨道。若束缚，结合瞬时相对角动量不变可进一步得
+\[
+ a'=a\frac{M-\Delta m}{M-2\Delta m},\qquad
+ e'=\frac{\Delta m}{M-\Delta m}.
+\]
+缓慢失质量时轨道可绝热膨胀，不适用这个一半阈值；非对称爆发的踢速也会改变能量与存活条件。
+\end{solution}
+
+\src{8.901 PS9.2，保守Roche溢出，(a)--(d)。}
+\begin{exercise}
+圆双星中星2给星1转移$\Delta m>0$，$\Delta m_2=-\Delta m,\Delta m_1=+\Delta m$。忽略总质量和轨道角动量损失，$q=m_2/m_1$。
+(a)求$\Delta a/a$并判定轻到重／重到轻的轨道变化；
+(b)用$R_{L2}\simeq(a/2)[m_2/(m_1+m_2)]^{1/3}$求Roche半径变化；
+(c)全对流供体近似$n=3/2$多方球，绝热$R_2\propto m_2^{-1/3}$，求供体变化；
+(d)用$\Delta R_2>\Delta R_{L2}$判定动力学不稳定，求稳定质量比上限。
+\end{exercise}
+\begin{solution}
+轨道角动量$J=\mu\sqrt{GMa}$，$M$不变且$\dd J=0$，所以
+\[
+ 0=\frac{\Delta m}{m_1}-\frac{\Delta m}{m_2}+\frac12\frac{\Delta a}{a},
+ \qquad
+ \frac{\Delta a}{a}=2(1-q)\frac{\Delta m}{m_2}.
+\]
+轻供体$q<1$使间距增大，重供体$q>1$使之缩小。对Roche近似再取对数，
+\[
+ \frac{\Delta R_{L2}}{R_{L2}}
+ =\left(\frac53-2q\right)\frac{\Delta m}{m_2},\qquad
+ \frac{\Delta R_2}{R_2}=\frac13\frac{\Delta m}{m_2}.
+\]
+初始接触$R_2=R_{L2}$时可比较分数变化。失去一点质量后供体比Roche瓣膨胀得更多，会溢出更多并促进继续失质量；不稳定条件为$1/3>5/3-2q$，即$q>2/3$。严格稳定范围$q<2/3$，等号在此线性模型中中性；有限变化或其他反馈需更高阶判断。
+
+用一般记号$\zeta_{\rm ad}=\dd\ln R_2/\dd\ln m_2=-1/3$、$\zeta_L=2q-5/3$，稳定条件$\zeta_{\rm ad}>\zeta_L$，与上述一致，因为$\dd\ln m_2<0$会翻转增长比较。真实供体若有辐射核、失质量非保守或轨道角动量被自转／外流带走，不能沿用同一阈值。
+\end{solution}
+
+\src{8.901 PS9.3，磁层半径与原式归一。}
+\begin{exercise}
+定义$B^2/(8\pi)=\rho v_K^2/2$处为吸积中子星的磁层，$B=\mu/r^3$、$v_K=\sqrt{GM/r}$。令$\eta=v_r/v_K\ll1$，题面给$\dot M\simeq(\rho v_r\Omega)(4\pi r^2)$，并称$\Omega$为盘张开的立体角。要求写成
+\[
+ r_m\simeq1.3\times10^8(\eta\Omega)^{2/7}
+ \mu_{30}^{4/7}\dot M_{-8}^{-2/7}M_1^{-1/7}\ {\rm cm},
+\]
+其中$\mu_{30}=\mu/(10^{30}\ {\rm G\,cm^3})$、$\dot M_{-8}=\dot M/(10^{-8}\Ms\,{\rm yr^{-1}})$、$M_1=M/\Ms$。
+\end{exercise}
+\begin{solution}
+先澄清面积：$4\pi r^2\Omega$意味着$\Omega$应是占满球的\emph{无量纲比例}，若$\Omega_{\rm sr}$指以球面度计的真实立体角，面积应为$r^2\Omega_{\rm sr}$，且$\Omega=\Omega_{\rm sr}/(4\pi)$。以下按原连续方程的比例定义。
+
+消去密度$\rho=\dot M/[4\pi\Omega\eta\sqrt{GM}\,r^{3/2}]$，场能平衡给
+\[
+ \frac{\mu^2}{r^6}
+ =4\pi\rho\frac{GM}{r}
+ =\frac{\dot M\sqrt{GM}}{\Omega\eta\,r^{5/2}},
+ \qquad
+ r_m=\left(\frac{\Omega\eta\,\mu^2}{\dot M\sqrt{GM}}\right)^{2/7}.
+\]
+四个幂次与题面完全一致。用上述单位与现代SI转cgs常数实际算出的系数为$2.116\times10^8$ cm，不能由这四个明确关系精确得到题面的$1.3\times10^8$。相差为1.63，可能来自场在极／赤道的定义、盘几何或经验边界系数；题面没有提供足够信息来唯一选择。原式作为数量级估计可保留，但不应伪造一项未给定的几何因子来“证明”数值相等。
+
+若使用真实立体角$\Omega_{\rm sr}$，上述式中的$\Omega$换成$\Omega_{\rm sr}/(4\pi)$，数值系数还改变。$\eta\ll1$使相同$\dot M$需要更大密度，压住磁场，所以$r_m$随$\eta$变小而减小，提供幂次符号的物理核查。比较共转半径$r_{\rm co}=(GM/\omega_*^2)^{1/3}$还能区分允许内流与可能的磁推进，但这是此题模型之外的条件。
+\end{solution}
+
+\src{8.901 PS9.4，圆双星引力波，(a)--(f)。}
+\begin{exercise}
+两颗中子星质量均为$M$、间距$R$，圆轨道位于$xy$平面，质心为原点。令周期$P$、角频率$\Omega=2\pi/P$。
+(a)求轨道能量，用$M,P$表示；
+(b)求质量四极矩张量，用单角三角函数表示，确定波频率；
+(c)求远区迹反转扰动$\bar h_{ij}$并考察沿$z$传播的TT波和偏振；
+(d)对沿$x$传播的波作横向投影及去迹，判偏振；
+(e)求辐射能损失及$\dot P$；
+(f)代$M=1.4\Ms,P=7.75$ h，与题面给的Hulse--Taylor $\dot P=-2.42\times10^{-12}$比较并解释假设的影响。此题对应Ryan Lang客座课。
+\end{exercise}
+\begin{solution}
+(a)每颗距质心$R/2$，所以$\Omega^2=2GM/R^3$，$P=2\pi\sqrt{R^3/(2GM)}$。总势能$-GM^2/R$，总动能$GM^2/(2R)$，故
+\[
+ E=-\frac{GM^2}{2R}
+ =-\frac12\,2^{-1/3}G^{2/3}M^{5/3}\Omega^{2/3}.
+\]
+这里$M$是每颗质量，不能误换成总质量而不同时改系数。
+
+(b)定义去迹质量四极矩$I_{ij}=\sum_a m_a(x_{ai}x_{aj}-\delta_{ij}r_a^2/3)$。两点$\pm(R/2)(\cos\Omega t,\sin\Omega t,0)$给
+\[
+ I_{ij}=\frac{MR^2}{4}
+ \begin{pmatrix}
+ \cos2\Omega t+1/3&\sin2\Omega t&0\\
+ \sin2\Omega t&-\cos2\Omega t+1/3&0\\
+ 0&0&-2/3
+ \end{pmatrix}.
+\]
+两星交换位置不改变四极矩，因此角频率$2\Omega$、通常频率$f_{\rm GW}=2/P$。若定义未去迹二阶矩，差别只是本圆轨道的常数对角项，二阶时间导数相同。
+
+(c) 远距离$D$处$\bar h_{ij}=2G\ddot I_{ij}(t-D/c)/(c^4D)$；令$u=t-D/c$，即
+\[
+ \bar h_{ij}=-A
+ \begin{pmatrix}\cos2\Omega u&\sin2\Omega u&0\\
+ \sin2\Omega u&-\cos2\Omega u&0\\0&0&0\end{pmatrix},
+ \qquad A=\frac{2GMR^2\Omega^2}{c^4D}.
+\]
+对沿$z$传播的波，所有$z$指标已为零、平面迹也为零，确为TT。$h_+=-A\cos2\Omega u$、$h_\times=-A\sin2\Omega u$同振幅、相差四分之一周期，形成圆偏振。
+
+(d) 沿$x$方向投影$\mathcal P_{ij}=\delta_{ij}-n_in_j=\mathrm{diag}(0,1,1)$，TT算符为$\mathcal P_{ik}\mathcal P_{jl}-\tfrac12\mathcal P_{ij}\mathcal P_{kl}$。因此
+\[
+ h_{yy}^{\rm TT}=\frac A2\cos2\Omega u,\qquad
+ h_{zz}^{\rm TT}=-\frac A2\cos2\Omega u,\qquad
+ h_{yz}^{\rm TT}=0.
+\]
+仅一种线偏振，振幅是正面圆偏振单分量的一半。侧面观察的轨道反射对称性也要求交叉分量消失；不能把(c)矩阵直接称为所有传播方向都已TT。
+
+(e)对去迹$I$，四极矩功率
+\[
+ L_{\rm GW}=\frac{G}{5c^5}\left\langle\dddot I_{ij}\dddot I_{ij}\right\rangle
+ =\frac{32G}{5c^5}\left(\frac M2\right)^2R^4\Omega^6.
+\]
+重复指标对$I_{xy}$、$I_{yx}$都求和，漏掉一项会改系数。令总质量$M_T=2M$、约化质量$\mu=M/2$、啁啾质量$\mathcal M=\mu^{3/5}M_T^{2/5}=2^{-1/5}M$，由$\dot E=-L_{\rm GW}$、$E\propto-P^{-2/3}$得
+\[
+ \dot P=-\frac{192\pi}{5}
+ \left(\frac{2\pi G\mathcal M}{c^3P}\right)^{5/3}.
+\]
+符号必须负：能量更负使间距和周期都减小。
+
+(f) 实际代入得$\dot P=-1.9941\times10^{-13}$，绝对值比题面观测值小约12.1倍。主要差异是我们把实际偏心双星假设为圆轨道；偏心轨道在近心点运动快，辐射显著增强。两星质量完全相等也是近似，观测比较还需要运动学加速度修正。此题的圆轨道估计已足以说明不应把差异解释为GR被否定；它没有完成实际偏心轨道的定量观测拟合。程序另外列出的偏心增强示例只是条件算例，未作为题面新增观测数据。
+\end{solution}

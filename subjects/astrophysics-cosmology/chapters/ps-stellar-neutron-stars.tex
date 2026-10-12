@@ -1,0 +1,169 @@
+\originalchapter{致密星平衡、自转与射电脉冲习题}
+本章对应8.901 PS8全部五题。$\rho$在TOV方程中指总能量密度除以$c^2$，并非一般情况下的重子静质量密度。原题让读者将图中的重子数密度粗略换为$\rho$；下面照此完成模型，同时指出这种换算和因果性造成的限制。数值曲线已经实际积分，不能把其质量极值当作真实中子星的观测上限。
+
+\src{8.901 PS8.1，不可压缩球，(a)--(b)。}
+\begin{exercise}
+设中子星物质$\rho=\rho_0$恒定，质量$M$、半径$R$，$\rho_0=3M/(4\pi R^3)$。用
+\[
+ \frac{\dd P}{\dd r}
+ =-\frac{G[M(r)+4\pi r^3P/c^2](\rho+P/c^2)}
+ {r^2[1-2GM(r)/(rc^2)]},\qquad
+ M'=4\pi r^2\rho
+\]
+及$P(R)=0$，(a)积分出压强径向分布；(b)证明有限正中心压强要求$R>(9/8)(2GM/c^2)$。
+\end{exercise}
+\begin{solution}
+先积分质量方程：$M(r)=M(r/R)^3$。令
+\[
+ y=\frac P{\rho_0c^2},\quad A=\frac{2GM}{R^3c^2},\quad
+ u(r)=\sqrt{1-Ar^2},\quad u_R=u(R).
+\]
+代入TOV并分离变量，得到
+\[
+ \frac{\dd y}{(1+y)(1+3y)}
+ =-\frac{A r\,\dd r}{2(1-Ar^2)}.
+\]
+左边原函数为$\tfrac12\ln[(1+3y)/(1+y)]$，右边为$\tfrac12\ln u$。从表面$y(R)=0$积分，
+\[
+ \frac{1+3y}{1+y}=\frac{u(r)}{u_R},
+ \qquad
+ P(r)=\rho_0c^2\frac{u(r)-u_R}{3u_R-u(r)}.
+\]
+分子在内部非负，分母最小值在中心，因为$u(0)=1$。故要处处有限、正压强，必须$3u_R>1$：
+\[
+ 1-\frac{2GM}{Rc^2}>\frac19,\qquad
+ R>\frac98\frac{2GM}{c^2}.
+\]
+等号使中心压强发散；这比仅要求表面在事件视界外更强。弱场展开$u\simeq1-Ar^2/2$给$P\simeq(2\pi G\rho_0^2/3)(R^2-r^2)$，恢复均匀Newton球。不可压缩极限的声速无限大，因此此解析球可展示GR压强的引力作用，却不是因果的中子星物质。
+\end{solution}
+
+\src{8.901 PS8.2，实际TOV计算，(a)--(f)。}
+\begin{exercise}
+(a)从Arnett--Bowers(1977)图4或Lattimer--Prakash(2001)图1的普通中子星EOS（排除SQM）取一条平均直线，拟合$P=K\rho^\gamma$并向任意低密度外推。图中的$n$单位为重子$\mathrm{fm^{-3}}$，用$m_b=1.7\times10^{-24}$ g及$1\ {\rm fm}=10^{-13}$ cm换算。
+(b)在$14<\log_{10}[\rho_c/(\mathrm{g\,cm^{-3}})]<16.5$均匀取中心密度，实际积分每颗星至表面。
+(c)画$M(\rho_c)$并求此EOS的最大质量；
+(d)画$M<M_{\max}$模型的$R(\rho_c)$；
+(e)画这些模型的$M(R)$。
+(f)对如下混合EOS重复(b)、(c)：低于$\rho_1=10^{14}$时$P=5.5\times10^9\rho^{5/3}$（cgs），高于$\rho_2=10^{14.6}$时$P=\rho c^2$；中间在两端压强之间作线性插值。
+\end{exercise}
+\begin{solution}
+(a) 已实际查看\href{https://arxiv.org/abs/astro-ph/0002232}{Lattimer--Prakash论文图1}。选取普通EOS区域的粗略平均锚点$(n,P)=(0.1,1)$和$(0.5,100)$，其中$P$单位为$\mathrm{MeV\,fm^{-3}}$；选点和单位在\texttt{sources/eos-choice-frozen.json}中先于求解冻结。这只是题目允许的平均幂律，不是某个命名EOS的精密数字化。由
+\[
+ \rho=1.7\times10^{15}n\ \mathrm{g\,cm^{-3}},\qquad
+ 1\ \mathrm{MeV\,fm^{-3}}=1.602176634\times10^{33}\ \mathrm{erg\,cm^{-3}}
+\]
+得到$\gamma=\ln100/\ln5=2.8613531$、$K=3.06458\times10^{-8}$（相应cgs组合单位）。直接将重子密度作为TOV的$\rho$忽略了内能和结合能关系；真实EOS应同时提供$P(\epsilon)$与重子数密度。
+
+(b) 中心正规展开为$M=(4\pi/3)\rho_c r^3+O(r^5)$、$P=P_c+O(r^2)$，不能从$r=0$直接除以$r^2$。为避免外层$\rho\to0$导致$\dd\rho/\dd r$数值不良，实际积分质量和无量纲焓
+\[
+ h(P)=\int_0^P\frac{\dd P}{\rho c^2+P},\qquad
+ \frac{\dd h}{\dd r}
+ =-\frac{G[M+4\pi r^3P/c^2]}
+ {c^2r^2[1-2GM/(rc^2)]}.
+\]
+幂律EOS有$h=\gamma(\gamma-1)^{-1}\ln[1+K\rho^{\gamma-1}/c^2]$，可反解$\rho(h)$。从$r=1$ cm的正规中心展开开始，用DOP853、相对容差$2\times10^{-9}$积分到第一个$h=0$；它定义$R$，此处$M(R)$是总引力质量。151个中心密度已全部完成，未用手画曲线替代积分。
+
+(c)--(e) 实际曲线与极值如下；虚线表示质量首个极值后的分支。原题$M<M_{\max}$这个不等式本身也包括下降支，所以没有将它们悄悄删掉。通常的首个转折点稳定性判断需要固定EOS、平衡序列等条件；这里未做完整径向本征模分析。
+\begin{center}
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=4.6cm,xlabel={$\log_{10}\rho_c$（cgs）},ylabel={$M/\Ms$}]
+\addplot[black,dashed] table[x=logrho_c,y=M_solar,col sep=comma]{qa/stellar-TOV-power.csv};
+\addplot[structurecolor,thick] table[x=logrho_c,y=M_solar,col sep=comma]{qa/stellar-TOV-power-rising.csv};
+\end{axis}\end{tikzpicture}\hfill
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=4.6cm,xlabel={$\log_{10}\rho_c$（cgs）},ylabel={$R/\mathrm{km}$}]
+\addplot[black,dashed] table[x=logrho_c,y=R_km,col sep=comma]{qa/stellar-TOV-power.csv};
+\addplot[structurecolor,thick] table[x=logrho_c,y=R_km,col sep=comma]{qa/stellar-TOV-power-rising.csv};
+\end{axis}\end{tikzpicture}
+
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=4.6cm,xlabel={$R/\mathrm{km}$},ylabel={$M/\Ms$}]
+\addplot[black,dashed] table[x=R_km,y=M_solar,col sep=comma]{qa/stellar-TOV-power.csv};
+\addplot[structurecolor,thick] table[x=R_km,y=M_solar,col sep=comma]{qa/stellar-TOV-power-rising.csv};
+\end{axis}\end{tikzpicture}\hfill
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=4.6cm,xlabel={$r/\mathrm{km}$},ylabel={$\rho/\rho_c$}]
+\addplot[structurecolor] table[x=r_km,y=rho_over_central,col sep=comma]{qa/stellar-TOV-power-profile.csv};
+\end{axis}\end{tikzpicture}
+\end{center}
+极值进一步在中心密度上优化：$M_{\max}=2.66194\Ms$，$R=11.0911$ km，$\rho_c=2.10796\times10^{15}\ \mathrm{g\,cm^{-3}}$。将起点缩到0.1 cm、相对容差收紧至$10^{-10}$、最大径向步长缩小三倍后，质量相对差$6.94\times10^{-10}$、半径差$5.16\times10^{-12}$。
+
+这个极值\textbf{不满足因果性}：题设$\rho$视为$\epsilon/c^2$时，$c_s^2/c^2=\dd P/\dd(\rho c^2)=\gamma K\rho^{\gamma-1}/c^2$。本EOS在$\rho>1.1183\times10^{15}$时超过1，极值中心为3.254。因此应报告“所选外推模型的极值”，不能说已预测实际中子星最大质量。
+
+(f) 设$P_1=K_{\rm low}\rho_1^{5/3}$、$P_2=\rho_2c^2$，中间明确采用
+\[
+ P=P_1+a(\rho-\rho_1),\quad
+ a=\frac{P_2-P_1}{\rho_2-\rho_1}.
+\]
+线性段的焓可解析积分并连续拼接；程序检查了焓与反函数的往返一致性。实际151模型给：
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.65\textwidth,height=4.8cm,xlabel={$\log_{10}\rho_c$（cgs）},ylabel={$M/\Ms$}]
+\addplot[black,dashed] table[x=logrho_c,y=M_solar,col sep=comma]{qa/stellar-TOV-hybrid.csv};
+\addplot[structurecolor,thick] table[x=logrho_c,y=M_solar,col sep=comma]{qa/stellar-TOV-hybrid-rising.csv};
+\end{axis}\end{tikzpicture}\end{center}
+区间内最大质量$7.33231\Ms$，$R=29.7256$ km，$\rho_c=2.71837\times10^{14}$；收紧计算后的质量相对差$1.92\times10^{-8}$。这个大质量同样不是物理预测：虽然高密度段$P=\rho c^2$有$c_s=c$，指定的线性连接斜率却为$a/c^2=1.33103>1$，已经超出因果限制。原题“高段达到因果极限”不能推出整个分段EOS都因果。修正连接方式会改变结果，应另列为模型变化。
+\end{solution}
+
+\src{8.901 PS8.3，最快自转与赤道隆起，(a)--(c)。}
+\begin{exercise}
+(a)用赤道表面质点离心力等于引力估中子星最短自转周期；
+(b)对$M=1.4\Ms,R=10$ km求值，与原题2006年所列PSR J1748--2446ad的1.4 ms比较；
+(c)均匀、慢转Newton流体满足$(R_e-R_p)/R_m=5\omega^2R_m^3/(4GM)$。估计自转周期为(b)中两倍时的赤道与极半径。
+\end{exercise}
+\begin{solution}
+$\omega^2R=GM/R^2$给
+\[
+ P_{\min}=2\pi\sqrt{\frac{R^3}{GM}}=0.46095\ {\rm ms}.
+\]
+原题脉冲星的1.4 ms大于这个粗略破裂极限；这不是包括GR、真实EOS和质量随转速改变后的精确极限。比较值只作为2006年题面历史数据。
+
+取$R_m=10$ km、$P=2P_{\min}$，则$\omega^2R_m^3/(GM)=1/4$，所以$R_e-R_p=0.3125R_m$。题面只给“平均半径”，不足以唯一分别解出两半径；额外定义$R_m$为等体积球半径，$R_e^2R_p=R_m^3$，实际解得$R_e=11.158$ km、$R_p=8.033$ km。若只保留慢转一阶，体积条件给$R_e\simeq R_m(1+f/3)$、$R_p\simeq R_m(1-2f/3)$，$f=0.3125$，即11.042和7.917 km。两组不能作为精确形状：$f$已不小，超出了慢转展开的受控范围。
+\end{solution}
+
+\src{8.901 PS8.4，制动指数与年龄，(a)--(d)。}
+\begin{exercise}
+脉冲星$P=2\pi/\omega$，(a)若$\dot\omega=-k\omega^3$且$k$恒定，证明磁场$B\propto\sqrt{P\dot P}$；
+(b)若$\dot\omega=-k\omega^n$证明$n=\omega\ddot\omega/\dot\omega^2$；
+(c)给初末周期，积分求自转年龄；
+(d)对$n=3$用$B_{12}=B/(10^{12}\ {\rm G})$和$P_s=P/(1\ {\rm s})$给自转减慢尺度。
+\end{exercise}
+\begin{solution}
+真空磁偶极近似的辐射功率为$2\mu^2\omega^4\sin^2\alpha/(3c^3)$（Gaussian单位），转动能$\tfrac12I\omega^2$给$k=2\mu^2\sin^2\alpha/(3Ic^3)$。又
+\[
+ \dot P=-\frac{2\pi\dot\omega}{\omega^2}
+ =\frac{4\pi^2k}{P},
+\]
+所以$P\dot P\propto B^2$，但需固定$I,R,\alpha$及$\mu=B_{\rm eq}R^3$的赤道场定义。取$I=10^{45}\ \mathrm{g\,cm^2}$、$R=10$ km、$\sin\alpha=1$，得$B_{\rm eq}\simeq3.2\times10^{19}\sqrt{P\dot P}$ G，极场为其两倍。
+
+对恒定$k$、恒定$n$再微分，有$\ddot\omega=-kn\omega^{n-1}\dot\omega$；消去$k$即得所求制动指数。若$k$变化，测出的$\omega\ddot\omega/\dot\omega^2$还包含$\dot k$，不能照样认作固定$n$。
+
+积分$\omega^{-n}\dd\omega=-k\dd t$，对$n\ne1$，
+\[
+ \tau=\frac{P_f}{(n-1)\dot P_f}
+ \left[1-\left(\frac{P_i}{P_f}\right)^{n-1}\right].
+\]
+这里$\dot P_f>0$；$n=1$极限为$(P_f/\dot P_f)\ln(P_f/P_i)$。对$n=3$且$P_i\ll P_f$，特征年龄$\tau_c=P/(2\dot P)$。沿用上述磁场归一，
+\[
+ \tau_c\simeq1.6\times10^7\,P_s^2B_{12}^{-2}\ {\rm yr}.
+\]
+它依赖初转速可忽略和长期恒定制动；真实年龄需要出生周期、磁场演化、力矩模型或独立超新星遗迹年龄来约束。
+\end{solution}
+
+\src{8.901 PS8.5，星际等离子体的色散，(a)--(d)。}
+\begin{exercise}
+冷、无磁、稀薄电子等离子体，$\omega_p^2=4\pi n_e e^2/m_e$，波频率$\omega=2\pi\nu$。
+(a)推折射率$n_{\rm ref}=\sqrt{1-\omega_p^2/\omega^2}$；
+(b)、(c)求相速和群速；
+(d)在全程$\nu\gg\nu_p$时，求射电脉冲相对同时发射的光学／X射线脉冲的延迟，并给$\nu=400$ MHz、密度单位$0.01\ \mathrm{cm^{-3}}$、路径单位1 kpc的系数。
+\end{exercise}
+\begin{solution}
+电子响应$-m_e\omega^2x=-eE$产生介电函数$\varepsilon=1-\omega_p^2/\omega^2$，Maxwell波动方程给$\omega^2=c^2k^2+\omega_p^2$。因此
+\[
+ n_{\rm ref}=\frac{ck}{\omega},\qquad
+ v_{\rm ph}=\frac c{n_{\rm ref}}>c,\qquad
+ v_g=\frac{\dd\omega}{\dd k}=c\,n_{\rm ref}<c .
+\]
+相速并不传递脉冲包络的信息；$\omega<\omega_p$时传播波数不再实数，不能套用这些实传播速度。高频展开$1/v_g\simeq c^{-1}[1+\omega_p^2/(2\omega^2)]$，积分路径差得
+\[
+ \Delta t=\frac{e^2}{2\pi m_ec\,\nu^2}\int n_e\dd x
+ =0.25930\left(\frac{\nu}{400\ {\rm MHz}}\right)^{-2}
+ \int\left(\frac{n_e}{0.01\ \mathrm{cm^{-3}}}\right)
+ \left(\frac{\dd x}{1\ {\rm kpc}}\right)\ {\rm s}.
+\]
+可比较两射电频率，把$\nu^{-2}$换成$\nu_1^{-2}-\nu_2^{-2}$。积分称色散量DM；它测电子柱密度，除非有星际电子模型，并不直接给几何距离。
+\end{solution}

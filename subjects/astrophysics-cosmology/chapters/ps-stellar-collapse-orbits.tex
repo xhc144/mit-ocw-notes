@@ -1,0 +1,106 @@
+\originalchapter{超新星核心、核统计平衡与黑洞轨道习题}
+本章对应8.901 PS7.1--3。前两题模型全部实际计算；第三题公开题面中的轨道类型和数值条件均已独立实现，原题要求逐条对照的受限教材公式、练习和图片没有取得，明确保留这一比较边界。几何的一般证明引用本仓库GR卷，不重复该卷。
+
+\src{8.901 PS7.1，超新星核心坍缩能量。}
+\begin{exercise}
+估$1.2\Ms$核心从$10^9$到$10^{15}\ \mathrm{g\,cm^{-3}}$释放的引力势能。
+\end{exercise}
+\begin{solution}
+额外采用均匀球近似，$R=(3M/(4\pi\rho))^{1/3}$，所以初末半径约829和8.29 km。由逐壳装配势能
+\[
+ U=-\int_0^R\frac{GM(r)}r\,4\pi r^2\rho\dd r=-\frac{3GM^2}{5R}
+\]
+得到释放$\Delta E=(3GM^2/5)(1/R_f-1/R_i)=2.72\times10^{53}$ erg。密度提高百万倍使半径减小100倍，末态引力能主导差值。末态强场使Newton势能和均匀密度仅适合量级估计；这也不是所有能量都变为可见超新星光，实际大部分可由中微子带走。
+\end{solution}
+
+\src{8.901 PS7.2，纯氦与镍的核统计平衡，(a)--(d)。}
+\begin{exercise}
+只含$^{56}$Ni与$^4$He，反应$14\,{}^4\mathrm{He}\rightleftarrows{}^{56}\mathrm{Ni}+Q$。质量过剩$(M-A)c^2$对He为2.42 MeV、对Ni为$-53.9$ MeV，化学平衡$14\mu_{\rm He}=\mu_{\rm Ni}$。非简并核数密度
+\[
+ n_i=g_i\left(\frac{m_i\kb T}{2\pi\hbar^2}\right)^{3/2}
+ \exp[(\mu_i-m_ic^2)/(\kb T)].
+\]
+(a)以基态统计权重均为1推Saha型数密度比；
+(b)改写为质量分数$X_4+X_{56}=1$；
+(c)固定$\rho=10^7\ \mathrm{g\,cm^{-3}}$，在$4.5<T_9<6.5$实际求解；
+(d)画质量分数，求$X_4=X_{56}$的温度。
+\end{exercise}
+\begin{solution}
+$Q=14(2.42)-(-53.9)=87.78$ MeV。记$n_{Q,i}=(m_i\kb T/(2\pi\hbar^2))^{3/2}$，化学平衡消去$\mu_i$，得到
+\[
+ \frac{n_{56}}{n_4^{14}}
+ =\frac{n_{Q,56}}{n_{Q,4}^{14}}\exp\frac Q{\kb T}
+ \equiv K_{\rm NSE}(T).
+\]
+结合反应有较大正$Q$，指数在右侧是正号；高温解离仍可占优，因为平动相空间和14个粒子的熵也参与。
+
+采用通常核子质量归一的质量分数，$n_4=\rho X_4/(4m_u)$、$n_{56}=\rho X_{56}/(56m_u)$。忽略结合能对总质量密度的小修正，这保留$X_4+X_{56}=1$的题设约定。设$x=X_{56}$，则
+\[
+ \frac{x}{(1-x)^{14}}
+ =\frac{56m_uK_{\rm NSE}\rho^{13}}{(4m_u)^{14}}\equiv C(T).
+\]
+左边在$0<x<1$严格递增，所以每个温度只有一个物理解。实际在401点用logistic变量$u=\ln[x/(1-x)]$求根，避免$1-x$很小造成溢出。平衡残差、比例归一均检查通过。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\textwidth,height=4.7cm,xlabel={$T_9$},ylabel={核子质量分数},xmin=4.5,xmax=6.5,ymin=0,ymax=1.02,legend pos=north east]
+\addplot[structurecolor] table[x=T9,y=X_Ni56,col sep=comma]{qa/stellar-NSE.csv};\addlegendentry{$X_{56}$}
+\addplot[black,dashed] table[x=T9,y=X_He4,col sep=comma]{qa/stellar-NSE.csv};\addlegendentry{$X_4$}
+\end{axis}\end{tikzpicture}\end{center}
+半分数时$x/(1-x)^{14}=2^{13}$，求得$T=5.929\times10^9$ K。低温关联为Ni有利，高温解离为更多He有利；较高密度也会因$\rho^{13}$促进关联。真实NSE含许多核、核子、弱反应与电子背景，本题两物种图不能等同于真实超新星核素产额。
+\end{solution}
+
+\src{8.901 PS7.3，Schwarzschild附近的实际轨道，(a)--(c)。}
+\begin{exercise}
+用$G=c=M=1$的单位，对Schwarzschild黑洞数值积分质点和光线轨道，转折点的一阶根式可通过再求导消掉困难。给$M=10\Ms$的时间和长度单位。
+(a)径向落体$\ell=0$，画$r(t)$与$r(\tau)$，明确检查能量守恒；
+(b)构造无界散射、捕获、有界、稳定圆、不稳定圆五类轨道，说明散射最小接近范围，并通过小扰动向内／向外分支核查$r=6M$的ISCO；
+(c)从$2.1<r/M<2.5$一点沿多个方向发光，检验逃逸条件。原题还要求对照Shapiro--Teukolsky式12.4.13--15、12.5.1--3、12.5.15、练习12.14及图12.1、12.6。
+\end{exercise}
+\begin{solution}
+长度单位$GM/c^2$对$10\Ms$为14.77 km，时间$GM/c^3$为49.25微秒。用面积半径$r$、$f=1-2/r$、能量$e=f\dot t$、角动量$\ell=r^2\dot\varphi$，类时点粒子的规范式给
+\[
+ \dot r^2+V(r)=e^2,\quad V=(1-2/r)(1+\ell^2/r^2).
+\]
+圆点号为固有时导数。对一阶约束求导、连续延伸过转折点，得到实际积分的一阶系统
+\[
+ \dot r=p_r,\quad\dot p_r=-\frac1{r^2}+\frac{\ell^2}{r^3}-\frac{3\ell^2}{r^4},
+ \quad\dot\varphi=\frac\ell{r^2},\quad\dot t=\frac e f.
+\]
+这避免在转折点猜$\pm\sqrt{e^2-V}$切换方向。用DOP853、相对误差$10^{-10}$、最大固有时步0.5；$r=2.0001$处停止捕获轨道，$r=60$处停止向外轨道。未声称用奇异的Schwarzschild坐标穿过视界。
+
+(a) 从$r_0=12$局部静止释放，$e=\sqrt{1-2/12}=0.912871$。到停止半径的固有时44.7650，坐标时却在靠近2时迅速增大：
+\begin{center}
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=4.4cm,xlabel={$\tau$},ylabel={$r$}]
+\addplot[structurecolor] table[x=affine,y=r,col sep=comma]{qa/stellar-geodesic-radial-drop-plot.csv};
+\end{axis}\end{tikzpicture}\hfill
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=4.4cm,xlabel={$t$},ylabel={$r$}]
+\addplot[structurecolor] table[x=t,y=r,col sep=comma]{qa/stellar-geodesic-radial-drop-plot.csv};
+\end{axis}\end{tikzpicture}
+\end{center}
+绘图采用实际样本的子集，靠近终点保留较密样本；完整1200点表仍保存用于数值核验。每个完整输出点计算$|p_r^2+V-e^2|$，该径向算例最大误差$6.4\times10^{-12}$。有限固有时落入和无限坐标时逼近是两种钟的区别，不是能量未守恒。
+
+(b) 有限能量无界散射取$e=1.1$。不稳定圆极限同时满足$V=e^2,V'=0$，故$\ell_c^2=r_c^2/(r_c-3)$、$e^2=(r_c-2)^2/[r_c(r_c-3)]$，实际求得$r_c=3.57143,\ell_c=4.72456$。取$\ell=1.001\ell_c$从40入射，最近半径约3.705后返回；取$0.999\ell_c$则捕获。逐渐靠近临界参数可使散射转折点接近$r_c$，但临界轨道本身渐近圆周，不是穿过圆后再散射。$e\to1^+$的极限为$r_c=4$，$e\to\infty$趋3，所以“最近能到哪里”还需说明入射能量。
+
+有界示例取近心6、远心12，相等转折能量给$\ell=3.61814,e=0.953463$；实际轨迹是进动的玫瑰形，非闭合Kepler椭圆。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.58\textwidth,height=5cm,axis equal image,xlabel={$r\cos\varphi$},ylabel={$r\sin\varphi$},xmin=-13,xmax=13,ymin=-13,ymax=13]
+\addplot[structurecolor,thin] table[x=x,y=y,col sep=comma]{qa/stellar-geodesic-bound-precession-plot.csv};
+\addplot[black,dashed,domain=0:360,samples=90] ({2*cos(x)},{2*sin(x)});
+\end{axis}\end{tikzpicture}\end{center}
+圆轨道有
+\[
+ \ell^2=\frac{r^2}{r-3},\quad e^2=\frac{(r-2)^2}{r(r-3)},\quad
+ V''_{\rm circ}=\frac{2(r-6)}{r^3(r-3)}.
+\]
+$r>6$极小稳定，$3<r<6$极大不稳定，6为边界。实际固定圆轨道$\ell$、将初始$r$改$\pm0.1\%$后再按初态计算$e$：在6.1和8，径向摆动有界；在5.9和4，向内扰动被捕获，向外扰动离开圆。5.9外侧扰动可进入有界的外部轨道，4外侧例子离开到60，但能量略小于1，不能自动称永久无界。由解析边界和两侧实际扰动共同核查ISCO，不把仅画一条精确圆的长期不变当稳定性证明。
+
+(c) 光以仿射参数积分，$V_\gamma=f\ell^2/r^2$、$\dot p_r=\ell^2(r-3)/r^4$。从$r_0=2.3$处静止局部观察者发光，令与向外径向夹角$\alpha$，归一$e=1$，则
+\[
+ b=\ell/e=\frac{r_0\sin\alpha}{\sqrt{f(r_0)}},\quad
+ p_{r,0}=\cos\alpha.
+\]
+光子势在3最大，临界$b_c=3\sqrt3$。由于$r_0<3$，向外光只有$\sin\alpha<b_c\sqrt{f(r_0)}/r_0$才能越过外势垒，逃逸半角54.679度。临界光渐近3；大于半角的向外光先转折再落回；朝内光在此位置被捕获。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.64\textwidth,height=4.8cm,xlabel={仿射参数},ylabel={$r$},xmin=0,xmax=20,ymin=2,ymax=15,legend pos=north west]
+\addplot[structurecolor] table[x=affine,y=r,col sep=comma]{qa/stellar-geodesic-photon-escaping-plot.csv};\addlegendentry{$0.8\alpha_c$，逃逸}
+\addplot[black,dashed] table[x=affine,y=r,col sep=comma]{qa/stellar-geodesic-photon-captured-plot.csv};\addlegendentry{$1.02\alpha_c$，转折后捕获}
+\addplot[gray] table[x=affine,y=r,col sep=comma]{qa/stellar-geodesic-photon-inward-plot.csv};\addlegendentry{向内发射}
+\end{axis}\end{tikzpicture}\end{center}
+实际共25条轨道／光线，包含多个逃逸锥内外方向及ISCO两侧扰动，所有能量约束最大误差小于$3\times10^{-11}$。对应源码与逐轨记录随包。原受限教材的式号、练习和图片没有取得，故未声称已经逐件比较它们；本节完成公开题面能独立定义的模型和数值任务，并保留这项未取得依赖。
+\end{solution}
