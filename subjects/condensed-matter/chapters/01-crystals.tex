@@ -1,0 +1,49 @@
+\volpart{第一编\quad 固体理论的单粒子与配对基础（8.511）}
+\originalchapter{电子气、晶格与衍射}
+\label{ch:crystal}
+\source{8.511公开摘要第1--4讲；以下推导为中文重编与补写。}
+\originalsection{自由电子气的尺度}
+把价电子近似为在体积$V$中运动的自旋$1/2$粒子，离子只提供均匀中和背景。这个模型首先给出可与实验比较的能量尺度。周期边界下$k_i=2\pi n_i/L_i$，每个自旋态占据$k$空间体积$(2\pi)^3/V$。零温时从低能态依次填到费米球边界，故
+\begin{equation}
+n=\frac NV=2\int_{|\vct k|<k_F}\frac{\dd^3k}{(2\pi)^3}=\frac{k_F^3}{3\pi^2},\qquad E_F=\frac{\hbar^2k_F^2}{2m},\qquad v_F=\frac{\hbar k_F}{m}.
+\end{equation}
+因$N(E)=V(2mE/\hbar^2)^{3/2}/(3\pi^2)$，两种自旋合计的单位体积态密度为$D(E)=\dd(N/V)/\dd E=3n\sqrt{E/E_F}/(2E_F)$。这里$D$按能量计，不能与每自旋态密度混用。金属的$T_F=E_F/\kb$常远高于室温，因此只有宽度约$\kb T$的费米面薄层能被热激发。
+
+对平滑函数$g$，把费米函数与阶跃函数的差局限于该薄层，令$x=(E-\mu)/\kb T$，奇偶性使一阶修正消失，二阶矩$\int x^2[-f'(x)]\dd x=\pi^2/3$给出 Sommerfeld 展开
+\begin{equation}
+\int_0^\infty g(E)f(E)\dd E=\int_0^\mu g(E)\dd E+\frac{\pi^2}{6}(\kb T)^2g'(\mu)+O(T^4).
+\end{equation}
+先把$g=D$代入并固定$N$，得$\mu=E_F[1-\pi^2(\kb T/E_F)^2/12+O(T^4)]$；再把$g=ED$代入，化学势变化与显式温度项合并为$C_V/V=\pi^2D(E_F)\kb^2T/3$。这解释电子比热的线性项，也说明测比热能测费米能附近的态密度。
+
+小磁场使两种自旋能量移为$E\mp\mu_BB$，两支人数差为$D(E_F)\mu_BB$。磁化强度$M=\mu_B(n_\uparrow-n_\downarrow)$，在SI制$\chi_P=\mu_0\mu_B^2D(E_F)$。此处只含自旋顺磁，轨道抗磁另需量子轨道计算。若加上动量弛豫时间$\tau$，稳态$0=-e\vct E-m\vct v/\tau$给$\sigma=ne^2\tau/m$，但$\tau$不是电子气模型内部自动确定的参数。
+
+令每电子球体体积$4\pi(r_sa_B)^3/3=1/n$，其中$a_B=4\pi\epsilon_0\hbar^2/(me^2)$。动能随$r_s^{-2}$，库仑能随$r_s^{-1}$，所以$r_s$越大相互作用越不能忽略。这个估计只判断相对尺度，不能单凭它断言发生哪种有序态。
+\originalsection{实空间与倒空间}
+\begin{definition}
+由三个线性无关向量$\vct a_i$生成的Bravais晶格为$\vct R=\sum_i n_i\vct a_i$，$n_i\in\mathbb Z$。在每个$\vct R$附上相同的原子基底$\vct d_\alpha$，得到一般晶体。基底与原胞是不同对象。
+\end{definition}
+把实空间基矢作为矩阵$A$的列，定义倒格基矢矩阵$B=2\pi A^{-T}$。这样$\vct a_i\cdot\vct b_j=2\pi\delta_{ij}$，且对任意倒格矢$\vct G=\sum m_i\vct b_i$都有$\e^{\ii\vct G\cdot\vct R}=1$。体积乘积由行列式直接得到$|\det A|\,|\det B|=(2\pi)^3$。第一Brillouin区是倒格点的Wigner--Seitz胞，体积同任意倒格原胞，并非必须画成平行六面体。
+
+入射与散射波的动量转移$\vct Q=\vct k_f-\vct k_i$。弹性散射振幅是
+\begin{equation}
+\mathcal A(\vct Q)=\sum_{\vct R}\e^{-\ii\vct Q\cdot\vct R}\underbrace{\sum_\alpha f_\alpha(\vct Q)\e^{-\ii\vct Q\cdot\vct d_\alpha}}_{S(\vct Q)}.
+\end{equation}
+格点和要求$\vct Q=\vct G$，基底结构因子$S$则可使某些允许的倒格点没有衍射峰。不能把消光误判为Bravais晶格变了。有限样品的格点和给出宽约$1/L$的峰。Ewald作图是在$|\vct k_f|=|\vct k_i|$球面上寻找满足动量转移条件的倒格点。
+
+\begin{center}
+\begin{tikzpicture}[scale=.85,>=Stealth]
+\foreach \x in {-2,...,2}\foreach \y in {-2,...,2}{\fill (\x,\y) circle(1.5pt);}
+\draw[structurecolor,thick](-.5,-.5)rectangle(.5,.5);
+\draw[->] (0,0)--(1,0)node[below]{$\vct b_1$};\draw[->](0,0)--(0,1)node[left]{$\vct b_2$};
+\node at (0,-2.7){方格倒晶格的第一Brillouin区};
+\end{tikzpicture}
+\end{center}
+图中的坐标按倒格常数归一化，方框是离原点最近的区域。真实晶体的长度与形状由$A$决定。
+\originalsection{晶体对称与热振动}
+保持晶格不变的纯旋转形成点群。若某旋转在二维垂直平面内保持二维晶格，整数基表示的矩阵迹等于$2\cos\theta$，必须是整数且位于$[-2,2]$。因而有限非平凡旋转仅允许$2,3,4,6$重轴，加上恒等的一重轴。三维晶系分类还需比较多条轴的相容性；14种Bravais晶格是对平移晶格的分类，而非所有原子结构的数目。
+
+螺旋与滑移操作是旋转或反射加分数平移，它们可保持含基底晶体，却不必是纯点群操作。研究能带时分数平移会在Bloch态上产生相位，这正是非对称型空间群的简并与纯点群不同的原因。
+
+热振动写成$\vct r_j=\vct R_j+\vct u_j$。若位移服从均值零的高斯分布，则$\avg{\e^{-\ii\vct Q\cdot\vct u}}=\exp[-\avg{(\vct Q\cdot\vct u)^2}/2]$。弹性相干强度因而乘$\e^{-2W}$，$2W=\avg{(\vct Q\cdot\vct u)^2}$。爱因斯坦模型中$\avg{u_x^2}=\hbar\coth(\hbar\omega_E/2\kb T)/(2M\omega_E)$，低温仍有零点振动。随机振动降低Bragg峰权重，同时产生漫散射；它并不把理想周期性的尖峰简单改成同等权重的宽峰。
+
+若位移另有静态调制$\vct u_j=\vct u_0\cos(\vct q\cdot\vct R_j)$，把振幅展开到一阶会出现$\vct G\pm\vct q$卫星峰。$\vct q$与倒格不成有理比时即为非公度结构；这里破坏的是原周期性，不能使用仅含热高斯平均的解释。

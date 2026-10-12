@@ -1,0 +1,40 @@
+\originalchapter{拓扑序、弦算符与融合}
+\label{ch:topological}
+\source{8.513第20--24讲：$\mathbb Z_2$环液体、弦网与拓扑激发；自绘图不复用第三方图片。}
+\originalsection{局域不可辨识与环液体}
+对称破缺相通常用局域序参量区分，例如磁化方向。拓扑序的不同基态在大系统中对任何有限支撑的局域算符近乎给相同矩阵元，却可由绕系统的非局域环区分。简并依赖空间拓扑，激发的融合与绕行提供进一步数据，不能只以“没有局域序参量”作为完整定义。
+
+方格边上放自旋，toric-code哈密顿量取$H=-J_e\sum_sA_s-J_m\sum_pB_p$，$A_s=\prod_{l\ni s}\sigma_l^x$、$B_p=\prod_{l\in\partial p}\sigma_l^z$。任意星与面共享0或2条边，交换两个Pauli串的符号为$(-1)^2=1$，所以全部对易，且每项平方为1。基态满足$A_s=B_p=+1$。在$\sigma^z$表象，$B_p$约束和$A_s$翻转可形成对闭环图样的相干叠加；具体把环画在直接或对偶格点上取决于表象。
+
+\begin{center}\begin{tikzpicture}[scale=.8]
+\draw[step=1,gray] (0,0)grid(4,3);
+\foreach \x in {0,...,4}\foreach \y in {0,...,3}{\fill(\x,\y)circle(1.3pt);}
+\draw[structurecolor,line width=2pt](1,1)--(2,1)--(2,2)--(1,2)--cycle;
+\draw[main,line width=2pt](3,1)--(2,1);\draw[main,line width=2pt](3,1)--(4,1);\draw[main,line width=2pt](3,1)--(3,0);\draw[main,line width=2pt](3,1)--(3,2);
+\node[below]at(1.5,-.4){面$B_p$};\node[below]at(3.5,-.4){星$A_s$};
+\end{tikzpicture}\end{center}
+图只标算符支撑，并非真实材料的显微结构。
+\originalsection{简并计数与任意子}
+闭合环面上$\prod_sA_s=\prod_pB_p=1$，因为每条边出现两次。边自旋数$N_l$、顶点数$N_s$、面数$N_p$满足Euler关系$N_s-N_l+N_p=0$。独立约束共$N_s+N_p-2$，基态维数$2^{N_l-(N_s+N_p-2)}=4$。球面Euler数为2则维数1；genus为$g$的闭曲面为$4^g$。这是一个实际可算的拓扑简并来源。
+
+沿路径$\gamma$作用$W_e(\gamma)=\prod_{l\in\gamma}\sigma_l^z$，只在两个端点把$A_s$翻为$-1$，产生两个$e$。对偶路径用$\sigma^x$产生两个$m$。移动端点不在路径中部积累额外激发，说明能量只依端点而非弦长。$e$弦与$m$弦交一次时反对易，因此绕行得到$-1$互统计相位。$e$、$m$各自交换为玻色，复合$\epsilon=e\times m$为费米；融合群为$\mathbb Z_2\times\mathbb Z_2$，$e^2=m^2=\epsilon^2=1$。
+
+非收缩Wilson环在基态子空间形成两对反对易逻辑算符，解释4维空间中的两个拓扑量子比特。局域扰动要通过绕系统的高阶过程才连接这些态，有限体系可有$\e^{-L/\xi}$劈裂。有限温下热任意子运动可能产生逻辑错误，因此二维模型的零温拓扑保护不等于任意温度下自纠错存储。
+\originalsection{长程纠缠与拓扑熵}
+有隙二维拓扑态的区域熵常为$S(A)=\alpha|\partial A|-\gamma+\cdots$，$\alpha$依微观截断，$\gamma=\log\mathcal D$，$\mathcal D=\sqrt{\sum_ad_a^2}$。toric code四类Abel任意子皆$d_a=1$，$\mathcal D=2$，所以$\gamma=\log2$。通过适当三个或更多区域熵的组合消除边界项，可提取这个常数。
+
+对闭环叠加态，跨边界的二值弦端点受总偶宇称约束，允许配置数较独立端点少一因子2，直接解释$-\log2$。一般拓扑熵公式需要有隙、区域尺度大于关联长等条件，临界态和含角点的任意单区拟合不能直接测$\gamma$。有限深度局域幺正不能改变长程拓扑数据；SPT在不要求保持对称时可由此类电路化为平凡态，内禀拓扑序不能。
+\originalsection{融合空间与非Abel弦网}
+写$a\times b=\sum_cN_{ab}^{c}c$。$N_{ab}^{c}$是两个激发融合为$c$的独立通道数，不是概率。球面上若总拓扑电荷须为真空，$n$个任意子允许态数是乘积融合中真空出现的次数。Abel任意子每次融合唯一，量子维数$d_a=1$；非Abel任意子有多个通道，态数按$d_a^n$增长。
+
+Fibonacci例子只有$1,\tau$，规则$\tau\times\tau=1+\tau$。设$n$个$\tau$融合为$1$与$\tau$的通道数为$D_n,F_n$，则$D_{n+1}=F_n$、$F_{n+1}=D_n+F_n$，$D_1=0,F_1=1$。增长矩阵的最大本征值$d_\tau=(1+\sqrt5)/2$，这是非整数内部态数增长率，而不是单个粒子的普通Hilbert空间维数。四个$\tau$总电荷真空有2个融合态，可编码一量子比特。
+
+融合的不同括号顺序是同一空间的不同基底，由$F$矩阵联系；粒子交换由$R$矩阵表示。四粒子五种括号路线的一致性要求五边形恒等式，融合与编织相容还需六边形恒等式。在Fibonacci规范中可取
+\begin{equation}
+F_{\tau}^{\tau\tau\tau}=\begin{pmatrix}d^{-1}&d^{-1/2}\\d^{-1/2}&-d^{-1}\end{pmatrix},\qquad d^2=d+1.
+\end{equation}
+用$d^{-2}+d^{-1}=1$可直接核对$F^2=I$；仅满足融合规则并不足以保证存在一致的量子态模型，还需完整的$F,R$数据。弦网局域重接规则把这些代数相容性转换为晶格波函数的一致性。
+\originalsection{范畴语言与有效规范场}
+在融合范畴中，对象是激发类型，态空间或局域过程是态射，张量积表示把激发并置，结合子由$F$实现；编织结构在二维描述绕行。这里“高阶”语言组织粒子、弦、界面等不同维的缺陷，不能把它只当新名称的相图。完整高阶范畴分类超出这门公开幻灯片可重建的数学证明范围；本稿用上述可计算融合例子给出课程的物理入口，不宣称证明一般分类。
+
+Abel拓扑序可由$K$矩阵Chern--Simons作用量$S=\hbar(4\pi)^{-1}\int K_{IJ}a_I\wedge\dd a_J$描述。带整数向量$l$的Wilson线积分掉规范场后给$\theta_l=\e^{\ii\pi l^TK^{-1}l}$与互绕相位$\e^{2\pi\ii l^TK^{-1}l'}$，与前章边缘结果一致。$\mathbb Z_2$序用$K=\left(\begin{smallmatrix}0&2\\2&0\end{smallmatrix}\right)$，$l_e=(1,0),l_m=(0,1)$，自旋为1，互绕$-1$，复合自旋$-1$。$|\det K|=4$同环面简并匹配。非AbelFibonacci弦网不能以一个普通Abel整数$K$完整代替，课程所述双Fibonacci对应更一般的非Abel拓扑场论。
