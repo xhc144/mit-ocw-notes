@@ -1,3 +1,4 @@
+\Needspace{12\baselineskip}
 \originalchapter{网络、集体运动与DNA包装}
 \originalsection{网络结构和阈值}
 用节点表示基因、蛋白或细胞，边表示已经定义的相互作用。度数、路径长度和聚类系数描述的是不同问题；仅凭度数分布不能推断一条边的因果作用。随机图中平均度 $c$ 的稀疏独立连边模型，探索邻居像平均子代数为 $c$ 的分枝过程。令 $u$ 为沿一条边进入的分枝最终有限的概率，则 $u=\e^{-c(1-u)}$。巨连通分量比例 $S=1-u$ 在 $c>1$ 才出现非零解。
@@ -7,9 +8,106 @@
 \originalsection{反应网络的稳定性}
 浓度 $\mathbf c$ 的动力学 $\dot{\mathbf c}=\mathbf f(\mathbf c)$ 在稳态附近写成 $\dot{\delta\mathbf c}=J\delta\mathbf c$，其中 $J_{ij}=\partial f_i/\partial c_j$。所有特征值实部为负才保证局部渐近稳定。网络中的一条负反馈边并不单独决定稳定性，反馈强度、延迟和其他回路同样影响特征值。
 
-以具有饱和合成和线性降解的调控模型 $\dot c=\alpha/[1+(c/K)^n]-\delta c$ 为例，右端导数为负，稳态唯一且一维扰动衰减；它本身不能持续振荡。若加入转录与翻译两级、时滞或额外状态，才可能产生振荡机制。课程网络主题的部分页面只有纲要，本节给的是编者独立模型说明，不代表取得了不存在的详细讲义。
+以具有饱和合成和线性降解的调控模型 $\dot c=\alpha/[1+(c/K)^n]-\delta c$ 为例，右端导数为负，稳态唯一且一维扰动衰减；它本身不能持续振荡。若加入转录与翻译两级、时滞或额外状态，才可能产生振荡机制。这是编者的最简单桥接模型；实际公开lec23、lec24含详细多变量动力学、同步与图样讲义，下文逐项展开。
 
 \originalsection{包装能量与尺度选择}
 噬菌体衣壳内的DNA密度高，热运动、弯曲和排斥共同决定包装功。若长度 $L$ 主要弯成半径 $R$ 的环，弯曲能尺度 $E_b\sim\kb T\ell_pL/(2R^2)$；若曲率随位置变化，应实际积分 $\kappa\int R(s)^{-2}\dd s/2$，不能以最外层半径代表全部内圈。线电荷的屏蔽排斥还需要盐浓度、有效电荷和相邻链距离。
 
-包装马达的力是相应自由能对已装入长度的导数，而不是总能量除以任意长度。随着内部空隙缩小，弯曲半径下降，力常迅速增大；由平衡自由能算出的准静态力不包含黏性耗散。将一种模型拟合得好也不表明所有能量项已唯一确定。关于衣壳包装的原题需要额外材料几何和实验资料，本版保留课程来源，不把它列为已完成题解。
+包装马达的力是相应自由能对已装入长度的导数，而不是总能量除以任意长度。随着内部空隙缩小，弯曲半径下降，力常迅速增大；由平衡自由能算出的准静态力不包含黏性耗散。将一种模型拟合得好也不表明所有能量项已唯一确定。包装数量级在追加PS4.3中按题给几何完整估算，明确区分裸电荷模型与实际有效电荷。
+
+\originalsection{图的计数与随机基准}
+无向简单图用对称邻接矩阵 $A_{ij}\in\{0,1\}$，$A_{ii}=0$，边数 $L=\sum_{i<j}A_{ij}$，度 $k_i=\sum_jA_{ij}$，所以 $\sum_i k_i=2L$。有向调控图则分别有入度、出度；蛋白相互结合和基因调控不能不加区分地采用同一图。
+
+Erd\H{o}s--R\'enyi模型每条可能边独立以概率 $p$ 出现。一个节点度为 $\mathrm{Bin}(N-1,p)$，稀疏极限 $p=c/(N-1)$ 得Poisson度分布 $\e^{-c}c^k/k!$。三角形的期望数为 $\binom N3p^3$，长度 $\ell\ge3$ 的简单环期望为 $(N)_\ell p^\ell/(2\ell)$。分母 $2\ell$ 去掉起点和方向的重复。若要求诱导子图恰好只有这些边，还需乘缺边的 $(1-p)$ 因子；统计网络模体时先确定采用哪一种定义。
+
+连通阈值的自洽式展开为 $S=cS-c^2S^2/2+\cdots$，所以 $S\simeq2(c-1)$。这是巨连通分量出现的阈值 $c=1$，不是整个有限图全连通的阈值；后者需更高平均度，约在 $c\sim\ln N$。广度优先搜索第 $\ell$ 层约有 $c^\ell$ 节点，典型距离估计 $\ln N/\ln c$；近阈值、断开分量或强聚类时不能沿用这个粗估计。
+
+\originalsection{优先连接的度分布}
+每一步增加一个节点并连向 $m$ 个旧节点，选择概率与度 $k$ 成正比。$t$ 步后度总和为 $2mt$。令 $N_k(t)\simeq tp_k$，每步度类的增减平衡为
+\[
+p_k=\frac{k-1}{2}p_{k-1}-\frac k2p_k+\delta_{km}.
+\]
+$k=m$ 给 $p_m=2/(m+2)$，之后 $p_k=(k-1)p_{k-1}/(k+2)$，递推消去得
+\[
+p_k=\frac{2m(m+1)}{k(k+1)(k+2)}\quad(k\ge m).
+\]
+这说明 $k^{-3}$ 尾来自增长和线性优先连接的组合。修改初始吸引力、删除边或连接的非线性会改变尾指数；看到幂律并不能反推唯一机制。源讲义中度总和附近将其记为边数，本文显式保留 $2L$。
+
+\originalsection{Lyapunov函数为何需要对称条件}
+梯度系统 $\dot x_i=-\partial_iV$ 满足 $\dot V=-\sum_i(\partial_iV)^2\le0$，但一般反应网络不是梯度系统。连续Hopfield模型 $\dot x_i=-x_i+f(\sum_jW_{ij}x_j+b_i)$ 中，若 $f$ 严格单调且 $W=W^{\mathsf T}$，定义 $G'(x)=f^{-1}(x)$，
+\[
+L=\sum_i[G(x_i)-b_ix_i]-\frac12\sum_{ij}W_{ij}x_ix_j.
+\]
+其梯度为 $\partial_iL=f^{-1}(x_i)-b_i-\sum_jW_{ij}x_j$。令 $a=f^{-1}(x_i),b=b_i+\sum_jW_{ij}x_j$，则每项 $\partial_iL\dot x_i=(a-b)[f(b)-f(a)]\le0$。若状态有界，$L$ 下界有限，极限集受限于零耗散集合；要保证单一固定点仍需非退化等条件。
+
+\emph{对非对称 $W$，二次项求导给的是 $(W+W^{\mathsf T})/2$，上述证明不成立。}源讲义在此将模型允许非对称与这个能量证明并列，本卷补上其必要条件。非对称网络可振荡或具有其他吸引子；不能用一个无效的能量函数排除它们。
+
+二值异步更新的记忆模型也用对称耦合，单次翻转按局部场降低能量。Hebb式 $W_{ij}\propto\sum_\nu\xi_i^{(\nu)}\xi_j^{(\nu)}$ 让目标图样趋向固定点；多个记忆的交叉干扰决定吸引域和容量。完整检索性能还依赖编码及更新规则，不是只写一个耦合矩阵就证明记忆必然恢复。
+
+\originalsection{从特征值到分岔和周期}
+一维 $\dot y=\varepsilon-y^2$ 在 $\varepsilon>0$ 有 $\pm\sqrt\varepsilon$，正根导数负、稳定，负根不稳定；在零处碰撞消失，是鞍结。$\dot y=\varepsilon y-y^2$ 的 $0,\varepsilon$ 交换稳定性，是横截分岔。对称 $y\to-y$ 禁止二次项，$\dot y=\varepsilon y-y^3$ 在正 $\varepsilon$ 有两个稳定根，是超临界叉形。零特征值时要计算非线性项，线性化本身没有判定能力。
+
+二维系统若复特征值实部穿零，可出现Hopf分岔，但是否产生稳定极限环仍需非线性系数。标准模型 $\dot x=\varepsilon x-\omega y-(x^2+y^2)x$、$\dot y=\omega x+\varepsilon y-(x^2+y^2)y$ 转成 $\dot r=\varepsilon r-r^3,\dot\theta=\omega$，所以正 $\varepsilon$ 下半径 $\sqrt\varepsilon$ 的周期轨道稳定。
+
+对实二维矩阵 $J$，复根条件是 $(J_{11}-J_{22})^2+4J_{12}J_{21}<0$，因而交叉项乘积必须为负；但矩阵不必是反对称矩阵。源讲义“只有反对称矩阵才可复根”的措辞应改为“需要足够的非对称耦合”。Poincar\'e--Bendixson定理还要求平面、紧致极限集及无固定点等条件，不能从“有界向外螺旋”一句推出任意高维网络必有周期。
+
+\originalsection{Kuramoto同步的自洽推导}
+将每个稳定振子的慢变量简化为相位 $\theta_i$，自然频率 $\omega_i$ 来自偶对称单峰密度 $g(\omega)$。全连接耦合 $K/N$ 给 $\dot\theta_i=\omega_i+(K/N)\sum_j\sin(\theta_j-\theta_i)$。定义 $re^{i\psi}=N^{-1}\sum_j\e^{i\theta_j}$，方程化为 $\dot\theta_i=\omega_i-Kr\sin(\theta_i-\psi)$。
+
+在集体旋转系中取 $\psi=0$，$|\omega|<Kr$ 的振子可锁相，稳定角满足 $\sin\theta=\omega/(Kr)$、$\cos\theta>0$。漂移振子在偶对称稳态下实部贡献相消；锁定群给
+\[
+r=\int_{-Kr}^{Kr}g(\omega)\sqrt{1-(\omega/Kr)^2}\dd\omega
+=Kr\int_{-\pi/2}^{\pi/2}g(Kr\sin\theta)\cos^2\theta\dd\theta.
+\]
+对小 $r$ 展开，利用两个积分分别为 $\pi/2$ 和 $\pi/8$，有
+\[
+1=K\left[\frac\pi2g(0)+\frac\pi{16}g''(0)K^2r^2+\cdots\right],\quad
+K_c=\frac2{\pi g(0)},\quad
+r^2\simeq-\frac{16(K/K_c-1)}{\pi g''(0)K_c^3}.
+\]
+$g''(0)<0$ 给连续平方根起始。高斯宽度 $\sigma$ 时 $K_c=\sqrt{8/\pi}\,\sigma$、$r^2\simeq\pi(K/K_c-1)$；这里完整保留二阶Taylor系数，避免源式中的因子二混淆。有限振子数有涨落，全连接和相位约化也可能不适合真实细胞群。
+
+\originalsection{Turing图样：扩散为何能破坏稳定}
+两种浓度的小扰动 $\mathbf c$ 满足 $\partial_t\mathbf c=J\mathbf c+\operatorname{diag}(D_1,D_2)\nabla^2\mathbf c$。平面波模式 $\e^{\lambda t+i\mathbf k\cdot\mathbf r}$ 的矩阵是 $J_k=J-\operatorname{diag}(D_1,D_2)k^2$。均匀稳定要求 $\operatorname{tr}J<0,\det J>0$。有限波数时迹更负，所以扩散驱动的定常不稳定只能由行列式变负出现。
+
+记 $A=D_2J_{11}+D_1J_{22}$，
+\[
+\det J_k=\det J-Ak^2+D_1D_2k^4.
+\]
+此式是开口向上的二次函数（变量是 $k^2$）。其最小值在 $k_m^2=A/(2D_1D_2)$，故必要且充分的连续波数条件为
+\[
+A>0,\qquad A^2>4D_1D_2\det J.
+\]
+不稳定带由两正根 $k_\pm^2=[A\pm\sqrt{A^2-4D_1D_2\det J}]/(2D_1D_2)$ 限定。这里 $k_m$ 是\emph{行列式最小}的位置，一般不恰是最大增长率波数；源讲义将极值称为最大，本文已按实际抛物线方向修正。
+
+若 $D_1=D_2$，每个特征值只减 $Dk^2$，绝不可能破坏均匀稳定。若 $J_{11}>0,J_{22}<0$，需要自抑制的第二组分扩散更快，形成短程激活、长程抑制。作为编者明确的线性例子取 $J=\begin{pmatrix}1&-2\\2&-3\end{pmatrix}$，迹 $-2$、行列式 $1$，$D_1=1,D_2=10$，则 $A=7$、$A^2-4D_1D_2\det J=9>0$，有 $k^2\in(0.2,0.5)$ 不稳定。给定有限区域边界后只有离散允许波数，若无一落入带内，实际仍稳定。
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=.68\linewidth,height=4.3cm,xlabel={$k^2$},ylabel={$\det J_k$},xmin=0,xmax=.75,ymin=-.3,ymax=1.2,axis lines=left]
+\addplot[main,thick,domain=0:.75,samples=100]{1-7*x+10*x^2};\addplot[black,dashed,domain=0:.75]{0};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+线性不稳定只解释最初选择的尺度；最终条纹/斑点、振幅和缺陷还取决于非线性饱和。这份数据是明示的模型参数，不是假装测量某种动物花纹。
+
+\Needspace{12\baselineskip}
+\originalchapter{协同结合的统计模型}
+\originalsection{按真实网页纲要补充：Hill与MWC}
+目录第25讲链接的cooperativity网页列多位点结合、血红蛋白、MWC模型与Hill方程。它只有纲要和阅读链接，没有可点击的2009详细讲义；以下是据这些主题作的编者独立推导，与前面的十五份实际PDF改编分开。DNA衣壳包装来自PS4.3，不据这个网页标题推断。
+
+若 $m$ 个独立等价结合位点，配体浓度为 $c$、解离常数 $K$，单点权重 $x=c/K$，$Z=(1+x)^m$。每点占据比例 $Y=m^{-1}\partial_{\ln c}\ln Z=x/(1+x)$，无论位点多少，Hill图 $\ln[Y/(1-Y)]$ 对 $\ln c$ 的斜率为1。四个位点不自动意味着Hill系数4。
+
+极端全或无模型只允许完全空与完全满，$Z=1+(c/K)^m$，$Y=(c/K)^m/[1+(c/K)^m]$，Hill斜率为 $m$。一般经验Hill式 $Y=c^{n_H}/(K_H^{n_H}+c^{n_H})$ 的 $n_H$ 描述局部曲线陡峭程度；非整数常反映多态、异质性或有效拟合，不能当作真实结合位点的精确数量。
+
+MWC让整个多聚体在低亲和T态与高亲和R态之间协同切换，而每态内部位点独立。空蛋白T/R权重比 $L_0$，两态解离常数 $K_T>K_R$，则
+\[
+Z=(1+c/K_R)^m+L_0(1+c/K_T)^m,
+\]
+\[
+Y=\frac{(c/K_R)(1+c/K_R)^{m-1}+L_0(c/K_T)(1+c/K_T)^{m-1}}
+{(1+c/K_R)^m+L_0(1+c/K_T)^m}.
+\]
+随浓度增加，R态的统计权重相对增长，使结合曲线更陡。这种协同来自共享构象态，和简单叠加独立位点不同。通过 $L_0,K_R,K_T$ 可得到多种有效Hill斜率，但只用一条曲线往往不能唯一确定全部参数。
+
+由 $\partial_{\ln c}\avg n=\operatorname{Var}n$，$n_H(c)=\dd\ln[Y/(1-Y)]/\dd\ln c=\operatorname{Var}n/[mY(1-Y)]$。独立二项分布方差 $mY(1-Y)$ 给1；协同增强占据涨落便提升斜率。这把生物结合、统计配分函数和可观察曲线联系起来。模型并未收录原网页链接的受限第三方血红蛋白图。

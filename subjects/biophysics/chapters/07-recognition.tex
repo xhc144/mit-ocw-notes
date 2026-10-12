@@ -1,3 +1,4 @@
+\Needspace{12\baselineskip}
 \originalchapter{识别、搜索与DNA弯折}
 \originalsection{结合概率与序列信息}
 一个转录因子必须在大量背景位点中找到少数调控位点。设结合能为 $E$，蛋白化学势为 $\mu$，两态配分函数 $1+\e^{-\beta(E-\mu)}$ 给出占据概率 $p_{\rm occ}=1/[1+\e^{\beta(E-\mu)}]$。降低能量或提高浓度都能提高占据，但二者不能只靠一条占据曲线完全区分。
@@ -28,3 +29,34 @@ H[\theta]=\int\left[\frac\kappa2(\theta')^2-F\cos\theta\right]\dd s.
 \node[below] at (3,-.3){角度在 $\ell_F$ 尺度上弛豫};
 \end{tikzpicture}
 \end{center}
+
+\originalsection{反应速率与平衡亲和力}
+设自由蛋白浓度为 $c_P$，可用位点为 $c_D$，复合物为 $c_{PD}$，$\dot c_{PD}=k_ac_Pc_D-k_dc_{PD}$。在自由蛋白近似恒定且总位点 $D_0=c_D+c_{PD}$ 时，占据率 $p=c_{PD}/D_0$ 满足 $\dot p=k_ac_P(1-p)-k_dp$。因此 $p_*=c_P/(c_P+K_d)$、$K_d=k_d/k_a$，弛豫率 $k_ac_P+k_d$。同样的 $K_d$ 可以由很快或很慢的两种率产生，平衡亲和力并不直接等于识别时间。
+
+若只问第一位蛋白到达一个未占据位点，早期结合是吸收事件；其典型时间约 $1/(k_ac_P)$。若只问一位蛋白找到许多目标中的任意一个，则时间约 $1/(k_ac_D)$。两种叙述中的浓度不能交换。源讲义早期时间式附近有浓度符号不一致，本卷采用具体事件定义核对量纲。
+
+\originalsection{吸收球的通量与反应受限边界}
+在半径 $b$ 的目标外、$R$ 的容器内求稳态 $\nabla^2c=0$，$c(b)=0,c(R)=c_R$。球对称解 $c=c_R(1-b/r)/(1-b/R)$，总吸收通量为 $4\pi D_3b c_R/(1-b/R)$，故大容器中 $k_a=4\pi D_3b$，单位体积/时间。换为摩尔浓度需要乘Avogadro常数和升与立方米的转换，不能把 $\mathrm{m^3/s}$ 原值直接标成 $\mathrm{M^{-1}s^{-1}}$。
+
+完美吸收表示每次接触都成功。若表面本征反应速度为 $k_s$，边界为 $D_3c'(b)=k_sc(b)$，通量积分可得
+\[
+\frac1{k_a}=\frac1{4\pi D_3b}+\frac1{4\pi b^2k_s}.
+\]
+两项像串联阻力：扩散受限与反应受限的等待都存在。核对限值 $k_s\to\infty$、$D_3\to\infty$ 比单记一个速率常数更能避免错误。
+
+\originalsection{滑动范围、更新过程与多人并行}
+一维Brown运动时长 $t$ 的平均已访问范围是 $4\sqrt{D_1t/\pi}$，它和末端均方位移的平方根 $\sqrt{2D_1t}$ 不同。若解离时间为指数分布，平均时长 $\tau_1$，再对范围平均得到 $2\sqrt{D_1\tau_1}$。DNA轮廓长为 $L_g$，一次随机重新定位命中比例 $q\simeq2\sqrt{D_1\tau_1}/L_g$。
+
+每轮耗时虽与其命中概率相关，但首步更新式 $t_s=\avg{\tau_1}+\tau_3+(1-\avg q)t_s$ 给
+\[
+t_s=\frac{L_g}{2\sqrt{D_1\tau_1}}(\tau_1+\tau_3),\qquad
+\frac{\dd t_s}{\dd\tau_1}\propto\frac{\tau_1-\tau_3}{2\tau_1^{3/2}}.
+\]
+因此最优 $\tau_1=\tau_3$ 是此独立重新定位模型的精确最优条件。若多数解离只是回原处，轮与轮不独立，要用有效扫描阶段；若靶点已占据、各蛋白相互阻挡或DNA有不均匀可达性，亦需修改。
+
+若单人搜索时间近似指数且 $n_p$ 个蛋白独立，最快到达时间的存活概率为 $\prod_j\e^{-t/t_s}=\e^{-n_pt/t_s}$，平均 $t_s/n_p$。并行加速来自独立性；一个共同的限速激活步骤不能因多放蛋白就缩短为 $1/n_p$。
+
+\originalsection{弯曲变分的边界条件}
+对 $H[\theta]$ 的变分，边界项是 $[\kappa\theta'\delta\theta]$。固定结合角时 $\delta\theta=0$；自由端力矩为零时应设 $\theta'=0$。二者对应不同物理装置。无穷长一侧、固定局部角 $\theta_0$、远处平行于力的弱角解为 $\theta=\theta_0\e^{-s/\ell_F}$。
+
+相对于直链的额外能量为 $\int[\kappa\theta'^2/2+F\theta^2/2]\dd s=\theta_0^2\sqrt{\kappa F}/2$，延伸亏损为 $\theta_0^2\ell_F/4$。$-\partial_F$ 作用在最小Gibbs能的完整 $-FL$ 项上给 $X$，可检查这两个式子的符号。若DNA在蛋白两侧各形成一段尾巴，两个贡献相加；不声明几何就给脱离力，可能差四。
