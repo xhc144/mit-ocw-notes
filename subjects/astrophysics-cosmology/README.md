@@ -6,6 +6,7 @@
 
 - [155 页扩写检查点 PDF](qa/expanded-working.pdf)
 - [实际章节、哈希、修改时间与未完成项](qa/expansion-progress.json)
+- [已保存的九章恒星教学正文源码与状态](qa/stellar-teaching-source-progress.json)（尚未编入155页检查点PDF）
 
 - [中文主PDF](dist/astrophysics-cosmology-zh.pdf)
 - [可编译源码ZIP](dist/astrophysics-cosmology-source.zip)
