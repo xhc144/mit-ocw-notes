@@ -16,7 +16,7 @@ with tempfile.TemporaryDirectory(prefix='mit-physics-clean-build-') as td:
  for p in inputs:
   target=work/p.relative_to(root);target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,target)
  for n in range(3):
-  result=subprocess.run(['xelatex','-no-shell-escape','-interaction=nonstopmode','-halt-on-error','-file-line-error','-recorder','main.tex'],cwd=work,env=env,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=600)
+  result=subprocess.run(['xelatex','-no-shell-escape','-interaction=nonstopmode','-halt-on-error','-file-line-error','-recorder','main.tex'],cwd=work,env=env,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=900)
   logs.append(result.stdout)
   if result.returncode:
    (out/'compile-failed.txt').write_text(result.stdout);raise SystemExit('XeLaTeX failed; inspect compile-failed.txt')
