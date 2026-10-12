@@ -119,6 +119,24 @@ AD、ED分别保留19155、25782条用于拟合。条件多项似然在搜索区
 这个失败本身回答原题：当前被筛选、四舍五入、带群体结构且不包含全部不变位点的数据，不能在所采用的平稳单参数模型下可靠估计 $N$。改变最低频率截断或模型会改变结果；人口历史与选样过程需要额外信息。图中群体分布确有差别，但不能唯一归因于 $N$。
 
 Type文件给非编码/UTR35536条、非同义842条、同义786条。AD中非同义与同义的多态记录427、406，折叠频率均值分别 $.1322,.1558$；ED对应809、768与 $.0870,.1088$，这里仍按 $0<x<.5$ 口径。非同义变体平均更低与净化选择相容，但机会位点数量、密码简并和发现偏差未知，842比786不能解释成单位位点非同义突变率更高。分组原始计数和条件均值均在QA中，未宣称已完成现代人口遗传推断。
+
+为回答(c)中的 $f(x)$，下图按群体和同义/非同义类别分别画\emph{条件密度}：先折叠成 $y=\min(x,1-x)$，仅保留 $0<y<.5$ 的多态记录，宽.02的每格计数除以该类别保留数及格宽。这样比较曲线形状，而不是把样本量842与786的差异混入纵轴。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.85\linewidth,height=5.3cm,xlabel={折叠频率 $y$},ylabel={条件密度},xmin=0,xmax=.5,legend style={font=\footnotesize,at={(.98,.98)},anchor=north east}]
+\addplot[main,thick] table[x=x,y=AD_nonsyn,col sep=comma]{data/snp-type-density.csv};\addlegendentry{AD非同义}
+\addplot[main,dashed] table[x=x,y=AD_syn,col sep=comma]{data/snp-type-density.csv};\addlegendentry{AD同义}
+\addplot[blue,thick] table[x=x,y=ED_nonsyn,col sep=comma]{data/snp-type-density.csv};\addlegendentry{ED非同义}
+\addplot[blue,dashed] table[x=x,y=ED_syn,col sep=comma]{data/snp-type-density.csv};\addlegendentry{ED同义}
+\end{axis}\end{tikzpicture}\end{center}
+
+课堂对称突变、恒定种群的中性模型为 $f_0(x)=[x(1-x)]^{\alpha-1}/\mathrm B(\alpha,\alpha)$，$\alpha=2N\mu$ 采用基因拷贝数约定。折叠后 $g_0(y)=2f_0(y)$，定义在 $(0,.5)$。$\alpha<1$ 偏向低频，$\alpha=1$ 平坦，$\alpha>1$ 偏向中间频率。以下曲线只比较模型形状，未拟合到每类数据；数据直方图因缺失固定、极稀有记录而是另一条件分布，不能把纵轴直接当成总体位点密度。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\linewidth,height=4.5cm,xlabel={$y$},ylabel={$g_0(y)$},xmin=.005,xmax=.5,ymode=log,legend style={font=\small}]
+\addplot[main] table[x=x,y=alpha02,col sep=comma]{data/snp-model-shapes.csv};\addlegendentry{$\alpha=.2$}
+\addplot[blue] table[x=x,y=alpha1,col sep=comma]{data/snp-model-shapes.csv};\addlegendentry{$\alpha=1$}
+\addplot[black] table[x=x,y=alpha2,col sep=comma]{data/snp-model-shapes.csv};\addlegendentry{$\alpha=2$}
+\end{axis}\end{tikzpicture}\end{center}
+
+若加入恒定选择漂移，未折叠模型还带 $\e^{\gamma x}$，$\gamma=2Ns$；折叠后要把 $f_s(y)+f_s(1-y)$ 相加，不能只画前半边的 $f_s$。在对称突变模型中，这个折叠形状不能区分s的正负。非同义的低频偏移与净化选择相容，但不能从这一图唯一反演选择系数；同义位点也不必完全中性。额外的分类条件Beta尝试、频率区间和保留数记录在新增QA中，发现偏差、连锁和人群历史使它们仍不能成为可靠的 $N$ 或 $s$ 估计。
+
 \end{solution}
 
 \originalsection{PS7.1：权重矩阵和全基因组候选}
@@ -129,6 +147,11 @@ Type文件给非编码/UTR35536条、非同义842条、同义786条。AD中非�
 (a)输入35条、各16碱基。每位置对每种碱基加伪计数 $.5$，所以 $p_i(b)=(n_i(b)+.5)/37$；以实测基因组频率 $q_b$ 为背景，取 $w_i(b)=\ln[p_i(b)/q_b]$。信息量 $I=\sum p_i\log_2(p_i/q_b)\simeq15.866$ 比特。伪计数和背景必须同时报告；零频率导致无限能量的做法会把训练未见字母全部拒绝。
 
 (b)用固定种子20261012生成100000条独立同组成随机16碱基\emph{背景模拟}，$S=\sum w_i$、$E/(\kb T)=-S$，能量零点按此定义。随机平均得分约 $-15.663$，训练平均 $12.519$。这是一组随机序列模拟，不是实测结合能；$T_*=T$ 也是原题的额外假设。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.75\linewidth,height=4.8cm,xlabel={$E/(\kb T)=-S$},ylabel={每格随机序列数},ybar,bar width=3pt,xmin=-15,xmax=40]
+\addplot[main,fill=main!30] table[x=energy_kT,y=count,col sep=comma]{data/purr-random-energy.csv};
+\end{axis}\end{tikzpicture}\end{center}
+图用已经实际计算的40格直方图，总计100000条序列；这既保存稀少低能背景尾部，也显示大部分背景位点的高能区。训练平均能量约 $-12.519\kb T$，位于背景主峰左侧，零点由本节对数优势定义，不能与另一能量零点的矩阵直接比较。
+
 
 (c)两链全扫描，取 $E_{\rm cut}=\avg E_{\rm train}+\delta\kb T$。$\delta=-1,0,.5,1$ 时阈值得分为13.519、12.519、12.019、11.519，候选窗口数为22、36、39、44；原始35条均能在该基因组的一条方向找到，但相应阈值只收入12、19、19、24条训练记录。故平均能量稍上方的阈值并不能找全输入，原因是低亲和训练位点也是真实训练数据的一部分。阈值下降降低假阴性，同时增加未验证候选。
 
@@ -183,7 +206,7 @@ $n/N\to2$ 时 $E_c/N\simeq-8.64339$ 个表能量单位，$\kb T_c\simeq1.87861$ 
 \begin{solution}
 定义 $\phi=\angle(C_{i-1},N_i,C_{\alpha i},C_i)$、$\psi=\angle(N_i,C_{\alpha i},C_i,N_{i+1})$。四点的两平面法向用叉积得出，再以atan2给带符号角，避免只用arccos丢掉正负。缺原子、断链或跨链的二面角不计算；程序检查肽键距离。实际得到1TEN的88组、4HHB\_A的139组角。
 
-4HHB\_A的110个HELIX标注点平均约 $(-65.4^\circ,-31.6^\circ)$，其余点分散；1TEN原课程文件没有SHEET字段，因此不伪造其二级结构标注，但66个点位于本文明确选定的负 $\phi$、正 $\psi$ 区域，符合片层为主的几何。这个区域计数不是正式DSSP赋值。
+4HHB\_A的110个HELIX标注点平均约 $(-65.4^\circ,-31.6^\circ)$，其余点分散；1TEN原课程文件没有SHEET字段，因此不伪造其二级结构标注，在 $\phi<0^\circ,\psi>0^\circ$ 的完整象限内有70点；再要求 $\psi>90^\circ$ 才得到66点。两种边界的计数必须分开，均不能代替正式DSSP赋值，几何上都与片层占优势相容。
 \begin{center}\begin{tikzpicture}\begin{axis}[width=.72\linewidth,height=5.5cm,xlabel={$\phi$（度）},ylabel={$\psi$（度）},xmin=-180,xmax=180,ymin=-180,ymax=180,legend style={font=\small}]
 \addplot[only marks,mark=*,mark size=1.2pt,main] table[x=phi,y=psi,col sep=comma]{data/ramachandran-4HHB_A.csv};\addlegendentry{4HHB\_A}
 \addplot[only marks,mark=triangle*,mark size=1.2pt,blue] table[x=phi,y=psi,col sep=comma]{data/ramachandran-1TEN.csv};\addlegendentry{1TEN}
@@ -255,7 +278,7 @@ PSI-BLAST迭代建立位置特异矩阵，能强化保守位点但也可能收�
 （PS6.5，可选）用原题UCSD或Ohio RNA pulling服务，对长度接近的均匀序列、GC交替、AU交替及实际RNA序列求力延伸曲线，比较通性及与PS6.4理论是否相似。
 \end{exercise}
 \begin{solution}
-该任务必须有服务或等价完整结构/受力计算的真实输出。2026年10月12日，实际网络请求Ohio的HTTP、HTTPS入口均返回503；UCSD入口连接返回403。网页检索缓存仍显示服务说明，但缓存存在不能证明今天可执行。源核验与失败记录保留，此题题面已经收录，原服务数值结果仍是明确缺口。
+该任务必须有服务或等价完整结构/受力计算的真实输出。2026年10月12日，实际网络请求Ohio的HTTP、HTTPS入口均返回503；UCSD请求在代理隧道建立阶段返回403，未取得源站响应，因此不能据此断言源站永久失效。网页检索缓存仍显示服务说明，但缓存存在不能证明今天可执行。源核验与失败记录保留，此题题面已经收录，原服务数值结果仍是明确缺口。
 
-可合理预期的机制是：全A等不形成Watson--Crick配对的序列接近单链弹性；GC与AU交替允许很多发夹/内部配对，结合能及堆叠不同；天然序列会有特定结构与多个展开阶段。但这些只是机制预期，不是所要求的四条已经测算曲线，也不能由此断言临界力大小。本卷没有用随手画的曲线替代失效服务的输出。
+可合理预期的机制是：全A等不形成Watson--Crick配对的序列接近单链弹性；GC与AU交替允许很多发夹/内部配对，结合能及堆叠不同；天然序列会有特定结构与多个展开阶段。但这些只是机制预期，不是所要求的四条已经测算曲线，也不能由此断言临界力大小。本卷没有用随手画的曲线替代本次无法取得的服务输出。
 \end{solution}

@@ -69,3 +69,7 @@ assert abs(pole-1)<1e-12
 (ROOT/'qa/rna-critical-check.json').write_text(json.dumps({'A':A_rna,'f':f_rna,'g':g_rna,'dimensionless_hc_squared':float(hc2),'Ptilde_times_Rtilde_at_z_1_over_f':float(pole),'residual':float(abs(pole-1))},indent=2))
 
 runpy.run_path(str(ROOT/'code/structure_analysis.py'),run_name='__main__')
+
+runpy.run_path(str(ROOT/'code/foundation_checks.py'),run_name='__main__')
+
+runpy.run_path(str(ROOT/'code/remaining_task_checks.py'),run_name='__main__')
