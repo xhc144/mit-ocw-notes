@@ -34,3 +34,16 @@ python tools/build.py --out build
 ```
 
 该临时依赖路径不是源码硬编码。干净源码ZIP解压后已实际构建；不同编译器/宏包或创建时间可能改变字节，须以同页文字和渲染审查建立内容一致性。
+
+历史增补版另含 2005 旧参数冷波图生成器和物理量复核，可在本目录执行：
+
+```bash
+python tools/historical_2005_cold.py
+python tools/historical_revision_checks.py
+python qa/followup-chap5-checks.py
+python qa/followup-mhd-theory-checks.py
+```
+
+`historical_2005_cold.py` 以 2005 原题的两组密度和 5 T 重新生成矢量 PGFPlots 片段；与 2006 当期不同参数的图不可互换。`historical_revision_checks.py` 核算 Saha 温度、Fermi 镜、漂移、自由程、环电压、Z 箍缩力平衡和 2003 MHD 理想壁边际式，并数清历史题原编号。2002 PS8 的印刷目标系数与同页算子逐字积分不合，题解明示该差异，不用脚本“通过”来掩盖原件矛盾。
+
+历史来源的 34 份考核 PDF（含 11 件官方扫描答案）与 3 份模拟说明在 `qa/historical-supplement-freeze.json` 独立冻结；它们已包含于总数 99 的原始 `source-manifest.json`，而该原清单的初次发现角色标签保持冻结。`qa/coverage-revision.json` 给写成正文后的新覆盖状态。

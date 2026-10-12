@@ -3,7 +3,7 @@
 import hashlib,json,pathlib,shutil,zipfile
 
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-POST_PACKAGE={'clean-zip-build.json','delivery-verification.json','publish-manifest.json'}
+POST_PACKAGE={'clean-zip-build.json','delivery-verification.json','publish-manifest.json','clean-zip-build-revision.json','delivery-verification-revision.json','publish-manifest-revision.json'}
 
 def selected_files():
     files=[ROOT/name for name in ('main.tex','course-info.tex','README.md','BUILDING.md','LICENSE.md','source-manifest.json')]
@@ -21,7 +21,7 @@ def selected_files():
 def main():
     out=ROOT/'dist';out.mkdir(exist_ok=True)
     pdf=ROOT/'qa/typesetting/main.pdf'
-    review=json.loads((ROOT/'qa/final-visual-review.json').read_text())
+    review=json.loads((ROOT/'qa/final-visual-review-revision.json').read_text())
     actual=hashlib.sha256(pdf.read_bytes()).hexdigest()
     if review.get('pdf_actual_sha256',review.get('pdf',{}).get('sha256'))!=actual or review.get('status')!='PASS':
         raise RuntimeError('The exact PDF must have a completed final visual review before packaging.')
