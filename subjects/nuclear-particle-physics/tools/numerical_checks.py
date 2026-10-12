@@ -25,7 +25,7 @@ def main():
  emax=k*mpi/math.sin(theta);peak=mpi/math.sin(theta)
  def enu(ep):return k*mpi**2/(ep-math.sqrt(ep*ep-mpi*mpi)*math.cos(theta))
  T=16*5*(85-5)/85**2*math.exp(-80)
- h=sum([23.93,2.57,.01,8.57,2.15,.15,.23,21.5,1.4]);selected=23.93+8.57+21.5
- data=dict(status='PASS',units='energies MeV except T2K GeV; deuteron radii fm; alpha times seconds',deuteron_input=deuteron(2.2),deuteron_consistent=d,T2K=dict(E_peak_parent_GeV=peak,E_max_GeV=emax,E_parent1_GeV=enu(1),E_parent5_GeV=enu(5)),alpha_2010=dict(transmission=T,wait_s=1/(6e22*T)),higgs_problem6=dict(total_width_MeV=h,selected_percent=100*selected/h),scope='Selected sensitive model calculations; not a claim of independent verification of every equation.')
+ weights=[3*4.18**2,3*1.28**2,1.78**2,.11**2];h=sum(weights)
+ data=dict(status='PASS',units='energies MeV except T2K GeV; Higgs model weights GeV^2; deuteron radii fm; alpha times seconds',deuteron_input=deuteron(2.2),deuteron_consistent=d,T2K=dict(E_peak_parent_GeV=peak,E_max_GeV=emax,E_parent1_GeV=enu(1),E_parent5_GeV=enu(5)),alpha_2010=dict(transmission=T,wait_s=1/(6e22*T)),higgs_problem1_3=dict(weighted_mass_squared_GeV2=h,branching_percent=[100*w/h for w in weights],model='four fermion channels; colour factor 3 for quarks; not total physical Higgs width'),scope='Selected sensitive model calculations; not a claim of independent verification of every equation.')
  a.out.parent.mkdir(parents=True,exist_ok=True);a.out.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n');print(a.out)
 if __name__=='__main__':main()
