@@ -1,6 +1,6 @@
 # 高级统计力学与统计场论
 
-中文主卷：[advanced-statistical-physics-zh.pdf](advanced-statistical-physics-zh.pdf)；可独立编译的源码：[advanced-statistical-physics-source.zip](advanced-statistical-physics-source.zip)。主卷为88个PDF物理页（6页前置内容、82页正文及参考文献），含19章理论、19章作业与复习题，以及1章来源和证明范围说明。两门课程合成一卷，理论按先修关系贯通，原编号保留在练习标题和来源清单中。
+中文主卷：[advanced-statistical-physics-zh.pdf](advanced-statistical-physics-zh.pdf)；可独立编译的源码：[advanced-statistical-physics-source.zip](advanced-statistical-physics-source.zip)。主卷为89个PDF物理页（6页前置内容、83页正文及参考文献），含19章理论、19章作业与复习题，以及1章来源和证明范围说明。两门课程合成一卷，理论按先修关系贯通，原编号保留在练习标题和来源清单中。
 
 | 课程版本 | 官方站实际公开材料 | 本卷位置 |
 |---|---|---|
