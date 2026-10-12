@@ -1,0 +1,56 @@
+\Needspace{12\baselineskip}
+\originalchapter{选定公开计算作业题解}
+题面来自3.320 Spring 2005。标为“编者推导”的解答由本项目独立完成；引用官方数值的位置明确标出。GULP、PWSCF与MOLDY原任务和本册教学程序分别说明，未运行的真实材料任务不计作已复现。
+\originalsection{经验势、弹性与计算规模}
+\begin{exercise}
+（Lab1第5题）Lennard--Jones形式 $v(r)=A/r^{12}-B/r^6$。求最低点 $r_0(A,B)$，代入给定Au参数，并与晶格常数题结果比较，说明差异为何出现。公开GULP手册给 $A=214180.2\,\mathrm{eV\,\text{\AA}^{12}}$、$B=625.482\,\mathrm{eV\,\text{\AA}^6}$。
+\end{exercise}
+\begin{solution}
+（编者推导）$v'=-12A/r^{13}+6B/r^7=0$ 给 $r_0=(2A/B)^{1/6}=2.96892\,\text{\AA}$；二阶导在该点为正。若只计FCC最近邻，晶格常数将为 $\sqrt2r_0=4.1987\,\text{\AA}$，但晶体还存在其他邻居。
+
+设以最近邻距离 $r$ 归一化的晶格和 $S_m=\sum_{j\ne0}(r/r_j)^m$，每原子能量 $E(r)=(AS_{12}/r^{12}-BS_6/r^6)/2$，最低点 $r^6=2AS_{12}/(BS_6)$。附带代码逐层求和，7个胞范围得 $S_6\simeq14.45093,S_{12}\simeq12.13188$，晶格常数约4.07805 Å；2、4、7层的收敛变化另存QA。这是无移位晶格和计算，与原GULP40 Å截断任务并非逐参数相同的运行，但说明为何成对最低距离不能直接等于晶体最近邻距离。
+\end{solution}
+
+\begin{exercise}
+（Lab2第7题B，单独收录此子问）钻石体积弹性模量 $B=-V_0\dd P/\dd V$。用 $P=-\dd E/\dd V$ 导出可拟合的能量体积表达式，求模量并与题面实验值442 GPa比较。程序能量按原胞输出，原胞体积为常规立方胞的四分之一。
+\end{exercise}
+\begin{solution}
+平衡点 $E'(V_0)=0$，$B=V_0E''(V_0)$，所以局部曲线 $E(V)=E_0+B(V-V_0)^2/(2V_0)+O[(V-V_0)^3]$。拟合时能量和体积必须都按相同胞定义，若能量按原胞却误用常规胞体积，系数会错四倍。
+
+官方 \texttt{lab\_assign2\_soln.pdf} 第9页报告 $B=.03137\,\mathrm{Ry/bohr^3}$，换算约461 GPa，较题面实验值高约4.3\%。这是官方计算结果的引用，本项目没有重新运行钻石DFT；编者独立验证的是微分关系、体积约定和单位换算。LDA的偏紧结合趋势可提供定性解释，不能把趋势当作所有材料的误差定理。
+\end{solution}
+
+\begin{exercise}
+（Lab4第3题）周期超胞FCC材料。(a)$n\times n\times n$ 常规胞含多少原子；(b)全部配对及截断下每步需多少力计算和距离计算；(c)比较Hartree--Fock、LJ、EAM和DFT的CPU需求并说明；(d)如何减少距离计算？
+\end{exercise}
+\begin{solution}
+(a)原子数 $N=4n^3$。(b)无截断时无序对 $N(N-1)/2$，每对一次距离可同时给两个原子的反力；固定密度和固定截断的有效邻居数 $z$ 近似常数，实际相互作用对为 $Nz/2=O(N)$，但朴素“先求全部距离再筛选”仍耗 $O(N^2)$ 距离计算。
+
+(c)对相近规模及常见实现，LJ最简单，EAM因环境密度与嵌入项有额外工作；电子结构通常远更昂贵。常规密集轨道实现HF交换可有名义 $O(N_e^4)$ 运算，常规DFT对角化常为 $O(N_e^3)$，但稀疏、线性标度、交换泛函、基组和硬件会改变次序。不存在跨任意实现的固定CPU排行；原题期待的典型比较是LJ、EAM、DFT、HF依次更昂贵。
+
+(d)胞链表减少候选对，Verlet邻居表用皮层允许多步复用；每个粒子移动超过皮层余量时重建。只需平方距离作截断判断，确认在范围内后才求根。周期镜像、边界移动和对称配对必须保持，否则加速会改变物理力。时间测量应与精度、截断和体系大小一起报告。
+\end{solution}
+
+\originalsection{吸附格子模型}
+\begin{exercise}
+（Lab5第1题）方格吸附模型 $V_1=1,V_2=-2$，半覆盖 $\theta=.5$、零温，求最低能构型并证明其能量最低。
+\end{exercise}
+\begin{solution}
+（编者证明）每个最近邻对的最小能量为 $-V_1=-1$，每个对角邻居对因 $V_2<0$ 的最小能量为 $V_2=-2$。棋盘构型 $s_{ij}=(-1)^{i+j}$ 使全部最近邻异号、全部对角邻居同号，同时达到每项各自下界。每点各有四个第一、四个第二邻居，除去重复计数，能量每点 $2(-1)+2(-2)=-6$。偶数周期边长使棋盘相容，并恰为半覆盖；两种全局符号给两个平移等价基态。奇数周期边会挫折，不能沿用完全达到下界的结论。
+\end{solution}
+
+\begin{exercise}
+（Lab5第3题）在若干有代表性的温度画覆盖度 $\theta$ 对 $\mu/(\kb T)$，与Langmuir式 $\ln[\theta/(1-\theta)]=2\mu/(\kb T)$ 比较；判断何时接近此式。
+\end{exercise}
+\begin{solution}
+非相互作用单点权重 $\e^{\pm\beta\mu}$ 给 $\theta=(1+\tanh\beta\mu)/2$。实际配对模型用第\ref{chap:mc}章Hamilton量，代码对 $4\times4$ 格精确枚举并实际采样，图为三个约化温度2、6、12的有限格覆盖度。每条曲线只有五个化学势点，连接仅供读图，不能据此定位无限格临界点。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=10cm,height=5cm,xlabel={$\mu/T$},ylabel={$\theta$},ymin=0,ymax=1,grid=major,legend pos=north west]\addplot[main,mark=*] table[x=ratio,y=exact,col sep=comma]{data/mc-T2.csv};\addlegendentry{$T=2$}\addplot[structurecolor,mark=square*] table[x=ratio,y=exact,col sep=comma]{data/mc-T6.csv};\addlegendentry{$T=6$}\addplot[blue,mark=triangle*] table[x=ratio,y=exact,col sep=comma]{data/mc-T12.csv};\addlegendentry{$T=12$}\addplot[black,dashed,domain=-4:4,samples=100]{(1+tanh(x))/2};\addlegendentry{Langmuir}\end{axis}\end{tikzpicture}\end{center}
+要接近Langmuir需要 $|V_i|/(\kb T)\ll1$，并在固定 $\mu/T$ 下比较。低温时相互作用使半覆盖有序区明显偏离单点结果，单自旋Metropolis还会在共存附近滞留；实际核验加入可逆子晶格建议解决此有限格采样障碍，未把不平衡轨迹标为平衡数据。
+\end{solution}
+
+\begin{exercise}
+（Lab5第4题）模型的最高有序温度在半覆盖，但题面实验提示最高值在略低于半覆盖。如何改变Hamilton量，给出建议即可，不要求运行。
+\end{exercise}
+\begin{solution}
+配对自旋Hamilton量在 $s\to-s,\mu\to-\mu$ 下对称，使相图关于半覆盖对称。仅平移化学势零点不会真正改变覆盖度对称性。可加入非零三体占据相互作用，或与局部覆盖度有关的有效配对、吸附诱导基底重构等物理项，破坏粒子空位对称。建议应依据额外第一性原理或实验数据拟合，不能仅任意调参便宣称已解释真实Pd表面。本题按要求仅给模型方向，未生成虚构相图。
+\end{solution}

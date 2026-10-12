@@ -1,0 +1,68 @@
+\Needspace{12\baselineskip}
+\originalchapter{可运行的编者模型练习}
+以下九题由编者设定，输入、程序与实际输出同源，分别验证测量处理和物理模型。所有数据类型在 \nolinkurl{qa/model-results.json} 中标明。
+\begin{exercise}
+生成第6章指定的模拟光电数据，拟合斜率及截距，报告 $h$ 的标准不确定度，解释它能否证明光电定律。
+\end{exercise}
+\begin{solution}
+固定种子20261012的实际输出 $A=.4082665\,\mathrm{V}/(10^{14}\mathrm{Hz})$、截距 $-1.56516$ V，$h_{fit}=6.54115\times10^{-34}\,\mathrm{J\,s}$，标准不确定度 $.09984\times10^{-34}\,\mathrm{J\,s}$，$\chi^2=1.7564$、自由度4。与输入值相容，但输入数据按同一线性定律生成，所以这里只核验估计与误差处理。
+\end{solution}
+\begin{exercise}
+模拟均值1、5、10、100的Poisson计数各10000次，再以真实率200/s、非延长死时间 $.002$ s生成2000 s事件流。比较样本矩及记录率与模型。
+\end{exercise}
+\begin{solution}
+各组实际样本矩为
+\begin{center}\begin{tabular}{rrr}\toprule 输入均值&样本均值&样本方差\\\midrule
+1 & 0.9883 & 0.9825\\
+5 & 4.9881 & 4.9437\\
+10 & 10.0280 & 10.0742\\
+100 & 100.0801 & 101.5234\\
+\bottomrule\end{tabular}\end{center}
+均值和方差的有限偏离符合该独立生成器的统计性质。理论记录率 $200/(1+.4)=142.857$/s，程序记录142.8875/s。恢复真率应使用 $R=r/(1-r\tau_d)$，接近 $r\tau_d=1$ 时不确定度会显著放大。
+\end{solution}
+\begin{exercise}
+以小球半径 $.5\,\mathrm{\mu m}$、水黏度 $.001\,\mathrm{Pa\,s}$、$T=300$ K、$k=2\times10^{-6}\,\mathrm{N/m}$，模拟131072个光阱样本，时间间隔 $.0001$ s。用方差和相邻相关估计刚度与弛豫时间。
+\end{exercise}
+\begin{solution}
+真实输入 $\tau=.00471239$ s，实际样本方差 $2.13105\times10^{-15}\,\mathrm{m^2}$，方差法 $k=1.94362\times10^{-6}\,\mathrm{N/m}$；相邻相关法 $\tau=.00488155$ s。相关样本的有效数远小于131072，差异不能以独立样本误差条评判。功率谱积分 $2.06768\times10^{-15}\,\mathrm{m^2}$ 接近输入方差 $2.07097\times10^{-15}$，但有限记录与去均值也影响结果。
+\end{solution}
+\begin{exercise}
+用公开Au-LJ参数求晶格和收敛，再用第\ref{chap:md}章力移位约化LJ模型，通过非对称位移的中心差分核验力。
+\end{exercise}
+\begin{solution}
+Au晶格常数从2、4、7层范围分别为4.081868、4.078569、4.078052 Å，吸引和仍有尾部误差。能量中心差分取 $10^{-6}$ 的位移，在偏移原子坐标 $(.023,-.017,.011)$ 的非对称构型实际核验力；残差记录于QA，阈值 $10^{-5}$。只在完美对称晶格得到零力不能检验力符号，本程序同时使用偏移构型。
+\end{solution}
+\begin{exercise}
+运行108粒子、密度 $.8$、初始温度 $.3$、截断2.5的力移位LJ微正则模型，两种步长 $.002,.001$，相同初态积分至约化时间4。比较能量波动和均方位移。
+\end{exercise}
+\begin{solution}
+总能量标准差分别为 $.00031081$ 和 $.00007766$，步长减半时约缩小四倍，符合此轨迹的二阶积分误差尺度。最终均方位移约 $.01487,.01480$；这短时固态振动样本不能可靠估计长期液体扩散或熔点。代码保留展开坐标，位置折回只用于周期力计算。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=10cm,height=4cm,xlabel={约化时间},ylabel={$E-E(0)$},grid=major,legend pos=north east]\addplot[main] table[x=time,y expr=\thisrow{total}+526.4860249156415,col sep=comma]{data/md-0.002.csv};\addlegendentry{$\Delta t=.002$}\addplot[blue] table[x=time,y expr=\thisrow{total}+526.4860249156415,col sep=comma]{data/md-0.001.csv};\addlegendentry{$\Delta t=.001$}\end{axis}\end{tikzpicture}\end{center}
+
+\end{solution}
+\begin{exercise}
+一维周期 $2\pi$ 的教学Hamilton量 $H=\tfrac12(-\ii\partial_x+k)^2+.4\cos x$，取 $k=.3$，用平面波 $G=-G_{max},\ldots,G_{max}$ 求最低三能量，检查基组收敛。它不是材料DFT。
+\end{exercise}
+\begin{solution}
+矩阵对角 $H_{GG}=(G+k)^2/2$，相邻非对角 $.2$，其余零。$G_{max}=9$ 时最低三值 $-.1164224204$、$.3215166137$、$.8741103795$；$G_{max}=5$ 与9差小于 $10^{-7}$。这是明确算符的有限基组核验，只有外部余弦势，没有自洽电子密度或真实赝势。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4cm,xlabel={$k$},ylabel={约化能量},grid=major]\addplot[main,thick] table[x=k,y=E0,col sep=comma]{data/bands.csv};\addplot[blue,thick] table[x=k,y=E1,col sep=comma]{data/bands.csv};\addplot[black,thick] table[x=k,y=E2,col sep=comma]{data/bands.csv};\end{axis}\end{tikzpicture}\end{center}
+
+\end{solution}
+\begin{exercise}
+在 $4\times4$ 周期吸附格子上精确枚举 $2^{16}$ 个构型，与三温度、五化学势下的Monte Carlo比较，并检查单翻转能量公式。
+\end{exercise}
+\begin{solution}
+逐个构型计算Hamilton量和归一化权重，获得15组精确覆盖度，采样每组8000个sweep、前2000平衡、余下6000按100步分块。翻转能差与全能量重算一致。低温亚稳滞留曾使纯单点更新失败，加入对称可逆的子晶格翻转后，15组与精确值在记录的块误差和容差内相容。多尺寸相变和完整无限格相图仍未由这个检查完成。
+\end{solution}
+\begin{exercise}
+经典一维谐势从 $H_0=x^2/2$ 改到 $H_1=4x^2/2$，用热力学积分求自由能差并与精确配分函数比对。
+\end{exercise}
+\begin{solution}
+$H_\lambda=(1+3\lambda)x^2/2$，$\avg{\partial_\lambda H}=3\kb T/[2(1+3\lambda)]$，所以 $\Delta F/(\kb T)=\ln4/2$。101个参数点的实际积分为 $.693147194$，解析值 $.693147181$，绝对差约 $1.34\times10^{-8}$。此例以解析平衡矩作被积量，核验公式与积分；它不检验复杂体系平衡采样是否充分。
+\end{solution}
+\begin{exercise}
+一维KMC格距1，左右跳率3和1，4000条路径运行至时间100，求漂移和扩散。
+\end{exercise}
+\begin{solution}
+每轮等待 $\mathrm{Exp}(4)$ 并以概率 $3/4$ 向右。解析 $v=2,D=2$；程序由路径终点得到 $v\simeq2.00268,D\simeq1.95277$。有限路径的方差估计会涨落，不能据此声明真实扩散精确低于2。KMC的时间来自物理事件率，与Metropolis sweep无直接换算关系。
+\end{solution}
