@@ -1,0 +1,145 @@
+\originalchapter{测地线、曲率与潮汐}\label{ch:curvature}
+\originalsection{自由落体与固有时间变分}
+相同初始位置和速度的试验物体, 不论质量如何, 都沿同一自由落体轨道运动. 因而把引力写成一个依赖物体质量的外力并非最简洁的描述. 在局部惯性系, 自由粒子四速度不变; 用前章的协变导数把此条件写到任意坐标, 就得到测地线. 本章对应课程第9--11讲, 并为爱因斯坦方程建立曲率的定义.
+
+\begin{definition}
+曲线 $x^\mu(\lambda)$ 若切向量沿自身平行搬运, 即 $D\dot x^\mu/\dd\lambda=0$, 则为以 $\lambda$ 作仿射参数的测地线:
+\begin{equation}\label{eq:geodesic}
+\ddot x^\mu+\Gamma^\mu{}_{\alpha\beta}\dot x^\alpha\dot x^\beta=0.
+\end{equation}
+\end{definition}
+仿射参数只能再作 $\lambda\mapsto a\lambda+b$ 的变换而保持这一形式. 用任意参数时右侧多出与切向量成比例的项, 轨道本身未变. 类时测地线可以用固有时间, 零测地线没有固有时间, 必须另选仿射参数. 由于 $Dg/\dd\lambda=0$, $g(\dot x,\dot x)$ 沿仿射测地线不变; 初始的因果类型也不会改变.
+
+取固定端点的作用量 $I=\frac12\int g_{\mu\nu}\dot x^\mu\dot x^\nu\dd\lambda$. 对 $x^\rho$ 的 Euler--Lagrange 方程是
+\begin{align*}
+0&=\frac{\dd}{\dd\lambda}(g_{\rho\nu}\dot x^\nu)
+-\frac12\partial_\rho g_{\alpha\beta}\dot x^\alpha\dot x^\beta\\
+&=g_{\rho\nu}\ddot x^\nu+
+\frac12(\partial_\alpha g_{\rho\beta}+\partial_\beta g_{\rho\alpha}-\partial_\rho g_{\alpha\beta})\dot x^\alpha\dot x^\beta.
+\end{align*}
+乘 $g^{\mu\rho}$ 得式\eqref{eq:geodesic}. 对类时曲线, 物理粒子作用量是 $-m\int\sqrt{-g_{\mu\nu}\dot x^\mu\dot x^\nu}\dd\lambda$, 它不依赖参数选择. 令 $q=\sqrt{-g_{\mu\nu}\dot x^\mu\dot x^\nu}=\dd\tau/\dd\lambda>0$, 根号作用量的 Euler--Lagrange 方程展开为
+\[
+\frac{\dd}{\dd\lambda}\left(\frac{g_{\rho\nu}\dot x^\nu}{q}\right)
+-\frac{\partial_\rho g_{\alpha\beta}\dot x^\alpha\dot x^\beta}{2q}=0.
+\]
+乘 $qg^{\mu\rho}$ 并用与二次作用量相同的对称组合, 得
+\[
+\ddot x^\mu+\Gamma^\mu{}_{\alpha\beta}\dot x^\alpha\dot x^\beta
+=\frac{\dot q}{q}\dot x^\mu.
+\]
+若选 $\lambda=\tau$, 则 $q=1$, 右边消失, 正好得到仿射测地线方程. 不能先把根号设为常数再对作用量变分, 那会错误地删掉轨道依赖.
+
+测地线使固有时间驻定, 但 ``最长'' 需要局部条件. 平直时空中两固定类时事件之间的惯性轨道使固有时间最大; 弯曲时空中在共轭点以前有局部最大性质, 跨过共轭点后不能保证. 本卷不依赖这一全局变分理论, 采用局部 Euler--Lagrange 方程作为自由落体方程.
+
+\begin{proposition}\label{prop:geodesic-killing}
+若 $\xi$ 为 Killing 向量且 $u$ 为仿射测地线切向量, 则 $\xi_\mu u^\mu$ 沿轨道不变.
+\end{proposition}
+\begin{proof}
+对缩并求沿轨道导数, 得 $u^\nu\nabla_\nu(\xi_\mu u^\mu)=u^\nu u^\mu\nabla_\nu\xi_\mu+\xi_\mu u^\nu\nabla_\nu u^\mu$. 第二项为零, 第一项由对称的 $u^\nu u^\mu$ 与反对称的 $\nabla_\nu\xi_\mu$ 缩并为零.
+\end{proof}
+例如静态度规 $\dd s^2=-A(r)\dd t^2+B(r)\dd r^2+r^2\dd\Omega^2$ 不依赖 $t,\phi$, 所以 $E=A\dot t$、$L=r^2\sin^2\theta\dot\phi$ 守恒. 在赤道平面可把归一化条件降为一个径向一阶方程, 后文黑洞轨道据此求解.
+
+\originalsection{牛顿引力的运动学极限}
+从测地线能先得到度规与牛顿势的关系, 尚不需知道引力场方程. 取弱、近静态场, $g_{00}=-(1+2\Phi)$, $|\Phi|\ll1$, $g_{0i}=0$, 粒子速度远小于1. 此时 $\Gamma^i{}_{00}= -\frac12g^{ij}\partial_jg_{00}\simeq\partial_i\Phi$. 若将固有时间近似为坐标时间, 空间测地线的主项是
+$\dd^2x^i/\dd t^2=-\partial_i\Phi$.
+这只是低速运动学匹配, 尚未推出 $\nabla^2\Phi=4\pi G\rho$. 场方程的牛顿极限还必须决定空间度规, 并处理 Ricci 张量的缩并.
+
+固定坐标位置的钟满足 $\dd\tau=\sqrt{1+2\Phi}\dd t\simeq(1+\Phi)\dd t$. 若两个观察者沿同一个静态 Killing 场运动, 光子的 $-p_t$ 守恒, 各自测得的能量却是 $E_{\rm local}=(-p_t)/\sqrt{-g_{00}}$. 引力红移因此是局部能量随位置改变, 并非光子在固定背景中随意丢失守恒量.
+
+\originalsection{曲率的定义与符号}
+在平面极坐标中 $\Gamma\ne0$, 但能全域改回笛卡尔坐标. 真正的弯曲必须由无法通过坐标选择消去的量描述. 沿两个方向先后搬运向量, 若结果不同, 其差是一个不依赖坐标的线性映射. 在坐标基底中用导数交换子定义
+\begin{equation}\label{eq:curvature-convention}
+[\nabla_\mu,\nabla_\nu]V^\rho
+=R^\rho{}_{\sigma\mu\nu}V^\sigma,
+\end{equation}
+并取
+\begin{equation}\label{eq:riemann}
+\begin{split}
+R^\rho{}_{\sigma\mu\nu}={}&\partial_\mu\Gamma^\rho{}_{\nu\sigma}
+-\partial_\nu\Gamma^\rho{}_{\mu\sigma}\\
+&+\Gamma^\rho{}_{\mu\lambda}\Gamma^\lambda{}_{\nu\sigma}
+-\Gamma^\rho{}_{\nu\lambda}\Gamma^\lambda{}_{\mu\sigma}.
+\end{split}
+\end{equation}
+对式\eqref{eq:covder}连续求导时, 第二次导数还要作用于第一个导数新增的下指标; 无挠性使这些项在交换子中抵消. 普通二阶导数也抵消, 剩下的 $\partial\Gamma$ 与 $\Gamma\Gamma$ 项就是式\eqref{eq:riemann}. 因为左侧对任意 $V$ 给出张量, $R$ 本身是 $(1,3)$ 型张量. 不同文献可能把 $R$ 整体取相反号, 本卷从此式固定符号, 不能把别处 Ricci 或测地偏离的公式直接混用.
+
+沿小坐标平行四边形搬运, 净变化的最低阶项正比于 $R^\rho{}_{\sigma\mu\nu}V^\sigma\delta x^\mu\delta y^\nu$, 正负号由绕行方向与比较起点方式决定. 一阶系数可在一点为零, 环路的二阶效果仍可能不为零. 从这个物理定义看, 曲率描述的正是平行搬运的局部路径依赖.
+
+\begin{example}
+计算平面极坐标与半径 $R$ 球面的一个曲率分量.
+\end{example}
+\begin{solution}
+平面联络由前章得到, 因而 $R^r{}_{\theta r\theta}=\partial_r(-r)-\Gamma^r{}_{\theta\theta}\Gamma^\theta{}_{r\theta}=-1+1=0$. 对球面, $\Gamma^\theta{}_{\phi\phi}=-\sin\theta\cos\theta$、$\Gamma^\phi{}_{\theta\phi}=\cot\theta$, 故
+\begin{align*}
+R^\theta{}_{\phi\theta\phi}
+&=\partial_\theta(-\sin\theta\cos\theta)
+-\Gamma^\theta{}_{\phi\phi}\Gamma^\phi{}_{\theta\phi}\\
+&=(\sin^2\theta-\cos^2\theta)+\cos^2\theta=\sin^2\theta.
+\end{align*}
+降首指标得到 $R_{\theta\phi\theta\phi}=R^2\sin^2\theta$. 用正交基底除去坐标方向的长度, 截面曲率为 $R_{\theta\phi\theta\phi}/(g_{\theta\theta}g_{\phi\phi})=1/R^2$. 角坐标的分量随 $\theta$ 变, 物理曲率却处处相同.
+\end{solution}
+
+\originalsection{代数对称性与 Ricci 缩并}
+令 $R_{\rho\sigma\mu\nu}=g_{\rho\lambda}R^\lambda{}_{\sigma\mu\nu}$. 末两个指标的反对称性直接来自定义. 首两个指标的反对称性来自度规相容: $[\nabla_\mu,\nabla_\nu]g_{\rho\sigma}=0$ 展开为 $-R^\lambda{}_{\rho\mu\nu}g_{\lambda\sigma}-R^\lambda{}_{\sigma\mu\nu}g_{\rho\lambda}=0$. 无挠性给第一 Bianchi 恒等式
+\begin{equation}\label{eq:algebraic-bianchi}
+R^\rho{}_{\sigma\mu\nu}+R^\rho{}_{\mu\nu\sigma}+R^\rho{}_{\nu\sigma\mu}=0.
+\end{equation}
+把式\eqref{eq:riemann}作三次循环, 对称的联络使所有 $\partial\Gamma$ 与 $\Gamma\Gamma$ 项成对抵消. 利用两对反对称性与式\eqref{eq:algebraic-bianchi}, 得到 \allowbreak\mbox{$R_{\rho\sigma\mu\nu}=R_{\mu\nu\rho\sigma}$.} 也可在一点的局部惯性坐标直接验证:
+\begin{equation}
+R_{\rho\sigma\mu\nu}=\frac12
+(\partial_\mu\partial_\sigma g_{\rho\nu}
++\partial_\nu\partial_\rho g_{\sigma\mu}
+-\partial_\mu\partial_\rho g_{\sigma\nu}
+-\partial_\nu\partial_\sigma g_{\rho\mu})
+\end{equation}
+在 $\Gamma=0$ 的点成立, 右侧的对交换对称性一目了然; 因结论是张量等式, 任意坐标均成立.
+
+四维中每个反对称指标对有六种组合, 对交换对称性使 $R$ 成为这六维空间的对称双线性对象, 先有 $6\cdot7/2=21$ 个分量. 四个互不相同指标的代数 Bianchi 另给一个独立约束, 剩20个. 因而不能把 $4^4=256$ 个坐标分量当作独立未知量.
+
+定义 Ricci 张量 $R_{\sigma\nu}=R^\rho{}_{\sigma\rho\nu}$、标量曲率 $R=g^{\sigma\nu}R_{\sigma\nu}$. Ricci 对称性由上面的 Riemann 对称性得到. 在 $n$ 维常截面曲率 $K$ 空间,
+$R_{\rho\sigma\mu\nu}=K(g_{\rho\mu}g_{\sigma\nu}-g_{\rho\nu}g_{\sigma\mu})$, 从而 $R_{\sigma\nu}=(n-1)Kg_{\sigma\nu}$、$R=n(n-1)K$. 球面例得到 $R=2/R_{\rm sphere}^2$, 这里特意将球半径与标量曲率符号区分.
+
+Ricci 缩并并没有保留全部曲率. 四维的无迹部分称 Weyl 张量. 下式的 $a,b,c,d$ 均遍历全部四个时空指标, 不是只取空间指标:
+\begin{equation}\label{eq:weyl}
+\begin{split}
+C_{abcd}={}&R_{abcd}
+-\frac12(g_{ac}R_{db}-g_{ad}R_{cb}-g_{bc}R_{da}+g_{bd}R_{ca})\\
+&+\frac{R}{6}(g_{ac}g_{db}-g_{ad}g_{cb}).
+\end{split}
+\end{equation}
+用 $g^{ac}$ 缩并直接检查所有 Ricci 项相消, 得 $g^{ac}C_{abcd}=0$. 真空爱因斯坦方程在无宇宙常数时令 $R_{ab}=0$, 仍允许 $C_{abcd}\ne0$. 恒星外的潮汐与传播的引力波都是这种真空曲率, 所以 ``没有局部物质'' 不等于 ``没有引力''.
+
+\originalsection{测地偏离与潮汐测量}
+令 $x^\mu(\tau,s)$ 是一族用固有时间参数化的测地线, $u=\partial x/\partial\tau$, $\xi=\partial x/\partial s$ 是邻轨道间的分离向量. 两个参数导数交换, 因而 $[u,\xi]=0$; 无挠性给 $\nabla_u\xi=\nabla_\xi u$. 由曲率交换子,
+\begin{align*}
+\nabla_u\nabla_u\xi
+&=\nabla_u\nabla_\xi u
+=\nabla_\xi\nabla_u u+R(u,\xi)u\\
+&=R(u,\xi)u.
+\end{align*}
+其中 $R(u,\xi)$ 的导数槽与式\eqref{eq:curvature-convention}保持顺序一致. 分量形式是
+\begin{equation}\label{eq:geodesic-deviation}
+\frac{D^2\xi^\rho}{\dd\tau^2}
+=R^\rho{}_{\sigma\mu\nu}u^\sigma u^\mu\xi^\nu
+=-R^\rho{}_{\sigma\nu\mu}u^\sigma\xi^\nu u^\mu.
+\end{equation}
+在中心轨道的自由落体正交基底中, 短距离的空间分离满足 $\ddot\xi^{\hat i}=-R^{\hat i}{}_{\hat0\hat j\hat0}\xi^{\hat j}$. 潮汐矩阵 $R_{\hat i\hat0\hat j\hat0}$ 是直接可以通过相邻自由落体粒子的相对加速度测得的量, 不依赖坐标加速度是否被消掉.
+
+弱静态场的 $\Gamma^i{}_{00}\simeq\partial_i\Phi$ 给 $R^i{}_{0j0}\simeq\partial_j\partial_i\Phi$. 式\eqref{eq:geodesic-deviation}于是为 $\ddot\xi^i=-\partial_i\partial_j\Phi\,\xi^j$, 与把两处牛顿加速度相减的结果一致. 对点质量 $\Phi=-GM/r$, 径向 Hessian 为 $-2GM/r^3$, 切向为 $GM/r^3$. 相邻粒子径向拉开、切向压缩, 迹为零, 正好说明真空 Ricci 为零仍存在潮汐.
+
+\originalsection{微分 Bianchi 恒等式}
+曲率还满足一个包含导数的恒等式. 可在任意点选 $\Gamma(p)=0$, 将式\eqref{eq:riemann}再求导, 三个导数槽循环求和时, 三阶偏导成对抵消; $\partial(\Gamma\Gamma)$ 在该点也为零. 因为最终表达式是张量, 得到任意坐标中的恒等式
+\begin{equation}\label{eq:differential-bianchi}
+\nabla_\lambda R^\rho{}_{\sigma\mu\nu}
++\nabla_\mu R^\rho{}_{\sigma\nu\lambda}
++\nabla_\nu R^\rho{}_{\sigma\lambda\mu}=0.
+\end{equation}
+将 $\rho$ 与 $\mu$ 缩并, 得
+$\nabla_\lambda R_{\sigma\nu}+\nabla_\rho R^\rho{}_{\sigma\nu\lambda}-\nabla_\nu R_{\sigma\lambda}=0$.
+再用 $g^{\sigma\nu}$ 缩并, 中项给 $-\nabla_\rho R^\rho{}_{\lambda}$, 第三项也是 $-\nabla_\rho R^\rho{}_{\lambda}$, 所以
+$\nabla_\rho R^\rho{}_{\lambda}=\frac12\nabla_\lambda R$.
+定义 Einstein 张量 $G_{\mu\nu}=R_{\mu\nu}-\frac12g_{\mu\nu}R$, 立刻得到
+\begin{equation}\label{eq:einstein-divergence}
+\nabla_\mu G^{\mu\nu}=0.
+\end{equation}
+这不是使用引力方程后才成立的守恒律, 而是任意光滑度规的几何恒等式. 物质的能动量有相同的零散度要求, 因而 $G_{\mu\nu}$ 是构造引力场方程的自然对象. 下一章将用牛顿极限决定它与 $T_{\mu\nu}$ 之间的系数, 并用作用量说明该方程的另一条来源.

@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "review_kind": "Independent mathematical reader review by a different agent from the PS04-07 author; not a third-party expert certification.",
+  "reviewed_at_utc": "2026-10-12T01:37:06.607379+00:00",
+  "scope": [
+    "PS06.1 covariant vs contravariant constraints and shift-FLRW counterexample",
+    "PS07.2 cross-term/index/force/source signs",
+    "PS07.3 public-hint Lagrangian, symmetric Euler coefficients, and total divergence"
+  ],
+  "snapshot": {
+    "file": "chapters/ps04-07.tex",
+    "sha256": "87312ffaa86854aa22a6b4f992f5beebbb4e74a58939e8e43cb21d16f717cc81",
+    "repository_head_at_review": "f8353ac0192332efaefa485e227ad25d90ebe4b1",
+    "file_present_in_that_head": false,
+    "same_as_that_head": null,
+    "binding": "Review binds the exact SHA-256 of the working-tree chapter. Parent integration must verify that its committed chapter blob has this hash; this report does not claim an uncommitted chapter was already committed."
+  },
+  "sources": [
+    {
+      "pdf": "sources/MIT8_962S20_pset06.pdf",
+      "pdf_sha256": "be5aca316f79d4cdb1ae14efb808819818e517caf359c5de0d709d196c5b289e",
+      "text": "sources/MIT8_962S20_pset06.txt",
+      "text_sha256": "cc08a80923e6dabf076ab50c1f4795bf1b8f6d9bbefd9713178fe4cefc9fe22d"
+    },
+    {
+      "pdf": "sources/MIT8_962S20_pset07.pdf",
+      "pdf_sha256": "386aaef95d8ab8d5d1c699ed92277b820789a29045918eda3f748e8c3ad5cf5a",
+      "text": "sources/MIT8_962S20_pset07.txt",
+      "text_sha256": "97a8230b19fb3589deea0931c600d281a4a54c274b585494c74a4f1ffb31710f"
+    },
+    {
+      "pdf": "sources/MIT8_962S20_pset07_hint.pdf",
+      "pdf_sha256": "254fdb3b03b3f6def51a1125681d562756be3dd09bff164116276015458c1a66",
+      "text": "sources/MIT8_962S20_pset07_hint.txt",
+      "text_sha256": "927ba2061ebb1009cf6da56837da4d91280ee04e143aca1da19f3cd640119968"
+    }
+  ],
+  "source_read_evidence": {
+    "PS06.1": "Read extracted problem and visually inspected original PDF p1; G_00 and G_0i are covariant in the original.",
+    "PS07.2": "Read extracted p2-p3 and visually inspected original PDF p2; line element has negative cross term but subsequent explanation has upper indices h^{0i}=-beta^i.",
+    "PS07.3": "Read full public hint content and visually inspected original hint PDF p1; outer 1/2 and inner +/-1/2 factors and symmetric derivative projector confirmed.",
+    "rendered_source_images": "/tmp/gr-ps-review",
+    "limitations": "Only the three assigned mathematical items are reviewed here; no claim about other PS04-07 items or complete textbook wording."
+  },
+  "findings": [
+    {
+      "problem": "PS06.1",
+      "verdict": "accepted_with_explicit_zero_shift_condition_for_original_covariant_statement",
+      "original_issue": "Selecting x^0=t and spacelike slices does not force g_0i=0. Covariant G_0mu can contain second pure time derivatives when shift is nonzero.",
+      "reasoning": "Bianchi highest-derivative argument applies to G^{0nu}, whose time derivative alone could contain independent third pure time jets. Christoffel products contain no third derivatives; spatial derivatives contain at least one spatial derivative. Thus the coefficients of partial_t^2 g vanish in G^{0nu}. Multiplication by n_mu=(-N,0,0,0) gives the geometric constraint projection. Lowering the first index when g_0i is nonzero mixes in spatial evolution equations.",
+      "counterexample": "ds^2=-dt^2+a(t)^2[(dx+b dt)^2+dy^2+dz^2]. Direct tensor computation gives G_00=3H^2-b^2 a^2(2 dot H+3H^2), G_0x=-b a^2(2 dot H+3H^2), while G^{00}=3H^2 and G^{0x}=-3bH^2. g^{00}=-1 and, for a|b|<1, partial_t is timelike as required by the original.",
+      "conditions": [
+        "Lorentzian metric of sufficient differentiability; smooth independent metric jets",
+        "Spacelike t=constant slices for lapse/unit-normal interpretation",
+        "Zero shift is sufficient for all-covariant G_0mu to be constraint components",
+        "Statement excludes second pure time derivatives, not mixed time-space derivatives or products of first time derivatives."
+      ],
+      "unresolved_issue": null
+    },
+    {
+      "problem": "PS07.2",
+      "verdict": "accepted_after_source_index_clarification",
+      "source_issue": "The original negative line-element cross term gives covariant h_0i=-beta_i, hence contravariant h^{0i}=+beta^i under (-+++). Original subsequent h^{0i}=-beta^i instead describes a positive line-element cross term.",
+      "literal_negative_cross_term_results": [
+        "Gamma^i_00=partial_i Phi for stationary field",
+        "Gamma^i_0j=(partial_i beta_j-partial_j beta_i)/2",
+        "ddot x=g-v cross(curl beta)",
+        "T_0i=-J_i; Delta beta_i=-16 pi G J_i",
+        "Stationary Lorenz gauge div beta=0 implies curl H=+16 pi G J, H=curl beta"
+      ],
+      "consistent_alternative": "Either retain the negative cross term and define H_grav=-curl beta, or use positive cross term and the original H=curl beta. Both then give positive v cross H_grav in force law and negative curl-source sign.",
+      "time_dependent_check": "For the literal negative cross term, complete O(h v) acceleration adds partial_t beta +3v partial_t Phi; no claim that stationary sources alone exclude freely superposed nonstationary homogeneous gravitational waves.",
+      "resolved_during_review": "Parent updated the manuscript to retain original h^{0i}=-beta^i explicitly and describe the metric/explanation disagreement. Updated wording was reread before final hash binding.",
+      "conditions": [
+        "Linear weak metric perturbation, neglect O(h^2)",
+        "Keep O(h v) and drop O(v^2) terms in test-particle force",
+        "Stationary potentials/selected stationary field for stated static force",
+        "Slow-source stress tensor and Lorenz gauge for Poisson source equations",
+        "Terms compared use consistent definitions and normalization of beta/H."
+      ],
+      "unresolved_issue": null
+    },
+    {
+      "problem": "PS07.3",
+      "verdict": "accepted_after_boundary_condition_clarification",
+      "original_hint_transcription": "Outer 1/2, tensor-kinetic inner +1/2, and trace-kinetic inner -1/2 match the original visually inspected public hint. Only hint-restored wording is claimed, not unavailable textbook additions.",
+      "variation_result": "delta S=int G^{(1)ab} delta h_ab d^4x with symmetric delta h. For ten independent variables h_ab, a<=b, the Euler coefficient is G^{(1)aa} on diagonals and 2G^{(1)ab} on off-diagonals. All ten coefficients were directly differentiated from the original, unintegrated hint L and matched.",
+      "total_divergence": "Let a_sigma=partial_mu h^mu_sigma and B=(partial_mu h^{rho sigma})(partial_rho h^mu_sigma). Then B-a^sigma a_sigma=partial_mu J^mu, with J^mu=h^{rho sigma}partial_rho h^mu_sigma-h^{mu sigma}a_sigma. Original L minus reduced L is -(1/2)partial_mu J^mu.",
+      "boundary_conditions": "Compact support of delta h makes the variation of the divergence vanish; it does not by itself make the two complete actions equal. Equality of the displayed action integrals additionally needs vanishing surface terms, for example sufficiently rapid decay.",
+      "resolved_during_review": "Parent changed the introduction to the integration-by-parts chain to distinguish disappearing surface terms/action equality from general-field compact-variation equivalence. This corrected passage was reread before final hash binding.",
+      "conditions": [
+        "Fixed constant Minkowski background for raising/lowering and commuting partial derivatives",
+        "Symmetric h and symmetric metric variations",
+        "Compactly supported variations, or boundary conditions that make varied surface terms vanish",
+        "Displayed complete integral equalities additionally assume the stated surface terms vanish."
+      ],
+      "unresolved_issue": null
+    }
+  ],
+  "exact_symbolic_checks": {
+    "PS06.1_shift_FLRW_exact_residuals": {
+      "G00": "0",
+      "G0x": "0",
+      "Gup00": "0",
+      "Gup0x": "0",
+      "metric_inverse_g00": "-1"
+    },
+    "PS07.3_original_L_Euler_residuals": {
+      "00": "0",
+      "01": "0",
+      "02": "0",
+      "03": "0",
+      "11": "0",
+      "12": "0",
+      "13": "0",
+      "22": "0",
+      "23": "0",
+      "33": "0"
+    },
+    "PS07.3_original_vs_reduced_L_Euler_residuals": {
+      "00": "0",
+      "01": "0",
+      "02": "0",
+      "03": "0",
+      "11": "0",
+      "12": "0",
+      "13": "0",
+      "22": "0",
+      "23": "0",
+      "33": "0"
+    },
+    "independent_covariant_components": 10,
+    "off_diagonal_variation_factor": 2,
+    "PS07.2_general_linear_velocity_force_residuals": [
+      "0",
+      "0",
+      "0"
+    ],
+    "PS07.2_G0i_residuals": [
+      "0",
+      "0",
+      "0"
+    ],
+    "stationary_transverse_G0i": "G_0i = +(1/2) Delta beta_i",
+    "matter_source": "T_0i = -J_i; therefore Delta beta_i = -16 pi G J_i",
+    "source_curl": "curl(curl beta) = +16 pi G J (stationary Lorenz gauge)"
+  },
+  "reproduction": {
+    "engine": "SymPy exact symbolic differentiation and simplification; no floating-point test or file-existence criterion.",
+    "scripts": [
+      {
+        "name": "independent_checks.py",
+        "sha256": "dfd2629a3e615931823cb27c874f63cf16e9eef2976de66937e698a6027425dd",
+        "code": "import sympy as s\nfrom functools import lru_cache\nimport json\nfrom pathlib import Path\n# PS06.1: derive Einstein tensor directly from metric with nonzero constant shift.\nt,x,y,z,b=s.symbols('t x y z b',real=True); a=s.Function('a')(t); X=(t,x,y,z)\ng=s.Matrix([[-1+a*a*b*b,a*a*b,0,0],[a*a*b,a*a,0,0],[0,0,a*a,0],[0,0,0,a*a]])\nginv=s.simplify(g.inv())\n@lru_cache(None)\ndef C(i,j,k):\n return s.simplify(sum(ginv[i,q]*(s.diff(g[q,k],X[j])+s.diff(g[q,j],X[k])-s.diff(g[j,k],X[q]))/2 for q in range(4)))\n@lru_cache(None)\ndef Ric(i,j):\n return s.simplify(sum(s.diff(C(q,i,j),X[q])-s.diff(C(q,q,i),X[j])+sum(C(q,q,l)*C(l,i,j)-C(q,j,l)*C(l,q,i) for l in range(4)) for q in range(4)))\nRm=s.Matrix(4,4,Ric);scalar=s.simplify(sum(ginv[i,j]*Rm[i,j] for i in range(4) for j in range(4)))\nG=s.simplify(Rm-g*scalar/2);Gup=s.simplify(ginv*G*ginv)\nH=s.diff(a,t)/a;dH=s.diff(H,t)\nshiftchecks={'G00':str(s.simplify(G[0,0]-(3*H*H-b*b*a*a*(2*dH+3*H*H)))), 'G0x':str(s.simplify(G[0,1]+b*a*a*(2*dH+3*H*H))), 'Gup00':str(s.simplify(Gup[0,0]-3*H*H)), 'Gup0x':str(s.simplify(Gup[0,1]+3*b*H*H)), 'metric_inverse_g00':str(ginv[0,0])}\n# PS07.3: vary the original (not integrated by parts) L using 10 independent fields.\npairs=[(i,j) for i in range(4) for j in range(i,4)]\nsg=[-1,1,1,1]\nDs={(mu,ab):s.Symbol('d%d_%d%d'%(mu,*ab)) for mu in range(4) for ab in pairs}\ndef D(mu,i,j):return Ds[(mu,tuple(sorted((i,j))))]\n@lru_cache(None)\ndef S(mu,nu,i,j):\n return s.Symbol('s%d%d_%d%d'%(*sorted((mu,nu)),*sorted((i,j))))\nda=[sum(sg[q]*D(mu,q,q) for q in range(4)) for mu in range(4)]\ndiv=[sum(sg[mu]*sg[nu]*D(mu,mu,nu) for mu in range(4)) for nu in range(4)]\nterm1=sum(div[nu]*da[nu] for nu in range(4))\nterm2=sum(sg[rho]*sg[sigma]*sg[mu]*D(mu,rho,sigma)*D(rho,mu,sigma) for mu in range(4) for rho in range(4) for sigma in range(4))\nkin=sum(sg[mu]*sg[rho]*sg[sigma]*D(mu,rho,sigma)**2 for mu in range(4) for rho in range(4) for sigma in range(4))\nkintrace=sum(sg[mu]*da[mu]**2 for mu in range(4))\nLo=s.expand(s.Rational(1,2)*(term1-term2+s.Rational(1,2)*kin-s.Rational(1,2)*kintrace))\nLr=s.expand(s.Rational(1,2)*term1-s.Rational(1,2)*sum(sg[nu]*div[nu]**2 for nu in range(4))+s.Rational(1,4)*kin-s.Rational(1,4)*kintrace)\nB=sum(sg[mu]*sg[nu]*S(nu,mu,mu,nu) for mu in range(4) for nu in range(4))\nboxtrace=sum(sg[mu]*sg[rho]*S(mu,mu,rho,rho) for mu in range(4) for rho in range(4))\ndef expected(i,j):\n cov=s.Rational(1,2)*(sum(sg[mu]*(S(i,mu,mu,j)+S(j,mu,mu,i)-S(mu,mu,i,j)) for mu in range(4))-sum(sg[rho]*S(i,j,rho,rho) for rho in range(4))-(sg[i] if i==j else 0)*(B-boxtrace))\n return sg[i]*sg[j]*(1 if i==j else 2)*cov\n\ndef EL(L,ab):\n out=0\n for mu in range(4):\n  mom=s.diff(L,Ds[(mu,ab)])\n  for (nu,cd),var in Ds.items():\n   coeff=s.diff(mom,var)\n   if coeff!=0:out-=coeff*S(mu,nu,*cd)\n return s.expand(out)\nELchecks={f'{i}{j}':str(s.simplify(EL(Lo,(i,j))-expected(i,j))) for i,j in pairs}\nIBPchecks={f'{i}{j}':str(s.simplify(EL(Lo,(i,j))-EL(Lr,(i,j)))) for i,j in pairs}\nres={'PS06.1_shift_FLRW_exact_residuals':shiftchecks,'PS07.3_original_L_Euler_residuals':ELchecks,'PS07.3_original_vs_reduced_L_Euler_residuals':IBPchecks,'independent_covariant_components':10,'off_diagonal_variation_factor':2}\nPath('/tmp/gr-ps-review/computation-results.json').write_text(json.dumps(res,indent=2))\nprint(json.dumps(res,indent=2))\n"
+      },
+      {
+        "name": "magnetic_checks.py",
+        "sha256": "f718dbdc163f23396bf8af015ee93bbe3a13e1fca8764a8b8b7d294197e22380",
+        "code": "import sympy as s\nimport json\nfrom pathlib import Path\nX=s.symbols('t x y z',real=True);v=s.symbols('vx vy vz',real=True); e=(-1,1,1,1)\nphi=s.Function('Phi')(*X);B=[s.Function('B%d'%i)(*X) for i in range(1,4)]\nh=s.diag(-2*phi,-2*phi,-2*phi,-2*phi)\nfor i in range(3):h[0,i+1]=h[i+1,0]=-B[i]\ndef C(i,j,k):\n return s.Rational(1,2)*e[i]*(s.diff(h[i,k],X[j])+s.diff(h[i,j],X[k])-s.diff(h[j,k],X[i]))\ncurl=[s.diff(B[2],X[2])-s.diff(B[1],X[3]),s.diff(B[0],X[3])-s.diff(B[2],X[1]),s.diff(B[1],X[1])-s.diff(B[0],X[2])]\nvcross=s.Matrix(v).cross(s.Matrix(curl))\nforcechecks=[]\nfor i in range(3):\n acc=-C(i+1,0,0)-2*sum(C(i+1,0,j+1)*v[j] for j in range(3))+v[i]*C(0,0,0)\n ex=-s.diff(phi,X[i+1])+s.diff(B[i],X[0])+3*v[i]*s.diff(phi,X[0])-vcross[i]\n forcechecks.append(str(s.simplify(acc-ex)))\ntr=sum(e[q]*h[q,q] for q in range(4))\ndef Ric(i,j):\n return s.Rational(1,2)*(sum(e[q]*(s.diff(h[q,j],X[q],X[i])+s.diff(h[q,i],X[q],X[j])-s.diff(h[i,j],X[q],X[q])) for q in range(4))-s.diff(tr,X[i],X[j]))\nrchecks=[]\nfor i in range(3):\n ex=2*s.diff(phi,X[0],X[i+1])+s.Rational(1,2)*(sum(s.diff(B[i],X[q],X[q]) for q in (1,2,3))-s.diff(sum(s.diff(B[q],X[q+1]) for q in range(3)),X[i+1]))\n rchecks.append(str(s.simplify(Ric(0,i+1)-ex)))\nres={'PS07.2_general_linear_velocity_force_residuals':forcechecks,'PS07.2_G0i_residuals':rchecks,'stationary_transverse_G0i':'G_0i = +(1/2) Delta beta_i','matter_source':'T_0i = -J_i; therefore Delta beta_i = -16 pi G J_i','source_curl':'curl(curl beta) = +16 pi G J (stationary Lorenz gauge)'}\nPath('/tmp/gr-ps-review/magnetic-results.json').write_text(json.dumps(res,indent=2));print(json.dumps(res,indent=2))\n"
+      }
+    ],
+    "instructions": "Create /tmp/gr-ps-review, save the embedded scripts under their indicated names, and run with Python plus SymPy. They output the exact residual tables also embedded above."
+  },
+  "summary": {
+    "substantive_unresolved_mathematical_errors": [],
+    "resolved_source_or_boundary_clarifications": [
+      "PS07.2 original upper-index explanation restored",
+      "PS07.3 action equality vs compact-variation equivalence made explicit"
+    ],
+    "whole_document_math_certification": false,
+    "whole_document_build_or_visual_review": false,
+    "final_commit_verification": "Owned by parent; verify the integrated chapter blob against snapshot.sha256."
+  }
+}

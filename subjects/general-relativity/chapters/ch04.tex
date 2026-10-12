@@ -1,0 +1,252 @@
+\originalchapter{爱因斯坦场方程与变分原理}
+\label{gr-ch-field}
+
+前面已经建立了从度规计算联络、测地线和曲率的办法. 给定一个度规, 我们能回答钟怎样走、自由粒子怎样运动、相邻自由粒子怎样发生相对加速度. 但度规还没有由物质决定. 本章所要补上的动力学关系, 是把物质的能量、动量和应力与几何的曲率联系起来. 内容对应 MIT 8.962 Spring 2020 第12、13讲; 对作用量边界条件的讨论是为了补全指南中明确略去的变分步骤.
+
+\originalsection{能动量张量的物理内容}
+
+在某事件的局部正交惯性标架中, $T^{00}$ 是能量密度, $T^{0i}$ 是第 $i$ 方向的能量流密度, $T^{i0}$ 是动量密度, $T^{ij}$ 是第 $j$ 方向流过的第 $i$ 分量动量. 后一项包括压力和剪切应力. 对本章使用的无内禀自旋的连续介质, 以及由度规变分得到的物质张量, $T^{\mu\nu}=T^{\nu\mu}$. 局部的能量和动量不是四个互不相干的量, 换一个观察者会把它们混合; 因而应把全部分量合成一个张量.
+
+\begin{definition}
+设 $u^\mu$ 是观察者的四速度, $u^\mu u_\mu=-1$. 该观察者测得的能量密度及空间能量流为
+\[
+ \rho(u)=T_{\mu\nu}u^\mu u^\nu,\qquad
+ q^\mu(u)=-P^\mu{}_{\alpha}T^{\alpha\beta}u_\beta,
+ \qquad P^\mu{}_{\nu}=\delta^\mu{}_{\nu}+u^\mu u_\nu.
+\]
+$P$ 把向量投影到与 $u$ 正交的三维空间; 因而 $q^\mu u_\mu=0$. 相应的空间应力为 $P^\mu{}_{\alpha}P^\nu{}_{\beta}T^{\alpha\beta}$.
+\end{definition}
+
+这个定义说明, 写成 $T^{00}$ 的密度只有在已指定坐标或标架后才有意义, 而 $T_{\mu\nu}u^\mu u^\nu$ 明确写出了所用观察者. 在流体自身的静止标架中, 若没有热流, 又没有任何优先空间方向, 能动量张量只能是 $\operatorname{diag}(\rho,p,p,p)$. 把这个陈述写成所有坐标都能使用的形式, 就得到理想流体张量
+\begin{equation}\label{gr4-fluid}
+ T^{\mu\nu}=(\rho+p)u^\mu u^\nu+p g^{\mu\nu}.
+\end{equation}
+这里 $\rho$ 是静止系的总能量密度, 包括静质量能; $p$ 是各向同性压力. 检查静止系 $u^\mu=(1,0,0,0)$ 时, $T^{00}=\rho+p-p=\rho$, $T^{ij}=p\delta^{ij}$. 这既核对了符号, 也解释了为什么四速度项的系数是 $\rho+p$ 而不是 $\rho$.
+
+自由物质在弯曲背景上的局部守恒式为 $\nabla_\mu T^{\mu\nu}=0$. 对理想流体, 先与 $u_\nu$ 收缩. 用 $u_\nu\nabla_\mu u^\nu=\tfrac12\nabla_\mu(u_\nu u^\nu)=0$, 得
+\begin{align*}
+0&=u_\nu\nabla_\mu[(\rho+p)u^\mu u^\nu+p g^{\mu\nu}]\\
+ &=-\nabla_\mu[(\rho+p)u^\mu]+u^\mu\partial_\mu p
+ =-u^\mu\partial_\mu\rho-(\rho+p)\nabla_\mu u^\mu.
+\end{align*}
+再与 $P^\alpha{}_{\nu}$ 收缩, 沿 $u$ 的项被投影消去, 留下
+\begin{equation}\label{gr4-euler}
+ (\rho+p)u^\mu\nabla_\mu u^\alpha
+   +P^{\alpha\mu}\partial_\mu p=0.
+\end{equation}
+第一式是流体沿自身运动的能量方程, 第二式是相对论性的 Euler 方程. 无压尘埃 $p=0$ 在 $\rho\ne0$ 的区域满足 $u^\mu\nabla_\mu u^\alpha=0$, 所以流体元沿测地线运动. 压力有空间梯度时, 流体元一般不沿测地线运动.
+
+\originalsection{由曲率构造场方程}
+
+设想场方程的右边取 $T_{\mu\nu}$, 左边就应是对称的二阶协变张量. 直接取 $R_{\mu\nu}$ 还有一个障碍: 前章的收缩 Bianchi 恒等式给出
+\[
+ \nabla^\mu R_{\mu\nu}=\frac12\nabla_\nu R,
+\]
+所以 Ricci 张量本身一般没有零散度. 用度规相容性 $\nabla g=0$ 消去右边, 定义
+\begin{equation}\label{gr4-einstein-tensor}
+ G_{\mu\nu}=R_{\mu\nu}-\frac12g_{\mu\nu}R,
+ \qquad \nabla^\mu G_{\mu\nu}=0.
+\end{equation}
+这是一条对每个度规都成立的几何恒等式, 不是满足场方程以后才成立的性质. 若保留曲率的一次项, 最简单的选择便是
+\begin{equation}\label{gr4-efe}
+ G_{\mu\nu}+\Lambda g_{\mu\nu}=8\pi G T_{\mu\nu}.
+\end{equation}
+$G$ 是 Newton 引力常数, $\Lambda$ 是宇宙学常数, 其量纲为长度的负二次方. 本书默认 $c=1$; 恢复 $c$ 后, 右边的系数是 $8\pi G/c^4$, $T_{\mu\nu}$ 仍以能量密度为基本单位. 单靠协变性和守恒不能排除全部高阶曲率理论; 此处选择的是最简单的二阶度规动力学, 后面的作用量将把这一选择写得更加具体.
+
+四维中 $g^{\mu\nu}g_{\mu\nu}=4$, 因而取迹得到 $-R+4\Lambda=8\pi G T$, 其中 $T=g^{\mu\nu}T_{\mu\nu}$. 场方程也可写为
+\begin{equation}\label{gr4-trace-reversed}
+ R_{\mu\nu}=8\pi G\left(T_{\mu\nu}-\frac12g_{\mu\nu}T\right)
+               +\Lambda g_{\mu\nu}.
+\end{equation}
+这个版本常用于逐分量计算. 理想流体的迹为 $T=-\rho+3p$. 因此, 在流体局部静止正交标架中,
+\[
+ R_{00}=4\pi G(\rho+3p)-\Lambda.
+\]
+压力也参与产生引力曲率. 这不是说任意有限容器的总引力质量都能只对容器中的 $\rho+3p$ 积分; 保持静态所需的壁面应力、边界与完整系统也必须计入.
+
+\begin{remark}
+真空且 $\Lambda=0$ 时, 场方程给出 $R_{\mu\nu}=0$, 并不要求 $R^\rho{}_{\sigma\mu\nu}=0$. Ricci 张量是曲率的一种收缩, 收缩为零并不能使原张量为零. 黑洞外部和传播中的引力波都可有非零潮汐曲率.
+\end{remark}
+
+把 $\Lambda g_{\mu\nu}$ 移到右边, 相当于加入
+\[
+ T^{(\Lambda)}_{\mu\nu}=-\frac{\Lambda}{8\pi G}g_{\mu\nu}.
+\]
+与式\eqref{gr4-fluid}比较, 得 $\rho_\Lambda=\Lambda/(8\pi G)$, $p_\Lambda=-\rho_\Lambda$. 负压来自这个张量的形式, 不能误把它理解为气体粒子运动产生的普通正压力.
+
+\originalsection{Newton 极限与耦合常数}
+
+在近乎静态、弱场、低速且压力远小于静质量能密度的区域, 写 $g_{00}=-(1+2\Phi)$, $|\Phi|\ll1$. 暂时令 $\Lambda=0$. 测地线方程的空间分量中, 时间分量占主导, 所以
+\[
+ \frac{\dd^2 x^i}{\dd t^2}\simeq-\Gamma^i{}_{00},\qquad
+ \Gamma^i{}_{00}\simeq-\frac12\delta^{ij}\partial_j g_{00}
+  =\partial^i\Phi.
+\]
+因而 $\Phi$ 正是使低速粒子满足 $\ddot{\boldsymbol x}=-\boldsymbol\nabla\Phi$ 的 Newton 势. 这里不能只凭 $g_{00}$ 的写法就断言场方程已还原为 Newton 理论; 还须计算曲率和源的系数.
+
+保留度规扰动的一阶, 忽略时间导数和两个联络的乘积, 有
+\[
+ R_{00}=\partial_\rho\Gamma^\rho{}_{00}
+          -\partial_0\Gamma^\rho{}_{\rho0}+O(\Phi^2)
+       \simeq\nabla^2\Phi.
+\]
+假如场方程的耦合系数暂记为 $\alpha$, 即 $G_{\mu\nu}=\alpha T_{\mu\nu}$, 其迹反转形式给出
+\[
+ R_{00}=\alpha\left(T_{00}-\frac12g_{00}T\right)
+        \simeq\frac\alpha2\rho.
+\]
+低速物质有 $T_{00}\simeq\rho$, $T\simeq-\rho$. 与已知的 Poisson 方程 $\nabla^2\Phi=4\pi G\rho$ 比较, 得 $\alpha=8\pi G$. 这里的因子 $1/2$ 来自四维取迹, 不是约定上随意加入的系数.
+
+\begin{example}
+半径为 $b$ 的静态球形弱场物体有均匀密度 $\rho_0$, 压力对 Newton 势的贡献可忽略. 取 $\Phi(\infty)=0$, 求内外势及径向加速度, 并说明在中心与表面的匹配条件.
+\end{example}
+\begin{solution}
+球对称 Poisson 方程为 $(r^2\Phi')'=4\pi G\rho(r)r^2$. 中心有限性排除 $\Phi'\sim r^{-2}$ 的齐次项. 内部于是有 $\Phi'=4\pi G\rho_0r/3$. 总质量为 $M=4\pi\rho_0b^3/3$. 外部真空给出 $r^2\Phi'=GM$, 结合无穷远条件得 $\Phi_{\mathrm{out}}=-GM/r$. 没有表面质量薄层时, 对 Poisson 方程在 $b$ 附近积分可知 $\Phi'$ 连续; 度规的弱场势也应连续. 因而
+\[
+ \Phi(r)=\begin{cases}
+ -\dfrac{GM}{2b^3}(3b^2-r^2),&0\le r\le b,\\[3pt]
+ -\dfrac{GM}{r},&r\ge b,
+ \end{cases}
+ \qquad
+ \ddot r\simeq-\Phi'(r)=\begin{cases}
+ -GM r/b^3,&r<b,\\
+ -GM/r^2,&r>b.
+ \end{cases}
+\]
+这里的径向加速度描述低速自由落体, 不包含保持源物体静态的流体加速度. 若 $GM/b\ll1$, 整个物体内外的势都满足弱场条件. 此例只是 EFE 的 Newton 极限, 不能把它当作精确的相对论恒密度星解.
+\end{solution}
+
+\originalsection{从作用量到场方程}
+
+度规不仅决定点积, 还决定积分所用的体积元 $\sqrt{-g}\,\dd^4x$, 其中 $g=\det(g_{\mu\nu})<0$. 曲率标量 $R$ 是只使用度规和其导数能构造出的最简单曲率标量. Einstein--Hilbert 体作用量取为
+\begin{equation}\label{gr4-action}
+ S_{\mathrm{bulk}}=\frac1{16\pi G}\int_M\sqrt{-g}(R-2\Lambda)\,\dd^4x
+                    +S_m[g,\psi].
+\end{equation}
+$\psi$ 统指物质场; 变分度规时暂固定物质场. 场方程来自使作用量对允许的小变动驻定, 不要求作用量在所有方向取得最小值.
+
+下面选择逆度规 $g^{\mu\nu}$ 为独立变量. 从 $g_{\mu\alpha}g^{\alpha\nu}=\delta_\mu{}^\nu$ 微分, 以及行列式恒等式 $\delta\log|\det A|=\operatorname{tr}(A^{-1}\delta A)$, 得
+\begin{equation}\label{gr4-volume-var}
+ \delta g_{\mu\nu}=-g_{\mu\alpha}g_{\nu\beta}\delta g^{\alpha\beta},
+ \qquad
+ \delta\sqrt{-g}=-\frac12\sqrt{-g}\,g_{\mu\nu}\delta g^{\mu\nu}.
+\end{equation}
+这两个负号都是选用逆度规变分的结果. 若改用 $g_{\mu\nu}$, 中间公式会改变, 最终方程不会改变.
+
+关键步骤是控制曲率的变分. 两个联络的差是张量, 所以 $\delta\Gamma^\rho{}_{\mu\nu}$ 可作张量使用. 对 Levi-Civita 联络直接变分, 再把普通导数重新组成协变导数, 得
+\[
+ \delta\Gamma^\rho{}_{\mu\nu}
+ =\frac12g^{\rho\sigma}
+  (\nabla_\mu\delta g_{\sigma\nu}+\nabla_\nu\delta g_{\sigma\mu}
+   -\nabla_\sigma\delta g_{\mu\nu}).
+\]
+由本书的 Riemann 符号约定, Ricci 张量的变分是
+\[
+ \delta R_{\mu\nu}
+   =\nabla_\rho\delta\Gamma^\rho{}_{\nu\mu}
+        -\nabla_\nu\delta\Gamma^\rho{}_{\rho\mu}.
+\]
+这称为 Palatini 恒等式, 它本身仍是在联络由度规决定的变分中成立的恒等式; 不应与把联络作为独立变量的 Palatini 变分混淆. 用 $\nabla g=0$ 收缩可写成
+\begin{align*}
+ \delta R&=R_{\mu\nu}\delta g^{\mu\nu}+\nabla_\rho v^\rho,\\
+ v^\rho&=g^{\mu\nu}\delta\Gamma^\rho{}_{\nu\mu}
+                 -g^{\mu\rho}\delta\Gamma^\nu{}_{\nu\mu}.
+\end{align*}
+结合式\eqref{gr4-volume-var}, 得到完整的体变分, 而非只留下希望得到的项:
+\begin{equation}\label{gr4-action-var}
+ \delta[\sqrt{-g}(R-2\Lambda)]
+ =\sqrt{-g}(G_{\mu\nu}+\Lambda g_{\mu\nu})\delta g^{\mu\nu}
+     +\partial_\rho(\sqrt{-g}\,v^\rho).
+\end{equation}
+
+\begin{definition}
+物质的度规能动量张量由物质作用量定义为
+\[
+ T_{\mu\nu}=-\frac2{\sqrt{-g}}\frac{\delta S_m}{\delta g^{\mu\nu}},
+ \qquad
+ \delta_g S_m=-\frac12\int_M\sqrt{-g}\,T_{\mu\nu}\delta g^{\mu\nu}\,\dd^4x.
+\]
+这里的泛函导数已在需要时分部积分, 并按物质自身的边界条件处理了边界项.
+\end{definition}
+
+若度规变分在内部有紧支集, 总散度积分为零. 任意对称 $\delta g^{\mu\nu}$ 的系数于是必须为零, 即
+\[
+ \frac1{16\pi G}(G_{\mu\nu}+\Lambda g_{\mu\nu})-\frac12T_{\mu\nu}=0,
+\]
+正好得到式\eqref{gr4-efe}. $-2\Lambda$ 与体积元变分相乘, 产生的是 $+\Lambda g_{\mu\nu}$, 这也提供了对宇宙学常数符号的独立核对.
+
+\begin{example}
+实标量场的作用量为
+\[
+ S_m=-\int\sqrt{-g}\left(\frac12g^{\mu\nu}\partial_\mu\phi\partial_\nu\phi
+                        +V(\phi)\right)\dd^4x.
+\]
+求它的能动量张量与场方程, 并验证场方程使其协变散度为零.
+\end{example}
+\begin{solution}
+变分逆度规只影响体积元和动能中的 $g^{\mu\nu}$. 按定义得到
+\[
+ T_{\mu\nu}=\partial_\mu\phi\partial_\nu\phi
+ -g_{\mu\nu}\left(\frac12\partial_\alpha\phi\partial^\alpha\phi+V\right).
+\]
+变分 $\phi$ 并在固定端点条件下分部积分, 有
+\[
+ \delta_\phi S_m=\int\sqrt{-g}(\nabla_\mu\nabla^\mu\phi-V'(\phi))\delta\phi\,\dd^4x.
+\]
+故 $\nabla_\mu\nabla^\mu\phi-V'(\phi)=0$. 计算散度时, $\phi$ 为标量, 它的二阶协变导数对称. 因此
+\begin{align*}
+ \nabla^\mu T_{\mu\nu}
+ &= (\nabla^\mu\nabla_\mu\phi)\partial_\nu\phi
+ +\partial^\mu\phi\nabla_\mu\partial_\nu\phi
+ -\partial^\alpha\phi\nabla_\nu\partial_\alpha\phi
+ -V'\partial_\nu\phi\\
+ &= (\nabla^\mu\nabla_\mu\phi-V')\partial_\nu\phi=0.
+\end{align*}
+这不是把守恒式额外强加给标量场, 而是检验该物质作用量与几何守恒结构相容.
+\end{solution}
+
+\originalsection{边界项为什么不能随意丢弃}
+
+式\eqref{gr4-action-var}的总散度只在合适的变分与边界条件下才能消失. 如果仅要求边界上的度规值固定, $\delta g_{\mu\nu}|_{\partial M}=0$, 度规法向导数的变分仍可非零; $v^\rho$ 正好包含这样的导数. 所以“度规在边界固定, 因而边界项为零”是不完整的论证. 用内部紧支集变分推出局部 EFE 没有问题; 要把带边界的作用量当作固定边界几何的驻定问题, 则须补上边界作用量.
+
+为看清要消去的项, 先取光滑的时类或空类边界, 单位外法向 $n^\mu$ 满足 $n_\mu n^\mu=\epsilon=\pm1$. 边界诱导度规为 $q_{\mu\nu}=g_{\mu\nu}-\epsilon n_\mu n_\nu$, 外曲率定义为 $K_{ab}=q_a{}^\mu q_b{}^\nu\nabla_\mu n_\nu$, $K=q^{ab}K_{ab}$. 拉丁指标 $a,b$ 在这一节只表示边界上的三个方向.
+
+在边界附近可用高斯法向坐标 $s,y^a$, 使
+\[
+ \dd s_M^2=\epsilon\,\dd s^2+q_{ab}(s,y)\,\dd y^a\dd y^b,
+ \quad n^\mu\partial_\mu=\partial_s,\quad K_{ab}=\frac12\partial_s q_{ab}.
+\]
+考虑保持这个坐标形式且边界上 $\delta q_{ab}=0$ 的变分. 此时与法向导数有关的部分为
+\[
+ \delta\Gamma^s{}_{ab}=-\frac\epsilon2\partial_s\delta q_{ab},\qquad
+ \delta\Gamma^a{}_{as}=\frac12q^{ab}\partial_s\delta q_{ab},\qquad
+ v^s=-\epsilon q^{ab}\partial_s\delta q_{ab}.
+\]
+散度定理在非类光边界上的形式是
+\[
+ \int_M\sqrt{-g}\,\nabla_\mu v^\mu\,\dd^4x
+  =\int_{\partial M}\epsilon\sqrt{|q|}\,n_\mu v^\mu\,\dd^3y.
+\]
+因此 EH 作用量的未消去部分正比于 $-\epsilon q^{ab}\partial_s\delta q_{ab}$. 与此相抵消的 Gibbons--Hawking--York 项是
+\begin{equation}\label{gr4-ghy}
+ S_{\mathrm{GHY}}=\frac1{8\pi G}\int_{\partial M}
+                   \epsilon\sqrt{|q|}K\,\dd^3y.
+\end{equation}
+因为在 $\delta q_{ab}=0$ 时, $\delta K=\tfrac12q^{ab}\partial_s\delta q_{ab}$, 它的变分正好提供相反的法向导数项. 一般变分还留下与 $\delta q_{ab}$ 成正比的项, 固定诱导度规后也消失. 这个局部计算说明了边界项的系数与作用; 完整边界分析还需要明确法向朝向及全部边界分片. 本节限于光滑非类光边界, 不把式\eqref{gr4-ghy}直接用于零类边界或有棱角的边界, 后两者需要另外的边界或角项.
+
+\originalsection{Bianchi 恒等式的动力学用途}
+
+对场方程取协变散度, 几何恒等式立刻要求 $\nabla_\mu T^{\mu\nu}=0$. 对具有坐标变换不变性的物质作用量, 这个守恒式又可从物质方程独立得到. 具体说, 紧支集无穷小坐标变换生成元 $\xi^\mu$ 引起逆度规的 Lie 变分 $\delta g^{\mu\nu}=-\nabla^\mu\xi^\nu-\nabla^\nu\xi^\mu$. 物质场满足其方程时, 作用量变分只剩
+\[
+ \delta S_m=\int\sqrt{-g}\,T_{\mu\nu}\nabla^\mu\xi^\nu\,\dd^4x
+ =-\int\sqrt{-g}(\nabla^\mu T_{\mu\nu})\xi^\nu\,\dd^4x.
+\]
+坐标变换不改变作用量, 又因 $\xi$ 任意, 得到守恒式. 因而 Bianchi 恒等式保证引力与物质两边具有同一个相容条件.
+
+场方程有十个对称分量, 但度规的十个分量含有四个坐标函数的自由度, 方程也受四条微分恒等式联系. 这不能解释成随便删去四个方程: 在选定时间切片的初值问题中, 一些分量约束初始几何和初始变化率, 其余分量控制演化. Bianchi 恒等式保证满足约束的初值, 在满足演化方程且物质守恒的连续解中继续满足约束. 下一章的 Lorenz 规范和无源波只有两个传播自由度, 就是这种几何冗余的弱场表现.
+
+\begin{remark}
+协变局部守恒一般不自动给出任意整个宇宙的守恒总能量. 若背景有 Killing 向量 $\xi^\mu$, 则 $J^\mu=T^{\mu\nu}\xi_\nu$ 满足
+$\nabla_\mu J^\mu=(\nabla_\mu T^{\mu\nu})\xi_\nu+T^{\mu\nu}\nabla_{(\mu}\xi_{\nu)}=0$.
+这时在合适的超曲面和边界通量条件下可定义守恒荷. 没有时间平移对称的宇宙学时空, 不能照搬静态背景的总能量概念.
+\end{remark}

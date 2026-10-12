@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "title": "PS8.4 非线性曲率波动方程与 PS11.3(c) 双转向点独立核验",
+  "reviewer_role": "独立只读数学复核代理；原核验已完成，本文件补存原证据",
+  "saved_at_utc": "2026-10-12T01:50:06.236135+00:00",
+  "status": "pass_with_stated_scope",
+  "source_binding": {
+    "path": "chapters/ps08-11.tex",
+    "sha256": "befda5b4609584e082f40ae7e9f4424a5b82175d8c6704a0e657e7b7a324ffc6",
+    "binding_note": "保存时读取当前正文；PS8.4 与 PS11.3(c) 的现行公式、六项 Q、转向点参数已与先前核验内容逐项确认一致。全文件 SHA 绑定的是保存时版本，不表示已核验全章。",
+    "sections": [
+      {
+        "label": "ps:8.4",
+        "sha256": "b5bb750afef75eacc404303f261e14a3d798ffc8dbb6fa546bea61e680c6b7c9",
+        "extraction": "从 \\begin{exercise}\\label{ps:8.4} 至 \\originalsection{作业九} 之前"
+      },
+      {
+        "label": "ps:11.3(c)",
+        "sha256": "736c4523da96f8d01e3a36663780f4e5f10c4d7a95f22ad2cd5a82a92765514b",
+        "extraction": "从 (c) 给定两转向点 至 (d) 圆轨道满足 之前"
+      }
+    ]
+  },
+  "manual_algebra_review": {
+    "curvature_convention": "R^rho_{sigma mu nu}=partial_mu Gamma^rho_{nu sigma}-partial_nu Gamma^rho_{mu sigma}+Gamma^rho_{mu lambda}Gamma^lambda_{nu sigma}-Gamma^rho_{nu lambda}Gamma^lambda_{mu sigma}; Ricci R_{sigma nu}=R^rho_{sigma rho nu}.",
+    "assumptions": [
+      "Levi-Civita 无挠、度规相容联络",
+      "Einstein 方程 R_ab=8 pi G bar(T)_ab，不含额外宇宙学常数项",
+      "Box=∇^mu∇_mu；升降指标使用同一度规"
+    ],
+    "method": [
+      "以 ∇_e R_abcd+∇_c R_abde+∇_d R_abec=0 对 e 取散度。保留导数顺序，得到稿中的四项双 Ricci 梯度及 -g^{ef}([∇_f,∇_c]R_abde+[∇_f,∇_d]R_abec)。",
+      "独立用 ∇^e R_abde=-∇_a R_bd+∇_b R_ad 和 ∇^e R_abec=∇_a R_bc-∇_b R_ac 核验双梯度四项的正负号。",
+      "在本曲率约定下，每个协变槽的交换子贡献为 -R^h_{slot f c} A_{...h...}；外层负号使展开后的八个曲率乘积先全部取正号。",
+      "两个涉及被缩并槽的项使用 g^{ef}R^h_{e f c}=-R^h_c，再用 R_abdh=-R_abhd 和 R_abhc=-R_abch，分别化为 +R^h_c R_abhd 与 +R^h_d R_abch。代入 Ricci 场方程，恰为稿中的两个 +8 pi G bar(T)×R 项。",
+      "其余六项保留为下列 Q，指标槽位与稿中逐项一致。∇g=0 保证升起首指标与 Box 交换。纯几何 Q 前不另乘 8 pi G。"
+    ],
+    "Q_terms_under_g_contraction": [
+      "R^h_{a f c} R_{h b d e}",
+      "R^h_{b f c} R_{a h d e}",
+      "R^h_{d f c} R_{a b h e}",
+      "R^h_{a f d} R_{h b e c}",
+      "R^h_{b f d} R_{a h e c}",
+      "R^h_{c f d} R_{a b e h}"
+    ],
+    "conclusion": "在所列约定与假设下，PS8.4 双梯度项、Ricci 耦合符号、六个 Q 项均未发现数学错误。"
+  },
+  "actual_executed_checks": [
+    {
+      "id": "constant_curvature_256_components",
+      "method": "Python 标准库枚举 a,b,c,d∈{0,1,2,3}，度规 diag(-1,1,1,1)，K=1；采用 R_abcd=g_ac g_bd-g_ad g_bc、Ricci=(n-1)g。按稿中的六项 Q 与两项 Ricci 耦合直接缩并。",
+      "arithmetic": "整数精确运算；该检查没有浮点舍入残差",
+      "components_checked": 256,
+      "expected": "常曲率空间 ∇R=0，双 Ricci 梯度也为零，故 Q+Ricci 耦合逐分量应为零",
+      "max_abs_residual": 0,
+      "outcome": "pass"
+    },
+    {
+      "id": "bound_orbit_two_turning_points",
+      "method": "由 rp=4.1、ra=100 独立重算 p=2 ra rp/(ra+rp)、e=(ra-rp)/(ra+rp)、L²=p²/(p-3-e²)、E²=((p-2)²-4e²)/(p(p-3-e²))；分别代入 V=(1-2/r)(1+L²/r²)。",
+      "arithmetic": "Python binary64 浮点数；残差 0.0 指实际计算输出，不表示一般精确算术证明",
+      "rp": 4.1,
+      "ra": 100.0,
+      "p": 7.877041306436118,
+      "e": 0.9212295869356389,
+      "separatrix_margin_p_minus_6_minus_2e": 0.03458213256484055,
+      "L": 3.9246239509506076,
+      "E": 0.9907115937392298,
+      "turning_point_residuals_V_minus_E_squared": [
+        {
+          "r": 4.1,
+          "residual": 0.0
+        },
+        {
+          "r": 100.0,
+          "residual": 0.0
+        }
+      ],
+      "outcome": "pass；p>6+2e 且 E<1，与非坠落束缚轨道相容"
+    }
+  ],
+  "reproducibility": {
+    "language": "Python 3 standard library",
+    "script": "import itertools\nn=4\ns=(-1,1,1,1)\ndef g(a,b): return s[a] if a==b else 0\ndef R(a,b,c,d): return g(a,c)*g(b,d)-g(a,d)*g(b,c)\ndef Ru(h,a,f,c): return s[h]*R(h,a,f,c)\nworst=0\ncount=0\nfor a,b,c,d in itertools.product(range(n),repeat=4):\n q=sum(s[e]*(Ru(h,a,e,c)*R(h,b,d,e)+Ru(h,b,e,c)*R(a,h,d,e)+Ru(h,d,e,c)*R(a,b,h,e)+Ru(h,a,e,d)*R(h,b,e,c)+Ru(h,b,e,d)*R(a,h,e,c)+Ru(h,c,e,d)*R(a,b,e,h)) for e,h in itertools.product(range(n),repeat=2))\n ricci_term=sum((n-1)*((1 if h==c else 0)*R(a,b,h,d)+(1 if h==d else 0)*R(a,b,c,h)) for h in range(n))\n worst=max(worst,abs(q+ricci_term))\n count+=1\nprint('constant-curvature Lorentzian check, K=1, dimensions=4:',count,'components; maximum |Q+Ricci coupling|=',worst)\nrp,ra=4.1,100.0\np=2*ra*rp/(ra+rp); e=(ra-rp)/(ra+rp)\nL2=p*p/(p-3-e*e); E2=((p-2)**2-4*e*e)/(p*(p-3-e*e))\nprint('p,e,p-(6+2e),L,E=',p,e,p-6-2*e,L2**.5,E2**.5)\nfor r in [rp,ra]:\n v=(1-2/r)*(1+L2/r**2)\n print('turning-point r, V-E^2=',r,v-E2)\n",
+    "execution_note": "脚本已在本代理先前核验回合实际执行成功；此文件保存原脚本及其原输出，没有把未执行项目标为通过。",
+    "captured_stdout": "constant-curvature Lorentzian check, K=1, dimensions=4: 256 components; maximum |Q+Ricci coupling|= 0\np,e,p-(6+2e),L,E= 7.877041306436118 0.9212295869356389 0.03458213256484055 3.9246239509506076 0.9907115937392298\nturning-point r, V-E^2= 4.1 0.0\nturning-point r, V-E^2= 100.0 0.0\n"
+  },
+  "limitations": [
+    "常曲率自动检验是高对称特殊情形的交叉检查，单独不能证明一般背景的波动方程；一般六项 Q 的核验依据是上述独立 Bianchi/交换子推导。",
+    "束缚轨道这里只核验参数、分离线不等式与两转向点能量约束；未独立重跑 ODE、验证积分极值、进动角或轨道图。",
+    "PS11.2 星团稳定性及边界等号说明已按后续分工排除，由另一审查负责。",
+    "未审查全章内容、源材料许可、PDF 编译、视觉版式、目录或链接；这些不属于此数学复核证据。",
+    "未修改正文或执行 Git 操作。"
+  ]
+}

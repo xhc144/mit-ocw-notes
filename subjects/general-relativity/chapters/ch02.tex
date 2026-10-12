@@ -1,0 +1,129 @@
+\originalchapter{度规、联络与时空对称}\label{ch:connection}
+\originalsection{坐标图与局部测量}
+地球表面可以用经纬度、平面地图或局部直角坐标表示, 同一个点不因标签改变而移动. 时空中的坐标同样只是标签; 引力的几何内容不能定义为某个坐标系中出现了加速度. 本章对应课程第5--8讲, 从曲线和度规出发构造可在不同坐标间一致使用的导数.
+
+\begin{definition}
+四维光滑流形是可以用局部坐标 $x^\mu$ 描述的事件集合, 不同坐标图的重叠部分由可逆光滑变换联系. 在事件 $p$ 处, 切向量是沿曲线取方向导数的线性算子, 全体切向量构成四维向量空间 $T_pM$.
+\end{definition}
+若曲线写为 $x^\mu(\lambda)$, 其切向量是 $\dot x^\mu\partial_\mu$. 两个坐标图下的分量按链式法则变换, 因而同一个切向量无歧义. 不同事件的 $T_pM$ 是不同向量空间; 在没有额外规则时, 不能直接相减两个点的向量. 所谓向量场 $V$ 是在每个点选一个向量, 并要求坐标分量光滑.
+
+度规场 $g_{\mu\nu}(x)$ 在每点给切向量一个非退化对称双线性内积, signature 为 $(-,+,+,+)$.
+
+坐标增量的线元定义为 \mbox{$\dd s^2=g_{\mu\nu}\dd x^\mu\dd x^\nu$}. 它规定光锥和钟的固有时间. 由实对称矩阵的合同对角化, 在每点可选正交归一基底 $e_{\hat a}$ 满足 $g(e_{\hat a},e_{\hat b})=\eta_{\hat a\hat b}$. 带帽指标表示此局部测量基底, 它未必是一套有限区域内的坐标基底. 例如极坐标的单位角向基底是 $r^{-1}\partial_\theta$, 而坐标基底 $\partial_\theta$ 长度为 $r$.
+
+\begin{example}
+把平面欧氏线元 $\dd x^2+\dd y^2$ 改写到极坐标, 并求坐标速度与物理速度的关系.
+\end{example}
+\begin{solution}
+由 $x=r\cos\theta$, $y=r\sin\theta$, 展开并抵消混合项, 得 $\dd\ell^2=\dd r^2+r^2\dd\theta^2$. 度规矩阵是 $\operatorname{diag}(1,r^2)$, 坐标速度分量为 $(\dot r,\dot\theta)$, 正交基底测得的分量为 $(\dot r,r\dot\theta)$. 角向分量的单位也随之从每秒的角度变为每秒的长度. 度规不恒定在此仅由坐标造成, 平面并没有弯曲.
+\end{solution}
+
+等效原理进一步说: 充分小区域中的自由落体实验可由狭义相对论描述. ``充分小'' 同时限制空间尺度与实验持续时间, 使潮汐效应可忽略. 它不允许在任意大区域把引力全部消去, 因为相邻自由落体轨道的相对加速度仍可测得.
+
+\originalsection{Levi--Civita 联络}
+为了比较邻近事件的向量, 定义沿坐标方向的基底变化规则 $\nabla_\mu e_\nu=\Gamma^\rho{}_{\mu\nu}e_\rho$. 对任意向量场, 乘积法则给出
+\begin{equation}\label{eq:covder}
+\nabla_\mu V^\nu=\partial_\mu V^\nu+\Gamma^\nu{}_{\mu\rho}V^\rho.
+\end{equation}
+这里的 $\Gamma$ 是联络系数, 用来抵消坐标基底变化, 不是张量. 标量不需要比较基底, 所以 $\nabla_\mu f=\partial_\mu f$. 要使缩并 $\omega_\nu V^\nu$ 的导数仍遵守乘积法则, 必须有
+\begin{equation}\label{eq:oneform-derivative}
+\nabla_\mu\omega_\nu=\partial_\mu\omega_\nu-\Gamma^\rho{}_{\mu\nu}\omega_\rho.
+\end{equation}
+每个上指标加一个 $\Gamma$ 项, 每个下指标减一个. 例如
+$\nabla_\lambda T^{\mu\nu}=\partial_\lambda T^{\mu\nu}+\Gamma^\mu{}_{\lambda\rho}T^{\rho\nu}+\Gamma^\nu{}_{\lambda\rho}T^{\mu\rho}$.
+
+仅凭度规还需指定联络满足哪些条件. 广义相对论的标准度规形式取无挠且度规相容的联络: 在坐标基底中 $\Gamma^\rho{}_{\mu\nu}=\Gamma^\rho{}_{\nu\mu}$, 并有 $\nabla_\lambda g_{\mu\nu}=0$. 相容性使平行搬运保持内积, 也使升降指标与协变求导交换. 这些是本卷的几何结构假设; 带挠理论不在本轮范围.
+
+\begin{theorem}\label{thm:christoffel}
+给定光滑非退化度规, 无挠、度规相容联络存在且唯一, 其系数为
+\begin{equation}\label{eq:christoffel}
+\Gamma^\rho{}_{\mu\nu}=\frac12g^{\rho\sigma}
+(\partial_\mu g_{\nu\sigma}+\partial_\nu g_{\mu\sigma}-\partial_\sigma g_{\mu\nu}).
+\end{equation}
+\end{theorem}
+\begin{proof}
+将相容性展开为 $\partial_\lambda g_{\mu\nu}=\Gamma_{\nu\lambda\mu}+\Gamma_{\mu\lambda\nu}$, 其中 $\Gamma_{\rho\mu\nu}=g_{\rho\sigma}\Gamma^\sigma{}_{\mu\nu}$. 写出指标循环的三式, 前两式相加减去第三式; 无挠性使右侧剩 $2\Gamma_{\rho\mu\nu}$. 再乘逆度规就是式\eqref{eq:christoffel}, 所以若满足条件则必为此式. 反过来, 此式显然关于 $\mu,\nu$ 对称; 代入 $\nabla g$ 的展开各项逐一抵消, 故确实存在且满足条件.
+\end{proof}
+
+若 $x^\mu$ 改为 $y^a$, 记雅可比矩阵 $J^a{}_\rho=\partial y^a/\partial x^\rho$ 及其逆 $K^\mu{}_b=\partial x^\mu/\partial y^b$. 对 $V'^a=J^a{}_\rho V^\rho$ 求导,
+\[
+\partial'_b V'^a=K^\mu{}_b J^a{}_\rho\partial_\mu V^\rho
++K^\mu{}_b(\partial_\mu J^a{}_\rho)V^\rho.
+\]
+要求式\eqref{eq:covder}为 $(1,1)$ 型张量, 就必须由新联络抵消最后一项. 比较任意 $V^\rho$ 的系数并再乘逆矩阵 $K^\rho{}_c$, 得
+\[
+\Gamma'^a{}_{bc}=J^a{}_\rho K^\mu{}_bK^\nu{}_c\Gamma^\rho{}_{\mu\nu}
+-(\partial'_b J^a{}_\rho)K^\rho{}_c.
+\]
+对 $J^a{}_\rho K^\rho{}_c=\delta^a{}_c$ 求导, 末项变为 $J^a{}_\rho\partial'_bK^\rho{}_c$, 于是
+\begin{equation}\label{eq:connection-transform}
+\Gamma'^a{}_{bc}=\frac{\partial y^a}{\partial x^\rho}
+\frac{\partial x^\mu}{\partial y^b}\frac{\partial x^\nu}{\partial y^c}\Gamma^\rho{}_{\mu\nu}
++\frac{\partial y^a}{\partial x^\rho}\frac{\partial^2 x^\rho}{\partial y^b\partial y^c}.
+\end{equation}
+第二项是非张量项. 它正好抵消普通偏导对基底雅可比矩阵求导产生的项. 所以 ``Christoffel 系数不为零'' 并不是曲率的判据.
+
+\begin{example}
+计算平面极坐标的联络, 并求匀速直线运动的极坐标方程.
+\end{example}
+\begin{solution}
+度规唯一非恒定分量是 $g_{\theta\theta}=r^2$, 故 $\Gamma^r{}_{\theta\theta}=-r$, $\Gamma^\theta{}_{r\theta}=\Gamma^\theta{}_{\theta r}=1/r$, 其余为零. 无外力运动的速度自身沿轨道平行搬运, 因而
+$\ddot r-r\dot\theta^2=0$、$\ddot\theta+2\dot r\dot\theta/r=0$.
+径向方程出现向心项, 角向方程等价于 $\dd(r^2\dot\theta)/\dd t=0$. 两项都只是笛卡尔匀速运动在转动基底中的表达.
+\end{solution}
+
+\originalsection{局部惯性坐标与平行搬运}
+在一个固定点 $p$ 先线性变换使 $g(p)=\eta$. 再令旧坐标在新坐标 $y$ 的展开为
+$x^\rho=y^\rho-\frac12\Gamma^\rho{}_{\mu\nu}(p)y^\mu y^\nu+O(|y|^3)$, 取 $p$ 为原点. 式\eqref{eq:connection-transform}中的二阶项恰好消去 $\Gamma(p)$, 因而 $\Gamma'(p)=0$. 相容性于是给 $\partial_\lambda g'_{\mu\nu}(p)=0$. 这说明度规的值与一阶变化可在一点标准化. 二阶变化一般不能同时消掉, 它包含下一章的曲率. 这套二次变换只在足够小邻域可逆, 不能用来宣称全球惯性系存在.
+
+给曲线 $x^\mu(\lambda)$ 和其上的向量 $V$, 定义沿曲线协变导数
+\begin{equation}\label{eq:transport}
+\frac{DV^\mu}{\dd\lambda}=\frac{\dd V^\mu}{\dd\lambda}
++\Gamma^\mu{}_{\alpha\beta}\dot x^\alpha V^\beta.
+\end{equation}
+平行搬运要求右边为零. 这是线性常微分方程, 给定起点向量后, 在联络光滑的曲线段上存在唯一解. 两个同时搬运的向量 $V,W$ 有 $\dd g(V,W)/\dd\lambda=0$, 因为 $\nabla g=0$ 且两向量的协变导数都为零. 路径不同, 结果可能不同; 曲率正是这种路径依赖的局部度量.
+
+\begin{example}
+在半径 $R$ 的球面, 线元为 $R^2(\dd\theta^2+\sin^2\theta\dd\phi^2)$. 沿赤道搬运一个起初指向北方的向量, 它是否旋转?
+\end{example}
+\begin{solution}
+式\eqref{eq:christoffel}给 $\Gamma^\theta{}_{\phi\phi}=-\sin\theta\cos\theta$, $\Gamma^\phi{}_{\theta\phi}=\cot\theta$. 赤道 $\theta=\pi/2$ 上这两类系数均为零, 所以向量坐标分量沿赤道不变. 对经线--经线--赤道围成的球面三角形则不同: 各段的平行搬运合成可以留下净转角. 单一闭合路径不旋转不代表曲率处处零, 下一章会直接计算球面曲率.
+\end{solution}
+
+\originalsection{体积元与协变散度}
+一般坐标的体积元需要雅可比因子. 矩阵行列式的微分恒等式 $\partial_\mu g=g\,g^{\alpha\beta}\partial_\mu g_{\beta\alpha}$ 来自展开行列式余子式. 将式\eqref{eq:christoffel}缩并, 前后两项交换哑指标后抵消, 得
+$\Gamma^\nu{}_{\nu\mu}=\frac12g^{\alpha\beta}\partial_\mu g_{\alpha\beta}=\partial_\mu\ln\sqrt{|g|}$.
+因此
+\begin{equation}\label{eq:divergence}
+\nabla_\mu V^\mu=\frac1{\sqrt{|g|}}\partial_\mu(\sqrt{|g|}V^\mu),\qquad
+\square f=\frac1{\sqrt{|g|}}\partial_\mu(\sqrt{|g|}g^{\mu\nu}\partial_\nu f).
+\end{equation}
+其中 $\square=\nabla_\mu\nabla^\mu$ 是标量波算子; 第二次求导作用于一形式 $\dd f$, 不能把它机械地写成普通二阶偏导.
+
+对两个上指标张量, $\nabla_\nu T^{\mu\nu}=|g|^{-1/2}\partial_\nu(\sqrt{|g|}T^{\mu\nu})+\Gamma^\mu{}_{\nu\rho}T^{\rho\nu}$. 第一项已吸收通量方向的体积变化, 第二项仍在表示被输运动量方向的基底变化. 如果 $T^{\mu\nu}$ 反对称, 对称的 $\Gamma^\mu{}_{\nu\rho}$ 与其缩并为零. 这解释了为什么电磁场散度比一般能动量守恒式简单.
+
+\begin{example}
+由式\eqref{eq:divergence}求平面极坐标的 Laplace 算子.
+\end{example}
+\begin{solution}
+此时 $\sqrt g=r$, $g^{rr}=1$, $g^{\theta\theta}=r^{-2}$. 所以 $\Delta f=r^{-1}\partial_r(r\partial_rf)+r^{-2}\partial_\theta^2 f$. 缺掉 $r^{-1}\partial_r f$ 会把极坐标的面积元误当成笛卡尔面积元; 联络公式与积分守恒在这里给出同一个修正.
+\end{solution}
+
+在坐标变换下 $\sqrt{|g'|}=|\det(\partial x/\partial y)|\sqrt{|g|}$, 因而 $\sqrt{|g|}$ 不是标量, 而是权重一的密度. 与 $\dd^4x$ 相乘时雅可比因子抵消. 一般张量密度也需带额外行列式因子, 不能把其分量直接按普通张量法则变换.
+
+\originalsection{Lie 导数与 Killing 向量}
+平行搬运依赖联络, 还有一种由向量场自身生成的比较方式. 设 $\xi$ 的流将点沿 $\dd x^\mu/\dd s=\xi^\mu$ 移动. 将附近点的对象用这套流映回原点, 然后求一阶变化, 就是 Lie 导数 $\mathcal L_\xi$. 对标量 $\mathcal L_\xi f=\xi^\mu\partial_\mu f$. 对向量, 流的雅可比同时改变其分量, 因而
+\begin{equation}\label{eq:lie-vector}
+(\mathcal L_\xi V)^\mu=\xi^\nu\partial_\nu V^\mu-V^\nu\partial_\nu\xi^\mu
+=\xi^\nu\nabla_\nu V^\mu-V^\nu\nabla_\nu\xi^\mu.
+\end{equation}
+无挠性使联络项抵消. 这也是向量场交换子 $[\xi,V]$. 对一形式则有 $(\mathcal L_\xi\omega)_\mu=\xi^\nu\partial_\nu\omega_\mu+\omega_\nu\partial_\mu\xi^\nu$, 上下指标的符号与向量相反.
+
+\begin{definition}
+若向量场 $\xi$ 的流保持度规, 即 $\mathcal L_\xi g=0$, 则 $\xi$ 为 Killing 向量. 利用 $\nabla g=0$, 此条件等价于 $\nabla_\mu\xi_\nu+\nabla_\nu\xi_\mu=0$.
+\end{definition}
+从坐标形式 $\xi^\rho\partial_\rho g_{\mu\nu}+g_{\rho\nu}\partial_\mu\xi^\rho+g_{\mu\rho}\partial_\nu\xi^\rho$ 展开便得到这个式子. 若某个坐标 $x^a$ 不出现在度规分量中, $\xi=\partial_a$ 的分量恒定, 因而是 Killing 向量. 更换坐标后其分量可能不恒定, 对称性仍存在.
+
+Killing 向量把几何对称转为物理守恒. 对对称能动量张量且 $\nabla_\mu T^{\mu\nu}=0$, 令 $J^\mu=T^{\mu\nu}\xi_\nu$, 则
+$\nabla_\mu J^\mu=T^{\mu\nu}\nabla_\mu\xi_\nu=\frac12T^{\mu\nu}(\nabla_\mu\xi_\nu+\nabla_\nu\xi_\mu)=0$.
+这时才能在适当边界条件下把流积分为全局守恒量. Killing 向量若类时, 对应能量; 若生成旋转, 对应角动量. 宇宙学膨胀通常没有全局类时 Killing 向量, 所以光子能量随时间改变并不违背局部守恒.

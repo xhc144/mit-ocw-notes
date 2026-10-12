@@ -1,0 +1,673 @@
+\originalchapter{作业八至十一}
+本章完整翻译公开原卷中的 15 道大题及其子问. 原卷首页署 MIT 8.962 Spring 2006, 现由 Spring 2020 OCW 资源页公开提供; 每节给出实际原件入口. 以下解答是本稿独立推导和数值计算, 不是 MIT 官方解答. 除换算题另行恢复 $G,c$ 外取 $c=1$; TOV 和黑洞轨道数值计算还取 $G=1$. 曲率号与本书约定相同. 原题的历史观测数字仅用于该题模型, 不作为当前观测更新.
+
+\originalsection{作业八}
+题源: \href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset08/}{Problem Set 8, 原卷 Spring 2006, PDF 第 1--3 页}.
+
+\begin{exercise}\label{ps:8.1}
+原题 1. 领先阶引力辐射为
+\[
+h^{\rm TT}_{ij}=\frac{2G}{r}\ddot I_{kl}\left(P_{ik}P_{jl}-\frac12P_{ij}P_{kl}\right),\qquad
+I_{kl}=\int \rho x_kx_l\,\dd V.
+\]
+点表示对时间求导; 在近惯性、近乎平坦的区域内不区分空间指标的升降. $P_{ij}=\delta_{ij}-n_in_j$ 投影到传播方向 $\boldsymbol n$ 的垂直平面. 证明以无迹四极矩 $\mathcal I_{kl}=I_{kl}-\delta_{kl}I/3$, $I=\delta^{kl}I_{kl}$ 替代 $I_{kl}$, 结果不变. 注意三维空间的迹与横向二维空间的迹不同. 原题还指出辐射的 $l$ 极矩一般有 $2l+1$ 个分量: 标量有一个, 偶极矩三个, 四极矩五个. 解释为何对称三维张量的六个分量中只有五个四极矩辐射分量.
+\end{exercise}
+\begin{solution}
+$P$ 是对称幂等矩阵, $P_{ik}P_{kj}=P_{ij}$, 且 $P_{kk}=2$. 因而 TT 投影作用于三维纯迹张量时,
+\[
+\left(P_{ik}P_{jl}-\frac12P_{ij}P_{kl}\right)\delta_{kl}
+=P_{ij}-\frac12P_{ij}\operatorname{tr}P=0.
+\]
+投影与时间求导交换, 所以从 $I_{kl}$ 减去 $I\delta_{kl}/3$ 不改变波形. 这里抵消使用的是 $\operatorname{tr}P=2$, 不是 $\operatorname{tr}\delta=3$; 三维去迹与二维去迹承担不同作用. 对称 $3\times3$ 张量有六个独立分量, 三维迹占其中一个, 剩余五个构成 $l=2$ 的无迹对称表示. 固定一个传播方向后再施加横向条件, 波形只剩两个偏振; ``五个源四极矩分量'' 与 ``两个远区偏振'' 并不矛盾.
+\end{solution}
+
+\begin{exercise}\label{ps:8.2}
+原题 2. 两质量 $m_1,m_2$ 组成牛顿圆轨道双星, 相对轨道半径为 $R$. 采用约化系统: $M=m_1+m_2$, $\mu=m_1m_2/M$.
+\begin{enumerate}[label=(\alph*)]
+\item 从轨道角动量轴方向观测, 求 $h^{\rm TT}_{ij}$.
+\item 求引力波带走能量的速率.
+\item 由 $\dd(E_{\rm kin}+E_{\rm pot}+E_{\rm GW})/\dd t=0$ 推导轨道半径的收缩率 $\dot r$.
+\item 求轨道角频率 $\dot\Omega$. 证明质量只通过啁啾质量 $\mathcal M=\mu^{3/5}M^{2/5}$ 出现.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 以质心为原点, 相对位矢为 $\boldsymbol x=r(\cos\Omega t,\sin\Omega t,0)$. 两物体的质量二阶矩之和恰为 $I_{ij}=\mu x_ix_j$; 此处 $r=R$ 是两星间距, 不是某一颗星到质心的距离. 令观测距离为 $D$ 以免与轨道半径混淆, 则
+\[
+I_{xx}=\frac{\mu r^2}{2}(1+\cos2\Omega t),\quad
+I_{yy}=\frac{\mu r^2}{2}(1-\cos2\Omega t),\quad
+I_{xy}=\frac{\mu r^2}{2}\sin2\Omega t.
+\]
+沿 $z$ 轴投影后 $\ddot I_{xx}+\ddot I_{yy}=0$, 所以
+\[
+h^{\rm TT}_{ij}=-\frac{4G\mu r^2\Omega^2}{D}
+\begin{pmatrix}\cos2\Omega t&\sin2\Omega t&0\\
+\sin2\Omega t&-\cos2\Omega t&0\\0&0&0\end{pmatrix}.
+\]
+整体相位由时间原点决定, 辐射角频率是轨道角频率的两倍.
+
+(b) 应对全部立体角积分, 不能把轴向的通量乘 $4\pi D^2$ 代替总功率. 由四极矩公式
+\[
+\mathcal P=\frac G5\left\langle\dddot{\mathcal I}_{ij}\dddot{\mathcal I}_{ij}\right\rangle
+\]
+计算. 三维迹 $\mu r^2$ 是常数, 不影响三阶导数; 两个对角分量的振幅为 $4\mu r^2\Omega^3$, 两个非对角分量亦然, 于是缩并为 $32\mu^2r^4\Omega^6$. 因此
+\[
+\mathcal P=\frac{32}{5}G\mu^2r^4\Omega^6
+=\frac{32}{5}\frac{G^4\mu^2M^3}{r^5},\qquad \Omega^2=\frac{GM}{r^3}.
+\]
+(c) 牛顿圆轨道能量是 $E_{\rm orb}=-G\mu M/(2r)$. 采用缓慢变化的准圆轨道, 能量平衡给出
+\[
+\frac{G\mu M}{2r^2}\dot r=-\mathcal P,
+\qquad \dot r=-\frac{64}{5}\frac{G^3\mu M^2}{r^3}.
+\]
+这是一阶耗散近似, 接近强场并合时已不适用.
+
+(d) 从 Kepler 关系取导数, $\dot\Omega=-3\Omega\dot r/(2r)$, 代入上式并以 $r=(GM/\Omega^2)^{1/3}$ 消去半径, 得
+\[
+\dot\Omega=\frac{96}{5}G^{5/3}\mu M^{2/3}\Omega^{11/3}
+=\frac{96}{5}(G\mathcal M)^{5/3}\Omega^{11/3}.
+\]
+恢复单位时, 波形乘 $c^{-4}$, 功率与收缩率乘 $c^{-5}$, 最后式写成 $(96/5)(G\mathcal M/c^3)^{5/3}\Omega^{11/3}$. 质量较大的系统在相同频率处啁啾更快.
+\end{solution}
+
+\begin{exercise}\label{ps:8.3}
+原题 3. 在线性化理论中建立 Riemann 张量的波动方程. 设 $g_{\mu\nu}=\eta_{\mu\nu}+h_{\mu\nu}$, $\|h\|\ll1$, 且 $R_{\alpha\beta}=8\pi G\bar T_{\alpha\beta}$, $\bar T_{\alpha\beta}=T_{\alpha\beta}-g_{\alpha\beta}T/2$.
+\begin{enumerate}[label=(\alph*)]
+\item 用线性 Bianchi 恒等式 $\partial_\alpha R_{\beta\gamma\mu\nu}+\partial_\beta R_{\gamma\alpha\mu\nu}+\partial_\gamma R_{\alpha\beta\mu\nu}=0$, 求 $\partial_\alpha R^\alpha{}_{\beta\gamma\delta}$ 与 $\bar T$ 的梯度的关系.
+\item 推导 $\Box R_{\alpha\beta\mu\nu}$ 的二阶导数源, 用推迟 Green 函数给形式解.
+\item 真空中沿 $z$ 传播的平面波满足 $R_{\alpha\beta\mu\nu}=R_{\alpha\beta\mu\nu}(t-z)$. 用 Bianchi 恒等式和曲率对称性说明其独立非零分量可以用 $R_{i0j0}$ 表示. 原题称其他分量 ``由对称性平凡相关'', 解答须说明含 $z$ 的关联.
+\item 证明其中只需 $R_{x0x0}=-R_{y0y0}$ 与 $R_{x0y0}=R_{y0x0}$, 分别对应 $+$ 与 $\times$ 偏振.
+\item 定义 $R_{x0x0}=-\partial_t^2h_+/2$, $R_{x0y0}=-\partial_t^2h_\times/2$. 比较
+\[
+R_{\alpha\beta\mu\nu}=\frac12(\partial_\alpha\partial_\nu h_{\beta\mu}+\partial_\beta\partial_\mu h_{\alpha\nu}-\partial_\alpha\partial_\mu h_{\beta\nu}-\partial_\beta\partial_\nu h_{\alpha\mu})
+\]
+与上述表达式, 证明 $h_+=h^{\rm TT}_{xx}=-h^{\rm TT}_{yy}$, $h_\times=h^{\rm TT}_{xy}=h^{\rm TT}_{yx}$.
+\item 绕 $z$ 轴转动坐标, $x'+iy'=(x+iy)e^{-i\theta}$. 证明 $h'_++ih'_\times=(h_++ih_\times)e^{-2i\theta}$, 并解释自旋权重 2.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 对 Bianchi 恒等式缩并一对指标, 利用 $R_{abcd}=-R_{bacd}=-R_{abdc}=R_{cdab}$, 得
+\[
+\partial^aR_{abcd}=\partial_cR_{bd}-\partial_dR_{bc}
+=8\pi G(\partial_c\bar T_{bd}-\partial_d\bar T_{bc}).
+\]
+这里缩并的是时空指标, 升降用 $\eta$, 不可以用三维 $\delta$ 代替.
+
+(b) 在 $\partial_eR_{abcd}+\partial_cR_{abde}+\partial_dR_{abec}=0$ 上作用 $\partial^e$, 再用 (a), 得
+\begin{align*}
+\Box R_{abcd}=8\pi G S_{abcd},\qquad
+S_{abcd}={}&\partial_c\partial_a\bar T_{bd}-\partial_c\partial_b\bar T_{ad}\\
+&-\partial_d\partial_a\bar T_{bc}+\partial_d\partial_b\bar T_{ac}.
+\end{align*}
+在 $(-+++)$ 下 $\Box=-\partial_t^2+\nabla^2$. 若 $\Box G_{\rm ret}=\delta^{(4)}$, 则 $G_{\rm ret}(t,\boldsymbol x)=-\delta(t-|\boldsymbol x|)/(4\pi|\boldsymbol x|)$, 形式解为
+\[
+R_{abcd}(x)=R^{\rm hom}_{abcd}(x)+8\pi G\int G_{\rm ret}(x-x')S_{abcd}(x')\,\dd^4x'.
+\]
+$R^{\rm hom}$ 携带初始自由波; 选无入射辐射边界条件时取相应推迟解. 源的微分在积分中对 $x'$ 作用, 不得忽略 Green 函数的支持条件.
+
+(c) 令 $u=t-z$, $k_a=\partial_a u=(1,0,0,-1)$, $A,B\in\{x,y\}$. 对非恒定的辐射部分, Bianchi 恒等式变成 $k_{[e}R'_{ab]cd}=0$. 积分常数若非零代表额外静态背景, 本题平面辐射条件将其排除. 取 $e=0$、$a=x$、$b=y$, 得 $R_{xycd}=0$. 再取 $e=0$、$a=z$、$b=A$, 得 $R_{zAcd}=-R_{0Acd}$. 用两对指标交换, 相同关系也适用于后一对. 真空散度式 $k^aR_{abcd}=0$ 进一步给 $R_{0zcd}=0$. 因此每一对反对称指标只需一个横向指标和一个 $0$ 或 $z$, 并有
+\[
+R_{A0B0}=C_{AB},\qquad R_{A0Bz}=-C_{AB},\qquad R_{AzBz}=C_{AB}.
+\]
+故含 $z$ 的分量一般并非零; 它们除曲率指标对称性外, 还通过 Bianchi 恒等式与传播关系确定. 这是对原题措辞所必需的补充.
+
+(d) 两对指标交换给 $C_{AB}=C_{BA}$. 真空 $R_{00}=0$ 给 $C_{xx}+C_{yy}=0$, 而带 $z$ 的潮汐分量已经消失. 从而
+\[
+C_{AB}=\begin{pmatrix}C_+&C_\times\\C_\times&-C_+\end{pmatrix},
+\]
+只剩两个任意函数.
+
+(e) TT 规范中 $h_{0a}=h_{za}=0$, 故线性曲率式直接给 $R_{A0B0}=-\ddot h^{\rm TT}_{AB}/2$. 比较定义即得所求. 两次积分允许加上线性时间函数和常数, 它们不产生该曲率; 固定无非辐射背景的边界条件后可将其置零.
+
+(f) 令 $c_\theta=\cos\theta$, $s_\theta=\sin\theta$. 坐标变换矩阵为 $Q=\left(\begin{smallmatrix}c_\theta&s_\theta\\-s_\theta&c_\theta\end{smallmatrix}\right)$, 所以横向张量变成 $h'=QhQ^{\mathsf T}$. 逐项相乘得到
+\[
+h'_+=h_+\cos2\theta+h_\times\sin2\theta,\qquad
+h'_\times=-h_+\sin2\theta+h_\times\cos2\theta.
+\]
+合并为复数即为原题等式. 旋转角出现两倍, 描述的是横向二阶无迹张量的自旋权重; 它不是说经典波形存在两倍的空间旋转频率.
+\end{solution}
+
+\begin{exercise}\label{ps:8.4}
+原题 4. 从完整 Bianchi 恒等式 $\nabla_\alpha R_{\beta\gamma\mu\nu}+\nabla_\beta R_{\gamma\alpha\mu\nu}+\nabla_\gamma R_{\alpha\beta\mu\nu}=0$ 出发.
+\begin{enumerate}[label=(\alph*)]
+\item 给出上一题 (a) 的完全协变形式.
+\item 推导 $\Box R^\alpha{}_{\beta\gamma\delta}$ 的非线性波动方程, $\Box=\nabla^\mu\nabla_\mu$. 源须包含 $\bar T$ 的双协变梯度、$\bar T$ 与曲率耦合、曲率与曲率耦合三类项. 这是常称 Penrose 波动方程的一种形式; 原题注明该非线性波动方程由 Roger Penrose 首先建立; Teukolsky 在黑洞曲率背景附近展开所发展的变体在天体相对论研究中十分重要.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 度规相容 $\nabla g=0$, 因此前一题的缩并不变,
+\[
+\nabla^aR_{abcd}=\nabla_cR_{bd}-\nabla_dR_{bc}
+=8\pi G(\nabla_c\bar T_{bd}-\nabla_d\bar T_{bc}).
+\]
+(b) 非线性的来源正是协变导数不能交换. 先保持交换子, 这样每个符号均可追查:
+\begin{align*}
+\Box R_{abcd}={}&\nabla_c\nabla_aR_{bd}-\nabla_c\nabla_bR_{ad}
+-\nabla_d\nabla_aR_{bc}+\nabla_d\nabla_bR_{ac}\\
+&-g^{ef}\bigl([\nabla_f,\nabla_c]R_{abde}+[\nabla_f,\nabla_d]R_{abec}\bigr).
+\end{align*}
+它由末三指标 Bianchi 恒等式取散度获得. 对任意四阶全协变张量 $A$, 本书曲率号下
+\[
+[\nabla_f,\nabla_c]A_{abde}
+=-R^h{}_{afc}A_{hbde}-R^h{}_{bfc}A_{ahde}
+-R^h{}_{dfc}A_{abhe}-R^h{}_{efc}A_{abdh}.
+\]
+将 $A=R$ 代入, 用 $g^{ef}R^h{}_{efc}=-R^h{}_c$, 即可把两项交换子展开成
+\begin{align*}
+\Box R_{abcd}={}&8\pi G\bigl(\nabla_c\nabla_a\bar T_{bd}-\nabla_c\nabla_b\bar T_{ad}
+-\nabla_d\nabla_a\bar T_{bc}+\nabla_d\nabla_b\bar T_{ac}\bigr)\\
+&+8\pi G\bigl(\bar T^h{}_cR_{abhd}+\bar T^h{}_dR_{abch}\bigr)+Q_{abcd},
+\end{align*}
+其中完全写出的二次曲率项为
+\begin{align*}
+Q_{abcd}=g^{ef}\bigl(&R^h{}_{afc}R_{hbde}+R^h{}_{bfc}R_{ahde}+R^h{}_{dfc}R_{abhe}\\
+&+R^h{}_{afd}R_{hbec}+R^h{}_{bfd}R_{ahec}+R^h{}_{cfd}R_{abeh}\bigr).
+\end{align*}
+最后用 $g^{a\alpha}$ 升起首指标即可得到题目所需形式, 因为 $\nabla g=0$, 升指标与 $\Box$ 交换. 真空仍有 $Q$, 说明曲率能够自耦合; 在线性化极限, $Q$ 和 $\bar T R$ 都是二阶小量, 协变导数变为偏导, 恰好恢复上一题. 此处没有引入额外的 $8\pi G$ 乘在纯几何 $Q$ 前; 若把所有项统称为题面的 ``源'', 该项在括号内应除以 $8\pi G$.
+\end{solution}
+
+\originalsection{作业九}
+题源: \href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset09/}{Problem Set 9, 原卷 Spring 2006, PDF 第 1--4 页}.
+
+\begin{exercise}\label{ps:9.1}
+原题 1. 微引力透镜中两像不能分辨, 只能观测两像总亮度. 源星在大麦哲伦云, 原题取距离约 $100\,\mathrm{kpc}$; 银河系内不可见透镜的质量约为一个太阳质量、距离约 $10\,\mathrm{kpc}$, 轨道速率约 $200\,\mathrm{km/s}$. 给定 $1\,\mathrm{pc}=3.26$ 光年 $=3.1\times10^{13}\,\mathrm{km}$, 估计亮度先增后减的变化时间尺度. 原题以 4 月 20 日课堂、Hartle 第 11 章作为背景.
+\end{exercise}
+\begin{solution}
+弱场点质量透镜的物理 Einstein 半径满足
+\[
+R_E^2=\frac{4GM}{c^2}\frac{D_LD_{LS}}{D_S}.
+\]
+透镜横穿约一个 $R_E$ 时放大率发生显著变化, 因而 $t_E=R_E/v_\perp$. 本题 $D_LD_{LS}/D_S=9\,\mathrm{kpc}=2.79\times10^{17}\,\mathrm{km}$, $GM_\odot/c^2\simeq1.477\,\mathrm{km}$, 得 $R_E\simeq1.28\times10^9\,\mathrm{km}$, 约 $8.6\,\mathrm{AU}$. 于是 $t_E\simeq6.4\times10^6\,\mathrm{s}\simeq74$ 天. 若把显著增亮至变暗的全宽取为穿越直径, 则约 $2t_E\simeq148$ 天. 具体半高宽还依赖最小冲量参数, 题给数据足以判断其量级为数月, 不能唯一确定完整光变曲线宽度.
+\end{solution}
+
+\begin{exercise}\label{ps:9.2}
+原题 2. 采用 Carroll 式 (8.124) 的自行距离定义计算 $d_M(z)$, 并核实
+\[
+d_L(z)=(1+z)d_M(z)=(1+z)^2d_A(z).
+\]
+这里 $d_L$ 为光度距离, $d_A$ 为角直径距离. 题目希望结果与该书式 (8.123) 的形式一致.
+\end{exercise}
+\begin{solution}
+自行距离的操作定义是: 源的横向本征速率 $v_\perp$ 与观测角速度 $\mu_{\rm ang}=\dd\theta/\dd t_0$ 满足 $v_\perp=\mu_{\rm ang}d_M$. 这一定义包含源钟与观测钟的时间膨胀. 写 FRW 度规为
+\[
+\dd s^2=-\dd t^2+a(t)^2[\dd\chi^2+S_k(\chi)^2\dd\Omega^2],
+\]
+其中 $S_k(\chi)=\sin\chi,\chi,\sinh\chi$ 分别对应 $k=1,0,-1$; 若 $\chi$ 带长度维度, 正负曲率时相应插入曲率半径. 源处横向位移是 $v_\perp\dd t_e=a_eS_k(\chi)\dd\theta$, 而 $\dd t_0=(1+z)\dd t_e$, 因此
+\[
+d_M=(1+z)a_eS_k(\chi)=a_0S_k(\chi),\qquad
+\chi(z)=\frac1{a_0}\int_0^z\frac{\dd z'}{H(z')}.
+\]
+这是一般膨胀史的答案; 未给物质组成时不能替换成某个特定 $H(z)$. 如以现今曲率参数 $\Omega_{k0}$ 表示并恢复 $c$, 令 $E(z)=H(z)/H_0$, 则
+\[
+d_M=\frac{c}{H_0\sqrt{|\Omega_{k0}|}}\,\mathcal{S}\!\left(\sqrt{|\Omega_{k0}|}\int_0^z\frac{\dd z'}{E(z')}\right),
+\]
+$\Omega_{k0}>0$ 时 $\mathcal S=\sinh$, $\Omega_{k0}<0$ 时 $\mathcal S=\sin$; 平坦极限为 $(c/H_0)\int\dd z'/E$. 又 $d_A=a_eS_k(\chi)$, 光子能量和到达率各红移一次, $F=L/[4\pi a_0^2S_k^2(1+z)^2]$, 故 $d_L=(1+z)a_0S_k(\chi)$, 得到全部距离关系. 该关系以光子数守恒和度规光传播为条件.
+\end{solution}
+
+\begin{exercise}\label{ps:9.3}
+原题 3. 早期热等离子体使光子反复散射; 复合后电子、质子形成原子, 光子自由传播, 留下 CMB. 原题取复合红移 $z_r\simeq1200$, 温度各向异性约 $10^{-5}$. 考虑 $k=0$ FRW 宇宙, 复合前辐射主导, 之后物质主导. $r_H(t_r)$ 是从大爆炸至复合时光子可走的最大共动距离, $r_{\rm obs}(t_r)$ 是复合至今日的共动距离.
+\begin{enumerate}[label=(\alph*)]
+\item 计算 $r_H$ 和 $r_{\rm obs}$.
+\item 为何 $r_H/r_{\rm obs}$ 很小却有近乎各向同性 CMB 构成视界问题?
+\item 求今日角间距阈值 $\theta_c$, 小于它的源在复合前可相互因果联系, 大于它的源不能.
+\end{enumerate}
+原题近似把物质--辐射相等时刻取为复合时刻, 同时注明实际相等红移约 3000, 只追求量级. 后两题共用 $T_0=2.73\,\mathrm K$, $k_B=8.6\times10^{-11}\,\mathrm{MeV/K}$, $\hbar=6.6\times10^{-22}\,\mathrm{MeV\,s}$,
+$\sigma=\pi^2k_B^4/(60\hbar^3c^2)$, 光子气体能量密度 $u=4\sigma T^4/c$. 忽略中微子等相对论组分. 早期温度为 $(1+z)T_0$; 原卷该温度句中的尺度因子分子、分母次序有笔误.
+\end{exercise}
+\begin{solution}
+(a) 令 $a_0=1$, $a_r=(1+z_r)^{-1}$, $H_r=H(t_r)$. 为使突变模型仍满足同一 Friedmann 初值, 在过渡处让 $a,H$ 连续. 辐射阶段有 $a=a_r(t/t_r)^{1/2}$, $H_r=1/(2t_r)$; 物质阶段则有
+\[
+a=a_r\left(1+\frac32H_r(t-t_r)\right)^{2/3},\quad
+H(a)=H_r(a_r/a)^{3/2}.
+\]
+后一个幂律的时间原点有平移, 不能同时强行写成同一原点的 $t^{1/2}$ 和 $t^{2/3}$ 而又要求 $H$ 连续. 径向零线满足 $\dd\chi=\dd t/a$, 故
+\[
+r_H=\int_0^{t_r}\frac{\dd t}{a(t)}=\frac{2t_r}{a_r}=\frac1{a_rH_r},\qquad
+r_{\rm obs}=\int_{a_r}^{1}\frac{\dd a}{a^2H(a)}=
+\frac{2}{a_rH_r}\bigl(\sqrt{1+z_r}-1\bigr).
+\]
+于是 $r_H/r_{\rm obs}=1/[2(\sqrt{1201}-1)]=0.01486$. 绝对距离还需要 $H_r$ 或 $H_0$; 在此模型中亦可写 $r_H=1/(H_0\sqrt{1201})$, $r_{\rm obs}=2H_0^{-1}(1-1201^{-1/2})$. 恢复距离单位时两式乘 $c$.
+
+(b) 相反方向 CMB 的共动间距为 $2r_{\rm obs}\gg r_H$. 普通辐射、物质膨胀史不允许这些区域在复合前交换信号, 却要求初始温度在约 $10^{-5}$ 精度下几乎一致. 这说明该膨胀史本身没有提供使远隔区域热平衡的机制, 而不是证明均匀初始条件逻辑上不可能.
+
+(c) 两方向在复合球上的弦长为 $d=2r_{\rm obs}\sin(\theta/2)$. 按题面 ``彼此发送信号可达'' 的条件 $d\le r_H$, 得
+\[
+\theta_c=2\arcsin\frac{r_H}{2r_{\rm obs}}\simeq0.01486\,\mathrm{rad}=0.851^\circ.
+\]
+若要求的只是两处拥有重叠的过去光锥, 条件为 $d\le2r_H$, 角度约加倍. 若不用 $H$ 连续而把两幂律粗略接于同一时间原点, 则得到约 $1.13^\circ$ 的系数; 原题的量级结论均为约一度, 本稿后题统一使用上述连续模型.
+\end{solution}
+
+\begin{exercise}\label{ps:9.4}
+原题 4. 极早期 $t_1\le t\le t_2\ll t_r$ 宇宙处于假真空, 标量场的势近似常数 $\rho_{\rm vac}\simeq V(\phi)$, 等效宇宙学常数 $\Lambda=8\pi\rho_{\rm vac}$. 以 $u_{\rm vac}\simeq(4\sigma/c)T_{\rm vac}^4$, $k_BT_{\rm vac}\sim10^{15}\,\mathrm{GeV}$ 表示其能标; 这不表示真空真的有光子气体温度. $t_2$ 左右标量场衰变为普通粒子, 此后先辐射主导、再物质主导. 取 $V$ 在该区间不变、$t>t_2$ 后近似为零.
+\begin{enumerate}[label=(\alph*)]
+\item 恢复 $G,c$, 利用 $1\,\mathrm{MeV}=1.6\times10^{-12}\,\mathrm{g\,cm^2/s^2}$, 求以 $\mathrm{s^{-2}}$ 表示的 $\Lambda$.
+\item 重算上一题的两个距离, 求令 $r_{\rm obs}/r_H=1$ 的 $N_e=(t_2-t_1)\sqrt{\Lambda/3}$, 并取 $t_1\simeq0$ 估计 $t_2$.
+\item 求暴胀期间的膨胀倍数 $a(t_2)/a(t_1)$.
+\item 重算因果联系的角尺度 $\theta_c$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 当 $\rho$ 表示能量密度时, 时间单位的宇宙学常数是 $\Lambda_t=8\pi Gu_{\rm vac}/c^2$; 空间单位的常数则是 $\Lambda_t/c^2$. 用给定光子式作能标换算,
+\[
+u_{\rm vac}=\frac{\pi^2}{15}\frac{(k_BT_{\rm vac})^4}{\hbar^3c^3}.
+\]
+取 $k_BT_{\rm vac}=10^{18}\,\mathrm{MeV}$, 把最后的 MeV 转为 erg, 得
+$\Lambda_t\simeq2.54\times10^{65}\,\mathrm{s^{-2}}$, $H_I=\sqrt{\Lambda_t/3}\simeq2.91\times10^{32}\,\mathrm{s^{-1}}$. 只有能标估计准确到量级, 下列有效数字便于复算而不表示真实暴胀参数如此确定.
+
+(b) 暴胀阶段 $a=a_2e^{H_I(t-t_2)}$, 所以此阶段对共动视界的贡献为
+\[
+\int_{t_1}^{t_2}\frac{\dd t}{a}=
+\frac{e^{N_e}-1}{H_Ia_2}.
+\]
+原题没有给暴胀前的膨胀史. 为完成其 $t_1\simeq0$ 估计, 取该段更早贡献可忽略, 并设瞬时再热能标为 $T_{\rm vac}$. 这两个模型假设都影响精确 $N_e$. 以 $a_2=T_0/T_{\rm vac}$, $\alpha=a_2/a_r$ 表示, 辐射阶段 $H_ra_r^2=H_Ia_2^2$, 从再热至复合的贡献为
+\[
+\int_{a_2}^{a_r}\frac{\dd a}{a^2H(a)}=
+\frac{1-\alpha}{H_ra_r}.
+\]
+因此
+\[
+r_H=\frac{\alpha(e^{N_e}-1)+1-\alpha}{H_ra_r},\qquad
+r_{\rm obs}=\frac{2(\sqrt{1201}-1)}{H_ra_r}.
+\]
+$\alpha=1201(2.73)(8.6\times10^{-11})/10^{18}=2.82\times10^{-25}$; 令两距离相等, 得
+\[
+e^{N_e}=1+\frac{2(\sqrt{1201}-1)-1+\alpha}{\alpha}
+\simeq2.35\times10^{26},\qquad N_e\simeq60.72.
+\]
+于是 $t_2\simeq N_e/H_I\simeq2.09\times10^{-31}\,\mathrm{s}$. 若暴胀前贡献非零, 它应加在 $r_H$ 中, 而非被说成已由公开题面确定.
+
+(c) $a_2/a_1=e^{N_e}\simeq2.35\times10^{26}$.
+(d) 沿用上一题的相互通信定义, $\theta_c=2\arcsin(1/2)=\pi/3=60^\circ$. 题目指定的 $r_H=r_{\rm obs}$ 尚不足以使对径两点直接互相通信; 达到 $r_H\ge2r_{\rm obs}$ 需再增加约 $\ln2$ 个 e-fold, 此时 $\theta_c=\pi$. 若改用过去光锥重叠定义, $r_H=r_{\rm obs}$ 已使全天空的过去因果区域可重叠. 这两个条件须与所用角尺度定义一致.
+\end{solution}
+
+\begin{exercise}\label{ps:9.5}
+原题 5. 平坦性问题.
+\begin{enumerate}[label=(\alph*)]
+\item 不计暴胀, 由 Friedmann 方程给出两个时刻 $\Omega_1,\Omega_2$ 的关系, 分别考虑物质主导和辐射主导, 以 $\Omega-1$ 和尺度因子表示.
+\item 原题取今日 $\Omega_0=1\pm0.01$. 估计核合成能标 $k_BT_N\sim1\,\mathrm{MeV}$ 和大统一能标 $k_BT_{\rm GUT}\sim10^{15}\,\mathrm{GeV}$ 时 $\Omega-1$ 的大小, 说明需接近平坦到何种程度.
+\item 在上一题的暴胀宇宙中重做 (a).
+\item 暴胀如何解决平坦性问题? 足够解决视界问题的 e-fold 数是否也能使今日曲率足够小?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 为免将近似误当等式, 先推导精确关系. 定义 $\Omega=8\pi G\rho/(3H^2)$, $H^2=8\pi G\rho/3-k/a^2$, 则
+\[
+\frac{\Omega-1}{\Omega}=\frac{3k}{8\pi G\rho a^2}.
+\]
+单组分常数状态参数 $P=w\rho$ 的守恒式给 $\rho\propto a^{-3(1+w)}$, 因而
+\[
+\frac{\Omega_2-1}{\Omega_2}
+=\frac{\Omega_1-1}{\Omega_1}\left(\frac{a_2}{a_1}\right)^{1+3w}.
+\]
+物质的幂是 1, 辐射的幂是 2. 令 $\delta_i=\Omega_i-1$, $F=(a_2/a_1)^{1+3w}$, 也可写 $\delta_2=F\delta_1/[1+(1-F)\delta_1]$. 在 $|\delta|\ll1$ 时, 才简化成 $\delta\propto a$ 或 $a^2$.
+
+(b) 仍采用原题在 $z_r=1200$ 过渡的近似. 今日辐射温度对应能量 $\epsilon_0=k_BT_0=2.35\times10^{-10}\,\mathrm{MeV}$. 对复合前能标 $\epsilon_X$,
+\[
+|\Omega_X-1|\simeq |\Omega_0-1|\frac{a_r}{a_0}
+\left(\frac{a_X}{a_r}\right)^2
+=0.01(1+z_r)\left(\frac{\epsilon_0}{\epsilon_X}\right)^2.
+\]
+所以核合成时约须小于 $6.6\times10^{-19}$, 大统一时约须小于 $6.6\times10^{-55}$. 与题给粗略能标一致, 这里只论数量级; 用 $z_{\rm eq}=3000$ 会改变约数倍, 不改变初值极精细的结论.
+
+(c) 暴胀近似 $w=-1$, 故精确关系的幂变为 $-2$,
+\[
+\frac{\Omega_2-1}{\Omega_2}
+=e^{-2N_e}\frac{\Omega_1-1}{\Omega_1}.
+\]
+近平坦时 $\Omega-1\propto e^{-2N_e}$; 此后仍按辐射和物质阶段增长.
+(d) 加速膨胀使 $aH$ 增大, 而 $\Omega-1=k/(aH)^2$ 被压低. 用上一题 $e^{N_e}=2.35\times10^{26}$, 暴胀期压低约 $1.81\times10^{-53}$. 从再热到今日的近似放大因子为
+\[
+\left(\frac{a_r}{a_2}\right)^2\frac{a_0}{a_r}
+=\frac{1}{\alpha^2(1+z_r)}\simeq1.05\times10^{46}.
+\]
+于是初始数量级为 1 的曲率偏差可成为今日约 $1.9\times10^{-7}$, 小于原题 $1\%$ 的标准. 对初始 $\Omega_1$ 极小等特殊初值, 不能把近平坦的线性估计直接套用; 精确式保留了该条件. 在题设的普通初始量级下, 约 61 个 e-fold 足以同时解决两问题.
+\end{solution}
+
+\originalsection{作业十}
+题源: \href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset10/}{Problem Set 10, 原卷 Spring 2006, PDF 第 1--4 页}.
+
+\begin{exercise}\label{ps:10.1}
+原题 1. Schwarzschild 度规的各向同性表示.
+\begin{enumerate}[label=(\alph*)]
+\item 从 $\dd s^2=-(1-2GM/r)\dd t^2+(1-2GM/r)^{-1}\dd r^2+r^2\dd\Omega^2$ 出发, 作变换 $r=\bar r(1+GM/(2\bar r))^2$, 求
+$\dd s^2=g_{tt}(\bar r)\dd t^2+g(\bar r)(\dd\bar r^2+\bar r^2\dd\Omega^2)$ 中的两个函数.
+\item 取 $\bar r\gg GM$ 极限, 核对球对称物体外部的线性化度规.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 令 $q=GM/(2\bar r)$, 则 $\dd r/\dd\bar r=1-q^2$,
+\[
+1-\frac{2GM}{r}=\frac{(1-q)^2}{(1+q)^2},\qquad
+\frac{\dd r^2}{1-2GM/r}=(1+q)^4\dd\bar r^2,
+\qquad r^2\dd\Omega^2=(1+q)^4\bar r^2\dd\Omega^2.
+\]
+所以 $g_{tt}=-[(1-q)/(1+q)]^2$, $g=(1+q)^4$. 外部支取 $\bar r>GM/2$, 对应 $r>2GM$; 在 $\bar r=GM/2$ 处变换的径向 Jacobian 为零, 不能把这里的各向同性坐标当成正则跨视界坐标. 空间部分的共形平坦性也不等于全时空平坦.
+
+(b) 保留 $GM/\bar r$ 一阶,
+\[
+\dd s^2=-\left(1-\frac{2GM}{\bar r}\right)\dd t^2+
+\left(1+\frac{2GM}{\bar r}\right)(\dd\bar r^2+\bar r^2\dd\Omega^2)
++O((GM/\bar r)^2).
+\]
+在笛卡尔空间坐标中, 它是 $g_{00}=-(1+2\Phi_N)$, $g_{ij}=(1-2\Phi_N)\delta_{ij}$, $\Phi_N=-GM/\bar r$. 这与弱场慢速运动给出的牛顿引力势相符.
+\end{solution}
+
+\begin{exercise}\label{ps:10.2}
+原题 2. 数值构造广义相对论中子星模型. 采用多方状态方程
+\[
+P=K\rho_0^\Gamma,\quad \Gamma=\frac53,\quad
+K=\frac{3^{2/3}\pi^{4/3}\hbar^2}{5m_n^{8/3}}
+=5.38\times10^9\,\mathrm{g^{-2/3}cm^4s^{-2}},\qquad
+\rho=\rho_0+\frac{P}{\Gamma-1}.
+\]
+$\rho_0$ 是静止质量密度, $\rho$ 是 $G=c=1$ 下的总能量密度. 积分 TOV 方程
+\[
+\frac{\dd m}{\dd r}=4\pi\rho r^2,\qquad
+\frac{\dd P}{\dd r}=-\frac{(\rho+P)(m+4\pi r^3P)}{r(r-2m)},
+\]
+初值为 $m(0)=0$, $P(0)=K\rho_{0,c}^\Gamma$. 表面由 $P(R_*)=0$ 定义, $M_*=m(R_*)$.
+\begin{enumerate}[label=(\alph*)]
+\item 以 km 为长度单位, $G=c=1$, 分别把 $1\,\mathrm{g/cm^3}$ 转成 $\mathrm{km^{-2}}$, 把 $1\,\mathrm{dyn/cm^2}$ 转成 $\mathrm{km^{-2}}$, 把 $1\,\mathrm{g^{-2/3}cm^4s^{-2}}$ 转成 $\mathrm{km^{4/3}}$, 并换算本题的 $K$.
+\item 取 $\rho_{0,c}=10^{15}\,\mathrm{g/cm^3}$, 实际积分求 $R_*,M_*$.
+\item 光子自表面径向发出, 发射能量为 $E_{\rm em}$, 求无穷远观测能量 $E_{\rm ob}$. 按原题定义求 $z_{\rm surf}=(E_{\rm ob}-E_{\rm em})/E_{\rm ob}$.
+\item 加入 $\dd m_p/\dd r=4\pi\rho r^2(1-2m/r)^{-1/2}$, 重做该中心密度模型, 求 $M_p=m_p(R_*)$.
+\item 求 $\Delta=(M_p-M_*)/M_*$, 解释引力束缚能占比.
+\end{enumerate}
+原题允许用 Mathematica 或自写 ODE 程序, 并提醒表面附近直接积分 $P$ 可能出现小步长困难.
+\end{exercise}
+\begin{solution}
+(a) 恢复物理单位后, 静止质量密度的几何化因子是 $G/c^2$, 压强的因子是 $G/c^4$. 因 $1\,\mathrm{cm^{-2}}=10^{10}\,\mathrm{km^{-2}}$, 取 $G=6.67430\times10^{-8}\,\mathrm{cm^3g^{-1}s^{-2}}$, $c=2.99792458\times10^{10}\,\mathrm{cm/s}$, 得
+\begin{align*}
+1\,\mathrm{g/cm^3}&\longmapsto A_\rho=7.42616027\times10^{-19}\,\mathrm{km^{-2}},\\
+1\,\mathrm{dyn/cm^2}&\longmapsto A_P=8.26271764\times10^{-40}\,\mathrm{km^{-2}}.
+\end{align*}
+注意作为总能量密度的物理 $u$ 应乘 $G/c^4$, 而以 $\mathrm{g/cm^3}$ 报告的 $u/c^2$ 才乘 $A_\rho$. 方程 $P_{\rm geom}=K_{\rm geom}\rho_{0,\rm geom}^\Gamma$ 要求
+\[
+K_{\rm geom}=\frac{A_P}{A_\rho^{5/3}}K_{\rm cgs},\quad
+\frac{A_P}{A_\rho^{5/3}}=1.35679963\times10^{-9},\quad
+K_{\rm geom}=7.29958199\,\mathrm{km^{4/3}}.
+\]
+压力换算不能误用密度换算因子, 否则会把星体结构改掉许多数量级.
+
+(b) 为处理 $P\to0$ 的表面和 $r=0$ 的表面上奇点, 用对数焓变量
+\[
+h=\int_0^P\frac{\dd P'}{\rho(P')+P'}
+=\log\left(1+\frac{\Gamma}{\Gamma-1}K\rho_0^{\Gamma-1}\right).
+\]
+这个积分式可由 $\dd P=\Gamma K\rho_0^{\Gamma-1}\dd\rho_0$ 与 $\rho+P=\rho_0+\Gamma P/(\Gamma-1)$ 直接积分验证. 逆关系为
+\[
+\rho_0(h)=\left(\frac{\Gamma-1}{\Gamma K}(e^h-1)\right)^{1/(\Gamma-1)},\quad
+\frac{\dd h}{\dd r}=-\frac{m+4\pi r^3P}{r(r-2m)}.
+\]
+在中心做正则展开,
+\[
+m(r)=\frac{4\pi}{3}\rho_cr^3+O(r^5),\quad
+h(r)=h_c-2\pi\left(\frac{\rho_c}{3}+P_c\right)r^2+O(r^4).
+\]
+从 $r=10^{-5}\,\mathrm{km}$ 的展开初值开始, 用经典四阶 Runge--Kutta 积分 $(h,m,m_p)$, 压力首次变零的步内二分定位 $h=0$. 可复现代码为 \texttt{tools/ps10\_11\_numerics.py}; 只依赖 Python 3 标准库. 实际结果为
+\[
+R_*=12.6766539\,\mathrm{km},\qquad
+M_*=1.00223850\,\mathrm{km}=0.67871543M_\odot.
+\]
+这里 $GM_\odot/c^2=1.47666969\,\mathrm{km}$. 步长检查如下:
+\begin{center}\begin{tabular}{rrr}\toprule
+$\Delta r\;(\mathrm{km})$ & $R_*\;(\mathrm{km})$ & $M_*\;(\mathrm{km})$\\\midrule
+0.01000 &12.676655461&1.002238389\\
+0.00500 &12.676654212&1.002238477\\
+0.00250 &12.676653900&1.002238499\\
+0.00125 &12.676653823&1.002238505\\\bottomrule
+\end{tabular}\end{center}
+最后两次半步长差约 $7.7\times10^{-8}\,\mathrm{km}$ 和 $5.5\times10^{-9}\,\mathrm{km}$. 它们是实际步长敏感性的证据, 不是严格误差界; 中心起步和表面插值也参与误差, 不根据积分器名字虚称全部结果四阶收敛.
+
+(c) 静态时空的光子 Killing 能量 $-p_t$ 沿线不变. 表面静止观测者的四速为 $u^t=(1-2M_*/R_*)^{-1/2}$, 故
+\[
+E_{\rm ob}=E_{\rm em}\sqrt{1-2M_*/R_*},\qquad
+z_{\rm surf}=1-\frac1{\sqrt{1-2M_*/R_*}}=-0.08987279.
+\]
+负号是原题定义本身造成的. 常用的正红移 $z_{\rm usual}=E_{\rm em}/E_{\rm ob}-1$ 恰为 $-z_{\rm surf}=0.08987279$, 不能悄悄把原题换成它.
+
+(d) 对同一模型, 采用与 $m$ 相同的中心正则展开 $m_p=(4\pi/3)\rho_cr^3+O(r^5)$, 同时积分得到 $M_p=1.08178832\,\mathrm{km}$. 此处积分的是总能量密度 $\rho$, 并非静止质量密度 $\rho_0$; 若换成后者, 算得的是另一种重子质量, 不属于本问.
+
+(e) $M_p-M_*=0.07954982\,\mathrm{km}$, 因而 $\Delta=0.07937214$, 即约 $7.94\%$. 局部物质能量按固有体积求和大于远处测得的总引力质量; 差额描述负的自引力结合贡献, 相应束缚能的正大小为 $E_{\rm bind}=(M_p-M_*)c^4/G$, 其中须先把以 km 报告的几何长度换成与 $G,c$ 一致的长度单位. 这个多方模型的最大质量、半径等不能当作真实中子星状态方程的预测.
+\end{solution}
+
+\begin{exercise}\label{ps:10.3}
+原题 3. TOV 星的径向稳定性. 原题以序列上 $\dd M/\dd\rho_c>0$ 为稳定、$\dd M/\dd\rho_c<0$ 为不稳定判据, 注意 $\rho_c$ 是总能量密度, 不是 $\rho_{0,c}$. 它的直观解释是: 压缩使中心密度增加, 若为抵抗压缩需输入能量、质量增加, 则可恢复; 反之压缩能降低能量可能导致失稳. 原题指向 Shapiro--Teukolsky 第 6.8--6.9 节作深入背景.
+\begin{enumerate}[label=(\alph*)]
+\item 对 $\rho_{0,c}=10^{14},10^{15},10^{16},10^{17},10^{18}\,\mathrm{g/cm^3}$ 构造 TOV 模型, 画 $M_*$ 对 $\rho_c$ 的图, 检查稳定--不稳定变化的证据.
+\item 在不稳定区域附近加密, 尽可能准确找到 $\dd M/\dd\rho_c=0$ 的临界星. 求该状态方程的最大质量, 以 km 与太阳质量表示.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 下文数值图节给出全部五个模型的数值表及 61 个模型组成的连续序列. 质量先从 $0.30984M_\odot$ 增至 $0.67872M_\odot$, 在更高密度附近越过峰值, 再降至 $0.44032M_\odot$, 明确显示低密度稳定支终止. 换算为总密度时,
+\[
+\frac{\dd\rho_c}{\dd\rho_{0,c}}=1+\frac{\Gamma K}{\Gamma-1}\rho_{0,c}^{\Gamma-1}>0.
+\]
+因此两种中心密度横坐标给出相同的导数符号和峰值位置, 但数值与图的横轴应标 $\rho_c$.
+
+(b) 对 $\log_{10}\rho_{0,c}\in[14,17]$ 的第一峰作黄金分割搜索, 并减半径向步长复核, 得
+\[
+\rho_{0,c}^{\rm max}\simeq3.99216\times10^{15}\,\mathrm{g/cm^3},\quad
+\rho_c^{\rm max}\simeq4.89425\times10^{15}\,\mathrm{g/cm^3},\quad
+R_*^{\rm max}\simeq8.72589\,\mathrm{km},
+\]
+\[
+M_*^{\rm max}\simeq1.17409622\,\mathrm{km}=0.79509739M_\odot.
+\]
+步长 $0.005,0.0025,0.00125\,\mathrm{km}$ 得到的最大质量分别为
+$1.174096215701$, $1.174096215653$, $1.174096215648\,\mathrm{km}$; 后两次临界静止密度相同至所示六位有效数字, 搜索的对数密度括区宽约 $2.35\times10^{-7}$. 峰值质量比较平坦, 故密度位置的相对精度低于峰值质量本身.
+
+严格的径向稳定性要追踪扰动算子的模数. 从牛顿低密度稳定支出发, 第一质量极大值对应首先失去稳定性的临界点; 这正是本题定位的最大稳定质量. 在 $10^{17}$ 到 $10^{18}\,\mathrm{g/cm^3}$ 间质量略微回升, 不应仅因局部斜率重新为正就宣布所有径向模都恢复稳定. 极高密度处的进一步转折需数模或作完整径向本征值分析; 题面给的单斜率直观判据不能替代这一步.
+\end{solution}
+
+\originalsection{作业十一}
+题源: \href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset11/}{Problem Set 11, 原卷 Spring 2006, PDF 第 1--4 页}.
+
+\begin{exercise}\label{ps:11.1}
+原题 1. 由无压尘埃球坍缩形成黑洞. 初始半径 $R_*$, 总质量 $M$, 球内均匀各向同性的无压尘埃, 初始静止. 外部由 Birkhoff 定理取 Schwarzschild 度规, 内部取闭合 Robertson--Walker 度规
+\[
+\dd s^2=-\dd\tau^2+a(\tau)^2R_0^2(\dd\chi^2+\sin^2\chi\,\dd\Omega^2).
+\]
+外部 $t$ 是 Schwarzschild 时间, 内部 $\tau$ 是尘埃固有时.
+\begin{enumerate}[label=(\alph*)]
+\item 证明 $a=(a_{\max}/2)(1+\cos\eta)$, $\tau=(a_{\max}R_0/2)(\eta+\sin\eta)$, $0\le\eta\le\pi$, 解无压尘埃的闭宇宙 Friedmann 方程. 取 $a_{\max}=1$, 求初始密度与 $R_0$ 的关系.
+\item $\tau=\pi R_0/2$ 后内部解发生什么?
+\item 对外部零角动量径向测地线, 求给定单位质量能量 $\hat E$ 的速度为零半径 $R$.
+\item 用上式把从 $R_*$ 到 $r$ 的固有时写成 $\tau=-\int_{R_*}^{r}\dd r'/\sqrt{2GM/r'-2GM/R_*}$. 取 $r=R_*(1+\cos\eta)/2$, 证明 $\tau=\sqrt{R_*^3/(8GM)}(\eta+\sin\eta)$.
+\item 要求内外球面周长与表面尘埃固有时对所有 $\eta$ 相同, 求 $R_0$ 与表面共动坐标 $\chi_*$.
+\item 取 $R_*=5GM$. 事件视界的生成元从中心出发, 正好在表面穿越 $r=2GM$ 时到达表面, 随后留在该零面. 求生成元离开中心的固有时. 提示: 内部写成 $a^2R_0^2(-\dd\eta^2+\dd\chi^2+\sin^2\chi\dd\Omega^2)$, 外行零线满足 $\dd\chi/\dd\eta=1$.
+\item 画星体表面与事件视界的时空示意图.
+\end{enumerate}
+原卷 (d) 对能量关系的回指写成 (b), 实际应为 (c).
+\end{exercise}
+\begin{solution}
+(a) 无压尘埃守恒给 $\rho=\rho_0a^{-3}$. 以 $a(0)=1$, $\dot a(0)=0$ 代入 Friedmann 方程,
+\[
+\dot a^2=\frac{8\pi G\rho_0}{3a}-\frac1{R_0^2}
+=\frac1{R_0^2}\left(\frac1a-1\right),\qquad
+\rho_0=\frac{3}{8\pi GR_0^2}.
+\]
+参数式满足 $\dd\tau/\dd\eta=R_0a$, $\dd a/\dd\eta=-\sin\eta/2$, 所以 $\dot a=-\sin\eta/(2R_0a)$; 用 $\sin^2\eta=4a(1-a)$ 验证上式. 再对它求导可得加速度方程 $\ddot a=-1/(2R_0^2a^2)$, 因而两个 Friedmann 方程均满足.
+
+(b) 在 $\eta=\pi$ 时 $a=0$, 尘埃密度 $\rho_0/a^3$ 发散, 曲率不变量也发散. 这是球体各壳层到达曲率奇点, 并非坐标可以无损延伸的反弹. 形式上把摆线参数延至下一周期不构成经典非奇异时空解.
+
+(c) 径向归一化和能量守恒给 $\dot r^2=\hat E^2-1+2GM/r$. 转向处 $\dot r=0$, 故 $R=2GM/(1-\hat E^2)$, 有有限外部静止转向点须 $0<\hat E^2<1$. 初始表面静止给 $\hat E^2=1-2GM/R_*$, 还需 $R_*>2GM$.
+
+(d) 选择坍缩根 $\dot r=-\sqrt{2GM/r-2GM/R_*}$ 就给出所需积分. 作参数替换后 $\dd r=-(R_*/2)\sin\eta\,\dd\eta$, 根号为 $\sqrt{2GM/R_*}\tan(\eta/2)$, 所以
+\[
+\dd\tau=\sqrt{\frac{R_*^3}{8GM}}(1+\cos\eta)\,\dd\eta.
+\]
+以初始 $\eta=0$ 处 $\tau=0$ 积分, 得原题结果.
+
+(e) 内部表面的面半径为 $aR_0\sin\chi_*$. 周长相同给 $R_*=R_0\sin\chi_*$; 固有时系数相同给 $R_0/2=\sqrt{R_*^3/(8GM)}$. 因此
+\[
+R_0=\sqrt{\frac{R_*^3}{2GM}},\qquad
+\sin\chi_*=\sqrt{\frac{2GM}{R_*}},\quad 0<\chi_*<\frac\pi2.
+\]
+选择小于半个三球的内部支对应通常的尘埃星, 而不是另选 $\pi-\chi_*$ 的大体积支. 结合 (a), $M=4\pi\rho_0R_*^3/3$, 此处是 Schwarzschild 引力质量, 不能把它与内部固有体积乘密度混淆.
+
+(f) 令时间、长度单位为 $GM$, 则 $R_0=\sqrt{125/2}$, $\chi_*=\arcsin\sqrt{2/5}=0.6847192$. 表面跨视界时 $a_H=2/5$, $\cos\eta_H=2a_H-1=-1/5$, 故 $\eta_H=1.77215425$. 向外零线在内部满足 $\chi=\eta-\eta_b$, 到达表面时 $\eta_b=\eta_H-\chi_*=1.08743504$. 转成固有时,
+\[
+\tau_b=\frac{R_0}{2}(\eta_b+\sin\eta_b)=7.79846444\,GM.
+\]
+表面跨视界的时刻为 $\tau_H=10.87803808\,GM$, 而奇点时刻 $\tau_s=\pi R_0/2=12.41823533\,GM$. 事件视界在表面跨 $2GM$ 之前已从中心产生, 说明它由整个未来光传播定义, 不能只凭当前表面是否跨某半径判断.
+
+(g) 下图在内部共形坐标中精确画出零线斜率与表面位置; 上侧的外部轨迹为示意延伸, 不把 Schwarzschild 的发散时间 $t$ 当作内部 $\eta$.
+\begin{center}\begin{tikzpicture}[x=4cm,y=1.4cm]
+\draw[->] (0,0)--(1.18,0) node[right]{$\chi$};
+\draw[->] (0,0)--(0,3.45) node[above]{$\eta$};
+\draw[thick] (.684719,0)--(.684719,3.14159);
+\node[right] at (.684719,.4){表面 $\chi_*$};
+\draw[very thick,dashed] (0,1.087435)--(.684719,1.772154);
+\draw[dashed,->] (.684719,1.772154)--(.98,2.9);
+\node[right,align=left] at (.74,2.1){外部视界\\$r=2GM$};
+\draw[dotted] (0,1.772154)--(.684719,1.772154);
+\node[left] at (0,1.087435){$\eta_b$};\node[left] at (0,1.772154){$\eta_H$};
+\draw[thick] (0,3.14159)--(.684719,3.14159);
+\node[above] at (.35,3.14159){$a=0$ 奇点};
+\fill (0,1.087435) circle (1.1pt);\fill (.684719,1.772154) circle (1.1pt);
+\end{tikzpicture}\end{center}
+虚线在球内从中心发出并赶上表面; 其外部延伸保持面半径 $2GM$. 时间向上, 表面所有尘埃在同一内部固有时到达奇点.
+\end{solution}
+
+\begin{exercise}\label{ps:11.2}
+原题 2. 静态球对称星团的所有恒星作圆轨道, 忽略碰撞, 用足够多恒星的连续分布近似. 写
+\[
+\dd s^2=-e^{2\Phi(r)}\dd t^2+e^{2\Lambda(r)}\dd r^2+r^2\dd\Omega^2,
+\quad m(r)=\int_0^r4\pi\rho(s)s^2\,\dd s.
+\]
+\begin{enumerate}[label=(\alph*)]
+\item 求 $e^{2\Lambda}$ 和 $\Phi'$; 与 TOV 方程相比有何关键差别?
+\item 定义适当有效势, 求每单位质量的 $\hat E,\hat L$ 与 $\Omega=\dd\phi/\dd t$, 以 $r,m(r),\Phi(r)$ 表示.
+\item 分析单星圆轨道的稳定性, 给出对局部紧致度 $Gm(r)/r$ 的条件.
+\item 对均匀密度星团 $m(r)=M(r/R)^3$ 求 $\Phi(r)$, 并求全部轨道稳定时的最大 $GM/R$.
+\item 对最紧致的稳定边界模型, 求表面和中心发出的光子的红移. 它能否解释发现类星体之初的 $z\sim0.3$? 能否解释原题提到的高红移 $z\gtrsim6.5$?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 各恒星虽是无碰撞尘埃, 角方向随机的圆周运动产生非零平均切向应力. 整个团的应力不是各方向压强皆零的静态尘埃, 而是 $T^a{}_b=\operatorname{diag}(-\rho,0,p_t,p_t)$. 此处 $\rho$ 是静态局部观测者测得的总能量密度. Einstein 方程的 $tt,rr$ 分量给
+\[
+e^{2\Lambda}=\frac1{1-2Gm/r},\qquad
+\Phi'=\frac{Gm}{r(r-2Gm)}.
+\]
+与完美流体 TOV 相比, 缺的是分子中的径向压强项 $4\pi r^3P$, 不是删除所有应力. 守恒式径向分量为 $0=-\rho\Phi'+2p_t/r$, 即 $p_t=\rho r\Phi'/2$, 与恒星横向运动一致.
+
+(b) 恒星轨道可取在赤道, $\hat E=e^{2\Phi}\dot t$, $\hat L=r^2\dot\phi$. 类时归一化可写
+\[
+e^{2(\Phi+\Lambda)}\dot r^2=\hat E^2-V_{\rm eff},\qquad
+V_{\rm eff}=e^{2\Phi}(1+\hat L^2/r^2).
+\]
+圆轨道必须满足 $V'_{\rm eff}=0$, 即 $\Phi'(1+\hat L^2/r^2)=\hat L^2/r^3$. 令 $u=Gm/r$, 求得
+\[
+\hat L^2=\frac{Gmr^2}{r-3Gm}=\frac{r^2u}{1-3u},\qquad
+\hat E^2=e^{2\Phi}\frac{r-2Gm}{r-3Gm},\qquad
+\Omega^2=\frac{e^{2\Phi}Gm}{r^2(r-2Gm)}.
+\]
+必须 $u<1/3$, 否则类时圆轨道的能量和角动量不存在有限实值; 局部圆周速率 $v^2=r\Phi'=u/(1-2u)$ 给同一个条件.
+
+(c) 扰动单星时保持 $\hat L$ 固定, 并在原有星团的背景 $m(r),\Phi(r)$ 中计算势的二阶导数. 不能把 $m(r)$ 当常数. 将圆轨道角动量视为函数 $L_c^2(r)$, 从 $V'(r,L_c^2(r))=0$ 求导, 可知在 $r\Phi'<1$ 时 $\operatorname{sgn}V''=\operatorname{sgn}(L_c^2)'$. 直接微分给
+\[
+(L_c^2)'=\frac{r}{(1-3u)^2}\bigl(2u(1-3u)+ru'\bigr)
+=\frac{r}{(1-3u)^2}\bigl(Gm'+u(1-6u)\bigr).
+\]
+所以局部线性稳定的完整条件为
+\[
+u<\frac13,\qquad Gm'(r)+u(1-6u)>0.
+\]
+非负密度下 $u<1/6$ 是方便的充分条件, 而在真空 $m'=0$ 中也是必要条件. 在有物质的团内部, ``任何稳定圆轨道都必须 $u<1/6$'' 并不成立.
+
+(d) 令 $U=GM/R$, 团内 $u=U r^2/R^2$. 积分 $\Phi'=Ur/[R^2(1-2Ur^2/R^2)]$, 并以表面 $e^{2\Phi(R)}=1-2U$ 与外部匹配, 得
+\[
+\Phi(r)=\frac34\log(1-2U)-\frac14\log(1-2Ur^2/R^2).
+\]
+内部有 $Gm'=3u$, 稳定表达式为 $u(4-6u)>0$, 所以只考虑 $0<r<R$ 的局部小扰动时, 更强的限制来自类时性 $U<1/3$.
+
+但题问全部恒星的稳定性还应检查星团的外边界. 表面恒星的任意向外小扰动进入 $m=M$ 的 Schwarzschild 真空, 在 $R<6GM$ 时有效势向外为局部极大而非极小, 因而不稳定. 因此若要求表面双侧都有严格正的二阶势恢复, 均匀团须满足 $U<1/6$. 在边界 $U=1/6$ 时, 真空侧的二次恢复项为零, 但势仍增加: 以 $x=r/(GM)$ 表示, $V(x)-V(6)=(x-6)^3/(9x^3)>0$ 对 $x>6$ 成立; 团内侧亦为严格局部极小. 所以等号模型在固定背景有效势意义下仍可为非线性 Lyapunov 稳定, 不能因为 $V^{\prime\prime}$ 一侧为零就断言它不稳定. 严格线性恢复的界与上述固定背景非线性稳定的最大界均为 $U=1/6$. 若把表面排除, 只问内部局部线性稳定, 则答案为 $U<1/3$, 但那是较弱的另一问题. 为与本题 ``全部轨道'' 及下问最紧致模型一致, 以下采用包括表面的 $U\to1/6$ 极限.
+
+(e) 以无穷远为观测点, 对相对于静态标架发射的光子, 纯引力的常规红移为 $1+z=e^{-\Phi(r)}$. 实际圆轨道恒星的谱线还含局部 Doppler 因子, 依赖发射方向与轨道速度; 下列数值只报告题目所比较的引力部分, 不能当作每颗运动恒星相同的总谱线红移. 表面和中心分别给
+\[
+z_s=(1-2U)^{-1/2}-1,\qquad z_c=(1-2U)^{-3/4}-1.
+\]
+在 $U=1/6$ 极限, $z_s=\sqrt{3/2}-1=0.224745$, $z_c=(3/2)^{3/4}-1=0.355403$. 仅从引力部分看, 团内深处的光可给约 $0.3$, 静态表面发射则不能; 模型也尚未解释类星体的辐射、质量分布和其他观测. $z\gtrsim6.5$ 远超此稳定团上限, 不能靠该引力红移机制解释. 即使只按内部条件取 $U\to1/3$, 最大中心红移也仅 $3^{3/4}-1\simeq1.280$, 仍不足以达到 6.5.
+
+若光子由运动恒星发出, 令 $\boldsymbol n$ 为静态局部标架中的单位传播方向, $n_\phi$ 为沿该恒星圆周速度方向的分量, $v$ 为局部圆周速率, $\gamma=(1-v^2)^{-1/2}$. 恒星测得的发射能量为 $E_{\rm em}=\gamma E_{\rm static}(1-vn_\phi)$, 所以完整红移满足
+\[
+1+z=\gamma(1-vn_\phi)e^{-\Phi}.
+\]
+临界团的表面 $v=1/2$; 若光在静态标架中径向传播, $n_\phi=0$, 此时总红移为 $z=\sqrt2-1=0.414214$, 含横向 Doppler 红移. 对整个含表面的稳定界 $U\le1/6$, 有 $v\le1/2$, $e^{-\Phi}\le(3/2)^{3/4}$, 故不论允许的发射方向如何,
+\[
+1+z\le\frac2{\sqrt3}\frac32\left(\frac32\right)^{3/4}<2.35.
+\]
+这是保守上界, 两个因子不一定能在同一点同时取最大, 但已经排除 $z\ge6.5$ 所需的 $1+z\ge7.5$. 这一结论因而不依赖忽略恒星自身 Doppler 效应.
+
+\end{solution}
+
+\begin{exercise}\label{ps:11.3}
+原题 3. 数值研究 Schwarzschild 黑洞轨道. 测试质量的运动方程为
+\[
+\dot r^2=\hat E^2-V_{\rm eff},\quad
+V_{\rm eff}=(1-2GM/r)(1+\hat L^2/r^2),\quad
+\dot\phi=\hat L/r^2,\quad \dot t=\hat E/(1-2GM/r).
+\]
+点表示对固有时 $\tau$ 求导. 原题提醒转向点处径向平方根须换号, 可通过对径向方程再求导避免这一困难. 定义 $r,t,\tau$ 的单位为 $GM$, $\hat L$ 的单位为 $GM$, 即令 $GM=1$.
+\begin{enumerate}[label=(\alph*)]
+\item 当 $M=10M_\odot$ 时长度和时间单位分别是多少?
+\item 构造从无穷远入射、接近黑洞后又逃向无穷远的非束缚轨道; 不被俘获的近心距最小可接近何处?
+\item 构造 ``椭圆'' 束缚轨道, 尽量拉大近心距与远心距的间隔, 观察进动.
+\item 构造稳定圆轨道.
+\item 构造不稳定圆轨道, 检查积分器能保持它多久. 微扰能量或角动量等初值, 是否能同时构造坠入与逃逸两个结局?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+在此题的无量纲变量下, 对径向能量式求导并连续延伸到转向点, 得
+\[
+\ddot r=-\frac12V'_{\rm eff}=-\frac1{r^2}+\frac{\hat L^2}{r^3}-\frac{3\hat L^2}{r^4}.
+\]
+积分 $(r,v,\phi,t)$, 其中 $v=\dot r$, 就会自然穿过 $v=0$, 无须手动切换根号符号. 能量约束 $v^2+V_{\rm eff}=\hat E^2$ 应当另行监测; 用二阶方程并不自动消除数值能量误差. 本题仍由 \texttt{tools/ps10\_11\_numerics.py} 以 RK4 实际运行, 步长 $\Delta\tau=0.02$ 并用 $0.01$ 复核. 积分在 $r\lesssim2.025$ 或 $r\gtrsim250$ 处停止, 避免 Schwarzschild 坐标时间的视界发散; 判定后续命运再使用有效势而非假称已数值积分至无穷远或跨过视界.
+
+(a) 恢复单位, 长度单位是 $GM/c^2=14.766697\,\mathrm{km}$, 时间单位是 $GM/c^3=4.925640\times10^{-5}\,\mathrm{s}$, 约 $49.26\,\mu\mathrm s$.
+
+(b) 取 $\hat E=1.05$, $\hat L=4.5$, 从 $r_0=100$ 入射, 初速 $v_0=-\sqrt{\hat E^2-V(100)}=-0.3471534243$. 实际积分得 $r_{\min}=4.67200750$, 在 $\tau=600$ 已回到 $r=122.2921$ 且向外运动; 因 $\hat E>1$, 后续可逃到无穷远. 图~\ref{fig:ps11-unbound} 显示该散射轨道.
+
+捕获临界对应有效势的极大点与能量重根相切, 所以
+\[
+\hat L_c^2=\frac{r_c^2}{r_c-3},\qquad
+\hat E^2=\frac{(r_c-2)^2}{r_c(r_c-3)},\quad 3<r_c\le4\quad(\hat E\ge1).
+\]
+对 $\hat E=1.05$, 解得 $r_c=3.72375408$, $\hat L_c=4.37709004$. 取 $\hat L=\hat L_c(1+10^{-5})$ 的实际散射积分得到 $r_{\min}=3.73830355$, 比普通例子更接近极限. $\hat L\downarrow\hat L_c$ 时近心距趋于 $r_c$, 且在不稳定圆轨道附近逗留越来越久; 在临界值本身是渐近接近而非有限时间转向逃走. 若允许入射能量无限增大, $r_c\to3^+$; 有限能量的类时散射轨道不能任意接近视界 $r=2$.
+
+(c) 给定两转向点 $r_p,r_a$, 常用参数为 $e=(r_a-r_p)/(r_a+r_p)$, $p=2r_ar_p/(r_a+r_p)$, 由 $V(r_p)=V(r_a)=\hat E^2$ 求得
+\[
+\hat L^2=\frac{p^2}{p-3-e^2},\qquad
+\hat E^2=\frac{(p-2)^2-4e^2}{p(p-3-e^2)}.
+\]
+选 $r_p=4.1$, $r_a=100$, $p=7.87704$, $e=0.921230$, 满足非坠落束缚轨道条件 $p>6+2e$. 得 $\hat L=3.92462395$, $\hat E=0.990711594$. 从远心点静止径向出发积分至 $\tau=7000$, 测得近心点 $4.10000001$, 远心点 $100.00000000$. 两次相邻近心点之间方位角约 $21.7226\,\mathrm{rad}$, 即相对单圈 $2\pi$ 多转约 $15.4394\,\mathrm{rad}$; 轨道接近分离线, 会在近心处绕转数圈, 因而不宜称为普通小进动椭圆. 图~\ref{fig:ps11-bound} 显示其玫瑰线状路径.
+
+本题 ``尽量拉大'' 没有唯一最大值: 令 $r_a$ 越来越大、$\hat E\to1^-$, 可任意增大 $r_a/r_p$, 同时让 $r_p$ 接近束缚分离线的 $4^+$ 极限. 每一条具体轨道仍须选择有限参数并检查其位于稳定束缚区域, 不能声称找到了有限的最宽椭圆.
+
+(d) 圆轨道满足 $\hat L^2=r^2/(r-3)$, $\hat E^2=(r-2)^2/[r(r-3)]$. 稳定性由
+\[
+V''_{\rm eff}\big|_{\rm circ}=\frac{2(r-6)}{r^3(r-3)}
+\]
+给出, 故取 $r=8$, $\hat L=\sqrt{64/5}=3.57770876$, $\hat E=\sqrt{9/10}=0.94868330$. 本次实现积分 $\tau=1000$ 时记录的半径仍恰为 8. 一阶扰动 $\delta\ddot r=-[(r-6)/(r^3(r-3))]\delta r$ 为振荡, 这才是稳定性的物理依据; 完全圆轨道的浮点数恰好保持定值只说明初值与算法相容.
+
+(e) 取 $r=3.5$, $\hat L=\sqrt{24.5}=4.94974747$, $\hat E=\sqrt{9/7}=1.13389342$. 本次完全未扰动初值的浮点运算正好抵消径向加速度, 至 $\tau=500$ 半径仍为 3.5. 这不证明稳定. 因 $V''<0$, 小扰动服从
+\[
+\delta\ddot r=\kappa^2\delta r,\qquad
+\kappa=\sqrt{\frac{6-r}{r^3(r-3)}}=0.34149\quad(r=3.5),
+\]
+会指数增长. 固定 $\hat L$, 将初始半径分别改为 $3.5-10^{-6}$ 与 $3.5+10^{-6}$, 仍取 $v_0=0$, 并按约束重算 $\hat E$. 前者在 $\tau\simeq41.98$ 到达积分截断的视界附近, 后者在 $\tau\simeq492.12$ 到达 $r=250$ 且向外运动. 两者偏离圆轨道超过 $10^{-3}$ 的时间都约为 $22.27$; 零初始径向速率的线性解为 $\delta r(\tau)=\delta r(0)\cosh(\kappa\tau)$, 因而增长约千倍需 $\kappa^{-1}\operatorname{arcosh}(10^3)\simeq22.26$, 与实际值相符; 微小差别来自阈值定义和非线性项. 图~\ref{fig:ps11-inward}、\ref{fig:ps11-outward} 给出这两个实际解. 因此同一不稳定圆轨道附近既可坠入, 也可逃逸; 此例特意选 $\hat E>1$ 以允许后一结局, 选 $4<r<6$ 的不稳定圆轨道时外推支未必能逃到无穷远.
+
+数值能量残差的步长检查为:
+\begin{center}\begin{tabular}{lrr}\toprule
+轨道 & $\Delta\tau=0.02$ & $\Delta\tau=0.01$\\\midrule
+普通散射 & $1.22\times10^{-14}$ & $3.11\times10^{-15}$\\
+宽幅束缚 & $5.11\times10^{-15}$ & $2.55\times10^{-15}$\\
+向内不稳定支 & $6.20\times10^{-8}$ & $3.53\times10^{-9}$\\
+向外不稳定支 & $3.04\times10^{-13}$ & $2.18\times10^{-14}$\\\bottomrule
+\end{tabular}\end{center}
+具体精确数值以随书 JSON 运行记录为准. 普通散射与束缚解已到浮点累积误差的量级, 半步长不保证残差继续单调下降; 坠落支较大的误差集中在视界附近快速变化阶段. 不稳定轨道的末时刻会随截断事件位置和步长变化, 因而不把不同步长的最后一个半径直接当作同一固有时的误差.
+\end{solution}
+
+\originalsection{数值图与模型表}
+下表横轴 $\rho_c$ 是总能量密度除以 $c^2$ 后用 $\mathrm{g/cm^3}$ 报告的等效质量密度. 曲线和轨道均由本章程序实际计算, 用原生 pgfplots 绘制; 轨道图的虚线仅标事件视界面半径, 不表示数值解已经跨入视界.
+\input{chapters/numerical-data.tex}

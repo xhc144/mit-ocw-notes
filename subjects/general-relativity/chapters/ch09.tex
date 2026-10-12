@@ -1,0 +1,329 @@
+\originalchapter{后牛顿展开、黑洞扰动与三加一分解}
+\label{ch:gr-advanced}
+
+MIT 8.962, Spring 2020 的第 24、25 讲是公开讲义中的补充内容, 当学期没有录制视频, 作业也不依赖这两讲. 它们说明如何超出“高度对称精确解”与“平直背景线性化”两类方法. 本章按这个范围讲清三种工具的假设、方程与可核算的用法: 后牛顿理论适合慢速弱场, 黑洞扰动保留强场背景但要求扰动小, 三加一分解则为求解一般初值问题提供变量. 本章不会把这份入门说明等同于完整高阶双体理论、完整黑洞扰动理论或一个已能模拟双黑洞并合的数值程序.
+
+\originalsection{两个小参数与一致的近似}
+
+考虑尺度 $L$、典型速度 $v$ 与总质量 $M$ 的引力系统. 弱场量 $GM/L$ 与慢速量 $v^2$ 原本不同; 对受引力束缚、近似满足位力关系的系统, 它们通常同阶:
+\begin{equation}
+ \epsilon\sim v^2\sim\frac{GM}L\ll1.
+ \label{eq:gr-pn-order}
+\end{equation}
+后牛顿, 简称 PN, 是按这类速度阶数组织的展开. 0PN 是牛顿动力学, 1PN 是相对 0PN 多一个 $v^2$ 因子的保守修正. 时间导数通常比空间导数多一个 $v$ 因子, $\partial_t\sim v/L$, $\partial_i\sim1/L$. 为得到 1PN 运动方程, 不只需要 $g_{tt}$ 的 $O(\epsilon)$ 项: 因为加速度的主项已经来自这个阶数, $g_{tt}$ 的 $O(\epsilon^2)$ 项也贡献相对 1PN; 同时要保留 $g_{ti}$ 的相应速度阶与空间度规的 $O(\epsilon)$ 项. 一边保留二阶时间项、一边丢掉同阶空间项, 会造成不一致近似.
+
+另一种展开直接按 $G$ 的幂计数, 称后 Minkowski 或 PM 展开. 它可以讨论弱场高速散射, 不自动要求 $v\ll1$. 公开 Lecture Guide 中的谐和坐标迭代按 $G$ 组织; 要得到具体 PN 方程, 还须结合慢速计数与源的运动. 区分两种计数, 可以避免把“已经展开到 $G^2$”误认为对所有运动都完成了“1PN”.
+
+慢速源的波长约为 $\lambda\sim L/v\gg L$. 近源区域可对迟滞时间展开, 而远处波区必须保留传播. 同一个近区多项式一般不能直接外推到无穷远. 在更高阶计算中, 近区与波区的解需要匹配; 本章的静态中心场算例没有这个匹配难题, 因而适合完整核算近似的一致性.
+
+\originalsection{谐和坐标下的场方程迭代}
+
+令 $g=\det(g_{\alpha\beta})$, 定义逆度规密度偏差
+\begin{equation}
+ \mathfrak h^{\alpha\beta}=\sqrt{-g}\,g^{\alpha\beta}-\eta^{\alpha\beta},
+ \qquad \partial_\alpha\mathfrak h^{\alpha\beta}=0.
+ \label{eq:gr-gothic}
+\end{equation}
+这不是普通度规扰动 $h_{\alpha\beta}=g_{\alpha\beta}-\eta_{\alpha\beta}$. 在线性阶, 它等于负的迹反演度规扰动的升指标形式. 第二式是谐和坐标条件, 等价于 $\Box_g x^\beta=0$. 不能仅因为符号像线性扰动, 就假设精确 $\mathfrak h$ 一定很小.
+
+以这些变量, 精确爱因斯坦方程可重写为平直波算子作用下的“松弛”形式
+\begin{equation}
+ \Box_\eta\mathfrak h^{\alpha\beta}=16\pi G\tau^{\alpha\beta},\qquad
+ \tau^{\alpha\beta}=(-g)T^{\alpha\beta}
+                    +\frac{\mathcal N^{\alpha\beta}[\mathfrak h]}{16\pi G},
+ \quad \Box_\eta=-\partial_t^2+\nabla^2.
+ \label{eq:gr-relaxed-efe}
+\end{equation}
+其中 $\mathcal N$ 从关于 $\mathfrak h$ 的二次项起步, 包含场本身的非线性. $\tau$ 是在选定谐和坐标中方便的有效源, 不是一个可以替代物质应力能量张量的任意坐标张量. 本章引用课程第 24 讲给出的精确重写形式作为工具, 不在这里展开其全部非线性多项式. 我们接下来实际推导它为何允许逐阶迭代, 并在精确背景上检验一阶 PN 运动.
+
+在无入射辐射条件下, 对给定源形式上的迟滞解是
+\begin{equation}
+ \mathfrak h^{\alpha\beta}(t,\boldsymbol{x})
+   =-4G\int\frac{\tau^{\alpha\beta}(t-|\boldsymbol{x}-\boldsymbol{x}'|,
+                        \boldsymbol{x}')}{|\boldsymbol{x}-\boldsymbol{x}'|}\,
+                \dd^3x'.
+ \label{eq:gr-pn-retarded}
+\end{equation}
+负号来自本章 $\Box_\eta$ 的号数, 可由静态 $\nabla^2(1/r)=-4\pi\delta^{(3)}$ 核验. 右端包含待求的场, 所以这不是把源积分一次就完成求解. 若正式写 $\mathfrak h=G\mathfrak h_1+G^2\mathfrak h_2+\cdots$, 二次非线性至少含 $G^2$, 而式 \eqref{eq:gr-relaxed-efe} 中它以 $\mathcal N$ 直接出现. 按 $G$ 比较后, 第一阶由零阶物质源决定; 下一阶由已知第一阶场及已知的物质修正决定; 每一阶都可解一个线性波方程. 物质运动还必须与 $\nabla_\alpha T^{\alpha\beta}=0$ 一起逐阶满足, 不能把运动源永远冻结成任意指定轨迹.
+
+这种展开是一个正式迭代构造, 本章没有证明其对任意强场源收敛. 实际双体高阶 PN 还涉及点源正则化、尾效应与辐射反作用. 前几阶保守修正不会凭空给出耗散; 慢速无自旋双体的领先辐射反作用在相对 2.5PN 阶出现, 其推导需要能量流与运动方程的匹配, 不由本节的记号计数代替.
+
+\originalsection{一个完整的 1PN 算例}
+
+用已知精确 Schwarzschild 解检验 PN 是最稳妥的起点. 令 $\varrho=|\boldsymbol{x}|$ 为各向同性半径, $U=\mu/\varrho$, 则
+\begin{equation}
+ \dd s^2=-A\dd t^2+B\delta_{ij}\dd x^i\dd x^j,\qquad
+ A=\left(\frac{1-U/2}{1+U/2}\right)^2,\qquad
+ B=(1+U/2)^4.
+ \label{eq:gr-isotropic-exact}
+\end{equation}
+它与面积半径的关系为 $r=\varrho(1+U/2)^2$. 对 $U\sim v^2\ll1$,
+\[
+ A=1-2U+2U^2+O(U^3),\qquad B=1+2U+O(U^2).
+\]
+试验粒子作用量 $S=-m_0\int\dd\tau$ 用 $t$ 参数化, 拉氏量是 $L=-m_0\sqrt{A-Bv^2}$, $\boldsymbol v=\dd\boldsymbol x/\dd t$. 对根号保留到 $O(\epsilon^2)$:
+\begin{align}
+ \frac L{m_0}
+  &=-1+\frac{v^2}2+U+\frac{v^4}8+\frac32Uv^2-\frac12U^2
+      +O(\epsilon^3).
+ \label{eq:gr-pn-lagrangian}
+\end{align}
+例如 $U^2$ 项的一半来自 $A$ 的二阶项, 另一部分来自平方根展开; 若只用一阶 $g_{tt}$, 它就会错. 常数 $-1$ 不影响运动, 其余前两项是牛顿拉氏量.
+
+写 $\boldsymbol a=\dd\boldsymbol v/\dd t$, $\dot U=\nabla U\cdot\boldsymbol v$. Euler--Lagrange 方程给
+\[
+ \left(1+\frac{v^2}2+3U\right)\boldsymbol a
+       +(\boldsymbol v\cdot\boldsymbol a+3\dot U)\boldsymbol v
+   =\left(1+\frac32v^2-U\right)\nabla U.
+\]
+为一致保留 1PN, 在已经乘 $U$ 或 $v^2$ 的修正里使用零阶加速度 $\boldsymbol a_0=\nabla U$, 即 $\boldsymbol v\cdot\boldsymbol a_0=\dot U$. 移项得
+\begin{equation}
+ \boldsymbol a=\nabla U(1+v^2-4U)-4\dot U\boldsymbol v
+ =-\frac\mu{\varrho^2}\boldsymbol n
+  +\frac\mu{\varrho^2}\left[
+      (4U-v^2)\boldsymbol n+4\dot\varrho\boldsymbol v\right]
+       +O(\epsilon^2 a_0),
+ \label{eq:gr-testbody-1pn}
+\end{equation}
+其中 $\boldsymbol n=\boldsymbol x/\varrho$, $\dot\varrho=\boldsymbol n\cdot\boldsymbol v$. 这是所选各向同性坐标中的试验体 1PN 加速度. 坐标加速度并非坐标不变量; 更换径向坐标可能改变修正项的外观, 不改变正确换算后的观测量.
+
+\begin{example}
+ 在式 \eqref{eq:gr-testbody-1pn} 中求圆轨道角频率, 并与精确 Schwarzschild 圆轨道核对.
+\end{example}
+\begin{solution}
+ 圆轨道 $\dot\varrho=0$, 加速度为 $-v^2\boldsymbol n/\varrho$. 所以 $v^2=U(1-4U+v^2)+O(U^3)$, 解得 $v^2=U-3U^2+O(U^3)$. 因而
+ \[
+ \Omega^2=\frac\mu{\varrho^3}\left(1-\frac{3\mu}{\varrho}+O(U^2)\right).
+ \]
+ 精确式 \eqref{eq:gr-schwarzschild-omega} 是 $\Omega^2=\mu/r^3$. 代入 $r=\varrho(1+U/2)^2$, 得 $\Omega^2=\mu/[\varrho^3(1+U/2)^6]$, 一阶展开正是上式. 一致近似不是让所有坐标公式外观相同, 而是用同一坐标关系与阶数比较.
+\end{solution}
+
+\originalsection{在强场背景上线性化}
+
+如果一个轻物体围绕很重的黑洞运行, 它即使进入强引力区, 仍可能只对背景几何产生很小改变. 这时适合取 $g_{\alpha\beta}=\widehat g_{\alpha\beta}+\delta h_{\alpha\beta}$, 其中 $\widehat g$ 是精确黑洞解, $\delta$ 是跟踪阶数的形式参数. 这里要求的是扰动相对背景小, 并不要求 $GM/r\ll1$. 所有升降指标与 $\widehat\nabla$ 都先用背景完成.
+
+把联络公式求一阶变化, 利用背景度规相容性, 得
+\begin{equation}
+ \delta\Gamma^\alpha{}_{\beta\gamma}
+ =\frac12\widehat g^{\alpha\lambda}
+  (\widehat\nabla_\beta h_{\gamma\lambda}
+    +\widehat\nabla_\gamma h_{\beta\lambda}
+    -\widehat\nabla_\lambda h_{\beta\gamma}).
+ \label{eq:gr-perturb-gamma}
+\end{equation}
+这是张量, 因为它是两个联络之差的一阶部分. 从 Ricci 的定义直接变分,
+\begin{equation}
+ \delta R_{\alpha\beta}
+   =\widehat\nabla_\lambda\delta\Gamma^\lambda{}_{\alpha\beta}
+     -\widehat\nabla_\beta\delta\Gamma^\lambda{}_{\alpha\lambda}
+   =\frac12\left(
+      \widehat\nabla_\lambda\widehat\nabla_\alpha h^\lambda{}_\beta
+     +\widehat\nabla_\lambda\widehat\nabla_\beta h^\lambda{}_\alpha
+     -\widehat\Box h_{\alpha\beta}
+     -\widehat\nabla_\beta\widehat\nabla_\alpha h\right),
+ \label{eq:gr-perturb-ricci}
+\end{equation}
+其中 $h=\widehat g^{\alpha\beta}h_{\alpha\beta}$. 导数顺序按上式保留; 若交换它们, 背景曲率项会出现, 不能像平直空间那样任意交换. 真空背景满足 $\widehat R_{\alpha\beta}=0$, 因而无源扰动方程可写 $\delta R_{\alpha\beta}=0$.
+
+无穷小坐标改变仍会产生 $h_{\alpha\beta}\mapsto h_{\alpha\beta}-\widehat\nabla_\alpha\xi_\beta-\widehat\nabla_\beta\xi_\alpha$, 所以十个分量不全是独立物理波. 要找到真正的传播自由度, 必须利用对称性分解并消去规范与约束分量. Schwarzschild 背景保留球对称, 这使球谐分解比直接对十个耦合分量求解更有效.
+
+\originalsection{Regge--Wheeler 方程及其物理含义}
+
+单位球上的球谐函数 $Y_{\ell m}$ 满足 $\mathring D^A\mathring D_A Y_{\ell m}=-\ell(\ell+1)Y_{\ell m}$, $\ell=0,1,\ldots$, $-\ell\le m\le\ell$. $\mathring D$ 是单位球的协变导数, 大写指标 $A,B$ 只取两个角方向. 用单位球的面积张量构造 $S_A=\mathring\varepsilon_A{}^B\mathring D_B Y_{\ell m}$. 在空间反演下, $Y$ 有奇偶性 $(-1)^\ell$, 而 $S_A$ 是 $(-1)^{\ell+1}$; 后者对应奇宇称或轴向扰动.
+
+对每个 $\ell\ge2$ 的奇宇称模式, 可用 Regge--Wheeler 规范把角--角扰动消去, 保留
+\[
+ h_{tA}=h_0(t,r)S_A,\qquad h_{rA}=h_1(t,r)S_A.
+\]
+将它代入式 \eqref{eq:gr-perturb-ricci}, 按同一球谐分量投影, 会得到 $h_0,h_1$ 的耦合径向方程. 课程补充材料给出的分离结果是: 对主变量 $Q=f h_1/r$,
+\begin{equation}
+ \partial_t^2Q-\partial_{r_*}^2Q+V_{\rm RW}(r)Q=0,\qquad
+ V_{\rm RW}=f\left[\frac{\ell(\ell+1)}{r^2}-\frac{6\mu}{r^3}\right].
+ \label{eq:gr-rw}
+\end{equation}
+这里 $r_*$ 是式 \eqref{eq:gr-tortoise} 的外部龟坐标, 从视界的 $-\infty$ 走到空间无穷远的 $+\infty$. 本章把由分量投影和消去得到的这个主方程作为\emph{已给工具}; 没有在此重现全部角向投影代数, 也不把式 \eqref{eq:gr-perturb-ricci} 的一般变分冒称为 Regge--Wheeler 方程的完整推导. 下面的边界、能量与算例则直接从这个方程建立. $\ell=0,1$ 模式另有质量、角动量和规范方面的特殊意义, 不按这里的辐射主变量处理.
+
+在 $r\to2\mu$ 与 $r\to\infty$ 两端, 势趋于零. 设 $Q=e^{-i\omega t}q(r_*)$, 得
+\begin{equation}
+ q''+(\omega^2-V_{\rm RW})q=0.
+ \label{eq:gr-rw-radial}
+\end{equation}
+靠近视界的物理入射波为 $e^{-i\omega(t+r_*)}$, 它沿 $v=t+r_*$ 的常数相位进入未来视界; 远处出射波为 $e^{-i\omega(t-r_*)}$, 沿 $u=t-r_*$ 向外传播. 两端都用“出射”这个词容易混淆, 应明确相对于外部区域: 能量向左流入黑洞, 向右流到远处.
+
+\begin{example}
+ 证明 $\ell\ge2$ 时 Schwarzschild 外部的 $V_{\rm RW}$ 非负, 并从主方程建立有限区间上的能量平衡.
+\end{example}
+\begin{solution}
+ 外部 $f>0$, 且 $\ell(\ell+1)r-6\mu\ge6(r-\mu)>0$, 所以 $V_{\rm RW}>0$. 对实数扰动定义
+ \[
+ E_{[a,b]}(t)=\frac12\int_a^b\left[(\partial_tQ)^2
+          +(\partial_{r_*}Q)^2+V_{\rm RW}Q^2\right]\dd r_*.
+ \]
+ 势不随时间变化. 求导、用式 \eqref{eq:gr-rw} 替换 $\partial_t^2Q$, 再分部积分, 得
+ \[
+ \frac{\dd E_{[a,b]}}{\dd t}
+       =[\partial_tQ\,\partial_{r_*}Q]_a^b.
+ \]
+ 右边界向右传播的波 $F(t-r_*)$ 给通量 $-F'^2$, 左边界向左传播的波 $G(t+r_*)$ 给通量 $+G'^2$, 但左端在边界差中被减去. 因而纯泄出的两端使区间能量下降. 若在整条实线上有足够衰减的有限能量初值, 无穷远边界项消失, 总能量守恒且非负. 这个估计约束线性轴向主变量的能量增长; 它不等于完整非线性 Schwarzschild 稳定性定理.
+\end{solution}
+
+\begin{example}
+ 对实频 $\omega>0$, 考虑从无穷远入射的波. 令
+ $q\sim e^{-i\omega r_*}+\mathcal R e^{i\omega r_*}$ 在 $r_*\to+\infty$, 而
+ $q\sim\mathcal T e^{-i\omega r_*}$ 在 $r_*\to-\infty$. 求反射与透射振幅的关系.
+\end{example}
+\begin{solution}
+ 因势实数, 方程及其共轭相减可知 Wronskian 流
+ $j=(q^*q'-qq'^*)/(2i)$ 为常数. 右端 $j=\omega(|\mathcal R|^2-1)$, 左端 $j=-\omega|\mathcal T|^2$. 两端相等给 $|\mathcal R|^2+|\mathcal T|^2=1$. 这描述外部波一部分反射, 另一部分进入黑洞. 在这个静态 Schwarzschild 问题里没有旋转黑洞的超辐射放大.
+\end{solution}
+
+若改成两端都没有入射波, 即未来视界纯入射、无穷远纯出射, 可以寻找复频率的准正常模. 在 $e^{-i\omega t}$ 约定下, 衰减对应 $\operatorname{Im}\omega<0$. 这些边界条件不是一个封闭箱子的自伴边值条件; 衰减模的空间函数一般也不在整条 $r_*$ 轴平方可积, 因而不能把它们当作上例总能量守恒下的普通束缚本征态. 它们刻画扰动向黑洞和无穷远泄出的振铃. 本章没有计算准正常频谱, 也没有推导偶宇称的 Zerilli 方程或 Kerr 背景的 Teukolsky 方程.
+
+\originalsection{把时空分成空间切片}
+
+当既没有充分对称性, 也没有可靠的小参数, 要考虑直接演化场方程. 第一步并不是把 $t$ 随便当成牛顿绝对时间, 而是选择一族类空超曲面 $\Sigma_t$: 每个切片是一份空间几何, 参数 $t$ 给出排列次序. 假定该区域能被这些切片覆盖, 每片取向未来的单位法向量 $n^\alpha$, 满足 $n\cdot n=-1$. 投影张量与诱导度规为
+\begin{equation}
+ \gamma_{\alpha\beta}=g_{\alpha\beta}+n_\alpha n_\beta,\qquad
+ \gamma^\alpha{}_{\beta}=\delta^\alpha{}_{\beta}+n^\alpha n_\beta.
+ \label{eq:gr-adm-projector}
+\end{equation}
+它把任意向量投影到切片切空间: $\gamma^\alpha{}_{\beta}n^\beta=0$, $\gamma^\alpha{}_{\lambda}\gamma^\lambda{}_{\beta}=\gamma^\alpha{}_{\beta}$. 作为四维矩阵它退化, 但限制在切片上成为正定三维度规 $\gamma_{ij}$. 三维的协变导数记为 $D_i$, 曲率记为 ${}^{(3)}R_{ij}$ 与 ${}^{(3)}R$.
+
+坐标时间方向一般不沿法线. 定义 lapse $\alpha>0$ 与 shift $\beta^i$ 使
+\begin{equation}
+ (\partial_t)^\alpha=\alpha n^\alpha+\beta^\alpha,\qquad
+ \beta^\alpha n_\alpha=0.
+\end{equation}
+沿法线走到下一切片所经历的固有时间为 $\alpha\dd t$; 固定空间坐标的世界线则相对法线有平移. 相应的度规与法向量分量为
+\begin{equation}
+ \dd s^2=-\alpha^2\dd t^2
+       +\gamma_{ij}(\dd x^i+\beta^i\dd t)(\dd x^j+\beta^j\dd t),\qquad
+ n_\alpha=(-\alpha,0,0,0),\quad
+ n^\alpha=\alpha^{-1}(1,-\beta^i).
+ \label{eq:gr-adm-line}
+\end{equation}
+由此 $g^{tt}=-1/\alpha^2$, $g^{ti}=\beta^i/\alpha^2$, $g^{ij}=\gamma^{ij}-\beta^i\beta^j/\alpha^2$. 即使 $\gamma_{ij}$ 已知, 还须选择 lapse 与 shift 才能说明怎样把下一片接到当前片; 这是坐标自由, 不代表加入新的引力传播自由度.
+
+定义外曲率时必须固定号数, 否则后续约束和演化都会出错. 本章取
+\begin{equation}
+ K_{\alpha\beta}=-\gamma^\mu{}_{\alpha}\gamma^\nu{}_{\beta}
+                          \nabla_\mu n_\nu,
+ \qquad K_{ij}=-\frac12(\mathcal L_n\gamma)_{ij}.
+ \label{eq:gr-adm-k-sign}
+\end{equation}
+第一式衡量切片法线如何在切片内变化; 第二式说明它也就是空间度规沿法向变化率的负一半. 等价性来自度规相容性与 Lie 导数公式: 对切向量 $X,Y$, $(\mathcal L_n g)(X,Y)=g(\nabla_Xn,Y)+g(X,\nabla_Yn)$. 因法向量正交于切片, 限制到切片后正好为 $-2K(X,Y)$. 对膨胀的平直 FLRW 切片, 这个约定给 $K_{ij}=-H\gamma_{ij}$, 是检查号数的便捷办法.
+
+把 $\partial_t=\alpha n+\beta$ 代入 Lie 导数, 便得到第一个演化关系
+\begin{equation}
+ \partial_t\gamma_{ij}=-2\alpha K_{ij}+\mathcal L_\beta\gamma_{ij}
+    =-2\alpha K_{ij}+D_i\beta_j+D_j\beta_i.
+ \label{eq:gr-adm-gamma-evolution}
+\end{equation}
+这里 $\beta_i=\gamma_{ij}\beta^j$. 它是外曲率的定义在所选坐标中的表达, 还不是独立的动力学方程.
+
+\originalsection{约束方程从哪里来}
+
+空间曲率与时空曲率不相同, 因为切片可以在时空中弯曲. 对切向量 $X,Y$, 由 $g(n,\nabla_XY)=K(X,Y)$ 可分解
+\[
+ \nabla_XY=D_XY-K(X,Y)n,\qquad \nabla_Xn=-K(X)^i\partial_i.
+\]
+把两式代入 $\nabla_X\nabla_YZ-\nabla_Y\nabla_XZ-\nabla_{[X,Y]}Z$, 取切向部分, 便得到 Gauss 关系
+\begin{equation}
+ {}^{(4)}R_{ijkl}={}^{(3)}R_{ijkl}+K_{ik}K_{jl}-K_{il}K_{jk},
+ \label{eq:gr-adm-gauss}
+\end{equation}
+其中四维张量的四个下指标已投影到切片. 两次缩并的左端为 ${}^{(4)}R+2{}^{(4)}R_{\alpha\beta}n^\alpha n^\beta=2G_{\alpha\beta}n^\alpha n^\beta$, 右端为 ${}^{(3)}R+K^2-K_{ij}K^{ij}$. 因而定义法向观测者测得的能量密度 $E=T_{\alpha\beta}n^\alpha n^\beta$, 可得
+\begin{equation}
+ {}^{(3)}R+K^2-K_{ij}K^{ij}=16\pi G E,
+ \qquad K=\gamma^{ij}K_{ij}.
+ \label{eq:gr-hamiltonian-constraint}
+\end{equation}
+这是 Hamiltonian 约束. 它只用某一切片上的 $\gamma,K,E$, 没有下一片的未知二阶时间导数.
+
+对上述曲率分解取一个法向投影, 得 Codazzi 关系的缩并式
+\[
+ G_{\alpha\beta}n^\alpha\gamma^\beta{}_i
+    =D_iK-D_jK^j{}_i.
+\]
+定义法向系的动量密度 $j_i=-\gamma^\alpha{}_iT_{\alpha\beta}n^\beta$, 则
+\begin{equation}
+ D_jK^j{}_i-D_iK=8\pi G j_i.
+ \label{eq:gr-momentum-constraint}
+\end{equation}
+这三个方程是动量约束. 它们与前一式一样, 是初值在一片空间上必须同时满足的条件. 不能任意给一个空间度规、任意给一个“初速度” $K_{ij}$, 再认为剩下六个演化方程必会修复不相容初值. 角色与 Maxwell 方程中的散度约束相似.
+
+还需真正的演化方程. 把 Ricci 张量全部投影到空间, 用法向加速度 $a_i=D_i\log\alpha$ 以及外曲率定义, 可以整理成
+\begin{equation}
+ {}^{(4)}R_{ij}={}^{(3)}R_{ij}+KK_{ij}-2K_{ik}K^k{}_j
+       -\frac1\alpha(\partial_t-\mathcal L_\beta)K_{ij}
+       -\frac1\alpha D_iD_j\alpha.
+ \label{eq:gr-adm-ricci-space}
+\end{equation}
+此分解包含法向 Ricci 投影的几何恒等式; 与 Gauss--Codazzi 恒等式的详细投影推导可核对 Gourgoulhon, \emph{3+1 Formalism and Bases of Numerical Relativity}, 第 2--4 章, 特别是式 (4.63)--(4.66), \url{https://arxiv.org/abs/gr-qc/0703035}. 本章给出约束的主缩并链及以下实际核算, 不声称从零证明该教材的全部超曲面恒等式或初值适定性定理.
+
+令 $S_{ij}=\gamma^\alpha{}_i\gamma^\beta{}_jT_{\alpha\beta}$, $S=\gamma^{ij}S_{ij}$. 由四维迹 $T=S-E$ 与迹反演场方程 ${}^{(4)}R_{ij}=8\pi G[S_{ij}-\tfrac12\gamma_{ij}(S-E)]$, 移项得
+\begin{equation}
+ \begin{split}
+ (\partial_t-\mathcal L_\beta)K_{ij}
+   ={}&-D_iD_j\alpha
+       +\alpha\left({}^{(3)}R_{ij}+KK_{ij}-2K_{ik}K^k{}_j\right)\\
+     &-8\pi G\alpha\left[S_{ij}-\frac12\gamma_{ij}(S-E)\right].
+ \end{split}
+ \label{eq:gr-adm-k-evolution}
+\end{equation}
+它与式 \eqref{eq:gr-adm-gamma-evolution} 一起, 构成这里使用的 ADM 演化形式. 为实际计算, $\mathcal L_\beta K_{ij}=\beta^k\partial_kK_{ij}+K_{kj}\partial_i\beta^k+K_{ik}\partial_j\beta^k$. 物质的 $E,j_i,S_{ij}$ 还须从自己的流体或场方程演化, 不能只把它们当作独立可调源.
+
+\originalsection{用两个精确解核验 ADM}
+
+\begin{example}
+ 取 Schwarzschild 外部的 $t=\text{常数}$ 切片. 验证真空约束与静态演化.
+\end{example}
+\begin{solution}
+ 此时 $\alpha=\sqrt f$, $\beta^i=0$, $\gamma_{ij}\dd x^i\dd x^j=f^{-1}\dd r^2+r^2\dd\Omega^2$. 因空间度规不随时间变化, $K_{ij}=0$. 三维空间并不平直; 直接由这个三维度规算得
+ \[
+ {}^{(3)}R_{rr}=-\frac{f'}{rf}=-\frac{2\mu}{r^3f},\qquad
+ {}^{(3)}R_{\theta\theta}=1-f-\frac{rf'}2=\frac\mu r,
+ \qquad {}^{(3)}R_{\varphi\varphi}=\sin^2\theta\,{}^{(3)}R_{\theta\theta}.
+ \]
+ 它的迹为 ${}^{(3)}R=2(1-f-rf')/r^2=0$, 所以 Hamiltonian 约束成立; 动量约束因 $K=0$ 也成立. 为验证静态演化, 还需 $D_iD_j\alpha=\alpha{}^{(3)}R_{ij}$. 径向联络为 ${}^{(3)}\Gamma^r{}_{rr}=-f'/(2f)$, 故
+ \[
+ D_rD_r\alpha=\alpha''+\frac{f'}{2f}\alpha'
+            =\frac{f''}{2\sqrt f}
+            =-\frac{2\mu}{r^3\sqrt f}=\alpha{}^{(3)}R_{rr}.
+ \]
+ 又由 ${}^{(3)}\Gamma^r{}_{\theta\theta}=-rf$,
+ $D_\theta D_\theta\alpha=rf\alpha'=\mu\sqrt f/r=\alpha{}^{(3)}R_{\theta\theta}$, 角向另一式同理. 所以式 \eqref{eq:gr-adm-k-evolution} 的右端恰好为零. 这比只检查一个约束更强: 整个切片确实保持静态. 此 lapse 在视界趋零, 是当前切片的性质, 不表示黑洞在那里有曲率发散.
+\end{solution}
+
+\begin{example}
+ 对 FLRW 度规 $\dd s^2=-\dd t^2+a(t)^2\bar\gamma_{ij}\dd x^i\dd x^j$, 设 $\bar\gamma$ 的常曲率为 $k$, 流体相对于法线静止. 用 ADM 恢复 Friedmann 约束与 $\dot H$ 方程.
+\end{example}
+\begin{solution}
+ 这里 $\alpha=1$, $\beta=0$, $\gamma=a^2\bar\gamma$, $K_{ij}=-H\gamma_{ij}$, $K=-3H$, $K_{ij}K^{ij}=3H^2$. 物质量为 $E=\rho$, $j_i=0$, $S_{ij}=p\gamma_{ij}$, $S=3p$, 而 ${}^{(3)}R=6k/a^2$. Hamiltonian 约束给
+ \[
+ H^2+\frac k{a^2}=\frac{8\pi G}3\rho.
+ \]
+ 动量约束由空间均匀性自动成立. 对演化式, 注意 $\partial_tK_{ij}=-(\dot H+2H^2)\gamma_{ij}$, 不能只对 $-H$ 求导而忘掉度规也变化. 又有 ${}^{(3)}R_{ij}=2k\gamma_{ij}/a^2$, 代入得
+ \[
+ -(\dot H+2H^2)=\frac{2k}{a^2}+H^2-4\pi G(\rho-p).
+ \]
+ 用前面的 Hamiltonian 约束消去一个 $H^2$, 得
+ \[
+ \dot H=-4\pi G(\rho+p)+\frac k{a^2}.
+ \]
+ 这与此前宇宙学章节一致. 这个算例同时检查了外曲率的负号、物质迹 $S-E$ 与时间导数的使用.
+\end{solution}
+
+\originalsection{从连续方程到数值计算的距离}
+
+ADM 形式告诉我们应做什么: 在初始切片上解四个约束, 选取 lapse、shift 及边界条件, 同时演化空间几何、外曲率与物质. 精确连续解在适当条件下由 Bianchi 恒等式与物质守恒保持约束; 离散近似却会产生约束残差. 因而残差必须作为计算诊断, 不能只看图像是否“像双黑洞”就认定场方程得到求解.
+
+例如在等间距网格上,
+\[
+ \partial_xF(x_j)=\frac{F_{j+1}-F_{j-1}}{2\Delta x}+O(\Delta x^2)
+\]
+把偏微分方程变成可计算代数更新, 但截断误差可能激发不受控制的模式. 缩小 $\Delta x$ 后应在同一物理时间区间比较解与约束残差是否按预期收敛; 还需检查边界反射、时间步长与因果传播速度. 连续公式正确并不保证某个任意离散格式稳定.
+
+实际数值相对论常使用改写后的演化系统, 如 BSSN 或广义谐和形式, 并结合合适的坐标条件与黑洞内部处理. 仅指定 lapse 与 shift 并不能普遍保证原始 ADM 离散方案适定或稳定; 这涉及演化系统的双曲性质、约束传播与边界条件. 本章没有证明这些适定性定理, 没有给出可生产级运行的网格程序, 也没有据历史课程材料断言当前研究的性能纪录.
+
+三种方法的界限现在可以具体比较. 分离足够大的慢速双体可用 PN; 极端质量比系统可以在黑洞背景上作扰动, 即使轻物体靠近强场区; 可比质量的强场并合通常需要数值求解. 它们还有重叠区域, 可互相核验或构造匹配波形. 方法选择取决于能控制的参数与目标误差, 不取决于把解析公式或数值图像单独视为更可靠.

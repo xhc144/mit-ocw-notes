@@ -1,0 +1,853 @@
+\originalchapter{作业一至三}
+
+本章题面译自 MIT 8.962 在 Spring 2020 课程页面公开的作业一至三及提示页; 原作业页眉均注明 Spring 2006. 以下解答为本书独立编写, 不是 MIT 官方答案. 采用 $\eta_{\mu\nu}=\operatorname{diag}(-1,1,1,1)$, 默认 $c=1$, 坐标次序为 $(t,x,y,z)$. 零向量不计为类光向量. 作业一保留原有分值; 作业二、三没有标注分值.
+
+\originalsection{作业一}
+
+题源为\href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset01/}{Problem Set 1}, 以及\href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset01_hint/}{Problem Set 1: Clarification}. 提示页明确指出第 2 题中的 $t,x,y$ 就是指定惯性系的通常笛卡尔坐标.
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS1, 第 1 题.}
+\begin{enumerate}[label=(\alph*)]
+\item \textnormal{[5 分]} 证明任意两个相互正交的类空向量之和仍是类空向量.
+\item \textnormal{[5 分]} 证明类时向量与类光向量不能正交.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 设 $A\cdot A>0$, $B\cdot B>0$ 且 $A\cdot B=0$. 内积的双线性给出
+\[
+ (A+B)\cdot(A+B)=A\cdot A+2A\cdot B+B\cdot B
+ =A\cdot A+B\cdot B>0.
+\]
+这也排除了 $A+B=0$ 的可能, 因而其和确为类空向量.
+
+(b) 对任一非零类时向量 $T$, 可以选取其静止惯性系, 使 $T^\mu=(T^0,0,0,0)$, $T^0\ne0$. 若 $T\cdot K=0$, 则 $-T^0K^0=0$, 所以 $K^0=0$. 若同时 $K$ 类光, $K\cdot K=0$ 就变成 $(K^1)^2+(K^2)^2+(K^3)^2=0$, 迫使 $K=0$, 与类光向量非零的约定矛盾. 由于内积不随惯性系改变, 结论适用于任意惯性系.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS1, 第 2 题.} 在某惯性系中, 两个向量场及标量场的分量为
+\[
+ U^\alpha=(1+t^2,t^2,\sqrt2\,t,0),\qquad
+ D^\alpha=(x,5tx,\sqrt2\,t,0),\qquad
+ \rho=x^2+t^2-y^2.
+\]
+原题中带点的等号表示左边的几何对象由右边的指定坐标分量表示.
+\begin{enumerate}[label=(\alph*)]
+\item \textnormal{[3 分]} 证明 $U$ 可以作为四速度. $D$ 可以吗?
+\item \textnormal{[3 分]} 求四速度为 $U$ 的粒子的三维速度 $\boldsymbol v$, 并描述 $t=0$ 与 $t\to\infty$ 的运动.
+\item \textnormal{[3 分]} 求所有 $\partial_\beta U^\alpha$, 并逐项计算证明 $U_\alpha\partial_\beta U^\alpha=0$. 原题要求采用直接计算, 而不是简便的抽象证明.
+\item \textnormal{[3 分]} 求 $\partial_\alpha D^\alpha$.
+\item \textnormal{[3 分]} 对每一个 $\alpha$, 求 $\partial_\beta(U^\alpha D^\beta)$.
+\item \textnormal{[3 分]} 求 $U_\alpha\partial_\beta(U^\alpha D^\beta)$. 为什么它与 (d) 的答案很相近?
+\item \textnormal{[3 分]} 求所有 $\partial_\alpha\rho$ 和 $\partial^\alpha\rho$.
+\item \textnormal{[3 分]} 求 $\nabla_U\rho$ 和 $\nabla_D\rho$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 四速度必须为未来指向的单位类时向量. 这里 $U^0=1+t^2>0$, 而
+\[
+ U\cdot U=-(1+t^2)^2+t^4+2t^2=-1.
+\]
+因此 $U$ 在每一点都可以作为四速度. 相比之下,
+\[
+ D\cdot D=(25t^2-1)x^2+2t^2
+\]
+既不恒为 $-1$, 也不总为负; $D^0=x$ 还可能不是正数. 所以 $D$ 整体不能作为四速度场. 在偶然满足归一化与未来指向条件的个别点, 它的数值可以是某条世界线的四速度, 这不改变对整个场的判断.
+
+(b) 由 $U^\mu=\dd x^\mu/\dd\tau$, 三速度是 $v^i=U^i/U^0$, 故
+\[
+ \boldsymbol v=\left(\frac{t^2}{1+t^2},\frac{\sqrt2\,t}{1+t^2},0\right),\qquad
+ |\boldsymbol v|^2=1-\frac1{(1+t^2)^2}.
+\]
+在 $t=0$ 时粒子瞬时静止. 随 $t\to\infty$, $v_x\to1$, $v_y\to0$, 速度从下方趋近光速, 方向趋近正 $x$ 轴. 若需要轨迹, 对坐标时间积分可得 $x(t)=x(0)+t-\arctan t$, $y(t)=y(0)+(\sqrt2/2)\log(1+t^2)$; $v_y\to0$ 不表示 $y$ 坐标最终停止增长.
+
+(c) 只有时间导数非零. 以行为 $\alpha$, 列为 $\beta$, 导数矩阵为
+\[
+ (\partial_\beta U^\alpha)=
+ \begin{pmatrix}
+ 2t&0&0&0\\2t&0&0&0\\\sqrt2&0&0&0\\0&0&0&0
+ \end{pmatrix}.
+\]
+降指标后 $U_\alpha=(-(1+t^2),t^2,\sqrt2\,t,0)$. 对 $\beta=0$,
+\[
+ U_\alpha\partial_0U^\alpha
+ =-2t(1+t^2)+2t^3+2t=0.
+\]
+对另外三列, 每项导数都是零, 所以收缩同样为零. 这完成了题目要求的直接核对.
+
+(d) 散度取对应分量的对应坐标导数:
+\[
+ \partial_\alpha D^\alpha
+ =\partial_t x+\partial_x(5tx)+\partial_y(\sqrt2\,t)+\partial_z0=5t.
+\]
+
+(e) 乘积法则给出
+\[
+ \partial_\beta(U^\alpha D^\beta)
+ =D^\beta\partial_\beta U^\alpha+U^\alpha\partial_\beta D^\beta
+ =x\partial_tU^\alpha+5tU^\alpha.
+\]
+于是四个分量依次为
+\[
+ \left(2tx+5t(1+t^2),\quad 2tx+5t^3,\quad
+ \sqrt2\,x+5\sqrt2\,t^2,\quad0\right).
+\]
+
+(f) 用以上结果直接收缩:
+\begin{align*}
+ U_\alpha\partial_\beta(U^\alpha D^\beta)
+ & =-(1+t^2)[2tx+5t(1+t^2)]
+     +t^2(2tx+5t^3)+2tx+10t^3\\
+ &=-5t.
+\end{align*}
+其中所有含 $x$ 的项相消. 结构上的原因是 (c) 已证 $U_\alpha\partial_\beta U^\alpha=0$, 而 $U_\alpha U^\alpha=-1$. 乘积法则因此把这一收缩变为 $-\partial_\beta D^\beta$, 正好是 (d) 的相反数.
+
+(g) 标量的梯度先是协向量:
+\[
+ \partial_\alpha\rho=(2t,2x,-2y,0).
+\]
+用逆 Minkowski 度规升指标, 只有时间分量变号, 所以 $\partial^\alpha\rho=(-2t,2x,-2y,0)$.
+
+(h) 对标量而言, 沿向量 $V$ 的方向导数是 $\nabla_V\rho=V^\alpha\partial_\alpha\rho$, 不需要联络项. 因此
+\[
+ \nabla_U\rho=2t(1+t^2)+2xt^2-2\sqrt2\,ty,\qquad
+ \nabla_D\rho=2tx+10tx^2-2\sqrt2\,ty.
+\]
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS1, 第 3 题.} 给定单位类时四向量 $U$, 令
+\[
+ P_{\alpha\beta}=\eta_{\alpha\beta}+U_\alpha U_\beta,
+ \qquad V_\perp^\alpha=P^\alpha{}_{\beta}V^\beta.
+\]
+证明这个张量把任意向量 $V$ 投影到与 $U$ 正交的向量:
+\begin{enumerate}[label=(\alph*)]
+\item \textnormal{[5 分]} $V_\perp\cdot U=0$.
+\item \textnormal{[5 分]} 再投影一次不改变结果: $P^\alpha{}_{\beta}V_\perp^\beta=V_\perp^\alpha$.
+\item \textnormal{[5 分]} 对正交于 $U$ 的向量 $V_\perp,W_\perp$, 证明
+ $P_{\alpha\beta}V_\perp^\alpha W_\perp^\beta=V_\perp\cdot W_\perp$; 即 $P$ 给出这一空间的度规.
+\item \textnormal{[5 分]} 对任意范数非零的向量 $q$ (原题的 nonnull, 即 $q^\gamma q_\gamma\ne0$), 证明其正交投影张量为
+\[
+ P_{\alpha\beta}(q)=\eta_{\alpha\beta}
+ -\frac{q_\alpha q_\beta}{q^\gamma q_\gamma}.
+\]
+类光向量是否需要这样的投影张量?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 升第一个指标后 $P^\alpha{}_{\beta}=\delta^\alpha{}_{\beta}+U^\alpha U_\beta$. 因而
+\[
+ U_\alpha V_\perp^\alpha=U_\beta V^\beta
+ +(U_\alpha U^\alpha)U_\beta V^\beta=0.
+\]
+这说明 $V_\perp=V+(U\cdot V)U$ 正是去掉 $V$ 沿 $U$ 的部分后的结果; 类时方向的负范数决定了此处的加号.
+
+(b) 直接相乘可得
+\begin{equation*}
+\begin{aligned}
+ P^\alpha{}_{\beta}P^\beta{}_{\gamma}
+ &=\delta^\alpha{}_{\gamma}+2U^\alpha U_\gamma
+    +U^\alpha(U_\beta U^\beta)U_\gamma\\
+ &=\delta^\alpha{}_{\gamma}+U^\alpha U_\gamma=P^\alpha{}_{\gamma}.
+\end{aligned}
+\end{equation*}
+因此 $P^2=P$, 从而 $PV_\perp=V_\perp$.
+
+(c) 将 $P$ 展开, 额外项为 $(U\cdot V_\perp)(U\cdot W_\perp)=0$, 余下就是 $\eta_{\alpha\beta}V_\perp^\alpha W_\perp^\beta$. 在 $U$ 的静止系中, 此空间的向量时间分量为零, $P$ 限制在它上面等于三维 Euclid 内积, 所以它确实是正定的空间度规.
+
+(d) 对 $q\cdot q\ne0$, 定义
+\[
+ (P(q)V)^\alpha=V^\alpha-q^\alpha\frac{q\cdot V}{q\cdot q}.
+\]
+与 $q$ 收缩得到零; 对已经与 $q$ 正交的向量, 上式又保持其不变. 这两点同时说明它的像为 $q^\perp$, 且 $P(q)^2=P(q)$, 降指标即得题目公式. 若 $q$ 类时, 可归一化回到 (a)--(c); 若 $q$ 类空, 正交补本身仍含类时方向, 它的诱导度规就不再正定.
+
+当 $q$ 类光时, $q$ 本身属于 $q^\perp$. 一个以 $\operatorname{span}(q)$ 为核、以 $q^\perp$ 为像的投影不可能存在, 因为投影的核与像只能交于零, 此处却共有非零向量 $q$. 因而不能把上一公式的分母简单取零, 也没有仅由 $q$ 决定的这种正交投影. 若问题另给辅助类光向量 $k$, $q\cdot k=-1$, 则
+\[
+ S^\alpha{}_{\beta}=\delta^\alpha{}_{\beta}
+ +q^\alpha k_\beta+k^\alpha q_\beta
+\]
+会杀掉 $q,k$, 并保持同时正交于二者的二维向量不变. 这是需要额外选择的二维横向投影, 不是对完整 $q^\perp$ 的上述投影.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS1, 第 4 题 [15 分].}
+设 $\Lambda_B(\boldsymbol v)$ 表示三速度为 $\boldsymbol v$ 的 Lorentz boost. 考虑
+\[
+ \Lambda=\Lambda_B(\boldsymbol v_1)\Lambda_B(\boldsymbol v_2)
+ \Lambda_B(-\boldsymbol v_1)\Lambda_B(-\boldsymbol v_2),
+ \qquad \boldsymbol v_1\cdot\boldsymbol v_2=0.
+\]
+假设 $|\boldsymbol v_1|\ll1$, $|\boldsymbol v_2|\ll1$. 证明它为旋转, 求旋转轴与转角.
+\end{exercise}
+\begin{solution}
+题目的小速度假设意味着保留首个非零的二阶效应. 必须在这一阶数内理解「为旋转」; 一般有限速度的这个交换子还含更高阶 boost 项.
+
+明确采用分量变换 $t'=\gamma(t-\boldsymbol v\cdot\boldsymbol x)$ 的矩阵约定, 矩阵乘积从右向左作用. 令
+\[
+ K(\boldsymbol v)=\begin{pmatrix}0&-\boldsymbol v^{\mathsf T}\\
+ -\boldsymbol v&0_{3\times3}\end{pmatrix}.
+\]
+由 boost 的具体公式, $\Lambda_B(\boldsymbol v)=I+K(\boldsymbol v)+\tfrac12K(\boldsymbol v)^2+O(|\boldsymbol v|^3)$. 将四个因子展开到总次数二阶, 各自的一阶项与平方项相消, 剩下
+\[
+ \Lambda=I+[K(\boldsymbol v_1),K(\boldsymbol v_2)]+O(v^3),
+\]
+其中 $O(v^3)$ 代表两速度分量的总次数至少三. 两个生成元的交换子为
+\[
+ [K(\boldsymbol v_1),K(\boldsymbol v_2)]
+ =\begin{pmatrix}0&0\\0&
+ \boldsymbol v_1\boldsymbol v_2^{\mathsf T}
+ -\boldsymbol v_2\boldsymbol v_1^{\mathsf T}\end{pmatrix}.
+\]
+时间方向没有混合, 空间块是反对称矩阵. 对空间向量 $\boldsymbol r$, 它的作用是
+\[
+ \delta\boldsymbol r
+ =\boldsymbol v_1(\boldsymbol v_2\cdot\boldsymbol r)
+ -\boldsymbol v_2(\boldsymbol v_1\cdot\boldsymbol r)
+ =-(\boldsymbol v_1\times\boldsymbol v_2)\times\boldsymbol r.
+\]
+小旋转正由 $\delta\boldsymbol r=\boldsymbol\theta\times\boldsymbol r$ 定义, 所以旋转向量为 $\boldsymbol\theta=-\boldsymbol v_1\times\boldsymbol v_2$. 可以取轴沿 $\boldsymbol v_2\times\boldsymbol v_1$, 转角大小为 $|\boldsymbol v_1||\boldsymbol v_2|$, 误差从三阶起. 等价地, 若把轴指定为 $\boldsymbol v_1\times\boldsymbol v_2$, 有向转角为负的这个数. 恢复单位后转角大小为 $|\boldsymbol v_1||\boldsymbol v_2|/c^2$. 例如 $\boldsymbol v_1$ 沿 $x$, $\boldsymbol v_2$ 沿 $y$ 时, 分量的旋转是绕 $z$ 轴的负角旋转; 这样可以核对符号, 避免混淆坐标轴与向量的相反旋转约定.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS1, 第 5 题.} 类星体 3C 273 的中心大质量黑洞附近喷出相对论性等离子体团块. 团块沿喷流以速率 $v$ 运动, 喷流与观测者的视线夹角为 $\theta$. 设距离为 $r$, 天空投影上的角速度写成 $v_{\mathrm{app}}/r$.
+\begin{enumerate}[label=(\alph*)]
+\item \textnormal{[7 分]} 证明 $v_{\mathrm{app}}=v\sin\theta/(1-v\cos\theta)$.
+\item \textnormal{[5 分]} 固定 $v$, 求使 $v_{\mathrm{app}}$ 最大的角度及最大值. 最大值能否大于光速? 若能, 是否违反狭义相对论?
+\item \textnormal{[3 分]} 3C 273 的表观速率约为 $10c$. $\theta$ 最大可能是多少度?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 取团块的两次发射事件, 在源惯性系的时间间隔为 $\Delta t$. 天空横向位移为 $v\sin\theta\,\Delta t$, 而向观测者靠近的位移为 $v\cos\theta\,\Delta t$. 后一束光少走这段路, 因而到达时间间隔为 $\Delta t_{\mathrm{arr}}=(1-v\cos\theta)\Delta t$. 在源与观测者距离远大于喷流位移的近似下, 天空投影位移除以到达时间间隔就是
+\[
+ v_{\mathrm{app}}=\frac{v\sin\theta}{1-v\cos\theta}.
+\]
+若显式保留 $c$, 分母为 $1-(v/c)\cos\theta$.
+
+(b) 对角度求导:
+\[
+ \frac{\dd v_{\mathrm{app}}}{\dd\theta}
+ =\frac{v(\cos\theta-v)}{(1-v\cos\theta)^2}.
+\]
+对 $0<v<1$, 它在 $\cos\theta=v$ 由正变负, 两端 $\theta=0,\pi$ 的表观速率为零. 所以唯一最大值出现在 $\theta=\arccos v$, 且
+\[
+ v_{\mathrm{app,max}}=\frac{v}{\sqrt{1-v^2}}=\gamma v.
+\]
+当 $v>1/\sqrt2$ 时这一值超过 1. 它是不同发光事件的横向位置差除以光到达的时间差, 并非同一地点测得的物体局部速度或信号速度. 实际团块仍满足 $v<1$, 两次发射事件仍沿类时世界线, 故不违反狭义相对论.
+
+(c) 令 $w=v_{\mathrm{app}}/c=10$, $\beta=v/c$. 由 (a),
+\[
+ \beta=\frac{w}{\sin\theta+w\cos\theta}<1.
+\]
+于是 $\sin\theta+w\cos\theta>w$. 用半角恒等式整理为 $\tan(\theta/2)<1/w$, 从而
+\[
+ \theta<2\arctan\frac1{10}=11.42^\circ.
+\]
+因此约 $11.4^\circ$ 是上确界, 只有在 $\beta\to1$ 时逼近; 有质量团块不能真正取到这个边界. 顺便可核对可行性: 所需实际速度至少为 $\beta_{\min}=10/\sqrt{101}\simeq0.9950$.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS1, 第 6 题.} 宇宙线谱的 GZK 截断.
+\begin{enumerate}[label=(\alph*)]
+\item \textnormal{[8 分]} 核子 $N$ 与能量为 $k_{\mathrm B}T$, $T=2.73\,\mathrm K$ 的微波背景光子迎头碰撞, 发生 $\gamma+N\to N+\pi^0$. 取核子和中性 pion 的质量分别为 $938\,\mathrm{MeV}$ 和 $135\,\mathrm{MeV}$, 求核子的阈值能量.
+\item \textnormal{[5 分]} 解释为什么预期能量超过约 $10^{11}\,\mathrm{GeV}$ 的宇宙线很少.
+\item \textnormal{[3 分]} 原稿称这一预期为 Greisen--Zatsepin--Kuzmin 截断, 并在其 2006 年历史语境中写道: 「现代观测没有显示尖锐截断; 在这些能量处, 宇宙线通量甚至可能有重新上升的证据」. 提出一种可能绕过 GZK 截断的机制.
+\end{enumerate}
+这里完整保留 (c) 的历史题意, 不把该句当作当前观测结论.
+\end{exercise}
+\begin{solution}
+(a) 设入射核子四动量为 $(E,p,0,0)$, 光子为 $(\epsilon,-\epsilon,0,0)$, 其中 $p=\sqrt{E^2-m_N^2}$, $\epsilon=k_{\mathrm B}T$. 由于本书的度规号差为 $(-+++)$, 正的质心能量平方定义为 $s=-(p_N+p_\gamma)^2$. 直接相乘得
+\[
+ s=m_N^2+2\epsilon(E+p).
+\]
+阈值处末态两粒子在质心系没有相对运动, 因而最小总能量为 $m_N+m_\pi$. 设
+\[
+ \Delta=(m_N+m_\pi)^2-m_N^2=2m_Nm_\pi+m_\pi^2,
+ \qquad K=\frac{\Delta}{2\epsilon}.
+\]
+阈值条件为 $E+p=K$. 又 $E^2-p^2=m_N^2$, 所以 $E-p=m_N^2/K$, 得到精确表达式
+\[
+ E_{\mathrm{th}}=\frac12\left(K+\frac{m_N^2}{K}\right)
+ =\frac{\Delta}{4\epsilon}+\frac{m_N^2\epsilon}{\Delta}.
+\]
+取 $k_{\mathrm B}=8.61733\times10^{-5}\,\mathrm{eV/K}$, 则 $\epsilon=2.3525\times10^{-4}\,\mathrm{eV}=2.3525\times10^{-10}\,\mathrm{MeV}$, $\Delta=271485\,\mathrm{MeV}^2$. 第二项完全可以忽略, 数值得
+\[
+ E_{\mathrm{th}}\simeq2.89\times10^{14}\,\mathrm{MeV}
+ =2.89\times10^{11}\,\mathrm{GeV}=2.89\times10^{20}\,\mathrm{eV}.
+\]
+这是题目指定单个能量为 $k_{\mathrm B}T$、严格迎头光子的阈值, 不应把它直接改成另一常见数值.
+
+(b) 超过光致产生 pion 的阈值后, 核子在长距离传播中可以反复把一部分能量转给 pion, 所以很远处发出的超高能核子难以保持原来的能量抵达观测者. 实际背景是黑体光子谱, 并非所有光子的能量都等于 $k_{\mathrm B}T$. 黑体平均光子能量为 $\pi^4/[30\zeta(3)]\,k_{\mathrm B}T\simeq2.701k_{\mathrm B}T$, 其中 $\zeta(3)=\sum_{n=1}^\infty n^{-3}$, 用这个能量作同样的阈值估算便得到约 $1.07\times10^{11}\,\mathrm{GeV}$. 高能光子尾部、入射角与反应截面也参与传播概率. 因而 (a) 的约 $2.9\times10^{11}$ 与 (b) 的量级 $10^{11}$ 并不矛盾; 传播抑制不是单一固定光子阈值形成的绝对刀切.
+
+(c) 一个无需改变狭义相对论的可能机制是足够近的超高能宇宙线源. 如果源到观测者的距离显著小于该能量下有效的能量损失长度, 核子在途中发生这种反应的机会很小, 即使其发射能量超过阈值, 也仍可被观测到. 这说明 GZK 机制主要限制远距离传播, 不是禁止局部产生超阈值核子. 是否存在具有足够功率、合适距离及方向的这样的源, 需要观测判断; 此处只回答原题要求的可能机制, 不把它认作对实际数据的证明.
+\end{solution}
+
+\originalsection{作业二}
+
+题源为\href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset02/}{Problem Set 2}. 本节的六题均有独立题面, 原稿未提供分值或官方解答.
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS2, 第 1 题.} 设物质流四向量为 $N$, 观测者四速度为 $U$. 证明该观测者测得的尘埃粒子数密度为 $n=-N\cdot U$.
+\end{exercise}
+\begin{solution}
+粒子数流 $N^\mu$ 的定义是: 在任一局部惯性系中, $N^0$ 是该系同时截面上的粒子数密度, $N^i$ 是单位时间穿过单位面积的粒子数流. 在观测者的瞬时静止系, $U^\mu=(1,0,0,0)$, 因而 $-N\cdot U=N^0=n$. 收缩 $N\cdot U$ 是 Lorentz 标量, 所以用任意惯性系的分量计算都得到同一个观测结果.
+
+若尘埃的自身四速度为 $u$, 静止粒子数密度为 $n_0$, 则 $N^\mu=n_0u^\mu$. 两者的相对 Lorentz 因子是 $\gamma_{\mathrm{rel}}=-u\cdot U$, 故 $n=n_0\gamma_{\mathrm{rel}}$. 这也从长度收缩的角度解释了为何运动的尘埃在观测者同时截面上具有更高数密度.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS2, 第 2 题.} 在 $|\boldsymbol v|\ll1$ 的极限下, 从连续性方程得到
+\[
+ \frac{\partial n}{\partial t}+\frac{\partial(nv^i)}{\partial x^i}=0.
+\]
+\end{exercise}
+\begin{solution}
+粒子数守恒写成 $\partial_\mu N^\mu=0$. 若 $n_0$ 是尘埃静止系数密度, $N^\mu=n_0\gamma(1,\boldsymbol v)$, 因此
+\[
+ \partial_t(n_0\gamma)+\partial_i(n_0\gamma v^i)=0.
+\]
+用 $\gamma=1+\tfrac12|\boldsymbol v|^2+O(v^4)$ 并只保留非相对论阶, 得 $\partial_t n_0+\partial_i(n_0v^i)=0$. 在这个精度内可记 $n=n_0$, 即为所求. 如果 $n$ 一开始定义为指定惯性系测得的密度, 则 $n=N^0=n_0\gamma$, $N^i=nv^i$, 所求方程实际上已经精确成立, 无需低速近似. 两种写法的区别只在「$n$ 是哪个系的密度」, 不在守恒定律本身.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS2, 第 3 题.} 在惯性系 $O$ 中求以下系统的应力能量张量分量.
+\begin{enumerate}[label=(\alph*)]
+\item 所有粒子均以同一三速度 $\boldsymbol v=\beta\boldsymbol e_x$ 运动. 它们的自身静止系质量密度为 $\rho_0$, 粒子足够密集, 可采用连续介质近似.
+\item $N$ 个静止质量均为 $m$ 的粒子, 在 $x$--$y$ 平面中以角速度 $\omega$ 绕原点半径为 $a$ 的环逆时针旋转. 环具有很细的圆形横截面, 尺度 $\delta a\ll a$, 粒子在其中均匀分布并满足连续介质近似. 不计维持圆周运动的力所对应的应力能量. 计算中还需把 (a) 的 $\rho_0$ 与 $N,a,\delta a,\omega$ 联系起来.
+\item 两个这样的同半径环, 一个顺时针, 另一个逆时针旋转; 两环粒子不碰撞也不相互作用.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 尘埃静止系只有静止能量密度, 没有压强, 故 $T^{\mu\nu}=\rho_0u^\mu u^\nu$. 对 $u^\mu=\gamma(1,\beta,0,0)$,
+\[
+ (T^{\mu\nu})=\rho_0\gamma^2
+ \begin{pmatrix}1&\beta&0&0\\\beta&\beta^2&0&0\\0&0&0&0\\0&0&0&0\end{pmatrix},
+ \qquad\gamma=(1-\beta^2)^{-1/2}.
+\]
+其中 $T^{0x}$ 是动量密度兼能量流, $T^{xx}$ 是粒子携带的 $x$ 动量穿过 $x$ 法向面的通量, 即使没有静止系压强, 它也可以非零.
+
+(b) 先在细环近似中忽略横截面内相对 $a$ 的修正. 令 $\phi$ 为环上的方位角, $\beta=\omega a<1$, $\gamma=(1-\beta^2)^{-1/2}$. 逆时针切向速度为
+\[
+ \boldsymbol v=\beta(-\sin\phi,\cos\phi,0).
+\]
+把 $\delta a$ 解释为圆横截面的半径, 则惯性系同时截面上的环体积为 $V=2\pi a\,\pi(\delta a)^2$. 该系数密度为 $n=N/V$, 静止密度满足 $n=\gamma n_0$, 所以
+\[
+ \rho_0=mn_0=\frac{Nm}{\gamma V},\qquad
+ C=\rho_0\gamma^2=\frac{Nm\gamma}{V}.
+\]
+原题没有说明横截面尺度用半径还是直径; 若 $\delta a$ 指直径, 只需把 $V$ 改成 $2\pi a\,\pi(\delta a)^2/4$, 以下用 $V$ 表示的公式全部不变. 环内的局部分量为
+\[
+ (T^{\mu\nu})=C
+ \begin{pmatrix}
+ 1&-\beta\sin\phi&\beta\cos\phi&0\\
+ -\beta\sin\phi&\beta^2\sin^2\phi&-\beta^2\sin\phi\cos\phi&0\\
+ \beta\cos\phi&-\beta^2\sin\phi\cos\phi&\beta^2\cos^2\phi&0\\
+ 0&0&0&0
+ \end{pmatrix},
+\]
+环外为零. 特别地, 局部 $T^{xy}$ 通常不为零, 不能先对方位角平均而把它删除. 作为核对, 全环积分为
+\[
+ \int T^{00}\dd^3x=Nm\gamma,\quad
+ \int T^{0i}\dd^3x=0,\quad
+ \int T^{xx}\dd^3x=\int T^{yy}\dd^3x=\tfrac12Nm\gamma\beta^2,
+ \quad\int T^{xy}\dd^3x=0.
+\]
+若保留有限横截面并要求每一点有相同角速度, 应用圆柱半径 $R=\sqrt{x^2+y^2}$, $\boldsymbol v=(-\omega y,\omega x,0)$, $\gamma(R)=[1-\omega^2R^2]^{-1/2}$, 以及 $\rho_0(R)=Nm/[V\gamma(R)]$. 此时精确的局部公式仍为 $T^{\mu\nu}=(Nm/V)\gamma(R)(1,\boldsymbol v)^\mu(1,\boldsymbol v)^\nu$. 前述常数 $\gamma$ 的表达式是题目「在半径 $a$ 的细环」所使用的首阶近似.
+
+(c) 假定每一环各有 $N$ 个粒子. 另一环只把 $\boldsymbol v$ 变为 $-\boldsymbol v$, 因而 $T^{00}$ 与 $T^{ij}$ 不变, $T^{0i}$ 反号. 两环张量直接相加:
+\[
+ (T^{\mu\nu}_{\mathrm{two}})=2C
+ \begin{pmatrix}
+ 1&0&0&0\\
+ 0&\beta^2\sin^2\phi&-\beta^2\sin\phi\cos\phi&0\\
+ 0&-\beta^2\sin\phi\cos\phi&\beta^2\cos^2\phi&0\\
+ 0&0&0&0
+ \end{pmatrix}.
+\]
+局部动量密度抵消, 切向动量通量却相加; 两股相反流动并不等于无应力的静止尘埃. 如果 $N$ 表示两环合计的粒子数, 相应把每环的 $N$ 取为 $N/2$. 本题明确排除了约束力的应力能量, 故所得粒子张量单独一般不满足 $\partial_\nu T^{\mu\nu}=0$; 不能把下一题针对封闭守恒系统的结论直接套给它.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS2, 第 4 题.} 对有界系统, 即空间某个有界区域之外 $T^{\mu\nu}=0$, 由 $\partial_\nu T^{\mu\nu}=0$ 证明:
+\begin{enumerate}[label=(\alph*)]
+\item $\displaystyle\partial_t\int T^{0\alpha}\dd^3x=0$, 表达能量和动量守恒.
+\item $\displaystyle\partial_t^2\int T^{00}x^ix^j\dd^3x=2\int T^{ij}\dd^3x$. 这是以后推导引力辐射四极矩公式会使用的 virial 恒等式.
+\item $\displaystyle\partial_t^2\int T^{00}(x^ix^i)^2\dd^3x
+ =4\int T^i{}_i x^jx^j\dd^3x+8\int T^{ij}x^ix^j\dd^3x$.
+\end{enumerate}
+这里重复的空间指标按 Euclid 度规求和.
+\end{exercise}
+\begin{solution}
+应力能量张量取对称形式 $T^{\mu\nu}=T^{\nu\mu}$. 这在 (a) 的原式中把 $T^{\alpha0}$ 写成 $T^{0\alpha}$, 也在 (b)、(c) 的二阶恒等式中使用. 假定场足够光滑并可在积分号下求时间导数; 有界支撑使所有空间边界项消失.
+
+(a) 积分守恒方程,
+\[
+ \partial_t\int T^{\alpha0}\dd^3x=-\int\partial_iT^{\alpha i}\dd^3x
+ =-\oint T^{\alpha i}\dd S_i=0.
+\]
+对称性即给出所求结果.
+
+对 (b)、(c), 最清楚的方法是先对一个与时间无关的测试函数 $f(\boldsymbol x)$ 推导共同公式. 连续使用守恒方程和分部积分:
+\begin{align*}
+ \partial_t\int T^{00}f\dd^3x
+ &=-\int(\partial_iT^{0i})f\dd^3x
+ =\int T^{0i}\partial_i f\dd^3x,\\
+ \partial_t^2\int T^{00}f\dd^3x
+ &=-\int(\partial_jT^{ij})\partial_i f\dd^3x
+ =\int T^{ij}\partial_j\partial_i f\dd^3x.
+\end{align*}
+这样避免了在两个具体计算中遗漏符号或因子.
+
+(b) 对 $f=x^kx^\ell$, $\partial_i\partial_j f=\delta_i^k\delta_j^\ell+\delta_i^\ell\delta_j^k$. 故积分为 $\int(T^{k\ell}+T^{\ell k})\dd^3x=2\int T^{k\ell}\dd^3x$, 更换自由指标名称便得到题式.
+
+(c) 记 $r^2=x^kx^k$. 对 $f=r^4$, 先有 $\partial_i f=4r^2x^i$, 再有
+\[
+ \partial_j\partial_i f=8x^ix^j+4r^2\delta_{ij}.
+\]
+代入共同公式得
+\[
+ \partial_t^2\int T^{00}r^4\dd^3x
+ =8\int T^{ij}x^ix^j\dd^3x+4\int T^i{}_i r^2\dd^3x,
+\]
+正是所求. 空间迹 $T^i{}_i$ 不包含时间分量 $T^0{}_0$.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS2, 第 5 题.} 四势 $A^\mu=(A^0,\boldsymbol A)$ 定义电磁场张量
+\[
+ F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu.
+\]
+\begin{enumerate}[label=(\alph*)]
+\item 证明某 Lorentz 系中的场为 $\boldsymbol B=\boldsymbol\nabla\times\boldsymbol A$, $\boldsymbol E=-\partial_t\boldsymbol A-\boldsymbol\nabla A^0$, 其中 $\boldsymbol\nabla$ 是通常的三维 Euclid 梯度.
+\item 证明 Maxwell 方程成立当且仅当
+ $\partial_\mu\partial^\mu A^\alpha-\partial^\alpha\partial_\mu A^\mu=-4\pi J^\alpha$.
+\item 证明规范变换 $A_\mu^{\mathrm{new}}=A_\mu^{\mathrm{old}}+\partial_\mu\varphi$ 不改变场张量.
+\item 证明可以选取规范使 $\partial_\mu A^\mu=0$, 并以 $\Box=\partial_\mu\partial^\mu$ 写出这一规范下特别简单的 Maxwell 方程.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+这里采用 Gaussian 单位, 源方程为 $\partial_\mu F^{\alpha\mu}=4\pi J^\alpha$. 与指标顺序相反的写法是 $\partial_\mu F^{\mu\alpha}=-4\pi J^\alpha$, 两者等价.
+
+(a) 因 $A_0=-A^0$, $A_i=A^i$, 有
+\[
+ F_{0i}=\partial_tA_i+\partial_iA^0=-E_i,
+ \qquad F_{ij}=\partial_iA_j-\partial_jA_i=\epsilon_{ijk}B^k.
+\]
+三个空间分量 $B^i=\tfrac12\epsilon^{ijk}F_{jk}$ 分别就是旋度的三个分量, 而 $E_i=-F_{0i}$ 给出所求电场表达式. 此处 $\epsilon_{123}=+1$ 是三维的 Levi-Civita 符号.
+
+(b) 将 $F^{\mu\alpha}=\partial^\mu A^\alpha-\partial^\alpha A^\mu$ 代入源方程, 并交换平直坐标中的偏导顺序:
+\[
+ \partial_\mu F^{\mu\alpha}
+ =\partial_\mu\partial^\mu A^\alpha
+ -\partial^\alpha(\partial_\mu A^\mu)=-4\pi J^\alpha.
+\]
+另外两条无源 Maxwell 方程自动成立, 因为
+\[
+ \partial_\lambda F_{\mu\nu}+\partial_\mu F_{\nu\lambda}
+ +\partial_\nu F_{\lambda\mu}=0
+\]
+展开后每个二阶偏导各出现一次正号与一次负号. 它的纯空间分量是 $\boldsymbol\nabla\cdot\boldsymbol B=0$, 一时间两空间的分量是 $\partial_t\boldsymbol B+\boldsymbol\nabla\times\boldsymbol E=0$. 因而给定由四势产生的 $F$, 上述四势方程与全部 Maxwell 方程等价.
+
+(c) 规范变换导致
+\[
+ F_{\mu\nu}^{\mathrm{new}}-F_{\mu\nu}^{\mathrm{old}}
+ =\partial_\mu\partial_\nu\varphi-\partial_\nu\partial_\mu\varphi=0.
+\]
+升指标并不改变这一结论.
+
+(d) 变换后的势满足
+\[
+ \partial_\mu A_{\mathrm{new}}^\mu
+ =\partial_\mu A_{\mathrm{old}}^\mu+\Box\varphi.
+\]
+因此选取 $\varphi$ 解波动方程 $\Box\varphi=-\partial_\mu A_{\mathrm{old}}^\mu$ 即可. 这不是额外要求电磁场满足的物理限制, 而是求一个规范函数: 对 Minkowski 空间上光滑的势, 波动方程可取初始条件求解; 对空间与时间支撑合适的源, 也可用推迟 Green 函数构造解. 原题的通常局部或全空间初值问题中没有规范边界条件障碍. 此规范称 Lorenz 规范, 在其中
+\[
+ \Box A^\alpha=-4\pi J^\alpha,\qquad
+ \Box=-\partial_t^2+\partial_x^2+\partial_y^2+\partial_z^2.
+\]
+仍可加入满足 $\Box\varphi=0$ 的规范函数, 所以这一条件并没有完全固定势的全部规范自由度.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS2, 第 6 题.} 宇航员沿 $x$ 方向以恒定固有加速度 $g$ 加速, 即四加速度满足 $a\cdot a=g^2$. 他如下建立坐标 $(\bar t,\bar x,\bar y,\bar z)$: 宇航员自身位于空间原点, $\bar t$ 是其固有时; 在 $\bar t=0$ 时, 空间坐标与瞬时共动惯性系的 Euclid 坐标 $(x,y,z)$ 一致. 固定空间坐标的观测者称为 CSO. 其时钟的固有时 $\tau$ 未必等于 $\bar t$, 设 $A=\dd\bar t/\dd\tau$, 起初允许 $A$ 依赖四个坐标. 要求 CSO 世界线正交于 $\bar t=\text{常数}$ 的超曲面, 且每个超曲面在宇航员当时的共动惯性系中同时. 可以直接看出 $\bar y=y$, $\bar z=z$; 下面略去这两坐标.
+\begin{enumerate}[label=(\alph*)]
+\item 求宇航员在初始惯性系中的四速度随 $\bar t$ 的变化. 提示: 使用 $u\cdot u$, $u\cdot a$, $a\cdot a$ 的条件.
+\item 每个 CSO 携带一只时钟. 求各时钟在初始惯性系中的四速度.
+\item 解释为何 $A(\bar x,\bar t)$ 不能依赖时间, 因而可写成 $A(\bar x)$. 提示: 考虑另一 CSO 能够建立的坐标系.
+\item 求显式坐标变换 $x(\bar t,\bar x)$ 与 $t(\bar t,\bar x)$.
+\item 证明新坐标中的线元为
+\[
+ \dd s^2=-\dd t^2+\dd x^2=-(1+g\bar x)^2\dd\bar t^2+\dd\bar x^2.
+\]
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 初始共动条件给出 $u^\mu(0)=(1,0)$. 用快速度 $\chi$ 参数化单位未来类时向量,
+\[
+ u=(\cosh\chi,\sinh\chi),\qquad
+ a=\frac{\dd\chi}{\dd\bar t}(\sinh\chi,\cosh\chi).
+\]
+这已经满足 $u\cdot u=-1$, $u\cdot a=0$. 条件 $a\cdot a=g^2$ 与正 $x$ 加速给出 $\dd\chi/\dd\bar t=g$, 所以 $\chi=g\bar t$. 对四速度积分, 取初始位置 $t=x=0$, 得宇航员轨迹
+\[
+ z^\mu(\bar t)=\left(\frac{\sinh(g\bar t)}g,
+ \frac{\cosh(g\bar t)-1}g\right).
+\]
+
+为了同时处理 (b)--(d), 令 $e_1=(\sinh(g\bar t),\cosh(g\bar t))$. 它满足 $e_1\cdot e_1=1$, $u\cdot e_1=0$, 是瞬时同时面的单位空间方向. 任一同一 $\bar t$ 的事件必须写成
+\[
+ X(\bar t,\bar x)=z(\bar t)+f(\bar t,\bar x)e_1(\bar t).
+\]
+这里 $f$ 是该事件到宇航员在同时面上的有向固有距离, 初始坐标条件给出 $f(0,\bar x)=\bar x$. 注意 $\dd e_1/\dd\bar t=gu$, 所以固定 $\bar x$ 的坐标线切向量为
+\[
+ \partial_{\bar t}X=(1+gf)u+(\partial_{\bar t}f)e_1.
+\]
+题设要求这条坐标线正交于同时面的空间方向 $e_1$, 因而 $\partial_{\bar t}f=0$. 初值于是给出 $f=\bar x$; 这说明各 CSO 的同时面空间距离保持恒定, 并非凭直觉假定它们的时钟同步.
+
+(b) 在包含宇航员、$1+g\bar x>0$ 的坐标区域内,
+\[
+ \frac{\dd X}{\dd\bar t}=(1+g\bar x)u,\qquad
+ \frac{\dd\tau}{\dd\bar t}=1+g\bar x.
+\]
+所以每只时钟的单位四速度为 $\dd X/\dd\tau=u=(\cosh(g\bar t),\sinh(g\bar t))$. 同一个同时面上的各 CSO 具有相同瞬时速度, 但它们的固有加速度不同:
+\[
+ g_{\mathrm{CSO}}=\frac{g}{1+g\bar x}.
+\]
+若把四速度改写为各时钟自身的固有时, 且各钟在 $\bar t=0$ 清零, 则 $\bar t=\tau/(1+g\bar x)$, 应在双曲函数中作此替换.
+
+(c) 上述正交条件已经从几何上证明 $f$ 不随 $\bar t$ 改变. 因而
+\[
+ A(\bar x)=\frac1{1+g\bar x}
+\]
+只依赖空间位置. 其物理含义是: 若各 CSO 都使用相同的固有加速度, 它们不能同时保持这里规定的共动同时面和固定固有间距. 正是随位置变化的加速度使这一坐标系具有时间无关的时钟速率关系.
+
+(d) 将 $f=\bar x$ 代入 $X=z+\bar x e_1$, 得
+\[
+ t=\left(\frac1g+\bar x\right)\sinh(g\bar t),\qquad
+ x=\left(\frac1g+\bar x\right)\cosh(g\bar t)-\frac1g.
+\]
+其覆盖范围为 $x+1/g>|t|$. 反变换为
+\[
+ \bar x=\sqrt{(x+1/g)^2-t^2}-\frac1g,\qquad
+ \bar t=\frac1g\operatorname{artanh}\frac{t}{x+1/g}.
+\]
+
+(e) 因 $\partial_{\bar t}X=(1+g\bar x)u$, $\partial_{\bar x}X=e_1$, 且 $u^2=-1$, $e_1^2=1$, $u\cdot e_1=0$, 两坐标方向的内积直接给出
+\[
+ g_{\bar t\bar t}=-(1+g\bar x)^2,\quad
+ g_{\bar t\bar x}=0,\quad g_{\bar x\bar x}=1.
+\]
+所以线元正是题式; 加回横向方向只需另加 $\dd\bar y^2+\dd\bar z^2$. 在 $\bar x=0$ 的宇航员世界线上 $\dd\tau=\dd\bar t$, 而 $\bar x=-1/g$ 是坐标边界, 不是具有正常时钟的 CSO.
+\end{solution}
+
+\originalsection{作业三}
+
+题源为\href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset03/}{Problem Set 3}, 以及\href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset03_hint/}{第 4 题提示}. 第 5、6 题仅引用教材题号, 没有公开的独立题面; 本节按原位置标明缺口, 不从题号臆造题目.
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS3, 第 1 题.} 重新考察加速观测者. 整题只考虑 $t\ge0$.
+\begin{enumerate}[label=(\alph*)]
+\item 在时空图上画出作业二第 6 题中匀固有加速度宇航员的轨迹 $(t,x)$.
+\item 证明存在一个与该宇航员因果断开的时空区域, 即其中事件若要影响宇航员, 就必须违反信息传播不能快于光速的基本假设.
+\item 求能向宇航员传递影响的区域与不能传递影响的区域之间的边界. 原题将这一边界称为 particle horizon, 并指出它与黑洞内外区域之间的事件视界具有某些相同特征.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 上题轨迹消去固有时得
+\[
+ (x+1/g)^2-t^2=1/g^2,\qquad
+ x(t)=\sqrt{t^2+1/g^2}-1/g,\quad t\ge0.
+\]
+它从 $(0,0)$ 出发, 初始切线沿时间轴, 随后向正 $x$ 方向弯曲. 当 $t\to\infty$ 时趋近直线 $x=t-1/g$, 但永远位于该直线右方. 为避免图中只反映某个单位选择, 下图使用无量纲坐标 $gt,gx$.
+\begin{center}
+\begin{tikzpicture}[x=0.95cm,y=0.95cm,>=stealth]
+\fill[gray!12] (-2,0)--(-1,0)--(3.3,4.3)--(-2,4.3)--cycle;
+\draw[->] (-2,0)--(3.9,0) node[right] {$gx$};
+\draw[->] (0,0)--(0,4.5) node[above] {$gt$};
+\draw[dashed] (-1,0)--(3.3,4.3) node[pos=.78,left] {$gx=gt-1$};
+\draw[thick,domain=0:4.1,samples=80] plot ({sqrt(1+\x*\x)-1},{\x});
+\node[right] at (2.25,2.75) {宇航员};
+\node at (-1.15,2.5) {不可传信区域};
+\fill (0,0) circle (1.5pt);
+\node[below] at (-1,0) {$-1$};
+\end{tikzpicture}
+\end{center}
+
+(b) 沿任意未来指向、速率不超过 1 的信号, $\dd t\ge|\dd x|$, 所以零坐标 $u=t-x$ 与 $v=t+x$ 都不能减小. 宇航员轨迹的这两个坐标为
+\[
+ u_{\mathrm{a}}(\bar t)=\frac{1-e^{-g\bar t}}g<\frac1g,
+ \qquad
+ v_{\mathrm{a}}(\bar t)=\frac{e^{g\bar t}-1}g\longrightarrow\infty.
+\]
+若事件 $Q=(t_0,x_0)$ 满足 $u_0=t_0-x_0\ge1/g$, 则任何它能影响的未来事件都满足 $u\ge u_0\ge1/g$, 因而不可能落在宇航员的任何有限固有时位置. 所以 $x_0\le t_0-1/g$ 是不可传信区域.
+
+(c) 反过来, 若 $u_0<1/g$, 可取足够大的 $\bar t$, 同时使 $u_{\mathrm a}(\bar t)\ge u_0$ 与 $v_{\mathrm a}(\bar t)\ge v_0$. 两个不等式等价于宇航员事件位于 $Q$ 的未来光锥内, 故 $Q$ 能用因果信号影响宇航员. 因此边界准确地是
+\[
+ x=t-1/g,\qquad t\ge0.
+\]
+边界上的光信号只能渐近追随宇航员, 不能在有限时刻追上. 这里讨论的是「某事件能否向宇航员整条未来世界线发送信号」这一方向的因果联系; 它不等于双方永远互通, 也不等于没有未来指向路径的所有其他情形. 原题使用 particle horizon 一词, 本解答按它明定的传信问题求得此加速视界.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS3, 第 2 题.} 完美流体没有黏性, 即流体元界面上没有平行于界面的力, 所以在局部静止笛卡尔系中, 空间应力张量应为对角形式. 课堂给出的形式为 $T^{\alpha\beta}=\operatorname{diag}(\rho,P,P,P)$. 假设反而有
+\[
+ T^{\alpha\beta}=\operatorname{diag}(\rho,P(1+\varepsilon),P,P).
+\]
+证明绕 $z$ 轴旋转角度 $\phi$ 后的 $T^{\alpha'\beta'}$ 会出现量级为 $\varepsilon P$ 的非对角分量. 因而若要求所有笛卡尔系中应力均为对角形式, 必须有 $\varepsilon=0$.
+\end{exercise}
+\begin{solution}
+旋转不混合时间分量. 取 $x'=x\cos\phi+y\sin\phi$, $y'=-x\sin\phi+y\cos\phi$, 空间张量的变换为 $S'=RSR^{\mathsf T}$. 在 $x$--$y$ 子块中直接相乘:
+\[
+ \begin{pmatrix}T^{x'x'}&T^{x'y'}\\T^{y'x'}&T^{y'y'}\end{pmatrix}
+ =P\begin{pmatrix}
+ 1+\varepsilon\cos^2\phi&-\varepsilon\sin\phi\cos\phi\\
+ -\varepsilon\sin\phi\cos\phi&1+\varepsilon\sin^2\phi
+ \end{pmatrix}.
+\]
+因此 $T^{x'y'}=-(\varepsilon P/2)\sin2\phi$, 对一般角度的量级确为 $\varepsilon P$. 当 $\phi=\pi/4$ 时, 非对角分量的大小为 $|\varepsilon P|/2$, 最直接地暴露各向异性. 若 $P\ne0$ 且所有旋转下都要求无非对角应力, 必须 $\varepsilon=0$. 若 $P=0$, 三个压强分量本来都为零, $\varepsilon$ 只是无可测效应的冗余参数; 物理上仍得到各向同性的零压强. 这里要求的是无剪切应力在所有局部静止空间坐标轴下成立, 不是要求在所有 boosted 惯性系中 $T^{\mu\nu}$ 都为对角矩阵.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS3, 第 3 题.} 电磁场的 $3+1$ 分解. 四速度为 $U$ 的观测者, 在其瞬时局部惯性系正交基 $e_{\hat0}=U$ 中测得电场与磁场四向量
+\[
+ E_U^\alpha=F^{\alpha\beta}U_\beta,\qquad
+ B_U^\alpha=-\frac12\epsilon^{\alpha\beta\gamma\delta}U_\beta F_{\gamma\delta}.
+\]
+\begin{enumerate}[label=(\alph*)]
+\item 证明 $E_U$ 与 $B_U$ 都正交于观测者世界线, 因而完全处于该观测者的瞬时同时空间内. 提示: 使用作业一的投影张量.
+\item 证明在任意基中都能由测得的场重建原张量:
+\[
+ F^{\alpha\beta}=U^\alpha E_U^\beta-E_U^\alpha U^\beta
+ +\epsilon^{\alpha\beta}{}_{\gamma\delta}U^\gamma B_U^\delta.
+\]
+可使用恒等式 $\epsilon^{\alpha\beta\rho\sigma}\epsilon_{\mu\nu\rho\sigma}=2(\delta^\alpha{}_{\nu}\delta^\beta{}_{\mu}-\delta^\alpha{}_{\mu}\delta^\beta{}_{\nu})$.
+\item 定义楔积 $A\wedge B=A\otimes B-B\otimes A$, 以及 $(0,2)$ 张量的 Hodge 对偶
+\[
+ ({}^*C)_{\mu\nu}=\frac12\epsilon^{\alpha\beta}{}_{\mu\nu}C_{\alpha\beta}.
+\]
+证明 $F=a\,U\wedge E_U+b\,{}^*(U\wedge B_U)$, 求实常数 $a,b$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+先固定取向, 以免磁场与 Hodge 对偶中的符号含糊: 在正向正交基中取 $\epsilon_{0123}=+1$, 因 Lorentz 度规有一个负号, $\epsilon^{0123}=-1$. 三维空间的 $\epsilon_{123}=+1$. 这一约定与上一节 $F_{ij}=\epsilon_{ijk}B^k$ 相容.
+
+(a) 反对称张量与对称乘积的收缩为零. 具体而言,
+\[
+ U_\alpha E_U^\alpha=F^{\alpha\beta}U_\alpha U_\beta=0,
+ \qquad
+ U_\alpha B_U^\alpha=-\frac12\epsilon^{\alpha\beta\gamma\delta}
+ U_\alpha U_\beta F_{\gamma\delta}=0.
+\]
+因此作业一的投影 $P^\alpha{}_{\beta}=\delta^\alpha{}_{\beta}+U^\alpha U_\beta$ 保持两者不变. 在观测者静止系 $U=(1,0,0,0)$ 中, 这等价于 $E_U^0=B_U^0=0$; 四向量写法并没有给电场或磁场添加额外的独立时间分量.
+
+(b) 等式两边都是张量, 故可在最方便的观测者正交基中验证, 再由张量变换得到任意基的结论. 在该基中 $U^0=1$, $U_0=-1$, 由定义
+\[
+ E_U^i=-F^{i0}=F^{0i},\qquad
+ B_U^i=\frac12\epsilon^{i0jk}F_{jk}
+ =\frac12\epsilon^{ijk}F_{jk}.
+\]
+利用三维恒等式 $\epsilon_{kij}\epsilon^{k\ell m}=\delta_i^\ell\delta_j^m-\delta_i^m\delta_j^\ell$, 后一式可逆, 给出 $F^{ij}=\epsilon_{ijk}B_U^k$. 在题目右边, $0i$ 分量等于 $E_U^i$, 因为含 $\epsilon$ 的项有重复的 0 指标而为零. $ij$ 分量的前两项为零, 最后一项为
+\[
+ \epsilon^{ij}{}_{0k}U^0B_U^k=\epsilon_{ijk}B_U^k=F^{ij}.
+\]
+这些正是反对称张量的全部六个独立分量. 因而重建公式成立, 而给出的四维 $\epsilon$ 收缩恒等式是同一可逆关系的协变表达. 这里验证正交基只是计算技巧, 不限制公式的适用坐标.
+
+(c) 楔积先给出 $(U\wedge E_U)^{\alpha\beta}=U^\alpha E_U^\beta-E_U^\alpha U^\beta$. 对偶作用于降指标后的二形式, 再升指标得到
+\begin{align*}
+ [ {}^*(U\wedge B_U)]^{\alpha\beta}
+ &=\frac12\epsilon^{\gamma\delta\alpha\beta}
+ (U_\gamma B_{U\delta}-B_{U\gamma}U_\delta)\\
+ &=\epsilon^{\alpha\beta}{}_{\gamma\delta}U^\gamma B_U^\delta.
+\end{align*}
+交换两对指标不变号, 两个反对称项又使 $1/2$ 消掉, 所以与 (b) 一致, $a=1$, $b=1$. 若用二形式严格记号, 应将 $U,E_U,B_U$ 都先降指标; 原题的向量楔积写法是通过度规识别向量与协向量后使用这一公式.
+\end{solution}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS3, 第 4 题.} Christoffel 符号的坐标变换.
+\begin{enumerate}[label=(\alph*)]
+\item 从 Christoffel 符号用度规导数表示的公式出发, 证明
+\begin{equation*}
+\begin{aligned}
+ \Gamma^{\alpha'}{}_{\beta'\gamma'}
+ &=\frac{\partial x^{\alpha'}}{\partial x^\alpha}
+ \frac{\partial x^\beta}{\partial x^{\beta'}}
+ \frac{\partial x^\gamma}{\partial x^{\gamma'}}\Gamma^\alpha{}_{\beta\gamma}\\
+ &\quad-\frac{\partial^2x^{\alpha'}}{\partial x^\beta\partial x^\gamma}
+ \frac{\partial x^\beta}{\partial x^{\beta'}}
+ \frac{\partial x^\gamma}{\partial x^{\gamma'}}.
+\end{aligned}
+\end{equation*}
+\item 利用此式证明向量的协变导数按张量规律变换:
+\[
+ \nabla_{\alpha'}A^{\beta'}=
+ \frac{\partial x^\alpha}{\partial x^{\alpha'}}
+ \frac{\partial x^{\beta'}}{\partial x^\beta}\nabla_\alpha A^\beta.
+\]
+\end{enumerate}
+提示页指出: 若算得非齐次项带正号, 但其中微分的是逆 Jacobian, 要用两个 Jacobian 互逆的恒等式比较, 不能只凭表面符号判断矛盾.
+\end{exercise}
+\begin{solution}
+为使指标清楚, 暂用 $a,b,c$ 表示新坐标指标, $\mu,\nu,\lambda$ 表示旧坐标指标, 并记
+\[
+ J^a{}_{\mu}=\frac{\partial x'^a}{\partial x^\mu},\qquad
+ K^\mu{}_{a}=\frac{\partial x^\mu}{\partial x'^a},\qquad
+ J^a{}_{\mu}K^\mu{}_{b}=\delta^a{}_b.
+\]
+它们都是可逆坐标变换的 Jacobian; 新度规为 $h_{ab}=K^\mu{}_aK^\nu{}_b g_{\mu\nu}$.
+
+(a) 对新度规逐项求导:
+\[
+ \partial'_c h_{ab}=(\partial'_cK^\mu{}_a)K^\nu{}_b g_{\mu\nu}
+ +K^\mu{}_a(\partial'_cK^\nu{}_b)g_{\mu\nu}
+ +K^\mu{}_aK^\nu{}_bK^\lambda{}_c\partial_\lambda g_{\mu\nu}.
+\]
+代入 $\Gamma'^a{}_{bc}=\tfrac12h^{ad}(\partial'_bh_{dc}+\partial'_ch_{bd}-\partial'_dh_{bc})$. 含 $\partial g$ 的三项利用 $h^{ad}=J^a{}_{\rho}J^d{}_{\sigma}g^{\rho\sigma}$, 合成
+\[
+ J^a{}_{\lambda}K^\mu{}_bK^\nu{}_c\Gamma^\lambda{}_{\mu\nu}.
+\]
+再看含 $\partial K$ 的项. 由于 $K^\mu{}_a=\partial'_a x^\mu$, 二阶偏导可交换, $\partial'_bK^\mu{}_c=\partial'_cK^\mu{}_b$. 因此两个正项中对 $K_b$、$K_c$ 的导数与负项中对应的交叉导数相消, 剩下
+\[
+ \frac12h^{ad}\,2K^\rho{}_d g_{\rho\lambda}\partial'_bK^\lambda{}_c
+ =J^a{}_{\lambda}\partial'_bK^\lambda{}_c.
+\]
+于是从度规公式实际得到的是
+\[
+ \Gamma'^a{}_{bc}=J^a{}_{\lambda}K^\mu{}_bK^\nu{}_c\Gamma^\lambda{}_{\mu\nu}
+ +J^a{}_{\lambda}\partial'_bK^\lambda{}_c.
+\]
+这就是提示页所说的带正号、对逆 Jacobian 求导的版本. 对互逆恒等式求导,
+\[
+ 0=\partial'_b(J^a{}_{\lambda}K^\lambda{}_c)
+ =K^\mu{}_b(\partial_\mu J^a{}_{\lambda})K^\lambda{}_c
+ +J^a{}_{\lambda}\partial'_bK^\lambda{}_c.
+\]
+所以正的最后一项等于
+\[
+ -K^\mu{}_bK^\nu{}_c\partial_\mu J^a{}_{\nu}
+ =-K^\mu{}_bK^\nu{}_c\frac{\partial^2x'^a}{\partial x^\mu\partial x^\nu}.
+\]
+恢复带撇号的指标便得到题目要求的形式. 非齐次二阶导数项说明 Christoffel 符号本身不是张量.
+
+(b) 向量分量为 $A'^a=J^a{}_{\nu}A^\nu$. 偏导中会出现一个额外项:
+\[
+ \partial'_bA'^a=K^\mu{}_bJ^a{}_{\nu}\partial_\mu A^\nu
+ +K^\mu{}_b(\partial_\mu J^a{}_{\nu})A^\nu.
+\]
+用 (a) 的负号版本计算联络项,
+\[
+ \Gamma'^a{}_{bc}A'^c
+ =K^\mu{}_bJ^a{}_{\lambda}\Gamma^\lambda{}_{\mu\nu}A^\nu
+ -K^\mu{}_b(\partial_\mu J^a{}_{\nu})A^\nu.
+\]
+最后两项精确抵消, 余下
+\[
+ \nabla'_b A'^a=K^\mu{}_bJ^a{}_{\nu}
+ (\partial_\mu A^\nu+\Gamma^\nu{}_{\mu\lambda}A^\lambda)
+ =K^\mu{}_bJ^a{}_{\nu}\nabla_\mu A^\nu,
+\]
+即一个下指标、一个上指标的张量变换律. 联络的非张量项正是为抵消普通偏导的非张量项所必需的.
+\end{solution}
+
+\begin{remark}
+\textbf{MIT Spring 2006, PS3, 第 5、6 题的公开题面缺口.}
+原稿第 5 题只有「Carroll: Chapter 3, Problem 2」, 并补充在该题中定义旋度为 $(\operatorname{curl}V)_i=\epsilon_i{}^{jk}\nabla_jV_k$. 第 6 题只有「Carroll: Chapter 3, Problem 3」. OCW 作业文件没有给出这两道教材题的条件、所求与小问, 所以这些引用不能独立构成可解题面. 本书不把教材题号改写成猜测的题目, 也不将未获得题面的内容算入已完成解答. 下题保留原稿编号 7.
+\end{remark}
+
+\begin{exercise}
+\textbf{MIT Spring 2006, PS3, 第 7 题.} 证明下列 Levi-Civita 联络恒等式, 其中 $\Gamma_{\mu\nu\lambda}=g_{\mu\rho}\Gamma^\rho{}_{\nu\lambda}$, $g=\det(g_{\mu\nu})$:
+\begin{enumerate}[label=(\alph*)]
+\item $\partial_\lambda g_{\mu\nu}=\Gamma_{\mu\nu\lambda}+\Gamma_{\nu\mu\lambda}$.
+\item $g_{\mu\kappa}\partial_\lambda g^{\kappa\nu}=-g^{\kappa\nu}\partial_\lambda g_{\mu\kappa}$.
+\item $\partial_\lambda g^{\mu\nu}=-\Gamma^\mu{}_{\lambda\kappa}g^{\kappa\nu}-\Gamma^\nu{}_{\lambda\kappa}g^{\kappa\mu}$.
+\item 在坐标基中,
+\[
+ \nabla_\nu A_\mu{}^\nu=|g|^{-1/2}\partial_\nu(|g|^{1/2}A_\mu{}^\nu)
+ -\Gamma^\lambda{}_{\nu\mu}A_\lambda{}^\nu.
+\]
+\item 对反对称张量 $F^{\mu\nu}$, 在坐标基中,
+\[
+ \nabla_\nu F^{\mu\nu}=|g|^{-1/2}\partial_\nu(|g|^{1/2}F^{\mu\nu}).
+\]
+\item 对标量函数 $S$, 在坐标基中,
+\[
+ \Box S\equiv g^{\mu\nu}\nabla_\mu\nabla_\nu S
+ =|g|^{-1/2}\partial_\mu(|g|^{1/2}g^{\mu\nu}\partial_\nu S).
+\]
+\end{enumerate}
+原稿说后三问使用的行列式恒等式将在随后课堂证明; 本解答将所需恒等式也一并推导.
+\end{exercise}
+\begin{solution}
+(a) 第一类 Christoffel 符号的定义为
+\[
+ \Gamma_{\mu\nu\lambda}=\tfrac12
+ (\partial_\nu g_{\mu\lambda}+\partial_\lambda g_{\mu\nu}-\partial_\mu g_{\nu\lambda}).
+\]
+与交换 $\mu,\nu$ 后的式子相加, 第一和第三类交叉项两两抵消, 留下 $\partial_\lambda g_{\mu\nu}$. 这也是 $\nabla_\lambda g_{\mu\nu}=0$ 的分量表达.
+
+(b) 度规与逆度规满足 $g_{\mu\kappa}g^{\kappa\nu}=\delta_\mu{}^\nu$. 对此求偏导得到
+\[
+ (\partial_\lambda g_{\mu\kappa})g^{\kappa\nu}
+ +g_{\mu\kappa}\partial_\lambda g^{\kappa\nu}=0,
+\]
+移项即得题式. 这一步是矩阵逆的求导规则, 不涉及任何新的几何假设.
+
+(c) 在 (b) 两边再乘 $g^{\mu\rho}$, 并把 (a) 代入:
+\begin{equation*}
+\begin{aligned}
+ \partial_\lambda g^{\rho\nu}
+ &=-g^{\rho\mu}g^{\kappa\nu}\partial_\lambda g_{\mu\kappa}\\
+ &=-g^{\rho\mu}g^{\kappa\nu}
+ (g_{\mu\sigma}\Gamma^\sigma{}_{\kappa\lambda}
+ +g_{\kappa\sigma}\Gamma^\sigma{}_{\mu\lambda})\\
+ &=-\Gamma^\rho{}_{\lambda\kappa}g^{\kappa\nu}
+ -\Gamma^\nu{}_{\lambda\mu}g^{\mu\rho}.
+\end{aligned}
+\end{equation*}
+这里用了 Levi-Civita 联络下两个下指标对称. 改名 $\rho\mapsto\mu$ 就是题式.
+
+接下来证明体积因子恒等式. 对可逆矩阵, 行列式的微分由余子式展开给出 $\partial_\lambda g=g\,g^{\mu\nu}\partial_\lambda g_{\nu\mu}$. 在非退化度规的连通坐标域内, $g$ 的符号不变, 因而
+\[
+ \partial_\lambda\log\sqrt{|g|}
+ =\tfrac12g^{\mu\nu}\partial_\lambda g_{\mu\nu}
+ =\Gamma^\nu{}_{\nu\lambda}.
+\]
+最后一个等号可把 (a) 收缩得到, 或从 Christoffel 公式看出第一、第三项在求迹时相消. 因此
+\[
+ \partial_\lambda\sqrt{|g|}=\sqrt{|g|}\,\Gamma^\nu{}_{\nu\lambda}.
+\]
+
+(d) 协变导数在每个上指标加联络项、每个下指标减联络项. 对混合张量收缩后,
+\[
+ \nabla_\nu A_\mu{}^\nu
+ =\partial_\nu A_\mu{}^\nu
+ +\Gamma^\nu{}_{\nu\lambda}A_\mu{}^\lambda
+ -\Gamma^\lambda{}_{\nu\mu}A_\lambda{}^\nu.
+\]
+将第二项的哑指标改名, 再用体积因子恒等式, 前两项合为
+\[
+ \partial_\nu A_\mu{}^\nu
+ +(\partial_\nu\log\sqrt{|g|})A_\mu{}^\nu
+ =\frac1{\sqrt{|g|}}\partial_\nu(\sqrt{|g|}A_\mu{}^\nu).
+\]
+这便给出题式. 保留下指标 $\mu$ 的联络项不能被体积因子吸收.
+
+(e) 对两个上指标,
+\[
+ \nabla_\nu F^{\mu\nu}=\partial_\nu F^{\mu\nu}
+ +\Gamma^\mu{}_{\nu\lambda}F^{\lambda\nu}
+ +\Gamma^\nu{}_{\nu\lambda}F^{\mu\lambda}.
+\]
+中间项因 $\Gamma^\mu{}_{\nu\lambda}$ 对称、$F^{\lambda\nu}$ 反对称而为零. 剩下的迹项与偏导合成同一个加权散度, 因而得到所求. 若 $F$ 不反对称, 删掉这个联络项就是错误的.
+
+(f) 标量的一阶协变导数就是偏导, 但 $\nabla_\nu S=\partial_\nu S$ 已经是协向量, 第二阶不能只当普通偏导. 由度规相容性, 可先升指标构成向量 $V^\mu=g^{\mu\nu}\partial_\nu S$, 然后
+\[
+ g^{\mu\nu}\nabla_\mu\nabla_\nu S
+ =\nabla_\mu(g^{\mu\nu}\partial_\nu S)=\nabla_\mu V^\mu.
+\]
+向量散度也只含联络的迹,
+\[
+ \nabla_\mu V^\mu=\partial_\mu V^\mu
+ +\Gamma^\mu{}_{\mu\lambda}V^\lambda
+ =\frac1{\sqrt{|g|}}\partial_\mu(\sqrt{|g|}V^\mu).
+\]
+代入 $V^\mu$ 正得题式. 例如在球坐标的平直时空中, $\sqrt{|g|}=r^2\sin\theta$, 此公式自动给出径向项 $r^{-2}\partial_r(r^2\partial_rS)$, 显示它已包含坐标基变化带来的修正.
+\end{solution}

@@ -1,0 +1,113 @@
+\originalchapter{狭义相对论与张量}\label{ch:sr}
+\originalsection{事件、间隔与惯性系}
+牛顿引力把空间中一个位置的加速度归因于另一个位置的质量, 并默认两个位置共享同一个时间. 相对论首先改变了后一个假设. 两个实验室用光信号校准时钟时, 各自的同时面可以不同; 能够不依赖实验室而比较的对象是事件之间的时空间隔. 本章以微积分、矩阵和经典力学为起点, 建立后文所需的几何语言, 对应课程第1--5讲的前置部分.
+
+事件是一次具有确定时间和位置的物理发生. 在惯性系中写作 $x^\mu=(t,x,y,z)$, 希腊指标 $\mu,\nu=0,1,2,3$, 拉丁指标 $i,j=1,2,3$. 默认光速 $c=1$, 因而时间与长度用同一种单位. 若恢复单位, 则 $x^0=ct$. 度规矩阵取 $\eta_{\mu\nu}=\operatorname{diag}(-1,1,1,1)$. 两事件的差 $\Delta x$ 满足
+\begin{equation}\label{eq:interval}
+\Delta s^2=\eta_{\mu\nu}\Delta x^\mu\Delta x^\nu
+=-(\Delta t)^2+(\Delta x)^2+(\Delta y)^2+(\Delta z)^2.
+\end{equation}
+重复出现的一上一下指标求和, 求和指标的名字可以改, 未求和的自由指标必须在等式两边一致. 这不是额外的物理假设, 而是避免写四重求和的记法.
+
+\begin{definition}
+非零位移或向量 $V$ 按 $\eta(V,V)$ 的符号分为类时、类空和零向量: 分别为负、正、零. 光锥是零位移的集合. 可由低于光速的物体连接的两个事件具有类时间隔; 光连接具有零间隔.
+\end{definition}
+这里的 ``零向量'' 指非零的光状向量, 与所有分量都为零的向量要区分. 类空分离的事件可以在某惯性系同时发生, 因而其时间先后没有惯性系无关的意义. 在保持时间定向的物理惯性系变换之间, 类时和光状分离有一致的未来方向. 完整洛伦兹群还含时间反演, 此处不把它作为观察者之间的变换. 这一区分决定了什么可以作为初始条件, 什么可以向观测者传递信息.
+
+若新系沿 $x$ 方向以速度 $v$ 相对旧系运动, 原点的世界线是 $x=vt$. 线性变换必须保持光线 $x=\pm t$ 仍为光线, 并把该世界线变为 $x'=0$. 因而其形式是 $x'=A(x-vt)$、$t'=A(t-vx)$; 保持式\eqref{eq:interval}要求 $A^2(1-v^2)=1$. 取连续连到恒等变换的正根, 得
+\begin{equation}\label{eq:boost}
+t'=\gamma(t-vx),\qquad x'=\gamma(x-vt),\qquad
+\gamma=(1-v^2)^{-1/2},\qquad y'=y,\quad z'=z.
+\end{equation}
+一般洛伦兹变换写为 $x'^{\mu}=\Lambda^\mu{}_{\nu}x^\nu$, 满足 $\Lambda^{\mathsf T}\eta\Lambda=\eta$. 空间旋转和式\eqref{eq:boost}都属于它. 沿一条类时曲线, 固有时间 $\tau$ 由 $\dd\tau^2=-\dd s^2$ 定义, 因而 $\dd\tau=\dd t\sqrt{1-\boldsymbol v^2}$. 固有时间是曲线上钟的读数, 坐标时间是整套参考系赋予事件的标签.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1,>=Stealth]
+\draw[->] (-2.1,0)--(2.2,0) node[right]{$x$};
+\draw[->] (0,-1.8)--(0,2.2) node[above]{$t$};
+\draw[dashed] (-1.8,-1.8)--(2,2) node[right]{光线};
+\draw[dashed] (-1.8,1.8)--(1.8,-1.8);
+\draw[thick,structurecolor,->] (0,0)--(.65,1.75) node[above]{类时};
+\draw[thick,->] (0,0)--(1.7,.45) node[right]{类空};
+\node at (-.8,1.4){未来};\node at (-.8,-1.4){过去};
+\end{tikzpicture}
+\end{center}
+图按同一尺度画时间和空间, 虚线斜率为 $\pm1$. 更一般的时空图会随坐标而倾斜, 分类仍由度规给出.
+
+\originalsection{四维运动学与能量动量}
+\begin{definition}
+类时粒子的四速度是 $u^\mu=\dd x^\mu/\dd\tau=\gamma(1,v^1,v^2,v^3)$. 四加速度是 $a^\mu=\dd u^\mu/\dd\tau$, 质量为 $m$ 的自由粒子四动量是 $p^\mu=mu^\mu$.
+\end{definition}
+四速度满足 $u^\mu u_\mu=-1$, 因而 $u_\mu a^\mu=\frac12\dd(u_\mu u^\mu)/\dd\tau=0$. 在粒子的瞬时静止系 $u=(1,0,0,0)$, 加速度的时间分量为零. 这说明四加速度不是坐标三加速度简单加上一个零分量; 在运动系中, 正交条件会把其时间分量与空间分量连起来.
+
+降指标定义 $p_\mu=\eta_{\mu\nu}p^\nu$, 所以 $p_0=-p^0$. 写 $E=p^0$, 有 $E^2=\boldsymbol p^2+m^2$. 有质量粒子静止时 $E=m$, 恢复单位就是 $E=mc^2$. 对光子不能定义固有时间或单位四速度, 但可以定义沿零曲线的四动量, 满足 $p^2=0$、$E=|\boldsymbol p|$. 观察者四速度 $U$ 测得的粒子能量是
+\begin{equation}\label{eq:measured-energy}
+E_U=-p_\mu U^\mu.
+\end{equation}
+在观察者的静止系右边恰为 $p^0$, 而内积是标量, 所以这个定义在任意坐标中成立.
+
+\begin{example}
+一个光子在惯性系中沿 $x$ 正方向运动, 能量为 $E$. 以速度 $v$ 沿同方向运动的观察者测得多少能量?
+\end{example}
+\begin{solution}
+光子 $p=E(1,1,0,0)$, 观察者 $U=\gamma(1,v,0,0)$. 式\eqref{eq:measured-energy}给出 $E_U=\gamma E(1-v)=E\sqrt{(1-v)/(1+v)}$. 观察者追随光波时频率变低; $v\to1$ 时能量趋于零, 但观察者永远不能达到光子的静止系.
+\end{solution}
+
+\originalsection{向量、对偶空间与张量}
+四个分量本身还不构成向量. 当更换坐标时, 分量必须恰好补偿基底的改变. 在一个事件处, 以 $e_\mu$ 为基底写 $V=V^\mu e_\mu$. 同一个 $V$ 在新基底中有不同分量; 几何对象始终相同. 对一般坐标变换, 链式法则给出
+\begin{equation}\label{eq:vector-law}
+e_{\mu'}=\frac{\partial x^\nu}{\partial x^{\mu'}}e_\nu,
+\qquad V^{\mu'}=\frac{\partial x^{\mu'}}{\partial x^\nu}V^\nu.
+\end{equation}
+坐标基底 $e_\mu=\partial/\partial x^\mu$ 也可以理解为方向导数: $V$ 对标量函数 $f$ 的作用是 $V[f]=V^\mu\partial_\mu f$. 这一定义以后仍可用于弯曲时空, 不必先把流形嵌入更大的平直空间.
+
+\begin{definition}
+一形式 $\omega$ 是作用于向量并给出实数的线性函数. 对偶基底 $\dd x^\mu$ 满足 $\dd x^\mu(e_\nu)=\delta^\mu{}_\nu$. 写 $\omega=\omega_\mu\dd x^\mu$, 则 $\omega(V)=\omega_\mu V^\mu$. 一个 $(r,s)$ 型张量是 $r$ 个一形式和 $s$ 个向量的多线性函数.
+\end{definition}
+例如度规是 $(0,2)$ 型张量: 输入两个向量, 输出内积. 线性算子是 $(1,1)$ 型张量: 可把一个向量映为另一个向量, 也可把输出再交给一形式得到数. 一个 $(2,0)$ 型张量则输入两个一形式. 这种输入类型解释了上下指标的区别, 而不是记号装饰.
+
+一形式的变换式是 $\omega_{\mu'}=(\partial x^\nu/\partial x^{\mu'})\omega_\nu$, 与向量的雅可比矩阵互逆. 标量 $f$ 的微分 $\dd f=(\partial_\mu f)\dd x^\mu$ 是一形式, 因此 $\partial_\mu f$ 有下指标. 在一般坐标中不能用 $\partial_\mu V^\nu$ 直接定义张量导数: 再求导时会作用于式\eqref{eq:vector-law}中的雅可比矩阵, 产生二阶坐标导数. 第\ref{ch:connection}章将补上消除这项的联络.
+
+张量积 $A\otimes B$ 把两个输入分别交给 $A,B$ 后相乘. 例如 $(u\otimes u)^{\mu\nu}=u^\mu u^\nu$. 缩并是把一对上、下指标求和, 将型别同时减去一对; $T^\mu{}_\mu$ 是标量, $T^{\mu\nu}g_{\nu\rho}$ 是 $(1,1)$ 型张量. 度规非退化时存在逆矩阵 $g^{\mu\nu}$, 满足 $g^{\mu\lambda}g_{\lambda\nu}=\delta^\mu{}_\nu$. 因而 $V_\mu=g_{\mu\nu}V^\nu$ 和 $\omega^\mu=g^{\mu\nu}\omega_\nu$ 建立向量与一形式的对应. 它们并非原本就是同一对象; 对应需要度规.
+
+\begin{example}
+令 $U$ 为单位未来类时向量. 求观察者的空间投影, 并解释它为何具有正定的空间度规.
+\end{example}
+\begin{solution}
+对任意 $V$, 定义 $h^\mu{}_\nu=\delta^\mu{}_\nu+U^\mu U_\nu$. 因 $U^2=-1$, 有 $U_\mu h^\mu{}_\nu=0$ 和 $h^\mu{}_\rho h^\rho{}_\nu=h^\mu{}_\nu$. 于是 $V=E_V U+V_\perp$, 其中 $E_V=-U\cdot V$, $V_\perp=hV$. 在 $U$ 的静止基底中, 正交空间的任意向量为 $(0,v^1,v^2,v^3)$, 故其范数为 $\sum_i(v^i)^2$. 正定性是三维观察者空间的性质, 并不意味着四维洛伦兹度规正定.
+\end{solution}
+
+\originalsection{体积、流与能动量}
+守恒律的内容是: 一个区域中的量的变化等于穿过边界的通量. 在笛卡尔坐标中, 粒子数流 $N^\mu=n_0u^\mu$, 其中 $n_0$ 是流体静止系单位体积的粒子数. 在实验室中 $N^0=\gamma n_0=n$, $N^i=nv^i$, 因而 $\partial_\mu N^\mu=0$ 等价于 $\partial_t n+\partial_i(nv^i)=0$. 一个观察者测得的密度是 $n_U=-N\cdot U$.
+
+积分形式需要有向三维超曲面元 $\dd\Sigma_\mu$. 在未来法向量为 $U$ 的类空面上, 取 $\dd\Sigma_\mu=-U_\mu\dd V$, 使 $N^\mu\dd\Sigma_\mu$ 对未来粒子流为正. 对四维区域 $\mathcal V$, 散度定理给出 $\int_{\mathcal V}\partial_\mu N^\mu\dd^4x=\int_{\partial\mathcal V}N^\mu\dd\Sigma_\mu$, 边界各部分按向外定向. 将边界分为初始面、末面与侧壁, 就得到粒子数守恒的积分形式.
+
+取定向 $\epsilon_{0123}=+1$, $\epsilon^{0123}=-1$, 这里升指标的负号来自一个时间指标. 完全反对称的符号 $[\mu\nu\rho\sigma]$ 只是指标排列符号; 在一般坐标中, 真正的体积张量是 $\epsilon_{\mu\nu\rho\sigma}=\sqrt{|g|}[\mu\nu\rho\sigma]$, $g=\det(g_{\mu\nu})$. 绝对值保证在洛伦兹 signature 下平方根实数. 后文的 $\sqrt{|g|}\dd^4x$ 才是坐标无关的体积元.
+
+\begin{definition}
+能动量张量 $T^{\mu\nu}$ 的第一个指标表示被输运的四动量分量, 第二个指标表示通量方向. 在局部惯性系, $T^{00}$ 是能量密度, $T^{i0}$ 是动量密度, $T^{0i}$ 是能量通量, $T^{ij}$ 是动量通量或应力.
+\end{definition}
+不相互作用的尘埃有 $T^{\mu\nu}=\rho_0u^\mu u^\nu$, 其中 $\rho_0$ 是静止质量密度. 完美流体在静止系中各方向压力相同, 没有热流或剪切应力, 所以 $T^{\mu\nu}=\operatorname{diag}(\rho,p,p,p)$. 把静止系的表达式写成张量, 得
+\begin{equation}\label{eq:perfect-fluid}
+T^{\mu\nu}=(\rho+p)u^\mu u^\nu+p g^{\mu\nu}.
+\end{equation}
+其静止能量密度由 $T^{\mu\nu}u_\mu u_\nu=\rho$ 还原, 正交投影给出 $p h^{\mu\nu}$. 不同方向压力不同的物质不能套用这一式.
+
+在平直时空 $\partial_\nu T^{\mu\nu}=0$ 给出能量和三维动量的局部守恒. 对有界源, 分部积分使表面项为零, 从而
+\[
+\frac{\mathrm d}{\mathrm dt}\int T^{\mu0}\dd^3x=0.
+\]
+这个全局结论依赖平直背景的平移对称性; 弯曲时空中的 $\nabla_\nu T^{\mu\nu}=0$ 不自动保证有一个全局守恒能量. 这一差别会在宇宙学中出现.
+
+\originalsection{电磁场的几何形式}
+电场与磁场会随观察者混合, 因而应当把它们合在一个对象中. 为与公开作业的约定一致, 取四势 $A^\mu=(\Phi,\boldsymbol A)$,
+$F_{\mu\nu}=\partial_\mu A_\nu-\partial_\nu A_\mu$. 于是 $F_{0i}=-E_i$, $F_{ij}=\epsilon_{ijk}B_k$, 其中 $\boldsymbol E=-\partial_t\boldsymbol A-\boldsymbol\nabla\Phi$、$\boldsymbol B=\boldsymbol\nabla\times\boldsymbol A$. 在 Gaussian 单位且 $c=1$ 下,
+\begin{equation}\label{eq:maxwell}
+\partial_\mu F^{\mu\nu}=-4\pi J^\nu,\qquad
+\partial_\lambda F_{\mu\nu}+\partial_\mu F_{\nu\lambda}+\partial_\nu F_{\lambda\mu}=0.
+\end{equation}
+第一式的 $\nu=0$ 分量给 $\boldsymbol\nabla\cdot\boldsymbol E=4\pi J^0$, 空间分量给安培--麦克斯韦方程. 第二式把势的二阶偏导交换后完全抵消, 分别给出磁场无散度与法拉第定律. 选择 $A_\mu\mapsto A_\mu+\partial_\mu\phi$ 不改变 $F$, 因为 $\partial_\mu\partial_\nu\phi$ 对称. 规范自由是同一个物理场有多种势表示, 与坐标自由不同, 虽然线性引力会有相似的数学形式.
+
+反对称的 $(0,2)$ 型张量也称二形式; 外微分 $\dd F$ 的分量就是式\eqref{eq:maxwell}第二式的循环和. 这提供一个不需要联络的微分: 对完全反对称组合, Levi--Civita 联络的对称项相互抵消. 对给定四速度 $U$, 可测的电场是 $E_U^\mu=F^{\mu\nu}U_\nu$, 它与 $U$ 正交, 因为 $F^{\mu\nu}$ 反对称而 $U_\mu U_\nu$ 对称. 磁场也可用体积张量对 $F$ 取对偶后定义; 作业三逐项推导这些分解.
+
+以上对象的共同特点是: 一个坐标表达式可以在不同参考系间变换, 但测量最终由观察者、场与度规的缩并给出. 广义相对论继续保留这种原则, 同时让度规成为由物质决定的未知场.

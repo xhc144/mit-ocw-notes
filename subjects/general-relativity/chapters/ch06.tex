@@ -1,0 +1,328 @@
+\originalchapter{FLRW 宇宙学与光的传播}
+\label{gr-ch-cosmology}
+
+上一章通过弱场展开简化场方程. 另一种简化来自对称性: 若每个宇宙时间的空间几何均匀, 而且没有优先方向, 场方程就会从偏微分方程降为尺度随时间变化的常微分方程. 本章对应课程第18、19讲. 均匀和各向同性在此是模型假设; 公式的推导不需要预先指定当前观测所拟合的参数, 本章也不把2020课程指南中的数值当作最新测量结果.
+
+\originalsection{空间对称性与尺度因子}
+
+均匀性是空间中各点在几何上等价, 各向同性是给定点没有优先方向. 这里要求相同时间切片的每一点都各向同性, 而不是只在某个中心看来球对称. 三维空间因此具有六个局部独立的 Killing 向量, 达到三维的最大数目 $3(3+1)/2$. 宇宙的过去与未来却不必等价, 所以不要求四维时空也最大对称.
+
+在这样的三维空间中, 各向同性把曲率张量限制为
+\begin{equation}\label{gr6-space-curvature}
+ {}^{(3)}R_{ijkl}=\kappa(\gamma_{ik}\gamma_{jl}-\gamma_{il}\gamma_{jk}),
+ \quad {}^{(3)}R_{ij}=2\kappa\gamma_{ij},\quad {}^{(3)}R=6\kappa.
+\end{equation}
+理由是: 在正交标架中, 旋转不变的四指标张量只能由 Kronecker 张量的乘积组成; Riemann 的反对称性和交换对称性把它们合成括号中的差. 均匀性再要求系数不随空间位置改变. 这就是常截面曲率空间.
+
+为具体算出度规, 先用球对称写 $\gamma_{ij}\dd x^i\dd x^j=f(r)\dd r^2+r^2\dd\Omega^2$, $\dd\Omega^2=\dd\theta^2+\sin^2\theta\,\dd\varphi^2$. $r$ 此时是球面面积半径. 非平凡的空间联络为
+\begin{align*}
+ {}^{(3)}\Gamma^r{}_{rr}&=f'/(2f),&
+ {}^{(3)}\Gamma^r{}_{\theta\theta}&=-r/f,&
+ {}^{(3)}\Gamma^r{}_{\varphi\varphi}&=-r\sin^2\theta/f,\\
+ {}^{(3)}\Gamma^\theta{}_{r\theta}&={} ^{(3)}\Gamma^\varphi{}_{r\varphi}=1/r,&
+ {}^{(3)}\Gamma^\theta{}_{\varphi\varphi}&=-\sin\theta\cos\theta,&
+ {}^{(3)}\Gamma^\varphi{}_{\theta\varphi}&=\cot\theta,
+\end{align*}
+以及下指标对称的分量. 代入 Ricci 定义, 得
+\[
+ {}^{(3)}R_{rr}=\frac{f'}{rf},\qquad
+ {}^{(3)}R_{\theta\theta}=1-\frac1f+\frac{rf'}{2f^2}.
+\]
+第一式等于 $2\kappa f$, 所以 $f'=2\kappa r f^2$, 从而 $1/f=C-\kappa r^2$. 第二式再等于 $2\kappa r^2$, 左边则为 $1-C+2\kappa r^2$, 因而 $C=1$. 最大对称的三维度规是
+\[
+ \gamma_{ij}\dd x^i\dd x^j=\frac{\dd r^2}{1-\kappa r^2}+r^2\dd\Omega^2.
+\]
+它只在相应球坐标图覆盖的区域使用. 例如 $\kappa>0$ 时 $r=1/\sqrt\kappa$ 是这一坐标形式的边缘, 不是空间曲率发散的位置.
+
+选择随均匀流体一起运动的共动观察者, 用其固有时间 $t$ 为时间坐标. 各向同性不允许时间与空间之间有优先方向的交叉项, 于是四维线元取为
+\begin{equation}\label{gr6-flrw}
+ \dd s^2=-\dd t^2+a(t)^2\left[\frac{\dd r^2}{1-\kappa r^2}+r^2\dd\Omega^2\right]
+         =-\dd t^2+a(t)^2\gamma_{ij}\dd x^i\dd x^j.
+\end{equation}
+本章约定 $a$ 无量纲, $a(t_0)=1$, 空间坐标 $r$ 有长度量纲, $\kappa$ 有长度的负二次方量纲. 若改用无量纲空间坐标和有长度量纲的尺度 $A(t)$, 曲率符号可归一化成 $k=+1,0,-1$; 两种记号只是整体尺度的重新分配. 尤其应区分尺度因子 $a$ 与 Ricci 标量 $R$.
+
+\begin{definition}
+式\eqref{gr6-flrw}称为 Robertson--Walker 度规. 当 $a(t)$ 满足下面的 Friedmann 方程时, 称为 Friedmann--Lema\^itre--Robertson--Walker 时空, 简写 FLRW. Hubble 参数定义为 $H(t)=\dot a(t)/a(t)$. $H_0=H(t_0)$ 是给定参考时刻的值, 一般不能把 $H(t)$ 当成时间不变的常数.
+\end{definition}
+
+固定共动坐标的近邻间距为 $a(t)$ 倍的固定空间长度, 所以近邻的退行速度满足 $\dot D=HD$. 对很远的物体, 不同切片间如何比较距离和速度要先作定义; $HD>1$ 的切片距离增长并非局部粒子超光速. 局部的光仍满足零类条件.
+
+定义径向共动长度 $\chi$ 为 $\dd\chi=\dd r/\sqrt{1-\kappa r^2}$. 线元也可写为
+\begin{equation}\label{gr6-chi-metric}
+ \dd s^2=-\dd t^2+a(t)^2[\dd\chi^2+S_\kappa(\chi)^2\dd\Omega^2],
+ \qquad
+ S_\kappa(\chi)=\begin{cases}
+ \sin(\sqrt\kappa\,\chi)/\sqrt\kappa,&\kappa>0,\\
+ \chi,&\kappa=0,\\
+ \sinh(\sqrt{-\kappa}\,\chi)/\sqrt{-\kappa},&\kappa<0.
+ \end{cases}
+\end{equation}
+这正是正曲率三球面、零曲率 Euclid 空间和负曲率双曲空间的局部几何. “空间平坦”只表示 $\kappa=0$, 并不要求四维时空曲率为零.
+
+\originalsection{联络、Ricci 张量与 Friedmann 方程}
+
+由 $g_{00}=-1$, $g_{0i}=0$, $g_{ij}=a^2\gamma_{ij}$ 直接计算四维联络, 只有三类非零分量:
+\begin{equation}\label{gr6-connection}
+ \Gamma^0{}_{ij}=a\dot a\gamma_{ij}=Hg_{ij},\qquad
+ \Gamma^i{}_{0j}=\Gamma^i{}_{j0}=H\delta^i{}_j,\qquad
+ \Gamma^i{}_{jk}={}^{(3)}\Gamma^i{}_{jk}[\gamma].
+\end{equation}
+空间联络与 $a$ 无关, 因为在固定时刻 $a$ 对空间求导为零. 但混合联络不为零, 它们记录空间随时间的膨胀.
+
+使用前章已固定的 Ricci 符号约定, 时间分量为
+\[
+ R_{00}=-\partial_0\Gamma^\rho{}_{\rho0}
+             -\Gamma^\rho{}_{0\lambda}\Gamma^\lambda{}_{\rho0}
+        =-3\dot H-3H^2=-3\frac{\ddot a}{a}.
+\]
+空间分量中的纯空间项给 ${}^{(3)}R_{ij}=2\kappa\gamma_{ij}$. 其余项依次来自 $\partial_0\Gamma^0{}_{ij}$、$\Gamma^\rho{}_{\rho0}\Gamma^0{}_{ij}$ 和两个混合联络乘积, 因而
+\begin{align*}
+ R_{ij}
+ &=2\kappa\gamma_{ij}
+  +(\dot a^2+a\ddot a)\gamma_{ij}
+  +3\dot a^2\gamma_{ij}-2\dot a^2\gamma_{ij}\\
+ &=(a\ddot a+2\dot a^2+2\kappa)\gamma_{ij},\qquad R_{0i}=0.
+\end{align*}
+收缩时应使用 $g^{00}=-1$ 和 $g^{ij}=a^{-2}\gamma^{ij}$, 得
+\begin{equation}\label{gr6-ricci}
+ R=6\left(\frac{\ddot a}{a}+H^2+\frac\kappa{a^2}\right),\quad
+ G_{00}=3\left(H^2+\frac\kappa{a^2}\right),\quad
+ G_{ij}=-\left(2\frac{\ddot a}{a}+H^2+\frac\kappa{a^2}\right)g_{ij}.
+\end{equation}
+这些计算显示: 即使 $\kappa=0$, $\dot a$ 或 $\ddot a$ 仍可能产生时空曲率.
+
+均匀各向同性的物质应是共动理想流体, $u^\mu=(1,0,0,0)$, $T_{00}=\rho(t)$, $T_{ij}=p(t)g_{ij}$. 将式\eqref{gr6-ricci}代入 EFE 的 $00$ 分量及空间分量, 得
+\begin{align}
+ H^2+\frac\kappa{a^2}&=\frac{8\pi G}{3}\rho+\frac\Lambda3,
+                                      \label{gr6-friedmann1}\\
+ \frac{\ddot a}{a}&=-\frac{4\pi G}{3}(\rho+3p)+\frac\Lambda3.
+                                      \label{gr6-friedmann2}
+\end{align}
+第二式是把空间方程 $2\ddot a/a+H^2+\kappa/a^2=-8\pi Gp+\Lambda$ 与第一式组合得到的. 压力的引力作用在宇宙学中表现为 $3p$; 正压加强减速, 足够大的负压则可产生加速膨胀.
+
+这里的 $\rho,p$ 尚不包含已经写在左边的宇宙学常数. 也可以定义 $\rho_{\mathrm{tot}}=\rho+\rho_\Lambda$, $p_{\mathrm{tot}}=p-\rho_\Lambda$, $\rho_\Lambda=\Lambda/(8\pi G)$, 将两式中的显式 $\Lambda$ 删去. 两种写法都正确, 但不能同时把真空能量计入 $\rho$ 又保留同一个 $\Lambda$, 否则会计算两次.
+
+\originalsection{连续性方程与状态方程}
+
+我们可以使用前章流体能量方程, 此时 $\nabla_\mu u^\mu=3H$. 为直接检验联络计算, 也可展开 $\nabla_\mu T^{\mu0}=0$:
+\[
+ 0=\partial_t\rho+\Gamma^\mu{}_{\mu0}\rho+\Gamma^0{}_{ij}T^{ij}
+   =\dot\rho+3H\rho+3Hp.
+\]
+于是
+\begin{equation}\label{gr6-conservation}
+ \dot\rho+3H(\rho+p)=0,
+ \qquad \frac{\dd}{\dd t}(\rho a^3)=-p\frac{\dd}{\dd t}(a^3).
+\end{equation}
+取固定共动区域, 其固有体积正比于 $a^3$, 第二式就是无热交换时 $\dd U=-p\dd V$. 宇宙中辐射的总能量可因膨胀而下降, 这与局部协变守恒相容; 不能另补一个未定义的“能量流到宇宙外部”.
+
+式\eqref{gr6-friedmann1}、\eqref{gr6-friedmann2}、\eqref{gr6-conservation}并非三个独立方程. 对第一式求导, 用守恒式消去 $\dot\rho$, 在 $H\ne0$ 的区间就得到第二式. 在转折点 $H=0$ 附近不能随意除以 $H$, 应保留原来的空间场方程. 除这些方程外, 还需提供物质性质, 例如状态方程 $p=w\rho$.
+
+对不与其他成分交换能量、$w$ 恒定的流体, 守恒式可直接积分:
+\begin{equation}\label{gr6-rho-scaling}
+ \frac{\dd\rho}{\rho}=-3(1+w)\frac{\dd a}{a},
+ \qquad \rho(a)=\rho_0a^{-3(1+w)}.
+\end{equation}
+无压非相对论物质有 $w=0$, $\rho_m\propto a^{-3}$, 反映固定粒子数在膨胀体积中稀释. 对各向同性无质量粒子, 单粒子的空间应力是 $p_ip_j/E$, 而 $|\boldsymbol p|=E$. 对方向平均后 $\langle p_ip_j\rangle=\delta_{ij}|\boldsymbol p|^2/3$, 所以 $p_r=\rho_r/3$, $\rho_r\propto a^{-4}$. 额外的一次 $a^{-1}$ 正是单粒子能量的红移, 下一节将用光的测地线推出它. 真空成分有 $w=-1$, 所以密度保持常数.
+
+\originalsection{典型宇宙演化解}
+
+先令 $\kappa=\Lambda=0$, 取一个 $w>-1$ 的正密度流体. 设 $C=8\pi G\rho_0/3>0$, 第一 Friedmann 方程为
+\[
+ \dot a=\sqrt C\,a^{-(1+3w)/2}
+\]
+的膨胀分支. 积分得到 $a^{3(1+w)/2}=\tfrac32(1+w)\sqrt C(t-t_B)$, 因而
+\begin{equation}\label{gr6-powerlaw}
+ a(t)=\left[\frac32(1+w)\sqrt C(t-t_B)\right]^{2/[3(1+w)]}.
+\end{equation}
+$t_B$ 是这一理想解的零尺度时刻. 尘埃宇宙 $a\propto(t-t_B)^{2/3}$, 辐射宇宙 $a\propto(t-t_B)^{1/2}$. 把 $a$ 代回加速度方程, 可核对它们都是减速膨胀, 不能把膨胀与加速膨胀视为同一件事.
+
+若只有正宇宙学常数, $\kappa=0$, 则 $H=H_\Lambda=\sqrt{\Lambda/3}$, 有 $a=a_*e^{H_\Lambda(t-t_*)}$. 若 $w=-1$ 的真空密度已计入 $\rho_{\mathrm{tot}}$, 得到同一个解. 公式\eqref{gr6-powerlaw}的分母在 $w=-1$ 为零, 此时应重新积分, 不能把它直接代入幂律公式.
+
+多种互不交换能量的成分分别满足式\eqref{gr6-rho-scaling}. 定义当前参考时刻的
+\[
+ \rho_{\mathrm{crit},0}=\frac{3H_0^2}{8\pi G},\quad
+ \Omega_{m0}=\frac{\rho_{m0}}{\rho_{\mathrm{crit},0}},\quad
+ \Omega_{r0}=\frac{\rho_{r0}}{\rho_{\mathrm{crit},0}},\quad
+ \Omega_{\Lambda0}=\frac{\Lambda}{3H_0^2},\quad
+ \Omega_{k0}=-\frac\kappa{H_0^2}.
+\]
+这里的 $\Omega_{k0}$ 是曲率的便利参数, 不是某种物质密度. 在 $a_0=1$ 的约定下,
+\begin{equation}\label{gr6-h-mixture}
+ H(a)^2=H_0^2(\Omega_{r0}a^{-4}+\Omega_{m0}a^{-3}
+                   +\Omega_{k0}a^{-2}+\Omega_{\Lambda0}),
+\end{equation}
+且四个 $\Omega_0$ 的和为1. 例如辐射与物质密度相等时 $a_{\mathrm{eq}}=\rho_{r0}/\rho_{m0}$. 在膨胀分支, $t-t_* =\int_{a_*}^a\dd\tilde a/[\tilde a H(\tilde a)]$ 给出可直接数值积分的演化. 正曲率不自动意味着一定重新坍缩; 含真空能等成分时, 要由方程判断 $\dot a$ 是否真的达到零.
+
+\begin{example}
+空间平坦的宇宙包含尘埃与正宇宙学常数, 无辐射. 取大爆炸时刻为 $t=0$, 写 $C=8\pi G\rho_{m0}/3$, $H_\Lambda=\sqrt{\Lambda/3}$. 求 $a(t)$ 并说明早期、晚期及由减速转为加速的条件.
+\end{example}
+\begin{solution}
+方程为 $\dot a^2=C/a+H_\Lambda^2a^2$. 困难来自 $a$ 的两种幂次, 取 $y=a^{3/2}$ 就把它们化成常数和平方:
+\[
+ \dot y^2=\frac94(C+H_\Lambda^2y^2),\qquad
+ \int_0^y\frac{\dd\tilde y}{\sqrt{C+H_\Lambda^2\tilde y^2}}=\frac32t.
+\]
+积分得到 $y=(\sqrt C/H_\Lambda)\sinh(3H_\Lambda t/2)$, 因而
+\[
+ a(t)=\left(\frac C{H_\Lambda^2}\right)^{1/3}
+                  \sinh^{2/3}\left(\frac32H_\Lambda t\right).
+\]
+若要求参考时刻 $a(t_0)=1$, 该式也确定 $t_0$ 与 $C,H_\Lambda$ 的关系. 早期 $\sinh x\simeq x$, 有 $a\propto t^{2/3}$; 晚期 $\sinh x\simeq e^x/2$, 有 $a\propto e^{H_\Lambda t}$. 加速度方程给 $\ddot a/a=-4\pi G\rho_m/3+\Lambda/3$, 所以加速条件为 $\rho_m<2\rho_\Lambda$, 转折尺度满足 $a_{\mathrm{acc}}^3=\rho_{m0}/(2\rho_\Lambda)=C/(2H_\Lambda^2)$. 由解析解可见, 同一个模型内的早期幂律与晚期指数演化连续衔接.
+\end{solution}
+
+\begin{example}
+设宇宙完全没有物质和宇宙学常数, 但 $\kappa<0$. 它可以膨胀吗? 其时空一定弯曲吗?
+\end{example}
+\begin{solution}
+第一 Friedmann 方程成为 $\dot a^2=-\kappa$. 令 $\kappa=-1/L^2$, 选膨胀支和 $a(0)=0$, 得 $a=t/L$. 用 $\xi=\chi/L$ 后, 线元为
+\[
+ \dd s^2=-\dd t^2+t^2(\dd\xi^2+\sinh^2\xi\,\dd\Omega^2).
+\]
+再取 $T=t\cosh\xi$, $R=t\sinh\xi$, 直接微分可验证
+\[
+ -\dd T^2+\dd R^2=-\dd t^2+t^2\dd\xi^2,
+ \qquad R^2\dd\Omega^2=t^2\sinh^2\xi\,\dd\Omega^2.
+\]
+所以它是 Minkowski 时空未来光锥内部的 Milne 坐标. 空间切片有负曲率, 共动距离随时间增长, 但四维曲率为零. 这一例子把切片曲率、坐标膨胀与时空曲率三个概念清楚地区分开.
+\end{solution}
+
+\originalsection{光子能量与宇宙学红移}
+
+光子的四动量 $p^\mu$ 沿零类测地线平行输运, $p_\mu p^\mu=0$. 对共动观察者 $u^\mu=(1,0,0,0)$, 测得能量为 $E=-u_\mu p^\mu=p^0$. 取仿射参数 $\lambda$ 使 $\dd x^\mu/\dd\lambda=p^\mu$. 时间测地线方程结合式\eqref{gr6-connection}与零类条件给出
+\[
+ \frac{\dd E}{\dd\lambda}+Hg_{ij}p^ip^j=0,
+ \qquad g_{ij}p^ip^j=E^2.
+\]
+又有 $\dd t/\dd\lambda=E$, 所以 $\dd E/\dd t=-HE$, 积分即
+\begin{equation}\label{gr6-redshift}
+ a(t)E(t)=\text{常数},\qquad
+ 1+z=\frac{\lambda_0}{\lambda_e}=\frac{a(t_0)}{a(t_e)}=\frac1{a(t_e)}.
+\end{equation}
+这里 $e$ 表示发射, $0$ 表示观测. 两者均为共动观察者, 因此还未包含源或观测者本动产生的额外 Doppler 红移. 膨胀过程中光子的能量降为原来的 $a_e/a_0$, 波长相应伸长.
+
+课程指南还用 Killing 张量表述这个守恒量. 对称二阶张量 $K_{\mu\nu}$ 若满足 $\nabla_{(\alpha}K_{\mu\nu)}=0$, 则沿任意仿射测地线 $K_{\mu\nu}p^\mu p^\nu$ 守恒, 因为其导数是 $p^\alpha p^\mu p^\nu\nabla_{(\alpha}K_{\mu\nu)}$, 另两项由测地线方程消失. 在 FLRW 中可取
+\[
+ K_{\mu\nu}=a^2(g_{\mu\nu}+u_\mu u_\nu),\qquad K_{ij}=a^4\gamma_{ij},\quad K_{0\mu}=0.
+\]
+其含一个时间指标的 Killing 条件可实际检查:
+\[
+ \nabla_0K_{ij}=2Ha^4\gamma_{ij},\qquad
+ \nabla_iK_{j0}=\nabla_jK_{0i}=-Ha^4\gamma_{ij}.
+\]
+三项之和为零; 纯空间项由 $\gamma$ 的度规相容性为零, 其余时间项也为零. 对光子收缩得到 $K_{\mu\nu}p^\mu p^\nu=a^2E^2$, 与式\eqref{gr6-redshift}一致. 这个例子说明, 没有普通时间平移 Killing 向量, 仍可能存在另一种测地线守恒结构.
+
+\originalsection{共动距离、角直径距离与光度距离}
+
+径向光线在式\eqref{gr6-chi-metric}中满足 $\dd\chi=\pm\dd t/a$. 因而发射点到原点的径向共动距离是
+\begin{equation}\label{gr6-comoving-distance}
+ \chi_e=\int_{t_e}^{t_0}\frac{\dd t}{a(t)}
+       =\int_0^z\frac{\dd z'}{H(z')}.
+\end{equation}
+第二式用了 $\dot z=-(1+z)H$ 和 $a=1/(1+z)$. 注意“光走了多久”是 $t_0-t_e=\int_0^z\dd z'/[(1+z')H(z')]$, 它与共动距离的积分不同. 恢复 $c$ 时, 共动长度积分的分子要乘 $c$.
+
+相同 $\chi_e$ 的球面在参考时刻面积为 $4\pi S_\kappa(\chi_e)^2$. 定义横向共动距离 $D_M=S_\kappa(\chi_e)$. 发射时物体的固有横向尺寸为 $\Delta L=a_eS_\kappa(\chi_e)\Delta\theta$, 因而角直径距离
+\begin{equation}\label{gr6-distance-relations}
+ D_A=\frac{\Delta L}{\Delta\theta}=\frac{D_M}{1+z}.
+\end{equation}
+这个表达式适用于理想 FLRW 光路中局部小角度的横向尺寸, 忽略额外引力透镜和源的本动影响.
+
+若源静止系的总辐射光度为 $L$, 每个光子的能量在传播中减少 $1+z$ 倍. 两次相邻波峰或发射事件满足相同径向积分, 微分后有 $\dd t_0/a_0=\dd t_e/a_e$, 因而到达时间间隔也拉长 $1+z$ 倍. 若传播透明且光子数守恒, 观测流量是
+\[
+ F=\frac{L}{4\pi D_M^2(1+z)^2}.
+\]
+按 $F=L/(4\pi D_L^2)$ 定义的光度距离于是为
+\begin{equation}\label{gr6-luminosity-distance}
+ D_L=(1+z)D_M=(1+z)^2D_A.
+\end{equation}
+两个红移因子分别来自光子能量和到达率. 如有吸收, 直接由通量推得的距离还会受到传播效应影响, 不能不加条件使用上式.
+
+课程还讨论自行距离. 若源在发射时具有局部横向固有速度 $v_\perp$, 很小的时间内 $\dd\theta=v_\perp\dd t_e/D_A$. 因为观测间隔 $\dd t_0=(1+z)\dd t_e$, 观测角速度满足
+\[
+ \frac{\dd\theta}{\dd t_0}=\frac{v_\perp}{(1+z)D_A}=\frac{v_\perp}{D_M}.
+\]
+以 $v_\perp$ 除以观测角速度定义的自行距离就是 $D_M$. 距离名字相近, 但用到的时间和尺寸必须明确; $D_L,D_A,D_M$ 一般并不相等.
+
+\begin{example}
+空间平坦、只有无压物质的膨胀宇宙满足 $a(t_0)=1$. 求 $H(z)$、回望时间及三种距离, 并求角直径距离何时达到最大值.
+\end{example}
+\begin{solution}
+由 $\rho_m\propto a^{-3}$ 与平坦 Friedmann 方程, $H(z)=H_0(1+z)^{3/2}$. 同时 $a=(t/t_0)^{2/3}$, $t_0=2/(3H_0)$, 所以
+\[
+ t_0-t_e=\frac{2}{3H_0}[1-(1+z)^{-3/2}],
+ \qquad
+ D_M=\int_0^z\frac{\dd z'}{H_0(1+z')^{3/2}}
+     =\frac2{H_0}\left(1-\frac1{\sqrt{1+z}}\right).
+\]
+平坦时 $S_0(\chi)=\chi$, 于是
+\[
+ D_A=\frac2{H_0}\left[(1+z)^{-1}-(1+z)^{-3/2}\right],\qquad
+ D_L=\frac2{H_0}\left[(1+z)-\sqrt{1+z}\right].
+\]
+对 $D_A$ 求导, 零点满足 $(3/2)(1+z)^{-5/2}=(1+z)^{-2}$, 即 $z=5/4$. 两端 $D_A(0)=0$, $D_A(z)\to0$ 当 $z\to\infty$, 所以该点确为最大值, 最大距离为 $8/(27H_0)$. $D_L$ 却持续增加. 这说明高红移物体的角大小与通量不能用同一个 Euclid 距离解释. 这里是纯物质理想模型的计算, 并非对实际宇宙成分的拟合.
+\end{solution}
+
+对低红移, 可用距离展开直接连接运动学参数. 定义减速参数 $q_0=-a_0\ddot a_0/\dot a_0^2$. 由 $\dot H=-(1+q)H^2$ 与 $\dot z=-(1+z)H$, 得 $H(z)=H_0[1+(1+q_0)z+O(z^2)]$. 积分给 $\chi=H_0^{-1}[z-(1+q_0)z^2/2+O(z^3)]$. 又因 $S_\kappa(\chi)=\chi+O(\chi^3)$,
+\[
+ D_L=\frac z{H_0}\left[1+\frac{1-q_0}{2}z+O(z^2)\right].
+\]
+因此最靠近原点的斜率测 $H_0$, 下一阶曲率测加速度信息, 而空间曲率在这一局部展开中更晚出现. 从距离反推成分仍需要场方程、物质模型和观测校准, 不能仅凭一条红移数据断定宇宙组成.
+
+\originalsection{粒子视界、事件视界与 Hubble 尺度}
+
+引入共形时间 $\eta$ 满足 $\dd\eta=\dd t/a$. 径向零类线在 $(\eta,\chi)$ 坐标中满足 $\dd\chi=\pm\dd\eta$, 所以因果范围可用有限的积分长度判断. 设模型开始时刻为 $t_i$, 未来终点为 $t_f$.
+
+\begin{definition}
+时刻 $t$ 的粒子视界共动半径与未来事件视界共动半径分别是
+\[
+ \chi_p(t)=\int_{t_i}^t\frac{\dd t'}{a(t')},\qquad
+ \chi_e(t)=\int_t^{t_f}\frac{\dd t'}{a(t')}.
+\]
+积分有限时, 前者给出自模型起始以来能够向当前观察者发来信号的最大径向共动范围, 后者给出在未来能够发来信号的范围. 若相应积分发散, 就没有由该积分定义的有限视界. 同一切片上的固有径向半径为 $a(t)\chi_p$ 或 $a(t)\chi_e$.
+\end{definition}
+
+这些是整个时间区间的因果性质, 不由 $H$ 在某一时刻的值单独决定. Hubble 长度 $H^{-1}$ 只是膨胀的瞬时尺度, 共动 Hubble 长度为 $(aH)^{-1}$. 它常用于判断相对论波模的尺度, 但在一般 FLRW 模型中不自动等于粒子或事件视界.
+
+例如从 $t_i=0$ 开始的幂律 $a=Ct^\alpha$, $C>0$, $0<\alpha<1$, 有
+\[
+ \chi_p=\frac{t^{1-\alpha}}{C(1-\alpha)},\qquad
+ a\chi_p=\frac{t}{1-\alpha},\qquad H^{-1}=\frac t\alpha.
+\]
+尘埃宇宙粒子视界为 $3t$, Hubble 长度为 $3t/2$; 辐射宇宙二者恰都为 $2t$, 只是这一指数下的巧合. 这两种幂律若一直延续到无穷未来, $\int_t^\infty\dd t'/a$ 发散, 没有未来事件视界. 若 $\alpha>1$, 未来积分收敛, $a\chi_e=t/(\alpha-1)$; 但从零时刻开始的过去积分发散. 对持续的指数膨胀 $a=a_*e^{Ht}$, 未来事件视界的固有半径则为 $H^{-1}$. 粒子视界是否存在仍取决于该指数阶段从何时开始.
+
+在正曲率紧致空间中, 足够大的共形时间还涉及全局空间范围及光线绕行; 简单“半径”表述要结合空间拓扑使用. 本节关于早期视界问题的尺度比较取空间平坦或近似平坦区域, 不用一个局部球坐标图替代全局因果分析.
+
+\originalsection{平坦问题与视界问题}
+
+令 $\Omega_{\mathrm{tot}}(t)=8\pi G\rho_{\mathrm{tot}}/(3H^2)$, 真空成分若存在也计入总密度. 第一 Friedmann 方程给出
+\begin{equation}\label{gr6-flatness}
+ \Omega_{\mathrm{tot}}-1=\frac\kappa{a^2H^2}.
+\end{equation}
+这里 $\kappa$ 是固定的空间曲率参数, 不是随 $a$ 增长的变量. 在某个恒定 $w$ 的流体占主导且曲率尚小的阶段, $H^2\propto a^{-3(1+w)}$, 所以
+\[
+ |\Omega_{\mathrm{tot}}-1|\propto a^{1+3w}.
+\]
+物质阶段偏离量正比于 $a$, 辐射阶段正比于 $a^2$. 如果希望这些减速阶段后仍十分接近平坦, 就要求早期偏离量更加微小. 平坦问题问的是这种初始接近程度如何解释, 不是说 $\kappa=0$ 在数学上不允许, 也不是说坐标变换能改变曲率符号.
+
+视界问题涉及另外的积分. 从大爆炸开始一直取减速幂律, 早期时刻 $t_e$ 的粒子视界共动尺度是 $\chi_p(t_e)=\eta_e-\eta_i$, 而我们今天看到该时刻球面的共动半径是 $\chi_{\mathrm{obs}}=\eta_0-\eta_e$. 若相隔很远的早期区域距离大于它们先前因果域可覆盖的尺度, 就不能在这个模型内用先前局部相互作用建立共同热平衡. 当希望用共同热历史解释这些区域的相似状态时, 这便成为对简单减速历史的挑战. 所需比较是两个共形时间积分, 不能只比较今天的距离与今天的 Hubble 长度.
+
+加速膨胀提供一种同时改变这两种尺度行为的机制. 直接微分得
+\[
+ \frac{\dd}{\dd t}\frac1{aH}=\frac{\dd}{\dd t}\frac1{\dot a}
+                         =-\frac{\ddot a}{\dot a^2}.
+\]
+因此 $\ddot a>0$ 时共动 Hubble 长度缩小. 近指数膨胀持续 $N=\log(a_f/a_i)$ 个 e-fold 时, 在 $H$ 近似不变的条件下, 式\eqref{gr6-flatness}中的偏离平坦程度被压低约 $e^{-2N}$. 同时, 一个先前可发生因果联系的小区域被伸展为很大的共动覆盖范围, 使后来的广阔可观测区域可以有共同的早期因果来源.
+
+这个论证说明机制如何作用, 还不是完整的暴胀模型. 是否有足够的早期因果联系, 要把暴胀前史、暴胀时长、暴胀后的膨胀及再加热衔接起来; 单写一段 $a\propto e^{Ht}$ 并不自动证明任何实际宇宙的全部因果条件. 也不应把均匀性的模型假设当作已经推出的动力学结论.
+
+若以本章已经定义的实标量场作为动力学来源, 均匀场 $\phi(t)$ 的密度和压力为
+\[
+ \rho_\phi=\frac12\dot\phi^2+V(\phi),\qquad
+ p_\phi=\frac12\dot\phi^2-V(\phi),
+ \qquad \ddot\phi+3H\dot\phi+V'(\phi)=0.
+\]
+最后一式由标量场方程在 FLRW 中展开而来, 也使 $\dot\rho_\phi+3H(\rho_\phi+p_\phi)=0$. 若显式 $\Lambda=0$ 且此场占主导, 加速度方程成为
+\[
+ \frac{\ddot a}{a}=\frac{8\pi G}{3}[V(\phi)-\dot\phi^2].
+\]
+势能大于 $\dot\phi^2$ 时才加速; 仅有正势能还不够. 若动能远小于势能, 状态方程接近 $w=-1$, 可产生近指数阶段. 这是把课程指南中的近真空机制连接到明确物质动力学的一种补充, 不包含宇宙学扰动谱、粒子产生或对某个势函数的观测检验.

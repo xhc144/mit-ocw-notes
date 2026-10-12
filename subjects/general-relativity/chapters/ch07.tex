@@ -1,0 +1,335 @@
+\originalchapter{恒星结构与球对称引力场}
+\label{ch:gr-stars}
+
+本章以 MIT 8.962, Spring 2020 的公开 Lecture Guide 第 20、21 讲为主线, 从爱因斯坦方程求出球对称恒星的内部与外部几何. 弱场检验部分是为连接可观测量而补写的推导. 全章取宇宙学常数为零, $c=1$, 保留 $G$; 因而质量 $M$ 对应的引力长度为 $\mu=GM$. 这里的 $\rho$ 是流体静止系测得的\emph{总能量密度}, 包括静止质量与内能, 不应直接换成粒子数密度或静止质量密度.
+
+\originalsection{对称性怎样减少未知量}
+
+如果一个物体没有优先空间方向, 它的等半径面应是圆球. 球对称却还不足以说明物体不随时间变化; 本节先加入\emph{静态}假设: 存在一个与时间平移对应、并且垂直于空间切片的类时 Killing 向量. 在没有视界的恒星内部及其外部静态区域, 可选坐标使度规没有 $\dd t\,\dd r$ 项. 再把球面的面积定义为 $4\pi r^2$, 得到
+\begin{equation}
+ \dd s^2=-e^{2\Phi(r)}\dd t^2+e^{2\Lambda(r)}\dd r^2
+             +r^2(\dd\theta^2+\sin^2\theta\,\dd\varphi^2).
+ \label{eq:gr-static-spherical}
+\end{equation}
+这种 $r$ 叫面积半径. 径向固有距离是 $e^{\Lambda}\dd r$, 通常并不等于 $\dd r$. 两个未知函数分别控制静止钟的速率与径向空间距离, 并不是可以同时任意指定的两个引力势.
+
+静止流体的四速度是 $u^\alpha=e^{-\Phi}\delta^\alpha_t$. 把它代入完美流体形式 $T_{\alpha\beta}=(\rho+p)u_\alpha u_\beta+p g_{\alpha\beta}$, 得混合分量
+\begin{equation}
+ T^\alpha{}_{\beta}=\operatorname{diag}(-\rho,p,p,p).
+ \label{eq:gr-fluid-diagonal}
+\end{equation}
+这里的三个相同压强分量表示局部各向同性. 对有磁场、弹性剪切或径向与切向压强不同的物质, 下文的方程与紧致度结论都须相应修改.
+
+先把几何计算做实. 以下撇号表示 $\dd/\dd r$. 除由下指标交换得到的分量外, 所需的非零 Christoffel 符号是
+\begin{align}
+ &\Gamma^t{}_{tr}=\Phi',\quad
+ \Gamma^r{}_{tt}=e^{2(\Phi-\Lambda)}\Phi',\quad
+ \Gamma^r{}_{rr}=\Lambda',\quad
+ \Gamma^r{}_{\theta\theta}=-r e^{-2\Lambda},\quad
+ \Gamma^r{}_{\varphi\varphi}=-r e^{-2\Lambda}\sin^2\theta,\nonumber\\
+ &\Gamma^\theta{}_{r\theta}=\Gamma^\varphi{}_{r\varphi}=\frac1r,\quad
+ \Gamma^\theta{}_{\varphi\varphi}=-\sin\theta\cos\theta,\quad
+ \Gamma^\varphi{}_{\theta\varphi}=\cot\theta.
+ \label{eq:gr-star-gamma}
+\end{align}
+用本卷的曲率约定 $R^\rho{}_{\sigma\mu\nu}=\partial_\mu\Gamma^\rho{}_{\nu\sigma}-\partial_\nu\Gamma^\rho{}_{\mu\sigma}+\Gamma^\rho{}_{\mu\lambda}\Gamma^\lambda{}_{\nu\sigma}-\Gamma^\rho{}_{\nu\lambda}\Gamma^\lambda{}_{\mu\sigma}$ 缩并, 可以逐项得到
+\begin{align}
+ R_{tt}&=e^{2(\Phi-\Lambda)}\left(\Phi''+\Phi'^2-\Phi'\Lambda'+\frac{2\Phi'}r\right),\nonumber\\
+ R_{rr}&=-\Phi''-\Phi'^2+\Phi'\Lambda'+\frac{2\Lambda'}r,\nonumber\\
+ R_{\theta\theta}&=1-e^{-2\Lambda}\left[1+r(\Phi'-\Lambda')\right],\qquad
+ R_{\varphi\varphi}=\sin^2\theta R_{\theta\theta}.
+ \label{eq:gr-star-ricci}
+\end{align}
+例如 $R_{tt}$ 中的 $\Phi''$ 来自 $\partial_r\Gamma^r{}_{tt}$, 而 $2\Phi'/r$ 来自两个角方向的联络缩并; 这说明即使函数只依赖 $r$, 球面的几何也不能丢掉. 进一步组成 $G^\alpha{}_{\beta}=R^\alpha{}_{\beta}-\tfrac12\delta^\alpha_\beta R$, 三个独立分量为
+\begin{equation}
+\begin{aligned}
+ G^t{}_t&=-\frac1{r^2}+e^{-2\Lambda}\left(\frac1{r^2}-\frac{2\Lambda'}r\right),\\
+ G^r{}_r&=-\frac1{r^2}+e^{-2\Lambda}\left(\frac1{r^2}+\frac{2\Phi'}r\right),\\
+ G^\theta{}_\theta&=G^\varphi{}_\varphi
+ =e^{-2\Lambda}\left[\Phi''+\Phi'^2-\Phi'\Lambda'+\frac{\Phi'-\Lambda'}r\right].
+\end{aligned}
+ \label{eq:gr-star-einstein}
+\end{equation}
+这些式子既用于内部物质, 也用于外部真空. 不同的是方程右端, 不是另换一套引力定律.
+
+\originalsection{质量函数与 TOV 方程}
+
+直接求 $\Lambda$ 不如换一个有物理意义的未知量. 定义 $m(r)$ 为
+\begin{equation}
+ e^{-2\Lambda(r)}=1-\frac{2Gm(r)}r=:f(r).
+ \label{eq:gr-mass-function}
+\end{equation}
+在正则中心 $m(0)=0$; 为使静态坐标适用, 还要求内部 $f(r)>0$. 从 $f'=-2Gm'/r+2Gm/r^2$ 可见
+\[
+ G^t{}_t=-\frac1{r^2}+\frac f{r^2}+\frac{f'}r
+        =-\frac{2Gm'}{r^2}.
+\]
+所以 $G^t{}_t=-8\pi G\rho$ 给出
+\begin{equation}
+ m'=4\pi r^2\rho,\qquad m(r)=4\pi\int_0^r\rho(s)s^2\dd s.
+ \label{eq:gr-tov-mass}
+\end{equation}
+积分里是面积半径坐标体积, 而不是固有体积 $4\pi r^2e^\Lambda\dd r$. 因而 $m(r)$ 并不等于把所有局部静止能量简单相加; 它已包含引力结合的效果, 在外部与渐近测得的质量参数相接.
+
+再从 $G^r{}_r=8\pi Gp$ 得
+\[
+ -\frac{2Gm}{r^3}+\frac{2f\Phi'}r=8\pi Gp,
+\]
+即
+\begin{equation}
+ \Phi'=\frac{G[m+4\pi r^3p]}{r(r-2Gm)}.
+ \label{eq:gr-tov-phi}
+\end{equation}
+压强不仅抵抗压缩, 还进入产生引力的源. 分子里的 $4\pi r^3p$ 是这一效应的一个直接表现.
+
+最后必须说明静态流体怎样保持平衡. 用混合分量计算 $\nabla_\alpha T^\alpha{}_r=0$,
+\[
+ 0=\partial_r p+\Gamma^\alpha{}_{\alpha r}p
+                  -\Gamma^\beta{}_{\alpha r}T^\alpha{}_{\beta}
+   =p'+(\rho+p)\Phi'.
+\]
+这里角方向与径向的压强项相消, 剩下时间方向的 $\Phi'$. 因而恒星结构方程是
+\begin{equation}
+ \begin{aligned}
+ m'&=4\pi r^2\rho,\\
+ p'&=-\frac{G(\rho+p)(m+4\pi r^3p)}{r(r-2Gm)},\\
+ \Phi'&=\frac{G(m+4\pi r^3p)}{r(r-2Gm)}.
+ \end{aligned}
+ \label{eq:gr-tov}
+\end{equation}
+这组方程称 Tolman--Oppenheimer--Volkoff 方程, 简称 TOV. 已写出的角向爱因斯坦方程不是可随意忽略的物理条件: 当上式与状态方程成立时, 它由 Bianchi 恒等式保证, 也可代回式 \eqref{eq:gr-star-einstein} 核验.
+
+在弱场与低压条件 $2Gm/r\ll1$, $p\ll\rho$, $4\pi r^3p\ll m$ 下, 上式退化为 $p'=-G\rho m/r^2$. 相对论修正可写成三个乘因子:
+\[
+ p'=-\frac{G\rho m}{r^2}
+       \left(1+\frac p\rho\right)
+       \left(1+\frac{4\pi r^3p}m\right)
+       \left(1-\frac{2Gm}r\right)^{-1}.
+\]
+它们分别来自流体的惯性、压强对引力的贡献与空间几何. 此形式只在 $m,\rho$ 非零的区域用来解释修正; 数值求解时应使用无这种除法的原式.
+
+要真正得到一颗恒星, 必须给定状态方程 $p=p(\rho)$ 与中心密度或中心压强. 中心不能直接放入有 $r$ 分母的表达式, 而应先展开:
+\begin{equation}
+ m(r)=\frac{4\pi}3\rho_c r^3+O(r^5),\qquad
+ p(r)=p_c-2\pi G(\rho_c+p_c)(\rho_c/3+p_c)r^2+O(r^4).
+ \label{eq:gr-tov-center}
+\end{equation}
+这给出从小而非零半径开始积分的正则初值. 积分到第一次 $p(R)=0$ 处定义表面半径 $R$, 总质量为 $M=m(R)$. 对没有表面薄壳的模型, 把内部 $\Phi$ 的加常数选到 $e^{2\Phi(R)}=1-2GM/R$, 就能与外部静止时间连续匹配. 一族不同中心密度的解并不自动都是动态稳定的; 径向扰动稳定性还要另解一个扰动问题.
+
+\begin{example}
+ 设冷物质的状态方程用静止质量密度 $\rho_0$ 写成 $p=K\rho_0^\Gamma$, $\Gamma>1$. 忽略热熵变化, 由第一定律求可用于 TOV 的总能量密度 $\rho$.
+\end{example}
+\begin{solution}
+ 单位静止质量的能量为 $\rho/\rho_0$, 单位静止质量体积为 $1/\rho_0$. 固定熵的第一定律是
+ \[
+ \dd\left(\frac\rho{\rho_0}\right)
+   =-p\,\dd\left(\frac1{\rho_0}\right)
+   =K\rho_0^{\Gamma-2}\dd\rho_0.
+ \]
+ 从稀薄极限 $\rho/\rho_0\to1$ 积分, 得
+ \[
+ \rho=\rho_0+\frac K{\Gamma-1}\rho_0^\Gamma
+      =\rho_0+\frac p{\Gamma-1}.
+ \]
+ 因此 TOV 中不能只放 $\rho_0$. 还应检查声速 $c_s^2=\dd p/\dd\rho$ 是否不超过 1; 一个便于积分的幂律并不保证在所有密度都符合因果性.
+\end{solution}
+
+\originalsection{真空外解与 Birkhoff 定理}
+
+在表面外 $\rho=p=0$, 式 \eqref{eq:gr-tov-mass} 立即给出 $m=M$. 再积分
+\[
+ \Phi'=\frac{\mu}{r(r-2\mu)}
+       =\frac12\frac{\dd}{\dd r}\log\left(1-\frac{2\mu}r\right).
+\]
+用远处静止钟归一化时间, $\Phi(\infty)=0$, 便得到 Schwarzschild 外部度规
+\begin{equation}
+ \dd s^2=-\left(1-\frac{2\mu}r\right)\dd t^2
+        +\left(1-\frac{2\mu}r\right)^{-1}\dd r^2+r^2\dd\Omega^2,
+ \qquad \mu=GM.
+ \label{eq:gr-schwarzschild}
+\end{equation}
+其中 $\dd\Omega^2=\dd\theta^2+\sin^2\theta\,\dd\varphi^2$. 远处 $g_{tt}=-(1+2\Phi_N)+\cdots$ 与牛顿势 $\Phi_N=-GM/r$ 比较, 再次确认质量参数的含义.
+
+这个结论比静态推导看起来更强. 在面积半径梯度为空间方向的球对称区域, 可先写 $\Phi(t,r),\Lambda(t,r)$ 的对角度规. 直接计算得 $G_{tr}=2\partial_t\Lambda/r$. 真空方程使 $\partial_t\Lambda=0$. 随后 $tt$ 方程使 $m'=0$, 而 $rr$ 方程给 $\Phi(t,r)=\tfrac12\log(1-2\mu/r)+a(t)$. 用 $\dd T=e^{a(t)}\dd t$ 吸收最后一个时间函数, 就回到式 \eqref{eq:gr-schwarzschild}. 这证明在这一坐标适用区域, 球对称真空没有独立的动态自由度.
+
+\begin{theorem}
+ Birkhoff 定理的本章版本: 不含宇宙学常数的四维球对称真空解, 局部等距于 Schwarzschild 解的一部分, 质量参数在相连的真空区域为常数. 在面积半径为空间坐标的外部区域, 该解具有静态形式.
+\end{theorem}
+
+上面的分量论证建立了外部静态区域的版本; 越过视界时须改用第 \ref{ch:gr-blackholes} 章的正则坐标, 不能把 $r$ 始终当作空间方向. 它的物理结论是: 一颗球对称恒星可以脉动, 甚至坍缩, 但只要外部仍是真空且没有能量穿过这个真空区域, 外部的 $M$ 与局部 Schwarzschild 几何不随脉动改变. 球对称坍缩本身也不会产生引力波. 若外部充满向外流动的辐射, 它已不是 $T_{\alpha\beta}=0$ 的问题.
+
+\originalsection{均匀密度恒星与紧致度上界}
+
+取 $\rho=\rho_c$ 常数, 定义 $k=8\pi G\rho_c/3$ 与 $y(r)=\sqrt{1-kr^2}$. 此时 $m=4\pi\rho_c r^3/3$ 且 $kR^2=2GM/R$. TOV 的压强方程变成
+\[
+ \frac{\dd p}{(\rho_c+p)(\rho_c+3p)}
+       =-\frac{4\pi G}3\frac{r\,\dd r}{1-kr^2}.
+\]
+用部分分式
+\[
+ \frac1{(\rho_c+p)(\rho_c+3p)}
+   =-\frac1{2\rho_c(\rho_c+p)}
+      +\frac3{2\rho_c(\rho_c+3p)},
+\]
+从表面 $p(R)=0$ 积分到半径 $r$, 得
+\[
+ \log\frac{\rho_c+3p(r)}{\rho_c+p(r)}
+   =\log\frac{y(r)}{y(R)}.
+\]
+所以完整压强轮廓及时间函数为
+\begin{equation}
+ p(r)=\rho_c\frac{y(r)-y(R)}{3y(R)-y(r)},\qquad
+ e^{\Phi(r)}=\frac{3y(R)-y(r)}2.
+ \label{eq:gr-uniform-star}
+\end{equation}
+第二式可由 $p'=-(\rho_c+p)\Phi'$ 积分: $(\rho_c+p)e^\Phi$ 为常数, 再用表面 $e^{\Phi(R)}=y(R)$ 即得. 中心压强
+\begin{equation}
+ p_c=\rho_c\frac{1-\sqrt{1-2GM/R}}{3\sqrt{1-2GM/R}-1}
+ \label{eq:gr-central-pressure}
+\end{equation}
+在 $2GM/R\to8/9$ 时发散. 要有有限非负压强与正的中心钟速, 必须 $R>9GM/4$. 均匀密度是假想的不可压缩模型, 声速无限; 这个精确解用来辨认相对论结构, 不能直接当成因果物质的恒星模型.
+
+\begin{example}
+ 对均匀密度解求弱紧致度极限的中心压强, 并核验牛顿静水方程.
+\end{example}
+\begin{solution}
+ 记 $C=2GM/R$. 当 $C\ll1$ 时 $\sqrt{1-C}=1-C/2+O(C^2)$, 所以 $p_c/\rho_c=C/4+O(C^2)=GM/(2R)+O(C^2)$. 在牛顿方程中 $p'=-4\pi G\rho_c^2r/3$, 积分给 $p(r)=2\pi G\rho_c^2(R^2-r^2)/3$. 利用 $M=4\pi\rho_c R^3/3$, 得 $p_c=\rho_c GM/(2R)$, 与相对论解相符.
+\end{solution}
+
+不均匀的密度是否可以避免这个上界? 下面的论证也说明结论所需的假设. 设恒星静态、球对称、压强各向同性且 $p\ge0$, 中心正则, $\rho\ge0$ 且从中心向外不增加, 表面压强为零并无表面薄壳. 令
+\[
+ y=\sqrt{1-2Gm/r},\qquad \zeta=e^\Phi>0,\qquad
+ w=\frac{Gm}{r^3}.
+\]
+从 $G^r{}_r=G^\theta{}_\theta$ 消去压强, 可以把式 \eqref{eq:gr-star-einstein} 化成一个特别有用的导数恒等式:
+\begin{equation}
+ \frac{\dd}{\dd r}\left(\frac y r\zeta'\right)
+      =\frac\zeta y\frac{\dd w}{\dd r}.
+ \label{eq:gr-buchdahl-identity}
+\end{equation}
+为核查这一步, 写 $f=y^2=1-2wr^2$, 用 $\zeta''=\zeta(\Phi''+\Phi'^2)$ 与 $\Lambda'=-y'/y$; 等式左端乘以 $r/y$ 后是 $\zeta''+(y'/y-1/r)\zeta'$, 正是径向和角向方程之差的微分部分.
+
+由密度非增, 当前密度不大于球内平均密度: $4\pi\rho(r)\le3m(r)/r^3$. 因而
+\[
+ w'=\frac G{r^4}(4\pi r^3\rho-3m)\le0.
+\]
+式 \eqref{eq:gr-buchdahl-identity} 于是说明 $y\zeta'/r$ 随半径不增加. 由表面匹配 $\zeta(R)=y_R:=\sqrt{1-2GM/R}$ 与 $\zeta'(R)=GM/(R^2y_R)$,
+\[
+ \frac{y(r)}r\zeta'(r)\ge\frac{GM}{R^3}=:w_R.
+\]
+又因为 $w(r)\ge w_R$, 有 $y(r)\le\sqrt{1-2w_Rr^2}$. 把这两个不等式相接并积分,
+\begin{align*}
+ y_R-\zeta(0)&=\int_0^R\zeta'(r)\dd r
+ \ge w_R\int_0^R\frac r{\sqrt{1-2w_Rr^2}}\dd r
+ =\frac{1-y_R}2,\\
+ 0<\zeta(0)&\le\frac{3y_R-1}2.
+\end{align*}
+故 $y_R>1/3$, 即得到以下严格版本.
+
+\begin{theorem}
+ 在上述静态、正则、各向同性且能量密度非增的假设下, 有限中心压强的球形流体星满足 $2GM/R<8/9$, 或 $R>9GM/4$. 均匀密度解在中心压强趋于无限的极限逼近这个界.
+\end{theorem}
+
+这是 Buchdahl 紧致度界在本章使用的版本. 它\emph{不是}对任意球对称物质的无条件结论, 也不是“满足此界便稳定”的充分条件. 压强各向异性、非单调密度、表面层或不同场方程都可能改变结论. 本章证明排除了此类静态正则流体构型在界外存在; 它没有证明界内每颗星的径向扰动都稳定, 也没有单凭这个不等式证明实际坍缩的终态.
+
+\originalsection{静止钟、红移与自由落体}
+
+用度规连接观测量时, 应先确定观测者. 在 $r>2\mu$ 处保持固定空间坐标的观测者有 $u^\alpha=f^{-1/2}\delta^\alpha_t$. 这条世界线不是自由落体; 其径向四加速度为 $a^r=\Gamma^r{}_{tt}(u^t)^2=\mu/r^2$, 所需固有加速度大小为
+\[
+ |a|=\frac{\mu}{r^2\sqrt f}.
+\]
+它在 $r\to2\mu^+$ 发散, 已预告“悬停在视界上”不是普通物理观察方式.
+
+沿光线, 时间平移对称性使 $\mathcal E=-p_t$ 守恒. 静止观测者量到的光子能量是 $E_{\rm loc}=-p_\alpha u^\alpha=\mathcal E/\sqrt{f(r)}$. 对分别在 $r_e,r_o$ 静止的发射者和接收者,
+\begin{equation}
+ \frac{\nu_o}{\nu_e}=\sqrt{\frac{f(r_e)}{f(r_o)}}.
+ \label{eq:gr-grav-redshift}
+\end{equation}
+若光从低处传到远处, 频率降低. 弱场下 $\Delta\nu/\nu\simeq\Phi_N(r_e)-\Phi_N(r_o)$; 恢复单位时右端须除以 $c^2$. 这里假设两端静止, 若发射者正在坠落, 还必须乘上其相对局部静止系的 Doppler 因子.
+
+对径向类时测地线, 记单位静止质量能量 $\varepsilon=f\,\dd t/\dd\tau$. 归一化 $u\cdot u=-1$ 给
+\begin{equation}
+ \left(\frac{\dd r}{\dd\tau}\right)^2=\varepsilon^2-f.
+ \label{eq:gr-radial-infall}
+\end{equation}
+从无穷远静止落下的理想化轨道有 $\varepsilon=1$, 所以 $\dd r/\dd\tau=-\sqrt{2\mu/r}$. 从某个 $r_0$ 到 $r$ 的固有时间为
+\begin{equation}
+ \tau(r)-\tau(r_0)=\frac{2}{3\sqrt{2\mu}}\left(r_0^{3/2}-r^{3/2}\right).
+ \label{eq:gr-infall-proper}
+\end{equation}
+它穿过 $r=2\mu$ 的固有时间有限. 这里 $r_0$ 只是同一条 $\varepsilon=1$ 轨道的起算点, \emph{不是}说物体从有限 $r_0$ 静止释放. 后一种初始条件应取 $\varepsilon=\sqrt{f(r_0)}$. 第 \ref{ch:gr-blackholes} 章将用正则坐标解释外部时间 $t$ 的发散.
+
+\originalsection{光线偏折}
+
+球对称使测地线落在一个经过中心的平面内, 可选它为 $\theta=\pi/2$. 对光子, 以仿射参数 $\lambda$ 描述, 能量 $\mathcal E=f\dot t$ 与角动量 $\mathcal L=r^2\dot\varphi$ 守恒. 圆点在本节表示 $\dd/\dd\lambda$. 零长度条件给 $\dot r^2=\mathcal E^2-f\mathcal L^2/r^2$. 定义 $u=1/r$, $b=\mathcal L/\mathcal E$, 利用 $\dot r=-\mathcal L\,\dd u/\dd\varphi$,
+\[
+ \left(\frac{\dd u}{\dd\varphi}\right)^2=\frac1{b^2}-u^2+2\mu u^3,
+ \qquad u''+u=3\mu u^2.
+\]
+第二式可由第一式求导, 并在转向点由连续性延拓; 此处双撇号改为对 $\varphi$ 的导数. 在 $\mu/b\ll1$ 下, 把零阶直线选为 $u_0=\sin\varphi/b$. 一阶修正满足
+\[
+ u_1''+u_1=\frac{3\mu}{2b^2}(1-\cos2\varphi),
+\]
+可取特解
+\[
+ u=\frac{\sin\varphi}b+\frac{\mu}{2b^2}(3+\cos2\varphi)
+     +O(\mu^2/b^3).
+\]
+齐次项对应直线方向和冲量参数的微调, 此选取保持轨道关于最近点对称. 入射端 $u=0$ 在 $\varphi_{\rm in}=-2\mu/b+O((\mu/b)^2)$, 出射端在 $\varphi_{\rm out}=\pi+2\mu/b+O((\mu/b)^2)$. 因而总偏折角
+\begin{equation}
+ \Delta\varphi=\frac{4GM}b+O((GM/b)^2).
+ \label{eq:gr-light-deflection}
+\end{equation}
+恢复单位后第一项为 $4GM/(bc^2)$. $b$ 是在渐近平直区域定义的冲量参数, 与最近面积半径只在零阶近似相同. 当 $b$ 接近黑洞捕获阈值时, 一阶小角近似失效, 应用下一章的精确有效势.
+
+\originalsection{近日点进动}
+
+对有静止质量的试验体, 用固有时间定义 $\varepsilon=f\dot t$, $\ell=r^2\dot\varphi$. 则
+\[
+ \dot r^2=\varepsilon^2-f\left(1+\frac{\ell^2}{r^2}\right),\qquad
+ u''+u=\frac\mu{\ell^2}+3\mu u^2.
+\]
+牛顿椭圆的倒半径是 $u_0=(1+e\cos\varphi)/p$, 其中半通径 $p=\ell^2/\mu=a(1-e^2)$, $a$ 为零阶半长轴. 代入一阶右端, $3\mu u_0^2$ 中与齐次解共振的项是 $6\mu e\cos\varphi/p^2$. 因为
+\[
+ (\dd^2/\dd\varphi^2+1)(\varphi\sin\varphi)=2\cos\varphi,
+\]
+修正中的积累项为 $3\mu e\varphi\sin\varphi/p^2$. 把它与 $e\cos\varphi/p$ 合并,
+\[
+ u\simeq\frac1p\left[1+e\cos\bigl((1-3\mu/p)\varphi\bigr)\right]
+       +\text{不积累的常数与二倍角修正}.
+\]
+两次近日点之间的方位角因此超过 $2\pi$:
+\begin{equation}
+ \Delta\varphi_{\rm peri}=\frac{6\pi GM}{a(1-e^2)}
+          +O((GM/p)^2).
+ \label{eq:gr-perihelion}
+\end{equation}
+恢复单位时分母增添 $c^2$. 上式假设 $GM/p\ll1$, 忽略中心天体的自转与多极矩, 也忽略其他天体的扰动. 它给的是相对论对每周期进动的贡献, 不能把观测到的全部进动都归给该式.
+
+\begin{example}
+ 在这个近似下, $e=0$ 时近日点不存在, 为何仍可谈进动公式的极限?
+\end{example}
+\begin{solution}
+ 完全圆轨道没有选定的近日点方向. 应取一个很小但非零的偏心率, 比较径向振动完成一周时的方位角. 上述频率 $1-3\mu/p$ 在 $e\to0$ 时仍有有限极限, 描述的正是径向振动频率与方位频率的差; 不是为严格的圆指定一个不存在的近日点.
+\end{solution}
+
+\originalsection{Shapiro 时间延迟}
+
+最后一种检验比较光传播时间. 直接在面积半径坐标中取直线很容易混入坐标效应; 弱场下采用空间各向同性半径 $\varrho$, 其与 $r$ 的关系为
+\[
+ r=\varrho\left(1+\frac\mu{2\varrho}\right)^2.
+\]
+到一阶精度, 度规为
+\[
+ \dd s^2=-(1-2U)\dd t^2+(1+2U)\delta_{ij}\dd x^i\dd x^j
+       +O(U^2),\qquad U=\frac\mu\varrho>0.
+\]
+对零长度光路, $\dd t=(1+2U)\dd l+O(U^2)$, $\dd l$ 为零阶欧氏长度. 到这一阶, 固定端点的路径偏折对平直路程的改变是二阶, 所以可沿零阶直线计算附加时间. 设光线最近经过原点的距离为 $b$, 沿线坐标为 $z$, 两端在 $z=-z_1,z=z_2$, $z_1,z_2>0$. 一程附加坐标时间是
+\begin{align}
+ \Delta t&=2\mu\int_{-z_1}^{z_2}\frac{\dd z}{\sqrt{b^2+z^2}}
+ =2\mu\log\frac{(z_1+\sqrt{z_1^2+b^2})(z_2+\sqrt{z_2^2+b^2})}{b^2}.
+ \label{eq:gr-shapiro}
+\end{align}
+远端 $z_1,z_2\gg b$ 时, 它约为 $2GM\log(4z_1z_2/b^2)$; 恢复单位为 $2GM/c^3$ 乘该对数. 往返测量应分别计算两段, 若几何相同则乘二. 发射地面钟的读数还要由该处的 $\dd\tau=\sqrt{-g_{tt}}\dd t$ 转换, 并采用同一参考路径比较. 这使“时间延迟”成为明确的实验比较量, 而不是声称坐标时间本身处处可被一只钟直接测到.
+
+恒星结构、钟速与三种轨道效应来自同一外部度规. 它们所使用的近似不同: TOV 可以处理强场静态流体, 而最后三个一阶公式只适用于 $GM/r$ 或 $GM/b$ 很小的区域. 接下来不再展开小参数, 而直接研究 Schwarzschild 解的强场与因果边界.

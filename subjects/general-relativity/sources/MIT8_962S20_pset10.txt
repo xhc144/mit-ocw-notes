@@ -1,0 +1,186 @@
+                  Massachusetts Institute of Technology
+                         Department of Physics
+                            8.962 Spring 2006
+
+                                  Problem Set 10
+
+
+
+1. Isotropic representation of the Schwarzschild metric
+  (a) The Schwarzschild line element, written in Schwarzschild coordinates, takes the
+  form
+                                 2GM            dr2
+                          �             �
+                  ds2 = − 1 −        dt2 +             + r2 dΩ2 .
+                                   r       (1 − 2GM/r)
+
+  Show that changing to the radial coordinate r̄, deﬁned by
+                                                      �2
+                                             GM
+                                            �
+                                  r = r̄ 1 +               ,
+                                              2r̄
+  puts the Schwarzschild line element into the form
+
+                         ds2 = gtt (r̄)dt2 + g(r̄)(dr̄2 + r̄2 dΩ2 ) .
+
+  This new coordinate system is called “isotropic coordinates”, since it emphasizes the
+  fundamental local isotropy of the three spatial directions.
+  Compute the metric functions gtt (r̄) and g(r̄).
+  (b) Take the limit r̄ � GM . Show that the line element then reduces to a form
+  appropriate for describing the exterior of a spherical body in the linearized limit of
+  general relativity.
+
+2. Numerical construction of neutron star models in GR
+  A moderately accurate approximation to the equation of state of the material which
+  makes up a neutron star is given by the polytropic form
+
+                                         P = KρΓ0
+
+  where P is the pressure, ρ0 is the rest matter density, and the constants are given by
+
+                       Γ = 5/3 ,
+                                      ¯2
+                           32/3 π 4/3 h
+                       K =             8/3
+                               5     mn
+                           = 5.38 × 109 (dyne/cm2 )(gm/cm3 )−5/3 .
+                           = 5.38 × 109 gm−2/3 cm4 sec−2 .
+
+  In this problem, you will numerically integrate the TOV equations of stellar structure
+  to build models of neutron stars in general relativity. Your goal will be to examine the
+  total mass M∗ and radius R∗ as a function of central density ρ0,c . As such, you must
+                                            1
+familiarize yourself with some system for numerically solving a system of ordinary
+diﬀerential equations. My personal experience has shown that the routine NDSolve
+built into the package Mathematica is well suited to this problem. (An example of
+using NDSolve will be posted to the 8.962 website, to illustrate how it works.) More
+ambitious students with suﬃcient programming and numerical methods expertise may
+prefer to write their own code in C or C++, or whatever you are most comfortable with.
+During your calculations, don’t forget to take into account the diﬀerence between rest
+mass density ρ0 and relativistic energy density ρ:
+
+                                      P         KρΓ0
+                          ρ = ρ0 +       = ρ0 +      .
+                                     Γ−1        Γ−1
+The equations you will integrate take the form
+                           dm
+                              = 4πρr2
+                           dr
+                           dP     (ρ + P )(m + 4πr3 P )
+                              = −                       .
+                           dr          r(r − 2m)
+
+We have here written these equations in units in which both G and c are set equal to
+1. The initial conditions you need to apply are
+
+                         m(r = 0) = 0 ,
+                         P (r = 0) = Pc = P (ρ0,c ) = KρΓ0,c .
+
+One integrates these equations until the pressure drops to zero: P (R∗ ) = 0 deﬁnes
+the star’s surface. (In fact, you will probably ﬁnd in your numerical integration that
+Mathematica or your code attempts to take an inﬁnite number of inﬁnitesimally
+small steps in the vicinity of R∗ . The radius at which this numerical inaccuracy sets
+in will still deﬁne the surface of the star to very high accuracy.) The total mass of the
+star is then deﬁned as m(R∗ ) ≡ M∗ .
+(a) Experience has shown that numerical calculations of this kind behave best when
+the units are chosen such that many key quantities are within an order of magnitude
+or so of unity. A good choice is to put G = 1 and c = 1; we then pick the units of
+all dimensionful quantities to be powers of kilometers. With this choice, the order of
+magnitude of the total mass will be roughly 1 kilometer, and the order of magnitude
+of the stellar radius will be roughly 10 kilometers.
+Using this unit system, convert
+(i) ρ = 1 gm/cm3 to km−2 .
+(ii) P = 1 dyne/cm2 = 1 gm cm−1 sec−2 to km−2 .
+(iii) K = 1 gm−2/3 cm4 sec−2 to km4/3 . Use this conversion factor to convert the K that
+appears in the polytropic equation of state to km4/3 .
+(b) Pick a central density ρ0,c = 1015 gm/cm3 . Inserting appropriate conversion factors
+such that all quantities are in units of km (or powers of km), integrate the TOV
+equations to compute the radius R∗ and mass M∗ of the star that has this central
+density.
+                                      2
+(c) If a photon is emitted radially with energy Eem from the surface of this star, what
+is the energy Eob with which this photon is observed by distant (r → ∞) observers?
+Using these energies, compute the surface redshift
+                                          Eob − Eem
+                               zsurf =              .
+                                             Eob
+
+(d) As described in lecture, the mass M∗ is not what one would get by integrating all
+ﬂuid density elements over the proper volume of the star’s interior. Let us deﬁne Mp as
+the mass that would be obtained by this integration. Re-integrate the TOV equations
+for the central density 1015 gm/cm3 , but add the equation
+                                               �         �−1/2
+                  dmp        √                2m(r)
+                      = 4πρr2 grr = 4πρr2 1 −                    .
+                   dr                           r
+
+Compute the mass MP , which is mp (R∗ ).
+(e) The diﬀerence between Mp and M∗ reﬂects the fact that the self-gravity of the star
+contributes to the star’s mass. These diﬀerences can be regarded as the “gravitational
+binding energy” of the star. Compute
+                                         Mp − M∗
+                                 Δ≡              .
+                                           M∗
+Δ is the fraction of the star’s mass that is due to this binding energy. What is this
+fraction for this choice of central density?
+
+
+
+
+                                      3
+3. Stability of a TOV star
+  By computing a range of TOV models, we can assess whether a star is stable against
+  radial (i.e., purely spherical) perturbations. Detailed analysis shows that a stable star
+  satisﬁes
+                                        dM
+                                            >0;
+                                        dρc
+  an unstable model satisﬁes
+                                        dM
+                                            <0.
+                                        dρc
+
+  (Notice it is ρc that appears in this criterion, not ρ0,c .) A detailed explanation and
+  derivation of this stability criterion can be found in Black holes, white dwarfs, and
+  neutron stars: The physics of compact objects, by S. L. Shapiro and S. A. Teukolsky,
+  §6.8 - 6.9. An intuitive explanation goes as follows:
+  Suppose we construct a TOV model, and then squeeze it, decreasing its radius by
+  some small amount δR∗ . Clearly, the mean density, and thus the central density, will
+  be augmented, since we are decreasing the volume of the object. If the star resists
+  the squeezing, its mass will also increase: It does work to resist the squeezing, work is
+  energy, and mass and energy are equivalent. On the other hand, if the star does not
+  resist the squeezing, its mass will decrease: A small squeeze puts it into an energetically
+  more favorable smaller radius. This clearly leads to a runaway, causing the star to
+  collapse into a black hole.
+  (a) Compute a range of TOV models with central densities ρ0,c = 1014 , 1015 , 1016 , 1017
+  and 1018 gm/cm3 . Make a plot of M∗ vs ρc for these models. Do you see any evidence
+  for a change from stable to unstable behavior?
+  (b) Zoom in on any unstable region you ﬁnd and locate, as accurately as possible, the
+  marginally stable star (dM/dρc = 0). This star has the maximum possible mass for
+  this equation of state in general relativity. What is this maximum mass? Convert your
+  result from km to solar masses.
+
+
+
+
+                                         4
+MIT OpenCourseWare
+https://ocw.mit.edu
+
+
+
+
+8.962 General Relativity
+Spring 2020
+
+
+
+
+For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+
+
+
+                                                       5
+

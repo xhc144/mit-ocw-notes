@@ -1,0 +1,945 @@
+\originalchapter{作业四至七}
+\label{ch:gr-ps04-07}
+
+本章题面来自 MIT 8.962 的公开作业文件. 文件页眉均标为 Spring 2006, 而公开资源收录于 Spring 2020 课程页; 两个年份分别指原题的标记与本次使用的 OCW 版本. 四份原卷均未标注分值. 除明确标为官方提示的文字外, 以下解答均为本稿独立推导, 不是 MIT 官方答案. 采用 $(-+++)$ 号差及本书的曲率约定. 在近似计算中, 同时说明弱场、小速度或小位移条件, 不把近似度规中出现的高阶项当作精确的广义相对论预测.
+
+\originalsection{作业四}
+\label{sec:gr-ps04}
+
+题源: \href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset04/}{MIT 8.962, Spring 2006, Problem Set 4}. 原卷共五题, 无分值. 第 2(a) 题另有\href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset04_hint/}{官方提示}, 提示把能动量守恒分别投影到流体四速度方向及其正交方向; 以下完整计算独立完成.
+
+\begin{exercise}
+原题 4.1. 作业二中加速观察者的时空称为 Rindler 时空, 其线元为
+\[
+\dd s^2=-(1+g\bar x)^2\dd\bar t^2+\dd\bar x^2+\dd\bar y^2+\dd\bar z^2.
+\]
+求全部非零 Christoffel 符号. 原题提示可参考 Carroll 第 3.3 题.
+\end{exercise}
+\begin{solution}
+记 $N=1+g\bar x$, 在 $N>0$ 的 Rindler 坐标区域内, 唯一随坐标变化的度规分量是 $g_{\bar t\bar t}=-N^2$, 故 $\partial_{\bar x}g_{\bar t\bar t}=-2gN$. 由
+\[
+\Gamma^\alpha{}_{\beta\gamma}=\frac12g^{\alpha\delta}
+(\partial_\beta g_{\delta\gamma}+\partial_\gamma g_{\delta\beta}-\partial_\delta g_{\beta\gamma})
+\]
+得到
+\[
+\Gamma^{\bar t}{}_{\bar t\bar x}=\Gamma^{\bar t}{}_{\bar x\bar t}=\frac gN,
+\qquad \Gamma^{\bar x}{}_{\bar t\bar t}=gN.
+\]
+所有其他分量均为零. 联络非零表示这组坐标的基矢随位置变化, 并不表示曲率非零. 例如 $R^{\bar x}{}_{\bar t\bar x\bar t}=g^2-(gN)(g/N)=0$.
+\end{solution}
+
+\begin{exercise}
+原题 4.2. 完美流体的能动量张量写为 $T=\rho U\otimes U+Ph$, 其中 $h=g^{-1}+U\otimes U$.
+\begin{enumerate}[label=(\alph*)]
+\item 从局域能动量守恒 $\nabla\cdot T=0$ 推出相对论 Euler 方程
+\[
+(\rho+P)\nabla_UU=-h\cdot\nabla P.
+\]
+$T$ 与 $h$ 均对称, 故这里的收缩没有歧义.
+\item 对非相对论流体 $\rho\gg P$, 四速度时间分量远大于空间分量, 在 Cartesian 基底中证明方程化为
+\[
+\frac{\partial v_i}{\partial t}+v_k\partial_kv_i=-\frac1\rho\partial_iP,
+\qquad i,k\in\{1,2,3\}.
+\]
+若联络不为零, 例如采用球坐标, 会增加哪些项?
+\item 在 Rindler 时空中应用相对论 Euler 方程研究流体静水平衡. 流体在 $\bar x$ 坐标中静止, 特别是 $U^{\bar x}=0$. 若状态方程为 $P=w\rho$, $w>0$ 为常数, 求满足 $\rho(0)=\rho_0$ 的 $\rho(\bar x)$.
+\item 改设 $w=w_0/(1+g\bar x)$, 其中 $w_0$ 为常数. 证明 $\rho(\bar x)=\rho_0\exp(-\bar x/L)$, 求密度标高 $L$, 并补回光速因子, 使 $L$ 具有长度量纲.
+\item 与恒定重力场中的非相对论、平面平行、等温大气比较. 大气状态方程为 $P=\rho kT/\mu$, 其中 $T$ 为温度, $\mu$ 为平均粒子质量. 可在 (b) 式右边加入 $-\partial_i\Phi=g_i$, 其中 $\Phi$ 是 Newton 引力势, $g_i$ 是 Newton 重力加速度. Rindler 时空没有引力曲率, 为什么它的静水平衡与真正重力场的结果相似?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 在这里 $\rho$ 是流体静止系中的总能量密度, $U^\mu U_\mu=-1$. 定义投影张量 $h^{\mu\nu}=g^{\mu\nu}+U^\mu U^\nu$ 及 $h^\lambda{}_\nu=\delta^\lambda{}_\nu+U^\lambda U_\nu$. 它满足 $h^\lambda{}_\nu U^\nu=0$. 先展开守恒式而不提前丢掉沿 $U$ 的分量:
+\begin{align*}
+0=\nabla_\mu T^{\mu\nu}
+&=U^\nu\bigl[U^\mu\partial_\mu\rho+(\rho+P)\nabla_\mu U^\mu\bigr]
+ +(\rho+P)a^\nu+h^{\mu\nu}\partial_\mu P,\\
+a^\nu&=U^\mu\nabla_\mu U^\nu.
+\end{align*}
+对四速度归一化求导得 $U_\nu a^\nu=0$. 用 $U_\nu$ 收缩上式, 便得到能量方程
+\[
+U^\mu\partial_\mu\rho+(\rho+P)\nabla_\mu U^\mu=0.
+\]
+再用 $h^\lambda{}_\nu$ 投影, 第一项被消去, 其余两项保留, 从而
+\[
+(\rho+P)a^\lambda=-h^{\lambda\mu}\partial_\mu P.
+\]
+这说明压力梯度中垂直于流体世界线的部分改变流体运动, 沿世界线的守恒式则控制能量随流体体积的变化. 这正是官方提示所建议的两个投影, 不是两个互相独立的任意假设.
+
+(b) 在惯性 Cartesian 坐标中, $U^0=1+O(v^2)$, $U^i=v^i+O(v^3)$, 因而
+\[
+a^i=\partial_tv^i+v^k\partial_kv^i+\text{相对论高阶项}.
+\]
+在通常非相对论的时间尺度上, 压力随流体运动变化, $U^iU^\mu\partial_\mu P$ 相比空间压力梯度也属于高阶项. 以 $\rho+P\simeq\rho$, $h^{ij}\simeq\delta^{ij}$ 代入即得所需式. 使用曲线空间坐标时应写上指标的速度形式,
+\[
+\partial_tv^i+v^j\partial_jv^i+\Gamma^i{}_{jk}v^jv^k
+=-\frac1\rho g^{ij}\partial_jP.
+\]
+例如球坐标中的径向项包含 $-r(v^\theta)^2-r\sin^2\theta(v^\phi)^2$, 是坐标基矢改变造成的几何项. 如果时空本身的联络也参与, 左边还包含 $\Gamma^i{}_{00}+2\Gamma^i{}_{0j}v^j$; 这些项在适当弱场极限中给出重力或惯性效应. 上下指标不能在曲线坐标中随意互换.
+
+(c) 静止流体满足 $U^{\bar t}=N^{-1}$, $U^{\bar i}=0$. 由上一题的联络,
+\[
+a^{\bar x}=\Gamma^{\bar x}{}_{\bar t\bar t}(U^{\bar t})^2=\frac gN.
+\]
+静水平衡还包含热力学量不随 $\bar t$ 变化的条件. 于是 Euler 方程的 $\bar x$ 分量为
+\[
+\frac{\dd P}{\dd\bar x}=-(\rho+P)\frac gN.
+\]
+令 $P=w\rho$, 将变量分离后有
+\[
+\frac{\dd\rho}{\rho}=-\frac{1+w}{w}\frac{g\dd\bar x}{1+g\bar x},
+\qquad
+\rho(\bar x)=\rho_0(1+g\bar x)^{-(1+w)/w}.
+\]
+这里仅讨论 $N>0$ 且此流体描述有效的区域.
+
+(d) $w$ 随位置改变时不能把它当常数提出导数. 因 $w'=-wg/N$,
+\[
+P'=w\rho'-\frac{wg}{N}\rho
+=-\frac gN(1+w)\rho,
+\]
+故 $w\rho'=-g\rho/N$, 即 $\rho'/\rho=-g/w_0$. 因此
+\[
+\rho=\rho_0e^{-g\bar x/w_0},\qquad L=\frac{w_0}{g}.
+\]
+恢复 SI 制中的物理加速度 $g_{\rm phys}$ 后, $N=1+g_{\rm phys}\bar x/c^2$, 所以
+\[
+L=\frac{w_0c^2}{g_{\rm phys}}.
+\]
+此处 $w_0=P/\rho$ 的参考值是无量纲量, 因为 $\rho$ 是能量密度. 若 $g_{\rm phys}>0$, 要求 $w_0>0$ 才是通常意义上的正标高.
+
+(e) 在朝上的高度坐标 $z$ 中, 令重力为 $-g_{\rm phys}\boldsymbol e_z$. 用质量密度 $\rho_m$ 写 Newton 平衡式,
+\[
+\frac{\dd P}{\dd z}=-\rho_mg_{\rm phys},\qquad
+P=\rho_m\frac{kT}{\mu},
+\]
+于是 $\rho_m(z)=\rho_m(0)e^{-z/H}$, $H=kT/(\mu g_{\rm phys})$. 在低温非相对论极限中 $\rho\simeq\rho_mc^2$, 因而 $w_0\simeq kT/(\mu c^2)$, 上一问给出的 $L$ 正好变成 $H$. 常数 $w$ 的 (c) 解在 $g_{\rm phys}z/c^2\ll1$, $w\ll1$ 时同样具有这一局部指数近似. Rindler 静止观察者具有非零固有加速度; 流体需要压力来维持这种加速运动. 等效原理使这种局部惯性效应与重力下的支撑具有相同形式, 虽然 Rindler 时空的 Riemann 曲率处处为零.
+\end{solution}
+
+\begin{exercise}
+原题 4.3. 球对称静态时空可写为
+\[
+\dd s^2=-e^{2\Phi(r)}\dd t^2+
+\left[1-\frac{2GM(r)}r\right]^{-1}\dd r^2
++r^2(\dd\theta^2+\sin^2\theta\dd\phi^2),
+\]
+其中 $\Phi(r)$ 与 $M(r)$ 为给定函数. 静水平衡中 $U^i=0$, $i\in\{r,\theta,\phi\}$. 用相对论 Euler 方程证明压强只依赖 $r$, 并满足
+\[
+\frac{\dd P}{\dd r}=-(\rho+P)\frac{\dd\Phi}{\dd r}.
+\]
+原题在同一式中混用了 $p$ 与 $P$, 此处统一为 $P$.
+\end{exercise}
+\begin{solution}
+令 $f=1-2GM(r)/r$, 在静态坐标适用的 $f>0$ 区域内, $U^t=e^{-\Phi}$. 相关联络为
+\[
+\Gamma^r{}_{tt}=fe^{2\Phi}\Phi',\qquad
+\Gamma^\theta{}_{tt}=\Gamma^\phi{}_{tt}=0.
+\]
+故 $a^r=f\Phi'$, $a^\theta=a^\phi=0$. Euler 方程的三个空间分量分别给出
+\[
+(\rho+P)f\Phi'=-f\partial_rP,\qquad
+0=-\frac1{r^2}\partial_\theta P,\qquad
+0=-\frac1{r^2\sin^2\theta}\partial_\phi P.
+\]
+消去 $f$ 就得到径向平衡式, 而后两式给出球对称压强. 在极轴上的结论由光滑性延续. 静水平衡的含义还包括压强不随时间变化; 单靠 Euler 方程的空间投影不能排除一个未声明的时间依赖. 这里得到的是静态平衡条件, 尚未使用决定 $\Phi$ 和 $M$ 的 Einstein 方程.
+\end{solution}
+
+\begin{exercise}
+原题 4.4. 设 $v^\alpha=\dd x^\alpha/\dd\lambda^*$ 满足
+\[
+\frac{Dv^\alpha}{\dd\lambda^*}=\kappa(\lambda^*)v^\alpha.
+\]
+因此 $\lambda^*$ 一般不是仿射参数. 证明: 若
+\[
+\frac{\dd\lambda}{\dd\lambda^*}
+=\exp\left[\int\kappa(\lambda^*)\dd\lambda^*\right],
+\]
+则 $u^\alpha=\dd x^\alpha/\dd\lambda$ 满足 $Du^\alpha/\dd\lambda=0$.
+\end{exercise}
+\begin{solution}
+记 $q=\dd\lambda/\dd\lambda^*$, 取 $q\ne0$ 以保证参数转换局部可逆. 由于 $u=v/q$, 协变导数的乘法规则给出
+\[
+\frac{Du^\alpha}{\dd\lambda}
+=\frac1{q^2}\frac{Dv^\alpha}{\dd\lambda^*}
+-\frac{q'}{q^3}v^\alpha
+=\frac1{q^2}\left(\kappa-\frac{q'}q\right)v^\alpha.
+\]
+右边为零的条件是 $q'/q=\kappa$. 积分得
+\[
+q=C\exp\left[\int\kappa(s)\dd s\right],\qquad C\ne0.
+\]
+题面对应 $C=1$. 再积分一次求 $\lambda$, 另有一个加法常数. 这两个常数恰好表达仿射参数可以作 $\lambda\mapsto A\lambda+B$ 的自由度.
+\end{solution}
+
+\begin{exercise}
+原题 4.5. 电荷参数为 $e$ 的粒子在度规 $g_{\alpha\beta}$ 和电磁势 $A_\mu$ 中运动, 其四速度满足
+\[
+u^\beta\nabla_\beta u_\alpha=eF_{\alpha\beta}u^\beta,
+\qquad F_{\alpha\beta}=\nabla_\alpha A_\beta-\nabla_\beta A_\alpha.
+\]
+若时空有 Killing 场 $\xi^\alpha$, 且 $\mathcal L_\xi g=0$, $\mathcal L_\xi A=0$, 证明 $(u_\alpha+eA_\alpha)\xi^\alpha$ 沿世界线守恒.
+\end{exercise}
+\begin{solution}
+题面运动方程已把电荷质量比纳入 $e$; 若使用有量纲电荷 $q$ 和质量 $m$, 应把这里的 $e$ 写为 $q/m$. 对 $C=(u_\alpha+eA_\alpha)\xi^\alpha$ 沿世界线求导,
+\begin{align*}
+\frac{\dd C}{\dd\tau}
+&=eF_{\alpha\beta}u^\beta\xi^\alpha
+ +u_\alpha u^\beta\nabla_\beta\xi^\alpha
+ +eu^\beta(\nabla_\beta A_\alpha)\xi^\alpha
+ +eA_\alpha u^\beta\nabla_\beta\xi^\alpha.
+\end{align*}
+第二项等于 $u^\alpha u^\beta\nabla_\beta\xi_\alpha$, 由 Killing 方程及 $u^\alpha u^\beta$ 的对称性而为零. 把 $F$ 展开, 第一项中的 $-e\xi^\alpha u^\beta\nabla_\beta A_\alpha$ 与第三项抵消. 剩下
+\[
+\frac{\dd C}{\dd\tau}
+=eu^\beta\bigl(\xi^\alpha\nabla_\alpha A_\beta
++A_\alpha\nabla_\beta\xi^\alpha\bigr)
+=eu^\beta(\mathcal L_\xi A)_\beta=0.
+\]
+这是包含电磁势贡献的正则动量守恒. 本题假定所选规范满足 $\mathcal L_\xi A=0$; 若势仅在规范变换意义下保持对称, 守恒量还需加上相应的规范补偿项.
+\end{solution}
+
+\originalsection{作业五}
+\label{sec:gr-ps05}
+
+题源: \href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset05/}{MIT 8.962, Spring 2006, Problem Set 5}. 原卷共六题, 无分值, 本节全部为独立解答. 第 1 题原卷的球坐标转 Cartesian 坐标式确实漏印了径向因子 $r$, 下文先记录这一校勘, 再采用与原卷两种线元相容的坐标变换.
+
+\begin{exercise}
+原题 5.1. 地球附近时空近似为
+\begin{align*}
+\dd s^2&=-\left(1-\frac{2GM}r\right)\dd t^2
++\left(1+\frac{2GM}r\right)
+\bigl[\dd r^2+r^2(\dd\theta^2+\sin^2\theta\dd\phi^2)\bigr]\\
+&=-\left(1-\frac{2GM}r\right)\dd t^2
++\left(1+\frac{2GM}r\right)(\dd x^2+\dd y^2+\dd z^2),
+\end{align*}
+其中 $M$ 为地球质量. 原卷写 $x=\sin\theta\cos\phi$, $y=\sin\theta\sin\phi$, $z=\cos\theta$; 与上述线元相容的普通 Cartesian 坐标实际应为 $x=r\sin\theta\cos\phi$, $y=r\sin\theta\sin\phi$, $z=r\cos\theta$. 记 $\Phi=GM/r$, 则 $g_{\alpha\beta}=\eta_{\alpha\beta}+2\Phi\operatorname{diag}(1,1,1,1)$, 并假设 $\Phi\ll1$. 航天飞机在半径 $R$ 的圆形赤道轨道运动, $u^r=u^\theta=0$, $\theta=\pi/2$.
+\begin{enumerate}[label=(\alph*)]
+\item 用测地线方程证明赤道面运动保持在赤道面: 若初始 $u^\theta=0$, $\theta=\pi/2$, 则 $\dd u^\theta/\dd t=0$. 原题提示先计算非零联络, 可参考 Carroll 第 3.3 题.
+\item 进一步要求 $\dd u^r/\dd\tau=0$, 用测地线方程求轨道角频率 $\Omega=(\dd\phi/\dd\tau)/(\dd t/\dd\tau)$. 结果是否熟悉?
+\item 在 Cartesian 坐标中把轨道写为 $x=R\cos\Omega t$, $y=R\sin\Omega t$. 宇航员释放一袋垃圾, 初始空间位移为 $\mathord{\xi^i=x^i_{\rm garbage}-x^i_{\rm shuttle}}$. 用测地线偏离方程求 $\xi^x,\xi^y,\xi^z$ 的时间演化方程. 可忽略 $(GM/r)^2$ 项, 轨道速度视为非相对论; 此处需要 Cartesian 联络.
+\item 若初始 $\xi^x=\xi^y=0$, $\xi^z=L$, $\dd\xi^i/\dd\tau=0$, 宇航员是否成功摆脱了垃圾?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+写 $m=GM$, $A=1-2m/r$, $B=1+2m/r$. 暂对这份截断后的度规保留代数分式, 以便辨认各项; 最终物理结论只保留其有效的弱场阶数. 全部非零球坐标联络, 连同下指标对称分量, 为
+\begin{align*}
+\Gamma^t{}_{tr}&=\frac{m}{r^2A}, &
+\Gamma^r{}_{tt}&=\frac{m}{r^2B}, &
+\Gamma^r{}_{rr}&=-\frac{m}{r^2B},\\
+\Gamma^r{}_{\theta\theta}&=-\frac{r+m}{B}, &
+\Gamma^r{}_{\phi\phi}&=-\frac{r+m}{B}\sin^2\theta,\\
+\Gamma^\theta{}_{r\theta}&=\Gamma^\phi{}_{r\phi}=\frac{r+m}{r^2B}, &
+\Gamma^\theta{}_{\phi\phi}&=-\sin\theta\cos\theta, &
+\Gamma^\phi{}_{\theta\phi}&=\cot\theta.
+\end{align*}
+(a) 令点表示固有时导数, 则角向方程为
+\[
+\ddot\theta+2\frac{r+m}{r^2B}\dot r\dot\theta
+-\sin\theta\cos\theta\dot\phi^2=0.
+\]
+$\theta\equiv\pi/2$, $\dot\theta\equiv0$ 满足此式. 在平滑的坐标区域内, 测地线初值问题的唯一性保证具有这些初值的轨道就是这条赤道解. 因 $\dd t/\dd\tau\ne0$, 同样有 $\dd u^\theta/\dd t=0$.
+
+(b) 圆轨道的径向方程变成 $\Gamma^r{}_{tt}(u^t)^2+\Gamma^r{}_{\phi\phi}(u^\phi)^2=0$, 故
+\[
+\Omega^2=\frac{m}{R^2(R+m)}
+=\frac{GM}{R^3}\bigl[1+O(GM/R)\bigr].
+\]
+本题度规只在弱场一阶可靠, 所以由它可以可靠提取的结论是 $\Omega^2\simeq GM/R^3$, 即 Newton 的 Kepler 圆轨道关系. 不能把分母中的 $R+m$ 当作精确的相对论修正.
+
+(c) 一阶 Cartesian 联络为
+\[
+\Gamma^0{}_{0i}=-\partial_i\Phi,\qquad
+\Gamma^i{}_{00}=-\partial_i\Phi,\qquad
+\Gamma^i{}_{jk}=\delta^i_j\partial_k\Phi+
+\delta^i_k\partial_j\Phi-\delta_{jk}\partial^i\Phi.
+\]
+静态度规的其他一阶分量为零. 由本书曲率约定,
+\[
+R^i{}_{0j0}=-\partial_i\partial_j\Phi,
+\qquad \partial_i\partial_j\Phi
+=\frac{m}{r^3}(3n_in_j-\delta_{ij}),\quad n_i=\frac{x_i}r.
+\]
+测地线偏离式在非相对论、小位移极限中为
+\[
+\frac{\dd^2\xi^i}{\dd t^2}
+=-R^i{}_{0j0}\xi^j
+=\frac{m}{R^3}(3n_in_j-\delta_{ij})\xi^j.
+\]
+此处把 $\tau$ 换成 $t$ 产生的修正, 以及包含轨道速度的联络项, 均高于所保留的 Newton 潮汐阶. 同一式也可由两个相邻物体的 $\ddot x^i=\partial_i\Phi$ 相减并线性化来核对. 取 $n=(\cos\Omega t,\sin\Omega t,0)$, 并用 $m/R^3\simeq\Omega^2$, 得
+\begin{align*}
+\ddot\xi^x&=\Omega^2\bigl[(3\cos^2\Omega t-1)\xi^x
++3\sin\Omega t\cos\Omega t\,\xi^y\bigr],\\
+\ddot\xi^y&=\Omega^2\bigl[3\sin\Omega t\cos\Omega t\,\xi^x
++(3\sin^2\Omega t-1)\xi^y\bigr],\\
+\ddot\xi^z&=-\Omega^2\xi^z.
+\end{align*}
+这些 $\xi^i$ 是固定 Cartesian 坐标的分量, 不是随航天飞机旋转的局部坐标分量.
+
+(d) 若 $L\ll R$, 线性偏离方程适用. 给定初值的解为
+\[
+\xi^x=\xi^y=0,\qquad \xi^z=L\cos\Omega t.
+\]
+垃圾并未永久远离, 而是在垂直方向做潮汐振荡; 在约四分之一轨道周期后再次穿过航天飞机的位置, 此时具有非零相对速度. 此结论限于理想的自由落体模型及一阶小位移近似, 已足以说明仅作这种释放不能摆脱垃圾.
+\end{solution}
+
+\begin{exercise}
+原题 5.2. 用上一题的弱场度规描述太阳, 将 $M$ 换成太阳质量. 一条光线最初沿 $+x$ 方向运动, 经过太阳时的冲量参数为 $b$: 初始光线直线与通过太阳中心的平行直线之间的距离为 $b$. 原图中太阳位于原点, 入射直线在 $y=b>0$. 用测地线方程求偏折角 $\Delta\phi=(p^y/p^x)_{\rm final}$, 用 $GM,b$ 表示. 假设 $GM/r\ll1$, 偏折角很小, 所以 $p^x_{\rm final}\simeq p^x_{\rm initial}$.
+
+原题附注指出: 把光子粗略视为有效质量 $\hbar\omega/c^2$ 的 Newton 粒子会给出一半的偏折; 另一半来自空间度规中的 $(1+2\Phi)$ 因子. 附注还讨论了 Eddington 日食观测及后来的太阳系测量; 其中的精度数值是原卷的历史说明, 不作为本稿对当前测量精度的断言.
+\end{exercise}
+\begin{solution}
+记 $m=GM$, $\Phi=m/r$. 用仿射参数 $\lambda$ 沿未偏折直线 $y=b$, $z=0$ 计算一阶力即可, 因为把一阶轨道修正再代入一阶联络会产生二阶误差. 在零阶 $p^0=p^x=p$, $p^y=0$. 由上一题,
+\[
+\Gamma^y{}_{00}=-\partial_y\Phi,\qquad
+\Gamma^y{}_{xx}=-\partial_y\Phi.
+\]
+于是测地线方程给出
+\[
+\frac{\dd p^y}{\dd\lambda}
+=2p^2\partial_y\Phi
+=-\frac{2mp^2b}{(x^2+b^2)^{3/2}},\qquad
+\frac{\dd x}{\dd\lambda}=p+O(m/b).
+\]
+积分便得
+\begin{align*}
+\Delta\phi
+&=-2mb\int_{-\infty}^{\infty}\frac{\dd x}{(x^2+b^2)^{3/2}}\\
+&=-2mb\left[\frac{x}{b^2\sqrt{x^2+b^2}}\right]_{-\infty}^{\infty}
+=-\frac{4GM}{b}.
+\end{align*}
+题面以动量比定义的是有符号角, 原图中向下偏折, 故结果为负; 通常所说的偏折角大小为 $4GM/b$, 恢复单位为 $4GM/(bc^2)$. $\Gamma^y{}_{00}$ 和 $\Gamma^y{}_{xx}$ 的贡献相等: 前者来自时间度规, 后者来自空间度规. 仅保留 Newton 时间势的算法就只得到 $2GM/(bc^2)$.
+\end{solution}
+
+\begin{exercise}
+原题 5.3. 半径 $a$ 的二球面具有线元 $\dd s^2=a^2(\dd\theta^2+\sin^2\theta\dd\phi^2)$. 在 $\theta=\theta_0$, $\phi=0$ 处取向量 $A_0=\boldsymbol e_\theta$. 把它沿纬度圈 $\theta=\theta_0$, $0\le\phi\le2\pi$ 平行移动一周, 求最终向量 $A$ 及长度 $(A\cdot A)^{1/2}$. 原题提示写出 $A^\theta,A^\phi$ 关于 $\phi$ 的微分方程.
+\end{exercise}
+\begin{solution}
+这里 $\boldsymbol e_\theta=\partial_\theta$ 是坐标基矢, 长度为 $a$, 并非单位向量. 设 $0<\theta_0<\pi$, $s=\sin\theta_0$, $c=\cos\theta_0$. 球面的非零联络为 $\Gamma^\theta{}_{\phi\phi}=-\sin\theta\cos\theta$, $\Gamma^\phi{}_{\theta\phi}=\Gamma^\phi{}_{\phi\theta}=\cot\theta$. 沿纬线的平行移动方程为
+\[
+\frac{\dd A^\theta}{\dd\phi}=scA^\phi,\qquad
+\frac{\dd A^\phi}{\dd\phi}=-\frac csA^\theta.
+\]
+把第二式代入第一式得 $(A^\theta)''+c^2A^\theta=0$. 由初值 $A^\theta(0)=1$, $A^\phi(0)=0$,
+\[
+A^\theta(\phi)=\cos(c\phi),\qquad
+A^\phi(\phi)=-\frac{\sin(c\phi)}s.
+\]
+因而在与起点相同的基底中, 最终
+\[
+A=\cos(2\pi\cos\theta_0)\boldsymbol e_\theta
+-\frac{\sin(2\pi\cos\theta_0)}{\sin\theta_0}\boldsymbol e_\phi,
+\qquad |A|=a.
+\]
+长度恒定可直接由 $a^2[(A^\theta)^2+s^2(A^\phi)^2]=a^2$ 核对. 在单位基底中两个分量正比于 $(\cos c\phi,-\sin c\phi)$, 所以方向角的连续变化为 $-2\pi\cos\theta_0$. 终态方向只定义模 $2\pi$, 这与北极帽的立体角 $2\pi(1-\cos\theta_0)$ 等价. 赤道 $c=0$ 时向量不转动; 两极处纬圈退化, 原球坐标基底也奇异, 不能直接代入该分量公式.
+\end{solution}
+
+\begin{exercise}
+原题 5.4.
+\begin{enumerate}[label=(\alph*)]
+\item 求二球面所有非零 $R_{ijkl}$ 分量, 其中指标属于 $\{\theta,\phi\}$.
+\item 将切向量 $A=A^\theta\boldsymbol e_\theta+A^\phi\boldsymbol e_\phi$ 沿边为 $\boldsymbol e_\theta\dd\theta$, $\boldsymbol e_\phi\dd\phi$ 的无穷小平行四边形平行移动. 用 (a) 的结果证明: 对 $\dd\Omega=\sin\theta\dd\theta\dd\phi$ 的一阶, 长度不变, 方向旋转的角度大小为 $\dd\Omega$.
+\item 证明沿任意单连通立体角区域 $\Omega$ 的边界平行移动, 方向旋转角为 $\Omega$, 并与上一题比较. 原题用“单连通”说明区域无孔且边界可以收缩到一点, 并给出 MathWorld 的说明链接.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 由球面联络,
+\begin{align*}
+R^\theta{}_{\phi\theta\phi}
+&=\partial_\theta(-\sin\theta\cos\theta)
+-\Gamma^\theta{}_{\phi\phi}\Gamma^\phi{}_{\theta\phi}\\
+&=(\sin^2\theta-\cos^2\theta)+\cos^2\theta=\sin^2\theta.
+\end{align*}
+降下第一个指标, 全部非零全协变分量为
+\[
+R_{\theta\phi\theta\phi}=R_{\phi\theta\phi\theta}=a^2\sin^2\theta,
+\qquad
+R_{\theta\phi\phi\theta}=R_{\phi\theta\theta\phi}=-a^2\sin^2\theta.
+\]
+它们也可统一写为 $R_{ijkl}=a^{-2}(g_{ik}g_{jl}-g_{il}g_{jk})$, 因而 Gaussian 曲率为 $1/a^2$.
+
+(b) 取边界的正向为依次沿 $+\theta,+\phi,-\theta,-\phi$ 移动. 此时平行移动一周的变化为
+\[
+\delta A^i=-R^i{}_{j\theta\phi}A^j\dd\theta\dd\phi,
+\]
+负号来自平行移动方程 $\dd A^i=-\Gamma^i{}_{jk}A^j\dd x^k$. 由 (a),
+\[
+\delta A^\theta=-\sin^2\theta A^\phi\dd\theta\dd\phi,
+\qquad
+\delta A^\phi=A^\theta\dd\theta\dd\phi.
+\]
+令正交单位基底中的分量为 $X=aA^\theta$, $Y=a\sin\theta A^\phi$, 则
+\[
+\delta X=-Y\dd\Omega,\qquad \delta Y=X\dd\Omega.
+\]
+所以 $\delta(X^2+Y^2)=2X\delta X+2Y\delta Y=0$, 而 $(X,Y)$ 正旋转 $\dd\Omega$. 反向绕行时角度反号.
+
+(c) 不必只靠把许多小回路的结果猜成有限回路. 在球坐标的正交标架 $\boldsymbol E_\theta=a^{-1}\boldsymbol e_\theta$, $\boldsymbol E_\phi=(a\sin\theta)^{-1}\boldsymbol e_\phi$ 中, 令
+\[
+A=|A|(\cos\alpha\,\boldsymbol E_\theta+\sin\alpha\,\boldsymbol E_\phi).
+\]
+把这一表达代入一般曲线的平行移动方程, $\theta$ 方向的标架联络为零, $\phi$ 方向为 $\cos\theta$, 得
+\[
+\dd\alpha=-\cos\theta\dd\phi.
+\]
+若区域位于该标架的正则坐标片内, Stokes 定理给出
+\[
+\Delta\alpha=-\oint_{\partial D}\cos\theta\dd\phi
+=\int_D\sin\theta\dd\theta\dd\phi=\Omega.
+\]
+含极点时不能把奇异标架直接用于 Stokes 定理. 可在北极帽改用相对球坐标标架旋转 $-\phi$ 的光滑标架, 对应的联络一形式为 $(\cos\theta-1)\dd\phi$; 其外导数仍是 $-\sin\theta\dd\theta\wedge\dd\phi$. 更一般的圆盘区域也可用光滑标架或拼接坐标片. 球面二维切空间中的旋转可交换, 所以内部边界的贡献抵消, 保留总立体角. 终态向量只能区分角度模 $2\pi$, 因而严格结论是 $\Delta\alpha\equiv\Omega\pmod{2\pi}$. 对纬度圈, $\Omega=2\pi(1-\cos\theta_0)$, 正与上一题一致.
+\end{solution}
+
+\begin{exercise}
+原题 5.5. 对任意 Killing 场 $\xi^\alpha$, 证明
+\[
+\nabla_\nu\nabla_\mu\xi^\alpha=R^\alpha{}_{\mu\nu\beta}\xi^\beta,
+\qquad
+\nabla^\mu\nabla_\mu\xi^\alpha=-R^\alpha{}_\beta\xi^\beta.
+\]
+可使用交换子 $[\nabla_\alpha,\nabla_\beta]=\nabla_\alpha\nabla_\beta-\nabla_\beta\nabla_\alpha$ 及
+\[
+[\nabla_\alpha,\nabla_\beta]V^\mu=R^\mu{}_{\nu\alpha\beta}V^\nu,
+\qquad
+[\nabla_\alpha,\nabla_\beta]V_\mu=-R^\nu{}_{\mu\alpha\beta}V_\nu.
+\]
+原题特别提醒, 协向量式有负号.
+\end{exercise}
+\begin{solution}
+为了避免上下指标符号混淆, 先令 $X_{abc}=\nabla_a\nabla_b\xi_c$. 对 Killing 方程再求导得 $X_{abc}=-X_{acb}$. 协向量交换子给出
+\[
+X_{abc}-X_{bac}=R_{cdab}\xi^d.
+\]
+将这一式作三次循环并利用上述反对称性,
+\begin{align*}
+2X_{abc}
+&=(X_{abc}-X_{bac})-(X_{bca}-X_{cba})
++(X_{cab}-X_{acb})\\
+&=(R_{cdab}-R_{adbc}+R_{bdca})\xi^d.
+\end{align*}
+接下来确实需要 Riemann 的代数对称性与第一 Bianchi 恒等式. 由成对交换和反对称性,
+\[
+R_{adbc}=R_{bcad}=-R_{cbad},\qquad
+R_{bdca}=R_{cabd}=-R_{cadb}.
+\]
+再由 $R_{cdab}+R_{cabd}+R_{cbda}=0$, 得 $R_{cdab}-R_{cadb}=R_{cbad}$. 因而上式的括号等于 $2R_{cbad}$, 即
+\[
+\nabla_a\nabla_b\xi_c=R_{cbad}\xi^d.
+\]
+取 $(a,b,c)=(\nu,\mu,\lambda)$ 并升高 $\lambda$ 就得到第一式. 以 $g^{\mu\nu}$ 收缩,
+\[
+\nabla^\mu\nabla_\mu\xi^\alpha
+=g^{\mu\nu}R^\alpha{}_{\mu\nu\beta}\xi^\beta
+=-R^\alpha{}_\beta\xi^\beta,
+\]
+最后的负号由曲率后两指标的反对称性及 Ricci 的定义产生. 这一步也核对了题面中交换子和曲率号差的一致性.
+\end{solution}
+
+\begin{exercise}
+原题 5.6.
+\begin{enumerate}[label=(\alph*)]
+\item 对 $1+1$ 维静态线元 $\dd s^2=-e^{2\varphi(x)}\dd t^2+e^{-2\psi(x)}\dd x^2$, 求全部非零 Riemann 分量.
+\item 若 $\varphi=\psi=\tfrac12\ln|g(x-x_0)|$, $g,x_0$ 为常数, 证明时空平坦, 并寻找平坦坐标 $(\bar t,\bar x)$ 使 $\dd s^2=-\dd\bar t^2+\dd\bar x^2$. 原题称其为“globally flat coordinates”; 解答应说明这些坐标在原坐标区域中实际覆盖的范围.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 用撇表示 $x$ 导数. 非零联络为
+\[
+\Gamma^t{}_{tx}=\Gamma^t{}_{xt}=\varphi',\qquad
+\Gamma^x{}_{tt}=e^{2(\varphi+\psi)}\varphi',\qquad
+\Gamma^x{}_{xx}=-\psi'.
+\]
+记 $Q=\varphi''+(\varphi')^2+\varphi'\psi'$. 例如
+\[
+R^t{}_{xtx}=-\varphi''-\varphi'\psi'-(\varphi')^2=-Q.
+\]
+全部可能非零的混合分量为
+\begin{align*}
+R^t{}_{xtx}&=-Q,&R^t{}_{xxt}&=Q,\\
+R^x{}_{txt}&=e^{2(\varphi+\psi)}Q,&
+R^x{}_{ttx}&=-e^{2(\varphi+\psi)}Q.
+\end{align*}
+相应的全协变独立分量是 $R_{txtx}=e^{2\varphi}Q$, 其余由曲率对称性得到. Ricci 标量为 $R=-2e^{2\psi}Q$, 可作为缩并检查.
+
+(b) 设 $g\ne0$, $y=x-x_0\ne0$. 由于 $\varphi'=\psi'=1/(2y)$, $\varphi''=-1/(2y^2)$, 有 $Q=0$. 这先证明了每个正则区域的曲率为零. 再定义
+\[
+\chi=2\sqrt{\frac{|y|}{|g|}},\qquad a=\frac{|g|}{2}.
+\]
+直接求导得 $\dd\chi^2=\dd x^2/|gy|$, 且 $|gy|=a^2\chi^2$, 因而
+\[
+\dd s^2=-a^2\chi^2\dd t^2+\dd\chi^2.
+\]
+在 $y>0$ 或 $y<0$ 的每个连通分支分别取
+\[
+\bar t=\chi\sinh(at),\qquad
+\bar x=\operatorname{sgn}(y)\chi\cosh(at).
+\]
+求微分后交叉项抵消, 得 $-\dd\bar t^2+\dd\bar x^2=-a^2\chi^2\dd t^2+\dd\chi^2$. 这是每个原坐标分支上的全局一一坐标转换, 但其像只是右侧或左侧 Rindler 楔区 $|\bar x|>|\bar t|$, 不是整个 Minkowski 平面. $x=x_0$ 的原度规坐标表达奇异; 要描述全部 Minkowski 时空, 必须另作延拓, 不能从这份变换声称原坐标覆盖了全部平坦时空.
+\end{solution}
+
+\originalsection{作业六}
+\label{sec:gr-ps06}
+
+题源: \href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset06/}{MIT 8.962, Spring 2006, Problem Set 6}. 原卷共五题, 无分值; 本节提供独立解答. 第 1 题的协变时间分量需要额外的坐标条件, 第 4 题的势号与通常 Newton 势相反; 下文明确保留和讨论这些问题.
+
+\begin{exercise}
+原题 6.1. 在 $c=1$ 的 cgs 制中, Maxwell 方程为
+\[
+\partial_iE^i=4\pi\rho,\quad \partial_iB^i=0,\qquad
+\partial_tE^i=\epsilon^{ijk}\partial_jB^k-4\pi J^i,\quad
+\partial_tB^i=-\epsilon^{ijk}\partial_jE^k.
+\]
+前两式没有时间导数, 是同一时刻场与源之间的约束; 后两式含时间导数, 是把满足约束的初始数据推进到以后时刻的演化方程. Einstein 方程含二阶导数, 其初始数据应包括度规和一阶时间导数, 类似粒子运动中的位置和速度; 含二阶时间导数的方程则类似加速度演化方程.
+
+选 $x^0=t$, 空间坐标覆盖 $t=\text{常数}$ 的超曲面. 原题要求证明 $G_{00}$ 和 $G_{0i}$ 至多含一阶时间导数, 所以 $G_{00}=8\pi GT_{00}$ 和 $G_{0i}=8\pi GT_{0i}$ 是约束, $G_{ij}=8\pi GT_{ij}$ 是演化方程. 原题提示使用收缩 Bianchi 恒等式, 避免暴力展开曲率.
+\end{exercise}
+\begin{solution}
+首先必须辨认指标位置. 对一般含非零 $g_{0i}$ 的坐标, 原题关于全协变分量 $G_{00},G_{0i}$ 的断言并不成立. 在具有类空 $t=\text{常数}$ 切片的适配坐标中, 一般正确的表述是 $G^{0\nu}$, 或等价的法向投影 $n_\mu G^{\mu\nu}$, 不含二阶纯时间导数. 若另外选取零 shift 的 $g_{0i}=0$ 坐标, 原题的全协变版本成立. 下面先证明正确的普遍版本, 再说明这个差别不是形式问题.
+
+度规曲率至多含度规的二阶导数, 其二阶导数项是线性的, 系数只依赖度规及逆度规. 恒等式
+\[
+0=\nabla_\mu G^{\mu\nu}
+=\partial_tG^{0\nu}+\partial_iG^{i\nu}
++\Gamma^\mu{}_{\mu\lambda}G^{\lambda\nu}
++\Gamma^\nu{}_{\mu\lambda}G^{\mu\lambda}
+\]
+对任意度规成立. 假如 $G^{0\nu}$ 含有非零的 $\partial_t^2g_{\alpha\beta}$ 系数, 第一项便产生纯三阶导数 $\partial_t^3g_{\alpha\beta}$. 第二项至少含一次空间导数, 不可能产生该纯三阶项; 两个联络乘积项也只含至多二阶导数. 对任意光滑度规, 纯三阶导数可以独立变化, 所以其系数必须恒为零. 因此 $G^{0\nu}$ 只含空间二阶导数、混合空间时间导数及一阶导数的乘积, 不含 $\partial_t^2g$.
+
+切片单位法向协向量为 $n_\mu=(-N,0,0,0)$, 其中 $N$ 是 lapse, 故 $n_\mu G^{\mu\nu}=-NG^{0\nu}$. 它的法向和切向投影分别给出一个 Hamilton 约束及三个动量约束. 若 $g_{0i}=0$, 降指标时 $G_{0\mu}=g_{00}g_{\mu\nu}G^{0\nu}$, 只乘上无导数的度规, 原题的 $G_{00},G_{0i}$ 因而也不含二阶纯时间导数. 有非零 shift 时, 降指标会混入 $G^{ij}$, 就不再具有这一性质.
+
+一个可直接核对的反例来自平直空间切片的 Robertson--Walker 度规
+\[
+\dd s^2=-\dd t^2+a(t)^2(\dd X^2+\dd Y^2+\dd Z^2),\quad H=\dot a/a.
+\]
+其曲率计算给出 $G_{tt}=3H^2$, $G_{XX}=-a^2(2\dot H+3H^2)$, $G_{tX}=0$. 作 $X=x+bt$ 的常数 $b\ne0$ 变换后,
+\[
+G'_{00}=3H^2-b^2a^2(2\dot H+3H^2),\qquad
+G'_{0x}=-ba^2(2\dot H+3H^2).
+\]
+在 $a|b|<1$ 的区域内, $\partial_t$ 仍类时, 时间切片仍类空, 但这两个协变分量含有 $\dot H$, 即 $\ddot a$. 原题的坐标条件不足以排除这一例子. 约束与演化的几何区分成立, 而把它认作任意坐标中的协变 $0\mu$ 分量则需补上零 shift 条件.
+\end{solution}
+
+\begin{exercise}
+原题 6.2. 证明对作用量
+\[
+S=\int\dd^4x\sqrt{-g}\,(R+a),
+\]
+其中 $R$ 是 Ricci 标量, $a$ 为常数, 作变分会得到含宇宙学常数的 Einstein 方程. $a$ 与 $\Lambda$ 的关系是什么?
+\end{exercise}
+\begin{solution}
+对逆度规 $g^{\mu\nu}$ 变分, $\delta\sqrt{-g}=-\tfrac12\sqrt{-g}\,g_{\mu\nu}\delta g^{\mu\nu}$. Ricci 项的体积变分为
+\[
+\delta(\sqrt{-g}R)
+=\sqrt{-g}\left(R_{\mu\nu}-\tfrac12Rg_{\mu\nu}\right)\delta g^{\mu\nu}
++\text{边界散度}.
+\]
+采用紧支撑的度规变分, 或加入适当引力边界项并固定边界数据, 边界散度不影响体积场方程. 常数项只有体积元改变, 因而
+\[
+\delta S=\int\dd^4x\sqrt{-g}\left(G_{\mu\nu}-\frac a2g_{\mu\nu}\right)\delta g^{\mu\nu}.
+\]
+任意体积变分给出 $G_{\mu\nu}-(a/2)g_{\mu\nu}=0$. 与 $G_{\mu\nu}+\Lambda g_{\mu\nu}=0$ 比较,
+\[
+a=-2\Lambda.
+\]
+恢复通常的 $1/(16\pi G)$ 整体系数并加入物质作用量, 就得到 $G_{\mu\nu}+\Lambda g_{\mu\nu}=8\pi GT_{\mu\nu}$. 在不含物质的本题中, 整体系数不影响真空变分方程.
+\end{solution}
+
+\begin{exercise}
+原题 6.3. Nordstr\o m 在 1913 年提出的一种度规引力理论满足
+\[
+C_{\alpha\beta\gamma\delta}=0,\qquad R=\kappa g_{\mu\nu}T^{\mu\nu}.
+\]
+其中 $C$ 为 Weyl 张量. 其零值在四维意味着度规局部共形平坦, 可写为 $g_{\mu\nu}=e^{2\varphi}\eta_{\mu\nu}$, $\varphi=\varphi(x^\mu)$; 与课程的共形因子记号相比, $\Omega=e^\varphi$.
+\begin{enumerate}[label=(\alph*)]
+\item 在 $\varphi^2\ll1$, $|\partial_t\varphi|\ll|\partial_i\varphi|$, 慢速试验物体 $u^i\ll1$ 的极限, 证明测地线运动再现 Newton 引力运动学. 以下称此为 Newton 极限.
+\item 证明 Newton 极限中的 $R$ 是作用在 $\varphi$ 上的二阶微分算子, 求这个算子.
+\item 证明场方程在 Newton 极限中再现 Newton 引力场方程, 并确定 $\kappa$.
+\item 理论是否与 Pound--Rebka 引力红移实验相容? 该实验验证光的引力红移符合等效原理的预测.
+\item 证明该理论中太阳不会使光偏折.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+先校准共形不变性的用语: 真正共形不变的是 $C^\alpha{}_{\beta\gamma\delta}$; 全协变 Weyl 张量会乘上共形因子的平方. 不过“Weyl 为零”这一性质不受影响. 四维的局部共形平坦等价性是一个几何结论, 不能仅从“Riemann 为零意味着平坦”倒推. 本题已经给定共形平坦的局部度规形式, 以下直接计算其可观测后果.
+
+(a) 设 $\varphi_\mu=\partial_\mu\varphi$, 并用 $\eta$ 升降本段的 $\varphi$ 指标. 代入联络定义,
+\[
+\Gamma^\alpha{}_{\mu\nu}
+=\delta^\alpha_\mu\varphi_\nu+\delta^\alpha_\nu\varphi_\mu
+-\eta_{\mu\nu}\varphi^\alpha.
+\]
+特别地 $\Gamma^i{}_{00}=\partial_i\varphi$. 准静态、慢速极限中, $\dd t/\dd\tau\simeq1$, 测地线空间方程变成
+\[
+\frac{\dd^2x^i}{\dd t^2}=-\partial_i\varphi.
+\]
+故这一理论中的弱场 $\varphi$ 就是通常号差的 Newton 势, 例如太阳外部 $\varphi=-GM/r$.
+
+(b) 为核对二阶算子的系数, 可以先保留完整曲率. 将上述联络代入 Ricci 定义, 导数项给出 $-2\partial_\mu\partial_\nu\varphi-\eta_{\mu\nu}\Box_\eta\varphi$, 联络乘积项给出 $2\varphi_\mu\varphi_\nu-2\eta_{\mu\nu}\varphi_\alpha\varphi^\alpha$. 因而
+\begin{align*}
+R_{\mu\nu}&=-2\partial_\mu\partial_\nu\varphi-\eta_{\mu\nu}\Box_\eta\varphi
++2\varphi_\mu\varphi_\nu-2\eta_{\mu\nu}\varphi_\alpha\varphi^\alpha,\\
+R&=-6e^{-2\varphi}\left[\Box_\eta\varphi+\varphi_\alpha\varphi^\alpha\right],
+\qquad \Box_\eta=-\partial_t^2+\nabla^2.
+\end{align*}
+在平滑弱场的一阶展开中, 梯度平方是二阶项; 再使用准静态条件, 得 $R\simeq-6\nabla^2\varphi$. 弱场展开默认势及其导数在同一扰动阶数下变化, 并非允许任意高频小振幅函数.
+
+(c) 非相对论物质 $T^{\mu\nu}\simeq\rho U^\mu U^\nu$ 的迹为 $g_{\mu\nu}T^{\mu\nu}\simeq-\rho$. 因此 $-6\nabla^2\varphi=-\kappa\rho$. 与 $\nabla^2\varphi=4\pi G\rho$ 比较得 $\kappa=24\pi G$. 此处 $c=1$; 使用通常有量纲能动量张量时对应系数为 $24\pi G/c^4$.
+
+(d) 在静态场中, 光子协变动量 $k_t$ 由时间平移对称性守恒. 静止观察者的四速度为 $U^t=e^{-\varphi}$, 其测得频率正比于 $-k_\mu U^\mu=-k_te^{-\varphi}$. 因而
+\[
+\frac{\omega_{\rm rec}}{\omega_{\rm emit}}
+=e^{\varphi_{\rm emit}-\varphi_{\rm rec}}
+\simeq1+\varphi_{\rm emit}-\varphi_{\rm rec}.
+\]
+从低势处上升到高势处的光红移, 且低阶量与等效原理的引力红移一致. 因此单靠 Pound--Rebka 的这项红移检验不能排除本理论.
+
+(e) 对零测地线 $\eta_{\mu\nu}k^\mu k^\nu=0$, 上述联络的第三项不贡献, 故
+\[
+\frac{\dd k^\alpha}{\dd\lambda}
+=-2(k^\mu\partial_\mu\varphi)k^\alpha.
+\]
+所有分量只受到同一个缩放, 所以在 $k^0\ne0$ 的区域内 $\dd(k^i/k^0)/\dd\lambda=0$. 光的未参数化轨迹仍是 Minkowski 坐标中的直线. 远离太阳的共形因子趋于一, 入射和出射角由同一渐近平坦标架测量, 因而偏折为零. 这是 Nordstr\o m 理论与真实引力光偏折现象不相容的关键区别.
+\end{solution}
+
+\begin{exercise}
+原题 6.4. 质量 $m$ 的物体在弱、均匀、静态引力场中的体重秤上静止, 坐标为固定的 $(x,y,z)$. 原题给出的度规及势为
+\[
+g_{\mu\nu}=\eta_{\mu\nu}+2\varphi\operatorname{diag}(1,1,1,1),\quad
+\varphi^2\ll1,\quad \partial_z\varphi=-g,\quad \partial_\mu\varphi=0\ (\mu\ne z).
+\]
+以下忽略 $\varphi^2$ 和 $\varphi g$ 项. 原题把 $\varphi$ 称为通常 Newton 势, 但这个度规中的 $\varphi$ 实际与通常的 $\Phi_N$ 号差相反; 解答按所给度规及梯度进行.
+\begin{enumerate}[label=(\alph*)]
+\item 秤对物体施加什么四力? 求分量及标量大小. 因物体不沿测地线运动, 可用 $F^\alpha=mu^\beta\nabla_\beta u^\alpha$ 定义四力.
+\item 若物体沿 $x$ 方向以恒定相对论坐标三速度 $v=\dd x/\dd t$ 运动, 四速度满足 $V^x=vV^t$, $V^y=V^z=0$. 求 $V^t$; 不能直接套用狭义相对论公式. 在秤上运动时秤施加的四力分量及大小是什么?
+\item 作通常的 Lorentz 坐标变换 $\bar t=\gamma(t-vx)$, $\bar x=\gamma(x-vt)$, $\bar y=y$, $\bar z=z$, $\gamma=(1-v^2)^{-1/2}$. 求新坐标度规 $g_{\bar\mu\bar\nu}$, 以及所保留阶数的四力分量.
+\item 将坐标基底化为正交归一基底 $\boldsymbol e_{\hat\mu}=E^{\bar\nu}{}_{\hat\mu}\boldsymbol e_{\bar\nu}$, 其中 $E^{\bar\nu}{}_{\hat\mu}=\delta^{\bar\nu}{}_{\hat\mu}+\varphi A^{\bar\nu}{}_{\hat\mu}$. 求一个矩阵 $A$. 在本题保留的阶数下, $F^{\hat\mu}$ 与 $F^{\bar\mu}$ 是否不同?
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 从 $g_{tt}=-(1-2\varphi)$ 得 $u^t=(1-2\varphi)^{-1/2}$, 其余分量为零. 唯一需要的联络为
+\[
+\Gamma^z{}_{tt}=-\frac{\partial_z\varphi}{1+2\varphi}
+=\frac{g}{1+2\varphi}.
+\]
+故 $F^t=F^x=F^y=0$, 且
+\[
+F^z=m\Gamma^z{}_{tt}(u^t)^2
+=\frac{mg}{(1+2\varphi)(1-2\varphi)}\simeq mg.
+\]
+其标量大小为 $\sqrt{g_{\mu\nu}F^\mu F^\nu}=\sqrt{1+2\varphi}|F^z|\simeq mg$, 因为题目要求忽略 $\varphi g$. 秤提供 $+z$ 支撑力, 对应自由物体向 $-z$ 加速.
+
+(b) 度规归一化给出
+\[
+-1=\bigl[-(1-2\varphi)+(1+2\varphi)v^2\bigr](V^t)^2,
+\]
+所以
+\[
+V^t=\left[1-v^2-2\varphi(1+v^2)\right]^{-1/2}
+=\gamma\bigl[1+\varphi\gamma^2(1+v^2)\bigr]+O(\varphi^2).
+\]
+这一展开还要求 $|\varphi|\gamma^2(1+v^2)\ll1$, 因而弱场小参数的展开不是对 $v\to1$ 一致有效. 由于 $z$ 固定, $\varphi$ 和 $V^t$ 均沿此轨道恒定, 普通四速度导数为零. 又有 $\Gamma^z{}_{xx}=g/(1+2\varphi)$, $\Gamma^z{}_{tx}=0$, 故
+\[
+F^z=\frac{mg}{1+2\varphi}(V^t)^2(1+v^2)
+\simeq mg\gamma^2(1+v^2),\qquad F^t=F^x=F^y=0.
+\]
+在同一舍弃 $\varphi g$ 的精度下, $|F|=mg\gamma^2(1+v^2)$. 这表明如果坚持用“引力”这一三维力来解释运动, 其支撑需求必须依赖速度; 四维几何描述则直接给出相应的四加速度.
+
+(c) 设 $K=\gamma^2(1+v^2)$, $J=2\gamma^2v$. 对度规作张量坐标变换, Minkowski 部分保持不变, 但扰动部分并非 Lorentz 不变量, 得
+\[
+(g_{\bar\mu\bar\nu})=
+\begin{pmatrix}
+-1+2\varphi K&2\varphi J&0&0\\
+2\varphi J&1+2\varphi K&0&0\\
+0&0&1+2\varphi&0\\
+0&0&0&1+2\varphi
+\end{pmatrix}+O(\varphi^2).
+\]
+四力是向量, 按 $F^{\bar t}=\gamma(F^t-vF^x)$, $F^{\bar x}=\gamma(F^x-vF^t)$ 变换. 因旧坐标中只有 $z$ 分量非零, 新坐标仍有 $F^{\bar t}=F^{\bar x}=F^{\bar y}=0$, $F^{\bar z}=mgK$.
+
+(d) 写 $g_{\rm bar}=\eta+2\varphi B$, 其中 $B$ 的 $t,x$ 子块为 $\left(\begin{smallmatrix}K&J\\J&K\end{smallmatrix}\right)$, 两个横向对角元为一. 正交归一条件 $E^{\mathsf T}g_{\rm bar}E=\eta+O(\varphi^2)$ 等价于
+\[
+A^{\mathsf T}\eta+\eta A=-2B.
+\]
+一个选择是 $A=-\eta B$, 即
+\[
+A=\begin{pmatrix}
+K&J&0&0\\
+-J&-K&0&0\\
+0&0&-1&0\\
+0&0&0&-1
+\end{pmatrix}.
+\]
+可以直接相乘检查上述条件. 四向标架的选择并不唯一, 还可再作 Lorentz 变换. 向量分量使用逆矩阵转换, $F^{\hat\mu}=(E^{-1})^{\hat\mu}{}_{\bar\nu}F^{\bar\nu}$, 因而 $F^{\hat z}=(1+\varphi)F^{\bar z}$. 此差别为 $\varphi g$ 阶, 已被题目明确舍弃; 所以在本题所保留精度下四力分量相同. 若保留该混合阶, 便不能再声称坐标分量等于正交归一标架测量的分量.
+\end{solution}
+
+\begin{exercise}
+原题 6.5. 几何化单位令 $G=c=1$, 于是质量、长度、时间用同一量纲衡量. 可通过乘上适当的 $G,c$ 幂次恢复通常单位. 例如太阳质量对应的时间为 $GM_\odot/c^3=4.93\times10^{-6}\,\mathrm s$. 原题给定
+\[
+M_\odot=1.99\times10^{33}\,\mathrm g,\quad
+G=6.67\times10^{-8}\,\mathrm{cm^3\,g^{-1}\,s^{-2}},\quad
+c=3.00\times10^{10}\,\mathrm{cm\,s^{-1}}.
+\]
+完成以下换算:
+\begin{enumerate}[label=(\alph*)]
+\item 地球质量 $M_\oplus=5.98\times10^{27}\,\mathrm g$ 换为厘米.
+\item 中子星特征平均质量密度 $\bar\rho=10^{15}\,\mathrm{g\,cm^{-3}}$ 换为 $\mathrm{cm^{-2}}$.
+\item 中子星核心特征压强 $\bar P=10^{34}\,\mathrm{g\,s^{-2}\,cm^{-1}}$ 换为 $\mathrm{cm^{-2}}$.
+\item 地表重力加速度 $g=9.8\,\mathrm{m\,s^{-2}}$ 换为 $\mathrm{s^{-1}}$ 及 $\mathrm{yr^{-1}}$.
+\item 伽马射线暴的典型各向同性光度 $L=10^{53}\,\mathrm{erg\,s^{-1}}$ 换为几何化单位. 其中 $1\,\mathrm{erg}=1\,\mathrm{g\,cm^2\,s^{-2}}$.
+\item $\hbar=1.05\times10^{-27}\,\mathrm{erg\,s}$ 换为平方厘米. 其平方根为 Planck 长度 $l_p$, 是由量子、引力及相对论常数组成的特征长度; 原题指出在此尺度附近预计需要量子引力描述.
+\item 把 $l_p$ 换为克, 得 Planck 质量; 再换为能量, 用电子伏表示, 并讨论粒子对撞机观测此质量尺度效应的可能性.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+基本转换是 $m_{\rm length}=Gm/c^2$, $t_{\rm length}=ct$, $E_{\rm length}=GE/c^4$. 因而同样具有“密度”名称的质量密度与能量密度必须区别: $\rho_m$ 乘 $G/c^2$, 压强或能量密度乘 $G/c^4$.
+
+(a) 地球质量的长度为
+\[
+\frac{GM_\oplus}{c^2}
+=\frac{(6.67\times10^{-8})(5.98\times10^{27})}{(3.00\times10^{10})^2}\,\mathrm{cm}
+=0.443\,\mathrm{cm}.
+\]
+(b) 质量密度对应
+\[
+\rho_{\rm geom}=\frac{G\bar\rho}{c^2}
+=7.41\times10^{-14}\,\mathrm{cm^{-2}}.
+\]
+(c) 压强对应
+\[
+P_{\rm geom}=\frac{G\bar P}{c^4}
+=8.23\times10^{-16}\,\mathrm{cm^{-2}}.
+\]
+(d) 若时间用秒作基本单位, 加速度的几何化值为 $g/c$. 采用 $1\,\mathrm{yr}=3.15576\times10^7\,\mathrm s$,
+\[
+g_{\rm geom}=\frac{980}{3.00\times10^{10}}\,\mathrm{s^{-1}}
+=3.27\times10^{-8}\,\mathrm{s^{-1}}
+=1.03\,\mathrm{yr^{-1}}.
+\]
+这不是说地球的物理加速度变大了, 而是把速度的单位设为光速后, 同一量可用不同的时间单位表示.
+
+(e) 光度为能量除以时间; 两者几何化后都是长度, 所以光度无量纲:
+\[
+L_{\rm geom}=\frac{GL}{c^5}=2.74\times10^{-7}.
+\]
+(f) 作用量具有能量乘时间的单位, 故
+\[
+\hbar_{\rm geom}=\frac{G\hbar}{c^3}
+=2.59\times10^{-66}\,\mathrm{cm^2},\qquad
+l_p=\sqrt{\frac{G\hbar}{c^3}}=1.61\times10^{-33}\,\mathrm{cm}.
+\]
+(g) 由质量长度的换算反求,
+\[
+m_p=\frac{c^2l_p}{G}=\sqrt{\frac{\hbar c}{G}}
+=2.17\times10^{-5}\,\mathrm g.
+\]
+其静能 $E_p=m_pc^2=1.96\times10^{16}\,\mathrm{erg}$. 使用 $1\,\mathrm{eV}=1.602176634\times10^{-12}\,\mathrm{erg}$,
+\[
+E_p\simeq1.22\times10^{28}\,\mathrm{eV}=1.22\times10^{19}\,\mathrm{GeV}.
+\]
+这个能标远高于通常以 $\mathrm{TeV}$ 表示的粒子对撞能标, 所以直接在对撞机达到 Planck 质量阈值极不现实. “在 $l_p$ 处量子引力重要”是常数给出的尺度判断, 不是本题推导出的一套具体量子引力理论或特定可观测预言.
+\end{solution}
+
+\originalsection{作业七}
+\label{sec:gr-ps07}
+
+题源: \href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset07/}{MIT 8.962, Spring 2006, Problem Set 7}. 原卷列五题, 无分值; 第 1、2 题完整公开, 第 3 题可由\href{https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/mit8_962s20_pset07_hint/}{官方提示}恢复其拉氏量变分要求, 第 4、5 题只有教材题号. 本节分别给出完整题目的独立解答与题面缺口, 不把教材题号冒充完整练习.
+
+\begin{exercise}
+原题 7.1. 在线性化引力的 Lorenz 规范中, 静态源满足
+\[
+\Box\bar h_{\mu\nu}=-16\pi GT_{\mu\nu}
+\quad\Longrightarrow\quad
+\nabla^2\bar h_{\mu\nu}=-16\pi GT_{\mu\nu}.
+\]
+对静态非相对论源, $T_{00}=\rho$ 为所需精度下唯一非零分量, 从而 $\bar h_{00}=-4\Phi$, $h_{\mu\nu}=-2\Phi\operatorname{diag}(1,1,1,1)$, 其中 $\Phi=-GM/r$. 现在令源旋转, 其角动量为 $S^i$.
+\begin{enumerate}[label=(\alph*)]
+\item 源为密度均匀的球, 密度 $\rho$, 半径 $R$, 绕 $z=x^3$ 轴以常数角速度 $\Omega$ 刚性旋转. 在质心静止 Lorentz 系中求 $T_{\mu\nu}$ 的全部一阶 $\Omega$ 分量. 指出包含二阶 $\Omega$ 后哪些分量会改变, 不必计算二阶修正. 可忽略压强.
+\item 求 Cartesian 非对角扰动 $h_{0x},h_{0y},h_{0z}$. 非对角分量的迹反转无效, $h_{0i}=\bar h_{0i}$. 原题提示使用
+\[
+h_{0i}(\boldsymbol x)=4G\int\frac{T_{0i}(\boldsymbol x')}{|\boldsymbol x-\boldsymbol x'|}\dd^3x',
+\quad
+\frac1{|\boldsymbol x-\boldsymbol x'|}=\frac1r+\frac{x^jx'^j}{r^3}+\cdots.
+\]
+其中未加撇的是场点, 加撇的是源点, 空间指标用 Euclidean 度规收缩. 可用球坐标 $x'=r'\sin\theta'\cos\phi'$, $y'=r'\sin\theta'\sin\phi'$, $z'=r'\cos\theta'$ 积分. 结果中相应系数应含 $\rho R^5/r^3$.
+\item 用 $S^i=I\Omega^i$ 改写结果, $I$ 为转动惯量. 原题指出旋转源的结果可用角动量推广, 并建议参考 MTW 第 19.1 节; 应辨认外部远场近似的适用范围.
+\item 换为球坐标, 求 $h_{0r},h_{0\theta},h_{0\phi}$. 原题提示只有一个分量非零, 正比于 $S^z\sin^2\theta/r$.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+(a) 速度为 $\boldsymbol v=\boldsymbol\Omega\times\boldsymbol x=(-\Omega y,\Omega x,0)$. 忽略压强, $T_{\mu\nu}=\rho U_\mu U_\nu$, 而 $U_0=-1+O(\Omega^2R^2)$, $U_i=v_i+O(\Omega^3R^3)$. 因此在球内部,
+\[
+(T_{\mu\nu})=
+\begin{pmatrix}
+\rho&\rho\Omega y&-\rho\Omega x&0\\
+\rho\Omega y&0&0&0\\
+-\rho\Omega x&0&0&0\\
+0&0&0&0
+\end{pmatrix}+O(\Omega^2),
+\]
+外部为零. 到二阶, $T_{00}$ 增加运动能量修正, $T_{xx},T_{yy},T_{xy}=T_{yx}$ 获得速度乘积项. 对这个沿 $z$ 轴旋转的模型, $T_{iz},T_{zz}$ 仍为零, 而 $T_{0i}$ 的下一修正为三阶. 定常旋转实际上需要内部支撑应力; 本题以忽略压强的低速一阶运动学源模型计算旋转项, 不声称无压 dust 自身可保持刚性球形.
+
+(b) 先求球外 $r>R$ 的扰动. 单极积分 $\int x'^i\dd^3x'$ 为零, 并由球对称性
+\begin{align*}
+\int x'^ix'^j\dd^3x'&=C\delta^{ij},\\
+3C=\int r'^2\dd^3x'&=4\pi\int_0^Rr'^4\dd r'=\frac{4\pi R^5}{5}.
+\end{align*}
+故 $C=4\pi R^5/15$. 代入偶极项,
+\[
+h_{0x}=\frac{16\pi G\rho\Omega R^5}{15}\frac{y}{r^3},\qquad
+h_{0y}=-\frac{16\pi G\rho\Omega R^5}{15}\frac{x}{r^3},\qquad
+h_{0z}=0.
+\]
+源 $T_{0i}$ 的角向依赖只有一阶球谐函数, 所以对这个均匀刚性球, 球外更高多极项积分为零; 球外公式在所保留的线性弱场、一阶角速度范围内成立, 不必额外要求 $r\gg R$.
+
+原题的多极展开隐含了球外计算. 若也需要球内部, 可令 $h_{0i}=-A(r)(\boldsymbol\Omega\times\boldsymbol x)_i$. 因
+\[
+\nabla^2[A(r)x_i]=x_i\left(A''+\frac4rA'\right),
+\]
+内部 Poisson 方程给出 $A''+4A'/r=-16\pi G\rho$. 正则性排除 $r^{-3}$ 项, 再与球外解及径向导数在 $R$ 处连续匹配, 得
+\[
+A(r)=8\pi G\rho\left(\frac{R^2}{3}-\frac{r^2}{5}\right),\quad r<R;
+\qquad A(r)=\frac{16\pi G\rho R^5}{15r^3},\quad r>R.
+\]
+这也检查了边界条件和球外系数.
+
+(c) $M=4\pi\rho R^3/3$, $I=2MR^2/5=8\pi\rho R^5/15$, 从而球外
+\[
+h_{0i}=-\frac{2G}{r^3}(\boldsymbol S\times\boldsymbol x)_i.
+\]
+对一般定常、紧支撑、质心静止的源, 其远场流偶极也只由总角动量决定. 这可由 $\partial_iJ^i=0$ 及边界无流量推出 $\int(x_iJ_j+x_jJ_i)\dd^3x=0$, 再以 $\boldsymbol S=\int\boldsymbol x\times\boldsymbol J\dd^3x$ 确定该反对称偶极矩. 一般源还可能有更高流多极, 所以不能把这个角动量项宣称为任意源在任意半径的全部精确度规.
+
+(d) $\boldsymbol S=S^z\boldsymbol e_z$ 时, 作为协变空间指标的分量应使用 $h_{0a}=h_{0i}\partial x^i/\partial q^a$. 径向和 $\theta$ 方向与方位向量正交, 故 $h_{0r}=h_{0\theta}=0$. 又有
+\[
+h_{0\phi}
+=h_{0x}(-r\sin\theta\sin\phi)+h_{0y}(r\sin\theta\cos\phi)
+=-\frac{2GS^z}{r}\sin^2\theta.
+\]
+线元中的交叉项是 $2h_{0\phi}\dd t\dd\phi$, 因而其系数比张量分量多一个二.
+\end{solution}
+
+\begin{exercise}
+原题 7.2. 比较线性化引力与 Maxwell 理论. 原卷给出
+\[
+\dd s^2=-(1+2\Phi)\dd t^2+(1-2\Phi)(\dd x^2+\dd y^2+\dd z^2)
+-2\beta_i\dd x^i\dd t,
+\]
+原卷还写出 $h^{0i}=-\beta^i$, 此处 $0,i$ 都是上指标. 这句与所给线元的指标相容性在解答中校勘.
+\begin{enumerate}[label=(\alph*)]
+\item 原题要求证明对速度 $\boldsymbol v$ 的一阶, $m\ddot{\boldsymbol x}=m\boldsymbol g+m(\boldsymbol v\times\boldsymbol H)$, 其中 $\boldsymbol g=-\nabla\Phi$, $\boldsymbol H=\nabla\times\boldsymbol\beta$.
+\item 原题要求对定常源证明
+\[
+\nabla\cdot\boldsymbol g=-4\pi G\rho,\qquad
+\nabla\times\boldsymbol H=-16\pi G\boldsymbol J,\qquad
+\nabla\cdot\boldsymbol H=0,\qquad \nabla\times\boldsymbol g=0,
+\]
+其中 $\boldsymbol J=\rho\boldsymbol v$ 是源内质量流. 后两个方程由场定义直接得到.
+\item 这些式子与静态 Maxwell 方程相似, 但源项号差反转且旋度方程多一个因子四. 请给出这些区别的简单解释.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+此题的线元与紧随其后的上指标解释句不一致: 负交叉项给 $h_{0i}=-\beta_i$, 升高时间指标后应为 $h^{0i}=+\beta^i$; 原卷的 $h^{0i}=-\beta^i$ 反而对应正交叉项. 按负交叉项作答, 就会产生两项成对的符号不一致. 在本书的 $(-+++)$ 号差和从线元读出的 $h_{0i}=-\beta_i$ 下, (a) 的叉积项应为负, (b) 的流源项应为正. 若把线元交叉项统一改为 $+2\beta_i\dd x^i\dd t$, 即 $h_{0i}=+\beta_i$, 则原卷要求的两个式子同时成立. 以下先严格按题面度规推导, 再给出原题意图的相容约定, 不把不相容的等式当作已证明.
+
+(a) 先取 $\Phi,\beta_i$ 定常, 只保留度规扰动和试验粒子速度的一阶. 所需联络为
+\[
+\Gamma^i{}_{00}=\partial_i\Phi,\qquad
+\Gamma^i{}_{0j}=\frac12(\partial_i\beta_j-\partial_j\beta_i).
+\]
+以 $t$ 作参数的测地线方程含非仿射项
+\[
+\ddot x^i=-\Gamma^i{}_{\alpha\beta}w^\alpha w^\beta
++v^i\Gamma^0{}_{\alpha\beta}w^\alpha w^\beta,
+\qquad w^\alpha=(1,\boldsymbol v).
+\]
+定常时最后一项至少为速度二阶. 因而
+\begin{align*}
+\ddot x^i&=-\partial_i\Phi
++v^j(\partial_j\beta_i-\partial_i\beta_j)\\
+&=g_i-(\boldsymbol v\times\boldsymbol H)_i.
+\end{align*}
+这里使用 $(\boldsymbol v\times\nabla\times\boldsymbol\beta)_i=v^j\partial_i\beta_j-v^j\partial_j\beta_i$. 为独立核对号差, 也可展开自由粒子作用量: $-m\dd s/\dd t\simeq-m-m\Phi+(m/2)v^2-m\boldsymbol\beta\cdot\boldsymbol v$, 其 Euler--Lagrange 方程给出同样的负叉积项. 若不假定定常, 还出现 $\partial_t\boldsymbol\beta+3\boldsymbol v\partial_t\Phi$ 等一阶项, 所以原题 (a) 还需使用定常场的前提.
+
+(b) 用线性化 Einstein 方程的低速物质源 $T_{00}=\rho$, $T_{0i}=-J_i$. 迹反转满足 $\bar h_{00}=-4\Phi$, $\bar h_{0i}=h_{0i}=-\beta_i$. 因而
+\[
+\nabla^2\Phi=4\pi G\rho,\qquad
+\nabla^2\beta_i=-16\pi GJ_i.
+\]
+定常 Lorenz 规范 $\partial^\mu\bar h_{\mu0}=0$ 给出 $\nabla\cdot\boldsymbol\beta=0$. 利用旋度恒等式,
+\[
+\nabla\cdot\boldsymbol g=-4\pi G\rho,\qquad
+\nabla\times\boldsymbol H
+=\nabla(\nabla\cdot\boldsymbol\beta)-\nabla^2\boldsymbol\beta
+=+16\pi G\boldsymbol J.
+\]
+另两式由定义成立. 因而题面负交叉项不能导出所要求的负旋度源项. 可以等价地保留原度规而重新定义 $\boldsymbol H_{\rm grav}=-\nabla\times\boldsymbol\beta$; 此时
+\[
+\ddot{\boldsymbol x}=\boldsymbol g+\boldsymbol v\times\boldsymbol H_{\rm grav},
+\qquad
+\nabla\times\boldsymbol H_{\rm grav}=-16\pi G\boldsymbol J.
+\]
+这与把线元交叉项改为正号并采用原场定义的修正版完全相容.
+
+(c) 在后一相容约定中, $\nabla\cdot\boldsymbol g=-4\pi G\rho$ 表达正质量引力的吸引性, 与同号电荷间排斥的电场相反. 流方程的符号还取决于如何定义旋转场, 不能离开力方程单独比较. 因子四可由场方程直接辨认: $\bar h_{00}=-4\Phi$ 使标量势满足 $\nabla^2\Phi=4\pi G\rho$, 而非对角扰动不受迹反转影响, 对流源保留完整的 $16\pi G$ 系数. 这是引力耦合对称的二阶能动量张量并作迹反转后的结果; 简称“自旋二”有助于记忆, 但具体数值还依赖旋转势和力的规范化, 不能只凭一个标签证明它.
+\end{solution}
+
+\begin{exercise}
+原题 7.3. 作业文件只写“Carroll: Chapter 7, Problem 1”. 官方提示则给出完整拉氏量和目标: 令 $h_{\mu\nu}=h_{\nu\mu}$, $h=\eta^{\mu\nu}h_{\mu\nu}$, 对
+\begin{align*}
+\mathcal L=\frac12\biggl[&
+(\partial_\mu h^{\mu\nu})(\partial_\nu h)
+-(\partial_\mu h^{\rho\sigma})(\partial_\rho h^\mu{}_{\sigma})\\
+&+\frac12\eta^{\mu\nu}(\partial_\mu h^{\rho\sigma})(\partial_\nu h_{\rho\sigma})
+-\frac12\eta^{\mu\nu}(\partial_\mu h)(\partial_\nu h)\biggr]
+\end{align*}
+变分, 构造线性化 Einstein 张量. 这里明确使用官方提示所公开的要求, 不声称已取得教材中的所有附加文字. 官方提示强调: 必须在变分中保持 $h$ 的对称性; 可以将第二项的指标对称化, 或使用
+\[
+\frac{\partial(\partial_\mu h_{\rho\sigma})}{\partial(\partial_\gamma h_{\alpha\beta})}
+=\frac12\delta^\gamma_\mu
+(\delta^\alpha_\rho\delta^\beta_\sigma+\delta^\alpha_\sigma\delta^\beta_\rho).
+\]
+以下解答独立完成.
+\end{exercise}
+\begin{solution}
+所有指标用固定背景 $\eta$ 升降. 令 $a^\nu=\partial_\mu h^{\mu\nu}$, $b=\partial_\nu a^\nu$. 为避免在一个未显式对称化的项上误把 $h_{\alpha\beta}$ 和 $h_{\beta\alpha}$ 当成独立变量, 先作分部积分. 若场在边界处足够快衰减使边界项为零, 以下作用量积分相等; 对一般场, 两种拉氏量仍可相差边界项, 但紧支撑变分的体积系数相同. 在前一种条件下,
+\begin{align*}
+\int(\partial_\mu h^{\rho\sigma})(\partial_\rho h^\mu{}_{\sigma})\dd^4x
+&=-\int h^{\rho\sigma}\partial_\rho a_\sigma\dd^4x\\
+&=\int(\partial_\rho h^{\rho\sigma})a_\sigma\dd^4x
+=\int a^\sigma a_\sigma\dd^4x.
+\end{align*}
+因此在差一个边界项的意义下, 可以使用
+\[
+\mathcal L\simeq\frac12a^\nu\partial_\nu h-\frac12a^\nu a_\nu
++\frac14(\partial_\lambda h_{\mu\nu})(\partial^\lambda h^{\mu\nu})
+-\frac14(\partial_\lambda h)(\partial^\lambda h).
+\]
+记 $\partial^{(\alpha}a^{\beta)}=\tfrac12(\partial^\alpha a^\beta+\partial^\beta a^\alpha)$. 对称变分 $\delta h_{\alpha\beta}=\delta h_{\beta\alpha}$ 下, 四项分别给出体积系数
+\begin{align*}
+\delta\int\frac12a^\nu\partial_\nu h\dd^4x
+&=\int\left[-\frac12\partial^\alpha\partial^\beta h
+-\frac12\eta^{\alpha\beta}b\right]\delta h_{\alpha\beta}\dd^4x,\\
+\delta\int-\frac12a^\nu a_\nu\dd^4x
+&=\int\partial^{(\alpha}a^{\beta)}\delta h_{\alpha\beta}\dd^4x,\\
+\delta\int\frac14(\partial h_{\mu\nu})(\partial h^{\mu\nu})\dd^4x
+&=-\frac12\int\Box_\eta h^{\alpha\beta}\delta h_{\alpha\beta}\dd^4x,\\
+\delta\int-\frac14(\partial h)(\partial h)\dd^4x
+&=\frac12\int\eta^{\alpha\beta}\Box_\eta h\,\delta h_{\alpha\beta}\dd^4x.
+\end{align*}
+每一式均使用一次分部积分把导数从 $\delta h$ 上移开, 边界项因紧支撑而消失. 把它们相加,
+\begin{align*}
+\delta S&=\int G^{(1)\alpha\beta}\delta h_{\alpha\beta}\dd^4x,\\
+G^{(1)}_{\alpha\beta}
+&=\frac12\bigl[\partial_\alpha a_\beta+\partial_\beta a_\alpha
+-\partial_\alpha\partial_\beta h-\Box_\eta h_{\alpha\beta}
+-\eta_{\alpha\beta}b+\eta_{\alpha\beta}\Box_\eta h\bigr].
+\end{align*}
+独立曲率核对为
+\[
+R^{(1)}_{\alpha\beta}
+=\frac12(\partial_\alpha a_\beta+\partial_\beta a_\alpha
+-\Box_\eta h_{\alpha\beta}-\partial_\alpha\partial_\beta h),
+\quad R^{(1)}=b-\Box_\eta h.
+\]
+故所得系数确为 $R^{(1)}_{\alpha\beta}-\tfrac12\eta_{\alpha\beta}R^{(1)}$. 对它再取散度, 各项由偏导数交换而成对抵消, $\partial^\alpha G^{(1)}_{\alpha\beta}=0$. 这也检查了对称化的系数; 若遗漏第二项变分中的对称部分, 就无法恢复这一张量结构.
+\end{solution}
+
+\begin{remark}
+原题 7.4 只指定 Carroll 第 7 章第 3 题; 原题 7.5 只指定 Carroll 第 7 章第 4 题. 本轮使用的公开作业和提示没有给出这两题的题面、条件或附加要求. 因而这两个条目保留为教材依赖缺口, 不编造题目, 也不把未经核实的教材内容标成 MIT 公开原题或完整解答. 第 3 题上述内容来自实际公开的官方提示, 与这两项的资料状态不同.
+\end{remark}

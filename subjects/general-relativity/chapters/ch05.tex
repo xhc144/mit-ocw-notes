@@ -1,0 +1,345 @@
+\originalchapter{线性引力与引力辐射}
+\label{gr-ch-waves}
+
+完整 EFE 是非线性偏微分方程. 如果某区域的几何只略微偏离 Minkowski 时空, 就可以保留偏离量的一阶, 用线性方程研究静态场与传播中的波. 本章对应课程第14--17讲. 我们先区分坐标改变与真实曲率, 再讨论波对探测器的作用; 辐射源和辐射能量的计算分别需要额外的慢运动近似与二阶平均.
+
+\originalsection{线性化与坐标规范}
+
+在背景的惯性坐标中写
+\[
+ g_{\mu\nu}=\eta_{\mu\nu}+h_{\mu\nu},\qquad |h_{\mu\nu}|\ll1,
+ \qquad \eta_{\mu\nu}=\operatorname{diag}(-1,1,1,1).
+\]
+这一节中的指标升降使用 $\eta$, $h=\eta^{\mu\nu}h_{\mu\nu}$. 逆度规不是 $\eta^{\mu\nu}+h^{\mu\nu}$: 由两者乘积等于单位矩阵, 有 $g^{\mu\nu}=\eta^{\mu\nu}-h^{\mu\nu}+O(h^2)$. 联络和曲率的一阶项为
+\begin{align}
+ \Gamma^{(1)\rho}{}_{\mu\nu}
+ &=\frac12\eta^{\rho\sigma}
+ (\partial_\mu h_{\sigma\nu}+\partial_\nu h_{\sigma\mu}-\partial_\sigma h_{\mu\nu}),\label{gr5-connection}\\
+ R^{(1)}_{\mu\nu}
+ &=\frac12\bigl(\partial_\alpha\partial_\mu h^\alpha{}_{\nu}
+ +\partial_\alpha\partial_\nu h^\alpha{}_{\mu}
+ -\Box h_{\mu\nu}-\partial_\mu\partial_\nu h\bigr),\label{gr5-ricci}\\
+ R^{(1)}&=\partial_\mu\partial_\nu h^{\mu\nu}-\Box h,
+ \qquad \Box=-\partial_t^2+\nabla^2.\notag
+\end{align}
+式\eqref{gr5-ricci}来自 $R_{\mu\nu}=\partial_\rho\Gamma^\rho{}_{\nu\mu}-\partial_\nu\Gamma^\rho{}_{\rho\mu}+\Gamma\Gamma-\Gamma\Gamma$; 两个联络的乘积为二阶, 所以在线性曲率中不出现.
+
+同一个几何可以由不同坐标描述. 考虑 $x'^\mu=x^\mu+\xi^\mu(x)$, 其中 $\partial\xi$ 与 $h$ 同阶. 将度规的张量变换律展开到一阶, 得
+\begin{equation}\label{gr5-gauge}
+ h'_{\mu\nu}=h_{\mu\nu}-\partial_\mu\xi_\nu-\partial_\nu\xi_\mu.
+\end{equation}
+因此 $h$ 的每个分量不能直接视为可测量场. 代入线性 Riemann 张量时, 新增的三阶导数因偏导可交换而两两消去, 所以 $R^{(1)\rho}{}_{\sigma\mu\nu}$ 不变. 这是围绕平直背景的线性规范不变性: 背景曲率为零, 因而坐标改变的一阶作用只改变描述, 不改变线性曲率.
+
+\begin{definition}
+迹反转扰动定义为
+\[
+ \bar h_{\mu\nu}=h_{\mu\nu}-\frac12\eta_{\mu\nu}h.
+\]
+在四维中 $\bar h=-h$, 再作一次同样的操作即可还原 $h_{\mu\nu}=\bar h_{\mu\nu}-\tfrac12\eta_{\mu\nu}\bar h$.
+\end{definition}
+
+把式\eqref{gr5-ricci}重写成迹反转变量, Einstein 张量为
+\begin{equation}\label{gr5-einstein-linear}
+ G^{(1)}_{\mu\nu}=-\frac12\left[
+ \Box\bar h_{\mu\nu}+\eta_{\mu\nu}\partial_\alpha\partial_\beta\bar h^{\alpha\beta}
+ -\partial_\mu\partial^\alpha\bar h_{\alpha\nu}
+ -\partial_\nu\partial^\alpha\bar h_{\alpha\mu}\right].
+\end{equation}
+希望把源方程化为普通波方程, 就应消掉最后三项. 规范变换满足
+\[
+ \partial^\mu\bar h'_{\mu\nu}
+ =\partial^\mu\bar h_{\mu\nu}-\Box\xi_\nu.
+\]
+因此, 在可求解相应波方程并施加所需边界条件的区域, 选 $\Box\xi_\nu=\partial^\mu\bar h_{\mu\nu}$, 便得到 Lorenz 规范
+\begin{equation}\label{gr5-lorenz}
+ \partial^\mu\bar h_{\mu\nu}=0,\qquad
+ \Box\bar h_{\mu\nu}=-16\pi G T_{\mu\nu}.
+\end{equation}
+这里使用 $\Lambda=0$ 的平直背景. 当背景曲率不能忽略时, 平直线性化需换成弯曲背景上的扰动理论. 对式\eqref{gr5-lorenz}取散度, 还要求此阶的源满足 $\partial^\mu T_{\mu\nu}=0$. 给源方程随意指定不守恒的 $T$ 会与规范条件冲突.
+
+\originalsection{静态极限与非辐射自由度}
+
+对静态低压源, 仅 $T_{00}\simeq\rho$ 在最低阶重要. 取渐近平直解, Poisson 方程给出
+\[
+ \bar h_{00}(\boldsymbol x)=4G\int\frac{\rho(\boldsymbol x')}{|\boldsymbol x-\boldsymbol x'|}\dd^3x'
+ =-4\Phi,\qquad \bar h_{ij}\simeq0,
+\]
+其中 $\Phi=-G\int\rho/|\boldsymbol x-\boldsymbol x'|\,\dd^3x'$. 注意 $\bar h= -\bar h_{00}=4\Phi$. 迹反转还原得 $h_{00}=-2\Phi$, $h_{ij}=-2\Phi\delta_{ij}$, 从而
+\begin{equation}\label{gr5-newton-metric}
+ \dd s^2=-(1+2\Phi)\dd t^2+(1-2\Phi)\dd\boldsymbol x^2.
+\end{equation}
+空间度规也发生改变. 只知道低速粒子的 Newton 势, 尚不能预测光的全部行为; 弱场光路同时使用式\eqref{gr5-newton-metric}的时间与空间两部分.
+
+Lorenz 规范让十个分量都满足波方程, 但这不等于十种独立辐射. 要看出其中的约束, 可在每个时间对空间张量作标量、横向向量和横向无迹张量分解. 在允许 Helmholtz 分解的全空间衰减条件下写
+\begin{align*}
+ h_{00}&=-2\phi,\qquad h_{0i}=\partial_i B+B_i,\\
+ h_{ij}&=-2\psi\delta_{ij}+2\partial_i\partial_j E
+                 +\partial_i E_j+\partial_j E_i+h^{\mathrm{TT}}_{ij},\\
+ \partial_i B_i&=\partial_i E_i=0,\qquad
+ \partial_i h^{\mathrm{TT}}_{ij}=0,\quad \delta^{ij}h^{\mathrm{TT}}_{ij}=0.
+\end{align*}
+这个分解使用逆空间 Laplace 算子, 其全局零模与边界条件必须另行指定. 这里讨论衰减扰动或非零波数模, 不把局部表达式误当成无条件的全局分解定理.
+
+令规范生成元为 $\xi^0=T$, $\xi^i=\partial_i L+L_i$, $\partial_iL_i=0$. 式\eqref{gr5-gauge}给出
+\[
+ \phi'=\phi-\dot T,\quad B'=B+T-\dot L,\quad E'=E-L,
+ \quad \psi'=\psi,\quad B_i'=B_i-\dot L_i,\quad E_i'=E_i-L_i.
+\]
+所以 $\Phi_{\mathrm{inv}}=\phi+\dot B-\ddot E$, $\Psi_{\mathrm{inv}}=\psi$, $V_i=B_i-\dot E_i$ 和 $h^{\mathrm{TT}}_{ij}$ 不变. 前两个各含一个标量分量, 横向向量含两个分量, TT 张量含两个分量, 总计六个规范不变分量.
+
+为何六个中只有两个传播? 在 $B=E=E_i=0$ 的坐标选择下直接代入式\eqref{gr5-einstein-linear}, 有
+\[
+ G^{(1)}_{00}=2\nabla^2\psi,\qquad
+ G^{(1)}_{0i}=2\partial_i\dot\psi-\frac12\nabla^2 V_i.
+\]
+因此 $\nabla^2\Psi_{\mathrm{inv}}=4\pi G T_{00}$, 动量约束的横向部分给出 $\nabla^2V_i=-16\pi G(T_{0i})_{\mathrm{transverse}}$. 空间 Einstein 张量也可算成
+\begin{align*}
+ G^{(1)}_{ij}={}&\partial_i\partial_j(\psi-\phi)
+       +\delta_{ij}[2\ddot\psi+\nabla^2(\phi-\psi)]\\
+       &-\frac12(\partial_i\dot V_j+\partial_j\dot V_i)
+       -\frac12\Box h^{\mathrm{TT}}_{ij}.
+\end{align*}
+若把空间应力的无迹标量部分写为
+$(T_{ij})_{\mathrm{scalar,TF}}=(\partial_i\partial_j-\delta_{ij}\nabla^2/3)\Pi$, 则空间方程的无迹标量投影给出
+\[
+ (\partial_i\partial_j-\delta_{ij}\nabla^2/3)(\psi-\phi)
+ =8\pi G(\partial_i\partial_j-\delta_{ij}\nabla^2/3)\Pi.
+\]
+在前述非零波数或衰减条件下, 因而 $\Psi_{\mathrm{inv}}-\Phi_{\mathrm{inv}}=8\pi G\Pi$. 例如没有各向异性应力的理想流体有 $\Pi=0$. 标量和向量场由这些约束、源和边界条件决定, 没有另外的无源辐射初值. 空间方程的 TT 部分则含真正的二阶时间导数:
+\[
+ \Box h^{\mathrm{TT}}_{ij}=-16\pi G(T_{ij})^{\mathrm{TT}}.
+\]
+这里的 Poisson 约束并不允许物理作用超光速: 源的变化同时受局部守恒和演化方程限制, 完整解的曲率传播仍服从因果性.
+
+\originalsection{迟延解与两个偏振}
+
+对空间紧致、满足此阶守恒的源, 在无入射辐射条件下, 三维波方程的迟延解为
+\begin{equation}\label{gr5-retarded}
+ \bar h_{\mu\nu}(t,\boldsymbol x)=4G\int
+ \frac{T_{\mu\nu}(t-|\boldsymbol x-\boldsymbol x'|,\boldsymbol x')}
+ {|\boldsymbol x-\boldsymbol x'|}\,\dd^3x'.
+\end{equation}
+这个公式把源的变化从 $\boldsymbol x'$ 传到 $\boldsymbol x$ 所需的时间明确写出. 它是线性方程的精确迟延积分, 此时还没有作慢运动或远区展开. 可以叠加齐次波, 但那就改变了所选择的入射辐射条件.
+
+在远离源的真空区域, 考虑平面波 $\bar h_{\mu\nu}=\operatorname{Re}(\bar A_{\mu\nu}e^{ik_\alpha x^\alpha})$. 波方程要求 $k_\alpha k^\alpha=0$, Lorenz 条件要求 $k^\mu\bar A_{\mu\nu}=0$. Lorenz 条件仍允许 $\Box\xi^\mu=0$ 的规范变换. 对一个非零频率真空波, 这四个剩余规范函数可进一步选出 $h_{0\mu}=0$、空间横向和无迹的表示, 称为 TT 规范. 于是十个对称分量先受四个 Lorenz 条件约束, 再去掉四个剩余规范分量, 留下两个独立传播分量.
+
+若波沿 $z$ 方向传播, TT 条件直接给出
+\begin{equation}\label{gr5-polarization}
+ (h^{\mathrm{TT}}_{ij})=
+ \begin{pmatrix}h_+&h_\times&0\\h_\times&-h_+&0\\0&0&0\end{pmatrix},
+ \qquad h_+,h_\times\text{ 是 }t-z\text{ 的函数}.
+\end{equation}
+$+$ 偏振沿 $x,y$ 方向一伸一缩, $\times$ 偏振的主轴旋转 $45^\circ$. 旋转横向坐标轴 $\theta$ 时, 两个偏振分量按角 $2\theta$ 混合, 这也是引力波具有自旋二结构的经典表现.
+
+\originalsection{自由落体探测器看到什么}
+
+TT 规范中 $g_{00}=-1$, $g_{0i}=0$, 所以 $\Gamma^i{}_{00}=0$. 初始静止的自由试验质量保持固定的空间坐标, 但坐标不动并不意味着距离不变. 对波长远大于探测器长度的两个试验质量, 坐标差为 $\Delta x^i=L n^i$, $\delta_{ij}n^in^j=1$. 固定 $t$ 切片上的固有长度为
+\[
+ \ell=\sqrt{(\delta_{ij}+h^{\mathrm{TT}}_{ij})\Delta x^i\Delta x^j}
+ =L\left(1+\frac12 h^{\mathrm{TT}}_{ij}n^in^j\right)+O(h^2).
+\]
+因此应变为 $\delta\ell/L=\tfrac12h^{\mathrm{TT}}_{ij}n^in^j$. 本公式忽略了光在探测器中传播期间波的显著变化; 对长度接近波长的仪器应积分完整光路响应.
+
+还可在中心试验质量的局部自由落体系中使用测地偏离. 本书曲率约定给出 $R_{0i0j}^{(1)}=-\tfrac12\ddot h^{\mathrm{TT}}_{ij}$. 两质点的短空间分离 $X^i$ 于是满足
+\begin{equation}\label{gr5-detector}
+ \ddot X^i=-R^i{}_{0j0}X^j=\frac12\ddot h^{\mathrm{TT}}_{ij}X^j.
+\end{equation}
+一阶解可取 $X^i=(\delta^i{}_j+\tfrac12h^{\mathrm{TT}i}{}_j)X_0^j$, 另有由初始条件决定的常位移和匀速运动项. TT 坐标的“质量不动”与局部自由落体系的“分离改变”给出了同一曲率效应.
+
+\begin{example}
+一束沿 $z$ 传播的长波长 $+$ 偏振引力波满足 $h_+=h_0\cos\omega(t-z)$, $h_\times=0$. 两条长度同为 $L$ 的自由端点干涉仪臂沿 $x,y$ 方向. 求两臂长度差的一阶变化. 若整个仪器在横向平面旋转 $\theta$, 结果如何改变?
+\end{example}
+\begin{solution}
+原方向的两臂分别有 $\delta\ell_x=Lh_+/2$, $\delta\ell_y=-Lh_+/2$, 所以差为 $Lh_+$. 旋转后的两单位向量为 $n_1=(\cos\theta,\sin\theta,0)$, $n_2=(-\sin\theta,\cos\theta,0)$. 用式\eqref{gr5-polarization}计算,
+\[
+ \delta\ell_1-\delta\ell_2
+ =L(h_+\cos2\theta+h_\times\sin2\theta)
+ =Lh_0\cos2\theta\cos\omega(t-z).
+\]
+对纯 $+$ 波, $\theta=\pi/4$ 时这两臂的差分响应为零. 这并非波不存在, 而是该波的潮汐主轴与所测量的差分方向不匹配.
+\end{solution}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1]
+ \foreach \cx/\name in {0/$+$,5/$\times$}{
+   \begin{scope}[shift={(\cx,0)}]
+    \draw[->](-1.65,0)--(1.7,0) node[right]{$x$};
+    \draw[->](0,-1.4)--(0,1.55) node[above]{$y$};
+    \draw[dashed] (0,0) circle[radius=1];
+    \node at (0,-1.9) {\name\ 偏振};
+   \end{scope}
+ }
+ \draw[thick,structurecolor] (0,0) ellipse[x radius=1.3,y radius=.75];
+ \foreach \a in {0,45,...,315}{
+   \fill[structurecolor] ({1.3*cos(\a)},{.75*sin(\a)}) circle[radius=.045];
+ }
+ \begin{scope}[shift={(5,0)},rotate=45]
+   \draw[thick,structurecolor] (0,0) ellipse[x radius=1.3,y radius=.75];
+   \foreach \a in {0,45,...,315}{
+     \fill[structurecolor] ({1.3*cos(\a)},{.75*sin(\a)}) circle[radius=.045];
+   }
+ \end{scope}
+\end{tikzpicture}
+\caption{局部自由落体系中, 自由质量环在正偏振幅时的瞬时潮汐变形. 虚线表示未扰动的圆; 变形幅度为示意而夸大. 两图的主轴相差 $45^\circ$.}
+\label{gr5-polarization-ring}
+\end{figure}
+
+\originalsection{从迟延积分导出四极矩公式}
+
+设源的尺寸为 $b$, 特征变化角频率为 $\omega$, 观察点距离为 $r$, $\boldsymbol n=\boldsymbol x/r$. 慢运动紧致源满足 $\omega b\ll1$, 远区满足 $r\gg b$; 为把 $1/r$ 波场与近区场明确分开, 再取 $r\gg\omega^{-1}$. 有
+\[
+ |\boldsymbol x-\boldsymbol x'|=r-\boldsymbol n\cdot\boldsymbol x'+O(b^2/r).
+\]
+忽略相对 $b/r$ 的幅度修正与相对 $\omega b$ 的源内部迟延差, 式\eqref{gr5-retarded}给出
+\begin{equation}\label{gr5-far-integral}
+ \bar h_{ij}(t,\boldsymbol x)\simeq\frac{4G}{r}\int T^{ij}(t-r,\boldsymbol x')\,\dd^3x'.
+\end{equation}
+如何把空间应力积分改成源的质量分布? 定义 $I_{ij}(t)=\int T^{00}(t,\boldsymbol x)x_ix_j\,\dd^3x$. 由 $\partial_tT^{00}=-\partial_kT^{k0}$, 在源外边界项为零时分部积分, 得
+\[
+ \dot I_{ij}=\int(T^{i0}x_j+T^{j0}x_i)\,\dd^3x.
+\]
+再次使用 $\partial_tT^{i0}=-\partial_kT^{ik}$ 与 $T^{ij}=T^{ji}$, 得
+\[
+ \ddot I_{ij}=2\int T^{ij}\,\dd^3x.
+\]
+于是空间扰动的远区辐射部分由 $2G\ddot I_{ij}(t-r)/r$ 给出. TT 投影自动消去迹反转中的纯迹项.
+
+\begin{definition}
+给定传播单位方向 $n_i$, 定义横向投影 $P_{ij}=\delta_{ij}-n_in_j$. 对对称空间张量 $A_{kl}$, TT 投影为
+\[
+ A^{\mathrm{TT}}_{ij}=\Lambda_{ij,kl}A_{kl},\qquad
+ \Lambda_{ij,kl}=\frac12(P_{ik}P_{jl}+P_{il}P_{jk})-\frac12P_{ij}P_{kl}.
+\]
+最后的 $1/2$ 源于横向平面是二维. 可直接核对 $n_iA^{\mathrm{TT}}_{ij}=0$ 和 $\delta_{ij}A^{\mathrm{TT}}_{ij}=0$.
+\end{definition}
+
+在慢运动最低阶, $T^{00}\simeq\rho$, 定义无迹质量四极矩
+\begin{equation}\label{gr5-quadrupole}
+ Q_{ij}=\int\rho\left(x_ix_j-\frac13\delta_{ij}|\boldsymbol x|^2\right)\dd^3x.
+\end{equation}
+空间三维无迹中的 $1/3$ 与横向投影中的 $1/2$ 不同. 因为 $\Lambda_{ij,kl}\delta_{kl}=0$, 可用 $Q$ 代替 $I$, 得
+\begin{equation}\label{gr5-wave-source}
+ h^{\mathrm{TT}}_{ij}(t,r\boldsymbol n)=\frac{2G}{r}
+                    \Lambda_{ij,kl}(\boldsymbol n)\ddot Q_{kl}(t-r).
+\end{equation}
+质量单极矩是守恒总质量, 不产生变化辐射; 质量偶极矩的一阶导数是总动量, 在孤立系统中其二阶导数为零. 因而引力辐射的首项是四极矩. 这些结论使用守恒和孤立条件, 不能只用“引力比电磁更弱”来解释多极阶数.
+
+推导中的平直守恒有一个实际限制. 被外力加速的粒子若只写粒子的 $T$, 通常不满足 $\partial_\mu T^{\mu\nu}=0$; 施力机构的应力也应算进源. 对自引力束缚双星, 物质张量单独的平直散度同样不为零. 一致的后 Newton 展开把物质和引力场修正组成守恒的有效源. 在最低辐射阶, 其质量四极矩仍由 Newton 质量轨道计算, 这就是下文双星公式的近似依据; 本章不把它宣称为强场双星的精确解.
+
+\originalsection{引力波的能量与平均}
+
+线性方程告诉我们波怎样传播, 而波携带的能量是扰动的二阶量. 对弯曲背景 $\bar g$ 写 $g=\bar g+h$, 并假设波长 $\lambda$ 远小于背景变化尺度 $\mathcal L$. 取平均尺度 $\ell$ 满足 $\lambda\ll\ell\ll\mathcal L$, 这样快速振荡的一阶项平均趋于零, 二阶平方项却保留下来. 展开真空 EFE,
+\[
+ G[g]=G[\bar g]+G^{(1)}[h]+G^{(2)}[h,h]+\cdots,
+\]
+平均后可把 $-\langle G^{(2)}\rangle/(8\pi G)$ 解释为背景所受的有效波能动量. 这需要尺度分离, 不是任意波长下的逐点引力能量定义. 自由落体坐标可以在一点消去联络, 不能消去该点的非零曲率; 因而也不能说某点的潮汐波效应可被坐标变换消除.
+
+在本章平直背景的 TT 表示中, 二阶作用量在去掉总散度后为
+\begin{equation}\label{gr5-wave-action}
+ S^{(2)}=\frac1{64\pi G}\int
+       [\dot h^{\mathrm{TT}}_{ij}\dot h^{\mathrm{TT}}_{ij}
+       -\partial_kh^{\mathrm{TT}}_{ij}\partial_kh^{\mathrm{TT}}_{ij}]\,\dd^4x.
+\end{equation}
+这个形式可从 $G^{(1)}_{ij}=-\tfrac12\Box h^{\mathrm{TT}}_{ij}$ 与上一章的 EH 变分获得. 因为一阶 $\delta g^{ij}=-\delta h_{ij}$,
+\[
+ \delta S^{(2)}=-\frac1{16\pi G}\int G^{(1)}_{ij}\delta h_{ij}\,\dd^4x
+       =\frac1{32\pi G}\int\Box h^{\mathrm{TT}}_{ij}\delta h^{\mathrm{TT}}_{ij}\,\dd^4x.
+\]
+对右边反向分部积分, 便恢复式\eqref{gr5-wave-action}的系数和符号, 相差的总散度在紧支集变分中不改变方程. 求它的平移 Noether 能动量, 再对多个波周期平均; 沿零类传播的波满足 $\langle\partial_\alpha h_{ij}\partial^\alpha h_{ij}\rangle=0$, 故与拉格朗日量成正比的迹项消失. 得到
+\begin{equation}\label{gr5-energy-tensor}
+ t^{\mathrm{GW}}_{\mu\nu}=\frac1{32\pi G}
+      \left\langle\partial_\mu h^{\mathrm{TT}}_{ij}
+                    \partial_\nu h^{\mathrm{TT}}_{ij}\right\rangle.
+\end{equation}
+弯曲背景的短波结果把偏导换成背景协变导数, 在局部适合的横向无迹表示中使用同一个主项; 相对 $\lambda/\mathcal L$ 的修正已被略去. 平均后的主项才具有此近似下需要的规范意义.
+
+对沿径向外传的波, $\partial_rh\simeq-\partial_th$, 出射能流为
+\[
+ F=-t^{\mathrm{GW}}_{0r}=\frac1{32\pi G}\langle\dot h^{\mathrm{TT}}_{ij}\dot h^{\mathrm{TT}}_{ij}\rangle
+   =\frac1{16\pi G}\langle\dot h_+^2+\dot h_\times^2\rangle.
+\]
+第二个等号中, 矩阵的 $xy,yx$ 两项和 $xx,yy$ 两项各出现两次. 漏掉这一点会把辐射功率算错一倍.
+
+由式\eqref{gr5-wave-source}, 球面总功率为
+\[
+ \mathcal P=r^2\int F\,\dd\Omega
+ =\frac{G}{8\pi}\int\left\langle(\Lambda_{ij,kl}\dddot Q_{kl})^2\right\rangle\dd\Omega.
+\]
+为实际完成角积分, 令 $A_{ij}=\dddot Q_{ij}$, 它对称且无迹. 先展开投影:
+\[
+ (\Lambda A)_{ij}(\Lambda A)_{ij}
+ =A_{ij}A_{ij}-2n_iA_{ij}A_{jk}n_k
+                       +\frac12(n_iA_{ij}n_j)^2.
+\]
+使用球面对称性给出的
+\[
+ \int n_in_j\,\dd\Omega=\frac{4\pi}3\delta_{ij},\qquad
+ \int n_in_jn_kn_l\,\dd\Omega
+ =\frac{4\pi}{15}(\delta_{ij}\delta_{kl}+\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk}),
+\]
+其中系数可分别由 $n_in_i=1$ 收缩确定. 无迹性消去最后积分中的 $\delta_{ij}\delta_{kl}$ 项, 故总系数为 $4\pi[1-2/3+1/15]=8\pi/5$. 于是
+\begin{equation}\label{gr5-power}
+ \mathcal P=\frac G5\left\langle\dddot Q_{ij}\dddot Q_{ij}\right\rangle.
+\end{equation}
+恢复单位后为 $G\langle\dddot Q_{ij}\dddot Q_{ij}\rangle/(5c^5)$. 与波幅含四极矩二阶导数相比, 能流又对波求一次时间导数, 所以出现三阶导数的平方.
+
+\originalsection{圆轨道双星的波形与轨道衰减}
+
+\begin{example}
+质量为 $m_1,m_2$ 的双星在弱场慢运动下沿近似圆轨道运动. 两星的分离为 $b$, 总质量为 $M=m_1+m_2$, 约化质量为 $\mu=m_1m_2/M$. 求垂直轨道面方向的远区波形、总辐射功率, 以及绝热圆轨道的 $b(t)$ 与角频率变化. 只求最低阶辐射近似.
+\end{example}
+\begin{solution}
+在质心系中, 相对位置为 $\boldsymbol x=b(\cos\omega t,\sin\omega t,0)$, 两星位置为 $\boldsymbol x_1=(m_2/M)\boldsymbol x$, $\boldsymbol x_2=-(m_1/M)\boldsymbol x$. 因而 $\sum_A m_Ax_A^ix_A^j=\mu x^ix^j$, Newton 圆轨道关系为 $\omega^2=GM/b^3$. 四极矩的非零分量是
+\begin{align*}
+ Q_{xx}&=\mu b^2(\cos^2\omega t-1/3),\qquad
+ Q_{yy}=\mu b^2(\sin^2\omega t-1/3),\\
+ Q_{xy}&=Q_{yx}=\frac12\mu b^2\sin2\omega t,\qquad Q_{zz}=-\mu b^2/3.
+\end{align*}
+在一个轨道周期内先把 $b,\omega$ 当常数. 求二阶导数, 得
+\[
+ \ddot Q_{xx}=-2\mu b^2\omega^2\cos2\omega t,
+ \quad \ddot Q_{yy}=2\mu b^2\omega^2\cos2\omega t,
+ \quad \ddot Q_{xy}=-2\mu b^2\omega^2\sin2\omega t.
+\]
+沿 $z$ 方向观察时, 这些二阶导数已经横向无迹. 用迟延时间 $u=t-r$, 有
+\[
+ h_+=-\frac{4G\mu b^2\omega^2}{r}\cos2\omega u,
+ \qquad h_\times=-\frac{4G\mu b^2\omega^2}{r}\sin2\omega u.
+\]
+辐射角频率是 $2\omega$, 因为两星质量四极分布转半圈就重复. 两偏振相差四分之一周期, 对这个观察方向呈圆偏振.
+
+三阶导数为 $\dddot Q_{xx}=4\mu b^2\omega^3\sin2\omega t$, $\dddot Q_{yy}=-\dddot Q_{xx}$, $\dddot Q_{xy}=-4\mu b^2\omega^3\cos2\omega t$. 在收缩中把 $xy,yx$ 都计入, 得
+\[
+ \dddot Q_{ij}\dddot Q_{ij}
+ =32\mu^2b^4\omega^6(\sin^22\omega t+\cos^22\omega t)
+ =32\mu^2b^4\omega^6.
+\]
+式\eqref{gr5-power}于是给出
+\begin{equation}\label{gr5-binary-power}
+ \mathcal P=\frac{32G}{5}\mu^2b^4\omega^6
+            =\frac{32}{5}\frac{G^4\mu^2M^3}{b^5}.
+\end{equation}
+Newton 圆轨道能量为 $E=-G\mu M/(2b)$. 假设辐射时间尺度远大于轨道周期, 把轨道看成缓慢变化的一列圆轨道, 能量平衡 $\dot E=-\mathcal P$ 给出
+\[
+ \frac{G\mu M}{2b^2}\dot b=-\frac{32G^4\mu^2M^3}{5b^5},
+ \qquad \dot b=-\frac{64}{5}\frac{G^3\mu M^2}{b^3}.
+\]
+对初值 $b(t_0)=b_0$ 积分,
+\[
+ b(t)^4=b_0^4-\frac{256}{5}G^3\mu M^2(t-t_0),
+ \qquad t_c-t_0=\frac{5b_0^4}{256G^3\mu M^2}.
+\]
+这里 $t_c$ 是把最低阶公式外推至 $b=0$ 的形式时间, 不是精确的强场合并时间. 在 $GM/b\ll1$ 时,
+\[
+ \frac{|\dot b|}{b\omega}=
+ \frac{64}{5}\frac\mu M\left(\frac{GM}{b}\right)^{5/2}\ll1,
+\]
+因而所用绝热近似自洽. 由 $\omega\propto b^{-3/2}$,
+\[
+ \dot\omega=-\frac32\omega\frac{\dot b}{b}
+ =\frac{96}{5}(G\mathcal M)^{5/3}\omega^{11/3},
+ \qquad \mathcal M=\mu^{3/5}M^{2/5}.
+\]
+$\mathcal M$ 称为啁啾质量. 因为 $b$ 减小, 频率和波幅都增大. 弱场和慢运动条件失效以后, 这条计算链必须由更高阶后 Newton、黑洞扰动或数值相对论补足.
+\end{solution}

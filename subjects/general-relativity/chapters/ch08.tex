@@ -1,0 +1,245 @@
+\originalchapter{Schwarzschild 黑洞与测地线}
+\label{ch:gr-blackholes}
+
+本章对应 MIT 8.962, Spring 2020 公开 Lecture Guide 第 21--23 讲. 重点是非旋转黑洞: 同一个 Schwarzschild 解怎样跨越外部坐标的边界, 以及怎样由守恒量算出粒子与光线的运动. Kruskal 延拓的细节在本稿补足; Kerr 仅在末节界定其作用, 不把 2020 年未能细讲的内容声称为已完成的旋转黑洞课程.
+
+\originalsection{几何奇点与坐标奇点}
+
+沿用 $\mu=GM$ 与 $f=1-2\mu/r$. 外部度规
+\[
+ \dd s^2=-f\dd t^2+f^{-1}\dd r^2+r^2\dd\Omega^2
+\]
+在 $r=2\mu$ 处有一个分量趋于零, 另一个趋于无穷. 分量是坐标依赖的, 单凭它不能判定几何是否坏掉. 相反, 由四个 Riemann 张量指标全部缩并得到的 Kretschmann 标量为
+\begin{equation}
+ \mathcal K=R_{\alpha\beta\gamma\delta}R^{\alpha\beta\gamma\delta}
+            =\frac{48\mu^2}{r^6}.
+ \label{eq:gr-kretschmann}
+\end{equation}
+可核算的方法是在外部选正交标架 $e_{\hat0}=f^{-1/2}\partial_t$, $e_{\hat1}=f^{1/2}\partial_r$, $e_{\hat2}=r^{-1}\partial_\theta$, $e_{\hat3}=(r\sin\theta)^{-1}\partial_\varphi$. 六个独立截面的曲率分量, 按本卷曲率号数约定, 是
+\[
+ (R_{\hat0\hat1\hat0\hat1},R_{\hat0\hat2\hat0\hat2},R_{\hat0\hat3\hat0\hat3},
+ R_{\hat1\hat2\hat1\hat2},R_{\hat1\hat3\hat1\hat3},R_{\hat2\hat3\hat2\hat3})
+ =\frac\mu{r^3}(-2,1,1,-1,-1,2).
+\]
+每个这样的分量在总缩并中出现四次; 这里含时间指标的分量各有两个时间指标, 升指标的号数相乘仍为正. 于是 $4(4+1+1+1+1+4)\mu^2/r^6=48\mu^2/r^6$. 静止标架自身不能跨越视界, 但所得标量可以连续延拓.
+
+在 $r=2\mu$ 处这个标量有限, 在 $r\to0$ 时发散. 标量有限本身还不能证明存在光滑延拓, 下一节将实际构造延拓. $r=0$ 的发散则表明不能把它解释为仅由当前坐标造成的问题. 真空条件 $R_{\alpha\beta}=0$ 并不等于曲率全为零: Schwarzschild 的潮汐作用来自不被 Ricci 缩并保留的曲率部分.
+
+\originalsection{落体固有时间与外部时间}
+
+对从无穷远静止落下的径向试验体, 第 \ref{ch:gr-stars} 章已得 $\dot r=-\sqrt{2\mu/r}$, $\dot t=1/f$, 圆点指固有时间导数. 因而
+\[
+ \frac{\dd t}{\dd r}=-\frac1{f\sqrt{2\mu/r}}.
+\]
+当 $r\to2\mu^+$, 右端约为 $-2\mu/(r-2\mu)$, 故 $t\sim-2\mu\log(r-2\mu)$ 发散. 而从视界到 $r=0$ 的固有时间由直接积分得到 $4\mu/3$, 有限. 后一个数字专指这条 $\varepsilon=1$ 径向轨道, 不是任意落体穿越黑洞内部的统一时限.
+
+外部 $t$ 是远处静止钟归一化的时间, 不等于落体自身的时间. 远处接收落体发出的信号还涉及光的传播和频移. 特别地, 静止在 $r_e>2\mu$ 的发射者向无穷远发光, 有 $\nu_\infty/\nu_e=\sqrt{f(r_e)}$; 当 $r_e$ 接近视界, 光越来越红. 实际自由落下的发射者还在运动, 其额外 Doppler 因子须由 $-p\cdot u_{\rm emit}$ 求出, 不能用静止公式代替. 外部观测者得到的是越来越晚、越来越弱的信号, 并不是落体在自身钟上永远停在边界.
+
+\originalsection{Eddington--Finkelstein 坐标与视界}
+
+径向光满足 $\dd t=\pm f^{-1}\dd r$. 这提示把 $f^{-1}$ 积分吸收进新坐标. 定义龟坐标
+\begin{equation}
+ r_*=r+2\mu\log\left|\frac r{2\mu}-1\right|,
+ \qquad \frac{\dd r_*}{\dd r}=f^{-1},
+ \label{eq:gr-tortoise}
+\end{equation}
+并定义先进时间 $v=t+r_*$. 代入 $\dd t=\dd v-f^{-1}\dd r$, 原来发散的 $\dd r^2$ 项正好相消:
+\begin{equation}
+ \dd s^2=-f\dd v^2+2\dd v\dd r+r^2\dd\Omega^2.
+ \label{eq:gr-ef}
+\end{equation}
+这是入射 Eddington--Finkelstein 坐标. $(v,r)$ 子块的行列式为 $-1$, 在 $r=2\mu$ 仍非退化; 整体行列式为 $-r^4\sin^2\theta$, 除通常的球坐标轴问题外没有新的视界病态. 因而它实际构造出穿过\emph{未来}视界的光滑坐标.
+
+径向零曲线分为两族: $v=\text{常数}$ 的入射光与
+\begin{equation}
+ \frac{\dd r}{\dd v}=\frac f2
+ \label{eq:gr-ef-light}
+\end{equation}
+的另一族光. 外部第二族向较大 $r$ 传播, 视界处停在 $r=2\mu$, 内部则 $\dd r/\dd v<0$. 更严格地, 在图中选取未来方向使外部观察者 $\dd v>0$, 任意具有 $\dd v>0$ 的因果曲线由 $\dd s^2\le0$ 得
+\[
+ 2\frac{\dd r}{\dd v}
+ \le f-r^2\left[\left(\frac{\dd\theta}{\dd v}\right)^2
+       +\sin^2\theta\left(\frac{\dd\varphi}{\dd v}\right)^2\right].
+\]
+在黑洞内部 $f<0$, 所以 $r$ 必须减小; 当 $\dd v=0$ 时, 允许的径向未来零曲线也指向较小 $r$. 光线的限制已经是最宽松的限制, 类时物体同样无法从内部向外逃离. 在这些区域, $r$ 不再是可自由选择增减的空间坐标, 它承担了类似时间方向的角色.
+
+\begin{definition}
+ 对渐近平直时空, 黑洞区域是不能向未来零无穷远 $\mathscr I^+$ 发送因果信号的事件集合, 即 $\mathcal B=\mathcal M\setminus J^-(\mathscr I^+)$. 其边界 $\partial\mathcal B$ 称未来事件视界. $J^-(\mathscr I^+)$ 表示能经未来指向因果曲线到达未来零无穷远的事件集合.
+\end{definition}
+
+事件视界是一个\emph{全局}定义: 一般动态时空不能只观察一处 $g_{tt}$ 就决定视界在哪里. 对已知的 Schwarzschild 解, 上述因果曲线和远处渐近区域可直接验证未来视界为 $r=2\mu$. 视界上的向外零光线留在视界上, 无法到达 $r>2\mu$ 的外部. 视界处的局部潮汐尺度约为 $1/\mu^2$, 黑洞质量越大, 跨越视界的局部潮汐可以越小; 不存在要求每个落体在视界瞬间感到发散潮汐的定律.
+
+\originalsection{Kruskal 延拓与因果图}
+
+先进坐标适合未来视界, 但还不能同时展示永恒真空解的全部区域. 在外部 $r>2\mu$ 取 $u=t-r_*$ 与 $v=t+r_*$, 径向度规为 $-f\dd u\dd v$. 继续定义
+\begin{equation}
+ U=-e^{-u/(4\mu)},\qquad V=e^{v/(4\mu)}.
+ \label{eq:gr-kruskal-transform}
+\end{equation}
+于是
+\begin{equation}
+ UV=-\left(\frac r{2\mu}-1\right)e^{r/(2\mu)},\qquad
+ \dd s^2=-\frac{32\mu^3}{r}e^{-r/(2\mu)}\dd U\dd V+r^2\dd\Omega^2.
+ \label{eq:gr-kruskal-metric}
+\end{equation}
+例如变换系数的核算为 $\dd u=-4\mu\dd U/U$, $\dd v=4\mu\dd V/V$, 所以 $-f\dd u\dd v=16\mu^2 f\dd U\dd V/(UV)$, 再代入 $UV$ 即得. 当 $U=0$ 或 $V=0$ 且 $r=2\mu$, 系数有限且非零. 右式可延拓到 $U,V$ 的其他符号区域, 由第一式隐式确定 $r>0$.
+
+为画出因果方向, 设 $T=(V+U)/2$, $X=(V-U)/2$. 径向度规是正函数乘以 $-\dd T^2+\dd X^2$, 径向光始终成 $45^\circ$ 线. 原来的右侧外部是 $U<0,V>0$; 未来黑洞内部是 $U>0,V>0$; 左侧另一个外部是 $U>0,V<0$; 过去白洞内部是 $U<0,V<0$. 奇点条件 $UV=1$ 对应 $T^2-X^2=1$ 的上下两支. 图中角方向没有画出, 每一个点实际上代表一个球面.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.05,>=Stealth]
+ \draw[->] (-3,0)--(3.25,0) node[right] {$X$};
+ \draw[->] (0,-2.35)--(0,2.5) node[above] {$T$};
+ \draw[dashed] (-2.2,-2.2)--(2.2,2.2);
+ \draw[dashed] (-2.2,2.2)--(2.2,-2.2);
+ \draw[thick,domain=-1.9:1.9,samples=65] plot (\x,{sqrt(1+\x*\x)});
+ \draw[thick,domain=-1.9:1.9,samples=65] plot (\x,{-sqrt(1+\x*\x)});
+ \node[fill=white,inner sep=2pt] at (0,1.85) {未来奇点 $r=0$};
+ \node[fill=white,inner sep=2pt] at (0,-1.85) {过去奇点 $r=0$};
+ \node at (1.95,.15) {I 外部};
+ \node at (-1.95,.15) {III 外部};
+ \node at (.0,.65) {II 黑洞};
+ \node at (.0,-.65) {IV 白洞};
+ \node[rotate=45,fill=white,inner sep=1pt] at (1.2,1.2) {未来视界};
+ \draw[->,very thick] (1.8,.1)--(1.3,.85)--(1,1.4);
+ \node[anchor=west] at (1.65,.65) {落体};
+\end{tikzpicture}
+\caption{Kruskal 因果示意, 未压缩无穷远. 径向光沿斜率 $\pm1$ 传播; 黑洞内部的未来方向朝向上方奇点. 图是本稿自绘, 不用于表示距离比例.}
+\label{fig:gr-kruskal}
+\end{figure}
+
+如果再令 $\widetilde U=\arctan U$, $\widetilde V=\arctan V$, 并忽略一个正的共形因子, 可以把无穷远放到有限纸面, 得到常见的 Penrose 图. 这种压缩保留光锥与因果关系, 不保留固有距离、固有时间和潮汐大小. 本图用未压缩坐标, 避免把示意中的长度误当物理尺度.
+
+最大解析延拓的第二外部和白洞区是永恒真空解的数学部分. 它不是说实际恒星坍缩必然产生两个外部宇宙或过去白洞. 坍缩时空在早期有物质与正则中心, 应把物质内部解与真空外部匹配, 其全局图通常没有永恒解的 III、IV 区域. 不能只从 Schwarzschild 外部公式推断真实形成历史.
+
+\originalsection{由守恒量得到完整轨道方程}
+
+黑洞附近的轨道仍是测地线, 不必逐条积分全部联络分量. 沿球对称背景, 角动量方向守恒; 用旋转坐标把轨道放入 $\theta=\pi/2$ 平面. 对单位静止质量的类时粒子, 定义
+\begin{equation}
+ \varepsilon=f\frac{\dd t}{\dd\tau},\qquad
+ \ell=r^2\frac{\dd\varphi}{\dd\tau}.
+ \label{eq:gr-geodesic-constants}
+\end{equation}
+它们由 $\partial_t$ 与 $\partial_\varphi$ 的 Killing 对称性守恒. 实际能量与角动量为 $m_0\varepsilon,m_0\ell$, 其中 $m_0$ 是试验粒子的静止质量, 不要与中心质量 $M$ 混淆. 归一化给
+\begin{equation}
+ \dot r^2+V_\ell(r)=\varepsilon^2,\qquad
+ V_\ell(r)=f\left(1+\frac{\ell^2}{r^2}\right).
+ \label{eq:gr-timelike-potential}
+\end{equation}
+配合 $\dot t=\varepsilon/f$ 与 $\dot\varphi=\ell/r^2$, 这就是外部所有平面类时测地线的完整一阶方程. 穿过视界则改用 $v$: $\dot v=(\varepsilon+\dot r)/f$, 对入射分支可有理化为 $\dot v=(1+\ell^2/r^2)/(\varepsilon-\dot r)$, 视界处有限.
+
+允许的径向区间满足 $\varepsilon^2\ge V_\ell$. 等号处可以是转向点, 也可能是圆轨道. 不能只凭 $\varepsilon\ge1$ 就断言粒子会散射回无穷远: 无穷远确实在允许区间中, 但若能量越过势垒, 它仍会被捕获. 要判断具体轨道, 须检查从初始点出发的方向及整段有效势.
+
+圆轨道需要同时满足 $\dot r=0$ 与 $\ddot r=0$. 由式 \eqref{eq:gr-timelike-potential} 在一般点求导再连续延拓, $\ddot r=-V_\ell'/2$. 因而圆轨道条件是 $V_\ell'=0$, $\varepsilon^2=V_\ell$. 直接求导,
+\[
+ V_\ell'=\frac{2\mu}{r^2}-\frac{2\ell^2}{r^3}+\frac{6\mu\ell^2}{r^4},
+\]
+所以
+\begin{equation}
+ \ell^2=\frac{\mu r^2}{r-3\mu},\qquad
+ \varepsilon^2=\frac{(r-2\mu)^2}{r(r-3\mu)},\qquad r>3\mu.
+ \label{eq:gr-circular-orbits}
+\end{equation}
+远处 $\varepsilon\to1$, 而趋向 $3\mu$ 时单位质量的能量、角动量发散, 因此 $r=3\mu$ 的圆轨道不是可由有限能量类时粒子保持的轨道.
+
+稳定性要固定同一 $\ell$ 后考察径向位移, 不能先把 $\ell(r)$ 代回势函数再求导. 将圆轨道条件代入二阶导数, 得
+\begin{equation}
+ V_\ell''\big|_{\rm circ}
+       =\frac{2\mu(r-6\mu)}{r^3(r-3\mu)}.
+ \label{eq:gr-orbit-stability}
+\end{equation}
+在 $r>6\mu$ 时为势阱, 小位移满足 $\delta\ddot r+(V_\ell''/2)\delta r=0$; $3\mu<r<6\mu$ 时为势垒顶, 存在指数增长的径向扰动; $r=6\mu$ 是边界. 因而最内稳定圆轨道, 简称 ISCO, 位于
+\begin{equation}
+ r_{\rm ISCO}=6GM,\qquad \ell_{\rm ISCO}=2\sqrt3\,GM,\qquad
+ \varepsilon_{\rm ISCO}=\sqrt{\frac89}.
+ \label{eq:gr-isco}
+\end{equation}
+边界点的线性径向频率为零, 因而更准确地说它是稳定圆轨道族的边缘, 不是具有正恢复频率的势阱.
+
+圆轨道相对于远处时间的角频率为
+\begin{equation}
+ \Omega=\frac{\dot\varphi}{\dot t}
+       =\pm\sqrt{\frac\mu{r^3}}.
+ \label{eq:gr-schwarzschild-omega}
+\end{equation}
+形式与 Kepler 定律相同, 但 $r$ 是面积半径, $t$ 是渐近时间. 局部静止观测者量到的圆周速率是 $v_{\rm loc}=r|\Omega|/\sqrt f=\sqrt{\mu/(r-2\mu)}$, 在 $r\to3\mu^+$ 趋于 1. 这些定义解释了为什么同一轨道的“速度”可以有不同表达式.
+
+\begin{example}
+ 求半径 $r_0>6\mu$ 圆轨道附近的径向振动频率, 分别用粒子固有时间和远处时间表达.
+\end{example}
+\begin{solution}
+ 固定圆轨道的 $\ell$, 由式 \eqref{eq:gr-orbit-stability}, 固有时间频率平方为
+ \[
+ \omega_{r,\tau}^2=\frac{\mu(r_0-6\mu)}{r_0^3(r_0-3\mu)}.
+ \]
+ 零阶轨道 $\dd t/\dd\tau=(1-3\mu/r_0)^{-1/2}$. 在线性扰动阶, 改用 $t$ 时该零阶常数足够, 所以
+ \[
+ \omega_{r,t}^2=\left(1-\frac{3\mu}{r_0}\right)\omega_{r,\tau}^2
+       =\Omega^2\left(1-\frac{6\mu}{r_0}\right).
+ \]
+ 径向一周期间方位前进 $2\pi\Omega/\omega_{r,t}$; 在 $\mu/r_0\ll1$ 下比 $2\pi$ 多 $6\pi\mu/r_0$. 这核验上一章近日点进动的近圆极限, 并显示该弱场展开在 ISCO 附近不能继续使用.
+\end{solution}
+
+\begin{figure}[htbp]
+\centering
+\vspace*{9mm}
+\begin{tikzpicture}
+\begin{axis}[width=.78\textwidth,height=5.2cm,xmin=2,xmax=16,ymin=0,ymax=1.2,
+ xlabel={$r/\mu$},ylabel={$V_\ell$},domain=2:16,samples=180,legend pos=south east]
+ \addplot[thick] {(1-2/x)*(1+16/(x*x))};
+ \addlegendentry{$\ell=4\mu$}
+ \addplot[only marks,mark=*] coordinates {(4,1) (12,.9259259)};
+ \node[anchor=south west] at (axis cs:4,1) {不稳定圆轨道};
+ \node[anchor=north] at (axis cs:12,.9259) {稳定圆轨道};
+\end{axis}
+\end{tikzpicture}
+\caption{同一个固定角动量 $\ell=4\mu$ 下的有效势. $r=4\mu$ 是极大值, $r=12\mu$ 是极小值. 水平能量线 $\varepsilon^2$ 与曲线的交点决定转向点.}
+\label{fig:gr-effective-potential}
+\end{figure}
+
+\originalsection{光子球与捕获阈值}
+
+对零测地线不能除以静止质量. 取仿射参数 $\lambda$, 定义 $\mathcal E=f\,\dd t/\dd\lambda$, $\mathcal L=r^2\dd\varphi/\dd\lambda$. 于是
+\begin{equation}
+ \left(\frac{\dd r}{\dd\lambda}\right)^2
+       +\mathcal L^2 W(r)=\mathcal E^2,\qquad
+ W(r)=\frac f{r^2}.
+ \label{eq:gr-null-potential}
+\end{equation}
+把仿射参数乘上常数会同时缩放 $\mathcal E$ 与 $\mathcal L$, 但轨迹不变. 因而真正决定形状的量是 $b=|\mathcal L|/\mathcal E$, 不是光子的绝对频率. 除以 $\mathcal E^2$ 可把径向方程写成无频率的形式.
+
+圆形光轨道满足 $W'=0$, 而
+\[
+ W'=\frac{2(3\mu-r)}{r^4},\qquad W''(3\mu)=-\frac2{81\mu^4}<0.
+\]
+因此光子球在 $r=3\mu$, 其中每一个经过中心的平面都有圆形光轨道, 并且这些圆轨道都径向不稳定. 势垒高度为 $W(3\mu)=1/(27\mu^2)$, 所以从无穷远向内入射的光具有临界冲量参数
+\begin{equation}
+ b_c=3\sqrt3\,GM.
+ \label{eq:gr-photon-critical}
+\end{equation}
+对 $b>b_c$, 第一转向点在 $r>3\mu$, 光可散射回无穷远; 对 $b<b_c$, 没有阻挡它的外部转向点, 光被捕获; 对 $b=b_c$, 合适的入射光渐近靠近不稳定圆轨道, 而精确放在 $r=3\mu$ 的光可沿圆轨道运动. 临界入射光一般不是在有限参数内“突然停在圆上”.
+
+\begin{example}
+ 求无穷远平行光束被 Schwarzschild 黑洞捕获的几何光学截面, 并说明它为什么大于视界面积对应的投影.
+\end{example}
+\begin{solution}
+ 在入射平面上, $b<b_c$ 的圆盘都被捕获, 所以 $\sigma_{\rm cap}=\pi b_c^2=27\pi G^2M^2$. 视界半径为 $2GM$, 其欧氏投影面积为 $4\pi G^2M^2$. 两者不同是因为引力先把视界外的光弯向黑洞, 捕获边界由光子球势垒决定. 这里是高频几何光学结果; 波长与 $GM$ 可比时, 波动散射不能由这个简单圆盘完全描述.
+\end{solution}
+
+若远处静止观察者距离为 $D\gg GM$, 理想球对称黑洞的几何捕获边界角半径约为 $b_c/D$. 实际黑洞图像的亮环还取决于发射介质、吸收、轨道及观察方向, 不能把任意亮环的半径都无条件等同于 $b_c$. 光子球半径 $3GM$, 视界半径 $2GM$ 与图像冲量参数 $3\sqrt3 GM$ 也是三个不同量.
+
+\originalsection{坍缩模型与 Kerr 延伸的边界}
+
+TOV 描述平衡构型; 若没有可达到的稳定平衡, 应求时间依赖的物质方程与爱因斯坦方程. 球对称坍缩最简单的理想化模型是均匀、无压的尘埃球: 内部各流体元随一个时间依赖的尺度收缩, 外部由 Birkhoff 定理保持 Schwarzschild 形式. 在表面没有薄壳时需匹配诱导度规与外曲率. 尘埃的无压假设会忽略真实恒星的压强、辐射和微观物理, 因而本章只用它说明“外部静态”与“内部在坍缩”并不矛盾, 不在此声称已求解实际恒星坍缩.
+
+事件视界的位置依赖整个未来. 一颗正在坍缩的球, 其表面后来跨越 $2GM$, 外部信号不再能送到远处; 但在全局图中视界可以在表面跨越前已经从内部形成. 找到某一时刻的受困球面与确定整个事件视界是不同问题. 奇点定理讨论在一定因果和能量条件下测地线不完备, 也不自动规定真实奇点的微观结构或给出量子引力答案.
+
+旋转中心体的外部不再球对称. 平稳轴对称真空的 Kerr 解使用质量 $M$ 与角动量 $J$, 记 $a=J/M$, 则在通常的 Boyer--Lindquist 坐标中
+\[
+ \Delta=r^2-2GM r+a^2,\qquad
+ r_\pm=GM\pm\sqrt{G^2M^2-a^2}.
+\]
+当 $|a|\le GM$ 时, $r_+$ 是外视界的坐标半径; 它不是面积半径. 极限 $a=0$ 回到 Schwarzschild. 旋转会引入惯性系拖曳, 使顺行与逆行的 ISCO 不同, 也使“一个球形光子球”的描述不再适用. 黑洞唯一性结论还需平稳性、适当正则性、边界条件及其他技术假设, 不能写成任意动态时空都自动等于 Kerr.
+
+本章没有展开 Kerr 的分离测地线、Carter 常数、旋转扰动或完整唯一性证明. 2020 年公开课程也明确说更详细的旋转黑洞讨论未能按原计划进行. 已建立的 Schwarzschild 守恒量、势垒与正则坐标, 是进一步阅读这些内容的基础; 下一章只按公开补充讲的范围说明处理更一般强场问题的三种工具.
