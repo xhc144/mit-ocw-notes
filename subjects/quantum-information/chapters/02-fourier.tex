@@ -1,0 +1,16 @@
+\Needspace{9\baselineskip}
+\originalchapter{Fourier变换、相位估计与分解}
+\originalsection{量子Fourier变换}
+$F_N\ket x=N^{-1/2}\sum_{y=0}^{N-1}\e^{2\pi\ii xy/N}\ket y$. 列内积为$N^{-1}\sum_y\e^{2\pi\ii(x-x')y/N}=\delta_{xx'}$, 所以它幺正. $N=2^n$时把$y$按二进制展开, 每一位贡献一个相位, 输出可分解成$n$个$(0+\e^{2\pi\ii0.x_jx_{j+1}\cdots x_n}1)/\sqrt2$因子, 顺序需最终比特倒置. 每个因子用一个$H$和受控相位旋转构造, 门数$O(n^2)$. 丢弃很小角度可得近似QFT, 但误差需按被丢旋转的算符范数和估计, 不仅说“很小”.
+
+\originalsection{相位估计的概率分布}
+若$U\ket u=\e^{2\pi\ii\phi}\ket u$, $t$个辅助比特从均匀态经受控$U^{2^j}$后变成$2^{-t/2}\sum_{k=0}^{2^t-1}\e^{2\pi\ii k\phi}\ket k\ket u$. 逆QFT输出$m$的振幅
+\[A_m=2^{-t}\sum_{k=0}^{2^t-1}\e^{2\pi\ii k(\phi-m/2^t)}=\frac{1-\e^{2\pi\ii2^t\delta}}{2^t(1-\e^{2\pi\ii\delta})},\quad\delta=\phi-m/2^t.\]
+若相位恰有$t$位, 对应$m$确定. 一般情形最近格点概率至少$4/\pi^2$, 因$|\delta|\le2^{-t-1}$并用$|\sin x|$的上下界. 增加保护位和重复测量可以提高精度与成功率. 输入若为本征态叠加, 辅助测量也把系统条件化到相应本征成分; 并非需要预先知道本征态的完整经典描述.
+
+\originalsection{从阶到整数因子}
+对$\gcd(y,N)=1$, 模乘$U_y\ket x=\ket{yx\bmod N}$在$0\le x<N$为置换. 循环$1,y,\ldots,y^{r-1}$的Fourier态$\ket{u_s}=r^{-1/2}\sum_l\e^{-2\pi\ii sl/r}\ket{y^l}$有本征相位$s/r$. 简单$\ket1$为这些态的等权叠加. 相位估计用足够精度后, 连分数在$|\widetilde\phi-s/r|<1/(2r^2)$时可恢复约分的$s/r$, 重复采样补足不互素$s,r$造成的阶缺失.
+
+若$r$偶且$y^{r/2}\not\equiv-1\pmod N$, 则$(y^{r/2}-1)(y^{r/2}+1)\equiv0$, 两个gcd给非平凡因子. 先试$\gcd(y,N)$本就可能直接获得因子. 奇数素数幂需要另作经典完美幂检查, 因其单位群只有两个平方根$\pm1$, 阶方法的这个分解步骤会失败. 量子子程序找到阶不等于每次选$y$都分解成功.
+
+二进制输入长度为$\log N$, 模乘幂$U^{2^j}$需由模指数的可逆算术构造, 其多项式成本使整个算法高效. 若只能把一般未知$U$重复$2^j$次来实现幂, 相位估计的物理演化时间并不会凭电路画法自动变成多项式.

@@ -1,0 +1,52 @@
+\Needspace{9\baselineskip}
+\originalchapter{MAS.865J作业一与二}
+题源为MIT 6.443J / 8.371J / 18.409 / MAS.865 Spring 2006. 本章参考官方s1、s2解答重编, 以本卷平方保真度约定独立复算, 更正另说明.
+\originalsection{作业一: 信道与Steane}
+\source{PS1 P1, 量子门复习.}
+\begin{exercise}(a) Pauli归一本征态与Bloch位置; (b) CNOT怎样重排一般$c_{jk}$密度元; (c) 只用CZ和H由00制Bell; (d) 制备$(000+111)^{\otimes3}/\sqrt8$; (e) CNOT共轭$X_1,X_2,Z_1,Z_2$; (f) 用X,Y轴旋转合成任意$R_z(\theta)$.\end{exercise}
+\begin{solution}(a) Z态0,1位于$\pm z$; X态$(0\pm1)/\sqrt2$位于$\pm x$; Y态$(0\pm\ii1)/\sqrt2$位于$\pm y$. (b) 定义$\pi(00)=00,\pi(01)=01,\pi(10)=11,\pi(11)=10$, 元$c_{jk}$移到$c'_{\pi(j),\pi(k)}$, 此一规则明确全部16项并避免官方表个别下标误植. (c) H1、H2、CZ12、H2. (d) 对1,4,7各施H, 分别以它们控制同组三位的另两位CNOT. (e) $X_1\to X_1X_2,X_2\to X_2,Z_1\to Z_1,Z_2\to Z_1Z_2$. (f) $R_z(\theta)=R_x(\pi/2)R_y(\theta)R_x(-\pi/2)$, 由$R_x(\pi/2)YR_x(-\pi/2)=Z$. 官方解答正文$\pi/2$正确, 某显示式写$\pi$却用$1/\sqrt2$系数不一致, 此处按直接共轭修正.
+\end{solution}
+\source{PS1 P2, 算符和.}
+\begin{exercise}(a) $W_{jk}=\Tr(E_j^\dagger E_k)$证明至多$d^2$个Kraus足够, 给重组; (b) 相位阻尼$E_0=\operatorname{diag}(1,\sqrt{1-\lambda}),E_1=\operatorname{diag}(0,\sqrt\lambda)$等价于$\sqrt aI,\sqrt{1-a}Z$, $a=(1+\sqrt{1-\lambda})/2$, 求混合矩阵; (c) 构造任意输入输出$I/2$的信道.\end{exercise}
+\begin{solution}(a) $W$是$d^2$维矩阵向量的Gram矩阵, Hermitian且秩至多$d^2$. 若$uWu^\dagger$对角, 取$F_j=\sum_ku_{jk}^*E_k$, 其Hilbert--Schmidt范数平方为对应本征值, 零值的$F$就是零矩阵可删; 幺正混合不改信道. (b) 两者均对非对角乘$\sqrt{1-\lambda}$, 对角不变. 变换为$\bigl(\begin{smallmatrix}\sqrt a&\sqrt{1-a}\\\sqrt{1-a}&-\sqrt a\end{smallmatrix}\bigr)$乘原$E$列表, 代入$\lambda=4a(1-a)$可逐项验证. (c) Kraus为$I/2,X/2,Y/2,Z/2$, 因Pauli twirl把Bloch向量四项和为零. 不能用$I/4$等作为Kraus, 否则迹不保持.
+\end{solution}
+\source{PS1 P3, 两位幅度阻尼检测码.}
+\begin{exercise}$\gamma=1-\e^{-t/T_1}$, 单比特幅度阻尼. (a) $+$态的平方保真度曲线; (b) 每时刻最差输入与最差保真度; (c,d) $0_L=01,1_L=10$, 两位各独立阻尼后的态及最差保真度; (e) 投影到00正交空间后保留成功事件, 状态、保真度、成功率; (f) 加分: Shor九位码按常规综合征解码后对幅度阻尼的保真度随$\gamma$如何?\end{exercise}
+\begin{solution}(a) $F_+=(1+\sqrt{1-\gamma})/2=(1+\e^{-t/(2T_1)})/2$. (b) 设激发概率$b=|\beta|^2$, $F=|1-b+b\sqrt{1-\gamma}|^2+\gamma b(1-b)$. 它对$b\in[0,1]$的最小在$b=1$, 值$1-\gamma=\e^{-t/T_1}$. (c,d) 所有码态恰有一激发, $\rho'=(1-\gamma)\ket\psi\bra\psi+\gamma\ket{00}\bra{00}$, 所有输入平方保真度均$1-\gamma$. (e) 成功概率$1-\gamma$, 成功态精确原$\psi$, 条件保真度1. 不保留成功率就会误把后选择当确定性纠错. 官方s1在本题混用了平方根保真度, 还出现$\e^{-t/(2T)}$的指数, 本卷统一按题给$F=\langle\psi|\rho|\psi\rangle$计算.
+
+(f) 高阶结果依解码器; 固定以下标准Pauli综合征恢复后可精确计算. Shor码$\ket{0_L}=(000+111)^{\otimes3}/\sqrt8$, $\ket{1_L}=(000-111)^{\otimes3}/\sqrt8$, $V$为编码等距. 测六个块内Z对校验与两个块间X六体校验, 在每块按多数纠X, 再按块间综合征在块1、2或3的第一个位置纠Z, 给256个恢复$R_s$和投影$P_s$. 对512个阻尼Kraus$E_e=\bigotimes_iK_{e_i}$, 完整逻辑Kraus为$L_{se}=V^\dagger R_sP_sE_eV$, 精确保真度函数为
+\[F_\psi(\gamma)=\sum_{s\in\{0,1\}^8}\sum_{e\in\{0,1\}^9}|\bra\psi L_{se}(\gamma)\ket\psi|^2.\]
+各矩阵元只是$\gamma^{w/2}(1-\gamma)^{k/2}$的有限和, 可实际求值, 不含未定义恢复器. 一阶误差被纠正, $F=1-O(\gamma^2)$; 该高阶曲线的完整数值计算与绘图作为本卷QA脚本, 不声称所有其他解码器给同一函数.
+\end{solution}
+\source{PS1 P4, CSS与Steane的十小问.}
+\begin{exercise}在$\mathbb F_2$中,$G$七行依次1000,0100,0010,0001,0111,1011,1101; $H$三行0001111,0110011,1010101. (a) 给16码字; (b) 证$HG=0$; (c) 单比特误差综合征为位置二进制; (d) 最小距离; (e) $C^\perp$生成$H^T$、校验$G^T$, 维数与包含; (f) 证$\sum_{y\in C}(-1)^{x\cdot y}$为$|C|$或0; (g) 显式$\psi(0),\psi(1111111)$, $\psi(x)=\sum_{y\in C^\perp}\ket{x+y}/\sqrt8$; (h) 各至多一bit、phase错后的态; (i) 全CNOT求$H$综合征并恢复bit; (j) 对所有位Hadamard后的态及phase恢复.\end{exercise}
+\begin{solution}(a) 系统码字为$(a,b,c,d,b+c+d,a+c+d,a+b+d)$,$a,b,c,d\in\{0,1\}$; 下表实际列出16个.
+\input{chapters/steane-list.tex}
+(b) 将每行H与每列G内积可得全零3乘4矩阵. (c) H第$j$列是$j$的三位二进制, 单错$He_j$定位. (d) 没有零列、没有重复列, 故权1、2非零码字不存在; 例如$1110000$在码中, 距离3. (e) H秩3且$HH^T=0$, 所以$C^\perp$维3且$C^\perp\subset C$. (f) 在$C^\perp$则每项1; 否则有$y_0\in C$使$x\cdot y_0=1$, 平移和得$S=-S$故零.
+
+(g) $C^\perp=\{0000000,0001111,0110011,0111100,1010101,1011010,1100110,1101001\}$, $\psi(0)$是这8串的等幅和,$\psi(1111111)$是逐位取反8串的和. (h) 先phase后bit给$8^{-1/2}\sum_y(-1)^{(x+y)\cdot e_2}\ket{x+y+e_1}$, 反顺序只差$(-1)^{e_1\cdot e_2}$整体相位. (i) 给三辅助位, H中每个1位置做数据到相应辅助CNOT, 得$\ket z\ket{Hz}$; 对码叠加综合征恒为$He_1$, 测它不测逻辑信息, 定位并X恢复. (j) Hadamard后支持$z\in C+e_2$, 精确态为$\frac14\sum_{z'\in C}(-1)^{x\cdot z'}\ket{z'+e_2}$. 所以应再用$H$校验定位$e_2$, 然后X恢复并Hadamard回去. 官方s1末问把支持误写为$C^\perp$并用$G^T$, 与Fourier正交关系不符; 此处独立修正. 任意单位置Pauli由两综合征处理; 两不同位置的一bit一phase是本题额外保证, 不等于任意两物理错误可纠.
+\end{solution}
+
+\originalsection{作业二: 测量与拓扑}
+\source{PS2 P1.}
+\begin{exercise}(a) Pauli测量$M$对易或反对易稳定子时证明更新法; (b) $\langle XX,ZZ\rangle$测$IY$后稳定子; (c) 任意$\psi\otimes0$, 依次测YX、IY, 各次若负怎样用Pauli转成正; (d) 跟踪逻辑X,Z, 求总门; (e) 辅助初态改$+$会如何?\end{exercise}
+\begin{solution}(a) 用$P_m=(I+(-1)^mM)/2$, 对易生成元穿过投影仍稳定. 有反对易$g_1$时其余反对易生成元先乘$g_1$, 再以$(-1)^mM$替代$g_1$, 与第7章更新一致. (b) 两生成元均反对易$IY$, 乘积$-YY$, 新生成元$(-1)^mIY,-YY$. (c) 第一负结果施$IZ$, 第二负结果施$YX$. (d) 正结果分支的直接投影给第一位$(I-\ii Y)\psi/\sqrt2=R_y(\pi/2)\psi$, 第二位$y_+$. 所以逻辑$X\mapsto-Z,Z\mapsto X$. 官方s2在这一推导混写XY和YX, 不采用该排印结果. (e) 初始辅助X本征+, 第一测YX等同对未知输入测Y, 把它投影成Y本征态. 此时未知态信息丢失, 不再是输入无关的幺正门, 不能靠一个不知道$\psi$的Pauli完全恢复.
+\end{solution}
+\source{PS2 P2.}
+\begin{exercise}三位bit重复码稳定子$ZZI,IZZ$. (a) 证校正单X; (b,c) ZIZ及一般稳定子错误为DFS; (d) 为什么全部单比特错误不能同时作稳定子; (e) 两组$U_1,U_2$: A为YYY,ZZZ, B为ZYX,YZI, 验逻辑X; (f) 中途XII或ZIZ错误, 比较主动与被动恢复; (g,h) 给一般两步门中错误可纠与DFS条件.\end{exercise}
+\begin{solution}(a) 三X的不同综合征见第6章. (b,c) ZIZ为两稳定子乘积, 对任一码态为$I$, 因而无需检测. (d) 同位置X,Z反对易, 不能都属于Abel稳定子. (e) 两门乘积均为XXX至多差整体相位. (f) Pauli共轭只改变另一个Pauli的符号, $U_2EU_2^\dagger=\pm E$. 所以XII对A、B均能纠, ZIZ对A、B均被动无害. 原题要求B不可纠不成立, 官方s2也指出其只是无害负号. (g) 令理想总门$U=U_2U_1$保持码, 有效错误$F_j=U_2E_jU_2^\dagger$, 必须检查全组$PF_j^\dagger F_kP=c_{jk}P$, 不能只看单个$EE^\dagger=I$. 对Pauli可用稳定子/逻辑类判据. (h) 必须$F_jP=d_jP$, 即相对于理想输出码所有错误标量作用. $U_2$正规化原误差稳定子是充分条件, 不是所有情形的唯一必要形式.
+\end{solution}
+\source{PS2 P3, 射影平面胞腔.}
+\begin{exercise}边作比特, 面边界Z积、顶点星X积. 第一胞腔4边2顶点3面: 面B边12, 面C边34, 面A边1234, 两顶点星1234. 第二胞腔9边7顶点3面: 六二边星12,23,45,56,78,89, 最后星134679; 面边界123789,456789,123456. (a,b) 给稳定子、对易与码字; (c) 两对偶胞腔及码字; (d) 原题声称必须每顶点边不重复且每边两侧面不同才有效, 检查; (e) 构造有效5边射影平面胞腔.\end{exercise}
+\begin{solution}(a) 独立$Z_1Z_2,Z_3Z_4,X_1X_2X_3X_4$, 重叠均偶数, 编码1位. 码字$(0000+1111)/\sqrt2,(0011+1100)/\sqrt2$. (b) 六X二边星加两个Z面独立, 9-8=1. 定义三位$e=(000+011+101+110)/2,o=(001+010+100+111)/2$, 两码字$e^{\otimes3},o^{\otimes3}$. 最后星为前六星积, 正确边集134679; 官方解答某行写134689为笔误. (c) 对偶交换顶点面, 同边标签上的$X\leftrightarrow Z$, 两码字由H$^{\otimes n}$变换, 四位成为$(\ket{++++}+\ket{----})/\sqrt2$及$(\ket{++--}+\ket{--++})/\sqrt2$, 即$H^{\otimes4}\ket{0_L},H^{\otimes4}\ket{1_L}$; 九位对偶为Shor的两GHZ符号乘积.
+
+(d) 采用按重数模2的真正胞链边界, $\partial_1\partial_2=0$便确保对易, 原题“仅当”过强. 射影平面的标准CW胞腔有1顶点、1边、1面, 面边界为两倍该边, 在$\mathbb F_2$中为0, 两稳定子均$I$, 是有效但距离1的平凡码, 反驳必要性. 若定义把重复边只列一次而不按重数, 那种错误列表才可破坏对易.
+
+(e) 把第一胞腔边1细分为边1与5, 新增度2顶点. 取独立$Z_1Z_2Z_5,Z_3Z_4,X_1X_2X_3X_4,X_1X_5$, 对易, 5-4编码1位. 三面边集125,34,12345; 两旧顶点星1234,5234, 新顶点星15. Euler为$3-5+3=1$, 保持原射影平面. 码字可由第一4位码字等距细分或投影得到, 验证不靠仅计Euler数断言拓扑类型.
+\end{solution}
+\source{PS2 P4, Clifford生成.}
+\begin{exercise}(a) 证单比特Pauli正规化门由H,S生成; (b) $n+1$位Clifford若$UZ_1U^\dagger=X_1g,UX_1U^\dagger=Z_1g'$, $U'=\sqrt2\langle0|U|0\rangle$, 证其幺正且Clifford, 构造U; (c) 推任意Clifford可用$O(n^2)$的H,S,CNOT.\end{exercise}
+\begin{solution}(a) 共轭必须把三个轴变成带符号的正交Pauli轴,H交换X,Z,S把X转Y, 这两种轴置换和Pauli符号翻转生成全部24个定向轴对称, 差别仅整体相位. (b) 反对易条件要求$g,g'$对易. 块关系解得
+\[U=\frac1{\sqrt2}\begin{pmatrix}U'&g'U'\\gU'&-gg'U'\end{pmatrix}=C(g)(H\otimes I)C(g')(I\otimes U').\]
+块幺正给$U'^\dagger U'=I$. 对任意$n$位Pauli$h$, $U(I\otimes h)U^\dagger$为Pauli且与两共轭像有同一对易结构, 把0块取出并利用$UZ_1U^\dagger=X_1g$的块关系可见$U'hU'^\dagger$仍是$n$位Pauli, 因而$U'$Clifford. 受控Pauli串可逐位用$O(n)$个H,S,CNOT构成, 归纳加$O(n)$成本. (c) 一般共轭X,Z为两反对易Pauli串. 用局域H,S把第一个非零位置转到指定轴, CNOT消去其余支持, 再在保持第一轴的操作中消第二串; 共$O(n)$门. 化到(b)形式后归纳, 成本$\sum_{k=1}^nO(k)=O(n^2)$. 这给实际列消元构造, 不是说“任意正规化都显然一样”.
+\end{solution}
