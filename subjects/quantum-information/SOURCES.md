@@ -121,3 +121,5 @@
 | de0adcc2ee2cee719d763cae06db7721_ps7.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/ps7/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/de0adcc2ee2cee719d763cae06db7721_ps7.pdf) | `fd87d00c3cdc0e2b5f32158b35d6d1af60e5b311df5ef085597f5d2afbabeb24` | 1 |
 | e08c0a1fd4d7e4722f5352dbbced34cc_ps3.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/ps3/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/e08c0a1fd4d7e4722f5352dbbced34cc_ps3.pdf) | `d6ee33174333363a8efd6ada60d0d3dfbd00459b4fc4f8a3f1e2dfc69075b8f8` | 2 |
 | ed9af8c238e3921606d928e976073e25_ps4.pdf / Peter W. Shor | [官方资源](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/resources/ps4/) | [原文件](https://ocw.mit.edu/courses/18-435j-quantum-computation-fall-2003/ed9af8c238e3921606d928e976073e25_ps4.pdf) | `b6d0e04bd1a56361845a625b925c8d1f58c8a57af7db051a19752596ab16a7bb` | 3 |
+
+高级引用结果逐项定位见PDF来源章与 [qa/advanced-result-locations.json](qa/advanced-result-locations.json)。新增链接只作引用，不改变74份MIT有效PDF的来源计数，不分发论文原件。

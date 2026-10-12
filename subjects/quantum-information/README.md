@@ -2,7 +2,7 @@
 
 [中文主 PDF](dist/quantum-information-zh.pdf) · [可编译源码 ZIP](dist/quantum-information-source.zip)
 
-本卷为 MIT 官方公开材料的中文主题重编，采用仓库已批准的王者模板。共 **67 页、93 个官方原题大编号**。其中92个MIT原题号有答案，另有8个可读教材任务独立重述并解答；18.435J HW4.5的原PDF未含可恢复节点/边对象，特定图证明未完成，正文给明确标注的替代构造。
+本卷为 MIT 官方公开材料的中文主题重编，采用仓库已批准的王者模板。共 **71 页、93 个官方原题大编号**。其中92个MIT原题号有答案，另有8个可读教材任务独立重述并解答；18.435J HW4.5的原PDF未含可恢复节点/边对象，特定图证明未完成，正文给明确标注的替代构造。
 
 修订版已实际扩写正文推导、协议和原题解答，并按逐讲文件列出内容位置。逐讲覆盖见 [LECTURE-COVERAGE.md](LECTURE-COVERAGE.md)。
 
@@ -23,3 +23,5 @@ xelatex -interaction=nonstopmode -halt-on-error -output-directory=build main.tex
 实际执行的编译、全页渲染、逐页目检、数值检查、ZIP 干净目录重编译记录见 [qa/README.md](qa/README.md)。自动报告保留“未评数学/教学/视觉”的原始字段；人工逐页视觉记录另列，有限矩阵计算不会冒充一般证明。
 
 许可与作者见 [LICENSE.md](LICENSE.md)。本项目改编适用内容依 CC BY-NC-SA 4.0 分享，逐件第三方例外保留，官方题面与编者补写解答分别标注。
+
+父任务最后有限清单修正见 [qa/parent-final-closure.json](qa/parent-final-closure.json)，对应正文已编译并全页复查；独立定点接收与机械验证分开记录。

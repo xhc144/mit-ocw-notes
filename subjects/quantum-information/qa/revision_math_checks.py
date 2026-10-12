@@ -66,5 +66,33 @@ U=F.conj().T@np.diag(np.exp(2j*math.pi*a*ix/N))@F
 P=np.zeros((N,N))
 for x in ix:P[(x+a)%N,x]=1
 err=np.max(abs(U-P));assert err<1e-12;out['Fourier_modular_adder_residual']=float(err)
+# General matched-phase search: direct matrix powers versus closed recurrence.
+out['PS4_general_matched_phase_recurrence']=[]
+for N in [2,3,4,5,7,16,31,100,1000]:
+ alpha=1/math.sqrt(N);beta=math.sqrt(1-alpha*alpha);k=math.ceil(math.pi/(4*math.asin(alpha))-.5)
+ t=2*math.asin(math.sin(math.pi/(4*k+2))/alpha);z=np.exp(-1j*t);theta=math.pi/(2*k+1)
+ W=np.array([[beta*beta+z*alpha*alpha,(1-1/z)*alpha*beta],[(z-1)*alpha*beta,beta*beta+alpha*alpha/z]])
+ v=np.array([alpha,beta]);err=0
+ for j in range(k+1):
+  got=(np.linalg.matrix_power(W,j)@v)[1];want=beta*math.cos((j+.5)*theta)/math.cos(theta/2)
+  err=max(err,float(abs(got-want)))
+ assert err<1e-11
+ out['PS4_general_matched_phase_recurrence'].append({'N':N,'k':k,'t':t,'all_iterate_residual':err,'final_non_target_amplitude':float(abs((np.linalg.matrix_power(W,k)@v)[1]))})
+# Regev two-point padded-base interface, including negative coordinates and borrow.
+checks=0;M=4;Q=2*M;mod=Q**2;C=M*(1+Q)
+for d0 in range(-M+1,M):
+ for d1 in range(-M+1,M):
+  encoded=(d0+d1*Q)%mod;digits=(encoded+C)%mod
+  assert (digits%Q-M,digits//Q-M)==(d0,d1);checks+=1
+out['Regev_padded_base_decoding_signed_cases']=checks
+# Clause penalty is exactly the forbidden pattern, not all negative literals.
+clause=[]
+for x0 in [0,1]:
+ for x1 in [0,1]:
+  for x2 in [0,1]:
+   penalty=(1-x0)*x1*(1-x2);satisfied=bool(x0 or not x1 or x2);assert penalty==int(not satisfied)
+   clause.append({'x':[x0,x1,x2],'penalty':penalty})
+out['3SAT_clause_basis_check']=clause
+
 out['scope']='Independent finite matrices and existing full-Kraus data comparison. Not a proof of general fault tolerance, capacity, security or all input sizes.'
 (ROOT/'qa/revision-math-results.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n');print(json.dumps(out,ensure_ascii=False,indent=2))

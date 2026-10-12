@@ -68,7 +68,18 @@
 \end{solution}
 \source{PS4 P2, 连续搜索的离散模拟.}
 \begin{exercise}$H=\ket x\bra x+\ket\psi\bra\psi$, 目标未知,$\langle x|\psi\rangle=\alpha=1/\sqrt N$. 可调用$U_x(t)=\e^{-\ii t\ket x\bra x}$及已知$U_\psi(t)$. (a) 用Bloch向量求乘积$U_\psi(t)U_x(t)$; (b) $t=\pi$联系Grover; (c) 选$t$使$O(\sqrt N)$查询后精确目标.\end{exercise}
-\begin{solution}(a) 记$c=\cos(t/2),s=\sin(t/2)$, 去掉整体$\e^{-\ii t}$后乘积为$[c^2-s^2\mathbf n_\psi\cdot\hat z]I-\ii[cs(\mathbf n_\psi+\hat z)+s^2(\mathbf n_\psi\times\hat z)]\cdot\boldsymbol\sigma$. 由$(\mathbf a\cdot\sigma)(\mathbf b\cdot\sigma)=\mathbf a\cdot\mathbf b I+\ii(\mathbf a\times\mathbf b)\cdot\sigma$直接得. (b) 两个投影指数为反射, 乘积与常规Grover仅整体负号. (c) 取整数$k\ge\pi/[4\arcsin\alpha]-1/2$, 设置$t=2\arcsin[\sin(\pi/(4k+2))/\alpha]$, 在匹配两投影相位的一致次序下使$k$轮非目标幅度零. 可用(a)矩阵平方与Chebyshev递推验证; 数值QA检查不同N. $k=O(\sqrt N)$, 此精确性要求已知目标比例与相位可连续控制, 不代表有限门集无误差实现.
+\begin{solution}(a) 记$c=\cos(t/2),s=\sin(t/2)$, 去掉整体$\e^{-\ii t}$后乘积为$[c^2-s^2\mathbf n_\psi\cdot\hat z]I-\ii[cs(\mathbf n_\psi+\hat z)+s^2(\mathbf n_\psi\times\hat z)]\cdot\boldsymbol\sigma$. 由$(\mathbf a\cdot\sigma)(\mathbf b\cdot\sigma)=\mathbf a\cdot\mathbf b I+\ii(\mathbf a\times\mathbf b)\cdot\sigma$直接得. (b) 两个投影指数为反射, 乘积与常规Grover仅整体负号. (c) 取整数$k\ge\pi/[4\arcsin\alpha]-1/2$, 设置$t=2\arcsin[\sin(\pi/(4k+2))/\alpha]$, 在匹配两投影相位的一致次序下使$k$轮非目标幅度零. 一般递推如下. 在$\ket x,\ket y$基取$\ket\psi=(\alpha,\beta)^T$, $\beta=\sqrt{1-\alpha^2}$, $z=\e^{-\ii t}$, 去整体相位后$W=z^{-1}U_\psi(t)U_x(t)$:
+\[W=\begin{pmatrix}
+ \beta^2+z\alpha^2&(1-z^{-1})\alpha\beta\\
+ (z-1)\alpha\beta&\beta^2+z^{-1}\alpha^2
+ \end{pmatrix},\quad \det W=1,\quad
+ \cos\vartheta=\tfrac12\Tr W=1-2\alpha^2\sin^2(t/2).\]
+Cayley--Hamilton给$W^{j+2}=2\cos\vartheta W^{j+1}-W^j$. 因而非目标幅度$b_j=\bra yW^j\ket\psi$满足
+\[b_{j+2}=2\cos\vartheta b_{j+1}-b_j,\quad
+ b_0=\beta,\quad b_1=\beta(2\cos\vartheta-1),\]
+\[b_j=\beta\frac{\sin((j+1)\vartheta)-\sin(j\vartheta)}{\sin\vartheta}
+ =\beta\frac{\cos((j+1/2)\vartheta)}{\cos(\vartheta/2)}.\]
+对$0<\alpha<1$, 选上述$t$使$\vartheta=\pi/(2k+1)$, 则$b_k=0$; 幺正性保证目标幅度模1, 原整体$z^k$只改全局相位. $k$下界确保$\sin[\pi/(4k+2)]\le\alpha$, 所以$t$真实可选. $\alpha=1$初态已是目标, $\alpha=0$则两投影操作不能产生目标幅度. 数值QA另核算矩阵幂与这条一般递推. $k=O(\sqrt N)$, 此精确性要求已知目标比例与相位可连续控制, 不代表有限门集无误差实现.
 \end{solution}
 \source{PS4 P3, 纯态纠缠.}
 \begin{exercise}证明Schmidt数1等价直积, 局域幺正与仅经典消息不改变它; 求$(00+11+22)/\sqrt3$, $(00+01+10+11)/2$, $(00+01+10-11)/2$, $(00+01+11)/\sqrt3$的数. 检查任意LOCC不变的题干.\end{exercise}

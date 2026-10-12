@@ -60,7 +60,18 @@ Alice测“类型”$\boldsymbol N$, 不测每个序列, Bob自动在相同类�
  \sum_{\operatorname{type}(i^n)=\boldsymbol N}\ket{i^n}_A\ket{i^n}_B.\]
 同类型各振幅相等, 所以条件态是$D_{\boldsymbol N}$维最大纠缠. 局域排序把标签改为$1,\ldots,D_{\boldsymbol N}$, 然后LOCC可确定性降到$2^{\lfloor\log D_{\boldsymbol N}\rfloor}$维Bell态; 不必把不整齐的余数硬说成完整Bell对. 强典型类型概率趋1, 且$\log D_{\boldsymbol N}/n\to H(p)$, 得渐近$H(p)$ebit/份.
 \begin{example}二项Schmidt概率$(0.8,0.2)$, $n=10$, 出现第二标签两次的类型维数为$\binom{10}{2}=45$, 概率$45(0.8)^8(0.2)^2=0.301989888$. 该分支可得5个Bell对; 它不是所有分支平均产量. 大样本极限每份产量为$h_2(0.2)\simeq0.722$.\end{example}
-逆向纠缠稀释用约$nH(p)$Bell对制备高保真$\psi^{\otimes n}$, 完整渐近协议需压缩、传态和经典通信的资源账. 纯态纠缠熵因集中与稀释同率而有操作意义; 混态并不自动可逆.
+\originalsection{纠缠稀释与混态资源定义}
+逆向任务是以预共享Bell对经LOCC制备$\psi_{AB}^{\otimes n}$, 保真度趋1. 第17讲第4页的协议接上本章的CPTP压缩器: Alice在本地两个寄存器$A^n,B_0^n$制备目标纯态, 保留$A^n$, 把$B_0^n$按边缘$\rho_B^{\otimes n}$压缩. 其熵为$H(p)$, 典型子空间加失败旗需$m=\lceil\log(d_T+1)\rceil\le n(H(p)+\delta)+O(1)$个qubit. Alice传态$m$位, 每位消耗1Bell对与2个单向经典位; Bob作相应Pauli修正, 解压到$B^n$. 编解码须保留与$A^n$的相关, 不能逐项测Schmidt标签. 前述纠缠保真度式给目标重叠平方至少$p_{\rm typ}^2\to1$. 消耗$m$ebit和$2m$cbit, 每份ebit率趋$H(p)$; 此协议未优化经典通信量.
+
+集中从$n$份纯态获得约$nH(p)$ebit. 若稀释用更低ebit率, 再集中就经LOCC净增渐近Bell对, 与纯态纠缠熵的平均单调性和渐近连续性冲突. 因而纯态的渐近形成成本与蒸馏率同为$S(\rho_B)$, 不是一份非最大纠缠态恰等于整数个Bell对.
+
+混态$\rho_{AB}$须区分三个量, 本章允许双向经典通信. 蒸馏纠缠$E_D(\rho)$是存在LOCC映射$\Lambda_n$使
+\[\left\|\Lambda_n(\rho^{\otimes n})-
+ \Phi_2^{\otimes\lfloor rn\rfloor}\right\|_1\longrightarrow0\]
+的率$r$上确界. 纠缠成本$E_C$是以$\Phi_2^{\otimes\lceil rn\rceil}$经LOCC近似制备$\rho^{\otimes n}$、同样迹范数误差趋0的率下确界. 形成纠缠$E_F$则是纯态分解的凸顶:
+\[E_F(\rho)=\inf_{\rho=\sum_ip_i\ket{\psi_i}\bra{\psi_i}}
+ \sum_ip_iS(\Tr_B\ket{\psi_i}\bra{\psi_i}).\]
+先以共享随机数选$i$, 再稀释纯态分支给平均成本上界, 从而$E_C\le E_F$. 允许跨份联合分解时, 完整成本定理为$E_C(\rho)=\lim_{n\to\infty}E_F(\rho^{\otimes n})/n$, 不是无条件$E_C=E_F$. 不能用LOCC净产生Bell对, 给$E_D\le E_C\le E_F$. 可分态三量皆零; 纯态同为Schmidt熵; PPT束缚纠缠可有$E_D=0$却$E_C>0$. 混态形成与蒸馏因此不由一个边缘熵替代. 原课第17讲第3--4、7页给这些任务, 正规化成本定理见Hayden--Horodecki--Terhal, \emph{The Asymptotic Entanglement Cost of Preparing a Quantum State}, 第I--II节, \url{https://arxiv.org/abs/quant-ph/0008134}.
 
 \originalsection{主序的定义、方向与一份转换}
 概率向量补零并降序排列. 定义$p\prec q$当

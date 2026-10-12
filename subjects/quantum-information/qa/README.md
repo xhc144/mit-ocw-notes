@@ -6,7 +6,7 @@
 - 全页 130 dpi 渲染；编者逐页查看标题、公式、表格、图、图注、页眉页脚及留白。`visual-audit.json` 对应最终 PDF 哈希及每页渲染哈希。相同像素哈希的最终页沿用实际看过的页面；改版页重新查看。
 - 无未定义引用、缺字或 overfull 报错。仅有 underfull 提示；已查看对应来源表/图注。目录末页和书目留白是自然分页，没有空白占位章。
 - `compilation-record.json` 记录编译输入哈希；`all-pages-render-record.json` 记录所有页。渲染缓存 PNG 不加入公开仓库。
-- 源码 ZIP 解压到全新临时目录，实际再次 XeLaTeX 编译并核对页数、PDF 提取文本、ZIP CRC 和所有输入文件哈希；见 `clean-rebuild.json`。构建机补齐 TeX Live 的 ctex、xeCJK、Fandol 与 CMU 依赖，字体文件不再分发。
+- 源码 ZIP 解压到全新临时目录，实际再次 XeLaTeX 编译并核对页数、PDF 提取文本、ZIP CRC 和所有输入文件哈希；见仓库同目录的 [`clean-rebuild.json`](https://github.com/xhc144/mit-ocw-notes/blob/main/subjects/quantum-information/qa/clean-rebuild.json)（该发布后验收记录不装入源码ZIP，以免形成循环哈希）。构建机补齐 TeX Live 的 ctex、xeCJK、Fandol 与 CMU 依赖，字体文件不再分发。
 
 数学与题面核对：
 
@@ -21,3 +21,5 @@
 原件与出版边界见 `../SOURCES.md` 和 `../LICENSE.md`；正式包不含原版 PDF、原页截图、OCR文本、商业教材或外部字体。
 
 修订复核：revision-math-results.json 记录五维行走本征相位、根保真度、Shor闭式、原始PS8的Y门、Heisenberg表示和模加法矩阵、量子博弈收益表。Bacon–Shor给四个实际六体图、验证猫、验证Y资源、逻辑Z列奇偶多数、最多四个完整综合征轮的相邻一致规则；216位置仅保留为不含完整验证/停机成本的粗教学例。三个真缺教材题号与八个可读独立任务分账，十份可得Shor原讲与十三份真缺原讲也逐讲分账。
+
+父任务最后有限清单的正文位置与修正见 `parent-final-closure.json`。旧版已经通过的内容保留，新版机械验证及独立定点接收分开记录。

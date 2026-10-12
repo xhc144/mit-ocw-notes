@@ -14,13 +14,13 @@
 | MAS.865J Spring 2006 L8 | substantive_reconstruction | 第9章：图态稳定子、删除Z测量、链式传态与前馈 |
 | MAS.865J Spring 2006 L9 | substantive_reconstruction | 第4章：Bell传态分支与UP副产物；第9章一步测量门 |
 | MAS.865J Spring 2006 L10 | substantive_reconstruction | 第9章：绝热搜索隙与调度、历史态传播项、合法钟和能量保护 |
-| MAS.865J Spring 2006 L11 | substantive_reconstruction | 第3章：连续搜索、行走色散、Ambainis缓存与五维矩阵、成本优化 |
-| MAS.865J Spring 2006 L12 | substantive_reconstruction | 第10章：Abel陪集振幅、离散对数显式函数、Pell调节子周期流程 |
+| MAS.865J Spring 2006 L11 | substantive_reconstruction | 第3章：连续搜索、3-SAT验证、网格维度模型、Ambainis五维矩阵与成本 |
+| MAS.865J Spring 2006 L12 | substantive_reconstruction | 第10章：Abel陪集、离散对数、Pell周期、图同构与unique-SVP归约实例 |
 | MAS.865J Spring 2006 L13 | substantive_reconstruction | 第10章：表示正交与矩阵QFT、二面体相位合成、Heisenberg实例 |
 | MAS.865J Spring 2006 L14 | substantive_reconstruction | 第11章：BSC容量、强/弱典型、CPTP压缩器、保真度界、类型集中 |
 | MAS.865J Spring 2006 L15 | substantive_reconstruction | 第12章：Gram平方根POVM、相对熵条件、Holevo、HSW打包路线 |
-| MAS.865J Spring 2006 L16 | substantive_reconstruction | 第12章：正规化容量优化、擦除信道、参考系统与父/母协议账 |
-| MAS.865J Spring 2006 L17 | substantive_reconstruction | 第12章：主序见第11章；混合Bell谱/PPT阈值；非局域CNOT与SWAP |
+| MAS.865J Spring 2006 L16 | substantive_reconstruction | 第12章：正规化容量、擦除信道、父协议到经典容量及母协议资源账 |
+| MAS.865J Spring 2006 L17 | substantive_reconstruction | 第12章：第11章稀释及混态资源定义；混合Bell/PPT；非局域门 |
 | MAS.865J Spring 2006 L18 | substantive_reconstruction | 第13章：多项式指纹、SMP模型、量子指纹误判与一次性签名全流程 |
 | MAS.865J Spring 2006 L19 | substantive_reconstruction | 第13章：策略/Nash、PQ、囚徒收益表、SU2差别、公共品GHZ机制 |
 | MAS.865J Spring 2006 L20 | substantive_reconstruction | 第13章：EPR抽样、纯化保真度到熵、CSS到BB84、移除量子存储 |
