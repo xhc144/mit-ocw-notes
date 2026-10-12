@@ -11,3 +11,5 @@
 许可复核更新：依[官方FAQ](https://mitocw.zendesk.com/hc/en-us/articles/4414756181403-How-is-all-rights-reserved-content-different-from-the-rest-of-OCW-content)，未标相反声明的OCW资料按默认CC使用；获许可第三方材料须携带特别署名，标为All rights reserved的内容不在默认CC内。纯引用、题号、可选表格书目和参考讨论不能自动等同上述排除标记。7份过宽暂缓现已恢复；其余16份待分项审查。恢复记录说明每份依据，历史记录保留，不将暂缓称为确证侵权。
 
 最终来源更新：全部23份无明确权利例外的官方OCW文件恢复，当前78份874页。中文逐题保留外书引用与具体复制表达的边界，参考与复制区别记录在覆盖清单。
+
+研究生续编署名：Senthil Todadri / MIT OpenCourseWare，8.321 Quantum Theory I，Fall2017（公开页内2016试卷与练习年代各自保留）；Washington Taylor / MIT OpenCourseWare，8.322 Quantum Theory II，Spring2003。来源分别为https://ocw.mit.edu/courses/8-321-quantum-theory-i-fall-2017/ 与https://ocw.mit.edu/courses/8-322-quantum-theory-ii-spring-2003/。改编遵循OCW CC BY-NC-SA4.0及资源逐项信用、版权撤除和第三方例外；商书本体、只有书号而没有题面的内容均不打包。自主解答不冒称官方答案。

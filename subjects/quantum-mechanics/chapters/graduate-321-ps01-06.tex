@@ -1,0 +1,146 @@
+\originalchapter{8.321研究生作业一至六}
+题面依据Fall 2017官方实际公开PDF中文转述；解答为\textbf{AI独立解答}，未取得官方答案。Sakurai改编信用随题保留。以下只写有完整题面的任务；纯教材引用逐项见章末，不依据题号重建。电磁题原件用高斯制，未特别注明时本册改为SI制，因此$\vct p-q\vct A/c$相应改为$\vct p-q\vct A$。
+
+\originalsection{作业1：矩阵空间、内积与实验设计}
+\begin{exercise}
+PS1 Q1：(a)证明$N\times N$复矩阵成$N^2$维向量空间；(b)证明$\Tr(A^\dagger B)$是内积；(c)写$A=a_0I+i\vct\sigma\cdot\vct a$并构造正交归一基；(d)用迹和矩阵元求系数。
+\end{exercise}
+\begin{solution}
+矩阵单位$E_{jk}$只有第$(j,k)$元为1，任意$A=\sum A_{jk}E_{jk}$，故构成$N^2$个线性无关基；维数是复维数。内积对第二变量线性、共轭对称，且$\Tr A^\dagger A=\sum|A_{jk}|^2>0$除非$A=0$。Pauli迹式$\Tr\sigma_i=0$、$\Tr\sigma_i\sigma_j=2\delta_{ij}$给正交基$I/\sqrt2,\sigma_i/\sqrt2$，乘$i$的版本也正交。系数$a_0=\Tr A/2$、$a_i=\Tr(\sigma_iA)/(2i)$；逐元是$a_0=(A_{11}+A_{22})/2$、$a_x=(A_{12}+A_{21})/(2i)$、$a_y=(A_{12}-A_{21})/2$、$a_z=(A_{11}-A_{22})/(2i)$。一般矩阵的系数可为复数。
+\end{solution}
+\begin{exercise}
+PS1 Q2：从内积定义证明Schwarz不等式及三角不等式。PS1 Q5：证明迹不依赖所取正交归一基。
+\end{exercise}
+\begin{solution}
+对$\phi\ne0$，将$\|\psi-\lambda\phi\|^2$取$\lambda=\braket\phi\psi/\|\phi\|^2$，非负给$|\braket\phi\psi|^2\le\|\phi\|^2\|\psi\|^2$；零向量情形直接成立。展开$\|\psi+\phi\|^2$并用$\operatorname{Re}\braket\psi\phi\le|\braket\psi\phi|$得到三角式。Schwarz等号需两向量线性相关。若新基$\ket{b_i}=\sum_jU_{ji}\ket{a_j}$且$U$幺正，则$\sum_i\bra{b_i}A\ket{b_i}=\sum_{ijk}U_{ji}^*U_{ki}A_{jk}=\sum_jA_{jj}$。无穷维时要求$A$迹类才能保证换基及求和正当。
+\end{solution}
+\begin{exercise}
+PS1 Q6：提出低成本方案，将$\hbar$测到优于10\%精度；说明实验原理和粗略预算。
+\end{exercise}
+\begin{solution}
+可用真空光电管的截止电压法：以数个已校准频率$f$单色光照射同一阴极，反向电压扫到光电流为零的外推点。Einstein式$eV_s=hf-W$使线性拟合斜率为$h/e$，截距吸收未知逸出功及恒定接触电势；$\hbar=h/(2\pi)$。电流须减暗电流并用多个光强确认截止点与强度无关，避免空间电荷；波长由已校准光谱仪或参考光源定标，不能只按LED包装标称值。
+
+示例预算仅作实验设计估算而非当前市场报价：共用实验室光电管/电源时，光源与滤片200元、简易读出与电压表200元、遮光夹具100元，约500元；若这些仪器须另购，预算会增加，不能称500元完成全套购置。取400--600 nm光源，$\Delta f\simeq2.5\times10^{14}$ Hz，对应$\Delta V_s\simeq1.03$ V。若拟合两端电压差误差小于0.04 V、频差相对误差小于2\%、控制残余非线性小于3\%，合成相对误差约5.4\%，有优于10\%的设计余量。这是可检验误差预算和方案，未声称实际测得$h$；若暗电流、波长校准或接触电势随频率漂移未受控，则精度目标尚未达到。仅用LED导通电压当作光子能量不能保证此精度。
+\end{solution}
+
+\originalsection{作业2：简并、共同基与Bloch态}
+\begin{exercise}
+PS2 Q2（Sakurai改编）：$[A_1,A_2]\ne0$且两者与Hermitian $H$对易，证明$H$一般有简并。Q3：$M=\begin{pmatrix}1&1\\0&1\end{pmatrix}$的谱为何不足以使它成为观测量？求复期望例子。
+\end{exercise}
+\begin{solution}
+若$H$完全非简并，则对易性使$A_i$在每条$H$本征线上乘以标量，二者在完整本征基上均对角，必交换，矛盾。因此至少某个能量空间必须简并；不能说每个能级都简并。$M$仅有本征值1，而$(M-I)v=0$要求$v_2=0$，只有一个本征方向，不可对角化。对$v=(1,i)^T/\sqrt2$，$v^\dagger Mv=1+i/2$，不是实平均。Hermitian性约束整个算符及内积，不是只要求本征值实。
+\end{solution}
+\begin{exercise}
+PS2 Q4：$A=\begin{pmatrix}1&0&-1\\0&0&0\\-1&0&1\end{pmatrix}$，$B=\begin{pmatrix}2&1&-1\\1&0&1\\-1&1&2\end{pmatrix}$。证明交换，求各谱和同时对角化幺正矩阵。
+\end{exercise}
+\begin{solution}
+直接乘得$AB=BA=\begin{pmatrix}3&0&-3\\0&0&0\\-3&0&3\end{pmatrix}$。取$u_1=(1,-2,1)/\sqrt6$、$u_2=(1,1,1)/\sqrt3$、$u_3=(1,0,-1)/\sqrt2$，三者正交归一。$Au_{1,2}=0$、$Au_3=2u_3$；$Bu_1=-u_1$、$Bu_2=2u_2$、$Bu_3=3u_3$。故$U=(u_1,u_2,u_3)$满足$U^\dagger AU=\diag(0,0,2)$、$U^\dagger BU=\diag(-1,2,3)$；这些列向量同时给完整谱。
+\end{solution}
+\begin{exercise}
+PS2 Q5：求$S_{\hat n}$的本征值/向量，$\hat n=(\sin\theta\cos\phi,\sin\theta\sin\phi,\cos\theta)$，画Bloch表示并求初$+\hat n$态的$S_z,S_x$正读数概率。Q6：自旋$1/2$能否三分量均值全零或均值平方和小于$(\hbar/2)^2$？
+\end{exercise}
+\begin{solution}
+$S_{\hat n}=\hbar\hat n\cdot\sigma/2$，$(\hat n\cdot\sigma)^2=I$，本征值$\pm\hbar/2$。可取
+\[\ket{+n}=(\cos(\theta/2),e^{i\phi}\sin(\theta/2))^T,\quad\ket{-n}=(-e^{-i\phi}\sin(\theta/2),\cos(\theta/2))^T.\]
+其Bloch点为$\pm\hat n$。投影$P_{+j}=(I+\sigma_j)/2$给$P_{+z}=(1+\cos\theta)/2$、$P_{+x}=(1+\sin\theta\cos\phi)/2$。纯自旋态的Bloch向量长度1，所以$\sum\langle S_j\rangle^2=\hbar^2/4$，两种可能均否。混合态则可以，如$\rho=I/2$三分量全零；原题作为纯态练习的假设必须明示，若允许一般量子状态其“不可能”断言不成立。
+\end{solution}
+
+\originalsection{作业3：最小不确定态、动量移位与进动}
+\begin{exercise}
+PS3 Q1（Sakurai改编）：(a)用$\|\alpha+\lambda\beta\|^2\ge0$证明Schwarz；(b)证明$\Delta A\ket\alpha=\lambda\Delta B\ket\alpha$且$\lambda$纯虚时达到Robertson等号；(c)检查均值$x_0,p_0$、位置方差$d^2$的Gaussian波包。
+\end{exercise}
+\begin{solution}
+(a)取$\lambda=-\braket\beta\alpha/\|\beta\|^2$，结果见PS1。令$a=\Delta A\ket\alpha,b=\Delta B\ket\alpha$。Schwarz给$\|a\|^2\|b\|^2\ge|\braket a b|^2\ge(\operatorname{Im}\braket a b)^2$；$a=\lambda b$使首式等号，纯虚$\lambda$使实部为零，故$\Delta A\Delta B=|\langle[A,B]\rangle|/2$。对$\psi=(2\pi d^2)^{-1/4}e^{ip_0x/\hbar-(x-x_0)^2/(4d^2)}$，$\Delta p\psi=i\hbar(x-x_0)\psi/(2d^2)$，因此$\Delta x\psi=-2id^2\Delta p\psi/\hbar$；$\Delta x=d$、$\Delta p=\hbar/(2d)$，乘积为$\hbar/2$。
+\end{solution}
+\begin{exercise}
+PS3 Q4：(a)实波函数平均动量；(b)乘$e^{iPx/\hbar}$后均值；(c)求$T(P)pT^\dagger(P)$和$T(P)\ket{p'}$；(d)判断$T(P)T(a)$是否等于$e^{i(Px-pa)/\hbar}$。
+\end{exercise}
+\begin{solution}
+假设波函数在动量域且边界项消失，实$\psi$给$\langle p\rangle=-i\hbar\int\psi\psi'=-i\hbar[\psi^2]/2=0$。对一般$\psi$直接求导，移位后为$p_0+P$。$T(P)=e^{iPx/\hbar}$的BCH仅一层非零，$T(P)pT^\dagger=p-P$，故$pT(P)\ket{p'}=(p'+P)T(P)\ket{p'}$。位置平移$T(a)=e^{-ipa/\hbar}$；中心对易子为$[iPx/\hbar,-ipa/\hbar]=iPa/\hbar$，所以乘积多相位$e^{iPa/(2\hbar)}$，一般不等。全局相位不改变单支概率，但回路组合可能形成可测相对相位。
+\end{solution}
+\begin{exercise}
+PS3 Q5：$H=-\gamma BS_z$，初态沿$xz$平面与$z$夹角$\theta$的正自旋态。(a)求态和$S_x=+\hbar/2$概率；(b)求Bloch进动轨迹；(c)在两个绘景推导自旋均值方程。
+\end{exercise}
+\begin{solution}
+态为
+\[(e^{i\gamma Bt/2}\cos\frac\theta2,e^{-i\gamma Bt/2}\sin\frac\theta2)^T.\]
+$P_{+x}=[1+\sin\theta\cos\gamma Bt]/2$。Bloch向量$(\sin\theta\cos\gamma Bt,-\sin\theta\sin\gamma Bt,\cos\theta)$，有符号角速度$-\gamma B$。Heisenberg式给$\dot S_x=\gamma BS_y$、$\dot S_y=-\gamma BS_x$、$\dot S_z=0$，即$\frac{\dd}{\dd t}\langle\vct S\rangle=\gamma\langle\vct S\rangle\times\vct B$。Schrödinger态的上述三个均值逐项微分给同式，说明两个绘景一致。
+\end{solution}
+
+\originalsection{作业4：自由Gaussian与离共振驱动}
+\begin{exercise}
+PS4 Q1：初$\psi=Ae^{ip_0x/\hbar-x^2/(2a^2)}$，求自由演化及$x,p$均值/方差，并用Heisenberg重算。Q2：给归一动量态$\phi_0(p)$，求后态、位置Fourier式和归一不变；特别$\phi_0=(b/\pi)^{1/4}e^{-bp^2/2}$的长时行为（原参数名$a$，此处改$b$以免混淆）。
+\end{exercise}
+\begin{solution}
+Q1取$A=(\pi a^2)^{-1/4}$、$s=1+i\hbar t/(ma^2)$，FourierGaussian积分给
+\[
+ \psi(x,t)=\frac A{\sqrt s}
+ e^{ip_0x/\hbar-ip_0^2t/(2m\hbar)}
+ \exp[-(x-p_0t/m)^2/(2a^2s)].
+\]
+$\langle x\rangle=p_0t/m$、$\langle p\rangle=p_0$，$\operatorname{var}x=a^2[1+(\hbar t/(ma^2))^2]/2$、$\operatorname{var}p=\hbar^2/(2a^2)$。Heisenberg解$p(t)=p(0)$、$x(t)=x(0)+tp(0)/m$，初对称协方差为0，给同结果。
+
+Q2设初时为0，则$\phi(p,t)=e^{-ip^2t/(2m\hbar)}\phi_0(p)$、$\psi=\int e^{ipx/\hbar}\phi(p,t)\dd p/\sqrt{2\pi\hbar}$。相位模长1与Parseval保证归一。设$b>0$、$B=b+it/(m\hbar)$，具体态为$\psi=(b/\pi)^{1/4}(\hbar B)^{-1/2}e^{-x^2/(2\hbar^2B)}$。其位置方差$\hbar^2 b[1+(t/(m\hbar b))^2]/2$长时按$t^2$增长，峰值密度按$1/|t|$下降，动量分布保持；长时不形成固定宽度的正规定态。
+\end{solution}
+\begin{exercise}
+PS4 Q5：$\vct B=B_0\hat z+B_1(\cos\omega t\hat x+\sin\omega t\hat y)$，$H=-\gamma\vct S\cdot\vct B$。初$+z$，一般离共振时求仍为$+z$的概率和Rabi频率。
+\end{exercise}
+\begin{solution}
+本分编的旋转参考系推导给$\Delta=\gamma B_0+\omega$、$\Omega_R=\sqrt{\Delta^2+(\gamma B_1)^2}$。指数用$(\hat n\cdot\sigma)^2=I$展开，留在原态概率为$1-(\gamma B_1/\Omega_R)^2\sin^2(\Omega_Rt/2)$，振荡角频率$\Omega_R$。原PDF磁场表达式漏印$\hat y$，按其旋转磁场上下文补齐，符号由明确Hamiltonian决定。
+\end{solution}
+
+\originalsection{作业5：作用量、核归一与二次势}
+\begin{exercise}
+PS5 Q1：从带电粒子$L$推Euler--Lagrange及Lorentz力；一维无磁场时求连接$(x_i,t_i)$与$(x_f,t_f)$的自由轨道及$\phi=-Ex$轨道。
+\end{exercise}
+\begin{solution}
+固定端点变分$\delta S=\int[\partial_xL-\frac{\dd}{\dd t}\partial_{\dot x}L]\delta x\dd t$，故各分量满足EL。SI正则动量$\partial_{v_i}L=mv_i+qA_i$，代入得$m\dot v_i=q[-\partial_i\phi-\partial_tA_i+v_j(\partial_iA_j-\partial_jA_i)]$，即$q(\vct E+\vct v\times\vct B)$。令$T=t_f-t_i$、$s=t-t_i$；自由$x=x_i+(x_f-x_i)s/T$，恒力$F=qE$时$x=x_i+(x_f-x_i)s/T+F(s^2-Ts)/(2m)$。它们满足两个端点和$m\ddot x=F$；驻定不一定是所有实时间路径上的最小值。
+\end{solution}
+\begin{exercise}
+PS5 Q2：自由核写成$N(T)e^{im(x_f-x_i)^2/(2\hbar T)}$，由组合律和幺正求$N$；它是否完全确定，还需要何条件？
+\end{exercise}
+\begin{solution}
+组合Gaussian积分给$N(T_1+T_2)=N(T_1)N(T_2)\sqrt{2\pi i\hbar T_1T_2/[m(T_1+T_2)]}$。抽出$N_0(T)=\sqrt{m/(2\pi i\hbar T)}$后，$f(T_1+T_2)=f(T_1)f(T_2)$。强连续与幺正使$f(T)=e^{-iE_*T/\hbar}$、$E_*$任意实常数；同时负时间核为正时间核复共轭交换端点。因此组合律、短时delta和幺正不能确定能量零点。指定自由Hamiltonian为$p^2/(2m)$或要求已知零动量态无额外相位，才选$E_*=0$。若不要求连续，Cauchy函数方程还可能有非物理解，不能称上述为无任何正则假设的全部解。
+\end{solution}
+\begin{exercise}
+PS5 Q3：证明二次$L$的驻相对端点依赖精确；求自由/谐振子核并解释每周期两个焦散。Q4：由谐振子核求能谱；虚时间对角核的长时极限求基态密度。
+\end{exercise}
+\begin{solution}
+写$x=x_{\rm cl}+\eta$，固定端点且EL成立使线性涨落积分为0；二次作用量剩$S[x_{\rm cl}]+S_2[\eta]$，涨落积分只依赖时间。这里$S_2$是二次齐次部分，若$L$另含线性或常量项，不能将它直接写成原完整$S[\eta]$。本分编理论已积分经典作用量并以短时归一给出两核；$\sin\omega T=0$时焦散使经典端点映射聚焦，核须按delta分布与Maslov相位处理。
+
+将$T=-i\tau$、$x_f=x_i=x$，对角核为
+\[K_E=\sqrt{m\omega/(2\pi\hbar\sinh\omega\tau)}\exp[-m\omega x^2\tanh(\omega\tau/2)/\hbar].\]
+迹为
+\[\int K_E\dd x=[2\sinh(\omega\tau/2)]^{-1}=\sum_{n\ge0}e^{-(n+1/2)\omega\tau}.\]
+与$\Tr e^{-H\tau/\hbar}$逐指数匹配给$E_n=(n+1/2)\hbar\omega$。长时
+\[K_E\sim e^{-\omega\tau/2}\sqrt{m\omega/(\pi\hbar)}e^{-m\omega x^2/\hbar}.\]
+非简并基态谱展开同样是$e^{-E_0\tau/\hbar}|\psi_0|^2$，故$\psi_0=(m\omega/(\pi\hbar))^{1/4}e^{-m\omega x^2/(2\hbar)}$，相位任意。
+\end{solution}
+
+\originalsection{作业6：AB环、持久流与AC相位}
+\begin{exercise}
+PS6 Q1：作用量及传播核如何随规范变换；周长$\ell$、穿通磁通$\Phi$的环，求同点传播核、磁通周期。Q2：用周期波函数求谱及基态能量图，计算原题定义的$j=(q/m)\langle p-qA\rangle$和磁矩。
+\end{exercise}
+\begin{solution}
+规范端点相位见本分编理论。令环坐标$x\in[0,\ell)$、$A=\Phi/\ell$，每个绕数$n$的路径提升到实线，$x_f=x_i$时
+\[
+ K_{\rm ring}(x,T;x,0)=\sqrt{\frac m{2\pi i\hbar T}}
+ \sum_{n\in\mathbb Z}e^{imn^2\ell^2/(2\hbar T)+inq\Phi/\hbar}.
+\]
+按分布或虚时间正则理解求和；磁通周期$\Phi_0=h/|q|$。周期本征态$e^{2\pi inx/\ell}/\sqrt\ell$给$E_n=(h n-q\Phi)^2/(2m\ell^2)$。基态为最接近$\varphi=q\Phi/h$的整数$n_*$，$E_g=h^2\operatorname{dist}(\varphi,\mathbb Z)^2/(2m\ell^2)$，图为拼接抛物线，半整数处简并及尖点。
+
+原题$j=qv=q(hn_*-q\Phi)/(m\ell)$，量纲不是环中截面电流；实际单粒子电流$I=j/\ell=-\partial E_{n_*}/\partial\Phi$。环面积$\mathcal A=\ell^2/(4\pi)$，SI磁矩$\mu=I\mathcal A=j\ell/(4\pi)$，法向由正绕行定义。半整数处两简并态电流相反，未指定制备时不能给唯一基态电流；一般相干/混合制备的均值按其权重决定。下面是按能量式自主绘制。
+\end{solution}
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.65\textwidth,height=4cm,xlabel={$q\Phi/h$},ylabel={$2m\ell^2E_g/h^2$},xmin=-1.5,xmax=1.5,ymin=0,ymax=.3,domain=-1.5:1.5,samples=151]
+\addplot[structurecolor,thick]{(x-round(x))^2};\end{axis}\end{tikzpicture}\end{center}
+\begin{exercise}
+PS6 Q3：原件给高斯制磁偶极/电荷两体$L=mv^2/2+MV^2/2+(q/c)(\vct v-\vct V)\cdot\vct A(\vct r-\vct R)$，$\vct A=\vct\mu\times(\vct r-\vct R)/|\vct r-\vct R|^3$。证明交换两体坐标/速度的相容性，求磁偶极绕线电荷的AC相位，说明几何性质。
+\end{exercise}
+\begin{solution}
+相对坐标反号使$A$反号，相对速度也反号，故耦合不变；交换对象标签时质量及其动能标签亦交换。两体耦合可写磁矩与电场的形式。在线电荷静止系，SI低速有效耦合$L_{\rm int}=\vct v\cdot(\vct\mu\times\vct E)/c^2$（符号按偶极轨迹与线电荷坐标顺序选定），所以相位差
+$\Delta\phi=(\hbar c^2)^{-1}\oint(\vct\mu\times\vct E)\cdot\dd\vct R$。
+对无限线电荷密度$\lambda_e$、固定$\vct\mu=\mu\hat z$、正向绕行，$E_\rho=\lambda_e/(2\pi\varepsilon_0\rho)$，得到$\Delta\phi=\mu\lambda_e/(\varepsilon_0\hbar c^2)$乘绕数；反向绕行反号。高斯制同式为$4\pi\mu\lambda_e/(\hbar c)$。速度在$\vct v\dd t=\dd\vct R$中消去，故只依赖绕行路径。此理想模型须偶极沿轴且固定、避开线核；任意旋转自旋和非均匀一般电场不一定仍可用这一标量相位，也不能无条件断言没有所有局部力。
+\end{solution}
+
+\originalsection{本组未取得完整题面的引用}
+PS1 Q3=Sakurai1.5、Q4=1.10；PS2 Q1=1.14；PS3 Q2=1.19、Q3=1.22；PS4 Q3=2.7、Q4=2.16。共7道纯教材引用，只保留出处，不补造题面。公开改编题的全部任务已经按实际条件处理；设计实验题为提案与误差预算，不声称完成实物实验。

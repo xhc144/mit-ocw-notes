@@ -1,0 +1,136 @@
+\originalchapter{8.322公开作业八至十一：表示与散射}
+\originalsection{PS8 Q2、Q3：Young表与张量分解}
+\begin{exercise}
+Q2：画$S_5$所有不可约表示的Young图并计标准表。Q3：列$(\mathbb C^2)^{\otimes5}$、$(\mathbb C^3)^{\otimes4}$在置换群与$SU(2)$或$SU(3)$下的全部表示，并核对维数。
+\end{exercise}
+\begin{solution}
+分拆记号即各行格数。标准表需填$1,\ldots,5$且行列递增；完整图与标准表数如下：
+\newcommand{\younggrid}[1]{\begin{tikzpicture}[baseline=(current bounding box.center),x=.22cm,y=.22cm]\foreach \len [count=\row from 0] in {#1}{\foreach \col in {1,...,\len}{\draw (\col,-\row) rectangle ++(-1,-1);}}\end{tikzpicture}}
+\begin{center}\begin{tabular}{ccc}
+\toprule 分拆 & $f^\lambda$ & Young图\\\midrule
+$[5]$&1&\younggrid{5}\\
+$[4,1]$&4&\younggrid{4,1}\\
+$[3,2]$&5&\younggrid{3,2}\\
+$[3,1,1]$&6&\younggrid{3,1,1}\\
+$[2,2,1]$&5&\younggrid{2,2,1}\\
+$[2,1,1,1]$&4&\younggrid{2,1,1,1}\\
+$[1^5]$&1&\younggrid{1,1,1,1,1}\\\bottomrule
+\end{tabular}\end{center}
+
+例如$[3,2]$的hook长度为$4,3,1,2,1$，$5!/(4\cdot3\cdot1\cdot2\cdot1)=5$；其余同法。平方和$1+16+25+36+25+16+1=120$，不遗漏不可约表示。
+
+两维内部空间只允许至多两行，故$[5],[4,1],[3,2]$的自旋分别$5/2,3/2,1/2$，置换维数$1,4,5$。分解为$V_{[5]}\otimes D_{5/2}\oplus V_{[4,1]}\otimes D_{3/2}\oplus V_{[3,2]}\otimes D_{1/2}$，$1\cdot6+4\cdot4+5\cdot2=32$。
+
+三维四重张量保$[4],[3,1],[2,2],[2,1,1]$，对应$SU(3)$ Dynkin标号$(4,0),(2,1),(0,2),(1,0)$，维数用$(p+1)(q+1)(p+q+2)/2$分别$15,15,6,3$；置换维数$1,3,2,3$，总计$15+45+12+9=81$。四行图因反对称四个三维向量而零。$[2,1,1]$删三格列成基本表示，但其$S_4$图与维数仍是原来的3，不能一并删去置换结构。
+\end{solution}
+
+\originalsection{PS8 Q4、Q5：三电子完整项符号}
+\begin{exercise}
+Q4：写氮$p^3$构型所有$^2P$波函数。Q5：列$d^3$可能的所有项符号，给空间和自旋的$S_3$表示。
+\end{exercise}
+\begin{solution}
+给$p$壳六个自旋轨道编号$0=(-1,\uparrow),1=(-1,\downarrow),2=(0,\uparrow),3=(0,\downarrow),4=(1,\uparrow),5=(1,\downarrow)$；空间部分为同一径向$R_{np}(r)Y_{1m}(\hat r)$，乘对应自旋函数。定义$D_{abc}=\det[u_a(1),u_b(1),u_c(1);u_a(2),u_b(2),u_c(2);u_a(3),u_b(3),u_c(3)]/\sqrt6$，$a<b<c$，彼此正交归一。全部六个$^2P$态为
+\[
+\begin{array}{c|cc}
+ M_L & M_S=+1/2 & M_S=-1/2\\\hline
+ 1 &(D_{045}+D_{234})/\sqrt2 &(D_{145}+D_{235})/\sqrt2\\
+ 0 &(D_{025}-D_{124})/\sqrt2 &(D_{035}-D_{134})/\sqrt2\\
+ -1 &(D_{023}+D_{014})/\sqrt2 &(D_{123}+D_{015})/\sqrt2
+\end{array}
+\]
+求法从$M_L=1,M_S=1/2$的两行列式出发，要求$L_+,S_+$湮灭，系数同号；以$L_-/\sqrt2$降$M_L$、$S_-$降$M_S$得表。故最高权$L=1,S=1/2$明确，波函数已完全反对称；不把单个未反对称积叫电子态。$p^3$总20维还含$^4S$四态和$^2D$十态，但本题只要六个$^2P$。
+
+$d^3$的10自旋轨道选3，总维$\binom{10}3=120$。$S=3/2$自旋完全对称$[3]$，空间完全反对称$[1^3]$，$\wedge^3\mathbb C^5$的轨道表示含$L=3,1$，给$^4F,^4P$，维数28+12=40。$S=1/2$自旋$[2,1]$，空间也$[2,1]$，二者取唯一反对称组合；轨道部分的$L=5,4,3,2,2,1$给$^2H,^2G,^2F,2\times{}^2D,^2P$，维数22+18+14+20+6=80。两份$^2D$有不同内部标签，不能合并成一项。此分解另按所有Slater行列式的$(M_L,M_S)$重数作最高权差分复算，120维相合，见数值/符号记录。
+\end{solution}
+
+\originalsection{PS8 Q6：质子味--自旋波函数}
+\begin{exercise}
+求质子$S_z=1/2$的波函数，使三个夸克的味、自旋与颜色满足全同费米要求。
+\end{exercise}
+\begin{solution}
+基态空间对称、颜色单态$\epsilon_{abc}|abc\rangle/\sqrt6$反对称，故味--自旋需完全对称。用三个位置槽写一归一相位约定：
+\[
+\begin{aligned}
+ |p,\uparrow\rangle=\frac1{\sqrt{18}}\{&2|u\uparrow u\uparrow d\downarrow\rangle
+ -|u\uparrow u\downarrow d\uparrow\rangle-|u\downarrow u\uparrow d\uparrow\rangle\\
+ &+2|u\uparrow d\downarrow u\uparrow\rangle
+ -|u\uparrow d\uparrow u\downarrow\rangle-|u\downarrow d\uparrow u\uparrow\rangle\\
+ &+2|d\downarrow u\uparrow u\uparrow\rangle
+ -|d\uparrow u\uparrow u\downarrow\rangle-|d\uparrow u\downarrow u\uparrow\rangle\}.
+\end{aligned}
+\]
+九个积态互相正交，系数平方和18。置换槽保持表达式；$S_z=1/2$，作用$S_+$时每种全上态的系数$2-1-1=0$，故自旋是$1/2$最高权，非$3/2$。同理味$isospin$升算符把$d$改成$u$时系数抵消，给$I=1/2,I_z=1/2$。乘颜色及空间部分后总态反对称。这是基态非相对论夸克模型的味--自旋结构，不是QCD质子所有海夸克/胶子成分的完整波函数。
+\end{solution}
+
+\originalsection{PS9 Q1、Q3：Green函数与核形状因子}
+\begin{exercise}
+Q1：证明$G_\pm(r)=-e^{\pm ikr}/(4\pi r)$满足$(\nabla^2+k^2)G_\pm=\delta^3(\vct r)$。Q3：电子由总电荷$Ze$、半径$R$均匀带电球核散射，求第一Born振幅与截面。
+\end{exercise}
+\begin{solution}
+$r\ne0$时直接求径向Laplacian为$-k^2G$。在小球积分，$k^2\int G=O(\epsilon^2)$，表面$4\pi\epsilon^2G'(\epsilon)\to1$，故delta系数+1。加号为出射、负号为入射；单靠局部微分方程不能选择实验边界。
+
+均匀球电荷密度$3Ze/(4\pi R^3)$的Fourier变换为$Ze F(QR)$，$F(z)=3(\sin z-z\cos z)/z^3$、$F(0)=1$。Poisson方程给电子势变换$\widetilde V(Q)=-4\pi ZgF(QR)/Q^2$，$g=e^2/(4\pi\epsilon_0)$。所以
+\[
+ f_B(\theta)=\frac{2mZg}{\hbar^2Q^2}F(QR),\qquad
+ \frac{\dd\sigma}{\dd\Omega}=\frac{4m^2Z^2g^2}{\hbar^4Q^4}|F(QR)|^2,\quad Q=2k\sin(\theta/2).
+\]
+长程Coulomb的Fourier积分先用$e^{-\varepsilon r}$正则化再在非前向取极限；前向发散不能当普通收敛积分。$QR\ll1$回点核Rutherford；大$QR$形状因子抑制并有衍射零点。非相对论第一Born还要求适用的弱耦合/高能范围，不把核尺度波数所需的高能自动认作非相对论。
+\end{solution}
+
+\originalsection{PS10 Q2：平面波与能量角动量态归一}
+\begin{exercise}
+课堂$e^{ikz}=\sum_l a_lj_l(kr)P_l(\cos\theta)$。(a)求$a_l$；(b)若$\langle\vct p|E,l,m\rangle=g_{lE}(p)Y_{lm}(\hat p)$，求$g_{lE}$。原题只援引课堂公式，需在解答明示连续归一。
+\end{exercise}
+\begin{solution}
+Legendre正交投影给$a_lj_l(z)=(2l+1)\int_{-1}^1e^{izt}P_l(t)\dd t/2$，积分表示$\int e^{izt}P_l(t)\dd t=2i^lj_l(z)$，故$a_l=(2l+1)i^l$。该表示可由$P_l$的Rodrigues式逐次分部积分建立，端点项消失。
+
+选$\langle\vct p|\vct p'\rangle=\delta^3(\vct p-\vct p')$、$\langle E,l,m|E',l',m'\rangle=\delta(E-E')\delta_{ll'}\delta_{mm'}$，$p_E=\sqrt{2mE}$。固定能量迫使$g=C_E\delta(p-p_E)$；积分$p^2\dd p$并用$\delta(p_E-p_{E'})=(p_E/m)\delta(E-E')$给$|C_E|=\sqrt{m/p_E^3}$。选位置径向为实正的小$r$相位，
+\[
+ g_{lE}(p)=(-i)^l\sqrt{\frac m{p_E^3}}\delta(p-p_E),\qquad
+ \langle\vct r|E,l,m\rangle=\sqrt{\frac{2mp_E}{\pi\hbar^3}}
+ j_l(p_Er/\hbar)Y_{lm}(\hat r).
+\]
+它由$(2\pi\hbar)^{-3/2}$Fourier核和球谐加法定理得出。若采用动量大小归一而非能量归一，前因子改变；原题未写这一约定，不能把课堂的未知规范化强行当唯一答案。
+\end{solution}
+
+\originalsection{PS11 Q1：硬球完整数值图}
+\begin{exercise}
+硬球半径$R$，(a)画$|f(\theta)|^2$对$\theta$，$\rho=kR=0.1,0.5,1,10,25,100$；(b)画$\sigma_{\rm tot}/(\pi R^2)$，$\rho\le100$。
+\end{exercise}
+\begin{solution}
+边界$u_l(R)=0$给$\tan\delta_l=j_l(\rho)/n_l(\rho)$。数值避免反三角分支，直接取$e^{i\delta_l}\sin\delta_l=j_l/(n_l-ij_l)$；求$f/R=\rho^{-1}\sum_l(2l+1)j_lP_l/(n_l-ij_l)$。取$l_{\max}=\lceil\rho+4\rho^{1/3}+14\rceil$，高于有效冲量参数范围；角度601点、总截面1001点，并以低能4、高能2、尾项收敛和总角积分检查。下图按$R^2$缩放，故适用于任意半径，不另取未知$R$。
+\input{chapters/figure-graduate-322-scattering.tex}
+\end{solution}
+
+\originalsection{PS11 Q4：指数井的精确s波}
+\begin{exercise}
+$V(r)=-V_0e^{-r/a}$、$V_0>0$，求$\delta_0(E)$并分析它与$l=0$束缚谱的联系。
+\end{exercise}
+\begin{solution}
+径向$u''+[k^2+(2mV_0/\hbar^2)e^{-r/a}]u=0$。置$y=y_0e^{-r/(2a)}$、$y_0=2a\sqrt{2mV_0}/\hbar$，变成$y^2u_{yy}+yu_y+(y^2-\nu^2)u=0$、$\nu=2iak$。正能解取
+\[
+ u=J_{-\nu}(y_0)J_\nu(y)-J_\nu(y_0)J_{-\nu}(y),
+\]
+满足$u(0)=0$。大$r$用$J_\nu(y)\sim(y/2)^\nu/\Gamma(1+\nu)$读入/出射比，得
+\[
+ e^{2i\delta_0(k)}=\frac{J_\nu(y_0)}{J_{-\nu}(y_0)}
+ (y_0/2)^{-2\nu}\frac{\Gamma(1+\nu)}{\Gamma(1-\nu)}.
+\]
+实$k$分子分母互为共轭，模为1；$V_0\to0$各因子相消给$S=1$。相位从高能$\delta\to0$连续展开，不把主值$\arg/2$的跳跃当共振。
+
+束缚$E=-\hbar^2\kappa^2/(2m)$取$\nu_b=2a\kappa>0$，无穷衰减解是$J_{\nu_b}(y)$，量子化为$J_{\nu_b}(y_0)=0$；这给全部$s$波束缚能，不能用$J_\nu(y_0)$关于$y_0$的固定阶零点直接当能量。零能正则解为$J_0(y_0)Y_0(y)-Y_0(y_0)J_0(y)$，读$u\propto r-a_s$得
+\[
+ a_s=2a[\ln(y_0/2)+\gamma_E]-\pi a\frac{Y_0(y_0)}{J_0(y_0)}.
+\]
+每当$J_0(y_0)=0$，零能束缚态进入，散射长度发散；临近正大$a_s$给浅束缚能$-\hbar^2/(2ma_s^2)$。第一阈值$y_0\simeq2.4048$。无恰好零能半束缚时Levinson关系$\delta_0(0)-\delta_0(\infty)=N_0\pi$联系束缚数；阈值态需半整数修正。这里引用该短程谱定理作为进阶输入，没有将上述局部Bessel计算冒称其一般证明。
+\end{solution}
+
+\originalsection{PS11 Q5：中性原子的形状因子}
+\begin{exercise}
+快但非相对论电子散射于点核$Z$和球对称电子电荷密度$\rho(r)$。证明原题Gaussian单位的Born振幅
+$f=2mZe^2[1+4\pi\int r^2\rho(r)\sin(Qr)/(Qr)\dd r/(Z|e|)]/(\hbar^2Q^2)$，$Q=2k\sin(\theta/2)$；对$\rho=-3Z|e|/(4\pi a_0^3)$在$r\le a_0$、之外0，计算并画1 keV电子的角截面。
+\end{exercise}
+\begin{solution}
+总电荷Fourier为$Ze+4\pi\int r^2\rho\,\operatorname{sinc}(Qr)\dd r$。Poisson与Born步骤同PS9，正好给题面式；SI把$e^2$替换$g=e^2/(4\pi\epsilon_0)$。均匀电子云括号为$1-F(Qa_0)$，故
+$f=2mZg[1-F(Qa_0)]/(\hbar^2Q^2)$。$F(z)=1-z^2/10+O(z^4)$，中性抵消使$f(0)=mZga_0^2/(5\hbar^2)$有限。核$Z$未指定，图以$Z^2a_0^2$缩放；1 keV给$k=\sqrt{2m(1000\,\mathrm{eV})}/\hbar$，全角图已列在硬球图之后并明确PS11 Q5。数值在$Q=0$用上述解析极限，避免相消造成$0/0$。这是真实题设均匀云模型，不代表所有元素真实屏蔽密度。
+\end{solution}
