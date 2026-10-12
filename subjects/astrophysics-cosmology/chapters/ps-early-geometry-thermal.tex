@@ -1,0 +1,286 @@
+\originalchapter{空间度量、自由粒子与热历史习题}
+本章完成8.286 PS5五题、PS6七题与PS7三题。度量给局部长度，红移和能流还需要沿光路连接发射与接收事件；熵守恒则在粒子消失时修正简单的$aT$常数关系。以下解答独立补写，原始编号保留在来源行。
+
+\src{8.286 PS5.1，非欧氏圆，(a)--(c)。}
+\begin{exercise}
+空间度量$\dd s^2=R^2[\dd r^2/(1-kr^2)+r^2(\dd\theta^2+\sin^2\theta\dd\phi^2)]$，$R$恒定、$k=0,\pm1$。圆为$r=r_0,\theta=\pi/2$。
+(a)求周长$S$；(b)求沿半径的实际长度$\rho$；
+(c)以$\rho$表示$S$并与欧氏圆比较。$k=1$的$r$坐标只取$0\le r\le1$。
+\end{exercise}
+\begin{solution}
+沿圆$\dd s=Rr_0\dd\phi$，故$S=2\pi Rr_0$。沿半径$\dd s=R\dd r/\sqrt{1-kr^2}$，于是
+\[
+ \rho=\begin{cases}R\arcsin r_0&k=1,\\Rr_0&k=0,\\
+ R\operatorname{arsinh}r_0&k=-1.\end{cases}
+ \quad
+ S=\begin{cases}2\pi R\sin(\rho/R)&k=1,\\2\pi\rho&k=0,\\
+ 2\pi R\sinh(\rho/R)&k=-1.\end{cases}
+\]
+因$\sin x<x<\sinh x$（$x>0$），正曲率圆周较短、负曲率较长。正曲率此坐标图的径向距离仅至$\pi R/2$；更远应换$\psi$坐标，不能让$\arcsin r$主值覆盖整球。
+\end{solution}
+
+\src{8.286 PS5.2，闭空间总体积。}
+\begin{exercise}
+度量$\dd s^2=R^2[\dd\psi^2+\sin^2\psi(\dd\theta^2+\sin^2\theta\dd\phi^2)]$，$0\le\psi\le\pi$，逐球壳求全部空间体积。
+\end{exercise}
+\begin{solution}
+固定$\psi$的球面面积$4\pi R^2\sin^2\psi$，壳厚$R\dd\psi$，所以
+\[
+ V=4\pi R^3\int_0^\pi\sin^2\psi\,\dd\psi=2\pi^2R^3.
+\]
+它是三维球面$S^3$的内禀体积，不是嵌入四维空间时所围四维球的体积。两个端点的面积都为零，是两极的坐标退化。
+\end{solution}
+
+\src{8.286 PS5.3，闭宇宙表面亮度，(a)--(c)。}
+\begin{exercise}
+闭FLRW时空$\dd s^2=-c^2\dd t^2+a^2(t)[\dd\psi^2+\sin^2\psi\,\dd\Omega^2]$。地球在原点，球状星系共动坐标$\psi_G$，发射$t_G$、接收$t_0$，发射时功率$P$、物理直径$w$。$a(t)$任意。
+(a)求能流$J$；(b)求小角直径$\Delta\theta$；
+(c)求总通量除以图像立体角的平均表面亮度，尽量只用$P,w,z$表示。
+\end{exercise}
+\begin{solution}
+利用均匀性将源设为原点，接收时的光球面积$4\pi a_0^2\sin^2\psi_G$。光子能量和到达率各减小$1+z=a_0/a_G$倍，因此
+\[
+ J=\frac P{4\pi a_0^2\sin^2\psi_G(1+z)^2},\quad
+ D_A=a_G|\sin\psi_G|,\quad
+ \Delta\theta=\frac w{D_A}.
+\]
+圆盘图像的立体角近似$\Omega_{\rm img}=\pi(\Delta\theta/2)^2$。故
+\[
+ \sigma=\frac J{\Omega_{\rm img}}
+ =\frac P{\pi^2w^2(1+z)^4}.
+\]
+几何的$\sin^2\psi_G$抵消，得到Tolman的四次方暗化：每光子能量、到达率和角面积映射共同作用。此为透明宇宙、小图像和选定直达光路的结果，吸收、源演化与强聚焦都会影响真实比较。$\psi_G$接近对跖点时，点源表达出现焦散，不能用发散式预测有限星系的无限亮度。
+\end{solution}
+
+\src{8.286 PS5.4，开宇宙的光路、体积与三种距离，(a)--(f)。}
+\begin{exercise}
+度量$\dd s^2=-c^2\dd t^2+a^2(t)[\dd\psi^2+\sinh^2\psi\,\dd\Omega^2]$，给$a(t)$。原点今天$t_0$收$\psi_G$星系的光。
+(a)给确定$t_G$的方程；(b)求$z_G$；
+(c)给小于该红移区域的今天体积；
+(d)给今天同一切片共动尺连接的固有距离；
+(e)给角径距；
+(f)由各向同性功率和通量给光度距。
+\end{exercise}
+\begin{solution}
+对向内零测地线$\dd\psi=-c\dd t/a(t)$，所以
+\[
+ \psi_G=\int_{t_G}^{t_0}\frac{c\dd t}{a(t)},\qquad
+ 1+z_G=\frac{a_0}{a_G}.
+\]
+这里只写隐式积分，没有假定未知$a(t)$为尘埃解。若膨胀单调，较小红移对应$0<\psi<\psi_G$，今天体积为
+\[
+ V(<z_G)=4\pi a_0^3\int_0^{\psi_G}\sinh^2\psi\,\dd\psi
+ =\pi a_0^3(\sinh2\psi_G-2\psi_G).
+\]
+若$a$有非单调阶段，红移未必唯一对应径向区域，必须先指定光路支。
+
+三种距离为
+\[
+ D_p=a_0\psi_G,\quad D_A=a_G\sinh\psi_G,\quad
+ D_L=a_0(1+z_G)\sinh\psi_G=(1+z_G)^2D_A.
+\]
+最后一式由接收光球面积$4\pi a_0^2\sinh^2\psi_G$和两次红移因子推出。$D_p$是今天径向尺长，$D_A$是在发射切片测源横向尺寸的比例尺，$D_L$编码能量与时间损失；即使同属一个星系也不应相互替代。
+\end{solution}
+
+\src{8.286 PS5.5，Klein圆盘与负曲率度量，(a)--(c)，加分题。}
+\begin{exercise}
+圆盘$x^2+y^2<1$定义距离
+\[
+ \cosh\frac{d(1,2)}a=
+ \frac{1-x_1x_2-y_1y_2}
+ {\sqrt{(1-x_1^2-y_1^2)(1-x_2^2-y_2^2)}}.
+\]
+(a)换$x=u\cos\theta,y=u\sin\theta$；
+(b)置第二点$(u+\dd u,\theta+\dd\theta)$展开至二阶，求局部度量；
+(c)找与$a^2[\dd r^2/(1+r^2)+r^2\dd\theta^2]$一致的$r(u)$，解释圆盘边界。
+\end{exercise}
+\begin{solution}
+两点内积变为$u_1u_2\cos(\theta_1-\theta_2)$，所以分子为$1-u_1u_2\cos\Delta\theta$。记$D=1-u^2$；展开分子、分母分别为
+\[
+ N=D-u\dd u+\frac{u^2}{2}\dd\theta^2+O(3),\qquad
+ B=D-u\dd u-\frac{(\dd u)^2}{2D}+O(3).
+\]
+一次项相同并在比值中取消，故
+\[
+ \frac NB=1+\frac{(\dd u)^2}{2D^2}
+ +\frac{u^2(\dd\theta)^2}{2D}+O(3).
+\]
+与$\cosh(\dd s/a)=1+(\dd s)^2/(2a^2)+O(4)$比较，得
+\[
+ \dd s^2=a^2\left[\frac{\dd u^2}{(1-u^2)^2}
+ +\frac{u^2\dd\theta^2}{1-u^2}\right].
+\]
+角项要求$r=u/\sqrt{1-u^2}$，其导数$\dd r=\dd u/(1-u^2)^{3/2}$使径向项也完全匹配。边界$u\to1$给$r\to\infty$，径向实际距离$a\operatorname{artanh}u\to\infty$，因此有限坐标圆盘容纳无限负曲率空间，边界不是有限距离的墙。
+\end{solution}
+
+\src{8.286 PS6.1，平坦FLRW测地线，(a)--(c)。}
+\begin{exercise}
+度量$\dd s^2=-c^2\dd t^2+a^2(t)(\dd x^2+\dd y^2+\dd z^2)$，自由有质量粒子只沿$x$运动，固有时$\tau$。
+(a)用测地线证明$\dd x/\dd\tau\propto a^{-2}$；
+(b)给$\dd x/\dd t$与$\dd x/\dd\tau$关系；
+(c)局部物理速度$v=a\dd x/\dd t$，证明相对论动量$mv/\sqrt{1-v^2/c^2}\propto a^{-1}$。
+\end{exercise}
+\begin{solution}
+空间平移对称使Euler--Lagrange式$\dd[a^2\dot x]/\dd\tau=0$，故$a^2\dot x=C$。规范$c^2\dot t^2-a^2\dot x^2=c^2$给未来向
+\[
+ \dot t=\sqrt{1+\frac{C^2}{a^2c^2}},\qquad
+ \frac{\dd x}{\dd t}=\frac{C/a^2}{\sqrt{1+C^2/(a^2c^2)}}.
+\]
+局部$\gamma=\dot t$，所以$p=m\gamma v=mC/a$。非相对论时$v\propto a^{-1}$，极相对论时$v$趋$c$而动量仍降。光没有固有时，不能令$m=0$后继续使用同一$\tau$；应以仿射参数或零测地线 另行 推导红移。
+\end{solution}
+
+\src{8.286 PS6.2，静态引力场，(a)--(e)。}
+\begin{exercise}
+给静态模型$\dd s^2=-(c^2+2\phi(\boldsymbol x))\dd t^2+\sum_i\dd x_i^2$。
+(a)固定$\boldsymbol x_e$发射均匀脉冲，固有间隔$\Delta T_e$，求坐标间隔；
+(b)固定$\boldsymbol x_r$接收的坐标间隔；
+(c)求接收固有间隔、精确红移及弱场式；
+(d)用测地线求$\dd^2x^i/\dd\tau^2$；
+(e)给弱场低速Newton极限，并估地板到4 m天花板的红移。
+\end{exercise}
+\begin{solution}
+设$F(\boldsymbol x)=1+2\phi/c^2>0$。静止钟$\dd T=\sqrt F\,\dd t$，故$\Delta t_e=\Delta T_e/\sqrt{F_e}$。静态时空的光路整体平移不改变传播时长，所以$\Delta t_r=\Delta t_e$。于是
+\[
+ \Delta T_r=\sqrt{\frac{F_r}{F_e}}\Delta T_e,\qquad
+ 1+z=\sqrt{\frac{1+2\phi_r/c^2}{1+2\phi_e/c^2}},
+ \quad z\simeq\frac{\phi_r-\phi_e}{c^2}.
+\]
+这利用发、收者都固定；有运动还要加入局部Doppler。
+
+空间度量为常数，测地线右端仅$g_{tt}$导数，给
+\[
+ \frac{\dd^2x^i}{\dd\tau^2}
+ =-\partial_i\phi\left(\frac{\dd t}{\dd\tau}\right)^2.
+\]
+弱场、低速时$\dd t/\dd\tau\simeq1$，主阶$\dd^2x^i/\dd t^2=-\partial_i\phi$。上升4 m使$\Delta\phi\simeq gh$，所以$z\simeq9.8(4)/c^2\simeq4\times10^{-16}>0$。这是极小红移，符号与往高势能处传播时频率降低一致。所给平直空间、变时钟度量只是此题静态模型，并非声称任意$\phi$都精确解Einstein方程。
+\end{solution}
+
+\src{8.286 PS6.3，Schwarzschild圆轨道，(a)--(d)。}
+\begin{exercise}
+Schwarzschild外部$r>2GM/c^2$，赤道圆轨道$r$固定、$\phi=\omega t$。
+(a)求$d\tau/dt$；
+(b)写径向测地线条件；
+(c)证$r\omega^2=GM/r^2$；
+(d)求存在类时圆轨道的径向下限。注意题目问存在，不是稳定性。
+\end{exercise}
+\begin{solution}
+置$\ell_g=GM/c^2$，代度量得$d\tau/dt=\sqrt{1-2\ell_g/r-r^2\omega^2/c^2}$。恒定$r$使径向Euler--Lagrange左边为零，
+\[
+ 0=\frac12\partial_rg_{\phi\phi}\dot\phi^2
+ +\frac12\partial_rg_{tt}\dot t^2
+ =r\dot\phi^2-\frac{GM}{r^2}\dot t^2,
+\]
+所以$\omega^2=GM/r^3$。代回钟关系：
+\[
+ \frac{\dd\tau}{\dd t}=\sqrt{1-\frac{3GM}{rc^2}}.
+\]
+有质量体需正固有时，因此$r>3GM/c^2$，下确界为$3GM/c^2$，等号是光子的圆轨道而非有质量体的圆轨道。稳定类时圆轨道还要求$r>6GM/c^2$，其势能二阶导数与实际扰动核查见8.901 PS7.3。相同的$\omega(r)$形式仍使用面积半径及远方坐标时，与Newton测量定义不完全相同。
+\end{solution}
+
+\src{8.286 PS6.4，压强、第一定律与加速度，(a)--(c)。}
+\begin{exercise}
+共动坐标体积固定，物理体积$V=a^3V_c$，能量$U=\rho c^2V$，绝热$dU=-p\,dV$。
+(a)推连续方程；
+(b)与$H^2=8\pi G\rho/3-kc^2/a^2$结合推加速度；
+(c)黑体$\rho=bT^4$且$aT$常数，求$p(\rho)$。
+\end{exercise}
+\begin{solution}
+展开第一定律，
+\[
+ \frac{\dd}{\dd t}(a^3\rho c^2)=-p\frac{\dd a^3}{\dd t},
+ \qquad \dot\rho=-3H(\rho+p/c^2).
+\]
+把约束写为$\dot a^2=8\pi G\rho a^2/3-kc^2$并微分，代$\dot\rho$后，在$\dot a\ne0$的区间消去$\dot a$：
+\[
+ \ddot a=-\frac{4\pi G}{3}(\rho+3p/c^2)a .
+\]
+若解光滑，可取极限延伸过孤立转向点；整段静态情形不能仅用此除法，应直接用Einstein的空间方程。对黑体$aT$常数给$\dot\rho=-4H\rho$，比较连续方程得$p=\rho c^2/3$。光子的正压也增加引力减速，不能把它看成让整体宇宙向外膨胀的普通气球压强。
+\end{solution}
+
+\src{8.286 PS6.5，特殊压强，(a)--(c)。}
+\begin{exercise}
+(a)$\rho\propto a^{-6}$求压强；
+(b)平坦、该物质主导求$a(t)$至任意比例常数；
+(c)另一种物质$p=\rho c^2/2$，求$\rho\propto a^{-n}$的$n$。
+\end{exercise}
+\begin{solution}
+常数$w=p/(\rho c^2)$的连续方程给$\rho\propto a^{-3(1+w)}$，所以(a)$w=1,p=\rho c^2$。平坦约束$\dot a/a\propto a^{-3}$，即$a^2\dd a\propto\dd t$，选择爆炸时刻为$t=0$得(b)$a\propto t^{1/3}$。对(c)$w=1/2$，$n=9/2$。这些是题设理想组分的背景关系；$\rho$的缩放不等于微观声速及稳定性已被独立验证。
+\end{solution}
+
+\src{8.286 PS6.6，$\rho\propto a^{-5}$，(a)--(d)。}
+\begin{exercise}
+平坦宇宙被$\rho\propto a^{-5}$的组分主导，求(a)$a(t)$、(b)$H(t)$、(c)物理粒子视界、(d)$\rho(t)$。
+\end{exercise}
+\begin{solution}
+$H\propto a^{-5/2}$给$a\propto t^{2/5}$，$H=2/(5t)$。视界积分从爆炸$t=0$到$t$，
+\[
+ \ell_{p,h}=a(t)\int_0^t\frac{c\dd t'}{a(t')}
+ =\frac53ct,\qquad
+ \rho=\frac{3H^2}{8\pi G}=\frac{3}{50\pi Gt^2}.
+\]
+这里$w=2/3$，指数小于1，所以早端视界积分有限。比例常数不影响$H,\rho$和视界；若改变早时起点，视界就要改变。
+\end{solution}
+
+\src{8.286 PS6.7，第四种轻中微子，(a)--(c)。}
+\begin{exercise}
+题设$1<k_BT/{\rm MeV}<100$中，光子、$e^\pm$及三种无质量中微子同温热平衡，平坦辐射宇宙。
+(a)降到$k_BT=1$ MeV的时间；
+(b)若加第四种中微子，时间如何；
+(c)两种情况在该温度的质量密度。用理想相对论组分的阶跃近似，不加入其他物种。
+\end{exercise}
+\begin{solution}
+光子2、电子正电子$(7/8)4$、每种中微子／反中微子$(7/8)2$，所以$g_*=10.75$或12.5。能量密度与辐射年龄为
+\[
+ \rho=\frac{\pi^2g_*}{30}\frac{(k_BT)^4}{\hbar^3c^5},\qquad
+ t=\sqrt{\frac{3}{32\pi G\rho}}.
+\]
+实际结果：三种中微子$t=0.73818$ s、$\rho=8.2053\times10^5\ \mathrm{g\,cm^{-3}}$；四种$t=0.68456$ s、$\rho=9.5411\times10^5\ \mathrm{g\,cm^{-3}}$。固定温度加物种提高密度、加快膨胀，所以达到此温度的年龄更小，比例$t_4/t_3=\sqrt{10.75/12.5}$。在精确热历史中电子已非完全无质量，$g_*(T)$变化；这些数值对应题设恒定$g_*$模型。
+\end{solution}
+
+\src{8.286 PS7.1，中微子温度与熵。}
+\begin{exercise}
+电子正电子消失前中微子已脱耦，$e^\pm$湮灭的能量、熵全部进入光子，证明$aT_\gamma$增长$(11/4)^{1/3}$、$aT_\nu$不变，最后$T_\nu/T_\gamma=(4/11)^{1/3}$。
+\end{exercise}
+\begin{solution}
+对仍耦合的光子电子体系，熵密度$s\propto g_{*s}T^3$，共动熵$sa^3$守恒。湮灭前$g_{*s}=2+(7/8)4=11/2$，后为2，因此
+\[
+ \frac{(aT_\gamma)_{\rm after}}{(aT_\gamma)_{\rm before}}
+ =\left(\frac{11/2}{2}\right)^{1/3}.
+\]
+脱耦的相对论中微子动量按$a^{-1}$红移，不接收这部分熵，故$aT_\nu$常数。瞬时脱耦、完全湮灭且之前同温给所求比，今天$T_\gamma\simeq2.7$ K对应$T_\nu\simeq1.93$ K。非瞬时脱耦带小修正，见热中微子章；不是把今天非相对论中微子的动能分布称为重新热化。
+\end{solution}
+
+\src{8.286 PS7.2，μ子消失，(a)--(c)。}
+\begin{exercise}
+$\mu^\pm$质量能106 MeV、与$e^\pm$同自旋和电荷，题设没有电子与μ子之间的已知物种。
+(a)求μ子对能量密度归一$g$的贡献；
+(b)略高于该阈值还有哪些轻组分及各自贡献；
+(c)μ子消失时其余组分仍互相热平衡，求$aT$增长因子。
+\end{exercise}
+\begin{solution}
+两电荷、两自旋给$(7/8)4=7/2$。题设理想轻组分为光子2、$e^\pm$的$7/2$、三种中微子的$21/4$，不含μ子的总数$43/4=10.75$，加μ子后$57/4=14.25$。共同温度下熵守恒给
+\[
+ \frac{(aT)_{\rm after}}{(aT)_{\rm before}}
+ =\left(\frac{57}{43}\right)^{1/3}\simeq1.099.
+\]
+此时中微子尚耦合，也被加热，不能套用上一题的“只加热光子”。接近106 MeV并非μ子完全相对论、其他强作用物种也未必可忽略；数值是题设阶跃粒子气模型，不是精确QCD温区的$g_*(T)$。
+\end{solution}
+
+\src{8.286 PS7.3，无碰撞红移保持Planck谱，(a)--(c)。}
+\begin{exercise}
+初$t_1$光子谱能量密度为$\rho_\nu(\nu,T_1)=8\pi h\nu^3/[c^3(e^{h\nu/(k_BT_1)}-1)]$。此后只有膨胀红移及数密度稀释。
+(a)求$t_2$频率区间与初区间关系；
+(b)解释固定共动体积对应两区间的平均光子数相等；
+(c)据此求新谱，证明仍为黑体且$T_2=a_1T_1/a_2$。
+\end{exercise}
+\begin{solution}
+令$r=a_1/a_2$，每光子$\nu_2=r\nu_1$，带宽也$\dd\nu_2=r\dd\nu_1$。固定共动体积的实际体积增为$r^{-3}$倍。光子可以进出这个区域，所以不能说原先逐个标记的光子都停在其中；均匀性使平均流入、流出平衡，且无产生、吸收，对应区间平均数相等。
+
+用$\dd N=\rho_\nu a^3V_c\dd\nu/(h\nu)$消去光子数、体积和带宽比，得到
+\[
+ \rho_\nu(\nu_2,t_2)=r^3\rho_\nu(\nu_1,T_1)
+ =\frac{8\pi h\nu_2^3}{c^3}
+ \frac1{\exp[h\nu_2/(k_BrT_1)]-1}.
+\]
+故新温度$rT_1$，恰保持Planck函数形状。单频谱降$r^3$，积分总能量还多一个频带$r$，所以总密度降$r^4$，与连续方程一致。若有能量注入但光子数改变不够快，可产生谱畸变；无碰撞红移本身既不会生成新黑体，也不会修复已有畸变。
+\end{solution}
