@@ -1,0 +1,173 @@
+\Needspace{12\baselineskip}
+\originalchapter{黏性输运与低维模型的关键推导}
+本章补全前文几处只给结果的计算链。依据1.63的球外黏性流、层流射流、气溶胶、均匀化和沿岸风讲义，以及12.006J的第20--21讲。沿岸风原式的量纲问题明确列出；Lorenz环管模型与Rayleigh--Bénard截断模型分开推导，不能把两者的b参数混称为同一装置。
+
+\originalsection{球面牵引怎样给出Stokes阻力}
+球外速度和压力见前文，流向为 $+z$，球面法向取指向流体的 $\hat r$。应力 $\boldsymbol\sigma=-pI+\mu[\nabla\mathbf u+(\nabla\mathbf u)^T]$，法向和剪切分量分别为
+\[
+ \sigma_{rr}=-p+2\mu\partial_r u_r,\qquad
+ \sigma_{r\theta}=\mu\left(\partial_r u_\theta-\frac{u_\theta}{r}+\frac{\partial_\theta u_r}{r}\right).
+\]
+把球外解代入并令 $r=a$，$\partial_ru_r=0$、$u_r=u_\theta=0$，而 $\partial_ru_\theta=-3U\sin\theta/(2a)$，故
+\[
+ \sigma_{rr}+p_\infty=\frac{3\mu U}{2a}\cos\theta,
+ \qquad \sigma_{r\theta}=-\frac{3\mu U}{2a}\sin\theta.
+\]
+牵引的z投影为 $(\sigma_{rr}+p_\infty)\cos\theta-\sigma_{r\theta}\sin\theta$。常量背景压力的积分为0；两部分分别积分为
+\begin{align*}
+ F_p&=\frac{3\mu U}{2a}(2\pi a^2)\int_0^\pi\cos^2\theta\sin\theta\dd\theta=2\pi\mu aU,\\
+ F_\mu&=\frac{3\mu U}{2a}(2\pi a^2)\int_0^\pi\sin^3\theta\dd\theta=4\pi\mu aU.
+\end{align*}
+这里写的是流体对球的力；球对流体的力反向。压力占三分之一、剪切占三分之二，得到 $F=6\pi\mu aU$。这个边界积分还解释了为什么只用前后压差不能获得低Re阻力。反过来用积分值核对符号，可发现球坐标牵引漏了 $-u_\theta/r$ 等几何项的错误。
+
+\originalsection{平面层流射流：相似指数之外的剖面}
+静止环境中的细长平面射流，x沿射流、y横向。边界层近似满足 $u_x+v_y=0$、$uu_x+vu_y=\nu u_{yy}$；外压恒定，速度在 $|y|\to\infty$ 趋0。单位密度、单位跨度的轴向动量通量
+\[
+ J=\int_{-\infty}^{\infty}u^2\dd y
+\]
+保持不变，它的量纲为 $L^3/T^2$。仅用质量通量不变会错，因为射流沿程卷吸环境流体，质量通量可以增加。
+
+引入流函数 $u=\psi_y,v=-\psi_x$。设
+\[
+ \psi=A x^{1/3}f(\eta),\qquad \eta=\frac{y}{B x^{2/3}},
+\]
+则 $u=(A/B)x^{-1/3}f'$，$v=-(A/3)x^{-2/3}(f-2\eta f')$。它先满足连续式；代入动量式，含 $\eta f'f''$ 的两项抵消，得到
+\[
+ f'''+\frac{AB}{3\nu}\bigl[(f')^2+ff''\bigr]=0.
+\]
+归一化选择 $AB=6\nu$，无穷远边界使一次积分常数为0，因此 $f''+2ff'=0$，再积分 $f'+f^2=1$。中心对称条件 $f(0)=0,f'(0)=1$ 给
+\[
+ f=\tanh\eta,\qquad u=U_c(x)\operatorname{sech}^2\eta.
+\]
+由 $\int\operatorname{sech}^4\eta\dd\eta=4/3$，$J=4A^2/(3B)$，于是
+\[
+ B^3=\frac{48\nu^2}{J},\quad A=\frac{6\nu}{B},\quad
+ U_c=\left(\frac{3J^2}{32\nu x}\right)^{1/3},\quad
+ Q(x)=\int u\dd y=2Ax^{1/3}.
+\]
+宽度随 $x^{2/3}$ 增加，中心速度随 $x^{-1/3}$ 降低，Q随 $x^{1/3}$ 增加。横向速度在远侧指向射流，是卷吸流；不能同时强制远侧v为0并维持这一本质质量增长。相似解适用于远离喷口、仍为层流而满足边界层尺度的区段；喷口近场与湍流射流不是本剖面。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.75\linewidth,height=4.5cm,xlabel={$y/(Bx^{2/3})$},ylabel={$u/U_c$},xmin=-4,xmax=4,ymin=0,ymax=1.05]
+\addplot[main,domain=-4:4,samples=130]{4/(exp(x)+exp(-x))^2};
+\end{axis}\end{tikzpicture}\end{center}
+
+\originalsection{气溶胶凝并的粒子数与质量}
+粒子因Brown扩散相遇后黏合，粒子数减少，但质量未必减少。用k个单体组成的团簇浓度 $n_k$ 描述分布，二体凝并核 $K_{ij}=K_{ji}\ge0$ 给
+\[
+ \dot n_k=\frac12\sum_{i+j=k}K_{ij}n_in_j-n_k\sum_{j\ge1}K_{kj}n_j.
+\]
+生成项的 $1/2$ 去掉i、j互换的重复；损失项不带 $1/2$，因为指定的一颗k团簇遇任意j即消失。对k求和，$\dot N=-\frac12\sum_{ij}K_{ij}n_in_j$；乘k再求和，生成质量i+j与两损失质量i、j抵消，给 $\sum_kkn_k$ 守恒。无限和需能合法交换；会向无限团簇输运质量的凝胶化核不能无条件套用这个结论。
+
+连续介质、扩散受限且接触即黏合时，半径和为 $r_i+r_j$ 的相对扩散吸收问题给
+\[
+ K_{ij}=4\pi(D_i+D_j)(r_i+r_j)
+ =\frac{2k_BT}{3\eta}\left(2+\frac{r_i}{r_j}+\frac{r_j}{r_i}\right),
+ \quad D_i=\frac{k_BT}{6\pi\eta r_i}.
+\]
+同半径时 $K_0=8k_BT/(3\eta)$，半径因子抵消。带电排斥、有限黏合概率、气体滑移及非连续介质改变有效核；重力差速碰撞的几何核为 $\pi(r_i+r_j)^2|v_i-v_j|$，还须乘碰撞/捕获效率。两种机制不能仅靠一个任意“有效半径”混合。
+
+常数核、初态全是单体 $n_1(0)=n_0$ 时，令 $\tau=K_0n_0t/2$，准确解为
+\[
+ n_k(t)=n_0\frac{\tau^{k-1}}{(1+\tau)^{k+1}},\qquad
+ N(t)=\frac{n_0}{1+\tau},\qquad \sum_kkn_k=n_0.
+\]
+可由生成函数 $G(z)=\sum_kn_kz^k$ 检验：$\dot G=K_0G^2/2-K_0NG$，该解的 $G=n_0z/[(1+\tau)(1+\tau-\tau z)]$ 同时满足动力学、初态与质量。平均团簇质量 $n_0/N=1+\tau$ 增加，平均粒子数下降。实际核随尺寸变化时须求完整分布，不用平均尺寸替代所有 $K_{ij}$。
+
+\originalsection{Darcy定律与微观胞问题}
+前文给出 $\mathbf q=-(K/\mu)\nabla p$；为何K可以是张量、为何它对称，须回到孔隙流。设微观周期长度 $\ell$ 远小于宏观L，y为以 $\ell$ 约化的胞坐标。饱和不可压、局部低Re、固壁无滑移，并使宏观驱动力在一个胞内近常量。
+
+在单位胞Y的连通流体区 $Y_f$，对每个坐标方向j求
+\[
+ -\Delta_y\mathbf w^{(j)}+\nabla_y\pi^{(j)}=\mathbf e_j,
+ \qquad\nabla_y\cdot\mathbf w^{(j)}=0.
+\]
+固体表面 $\mathbf w^{(j)}=0$，外胞界周期，压力均值置0以固定其常数。无量纲Stokes线性性给局部速度
+\[
+ \mathbf u_0=\frac{\ell^2}{\mu}\sum_j\mathbf w^{(j)}(y)
+                 (f_j-\partial_jp_0),\quad
+ K_{ij}=\frac{\ell^2}{|Y|}\int_{Y_f}w_i^{(j)}\dd y.
+\]
+这里 $\mathbf q=|Y|^{-1}\int_{Y_f}\mathbf u_0$ 为\emph{总体积}平均的Darcy通量，孔内平均速度为 $\mathbf q/\phi$，$\phi=|Y_f|/|Y|$。二者差一个孔隙率，不能在输运时间中互换。
+
+用 $\mathbf w^{(i)}$ 乘j胞方程并积分，压力项经不可压和边界条件消去，得到
+\[
+ \int_{Y_f}\nabla\mathbf w^{(i)}:\nabla\mathbf w^{(j)}\dd y
+ =\int_{Y_f}w_j^{(i)}\dd y
+ =\int_{Y_f}w_i^{(j)}\dd y.
+\]
+因此K对称；对任意z，将胞解线性组合得到 $z^TKz\ge0$。某方向完全无贯通孔道可使对应渗透率为0，严格正定还依赖几何连通性。这是能量耗散和互易性对渗透率的约束，不只是经验拟合。
+
+例如周期层中孔隙为高度h的平直通道、整个胞高度为 $\ell$，Poiseuille积分给 $K_{11}=h^3/(12\ell)=\phi h^2/12$。孔内平均速度的系数则为 $h^2/12$。若整个窄隙充满流体，$\phi=1$，恢复Hele--Shaw $K=b^2/12$。孔尺度惯性、非周期强非均匀或未达尺度分离时，Darcy常系数形式需修正，不能从胞解外推一切多孔流。
+
+\originalsection{环管热虹吸的原课程Lorenz模型}
+12.006J第20--21讲采用竖直环管。环半径a、截面远小于a，截面平均速度q沿环坐标 $\varphi$；Boussinesq与质量守恒给 $\partial_\varphi q=0$。z沿竖直，原课取 $z=-a\cos\varphi$，外界温度 $T_E=T_0+T_1\cos\varphi$，内部保留两谐波
+\[
+ T-T_0=T_2(t)\cos\varphi+T_3(t)\sin\varphi.
+\]
+沿环动量为 $\dot q=-(\rho a)^{-1}p_\varphi+g\alpha(T-T_0)\sin\varphi-\Gamma q$。绕环积分，压力差为0，$\int\cos\varphi\sin\varphi=0$、$\int\sin^2\varphi=\pi$，故
+\[
+ \dot q=-\Gamma q+g\alpha T_3/2.
+\]
+这是两侧水平温差推动环流，单纯竖直温差仍可是无流导热态。
+
+热量方程按原课模型为 $T_t+(q/a)T_\varphi=K(T_E-T)$，忽略沿环导热，并将截面平均乘积近似为平均量乘积。分离sin、cos系数给
+\[
+ \dot T_3=-KT_3+qT_2/a,\qquad
+ \dot T_2=K(T_1-T_2)-qT_3/a.
+\]
+令 $T_4=T_1-T_2$，则 $\dot T_3=-KT_3+qT_1/a-qT_4/a$、$\dot T_4=-KT_4+qT_3/a$。各项都能对应热量输送或对外换热。
+
+取 $\tau=Kt$、$X=q/(aK)$、$Y=g\alpha T_3/(2a\Gamma K)$、$Z=g\alpha T_4/(2a\Gamma K)$，$\sigma=\Gamma/K$、$r=g\alpha T_1/(2a\Gamma K)$，准确得到
+\[
+ X'=\sigma(Y-X),\quad Y'=rX-Y-XZ,\quad Z'=XY-Z.
+\]
+所以这个环管截面平均模型的\textbf{$b=1$}。它的换热率、摩擦和外温差给出参数意义；X符号是循环方向，Y是上下流侧的温差，Z为偏离导热态的温度分量。若加入沿环导热或不同谐波弛豫，方程参数会改变，不能默默把它换成经典 $b=8/3$。
+
+\originalsection{Rayleigh--Bénard三模截断的物理缩放}
+为解释前文演示数值采用的 $b=8/3$，另作明确的二维、自由滑移、固定温度平板模型。层高H，底热顶冷 $\Delta T>0$，$m=\pi/H$，水平波数k，$q_0^2=k^2+m^2$。令 $u=-\psi_z,w=\psi_x$，温度偏离线性导热态为 $\vartheta$，选
+\[
+ \psi=A\sin kx\sin mz,\quad
+ \vartheta=B\cos kx\sin mz-C\sin2mz.
+\]
+正交投影动量与热量方程，得到
+\begin{align*}
+ \dot A&=-\nu q_0^2A+(g\alpha k/q_0^2)B,\\
+ \dot B&=(\Delta T/H)kA-\kappa q_0^2B-kmAC,\\
+ \dot C&=kmAB/2-4\kappa m^2C.
+\end{align*}
+例如热量对流项 $J(\psi,\vartheta)=\psi_x\vartheta_z-\psi_z\vartheta_x$ 展开为
+\[
+ (kmAB/2)\sin2mz+kmAC\cos kx\sin mz-kmAC\cos kx\sin3mz.
+\]
+最后一项产生未保留的第三竖直模，是经投影丢弃的项；所以这\emph{不是}完整PDE的严格不变三维子空间。截断改变高模反馈，是模型近似的明确来源。
+
+设 $\tau=\kappa q_0^2t$，$a_s=km/(\sqrt2\kappa q_0^2)$，$b_s=a_sg\alpha k/(\nu q_0^4)$，$X=a_sA,Y=b_sB,Z=\sqrt2b_sC$。注意 $b_s$ 的分母没有额外的 $\kappa$；量纲检查与第一条动量方程的系数能独立核对。代入得标准Lorenz式，其参数为
+\[
+ \sigma=\nu/\kappa,\quad r=\mathrm{Ra}/\mathrm{Ra}_c(k),\quad
+ b=4m^2/q_0^2,\qquad
+ \mathrm{Ra}_c=H^4q_0^6/k^2.
+\]
+自由滑移线性临界波数 $k=m/\sqrt2$ 给 $b=8/3$。前文的 $\sigma=10,r=28,b=8/3$ 是这一常用截断模型的\emph{选定演示参数}，不代表原环管的b，也不代表本项目进行的实际对流实验。
+
+\originalsection{大参数van der Pol：慢支与快速跳跃}
+$\ddot x-\mu(1-x^2)\dot x+x=0$，$\mu\gg1$。令 $f(x)=x-x^3/3$，$y=f(x)-\dot x/\mu$，得到
+\[
+ \dot x=\mu[f(x)-y],\qquad \dot y=x/\mu.
+\]
+慢时间 $\tau=t/\mu$、$\varepsilon=\mu^{-2}$ 给 $\varepsilon x'=f(x)-y,y'=x$。极限慢流在 $y=f(x)$ 上，$x'=x/(1-x^2)$；快时间中y近冻结，外侧 $|x|>1$ 因 $f'(x)<0$ 稳定，中间支不稳定。
+
+右支从 $x=2$ 缓慢降至1，抵达折点 $y=2/3$ 后快速跳到同一y上的 $x=-2$；左支由 $-2$ 升至 $-1$，再从 $y=-2/3$ 跳至2。这不是由“负阻尼”一句话自动得到的周期形状，稳定慢支、折点和冻结y的快跳共同决定振幅。
+\[
+ T_{\rm slow}=2\mu\int_2^1\frac{1-x^2}{x}\dd x
+             =\mu(3-2\ln2).
+\]
+远离折点的快跳耗时为 $O(1/\mu)$；折点附近有边界层，不能将快跳尺度直接用作完整周期误差阶。有限µ的数值周期应与主阶式比较，而非要求完全相等。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.72\linewidth,height=5cm,xlabel={$x$},ylabel={$y$},xmin=-2.3,xmax=2.3,ymin=-1,ymax=1]
+\addplot[black,dashed,domain=-2.2:2.2,samples=120]{x-x^3/3};
+\addplot[main,very thick,domain=1:2,samples=60]{x-x^3/3};
+\addplot[main,very thick,domain=-2:-1,samples=60]{x-x^3/3};
+\draw[->,blue,thick] (axis cs:1,.6666667)--(axis cs:-2,.6666667);
+\draw[->,blue,thick] (axis cs:-1,-.6666667)--(axis cs:2,-.6666667);
+\draw[->,main,thick] (axis cs:1.8,-.144)--(axis cs:1.6,.2347);
+\draw[->,main,thick] (axis cs:-1.8,.144)--(axis cs:-1.6,-.2347);
+\end{axis}\end{tikzpicture}\end{center}
+箭头在Liénard变量(x,y)中画出主阶循环；它与常画的 $(x,\dot x)$ 相图不是同一坐标。数值量若换坐标，必须先按y的定义转换，不能用不同图形误判模拟是否正确。

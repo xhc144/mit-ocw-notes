@@ -1,0 +1,100 @@
+\Needspace{12\baselineskip}
+\originalchapter{自持振荡、种群循环与兴奋性题解}
+PS3、PS4将“看见振荡”分解成三种不同机制：吸引的极限环、由守恒量形成的一族闭轨道，以及受阈值扰动产生的一次大响应。下面每个模型先给条件和稳定性，再用实际轨道检验，避免把所有周期图统称为稳定极限环。
+
+\originalsection{PS3：van der Pol的稳定性和大小参数}
+\begin{exercise}\label{task:chaos-PS3-1}
+（PS3.1）$\ddot x+\mu\dot x(x^2-1)+x=0$，证明 $(x,\dot x)=(0,0)$ 是固定点并分析稳定性。
+\end{exercise}
+\begin{solution}
+令v为 $\dot x$，$\dot x=v,\dot v=\mu(1-x^2)v-x$。固定点只有0，Jacobian为 $\left(\begin{smallmatrix}0&1\\-1&\mu\end{smallmatrix}\right)$，特征值 $(\mu\pm\sqrt{\mu^2-4})/2$。µ为正时原点不稳定：$0<\mu<2$为不稳定焦点，µ大于2为不稳定结点；µ为0时原方程是严格谐振子、闭轨道中心，线性零实部不意味着渐近吸引。µ为负时原点局部渐近稳定，但本作业的小/大参数极限默认µ正。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS3-2}
+（PS3.2）用公开 \texttt{vanderpol} 或等价程序：(a)小正µ时证明极限环幅度约2，求周期、检查是否依初态，和µ为0比较；画时间及相图。(b)大µ时幅度仍约2，同样画图、比较初态与周期，并将数值周期与大µ近似比较，注意数值困难。
+\end{exercise}
+\begin{solution}
+小µ时令 $E=(x^2+v^2)/2$，原方程给 $\dot E=\mu(1-x^2)v^2$。取近谐振 $x=A\cos t,v=-A\sin t$，平均 $\langle v^2\rangle=A^2/2$、$\langle x^2v^2\rangle=A^4/8$，得到
+\[
+ \dot A=\frac{\mu A}{2}(1-A^2/4).
+\]
+小幅增长、大幅耗散，A为2的稳定值由注能与耗能平衡决定；周期 $2\pi+O(\mu^2)$。初态改变瞬变与相位，不能任意改变长期幅度/周期。µ为0时无吸引作用，幅度由初始能量决定，虽周期仍为 $2\pi$，却不是一个孤立吸引的极限环。
+
+本次µ为.1，初态 $(1,1)$ 和 $(3,0)$ 都积分至500；末段幅度接近2。图为其中一个实际轨道，横纵单位为模型变量。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.48\linewidth,height=4.6cm,xlabel={时间},ylabel={$x$}]
+\addplot[main] table[x=t,y=x,col sep=comma]{data/plots/ps3-vdp-mu0.1-start0.csv};
+\end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.6cm,xlabel={$x$},ylabel={$\dot x$}]
+\addplot[blue] table[x=x,y=xdot,col sep=comma]{data/plots/ps3-vdp-mu0.1-start0.csv};
+\end{axis}\end{tikzpicture}\end{center}
+
+大µ不能继续近似圆形轨道。前文已从Liénard变量推出稳定外支、折点和快跳，主阶振幅2、周期 $\mu(3-2\ln2)$。本次µ为20的实际时间曲线与 $(x,\dot x)$ 相图如下。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.48\linewidth,height=4.6cm,xlabel={时间},ylabel={$x$}]
+\addplot[main] table[x=t,y=x,col sep=comma]{data/plots/ps3-vdp-mu20-start0.csv};
+\end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.6cm,xlabel={$x$},ylabel={$\dot x$}]
+\addplot[blue] table[x=x,y=xdot,col sep=comma]{data/plots/ps3-vdp-mu20-dense-phase.csv};
+\end{axis}\end{tikzpicture}\end{center}
+已实际求得µ为10、20、40的周期约19.078、34.682、66.501，对应主阶16.137、32.274、64.548，相对差约18.2\%、7.46\%、3.03\%。误差随µ增加而下降，µ为20并不等于近似已精确到百分之一。不同初态的末段周期相同，瞬变与相位不同；显式固定步长可能被快跳控制，程序使用隐式Radau并保留容差。
+\end{solution}
+
+\originalsection{PS3：浮游动物和植物的循环}
+\begin{exercise}\label{task:chaos-PS3-3}
+（PS3.3，四项）$\dot P=aP-bPZ,\dot Z=cPZ-dZ$，P、Z非负、各参数正。(a)解释此摄食模型；(b)求固定点、稳定性与相图，解释种群演化；(c)短时日照骤减杀死部分P，对剩余种群有何影响；(d)用实际数值轨道检验，可改原振子程序。
+\end{exercise}
+\begin{solution}
+aP表示植物自身增长，bPZ表示与捕食者遭遇而减少；cPZ将食物转成捕食者增长，dZ为其损失。P、Z轴保持不变，正初态在理想ODE中保持正。固定点为 $(0,0)$、$(d/c,a/b)$；原点有特征值a、$-d$，为鞍点，正点为 $\pm\mathrm i\sqrt{ad}$。
+
+零实部只决定线性旋转，需检验非线性。直接微分
+\[
+ I=cP-d\ln P+bZ-a\ln Z
+\]
+得到 $\dot I=(c-d/P)\dot P+(b-a/Z)\dot Z=0$。I在正点严格最小，向零边界与无穷方向发散，所以附近及各有限正能级形成闭曲线。它们是中性的一族周期轨道，\emph{不是}所有初态趋同的吸引极限环。
+
+植物先增使动物增长，动物多又压低植物，食物少再使动物下降，二者存在相位滞后。从平衡点瞬时减少一部分P，将系统移到另一条I能级；剩余P仍正时会持续循环，周期与幅度随新能级改变。若全部P被清除，P永久为0、Z按 $\e^{-dt}$衰减；这与“少量减少后还能恢复循环”完全不同。真实有限整数种群可能在非常低P时灭绝，理想连续正性不能排除现实灭绝。
+
+本次明确选 $a=b=c=d=1$，比较初值 $(1.4,1),(.4,1),(0,1)$。前两条实际轨道的I漂移小于 $10^{-6}$，提供独立守恒检查。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.75\linewidth,height=5cm,xlabel={植物P},ylabel={动物Z},legend style={font=\small}]
+\addplot[main] table[x=P,y=Z,col sep=comma]{data/plots/ps3-plankton-start0.csv};\addlegendentry{$(1.4,1)$}
+\addplot[blue] table[x=P,y=Z,col sep=comma]{data/plots/ps3-plankton-start1.csv};\addlegendentry{$(.4,1)$}
+\addplot[black] table[x=P,y=Z,col sep=comma]{data/plots/ps3-plankton-start2.csv};\addlegendentry{$(0,1)$}
+\end{axis}\end{tikzpicture}\end{center}
+这是参数示例的模型轨道，没有从未知野外数据拟合增长/捕食率。
+\end{solution}
+
+\originalsection{PS4：修改后的FitzHugh--Nagumo模型}
+\begin{exercise}\label{task:chaos-PS4-1}
+（PS4.1，九项）$\dot x=-y+x(a-x)(x-1),\dot y=bx-cy$，b、c正。
+(a)求零增长曲线；(b)证明原点特征值为 $[-a-c\pm\sqrt{(a+c)^2-4(ac+b)}]/2$；(c)随a画特征值，找三种实/复配置的转变及稳定意义；(d)求Hopf参数 $a_H$；(e)取 $b=.01,c=.02$、初值 $(.2,0)$，数值找大极限环首次出现的 $a_{\rm cycle}$，比较 $a_H$；(f)在二者之间用不同初值证明两个稳定吸引子；(g)根据中间不稳定周期与稳定环的碰合判断Hopf超/亚临界，不要求倒向积分；(h)取a为.02，从 $(x_0,0)$ 找快速恢复及单次兴奋两种响应；(i)尽量定位兴奋阈值，注意响应连续但变化很快。
+\end{exercise}
+\begin{solution}
+(a)零增长曲线为 $y=x(a-x)(x-1)$和 $y=(b/c)x$。原点总是交点，其他点满足 $x^2-(a+1)x+a+b/c=0$，存在与否需看判别式，不能把所有a都当只有原点。
+
+(b)(c)原点Jacobian为 $\left(\begin{smallmatrix}-a&-1\\b&-c\end{smallmatrix}\right)$，特征式 $\lambda^2+(a+c)\lambda+ac+b=0$。判别式为 $(a-c)^2-4b$，所以三种\emph{实/复配置}的分界是 $a=c\pm2\sqrt b$：两实根、复共轭、两实根。稳定性还要看迹和行列式，复根区内也会穿过虚轴；若a很负使 $ac+b<0$，成为鞍点，这不是原三个判别式区间之外可忽略的可能性。
+
+(d)Hopf要求迹0而行列式正，故 $a_H=-c$、$b>c^2$，角频率 $\omega_H=\sqrt{b-c^2}$。给定b、c时 $a_H=-.02$，$\omega_H\simeq.09798$。a大于该值时原点局部稳定；a减小穿过时失稳。参数方向应明确，不能只说“a增大必失稳”。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.4cm,xlabel={$a$},ylabel={特征值实部}]
+\addplot[main] table[x=a,y=real_plus,col sep=comma]{data/ps4-eigenvalues.csv};
+\addplot[blue,dashed] table[x=a,y=real_minus,col sep=comma]{data/ps4-eigenvalues.csv};
+\end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.4cm,xlabel={$a$},ylabel={特征值虚部}]
+\addplot[main] table[x=a,y=imag_plus,col sep=comma]{data/ps4-eigenvalues.csv};
+\addplot[blue,dashed] table[x=a,y=imag_minus,col sep=comma]{data/ps4-eigenvalues.csv};
+\end{axis}\end{tikzpicture}\end{center}
+
+(e)(f)本次用RK4、步长.05，粗扫描至t为4000，随后将大幅周期的尾段幅度诊断延长到6000并加密。所得碰合附近约 $a_{\rm cycle}\simeq-.01761$，确实大于 $-.02$。这是有限时间/步长的数值定位，不把二分的最后小数位当数学精确常数。在 $a=-.018807$，$x_0=10^{-5}$ 保持小幅并趋原点，$x_0=.2$ 给持久大环，末段x范围约1.253。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.78\linewidth,height=5cm,xlabel={$x$},ylabel={$y$},legend style={font=\small}]
+\addplot[main] table[x=x,y=y,col sep=comma]{data/plots/ps4-bistable-large.csv};\addlegendentry{$x_0=.2$}
+\addplot[blue] table[x=x,y=y,col sep=comma]{data/plots/ps4-bistable-small.csv};\addlegendentry{$x_0=10^{-5}$}
+\addplot[black,dashed,domain=-.4:1.05,samples=130]{x*(-.018807-x)*(x-1)};\addlegendentry{$\dot x=0$}
+\addplot[green!50!black,dashed,domain=-.4:1.05]{.5*x};\addlegendentry{$\dot y=0$}
+\end{axis}\end{tikzpicture}\end{center}
+
+(g)原题描述的小不稳定环在Hopf时撞原点，大稳定环在另一个周期鞍结与它碰合，因此为\emph{亚临界Hopf}。也可独立检验符号：在a为 $-c$，取 $q=(y-cx)/\omega_H$，系统线性部分为 $\dot x=-\omega_Hq,\dot q=\omega_Hx$，非线性为 $F=(1-c)x^2-x^3$以及 $-(c/\omega_H)F$。标准二维平均的三阶径向系数为
+\[
+ \ell_1=-\frac38+\frac{c(1-c)^2}{4(b-c^2)}.
+\]
+给定参数约.12521为正，小环出现在原点稳定一侧并且不稳定，和上述亚临界结构一致。不同归一化会改系数大小，不改其号。
+
+(h)(i)a为.02时，实际 $x_0=.02$ 快速恢复，$x_0=.2$ 先大幅响应至x约.927，再恢复原点。扫描 $.01\le x_0\le.2$、步长.001，以峰值超过.5作一个明确响应指标，首次达到指标约为.093。该指标不是不连续的数学分岔点；完整最大响应曲线连续而陡。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.74\linewidth,height=4.7cm,xlabel={扰动初值 $x_0$},ylabel={实际最大响应x},xtick={0,.04,.08,.12,.16,.2},scaled x ticks=false,xticklabel style={/pgf/number format/fixed,/pgf/number format/precision=2}]
+\addplot[main] table[x=x0,y=maximum_x,col sep=comma]{data/ps4-excitation-response.csv};
+\end{axis}\end{tikzpicture}\end{center}
+兴奋性体现慢变量y在大响应后提供恢复，并不要求系统已有稳定周期。有限积分时长、接近弱稳定点的长瞬变和尾段幅度阈值都会影响数值定位；本次未把未求得的不稳定周期图编造出来。
+\end{solution}

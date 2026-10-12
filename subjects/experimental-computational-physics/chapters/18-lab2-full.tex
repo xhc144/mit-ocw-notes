@@ -1,0 +1,107 @@
+\Needspace{12\baselineskip}
+\originalchapter{Lab2：钻石第一性原理的全部公开任务}
+原Lab2截止于2005年3月22日，使用PWSCF和规范守恒C赝势。本次从QE官方库取得课程指定名称 \texttt{C.pz-vbc.UPF} 的当前公开副本，在任务临时目录运行PWSCF v6.7MaX，实际完成83个不重复SCF输入。2005年手册使用2.1.2，当前UPF经过格式转换，文件字节不同。后续核查原MIT压缩包后，逐tag比较八个数值块，均在舍入精度内一致；再直接读取原UPF1，复算a=6.6 bohr、100 Ry、4网格的一点，原胞能量与当前副本同为$-22.79051194$ Ry。旧转换器有未初始化元数据警告，回归使用原UPF1直接读取，不使用该有问题的转换结果。每个输入、参数、收敛状态和输出哈希均保留；以下将\emph{官方2005答案}与\emph{当前真实复算}分开说明。
+
+\originalsection{输入、胞约定与数值误差}
+钻石原胞有两个C原子，$V=a^3/4$。原手册用 \texttt{ibrav=2,celldm(1)=a}，两个原子按alat直角坐标为 $(0,0,0),(.25,.25,.25)$，k网格偏移为 $(0,0,0)$。a以bohr、截断以Ry计，SCF每原胞输出能量。规范守恒赝势、电荷密度默认截断与所用程序版本一起记录；不能只报告一个ecut数值。
+
+两项单位目标分别为 $5$ meV/atom约 $.0003675$ Ry/atom，$10$ meV/\AA{}约 $.0003889$ Ry/bohr。两原子胞的\emph{总能量}误差应先除以2才与每原子目标比较。截断、k网格、SCF残差是三个不同误差轴；提高一个轴不能自动补偿另外两个。复算SCF阈值取 $10^{-9}$ Ry，并检查输出确有收敛和JOB DONE，退出码单独不作为通过证据。
+
+\begin{exercise}\label{task:lab2-1}
+（原题1）(A)固定晶格和k点等参数，用PWSCF扫描约10--140 Ry、约10 Ry步长的截断，画绝对能量并确定达到5 meV/atom的范围，保存全部参数。(B)解释能量是否有趋势及其原因。(C)比较原胞与Lab1常规立方胞的优缺点。
+\end{exercise}
+\begin{solution}
+原官方答案取 $a=6.60$ bohr、$4^3$ k网格，用150 Ry作参考；110 Ry时每原子差约 $.0002739$ Ry，而100 Ry约 $.0005551$ Ry，故其结论为约110 Ry。五张原数值表完整转成署名CSV，下面独立矢量重画误差曲线，未把官方表标为本项目计算。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\linewidth,height=4.5cm,xlabel={截断（Ry）},ylabel={每原子能量差（Ry）},ymode=log]
+\addplot[main,mark=*] table[x=ecut_Ry,y=delta_Ry_atom,col sep=comma]{data/official-lab2-energy-cutoff-plot.csv};
+\addplot[blue,dashed] coordinates{(30,.0003675)(150,.0003675)};
+\end{axis}\end{tikzpicture}\end{center}
+
+本次按原输入族真实扫描10--150 Ry；例如140、150 Ry的胞能量为 $-22.79157949,-22.79162175$ Ry。数值与原表相近，仍分别保存当前版本和赝势哈希。固定k网格的平面波变分空间随截断增大，理想充分收敛解的能量趋降；离散FFT、SCF误差或不同输入约定可能破坏严格单调，不能靠单调性替代误差估计。
+
+原胞原子少、相同物理k采样下轨道和FFT代价通常更低；常规胞轴向直观、构造某些缺陷或变形方便，但有更多原子与能带折叠。比较同一晶体时须把能量、体积和k采样密度转换到同一约定。不能用胞总能量大小判断哪一种胞“更稳定”。
+\end{solution}
+
+\begin{exercise}\label{task:lab2-2}
+（原题2）(A)固定其余输入，扫描k网格，记录能量及不等价k点数，讨论计算时间随不等价点数的关系；可暂用低于完全收敛值的截断，但说明交叉误差。(B)解释能量随网格是否有趋势。
+\end{exercise}
+\begin{solution}
+官方答案固定100 Ry、a为6.60 bohr。网格 $2,4,6,8,12$ 的不等价点数为3、8、16、29、72；相对 $12^3$ 参考的每原子差约 $.122561,.005061,.000356,.000031,0$ Ry。因此该绝对能量指标在约 $6^3$ 已达到5 meV/atom，但后续力要求更密网格。原表每个网格点和当前实际SCF结果都存为独立CSV。
+
+k积分不是逐步嵌套的变分轨道空间，网格改变可以使能量上下振荡；奇偶网格与偏移、对称性约减影响点数。N个网格点不等于N个独立算例：每个SCF迭代还要在全部点上统一更新密度。绝缘钻石比费米面金属平滑，但仍要按所关注能差或力检验。当前12网格、100 Ry的原胞能量约 $-22.80063233$ Ry，这只是指定a的能量，不是平衡a的答案。
+\end{solution}
+
+\originalsection{原子力与能量差}
+\begin{exercise}\label{task:lab2-3}
+（原题3）将一个C沿z方向位移 $+.05$（原题称分数坐标），固定其余输入，扫描截断并画力，目标10 meV/\AA{}，可用 $4^3$ k网格；记录晶格、截断及不等价点数。
+\end{exercise}
+\begin{solution}
+原实际输入用alat归一化直角坐标，因此复算将第二个C的z由.25改为.30，即沿笛卡尔z移动 $.05a$；不能改成沿FCC第三个原胞基矢位移。力应记录方向和原子索引。两个原子的力之和应近零，正位移的回复力通常沿负z；原答案表的正值需按所报原子或力绝对值比较，不能凭号差认定物理矛盾。
+
+官方用a为6.60 bohr、$4^3$网格，110 Ry参考力约 $.27964248$ Ry/bohr；90 Ry误差约 $.00001860$，85 Ry约 $.00048913$，故取约90 Ry。当前真实复算110 Ry时位移C的 $F_z\simeq-.27962913$ Ry/bohr；保留有符号量与收敛误差。力是能量对坐标的导数，基组不充分时导数可比能量更敏感，单凭总能量平滑不能宣布力已收敛。
+\end{solution}
+
+\begin{exercise}\label{task:lab2-4}
+（原题4）保持同一C位移，固定晶格和截断，扫描k点网格，记录相关条件并检查原子力的收敛。
+\end{exercise}
+\begin{solution}
+官方固定100 Ry、a为6.60 bohr，12网格参考力约 $.26315168$ Ry/bohr。7、8、9网格的误差（Ry/bohr）分别为
+\[ .00087487,\qquad .00035393,\qquad .00014295.\]
+因此10 meV/\AA{}目标需约 $8^3$。这比原题2的能量要求更严。当前12网格计算位移C为 $-.26308039$ Ry/bohr，两项同时检查，而不是沿用题1的k网格。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\linewidth,height=4.5cm,xlabel={k网格边数},ylabel={力差（Ry/bohr）},ymode=log]
+\addplot[main,mark=*] table[x=k_grid,y=delta_Ry_bohr,col sep=comma]{data/official-lab2-force-kgrid-plot.csv};
+\addplot[blue,dashed] coordinates{(2,.0003889)(12,.0003889)};
+\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+
+\begin{exercise}\label{task:lab2-5}
+（原题5）固定k点等条件，比较两个接近平衡的钻石晶格参数，如6.70与6.74 bohr，扫描截断、计算每原子能差并画图，检查5 meV/atom目标。说明能量差的物理意义与绝对能量零点问题。
+\end{exercise}
+\begin{solution}
+同一赝势和电子数下能量差消去共同常数，并可能消去一部分相近构型共享的基组误差。官方用 $8^3$ 网格，6.70与6.74 bohr，约50 Ry即可使能差达到目标，比绝对能量的110 Ry明显低。完整原表保留了低截断时能差变号的现象，这不是体系在每个cutoff都发生相变，而是两大数的离散误差尚未抵消。
+
+当前程序实际计算20--120 Ry两条能量曲线并保存各个原胞能量；先取同一截断下的差、再除以2得到每原子值。两计算必须使用同一k网格偏移、SCF准则及赝势；若某一端未收敛，就保留缺失状态而不插一个看似平滑的差。
+\end{solution}
+
+\begin{exercise}\label{task:lab2-6}
+（原题6）比较题1--5：绝对能量、力和能量差各需怎样的截断及k网格？解释原因。
+\end{exercise}
+\begin{solution}
+上述官方条件下，绝对能量约110 Ry、力约90 Ry、相近构型能差约50 Ry；绝对能量k网格约 $6^3$，力约 $8^3$。排序是\emph{本赝势、构型、误差目标下}的结果，不是普遍“力总比能量需要更高ecut”的法则。能量差的误差相消、力的导数敏感性、积分平滑程度及分别设定的单位阈值共同决定排序。要预测体积模量、应力或缺陷形成能，应直接检验该量，而非机械复制这几个数字。
+\end{solution}
+
+\originalsection{平衡晶格与体积模量}
+\begin{exercise}\label{task:lab2-7}
+（原题7）按力与能量差的收敛准则：(A)求钻石平衡晶格，与实验6.74 bohr比较并记录k点、截断；(B)从 $B=-V_0\dd P/\dd V$、$P=-\dd E/\dd V$ 导出表达并计算，比较实验442 GPa。原胞能量和原胞体积应一致；更安全的方法是直接检验a与B自身的截断/k收敛。
+\end{exercise}
+\begin{solution}
+原官方答案用100 Ry、$8^3$网格，a约6.67 bohr，小于实验6.74 bohr。LDA偏紧结合提供定性解释，但实验温度、零点运动、赝势及拟合都会影响数值，不能把“LDA总是如此”当定理。当前复算按a为6.55--6.80 bohr、步长.025实际扫描11点，中心化体积多项式拟合得到 $a_0\simeq6.66449$ bohr。
+
+平衡处 $E'(V_0)=0$，$B=V_0E''(V_0)$；近极小点 $E=E_0+B(V-V_0)^2/(2V_0)+\cdots$。每原胞 $V=a^3/4$，若误把常规胞体积与原胞能量拼接，模量会错四倍。原官方值 $.03137$ Ry/bohr$^3$，约461 GPa；当前中心化四阶拟合为 $.031812$ Ry/bohr$^3$，约467.97 GPa。它们分别保存，不能把拟合差强行抹成完全一致。当前拟合区间、阶数和原始能量均可复算；进一步报告拟合窗口和ecut/k变化对B的影响，是比继续增加小数位更有意义的误差检验。
+\end{solution}
+
+\begin{exercise}\label{task:lab2-extra-elastic}
+（原可选题）以第一性原理形变能量求钻石 $C_{11},C_{12},C_{44}$。
+\end{exercise}
+\begin{solution}
+用Lab1加分题的立方弹性二次式，但每个应变点都执行同一赝势和收敛的SCF。小应变下可弛豫原胞内部C相对位置，区别clamped-ion与relaxed-ion常数；保持完整应变张量、能量单位和参考体积。体积形变只给 $(C_{11}+2C_{12})/3$，不能单独识别三个常数，须另做正交和剪切。本次随后真实执行单轴、体积保持的正交、对称剪切（固定内部位置/内部弛豫）四个应变族，每族 $\delta=-.008,-.004,0,.004,.008$，共20次SCF或离子弛豫。得到
+\[
+\begin{array}{c|rrrr}
+&C_{11}&C_{12}&C_{44}\text{（固定内部位置）}&C_{44}\text{（内部弛豫）}\\\hline
+\text{GPa}&1098.08&132.85&603.18&598.44
+\end{array}.
+\]
+同一拟合给 $(C_{11}+2C_{12})/3\simeq454.59$ GPa，与体积扫描467.97 GPa有约2.9\%差异，不能隐去。应变窗口、残余应力、方向网格及拟合形式的误差比报告多位小数更重要；当前数值是指定截断/网格的一次实际提取，尚未构成全误差轴收敛证明。原始20输入、能量曲线、弛豫输出哈希和二次式系数保存于源码。
+\end{solution}
+
+\begin{exercise}\label{task:lab2-extra-band}
+（原替代可选题）画钻石价带与最低四条导带，和文献带结构比较；此题需要自行取得外部参考。
+\end{exercise}
+\begin{solution}
+先在收敛均匀k网格取得电荷密度，再沿明确的FCC高对称路径作非自洽本征值计算，设置足够nbnd，统一能量参考如价带顶。原胞与常规胞导致折叠差异，路径坐标还须区分倒格矢分数和笛卡尔单位。Kohn--Sham导带差不自动等于实验准粒子带隙；比较时保留泛函、赝势、晶格和自旋条件。原题没有指定可公开取得的第三方整篇内容，本卷不复制受限文献图。实际从本次钻石SCF密度接续，以100 Ry、拟合晶格计算八条带：四条价带与最低四条导带，沿 $\Gamma-X-W-K-\Gamma-L-U-W-L-K$ 共145个k点。坐标以 $2\pi/a$ 的笛卡尔分量给于输入，沿路径累计距离作横轴，价带顶定为0。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.9\linewidth,height=6cm,xlabel={指定FCC路径的累计距离（$2\pi/a$）},ylabel={相对价带顶（eV）},xmin=0,xmax=6.066,xtick={0,1,1.5,1.85355,2.91421,3.78024,4.39261,4.74616,5.45327,6.06564},xticklabels={$\Gamma$,X,W,K,$\Gamma$,L,U,W,L,K},grid=major]
+\foreach \n in {1,2,3,4}{\addplot[main,mark=none] table[x=s,y=band\n,col sep=comma]{data/diamond-eight-bands.csv};}
+\foreach \n in {5,6,7,8}{\addplot[blue,mark=none] table[x=s,y=band\n,col sep=comma]{data/diamond-eight-bands.csv};}
+\end{axis}\end{tikzpicture}\end{center}
+所画路径上最小Kohn--Sham隙为约4.1734 eV；这是实际指定路径的结果，不把它改称实验准粒子隙，也不由有限路径保证已经搜索整个Brillouin区的全局极值。八带CSV及路径刻度、输入、真实XML本征值输出哈希均保存。实验与文献定量比较仍须明确参考版本、温度及准粒子定义。
+\end{solution}

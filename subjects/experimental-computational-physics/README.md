@@ -1,12 +1,12 @@
 # 实验与计算物理
 
-中文合订PDF：[experimental-computational-physics-zh.pdf](dist/experimental-computational-physics-zh.pdf)（**38个PDF物理页**）。源码包：[experimental-computational-physics-source.zip](dist/experimental-computational-physics-source.zip)。
+中文合订PDF：[experimental-computational-physics-zh.pdf](dist/experimental-computational-physics-zh.pdf)（**77个PDF物理页**）。源码包：[experimental-computational-physics-source.zip](dist/experimental-computational-physics-source.zip)。
 
-课程：8.13/14（Fall 2016–Spring 2017）；3.320（Spring 2005）；12.010（Fall 2024，只作工作流补充）。
+课程：8.13/14（Fall2016–Spring2017）；3.320（Spring2005）；12.010（Fall2024，工作流补充）。
 
-本版正文：19个实际公开实验模块及Raman学生提案；原子势、DFT、声子、MD、MC、自由能、过渡态与KMC；15章文件。考核计数：6个公开考核单元（含Lab2第7题B这一个子问）+9道编者模型题+1个模拟读数例题。这是初始冻结后按扩展清单完成的连续中文重编，不是所有MIT课程、全部原件逐页翻译或全部作业译解。实际可获取文件与中文覆盖分开记录。
+本版正文：十九份实际实验手册的装置、误差、采集与分析链；原子势、DFT、MD、MC、自由能及真实材料算例；Raman学生提案单列；25章。考核计数：材料五套Lab的22道必做+7道选做顶层题；实验25道实际公开预习题，合计54道；9道编者练习另计。这是初始冻结后按扩展清单完成的连续中文重编，不是所有MIT课程、全部原件逐页翻译或全部作业译解。实际可获取文件与中文覆盖分开记录。
 
-题面完整收录现行选定单元，解答说明假设、主要计算链及模型边界。官方数值或答案引用与编者独立解答分别标记。实验没有伪造现场观测；模拟数据均明确标注；代码实际运行。
+题面完整收录扩展清单的现行公开单元，解答说明假设、主要计算链及模型边界。官方数值或答案引用与编者独立解答分别标记。实验没有伪造现场观测；模拟数据均明确标注；代码实际运行。
 
 ## 范围与来源
 
@@ -16,9 +16,10 @@
 - [题数口径](qa/assessment-count.json)
 - [署名、许可和第三方例外](LICENSE.md)
 
-- 初始九模块扩展到全部本次实际取得实验手册的主要方法；完整逐预习题和所有现场采集仍未完成。
-- 3.320指定GULP/PWSCF/MOLDY原软件实验未执行，模型程序不冒充原材料计算。
-- 3.320 Lab5热力学极限完整相图未计算。
+- 十九份手册测量链及25道实际公开预习题已写入；实体现场实验未执行，OCW用户不可用网页题未恢复。
+- 实际执行Quantum ESPRESSO与MOLDY模型任务；GULP许可软件、Au EAM输入及可选MOLDY到EAM修改未执行。
+- MOLDY原两相坐标直接启动失败，准备后轨道已完成，但没有验证稳定固液界面或独立两相熔点。
+- Lab5有限格完整参数网格、临界精化及Langmuir比较已运行；不宣称热力学极限相图已严格收敛。
 - 行业讲次24无公开文件；第三方受限图、教材和表格未复制。
 - 12.010仅工作流补充，不重译已有数学数值方法卷。
 

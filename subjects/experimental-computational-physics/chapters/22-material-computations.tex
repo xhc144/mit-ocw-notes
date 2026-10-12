@@ -1,0 +1,76 @@
+\Needspace{12\baselineskip}
+\originalchapter{原材料输入的实际计算记录与解释}
+本章接续Lab2--4，给出本次真实运行结果。原课程官方结果已在题解中注明，本章不是把官方表重画后称为自行计算。C、Co赝势的数值数组逐项比较后，还分别直接读取MIT归档的原UPF1作一个相同输入回归，所报总能量与当前命名副本在输出精度内相同；文件字节、转换元数据和程序版本仍分别保存。
+
+\originalsection{Co二维晶格扫描与堆垛误差}
+85个现代PWSCF算例全部收敛：FCC与HCP的k网格、c向网格、FCC晶格、HCP理想比例与a/c二维、六角FCC、堆垛缺陷以及两种初磁矩的压力扫描。当前最低采样点为FCC $a=6.480$ bohr、$E=-74.22270299$ Ry/atom；HCP为 $a=4.58,c=7.44$ bohr、$E=-74.223503645$ Ry/atom，后者低约10.89 meV/atom。网格最低点不应再报告超过步长所支持的晶格精度。
+
+下图的五条HCP曲线使用同一原子数、赝势、截断和k积分，能量零点为所有25点的最低值。先沿一条c/a找a只是起点；真正二维曲面最低点还要检查两个方向。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={$c$（bohr）},ylabel={每原子能量差（meV）},legend style={font=\small},legend columns=3]
+\addplot[main,mark=*] table[x=c_bohr,y=delta_meV_atom,col sep=comma]{data/co-hcp-a4.54.csv};\addlegendentry{$a=4.54$}
+\addplot[blue,mark=*] table[x=c_bohr,y=delta_meV_atom,col sep=comma]{data/co-hcp-a4.56.csv};\addlegendentry{$a=4.56$}
+\addplot[black,mark=*] table[x=c_bohr,y=delta_meV_atom,col sep=comma]{data/co-hcp-a4.58.csv};\addlegendentry{$a=4.58$}
+\addplot[green!50!black,mark=*] table[x=c_bohr,y=delta_meV_atom,col sep=comma]{data/co-hcp-a4.60.csv};\addlegendentry{$a=4.60$}
+\addplot[orange,mark=*] table[x=c_bohr,y=delta_meV_atom,col sep=comma]{data/co-hcp-a4.62.csv};\addlegendentry{$a=4.62$}
+\end{axis}\end{tikzpicture}\end{center}
+
+三层六角FCC输入得到 $-74.2226397467$ Ry/atom，与立方FCC在当前网格下相差约.86 meV/atom。它对胞转换的检查是有用的，但不代表所有缺陷胞的k误差均已小于1 meV。下图用同一明确HCP参考显示3、5、7、9层序列的每原子超额和每胞超额。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\linewidth,height=4.8cm,xlabel={层数n},ylabel={超额能量（meV）},legend style={font=\small}]
+\addplot[main,mark=*] table[x=layers,y=excess_meV_atom,col sep=comma]{data/co-stacking-fault.csv};\addlegendentry{每原子}
+\addplot[blue,mark=*] table[x=layers,y=excess_meV_cell,col sep=comma]{data/co-stacking-fault.csv};\addlegendentry{每胞}
+\end{axis}\end{tikzpicture}\end{center}
+7、9层未形成一个可信的总超额平台；原题的10层上限限制远层收敛，离散c网格与HCP参考的不同k采样还可带来系统差。当前计算\emph{不能}给严格的无限层堆垛缺陷能或确定面积能。完整序列和实际数据保留，比把最大胞点强行标成“收敛答案”更能帮助发现问题。
+
+\originalsection{压力、磁分支与焓的区别}
+压缩HCP的磁初值.7分支，从近零压约1.59 $\mu_B$/atom降到约87 GPa的.585，并在约173 GPa收敛到0；非磁初值也单独运行，没有合并或丢弃。FCC与HCP平均应力及磁矩曲线如下。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={平均压强（GPa）},ylabel={$\mu_B$/atom},legend style={font=\small},xmin=0]
+\addplot[main,mark=*] table[x=P_GPa,y=M_muB_atom,col sep=comma]{data/co-hcp-mag0.7.csv};\addlegendentry{HCP磁初态}
+\addplot[blue,mark=*] table[x=P_GPa,y=M_muB_atom,col sep=comma]{data/co-fcc-mag0.7.csv};\addlegendentry{FCC磁初态}
+\addplot[black,dashed,mark=*] table[x=P_GPa,y=M_muB_atom,col sep=comma]{data/co-hcp-mag0.0.csv};\addlegendentry{HCP非磁初态}
+\end{axis}\end{tikzpicture}\end{center}
+每个体积还保存绝对每原子能量；同一压强下比较相稳定需插值并做 $E+PV$，且HCP形状应重新优化。这里只保持指定c/a，用平均应力作诊断，不冒充可变胞焓最小化，故没有由这些离散点宣布100 GPa转相点。原官方高压结论仍单列在上一章；温度相变还缺熵贡献。
+
+\originalsection{BaTiO$_3$：真实立方扫描与离子弛豫}
+MIT公开Lab3归档确实包含Ba/Ti/O原赝势及位移脚本。直接读取这些文件，以波函数/密度截断30/240 Ry、$4^3$网格、偏移 $(1,1,1)$，真实完成10个立方晶格SCF、11个固定Ti/O弛豫及一个Ti/O联合弛豫，共22个输入，均达到相应电子与离子准则。立方拟合a约7.5250 bohr；为与原位移脚本比较，后两组固定a为7.52，未默默改变晶格。
+
+原脚本Ti的z逐点为.502、.504至.520。这确证题解中应使用\emph{分数位移.002至.020}；原官方文字“.08$a_0$”与输入/最终坐标有歧义，保留该差别而不将Ti推到.58。下图直接使用本次11个O弛豫能量，零点是本次立方值。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.75\linewidth,height=5cm,xlabel={固定Ti的z分数位移},ylabel={相对立方态（meV/胞）}]
+\addplot[main,mark=*] table[x=d_Ti_fractional,y expr={(\thisrow{E_Ry_cell}+303.68654591)*13605.693123},col sep=comma]{data/qe-batio3-oxygen_relax.csv};
+\end{axis}\end{tikzpicture}\end{center}
+本次扫描最低附近为.008，$E=-303.68691791$ Ry/五原子胞，比本次立方低约5.06 meV。随后联合弛豫得到 $E=-303.68691693$ Ry，坐标为
+\[
+\begin{array}{c|rrr}
+\mathrm{Ba}&0&0&0\\\mathrm{Ti}&.5&.5&.5075963563\\
+\mathrm O_1&.5&.5&-.0202213651\\
+\mathrm O_2&.5&0&.4850170117\\
+\mathrm O_3&0&.5&.4850170117
+\end{array}.
+\]
+离子力阈值为 $10^{-5}$ Ry/bohr、SCF阈值 $10^{-8}$ Ry，完整每步输出哈希及最终坐标保留。扫描最低与联合弛豫约相差.013 meV，是很小的数值/约束优化差，不能将小差异解读成新的晶相。负O坐标只是周期等价表达，物理解释看相对位移。计算固定立方胞，不包含完整应变弛豫、畴、有限温相变或定量Berry极化。
+
+\originalsection{Kr晶体加热的可复核轨迹}
+本次从Keith Refson的公开MOLDY源码构建任务临时目录中的程序，不改系统权限，也未执行原集群脚本里的广泛移动命令。原Kr输入质量83.80 amu、$\sigma=3.83$ \AA{}，势是
+\[
+ v(r)=5.4516\,\mathrm{kJ/mol}\left[(3.83\,\text{\AA}/r)^{12}-(3.83\,\text{\AA}/r)^6\right].
+\]
+官方MOLDY手册的该系数\emph{包含常见LJ式的4}，井深为1.3629 kJ/mol，不能误把5.4516直接当井深。现代程序及原课程版本、默认远距能量/压力修正均记录，未把不同积分器实现宣称字节级复现。
+
+原FCC四常规胞边长的256原子输入，用.005 ps、1500平衡步和8500生产步；平衡期速度重标定，之后取定压扩展能量协议，目标压强0、原脚本式w为1000、胞形约束238。初始温度分别80、100、110、120、130、140、150、160 K。每个控制文件和200个打印点保存，温度重标定关闭后初温不等于生产均温。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={相关时间（ps）},ylabel={MSD（\AA$^2$）},legend style={font=\small},legend columns=3]
+\addplot[main] table[x=lag_ps,y=total_A2,col sep=comma]{data/msd-NPE-crystal-T100.csv};\addlegendentry{初温100 K}
+\addplot[black] table[x=lag_ps,y=total_A2,col sep=comma]{data/msd-NPE-crystal-T140.csv};\addlegendentry{初温140 K}
+\addplot[blue] table[x=lag_ps,y=total_A2,col sep=comma]{data/msd-NPE-crystal-T150.csv};\addlegendentry{初温150 K}
+\addplot[orange] table[x=lag_ps,y=total_A2,col sep=comma]{data/msd-NPE-crystal-T160.csv};\addlegendentry{初温160 K}
+\end{axis}\end{tikzpicture}\end{center}
+前两条以振动平台为主；150、160 K初态产生明显长时增长，20 ps的MSD约21.95、35.50 \AA$^2$。对应生产均温约122.20、137.39 K，下降反映能量在结构转变和动能之间重新分配。加热协议中转变发生在\emph{初始}140--150 K区间，不能把这个区间直接称为平衡熔点。
+
+对平台MSD拟合10--20 ps，斜率可能因有限样本涨落为小负值；它不是负扩散系数，而是该数据未进入有效长时扩散拟合区。150、160 K曲线同窗口斜率/6约.186、.306 \AA$^2$/ps，仍是有限时间估计。原子坐标、RDF和胞数据需要联合判断，不只看一条MSD。
+
+\originalsection{两相输入的失败、准备及仍未关闭的熔点条件}
+原 \texttt{Kr\_SL.in} 包含1024原子两相几何，但液体区域最近距离约1.8 \AA{}。直接以.005 ps启动，强排斥导致发散；原 \texttt{Kr.restart.store} 又被现行程序拒绝为不兼容的2.12版本。本次保留原件哈希、失败日志与原因，未强改二进制版本头来绕过检查。
+
+为取得可运行轨迹，先以原坐标、.0001 ps、5000步作100 K速度重标定准备，缓解初始近距离排斥，再使用新程序自身的restart。重启控制量按MOLDY的\emph{相对新运行步数}填写；一轮错用绝对步数的调试轨迹单列，未混入最终50 ps协议。随后初温100、130、140 K的三组NVE轨迹，仍为1500重标定准备、8500生产步，实际生产均温约104.71、138.69、140.26 K。
+
+这些轨迹的全体MSD仍较小，且准备过程可能已改变原液体区域的结构。当前没有充分证明生产期同时保留稳定固相和液相、也没有取得可信的界面速度趋零区间，\emph{所以没有给本次独立两相平衡熔点}。上一章原官方约120 K结果仍是官方原协议的结果；不能把本次三组均温取平均冒充它。下一步需以局部晶序和界面位置验证真正两相，再延长时长/改变初态能量，方法与完整原题均已保留。
+
+MOLDY观察工具也有旧C接口和单组分dump头读出问题。修复仅涉及类型声明/公共变量、\texttt{HAS\_POPEN}宏及header-only/full的判别，不改动力学；修复后所有11条轨迹的坐标MSD已实际提取。对应源码修复说明、编译参数和输出哈希附在QA中。实体Ni的GULP三积分器、Au的EAM和全部物理实验现场采集仍未执行，不用这些Kr或LJ数据替代。

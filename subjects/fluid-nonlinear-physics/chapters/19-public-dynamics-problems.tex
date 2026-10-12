@@ -1,0 +1,151 @@
+\Needspace{12\baselineskip}
+\originalchapter{排水、泥流与射流的补充公开题解}
+本章补入五份实际公开作业，沿用Chiang C. Mei、1.63 Fall 2002的署名。题面所未指定的长度或端点条件作为参数/条件列明，不能悄悄给一组数值再称为原题唯一答案。全部解答为编者独立推导。
+
+\originalsection{T形管的非稳态排水}
+\begin{exercise}\label{task:fluid-Ttube}
+（\texttt{Ttube.pdf}）竖直管截面积A，下端分为两根水平管OB、OB$'$，各截面积 $A/2$。阀门关闭时水面高H，t为0时突然打开。忽略黏性，按一维非稳态流求竖直及水平管中的运动。原题未给水平支管数值长度，结果需保留该几何参数。
+\end{exercise}
+\begin{solution}
+取两根等长支管长 $\ell$、出口与自由面均接大气；若两出口压强或长度不同，需另解不对称分流。对称时两支速度v相同，连续 $Aw=(A/2)v+(A/2)v$，竖管向下速度 $w=-\dot h$ 与v相等。
+
+沿从移动自由面到任一出口的流线应用非稳态Bernoulli。竖段和水平段的速度大小都是w，两端的动能头抵消；势能头差为gh，而加速压头是 $(h+\ell)\dot w$。因此
+\[
+ \dot h=-w,\qquad (h+\ell)\dot w=gh,\quad h(0)=H,w(0)=0.
+\]
+不能把稳态Torricelli $w=\sqrt{2gh}$ 直接用于这根需加速整条支管的装置。用 $\dot w=-w\,\dd w/\dd h$ 积分，得
+\[
+ w(h)^2=2g\left[H-h-\ell\ln\frac{H+\ell}{h+\ell}\right],\quad
+ t(h)=\int_h^H\frac{\dd s}{\sqrt{2g[H-s-\ell\ln((H+\ell)/(s+\ell))]}}.
+\]
+取正根表示排出，右侧非负，因为 $x-\ln(1+x)\ge0$。排空时间是上式取h为0；原题没有\(\ell\)数值，不能报一个唯一秒数。初始加速度为 $gH/(H+\ell)$，排空速度为 $\sqrt{2g[H-\ell\ln(1+H/\ell)]}$。长支管 $\ell\gg H$ 时 $w^2\simeq g(H^2-h^2)/\ell$，$t_{\rm empty}\simeq(\pi/2)\sqrt{\ell/g}$；支管惯性使加速变慢。
+
+若两支管长度为 $\ell_1,\ell_2$，连续给 $w=(v_1+v_2)/2$，每支Bernoulli为
+\[
+ h\dot w+\ell_i\dot v_i+\frac{v_i^2-w^2}{2}=gh.
+\]
+联立并给零初速即可求不对称运动。分叉损失、出口收缩、阀门有限开启及水面落至分叉后的运动均不在原无黏一维假设内。
+\end{solution}
+
+\originalsection{Bingham泥流与停止前缘}
+\begin{exercise}\label{task:fluid-slowmud}
+（\texttt{9slowmud.pdf}，五项）薄层泥浆在坡面缓慢流动，近似 $u\gg v$，$u_y$比 $u_x$大，正剪应力的Bingham关系为：$\tau<\tau_0$时 $u_y=0$，$\tau>\tau_0$时 $\mu u_y=\tau-\tau_0$。
+(1)写润滑方程及条件；(2)均匀层是否在任意坡角都流动，求安息角；(3)求 $0<y<h_0$ 的抛物线剪切区与 $h_0<y<h$ 的均速区；(4)按局部均匀剖面求h、$h_0$及流量的控制方程；(5)求正处下滑阈值的静止泥层前缘剖面。
+\end{exercise}
+\begin{solution}
+x沿坡向下、y垂直坡面，坡角α，$h/L\ll1$、$Re(h/L)^2\ll1$，压力跨层静水 $p=p_a+\rho g\cos\alpha(h-y)$。底部无滑移、自由表面切应力零；沿坡动量给
+\[
+ \tau_y=-G,\quad\tau=G(h-y),\qquad
+ G=\rho g(\sin\alpha-\cos\alpha\,h_x).
+\]
+本解取向下驱动G为正；负驱动需用含符号的完整Bingham关系，不能把原正应力分段式直接套给负数。
+
+均匀层 $G=\rho g\sin\alpha$，底部应力 $Gh$ 未超过 $\tau_0$ 时整层静止。安息角 $\alpha_r=\arcsin[\tau_0/(\rho gh)]$，要求括号不大于1；若超过1，在此重力、厚度模型中连竖直坡都不能克服屈服。
+
+流动时 $h_0=h-\tau_0/G>0$，剪切区积分得
+\[
+ u=\frac G\mu(h_0y-y^2/2)\quad(0\le y\le h_0),\qquad
+ u=\frac{Gh_0^2}{2\mu}\quad(h_0\le y\le h).
+\]
+上部虽不剪切，却随底部运动形成塞流；“$u_y=0$”不等于“u为0”。流量
+\[
+ q=\frac{G}{6\mu}h_0^2(3h-h_0),\quad
+ h_t+q_x=0,\quad G(h-h_0)=\tau_0.
+\]
+当 $Gh\le\tau_0$，取 $h_0=0,q=0$；这和上述代数约束的流动分支一起构成闭合薄层模型。$\tau_0\to0$时 $h_0\to h$，恢复Newton流量 $Gh^3/(3\mu)$。
+
+停止前缘在即将滑动的阈值 $Gh=\tau_0$，所以
+\[
+ h_x=\tan\alpha-\frac{\ell_y}{h},\qquad
+ \ell_y=\frac{\tau_0}{\rho g\cos\alpha}.
+\]
+令 $H_y=\tau_0/(\rho g\sin\alpha)$，前缘x为 $x_f$、h为0，积分得
+\[
+ x-x_f=\frac{h+H_y\ln(1-h/H_y)}{\tan\alpha},\quad0<h<H_y.
+\]
+上游x趋负无穷时h趋 $H_y$，即均匀安息厚度；前缘附近 $h\simeq\sqrt{2\ell_y(x_f-x)}$。坡角为0时直接用原微分式得 $h^2=2\tau_0(x_f-x)/(\rho g)$，不能把含 $1/\tan\alpha$ 的表达生硬置α为0。前缘坡度发散，局部薄坡面近似不再均匀有效，故它给整体停止轮廓而非接触点的精细结构。
+\end{solution}
+
+\originalsection{扩展塑料片下面的非稳态边界层}
+\begin{exercise}\label{task:fluid-oilfilm}
+（\texttt{4oilfilm.pdf}，五项）海面最初自由静止，从t为0两塑料片落到水面并以恒速U从x为0向正负无穷拉开，用作扩展油膜下水流的理想化模型。(1)写非稳态边界层方程；(2)初边条件；(3)沿层深积分得Kármán动量式；(4)假设抛物线速度剖面，求厚度δ的PDE；(5)解此双曲方程并讨论。忽略真实油膜的表面张力、黏度和非线性耦合；塑料片覆盖/前缘的具体时空域应在解中说明。
+\end{exercise}
+\begin{solution}
+只写右半部，x沿拉动方向、y向水下，壁面速度U、垂向速度0，外水静止且压力梯度为0：
+\[
+ u_t+uu_x+vu_y=\nu u_{yy},\quad u_x+v_y=0.
+\]
+初始水速0；覆盖处 $u(x,0,t)=U,v(x,0,t)=0$，远层 $u\to0,u_y\to0$；尚未覆盖的自由面应取零切应力，不能把全海面都误施为移动壁面。塑料片的端点/供给方式还决定厚度的进入数据。
+
+将动量改写为 $u_t+(u^2)_x+(uv)_y=\nu u_{yy}$，积分水深，边界通量uv在壁和外层为0，得到
+\[
+ \partial_t\int_0^\infty u\dd y+\partial_x\int_0^\infty u^2\dd y=-\nu u_y(0).
+\]
+取 $u=U(1-y/\delta)^2$ 于 $0<y<\delta$，外侧u为0；它同时满足壁速和外缘零速度/零剪切。三项依次为 $U\delta/3,U^2\delta/5,2\nu U/\delta$，故
+\[
+ \delta_t+\frac{3U}{5}\delta_x=\frac{6\nu}{\delta},\qquad
+ (\delta^2)_t+\frac{3U}{5}(\delta^2)_x=12\nu.
+\]
+这一抛物线积分法不是精确PDE速度解，但把非稳态、流向输运和黏性扩展保存在一个可解模型中。
+
+令 $c_m=3U/5$。沿 $x=x_b+c_m(t-t_b)$，有
+\[
+ \delta^2(x,t)=\delta_b^2+12\nu(t-t_b),
+\]
+其中 $(x_b,t_b)$ 是特征首次碰到初始线或所给端点边界的位置。若采用x为0持续供给薄片、前缘厚度0的固定入口模型，初始δ为0，则
+\[
+ \delta^2=\begin{cases}20\nu x/U,&0<x<c_mt,\\12\nu t,&x>c_mt.\end{cases}
+\]
+近入口建立类似稳态剖面，远区仍是局部突然启动的时间增长。这是\emph{明确固定入口条件}下的解。
+
+若两片是有限片、端点以U移动，则应把真实端点 $x_e(t)$ 作为移动边界，并沿相同特征公式使用覆盖时刻和进入δ；不能将上述固定入口式直接当所有几何下的唯一解。原题没有给片长或端点供给图的细化条件，因此保留通用特征解及该示例，未捏造固定入口之外的边界。左半部以x反射、速度取反对应。该模型讨论水的黏性动量，不能由它单独确定真实油的扩展速度U。
+\end{solution}
+
+\originalsection{轴对称点动量源射流}
+\begin{exercise}\label{task:fluid-cirjet}
+（\texttt{cirjet.pdf}）高压孔在 $(r,z)=(0,0)$ 产生层流圆射流，轴向速度w、径向u，边界层方程 $(ru)_r+(rw)_z=0$、$uw_r+ww_z=\nu r^{-1}(rw_r)_r$。(1)证明轴向动量通量M保持；(2)用流函数写速度和全部边界条件；(3)求相似解、画剖面并讨论。
+\end{exercise}
+\begin{solution}
+把轴向动量写成 $\partial_r(ruw)+\partial_z(rw^2)=\nu\partial_r(rw_r)$，沿r积分，轴与远层项为0，故 $M=2\pi\rho\int_0^\infty rw^2\dd r$ 不变。定义 $w=\psi_r/r,u=-\psi_z/r$，轴上ψ为0、w有限且 $w_r=0$，远层w与剪切趋0。
+
+令 $\psi=\nu zF(\eta)$、$\eta=r/z$，则 $w=\nu g(\eta)/z$、$u=\nu[F'-F/\eta]/z$、$g=F'/\eta$。代入得到
+\[
+ g''+\frac{1+F}{\eta}g'+g^2=0,\quad F'=\eta g.
+\]
+可验证 $F=4\beta\eta^2/(1+\beta\eta^2)$、$g=8\beta/(1+\beta\eta^2)^2$ 满足该方程及轴正则边界。动量归一化给 $\beta=3(M/\rho)/(64\pi\nu^2)$，所以
+\[
+ w=\frac{3(M/\rho)}{8\pi\nu z}\frac1{[1+\beta(r/z)^2]^2},\quad
+ u=\frac{4\nu\beta(r/z)}z\frac{1-\beta(r/z)^2}{[1+\beta(r/z)^2]^2}.
+\]
+中心速度随 $z^{-1}$、宽度随z增长；体积通量 $Q=2\pi\psi(\infty)=8\pi\nu z$ 随z增长，远侧径向速度为 $-4\nu/r$，表示卷吸。宽度/z为 $\beta^{-1/2}$，边界层要求 $\beta\gg1$；这与高初始动量的假设相连，不能在任意小M下还说该近似成立。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.72\linewidth,height=4.5cm,xlabel={$\sqrt\beta\,r/z$},ylabel={$w/w_c$},xmin=0,xmax=4,ymin=0,ymax=1.05]
+\addplot[main,domain=0:4,samples=100]{1/(1+x^2)^2};
+\end{axis}\end{tikzpicture}\end{center}
+该解是远喷口的层流动量射流，不处理孔口压强、湍流或空气的可压缩高速近场。
+\end{solution}
+
+\originalsection{破裂圆管的径向扇形射流}
+\begin{exercise}\label{task:fluid-fanjet}
+（\texttt{lamfanjet.pdf}，四项）高压圆管的环缝向外泄漏形成扇形层流，$r\gg\delta$、径向u远大于垂向w，轴对称且方位速度为0。(1)由圆柱坐标完整NS删去高阶项，得边界层方程；(2)用出口动量边界求相似尺度、层厚及中心速度；(3)显式求解并讨论；(4)为什么穿过圆柱控制面的总质量通量不恒定？原题的径向黏性还含 $\nu(u_{rr}+u_r/r-u/r^2)$，垂向方程含相应几何项，需说明删项理由。
+\end{exercise}
+\begin{solution}
+薄层 $\delta/r\ll1$，径向黏性与 $u/r^2$ 比跨层 $u_{zz}$ 小 $(\delta/r)^2$；垂向动量给 $p_z\simeq0$，外环境静止给 $p_r\simeq0$。因此
+\[
+ (ru)_r+(rw)_z=0,\qquad uu_r+wu_z=\nu u_{zz}.
+\]
+积分守恒型动量得 $J_r=2\pi r\int_{-\infty}^{\infty}u^2\dd z$ 不变，此处已除以密度。设u尺度 $r^a$、厚度 $r^b$，动量 $1+2a+b=0$，对流--黏性平衡 $a=1-2b$，故a为 $-1$、b为1。
+
+取 $ru=\psi_z,rw=-\psi_r$，$\psi=\nu rF(\eta)$、$\eta=z/r$，得 $u=\nu F'/r$、$w=\nu(\eta F'-F)/r$。动量式化为
+\[
+ F'''+FF''+(F')^2=0.
+\]
+中心对称令 $F(0)=0$、$F''(0)=0$，远边u和剪切为0。一次、二次积分给 $F''+FF'=0$、$F'+F^2/2=2\beta^2$，因此
+\[
+ F=2\beta\tanh(\beta\eta),\quad
+ u=\frac{2\nu\beta^2}{r}\operatorname{sech}^2(\beta z/r),\quad
+ \beta=\left(\frac{3J_r}{32\pi\nu^2}\right)^{1/3}.
+\]
+中心速度 $2\nu\beta^2/r$，厚度尺度r/β，故要 $\beta\gg1$ 才满足最初的薄层与u远大于w。与平面射流相比，这里的圆周增长改变相似指数，不能直接照搬 $x^{2/3}$ 宽度。
+
+体积通量 $Q=2\pi r\int u\dd z=8\pi\nu\beta r$，随r增加。上下远侧 $w\to\mp2\nu\beta/r$ 向射流中面流入，提供所增加的质量；守恒的是全部控制面流量之和，不是只取一个圆柱侧面后忽略上下卷吸。真实缝宽、近管曲率及高Mach数区域属于本远区模型的边界。
+\end{solution}

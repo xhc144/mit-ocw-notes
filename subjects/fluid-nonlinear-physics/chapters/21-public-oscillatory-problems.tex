@@ -1,0 +1,139 @@
+\Needspace{12\baselineskip}
+\originalchapter{振荡剪切、薄膜漂移与旋转边界层题解}
+本章完成四份剩余公开作业：\texttt{disposcl}、\texttt{disparter}、\texttt{oilslick}和\texttt{8oscekman}。前两份原题各只有一句要求，未给指定物性或驱动数值；因此给完整参数表达，并将数值示例的条件明示，不编造缺失的实验输入。
+
+\originalsection{圆管振荡流中的有效色散}
+\begin{exercise}\label{task:fluid-disposcl}
+（\texttt{disposcl.pdf}）求圆管振荡流的色散系数E，并完成所需数值计算。
+\end{exercise}
+\begin{solution}
+原题未指定频率、管半径、黏度、溶质分子扩散或压强振幅。记半径a，动黏度ν、分子扩散D，$-p_z/\rho=\Re(G\e^{\mathrm i\omega t})$。充分发展、不可压、无滑移圆管的速度复振幅为
+\[
+ W(r)=\frac{G}{\mathrm i\omega}
+       \left[1-\frac{J_0(\lambda r)}{J_0(\lambda a)}\right],
+ \qquad\lambda^2=-\mathrm i\omega/\nu.
+\]
+J为Bessel函数，平方根选连续支。$\omega\to0$时恢复 $G(a^2-r^2)/(4\nu)$。定义面积平均 $\langle W\rangle=2a^{-2}\int_0^arW\dd r$，波动 $W'=W-\langle W\rangle$；它与总速度不是同一个量。
+
+在长管、横向已混合且轴向浓度尺度远大于a时，令周期胞函数 $\chi=\Re[\widehat\chi(r)\e^{\mathrm i\omega t}]$，方程为
+\[
+ (\mathrm i\omega-D\mathcal L_r)\widehat\chi=W',\qquad
+ \mathcal L_r=\frac1r(r\partial_r)_r,
+ \quad\widehat\chi_r(0)=\widehat\chi_r(a)=0,\quad\langle\widehat\chi\rangle=0.
+\]
+它描述快横向剪切让粒子在不同速度层累积不同轴向位移，分子扩散逐渐交换这些层。稳态迁移均速与剪切扩散分开，宏观扩散为 $D+E$，其中
+\[
+ E=\frac12\Re\langle W'\widehat\chi^*\rangle
+  =\frac D2\langle|\widehat\chi_r|^2\rangle\ge0.
+\]
+后一等号用Neumann边界积分分部获得，是数值解的独立能量核验。
+
+若用径向Neumann本征函数 $\varphi_n$ 展开，$-\mathcal L_r\varphi_n=\lambda_n^2\varphi_n$、$\langle\varphi_n\rangle=0$，归一化为 $\langle\varphi_n\varphi_m\rangle=\delta_{nm}$，则
+\[
+ E=\frac12\sum_{n\ge1}|W_n|^2
+             \frac{D\lambda_n^2}{D^2\lambda_n^4+\omega^2}.
+\]
+一个完整周期内往返的轴向运动仍可增强长期扩散；高频让各横向模来不及响应，降低相同剪切振幅下的增强。速度剖面本身也随Womersley数 $a\sqrt{\omega/\nu}$ 改变，两种频率影响应同时计入。
+
+本次数值条件取 $a=1,\nu=1$、平均速度复振幅为1，D取.1、1、10，频率从 $10^{-4}$ 到100。程序用保守径向有限体积解复胞方程，在200/400个径向单元上比较；这些都是约化教学参数，非血管或海管实测值。输出E与正性/能量一致性见源码，图如下。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={$\omega a^2/\nu$},ylabel={$E/(\overline U^2a^2/D)$},xmode=log,ymode=log,legend style={font=\small}]
+\addplot[main] table[x=omega,y=normalized_E,col sep=comma]{data/osc-pipe-D01.csv};\addlegendentry{$D/\nu=.1$}
+\addplot[blue] table[x=omega,y=normalized_E,col sep=comma]{data/osc-pipe-D1.csv};\addlegendentry{$D/\nu=1$}
+\addplot[black] table[x=omega,y=normalized_E,col sep=comma]{data/osc-pipe-D10.csv};\addlegendentry{$D/\nu=10$}
+\end{axis}\end{tikzpicture}\end{center}
+低频极限应为 $1/96$：振荡Poiseuille的周期平均多了 $\langle\cos^2\rangle=1/2$，而恒定平均速度的稳态系数为 $1/48$。不能把二者相差一倍误判为网格误差。
+\end{solution}
+
+\originalsection{弹性血管题的参数与小振幅闭合}
+\begin{exercise}\label{task:fluid-disparter}
+（\texttt{disparter.pdf}）求弹性壁血管振荡流中的色散系数E。
+\end{exercise}
+\begin{solution}
+该公开题面没有给壁厚、弹性模量、顺应性、压强波或频率，因此不能唯一给一个临床血管的数值E。先明确一个可复用的线性小振幅、长波模型，壁面积顺应性 $C_A=A_0^{-1}\dd A/\dd p$，半径相对变化小，轴向波数q满足 $qa\ll1$。真实壁可为黏弹性，此时 $C_A(\omega)$ 是复数且依边界约束。
+
+取 $p=\Re[p_\omega\e^{\mathrm i(\omega t-qz)}]$。液体动量给同一Womersley剖面，平均速度
+\[
+ \overline W=\frac{qp_\omega}{\rho\omega}F(\omega),\quad
+ F=1-\frac{2J_1(\lambda a)}{\lambda aJ_0(\lambda a)}.
+\]
+线性质量守恒 $\partial_t\delta A+A_0\partial_z\overline u=0$ 与 $\delta A/A_0=C_Ap$ 给
+\[
+ q^2=\frac{\rho C_A\omega^2}{F(\omega)}.
+\]
+弹性和黏性一起决定波速、衰减及给定压强波下的速度幅度。以这组参数求得W后，在小振幅的首个非零色散阶 $O(|W|^2)$，用上一题的复胞问题和E式。若固定平均速度幅度而非压强幅度，同一ω、a、ν下的归一化首阶剪切E与刚性圆管相同；弹性改变驱动到速度的映射，不能凭“有弹性”任意乘一个增强因子。
+
+壁运动的高阶几何作用、入口发展、纵向非均匀以及不可忽略的径向平流，需要在移动截面重新建立周期胞问题和输运测度，不能直接保留固定圆管积分权重。定义的平均迁移速度还可能含二阶波致漂移，应先扣除它再识别E。当前给出的是\emph{明确小振幅/长波条件}下的参数化答案；没有原题未提供的壁参数，因此不捏造原血管算例。既有刚性管数值脚本可作为液体子问题的复算入口。
+\end{solution}
+
+\originalsection{不可伸长薄膜的二阶漂移}
+\begin{exercise}\label{task:fluid-oilslick}
+（\texttt{oilslick.pdf}）海面无风，上有不可伸长、无质量、完全柔软薄膜，波造成 $\zeta=A\sin(kx-\omega t)$，$kA\ll1$、$\omega=\sqrt{gk}$。求平均漂移U。
+题给膜点领先速度为 $u(x,\zeta,t)=A^2\omega k\cos[2(kx-\omega t)]/4$、$v(x,\zeta,t)=-\omega A\cos(kx-\omega t)$，各有指定高阶修正。假设 $A\ll\delta=\sqrt{2\nu/\omega}$，求Stokes层的二阶Euler流及其外缘值 $\bar u_\infty$，并用 $U=-\bar u_\infty$ 匹配。原题称速度结果借自Taylor另一问题，本解仅使用题面已给条件。
+\end{exercise}
+\begin{solution}
+在随平均膜运动的框架中，取深度 $d=-y>0$、相位φ为 $kx-\omega t$。小振幅先解线性振荡Stokes问题，同时保留势流根k与黏性根 $s=\sqrt{k^2-\mathrm i\omega/\nu}$、$\Re s>0$。速度复振幅为
+\begin{align*}
+ \widehat u&=-\frac{\mathrm iA\omega s}{s-k}(\e^{-kd}-\e^{-sd}),\\
+ \widehat w&=\frac{A\omega}{s-k}(s\e^{-kd}-k\e^{-sd}),\qquad w=-v.
+\end{align*}
+它满足壁面一阶水平速度0、$w(0)=A\omega\cos\varphi$，以及 $\partial_xu+\partial_dw=0$。不能只留下黏性指数而漏掉匹配外缘势流；两个指数的相位差决定平均剪切。
+
+将边界从实际 $y=\zeta$ 展开到0，题给二阶水平膜速的时间平均为0，故
+\[
+ \bar u_2(0)=\langle\zeta\,u_{1,d}(0)\rangle
+            =\frac{A^2\omega}{2}\Re s.
+\]
+这个移动边界项量级为 $A^2\omega/\delta$，不能忽略。周期平均的动量方程、无平均压力梯度和外缘零平均剪切给
+\[
+ \nu\bar u_2''=F(d),\quad
+ F=\tfrac12\Re[\widehat w\,\widehat u_d^*],\qquad
+ \bar u_2(d)=\bar u_2(0)-\frac1\nu\int_0^\infty\min(d,\xi)F(\xi)\dd\xi.
+\]
+因此 $\bar u_\infty=\bar u_2(0)-\nu^{-1}\int_0^\infty\xi F(\xi)\dd\xi$。每个指数项可以显式积分，$\int_0^\infty\xi\e^{-a\xi}\dd\xi=a^{-2}$，这给完整二阶参数表达，而非只猜一个Stokes漂移数。
+
+为看清薄层极限，另要求 $k\delta\ll1$；题给 $A\ll\delta$ 与该条件分别控制边界振幅展开和边界层厚度。指数积分展开得
+\[
+ \frac1\nu\int_0^\infty\xi F\dd\xi
+ =\frac{A^2\omega}{2\delta}-\frac{A^2\omega k}{4}
+   +O(A^2\omega k^2\delta),
+\]
+而边界项主阶为 $A^2\omega/(2\delta)$。两个较大项抵消，外缘剩
+\[
+ \bar u_\infty=\frac14A^2\omega k+O(A^2\omega k^2\delta),\qquad
+ U=-\frac14A^2\omega k+O(A^2\omega k^2\delta).
+\]
+负号相对于给定相位的正向波传播而言，是题设的不可伸长受迫薄膜及匹配条件所得结果；不能把它换成无膜自由表面粒子的正向Stokes漂移公式。附带程序对完整复振幅指数积分复核薄层系数并保存不同 $k\delta$ 的结果，未将结果冒作油膜观測。
+
+真实可伸长油膜、不同边界张力和自由响应的波能量平衡会改变漂移。若只满足 $kA\ll1$而不满足 $k\delta\ll1$，使用上面的完整复振幅积分表达，不能继续套薄层的 $1/4$ 系数。
+\end{solution}
+
+\originalsection{振荡潮流下的Ekman层}
+\begin{exercise}\label{task:fluid-oscekman}
+（\texttt{8oscekman.pdf}）海床z为0，层外潮流为 $\Re(U_0\e^{\mathrm i\omega t})$、$\Im(V_0\e^{\mathrm i\omega t})$，$U_0,V_0$为实常数。考虑地球旋转，求边界层竖直结构，讨论全层质量通量及底部剪应力。
+\end{exercise}
+\begin{solution}
+统一用实部复振幅表示，$\widehat u_\infty=U_0$、$\widehat v_\infty=-\mathrm iV_0$。对扣除层外潮流的偏差，$\nu\widehat u''=\mathrm i\omega\widehat u-f\widehat v$、$\nu\widehat v''=\mathrm i\omega\widehat v+f\widehat u$。圆偏振组合 $q_\pm=\widehat u\pm\mathrm i\widehat v$ 使两式解耦：
+\[
+ \nu q_\pm''=\mathrm i(\omega\pm f)q_\pm,
+ \quad m_\pm=\sqrt{\mathrm i(\omega\pm f)/\nu},\quad\Re m_\pm>0.
+\]
+海床无滑移、外缘匹配给总场
+\[
+ q_\pm=(U_0\pm V_0)(1-\e^{-m_\pm z}),\qquad
+ \widehat u=(q_++q_-)/2,\quad\widehat v=(q_+-q_-)/(2\mathrm i).
+\]
+每支厚度 $\delta_\pm=\sqrt{2\nu/|\omega\pm f|}$，旋转方向由 $\omega\pm f$的号决定。潮流一般同时激发两个圆偏振分量，因此不是一条统一厚度的静态Ekman螺线。
+
+层外潮流不随z衰减，$\int_0^\infty\widehat u\dd z$ 本身发散；应讨论\emph{边界层相对外流的通量亏损}，或有限水深的总通量。亏损组合为
+\[
+ \mathcal M_\pm=\int_0^\infty(q_\pm-q_{\pm,\infty})\dd z
+             =-\frac{U_0\pm V_0}{m_\pm}.
+\]
+水平两分量按同一和/差组合还原；乘ρ是质量通量。底面流体对床的剪应力复振幅为
+\[
+ \tau_\pm=\rho\nu m_\pm(U_0\pm V_0),\quad
+ \tau_x=(\tau_++\tau_-)/2,\quad
+ \tau_y=(\tau_+-\tau_-)/(2\mathrm i).
+\]
+床对流体的牵引反号。$\omega=0$时恢复静态Ekman结果；当ω接近f，负支厚度变大，有限水深已不能当半无限层。若 $\omega=f$而 $U_0-V_0\ne0$，这一无摩擦半无限问题没有衰减的对应边界层；若恰好未激发该支，则另一支仍可存在。该特例不能靠把分母0悄悄改成小数来求“完整质量通量”。
+\end{solution}

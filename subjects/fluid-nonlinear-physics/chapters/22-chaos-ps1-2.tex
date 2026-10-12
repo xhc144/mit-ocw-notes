@@ -1,0 +1,107 @@
+\Needspace{12\baselineskip}
+\originalchapter{离散演化、Allee效应与临界减速题解}
+以下完整补入12.006J Fall 2022的PS1、PS2。PS1要求用数值实验发现行为，因此先展示实际轨道，再用已建立的线性化解释；数值轨道是模型计算，不能据此给真实气候或种群一个未经识别的参数。原课教材阅读引用不复制，解答由编者推导。
+
+\originalsection{PS1的八个公开任务}
+\begin{exercise}\label{task:chaos-PS1-1}
+（PS1.1）$x_{j+1}=\mu x_j$，µ可为任意实数。给初值 $x_0$，不借电脑预测 $x_j$，比较 $|\mu|<1,>1,=1$，以及µ正负时的演化。
+\end{exercise}
+\begin{solution}
+$x_j=\mu^jx_0$。$|\mu|<1$趋0，$|\mu|>1$除零初态外绝对值发散；µ为1时保持初值，为 $-1$ 时交替符号，是两周期（零初态例外）。µ为0一步到0，之后不变。µ正时非零初值的符号保持，µ负时每步翻号。增长/衰减与是否交替是两条独立信息。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS1-2}
+（PS1.2）用公开 \texttt{iterate} 程序或等价代码检验上题预测；图不用提交，但仍需确认能运行。
+\end{exercise}
+\begin{solution}
+按 $x\leftarrow\mu x$ 迭代即可直接核验解析式。选.5、$-.5$、1.2、$-1$分别检查衰减、交替衰减、增长和两周期；每步以浮点误差核对 $\mu^jx_0$。这一步的目的在于分清离散更新与连续指数流，不能把j误写成一个未指定采样间隔的秒数。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS1-3}
+（PS1.3）非线性更新 $x_{j+1}=4\mu x_j(1-x_j)$。证明 $x^*=(4\mu-1)/(4\mu)$ 是固定点。
+\end{exercise}
+\begin{solution}
+令R为 $4\mu$，固定点式 $x=Rx(1-x)$ 给0与 $x^*=1-1/R$。后者存在需R不为0，在物理区间 $0<x<1$还需R大于1。代入得 $Rx^*(1-x^*)=x^*$。只列非零点会漏0固定点；µ为0时不能使用含分母的表达。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS1-4}
+（PS1.4）修改程序，选几个初值检验 $.25<\mu<.75$时 $0<x_0<1$趋于上述非零点，并解释稳定。
+\end{exercise}
+\begin{solution}
+实际程序使用原式的因子4，保留初值.2与.20000001；µ为.5时都收敛到.5。更一般地 $f'(x^*)=2-R$，$|2-R|<1$等价于 $1<R<3$，即所给区间。0点在R大于1时不稳定，但初值恰为0或1会分别停在0或下一步到0，故原题排除端点有意义。线性稳定性判断局部扰动，原题数值试验检验选定初值的吸引，而非用有限几条轨道当“所有实数初值”的证明。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS1-5}
+（PS1.5）改取µ为.76，非零固定点是否仍稳定，长期发生什么？
+\end{exercise}
+\begin{solution}
+R为3.04，固定点乘子 $2-R=-1.04$，不稳定。实际轨道趋两周期；其两点为
+\[
+ x_\pm=\frac{R+1\pm\sqrt{(R-3)(R+1)}}{2R}.
+\]
+它们互相映射，初态瞬变消失后按两个值交替。两周期乘子 $f'(x_+)f'(x_-)=-R^2+2R+4$，在此约.8384，绝对值小于1；因此“固定点失稳”不自动等于“已经混沌”。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS1-6}
+（PS1.6）在 $.75<\mu<1$通过数值实验再找一个临界µ，说明其定性变化。
+\end{exercise}
+\begin{solution}
+从两周期数值序列逐步升µ，可以看到它变成四周期。上题两周期乘子穿过 $-1$ 给 $R=1+\sqrt6$，即 $\mu\simeq.862372$；它为数值发现提供独立核验。之后还有连续倍周期和周期窗口，不是每个较大µ都按同一个稳定周期演化。恰在临界值，线性乘子模为1，非线性和有限瞬变时间影响诊断，应同时延长迭代和缩小参数间距。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS1-7}
+（PS1.7）µ为.89，画初值 $x_0$与 $x_0+\epsilon$ 的时间演化，$\epsilon<.001$，比较长期行为。
+\end{exercise}
+\begin{solution}
+本次用 $x_0=.2,\epsilon=10^{-8}$，迭代600步，末段检测到8周期；两条近初值轨道落入同一稳定周期、误差衰减。末段 $\langle\ln|f'|\rangle$约 $-.0771$，支持这段轨道的稳定性，未据某个短时误差放大宣布混沌。不同吸引盆或大扰动另当别论。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS1-8}
+（PS1.8）把上题改为µ为.91，观察差别。
+\end{exercise}
+\begin{solution}
+保持同一近初值，在有限时间内小差异被放大，后来差异饱和而两轨道仍留在有界区间；末256步没有检出1--64周期，有限轨道指数约.2044。稳定8周期的误差消去，与不规则有界轨道的误差增长形成实际对比。正有限时间指数和没有检出短周期是数值证据，不是极限混沌的严格证明。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.83\linewidth,height=4.8cm,xlabel={迭代j},ylabel={$x_j$},xmin=0,xmax=120,legend style={font=\small}]
+\addplot[main] table[x=iteration,y=x,col sep=comma]{data/plots/ps1-logistic-mu0.91.csv};\addlegendentry{$x_0=.2$}
+\addplot[blue,dashed] table[x=iteration,y=x_perturbed,col sep=comma]{data/plots/ps1-logistic-mu0.91.csv};\addlegendentry{$x_0+10^{-8}$}
+\end{axis}\end{tikzpicture}\end{center}
+横轴是模型离散步数。指数计算中的有限精度正则化不得用于把导数为0的超稳定点赋一个普遍的有限指数；µ为.5时理想固定点的指数是负无穷。
+\end{solution}
+
+\originalsection{PS2：合作阈值与鞍结消失}
+\begin{exercise}\label{task:chaos-PS2-1}
+（PS2.1）种群模型 $\dot N=rN(-N^2+aN-b)$，r、a、b为正。
+(a)在 $a^2>4b$ 时画相线和 $\dot N$，数固定点及稳定性；(b)解析求点并Taylor核验；(c)改变b发生何分岔、在哪，给合理生态解释；(d)用公开 \texttt{allee} 或等价积分，从各非零点上下取初值作图；(e)若从最大稳定点开始增b过阈值，种群怎样变化？
+\end{exercise}
+\begin{solution}
+令 $N_\pm=(a\pm\sqrt{a^2-4b})/2$，固定点为0、$N_-$、$N_+$。$f'(0)=-rb<0$，$f'(N_\pm)=rN_\pm(a-2N_\pm)$，故中间点不稳定、最大点稳定。相线为：$0<N<N_-$向0，$N_-<N<N_+$向上，$N>N_+$向下。$N_-$是合作或繁殖维持所需的阈值；低密度配偶难找/合作收益不足，可给人均增长率随N先上升的合理动机，b可代表相应损失强度。
+
+b增至 $a^2/4$ 时两非零点在 $N=a/2$ 碰合，这是鞍结；再大时所有正N的右侧为负，最终到0。在临界值本身，非零点为单侧吸引，不能只由 $f'=0$说它普通渐近稳定。缓慢跨阈值还可能有动力学延迟，但不存在能永久维持的高N稳态。
+
+本次使用公开程序的 $r=1,a=8,b=13$，$N_\pm=4\pm\sqrt3$。实际五初值1、2、3、5、7的曲线如下；低于 $N_-$的两条灭绝，其余趋 $N_+$。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=4.8cm,xlabel={模型时间},ylabel={$N$},legend style={font=\small},legend columns=3]
+\addplot[main] table[x=t,y=N1,col sep=comma]{data/plots/ps2-allee-initials.csv};\addlegendentry{$N_0=1$}
+\addplot[blue] table[x=t,y=N2,col sep=comma]{data/plots/ps2-allee-initials.csv};\addlegendentry{$N_0=2$}
+\addplot[black] table[x=t,y=N3,col sep=comma]{data/plots/ps2-allee-initials.csv};\addlegendentry{$N_0=3$}
+\addplot[orange] table[x=t,y=N5,col sep=comma]{data/plots/ps2-allee-initials.csv};\addlegendentry{$N_0=5$}
+\addplot[green!50!black] table[x=t,y=N7,col sep=comma]{data/plots/ps2-allee-initials.csv};\addlegendentry{$N_0=7$}
+\end{axis}\end{tikzpicture}\end{center}
+这个无空间群体模型不包含迁入、年龄结构与有限整数灭绝事件，图是模型机制示范。
+\end{solution}
+
+\begin{exercise}\label{task:chaos-PS2-2}
+（PS2.2，五项）(a) $\dot x=r-x^2$ 的稳定点 $\sqrt r$，求恢复时间并取r趋0；(b)对上题最大N点导出原给恢复时间式；(c)引入依b线性变化且临界为0的β，比较小β极限；(d)加恒幅随机扰动时预期何早期信号；(e)使用公开 \texttt{allee\_random} 或等价模拟，让b线性改变，实际寻找信号，注意随机性和时间步伪差。
+\end{exercise}
+\begin{solution}
+(a) $\dot\eta=-2\sqrt r\,\eta+O(\eta^2)$，$\tau=1/(2\sqrt r)$。恢复速率随分岔接近而趋0，即临界减速。不能把r当原模型人口大小。
+
+(b)(c)取 $\beta=a^2/4-b>0$，$N_+=a/2+\sqrt\beta$，故
+\[
+ \tau=\frac1{2rN_+\sqrt\beta}
+ =\frac1{r[a\sqrt{a^2/4-b}+a^2/2-2b]}
+ \sim\frac1{ra\sqrt\beta}.
+\]
+这与原题式(3)等价，正号和 $1/\sqrt\beta$可以从稳定导数单独核验。两模型都有平方根临界尺度，但r在本题是固定增长率，β才是调节分岔的参数；同一个字母在两小问中不可混用。
+
+(d)若线性噪声模型 $\dd\eta=-\eta\dd t/\tau+\sigma\dd W$、噪声强度固定，则平稳方差 $\sigma^2\tau/2$、相关 $\e^{-|s|/\tau}$；接近阈值方差和固定滞后相关增加。人口趋势、测量噪声或外界强迫变化也能产生这些信号，它不是某次崩溃必发生的充分条件。
+
+(e)本次明确选择附加SDE的示范：$r=1,a=8$、b在30个时间单位内从13到15.9，$\sigma=.12$、$\Delta t=.0005$、固定种子20261012，Euler--Maruyama的噪声增量是 $\sigma\sqrt{\Delta t}\,\xi$。这与原课粗略的逐步扰动实现分开标记，不假装两者的步长依赖完全相同。减去准静态高N分支后，在中心时间5、15、25的宽4窗口中，方差约.000355、.000523、.000896；滞后.02的相关约.686、.781、.853。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.83\linewidth,height=4.8cm,xlabel={模型时间},ylabel={种群N},legend style={font=\small}]
+\addplot[main] table[x=t,y=N,col sep=comma]{data/plots/ps2-allee-noisy.csv};\addlegendentry{实际噪声模拟}
+\addplot[black,dashed] table[x=t,y=quasistatic_branch,col sep=comma]{data/plots/ps2-allee-noisy.csv};\addlegendentry{准静态稳定分支}
+\end{axis}\end{tikzpicture}\end{center}
+数值支持本次路径上的减速信号；窗口、去趋势和有限样本仍影响统计量，跨阈值噪声诱发逃逸也会使平稳线性近似失效。所有信号是实际模型计算，没有伪造野外种群观測。
+\end{solution}

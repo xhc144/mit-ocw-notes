@@ -1,0 +1,124 @@
+\Needspace{12\baselineskip}
+\originalchapter{Lab5：吸附体系的完整公开任务与相图计算}
+本章依据2005年5月5日截止的第五次实验，完整保留四个顶层任务以及手册所解释的单位、初态、涨落和有限尺寸问题。H/Pd(001)的真实实验只提供建模动机；下面所有数字来自指定晶格模型的\emph{实际计算}，不称作实测吸附结果。原Java程序确可从MIT下载，并包含源码；本卷的参数扫描用独立Python程序执行，不能把它说成原Java软件的输出。
+
+\originalsection{从表面占据到热力学模型}
+Pd原子间的候选吸附位置形成方格，$n_i=0,1$，定义 $\sigma_i=2n_i-1$。$N=L^2$个周期格点的覆盖度为 $\theta=N^{-1}\sum_i\langle n_i\rangle=(1+\langle M\rangle/N)/2$，其中 $M=\sum_i\sigma_i$。原模型按每条\emph{无序}近邻边计一次写为
+\[
+ E_0=\sum_{\langle ij\rangle}\sigma_i\sigma_j
+       -2\sum_{\langle\!\langle ij\rangle\!\rangle}\sigma_i\sigma_j,
+ \qquad \mathcal H=E_0-\mu M.
+\]
+若用有向邻接表则两相互作用和各带 $1/2$；混用会把所有转变温度放大两倍。这里 $V_1=1,V_2=-2,k_B=1$，所以横轴温度为 $k_BT/V_1$，\emph{不是Kelvin}。正近邻作用偏好相反占据，负次近邻作用偏好相同占据，两者共同支持棋盘序。
+
+巨正则配分函数为 $\Xi=\sum_{\{\sigma\}}\e^{-\beta(E_0-\mu M)}$，$\Omega=-T\ln\Xi$。因此 $\partial_\mu\Omega=-\langle M\rangle$，$\partial_\mu\langle M\rangle=\beta\operatorname{Var}M\ge0$。原手册用“化学势差”叙述µ，但在此自旋Hamiltonian中，因 $M=2N_H-N$，\emph{每增加一个H的化学势系数为 $2\mu$}，不能混淆。气体压强与真实化学势关系还含参考态及H$_2$解离的因子，本约化模型没有标定到真实压强。
+
+一次翻转 $\sigma_i\to-\sigma_i$ 的准确能量变化为
+\[
+ \Delta\mathcal H=-2\sigma_i
+ \left(\sum_{j\in\mathrm{NN}(i)}\sigma_j
+       -2\sum_{j\in\mathrm{NNN}(i)}\sigma_j-\mu\right).
+\]
+以 $\min(1,\e^{-\Delta\mathcal H/T})$ 接受对称提议。原手册正文中简写的“$\Delta E-\mu\sigma_i$”不能直接作为该翻转的实际公式；从 $-\mu M$ 必须得到 $+2\mu\sigma_i$。原Java源码的查表指数和能量更新也具有这个因子2，本卷核查源码后保留此更正。$T=0$时直接除以T无定义，零温基态应先做能量论证。
+
+\originalsection{零温基态及任意覆盖度的能量边界}
+\begin{exercise}\label{task:lab5-1}
+（原题1）在 $\theta=.5,T=0$ 时找最低能量排布，并证明它具有最低能量。
+\end{exercise}
+\begin{solution}
+偶数L的周期方格共有 $2N$条NN边及 $2N$条NNN边。NN每边至少 $-1$，NNN每边至少 $-2$，所以 $E_0\ge-6N$。棋盘排布 $\sigma_{ij}=(-1)^{i+j}$ 恰使每条NN反平行、每条NNN平行，并有 $M=0$，达到此下界。其整体翻转同样达到下界。
+
+反过来，若达到下界，每条NN均须反平行；连通方格上的一个格点取值决定其余全部取值，因此只有两种棋盘取向。奇数周期边长会产生受挫，不能套用这个等号条件；本次模拟只取偶数L。
+
+为理解全覆盖相图，再作一个有用的独立推导。相反NN边数不超过 $4\min(N_+,N_-)$，故NN和不小于 $-2N+4N|m|$，$m=M/N$。NNN贡献不小于 $-4N$，于是
+\[
+ e_0(\theta)\ge-6+4|2\theta-1|.
+\]
+在热力学极限，以宏观棋盘区与全空/全满区共存可达到这个下界，界面能除以N趋零。因此固定覆盖度的零温最低能量密度为
+\[
+ e_0(\theta)=
+ \begin{cases}-2-8\theta,&0\le\theta\le.5,\\
+               -10+8\theta,&.5\le\theta\le1.
+ \end{cases}
+\]
+这是两段共存直线，\emph{不是}每个中间覆盖度都有一个均匀新晶相。有限周期胞会有界面成本，不能要求每个N都精确达到直线。
+
+全满和全空的 $e_0=-2$，棋盘为 $-6$；比较 $e_0-\mu m$ 得零温巨正则相界 $\mu=\pm4$。在 $|\mu|<4$ 棋盘占优，$\mu>4$全满、$\mu<-4$全空。该比较既给数值扫描的入口，也独立检查了场和温度单位。
+\end{solution}
+
+\originalsection{全覆盖相图、共存与有序指标}
+\begin{exercise}\label{task:lab5-2}
+（原题2）计算体系关于温度与覆盖度的完整相图，区分有序、无序及相分离等稳定排布。按 $V_1$ 约化所有变量，相图温度轴须为 $k_BT/V_1$。
+\end{exercise}
+\begin{solution}
+均匀磁化M只能测覆盖度，不能识别平均 $M=0$ 的棋盘。定义交错序参量 $m_s=N^{-1}\sum_{ij}(-1)^{i+j}\sigma_{ij}$，以及 $U_4=1-\langle m_s^4\rangle/(3\langle m_s^2\rangle^2)$。有限胞会在两个棋盘取向之间切换，$\langle m_s\rangle$可为0而 $\langle|m_s|\rangle$仍大；把平均为0误当无序，会完全错过本题的主要相。
+
+本次真实扫描 $L=8,12,16,24$，$T=1,2,\ldots,10,12$，$\mu=0,.5,\ldots,8$，共748个不同参数点。每点分别从均匀和棋盘初态开始，1000 sweep平衡、3000 sweep生产，每5 sweep取样，以20个块估计统计波动。四颜色条件热浴更新保证同色内部无NN/NNN作用；每10 sweep再对随机子晶格作整体翻转的对称Metropolis提议，帮助跨越棋盘与均匀吸附盆地。它改变采样效率，保持同一目标分布。
+
+两初态的覆盖度差与块误差比较；本次规定诊断没有剩余不一致点，但这只关闭该有限时间诊断，不能证明无限体系的所有状态已平衡。高场区另以L为24补到 $\mu=4T$，涵盖趋近全空/全满的一侧；负µ侧依据严格自旋翻转对称 $\theta(-\mu)=1-\theta(\mu)$ 补图，并明确标为对称推得，未假装另作了一遍采样。
+
+下图显示实际L为24的覆盖度和交错序幅度。低温、半覆盖附近有棋盘序；低温偏离半覆盖时出现棋盘与低/高覆盖相的共存。高温形成连续变化的无序吸附区。颜色是有限胞测得的序幅，不能只画一道任意颜色阈值就宣布精确相界。
+\begin{center}\begin{tikzpicture}\begin{axis}[
+ width=.86\linewidth,height=6cm,xlabel={覆盖度 $\theta$},ylabel={$k_BT/V_1$},xmin=0,xmax=1,ymin=0,ymax=12.5,
+ colorbar,colorbar style={ylabel={$\langle|m_s|\rangle$}},point meta min=0,point meta max=1]
+\addplot[scatter,only marks,mark size=1.7pt,scatter src=explicit] table[x=theta,y=T,meta=order,col sep=comma]{data/adsorption-phase-plot.csv};
+\draw[dashed] (axis cs:.5,0)--(axis cs:.5,12);
+\end{axis}\end{tikzpicture}\end{center}
+
+固定T时，若 $\theta(\mu)$ 在热力学极限跳跃，则跳跃两端之间对应固定覆盖度的两相混合。图上把两个端点用水平tie line连接，所连接的区间表示相比例改变，而不是均匀覆盖连续变化。自由能是相应凸包；有限体系双峰的覆盖度直方图提供共存证据，峰间势垒和界面成本随尺寸变化。对高温二阶有序转变，覆盖度可以连续，必须结合交错序、涨落和尺寸检查。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=4.6cm,xlabel={覆盖度},ylabel={归一化计数},legend style={font=\small},xmin=0,xmax=1]
+\addplot[main,mark=none] table[x=theta_bin,y=T1_mu4,col sep=comma]{data/adsorption-coexistence-plot.csv};\addlegendentry{$T=1,\mu=4$}
+\addplot[blue,mark=none] table[x=theta_bin,y=T2_mu4,col sep=comma]{data/adsorption-coexistence-plot.csv};\addlegendentry{$T=2,\mu=4$}
+\addplot[black,mark=none] table[x=theta_bin,y=T4_mu4,col sep=comma]{data/adsorption-coexistence-plot.csv};\addlegendentry{$T=4,\mu=4$}
+\end{axis}\end{tikzpicture}\end{center}
+这三条为实际两初态采样合并的有限胞分布；$\theta=1$的最后一个格表示端点概率质量，不能把端点位置错移到1之外。峰权重受有限胞界面与有限时间影响，本图不直接给热力学共存线的精确端点。
+
+\originalsection{半覆盖临界区的尺寸核验}
+$\mu=0$ 时作规范变换 $s_{ij}=(-1)^{i+j}\sigma_{ij}$，NN和NNN都变成铁磁作用，强度分别1、2。这使Wolff簇更新可直接用于临界区，不需要在相关时间很长的临界点硬靠单格点翻转。先以68点粗扫定位，再取 $L=8,12,16,24,32$，$T=7.8,8.0,8.1,8.2,8.3,8.4,8.6$，每点三个独立种子，1000簇平衡和10000簇生产。误差来自60块delete-one-block jackknife；簇数与sweep数不是相同成本单位。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={$T/V_1$（$k_B=1$）},ylabel={$U_4$},legend columns=3,legend style={font=\small},xmin=7.8,xmax=8.6]
+\addplot[main,mark=*] table[x=T,y=binder,col sep=comma]{data/binder-L8.csv};\addlegendentry{$L=8$}
+\addplot[blue,mark=*] table[x=T,y=binder,col sep=comma]{data/binder-L12.csv};\addlegendentry{$L=12$}
+\addplot[black,mark=*] table[x=T,y=binder,col sep=comma]{data/binder-L16.csv};\addlegendentry{$L=16$}
+\addplot[green!50!black,mark=*] table[x=T,y=binder,col sep=comma]{data/binder-L24.csv};\addlegendentry{$L=24$}
+\addplot[orange,mark=*] table[x=T,y=binder,col sep=comma]{data/binder-L32.csv};\addlegendentry{$L=32$}
+\end{axis}\end{tikzpicture}\end{center}
+相邻尺寸的线性插值交点为约8.089、8.074、8.031、8.016，随尺寸移动；本次证据定位临界温度在约8.0附近，而非给四位小数的无限晶格定值。交点漂移、统计误差、温度插值及有限尺寸修正需共同评估。当前扫描覆盖低温到高温及全覆盖范围，细相界仍保留分辨率限制，不能据有限点集声称已证明完整无限体系相图。
+\end{solution}
+
+\originalsection{Langmuir极限与模型不对称性}
+\begin{exercise}\label{task:lab5-3}
+（原题3）在几个有代表性的温度画覆盖度对 $\mu/(k_BT)$，与无相互作用Langmuir关系 $\ln[\theta/(1-\theta)]=2\mu/(k_BT)$ 比较；在什么温度预期一致？
+\end{exercise}
+\begin{solution}
+设两作用均为0，单点配分函数 $z=\e^{\beta\mu}+\e^{-\beta\mu}$，$\theta=\e^{\beta\mu}/z=[1+\e^{-2\beta\mu}]^{-1}$，正好得到原式的因子2。相互作用存在时，邻域占据改变单点能量，不能用同一独立位点式解释低温棋盘和共存。
+
+真正高温极限须令 $T\gg|V_1|,|V_2|$，同时保持 $\mu/T$ 有限，而非保持µ不变后只看到 $\theta\to.5$。本次另实际取 $T=4,8,12,24,48$、L为24、$\mu/T=0,.25,\ldots,3$，比较同一横轴。48的曲线明显靠近无作用极限，仍保留 $O(V/T)$ 偏差；8附近还受棋盘临界涨落影响。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={$\mu/(k_BT)$},ylabel={覆盖度},xmin=0,xmax=3,ymin=.4,ymax=1,legend style={font=\small},legend pos=south east]
+\addplot[black,dashed,domain=0:3,samples=100]{1/(1+exp(-2*x))};\addlegendentry{Langmuir}
+\addplot[main,mark=*] table[x=mu_over_T,y=theta,col sep=comma]{data/langmuir-T4.csv};\addlegendentry{$T=4$}
+\addplot[blue,mark=*] table[x=mu_over_T,y=theta,col sep=comma]{data/langmuir-T8.csv};\addlegendentry{$T=8$}
+\addplot[green!50!black,mark=*] table[x=mu_over_T,y=theta,col sep=comma]{data/langmuir-T12.csv};\addlegendentry{$T=12$}
+\addplot[orange,mark=*] table[x=mu_over_T,y=theta,col sep=comma]{data/langmuir-T24.csv};\addlegendentry{$T=24$}
+\addplot[red,mark=*] table[x=mu_over_T,y=theta,col sep=comma]{data/langmuir-T48.csv};\addlegendentry{$T=48$}
+\end{axis}\end{tikzpicture}\end{center}
+以上新温度点由同一已核验目标Hamiltonian生成，不把T为12说成严格无相互作用。原任务只要求若干有意义的温度，不要求每个温度都是实验温度。
+\end{solution}
+
+\begin{exercise}\label{task:lab5-4}
+（原题4）本模型最高有序温度在 $\theta=.5$，而实验最高温度略偏低于半覆盖。怎样修改Hamiltonian以再现这种不对称？只需建议，无须计算。
+\end{exercise}
+\begin{solution}
+当前两体自旋作用在 $\sigma\to-\sigma,\mu\to-\mu$ 下对称，因此整个相图关于半覆盖镜像。单纯重新定义µ零点只平移场轴，不能让两个覆盖侧的有序机制本身不对称。
+
+可加入有物理依据的奇数体相互作用，例如邻接三位点 $V_3\sigma_i\sigma_j\sigma_k$，其在全自旋翻转下变号；也可用占据变量建立覆盖度依赖的基底弹性、多体电子效应或不同位置的吸附能，使“缺H”和“加H”的缺陷不再等价。具体项应由额外第一性原理构型能量或公开实验约束拟合，并检查相图如何改变，不能为了让顶点向左随意在结果图上平移。
+
+非均匀吸附位点、表面重构、非平衡扫描和实验覆盖度标定也可能改变观察到的顶点；仅一个顶点位置不能唯一识别微观多体参数。本题要求可检验的模型建议，而非虚构一个已完成的改进拟合。
+\end{solution}
+
+\originalsection{原程序、涨落读出与复算边界}
+原Java包的公开入口、输入token及源码下载哈希记于来源表。它的顺序扫描Metropolis与本次热浴/簇更新在适用条件下采样同一平衡分布，轨迹时间不可当真实原子动力学。本次附带程序保存实际参数、种子、所有网格及加密数据，能在有NumPy/Numba的环境运行；原程序重跑须单独记录Java版本与输出。
+
+在固定µ的巨正则分布，$\operatorname{Var}\mathcal H/T^2$ 是 $\langle\mathcal H\rangle$ 的温度导数；若报告物理能 $E_0$ 的固定µ热响应，需用 $\operatorname{Cov}(E_0,\mathcal H)/T^2$。固定覆盖度热容与固定µ响应不同。均匀易感性 $\operatorname{Var}M/(NT)$ 测覆盖涨落，交错易感性测棋盘序，二者也不能换用。本章临界图用交错Binder比，而非把均匀易感性峰误作棋盘临界点。
+
+有限尺寸、共存隧穿、临界相关、初态依赖和块大小都是计算物理任务的一部分。当前已给全参数范围、细化临界证据和可复算输入；尚未完成严格无限尺寸外推及每个有限T的高精度共存曲线。该限制不删题面，也不以“公式会写”冒充已经运行的数值任务。
