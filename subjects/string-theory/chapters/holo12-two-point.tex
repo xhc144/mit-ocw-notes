@@ -1,0 +1,137 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{8.821 课程详讲：欧氏二点函数的完整计算}
+本章对应第 20 讲, 并展开 PS5.2 使用的核. 只算一个自由标量的标准量子化, $\nu=\Delta-d/2>0$. 场作用量的正归一化系数保留为 $\mathcal A_\phi$, 以免把不同场重标度及大 $N$ 算符选择混用. 欧氏取正定 metric, 首先处理非整数 $\nu$, 再说明 log 与接触项.
+
+\originalsection{生成泛函与壳上处方的号}
+边界源 $J(x)$ 的连通泛函定义为
+\[
+Z[J]=\left\langle\exp\left(\int\dd^dx\,J\mathcal O\right)\right\rangle,
+\quad W[J]=\log Z[J],
+\quad\langle\mathcal O(x)\rangle_J=\frac{\delta W}{\delta J(x)}.
+\]
+在对偶猜想中, 该泛函等于体场具有相应近边界源系数的路径积分. 经典体近似给 $W[J]=-S_{E,\rm ren}[\phi_c]$, 因为本章采用正的欧氏作用量和权重 $\ee^{-S_E}$. 有些讲义把 $S_E$ 定义为本章的负值而写 $\ee^{S_E}$, 比较时须把这两处号一起比较.
+
+这里的标量二次作用量是
+\[
+S_E=\frac{\mathcal A_\phi}2\int\dd z\dd^dx\sqrt g
+\bigl(g^{MN}\partial_M\phi\partial_N\phi+m^2\phi^2\bigr).
+\]
+在合适稳定边界条件下求经典解 $\phi_c$, 源条件为 $\phi_c\sim z^{d-\Delta}J$. 固定 $\mathcal A_\phi\propto1/G$ 的未重标度体场常给二点 $O(N^2)$; 若改用正则场和前章二点 $O(N^0)$ 的单迹归一化, 要相应重标度源与算符. 两种计数不矛盾, 本章的系数直接显示这份归一化.
+
+\originalsection{壳上体积分怎样变成边界项}
+在 $z\ge\epsilon$ 的区域积分分部, 场方程使体项消失, 有
+\[
+S_{E,\rm os}=\frac{\mathcal A_\phi}2
+\int_{z=\epsilon}\dd^dx\sqrt h\,\phi_c n^M\partial_M\phi_c,
+\quad n^z=-\frac\epsilon R.
+\]
+外法向指向更小的 $z$, 不是朝体内部. 因 $\sqrt h=(R/\epsilon)^d$, 得
+\[
+S_{E,\rm os}=-\frac{\mathcal A_\phi R^{d-1}}2
+\int\dd^dx\,\epsilon^{1-d}\phi_c\partial_z\phi_c.
+\]
+欧氏内部的另一端采取正则/相应衰减条件, 不贡献这份紫外边界项. 把 $\phi=z^{d-\Delta}A+z^\Delta B$ 代入, $A^2$ 项按 $\epsilon^{d-2\Delta}$ 发散, $B^2$ 项按 $\epsilon^{2\Delta-d}$ 消失, 交叉项有限. 因而只“去掉发散项”之前, 不能直接从裸边界项读出物理响应的系数.
+
+最领先的局部反项是
+\[
+S_{\rm ct}^{(0)}=\frac{\mathcal A_\phi R^{d-1}}2
+(d-\Delta)\int\dd^dx\,\epsilon^{-d}\phi_c(\epsilon,x)^2.
+\]
+它抵消最前的 $A^2$ 发散, 却也改变有限的 $AB$ 项. 对更高 $\nu$ 还需 $\partial_\mu\phi$ 等导数反项, 其作用是移除近边界解析动量幂. 所有项都在同一截止面上用 $\phi_c$ 表示, 不是任意删去一个依赖源的非局域函数.
+
+\originalsection{用两支基底看清有限系数}
+取两支解 $\phi_1\sim z^{d-\Delta}$、$\phi_2\sim z^\Delta$, 各自补齐关于 $k^2z^2$ 的解析展开. 例如慢支系数递推为 $a_s=a_{s-1}/[4s(s-\nu)]$, 在没有整数共振时存在. 定义外向边界动量密度
+\[
+\Pi_i=-\mathcal A_\phi R^{d-1}z^{1-d}\partial_z\phi_i.
+\]
+完整解为 $\phi=A\phi_1+B\phi_2$, 裸二次壳上项是 $\tfrac12\int\phi\Pi$. 选反项
+\[
+S_{\rm ct}=-\frac12\int\frac{\Pi_1}{\phi_1}\phi^2,
+\]
+将比值按小 $\epsilon$ 展成所需局部解析阶, 就抵消 $A^2$ 发散. $B^2$ 项消失, 剩余是
+\[
+S_{E,\rm ren}=\frac12\int A(-k)B(k)
+(\phi_1\Pi_2-\Pi_1\phi_2)
+=-\frac{\mathcal A_\phi R^{d-1}}2
+\int\frac{\dd^dk}{(2\pi)^d}(2\Delta-d)A(-k)B(k)
+\]
+加上可选择的有限局部源项. 最后一步仅用两支指数之和为 $d$: $\phi_1\Pi_2\to-\mathcal A_\phi R^{d-1}\Delta$, $\Pi_1\phi_2\to-\mathcal A_\phi R^{d-1}(d-\Delta)$.
+
+自由方程中 $B$ 线性依赖 $A=J$, 核对称, 对 $W=-S_{E,\rm ren}$ 求导给
+\[
+\langle\mathcal O(x)\rangle_J
+=\mathcal A_\phi R^{d-1}(2\Delta-d)B(x)
++\text{局部 源项}.
+\]
+这个系数是裸动量和反项共同给出的, 并非单纯把 $\partial_z z^\Delta$ 的 $\Delta$ 读出来. 此结果把前章的“快支像期望值”变成定量的一点函数字典.
+
+\originalsection{Bessel 解固定响应与源的比例}
+对欧氏非零动量 $k=|\mathbf k|>0$, 波动方程写成
+\[
+z^2\phi''+(1-d)z\phi'-(k^2z^2+m^2R^2)\phi=0.
+\]
+令 $\phi=z^{d/2}f(kz)$, 得修正 Bessel 方程, 两解为 $I_\nu,K_\nu$. 大 $z$ 时前者指数增长, 后者衰减, 所以正则解选 $K_\nu$. 对非整数 $\nu$,
+\[
+K_\nu(kz)=\frac{\Gamma(\nu)}2
+\left(\frac{kz}2\right)^{-\nu}(1+\cdots)
++\frac{\Gamma(-\nu)}2
+\left(\frac{kz}2\right)^\nu(1+\cdots).
+\]
+令慢支系数为 $J(k)$, 得
+\[
+\phi_c(k,z)=J(k)\frac{2(k/2)^\nu}{\Gamma(\nu)}
+z^{d/2}K_\nu(kz),
+\qquad
+\frac{B(k)}{J(k)}=\frac{\Gamma(-\nu)}{\Gamma(\nu)}
+\left(\frac k2\right)^{2\nu}.
+\]
+因此非局域二点核为
+\[
+G_E(k)=\mathcal A_\phi R^{d-1}2\nu
+\frac{\Gamma(-\nu)}{\Gamma(\nu)}
+\left(\frac k2\right)^{2\nu}
++\text{解析接触项}.
+\]
+这里的 Gamma 比例和动量幂是内部正则性决定, 不是仅由边界指数决定. $k=0$、constant 源或有其他红外条件时须取相应极限或单独解其齐次问题; 不能把非零 $k$ 的指数衰减条件机械套到每个 constant 源.
+
+\originalsection{整数指数、log 与重整化尺度}
+当 $\nu=n$ 为正整数, $\Gamma(-\nu)$ 有极点, 两支级数发生共振. 围绕 $\nu=n+\varepsilon_\nu$ 解析调节,
+\[
+k^{2\nu}=k^{2n}(1+2\varepsilon_\nu\log k+\cdots).
+\]
+极点乘 $k^{2n}$ 是局部动量多项式, 由反项移除; 留下 $k^{2n}\log(k/\mu)$ 的非局域项和方案依赖的多项式. 引入 $\mu$ 是重整化尺度, 改变它只改变这份局部接触项, 不改变分离点二点函数的幂律.
+
+例如 $d=4,m=0$ 时 $\Delta=4,\nu=2$. 在本章约定下, 非局域项为
+\[
+G_E(k)=-\frac{\mathcal A_\phi R^3}{4}
+k^4\log(k/\mu)+\text{局部 项}.
+\]
+负的 log 系数不应脱离接触项和分布定义被当成“坐标二点函数为负”; 对分离点的实际结果如下. $\nu=0$ 的 BF 重根也需另一份 log 源定义, 本章没有用上述 $\nu>0$ 公式隐含处理它.
+
+\originalsection{位置空间核的归一化}
+对标准 $\Delta>d/2$, 边界到体核可写
+\begin{equation}\label{eq:K}
+K_\Delta(z,x;y)=c_\Delta
+\left[\frac z{z^2+|x-y|^2}\right]^\Delta,
+\quad
+c_\Delta=\frac{\Gamma(\Delta)}{\pi^{d/2}\Gamma(\Delta-d/2)}.
+\end{equation}
+对数导数 $\partial_z\log K=\Delta[1/z-2z/(z^2+r^2)]$、$\partial_{x^\mu}\log K=-2\Delta(x-y)_\mu/(z^2+r^2)$ 代入 Laplacian, 得 $(\nabla^2-m^2)K=0$, $m^2R^2=\Delta(\Delta-d)$. 这检验核的动力学条件; 常数还须由源的 delta 极限确定.
+
+令 $x-y=zu$, 则
+\[
+\int\dd^dy\,K_\Delta(z,x;y)J(y)
+\sim c_\Delta z^{d-\Delta}J(x)
+\int_{\mathbb R^d}\frac{\dd^du}{(1+u^2)^\Delta}.
+\]
+用球坐标与 Beta 积分, 最后积分为 $\pi^{d/2}\Gamma(\Delta-d/2)/\Gamma(\Delta)$, 正好与 $c_\Delta$ 抵消. 因而 $\phi_c=\int K_\Delta J$ 的慢支正是源 $J$. 对 $x\ne y$, $z\to0$ 的快支系数是 $c_\Delta J(y)/|x-y|^{2\Delta}$, 代入一点响应得
+\[
+\boxed{\langle\mathcal O(x)\mathcal O(y)\rangle
+=\mathcal A_\phi R^{d-1}(2\Delta-d)
+\frac{\Gamma(\Delta)}{\pi^{d/2}\Gamma(\Delta-d/2)}
+\frac1{|x-y|^{2\Delta}}},\qquad x\ne y.
+\]
+它完整符合共形二点幂律, 并给出指定体动能和源归一化的系数. 若取 $d=4,\Delta=4$, 系数是 $24\mathcal A_\phi R^3/\pi^2$, 与前面的 $k^4\log k$ 分布相容. 接触项与标量重标度仍会改变同点表达或总常数, 不能从省略归一化的 $\propto$ 公式任意断言一个统一物理系数.
+
+\originalsection{这一计算建立的响应与剩余条件}
+这段计算的实际输入是一个体二次作用量、标准源支和内部正则性. 输出包括源诱发的一点函数、二点响应及其近边界重整化. 它没有单独计算所有多场混合、有限 $N$ 环、替代量子化或任意回馈背景的二点函数. 对 $0<\nu<1$ 的替代量子化需作相应 Legendre 变换并交换源/响应, 不能只把本章的 $\Delta$ 换成小根而保留一切归一化. 下一章加入体相互作用来求更高点函数.

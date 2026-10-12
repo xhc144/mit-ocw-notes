@@ -1,0 +1,74 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{诱导度规与世界面的面积}\label{ch:basic-area}
+对应 8.251 第 7--9 讲. 参数只是给曲面上的点命名; 长度、角度和面积必须从实际嵌入导出. 先在欧氏空间证明面积公式, 再检查类时世界面的符号, 可以避免凭记忆把两个平方根混用.
+
+\originalsection{一个参数小格映射成什么}
+设 $\boldsymbol x(\xi^1,\xi^2)$ 是欧氏空间内的光滑曲面. 参数平面上的小矩形映为由
+$\boldsymbol e_1\dd\xi^1,\boldsymbol e_2\dd\xi^2$ 张成的小平行四边形, 其中 $\boldsymbol e_i=\partial_i\boldsymbol x$. 两条参数线一般不正交. 面积由底乘高给
+\[
+ \dd A=\sqrt{(\boldsymbol e_1\cdot\boldsymbol e_1)
+ (\boldsymbol e_2\cdot\boldsymbol e_2)
+ -(\boldsymbol e_1\cdot\boldsymbol e_2)^2}
+ |\dd\xi^1\dd\xi^2|.
+\]
+定义诱导度规 $g_{ij}=\boldsymbol e_i\cdot\boldsymbol e_j$, 就得到 $\dd A=\sqrt{\det g}\,\dd^2\xi$ 和 $\dd\ell^2=g_{ij}\dd\xi^i\dd\xi^j$. 一个矩阵同时告诉我们曲面内部的距离与面积, 无需另指定二者. 若两个切向量线性相关, $\det g=0$, 参数化在该处退化, 不能直接把它当作良好坐标图.
+
+\begin{example}
+图形曲面 $\boldsymbol x(u,v)=(u,v,f(u,v))$ 给
+$g_{11}=1+f_u^2,g_{22}=1+f_v^2,g_{12}=f_uf_v$, 因而 $\det g=1+f_u^2+f_v^2$. 小斜率展开 $\dd A\simeq[1+(f_u^2+f_v^2)/2]\dd u\dd v$ 与弦长度的平方斜率修正同源.
+\end{example}
+
+\originalsection{内禀度规与高维体积}
+上述式子即使没有给出外部三维空间也成立. 给定一个正定二维度规, 参数方向的小向量 $v_1=(\dd\xi^1,0),v_2=(0,\dd\xi^2)$ 以 $g$ 取内积, 底乘高仍给 $\sqrt{g_{11}g_{22}-g_{12}^2}$.
+
+对 $n$ 个切向量 $\boldsymbol e_i$, 做 Gram--Schmidt 正交化: 每次从一个向量中减去前面方向的分量, 相当于对平行多面体作剪切, 不改变体积. 正交后的向量长度记为 $b_i$, 体积为 $\prod_i b_i$. 同样操作把 Gram 矩阵变为对角阵, 其行列式为 $\prod_i b_i^2$. 因此无论嵌入空间维数是否大于 $n$, 都有
+\[
+ \dd V_n=\sqrt{\det(g_{ij})}\,\dd^n\xi.
+\]
+若恰有 $n$ 维笛卡尔坐标且矩阵 $B$ 的列是这 $n$ 个向量, $g=B^{\mathsf T}B$, 故 $\sqrt{\det g}=|\det B|$. 绝对值保证改变取向不会把几何体积变为负数.
+
+\originalsection{变量替换与面积不变性}
+取可逆坐标替换 $\xi^i=\xi^i(\widetilde\xi)$, Jacobian $J^i{}_a=\partial\xi^i/\partial\widetilde\xi^a$. 链式法则给
+\[
+ \widetilde g_{ab}=J^i{}_a g_{ij}J^j{}_b,
+ \quad\det\widetilde g=(\det J)^2\det g,
+ \quad\dd^n\xi=|\det J|\dd^n\widetilde\xi.
+\]
+于是 $\sqrt{\widetilde g}\dd^n\widetilde\xi=\sqrt g\dd^n\xi$. 被积函数若是标量, $A=\int\sqrt g\dd^2\xi$ 不依赖标记方式. 这里使用的是体积测度; 对有向微分形式, Jacobian 的符号另有意义. 把两种约定混在一起会错误地以为反向参数化改变面积.
+
+若曲面要用多个坐标图, 积分域需分片且避免重复计数. 重参数化的局部不变性并不允许用一个重复覆盖两次的参数域而不作修正.
+
+\originalsection{从空间曲面到类时世界面}
+弦的历史是 $X^\mu(\tau,\sigma)$, 其诱导度规
+\[
+ h_{ab}=\eta_{\mu\nu}\partial_aX^\mu\partial_bX^\nu,
+ \qquad h=\begin{pmatrix}\dot X^2&\dot X\cdot X'\\
+ \dot X\cdot X'&X'^2\end{pmatrix}.
+\]
+假定世界面是非退化类时曲面, 切平面内有一个类时方向及一个独立类空方向. 将后者减去在类时方向的投影可正交化; 正交基的平方分别负、正, 故 $\det h<0$. 等价地, 若 $X'$ 类空, 求 $\dot X+\lambda X'$ 的零平方方向, 判别式为
+$4[(\dot X\cdot X')^2-\dot X^2X'^2]>0$; 两条零方向界定世界面内部的因果锥.
+
+因此实的面积密度为
+\[
+ \sqrt{-\det h}
+ =\sqrt{(\dot X\cdot X')^2-\dot X^2X'^2}.
+\]
+对静止弦 $X^0=c\tau,\boldsymbol X=\boldsymbol f(\sigma)$,
+有 $\dot X^2=-c^2,X'^2=|\boldsymbol f'|^2,\dot X\cdot X'=0$, 面积元为 $c|\boldsymbol f'|\dd\tau\dd\sigma$. 若误用欧氏曲面的 $\sqrt{\det h}$ 就会得到虚数. 两式差异完全来自度规签名.
+
+\begin{center}
+\begin{tikzpicture}[scale=.85,>=Stealth]
+ \draw[->](0,0)--(4.6,0) node[right]{$\sigma$};
+ \draw[->](0,0)--(0,3.3) node[above]{$\tau$};
+ \draw[structurecolor,very thick](.7,.7)--(2.7,2.7);
+ \draw[structurecolor,very thick](2.7,.7)--(.7,2.7);
+ \fill (1.7,1.7) circle(2pt);
+ \node[right]at(3,2.5){两条类光切向方向};
+ \node at(1.7,3){类时};\node at(3.4,1.4){类空};
+\end{tikzpicture}
+\end{center}
+
+\originalsection{参数时间不等于目标时空时间}
+在良好区域可以选 $X^0=c\tau$ 的静态规范, 但面积式本身不要求它. $\sigma$ 的固定范围也不等于弦的物理长度固定; 后者是 $\int|\partial_\sigma\boldsymbol X|\dd\sigma$ 并随时间变化. 闭弦要求参数端点周期识别, 开弦则保留真实边界. 世界面取向还影响带取向弦的相互作用拼接, 它不是目标空间中向左或向右运动的同义词.
+
+我们只对非退化内点使用上述逆度规和面积公式. 自由开弦端点的世界面可退化为类光边界, 需要取内部极限或在共形规范中处理. 下一章的变分将先给内部方程与完整边界项, 再检查这类端点, 避免在 $\det h=0$ 处直接除零.

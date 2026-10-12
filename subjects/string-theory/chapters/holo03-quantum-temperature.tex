@@ -1,0 +1,156 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{8.821 课程详讲：真空约化、热纠缠与黑洞熵}
+\label{ch:holo-quantum-thermal-full}
+本章对应第 4--5 讲的量子解释和热力学: 热密度矩阵与其纯化、双振子 Bogoliubov 变换、欧氏半平面制备真空、Rindler 楔的约化态、Hartle--Hawking 态以及黑洞四定律和信息问题. 前章的温度只用了几何正则性, 本章说明它对应什么物理态. 前置是密度矩阵、部分迹与场的路径积分; 有关基础见本仓库量子和场论卷, 以下仍将需要的计算逐步列出.
+
+\originalsection{一个系统的热态可以来自更大系统的纯态}
+设 $H|n\rangle=E_n|n\rangle$, 能谱离散且 $Z=\sum_n\ee^{-\beta E_n}$ 有限. 热密度矩阵为
+\[
+\rho_\beta=\frac1Z\sum_n\ee^{-\beta E_n}|n\rangle\langle n|.
+\]
+它在一份系统里通常是混态. 引入两份相同谱的系统 $\mathcal H_R\otimes\mathcal H_L$, 定义
+\[
+|\mathrm{TFD}_\beta\rangle=
+\frac1{\sqrt Z}\sum_n\ee^{-\beta E_n/2}
+|n\rangle_R\otimes|\widetilde n\rangle_L.
+\]
+左侧的 $|\widetilde n\rangle$ 是与右侧适当共轭匹配、具有同能量的基. 态的归一化等于 $Z/Z=1$. 用正交性作部分迹:
+\begin{align*}
+\operatorname{Tr}_L|\mathrm{TFD}\rangle\langle\mathrm{TFD}|
+&=\frac1Z\sum_{n,m}\ee^{-\beta(E_n+E_m)/2}
+|n\rangle_R\langle m|_R\,
+\langle\widetilde m|\widetilde n\rangle_L\\
+&=\frac1Z\sum_n\ee^{-\beta E_n}|n\rangle_R\langle n|_R.
+\end{align*}
+于是任意只作用于右侧的算符 $\mathcal O_R$ 都满足
+\[
+\langle\mathrm{TFD}|\mathcal O_R|\mathrm{TFD}\rangle
+=\operatorname{Tr}(\rho_\beta\mathcal O_R).
+\]
+整体态并没有通过这一步变成混态; 观察者只访问右侧时忽略了左侧相关性, 才得到热统计. 此外 $(H_R-H_L)|\mathrm{TFD}\rangle=0$, 因为每一项左右能量相等. 它对两侧反向时间平移不变, 通常却不对 $H_R+H_L$ 不变. 这个符号将在两侧黑洞的 Killing 时间方向中再次出现.
+
+\originalsection{双谐振子的完整算例}
+把零点能同时减去, 单振子能量 $E_n=n\omega$, 取 $\hbar=1$. 定义 $q=\ee^{-\beta\omega/2}$, $0<q<1$, 则
+\[
+Z=\frac1{1-q^2},\qquad
+|\mathrm{TFD}\rangle=\sqrt{1-q^2}\sum_{n=0}^\infty q^n|n,n\rangle.
+\]
+右侧约化概率为 $p_n=(1-q^2)q^{2n}$. 用几何级数的导数,
+\[
+\overline n=(1-q^2)\sum_{n=0}^\infty nq^{2n}
+=\frac{q^2}{1-q^2}=\frac1{\ee^{\beta\omega}-1},
+\]
+正是 Bose 分布. 熵为
+\[
+S_R=-\sum_np_n\log p_n
+=(\overline n+1)\log(\overline n+1)-\overline n\log\overline n.
+\]
+在 $\beta\omega\gg1$ 时 $q\to0$, 态趋近 $|0,0\rangle$, 纠缠和热占据都消失. 在 $\beta\omega\ll1$ 时占据增大, 熵也增大. 这从一个可完全计算的系统显示“整体真空/纯态”与“局部热态”可以相容.
+
+创造算符形式必须有正确系数. 因为 $(a_R^\dagger a_L^\dagger)^n|0,0\rangle=n!|n,n\rangle$, 所以
+\[
+|\mathrm{TFD}\rangle=\sqrt{1-q^2}
+\exp(q a_R^\dagger a_L^\dagger)|0,0\rangle.
+\]
+指数中的系数是 $q=\ee^{-\beta\omega/2}$, 不是 $-\beta\omega/2$ 本身. 直接展开为数态求和, 可检查任何排版或文本提取误差.
+
+再定义 $\cosh\vartheta=(1-q^2)^{-1/2}$、$\sinh\vartheta=q(1-q^2)^{-1/2}$, 以及
+\[
+b_R=\cosh\vartheta\,a_R-\sinh\vartheta\,a_L^\dagger,
+\qquad b_L=\cosh\vartheta\,a_L-\sinh\vartheta\,a_R^\dagger.
+\]
+由 $[a_R,a_R^\dagger]=[a_L,a_L^\dagger]=1$、不同系统互相对易, 得 $[b_R,b_R^\dagger]=[b_L,b_L^\dagger]=\cosh^2\vartheta-\sinh^2\vartheta=1$, 交叉对易子为零. 又由级数逐项移位, $a_R|\mathrm{TFD}\rangle=q a_L^\dagger|\mathrm{TFD}\rangle$, 左右同理, 所以 $b_R|\mathrm{TFD}\rangle=b_L|\mathrm{TFD}\rangle=0$.
+
+同一个态是 $b$ 模的真空, 却含 $a$ 模的热粒子. 粒子数算符的选择涉及正频模及时间生成元, 不能只把两种湮灭算符都叫作“粒子”而忽略这个选择. Bogoliubov 变换的物理用途正是把两套正频定义联系起来.
+
+\begin{example}
+取 $\beta\omega=\log2$, 则 $q^2=1/2$, $p_n=2^{-n-1}$, $\overline n=1$, $S_R=2\log2$. 但两振子整体的 von Neumann 熵仍为零, 因为它是归一化纯态. 右侧热熵和整体熵不同, 无须违反量子力学.
+\end{example}
+
+\originalsection{欧氏半平面为何制备基态}
+在 Schrödinger 表象中, 标量场态写为波泛函 $\Psi[\phi(\mathbf x)]$. 传播核是场在两个时片取指定构型的路径积分. 将时间转为欧氏后, 核对应 $\ee^{-\tau H}$ 而不是酉演化. 对任意与基态有非零重叠的初态 $|\chi\rangle$,
+\[
+\frac{\ee^{-TH}|\chi\rangle}{\|\ee^{-TH}|\chi\rangle\|}
+\longrightarrow |0\rangle\quad(T\to\infty)
+\]
+在基态非简并且投影极限存在的情况下成立. 因而真空波泛函可由下半欧氏时空、在 $T_E=0$ 固定边界构型的路径积分给出:
+\[
+\Psi_0[\phi]=\mathcal N
+\int_{T_E<0,\ \phi(T_E=0)=\phi}\mathcal D\phi\,
+\ee^{-S_E[\phi]}.
+\]
+这一步解释了下半平面而不是随意取某段实时间的原因. 真空不是先假定为一个热态, 温度将在把同一几何按不同方向切开时出现.
+
+在二维 Minkowski 的欧氏平面, 用 $X=\rho\cos\theta$、$T_E=\rho\sin\theta$. 下半平面角度为 $-\pi\le\theta\le0$. 正 $X$ 半轴上的场构型记作 $\phi_R$, 负 $X$ 半轴为 $\phi_L$. 若以角度演化而不是以 $T_E$ 演化, 同一个半平面路径积分就是
+\[
+\Psi_0[\phi_R,\phi_L]
+\propto\langle\phi_R|\ee^{-\pi H_R}|\phi_L\rangle
+=\sum_n\ee^{-\pi E_n}
+\chi_n[\phi_R]\widetilde\chi_n[\phi_L].
+\]
+$H_R$ 生成无量纲 Rindler 时间 $\eta$ 的平移, 欧氏化后生成角度演化. 从 $-\pi$ 到 0 的长度为 $\pi$, 所以纯化权重是 $\ee^{-\pi E_n}$; 对比上一节 $\ee^{-\beta E_n/2}$, 即 $\beta=2\pi$.
+
+在给场论加短距离调节后, 把左右空间自由度分成两份, 可以写
+\[
+|0\rangle_M=Z_R^{-1/2}\sum_n\ee^{-\pi E_n}
+|n\rangle_R\otimes|\widetilde n\rangle_L,
+\qquad \rho_R=Z_R^{-1}\ee^{-2\pi H_R}.
+\]
+严格连续场论的局域代数一般不能朴素地当成两个有限维 Hilbert 空间张量积, 纠缠熵还含紫外发散. 本章的态和迹计算采用调节后的表达或其局域关联函数意义, 不用形式分解掩盖这个条件. 正则 Minkowski 真空的楔内关联函数仍具有所述 KMS 热周期.
+
+固定 $\rho$ 的观察者固有时 $\tau=\rho\eta$, 其固有 Hamiltonian 为 $H_R/\rho$. 因而 $\ee^{-2\pi H_R}=\ee^{-(2\pi\rho)H_{\rm proper}}$, 实际局部逆温度为 $2\pi\rho$, 恢复 $\hbar,\kb$ 得 $T=\hbar/(2\pi\kb\rho)=\hbar a/(2\pi\kb)$, 与几何推导相同. 右楔热性来自左右纠缠, 不是把整个 Minkowski 真空改成了热浴态.
+
+\originalsection{黑洞外部的不同真空选择}
+同一曲背景可以按不同的正频模定义“真空”. 对永恒 Schwarzschild, 正则欧氏黑洞的半平面制备 Hartle--Hawking 态. 它把两个外部区域相关起来, 单侧约化态对边界归一化的 $t$ 是温度 $T_H$ 的平衡态. 两侧 Killing 时间方向相反, 整体态对 $H_R-H_L$ 不变, 与 TFD 完全相符.
+
+若直接以静止 Schwarzschild 时间 $t$ 的正频模定义没有粒子的态, 得 Boulware 态. 它在远处适合描述空的静止真空, 却不能在视界附近作为正则的自由落体真空: 合适重整化后的应力在靠近视界时出现奇异行为. 类似地, Rindler 模的真空不是正则 Minkowski 真空的完整延拓. 故“正频”总需说明是相对于哪个时间生成元.
+
+真正从坍缩产生的黑洞没有第二个外部或过去白洞. 晚时的适当近似通常采用 Unruh 态: 入射侧接近真空, 出射侧有 Hawking 粒子流. 它不是与两侧平衡热浴完全相同的 Hartle--Hawking 状态. 外部远处的出射谱还受散射势的灰体因子影响, 因此不能把正则欧氏温度的证明直接称作已经算完坍缩背景的全部粒子谱.
+
+这几种态的区别也使前章“静止温度趋向无穷”的含义更清楚. 正则态中自由落体局部可观测量在视界正常; 静止探测器必须无限加速, 它的响应与惯性探测器不同. 从某个特定观察者的粒子计数推断所有观察者遇到相同无限能量, 是把态、模和轨迹混在了一起.
+
+\originalsection{从温度到熵与负热容}
+对不转动、无电荷的黑洞, 能量 $E=M$、温度 $T_H=\hbar/(8\pi G_NM)$, 此处 $c=\kb=1$. 假定平衡热力学第一定律适用,
+\[
+\frac{\dd S}{\dd M}=\frac1{T_H}
+=\frac{8\pi G_NM}{\hbar},
+\quad S(M)=\frac{4\pi G_NM^2}{\hbar}+S_0.
+\]
+因视界面积 $A=16\pi G_N^2M^2$, 质量依赖的部分为 $A/(4\hbar G_N)$. 原课程讲义用 $S(0)=0$ 固定积分常数. 但 $M\to0$ 已越过半经典黑洞适用区, 单凭该积分并不能微观证明这个归一化; Einstein 引力的标准面积熵取 $S_0=0$, 是与引力作用量和其热力学一致的通常归一化. 有高阶曲率作用量时需改用相应 Wald 熵, 不能无条件保留简单面积系数.
+
+恢复所有单位, 物理熵和温度为
+\[
+S_{\rm BH}=\frac{\kb c^3A}{4\hbar G_N}
+=\kb\frac{A}{4\ell_P^2},\qquad
+T_H=\frac{\hbar c^3}{8\pi\kb G_NM}.
+\]
+因 $T_H\propto M^{-1}$, 热容
+\[
+C=\frac{\dd E}{\dd T_H}=-\frac{8\pi G_NM^2}{\hbar}<0
+\]
+在 $c=\kb=1$ 的约定下. 黑洞失能会升温, 在无限平直热浴中不能像正常正热容物体那样稳定达到普通正则平衡. 这不妨碍把温度与热力学关系用于准静态或微正则描述, 但讨论热稳定性时需加入腔壁、AdS 边界或合适系综条件.
+
+\originalsection{四定律是哪些条件下的陈述}
+在相应条件下, 平稳黑洞视界的表面引力恒定, 是零定律. 第一黑洞力学定律写成
+\[
+\dd M=\frac{\kappa}{8\pi G_N}\dd A
++\Omega_H\dd J+\Phi_H\dd Q.
+\]
+用 $T_H=\hbar\kappa/(2\pi)$ 和 $S=A/(4\hbar G_N)$, 就变成普通热力学的 $\dd M=T_H\dd S+\Omega_H\dd J+\Phi_H\dd Q$. PS2.3 已把 Kerr--Newman 解族的微分抵消逐项验证; 第一项来源于视界几何, 后两项是角动量与电荷的功.
+
+经典面积第二定律依赖 Einstein 方程、合适能量条件和有关因果正则性假设; Hawking 蒸发有量子负能量通量, 经典面积可以减少. 这时相应目标是广义熵
+\[
+S_{\rm gen}=S_{\rm BH}+S_{\rm outside}
+\]
+不减少, 外部项用合适重整化的量子熵. 它的有效适用和证明还需要半经典条件, 不会仅靠给面积换一个名称就自动成为所有量子过程中已证明的定律. PS1.4 在简化黑体蒸发模型中具体检查了外部辐射熵增加大于黑洞熵损失.
+
+黑洞第三定律的不可达性说在适用的有限物理过程中不能把 $\kappa$ 降为零. 它并不要求极端态的熵为零. 用试探粒子有限步论证时必须保持相应小扰动和捕获条件, PS2.3(c) 已显示原粗略不等式还需的限制. 一般第三定律不在这里由一个 Newton 力估算替代证明.
+
+常见“无毛”陈述也需限定: 四维、渐近平直、平稳 Einstein--Maxwell 电真空黑洞及适当正则性下, 解由 $M,J,Q$ 等渐近荷刻画. 额外物质场、不同边界条件、AdS 或不同引力作用量可能允许其他毛. 本课程以简单黑洞来说明热力学, 不是给出覆盖所有弦论背景的无毛定理.
+
+\originalsection{面积熵与信息问题的逻辑位置}
+若 $S_{\rm BH}$ 有统计解释, 在对应宏观约束下有效微观态数应为 $\mathcal N\sim\ee^{S_{\rm BH}/\kb}$. 面积巨大, 因而宏观黑洞能容纳的微观态数也巨大. 后面从 D 膜和全息字典提供例子; 本章并没有从 Schwarzschild 度规独立枚举这些态.
+
+信息问题可以按一段演化说明. 起初有一个纯态物体坍缩. 半经典近视界计算让外部 Hawking 模与内部伙伴纠缠, 单独外部辐射是近似热的约化态. 如果还假定黑洞完全蒸发、无残留系统携带相关性, 并把这一近似一直推进到所有辐射都恰为混合热态, 就会得到纯态到混态的全系统演化, 与封闭系统的酉性不相容.
+
+“每个局部模看起来热”本身不等于“所有辐射整体必为精确热混态”. 先前 TFD 例子已经提醒我们, 忽略伙伴可以让纯态显示热统计. 信息问题的难处在于蒸发后伙伴在哪里、相关性怎样变得可恢复、何时半经典局域描写失效. 2014 年课程据此提出开放问题, 本卷不把后续尚未系统论证的信息悖论方案写成已经由这几节课证明的结论.

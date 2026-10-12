@@ -1,7 +1,7 @@
 # 独立源码包
 
-在本目录运行 `python3 scripts/build.py`，需完整安装带 ctex、Fandol、Computer Modern Unicode 与 TikZ/PGFPlots 的 TeX Live/XeLaTeX。脚本执行三次无 shell escape 的隔离编译。编译不需网络、源课程 PDF、系统以外字体或数值计算库。
+运行 `python3 scripts/build.py`。需完整 TeX Live/XeLaTeX（ctex、Fandol、Computer Modern Unicode、TikZ/PGFPlots）。脚本检查批准模板锁定区，在隔离临时目录禁用 shell escape 编译三遍，产出 build/main.pdf。无需联网或原课程 PDF；不分发字体。
 
-包内保留中文正文、入选完整题面和解答、绘图用 CSV、模板、数值复核脚本、来源及许可。README 中 PDF/ZIP、clean-rebuild.json 和发布回执的链接指向仓库版本；包本身不嵌套 PDF/ZIP，也不打包编译缓存或字体。
+本包是 126 页公开课程对应稿的审阅检查点，含 44 个实际输入章节文件、完整可取得题面及解答、来源许可、覆盖清单、绘图 CSV 与有限数值核验结果。未取得的教材题面、部分高阶证明及项目论文明确列在 coverage.md。官方答案与独立补写分开。
 
-有限数值复核需 numpy/scipy；其结果已随包给出。逐页视觉自查记录为本模型检查，尚未进行独立专家终审。
+机械编译通过不等于学术终审。整卷视觉审查及独立内容验收的最新状态以仓库 qa/ 回执为准。ZIP 不嵌套 PDF、旧选编正文、编译缓存、字体或凭据。科学复核脚本另需 numpy/scipy/sympy。

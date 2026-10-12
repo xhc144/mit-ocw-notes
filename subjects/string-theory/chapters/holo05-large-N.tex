@@ -1,0 +1,158 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{8.821 课程详讲：矩阵图的拓扑与弦展开}
+\label{ch:holo-largeN-full}
+本章对应第 6 讲后半及第 7--9 讲全部理论结构: 双线规则、Euler 计数、连通单迹相关函数、大 $N$ 粒子解释、弦的拓扑权重、开放边界与非定向曲面、以及额外径向方向和 AdS 的对称性线索. 每次出现的 $N$ 是颜色数, $n$ 是外部算符或弦的数目, $h$ 是亏格, 不混用. 所有图的规模计数先在固定 't Hooft 耦合下讨论, 不是宣称实际大 $N$ QCD 已经解出.
+
+\originalsection{由分量指标推导双线规则}
+用一个 Hermitian 矩阵标量说明颜色结构, 欧氏作用量取
+\[
+S_E=\frac1{g^2}\int\dd^dx\,
+\operatorname{Tr}\left[\frac12(\partial\Phi)^2+
+\frac{m^2}2\Phi^2+\frac{u}4\Phi^4\right],
+\quad \Phi^a{}_b{}^*=\Phi^b{}_a.
+\]
+场有 $N^2$ 个实分量. 二次项的逆给传播子
+\[
+\langle\Phi^a{}_b(x)\Phi^c{}_d(y)\rangle_0
+=g^2\delta^a_d\delta^c_b\,G(x-y).
+\]
+两条 delta 分别传递上、下颜色指标, 可画成两条有方向的线. 四次单迹按 $\Phi^a{}_b\Phi^b{}_c\Phi^c{}_d\Phi^d{}_a$ 循环相接, 顶点除动力学因子 $u$ 外带 $1/g^2$. 矩阵通常不交换, 因而顶点的循环顺序不能像一个普通无颜色标量顶点那样随意丢掉.
+
+传播子用窄带代替线, 单迹顶点用循环连结的圆盘代替点, 得到一张带状图. 每条闭合颜色线都产生 $\sum_{a=1}^N1=N$. 对连通真空图, 若 $E$ 条传播子、$V$ 个顶点、$F$ 个闭合颜色环, 颜色与耦合规模是
+\[
+\mathcal A\propto(g^2)^E(g^2)^{-V}N^F u^V.
+\]
+这是逐个指标求和的结果, 不是先猜一个拓扑权重. 将带状图的每个闭合颜色环用圆盘补上, 得封闭定向曲面, 于是 $F$ 同时是细胞分解的面数.
+
+\originalsection{一个顶点的平面与非平面收缩}
+在矩阵 Gaussian 理论, 令 $g^2=\lambda/N$, 暂省去坐标传播函数, 有
+\[
+\langle\Phi^a{}_b\Phi^c{}_d\rangle
+=\frac\lambda N\delta^a_d\delta^c_b.
+\]
+$\operatorname{Tr}\Phi^4$ 有三个 Wick 配对. 按顶点循环顺序记四条外腿 1、2、3、4. 配对 $(12)(34)$ 和 $(14)(23)$ 各留下三个独立指标环, 而交叉配对 $(13)(24)$ 只留一个. 所以
+\[
+\langle\operatorname{Tr}\Phi^4\rangle
+=\left(2N+\frac1N\right)\lambda^2.
+\]
+例如第一种收缩从 $a,b,c,d$ 四个指标中强制 $a=c$, 仍有 $a,b,d$ 三个独立求和, 给 $N^3(\lambda/N)^2$. 交叉收缩把四指标全识别, 给 $N(\lambda/N)^2$. 若再乘真空图顶点因子 $N/\lambda$, 两类分别为 $2\lambda N^2$ 和 $\lambda N^0$, 展示非平面项被 $N^{-2}$ 压低.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex]
+\node[circle,draw,inner sep=3pt] (a) at (-2.1,0) {$V$};
+\draw[thick] (a) to[out=140,in=220,looseness=5] (a);
+\draw[thick] (a) to[out=40,in=-40,looseness=5] (a);
+\node[font=\small] at (-2.1,-1.05) {相邻配对：$F=3$};
+\node[circle,draw,inner sep=3pt] (b) at (2.1,0) {$V$};
+\draw[thick] (b) to[out=135,in=-45,looseness=4] (b);
+\draw[thick] (b) to[out=45,in=-135,looseness=4] (b);
+\node[font=\small] at (2.1,-1.05) {交叉配对：$F=1$};
+\end{tikzpicture}
+\end{center}
+图只示意循环收缩关系, 不用图面相交次数替代指标计算. 带状图的亏格由其循环结构确定; 任意扭动纸上的画法不能改变它.
+
+\originalsection{'t Hooft 极限如何整理无界的颜色次数}
+若固定 $g$ 直接令 $N\to\infty$, $F$ 可随图复杂度增长, 不同阶图没有统一的良好上界. 't Hooft 极限固定
+\[
+\lambda=g^2N,\qquad N\to\infty.
+\]
+于是
+\[
+\mathcal A\propto\lambda^{E-V}N^{F-E+V}u^V.
+\]
+封闭、连通、定向带状图补面后有 Euler 特征 $\chi=F-E+V=2-2h$, 所以 $\mathcal A\propto\lambda^{E-V}N^{2-2h}$. 普通连通图的独立动量环数 $L=E-V+1$, 因而 $\lambda$ 次数也可写 $L-1$. 这里 $L$ 是原场论图的环数, $h$ 才是曲面把手数, 两者绝不相同.
+
+把同亏格所有连通真空图相加, 形式上
+\[
+\log Z=\sum_{h=0}^\infty N^{2-2h}f_h(\lambda,u,m,\ldots).
+\]
+$\log Z$ 选择连通真空图, $Z$ 本身还含它们的任意不连通乘积. $h=0$ 是平面项 $N^2f_0$, $h=1$ 是 $N^0f_1$, 再加一个把手就再损失 $N^2$. 动力学、发散和重整化都藏在 $f_h$ 中. 因而说“大 $N$ 首阶是平面”不能推出 $f_0$ 已经可计算; 它仍是无限多不同场论环阶的和, 强耦合时尤其难.
+
+这套计数依赖矩阵、单迹顶点和固定的归一化, 不要求场本身一定是标量. 对规范场、伴随物质场、规范固定鬼场等, 动力学规则会变, 但颜色带状图仍按相应拓扑组织. 多迹作用量或随 $N$ 特别缩放的额外耦合则要重新计数, 不可直接引用同一公式.
+
+\originalsection{全局矩阵对称与规范对称的算符不同}
+若 $U$ 只是常矩阵, $\Phi\to U\Phi U^\dagger$ 是全局对称, 非不变分量 $\Phi^a{}_b$ 仍可作为带对称荷的算符. 若 $U=U(x)$ 是规范冗余, 物理局域算符必须规范不变, 单个裸颜色分量不满足这一要求. 因而后续关注
+\[
+\mathcal O_k(x)=\operatorname{Tr}(\Phi^k(x)),\quad
+\operatorname{Tr}(F_{\mu\nu}F^{\mu\nu}),\quad
+\operatorname{Tr}(\Phi^k)\operatorname{Tr}(\Phi^\ell),\ldots
+\]
+等单迹和多迹对象. 同一点多迹积仍需要定义复合算符的重整化与减去较低算符混合; 冒号不能代替全部重整化工作.
+
+本章用未除以 $N$ 的单迹 $\mathcal O$. 把源以 $N\int J\mathcal O$ 加入作用量, 作用量仍是 $N\operatorname{Tr}(\cdots)$ 形式, 因而连通泛函满足 $W[J]=\log Z[J]=\sum_hN^{2-2h}f_h[J]$. 每对源求导带出一个 $N$, 得
+\[
+\langle\mathcal O_1(x_1)\cdots\mathcal O_n(x_n)\rangle_c
+=\sum_hN^{2-n-2h}F_{n,h}(x_1,\ldots,x_n).
+\]
+欧氏源约定可选择 $Z[J]=\int\ee^{-S+N\int J\mathcal O}$, 此时无需额外实时间的 $\ii$ 因子. 一点期望典型为 $N$, 连通二点为 $N^0$, 三点为 $N^{-1}$, 四点为 $N^{-2}$. 若另定义 $\widehat{\mathcal O}=\mathcal O/N$, 连通 $n$ 点变成 $N^{2-2n}$; 比较文献时必须先比较归一化.
+
+\originalsection{可完全检查的相关函数与因子化}
+前述零维 Gaussian 矩阵模型给
+\[
+\langle\operatorname{Tr}\Phi^2\rangle=\lambda N,
+\qquad
+\langle\operatorname{Tr}\Phi^2\operatorname{Tr}\Phi^2\rangle_c
+=2\lambda^2.
+\]
+第一式来自两自由颜色指标, 第二式是两种跨迹 Wick 配对各给 $\lambda^2$. 不连通配对是 $\lambda^2N^2$, 已在连通量中扣除. 所以相对涨落为
+\[
+\frac{\sqrt{\langle\mathcal O^2\rangle_c}}
+{\langle\mathcal O\rangle}=\frac{\sqrt2}{N}.
+\]
+这给出大 $N$ 因子化的具体例子, 而不是把 $\langle\mathcal O_1\mathcal O_2\rangle_c$ 本身误称为零. 它相对于 $N^2$ 的不连通首项被抑制, 但其 $N^0$ 数值可以有限且包含重要传播信息.
+
+更一般地, 给 $\operatorname{Tr}\Phi^2$ 加源会改变 Gaussian 二次系数, 有
+\[
+\log\frac{Z[J]}{Z[0]}=-\frac{N^2}2\log(1-2\lambda J),
+\qquad
+\langle\mathcal O^n\rangle_c
+=2^{n-1}(n-1)!\lambda^nN^{2-n}.
+\]
+源按 $NJ\mathcal O$ 定义, 求导后除以 $N^n$, 与一般计数完全一致. 这是颜色计数的零维检验, 不把没有时空的模型误当作已经求解四维 QCD.
+
+\originalsection{何时可以把单迹解释为一粒子}
+把单迹算符减去真空期望并归一化其二点函数, 若理论有适当离散、稳定的单粒子极点, $\mathcal O|0\rangle$ 可以与一粒子激发联系, 多迹正常序积对应多粒子. 连通三点为 $1/N$, 可读成三粒子耦合 $g_{\rm eff}\sim1/N$; 具有 $n$ 个外腿的树图规模为 $g_{\rm eff}^{n-2}\sim N^{2-n}$. 一条额外有效粒子环一般再给 $1/N^2$, 与原带状图增加把手相符.
+
+但大 $N$ 计数本身\textbf{没有证明}每个局域算符都创造一个稳定在壳胶球. 非禁闭 CFT 的谱和散射解释与有质量禁闭理论不同, 联系外部粒子振幅时还需极点和 LSZ 条件. 即使没有这样的粒子, 单迹相关函数的规模律仍是有效陈述. 因而“首阶像经典场”指适当归一化集体变量的涨落与环修正受抑制, 不意味着底层规范场论已令 $\hbar=0$.
+
+例如一个四点函数, 首阶既可由两个 $1/N$ 的三点顶点经单粒子交换得到 $1/N^2$, 也可有 $1/N^2$ 的四点接触项. 引入额外多粒子中间态构成有效环时还需更多顶点, 典型再压低 $1/N^2$. 所以比较“几粒子中间态”必须画清楚所比的是同一个外腿数下的树或环, 不能只数名字.
+
+\originalsection{弦为何有相同的拓扑展开}
+粒子第一量子化对世界线 $X^\mu(\tau)$ 求和; 弦对世界面嵌入 $X^\mu(\tau,\sigma)$ 求和. 最简单面积项为 $S_{\rm NG}=T_0\int\dd A$, $T_0=1/(2\pi\alpha')$, 但规范、量子一致性、背景和内部世界面场仍是理论定义的一部分. 不能只写一个面积积分就宣布任意维数下已经定义好完整弦论.
+
+常数膨胀子 $\phi_0$ 与世界面 Euler 项给权重 $\exp(-\phi_0\chi)$. 以 $g_s=\ee^{\phi_0}$ 定义耦合, 封闭亏格 $h$ 真空世界面权重为 $g_s^{2h-2}$. 一个把手增加 $g_s^2$, 对应弦的一个环. 弦劈裂、合并可由平滑裤管型世界面描述, 拓扑求和因此组织相互作用; 但其振幅的具体内容仍依赖所选世界面 CFT 和背景.
+
+对 $n$ 条归一化的外部闭弦, 外腿顶点各带适当 $g_s$, 有
+\[
+\mathcal A_n=\sum_{h=0}^\infty g_s^{n-2+2h}\mathcal F_{n,h}.
+\]
+也可把外部管端挖去, 得 Euler 特征 $2-2h-n$ 的曲面来理解同一计数. 这些外部闭弦的管端或 puncture \textbf{不同于}真正开放弦的世界面边界, 后者由 D 膜等边界条件定义. 混用二者会使开放/封闭弦和夸克环的对应变得含糊.
+
+与规范相关函数的 $N^{2-n-2h}$ 比较, 得到在固定 $\lambda$ 下 $g_s\propto1/N$、单迹态对应一条外部弦的结构线索. 比例系数可依赖 $\lambda$; 在后面的 D3 膜例中, $g_s=\lambda/(4\pi N)$ 是一套常用规范, 所以不是任意理论都精确取 $g_s=1/N$.
+
+\originalsection{共同拓扑还不是共同动力学}
+规范图固定亏格的和, 对偶于某弦世界面同亏格路径积分, 还必须解释每个图的时空传播核怎样组织成一个连续世界面作用量. 原图至多给曲面的离散分解, 不能只靠 Euler 数相等就证明权重也相等. 强耦合时无限多顶点共同贡献, 才可能出现连续几何; 这是动机而非一般证明.
+
+低维矩阵积分与矩阵量子力学的一些双尺度极限可以更明确实现这种联系. 四维规范理论却仍需实际对偶构造、场与背景的字典, 不能从低维成功直接推出全部理论的弦背景. 这正是课程从一般计数转向 D 膜构造的理由.
+
+若加入基本表示夸克, 一条夸克线只携一个颜色指标, 闭夸克环在带状曲面中形成真实边界. 固定 flavor 数 $N_f$, 有 $b$ 条这样的边界时规模一般是 $N^{2-2h-b}N_f^b$, 每条相对真空边界带 $N_f/N$. 若 $N_f$ 随 $N$ 同阶增长, 这个抑制也变, 必须重新说明取的极限.
+
+对 $SO(N)$、$Sp(N)$ 等, 指标反向识别允许带状图有扭转, 得非定向曲面. 具有 $c$ 个交叉帽、$b$ 个边界的 Euler 特征为 $\chi=2-2h-b-c$, 相应 $N$ 次数也改变. 这说明矩阵表示与群的指标结构会留下世界面的定向信息, 并非所有大 $N$ 理论都只有定向封闭弦.
+
+\originalsection{为何额外径向方向会出现}
+如果直接猜四维平直目标空间的普通自由弦, 标准量子一致性条件会出问题: 平直自由玻色弦要求总世界面中心荷抵消, 纯坐标场时为 26 维; 常规超弦相应为 10 维. 这不是说任何曲背景、内部 CFT 或非临界理论都只能按“可见几何维数”套同一数字. 此处否定的是过于简单的四维自由目标空间猜测.
+
+另一个问题是弦自然包含引力子. 若它只在原四维场论时空出现为一个普通无质量自旋二粒子, 又回到第 1 讲的禁戒. 所以需要不同的体时空结构. 全息面积计数、世界面 Liouville 模的思想以及把重整化能标几何化, 都提供了额外方向的动机; 单靠这些动机还不能决定完整十维背景或证明对偶.
+
+若仅要求体保留边界 $d$ 维 Poincaré 对称, 局部径向重参数化可把度规写成
+\[
+\dd s^2=a^2(z)\left(\dd z^2+\eta_{\mu\nu}\dd x^\mu\dd x^\nu\right).
+\]
+一般场论并不能再从平移与 Lorentz 对称固定 $a(z)$. 若还要求联合尺度变换 $x^\mu\to\lambda x^\mu,z\to\lambda z$ 是等距对称, 因坐标微分给 $\lambda^2$, 必须
+\[
+\lambda^2a^2(\lambda z)=a^2(z),\qquad
+a(z)=\frac Rz.
+\]
+于是得到 AdS Poincaré 形式 $\dd s^2=R^2(\dd z^2+\eta\dd x\dd x)/z^2$. 直接代入尺度变换即可核查: 分子、分母都乘 $\lambda^2$. 把 $a(z)$ 误取为 $Rz$ 则多出 $\lambda^4$, 不满足此条件.
+
+这个几何形式展示了尺度与径向位置的联系, 并没有解决 $R$、$G_N$、额外 compact 空间和场内容的字典. 历史上, 1974 年的大 $N$ 拓扑计数、后来全息熵思想、1995 年 D 膜的识别以及 1997 年 AdS/CFT 构造逐步提供这些信息. 本卷后续按实际课程讲义展开 D 膜和近视界极限, 不从一个对称性假设形式跳到完整对偶结论.

@@ -1,0 +1,217 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{协变流、旋转黑洞与全局尺度的完整考核}
+以下五组 8.821 公开作业连接物理协变流、黑洞定律与体空间尺度. 题面和解答分别定位于原作业及其官方解答, 解答用本卷符号重推. PS3.3 是阅读指引, 在课程来源说明中列明, 不作为需求解的问题. 本章取 $G_N=\hbar=c=\kb=1$, 度规为负时间号.
+
+\src{8.821 PS1.1, 20 分; 官方 PS1 解答第 1--2 页.}
+\begin{exercise}
+自旋 $j$ 的无质量粒子单粒子态写成 $|k,\sigma\rangle$, $k^0=|\mathbf k|>0$, 螺旋度 $\sigma=\pm j$. 归一化为
+\[
+\langle k,\sigma|k',\sigma'\rangle
+=\delta_{\sigma\sigma'}\delta^{(3)}(\mathbf k-\mathbf k').
+\]
+设 $J^\mu$ 是 Lorentz 协变的守恒四流, $Q=\int\dd^3x\,J^0$ 在该粒子上的本征值为 $q$. 设 $T^{\mu\nu}$ 是 Lorentz 协变守恒的能动张量, $P^\mu=\int\dd^3x\,T^{0\mu}$. 证明同螺旋度前向矩阵元满足
+\[
+\lim_{k'\to k}\langle k,\sigma|J^\mu(0)|k',\sigma\rangle
+=\frac{qk^\mu}{(2\pi)^3k^0},\qquad
+\lim_{k'\to k}\langle k,\sigma|T^{\mu\nu}(0)|k',\sigma\rangle
+=\frac{k^\mu k^\nu}{(2\pi)^3k^0}.
+\]
+原题建议阅读 Weinberg 第一卷第 2.5 节; 这里不需要取得该书题面, 所需态归一化和矩阵元已由公开题目自足给出.
+\end{exercise}
+\begin{solution}
+先只求时间分量. 平移协变性给
+\[
+J^0(\mathbf x)=\ee^{-\ii\mathbf P\cdot\mathbf x}J^0(0)
+\ee^{\ii\mathbf P\cdot\mathbf x}.
+\]
+夹在动量本征态之间并作空间积分, 左侧为 $Q$ 的矩阵元, 右侧产生 $(2\pi)^3\delta^{(3)}(\mathbf k-\mathbf k')$. 于是
+\[
+(2\pi)^3\delta^{(3)}(\mathbf k-\mathbf k')
+\langle k,\sigma|J^0(0)|k',\sigma'\rangle
+=q\delta_{\sigma\sigma'}\delta^{(3)}(\mathbf k-\mathbf k').
+\]
+在矩阵元有良定义且连续的前向极限下, 时间分量为 $q\delta_{\sigma\sigma'}/(2\pi)^3$. 此式只约束前向极限; 不能把两个 delta 函数直接消去后声称所有非前向矩阵元也取该常数.
+
+三维 delta 归一化不是不变量. 不变量测度是 $\dd^3k/k^0$, 因而 Lorentz 变换在态上有归一化因子
+\[
+U(\Lambda)|k,\sigma\rangle
+=\sqrt{\frac{(\Lambda k)^0}{k^0}}
+\ee^{\ii\sigma\vartheta(\Lambda,k)}|\Lambda k,\sigma\rangle.
+\]
+这里只用正时、正定向变换, 无质量固定螺旋度态的 little-group 平移在物理表示中平凡作用. 同螺旋度前向极限中相位相消. 若记该极限为 $M^\mu(k)$, 四流协变性与刚求出的时间分量共同要求
+\[
+\Lambda^0{}_{\mu}M^\mu(k)
+=\frac{q}{(2\pi)^3}\frac{(\Lambda k)^0}{k^0}
+=\Lambda^0{}_{\mu}\frac{qk^\mu}{(2\pi)^3k^0}.
+\]
+此关系对全部 boost 成立. 先取单位变换确定 $M^0$, 再对三个独立小 boost 比较线性项, 得 $M^i=qk^i/[(2\pi)^3k^0]$.
+
+对 $T^{\mu\nu}$ 重复第一步, 由 $P^\nu$ 本征值得
+\[
+\lim_{k'\to k}\langle k,\sigma|T^{0\nu}|k',\sigma'\rangle
+=\frac{k^\nu}{(2\pi)^3}\delta_{\sigma\sigma'}.
+\]
+张量在两个指标上变换, 态仍给同一归一化因子, 因而
+\[
+\Lambda^0{}_{\mu}\Lambda^\alpha{}_{\nu}M^{\mu\nu}(k)
+=\frac{(\Lambda k)^0(\Lambda k)^\alpha}{(2\pi)^3k^0}.
+\]
+取全部 Lorentz 变换, 即得到题述 $M^{\mu\nu}=k^\mu k^\nu/[(2\pi)^3k^0]$. 若改用相对论归一化 $2k^0(2\pi)^3\delta^{(3)}$, 矩阵元的数值因子也会变; 不可把两套态归一化混用. 这里证明的是 Weinberg--Witten 论证需要的前向恒等式, 尚未单靠它证明整个禁戒定理.
+\end{solution}
+
+\src{8.821 PS1.2, 20 分; 官方 PS1 解答第 2--4 页.}
+\begin{exercise}
+$SU(2)$ Yang--Mills 理论的规范场为 $A^a_\mu$, $a=1,2,3$. 把生成元 $\sigma^3/2$ 看成 $U(1)$ 子群, $A^3_\mu$ 是对应规范场,
+\[
+B_\mu=\frac{A^1_\mu+\ii A^2_\mu}{\sqrt2}
+\]
+是带非零 $U(1)$ 荷的复无质量矢量场. 说明这个对称为何没有满足物理 Hilbert 空间上 Lorentz 协变要求的守恒四矢量流.
+\end{exercise}
+\begin{solution}
+必须分清两件事: 以经典四维场指标写出的表达式可以形式上是张量, 但依赖规范势的算符不一定是只含物理螺旋度态的 Hilbert 空间上的协变可观测流. 本题和官方解答讨论后者. 若忽略这一区别, 会误以为 Noether 定理与题目矛盾.
+
+先找候选流. 用 $\mathcal L=-F^a_{\mu\nu}F^{a\mu\nu}/(4g^2)$, 考虑常参数全局颜色旋转 $\delta A^a_\nu=\epsilon^{abc}A^b_\nu\lambda^c$. 为读取 Noether 流, 暂把这个参数换成 $\lambda^c(x)$, \textbf{但不加}真正局部规范变换中的 $\partial_\nu\lambda^a$ 项. 在变分中只取 $\partial_\mu\lambda^c$ 的系数, 得
+\[
+\delta S=-\frac1{g^2}\int\dd^4x\,
+F^{a\mu\nu}\epsilon^{abc}A^b_\nu\partial_\mu\lambda^c.
+\]
+整体正负由生成元约定决定. 可选候选流
+\[
+j_c^\mu=-\frac1{g^2}F^{a\mu\nu}\epsilon^{abc}A^b_\nu.
+\]
+运动方程成立时 $\partial_\mu j_c^\mu=0$. 对 $c=3$, 该流含 $F^{1\mu\nu}A^2_\nu-F^{2\mu\nu}A^1_\nu$; 在复场记号中等价于 $\ii(F_+^{\mu\nu}B^-_\nu-F_-^{\mu\nu}B^+_\nu)$ 乘约定因子. 它显式依赖规范势, 不规范不变.
+
+为什么这也影响物理 Lorentz 协变性? 固定规范、只含两种横向螺旋度的无质量矢量场在 Lorentz 变换后通常要作一次补偿规范变换. 在自由极限, 极化矢量变成
+\[
+\varepsilon_\mu(k)\longmapsto
+\Lambda_\mu{}^\nu\varepsilon_\nu(k)+c(\Lambda,k)k_\mu,
+\]
+因而场算符变换包含 $\partial_\mu\Omega$ 项. 它在规范不变的场强和散射振幅中消失, 却留在上述含裸规范势的 $j_c^\mu$ 中. 在含非物理极化的扩大状态空间中写一个形式协变流, 并没有获得题目所要求的物理协变流.
+
+还可解释不存在合格替代流的原因. 假定有对物理态协变、前向极限连续的四流. 对两个不平行的未来无质量动量, 可到达二者总动量的质心系, 此时空间动量沿 $+z$ 和 $-z$. 绕 $z$ 转角 $\theta$, 同螺旋度 $j$ 的两态给矩阵元一个模为 $2j$ 的旋转权; 四矢量分量只含权 $0,\pm1$. 当 $j>1/2$ 时没有匹配权, 非前向矩阵元必须为零. Lorentz 协变性将该零带回原系, 连续前向极限也为零. 可是上一题的荷恒等式要求带荷态的 $J^0$ 前向极限为 $q/(2\pi)^3\ne0$, 矛盾. 这是 Weinberg--Witten 四流部分的核心选择规则.
+
+因此, 带子群荷的无质量自旋一规范场没有同时满足这些物理假设的协变守恒流. 此结论并不否认经典全局 Noether 荷, 也不要求把规范势本身当作规范不变可观测量. 非阿贝尔强相互作用中真实渐近态是否带颜色还涉及禁闭; 本题采用微扰规范场的螺旋度描述, 不以它证明禁闭.
+\end{solution}
+
+\src{8.821 PS2.2, (a)--(c), 25 分; 官方 PS2 解答第 2--3 页.}
+\begin{exercise}
+渐近平直 Kerr--Newman 黑洞的质量、角动量、电荷为 $M,J,Q$, $a=J/M$. 给定
+\begin{align*}
+\dd s^2&=-\frac{\rho^2\Delta}{\Sigma}\dd t^2
++\frac{\Sigma}{\rho^2}\sin^2\theta(\dd\phi-\omega\dd t)^2
++\frac{\rho^2}{\Delta}\dd r^2+\rho^2\dd\theta^2,\\
+\rho^2&=r^2+a^2\cos^2\theta,\qquad
+\Delta=r^2+a^2+Q^2-2Mr,\\
+\Sigma&=(r^2+a^2)^2-a^2\Delta\sin^2\theta,\qquad
+\omega=\frac{a(r^2+a^2-\Delta)}{\Sigma}.
+\end{align*}
+(a) 证明外视界位置、面积、温度与角速度是
+\[
+r_+=M+\sqrt{M^2-a^2-Q^2},\quad
+A=4\pi(r_+^2+a^2),\quad
+T_H=\frac{2(r_+-M)}A,\quad \Omega_H=\frac{4\pi a}A.
+\]
+(b) 解释 $M^2=a^2+Q^2$ 的极端黑洞为何温度为零而熵不为零, 并求熵; 比较这里的第三定律与普通热力学第三定律.
+(c) 取 $J=0$, $M=Q>0$, 写出极端带电黑洞度规, 证明定时间空间片上视界在无限固有距离处, 求近视界几何. 原题把要求证明的乘积写成 $\mathrm{AdS}_2\times\mathbb R^2$; 需对照实际度规及官方答案核查这一写法. 非极端近视界的径向时间部分则是 Rindler.
+\end{exercise}
+\begin{solution}
+(a) 零点 $\Delta=0$ 给 $r_\pm=M\pm\sqrt{M^2-a^2-Q^2}$, 取外根. 视界截面诱导度规为
+\[
+\dd\ell_H^2=\rho_+^2\dd\theta^2+
+\frac{(r_+^2+a^2)^2}{\rho_+^2}\sin^2\theta\dd\phi^2.
+\]
+行列式平方根是 $(r_+^2+a^2)\sin\theta$, 从 $\theta=0$ 到 $\pi$、$\phi=0$ 到 $2\pi$ 积分即得 $A$; 不必展开复杂的角依赖.
+
+要用静态近视界温度公式, 先转到随视界转动的角变量 $\widetilde\phi=\phi-\Omega_Ht$. 在视界 $\Delta=0$ 时, $\omega(r_+)=a/(r_+^2+a^2)$ 与 $\theta$ 无关. 固定 $\widetilde\phi,\theta$ 的径向时间平面, 领先零点系数为 $f=\rho^2\Delta/\Sigma$, $h=\Delta/\rho^2$. 因而
+\[
+\sqrt{f'(r_+)h'(r_+)}
+=\frac{\Delta'(r_+)}{r_+^2+a^2},\qquad
+T_H=\frac{\Delta'(r_+)}{4\pi(r_+^2+a^2)}.
+\]
+用 $\Delta'(r_+)=2(r_+-M)$ 得题面公式. 视界生成元是 $\partial_t+\Omega_H\partial_\phi$; 其零范数条件同样给 $\Omega_H=\omega(r_+)=4\pi a/A$.
+
+(b) 极端时两根合并, $r_+=r_-=M$, 从非极端温度公式取极限得到 $T_H=0$. Bekenstein--Hawking 熵仍为
+\[
+S_H=\frac A4=\pi(M^2+a^2)=\pi(Q^2+2a^2)>0
+\]
+对非平凡黑洞非零. 这里的黑洞第三定律是有限物理过程不能到达极端状态的不可达性陈述; 它不直接断言零温度熵必须为零. 此外, 极端度规的欧氏近视界具有二阶零点, 不宜把非极端锥尖论证不加条件地直接套入.
+
+(c) $a=0$, $M=Q$ 时
+\[
+\dd s^2=-\left(1-\frac Qr\right)^2\dd t^2
++\left(1-\frac Qr\right)^{-2}\dd r^2+r^2\dd\Omega_2^2.
+\]
+从固定 $r_1>Q$ 沿 $t$ 不变片走向视界, 长度为 $\int_{Q+\epsilon}^{r_1}r\dd r/(r-Q)$, 当 $\epsilon\to0$ 时对数发散. 这说的是所指定空间切片的距离; 自由落体跨越视界的固有时仍可有限, 两者并不矛盾.
+
+用 $r=Q+\lambda u$, $t=\tau/\lambda$, 固定 $u,\tau$ 后令 $\lambda\to0$, 得
+\[
+\dd s^2=-\frac{u^2}{Q^2}\dd\tau^2+
+\frac{Q^2}{u^2}\dd u^2+Q^2\dd\Omega_2^2.
+\]
+前两项是半径 $Q$ 的 $\mathrm{AdS}_2$ Poincaré 度规, 后项是半径 $Q$ 的球面. 因而完整近视界是 $\mathrm{AdS}_2\times S^2$, \textbf{不是} $\mathrm{AdS}_2\times\mathbb R^2$. 官方答案也是 $S^2$. 只有额外把球面的小角区域近似为平面, 才可在那个局部近似中写 $\mathbb R^2$; 该近似不是给定极端球对称黑洞的全局近视界极限. 非极端 $\Delta$ 有简单零点, 则径向时间度规在固有距离坐标中变成 $-\kappa^2\ell^2\dd t^2+\dd\ell^2$, 即 Rindler.
+\end{solution}
+
+\src{8.821 PS2.3, (a)--(c), 30 分; 官方 PS2 解答第 3--5 页.}
+\begin{exercise}
+沿用上一题 Kerr--Newman 黑洞, 电势 $\Phi_H=4\pi Qr_+/A$.
+(a) 用已给公式验证 $\dd M=T_H\dd S_H+\Omega_H\dd J+\Phi_H\dd Q$.
+(b) 初态 $Q=0$ 的旋转黑洞经经典过程失去全部角动量及部分能量. 用第二定律证明最多约 $29\%$ 的初始质量可被辐射带走.
+(c) 对 $J=0$, $M>Q>0$ 的带电黑洞, 尝试投入质量 $m$、同号电荷 $q$ 的粒子来降温. 原题给定 $q/m>1$ 及远处吸引力不小于排斥力的条件 $qQ\le Mm$, 即 $1<q/m\le M/Q$, 要求说明达到极端限需无限多步. 核查此要求依赖的试探粒子假设, 不把有限质量吞并与无限小步混为一谈.
+\end{exercise}
+\begin{solution}
+(a) 不直接微分根式, 而对视界方程 $r_+^2+a^2+Q^2-2Mr_+=0$ 微分:
+\[
+(r_+-M)\dd r_+=r_+\dd M-a\dd a-Q\dd Q.
+\]
+再用 $S_H=\pi(r_+^2+a^2)$、$J=Ma$, 三个项的共同分母为 $r_+^2+a^2$. 分子相加是
+\begin{align*}
+&(r_+-M)(r_+\dd r_++a\dd a)
++a(a\dd M+M\dd a)+Qr_+\dd Q\\
+&=r_+[(r_+-M)\dd r_++a\dd a+Q\dd Q]+a^2\dd M\\
+&=(r_+^2+a^2)\dd M.
+\end{align*}
+所以第一定律成立. 这只验证该解族的恒等式, 不是从这里证明所有经典过程的面积增加定理.
+
+(b) 初始面积熵为 $S_i=2\pi[M^2+M\sqrt{M^2-a^2}]$. 最终无转动、无电荷, $S_f=4\pi M_f^2$. 经典面积定理要求 $S_f\ge S_i$, 从而
+\[
+\frac{M_f^2}{M^2}\ge\frac12\left(1+\sqrt{1-\frac{a^2}{M^2}}\right).
+\]
+当初态尽可能接近极端 $a=M$, 右侧降到 $1/2$. 最大可提取比例为 $1-M_f/M\le1-1/\sqrt2\simeq0.292893$. 非极端初态可提取比例更低, 实际不可逆过程也通常达不到上界. 将该数值解释为任意黑洞能轻易释放的辐射比例是不正确的.
+
+(c) 若严格采用原题的一步近似 $M'=M+m$, $Q'=Q+q$, 则
+\[
+M'-Q'=M-Q+m-q\ge (M-Q)\left(1-\frac mQ\right).
+\]
+在每一步都是小试探粒子且 $0<m<Q$ 的条件下, 只要原来 $M-Q>0$, 新差仍严格为正. 对任意有限多次迭代归纳, 每次差都不会成为零, 因而只能在无限步极限中逼近. 靠近极端时 $Q\simeq M$, 通常的 $m\ll M$ 自然保证 $m<Q$, 可投粒子的荷质比窗口也收缩到 1.
+
+仅凭题面的两个代数不等式, 却不能无条件证明上述结论. 例如在同一单位中取 $M=2,Q=1,m=1,q=2$, 则 $q/m=2=M/Q$, 满足原给的不等式, 而 $M'=Q'=3$. 这个对象的质量和电荷已经可比于黑洞, 不是可忽略自引力和回馈的试探粒子, 因而不属于前述小步模型. 官方解答同样指出小电荷区的形式反例超出了基本粒子的物理近似. 真实带电粒子的视界捕获条件、自力、辐射和回馈还需单独处理; 远处的 Newton 力比较本身并不是一般黑洞第三定律的严谨证明. 本题完整结论应连同每步试探近似说明.
+\end{solution}
+
+\src{8.821 PS4.4, 20 分; 官方 PS4 解答第 5--6 页.}
+\begin{exercise}
+讨论全局 AdS 体理论的 IR/UV 联系, 尤其说明与 Poincaré patch 的差别. 这里 IR/UV 指体的径向尺度和边界场论能标的对应, 不只是两个字母缩写.
+\end{exercise}
+\begin{solution}
+先比较两种单位半径度规:
+\[
+\dd s^2_{\rm global}=-(1+r^2)\dd t^2+
+\frac{\dd r^2}{1+r^2}+r^2\dd\Omega_{d-1}^2,
+\qquad
+\dd s^2_{\rm P}=r^2(-\dd t^2+\dd\mathbf x^2)+\frac{\dd r^2}{r^2}.
+\]
+两式的 $r,t$ \textbf{不是}同一个全局坐标函数. 但在各自 patch 中边界都在 $r\to\infty$, 乘去边界共形因子后, 前者的边界为 $\mathbb R_t\times S^{d-1}$, 后者为平直 Minkowski 时空.
+
+固定径向位置的局部过程若具有固有能量 $E_{\rm local}$, 对应边界时间的 Killing 能量为
+\[
+E_{\rm boundary}=\sqrt{-g_{tt}}\,E_{\rm local}.
+\]
+靠近两者边界时 $\sqrt{-g_{tt}}\sim r$, 相同局部能量对应越来越高的边界能标. 在全局边界球半径为 $R_b$ 的约定下, 径向截止 $r_c\gg1$ 对应角分辨率 $\delta\theta\sim r_c^{-1}$、边界短距离 $\epsilon\sim R_b/r_c$. Poincaré 写 $z=1/r$, 径向截止 $z=\delta$ 对应平直边界 UV 截止 $\epsilon\sim\delta$.
+
+差别出现在深处. Poincaré 的红移因子是 $r$, 随 $r\to0$ 可任意小; $r=0$ 是 Poincaré horizon, 对应无限大的边界长度尺度. 平直空间没有有限体积量化的低能间隔, 在动量也趋零时可有任意低能激发. 全局 AdS 的红移因子则为 $\sqrt{1+r^2}$, 中心 $r=0$ 仍为 1; 不能把相同固有能量再红移到零. 边界球面有有限尺度, 正常模为离散谱. 例如标量场在标准量子化下
+\[
+E_{n\ell}R_b=\Delta+2n+\ell,\qquad n=0,1,\ldots,
+\]
+这是相对于真空的激发能谱, 不是断言所有可能理论和保护零模都有一个相同的绝对真空能. 最低典型间隔量级为 $1/R_b$.
+
+因此两种描述在 UV 端都有径向尺度联系, 全局描述的 IR 端却被球面尺寸调节, 而平直边界保留无限长波极限. 一个局部坐标变换并不能将不同时间生成元和全局边界态空间混为同一低能问题. 这也解释为什么计算全局正常模或球面热力学时, 不能照搬平直黑膜的连续动量积分.
+\end{solution}

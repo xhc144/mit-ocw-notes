@@ -1,0 +1,143 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{8.821 课程详讲：纠缠熵与极小面积}
+本章对应第 24 讲的全部主线: 约化熵、Schmidt 分解与不等式, 局域系统的面积项, RT 处方与几何强次可加性, AdS3 区间和热熵. 先在有限/已调节的子系统描述中定义量子熵. 连续场论及规范 constraint 下的精确代数分解还需选相应约定, 不把形式张量积当作未经调节的普适有限维恒等式.
+
+\originalsection{约化熵与混合态的区别}
+设 $\mathcal H=\mathcal H_A\otimes\mathcal H_B$, 总系统纯态 $|\Psi\rangle$. 子系统矩阵 $\rho_A=\operatorname{Tr}_B|\Psi\rangle\langle\Psi|$, 熵 $S_A=-\operatorname{Tr}\rho_A\log\rho_A$. Schmidt 分解可写
+\[
+|\Psi\rangle=\sum_i\lambda_i|i\rangle_A|\widetilde i\rangle_B,
+\quad\lambda_i\ge0,\quad\sum_i\lambda_i^2=1.
+\]
+于是 $\rho_A,\rho_B$ 的非零本征值同为 $\lambda_i^2$, 得 $S_A=S_B$. 只有一个非零 Schmidt 系数时, 两侧均为纯态且整体为乘积, $S_A=0$. 反之, 熵为零的密度矩阵只有一个非零本征值, 也只剩该乘积态.
+
+\begin{example}
+两自旋的 $\tfrac12(|\uparrow\uparrow\rangle+|\uparrow\downarrow\rangle+|\downarrow\uparrow\rangle+|\downarrow\downarrow\rangle)=|+\rangle_A|+\rangle_B$ 是乘积, 并非因为展开有四项就纠缠. 对 $|\Psi\rangle=\cos\theta|\downarrow\uparrow\rangle+\sin\theta|\uparrow\downarrow\rangle$, 约化本征值是 $\cos^2\theta,\sin^2\theta$, 所以
+\[
+S_A=-\cos^2\theta\log\cos^2\theta
+-\sin^2\theta\log\sin^2\theta.
+\]
+$\theta=n\pi/2$ 时为0, $\theta=\pi/4+n\pi/2$ 时为 $\log2$, 熵以 $\pi/2$ 为周期, 不必让原态向量具有同一周期.
+\end{example}
+
+若整体 $\rho_{AB}$ 是混态, 一般没有 $S_A=S_B$, 子系统熵也不单独测量量子纠缠. 例如 $\rho_{AB}=\tfrac12|00\rangle\langle00|+\tfrac12|11\rangle\langle11|$ 是可分的经典相关混合, $S_A=S_B=\log2$、$S_{AB}=\log2$, 却没有 Bell 态式的量子纠缠. 互信息 $I(A:B)=S_A+S_B-S_{AB}$ 同时包含经典与量子相关; 对 Bell 纯态它是 $2\log2$, 对该混合态是 $\log2$.
+
+\originalsection{次可加性、三角界与强不等式}
+量子相对熵非负给 $D(\rho_{AB}\Vert\rho_A\otimes\rho_B)=S_A+S_B-S_{AB}\ge0$, 因而 $S_{AB}\le S_A+S_B$. 取纯化 $ABC$, 有 $S_A=S_{BC}$、$S_{AB}=S_C$. 对 $BC$ 使用同一上界, 得 $S_A\le S_B+S_{AB}$; 交换 $A,B$, 得 Araki--Lieb 下界:
+\[
+|S_A-S_B|\le S_{AB}\le S_A+S_B.
+\]
+这些陈述对一般有限密度矩阵成立, 不是只对纯态成立.
+
+强次可加性（SSA）是
+\[
+S_{AC}+S_{BC}\ge S_{ABC}+S_C.
+\]
+其一般量子证明使用更深的算符 inequality/相对熵单调性, 不由刚才的一个经典本征值求和直接得到. 另一等价相关形式是 weak monotonicity,
+\[
+S_{AC}+S_{BC}\ge S_A+S_B.
+\]
+它可由 SSA 与纯化证明: 加一个 $D$ 使 $ABCD$ 纯, 对 $AC,AD$ 使用 SSA, 有 $S_{AC}+S_{AD}\ge S_A+S_{ACD}$, 再用 $S_{AD}=S_{BC}$、$S_{ACD}=S_B$. 下面不重证一般算符 SSA, 而给 RT 熵的具体几何证明, 这正是课程用来检验处方的步骤.
+
+\originalsection{局域耦合怎样产生界面主导项}
+若 $H=H_A+H_B$, 演化是 $U_A\otimes U_B$, 初始乘积态保持乘积. 非简并基态也是两侧基态的乘积; 若基态空间简并, 其中仍可选纠缠叠加, 所以不加条件说“所有基态都不纠缠”并不准确. 加入 $H_{AB}$ 后通常可以生成纠缠, 但特殊乘积本征态也可能不纠缠, 并非每个初态都必须立刻纠缠.
+
+对短程自旋模型或 relativistic QFT, $H_{AB}$ 在几何界面附近耦合两侧. 以短距离截止 $\epsilon$ 计, 跨界面的 cells 数约为 $\operatorname{Area}(\partial A)\epsilon/\epsilon^{d-1}$, 所以常见真空领先紫外结构是
+\[
+S_A=a_{\rm reg}\frac{\operatorname{Area}(\partial A)}{\epsilon^{d-2}}+
+\text{subleading 项},\qquad d>2.
+\]
+$d$ 是时空维数, $\partial A$ 是空间中的 $d-2$ 维界面. $a_{\rm reg}$ 依短程物理与调节, 不普适. 局域性本身不是对所有无能隙系统基态面积律的完整证明; 费米面等可有面积乘 log 修正. 此处解释的是通常短程与 relativistic 真空的领先界面计数.
+
+次领先项可含更长程信息. $(2+1)$ 维合适有能隙拓扑相常有 $S_A=aL/\epsilon-\gamma+\cdots$, 其中稳定的常数项承载拓扑信息. 同维 CFT 的 disk/其他形状也可有有限常数或形状函数, 但它并不自动是同一个有能隙拓扑量. 因而不能只看到非零常数就认定一个状态具有某种拓扑序.
+
+在 $(1+1)$ 维, 界面是端点, 不是“零个端点”或没有短程纠缠; CFT 领先区间熵改为 $(c/3)\log(L/\epsilon)$ 加方案常数. $c$ 是 Virasoro 中心荷, 也控制共形 anomaly 和合适模不变高能谱的 Cardy 渐近增长. 这些是前置 CFT 结果, 本章使用它们检查引力处方, 不把一条几何曲线重新称为 Cardy 定理的独立证明.
+
+在幺正、离散谱且满足相应模不变条件的非手征 CFT2, 高能 Cardy 公式使用左右各自的 $n_L=L_0-c/24$、$n_R=\bar L_0-c/24$:
+\[
+\log D(n_L,n_R)\sim2\pi\sqrt{\frac{cn_L}6}
++2\pi\sqrt{\frac{cn_R}6}.
+\]
+这里取 $c_L=c_R=c$, 这是高能渐近而非任意低能态数的精确式. 若以平面应力 OPE 的中心项 $c/(2z^4)$ 定义 $c$, 并采用 $\delta W=-\tfrac12\int\sqrt g\,\langle T^{ab}\rangle\delta g_{ab}$ 的 Euclidean 源约定, 曲面迹反常为 $\langle T^a{}_a\rangle=-c\mathcal R/(24\pi)$. 其系数须与所用应力归一化一起比较, 不能把不同定义中省掉 $\pi$ 的式子直接用于同一数值计算. 后面只用独立的 $c$--引力字典检查区间熵, 不靠 anomaly 重新固定同一个 $c$.
+
+\originalsection{RT 曲面的维数和同调条件}
+对静态、具有经典 Einstein 引力描述的 CFT 状态, Ryu--Takayanagi（RT）处方为
+\[
+S_A=\frac{\operatorname{Area}(\gamma_A)}{4G_{d+1}}.
+\]
+$\gamma_A$ 是同一等时体 slice 上的最小面积曲面, 边界为 $\partial A$, 并且与 $A$ \textbf{同调}: 存在适当体区域以 $A\cup\gamma_A$ 为边界. 在 $d+1$ 维时空中它余维二, 在 $d$ 维空间片中余维一, 因而有 $d-1$ 维面积. $[G_{d+1}]=L^{d-1}$, 熵量纲正确.
+
+同调不是可丢的附加词. 对两侧永恒黑洞的一整个右侧边界, $\partial A$ 为空, 但右边界不能由空曲面独自围成允许体区域, 视界截面才给相应同调曲面. 因而右侧约化熵可为黑洞熵. 对单侧 pure AdS vacuum 的整个系统, 空曲面则可允许, 总熵为0. 若只写“边界端点相同”而不检查同调, 两者就会被误判为同一个答案.
+
+RT 是这里采用的领先引力处方. 时间依赖态需协变极值曲面（HRT）, 有限 $N$ 还包括体量子熵及相应广义熵极值问题. 本章没有建立那些一般化的完整证明; 以下几何推理明确在静态的 Riemannian slice 与面积泛函中进行.
+
+\originalsection{切开再拼接证明几何 SSA}
+取不相交的边界区域 $A,B,C$, 两个 overlapping 区域 $X=A\cup C$, $Y=B\cup C$. 最小曲面 $\gamma_X,\gamma_Y$ 连同各自同调体区域 $r_X,r_Y$. 将两区域的并集与交集的边界重新拼接, 得 $ABC$ 与 $C$ 的候选曲面 $\widetilde\gamma_{ABC},\widetilde\gamma_C$.
+
+候选曲面由原曲面的片段组成, 相交集的较低维部分不贡献同维面积. 因而
+\[
+\operatorname{Area}(\gamma_{AC})+\operatorname{Area}(\gamma_{BC})
+=\operatorname{Area}(\widetilde\gamma_{ABC})+
+\operatorname{Area}(\widetilde\gamma_C).
+\]
+它们可能在交线有折角, 仍是允许的分片候选; 最小值不超过这些候选面积. 使用相应同调和相同截止,
+\[
+\operatorname{Area}(\widetilde\gamma_{ABC})\ge\operatorname{Area}(\gamma_{ABC}),
+\qquad\operatorname{Area}(\widetilde\gamma_C)\ge\operatorname{Area}(\gamma_C).
+\]
+两式相加再除以 $4G$, 就是 $S_{AC}+S_{BC}\ge S_{ABC}+S_C$. 这是一份实际的切拼最小化证明, 不只是说“RT 满足 SSA”. 适当纯化后也得到前述 weak monotonicity.
+
+\begin{center}
+\begin{tikzpicture}[yscale=-1,scale=1.15]
+\draw[thick] (-0.3,0)--(3.3,0);
+\draw[structurecolor,thick] (0,0) arc[start angle=180,end angle=0,radius=1];
+\draw[orange!75!black,thick] (1,0) arc[start angle=180,end angle=0,radius=1];
+\draw[dashed] (0,0) arc[start angle=180,end angle=0,radius=1.5];
+\draw[dashed] (1,0) arc[start angle=180,end angle=0,radius=0.5];
+\fill (1.5,{sqrt(3)/2}) circle(1.8pt);
+\node[above] at (0.5,0) {$A$};\node[above] at (1.5,0) {$C$};\node[above] at (2.5,0) {$B$};
+\node[structurecolor,font=\small] at (0.65,0.85) {$\gamma_{AC}$};
+\node[orange!75!black,font=\small] at (2.35,0.85) {$\gamma_{BC}$};
+\node[font=\small] at (1.5,1.7) {虚线：并集与交集的真正最小曲线};
+\end{tikzpicture}
+\end{center}
+图以 AdS3 等时半圆为具体示例, 两圆在 $(1.5,\sqrt3/2)$ 相交. 切拼候选有折角, 所以未必等于虚线最小曲线, 正是面积不等式的来源. 曲面的 area 在这里用 AdS 度规计算, 不是图上的欧氏阴影面积.
+
+\originalsection{AdS3 区间的半圆由变分得到}
+对零温无限线区间 $[-L/2,L/2]$, AdS3 等时 metric 为 $R^2(\dd x^2+\dd z^2)/z^2$, RT 曲面是一条曲线. 其长度 functional 是
+\[
+\ell[\gamma]=R\int\dd x\,\frac{\sqrt{1+z'^2}}z.
+\]
+不显含 $x$, 中心 $z=z_*,z'=0$ 固定第一积分为 $1/[z\sqrt{1+z'^2}]=1/z_*$. 所以 $z'^2=z_*^2/z^2-1$, 积分得 $x^2+z^2=z_*^2$, 边界端点给 $z_*=L/2$.
+
+在 $z=\epsilon$ 截止后, 两半长度为
+\[
+\ell_\epsilon=2R\operatorname{arcosh}\frac{L}{2\epsilon}
+=2R\log\frac L\epsilon+O(\epsilon^2/L^2).
+\]
+这里先固定真实 $z=0$ 端点, 再切去尖端; 若改成固定有限截止面的端点间距, 只改变相应次领先项. 因而
+\[
+S_A=\frac R{2G_3}\log\frac L\epsilon+\cdots
+=\frac c3\log\frac L\epsilon+\cdots,
+\quad c=\frac{3R}{2G_3}.
+\]
+最后使用独立渐近对称分析的 Brown--Henneaux 中心荷关系, 不是先由熵匹配定义 $c$ 再声称独立证明同一结果. 它再现了 CFT 的普适 log 系数, 有限方案常数仍依截止定义.
+
+圈真空的相应 CFT 结果为 $S(\ell)=\tfrac c3\log[(L_{\rm circle}/\pi\epsilon)\sin(\pi\ell/L_{\rm circle})]+s_0$, 对 $\ell\leftrightarrow L_{\rm circle}-\ell$ 不变, 与纯态 $S_A=S_{\bar A}$ 相容. 它与下面热态的 extensive 行为不同.
+
+\originalsection{热态区间怎样接近黑洞熵密度}
+在 planar BTZ 等时背景, $f(z)=1-(z/z_h)^2$, $\beta=2\pi z_h$. 同一长度变分给 $z'^2=f(z)(z_*^2/z^2-1)$. 边界距离积分是
+\[
+\frac L2=\int_0^{z_*}\frac{z\dd z}
+{\sqrt{1-z^2/z_h^2}\sqrt{z_*^2-z^2}}
+=z_h\operatorname{arctanh}(z_*/z_h).
+\]
+所以 $z_*=z_h\tanh(L/(2z_h))$, 长区间越接近视界. 同样积长度得到
+\[
+S_A=\frac c3\log\left[
+\frac\beta{\pi\epsilon}\sinh\left(\frac{\pi L}\beta\right)\right]+s_0.
+\]
+$L\ll\beta$ 时回到 vacuum log; $L\gg\beta$ 时领先为 $\pi cL/(3\beta)$, 正是 CFT2 热熵密度乘区间长度. 这个热态子系统熵含热混合, 不仅是整体 pure state 的量子纠缠.
+
+对有限 circle 和整份热系统, 同调要求相应 surface 包括 black-hole 视界, 所以 RT 返回 $A_H/(4G)$ 的总热熵. 对部分大区间, 还需比较补集 geodesic 加视界的 candidate, 不能把无限线的单分支公式不加条件推到有限圈全部区域. 这也说明同一面积处方为何既能描述区间关联, 又能在适当混态中给出黑洞热熵.
+
+本课程以这些经典例子建立几何与量子信息的联系. 一般量子 correction、协变情形和 information-loss 问题仍须超出这份静态面积计算的工具, 不把一个区间的匹配称作所有时空涌现问题已解决.

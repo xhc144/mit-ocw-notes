@@ -85,15 +85,27 @@ $A_\mu=z^{d-\Delta-1}a_\mu+z^{\Delta-1}b_\mu+\cdots$.
 欧氏 AdS 度规 $\dd s^2=R^2(\dd z^2+\dd x^2)/z^2$.
 (a) 证明 $z>0$ Poincaré 坐标覆盖全欧氏 AdS, 且任意有限 $x$ 的 $z\to\infty$ 对应同一边界点.
 (b) 对 massive 标量求边界到体核 $K$.
-(c) 令 $R=1$, 证明体到体 Green 函数的边界极限 $G_B(X;z',x')\sim z'^\Delta K(X;x')/(2\nu)$, $\nu=\Delta-d/2$.
-(d) 据此给边界 $n$ 点函数与体场关联的外腿极限关系. 可不用体到体核的显式闭式.
+(c) 原题给体到体 Green 函数的边界极限 $G_B(X;z',x')\sim z'^\Delta K(X;x')/(2\nu)$, $\nu=\Delta-d/2$. 证明并说明其归一化条件. 原题允许不求体核闭式; 若使用显式体核, 也允许引用文献而不必自己求出.
+(d) 据此给边界 $n$ 点函数与体场关联的外腿极限关系, 原题外腿因子为 $2\nu_i z_i^{-\Delta_i}$.
 \end{exercise}
 \begin{solution}
-欧氏 AdS 是双曲空间上半空间模型. 以坐标半球紧致化或球模型的 Cayley 映射, $z=0$ 的 $\mathbb R^d$ 加一个无穷点形成 $S^d$ 共形边界. 反演等距变换将有限 $x$、$z\to\infty$ 映为 $x'\to0,z'\to0$, 都到同一边界点. 其内部点一直是 $z>0$, 无 Lorentzian Poincaré 视界遗漏的区域; 边界无穷点不是额外有限距离的内部点.
+用任意固定长度单位使 $x,z$ 无量纲, 定 $D_0=|x|^2+(z+1)^2$, 并作 Cayley 映射
+\[
+ u_i=\frac{2x_i}{D_0},\qquad
+ u_{d+1}=\frac{|x|^2+z^2-1}{D_0},\qquad
+ 1-|u|^2=\frac{4z}{D_0}>0.
+\]
+其像在单位开球. 反向令 $D_u=|u_\perp|^2+(1-u_{d+1})^2$, 有 $x_i=2u_i/D_u$, $z=(1-|u|^2)/D_u>0$, 所以每个开球点均有唯一上半空间原像. 直接微分给球模型度规 $4R^2\dd u^2/(1-|u|^2)^2$. 这证明覆盖全欧氏双曲空间, 没有遗漏内部区域. 对任意有限 $x$、$z\to\infty$, $u_\perp\to0,u_{d+1}\to1$, 均到同一球面边界点; 它不是额外有限距离的内部点. $z=0$ 的 $\mathbb R^d$ 加此无穷点组成 $S^d$ 共形边界.
 
 取标准量子化 $\Delta>d/2$, 动能规范化为 $1/2$, 正则核为式\eqref{eq:K}. 可通过直接微分验证 $(\Box-m^2)K=0$, $m^2R^2=\Delta(\Delta-d)$. 归一化条件 $\int\dd^dy(1+y^2)^{-\Delta}=\pi^{d/2}\Gamma(\Delta-d/2)/\Gamma(\Delta)$ 保证源的分布极限.
 
-为证明 (c), 令体 Green 函数按 $(-\Box+m^2)G_B=\delta/\sqrt g$ 归一化, 边界一支 $G_B\sim z'^\Delta B(X;x')$. 对源解 $\phi\sim z'^{d-\Delta}\phi_0$ 使用 Green 恒等式. 截止面法向导数为 $-z'\partial_{z'}$, 面测度 $z'^{-d}\dd^dx'$. 两幂的 Wronskian 给因子 $\Delta-(d-\Delta)=2\nu$, 从而 $\phi(X)=\int2\nu B(X;x')\phi_0(x')\dd^dx'$. 与核定义比较, $K=2\nu B$. 因此不需体核闭式也得所要求极限.
+先以 $R=1$ 为单位证明 (c), 令体 Green 函数按 $(-\Box+m^2)G_B=\delta/\sqrt g$ 归一化, 边界一支 $G_B\sim z'^\Delta B(X;x')$. 对源解 $\phi\sim z'^{d-\Delta}\phi_0$ 使用 Green 恒等式. 截止面法向导数为 $-z'\partial_{z'}$, 面测度 $z'^{-d}\dd^dx'$. 两幂的 Wronskian 给因子 $\Delta-(d-\Delta)=2\nu$, 从而 $\phi(X)=\int2\nu B(X;x')\phi_0(x')\dd^dx'$. 与核定义比较, $K=2\nu B$.
+
+若保留一般 $R$ 和上述协变 delta 归一化, 法向与面测度分别给 $R^{-1}$ 和 $R^d$, 所以严格关系为
+\[
+ G_B(X;z',x')\sim\frac{z'^\Delta}{2\nu R^{d-1}}K(X;x').
+\]
+原题无 $R$ 因子的式子相应采用 $R=1$ 或已重标度的体核; 不能在两种归一化之间直接漏掉 $R^{d-1}$.
 
 树级 Witten 图将每条体外腿的 $G_B$ 换成 $K$, 得
 \[
@@ -101,7 +113,7 @@ $A_\mu=z^{d-\Delta-1}a_\mu+z^{\Delta-1}b_\mu+\cdots$.
 =\lim_{z_i\to0}\prod_i(2\nu_i z_i^{-\Delta_i})
 \langle\phi_1(z_1,x_1)\cdots\phi_n(z_n,x_n)\rangle.
 \]
-需匹配体场规范化、选定标准边界条件, 并在分离点或已减去接触项的意义下理解. $\nu=0$ 根重合、替代量子化、混合算符及环修正不能直接照抄该形式.
+此式按前述 $R=1$ 和单位体动能归一化书写. 若保留一般 $R$, 每个外腿因子改为 $2\nu_iR^{d-1}z_i^{-\Delta_i}$. 需匹配体场规范化、选定标准边界条件, 并在分离点或已减去接触项的意义下理解. $\nu=0$ 根重合、替代量子化、混合算符及环修正不能直接照抄该形式.
 \end{solution}
 
 \src{8.821 PS5.3, 30 分; 独立解答.}

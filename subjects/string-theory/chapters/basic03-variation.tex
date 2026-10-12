@@ -1,0 +1,102 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{小振动、变分与点粒子作用量}\label{ch:basic-variation}
+对应 8.251 第 5--6 讲. 学习相对论弦之前, 先把波动方程、边界条件和守恒量从同一个作用量导出. 这样进入世界面后, 不会把边界项和约束误当作可以忽略的附属条件.
+
+\originalsection{由受力到横波方程}
+考虑平衡时沿 $x$ 的均匀细弦, 张力 $T_0$、线密度 $\mu_0$, 横向位移 $y(t,x)$. 假定 $|\partial_xy|\ll1$, 只保留横向运动, 忽略纵向张力变化和弯曲刚度. 长度 $\dd x$ 的一段弦两端横向张力差为
+\[
+ \dd F_y=T_0\big[y_x(t,x+\dd x)-y_x(t,x)\big]
+ =T_0y_{xx}\dd x.
+\]
+质量为 $\mu_0\dd x$, 故 $\mu_0y_{tt}=T_0y_{xx}$, 波速 $v_0=\sqrt{T_0/\mu_0}$. 两常数在普通物质弦中独立, 尚无理由令 $v_0=c$.
+
+任意充分光滑解局部可写 $y=h_+(x-v_0t)+h_-(x+v_0t)$. 两个函数代表反向传播的波. 在整条线上, 初始形状 $f(x)=y(0,x)$ 与初始速度 $g(x)=y_t(0,x)$ 给
+\[
+ y(t,x)=\frac{f(x-v_0t)+f(x+v_0t)}2
+ +\frac1{2v_0}\int_{x-v_0t}^{x+v_0t}g(u)\dd u.
+\]
+可直接求两次导数核对方程, 并在 $t=0$ 检查两项初值. 有限弦还必须满足端点条件, 初始形状也必须与其兼容.
+
+\originalsection{固定端点与自由端点}
+若长度为 $a$ 且两端固定, $y(t,0)=y(t,a)=0$. 第一个条件给 $h_-(u)=-h_+(-u)$, 第二个给 $h_+(u+2a)=h_+(u)$. 相应正弦展开是
+\[
+ y(t,x)=\sum_{n=1}^\infty
+ \big(A_n\cos\omega_nt+B_n\sin\omega_nt\big)
+ \sin\frac{n\pi x}{a},\qquad\omega_n=\frac{n\pi v_0}{a}.
+\]
+正交性给 $A_n=(2/a)\int_0^af(x)\sin(n\pi x/a)\dd x$,
+$B_n=(2/a\omega_n)\int_0^ag(x)\sin(n\pi x/a)\dd x$. 自由端在横向不受外力, 因而 $y_x=0$, 对应余弦模式并包括 $n=0$ 的平移运动. 混合固定、自由端则给半整数波数 $(n+1/2)\pi/a$.
+
+\begin{example}
+固定端点初值 $y(0,x)=A\sin(\pi x/a)$, $y_t(0,x)=0$ 给单模 $y=A\cos(\pi v_0t/a)\sin(\pi x/a)$. 要使小斜率近似可靠, 应要求 $\pi|A|/a\ll1$, 而不是只比较 $A$ 与无关的某一长度单位.
+\end{example}
+
+\originalsection{驻作用量并不总是最小值}
+点粒子作用量 $S[x]=\int_{t_i}^{t_f}(m\dot x^2/2-V(x))\dd t$ 是路径的函数. 固定端点变分 $\delta x(t_i)=\delta x(t_f)=0$ 后
+\[
+ \delta S=[m\dot x\delta x]_{t_i}^{t_f}
+ -\int_{t_i}^{t_f}(m\ddot x+V')\delta x\dd t.
+\]
+任意内部变分使 $\delta S=0$ 的条件正是 $m\ddot x=-V'$. 条件控制一阶变化, 不保证二阶变化非负. 对一般 $L(x,\dot x,t)$, 同样积分分部得 $\dd(\partial L/\partial\dot x)/\dd t=\partial L/\partial x$. 场的欧拉--拉格朗日方程只是把一次积分分部推广到每个独立坐标.
+
+\originalsection{弦的作用量与不可省略的边界项}
+小斜率使长度增加 $\dd\ell-\dd x\simeq y_x^2\dd x/2$, 因而势能为 $T_0\int y_x^2\dd x/2$, 动能为 $\mu_0\int y_t^2\dd x/2$. 作用量为
+\[
+ S=\int\dd t\int_0^a\dd x\,\mathcal L,
+ \qquad\mathcal L=\frac{\mu_0}2y_t^2-\frac{T_0}2y_x^2.
+\]
+注意势能项含空间导数; 原笔记在少数行中把它误写成时间导数. 定义动量密度与动量流
+\[
+ P^t=\frac{\partial\mathcal L}{\partial y_t}=\mu_0y_t,\qquad
+ P^x=\frac{\partial\mathcal L}{\partial y_x}=-T_0y_x.
+\]
+变分完整地给
+\begin{align*}
+ \delta S={}&-\int\dd t\dd x\,(\partial_tP^t+\partial_xP^x)\delta y
+ +\int_0^a\dd x\,[P^t\delta y]_{t_i}^{t_f}\\
+ &+\int_{t_i}^{t_f}\dd t\,[P^x\delta y]_{0}^{a}.
+\end{align*}
+固定初末时刻的构型让时间边界项消失. 空间端点可以选择固定位置 $\delta y=0$ 的 Dirichlet 条件, 或允许任意 $\delta y$ 而要求 $P^x=0$ 的 Neumann 条件. 两种选择都由同一边界项给出, 不能先把它删除再说端点可任意运动.
+
+\originalsection{动量流与能量流}
+平移 $y\mapsto y+\epsilon$ 的守恒流是 $P^a$, 满足 $\partial_tP^t+\partial_xP^x=0$. 总横向动量 $P_y=\int_0^a\mu_0y_t\dd x$ 因此满足
+\[
+ \frac{\dd P_y}{\dd t}=-[P^x]_0^a=T_0[y_x]_0^a.
+\]
+两端自由时总动量守恒; 固定端支架一般施加外力, 弦本身的动量可改变. 能量密度和沿正 $x$ 的能流则为
+\[
+ \mathcal E=\frac{\mu_0}2y_t^2+\frac{T_0}2y_x^2,
+ \quad\mathcal J=-T_0y_ty_x,
+ \quad\partial_t\mathcal E+\partial_x\mathcal J=0.
+\]
+代入单向波 $y=h(x-v_0t)$, 有 $\mathcal J=v_0\mathcal E>0$, 符号与传播方向一致. 固定端因 $y_t=0$、自由端因 $y_x=0$ 都无端点能量通量, 与动量是否守恒是不同问题.
+
+\originalsection{相对论粒子的几何作用量}
+对质量 $m>0$ 的类时轨迹, 取
+\[
+ S=-mc\int\dd s=-mc\int\sqrt{-\dot x\cdot\dot x}\dd\tau.
+\]
+$\tau$ 是任意单调参数, 不一定等于固有时. 若改为 $\tau'=f(\tau)$ 且 $f'>0$, 平方根按 $\dd\tau'/\dd\tau$ 反向缩放, 乘上测度后不变. 因此相同几何轨迹的不同标记没有不同作用量.
+
+取 $x^0=ct$ 时 $L=-mc^2\sqrt{1-v^2/c^2}$, 低速展开给 $L=-mc^2+mv^2/2+O(v^4/c^2)$. 求动量与哈密顿量,
+\[
+ \boldsymbol p=\frac{m\boldsymbol v}{\sqrt{1-v^2/c^2}},\qquad
+ H=\boldsymbol p\cdot\boldsymbol v-L
+ =\frac{mc^2}{\sqrt{1-v^2/c^2}}.
+\]
+常数静能虽不改变自由低速方程, 却对能量的归一化和引力耦合有意义.
+
+任意参数下 $p_\mu=mc\dot x_\mu/\sqrt{-\dot x^2}$. 变分并固定轨迹端点得 $\dd p_\mu/\dd\tau=0$. 若选固有长度作参数, 方程为 $\dd^2x^\mu/\dd s^2=0$; 若选任意非线性参数, $\ddot x^\mu$ 可不为零, 因它同时记录了标记速度的改变. 几何上的直线不能和“任意参数二阶导数为零”混为一谈.
+
+\originalsection{电磁耦合与无质量极限}
+最小耦合增加 $S_{\rm int}=(q/c)\int A_\mu\dd x^\mu$. 变分得到
+\[
+ \frac{\dd p_\mu}{\dd\tau}=\frac qcF_{\mu\nu}\dot x^\nu.
+\]
+在 $\tau=t$、空间分量上还原 $\dd\boldsymbol p/\dd t=q(\boldsymbol E+\boldsymbol v\times\boldsymbol B/c)$. 规范变换使作用量只多 $(q/c)[\epsilon]_{i}^{f}$, 固定端点时不改变方程. 原课末页把电磁势误注为另一张量名称, 此处按一形式 $A_\mu\dd x^\mu$ 处理.
+
+不能令上述几何作用量的 $m=0$ 然后用 $S=0$ 推导光线. 在自然单位下, 引入世界线辅助场 $e(\tau)$ 的等价形式
+\[
+ S_e=\frac12\int\dd\tau\,(e^{-1}\dot x^2-e m^2).
+\]
+对 $e$ 变分给 $\dot x^2+e^2m^2=0$, $m>0$ 时消去 $e$ 恢复 $-m\int\dd s$; $m=0$ 时则保留 $\dot x^2=0$ 约束, 仍有有效的运动方程. 这一补充说明了为何量子弦中无质量态需要独立的规范处理.

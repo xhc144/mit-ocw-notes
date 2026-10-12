@@ -1,0 +1,117 @@
+\addtocontents{toc}{\protect\Needspace{3\baselineskip}}
+\originalchapter{8.821 课程详讲：非线性响应与 Witten 图}
+本章对应第 21 讲的高点函数部分; 该讲末的重夸克构造接到下一章 Wilson 环. 从一个三次体相互作用展示源的非线性响应, 再解释接触、交换和环图. 采用上一章正欧氏作用量及 $W=-S_{E,\rm ren}$ 的号, 不把 Witten 图的连线误认成一条已经求出的实际时空测地线.
+
+\originalsection{三点来自源响应的哪一阶}
+考虑已知有效背景上的局部标量展开,
+\[
+S_E=\mathcal A_\phi\int\dd^{d+1}X\sqrt g
+\left[\frac12(\partial\phi)^2+\frac12m^2\phi^2+
+\frac{g_3}{3!R^2}\phi^3+\cdots\right].
+\]
+取 $\phi$ 为与前章相同的无量纲场, $\mathcal A_\phi$ 量纲 $L^{-(d-1)}$, 则 $g_3$ 无量纲. 省略项与完整背景决定更大幅度的稳定性, 这里只作小源、小相互作用的局部微扰, 不把单独无界的三次势宣称成全局真空定义.
+
+令 $L=-\nabla^2+m^2$. 方程为 $L\phi+g_3\phi^2/(2R^2)+\cdots=0$. 按源阶数分解 $\phi_c=\phi_{(1)}+\phi_{(2)}+\cdots$, 有
+\[
+L\phi_{(1)}=0,\qquad
+L\phi_{(2)}=-\frac{g_3}{2R^2}\phi_{(1)}^2.
+\]
+第一阶满足给定源, 高阶修正的慢支源为零. 一点响应因此含 $J,J^2,\ldots$, 二点是线性响应, 三点是关于源的二阶非线性响应. 同一信息也可由 $W[J]$ 的二次、三次、四次项直接求导得到.
+
+定义体内 Green 函数 $G(X,Y)$ 满足
+\[
+L_XG(X,Y)=\frac{\delta^{(d+1)}(X-Y)}{\sqrt{g(X)}},
+\]
+采用相同的标准无源支和内部条件, 则
+\[
+\phi_{(1)}(X)=\int\dd^dy\,K_\Delta(X;y)J(y),
+\quad
+\phi_{(2)}(X)=-\frac{g_3}{2R^2}
+\int\dd^{d+1}Y\sqrt{g(Y)}G(X,Y)\phi_{(1)}(Y)^2.
+\]
+$K$ 解决齐次体方程, 在边界产生单位源; $G$ 解决有 delta 源的体方程, 向边界按允许的快支衰减. 这两种核的任务不同, 不能把所有线都称作同一个 propagator.
+
+\originalsection{为什么三点只需把自由解代进三次顶点}
+自由作用量在满足固定源的经典解上已 stationary. 对无源的 $\phi_{(2)}$ 修正, 二次作用量的一阶变分因此消失（包括正确的边界/反项条件）. 所以 $O(g_3J^3)$ 壳上项只需
+\[
+S^{(3)}_{E,\rm os}=\frac{\mathcal A_\phi g_3}{3!R^2}
+\int\dd^{d+1}X\sqrt g\,\phi_{(1)}(X)^3.
+\]
+对 $W=-S$ 求三次源导数, $3!$ 个排列恰与顶点的 $3!$ 相消, 得
+\[
+\langle\mathcal O(x_1)\mathcal O(x_2)\mathcal O(x_3)\rangle_c
+=-\frac{\mathcal A_\phi g_3}{R^2}
+\int\dd^{d+1}X\sqrt g\,
+K_\Delta(X;x_1)K_\Delta(X;x_2)K_\Delta(X;x_3).
+\]
+每个内部顶点积分包括径向 $z$ 和边界平行坐标 $x$, 但外部 $x_i$ 全在边界. 这就是三点接触 Witten 图. “接触”指三个体场在同一内部顶点相遇, 不等于边界三点只是同点 delta 接触项.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex]
+\draw[thick] (-3,0)--(3,0) node[right] {边界};
+\foreach \x/\i in {-2.2/1,0/2,2.2/3}{
+\fill (\x,0) circle(2pt);\node[above] at (\x,0) {$x_{\i}$};
+\draw[structurecolor,thick] (\x,0)--(0,-1.7);}
+\fill (0,-1.7) circle(2.5pt);
+\node[below] at (0,-1.7) {$g_3:\ \int\sqrt g\dd X$};
+\node[font=\small] at (-1.6,-0.9) {$K_\Delta$};
+\node[font=\small] at (1.6,-0.9) {$K_\Delta$};
+\end{tikzpicture}
+\end{center}
+图的线只表示所需核与顶点积分, 不指定核的支撑在图上直线, 也不指定经典粒子路径.
+
+\originalsection{三点距离幂与一个实际系数}
+对三种标量维数 $\Delta_i$, 定义 $\Sigma=\Delta_1+\Delta_2+\Delta_3$、$\alpha_{ij}=(\Delta_i+\Delta_j-\Delta_k)/2$, $k$ 为余下指标. 归一化核的体积分在 $\Sigma>d$、各 $\alpha_{ij}>0$ 的分离点收敛范围为
+\[
+\int\sqrt g\dd X\prod_{i=1}^3K_{\Delta_i}(X;x_i)
+=\frac{R^{d+1}\pi^{d/2}}2\prod_ic_{\Delta_i}
+\frac{\Gamma((\Sigma-d)/2)\prod_{i<j}\Gamma(\alpha_{ij})}
+{\prod_i\Gamma(\Delta_i)}
+\prod_{i<j}|x_{ij}|^{-2\alpha_{ij}}.
+\]
+其距离幂与先前纯共形论证完全相同, 但系数由实际内部积分确定. 超出这个收敛范围需解析延拓、重整化和可能的算符混合, 不能忽略 Gamma 极点而把它当成普通有限积分.
+
+积分路线也可以明确检查. 对每个 $(z^2+|x-x_i|^2)^{-\Delta_i}$ 用 Schwinger 参数表示, 三个 Gaussian 因子合并后先积 $x$, 给 $\pi^{d/2}(\sum t_i)^{-d/2}$ 及成对距离指数. 再积 $z^{\Sigma-d-1}\ee^{-(\sum t_i)z^2}$, 给 $\Gamma((\Sigma-d)/2)/[2(\sum t_i)^{(\Sigma-d)/2}]$. 剩下的参数比例积分给三个 $\Gamma(\alpha_{ij})$, 尺度部分固定距离幂. 这解释每个 Gamma 的来源, 而不只列最终表.
+
+\begin{example}
+取 $d=4$、三个 $\Delta_i=4$, 即同一无质量标量. $c_4=6/\pi^2$, $\Gamma((\Sigma-d)/2)=\Gamma(4)=6$, 各 $\Gamma(\alpha_{ij})=\Gamma(2)=1$. 得体积分系数 $3R^5/\pi^4$, 所以
+\[
+\langle\mathcal O(x_1)\mathcal O(x_2)\mathcal O(x_3)\rangle_c
+=-\frac{3\mathcal A_\phi g_3R^3}{\pi^4}
+\frac1{|x_{12}|^4|x_{23}|^4|x_{31}|^4}.
+\]
+这里的 $g_3$ 是实际有效作用量的输入, 不由对称性确定. 若它为零, 这份首阶三点也为零, 即使三个算符的维数和二点都相同. 场的符号重定义也会同时改变三点号和 $g_3$, 所以号需与定义一起比较.
+\end{example}
+
+\originalsection{四点的交换图和接触图不是同一信息}
+若有四次顶点, 四点有一个积分 $\int\sqrt gK_1K_2K_3K_4$ 的接触贡献. 两个三次顶点还产生交换图. 在前述单标量模型, 自由 Green 函数取 $L$ 的正号定义, 消去第二阶修正后, 一条交换渠道的四点贡献为
+\[
+\frac{\mathcal A_\phi g_3^2}{R^4}
+\int\sqrt{g(X)}\dd X\sqrt{g(Y)}\dd Y\,
+K_1(X)K_2(X)G(X,Y)K_3(Y)K_4(Y),
+\]
+再加 $13|24$、$14|23$ 两个渠道和可能的四次接触项. 源求导的排列数决定了这份系数, 不能一边使用 $g_3/3!$ 顶点一边随意遗漏排列.
+
+\begin{center}
+\begin{tikzpicture}
+\draw[thick] (-3.2,0)--(3.2,0);
+\foreach \x/\i in {-2.8/1,-0.8/2,0.8/3,2.8/4}{
+\fill (\x,0) circle(2pt);\node[above] at (\x,0) {$x_{\i}$};}
+\draw[structurecolor,thick] (-2.8,0)--(-1,-1.5)--(-0.8,0);
+\draw[structurecolor,thick] (0.8,0)--(1,-1.5)--(2.8,0);
+\draw[thick] (-1,-1.5)--(1,-1.5) node[midway,above] {$G$};
+\fill (-1,-1.5) circle(2.5pt);\fill (1,-1.5) circle(2.5pt);
+\node[below] at (-1,-1.5) {$X$};\node[below] at (1,-1.5) {$Y$};
+\end{tikzpicture}
+\end{center}
+这些贡献一般依赖两个共形交比, 如 $u=x_{12}^2x_{34}^2/(x_{13}^2x_{24}^2)$、$v=x_{14}^2x_{23}^2/(x_{13}^2x_{24}^2)$. 体交换粒子的质量、自旋和顶点决定其中函数, 因而四点比三点包含更多动力学信息. 本章展示计算规则, 没有把未具体积分的任意 exchange 函数伪称为已求解公式.
+
+\originalsection{边界极限与量子环的范围}
+自由标准量子化中, 体 Green 函数和核还满足
+\[
+K_\Delta(X;y)=2\nu R^{d-1}
+\lim_{z'\to0}(z')^{-\Delta}G(X;z',y)
+\]
+在相应源/Green 函数归一化下. 与 $\langle\phi\phi\rangle=G/\mathcal A_\phi$ 联用, 边界相关函数的自由外腿极限含每腿 $2\nu\mathcal A_\phi R^{d-1}z^{-\Delta}$. 这个因子可再现上一章的二点系数, PS5.2 对它和核的归一化有具体考核. 不能只写 $z\to0$ 而丢去幂和 $2\nu$.
+
+壳上经典解生成的是树图. 若在 $\phi_c$ 周围再积分量子涨落, 才产生体环. 在 $\mathcal A_\phi R^{d-1}\sim N^2$ 的常见归一化中, 正则场的三次有效耦合约 $1/N$, 环相对压低 $1/N^2$, 与前面的矩阵计数一致. 完整量子体算符还涉及场重整化、混合和引力引力修饰; 这里的自由外腿字典及树规则不冒充有限 $N$ 的一般重构定理.
