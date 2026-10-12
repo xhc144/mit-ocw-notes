@@ -9,7 +9,7 @@
 - [习题课增补来源清单](qa/recitation-coverage-freeze.json)
 - [考试原题图来源](qa/exam-figure-provenance.json)
 - [独立数学审读](qa/independent-review-8701.md)
-- [全部目录与书签检查](qa/pdf-links.json)
+- [83页修订版目录与排版核验](qa/revision-validation.json)
 
 ## 实际覆盖
 
@@ -30,4 +30,4 @@ MIT OpenCourseWare课程作者和各文件链接见清单及卷末；8.701官方
 
 ## 验证
 
-全卷XeLaTeX交叉引用收敛；固定版式、缺字/溢出/字体检查；全部目录书签跳转；全部物理页逐页渲染审读；独立粒子题推导及核物理敏感数值抽检。源码包在干净目录重新编译，发布后远端下载比对哈希与页数，结果记录于`qa/delivery-verification.json`。视觉旧版记录保留并明确其哈希，最终版结果单独记录；自动检查不冒称全部数学已由独立审稿人证明。
+全卷XeLaTeX交叉引用收敛；固定版式、缺字/溢出/字体检查；全部目录书签跳转；全部物理页逐页渲染审读；独立粒子题推导及核物理敏感数值抽检。源码包在干净目录重新编译，发布后远端下载比对哈希与页数，结果记录于[修订版交付核验](qa/delivery-verification-revision.json)与[完成记录](qa/revision-completion.json)。视觉旧版记录保留并明确其哈希，最终版结果单独记录；自动检查不冒称全部数学已由独立审稿人证明。
