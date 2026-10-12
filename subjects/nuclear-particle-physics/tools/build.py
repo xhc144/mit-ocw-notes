@@ -6,7 +6,7 @@ def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--out',type=pathlib.Path,default=ROOT/'build');a=ap.parse_args()
     out=a.out.resolve();out.mkdir(parents=True,exist_ok=True)
-    inputs=[ROOT/'main.tex',ROOT/'course-info.tex',*sorted((ROOT/'chapters').glob('*.tex'))]
+    inputs=[ROOT/'main.tex',ROOT/'course-info.tex',*sorted((ROOT/'chapters').glob('*.tex')),*sorted((ROOT/'figures').glob('*.pdf'))]
     initial={str(p.relative_to(ROOT)):sha(p) for p in inputs}
     with tempfile.TemporaryDirectory(prefix='qft-tex-') as td:
         work=pathlib.Path(td)
