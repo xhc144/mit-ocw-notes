@@ -27,3 +27,34 @@ $\mathcal F=-\nabla p_1+\mu_0^{-1}(\nabla\times\mathbf Q)\times\mathbf B+\mathbf
 
 \originalsection{有限谐波变分计算}
 取满足轴心、壁及散度条件的基函数 $\xi=\sum_jc_j\xi_j$, 得 $\delta W=\tfrac12c^\dagger Wc$. 矩阵需 Hermitian, 实基可为实对称. 若要增长率还需质量矩阵 K 作广义特征值问题. 仅判断势能符号时最小 W 特征值足够, 基的缩放改变特征值大小但不改惯性指数. 增加基数可发现先前遗漏的负方向, 而数值求积收敛与基空间收敛是两种检查.
+
+\originalsection{自由边界、真空匹配与五项能量}
+前面的$\delta W_F$只把流体内积分写出，MIT 22.615 Lecture 16第3--6页还说明自由界面不能任意丢掉边界积分。将$-\frac12\int\xi^*\cdot\mathcal F(\xi)\dd V$分部积分，会产生
+\begin{equation}
+\delta W=\delta W_F+\delta W_S+\delta W_V,\qquad
+\delta W_S=\frac12\int_{S_p}|\xi_n|^2
+\mathbf n\cdot\nabla\!\left(p+\frac{B^2}{2\mu_0}\right)_{\!p}\dd S,\qquad
+\delta W_V=\frac1{2\mu_0}\int_{V_{\rm vac}}|\mathbf B_{1v}|^2\dd V .
+\end{equation}
+这里$\mathbf n$从等离子体指向真空、$\xi_n=\mathbf n\cdot\xi$，下标$p$表示从等离子体侧取平衡梯度；若选相反法向，表面式的梯度与积分定向须一起改。固定边界$\xi_n=0$时表面项消失；课程考虑无表面电流的光滑匹配时也取$\delta W_S=0$。有表面电流或跳变时须保留它，不能将“通常为零”当一般恒等式。
+
+允许位移须满足流体侧随动磁通条件；真空$\nabla\times\mathbf B_{1v}=\nabla\cdot\mathbf B_{1v}=0$，等离子体面满足
+$\mathbf n\cdot\mathbf B_{1v}=\mathbf n\cdot\nabla\times(\xi\times\mathbf B)$，理想外壁满足$\mathbf n\cdot\mathbf B_{1v}=0$。真空矢势的表面积分接回流体分部积分遗下的$\mathbf B\cdot\mathbf B_{1v}$项，于是总能量有上述正的真空平方项。总压扰动连续性是这一变分形式的自然边界条件，由驻值时导出；任取试探函数时无需先强制它。
+
+令$\mathbf b=\mathbf B/B$、$\boldsymbol\kappa=\mathbf b\cdot\nabla\mathbf b$、$\xi=\xi_\perp+\xi_\parallel\mathbf b$、$\mathbf Q_\perp=\mathbf Q-\mathbf b(\mathbf b\cdot\mathbf Q)$、$J_\parallel=\mathbf J\cdot\mathbf b$。用平衡$\mathbf J\times\mathbf B=\nabla p$和
+$\mathbf b\cdot\mathbf Q=-B(\nabla\cdot\xi_\perp+2\xi_\perp\cdot\boldsymbol\kappa)
++\mu_0(\xi_\perp\cdot\nabla p)/B$，将流体能量完成平方，得到Lecture 16第6页的五类项：
+\begin{equation}
+\begin{split}
+\delta W_F=\frac12\int_{V_p}\Bigg\{&
+\frac{|\mathbf Q_\perp|^2}{\mu_0}
++\frac{B^2}{\mu_0}\left|\nabla\cdot\xi_\perp
++2\xi_\perp\cdot\boldsymbol\kappa\right|^2
++\gamma p|\nabla\cdot\xi|^2\\
+&-2\operatorname{Re}\!\left[
+(\xi_\perp^*\cdot\nabla p)(\boldsymbol\kappa\cdot\xi_\perp)\right]
+-J_\parallel\operatorname{Re}\!\left[
+(\xi_\perp^*\times\mathbf b)\cdot\mathbf Q_\perp\right]\Bigg\}\dd V .
+\end{split}
+\end{equation}
+依次是磁线弯曲、磁压缩、气体压缩、压力与曲率耦合、平行电流驱动。前三项非负，后两项可随剖面和位移改变符号。最小化$\xi_\parallel$常能消掉气体压缩，但在特殊对称或$\mathbf B\cdot\nabla$有核空间时不能保证处处$\nabla\cdot\xi=0$；Lecture 16第7页专门保留这个例外。此五项式与边界、真空项相加才是自由边界判据，且只适用于静态理想MHD平衡。
