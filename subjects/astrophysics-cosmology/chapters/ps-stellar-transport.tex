@@ -1,0 +1,94 @@
+\originalchapter{电离、不透明度与对流习题}
+本章对应8.901 PS2.3--4的公开部分与PS3.1--2，答案为独立补写。PS2.4(a)、PS3.3--5的教材引用题面未公开，不以同主题自拟题替代。纯氦数值使用题目允许的密度$10^{-6}\ \mathrm{g\,cm^{-3}}$；分配函数限于基态，不能把结果推广到强非理想或简并等离子体。
+
+\src{8.901 PS2.3，纯氦Saha方程，原题(a)--(d)。}
+\begin{exercise}
+固定密度、温度的纯氦气体有电离能$\chi_0=24.6$ eV、$\chi_1=54.4$ eV。所有原子、离子均在基态，数密度$n_e,n_0,n_1,n_2$分别为电子、中性氦、单电离氦、双电离氦；$n=n_0+n_1+n_2$，$x_e=n_e/n$、$x_i=n_i/n$，电中性。
+(a) 确定统计权重和能量零点，写$n_1/n_0,n_2/n_1$；
+(b) 消去其他变量，只留下$x_1,x_2$未知的两式，参数为$T,n$或$\rho=4n/N_A$；
+(c) 在$4\times10^4\leq T\leq2\times10^5$ K密网格，选择$\rho=10^{-4},10^{-6},10^{-8}\ \mathrm{g\,cm^{-3}}$之一，用计算机同时求解并算$x_0,x_e$；
+(d) 画$x_0,x_1,x_2$及电子比例，确定两电离阶段的半电离温度。
+\end{exercise}
+\begin{solution}
+中性氦基态$1\,{}^1S_0$有$g_0=1$；类氢He$^+$的$1s$态总角动量$J=1/2$，$g_1=2$；裸核He$^{++}$按基态核自旋零取$g_2=1$。电子自旋另有因子2，不能再次混入离子权重。以每一步反应的游离电子动能零为参照，定义
+\[
+ b(T)=\left(\frac{2\pi m_e\kb T}{h^2}\right)^{3/2},\quad
+ S_0=4b\ee^{-\chi_0/(\kb T)},\quad
+ S_1=b\ee^{-\chi_1/(\kb T)}.
+\]
+于是$n_en_1/n_0=S_0$、$n_en_2/n_1=S_1$；第二步的能量是54.4 eV，不是把第一步和第二步相加的79 eV。
+
+电中性给$x_e=x_1+2x_2$，数目守恒给$x_0=1-x_1-x_2$，故所求两式为
+\[
+ \frac{n(x_1+2x_2)x_1}{1-x_1-x_2}=S_0,\qquad
+ \frac{n(x_1+2x_2)x_2}{x_1}=S_1.
+\]
+为数值稳定，也可固定$n_e$构造未归一权重$(1,S_0/n_e,S_0S_1/n_e^2)$，以对数求和归一，再用$n_e=n(x_1+2x_2)$求一个标量根。这同时保证各比例非负且总和为1，避免直接Newton迭代跳到无物理解。
+
+实际对500个温度求解，$\rho=10^{-6}$、$n=\rho/(4m_u)$；全部点电荷约束残差小于$10^{-9}$。$T=10^5$ K时$(x_0,x_1,x_2)\simeq(3.7\times10^{-8},0.00217,0.99783)$，$x_e\simeq1.99783$。电子比例可到2，因为每个氦核释放两个电子，不是概率。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.72\textwidth,height=4.8cm,xlabel={$T$（K）},ylabel={比例},xmin=40000,xmax=200000,ymin=0,ymax=2.05,legend pos=north east]
+\addplot[structurecolor] table[x=T_K,y=He0,col sep=comma]{qa/stellar-helium-saha.csv};\addlegendentry{$x_0$}
+\addplot[black,dashed] table[x=T_K,y=He1,col sep=comma]{qa/stellar-helium-saha.csv};\addlegendentry{$x_1$}
+\addplot[gray] table[x=T_K,y=He2,col sep=comma]{qa/stellar-helium-saha.csv};\addlegendentry{$x_2$}
+\addplot[structurecolor,dotted,thick] table[x=T_K,y=e_per_He,col sep=comma]{qa/stellar-helium-saha.csv};\addlegendentry{$x_e$}
+\end{axis}\end{tikzpicture}\end{center}
+第一阶段的半中性点$x_0=1/2$可能在题给绘图区间以下；必须另外扩大求根区间，不能把40\,000 K左端当成半电离温度。扩大区间后实际求得第一阶段约22047 K、第二阶段约53528 K，前者确在绘图区间以下；它们指该密度下的平衡比例，并非只由$\chi/\kb$决定。
+\end{solution}
+
+\src{8.901 PS2.4(b)，不透明度，(a)仅引用教材题面未取得。}
+\begin{exercise}
+假设地球空气具有太阳光球在5000埃处的质量不透明度$\kappa=0.264\ \mathrm{cm^2\,g^{-1}}$，空气密度$1.2\times10^{-3}\ \mathrm{g\,cm^{-3}}$。估能看穿多远。原题还括注光球密度为$2.5\times10^7\ \mathrm{g\,cm^{-3}}$。
+\end{exercise}
+\begin{solution}
+光学深度$\tau=\kappa\rho\ell$，一个e折衰减长度为
+\[
+ \ell_{\tau=1}=\frac1{\kappa\rho}
+ =3157\ \mathrm{cm}=31.57\ \mathrm m.
+\]
+这不是所有人眼识别阈值下同一“可视距离”，只是原题通常采用的平均自由程／光学深度尺度。括注光球密度明显不合通常光球数量级，可能缺负指数；它不参与已给$\kappa$与空气$\rho$的计算，故本卷保留原记录并注明问题，不自行改题给数据求另一答案。PS2.4(a)的教材题未重构。
+\end{solution}
+
+\src{8.901 PS3.1，辐射压力与Eddington极限，(a)--(c)。}
+\begin{exercise}
+(a) 光学薄云受吸收／动量转移力每单位质量为$\int\kappa_\nu F_\nu\dd\nu/c$；若$\kappa$不随频率变，证明被附近质量$M$、光度$L$的源辐射推出需$M/L<\kappa/(4\pi Gc)$。
+(b) 云在距离$R$从静止出发，仅受引力与辐射，求终速并证明$v_\infty^2=(2GM/R)[\kappa L/(4\pi GMc)-1]$。
+(c) 纯氢完全电离，$\sigma_T=6.65\times10^{-25}\ \mathrm{cm^2}$，用$\kappa=\sigma_T/m_H$估可不逐出氢的最大光度，并给$1.3\times10^{38}(M/\Ms)\ \mathrm{erg\,s^{-1}}$系数。
+\end{exercise}
+\begin{solution}
+各向同性稳态源给$F=L/(4\pi r^2)$。每单位质量的径向净加速度是
+\[
+ \ddot r=\frac1{r^2}\left(\frac{\kappa L}{4\pi c}-GM\right)
+ =\frac{GM}{r^2}(\Gamma-1),\quad
+ \Gamma=\frac{\kappa L}{4\pi GMc}.
+\]
+(a) 静止云向外加速需要$\Gamma>1$，即所求比值。(b) 乘$\dot r$，由$R$到无穷积分：
+$v_\infty^2/2=GM(\Gamma-1)\int_R^\infty\dd r/r^2=GM(\Gamma-1)/R$。$\Gamma<1$时不能把负数平方根当成实终速；静止起点的云向内落。
+
+(c) 一个氢核约对应一个自由电子，$\kappa_T=\sigma_T/m_H\simeq0.398\ \mathrm{cm^2\,g^{-1}}$。于是
+\[
+ L_{\rm Edd}=\frac{4\pi GMcm_H}{\sigma_T}
+ \simeq1.26\times10^{38}\frac M\Ms\ \mathrm{erg\,s^{-1}},
+\]
+按题面精度写1.3。中性气体、混合元素、谱线不透明度、几何准直和光学厚度都可改变有效条件；这一推导不是所有恒星与吸积流的硬光度上限。
+\end{solution}
+
+\src{8.901 PS3.2，对流稳定性，原题(a)--(b)。}
+\begin{exercise}
+已知稳定条件$\rho P'/(\gamma P)-\rho'>0$，其中撇号为对$r$求导，绝热气团满足$P\propto\rho^\gamma$。
+(a) 用$P=\rho\kb T/(\mu m_p)$证明$T'>(1-1/\gamma)(T/P)P'$；再用辐射恒星结构式推出$L<(1-1/\gamma)16\pi a_{\rm rad}cT^4GM(r)/(3\kappa P)$。
+(b) 理想单原子气体证明cgs形式$L<1.22\times10^{-18}\mu T^3M/(\kappa\rho)$。
+\end{exercise}
+\begin{solution}
+固定成分时$\rho'/\rho=P'/P-T'/T$，代入稳定条件后直接得$T'/T>(1-1/\gamma)P'/P$。由于正常恒星$P'<0$，定义$\nabla=\dd\ln T/\dd\ln P$再除负数须反向，稳定条件才是$\nabla<\nabla_{\rm ad}=1-1/\gamma$。
+
+流体静力$P'=-GM(r)\rho/r^2$，扩散输运给$T'=-3\kappa\rho L/(16\pi a_{\rm rad}cr^2T^3)$，所以
+\[
+ \nabla_{\rm rad}=\frac{3\kappa PL}{16\pi a_{\rm rad}cGMT^4}.
+\]
+要求$\nabla_{\rm rad}<\nabla_{\rm ad}$就得原题光度上限。单原子$\gamma=5/3$，以理想气体消$P$，系数为
+\[
+ \frac25\frac{16\pi a_{\rm rad}cGm_p}{3\kb}
+ \simeq1.22\times10^{-18}\quad(\mathrm{cgs}).
+\]
+它是辐射梯度是否超过绝热梯度的局部检查，出现对流后实际梯度和输运需重算。部分电离会降低$\gamma$和$\nabla_{\rm ad}$，成分随$r$变化时还需分子量梯度，不能把上式当成无条件稳定性结论。
+\end{solution}

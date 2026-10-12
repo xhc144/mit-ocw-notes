@@ -1,0 +1,162 @@
+\originalchapter{多方恒星与核反应习题}
+本章完整对应8.901 PS4.2--8。PS4.1仅有教材引用而无公开题面，未重构。多方数值实际计算至首零点，核质量使用已核验NIST同位素原子质量，禁止以元素的平均原子量替代。所有解答为独立补写；计算结果是所声明模型的结果，不是完整恒星演化。
+
+\src{8.901 PS4.2，多方恒星的性质，原题(a)--(d)。}
+\begin{exercise}
+设$P=K\rho^{1+1/n}$，$\rho=\rho_c\theta^n$，$r=\alpha\xi$，$\alpha^2=(n+1)K\rho_c^{1/n-1}/(4\pi G)$，Lane--Emden方程为$(\xi^2\theta')'=-\xi^2\theta^n$，中心$\theta(0)=1,\theta'(0)=0$，首零点$\xi_1$。
+证明(a)理想气体有$T=T_c\theta$；(b)$M=-4\pi\alpha^3\rho_c\xi_1^2\theta'_1$；(c)$\bar\rho/\rho_c=-3\theta'_1/\xi_1$；(d)$P_c=GM^2/[4\pi(n+1)(\theta'_1)^2R^4]$。
+\end{exercise}
+\begin{solution}
+(a) 成分固定的理想气体给$T=(\mu m_p/\kb)P/\rho=(\mu m_pK/\kb)\rho^{1/n}$，由$\rho/\rho_c=\theta^n$得$T/T_c=\theta$。简并压力占优时不能继续解释$\theta$为温度。
+
+(b) 质量积分$M=4\pi\alpha^3\rho_c\int_0^{\xi_1}\xi^2\theta^n\dd\xi$，用微分方程把积分写成$-[\xi^2\theta']_0^{\xi_1}$。中心项因正则条件为零，得到所求质量。(c) $R=\alpha\xi_1$，$\bar\rho=3M/(4\pi R^3)$，立即给出所求比例。
+
+(d) 中心压力$P_c=K\rho_c^{1+1/n}=4\pi G\alpha^2\rho_c^2/(n+1)$。从(b)有$M^2=16\pi^2\alpha^6\rho_c^2\xi_1^4(\theta'_1)^2$，除以$R^4=\alpha^4\xi_1^4$并整理，得题式。三条关系把一个无量纲首零点解转成实际$M,R,P_c$；还需指定$K,\rho_c$才能得到独一的恒星模型。
+\end{solution}
+
+\src{8.901 PS4.3，Lane--Emden数值解，原题(a)--(b)。}
+\begin{exercise}
+(a) 证明中心的正则幂级数仅含偶次项，并求$\theta=1-\xi^2/6+n\xi^4/120+\cdots$。
+(b) 对$n=1,1.5,2,2.5,3,3.5$，化二阶式为$\theta'=u,\ u'=-2u/\xi-\theta^n$，用中心展开启动实际数值积分。把六条$\theta(\xi)$画在一张图，六条$\theta^n(\xi)$画在另一张图。
+\end{exercise}
+\begin{solution}
+(a) 在中心设正则$\theta=\sum a_j\xi^j$，$\theta'(0)=0$给$a_1=0$。$\theta''+2\theta'/\xi$的$\xi^{j-2}$系数是$j(j+1)a_j$；右侧$-\theta^n$。常数项给$6a_2=-1$，下一偶次项给$20a_4=-na_2=n/6$，所以$a_2=-1/6,a_4=n/120$。由方程在$\xi\to-\xi$下不变且正则中心初值相同，局部解为偶函数；逐阶也可见所有奇次系数为零。
+
+(b) 不能在$\xi=0$直接计算$2u/\xi$。本计算取$\xi_{\rm start}=10^{-5}$，$\theta=1-\xi^2/6+n\xi^4/120$、$u=-\xi/3+n\xi^3/30$，用DOP853、相对误差$2\times10^{-11}$、绝对误差$2\times10^{-13}$、最大步0.025积分；检测首零点并停止。非整数$n$不可把负$\theta$代入实数幂后继续走“外部恒星”。所得
+\begin{center}\begin{tabular}{rrrr}\toprule
+$n$&$\xi_1$&$-\xi_1^2\theta'_1$&$\rho_c/\bar\rho$\\\midrule
+1.0&3.14159&3.14159&3.28987\\
+1.5&3.65375&2.71406&5.99070\\
+2.0&4.35287&2.41105&11.4025\\
+2.5&5.35528&2.18720&23.4065\\
+3.0&6.89685&2.01824&54.1825\\
+3.5&9.53581&1.89056&152.884\\\bottomrule
+\end{tabular}\end{center}
+\begin{center}
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=5cm,xlabel={$\xi$},ylabel={$\theta$},xmin=0,xmax=10,ymin=0,ymax=1.05,legend style={font=\footnotesize},legend pos=north east]
+\addplot table[x=xi,y=theta,col sep=comma]{qa/stellar-lane-n1p0.csv};\addlegendentry{$n=1$}
+\addplot table[x=xi,y=theta,col sep=comma]{qa/stellar-lane-n1p5.csv};\addlegendentry{$1.5$}
+\addplot table[x=xi,y=theta,col sep=comma]{qa/stellar-lane-n2p0.csv};\addlegendentry{$2$}
+\addplot table[x=xi,y=theta,col sep=comma]{qa/stellar-lane-n2p5.csv};\addlegendentry{$2.5$}
+\addplot table[x=xi,y=theta,col sep=comma]{qa/stellar-lane-n3p0.csv};\addlegendentry{$3$}
+\addplot table[x=xi,y=theta,col sep=comma]{qa/stellar-lane-n3p5.csv};\addlegendentry{$3.5$}
+\end{axis}\end{tikzpicture}\hfill
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=5cm,xlabel={$\xi$},ylabel={$\rho/\rho_c$},xmin=0,xmax=10,ymin=0,ymax=1.05,legend style={font=\footnotesize},legend pos=north east]
+\addplot table[x=xi,y=rho_over_central,col sep=comma]{qa/stellar-lane-n1p0.csv};\addlegendentry{$n=1$}
+\addplot table[x=xi,y=rho_over_central,col sep=comma]{qa/stellar-lane-n1p5.csv};\addlegendentry{$1.5$}
+\addplot table[x=xi,y=rho_over_central,col sep=comma]{qa/stellar-lane-n2p0.csv};\addlegendentry{$2$}
+\addplot table[x=xi,y=rho_over_central,col sep=comma]{qa/stellar-lane-n2p5.csv};\addlegendentry{$2.5$}
+\addplot table[x=xi,y=rho_over_central,col sep=comma]{qa/stellar-lane-n3p0.csv};\addlegendentry{$3$}
+\addplot table[x=xi,y=rho_over_central,col sep=comma]{qa/stellar-lane-n3p5.csv};\addlegendentry{$3.5$}
+\end{axis}\end{tikzpicture}
+\end{center}
+独立解析检查使用$n=1$解$\theta=\sin\xi/\xi$，500点最大误差小于$10^{-9}$。其他$n$的首零点和质量积分仍是数值结果；更大的$n$趋向强中心集中，不是同样$M,R$下的六颗实际恒星。
+\end{solution}
+
+\src{8.901 PS4.4，经典Coulomb碰撞，原题(a)--(c)。}
+\begin{exercise}
+(a) 忽略量子作用，假设速度为Maxwell--Boltzmann均方根速度十倍的核可克服两质子Coulomb势垒，估所需温度并与太阳中心温度比较。
+(b) 求十倍均方根速率与均方根速率处的粒子数比。
+(c) 错误地把太阳当纯氢估核数，判断快质子是否足够解释太阳光度。
+\end{exercise}
+\begin{solution}
+(a) 需先指定核接触距离$r_N$和十倍速率的参考分布。势垒是$E_C=e^2/(4\pi\epsilon_0r_N)=1.44\,(\mathrm{fm}/r_N)$ MeV。若使用\emph{相对速度}的Maxwell分布，约化质量$\mu_r=m_p/2$、$v_{\rm rms,rel}^2=3\kb T/\mu_r$，十倍速率的相对能量为$150\kb T$，于是
+\[
+ T\gtrsim1.11\times10^8\left(\frac{1\ \mathrm{fm}}{r_N}\right)\mathrm K.
+\]
+例如$r_N=2$ fm给$5.6\times10^7$ K，比太阳中心约$1.5\times10^7$ K高。若“十倍”指一个质子相对静止靶的速率，则相对能量为$75\kb T$，所需温度再大两倍；两快质子迎头相撞又是另一条件。原题未给核半径和这个速度约定，不能隐藏它们给一个无条件精确温度。
+
+(b) 速率密度$f(v)\propto v^2\exp[-mv^2/(2\kb T)]$，$v_{\rm rms}^2=3\kb T/m$，相同小速率区间内
+\[
+ \frac{f(10v_{\rm rms})}{f(v_{\rm rms})}
+ =100\ee^{-3(100-1)/2}=3.22\times10^{-63}.
+\]
+这是速率分布之比，不是三维速度密度之比；后者不含$v^2$。若要求整段高速尾概率，应另积$f$，结论仍极小。
+
+(c) $N_p=\Ms/m_p\simeq1.19\times10^{57}$。即使粗略把全部核数乘上述比值，也只有约$4\times10^{-6}$个，实际高速尾同样不足一个核。经典热尾无法支持持续太阳核反应；量子隧穿允许能量远低于接触势垒的核发生反应，下一题给出它的关键指数。把速度尾比直接理解为一个核的分数是概率／期望值的解释，非真实存在可切开的质子。
+\end{solution}
+
+\src{8.901 PS4.5，Coulomb势垒穿透。}
+\begin{exercise}
+电荷$Z_1e,Z_2e$、质量数$A_1,A_2$的核迎头碰撞，相对速度$v$、远处质心动能$E$。用WKB证明穿透概率近似$\mathcal T=\exp[-2\pi Z_1Z_2e^2/(\hbar v)]$（Gaussian单位），并写成$\exp[-31.28Z_1Z_2A^{1/2}E_{\rm keV}^{-1/2}]$，$A=A_1A_2/(A_1+A_2)$。
+\end{exercise}
+\begin{solution}
+令$C=Z_1Z_2e^2$、约化质量$\mu_r=Am_u$，外转折点$b=C/E$。忽略核接触半径相对$b$时，WKB指数为
+\[
+ \frac2\hbar\int_0^b\sqrt{2\mu_r(C/r-E)}\dd r.
+\]
+以$r=b\sin^2\theta$，$\sqrt{b/r-1}=\cot\theta$，积分变为
+$2b\sqrt{2\mu_rE}\int_0^{\pi/2}\cos^2\theta\dd\theta
+=\pi C\sqrt{2\mu_r/E}/2$。再乘$2/\hbar$，用$E=\mu_rv^2/2$，得$2\pi C/(\hbar v)$。
+
+系数$2\pi\alpha_{\rm em}\sqrt{m_uc^2/(2\,\mathrm{keV})}\simeq31.29$，与题给31.28在常数取舍精度内相同。真实下限为$r_N>0$且还有核反应因子$S(E)$，这里主指数要求$r_N\ll b$；不能把Coulomb透射概率直接当成完整核反应截面。
+\end{solution}
+
+\src{8.901 PS4.6，核反应能量，原题(a)--(e)。}
+\begin{exercise}
+计算下列反应$Q$值，释放能量为正，说明吸热或放热：
+(a)$^{12}\mathrm C+{}^{12}\mathrm C\to{}^{24}\mathrm{Mg}+\gamma$；
+(b)$^{12}\mathrm C+{}^{12}\mathrm C\to{}^{16}\mathrm O+2\,{}^4\mathrm{He}$；
+(c)$^{19}\mathrm F+{}^1\mathrm H\to{}^{16}\mathrm O+{}^4\mathrm{He}$；
+(d)$p+p\to{}^2\mathrm H+e^++\nu$；
+(e)$^{15}\mathrm N+{}^1\mathrm H\to{}^{12}\mathrm C+{}^4\mathrm{He}$。
+\end{exercise}
+\begin{solution}
+采用\href{https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=H}{NIST同位素表}与相应He、Mg、F、N、O页面核验的中性原子质量，单位$u$：
+\begin{center}\begin{tabular}{lr@{\qquad}lr}\toprule
+同位素&原子质量&同位素&原子质量\\\midrule
+$^1$H&1.00782503223&$^2$H&2.01410177812\\
+$^4$He&4.00260325413&$^{12}$C&12（定义）\\
+$^{16}$O&15.99491461957&$^{24}$Mg&23.985041697\\
+$^{19}$F&18.99840316273&$^{15}$N&15.00010889888\\\bottomrule
+\end{tabular}\end{center}
+(a)、(b)、(c)、(e)两边总电荷相同，原子电子静质量相消，电子结合能在本题MeV精度下忽略，直接以原子质量差乘$m_uc^2\simeq931.49$ MeV。(d)初态两个质子，末态一个氘核加一个正电子；改用中性原子质量时须扣两份电子静质量：
+\[
+ Q_{pp}=[2M(^1\mathrm H)-M(^2\mathrm H)-2m_e]c^2.
+\]
+实际结果：
+\begin{center}\begin{tabular}{lrl}\toprule
+反应&$Q$（MeV）&性质\\\midrule
+(a)&13.9336&放热\\
+(b)&$-0.11283$&吸热\\
+(c)&8.11361&放热\\
+(d)&0.42022&放热\\
+(e)&4.96549&放热\\\bottomrule
+\end{tabular}\end{center}
+随后正电子与环境电子湮灭可再提供1.022 MeV，但不属于已写反应(d)本身；中微子分走的能量也不全转成恒星热。$Q>0$只判断能量允许性，实际反应速率和选择规则还需核物理。
+\end{solution}
+
+\src{8.901 PS4.7，假想燃烧反应的温度比。}
+\begin{exercise}
+假想元素G、J、M的质量数分别$A,2A,4A$，电荷数为质量数的一半。两颗恒星分别进行$^A\mathrm G+{}^A\mathrm G\to{}^{2A}\mathrm J+\gamma$、$^{2A}\mathrm J+{}^{2A}\mathrm J\to{}^{4A}\mathrm M+\gamma$，中心反应率相同。忽略密度和$S(E)$等指数前因子，估中心温度比并评论合理性。
+\end{exercise}
+\begin{solution}
+热率的主指数来自$\exp[-E/(\kb T)-\sqrt{E_G/E}]$，驻点满足$E_0=(E_G(\kb T)^2/4)^{1/3}$，峰指数为$3[E_G/(4\kb T)]^{1/3}$。$E_G\propto\mu_r(Z_1Z_2)^2$。第二反应每个质量数和电荷数都加倍，故$\mu_r$大2倍，$Z_1Z_2$大4倍，$E_G$大$2\times4^2=32$倍。保持主指数相同需
+\[
+ \frac{T_2}{T_1}=32.
+\]
+高电荷核要在更高温度燃烧符合物理方向；因指数对Coulomb排斥很敏感，变化不是简单两倍。这个模型故意忽略前因子和反应共振，不能把32当成真实所有相邻燃烧阶段的精确比。
+\end{solution}
+
+\src{8.901 PS4.8，两Maxwell分布的相对速度。}
+\begin{exercise}
+两群可区分粒子质量$m_1,m_2$，分别在同一温度$T$下有三维Maxwell分布
+\[
+ f_i(\mathbf v_i)=\left(\frac{m_i}{2\pi\kb T}\right)^{3/2}
+ \exp\left(-\frac{m_iv_i^2}{2\kb T}\right).
+\]
+证明相对速度$\mathbf v=\mathbf v_1-\mathbf v_2$也服从Maxwell分布；可使用质心速度。
+\end{exercise}
+\begin{solution}
+定义$M=m_1+m_2$、$\mu_r=m_1m_2/M$、$\mathbf V=(m_1\mathbf v_1+m_2\mathbf v_2)/M$。反变换$\mathbf v_1=\mathbf V+(m_2/M)\mathbf v$、$\mathbf v_2=\mathbf V-(m_1/M)\mathbf v$，每个分量的Jacobian绝对值为1，故六维体积不变。直接展开动能得
+\[
+ m_1v_1^2+m_2v_2^2=MV^2+\mu_rv^2.
+\]
+归一系数也因$m_1m_2=M\mu_r$分成两个Gaussian。将$\mathbf V$积分掉，得到
+\[
+ f_{\rm rel}(\mathbf v)=
+ \left(\frac{\mu_r}{2\pi\kb T}\right)^{3/2}
+ \exp\left(-\frac{\mu_rv^2}{2\kb T}\right).
+\]
+再积方向得速率密度$4\pi v^2f_{\rm rel}$，正是$\langle\sigma v\rangle$使用的分布。若两群有不同温度或相对整体漂移，结果的方差／均值会改变，不能直接沿用本题同温、零漂移式。
+\end{solution}

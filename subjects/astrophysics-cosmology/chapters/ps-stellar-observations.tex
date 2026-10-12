@@ -1,0 +1,150 @@
+\originalchapter{恒星观测、双星与潮汐演化习题}
+本章对应8.901 PS1可公开读到题面的六个题组。PS1.1--4仅回指受限教材，未重构。解答全部为独立补写；原题要求的历史月食照片实际返回HTTP403，本章明确保留这一数据缺口。其余数值由随包代码实际求解，地月参数引用NASA事实表，题给的均匀球转动惯量仍按原要求使用。
+
+\src{8.901 PS1.5，历史天文学，原题(a)--(c)，PDF第1--2页。}
+\begin{exercise}
+(a) 夏季某日Syene深井井底可被正午太阳直照，Alexandria同日正午太阳在天顶以南$7^\circ$；两地南北相距略少于5000 stadia，每stadium约160 m。把太阳光看成平行光，求地球半径，与6378 km比较。
+(b) 使用原题指定Timothy Ferris月食合成照片，量暗本影圆直径及单个月亮直径；解释月心路径为何未经过本影中心。取太阳、月亮的角直径均$0.5^\circ$，由本影几何推月地半径比、误差及月地距离，以现代$6378/1738=3.67$比较。
+(c) 月亮在上弦Q处满足地月日角$\angle EQS=90^\circ$。朔N到上弦Q比Q到望F少35 min，朔望周期29.53 d；用这一信息估日地距离／月地距离。
+\end{exercise}
+\begin{solution}
+(a) 平行光使两地太阳天顶角差等于地心角，$R_E=800\ \mathrm{km}/(7\pi/180)=6548$ km，约比题给现代值大2.7\%。原题的“略少于”和stadium近似都影响精度，不应给到米级。
+
+(b) 照片的\href{https://web.mit.edu/8.901/images/moon.png}{原链接}未取得，不能编造所量比值。设实际可量的比值为$q=d_{\rm umb}/d_M$，角直径$\alpha=0.5\pi/180$。太阳有有限角直径，本影半径随离地距离减小约$\alpha D/2$；月亮半径$R_M\simeq\alpha D/2$，所以
+\[
+ q=\frac{R_E-\alpha D/2}{R_M}=\frac{R_E}{R_M}-1,\quad
+ \frac{R_E}{R_M}=q+1,\qquad \frac D{R_E}=\frac{2}{\alpha(q+1)}.
+\]
+忽略角直径误差时$\sigma_{R_E/R_M}=\sigma_q$、$\sigma_D/D=\sigma_q/(q+1)$。现代比值3.67对应$q\simeq2.67$和$D/R_E\simeq62.4$，只是\emph{由现代值反算的比较}，不是本照片测量。月轨道与黄道有倾角，月心可穿过本影圆的一条偏心弦，因而路径无需经过影心。
+
+(c) 近匀角速近似下N到F耗时$T/2$。两段时间相差$\Delta t=35$ min，因此$t_{NQ}=T/4-\Delta t/2$。月亮由朔位置转过$\pi/2-\delta$，$\delta=\pi\Delta t/T$。直角三角形EQS给$D_M/D_S=\sin\delta$，故
+\[
+ \frac{D_S}{D_M}=\csc\left(\frac{\pi\times35}{29.53\times1440}\right)\simeq386.7.
+\]
+小角很难从肉眼相位时刻精确判断，且月轨道并非圆轨道。这是对题给理想信息的推算，不声称实际古代观测有这一精度。(b)的照片量测仍列为未取得依赖。
+\end{solution}
+
+\src{8.901 PS1.6，Kepler双曲运动，PDF第2页。}
+\begin{exercise}
+椭圆Kepler方程为$\omega t=\psi-e\sin\psi$。双曲轨道定义参数$H$使$r=a(e\cosh H-1)$，其中$e>1$、$a>0$，近心距离为$a(e-1)$。求从近心时刻起经过的时间$t(H)$。
+\end{exercise}
+\begin{solution}
+以焦点为原点可取$X=a(e-\cosh H)$、$Y=a\sqrt{e^2-1}\sinh H$。距原点正是题给$r$。单位质量角动量为
+\[
+ \ell=X\dot Y-Y\dot X
+ =a^2\sqrt{e^2-1}(e\cosh H-1)\dot H.
+\]
+Kepler轨道满足$\ell^2=GMa(e^2-1)$，所以$\dd t=\sqrt{a^3/(GM)}(e\cosh H-1)\dd H$。以$H=t=0$为近心，得
+\[
+ \sqrt{\frac{GM}{a^3}}\,t=e\sinh H-H.
+\]
+这里$M$是两体相对运动的总质量；$\sqrt{GM/a^3}$是时间尺度的倒数，双曲轨道没有绕行周期。$H<0$给接近近心的负时间，积分常数不能省略而又换任意起点。
+\end{solution}
+
+\src{8.901 PS1.7，地月潮汐，原题(a)--(i)，PDF第3页。}
+\begin{exercise}
+忽略月亮自转。地球自转频率$\omega$、月球圆轨道频率$\Omega$，质量$M_E,M_M$，地球惯量$I$、距离$a$。(a)写总能量与角动量；(b)以角动量消去$\omega$；(c)证明可写成$\epsilon=-1/s+\alpha(j-\sqrt s)^2$，其中$s=a/a_0$，能量单位$GM_EM_M/(2a_0)$，角动量单位$\mu a_0^2\Omega_0$，$\mu$为约化质量；(d)取$I=2M_ER_E^2/5$、$a_0=3.84\times10^5$ km，查质量求$\alpha,j$；(e)画能量曲线找两极值；(f)数值求根并证明两处$\omega=\Omega$，求同步周期；(g)求今日到未来同步态须失去的能量；(h)假设每天两次将海洋上层1 m水抬高1 m再放下，数个百分点机械能转成热，估耗散功率；(i)由能量与功率估同步所需时间。
+\end{exercise}
+\begin{solution}
+(a)--(b) 二体质心系的圆轨道有$\Omega^2=G(M_E+M_M)/a^3$，故
+\[
+ E=-\frac{GM_EM_M}{2a}+\frac{I\omega^2}{2},\quad
+ J=\mu a^2\Omega+I\omega,
+\]
+\[
+ E=-\frac{GM_EM_M}{2a}
+ +\frac{[J-\mu\sqrt{G(M_E+M_M)a}]^2}{2I}.
+\]
+潮汐把自转和轨道角动量交换；忽略外界力矩时$J$守恒而$E$可减小。若使用两体轨道能量却把全部月球相对速度动能都当质心动能，会多算地球平动部分。
+
+(c)--(d) $\alpha=\mu a_0^2/I$、$j=J/(\mu a_0^2\Omega_0)$，代入即得所需无量纲式。取\href{https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html}{NASA地球事实表}的$M_E=5.9722\times10^{24}$ kg、$R_E=6378.137$ km和恒星日23.9345 h，以及\href{https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html}{月球事实表}的$M_M=7.346\times10^{22}$ kg，保持题给$I$，算得$\alpha=110.109$、$j=1.24809$。真实地球$I/(M_ER_E^2)$约0.3308，题设0.4是近似，不能悄悄换值而仍称原题结果。
+
+(e)--(f) 导数为
+\[
+ \epsilon'(s)=\frac1{s^2}-\frac{\alpha(j-\sqrt s)}{\sqrt s},\qquad
+ \frac\omega{\Omega_0}=\alpha(j-\sqrt s),\quad
+ \frac\Omega{\Omega_0}=s^{-3/2}.
+\]
+导数为零恰好给$\omega=\Omega$。实际求根得$s_-=0.0423435$与$s_+=1.54595$；前者能量极大、不稳定，后者为极小。相应距离约16260和593644 km，周期分别0.23737 d与52.3637 d，两种钟同步。曲线由本式计算：
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\textwidth,height=4.6cm,xlabel={$s=a/a_0$},ylabel={$\epsilon$},xmin=0,xmax=3]
+\addplot[structurecolor] table[x=s,y=epsilon,col sep=comma]{qa/stellar-tide.csv};
+\draw[dashed] (axis cs:1,-70)--(axis cs:1,130);\node[anchor=north west] at (axis cs:1,120){今日};
+\end{axis}\end{tikzpicture}\end{center}
+系统今日在两极值之间，自转比轨道快，失去能量的外迁方向趋向外侧极小。内侧同步点不是今日系统会自行走向的稳定终点。
+
+(g) 固定今日$J$比较两点，$\Delta E=[\epsilon(1)-\epsilon(s_+)]GM_EM_M/(2a_0)=2.45\times10^{29}$ J。(h) 原题没有给海洋面积和确切耗散百分比，示例取表面70\%为海洋、海水密度$1000\ \mathrm{kg\,m^{-3}}$、$g=9.81$和热比例$f=0.03$，则
+\[
+ P_{\rm tide}\sim\frac2{86400}
+ [0.7(4\pi R_E^2)\rho_w(1\ \mathrm m)g(1\ \mathrm m)]f
+ \simeq2.44\times10^{12}\ \mathrm W.
+\]
+(i) 恒功率假设下$\Delta E/P\simeq3.18\times10^9$ yr，结果正比$0.03/f$且反比假定海洋面积。真实海洋共振、潮汐响应、太阳力矩和地球结构随时间变，不能把这个练习当成太阳未来演化期间地月同步的确定预报。
+\end{solution}
+
+\src{8.901 PS1.8，食双星，PDF第3页。}
+\begin{exercise}
+两恒星在质心周围作圆轨道，中心相距$a$，半径$R_1,R_2$。视线与轨道角动量夹角$i\in[0,90^\circ]$。求恰能出现食的最小$i$。
+\end{exercise}
+\begin{solution}
+合时中心连线的最小天空投影距离为$a\cos i$，两投影圆相切条件$a\cos i=R_1+R_2$。对互不重叠的球形星有
+\[
+ i_{\min}=\arccos\frac{R_1+R_2}{a}.
+\]
+若$R_1+R_2>a$，分离球模型已失效，不能继续对大于1的数取$\arccos$。偏心轨道还需用合时实际距离和近心方向，不能只把$a$替换成半长轴后沿用同式。
+\end{solution}
+
+\src{8.901 PS1.9，单线共生双星样本，原题(a)--(b)，PDF第3--4页。}
+\begin{exercise}
+单线光谱测到红巨星$M_1$的周期$P$和径向速度半振幅$K_1$，假定圆轨道。样本数值如下：
+\begin{center}\begin{tabular}{lrrlrr}\toprule
+对象&$P$(d)&$K_1$(km/s)&对象&$P$(d)&$K_1$(km/s)\\\midrule
+EG And&482.6&7.3&Z And&759.0&6.7\\
+T CrB&227.6&23.9&BF Cyg&757.2&6.7\\
+V1329 Cyg&956.5&7.8&CI Cyg&853.8&6.7\\
+AG Dra&548.7&5.9&V443 Her&599.4&2.5\\
+BX Mon&1259&4.6&RS Oph&455.7&16.7\\
+V2116 Oph&1042&16.0&AG Peg&818.2&5.4\\
+AX Per&682.1&7.8&FG Ser&633.5&6.9\\
+V343 Ser&450.5&2.7&&&\\\bottomrule
+\end{tabular}\end{center}
+(a) 从$f_1=(M_2\sin i)^3/(M_1+M_2)^2=4\pi^2(a_1\sin i)^3/(GP^2)$推$f_1(P,K_1)$并解释意义。
+(b) 典型共生双星的红巨星$M_1=1.5\Ms$、白矮星$M_2=0.56\Ms$。随机轨道方向使$\cos i$均匀；画样本的严格小于型CDF及此模型期望CDF，判断是否相容，找异常对象，仅固定$M_1=1.5\Ms$时对伴星有何推断？
+\end{exercise}
+\begin{solution}
+(a) $K_1=2\pi a_1\sin i/P$，故$f_1=PK_1^3/(2\pi G)$。它由可观测量决定，是质量与未知倾角的组合；$\sin i\leq1$且$M_1>0$给$f_1<M_2$，已知$M_1$时可求更强的最低$M_2$。
+
+(b) 固定典型质量有$f_{\max}=0.56^3/(2.06)^2=0.0413837\Ms$。令$u=\cos i$在$[0,1]$均匀，$f=f_{\max}(1-u^2)^{3/2}$，所以
+\[
+ F(f)=\begin{cases}
+ 0,&f<0,\\
+ 1-\sqrt{1-(f/f_{\max})^{2/3}},&0\leq f\leq f_{\max},\\
+ 1,&f>f_{\max}.
+ \end{cases}
+\]
+样本CDF在排序的第$j$个值取$(j-1)/15$，符合原题严格小于定义；右连续阶梯则在该点为$j/15$，两者跳点处不同但模型判断不变。实际计算与绘图：
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.7\textwidth,height=4.7cm,xlabel={$f_1/\Ms$},ylabel={CDF},xmin=0,xmax=.47,ymin=0,ymax=1.05,legend pos=south east]
+\addplot[only marks,mark=*,structurecolor] table[x=f_solar,y=CDF_strict,col sep=comma]{qa/stellar-binary-cdf.csv};\addlegendentry{15个测量，严格小于}
+\addplot[black] table[x=f_solar,y=CDF,col sep=comma]{qa/stellar-binary-expected.csv};\addlegendentry{固定典型质量，随机方向}
+\end{axis}\end{tikzpicture}\end{center}
+四个对象超出模型支持范围：T CrB、V1329 Cyg、RS Oph、V2116 Oph，$f_1/\Ms$分别0.32194、0.04703、0.21991、0.44222。仅保持$M_1=1.5\Ms$且$\sin i\leq1$，解$m^3/(1.5+m)^2=f_1/\Ms$，最低伴星质量依次1.391、0.590、1.158、1.630$\Ms$。V1329 Cyg只是略超典型0.56；其余三个显著偏离典型模型。这里没有原测量误差和样本选择函数，不能给精确总体显著性或从CDF唯一判定紧致伴星类型；原表数据事实保留Hinkle等(2003)来源，经原作业给出，不复制原论文版式。
+\end{solution}
+
+\src{8.901 PS1.10，光子计数和星等，原题(a)--(b)，PDF第4--5页。}
+\begin{exercise}
+Poisson计数的标准差为$\sqrt N$。(a) 测星等至$\pm0.02$需多少光子？一米口径、100\%总效率测$m_B=20$需多长曝光，忽略天光。(b) 改为$m_B=24$，天光22.5 mag/arcsec$^2$，星像分布于直径1角秒的圆；需多少源光子？一米及四米望远镜各需多久？
+\end{exercise}
+\begin{solution}
+由$m=-2.5\log_{10}F+\mathrm{constant}$，小误差$\sigma_m=(2.5/\ln10)\sigma_F/F$。无天光时$N=[2.5/(0.02\ln10)]^2=2947$。记零星等B带光子通量$\Phi_{B0}$和收集面积$A=\pi D^2/4$，曝光
+\[
+ t_{20}=\frac{2947}{A\Phi_{B0}10^{-8}}.
+\]
+原题未给B带通、光谱和星等零点；100\%效率不决定零点，所以有秒数的答案须声明额外标定。作为可复现示例，取3950--4850埃的理想矩形带，AB零点$F_{\nu0}=3631$ Jy、恒定$F_\nu$，有
+\[
+ \Phi_0=\frac{F_{\nu0}}h\ln\frac{4850}{3950}
+ =1.125\times10^{10}\ \mathrm{photons\,m^{-2}\,s^{-1}},\quad
+ t_{20}(1\ \mathrm m)=33.36\ \mathrm s.
+\]
+这不是擅自声称真实Johnson B的Vega标定，只是补充标定下的时间示例；使用其他$\Phi_{B0}$按其反比缩放。
+
+口径内天光／源光比$B/S=10^{0.4(24-22.5)}\pi(0.5)^2=3.1267$。背景均值若已准确知道，源净计数$S$的方差仍为$S+B$，故所需\emph{源}光子$S=2947(1+B/S)=12162$。总到达光子不是这个数，而是$S+B$。同一示例标定下，$t_{24}(1\ \mathrm m)=5481$ s，四米收集面积大16倍，$t_{24}(4\ \mathrm m)=342.5$ s。若背景由面积有限的另一个天空区估计，需再加背景估计方差；原题没有给该区面积，不能无条件忽略这一实际观测限制。
+\end{solution}
