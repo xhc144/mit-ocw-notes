@@ -1,0 +1,30 @@
+\originalchapter{识别、搜索与DNA弯折}
+\originalsection{结合概率与序列信息}
+一个转录因子必须在大量背景位点中找到少数调控位点。设结合能为 $E$，蛋白化学势为 $\mu$，两态配分函数 $1+\e^{-\beta(E-\mu)}$ 给出占据概率 $p_{\rm occ}=1/[1+\e^{\beta(E-\mu)}]$。降低能量或提高浓度都能提高占据，但二者不能只靠一条占据曲线完全区分。
+
+若各位置近似独立，结合序列分布为 $P(\mathbf b)=\prod_i p_i(b_i)$，背景为 $P_0=\prod_i q(b_i)$，对数似然比分数为 $S(\mathbf b)=\sum_i\ln[p_i(b_i)/q(b_i)]$。其平均 $I=\sum_{i,b}p_i(b)\log_2[p_i(b)/q(b)]$ 是相对信息量，单位为比特。零频率必须用明确的伪计数处理，否则一条新序列的分数可能被任意置为负无穷。
+
+统计权重矩阵并不自动等于物理结合能：若假设序列选择服从有效演化温度 $T_*$，才可设 $E=-\kb T_*S+\text{常数}$。$T_*=T$ 是额外模型假设。序列相关、基因位置和调控环境还会影响实际功能，不能把所有高分片段当作已经验证的生物位点。
+
+\originalsection{三维扩散和一维滑动}
+球形蛋白直径 $d$，黏度 $\eta$，Stokes--Einstein关系给 $D_3=\kb T/(3\pi\eta d)$。这把热运动与同一阻力 $3\pi\eta d$ 联系起来，需要稀溶液、连续黏性流体近似。细胞拥挤介质中的有效扩散可能依赖尺度。
+
+蛋白在DNA停留 $\tau_1$，在溶液重新定位耗时 $\tau_3$，一次一维滑动探索的长度尺度为 $\ell\sim\sqrt{D_1\tau_1}$。若每次重定位近似独立，则在总轮廓长 $L_g$ 上搜索时间 $t\sim(L_g/\ell)(\tau_1+\tau_3)$。最小化得到 $\tau_1=\tau_3$。过短停留反复支付三维寻找代价，过长停留则浪费在已扫过的区间。
+
+真实一维随机游走的已访问区间长度有不同的数值前因子；本式是明确采用的尺度模型。若解离后以概率 $p$ 回到原处，就必须把多次局部滑动视作同一有效扫描阶段。搜索时间的 $p$ 依赖由所选原题给出，不能把所有跳跃都当成独立重新抽样。
+
+\originalsection{蛋白诱导弯折}
+局部结合的蛋白可以改变DNA方向。设DNA在外力 $F\hat x$ 下，切线与 $x$ 轴夹角为 $\theta(s)$，能量
+\[
+H[\theta]=\int\left[\frac\kappa2(\theta')^2-F\cos\theta\right]\dd s.
+\]
+变分给出 $\kappa\theta''=F\sin\theta$。小角时曲线从局部角度 $\theta_0$ 按 $\e^{-s/\ell_F}$ 衰减，$\ell_F=\sqrt{\kappa/F}$。相应延伸亏损 $\int(1-\cos\theta)\dd s$ 按 $F^{-1/2}$ 缩小，额外能量按 $F^{1/2}$ 增大；因此足够大的力可以驱使蛋白脱离。实际脱离还受动力学势垒控制，静态能量相等给的是热力学估计。
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth]
+\draw[thick] (0,0)--(1.8,0);\draw[thick] (1.8,0) .. controls (2.3,.7) and (3,.15) .. (4.8,.15);
+\fill[main] (1.8,0) circle (.1);\node[above] at (1.8,.7){局部结合};
+\draw[->] (4.8,.15)--(5.8,.15) node[right]{$F$};\draw[dashed] (1.8,0)--(2.8,0);
+\node[below] at (3,-.3){角度在 $\ell_F$ 尺度上弛豫};
+\end{tikzpicture}
+\end{center}

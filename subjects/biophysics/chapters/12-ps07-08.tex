@@ -1,0 +1,104 @@
+\originalchapter{搜索、增长与马达题解}
+\originalsection{PS7：蛋白与DNA}
+\begin{exercise}
+（PS7.2）转录因子直径约 $10\,\mathrm{nm}$，细胞质黏度约 $0.1\,\mathrm{g\,s^{-1}cm^{-1}}$，取 $D_1\simeq0.1D_3$。(a)估计 $D_3$；(b)蛋白解离后以 $p=.9$ 概率在原地重新结合，求滑动加三维扩散搜索的总时间；(c)给定 $D_1=1\,\mathrm{\mu m^2/s}$、$\tau_3=10^{-3}\,\mathrm s$、基因组 $M=10^6$ 碱基对，求最优搜索时间，并估计控制解离率的非特异结合能。
+\end{exercise}
+\begin{solution}
+(a)黏度换算为 $0.01\,\mathrm{Pa\,s}$，取室温 $\kb T=4.1\,\mathrm{pN\,nm}$，$D_3=\kb T/(3\pi\eta d)\simeq4.35\,\mathrm{\mu m^2/s}$，于是相应 $D_1\simeq.435\,\mathrm{\mu m^2/s}$；(c)另外指定 $D_1=1$，应按题面分别计算，不能暗中混用。
+
+(b)用第7章尺度模型，一次滑动时间 $\tau_1$，真正三维重新定位耗时 $\tau_3$，原地跳回耗时 $\tau_h$。独立重定位前的滑动次数是均值 $1/(1-p)$ 的几何变量，有效扫描长度 $\ell\sim\sqrt{D_1\tau_1/(1-p)}$。每一有效轮平均耗时 $[\tau_1+p\tau_h+(1-p)\tau_3]/(1-p)$，因此
+\[
+t_{\rm loc}\sim\frac{L_g[\tau_1+p\tau_h+(1-p)\tau_3]}{\sqrt{D_1\tau_1(1-p)}}.
+\]
+原题未给跳回耗时。若与三维飞行同耗时，$\tau_h=\tau_3$，最优 $\tau_1=\tau_3$，代价增为无跳回结果的 $1/\sqrt{1-p}$；若跳回时间可忽略，最优 $\tau_1=(1-p)\tau_3$，调整停留时间后最小代价恢复无跳回尺度。把二者混为一个精确数值会隐含缺失假设。
+
+(c)不考虑跳回的最优时间 $2L_g\sqrt{\tau_3/D_1}$。用每碱基对 $.34\,\mathrm{nm}$，$L_g=340\,\mathrm{\mu m}$，得约21.5秒；按同耗时跳回约68.0秒。扫描区间定义和端点命中给出未固定的 $O(1)$ 前因子。若 $\tau_1=\tau_0\e^{-\beta E_{ns}}$，最优结合能为 $E_{ns}=-\kb T\ln(\tau_1^{\rm opt}/\tau_0)$；缺少尝试时间 $\tau_0$，不能从题面确定一个绝对能量数值。
+\end{solution}
+
+\begin{exercise}
+（PS7.3）WLC能量 $\kappa\int_0^L R(s)^{-2}\dd s/2$，局部蛋白引入弯折，外力 $F$ 拉伸DNA。(a)以切线角 $\theta(s)$ 写曲率与受力泛函；(b)最小化后在小角近似求形状、延伸 $X(F)$ 及其逆函数；(c)求形变能，蛋白附近角度 $.5$，结合能 $20\kb T$，估计脱离力并画脱离后的力延伸关系。图示未给左右两侧的详细端点约束，须说明所用边界。
+\end{exercise}
+\begin{solution}
+(a)$R^{-1}=|\theta'|$，$H=\int[\kappa(\theta')^2/2-F\cos\theta]\dd s$。(b)变分得 $\kappa\theta''=F\sin\theta$。取一侧半无限链 $s\ge0$，$\theta(0)=\theta_0$、$\theta(\infty)=0$，小角解 $\theta=\theta_0\e^{-s/\ell_F}$，$\ell_F=\sqrt{\kappa/F}$。一侧延伸亏损 $L-X=\theta_0^2\ell_F/4$；若有 $m$ 个等角侧臂，乘 $m$，所以
+\[
+F(X)=\frac{m^2\kappa\theta_0^4}{16(L-X)^2}.
+\]
+(c)仅弯曲能为 $m\theta_0^2\sqrt{\kappa F}/4$，而含外力功的总额外Gibbs能是它的两倍。与结合自由能比较，得 \[F_{\rm pop}=\frac{4E_{\rm bind}^2}{m^2\kappa\theta_0^4}.\]题面未给 $\kappa$；若另采用双链DNA $\ell_p=50\,\mathrm{nm}$，$\kappa=\kb T\ell_p$，则 $m=1$ 约 $2.10\,\mathrm{nN}$，$m=2$ 约 $.525\,\mathrm{nN}$。这些值很高，已超出简单不可伸长、固定角蛋白模型适用于真实DNA的可靠力区间；它们只是给定静态模型的估计，不是实测脱离力。
+
+脱离前沿上述弯折分支，达到阈值后角度趋零，弯折亏损消失，延伸在力控制下跳到未结合链分支。本题不包含热WLC涨落，理想未结合链分支是 $X=L$；若另加入第4章热涨落，则以其强力渐近延伸作背景，不可把两项各自当成独立实测曲线。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4cm,xlabel={$(X-L)/\Delta X_{\rm pop}$},ylabel={$F/F_{\rm pop}$},xmin=-3,xmax=.3,ymin=0,ymax=2,grid=major]\addplot[main,thick,domain=-3:-1]{1/(x*x)};\addplot[dashed] coordinates{(-1,1)(0,1)};\addplot[blue,thick] coordinates{(0,1)(0,2)};\end{axis}\end{tikzpicture}\end{center}
+此图以脱离前的弯折亏损 $\Delta X_{\rm pop}$ 归一化，只表达选定静态模型的分支与跃迁，不是实测蛋白曲线。
+
+\end{solution}
+
+\originalsection{PS8：漂移和扩散}
+\begin{exercise}
+（PS8.1）丝长 $\ell=1,2,\ldots$，末端以速率 $a$ 加单体、以速率 $b$ 减单体，但长度1禁止再减。(a)写主方程；(b)求归一化稳态；(c)给存在条件和平均长度；(d)若 $a>b$、初始皆为单体，求时间依赖均值和方差，并给近似分布。
+\end{exercise}
+\begin{solution}
+$\dot p_1=bp_2-ap_1$，$\ell\ge2$ 时 $\dot p_\ell=ap_{\ell-1}+bp_{\ell+1}-(a+b)p_\ell$。稳态零流给 $p_\ell=(1-r)r^{\ell-1}$，$r=a/b$，仅 $r<1$ 可归一化，平均长度 $1/(1-r)$；$a=b$ 也不存在归一化稳态。
+
+(d)不能把半直线边界删除后直接宣称 $(a-b)t$ 是所有时刻的精确均值。令 $n=\ell-1$，$P_0(t)=p_1(t)$，$m=\avg n$、$q=\avg{n^2}$。由方程求矩得
+\[
+m'=a-b+bP_0,\qquad q'=2(a-b)m+a+b-bP_0,\qquad m(0)=q(0)=0.
+\]
+这给出可直接积分的精确均值 $1+m$ 和方差 $q-m^2$。更显式地，对时间作Laplace变换，令
+\[
+r(s)=\frac{s+a+b-\sqrt{(s+a+b)^2-4ab}}{2b},
+\]
+则 $\widetilde p_{n+1}=(1-r)r^n/s$，$\widetilde m=r/[s(1-r)]$、$\widetilde q=r(1+r)/[s(1-r)^2]$；逆Laplace即精确时刻答案。它来自空间递推的有界根，$\sum_n\widetilde p_{n+1}=1/s$ 核查归一化。
+
+大时间 $a>b$ 时，$m=(a-b)t+b/(a-b)+o(1)$，方差 $=(a+b)t+O(1)$。中心远离边界后，正态近似均值 $1+m$、方差 $q-m^2$ 在集中区间有效，负长度尾部是近似误差；要求严格非负分布时可从上述递推计算离散概率，不能把未归一化截断高斯冒称精确分布。
+\end{solution}
+
+\begin{exercise}
+（PS8.2）微管两态概率满足
+\begin{align*}
+\partial_tp_+&=-\alpha p_++\gamma p_--\partial_x(v_+p_+)+d\partial_x^2p_+,\\
+\partial_tp_-&=\alpha p_+-\gamma p_-+\partial_x(v_-p_-)+d\partial_x^2p_-.
+\end{align*}
+(a)用 $\widetilde p(k,\omega)=\int\e^{\ii(kx-\omega t)}p\dd x\dd t$ 求色散；(b)展开慢模 $\omega=vk+\ii Dk^2+O(k^3)$；(c)$v_+=2\,\mathrm{\mu m/min}$、$v_-=20\,\mathrm{\mu m/min}$、$\alpha=.004\,\mathrm{s^{-1}}$、$\gamma=.05\,\mathrm{s^{-1}}$、$d=0$，估计漂移超过扩散的时间；(d)单体尺寸 $a_0$，生长和缩短态跳跃率 $r_+,r_-$，写离散主方程并作连续极限。
+\end{exercise}
+\begin{solution}
+设 $S=\alpha+\gamma$。变换后 $\ii\omega$ 是矩阵 $\left(\begin{smallmatrix}-\alpha+\ii kv_+-dk^2&\gamma\\\alpha&-\gamma-\ii kv_--dk^2\end{smallmatrix}\right)$ 的特征值，故
+\[
+\ii\omega_\pm=-S/2-dk^2+\ii k(v_+-v_-)/2
+\pm\tfrac12\sqrt{[\gamma-\alpha+\ii k(v_++v_-)]^2+4\alpha\gamma}.
+\]
+取 $k=0$ 时为零的加号根，展开得到 $v=(\gamma v_+-\alpha v_-)/S$，$D=d+\alpha\gamma(v_++v_-)^2/S^3$。另一模以 $S^{-1}$ 时间衰减。
+
+(c)先换成每秒，得 $v=.00617\,\mathrm{\mu m/s}$、$D\simeq.171\,\mathrm{\mu m^2/s}$；令 $vt\sim\sqrt{2Dt}$，得 $t\sim2D/v^2\simeq9.0\times10^3$ 秒，约150分钟。这个自由长度模型不能判断已撞到零长度边界的微管存活条件。
+
+(d)$\dot p_{+,n}=-\alpha p_{+,n}+\gamma p_{-,n}+r_+(p_{+,n-1}-p_{+,n})$，$\dot p_{-,n}=\alpha p_{+,n}-\gamma p_{-,n}+r_-(p_{-,n+1}-p_{-,n})$。以 $x=na_0$ 展开，漂移 $v_\pm=a_0r_\pm$，各态内部扩散 $d_\pm=a_0^2r_\pm/2$。若二者不同，不能严格约化为题设共同的 $d$；要保留两种扩散系数或声明另加相同的背景扩散。
+\end{solution}
+
+\begin{exercise}
+（PS8.3）马达每步 $d$ 要经过 $m$ 个同速率 $u$ 的单向内部阶段，无逆步。(a)将随机度 $r=\lim_{t\to\infty}\Var x/[d\avg x]$ 与 $v,D$ 联系；(b)求 $v,D$；(c)若低负载 $r\simeq1/2$、高负载 $r\simeq1$，说明模型解释。
+\end{exercise}
+\begin{solution}
+长期 $\avg x=vt$、$\Var x=2Dt$，所以 $r=2D/(dv)$。周期等待时间均值 $m/u$、方差 $m/u^2$，更新计数长期均值 $ut/m$、方差 $ut/m^2$，故 $v=du/m$、$D=d^2u/(2m^2)$。等速率单向模型分别对应两个和一个主要限速阶段；高负载可能使某一个阶段远慢于其他阶段。数据并不证明实际内部结构只有这些状态。
+\end{solution}
+
+\begin{exercise}
+（PS8.4）每个位置 $n$ 有内部态 $n'$。正向率为 $u_1:n\to n'$、$u_2:n'\to n+1$，逆向率为 $w_1:n'\to n$、$w_2:n+1\to n'$，步长 $d$。(a)写主方程；(b)求慢模色散；(c)求 $v,D$ 和Einstein力；(d)负载使 $u_2\to u_2\e^{-Fd/\kb T}$，求速度和停滞力；(e)数据 $v\simeq670\,\mathrm{nm/s}$、$D\simeq1400\,\mathrm{nm^2/s}$、$F_s\simeq5\,\mathrm{pN}$，取 $u_1=2000\,\mathrm{s^{-1}},u_2=50\,\mathrm{s^{-1}}$、$w_i=u_i/100$，检验二态模型。以kinesin步长 $d=8\,\mathrm{nm}$ 作数值比较。
+\end{exercise}
+\begin{solution}
+设未加撇概率 $p_n$、加撇概率 $q_n$，则 $\dot p_n=u_2q_{n-1}+w_1q_n-(u_1+w_2)p_n$，$\dot q_n=u_1p_n+w_2p_{n+1}-(u_2+w_1)q_n$。设 $S=u_1+u_2+w_1+w_2$、$A=u_1u_2$、$B=w_1w_2$。用与上一题同样的Fourier约定，慢模满足
+\[
+\lambda(\lambda+S)=A(\e^{\ii kd}-1)+B(\e^{-\ii kd}-1),\qquad \lambda=\ii\omega,
+\]
+取 $k=0$ 时为零的根，二阶展开给
+\[
+v=d\frac{A-B}S,\quad D=d^2\left[\frac{A+B}{2S}-\frac{(A-B)^2}{S^3}\right],\quad F_E=\frac{\kb T v}D.
+\]
+$F_E$ 是定义于漂移扩散比的有效力，不必等于真实负载。负载后的 $S(F)=u_1+w_1+w_2+u_2\e^{-\beta Fd}$，速度将上述 $A$ 换为 $A\e^{-\beta Fd}$，停滞 $F_s=(\kb T/d)\ln(A/B)$。
+
+(e)取室温 $\kb T=4.1\,\mathrm{pN\,nm}$，得到 $v\simeq386\,\mathrm{nm/s}$、$D\simeq1474\,\mathrm{nm^2/s}$、$F_s\simeq4.72\,\mathrm{pN}$、$F_E\simeq1.07\,\mathrm{pN}$。扩散与停滞力接近给定数据，但速度低约42\%，所以这一组率参数不能同时解释全部观测。不能因两个数接近便宣布模型完全吻合。
+\end{solution}
+
+\begin{exercise}
+（PS8.5）细菌以速度 $v$ 奔跑 $t_r$，翻滚 $t_t$ 后独立随机选三维方向。时长密度 $p_r(t)=4t\e^{-2t/\tau_r}/\tau_r^2$，$p_t$ 同型。(a)$\tau_r=2$秒、$\tau_t=.2$秒、$v=30\,\mathrm{\mu m/s}$，求长期扩散；(b)有营养梯度时 $\tau_r(\hat n)=\tau_0+g\hat n\cdot\hat z$，求漂移。
+\end{exercise}
+\begin{solution}
+这两种Gamma分布均值为 $\tau$，二阶矩为 $3\tau^2/2$，不是均值平方。独立各向同性位移给 $D=v^2\avg{t_r^2}/[6(\tau_r+\tau_t)]=v^2\tau_r^2/[4(\tau_r+\tau_t)]\simeq409\,\mathrm{\mu m^2/s}$。方向偏置使平均每轮位移 $v\avg{\hat n\tau_r(\hat n)}=vg\hat z/3$，平均周期 $\tau_0+\tau_t$，故 $\mathbf v_{\rm drift}=vg\hat z/[3(\tau_0+\tau_t)]$。保证所有方向平均时长为正需 $|g|<\tau_0$；方向抽样本身仍是均匀的，偏置来自持续时间。
+\end{solution}

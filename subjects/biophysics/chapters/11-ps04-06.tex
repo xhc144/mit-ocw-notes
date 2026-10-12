@@ -1,0 +1,98 @@
+\Needspace{9\baselineskip}
+\originalchapter{静电、折叠与拉伸题解}
+\originalsection{PS4：库仑作用}
+\begin{exercise}
+（PS4.1）$d$ 维空间内大小 $R$、总电荷 $Q$ 的球状体系库仑能按 $Q^2/R^{d-2}$ 缩放。(a)将带电链长度 $N$ 的库仑能与熵弹性平衡，求 $R(Q,N)$；(b)对 $Q\propto N$ 求Flory指数及上下临界维数；(c)与题面给出的均匀带电链精确指数 $\nu=2/(d-2)$ 比较；(d)随机正负电荷的多两性链 $Q^2\propto N$，求Flory估计。
+\end{exercise}
+\begin{solution}
+对 $d>2$，$F\sim\kb TR^2/(Na^2)+CQ^2/R^{d-2}$。求导平衡得 $R^d\sim C(d-2)Q^2Na^2/(2\kb T)$，故 $R\propto(Q^2N)^{1/d}$。(b)$\nu_F=3/d$，与理想链 $1/2$ 比较得上临界维数6，与完全拉伸指数1比较得下限维数3；物理指数不能超过1。(c)题面提供的 $\nu=2/(d-2)$ 给上临界维数6、下限维数4，因此三维链在此图像下已经充分伸直。此“精确指数”是原题给定输入，本稿没有证明它；不能把Flory最小化说成对它的证明。(d)$\nu_F=2/d$，但净电荷近似忽略了异号电荷之间局部吸引和塌缩；高维与低维仍需按理想链和轮廓长界限检查。$d=2$ 的对数库仑势不属于题设幂律的直接代入范围。
+\end{solution}
+
+\begin{exercise}
+（PS4.2）半径 $a$ 的均匀线电荷，每单位长度 $n$ 个单位电荷，$N$ 个价态 $z$ 的反离子在长度 $L$、半径 $R$ 的柱形容器中。忽略反离子互斥，其能量为 $V=2ze^2n\sum_i\ln(r_i/L)$，源文以介电常数吸收于 $e^2$ 的约定书写。(a)求配分函数并识别 $\zeta$；(b)求径向概率及均值；(c)分析 $R\gg a$ 下各温区；(d)求壁面压力；(e)双链DNA负电荷间距 $b=1.7\,\text{\AA}$、$\ell_B=7\,\text{\AA}$，估计NaCl和MgCl$_2$反离子中和比例。
+\end{exercise}
+\begin{solution}
+$\zeta=zn\ell_B$，空间积分 $I=\int_a^Rr^{1-2\zeta}\dd r$。除去与 $R$ 无关的因子，$Z\propto I^N$，$I=[R^{2-2\zeta}-a^{2-2\zeta}]/[2(1-\zeta)]$；$\zeta=1$ 时为 $\ln(R/a)$。径向概率是 $p_r=r^{1-2\zeta}/I$，不是单位面积密度。均值为
+\[
+\avg r=\frac{R^{3-2\zeta}-a^{3-2\zeta}}{(3-2\zeta)I},
+\]
+$\zeta=3/2$ 时分子对应积分为 $\ln(R/a)$。
+
+$\zeta<1$ 的高温离子弥散，$\avg r\sim2(1-\zeta)R/(3-2\zeta)$。$\zeta=1$ 时 $\avg r\sim R/\ln(R/a)$。$\zeta>1$ 的径向分布在无限容器中可归一化，但均值只有 $\zeta>3/2$ 才有限，届时 $\avg r\to a(2\zeta-2)/(2\zeta-3)$；在 $1<\zeta<3/2$，均值仍按 $R^{3-2\zeta}$ 增长，$\zeta=3/2$ 时按 $a\ln(R/a)$ 增长。凝聚阈值和有限一阶矩阈值不同。
+
+壁面压力 $P=(\kb T/2\pi RL)\partial_R\ln Z=N\kb T R^{-2\zeta}/(2\pi LI)$。三种渐近分别为 $N\kb T(1-\zeta)/(\pi LR^2)$、$N\kb T/[2\pi LR^2\ln(R/a)]$、$N\kb T(\zeta-1)a^{2\zeta-2}/(\pi LR^{2\zeta})$。Manning估计中 $\zeta=z\ell_B/b$，中和比例 $1-1/\zeta$，Na$^+$约0.757，Mg$^{2+}$约0.879。价态二已包含于 $\zeta$，不能再把电荷中和比例乘二。
+\end{solution}
+
+\begin{exercise}
+（PS4.4）负膜电荷密度大小 $\sigma$，正反离子电荷 $ze$。(a)求单膜密度；(b)用表面电场确定常数并画场；(c)检查电中性；(d)求间距 $L$ 的两个同样带电平板之间自洽势和密度；可选(e)对半径 $a$、线电荷 $-e/b$ 的柱求Poisson--Boltzmann方程形式，并联系Manning凝聚。
+\end{exercise}
+\begin{solution}
+(a)--(c)由第3章得 $n(y)=[2\pi z^2\ell_B(y+\mu)^2]^{-1}$，$\mu=e/(2\pi z\ell_B\sigma)$，$E(y)=-2\kb T/[ze(y+\mu)]$。场为负、从 $-\sigma/\epsilon$ 单调趋零，$ze\int_0^\infty n\dd y=\sigma$。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=8cm,height=4cm,xlabel={$y/\mu$},ylabel={$E/(\sigma/\epsilon)$},xmin=0,xmax=6,ymin=-1.1,ymax=.05,grid=major]\addplot[main,thick,domain=0:6]{-1/(1+x)};\end{axis}\end{tikzpicture}\end{center}
+(d)将中面设为 $y=0$，$u=\beta ze[\phi(y)-\phi(0)]$，则
+\[
+u=2\ln\cos(ky),\qquad n=n_m\sec^2(ky),\qquad n_m=\frac{k^2}{2\pi z^2\ell_B},\quad
+k\tan(kL/2)=\mu^{-1}.
+\]
+取 $0<kL/2<\pi/2$ 的唯一根；$E=2\kb T k\tan(ky)/(ze)$，电场指向两侧负板。积分后反离子总电荷是 $2\sigma$。
+
+(e)柱坐标设 $u=\beta ze\phi$，$n=n_0\e^{-u}$，$x=\ln(r/a)$，$\psi=u-2x$。由 $u_{rr}+u_r/r=u_{xx}/r^2$ 得 $\psi_{xx}=-C\e^{-\psi}$，$C=4\pi z^2\ell_B n_0a^2$。积分一次得 $(\psi_x)^2/2=C\e^{-\psi}+K$。$K>0$ 可写 $\e^{\psi/2}=\sqrt{C/K}\sinh[\sqrt{K/2}(x-x_0)]$；$K=0$ 为 $\sqrt{C/2}(x-x_0)$；$K<0$ 为 $\sqrt{-C/K}\sin[\sqrt{-K/2}(x-x_0)]$。只在这些函数正值区间取对数。常数由 $u_x(0)=2z\ell_B/b$ 和容器外端中性边界 $u_x(\ln(R/a))=0$ 决定。线电荷强度 $z\ell_B/b$ 越过1时，长柱无限容器极限出现Manning凝聚；这是自洽分布的联系，不把独立离子近似当作全多体精确解。
+\end{solution}
+
+\begin{exercise}
+（PS4.5）单体间距 $b$，总长 $L=Nb$ 的直带电链弯成大半径 $R$ 的圆。原间距 $d=b|m-n|\ll R$，相互作用 $V(d)=\kb T\ell_B\e^{-d/\lambda}/d$。(a)求距离改变量；(b)求配对能量变化；(c)证明总改变量按 $L/R^2$ 缩放；(d)求电性弯曲模量；(e)以 $b=.17\,\mathrm{nm}$、$\ell_B=.7\,\mathrm{nm}$、$\lambda=1\,\mathrm{nm}$、$\ell_p=50\,\mathrm{nm}$ 估计DNA中的重要性，讨论单链。
+\end{exercise}
+\begin{solution}
+弦长 $2R\sin(d/2R)=d-d^3/(24R^2)+O(d^5/R^4)$，所以距离变短。用 $V'=-\kb T\ell_B\e^{-d/\lambda}(d^{-2}+\lambda^{-1}d^{-1})$，得到 $\delta V=\kb T\ell_B\e^{-d/\lambda}d(1+d/\lambda)/(24R^2)>0$。
+
+对无序对求和，在 $b\ll\lambda\ll L,R$ 的连续极限，$\sum_{m<n}\simeq(L/b^2)\int_0^\infty\dd d$。积分 $\int d(1+d/\lambda)\e^{-d/\lambda}\dd d=3\lambda^2$，故 $\Delta E=\kb T\ell_B\lambda^2L/(8b^2R^2)$。与 $\kappa_e L/(2R^2)$ 比较，得 $\kappa_e=\kb T\ell_B\lambda^2/(4b^2)$。数值电性持久长度 $\kappa_e/\kb T\simeq6.06\,\mathrm{nm}$，约为给定总持久长度的12\%。反离子凝聚会降低有效电荷；DNA不是无限弱电荷连续链，因此这个值只是该模型估计。单链骨架本征刚度更小，电性贡献可能相对更大，须重定 $b$、有效电荷和 $\lambda$。
+\end{solution}
+
+\originalsection{PS5：随机能量模型}
+\begin{exercise}
+（PS5.1）固定序列在 $\Omega_{\rm str}$ 个非天然结构上的能量来自均值零、方差 $\Sigma^2$ 的高斯分布，另有唯一天然态能量 $E_N$；可设计序列数 $\Omega_{\rm seq}\gg\Omega_{\rm str}$。(a)求并画 $E(T)$；(b)对固定天然结构，在设计温度 $\tau$ 下抽样序列，求并画所选天然能量 $E_N(\tau)$。
+\end{exercise}
+\begin{solution}
+令 $S_0=\ln\Omega_{\rm str}$、$E_c=-\Sigma\sqrt{2S_0}$、$\kb T_c=\Sigma/\sqrt{2S_0}$。非天然体系高温 $E=-\Sigma^2/(\kb T)$，低温冻结为 $E_c$。若 $E_N<E_c$，天然态与高温自由能相交处满足 $E_N=-\kb T_f S_0-\Sigma^2/(2\kb T_f)$，物理高温根
+\[
+\kb T_f=\frac{-E_N+\sqrt{E_N^2-2S_0\Sigma^2}}{2S_0}.
+\]
+大体系近似下，$T<T_f$ 时 $E=E_N$，$T>T_f$ 时为非天然高温式，折叠处能量跳变；有限态数的精确配分和会把跃迁抹平。若 $E_N\ge E_c$，天然态无独立稳定区，不能强画折叠跳跃。
+
+(b)将态数换为 $\Omega_{\rm seq}$，设计能量为 $-\Sigma^2/(\kb\tau)$，降到设计冻结温度 $\kb\tau_c=\Sigma/\sqrt{2\ln\Omega_{\rm seq}}$ 后饱和于 $-\Sigma\sqrt{2\ln\Omega_{\rm seq}}$。由于序列库更大，可挑选的最小能量比普通构象库低。图按 $S_0=10,\Sigma=\sqrt{10},E_N=-20,\kb=1$ 的明确示例画出，不代表实测蛋白。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4cm,xlabel={$T$},ylabel={$E$},xmin=.15,xmax=3,grid=major]\addplot[main,thick,domain=.15:1.7071]{-20};\addplot[main,thick,domain=1.7071:3]{-10/x};\addplot[dashed] coordinates{(1.7071,-20)(1.7071,-5.8579)};\end{axis}\end{tikzpicture}\end{center}
+设计曲线在相同 $\Sigma=\sqrt{10}$、$\ln\Omega_{\rm seq}=20$ 的示例中为
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4cm,xlabel={$\tau$},ylabel={$E_N$},xmin=.1,xmax=3,grid=major]\addplot[main,thick,domain=.1:.5]{-20};\addplot[main,thick,domain=.5:3]{-10/x};\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+
+\begin{exercise}
+（PS5.2）$g^N$ 个紧密构象，能量高斯方差 $\Sigma^2=u^2N+c(Q^2/R)^2$。(a)求熵消失能量与冻结温度；(b)紧密球状三维构象 $R\propto N^{1/3}$，求使冻结温度渐近不随 $N$ 变化的 $Q^2$ 尺度。
+\end{exercise}
+\begin{solution}
+$E_c=-\sqrt{2N\ln g}\,\Sigma$，$\kb T_c=\Sigma/\sqrt{2N\ln g}$。有限非零冻结温度要求 $\Sigma^2=O(N)$；额外库仑方差 $cQ^4/R^2$ 不超过这一阶，即 $Q^2=O(N^{5/6})$。取正好 $N^{5/6}$ 使电项与骨架项同时保持重要，增长更慢则电项渐近可忽略。指数仅对题面三维紧密构象及给定方差模型适用。
+\end{solution}
+
+\originalsection{PS6：力与延伸}
+\begin{exercise}
+（PS6.1）理想链构象数 $\Omega_N(\mathbf R)=g^N[3/(2\pi Na^2)]^{3/2}\e^{-3R^2/(2Na^2)}$，外力能为 $-\mathbf F\cdot\mathbf R$。(a)求配分函数和平均延伸；(b)一般各向同性链，展开到二阶证明线性响应；(c)若 $\sqrt{\avg{R^2}_0}\sim aN^\nu$、$\nu=.59$，结合题设尺度函数及大力下延伸正比 $N$ 求非线性力指数。
+\end{exercise}
+\begin{solution}
+高斯配平方给 $Z=g^N\exp[Na^2\beta^2F^2/6]$，$X=\kb T\partial_F\ln Z=Na^2F/(3\kb T)$。(b)零力平均位移为零，$Z(F)/Z(0)=1+\beta^2F_iF_j\avg{R_iR_j}_0/2+O(F^4)$。各向同性 $\avg{R_iR_j}_0=\delta_{ij}\avg{R^2}_0/3$，所以 $\mathbf X=\avg{R^2}_0\mathbf F/(3\kb T)+O(F^3)$。(c)令 $X/R_0\sim(FR_0/\kb T)^\lambda$，其 $N$ 次幂为 $\nu(1+\lambda)$，与1相等得 $\lambda=1/\nu-1\simeq0.695$。这里“大力”指超出线性响应但尚未达到键尺度饱和的团块区间；真正 $F\to\infty$ 不可能一直幂律增长。
+\end{solution}
+
+\begin{exercise}
+（PS6.4）受力RNA的未配对骨架和无载荷配对团块权重为 $P(\ell)=g^\ell A^{-1}\exp[F^2a^2\ell/(6\kb^2T^2)]$、$R(\ell)=f^\ell/\ell^{3/2}$，二者交替，所有段长之和为 $N$。(a)求巨配分函数；(b)求开始解链的临界力；(c)画解链位点比例随力的起始奇性。
+\end{exercise}
+\begin{solution}
+设 $q=g\e^{\beta^2F^2a^2/6}$，$\widetilde P=qz/[A(1-qz)]$、$\widetilde R=\mathrm{Li}_{3/2}(fz)$。若链两端都为骨架段，$\mathcal Z=\widetilde P/(1-\widetilde P\widetilde R)$；两端约定改变分子，不改变主体自由能奇点。解链开始时极点在 $z_c=1/f$，有 $\widetilde P(z_c)\zeta(3/2)=1$，故
+\[
+F_c^2=\frac{6\kb^2T^2}{a^2}\ln\frac{Af}{g[A+\zeta(3/2)]}.
+\]
+这要求对数为正；若等于零则临界在零力，若为负体系在零力已处于力承载骨架占有非零比例的分支，不能给虚数临界力。
+
+设 $\epsilon=1-fz_*$。$\mathrm{Li}_{3/2}(1-\epsilon)=\zeta(3/2)-2\sqrt\pi\sqrt\epsilon+O(\epsilon)$，所以极点条件给 $\sqrt\epsilon\propto F-F_c$。骨架比例为 $\rho=\alpha_P/(\alpha_P+\alpha_R)$，$\alpha_P=\partial_{\ln z}\ln\widetilde P$，$\alpha_R=\partial_{\ln z}\ln\widetilde R\propto\epsilon^{-1/2}$。因此 $F<F_c$ 时 $\rho=0$，$F>F_c$ 刚开始时 $\rho\propto F-F_c$，比例连续而斜率改变。该曲线是高斯骨架模型的起始行为，远大力的形状不应由这个近似外推。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=8cm,height=4cm,xlabel={$F/F_c$},ylabel={解链比例（局部示意）},xmin=.5,xmax=1.5,ymin=0,ymax=.6,grid=major]\addplot[main,thick,domain=.5:1]{0};\addplot[main,thick,domain=1:1.5]{x-1};\end{axis}\end{tikzpicture}\end{center}
+图只表达临界前零比例与临界后的线性起始；竖向斜率按任意正比例归一化，不能从此图读取实际全程解链比例。
+
+\end{solution}

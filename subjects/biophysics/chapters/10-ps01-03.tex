@@ -1,0 +1,102 @@
+\originalchapter{概率、固定与序列题解}
+以下题面来自8.592J Spring 2011公开作业的已冻结题号，全部解答由编者独立推导。未找到可下载的官方作业答案；课纲提及会提供解答不能替代实际文件。
+\originalsection{PS1：概率}
+\begin{exercise}\label{ex:orf}
+（PS1.1）DNA各位置的A、G、T、C独立且等概率。(a)由遗传密码求随机三联体是终止信号的概率 $p_s$；(b)求 $N$ 个非终止三联体后紧接一个终止密码的概率；(c)大肠杆菌每条链约 $5\times10^6$ 个碱基，基因组为闭环，考虑六个阅读框，随机情况下预期多少长度600的开放阅读框？
+\end{exercise}
+\begin{solution}
+三个终止密码TAA、TAG、TGA在64种三联体中占3个，故 $p_s=3/64$。(b)为 $(61/64)^N(3/64)$。六个阅读框各有约 $L/3$ 个起点，线性期望不要求不同框彼此独立；预期数为 $2L(61/64)^{600}(3/64)\simeq1.45\times10^{-7}$。如果另要求起点之前也是终止密码，使所数对象恰为相邻终止间的完整区间，还需再乘 $3/64$，得到 $6.79\times10^{-9}$。这里600沿题面(b)按三联体数计算，若误取600个碱基会改变指数。随机背景下如此长的无终止区间极不常见，但显著性不自动证明其具有真实蛋白编码功能。
+\end{solution}
+
+\begin{exercise}
+（PS1.3）按A、G、T、C排序。A与G、T与C之间每代以概率 $q$ 互变；其余两类之间每种以概率 $p$ 互变。(a)写概率转移矩阵；(b)求特征值；(c)求 $t$ 代矩阵；(d)求稳态和弛豫代数；(e)将A$\to$C、T$\to$G改为 $p_+$，逆向改为 $p_-$，其他保持不变，求新矩阵和稳态。原题对transition/transversion术语的命名与通常生物学用法互换，本题按明确的碱基对定义计算。
+\end{exercise}
+\begin{solution}
+采用列为出发状态的约定，
+\[
+M=\begin{pmatrix}d&q&p&p\\q&d&p&p\\p&p&d&q\\p&p&q&d\end{pmatrix},\quad d=1-q-2p.
+\]
+归一化要求 $p,q\ge0,q+2p\le1$。四个正交特征向量可取 $(1,1,1,1),(1,1,-1,-1),(1,-1,0,0),(0,0,1,-1)$，对应特征值 $1,1-4p,1-2p-2q,1-2p-2q$。将归一化向量写成 $v_j$，则 $M^t=\sum_j\lambda_j^tv_jv_j^T$。(d)若非平凡模绝对值均小于1，稳态为均匀分布；慢弛豫时间 $\tau=-1/\ln\max(|1-4p|,|1-2p-2q|)$。小概率时约由 $\min(4p,2p+2q)^{-1}$ 决定；$p=0$ 等非遍历边界不保证唯一稳态。
+
+(e)新矩阵为
+\[
+M_a=\begin{pmatrix}1-q-p-p_+&q&p&p_-\\q&1-q-p-p_-&p_+&p\\p&p_-&1-q-p-p_+&q\\p_+&p&q&1-q-p-p_-\end{pmatrix}.
+\]
+对称性给 $p_A=p_T=a,p_G=p_C=c$，跨组概率流平衡 $a(q+p_+)=c(q+p_-)$，结合 $2a+2c=1$ 得 $a=(q+p_-)/[2(2q+p_++p_-)]$，$c=(q+p_+)/[2(2q+p_++p_-)]$。按原题给的 $p_+>p_-$，这个具体模型提高GC比例；它不能解释原题背景中GC较少的方向，这是原题简化参数方向的限制。
+\end{solution}
+
+\begin{exercise}
+（PS1.5）固定 $N$ 个分子独立进行 $A\xrightleftharpoons[b]{a}B$ 转换，$n=N_A$。(a)写 $p_n(t)$ 的主方程；(b)初始全部为A，求所有时刻的分布并核验方程。
+\end{exercise}
+\begin{solution}
+$A\to B$使 $n$ 减1，率 $an$；逆向使 $n$ 加1，率 $b(N-n)$。故
+\[
+\dot p_n=a(n+1)p_{n+1}+b(N-n+1)p_{n-1}-[an+b(N-n)]p_n,
+\]
+边界之外的项置零。单分子活性概率 $u=b/(a+b)+a\e^{-(a+b)t}/(a+b)$，独立性给 $p_n=\binom Nn u^n(1-u)^{N-n}$。将 $\dot u=b-(a+b)u$ 代入其导数，并用 $(n+1)\binom N{n+1}=(N-n)\binom Nn$ 等恒等式，得到上述主方程。$u(0)=1$ 给初始条件，二项定理给归一化，均值 $Nu$、方差 $Nu(1-u)$。
+\end{solution}
+
+\originalsection{PS2：固定和比对}
+\begin{exercise}
+（PS2.1）固定 $N$ 个单倍体，多等位基因有 $s+1$ 类，频率 $x_i$，$x_{s+1}=1-\sum_{i=1}^sx_i$。下一代计数服从多项分布 $P(\{m_i\})=N!\prod_i x_i^{m_i}/m_i!$。(a)求增量的一、二阶矩；(b)写前向方程；(c)写给定初始频率的后向方程；(d)求全部多态性最终消失的平均固定时间方程，并验证一个两等位结果的推广。
+\end{exercise}
+\begin{solution}
+多项抽样给 $\avg{\Delta x_i}=0$、$\avg{\Delta x_i\Delta x_j}=(x_i\delta_{ij}-x_ix_j)/N$。前向方程为 $\partial_t p=\sum_{i,j=1}^s\partial_{x_i}\partial_{x_j}[(x_i\delta_{ij}-x_ix_j)p]/(2N)$；后向方程的导数作用于初始变量 $y_i$，系数不进入导数：$\partial_t p=\sum_{ij}(y_i\delta_{ij}-y_iy_j)\partial_{y_i}\partial_{y_j}p/(2N)$。
+
+平均最终固定时间满足 $\mathcal LT=-1$，只在单型顶点取零；一个等位基因刚消失的面仍可有多态性，其边界值应等于低维问题的固定时间。令
+\[
+T(\mathbf y)=-2N\sum_{i=1}^{s+1}(1-y_i)\ln(1-y_i).
+\]
+对完整约束频率使用同一个生成元，每项二阶导为 $-1/(1-y_i)$，其扩散贡献 $-y_i/(2N)$；全部频率之和为1，所以 $\mathcal LT=-1$。在顶点 $T=0$，在面上零频率项消失，恰好退化为同一低维表达式。两等位时恢复第1章公式。源文(d)的“loss or mutation”并没有给突变率，这里按所给纯抽样模型求吸收时间。
+\end{solution}
+
+\begin{exercise}
+（PS2.2）无漂移、常扩散系数 $D$ 的粒子被两边界吸收。(a)在 $[0,1]$ 上求两种吸收概率；(b)求平均首达时间及最长寿命起点；(c)对二维同心圆 $R_0<R<R_1$ 求相同量；(d)对三维同心球求相同量，比较维数影响。题面所有可选小问均收录。
+\end{exercise}
+\begin{solution}
+一维概率满足 $D\Pi''=0$，故 $\Pi_1=y,\Pi_0=1-y$；时间满足 $DT''=-1$，$T=y(1-y)/(2D)$，最大在 $y=1/2$。
+二维径向算子为 $D(T''+T'/R)$，解为
+\[
+\Pi_1=\frac{\ln(R/R_0)}{\ln(R_1/R_0)},\quad
+T=\frac{R_0^2-R^2}{4D}+\frac{R_1^2-R_0^2}{4D}\frac{\ln(R/R_0)}{\ln(R_1/R_0)}.
+\]
+$T'=0$ 给 $R_{\max}^2=(R_1^2-R_0^2)/[2\ln(R_1/R_0)]$。三维算子为 $D(T''+2T'/R)$，于是
+\[
+\Pi_1=\frac{R_0^{-1}-R^{-1}}{R_0^{-1}-R_1^{-1}},\quad
+T=\frac{R_0^2-R^2}{6D}+C(R_0^{-1}-R^{-1}),\quad
+C=\frac{R_0R_1(R_0+R_1)}{6D}.
+\]
+最长寿命起点满足 $R_{\max}^3=R_0R_1(R_0+R_1)/2$。内边界概率为 $1-\Pi_1$。同样的壳层中，维数提高产生径向几何偏置，向外吸收概率提高，最大寿命的起点相对向内移动；薄壳极限都接近局部一维答案。
+\end{solution}
+
+\begin{exercise}
+（PS2.4）序列GAATTC和GATTA，匹配得分 $1.5$，失配 $-1$，每个空位罚 $2$。计算全局、局部动态规划矩阵和最优比对，说明全局是否有歧义。
+\end{exercise}
+\begin{solution}
+按第2章递推，行序列为GAATTC，列序列为GATTA，矩阵分别是
+\begin{center}\input{data/global-matrix.tex}\par 全局矩阵\medskip\par\input{data/local-matrix.tex}\par 局部矩阵\end{center}
+全局最优得分为3，两条并列路径为 $\texttt{GAATTC}/\texttt{G-ATTA}$ 和 $\texttt{GAATTC}/\texttt{GA-TTA}$：四个匹配、一个失配、一个空位，$4(1.5)-1-2=3$。局部最优为ATT与ATT，得分4.5。矩阵和全部并列全局回溯由附带代码实际计算，不把单条输出误称为唯一比对。
+\end{solution}
+
+\originalsection{PS3：极值}
+\begin{exercise}
+（PS3.1）$N$ 个独立 $\mathcal N(0,\sigma^2)$ 变量最大值为 $x$。(a)求 $P(x\le X)$；(b)说明最可能值在大 $N$ 时可由 $\overline F(x_*)\simeq1/N$ 或 $p_1'(x_*)+Np_1(x_*)^2\simeq0$ 定位，并求主渐近；(c)在此附近展开得到Gumbel分布及其参数。
+\end{exercise}
+\begin{solution}
+(a)为 $F(X)^N$。最大值密度 $Np_1F^{N-1}$ 的驻点满足 $p_1'F+(N-1)p_1^2=0$；$F\to1$ 时得到题面第二式。利用高斯尾 $\overline F\sim\sigma^2p_1/x$，第二式给 $N\overline F\simeq1$，所以两个表达式是同阶渐近而不是有限 $N$ 的精确等式。主尺度 $x_*\sim\sigma\sqrt{2\ln N}$。取 $b_N$ 为 $N\overline F(b_N)=1$ 的解，$a_N=\sigma^2/b_N$，累计分布近似为 $\exp\{-\exp[-(X-b_N)/a_N]\}$；密度为 $a_N^{-1}\exp[-z-\e^{-z}]$。位置和尺度的次阶修正需保留高斯尾的前因子。
+\end{solution}
+
+\begin{exercise}
+（PS3.3）T细胞受体序列 $t=(t_1,\ldots,t_N)$ 对肽段 $p$ 的结合能 $E(t,p)=\sum_iV(t_i,p_i)$。胸腺遇见 $M$ 个独立自身肽段，负选择要求每个结合能大于 $E_n$，正选择要求至少一个小于 $E_p>E_n$。(a)化成最小能量的条件；(b)对固定受体，以 $\mathcal E(t_i)=\avg{V(t_i,p)}$、$\mathcal V(t_i)=\Var V(t_i,p)$ 写大 $N$ 能量分布；(c)求最小值分布；(d)当 $\ln M\propto N$，分析中心和宽度尺度。
+\end{exercise}
+\begin{solution}
+(a)为 $E_n<E_{\min}<E_p$。(b)在肽段位置独立且方差有限的近似下，平均 $\mu_t=\sum_i\mathcal E(t_i)$，方差 $\Sigma_t^2=\sum_i\mathcal V(t_i)$，能量近似 $\mathcal N(\mu_t,\Sigma_t^2)$。(c)设单肽累计为 $F_t$，则 $P(E_{\min}>E)=[1-F_t(E)]^M$，密度 $M p_t(E)[1-F_t(E)]^{M-1}$，左尾为反向Gumbel。(d)中心约 $\mu_t-\Sigma_t\sqrt{2\ln M}=O(N)$，宽度约 $\Sigma_t/\sqrt{2\ln M}=O(1)$。因此单位长度能量的宽度趋零；这不表示总能量宽度也趋零。真实肽段相关和极端尾的非高斯性会影响近似。
+\end{solution}
+
+\begin{exercise}
+（PS3.4）无空位DNA比对的匹配分数为1；A与G或T与C替换分数为0；其余替换分数为 $-\mu$，四种碱基等频。(a)求Gumbel指数参数 $\lambda(\mu)$ 的方程；(b)找 $\mu_c$，作 $\lambda$ 随 $\mu$ 的图。本题也按明确的碱基对计算。
+\end{exercise}
+\begin{solution}
+三类分数概率为 $1/4,1/4,1/2$，所以非零正根满足 $\e^\lambda/4+1/4+\e^{-\mu\lambda}/2=1$。平均分数 $(1-2\mu)/4$ 必须为负，故 $\mu_c=1/2$；凸性保证 $\mu>1/2$ 时唯一正根。边界附近 $\lambda\simeq(8/3)(\mu-1/2)$；$\mu\to\infty$ 时 $\lambda\to\ln3$。下图按隐式方程数值求根的数据绘制，边界处取连续极限0。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4.5cm,xlabel={$\mu$},ylabel={$\lambda$},xmin=.5,xmax=5,ymin=0,ymax=1.15,grid=major]\addplot[main,thick] table[x=mu,y=lambda,col sep=comma]{data/alignment-lambda.csv};\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
