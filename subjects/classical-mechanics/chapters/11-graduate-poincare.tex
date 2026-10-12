@@ -1,0 +1,87 @@
+\originalchapter{研究生计算力学：非坐标标架与Poincaré方程}
+\label{ch:poincaregraduate}
+MIT OCW的12.620J / 8.351J / 6.946J（Fall 2008）由Gerald Sussman和Jack Wisdom讲授，官方层次为研究生。课程以相空间结构和计算表达为主线。可公开取得的专门理论讲稿是第22次课的25页\textit{Poincaré Equations}幻灯片。本章沿其完整推导路线展开中文说明，并将符号计算写成可人工核验的数学；这是非官方中文重编，非官方答案。软件入门、作图和参考手册另外列作工具资料，不计为三份新的物理理论讲稿。
+
+\originalsection{向量场、标架与对易子}
+在局部坐标$q^a$中，向量场$X=X^a(q)\partial_a$把每个光滑标量函数$f$映成$X(f)=X^a\partial_af$。它给出沿该方向的变化率；$X$不是一个固定的欧氏箭头，而是对每点指定方向及大小的微分算子。向量场$X,Y$的对易子定义为$[X,Y](f)=X(Y(f))-Y(X(f))$。展开两次微分，二阶偏导项互相抵消，得到
+\[
+ [X,Y]=\bigl(X^a\partial_aY^b-Y^a\partial_aX^b\bigr)\partial_b.
+\]
+因此对易子仍是向量场。坐标基$\partial_a$两两对易；一般标架$e_i=e_i^a(q)\partial_a$不必对易。若各点$e_i$线性无关，则唯一确定系数$c_{ij}^{\ k}(q)$使$[e_i,e_j]=c_{ij}^{\ k}e_k$。原幻灯片称其为“结构常数”；一般标架下它们可以随位置变化，只有特定群标架中才是常数。
+
+设对偶一形式$\vartheta^i$满足$\vartheta^i(e_j)=\delta^i_j$。沿轨迹$q(t)$，速度可唯一展开为$\dot q=\omega^ie_i(q)$，其中$\omega^i=\vartheta^i(\dot q)$称为准速度。它们是$\dot q^a$的线性组合，但一般不存在一组新坐标$Q^i$使$\omega^i=\dot Q^i$。例如平面极坐标正交标架$e_r=\partial_r$、$e_\theta=r^{-1}\partial_\theta$有$[e_r,e_\theta]=-r^{-1}e_\theta$，准速度是$\omega^r=\dot r$和$\omega^\theta=r\dot\theta$。把后一项错当某个全局坐标的导数，会漏掉径向惯性项。
+
+\originalsection{准速度变分的交换关系}
+取固定端点的两参数族$q(t,\epsilon)$。将时间方向和变分方向分别展开为$\partial_tq=\omega^ie_i$、$\partial_\epsilon q=w^je_j$，在端点取$w^j=0$。对任意标量$f(q)$有$\partial_tf=\omega^ie_i(f)$和$\partial_\epsilon f=w^je_j(f)$。两次偏导相等，展开得到
+\[
+ 0=(\partial_\epsilon\omega^k-\partial_tw^k)e_k(f)
+ +\omega^iw^j[e_j,e_i](f).
+\]
+因为$e_k$线性无关，且$[e_j,e_i]=-[e_i,e_j]$，所以
+\[
+ \delta\omega^k=\dot w^k+c_{ij}^{\ k}\omega^iw^j.
+\]
+这正是坐标变分$\delta\dot q^k=\frac{\dd}{\dd t}\delta q^k$的推广。额外项来自标架在配置空间中不对易，不是外力，也不是可以任意丢弃的高阶小量。
+
+将原拉格朗日量写成准速度形式$\widehat L(t,q,\omega)=L(t,q,\omega^ie_i(q))$，记$\pi_k=\partial\widehat L/\partial\omega^k$。在对位置微分时保持$\omega$固定；$e_k(\widehat L)$表示沿配置空间方向的这一偏导。作用量变分为
+\[
+ \delta S=\int\bigl[w^ke_k(\widehat L)+\pi_j\dot w^j
+ +\pi_jc_{ik}^{\ j}\omega^iw^k\bigr]\dd t.
+\]
+分部积分第二项，端点项为零，任意内部$w^k$的系数必须为零。因此
+\begin{equation}
+ \dot\pi_k=e_k(\widehat L)+c_{ik}^{\ j}\omega^i\pi_j.
+ \label{eq:poincaregraduate}
+\end{equation}
+式\eqref{eq:poincaregraduate}是Poincaré方程。取坐标标架，$c=0$且$\omega=\dot q$，便严格恢复Euler--Lagrange方程。它并没有添加新的动力学假设；只是把同一变分原理写在适合对称性或刚体转动的标架中。
+
+\begin{example}
+自由质点的极坐标正交标架。
+\end{example}
+\begin{solution}
+令$\widehat L=m[(\omega^r)^2+(\omega^\theta)^2]/2$。位置微分保持准速度不变时$e_i(\widehat L)=0$，但$c_{\theta r}^{\ \theta}=1/r$。径向方程为$m\dot\omega^r=m(\omega^\theta)^2/r$，即$\ddot r=r\dot\theta^2$。角向方程为$m\dot\omega^\theta=-m\omega^r\omega^\theta/r$，代入$\omega^\theta=r\dot\theta$得$r\ddot\theta+2\dot r\dot\theta=0$。它们与自由粒子在笛卡尔坐标中的直线运动一致；两个几何项都由非坐标标架的对易子产生。
+\end{solution}
+
+\originalsection{转动标架与Euler方程的符号}
+原幻灯片先用Euler角$R=R_z(\phi)R_x(\theta)R_z(\psi)$构造绕空间固定轴的无穷小转动。局部坐标$\sin\theta\ne0$下相应场为
+\[
+\begin{aligned}
+ e_x&=-\sin\phi\cot\theta\,\partial_\phi+
+ \cos\phi\,\partial_\theta+\sin\phi\csc\theta\,\partial_\psi,\\
+ e_y&=\cos\phi\cot\theta\,\partial_\phi+
+ \sin\phi\,\partial_\theta-\cos\phi\csc\theta\,\partial_\psi,\\
+ e_z&=\partial_\phi.
+\end{aligned}
+\]
+直接按向量场对易子式计算，$[e_x,e_y]=-e_z$，另两式循环。这些场来自左乘固定空间转动，属于右不变标架，故结构常数带负号。原第10页把第三个场误印为$e_y$，应为$e_z$；此处按其$\partial_\phi$表达式和后页对易关系校正。
+
+刚体主轴系的角速度则配合另一套标架：无穷小转动从右乘，结构常数为$c_{ij}^{\ k}=\epsilon_{ijk}$。两种约定不能混用。对自由刚体，在随体主轴系写$\widehat L=(I_1\omega_1^2+I_2\omega_2^2+I_3\omega_3^2)/2$；惯量常数，$e_k(\widehat L)=0$，准动量$\pi_k=I_k\omega_k$。由式\eqref{eq:poincaregraduate}，
+\[
+\begin{aligned}
+ I_1\dot\omega_1&=(I_2-I_3)\omega_2\omega_3,\\
+ I_2\dot\omega_2&=(I_3-I_1)\omega_3\omega_1,\\
+ I_3\dot\omega_3&=(I_1-I_2)\omega_1\omega_2.
+\end{aligned}
+\]
+矢量形式是$\dot{\vect\pi}=\vect\pi\times\vect\omega$。这并不违反空间角动量守恒：随体分量的导数还须加上标架自身转动的$\vect\omega\times\vect\pi$，两者抵消，故$\frac{\dd}{\dd t}(R\vect\pi)=0$。能量也守恒，因为$\dot E=\omega_k\dot\pi_k=\vect\omega\cdot(\vect\pi\times\vect\omega)=0$。若采用空间标架，惯量矩阵随$R$变化，不能继续令$e_k(\widehat L)=0$。
+
+原最后四页的Scheme程序先由对偶一形式提取$c_{ik}^{\ j}$，再把$\widehat L$的速度导数和配置方向导数代入Poincaré方程，输出Euler方程残差；最后与Euler角Lagrange方程之差为零。本章保留计算的数学含义，并用自主SymPy脚本核验标架对易子和极坐标方程，不运行未审查的外部安装程序，也不把符号计算输出当作变分证明。
+
+\originalsection{研究生课程大纲、课历与可取边界}
+12.620J / 8.351J / 6.946J的大纲依次覆盖Lagrange与约束、刚体与自旋轨道、Hamilton与截面、Liouville与复现、相空间稳定性、Poincaré--Birkhoff与KAM、正则变换与生成函数、Lie级数、共振、小分母和绝热不变量。官方作业页同时提供37次课的主题顺序：1--8为变分与守恒，9--13为刚体，14--22为Hamilton与向量场，23--27为相空间结构，28--32为正则变换，33--37为摄动。理论衔接可先读本册第1--8章，再读本章与第10章；本章完成的是唯一公开理论幻灯片的中文展开，KAM全套证明等尚未据公开讲稿完成。
+
+\begin{longtable}{p{.23\textwidth}p{.68\textwidth}}
+\toprule 原件页码 & 本章对应\\\midrule\endhead
+1--3 & 课程署名、Poincaré方程的动机，Euler/Lagrange特例。\\
+4--8 & 向量场作用、标架、对易子与结构系数，逐项展开。\\
+9--11 & Euler角空间转动标架、负结构常数与原件变量名校正。\\
+12--13 & 准速度定义、角速度及其非坐标性质。\\
+14--19 & 两参数变分、交换关系、准拉格朗日量及Poincaré方程推导。\\
+20--21 & 原Scheme结构系数及方程程序的数学含义；自主符号核验另附。\\
+22--25 & 自由刚体、Euler方程、与坐标Lagrange方程一致及能量/空间角动量检查。\\
+\bottomrule
+\end{longtable}
+
+\href{https://ocw.mit.edu/courses/12-620j-classical-mechanics-a-computational-approach-fall-2008/pages/assignments/}{官方Assignments}列11组SICM教材题号及课程项目；这里没有把这些题号当成已取得完整题面。所链接的两份外站学生项目是示例，不能冒称官方标准答案。推荐教材虽有出版社在线阅读入口，未把整书下载再发布。4份公开Study Materials的逐文件URL、哈希与页数见本学科新增清单。公开原件与本章改编按MIT OCW的CC BY-NC-SA 4.0及逐件例外署名使用，软件本身的许可另依其发行说明。
+
+已归档的8.09第1章第1页明确说讲义同时用于8.09与8.309；这支持“本科与研究生共用讲义”，不支持“已取得研究生不同作业”。8.223仍为本科。8.09作业10第3题(a)的固定实验周期窗口仍未复现，保留部分完成状态。新分编不关闭旧卷题面缺失、不改写旧解答，也不把共课关系当作全部研究生材料已完成的证据。
