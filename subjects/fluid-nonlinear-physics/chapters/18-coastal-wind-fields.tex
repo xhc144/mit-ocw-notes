@@ -1,0 +1,68 @@
+\Needspace{12\baselineskip}
+\originalchapter{沿岸风的初边值场与原讲义量纲核对}
+本章对应1.63的 \texttt{76TransLSwind}。前文已解释旋转、Rossby半径及沿岸响应，本章补全该原题所规定的时间、海岸和外海条件。x从海岸向外海，y沿海岸；均匀水深h，沿y不变，U、V为\emph{深度积分}速度，量纲 $L^2/T$。海面升高为η，风应力沿y为 $\tau_y(t)$，密度ρ恒定。
+
+\originalsection{深度积分方程、海岸与初态}
+线性浅水方程为
+\[
+ \eta_t+U_x=0,\qquad U_t-fV=-gh\eta_x,
+ \qquad V_t+fU=G(t),\quad G=\tau_y/\rho.
+\]
+G的量纲为 $L^2/T^2$。海岸边界 $U(0,t)=0$，初始 $U=V=\eta=0$；外海允许惯性响应和向外传播的波，不能把所有外海速度都设成0。若 $f>0$、正沿岸风，则外海Ekman方向为正x，近岸产生海面降低。
+
+令 $c=\sqrt{gh},R=c/f$。时间Laplace变换，记s的实部为正，消去V和η得
+\[
+ \widehat U_{xx}-\alpha^2\widehat U=-\frac{f\widehat G}{c^2},\quad
+ \alpha=\sqrt{s^2+f^2}/c,\quad\Re\alpha>0.
+\]
+有界外海与海岸零法向通量给
+\begin{align*}
+ \widehat U&=\frac{f\widehat G}{s^2+f^2}(1-\e^{-\alpha x}),\\
+ \widehat V&=(\widehat G-f\widehat U)/s,\\
+ \widehat\eta&=-\frac{f\widehat G\,\alpha}{s(s^2+f^2)}\e^{-\alpha x}.
+\end{align*}
+这三个式子对应同一初边值问题；压力场不是另加一个任意稳态地转关系。任意因果G(t)可由卷积取得响应，原式的零初态已经包含在变换内。
+
+\originalsection{突然加风的完整瞬变与长期项}
+取 $G(t)=G_0H(t)$。定义 $X=x/R$、$\tau=ft$，以 $G_0/f$ 约化U、V，以 $G_0/(cf)$ 约化η。以下小写 $u,v,e$ 是无量纲场，$\omega_q=\sqrt{1+q^2}$：
+\begin{align*}
+ u&=1-\e^{-X}-\frac2\pi\int_0^\infty
+        \frac{\sin(qX)\cos(\omega_q\tau)}{q(1+q^2)}\dd q,\\
+ v&=\tau\e^{-X}+\frac2\pi\int_0^\infty
+        \frac{\sin(qX)\sin(\omega_q\tau)}{q\omega_q^3}\dd q,\\
+ e&=-\tau\e^{-X}+\frac2\pi\int_0^\infty
+        \frac{\cos(qX)\sin(\omega_q\tau)}{\omega_q^3}\dd q.
+\end{align*}
+q为横向波数的无量纲版本。该表示可由半轴sine变换求得：各q模的频率为 $\omega_q$，再将零初态的振荡补偿项加回长期场。q=0处按连续极限取值，程序使用sinc避免误除0。
+
+初态τ为0时v、e为0，且 $\int_0^\infty\sin(qX)/[q(1+q^2)]\dd q=(\pi/2)(1-\e^{-X})$，故u也为0。海岸X为0时u恒为0、v等于τ，正好满足 $V_t(0,t)=G_0$。对谱式微分可以逐项验证 $e_\tau+u_X=0$、$u_\tau-v=-e_X$、$v_\tau+u=1$；三个场不能独立随意拟合。
+
+固定x、较长时间下的主项恢复有量纲式
+\[
+ U\simeq\frac{G_0}{f}(1-\e^{-x/R}),\quad
+ V\simeq tG_0\e^{-x/R},\quad
+ \eta\simeq-\frac{tG_0}{c}\e^{-x/R}.
+\]
+U的地转压力平衡与V的近岸加速同时存在，η随风持续而增长，不是一个所有场都停止变化的稳态。无限长持续风最终使线性假设失效，需检查η/h、实际平流与摩擦；长期主项不可在t为0直接使用。
+
+原PDF第二页式(7.6.13)把η系数写成 $-t\tau_y/(\rho gh)$，缺少 $\sqrt{gh}$ 与gh之间的区别，量纲不是长度；(7.6.14)把V写成 $t\tau_y/(\rho f)$，多出一个f。这里按原方程(7.6.7)--(7.6.9)及深度积分U、V的定义更正为上面的 $-t\tau_y/(\rho\sqrt{gh})$ 和 $t\tau_y/\rho$。来源与原编号保留，不将改正后的式子假标为原文无误。
+
+外海与长期的极限次序也有作用。先让x趋无限、保留有限t，外海为 $U=(G_0/f)(1-\cos ft)$、$V=(G_0/f)\sin ft$，仍有惯性振荡；固定x后让t变长，传播和色散导致当地瞬变离开。不能用一个长期近岸表达宣称整个无限海洋都同时达到无振荡状态。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={$x/R$},ylabel={无量纲场},xmin=0,xmax=4,legend style={font=\small},legend columns=3]
+\addplot[main] table[x=X,y=u,col sep=comma]{data/coastal-step-tau4.csv};\addlegendentry{$u$}
+\addplot[blue] table[x=X,y=v,col sep=comma]{data/coastal-step-tau4.csv};\addlegendentry{$v$}
+\addplot[black] table[x=X,y=eta,col sep=comma]{data/coastal-step-tau4.csv};\addlegendentry{$e$}
+\end{axis}\end{tikzpicture}\end{center}
+图是τ为4的实际谱积分，并非海洋观測。程序比较两组积分截断/步长，保存原始数值及边界核验。若为教学示例取 $\tau_y=.1$ Pa、$\rho=1025$ kg/m$^3$、h为10 m、f为 $10^{-4}$ s$^{-1}$，则R约99 km；持续一小时的近岸长期降水位主项约3.5 cm。这些是明确选择的参数，非原课程或本项目采集的观测值。
+
+\originalsection{周期风、衰减场与出射波}
+若 $G=\Re(G_\omega\e^{-\mathrm i\omega t})$，求因果稳态频响时令 $s\to-\mathrm i\omega+0^+$。形式为
+\[
+ U_\omega=\frac{fG_\omega}{f^2-\omega^2}(1-\e^{-\alpha x}),\quad
+ V_\omega=\frac{G_\omega-fU_\omega}{-\mathrm i\omega},\quad
+ \eta_\omega=-\frac{U_{\infty,\omega}\alpha}{-\mathrm i\omega}\e^{-\alpha x}.
+\]
+低于惯性频率时 $\alpha=\sqrt{f^2-\omega^2}/c$ 为正，近岸压力响应衰减，衰减长度依频率而非永远等于R。高于惯性频率时，对正ω取 $\alpha=-\mathrm ik$，$k=\sqrt{\omega^2-f^2}/c$，$\e^{-\alpha x-\mathrm i\omega t}=\e^{\mathrm i(kx-\omega t)}$ 向外海传播。这一支由因果/出射条件选出，不能任意取反号变成从无限远入射的波。
+
+在 $\omega=f$，无摩擦理想模型存在共振，不能给一个有限振幅的周期稳态。ω趋0也含持续风的近岸世俗增长，不能把上式分母直接置0后称为稳定常量。实际底摩擦、非线性和有限海域会改变共振与长期增长，但它们需有新方程及边界，不能用未说明的“阻尼很小”抹去本模型的限制。

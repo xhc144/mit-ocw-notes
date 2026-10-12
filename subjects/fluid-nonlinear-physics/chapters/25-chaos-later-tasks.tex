@@ -1,0 +1,93 @@
+\Needspace{12\baselineskip}
+\originalchapter{Lorenz后续任务与映射普适性}
+PS8前四题的固定点、失稳条件和 $r=28$ 轨道，PS9前两题的自相似维数和Hénon稳定性，PS10第一题的logistic超稳定参数已在前文完整解答。此章补齐剩余原题，不重复计算或重复计数。
+
+\originalsection{PS8.5--7：参数敏感性、指数分离与吸引域}
+\begin{exercise}\label{task:chaos-PS8-5}
+Lorenz取 $\sigma=10,b=8/3$，求 $r=166$ 和166.1的 $X(t)$，舍去瞬变后比较、说明观察。
+\end{exercise}
+\begin{solution}
+两者都用公开初态 $(.01,.01,.01)$、RK4步长.001积分至600，舍去100；下图为末50时间单位和全过程后瞬变的相邻峰返回图。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.3cm,xlabel={时间},ylabel={$X$},title={$r=166$}]
+\addplot[main] table[x=t,y=X,col sep=comma]{data/plots/ps8-r166-X.csv};
+\end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.3cm,xlabel={时间},ylabel={$X$},title={$r=166.1$}]
+\addplot[blue] table[x=t,y=X,col sep=comma]{data/plots/ps8-r166.1-X.csv};
+\end{axis}\end{tikzpicture}\end{center}
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.3cm,xlabel={$X_n$},ylabel={$X_{n+1}$},title={$r=166$}]
+\addplot[only marks,mark size=.5pt,main] table[x=Xn,y=Xnext,col sep=comma]{data/plots/ps8-r166-maxima.csv};
+\end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.3cm,xlabel={$X_n$},ylabel={$X_{n+1}$},title={$r=166.1$}]
+\addplot[only marks,mark size=.5pt,blue] table[x=Xn,y=Xnext,col sep=comma]{data/plots/ps8-r166.1-maxima.csv};
+\end{axis}\end{tikzpicture}\end{center}
+后瞬变共1324与1269个X局部最大值，按.01舍入的峰级分别165与423。微小参数改动使峰返回的分支和占据显著变化，不能用“大r所以两者一样混沌”替代观察。此有限窗的非恒定峰不严格排除很长周期，也未由峰级计数单独证明混沌。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS8-6}
+$r=170$时验证微小初态差的指数分离，按 $\delta(t)=\delta_0\e^{\lambda t}$ 估最大Lyapunov指数；解释距离长期行为。
+\end{exercise}
+\begin{solution}
+取初差 $10^{-8}$；直接两轨道距离先增长，随后与吸引子尺寸相当，不能无限指数增长。长期距离折返、饱和，饱和段 $\log\delta/t$ 不能用来估局部不稳定率。
+\begin{center}\begin{tikzpicture}\begin{semilogyaxis}[width=.8\linewidth,height=4.8cm,xlabel={时间},ylabel={轨道距离}]
+\addplot[main] table[x=t,y=distance,col sep=comma]{data/plots/ps8-r170-separation.csv};
+\end{semilogyaxis}\end{tikzpicture}\end{center}
+更稳健地沿基轨道同时积分 $\dot v=J(X,Y,Z)v$，每.1时间将v归一化，累加 $\log(\|v\|/\|v_{\rm old}\|)$。舍去100、在100--600平均：步长.001得到2.04637，减半得到2.04423；10时间单位分块的标准差约.146，只作相关性诊断，不当作独立样本标准误。最大有限时间指数明显正，给出每模型时间的局部增长率；它并不等同于一次直接分离曲线每段的斜率。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS8-7}
+自行选一个Lorenz模型的有趣行为例子，取得实际结果并说明。
+\end{exercise}
+\begin{solution}
+选 $r=24.5$，略低于非零固定点Hopf约24.737。初态分别为正固定点邻近（X加 $10^{-5}$）与 $(.01,.01,.01)$。同样积分至600，近固定点轨道末50的X范围约 $10^{-7}$，另一轨道末50仍达32.869。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=4.7cm,xlabel={时间},ylabel={$X$},legend style={font=\small}]
+\addplot[main] table[x=t,y=X,col sep=comma]{data/plots/ps8-chosen-r24.5-start0.csv};\addlegendentry{近正固定点}
+\addplot[blue] table[x=t,y=X,col sep=comma]{data/plots/ps8-chosen-r24.5-start1.csv};\addlegendentry{近原点}
+\end{axis}\end{tikzpicture}\end{center}
+局部稳定性不决定所有初态的有限时间行为；吸引域及长瞬变重要。这里如实呈现同参数两初态，没有把600时间仍不收敛当作永不收敛的定理，也不据此宣称已证明另一个严格吸引子。
+\end{solution}
+
+\originalsection{PS9.3：Lorenz相关维数的有限数据估计}
+\begin{exercise}\label{task:chaos-PS9-3}
+取 $r=28,\sigma=10,b=8/3$ 生成X序列，用相关维数估计分形维数；改变积分步长、点数及嵌入维数，比较原题参考 $D\simeq2.061$。原题提示 $\nu\le D$，Python官方工具依赖nolds，MATLAB依赖相应工具箱；不要求强凑精确参考数。
+\end{exercise}
+\begin{solution}
+复用已实际核验的r28轨道，保留40--200时间、输出间隔.04；延迟4点即.16，以所有坐标相同的X标准差统一尺度。对m维延迟向量计算
+\[
+ C_m(\varepsilon)=\frac{\#\{i<j:|i-j|>W,\ \|v_i-v_j\|<\varepsilon\}}
+ {\#\{i<j:|i-j|>W\}},\qquad \nu\simeq\frac{\dd\log C}{\dd\log\varepsilon}.
+\]
+Theiler窗 $W=25$ 点为1时间，排除同一轨道时间近邻伪造的低维线段。用KD树计数并精确扣除被排除的近邻，不依赖工具箱黑箱。事先固定 $10^{-3}\le C\le.03$ 为拟合区间；过小尺度点对不足，过大尺度已不在局部幂律区。
+\begin{center}\begin{tikzpicture}\begin{loglogaxis}[width=.78\linewidth,height=5cm,xlabel={半径},ylabel={$C_m$},legend style={font=\small}]
+\addplot[main] table[x=radius,y=correlation_sum,col sep=comma]{data/ps9-GP-m3.csv};\addlegendentry{$m=3$}
+\addplot[blue] table[x=radius,y=correlation_sum,col sep=comma]{data/ps9-GP-m5.csv};\addlegendentry{$m=5$}
+\addplot[green!50!black] table[x=radius,y=correlation_sum,col sep=comma]{data/ps9-GP-m7.csv};\addlegendentry{$m=7$}
+\addplot[black] table[x=radius,y=correlation_sum,col sep=comma]{data/ps9-GP-m10.csv};\addlegendentry{$m=10$}
+\end{loglogaxis}\end{tikzpicture}\end{center}
+\begin{center}\begin{tabular}{c|rrrr}嵌入维数m&3&5&7&10\\\hline
+有效点数&3993&3985&3977&3965\\拟合斜率&1.9657&2.0082&1.9993&1.9792
+\end{tabular}\end{center}
+结果在约2附近且未随着m线性增加，接近原题Python可达约2.01的说明。没有把小于2.061的数修改成参考值。这里已有此前积分容差检查及m变化；点数、延迟、Theiler窗和尺度会改变估计，未声称已做全部组合的收敛证明。相关维数通常是测度维数，有限数据斜率也不是Hausdorff维数的严格计算。
+\end{solution}
+
+\originalsection{PS10.2--3：二次与四次极大点的倍周期}
+\begin{exercise}\label{task:chaos-PS10-2}
+Ricker映射 $x_{n+1}=x_n\e^{\mu(1-x_n)}$，x、µ非负。(a)求固定点稳定性；(b)修改官方bifdiag画参数渐近分岔图；(c)求前四个倍周期参数；(d)用相邻区间之比估Feigenbaum常数，与logistic约4.669比较并解释。正初值保持正的性质在生态上有何边界？
+\end{exercise}
+\begin{solution}
+µ正时固定点0和1，乘子分别 $\e^\mu$ 与 $1-\mu$。0不稳定，1在 $0<\mu<2$ 稳定；µ为0时是恒等映射，所有点固定而中性，不能套用“只有两个固定点”。µ为2为第一倍周期边界。严格正性属于实数模型，现实整数小种群及有限精度下溢仍可灭绝。
+
+本次501参数、每点舍去5000次、保留32次画粗图。再联立 $f^{p}(x)-x=0$ 和 $\prod_{j=0}^{p-1}f'(x_j)=-1$，逐级检查周期不是较低周期及方程残差。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={$\mu$},ylabel={后瞬变 $x_n$}]
+\addplot[only marks,mark size=.12pt,main] table[x=mu,y=x,col sep=comma]{data/plots/ps10-ricker-bifurcation.csv};
+\end{axis}\end{tikzpicture}\end{center}
+周期1、2、4、8失稳参数依次 $2.00000000,2.52646773,2.65635327,2.68462336$，最大方程残差小于 $10^{-13}$。后两比约4.0533、4.59445，向logistic参考4.669接近但只有四个阈值不足以求严格极限。Ricker的唯一极大点 $x=1/\mu$ 为非退化二次极大点，符合与logistic比较的普适结构；光滑性和极大点阶数比物理解释相同更重要。
+\end{solution}
+\begin{exercise}\label{task:chaos-PS10-3}
+四次映射 $f(x)=\mu[1-(2x-1)^4]$，$0\le\mu\le1$。按上一题画渐近参数图，求前几个倍周期参数，估区间比，解释是否与logistic约4.669相同。
+\end{exercise}
+\begin{solution}
+区间 $[0,1]$保持不变；极大点 $x=1/2$附近为 $\mu-16\mu(x-1/2)^4$，二次项恰为0，属于四次平顶。使用相同501点粗图及周期乘子为 $-1$ 的精化，得到
+\begin{center}\begin{tabular}{c|rrrr}失稳前周期&1&2&4&8\\\hline
+µ&.83222779&.95171980&.96630172&.96830286
+\end{tabular}\end{center}
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.8\linewidth,height=5cm,xlabel={$\mu$},ylabel={后瞬变 $x_n$},xmin=.4,xmax=1]
+\addplot[only marks,mark size=.12pt,blue] table[x=mu,y=x,col sep=comma]{data/plots/ps10-quartic-bifurcation.csv};
+\end{axis}\end{tikzpicture}\end{center}
+对应有限区间比约8.1945、7.2868，与4.669有明显差别；高阶极大点改变重整化普适类，所以不能把Feigenbaum常数理解为所有光滑一维映射相同的常数。本次仅四个阈值，不把7.2868当作无限级极限的严格值。实际残差最大约 $1.1\times10^{-13}$；残差小验证方程求解，不单独证明找到了所有参数分支。
+\end{solution}

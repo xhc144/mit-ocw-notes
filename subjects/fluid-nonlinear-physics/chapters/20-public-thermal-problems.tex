@@ -1,0 +1,100 @@
+\Needspace{12\baselineskip}
+\originalchapter{差异加热、地热通道与温泉题解}
+三题分别来自实际公开的 \texttt{7diffheat}、\texttt{alaska}、\texttt{hotspring}。热物性取常数、温差足够小时使用Boussinesq近似，ρ只在浮力项保留温度变化。源题没有给数值物性，以下给参数形式；数值图中的参数是明确选择的教学模型。
+
+\originalsection{周期差异加热的薄水层}
+\begin{exercise}\label{task:fluid-diffheat}
+（\texttt{7diffheat.pdf}）厚度h的流体层，常数（涡）黏度。底部y为0绝热，上部y为h保持 $T=T_0\cos(2\pi x/L)$，$2\pi h/L\ll1$，温度振幅小、流速很低。求温度和一个空间周期内的诱导环流并讨论。
+\end{exercise}
+\begin{solution}
+记k为 $2\pi/L$，T为相对参考温度的扰动。低速度且热Péclet数也小，温度首先由 $T_{xx}+T_{yy}=0$、$T_y(x,0)=0$、$T(x,h)=T_0\cos kx$ 决定：
+\[
+ T(x,y)=T_0\cos kx\frac{\cosh ky}{\cosh kh}
+       =T_0\cos kx+O((kh)^2).
+\]
+“速度小”应按 $Uh/\kappa$ 检查，不能只据黏性Re小就删去热量平流。下面取薄层首阶T跨层近均匀。
+
+底部无滑移，按题目“水面加热”采用上部零切应力、两边无穿透。减去参考静水压后，$p_y=\rho g\alpha T(x)$，写 $p=P(x)+\rho g\alpha T(x)y$。横向动量为 $\mu u_{yy}=P'(x)+G_T(x)y$，$G_T=\rho g\alpha T_x$。同一周期中无净穿透流，连续要求通量为常数；无外加泵压取通量0。积分并使用 $u(0)=0,u_y(h)=0$，通量条件给 $P'=-5hG_T/8$，所以
+\[
+ u=\frac{G_Th^3}{\mu}
+       \left(\frac{\eta^3}{6}-\frac{5\eta^2}{16}+\frac\eta8\right),
+ \qquad\eta=y/h.
+\]
+再由 $v_y=-u_x,v(0)=0$，
+\[
+ v=-\frac{\rho g\alpha T_{xx}h^4}{\mu}
+       \left(\frac{\eta^4}{24}-\frac{5\eta^3}{48}+\frac{\eta^2}{16}\right).
+\]
+括号在η为1时为0，核验上壁无穿透。温暖区域T极大处 $T_{xx}<0$，v向上；表层从温暖处流向冷处，底层回流，在一个周期内形成相反方向的环流单元。u在 $\eta=(15-\sqrt{33})/16$ 换号，不是全深同向流。
+
+原题没有明列上界的机械应力条件。若它实际上是固定固盖、两壁均无滑移，通量0给 $P'=-hG_T/2$，剖面改为 $u=(G_Th^3/\mu)(\eta^3/6-\eta^2/4+\eta/12)$，回流面在 $\eta=.5$。温度边界相同不会决定这两种机械边界中的哪一种；保留两种条件，避免捏造唯一数值流速。
+\end{solution}
+
+\originalsection{地热梯度中上升流的温度--浮力反馈}
+\begin{exercise}\label{task:fluid-alaska}
+（\texttt{alaska.pdf}）阿拉斯加油井作背景，约1000 m深的油温约200$^\circ$F，压差给 $-p_z=(p_R-p_A)/H$。理想二维竖直通道 $-a<x<a$，壁温 $T_w=T_0-sz/a$，$T_0,s>0$；无保温、无限长，假设稳态轴向速度v仅依赖x，$T=T_w+\vartheta(x)$。显式求v、$\vartheta$，讨论流体物性、地热梯度与浮力。
+\end{exercise}
+\begin{solution}
+充分发展热量式 $vT_z=\kappa T_{xx}$ 给 $\vartheta''=-sv/(a\kappa)$，壁面 $\vartheta(\pm a)=0$。向上流带入比同高度壁温更热的流体，内部温差引起向上的附加浮力。
+
+这里有一个应明说的相容条件：若把题给 $p_z$ 严格当\emph{恒定总压梯度}、又把 $T_w(z)$ 的全部密度变化计入浮力，则轴向驱动力随z改变，与假定v只依赖x不相容。充分发展Boussinesq模型需把壁温背景的静水压吸收进基准压强，再令剩余的单位质量驱动力 $G=-\widetilde p_z/\rho$ 为常数；或把结果当局部高度处的近似，G含当地背景重力与压差。本解采用前一约定，未把原题的参考压强歧义隐藏起来。
+
+该约定下动量和热量为
+\[
+ \nu v''+g\alpha\vartheta+G=0,\qquad
+ \vartheta''=-\frac{s}{a\kappa}v,\quad
+ v(\pm a)=\vartheta(\pm a)=0.
+\]
+两次微分第一式消去θ，令 $\lambda^4=g\alpha s/(a\nu\kappa)$，得到 $v''''-\lambda^4v=0$。对称解由cosh、cos组成，壁面θ为0还给 $v''(\pm a)=-G/\nu$，故
+\begin{align*}
+ v(x)&=\frac{G}{2\nu\lambda^2}
+   \left[\frac{\cos\lambda x}{\cos\lambda a}
+        -\frac{\cosh\lambda x}{\cosh\lambda a}\right],\\
+ \vartheta(x)&=\frac{G}{2g\alpha}
+   \left[\frac{\cos\lambda x}{\cos\lambda a}
+        +\frac{\cosh\lambda x}{\cosh\lambda a}-2\right].
+\end{align*}
+代入两条原ODE可核验符号。关键无量纲组为 $\lambda a=[g\alpha s a^3/(\nu\kappa)]^{1/4}$。黏性和热扩散大时反馈弱，地热梯度大/通道宽时反馈强。$0<\lambda a<\pi/2$、G为正时上升流与内部升温相互增强。
+
+当 $\lambda a\to0$，$v\to G(a^2-x^2)/(2\nu)$，恢复平板Poiseuille；若α趋0但s不为0，温差仍由单向热输运产生，极限为
+\[
+ \vartheta=\frac{sG}{24a\kappa\nu}(5a^4-6a^2x^2+x^4).
+\]
+在 $\cos\lambda a=0$，该线性充分发展强迫解奇异，提示自驱动热反馈的阈值和模型失效；不能把数学分母趋0解释成真实油流无限快。真实有限井的入口、壁保温、物性随温变化以及轴向发展都会改变这一理想结果。题面给200$^\circ$F约93.3$^\circ$C是背景事实，不是本次测得的井温。
+\end{solution}
+
+\originalsection{半圆岩石裂隙的出口温度}
+\begin{exercise}\label{task:fluid-hotspring}
+（\texttt{hotspring.pdf}）岩石裂隙为半圆轴的圆管，管半径a、轴半径R、$a\ll R$，两端都出露地面；入口A接水头h的水库，出口B喷出。岩温 $T_R=T_0(1-bz)=T_0(1+bR\sin\theta)$，b为正。
+按题意忽略曲率修正并只以压力头驱动：(1)求圆管速度；(2)写 $T_f=T_R+T'$，近似解径向温差并取截面平均；(3)用积分热量平衡求平均温度ODE；(4)找核心参数、求出口温度并画其对参数的关系。原题明确要求快速近似理论，不要求虚构地热实测曲线。
+\end{exercise}
+\begin{solution}
+轴长为 $\pi R$，压差 $\rho gh$，忽略弯曲和浮力驱动修正给
+\[
+ u(r)=\frac{gh}{4\pi\nu R}(a^2-r^2),\qquad
+ \overline U=\frac{gh a^2}{8\pi\nu R}.
+\]
+热方程为 $(u/R)T_{f,\theta}=\kappa r^{-1}(rT_{f,r})_r$。采用局部缓变闭合：径向不同位置的轴向温度导数都近似为截面平均导数 $\overline T_\theta$，壁面温差为0，中心正则。径向积分给
+\[
+ T'=\frac{\overline U}{\kappa R}\overline T_\theta
+       \left(\frac{r^2}{2}-\frac{r^4}{8a^2}-\frac{3a^2}{8}\right).
+\]
+将它按面积平均，括号均值为 $-a^2/6$，于是
+\[
+ P\frac{\dd\overline T}{\dd\theta}+\overline T=T_R(\theta),\qquad
+ P=\frac{\overline U a^2}{6\kappa R}
+  =\frac{gh a^4}{48\pi\nu\kappa R^2}.
+\]
+径向壁热流积分与这一首阶闭合一致；面积平均和速度加权混合温度仍应区别，不能在更高阶任意互换。P是沿弯管输运与跨管扩散的比值，不是单独的水头。
+
+明确取入口平均温度 $\overline T(0)=T_0$，并记 $Y=(\overline T-T_0)/(T_0bR)$，积分因子解为
+\[
+ Y(\theta)=\frac{\sin\theta-P\cos\theta+P\e^{-\theta/P}}{1+P^2},\quad
+ Y(\pi)=\frac{P(1+\e^{-\pi/P})}{1+P^2}.
+\]
+P小时流体温度紧跟岩石，接近地面出口时又冷到 $T_0$；P很大时流得快、来不及加热，出口升温约为 $2/P$。中间P的升温最大。这说明只增加流速不必提高出口温度；但提高流量可能提高总热功率，须另计算 $\rho c_pQ(\overline T_{\rm out}-T_{\mathrm{in}})$。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.75\linewidth,height=5cm,xlabel={$P$},ylabel={$(\overline T_{\rm out}-T_0)/(T_0bR)$},xmin=0,xmax=10,ymin=0,ymax=.6]
+\addplot[main,domain=.01:10,samples=150]{x*(1+exp(-pi/x))/(1+x^2)};
+\end{axis}\end{tikzpicture}\end{center}
+此图是\emph{上述近似ODE}的解析曲线。把径向导数改为一个平均导数是闭合假设，强入口热发展或很大P时需回到完整Graetz问题，不把曲线当任意参数下的精确三维温度解。入口若不是 $T_0$，另加 $(T_{\mathrm{in}}-T_0)\e^{-\pi/P}$；题面未给入口实测温度，条件必须显式保留。
+\end{solution}

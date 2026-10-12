@@ -1,0 +1,83 @@
+\Needspace{12\baselineskip}
+\originalchapter{化学振荡、冰芯频谱与吸引子重建}
+频谱将时间过程拆成频率贡献，但相同的谱形可以来自不同的动力学。PS5先用可预测的化学振荡检验FFT，再分析公开冰芯数据；PS6进一步说明仅看一个变量时怎样保留几何信息。频率均指每单位时间的周数，与角频率相差 $2\pi$。
+
+\originalsection{PS5.1：Brusselator的Hopf分岔与实算谱峰}
+\begin{exercise}\label{task:chaos-PS5-1}
+自催化反应模型 $\dot x=a+x^2y-(b+1)x,\ \dot y=bx-x^2y$，取a、b正。(a)求固定点；(b)确定超临界Hopf条件；(c)预测分岔附近极限环频率、周期；(d)实际模拟，用FFT求 $x-x_*$ 或 $y-y_*$ 的功率谱，检验预测峰。
+\end{exercise}
+\begin{solution}
+两式相加为 $\dot x+\dot y=a-x$，所以唯一固定点为 $(a,b/a)$。其Jacobian为
+\[
+ J=\begin{pmatrix}b-1&a^2\\-b&-a^2\end{pmatrix},\quad
+ \operatorname{tr}J=b-1-a^2,\quad\det J=a^2.
+\]
+故 $b_H=1+a^2$，a正保证非零频率；b从下方穿过时固定点由稳定变不稳定，角频率 $a$，主阶 $f=a/(2\pi)$、周期 $2\pi/a$。
+
+仅算迹还不能判定超临界。令 $X=x-a,\ Z=x+y-a-b/a$，恰有 $\dot Z=-X$。在临界取 $q=aZ$，线性部分为 $\dot X=aq,\dot q=-aX$；展开非线性得到
+\[
+ \dot X=aq+\frac{1-a^2}{a}X^2+2Xq-X^3+\frac{X^2q}{a},\qquad \dot q=-aX.
+\]
+二维近恒等消去二次谐波后，以 $R^2=X^2+q^2$ 计的径向三次系数为
+\[
+ \ell_1=-\frac{a^2+2}{8a^2}<0,\qquad
+ \dot R=\tfrac12(b-b_H)R+\ell_1R^3+\cdots.
+\]
+其中直接三次项贡献 $-3/8$，二次项相互作用贡献 $(a^2-1)/(4a^2)$，相加给上式。因此b略大于临界时出现稳定小环，$R^2\simeq4a^2(b-b_H)/(a^2+2)$，为超临界Hopf。幅度的具体归一化不能直接当作所有相变量的峰峰值。
+
+实际取 $a=1,b=2.01$，积分至1000，舍去500之前瞬变，以时间窗409.6作Welch估计。理论峰 $.159155$，实际最大谱峰 $.158691$；差小于一个谱频率间隔，支持近分岔预测。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.45\linewidth,height=4.6cm,xlabel={时间},ylabel={$x$}]
+\addplot[main] table[x=t,y=x,col sep=comma]{data/plots/ps5-brusselator-trajectory.csv};
+\end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{semilogyaxis}[width=.48\linewidth,height=4.6cm,xlabel={频率},ylabel={PSD},xmin=0,xmax=.5]
+\addplot[blue] table[x=frequency,y=PSD,col sep=comma]{data/plots/ps5-brusselator-spectrum.csv};
+\end{semilogyaxis}\end{tikzpicture}\end{center}
+减均值、采样间隔和谱窗都保留在程序中。有限窗泄漏与非线性谐波不等于另一个独立振荡源。
+\end{solution}
+
+\originalsection{PS5.2：八十万年冰芯数据和随机游走谱}
+\begin{exercise}\label{task:chaos-PS5-2}
+课程提供署名Parrenin等（2013）的南极过去800000年温度序列 \texttt{ice\_core\_data.csv}。(a)FFT并画双对数功率谱；(b)寻找约100000年轨道偏心率、41000年倾角、23000年岁差对应的谱峰；(c)随机游走 $x_j=x_{j-1}+\eta_j$，各步独立、等概率正负1、均值0，按题设忽略端点并令 $x_{j+n}=x_j$，推导 $\hat x_k$ 与 $\hat\eta_k$ 的关系；(d)证明低频谱 $\langle|\hat x_k|^2\rangle\propto k^{-2}$；(e)若气候由确定过程产生，为什么也可能有类似随机游走的谱？
+\end{exercise}
+\begin{solution}
+本次直接取得课程的40000点序列，采样间隔20年，未再插值冒充原始不规则冰芯采样。减均值、Hann窗、全记录单边谱，横轴单位每年；以事先固定的80000--130000、35000--47000、19000--26000年三个区间寻找局部峰，得到100000、40000、23529年。频率分辨率为 $1/800000$ 每年，所以“40000”与“41000”不应被当作精确排斥。
+\begin{center}\begin{tikzpicture}\begin{loglogaxis}[width=.8\linewidth,height=5.4cm,xlabel={频率（每年）},ylabel={PSD（$^\circ\mathrm C^2\,\mathrm{year}$）},xmin=1e-6,xmax=.01]
+\addplot[main] table[x=frequency_per_year,y=PSD_C2_year,col sep=comma]{data/plots/ps5-ice-spectrum.csv};
+\end{loglogaxis}\end{tikzpicture}\end{center}
+一个宽频背景可以叠加轨道频率的窄峰。此图不能单独确定气候响应的因果机制或温度重建误差。
+
+按题设周期边界，$\eta_j=x_j-x_{j-1}$ 的DFT为
+\[
+ \hat\eta_k=(1-\e^{-2\pi\mathrm ik/n})\hat x_k,\qquad
+ |\hat x_k|^2=\frac{|\hat\eta_k|^2}{4\sin^2(\pi k/n)},\quad k\ne0.
+\]
+独立白噪声增量的非零频率平均谱为常数；$k\ll n/(2\pi)$时分母约 $(2\pi k/n)^2$，给 $k^{-2}$。严格闭合的随机桥要求总增量为0，因而不能同时把全部有限n步无条件独立与周期边界视为严格成立；这是原题允许忽略端点的低频理想化。零频率涉及总位移与均值，不能代入除以0。
+
+确定性的高维或混沌过程可以产生短相关的有效增量，其积分在一个频段呈近似 $f^{-2}$。因此幂律谱不是随机机制的唯一指纹；它也不证明气候是低维混沌。需要更多变量、统计稳健性和机制模型来区分。
+\end{solution}
+
+\originalsection{PS6.1：Rössler的时间、频率与几何}
+\begin{exercise}\label{task:chaos-PS6-1}
+$\dot x=-y-z,\dot y=x+ay,\dot z=b+z(x-c)$，$a=b=.2,c=5.7$。(a)按公开程序提供的初态模拟至约1000，画x、y、z时间曲线、比较；(b)双对数画三个功率谱，判断稀疏或密集及意义；(c)在 $x=0$ 平面作Poincaré截面，可筛选 $|x|<.1$；(d)只把x当观测，完全不知道y、z及方程，用 $x(t),x(t+\tau),x(t+2\tau)$ 重建三维几何。
+\end{exercise}
+\begin{solution}
+公开程序初态为 $(0,5.7,.05)$。本次DOP853、相对容差 $10^{-10}$、输出间隔.02，舍去100之前瞬变。x、y近周期旋转但幅度缓变，y相位滞后；z多数时间小、偶有尖峰，在x超过c时由 $z(x-c)$放大，然后反馈使x下降。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.82\linewidth,height=4.8cm,xlabel={时间},ylabel={模型变量},legend columns=3,legend style={at={(.5,1.02)},anchor=south}]
+\addplot[main] table[x=t,y=x,col sep=comma]{data/plots/ps6-rossler-time.csv};\addlegendentry{$x$}
+\addplot[blue] table[x=t,y=y,col sep=comma]{data/plots/ps6-rossler-time.csv};\addlegendentry{$y$}
+\addplot[green!50!black] table[x=t,y=z,col sep=comma]{data/plots/ps6-rossler-time.csv};\addlegendentry{$z$}
+\end{axis}\end{tikzpicture}\end{center}
+\begin{center}\begin{tikzpicture}\begin{loglogaxis}[width=.82\linewidth,height=4.8cm,xlabel={频率},ylabel={PSD},legend columns=3,legend style={font=\small}]
+\addplot[main] table[x=frequency,y=Sx,col sep=comma]{data/plots/ps6-rossler-spectra.csv};\addlegendentry{$x$}
+\addplot[blue] table[x=frequency,y=Sy,col sep=comma]{data/plots/ps6-rossler-spectra.csv};\addlegendentry{$y$}
+\addplot[green!50!black] table[x=frequency,y=Sz,col sep=comma]{data/plots/ps6-rossler-spectra.csv};\addlegendentry{$z$}
+\end{loglogaxis}\end{tikzpicture}\end{center}
+都有旋转的主频与较宽背景，z尖峰带来较强高次谐波。有限记录中“密集”指多个频率区间有连续背景而非少数可分辨离散线，不是严格谱类型的证明。窗、记录长度及采样会改变表观稀疏程度。
+
+截面改用事件定位正向 $x=0$ 穿越，防止薄层筛选重复同一穿越或混合两个方向；本次得到154次正向穿越。为避免延迟过小使图挤向对角线，显示取 $\tau=1.44$，用同一次运行末60时间的x序列以在已保存的.08间隔序列中相隔18点构成三元组；先前.2延迟数据另留作对比。图中显出折叠的细结构，截面压低了一个连续时间自由度。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.43\linewidth,height=4.8cm,xlabel={$y$},ylabel={$z$}]
+\addplot[only marks,mark size=.8pt,main] table[x=y,y=z,col sep=comma]{data/ps6-rossler-section.csv};
+\end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{axis}[width=.5\linewidth,height=5cm,view={38}{25},xlabel={$x(t)$},ylabel={$x(t+\tau)$},zlabel={$x(t+2\tau)$}]
+\addplot3[only marks,mark size=.3pt,blue] table[x=x_now,y=x_delay,z=x_2delay,col sep=comma]{data/plots/ps6-rossler-delay-tau144.csv};
+\end{axis}\end{tikzpicture}\end{center}
+过小延迟使点接近对角线，过大延迟可能削弱局部邻域关系。一个看似吸引子的三维图并不证明三维已满足嵌入定理，也不唯一确定隐藏方程。本卷早先一般Rössler示例保持不变；本题使用原程序初态的独立运行。
+\end{solution}
