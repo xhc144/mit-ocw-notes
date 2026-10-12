@@ -88,9 +88,34 @@ def orbit(r,v,L,tau_end,step,keep=1200):
     points.append([y[0]*math.cos(y[2]),y[0]*math.sin(y[2])])
     return {'E':E,'L':L,'initial_r':r,'initial_v':v,'step':step,'tau_final':tau,'r_final':y[0],'r_min':rmin,'r_max':rmax,'max_energy_residual':err,'hold_to_1e_minus_3':hold,'turns':turns,'points':points}
 
+def darwin_radial_period(p,e,tolerance=1e-11):
+    """Bound-orbit azimuth from a regular Darwin parameter, not event midpoints."""
+    if not 0<=e<1 or not p>6+2*e:raise ValueError('Bound orbit requires 0<=e<1 and p>6+2e')
+    if tolerance<=0:raise ValueError('Tolerance must be positive')
+    evaluations=0
+    def f(x):
+        nonlocal evaluations
+        evaluations+=1
+        return math.sqrt(p/(p-6-2*e*math.cos(x)))
+    def refine(a,b,fa,fm,fb,whole,eps,depth):
+        mid=(a+b)/2;lm=(a+mid)/2;rm=(mid+b)/2
+        fl,fr=f(lm),f(rm)
+        left=(mid-a)*(fa+4*fl+fm)/6
+        right=(b-mid)*(fm+4*fr+fb)/6
+        delta=left+right-whole
+        if abs(delta)<=15*eps:return left+right+delta/15,abs(delta)/15
+        if depth==0:raise ArithmeticError('Darwin quadrature did not converge')
+        v1,e1=refine(a,mid,fa,fl,fm,left,eps/2,depth-1)
+        v2,e2=refine(mid,b,fm,fr,fb,right,eps/2,depth-1)
+        return v1+v2,e1+e2
+    a,b=0.,2*math.pi;fa,fm,fb=f(a),f((a+b)/2),f(b)
+    value,error=refine(a,b,fa,fm,fb,(b-a)*(fa+4*fm+fb)/6,tolerance,24)
+    return {'p':p,'e':e,'tolerance':tolerance,'azimuth_radians':value,'precession_radians':value-2*math.pi,'estimated_quadrature_error':error,'function_evaluations':evaluations,'method':'adaptive Simpson in Darwin anomaly; regular endpoints'}
+
 def run():
     conversions={'density_km_minus2_per_g_cm3':DENS,'pressure_km_minus2_per_dyn_cm2':PRES,'K_km4_3_per_cgs':KCONV,'K_km4_3':K,'solar_mass_km':MSUN_KM,'ten_solar_mass_length_km':10*MSUN_KM,'ten_solar_mass_time_seconds':10*G*MSUN/C**3}
-    models=[tov(10**n) for n in range(14,19)]
+    models=[tov(10**n,.000625 if n==18 else .0025) for n in range(14,19)]
+    high_density_checks=[dict(step_km=h,**tov(1e18,h)) for h in [.0025,.00125,.000625]]
     central_checks=[dict(step_km=h,**tov(1e15,h)) for h in [.01,.005,.0025,.00125]]
     maximum_checks=[dict(step_km=h,**maximize_mass(h)) for h in [.005,.0025,.00125]]
     sequence=[tov(10**(14+i/15),.005) for i in range(61)]
@@ -99,6 +124,7 @@ def run():
     near=orbit(100,-math.sqrt(Ec*Ec-potential(100,Lcrit*(1+1e-5))),Lcrit*(1+1e-5),600,.01)
     rp,ra=4.1,100.;ecc=(ra-rp)/(ra+rp);p=2*ra*rp/(ra+rp);Lb=p/math.sqrt(p-3-ecc*ecc)
     bound=orbit(ra,0,Lb,7000,.02)
+    bound_precession=[darwin_radial_period(p,ecc,tol) for tol in [1e-9,1e-11]]
     stable=orbit(8.,0.,math.sqrt(64/5),1000,.02)
     Lu=math.sqrt(3.5**2/(3.5-3))
     unstable=orbit(3.5,0.,Lu,500,.02)
@@ -114,7 +140,7 @@ def run():
     expN=1+(2*(math.sqrt(1201)-1)-1+alpha)/alpha
     Ne=math.log(expN);chi=math.asin(math.sqrt(2/5));eta_cross=math.acos(4/5-1);eta_birth=eta_cross-chi;R0=math.sqrt(125/2)
     background={'inflation_Lambda_s_minus2':lam,'inflation_H_s_minus1':H,'efolds':Ne,'expansion_factor':expN,'inflation_t2_seconds':Ne/H,'horizon_ratio_no_inflation':1/(2*(math.sqrt(1201)-1)),'OS_chi':chi,'OS_eta_cross':eta_cross,'OS_eta_birth':eta_birth,'OS_tau_birth_in_GM':R0/2*(eta_birth+math.sin(eta_birth)),'OS_tau_cross_in_GM':R0/2*(eta_cross+math.sin(eta_cross)),'OS_tau_singularity_in_GM':math.pi*R0/2}
-    out={'method':'stdlib RK4 in r with log enthalpy and bisection surface; RK4 proper-time geodesics','constants_cgs':{'G':G,'c':C,'M_sun':MSUN},'conversions':conversions,'tov_models':models,'tov_central_convergence':central_checks,'tov_maximum_convergence':maximum_checks,'tov_sequence':sequence,'orbits':{'unbound':unbound,'near_critical':near,'bound':bound,'stable':stable,'unstable_exact':unstable,'unstable_inward':inward,'unstable_outward':outward},'orbit_convergence':checks,'critical_unbound':{'E':Ec,'r':rcrit,'L':Lcrit},'background':background}
+    out={'method':'stdlib RK4 in r with log enthalpy and bisection surface; RK4 proper-time geodesics','constants_cgs':{'G':G,'c':C,'M_sun':MSUN},'conversions':conversions,'tov_models':models,'tov_high_density_convergence':high_density_checks,'bound_precession':bound_precession,'turning_point_precision':'Proper-time event records use step midpoints; their phase differences are approximate. Use Darwin quadrature for reported bound-orbit precession.','tov_central_convergence':central_checks,'tov_maximum_convergence':maximum_checks,'tov_sequence':sequence,'orbits':{'unbound':unbound,'near_critical':near,'bound':bound,'stable':stable,'unstable_exact':unstable,'unstable_inward':inward,'unstable_outward':outward},'orbit_convergence':checks,'critical_unbound':{'E':Ec,'r':rcrit,'L':Lcrit},'background':background}
     (ROOT/'qa/ps10_11-numerics.json').write_text(json.dumps(out,indent=2))
     render_tex(out)
     # A concise stdout without raw trajectory arrays.
