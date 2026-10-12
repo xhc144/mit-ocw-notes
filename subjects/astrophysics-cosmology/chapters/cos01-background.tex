@@ -1,0 +1,103 @@
+\originalchapter{均匀膨胀的几何与动力学}
+本章对应8.902第10讲。星系动力学把一个星系当成系统，宇宙学则先把足够大尺度上的物质分布当成一个整体。我们先建立均匀背景，再在后面的章节讨论偏离均匀的扰动。这里需要牛顿引力、微积分和流体压强；Einstein方程的几何推导可参阅本仓库广义相对论卷。本章补出几何如何变成可求解的宇宙演化方程，并统一原笔记中有歧义的单位和符号。
+
+\originalsection{为什么膨胀律必须呈线性}
+宇宙学原理是在足够大尺度上的统计均匀性和各向同性，不要求每一点都没有星系、空洞或局部运动。均匀性指平移不改变大尺度统计，各向同性指旋转不改变它们。仅从我们一个位置看到各向同性，不能单独推断均匀性；还需没有特殊观测位置的假设。
+
+在一个空间切片中，设相对位置为$\mathbf r$的共动粒子相对速度为$\mathbf f(\mathbf r)$。换到另一个共动原点后，同一相对位置应对应同一相对速度，故
+\[
+ \mathbf f(\mathbf r_1)-\mathbf f(\mathbf r_2)=\mathbf f(\mathbf r_1-\mathbf r_2).
+\]
+连续性使这一加法关系给出线性映射$\mathbf f=\mathsf H\mathbf r$。再要求它与所有空间旋转对易，就有$\mathsf H=H\mathsf1$。因此局部膨胀的速度场是$\mathbf v=H(t)\mathbf r$。均匀性负责不同原点看到相同规律，各向同性排除矩阵的特殊方向；原讲义把这两步的解释交叉排列，本卷按所用假设重写。
+
+引入无量纲\textbf{尺度因子}$a(t)$，约定今天$a_0=1$。固定共动位置$\mathbf x$在平直切片上的物理位置为$\mathbf r=a\mathbf x$，于是
+\[
+ H=\frac{\dot a}{a},\qquad \dot{\mathbf r}=H\mathbf r+\mathbf u,
+ \qquad\mathbf u=a\dot{\mathbf x}.
+\]
+$\mathbf u$称本动速度。距离很近且本动速度可忽略时，观测到的谱线速度满足$cz\simeq H_0D$。远处$HD$是特定宇宙时间切片上的退行率，可以大于$c$；它不是在同一惯性系中测得的局部粒子速度，不能代入狭义相对论的速度合成公式。
+
+\originalsection{空间曲率进入距离，而尺度因子进入时间演化}
+空间的常曲率和球对称允许把度规写成
+\begin{equation}\label{eq:astro-flrw}
+ \dd s^2=-c^2\dd t^2+a^2(t)\bigl[\dd\chi^2+S_K^2(\chi)\dd\Omega^2\bigr],
+ \quad \dd\Omega^2=\dd\theta^2+\sin^2\theta\dd\varphi^2,
+\end{equation}
+其中$\chi$有长度量纲，$K$有$\mathrm{length}^{-2}$量纲，且
+\[
+ S_K(\chi)=\begin{cases}
+ \sin(\sqrt K\chi)/\sqrt K,&K>0,\\
+ \chi,&K=0,\\
+ \sinh(\sqrt{-K}\chi)/\sqrt{-K},&K<0.
+ \end{cases}
+\]
+正曲率空间的球面积比欧氏空间小，负曲率则较大。$K\to0$时两式都趋于$\chi$。切片的标量曲率为${}^{(3)}R=6K/a^2$，今天的曲率半径为$|K|^{-1/2}$。也可把曲率符号归一成$k=0,\pm1$而令尺度因子带长度；两套约定不能交叉使用。原笔记度规的一次$a$、曲率单位$L^2$均应分别为$a^2$和$L^{-2}$。
+
+各向同性还限制物质的平均应力：共动观测者不看到净能流和剪切应力。以质量等价密度$\rho$表示能量密度$\epsilon=\rho c^2$，四速度满足$u^\mu u_\mu=-c^2$，完美流体张量为
+\[
+ T^{\mu\nu}=(\epsilon+p)\frac{u^\mu u^\nu}{c^2}+p g^{\mu\nu}.
+\]
+局部正交标架中$T^{\hat\mu\hat\nu}=\operatorname{diag}(\epsilon,p,p,p)$，混合张量才是$T^{\hat\mu}{}_{\hat\nu}=\operatorname{diag}(-\epsilon,p,p,p)$。不能把原讲义的混合分量符号当成两个上标的能量密度为负。
+
+\originalsection{从局部守恒到密度的尺度律}
+取一团边界跟随共动流动的体积$V\propto a^3$，忽略净热流和耗散。膨胀时流体做功，局部能量守恒给出
+\begin{equation}\label{eq:astro-continuity}
+ \dd(\rho c^2a^3)=-p\dd(a^3),\qquad
+ \dot\rho+3H\left(\rho+\frac p{c^2}\right)=0.
+\end{equation}
+这是$\nabla_\mu T^{\mu\nu}=0$的共动时间分量，并不假定宇宙存在一个一般意义上守恒的全局总能量。若某组分独立守恒且$p=w\rho c^2$、$w$恒定，则积分得
+\[
+ \rho(a)=\rho_0 a^{-3(1+w)}.
+\]
+冷物质的静质量能占主导，$w\simeq0$，只因数密度稀释而$a^{-3}$。辐射的各向同性动量流给出$p=\epsilon/3$，其光子能量还因红移减小，故$a^{-4}$。宇宙学常数对应$w=-1$，密度恒定。发生衰变、能量交换或粒子自由度变化时，要在各组分方程中加入交换项；$T\propto a^{-1}$也需注明熵自由度不变。
+
+\originalsection{Friedmann方程怎样由Einstein方程给出}
+用式\eqref{eq:astro-flrw}计算联络，时间与空间混合项正比$H$，从而在$x^0=ct$约定下
+\[
+ R_{00}=-\frac{3}{c^2}\frac{\ddot a}{a},\qquad
+ R_{ij}=\frac1{c^2}\left(\frac{\ddot a}{a}+2H^2+\frac{2Kc^2}{a^2}\right)g_{ij}.
+\]
+收缩后代入$G_{\mu\nu}=R_{\mu\nu}-Rg_{\mu\nu}/2$。时间分量和任一空间对角分量分别含$3(H^2+Kc^2/a^2)/c^2$与$-(2\dot H+3H^2+Kc^2/a^2)/c^2$。与
+$G_{\mu\nu}+\Lambda g_{\mu\nu}=8\pi GT_{\mu\nu}/c^4$比较，得到
+\begin{align}
+ H^2&=\frac{8\pi G\rho}{3}-\frac{Kc^2}{a^2}+\frac{\Lambda c^2}{3},\label{eq:astro-friedmann}\\
+ \frac{\ddot a}{a}&=-\frac{4\pi G}{3}\left(\rho+\frac{3p}{c^2}\right)+\frac{\Lambda c^2}{3}.\label{eq:astro-acceleration}
+\end{align}
+第一式约束初始膨胀率与密度，第二式给膨胀的加速度。对第一式求导并用式\eqref{eq:astro-continuity}可恢复第二式，所以三式只有两式独立。\textbf{正压强会加强减速}，这正是简单牛顿尘埃图像遗漏的相对论作用。
+
+牛顿图像仍能帮助理解尘埃情形。半径$r=a x$的均匀球内质量$M=4\pi\rho r^3/3$恒定，壳层满足$\ddot r=-GM/r^2$。乘以$\dot r$并积分有$\dot r^2/2-GM/r=E$，于是$H^2=8\pi G\rho/3+2E/(a^2x^2)$；最后一项与$-Kc^2/a^2$对应。这里用的是壳层定理的牛顿类比。Birkhoff定理描述球对称\emph{真空外部}几何，不能把它表述成任意有压强宇宙球都等同一个独立系统的定理。
+
+\originalsection{密度参数与可积的演化模型}
+定义$\rho_{\rm crit}(t)=3H^2/(8\pi G)$，并取
+\[
+ \Omega_i(t)=\frac{\rho_i(t)}{\rho_{\rm crit}(t)},\qquad
+ \Omega_K(t)=-\frac{Kc^2}{a^2H^2},\qquad
+ \rho_\Lambda=\frac{\Lambda c^2}{8\pi G}.
+\]
+于是$\Omega_r+\Omega_m+\Omega_\Lambda+\Omega_K=1$。曲率可以用这一无量纲项记账，却不是一种真实物质密度。$\rho_{\rm crit,0}=1.878\times10^{-29}h^2\ \mathrm{g\,cm^{-3}}$，其中$H_0=100h\ \mathrm{km\,s^{-1}\,Mpc^{-1}}$。带正$\Lambda$的宇宙即使$K>0$也可能永远膨胀；把临界密度称为所有模型的再坍缩分界并不成立。
+
+今天归一后的演化方程为
+\begin{equation}\label{eq:astro-Ea}
+ \frac{H^2(a)}{H_0^2}=E^2(a)=\Omega_{r,0}a^{-4}+\Omega_{m,0}a^{-3}
+ +\Omega_{K,0}a^{-2}+\Omega_{\Lambda,0}.
+\end{equation}
+非零正系数的不同幂次解释早期辐射、中期物质、晚期暗能量优势；曲率项并不一定实际成为主导。平直单组分$w>-1$时，$\dot a\propto a^{-(1+3w)/2}$，积分得
+\[
+ a\propto t^{2/[3(1+w)]},\qquad Ht=\frac{2}{3(1+w)}.
+\]
+辐射、物质分别是$t^{1/2},t^{2/3}$；空的负曲率Milne模型为$a\propto t$；纯正$\Lambda$给$a\propto\exp(\sqrt{\Lambda c^2/3}\,t)$，没有有限过去的$a=0$。不能把单组分$H_0t_0$直接用于混合宇宙。
+
+\begin{example}
+\textbf{平直物质与正宇宙学常数的年龄。}
+忽略辐射时，$\dot a=H_0\sqrt{\Omega_{m,0}/a+\Omega_{\Lambda,0}a^2}$。令$y=a^{3/2}$，年龄积分化为
+\[
+ H_0t(a)=\frac{2}{3\sqrt{\Omega_{\Lambda,0}}}
+ \operatorname{arsinh}\left(\sqrt{\frac{\Omega_{\Lambda,0}}{\Omega_{m,0}}}a^{3/2}\right).
+\]
+当$\Omega_{\Lambda,0}\to0$时，用$\operatorname{arsinh}x\simeq x$恢复尘埃结果。这也给$ a(t)\propto\sinh^{2/3}(3H_0\sqrt{\Omega_{\Lambda,0}}t/2)$，连续接上早期幂律与晚期指数，而非拼接两条曲线。
+\end{example}
+
+课程引用Planck 2018模型参数作为\textbf{课程年代的示例}，取$\Omega_{m,0}=0.315$、$\Omega_{\Lambda,0}=0.685$、$H_0=67.4$，不是本卷声称的最新测量。物质与暗能量密度相等满足$a_{m\Lambda}=(\Omega_{m,0}/\Omega_{\Lambda,0})^{1/3}$，即$z\simeq0.296$；开始加速则满足$\rho_m=2\rho_\Lambda$，$z\simeq0.632$。原第10讲将相等红移写成约1.3，应改正。物质与辐射相等有$1+z_{\rm eq}=\Omega_{m,0}/\Omega_{r,0}$；数值取决于是否计入中微子及其是否仍相对论性，不能把不同组分定义所得的3200或3700当成同一组精确参数。
+
+\originalsection{解的空间形状不等于其未来结局}
+$K>0,0,<0$分别决定局部空间正、零、负曲率；是否再坍缩还取决于$p,\Lambda$和初始条件。反过来，平直空间也可有非平凡整体拓扑。由有限区域的观测推断曲率，不等于直接测出了整个宇宙的拓扑或总体积。下一章将保持同一套$K,\chi,a$约定，从光线传播建立实际距离观测量。

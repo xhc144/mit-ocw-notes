@@ -1,0 +1,79 @@
+\originalchapter{从随机密度场到功率谱与星系相关}
+本章对应8.902第14讲后半和第15讲的统计部分。单个密度峰的位置由具体初始条件决定，理论与巡天更常比较峰的统计分布。学习本章需要Fourier变换、期望值和方差。为避免原笔记把无限体积的Fourier振幅平方当成已归一的谱，我们先固定约定，再连接尺度不变、传递函数和偏倚。
+
+\originalsection{功率谱为何要定义为二点期望值}
+取$\delta(\mathbf x)=\int\delta_{\mathbf k}\ee^{\ii\mathbf k\cdot\mathbf x}\dd^3k/(2\pi)^3$，其逆变换为$\delta_{\mathbf k}=\int\delta(\mathbf x)\ee^{-\ii\mathbf k\cdot\mathbf x}\dd^3x$。实场满足$\delta_{-\mathbf k}=\delta_{\mathbf k}^*$。均匀性使不同Fourier波数的相关具有Dirac函数，各向同性使相关系数只依赖$k=|\mathbf k|$，故定义
+\begin{equation}\label{eq:astro-power-definition}
+ \langle\delta_{\mathbf k}\delta_{\mathbf k'}^*\rangle
+ =(2\pi)^3\delta_D^{(3)}(\mathbf k-\mathbf k')P(k).
+\end{equation}
+括号是随机场的集合平均；在遍历性条件下可用足够大区域的空间平均估计。$\delta$无量纲，$\delta_{\mathbf k}$有体积量纲，故$P$也有体积量纲。有限周期盒内，对上述未除体积的离散变换，有$P(k)=\langle|\delta_{\mathbf k}|^2\rangle/V$。原笔记省略$V$或Dirac函数所写的$P=|\hat\delta|^2$不能跨不同体积比较。
+
+若平均密度定义正确，$\langle\delta\rangle=0$；不是不除体积的$\int\delta\dd^3x$在任何有限巡天里必然等于0。有限区域的平均本身受大尺度起伏影响，这是估计相关函数时的积分约束问题。
+
+\originalsection{方差与相关函数是一套谱的两种读法}
+同一位置的方差由式\eqref{eq:astro-power-definition}得
+\[
+ \langle\delta^2\rangle=\int\frac{\dd^3k}{(2\pi)^3}P(k)
+ =\frac1{2\pi^2}\int_0^\infty k^2P(k)\dd k.
+\]
+定义每单位对数波数的无量纲功率$\Delta^2(k)=k^3P(k)/(2\pi^2)$，则方差为$\int\Delta^2\dd\ln k$，若积分发散还须指定平滑或物理截止。这个$\Delta^2$与密度对比$\delta$不同，不能把$P$本身叫作无量纲振幅。
+
+二点相关函数$\xi(r)=\langle\delta(\mathbf x)\delta(\mathbf x+\mathbf r)\rangle$为
+\begin{equation}\label{eq:astro-correlation}
+ \xi(r)=\frac1{2\pi^2}\int_0^\infty k^2P(k)\frac{\sin kr}{kr}\dd k.
+\end{equation}
+这里角积分$\int\ee^{\ii kr\cos\theta}\dd\Omega=4\pi\sin(kr)/(kr)$把三维Fourier变换化成一维积分。$\xi$可以为负，表示该距离的配对比随机更少；非负$P$则来自随机场协方差的正定性，两者并不矛盾。
+
+若星系数密度场$n_g=\bar n_g(1+\delta_g)$，对相互不重合的小体积，联合计数概率为
+\[
+ \dd\mathcal P=\bar n_g^2[1+\xi_{gg}(r)]\dd V_1\dd V_2.
+\]
+原式里的一阶项是在平均后消失，而不是每个位置的$\delta$都为零。零间距离散对象还带Poisson接触项；现实估计需要随机目录与相同选择函数。
+
+\originalsection{指定质量尺度就必须指定平滑窗}
+把密度场与归一窗$W_R$卷积，$\delta_R(\mathbf x)=\int W_R(\mathbf y)\delta(\mathbf x-\mathbf y)\dd^3y$，$\int W_R\dd^3y=1$。Fourier空间乘上$\widetilde W(kR)$，于是
+\begin{equation}\label{eq:astro-smoothed-variance}
+ \sigma_R^2=\frac1{2\pi^2}\int_0^\infty k^2P(k)|\widetilde W(kR)|^2\dd k.
+\end{equation}
+半径$R$的实空间均匀球窗为$3/(4\pi R^3)$，球外零，积分角度与半径可得
+\[
+ \widetilde W_{ \rm TH}(q)=3\frac{\sin q-q\cos q}{q^3},\qquad
+ \widetilde W_{ \rm TH}(0)=1.
+\]
+Gaussian窗$W_R\propto\exp[-r^2/(2R^2)]$则给$\widetilde W=\exp(-k^2R^2/2)$。不同窗的$R$不是同一种有效质量，需声明映射。采用球窗时通常定义$M=4\pi\bar\rho_{m,0}R^3/3$，$R$是共动半径。
+
+若$P=Ak^n$，令$q=kR$，有$\sigma_R^2\propto R^{-(n+3)}$，故
+\[
+ \sigma_R\propto R^{-(n+3)/2}\propto M^{-(n+3)/6}.
+\]
+球窗需$-3<n<1$保证红外与紫外均收敛；$n=1$的纯幂律仍有紫外对数问题。课中的硬截止$k_{\max}\sim1/R$是尺度估计，不能代替指定窗的精确系数。实际传递函数和非线性尺度改变全范围纯幂律。
+
+\originalsection{Harrison--Zel'dovich谱的尺度不变究竟指什么}
+“所有尺度相同振幅”须说明变量和比较时刻。原课的论证比较的是\emph{每个尺度进入Hubble半径时}的密度振幅，不是固定时刻$P_\delta(k)$为常数。对在长波共动规范下$P_\delta\propto k^n$的共同初始切片，$\sigma_i(M)\propto M^{-(n+3)/6}$。
+
+辐射时期，物理Hubble尺度$\propto a^2$，其中物质质量$M_H\propto\rho_m(a)(a^2)^3\propto a^3$。相应长波共动密度扰动增长$\propto a^2\propto M_H^{2/3}$。物质时期，物理Hubble尺度$\propto a^{3/2}$，$M_H\propto a^{3/2}$，长波增长$\propto a\propto M_H^{2/3}$。两种情况下，进入时振幅的质量依赖都是
+\[
+ \sigma_H(M)\propto M^{-(n+3)/6}M^{2/3}=M^{(1-n)/6}.
+\]
+要求它近乎不依赖$M$给$n\simeq1$。原笔记中物质时期$\sigma\propto a^{3/2}$与随后的$(1+z)^{-1}$不一致，正确增长为$a$。该论证要与上一章的规范说明一起读，不能说视界外因果作用创造了增长。
+
+更直接的现代约定是对原始曲率扰动定义
+\[
+ \mathcal P_{\mathcal R}(k)=A_s(k/k_*)^{n_s-1}.
+\]
+$n_s=1$指每单位$\ln k$的曲率功率相同。领先阶、物质主导大尺度关系$\delta\propto k^2\mathcal R$使$P_\delta\propto k^4P_\mathcal R\propto k^{n_s}$。所以“曲率尺度不变”与“密度谱近$k^1$”可以同时成立，并不矛盾。$A_s$是特定枢轴$k_*$处的曲率振幅，不能直接当成$\sigma_8$。
+
+\originalsection{传递函数留下相等时刻的尺度}
+不同波数进入Hubble半径的时刻不同。较大$k$在辐射时期进入，冷暗物质增长受抑制；较小$k$较晚进入，少受这一抑制。定义长波极限$T(k)\to1$的传递函数，将已规定的物质谱基准写成
+\[
+ P_m(k,a)=A k^{n_s}T^2(k)D^2(a).
+\]
+$A$含曲率到物质的转换常数与选取的增长归一。转折波数约为$k_{\rm eq}=a_{\rm eq}H_{\rm eq}/c$。写$q=k/k_{\rm eq}$，无重子冷暗物质的短波渐近大致为$T\propto\ln q/q^2$，课程忽略对数后的$k^{-2}$仅是简化尺度律，必须有适当波数单位或比值。因而物质谱在大尺度近$k^{n_s}$，小尺度近$k^{n_s-4}\ln^2 k$；“暴胀幂律”并不直接等于今日密度谱。
+
+重子的声学振荡在传递函数中产生重子声学振荡特征，中微子自由流和暗物质的微观速度也会改变它。线性阶段的尺度独立$D$并不适用于所有组分和所有模型；进入非线性后，模之间耦合，不能只乘上一个$D^2$。
+
+\originalsection{振幅、偏倚与数据的年代边界}
+定义$\sigma_8=\sigma_R$在今日球窗$R=8h^{-1}\ \mathrm{Mpc}$处的物质方差。若在某尺度上采用确定性线性偏倚$\delta_g=b\delta_m$，则$P_{gg}=b^2P_{mm}$、$\sigma_{8,g}=|b|\sigma_{8,m}$。实际星系谱还可有离散噪声与随机偏倚，Poisson近似的附加项为$1/\bar n_g$，多类对象的互相关能帮助区分偏倚与物质振幅。
+
+课程举出的$\xi_{gg}\simeq(r/r_0)^{-1.8}$、$r_0\sim5h^{-1}\ \mathrm{Mpc}$是一定星系样本和距离范围内的经验近似；星系团更强聚集说明不同示踪物有不同偏倚，不是任意星系团样本都恒满足$\xi_{cc}=20\xi_{gg}$。原笔记给WMAP与SDSS时代的$n=0.953\pm0.016$、$\sigma_8=0.756\pm0.035$，本卷保留其\textbf{历史例示身份}，不称最新测量。测量功率谱还需处理红移空间畸变、巡天窗口和选择效应；下一章将线性方差连接到坍缩阈值及暗晕质量函数。
