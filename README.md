@@ -2,7 +2,7 @@
 
 本仓库用于个人非商业学习，保存授权归档的 MIT OpenCourseWare 课程讲义及其中文原生 LaTeX 重编成果。仓库现已公开，供非商业学习与来源核对。
 
-[数学讲义：15册，1660页](#数学讲义) · [物理讲义：已验17科，1555页](#物理讲义)
+[数学讲义：15册，1660页](#数学讲义) · [物理讲义：已验18科，1632页](#物理讲义)
 
 ## 数学讲义
 
@@ -28,7 +28,7 @@
 
 ## 物理讲义
 
-下表为已验交付的十七科中文 PDF 与可编辑源码，合计 **17册，1555个PDF物理页**。原十六科1429页保持，新增弦论与全息对偶126页；三处小修已独立复核闭环，教材题号与高阶待补范围保留。其余三卷尚未验收，不计入这里的册数与页数；已索引初稿另列在下方折叠区。
+下表为已验交付的十八科中文 PDF 与可编辑源码，合计 **18册，1632个PDF物理页**。原十七科1555页保持，新增实验与计算物理77页；独立有限清单验收通过，现场实验与未执行计算的边界保留。其余两卷尚未验收，不计入这里的册数与页数；已索引初稿另列在下方折叠区。
 
 | 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
 |---|---|---|---:|---|---|
@@ -49,6 +49,7 @@
 | [等离子体物理](subjects/plasma-physics/README.md) | 22.611J（2003/2006）、22.615（2007）与历史题；单粒子、输运、Vlasov、波与阻尼、平衡及MHD稳定性；18章理论，113编号按MHD五步骤合109题组。 | 本轮选定范围已验，有界复核通过 | 85 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/plasma-physics/dist/plasma-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/plasma-physics/dist/plasma-physics-source.zip) · [范围与缺项](subjects/plasma-physics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/6136a833725279a9f5bfbe9e88e9a0922d74b01d/subjects/plasma-physics) |
 | [生物物理](subjects/biophysics/README.md) | 8.592J/HST.452J（Spring 2011）；从种群与序列统计讲到聚合物、蛋白折叠、分子马达与网络；10章理论、5章题解及数据，八套作业37道题面，含当前数据库方法复算与旧服务缺口。 | 本轮选定范围已验，定点独审闭环 | 59 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/biophysics/dist/biophysics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/biophysics/dist/biophysics-source.zip) · [范围与缺项](subjects/biophysics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/3ee15924ce590ec926cc9637f2f573149d7c7a65/subjects/biophysics) |
 | [弦论与全息对偶](subjects/string-theory/README.md) | 8.251（Spring 2007）26讲与8.821（OCW Fall 2014）24讲；从经典弦、量子弦讲到膜、AdS/CFT与全息应用；67道完整独立题及1题公开补充，58项仅教材引用。 | 本轮选定范围已验，三项定点修正闭环 | 126 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/string-theory/dist/string-theory-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/string-theory/dist/string-theory-source.zip) · [范围与缺项](subjects/string-theory/coverage.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/00dcca7f942bb67e5c9f1eeac0a8e014aef8d379/subjects/string-theory) |
+| [实验与计算物理](subjects/experimental-computational-physics/README.md) | 8.13/14实验主线、3.320材料计算，12.010仅工作流补充；19份实验手册的测量与误差链及DFT、MD、MC等模型，25章；54项公开任务题面与教学求解链，另9个编者练习。 | 独立有限复核通过，执行范围另列 | 77 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/experimental-computational-physics/dist/experimental-computational-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/experimental-computational-physics/dist/experimental-computational-physics-source.zip) · [范围与执行边界](subjects/experimental-computational-physics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/66da4b95b3b9ce03bc713830b7faf9bdebc8fcb3/subjects/experimental-computational-physics) |
 
 电动力学仍有38组本科题面或依赖条件缺口，PS5第5题仅取得(c)，天线原比较图未取得；8.311四份公开笔记已重编，但Noether定理、完整协变作用量、辐射反作用和同步辐射等课历理论尚未完整建立。量子保留本科10道及新增研究生20＋29道纯商书题号缺项；8.321第16、17讲、8.322版权撤题及S.14定义依赖等未获材料不补造。经典8.309单独研究生作业未取得，11组SICM作业只有教材题号；旧PS10第3题(a)仍部分完成，项目无全局最优证明或实物演示。
 
@@ -74,8 +75,10 @@ AMO的6.974/6.453选读不等于两门课全译；题卷内的2011/2012日期与
 
 弦论68个完整原编号含HW4.5/HW5.1同题重发，去重为67道完整独立题；HW10.9只编公开补充式，缺失主体与(b)不补造。58项纯教材引用及1项阅读任务另列，不虚加题数。完整Lorentz长计算、BRST/模空间及有限耦合等高阶范围仍待补；有界复核不表示全部弦论研究方向完成。
 
+实验与计算物理的54项公开任务是题面与教学求解链，不能据此称54项全部实际执行；另9个编者练习单列。实体现场实验未做，GULP、Au EAM原输入及可选改造未执行；Kr准备后的轨道不构成独立两相熔点，有限格相图也未作严格热力学极限外推。已运行的模型与未执行范围分别保留QA证据，模拟数据不当现场观测。
+
 <details>
-<summary>新增方向初稿：审核或修订中（不计已验17科1555页）</summary>
+<summary>新增方向初稿：审核或修订中（不计已验18科1632页）</summary>
 
 以下只提供已索引初稿的冻结版阅读入口，仍在审核或修订，不采用上表已验讲义的覆盖及审查结论。这里的页数仅描述链接中的初稿，不计作已验交付。
 
@@ -83,7 +86,7 @@ AMO的6.974/6.453选读不等于两门课全译；题卷内的2011/2012日期与
 |---|---|---|---:|---|---|
 | [天体物理与宇宙学](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology) | 天体与宇宙学理论及公开题组精选。 | 初稿，审核或修订中 | 27 | [下载初稿 PDF](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology/dist/astrophysics-cosmology-zh.pdf) | [初稿源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology/dist/astrophysics-cosmology-source.zip) · [冻结版本](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology) |
 
-天体与宇宙学、实验与计算物理、流体与非线性物理三卷尚未验收，实际成品经确认后再纳入已验阅读表。
+天体与宇宙学、流体与非线性物理两卷尚未验收，实际成品经确认后再纳入已验阅读表。
 
 </details>
 
@@ -115,6 +118,7 @@ AMO的6.974/6.453选读不等于两门课全译；题卷内的2011/2012日期与
 | 等离子体物理 | [课程与历史题来源](subjects/plasma-physics/README.md) | 完整原PDF不附仓库，官方链接见记录 | 仅元数据，不计整份原PDF归档 | [来源清单](subjects/plasma-physics/source-manifest.json) |
 | 生物物理 | [课程、数据与方法边界](subjects/biophysics/README.md) | 完整原PDF不附仓库，官方链接见来源记录 | 仅来源元数据，不计整份原PDF归档 | [来源清单](subjects/biophysics/research/source-inventory.json) · [扩展范围](subjects/biophysics/research/coverage-amendment.json) |
 | 弦论与全息对偶 | [课程与逐课范围](subjects/string-theory/README.md) | 完整原PDF不附仓库，官方链接见来源记录 | 仅来源元数据，不计整份原PDF归档 | [来源清单](subjects/string-theory/sources/resource-inventory.json) · [50讲对应](subjects/string-theory/qa/lecture-coverage.csv) |
+| 实验与计算物理 | [实验、材料与执行范围](subjects/experimental-computational-physics/README.md) | 完整原PDF不附仓库，官方链接见来源记录 | 仅来源元数据，不计整份原PDF归档 | [来源清单](subjects/experimental-computational-physics/research/source-inventory.json) · [扩展范围](subjects/experimental-computational-physics/research/coverage-amendment.json) |
 
 </details>
 
@@ -211,7 +215,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-数学已交付 **15册中文整书，共1660个PDF物理页**；物理已验交付 **17册中文讲义，共1555页**：原十六科1429页，新增弦论与全息对偶126页。弦论三处小修独立复核闭环，67道完整独立题及1题公开补充分别计数，58项教材引用和高阶缺项保持。其余三卷尚未验收，不计完成；各册结论限已核范围，不称全书逐题无误或全MIT完成。实际文件、版本与范围见[物理进度清单](manifests/physics-progress.json)。
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理已验交付 **18册中文讲义，共1632页**：原十七科1555页，新增实验与计算物理77页。54项公开任务题面与教学求解链、9个编者练习分列，不称全部实际执行；现场实验、GULP/Au EAM、Kr熔点与热力学极限边界保持。其余两卷尚未验收，不计完成；各册结论限已核范围，不称全书逐题无误或全MIT完成。实际文件、版本与范围见[物理进度清单](manifests/physics-progress.json)。
 
 <details>
 <summary>展开数学交付历史与全站归档背景</summary>

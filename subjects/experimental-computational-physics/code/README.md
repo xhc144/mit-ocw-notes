@@ -17,7 +17,7 @@ python code/qe_diamond_extras.py --help
 
 保存的 `code/inputs` 使用相对pseudo和各任务scratch路径。不同编译器/并行实现可改变末位；总能只在同赝势和同胞定义下比较。
 
-MOLDY上游为 `https://github.com/krefson/Moldy`，本次提交 `e6b5625b473edb2a2fc3a192f8082d7716b00e29`。主积分算法未改，GNU工具链/libtirpc构建。旧观察工具公共变量需 `-fcommon`；附 `moldy-reader-compat.patch` 是已实际使用的读取工具修复，只改ctype声明、POPEN宏和单物种dump头完整/探测判断。补丁遵循上游GPLv2，与讲义CC许可分开；上游SgInfo也有单列许可，不重新授权。补丁没有二进制。
+MOLDY上游为 `https://github.com/krefson/Moldy`，本次提交 `e6b5625b473edb2a2fc3a192f8082d7716b00e29`。主积分算法未改，GNU工具链/libtirpc构建。旧观察工具公共变量需 `-fcommon`；附 `moldy-reader-compat.patch` 是已实际使用的读取工具修复，只改ctype声明、POPEN宏和单物种dump头完整/探测判断。补丁遵循上游GPLv2，许可全文见MOLDY-GPL-2.0.txt，与讲义CC许可分开；上游SgInfo也有单列许可，不重新授权。补丁没有二进制。
 
 在指定上游检出目录 `git apply [本包/code/moldy-reader-compat.patch]`，按上游说明配置本机tirpc并构建。原MIT Lab4输入由归档取得：
 
