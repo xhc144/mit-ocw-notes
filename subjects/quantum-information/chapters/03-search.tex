@@ -1,0 +1,16 @@
+\Needspace{9\baselineskip}
+\originalchapter{振幅放大、连续搜索与量子行走}
+\originalsection{Grover平面}
+$N$项中$M$个目标, 记$\ket G$和$\ket B$为目标与非目标上的归一均匀态,$\ket s=\sin\theta\ket G+\cos\theta\ket B$, $\sin^2\theta=M/N$. 目标oracle是对$G$方向反射,$O=I-2\ket G\bra G$; 扩散$D=2\ket s\bra s-I$是绕初态反射. 两反射乘积把这个二维平面旋转$2\theta$, 故$k$轮成功率$\sin^2[(2k+1)\theta]$. 最佳$k\simeq\pi/(4\theta)-1/2$, $M\ll N$时为$O(\sqrt{N/M})$次查询. 继续迭代会转离目标, 所以它不是单调“提高概率”的过程.
+
+未知$M$时可随机化迭代次数逐步扩展范围, 或先估目标比例; 必须计失败验证的查询. 一次精确成功可把反射相位从$\pi$改为匹配角度. 设目标相移$\e^{\ii\varphi}$, 初态相移用相同相位, 非目标振幅的一轮因子为$2a-1-a(\e^{-\ii\varphi}+\e^{\ii\varphi})$的一种等价全局相位形式; 置零得到$\cos\varphi=1-1/(2a)$,$a=M/N$, 所以$a\ge1/4$时有解. 常规反射$\varphi=\pi$对应$a=1/4$.
+
+\originalsection{连续时间搜索}
+设目标$\ket x$, 初态$\ket s$, 重叠$\alpha=1/\sqrt N$. 取$H=E(\ket x\bra x+\ket s\bra s)$, 在$\ket x$及与其正交的$\ket y$基, 矩阵去$I$部分后为$E\alpha(\alpha Z+\sqrt{1-\alpha^2}X)$. 因单位轴Pauli平方为$I$, 指数可直接求. 在$t=\pi\hbar/(2E\alpha)$时初态转到目标, 成功概率1. 这是连续oracle演化时间$O(\sqrt N)$的算法, 不应把无限精确Hamiltonian实现视为免费.
+
+离散短步$\e^{-\ii H_s\Delta t}\e^{-\ii H_x\Delta t}$由Trotter近似连续演化, 每步误差$O(\Delta t^2\|[H_s,H_x]\|)$累积需控制. $\Delta t=\pi$时各投影指数为反射, 回到Grover. 要有限轮精确命中需相位匹配而非任意取小步.
+
+\originalsection{量子行走与图结构}
+经典随机行走反复乘随机矩阵, 概率无相位; 连续量子行走用图邻接或Laplace矩阵的幺正指数, 振幅可相消. 在直线上Fourier模式频率$2\gamma\cos k$, 群速度非零, 扩散尺度可随时间线性增长, 不同于经典$\sqrt t$. 这不推出所有图都更快, 因谱隙、初始化、命中定义与测量方式决定结果.
+
+在对称图中可把等价顶点层归为一个子空间, 将大图降到较短链. 层间耦合包含连接数的平方根, 反射和干涉使某些oracle图问题有指数查询差距. 实际算法还要说明图如何以黑盒获得、输出在哪一顶点以及成功概率; 将$2^n$维矩阵完整写入经典存储会丢掉所声称的优势.
