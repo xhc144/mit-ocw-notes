@@ -1,0 +1,38 @@
+\Needspace{12\baselineskip}
+\originalchapter{分形、映射与倍周期题解}
+\originalsection{PS9：分形和Hénon映射}
+\begin{exercise}
+（PS9.1）(a)构造与Cantor集相似、每轮删除每个区间中间一半的集合，证明维数为 $1/2$；(b)求原图所示Sierpiński地毯的分形维数：每轮正方形分成九个等方块，删除中间一块。
+\end{exercise}
+\begin{solution}
+(a)每轮留下两段、每段原长的四分之一。第 $n$ 轮有 $2^n$ 个长度 $4^{-n}$ 的区间，故尺度维数 $\ln2/\ln4=1/2$。可用等质量自相似测度给下界：每段质量 $2^{-n}$，任意尺度 $r\sim4^{-n}$ 的小区间只交有限个这些段，质量不超过常数 $r^{1/2}$；这与区间覆盖上界共同确定Hausdorff维数。不是只据一幅有限迭代图片得出无限集合维数。
+
+(b)每轮八个缩小到三分之一的方块，满足开放集分离条件，维数为 $\ln8/\ln3\simeq1.89279$；同样可由第 $n$ 轮 $8^n$ 个 $3^{-n}$ 方块的覆盖与均匀自相似测度验证。
+\end{solution}
+
+\begin{exercise}
+（PS9.2）Hénon映射 $X_{n+1}=1+Y_n-\alpha X_n^2,Y_{n+1}=\beta X_n$。(a)解析求固定点；(b)求固定点失稳的 $\alpha_c$；(c)$\beta=.3,\alpha=1.4$，从靠近吸引子的固定点邻近开始运行，预测并数值核验吸引子在固定点附近的斜率。明确区分两个固定点及所用稳定参数区间。
+\end{exercise}
+\begin{solution}
+(a)$Y=\beta X$，$\alpha X^2+(1-\beta)X-1=0$，$X_\pm=[-(1-\beta)\pm\sqrt{(1-\beta)^2+4\alpha}]/(2\alpha)$，$\alpha=0$ 需单独取线性极限。(b)Jacobian特征式 $\lambda^2+2\alpha X\lambda-\beta=0$。对 $0\le\beta<1,\alpha>0$，负根分支一直为鞍型不稳定；正根分支在 $\lambda=-1$ 时倍周期，$2\alpha X=1-\beta$。与固定点式结合得 $X=2/[3(1-\beta)]$，$\alpha_c=3(1-\beta)^2/4$。其下正分支稳定；不能说在临界以下两个固定点都稳定。
+
+(c)$X_+\simeq.63135448,Y_+\simeq.18940634$，两个特征值 $\lambda_u\simeq-1.92373886$、$\lambda_s\simeq.15594632$。不稳定特征向量满足 $\delta Y/\delta X=\beta/\lambda_u\simeq-.15594632$。任意很近扰动在增长时逐渐沿此方向，局部不稳定流形切线即该斜率。
+
+代码从邻近点运行30000次并去掉1000次暂态，得下图模型点云；另从固定点沿不稳定特征向量位移 $10^{-8}$ 后迭代，局部逐步斜率见QA，可核验该切线。整个吸引子在小邻域内可能有多条折叠分支，直接给所有邻域点做一次直线拟合会混淆分支，不能以它代替局部流形验证。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=5cm,xlabel={$X$},ylabel={$Y$},grid=major]\addplot[only marks,mark size=.35pt,main] table[x=X,y=Y,col sep=comma]{data/henon.csv};\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+
+\originalsection{PS10：超稳定倍周期}
+\begin{exercise}
+（PS10.1）$f(x,\mu)=4\mu x(1-x)$，$0\le x\le1$。(a)二周期 $p=f(q),q=f(p),p\ne q$，证明超稳定需要 $p$ 或 $q=1/2$；(b)求该二周期参数；(c)给 $2^n$ 超稳定周期参数 $\bar\mu_n$ 的隐式精确式；(d)实际计算 $n=2,\ldots,7$；(e)求 $(\bar\mu_6-\bar\mu_5)/(\bar\mu_7-\bar\mu_6)$ 并解释。
+\end{exercise}
+\begin{solution}
+(a)两步导数 $f'(p)f'(q)$ 为零，$\mu\ne0$ 时 $f'(x)=4\mu(1-2x)$，所以周期必经过 $1/2$。(b)用 $r=4\mu$，$f_r(f_r(1/2))=1/2$，排除固定点根 $r=2$ 后正二周期根 $r=1+\sqrt5$，$\bar\mu_1=(1+\sqrt5)/4$。
+
+(c)精确式 $f^{\circ2^n}(1/2,\bar\mu_n)=1/2$，必须排除任何更短周期解，并选择沿指定倍周期分支的根。这一排除条件是公式的一部分，不能只用任意求根器返回的第一个零点。
+
+(d)代码对前一超稳定根上方重新括区间，并逐阶求根，结果为
+\begin{center}\begin{tabular}{crr}\toprule $n$&周期&$\bar\mu_n$\\\midrule
+1&2&.809016994375\\2&4&.874640424832\\3&8&.888660215692\\4&16&.891666844964\\5&32&.892310882909\\6&64&.892448823437\\7&128&.892478366356\\\bottomrule\end{tabular}\end{center}
+最大回返残差约 $3.1\times10^{-14}$。最后两个参数差的比值约4.66915718，接近二次单峰映射的Feigenbaum常数。有限七级数值显示参数间隔的缩放趋势，不构成对无限极限与普适性的独立证明。
+\end{solution}

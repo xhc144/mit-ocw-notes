@@ -1,0 +1,55 @@
+\Needspace{12\baselineskip}
+\originalchapter{分岔、耗散与极限环}
+\originalsection{少数变量模型的适用性}
+12.006J Fall 2022由Daniel Rothman讲授，16份公开PDF覆盖第1--28讲。本卷据其主题重编，重点是物理模型如何产生稳态、振荡和混沌；一般常微分方程的教材证明可参照仓库已有数学卷，不在这里重复。
+
+设 $\dot x=f(x;\mu)$。稳态 $f(x_*;\mu)=0$ 的小扰动满足 $\dot\delta=f'(x_*)\delta$，导数负则局部吸引。鞍结标准形 $\dot x=\mu-x^2$ 在 $\mu>0$ 产生一稳一不稳两个平衡；跨临界 $\dot x=\mu x-x^2$ 交换两个分支稳定性；叉形 $\dot x=\mu x-x^3$ 依赖 $x\leftrightarrow-x$ 对称性，破坏对称会改变分岔图。
+
+对二维状态，Jacobian特征值满足 $\lambda^2-(\operatorname{tr}J)\lambda+\det J=0$。$\det J<0$ 是鞍点，$\det J>0,\operatorname{tr}J<0$ 为线性吸引。纯虚特征值只指出可能Hopf临界；是否生成稳定环和在哪一侧产生环，还要看非线性项。
+
+\originalsection{能量输入与自激振荡}
+van der Pol振子 $\ddot x-\mu(1-x^2)\dot x+x=0$ 的二次能量 $E=(\dot x^2+x^2)/2$ 满足 $\dot E=\mu(1-x^2)\dot x^2$。小振幅时获得能量，大振幅时耗散，形成可能的有限振幅循环。能量平均解释稳定环的选择机制，但精确周期和振幅仍依赖方程求解。
+
+极限环与无阻尼线性振子的闭轨不同：极限环附近轨迹在横向趋向同一环，沿环的相位仍可平移。强迫周期振子再多一个驱动相位变量，以每周期取样的映射显示锁频、倍周期或混沌。不能只据曲线封闭就认定有吸引性。
+
+\originalsection{相空间体积收缩}
+对 $\dot{\mathbf x}=\mathbf f$，线性扰动矩阵 $\dot M=J M$。行列式导数 $\dd\ln|\det M|/\dd t=\operatorname{tr}J=\nabla\cdot\mathbf f$，所以小相空间体积按散度积分缩放。负散度意味着体积收缩，而非所有两个点的距离都收缩；某个方向仍可指数伸长。这个差异是耗散混沌可以存在的原因。
+
+二维光滑自治系统中有界极限行为受到平面几何约束，不能产生同三维Lorenz型的奇异吸引子。增加驱动相位或第三变量改变了相空间维数，不能把一个二维投影误看成二维自治动力系统。
+
+\originalsection{一维相线、存在唯一性与势函数}
+在光滑自治 $\dot x=f(x)$ 中，初值解唯一，轨迹不能在同一时刻交叉。平衡点之间 $f$ 的符号决定单调运动，因而一维不存在非平凡周期轨道。若 $f'(x_*)=0$，线性判断失效，需查首个非零阶：$\dot x=-x^3$ 从两侧稳定但代数衰减；$\dot x=x^2$ 一侧吸引另一侧排斥。
+
+任何一维自治系统可定义 $V(x)=-\int^xf(y)\dd y$，有 $\dot V=-f(x)^2\le0$。这只是数学势，未必是物理机械能；在多维一般系统中各分量不是自动同一势的梯度。令 $\dot N=rN(1-N/K)$，解 $N(t)=K/[1+(K/N_0-1)\e^{-rt}]$，$r>0$ 时正初值趋向 $K$。负初值在某些模型会发散，但人口解释只允许 $N\ge0$，物理状态域要与方程同时给出。
+
+\originalsection{分岔的结构条件与慢瓶颈}
+鞍结 $\dot x=\mu-x^2$ 的两根 $\pm\sqrt\mu$ 在 $\mu>0$ 存在；若换符号为 $\dot x=\epsilon+x^2$、$\epsilon>0$，经过 $[-a,a]$ 的时间 $2\arctan(a/\sqrt\epsilon)/\sqrt\epsilon$ 趋于 $\pi/\sqrt\epsilon$。即使没有固定点，已消失固定点的附近仍留下很慢的“幽灵”，可解释物理响应长延迟。
+
+横截 $\dot x=\mu x-x^2$ 需要一条固定点分支保持 $x=0$；一般小常项会破坏这种结构。超临界叉形 $\dot x=\mu x-x^3$ 依赖反号对称；亚临界 $\dot x=\mu x+x^3-x^5$ 在一定负 $\mu$ 区间有大振幅稳定分支和滞后。解非零分支的 $x^2$ 二次式并检查导数，能分清共存区与线性失稳点；仅画一个叉形符号不足以证明哪支稳定。
+
+\originalsection{平面摆的保守相图与阻尼}
+摆角 $\theta$ 满足 $\ddot\theta+\omega_0^2\sin\theta=0$。令 $v=\dot\theta$，能量 $E=v^2/2+\omega_0^2(1-\cos\theta)$ 守恒。$E<2\omega_0^2$ 为往复振荡，等于势垒为分离轨道，大于时连续转动。转角的物理状态是圆，因此 $(\theta,v)$ 的相空间是圆柱；把 $\theta$ 展开到实轴会看到重复井，不是不同的物理平衡。
+
+小角周期 $2\pi/\omega_0$，有限振幅 $\theta_m$ 的周期为 $T=(4/\omega_0)K(\sin(\theta_m/2))$，来自能量积分 $\dot\theta^2=2[E-\omega_0^2(1-\cos\theta)]$。靠近竖直不稳定点 $\theta_m\to\pi$ 时椭圆积分对数发散，因轨迹在鞍点附近停留很久。加线性阻尼 $\gamma\dot\theta$ 后 $\dot E=-\gamma v^2$，封闭能量曲线不再为周期轨道，轨迹趋向最低势的平衡。
+
+\originalsection{二维Jacobian、线性解与中心的限制}
+特征方程 $\lambda^2-T\lambda+\Delta=0$，$T=\operatorname{tr}J,\Delta=\det J$。$\Delta<0$ 为鞍；$\Delta>0,T<0$ 时 $T^2>4\Delta$ 为结点、$T^2<4\Delta$ 为螺旋吸引。$T>0$ 反向不稳定。重根时还要查是否可对角化，Jordan项会出现 $t\e^{\lambda t}$。
+
+$T=0,\Delta>0$ 的线性中心不保证非线性中心：$\dot r=-r^3,\dot\theta=1$ 的线性化是纯旋转却非线性吸引，$\dot r=+r^3$ 则排斥。Hartman--Grobman的局部拓扑等价需双曲固定点；零实部处就是需要分岔/高阶分析的地方。
+
+\originalsection{Hamilton流与耗散体积}
+正则Hamilton方程 $\dot q_i=\partial_{p_i}H,\dot p_i=-\partial_{q_i}H$ 的相空间散度为混合二阶导相消，故保持体积。加入摩擦后散度负，轨迹可向低维吸引集聚集。真实三维空间的流体不可压缩与相空间体积保持是不同命题：非线性对流模的相空间可以耗散，尽管它来自不可压流体。
+
+线性扰动矩阵 $M$ 的Jacobi行列式公式给 $\det M(t)=\exp[\int_0^t\nabla\cdot\mathbf f\dd s]$。负体积增长可以同时有一个正方向指数，只要其他方向收缩更强。时间瞬间Jacobian特征值通常不等于长时Lyapunov指数，因为不同时间的矩阵不对易。
+
+\originalsection{极限环、判据与兴奋性}
+平面自治系统的Poincar\'e--Bendixson定理要求轨迹的极限集紧致且不含固定点等条件，才可推出周期轨道。Bendixson负散度判据在单连通区域中排除闭轨：若散度严格同号，闭轨边界通量零与区域散度积分矛盾。它不是“负散度系统都无极限环”，因为某些极限环内部有散度改变符号。
+
+弱van der Pol取 $x=A\cos(t+\phi)$，平均 $\dot E=\mu\avg{(1-x^2)\dot x^2}=\mu(A^2/2-A^4/8)$；$E=A^2/2$ 给 $\dot A=(\mu A/2)(1-A^2/4)$，稳定振幅 $A=2$、相位自由。近似要求 $\mu\ll1$ 和振幅慢变，大 $\mu$ 则进入松弛振荡，快跳与慢支不同。
+
+用Liénard变量可把强非线性振子写成慢快系统；沿慢流形积累时间，离开折点快速跃迁。兴奋性系统则有稳定静息态，小扰动衰减，越过阈值后产生大环游但最终回静息。周期自激与一次兴奋不能仅凭一次大振幅脉冲混为一谈。
+
+\originalsection{Hopf、亚临界跳变与强迫相位}
+标准复幅度 $\dot z=(\mu+i\omega_0)z-(a+ib)|z|^2z$，极坐标给 $\dot r=\mu r-ar^3$、$\dot\phi=\omega_0-br^2$。$a>0$ 时 $r_*^2=\mu/a$ 在正 $\mu$ 稳定，是超临界；$a<0$ 的小环不稳定，需要更高阶饱和，可能出现有限振幅跳跃和滞后。单从线性纯虚根不能知道 $a$ 的符号。
+
+周期强迫振子本身是非自治系统，加相位 $\dot\phi_d=\Omega$ 得自治多一维。若振子固有相位与驱动差 $\psi$ 的平均方程是 $\dot\psi=\Delta\omega-K\sin\psi$，$|\Delta\omega|<|K|$ 有稳定锁相，外部无锁相时相位滑移。锁相区边缘的鞍结与前面慢瓶颈直接相连；强迫频谱的尖峰不独自证明自治极限环。
