@@ -8,4 +8,4 @@
 
 本卷没有复制官方PDF页面作为背景，没有收录第三方教材、许可例外图、MJ表或论文全文。原文件中的Used with permission不被当作向本项目授予再分发许可。自绘图基于物理方程或装置功能关系，未描摹第三方图。官方题面与编者独立解答明确区分；本项目不获MIT背书。
 
-补充许可例外：code/moldy-reader-compat.patch为上游MOLDY读取工具的GPLv2小补丁，上游源码和作者Keith Refson见code/README.md；不作为CC重新许可。上游SgInfo许可单列，未分发源码库或二进制。Daniel Steck参数参考仅用于核对少量物理事实；其Open Publication License限制改编，不分发其文档、表或图，也不重新许可。
+补充许可例外：code/moldy-reader-compat.patch为上游MOLDY读取工具的GPLv2小补丁，许可全文随包附于code/MOLDY-GPL-2.0.txt，上游源码和作者Keith Refson见code/README.md；不作为CC重新许可。上游SgInfo许可单列，未分发源码库或二进制。Daniel Steck参数参考仅用于核对少量物理事实；其Open Publication License限制改编，不分发其文档、表或图，也不重新许可。
