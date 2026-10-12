@@ -1,0 +1,87 @@
+\originalchapter{以真实SNLS数据拟合超新星距离}
+本章完整对应8.902 PS5.2，双倍权重。\href{https://ocw.mit.edu/courses/8-902-astrophysics-ii-fall-2023/mit8_902_f23_problem_set_5_additional_files.tar}{官方TAR}含Guy等人（2010）SNLS三年样本的CDS表9、10、11及ReadMe；本题实际只读取表11的SiFTO列。本卷不分发原始表或论文，提供独立分析脚本、派生数值曲线和结果。270行有完整数值且所报误差为正，7行占位／非正误差记录逐一列在回执；没有为改善拟合另删离群点。
+
+\src{8.902 PS5.2，官方PDF第2--4页，(A)--(D)。}
+\begin{exercise}
+(A) 数值计算光度距离，画至$z=5$及放大到$z=1$的两张图。五种$(\Omega_m,\Omega_\Lambda)$为$(1,0)$、$(0,1)$、$(0.3,0.7)$、$(1.2,0)$、$(0.3,0)$，分别使用平直、正曲率、负曲率距离公式。取$H_0=71\ \mathrm{km\,s^{-1}\,Mpc^{-1}}$。
+
+(B) 表10为光变观测，表11给SALT2与SiFTO的拟合参数；只用SiFTO的峰值星等$m_i^*$、形状$s_i$、颜色$c_i$及其方差与协方差。定义
+\[
+ \mu_i=m_i^*-M+\alpha s_i-\beta c_i,\quad
+ \chi^2=\sum_i\frac{[\mu_i-\mu_{ \rm cosmo}(z_i)]^2}{\sigma_i^2+\sigma_{ \rm int}^2},
+\]
+忽略红移误差，且
+\begin{align*}
+ \sigma_i^2={}&\operatorname{Var}(m_i^*)+\alpha^2\operatorname{Var}(s_i)
+ +\beta^2\operatorname{Var}(c_i)\\
+ &+2\alpha\operatorname{Cov}(m_i^*,s_i)-2\beta\operatorname{Cov}(m_i^*,c_i)
+ -2\alpha\beta\operatorname{Cov}(s_i,c_i).
+\end{align*}
+原题在$\sigma_{ \rm int}^2$旁给0.10，称作固有弥散。先假定平直，$\Omega_\Lambda=1-\Omega_m$，以$\alpha=\beta=1,M=-20$及一个初始$\Omega_m$开始，反复计算$\sigma_i$，固定它们后最小化$\chi^2$得到$(\alpha,\beta,M,\Omega_m)$，直至收敛。提交参数、各超新星$\mu_i$及最终误差的图，叠加最优曲线及保持平直而$\Omega_m$变化$\pm0.2$的曲线，并评论数据对$\Omega_m$的敏感度。
+
+(C) 解释星系际尘埃消光怎样影响(A)及加速膨胀推断。
+(D) 固定(B)所得$\alpha,\beta,M$，放松平直条件，扫描$\Omega_m,\Omega_\Lambda$。画包含最小值加2.3、6.2、11.8的$\chi^2$轮廓；讨论是否偏好平直、为何轮廓沿一个方向拉长，以及CMB等数据为何可帮助消除简并。
+\end{exercise}
+\begin{solution}
+(A) 令$\Omega_K=1-\Omega_m-\Omega_\Lambda$，忽略辐射，有
+\[
+ I(z)=\int_0^z\frac{\dd z'}{\sqrt{\Omega_m(1+z')^3+\Omega_K(1+z')^2+\Omega_\Lambda}},
+\]
+\[
+ D_L=\frac c{H_0}(1+z)\begin{cases}
+ \sinh(\sqrt{\Omega_K}I)/\sqrt{\Omega_K},&\Omega_K>0,\\
+ I,&\Omega_K=0,\\
+ \sin(\sqrt{-\Omega_K}I)/\sqrt{-\Omega_K},&\Omega_K<0.
+ \end{cases}
+\]
+用48点Gauss--Legendre积分逐点计算。96点独立加密复核的五组最大相对差小于$1.1\times10^{-14}$，物质平直和纯$\Lambda$还分别与$2(c/H_0)(1+z)[1-(1+z)^{-1/2}]$、$(c/H_0)z(1+z)$解析式核对。非平直不能只改变$E(z)$而漏掉横向正弦／双曲正弦。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.80\textwidth,height=5.4cm,xlabel={$z$},ylabel={$D_L$（Gpc）},xmin=0,xmax=5,legend pos=north west]
+\addplot[black] table[x=z,y expr=\thisrow{matter_flat}/1000,col sep=comma]{qa/ps5-distance-models.csv};\addlegendentry{$(1,0)$}
+\addplot[structurecolor,dashed] table[x=z,y expr=\thisrow{Lambda_flat}/1000,col sep=comma]{qa/ps5-distance-models.csv};\addlegendentry{$(0,1)$}
+\addplot[structurecolor,thick] table[x=z,y expr=\thisrow{model_0p3_0p7}/1000,col sep=comma]{qa/ps5-distance-models.csv};\addlegendentry{$(0.3,0.7)$}
+\addplot[black,dotted] table[x=z,y expr=\thisrow{matter_closed}/1000,col sep=comma]{qa/ps5-distance-models.csv};\addlegendentry{$(1.2,0)$}
+\addplot[structurecolor,dashdotted] table[x=z,y expr=\thisrow{matter_open}/1000,col sep=comma]{qa/ps5-distance-models.csv};\addlegendentry{$(0.3,0)$}
+\end{axis}\end{tikzpicture}\end{center}
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.80\textwidth,height=5.1cm,xlabel={$z$},ylabel={$D_L$（Gpc）},xmin=0,xmax=1,ymin=0,ymax=9]
+\addplot[black] table[x=z,y expr=\thisrow{matter_flat}/1000,col sep=comma]{qa/ps5-distance-models.csv};
+\addplot[structurecolor,dashed] table[x=z,y expr=\thisrow{Lambda_flat}/1000,col sep=comma]{qa/ps5-distance-models.csv};
+\addplot[structurecolor,thick] table[x=z,y expr=\thisrow{model_0p3_0p7}/1000,col sep=comma]{qa/ps5-distance-models.csv};
+\addplot[black,dotted] table[x=z,y expr=\thisrow{matter_closed}/1000,col sep=comma]{qa/ps5-distance-models.csv};
+\addplot[structurecolor,dashdotted] table[x=z,y expr=\thisrow{matter_open}/1000,col sep=comma]{qa/ps5-distance-models.csv};
+\end{axis}\end{tikzpicture}\end{center}
+第二图用同样的五条曲线和样式，显示低红移一阶斜率相近而较高红移才明显分离。
+
+(B) 对固定$\Omega_m$与一次固定权重，$\alpha,\beta,M$都是线性参数。取设计矩阵的每行为$(s_i,-c_i,-1)$，目标为$\mu_{ \rm cosmo}-m_i^*$，加权线性最小二乘先精确消去这三个参数，再对$\Omega_m$作一维最小化。更新方差后重复，直到全部参数的最大变化小于$2\times10^{-8}$。这样执行的是原题的冻结权重迭代，没有让分母通过无约束放大$\alpha,\beta$降低残差。
+
+表11的\texttt{e\_mb,e\_s,e\_c}是\emph{标准差}，进入方差时须平方；协方差直接按ReadMe列位读取。固定$H_0$还决定了$M$零点，超新星不能独立消除绝对光度与$H_0$的简并。
+
+原题用$\sigma_{ \rm int}^2$称“弥散”有歧义。主结果按所写平方量\textbf{直接取方差0.10 mag$^2$}，另实际运行把“0.10”理解成标准差、方差0.01的对照；不悄悄切换约定。270颗有效SiFTO对象给
+\begin{center}\begin{tabular}{lrrrrr}\toprule
+固有方差&$\alpha$&$\beta$&$M$&$\Omega_m$&$\chi^2$/266\\\midrule
+0.10&1.2390&2.9259&$-17.8463$&0.32332&61.66/266\\
+0.01&1.2945&3.0289&$-17.8026$&0.31564&296.27/266\\\bottomrule
+\end{tabular}\end{center}
+分别6次与7次迭代收敛。主结果过小的约化$\chi^2$与把0.10当方差而得到约0.316 mag固有标准差一致；不能因为值小就称模型异常精确。题式用$s$而非通常的$s-1$，故$M$是平移后的截距；通常约定的绝对星等为$M_B=M-\alpha$，主结果约$-19.085$，并非$-17.846$的绝对峰值光度。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.82\textwidth,height=6.0cm,xlabel={$z$},ylabel={$\mu$（mag）},xmin=.1,xmax=1.12,ymin=38,ymax=44.8,legend pos=south east]
+\addplot[only marks,mark=*,mark size=.65pt,black,error bars/.cd,y dir=both,y explicit] table[x=z,y=mu,y error=err_mu,col sep=comma]{qa/snls-hubble-measurements.csv};\addlegendentry{实际SiFTO，误差$\sigma_i$}
+\addplot[structurecolor,thick] table[x=z,y=best_mu,col sep=comma]{qa/snls-hubble-models.csv};\addlegendentry{最优平直}
+\addplot[structurecolor,dashed] table[x=z,y=Omega_m_minus_0p2_mu,col sep=comma]{qa/snls-hubble-models.csv};\addlegendentry{$\Omega_m-0.2$}
+\addplot[black,dotted] table[x=z,y=Omega_m_plus_0p2_mu,col sep=comma]{qa/snls-hubble-models.csv};\addlegendentry{$\Omega_m+0.2$}
+\end{axis}\end{tikzpicture}\end{center}
+误差棒按原要求画最终传播的$\sigma_i$，拟合分母另含固有方差。高红移较敏感，单颗散布仍大；增加样本可减统计误差，却不能取消颜色、标定和选择系统误差。实际主结果是这份课堂简化样本的拟合，不是重现原论文完整清选与系统协方差分析。
+
+(C) 尘埃令$F$乘$\ee^{-\tau_d}$，附加星等$A=2.5\tau_d/\ln10\simeq1.086\tau_d$。若误以为超新星本征光度已知且无消光，便推断更大的$D_L$，可模仿某些暗能量模型的变暗趋势。普通尘埃还改变颜色，灰尘模型的波长依赖较弱而更难直接辨认；两者都需额外颜色、光谱和热辐射约束。不能仅凭这道课堂题就声称已排除所有尘埃模型。
+
+(D) 固定主拟合的$\alpha,\beta,M$以及相应误差，在$\Omega_m\in[0,2.2]$、$\Omega_\Lambda\in[-0.6,2.6]$的$221\times257$网格计算完整曲率距离。所有路径要求$E^2>0$且$D_L>0$。网格最小值约在$(0.29,0.625)$，$\chi^2=61.640$；主平直点的$\Delta\chi^2\simeq0.019$，完全相容。下图由\emph{实际网格}的等值线顶点自绘；轮廓碰到$\Omega_m=0$物理边界，已截断，不能伪造闭合椭圆或宣布两侧均有测定误差。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.76\textwidth,height=6.0cm,xlabel={$\Omega_m$},ylabel={$\Omega_\Lambda$},xmin=0,xmax=2.2,ymin=-.6,ymax=2.6,legend pos=north west,unbounded coords=jump]
+\addplot[structurecolor,thick] table[x=Omega_m,y=Omega_lambda,col sep=comma]{qa/snls-contour-2p3.csv};\addlegendentry{$\Delta\chi^2=2.3$}
+\addplot[structurecolor,dashed] table[x=Omega_m,y=Omega_lambda,col sep=comma]{qa/snls-contour-6p2.csv};\addlegendentry{6.2}
+\addplot[black,dotted] table[x=Omega_m,y=Omega_lambda,col sep=comma]{qa/snls-contour-11p8.csv};\addlegendentry{11.8}
+\addplot[black,domain=0:2.2]{1-x};\addlegendentry{平直线}
+\addplot[only marks,mark=*,structurecolor] coordinates {(.29,.625)};
+\end{axis}\end{tikzpicture}\end{center}
+SN距离是$H(z)$和曲率映射的积分，不分别只依赖一种密度。低红移二阶项首先测$q_0=\Omega_m/2-\Omega_\Lambda$，故近似固定距离的方向有$\dd\Omega_\Lambda\sim\dd\Omega_m/2$，在参数平面呈正相关拉长；完整红移积分改变精确方向。CMB声视界与远距离几何约束不同组合，其他标准尺与增长数据亦可交叉限定。2.3、6.2、11.8仅是原题的两参数近似$\chi^2$阈值；固定烦扰参数、碰物理边界和忽略系统误差时，不将此图称为一般Bayes可信区域。
+\end{solution}

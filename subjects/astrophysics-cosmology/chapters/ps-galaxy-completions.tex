@@ -1,0 +1,63 @@
+\originalchapter{自由落体、盘稳定性与绘图补题}
+本章补齐8.902中先前选讲未收录的完整公开题面。解答均为独立推导；原题给模型信息不足时明确补充条件，并区分其条件结果与一般定理。
+
+\src{8.902 PS3.2，标为B\&T 3.4，但题面在官方作业PDF内完整给出。}
+\begin{exercise}
+密度为$\rho_0$的均匀无压强流体球由静止释放，证明其坍缩到一点所需时间为$t_{ \rm ff}=\sqrt{3\pi/(32G\rho_0)}$。
+\end{exercise}
+\begin{solution}
+取初始半径$r_0$的一层壳，内质量$M=4\pi\rho_0r_0^3/3$。壳层未交叉时，壳层定理给$\ddot r=-GM/r^2$，初值$\dot r(r_0)=0$。乘$\dot r$并积分得
+\[
+ \dot r=-\sqrt{2GM\left(\frac1r-\frac1{r_0}\right)}.
+\]
+取负号是坍缩支。时间积分为
+\[
+ t_{ \rm ff}=\sqrt{\frac{r_0^3}{2GM}}\int_0^1\sqrt{\frac u{1-u}}\dd u.
+\]
+令$u=\sin^2\theta$，积分为$2\int_0^{\pi/2}\sin^2\theta\dd\theta=\pi/2$，代$M$即得所求。时间不依赖$r_0$，所以均匀球各壳同时到达中心，维持同调坍缩直到奇点。非均匀球、初始非零速度、压强、旋转或壳层交叉都会改变结果，不能把它当成所有引力体系的精确落体时间。
+\end{solution}
+
+\src{8.902期中替代题组Q1，25分，(A)--(D)。}
+\begin{exercise}
+有一个面密度$\Sigma$、半径$R$、角速度$\Omega$的气体盘，考察其边缘附近的试探粒子，并假定角动量守恒。
+(A) 求近圆轨道径向本轮频率$\kappa$。
+(B) 求$\kappa^2>0$所需的最小半径$R_{ \rm min}$。
+(C) 若$R<R_{ \rm min}$会怎样？
+(D) 为什么银河中更小的盘结构不经常发生此现象？
+\end{exercise}
+\begin{solution}
+先明确一个问题：本轮频率由\emph{径向引力场的梯度}决定，仅有某个边缘的$\Sigma,R,\Omega$，没有盘的径向面密度函数、厚度、边界和外部势，一般不能唯一给出(A)、(B)。严格均匀、无限薄且硬截断的盘在边缘还存在引力梯度奇异，不能静默把它替换成一个平滑点质量势。
+
+一般光滑轴对称势下，角动量$L$固定，径向有效势$\Phi_{ \rm eff}=\Phi+L^2/(2r^2)$。圆轨道要求$\Phi_R(R)=R\Omega^2$，其附近$r=R+\xi$满足
+\[
+ \ddot\xi+\kappa^2\xi=0,\qquad
+ \kappa^2=\Phi_{RR}(R)+3\Omega^2=4\Omega^2+R\frac{\dd\Omega^2}{\dd R}.
+\]
+这才是(A)在给定势后可使用的完整式；(B)应由该势的$\kappa^2(R)>0$确定，未必存在一个唯一锐利下限。它与含压强、自引力的气体密度波Toomre判据不同。
+
+若\emph{额外}作课堂常见的边缘点质量估计$M\simeq\pi R^2\Sigma$，并在试探粒子微小位移时固定该$M$，则$\Phi_{RR}\simeq-2GM/R^3$给
+\[
+ \kappa_{ \rm toy}^2\simeq3\Omega^2-\frac{2\pi G\Sigma}{R},\qquad
+ R>\frac{2\pi G\Sigma}{3\Omega^2}.
+\]
+这是\emph{增加点质量假设后的条件表达式}，不是由原题全部信息唯一推得。还须注意：若同一个点质量势已经提供全部圆轨道平衡，则$GM/R^3=\Omega^2$，反而总有$\kappa^2=\Omega^2>0$；在该模型内不能再独立缩小$R$而保持$\Sigma,\Omega$固定，并声称原轨道仍是圆轨道。
+
+(C) 对真正存在圆轨道的光滑模型，若其有效势二阶导数为负，径向偏离按$\exp(|\kappa|t)$增长，圆轨道不稳定，偏离方向决定向内或向外，不能一概说必然整体坍缩。(D) 银河中的气体不是孤立硬边薄盘，恒星与暗物质提供背景势，有限厚度、热压、湍流和角动量输运也影响集体扰动。应检验实际旋转曲线给出的$\kappa$和气体$Q$；小云确可引力坍缩形成恒星，但这不等于每一个小半径圆轨道都违反(A)的局部判据。没有公开官方答案，本解把信息缺口和常见近似一起说明，避免把不相容条件包装成唯一考试数值。
+\end{solution}
+
+\src{8.902 PS6.3，最后一次作业的5分绘图加分题。}
+\begin{exercise}
+画一个庆贺完成课程的星系。
+\end{exercise}
+\begin{solution}
+以下为自绘TikZ示意，中央核球与旋臂仅用于这道绘图任务，没有把示意结构当成实际天体观测或密度拟合。
+\begin{center}\begin{tikzpicture}[scale=.65]
+\fill[structurecolor!15] (0,0) ellipse (2.5 and 1.5);
+\foreach \a in {0,120,240}{
+\draw[structurecolor,thick,rotate=\a] plot[domain=0:300,samples=80] ({.08*exp(0.009*\x)*cos(\x)},{.08*exp(0.009*\x)*sin(\x)});
+}
+\fill[structurecolor] (0,0) circle(.18);
+\node[below] at (0,-2.2) {完成一程，继续探索};
+\end{tikzpicture}\end{center}
+它单列为创作任务，不将5分贺图虚计成一项物理证明。
+\end{solution}

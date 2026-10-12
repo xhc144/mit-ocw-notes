@@ -1,0 +1,113 @@
+\originalchapter{真实星系图像与光谱的测量习题}
+本章完整对应8.902 PS1的三个题组，均为独立补写解答。\href{https://ocw.mit.edu/courses/8-902-astrophysics-ii-fall-2023/mit8_902_f23_problem_set_1_additional_files.zip}{官方附加ZIP}已实际读取，四份FITS数组与独立读取器交叉核对一致。原始SDSS照片不收录；以下曲线为像素数值的环统计、谱线拟合与TeX重绘，保留SDSS署名和原文件例外许可。分析代码、输入哈希、拟合区间与测量结果见\texttt{scripts/analyze\_galaxy\_data.py}和\texttt{qa/ps1-measurements.json}。
+
+两个星系的图像为\texttt{galaxy1.fit}和\texttt{galaxy2.fit}，题面给的光谱名后缀为\texttt{.fit}。
+
+实际ZIP中光谱名为\texttt{galaxy1spec.fits}和\texttt{galaxy2spec.fits}。
+
+图像大致中心分别为$(1831.5,636.5)$与$(1346.0,945.0)$。光谱为$4\times N$数组，第一行为每单位波长通量，波长为$\lambda_i=10^{w+0.0001i}$埃，$i=0,\ldots,N-1$，两者$(w,N)=(3.5823,3818),(3.5825,3815)$。实际文件第二行为扣连续谱的谱，第三行为误差，第四行为位掩码；不能把第三行误当成逆方差。
+
+\src{8.902 PS1.1，原题(A)--(E)，官方PDF第1--2页。}
+\begin{exercise}
+(A) 以一像素宽的径向环画两星系的表面亮度曲线，纵轴为像素计数DN的对数，横轴为距中心角秒。估计并扣除非零天空背景，必要时调整中心；像素尺度为$0.394$角秒。
+(B) 改以2角秒宽径向环画每环的中位表面亮度，以提高信噪比。
+(C) 星等20的天体在星系1和2图像中分别贡献2328、2496个总DN，使用此校准把(B)纵轴变为每平方角秒的星等并重画。
+(D) 分别拟合$I(r)=I_0\exp(-r/r_s)$和$I(r)=I_0\exp[-7.67(r/r_e)^{1/4}]$，估计指数尺度长$r_s$与de Vaucouleurs有效半径$r_e$，将模型叠在数据上；判断每个星系更接近哪一族。
+(E) 单组分是否充分描述全部半径？若不充分，指出失效区域并说明物理原因。
+\end{exercise}
+\begin{solution}
+图像FITS先使用\texttt{BSCALE,BZERO}还原DN。软件偏置约1000 DN已包含在原数组中，不能只减头部约90--96 DN的天空项。以核心椭圆Gaussian拟合定位，所得\emph{FITS一基}中心为$(1834.39,647.62)$和$(1346.60,945.67)$；星系1中心比题表明显偏移，若不调整会把尖核摊宽。在150--200像素背景环取中位数，得总底1096、1091 DN。下面不对原照片作任何再分发。
+
+一像素环的平均DN扣底后取对数；2角秒环则直接对该环扣底像素取中位数$I$。像素面积$p^2=(0.394)^2$平方角秒，若校准总数为$C_{20}$，(C)给
+\[
+ \mu_g=20-2.5\log_{10}\left(\frac{I}{p^2C_{20}}\right).
+\]
+环面积影响总光度，却不再次乘进已经是每像素均值或中位数的$I$；漏$p^2$会错约2星等。非正扣底值不取对数，应作为低信噪限制处理。
+\begin{center}\begin{tikzpicture}
+\begin{axis}[width=.72\textwidth,height=4.7cm,xlabel={$r$（角秒）},ylabel={$\log_{10}(\mathrm{DN})$},xmin=0,xmax=45,legend pos=north east]
+\addplot[structurecolor,thin] table[x=r_arcsec,y=log_dn,col sep=comma]{qa/ps1-galaxy1-onepixel.csv};\addlegendentry{星系1}
+\addplot[black,dashed] table[x=r_arcsec,y=log_dn,col sep=comma]{qa/ps1-galaxy2-onepixel.csv};\addlegendentry{星系2}
+\end{axis}\end{tikzpicture}\end{center}
+
+在3--31角秒的两角秒环上，对$\ln I$做不加权最小二乘；指数模型对$r$线性，de Vaucouleurs模型对$r^{1/4}$线性。这个目标使多个亮度量级均有权重，不冒充依据完整像素协方差的最优统计拟合。结果如下，RMS以$\log_{10}I$表示。
+\begin{center}\begin{tabular}{lrrrr}\toprule
+对象与模型&尺度（角秒）&$I_0$（DN）&RMS（dex）&总模型星等\\\midrule
+星系1，指数&7.406&199.2&0.1021&14.303\\
+星系1，$r^{1/4}$&14.860&43579&0.0175&13.876\\
+星系2，指数&9.129&228.4&0.0500&13.776\\
+星系2，$r^{1/4}$&40.771&13888&0.1017&13.001\\\bottomrule
+\end{tabular}\end{center}
+\begin{center}
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=4.7cm,xlabel={$r$（角秒）},ylabel={DN／像素},ymode=log,xmin=0,xmax=40,legend pos=north east]
+\addplot[only marks,mark=*,mark size=1pt,structurecolor] table[x=r_arcsec,y=dn_median,col sep=comma]{qa/ps1-galaxy1-profile.csv};\addlegendentry{星系1}
+\addplot[black,dashed] table[x=r_arcsec,y=fit_exp_dn,col sep=comma]{qa/ps1-galaxy1-profile.csv};\addlegendentry{指数}
+\addplot[structurecolor] table[x=r_arcsec,y=fit_dev_dn,col sep=comma]{qa/ps1-galaxy1-profile.csv};\addlegendentry{$r^{1/4}$}
+\end{axis}\end{tikzpicture}\hfill
+\begin{tikzpicture}\begin{axis}[width=.47\textwidth,height=4.7cm,xlabel={$r$（角秒）},ymode=log,xmin=0,xmax=40,legend pos=north east]
+\addplot[only marks,mark=*,mark size=1pt,structurecolor] table[x=r_arcsec,y=dn_median,col sep=comma]{qa/ps1-galaxy2-profile.csv};\addlegendentry{星系2}
+\addplot[black,dashed] table[x=r_arcsec,y=fit_exp_dn,col sep=comma]{qa/ps1-galaxy2-profile.csv};\addlegendentry{指数}
+\addplot[structurecolor] table[x=r_arcsec,y=fit_dev_dn,col sep=comma]{qa/ps1-galaxy2-profile.csv};\addlegendentry{$r^{1/4}$}
+\end{axis}\end{tikzpicture}
+\end{center}
+星系1明显更接近$r^{1/4}$族，星系2更接近指数盘。$I_0$是模型外推的中心强度，不等于已受PSF卷积的实际中央像素；尤其de Vaucouleurs的巨大$I_0$不能解释成中央像素饱和测量。
+
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.72\textwidth,height=4.7cm,xlabel={$r$（角秒）},ylabel={$\mu_g$（星等／角秒$^2$）},y dir=reverse,xmin=0,xmax=45,legend pos=north west]
+\addplot[only marks,mark=*,structurecolor] table[x=r_arcsec,y=mu_mag_arcsec2,col sep=comma]{qa/ps1-galaxy1-profile.csv};\addlegendentry{星系1}
+\addplot[only marks,mark=square*,black] table[x=r_arcsec,y=mu_mag_arcsec2,col sep=comma]{qa/ps1-galaxy2-profile.csv};\addlegendentry{星系2}
+\end{axis}\end{tikzpicture}\end{center}
+单组分不是全径向精确模型：内约1--3角秒需PSF及核／核球结构，星系2在若干中间半径偏离平滑指数，与盘中非轴对称恒星结构及核球叠加相容；最外环又对天空底估计和邻近源敏感。环中位数降低邻近亮点影响，却也不等于真正椭圆等光度线拟合。以上判断来自实际数据残差及输入的私下检查，不能由RMS单独宣布某个物理组分已唯一识别。
+\end{solution}
+
+\src{8.902 PS1.2，原题(A)--(D)，官方PDF第2--3页。}
+\begin{exercise}
+(A) 把恒星光谱近似成黑体，用两星系的连续谱峰和Wien律估计“典型恒星”温度及粗略光谱型，不要求复杂恒星模型。
+(B) 星系2在约6679埃有H$\alpha$发射峰，静止波长取6563埃；星系1在约8741埃有Ca II吸收，静止波长取8545埃。测线心并求退行速度。
+(C) 取$H_0=71\ \mathrm{km\,s^{-1}\,Mpc^{-1}}$求距离，忽略宇宙学修正，用1(D)尺度换算发光物质的物理特征半径（kpc）。
+(D) 积分1(D)模型并结合距离求总G带光度，以太阳为单位；题设太阳总光度90\%位于G带。
+\end{exercise}
+\begin{solution}
+(A) 用实际第二行扣除谱恢复连续谱，并以200埃区间中位数找宽峰，星系1约7700埃，星系2约4700埃。经下列小红移修正到静止系后，Wien律$\lambda_{ \rm peak}T=2.89777\times10^7\ \mathrm{\AA K}$给约3850 K与6280 K，粗略是晚K／早M和F型温度。星系1的红色连续谱峰很宽，选不同合理平滑区间会得到数百K以上变化；复合恒星族群也不是真正单温黑体，不能把这个近似解释成测得了所有恒星的统一温度。
+
+(B) 在Ca II的8705--8775埃和H$\alpha$的6668--6691埃内，用线性连续谱加吸收／发射Gaussian拟合，按实际第三行误差加权。历史SDSS掩码$2^{30}$表示发现发射线，\emph{不是坏像素}，否则会把所求H$\alpha$线删掉。所得线心为8741.15与6680.88埃；后者与题面约6679的粗定位有区别，因此直接用测量值而不伪装为同一个数。按题给静止波长，
+\[
+ z_1=0.0229554,\quad z_2=0.0179618,\qquad
+ cz_1=6882,\quad cz_2=5385\ \mathrm{km\,s^{-1}}.
+\]
+光谱标为真空波长，题给的近似原子波长不足以作精密速度校准；这里按原题数值作低红移估计。H$\alpha$简单Gaussian的约化$\chi^2\simeq8.45$，模型存在可见系统残差；独立正通量一阶矩线心与拟合差约0.05埃，不能以形式上0.023埃的拟合误差宣称真实总误差如此小。
+
+(C) $D=cz/H_0$给$D_1=96.93$、$D_2=75.84$ Mpc。一角秒对应$D/206265$，所以较优模型的星系1$r_e=6.98$ kpc，星系2$r_s=3.36$ kpc。指数盘的半光半径是$1.678r_s$，约5.63 kpc；不能将$r_s$直接称为全部星系的边界。两个模型均无有限外缘，“extent”在本题应明确是模型的特征半径。
+
+(D) 若$I_0$单位为每像素DN、角半径用角秒，模型总数为
+\[
+ C_{ \rm exp}=\frac{2\pi I_0r_s^2}{p^2},\qquad
+ C_{ \rm dev}=\frac{8\pi I_0r_e^2\Gamma(8)}{p^2\,7.67^8}.
+\]
+第二式来自变量$u=7.67(r/r_e)^{1/4}$，径向积分变成$u^7\ee^{-u}$；不能把1(D)的$I_0$当成$r_e$处强度。较优模型给$6.56\times10^5$、$7.70\times10^5$ DN，校准为$g=13.876,13.776$。
+
+\textbf{总G带能量需要说明绝对波段约定}：DN与星等20只确定相对标定，不单独给能量积分的带宽。为做一个可复算数值例，采用历史SDSS的$g\simeq$AB零点3631 Jy、官方2001响应$R_g$归一至峰值1，并假定中心光谱形状代表整体。Photon加权AB均值为
+\[
+ \bar F_\nu=\frac{\int F_\lambda R_g\lambda\dd\lambda}
+ {c\int R_g\dd\lambda/\lambda},\qquad
+ \bar F_\nu=3631\ \mathrm{Jy}\,10^{-0.4g}.
+\]
+以实际谱形将它转换为\emph{明确约定的响应加权带通量}$F_G=\int F_\lambda R_g\dd\lambda$，再用$L_G=4\pi D^2F_G$、题设$L_{G,\odot}=0.9\Ls$，得约$5.16\times10^9$与$3.51\times10^9$个题设太阳G光度。响应文件、端点外推和忽略色梯度／消光／$K$修正的假设均在回执中，不能把它称为不依赖波段定义的唯一精密光度。若采用别的明确太阳G绝对星等或带通能量定义，应以$10^{-0.4(M_g-M_{g,\odot})}$或相应零通量重算。
+\end{solution}
+
+\src{8.902 PS1.3，原题(A)--(C)，官方PDF第3页。}
+\begin{exercise}
+(A) 对星系1约8740埃Ca II吸收拟合Gaussian，求标准差$\sigma_\lambda$，并用$\sigma_\lambda/\lambda=\sigma_v/c$给速度宽度。
+(B) 同一仪器观测近邻相似恒星，含仪器与恒星内部原子运动的对照Gaussian宽度为95 km/s；按方差相加扣除它，估星系1恒星的轨道速度弥散。
+(C) 假定该弥散代表1(D)特征半径处的恒星轨道速度，求内部质量，以太阳质量表示，并与2(D)所得的恒星数量估计比较。
+\end{exercise}
+\begin{solution}
+(A) 实际加权拟合给$\sigma_\lambda=6.17$埃，形式统计误差约0.41埃。用\emph{同一观测系}线心8741.15埃换算得$\sigma_{ \rm obs}=212\ \mathrm{km\,s^{-1}}$。这是标准差，不是FWHM；后者为$2\sqrt{2\ln2}\sigma$。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=.70\textwidth,height=4.7cm,xlabel={观测波长（埃）},ylabel={连续谱归一通量},xmin=8705,xmax=8775]
+\addplot[only marks,mark=*,mark size=1pt,black] table[x=wavelength_A,y=normalized_measurement,col sep=comma]{qa/ps1-galaxy1-line-measurements.csv};
+\addplot[structurecolor,thick] table[x=wavelength_A,y=normalized_fit,col sep=comma]{qa/ps1-galaxy1-line-fit.csv};
+\end{axis}\end{tikzpicture}\end{center}
+(B) Gaussian卷积使方差相加，故$\sigma_*=[\sigma_{ \rm obs}^2-(95\ \mathrm{km\,s^{-1}})^2]^{1/2}\simeq189\ \mathrm{km\,s^{-1}}$。若观测宽度小于对照宽度，应报未分辨和上限，而不能取虚数弥散。本例没有此问题。
+
+(C) 量纲估计为$M(<R)=C\sigma_{ \rm los}^2R/G$；$C$还取决于密度剖面、各向异性以及视向到三维速度的转换，题面未给它。按把弥散当作典型圆速的$C=1$约定、$R=r_e=6.98$ kpc，得$M\simeq5.81\times10^{10}\Ms$；若用维里估计的不同结构系数需相应乘$C$。
+
+2(D)实际给\emph{光度}，不是唯一的恒星数。若粗略把每颗星都当成题设太阳，发光数量约$5.16\times10^9$颗，发光质量同量级；$C=1$的动力学质量约为其11倍。真实族群含不同单星光度、恒星遗迹和色梯度，且动力学系数未知，因此这一比较只说明简单纯太阳族群与动力学质量有差异，不能由它精确量出暗物质比例或证明真实恒星数已测定。
+\end{solution}
