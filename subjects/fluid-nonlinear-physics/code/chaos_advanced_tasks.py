@@ -5,6 +5,7 @@ import numpy as np
 from numba import njit
 from scipy.optimize import root
 from scipy.spatial import cKDTree
+from scipy.integrate import solve_ivp
 ROOT=Path(__file__).resolve().parents[1]
 def save(n,h,a):np.savetxt(ROOT/'data'/n,a,delimiter=',',header=h,comments='')
 
@@ -59,13 +60,47 @@ def critical(mu_guess,p,kind):
     assert p==1 or abs(mapping(orb[0],mu,kind)-orb[0])>1e-5
     return float(mu),{'period_before_doubling':p,'mu':float(mu),'root_residual':float(np.max(np.abs(equations(sol.x)))),'cycle':list(map(float,orb))}
 
-def main():
+def ps8_peak_events():
+    """PS8.5 maxima from continuous-time downward dX/dt zero crossings."""
     result={}
     for r in [166.,166.1]:
-        a=lorenz(r,np.array([.01,.01,.01]),.001,600.);tail=a[a[:,0]>=100]
-        save(f'ps8-r{r:g}-X.csv','t,X,Y,Z',tail[-2500::2]);maxima=np.flatnonzero((tail[1:-1,1]>tail[:-2,1])&(tail[1:-1,1]>tail[2:,1]))+1;peaks=tail[maxima,1]
+        def rhs(t,y):
+            x,v,z=y
+            return [10*(v-x),x*(r-z)-v,x*v-8*z/3]
+        def maximum(t,y):return 10*(y[1]-y[0])
+        maximum.direction=-1
+        maximum.terminal=False
+        trials=[]
+        for tolerance in [1e-10,1e-11]:
+            sol=solve_ivp(rhs,(0.,600.),[.01,.01,.01],method='DOP853',rtol=tolerance,atol=tolerance/100,events=maximum,dense_output=True,max_step=.04)
+            assert sol.success
+            keep=sol.t_events[0]>=100.;times=sol.t_events[0][keep];states=sol.y_events[0][keep];peaks=states[:,0]
+            residual=np.abs(10*(states[:,1]-states[:,0]));curvature=np.array([10*rhs(t,y)[1] for t,y in zip(times,states)])
+            assert len(peaks)>1000 and np.max(residual)<1e-6 and np.all(curvature<0)
+            levels=len(np.unique(np.round(peaks,2)))
+            if r==166.:assert levels==3 and np.max(np.abs(peaks[3:]-peaks[:-3]))<1e-5
+            else:assert levels>100
+            trials.append({'rtol':tolerance,'atol':tolerance/100,'number_X_maxima':len(peaks),'distinct_peak_levels_rounded_.01':levels,'maximum_abs_dXdt_at_event':float(np.max(residual)),'largest_curvature_at_maximum':float(np.max(curvature)),'three_step_peak_difference_max':float(np.max(np.abs(peaks[3:]-peaks[:-3])))})
+            if tolerance==1e-10:
+                primary_peaks=peaks.copy();primary_times=times.copy();primary_states=states.copy()
+                sample_times=np.linspace(550.,600.,2501);trace=sol.sol(sample_times).T
+                save(f'ps8-r{r:g}-X.csv','t,X,Y,Z',np.c_[sample_times,trace])
+        peaks=primary_peaks
         save(f'ps8-r{r:g}-maxima.csv','Xn,Xnext',np.c_[peaks[:-1],peaks[1:]])
-        result[str(r)]={'r':r,'dt':.001,'end':600,'transient_discard':100,'number_X_maxima':len(peaks),'distinct_peak_levels_rounded_.01':len(np.unique(np.round(peaks,2))),'finite_time_behavior_note':'Time trace and maxima return map are observational evidence; no arbitrary high-r chaos label inferred from r alone.'}
+        save(f'ps8-r{r:g}-peak-events.csv','t,X,Y,Z',np.c_[primary_times,primary_states])
+        result[str(r)]={'r':r,'initial':[.01,.01,.01],'solver':'DOP853','rtol':1e-10,'atol':1e-12,'max_step':.04,'end':600,'transient_discard':100,'peak_detection':'continuous dX/dt=0 downward events, negative curvature checked; independent of trace output grid','number_X_maxima':len(peaks),'distinct_peak_levels_rounded_.01':len(np.unique(np.round(peaks,2))),'tolerance_checks':trials,'correction':'Earlier 0.02-output-grid maxima produced phase-alignment scatter; replaced by event maxima.','finite_time_behavior_note':'r166 has three repeating peak levels in this window; r166.1 has a broad irregular peak map. Counts for the irregular trajectory can vary with numerical tolerances; neither level counts nor finite-time traces are infinite-time proofs.'}
+    return result
+
+def peaks_only():
+    report=ROOT/'qa/chaos-advanced-tasks.json'
+    previous=json.loads(report.read_text());updated=ps8_peak_events()
+    previous['results'].update(updated)
+    previous['targeted_correction']='Only PS8.5 r166/r166.1 rerun; all other numerical results preserved.'
+    report.write_text(json.dumps(previous,indent=2))
+    print('PS8.5 continuous peak events PASS',json.dumps(updated),flush=True)
+
+def main():
+    result=ps8_peak_events()
     l1=lyapunov(170.,.001);l2=lyapunov(170.,.0005);production=l1[1000:];blocks=production.reshape(10,-1).mean(axis=1)
     a=lorenz(170.,np.array([.01,.01,.01]),.001,25.);b=lorenz(170.,np.array([.01+1e-8,.01,.01]),.001,25.);distance=np.linalg.norm(a[:,1:]-b[:,1:],axis=1);save('ps8-r170-separation.csv','t,distance',np.c_[a[:,0],distance])
     result['r170']={'largest_Lyapunov_finite_time':float(production.mean()),'block_std_diagnostic':float(blocks.std(ddof=1)),'dt_half_estimate':float(l2[1000:].mean()),'time_window':[100,600],'reset_interval':.1,'dt_values':[.001,.0005],'initial_separation':1e-8,'late_separation_max':float(distance[-500:].max()),'no_infinite_time_proof':True}
@@ -106,4 +141,8 @@ def main():
         ratios=((mu[2]-mu[1])/(mu[3]-mu[2]),(mu[1]-mu[0])/(mu[2]-mu[1]))
         result[name]={'period_doubling':criticals,'finite_ratios_latest_first':list(map(float,ratios)),'bifurcation_grid':501,'burn_iterations':5000,'tail_per_parameter':32,'universality':'Ricker has quadratic maximum; quartic map has fourth-order maximum. Finite ratios are not required to equal their limits.'}
     (ROOT/'qa/chaos-advanced-tasks.json').write_text(json.dumps({'status':'PASS','results':result},indent=2));print('Advanced chaos public tasks PASS',flush=True)
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser();parser.add_argument('--ps8-peaks-only',action='store_true');args=parser.parse_args()
+    if args.ps8_peaks_only:peaks_only()
+    else:main()

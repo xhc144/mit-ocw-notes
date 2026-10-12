@@ -12,7 +12,13 @@ def main():
             original=ROOT/'data'/Path(f).name
             a=np.genfromtxt(original,delimiter=',',names=True);n=len(a)
             if n<450:continue
-            if 'vdp-mu20' in f:
+            if 'ps8-r166' in f and 'maxima' in f:
+                # Event maxima are small enough to retain every return pair.
+                b=a
+            elif 'ps8-r166' in f and '-X.csv' in f:
+                # Retain 0.04 trace spacing; coarse thinning hides fast peaks.
+                b=a[::2]
+            elif 'vdp-mu20' in f:
                 # Uniform time thinning misses stiff fast jumps in phase space.
                 # Sample by normalized trajectory arc length, retaining full input.
                 xyz=np.column_stack([a[k] for k in a.dtype.names]);scale=np.ptp(xyz,axis=0)

@@ -7,21 +7,22 @@ PS8前四题的固定点、失稳条件和 $r=28$ 轨道，PS9前两题的自相
 Lorenz取 $\sigma=10,b=8/3$，求 $r=166$ 和166.1的 $X(t)$，舍去瞬变后比较、说明观察。
 \end{exercise}
 \begin{solution}
-两者都用公开初态 $(.01,.01,.01)$、RK4步长.001积分至600，舍去100；下图为末50时间单位和全过程后瞬变的相邻峰返回图。
+两者从公开初态 $(.01,.01,.01)$ 用DOP853积分至600，舍去100，取相对容差 $10^{-10}$、绝对容差 $10^{-12}$。峰值由 $\dot X=10(Y-X)=0$ 的负向事件定位并检查 $\ddot X<0$，不由输出网格取最大值；下图为末50时间单位与100--600内的相邻峰返回图。
 \begin{center}\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.3cm,xlabel={时间},ylabel={$X$},title={$r=166$}]
 \addplot[main] table[x=t,y=X,col sep=comma]{data/plots/ps8-r166-X.csv};
 \end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.3cm,xlabel={时间},ylabel={$X$},title={$r=166.1$}]
 \addplot[blue] table[x=t,y=X,col sep=comma]{data/plots/ps8-r166.1-X.csv};
 \end{axis}\end{tikzpicture}\end{center}
 \begin{center}\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.3cm,xlabel={$X_n$},ylabel={$X_{n+1}$},title={$r=166$}]
-\addplot[only marks,mark size=.5pt,main] table[x=Xn,y=Xnext,col sep=comma]{data/plots/ps8-r166-maxima.csv};
+\addplot[only marks,mark size=1.3pt,main] table[x=Xn,y=Xnext,col sep=comma]{data/plots/ps8-r166-maxima.csv};
 \end{axis}\end{tikzpicture}\hfill\begin{tikzpicture}\begin{axis}[width=.46\linewidth,height=4.3cm,xlabel={$X_n$},ylabel={$X_{n+1}$},title={$r=166.1$}]
 \addplot[only marks,mark size=.5pt,blue] table[x=Xn,y=Xnext,col sep=comma]{data/plots/ps8-r166.1-maxima.csv};
 \end{axis}\end{tikzpicture}\end{center}
-后瞬变共1324与1269个X局部最大值，按.01舍入的峰级分别165与423。微小参数改动使峰返回的分支和占据显著变化，不能用“大r所以两者一样混沌”替代观察。此有限窗的非恒定峰不严格排除很长周期，也未由峰级计数单独证明混沌。
+后瞬变共1324与1273个X局部最大值，按.01舍入的峰级分别为3与345。$r=166$ 的三个峰级依次重复，显示周期行为；166.1的返回图呈不规则分布。容差收紧十倍后，前者仍为3级，后者为358级，规则与不规则的区别保持，但后者的有限窗计数随轨道数值误差而变。旧版每.02时间取样再取局部最大值，使未对齐的峰时产生165级伪散布，现已用连续事件更正；峰级计数本身不是严格混沌证明。
 \end{solution}
+\Needspace{4\baselineskip}
 \begin{exercise}\label{task:chaos-PS8-6}
-$r=170$时验证微小初态差的指数分离，按 $\delta(t)=\delta_0\e^{\lambda t}$ 估最大Lyapunov指数；解释距离长期行为。
+$r=170$时验证小初差的指数分离，按 $\delta(t)=\delta_0\e^{\lambda t}$ 估最大Lyapunov指数；解释距离长期行为。
 \end{exercise}
 \begin{solution}
 取初差 $10^{-8}$；直接两轨道距离先增长，随后与吸引子尺寸相当，不能无限指数增长。长期距离折返、饱和，饱和段 $\log\delta/t$ 不能用来估局部不稳定率。
