@@ -1,0 +1,75 @@
+\originalchapter{8.701 作业二:振幅与截面}
+题源: Fall 2020 Problem Set 2, 2020年9月23日. 官方答案署 Markus Klute、Tianyu Justin Yang. 使用第 \ref{ch:feynman} 章 ABC toy theory 与本稿 $\ii\mathcal M$ 约定; 源答案振幅整体符号不同, 概率不受影响.
+
+\begin{exercise}\label{ex:8701-2-1}
+原题 1. 复标量 $\mathcal L_s=\tfrac12(\partial_\mu\phi)^*(\partial^\mu\phi)-\tfrac12m^2\phi^*\phi$ 有全局 U(1) 对称, 用 Noether 定理求守恒流.
+\end{exercise}
+\begin{solution}
+官方解答重编. 取 $\phi\to\e^{-\ii\alpha}\phi$, $\delta\phi=-\ii\alpha\phi$, $\delta\phi^*=\ii\alpha\phi^*$. 把 $\phi,\phi^*$ 当独立变量求变分,
+$j^\mu=\tfrac\ii2(\phi^*\partial^\mu\phi-\phi\partial^\mu\phi^*)$.
+散度中的导数乘积相消, 剩 $\tfrac\ii2[\phi^*\Box\phi-\phi\Box\phi^*]=0$, 因方程运动均为 $(\Box+m^2)\phi=0$. 反过来定义相位变换会令 $j$ 整体反号, 不改变守恒.
+\end{solution}
+\begin{exercise}\label{ex:8701-2-2}
+原题 2. 证明 $A\to B+C$ 的质心末动量等于式 \eqref{eq:two-body} 的平方根表达式.
+\end{exercise}
+\begin{solution}
+官方解答重编. $E_B=(m_A^2+m_B^2-m_C^2)/(2m_A)$, 所以 $4m_A^2p^2=(m_A^2+m_B^2-m_C^2)^2-4m_A^2m_B^2$. 展开后等于 $[m_A^2-(m_B+m_C)^2][m_A^2-(m_B-m_C)^2]$. 取非负平方根并要求 $m_A\ge m_B+m_C$.
+\end{solution}
+\begin{exercise}\label{ex:8701-2-3}
+原题 3. 画出 $A+A\to A+A$ 最低阶的所有图, 假定 $m_B=m_C=0$, 用剩余一个四动量积分表示振幅.
+\end{exercise}
+\begin{solution}
+官方图形关系重绘, 振幅按本稿约定复算. 标记外腿 $1,2$ 入射、$3,4$ 出射. 图中标签显示环上顺序, 横边虚线、竖边实线, 物种以各边 B/C 标签为准, 每个顶点接一个 A. 六图为三种循环次序各交换 B、C:
+\begingroup
+\newcommand{\bdiag}[6]{\begin{tikzpicture}[scale=0.55,baseline=0]
+\draw[dashed](0,1)--(2,1)node[midway,above]{#5};\draw[dashed](0,-1)--(2,-1)node[midway,below]{#5};
+\draw(0,1)--(0,-1)node[midway,left]{#6};\draw(2,1)--(2,-1)node[midway,right]{#6};
+\draw(0,1)--(-0.8,1.8)node[left]{$A_{#1}$};\draw(2,1)--(2.8,1.8)node[right]{$A_{#2}$};\draw(2,-1)--(2.8,-1.8)node[right]{$A_{#3}$};\draw(0,-1)--(-0.8,-1.8)node[left]{$A_{#4}$};\end{tikzpicture}}
+\begin{center}\begin{tabular}{ccc}
+\bdiag1234BC&\bdiag1243BC&\bdiag1324BC\\[8pt]
+\bdiag1234CB&\bdiag1243CB&\bdiag1324CB
+\end{tabular}\end{center}
+\endgroup
+令 $k_1=p_1,k_2=p_2,k_3=-p_3,k_4=-p_4$, 对循环排列 $\pi=(1234),(1243),(1324)$ 定义
+\begin{equation}
+ I_\pi=\int\frac{\dd^4q}{(2\pi)^4}
+ \frac1{[q^2+\ii0][(q+k_{\pi_1})^2+\ii0]
+ [(q+k_{\pi_1}+k_{\pi_2})^2+\ii0][(q-k_{\pi_4})^2+\ii0]}.
+\end{equation}
+因两内部质量相同, $\ii\mathcal M=2g^4(I_{1234}+I_{1243}+I_{1324})$. 每图四顶点和四传播子, 原本四个内动量中三个由 delta 消去, 因此只剩一个回路积分. 此题要求积分表示, 不要求把可能的红外奇性当作已积分的有限数值.
+\end{solution}
+
+\begin{exercise}\label{ex:8701-2-4}
+原题 4. 对自旋零 toy theory 的 $A+A\to B+B$, $m_B=m_C=0$: (a) 求质心微分及总截面; (b) 求固定靶实验室微分截面及非相对论、超相对论极限.
+\end{exercise}
+\begin{solution}
+依据官方两交换图独立复算. 记 $m_A=m$, 质心每束总能量 $E$, $p=\sqrt{E^2-m^2}$, $a=E^2+p^2$, $b=2Ep$, $x=\cos\theta$. 两图给 $\mathcal M=2g^2a/(a^2-b^2x^2)$ (整体号不重要). 完整球面计数乘 $1/2!$, 因而
+\begin{align*}
+ \frac{\dd\sigma}{\dd\Omega}&=\frac{g^4a^2}{128\pi^2E p(a^2-b^2x^2)^2},\\
+ \sigma&=\frac{g^4}{64\pi E p}
+ \left[\frac1{a^2-b^2}+\frac{\operatorname{atanh}(b/a)}{ab}\right].
+\end{align*}
+积分用 $\int_{-1}^1\dd x/(a^2-b^2x^2)^2=1/[a^2(a^2-b^2)]+\operatorname{atanh}(b/a)/(a^3b)$, 且 $a^2-b^2=m^4$. $p\to0$ 时取连续极限 $\operatorname{atanh}(b/a)/(ab)\to1/a^2$.
+
+实验室入射总能量记为 $E_L$, $p_L=\sqrt{E_L^2-m^2}$, $L=E_L+m$, $s=2mL$. 末态能量 $k_1=s/[2(L-p_L\cos\theta_L)]$, $k_2=L-k_1$, $t=m^2-2mk_2$, $u=m^2-2mk_1$. 能量 delta 积分给
+\begin{equation}
+ \frac{\dd\sigma_L}{\dd\Omega_L}=\frac{|\mathcal M|^2k_1}{128\pi^2mp_L(L-p_L\cos\theta_L)}.
+\end{equation}
+非相对论 $k_1,k_2\to m$, $\mathcal M\to2g^2/m^2$, 所以 $\dd\sigma_L/\dd\Omega_L\simeq g^4/(64\pi^2m^6v)$.
+
+对固定 $-1<\cos\theta_L<1$、$E_L/m\to\infty$, 有 $k_1\to m/(1-\cos\theta_L)$, $u\to-m^2(1+\cos\theta_L)/(1-\cos\theta_L)$, $t\sim-2mE_L$, 得
+\begin{equation}
+ \frac{\dd\sigma_L}{\dd\Omega_L}\simeq
+ \frac{g^4}{128\pi^2m^4E_L^2(1+\cos\theta_L)^2}.
+\end{equation}
+前后向窄角区该极限不均匀, 应回到精确式. 官方答案在实验室高能推导中同时删去 $u$ 中的 $m^2$, 但固定角下 $k_1$ 仍为 $O(m)$, 此删项不成立; 本稿采用上面的精确式再取极限. 总截面的相对论通量定义已含不同参考系的通量转换, 不把实验室分布直接当成质心角度分布.
+\end{solution}
+
+\begin{exercise}\label{ex:8701-2-5}
+原题 5. 画出最低阶 QED 图: Compton $\gamma e^-\to\gamma e^-$, 湮灭 $e^+e^-\to\gamma\gamma$, light-by-light $\gamma\gamma\to\gamma\gamma$, Møller $e^-e^-\to e^-e^-$, Bhabha $e^+e^-\to e^+e^-$.
+\end{exercise}
+\begin{solution}
+官方拓扑重编. 以下波线表示光子, 带箭头的实线表示电荷流方向. 正电子的箭头与其物理运动方向相反. 依次画两张 Compton、两张湮灭、两张 Møller、两张 Bhabha 和六张电子盒. 全部外腿有标签; 图形只表示连接关系, 不要求各线在纸面上同实际动量方向相同.
+\input{chapters/qed-diagrams.tex}
+Compton 内线是电子且有两种光子附接次序. 湮灭内线也是电子, 两末态光子互换产生两图. Møller 的 t、u 图交换末态费米子, 振幅相对负号. Bhabha 的 s、t 图分别为湮灭与散射. 六张 light-by-light 盒图对应三种外腿循环次序和各自反向电荷流, 不存在树级四光子接触顶点.
+\end{solution}

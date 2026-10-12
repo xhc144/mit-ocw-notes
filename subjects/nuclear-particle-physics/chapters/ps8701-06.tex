@@ -1,0 +1,41 @@
+\originalchapter{8.701 作业六:核能与探测}
+题源: Fall 2020 Problem Set 6, 2020年11月20日. 使用官方答题框架, 能量和计数重新计算.
+\begin{exercise}\label{ex:8701-6-1}
+原题 1. 裂变反应堆基于什么反应? 为什么释放能量, 每次约多少? 为什么产物放射性强? 慢化剂作用是什么? 轻或重元素更适合, 为什么?
+\end{exercise}
+\begin{solution}
+官方解答重编. 入射中子诱发可裂变重核分裂并产生后续中子, 可形成链式反应. 中质量碎片结合能每核子较大, 每次总能约 $200$ MeV. 碎片继承重核较大的 N/Z, 对中质量核过多, 常经连续 $\beta^-$ 衰变趋向稳定. 慢化剂通过弹性碰撞降低中子能量, 提高热中子可裂变核的裂变概率. 轻核平均能损大, 但还要吸收少; 例如重水与轻水的比较不能仅看质量差, 还涉及中子吸收.
+\end{solution}
+\begin{exercise}\label{ex:8701-6-2}
+原题 2. 给出受控热核聚变入门中常考虑的三种核反应、最大截面者及各释放能量.
+\end{exercise}
+\begin{solution}
+官方解答重编. D--T 反应能 $17.6$ MeV; D--D 有两个主要支路, 分别 $3.27,4.03$ MeV; D--$^3$He 为 $18.35$ MeV, 反应式见第 \ref{ch:reactions} 章. 三种类型中 D--T 在常见热核能量范围的截面较大, 不对任意能量作无条件排序.
+\end{solution}
+\begin{exercise}\label{ex:8701-6-3}
+原题 3. 质子和中子静止辐射俘获 $p+n\to d+\gamma$, 求光子能量, 氘核反冲是否重要?
+\end{exercise}
+\begin{solution}
+官方方法复算. 设初始静质量总和 $M=m_p+m_n=m_d+B_d$, $B_d\simeq2.2246$ MeV. 两体运动学给 $E_\gamma=(M^2-m_d^2)/(2M)=B_d-B_d^2/(2M)\simeq2.2233$ MeV. 氘核反冲约 $1.32$ keV, 相对 Q 约 $5.9\times10^{-4}$. 粗略 MeV 估算可忽略, keV 精度不能忽略.
+\end{solution}
+\begin{exercise}\label{ex:8701-6-4}
+原题 4. 讨论低于 10 MeV 的光子与物质相互作用, 列出主要过程、物理机制, 画它们相对总截面贡献随能量的变化.
+\end{exercise}
+\begin{solution}
+官方主题重编. 主要为光电吸收、Compton、核场对产生, 低能还可能有相干 Rayleigh 散射. 光电吸收使光子消失并电离原子; Compton 给电子动能和低能散射光子; 对产生需要至少 $1.022$ MeV 并由核反冲守恒动量. 具体材料改变交点与高 Z 权重. 以下取无量纲平滑函数画趋势, 不冒称真实截面测量:
+\begin{center}\begin{tikzpicture}
+\begin{axis}[width=9cm,height=5cm,xmode=log,ymode=log,xmin=0.02,xmax=10,ymin=0.02,ymax=1000,xlabel={$E_\gamma$ (MeV)},ylabel={示意相对截面},legend pos=north east,domain=0.02:10,samples=160]
+\addplot[thick,structurecolor]{0.003/x^3};\addlegendentry{光电}
+\addplot[thick,dashed]{1/(1+x)};\addlegendentry{Compton}
+\addplot[thick,dotted,domain=1.022:10]{0.2*ln(x/1.022)+0.0001};\addlegendentry{对产生}
+\end{axis}\end{tikzpicture}\end{center}
+总截面是同一能量处各允许过程的和, 对产生曲线在阈值以下为零, 图中的对数坐标不绘制零值. 材料特定数据应查相应截面库, 而非据此图读取数值.
+\end{solution}
+\begin{exercise}\label{ex:8701-6-5}
+原题 5. $10000$ 公吨水, 质子平均寿命 $10^{32}$ 年, 效率 $100\%$, 束缚与自由质子同衰变率, 一年期待多少次? 对静止 $p\to\pi^0e^+$、$\pi^0\to\gamma\gamma$, 求光子能量最大最小值.
+\end{exercise}
+\begin{solution}
+官方解答重编. 水质量 $10^{10}$ g, 每个水分子 $10$ 个质子, $N_p=10(10^{10}/18)N_A\simeq3.35\times10^{33}$, 预期 $N_p/10^{32}\simeq33.5$ 次. 此为假设寿命下的期望, 非真实质子衰变已经观察.
+
+Pion 总能量 $E_\pi=(m_p^2+m_\pi^2-m_e^2)/(2m_p)$, 动量 $p_\pi$ 由两体式求. 它静止系两光子各 $m_\pi/2$, boost 后 $E_{\gamma,\max/\min}=(E_\pi\pm p_\pi)/2$. 忽略 $m_e$ 得 $E_{\max}=m_p/2\simeq469$ MeV, $E_{\min}=m_\pi^2/(2m_p)\simeq9.71$ MeV. 能量在此区间连续, 两光子每事件之和固定为 $E_\pi$, 不是每事件都一高一低落在两个端点.
+\end{solution}

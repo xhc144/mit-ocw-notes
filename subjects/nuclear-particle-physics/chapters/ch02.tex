@@ -1,0 +1,44 @@
+\originalchapter{量子态、测量与核尺度波动}\label{ch:qm-core}
+\originalsection{态与可观测量}
+核子不是沿既定轨迹运行的小球. 单粒子纯态以归一化波函数 $\psi(\mathbf r)$ 表示, $\int|\psi|^2\dd^3r=1$. 任意整体相位不影响测量概率, 但两个分量之间的相对相位影响干涉. 可观测量由自伴算符 $\hat A$ 表示; $\hat A\phi_n=a_n\phi_n$ 的本征值是测量可能结果. 若本征值简并, 概率是投影到整个简并本征空间的范数平方, 不能任意选择其中一个基向量作为全部结果.
+
+对离散正交归一基, $\psi=\sum_nc_n\phi_n$, 其中 $c_n=\langle\phi_n|\psi\rangle$, 测得 $a_n$ 的概率为 $|c_n|^2$. 在位置表象 $\hat x=x$, $\hat p=-\ii\hbar\partial_x$, 自由哈密顿量为 $\hat p^2/(2m)$. 算符的公式须连同定义域、边界条件解释: 区间内 Dirichlet 边界下的哈密顿量是良好的自伴算符, 但 $-\ii\hbar\partial_x$ 并不自动具有同样的自伴边界条件.
+
+\originalsection{傅里叶变换与动量分布}
+采用对称约定
+\begin{equation}
+ \widetilde\psi(k)=\frac1{\sqrt{2\pi}}\int_{-\infty}^{\infty}\psi(x)\e^{-\ii kx}\dd x,
+ \qquad \psi(x)=\frac1{\sqrt{2\pi}}\int\widetilde\psi(k)\e^{\ii kx}\dd k.
+\end{equation}
+$|\widetilde\psi(k)|^2\dd k$ 是动量落在 $[\hbar k,\hbar(k+\dd k)]$ 内的概率. 以 $p$ 作变量时概率密度变成 $|\widetilde\psi(p/\hbar)|^2/\hbar$, 不能遗漏雅可比.
+
+平面波在全空间不可归一化, $\e^{\ii kx}$ 应按广义本征态或周期盒极限理解. 余弦是 $+k$、$-k$ 的叠加, 自由动能却只有一个值 $\hbar^2k^2/(2m)$. 因此测得动能并不普遍确定动量符号. 算符对易保证可以找共同本征基, 不保证简并测量后自动落在其中某一个共同本征态.
+
+\begin{example}
+设 $\psi(x)=(2\pi a^2)^{-1/4}\exp[-x^2/(4a^2)-\ii k_0x]$. 求位置和动量的均值与方差.
+\end{example}
+\begin{solution}
+$|\psi|^2$ 是均值零、方差 $a^2$ 的高斯分布. 配方计算傅里叶积分得
+$\widetilde\psi(k)=(2a^2/\pi)^{1/4}\exp[-a^2(k+k_0)^2]$, 所以 $\langle p\rangle=-\hbar k_0$, $\Delta p^2=\hbar^2/(4a^2)$. 直接作用 $\hat p$ 得 $(\ii\hbar x/(2a^2)-\hbar k_0)\psi$, 奇函数项积分为零, 与动量分布结果一致. 有 $\Delta x\Delta p=\hbar/2$. 负号来自题设中的 $\e^{-\ii k_0x}$, 不能因把 $k_0$ 称作动量波数而擅自改号.
+\end{solution}
+
+\originalsection{对易关系与不确定度}
+对满足所需定义域条件的归一化态, 令 $A'=A-\langle A\rangle$, $B'=B-\langle B\rangle$. 由 Cauchy--Schwarz,
+$\Delta A^2\Delta B^2\ge|\langle A'\psi|B'\psi\rangle|^2$; 取右端虚部得
+\begin{equation}
+ \Delta A\Delta B\ge\frac12|\langle[A,B]\rangle|.
+\end{equation}
+$[x,p]=\ii\hbar$ 给出位置动量不确定关系. 这限制同一个态的概率分布, 不是一句关于实验仪器精度的经验口号. 理想位置本征态是分布, 没有有限动能期望; 实际局域测量必须有有限空间分辨率.
+
+若 $H=p^2/(2m)+V(\mathbf r)$, 则 $[p_i,H]=-\ii\hbar\partial_iV$. 势在某方向平移不变时相应动量守恒. 宇称算符 $P\psi(\mathbf r)=\psi(-\mathbf r)$ 与 $H$ 对易的条件是 $V(-\mathbf r)=V(\mathbf r)$; 一个径向高斯势具有此对称性, 单独的 $\e^{-x}(y^3+3z)$ 没有.
+
+\originalsection{箱中粒子与径向约化}
+无限深势阱 $0<x<L$ 满足 $\psi(0)=\psi(L)=0$. 在阱内解 $\psi''+k^2\psi=0$, 左边界删去余弦, 右边界令 $kL=n\pi$, 归一化后
+\begin{equation}
+ \phi_n(x)=\sqrt{2/L}\sin(n\pi x/L),\qquad E_n=\frac{\hbar^2\pi^2n^2}{2mL^2},\quad n\ge1.
+\end{equation}
+三维长方盒的波函数是三项乘积, 能量为三个对应能量之和. 在球对称势中写 $\psi=u_l(r)Y_{lm}(\theta,\varphi)/r$, 径向方程为
+\begin{equation}\label{eq:radial}
+ -\frac{\hbar^2}{2\mu}u_l''+\left[V(r)+\frac{\hbar^2l(l+1)}{2\mu r^2}\right]u_l=Eu_l,\qquad u_l(0)=0.
+\end{equation}
+归一化变成 $\int_0^\infty|u_l|^2\dd r=1$. $u_l$ 在半直线上有原点条件, 不能把它的奇延拓误解为整个三维基态的奇宇称.
