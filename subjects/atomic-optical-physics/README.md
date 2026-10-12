@@ -2,7 +2,9 @@
 
 [中文主 PDF](dist/atomic-optical-physics-zh.pdf) · [可编译源码 ZIP](dist/atomic-optical-physics-source.zip)
 
-本卷为 MIT 官方公开材料的中文主题重编，采用仓库已批准的王者模板。共 **52 页、72 个官方原题大编号**。55道作业大题与17道期中题；题设不足处说明条件，不造唯一数值。
+本卷为 MIT 官方公开材料的中文主题重编，采用仓库已批准的王者模板。共 **61 页、72 个官方原题大编号**。55道作业大题与17道期中题；题设不足处说明条件，不造唯一数值。
+
+修订版已实际扩写正文推导、协议和原题解答，并按逐讲文件列出内容位置。逐讲覆盖见 [LECTURE-COVERAGE.md](LECTURE-COVERAGE.md)。
 
 课程、题目实际年份、联列去重、逐件链接及未覆盖项见 [SOURCES.md](SOURCES.md)、[coverage.json](coverage.json) 和 [source-inventory.json](source-inventory.json)。没有把入口页、已下载的英文 PDF、教材引用题或研究计划计为中文交付。
 

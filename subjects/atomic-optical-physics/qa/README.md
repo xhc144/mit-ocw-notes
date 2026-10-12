@@ -15,3 +15,5 @@
 重点检查更正：LOCC 与秩、Schmidt 固定阈值、双臂损耗、Yurke 系数、单环境与 Markov 极限、短时展开条件。未声称经独立 Agent 审校或已证明全部 AMO 多体结果。
 
 原件与出版边界见 `../SOURCES.md` 和 `../LICENSE.md`；正式包不含原版 PDF、原页截图、OCR文本、商业教材或外部字体。
+
+修订版补入Welton领先对数、Casimir模式和、Mollow相干/非相干谱及权重/半宽、缀饰力噪声与Sisyphus循环、蒸发效率与runaway、愈合长度/TF/耗尽/Mott平均场、Cooper与BCS、Cirac–Zoller三脉冲。revision-math-results.json 核验固定B/P端口正号、严格阈值边界、耗尽积分、平均场尖点及离子CZ脉冲；考试所需两组能级/跃迁图和光散射虚态图实际绘制。严格QED、多体临界及硬件噪声不在这些有限检查的证明范围。新版独立数学接收仍由父任务抽查。
