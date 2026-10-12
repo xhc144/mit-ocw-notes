@@ -1,0 +1,95 @@
+\originalchapter{8.334复习包2：标度、Goldstone奇异与各向异性RG}
+\osource{Mehran Kardar，8.334 Spring 2014，Test2 Review及公开Solutions，9题。保留题设截断流与现实模型、单一场缩放与复合算符的区别。}
+\begin{exercise}[原题1(a)--(d)]\label{r:334-2-1}
+流体奇异Helmholtz每粒子$f_s=t^{2-\alpha}g(\delta\rho/t^\beta)$，$t=|T-T_c|/T_c$、$\delta\rho=\rho-\rho_c$。沿临界等容线$Q\sim t^x$、临界等温线$Q\sim|\delta\rho|^y$，求(a)能与熵；(b)$C_V,C_P$；(c)$\kappa_T,\alpha_P$，验证$C_P-C_V=TV\alpha_P^2/\kappa_T$；(d)共存潜热。先按题给\textbf{只保奇异自由能}的模型，说明缩放函数导数不消失的假设。
+\end{exercise}
+\begin{solution}
+对$t$每微分降低一次幂，对密度每微分降低$\beta$次幂；一个齐次量沿$t=0$指数为$x/\beta$。$S_s=-f_{s,T}$、$U_s=f_s+TS_s$领先$t^{1-\alpha}$；$P_s=\rho^2f_{s,\rho}\sim t^{2-\alpha-\beta}$，$P_{s,T}\sim t^{1-\alpha-\beta}$、$P_{s,\rho}\sim t^{2-\alpha-2\beta}$。于是纯奇异模型给
+\begin{center}\begin{tabular}{lll}\toprule 量&$x$&$y$\\\midrule $U_s/N,S_s/N$&$1-\alpha$&$(1-\alpha)/\beta$\\ $C_V,C_P$&$-\alpha$&$-\alpha/\beta$\\ $\kappa_T$&$\alpha+2\beta-2$&$(\alpha+2\beta-2)/\beta$\\ $\alpha_P$&$\beta-1$&$(\beta-1)/\beta$\\\bottomrule\end{tabular}\end{center}
+$\alpha_P=P_T/(\rho P_\rho)$，$C_P-C_V$指数$2(\beta-1)-(\alpha+2\beta-2)=-\alpha$，吻合。共存$\delta\rho_\pm\sim t^\beta$使$L_s=T(S_{s,+}-S_{s,-})\sim t^{1-\alpha}$，前提两侧缩放函数差不为0；完全对称$g$可使该领先差消失。
+
+不能把这个表不加条件用到任意实际流体：若完整状态方程有通常非零解析$P_T$背景，$\kappa_T\sim t^{-\gamma}$、$\gamma=2-\alpha-2\beta$仍成立，而$\alpha_P\sim\kappa_T$、$C_P-C_V\sim\kappa_T$，不再是表中的纯奇异幂。类似CC若共存线斜率有限非零、体积差$t^\beta$，完整潜热可领先$t^\beta$。官方表解是在忽略这些解析背景且相关函数系数非零的题设模型内，缺省前提必须保留。
+\end{solution}
+\begin{exercise}[原题2(a)--(g)]\label{r:334-2-2}
+题给$d=1+\epsilon$ Ising流$\dot T=-\epsilon T+T^2/2$、$\dot h=dh$。(a)流与固定点；(b)$y_t,y_h$；(c)由$\xi$变换得$\nu,\Delta$；(d)奇异自由能、$\alpha$；(e)$\beta,\gamma$；(f)由关联积分得$\eta$；(g)$d=1$沿$h=0,T\to0$相关长。
+\end{exercise}
+\begin{solution}
+$h=0$轴有$T=0$、$T_c=2\epsilon$；$0<T<T_c$向0，$T>T_c$向高温，$h$以$\e^{d\ell}$离开轴。临界$y_t=\partial_T\dot T|_{T_c}=\epsilon$、$y_h=d$。$\xi(t,h)=b\xi(b^{y_t}t,b^{y_h}h)$选$b=|t|^{-1/y_t}$，得$\nu=1/\epsilon$、$\Delta=d/\epsilon$。
+
+体积标度$f_s=b^{-d}f_s(b^{y_t}t,b^{y_h}h)=|t|^{d/\epsilon}\Phi(h/|t|^{d/\epsilon})$，所以$\alpha=2-d/\epsilon$、$\beta=(d-y_h)/y_t=0$、$\gamma=(2y_h-d)/y_t=d/\epsilon$。$\chi\sim\int^{\xi}r^{d-1}r^{-d+2-\eta}\dd r\sim\xi^{2-\eta}$，给$\eta=2-d=1-\epsilon$。
+
+$\beta=0$是\textbf{题给截断流}忽略磁场异常重标度的结果，不能冒称所有真实$d>1$ Ising的精确磁化指数。$\epsilon=0$积分$1/T(\ell)=1/T_0-\ell/2$，到$O(1)$尺度$\xi\sim a\exp(2/T_0)$；一维严格转移矩阵$\xi=-1/\log\tanh(1/T)$回收此指数式。
+\end{solution}
+\begin{exercise}[原题3(a)--(h)]\label{r:334-2-3}
+$n$分量有序LG$H=\int[K(\nabla m)^2/2+tm^2/2+u(m^2)^2]$、$t<0$。(a)置$m=(m_0+\phi_\ell)e_\ell+\pi$展开全部项；(b)将$U=4um_0\int\phi_\ell\pi^2$Fourier化；(c)裸纵横协方差；(d)横四点Wick（$n-1$分量）；(e),(f)二阶纵关联连接展开；(g)略去横断连项给$\chi_\ell(q)$；(h)小$q$奇异。说明有序相存在与$n$的条件。
+\end{exercise}
+\begin{solution}
+$m_0^2=-t/(4u)$。除常数，二次$H_0=\tfrac12\int[K((\nabla\phi_\ell)^2+(\nabla\pi)^2)-2t\phi_\ell^2]$，三次$4um_0\phi_\ell(\phi_\ell^2+\pi^2)$，四次$u(\phi_\ell^2+\pi^2)^2$。题取最低纵横耦合$U=4um_0\sum_a\int_{qk}\phi_\ell(q)\pi_a(k)\pi_a(-q-k)$，其他顶点并非永不存在，只为该IR奇异分离忽略。
+
+$G_\ell^0=(Kq^2-2t)^{-1}$、$G_t^0=(Kq^2)^{-1}$。对两复合$\pi^2$的Wick，断连自收缩系数$(n-1)^2$只移鞍点，两个跨顶点收缩各系数$n-1$，合为$2(n-1)G_tG_t$。纵关联展开$G_\ell=G_\ell^0+\tfrac12[\avg{\phi\phi U^2}_0-G_\ell^0\avg{U^2}_0]+\cdots$，一次项因纵奇数0；两个外腿接不同顶点有2种，消$1/2$，得到
+\begin{equation}
+\chi_\ell(q)=G_\ell^0(q)+32u^2m_0^2(n-1)[G_\ell^0(q)]^2\int_k\frac1{Kk^2K|k+q|^2}+\cdots.
+\end{equation}
+$2<d<4$时积分$\propto K^{-2}|q|^{d-4}$，$d=4$对数，故纵$\chi$也奇异。另一检查是长度近固定约束$\phi_\ell\simeq-\pi^2/(2m_0)$，给系数$(n-1)/(2m_0^2)$乘同一泡图，与上式$G_\ell^0(0)=(-2t)^{-1}$一致。
+
+$n=1$没有横模，系数0，不推出Ising有序纵响应这样发散；短程连续对称$d\le2$非零温没有这里假定的普通长程序。$q$趋0时有限阶微扰也会失控，泡图识别机制而非提供所有尺度的均匀收敛展开。
+\end{solution}
+\begin{exercise}[原题4(a)--(j)]\label{r:334-2-4}
+LG加$r m_1^2/2+v m_1^2m^2$、$u>0$，整题令$v=0$。(a)给定$|m|$的易方向；(b)平行/垂直1轴鞍点自由能；(c)$t,r$相图与阶；(d)Goldstone；(e)正$t,r,u=0$的1、2分量协方差；(f)四次Fourier；(g),(h)首阶关联修正；(i)$\chi_{22}^{-1}$及$t_c$；(j)$r$在O(n)点相关性和普适类。
+\end{exercise}
+\begin{solution}
+$r>0$易垂直平面，$r<0$易1轴。平行密度$f_\parallel=-(t+r)^2/(16u)$（$t+r<0$），垂直$f_\perp=-t^2/(16u)$（$t<0$）。无序需$t>0,t+r>0$；$r>0$在$t=0$连续入O$(n-1)$平面序，$r<0$在$t+r=0$连续入Ising轴序。$r=0,t<0$两方向相会，$\partial_rf=m_1^2/2$跳变，为取向一阶线，端点$(0,0)$为双临界。平面序有$n-2$ Goldstone、轴序0、$r=0$的各向同性序有$n-1$。
+
+$D_1=Kq^2+t+r,D_\perp=Kq^2+t$，$G_i=D_i^{-1}$。$U=u\sum_{ij}\int_{q_1q_2q_3}m_i(q_1)m_i(q_2)m_j(q_3)m_j(-\sum q)$。Wick外腿同分量两种附加收缩，令$I_1=\int_qG_1,I_\perp=\int_qG_\perp$，质量修正
+\begin{equation}
+\delta r_1=4u[3I_1+(n-1)I_\perp],\qquad\delta r_\perp=4u[I_1+(n+1)I_\perp].
+\end{equation}
+关联首修正$G_i-\delta r_iG_i^2$，$\chi_{22}^{-1}=t+4u[I_1+(n+1)I_\perp]+O(u^2)$。平面支$r>0$的一阶$t_c=-4u\int_q[(Kq^2+r)^{-1}+(n+1)(Kq^2)^{-1}]+O(u^2)$，相同截断，发散时不可当有限移位。
+
+$r$分裂二次质量，O(n)固定点处相关，微小易轴/易平面最终分别流向Ising/O$(n-1)$类，不仅改临界温。$r=0$经细调才留O(n)；若平面为O(2)且有效空间二维，应另考虑BKT而非通常有序相均场。
+\end{solution}
+\begin{exercise}[原题5(a)--(d)]\label{r:334-2-5}
+$n$分量LG四次$u(m^2)^2+v\sum_im_i^4$。(a)易方向及简并；(b)$u,v$稳定区；(c)有正六次稳定项、$u>0$的$t,v$鞍点相图；(d)Goldstone。
+\end{exercise}
+\begin{solution}
+固定$R^2=\sum m_i^2$，$R^4/n\le\sum m_i^4\le R^4$。$v>0$取各分量等模$\pm R/\sqrt n$，共$2^n$条有向对角方向；$v<0$取单一分量$\pm R$，共$2n$条有向轴（不计正负时各减半）。四次稳定$u+v/n>0$（$v\ge0$）或$u+v>0$（$v<0$）。
+
+$u>0$、$v>-u$时$t=0$连续，$v>0$入对角序、$-u<v<0$入轴序；$v=0,t<0$取向切换，恢复O(n)连续简并。$v<-u$轴方向有效四次$a_4=u+v<0$，加$wR^6,w>0$后$t_*=a_4^2/(2w)$、$R_*^2=-a_4/(2w)$为一阶，$(t,v)=(0,-u)$三临界。非零$v$离散易方向无Goldstone，$v=0$有$n-1$；稳定区边界上若没有六次项原四次模型无有限极小，不能把那里画成合法低温相。
+\end{solution}
+\begin{exercise}[原题6(a)--(d)]\label{r:334-2-6}
+证明题给一环流$\dot u=\epsilon u-4C[(n+8)u^2+6uv]$、$\dot v=\epsilon v-4C[12uv+9v^2]$，$\epsilon=4-d$、$C\simeq A_4/K^2$。(b)全部固定点、$n<4,n>4$稳定流；(c)温度流及稳定点$\nu$；(d)涨落对稳定区与小负$v,n>4$相变的影响。
+\end{exercise}
+\begin{solution}
+没有$4!$约定的四腿顶点为$8u(\delta_{ab}\delta_{cd}+\delta_{ac}\delta_{bd}+\delta_{ad}\delta_{bc})+24v\delta_{abcd}$。二阶连接累积量两顶点以两条壳传播子连接，三种外腿配对；壳泡$I_2=C\dd\ell$。投影到$aabb$与$aaaa$不变量，$u$修正来自$4(n+8)Cu^2+24Cuv$，$v$修正来自$48Cuv+36Cv^2$；两个纯$v$顶点不能生成不同分量$aabb$，纯$u$必须保持O(n)所以不生成独立$v$，这两条是计数检查。再加树层维$\epsilon$即题式。
+\begin{center}\begin{tikzpicture}[x=1cm,y=1cm]\fill(-1,0)circle(2pt);\fill(1,0)circle(2pt);\draw(-1,0)..controls(-.4,.8)and(.4,.8)..(1,0);\draw(-1,0)..controls(-.4,-.8)and(.4,-.8)..(1,0);\draw(-2,.6)--(-1,0)--(-2,-.6);\draw(2,.6)--(1,0)--(2,-.6);\node[above]at(0,.65){两条壳传播子};\node[left]at(-1.7,.6){$a$};\node[left]at(-1.7,-.6){$b$};\node[right]at(1.7,.6){$c$};\node[right]at(1.7,-.6){$d$};\end{tikzpicture}\end{center}
+用$\bar u=4Cu,\bar v=4Cv$，固定点为Gaussian$(0,0)$、独立Ising$(0,\epsilon/9)$、O(n)$(\epsilon/(n+8),0)$、cubic$(\epsilon/(3n),\epsilon(n-4)/(9n))$。Gaussian两方向$+\epsilon$，Ising有$+\epsilon/3$与$-\epsilon$，均不完全稳定。O(n)本征值$-\epsilon,\epsilon(n-4)/(n+8)$，cubic本征值$-\epsilon,\epsilon(4-n)/(3n)$；所以$n<4$稳定O(n)、$n>4$稳定正$v$cubic，$n=4$一环边缘需更高阶。
+
+平移临界质量后$\dot t=[2-(n+2)\bar u-3\bar v]t+\cdots$，来自单壳tadpole$4[(n+2)u+3v]I_1$及$I_1$对$t$的导数。因此
+\begin{equation}
+\nu_{O(n)}=\tfrac12+\frac{n+2}{4(n+8)}\epsilon+O(\epsilon^2),\quad
+\nu_{cubic}=\tfrac12+\frac{n-1}{6n}\epsilon+O(\epsilon^2).
+\end{equation}
+$n>4$负$v$可离开原四次稳定区、流向大耦合，六次稳定项允许涨落诱发一阶。原均场稳定区因涨落的长尺度要求而缩小；runaway是机制指示，有限阶beta函数不独自证明精确一阶边界，$n=4$阈值也仅是一环结论。
+\end{solution}
+\begin{exercise}[原题7(a)--(f)]\label{r:334-2-7}
+平方格Ising，$b=2$的Niemeijer--van Leeuwen首累积量。(a)四站方块内/跨键划分；(b)块自旋多数规则、2:2平票各一半，列所有微观权重；(c)$\avg U_0$与$K'$；(d)固定点、$y_t$；(e)小$h$的$h',y_h$；(f)精确比较。
+\end{exercise}
+\begin{solution}
+块内四边作$H_0$，相邻块之间两条原键作$U$。配置类及完整数目如下：
+\begin{center}\begin{tabular}{llll}\toprule 块内$M$&构型数&键和、权重&给$S'=+$比例\\\midrule 4&1&$4,\e^{4K}$&1\\ 2&4&$0,1$&1\\ 0（相邻两正）&4&$0,1$&$1/2$\\ 0（交替）&2&$-4,\e^{-4K}$&$1/2$\\ $-2$&4&$0,1$&0\\ $-4$&1&$4,\e^{4K}$&0\\\bottomrule\end{tabular}\end{center}
+反号给$S'=-$，两条件权重各$Z_b=\e^{4K}+6+\e^{-4K}$。旋转对称使每边站$\avg{\sigma_i}_{S'}=a(K)S'$、$a=(\e^{4K}+2)/Z_b$。首累积量跨块因子化，两条边给$K'=2Ka^2$；新场$h'=4ah$，常数每块$\log Z_b$。
+
+非零固定点$a=1/\sqrt2$。$x=\e^{4K_*}$满足$(\sqrt2-1)x^2-(6-2\sqrt2)x-1=0$，$K_*\simeq0.5187$。$y_t=\log[\partial_K(2Ka^2)|_{K_*}]/\log2\simeq1.006$，$y_h=\log(4/\sqrt2)/\log2=1.5$。精确$K_c=\tfrac12\log(1+\sqrt2)=0.440687$、$y_t=1,y_h=15/8$。热指数接近是该近似的数值巧合，磁指数误差明显；首累积量丢跨块相关不能误称精确RG。随卷代码穷举16态及验证全部表项。
+\end{solution}
+\begin{exercise}[原题8(a)--(d)]\label{r:334-2-8}
+$d$维Potts近邻$K\delta_{s_i,s_j}$。(a)一维$b=2$精确隔站流及固定点；(b)采用\textbf{先移键、后消站}的MK流；(c)$d>1$有非零有限固定点；(d)$d=2$、$q=3,1,0$的$K_*,y_t$，$q=1,0$作随机簇解析延拓。
+\end{exercise}
+\begin{solution}
+一维$F_q(K)=\log[(\e^{2K}+q-1)/(2\e^K+q-2)]$，常数$g'=2g+\log(2\e^K+q-2)$，$K=0$稳定、$\infty$不稳定（$K'=K-\log2$）。先把$2^{d-1}$条键并到一条，再精确消站，$K'=F_q(2^{d-1}K)$。与先消站后并键的另一MK次序不同，本文用官方题的次序；两种都是近似，数字不宜混比。
+
+$q>0$小$K$有$K'\simeq2^{2d-2}K^2/q<K$，大$K$有$K'\simeq2^{d-1}K-\log2>K$（$d>1$），连续性保证中间有不稳定有限根。$d=2,x=\e^{K_*}$，方程$x(2x^2+q-2)=x^4+q-1$。
+
+$q=3$正根$x=2$，$K_*=\log2$、热本征值$\lambda_t=16/9$、$y_t=\log_2(16/9)\simeq0.8301$。$q=1$根$x=(1+\sqrt5)/2=\varphi$，$K_*\simeq0.48121$、$\lambda_t=4(1-\varphi^{-1})$、$y_t\simeq0.6115$。$q\to0$化简$K'=\log[(1+\e^{2K})/2]=K+K^2/2+\cdots$，仅有限根0，$y_t=0$但二阶边缘相关。$q=0$不能当“零种自旋”的普通统计和，它是连通图生成函数的极限；$q=1$对应渗流。原$q>0$的非零固定点论证在奇异$q=0$极限须重新检查。
+\end{solution}
+\originalsection{原题9：Potts转移矩阵的完整引用}
+原题9(a)--(c)周期Potts链的矩阵、最大与次大根、自由能、$\xi(T\to0)$，逐项在习题\ref{p:334-4-5}(a),(b)及其解答。原卷Hamilton式把末键单列又让前和上限写$N$，本卷按每条周期近邻边只计一次处理，不将末键双计。

@@ -1,0 +1,62 @@
+\originalchapter{8.334作业5：对偶、Potts模型与渗流}
+\psource{Mehran Kardar，8.334 Spring 2014，PS5，截止2014年4月28日。选做题2与题5(c)保留。}
+\begin{exercise}[原题1(a),(b)]\label{p:334-5-1}
+平方格Ising，$-\beta H=K\sum_{\langle ij\rangle}\sigma_i\sigma_j$。(a)从自由能对偶导出$U=\avg{\beta H}=-\partial_{\log K}\log Z$关系；(b)求临界$U$精确值。
+\end{exercise}
+\begin{solution}
+热力学每站$\phi(K)=\log Z/N$满足$\phi(K)=\log\sinh(2K)+\phi(K^*)$，$\sinh2K\sinh2K^*=1$；有限环面的不同边界扇区另处理，对能密度无影响。微分得到$\phi'=2\coth2K+\phi'(K^*)\partial_KK^*$。$\partial_KK^*=-1/\sinh2K$，所以
+\begin{equation}
+\frac{U(K)}N=-2K\coth2K-\frac{K}{K^*\sinh2K}\frac{U(K^*)}N.
+\end{equation}
+自对偶$\sinh2K_c=1$使$\phi'(K_c)=\sqrt2$，$U/N=-\sqrt2K_c$。若问物理能$H$，则每站$-\sqrt2\widehat J$，而非多乘$\beta$。该推导用能在连续转变两侧相合，不能直接以单支同值论证一阶转变潜热。
+\end{solution}
+\begin{exercise}[原题2，选做]\label{p:334-5-2}
+验证平方格Ising的精确自由能在对偶变换后只差解析函数。
+\end{exercise}
+\begin{solution}
+用第\ref{ch:ising2}章的积分形式
+\begin{equation}
+\phi(K)=\tfrac12\log(2\sinh2K)+\frac1{2\pi}\int_0^\pi\operatorname{arcosh}[\cosh2K\coth2K-\cos q]\dd q.
+\end{equation}
+令$s=\sinh2K$，积分的组合$\cosh^22K/\sinh2K=s+s^{-1}$，在$s\mapsto s^{-1}$下不变；首项之差$\tfrac12\log(s/s^{-1})=\log s$，即上一题关系。检查$K\to\infty$时$\phi\to2K$及$K\to0$时$\phi\to\log2$可排除归一化常数错误。
+\end{solution}
+\begin{exercise}[原题3(a)--(d)]\label{p:334-5-3}
+平方格$q$态clock，$-\beta H=\sum_{\langle ij\rangle}J(s_i-s_j)$。(a)改用$2N$有向键$b_{ij}=s_i-s_j\pmod q$，说明每小方格键和0的约束及计数；(b)用$\delta_q(S)=q^{-1}\sum_{n=0}^{q-1}\e^{2\pi\ii nS/q}$求双格模型，$\lambda(k)=\sum_b\e^{J(b)+2\pi\ii kb/q}$；(c)Potts双耦合、$J_c(q)$；(d)各向异性Potts的自对偶线。
+\end{exercise}
+\begin{solution}
+键来自梯度，所以任意合同闭路的有向和0。平面单连通图$E$键、$N$站，独立面约束$F=E-N+1$，剩$N-1$自由键，再加整体$q$次全局平移，恢复$q^N$站配置。环面还需两个非合同回路的零绕数；仅加小面约束会额外计入扭转边界扇区。
+
+逐面引入Fourier整数$n_p$，每键出现相邻两面的$n_p-n_{p'}$，键求和就是$\lambda$。对平面固定外面$n=0$的精确式为$Z=q^{1-F}\sum_{\{n_p\}}\prod_{\rm edges}\lambda(n_p-n_{p'})$。体积领先$F\simeq N$给原题的$q^{-N}$类归一化；环面有限尺寸需显式扇区和，不能把这个bulk式当任意周期边界的精确单扇区等式。定义双键$\widetilde J(k)=\log\lambda(k)$加归一化常数；若$\lambda$不全正，实正Boltzmann模型解释需另外检验。
+
+Potts$w_0=\e^J,w_{b\ne0}=1$，$\lambda_0=\e^J+q-1$、$\lambda_{k\ne0}=\e^J-1$，故$(\e^J-1)(\e^{J^*}-1)=q$，铁磁自对偶$J_c=\log(1+\sqrt q)$。以铁磁模型唯一相边界的课程前提定位临界，不由对偶独自证明转变连续；$q>4$可是一阶。双格$x$边跨原格$y$边，各向异性$v_x=\e^{J_x}-1,v_y=\e^{J_y}-1$的自对偶线$v_xv_y=q$。
+\end{solution}
+\begin{exercise}[原题4(a)--(c)]\label{p:334-5-4}
+蜂窝、三角格Ising。(a)蜂窝一亚格子部分求和的星--三角耦合$K_t(K_h)$；(b)三角的双格蜂窝；(c)结合求两临界耦合。
+\end{exercise}
+\begin{solution}
+中心自旋$s_0$求和$2\cosh[K_h(s_1+s_2+s_3)]=A\exp[K_t(s_1s_2+s_2s_3+s_3s_1)]$。三叶全同及两同一异给$A\e^{3K_t}=2\cosh3K_h$、$A\e^{-K_t}=2\cosh K_h$，于是$\e^{4K_t}=\cosh3K_h/\cosh K_h=4\cosh^2K_h-3$。平面双格关系$\e^{-2K_h^*}=\tanh K_t$。临界将星--三角与对偶映射接合，解得
+\begin{equation}
+K_t^c=\tfrac14\log3,\qquad K_h^c=\tfrac12\log(2+\sqrt3).
+\end{equation}
+这也给前章蜂窝近似RG的精确比较基准。有限图边界的解析配分因子不影响临界位置。
+\end{solution}
+\begin{exercise}[原题5(a)--(c)，(c)选做]\label{p:334-5-5}
+蜂窝$q$态Potts，中心部分和生成三角近邻$K_t$和三自旋$L$。(a)求这些耦合，为何Ising无独立$L$；(b)三角模型双格；(c)要求星--双变换的固定值并验$L(K_c)=0$，求临界。
+\end{exercise}
+\begin{solution}
+令$x=\e^{K_h}$，按三叶全同、两同一异、全异的星和为$A=x^3+q-1$、$B=x^2+x+q-2$、$C=3x+q-3$。对$q\ge3$写权重$C\exp[K_t(\delta_{12}+\delta_{23}+\delta_{31})+L\delta_{12}\delta_{23}]$，得$K_t=\log(B/C)$、$L=\log(AC^2/B^3)$。$q=2$不可能三叶全异，且$\delta_{12}\delta_{23}=(\delta_{12}+\delta_{23}+\delta_{31}-1)/2$，三体项可吸收到常数与两体项，没有独立新算符。
+
+普通三角两体Potts的双格为蜂窝，$v_tv_h=q$，$v=\e^K-1$；若三角已有$L$，双格一般不只是单一两体耦合，不能全温宣称自对偶。要求星变换后$\e^{K_t}-1=q/v_h$且$L=0$，代$A,B,C$化简为
+\begin{equation}
+v_h^3-3qv_h-q^2=0,\qquad v_t^3+3v_t^2=q,\quad v_tv_h=q.
+\end{equation}
+取正铁磁根，$K_h^c=\log(1+v_h)$、$K_t^c=\log(1+v_t)$；该根确使$AC^2=B^3$，所以在相边界处生成三体项消失。$q=2$换成Ising耦合$K_{\rm Potts}=2K_{\rm Ising}$回收前题。并非所有温度都无三体项。
+\end{solution}
+\begin{exercise}[原题6(a)--(c)]\label{p:334-5-6}
+独立键以$p$占据，双键占据$1-p$。(a)$N$串联键和其$N$并联双键的渗流/非渗流概率；(b)平方格键渗流阈值；(c)三维键对偶为小面渗流，能否通流同时保持固体完整？
+\end{exercise}
+\begin{solution}
+串链通流需每键占据，概率$p^N$；双并联不通需每双键空，概率也$p^N$，双通$1-p^N$。二维平方格自对偶且通流相边界唯一，对偶映射$p\leftrightarrow1-p$定位$p_c=1/2$（证明唯一和sharpness是额外渗流定理，不能仅一句“自对偶”完成其全证明）。
+
+三维堵塞路径的对偶对象是面形成的阻断曲面，而不是另一条平面相交链。孔通道与固体承重通道可绕行并存，因此几何上能通流而材料仍连通；机械刚性还要求约束与弹性，不等于键连通。二维同一截面上路径与双路径互斥的简单图像不能搬到三维。高维阈值也不能直接猜为$1/2$。
+\end{solution}

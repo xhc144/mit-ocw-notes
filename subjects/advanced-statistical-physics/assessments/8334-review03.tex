@@ -1,0 +1,144 @@
+\originalchapter{8.334复习包3：图展开、矩阵场与粗糙化}
+\osource{Mehran Kardar，8.334 Spring 2014，Test3 Review及公开Solutions，12题。修复粗糙化能量符号与正交矩阵说明，并区分官方统一场缩放和复合算符壳平均。}
+\begin{exercise}[原题1(a),(b)]\label{r:334-3-1}
+蜂窝格O(n)单位向量，改用键权重$\exp f(s_i\cdot s_j)=1+nt\,s_i\cdot s_j$。(a)高温$t$图展开；(b)$n\to0$如何表示单条自避免聚合链，说明使用的生成函数。
+\end{exercise}
+\begin{solution}
+每条边选1或$nt\sum_as_i^as_j^a$。规范化球面积分$\int s^a=0$、$\int s^as^b=\delta_{ab}/n$；蜂窝度3，所以有边的顶点必须度2，不能度1或3。所选图是互不交叉闭环，长度$l$的边$n^lt^l$被$l$个顶点$n^{-l}$抵消，绕圈分量迹剩$n$，故
+\begin{equation}
+Z=\sum_{\rm disjoint\ loops}t^{N_b}n^{N_{loop}}.
+\end{equation}
+裸$\lim_{n\to0}Z=1$只剩空图，不能直接说它等于一个聚合物。$\partial_n Z|_0$选一个闭合自避免环；插入$\avg{s_i\cdot s_j}$则两个端点允许一条开放线，其余闭环在$n\to0$消失，得到从$i$到$j$的单条自避免路径生成函数。度3格点避免偶四度顶点的分叉/交叉歧义；模型正权重需相应$t$范围，解析$n$极限作为图生成工具。
+\end{solution}
+\begin{exercise}[原题2(a)--(f)]\label{r:334-3-2}
+$q$态Potts键$\e^{K\delta}=C(K)[1+T(K)g(s,s')]$、$g=q\delta-1$。(a)$C,T$；(b)证明$\sum_sg=0$、$\sum_sg(s_1,s)g(s,s_2)=qg(s_1,s_2)$、$\sum_{ss'}g^2=q^2(q-1)$；(c)一维自由能、$\avg{g(s_m,s_n)}$；(d)平方格高温至$T^4$与低温首项；(e)对偶、唯一边界前提下$K_c$；(f)$q=2$图的区别。
+\end{exercise}
+\begin{solution}
+比较相同/不同自旋给$C=(\e^K+q-1)/q$、$T=(\e^K-1)/(\e^K+q-1)$。矩阵$g=qI-\mathbf1\mathbf1^T$在均匀向量上0、其余$q-1$维本征值$q$，故$g^2=qg$，三恒等式立即由行和和迹得到。
+
+一维$Z=q^NC^{N-1}$（开链），环链改为$Z=q^NC^N[1+(q-1)T^N]$，等价于转移矩阵精确式；体自由能$\log Z/N=\log(qC)$，关联$\avg{g(s_m,s_n)}=(q-1)T^{|m-n|}$。平方格最小非空高温闭图为一个面，权重$(q-1)T^4$，故$Z=q^NC^{2N}[1+N(q-1)T^4+O(T^6)]$（thermodynamic bulk，有限小环面另有绕圈图）。低温基态$q$个，单站改成另$q-1$色破4键，$Z=q\e^{2NK}[1+N(q-1)\e^{-4K}+\cdots]$。
+
+匹配$T(K)=\e^{-K^*}$即$(\e^K-1)(\e^{K^*}-1)=q$，唯一铁磁边界在$K_c=\log(1+\sqrt q)$。$q=2$时$g=\sigma_i\sigma_j$，每顶点奇度平均0，图只有偶度；$q>2$可有三度及更复杂分叉图，不能用同一简单Ising费米环结构完成求和。这是所用解法的结构区别，不是所有非Ising模型一律不可解的定理。
+\end{solution}
+\begin{exercise}[原题3(a)--(c)]\label{r:334-3-3}
+Potts$\e^{K\delta}=1+v\delta,v=\e^K-1$，加场$h\sum_i\delta_{s_i,1}$。(a)证明随机簇式$Z=\sum_Gv^{N_b(G)}\prod_{c\in G}[q-1+\e^{hN_s(c)}]$；(b)$q\to1$独立键渗流与平方阈值；(c)$q\to0$单连通簇生成及lattice animals解释。
+\end{exercise}
+\begin{solution}
+选中$v\delta$的每键强迫两端同色，一个连通簇所有自旋同色；若色1权$\e^{hN_s}$，其余$q-1$色权1，独立簇相乘即式。$h=0$时$Z=\sum_Gv^{N_b}q^{N_c}$，所有图均允许，不用删除带端点的图。
+
+$q=1$有$Z=(1+v)^{N_E}$，规范化图概率$p^{N_b}(1-p)^{N_E-N_b}$，$p=v/(1+v)$，平方格$p_c=1/2$。$q\to0$时裸$Z\to0$，其$q$的领先系数只保一个簇，即\textbf{固定全顶点集}上的连通生成图。若要枚举任意尺寸的单根lattice animals，需再标根或对参与顶点数引入生成变量；不能把有限图的$Z/q$未经说明当任意尺寸簇数。它允许分叉和环，与上一题$n\to0$的单条自避免链不同。
+\end{solution}
+\begin{exercise}[原题4(a),(b)]\label{r:334-3-4}
+平方格Potts。(a)比较高低温或从随机簇证明配分函数对偶、$K_c$；(b)从对偶求$U=\avg{\beta H}=-\partial_{\log K}\log Z$的临界值，说明不连续转变时的限制。
+\end{exercise}
+\begin{solution}
+平面图的已占边与双图未占边对应，Euler关系将簇数换成双簇数，bulk每站$\phi(K)=2\log v-\log q+\phi(K^*)$、$v=\e^K-1,vv^*=q$。有限边界有解析常数和扭转扇区，见习题\ref{p:334-5-3}。自对偶$K_c=\log(1+\sqrt q)$。
+
+微分$\partial_KK^*=-q\e^K/[v(v+q)]$，故$U(K)/N=-2K\e^K/v+(K/K^*)(\partial_KK^*)U(K^*)/N$。自对偶导数$-1$，若能连续，$U_c/N=-K_c(1+1/\sqrt q)$。$q>4$的一阶情况下，它严格固定\textbf{两侧能量平均}，而非使潜热0：$[U_c^-+U_c^+]/(2N)=-K_c(1+1/\sqrt q)$。原题对任意$q$的单值说法须加连续前提；这也是只用自对偶不能决定相变阶的例子。
+\end{solution}
+\begin{exercise}[原题5(a)--(c)]\label{r:334-3-5}
+平方格所有从原点出发随机游走，权$t_x^{l_x}t_y^{l_y}$、$t_x,t_y\ge0$。(a)终点$(x,y)$总权$W$及$t=(t_x+t_y)/2<1/4$；(b)近临界远距等权曲线；(c)全部终点加权平均步数如何发散。
+\end{exercise}
+\begin{solution}
+单步Fourier振幅为$A(q)=2t_x\cos q_x+2t_y\cos q_y$。所有步数作几何和，$\widetilde W=1/(1-A)$，所以
+\begin{equation}
+W(x,y)=\int_{[-\pi,\pi]^2}\frac{\dd^2q}{(2\pi)^2}
+\frac{\e^{\ii(q_xx+q_yy)}}{1-2t_x\cos q_x-2t_y\cos q_y}.
+\end{equation}
+非负权总和有限需$2(t_x+t_y)<1$，即$t<1/4$。
+
+近临界$\delta=1-4t$，小$q$核$\delta+t_xq_x^2+t_yq_y^2$，逆Fourier$W\simeq K_0(\sqrt\delta\sqrt{x^2/t_x+y^2/t_y})/(2\pi\sqrt{t_xt_y})$。等值是椭圆，$\xi_x=\sqrt{t_x/\delta},\xi_y=\sqrt{t_y/\delta}$；某耦合严格0时降为一维，不能使用两维Jacobian。总生成$\sum_{xy}W=1/(1-4t)$，共同放大两步权的对数导数给$\avg l=4t/(1-4t)$，$\gamma_l=1$。固定终点的条件步数需对该$W(x,y)$另求导，不与全终点平均混为一个量。
+\end{solution}
+\begin{exercise}[原题6(a)--(c)]\label{r:334-3-6}
+平方格各向异性Ising$-\beta H=\sum[K_x\sigma_{x,y}\sigma_{x+1,y}+K_y\sigma_{x,y}\sigma_{x,y+1}]$。(a)改造行转移矩阵/Jordan--Wigner正规模，给体自由能；(b)由奇点求相边界并验$K_x=K_y^*$；(c)奇异自由能及指数、幅比受各向异性影响。
+\end{exercise}
+\begin{solution}
+行内键仍给$\exp[K_x\sum\sigma^z_j\sigma^z_{j+1}]$；行间单站核对角化后将原$K^*$换为$K_y^*$，$\tanh K_y^*=\e^{-2K_y}$，常数每站$(2\sinh2K_y)^{1/2}$。转为Majorana后每$(q,-q)$二模块的双曲转移乘积得到
+\begin{equation}
+\cosh\gamma(q)=\cosh2K_x\cosh2K_y^*-\sinh2K_x\sinh2K_y^*\cos q,
+\end{equation}
+其两根$\e^{\pm\gamma}$，选最大根求迹，$\phi=\log Z/N=\tfrac12\log(2\sinh2K_y)+(2\pi)^{-1}\int_0^\pi\gamma(q)\dd q$。这展示哪些各向同性步骤改变，而非直接猜一个替换式。
+
+最小间隙$\gamma(0)=2|K_x-K_y^*|$，所以$\sinh2K_x\sinh2K_y=1$。近临界$\mu=2(K_x-K_y^*)$、$v_q^2=\sinh2K_x\sinh2K_y^*$，小$q$有$\gamma\simeq\sqrt{\mu^2+v_q^2q^2}$，积分奇异$\phi_s=\mu^2\log(C/|\mu|)/(4\pi v_q)$加解析项。$\mu\propto T-T_c$给$\nu=1$与对数热容$\alpha=0$；有限正空间刚度改变尺度和非普适振幅，不改临界类。两侧$\mu^2\log|\mu|$系数同，热容对数幅比1；其他普适幅比比较须使用同一坐标和场归一化，相关长方向之比本身是非普适度量。
+\end{solution}
+\begin{exercise}[原题7(a)--(d)]\label{r:334-3-7}
+二维Ising界面沿$x$，忽略孤岛、悬垂，整数列高$h_n$，周期列边界。(a)证明$\beta H=2K_yL+2K_x\sum|h_{n+1}-h_n|$；(b)列转移核及对角化；(c)界面自由能；(d)零界面代价与原精确临界线比较。
+\end{exercise}
+\begin{solution}
+每水平投影列破一竖键，代价$2K_y$；高度差$|\Delta h|$破这么多横键，每条$2K_x$。核$T(h,h')=\e^{-2K_y-2K_x|h-h'|}$、本征函数$\e^{\ii kh}$，$r=\e^{-2K_x}$，$\lambda(k)=\e^{-2K_y}(1-r^2)/(1-2r\cos k+r^2)$。整体高度无限平移量需固定或除去，不影响每长度自由能。
+
+最大$k=0$，$\beta\sigma_{axis}=-\log\lambda_0=2K_y-\log\coth K_x=2K_y+\log\tanh K_x$。为0时$\e^{-2K_y}=\tanh K_x$，正好$\sinh2K_x\sinh2K_y=1$。这个无悬垂近似所得边界与精确线相合，但不由此证明所有界面构型都已计入；形式负代价区原有序界面解释已失效。
+\end{solution}
+\begin{exercise}[原题8(a)--(c)]\label{r:334-3-8}
+$n$分量磁性LG考虑空间各向异性。(a)一般低阶作用；(b)这种各向异性是否相关；(c)题设La2CuO4经典三分量spin，平面内强平方格反铁磁、相邻平面弱同向耦合，低温态与转变普适类。
+\end{exercise}
+\begin{solution}
+一般$H=\int[t m^2/2+\tfrac12K_{\alpha\beta}\partial_\alpha m\cdot\partial_\beta m+u(m^2)^2-h\cdot m]$，对称正定空间刚度可正交对角化，再以$x_\alpha'=x_\alpha/\sqrt{K_\alpha}$化成等向梯度，体积Jacobian与场单位重定。有限正定刚度的各向异性属度量参数，通常不改变普适指数；若有特征值0、不同$q^2/q^4$阶或长程尾，则不能这样移去，见作业3。
+
+低温每平面$s_{x,y,z}=(-1)^{x+y}\hat n$，弱同向层耦合使同一位置跨层取同向，共用Néel轴。任意有限正层耦合在足够长尺度构成三维O(3)类（在题设经典、无spin各向异性假设内）；很弱时有广的二维到三维 crossover，孤立短程二维连续spin平面本身无非零温普通长程序。不能把空间弱耦合与spin易轴相混后改猜Ising。
+\end{solution}
+\begin{exercise}[原题9(a)--(c)]\label{r:334-3-9}
+单位$n$分量$H=(2T)^{-1}\int[(\nabla s)^2+gs_1^2]$，$d=2+\epsilon$。题给$\dot T=-\epsilon T+(n-2)T^2/(2\pi)$，整体spin缩放$\zeta=1-(n-1)T\dd\ell/(4\pi)$。(a)固定$T,y_T$；(b)各向异性$g$的流、指数；(c)$T,g$相图、$g\to0$的边界形状。区分官方仅以$\zeta^2$处理平方场的近似和直接壳平均。
+\end{exercise}
+\begin{solution}
+$n>2$、$\epsilon>0$，$T_*=2\pi\epsilon/(n-2)$、$y_T=\epsilon$。官方解把$s_1^2$仅视为两个整体场因子，给$y_g^{off}=d+2\log\zeta/\dd\ell=2-\epsilon/(n-2)$。但平方场是复合算符，壳内分量混合不能只用$\avg s$的平方。
+
+直接取慢单位轴$u$和快横向$\pi_a$，$s=u\sqrt{1-\pi^2}+\sum e_a\pi_a$、$\avg{\pi_a\pi_b}=TI\delta_{ab}$，$I=\dd\ell/(2\pi)$。由$\sum_ae_{a1}^2=1-u_1^2$得$\avg{s_1^2}_>=(1-nTI)u_1^2+TI$。常数项移自由能，真正各向异性算符$s_1^2-1/n$系数为$1-nTI$。在固定$T_*$，$g/(2T)$的体积缩放给
+\begin{equation}
+y_g=d-nT_*/(2\pi)=2-\frac{2\epsilon}{n-2}+O(\epsilon^2).
+\end{equation}
+这比官方仅场缩放多一个复合算符顶点修正；两者的$2/\epsilon$领先 crossover形状相同，但首阶更正不同，不能冒称官方数字就是全一环算符结果。
+
+$g<0$易轴Ising序，$g>0$易平面O$(n-1)$序，$g=0$轴以下有取向一阶线，上面无序；各连续边界近双临界满足$g\sim|\delta T|^\phi$、$\phi=y_g/y_T=2/\epsilon-2/(n-2)+O(\epsilon)$（官方近似为$2/\epsilon-1/(n-2)$）。这是小$\epsilon$结果，不能把外推$\epsilon=1$所得小或零$y_g$当实际三维结论。
+\end{solution}
+\begin{exercise}[原题10(a)--(j)]\label{r:334-3-10}
+实$N\times N$正交矩阵场$M$，$H=K\int\Tr[\nabla M\cdot\nabla M^T]/4$、$MM^T=M^TM=I$。(a)元素式和基态；(b)对称$\sigma=(M+M^T)/2$、反对称$\pi=(M-M^T)/2$的作用及约束；(c)近$I$到四阶，略测度项；(d)Goldstone数；(e)Fourier协方差；(f)壳$\avg{\Tr\sigma}$与$\zeta$；(g)两种直接梯度修正给$\widetilde K=K+NI/2$；(h)$K'$；(i)$T$流与$d\lessgtr2$、$T_c,\nu$；(j)场$-h\int\Tr M$与$y_h$。$I=\int_{\Lambda/b}^\Lambda\dd^dq/[(2\pi)^dq^2]$。
+\end{exercise}
+\begin{solution}
+元素作用$K\sum_{ij}(\nabla M_{ij})^2/4$，约束$\sum_kM_{ik}M_{jk}=\delta_{ij}$，任意空间常数正交矩阵为基态。$M=\sigma+\pi$给$H=K\int\Tr[(\nabla\sigma)^2-(\nabla\pi)^2]/4$，\textbf{两边}正交式还给$[\sigma,\pi]=0$及$\sigma^2-\pi^2=I$。近$I$正分支$\sigma=\sqrt{I+\pi^2}=I+\pi^2/2+O(\pi^4)=I-\pi\pi^T/2+\cdots$。
+
+代入得到
+\begin{equation}
+H=-\frac K4\int\Tr(\nabla\pi)^2+\frac K8\int\Tr[(\pi\nabla\pi)^2+\pi^2(\nabla\pi)^2]+O(\pi^6).
+\end{equation}
+两个四阶项因矩阵不对易不能合成标量单项。$\pi_{ij}=-\pi_{ji}$有$N(N-1)/2$个独立实模，$H_0=K\sum_{i<j}\int(\nabla\pi_{ij})^2/2$，所以$\avg{\pi_{ij}(q)\pi_{kl}(q')}=(2\pi)^d\delta(q+q')(\delta_{ik}\delta_{jl}-\delta_{il}\delta_{jk})/(Kq^2)$。
+
+$\avg{\pi^2}_>=-(N-1)I,I_N/K$，故$\avg{\Tr\sigma}_>=N[1-(N-1)I/(2K)]$、$\zeta=1-(N-1)I/(2K)$为\textbf{平均}长度/迹的恢复因子。官方旁注说正交矩阵本征值全$\pm1$、近$I$的迹恒$N$，这是错误的：二维转动本征$\e^{\pm\ii\theta}$、迹$2\cos\theta$即反例。本推导不使用该旁注，也不将每个涨落矩阵的迹强行固定$N$。
+
+(g)写慢梯度$A=\nabla\pi_<$、快矩阵$B=\pi_>$，两直接梯度收缩分别$\avg{\Tr(BABA)}=-(I/K)\Tr A^2$、$\avg{\Tr(B^2A^2)}=-(N-1)(I/K)\Tr A^2$，来自上述两Kronecker项逐索引求和。四阶系数$K/8$合成$-NI\Tr A^2/8$，与二次$-K\Tr A^2/4$比较即$\widetilde K=K+NI/2$。快速梯度收缩只移局域/测度相关项，不在此直接动能投影中重复计数。
+
+重标$K'=b^{d-2}\zeta^2\widetilde K=b^{d-2}[K-(N-2)I/2]+\cdots$。$I=A_d\Lambda^{d-2}\dd\ell$，$\dot T=-(d-2)T+(N-2)A_d\Lambda^{d-2}T^2/2$。$N>2$时$d<2$及$d=2$向高温，二维$\xi\sim\exp[4\pi/((N-2)T)]$；$d=2+\epsilon$有$T_c=4\pi\epsilon/(N-2)$、$\nu=1/\epsilon$。$N=2$为角变量，微扰二阶0，还需拓扑缺陷。
+
+$h'=b^d\zeta h$，临界$y_h=d-(N-1)\epsilon/(N-2)=2-\epsilon/(N-2)$。SO(3)局部双覆盖S$^3$关联O(4)场模型的微扰几何，但全局SO(3)有$\mathbb Z_2$基本群、S$^3$没有，拓扑缺陷不在这个一环展开内；$M$场也对应覆盖变量的复合算符。不能从局部微扰等价就无条件宣布实际堆叠三角磁体全属于O(4)普适类。
+\end{solution}
+\begin{exercise}[原题11(a)--(g)]\label{r:334-3-11}
+三维空间中的二维界面，稳定Gaussian$H_0=K\int(\nabla h)^2/2$，晶格锁定$-U=y\int\cos(2\pi h)/a^2$；原题$H_0$负号改为正以保证配分收敛。(a)中性顶点平均，$C(x)=\log(|x|/a)/(2\pi)$；(b)$G_k(x-y)=\avg{\e^{\ii k(h(x)-h(y))}}$的二次导数；(c)锁定的首个非零修正；(d)有效刚度与微扰失效阈值；(e)壳RG；(f)相图；(g)长距粗糙度跳变的普适意义。
+\end{exercise}
+\begin{solution}
+平均高度零模积分令总顶点荷$\sum q_\alpha=0$，否则平均0。Gaussian特征函数为$\exp[-\tfrac12\sum q_\alpha q_\beta G(x_\alpha-x_\beta)]$；中性消去自项后为$\exp[K^{-1}\sum_{\alpha<\beta}q_\alpha q_\beta C(x_\alpha-x_\beta)]$。故$G_k(r)=\e^{-k^2C(r)/K}$，$-\partial_k^2G_k|_0=\avg{[h(r)-h(0)]^2}=2C(r)/K$。
+
+令$p=2\pi$，$D=C(r-x)-C(r-y)-C(x)+C(y)$，首次锁定项因非中性0，二阶连接归一化给
+\begin{equation}
+\frac{\delta G_k}{G_k^0}=\frac{y^2}{4a^4}\int\dd^2x\dd^2y\,(a/|x-y|)^{p^2/(2\pi K)}[\cosh(kpD/K)-1]+O(y^4).
+\end{equation}
+减1正是分母配分的断连扣除。小偶极$r_d=x-y$有$D\simeq r_d\cdot[\nabla C(r-x)-\nabla C(x)]$，角平均与中心积分$\int|\nabla C(r-x)-\nabla C(x)|^2=2C(r)$给$\delta K=(\pi p^2/4)y^2\int_a^\infty(r_d^3\dd r_d/a^4)(a/r_d)^{p^2/(2\pi K)}$。该积分在$K\ge\pi/2$IR发散，指示锁定相关。
+
+以此显写的$y/a^2$及圆形相对位移截断归一化，$\dot y=(2-\pi/K)y$、$\dot K=\pi^3y^2$；重定义$y$可改变二阶系数，作业6的$h_p$沿官方系数约定，线性顶点维与$K_c$不变。$K_R<\pi/2$且逸度流0为粗糙对数相；较大刚度锁到整数高度，为平相；边界类BKT，有限裸逸度使裸临界线偏离单一$\pi/2$。
+
+粗糙侧临界重整化刚度$K_R=\pi/2$，长距方差领先$[2/\pi^2]\log(r/a)$；平相长距饱和。因此普适跃变是
+\begin{equation}
+\lim_{r\to\infty}\frac{\avg{\Delta h^2}}{\log(r/a)}:
+\quad\frac{2}{\pi^2}\longrightarrow0.
+\end{equation}
+等价地，领先差为$2\log(r/a)/\pi^2$。平相饱和值和有限$r$取极限方式非普适，不能声称高度方差本身有一个与距离无关的普适绝对跳变量。
+\end{solution}
+\begin{exercise}[原题12(a)--(c)]\label{r:334-3-12}
+平方格整数高RSOS，每邻站$\Delta h=0$能0，$\Delta h=\pm1$能$K/2$，更大禁止。(a)改键$n_{ij}=h_i-h_j$，加每面和0约束$\delta_{n,0}=\int_0^{2\pi}\e^{\ii n\theta}\dd\theta/(2\pi)$，求双格相互作用；(b)大$K$双模型与XY及前题一致性；(c)一维高度链（二维空间界面）是否有有限温粗糙化转变。
+\end{exercise}
+\begin{solution}
+键重$w(n)=1$（0）、$t=\e^{-K/2}$（$\pm1$）、0（其他）。面约束Fourier变量$\theta_p$给每键$\sum_{n=-1}^1w(n)\e^{\ii n(\theta_p-\theta_{p'})}=1+2t\cos(\theta_p-\theta_{p'})$，所以双键能$\widetilde v(\Delta\theta)=-\log[1+2t\cos\Delta\theta]$，边界和整体高度因子需固定，环面另加绕数约束。
+
+大$K$小$t$时$\widetilde v=-2t\cos\Delta\theta+O(t^2)$，XY双刚度约$2t$、处于高温无序，对应原高度代价大、平相。小$K$时该Fourier权可能负，不可把整个形式$-\log$未经检验当全温正概率XY模型；对偶图和拓扑流需更完整处理。此限制不影响大$K$题问。
+
+一维可直接独立伸长$n_i=-1,0,1$，规范化权$1,t,t$，$\operatorname{Var}n_i=2t/(1+2t)>0$。固定$h_0$后$\avg{(h_j-h_0)^2}=j\,2t/(1+2t)$，任意有限$K$长链都粗糙，只有$K\to\infty$完全平；周期闭链有限尺寸改为桥方差$\propto j(1-j/N)$，不产生有限温转变。
+\end{solution}

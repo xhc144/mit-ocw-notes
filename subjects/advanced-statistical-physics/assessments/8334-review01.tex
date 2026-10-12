@@ -1,0 +1,109 @@
+\originalchapter{8.334复习包1：Landau理论与Gaussian涨落}
+\osource{Mehran Kardar，8.334 Spring 2014，Test1 Review及公开Solutions，11题。题4引用既有热统卷，其他全部明确小问在本章。}
+\begin{exercise}[原题1(a)--(g)]\label{r:334-1-1}
+简单立方二元合金$N_A,N_B$，六近邻，同种键$-J$、异种$+J$，$J>0$。(a)零温基态；(b)独立随机占位$p_A=N_A/N,p_B=N_B/N$的平均能；(c)混合熵；(d)$x=(N_A-N_B)/N$自由能四阶与失凸$T_c$；(e)$T\gtrless T_c$的势及spinodal$x_{sp}$；(f)全局分离组成$\pm x_{eq}$；(g)$T,x$相边界与亚稳边界。
+\end{exercise}
+\begin{solution}
+固定两种总数时基态宏观分区，同种内部所有键有利，界面能为次广延修正。随机每键平均$-J(p_A-p_B)^2=-Jx^2$、3N键，$E=-3NJx^2$；$S=-N\kb[p_A\log p_A+p_B\log p_B]$，不是不同原子都能无关联移动的动力学证明。
+
+$F/N=-\kb T\log2+(\kb T/2-3J)x^2+\kb Tx^4/12+O(x^6)$，$\kb T_c=6J$。近临界四阶模型$f''=\kb(T-T_c)+\kb Tx^2$，spinodal$x_{sp}^2=(T_c-T)/T$；对称共存极小$x_{eq}^2=3(T_c-T)/T$。上方单井、临界四次井、下方双井；$|x|<x_{sp}$局部不稳，$x_{sp}<|x|<x_{eq}$亚稳，总组成$|x|<x_{eq}$由两相杠杆规则实现。下图画近临界两线；低温应回到完整二项熵，四阶式不能使$|x|>1$仍合法。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4.2cm,xlabel={$x$},ylabel={$T/T_c$},xmin=-.7,xmax=.7,ymin=.7,ymax=1.04,legend pos=south east]\addplot[thick,structurecolor,domain=-.7:.7]{3/(3+x*x)};\addlegendentry{共存}\addplot[dashed,domain=-.7:.7]{1/(1+x*x)};\addlegendentry{spinodal}\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+\begin{exercise}[原题2(a)--(e)]\label{r:334-1-2}
+Ising$H=\tfrac12\sum_{ij}J_{ij}\sigma_i\sigma_j-h\sum\sigma_i$，等效近邻模型$J_{ij}=-J/N$。(a)$E(M,h)$；(b)以$M=Nm$分组$Z$、$F(m,h)$四阶；(c)鞍点适用条件、真假自由能凸性；(d)$h=0$磁化与$T_c$；(e)零场$C,\chi$奇异。
+\end{exercise}
+\begin{solution}
+$E=-N(Jm^2/2+hm)$，每$M$简并$\binom N{N(1+m)/2}$，$Z=\sum_M\exp[-\beta F(m,h)]$、$F=E-\kb T\log\Omega$。Stirling给$f=F/N=-\kb T\log2+(\kb T-J)m^2/2+\kb Tm^4/12-hm$。大$N$指数$N$使$F_{thermo}/N=\min_m f+o(1)$，需极小附近展开且保持有限尺寸临界涨落的适当顺序。
+
+原题说真实$F(h,T)$“凸”，在外场$h$上实际\textbf{凹}：$F_{hh}=-\beta\operatorname{Var}M\le0$；固定磁化的Legendre势才须凸并作双井凸包。$\min_mf$在$h=0,T<T_c$有尖点，不能把有限$N$解析配分直接叫非解析。
+
+$\kb T_c=J$，$m=0$或$m^2=3(J-\kb T)/(\kb T)$（近临界）。奇异$f_{min}\simeq-3\kb(T_c-T)^2/(4T_c)$，$C$每站从上方0到下方$3\kb/2$跳变，忽略平滑背景。$\chi_m^+=1/[\kb(T-T_c)]$、$\chi_m^-=1/[2\kb(T_c-T)]$，$\gamma=1$、幅比2；总$M$响应再乘$N$。
+\end{solution}
+\begin{exercise}[原题3(a)--(c)]\label{r:334-1-3}
+经典气$H=\sum p_i^2/(2m)+\tfrac12\sum V(r_i-r_j)$。(a)积分动量后的巨配分；(b)划分$N_L=V/a^3$小格、每格$n_\alpha=0,1$，积分用$a^3$和替代；(c)$n_\alpha=(1+\sigma_\alpha)/2,V_{\alpha\beta}=-J/N_L$映到上一题，推气体相变。
+\end{exercise}
+\begin{solution}
+连续气体的巨正则配分函数为
+\begin{equation}
+\Xi=\sum_{N\ge0}\frac{(\e^{\beta\mu}/\lambda^3)^N}{N!}
+\int\prod_i\dd^3r_i\exp\!\left[-\beta\sum_{i<j}V(r_{ij})\right].
+\end{equation}
+每格单占据使选位置的$N!$排列取消。记$\widetilde z=\e^{\beta\mu}a^3/\lambda^3$，则
+\begin{equation}
+\Xi\simeq\sum_{\{n_\alpha\}}\widetilde z^{\sum n_\alpha}
+\exp\!\left[-\frac\beta2\sum_{\alpha\beta}V_{\alpha\beta}n_\alpha n_\beta\right].
+\end{equation}
+
+用$M=\sum\sigma$，$\sum n=(N_L+M)/2$，指数中$M^2$系数$\beta J/(8N_L)$、$M$系数$\beta J/4+\log\widetilde z/2$。所以等效Ising$J_I=J/4$、$h_I=J/4+\kb T\log\widetilde z/2$。临界$\kb T_c=J/4$、平均密度$n_c=1/(2a^3)$；$h_I=0$共存化学势$\mu=-J/2-\kb T\log(a^3/\lambda^3)$，低温两密度相。单占格与等效邻近耦合是近似，不表示所有连续势气体都精确同一临界温。
+\end{solution}
+\originalsection{原题4：表面活性剂凝聚}
+原题4(a)--(f)的完整条件、排除面积、吸引积分$\int_a^\infty2\pi rV=-u_0$、张力、临界条件、两种热容，均与8.333 PS5题1相同，引用既有热统卷习题33.1；见上一编逐题接口，不复制第三次。
+\begin{exercise}[原题5(a)--(c)]\label{r:334-1-5}
+标量LG$\beta H=\int[K(\nabla m)^2/2+tm^2/2+cm^3+um^4]\dd^dx$，$K,c,u>0$。(a)势图显示正$t$的一阶跳变；(b)解共存$m,t$；(c)$K\xi^{-2}=f''(m_{eq})$，画相关长随$t$。
+\end{exercise}
+\begin{solution}
+$c>0$偏好负$m$。$m=0$与负极小共存需$f(m_*)=f(0)$、$f'(m_*)=0$，相除消$m$得到$m_*=-c/(2u)$、$t_*=c^2/(2u)>0$。比它高采用0极小，比它低采用$m=[-3c-\sqrt{9c^2-16ut}]/(8u)$；另一根为不稳定或亚稳支，不能只用$f'=0$定相。
+
+无序$\xi=\sqrt{K/t}$，有序$\xi=\sqrt{K/[t+6cm+12um^2]}$。在共存两侧曲率均$c^2/(2u)$，所以$\xi$有限，最大$\sqrt{2Ku}/c$，导数转折但本例$\xi$值无跳变。若$0$支继续到$t=0$，那是亚稳spinodal发散，不是真相边界的临界发散。势和相关长的精确两支公式已给出，图用$c=u=K=1$。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=9cm,height=4.2cm,xlabel={$t$},ylabel={$\xi$},xmin=-.2,xmax=1.4,ymin=0,ymax=1.6]\addplot[thick,structurecolor,domain=.5:1.4]{1/sqrt(x)};\addplot[thick,structurecolor,domain=-.2:.5]{1/sqrt(x+6*(-3-sqrt(9-16*x))/8+12*((-3-sqrt(9-16*x))/8)^2)};\draw[dashed](axis cs:.5,0)--(axis cs:.5,1.4142);\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+\begin{exercise}[原题6(a)--(d)]\label{r:334-1-6}
+$\beta H=\int[K(\nabla m)^2/2+tm^2/2+um^4+vm^6-hm]\dd^dx$，$v>0$。(a)负$u$一阶；(b)共存$t$与跳变；(c)$u,t$相图；(d)$u=t=0$三临界$\beta,\delta,\gamma,\alpha$。
+\end{exercise}
+\begin{solution}
+$u<0$且$h=0$，以$x=m^2$重复$f=tx/2+ux^2+vx^3$的等值、驻值，$x_*=-u/(2v)$、$t_*=u^2/(2v)$。$u>0$在$t=0$连续，两边界在原点相切；有序在其下，无序在其上，三临界需额外参数把$u$调到0。
+
+$u=0$时$tm+6vm^5=h$，$h=0,t<0$的$m^4=-t/(6v)$给$\beta=1/4$，$t=0$给$\delta=5$，$\chi^{-1}=t+30vm^4$给$\gamma=1$。有序$f_{min}=-|t|^{3/2}/(3\sqrt{6v})$，$C=-f''\propto|t|^{-1/2}$，$\alpha=1/2$。这些都是鞍点指数，涨落是否小由本章末题判据而非四次固定点决定。
+\end{solution}
+\begin{exercise}[原题7(a)--(d)]\label{r:334-1-7}
+旋转不变$n$分量$m$加$-h\cdot\int m$，$f(h)=-\log Z/V$仅依赖$h=|h|$。(a)$m_\alpha$；(b)响应张量；(c)纵横响应；(d)自发磁化时$h\to0$的横发散及纵是否必发散。
+\end{exercise}
+\begin{solution}
+$\partial_{h_\alpha}f=f'(h)h_\alpha/h$，$m_\alpha=-f'h_\alpha/h$。再求导，
+\begin{equation}
+\chi_{\alpha\beta}=-f''\hat h_\alpha\hat h_\beta-\frac{f'}h(\delta_{\alpha\beta}-\hat h_\alpha\hat h_\beta),\quad \chi_\ell=-f'',\quad\chi_t=m/h.
+\end{equation}
+自发$m_0>0$使横$\chi_t\sim m_0/h$发散，反映无场整体转动的零代价；不能从旋转对称推出纵同样发散。均场纵有限，下一复习包将展示$d<4$的Goldstone两模涨落如何额外导致纵奇异。
+\end{solution}
+\begin{exercise}[原题8(a)--(h)]\label{r:334-1-8}
+$d$维立方格XY$-\beta H=K\sum_{\langle ij\rangle}s_i\cdot s_j$，$s=(\cos\theta,\sin\theta)$。(a)角积分配分；(b)低温二次式；(c)周期1D$L$站正规模与实/复约束；(d)$d$维；(e)经典自由能、热容；(f)$\avg{s_0\cdot s_x}$远距；(g)横响应随$L$；(h)二维Gaussian模型的响应发散阈值。
+\end{exercise}
+\begin{solution}
+$Z=\int\prod_i\dd\theta_i\exp[K\sum\cos(\theta_i-\theta_j)]$。低温$H_2=\tfrac K2\sum(\theta_i-\theta_j)^2+\mathrm{const}$。取$\theta_x=L^{-d/2}\sum_q\theta_q\e^{\ii qx}$，$q_\alpha=2\pi n_\alpha/L$、$\theta_{-q}=\theta_q^*$，$H_2=\tfrac12\sum_qD(q)|\theta_q|^2$，$D(q)=2K\sum_\alpha(1-\cos q_\alpha)$。每$q,-q$对为两个实模而非两个复自由模；$q=0$为整体角，固定或只积有限$2\pi$。
+
+每独立非零实模贡献$-\log Z=\tfrac12\log[D/(2\pi)]$，物理每模能$\kb T/2$，故$C\simeq(N-1)\kb/2$；不在无质量经典模上添加量子零点能。Gaussian指数给$G(x)=\exp[-\tfrac12\avg{(\theta_x-\theta_0)^2}]$，方差$2\int_q(1-\cos qx)/(Kq^2)$。$d=1$有$G\sim\e^{-|x|/(2K)}$，$d=2$有$G\sim(a/r)^\eta,\eta=1/(2\pi K)$，$d>2$趋非零常数。
+
+二维无长程序时$\chi_t\propto\int_a^Lr\dd r,r^{-\eta}$：$\eta<2$为$L^{2-\eta}$，等号$\log L$，$\eta>2$有限；形式阈值$K=1/(4\pi)$。它是只保自旋波的模型阈值，不是含涡旋真实XY的BKT刚度$2/\pi$。$d=1$响应在大$L$饱和$\sim\xi$；对于未选定方向的有限盒零场对称系综，$d>2$的$G\to m_0^2$给$\chi\sim m_0^2L^d$；若选定纯相并减去$m_0^2$，须区分整体旋转和局部Goldstone连接响应，后者无场横模积分$G_t(q)\sim1/q^2$给均匀场响应发散，不能用减去$m_0^2$后仍称全$L^d$连接磁化涨落。
+\end{solution}
+\begin{exercise}[原题9(a)--(f)]\label{r:334-1-9}
+$d$维空间的平界面由$D=d-1$个坐标$x$上的高度$h(x)$，面积$A=\int\sqrt{1+(\nabla h)^2}\dd^Dx$、$H=\sigma A$。(a)二次作用和泛函配分；(b)Fourier模；(c)破缺对称；(d)高度差方差；(e)$d=4,3,2,1$；(f)小坡度近似条件。
+\end{exercise}
+\begin{solution}
+$H=\sigma A_0+\tfrac\sigma2\int(\nabla h)^2+O((\nabla h)^4)$，$Z\propto\int Dh\exp[-\beta\sigma\int_q q^2|h_q|^2/2]$，固定平均高度移去$q=0$。破缺为沿界面法线的连续平移；位置改变没有体势代价，产生毛细Goldstone模。$\avg{|h_q|^2}=\kb T/(\sigma q^2)$，
+\begin{equation}
+\avg{[h(x)-h(0)]^2}=\frac{2\kb T}{\sigma}\int_{q<\Lambda}\frac{1-\cos qx}{q^2}\frac{\dd^Dq}{(2\pi)^D}.
+\end{equation}
+$d=4,D=3$远距趋截断依赖常数；$d=3,D=2$为$\kb T\log(r/a)/(\pi\sigma)$；$d=2,D=1$为$\kb T|r|/\sigma$；$d=1$界面是零维点，没有可比较的远距$x$或延展毛细波谱，其整体位置模需另固定，不能硬套$D$维长距公式。
+
+局部坡度方差$\avg{(\nabla h)^2}\simeq(\kb T/\sigma)A_D\Lambda^D/D\ll1$，$\Lambda\sim1/a$。高度的对数粗糙不等于局部坡度失控：二维界面可局部光滑而长程高度不平，展开条件是坡度和UV尺度。
+\end{solution}
+\begin{exercise}[原题10(a)--(d)]\label{r:334-1-10}
+三维超导LG$\beta H=\int[t|\Psi|^2/2+u|\Psi|^4+K|D_\mu\Psi|^2/2+L(\nabla\times A)^2/2]\dd^3x$，$D_\mu=\partial_\mu-\ii eA_\mu$。(a)局域规范变换；(b)均匀鞍点；(c)$t<0$以$\Psi=(R+\phi)\e^{\ii\theta},A=a,\nabla\cdot a=0$二阶能；(d)$\phi,\theta,a$的Fourier协方差。
+\end{exercise}
+\begin{solution}
+$\Psi\to\e^{\ii\chi}\Psi,A\to A+\nabla\chi/e$时$D\Psi\to\e^{\ii\chi}D\Psi$，旋度不变。$R=0$（$t>0$）或$R^2=-t/(4u)$（$t<0$）、$A=0$。二次
+\begin{equation}
+H_2=\tfrac12\int[(K(\nabla\phi)^2-2t\phi^2)+KR^2(\nabla\theta-ea)^2+L(\nabla\times a)^2]\dd^3x.
+\end{equation}
+Coulomb横向$a$与梯度$\theta$的交叉积积分0，所以$\avg{\phi_q\phi_{-q}}=(Kq^2-2t)^{-1}$，$\avg{\theta_q\theta_{-q}}=(KR^2q^2)^{-1}$，$\avg{a_i(q)a_j(-q)}=P^T_{ij}/(Lq^2+Ke^2R^2)$，$\avg{|a|^2}=2/(Lq^2+Ke^2R^2)$。共同$(2\pi)^3\delta$或有限体积因子按Fourier约定补上。横光子获得质量$Ke^2R^2/L$；规范固定的相位坐标不是额外规范不变物理Goldstone粒子，真正可观测量用$\nabla\theta-eA$。
+\end{solution}
+\begin{exercise}[原题11(a)--(g)]\label{r:334-1-11}
+$n$分量$\beta H=\int[K(\nabla m)^2/2+tm^2/2+u(m^2)^2+v(m^2)^3]\dd^dx$，三临界$u=0,v>0$。(a)鞍点热容；(b)纵横Hessian；(c)关联；(d)Gaussian自由能；(e)热容修正；(f)Ginzburg与上临界维；(g)一般$u_{2p}(m^2)^p$多临界点。
+\end{exercise}
+\begin{solution}
+负侧$m_0^4=-t/(6v)$，$f_{sp}=-|t|^{3/2}/(3\sqrt{6v})$，$C_{sp}/V=-f_{sp}''=|t|^{-1/2}/(4\sqrt{6v})$。质量$r_\ell=t+30vm_0^4=-4t$、$r_t=t+6vm_0^4=0$；正侧均为$t$。两点$G_\ell(q)=1/(Kq^2+r_\ell)$、$G_t=1/(Kq^2+r_t)$。
+
+$\delta f=\tfrac12\int_q[\log(Kq^2+r_\ell)+(n-1)\log(Kq^2+r_t)]$，每个独立实模一个半迹。负側$r_\ell'=-4$、横质量恒0，$\delta C/V=8\int_q(Kq^2-4t)^{-2}\sim|t|^{(d-4)/2}$。相对鞍点$\delta C/C_{sp}\sim\sqrt v,|t|^{(d-3)/2}$，所以$d<3$失控，$d=3$边缘对数，三临界$d_u=3$。
+
+一般Gaussian场维$(d-2)/2$使$u_{2p}$的尺度维$d-p(d-2)=2p-(p-1)d$，$d_u=2p/(p-1)$。应调低阶偶次耦合至相应多临界流形，不能保留一个相关四次项却仍称由六次项控制的三临界点。
+\end{solution}

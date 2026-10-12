@@ -1,0 +1,33 @@
+\originalchapter{方格Ising的精确自由能}
+\label{ch:ising2}
+\source{8.334 L18--L19；给传递矩阵到费米模的主计算链。}
+\originalsection{行传递与对偶耦合}
+考虑无限二维方格、零场、各向同性最近邻$J>0$。一行$N$自旋间的垂直键矩阵每站为$\left(\begin{smallmatrix}\e^K&\e^{-K}\\\e^{-K}&\e^K\end{smallmatrix}\right)=\sqrt{2\sinh2K}\,\e^{K^*\sigma^x}$，$\tanh K^*=\e^{-2K}$。水平键对角，因此对称行传递矩阵可写
+\begin{equation}
+V=(2\sinh2K)^{N/2}\e^{(K/2)\sum\sigma_j^z\sigma_{j+1}^z}\e^{K^*\sum\sigma_j^x}\e^{(K/2)\sum\sigma_j^z\sigma_{j+1}^z}.
+\end{equation}
+每个因子由显式矩阵恒等式得到，$Z=\Tr V^{N_y}$，大$N_y$时最大本征值控制自由能。
+\originalsection{Majorana化与每模对角化}
+沿行作Jordan--Wigner变换，将$\sigma^x$及相邻$\sigma^z\sigma^z$分别表示为Majorana双线性。指数双线性的共轭作用在Majorana向量上为线性变换，所以每个$q,-q$块只需乘两个$2\times2$双曲旋转。乘积的迹决定本征值$\e^{\pm\gamma_q}$，给
+\begin{equation}
+\cosh\gamma_q=\cosh2K\cosh2K^*-\sinh2K\sinh2K^*\cos q=\cosh2K\coth2K-\cos q.
+\end{equation}
+第二等号用对偶关系$\sinh2K\sinh2K^*=1$。正$\gamma_q$支在最大本征态各取提高的占据，故
+\begin{equation}
+\log\lambda_{\max}=\frac N2\log(2\sinh2K)+\frac12\sum_q\gamma_q.
+\end{equation}
+有限行的宇称边界差在体自由能极限消失。
+
+因此每站精确自由能为
+\begin{equation}
+-\beta f=\frac12\log(2\sinh2K)+\frac1{2\pi}\int_0^\pi\operatorname{arcosh}[\cosh2K\coth2K-\cos q]\dd q.
+\end{equation}
+高温$K\to0$两个对数奇异相消，给$\log2$；低温给$2K$，即每站两条满意键的基态能$-2J$。两个边界极限是公式归一的直接检查。
+\originalsection{能隙、相关长度与热容}
+$\gamma_0=2|K-K^*|$，只在$K=K^*$闭合，故精确临界满足$\sinh2K_c=1$。近临界，$\gamma_q\simeq\sqrt{m^2+q^2}$，$m=2|K-K^*|\propto|T-T_c|$，因此$\xi\sim m^{-1}$、$\nu=1$。奇异自由能来自$\int_0^\Lambda\sqrt{m^2+q^2}\dd q$的$-m^2\log|m|$项，二阶温度导数给对数热容，$\alpha=0$带对数，而非有限平均场跳跃。
+
+零场自发磁化的精确关联结果为$m(T)=[1-\sinh^{-4}(2K)]^{1/8}$于$K>K_c$，高温0，故$\beta=1/8$。这一磁化公式需要非局域自旋相关的Toeplitz/Pfaffian分析；本章上述单粒子传递谱完整求出自由能，却没有把它冒称为磁化公式的全证明。课程L19引用该标准结果，本稿保留这个证明范围。
+
+临界自旋相关$G(r)\sim r^{-1/4}$给$\eta=1/4$，配尺度关系得$\gamma=7/4,\delta=15$。这些不同于近四维一回路外推，说明二维强涨落固定点需要真正的非Gaussian结构。含外场、非最近邻或一般三维Ising没有此自由费米传递解，不能把零场精确公式用于任意Ising模型。
+\originalsection{可计算的数值核对}
+随卷计算用稳定的$\operatorname{arcosh}$与数值积分对照高低温展开，并以小周期方格枚举所有$2^{L^2}$构型核对有限尺寸配分与能量；无限体公式与小$L$有有限尺寸误差，不强求相等。积分在临界端点的导数奇异需单独处理，普通粗网格微分会低估对数峰。

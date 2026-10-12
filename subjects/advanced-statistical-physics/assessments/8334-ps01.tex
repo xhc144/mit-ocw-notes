@@ -1,0 +1,52 @@
+\originalchapter{8.334作业1：相变、薄膜与耦合序参量}
+\psource{Mehran Kardar，8.334 Spring 2014，PS1，截止2014年2月21日。}
+\begin{exercise}[原题1(a)--(g)]\label{p:334-1-1}
+$P=\kb Tn-bn^2/2+cn^3/6$，$b,c>0$不随温度变。(a)临界$T_c,n_c,P_c$与$\kb T_cn_c/P_c$；(b)压缩率及$n_c$上的温度行为；(c)临界等温线；(d)近临界$n_\pm\simeq n_c(1\pm\delta)$，以Maxwell求$\delta$隐式式和指数。另外Dieterici气体$P(v-b)=\kb T\exp[-a/(\kb Tv)]$，$v=V/N$：(e)临界$Pv/(\kb T)$；(f)$v_c$上的压缩率；(g)临界等温线最低非零项。
+\end{exercise}
+\begin{solution}
+前四问与8.333 PS5题2相同，既有热统卷已有完整题解。这里保留用于后续标度的必要推导：$P_n=P_{nn}=0$给$n_c=b/c$、$\kb T_c=b^2/(2c)$、$P_c=b^3/(6c^2)$，比3。$\kappa_T=1/[nP_n]$，在$n_c$为$[n_c\kb(T-T_c)]^{-1}$，由上方正发散、下方负表示均匀模型不稳定；临界$P-P_c=c(n-n_c)^3/6$。共存同时满足$P(n_+)=P(n_-)$和
+\begin{equation}
+\kb T\log(n_+/n_-)-b(n_+-n_-)+c(n_+^2-n_-^2)/4=0.
+\end{equation}
+近临界的对称\textbf{领先}代入得$T/T_c\simeq2\delta/\log[(1+\delta)/(1-\delta)]$、$\delta^2\simeq3(1-T/T_c)$。高阶须允许中心密度位移，不可把对称近似当精确全温binodal。
+
+Dieterici式的对数导数$P_v/P=-1/(v-b)+a/(\kb Tv^2)$，再次微分并令临界一二阶为0，得$v_c=2b$、$\kb T_c=a/(4b)$、$P_c=\kb T_c/(b\e^2)$，压缩因子$2/\e^2$。在$v_c$有$\kappa_T=[2P(v_c,T)(1-T_c/T)]^{-1}$，上方仍$\propto(T-T_c)^{-1}$。临界$P'''(v_c)=-P_c/(2b^3)$，所以$P-P_c=-P_c(v-v_c)^3/(12b^3)+O((v-v_c)^4)$。不同非普适系数与压缩因子，保留同一均场指数。
+\end{solution}
+\begin{exercise}[原题2(a)--(i)]\label{p:334-1-2}
+简单立方Heisenberg薄膜有$n$层，层内平方格4近邻，单位三分量自旋；$-\beta H=J\sum_{\alpha,\langle ij\rangle}s_i^\alpha\cdot s_j^\alpha+J_V\sum_{\alpha=1}^{n-1}\sum_i s_i^\alpha\cdot s_i^{\alpha+1}$。试探$-\beta H_0=\sum_{\alpha i}h^\alpha\cdot s_i^\alpha$。(a)求$Z_0,F_0$；(b)用Langevin函数求$m^\alpha$；(c)场平行时$\avg{\beta H}_0$；(d)Gibbs变分方程及数值方法；(e)随$J=\widehat J/(\kb T)$等求无穷层$T_c$与磁化；(f)大$n$的$T_c(n)$；(g)连续三阶方程的$tanh$解及含义；(h)半无穷系统与愈合长；(i)表层磁化临界指数。可用$L^{-1}(m)=3m+9m^3/5+O(m^5)$。
+\end{exercise}
+\begin{solution}
+用球面测度$\dd\Omega$，单站$z(h)=4\pi\sinh h/h$，层面积站点数$N_\parallel$，$Z_0=\prod_\alpha z(h_\alpha)^{N_\parallel}$，$\beta F_0=-N_\parallel\sum\log z$。$m_\alpha=L(h_\alpha)=\coth h_\alpha-1/h_\alpha$，方向随$h_\alpha$。独立站点给$\avg{\beta H}_0/N_\parallel=-2J\sum m_\alpha^2-J_V\sum m_\alpha m_{\alpha+1}$，而$\avg{\beta H_0}_0=-N_\parallel\sum h_\alpha m_\alpha$。
+
+将以上代$F_{\rm var}=F_0+\avg{H-H_0}_0$，以$m$作变量，单站熵Legendre项导数$h$，得
+\begin{equation}
+L^{-1}(m_\alpha)=4Jm_\alpha+J_V(m_{\alpha-1}+m_{\alpha+1}),\qquad m_0=m_{n+1}=0.
+\end{equation}
+数值可用有阻尼固定点迭代或Newton解三对角Jacobian，从小非零磁化起步并比較变分自由能；在临界附近需要检查最小Hessian，纯迭代收敛不保证全局最优。体相$3\kb T_c=4\widehat J+2\widehat J_V$。设$\epsilon=4J+2J_V-3>0$，小磁化$m_b^2=5\epsilon/9$，均场$\beta=1/2$。
+
+有限层线性最大本征值$4J+2J_V\cos[\pi/(n+1)]$，故$\kb T_c(n)=[4\widehat J+2\widehat J_V\cos(\pi/(n+1))]/3$，大$n$比体相低$\widehat J_V\pi^2/[3(n+1)^2]$。这是均场预测；真正有限层连续对称、短程二维模型在非零温无此长程序。
+
+以层距作单位，差分展开$J_Vm''=-\epsilon m+9m^3/5$。积分一次并取体边界，$m(x)=m_b\tanh[k(x-x_0)]$，$k=\sqrt{\epsilon/(2J_V)}$；两边$\mp m_b$描述畴壁。半空间选$\tanh[k(x+x_e)]$以满足外推到$x=-x_e$的零边界，愈合长$\lambda=1/k\propto|T-T_c|^{-1/2}$。表层$x=O(1)$有$m_s\sim m_b k\propto|T-T_c|$，普通表面转变均场$\beta_1=1$。增强表面耦合可能先表面有序，不属于此均匀耦合假设。
+\end{solution}
+\begin{exercise}[原题3(a)--(i)]\label{p:334-1-3}
+He4复序参量$\psi$与He3浓度场$c$有
+\begin{equation}
+\beta H=\int\dd^dx\,[K|\nabla\psi|^2/2+t|\psi|^2/2+u|\psi|^4+v|\psi|^6+c^2/(2\sigma^2)-\gamma c|\psi|^2],
+\end{equation}
+$K,u,v>0$。(a)积分$c$；(b)鞍点相图及连续/不连续的$\sigma_*$；(c)序参量跃变如何消失；(d)浓度跃变；(e)$t,\sigma$相边界图；(f)证明$\avg{c-\gamma\sigma^2|\psi|^2}=0$；(g)$x\ne y$的$\avg{c(x)c(y)}$关系；(h),(i)无序、有序区的长距离衰减。
+\end{exercise}
+\begin{solution}
+配方$c^2/(2\sigma^2)-\gamma cR^2=(c-\gamma\sigma^2R^2)^2/(2\sigma^2)-\gamma^2\sigma^2R^4/2$，积分给与$\psi$无关常数，$u_e=u-\gamma^2\sigma^2/2$。均匀密度势$f(x)=tx/2+u_ex^2+vx^3$，$x=|\psi|^2\ge0$。
+
+$u_e>0$时$t=0$连续，$t<0$满足$t/2+2u_ex+3vx^2=0$。$u_e<0$共存由$f(x)=f(0),f'(x)=0$解$x_*=-u_e/(2v)$、$t_*=u_e^2/(2v)>0$。三临界$\sigma_*=\sqrt{2u}/|\gamma|$、$t=0$。$|\psi|$跃变$\sqrt{-u_e/(2v)}\propto(\sigma-\sigma_*)^{1/2}$，平均浓度为$\gamma\sigma^2x$，跃变$\gamma\sigma^2x_*$为一阶消失。两边界在$(0,\sigma_*)$相切：连续侧$t=0$，一阶侧$t=u_e(\sigma)^2/(2v)$，有序在其下。
+\begin{center}\begin{tikzpicture}[x=3cm,y=2cm]\draw[->](0,0)--(2,0)node[right]{$\sigma/\sigma_*$};\draw[->](0,-.4)--(0,1.4)node[above]{$t$};\draw[thick,structurecolor](0,0)--(1,0);\draw[thick,structurecolor,domain=1:1.7,samples=60]plot(\x,{(\x*\x-1)^2/3});\fill(1,0)circle(1.3pt);\node[below]at(1,0){1};\node at(.55,.65){无序};\node at(1.2,-.25){有序};\end{tikzpicture}\end{center}
+条件于$\psi$，$c=\gamma\sigma^2|\psi|^2+\eta$、$\avg\eta=0$，$\avg{\eta(x)\eta(y)}=\sigma^2\delta(x-y)$，直接给(f),(g)，后一式在重合点必须加接触项。无序Gaussian复场$\avg{|\psi(x)|^2|\psi(0)|^2}_c\propto|G(x)|^2$，远距$\e^{-2r/\xi}$乘幂次；有序区非连接相关趋$\avg c^2$，Gaussian振幅模给指数趋近。超出Gaussian阶，无隙相位也可通过复合算符产生幂次尾；不把振幅的有限相关长误称整个有序相的所有相关均指数。
+\end{solution}
+\begin{exercise}[原题4(a)--(c)]\label{p:334-1-4}
+二维薄片用三维位置向量$r(x_1,x_2)$描述，能量对嵌入空间平移、旋转不变。(a)说明最低二次梯度项为$t\sum_\alpha|\partial_\alpha r|^2/2$与$K\sum_\alpha|\partial_\alpha^2r|^2/2$；(b)列两种最低四次项；(c)$K>0$、四次稳定时$t$变号的状态。
+\end{exercise}
+\begin{solution}
+平移排除$r^2$；嵌入旋转只允许三维指标内积，最低导数是切矢$\partial_\alpha r$，其次弯曲$\partial_\alpha^2r$。原题平方格形式保留$q_1^4+q_2^4$；若另要求片内坐标连续旋转，可用$|\nabla^2r|^2$，混合导数积分后同类，但不能把这额外对称默认为原题已要求。
+
+定义诱导度量$g_{\alpha\beta}=\partial_\alpha r\cdot\partial_\beta r$，各向同性最低四次不变量$u(\Tr g)^2/4+v\Tr(g^2)/4$。它们对应切矢长度与彼此夹角，非仅单一$|r|^4$。$t>0$鞍点切矢0、薄片没有平面取向，称皱缩。$t<0$若$v>0$且$2u+v>0$，最小$g=\zeta^2I$、$\zeta^2=-t/(2u+v)$，$r=\zeta(x_1e_1+x_2e_2)$为平直状态，弯曲项稳定慢起伏。若四次项偏好秩1度量，可出现管状各向异性；仅“四次稳定”不独自保证平面，须列出选择平面的系数条件。
+\end{solution}

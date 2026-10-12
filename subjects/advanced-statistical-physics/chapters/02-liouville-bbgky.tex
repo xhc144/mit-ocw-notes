@@ -1,0 +1,30 @@
+\originalchapter{Liouville方程与BBGKY层级}
+\label{ch:bbgky}
+\source{8.333 L7--L8。}
+\originalsection{相空间密度与可逆演化}
+对$N$个经典粒子，$\Gamma=(r_1,p_1,\ldots,r_N,p_N)$是$6N$维相空间点，微观态是一个点而统计态是归一概率密度$\rho_N(\Gamma,t)$，$\int\rho_N\dd\Gamma=1$。Hamilton方程$\dot r_i=\partial_{p_i}H,\dot p_i=-\partial_{r_i}H$的相空间散度为$\sum_i(\partial_{r_i}\partial_{p_i}H-\partial_{p_i}\partial_{r_i}H)=0$。连续性给
+\begin{equation}
+\partial_t\rho_N+\{\rho_N,H\}=0,\qquad\{A,B\}=\sum_i(\nabla_{r_i}A\cdot\nabla_{p_i}B-\nabla_{p_i}A\cdot\nabla_{r_i}B).
+\end{equation}
+沿Hamilton轨道$\dd\rho_N/\dd t=0$，并保持相空间体积，这就是Liouville定理。它不保证体系遍历，也不保证任意初态最终成为正则分布。细粒度Gibbs熵$S_G=-\kb\int\rho_N\log\rho_N\dd\Gamma$随可逆演化守恒；宏观熵增必须解释丢弃信息的方式。
+
+若$H$不显含时，任意$\rho_N=F(H)$均平稳，选择何种$F$依准备与宏观约束。对自旋、Berry波包等非正则坐标，应使用相应辛测度；直接用$\dd r\dd p$未必正确。
+\originalsection{约化分布的定义}
+为了研究少数粒子，定义带粒子数因子的$s$粒子分布
+\begin{equation}
+f_s(1,\ldots,s)=\frac{N!}{(N-s)!}\int\rho_N(1,\ldots,N)\dd(s+1)\cdots\dd N,
+\end{equation}
+其中$\dd i=\dd^dr_i\dd^dp_i$。于是$\int f_1\dd1=N$，$\int f_2\dd2=(N-1)f_1$。另一些文献使用归一至1的约化分布，层级方程前的$N-s$因子不同，应先看定义再比较式子。
+
+设$H=\sum_ip_i^2/(2m)+\sum_iV_{\rm ext}(r_i)+\sum_{i<j}v(r_i-r_j)$，力$F_{ij}=-\nabla_{r_i}v(r_i-r_j)$。把Liouville方程对未保留变量积分，表面项在周期边界或足够快衰减下消失，得到
+\begin{align}
+\bigg[\partial_t+\sum_{i=1}^s\frac{p_i}{m}\cdot\nabla_{r_i}+\sum_{i=1}^sF_i^{\rm ext}\cdot\nabla_{p_i}+\sum_{i<j\le s}F_{ij}\cdot(\nabla_{p_i}-\nabla_{p_j})\bigg]f_s
+=-\sum_{i=1}^s\int F_{i,s+1}\cdot\nabla_{p_i}f_{s+1}\dd(s+1).
+\end{align}
+左侧只含保留粒子的内作用，右侧通过$f_{s+1}$联系环境。这是BBGKY层级：一粒子分布方程不封闭，因为碰撞概率依赖两粒子相关。
+\originalsection{闭合近似及其限制}
+若长程弱作用且每粒子同时受许多粒子影响，可近似$f_2(1,2)\simeq f_1(1)f_1(2)$（有限$N$归一差另计），右侧成为平均场力，得到Vlasov方程。它仍为无碰撞、可逆的相空间输运，不能自动产生Boltzmann碰撞熵。
+
+稀薄短程气体则两体碰撞重要。把碰撞前两粒子视为近独立，$f_2^{\rm in}\simeq f_1f_1$，但碰撞后已经关联。这个“分子混沌”假设有时间方向：若把所有速度反转后的精确相关态作为初态，不能再假定同样的入射独立性。低密度、碰撞时间短于平均自由时间、空间变化尺度大于作用范围是闭合的物理条件。三体同时碰撞和致密相关都可使其失效。
+
+关联被层级输运到更高$f_s$，只观察$f_1$等价于忽略这些信息。细粒度熵守恒与一粒子粗粒度熵增因而没有逻辑矛盾；矛盾只会出现在声称无需任何闭合或粗粒化也能从时间可逆方程严格推出单调宏观熵时。

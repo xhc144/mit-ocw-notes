@@ -1,0 +1,71 @@
+\originalchapter{8.333作业4：非相互作用粒子}
+\psource{Mehran Kardar，8.333 Fall 2013，PS4，截止2013年11月13日。}
+\begin{exercise}[原题1(a)--(d)]\label{p:333-4-1}
+$N$个相同经典原子在球形谐陷阱$H=\sum[p_i^2/(2m)+Kr_i^2/2]$。(a)证明每粒子角动量守恒，说明加入旋转对称相互作用后只保证总角动量。(b)广义分布原题取$\exp[-\beta(H+\Omega L_z)]$，$|\Omega|<\sqrt{K/m}$，求$Z$。(c)求$\avg{L_z}$。(d)求位置密度与$\avg{x^2},\avg{y^2},\avg{z^2}$。
+\end{exercise}
+\begin{solution}
+中心力使$\dot L=r\times(-Kr)=0$。相互作用两体中心力的转矩对总量相消，却在粒子之间交换角动量。完成平方
+\begin{equation}
+H_1+\Omega L_z=\frac{(p_x-m\Omega y)^2+(p_y+m\Omega x)^2+p_z^2}{2m}+\frac{K-m\Omega^2}{2}(x^2+y^2)+\frac K2z^2.
+\end{equation}
+令$\omega_0=\sqrt{K/m}$，$Z=Z_1^N/N!$，$Z_1=(\kb T/\hbar\omega_0)^3/[1-\Omega^2/\omega_0^2]$。原题加号给$\avg{L_z}=-\beta^{-1}\partial_\Omega\log Z=-2Nm\Omega\kb T/(K-m\Omega^2)$；通常转动热库用$H-\Omega L$时符号反转，不能暗改题。
+
+位置Gaussian密度$P(r)=[\beta/(2\pi)]^{3/2}(K-m\Omega^2)\sqrt K\exp\{-\beta[(K-m\Omega^2)(x^2+y^2)+Kz^2]/2\}$，方差横向$\kb T/(K-m\Omega^2)$、纵向$\kb T/K$。$|\Omega|\to\omega_0$失去横向约束，配分函数发散，是稳定条件的真实边界。
+\end{solution}
+\begin{exercise}[原题2(a)--(e)]\label{p:333-4-2}
+$N$个双原子分子固定在方格金属表面，每个可沿$x,y$平躺（能0）或沿$z$站立（能$\varepsilon>0$）。(a)基态数与最高微观能。(b)能量$E$的态数及熵。(c)热容并画温度变化。(d)特定分子站立概率。(e)正温内能的最大值。
+\end{exercise}
+\begin{solution}
+(a)基态数$2^N$，最高$N\varepsilon$的全部站立态只有1种。(b)$M=E/\varepsilon$须为0至$N$整数，$\Omega=\binom NM2^{N-M}$、$S=\kb\log\Omega$；大$N$以Stirling给$S/(N\kb)=-x\log x-(1-x)\log[(1-x)/2]$，$x=M/N$。
+
+canonical单站$z=2+\e^{-\beta\varepsilon}$，站立$q=1/(1+2\e^{\beta\varepsilon})$，$E=N\varepsilon q$，$C=N\kb(\beta\varepsilon)^2q(1-q)$。两端$T\to0$指数小，$T\to\infty$按$T^{-2}$小，中间有Schottky峰。以下为$C/(N\kb)$按$k_BT/\varepsilon$的矢量曲线。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=10cm,height=4.6cm,xlabel={$\kb T/\varepsilon$},ylabel={$C/(N\kb)$},xmin=0,xmax=3,ymin=0]
+\addplot[structurecolor,thick,domain=.06:3,samples=180]{(1/x)^2*2*exp(1/x)/(1+2*exp(1/x))^2};\end{axis}\end{tikzpicture}\end{center}
+正温$q<1/3$，最大热能的上确界$N\varepsilon/3$；高于此能的微正则宏观态可对应负温，不是“最高微观能”等于正温均能。
+\end{solution}
+\begin{exercise}[原题3(a)--(d)]\label{p:333-4-3}
+$N$个量子自旋$s$，磁矩$m_z=\mu m,m=-s,\ldots,s$，外場$B$。(a)Gibbs配分。(b)小$B$自由能至$B^2$。(c)Curie磁化率。(d)小场证明$C_B-C_M=cB^2/T^2$，$\chi=c/T$。
+\end{exercise}
+\begin{solution}
+$x=\beta\mu B$，$Z=[\sum_me^{xm}]^N=[\sinh((2s+1)x/2)/\sinh(x/2)]^N$，$G=-N\kb T\log z$。零場均匀$m$有$\avg{m^2}=s(s+1)/3$，所以$G(B)=G(0)-N\mu^2s(s+1)B^2/(6\kb T)+O(B^4)$，$\chi=N\mu^2s(s+1)/(3\kb T)=c/T$。由$\dd G=-S\dd T-M\dd B$的Maxwell关系，$C_B-C_M=T(\partial_TM|_B)^2/(\partial_BM|_T)$，代$M=cB/T+O(B^3)$给$cB^2/T^2+O(B^4)$。题示式是Curie小场阶，并非整个Brillouin函数的有限场精确关系。
+\end{solution}
+\begin{exercise}[原题4(a)--(f)]\label{p:333-4-4}
+理想气与有$N_s$个单占据吸附位置的催化表面接触，每吸附粒子能$-\varepsilon$。(a)求气体$\mu(T,p)$。(b)表面巨配分。(c)占据率$\theta=p/[p+p_0(T)]$及$p_0$。(d)粒子数特征函数与全部累积量相对巨势的导数。(e)证明数涨落响应。(f)求相对涨落。
+\end{exercise}
+\begin{solution}
+$\mu=\kb T\log[p\lambda_T^3/(\kb T)]=\kb T[\log(p/T^{5/2})+A_0]$，后式的常数包含使对数无量纲的单位。表面$\Xi_s=(1+z\e^{\beta\varepsilon})^{N_s}$，$\theta=z\e^{\beta\varepsilon}/(1+z\e^{\beta\varepsilon})$，所以$p_0=(\kb T/\lambda_T^3)\e^{-\beta\varepsilon}$。
+
+$\avg{\e^{-\ii kN}}=\Xi_s(\mu-\ii\kb Tk)/\Xi_s(\mu)$，巨势$\mathcal G=-\kb T\log\Xi_s$，$\kappa_m=-(\kb T)^{m-1}\partial_\mu^m\mathcal G$，固定$T$求导。$\operatorname{Var}N=\kb T\partial_\mu\avg N=N_s\theta(1-\theta)$，除$\avg N^2=(N_s\theta)^2$得$(1-\theta)/(N_s\theta)$。题中固定位置数与随机粒子数都写$N$易混，本解用$N_s$区分。
+\end{solution}
+\begin{exercise}[原题5(a)--(d)]\label{p:333-4-5}
+O$_2$分子自旋1、$S_z=-1,0,1$，忽略其他内部自由度，$H=\sum[p_i^2/(2m)-\mu BS_{zi}]$，体积$V$，平动经典。(a)配分。(b)各自旋概率。(c)磁化每体积。(d)零场总磁化率。
+\end{exercise}
+\begin{solution}
+$x=\beta\mu B$，$Z=(V/\lambda_T^3)^N(1+2\cosh x)^N/N!$，$P_m=\e^{xm}/(1+2\cosh x)$。$M/V=(N\mu/V)2\sinh x/(1+2\cosh x)$，$\chi_{\rm total}=2N\mu^2/(3\kb T)$，单位体积响应再除$V$。磁场自然势已包含$-BM$，不能再加一次磁功造成重复。
+\end{solution}
+\begin{exercise}[原题6(a)--(e)]\label{p:333-4-6}
+链由$N$个盘状分子构成，长轴方向贡献长度$2a$能0，短轴方向长度$a$能$\varepsilon$，$H=\varepsilon U$，$U$为短轴数。(a)配分。(b)两方向概率。(c)平均长。(d)长度方差。(e)大数分布。
+\end{exercise}
+\begin{solution}
+$Z=(1+\e^{-\beta\varepsilon})^N$，短方向$q=1/(1+\e^{\beta\varepsilon})$、长$1-q$。$U$为Binomial$(N,q)$，$L=a(2N-U)$，故$\avg L=aN(2-q)$、$\operatorname{Var}L=a^2Nq(1-q)$。若$Nq(1-q)\gg1$，中心窗口Gaussian；极低温$q$小到$Nq=O(1)$时应使用稀有短轴的Poisson或准确二项，而不是未经条件的全温Gaussian。
+\end{solution}
+\begin{exercise}[原题7(a)--(e)]\label{p:333-4-7}
+极性刚棒惯性矩$I$、偶极$\mu$，外电场$E$。经典转动$H=(p_\theta^2+p_\phi^2/\sin^2\theta)/(2I)-\mu E\cos\theta$。(a)转动配分。(b)极化。(c)零场极化率。(d)转动能及高低温。(e)热容曲线。
+\end{exercise}
+\begin{solution}
+Gaussian动量积分给$(2\pi I/\beta)\sin\theta$，角积分$4\pi\sinh x/x$，$x=\beta\mu E$，所以$Z_{\mathrm{rot}}=8\pi^2I\kb T\sinh x/(h^2x)$。极化$P=\mu(\coth x-1/x)$、$\chi_T=\mu^2/(3\kb T)$。$U_{\mathrm{rot}}=2\kb T-\mu E\coth x$，$C_E/\kb=2-x^2\operatorname{csch}^2x$。高温$x\ll1$，$U\simeq\kb T-(\mu E)^2/(3\kb T)$、$C\to\kb$；形式低温$x\gg1$，$U\simeq-\mu E+2\kb T$、$C\to2\kb$，因对齐附近两角方向也有谐振势能。真正$T\to0$须量子转动冻结，经典结果不能违背第三律。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=10cm,height=4.6cm,xlabel={$\kb T/(\mu E)$},ylabel={$C_E/\kb$},xmin=0,xmax=3,ymin=.9,ymax=2.1]
+\addplot[structurecolor,thick,domain=.04:3,samples=150]{2-(1/x)^2/(sinh(1/x))^2};\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+\begin{exercise}[原题8(a)--(c)，选做]\label{p:333-4-8}
+无序玻璃有独立双态缺陷，能$\epsilon_i,\epsilon_i+\delta_i$。(a)求$Z,E,C$。(b)激发差态密度$\rho(\delta)=N/\Delta$于$0<\delta<\Delta$，求热容与低高温。(c)什么低能态密度特征使$C\propto T$？
+\end{exercise}
+\begin{solution}
+$Z=\prod_i\e^{-\beta\epsilon_i}(1+\e^{-\beta\delta_i})$，$E=\sum_i[\epsilon_i+\delta_i/(\e^{\beta\delta_i}+1)]$，$C=\kb\sum_i(\beta\delta_i)^2\e^{\beta\delta_i}/(1+\e^{\beta\delta_i})^2$。均匀密度给$C=N\kb(\kb T/\Delta)\int_0^{\Delta/\kb T}x^2\e^x/(1+\e^x)^2\dd x$。低温积分$\pi^2/6$，$C\simeq\pi^2N\kb^2T/(6\Delta)$；高温$C\simeq N\Delta^2/(12\kb T^2)$。低能$\rho(0)$有限非零且平滑给线性；$\rho\propto\delta^a$则$C\propto T^{a+1}$。整体基能$\epsilon_i$不改变热容。
+\end{solution}
+\begin{exercise}[原题9(a)--(b)，选做]\label{p:333-4-9}
+canonical相空间任意坐标$X_i$与函数$f$。(a)证明$\avg{\partial_if}=\beta\avg{f\partial_iH}$。(b)分别$f=q_i,p_i$得到virial形式，说明表面项。
+\end{exercise}
+\begin{solution}
+对$\partial_i(f\e^{-\beta H})$积分，在边界项0时得恒等式。$f=X_i$给$\avg{X_i\partial_iH}=\kb T$；动量无穷远Gaussian使边界0，二次动量每自由度$\avg{p_i^2/m}=\kb T$。坐标若硬壁有限且$f=q_i$在壁不为0，必须保留表面项，等价将墙力纳入$H$。三维中心两体势的压力virial为$pV=N\kb T-\frac13\avg{\sum_{i<j}r_{ij}v'(r_{ij})}$。无墙的齐次约束势$v\propto r^a$则相应$2\avg K=a\avg U$。不能对自由硬盒忽略墙项再由$\partial_qH=0$导出$0=\kb T$。
+\end{solution}
