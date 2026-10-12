@@ -2,7 +2,7 @@
 
 本仓库用于个人非商业学习，保存授权归档的 MIT OpenCourseWare 课程讲义及其中文原生 LaTeX 重编成果。仓库现已公开，供非商业学习与来源核对。
 
-[数学讲义：15册，1660页](#数学讲义) · [物理讲义：已验18科，1632页](#物理讲义)
+[数学讲义：15册，1660页](#数学讲义) · [物理讲义：已验19科，1704页](#物理讲义)
 
 ## 数学讲义
 
@@ -28,7 +28,7 @@
 
 ## 物理讲义
 
-下表为已验交付的十八科中文 PDF 与可编辑源码，合计 **18册，1632个PDF物理页**。原十七科1555页保持，新增实验与计算物理77页；独立有限清单验收通过，现场实验与未执行计算的边界保留。其余两卷尚未验收，不计入这里的册数与页数；已索引初稿另列在下方折叠区。
+下表为已验交付的十九科中文 PDF 与可编辑源码，合计 **19册，1704个PDF物理页**。原十八科1632页保持，新增流体与非线性物理72页；原有限清单与最后两处一致性复核已闭环，有限时间窗计算的证明边界保留。仅天体与宇宙学尚未验收，不计入这里的册数与页数；其冻结初稿另列在下方折叠区。
 
 | 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
 |---|---|---|---:|---|---|
@@ -50,6 +50,7 @@
 | [生物物理](subjects/biophysics/README.md) | 8.592J/HST.452J（Spring 2011）；从种群与序列统计讲到聚合物、蛋白折叠、分子马达与网络；10章理论、5章题解及数据，八套作业37道题面，含当前数据库方法复算与旧服务缺口。 | 本轮选定范围已验，定点独审闭环 | 59 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/biophysics/dist/biophysics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/biophysics/dist/biophysics-source.zip) · [范围与缺项](subjects/biophysics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/3ee15924ce590ec926cc9637f2f573149d7c7a65/subjects/biophysics) |
 | [弦论与全息对偶](subjects/string-theory/README.md) | 8.251（Spring 2007）26讲与8.821（OCW Fall 2014）24讲；从经典弦、量子弦讲到膜、AdS/CFT与全息应用；67道完整独立题及1题公开补充，58项仅教材引用。 | 本轮选定范围已验，三项定点修正闭环 | 126 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/string-theory/dist/string-theory-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/string-theory/dist/string-theory-source.zip) · [范围与缺项](subjects/string-theory/coverage.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/00dcca7f942bb67e5c9f1eeac0a8e014aef8d379/subjects/string-theory) |
 | [实验与计算物理](subjects/experimental-computational-physics/README.md) | 8.13/14实验主线、3.320材料计算，12.010仅工作流补充；19份实验手册的测量与误差链及DFT、MD、MC等模型，25章；54项公开任务题面与教学求解链，另9个编者练习。 | 独立有限复核通过，执行范围另列 | 77 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/experimental-computational-physics/dist/experimental-computational-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/experimental-computational-physics/dist/experimental-computational-physics-source.zip) · [范围与执行边界](subjects/experimental-computational-physics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/66da4b95b3b9ce03bc713830b7faf9bdebc8fcb3/subjects/experimental-computational-physics) |
+| [流体与非线性物理](subjects/fluid-nonlinear-physics/README.md) | 1.63（Fall 2002）与12.006J/18.353J/2.050J（Fall 2022）；守恒、黏性、边界层、输运、旋转流及混沌，26章；52任务单元含20份流体作业文件与32道混沌顶层题。 | 本轮选定范围已验，有限清单复核闭环 | 72 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/fluid-nonlinear-physics/dist/fluid-nonlinear-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/fluid-nonlinear-physics/dist/fluid-nonlinear-physics-source.zip) · [范围与证明边界](subjects/fluid-nonlinear-physics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/027ae00b42ee50c1958999f30524e1b89198d0cf/subjects/fluid-nonlinear-physics) |
 
 电动力学仍有38组本科题面或依赖条件缺口，PS5第5题仅取得(c)，天线原比较图未取得；8.311四份公开笔记已重编，但Noether定理、完整协变作用量、辐射反作用和同步辐射等课历理论尚未完整建立。量子保留本科10道及新增研究生20＋29道纯商书题号缺项；8.321第16、17讲、8.322版权撤题及S.14定义依赖等未获材料不补造。经典8.309单独研究生作业未取得，11组SICM作业只有教材题号；旧PS10第3题(a)仍部分完成，项目无全局最优证明或实物演示。
 
@@ -77,8 +78,10 @@ AMO的6.974/6.453选读不等于两门课全译；题卷内的2011/2012日期与
 
 实验与计算物理的54项公开任务是题面与教学求解链，不能据此称54项全部实际执行；另9个编者练习单列。实体现场实验未做，GULP、Au EAM原输入及可选改造未执行；Kr准备后的轨道不构成独立两相熔点，有限格相图也未作严格热力学极限外推。已运行的模型与未执行范围分别保留QA证据，模拟数据不当现场观测。
 
+流体52任务单元按20份作业文件与32道混沌顶层题计，不是52道同层级独立题，也不是51份流体讲义与16份混沌讲义的逐页全译。缺几何或本构参数的原题保留模型条件；未取得官方考试或答案，不编造。有限时间Lyapunov、周期碰合、谱与延迟图是数值证据，不作为严格混沌证明。
+
 <details>
-<summary>新增方向初稿：审核或修订中（不计已验18科1632页）</summary>
+<summary>新增方向初稿：审核或修订中（不计已验19科1704页）</summary>
 
 以下只提供已索引初稿的冻结版阅读入口，仍在审核或修订，不采用上表已验讲义的覆盖及审查结论。这里的页数仅描述链接中的初稿，不计作已验交付。
 
@@ -86,7 +89,7 @@ AMO的6.974/6.453选读不等于两门课全译；题卷内的2011/2012日期与
 |---|---|---|---:|---|---|
 | [天体物理与宇宙学](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology) | 天体与宇宙学理论及公开题组精选。 | 初稿，审核或修订中 | 27 | [下载初稿 PDF](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology/dist/astrophysics-cosmology-zh.pdf) | [初稿源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology/dist/astrophysics-cosmology-source.zip) · [冻结版本](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology) |
 
-天体与宇宙学、流体与非线性物理两卷尚未验收，实际成品经确认后再纳入已验阅读表。
+仅天体与宇宙学尚未验收，实际成品经确认后再纳入已验阅读表。
 
 </details>
 
@@ -119,6 +122,7 @@ AMO的6.974/6.453选读不等于两门课全译；题卷内的2011/2012日期与
 | 生物物理 | [课程、数据与方法边界](subjects/biophysics/README.md) | 完整原PDF不附仓库，官方链接见来源记录 | 仅来源元数据，不计整份原PDF归档 | [来源清单](subjects/biophysics/research/source-inventory.json) · [扩展范围](subjects/biophysics/research/coverage-amendment.json) |
 | 弦论与全息对偶 | [课程与逐课范围](subjects/string-theory/README.md) | 完整原PDF不附仓库，官方链接见来源记录 | 仅来源元数据，不计整份原PDF归档 | [来源清单](subjects/string-theory/sources/resource-inventory.json) · [50讲对应](subjects/string-theory/qa/lecture-coverage.csv) |
 | 实验与计算物理 | [实验、材料与执行范围](subjects/experimental-computational-physics/README.md) | 完整原PDF不附仓库，官方链接见来源记录 | 仅来源元数据，不计整份原PDF归档 | [来源清单](subjects/experimental-computational-physics/research/source-inventory.json) · [扩展范围](subjects/experimental-computational-physics/research/coverage-amendment.json) |
+| 流体与非线性物理 | [课程、模型与证明范围](subjects/fluid-nonlinear-physics/README.md) | 完整原PDF不附仓库，官方链接见来源记录 | 仅来源元数据，不计整份原PDF归档 | [来源清单](subjects/fluid-nonlinear-physics/research/source-inventory.json) · [扩展范围](subjects/fluid-nonlinear-physics/research/coverage-amendment.json) |
 
 </details>
 
@@ -215,7 +219,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-数学已交付 **15册中文整书，共1660个PDF物理页**；物理已验交付 **18册中文讲义，共1632页**：原十七科1555页，新增实验与计算物理77页。54项公开任务题面与教学求解链、9个编者练习分列，不称全部实际执行；现场实验、GULP/Au EAM、Kr熔点与热力学极限边界保持。其余两卷尚未验收，不计完成；各册结论限已核范围，不称全书逐题无误或全MIT完成。实际文件、版本与范围见[物理进度清单](manifests/physics-progress.json)。
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理已验交付 **19册中文讲义，共1704页**：原十八科1632页，新增流体与非线性物理72页。流体原有限清单及最后两处数值、CSV、PDF与源码一致性复核闭环；52任务按20份流体作业文件+32道混沌顶层题计，有限窗计算不作严格混沌证明。仅天体与宇宙学尚未验收，不计完成；各册结论限已核范围，不称全书逐题无误或全MIT完成。实际文件、版本与范围见[物理进度清单](manifests/physics-progress.json)。
 
 <details>
 <summary>展开数学交付历史与全站归档背景</summary>
