@@ -1,0 +1,63 @@
+\originalchapter{星系支持与维里定理的边界条件}
+
+本章对应 8.902 第2讲的整体动力学. 恒星与暗物质可以在共同引力势中运动, 气体还受压力、冷却与碰撞影响. 星系看起来稳定, 并不表示每颗恒星静止. 维里定理把微观运动与整体尺度联系起来, 但它是对系统边界和时间平均作出假设后的陈述, 不能只因一个物体受引力就写 $2K+U=0$.
+
+\originalsection{从大小的二阶导数得到恒等式}
+在惯性参考系中, 对固定的一组粒子取相对质心的位置 $\boldsymbol r_i$, 定义质量二次矩 $\mathcal I=\sum_i m_ir_i^2$, 动能 $K=\frac12\sum_im_iv_i^2$. 此处 $\mathcal I$ 是整体大小的加权度量, 不是某一旋转轴的惯性矩. 两次微分给出
+\[
+\frac12\dot{\mathcal I}=\sum_i\boldsymbol p_i\cdot\boldsymbol r_i,
+\qquad
+\frac12\ddot{\mathcal I}=2K+\sum_i\boldsymbol r_i\cdot\boldsymbol F_i.
+\]
+这一式尚未使用引力, 也没有假设平衡. 定义 $W=\sum_i\boldsymbol r_i\cdot\boldsymbol F_i$ 为力的维里项. 对两两内力, 由作用反作用将两个有向求和合并为一个无重复配对:
+\[
+W=\sum_{i<j}(\boldsymbol r_i-\boldsymbol r_j)\cdot\boldsymbol F_{i\leftarrow j}.
+\]
+若配对势能是 $V_{ij}(r_{ij})$, 则该项为 $-r_{ij}\dd V_{ij}/\dd r_{ij}$. 对齐次势 $V_{ij}=a_{ij}r_{ij}^{n}$, 有 $W=-nU$, $U=\sum_{i<j}V_{ij}$. 因此
+\[
+\frac12\ddot{\mathcal I}=2K-nU.
+\]
+牛顿引力 $n=-1$, 势零点取无穷远, 故 $U=-\sum_{i<j}Gm_im_j/r_{ij}$ 且 $W=U$. 加一个任意常数到 $U$ 不改变力, 却会破坏 $W=U$ 的写法; 这说明势的零点约定也属于条件.
+
+\originalsection{时间平均不是瞬时静止}
+在时间窗 $\mathcal T$ 上积分,
+\[
+2\langle K\rangle-n\langle U\rangle
+=\frac{\dot{\mathcal I}(\mathcal T)-\dot{\mathcal I}(0)}{2\mathcal T}.
+\]
+对保持束缚、边界项随 $\mathcal T$ 增长比 $\mathcal T$ 慢的系统, 长时间右端趋零. 牛顿引力于是给出 $2\langle K\rangle+\langle U\rangle=0$. 单个有界轨道也能满足时间平均关系, 不要求速度分布已经是 Maxwell 分布. 相反, 正在整体塌缩或自由膨胀的系统有非零 $\ddot{\mathcal I}$, 不能用同一平衡式.
+
+真实星系的测量常选一个空间孔径, 有粒子跨过边界, 还可能受外部潮汐场. 这时固定粒子集合的推导与固定空间区域的推导不同, 后者出现动量流和表面项. 本章的质量估算先使用孤立、近似稳定的整体模型; 后面若引入截断晕或气体外压, 将显式恢复相应项.
+
+\originalsection{动力学质量需要几何系数与速度投影}
+写引力势能 $U=-aGM^2/R$, $a$ 由密度轮廓和 $R$ 的定义决定. 令 $\langle v^2\rangle$ 是相对质心的三维质量加权速度二次矩, 则
+\[
+2K=M\langle v^2\rangle,\qquad
+M=\frac{R\langle v^2\rangle}{aG}.
+\]
+等向随机运动且无整体旋转时 $\langle v^2\rangle=3\sigma_{\rm los}^2$, 才能把观测视线弥散写入. 对均匀球半径 $R$, 积分组装各壳层得到
+\[
+U=-\int_0^R\frac{GM(r)}r\dd M(r)
+=-\frac35\frac{GM^2}{R},\qquad
+M=\frac{5R\sigma_{\rm los}^2}{G}.
+\]
+天文常用 $G\simeq4.301\times10^{-3}\,\mathrm{pc\,\Ms^{-1}(km\,s^{-1})^2}$. 例如 $R=10\,\mathrm{kpc}$、$M=10^{11}\Ms$ 给 $\sqrt{GM/R}\simeq207\,\mathrm{km\,s^{-1}}$, 与课程给出的星系速度数量级相符; 均匀球模型的三维均方根速度是它乘 $\sqrt{3/5}$. 两种数值不同的原因是一个只作尺度估算, 另一个固定了几何系数.
+
+\begin{example}
+若把三维均方根速度误当成视线弥散, 同一 $a,R$ 下会把质量低估三倍. 若实际各向异性或质光比变化显著, 即使恢复这个三倍因子, 仍不能保证质量估计精确. 需要空间分辨运动学和轨道模型来解除退化.
+\end{example}
+
+平衡下总机械能 $E=K+U=U/2=-K<0$. 若系统缓慢失去能量并在相近结构中重新达到维里平衡, 最终 $K$ 反而增大, 系统收缩. 自引力系统的负热容由这条能量关系表现出来. 这不表示恒星在每次辐射后瞬间升温; 气体输运、两体弛豫和重新平衡的时间尺度需要分别比较.
+
+\originalsection{压力项如何给出理想气体状态方程}
+考虑理想气体被体积 $V$ 的壁面限制. 壁面对气体的宏观力沿内法向, 力的维里为
+\[
+W_{\rm wall}=-\oint_{\partial V}P\boldsymbol r\cdot\boldsymbol n\dd A.
+\]
+若壁面压力均匀, 散度定理 $\nabla\cdot\boldsymbol r=3$ 给 $W_{\rm wall}=-3PV$. 气体粒子无相互作用势, 平衡维里式于是为 $2K=3PV$. 用非相对论单原子气体 $K=3N\kb T/2$ 得 $PV=N\kb T$.
+
+此处壁面力不必被假装成一个处处满足 $V\propto r^2$ 的配对势能. 原笔记用齐次势的记法给理想气体例子, 容易让力的维里与势能混淆; 上述表面力推导直接说明了压力的来源. 对自引力气体的静水平衡, 无整体流动时相应积分式是
+\[
+3\int_VP\dd V+U-3P_sV=0
+\]
+（球形且边界压力均匀）. 若 $P_s=0$, 压力积分支持负引力能; 若外压不零, 忽略它会改错平衡关系. 后面的恒星结构与 Jeans 不稳定性将再次使用这一物理联系.
