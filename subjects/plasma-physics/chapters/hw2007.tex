@@ -1,0 +1,42 @@
+\Needspace{8\baselineskip}\originalchapter{2007 MHD 作业: 公开题与教材缺项}
+题源: Jeffrey Freidberg, 22.615 Spring 2007. 以下表区分只有书本题号的条目和真实公开完整题面. 商业教材 \emph{Ideal Magnetohydrodynamics} 不是默认可转载内容.
+\begin{center}\begin{tabular}{llll}\toprule 作业&发放/截止&仅有教材题号&完整公开题\\\midrule
+HW1&22 Feb / 6 Mar&5.5,5.8,5.9&无\\
+HW2&1 Mar / 13 Mar&6.2,6.5,6.11&无\\
+HW3&13 Mar / 22 Mar&6.17,6.18&无\\
+HW4&19 Apr / 26 Apr&8.6,8.7&第3题LDX模型\\
+HW5&26 Apr / 3 May&9.3,9.4&无\\\bottomrule\end{tabular}\end{center}
+十二个引用题面没有在本次公开文件中取得, 不计已解题数, 不按题号猜题面. 唯一完整公开作业题如下; 考试虽引用课本式号但自行印出了所用公式, 后两章可据这些公开条件求解.
+\begin{exercise}\label{ex:07-hw4-3}
+HW4原题3. 柱形LDX模型为硬芯z pinch, 轴线导体半径rc, 已知电流Ic; 外边界理想导体圆壁rw\ensuremath{\gg}rc. 压力 $p(r)=K(r^2-r_c^2)/(r^2+r_c^2)^3$, 比热比$\gamma=2$. 求对$m=0,1$的MHD稳定\ensuremath{\beta}限, \ensuremath{\beta}=$2\mu_0\bar p/B_\theta(r_w)^2$, $\bar p=2\int_{r_c}^{r_w}pr\dd r/(r_w^2-r_c^2)$, 可用远壁近似.
+\end{exercise}
+\begin{solution}
+设u=(r/rc)\ensuremath{{}^{2}},uw=(rw/rc)\ensuremath{{}^{2}},P=K/rc\ensuremath{{}^{4}},Bc=\ensuremath{\mu}0Ic/(2\ensuremath{\pi}rc), $\chi=\mu_0P/(2B_c^2)$. 题压强为 $P(u-1)/(u+1)^3$. 先求平衡, 而非直接套\ensuremath{\beta}:
+\begin{equation}
+ \frac{\dd(r^2B^2)}{\dd r}=-2\mu_0r^2p',\quad
+ \int_{r_c}^rpt\dd t=\frac{Pr_c^2(u-1)^2}{8(u+1)^2}.
+\end{equation}
+Bc边界给 $B^2=B_c^2[1+\chi A(u)]/u$, $A=(u-1)(u^2-4u-1)/(u+1)^3$. 故
+\begin{equation}
+ \bar p=\frac{P(u_w-1)}{4(u_w+1)^2},\quad
+ \beta=\frac{\chi u_w(u_w-1)}{(u_w+1)^2[1+\chi A(u_w)]}
+ \longrightarrow\frac\chi{1+\chi}.
+\end{equation}
+\textbf{$m=0$.} 硬芯/壁令\ensuremath{\xi}r两端零, 不能通过平行位移消掉轴对称压缩. $\gamma=2$能量完成平方, 最小局部系数为 $2\mu_0rp'+8\mu_0pB^2/(B^2+2\mu_0p)$. 内侧u\ensuremath{\le}2有p\ensuremath{{}^{\prime}}\ensuremath{\ge}0自动正; u>2代入得
+\begin{equation}
+ \chi\le C_0(u)=\frac{(u+1)^2(2u-1)}{(u-1)^2(2u+1)}.
+\end{equation}
+其倒数的对数导数 $4/(u^2-1)-4/(4u^2-1)>0$, 所以最严格在uw. 远壁\ensuremath{\chi}crit\ensuremath{\to}1, \ensuremath{\beta}crit\ensuremath{\to}1/2. 有限壁精确 $\beta_{0,crit}=(2u_w-1)(u_w+1)/[4u_w(u_w-2)]$ (uw>2). 若超过限, 负系数存在开区间, 可选紧支撑位移证负能, 不只是某试函数猜测.
+
+\textbf{$m=1$.} 平行位移可使不可压缩, 极小化轴向位移后
+\begin{equation}
+ \delta W_{1,\min}=\frac1{2\mu_0}\int\left[
+ \left(\frac{B^2}{r^2}+\frac{2\mu_0p'}r\right)|\xi_r|^2
+ +\frac{B^2r^2}{1+k^2r^2}\left|\left(\frac{\xi_r}r\right)'\right|^2\right]\dd V.
+\end{equation}
+其中导数项非负. 任意轴向k允许取大使后一项小, 因而全k稳定需 $B^2+2\mu_0rp'\ge0$. 代入化为
+$1+\chi[1-24u^2(u-1)/(u+1)^4]\ge0$.
+最大 $F(u)=u^2(u-1)/(u+1)^4$ 的导数根为 $u^2-5u+2=0$, 外部相关根 $u_*=(5+\sqrt{17})/2=4.56155$. 因远壁包含r*=2.13578rc, \ensuremath{\chi}crit=$[24F(u_*)-1]^{-1}=1.1640725$, \ensuremath{\beta}crit=$[24F(u_*)]^{-1}=.53790827$. 同时稳定由m0控制, $\boxed{\beta\le.5}$.
+
+有限rw不可盲用这些常数: $r_w/r_c=10$时m0限.51272959、m1限.54479056. 附\path{tools/mhd/hw4_ldx_reference.py}独立数值验证磁场平衡和判据, 临界点另由解析单调/极值证明. 在足够大k取光滑紧支撑位移可证超限负能, 壁端位移条件满足.
+\end{solution}

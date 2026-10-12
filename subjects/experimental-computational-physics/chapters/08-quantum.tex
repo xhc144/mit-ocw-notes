@@ -1,0 +1,62 @@
+\Needspace{9\baselineskip}
+\Needspace{12\baselineskip}
+\originalchapter{从电子问题到密度泛函}
+\originalsection{Born--Oppenheimer分离}
+经验势将电子影响吸收到参数中；从头算方法从电子Hamilton量出发。固定原子核位置 $\mathbf R$，电子基态能 $E_e(\mathbf R)$ 加核间排斥构成势能面。核质量远大于电子使电子通常能较快调整，但靠近能级交叉、激发态反应或非绝热运动时，这种分离需要修正。
+
+多电子波函数依赖 $3N_e$ 个空间变量，必须反对称。Hartree近似用单粒子乘积忽略交换，Hartree--Fock用Slater行列式纳入交换但缺少全部电子关联。计算成本增加不自动保证所有缺失效应消失；方法选择由目标物性和近似误差决定。
+
+\originalsection{Kohn--Sham自洽方程}
+密度泛函理论以电子密度为基本变量。对给定密度，Kohn--Sham构造一个辅助非相互作用体系，能量分为非相互作用动能、外势、Hartree静电、交换关联以及核能：
+\[
+E[n]=T_s[n]+\int v_{\rm ext}n\dd\mathbf r+\frac{e^2}{8\pi\epsilon_0}\iint\frac{n(\mathbf r)n(\mathbf r')}{|\mathbf r-\mathbf r'|}\dd\mathbf r\dd\mathbf r'+E_{xc}[n]+E_{NN}.
+\]
+对轨道变分并约束正交归一，得到
+\[
+\left[-\frac{\hbar^2\nabla^2}{2m_e}+v_{\rm ext}+v_H[n]+v_{xc}[n]\right]\psi_i=\varepsilon_i\psi_i,\quad n=\sum_i f_i|\psi_i|^2.
+\]
+从试密度建立有效势、求轨道、形成新密度、混合更新，直至密度和目标物性收敛。自洽循环收敛仅说明解了所选近似方程，不说明交换关联泛函精确。Kohn--Sham本征值总和也不是总能量：Hartree项需要扣去重复计算，$E_{xc}$ 与 $\int nv_{xc}$ 也需分开。
+
+\originalsection{平面波、赝势与收敛}
+周期轨道展开为 $\psi_{n\mathbf k}=\sum_\mathbf G c_{n\mathbf k}(\mathbf G)\e^{\ii(\mathbf k+\mathbf G)\cdot\mathbf r}$，只保留 $\hbar^2|\mathbf k+\mathbf G|^2/(2m_e)\le E_{cut}$。布里渊区积分再以 $k$ 网格逼近。这是两种不同离散误差，改变截断并不能补偿过疏的 $k$ 点。绝对能、能差、力和曲率对它们的敏感性不同，收敛必须针对最后报告的量。
+
+赝势消去紧束缚芯电子并平滑价电子波函数，降低截断需求；它引入可迁移性与参考价态限制。超软赝势中的电荷密度截断和波函数截断不是同一个数。有限基组的力还有可能存在基组变化带来的项，不能仅凭能量曲线很平就认定力已收敛。
+
+公开3.320有PWSCF作业与若干官方答案。本册保留其量纲和体积关系，未安装并运行原钻石或钴的完整从头算任务。附带的一维平面波程序只是可精确对照的教学Hamilton量，不是钻石DFT计算，也未求出真实材料相图。
+
+\originalsection{电子Hamilton量与Hartree--Fock变分}
+固定核的电子Hamilton量由动能、电子核吸引和电子电子排斥组成；核间能只依赖核位置。Hartree--Fock的归一化Slater行列式保证交换两电子波函数反号。对自旋轨道能量变分得到Fock方程，电子相互作用分为直接Hartree项和非局域交换：
+\[
+\hat K_j\psi_i(\mathbf r)=\psi_j(\mathbf r)\int
+\frac{e^2\psi_j^*(\mathbf r')\psi_i(\mathbf r')}{4\pi\epsilon_0|\mathbf r-\mathbf r'|}\dd\mathbf r'.
+\]
+交换只在相同自旋间出现，并取消单电子的Hartree自作用。一个行列式仍缺少电子动态关联；电子接近时相互躲避的概率结构一般不能只靠反对称性描述。对金属、断键和近简并问题，方法的误差类型会不同。
+
+\originalsection{密度泛函定理与辅助轨道的角色}
+非简并基态下，假设两个不同外势只差非恒定函数却有同一密度，用变分原理分别比较两基态能，再相加会得到严格矛盾，因此基态密度确定外势（差一个常数）。由约束搜索定义 $F[n]=\min_{\Psi\to n}\avg\Psi|T+V_{ee}|\Psi$，总能 $F[n]+\int v_{
+m ext}n$ 在真实密度最小。这是DFT理论基础；它并未提供可直接精确计算的 $F[n]$。
+
+Kohn--Sham将 $F=T_s+E_H+E_{xc}$。交换关联包含真实与辅助体系动能差及未进入Hartree的相互作用。LDA用均匀电子气的局部能密度，GGA加入梯度，混合泛函引入部分非局域交换。提高公式复杂度可能改善某些物性，也可能改变误差方向；比较不同泛函须针对实际体系。
+
+轨道本征值和总能之间为
+\[
+E=\sum_i f_i\varepsilon_i-E_H[n]+E_{xc}[n]-\int n v_{xc}\dd\mathbf r+E_{NN}.
+\]
+减去 $E_H$ 是因为本征值和已含两次Hartree配对能。价带/导带Kohn--Sham差通常不等于严格多体激发能隙，不能把能带图不加说明当光学吸收谱。
+
+\originalsection{Bloch展开与平面波矩阵}
+周期外势下，晶格平移和Hamilton量对易，轨道可选为 $\psi_{n\mathbf k}=\e^{i\mathbf k\cdot\mathbf r}u_{n\mathbf k}$，$u$ 周期。平面波基的动能对角，局域势矩阵为其Fourier系数 $V_{\mathbf G-\mathbf G'}$。一维教学势 $V(x)=V_0\cos x$ 因而只耦合 $G$ 与 $G\pm1$，这是附带可运行程序的物理结构。
+
+无势时能量 $\tfrac12(k+G)^2$ 在区边界有简并；周期势耦合这两个模，将简并劈裂形成带隙。程序取 $V_0=.4$、$\hbar=m=1$，在 $k=0$ 最低三能为 $-.116422,.321517,.874110$，比较 $|G|\le5,9$ 的低能差小于 $10^{-7}$。此例展示基组与能带的关系，完全不声称已运行真实DFT。
+
+\originalsection{赝势、金属占据与可控收敛}
+范数守恒赝势要求参考原子的外侧散射与芯区范数条件，通常用角动量投影给非局域算符。超软/PAW允许更软波函数并补充增广电荷，波函数与密度截断需分别收敛。对不同化合价或高压芯重叠，参考可迁移性可能比自洽残差更重要。
+
+金属费米面附近占据不光滑，有限 $k$ 网格与展宽联合影响能量。Fermi--Dirac占据给电子熵项，报告零温能还是有限电子温度自由能要一致；将一个较大展宽结果当作物理室温，可能错误。截断、$k$点、超胞、占据展宽和自洽阈值是不同误差轴，应逐一针对能差/力检查，不能用一个“收敛”单词覆盖全部。
+
+\originalsection{力、声子与第一性原理动力学}
+在完全变分收敛且基组不随核变化时，Hellmann--Feynman力为 $-\avg\Psi|\partial H/\partial\mathbf R_I|\Psi$ 加核力。依赖原子位置的有限基组引入Pulay项，有限截断/胞形变化也可能影响应力。故一个看似自洽的密度不能保证精确力。
+
+势能面在平衡点的二阶展开给力常数 $\Phi_{I\alpha,J\beta}=\partial^2E/(\partial R_{I\alpha}\partial R_{J\beta})$，质量加权动力矩阵 $D_{I\alpha,J\beta}=\Phi/\sqrt{M_IM_J}$ 的本征值是 $\omega^2$。负本征值表示该构型对某位移不稳定，而非“负频率声子”是正常振动。晶体声子还要对晶格平移作Fourier变换，声学和规则使整体平移的 $\omega=0$。
+
+Born--Oppenheimer MD每个核步都自洽求电子基态。Car--Parrinello方法引入轨道虚质量并使其随核演化，需要电子虚频与核频分离；过大的虚质量会污染核动力学。二者都把核按经典处理，核量子效应不因使用DFT就自动纳入。这补足公开课程第一性原理MD讲次的方法桥接。

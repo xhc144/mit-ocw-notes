@@ -1,3 +1,4 @@
+\Needspace{12\baselineskip}
 \originalchapter{链构象与弹性}
 \originalsection{随机链和熵弹簧}
 一条柔性链由 $N$ 段长度 $a$ 的独立、各向同性键组成。端到端向量 $\mathbf R=\sum_i\mathbf a_i$，交叉项平均为零，所以 $\avg{R^2}=Na^2$。当 $N\gg1$、延伸远小于轮廓长 $Na$ 时，各分量的中心极限定理给出高斯构象密度
@@ -29,3 +30,33 @@ DNA在几十纳米尺度内不能自由折角。用弧长 $s$、单位切向量 
 $L\ll\ell_p$ 时近似刚棒，$L\gg\ell_p$ 时等效随机链的 Kuhn 长度是 $2\ell_p$。
 
 在强拉力、弱弯曲近似中，两个横向方向的 Fourier 模有能量 $(\kappa q^2+F)|\theta_q|^2/2$。由等分配积分得到 $1-X/L\simeq\tfrac12\sqrt{\kb T/(F\ell_p)}$。此式只给强拉力渐近；常用的整段插值不是从此渐近式严格推出的精确WLC解。原题中的蛋白诱导局部弯折会提供一个额外、可分离的延伸亏损。
+
+\originalsection{真实链如何得到等效节段}
+化学键不是每一步都任意转向。旋转异构体模型把键角与二面角的允许状态离散化，由传递矩阵记录相邻局部状态的统计权重。若简化为各键的方向相关 $\avg{\mathbf a_i\cdot\mathbf a_{i+k}}=a^2c^k$，$|c|<1$，则
+\[
+\avg{R^2}=a^2\left[N+2\sum_{k=1}^{N-1}(N-k)c^k\right]
+\simeq Na^2\frac{1+c}{1-c}\quad(N\gg(1-|c|)^{-1}).
+\]
+所谓有效链长不是把化学键改长，而是将局部相关吸收到较大的Kuhn节段。若轮廓长为 $Na$，等效Kuhn长为 $a_K=a(1+c)/(1-c)$；节段数为 $Na/a_K$，两者乘积仍保持轮廓长。具有很长相关时，必须等到尺度超过相关长度才可用高斯模型。
+
+回转半径定义为 $R_g^2=N^{-1}\sum_i\avg{|\mathbf r_i-\mathbf r_{\rm cm}|^2}= (2N^2)^{-1}\sum_{ij}\avg{|\mathbf r_i-\mathbf r_j|^2}$。独立理想链中 $\avg{|\mathbf r_i-\mathbf r_j|^2}=a^2|i-j|$，求和给大 $N$ 极限 $R_g^2=Na^2/6$。端到端长度与回转半径不能在散射实验解释中互换而忽略因子六。
+
+\originalsection{WLC的方向扩散与强力响应}
+WLC构象权重为 $\exp[-\ell_p\int|\partial_s\mathbf t|^2\dd s/2]$，可看成单位球面上沿弧长的方向扩散，生成元为 $\nabla_{S^2}^2/(2\ell_p)$。球谐函数 $l=1$ 模的衰减率是 $1/\ell_p$，所以方向相关是 $\e^{-s/\ell_p}$。这从能量权重解释正文相关式，并说明三维与二维定义可能差因子二。
+
+强力下令横向切线为两分量 $\boldsymbol\theta$，$t_z\simeq1-|\boldsymbol\theta|^2/2$。去掉常数 $-FL$ 后，二次Hamilton量为 $\tfrac12\int[\kappa|\boldsymbol\theta'|^2+F|\boldsymbol\theta|^2]\dd s$。长链可用连续波数，单分量方差
+\[
+\avg{\theta_x^2}=\kb T\int_{-\infty}^{\infty}\frac{\dd q}{2\pi(\kappa q^2+F)}
+=\frac{\kb T}{2\sqrt{\kappa F}}.
+\]
+两个分量合并后 $1-X/L=\avg{|\boldsymbol\theta|^2}/2=\kb T/(2\sqrt{\kappa F})$。这要求 $L\gg\sqrt{\kappa/F}$、横向角小，并忽略骨架伸长；非常大力下真实DNA的焓弹性不能忽略。
+
+\originalsection{从单体相互作用到维里展开}
+设两个单体的短程势为 $U(r)$，Mayer函数 $f_M(r)=\e^{-\beta U(r)}-1$。有效排除体积 $v=-\int f_M(r)\dd^dr$ 对纯排斥为正，对吸引增强时减小。低密度自由能展开的相互作用部分为 $\kb T[v\rho^2/2+w\rho^3/6+\cdots]V$；其中 $w>0$ 可稳定差溶剂下的塌缩。
+
+把一条链近似放进大小 $R$ 的均匀体积，得到 $\beta F\sim R^2/(Na^2)+vN^2/(2R^d)+wN^3/(6R^{2d})$。好溶剂保留前两项，驻点 $R^{d+2}\sim va^2N^3$。若此式在 $d>4$ 给出的指数小于理想链 $1/2$，表明相互作用不改变理想尺度，应恢复 $1/2$，不能继续外推成受排斥反而缩小。
+
+差溶剂中 $v<0$，大链内部密度由后两项平衡，数量级 $\rho\sim|v|/w$，所以 $R\sim N^{1/d}$。表面还损失接触并产生界面自由能，影响有限链的塌缩与成核。$v=0$ 附近是 $\theta$ 条件，理想链尺度恢复但三体项和有限链修正仍存在。这把热统计中的相互作用展开与几何尺度真正连接起来。
+
+\originalsection{张力团块为何给非线性指数}
+一个团块内的热涨落能约 $\kb T$；力在其尺度上做功 $F\xi$，相等定义 $\xi$。团块包含 $g\sim(\xi/a)^{1/\nu}$ 个单体，链有 $N/g$ 个团块，故 $X\sim Na(Fa/\kb T)^{1/\nu-1}$。这一中等力关系两端有不同机制：当 $\xi\gtrsim aN^\nu$ 时，应回到各向同性零力构象的线性响应；当 $\xi\lesssim a$ 时，团块内部已无尺度区间，应由单键饱和描述。所谓“强力”在尺度论中通常只是相对整链热尺度强，并非可以令 $F\to\infty$。

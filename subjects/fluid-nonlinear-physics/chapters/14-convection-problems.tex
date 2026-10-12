@@ -1,0 +1,57 @@
+\Needspace{12\baselineskip}
+\originalchapter{对流与Lorenz公开题解}
+题面来自12.006J Fall 2022；解答为编者独立推导或公开数据分析，不标为MIT官方答案。
+\originalsection{PS7：线性失稳与实测序列}
+\begin{exercise}
+（PS7.1）第9章线性对流方程，流体夹在 $z=0,1$，温度固定、不可穿透且应力自由，边界 $w=\theta=w_{zz}=0$。取 $w=A(t)\cos(k_xx+k_yy)\sin\pi z$、$\theta=B(t)\cos(k_xx+k_yy)\sin\pi z$。(a)核验边界；(b)求 $A,B$ 方程，证明 $Ra>(k^2+\pi^2)^3/k^2$ 失稳，解释固定点；(c)求中性曲线的最小值、波数与水平波长，比较层厚；题面给刚性双边约1707、刚性自由约1100作比较。
+\end{exercise}
+\begin{solution}
+(a)正弦在上下为零，$w_{zz}=-\pi^2w$ 也为零，符合全部给定边界。(b)令 $k^2=k_x^2+k_y^2,q^2=k^2+\pi^2$，代入得 $\dot A=-Prq^2A+Prk^2B/q^2$、$\dot B=Ra A-q^2B$。固定点 $A=B=0$ 是无流动的传导态。矩阵迹 $-(Pr+1)q^2<0$、行列式 $Pr[q^4-k^2Ra/q^2]$；行列式负时出现一个正特征值，阈值即 $Ra_*(k)=q^6/k^2$。
+
+(c)令 $s=k^2$，$\dd\ln Ra_*/\dd s=3/(s+\pi^2)-1/s=0$，得 $s=\pi^2/2$。最小 $Ra_c=27\pi^4/4\simeq657.51$，$k_c=\pi/\sqrt2$，水平波长 $2\pi/k_c=2\sqrt2$，约为层厚的2.83倍。$k\to0,\infty$ 两端曲线都发散，因此该驻点为全局最小。刚性边界具有不同垂向特征函数，不能沿用这组正弦解计算它们的数值。
+\end{solution}
+
+\begin{exercise}
+（PS7.2）公开 \texttt{exp1.csv} 和 \texttt{exp2.csv} 是Monique Dubois与Pierre Bergé在同一次对流实验不同位置采集的热梯度相关信号，$Ra$ 已高于临界。用功率谱与相空间重构，说明可以判断的对流状态。
+\end{exercise}
+\begin{solution}
+两文件各15000点。去均值后用2048点Welch窗、1024点重叠，采样频率按1/样本编号设置。最强峰分别在 $.0629883$ 和 $.0317383$ 周期/样本，另有较低频峰和宽带背景。第二组可见约半于第一组主峰的数值频率，但缺少原采样间隔，不能直接转换为Hz或证明同一物理基频比；即使采样间隔相同，不同空间位置也可能抑制不同谐波。
+
+以延迟4个样本构成 $(x_n,x_{n+4},x_{n+8})$，相邻两坐标投影见图。其几何比随机独立点云更有结构，谱峰支持振荡对流与非线性谐波/调制。有限带宽、噪声与窗口会展宽峰，因此这些图不能单独排除随机驱动，也不能严格认证确定性混沌或其维数。实际Rayleigh数、绝对温差和采样时间均未在文件中给出，本解不补造。
+\begin{center}\begin{tikzpicture}\begin{loglogaxis}[width=10cm,height=4.5cm,xlabel={频率 / 周期每样本},ylabel={PSD / 原幅度单位平方},grid=major,legend pos=north east]\addplot[main] table[x=frequency,y=PSD,col sep=comma]{data/exp1-spectrum.csv};\addlegendentry{位置1}\addplot[blue] table[x=frequency,y=PSD,col sep=comma]{data/exp2-spectrum.csv};\addlegendentry{位置2}\end{loglogaxis}\end{tikzpicture}\par
+\begin{tikzpicture}\begin{axis}[width=7.5cm,height=4.7cm,xlabel={$x_n$},ylabel={$x_{n+4}$},title={位置1},scaled ticks=false]\addplot[only marks,mark size=.35pt,main] table[x=x,y=y,col sep=comma]{data/exp1-delay.csv};\end{axis}\end{tikzpicture}
+\begin{tikzpicture}\begin{axis}[width=7.5cm,height=4.7cm,xlabel={$x_n$},ylabel={$x_{n+4}$},title={位置2},scaled ticks=false]\addplot[only marks,mark size=.35pt,blue] table[x=x,y=y,col sep=comma]{data/exp2-delay.csv};\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
+
+\originalsection{PS8：固定点与数值演化}
+\begin{exercise}
+（PS8.1）Lorenz模型 $\dot X=Pr(Y-X),\dot Y=-XZ+rX-Y,\dot Z=XY-bZ$。解析求三个稳态，给出物理解释。
+\end{exercise}
+\begin{solution}
+第一式给 $Y=X$，第二式给 $X(r-1-Z)=0$。若 $X=0$，$Y=Z=0$，对应纯传导；若 $X\ne0$，$Z=r-1$、第三式 $X^2=b(r-1)$，得到 $X=Y=\pm\sqrt{b(r-1)}$。仅 $r\ge1$ 为实，正负对应两个相反方向的稳态卷流，$Z$ 表示平均温度剖面修正，不是流体粒子的实际竖直坐标。
+\end{solution}
+
+\begin{exercise}
+（PS8.2）解析证明传导解在 $r>1$ 时不稳定。
+\end{exercise}
+\begin{solution}
+零点Jacobian的 $Z$ 特征值为 $-b$，$X,Y$ 块 $\left(\begin{smallmatrix}-Pr&Pr\\r&-1\end{smallmatrix}\right)$ 的迹 $-Pr-1$、行列式 $Pr(1-r)$。$Pr,b>0$ 时，$r>1$ 行列式负，两个实特征值一正一负，故零点不稳定；$r<1$ 迹负、行列式正，零点局部稳定。$r=1$ 有零特征值，线性分析本身不能判定临界非线性行为。
+\end{solution}
+
+\begin{exercise}
+（PS8.3）证明稳态对流解在 $r>r_c=Pr(Pr+3+b)/(Pr-1-b)$ 时不稳定，说明参数条件。
+\end{exercise}
+\begin{solution}
+非零固定点的Jacobian为 $J=\left(\begin{smallmatrix}-Pr&Pr&0\\1&-1&-X_*\\X_*&X_*&-b\end{smallmatrix}\right)$。展开 $\det(\lambda I-J)$ 得第9章三次多项式，$r>1$ 时系数全正。三阶稳定条件还要求 $(Pr+b+1)(Pr+r)>2Pr(r-1)$。移项为 $Pr(Pr+b+3)>(Pr-b-1)r$；所以当 $Pr>b+1$，超过给定 $r_c$ 破坏稳定条件。临界处一对根在虚轴，频率平方为 $b(Pr+r_c)$；若 $Pr\le b+1$，同一表达的分母非正，不能宣称出现负参数的物理失稳阈值。
+\end{solution}
+
+\begin{exercise}
+（PS8.4）用数值Lorenz程序核验 $Pr=10,b=8/3$ 下 $r>r_c$ 稳态对流不稳定，$r=28$ 可给代表性图。解释 $X,Y,Z$ 随时间的行为，可作相平面投影。使用公开程序初态 $(.01,.01,.01)$。
+\end{exercise}
+\begin{solution}
+$r_c\simeq24.73684$。代码实际积分到时间200，输出间隔 $.002$，DOP853相对容差 $10^{-10}$、绝对 $10^{-12}$。$r=10$ 最后接近 $(4.898979,4.898979,9)$；$r=28$ 非零点的特征值 $-13.85458,.093956\pm10.19451\ii$，解析增长方向已存在。轨迹在时间100之后仍有56次 $X$ 符号改变，未衰减到一个稳态分支。
+
+下图为 $r=28$ 的实际模型输出，非实验观测。$X,Y$ 正负变换对应卷流方向与温差方向翻转，$Z$ 连续变化反映平均剖面的非线性调整。图展示有限时间运动，并与线性失稳相一致，不单凭这幅图宣称完整吸引子的所有性质已证明。
+\begin{center}\begin{tikzpicture}\begin{axis}[width=10cm,height=4.7cm,xlabel={$t$},ylabel={$X$},xmin=100,xmax=140,grid=major]\addplot[main] table[x=t,y=X,col sep=comma]{data/lorenz-plot.csv};\end{axis}\end{tikzpicture}\par
+\begin{tikzpicture}\begin{axis}[width=8cm,height=5cm,xlabel={$X$},ylabel={$Z$},grid=major]\addplot[main,thin] table[x=X,y=Z,col sep=comma]{data/lorenz-plot.csv};\end{axis}\end{tikzpicture}\end{center}
+\end{solution}
