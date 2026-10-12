@@ -2,7 +2,7 @@
 
 本仓库用于个人非商业学习，保存授权归档的 MIT OpenCourseWare 课程讲义及其中文原生 LaTeX 重编成果。仓库现已公开，供非商业学习与来源核对。
 
-[数学讲义：15册，1660页](#数学讲义) · [物理讲义：已验13科，1202页](#物理讲义)
+[数学讲义：15册，1660页](#数学讲义) · [物理讲义：已验15科，1370页](#物理讲义)
 
 ## 数学讲义
 
@@ -28,7 +28,7 @@
 
 ## 物理讲义
 
-下表为已验交付的十三科中文 PDF 与可编辑源码，合计 **13册，1202个PDF物理页**。原十二科1131页保持，新增量子信息与量子计算71页；最后6项有限复核已闭环，缺图部分与独立重述任务分别计。其它新方向初稿另列在下方折叠区，不计入这里的册数与页数。
+下表为已验交付的十五科中文 PDF 与可编辑源码，合计 **15册，1370个PDF物理页**。原十三科1202页保持，新增核与粒子物理83页、等离子体物理85页；两册原有限复核清单已闭环，真实源缺与模型条件保留。其它新方向初稿另列在下方折叠区，不计入这里的册数与页数。
 
 | 学科 | 课程主线与简介 | 当前状态 | 中文PDF物理页数 | 中文PDF下载 | 中文源码 |
 |---|---|---|---:|---|---|
@@ -45,6 +45,8 @@
 | [高级统计力学与统计场论](subjects/advanced-statistical-physics/README.md) | 8.333、8.334；从动力论与量子系综讲到临界场论、RG、Ising、BKT及临界动力学；19章理论、19章题解与复习题，新写138个原编号位置，重复与旧热统题用精确引用衔接。 | 本轮选定范围已验，有界复核通过 | 89 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/advanced-statistical-physics/advanced-statistical-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/advanced-statistical-physics/advanced-statistical-physics-source.zip) · [范围与缺项](subjects/advanced-statistical-physics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/7d763ed076b0780f8a56f99d757307c05ecee52a/subjects/advanced-statistical-physics) |
 | [原子分子与光物理](subjects/atomic-optical-physics/README.md) | 8.421、8.422核心主线：原子与光相互作用、量子光学、冷却俘获及碰撞；72个原题编号含55道作业与17道历史期中题。6.974、6.453仅作激光与光态背景选读。 | 本轮选定范围已验，有界复核通过 | 64 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/atomic-optical-physics/dist/atomic-optical-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/atomic-optical-physics/dist/atomic-optical-physics-source.zip) · [来源与范围](subjects/atomic-optical-physics/SOURCES.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/f9763eca5a23a7af8a7224a9235e9eefc1894dbd/subjects/atomic-optical-physics) |
 | [量子信息与量子计算](subjects/quantum-information/README.md) | 18.435J/2.111与MAS.865J；从量子电路、信道与协议讲到算法、纠错和复杂度；93个原题编号中92有答案、1缺图部分完成，另8个可读教材任务独立重述并解答。 | 本轮有界复核通过，1原图题部分完成 | 71 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-information/dist/quantum-information-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/quantum-information/dist/quantum-information-source.zip) · [来源与边界](subjects/quantum-information/SOURCES.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/482c096494f0297d730fc2a8f792ac9562c8237c/subjects/quantum-information) |
+| [核与粒子物理](subjects/nuclear-particle-physics/README.md) | 8.701（2020）、22.02（2012）及历史期中；核结构、粒子相互作用与探测，18章正文、135个原题组，含20套习题课43题。 | 本轮选定范围已验，有界复核通过 | 83 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/nuclear-particle-physics/dist/nuclear-particle-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/nuclear-particle-physics/dist/nuclear-particle-physics-source.zip) · [范围与缺项](subjects/nuclear-particle-physics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/6136a833725279a9f5bfbe9e88e9a0922d74b01d/subjects/nuclear-particle-physics) |
+| [等离子体物理](subjects/plasma-physics/README.md) | 22.611J（2003/2006）、22.615（2007）与历史题；单粒子、输运、Vlasov、波与阻尼、平衡及MHD稳定性；18章理论，113编号按MHD五步骤合109题组。 | 本轮选定范围已验，有界复核通过 | 85 | [下载中文 PDF](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/plasma-physics/dist/plasma-physics-zh.pdf) | [LaTeX源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/main/subjects/plasma-physics/dist/plasma-physics-source.zip) · [范围与缺项](subjects/plasma-physics/README.md) · [本轮版本](https://github.com/xhc144/mit-ocw-notes/tree/6136a833725279a9f5bfbe9e88e9a0922d74b01d/subjects/plasma-physics) |
 
 电动力学仍有38组本科题面或依赖条件缺口，PS5第5题仅取得(c)，天线原比较图未取得；8.311四份公开笔记已重编，但Noether定理、完整协变作用量、辐射反作用和同步辐射等课历理论尚未完整建立。量子保留本科10道及新增研究生20＋29道纯商书题号缺项；8.321第16、17讲、8.322版权撤题及S.14定义依赖等未获材料不补造。经典8.309单独研究生作业未取得，11组SICM作业只有教材题号；旧PS10第3题(a)仍部分完成，项目无全局最优证明或实物演示。
 
@@ -64,14 +66,15 @@ AMO的6.974/6.453选读不等于两门课全译；题卷内的2011/2012日期与
 
 量子信息18.435J HW4.5原图节点/连边不可恢复，特定图证明仍缺；替代三CNOT构造明确另标，不能算原图证明。8个可读教材任务与93个MIT原编号分别列账，N&C 5.20、10.27、4.26仅题号缺题面保留；8.370x/8.371x仅入口核查，未冒称全课程题库译解。
 
+核卷未取得独立22.02期末题面，不能把误指期中答案的Final链接当作期末。等离子体保留12条MHD商书题号、缺Quiz2引用及占位；三份旧模拟说明没有原程序和运行数据，不冒称运行。缺热导常数、源热速/归一冲突与不同年份MHD壁条件分别注明，不编造唯一数值或通用模型结论。
+
 <details>
-<summary>新增方向初稿：审核或修订中（不计已验13科1202页）</summary>
+<summary>新增方向初稿：审核或修订中（不计已验15科1370页）</summary>
 
 以下只提供已提交初稿的冻结版阅读入口。生物物理内容审查已退回返修，其余所列新稿仍在审核或修订；它们不采用上表已验讲义的覆盖及审查结论。这里的页数仅描述链接中的初稿，不计作已验交付。
 
 | 初稿专题 | 简短范围 | 当前状态 | 初稿页数 | 中文PDF初稿 | 源码与版本 |
 |---|---|---|---:|---|---|
-| [核与粒子物理](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/nuclear-particle-physics) | 8.701/22.02的核与粒子课程选编。 | 初稿，内容修订中 | 60 | [下载初稿 PDF](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/nuclear-particle-physics/dist/nuclear-particle-physics-zh.pdf) | [初稿源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/nuclear-particle-physics/dist/nuclear-particle-physics-source.zip) · [冻结版本](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/nuclear-particle-physics) |
 | [天体物理与宇宙学](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology) | 天体与宇宙学理论及公开题组精选。 | 初稿，审核或修订中 | 27 | [下载初稿 PDF](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology/dist/astrophysics-cosmology-zh.pdf) | [初稿源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology/dist/astrophysics-cosmology-source.zip) · [冻结版本](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/astrophysics-cosmology) |
 | [生物物理](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/biophysics) | 8.592J/HST.452J统计生物物理选编。 | 内容退回，修订中 | 25 | [下载初稿 PDF](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/biophysics/dist/biophysics-zh.pdf) | [初稿源码ZIP](https://github.com/xhc144/mit-ocw-notes/raw/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/biophysics/dist/biophysics-source.zip) · [冻结版本](https://github.com/xhc144/mit-ocw-notes/tree/e0189e5e8eb54fcf27b5d2e1ed0e1411ed11762a/subjects/biophysics) |
 
@@ -103,6 +106,8 @@ AMO的6.974/6.453选读不等于两门课全译；题卷内的2011/2012日期与
 | 高级统计力学与统计场论 | [来源记录目录](subjects/advanced-statistical-physics/sources/) · [课程与署名](subjects/advanced-statistical-physics/README.md) | 原PDF不附仓库，官方链接见来源记录 | 仅元数据，不计归档原PDF | [来源清单](subjects/advanced-statistical-physics/sources/source-manifest.json) |
 | 原子分子与光物理 | [来源与选读边界](subjects/atomic-optical-physics/SOURCES.md) | 原PDF不附仓库，官方链接见来源记录 | 仅元数据，不计归档原PDF | [来源清单](subjects/atomic-optical-physics/source-inventory.json) |
 | 量子信息与量子计算 | [来源与缺图边界](subjects/quantum-information/SOURCES.md) | 原PDF不附仓库，官方链接见来源记录 | 仅元数据，不计归档原PDF | [来源清单](subjects/quantum-information/source-inventory.json) |
+| 核与粒子物理 | [来源与例外](subjects/nuclear-particle-physics/README.md) | 完整原PDF不附仓库，已许可题图裁片另记出处 | 仅元数据，不计整份原PDF归档 | [来源清单](subjects/nuclear-particle-physics/source-manifest.json) |
+| 等离子体物理 | [课程与历史题来源](subjects/plasma-physics/README.md) | 完整原PDF不附仓库，官方链接见记录 | 仅元数据，不计整份原PDF归档 | [来源清单](subjects/plasma-physics/source-manifest.json) |
 
 </details>
 
@@ -199,7 +204,7 @@ MIT OCW 的默认内容许可为 [CC BY-NC-SA 4.0](https://creativecommons.org/l
 
 ## 当前状态
 
-数学已交付 **15册中文整书，共1660个PDF物理页**；物理已验交付 **13册中文讲义，共1202页**：原十二科1131页，新增量子信息71页。QI最后6项有限复核闭合，93原题92有解1缺图部分与8独立重述任务分别列账。其它已验科目的书题面、图表、He3缺数值、未公开正式考卷、选读与近似边界保持；其它新稿仍不计完成，不称全书逐题无误或全MIT完成。实际文件、版本与范围见[物理进度清单](manifests/physics-progress.json)。
+数学已交付 **15册中文整书，共1660个PDF物理页**；物理已验交付 **15册中文讲义，共1370页**：原十三科1202页，新增核粒子83与等离子85。核135题组，等离子113编号按MHD五步骤合109组，有限复核闭环；真实缺源、商书引用、未获模拟程序与模型条件保持。原13科范围不变，其它新稿仍不计完成，不称全书逐题无误或全MIT完成。实际文件、版本与范围见[物理进度清单](manifests/physics-progress.json)。
 
 <details>
 <summary>展开数学交付历史与全站归档背景</summary>
